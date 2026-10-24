@@ -14,6 +14,8 @@ version: 1.0.0
 
 # gaia-audit
 
+**Yggdrasil IV:** [Trust degradation and reversible technical-challenge contract](../../../founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md). This focused audit verifies evidence, distinguishes temporary liveness from independently verified material counterevidence, and prepares a traceable adjudication packet. An automated HTTP check, model claim, inactivity, or competitor marketing cannot change TM/stars or declare a skill obsolete. Class B Steward can close proven technical challenges **only**, while canonical changes require Class C approval.
+
 Perform a focused, single-target audit of one Gaia skill or catalog item and apply the smallest correct source-level fix. The goal is accuracy over coverage: one skill, done properly.
 
 ## Why single-target?
@@ -40,11 +42,11 @@ Work through these in order. Stop when you find a violation — that's the corre
 - Does it map to the claimed Gaia capability? (Check `CONTEXT.md` for canonical vocabulary.)
 - Does the evidence actually support the claimed rank (stars)? Re-read each source URL — homepage and directory listings are weak; `SKILL.md` blobs, papers, benchmarks, and release notes are strong.
 - Is it outdated, superseded, or a duplicate of something already in the registry?
-- For named skills at 3★+: is there a working `blob/branch/subpath` GitHub link? A dead or missing link is grounds for demotion.
+- For named skills at 3★+: is there an independently confirmed absence of the required `blob/branch/subpath` implementation link? A temporary dead URL is only an observation; a verified Star Bar violation may warrant an approved hard-reset review.
 - For fusion/upgrade opportunities: note if related basic skills could cleanly consolidate, but do not act on it in this pass unless the target is explicitly the consolidation candidate.
 - Does the skill have structural, documentation, or packaging issues? **Classify against the Four-Tier Audit Taxonomy (GOVERNANCE.md §4.2 / RFC #1809):**
   - **Tier 1 (Malicious / Imposter Squatter)**: Bad-faith aggregation, hijacking other maintainers' repos/stars, or falsified attribution → Expungement from registry.
-  - **Tier 2 (Packaging / Install Shape Gap)**: Authentic concept and author, but missing standard packaging or broken links → For ≤2★, tag `installable: false` per CONTRIBUTING.md §12. For 3★+, demote to 2★ (or 1★ per Star Bar) and request repackaging. **Never purge or label as an imposter.**
+  - **Tier 2 (Packaging / Install Shape Gap)**: Authentic concept and author, but missing standard packaging or broken links → For ≤2★, tag `installable: false` per CONTRIBUTING.md §12. For 3★+, independently establish the Star Bar facts, request repackaging, and queue the existing 1★ consequence for **approved** adjudication; do not demote from a single URL probe. **Never purge or label as an imposter.**
   - **Tier 3 (Early-Stage / Under-Evidenced Stub)**: Authentic author, thin docs or preliminary evidence → Keep at baseline 1★ (Awakened), request doc enrichment, or tag `needs-info`. **Never purge.**
   - **Tier 4 (Product-Coupled / Non-Generalized)**: Real tool documentation needing generalization (#1766, #1801) → Enforce maker attribution via `check_product_attribution.py` and route to generalization.
 - **Mandatory Contributor Check**: If the author is a known contributor, co-founder, or team member, deletion is strictly prohibited without direct maintainer outreach and documented review.
@@ -76,7 +78,7 @@ gaia dev evidence <skill_id> "<url>" --type <arxiv|repo|github-stars|...> --trus
 gaia dev timeline <skill_id> --action demote --notes "<reason>"
 ```
 
-For dead evidence links: remove or replace the offending entry, then log a timeline event. Do not patch a `demerits` field — that field is being removed from the schema.
+For dead evidence links: create/refresh Steward verification debt and collect repeated source/provenance evidence. **Do not remove evidence, mint demerits or write demotion events merely because a URL fails.** After separately approved adjudication, use governed CLI mutations and complete both canonical and owner-tree timeline receipts.
 
 ### 5. Regenerate and verify
 
@@ -92,10 +94,10 @@ git diff --check
 
 These are hard rules — they apply regardless of how prominent or well-known the skill is:
 
-- **3★+ without a working `links.github` blob URL** → hard-demote to 1★ (Awakened) — a missing verified blob link is a hard reset, not a soft step-down (META.md §2.4); apply via `gaia dev update-named --status awakened`, then re-earn rank with a valid link
+- **3★+ with independently confirmed missing implementation blob** → propose the `META.md` §2.4 **1★ hard-reset** consequence through Class C adjudication; perform a canonical/owner-tree timeline-safe CLI change **only after approval**. A transient 404 is not sufficient.
 - **Unique-branch skill demoted below 4★** → it loses its Unique-branch rank status; if its structure no longer warrants `fusion`, reclassify the generic to `basic` (`gaia dev reclassify` accepts only `basic` / `fusion`)
-- **Dead evidence links** → remove/replace the entry and add a `demote` timeline event
-- **Placeholder or non-verifiable evidence only** → demote to Awakened (1★) via `gaia dev update-named --status awakened`
+- **Dead evidence links** → mark as liveness observation; investigate and surface verified challenge, never auto-remove evidence or auto-demote.
+- **Placeholder or non-verifiable evidence only** → present the evidence deficit and seek independent verification / approved canonical ruling; no automatic Awakened reset.
 - **Suite components**: the suite itself does not need `links.github`, but each component must have a specific `blob/branch/subpath` URL
 
 ## Output
