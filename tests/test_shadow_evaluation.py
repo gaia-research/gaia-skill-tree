@@ -154,6 +154,117 @@ def test_threshold_crossing_and_fingerprint_inputs_are_bound():
     assert base["fingerprint"] != otherTime["fingerprint"]
 
 
+def test_contextual_peer_grade_precedes_shadow_s_witness_and_tenure_gates():
+    ctx = context()
+    ctx = replace(ctx, perRowGradeThresholds={"peer-review": {"A": 60, "B": 20}})
+    skill = {"id": "x", "evidence": [
+        row("github-stars-own", "https://github.com/o/x", stars=10000),
+        row("arxiv", "https://papers.test/x", citations=1000),
+        row("peer-review", "https://reviews.test/x", reviewers=1, grade="A", sourceStartedAt="2020-01-01"),
+        row("peer-review", "https://reviews.test/y", reviewers=1, grade="A", sourceStartedAt="2020-01-01"),
+    ]}
+    result = shadow.evaluateShadow(skill, ctx)
+    peer = next(item for item in result["rows"] if item["type"] == "peer-review")
+    assert result["tmRaw"] >= 250
+    assert peer["contextualGrade"] == "B"
+    assert result["grade"] != "S"
+
+
+def test_named_row_cannot_claim_generic_layer_and_inherit_discount():
+    url = "https://reviews.test/shared"
+    generic = {"g": {"id": "g", "evidence": [row("peer-review", url, reviewers=1)]}}
+    named = {"id": "o/tool", "genericSkillRef": "g", "evidence": [
+        row("peer-review", url, reviewers=1, layer="generic"),
+    ]}
+    result = shadow.evaluateShadow(named, context(generic))
+    assert result["tmRaw"] == 30
+    assert result["rows"][0]["boundedArtifactScore"] == 30
+
+
+def test_inherited_verifier_standing_overrides_stale_generic_active_flag():
+    generic = {"g": {"id": "g", "evidence": [row(
+        "verifier-attestation", "https://verify.test/v", verifiers=1,
+        verifierId="v1", verifierActiveRank=False,
+    )]}}
+    skill = {"id": "o/tool", "genericSkillRef": "g", "evidence": []}
+    result = shadow.evaluateShadow(skill, context(generic, verifiers={"v1": True}))
+    assert result["tmRaw"] == 45
+    inactive = shadow.evaluateShadow(skill, context(generic, verifiers={"v1": False}))
+    assert inactive["tmRaw"] == 0
+    assert result["grade"] == "C"
+
+
+def test_shadow_dedup_uses_scoring_magnitude_not_proxy_comparator():
+    url = "https://github.com/o/repo"
+    skill = {"id": "x", "evidence": [
+        row("repo-own", url, commits=0, contributors=2),
+        row("repo-own", url, commits=150, contributors=1),
+    ]}
+    result = shadow.evaluateShadow(skill, context())
+    assert result["tmRaw"] == 4.8
+    assert result["rows"][0]["boundedArtifactScore"] == 4.8
+    # Production's default comparator and dedup path remain untouched.
+    assert tm.computeTrustMagnitude(skill) == 1.65
+
+
+def test_row_report_distinguishes_raw_artifact_score_from_suite_bounded_contribution():
+    skill = {"id": "owner/component", "suiteRef": "owner/suite", "evidence": [
+        row("github-stars-own", "https://github.com/owner/suite", stars=10000),
+    ]}
+    result = shadow.evaluateShadow(skill, context())
+    report = result["rows"][0]
+    assert report["rawArtifactScore"] == report["artifactScore"]
+    assert report["rawArtifactScore"] > 50
+    assert report["boundedArtifactScore"] == 50
+    assert "pre-plateau/pre-suite-cap" in report["artifactScoreMeaning"]
+
+
+def test_registry_reports_partial_coverage_and_dependency_unknowns():
+    bad = {"id": "bad", "evidence": [row("arxiv", "https://p.test/x", citations=float("nan"))]}
+    healthy = {"id": "healthy", "evidence": [row("arxiv", "https://p.test/y", citations=100)]}
+    suite = {"id": "suite", "suiteComponents": ["missing-component"], "evidence": [
+        row("github-stars-own", "https://github.com/o/s", stars=10000),
+        row("arxiv", "https://p.test/s", citations=1000),
+        row("peer-review", "https://reviews.test/s", reviewers=3),
+    ]}
+    result = shadow.evaluateShadowRegistry([bad, healthy, suite], context())
+    assert result["status"] == "partial"
+    assert result["coverage"] == {"total": 3, "evaluated": 2, "notEvaluated": 1}
+    by_id = {item["skillId"]: item for item in result["assessments"]}
+    assert by_id["bad"]["status"] == "not-evaluated"
+    assert "non-finite" in by_id["bad"]["reason"]
+    assert by_id["suite"]["gatePredicates"]["aGradedOriginsGte5"] is None
+
+
+def test_dependency_cycle_is_explicit_and_nan_infinity_are_rejected():
+    cycle = [
+        {"id": "a", "suiteComponents": ["b"], "evidence": []},
+        {"id": "b", "suiteComponents": ["a"], "evidence": []},
+    ]
+    result = shadow.evaluateShadowRegistry(cycle, context())
+    assert result["status"] == "partial"
+    assert all(item["reason"] == "component dependency cycle" for item in result["assessments"])
+    for invalid in (float("nan"), float("inf"), float("-inf")):
+        assessed = shadow.evaluateShadow({"id": "x", "evidence": [row("arxiv", "https://p.test/x", citations=invalid)]}, context())
+        assert assessed["status"] == "not-evaluated"
+        assert "non-finite" in assessed["reason"]
+
+
+def test_fingerprint_canonicalizes_evidence_order_but_binds_actual_context():
+    rows = [row("arxiv", "https://p.test/a", citations=100), row("peer-review", "https://r.test/a", reviewers=2)]
+    a = {"id": "x", "evidence": rows}
+    b = {"id": "x", "evidence": list(reversed(rows))}
+    assert shadow.evaluateShadow(a, context())["fingerprint"] == shadow.evaluateShadow(b, context())["fingerprint"]
+    baseline = shadow.evaluateShadow(a, context())
+    changedCatalog = replace(context(), benchmarkCatalog={"benchmarks": [{"id": "different"}]})
+    assert baseline["fingerprint"] != shadow.evaluateShadow(a, changedCatalog)["fingerprint"]
+    changedLabel = replace(context(), policyVersion="g7-v2", policyDigest="new-declared-digest")
+    metadataOnly = shadow.evaluateShadow(a, changedLabel)
+    assert metadataOnly["tmRaw"] == baseline["tmRaw"]
+    assert metadataOnly["fingerprint"] != baseline["fingerprint"]
+    assert metadataOnly["contextBinding"]["actualPolicyDigest"] == baseline["contextBinding"]["actualPolicyDigest"]
+
+
 def test_explicit_evaluation_does_not_mutate_skill_or_maps():
     skill = {"id": "owner/x", "genericSkillRef": "g", "evidence": [row("peer-review", "https://e/x", reviewers=2)]}
     generic = {"g": {"id": "g", "evidence": [row("arxiv", "https://e/p", citations=100)]}}

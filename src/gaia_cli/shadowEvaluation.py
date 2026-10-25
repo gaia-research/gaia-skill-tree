@@ -5,10 +5,12 @@ never changes the default production scoring path.
 """
 from __future__ import annotations
 
+import copy
 import datetime
 import hashlib
 import json
-from dataclasses import dataclass
+import math
+from dataclasses import dataclass, replace
 from typing import Any
 
 from gaia_cli import trustMagnitude as tm
@@ -35,11 +37,85 @@ class ShadowEvaluationContext:
 
 
 def _canonical(value: Any) -> bytes:
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, default=str).encode("utf-8")
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, default=str, allow_nan=False).encode("utf-8")
+
+
+def _canonicalSkill(skill: dict[str, Any]) -> dict[str, Any]:
+    """Canonicalize evidence as an unordered set for identity, not scoring."""
+    clone = dict(skill)
+    rows = clone.get("evidence")
+    if isinstance(rows, list):
+        clone["evidence"] = sorted(rows, key=_canonical)
+    components = clone.get("suiteComponents")
+    if isinstance(components, list):
+        clone["suiteComponents"] = sorted(components, key=_canonical)
+    return clone
+
+
+def _canonicalMap(mapping: dict[str, Any]) -> dict[str, Any]:
+    return {key: _canonicalSkill(value) if isinstance(value, dict) else value
+            for key, value in sorted(mapping.items())}
+
+
+def _canonicalRowReport(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Drop positional indexes and sort row diagnostics for identity hashing."""
+    return sorted(({key: value for key, value in row.items() if key != "index"} for row in rows), key=_canonical)
+
+
+def _invalidNumericInput(skill: dict[str, Any], genericMap: dict[str, dict[str, Any]]) -> str | None:
+    """Reject non-finite/non-numeric TM inputs before scoring can leak NaN."""
+    sources = [("skill", skill.get("evidence") or [])]
+    ref = skill.get("genericSkillRef")
+    if ref and ref in genericMap:
+        sources.append((f"generic:{ref}", genericMap[ref].get("evidence") or []))
+    for source, rows in sources:
+        for index, row in enumerate(rows):
+            for key, value in row.items():
+                if key not in {"commits", "contributors", "stars", "views", "percentile", "citations", "reviewers", "skillCountInRepo", "externalStars", "verifiers", "score", "trustNumber", "downloads", "likes", "comments"} or value is None:
+                    continue
+                if isinstance(value, bool):
+                    continue
+                try:
+                    numeric = float(value)
+                except (TypeError, ValueError, OverflowError):
+                    return f"invalid numeric input {source}[{index}].{key}"
+                if not math.isfinite(numeric):
+                    return f"non-finite numeric input {source}[{index}].{key}"
+    return None
 
 
 def _digest(value: Any) -> str:
     return hashlib.sha256(_canonical(value)).hexdigest()
+
+
+def _policyBinding(context: ShadowEvaluationContext) -> dict[str, Any]:
+    """Digest the actual scoring configuration separately from declared labels."""
+    actualPolicy = {
+        "engine": SHADOW_ENGINE_VERSION,
+        "trustMagnitudeEngine": "trustMagnitude-v1",
+        "perRowGradeThresholds": context.perRowGradeThresholds,
+        "gradeCeiling": context.gradeCeiling,
+        "gradeThresholds": context.gradeThresholds,
+    }
+    return {
+        "actualPolicyDigest": _digest(actualPolicy),
+        "actualCatalogDigest": _digest(context.benchmarkCatalog),
+        "engineVersion": SHADOW_ENGINE_VERSION,
+        "declaredPolicyVersion": context.policyVersion,
+        "declaredPolicyDigest": context.policyDigest,
+        "declaredCatalogDigest": context.benchmarkCatalogDigest,
+    }
+
+
+def _snapshotContext(context: ShadowEvaluationContext) -> ShadowEvaluationContext:
+    """Freeze mutable caller-owned maps for one deterministic evaluation."""
+    return replace(context, benchmarkCatalog=copy.deepcopy(context.benchmarkCatalog),
+                   genericSkillMap=copy.deepcopy(context.genericSkillMap),
+                   namedSkillMap=copy.deepcopy(context.namedSkillMap),
+                   verifierStanding=copy.deepcopy(context.verifierStanding),
+                   perRowGradeThresholds=copy.deepcopy(context.perRowGradeThresholds),
+                   gradeCeiling=copy.deepcopy(context.gradeCeiling),
+                   gradeThresholds=copy.deepcopy(context.gradeThresholds))
 
 
 def _contextProblem(skill: dict, context: ShadowEvaluationContext) -> str | None:
@@ -52,12 +128,25 @@ def _contextProblem(skill: dict, context: ShadowEvaluationContext) -> str | None
             return f"missing required context: {field}"
     if not isinstance(context.benchmarkCatalog, dict) or not isinstance(context.benchmarkCatalog.get("benchmarks"), list):
         return "benchmark catalog context is missing or malformed"
+    if not isinstance(skill, dict):
+        return "skill input must be an object"
     ref = skill.get("genericSkillRef")
     if ref and (not context.genericSkillMap or ref not in context.genericSkillMap):
         return f"generic context not resolved for {ref}"
     evidenceRows = list(skill.get("evidence") or [])
+    if any(not isinstance(row, dict) for row in evidenceRows):
+        return "evidence rows must be objects"
     if ref and ref in context.genericSkillMap:
-        evidenceRows.extend(context.genericSkillMap[ref].get("evidence") or [])
+        genericNode = context.genericSkillMap[ref]
+        if not isinstance(genericNode, dict):
+            return f"generic context is malformed for {ref}"
+        inheritedRows = list(genericNode.get("evidence") or [])
+        if any(not isinstance(row, dict) for row in inheritedRows):
+            return f"generic evidence rows must be objects for {ref}"
+        evidenceRows.extend(inheritedRows)
+    numericProblem = _invalidNumericInput(skill, context.genericSkillMap)
+    if numericProblem:
+        return numericProblem
     for index, row in enumerate(evidenceRows):
         if tm._typeOf(row) != "verifier-attestation":
             continue
@@ -95,11 +184,14 @@ def _temporalWarnings(
     return warnings, None
 
 
-def _cloneWithStanding(skill: dict, standing: dict[str, bool]) -> dict:
+def _cloneWithStanding(skill: dict, standing: dict[str, bool], *, layer: str | None = None) -> dict:
     clone = dict(skill)
+    ownLayer = layer or tm._ownLayerOf(skill)
     rows = []
     for original in skill.get("evidence") or []:
         row = dict(original)
+        # Trust actual registry placement, never a caller-supplied row label.
+        row["layer"] = ownLayer
         if tm._typeOf(row) == "verifier-attestation":
             verifier = row.get("verifierId") or row.get("verifier") or row.get("attestor")
             if verifier and verifier in standing:
@@ -107,6 +199,32 @@ def _cloneWithStanding(skill: dict, standing: dict[str, bool]) -> dict:
         rows.append(row)
     clone["evidence"] = rows
     return clone
+
+
+def _shadowSnapshots(skill: dict, context: ShadowEvaluationContext) -> tuple[dict, dict]:
+    """Return isolated layer-correct maps with verifier standing applied everywhere."""
+    genericMap = {}
+    for sid, node in context.genericSkillMap.items():
+        genericMap[sid] = _cloneWithStanding(node, context.verifierStanding, layer="generic")
+    # Generic evidence is a real inherited context, so its own row grades and
+    # verifier standing must be snapshotted under the same contextual rules.
+    for sid, node in list(genericMap.items()):
+        genericMap[sid], _ = _withContextualGrades(node, genericMap, context)
+    scoredSkill = _cloneWithStanding(skill, context.verifierStanding)
+    return scoredSkill, genericMap
+
+
+def _withContextualGrades(skill: dict, genericMap: dict, context: ShadowEvaluationContext) -> tuple[dict, list[dict[str, Any]]]:
+    report = _rowGradeReport(skill, genericMap, context)
+    clone = dict(skill)
+    clone["evidence"] = []
+    for index, raw in enumerate(skill.get("evidence") or []):
+        row = dict(raw)
+        row["layer"] = tm._ownLayerOf(skill)
+        row["grade"] = report[index]["contextualGrade"]
+        row.pop("class", None)
+        clone["evidence"].append(row)
+    return clone, report
 
 
 def _correctionCauses(
@@ -210,8 +328,8 @@ def _rowGradeReport(skill: dict, genericMap: dict, context: ShadowEvaluationCont
 
 
 def _assessOne(skill: dict, context: ShadowEvaluationContext, computedNamed: dict[str, dict[str, Any]]) -> dict[str, Any]:
-    genericMap = context.genericSkillMap
-    scoredSkill = _cloneWithStanding(skill, context.verifierStanding)
+    scoredSkill, genericMap = _shadowSnapshots(skill, context)
+    scoredSkill, rowReport = _withContextualGrades(scoredSkill, genericMap, context)
     namedMap = {key: dict(value) for key, value in computedNamed.items()}
     sid = scoredSkill.get("id")
     tmRaw = tm.computeTrustMagnitude(
@@ -228,14 +346,19 @@ def _assessOne(skill: dict, context: ShadowEvaluationContext, computedNamed: dic
     distinct = len({tm._typeOf(row) for row, _ in positive})
     witness = any(tm._isEligibleWitnessRow(row, score, scoredSkill) for row, score in rows)
     grade = tm.computeOverallTrustGrade(tmRaw, distinct, witness)
-    rowReport = _rowGradeReport(scoredSkill, genericMap, context)
+    # Expose raw artifact magnitude separately from the actual post-dedup,
+    # plateau and suite-component-cap contribution used in total TM.
+    scoreByKey = {}
+    for actualRow, bounded in rows:
+        key = (tm._typeOf(actualRow), tm._canonicalUrl(actualRow.get("source") or actualRow.get("url") or actualRow.get("sourceUrl")))
+        scoreByKey.setdefault(key, []).append(bounded)
+    for item in rowReport:
+        key = (item["type"], tm._canonicalUrl(item["source"]))
+        item["rawArtifactScore"] = item["artifactScore"]
+        item["boundedArtifactScore"] = next(iter(scoreByKey.get(key, [])), None)
+        item["artifactScoreMeaning"] = "raw pre-plateau/pre-suite-cap artifact score"
+        item["contextualGradeBasis"] = "raw artifact score before plateau and suite component cap"
     gateSkill = dict(scoredSkill)
-    gateRows = []
-    for index, row in enumerate(scoredSkill.get("evidence") or []):
-        contextualRow = {**row, "grade": rowReport[index]["contextualGrade"]}
-        contextualRow.pop("class", None)
-        gateRows.append(contextualRow)
-    gateSkill["evidence"] = gateRows
     gradeRow = {**scoredSkill, "overallTrustGrade": grade, "overallGrade": grade, "grade": grade, "_shadowAssessed": True}
     if sid:
         computedNamed[sid] = gradeRow
@@ -279,7 +402,9 @@ def _assessOne(skill: dict, context: ShadowEvaluationContext, computedNamed: dic
         "gateFailures": gateFailures,
         "gatePredicates": gates,
         "rows": rowReport,
-        "correctionCauses": _correctionCauses(scoredSkill, context, rowReport, computedNamed),
+        "correctionCauses": _correctionCauses(
+            scoredSkill, replace(context, genericSkillMap=genericMap), rowReport, computedNamed
+        ),
         "namedMapDependencyGrades": {key: value.get("overallTrustGrade") for key, value in computedNamed.items()},
     }
 
@@ -290,6 +415,7 @@ def evaluateShadow(skill: dict, context: ShadowEvaluationContext) -> dict[str, A
     A caller evaluating a registry in dependency order may pass each returned
     assessment into ``computedNamed`` via ``evaluateShadowRegistry`` below.
     """
+    context = _snapshotContext(context)
     problem = _contextProblem(skill, context)
     if problem:
         return {"status": "not-evaluated", "reason": problem, "skillId": skill.get("id")}
@@ -298,10 +424,11 @@ def evaluateShadow(skill: dict, context: ShadowEvaluationContext) -> dict[str, A
         return {"status": "not-evaluated", "reason": dateProblem, "skillId": skill.get("id")}
     assessed = _assessOne(skill, context, {key: dict(value) for key, value in context.namedSkillMap.items()})
     assessed["temporalWarnings"] = warnings
+    assessed["contextBinding"] = _policyBinding(context)
     assessed["fingerprint"] = _digest({
-        "api": SHADOW_ENGINE_VERSION, "skill": skill,
-        "genericSkillMap": context.genericSkillMap,
-        "namedSkillMap": context.namedSkillMap,
+        "api": SHADOW_ENGINE_VERSION, "contextBinding": assessed["contextBinding"], "skill": _canonicalSkill(skill),
+        "genericSkillMap": _canonicalMap(context.genericSkillMap),
+        "namedSkillMap": _canonicalMap(context.namedSkillMap),
         "verifierStanding": context.verifierStanding,
         "policyVersion": context.policyVersion, "policyDigest": context.policyDigest,
         "catalog": context.benchmarkCatalog, "catalogDigest": context.benchmarkCatalogDigest,
@@ -311,7 +438,7 @@ def evaluateShadow(skill: dict, context: ShadowEvaluationContext) -> dict[str, A
         "perRowGradeThresholds": context.perRowGradeThresholds,
         "gradeCeiling": context.gradeCeiling,
         "gradeThresholds": context.gradeThresholds,
-        "engine": "trustMagnitude-v1", "rowGrades": assessed["rows"],
+        "engine": "trustMagnitude-v1", "rowGrades": _canonicalRowReport(assessed["rows"]),
     })
     assessed["correctionDelta"] = {
         "legacyTM": tm.computeTrustMagnitude(
@@ -328,48 +455,83 @@ def evaluateShadow(skill: dict, context: ShadowEvaluationContext) -> dict[str, A
 
 
 def evaluateShadowRegistry(skills: list[dict], context: ShadowEvaluationContext) -> dict[str, Any]:
-    """Evaluate a bounded registry in component-before-suite dependency order."""
-    problem = _contextProblem({"genericSkillRef": None}, context)
-    if problem:
-        return {"status": "not-evaluated", "reason": problem, "assessments": []}
-    temporalById = {}
-    for skill in skills:
-        problem = _contextProblem(skill, context)
-        if problem:
-            return {"status": "not-evaluated", "reason": problem, "skillId": skill.get("id"), "assessments": []}
-        warnings, dateProblem = _temporalWarnings(skill, context.evaluationAtUTC, context.genericSkillMap)
-        if dateProblem:
-            return {"status": "not-evaluated", "reason": dateProblem, "skillId": skill.get("id"), "assessments": []}
-        temporalById[skill.get("id")] = warnings
-    byId = {skill.get("id"): skill for skill in skills if skill.get("id")}
+    """Evaluate a bounded registry; invalid rows and cycles retain partial coverage."""
+    context = _snapshotContext(context)
+    baseProblem = _contextProblem({"genericSkillRef": None}, context)
+    if baseProblem:
+        rows = [{"status": "not-evaluated", "skillId": skill.get("id"), "reason": baseProblem} for skill in skills]
+        return {"status": "not-evaluated", "reason": baseProblem, "coverage": {"total": len(skills), "evaluated": 0, "notEvaluated": len(rows)}, "assessments": rows}
+
+    byId = {}
+    inputFailures = []
+    duplicateIds = set()
+    for index, skill in enumerate(skills):
+        if not isinstance(skill, dict) or not skill.get("id"):
+            inputFailures.append({"status": "not-evaluated", "skillId": None, "inputIndex": index,
+                                  "reason": "skill input requires an id"})
+            continue
+        sid = skill["id"]
+        if sid in byId:
+            duplicateIds.add(sid)
+            inputFailures.append({"status": "not-evaluated", "skillId": sid, "inputIndex": index,
+                                  "reason": "duplicate skill id in registry input"})
+        else:
+            byId[sid] = skill
     pending = dict(byId)
     computed = {key: dict(value) for key, value in context.namedSkillMap.items()}
-    assessments = {}
+    assessments: dict[str, dict[str, Any]] = {}
+    for sid in duplicateIds:
+        assessments[sid] = {"status": "not-evaluated", "skillId": sid,
+                            "reason": "duplicate skill id in registry input"}
+        pending.pop(sid, None)
+    temporalById = {}
+    for sid, skill in list(pending.items()):
+        problem = _contextProblem(skill, context)
+        if problem:
+            assessments[sid] = {"status": "not-evaluated", "skillId": sid, "reason": problem}
+            pending.pop(sid)
+            continue
+        warnings, dateProblem = _temporalWarnings(skill, context.evaluationAtUTC, context.genericSkillMap)
+        if dateProblem:
+            assessments[sid] = {"status": "not-evaluated", "skillId": sid, "reason": dateProblem}
+            pending.pop(sid)
+            continue
+        temporalById[sid] = warnings
+
     while pending:
-        ready = sorted(
-            (key for key, item in pending.items()
-             if all(component not in pending for component in (item.get("suiteComponents") or []))),
-        )
+        ready = sorted(key for key, item in pending.items()
+                       if all(component not in pending for component in (item.get("suiteComponents") or [])))
         if not ready:
-            return {"status": "not-evaluated", "reason": "component dependency cycle", "assessments": list(assessments.values())}
+            for sid in sorted(pending):
+                assessments[sid] = {"status": "not-evaluated", "skillId": sid, "reason": "component dependency cycle"}
+            pending.clear()
+            break
         for sid in ready:
             skill = pending.pop(sid)
             assessment = _assessOne(skill, context, computed)
             assessment["temporalWarnings"] = temporalById.get(sid, [])
+            assessment["contextBinding"] = _policyBinding(context)
             assessment["fingerprint"] = _digest({
-                "api": SHADOW_ENGINE_VERSION, "skill": skill, "computedDependencies": computed,
+                "api": SHADOW_ENGINE_VERSION, "contextBinding": assessment["contextBinding"],
+                "skill": _canonicalSkill(skill), "computedDependencies": _canonicalMap(computed),
                 "context": {"time": context.evaluationAtUTC.isoformat(), "policyVersion": context.policyVersion,
                             "policyDigest": context.policyDigest, "catalog": context.benchmarkCatalog,
                             "catalogDigest": context.benchmarkCatalogDigest, "registry": context.registryRevision,
-                            "input": context.canonicalInputDigest, "generic": context.genericSkillMap,
-                            "named": context.namedSkillMap, "verifiers": context.verifierStanding,
+                            "input": context.canonicalInputDigest,
+                            "generic": _canonicalMap(context.genericSkillMap),
+                            "named": _canonicalMap(context.namedSkillMap),
+                            "verifiers": context.verifierStanding, "engine": SHADOW_ENGINE_VERSION,
                             "perRowGradeThresholds": context.perRowGradeThresholds,
                             "gradeCeiling": context.gradeCeiling, "gradeThresholds": context.gradeThresholds},
             })
-            old = tm.computeTrustMagnitude(
-                skill, context.genericSkillMap, evaluationAtUTC=context.evaluationAtUTC,
-                benchmarkCatalog=context.benchmarkCatalog,
-            )
+            old = tm.computeTrustMagnitude(skill, context.genericSkillMap, evaluationAtUTC=context.evaluationAtUTC,
+                                           benchmarkCatalog=context.benchmarkCatalog)
             assessment["correctionDelta"] = {"legacyTM": old, "shadowTM": assessment["tmRaw"], "implementationCorrection": assessment["tmRaw"] - old}
             assessments[sid] = assessment
-    return {"status": "evaluated", "assessments": [assessments[key] for key in sorted(assessments)]}
+
+    ordered = [assessments[key] for key in sorted(assessments)] + inputFailures
+    evaluated = sum(item.get("status") == "evaluated" for item in ordered)
+    notEvaluated = len(ordered) - evaluated
+    return {"status": "evaluated" if not notEvaluated else "partial",
+            "coverage": {"total": len(skills), "evaluated": evaluated, "notEvaluated": notEvaluated},
+            "assessments": ordered}

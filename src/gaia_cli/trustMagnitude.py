@@ -716,8 +716,13 @@ def _dedupeSameSource(rows: list[dict]) -> list[dict]:
     return out
 
 
-def _shadowDeduplicate(rows: list[dict]) -> list[dict]:
-    """Stable type+canonical-URL representative selection for shadow scoring."""
+def _shadowDeduplicate(rows: list[dict], scoreFn=None) -> list[dict]:
+    """Select the highest eligible final-magnitude row per type+canonical URL.
+
+    ``scoreFn`` is supplied by the shadow scoring pipeline so representatives
+    are chosen by the same artifact magnitude that will be reported, not a
+    proxy comparator. Legacy/other shadow callers retain deterministic fallback.
+    """
     groups: dict[tuple[str, str], list[dict]] = {}
     unkeyed: list[dict] = []
     for row in rows:
@@ -733,13 +738,13 @@ def _shadowDeduplicate(rows: list[dict]) -> list[dict]:
     winners = list(unkeyed)
     for key in sorted(groups):
         choices = groups[key]
-        winners.append(max(
-            choices,
-            key=lambda row: (
-                _rowComparableMagnitude(row),
-                hashlib.sha256(json.dumps(row, sort_keys=True, default=str).encode()).hexdigest(),
-            ),
-        ))
+        def rank(row):
+            score = scoreFn(row) if scoreFn is not None else _rowComparableMagnitude(row)
+            # Stable canonical tie-break: equal scoring magnitude cannot depend
+            # on evidence input order. Invalid values are never a valid winner.
+            canonical = json.dumps(row, sort_keys=True, separators=(",", ":"), default=str, allow_nan=False)
+            return (score is not None, float(score or 0.0), canonical)
+        winners.append(max(choices, key=rank))
     return winners
 
 
@@ -899,7 +904,13 @@ def _scoredEvidenceRows(
                 benchmarkCatalog=benchmarkCatalog,
             ) is not None
         ]
-        deduped = _shadowDeduplicate(evidence)
+        deduped = _shadowDeduplicate(
+            evidence,
+            scoreFn=lambda row: _finalRowScore(
+                row, skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC,
+                benchmarkCatalog=benchmarkCatalog,
+            ),
+        )
     else:
         deduped = _dedupeSameSource(evidence)
 
