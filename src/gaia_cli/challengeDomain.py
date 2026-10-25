@@ -1,10 +1,11 @@
 """Pure Yggdrasil IV challenge lifecycle primitives.
 
-This module models observations, public technical proceedings, and numeric
-proposals separately. It performs no persistence, network, model, scoring, or
-canonical registry operations; callers own those boundaries.
+The ``VerificationReceiptResolver`` is a REQUIRED trusted in-process boundary:
+callers must resolve an immutable Steward receipt that binds exact context and
+transcript digests. Serialized packets, raw flags, URLs and Python constructors
+are not a security sandbox or proof of human/cryptographic authority. This
+module does not fetch URLs, authenticate humans, or persist receipts.
 """
-
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
@@ -12,7 +13,7 @@ from datetime import datetime, timezone
 from enum import Enum
 import hashlib
 import json
-from typing import Any
+from typing import Any, Protocol
 from urllib.parse import urlparse
 
 
@@ -56,12 +57,45 @@ class Observation:
     def __post_init__(self) -> None:
         _required(self.subject_id, "subject_id")
         _utc(self.observed_at_utc)
-        if self.source_sha is not None:
-            _required(self.source_sha, "source_sha")
 
     @property
     def observation_id(self) -> str:
         return _digest(_canonical(self))
+
+
+@dataclass(frozen=True)
+class VerificationReceipt:
+    """Immutable resolver output, not an untrusted packet assertion.
+
+    ``context_digest`` binds exact proceeding/draft identity; ``transcript_digest``
+    binds the canonical reproducible payload. The trusted adapter is responsible
+    for establishing receipt provenance and immutability.
+    """
+    receipt_id: str
+    context_digest: str
+    transcript_digest: str
+    verifier_id: str
+    builder_id: str
+    contributor_id: str
+    result: str
+    method: str
+    method_version: str
+    actual_output: str
+    output_digest: str
+    public_receipt_ref: str
+    notice_ref: str
+    verified_at_utc: str
+
+    def __post_init__(self) -> None:
+        for name in self.__dataclass_fields__:
+            _required(getattr(self, name), name)
+        _utc(self.verified_at_utc)
+        _public_ref(self.public_receipt_ref, "public_receipt_ref")
+        _public_ref(self.notice_ref, "notice_ref")
+
+
+class VerificationReceiptResolver(Protocol):
+    def resolve(self, receipt_id: str) -> VerificationReceipt: ...
 
 
 @dataclass(frozen=True)
@@ -70,6 +104,15 @@ class ChallengeEvent:
     at_utc: str
     actor: str
     details: str = ""
+    challenge_id: str = ""
+    receipt_id: str = ""
+    receipt_digest: str = ""
+    transcript_digest: str = ""
+    notice_ref: str = ""
+    method: str = ""
+    method_version: str = ""
+    actual_output: str = ""
+    output_digest: str = ""
     linked_challenge_id: str | None = None
 
     @property
@@ -102,6 +145,7 @@ class Challenge:
     history: tuple[ChallengeEvent, ...]
     challenge_id: str = ""
     linked_challenge_id: str | None = None
+    history_digest: str = ""
 
     def __post_init__(self) -> None:
         for field in ("claim_id", "subject_id", "claim", "behavior_id", "contributor_id",
@@ -110,29 +154,23 @@ class Challenge:
             _required(getattr(self, field), field)
         _public_ref(self.contributor_notice_ref, "contributor_notice_ref")
         _utc(self.created_at_utc)
-        if not self.history:
-            raise ValueError("challenge history must preserve at least its opening event")
+        expected = _challenge_id(self)
         if not self.challenge_id:
-            object.__setattr__(self, "challenge_id", _digest(_canonical({
-                "claimId": self.claim_id, "subjectId": self.subject_id,
-                "claim": self.claim, "behaviorId": self.behavior_id,
-                "contributorId": self.contributor_id,
-                "contributorNoticeRef": self.contributor_notice_ref,
-                "pinnedVersion": self.pinned_version, "pinnedSha": self.pinned_sha,
-                "environment": self.environment, "testVersion": self.test_version,
-                "baseline": self.baseline, "comparator": self.comparator,
-                "materialToOrigin": self.material_to_origin,
-                "createdAtUTC": self.created_at_utc,
-                "linkedChallengeId": self.linked_challenge_id,
-            })))
+            object.__setattr__(self, "challenge_id", expected)
+        elif self.challenge_id != expected:
+            raise ValueError("challenge_id does not match immutable challenge context")
+        expected_history = _digest(_canonical(self.history))
+        if not self.history_digest:
+            object.__setattr__(self, "history_digest", expected_history)
+        elif self.history_digest != expected_history:
+            raise ValueError("challenge history digest mismatch")
+        validate_challenge_history(self)
 
     @property
     def resolved(self) -> bool:
-        return self.status in {
-            ChallengeStatus.TECHNICALLY_REBUTTED,
-            ChallengeStatus.RESOLVED_BY_UPSTREAM_IMPROVEMENT,
-            ChallengeStatus.REJECTED,
-        }
+        return self.status in {ChallengeStatus.TECHNICALLY_REBUTTED,
+                               ChallengeStatus.RESOLVED_BY_UPSTREAM_IMPROVEMENT,
+                               ChallengeStatus.REJECTED}
 
 
 @dataclass(frozen=True)
@@ -157,14 +195,17 @@ class TechnicalProof:
     contributor_notice_ref: str
     verified_at_utc: str
     upstream_improvement: bool = False
+    challenge_id: str = ""
+    method_version: str = ""
+    output_digest: str = ""
+    pinned_sha_known: bool = True
+    comparator_known: bool = True
 
     @property
     def proof_digest(self) -> str:
         return _digest(_canonical(self))
 
     def __post_init__(self) -> None:
-        # Proof packets may be incomplete; closure classifies gaps as Class C
-        # rather than treating a malformed packet as an exceptional success path.
         _utc(self.verified_at_utc)
 
 
@@ -191,58 +232,102 @@ class NumericProposal:
         _utc(self.created_at_utc)
 
 
-def open_challenge(*, subject_id: str, claim_id: str, claim: str, behavior_id: str,
-                   contributor_id: str, contributor_notice_ref: str,
-                   pinned_version: str, pinned_sha: str, environment: str,
-                   test_version: str, baseline: str, comparator: str,
+def open_challenge(*, receipt_resolver: VerificationReceiptResolver | None = None,
+                   verification_receipt_id: str = "", subject_id: str, claim_id: str,
+                   claim: str, behavior_id: str, contributor_id: str,
+                   contributor_notice_ref: str, pinned_version: str, pinned_sha: str,
+                   environment: str, test_version: str, baseline: str, comparator: str,
                    verified_at_utc: str, verifier_id: str, material_to_origin: bool,
                    linked_challenge_id: str | None = None) -> Challenge:
-    """Create an independently verified public challenge and its opening event."""
-    _required(verifier_id, "verifier_id")
-    if verifier_id == contributor_id:
+    """Open only after a trusted resolver validates a reproducible receipt."""
+    if receipt_resolver is None:
+        raise ValueError("trusted verification receipt resolver is required")
+    _public_ref(contributor_notice_ref, "contributor_notice_ref")
+    draft = {"subject_id": subject_id, "claim_id": claim_id, "claim": claim,
+             "behavior_id": behavior_id, "contributor_id": contributor_id,
+             "contributor_notice_ref": contributor_notice_ref,
+             "pinned_version": pinned_version, "pinned_sha": pinned_sha,
+             "environment": environment, "test_version": test_version,
+             "baseline": baseline, "comparator": comparator,
+             "material_to_origin": material_to_origin, "created_at_utc": verified_at_utc,
+             "linked_challenge_id": linked_challenge_id}
+    context = _digest(_canonical(draft))
+    receipt = _resolve(receipt_resolver, verification_receipt_id)
+    receipt_error = _validate_receipt(receipt, context_digest=context, transcript_digest=None,
+                      verifier_id=verifier_id, contributor_id=contributor_id,
+                      notice_ref=contributor_notice_ref, at=verified_at_utc)
+    if receipt_error:
+        raise ValueError(receipt_error)
+    if receipt.verifier_id == contributor_id:
         raise ValueError("challenge verifier must be independent of contributor")
-    event = ChallengeEvent("verified-publication", verified_at_utc, verifier_id,
-                           "public challenge opened; contributor notified", linked_challenge_id)
+    challenge_id = _challenge_id_from_draft(draft)
+    event = _receipt_event("verified-publication", receipt, challenge_id, "public challenge opened")
     return Challenge(claim_id, subject_id, claim, behavior_id, contributor_id,
                      contributor_notice_ref, pinned_version, pinned_sha, environment,
                      test_version, baseline, comparator, ChallengeStatus.VERIFIED_PENDING,
-                     material_to_origin, verified_at_utc, (event,),
-                     linked_challenge_id=linked_challenge_id)
+                     material_to_origin, verified_at_utc, (event,), linked_challenge_id=linked_challenge_id)
 
 
 def close_technical_challenge(challenge: Challenge, proof: TechnicalProof,
-                              *, closed_at_utc: str) -> ClosureResult:
-    """Close only complete, same-behavior independent proof; otherwise Class C."""
+                              *, closed_at_utc: str,
+                              receipt_resolver: VerificationReceiptResolver | None = None,
+                              verification_receipt_id: str = "") -> ClosureResult:
+    """Close only with receipt-authorized, exact-challenge reproducible proof."""
     _utc(closed_at_utc)
+    if receipt_resolver is None:
+        return _class_c(challenge, "trusted verification receipt resolver is required")
     reason = _proof_failure(challenge, proof)
     if reason:
-        return ClosureResult(ClosureDisposition.CLASS_C, challenge, reason,
-                             challenge.material_to_origin and not challenge.resolved)
+        return _class_c(challenge, reason)
+    try:
+        receipt = _resolve(receipt_resolver, verification_receipt_id)
+    except (KeyError, ValueError) as exc:
+        return _class_c(challenge, f"trusted receipt unavailable: {exc}")
+    context = _digest(_canonical({"challenge_id": challenge.challenge_id,
+                                  "claim_id": challenge.claim_id,
+                                  "behavior_id": challenge.behavior_id,
+                                  "pinned_version": challenge.pinned_version,
+                                  "pinned_sha": challenge.pinned_sha,
+                                  "environment": challenge.environment,
+                                  "test_version": challenge.test_version,
+                                  "baseline": challenge.baseline,
+                                  "comparator": challenge.comparator}))
+    reason = _validate_receipt(receipt, context_digest=context,
+                               transcript_digest=proof.proof_digest,
+                               verifier_id=proof.verifier_id,
+                               contributor_id=challenge.contributor_id,
+                               notice_ref=proof.contributor_notice_ref, at=proof.verified_at_utc)
+    if reason:
+        return _class_c(challenge, reason)
+    if receipt.method.lower() not in {"reproducible-test", "benchmark-replay", "cli-replay"}:
+        return _class_c(challenge, "verification receipt method is not an approved reproducible method")
+    if receipt.verifier_id in {receipt.builder_id, receipt.contributor_id}:
+        return _class_c(challenge, "receipt verifier must be independent of builder and contributor")
+    if _utc(closed_at_utc) < max(_utc(challenge.created_at_utc), _utc(receipt.verified_at_utc)):
+        return _class_c(challenge, "closure cannot predate opening or proof verification")
     status = (ChallengeStatus.RESOLVED_BY_UPSTREAM_IMPROVEMENT if proof.upstream_improvement
               else ChallengeStatus.TECHNICALLY_REBUTTED)
-    event = ChallengeEvent("technical-resolution", closed_at_utc, proof.verifier_id,
-                           proof.public_receipt_ref)
-    updated = replace(challenge, status=status, history=challenge.history + (event,))
-    return ClosureResult(ClosureDisposition.CLOSED, updated, "complete independent proof",
+    event = _receipt_event("technical-resolution", receipt, challenge.challenge_id,
+                           "same-challenge reproducible technical resolution", closed_at_utc)
+    updated = replace(challenge, status=status, history=challenge.history + (event,), history_digest="")
+    return ClosureResult(ClosureDisposition.CLOSED, updated, "trusted independent proof receipt",
                          updated.material_to_origin and not updated.resolved)
 
 
 def create_numeric_proposal(*, challenge_id: str, state: NumericProposalState,
                             payload_digest: str, created_at_utc: str) -> NumericProposal:
-    """Create a stable numeric proposal marker without interpreting its payload."""
     identity = _digest(_canonical({"challengeId": challenge_id, "state": state,
-                                   "payloadDigest": payload_digest,
-                                   "createdAtUTC": created_at_utc}))
+                                   "payloadDigest": payload_digest, "createdAtUTC": created_at_utc}))
     return NumericProposal(identity, challenge_id, state, payload_digest, created_at_utc)
 
 
 def origin_contested(challenges: tuple[Challenge, ...]) -> bool:
-    """Derived marker: any unresolved material challenge keeps it contested."""
     return any(item.material_to_origin and not item.resolved for item in challenges)
 
 
 def link_reopened_challenge(previous: Challenge, new_challenge: Challenge) -> Challenge:
-    """Require reopening as a distinct challenge linked to immutable history."""
+    if not previous.resolved:
+        raise ValueError("only a resolved challenge may be reopened as a linked proceeding")
     if new_challenge.challenge_id == previous.challenge_id:
         raise ValueError("reopening requires a distinct new challenge ID")
     if new_challenge.linked_challenge_id != previous.challenge_id:
@@ -250,45 +335,170 @@ def link_reopened_challenge(previous: Challenge, new_challenge: Challenge) -> Ch
     return new_challenge
 
 
+def validate_challenge_history(challenge: Challenge,
+                               receipt_resolver: VerificationReceiptResolver | None = None) -> None:
+    """Validate structure and, when rehydrating, resolve every immutable receipt.
+
+    Serialized data must go through this function with the trusted resolver;
+    constructor validation alone is intentionally not an authority boundary.
+    """
+    if not challenge.history:
+        raise ValueError("challenge history must preserve its opening event")
+    first = challenge.history[0]
+    if (first.event_type != "verified-publication" or first.challenge_id != challenge.challenge_id
+            or not first.receipt_id or not first.receipt_digest or not first.transcript_digest):
+        raise ValueError("opening history must contain a bound verification receipt")
+    if len(challenge.history) > 2:
+        raise ValueError("unsupported challenge history transition")
+    if len(challenge.history) == 1:
+        if challenge.status is not ChallengeStatus.VERIFIED_PENDING:
+            raise ValueError("status does not match append-only history")
+    else:
+        last = challenge.history[-1]
+        if (last.event_type != "technical-resolution" or last.challenge_id != challenge.challenge_id
+                or not last.receipt_id or not last.receipt_digest or not last.transcript_digest
+                or _utc(last.at_utc) < _utc(first.at_utc)):
+            raise ValueError("invalid technical-resolution history event")
+        if challenge.status not in {ChallengeStatus.TECHNICALLY_REBUTTED,
+                                    ChallengeStatus.RESOLVED_BY_UPSTREAM_IMPROVEMENT}:
+            raise ValueError("status does not match authorized technical history")
+    if receipt_resolver is not None:
+        for event in challenge.history:
+            receipt = _resolve(receipt_resolver, event.receipt_id)
+            if (_digest(_canonical(receipt)) != event.receipt_digest
+                    or receipt.transcript_digest != event.transcript_digest
+                    or event.challenge_id != challenge.challenge_id
+                    or receipt.verifier_id != event.actor
+                    or receipt.notice_ref != event.notice_ref
+                    or receipt.method != event.method
+                    or receipt.method_version != event.method_version
+                    or receipt.actual_output != event.actual_output
+                    or receipt.output_digest != event.output_digest):
+                raise ValueError("history event does not match its resolved immutable receipt")
+            if (receipt.result.lower() not in {"pass", "passed", "verified"}
+                    or receipt.method.lower() not in {"reproducible-test", "benchmark-replay", "cli-replay"}
+                    or receipt.verifier_id == receipt.contributor_id
+                    or (event.event_type == "technical-resolution"
+                        and receipt.verifier_id == receipt.builder_id)):
+                raise ValueError("history receipt lacks independent passing reproducible verification")
+            if event.event_type == "verified-publication":
+                context = _digest(_canonical({"subject_id": challenge.subject_id,
+                    "claim_id": challenge.claim_id, "claim": challenge.claim,
+                    "behavior_id": challenge.behavior_id, "contributor_id": challenge.contributor_id,
+                    "contributor_notice_ref": challenge.contributor_notice_ref,
+                    "pinned_version": challenge.pinned_version, "pinned_sha": challenge.pinned_sha,
+                    "environment": challenge.environment, "test_version": challenge.test_version,
+                    "baseline": challenge.baseline, "comparator": challenge.comparator,
+                    "material_to_origin": challenge.material_to_origin,
+                    "created_at_utc": challenge.created_at_utc,
+                    "linked_challenge_id": challenge.linked_challenge_id}))
+            else:
+                context = _digest(_canonical({"challenge_id": challenge.challenge_id,
+                    "claim_id": challenge.claim_id, "behavior_id": challenge.behavior_id,
+                    "pinned_version": challenge.pinned_version, "pinned_sha": challenge.pinned_sha,
+                    "environment": challenge.environment, "test_version": challenge.test_version,
+                    "baseline": challenge.baseline, "comparator": challenge.comparator}))
+            if receipt.context_digest != context:
+                raise ValueError("history receipt is bound to different challenge context")
+
+
 def _proof_failure(challenge: Challenge, proof: TechnicalProof) -> str:
-    required = ("claim_id", "behavior_id", "prior_version", "prior_sha", "current_version",
-                "current_sha", "environment", "test_version", "baseline", "comparator",
-                "actual_output", "verifier_id", "contributor_id", "builder_id",
-                "verification_result", "verification_method")
-    if any(not isinstance(getattr(proof, field), str) or not getattr(proof, field).strip()
-           for field in required):
-        return "technical proof is missing required fields"
-    try:
-        _public_ref(proof.public_receipt_ref, "public_receipt_ref")
-        _public_ref(proof.contributor_notice_ref, "contributor_notice_ref")
-    except ValueError:
-        return "public linked receipt and contributor notification are required"
-    if challenge.status != ChallengeStatus.VERIFIED_PENDING:
+    if challenge.status is not ChallengeStatus.VERIFIED_PENDING:
         return "challenge is not open for technical closure"
-    if proof.claim_id != challenge.claim_id or proof.behavior_id != challenge.behavior_id:
+    if proof.challenge_id != challenge.challenge_id:
+        return "proof does not bind the exact challenge_id"
+    if (proof.claim_id, proof.behavior_id) != (challenge.claim_id, challenge.behavior_id):
         return "proof does not address the same pinned claim and behavior"
     if proof.contributor_id != challenge.contributor_id:
         return "proof contributor conflicts with challenge provenance"
     if proof.verifier_id in {proof.contributor_id, proof.builder_id}:
         return "independent verifier must differ from contributor and builder"
-    if proof.verification_method.lower() in {"model", "llm", "model-only", "semantic-model"}:
-        return "model-only verification is insufficient"
     if proof.verification_result.lower() not in {"pass", "passed", "verified"}:
         return "verification did not pass"
-    if not proof.prior_version or not proof.prior_sha or not proof.current_version or not proof.current_sha:
-        return "prior and current version/SHA are required"
-    if not proof.environment or not proof.test_version or not proof.baseline or not proof.comparator:
-        return "equivalent environment, test version, baseline, and comparator are required"
-    if not proof.actual_output.strip():
-        return "actual output is missing"
+    if proof.verification_method.lower() not in {"reproducible-test", "benchmark-replay", "cli-replay"}:
+        return "verification method is not an approved reproducible method"
+    if not proof.pinned_sha_known or not proof.comparator_known:
+        return "unknown pinned baseline or comparator escalates to Class C"
+    fields = (proof.prior_version, proof.prior_sha, proof.current_version, proof.current_sha,
+              proof.environment, proof.test_version, proof.baseline, proof.comparator,
+              proof.actual_output, proof.method_version, proof.output_digest)
+    if any(not isinstance(value, str) or not value.strip() for value in fields):
+        return "technical proof lacks versioned method, actual output, or output digest"
     if (proof.prior_version, proof.prior_sha, proof.environment, proof.test_version,
-            proof.baseline, proof.comparator) != (
-            challenge.pinned_version, challenge.pinned_sha, challenge.environment,
-            challenge.test_version, challenge.baseline, challenge.comparator):
+        proof.baseline, proof.comparator) != (challenge.pinned_version, challenge.pinned_sha,
+        challenge.environment, challenge.test_version, challenge.baseline, challenge.comparator):
         return "proof conflicts with pinned version/SHA or comparison conditions"
+    try:
+        _public_ref(proof.public_receipt_ref, "public_receipt_ref")
+        _public_ref(proof.contributor_notice_ref, "contributor_notice_ref")
+    except ValueError:
+        return "public linked receipt and contributor notification are required"
     if proof.prior_sha == proof.current_sha and proof.upstream_improvement:
         return "upstream improvement must identify a changed source SHA"
     return ""
+
+
+def _class_c(challenge: Challenge, reason: str) -> ClosureResult:
+    return ClosureResult(ClosureDisposition.CLASS_C, challenge, reason,
+                         challenge.material_to_origin and not challenge.resolved)
+
+
+def _resolve(resolver: VerificationReceiptResolver, receipt_id: str) -> VerificationReceipt:
+    _required(receipt_id, "verification_receipt_id")
+    receipt = resolver.resolve(receipt_id)
+    if not isinstance(receipt, VerificationReceipt) or receipt.receipt_id != receipt_id:
+        raise ValueError("resolver did not return the requested immutable verification receipt")
+    return receipt
+
+
+def _validate_receipt(receipt: VerificationReceipt, *, context_digest: str,
+                      transcript_digest: str | None, verifier_id: str,
+                      contributor_id: str, notice_ref: str, at: str) -> str:
+    if receipt.context_digest != context_digest:
+        return "verification receipt is bound to different exact context"
+    if transcript_digest is not None and receipt.transcript_digest != transcript_digest:
+        return "verification receipt transcript digest does not match proof payload"
+    if receipt.verifier_id != verifier_id or receipt.contributor_id != contributor_id:
+        return "verification receipt actor identities conflict with proceeding"
+    if receipt.notice_ref != notice_ref:
+        return "verification receipt notification binding differs"
+    if receipt.result.lower() not in {"pass", "passed", "verified"}:
+        return "trusted verification receipt did not record a passing result"
+    if receipt.method.lower() not in {"reproducible-test", "benchmark-replay", "cli-replay"}:
+        return "trusted receipt method is not an approved reproducible method"
+    if _utc(receipt.verified_at_utc) > _utc(at):
+        return "receipt verification occurs after asserted event time"
+    return ""
+
+
+def _receipt_event(event_type: str, receipt: VerificationReceipt, challenge_id: str,
+                   details: str, event_at: str | None = None) -> ChallengeEvent:
+    return ChallengeEvent(event_type, event_at or receipt.verified_at_utc, receipt.verifier_id, details,
+                          challenge_id, receipt.receipt_id, _digest(_canonical(receipt)),
+                          receipt.transcript_digest, receipt.notice_ref, receipt.method,
+                          receipt.method_version, receipt.actual_output, receipt.output_digest)
+
+
+def _challenge_id_from_draft(draft: dict[str, Any]) -> str:
+    return _digest(_canonical({"claimId": draft["claim_id"], "subjectId": draft["subject_id"],
+        "claim": draft["claim"], "behaviorId": draft["behavior_id"],
+        "contributorId": draft["contributor_id"], "contributorNoticeRef": draft["contributor_notice_ref"],
+        "pinnedVersion": draft["pinned_version"], "pinnedSha": draft["pinned_sha"],
+        "environment": draft["environment"], "testVersion": draft["test_version"],
+        "baseline": draft["baseline"], "comparator": draft["comparator"],
+        "materialToOrigin": draft["material_to_origin"], "createdAtUTC": draft["created_at_utc"],
+        "linkedChallengeId": draft["linked_challenge_id"]}))
+
+
+def _challenge_id(challenge: Challenge) -> str:
+    return _digest(_canonical({"claimId": challenge.claim_id, "subjectId": challenge.subject_id,
+        "claim": challenge.claim, "behaviorId": challenge.behavior_id,
+        "contributorId": challenge.contributor_id, "contributorNoticeRef": challenge.contributor_notice_ref,
+        "pinnedVersion": challenge.pinned_version, "pinnedSha": challenge.pinned_sha,
+        "environment": challenge.environment, "testVersion": challenge.test_version,
+        "baseline": challenge.baseline, "comparator": challenge.comparator,
+        "materialToOrigin": challenge.material_to_origin, "createdAtUTC": challenge.created_at_utc,
+        "linkedChallengeId": challenge.linked_challenge_id}))
 
 
 def _required(value: str, field: str) -> None:
@@ -316,7 +526,7 @@ def _public_ref(value: str, field: str) -> None:
 
 def _canonical(value: Any) -> str:
     def normalized(item: Any) -> Any:
-        if hasattr(item, "value"):
+        if isinstance(item, Enum):
             return item.value
         if hasattr(item, "__dataclass_fields__"):
             return {key: normalized(val) for key, val in item.__dict__.items()}
