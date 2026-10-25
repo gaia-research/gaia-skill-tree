@@ -63,6 +63,8 @@ def test_source_merge_is_cross_type_order_independent_and_tracks_row_layer():
     ctx = context(generic)
     assert shadow.evaluateShadow(a, ctx)["tmRaw"] == shadow.evaluateShadow(b, ctx)["tmRaw"]
     assert shadow.evaluateShadow(a, ctx)["tmRaw"] == 91.248
+    causes = {item["cause"]: item["status"] for item in shadow.evaluateShadow(a, ctx)["correctionCauses"]}
+    assert causes["source-only-inheritance-merge"] == "triggered"
     # Legacy call path remains unchanged until the canonical rollout gate.
     assert tm.computeTrustMagnitude(a, generic) != tm.computeTrustMagnitude(b, generic)
     # A same-URL own row must not erase the generic row when evidence types differ.
@@ -81,6 +83,8 @@ def test_ineligible_benchmark_winner_is_filtered_before_dedup():
     result = shadow.evaluateShadow(skill, context())
     assert result["tmRaw"] > 0
     assert result["tmRaw"] == 20 * 1.4
+    causes = {item["cause"]: item["status"] for item in result["correctionCauses"]}
+    assert causes["eligibility-before-dedup"] == "triggered"
     assert shadow.evaluateShadow({**skill, "evidence": [valid, invalid]}, context())["tmRaw"] == result["tmRaw"]
 
 
@@ -115,6 +119,8 @@ def test_component_grades_are_computed_before_suite_apex_predicate():
     suiteResult = next(item for item in result["assessments"] if item["skillId"] == suite["id"])
     assert suiteResult["grade"] == "S"
     assert suiteResult["gatePredicates"]["aGradedOriginsGte5"] is True
+    causes = {item["cause"]: item["status"] for item in suiteResult["correctionCauses"]}
+    assert causes["component-before-suite-grade"] == "triggered"
 
 
 def test_trust_number_grade_leak_is_flagged_and_does_not_become_contextual_gate_grade():
@@ -125,6 +131,8 @@ def test_trust_number_grade_leak_is_flagged_and_does_not_become_contextual_gate_
     assert report["trustNumberFallbackGrade"] == "S"
     assert report["contextualGrade"] is None
     assert report["gateGradeRisk"]
+    causes = {item["cause"]: item["status"] for item in result["correctionCauses"]}
+    assert causes["named-row-grade-context"] == "triggered"
 
 
 def test_future_date_is_not_evaluated_malformed_legacy_date_is_flagged():

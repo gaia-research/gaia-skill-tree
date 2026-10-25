@@ -109,6 +109,72 @@ def _cloneWithStanding(skill: dict, standing: dict[str, bool]) -> dict:
     return clone
 
 
+def _correctionCauses(
+    skill: dict,
+    context: ShadowEvaluationContext,
+    rowReport: list[dict[str, Any]],
+    computedNamed: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Classify the four RFC implementation-correction families independently."""
+    effective = tm._effectivePool(skill, context.genericSkillMap, shadowCorrections=True)
+    sourceTypes: dict[str, set[str]] = {}
+    for row in effective:
+        source = row.get("source")
+        if source:
+            sourceTypes.setdefault(str(source), set()).add(tm._typeOf(row) or "")
+    inheritanceConflict = any(len(types) > 1 for types in sourceTypes.values()) or bool(
+        skill.get("genericSkillRef") and any(
+            not (row.get("source") or row.get("url") or row.get("sourceUrl"))
+            for row in skill.get("evidence") or []
+        )
+    )
+
+    candidates: dict[tuple[str, str], list[Optional[float]]] = {}
+    scoredSkill = _cloneWithStanding(skill, context.verifierStanding)
+    for row in effective:
+        row = dict(row)
+        verifier = row.get("verifierId") or row.get("verifier") or row.get("attestor")
+        if verifier in context.verifierStanding:
+            row["verifierActiveRank"] = context.verifierStanding[verifier]
+        url = tm._canonicalUrl(row.get("source")) or tm._canonicalUrl(row.get("url")) or tm._canonicalUrl(row.get("sourceUrl"))
+        if not url:
+            continue
+        score = tm.computeArtifactScoreOrNone(
+            row, context.genericSkillMap, evaluationAtUTC=context.evaluationAtUTC,
+            benchmarkCatalog=context.benchmarkCatalog,
+        )
+        candidates.setdefault((tm._typeOf(row) or "", url), []).append(score)
+    eligibilityConflict = any(
+        any(score is None for score in scores) and any(score is not None and score > 0 for score in scores)
+        for scores in candidates.values()
+    )
+    componentDrift = any(
+        (context.namedSkillMap.get(component) or {}).get("overallTrustGrade")
+        != (computedNamed.get(component) or {}).get("overallTrustGrade")
+        for component in skill.get("suiteComponents") or []
+        if component in computedNamed
+    )
+    rowGradeDrift = any(
+        item["gradeDiffers"] or item["trustNumberFallback"] for item in rowReport
+    )
+    causes = [
+        ("source-only-inheritance-merge", inheritanceConflict,
+         "same-source evidence has distinct Evidence Types or row origins"),
+        ("eligibility-before-dedup", eligibilityConflict,
+         "same-type URL group contains both ineligible and scoring rows"),
+        ("component-before-suite-grade", componentDrift,
+         "a suite component grade differs from its shadow-recomputed grade"),
+        ("named-row-grade-context", rowGradeDrift,
+         "stored row grade differs from contextual grade or trustNumber fallback is present"),
+    ]
+    return [{
+        "cause": name,
+        "classification": "implementation-correction",
+        "status": "triggered" if triggered else "not-triggered",
+        "evidence": detail if triggered else None,
+    } for name, triggered, detail in causes]
+
+
 def _rowGradeReport(skill: dict, genericMap: dict, context: ShadowEvaluationContext) -> list[dict[str, Any]]:
     out = []
     contextualSkill = _cloneWithStanding(skill, context.verifierStanding)
@@ -212,7 +278,8 @@ def _assessOne(skill: dict, context: ShadowEvaluationContext, computedNamed: dic
         "gradeCeilingProposal": ceiling,
         "gateFailures": gateFailures,
         "gatePredicates": gates,
-        "rows": _rowGradeReport(scoredSkill, genericMap, context),
+        "rows": rowReport,
+        "correctionCauses": _correctionCauses(scoredSkill, context, rowReport, computedNamed),
         "namedMapDependencyGrades": {key: value.get("overallTrustGrade") for key, value in computedNamed.items()},
     }
 
