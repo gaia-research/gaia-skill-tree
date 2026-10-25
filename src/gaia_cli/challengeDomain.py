@@ -116,6 +116,12 @@ class Challenge:
             object.__setattr__(self, "challenge_id", _digest(_canonical({
                 "claimId": self.claim_id, "subjectId": self.subject_id,
                 "claim": self.claim, "behaviorId": self.behavior_id,
+                "contributorId": self.contributor_id,
+                "contributorNoticeRef": self.contributor_notice_ref,
+                "pinnedVersion": self.pinned_version, "pinnedSha": self.pinned_sha,
+                "environment": self.environment, "testVersion": self.test_version,
+                "baseline": self.baseline, "comparator": self.comparator,
+                "materialToOrigin": self.material_to_origin,
                 "createdAtUTC": self.created_at_utc,
                 "linkedChallengeId": self.linked_challenge_id,
             })))
