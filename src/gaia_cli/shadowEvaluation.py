@@ -332,13 +332,15 @@ def evaluateShadowRegistry(skills: list[dict], context: ShadowEvaluationContext)
     problem = _contextProblem({"genericSkillRef": None}, context)
     if problem:
         return {"status": "not-evaluated", "reason": problem, "assessments": []}
+    temporalById = {}
     for skill in skills:
         problem = _contextProblem(skill, context)
         if problem:
             return {"status": "not-evaluated", "reason": problem, "skillId": skill.get("id"), "assessments": []}
-        _warnings, dateProblem = _temporalWarnings(skill, context.evaluationAtUTC, context.genericSkillMap)
+        warnings, dateProblem = _temporalWarnings(skill, context.evaluationAtUTC, context.genericSkillMap)
         if dateProblem:
             return {"status": "not-evaluated", "reason": dateProblem, "skillId": skill.get("id"), "assessments": []}
+        temporalById[skill.get("id")] = warnings
     byId = {skill.get("id"): skill for skill in skills if skill.get("id")}
     pending = dict(byId)
     computed = {key: dict(value) for key, value in context.namedSkillMap.items()}
@@ -353,6 +355,7 @@ def evaluateShadowRegistry(skills: list[dict], context: ShadowEvaluationContext)
         for sid in ready:
             skill = pending.pop(sid)
             assessment = _assessOne(skill, context, computed)
+            assessment["temporalWarnings"] = temporalById.get(sid, [])
             assessment["fingerprint"] = _digest({
                 "api": SHADOW_ENGINE_VERSION, "skill": skill, "computedDependencies": computed,
                 "context": {"time": context.evaluationAtUTC.isoformat(), "policyVersion": context.policyVersion,
