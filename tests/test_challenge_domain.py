@@ -66,11 +66,14 @@ def proof(**overrides):
     return TechnicalProof(**values)
 
 
-def test_observation_is_distinct_and_has_stable_digest():
+def test_observation_and_challenge_ids_are_stable_and_bind_pins():
     one = Observation("repo/a", "2026-10-25T00:00:00Z", ObservationState.TRANSIENT_FAILURE)
     two = Observation("repo/a", "2026-10-25T00:00:00Z", ObservationState.TRANSIENT_FAILURE)
     assert one.observation_id == two.observation_id
     assert one.state is ObservationState.TRANSIENT_FAILURE
+    original = challenge()
+    assert original.challenge_id == challenge().challenge_id
+    assert original.challenge_id != challenge(pinned_sha="different-sha").challenge_id
 
 
 def test_incomplete_or_conflicting_proofs_escalate_class_c():
