@@ -33,7 +33,7 @@ Each code slice is independently reviewed before integration, lands by merge com
 
 ## Verification ledger
 
-Baseline focused trust/row-grading/benchmark/freshness/Steward regression suite: launched; result pending. Worker self-reports are not independent review. Later receipts must name exact tested SHA and actual outcomes.
+Baseline at `b0f6d9e502369aea2ebebe13eed8d961675094bd`: `PYTHONPATH=src PYTHONDONTWRITEBYTECODE=1 python -m pytest -p no:cacheprovider tests/test_trust_magnitude.py tests/test_row_grading.py tests/test_curation_authority_map.py tests/test_benchmark_catalog.py tests/test_trust_freshness.py tests/test_calibrate_evidence_grades.py tests/steward/test_trust_calibration_regression.py` — **255 passed in 10.29s** (Android, Python 3.14.6). These baseline tests do not prove new Yggdrasil IV behavior. Worker self-reports are not independent review. Later receipts must name exact tested SHA and actual outcomes.
 
 ## Release boundaries and outstanding evidence
 
