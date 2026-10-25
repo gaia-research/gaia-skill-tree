@@ -475,6 +475,82 @@
           "type": "string",
           "format": "uri",
           "description": "Optional URL to the exact harness code that produced the benchmark-result score. For CI-reproduced rows this is typically a permalink into scripts/benchmarks/<benchmark>/run.py at the pinned commit."
+        },
+        "evidenceId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable identifier for this evidence item, preserved across revisions and metric refreshes (RFC #2148 §3.3)."
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Positive integer revision number for this evidence assertion (RFC #2148 §3.3)."
+        },
+        "supersedes": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Immutable reference to the revision number this assertion replaces, or omitted for initial revisions."
+        },
+        "assertionState": {
+          "type": "string",
+          "enum": [
+            "active",
+            "suspended",
+            "revoked",
+            "superseded"
+          ],
+          "description": "Governed canonical assertion state under Yggdrasil IV lifecycle (RFC #2148 §3.2)."
+        },
+        "decisionRef": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Nonblank reference to the authorized review decision or migration batch that admitted, transitioned, or superseded this assertion."
+        },
+        "sourceRevision": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Immutable source repository commit SHA, release tag, or version observed."
+        },
+        "observationState": {
+          "type": "string",
+          "enum": [
+            "unknown",
+            "reachable",
+            "transient-failure",
+            "unavailable",
+            "changed"
+          ],
+          "description": "Operational observation state from probe sensors (RFC #2148 §3.1)."
+        },
+        "lastObservedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 date-time of the last operational probe observation; distinct from substantive lastVerified."
+        },
+        "metricMethod": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "reported",
+            "inferred",
+            "unknown"
+          ],
+          "description": "Measurement provenance method for raw metrics (Curation Authority Map §5)."
+        },
+        "contentDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 digest of fetched source content/metadata for verification integrity."
+        },
+        "reviewedOldDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 payload digest of the reviewed previous revision required for approval binding."
+        },
+        "reviewedNewDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 payload digest of the reviewed proposed revision required for approval binding."
         }
       },
       "allOf": [
