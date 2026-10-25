@@ -76,19 +76,50 @@ For the full review protocol — label vocab, approval mechanics, child gate —
 
 ---
 
+## Two-Sided Challenge Watch (Yggdrasil IV P2)
+
+Under Yggdrasil IV doctrine (RFC #2148 / D8 / Ratification 2026-10-25), the watcher includes a bounded, event/release-driven targeted watch for skills under active challenge (both standalone/Unique and suite implementations):
+
+- **Two-Sided:** Observes both the challenged target and the traceable comparator (releases, commit SHAs, and SKILL.md content events).
+- **Independent Verification Gate:** Requires a durable independent verification receipt (`StewardReceiptChallengeAdapter`). Raw manifests or status strings alone are rejected from public watch authority; unverified inputs run strictly as shadow observations.
+- **Bounded Budget:** Hard bounds on requests (`--challenge-budget-requests`, default 20) and subjects (`--challenge-budget-subjects`, default 10).
+- **Durable Semantic Dedup:** State ledger in `.gaia/upstream-watcher/challenge-watch-ledger.json` prevents duplicate verification packets across retries or process restarts.
+- **Availability Probes:** Schedules `t0 -> +24h -> +72h` probes. Elapsed timeout opens an unavailability review observation packet for human adjudication; **elapsed timeout NEVER demotes or alters canonical trust scores**.
+- **Observations Only:** Releases and description observations produce verification packets for independent testing. Descriptions alone cannot prove recovery; no canonical score/star mutations.
+- **Return to Routine:** Stops targeted monitoring upon technical resolution (`technically-rebutted`, `resolved-by-upstream-improvement`, `rejected`) and returns to routine monitoring cadence.
+
+### Running challenge watch
+
+```bash
+# Dry-run with challenge watch enabled
+python scripts/upstream_watcher/watcher.py --dry-run --challenge-watch
+
+# With explicit challenge input file
+python scripts/upstream_watcher/watcher.py --dry-run --challenge-watch --challenge-input .gaia/challenges/active.json
+
+# Shadow mode (for testing unverified inputs without public authority)
+python scripts/upstream_watcher/watcher.py --dry-run --challenge-watch --challenge-shadow
+```
+
+---
+
 ## Module layout
 
 ```
 scripts/upstream_watcher/
-├── watcher.py          # Main entry point (CLI flags, poll loop, dry-run report)
-├── finder.py           # Suite enumeration, mode detection, finding computation
-├── liveness.py         # Link liveness checks, blob→raw URL conversion, component diff
-├── name_drift.py       # SKILL.md frontmatter name-drift detection (issue #1457)
-├── issuer.py           # Issue body renderers, idempotency checks, gh issue create
+├── watcher.py            # Main entry point (CLI flags, poll loop, dry-run report, challenge seam)
+├── challenge_watch.py    # Two-sided challenge watch engine, ledger, receipt adapter, probes
+├── transport.py          # Transport abstraction, HttpTransport, SimulatedTransport, VirtualClock
+├── finder.py             # Suite enumeration, mode detection, finding computation
+├── liveness.py           # Link liveness checks, blob→raw URL conversion, component diff
+├── name_drift.py         # SKILL.md frontmatter name-drift detection (issue #1457)
+├── issuer.py             # Issue body renderers, idempotency checks, gh issue create
 ├── tests/
-│   └── test_upstream_watcher.py  # Unit tests (all API calls mocked)
-└── README.md           # This file
+│   ├── test_upstream_watcher.py  # Unit tests for suite watcher (all API calls mocked)
+│   └── test_challenge_watch.py   # Unit tests for challenge watch (offline injected fixtures)
+└── README.md             # This file
 ```
+
 
 ---
 

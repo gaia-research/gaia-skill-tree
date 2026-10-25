@@ -11,6 +11,18 @@ on:
         description: "Actually create issues (default: dry-run)"
         type: boolean
         default: false
+      challenge_watch:
+        description: "Enable two-sided challenge watch (opt-in / configured)"
+        type: boolean
+        default: false
+      challenge_input:
+        description: "Optional path to active challenges input file"
+        required: false
+        default: ""
+      challenge_shadow:
+        description: "Allow unverified challenges in shadow mode"
+        type: boolean
+        default: false
   schedule:
     - cron: '0 6 * * *'  # 06:00 UTC daily
 
@@ -60,5 +72,14 @@ jobs:
             ARGS="$ARGS --apply"
           else
             ARGS="$ARGS --dry-run"
+          fi
+          if [ "${{ inputs.challenge_watch }}" = "true" ] || [ "${GAIA_CHALLENGE_WATCH_ENABLED}" = "true" ] || [ "${GAIA_CHALLENGE_WATCH_ENABLED}" = "1" ]; then
+            ARGS="$ARGS --challenge-watch"
+            if [ -n "${{ inputs.challenge_input }}" ]; then
+              ARGS="$ARGS --challenge-input ${{ inputs.challenge_input }}"
+            fi
+            if [ "${{ inputs.challenge_shadow }}" = "true" ]; then
+              ARGS="$ARGS --challenge-shadow"
+            fi
           fi
           python scripts/upstream_watcher/watcher.py $ARGS
