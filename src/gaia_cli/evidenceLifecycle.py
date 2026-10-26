@@ -239,12 +239,12 @@ def validate_evidence_payload(row: dict, allow_legacy: bool = False) -> None:
 
     allowed = {
         "type", "grade", "trustNumber", "class", "source", "evaluator", "date", "notes",
-        "verified", "disputed", "verificationSource", "sourceStartedAt", "citations", "stars",
+        "verified", "disputed", "verificationSource", "sourceStartedAt", "lastVerified", "citations", "stars",
         "commits", "contributors", "views", "reviewers", "percentile", "skillCountInRepo",
         "unverified", "layer", "links", "cosigners", "benchmarkId", "score", "unit", "runAt",
         "provenance", "attestor", "datasetHash", "benchmarkInputHash", "harnessUrl", "evidenceId",
         "revision", "supersedes", "assertionState", "decisionRef", "sourceRevision",
-        "observationState", "lastObservedAt", "metricMethod", "contentDigest", "reviewedOldDigest",
+        "observationState", "lastObservedAt", "metricMethod", "measurementScope", "contentDigest", "reviewedOldDigest",
         "reviewedNewDigest", "decisionHistory",
     }
     unknown = set(row) - allowed
@@ -290,9 +290,21 @@ def validate_evidence_payload(row: dict, allow_legacy: bool = False) -> None:
     for key in ("lastObservedAt", "runAt"):
         if key in row:
             try:
-                datetime.fromisoformat(row[key].replace("Z", "+00:00"))
+                parsed = datetime.fromisoformat(row[key].replace("Z", "+00:00"))
+                from datetime import timezone
+                if parsed.tzinfo is None or parsed.utcoffset() != timezone.utc.utcoffset(parsed):
+                    raise ValueError("timestamp must be explicitly UTC")
+                if not row[key].endswith("Z"):
+                    raise ValueError("timestamp must use Z UTC notation")
             except (AttributeError, TypeError, ValueError) as exc:
-                raise EvidenceValidationError(f"{key} must be a valid ISO-8601 date-time") from exc
+                raise EvidenceValidationError(f"{key} must be an aware UTC ISO-8601 date-time ending in Z") from exc
+
+    lifecycle_fields = {"evidenceId", "revision", "assertionState", "decisionRef", "supersedes", "decisionHistory", "reviewedOldDigest", "reviewedNewDigest"}
+    if not allow_legacy and lifecycle_fields.intersection(row):
+        required_lifecycle = {"evidenceId", "revision", "assertionState"}
+        missing = required_lifecycle - set(row)
+        if missing:
+            raise EvidenceValidationError(f"Partial lifecycle metadata; missing: {', '.join(sorted(missing))}")
 
     if not allow_legacy:
         eid = row.get("evidenceId")
@@ -321,13 +333,17 @@ def validate_evidence_payload(row: dict, allow_legacy: bool = False) -> None:
         cd = row.get("contentDigest")
         for field in ("contentDigest", "reviewedOldDigest", "reviewedNewDigest", "datasetHash", "benchmarkInputHash"):
             digest = row.get(field)
-            if digest is not None and (not isinstance(digest, str) or not re.fullmatch(r"[a-f0-9]{64}", digest)):
-                raise EvidenceValidationError(f"{field} must be 64-char lowercase hex SHA-256")
+            if digest is not None and not (field == "contentDigest" and digest == "unknown") and (not isinstance(digest, str) or not re.fullmatch(r"[a-f0-9]{64}", digest)):
+                raise EvidenceValidationError(f"{field} must be 64-char lowercase hex SHA-256" + (" or explicit 'unknown'" if field == "contentDigest" else ""))
         history = row.get("decisionHistory", [])
-        if not isinstance(history, list) or any(not isinstance(item, dict) or set(item) != {"decisionRef", "assertionState"}
+        if not isinstance(history, list) or any(
+            not isinstance(item, dict)
             or not isinstance(item.get("decisionRef"), str) or not item["decisionRef"].strip()
-            or item.get("assertionState") not in ASSERTION_STATES for item in history):
-            raise EvidenceValidationError("decisionHistory must contain decisionRef/assertionState objects")
+            or item.get("assertionState") not in ASSERTION_STATES
+            or not isinstance(item.get("priorPayload"), dict)
+            for item in history
+        ):
+            raise EvidenceValidationError("decisionHistory must retain decisionRef, assertionState, and complete priorPayload")
 
 
 def detect_legacy_collisions(skill_id: str, rows: list[dict]) -> None:
@@ -407,19 +423,26 @@ def validate_revision_history(skill_id: str, rows: list[dict]) -> None:
             if state == ASSERTION_ACTIVE:
                 active_count += 1
 
-        if active_count > 1:
-            raise MalformedRevisionCycleError(
-                f"Evidence '{eid}' in '{skill_id}' has {active_count} active revisions; at most 1 allowed"
-            )
+        latest_revision = max(revisions) if revisions else None
+        # Prior revisions are immutable snapshots and may retain their historical
+        # assertionState. Only the greatest revision is current for proposal reads.
 
         # Check supersedes references and cycle freedom
         visited = set()
         for rev, r in revisions.items():
             sup = r.get("supersedes")
+            if rev > 1 and sup is None:
+                raise MalformedRevisionCycleError(
+                    f"Evidence '{eid}' revision {rev} must supersede its immediate predecessor {rev - 1}"
+                )
             if sup is not None:
                 if sup == rev:
                     raise MalformedRevisionCycleError(
                         f"Evidence '{eid}' revision {rev} supersedes itself"
+                    )
+                if sup != rev - 1:
+                    raise MalformedRevisionCycleError(
+                        f"Evidence '{eid}' revision {rev} must supersede its immediate predecessor {rev - 1}, got {sup}"
                     )
                 if sup > rev:
                     raise MalformedRevisionCycleError(
@@ -457,15 +480,18 @@ def active_evidence_rows(skill: dict, include_legacy: bool = True) -> list[dict]
     deliberately held integration gate pending founder/two-Core approval.
     """
     rows = skill.get("evidence") or []
-    out = []
-    for r in rows:
-        state = r.get("assertionState")
-        if state is None:
+    latest: dict[str, dict] = {}
+    legacy = []
+    for row in rows:
+        eid = row.get("evidenceId")
+        if eid is None:
             if include_legacy:
-                out.append(r)
-        elif state == ASSERTION_ACTIVE:
-            out.append(r)
-    return out
+                legacy.append(row)
+            continue
+        current = latest.get(eid)
+        if current is None or row.get("revision", 0) > current.get("revision", 0):
+            latest[eid] = row
+    return [row for row in latest.values() if row.get("assertionState") == ASSERTION_ACTIVE] + legacy
 
 
 # ---------------------------------------------------------------------------
@@ -473,7 +499,8 @@ def active_evidence_rows(skill: dict, include_legacy: bool = True) -> list[dict]
 # ---------------------------------------------------------------------------
 
 def prepare_assertion_transition(skill: dict, evidence_id: str, target_state: str, decision_ref: str) -> LifecycleProposal:
-    """Prepare a shadow proposal; no object or checksum authorizes application."""
+    """Prepare an immutable, append-only successor proposal; never authorizes it."""
+    from datetime import datetime, timezone
     if target_state not in ASSERTION_STATES:
         raise InvalidTransitionError(f"Unknown target assertionState: '{target_state}'")
     if not isinstance(decision_ref, str) or not decision_ref.strip():
@@ -481,27 +508,34 @@ def prepare_assertion_transition(skill: dict, evidence_id: str, target_state: st
     before = copy.deepcopy(skill)
     rows = copy.deepcopy(skill.get("evidence") or [])
     matches = [i for i, row in enumerate(rows) if row.get("evidenceId") == evidence_id]
-    if len(matches) != 1:
-        if not matches:
-            raise EvidenceNotFoundError(f"No assertion found for evidenceId '{evidence_id}'")
-        raise AmbiguousCollisionError(f"Multiple rows found for evidenceId '{evidence_id}'")
-    index = matches[0]
+    if not matches:
+        raise EvidenceNotFoundError(f"No assertion found for evidenceId '{evidence_id}'")
+    latest_revision = max(rows[i].get("revision", 0) for i in matches)
+    latest = [i for i in matches if rows[i].get("revision", 0) == latest_revision]
+    if len(latest) != 1:
+        raise AmbiguousCollisionError(f"Multiple latest revisions found for evidenceId '{evidence_id}'")
+    index = latest[0]
     current = rows[index]
+    validate_evidence_payload(current, allow_legacy=False)
     if current.get("assertionState") == ASSERTION_SUPERSEDED:
         raise InvalidTransitionError("Cannot transition a superseded (terminal) revision")
     if current.get("assertionState") == target_state:
         after = before
     else:
-        changed = copy.deepcopy(current)
-        prior = changed.get("decisionRef")
-        history = list(changed.get("decisionHistory") or [])
-        if prior:
-            history.append({"decisionRef": prior, "assertionState": current.get("assertionState", ASSERTION_ACTIVE)})
-        changed["decisionHistory"] = history
-        changed["assertionState"] = target_state
-        changed["decisionRef"] = decision_ref.strip()
-        validate_evidence_payload(changed, allow_legacy=False)
-        rows[index] = changed
+        successor = copy.deepcopy(current)
+        old_revision = current["revision"]
+        successor["revision"] = old_revision + 1
+        successor["supersedes"] = old_revision
+        successor["assertionState"] = target_state
+        successor["decisionRef"] = decision_ref.strip()
+        # Actor/time are provenance about this proposal only, never authority.
+        history = list(successor.get("decisionHistory") or [])
+        history.append({"decisionRef": current.get("decisionRef", "legacy:unknown"),
+            "assertionState": current["assertionState"], "priorPayload": copy.deepcopy(current),
+            "proposedBy": "unknown", "proposedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")})
+        successor["decisionHistory"] = history
+        validate_evidence_payload(successor, allow_legacy=False)
+        rows.append(successor)
         after = copy.deepcopy(skill)
         after["evidence"] = rows
         validate_revision_history(str(skill.get("id", "unknown")), rows)
@@ -518,40 +552,59 @@ def prepare_metric_refresh(skill: dict, evidence_id: str, metric_updates: dict,
     illegal = set(metric_updates) - set(NUMERIC_METRIC_FIELDS)
     if illegal:
         raise EvidenceValidationError(f"Only raw metric fields may be refreshed; prohibited: {', '.join(sorted(illegal))}")
-    allowed_provenance = {"metricMethod", "observationState", "lastObservedAt", "contentDigest", "sourceRevision"}
-    provenance = observation_provenance or {}
-    if not isinstance(provenance, dict) or set(provenance) - allowed_provenance:
-        raise EvidenceValidationError("observation_provenance contains unsupported fields")
+    allowed_provenance = {"metricMethod", "observationState", "lastObservedAt", "contentDigest", "sourceRevision", "measurementScope"}
+    provenance = observation_provenance
+    if not isinstance(provenance, dict) or set(provenance) != allowed_provenance:
+        raise EvidenceValidationError("observation_provenance must provide method, state, UTC time, source revision, content digest, and measurement scope")
+    if provenance["metricMethod"] not in METRIC_METHODS or provenance["observationState"] not in OBSERVATION_STATES:
+        raise EvidenceValidationError("observation provenance method/state is invalid")
+    for key in ("sourceRevision", "contentDigest", "measurementScope"):
+        if not isinstance(provenance[key], str) or not provenance[key].strip():
+            raise EvidenceValidationError(f"observation provenance '{key}' must be explicit; use 'unknown' when unavailable")
+    if provenance["contentDigest"] != "unknown" and not re.fullmatch(r"[a-f0-9]{64}", provenance["contentDigest"]):
+        raise EvidenceValidationError("contentDigest must be SHA-256 or explicit 'unknown'")
+    if not isinstance(provenance["lastObservedAt"], str):
+        raise EvidenceValidationError("lastObservedAt must be an aware UTC ISO-8601 date-time ending in Z")
+    try:
+        from datetime import datetime, timezone
+        observed = datetime.fromisoformat(provenance["lastObservedAt"].replace("Z", "+00:00"))
+        if observed.tzinfo is None or observed.utcoffset() != timezone.utc.utcoffset(observed) or not provenance["lastObservedAt"].endswith("Z"):
+            raise ValueError("not UTC")
+    except (TypeError, ValueError) as exc:
+        raise EvidenceValidationError("lastObservedAt must be an aware UTC ISO-8601 date-time ending in Z") from exc
     if not isinstance(decision_ref, str) or not decision_ref.strip():
         raise EvidenceValidationError("decision_ref must be a non-blank proposal reference")
 
     before = copy.deepcopy(skill)
     rows = copy.deepcopy(skill.get("evidence") or [])
-    matches = [i for i, row in enumerate(rows) if row.get("evidenceId") == evidence_id and row.get("assertionState") == ASSERTION_ACTIVE]
-    if len(matches) != 1:
-        if not matches:
-            raise EvidenceNotFoundError(f"No active assertion found for evidenceId '{evidence_id}' in '{skill.get('id', 'unknown')}'")
-        raise AmbiguousCollisionError(f"Multiple active rows found for evidenceId '{evidence_id}'")
-    index = matches[0]
+    matches = [i for i, row in enumerate(rows) if row.get("evidenceId") == evidence_id]
+    if not matches:
+        raise EvidenceNotFoundError(f"No assertion found for evidenceId '{evidence_id}' in '{skill.get('id', 'unknown')}'")
+    latest_revision = max(rows[i].get("revision", 0) for i in matches)
+    latest = [i for i in matches if rows[i].get("revision", 0) == latest_revision]
+    if len(latest) != 1:
+        raise AmbiguousCollisionError(f"Multiple latest revisions found for evidenceId '{evidence_id}'")
+    index = latest[0]
     old = rows[index]
-    old_rev = old.get("revision", 1)
+    if old.get("assertionState") != ASSERTION_ACTIVE:
+        raise EvidenceNotFoundError(f"No active assertion found for evidenceId '{evidence_id}' in '{skill.get('id', 'unknown')}'")
+    validate_evidence_payload(old, allow_legacy=False)
+    old_rev = old["revision"]
     next_row = copy.deepcopy(old)
     next_row.update(metric_updates)
-    next_row.update({k: v for k, v in provenance.items() if v is not None})
+    next_row.update(provenance)
     next_row["revision"] = old_rev + 1
     next_row["supersedes"] = old_rev
     decision_history = list(next_row.get("decisionHistory") or [])
-    if next_row.get("decisionRef"):
-        decision_history.append({"decisionRef": next_row["decisionRef"], "assertionState": old.get("assertionState", ASSERTION_ACTIVE)})
+    decision_history.append({"decisionRef": old.get("decisionRef", "legacy:unknown"),
+        "assertionState": old["assertionState"], "priorPayload": copy.deepcopy(old),
+        "proposedBy": "unknown", "proposedAt": provenance["lastObservedAt"]})
     next_row["decisionHistory"] = decision_history
     next_row["decisionRef"] = decision_ref.strip()
     next_row["reviewedOldDigest"] = compute_payload_digest(old)
     # This is a digest of the proposal body, not a signature or authorized receipt.
     next_row.pop("reviewedNewDigest", None)
     next_row["reviewedNewDigest"] = compute_payload_digest(next_row)
-    old_next = copy.deepcopy(old)
-    old_next["assertionState"] = ASSERTION_SUPERSEDED
-    rows[index] = old_next
     rows.append(next_row)
     validate_evidence_payload(next_row, allow_legacy=False)
     validate_revision_history(str(skill.get("id", "unknown")), rows)
@@ -579,12 +632,15 @@ def rehearse_legacy_migration(
     skill_id = skill.get("id", "unknown")
     evidence = skill.get("evidence") or []
 
-    # Validate raw payloads
-    for r in evidence:
-        validate_evidence_payload(r, allow_legacy=True)
-
-    # Detect duplicate legacy collisions
+    # Validate legacy syntax, then detect ambiguous IDs before diagnosing
+    # partial lifecycle metadata so duplicate explicit IDs remain actionable.
+    for row in evidence:
+        validate_evidence_payload(row, allow_legacy=True)
     detect_legacy_collisions(skill_id, evidence)
+    lifecycle_fields = {"evidenceId", "revision", "assertionState", "decisionRef", "supersedes", "decisionHistory", "reviewedOldDigest", "reviewedNewDigest"}
+    for row in evidence:
+        if lifecycle_fields.intersection(row):
+            validate_evidence_payload(row, allow_legacy=False)
 
     # Check if already migrated
     already_migrated = all(
@@ -618,19 +674,18 @@ def rehearse_legacy_migration(
         )
 
     migrated_rows = []
-    for r in evidence:
-        row_copy = copy.deepcopy(r)
-        if row_copy.get("evidenceId") and row_copy.get("revision") and row_copy.get("assertionState"):
-            # Partial migration rehearsal must preserve existing lifecycle decisions.
+    for original in evidence:
+        row_copy = copy.deepcopy(original)
+        if lifecycle_fields.intersection(row_copy):
+            # Complete migrated payloads are preserved byte-for-value; never
+            # complete, overwrite, or normalize an existing lifecycle decision.
             validate_evidence_payload(row_copy, allow_legacy=False)
         else:
-            eid = derive_evidence_identity(skill_id, row_copy)
-            row_copy["evidenceId"] = eid
-            row_copy["revision"] = row_copy.get("revision", 1)
+            row_copy["evidenceId"] = derive_evidence_identity(skill_id, row_copy)
+            row_copy["revision"] = 1
             row_copy["assertionState"] = ASSERTION_ACTIVE
-            row_copy["decisionRef"] = decision_ref.strip()
-            if "metricMethod" not in row_copy:
-                row_copy["metricMethod"] = METRIC_REPORTED
+            # decisionRef, reviewer, date, metric method and verified are not
+            # invented. This is a score-neutral migration proposal only.
             validate_evidence_payload(row_copy, allow_legacy=False)
         migrated_rows.append(row_copy)
 

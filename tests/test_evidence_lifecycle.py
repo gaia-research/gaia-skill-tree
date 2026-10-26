@@ -191,9 +191,9 @@ def test_migration_rehearsal_is_score_neutral(sample_legacy_skill):
     for row in result.after_payload["evidence"]:
         assert row["assertionState"] == ASSERTION_ACTIVE
         assert row["revision"] == 1
-        assert row["decisionRef"] == "migration:yggdrasil-iv@test"
+        assert "decisionRef" not in row
         assert row["evidenceId"].startswith("ev-")
-        assert row["metricMethod"] == METRIC_REPORTED
+        assert "metricMethod" not in row
 
 
 def test_migration_rehearsal_idempotency(sample_legacy_skill):
@@ -225,19 +225,33 @@ def test_exact_rollback_proof(sample_legacy_skill):
 # 5. Metric Refresh & Retained History
 # ---------------------------------------------------------------------------
 
+def _observation_provenance(**overrides):
+    result = {"metricMethod": METRIC_VERIFIED, "observationState": "reachable",
+        "lastObservedAt": "2026-01-01T12:00:00Z", "sourceRevision": "abc123",
+        "contentDigest": "a" * 64, "measurementScope": "repository"}
+    result.update(overrides)
+    return result
+
+
 def test_metric_refresh_is_full_payload_shadow_proposal(sample_legacy_skill):
-    rehearsal = rehearse_legacy_migration(sample_legacy_skill)
-    skill = rehearsal.after_payload
+    skill = rehearse_legacy_migration(sample_legacy_skill).after_payload
     eid = skill["evidence"][0]["evidenceId"]
-    plan = prepare_metric_refresh(skill, eid, {"stars": 1500}, "proposal:refresh-stars")
+    prior = copy.deepcopy(skill["evidence"][0])
+    plan = prepare_metric_refresh(skill, eid, {"stars": 1500}, "proposal:refresh-stars", _observation_provenance())
     assert plan.operation == "metric-refresh"
     assert plan.before_digest == compute_payload_digest(skill)
     assert plan.after_digest == compute_payload_digest(plan.after_payload)
-    assert plan.after_payload["evidence"][0]["assertionState"] == ASSERTION_SUPERSEDED
+    assert plan.after_payload["evidence"][0] == prior  # immutable prior revision
     successor = plan.after_payload["evidence"][-1]
     assert successor["evidenceId"] == eid and successor["revision"] == 2
-    assert successor["stars"] == 1500
+    assert successor["supersedes"] == 1 and successor["stars"] == 1500
+    assert successor["lastObservedAt"] == "2026-01-01T12:00:00Z"
+    assert successor["decisionHistory"][-1]["priorPayload"] == prior
     assert plan.history_before and len(plan.history_after) == len(plan.history_before) + 1
+    second = prepare_metric_refresh(plan.after_payload, eid, {"stars": 1700}, "proposal:refresh-again", _observation_provenance())
+    assert second.after_payload["evidence"][-1]["revision"] == 3
+    assert second.after_payload["evidence"][-1]["supersedes"] == 2
+    assert active_evidence_rows(second.after_payload)[0]["stars"] == 1700
     assert "authorized" not in plan.operation
 
 
@@ -251,12 +265,21 @@ def test_assertion_transition_is_only_a_proposal_and_preserves_decision_history(
         "evaluator": "mbtiongson1", "date": "2026-01-01", "citations": 10}
     skill = {"id": "test/skill", "evidence": [row]}
     proposal = prepare_assertion_transition(skill, "ev-test-1", ASSERTION_SUSPENDED, "proposal:suspend")
-    after = proposal.after_payload["evidence"][0]
+    assert proposal.after_payload["evidence"][0] == row  # immutable prior revision
+    after = proposal.after_payload["evidence"][-1]
+    assert after["revision"] == 2 and after["supersedes"] == 1
     assert after["assertionState"] == ASSERTION_SUSPENDED
     assert after["decisionRef"] == "proposal:suspend"
-    assert after["decisionHistory"] == [{"decisionRef": "decision:initial", "assertionState": ASSERTION_ACTIVE}]
+    history = after["decisionHistory"][-1]
+    assert history["decisionRef"] == "decision:initial"
+    assert history["assertionState"] == ASSERTION_ACTIVE and history["priorPayload"] == row
+    assert history["proposedBy"] == "unknown" and history["proposedAt"].endswith("Z")
     assert skill["evidence"][0] == row  # input untouched
     assert proposal.before_digest != proposal.after_digest
+    revoked = prepare_assertion_transition(proposal.after_payload, "ev-test-1", ASSERTION_REVOKED, "proposal:revoke")
+    assert revoked.after_payload["evidence"][-1]["revision"] == 3
+    assert revoked.after_payload["evidence"][-1]["supersedes"] == 2
+    assert revoked.after_payload["evidence"][0] == row
     with pytest.raises(InvalidTransitionError, match="Cannot transition a superseded"):
         prepare_assertion_transition({"id": "x", "evidence": [{**row, "assertionState": ASSERTION_SUPERSEDED}]},
             "ev-test-1", ASSERTION_ACTIVE, "proposal:invalid")
@@ -289,7 +312,7 @@ def test_malformed_revision_cycles_rejected():
         "evaluator": "ev",
         "date": "2026-01-01",
     }
-    with pytest.raises(MalformedRevisionCycleError, match="supersedes future revision"):
+    with pytest.raises(MalformedRevisionCycleError, match="immediate predecessor"):
         validate_revision_history("test/skill", [row_forward])
 
     # Multiple active revisions for same evidenceId
@@ -312,8 +335,9 @@ def test_malformed_revision_cycles_rejected():
         "evaluator": "ev",
         "date": "2026-01-01",
     }
-    with pytest.raises(MalformedRevisionCycleError, match="at most 1 allowed"):
-        validate_revision_history("test/skill", [row_active1, row_active2])
+    # Revisions are immutable historical snapshots; the highest revision is current.
+    validate_revision_history("test/skill", [row_active1, row_active2])
+    assert active_evidence_rows({"evidence": [row_active1, row_active2]}) == [row_active2]
 
 
 # ---------------------------------------------------------------------------
@@ -332,15 +356,32 @@ def test_metric_refresh_cannot_modify_identity_class_or_lifecycle_fields(sample_
 def test_metric_refresh_rejects_provenance_identity_overwrite(sample_legacy_skill):
     skill = rehearse_legacy_migration(sample_legacy_skill).after_payload
     evidence_id = skill["evidence"][0]["evidenceId"]
-    with pytest.raises(EvidenceValidationError, match="unsupported fields"):
-        prepare_metric_refresh(skill, evidence_id, {"stars": 2}, "proposal:test", {"evaluator": "forged"})
+    with pytest.raises(EvidenceValidationError, match="provenance must provide"):
+        prepare_metric_refresh(skill, evidence_id, {"stars": 2}, "proposal:test", {**_observation_provenance(), "evaluator": "forged"})
+
+
+def test_metric_refresh_requires_truthful_complete_utc_observation(sample_legacy_skill):
+    skill = rehearse_legacy_migration(sample_legacy_skill).after_payload
+    row = skill["evidence"][0]
+    row["lastVerified"] = "2025-01-01"
+    row["sourceStartedAt"] = "2020-01-01"
+    for provenance in (None, {}, {**_observation_provenance(), "lastObservedAt": "2026-01-01T12:00:00"},
+                       _observation_provenance(contentDigest=""), _observation_provenance(sourceRevision="")):
+        with pytest.raises(EvidenceValidationError):
+            prepare_metric_refresh(skill, row["evidenceId"], {"stars": 1001}, "proposal:refresh", provenance)
+    plan = prepare_metric_refresh(skill, row["evidenceId"], {"stars": 1001}, "proposal:refresh",
+        _observation_provenance(metricMethod="unknown", observationState="unknown",
+            contentDigest="unknown", sourceRevision="unknown", measurementScope="unknown"))
+    successor = plan.after_payload["evidence"][-1]
+    assert successor["lastVerified"] == "2025-01-01"
+    assert successor["sourceStartedAt"] == "2020-01-01"
+    assert successor["lastObservedAt"] != successor["lastVerified"]
 
 
 def test_all_migrated_path_validates_history_before_noop(sample_legacy_skill):
     migrated = rehearse_legacy_migration(sample_legacy_skill).after_payload
-    migrated["evidence"][0]["assertionState"] = "revoked"
-    migrated["evidence"][0].pop("decisionRef")
-    with pytest.raises(EvidenceValidationError, match="require a non-blank decisionRef"):
+    migrated["evidence"][0]["assertionState"] = "bogus"
+    with pytest.raises(EvidenceValidationError, match="Invalid assertionState"):
         rehearse_legacy_migration(migrated)
 
 
@@ -351,6 +392,30 @@ def test_non_active_migration_state_is_preserved(sample_legacy_skill):
     result = rehearse_legacy_migration(mixed)
     assert result.after_payload["evidence"][0]["assertionState"] == ASSERTION_REVOKED
     assert result.after_payload["evidence"][0]["decisionRef"] == "decision:revoked"
+    assert result.after_payload["evidence"][1]["assertionState"] == ASSERTION_ACTIVE
+
+
+def test_every_partial_lifecycle_metadata_combination_fails(sample_legacy_skill):
+    from itertools import combinations
+    keys = ("evidenceId", "revision", "assertionState", "decisionRef")
+    for size in range(1, len(keys)):
+        for subset in combinations(keys, size):
+            damaged = copy.deepcopy(sample_legacy_skill)
+            metadata = {"evidenceId": "ev-partial", "revision": 1,
+                "assertionState": ASSERTION_REVOKED, "decisionRef": "decision:revoked"}
+            damaged["evidence"][0].update({key: metadata[key] for key in subset})
+            with pytest.raises(EvidenceValidationError, match="Partial lifecycle metadata|revision|assertionState|decisionRef"):
+                rehearse_legacy_migration(damaged)
+
+
+def test_legacy_verified_boolean_is_not_treated_as_lifecycle_approval(sample_legacy_skill):
+    row = sample_legacy_skill["evidence"][0]
+    row["verified"] = True
+    result = rehearse_legacy_migration(sample_legacy_skill)
+    migrated = result.after_payload["evidence"][0]
+    assert migrated["verified"] is True
+    assert migrated["assertionState"] == ASSERTION_ACTIVE
+    assert "decisionRef" not in migrated and "metricMethod" not in migrated
 
 
 # ---------------------------------------------------------------------------
@@ -501,10 +566,13 @@ def test_restoration_is_proposal_and_prior_decision_remains_in_history():
         "evaluator": "mbtiongson1", "date": "2026-01-01", "citations": 50}
     plan = prepare_assertion_transition({"id": "x", "evidence": [row]}, "ev-restore-1",
         ASSERTION_ACTIVE, "proposal:appeal")
-    restored = plan.after_payload["evidence"][0]
-    assert restored["assertionState"] == ASSERTION_ACTIVE
+    assert plan.after_payload["evidence"][0] == row
+    restored = plan.after_payload["evidence"][-1]
+    assert restored["revision"] == 2 and restored["assertionState"] == ASSERTION_ACTIVE
     assert restored["decisionRef"] == "proposal:appeal"
-    assert restored["decisionHistory"] == [{"decisionRef": "decision:past-revocation", "assertionState": ASSERTION_REVOKED}]
+    history = restored["decisionHistory"][-1]
+    assert history["decisionRef"] == "decision:past-revocation"
+    assert history["assertionState"] == ASSERTION_REVOKED and history["priorPayload"] == row
 
 
 def test_circular_supersession_chain_length_3_rejected():
