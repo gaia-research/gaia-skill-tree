@@ -62,6 +62,19 @@ The final `f15b2fcb` delivery was collected after its terminal notification. The
 - **Live adapter remains unavailable:** available GitHub REST evidence did not establish completed-run protected-environment approval actor/history. No environment, producer workflow, token, repository setting or privilege was provisioned; the existing curation authorization refusal remains unchanged.
 - Remaining implementation/security gate: an independently verifiable authenticated approval-history source, protected producer source and configured prevent-self-review/required-reviewer environment. No working operational watcher or end-to-end authentication is claimed.
 
+## Corrected publication assignment and persistent worktrees
+
+Collected final `36566dd2` output: **no projection producer or tests were implemented**. Its `dev/yggdrasil-iv-trust-publication` branch at `a2c2b3bb8b63ca834568ae9dc1d3828326a767c3` contains only forced-in recovery notes, not functional code. Local HEAD and cached remote ref are equal at that SHA; the worker's contradictory “one commit behind” statement is not evidence of a delivery gap. Do not merge this notes-only branch.
+
+The actual RFC review exists at `$TMPDIR/yggdrasil-iv-rfc/0.md`; `technical0.md` was an ambiguous shorthand, not a missing campaign document. Live approved-source absence blocks activation, not implementation of a strictly labeled rehearsal producer. Parent corrected the assignment to require `mode=rehearsal`, `approval=unavailable` throughout staged outputs, default behavior unchanged, and live-approved publication fail-closed.
+
+New dispatches use **parent-created permanent isolated worktrees**, not disposable worker-managed worktrees:
+
+- `b12b7a17-2af3-42ba-8dbb-c21d517d6bd2`, Luna High: `dev/yggdrasil-iv-trust-publication-build`, starting pending-review engine `6e6c3f08f`; worktree `$HOME/.gaia-worktrees/yggdrasil-iv-publication-build`. Implements shared context through actual existing generators and scratch build proofs. Assigned, not delivered.
+- `1fedea77-a31f-43f8-b880-6017b3e6e58b`, Flash High: `dev/yggdrasil-iv-challenge-publication-time`, starting `a3d6107c5`; worktree `$HOME/.gaia-worktrees/yggdrasil-iv-challenge-time`. Implements the independently reproduced publication timestamp round-trip correction and focused tests. Assigned, not delivered.
+
+Both must commit locally first, maintain named recovery refs, keep recovery notes ignored (never force-add `.gaia`), push best effort, preserve dirty source on failure, and collect or stop tests before ending. No source acceptance, integration merge or publication authority is inferred from a launch receipt.
+
 ## Still binding human gates
 
 Schema adoption, pilot/live standing and canonical trust/rank/evidence/Origin decisions, security/protected-environment activation, visual approval, final main merge, registry-wide rollout and RFC closure remain held. Four weekly operational shadow comparisons require real elapsed operational evidence, not a virtual-clock fixture. All implementation remains engineering preparation until those gates are met.
