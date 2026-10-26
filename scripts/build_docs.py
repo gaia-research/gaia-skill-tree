@@ -872,7 +872,11 @@ def _run_script(script: Path, args: list[str]) -> tuple[int, str]:
         errors="replace",
         env=_child_env(),
     )
-    return proc.returncode, (proc.stdout or "") + (proc.stderr or "")
+    output = (proc.stdout or "") + (proc.stderr or "")
+    if globals().get("_STRICT_REHEARSAL", False):
+        from publication_context import record_execution
+        record_execution(script, args, proc.returncode, output)
+    return proc.returncode, output
 
 
 # Steps that shell out used to raise a bare "rc=1", and _run_step() collapses
@@ -1828,11 +1832,21 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
     strict_rehearsal = bool(args.publication_rehearsal_worker)
+    globals()["_STRICT_REHEARSAL"] = strict_rehearsal
     rehearsal_context = None
+    if os.environ.get("GAIA_PUBLICATION_CONTEXT") and not strict_rehearsal:
+        parser.error("GAIA_PUBLICATION_CONTEXT is private to the explicit rehearsal worker")
+    if strict_rehearsal and (args.check or args.cache_bust_only):
+        parser.error("rehearsal worker requires the complete write pipeline")
     if strict_rehearsal:
         try:
             from publication_context import load_context
             rehearsal_context = load_context(args.publication_rehearsal_worker)
+            if Path(args.publication_rehearsal_worker).absolute() != ROOT / "publication-context.json":
+                raise ValueError("worker context must belong to its scratch root")
+            from publication_context import verify_copied_inputs
+            verify_copied_inputs(ROOT, rehearsal_context, allow_context=True)
+            os.environ["GAIA_PUBLICATION_CONTEXT"] = str(ROOT / "publication-context.json")
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             parser.error(f"invalid rehearsal context: {exc}")
 
@@ -1842,7 +1856,8 @@ def main(argv: list[str] | None = None) -> int:
         import shutil
         from publication_context import create_context, stamp_outputs, verify_outputs, verify_copied_inputs
         source_root = ROOT.resolve(strict=True)
-        output_root = Path(args.publication_rehearsal).expanduser().absolute()
+        destination = Path(args.publication_rehearsal).expanduser().absolute()
+        output_root = destination
         if output_root.exists() or output_root.is_symlink():
             parser.error("rehearsal output root must be a new, non-symlink path")
         try:
@@ -1850,7 +1865,9 @@ def main(argv: list[str] | None = None) -> int:
             if source_links:
                 raise ValueError(f"source tree contains symlinks; refusing to copy them into rehearsal: {source_links[0]}")
             context = create_context(source_root, output_root, args.evaluation_at_utc)
-            output_root.mkdir(parents=True)
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            output_root = Path(tempfile.mkdtemp(prefix=".publication-", dir=destination.parent))
+            output_root.chmod(0o700)
             shutil.copytree(
                 source_root, output_root, dirs_exist_ok=True, symlinks=False,
                 ignore=shutil.ignore_patterns(".git", ".gaia", ".pi", "__pycache__", ".pytest_cache", "node_modules"),
@@ -1863,7 +1880,9 @@ def main(argv: list[str] | None = None) -> int:
         worker = subprocess.run(
             [sys.executable, str(output_root / "scripts" / "build_docs.py"),
              "--publication-rehearsal-worker", str(output_root / "publication-context.json")],
-            cwd=output_root, env={**os.environ, "GAIA_PUBLICATION_CONTEXT": str(output_root / "publication-context.json")},
+            cwd=output_root, env={**os.environ, "GAIA_PUBLICATION_CONTEXT": str(output_root / "publication-context.json"),
+                                  "PYTHONPATH": os.pathsep.join((str(output_root), str(output_root / "src"), str(output_root / "scripts"))),
+                                  "PYTHONHASHSEED": "0", "PYTHONDONTWRITEBYTECODE": "1"},
             check=False,
         )
         if worker.returncode != 0:
@@ -1871,10 +1890,13 @@ def main(argv: list[str] | None = None) -> int:
             return worker.returncode
         stage_report = json.loads((output_root / "publication-stages.json").read_text(encoding="utf-8"))
         manifest = stamp_outputs(output_root, context, stage_report)
-        if not verify_outputs(output_root):
+        if not verify_outputs(output_root, expected_snapshot_id=context["snapshotId"]):
             print("Rehearsal output verification failed; refusing to report a coherent snapshot.", file=sys.stderr)
             return 1
-        print(f"Rehearsal complete: {output_root}")
+        if destination.exists() or destination.is_symlink():
+            raise ValueError("rehearsal destination appeared during build; private staging retained")
+        output_root.rename(destination)
+        print(f"Rehearsal complete: {destination}")
         print(f"snapshotId={context['snapshotId']} artifacts={len(manifest['artifacts'])} mode=rehearsal approval=unavailable")
         return 0
 
@@ -1898,9 +1920,17 @@ def main(argv: list[str] | None = None) -> int:
     # but swallow the root cause). We surface warnings so they aren't silent.
     warnings: list[str] = []
 
+    stages = {}
+
     def _run_step(name: str, func, check: bool) -> bool:
         try:
-            return func(check)
+            if strict_rehearsal:
+                from publication_context import begin_stage, finish_stage
+                begin_stage(name, ROOT)
+            changed = func(check)
+            if strict_rehearsal:
+                stages[name] = finish_stage(name, ROOT)
+            return changed
         except Exception as exc:
             warnings.append(f"{name}: {exc}")
             return False
@@ -2087,9 +2117,6 @@ def main(argv: list[str] | None = None) -> int:
         if warnings:
             print("Strict rehearsal failed: " + "; ".join(warnings), file=sys.stderr)
             return 1
-        stages = {name: {"status": "success", "outputs": [rel for rel in GENERATED_OUTPUTS
-                   if rel in {"registry/named-skills.json", "docs/graph/named/index.json", "docs/graph/ledger/data.json", "docs/api/v1/skills/index.json", "docs/u/index.html", "docs/badges/registry.json", "docs/graph/gaia.json", "docs/graph/gaia.gexf", "docs/graph/gaia.svg", "docs/api/v1/leaderboard.json", "docs/api/v1/health.json"}]}
-                  for name in ("assembly", "named-index", "trust-ledger", "api-projection", "profiles", "badges", "graph-assets")}
         if any(not (ROOT / rel).is_file() for rel in GENERATED_OUTPUTS):
             print("Strict rehearsal failed: required generated output absent", file=sys.stderr)
             return 1

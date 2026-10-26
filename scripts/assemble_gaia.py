@@ -19,6 +19,7 @@ def assemble(registry_root="."):
     sys.path.insert(0, str(repoRoot))
     sys.path.insert(0, str(repoRoot / "src"))
     from gaia_cli.timeline import get_utc_now_iso
+    from publication_context import evaluation_at_utc_from_env
 
     registry_dir = os.path.join(registry_root, "registry")
     nodes_dir = os.path.join(registry_dir, "nodes")
@@ -50,7 +51,7 @@ def assemble(registry_root="."):
     assembled_data = {
         "$schema": "https://gaiaskilltree.com/schema/graph.schema.json",
         "version": old_data.get("version") or _read_version(registry_root),
-        "generatedAt": get_utc_now_iso(),
+        "generatedAt": evaluation_at_utc_from_env() or get_utc_now_iso(),
         "meta": meta_mapped,
         "skills": [],
         "edges": []

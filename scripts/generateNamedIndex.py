@@ -575,8 +575,8 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
                 # double-counting inherited rows and inflating (or, via grade
                 # diversity-gate side effects, sometimes deflating) the score
                 # relative to every other TM pipeline in the codebase.
-                from publication_context import evaluation_at_utc_from_env
-                evaluation_at_utc = evaluation_at_utc_from_env()
+                from publication_context import evaluation_datetime_from_env
+                evaluation_at_utc = evaluation_datetime_from_env()
                 tm = computeTrustMagnitude(entry, merged_map, evaluationAtUTC=evaluation_at_utc)
                 entry["trustMagnitude"] = round(tm, 2)
                 if evaluation_at_utc is None:
@@ -597,10 +597,10 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
                 "genericSkillMap": generic_skills_map,
                 "namedSkillMap": named_skill_map,
             }
-            from publication_context import evaluation_at_utc_from_env
+            from publication_context import evaluation_datetime_from_env
             apex_status = passesSuiteApexGate(
                 skill_with_effective, registry_state,
-                evaluationAtUTC=evaluation_at_utc_from_env(),
+                evaluationAtUTC=evaluation_datetime_from_env(),
             )
             entry["apexGateStatus"] = apex_status
 
@@ -717,7 +717,10 @@ def main():
     skill_to_suite, suite_to_components = load_suite_mappings(suites_dir)
 
     print("Syncing named skill frontmatters with suite definitions...")
-    update_markdown_files_with_suite_metadata(named_skills, skill_to_suite, suite_to_components)
+    if pinned_evaluation is None:
+        update_markdown_files_with_suite_metadata(named_skills, skill_to_suite, suite_to_components)
+    # Rehearsal uses validate_and_group's in-memory suite projection only;
+    # a docs producer must never rewrite copied canonical Markdown.
 
     # Reload named skills to ensure validation and index reflect the newly synced files
     named_skills = load_named_skills(named_dir)

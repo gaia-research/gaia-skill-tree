@@ -65,7 +65,9 @@ def _slug_from_id(skill_id: str) -> tuple[str, str]:
 
 def _utcnow() -> datetime:
     """Return current UTC time as a naive datetime (for consistent arithmetic)."""
-    return datetime.now(timezone.utc).replace(tzinfo=None)
+    from publication_context import evaluation_at_utc_from_env
+    pinned = evaluation_at_utc_from_env()
+    return (datetime.fromisoformat(pinned.replace("Z", "+00:00")) if pinned else datetime.now(timezone.utc)).replace(tzinfo=None)
 
 
 def _iso_now() -> str:

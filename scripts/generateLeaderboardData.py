@@ -102,8 +102,8 @@ def buildMayStarsMap() -> dict[str, str]:
 
 
 def buildRows() -> list[dict]:
-    from publication_context import evaluation_at_utc_from_env
-    evaluation_at_utc = evaluation_at_utc_from_env()
+    from publication_context import evaluation_datetime_from_env
+    evaluation_at_utc = evaluation_datetime_from_env()
     mergedMap, namedSkillMap = buildMaps()
     skills = loadAllNamedSkills()
     apexState = {"genericSkillMap": mergedMap, "namedSkillMap": namedSkillMap}
@@ -189,6 +189,8 @@ def main() -> int:
                         help=f"Output path (default: {DEFAULT_OUT.relative_to(REPO_ROOT)})")
     args = parser.parse_args()
 
+    from publication_context import evaluation_at_utc_from_env
+    evaluation_at_utc = evaluation_at_utc_from_env()
     print(f"Loading skill maps from {NODES_DIR.relative_to(REPO_ROOT)} + {NAMED_DIR.relative_to(REPO_ROOT)}...")
     rows = buildRows()
     summary = buildSummary(rows)
