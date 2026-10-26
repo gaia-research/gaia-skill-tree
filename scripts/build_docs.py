@@ -1838,11 +1838,14 @@ def main(argv: list[str] | None = None) -> int:
         if output_root.exists() or output_root.is_symlink():
             parser.error("rehearsal output root must be a new, non-symlink path")
         try:
+            source_links = [path for path in source_root.rglob("*") if path.is_symlink()]
+            if source_links:
+                raise ValueError(f"source tree contains symlinks; refusing to copy them into rehearsal: {source_links[0]}")
             context = create_context(source_root, output_root, args.evaluation_at_utc)
             output_root.mkdir(parents=True)
             shutil.copytree(
                 source_root, output_root, dirs_exist_ok=True, symlinks=True,
-                ignore=shutil.ignore_patterns(".git", ".gaia", "__pycache__", ".pytest_cache", "node_modules"),
+                ignore=shutil.ignore_patterns(".git", ".gaia", ".pi", "__pycache__", ".pytest_cache", "node_modules"),
             )
         except (OSError, ValueError) as exc:
             parser.error(f"cannot prepare safe rehearsal workspace: {exc}")
