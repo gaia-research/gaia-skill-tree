@@ -357,6 +357,11 @@
           "maximum": 100,
           "description": "Benchmark placement percentile (0..100) for benchmark-result evidence. Trust Magnitude uses percentile when present; otherwise it normalizes score by unit, then applies the benchmark lane multiplier."
         },
+        "downloads": {"type": "integer", "minimum": 0},
+        "likes": {"type": "integer", "minimum": 0},
+        "comments": {"type": "integer", "minimum": 0},
+        "externalStars": {"type": "integer", "minimum": 0},
+        "verifiers": {"type": "integer", "minimum": 0},
         "skillCountInRepo": {
           "type": "integer",
           "minimum": 1,
@@ -422,6 +427,7 @@
         },
         "score": {
           "type": "number",
+          "minimum": 0,
           "description": "Raw benchmark score for benchmark-result evidence, in the units named by `unit`. Interpretation is unit-specific (pass@1 is 0..1, pct is 0..100, elo is unbounded)."
         },
         "unit": {
@@ -504,7 +510,7 @@
         "decisionRef": {
           "type": "string",
           "minLength": 1,
-          "description": "Nonblank reference to the authorized review decision or migration batch that admitted, transitioned, or superseded this assertion."
+          "description": "Reference recorded for a decision or migration; this field does not authenticate a human approval."
         },
         "sourceRevision": {
           "type": "string",
@@ -545,12 +551,25 @@
         "reviewedOldDigest": {
           "type": "string",
           "pattern": "^[a-f0-9]{64}$",
-          "description": "SHA-256 payload digest of the reviewed previous revision required for approval binding."
+          "description": "SHA-256 checksum of the previous payload; it detects stale data but is not approval authentication."
+        },
+        "decisionHistory": {
+          "type": "array",
+          "description": "Prior decision references retained across proposed lifecycle transitions; this record is not proof of human approval.",
+          "items": {
+            "type": "object",
+            "required": ["decisionRef", "assertionState"],
+            "additionalProperties": false,
+            "properties": {
+              "decisionRef": {"type": "string", "minLength": 1},
+              "assertionState": {"type": "string", "enum": ["active", "suspended", "revoked", "superseded"]}
+            }
+          }
         },
         "reviewedNewDigest": {
           "type": "string",
           "pattern": "^[a-f0-9]{64}$",
-          "description": "SHA-256 payload digest of the reviewed proposed revision required for approval binding."
+          "description": "SHA-256 proposal checksum only; not a signature or evidence of human approval."
         }
       },
       "allOf": [
@@ -637,6 +656,10 @@
               }
             ]
           }
+        },
+        {
+          "if": {"properties": {"assertionState": {"enum": ["suspended", "revoked", "superseded"]}}, "required": ["assertionState"]},
+          "then": {"required": ["decisionRef"]}
         }
       ]
     },

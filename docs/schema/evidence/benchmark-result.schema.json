@@ -129,7 +129,7 @@
     "decisionRef": {
       "type": "string",
       "minLength": 1,
-      "description": "Nonblank reference to the authorized review decision or migration batch that admitted, transitioned, or superseded this assertion."
+      "description": "Reference recorded for a decision or migration; this field does not authenticate a human approval."
     },
     "sourceRevision": {
       "type": "string",
@@ -170,12 +170,18 @@
     "reviewedOldDigest": {
       "type": "string",
       "pattern": "^[a-f0-9]{64}$",
-      "description": "SHA-256 payload digest of the reviewed previous revision required for approval binding."
+      "description": "SHA-256 checksum of the previous payload; it detects stale data but is not approval authentication."
+    },
+    "decisionHistory": {
+      "type": "array",
+      "description": "Prior decision references retained across proposed lifecycle transitions; this record is not proof of human approval.",
+      "items": {"type": "object", "required": ["decisionRef", "assertionState"], "additionalProperties": false,
+        "properties": {"decisionRef": {"type": "string", "minLength": 1}, "assertionState": {"type": "string", "enum": ["active", "suspended", "revoked", "superseded"]}}}
     },
     "reviewedNewDigest": {
       "type": "string",
       "pattern": "^[a-f0-9]{64}$",
-      "description": "SHA-256 payload digest of the reviewed proposed revision required for approval binding."
+      "description": "SHA-256 proposal checksum only; not a signature or evidence of human approval."
     }
   },
   "allOf": [
@@ -222,6 +228,10 @@
           "attestor"
         ]
       }
+    },
+    {
+      "if": {"properties": {"assertionState": {"enum": ["suspended", "revoked", "superseded"]}}, "required": ["assertionState"]},
+      "then": {"required": ["decisionRef"]}
     }
   ]
 }
