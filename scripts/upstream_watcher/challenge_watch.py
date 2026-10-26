@@ -33,7 +33,7 @@ import os
 from pathlib import Path
 import re
 import sys
-from typing import Any
+from typing import Any, Protocol
 from urllib.parse import urlparse
 
 from scripts.lib.github_api import parse_owner_repo, parse_owner_repo_normalized
@@ -217,7 +217,7 @@ class ObservationPacket:
     authority_notice: str = AUTHORITY_NOTICE
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        payload = {
             "packetId": self.packet_id,
             "challengeId": self.challenge_id,
             "subjectId": self.subject_id,
@@ -232,6 +232,17 @@ class ObservationPacket:
             "notes": self.notes,
             "authorityNotice": self.authority_notice,
         }
+        payload["packetSha256"] = hashlib.sha256(
+            json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        ).hexdigest()
+        return payload
+
+
+class ChallengeAdmissionResolver(Protocol):
+    """Caller-owned trust boundary; the scheduled CLI deliberately has none."""
+
+    def resolve(self, raw: dict[str, Any], *, registry_map: dict[str, dict] | None,
+                allow_shadow: bool) -> tuple[ValidatedChallenge | None, str]: ...
 
 
 @dataclass
@@ -273,6 +284,7 @@ class ChallengeWatchResult:
     active_count: int = 0
     resolved_count: int = 0
     rejected_unverified_count: int = 0
+    unavailable_count: int = 0
     budget_exhausted: bool = False
 
 
@@ -533,14 +545,39 @@ class StewardReceiptChallengeAdapter:
 class WatchLedger:
     """Manages durable state for challenge tracking across retries and restarts."""
 
-    def __init__(self, ledger_path: Path = DEFAULT_LEDGER_PATH) -> None:
+    def __init__(self, ledger_path: Path = DEFAULT_LEDGER_PATH, *, shared_store: Any = None) -> None:
         self.path = ledger_path
+        self.shared_store = shared_store
         self.ledger_version = 1
         self.last_run_utc: str | None = None
         self.rate_limits: dict[str, str] = {}
         self.emitted_packet_digests: set[str] = set()
         self.challenges: dict[str, dict[str, Any]] = {}
-        self._load()
+        # A shared transport is authoritative. Never seed it from an ephemeral
+        # clone-local file, including when the shared operation has not yet been
+        # initialized.
+        if self.shared_store is None:
+            self._load()
+        else:
+            from gaia_cli.steward.ledger import LedgerUnavailable
+            try:
+                document, _ = self.shared_store.load()
+                data = document.get("operations", {}).get("upstreamWatcherChallengeWatch")
+                if data is not None:
+                    self._restore(data)
+            except LedgerUnavailable:
+                raise
+
+    def _restore(self, data: dict[str, Any]) -> None:
+        if not isinstance(data, dict):
+            raise ValueError("shared challenge-watch state must be an object")
+        self.ledger_version = data.get("ledger_version", 1)
+        self.last_run_utc = data.get("last_run_utc")
+        self.rate_limits = data.get("rate_limits", {})
+        self.emitted_packet_digests = set(data.get("emitted_packet_digests", []))
+        self.challenges = data.get("challenges", {})
+        if not isinstance(self.rate_limits, dict) or not isinstance(self.challenges, dict):
+            raise ValueError("shared challenge-watch maps must be objects")
 
     def _load(self) -> None:
         if not self.path.is_file():
@@ -558,7 +595,6 @@ class WatchLedger:
             print(f"  [warn] Could not load challenge ledger from {self.path}: {exc}", file=sys.stderr)
 
     def save(self) -> None:
-        self.path.parent.mkdir(parents=True, exist_ok=True)
         payload = {
             "ledger_version": self.ledger_version,
             "last_run_utc": self.last_run_utc,
@@ -566,6 +602,27 @@ class WatchLedger:
             "emitted_packet_digests": sorted(self.emitted_packet_digests),
             "challenges": self.challenges,
         }
+        if self.shared_store is not None:
+            from gaia_cli.steward.ledger import update
+
+            def merge(document: dict[str, Any]) -> None:
+                operations = document.setdefault("operations", {})
+                previous = operations.get("upstreamWatcherChallengeWatch", {})
+                # Preserve all unrelated operational metadata and union durable
+                # packet identities across CAS retries/processes.
+                merged = dict(previous) if isinstance(previous, dict) else {}
+                merged.update(payload)
+                merged["emitted_packet_digests"] = sorted(
+                    set(merged.get("emitted_packet_digests", []))
+                    | set(payload["emitted_packet_digests"])
+                )
+                old_challenges = previous.get("challenges", {}) if isinstance(previous, dict) else {}
+                merged["challenges"] = {**old_challenges, **payload["challenges"]}
+                operations["upstreamWatcherChallengeWatch"] = merged
+
+            update(self.shared_store, merge, message="upstream watcher challenge observation")
+            return
+        self.path.parent.mkdir(parents=True, exist_ok=True)
         temp_path = self.path.with_suffix(".tmp")
         temp_path.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
         temp_path.replace(self.path)
@@ -895,12 +952,13 @@ def observe_challenge(
 
     # ── Side A: Observe Target Releases, Commit SHA, and Content ────────────
     target_changes: list[str] = []
-    target_obs: dict[str, Any] = {}
+    target_obs: dict[str, Any] = {"checks": {}}
 
     # Target Release
     if budget.can_request():
         budget.record_request()
         rel_resp = transport.get_release(challenge.target.owner, challenge.target.repo)
+        target_obs["checks"]["release"] = "ok" if rel_resp.is_success and isinstance(rel_resp.data, dict) else "unknown"
         if rel_resp.is_success and isinstance(rel_resp.data, dict):
             new_tag = rel_resp.data.get("tag_name")
             last_tag = target_state.get("last_version") or challenge.target.pinned_version
@@ -908,11 +966,14 @@ def observe_challenge(
             if new_tag and last_tag and new_tag != last_tag:
                 target_changes.append("release")
             target_state["last_version"] = new_tag
+        else:
+            target_obs["checks"]["release"] = "not_run_budget"
 
     # Target Commit SHA
     if budget.can_request():
         budget.record_request()
         commit_resp = transport.get_commit(challenge.target.owner, challenge.target.repo, "HEAD")
+        target_obs["checks"]["commit"] = "ok" if commit_resp.is_success and isinstance(commit_resp.data, dict) else "unknown"
         if commit_resp.is_success and isinstance(commit_resp.data, dict):
             new_sha = commit_resp.data.get("sha")
             last_sha = target_state.get("last_sha") or challenge.target.pinned_sha
@@ -920,12 +981,15 @@ def observe_challenge(
             if new_sha and last_sha and new_sha != last_sha:
                 target_changes.append("commit_sha")
             target_state["last_sha"] = new_sha
+        else:
+            target_obs["checks"]["commit"] = "not_run_budget"
 
     # Target Content (SKILL.md)
     if budget.can_request():
         budget.record_request()
         path = challenge.target.watched_paths[0] if challenge.target.watched_paths else "SKILL.md"
         content_resp = transport.get_content(challenge.target.owner, challenge.target.repo, path)
+        target_obs["checks"]["content"] = "ok" if content_resp.is_success and isinstance(content_resp.data, str) else "unknown"
         if content_resp.is_success and isinstance(content_resp.data, str):
             content_digest = hashlib.sha256(content_resp.data.encode("utf-8")).hexdigest()
             last_digest = target_state.get("last_content_digest") or challenge.target.pinned_content_digest
@@ -933,13 +997,15 @@ def observe_challenge(
             if last_digest and content_digest != last_digest:
                 target_changes.append("content_digest")
             target_state["last_content_digest"] = content_digest
+        else:
+            target_obs["checks"]["content"] = "not_run_budget"
 
     # ── Side B: Observe Traceable Comparator ─────────────────────────────────
     comparator_changes: list[str] = []
     comparator_obs: dict[str, Any] | None = None
 
     if challenge.comparator.is_traceable and challenge.comparator.owner and challenge.comparator.repo:
-        comparator_obs = {}
+        comparator_obs = {"checks": {}}
 
         # Comparator Release
         if budget.can_request():
@@ -952,6 +1018,11 @@ def observe_challenge(
                 if c_new_tag and c_last_tag and c_new_tag != c_last_tag:
                     comparator_changes.append("release")
                 comparator_state["last_version"] = c_new_tag
+                comparator_obs["checks"]["release"] = "ok"
+            else:
+                comparator_obs["checks"]["release"] = "unknown"
+        else:
+            comparator_obs["checks"]["release"] = "not_run_budget"
 
         # Comparator Commit SHA
         if budget.can_request():
@@ -964,6 +1035,11 @@ def observe_challenge(
                 if c_new_sha and c_last_sha and c_new_sha != c_last_sha:
                     comparator_changes.append("commit_sha")
                 comparator_state["last_sha"] = c_new_sha
+                comparator_obs["checks"]["commit"] = "ok"
+            else:
+                comparator_obs["checks"]["commit"] = "unknown"
+        else:
+            comparator_obs["checks"]["commit"] = "not_run_budget"
 
         # Comparator Content
         if budget.can_request():
@@ -976,8 +1052,20 @@ def observe_challenge(
                 if c_last_digest and c_digest != c_last_digest:
                     comparator_changes.append("content_digest")
                 comparator_state["last_content_digest"] = c_digest
+                comparator_obs["checks"]["content"] = "ok"
+            else:
+                comparator_obs["checks"]["content"] = "unknown"
+        else:
+            comparator_obs["checks"]["content"] = "not_run_budget"
+    else:
+        comparator_obs = {"checks": {"release": "unknown", "commit": "unknown", "content": "unknown"},
+                          "partial": True, "reason": "comparator repository is unavailable or untraceable"}
 
     # ── Synthesize Verification Packet if Changes Observed ───────────────────
+    if target_obs["checks"] and any(status != "ok" for status in target_obs["checks"].values()):
+        target_obs["partial"] = True
+    if comparator_obs and any(status != "ok" for status in comparator_obs["checks"].values()):
+        comparator_obs["partial"] = True
     if target_changes or comparator_changes:
         trigger_side = (
             "both" if (target_changes and comparator_changes)
@@ -1035,8 +1123,10 @@ def run_challenge_watch(
     budget: WatchBudget | None = None,
     ledger_path: Path | str | None = None,
     packets_dir: Path | str | None = None,
+    shared_store: Any = None,
     receipts_root: Path | str | None = None,
     allow_shadow: bool = False,
+    admission_resolver: ChallengeAdmissionResolver | None = None,
     verbose: bool = False,
 ) -> ChallengeWatchResult:
     """Execute the bounded two-sided challenge watch.
@@ -1062,6 +1152,9 @@ def run_challenge_watch(
         Path to directory with Steward verification receipts.
     allow_shadow:
         If True, unverified challenges run as shadow-only observations without public authority.
+    admission_resolver:
+        Explicit trusted adapter. Raw manifests and local receipt files are never
+        authentication. None means fail-closed Class C/unavailable.
     verbose:
         If True, log progress to stderr.
 
@@ -1076,7 +1169,7 @@ def run_challenge_watch(
     p_dir = Path(packets_dir) if packets_dir else DEFAULT_PACKETS_DIR
     r_root = Path(receipts_root) if receipts_root else Path(".gaia/steward/receipts")
 
-    ledger = WatchLedger(l_path)
+    ledger = WatchLedger(l_path, shared_store=shared_store)
     result = ChallengeWatchResult()
 
     # Load challenges
@@ -1110,12 +1203,38 @@ def run_challenge_watch(
     for item in raw_list:
         if not isinstance(item, dict):
             continue
-        validated, status_msg = StewardReceiptChallengeAdapter.validate(
-            item,
-            registry_map=registry_map,
-            receipts_root=r_root,
-            allow_shadow=allow_shadow,
-        )
+        if admission_resolver is None and allow_shadow:
+            # Explicit shadow mode may use raw URLs as probe hints only. Strip
+            # receipt claims and force open status so an untrusted manifest can
+            # neither assert verification nor stop monitoring.
+            shadow_input = dict(item)
+            shadow_input["status"] = "verified-pending"
+            shadow_input.pop("verification_receipt", None)
+            shadow_input.pop("verificationReceipt", None)
+            validated, status_msg = StewardReceiptChallengeAdapter.validate(
+                shadow_input, registry_map=registry_map, allow_shadow=True,
+            )
+            if validated is not None:
+                from dataclasses import replace
+                validated = replace(validated, status="verified-pending", is_verified=False,
+                                    is_shadow=True, verification_receipt=None)
+        elif admission_resolver is None:
+            validated, status_msg = None, (
+                "UNAVAILABLE: trusted VerificationReceiptResolver is not configured; "
+                "Class C required, no verified publication or lifecycle authority"
+            )
+            result.unavailable_count += 1
+            result.summaries.append({
+                "subjectId": item.get("subject_id") or item.get("subjectId"),
+                "status": "class-c-required",
+                "verification": "unavailable",
+                "publication": "not-verified",
+                "reason": status_msg,
+            })
+        else:
+            validated, status_msg = admission_resolver.resolve(
+                item, registry_map=registry_map, allow_shadow=allow_shadow,
+            )
         if validated is None:
             result.rejected_unverified_count += 1
             if verbose:
@@ -1143,7 +1262,20 @@ def run_challenge_watch(
             # Write packet to disk
             p_dir.mkdir(parents=True, exist_ok=True)
             pkt_file = p_dir / f"{p.packet_id}.json"
-            pkt_file.write_text(json.dumps(p.to_dict(), indent=2, sort_keys=True), encoding="utf-8")
+            packet_data = p.to_dict()
+            encoded = json.dumps(packet_data, indent=2, sort_keys=True) + "\n"
+            if pkt_file.exists():
+                existing = json.loads(pkt_file.read_text(encoding="utf-8"))
+                if existing != packet_data:
+                    raise ValueError(f"immutable packet collision for {p.packet_id}")
+            else:
+                try:
+                    with pkt_file.open("x", encoding="utf-8") as handle:
+                        handle.write(encoded)
+                except FileExistsError:
+                    existing = json.loads(pkt_file.read_text(encoding="utf-8"))
+                    if existing != packet_data:
+                        raise ValueError(f"immutable packet collision for {p.packet_id}")
 
         result.summaries.append({
             "challengeId": challenge.challenge_id,

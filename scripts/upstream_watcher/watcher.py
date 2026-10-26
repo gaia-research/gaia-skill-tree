@@ -355,12 +355,17 @@ def main(argv: list[str] | None = None) -> int:
             max_requests=args.challenge_budget_requests,
             max_subjects=args.challenge_budget_subjects,
         )
+        shared_store = None
+        if args.challenge_ledger is None:
+            from gaia_cli.steward.ledger import GitRefLedgerStore
+            shared_store = GitRefLedgerStore(Path.cwd(), "origin")
         challenge_result = run_challenge_watch(
             challenges=args.challenge_input,
             registry_map=registry_map,
             budget=c_budget,
             ledger_path=args.challenge_ledger,
             packets_dir=args.challenge_output,
+            shared_store=shared_store,
             allow_shadow=args.challenge_shadow,
             verbose=verbose,
         )

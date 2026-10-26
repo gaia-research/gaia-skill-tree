@@ -42,7 +42,7 @@ from scripts.upstream_watcher.challenge_watch import (
     WatchBudget,
     WatchLedger,
     observe_challenge,
-    run_challenge_watch,
+    run_challenge_watch as _run_challenge_watch,
 )
 from scripts.upstream_watcher.transport import (
     Response,
@@ -55,6 +55,20 @@ from scripts.upstream_watcher.watcher import main as watcher_main
 # ---------------------------------------------------------------------------
 # Fixture Helpers
 # ---------------------------------------------------------------------------
+
+
+class _ExplicitTestResolver:
+    """Fixture-only adapter; never wired by the scheduled production CLI."""
+
+    def resolve(self, raw, *, registry_map, allow_shadow):
+        return StewardReceiptChallengeAdapter.validate(
+            raw, registry_map=registry_map, allow_shadow=allow_shadow,
+        )
+
+
+def run_challenge_watch(*args, **kwargs):
+    kwargs.setdefault("admission_resolver", _ExplicitTestResolver())
+    return _run_challenge_watch(*args, **kwargs)
 
 
 def _make_verified_challenge_dict(
@@ -431,11 +445,12 @@ def test_elapsed_timeout_never_demotes(tmp_path: Path) -> None:
     ledger_file = tmp_path / "ledger_never_demotes.json"
 
     # Advance clock directly past 72h after t0
-    run_challenge_watch(challenges=[raw_challenge], transport=transport, clock=clock, ledger_path=ledger_file)
+    packets_dir = tmp_path / "packets"
+    run_challenge_watch(challenges=[raw_challenge], transport=transport, clock=clock, ledger_path=ledger_file, packets_dir=packets_dir)
     clock.advance_hours(25)
-    run_challenge_watch(challenges=[raw_challenge], transport=transport, clock=clock, ledger_path=ledger_file)
+    run_challenge_watch(challenges=[raw_challenge], transport=transport, clock=clock, ledger_path=ledger_file, packets_dir=packets_dir)
     clock.advance_hours(50)
-    res = run_challenge_watch(challenges=[raw_challenge], transport=transport, clock=clock, ledger_path=ledger_file)
+    res = run_challenge_watch(challenges=[raw_challenge], transport=transport, clock=clock, ledger_path=ledger_file, packets_dir=packets_dir)
 
     review_packets = [p for p in res.packets if p.trigger_type == "unavailability_review_pending"]
     assert len(review_packets) == 1
@@ -454,13 +469,14 @@ def test_availability_recovery_clears_alert(tmp_path: Path) -> None:
     ledger_file = tmp_path / "ledger_rec.json"
 
     # Fail t0
-    run_challenge_watch(challenges=[raw_challenge], transport=transport, clock=clock, ledger_path=ledger_file)
+    packets_dir = tmp_path / "packets"
+    run_challenge_watch(challenges=[raw_challenge], transport=transport, clock=clock, ledger_path=ledger_file, packets_dir=packets_dir)
 
     # Recover to 200 OK
     transport.register_probe("https://github.com/pbakaus/impeccable", status_code=200)
     clock.advance_hours(2)
 
-    res = run_challenge_watch(challenges=[raw_challenge], transport=transport, clock=clock, ledger_path=ledger_file)
+    res = run_challenge_watch(challenges=[raw_challenge], transport=transport, clock=clock, ledger_path=ledger_file, packets_dir=packets_dir)
     assert len(res.packets) == 1
     assert res.packets[0].trigger_type == "availability_recovered"
 
@@ -485,6 +501,7 @@ def test_return_to_routine_on_technical_resolution(tmp_path: Path) -> None:
         transport=transport,
         clock=clock,
         ledger_path=ledger_file,
+        packets_dir=tmp_path / "packets",
     )
 
     assert res.resolved_count == 1
@@ -506,6 +523,20 @@ def test_return_to_routine_on_technical_resolution(tmp_path: Path) -> None:
     )
     assert len(res2.packets) == 0
     assert len(transport.recorded_requests) == 0
+
+
+def test_runner_without_trusted_resolver_fails_closed_on_malicious_resolved_status(tmp_path: Path) -> None:
+    raw = _make_verified_challenge_dict(status="resolved-by-upstream-improvement")
+    transport = SimulatedTransport()
+    result = _run_challenge_watch(
+        challenges=[raw], transport=transport, clock=VirtualClock("2026-10-26T10:00:00Z"),
+        ledger_path=tmp_path / "ledger.json", packets_dir=tmp_path / "packets",
+    )
+    assert result.unavailable_count == 1
+    assert result.resolved_count == 0
+    assert result.active_count == 0
+    assert result.packets == []
+    assert transport.recorded_requests == []
 
 
 def test_verification_receipt_gate_rejects_unverified_manifest() -> None:
@@ -565,6 +596,7 @@ def test_case_normalization_repo_matching(tmp_path: Path) -> None:
         transport=transport,
         clock=clock,
         ledger_path=tmp_path / "ledger_case.json",
+        packets_dir=tmp_path / "packets",
     )
     assert len(res.packets) == 1
     assert res.packets[0].target_observation["release"]["latest"] == "v1.5.0"

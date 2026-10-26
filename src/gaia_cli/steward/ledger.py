@@ -77,7 +77,7 @@ WORK_STATES = (
 )
 
 TOP_LEVEL_KEYS = frozenset(
-    {"schemaVersion", "generation", "updatedAt", "runs", "leases", "work", "lane"}
+    {"schemaVersion", "generation", "updatedAt", "runs", "leases", "work", "lane", "operations"}
 )
 
 LOCAL_GIT_TIMEOUT = 30.0
@@ -139,6 +139,7 @@ def empty_ledger() -> dict[str, Any]:
         "leases": {},
         "work": {},
         "lane": None,
+        "operations": {},
     }
 
 
@@ -208,6 +209,9 @@ def validate_ledger(document: Any) -> dict[str, Any]:
     for key in ("runs", "leases", "work"):
         if not isinstance(document.get(key), dict):
             raise malformed(f"{key} must be an object")
+    operations = document.get("operations", {})
+    if not isinstance(operations, dict):
+        raise malformed("operations must be an object")
     lane = document.get("lane")
     if lane is not None:
         if not isinstance(lane, dict):
