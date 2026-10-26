@@ -99,6 +99,30 @@ def resolve_close(challenge, packet, resolver=None, closed_at="2026-10-27T00:00:
                                      verification_receipt_id=receipt.receipt_id)
 
 
+def test_opening_rejects_builder_verifier_overlap_and_future_receipt():
+    values = challenge_values()
+    resolver = Resolver()
+    receipt = VerificationReceipt("open-receipt", draft_context(values), "reproduction-transcript",
+        values["verifier_id"], values["verifier_id"], values["contributor_id"], "passed",
+        "reproducible-test", "2", "PASS: 12/12", "output-sha256", "https://example.org/receipt/open",
+        values["contributor_notice_ref"], values["verified_at_utc"])
+    resolver.receipts[receipt.receipt_id] = receipt
+    with pytest.raises(ValueError, match="independent of builder"):
+        open_challenge(**values, receipt_resolver=resolver,
+                       verification_receipt_id=receipt.receipt_id)
+
+    receipt = replace(receipt, builder_id="reproducer", verified_at_utc="2026-10-25T12:00:01Z")
+    resolver.receipts[receipt.receipt_id] = receipt
+    with pytest.raises(ValueError, match="after asserted event time"):
+        open_challenge(**values, receipt_resolver=resolver,
+                       verification_receipt_id=receipt.receipt_id)
+    object.__setattr__(receipt, "builder_id", "  ")
+    resolver.receipts[receipt.receipt_id] = receipt
+    with pytest.raises(ValueError, match="builder identity is absent"):
+        open_challenge(**values, receipt_resolver=resolver,
+                       verification_receipt_id=receipt.receipt_id)
+
+
 def test_ids_and_receipts_bind_exact_opening_context():
     first, resolver = opened()
     second, _ = opened(claim="different allegation")
@@ -112,6 +136,25 @@ def test_ids_and_receipts_bind_exact_opening_context():
                                     context_digest="invented")
     with pytest.raises(ValueError, match="different exact context"):
         open_challenge(**challenge_values(), receipt_resolver=bad, verification_receipt_id="fake")
+
+
+def test_rehydration_rejects_builder_verifier_overlap_and_receipts_after_events():
+    challenge, resolver = opened()
+    opening = challenge.history[0]
+    original = resolver.receipts[opening.receipt_id]
+    forged = replace(original, builder_id=original.verifier_id)
+    resolver.receipts[forged.receipt_id] = forged
+    changed_opening = replace(opening, receipt_digest=_digest(_canonical(forged)))
+    tampered = replace(challenge, history=(changed_opening,), history_digest="")
+    with pytest.raises(ValueError, match="independent passing"):
+        validate_challenge_history(tampered, resolver)
+
+    future = replace(original, verified_at_utc="2026-10-25T12:00:01Z")
+    resolver.receipts[future.receipt_id] = future
+    changed_opening = replace(opening, receipt_digest=_digest(_canonical(future)))
+    tampered = replace(challenge, history=(changed_opening,), history_digest="")
+    with pytest.raises(ValueError, match="event cannot predate"):
+        validate_challenge_history(tampered, resolver)
 
 
 def test_untrusted_flags_or_method_aliases_cannot_close():
@@ -161,6 +204,22 @@ def test_closure_requires_exact_challenge_and_persisted_receipt_binding():
     assert event.challenge_id == one.challenge_id
     assert event.transcript_digest == packet.proof_digest
     assert event.receipt_digest and event.notice_ref and event.method_version and event.output_digest
+    replay = resolve_close(result.challenge, packet, closed_at="2026-10-27T00:00:00Z")
+    assert replay.disposition is ClosureDisposition.CLOSED
+    assert replay.challenge == result.challenge
+    assert "idempotent" in replay.reason
+    different = resolve_close(result.challenge, proof(one, actual_output="different output"),
+                               closed_at="2026-10-27T00:00:00Z")
+    assert different.disposition is ClosureDisposition.CLASS_C
+    assert different.challenge == result.challenge
+
+
+def test_closure_receipt_rejects_builder_verifier_overlap():
+    challenge, _ = opened()
+    packet = proof(challenge, builder_id="independent-reviewer")
+    result = resolve_close(challenge, packet)
+    assert result.disposition is ClosureDisposition.CLASS_C
+    assert "independent" in result.reason
 
 
 def test_chronology_and_receipt_digest_tampering_are_rejected():
@@ -173,6 +232,28 @@ def test_chronology_and_receipt_digest_tampering_are_rejected():
         replace(closed, history=(closed.history[0], replace(closed.history[-1], receipt_digest="tampered")))
     with pytest.raises(ValueError, match="challenge_id"):
         replace(closed, challenge_id="invented")
+
+
+def test_rehydration_rejects_closure_receipt_after_event():
+    challenge, resolver = opened()
+    packet = proof(challenge)
+    result = resolve_close(challenge, packet)
+    closed = result.challenge
+    event = closed.history[-1]
+    context = _digest(_canonical({"challenge_id": challenge.challenge_id,
+        "claim_id": challenge.claim_id, "behavior_id": challenge.behavior_id,
+        "pinned_version": challenge.pinned_version, "pinned_sha": challenge.pinned_sha,
+        "environment": challenge.environment, "test_version": challenge.test_version,
+        "baseline": challenge.baseline, "comparator": challenge.comparator}))
+    receipt = VerificationReceipt(event.receipt_id, context, packet.proof_digest,
+        packet.verifier_id, packet.builder_id, packet.contributor_id, packet.verification_result,
+        packet.verification_method, packet.method_version, packet.actual_output, packet.output_digest,
+        packet.public_receipt_ref, packet.contributor_notice_ref, "2026-10-28T00:00:00Z")
+    resolver.receipts[receipt.receipt_id] = receipt
+    altered = replace(event, receipt_digest=_digest(_canonical(receipt)))
+    tampered = replace(closed, history=(closed.history[0], altered), history_digest="")
+    with pytest.raises(ValueError, match="event cannot predate"):
+        validate_challenge_history(tampered, resolver)
 
 
 def test_only_authorized_technical_transition_is_supported_and_reopening_is_linked():
