@@ -4,6 +4,15 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## Verification Update (2026-10-26, publication still blocked; restart NOT ready)
+
+- Parent publication368: **323 regressions passed122.66s**, but first full-corpus build failed after541.79s at strict **OG PNG coverage**; no second root/certification, source inventory unchanged. Taskba7cb70f5 was already failed when cancellation attempted. Evidence copied into ignored `publication-368-parent-evidence/`; no source fix or waived oracle.
+- Independent runtime-proofP1 is **challenged**: actual outer parity bootstrap omits inherit flag and freshly checks runtime. Parent actual-gate counterprobe with a matching proof/different runtime was rejected before oracle execution. Preserve original review plus `publication-368-runtime-gate-counterprobe.json`; don't infer certification bypass from intentionally inherited inner activation. Publication remains blocked on the real coverage failure.
+- Durable Pi phase1 delivered/pushed `ea0baf70df532e8d3f38cf041d903a443e963f9a`; owner reports11Node/95Python passes, live extension verified absent. Independent Flash High `36b0bc48-c7ce-4fbe-955f-0edb19a66eba` in frozen `~/.pi/worktrees/pi-config-durable-review`, report `~/.pi/durable-recovery/independent-review.md`; no install/activation yet. Actual pi-config master unchanged0e4f0c86. Feature upstream is unset despite author report; explicit feature pushes only. Parent publication task is terminal failed, not live as in older tooling report.
+- **No additional campaign jobs before requested restart checkpoint**; collect existing checks and prioritize durable-tooling independent review/installation. This is restart sequencing, not campaign completion or a new permanent pause. Founder still must not reset; readiness will be explicit. See latest delivery/review receipt.
+
+---
+
 ## State Snapshot (2026-10-26, DELIVERIES UNDER REVIEW — restart NOT ready)
 
 Read `founder/YGGDRASIL_IV_DELIVERY_REVIEW_2026-10-26.md` first. Three recovered engineering deliveries are saved, not accepted. Founder asks when to reset: **NOT YET**; tell READY TO RESTART only after reviewed/tested installation and verified critical-work checkpoints, specifying Pi reload versus Termux restart. No pause or new campaign.
