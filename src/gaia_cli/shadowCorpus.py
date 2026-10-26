@@ -185,6 +185,7 @@ class RegistryCensus:
     missingDates: list[dict[str, Any]] = field(default_factory=list)
     unknownVerifiers: list[dict[str, Any]] = field(default_factory=list)
     trustNumberRows: list[dict[str, Any]] = field(default_factory=list)
+    duplicateIds: list[dict[str, Any]] = field(default_factory=list)
     fileHashes: dict[str, str] = field(default_factory=dict)
     isValid: bool = True
 
@@ -198,6 +199,12 @@ def censusRegistry(
     root = Path(registryPath).resolve()
     census = RegistryCensus()
     pinnedTime = evaluationAtUTC or datetime.datetime(2026, 10, 25, 0, 0, 0, tzinfo=datetime.timezone.utc)
+    if isinstance(pinnedTime, str):
+        pinnedTime = datetime.datetime.fromisoformat(pinnedTime.replace("Z", "+00:00"))
+    if pinnedTime.tzinfo is None:
+        pinnedTime = pinnedTime.replace(tzinfo=datetime.timezone.utc)
+    else:
+        pinnedTime = pinnedTime.astimezone(datetime.timezone.utc)
 
     # 1. Census Generic JSON nodes
     nodesDir = root / "registry" / "nodes"
@@ -228,6 +235,9 @@ def censusRegistry(
             nodeId = nodeData.get("id")
             if not nodeId:
                 census.missingIds.append(relPath)
+            elif nodeId in census.genericNodes:
+                census.duplicateIds.append({"id": nodeId, "kind": "generic", "path": relPath,
+                                            "firstPath": f"registry/nodes/{nodeId}.json"})
             else:
                 census.genericNodes[nodeId] = nodeData
 
@@ -264,7 +274,7 @@ def censusRegistry(
                             "rawValue": rawDate,
                             "anomaly": "malformed-iso-date",
                         })
-                    elif parsedDate > pinnedTime:
+                    elif (parsedDate.replace(tzinfo=datetime.timezone.utc) if parsedDate.tzinfo is None else parsedDate.astimezone(datetime.timezone.utc)) > pinnedTime:
                         census.temporalAnomalies.append({
                             "skillId": nodeId,
                             "path": relPath,
@@ -340,6 +350,9 @@ def censusRegistry(
             skillId = parsedFm.get("id")
             if not skillId:
                 census.missingIds.append(relPath)
+            elif skillId in census.namedSkills:
+                census.duplicateIds.append({"id": skillId, "kind": "named", "path": relPath,
+                                            "firstPath": next(r["path"] for r in census.namedSkillRecords if r["id"] == skillId)})
             else:
                 census.namedSkills[skillId] = parsedFm
 
@@ -397,7 +410,7 @@ def censusRegistry(
                             "rawValue": rawDate,
                             "anomaly": "malformed-iso-date",
                         })
-                    elif parsedDate > pinnedTime:
+                    elif (parsedDate.replace(tzinfo=datetime.timezone.utc) if parsedDate.tzinfo is None else parsedDate.astimezone(datetime.timezone.utc)) > pinnedTime:
                         census.temporalAnomalies.append({
                             "skillId": skillId,
                             "path": relPath,
@@ -464,8 +477,8 @@ def censusRegistry(
                         "verifier": v,
                     })
 
-    if failClosed and census.parseFailures:
-        census.isValid = False
+    census.isValid = not any((census.parseFailures, census.parserDiscrepancies, census.missingIds,
+                              census.unresolvedRefs, census.dependencyCycles, census.duplicateIds))
 
     return census
 
@@ -488,10 +501,15 @@ def resolveRegistryRevision(registryPath: Path) -> str:
 def computeEngineDigest() -> str:
     """Compute combined SHA-256 digest of engine implementation files."""
     here = Path(__file__).resolve().parent
+    repoRoot = here.parents[1]
     engineFiles = [
         here / "trustMagnitude.py",
         here / "shadowEvaluation.py",
         here / "shadowCorpus.py",
+        here / "grading.py",
+        here / "benchmarkCatalog.py",
+        repoRoot / "registry" / "schema" / "meta.json",
+        repoRoot / "registry" / "benchmark-sources.json",
     ]
     hasher = hashlib.sha256()
     for f in engineFiles:
@@ -611,15 +629,21 @@ def evaluateRegistryWithSeam(
     preserves valid coverage and reports honest per-record unknowns and dependencies.
     """
     # 1. First attempt evaluateShadowRegistry
+    registryFailure = None
     try:
         registryResult = shadow.evaluateShadowRegistry(skills, context)
         status = registryResult.get("status")
         assessments = registryResult.get("assessments") or []
         if status in ("evaluated", "partial") and len(assessments) == len(skills):
+            registryResult["engineCoverage"] = {"mode": "registry", "status": status,
+                                                "expected": len(skills), "returned": len(assessments)}
             return registryResult
-    except Exception:
-        # Fall through to coordinated per-record evaluation
-        pass
+        registryFailure = {"type": "IncompleteRegistryResult", "message":
+                           f"status={status!r}, expected={len(skills)}, returned={len(assessments)}",
+                           "fallback": "per-record seam coordinator"}
+    except Exception as exc:
+        registryFailure = {"type": type(exc).__name__, "message": str(exc)[:500],
+                           "fallback": "per-record seam coordinator"}
 
     # 2. Seam coordinator: topological component-before-suite evaluation
     byId = {s.get("id"): s for s in skills if s.get("id")}
@@ -670,6 +694,9 @@ def evaluateRegistryWithSeam(
     return {
         "status": overallStatus,
         "assessments": orderedAssessments,
+        "engineCoverage": {"mode": "per-record-fallback", "status": "incomplete",
+                           "expected": len(skills), "returned": len(orderedAssessments),
+                           "registryAttempt": registryFailure},
     }
 
 
@@ -687,7 +714,7 @@ def runShadowEvaluation(
     beforeManifest = buildFileDigestManifest(repoRoot)
 
     # Step 2: Census registry corpus with parser reconciliation
-    census = censusRegistry(repoRoot, failClosed=failClosed, evaluationAtUTC=None)
+    census = censusRegistry(repoRoot, failClosed=failClosed, evaluationAtUTC=evaluationAtUTC)
 
     # Step 3: Build explicit immutable evaluation context
     context, engineMeta = buildShadowContext(
@@ -810,6 +837,7 @@ def runShadowEvaluation(
         "evaluatedCount": evaluatedCount,
         "notEvaluatedCount": notEvaluatedCount,
         "overallStatus": evaluationResult.get("status"),
+        "engineCoverage": evaluationResult.get("engineCoverage", {"mode": "unknown", "status": "unreported"}),
         "tmCorrectionsCount": tmCorrectionsCount,
         "gradeChangesCount": gradeChangesCount,
         "starCeilingImpact": {
@@ -855,6 +883,14 @@ def runShadowEvaluation(
             "missingDates": census.missingDates,
             "unknownVerifiers": census.unknownVerifiers,
             "trustNumberRowsCount": len(census.trustNumberRows),
+            "trustNumberRows": [{**row, "disposition": "provenance-only; excluded from current TM scoring"}
+                                for row in census.trustNumberRows],
+            "duplicateIds": census.duplicateIds,
+            "integrityFindings": {
+                "parseFailures": census.parseFailures, "parserDiscrepancies": census.parserDiscrepancies,
+                "missingIds": census.missingIds, "unresolvedRefs": census.unresolvedRefs,
+                "dependencyCycles": census.dependencyCycles, "duplicateIds": census.duplicateIds,
+            },
         },
         "summary": summary,
         "assessments": enrichedAssessments,
@@ -903,6 +939,7 @@ def formatImpactSummary(reportData: dict[str, Any]) -> str:
         "--------------------------------------------------------------------------------",
         "SHADOW REPLAY EVALUATION:",
         f"  Overall Status            : {summary.get('overallStatus')}",
+        f"  Engine Coverage            : {summary.get('engineCoverage')}",
         f"  Evaluated Skills          : {summary.get('evaluatedCount')} / {summary.get('targetSkillsCount')}",
         f"  Not-Evaluated Skills      : {summary.get('notEvaluatedCount')}",
         f"  Implementation TM Deltas  : {summary.get('tmCorrectionsCount')} skills with TM delta != 0",
@@ -940,13 +977,35 @@ def writeShadowReport(
     jsonPath = outPath / "shadow-report.json"
     summaryPath = outPath / "shadow-summary.txt"
 
-    # Write deterministic machine JSON (sorted keys, 2-space indentation)
-    jsonText = json.dumps(reportData, indent=2, sort_keys=True, ensure_ascii=False)
-    jsonPath.write_text(jsonText, encoding="utf-8")
+    # Preflight both destinations before creating or replacing either file.
+    for target in (jsonPath, summaryPath):
+        if target.is_symlink():
+            raise ValueError(f"Refusing symlink output file: {target}")
+        if target.exists() and not target.is_file():
+            raise ValueError(f"Output destination is not a regular file: {target}")
 
-    # Write human summary
+    # Stage sibling files, then replace destinations atomically. Replacement never
+    # opens a destination, so a raced symlink target is not followed.
+    import tempfile
+    def atomicWrite(target: Path, content: str) -> None:
+        fd, tempName = tempfile.mkstemp(prefix=f".{target.name}.", dir=outPath)
+        temp = Path(tempName)
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as stream:
+                stream.write(content)
+                stream.flush()
+                os.fsync(stream.fileno())
+            os.replace(temp, target)
+        finally:
+            try:
+                temp.unlink()
+            except FileNotFoundError:
+                pass
+
+    jsonText = json.dumps(reportData, indent=2, sort_keys=True, ensure_ascii=False)
     summaryText = formatImpactSummary(reportData)
-    summaryPath.write_text(summaryText, encoding="utf-8")
+    atomicWrite(jsonPath, jsonText)
+    atomicWrite(summaryPath, summaryText)
 
     return {
         "json": jsonPath,
@@ -1003,7 +1062,10 @@ def run_shadow_corpus_cli(args: argparse.Namespace) -> int:
     elif toStdout or not outputDir:
         print(formatImpactSummary(reportData))
 
-    if failClosed and (census.get("parseFailures") or summary.get("notEvaluatedCount", 0) > 0):
+    integrity = census.get("integrityFindings", {})
+    if any(integrity.get(key) for key in ("parseFailures", "parserDiscrepancies", "missingIds",
+            "unresolvedRefs", "dependencyCycles", "duplicateIds")) or (
+            failClosed and summary.get("notEvaluatedCount", 0) > 0):
         return 1
 
     return 0

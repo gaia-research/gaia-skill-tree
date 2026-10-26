@@ -179,7 +179,7 @@ def _temporalWarnings(
                 label = f"{sourceName}[{index}].{field}"
                 if parsed is None:
                     warnings.append(f"{label}: malformed legacy date; treated as unknown")
-                elif parsed > evaluationAtUTC:
+                elif (parsed.replace(tzinfo=datetime.timezone.utc) if parsed.tzinfo is None else parsed.astimezone(datetime.timezone.utc)) > evaluationAtUTC:
                     return warnings, f"{label}: future date after pinned evaluation time"
     return warnings, None
 

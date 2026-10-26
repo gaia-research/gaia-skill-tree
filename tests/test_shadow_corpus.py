@@ -377,6 +377,43 @@ def test_full_corpus_containment_and_zero_canonical_mutation() -> None:
     assert len(disc) == 0
 
 
+def test_output_files_symlinks_refused_before_any_write(tmp_path: Path) -> None:
+    outside = tmp_path / "outside.json"
+    outside.write_text("sentinel", encoding="utf-8")
+    out = tmp_path / "out"
+    out.mkdir()
+    (out / "shadow-report.json").symlink_to(outside)
+    data = {"summary": {}, "census": {}}
+    with pytest.raises(ValueError, match="symlink"):
+        sc.writeShadowReport(data, out, repoRoot=REPO_ROOT)
+    assert outside.read_text(encoding="utf-8") == "sentinel"
+    assert not (out / "shadow-summary.txt").exists()
+
+
+def test_summary_symlink_preflight_blocks_json_write(tmp_path: Path) -> None:
+    outside = tmp_path / "outside.txt"
+    outside.write_text("sentinel", encoding="utf-8")
+    out = tmp_path / "out"
+    out.mkdir()
+    (out / "shadow-summary.txt").symlink_to(outside)
+    with pytest.raises(ValueError, match="symlink"):
+        sc.writeShadowReport({"summary": {}, "census": {}}, out, repoRoot=REPO_ROOT)
+    assert not (out / "shadow-report.json").exists()
+    assert outside.read_text(encoding="utf-8") == "sentinel"
+
+
+def test_census_uses_requested_time_pin(monkeypatch: pytest.MonkeyPatch) -> None:
+    pin = dt.datetime(2000, 1, 1, tzinfo=dt.timezone.utc)
+    seen = {}
+    original = sc.censusRegistry
+    def capture(*args, **kwargs):
+        seen["pin"] = kwargs.get("evaluationAtUTC")
+        return original(*args, **kwargs)
+    monkeypatch.setattr(sc, "censusRegistry", capture)
+    sc.runShadowEvaluation(REPO_ROOT, evaluationAtUTC=pin, filterStatus="__none__")
+    assert seen["pin"] == pin
+
+
 def test_output_containment_rejects_all_canonical_and_public_writes(tmp_path: Path) -> None:
     """Validator must strictly reject writes to any repository canonical or public directory."""
     for forbidden in sc.FORBIDDEN_CANONICAL_DIRS:
