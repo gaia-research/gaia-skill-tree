@@ -6,7 +6,7 @@ from pathlib import Path
 
 from gaia_cli.canonicalTransaction import (
     ApprovalRejected, ApprovalUnavailable, Change, TransactionError,
-    apply, assertNoPendingTransaction, prepare, rollback,
+    apply, assertNoPendingTransaction, canonicalTransactionLock, prepare, rollback,
 )
 
 
@@ -95,7 +95,8 @@ class CanonicalTransactionTests(unittest.TestCase):
         with self.assertRaisesRegex(OSError, "injected"):
             apply(plan, TestIssuer(), fail_after=1)
         with self.assertRaisesRegex(TransactionError, "pending"):
-            assertNoPendingTransaction(self.root)
+            with canonicalTransactionLock(self.root):
+                pass
         journal = next((self.root / ".gaia/canonical-transactions").glob("*.pending.json"))
         rollback(self.root, journal, TestIssuer("rollback"))
         self.assertEqual(b"old-a", (self.root / "registry/nodes/a.json").read_bytes())

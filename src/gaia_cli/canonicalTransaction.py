@@ -229,6 +229,15 @@ def assertNoPendingTransaction(root: str | Path) -> None:
         raise TransactionError("pending canonical transaction requires explicit recovery")
 
 
+@contextlib.contextmanager
+def canonicalTransactionLock(root: str | Path):
+    """Cooperative lock/guard hook for legacy writers; callers still own CAS and recovery."""
+    selected = _root(root)
+    with _lock(selected):
+        assertNoPendingTransaction(selected)
+        yield
+
+
 def apply(plan: Plan, provider: ApprovalProvider | None = None, *, fail_after: int | None = None) -> str:
     """Apply authorized plan with CAS, durable preimages/stages and recoverable journal."""
     selected = _root(plan.root)
