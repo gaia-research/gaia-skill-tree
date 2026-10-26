@@ -111,6 +111,14 @@ Launched `0680b90a-a748-4d48-ab32-f8d72cf15ace` with named `worker-sol`, explici
 
 Final independent engine review `81e61e1f` found no blocking defect at `6e6c3f08f111e265c2407759a238f8e64558503e`, **198 passed in 2.33s**. Full review copied to ignored `engine-final-full-review.md`. Parent original regression+shadow check `b7494cb9b` pending; focused engine PR is being prepared. Unusual malformed structural component inputs must be validated by callers before broader CLI exposure in this campaign. Readiness is opt-in integration only, not canonical rollout.
 
+## Evidence lifecycle final repair — independent review pending
+
+`0389da50` delivered `4aad305b34e00b30d2ff8ba42bc9a09e75641127` on `dev/yggdrasil-iv-evidence-final`; schema-only correction commit `6c9722ef7` precedes core/tests. Recovery ref `refs/heads/recovery/yggdrasil-iv/evidence-final` is at final SHA. Worker reports **100 passed**, four schema families × three mirrors in parity, diff check passed, clean working tree and pushed branch.
+
+Reported fixes: reject all malformed/partial migration metadata, preserve migrated nonactive rows, legacy migration without invented approval/verification provenance, monotonic immutable successors with retained full prior decisions/payloads, complete refresh observation provenance, UTC validation, no freshness/identity/grade/verified field overwrite. Proposals only; no live apply/TM filtering or rank effect.
+
+Independent read-only review `d2f90b61-edc6-4842-93f7-b194fba74607` runs in permanent `$HOME/.gaia-worktrees/yggdrasil-iv-evidence-review-final`, exact `4aad305b3`; durable output ignored `evidence-independent-final-review.md`. No acceptance inferred from worker tests. Formal schema/core PR separation follows review; founder/two-Core adoption remains held. Sol slot stays on publication, not a second simultaneous workstream.
+
 ## Still binding human gates
 
 Schema adoption, pilot/live standing and canonical trust/rank/evidence/Origin decisions, security/protected-environment activation, visual approval, final main merge, registry-wide rollout and RFC closure remain held. Four weekly operational shadow comparisons require real elapsed operational evidence, not a virtual-clock fixture. All implementation remains engineering preparation until those gates are met.
