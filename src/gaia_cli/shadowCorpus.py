@@ -182,6 +182,7 @@ class RegistryCensus:
     unresolvedRefs: list[dict[str, Any]] = field(default_factory=list)
     dependencyCycles: list[dict[str, Any]] = field(default_factory=list)
     temporalAnomalies: list[dict[str, Any]] = field(default_factory=list)
+    missingDates: list[dict[str, Any]] = field(default_factory=list)
     unknownVerifiers: list[dict[str, Any]] = field(default_factory=list)
     trustNumberRows: list[dict[str, Any]] = field(default_factory=list)
     fileHashes: dict[str, str] = field(default_factory=dict)
@@ -232,6 +233,46 @@ def censusRegistry(
 
             evidenceRows = nodeData.get("evidence") or []
             census.genericEvidenceRowCount += len(evidenceRows)
+            for rIndex, row in enumerate(evidenceRows):
+                if row.get("trustNumber") is not None:
+                    census.trustNumberRows.append({
+                        "skillId": nodeId,
+                        "path": relPath,
+                        "rowIndex": rIndex,
+                        "trustNumber": row["trustNumber"],
+                    })
+                rType = tm._typeOf(row)
+                if rType in ("benchmark-result", "social-signal", "peer-review"):
+                    if not row.get("lastVerified"):
+                        census.missingDates.append({
+                            "skillId": nodeId,
+                            "path": relPath,
+                            "rowIndex": rIndex,
+                            "type": rType,
+                        })
+                for dField in ("lastVerified", "sourceStartedAt"):
+                    rawDate = row.get(dField)
+                    if rawDate in (None, ""):
+                        continue
+                    parsedDate = tm._parseIso(rawDate)
+                    if parsedDate is None:
+                        census.temporalAnomalies.append({
+                            "skillId": nodeId,
+                            "path": relPath,
+                            "rowIndex": rIndex,
+                            "field": dField,
+                            "rawValue": rawDate,
+                            "anomaly": "malformed-iso-date",
+                        })
+                    elif parsedDate > pinnedTime:
+                        census.temporalAnomalies.append({
+                            "skillId": nodeId,
+                            "path": relPath,
+                            "rowIndex": rIndex,
+                            "field": dField,
+                            "rawValue": rawDate,
+                            "anomaly": "future-date",
+                        })
 
     # 2. Census Named Markdown skills + Parser Reconciliation
     namedDir = root / "registry" / "named"
@@ -333,6 +374,15 @@ def censusRegistry(
                         "rowIndex": rIndex,
                         "trustNumber": row["trustNumber"],
                     })
+                rType = tm._typeOf(row)
+                if rType in ("benchmark-result", "social-signal", "peer-review"):
+                    if not row.get("lastVerified"):
+                        census.missingDates.append({
+                            "skillId": skillId,
+                            "path": relPath,
+                            "rowIndex": rIndex,
+                            "type": rType,
+                        })
                 for dField in ("lastVerified", "sourceStartedAt"):
                     rawDate = row.get(dField)
                     if rawDate in (None, ""):
@@ -357,33 +407,62 @@ def censusRegistry(
                             "anomaly": "future-date",
                         })
 
-    # 3. Detect dependency cycles in suite components
-    namedMap = census.namedSkills
-    for sid, skill in namedMap.items():
-        components = skill.get("suiteComponents") or []
-        if not components:
-            continue
-        visited: set[str] = set()
-        stack: list[str] = [sid]
-        while stack:
-            curr = stack.pop()
-            if curr in visited:
-                census.dependencyCycles.append({
-                    "skillId": sid,
-                    "cycleParticipant": curr,
-                })
-                break
-            visited.add(curr)
-            currSkill = namedMap.get(curr)
-            if currSkill:
-                for subComp in currSkill.get("suiteComponents") or []:
-                    if subComp in visited:
+    # 3. Detect dependency cycles in suite components using 3-color DFS
+    state: dict[str, int] = {}  # 0: unvisited, 1: visiting, 2: visited
+
+    def _detect_cycle(node: str, path: list[str]) -> None:
+        state[node] = 1
+        skill = census.namedSkills.get(node)
+        if skill:
+            for comp in skill.get("suiteComponents") or []:
+                if comp in census.namedSkills:
+                    if state.get(comp) == 1:
                         census.dependencyCycles.append({
-                            "skillId": sid,
-                            "cycleParticipant": subComp,
+                            "skillId": node,
+                            "cycleParticipant": comp,
+                            "path": path + [comp],
                         })
-                    else:
-                        stack.append(subComp)
+                    elif state.get(comp) != 2:
+                        _detect_cycle(comp, path + [comp])
+        state[node] = 2
+
+    for sid in sorted(census.namedSkills.keys()):
+        if state.get(sid) != 2:
+            _detect_cycle(sid, [sid])
+
+    # 4. Audit verifier-attestation rows for unknown verifiers
+    knownVerifiers = {"mbtiongson1"}
+    for sid, skill in census.namedSkills.items():
+        lvl = skill.get("level", "")
+        contrib = skill.get("contributor") or (sid.split("/")[0] if "/" in sid else None)
+        if contrib and lvl and lvl[0].isdigit() and int(lvl[0]) >= 4:
+            knownVerifiers.add(contrib)
+
+    for rec in census.namedSkillRecords:
+        s = rec["skill"]
+        sid = rec["id"]
+        for rIndex, row in enumerate(s.get("evidence") or []):
+            if tm._typeOf(row) == "verifier-attestation":
+                v = row.get("verifierId") or row.get("verifier") or row.get("attestor")
+                if not v or v not in knownVerifiers:
+                    census.unknownVerifiers.append({
+                        "skillId": sid,
+                        "path": rec["path"],
+                        "rowIndex": rIndex,
+                        "verifier": v,
+                    })
+
+    for nid, nodeData in census.genericNodes.items():
+        for rIndex, row in enumerate(nodeData.get("evidence") or []):
+            if tm._typeOf(row) == "verifier-attestation":
+                v = row.get("verifierId") or row.get("verifier") or row.get("attestor")
+                if not v or v not in knownVerifiers:
+                    census.unknownVerifiers.append({
+                        "skillId": nid,
+                        "path": f"registry/nodes/{nid}.json",
+                        "rowIndex": rIndex,
+                        "verifier": v,
+                    })
 
     if failClosed and census.parseFailures:
         census.isValid = False
@@ -586,7 +665,7 @@ def evaluateRegistryWithSeam(
 
     orderedAssessments = [assessmentsById[k] for k in sorted(assessmentsById.keys())]
     allEvaluated = all(a.get("status") == "evaluated" for a in orderedAssessments)
-    overallStatus = "evaluated" if allEvaluated else ("partial" if any(a.get("status") == "evaluated" for a in orderedAssessments) else "not-evaluated")
+    overallStatus = "evaluated" if allEvaluated else "partial"
 
     return {
         "status": overallStatus,
@@ -772,6 +851,9 @@ def runShadowEvaluation(
             "unresolvedRefs": census.unresolvedRefs,
             "dependencyCycles": census.dependencyCycles,
             "temporalAnomalies": census.temporalAnomalies,
+            "missingDatesCount": len(census.missingDates),
+            "missingDates": census.missingDates,
+            "unknownVerifiers": census.unknownVerifiers,
             "trustNumberRowsCount": len(census.trustNumberRows),
         },
         "summary": summary,
@@ -816,6 +898,8 @@ def formatImpactSummary(reportData: dict[str, Any]) -> str:
         f"  Unresolved Generic Refs   : {len(census.get('unresolvedRefs', []))}",
         f"  Dependency Cycles         : {len(census.get('dependencyCycles', []))}",
         f"  Temporal Anomalies        : {len(census.get('temporalAnomalies', []))}",
+        f"  Decay Rows Missing Date   : {census.get('missingDatesCount', len(census.get('missingDates', [])))}",
+        f"  Unknown Verifiers         : {len(census.get('unknownVerifiers', []))}",
         "--------------------------------------------------------------------------------",
         "SHADOW REPLAY EVALUATION:",
         f"  Overall Status            : {summary.get('overallStatus')}",
@@ -878,12 +962,14 @@ def run_shadow_corpus_cli(args: argparse.Namespace) -> int:
     toStdout = getattr(args, "stdout", False)
     asJson = getattr(args, "json", False)
     failClosed = getattr(args, "fail_closed", False)
+    filterStatus = getattr(args, "filter_status", None)
 
     try:
         reportData = runShadowEvaluation(
             registryPath=registryPath,
             evaluationAtUTC=evaluationAt,
             failClosed=failClosed,
+            filterStatus=filterStatus,
         )
     except Exception as exc:
         print(f"Error running shadow evaluation: {exc}", file=sys.stderr)

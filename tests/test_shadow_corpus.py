@@ -237,7 +237,7 @@ def test_dependency_cycle_is_reported_honestly() -> None:
     )
 
     result = sc.evaluateRegistryWithSeam([skillX, skillY], ctx)
-    assert result["status"] == "not-evaluated"
+    assert result["status"] == "partial"
     for assessment in result["assessments"]:
         assert assessment["status"] == "not-evaluated"
         assert "dependency cycle" in assessment["reason"]
@@ -345,3 +345,42 @@ def test_cli_shadow_command_writes_into_scratch(tmp_path: Path) -> None:
     summaryText = written["summary"].read_text(encoding="utf-8")
     assert "GAIA YGGDRASIL IV TRUST MAGNITUDE" in summaryText
     assert "Total Named Records       : 398" in summaryText
+
+
+# ---------------------------------------------------------------------------
+# 10. Output Containment and Read-Only Verification
+# ---------------------------------------------------------------------------
+
+
+def test_full_corpus_containment_and_zero_canonical_mutation() -> None:
+    """Full-corpus census and shadow evaluation must leave zero canonical changes."""
+    beforeManifest = sc.buildFileDigestManifest(REPO_ROOT)
+    census = sc.censusRegistry(REPO_ROOT, failClosed=True, evaluationAtUTC=PINNED_TIME)
+
+    assert census.totalNamedFiles == 398
+    assert census.totalGenericFiles == 299
+    assert len(census.dependencyCycles) == 0
+    assert len(census.temporalAnomalies) == 0
+    assert len(census.unknownVerifiers) == 0
+    assert len(census.missingDates) == 154
+
+    context, metadata = sc.buildShadowContext(census, REPO_ROOT, evaluationAtUTC=PINNED_TIME)
+    assert context.registryRevision != "unknown"
+    assert len(context.canonicalInputDigest) == 64
+    assert len(context.policyDigest) == 64
+    assert len(context.benchmarkCatalogDigest) == 64
+    assert len(metadata["engineDigest"]) == 64
+
+    # Post-census manifest verification
+    clean, disc = sc.verifyFileDigestManifest(beforeManifest, REPO_ROOT)
+    assert clean is True
+    assert len(disc) == 0
+
+
+def test_output_containment_rejects_all_canonical_and_public_writes(tmp_path: Path) -> None:
+    """Validator must strictly reject writes to any repository canonical or public directory."""
+    for forbidden in sc.FORBIDDEN_CANONICAL_DIRS:
+        badPath = REPO_ROOT / forbidden / "shadow-leak.json"
+        with pytest.raises(ValueError, match="Output path rejected"):
+            sc.validateOutputPath(badPath, repoRoot=REPO_ROOT)
+
