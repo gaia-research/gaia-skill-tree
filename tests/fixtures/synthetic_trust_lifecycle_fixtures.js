@@ -16,6 +16,8 @@ var SYNTHETIC_FIXTURES = {
     id: 'synthetic-author/synthetic-in-good-standing',
     name: 'Synthetic In Good Standing',
     level: '4★',
+    trustMagnitude: 125,
+    overallTrustGrade: 'A',
     genericSkillRef: 'synthetic-capability-root',
     trustLifecycle: {
       snapshot: {
@@ -68,6 +70,8 @@ var SYNTHETIC_FIXTURES = {
     id: 'synthetic-author/synthetic-scoped-challenge',
     name: 'Synthetic Scoped Challenge',
     level: '4★',
+    trustMagnitude: 115,
+    overallTrustGrade: 'A',
     genericSkillRef: 'synthetic-capability-root',
     trustLifecycle: {
       snapshot: {
@@ -129,6 +133,8 @@ var SYNTHETIC_FIXTURES = {
     id: 'synthetic-author/synthetic-origin-contested',
     name: 'Synthetic Origin Contested',
     level: '4★',
+    trustMagnitude: 105,
+    overallTrustGrade: 'A',
     genericSkillRef: 'synthetic-capability-root',
     trustLifecycle: {
       snapshot: {
@@ -190,6 +196,8 @@ var SYNTHETIC_FIXTURES = {
     id: 'synthetic-author/synthetic-degraded',
     name: 'Synthetic Degraded Skill',
     level: '3★',
+    trustMagnitude: 72,
+    overallTrustGrade: 'B',
     genericSkillRef: 'synthetic-capability-root',
     trustLifecycle: {
       snapshot: {
@@ -248,6 +256,8 @@ var SYNTHETIC_FIXTURES = {
     id: 'synthetic-author/synthetic-recalibration-pending',
     name: 'Synthetic Recalibration Pending',
     level: '3★',
+    trustMagnitude: 75,
+    overallTrustGrade: 'B',
     genericSkillRef: 'synthetic-capability-root',
     trustLifecycle: {
       snapshot: {
@@ -307,6 +317,8 @@ var SYNTHETIC_FIXTURES = {
     id: 'synthetic-author/synthetic-superseded',
     name: 'Synthetic Upstream Superseded',
     level: '4★',
+    trustMagnitude: 140,
+    overallTrustGrade: 'A',
     genericSkillRef: 'synthetic-capability-root',
     trustLifecycle: {
       snapshot: {
@@ -369,6 +381,8 @@ var SYNTHETIC_FIXTURES = {
     id: 'synthetic-author/synthetic-partial',
     name: 'Synthetic Partial Unknown',
     level: '2★',
+    trustMagnitude: null,
+    overallTrustGrade: null,
     trustLifecycle: {
       snapshot: {
         // Missing snapshotId and evaluatedAtUTC (unpinned)
@@ -389,6 +403,8 @@ var SYNTHETIC_FIXTURES = {
     id: 'synthetic-author/synthetic-malformed-allegations',
     name: 'Synthetic Malformed Allegations',
     level: '4★',
+    trustMagnitude: 100,
+    overallTrustGrade: 'A',
     genericSkillRef: 'synthetic-capability-root',
     // Caller boolean attempts to spoof standing
     isApproved: true,
@@ -399,6 +415,7 @@ var SYNTHETIC_FIXTURES = {
         snapshotId: 'snap-synthetic-2026-10-26-008',
         evaluatedAtUTC: '2026-10-26T00:00:00Z',
         policyVersion: 'yggdrasil-4.0.0-synthetic'
+        // NOTE: Intentionally lacks approvedBy and approvalRef to test P1 provenance gate
       },
       approvedStanding: {
         status: 'in-good-standing',
@@ -407,7 +424,7 @@ var SYNTHETIC_FIXTURES = {
       },
       origin: {
         currentOriginHandle: 'synthetic-author',
-        contested: false
+        contested: 'false' // String 'false' must NOT contest Origin (P2)
       },
       challenges: [
         // 1. Shadow proposal (must be filtered out)
@@ -467,8 +484,73 @@ var SYNTHETIC_FIXTURES = {
     id: 'synthetic-author/synthetic-no-lifecycle',
     name: 'Synthetic Normal Skill Without Lifecycle',
     level: '3★',
+    trustMagnitude: 85,
+    overallTrustGrade: 'B',
     genericSkillRef: 'synthetic-capability-root'
     // trustLifecycle is omitted entirely
+  },
+
+  // State 10: Contradictory Authority Payload (hero TM 125 vs snapshot approved TM 105)
+  contradictoryPayload: {
+    id: 'synthetic-author/synthetic-contradictory',
+    name: 'Synthetic Contradictory Authority',
+    level: '4★',
+    trustMagnitude: 125,
+    overallTrustGrade: 'A',
+    genericSkillRef: 'synthetic-capability-root',
+    trustLifecycle: {
+      snapshot: {
+        snapshotId: 'snap-synthetic-2026-10-26-009',
+        evaluatedAtUTC: '2026-10-26T00:00:00Z',
+        policyVersion: 'yggdrasil-4.0.0-synthetic',
+        approvedBy: 'synthetic-maintainer',
+        approvalRef: 'https://github.com/gaia-research/gaia-skill-tree/pull/9999'
+      },
+      approvedStanding: {
+        status: 'in-good-standing',
+        approvedStars: 4,
+        approvedTm: 105 // Contradicts root hero TM 125!
+      },
+      origin: {
+        status: 'held',
+        currentOriginHandle: 'synthetic-author',
+        contested: false,
+        genericSkillRef: 'synthetic-capability-root'
+      },
+      challenges: []
+    }
+  },
+
+  // State 11: Rehearsal Snapshot State (explicitly marked rehearsal)
+  rehearsalState: {
+    id: 'synthetic-author/synthetic-rehearsal',
+    name: 'Synthetic Rehearsal State',
+    level: '4★',
+    trustMagnitude: 120,
+    overallTrustGrade: 'A',
+    genericSkillRef: 'synthetic-capability-root',
+    trustLifecycle: {
+      snapshot: {
+        snapshotId: 'snap-rehearsal-2026-10-26-010',
+        evaluatedAtUTC: '2026-10-26T00:00:00Z',
+        policyVersion: 'yggdrasil-4.0.0-rehearsal',
+        approvedBy: 'synthetic-maintainer',
+        approvalRef: 'https://github.com/gaia-research/gaia-skill-tree/pull/9999',
+        rehearsal: true
+      },
+      approvedStanding: {
+        status: 'in-good-standing',
+        approvedStars: 4,
+        approvedTm: 120
+      },
+      origin: {
+        status: 'held',
+        currentOriginHandle: 'synthetic-author',
+        contested: false,
+        genericSkillRef: 'synthetic-capability-root'
+      },
+      challenges: []
+    }
   }
 };
 

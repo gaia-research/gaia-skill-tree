@@ -13439,14 +13439,68 @@ body[data-overall-grade="S"] .report-card {
 }
 
 /* ── TRUST LIFECYCLE & CHALLENGE HISTORY (YGGDRASIL IV) ── */
+#se-tm:empty {
+  display: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+}
+
 .se-lc-section {
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   margin: 0 auto;
   color: var(--text);
   font-family: var(--font-body);
+  overflow-wrap: break-word;
+}
+
+/* Header scoped styling & wrapping (prevents mobile horizontal clipping at 390 and 320) */
+.se-lc-section .se-flow-h {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: .5rem 1rem;
+}
+
+.se-lc-section .se-flow-h::after {
+  display: none;
+}
+
+.se-lc-section .se-flow-h__lede {
+  flex: 1 1 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .2rem;
+}
+
+.se-lc-section .se-flow-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  color: var(--text);
+  margin: 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 .se-lc-snapshot-bar {
+  box-sizing: border-box;
+  max-width: 100%;
   margin-bottom: 1.2rem;
   padding: 0.55rem 0.85rem;
   border: 1px solid var(--border);
@@ -13454,19 +13508,24 @@ body[data-overall-grade="S"] .report-card {
   background: rgba(0, 0, 0, 0.35);
   font-size: 0.78rem;
   color: var(--muted);
+  overflow-wrap: break-word;
 }
 
 .se-lc-snapshot-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem 1.4rem;
+  gap: 0.5rem 1.2rem;
   align-items: center;
+  max-width: 100%;
 }
 
 .se-lc-snapshot-item {
   display: inline-flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.35rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .se-lc-k {
@@ -13482,14 +13541,18 @@ body[data-overall-grade="S"] .report-card {
   border-radius: 3px;
   border: 1px solid var(--border);
   color: var(--text);
+  word-break: break-all;
 }
 
 .se-lc-card {
+  box-sizing: border-box;
+  max-width: 100%;
   border-radius: 8px;
   padding: 1.1rem 1.25rem;
   margin-bottom: 1.4rem;
   background: var(--surface);
   border: 1px solid var(--border);
+  overflow-wrap: break-word;
 }
 
 .se-lc-card-header {
@@ -13497,7 +13560,7 @@ body[data-overall-grade="S"] .report-card {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.6rem;
   margin-bottom: 0.6rem;
 }
 
@@ -13546,8 +13609,17 @@ body[data-overall-grade="S"] .report-card {
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  line-height: 1.2;
+  line-height: 1.25;
   border: 1px solid var(--border);
+  white-space: normal;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.se-lc-badge--rehearsal {
+  color: var(--apex-gold);
+  border-color: rgba(251, 191, 36, 0.4);
+  background: rgba(251, 191, 36, 0.12);
 }
 
 .se-lc-badge--honor-red,
@@ -13597,6 +13669,7 @@ body[data-overall-grade="S"] .report-card {
   flex-wrap: wrap;
   gap: 0.4rem;
   align-items: center;
+  max-width: 100%;
 }
 
 .se-lc-metric-pill {
@@ -13609,6 +13682,9 @@ body[data-overall-grade="S"] .report-card {
   border-radius: 4px;
   font-size: 0.78rem;
   font-family: var(--font-mono);
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
 }
 
 .se-lc-callout {
@@ -13713,10 +13789,8 @@ body[data-overall-grade="S"] .report-card {
   background: var(--surface);
   overflow: hidden;
   transition: border-color 0.15s ease;
-}
-
-.se-lc-challenge-item:focus-within {
-  border-color: var(--rank-2);
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .se-lc-challenge-summary {
@@ -13730,6 +13804,8 @@ body[data-overall-grade="S"] .report-card {
   gap: 0.75rem;
   background: rgba(0, 0, 0, 0.18);
   outline: none;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .se-lc-challenge-summary::-webkit-details-marker {
@@ -13747,6 +13823,8 @@ body[data-overall-grade="S"] .report-card {
   align-items: center;
   gap: 0.5rem 0.7rem;
   flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .se-lc-scope-tag {
@@ -13769,6 +13847,9 @@ body[data-overall-grade="S"] .report-card {
   font-size: 0.88rem;
   font-weight: 600;
   color: var(--text);
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .se-lc-challenge-summary-right {
@@ -13782,13 +13863,17 @@ body[data-overall-grade="S"] .report-card {
   padding: 1rem 1.1rem;
   border-top: 1px solid var(--border);
   background: rgba(0, 0, 0, 0.25);
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .se-lc-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
   gap: 0.65rem 1rem;
   font-size: 0.82rem;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .se-lc-grid-cell {
@@ -13855,6 +13940,8 @@ body[data-overall-grade="S"] .report-card {
   border-radius: 6px;
   background: rgba(0, 0, 0, 0.22);
   font-size: 0.84rem;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .se-lc-award-left {
@@ -13862,6 +13949,8 @@ body[data-overall-grade="S"] .report-card {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.45rem 0.7rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .se-lc-award-date {
@@ -13873,6 +13962,9 @@ body[data-overall-grade="S"] .report-card {
 .se-lc-award-title {
   font-weight: 600;
   color: var(--text);
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .se-lc-award-stars {
@@ -13892,12 +13984,16 @@ body[data-overall-grade="S"] .report-card {
   color: var(--muted);
   font-size: 0.78rem;
   margin-top: 0.15rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .se-lc-link {
   color: var(--tier-basic);
   text-decoration: none;
   font-size: 0.8rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .se-lc-link:hover {
@@ -13916,4 +14012,47 @@ body[data-overall-grade="S"] .report-card {
 .se-lc-muted-note {
   color: var(--muted);
   font-size: 0.78rem;
+}
+
+/* ── Responsive media queries for mobile 390px and 320px ── */
+@media (max-width: 480px) {
+  .se-lc-section .se-flow-title {
+    font-size: 1.25rem;
+    line-height: 1.25;
+  }
+  .se-lc-grid {
+    grid-template-columns: 1fr;
+  }
+  .se-lc-snapshot-bar {
+    padding: 0.5rem 0.75rem;
+  }
+  .se-lc-card {
+    padding: 0.95rem 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .se-lc-section .se-flow-title {
+    font-size: 1.05rem;
+    line-height: 1.25;
+  }
+  .se-lc-card {
+    padding: 0.8rem 0.85rem;
+  }
+  .se-lc-snapshot-bar {
+    padding: 0.45rem 0.6rem;
+    font-size: 0.74rem;
+  }
+  .se-lc-challenge-summary {
+    padding: 0.6rem 0.75rem;
+    gap: 0.5rem;
+  }
+  .se-lc-badge {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.45rem;
+  }
+  .se-lc-metric-pill {
+    font-size: 0.74rem;
+    padding: 0.15rem 0.4rem;
+  }
 }

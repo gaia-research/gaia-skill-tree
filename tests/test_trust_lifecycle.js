@@ -250,20 +250,33 @@ test('State 7: Partial or unknown state renders gracefully without fabricating z
 });
 
 // ── 9. State 8: Malformed & Shadow Allegations Rejection ─���────────
-test('State 8: Malformed, shadow, model-only, and XSS entries are rejected', () => {
+test('State 8: Malformed, shadow, model-only, and XSS entries are rejected; P1 and P2 gates hold', () => {
   const entry = FIXTURES.malformedAndShadowAllegations;
   const vm = buildTrustLifecycleViewModel(entry);
 
   assert.notStrictEqual(vm, null);
-  // All 4 malformed challenges must be filtered out!
+  // P1 Gate: Snapshot lacks approvedBy and approvalRef, so approved provenance MUST be false
+  assert.strictEqual(vm.snapshot.hasApprovedProvenance, false);
+  assert.strictEqual(vm.standing.key, 'provisional');
+  assert.strictEqual(vm.standing.badgeText, '[Provisional] Unassessed Standing');
+  assert.strictEqual(vm.standing.approvedStars, null); // Never falsely approved!
+  assert.strictEqual(vm.standing.approvedTm, null);    // Never falsely approved!
+
+  // P2 Gate: string "false" for origin.contested must NOT contest Origin
+  assert.strictEqual(vm.origin.handle, 'synthetic-author');
+  assert.strictEqual(vm.origin.status, 'held');
+  assert.strictEqual(vm.origin.isContested, false);
+
+  // Spurious / shadow / model-only / XSS challenges are rejected
   assert.strictEqual(vm.challenges.length, 0);
   assert.strictEqual(vm.activeChallengesCount, 0);
 
-  // Invariant: Caller booleans (isApproved, isOriginTransferred) must NOT be trusted
-  assert.strictEqual(vm.origin.handle, 'synthetic-author');
-  assert.strictEqual(vm.origin.status, 'held');
-
   const html = renderTrustLifecycleHtml(vm);
+  assert.doesNotMatch(html, /\[Approved\] In Good Standing/);
+  assert.match(html, /\[Provisional\] Unassessed Standing/);
+  assert.match(html, /UNAPPROVED SNAPSHOT/);
+  assert.match(html, /Approved Rank:.*Unassessed/);
+  assert.doesNotMatch(html, /Approved Rank:.*4&#9733;/);
   assert.doesNotMatch(html, /shadow-001/);
   assert.doesNotMatch(html, /model-only-003/);
   assert.doesNotMatch(html, /javascript:alert/);
@@ -409,4 +422,205 @@ test('Corner cases: Narrowed, Rejected, and unsafe links are sanitized', () => {
   assert.doesNotMatch(html, /data:text\/html/);
   assert.match(html, /\[Narrowed\] Narrowed/);
   assert.match(html, /\[Rejected\] Rejected/);
+});
+
+// ── 14. P1 Provenance Gate: No false approved standing without approved snapshot ──
+test('P1: Unpinned snapshot or missing approvedBy/approvalRef never renders approved standing', () => {
+  // Case A: Missing snapshot altogether
+  const noSnapshot = {
+    id: 'synthetic-author/no-snap',
+    level: '4★',
+    trustMagnitude: 100,
+    trustLifecycle: {
+      approvedStanding: {
+        status: 'in-good-standing',
+        approvedStars: 4,
+        approvedTm: 100
+      }
+    }
+  };
+  const vmNoSnap = buildTrustLifecycleViewModel(noSnapshot);
+  assert.notStrictEqual(vmNoSnap, null);
+  assert.strictEqual(vmNoSnap.snapshot.isPinned, false);
+  assert.strictEqual(vmNoSnap.snapshot.hasApprovedProvenance, false);
+  assert.strictEqual(vmNoSnap.standing.key, 'provisional');
+  assert.strictEqual(vmNoSnap.standing.badgeText, '[Provisional] Unassessed Standing');
+  assert.strictEqual(vmNoSnap.standing.approvedStars, null);
+  assert.strictEqual(vmNoSnap.standing.approvedTm, null);
+
+  const htmlNoSnap = renderTrustLifecycleHtml(vmNoSnap);
+  assert.doesNotMatch(htmlNoSnap, /\[Approved\] In Good Standing/);
+  assert.doesNotMatch(htmlNoSnap, /Approved Rank:.*4&#9733;/);
+  assert.match(htmlNoSnap, /Approved Rank:.*Unassessed/);
+
+  // Case B: Pinned snapshot but missing approvedBy
+  const pinnedNoApprover = {
+    id: 'synthetic-author/pinned-no-approver',
+    level: '4★',
+    trustMagnitude: 100,
+    trustLifecycle: {
+      snapshot: {
+        snapshotId: 'snap-2026-10-26-test',
+        evaluatedAtUTC: '2026-10-26T00:00:00Z',
+        policyVersion: 'yggdrasil-4.0.0-synthetic',
+        approvalRef: 'https://github.com/gaia-research/gaia-skill-tree/pull/9999'
+        // Missing approvedBy!
+      },
+      approvedStanding: {
+        status: 'in-good-standing',
+        approvedStars: 4,
+        approvedTm: 100
+      }
+    }
+  };
+  const vmNoApprover = buildTrustLifecycleViewModel(pinnedNoApprover);
+  assert.strictEqual(vmNoApprover.snapshot.isPinned, true);
+  assert.strictEqual(vmNoApprover.snapshot.hasApprovedProvenance, false);
+  assert.strictEqual(vmNoApprover.standing.key, 'provisional');
+  assert.strictEqual(vmNoApprover.standing.approvedStars, null);
+  assert.strictEqual(vmNoApprover.standing.approvedTm, null);
+
+  // Case C: Pinned snapshot with insecure http approvalRef
+  const insecureRef = {
+    id: 'synthetic-author/insecure-ref',
+    level: '4★',
+    trustMagnitude: 100,
+    trustLifecycle: {
+      snapshot: {
+        snapshotId: 'snap-2026-10-26-test',
+        evaluatedAtUTC: '2026-10-26T00:00:00Z',
+        policyVersion: 'yggdrasil-4.0.0-synthetic',
+        approvedBy: 'synthetic-maintainer',
+        approvalRef: 'http://insecure-link.com' // Not HTTPS!
+      },
+      approvedStanding: {
+        status: 'in-good-standing',
+        approvedStars: 4,
+        approvedTm: 100
+      }
+    }
+  };
+  const vmInsecure = buildTrustLifecycleViewModel(insecureRef);
+  assert.strictEqual(vmInsecure.snapshot.hasApprovedProvenance, false);
+  assert.strictEqual(vmInsecure.standing.key, 'provisional');
+  assert.strictEqual(vmInsecure.standing.approvedStars, null);
+});
+
+// ── 15. P2 Boolean Gate: Malformed booleans strictly do not contest Origin ──
+test('P2: String "false" and non-boolean materialToOrigin/contested do not contest Origin', () => {
+  const normFalseString = normalizeChallenge({
+    challengeId: 'ch-test-p2-001',
+    claim: 'P2 test challenge with string false',
+    materialToOrigin: 'false',
+    status: 'verified-pending',
+    verifiedAtUTC: '2026-10-26T00:00:00Z',
+    verifier: {
+      verifierId: 'test-verifier',
+      verificationMethod: 'benchmark-runner',
+      receiptUrl: 'https://example.com/receipt'
+    }
+  });
+  assert.strictEqual(normFalseString.materialToOrigin, false);
+
+  const normTrueBoolean = normalizeChallenge({
+    challengeId: 'ch-test-p2-002',
+    claim: 'P2 test challenge with strict boolean true',
+    materialToOrigin: true,
+    status: 'verified-pending',
+    verifiedAtUTC: '2026-10-26T00:00:00Z',
+    verifier: {
+      verifierId: 'test-verifier',
+      verificationMethod: 'benchmark-runner',
+      receiptUrl: 'https://example.com/receipt'
+    }
+  });
+  assert.strictEqual(normTrueBoolean.materialToOrigin, true);
+
+  // Test inside full view model with contested: "false" string
+  const spoofContested = {
+    id: 'synthetic-author/spoof-contested',
+    level: '4★',
+    trustMagnitude: 115,
+    trustLifecycle: {
+      snapshot: {
+        snapshotId: 'snap-2026-10-26-test',
+        evaluatedAtUTC: '2026-10-26T00:00:00Z',
+        policyVersion: 'yggdrasil-4.0.0-synthetic',
+        approvedBy: 'synthetic-maintainer',
+        approvalRef: 'https://github.com/gaia-research/gaia-skill-tree/pull/9999'
+      },
+      approvedStanding: {
+        status: 'in-good-standing',
+        approvedStars: 4,
+        approvedTm: 115
+      },
+      origin: {
+        currentOriginHandle: 'synthetic-author',
+        contested: 'false' // String "false"
+      },
+      challenges: [
+        {
+          challengeId: 'ch-test-p2-003',
+          claim: 'Scoped challenge with string "false" materialToOrigin',
+          materialToOrigin: 'false',
+          status: 'verified-pending',
+          verifiedAtUTC: '2026-10-26T00:00:00Z',
+          verifier: {
+            verifierId: 'test-verifier',
+            verificationMethod: 'benchmark-runner',
+            receiptUrl: 'https://example.com/receipt'
+          }
+        }
+      ]
+    }
+  };
+  const vmSpoof = buildTrustLifecycleViewModel(spoofContested);
+  assert.strictEqual(vmSpoof.origin.isContested, false);
+  assert.strictEqual(vmSpoof.origin.status, 'held');
+  assert.notStrictEqual(vmSpoof.standing.key, 'contested');
+});
+
+// ── 16. Single Coherent Authority & Rehearsal Marking ─────────────
+test('Single Coherent Authority rejects contradictory payloads and marks rehearsals explicitly', () => {
+  // Contradictory fixture: hero TM 125 vs approved TM 105
+  const vmContradictory = buildTrustLifecycleViewModel(FIXTURES.contradictoryPayload);
+  assert.notStrictEqual(vmContradictory, null);
+  assert.strictEqual(vmContradictory.standing.key, 'contradictory');
+  assert.strictEqual(vmContradictory.standing.badgeText, '[Degraded] Contradictory Authority Payload');
+  assert.strictEqual(vmContradictory.standing.tone, 'honor-red');
+  assert.strictEqual(vmContradictory.standing.approvedStars, null);
+  assert.strictEqual(vmContradictory.standing.approvedTm, null);
+
+  const htmlContradictory = renderTrustLifecycleHtml(vmContradictory);
+  assert.match(htmlContradictory, /\[Degraded\] Contradictory Authority Payload/);
+  assert.match(htmlContradictory, /Payload rejected under single-authority doctrine/);
+
+  // Rehearsal fixture: explicitly marked as rehearsal
+  const vmRehearsal = buildTrustLifecycleViewModel(FIXTURES.rehearsalState);
+  assert.notStrictEqual(vmRehearsal, null);
+  assert.strictEqual(vmRehearsal.snapshot.isRehearsal, true);
+  assert.strictEqual(vmRehearsal.standing.key, 'rehearsal');
+  assert.strictEqual(vmRehearsal.standing.badgeText, '[Rehearsal] In Good Standing (Rehearsal Only)');
+
+  const htmlRehearsal = renderTrustLifecycleHtml(vmRehearsal);
+  assert.match(htmlRehearsal, /\[Rehearsal\] In Good Standing \(Rehearsal Only\)/);
+  assert.match(htmlRehearsal, /REHEARSAL/);
+  assert.match(htmlRehearsal, /Publication backend pending/);
+});
+
+// ── 17. Scoped Responsive CSS Rules for 390px and 320px ────────────
+test('Scoped CSS rules ensure heading wrapping and prevent mobile overflow at 390px and 320px', () => {
+  const css = fs.readFileSync(path.join(__dirname, '../docs/css/styles.css'), 'utf8');
+
+  // Scoped section heading wrapping
+  assert.match(css, /\.se-lc-section \.se-flow-title\s*\{[^}]*overflow-wrap:\s*break-word/);
+  assert.match(css, /\.se-lc-section \.se-flow-h__lede\s*\{[^}]*flex:\s*1 1 100%/);
+  assert.match(css, /\.se-lc-section \.se-flow-h::after\s*\{[^}]*display:\s*none/);
+
+  // Media query overrides for mobile widths
+  assert.match(css, /@media\s*\(\s*max-width:\s*480px\s*\)\s*\{[^}]*\.se-lc-section \.se-flow-title/);
+  assert.match(css, /@media\s*\(\s*max-width:\s*360px\s*\)\s*\{[^}]*\.se-lc-section \.se-flow-title/);
+
+  // Empty #se-tm rule
+  assert.match(css, /#se-tm:empty\s*\{[^}]*display:\s*none/);
 });

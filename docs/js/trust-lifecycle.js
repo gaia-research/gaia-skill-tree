@@ -192,8 +192,8 @@
       return null;
     }
 
-    // Materiality to origin: boolean explicit check
-    var materialToOrigin = Boolean(raw.materialToOrigin);
+    // Materiality to origin: require strict actual boolean; malformed / unknown must NOT contest Origin
+    var materialToOrigin = (raw.materialToOrigin === true);
 
     // Resolution packet (if present)
     var resolution = null;
@@ -283,15 +283,38 @@
     var payload = entry.trustLifecycle;
     if (!payload || typeof payload !== 'object') return null;
 
-    // 1. Snapshot Identity
+    // 1. Snapshot Identity & Provenance
     var rawSnap = payload.snapshot || {};
+    var snapshotId = typeof rawSnap.snapshotId === 'string' ? rawSnap.snapshotId.trim() : '';
+    var evaluatedAtUTC = typeof rawSnap.evaluatedAtUTC === 'string' ? rawSnap.evaluatedAtUTC.trim() : '';
+    var policyVersion = typeof rawSnap.policyVersion === 'string' ? rawSnap.policyVersion.trim() : '';
+    var approvedBy = typeof rawSnap.approvedBy === 'string' ? rawSnap.approvedBy.trim() : '';
+    var approvalRef = isSafeHttps(rawSnap.approvalRef) ? rawSnap.approvalRef.trim() : '';
+
+    var isPinned = Boolean(snapshotId && evaluatedAtUTC);
+    // Adequate approved snapshot provenance requires:
+    // 1) Pinned snapshot identity (snapshotId and evaluatedAtUTC)
+    // 2) Verified maintainer/founder approval handle (approvedBy)
+    // 3) Safe HTTPS approval reference URL (approvalRef)
+    var hasApprovedProvenance = Boolean(isPinned && approvedBy && approvalRef);
+
+    // Rehearsal explicit check (contract validation; trusted publication backend pending)
+    var isRehearsal = Boolean(
+      rawSnap.rehearsal === true ||
+      rawSnap.isRehearsal === true ||
+      (policyVersion && /rehearsal/i.test(policyVersion)) ||
+      (snapshotId && /rehearsal/i.test(snapshotId))
+    );
+
     var snapshot = {
-      snapshotId: typeof rawSnap.snapshotId === 'string' ? rawSnap.snapshotId.trim() : '',
-      evaluatedAtUTC: typeof rawSnap.evaluatedAtUTC === 'string' ? rawSnap.evaluatedAtUTC.trim() : '',
-      policyVersion: typeof rawSnap.policyVersion === 'string' ? rawSnap.policyVersion.trim() : '',
-      approvedBy: typeof rawSnap.approvedBy === 'string' ? rawSnap.approvedBy.trim() : '',
-      approvalRef: isSafeHttps(rawSnap.approvalRef) ? rawSnap.approvalRef.trim() : '',
-      isPinned: Boolean(rawSnap.snapshotId && rawSnap.evaluatedAtUTC)
+      snapshotId: snapshotId,
+      evaluatedAtUTC: evaluatedAtUTC,
+      policyVersion: policyVersion,
+      approvedBy: approvedBy,
+      approvalRef: approvalRef,
+      isPinned: isPinned,
+      hasApprovedProvenance: hasApprovedProvenance,
+      isRehearsal: isRehearsal
     };
 
     // 2. Verified Challenges
@@ -321,8 +344,8 @@
 
     // Origin contested condition:
     // Doctrine invariant: Origin becomes contested ONLY if an active verified material challenge exists,
-    // or if the approved snapshot explicitly marks origin.contested === true.
-    var isOriginContested = Boolean(rawOrig.contested) || hasActiveMaterialChallenge;
+    // or if the approved snapshot explicitly marks origin.contested === true (strict boolean).
+    var isOriginContested = (rawOrig.contested === true) || hasActiveMaterialChallenge;
 
     var originModel = {
       handle: incumbentHandle || 'unassigned',
@@ -337,10 +360,15 @@
     // 4. Approved Standing
     var rawApp = payload.approvedStanding || {};
     var rawStatus = typeof rawApp.status === 'string' ? rawApp.status.trim().toLowerCase() : '';
-    var approvedStars = (typeof rawApp.approvedStars === 'number' && rawApp.approvedStars >= 0 && rawApp.approvedStars <= 6)
+    var rawStars = (typeof rawApp.approvedStars === 'number' && rawApp.approvedStars >= 0 && rawApp.approvedStars <= 6)
       ? rawApp.approvedStars : null;
-    var approvedTm = (typeof rawApp.approvedTm === 'number' && !isNaN(rawApp.approvedTm) && rawApp.approvedTm >= 0)
+    var rawTm = (typeof rawApp.approvedTm === 'number' && !isNaN(rawApp.approvedTm) && rawApp.approvedTm >= 0)
       ? rawApp.approvedTm : null;
+
+    // Provenance gate: approved rank and approved TM require adequate approved snapshot provenance.
+    // Without approved snapshot provenance, neither can be attested as approved -> omit / null.
+    var approvedStars = hasApprovedProvenance ? rawStars : null;
+    var approvedTm = hasApprovedProvenance ? rawTm : null;
 
     // Numerical degradation packet
     var degradation = null;
@@ -368,7 +396,7 @@
     } else {
       // Check if any resolved challenge explicitly signals recalibration pending
       var challengeWithPendingRecal = resolvedChallenges.find(function(ch) {
-        return ch.resolution && ch.resolution.recalibrationPending;
+        return ch.resolution && ch.resolution.recalibrationPending === true;
       });
       if (challengeWithPendingRecal) {
         recalibrationPending = {
@@ -407,10 +435,61 @@
       standingDesc = 'Independent counterevidence has been verified for a scoped capability claim. Awaiting formal adjudication; no automatic demotion applies.';
       standingTone = 'gold';
     } else if (rawStatus === 'in-good-standing') {
-      standingKey = 'in-good-standing';
-      standingBadge = '[Approved] In Good Standing';
-      standingDesc = 'Canonical standing is verified and current under snapshot policy. No active material challenges.';
-      standingTone = 'teal';
+      if (!hasApprovedProvenance) {
+        standingKey = 'provisional';
+        standingBadge = '[Provisional] Unassessed Standing';
+        standingDesc = 'Standing assessment lacks adequate approved snapshot provenance (requires pinned snapshot ID, maintainer/founder approval handle, and verified HTTPS approval reference). Presented as provisional.';
+        standingTone = 'muted';
+      } else if (isRehearsal) {
+        standingKey = 'rehearsal';
+        standingBadge = '[Rehearsal] In Good Standing (Rehearsal Only)';
+        standingDesc = 'Rehearsal evaluation — actual trusted publication backend is pending. Not a canonical approved publication.';
+        standingTone = 'teal';
+      } else {
+        standingKey = 'in-good-standing';
+        standingBadge = '[Approved] In Good Standing';
+        standingDesc = 'Canonical standing is verified and current under snapshot policy. No active material challenges.';
+        standingTone = 'teal';
+      }
+    }
+
+    // Single Coherent Authority Doctrine (Yggdrasil IV):
+    // If the entry presents hero metrics (trustMagnitude, level) that contradict
+    // the snapshot approved metrics, reject/degrade contradictory payload rather
+    // than rendering two conflicting authorities.
+    var entryTm = (typeof entry.trustMagnitude === 'number' && !isNaN(entry.trustMagnitude))
+      ? entry.trustMagnitude
+      : ((typeof entry.overallTrustMagnitude === 'number' && !isNaN(entry.overallTrustMagnitude))
+        ? entry.overallTrustMagnitude
+        : null);
+
+    var entryStars = null;
+    if (typeof entry.level === 'number') {
+      entryStars = entry.level;
+    } else if (typeof entry.level === 'string') {
+      var matchDigits = entry.level.match(/\d+/);
+      if (matchDigits) entryStars = parseInt(matchDigits[0], 10);
+    }
+
+    var isContradictory = false;
+    var contradictionDetail = '';
+    if (hasApprovedProvenance) {
+      if (entryTm !== null && approvedTm !== null && Math.abs(entryTm - approvedTm) > 0.01) {
+        isContradictory = true;
+        contradictionDetail = 'Hero Trust Magnitude (' + entryTm + ') contradicts snapshot approved TM (' + approvedTm + ').';
+      } else if (entryStars !== null && approvedStars !== null && entryStars !== approvedStars) {
+        isContradictory = true;
+        contradictionDetail = 'Hero star rank (' + entryStars + '★) contradicts snapshot approved rank (' + approvedStars + '★).';
+      }
+    }
+
+    if (isContradictory) {
+      standingKey = 'contradictory';
+      standingBadge = '[Degraded] Contradictory Authority Payload';
+      standingDesc = 'Payload rejected under single-authority doctrine: ' + contradictionDetail + ' View refuses conflicting authorities.';
+      standingTone = 'honor-red';
+      approvedStars = null;
+      approvedTm = null;
     }
 
     // 5. Historical Awards
@@ -469,6 +548,12 @@
       }
       if (vm.snapshot.approvalRef) {
         h.push('      <span class="se-lc-snapshot-item"><a class="se-lc-link" href="' + esc(vm.snapshot.approvalRef) + '" target="_blank" rel="noopener noreferrer">Approval Reference &#8599;</a></span>');
+      }
+      if (vm.snapshot.isRehearsal) {
+        h.push('      <span class="se-lc-snapshot-item"><span class="se-lc-badge se-lc-badge--gold" role="note">REHEARSAL</span> <em class="se-lc-em">Publication backend pending</em></span>');
+      }
+      if (!vm.snapshot.hasApprovedProvenance) {
+        h.push('      <span class="se-lc-snapshot-item"><span class="se-lc-badge se-lc-badge--narrowed" role="note">UNAPPROVED SNAPSHOT</span> <em class="se-lc-em">Lacks maintainer/founder approval provenance</em></span>');
       }
       h.push('    </div>');
     } else {
