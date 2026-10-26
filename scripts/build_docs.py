@@ -1832,7 +1832,7 @@ def main(argv: list[str] | None = None) -> int:
         parser.error("choose either --publication-rehearsal or its internal worker mode")
     if args.publication_rehearsal:
         import shutil
-        from publication_context import create_context, stamp_outputs
+        from publication_context import create_context, stamp_outputs, verify_outputs
         source_root = ROOT.resolve(strict=True)
         output_root = Path(args.publication_rehearsal).expanduser().absolute()
         if output_root.exists() or output_root.is_symlink():
@@ -1860,6 +1860,9 @@ def main(argv: list[str] | None = None) -> int:
             print(f"Rehearsal builder failed (exit {worker.returncode}); no artifact manifest emitted.", file=sys.stderr)
             return worker.returncode
         manifest = stamp_outputs(output_root, context)
+        if not verify_outputs(output_root):
+            print("Rehearsal output verification failed; refusing to report a coherent snapshot.", file=sys.stderr)
+            return 1
         print(f"Rehearsal complete: {output_root}")
         print(f"snapshotId={context['snapshotId']} artifacts={len(manifest['artifacts'])} mode=rehearsal approval=unavailable")
         return 0
