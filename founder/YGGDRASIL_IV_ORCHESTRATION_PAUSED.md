@@ -1,6 +1,8 @@
 # Yggdrasil IV — orchestration paused, workers left alone (2026-10-26)
 
-## Controlling instruction
+**Historical checkpoint.** The founder subsequently explicitly resumed engineering: see [the second resume receipt](YGGDRASIL_IV_RESUMED_2026-10-26.md). Preserve this checkpoint and its evidence; the pause instruction below is not the current control. No acceptance or rollout gate was waived.
+
+## Controlling instruction at capture
 
 Founder: **“Pause orchestration. Keep workers working, just get us to a resumable state.”**
 

@@ -4,6 +4,17 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-26, SECOND EXPLICIT RESUME — practical solo work)
+
+Founder: **“Continue. Tokens are up. Continue as usual.”** Practical solo implementation and economical subagents are permitted. Read `founder/YGGDRASIL_IV_RESUMED_2026-10-26.md` first. The prior pause receipt/bundle remains historical; no campaign restart or rollout/acceptance waiver.
+
+- Parent fixed the coupled corpus findings in `b6103d7bd42eb7a73b1e7366cc335400b8fcd375`, locally saved/recovery-ref protected, pushed and freshly remotely verified. **25 new adversarial tests pass**: mutation/empty scope false greens, explicit filtered scope, external file/directory input symlinks, strict unknown-verifier diagnostics without score changes. Three accepted engine/test blobs remain byte-identical4b. Parent broader regression/pinned full no-write task `bdb8b0209` and independent review must still be collected; no acceptance or merge yet.
+- Real publication fixture task `b0efd36c3` **failed exit1** while waiting on semantic parity subprocess at `stamp_outputs`; no surviving process-group descendants found. Real CairoSVG venv remains installed; do not exclude the failed fixture, weaken oracle/PNG checks or infer a root cause from the parent stack alone.
+- Old-session resumes `30dd93d1`, `690e889b`, `1dcda4c9` failed at startup in about1s; only digest files found for the old handles. Fresh contexts continue the SAME preserved source: watcher Sol run `4e66b317-fa51-4160-8bc1-18558c98bcf6`; publication Luna High `b2d2cbb2-ffca-4b9a-98bb-af2d38e71d77`; corpus independent Luna High `6bee4fc3-0743-4a87-9bc0-db8bb636ddac`. Assignments are not deliveries. Watcher dirty files/recovery WIP remain intact; no forced recovery application.
+- #2148 / draft#2151 / accepted integration4b unchanged. Frontier additive ruling, ordinary real-SKILL/L4 intake, genuine issuer boundary, independent review and canonical/schema/security/visual/operational/main/release gates remain. Transactions still have no delivered implementation. Other paused work remains outstanding, not follow-up debt. Unrelated `.pi/` and recovery bundles preserved.
+
+---
+
 ## State Snapshot (2026-10-26, ORCHESTRATION PAUSE — workers left alone)
 
 Founder: **“Pause orchestration. Keep workers working, just get us to a resumable state.”** No new dispatches, restarts, feature tests/fixes/merges or activation. Delayed notifications permit bookkeeping only. Read `founder/YGGDRASIL_IV_ORCHESTRATION_PAUSED.md` first; earlier resume assignments below are historical. Checkpoint completion continued without resuming campaign execution.

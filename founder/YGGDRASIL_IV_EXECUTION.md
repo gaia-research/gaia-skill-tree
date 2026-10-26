@@ -1,6 +1,6 @@
 # Yggdrasil IV — engineering execution receipt
 
-**Current control: orchestration paused at the founder's request; existing workers were left alone.** Read [the orchestration-pause checkpoint](YGGDRASIL_IV_ORCHESTRATION_PAUSED.md) before acting on the historical resume assignments below. Late notifications are bookkeeping only; no fresh dispatches/tests/merges until an explicit campaign resume.
+**Current control: explicitly resumed by the founder.** Read [the second resume receipt](YGGDRASIL_IV_RESUMED_2026-10-26.md) for current assignments and actual evidence. The [orchestration-pause checkpoint](YGGDRASIL_IV_ORCHESTRATION_PAUSED.md) remains intact as historical recovery evidence; this resume was not inferred from a delayed notification. Main, canonical, schema, issuer/security and visual/operational rollout gates remain held.
 
 Governing issue: [RFC #2148](https://github.com/gaia-research/gaia-skill-tree/issues/2148).
 Doctrine: [founder ratification](YGGDRASIL_IV_RATIFICATION_2026-10-25.md), `META.md`, `GOVERNANCE.md`.
@@ -9,7 +9,7 @@ Doctrine: [founder ratification](YGGDRASIL_IV_RATIFICATION_2026-10-25.md), `META
 
 The founder's full-implementation mission authorizes engineering, tests, staging and preview preparation across P0–P5. It does **not** authorize canonical schema publication/rollout, pilot selection or live standing changes, production trust/rank/evidence/Origin changes, final main merge, registry-wide rollout or RFC closure. Existing schema quorum and frontend/CLI visual review gates remain binding. Preparation is not publication.
 
-Sol leads architecture/integration/verification; code authorship is delegated to explicit-effort Flash Medium/High and Luna High workers. Astra Max is selectively available read-only. No default-effort inheritance, model escalation or subagent turn limits.
+Sol leads architecture/integration/verification. The latest founder instruction permits practical parent implementation and economical delegation; independent review remains required. Authorized explicit-effort worker routes and the one-Sol-implementation-worker limit remain unchanged. Astra Max is selectively available read-only. No default-effort inheritance, unapproved model escalation or subagent turn limits.
 
 ## Ground truth — 2026-10-25
 
