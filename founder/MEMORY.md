@@ -4,6 +4,19 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-26, ENVIRONMENT CRASH RECOVERED — continue)
+
+Founder returned after a crash and explicitly said **recover and continue**. Read `founder/YGGDRASIL_IV_CRASH_RECOVERY_2026-10-26.md` first. Campaign remains resumed; no new umbrella, reset or gate waiver.
+
+- Recovered parent corpus task `bdb8b0209` from disk after runtime task registry reset: **324 tests passed65.56s**, exactb6103d7bd42eb7a73b1e7366cc335400b8fcd375; full398named/299generic replay,398evaluated/0not-evaluated, clean manifest, **zero source changes**. Independent review survived:45focused passes/no remainingP0/P1 in four reviewed areas. Opened **draft PR#2159 into dev/yggdrasil-iv**, stored head/body/base verified; no merge or founder visual approval inferred.
+- Both previous implementation jobs orphaned-dead; recorded processes absent. Preserved watcher36,564-byte patch/HEADa84f65358 and publication5,033-byte patch/HEAD049c8ce4; separate temporary-index recovery-only WIP commits **c4641a32b5e0cb7294f47a9b5c54f49f36ed886e** / **525439aa6c30033be610a4e987d8c7005840d5dc** without moving branches/indexes. Recovery `.gaia/yggdrasil-iv/recovery/crash-2026-10-26-1857/` holds manifest, hashes, session copies and parent corpus evidence. Never merge these snapshots or force-apply patches over surviving edits.
+- Actual full JSONL sessions survived this crash; resumed by **absolute session path**, not old digest-only IDs. Watcher Sol run `ff9cb8c4-41d9-4db6-8b71-30506f6f99eb` / session01a17940-3dd2; publication Luna High `1fa936dc-5944-4dad-ac0b-d3d16c6718ea` / session01a17940-3e10. New Luna transaction-foundation run `1ddd123e-5220-4347-9ced-340a93f95e1e` / session01a17998-2103 fromclean4b. Post-resume processes verifiedalive at assigned CWDs. These are startup facts, not completed delivery; one Sol worker only.
+- Parent inspected cleanupf39a859caed64db39bd0baf7b5fb3a395fee97b0 and reran20tests/mirror parity/whitespace successfully. Newgaia-frontier referrals are not yet satisfiable on integration; preserve explicit landing dependency. No false supersession/installability claim.
+- Founder separately authorized **Flash research then end-to-end durable Pi subagent tooling and pi-config integration**, cautiously avoiding breaking updates. Flash Medium research run `367b67ae-bdef-4a0a-9d2c-ebe53b018395`; report outside this repo at `~/.pi/durable-recovery/research.md`. Compare existing pi-durable versus SQLite/native mechanisms; no installs or live reload in research, preserve active campaign. Follow-on Flash implementation authorized once solution selected; pins, isolated tests, backups/rollback, targeted config sync. This is operational job durability, not a canonical registry truth DB or a replacement for YggIV transaction work.
+- #2148/#2151/acceptedintegration4b unchanged. Genuine issuer, canonical/schema/standing/Origin, visual, actual elapsed operational/pilot and main/release/closure gates remain. Frontier comparison/native invocation, UI producer/actual panel captures and held evidence adoption remain in campaign, not follow-up debt.
+
+---
+
 ## State Snapshot (2026-10-26, SECOND EXPLICIT RESUME — practical solo work)
 
 Founder: **“Continue. Tokens are up. Continue as usual.”** Practical solo implementation and economical subagents are permitted. Read `founder/YGGDRASIL_IV_RESUMED_2026-10-26.md` first. The prior pause receipt/bundle remains historical; no campaign restart or rollout/acceptance waiver.

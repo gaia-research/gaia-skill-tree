@@ -1,6 +1,6 @@
 # Yggdrasil IV — engineering execution receipt
 
-**Current control: explicitly resumed by the founder.** Read [the second resume receipt](YGGDRASIL_IV_RESUMED_2026-10-26.md) for current assignments and actual evidence. The [orchestration-pause checkpoint](YGGDRASIL_IV_ORCHESTRATION_PAUSED.md) remains intact as historical recovery evidence; this resume was not inferred from a delayed notification. Main, canonical, schema, issuer/security and visual/operational rollout gates remain held.
+**Current control: explicitly resumed by the founder.** Read [the crash-recovery receipt](YGGDRASIL_IV_CRASH_RECOVERY_2026-10-26.md) for current assignments and recovered verification; [the second resume receipt](YGGDRASIL_IV_RESUMED_2026-10-26.md) records the preceding authorization. The [orchestration-pause checkpoint](YGGDRASIL_IV_ORCHESTRATION_PAUSED.md) remains intact as historical recovery evidence; this resume was not inferred from a delayed notification. Main, canonical, schema, issuer/security and visual/operational rollout gates remain held.
 
 Governing issue: [RFC #2148](https://github.com/gaia-research/gaia-skill-tree/issues/2148).
 Doctrine: [founder ratification](YGGDRASIL_IV_RATIFICATION_2026-10-25.md), `META.md`, `GOVERNANCE.md`.

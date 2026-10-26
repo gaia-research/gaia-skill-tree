@@ -1,5 +1,7 @@
 # Yggdrasil IV — second explicit resume (2026-10-26)
 
+**Latest execution state:** see [the environment-crash recovery receipt](YGGDRASIL_IV_CRASH_RECOVERY_2026-10-26.md). The initial assignments and pending checks below are historical; engineering remains resumed and all gates remain binding.
+
 ## Current control
 
 The founder explicitly said **“Continue. Tokens are up. Continue as usual.”** The same instruction permits practical solo work and subagents when economical. This resumes engineering after the orchestration-only pause; it is not permission inferred from a delayed task notification.
