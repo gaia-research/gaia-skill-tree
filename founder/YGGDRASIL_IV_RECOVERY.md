@@ -2,7 +2,18 @@
 
 Captured 2026-10-26. This is an engineering recovery record, not acceptance, publication, rollout or closure authority. For campaign boundaries read `YGGDRASIL_IV_EXECUTION.md` and the ratification first.
 
-## Immediate state
+## Latest recovery pointer — explicit resume / Frontier (2026-10-26)
+
+The founder explicitly resumed the saved campaign and added the [locked Frontier ruling](GAIA_FRONTIER_RULING_2026-10-26.md). Read the newest `MEMORY.md` snapshot and refreshed `YGGDRASIL_IV_EXECUTION.md`; the capture below is historical, not a current stop instruction or the latest acceptance ledger. Preserve the pause bundle, original SHAs and interrupted evidence.
+
+- Accepted integration remains `4b73e62814fca16a01bd1e71325e7abb97316c95` (#2156), including domain #2155. Root `dev/yggdrasil-iv-frontier-reconciliation` reconciles saved docs with that integration; no main or aggregate merge.
+- Frontier initial local `6b0b48b68` implements mirrored invocation, separate native lead contract/helper and read-only handoff. Provenance/binding completion is in progress; independent real experiment, fresh harness invocation and final review outstanding. This is not production challenge admission.
+- Parent actual publication replay at `b21d39177` failed only on missing supported OG rasterizer; no manifest. Independent review additionally found ambient-env activation in direct producers. `publication-last-mile` owns the explicit-context fix while preserving accepted source. Its original apparent Domain/upstream deletions were two-dot ancestry differences, **not** the three-dot PR changes.
+- User now authorizes installing dependencies/alternatives. Parent install task `b8478f990` targets isolated ignored `.gaia/yggdrasil-iv/runtime/publication-venv`, with real CairoSVG PNG smoke test. Existing native Cairo was found. Source remains unchanged during installation; no strict-check waiver. Collect result before replay. Any final unresolved environment blocker gets a precise end-of-run handover, not a false pass.
+- New permanent worktrees under `$HOME/.gaia-worktrees/`: `frontier-foundation`, `watcher-transactional`, `canonical-transactions`, `publication-last-mile`, `curation-scaffold-cleanup`; separate detached `publication-review` and `frontier-inventory` preserve independent inspection. Original nine pause worktrees remain intact. Code authors must verify unique local recovery refs and distinguish local save, push acknowledgment and fresh remote SHA.
+- Genuine issuer, canonical/schema/rank/Origin rollout, visual approval, operational weeks/pilot, main/release/RFC closure remain held. Existing old feature-pipeline state is unrelated PR1826, not authority for this campaign.
+
+## Historical initial capture — immediate state at 05:08 UTC
 
 - Integration `dev/yggdrasil-iv`: `2c880b119e86d404f2112542b6fad14269e09def`.
 - Draft aggregate PR #2151 remains held from main merge. RFC #2148 is open.

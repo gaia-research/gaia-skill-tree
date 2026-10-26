@@ -1,6 +1,8 @@
 # Yggdrasil IV — founder-requested pause (2026-10-26)
 
-**PAUSED. No dispatches, feature tests, merges, deployment, activation or other campaign execution until the founder explicitly says resume. Queued background notifications are NOT resume authorization.**
+**RESUMED by explicit founder instruction on 2026-10-26.** The historical pause below remains a recovery checkpoint, not a current stop instruction. Continue the existing #2148 / #2151 campaign under `YGGDRASIL_IV_EXECUTION.md` and the [locked Frontier ruling](GAIA_FRONTIER_RULING_2026-10-26.md). Accepted foundations and all canonical, security, visual, pilot, main/release gates remain intact. Delayed notifications alone still confer no authority.
+
+At the original capture, the instruction was: **PAUSED; no campaign execution until explicit founder resume.** That resume has now been given. The saved state and estimates below describe the pause capture, not the latest run.
 
 ## Saved state
 
@@ -25,7 +27,7 @@ Ignored `.gaia/yggdrasil-iv/recovery/pause-2026-10-26/` contains:
 
 All permanent worktrees remain in `$HOME/.gaia-worktrees/`. No stash/reset/force-push/deletion/cleanup. Bundles are local recovery, not an off-device backup. Source remote states other than explicitly verified Sol should be freshly checked after resume. Root documentation push acknowledgment is recorded separately.
 
-## Resume order (NOT authorization to execute now)
+## Historical resume order (saved at pause; current execution receipt takes precedence)
 
 1. Read this file, `YGGDRASIL_IV_RECOVERY.md`, pause manifest and saved final reports. Verify worktree/HEAD and paused-process state.
 2. Parent-owned final Sol full-corpus + independent double replay at b21d391; separate independent review. This decides whether Sol's implementation is accepted, not its158-test self-report.
