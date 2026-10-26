@@ -4,6 +4,19 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-26, Yggdrasil IV #2148 — intermittent-connectivity safeguards)
+
+- User reports intermittent internet; workers must commit coherent local units, anchor detached HEADs with named recovery refs, push best effort and explicitly distinguish local-saved from remote-confirmed. Do not terminate children with dirty owned code or running tests.
+- **Resume here:** `founder/YGGDRASIL_IV_RECOVERY.md` records exact saved feature SHAs, review blockers and retry instructions. Ignored `.gaia/yggdrasil-iv/recovery/manifest.json` records exact sessions/worktrees, local refs, source patches and untracked archives. At 05:08 UTC, 11 task records and 28 campaign refs were preserved; a 157,196-byte incremental Git bundle was created and `git bundle verify` passed. It requires baseline `b0f6d9e502369aea2ebebe13eed8d961675094bd`. Local backup protects interruption, not device loss.
+- Integration advanced to `2c880b119e86d404f2112542b6fad14269e09def`: #2153 recovery docs and #2154 casing-only #2152 fix merged by **merge commits**, not main. Casing fix independently reproduced before/after, 34 local tests passed, and Actions `40269406102` passed full tests/build/clean-wheel smoke. No real upstream retry. #2151 remains draft and #2148 open.
+- Core/engine/corpus/evidence/UI still unintegrated and review-blocked. Engine saved `6e6c3f08f` direct-suite repair requires verification after final model response timed out. Challenge core still has earlier-receipt/later-publication round-trip bug. Corpus `ab726453e` fixes saved, final-engine merge/review pending. Evidence split cleanly into schema `3b233b8d5` and core `1f9b76f6c`; second repair model request timed out, so migration/provenance/date blockers remain.
+- Durable watcher partial four-file patch over `bd4aa8159` was preserved (17,154 bytes); active receipt producer's two untracked files archived. A plain Git diff does not capture untracked new code. Actual source authority remains missing/default fail-closed; protected-environment activation requires a real security/human gate.
+- UI `386335c1f` is not approved: unpinned snapshot can look approved, malformed `"false"` coerces material challenge, mobile heading clips, fixture TM disagrees between header and panel; synthetic three-section harness is not actual five-section Explorer evidence. No visual approval or merge.
+- Active publication task `36566dd2` and protected receipt-source task `f15b2fcb` index1 received recovery steering; other tasks already completed/timed out and were backed up directly. See manifest before respawn. No unapproved model escalation or Pi turn limits; Sol delegates all implementation code.
+- Schema, canonical standing/Origin, pilot, protected-environment/security activation, visuals, final main merge, rollout and RFC closure remain held. Four real weekly comparisons cannot be simulated away. Continue all engineering work; no unfinished campaign work relabeled follow-up debt.
+
+---
+
 ## State Snapshot (2026-10-26, Yggdrasil IV #2148 — interruption recovery, code review still open)
 
 ### TLDR
