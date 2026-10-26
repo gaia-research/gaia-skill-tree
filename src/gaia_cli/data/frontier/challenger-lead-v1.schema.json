@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gaiaskilltree.com/schemas/challenger-lead-v1.schema.json",
+  "title": "Gaia Frontier Challenger Lead v1 (non-canonical engineering packet)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "leadId", "identity", "source", "capability", "comparison", "target", "preliminaryEvidence", "limitations", "dedupe", "independentTest", "disposition"],
+  "properties": {
+    "schemaVersion": {"const": "challenger-lead-v1"},
+    "leadId": {"type": "string", "minLength": 8, "maxLength": 160, "pattern": "^[a-zA-Z0-9._:-]+$"},
+    "identity": {"type": "object", "additionalProperties": false, "required": ["name", "kind", "installable", "version"], "properties": {"name": {"type": "string", "minLength": 2, "maxLength": 200}, "kind": {"enum": ["native-platform", "native-model", "native-cli", "installable-agent-capability"]}, "installable": {"type": "boolean"}, "version": {"type": ["string", "null"], "maxLength": 200}}},
+    "source": {"type": "object", "additionalProperties": false, "required": ["url", "observedAtUTC", "contentDigest", "provider"], "properties": {"url": {"type": "string", "format": "uri", "pattern": "^https://"}, "observedAtUTC": {"type": "string", "format": "date-time"}, "contentDigest": {"type": "string", "pattern": "^(sha256:[a-f0-9]{64}|unknown)$"}, "provider": {"type": "string", "minLength": 2, "maxLength": 200}}},
+    "capability": {"type": "object", "additionalProperties": false, "required": ["claim", "task", "conditions"], "properties": {"claim": {"type": "string", "minLength": 10, "maxLength": 1000}, "task": {"type": "string", "minLength": 5, "maxLength": 500}, "conditions": {"type": "string", "minLength": 5, "maxLength": 1000}}},
+    "comparison": {"type": "object", "additionalProperties": false, "required": ["comparator", "baseline"], "properties": {"comparator": {"type": "string", "minLength": 5, "maxLength": 500}, "baseline": {"type": "string", "minLength": 5, "maxLength": 500}}},
+    "target": {"type": "object", "additionalProperties": false, "required": ["skillId", "scopeRationale"], "properties": {"skillId": {"type": "string", "minLength": 2, "maxLength": 240}, "scopeRationale": {"type": "string", "minLength": 8, "maxLength": 1000}}},
+    "preliminaryEvidence": {"type": "array", "minItems": 1, "maxItems": 20, "items": {"type": "object", "additionalProperties": false, "required": ["polarity", "url", "summary"], "properties": {"polarity": {"enum": ["supports-investigation", "counterevidence", "context-only"]}, "url": {"type": "string", "format": "uri", "pattern": "^https://"}, "summary": {"type": "string", "minLength": 8, "maxLength": 1200}}}},
+    "limitations": {"type": "array", "minItems": 1, "maxItems": 20, "items": {"type": "string", "minLength": 4, "maxLength": 500}},
+    "dedupe": {"type": "object", "additionalProperties": false, "required": ["key", "checkedAtUTC", "matches"], "properties": {"key": {"type": "string", "minLength": 8, "maxLength": 500}, "checkedAtUTC": {"type": "string", "format": "date-time"}, "matches": {"type": "array", "items": {"type": "string"}}}},
+    "independentTest": {"type": "object", "additionalProperties": false, "required": ["proposal", "traceability"], "properties": {"proposal": {"type": "string", "minLength": 12, "maxLength": 1500}, "traceability": {"type": "string", "minLength": 8, "maxLength": 1000}}},
+    "disposition": {"type": "object", "additionalProperties": false, "required": ["status", "rationale", "nextAction"], "properties": {"status": {"enum": ["observed", "candidate", "rejected", "deferred"]}, "rationale": {"type": "string", "minLength": 8, "maxLength": 1000}, "nextAction": {"type": "string", "minLength": 8, "maxLength": 1000}}}
+  }
+}
