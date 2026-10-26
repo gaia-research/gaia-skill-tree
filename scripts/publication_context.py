@@ -55,8 +55,8 @@ def _files(path: Path):
 def create_context(source_root: Path, output_root: Path, evaluation_at_utc: str | None = None) -> dict:
     source_root = source_root.resolve(strict=True)
     output_root = output_root.expanduser().absolute()
-    if output_root.is_symlink():
-        raise ValueError("publication output root must not be a symlink")
+    if output_root.is_symlink() or any(parent.is_symlink() for parent in output_root.parents):
+        raise ValueError("publication output root must not be under a symlink path")
     output_resolved = output_root.resolve(strict=False)
     if output_resolved == source_root or source_root in output_resolved.parents or output_resolved in source_root.parents:
         raise ValueError("publication output root must be disjoint from the source checkout")

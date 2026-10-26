@@ -16,6 +16,10 @@ def test_context_rejects_source_or_symlink_output(tmp_path):
     link.symlink_to(tmp_path / "outside")
     with pytest.raises(ValueError, match="symlink"):
         create_context(source, link, "2026-10-25T12:00:00Z")
+    parent_link = tmp_path / "parent-link"
+    parent_link.symlink_to(tmp_path, target_is_directory=True)
+    with pytest.raises(ValueError, match="symlink"):
+        create_context(source, parent_link / "child", "2026-10-25T12:00:00Z")
 
 
 def test_snapshot_id_binds_inputs_and_pinned_evaluation_time(tmp_path):
