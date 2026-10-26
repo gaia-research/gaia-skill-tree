@@ -86,6 +86,11 @@ def _utc(value: str) -> str:
     return parsed.astimezone(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
+def _snapshot_id(inputs: dict[str, str], revision: str, instant: str) -> str:
+    seed = json.dumps({"inputs": inputs, "sourceRevision": revision, "evaluationAtUTC": instant}, sort_keys=True, separators=(",", ":"))
+    return _digest(seed.encode())
+
+
 def create_context(source_root: Path, output_root: Path, evaluation_at_utc: str | None = None) -> dict:
     source_root = source_root.resolve(strict=True)
     output_root = output_root.expanduser().absolute()
@@ -103,8 +108,7 @@ def create_context(source_root: Path, output_root: Path, evaluation_at_utc: str 
                                   capture_output=True, text=True).stdout.strip()
     except (OSError, subprocess.CalledProcessError):
         revision = "unavailable"
-    seed = json.dumps({"inputs": inputs, "sourceRevision": revision, "evaluationAtUTC": instant}, sort_keys=True, separators=(",", ":"))
-    return {"mode": MODE, "approval": APPROVAL, "snapshotId": _digest(seed.encode()),
+    return {"mode": MODE, "approval": APPROVAL, "snapshotId": _snapshot_id(inputs, revision, instant),
             "evaluationAtUTC": instant, "sourceRevision": revision, "inputDigests": inputs,
             "engineIdentity": inputs.get("src/gaia_cli/trustMagnitude.py", "missing"),
             "policyIdentity": {k: inputs.get(k, "missing") for k in ("META.md", "GOVERNANCE.md", "registry/schema/meta.json")}}
@@ -118,6 +122,28 @@ def verify_copied_inputs(output_root: Path, context: dict) -> None:
             raise ValueError(f"copied source input differs from snapshot: {rel}")
 
 
+def compare_ledger_api(ledger: dict, api: dict) -> list[str]:
+    """Compare stored canonical stars and TM wherever both public projections expose a skill."""
+    ledger_rows = {str(row.get("skillId")): row for row in ledger.get("rows", []) if row.get("skillId")}
+    api_rows = {str(row.get("id")): row for row in api.get("skills", []) if row.get("id")}
+    problems = []
+    for skill_id in sorted(ledger_rows.keys() & api_rows.keys()):
+        lrow, arow = ledger_rows[skill_id], api_rows[skill_id]
+        if str(lrow.get("currentStars")) != str(arow.get("level")):
+            problems.append(f"{skill_id}: canonical stars differ")
+        if round(float(lrow.get("tm", 0)), 2) != round(float(arow.get("trustMagnitude", 0)), 2):
+            problems.append(f"{skill_id}: TM differs")
+    return problems
+
+
+def _check_semantic_parity(root: Path) -> None:
+    ledger = json.loads((root / "docs/graph/ledger/data.json").read_text(encoding="utf-8"))
+    api = json.loads((root / "docs/api/v1/skills/index.json").read_text(encoding="utf-8"))
+    problems = compare_ledger_api(ledger, api)
+    if problems:
+        raise ValueError("cross-surface semantic mismatch: " + "; ".join(problems[:10]))
+
+
 def stamp_outputs(output_root: Path, context: dict, stages: dict | None = None) -> dict:
     """Write external metadata only; never alter generated, static, or source files."""
     output_root = output_root.resolve(strict=True)
@@ -128,6 +154,7 @@ def stamp_outputs(output_root: Path, context: dict, stages: dict | None = None) 
     for rel in GENERATED_OUTPUTS:
         if not (output_root / rel).is_file():
             raise ValueError(f"rehearsal incomplete; required generated output missing: {rel}")
+    _check_semantic_parity(output_root)
     context_path = output_root / "publication-context.json"
     context_path.write_text(json.dumps(context, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     artifacts = {}
@@ -147,6 +174,8 @@ def verify_outputs(output_root: Path) -> bool:
         manifest = json.loads((output_root / "publication-artifacts.json").read_text(encoding="utf-8"))
         context = json.loads((output_root / "publication-context.json").read_text(encoding="utf-8"))
         if (manifest.get("mode"), manifest.get("approval")) != (MODE, APPROVAL) or (context.get("mode"), context.get("approval")) != (MODE, APPROVAL):
+            return False
+        if context.get("snapshotId") != _snapshot_id(context.get("inputDigests", {}), context.get("sourceRevision", ""), _utc(context.get("evaluationAtUTC", ""))):
             return False
         if manifest.get("snapshotId") != context.get("snapshotId") or manifest.get("evaluationAtUTC") != context.get("evaluationAtUTC"):
             return False

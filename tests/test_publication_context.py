@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 
 from scripts.publication_context import (
-    GENERATED_OUTPUTS, create_context, stamp_outputs, verify_copied_inputs,
+    GENERATED_OUTPUTS, compare_ledger_api, create_context, stamp_outputs, verify_copied_inputs,
     verify_outputs,
 )
 
@@ -16,6 +16,13 @@ def _outputs(root: Path):
         path = root / rel
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text("{}\n" if path.suffix == ".json" else "<html></html>\n", encoding="utf-8")
+
+
+def _context(tmp_path):
+    source = tmp_path / "context-source"
+    source.mkdir(exist_ok=True)
+    (source / "input.json").write_text('{"fixed":true}', encoding="utf-8")
+    return create_context(source, tmp_path / "context-output", UTC)
 
 
 def _stages():
@@ -67,7 +74,7 @@ def test_stamping_is_external_and_rejects_skipped_generators(tmp_path):
     source_like.parent.mkdir(parents=True)
     source_like.write_text('{"input":true}\n', encoding="utf-8")
     before = source_like.read_bytes()
-    context = {"mode": "rehearsal", "approval": "unavailable", "snapshotId": "abc", "evaluationAtUTC": UTC}
+    context = _context(tmp_path)
     _outputs(output)
     failed = _stages()
     failed["badges"]["status"] = "skipped"
@@ -83,12 +90,20 @@ def test_stamping_is_external_and_rejects_skipped_generators(tmp_path):
 def test_manifest_detects_stale_artifact_and_context_mix(tmp_path):
     output = tmp_path / "output"
     output.mkdir()
-    context = {"mode": "rehearsal", "approval": "unavailable", "snapshotId": "abc", "evaluationAtUTC": UTC}
+    context = _context(tmp_path)
     _outputs(output)
     stamp_outputs(output, context, _stages())
     assert verify_outputs(output)
     (output / GENERATED_OUTPUTS[0]).write_text('{"stale":true}', encoding="utf-8")
     assert not verify_outputs(output)
+
+
+def test_semantic_comparator_rejects_star_and_tm_mismatch():
+    ledger = {"rows": [{"skillId": "author/skill", "currentStars": "4★", "tm": 90.0}]}
+    api = {"skills": [{"id": "author/skill", "level": "3★", "trustMagnitude": 89.5}]}
+    assert compare_ledger_api(ledger, api) == [
+        "author/skill: canonical stars differ", "author/skill: TM differs"
+    ]
 
 
 def test_replay_context_is_deterministic_at_pinned_time(tmp_path):
