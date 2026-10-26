@@ -1,4 +1,12 @@
-"""`gaia curate` command scaffold."""
+"""`gaia curate` command scaffold and ledger inspector.
+
+Migration Notice:
+Unimplemented future-transition Python stubs in the curation orchestrator were
+NOT working automation. Outward discovery is canonically owned by Gaia Frontier
+(`/gaia-frontier`), while `/gaia-full-pipeline` provides manual L4-bounded
+curation. `gaia curate` retains initialization, status inspection, and ledger
+persistence for local run ledgers.
+"""
 
 from __future__ import annotations
 

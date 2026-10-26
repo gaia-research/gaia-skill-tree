@@ -11,7 +11,7 @@ description: >-
   "quick curate status". For batch/multi-page runs use gaia-curate-dynamic;
   for crawler branches use gaia-bot-curate; for pending intake proposals use
   gaia-draft-curate.
-version: 1.0.1
+version: 1.1.0
 argument-hint: "<url> [--generic <id>] [--discover] [--dry-run] [--resume <run-id>] [--status]"
 ---
 
@@ -19,8 +19,9 @@ argument-hint: "<url> [--generic <id>] [--discover] [--dry-run] [--resume <run-i
 
 `gaia curate` is currently a **paused orchestration scaffold**. It can create
 and persist a run ledger, reload one with `--resume`, and print status. A fresh
-run deliberately pauses at `INITIALIZED`; the transition methods beyond that
-point raise `NotImplementedError` and do not perform discovery, evidence
+run deliberately pauses at `INITIALIZED`; the non-executing transition method
+stubs beyond that point were an orchestration skeleton, NOT working automation,
+and have been pruned. The CLI does not perform automatic discovery, evidence
 verification, ingest, calibration, GitHub issue/PR work, or merging.
 
 Do not describe this skill as an automated two-gate pipeline, claim that it
@@ -29,7 +30,17 @@ The state names record the intended workflow shape only.
 
 > For an implemented, human-directed curation workflow, use
 > [/gaia-full-pipeline](../gaia-full-pipeline/SKILL.md) for phase routing or
-> [/gaia-consult](../gaia-consult/SKILL.md) for command guidance.
+> [/gaia-consult](../gaia-consult/SKILL.md) for command guidance. For outward
+> ecosystem intelligence and discovery leads, use [/gaia-frontier](../gaia-frontier/SKILL.md).
+
+## Migration notice
+
+Under the Founder Frontier Ruling (2026-10-26), the unimplemented future-transition
+Python stubs in `CurationOrchestrator` were pruned as obsolete scaffolding, NOT
+working automation:
+- **Outward ecosystem discovery** is canonically owned by `/gaia-frontier`.
+- **Manual, bounded L4-gated curation** remains valid and supported via `/gaia-full-pipeline` and `/gaia-consult`.
+- **Status inspection and historical ledger loading** are preserved in `gaia curate` and this compatibility skill (`/gaia-quick-curate`).
 
 ## Current command surface
 
@@ -55,8 +66,9 @@ Run state is stored at:
 
 The ledger currently starts in `INITIALIZED`. Although
 `src/gaia_cli/curation/state.py` declares 25 intended state names, that list is
-not evidence that the workflow exists. `SCAFFOLD_PAUSE_STATES` in the
-orchestrator prevents a fresh run from entering the unimplemented transitions.
+retained for historical runs and ledger compatibility, not evidence that an
+automated workflow exists. `SCAFFOLD_PAUSE_STATES` in the orchestrator prevents
+a fresh run from entering unimplemented transitions.
 
 ## Safety and merge authority
 
@@ -73,7 +85,7 @@ evidence, diff, and CI state.
 |---|---|
 | CLI command entry | `src/gaia_cli/commands/curate.py` |
 | Run ledger and 25-state design skeleton | `src/gaia_cli/curation/state.py` |
-| Pause guard and unimplemented transition stubs | `src/gaia_cli/curation/orchestrator.py` |
+| Pause guard and status inspector | `src/gaia_cli/curation/orchestrator.py` |
 | URL-resolution helper | `src/gaia_cli/curation/url_resolver.py` |
 | Run state | `.gaia/curation/runs/<run-id>/state.json` |
 
@@ -85,6 +97,7 @@ implemented.
 
 | Need | Use |
 |---|---|
+| Outward discovery and ecosystem intelligence | [/gaia-frontier](../gaia-frontier/SKILL.md) |
 | Implemented phase-by-phase curation | [/gaia-full-pipeline](../gaia-full-pipeline/SKILL.md) |
 | Curation command/reference lookup | [/gaia-consult](../gaia-consult/SKILL.md) |
 | Batch or multi-source discovery | [/gaia-curate-dynamic](../gaia-curate-dynamic/SKILL.md) |
