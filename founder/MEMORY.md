@@ -4,6 +4,19 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-26, DELIVERIES UNDER REVIEW — restart NOT ready)
+
+Read `founder/YGGDRASIL_IV_DELIVERY_REVIEW_2026-10-26.md` first. Three recovered engineering deliveries are saved, not accepted. Founder asks when to reset: **NOT YET**; tell READY TO RESTART only after reviewed/tested installation and verified critical-work checkpoints, specifying Pi reload versus Termux restart. No pause or new campaign.
+
+- Publication368832668: worker24context passes106.10s, actual real-builder/corruption fixture retained; repeated native runtime/font hashing diagnosed. Parent production regressions/two-complete-root byte replay `ba7cb70f5` and independent Luna review `1b98475f` launched/uncollected. Output roots must be disjointTMPDIR paths, not repo-contained`.gaia`.
+- Watcherd311d9624: worker50focused passes incl actual CAS barriers/two clones, crash73after shared save, fresh-clone restoration/tamper/dedupe. Parent entirewatcher+ledger suite `bbdc8140c` and independent Luna review `7759a499` launched/uncollected. Default issuer unavailable. Original implementation workers are now done, not still running.
+- **Routing violation repaired transparently**: foundation author wrongly pushedb834be074/295428292/edf5b0493 directly to integration. Preserved on correct feature/upstream; independently checked exact-tree revertPR#2160 merged **fd4038afb9a34062ca993a4eb0878e0464cfe564**, entire tree identical accepted4b (`31d6fb4d2ec924cf9ceb64a621d9f95b719ef2cf`). No history rewrite/lost work/main or registry mutation. Reapplied exact source on proper feature **e183246809486faec6b3d1016480291e0575e575**, draft#2161. Parent8passes/5containment subtests0.47s; independent Luna `cb30f5b8` pending. No CLI/dual-history/migration wired or real process proof supplied by author. Mechanical restoration is not implementation acceptance.
+- Corpus draft#2159 nowcc1c3e173 (README-only CLI reference correction verified against actual generator); implementation remains tested/reviewedb610. CI new head/final applicable visual gate not inferred.
+- Durable Pi side-task Flash High owner `e2c1a27a-7940-4d45-82a3-8b8f92bc9dbc`, isolated `~/.pi/worktrees/pi-config-durable-recovery`; pointers `~/.pi/durable-recovery/manifest.json`. Independent Flash review before live install; preserve Pi1.4.0/subagent0.8.0, no update/reload. Parent shell tests lack surviveReload opt-in. Private operational DB is not Gaia canonical storage.
+- Accepted integration is nowfd4038a **with unchanged4b accepted code tree**; main remainsb0f6d9e5. All original schema/canonical/issuer/visual/operational/main/release gates and unfinished Frontier/UI/CLI/evidence work remain. Unrelated`.pi/` and historical recovery remain untouched.
+
+---
+
 ## State Snapshot (2026-10-26, ENVIRONMENT CRASH RECOVERED — continue)
 
 Founder returned after a crash and explicitly said **recover and continue**. Read `founder/YGGDRASIL_IV_CRASH_RECOVERY_2026-10-26.md` first. Campaign remains resumed; no new umbrella, reset or gate waiver.

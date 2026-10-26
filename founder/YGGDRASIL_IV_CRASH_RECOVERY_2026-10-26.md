@@ -4,7 +4,7 @@
 
 The founder returned after an environment crash and explicitly instructed: **“Recover and continue as instructed.”** Engineering remains resumed under the [second resume receipt](YGGDRASIL_IV_RESUMED_2026-10-26.md). This is not a new campaign or an authorization to bypass any gate.
 
-Continue RFC #2148, aggregate #2151 and integration `dev/yggdrasil-iv` at `4b73e62814fca16a01bd1e71325e7abb97316c95`. Main, canonical/schema/standing/Origin changes, live issuer/security activation, founder visuals, elapsed operational coverage/pilot and release/closure remain held.
+Continue RFC #2148 and aggregate #2151. At this recovery capture, integration `dev/yggdrasil-iv` was `4b73e62814fca16a01bd1e71325e7abb97316c95`. The later [delivery/review receipt](YGGDRASIL_IV_DELIVERY_REVIEW_2026-10-26.md) records completed bounded deliveries, pending verification and the audited routing repair tofd4038a with exactly the same accepted code tree; read it first for current control. Main, canonical/schema/standing/Origin changes, live issuer/security activation, founder visuals, elapsed operational coverage/pilot and release/closure remain held.
 
 ## Recovered verification, not merely a completion notification
 
