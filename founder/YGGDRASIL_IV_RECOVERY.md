@@ -119,6 +119,16 @@ Reported fixes: reject all malformed/partial migration metadata, preserve migrat
 
 Independent read-only review `d2f90b61-edc6-4842-93f7-b194fba74607` runs in permanent `$HOME/.gaia-worktrees/yggdrasil-iv-evidence-review-final`, exact `4aad305b3`; durable output ignored `evidence-independent-final-review.md`. No acceptance inferred from worker tests. Formal schema/core PR separation follows review; founder/two-Core adoption remains held. Sol slot stays on publication, not a second simultaneous workstream.
 
+## Durable watcher implementation — broader-suite failure still open
+
+`d2a9a477` delivered `77ab02a7705d8f93f7e21293bea7bcc894e91f71`, with preceding repair `31cbbe020`; recovery ref `refs/heads/recovery/yggdrasil-iv/watcher-durable-final`. Integration #2155 / `6aa7aaa` is an ancestor. Permanent source worktree `$HOME/.gaia-worktrees/yggdrasil-iv-watcher-durable-final` is clean; worker reports remote recovery-branch push acknowledged. Parent caught that the corresponding local recovery ref was missing, verified the commit object, created the local anchor and successfully verified its incremental bundle; do not confuse a remote push with an existing local ref.
+
+Reported unit behavior: existing Steward Git-ref CAS ledger persists operations/watch state, input snapshots and integrity-bound packets; two clones/three processes at fixture t0/+24h/+72h restore inputs and avoid duplicate packets; per-check unknown/budget/partial/retry handling; raw resolved status cannot authenticate closure. These are fixture proofs, not four weekly operations or live receipt authority.
+
+Worker results: **16 watcher tests passed**; selected CAS tests **18 passed, 113 deselected**. A broader run had **129 passed, 1 failed**: `test_ledger_leaves_no_refs_outside_refs_steward` saw `refs/remotes/origin/steward/ledger`. This is an unresolved integration blocker, not dismissed as harmless. Parent combined watcher/ledger task `b0d57b089` is running at exact final SHA. Independent full nine-file review `52bffbfe-b9b4-4880-8fa5-0cdf311d50d9` runs in permanent watcher-review worktree with durable ignored output `watcher-independent-final-review.md`.
+
+No watcher PR/integration acceptance yet. Trusted receipt resolver is separately unavailable; production activation remains off. No real GitHub mutations or live notices/standing changes performed.
+
 ## Still binding human gates
 
 Schema adoption, pilot/live standing and canonical trust/rank/evidence/Origin decisions, security/protected-environment activation, visual approval, final main merge, registry-wide rollout and RFC closure remain held. Four weekly operational shadow comparisons require real elapsed operational evidence, not a virtual-clock fixture. All implementation remains engineering preparation until those gates are met.
