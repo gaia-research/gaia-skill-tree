@@ -392,7 +392,8 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
     # every consumer that takes the first/origin entry maps to a ranked skill.
     for ref, entries in buckets.items():
         for e in entries:
-            if e.get("origin") and is_redacted(e.get("level", "")):
+            from publication_context import rehearsal_context_from_env
+            if e.get("origin") and is_redacted(e.get("level", "")) and rehearsal_context_from_env() is None:
                 e["origin"] = False
                 e["role"] = "variant"
         entries.sort(key=lambda e: (
@@ -586,8 +587,8 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
                 else:
                     from gaia_cli.trustMagnitude import _countDistinctEvidenceTypes, _hasEligibleIndependentWitness
                     grade = computeOverallTrustGrade(
-                        tm, _countDistinctEvidenceTypes(entry, merged_map),
-                        _hasEligibleIndependentWitness(entry, merged_map),
+                        tm, _countDistinctEvidenceTypes(entry, merged_map, evaluationAtUTC=evaluation_at_utc),
+                        _hasEligibleIndependentWitness(entry, merged_map, evaluationAtUTC=evaluation_at_utc),
                     )
                 if grade is not None:
                     entry["overallTrustGrade"] = grade

@@ -42,8 +42,21 @@ STAGE_SPECS = {
     "gexf": ("exportGexf.py", ("registry/gaia.gexf",)),
     "docs-graph-assets": ("syncDocsGraphAssets.py", ("docs/graph/gaia.json", "docs/graph/gaia.gexf")),
 }
+AUXILIARY_SPECS = {
+    "benchmark-projection": ("generateBenchmarkProjection.py", ("docs/api/v1/benchmarks/",)),
+    "trending-projection": ("buildTrendingProjection.py", ("docs/api/v1/trending/",)),
+    "content-engine": ("generate_weekly_report.py", ("docs/reports/DRAFT/",)),
+    "okf-bundle": ("build_okf_bundle.py", ("docs/okf/",)),
+    "skills-index": ("buildSkillsIndex.py", ("docs/okf/index.json",)),
+    "sitemap": ("generateSitemap.py", ("docs/sitemap.xml",)),
+    "json-ld": ("injectJsonLd.py", ("docs/",)),
+    "installability-projection": (None, ("docs/graph/installability/index.json",)),
+    "arbor-projection": (None, ("docs/graph/arbor/",)),
+}
 _active = None
 _executions = []
+_before_stage = {}
+_context_cache = {}
 
 
 def _digest(data: bytes) -> str:
@@ -145,7 +158,13 @@ def _validate_context(payload: dict) -> dict:
 
 
 def load_context(path: str | Path) -> dict:
-    return _validate_context(json.loads(Path(path).read_text(encoding="utf-8")))
+    path = Path(path)
+    stat = path.stat()
+    key = (str(path.absolute()), stat.st_ino, stat.st_size, stat.st_mtime_ns, stat.st_ctime_ns)
+    if key not in _context_cache:
+        _context_cache.clear()
+        _context_cache[key] = _validate_context(json.loads(path.read_text(encoding="utf-8")))
+    return _context_cache[key]
 
 
 def evaluation_at_utc_from_env():
@@ -205,10 +224,12 @@ def _selected(root, selectors):
 
 
 def begin_stage(name, root):
-    global _active, _executions
+    global _active, _executions, _before_stage
     _active, _executions = name, []
-    spec = STAGE_SPECS.get(name)
-    if spec and spec[0] and not (root / "scripts" / spec[0]).is_file():
+    _before_stage = _inventory(root, True)
+    spec = STAGE_SPECS.get(name) or AUXILIARY_SPECS.get(name)
+    script_path = root / "scripts" / ("contentEngine/" if name == "content-engine" else "") / spec[0] if spec and spec[0] else None
+    if script_path and not script_path.is_file():
         raise ValueError(f"required generator missing: {spec[0]}")
 
 
@@ -228,14 +249,20 @@ def record_execution(script, args, returncode, output):
 
 
 def finish_stage(name, root):
-    spec = STAGE_SPECS.get(name)
+    spec = STAGE_SPECS.get(name) or AUXILIARY_SPECS.get(name)
     if spec and spec[0] and not any(e["generator"] == spec[0] for e in _executions):
         raise ValueError(f"required generator skipped: {spec[0]}")
-    outputs = _selected(root, spec[1]) if spec else {}
-    if spec and not outputs:
+    after = _inventory(root, True)
+    changed = {rel: digest for rel, digest in after.items() if _before_stage.get(rel) != digest}
+    outputs = {rel: digest for rel, digest in after.items()
+               if any(rel.startswith(s) if s.endswith("/") else rel == s for s in spec[1])} if spec else changed
+    if name == "json-ld":
+        outputs = changed  # transforms HTML; it does not generate every static deploy asset
+    if spec and not outputs and name != "json-ld":
         raise ValueError(f"required surface absent: {name}")
     # Unchanged outputs still have actual execution evidence; diff=False is not a failure.
-    return {"status": "success", "executions": list(_executions), "outputs": outputs}
+    return {"status": "success", "executions": list(_executions), "outputs": outputs,
+            "changedOutputs": changed, "removedOutputs": sorted(set(_before_stage) - set(after))}
 
 
 def compare_ledger_api(ledger: dict, api: dict) -> list[str]:
@@ -252,16 +279,29 @@ def compare_ledger_api(ledger: dict, api: dict) -> list[str]:
 
 
 def _check_semantic_parity(root: Path) -> None:
-    from publication_parity import check_semantic_parity
+    try:
+        from publication_parity import check_semantic_parity
+    except ModuleNotFoundError:
+        from scripts.publication_parity import check_semantic_parity
     check_semantic_parity(root)
 
 
 def _validate_stages(stages):
     if not isinstance(stages, dict) or not STAGE_SPECS.keys() <= stages.keys():
         raise ValueError("rehearsal incomplete: missing required generator success")
-    for name, spec in STAGE_SPECS.items():
-        stage = stages[name]
-        if stage.get("status") != "success" or not stage.get("outputs"):
+    for name, stage in stages.items():
+        if stage.get("status") != "success":
+            raise ValueError("generator did not succeed: " + name)
+        for field in ("outputs", "changedOutputs"):
+            for rel in stage.get(field, {}):
+                _safe_path(Path("/"), rel)
+        for execution in stage.get("executions", []):
+            for rel in execution.get("candidateOutputs", {}):
+                _safe_path(Path("/"), rel)
+        spec = STAGE_SPECS.get(name) or AUXILIARY_SPECS.get(name)
+        if not spec:
+            continue
+        if stage.get("status") != "success" or (not stage.get("outputs") and name != "json-ld"):
             raise ValueError("rehearsal incomplete: required generator success/output inventory")
         if spec[0] and not any(e.get("generator") == spec[0] and e.get("status") == "success" for e in stage.get("executions", [])):
             raise ValueError("rehearsal incomplete: missing actual generator execution")
@@ -280,9 +320,13 @@ def stamp_outputs(output_root: Path, context: dict, stages: dict | None = None) 
     _check_semantic_parity(output_root)
     # Full post-build inventory binds generated AND copied static deploy assets;
     # all other bytes are bound as source inputs, never stamped in place.
-    generated = {rel for stage in stages.values() for rel in stage.get("outputs", {})}
+    generated = {rel for stage in stages.values()
+                 for rel in {*stage.get("outputs", {}), *stage.get("changedOutputs", {})}}
     artifacts = {rel: digest for rel, digest in inventory.items() if rel.startswith("docs/") or rel in generated}
-    classes = {rel: ("generated" if rel in generated else "copied-static") for rel in artifacts}
+    produced = {rel for name, stage in stages.items() if name not in ("json-ld", "html-cache-busting")
+                for rel in stage.get("outputs", {})}
+    classes = {rel: ("generated" if rel in produced else "transformed-static" if rel in generated else "copied-static")
+               for rel in artifacts}
     for rel, digest in context["inputDigests"].items():
         if rel.startswith(("src/", "scripts/", "registry/nodes/", "registry/named/", "registry/schema/")) or rel.endswith("skill-tree.json"):
             if inventory.get(rel) != digest:

@@ -104,7 +104,7 @@ def _check(root):
         # awards and current named standing. Only unrelated JSON-LD is stripped.
         profiles.generate_pages(root / "registry/named-skills.json", target / "u")
         def normalize(text):
-            text = re.sub(r'\s*<script type="application/ld\+json">.*?</script>', '', text, flags=re.S)
+            text = re.sub(r'\s*<script type="application/ld\+json"[^>]*>.*?</script>', '', text, flags=re.S)
             return builder._apply_cache_busting(text, builder._read_version()).strip()
         expected_profiles = {p.relative_to(target / "u") for p in (target / "u").rglob("*.html")}
         actual_profiles = {p.relative_to(root / "docs/u") for p in (root / "docs/u").rglob("*.html")}

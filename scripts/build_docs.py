@@ -439,6 +439,9 @@ def build_okf_bundle(check: bool) -> bool:
         return False
 
     if not check:
+        if globals().get("_STRICT_REHEARSAL", False):
+            rc, output = _run_script(script_path, [])
+            return rc == 0
         res = subprocess.run(
             [sys.executable, str(script_path)], capture_output=True, text=True, env=_child_env(),
         )
@@ -537,6 +540,9 @@ def build_skills_index(check: bool) -> bool:
             return True
         return False
     else:
+        if globals().get("_STRICT_REHEARSAL", False):
+            rc, output = _run_script(script_path, [])
+            return rc == 0
         res = subprocess.run(
             [sys.executable, str(script_path)],
             capture_output=True, text=True,
@@ -616,6 +622,9 @@ def build_sitemap(check: bool) -> bool:
             return True
         return False
     else:
+        if globals().get("_STRICT_REHEARSAL", False):
+            rc, output = _run_script(script_path, [])
+            return rc == 0
         res = subprocess.run(
             [sys.executable, str(script_path)],
             capture_output=True, text=True,
@@ -706,6 +715,9 @@ def build_jsonld(check: bool) -> bool:
             return True
         return False
     else:
+        if globals().get("_STRICT_REHEARSAL", False):
+            rc, output = _run_script(script_path, [])
+            return rc == 0
         res = subprocess.run(
             [sys.executable, str(script_path)],
             capture_output=True, text=True,
@@ -1188,6 +1200,9 @@ def build_benchmark_projection(check: bool) -> bool:
             return True
         return False
     else:
+        if globals().get("_STRICT_REHEARSAL", False):
+            rc, output = _run_script(script, ["--out-dir", str(committed)])
+            return "nothing changed" not in output
         result = _sp.run(
             [sys.executable, str(script), "--out-dir", str(committed)],
             capture_output=True, text=True, encoding="utf-8", errors="replace",
@@ -1401,6 +1416,8 @@ def build_profile_pages(check: bool) -> bool:
             for _hp in sorted(out_dir.rglob("*.html")):
                 _ild.inject_file(_hp, check=False)
         except Exception:
+            if globals().get("_STRICT_REHEARSAL", False):
+                raise
             pass  # JSON-LD injection is best-effort in check mode
         if not committed.exists():
             if check:
@@ -1888,6 +1905,9 @@ def main(argv: list[str] | None = None) -> int:
         if worker.returncode != 0:
             print(f"Rehearsal builder failed (exit {worker.returncode}); no artifact manifest emitted.", file=sys.stderr)
             return worker.returncode
+        # Reject concurrent source mutation while the isolated worker ran.
+        # This is detection, not a lock against a hostile filesystem writer.
+        verify_copied_inputs(source_root, context)
         stage_report = json.loads((output_root / "publication-stages.json").read_text(encoding="utf-8"))
         manifest = stamp_outputs(output_root, context, stage_report)
         if not verify_outputs(output_root, expected_snapshot_id=context["snapshotId"]):

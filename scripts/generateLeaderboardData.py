@@ -124,8 +124,8 @@ def buildRows() -> list[dict]:
         else:
             from gaia_cli.trustMagnitude import _countDistinctEvidenceTypes, _hasEligibleIndependentWitness
             grade = computeOverallTrustGrade(
-                tm, _countDistinctEvidenceTypes(fm, mergedMap),
-                _hasEligibleIndependentWitness(fm, mergedMap),
+                tm, _countDistinctEvidenceTypes(fm, mergedMap, evaluationAtUTC=evaluation_at_utc),
+                _hasEligibleIndependentWitness(fm, mergedMap, evaluationAtUTC=evaluation_at_utc),
             )
         g7Stars, flag = effectiveRank(grade, currentStars)
         # May meta = stars on the eve of G7 cutover (pre-ratification).

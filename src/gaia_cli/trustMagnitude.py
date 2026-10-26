@@ -1226,11 +1226,12 @@ def computeRowArtifactScores(
     return [(row, score if score is not None else 0.0) for row, score in rowsWithScores]
 
 
-def _countDistinctEvidenceTypes(skill: dict, genericSkillMap: Optional[dict] = None) -> int:
+def _countDistinctEvidenceTypes(skill: dict, genericSkillMap: Optional[dict] = None, *,
+                                evaluationAtUTC: Optional[datetime.datetime] = None) -> int:
     """Count positive scoring evidence types; fusion remains structural only."""
     return len({
         rowType
-        for row, score in _scoredEvidenceRows(skill, genericSkillMap)
+        for row, score in _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC)
         if (rowType := _typeOf(row))
         and rowType != "fusion-recipe"
         and score is not None
@@ -1264,11 +1265,13 @@ def _isEligibleWitnessRow(row: dict, score: Optional[float], skill: dict) -> boo
 def _hasEligibleIndependentWitness(
     skill: dict,
     genericSkillMap: Optional[dict] = None,
+    *,
+    evaluationAtUTC: Optional[datetime.datetime] = None,
 ) -> bool:
     """Return whether a positive, eligible Yggdrasil III S witness is present."""
     return any(
         _isEligibleWitnessRow(row, score, skill)
-        for row, score in _scoredEvidenceRows(skill, genericSkillMap)
+        for row, score in _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC)
     )
 
 
