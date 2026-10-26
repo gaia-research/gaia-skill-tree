@@ -66,23 +66,28 @@ jobs:
           # Repository variable is the reviewed, default-off schedule gate.
           # Setting it to "true" or "1" opts scheduled runs into challenge watch.
           GAIA_CHALLENGE_WATCH_ENABLED: ${{ vars.GAIA_CHALLENGE_WATCH_ENABLED }}
+          ACTION_SKILL_ID: ${{ inputs.skill_id }}
+          ACTION_APPLY: ${{ inputs.apply }}
+          ACTION_CHALLENGE_WATCH: ${{ inputs.challenge_watch }}
+          ACTION_CHALLENGE_INPUT: ${{ inputs.challenge_input }}
+          ACTION_CHALLENGE_SHADOW: ${{ inputs.challenge_shadow }}
         run: |
-          ARGS=""
-          if [ -n "${{ inputs.skill_id }}" ]; then
-            ARGS="--skill ${{ inputs.skill_id }}"
+          ARGS=()
+          if [[ -n "$ACTION_SKILL_ID" ]]; then
+            ARGS+=(--skill "$ACTION_SKILL_ID")
           fi
-          if [ "${{ inputs.apply }}" = "true" ] || [ "${{ github.event_name }}" = "schedule" ]; then
-            ARGS="$ARGS --apply"
+          if [[ "$ACTION_APPLY" == "true" || "$GITHUB_EVENT_NAME" == "schedule" ]]; then
+            ARGS+=(--apply)
           else
-            ARGS="$ARGS --dry-run"
+            ARGS+=(--dry-run)
           fi
-          if [ "${{ inputs.challenge_watch }}" = "true" ] || [ "${GAIA_CHALLENGE_WATCH_ENABLED}" = "true" ] || [ "${GAIA_CHALLENGE_WATCH_ENABLED}" = "1" ]; then
-            ARGS="$ARGS --challenge-watch"
-            if [ -n "${{ inputs.challenge_input }}" ]; then
-              ARGS="$ARGS --challenge-input ${{ inputs.challenge_input }}"
+          if [[ "$ACTION_CHALLENGE_WATCH" == "true" || "$GAIA_CHALLENGE_WATCH_ENABLED" == "true" || "$GAIA_CHALLENGE_WATCH_ENABLED" == "1" ]]; then
+            ARGS+=(--challenge-watch)
+            if [[ -n "$ACTION_CHALLENGE_INPUT" ]]; then
+              ARGS+=(--challenge-input "$ACTION_CHALLENGE_INPUT")
             fi
-            if [ "${{ inputs.challenge_shadow }}" = "true" ]; then
-              ARGS="$ARGS --challenge-shadow"
+            if [[ "$ACTION_CHALLENGE_SHADOW" == "true" ]]; then
+              ARGS+=(--challenge-shadow)
             fi
           fi
-          python scripts/upstream_watcher/watcher.py $ARGS
+          python scripts/upstream_watcher/watcher.py "${ARGS[@]}"
