@@ -1,7 +1,9 @@
 # Watcher transactional implementation self-check
 
-**Code revision:** `895b0486ef94ff1ec2b9804baee88d183b2206f6`  
-**Scope:** bounded watcher worker, #2148 / draft #2151, integration target `dev/yggdrasil-iv`, not `main`.  
+**Code revision:** `895b0486ef94ff1ec2b9804baee88d183b2206f6`
+
+**Scope:** bounded watcher worker, #2148 / draft #2151, integration target `dev/yggdrasil-iv`, not `main`.
+
 **Authority:** engineering self-check only. This is not an independent verification receipt, issuer deployment, production acceptance, or campaign completion.
 
 ## Preserved source and prerequisites
