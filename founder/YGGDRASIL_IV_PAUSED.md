@@ -1,6 +1,8 @@
 # Yggdrasil IV — founder-requested pause (2026-10-26)
 
-**RESUMED by explicit founder instruction on 2026-10-26.** The historical pause below remains a recovery checkpoint, not a current stop instruction. Continue the existing #2148 / #2151 campaign under `YGGDRASIL_IV_EXECUTION.md` and the [locked Frontier ruling](GAIA_FRONTIER_RULING_2026-10-26.md). Accepted foundations and all canonical, security, visual, pilot, main/release gates remain intact. Delayed notifications alone still confer no authority.
+**Current control: orchestration paused, workers left alone.** See [the latest orchestration-pause checkpoint](YGGDRASIL_IV_ORCHESTRATION_PAUSED.md). This differs from the original full-stop pause captured below. No worker was cancelled; all eight latest runs were already terminal when inspected. No finished/failed worker was restarted.
+
+**Historical explicit resume on 2026-10-26.** The historical pause below remains a recovery checkpoint, not a current stop instruction. Continue the existing #2148 / #2151 campaign under `YGGDRASIL_IV_EXECUTION.md` and the [locked Frontier ruling](GAIA_FRONTIER_RULING_2026-10-26.md). Accepted foundations and all canonical, security, visual, pilot, main/release gates remain intact. Delayed notifications alone still confer no authority.
 
 At the original capture, the instruction was: **PAUSED; no campaign execution until explicit founder resume.** That resume has now been given. The saved state and estimates below describe the pause capture, not the latest run.
 

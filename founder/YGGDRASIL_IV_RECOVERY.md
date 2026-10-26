@@ -2,7 +2,13 @@
 
 Captured 2026-10-26. This is an engineering recovery record, not acceptance, publication, rollout or closure authority. For campaign boundaries read `YGGDRASIL_IV_EXECUTION.md` and the ratification first.
 
-## Latest recovery pointer — explicit resume / Frontier (2026-10-26)
+## Current control — orchestration paused, workers left alone (2026-10-26)
+
+Read `YGGDRASIL_IV_ORCHESTRATION_PAUSED.md` first. The founder requested pausing orchestration without cancelling workers. All eight latest worker runs had already reached terminal state at inspection; none was cancelled or restarted. Thirteen source worktrees and exact child sessions/results are captured in ignored `.gaia/yggdrasil-iv/recovery/orchestration-pause-2026-10-26/manifest.json`. The one dirty watcher is preserved in place plus recovery-only WIP commit `5270ea2713b087ac00244513a3f0edb76f028401`, a binary patch and archive; worker branch/index unchanged. Its failed tests and incomplete CAS/outbox work are not accepted.
+
+CairoSVG installation and genuine PNG smoke passed in the isolated venv. Parent corpus299 tests and pinned398-record replay passed with no source changes, but independent false-green/input-containment findings block acceptance. All other new source, unfinished code, failed runs and human gates are detailed in the pause checkpoint. Do not launch a replay, repair, worker or merge on a delayed notification.
+
+## Earlier resume pointer — explicit resume / Frontier (2026-10-26)
 
 The founder explicitly resumed the saved campaign and added the [locked Frontier ruling](GAIA_FRONTIER_RULING_2026-10-26.md). Read the newest `MEMORY.md` snapshot and refreshed `YGGDRASIL_IV_EXECUTION.md`; the capture below is historical, not a current stop instruction or the latest acceptance ledger. Preserve the pause bundle, original SHAs and interrupted evidence.
 

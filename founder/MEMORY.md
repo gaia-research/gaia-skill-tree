@@ -4,6 +4,21 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-26, ORCHESTRATION PAUSE — workers left alone)
+
+Founder: **“Pause orchestration. Keep workers working, just get us to a resumable state.”** No new dispatches, restarts, feature tests/fixes/merges or activation. Delayed notifications permit bookkeeping only. Read `founder/YGGDRASIL_IV_ORCHESTRATION_PAUSED.md` first; earlier resume assignments below are historical. Checkpoint completion continued without resuming campaign execution.
+
+- **No workers cancelled.** All eight latest runs had already terminated at inspection: seven completed (some only partial), transaction worker failed after two request timeouts. Parent install/corpus tasks already completed. Do not invent active workers or restart finished ones during pause.
+- Exact thirteen source worktrees, statuses, child sessions/results, patches/archives and local refs captured in ignored `.gaia/yggdrasil-iv/recovery/orchestration-pause-2026-10-26/manifest.json`. Twelve worktrees clean. Watcher branch946ec93 remains dirty in three files; separate **unreviewed recovery-only WIP5270ea2713b087ac00244513a3f0edb76f028401** captures them without moving worker branch/index. Do not merge WIP or infer passes. Local bundle/checksum recorded in manifest; old pause recovery intact, unrelated `.pi/` preserved.
+- Frontierc172b48ce0807847cf762d527ea78c906a3d429d committed; actual independent Graft comparison, native skill invocation, final review and public admission unmet. Watcher worker14 failed/2 passed; new CAS/shared outbox/concurrent proof unfinished. Canonical transaction source clean4b: **no implementation** after failed worker.
+- Publication049c8ce4cd8871010f7f9c549e86adef398cd73f fixes explicit context/retains accepted integration; worker22 passed/1 deselected, strict fixture timed out. No final replay/acceptance. Cleanupf39a859caed64db39bd0baf7b5fb3a395fee97b0 worker20 passed; ledger04205d37c75b4a1a93b1d93436638e04346ccaaf worker116 passed; workflowe50778dca4287a66fe6eca6fbed39dc2b0c21eb1 worker4 passed. Independent/parent integration checks still required.
+- Parent corpus0dff: **299 passed52.82s**, complete398 named/299 generic pinned replay, source-before/after unchanged. Independent review nevertheless reproduced P1 manifest-mutation exit0, empty/unmatched false-green scope and external input symlink loading; unknown-verifier fail-closed policy unresolved. **Not accepted despite green parent run.** Report and full evidence copied into pause directory.
+- Independent UI70239 review:19 Node checks pass, but missing genuine `trustLifecycle` producer contract and inconsistent provenance gating for approval/degraded/recalibration/Origin; two inspected viewport screenshots omit the changed panel. No visual approval. Preserve original evidence and new full review; repair only after resume.
+- Environment blocker partly resolved: isolated `.gaia/yggdrasil-iv/runtime/publication-venv/bin/python` has CairoSVG2.9.1/cffi2.1.1 and rendered genuine120×63PNG. Parent taskb8478f990 exit0; no global config changed. Full producer/two-root replay has NOT run with this environment. Any unresolved environment handover is due at the end of full run, not a substitute for missing code.
+- Integration4b73e6281 / #2148 / draft#2151 unchanged. No new PR or merge. Canonical/schema/standing/Origin, issuer/security, visuals, real operational weeks/pilot, main/release/closure held. Full child IDs/session mappings and exact resume order are in the pause checkpoint. Resume exact source, not old branches or stale success claims.
+
+---
+
 ## State Snapshot (2026-10-26, explicit RESUME + locked Frontier ruling)
 
 **RESUMED by the founder, not by a delayed notification.** Continue #2148 / draft aggregate #2151 / integration `dev/yggdrasil-iv`; do not restart, create another umbrella or waive rollout gates. Root reconciliation branch is `dev/yggdrasil-iv-frontier-reconciliation`, merging the pause-doc history with accepted integration `4b73e6281`. Read `founder/GAIA_FRONTIER_RULING_2026-10-26.md` and the refreshed `YGGDRASIL_IV_EXECUTION.md` first. The pause capture below remains historical evidence.

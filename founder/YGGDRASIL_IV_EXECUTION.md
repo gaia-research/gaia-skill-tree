@@ -1,5 +1,7 @@
 # Yggdrasil IV — engineering execution receipt
 
+**Current control: orchestration paused at the founder's request; existing workers were left alone.** Read [the orchestration-pause checkpoint](YGGDRASIL_IV_ORCHESTRATION_PAUSED.md) before acting on the historical resume assignments below. Late notifications are bookkeeping only; no fresh dispatches/tests/merges until an explicit campaign resume.
+
 Governing issue: [RFC #2148](https://github.com/gaia-research/gaia-skill-tree/issues/2148).
 Doctrine: [founder ratification](YGGDRASIL_IV_RATIFICATION_2026-10-25.md), `META.md`, `GOVERNANCE.md`.
 
