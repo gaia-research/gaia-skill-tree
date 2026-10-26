@@ -188,10 +188,15 @@ def test_inherited_verifier_standing_overrides_stale_generic_active_flag():
     )]}}
     skill = {"id": "o/tool", "genericSkillRef": "g", "evidence": []}
     result = shadow.evaluateShadow(skill, context(generic, verifiers={"v1": True}))
-    assert result["tmRaw"] == 45
+    assert result["tmRaw"] == 0
+    assert result["rows"] == []
+    own = shadow.evaluateShadow({"id": "o/own", "genericSkillRef": "g", "evidence": [row(
+        "verifier-attestation", "https://verify.test/own", verifiers=1, verifierId="v1",
+    )]}, context(generic, verifiers={"v1": True}))
+    assert own["tmRaw"] == 45
     inactive = shadow.evaluateShadow(skill, context(generic, verifiers={"v1": False}))
     assert inactive["tmRaw"] == 0
-    assert result["grade"] == "C"
+    assert result["grade"] == "ungraded"
 
 
 def test_shadow_dedup_uses_scoring_magnitude_not_proxy_comparator():
@@ -202,9 +207,22 @@ def test_shadow_dedup_uses_scoring_magnitude_not_proxy_comparator():
     ]}
     result = shadow.evaluateShadow(skill, context())
     assert result["tmRaw"] == 4.8
-    assert result["rows"][0]["boundedArtifactScore"] == 4.8
+    assert sorted(item["boundedArtifactScore"] for item in result["rows"]) == [0.0, 4.8]
+    assert sum(item["boundedArtifactScore"] for item in result["rows"]) == result["tmRaw"]
     # Production's default comparator and dedup path remain untouched.
     assert tm.computeTrustMagnitude(skill) == 1.65
+
+
+def test_bounded_row_report_matches_plateau_aggregate_across_multiple_rows():
+    skill = {"id": "owner/reviews", "evidence": [
+        row("peer-review", f"https://reviews.test/{count}", reviewers=count)
+        for count in (3, 2, 1, 4)
+    ]}
+    result = shadow.evaluateShadow(skill, context())
+    bounded = [item["boundedArtifactScore"] for item in result["rows"]]
+    assert sum(bounded) == result["tmRaw"]
+    assert sum(value > 0 for value in bounded) == 3
+    assert sorted(bounded)[0] == 0.0
 
 
 def test_row_report_distinguishes_raw_artifact_score_from_suite_bounded_contribution():
@@ -229,11 +247,22 @@ def test_registry_reports_partial_coverage_and_dependency_unknowns():
     ]}
     result = shadow.evaluateShadowRegistry([bad, healthy, suite], context())
     assert result["status"] == "partial"
-    assert result["coverage"] == {"total": 3, "evaluated": 2, "notEvaluated": 1}
+    assert result["coverage"] == {"total": 3, "evaluated": 1, "notEvaluated": 2}
     by_id = {item["skillId"]: item for item in result["assessments"]}
     assert by_id["bad"]["status"] == "not-evaluated"
     assert "non-finite" in by_id["bad"]["reason"]
-    assert by_id["suite"]["gatePredicates"]["aGradedOriginsGte5"] is None
+    assert by_id["suite"]["status"] == "not-evaluated"
+    assert by_id["suite"]["unknownDependencyIds"] == ["missing-component"]
+
+
+def test_transitive_missing_component_is_not_reported_as_full_suite_coverage():
+    suite = {"id": "suite", "suiteComponents": ["middle"], "evidence": []}
+    middle = {"id": "middle", "suiteComponents": ["absent-leaf"], "evidence": []}
+    result = shadow.evaluateShadowRegistry([suite, middle], context())
+    by_id = {item["skillId"]: item for item in result["assessments"]}
+    assert by_id["suite"]["status"] == "not-evaluated"
+    assert by_id["suite"]["unknownDependencyIds"] == ["absent-leaf"]
+    assert by_id["middle"]["unknownDependencyIds"] == ["absent-leaf"]
 
 
 def test_dependency_cycle_is_explicit_and_nan_infinity_are_rejected():
@@ -258,6 +287,20 @@ def test_fingerprint_canonicalizes_evidence_order_but_binds_actual_context():
     baseline = shadow.evaluateShadow(a, context())
     changedCatalog = replace(context(), benchmarkCatalog={"benchmarks": [{"id": "different"}]})
     assert baseline["fingerprint"] != shadow.evaluateShadow(a, changedCatalog)["fingerprint"]
+    assert set(baseline["contextBinding"]["sourceManifest"]) == {
+        "shadowEvaluation", "trustMagnitude", "benchmarkCatalog", "grading",
+    }
+    originalFile = shadow.tm.__file__
+    try:
+        import tempfile
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as directory:
+            changedSource = Path(directory) / "trustMagnitude.py"
+            changedSource.write_bytes(Path(originalFile).read_bytes() + b"\\n# scorer identity change\\n")
+            shadow.tm.__file__ = str(changedSource)
+            assert baseline["fingerprint"] != shadow.evaluateShadow(a, context())["fingerprint"]
+    finally:
+        shadow.tm.__file__ = originalFile
     changedLabel = replace(context(), policyVersion="g7-v2", policyDigest="new-declared-digest")
     metadataOnly = shadow.evaluateShadow(a, changedLabel)
     assert metadataOnly["tmRaw"] == baseline["tmRaw"]
