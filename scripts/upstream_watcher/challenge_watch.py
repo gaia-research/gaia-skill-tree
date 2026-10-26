@@ -289,252 +289,7 @@ class ChallengeWatchResult:
 
 
 # ---------------------------------------------------------------------------
-# Steward Receipt Challenge Adapter & Validator
-# ---------------------------------------------------------------------------
-
-
-class StewardReceiptChallengeAdapter:
-    """Validates challenge inputs against durable independent verification receipts.
-
-    Rejects uncorroborated manifests or status strings from public watch authority.
-    """
-
-    @staticmethod
-    def _compute_challenge_id(
-        claim_id: str,
-        subject_id: str,
-        behavior_id: str,
-        pinned_version: str | None,
-        pinned_sha: str | None,
-        comparator_id: str,
-    ) -> str:
-        payload = {
-            "claimId": claim_id,
-            "subjectId": subject_id,
-            "behaviorId": behavior_id,
-            "pinnedVersion": pinned_version or "",
-            "pinnedSha": pinned_sha or "",
-            "comparatorId": comparator_id,
-        }
-        canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"))
-        return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
-
-    @staticmethod
-    def _parse_repo_slug(
-        repo_val: str | None,
-        url_val: str | None = None,
-    ) -> tuple[str, str] | None:
-        if repo_val and "/" in repo_val:
-            parts = repo_val.strip().split("/", 1)
-            return (parts[0].strip().lower(), parts[1].strip().lower())
-        if url_val:
-            parsed = parse_owner_repo_normalized(url_val)
-            if parsed:
-                return parsed
-        return None
-
-    @classmethod
-    def validate(
-        cls,
-        raw: dict[str, Any],
-        registry_map: dict[str, dict] | None = None,
-        receipts_root: Path | None = None,
-        allow_shadow: bool = False,
-    ) -> tuple[ValidatedChallenge | None, str]:
-        """Validate a raw challenge manifest and verify independent receipt binding.
-
-        Parameters
-        ----------
-        raw:
-            Raw challenge dict.
-        registry_map:
-            Optional dict mapping skill-id -> frontmatter.
-        receipts_root:
-            Optional path to directory containing Steward receipts (.gaia/steward/receipts).
-        allow_shadow:
-            If True, unverified challenges may be admitted as shadow-only observations.
-            If False, unverified challenges are strictly rejected.
-
-        Returns
-        -------
-        tuple[ValidatedChallenge | None, str]
-            (validated_challenge, status_reason)
-        """
-        subject_id = str(raw.get("subject_id") or raw.get("subjectId") or "").strip()
-        claim_id = str(raw.get("claim_id") or raw.get("claimId") or "").strip()
-        contributor_id = str(raw.get("contributor_id") or raw.get("contributorId") or "").strip()
-        behavior_id = str(raw.get("behavior_id") or raw.get("behaviorId") or "default-behavior").strip()
-        status = str(raw.get("status") or "verified-pending").strip()
-        material_to_origin = bool(raw.get("material_to_origin") or raw.get("materialToOrigin", False))
-        created_at_utc = str(raw.get("created_at_utc") or raw.get("createdAtUTC") or "2026-10-25T00:00:00Z")
-
-        if not subject_id:
-            return None, "REJECTED: Missing required subject_id"
-        if not claim_id:
-            return None, "REJECTED: Missing required claim_id"
-
-        # Resolve Target Repo
-        target_repo_val = raw.get("target_repo") or raw.get("targetRepo")
-        target_url = raw.get("target_source_url") or raw.get("targetSourceUrl")
-        pinned_version = raw.get("pinned_version") or raw.get("pinnedVersion")
-        pinned_sha = raw.get("pinned_sha") or raw.get("pinnedSha")
-        pinned_content_digest = raw.get("pinned_content_digest") or raw.get("pinnedContentDigest")
-
-        parsed_target = cls._parse_repo_slug(target_repo_val, target_url)
-        if not parsed_target and registry_map and subject_id in registry_map:
-            fm = registry_map[subject_id]
-            gh_url = (fm.get("links") or {}).get("github", "")
-            parsed_target = parse_owner_repo_normalized(gh_url)
-
-        if not parsed_target and "/" in subject_id:
-            # Fallback: if subject_id is format "owner/slug", check if owner is a valid github user
-            parts = subject_id.split("/", 1)
-            parsed_target = (parts[0].lower(), parts[1].lower())
-
-        if not parsed_target:
-            return None, f"REJECTED: Cannot resolve GitHub repository for target subject '{subject_id}'"
-
-        target = ChallengeTarget(
-            subject_id=subject_id,
-            owner=parsed_target[0],
-            repo=parsed_target[1],
-            pinned_version=str(pinned_version) if pinned_version else None,
-            pinned_sha=str(pinned_sha) if pinned_sha else None,
-            pinned_content_digest=str(pinned_content_digest) if pinned_content_digest else None,
-            watched_paths=tuple(raw.get("watched_paths") or raw.get("watchedPaths") or ["SKILL.md"]),
-        )
-
-        # Resolve Comparator
-        comparator_raw = str(raw.get("comparator") or raw.get("comparator_id") or raw.get("comparatorId") or "").strip()
-        c_owner, c_repo = None, None
-        c_traceable = False
-        c_version = raw.get("comparator_version") or raw.get("comparatorVersion")
-        c_sha = raw.get("comparator_sha") or raw.get("comparatorSha")
-        c_digest = raw.get("comparator_content_digest") or raw.get("comparatorContentDigest")
-
-        if comparator_raw:
-            # Check if comparator is a GitHub URL or owner/repo
-            parsed_c = cls._parse_repo_slug(None, comparator_raw)
-            if not parsed_c and "/" in comparator_raw and not comparator_raw.startswith("http"):
-                # strip any @version tag (e.g. owner/repo@v1.0.0)
-                bare = comparator_raw.split("@", 1)[0]
-                if "@" in comparator_raw and not c_version:
-                    c_version = comparator_raw.split("@", 1)[1]
-                parsed_c = cls._parse_repo_slug(bare)
-
-            if not parsed_c and registry_map and comparator_raw in registry_map:
-                c_fm = registry_map[comparator_raw]
-                c_gh = (c_fm.get("links") or {}).get("github", "")
-                parsed_c = parse_owner_repo_normalized(c_gh)
-
-            if parsed_c:
-                c_owner, c_repo = parsed_c
-                c_traceable = True
-
-        comparator = ChallengeComparator(
-            comparator_id=comparator_raw or "unspecified-comparator",
-            owner=c_owner,
-            repo=c_repo,
-            is_traceable=c_traceable,
-            pinned_version=str(c_version) if c_version else None,
-            pinned_sha=str(c_sha) if c_sha else None,
-            pinned_content_digest=str(c_digest) if c_digest else None,
-        )
-
-        challenge_id = str(raw.get("challenge_id") or raw.get("challengeId") or "").strip()
-        if not challenge_id:
-            challenge_id = cls._compute_challenge_id(
-                claim_id=claim_id,
-                subject_id=subject_id,
-                behavior_id=behavior_id,
-                pinned_version=target.pinned_version,
-                pinned_sha=target.pinned_sha,
-                comparator_id=comparator.comparator_id,
-            )
-
-        # ── Verification Receipt Gate ───────────────────────────────────────
-        receipt_data = raw.get("verification_receipt") or raw.get("verificationReceipt")
-        receipt: VerificationReceipt | None = None
-
-        if isinstance(receipt_data, dict):
-            r_id = str(receipt_data.get("receipt_id") or receipt_data.get("receiptId") or "").strip()
-            verifier_id = str(receipt_data.get("verifier_id") or receipt_data.get("verifierId") or "").strip()
-            verified_at = str(receipt_data.get("verified_at_utc") or receipt_data.get("verifiedAtUTC") or "").strip()
-            receipt_ref = str(receipt_data.get("receipt_ref") or receipt_data.get("receiptRef") or "").strip()
-            binding = str(receipt_data.get("challenge_binding_digest") or receipt_data.get("challengeBindingDigest") or "").strip()
-
-            # Independent verification check: verifier MUST NOT be contributor!
-            if verifier_id and verifier_id.lower() == contributor_id.lower():
-                return None, "REJECTED: Verifier must be independent from contributor"
-
-            if verifier_id and verified_at and receipt_ref:
-                receipt = VerificationReceipt(
-                    receipt_id=r_id or f"rcpt-{challenge_id[:12]}",
-                    verifier_id=verifier_id,
-                    verified_at_utc=verified_at,
-                    receipt_ref=receipt_ref,
-                    challenge_binding_digest=binding or challenge_id,
-                    notes=str(receipt_data.get("notes") or ""),
-                )
-
-        # Check receipts directory if not supplied inline
-        if receipt is None and receipts_root and receipts_root.is_dir():
-            for p in receipts_root.glob("*.json"):
-                try:
-                    data = json.loads(p.read_text(encoding="utf-8"))
-                    if isinstance(data, dict):
-                        m_ch = data.get("challengeId") or data.get("challenge_id")
-                        if m_ch == challenge_id:
-                            verifier_id = str(data.get("verifierId") or data.get("verifier_id") or "independent-verifier")
-                            receipt = VerificationReceipt(
-                                receipt_id=p.stem,
-                                verifier_id=verifier_id,
-                                verified_at_utc=data.get("verifiedAtUTC") or created_at_utc,
-                                receipt_ref=str(p),
-                                challenge_binding_digest=challenge_id,
-                                notes="Resolved from local Steward receipts directory",
-                            )
-                            break
-                except Exception:
-                    continue
-
-        if receipt is None:
-            if allow_shadow:
-                # Admitted strictly as shadow-only observation
-                validated = ValidatedChallenge(
-                    challenge_id=challenge_id,
-                    claim_id=claim_id,
-                    subject_id=subject_id,
-                    contributor_id=contributor_id,
-                    behavior_id=behavior_id,
-                    status=status,
-                    material_to_origin=material_to_origin,
-                    target=target,
-                    comparator=comparator,
-                    verification_receipt=None,
-                    is_verified=False,
-                    is_shadow=True,
-                    created_at_utc=created_at_utc,
-                )
-                return validated, "ADMITTED_AS_SHADOW: Observation-only, no public verified challenge authority."
-            return None, "REJECTED: Missing durable independent verification receipt; cannot establish public verified challenge watch authority."
-
-        validated = ValidatedChallenge(
-            challenge_id=challenge_id,
-            claim_id=claim_id,
-            subject_id=subject_id,
-            contributor_id=contributor_id,
-            behavior_id=behavior_id,
-            status=status,
-            material_to_origin=material_to_origin,
-            target=target,
-            comparator=comparator,
-            verification_receipt=receipt,
-            is_verified=True,
-            is_shadow=False,
-            created_at_utc=created_at_utc,
-        )
-        return validated, "VERIFIED: Admitted with durable independent verification receipt."
+# Admission is intentionally resolver-only. Tests provide explicit fixtures.
 
 
 # ---------------------------------------------------------------------------
@@ -584,6 +339,8 @@ class WatchLedger:
             raise ValueError("challenge-watch inputs must be a list of objects")
         if not isinstance(self.packets, dict):
             raise ValueError("challenge-watch packets must be an object")
+        for packet_id, packet in self.packets.items():
+            _verify_packet_payload(packet, packet_id)
         if not isinstance(self.rate_limits, dict) or not isinstance(self.challenges, dict):
             raise ValueError("shared challenge-watch maps must be objects")
 
@@ -685,7 +442,25 @@ class WatchLedger:
 # ---------------------------------------------------------------------------
 
 
+def _verify_packet_payload(payload: dict[str, Any], expected_id: str | None = None) -> None:
+    if not isinstance(payload, dict):
+        raise ValueError("stored packet payload must be an object")
+    supplied = payload.get("packetSha256")
+    body = {key: value for key, value in payload.items() if key != "packetSha256"}
+    digest = hashlib.sha256(json.dumps(body, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+    if supplied != digest:
+        raise ValueError("stored packet integrity digest mismatch")
+    packet_id = payload.get("packetId")
+    if expected_id is not None and packet_id != expected_id:
+        raise ValueError("stored packet identity mismatch")
+
+
 def _compute_digest(data: Any) -> str:
+    # Packet identity is semantic/window scoped, not tied to poll time. This
+    # keeps repeated daily observations from manufacturing duplicate intents.
+    if isinstance(data, dict):
+        data = {key: value for key, value in data.items()
+                if key not in {"observedAtUTC", "observed_at_utc"}}
     canonical = json.dumps(data, sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
@@ -1215,9 +990,25 @@ def run_challenge_watch(
     elif isinstance(challenges, list):
         raw_list = challenges
 
+    # Merge by immutable challenge identity; filtered manifests cannot silently
+    # drop an already-admitted watch, and context changes are explicit conflicts.
     if not raw_list and ledger.inputs:
         raw_list = ledger.inputs
-    ledger.inputs = [item for item in raw_list if isinstance(item, dict)]
+    incoming = [item for item in raw_list if isinstance(item, dict)]
+    by_identity = {
+        str(item.get("challenge_id") or item.get("challengeId") or ""): item
+        for item in ledger.inputs
+    }
+    for item in incoming:
+        identity = str(item.get("challenge_id") or item.get("challengeId") or "")
+        if not identity:
+            identity = _compute_digest({k: v for k, v in item.items() if k not in {"observedAtUTC", "observed_at_utc"}})
+        prior = by_identity.get(identity)
+        if prior is not None and prior != item:
+            raise ValueError(f"conflicting challenge context for immutable identity {identity}")
+        by_identity[identity] = item
+    ledger.inputs = list(by_identity.values())
+    raw_list = ledger.inputs
     if verbose:
         print(f"[challenge-watch] Loaded {len(raw_list)} challenge input(s).", file=sys.stderr)
 
@@ -1226,22 +1017,7 @@ def run_challenge_watch(
     for item in raw_list:
         if not isinstance(item, dict):
             continue
-        if admission_resolver is None and allow_shadow:
-            # Explicit shadow mode may use raw URLs as probe hints only. Strip
-            # receipt claims and force open status so an untrusted manifest can
-            # neither assert verification nor stop monitoring.
-            shadow_input = dict(item)
-            shadow_input["status"] = "verified-pending"
-            shadow_input.pop("verification_receipt", None)
-            shadow_input.pop("verificationReceipt", None)
-            validated, status_msg = StewardReceiptChallengeAdapter.validate(
-                shadow_input, registry_map=registry_map, allow_shadow=True,
-            )
-            if validated is not None:
-                from dataclasses import replace
-                validated = replace(validated, status="verified-pending", is_verified=False,
-                                    is_shadow=True, verification_receipt=None)
-        elif admission_resolver is None:
+        if admission_resolver is None:
             validated, status_msg = None, (
                 "UNAVAILABLE: trusted VerificationReceiptResolver is not configured; "
                 "Class C required, no verified publication or lifecycle authority"
@@ -1280,25 +1056,7 @@ def run_challenge_watch(
             result.active_count += 1
 
         packets = observe_challenge(challenge, transport, clock, budget, ledger)
-        for p in packets:
-            result.packets.append(p)
-            # Write packet to disk
-            p_dir.mkdir(parents=True, exist_ok=True)
-            pkt_file = p_dir / f"{p.packet_id}.json"
-            packet_data = p.to_dict()
-            encoded = json.dumps(packet_data, indent=2, sort_keys=True) + "\n"
-            if pkt_file.exists():
-                existing = json.loads(pkt_file.read_text(encoding="utf-8"))
-                if existing != packet_data:
-                    raise ValueError(f"immutable packet collision for {p.packet_id}")
-            else:
-                try:
-                    with pkt_file.open("x", encoding="utf-8") as handle:
-                        handle.write(encoded)
-                except FileExistsError:
-                    existing = json.loads(pkt_file.read_text(encoding="utf-8"))
-                    if existing != packet_data:
-                        raise ValueError(f"immutable packet collision for {p.packet_id}")
+        result.packets.extend(packets)
 
         result.summaries.append({
             "challengeId": challenge.challenge_id,
@@ -1311,7 +1069,26 @@ def run_challenge_watch(
 
     # Update ledger metadata & persist
     ledger.last_run_utc = clock.now_utc()
-    ledger.save()
+    ledger.save()  # Persist packet payloads/intents before local materialization.
+    for packet in result.packets:
+        packet_data = packet.to_dict()
+        packet_path = p_dir / f"{packet.packet_id}.json"
+        p_dir.mkdir(parents=True, exist_ok=True)
+        encoded = json.dumps(packet_data, indent=2, sort_keys=True) + "\n"
+        if packet_path.exists():
+            existing = json.loads(packet_path.read_text(encoding="utf-8"))
+            _verify_packet_payload(existing, packet.packet_id)
+            if existing != packet_data:
+                raise ValueError(f"immutable packet collision for {packet.packet_id}")
+        else:
+            try:
+                with packet_path.open("x", encoding="utf-8") as handle:
+                    handle.write(encoded)
+            except FileExistsError:
+                existing = json.loads(packet_path.read_text(encoding="utf-8"))
+                _verify_packet_payload(existing, packet.packet_id)
+                if existing != packet_data:
+                    raise ValueError(f"immutable packet collision for {packet.packet_id}")
 
     result.budget_used = {
         "requests": budget.requests_used,

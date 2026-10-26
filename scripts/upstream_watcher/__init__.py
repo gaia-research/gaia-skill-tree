@@ -4,7 +4,6 @@
 from scripts.upstream_watcher.challenge_watch import (
     ChallengeWatchResult,
     ObservationPacket,
-    StewardReceiptChallengeAdapter,
     ValidatedChallenge,
     WatchBudget,
     WatchLedger,
@@ -28,7 +27,6 @@ __all__ = [
     "ObservationPacket",
     "Response",
     "SimulatedTransport",
-    "StewardReceiptChallengeAdapter",
     "SystemClock",
     "ValidatedChallenge",
     "VirtualClock",

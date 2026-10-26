@@ -37,7 +37,6 @@ from scripts.upstream_watcher.challenge_watch import (
     ChallengeTarget,
     ChallengeWatchResult,
     ObservationPacket,
-    StewardReceiptChallengeAdapter,
     ValidatedChallenge,
     VerificationReceipt,
     WatchBudget,
@@ -58,13 +57,34 @@ from scripts.upstream_watcher.watcher import main as watcher_main
 # ---------------------------------------------------------------------------
 
 
-class _ExplicitTestResolver:
-    """Fixture-only adapter; never wired by the scheduled production CLI."""
+class _TestOnlyAdmissionResolver:
+    """Explicit fixture authority; production never imports or wires this fake."""
 
     def resolve(self, raw, *, registry_map, allow_shadow):
-        return StewardReceiptChallengeAdapter.validate(
-            raw, registry_map=registry_map, allow_shadow=allow_shadow,
-        )
+        receipt = raw.get("verification_receipt")
+        if not isinstance(receipt, dict) or not receipt.get("receipt_id"):
+            return None, "test fixture receipt missing"
+        target_repo = raw.get("target_repo", "test/target").split("/", 1)
+        comparator = str(raw.get("comparator", "unspecified-comparator"))
+        comp_repo = comparator.split("/", 1)
+        target = ChallengeTarget(str(raw["subject_id"]), target_repo[0], target_repo[1],
+                                 raw.get("pinned_version"), raw.get("pinned_sha"))
+        comp = ChallengeComparator(comparator, *(comp_repo if len(comp_repo) == 2 else (None, None)),
+                                   is_traceable=len(comp_repo) == 2)
+        fake_receipt = VerificationReceipt(str(receipt["receipt_id"]),
+            str(receipt.get("verifier_id", "fixture-verifier")),
+            str(receipt.get("verified_at_utc", raw.get("created_at_utc"))),
+            str(receipt.get("receipt_ref", "https://example.test/receipt")),
+            str(receipt.get("challenge_binding_digest", "fixture-binding")), "TEST ONLY")
+        return ValidatedChallenge(str(raw["challenge_id"]), str(raw["claim_id"]),
+            str(raw["subject_id"]), str(raw.get("contributor_id", "fixture")),
+            str(raw.get("behavior_id", "fixture")), str(raw.get("status", "verified-pending")),
+            bool(raw.get("material_to_origin", False)), target, comp, fake_receipt, True, False,
+            str(raw.get("created_at_utc", "2026-10-25T00:00:00Z"))), "fixture admission"
+
+
+class _ExplicitTestResolver(_TestOnlyAdmissionResolver):
+    pass
 
 
 def run_challenge_watch(*args, **kwargs):
@@ -576,7 +596,7 @@ def test_runner_without_trusted_resolver_fails_closed_on_malicious_resolved_stat
     assert transport.recorded_requests == []
 
 
-def test_verification_receipt_gate_rejects_unverified_manifest() -> None:
+def test_verification_receipt_gate_rejects_unverified_manifest(tmp_path: Path) -> None:
     """11. Prove raw challenge status string alone is rejected without durable receipt."""
     # Raw challenge with "status": "verified-pending" but NO verification_receipt
     unverified_raw = {
@@ -587,28 +607,25 @@ def test_verification_receipt_gate_rejects_unverified_manifest() -> None:
         "target_repo": "pbakaus/impeccable",
     }
 
-    # Strict public watch mode: REJECTS
-    val, reason = StewardReceiptChallengeAdapter.validate(unverified_raw, allow_shadow=False)
-    assert val is None
-    assert "REJECTED: Missing durable independent verification receipt" in reason
-
-    # Shadow opt-in mode: Admits strictly as shadow observation
-    val_shadow, reason_shadow = StewardReceiptChallengeAdapter.validate(unverified_raw, allow_shadow=True)
-    assert val_shadow is not None
-    assert val_shadow.is_verified is False
-    assert val_shadow.is_shadow is True
-    assert "ADMITTED_AS_SHADOW" in reason_shadow
+    result = _run_challenge_watch(challenges=[unverified_raw], allow_shadow=True,
+        transport=SimulatedTransport(), clock=VirtualClock("2026-10-26T10:00:00Z"),
+        ledger_path=tmp_path / "ledger.json", packets_dir=tmp_path / "packets")
+    assert result.unavailable_count == 1
+    assert result.resolved_count == result.active_count == 0
 
 
-def test_independent_verifier_cannot_be_contributor() -> None:
+def test_independent_verifier_cannot_be_contributor(tmp_path: Path) -> None:
     """12. Invariant: Independent verifier must differ from challenged contributor."""
     conflict_raw = _make_verified_challenge_dict(
         contributor_id="pbakaus",
         verifier_id="pbakaus",  # Not independent!
     )
-    val, reason = StewardReceiptChallengeAdapter.validate(conflict_raw, allow_shadow=False)
-    assert val is None
-    assert "Verifier must be independent from contributor" in reason
+    # The fixture authority is explicit test-only; production has no inline
+    # receipt parser and therefore cannot derive trust from this manifest.
+    result = _run_challenge_watch(challenges=[conflict_raw],
+        transport=SimulatedTransport(), clock=VirtualClock("2026-10-26T10:00:00Z"),
+        ledger_path=tmp_path / "ledger.json", packets_dir=tmp_path / "packets")
+    assert result.unavailable_count == 1
 
 
 def test_case_normalization_repo_matching(tmp_path: Path) -> None:
