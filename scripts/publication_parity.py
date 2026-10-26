@@ -55,6 +55,19 @@ def _check(root):
     import generateBadges as badges
     import build_docs as builder
     import syncDocsGraphAssets as sync
+    assembled = _json(root / "registry/gaia.json")
+    source_skills = sorted((_json(p) for p in (root / "registry/nodes").rglob("*.json")), key=lambda s: s["id"])
+    if assembled.get("skills") != source_skills:
+        raise ValueError("assembled graph differs from canonical node inputs")
+    edges = sorted(({"sourceSkillId": source, "targetSkillId": skill["id"], "edgeType": "prerequisite"}
+                    for skill in source_skills for source in skill.get("prerequisites", [])),
+                   key=lambda e: (e["sourceSkillId"], e["targetSkillId"]))
+    if assembled.get("edges") != edges:
+        raise ValueError("assembled graph edge mismatch")
+    for path in (root / "skill-trees").glob("*/skill-tree.json"):
+        tree = _json(path)  # Invalid history is unavailable, not an empty successful history.
+        if not isinstance(tree, dict) or not isinstance(tree.get("timeline", []), list):
+            raise ValueError("invalid owner-tree history: " + str(path))
     named = _json(root / "registry/named-skills.json")
     if named != _json(root / "docs/graph/named/index.json"):
         raise ValueError("named/graph mirror differs")
@@ -118,6 +131,7 @@ def _check(root):
         _tree(root / "docs/badges/_assets", target / "badges/_assets", ".svg")
         run("generateOgCards.py", ["--out-dir", target / "og"])
         _tree(root / "docs/og", target / "og", ".svg")
+        _tree(root / "docs/og", target / "og", ".png")
         # Re-sync the graph into an isolated tiny reference tree. No source
         # data or inspected output is overwritten by the parity oracle.
         import shutil
@@ -128,6 +142,12 @@ def _check(root):
                 dst = graph_ref / rel
                 dst.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(src, dst)
+        # Export GEXF from actual generic values rather than trusting a stale
+        # copied export that sync would otherwise mirror without inspecting.
+        exported = subprocess.run([sys.executable, str(root / "scripts/exportGexf.py")],
+                                  cwd=graph_ref, capture_output=True, text=True)
+        if exported.returncode:
+            raise ValueError("reference GEXF export failed: " + exported.stderr)
         sync.sync_docs_graph_assets(graph_ref)
         for rel in ("docs/graph/gaia.json", "docs/graph/gaia.gexf", "docs/graph/named/index.json"):
             _equal(root / rel, graph_ref / rel)

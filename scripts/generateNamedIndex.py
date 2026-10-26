@@ -621,6 +621,7 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
                 if rehearsal_context_from_env() is not None:
                     entry["eligibilityProposal"] = {
                         "status": "shadow", "storedLevel": entry.get("level"),
+                        "basis": "TM-grade-ceiling-only", "otherPromotionGates": "not-authorized",
                         "maximumEligibleLevel": f"{max_allowed_stars}★",
                         "reason": "current stored standing preserved; rehearsal-only eligibility proposal",
                     }

@@ -1709,8 +1709,22 @@ def build_og_cards(check: bool) -> bool:
                 shutil.copytree(out_dir, committed)
             return True
 
-        # Compare only SVG files — PNGs are optional (cairosvg may be absent
-        # in CI) and the SVG is the canonical artifact.
+        # Production preserves the historical SVG-only behavior. A rehearsal
+        # cannot certify old raster cards as regenerated: refresh every PNG
+        # produced and refuse copied PNGs when this runtime cannot render them.
+        strict = globals().get("_STRICT_REHEARSAL", False)
+        if strict:
+            committed_pngs = {p.relative_to(committed) for p in committed.rglob("*.png")}
+            candidate_pngs = {p.relative_to(out_dir) for p in out_dir.rglob("*.png")}
+            missing_rasters = {p for p in committed_pngs - candidate_pngs if (out_dir / p.with_suffix(".svg")).exists()}
+            if missing_rasters:
+                raise RuntimeError("rehearsal cannot certify stale OG PNGs; install a supported rasterizer: "
+                                   + ", ".join(map(str, sorted(missing_rasters)[:5])))
+            for rel in sorted(candidate_pngs):
+                destination = committed / rel
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                destination.write_bytes((out_dir / rel).read_bytes())
+        # Compare only SVG files in ordinary production mode.
         drifts = []
         committed_svgs = {p.relative_to(committed) for p in committed.rglob("*.svg")}
         candidate_svgs = {p.relative_to(out_dir) for p in out_dir.rglob("*.svg")}
@@ -1853,16 +1867,20 @@ def main(argv: list[str] | None = None) -> int:
     rehearsal_context = None
     if os.environ.get("GAIA_PUBLICATION_CONTEXT") and not strict_rehearsal:
         parser.error("GAIA_PUBLICATION_CONTEXT is private to the explicit rehearsal worker")
-    if strict_rehearsal and (args.check or args.cache_bust_only):
-        parser.error("rehearsal worker requires the complete write pipeline")
+    if (strict_rehearsal or args.publication_rehearsal) and (args.check or args.cache_bust_only):
+        parser.error("rehearsal requires the complete write pipeline")
+    if args.evaluation_at_utc and not args.publication_rehearsal:
+        parser.error("--evaluation-at-utc requires --publication-rehearsal")
     if strict_rehearsal:
         try:
             from publication_context import load_context
             rehearsal_context = load_context(args.publication_rehearsal_worker)
             if Path(args.publication_rehearsal_worker).absolute() != ROOT / "publication-context.json":
                 raise ValueError("worker context must belong to its scratch root")
-            from publication_context import verify_copied_inputs
+            from publication_context import verify_copied_inputs, runtime_identity
             verify_copied_inputs(ROOT, rehearsal_context, allow_context=True)
+            if runtime_identity() != rehearsal_context["runtimeIdentity"]:
+                raise ValueError("worker runtime differs from bound rehearsal context")
             os.environ["GAIA_PUBLICATION_CONTEXT"] = str(ROOT / "publication-context.json")
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             parser.error(f"invalid rehearsal context: {exc}")
@@ -1908,6 +1926,12 @@ def main(argv: list[str] | None = None) -> int:
         # Reject concurrent source mutation while the isolated worker ran.
         # This is detection, not a lock against a hostile filesystem writer.
         verify_copied_inputs(source_root, context)
+        from publication_context import runtime_identity
+        if runtime_identity() != context["runtimeIdentity"]:
+            raise ValueError("runtime changed during rehearsal")
+        from publication_context import source_revision
+        if source_revision(source_root) != context["sourceRevision"]:
+            raise ValueError("source HEAD changed during rehearsal")
         stage_report = json.loads((output_root / "publication-stages.json").read_text(encoding="utf-8"))
         manifest = stamp_outputs(output_root, context, stage_report)
         if not verify_outputs(output_root, expected_snapshot_id=context["snapshotId"]):

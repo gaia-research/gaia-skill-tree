@@ -35,7 +35,8 @@ def _outputs(root):
 
 def _stages():
     return {name: {"status": "success", "outputs": {(selectors[0] + "fixture.json" if selectors[0].endswith("/") else selectors[0]): "synthetic"},
-                   "executions": [{"generator": script, "status": "success"}] if script else []}
+                   "executions": [{"generator": script, "status": "success"}] if script else [],
+                   "freshWrites": list(pc.FRESH_OUTPUTS.get(name, ()))}
             for name, (script, selectors) in pc.STAGE_SPECS.items()}
 
 
@@ -83,18 +84,32 @@ def test_external_manifest_exact_inventory_and_corruption(tmp_path, fast_runtime
     output.mkdir()
     _outputs(output)
     context = _context(tmp_path)
+    (output / "input.json").write_text('{"fixed":true}')
     before = (output / pc.GENERATED_OUTPUTS[0]).read_bytes()
     pc.stamp_outputs(output, context, _stages())
     assert (output / pc.GENERATED_OUTPUTS[0]).read_bytes() == before
     assert pc.verify_outputs(output, context["snapshotId"])
+    assert not pc.verify_outputs(output)  # no sibling-manifest self-attestation
     assert not pc.verify_outputs(output, "wrong-expected-identity")
+    manifest_path = output / "publication-artifacts.json"
+    original_manifest = manifest_path.read_text()
+    payload = json.loads(original_manifest)
+    payload["artifacts"]["../escape"] = "a" * 64
+    manifest_path.write_text(json.dumps(payload))
+    assert not pc.verify_outputs(output, context["snapshotId"])
+    manifest_path.write_text(original_manifest)
+    stages_path = output / "publication-stages.json"
+    original_stages = stages_path.read_text()
+    stages_path.write_text('{}')
+    assert not pc.verify_outputs(output, context["snapshotId"])
+    stages_path.write_text(original_stages)
     (output / "docs/extra.json").write_text('{}')
-    assert not pc.verify_outputs(output)
+    assert not pc.verify_outputs(output, context["snapshotId"])
     (output / "docs/extra.json").unlink()
     payload = json.loads((output / "publication-context.json").read_text())
     payload["engineIdentity"] = "corrupted"
     (output / "publication-context.json").write_text(json.dumps(payload))
-    assert not pc.verify_outputs(output)
+    assert not pc.verify_outputs(output, context["snapshotId"])
 
 
 @pytest.mark.parametrize("corruption", ["skipped", "no-execution", "traversal", "wrong-owner"])
@@ -152,8 +167,9 @@ def test_pinned_datetime_and_absence_default(tmp_path, fast_runtime, monkeypatch
     assert pc.evaluation_at_utc_from_env() is None
     assert pc.evaluation_datetime_from_env() is None
     context = _context(tmp_path)
-    path = tmp_path / "context.json"
+    path = tmp_path / "publication-context.json"
     path.write_text(json.dumps(context))
+    monkeypatch.setattr(pc, "__file__", str(tmp_path / "scripts/publication_context.py"))
     monkeypatch.setenv("GAIA_PUBLICATION_CONTEXT", str(path))
     assert pc.evaluation_at_utc_from_env() == UTC
     assert pc.evaluation_datetime_from_env().isoformat() == "2026-10-25T12:00:00+00:00"

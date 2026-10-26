@@ -73,7 +73,7 @@ def buildMayStarsMap() -> dict[str, str]:
     out: dict[str, str] = {}
     if not SKILL_TREES_DIR.exists():
         return out
-    for tree in SKILL_TREES_DIR.glob("*/skill-tree.json"):
+    for tree in sorted(SKILL_TREES_DIR.glob("*/skill-tree.json")):
         try:
             data = json.loads(tree.read_text(encoding="utf-8"))
         except Exception:
