@@ -129,6 +129,12 @@ Worker results: **16 watcher tests passed**; selected CAS tests **18 passed, 113
 
 No watcher PR/integration acceptance yet. Trusted receipt resolver is separately unavailable; production activation remains off. No real GitHub mutations or live notices/standing changes performed.
 
+## Actual publication63 replay failed — typed time boundary
+
+Parent task `b3b98e936` completed: **100 focused tests passed in 1.37s**, then the actual pinned scratch build exited **1**. Repro root `$TMPDIR/yggdrasil-iv-parent-hardening-63afd3b99.0CO031/staged`. Named-index called `passesSuiteApexGate` / `checkSourceTenureDaysGte180AorS` with a string `evaluationAtUTC`, causing `TypeError: unsupported operand type(s) for -: 'str' and 'datetime.datetime'`. Ledger/API/docs-index then failed downstream because the named index was absent.
+
+Strict rehearsal rejected the build and emitted **no artifact manifest**; no source/canonical/public data was modified. This is not accepted publication proof. Full log preserved locally at ignored `publication-63-replay-failure.log`. Parent steered the active Sol worker `0680b90a` to normalize time at the validated context/caller boundary, add an actual suite/tenure consumer regression and preserve fail-closed handling. Do not infer a supported-input engine defect from a malformed caller argument or alter tenure policy to hide it.
+
 ## Still binding human gates
 
 Schema adoption, pilot/live standing and canonical trust/rank/evidence/Origin decisions, security/protected-environment activation, visual approval, final main merge, registry-wide rollout and RFC closure remain held. Four weekly operational shadow comparisons require real elapsed operational evidence, not a virtual-clock fixture. All implementation remains engineering preparation until those gates are met.
