@@ -151,6 +151,14 @@ Resumed the same child session `01a17709-aa1f-76da-b2a8-7cd5107c90d3` as run **`
 
 Founder was explicitly told: engine's 277-test success and #2156 merge are separate prior Luna/parent work, not evidence of Sol's success. Sol produced concrete saved progress, but reduced review/repair churn is not yet demonstrated; final real replay and independent review decide that.
 
+## UI timeout recovery and evidence proposal independent verdict
+
+UI worker `75c44f05` timed out with SIGTERM/143. Parent confirmed PID18868 gone and source **clean at `70239bceeaa3d4b2d36fd347a5d3af847860f721`** (four UI/fixture/test files,553 insertions/33 deletions). Parent reran exact-HEAD/clean-tree guarded `node tests/test_trust_lifecycle.js`: **19 passed**. These are mock-DOM/static-CSS checks, not actual native Explorer screenshots or pixel/overflow proof. Native five-section desktop/320/390 rendered evidence and founder visual approval remain unverified. Same Flash High session resumed as **`f57ec8f0-d88c-4f07-a51f-a3138f9e361f`** with8h watchdog/no turn cap; task is finish bounded existing-browser capture/handover, not invent proof/install tooling. No frontend integration yet.
+
+Independent evidence review `d2f90b61` completed at exact `4aad305b3`: **100 passed**, all four schema families Draft7/parity pass, adversarial migration/revision/provenance/restore probes found no new lifecycle blocker. Source unchanged. Ready for **formal held proposal PRs only**, not adoption/live use. A raw named-record sweep stopped at `0xdarkmatter/pytest-patterns.md` because existing `trustMagnitudeInputHash` is unrecognized; whole-corpus compatibility is **not established**. Must baseline vs old schemas, not assume introduced or silently relax.
+
+Mechanical Flash Medium run **`2fed75fc-0b7e-420c-ac54-77e45e3bcb70`** packages exact reviewed12schemafiles and2core/testfiles onto separate permanent `evidence-schema-final` and stacked `evidence-core-final` worktrees/branches rooted at accepted4b73e6281. It must prove blob equality, preserve schema/core separation, run focused checks and baseline actual before/after compatibility without semantic changes. Parent owns subsequent held PRs; founder/two-Core adoption and any canonical/TM/rank effects remain held.
+
 ## Still binding human gates
 
 Schema adoption, pilot/live standing and canonical trust/rank/evidence/Origin decisions, security/protected-environment activation, visual approval, final main merge, registry-wide rollout and RFC closure remain held. Four weekly operational shadow comparisons require real elapsed operational evidence, not a virtual-clock fixture. All implementation remains engineering preparation until those gates are met.
