@@ -22,6 +22,7 @@ import dataclasses
 import datetime
 import hashlib
 import json
+import math
 import os
 import subprocess
 import sys
@@ -131,37 +132,119 @@ def validateOutputPath(outputPath: str | Path, repoRoot: str | Path = ".") -> Pa
     """Validate that output path is external or strictly in an allowed ignored directory.
 
     Rejects output inside canonical or public project paths:
-    registry, docs, skill-trees, src, skills, .github.
+    registry, docs, skill-trees, src, .agents/skills, .claude/skills, .github.
+    Strictly forbids path traversal, ancestor symlinks, or repo overrides targeting canonical paths.
     """
     resolvedRepo = Path(repoRoot).resolve()
-    resolvedOutput = Path(outputPath).resolve()
+    rawOutput = Path(outputPath)
+    resolvedOutput = rawOutput.resolve()
 
-    try:
-        rel = resolvedOutput.relative_to(resolvedRepo)
-        relStr = str(rel).replace("\\", "/")
-        firstSegment = relStr.split("/")[0] if "/" in relStr else relStr
+    rootsToCheck = [resolvedRepo]
+    cwdResolved = Path.cwd().resolve()
+    if cwdResolved not in rootsToCheck:
+        rootsToCheck.append(cwdResolved)
 
-        for forbidden in FORBIDDEN_CANONICAL_DIRS:
-            if relStr == forbidden or relStr.startswith(forbidden + "/"):
+    for root in rootsToCheck:
+        try:
+            rel = resolvedOutput.relative_to(root)
+            relStr = str(rel).replace("\\", "/")
+            firstSegment = relStr.split("/")[0] if "/" in relStr else relStr
+
+            for forbidden in FORBIDDEN_CANONICAL_DIRS:
+                if relStr == forbidden or relStr.startswith(forbidden + "/") or forbidden in rel.parts:
+                    raise ValueError(
+                        f"Output path rejected: '{relStr}' is inside canonical/public path '{forbidden}'. "
+                        f"Shadow evaluation output must be written to an ignored scratch directory "
+                        f"({', '.join(sorted(ALLOWED_LOCAL_OUTPUT_DIRS))}) or an external path."
+                    )
+
+            if root == resolvedRepo and firstSegment not in ALLOWED_LOCAL_OUTPUT_DIRS:
                 raise ValueError(
-                    f"Output path rejected: '{relStr}' is inside canonical/public path '{forbidden}'. "
-                    f"Shadow evaluation output must be written to an ignored scratch directory "
-                    f"({', '.join(sorted(ALLOWED_LOCAL_OUTPUT_DIRS))}) or an external path."
+                    f"Output path rejected: '{relStr}' is not in an allowed scratch directory. "
+                    f"Allowed in-repo roots: {', '.join(sorted(ALLOWED_LOCAL_OUTPUT_DIRS))}."
                 )
+        except ValueError as exc:
+            if "is not in the subpath of" in str(exc) or "does not start with" in str(exc):
+                pass
+            else:
+                raise
 
-        if firstSegment not in ALLOWED_LOCAL_OUTPUT_DIRS:
-            raise ValueError(
-                f"Output path rejected: '{relStr}' is not in an allowed scratch directory. "
-                f"Allowed in-repo roots: {', '.join(sorted(ALLOWED_LOCAL_OUTPUT_DIRS))}."
-            )
-    except ValueError as exc:
-        if "is not in the subpath of" in str(exc) or "does not start with" in str(exc):
-            # Output path is outside repoRoot — external paths are safe and allowed
-            pass
-        else:
-            raise
+    # Ancestor symlink traversal verification
+    curr = rawOutput
+    while curr != curr.parent:
+        if curr.is_symlink():
+            resolvedCurr = curr.resolve()
+            for root in rootsToCheck:
+                for forbidden in FORBIDDEN_CANONICAL_DIRS:
+                    forbidPath = root / forbidden
+                    if resolvedCurr == forbidPath or forbidPath in resolvedCurr.parents:
+                        raise ValueError(
+                            f"Output path rejected: ancestor symlink '{curr}' resolves to canonical path '{resolvedCurr}'."
+                        )
+        curr = curr.parent
 
     return resolvedOutput
+
+
+def _validateEvidenceRowNumeric(row: dict[str, Any]) -> str | None:
+    """Validate that numerical evidence fields are finite numbers and not bool/NaN/Inf."""
+    NUMERIC_FIELDS = {
+        "commits", "contributors", "stars", "views", "percentile",
+        "citations", "reviewers", "skillCountInRepo", "externalStars",
+        "verifiers", "score", "trustNumber", "downloads", "likes", "comments"
+    }
+    for key, value in row.items():
+        if key not in NUMERIC_FIELDS or value is None:
+            continue
+        if isinstance(value, bool):
+            return f"boolean value not permitted for numeric field '{key}'"
+        try:
+            num = float(value)
+        except (TypeError, ValueError, OverflowError):
+            return f"invalid numeric value for field '{key}': {value!r}"
+        if not math.isfinite(num):
+            return f"non-finite numeric value for field '{key}': {value!r}"
+    return None
+
+
+def _validateSkillStructural(skill: Any, isNamed: bool = True) -> list[str]:
+    """Validate skill structural shape before invoking the evaluator."""
+    errors: list[str] = []
+    if not isinstance(skill, dict):
+        return ["skill content must be a dictionary object"]
+
+    sid = skill.get("id")
+    if not sid or not isinstance(sid, str) or not sid.strip():
+        errors.append("skill requires a non-empty string 'id'")
+
+    ref = skill.get("genericSkillRef")
+    if ref is not None:
+        if not isinstance(ref, str) or not ref.strip():
+            errors.append(f"genericSkillRef must be a non-empty string, got {type(ref).__name__}")
+
+    comps = skill.get("suiteComponents")
+    if comps is not None:
+        if not isinstance(comps, list):
+            errors.append(f"suiteComponents must be a list of strings, got {type(comps).__name__}")
+        else:
+            for idx, c in enumerate(comps):
+                if not isinstance(c, str) or not c.strip():
+                    errors.append(f"suiteComponents contains non-string or empty component ID at index {idx}: {c!r}")
+
+    rows = skill.get("evidence")
+    if rows is not None:
+        if not isinstance(rows, list):
+            errors.append(f"evidence must be a list of objects, got {type(rows).__name__}")
+        else:
+            for rIdx, r in enumerate(rows):
+                if not isinstance(r, dict):
+                    errors.append(f"evidence row[{rIdx}] must be an object, got {type(r).__name__}")
+                else:
+                    numErr = _validateEvidenceRowNumeric(r)
+                    if numErr:
+                        errors.append(f"evidence row[{rIdx}]: {numErr}")
+
+    return errors
 
 
 @dataclass
@@ -186,6 +269,7 @@ class RegistryCensus:
     unknownVerifiers: list[dict[str, Any]] = field(default_factory=list)
     trustNumberRows: list[dict[str, Any]] = field(default_factory=list)
     duplicateIds: list[dict[str, Any]] = field(default_factory=list)
+    structuralFailures: list[dict[str, Any]] = field(default_factory=list)
     fileHashes: dict[str, str] = field(default_factory=dict)
     isValid: bool = True
 
@@ -232,8 +316,18 @@ def censusRegistry(
                 })
                 continue
 
+            structErrors = _validateSkillStructural(nodeData, isNamed=False)
+            if structErrors:
+                for err in structErrors:
+                    census.structuralFailures.append({
+                        "path": relPath,
+                        "skillId": nodeData.get("id") if isinstance(nodeData, dict) else None,
+                        "kind": "generic-json",
+                        "error": err,
+                    })
+
             nodeId = nodeData.get("id")
-            if not nodeId:
+            if not nodeId or not isinstance(nodeId, str) or not nodeId.strip():
                 census.missingIds.append(relPath)
             elif nodeId in census.genericNodes:
                 census.duplicateIds.append({"id": nodeId, "kind": "generic", "path": relPath,
@@ -241,9 +335,11 @@ def censusRegistry(
             else:
                 census.genericNodes[nodeId] = nodeData
 
-            evidenceRows = nodeData.get("evidence") or []
+            evidenceRows = nodeData.get("evidence") if isinstance(nodeData.get("evidence"), list) else []
             census.genericEvidenceRowCount += len(evidenceRows)
             for rIndex, row in enumerate(evidenceRows):
+                if not isinstance(row, dict):
+                    continue
                 if row.get("trustNumber") is not None:
                     census.trustNumberRows.append({
                         "skillId": nodeId,
@@ -343,16 +439,27 @@ def censusRegistry(
                 })
                 continue
 
+            structErrors = _validateSkillStructural(parsedFm, isNamed=True)
+            if structErrors:
+                for err in structErrors:
+                    census.structuralFailures.append({
+                        "path": relPath,
+                        "skillId": parsedFm.get("id") if isinstance(parsedFm, dict) else None,
+                        "kind": "named-md",
+                        "error": err,
+                    })
+
             status = parsedFm.get("status")
             statusKey = str(status) if status is not None else "<missing>"
             census.statusCounts[statusKey] = census.statusCounts.get(statusKey, 0) + 1
 
             skillId = parsedFm.get("id")
-            if not skillId:
+            if not skillId or not isinstance(skillId, str) or not skillId.strip():
                 census.missingIds.append(relPath)
             elif skillId in census.namedSkills:
+                firstSeen = next((r["path"] for r in census.namedSkillRecords if r["id"] == skillId), "registry/named/...")
                 census.duplicateIds.append({"id": skillId, "kind": "named", "path": relPath,
-                                            "firstPath": next(r["path"] for r in census.namedSkillRecords if r["id"] == skillId)})
+                                            "firstPath": firstSeen})
             else:
                 census.namedSkills[skillId] = parsedFm
 
@@ -366,20 +473,23 @@ def censusRegistry(
             if parsedFm.get("trustMagnitudeInputHash"):
                 census.cacheHashCount += 1
 
-            evidenceRows = parsedFm.get("evidence") or []
+            evidenceRows = parsedFm.get("evidence") if isinstance(parsedFm.get("evidence"), list) else []
             census.namedEvidenceRowCount += len(evidenceRows)
 
             # Audit generic ref resolution
             genericRef = parsedFm.get("genericSkillRef")
-            if genericRef and genericRef not in census.genericNodes:
-                census.unresolvedRefs.append({
-                    "skillId": skillId,
-                    "path": relPath,
-                    "genericSkillRef": genericRef,
-                })
+            if genericRef and isinstance(genericRef, str):
+                if genericRef not in census.genericNodes:
+                    census.unresolvedRefs.append({
+                        "skillId": skillId,
+                        "path": relPath,
+                        "genericSkillRef": genericRef,
+                    })
 
             # Audit evidence row dates and trustNumber fallbacks
             for rIndex, row in enumerate(evidenceRows):
+                if not isinstance(row, dict):
+                    continue
                 if row.get("trustNumber") is not None:
                     census.trustNumberRows.append({
                         "skillId": skillId,
@@ -426,9 +536,9 @@ def censusRegistry(
     def _detect_cycle(node: str, path: list[str]) -> None:
         state[node] = 1
         skill = census.namedSkills.get(node)
-        if skill:
+        if skill and isinstance(skill.get("suiteComponents"), list):
             for comp in skill.get("suiteComponents") or []:
-                if comp in census.namedSkills:
+                if isinstance(comp, str) and comp in census.namedSkills:
                     if state.get(comp) == 1:
                         census.dependencyCycles.append({
                             "skillId": node,
@@ -455,7 +565,7 @@ def censusRegistry(
         s = rec["skill"]
         sid = rec["id"]
         for rIndex, row in enumerate(s.get("evidence") or []):
-            if tm._typeOf(row) == "verifier-attestation":
+            if isinstance(row, dict) and tm._typeOf(row) == "verifier-attestation":
                 v = row.get("verifierId") or row.get("verifier") or row.get("attestor")
                 if not v or v not in knownVerifiers:
                     census.unknownVerifiers.append({
@@ -467,7 +577,7 @@ def censusRegistry(
 
     for nid, nodeData in census.genericNodes.items():
         for rIndex, row in enumerate(nodeData.get("evidence") or []):
-            if tm._typeOf(row) == "verifier-attestation":
+            if isinstance(row, dict) and tm._typeOf(row) == "verifier-attestation":
                 v = row.get("verifierId") or row.get("verifier") or row.get("attestor")
                 if not v or v not in knownVerifiers:
                     census.unknownVerifiers.append({
@@ -477,8 +587,20 @@ def censusRegistry(
                         "verifier": v,
                     })
 
+    # 5. Manifest hashes for schema and benchmark catalog
+    catalogFile = root / "registry" / "benchmark-sources.json"
+    if catalogFile.is_file():
+        rel = str(catalogFile.relative_to(root))
+        census.fileHashes[rel] = computeFileHash(catalogFile)
+
+    metaJson = root / "registry" / "schema" / "meta.json"
+    if metaJson.is_file():
+        rel = str(metaJson.relative_to(root))
+        census.fileHashes[rel] = computeFileHash(metaJson)
+
     census.isValid = not any((census.parseFailures, census.parserDiscrepancies, census.missingIds,
-                              census.unresolvedRefs, census.dependencyCycles, census.duplicateIds))
+                              census.unresolvedRefs, census.dependencyCycles, census.duplicateIds,
+                              census.temporalAnomalies, census.structuralFailures))
 
     return census
 
@@ -627,76 +749,166 @@ def evaluateRegistryWithSeam(
 
     Coordinates gracefully if evaluateShadowRegistry aborts on a single invalid input:
     preserves valid coverage and reports honest per-record unknowns and dependencies.
+    Performs caller validation before invoking evaluator to catch malformed structural inputs,
+    heterogeneous/nonstring component arrays, duplicate IDs, and invalid evidence shapes.
     """
-    # 1. First attempt evaluateShadowRegistry
+    # 0. Caller validation: identify defective skills and duplicate IDs before evaluator exposure
+    idCounts: dict[str, int] = {}
+    for s in skills:
+        if isinstance(s, dict) and isinstance(s.get("id"), str) and s.get("id"):
+            sid = s["id"]
+            idCounts[sid] = idCounts.get(sid, 0) + 1
+
+    validSkills: list[dict[str, Any]] = []
+    defectiveAssessments: list[dict[str, Any]] = []
+
+    for idx, s in enumerate(skills):
+        if not isinstance(s, dict):
+            defectiveAssessments.append({
+                "status": "not-evaluated",
+                "skillId": None,
+                "inputIndex": idx,
+                "reason": "skill input must be a dictionary object",
+                "scope": "unknown",
+                "canonicalStars": None,
+            })
+            continue
+
+        sid = s.get("id")
+        if not sid or not isinstance(sid, str) or not sid.strip():
+            defectiveAssessments.append({
+                "status": "not-evaluated",
+                "skillId": None,
+                "inputIndex": idx,
+                "reason": "skill input requires a non-empty string id",
+                "scope": "suite" if s.get("suiteComponents") is not None else ("effective named" if s.get("genericSkillRef") else "generic"),
+                "canonicalStars": s.get("level"),
+            })
+            continue
+
+        if idCounts.get(sid, 0) > 1:
+            defectiveAssessments.append({
+                "status": "not-evaluated",
+                "skillId": sid,
+                "inputIndex": idx,
+                "reason": f"duplicate skill id in registry input: {sid}",
+                "scope": "suite" if s.get("suiteComponents") is not None else ("effective named" if s.get("genericSkillRef") else "generic"),
+                "canonicalStars": s.get("level"),
+            })
+            continue
+
+        # Structural validation for genericSkillRef, suiteComponents, and evidence shapes
+        structErrors = _validateSkillStructural(s, isNamed=True)
+        if structErrors:
+            defectiveAssessments.append({
+                "status": "not-evaluated",
+                "skillId": sid,
+                "inputIndex": idx,
+                "reason": f"structural validation failure: {'; '.join(structErrors)}",
+                "scope": "suite" if s.get("suiteComponents") is not None else ("effective named" if s.get("genericSkillRef") else "generic"),
+                "canonicalStars": s.get("level"),
+            })
+            continue
+
+        validSkills.append(s)
+
+    if not validSkills:
+        return {
+            "status": "not-evaluated",
+            "assessments": defectiveAssessments,
+            "engineCoverage": {
+                "mode": "caller-validation",
+                "status": "not-evaluated",
+                "expected": len(skills),
+                "returned": len(defectiveAssessments),
+                "evaluated": 0,
+                "notEvaluated": len(defectiveAssessments),
+                "structuralValidationFailures": len(defectiveAssessments),
+                "registryAttempt": None,
+            },
+        }
+
+    # 1. Attempt evaluateShadowRegistry on validSkills
+    validAssessments: list[dict[str, Any]] = []
+    coverageMode = "registry"
     registryFailure = None
     try:
-        registryResult = shadow.evaluateShadowRegistry(skills, context)
+        registryResult = shadow.evaluateShadowRegistry(validSkills, context)
         status = registryResult.get("status")
-        assessments = registryResult.get("assessments") or []
-        if status in ("evaluated", "partial") and len(assessments) == len(skills):
-            registryResult["engineCoverage"] = {"mode": "registry", "status": status,
-                                                "expected": len(skills), "returned": len(assessments)}
-            return registryResult
-        registryFailure = {"type": "IncompleteRegistryResult", "message":
-                           f"status={status!r}, expected={len(skills)}, returned={len(assessments)}",
-                           "fallback": "per-record seam coordinator"}
+        returned = registryResult.get("assessments") or []
+        if status in ("evaluated", "partial") and len(returned) == len(validSkills):
+            validAssessments = returned
+        else:
+            registryFailure = {"type": "IncompleteRegistryResult", "message":
+                               f"status={status!r}, expected={len(validSkills)}, returned={len(returned)}",
+                               "fallback": "per-record seam coordinator"}
     except Exception as exc:
         registryFailure = {"type": type(exc).__name__, "message": str(exc)[:500],
                            "fallback": "per-record seam coordinator"}
 
-    # 2. Seam coordinator: topological component-before-suite evaluation
-    byId = {s.get("id"): s for s in skills if s.get("id")}
-    pending = dict(byId)
-    computedNamed = {k: dict(v) for k, v in context.namedSkillMap.items()}
-    assessmentsById: dict[str, dict[str, Any]] = {}
+    # 2. Seam coordinator fallback: topological component-before-suite evaluation on validSkills
+    if not validAssessments:
+        coverageMode = "per-record-fallback"
+        byId = {s["id"]: s for s in validSkills}
+        pending = dict(byId)
+        computedNamed = {k: dict(v) for k, v in context.namedSkillMap.items()}
+        assessmentsById: dict[str, dict[str, Any]] = {}
 
-    while pending:
-        ready = sorted(
-            key for key, item in pending.items()
-            if all(component not in pending for component in (item.get("suiteComponents") or []))
-        )
-        if not ready:
-            # Component dependency cycle detected among remaining pending skills
-            cycleReason = f"component dependency cycle among remaining: {sorted(pending.keys())}"
-            for sid in sorted(pending.keys()):
+        while pending:
+            ready = sorted(
+                key for key, item in pending.items()
+                if all(component not in pending for component in (item.get("suiteComponents") or []))
+            )
+            if not ready:
+                # Component dependency cycle detected among remaining pending skills
+                cycleReason = f"component dependency cycle among remaining: {sorted(pending.keys())}"
+                for sid in sorted(pending.keys()):
+                    skill = pending.pop(sid)
+                    assessmentsById[sid] = {
+                        "status": "not-evaluated",
+                        "reason": cycleReason,
+                        "skillId": sid,
+                        "scope": "suite" if skill.get("suiteComponents") is not None else "unique",
+                        "canonicalStars": skill.get("level"),
+                    }
+                break
+
+            for sid in ready:
                 skill = pending.pop(sid)
-                assessmentsById[sid] = {
-                    "status": "not-evaluated",
-                    "reason": cycleReason,
-                    "skillId": sid,
-                    "scope": "suite" if skill.get("suiteComponents") is not None else "unique",
-                    "canonicalStars": skill.get("level"),
-                }
-            break
+                iterContext = dataclasses.replace(context, namedSkillMap=computedNamed)
+                assessment = shadow.evaluateShadow(skill, iterContext)
+                assessmentsById[sid] = assessment
 
-        for sid in ready:
-            skill = pending.pop(sid)
-            # Evaluate using context with dynamically accumulated computedNamed
-            iterContext = dataclasses.replace(context, namedSkillMap=computedNamed)
-            assessment = shadow.evaluateShadow(skill, iterContext)
-            assessmentsById[sid] = assessment
+                if assessment.get("status") == "evaluated":
+                    grade = assessment.get("grade")
+                    computedNamed[sid] = {
+                        **skill,
+                        "overallTrustGrade": grade,
+                        "overallGrade": grade,
+                        "grade": grade,
+                        "_shadowAssessed": True,
+                    }
 
-            if assessment.get("status") == "evaluated":
-                grade = assessment.get("grade")
-                computedNamed[sid] = {
-                    **skill,
-                    "overallTrustGrade": grade,
-                    "overallGrade": grade,
-                    "grade": grade,
-                    "_shadowAssessed": True,
-                }
+        validAssessments = [assessmentsById[k] for k in sorted(assessmentsById.keys())]
 
-    orderedAssessments = [assessmentsById[k] for k in sorted(assessmentsById.keys())]
-    allEvaluated = all(a.get("status") == "evaluated" for a in orderedAssessments)
-    overallStatus = "evaluated" if allEvaluated else "partial"
+    allAssessments = validAssessments + defectiveAssessments
+    evaluatedCount = sum(1 for a in allAssessments if a.get("status") == "evaluated")
+    notEvaluatedCount = len(allAssessments) - evaluatedCount
+    overallStatus = "evaluated" if (notEvaluatedCount == 0 and len(allAssessments) > 0) else "partial"
 
     return {
         "status": overallStatus,
-        "assessments": orderedAssessments,
-        "engineCoverage": {"mode": "per-record-fallback", "status": "incomplete",
-                           "expected": len(skills), "returned": len(orderedAssessments),
-                           "registryAttempt": registryFailure},
+        "assessments": allAssessments,
+        "engineCoverage": {
+            "mode": coverageMode,
+            "status": overallStatus,
+            "expected": len(skills),
+            "returned": len(allAssessments),
+            "evaluated": evaluatedCount,
+            "notEvaluated": notEvaluatedCount,
+            "structuralValidationFailures": len(defectiveAssessments),
+            "registryAttempt": registryFailure,
+        },
     }
 
 
@@ -865,6 +1077,15 @@ def runShadowEvaluation(
             "evaluationAtUTC": context.evaluationAtUTC.isoformat(),
             "publicationAuthorized": False,
             "shadowNotice": "Read-only shadow evaluation diagnostic. Zero canonical writes performed.",
+            "tool": {
+                "name": "gaia shadow",
+                "module": "gaia_cli.shadowCorpus",
+                "version": SHADOW_CORPUS_VERSION,
+            },
+            "runtime": {
+                "pythonVersion": sys.version.split()[0],
+                "platform": sys.platform,
+            },
         },
         "census": {
             "totalNamedFiles": census.totalNamedFiles,
@@ -886,11 +1107,13 @@ def runShadowEvaluation(
             "trustNumberRows": [{**row, "disposition": "provenance-only; excluded from current TM scoring"}
                                 for row in census.trustNumberRows],
             "duplicateIds": census.duplicateIds,
+            "structuralFailuresCount": len(census.structuralFailures),
+            "structuralFailures": census.structuralFailures,
             "integrityFindings": {
                 "parseFailures": census.parseFailures, "parserDiscrepancies": census.parserDiscrepancies,
                 "missingIds": census.missingIds, "unresolvedRefs": census.unresolvedRefs,
                 "dependencyCycles": census.dependencyCycles, "duplicateIds": census.duplicateIds,
-                "temporalAnomalies": census.temporalAnomalies,
+                "temporalAnomalies": census.temporalAnomalies, "structuralFailures": census.structuralFailures,
             },
         },
         "summary": summary,
@@ -908,6 +1131,8 @@ def formatImpactSummary(reportData: dict[str, Any]) -> str:
     causes = summary.get("causeBreakdown", {})
     starImpact = summary.get("starCeilingImpact", {})
     manifest = summary.get("manifestVerification", {})
+    toolInfo = meta.get("tool", {})
+    runtimeInfo = meta.get("runtime", {})
 
     lines = [
         "================================================================================",
@@ -919,6 +1144,8 @@ def formatImpactSummary(reportData: dict[str, Any]) -> str:
         f"Pinned UTC Evaluation Time : {meta.get('evaluationAtUTC')}",
         f"Registry Revision          : {meta.get('registryRevision')}",
         f"Engine Version             : {meta.get('engineVersion')}",
+        f"Tool                       : {toolInfo.get('name', 'gaia shadow')} ({toolInfo.get('version', SHADOW_CORPUS_VERSION)})",
+        f"Runtime                    : Python {runtimeInfo.get('pythonVersion', sys.version.split()[0])} on {runtimeInfo.get('platform', sys.platform)}",
         f"Policy Version             : {meta.get('policyVersion')} (digest: {meta.get('policyDigest', '')[:12]}...)",
         f"Benchmark Catalog Digest   : {meta.get('benchmarkCatalogDigest', '')[:12]}...",
         f"Canonical Input Digest     : {meta.get('canonicalInputDigest', '')[:12]}...",
@@ -932,6 +1159,7 @@ def formatImpactSummary(reportData: dict[str, Any]) -> str:
         f"  Frontmatter Cache Hashes  : {census.get('cacheHashCount')}",
         f"  Parse Failures            : {len(census.get('parseFailures', []))}",
         f"  Parser Discrepancies      : {len(census.get('parserDiscrepancies', []))}",
+        f"  Structural Failures       : {len(census.get('structuralFailures', []))}",
         f"  Unresolved Generic Refs   : {len(census.get('unresolvedRefs', []))}",
         f"  Dependency Cycles         : {len(census.get('dependencyCycles', []))}",
         f"  Temporal Anomalies        : {len(census.get('temporalAnomalies', []))}",
@@ -984,6 +1212,26 @@ def writeShadowReport(
             raise ValueError(f"Refusing symlink output file: {target}")
         if target.exists() and not target.is_file():
             raise ValueError(f"Output destination is not a regular file: {target}")
+
+    # Check ancestor symlinks of the output destinations
+    rootsToCheck = [Path(repoRoot).resolve()]
+    cwdResolved = Path.cwd().resolve()
+    if cwdResolved not in rootsToCheck:
+        rootsToCheck.append(cwdResolved)
+
+    for target in (jsonPath, summaryPath):
+        curr = target.parent
+        while curr != curr.parent:
+            if curr.is_symlink():
+                resolvedCurr = curr.resolve()
+                for root in rootsToCheck:
+                    for forbidden in FORBIDDEN_CANONICAL_DIRS:
+                        forbidPath = root / forbidden
+                        if resolvedCurr == forbidPath or forbidPath in resolvedCurr.parents:
+                            raise ValueError(
+                                f"Refusing output file in symlinked ancestor directory: {curr} (resolves to {resolvedCurr})"
+                            )
+            curr = curr.parent
 
     # Stage sibling files, then replace destinations atomically. Replacement never
     # opens a destination, so a raced symlink target is not followed.
@@ -1064,9 +1312,14 @@ def run_shadow_corpus_cli(args: argparse.Namespace) -> int:
         print(formatImpactSummary(reportData))
 
     integrity = census.get("integrityFindings", {})
-    if any(integrity.get(key) for key in ("parseFailures", "parserDiscrepancies", "missingIds",
-            "unresolvedRefs", "dependencyCycles", "duplicateIds", "temporalAnomalies")) or (
-            failClosed and summary.get("notEvaluatedCount", 0) > 0):
+    hasIntegrityFailure = any(bool(integrity.get(key)) for key in (
+        "parseFailures", "parserDiscrepancies", "missingIds",
+        "unresolvedRefs", "dependencyCycles", "duplicateIds",
+        "temporalAnomalies", "structuralFailures"
+    ))
+    if hasIntegrityFailure or (failClosed and summary.get("notEvaluatedCount", 0) > 0) or (
+        summary.get("targetSkillsCount", 0) > 0 and summary.get("evaluatedCount", 0) == 0
+    ):
         return 1
 
     return 0

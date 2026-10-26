@@ -73,19 +73,30 @@ Legacy tooling exhibits parser divergence:
 
 ---
 
-## 4. Seam Coordination & Cause Classification
+## 4. Caller Validation, Seam Coordination & Cause Classification
+
+### 4.0 Public Caller Validation Before Evaluator Exposure
+To prevent malformed inputs from exposing engine review caveats (such as `TypeError` in dependency closures or `NaN` leakage), `shadowCorpus.py` strictly validates all records before invoking `evaluateShadow` or `evaluateShadowRegistry`:
+- **Record & File IDs:** Must be non-empty strings. Missing or non-string IDs produce explicit structural failures.
+- **Duplicate IDs:** If multiple files declare the same skill ID, each duplicate record is preserved in the census and assigned an explicit `"status": "not-evaluated"` with a duplicate ID diagnostic reason. Records are never dropped or silently overwritten.
+- **Suite Component Arrays (`suiteComponents`):** Must be a list containing only non-empty strings. Heterogeneous elements (`int`, `None`, `{}`) or empty strings produce explicit per-file structural failures and mark the containing suite `"not-evaluated"` without crashing.
+- **Evidence Shapes & Numerics:** The `evidence` field must be an array of objects. Any non-dict row, boolean passed to a numeric metric, or non-finite float (`NaN`, `Inf`) produces an explicit structural failure and `"not-evaluated"` coverage.
+- **Generic References (`genericSkillRef`):** Must be a non-empty string resolving to a known generic node.
+- **Diagnostic Nonzero Exit:** Any structural validation failure, parse failure, temporal anomaly, or unresolved reference causes `gaia shadow` to exit non-zero (code 1), preventing false clean signals. Defective records are never evaluated or labeled as evaluated 0.
 
 ### 4.1 Coordinating the Seam
 The initial shadow engine aborts evaluation of the entire registry if a single record fails context validation or contains a future date.
 
 `shadowCorpus.py` coordinates this seam:
-1. It attempts `evaluateShadowRegistry(skills, context)`.
-2. If `evaluateShadowRegistry` returns `evaluated` or `partial`, its assessments are consumed directly.
-3. If `evaluateShadowRegistry` aborts with `not-evaluated` due to an isolated invalid record or dependency cycle, the runner switches to topological per-record evaluation:
-   - Sorts skills topologically: components before containing suites.
+1. Validates all inputs to isolate defective records into honest `not-evaluated` assessments.
+2. Attempts `evaluateShadowRegistry(validSkills, context)` on valid skills.
+3. If `evaluateShadowRegistry` returns `evaluated` or `partial`, its assessments are consumed directly.
+4. If `evaluateShadowRegistry` aborts with `not-evaluated` due to an isolated invalid record or dependency cycle, the runner switches to topological per-record evaluation:
+   - Sorts valid skills topologically: components before containing suites.
    - Evaluates each ready skill via `evaluateShadow(skill, context)`.
    - Records honest `not-evaluated` statuses with exact diagnostic reasons for failing records without erasing valid coverage for the rest of the corpus.
    - Propagates evaluated component grades into downstream suite Apex evaluations using an accumulated `computedNamed` map.
+5. Recombines valid and defective assessments so that `expected == returned == len(skills)` always holds.
 
 ### 4.2 RFC §10/§11 Implementation Correction Causes
 The shadow evaluator classifies divergence between legacy production TM and corrected shadow TM into four distinct implementation-correction causes:
@@ -128,15 +139,12 @@ python -m gaia_cli shadow --json
 - `--filter-status <status>`: Narrow evaluation to a specific status subset (e.g. `'named'` or `'awakened'`).
 
 ### 5.3 Output Path Safeguards
-Writing shadow output into canonical or public directories is strictly forbidden. `validateOutputPath` raises a `ValueError` if output targets:
-- `registry/`
-- `docs/`
-- `skill-trees/`
-- `src/`
-- `.agents/skills/`, `.claude/skills/`
-- `.github/`
-
-Allowed targets include external system paths (e.g. `/tmp/shadow`) or explicitly permitted ignored local directories (`.gaia/`, `generated-output/`, `.tmp/`).
+Writing shadow output into canonical or public directories is strictly forbidden. `validateOutputPath` and `writeShadowReport` enforce containment:
+- Rejects paths inside: `registry/`, `docs/`, `skill-trees/`, `src/`, `.agents/skills/`, `.claude/skills/`, `.github/`.
+- Rejects directory traversal (`..`) escaping containment or repository overrides targeting canonical paths.
+- Rejects ancestor symlinks resolving to canonical directories.
+- **Output Symlink Zero-Target Mutation:** Preflights output files before opening or creating destinations. If a destination (`shadow-report.json` or `shadow-summary.txt`) is a symlink, execution refuses it with `ValueError` and ensures ZERO bytes are written or mutated on the symlink target (whether 0-byte or non-empty).
+- Allowed targets include external system paths (e.g. `/tmp/shadow`) or explicitly permitted ignored local directories (`.gaia/`, `generated-output/`, `.tmp/`).
 
 ---
 
