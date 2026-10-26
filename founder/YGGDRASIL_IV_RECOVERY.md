@@ -93,6 +93,16 @@ Parent took ownership of final-HEAD verification: task `bb899e5ff` runs the 62-t
 
 **Execution discipline change:** parent owns long validation/replay commands after delivery. Writers should commit coherent source and run short synchronous checks; repeated child-finalization has killed their background tests. Persistent worktrees/local refs preserve implementation, but do not turn an interrupted check into evidence.
 
+## Integration and repair checkpoint after founder status request
+
+- PR #2155 merged into integration as **`6aa7aaaede8e9ef154743c16dc2c2737f00a1fa6`**, after current-head GitHub package tests/build/smoke and applicable integrity/guard checks passed. The local CI watcher timed out; it was not a failed GitHub run. Domain-only foundation is accepted; live receipt authentication remains unavailable.
+- Founder requested percentage bars. Parent estimated **~25% of full campaign acceptance**, not code volume: substantial P3 transaction/migration and cross-surface operational/rollout acceptance remains unfinished. No gate waiver.
+- Publication review of `41e05570a` found incomplete source identity, stale-copy acceptance, source stamping, partial time pinning, foreign-worktree output acceptance and provenance/environment weaknesses. Full report saved at ignored `.gaia/yggdrasil-iv/recovery/publication-full-review-41e05570a.md`.
+- Publication hardening task `2dc2a090` delivered **partial** `63afd3b99fe05330d3081b5425ebebb7b7b9be93`, recovery ref `refs/heads/recovery/yggdrasil-iv/publication-hardening`. Worker reports 100 focused tests, local/remote recovery refs at that SHA. New inventory hashing/copy validation, external provenance, explicit context, strict generator handling, time pinning and ledger/API numeric comparison implemented. Origin/history parity, per-stage output attribution and full determinism remain incomplete. Parent replay `b3b98e936` is pending; no publication-code merge/acceptance.
+- Parent replay `bb899e5ff` failed before tests due to a harness typo (`test_build_docs_api_projection.py` nonexistent). Corrected selection uses `test_build_docs_api_projection_write.py`; replacement `b4f5a33e9` ran against old `41e05570a`, result not yet collected. This is not a repository test failure.
+- Current permanent-worktree dispatches: `81e61e1f` final engine read-only review; `0389da50` evidence lifecycle repair; `75c44f05` UI hardening/actual render evidence; `d2a9a477` durable watcher recovery. Read-only `6d3ae39a` maps exact transaction/timeline helpers for immediate P3 work. See task reports under ignored recovery directory; no speculative completions.
+- Parent asked founder for permission for **one Sol High implementation worker at a time** on tightly coupled core work. **Not authorized yet; no Sol implementation worker launched.** Existing worker/model and human gates remain unchanged.
+
 ## Still binding human gates
 
 Schema adoption, pilot/live standing and canonical trust/rank/evidence/Origin decisions, security/protected-environment activation, visual approval, final main merge, registry-wide rollout and RFC closure remain held. Four weekly operational shadow comparisons require real elapsed operational evidence, not a virtual-clock fixture. All implementation remains engineering preparation until those gates are met.
