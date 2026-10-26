@@ -4,6 +4,48 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-26, Yggdrasil IV #2148 — interruption recovery, code review still open)
+
+### TLDR
+
+- Founder authorized full engineering/test/staging/preview preparation across P0–P5, NOT canonical schema rollout, live pilot standing changes, final main merge, registry-wide rollout or RFC closure. Sol leads; code delegated only to explicit-effort Luna High/Flash Medium/High. No subagent turn limits or unapproved model escalation.
+- Integration `dev/yggdrasil-iv` at `a9a4a624eee74c64e26eb4faa28ad1610f0af156`; draft aggregate PR **#2151** targets main and remains held. Only campaign docs/ratified Origin vocabulary PR **#2150** has merged into integration. No campaign canonical registry, public generated artifact or production standing changes.
+- Baseline `b0f6d9e50` (v8.26.10), ratification #2149 ancestor verified. Baseline selected trust/row/benchmark/freshness/Steward suite **255 passed in 10.29s**. Baseline green is not IV proof.
+
+### Preserved branches and review state
+
+| Branch | Saved head | State at recovery |
+| --- | --- | --- |
+| `dev/yggdrasil-iv-shadow-engine` | `6e258d13d849c38f7114c736a561f462913c82f2` | Opt-in explicit-context evaluator, four correction families, latest hardening pushed; independent re-review required |
+| `dev/yggdrasil-iv-challenge-core-hardening` | `66beb1a0b14cd3db48d44cabde9cf6e6f5e7a4ed` | Required trusted receipt resolver, exact context/transcript/history binding; independent re-review required |
+| `dev/yggdrasil-iv-challenge-core` | `bc8f84cba468d661beb7045d286038cd622f5e02` | Initial unsafe draft, NOT integration candidate without hardening |
+| `dev/yggdrasil-iv-challenge-watch` | `eed0ffe57b80124a676bd15dce8ba3f9b3e38f11` | Review BLOCKED: fabricated receipts, raw status stopping watch, no Actions state persistence, silent partial coverage |
+| `dev/yggdrasil-iv-evidence-revisions` | `38b03890a628a5b036214287cf099fd3c645d3a3` | P3 rehearsal/schema proposal HELD; review BLOCKED: checksum-as-approval wording, history binding, unrestricted refresh, migration reactivation and incomplete schema validation |
+| `cli/yggdrasil-iv-upstream-case` | `fc2b1d147b7d92e40dfdaf4102e61e8063191e67` | Focused #2152 case-normalization fix pushed; parent independent tests underway |
+
+### Recovery routing
+
+Four runs were marked lost/orphaned after interruption. Engine repair survived in Git. Corpus and UI work survived as patches, not pushed branches. Never apply the corpus patch wholesale: it includes stale engine code AND reversal of newer `CONTEXT.md` / founder receipt. Recover only the corpus-owned paths. Patch basenames under caller-local subagent `_patches/`: `Worktree-confirm-cwd-33bc1808.patch` (corpus) and `Worktree-confirm-cwd-c3779df5.patch` (UI). Operational paths/run handles are recovery aids, not durable authorization.
+
+Current recovery dispatches (each isolated, explicit effort, no turn limit):
+- `63b46fd3`: Luna High independently rechecks engine (task0) and challenge core (task1); Flash High recovers corpus (task2).
+- `33d8e90d`: Luna High repairs evidence rehearsal on `dev/yggdrasil-iv-evidence-revisions-repair`; separate schema commits requested, no rollout.
+- `71f969a2`: Flash High recovers UI on `design/yggdrasil-iv-challenge-history`; founder visual gate holds even integration.
+- `824efe44`: Luna High repairs watcher persistence/trusted receipts using existing Steward CAS/receipt machinery, no production activation.
+
+### Lessons, boundaries and next steps
+
+- Independent reviews caught real blockers despite passing worker tests. Do not integrate from self-report. Verify current reviewed SHA, adversarial reproductions and actual output.
+- Initial challenge core trusted actor strings/pass flags; initial shadow core retained stale S-witness grades, raw-vs-bounded row confusion, poor dedup comparator, NaN handling and whole-corpus abort. Hardening is pushed, not yet accepted.
+- Digest/CAS checksums are NOT cryptographic authentication or proof of human approval. Domain/rehearsal seams must expose the trusted runtime approval boundary honestly.
+- Watcher default-off before rollout is intentional. Actual cross-run persistence/input transport and staging execution still need proof; local restart fixtures alone do not prove Actions durability.
+- Preserve original unrelated `.pi/` untracked files/worktrees. No force pushes, deletion of unfinished work, canonical hand-edits or blanket generated rebuilds.
+- Continue: collect independent re-reviews, repair remaining defects, open small feature PRs into #2151 integration, then full-corpus impact and operational integration. Prepare schema-only and stacked code PRs without publishing schema/corpus. Complete coherent approved snapshot, transactional CLI/dual timelines, all public surfaces and actual rendered review evidence in this campaign, not follow-up debt.
+- Four weekly operational shadow comparisons cannot be replaced by virtual-clock tests. Pilot nomination/live changes, rollout, final main merge, actual release verification and RFC closure remain explicit founder gates.
+- No session cost figure collected or inferred from UI/model metadata.
+
+---
+
 ## State Snapshot (2026-10-15, #2105 — Steward coverage ready for founder preview)
 
 ### TLDR
