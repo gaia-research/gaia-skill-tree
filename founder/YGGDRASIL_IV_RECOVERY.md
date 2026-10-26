@@ -51,6 +51,17 @@ No dependency on successful network access is required to inspect these commits,
 6. Commit coherent local units before long tests/network operations. Anchor detached commits. Collect background tests before ending a child, or stop them explicitly and preserve logs. A prior full-suite engine task was killed by child shutdown; its result was not a pass.
 7. Push only when possible. Verify exact remote SHA separately; unavailable remote = unconfirmed, not delivered. No force pushes, branch/worktree deletion, stash-only storage, global installs, direct main commits or automatic canonical rollout.
 
+## Later receipt-source result
+
+The final `f15b2fcb` delivery was collected after its terminal notification. The durable-watcher task timed out; its partial four-file patch remains the saved recovery source. The companion receipt-source task completed an engineering-preparation unit:
+
+- `dev/yggdrasil-iv-challenge-receipts`: `a3df0cbd9c5e513fb508ae282f91eeb4ba769134`.
+- Local recovery ref `refs/heads/recovery/yggdrasil-iv/challenge-receipts` at the same SHA. Push was acknowledged by the remote; no independent post-push fetch was performed.
+- Worker reports **39 passed** across `tests/steward/test_challenge_receipts.py` and `tests/test_challenge_domain.py`, diff check passed and clean working tree. This is worker evidence, not independent acceptance.
+- Two committed files provide bounded full-payload ZIP packaging, context/transcript/notification binding, deployment configuration validation and a fail-closed resolver. Synthetic positives are contract fixtures, not live authorization evidence.
+- **Live adapter remains unavailable:** available GitHub REST evidence did not establish completed-run protected-environment approval actor/history. No environment, producer workflow, token, repository setting or privilege was provisioned; the existing curation authorization refusal remains unchanged.
+- Remaining implementation/security gate: an independently verifiable authenticated approval-history source, protected producer source and configured prevent-self-review/required-reviewer environment. No working operational watcher or end-to-end authentication is claimed.
+
 ## Still binding human gates
 
 Schema adoption, pilot/live standing and canonical trust/rank/evidence/Origin decisions, security/protected-environment activation, visual approval, final main merge, registry-wide rollout and RFC closure remain held. Four weekly operational shadow comparisons require real elapsed operational evidence, not a virtual-clock fixture. All implementation remains engineering preparation until those gates are met.
