@@ -81,32 +81,68 @@ def sha256Digest(value: Any) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
-def computeFileHash(filePath: Path) -> str:
-    """Return SHA-256 hex digest of file contents."""
+def validateInputPath(inputPath: Path, repoRoot: Path) -> Path:
+    """Reject links/escapes before reading selected registry inputs.
+
+    This is input validation, not a sandbox against a concurrent same-user
+    filesystem attacker. The before/after manifest separately detects mutation.
+    """
+    root = repoRoot.resolve()
+    path = inputPath if inputPath.is_absolute() else root / inputPath
+    try:
+        relative = path.relative_to(root)
+    except ValueError as exc:
+        raise ValueError(f"Registry input escapes selected root: {path}") from exc
+    current = root
+    for part in relative.parts:
+        if part == "..":
+            raise ValueError(f"Registry input traversal rejected: {path}")
+        current = current / part
+        if current.is_symlink():
+            raise ValueError(f"Symlink registry input rejected: {current}")
+    return path
+
+
+def registryInputFiles(repoRoot: Path, directory: str, suffix: str) -> list[Path]:
+    """Enumerate without following or silently skipping linked subdirectories."""
+    folder = validateInputPath(repoRoot / "registry" / directory, repoRoot)
+    if not folder.is_dir():
+        return []
+
+    def failWalk(error: OSError) -> None:
+        raise error
+
+    files: list[Path] = []
+    for current, directories, names in os.walk(folder, followlinks=False, onerror=failWalk):
+        for name in directories:
+            validateInputPath(Path(current) / name, repoRoot)
+        for name in names:
+            path = validateInputPath(Path(current) / name, repoRoot)
+            if name.endswith(suffix):
+                if not path.is_file():
+                    raise ValueError(f"Registry input is not a regular file: {path}")
+                files.append(path)
+    return sorted(files)
+
+
+def computeFileHash(filePath: Path, repoRoot: Optional[Path] = None) -> str:
+    """Return SHA-256 of file contents after optional registry containment checks."""
+    if repoRoot is not None:
+        validateInputPath(filePath, repoRoot)
     return hashlib.sha256(filePath.read_bytes()).hexdigest()
 
 
 def buildFileDigestManifest(repoRoot: Path) -> dict[str, str]:
     """Scan and return relative path -> SHA-256 manifest of all canonical registry inputs."""
+    repoRoot = Path(repoRoot).resolve()
     manifest: dict[str, str] = {}
-    nodesDir = repoRoot / "registry" / "nodes"
-    if nodesDir.is_dir():
-        for p in sorted(nodesDir.rglob("*.json")):
-            rel = str(p.relative_to(repoRoot))
-            manifest[rel] = computeFileHash(p)
-    namedDir = repoRoot / "registry" / "named"
-    if namedDir.is_dir():
-        for p in sorted(namedDir.rglob("*.md")):
-            rel = str(p.relative_to(repoRoot))
-            manifest[rel] = computeFileHash(p)
-    benchmarkCatalogFile = repoRoot / "registry" / "benchmark-sources.json"
-    if benchmarkCatalogFile.is_file():
-        rel = str(benchmarkCatalogFile.relative_to(repoRoot))
-        manifest[rel] = computeFileHash(benchmarkCatalogFile)
-    metaJson = repoRoot / "registry" / "schema" / "meta.json"
-    if metaJson.is_file():
-        rel = str(metaJson.relative_to(repoRoot))
-        manifest[rel] = computeFileHash(metaJson)
+    for directory, suffix in (("nodes", ".json"), ("named", ".md")):
+        for path in registryInputFiles(repoRoot, directory, suffix):
+            manifest[str(path.relative_to(repoRoot))] = computeFileHash(path, repoRoot)
+    for relative in ("registry/benchmark-sources.json", "registry/schema/meta.json"):
+        path = validateInputPath(repoRoot / relative, repoRoot)
+        if path.is_file():
+            manifest[relative] = computeFileHash(path, repoRoot)
     return manifest
 
 
@@ -281,6 +317,8 @@ def censusRegistry(
 ) -> RegistryCensus:
     """Perform a complete, read-only census and reconciliation of every registry record."""
     root = Path(registryPath).resolve()
+    for relative in ("registry/benchmark-sources.json", "registry/schema/meta.json"):
+        validateInputPath(root / relative, root)
     census = RegistryCensus()
     pinnedTime = evaluationAtUTC or datetime.datetime(2026, 10, 25, 0, 0, 0, tzinfo=datetime.timezone.utc)
     if isinstance(pinnedTime, str):
@@ -291,11 +329,12 @@ def censusRegistry(
         pinnedTime = pinnedTime.astimezone(datetime.timezone.utc)
 
     # 1. Census Generic JSON nodes
-    nodesDir = root / "registry" / "nodes"
+    nodesDir = validateInputPath(root / "registry" / "nodes", root)
     if nodesDir.is_dir():
-        for jsonFile in sorted(nodesDir.rglob("*.json")):
+        for jsonFile in registryInputFiles(root, "nodes", ".json"):
             relPath = str(jsonFile.relative_to(root))
             try:
+                validateInputPath(jsonFile, root)
                 rawText = jsonFile.read_text(encoding="utf-8")
                 census.fileHashes[relPath] = hashlib.sha256(rawText.encode("utf-8")).hexdigest()
                 nodeData = json.loads(rawText)
@@ -381,11 +420,12 @@ def censusRegistry(
                         })
 
     # 2. Census Named Markdown skills + Parser Reconciliation
-    namedDir = root / "registry" / "named"
+    namedDir = validateInputPath(root / "registry" / "named", root)
     if namedDir.is_dir():
-        for mdFile in sorted(namedDir.rglob("*.md")):
+        for mdFile in registryInputFiles(root, "named", ".md"):
             relPath = str(mdFile.relative_to(root))
             try:
+                validateInputPath(mdFile, root)
                 rawText = mdFile.read_text(encoding="utf-8")
                 census.fileHashes[relPath] = hashlib.sha256(rawText.encode("utf-8")).hexdigest()
                 census.totalNamedFiles += 1
@@ -591,12 +631,12 @@ def censusRegistry(
     catalogFile = root / "registry" / "benchmark-sources.json"
     if catalogFile.is_file():
         rel = str(catalogFile.relative_to(root))
-        census.fileHashes[rel] = computeFileHash(catalogFile)
+        census.fileHashes[rel] = computeFileHash(catalogFile, root)
 
     metaJson = root / "registry" / "schema" / "meta.json"
     if metaJson.is_file():
         rel = str(metaJson.relative_to(root))
-        census.fileHashes[rel] = computeFileHash(metaJson)
+        census.fileHashes[rel] = computeFileHash(metaJson, root)
 
     census.isValid = not any((census.parseFailures, census.parserDiscrepancies, census.missingIds,
                               census.unresolvedRefs, census.dependencyCycles, census.duplicateIds,
@@ -670,6 +710,10 @@ def buildShadowContext(
     else:
         raise ValueError(f"Invalid evaluationAtUTC: {evaluationAtUTC}")
 
+    # Validate auxiliary inputs before the loaders can follow a file/directory link.
+    for relative in ("registry/benchmark-sources.json", "registry/schema/meta.json"):
+        validateInputPath(repoRoot / relative, repoRoot)
+
     # Benchmark catalog
     catalog = loadBenchmarkCatalog(repoRoot)
     catalogDigest = sha256Digest(catalog)
@@ -677,7 +721,7 @@ def buildShadowContext(
     # Policy digest from meta.json
     metaJsonPath = repoRoot / "registry" / "schema" / "meta.json"
     if metaJsonPath.is_file():
-        policyDigest = computeFileHash(metaJsonPath)
+        policyDigest = computeFileHash(metaJsonPath, repoRoot)
     else:
         policyDigest = sha256Digest(policyVersion)
 
@@ -1043,12 +1087,38 @@ def runShadowEvaluation(
 
         enrichedAssessments.append(enriched)
 
+    # A diagnostic can contain useful per-record calculations while the run as
+    # a whole is invalid. Keep one validity decision for both API and CLI.
+    validationFindings: list[str] = []
+    if not census.isValid:
+        validationFindings.append("registry-integrity")
+    if not manifestMatches:
+        validationFindings.append("input-manifest-mutation")
+    if not targetSkills:
+        validationFindings.append("empty-evaluation-scope")
+    elif evaluatedCount == 0:
+        validationFindings.append("no-evaluated-records")
+    if failClosed:
+        if notEvaluatedCount:
+            validationFindings.append("not-evaluated-records")
+        if census.unknownVerifiers:
+            validationFindings.append("unknown-verifiers")
+
     summary = {
         "totalSkillsCensused": census.totalNamedFiles,
         "targetSkillsCount": len(targetSkills),
         "evaluatedCount": evaluatedCount,
         "notEvaluatedCount": notEvaluatedCount,
-        "overallStatus": evaluationResult.get("status"),
+        "overallStatus": evaluationResult.get("status") if not validationFindings else "not-evaluated",
+        "evaluationStatus": evaluationResult.get("status"),
+        "diagnosticValid": not validationFindings,
+        "validationFindings": validationFindings,
+        "evaluationScope": {
+            "mode": "complete-registry" if filterStatus is None else "status-subset",
+            "filterStatus": filterStatus,
+            "availableNamedRecords": len(census.namedSkillRecords),
+            "selectedNamedRecords": len(targetSkills),
+        },
         "engineCoverage": evaluationResult.get("engineCoverage", {"mode": "unknown", "status": "unreported"}),
         "tmCorrectionsCount": tmCorrectionsCount,
         "gradeChangesCount": gradeChangesCount,
@@ -1139,7 +1209,7 @@ def formatImpactSummary(reportData: dict[str, Any]) -> str:
         "GAIA YGGDRASIL IV TRUST MAGNITUDE — SHADOW REPLAY & REGISTRY CENSUS",
         "================================================================================",
         "NOTICE: Read-only shadow diagnostic output. Zero canonical writes performed.",
-        "Core engine under independent review; results are provisional, not authoritative.",
+        "Results are provisional diagnostics; no standing change is authorized.",
         "--------------------------------------------------------------------------------",
         f"Pinned UTC Evaluation Time : {meta.get('evaluationAtUTC')}",
         f"Registry Revision          : {meta.get('registryRevision')}",
@@ -1168,6 +1238,8 @@ def formatImpactSummary(reportData: dict[str, Any]) -> str:
         "--------------------------------------------------------------------------------",
         "SHADOW REPLAY EVALUATION:",
         f"  Overall Status            : {summary.get('overallStatus')}",
+        f"  Evaluation Scope          : {summary.get('evaluationScope', 'unreported')}",
+        f"  Validation Findings       : {summary.get('validationFindings', [])}",
         f"  Engine Coverage            : {summary.get('engineCoverage')}",
         f"  Evaluated Skills          : {summary.get('evaluatedCount')} / {summary.get('targetSkillsCount')}",
         f"  Not-Evaluated Skills      : {summary.get('notEvaluatedCount')}",
@@ -1284,7 +1356,6 @@ def run_shadow_corpus_cli(args: argparse.Namespace) -> int:
         return 1
 
     summary = reportData.get("summary", {})
-    census = reportData.get("census", {})
 
     # Handle output files if requested or default to .gaia/shadow when neither stdout nor output_dir is specified
     if outputDir:
@@ -1311,18 +1382,7 @@ def run_shadow_corpus_cli(args: argparse.Namespace) -> int:
     elif toStdout or not outputDir:
         print(formatImpactSummary(reportData))
 
-    integrity = census.get("integrityFindings", {})
-    hasIntegrityFailure = any(bool(integrity.get(key)) for key in (
-        "parseFailures", "parserDiscrepancies", "missingIds",
-        "unresolvedRefs", "dependencyCycles", "duplicateIds",
-        "temporalAnomalies", "structuralFailures"
-    ))
-    if hasIntegrityFailure or (failClosed and summary.get("notEvaluatedCount", 0) > 0) or (
-        summary.get("targetSkillsCount", 0) > 0 and summary.get("evaluatedCount", 0) == 0
-    ):
-        return 1
-
-    return 0
+    return 0 if summary.get("diagnosticValid") is True else 1
 
 
 if __name__ == "__main__":
