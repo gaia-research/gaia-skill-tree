@@ -265,6 +265,49 @@ def test_transitive_missing_component_is_not_reported_as_full_suite_coverage():
     assert by_id["middle"]["unknownDependencyIds"] == ["absent-leaf"]
 
 
+def test_direct_suite_api_requires_direct_and_transitive_canonical_components():
+    suite = {"id": "suite", "type": "fusion", "suiteComponents": ["absent"], "evidence": []}
+    missingDirect = shadow.evaluateShadow(suite, context())
+    assert missingDirect["status"] == "not-evaluated"
+    assert missingDirect["unknownDependencyIds"] == ["absent"]
+
+    middle = {"id": "middle", "suiteComponents": ["absent-leaf"], "evidence": []}
+    transitiveContext = context(named={"middle": middle})
+    transitive = shadow.evaluateShadow({**suite, "suiteComponents": ["middle"]}, transitiveContext)
+    assert transitive["status"] == "not-evaluated"
+    assert transitive["unknownDependencyIds"] == ["absent-leaf"]
+
+    malformed = shadow.evaluateShadow(
+        {**suite, "suiteComponents": ["middle"]},
+        context(named={"middle": {"id": "wrong-id", "suiteComponents": []}}),
+    )
+    assert malformed["status"] == "not-evaluated"
+    assert malformed["unknownDependencyIds"] == ["middle"]
+
+
+def test_direct_suite_api_recomputes_stale_component_grades_like_registry_api():
+    components = [
+        {"id": f"owner/c{index}", "evidence": [
+            row("github-stars-own", f"https://github.com/o/{index}", stars=10000),
+        ]}
+        for index in range(5)
+    ]
+    stale = {item["id"]: {**item, "overallTrustGrade": "B"} for item in components}
+    suite = {
+        "id": "owner/suite", "type": "fusion",
+        "suiteComponents": [item["id"] for item in components], "evidence": [],
+    }
+    ctx = context(named=stale)
+    direct = shadow.evaluateShadow(suite, ctx)
+    registry = shadow.evaluateShadowRegistry([suite, *components], ctx)
+    registrySuite = next(item for item in registry["assessments"] if item["skillId"] == suite["id"])
+    assert direct["status"] == registrySuite["status"] == "evaluated"
+    assert direct["namedMapDependencyGrades"] == registrySuite["namedMapDependencyGrades"]
+    assert direct["gatePredicates"] == registrySuite["gatePredicates"]
+    assert direct["fingerprint"] == registrySuite["fingerprint"]
+    assert direct["namedMapDependencyGrades"]["owner/c0"] != "B"
+
+
 def test_dependency_cycle_is_explicit_and_nan_infinity_are_rejected():
     cycle = [
         {"id": "a", "suiteComponents": ["b"], "evidence": []},
@@ -288,7 +331,8 @@ def test_fingerprint_canonicalizes_evidence_order_but_binds_actual_context():
     changedCatalog = replace(context(), benchmarkCatalog={"benchmarks": [{"id": "different"}]})
     assert baseline["fingerprint"] != shadow.evaluateShadow(a, changedCatalog)["fingerprint"]
     assert set(baseline["contextBinding"]["sourceManifest"]) == {
-        "shadowEvaluation", "trustMagnitude", "benchmarkCatalog", "grading",
+        "shadowEvaluation", "trustMagnitude", "benchmarkCatalog", "evidence",
+        "grading", "structuralGraph",
     }
     originalFile = shadow.tm.__file__
     try:
