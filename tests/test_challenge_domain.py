@@ -291,3 +291,56 @@ def test_multiple_material_challenges_and_observation_idempotence():
     one = Observation("repo/a", "2026-10-25T00:00:00Z", ObservationState.TRANSIENT_FAILURE)
     assert one.observation_id == Observation("repo/a", "2026-10-25T00:00:00Z",
                                              ObservationState.TRANSIENT_FAILURE).observation_id
+
+
+def test_publication_time_with_earlier_receipt_and_closure_chronology():
+    # Earlier receipt / later publication rounds through trusted resolver
+    values = challenge_values(verified_at_utc="2026-10-25T12:00:00Z")
+    resolver = Resolver()
+    receipt = VerificationReceipt(
+        "open-receipt-early", draft_context(values), "reproduction-transcript",
+        values["verifier_id"], "reproducer", values["contributor_id"], "passed",
+        "reproducible-test", "2", "PASS: 12/12", "output-sha256", "https://example.org/receipt/open",
+        values["contributor_notice_ref"], "2026-10-25T11:00:00Z"
+    )
+    resolver.receipts[receipt.receipt_id] = receipt
+    challenge = open_challenge(**values, receipt_resolver=resolver,
+                               verification_receipt_id=receipt.receipt_id)
+    assert challenge.created_at_utc == "2026-10-25T12:00:00Z"
+    assert challenge.history[0].at_utc == "2026-10-25T12:00:00Z"
+    assert resolver.receipts[receipt.receipt_id].verified_at_utc == "2026-10-25T11:00:00Z"
+    validate_challenge_history(challenge, resolver)
+
+    # Equal-time valid
+    values_eq = challenge_values(verified_at_utc="2026-10-25T12:00:00Z")
+    receipt_eq = replace(receipt, receipt_id="open-receipt-equal",
+                         context_digest=draft_context(values_eq),
+                         verified_at_utc="2026-10-25T12:00:00Z")
+    resolver.receipts[receipt_eq.receipt_id] = receipt_eq
+    challenge_eq = open_challenge(**values_eq, receipt_resolver=resolver,
+                                  verification_receipt_id=receipt_eq.receipt_id)
+    assert challenge_eq.created_at_utc == "2026-10-25T12:00:00Z"
+    assert challenge_eq.history[0].at_utc == "2026-10-25T12:00:00Z"
+    validate_challenge_history(challenge_eq, resolver)
+
+    # Future-receipt rejected
+    values_fut = challenge_values(verified_at_utc="2026-10-25T12:00:00Z")
+    receipt_fut = replace(receipt, receipt_id="open-receipt-future",
+                          context_digest=draft_context(values_fut),
+                          verified_at_utc="2026-10-25T12:00:01Z")
+    resolver.receipts[receipt_fut.receipt_id] = receipt_fut
+    with pytest.raises(ValueError, match="after asserted event time"):
+        open_challenge(**values_fut, receipt_resolver=resolver,
+                       verification_receipt_id=receipt_fut.receipt_id)
+
+    # Closure chronology unchanged
+    early = resolve_close(challenge, proof(challenge), resolver=resolver,
+                          closed_at="2026-10-25T11:30:00Z")
+    assert early.disposition is ClosureDisposition.CLASS_C
+    assert "closure cannot predate opening or proof verification" in early.reason
+
+    closed = resolve_close(challenge, proof(challenge), resolver=resolver,
+                           closed_at="2026-10-27T00:00:00Z")
+    assert closed.disposition is ClosureDisposition.CLOSED
+    validate_challenge_history(closed.challenge, resolver)
+
