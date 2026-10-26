@@ -2986,8 +2986,16 @@
       _safeRender('Install',         'se-install',   function(){ renderInstall(ns); });
       _safeRender('Docs',            'se-docs',      function(){ renderDocs(ns, generic); });
       _safeRender('Upgrade',         'se-upgrade',   function(){ renderFlowchart(ns, generic); });
-      // Trust Magnitude section disabled — MAG is surfaced on the plaque hero notch instead
-      document.getElementById('se-tm').innerHTML = '';
+      // Trust Lifecycle & Challenge History (Yggdrasil IV P4 slice)
+      // When trustLifecycle is absent, preserves current rendered UI exactly (empty #se-tm).
+      _safeRender('Trust Lifecycle', 'se-tm',        function() {
+        if (window.GaiaTrustLifecycle && typeof window.GaiaTrustLifecycle.renderLifecycleSection === 'function') {
+          window.GaiaTrustLifecycle.renderLifecycleSection('se-tm', ns);
+        } else {
+          var el = document.getElementById('se-tm');
+          if (el) el.innerHTML = '';
+        }
+      });
       _safeRender('Timeline',        'se-changelog', function(){ renderTimeline(ns, generic); });
 
       // Accessibility: Move focus to the modal close button
