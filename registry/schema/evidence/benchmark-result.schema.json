@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://gaiaskilltree.com/schema/evidence/benchmark-result.schema.json",
   "title": "Benchmark result evidence row",
-  "description": "Benchmark measurement attached to a Gaia skill as an evidence row. Benchmark provenance collapses to three Trust Magnitude lanes: verified (CI reproduced or verifier attested, 2.0x), reported (public claim or mirrored benchmark approved by a human gate, 1.0x), and rejected (blacklisted/disputed/no scoring, 0x). Legacy aliases remain accepted: ci-reproduced/verifier-attested → verified, mirrored → reported, pending/unknown/retired/candidate → rejected. Self-attested provenance is FOREVER rejected. Trust Magnitude computes final benchmark score internally; do not persist finalScore.",
+  "description": "Benchmark measurement attached to a Gaia skill as an evidence row. Benchmark provenance collapses to three Trust Magnitude lanes: verified (CI reproduced or verifier attested, 2.0x), reported (public claim or mirrored benchmark approved by a human gate, 1.0x), and rejected (blacklisted/disputed/no scoring, 0x). Legacy aliases remain accepted: ci-reproduced/verifier-attested → verified, mirrored → reported, pending/unknown/retired/candidate → rejected. Self-attested provenance is FOREVER rejected. Trust Magnitude computes final benchmark score internally; do not persist finalScore. Lifecycle fields are proposal metadata only; active is distinct from verified. Generic evidence on starless generic nodes uses the same assertion lifecycle without adding stars.",
   "type": "object",
   "additionalProperties": true,
   "required": [
@@ -60,7 +60,8 @@
     "runAt": {
       "type": "string",
       "format": "date-time",
-      "description": "ISO 8601 date-time (with timezone) the benchmark harness was executed. Feeds the freshness half-life calculation in Trust Magnitude."
+      "description": "ISO 8601 date-time (with timezone) the benchmark harness was executed. Feeds the freshness half-life calculation in Trust Magnitude. Must be an explicit UTC timestamp ending in Z; offsets and naive date-times are not accepted.",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$"
     },
     "provenance": {
       "type": "string",
@@ -134,7 +135,7 @@
     "sourceRevision": {
       "type": "string",
       "minLength": 1,
-      "description": "Immutable source repository commit SHA, release tag, or version observed."
+      "description": "Source revision/version observed, or \"unknown\" when unavailable."
     },
     "observationState": {
       "type": "string",
@@ -150,7 +151,8 @@
     "lastObservedAt": {
       "type": "string",
       "format": "date-time",
-      "description": "ISO 8601 date-time of the last operational probe observation; distinct from substantive lastVerified."
+      "description": "ISO 8601 date-time of the last operational probe observation; distinct from substantive lastVerified. Must be an explicit UTC timestamp ending in Z; offsets and naive date-times are not accepted.",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$"
     },
     "metricMethod": {
       "type": "string",
@@ -163,9 +165,16 @@
       "description": "Measurement provenance method for raw metrics (Curation Authority Map §5)."
     },
     "contentDigest": {
-      "type": "string",
-      "pattern": "^[a-f0-9]{64}$",
-      "description": "SHA-256 digest of fetched source content/metadata for verification integrity."
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        {
+          "const": "unknown"
+        }
+      ],
+      "description": "SHA-256 digest of observed source content, or \"unknown\" when unavailable."
     },
     "reviewedOldDigest": {
       "type": "string",
@@ -175,13 +184,58 @@
     "decisionHistory": {
       "type": "array",
       "description": "Prior decision references retained across proposed lifecycle transitions; this record is not proof of human approval.",
-      "items": {"type": "object", "required": ["decisionRef", "assertionState"], "additionalProperties": false,
-        "properties": {"decisionRef": {"type": "string", "minLength": 1}, "assertionState": {"type": "string", "enum": ["active", "suspended", "revoked", "superseded"]}}}
+      "items": {
+        "type": "object",
+        "required": [
+          "decisionRef",
+          "assertionState",
+          "priorPayload"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "decisionRef": {
+            "type": "string",
+            "minLength": 1
+          },
+          "assertionState": {
+            "type": "string",
+            "enum": [
+              "active",
+              "suspended",
+              "revoked",
+              "superseded"
+            ]
+          },
+          "priorPayload": {
+            "type": "object",
+            "description": "Complete prior evidence-row payload; proposal provenance only."
+          },
+          "proposedBy": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Untrusted proposal attribution, not authenticated reviewer identity."
+          },
+          "proposedAt": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$",
+            "description": "UTC proposal timestamp, not an approval timestamp."
+          }
+        }
+      }
     },
     "reviewedNewDigest": {
       "type": "string",
       "pattern": "^[a-f0-9]{64}$",
       "description": "SHA-256 proposal checksum only; not a signature or evidence of human approval."
+    },
+    "measurementScope": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Scope of the raw measurement (for example repository, release, benchmark run); use \"unknown\" explicitly when unavailable."
+    },
+    "lastVerified": {
+      "type": "string",
+      "description": "Substantive evidence verification time; distinct from operational lastObservedAt and never refreshed by link-health observations."
     }
   },
   "allOf": [
@@ -230,8 +284,114 @@
       }
     },
     {
-      "if": {"properties": {"assertionState": {"enum": ["suspended", "revoked", "superseded"]}}, "required": ["assertionState"]},
-      "then": {"required": ["decisionRef"]}
+      "if": {
+        "properties": {
+          "assertionState": {
+            "enum": [
+              "suspended",
+              "revoked",
+              "superseded"
+            ]
+          }
+        },
+        "required": [
+          "assertionState"
+        ]
+      },
+      "then": {
+        "required": [
+          "decisionRef"
+        ]
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          {
+            "required": [
+              "evidenceId"
+            ]
+          },
+          {
+            "required": [
+              "revision"
+            ]
+          },
+          {
+            "required": [
+              "assertionState"
+            ]
+          },
+          {
+            "required": [
+              "decisionRef"
+            ]
+          },
+          {
+            "required": [
+              "supersedes"
+            ]
+          },
+          {
+            "required": [
+              "decisionHistory"
+            ]
+          }
+        ]
+      },
+      "then": {
+        "required": [
+          "evidenceId",
+          "revision",
+          "assertionState"
+        ]
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          {
+            "required": [
+              "metricMethod"
+            ]
+          },
+          {
+            "required": [
+              "observationState"
+            ]
+          },
+          {
+            "required": [
+              "lastObservedAt"
+            ]
+          },
+          {
+            "required": [
+              "sourceRevision"
+            ]
+          },
+          {
+            "required": [
+              "contentDigest"
+            ]
+          },
+          {
+            "required": [
+              "measurementScope"
+            ]
+          }
+        ]
+      },
+      "then": {
+        "required": [
+          "metricMethod",
+          "observationState",
+          "lastObservedAt",
+          "sourceRevision",
+          "contentDigest",
+          "measurementScope"
+        ]
+      }
     }
   ]
 }
