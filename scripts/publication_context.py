@@ -152,9 +152,13 @@ def verify_outputs(output_root: Path) -> bool:
         if path.suffix.lower() == ".json":
             try:
                 payload = json.loads(path.read_text(encoding="utf-8"))
-                if isinstance(payload, dict) and "publicationContext" in payload and payload["publicationContext"] != context:
+                if isinstance(payload, dict) and payload.get("publicationContext") != context:
                     return False
             except (UnicodeDecodeError, json.JSONDecodeError):
                 pass
+        elif path.suffix.lower() in {".html", ".svg", ".xml"}:
+            text = path.read_text(encoding="utf-8")
+            if f"publication-context:{context['snapshotId']} mode=rehearsal approval=unavailable" not in text:
+                return False
     actual = {p.relative_to(output_root).as_posix() for p in output_root.rglob("*") if p.is_file() and p.name not in {"publication-context.json", "publication-artifacts.json"}}
     return actual == set(expected)
