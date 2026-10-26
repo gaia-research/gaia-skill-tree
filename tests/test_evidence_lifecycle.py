@@ -30,19 +30,16 @@ from gaia_cli.evidenceLifecycle import (
     METRIC_REPORTED,
     METRIC_VERIFIED,
     AmbiguousCollisionError,
-    ApprovalTransition,
-    DigestMismatchError,
+    prepare_assertion_transition,
+    prepare_metric_refresh,
     EvidenceValidationError,
     InvalidTransitionError,
     MalformedRevisionCycleError,
-    StaleApprovalError,
     active_evidence_rows,
     apply_rollback,
     compute_payload_digest,
     derive_evidence_identity,
-    refresh_metric_assertion,
     rehearse_legacy_migration,
-    transition_assertion_state,
     validate_evidence_payload,
     validate_revision_history,
 )
@@ -228,123 +225,41 @@ def test_exact_rollback_proof(sample_legacy_skill):
 # 5. Metric Refresh & Retained History
 # ---------------------------------------------------------------------------
 
-def test_metric_refresh_creates_successor_revision_and_retains_history(sample_legacy_skill):
-    """Metric refresh increments revision, supersedes previous, and retains old row in history."""
+def test_metric_refresh_is_full_payload_shadow_proposal(sample_legacy_skill):
     rehearsal = rehearse_legacy_migration(sample_legacy_skill)
-    migrated_skill = rehearsal.after_payload
-
-    # Active row for stars
-    active_stars_row = migrated_skill["evidence"][0]
-    eid = active_stars_row["evidenceId"]
-    old_digest = compute_payload_digest(active_stars_row)
-
-    # Compute expected new row to obtain reviewedNewDigest
-    expected_new_row = dict(active_stars_row)
-    expected_new_row["stars"] = 1500
-    expected_new_row["revision"] = 2
-    expected_new_row["supersedes"] = 1
-    expected_new_row["decisionRef"] = "decision:refresh-stars-pr#99"
-    expected_new_row["reviewedOldDigest"] = old_digest
-    expected_new_digest = compute_payload_digest(expected_new_row)
-
-    approval = ApprovalTransition(
-        decision_ref="decision:refresh-stars-pr#99",
-        reviewed_old_digest=old_digest,
-        reviewed_new_digest=expected_new_digest,
-        actor="curator",
-    )
-
-    updated_skill, new_row = refresh_metric_assertion(
-        migrated_skill,
-        eid,
-        {"stars": 1500},
-        approval,
-    )
-
-    assert new_row["evidenceId"] == eid
-    assert new_row["revision"] == 2
-    assert new_row["supersedes"] == 1
-    assert new_row["assertionState"] == ASSERTION_ACTIVE
-    assert new_row["stars"] == 1500
-
-    # Total rows in updated skill should now be 3 (retained history!)
-    all_rows = updated_skill["evidence"]
-    assert len(all_rows) == 3
-
-    # Check superseded row is still present
-    superseded_rows = [r for r in all_rows if r.get("assertionState") == ASSERTION_SUPERSEDED]
-    assert len(superseded_rows) == 1
-    assert superseded_rows[0]["evidenceId"] == eid
-    assert superseded_rows[0]["revision"] == 1
-
-    # Active evidence rows filter excludes the superseded row
-    active_rows = active_evidence_rows(updated_skill)
-    assert len(active_rows) == 2
-    assert any(r["evidenceId"] == eid and r["revision"] == 2 for r in active_rows)
-    assert not any(r["evidenceId"] == eid and r["revision"] == 1 for r in active_rows)
+    skill = rehearsal.after_payload
+    eid = skill["evidence"][0]["evidenceId"]
+    plan = prepare_metric_refresh(skill, eid, {"stars": 1500}, "proposal:refresh-stars")
+    assert plan.operation == "metric-refresh"
+    assert plan.before_digest == compute_payload_digest(skill)
+    assert plan.after_digest == compute_payload_digest(plan.after_payload)
+    assert plan.after_payload["evidence"][0]["assertionState"] == ASSERTION_SUPERSEDED
+    successor = plan.after_payload["evidence"][-1]
+    assert successor["evidenceId"] == eid and successor["revision"] == 2
+    assert successor["stars"] == 1500
+    assert plan.history_before and len(plan.history_after) == len(plan.history_before) + 1
+    assert "authorized" not in plan.operation
 
 
 # ---------------------------------------------------------------------------
 # 6. Assertion State Transitions & Cycle Rejection
 # ---------------------------------------------------------------------------
 
-def test_assertion_transitions_active_suspended_revoked():
-    """Assertion state machine permits valid transitions and rejects invalid ones."""
-    row = {
-        "evidenceId": "ev-test-1",
-        "revision": 1,
-        "assertionState": ASSERTION_ACTIVE,
-        "decisionRef": "decision:initial",
-        "type": "arxiv",
-        "source": "https://arxiv.org/abs/1234.5678",
-        "evaluator": "mbtiongson1",
-        "date": "2026-01-01",
-        "citations": 10,
-    }
-    old_digest = compute_payload_digest(row)
-
-    # 1. active -> suspended
-    temp_suspended = dict(row)
-    temp_suspended["assertionState"] = ASSERTION_SUSPENDED
-    temp_suspended["decisionRef"] = "decision:suspend-1"
-    temp_suspended["reviewedOldDigest"] = old_digest
-    new_dig = compute_payload_digest(temp_suspended)
-
-    approval = ApprovalTransition(
-        decision_ref="decision:suspend-1",
-        reviewed_old_digest=old_digest,
-        reviewed_new_digest=new_dig,
-    )
-    suspended_row = transition_assertion_state(row, ASSERTION_SUSPENDED, approval)
-    assert suspended_row["assertionState"] == ASSERTION_SUSPENDED
-
-    # 2. suspended -> revoked
-    old_susp_digest = compute_payload_digest(suspended_row)
-    temp_revoked = dict(suspended_row)
-    temp_revoked["assertionState"] = ASSERTION_REVOKED
-    temp_revoked["decisionRef"] = "decision:revoke-1"
-    temp_revoked["reviewedOldDigest"] = old_susp_digest
-    new_rev_dig = compute_payload_digest(temp_revoked)
-
-    rev_approval = ApprovalTransition(
-        decision_ref="decision:revoke-1",
-        reviewed_old_digest=old_susp_digest,
-        reviewed_new_digest=new_rev_dig,
-    )
-    revoked_row = transition_assertion_state(suspended_row, ASSERTION_REVOKED, rev_approval)
-    assert revoked_row["assertionState"] == ASSERTION_REVOKED
-
-    # 3. Cannot transition from superseded (terminal)
-    superseded_row = dict(row)
-    superseded_row["assertionState"] = ASSERTION_SUPERSEDED
-    sup_digest = compute_payload_digest(superseded_row)
-    dummy_approval = ApprovalTransition(
-        decision_ref="decision:invalid",
-        reviewed_old_digest=sup_digest,
-        reviewed_new_digest=sup_digest,
-    )
+def test_assertion_transition_is_only_a_proposal_and_preserves_decision_history():
+    row = {"evidenceId": "ev-test-1", "revision": 1, "assertionState": ASSERTION_ACTIVE,
+        "decisionRef": "decision:initial", "type": "arxiv", "source": "https://arxiv.org/abs/1234.5678",
+        "evaluator": "mbtiongson1", "date": "2026-01-01", "citations": 10}
+    skill = {"id": "test/skill", "evidence": [row]}
+    proposal = prepare_assertion_transition(skill, "ev-test-1", ASSERTION_SUSPENDED, "proposal:suspend")
+    after = proposal.after_payload["evidence"][0]
+    assert after["assertionState"] == ASSERTION_SUSPENDED
+    assert after["decisionRef"] == "proposal:suspend"
+    assert after["decisionHistory"] == [{"decisionRef": "decision:initial", "assertionState": ASSERTION_ACTIVE}]
+    assert skill["evidence"][0] == row  # input untouched
+    assert proposal.before_digest != proposal.after_digest
     with pytest.raises(InvalidTransitionError, match="Cannot transition a superseded"):
-        transition_assertion_state(superseded_row, ASSERTION_ACTIVE, dummy_approval)
+        prepare_assertion_transition({"id": "x", "evidence": [{**row, "assertionState": ASSERTION_SUPERSEDED}]},
+            "ev-test-1", ASSERTION_ACTIVE, "proposal:invalid")
 
 
 def test_malformed_revision_cycles_rejected():
@@ -402,48 +317,40 @@ def test_malformed_revision_cycles_rejected():
 
 
 # ---------------------------------------------------------------------------
-# 7. Stale Approval & Digest Mismatch Rejection
+# 7. Proposal boundary and metric refresh restrictions
 # ---------------------------------------------------------------------------
 
-def test_stale_approval_old_digest_mismatch_fails():
-    """An approval bound to an outdated old digest fails with StaleApprovalError."""
-    row = {
-        "evidenceId": "ev-test-1",
-        "revision": 1,
-        "assertionState": ASSERTION_ACTIVE,
-        "type": "arxiv",
-        "source": "https://arxiv.org/abs/1234.5678",
-        "evaluator": "mbtiongson1",
-        "date": "2026-01-01",
-    }
-    stale_approval = ApprovalTransition(
-        decision_ref="decision:stale",
-        reviewed_old_digest="0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
-        reviewed_new_digest="some-new-digest",
-    )
-    with pytest.raises(StaleApprovalError, match="Approval binding stale"):
-        transition_assertion_state(row, ASSERTION_SUSPENDED, stale_approval)
+def test_metric_refresh_cannot_modify_identity_class_or_lifecycle_fields(sample_legacy_skill):
+    skill = rehearse_legacy_migration(sample_legacy_skill).after_payload
+    evidence_id = skill["evidence"][0]["evidenceId"]
+    for field, value in [("source", "https://other.example"), ("type", "arxiv"),
+                         ("grade", "S"), ("verified", True), ("assertionState", "revoked")]:
+        with pytest.raises(EvidenceValidationError, match="Only raw metric fields"):
+            prepare_metric_refresh(skill, evidence_id, {field: value}, "proposal:test")
 
 
-def test_digest_mismatch_fails_on_transition():
-    """An approval whose reviewedNewDigest does not match computed digest fails with DigestMismatchError."""
-    row = {
-        "evidenceId": "ev-test-1",
-        "revision": 1,
-        "assertionState": ASSERTION_ACTIVE,
-        "type": "arxiv",
-        "source": "https://arxiv.org/abs/1234.5678",
-        "evaluator": "mbtiongson1",
-        "date": "2026-01-01",
-    }
-    actual_old_digest = compute_payload_digest(row)
-    bad_approval = ApprovalTransition(
-        decision_ref="decision:test",
-        reviewed_old_digest=actual_old_digest,
-        reviewed_new_digest="incorrect_new_digest_value",
-    )
-    with pytest.raises(DigestMismatchError, match="Approval binding mismatch"):
-        transition_assertion_state(row, ASSERTION_SUSPENDED, bad_approval)
+def test_metric_refresh_rejects_provenance_identity_overwrite(sample_legacy_skill):
+    skill = rehearse_legacy_migration(sample_legacy_skill).after_payload
+    evidence_id = skill["evidence"][0]["evidenceId"]
+    with pytest.raises(EvidenceValidationError, match="unsupported fields"):
+        prepare_metric_refresh(skill, evidence_id, {"stars": 2}, "proposal:test", {"evaluator": "forged"})
+
+
+def test_all_migrated_path_validates_history_before_noop(sample_legacy_skill):
+    migrated = rehearse_legacy_migration(sample_legacy_skill).after_payload
+    migrated["evidence"][0]["assertionState"] = "revoked"
+    migrated["evidence"][0].pop("decisionRef")
+    with pytest.raises(EvidenceValidationError, match="require a non-blank decisionRef"):
+        rehearse_legacy_migration(migrated)
+
+
+def test_non_active_migration_state_is_preserved(sample_legacy_skill):
+    mixed = copy.deepcopy(sample_legacy_skill)
+    mixed["evidence"][0].update({"evidenceId": "ev-existing", "revision": 1,
+        "assertionState": ASSERTION_REVOKED, "decisionRef": "decision:revoked"})
+    result = rehearse_legacy_migration(mixed)
+    assert result.after_payload["evidence"][0]["assertionState"] == ASSERTION_REVOKED
+    assert result.after_payload["evidence"][0]["decisionRef"] == "decision:revoked"
 
 
 # ---------------------------------------------------------------------------
@@ -459,7 +366,7 @@ def test_non_finite_numeric_metrics_rejected():
         "type": "github-stars-own",
         "stars": float("nan"),
     }
-    with pytest.raises(EvidenceValidationError, match="non-finite value"):
+    with pytest.raises(EvidenceValidationError, match="finite and non-negative"):
         validate_evidence_payload(row_nan, allow_legacy=True)
 
     row_inf = {
@@ -469,8 +376,35 @@ def test_non_finite_numeric_metrics_rejected():
         "type": "github-stars-own",
         "stars": float("inf"),
     }
-    with pytest.raises(EvidenceValidationError, match="non-finite value"):
+    with pytest.raises(EvidenceValidationError, match="finite and non-negative"):
         validate_evidence_payload(row_inf, allow_legacy=True)
+
+
+def test_malformed_dates_negative_bool_unknown_and_invalid_ranges_rejected():
+    base = {"source": "https://example.org", "evaluator": "ev", "date": "2026-01-01", "type": "arxiv"}
+    for key, value in [("date", "2026-02-31"), ("citations", -1), ("citations", True),
+                       ("percentile", 101), ("mysteryField", "x")]:
+        with pytest.raises(EvidenceValidationError):
+            validate_evidence_payload({**base, key: value}, allow_legacy=True)
+
+
+def test_revoked_lifecycle_schema_requires_decision_reference():
+    schema = json.loads((REPO_ROOT / "registry/schema/skill.schema.json").read_text())
+    row = {"source": "https://example.org", "evaluator": "ev", "date": "2026-01-01", "type": "arxiv",
+           "evidenceId": "ev-x", "revision": 1, "assertionState": "revoked"}
+    with pytest.raises(jsonschema.ValidationError):
+        jsonschema.validate({"id": "x", "name": "x", "type": "basic", "description": "An example node description.",
+            "prerequisites": [], "evidence": [row]}, schema)
+
+
+def test_identity_matches_tm_canonicalization_without_stripping_query():
+    base = {"type": "repo-own", "evaluator": "ev", "date": "2026-01-01"}
+    a = derive_evidence_identity("x", {**base, "source": "https://GitHub.com/Org/Repo/tree/main/path/#frag"})
+    b = derive_evidence_identity("x", {**base, "source": "https://github.com/org/repo/blob/main/path"})
+    c = derive_evidence_identity("x", {**base, "source": "https://github.com/org/repo/blob/main/path?view=1"})
+    assert a == b
+    assert a != c
+    assert len(a.rsplit("-", 1)[-1]) == 64
 
 
 # ---------------------------------------------------------------------------
@@ -561,38 +495,16 @@ def test_proposed_schema_validates_both_legacy_and_migrated_evidence(sample_lega
     jsonschema.validate(instance=named_skill, schema=named_schema)
 
 
-def test_restoration_from_revoked_to_active():
-    """An assertion can be restored from revoked to active with a new decisionRef."""
-    row = {
-        "evidenceId": "ev-restore-1",
-        "revision": 1,
-        "assertionState": ASSERTION_REVOKED,
-        "decisionRef": "decision:past-revocation",
-        "type": "arxiv",
-        "source": "https://arxiv.org/abs/1234.5678",
-        "evaluator": "mbtiongson1",
-        "date": "2026-01-01",
-        "citations": 50,
-    }
-    old_digest = compute_payload_digest(row)
-    proposed_restored = dict(row)
-    proposed_restored["assertionState"] = ASSERTION_ACTIVE
-    proposed_restored["decisionRef"] = "decision:restored-by-appeal#42"
-    proposed_restored["reviewedOldDigest"] = old_digest
-    new_digest = compute_payload_digest(proposed_restored)
-
-    approval = ApprovalTransition(
-        decision_ref="decision:restored-by-appeal#42",
-        reviewed_old_digest=old_digest,
-        reviewed_new_digest=new_digest,
-        reason="counterevidence successfully rebutted",
-    )
-    restored_row = transition_assertion_state(row, ASSERTION_ACTIVE, approval)
-
-    assert restored_row["assertionState"] == ASSERTION_ACTIVE
-    assert restored_row["decisionRef"] == "decision:restored-by-appeal#42"
-    assert restored_row["reviewedOldDigest"] == old_digest
-    assert restored_row["reviewedNewDigest"] == new_digest
+def test_restoration_is_proposal_and_prior_decision_remains_in_history():
+    row = {"evidenceId": "ev-restore-1", "revision": 1, "assertionState": ASSERTION_REVOKED,
+        "decisionRef": "decision:past-revocation", "type": "arxiv", "source": "https://arxiv.org/abs/1234.5678",
+        "evaluator": "mbtiongson1", "date": "2026-01-01", "citations": 50}
+    plan = prepare_assertion_transition({"id": "x", "evidence": [row]}, "ev-restore-1",
+        ASSERTION_ACTIVE, "proposal:appeal")
+    restored = plan.after_payload["evidence"][0]
+    assert restored["assertionState"] == ASSERTION_ACTIVE
+    assert restored["decisionRef"] == "proposal:appeal"
+    assert restored["decisionHistory"] == [{"decisionRef": "decision:past-revocation", "assertionState": ASSERTION_REVOKED}]
 
 
 def test_circular_supersession_chain_length_3_rejected():
@@ -633,25 +545,11 @@ def test_circular_supersession_chain_length_3_rejected():
         validate_revision_history("test/skill", rows)
 
 
-def test_blank_decision_ref_rejected():
-    """Blank or whitespace-only decisionRef raises EvidenceValidationError."""
-    row = {
-        "evidenceId": "ev-test",
-        "revision": 1,
-        "assertionState": ASSERTION_ACTIVE,
-        "type": "arxiv",
-        "source": "https://arxiv.org/abs/1",
-        "evaluator": "ev",
-        "date": "2026-01-01",
-    }
-    old_dig = compute_payload_digest(row)
-    approval_blank = ApprovalTransition(
-        decision_ref="   ",
-        reviewed_old_digest=old_dig,
-        reviewed_new_digest="anything",
-    )
+def test_blank_proposal_ref_rejected():
+    row = {"evidenceId": "ev-test", "revision": 1, "assertionState": ASSERTION_ACTIVE,
+        "type": "arxiv", "source": "https://arxiv.org/abs/1", "evaluator": "ev", "date": "2026-01-01"}
     with pytest.raises(EvidenceValidationError, match="non-blank"):
-        transition_assertion_state(row, ASSERTION_SUSPENDED, approval_blank)
+        prepare_assertion_transition({"id": "x", "evidence": [row]}, "ev-test", ASSERTION_SUSPENDED, "  ")
 
 
 def test_missing_required_core_fields_rejected():
@@ -698,16 +596,11 @@ def test_real_registry_named_skill_in_memory_rehearsal():
     text = orig_bytes.decode("utf-8")
     fm = yaml.safe_load(text.split("---")[1])
 
-    result = rehearse_legacy_migration(fm, decision_ref="migration:yggdrasil-iv@named-rehearsal")
-    assert result.score_neutral is True
-    assert result.migrated_row_count > 0
-
-    # Ensure named file on disk was NOT touched
+    # Historical rows with fields absent from the current evidence schema must fail closed;
+    # this rehearsal does not silently sanitize or migrate them.
+    with pytest.raises(EvidenceValidationError, match="Unknown evidence field"):
+        rehearse_legacy_migration(fm, decision_ref="migration:yggdrasil-iv@named-rehearsal")
     assert named_path.read_bytes() == orig_bytes
-
-    # Exact rollback proof
-    restored = apply_rollback(result.after_payload, result.rollback_payload)
-    assert compute_payload_digest(restored) == result.before_digest
 
 
 def test_active_evidence_rows_filtering():
