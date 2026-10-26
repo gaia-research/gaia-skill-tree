@@ -890,6 +890,7 @@ def runShadowEvaluation(
                 "parseFailures": census.parseFailures, "parserDiscrepancies": census.parserDiscrepancies,
                 "missingIds": census.missingIds, "unresolvedRefs": census.unresolvedRefs,
                 "dependencyCycles": census.dependencyCycles, "duplicateIds": census.duplicateIds,
+                "temporalAnomalies": census.temporalAnomalies,
             },
         },
         "summary": summary,
@@ -1064,7 +1065,7 @@ def run_shadow_corpus_cli(args: argparse.Namespace) -> int:
 
     integrity = census.get("integrityFindings", {})
     if any(integrity.get(key) for key in ("parseFailures", "parserDiscrepancies", "missingIds",
-            "unresolvedRefs", "dependencyCycles", "duplicateIds")) or (
+            "unresolvedRefs", "dependencyCycles", "duplicateIds", "temporalAnomalies")) or (
             failClosed and summary.get("notEvaluatedCount", 0) > 0):
         return 1
 

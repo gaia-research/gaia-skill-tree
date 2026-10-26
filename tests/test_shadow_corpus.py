@@ -410,8 +410,9 @@ def test_census_uses_requested_time_pin(monkeypatch: pytest.MonkeyPatch) -> None
         seen["pin"] = kwargs.get("evaluationAtUTC")
         return original(*args, **kwargs)
     monkeypatch.setattr(sc, "censusRegistry", capture)
-    sc.runShadowEvaluation(REPO_ROOT, evaluationAtUTC=pin, filterStatus="__none__")
+    report = sc.runShadowEvaluation(REPO_ROOT, evaluationAtUTC=pin, filterStatus="__none__")
     assert seen["pin"] == pin
+    assert report["census"]["temporalAnomalies"]
 
 
 def test_output_containment_rejects_all_canonical_and_public_writes(tmp_path: Path) -> None:
