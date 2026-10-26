@@ -159,6 +159,16 @@ Independent evidence review `d2f90b61` completed at exact `4aad305b3`: **100 pas
 
 Mechanical Flash Medium run **`2fed75fc-0b7e-420c-ac54-77e45e3bcb70`** packages exact reviewed12schemafiles and2core/testfiles onto separate permanent `evidence-schema-final` and stacked `evidence-core-final` worktrees/branches rooted at accepted4b73e6281. It must prove blob equality, preserve schema/core separation, run focused checks and baseline actual before/after compatibility without semantic changes. Parent owns subsequent held PRs; founder/two-Core adoption and any canonical/TM/rank effects remain held.
 
+## Watcher delivery rejected after parent and independent checks
+
+Parent combined watcher/ledger task `b0d57b089` failed at77ab02a: **130 passed,1 failed in44.45s**. Same isolated ref-containment test on accepted baseline **4b73e6281** also failed in2.20s with the same new `refs/remotes/origin/steward/ledger`; therefore this ledger bug predates the watcher changes. It still blocks safe integration; never weaken the assertion/delete refs to conceal it.
+
+Full independent review `52bffbfe` completed with **not-ready** verdict, saved centrally at ignored `watcher-independent-full-review-77ab02a.md`. Beyond the baseline failure it found P1 same-challenge stale CAS overwrites, pre-CAS duplicate packet emission/local-only materialization, replacing input sets, missing restored-packet integrity checks and repeated daily packet IDs; unsafe legacy inline-receipt adapter must never substitute for the absent trusted resolver. Scheduled default path correctly remains fail-closed. Workflow dispatch inputs also need env/array hardening against shell interpolation; no new permission/activation is approved. Earlier sequential two-clone fixture proof is not concurrent transaction/durability acceptance.
+
+Bounded Flash High writer **`28672233-48a7-4b8f-aeb7-1063d6562e2a`** owns separate permanent `ledger-containment` (accepted4b base,exactledger/testscope) and `watcher-workflow-hardening` (77abbase,workflow/testscope) branches. It must fix namespace without touching unrelated refs/config/credential safety, and dispatch argument handling without permission increases or disabling existing routine cron. No watcher core redesign in that task.
+
+Deep same-challenge CAS/outbox/input-integrity/legacy-adapter correction is queued for the single Sol slot after publication delivery/review, before relying on this store for transactional lifecycle work. No second Sol launched. Watcher core remains unaccepted; live issuer, activation, notices/standing changes, elapsed weekly proof and rollout remain held.
+
 ## Still binding human gates
 
 Schema adoption, pilot/live standing and canonical trust/rank/evidence/Origin decisions, security/protected-environment activation, visual approval, final main merge, registry-wide rollout and RFC closure remain held. Four weekly operational shadow comparisons require real elapsed operational evidence, not a virtual-clock fixture. All implementation remains engineering preparation until those gates are met.
