@@ -452,6 +452,26 @@
           "maximum": 100,
           "description": "Benchmark placement percentile (0..100) for benchmark-result evidence. Trust Magnitude uses percentile when present; otherwise it normalizes score by unit, then applies the benchmark lane multiplier."
         },
+        "downloads": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "likes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "comments": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "externalStars": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "verifiers": {
+          "type": "integer",
+          "minimum": 0
+        },
         "skillCountInRepo": {
           "type": "integer",
           "minimum": 1,
@@ -517,6 +537,7 @@
         },
         "score": {
           "type": "number",
+          "minimum": 0,
           "description": "Raw benchmark score in the units named by unit."
         },
         "unit": {
@@ -536,7 +557,8 @@
         "runAt": {
           "type": "string",
           "format": "date-time",
-          "description": "ISO 8601 date-time (with timezone) the benchmark harness was executed. Required for verified rows."
+          "description": "ISO 8601 date-time (with timezone) the benchmark harness was executed. Required for verified rows. Must be an explicit UTC timestamp ending in Z; offsets and naive date-times are not accepted.",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$"
         },
         "provenance": {
           "type": "string",
@@ -570,6 +592,141 @@
           "type": "string",
           "format": "uri",
           "description": "Optional URL to the exact harness code used to produce the benchmark-result score."
+        },
+        "evidenceId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable identifier for this evidence item, preserved across revisions and metric refreshes (RFC #2148 §3.3)."
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Positive integer revision number for this evidence assertion (RFC #2148 §3.3)."
+        },
+        "supersedes": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Immutable reference to the revision number this assertion replaces, or omitted for initial revisions."
+        },
+        "assertionState": {
+          "type": "string",
+          "enum": [
+            "active",
+            "suspended",
+            "revoked",
+            "superseded"
+          ],
+          "description": "Governed canonical assertion state under Yggdrasil IV lifecycle (RFC #2148 §3.2)."
+        },
+        "decisionRef": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Reference recorded for a decision or migration; this field does not authenticate a human approval."
+        },
+        "sourceRevision": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Source revision/version observed, or \"unknown\" when unavailable."
+        },
+        "observationState": {
+          "type": "string",
+          "enum": [
+            "unknown",
+            "reachable",
+            "transient-failure",
+            "unavailable",
+            "changed"
+          ],
+          "description": "Operational observation state from probe sensors (RFC #2148 §3.1)."
+        },
+        "lastObservedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 date-time of the last operational probe observation; distinct from substantive lastVerified. Must be an explicit UTC timestamp ending in Z; offsets and naive date-times are not accepted.",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$"
+        },
+        "metricMethod": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "reported",
+            "inferred",
+            "unknown"
+          ],
+          "description": "Measurement provenance method for raw metrics (Curation Authority Map §5)."
+        },
+        "contentDigest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "const": "unknown"
+            }
+          ],
+          "description": "SHA-256 digest of observed source content, or \"unknown\" when unavailable."
+        },
+        "reviewedOldDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 checksum of the previous payload; it detects stale data but is not approval authentication."
+        },
+        "decisionHistory": {
+          "type": "array",
+          "description": "Prior decision references retained across proposed lifecycle transitions; this record is not proof of human approval.",
+          "items": {
+            "type": "object",
+            "required": [
+              "decisionRef",
+              "assertionState",
+              "priorPayload"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "decisionRef": {
+                "type": "string",
+                "minLength": 1
+              },
+              "assertionState": {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "suspended",
+                  "revoked",
+                  "superseded"
+                ]
+              },
+              "priorPayload": {
+                "type": "object",
+                "description": "Complete prior evidence-row payload; proposal provenance only."
+              },
+              "proposedBy": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Untrusted proposal attribution, not authenticated reviewer identity."
+              },
+              "proposedAt": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$",
+                "description": "UTC proposal timestamp, not an approval timestamp."
+              }
+            }
+          }
+        },
+        "reviewedNewDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 proposal checksum only; not a signature or evidence of human approval."
+        },
+        "measurementScope": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Scope of the raw measurement (for example repository, release, benchmark run); use \"unknown\" explicitly when unavailable."
+        },
+        "lastVerified": {
+          "type": "string",
+          "description": "Substantive evidence verification time; distinct from operational lastObservedAt and never refreshed by link-health observations."
         }
       },
       "allOf": [
@@ -656,8 +813,119 @@
               }
             ]
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "assertionState": {
+                "enum": [
+                  "suspended",
+                  "revoked",
+                  "superseded"
+                ]
+              }
+            },
+            "required": [
+              "assertionState"
+            ]
+          },
+          "then": {
+            "required": [
+              "decisionRef"
+            ]
+          }
+        },
+        {
+          "if": {
+            "anyOf": [
+              {
+                "required": [
+                  "evidenceId"
+                ]
+              },
+              {
+                "required": [
+                  "revision"
+                ]
+              },
+              {
+                "required": [
+                  "assertionState"
+                ]
+              },
+              {
+                "required": [
+                  "decisionRef"
+                ]
+              },
+              {
+                "required": [
+                  "supersedes"
+                ]
+              },
+              {
+                "required": [
+                  "decisionHistory"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "required": [
+              "evidenceId",
+              "revision",
+              "assertionState"
+            ]
+          }
+        },
+        {
+          "if": {
+            "anyOf": [
+              {
+                "required": [
+                  "metricMethod"
+                ]
+              },
+              {
+                "required": [
+                  "observationState"
+                ]
+              },
+              {
+                "required": [
+                  "lastObservedAt"
+                ]
+              },
+              {
+                "required": [
+                  "sourceRevision"
+                ]
+              },
+              {
+                "required": [
+                  "contentDigest"
+                ]
+              },
+              {
+                "required": [
+                  "measurementScope"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "required": [
+              "metricMethod",
+              "observationState",
+              "lastObservedAt",
+              "sourceRevision",
+              "contentDigest",
+              "measurementScope"
+            ]
+          }
         }
-      ]
+      ],
+      "description": " Lifecycle fields are proposal metadata only; active is distinct from verified. Generic evidence on starless generic nodes uses the same assertion lifecycle without adding stars."
     },
     "timelineEvent": {
       "type": "object",
