@@ -552,6 +552,8 @@ class WatchLedger:
         self.last_run_utc: str | None = None
         self.rate_limits: dict[str, str] = {}
         self.emitted_packet_digests: set[str] = set()
+        self.packets: dict[str, dict[str, Any]] = {}
+        self.inputs: list[dict[str, Any]] = []
         self.challenges: dict[str, dict[str, Any]] = {}
         # A shared transport is authoritative. Never seed it from an ephemeral
         # clone-local file, including when the shared operation has not yet been
@@ -575,7 +577,13 @@ class WatchLedger:
         self.last_run_utc = data.get("last_run_utc")
         self.rate_limits = data.get("rate_limits", {})
         self.emitted_packet_digests = set(data.get("emitted_packet_digests", []))
+        self.packets = data.get("packets", {})
+        self.inputs = data.get("inputs", [])
         self.challenges = data.get("challenges", {})
+        if not isinstance(self.inputs, list) or not all(isinstance(item, dict) for item in self.inputs):
+            raise ValueError("challenge-watch inputs must be a list of objects")
+        if not isinstance(self.packets, dict):
+            raise ValueError("challenge-watch packets must be an object")
         if not isinstance(self.rate_limits, dict) or not isinstance(self.challenges, dict):
             raise ValueError("shared challenge-watch maps must be objects")
 
@@ -590,6 +598,8 @@ class WatchLedger:
             self.last_run_utc = data.get("last_run_utc")
             self.rate_limits = data.get("rate_limits", {})
             self.emitted_packet_digests = set(data.get("emitted_packet_digests", []))
+            self.packets = data.get("packets", {})
+            self.inputs = data.get("inputs", [])
             self.challenges = data.get("challenges", {})
         except Exception as exc:  # noqa: BLE001
             print(f"  [warn] Could not load challenge ledger from {self.path}: {exc}", file=sys.stderr)
@@ -600,6 +610,8 @@ class WatchLedger:
             "last_run_utc": self.last_run_utc,
             "rate_limits": self.rate_limits,
             "emitted_packet_digests": sorted(self.emitted_packet_digests),
+            "packets": self.packets,
+            "inputs": self.inputs,
             "challenges": self.challenges,
         }
         if self.shared_store is not None:
@@ -618,6 +630,8 @@ class WatchLedger:
                 )
                 old_challenges = previous.get("challenges", {}) if isinstance(previous, dict) else {}
                 merged["challenges"] = {**old_challenges, **payload["challenges"]}
+                old_packets = previous.get("packets", {}) if isinstance(previous, dict) else {}
+                merged["packets"] = {**old_packets, **payload["packets"]}
                 operations["upstreamWatcherChallengeWatch"] = merged
 
             update(self.shared_store, merge, message="upstream watcher challenge observation")
@@ -632,6 +646,7 @@ class WatchLedger:
 
     def record_packet(self, packet: ObservationPacket) -> None:
         self.emitted_packet_digests.add(packet.packet_id)
+        self.packets[packet.packet_id] = packet.to_dict()
 
     def get_challenge_entry(self, challenge_id: str) -> dict[str, Any]:
         if challenge_id not in self.challenges:
@@ -966,8 +981,8 @@ def observe_challenge(
             if new_tag and last_tag and new_tag != last_tag:
                 target_changes.append("release")
             target_state["last_version"] = new_tag
-        else:
-            target_obs["checks"]["release"] = "not_run_budget"
+    else:
+        target_obs["checks"]["release"] = "not_run_budget"
 
     # Target Commit SHA
     if budget.can_request():
@@ -981,8 +996,8 @@ def observe_challenge(
             if new_sha and last_sha and new_sha != last_sha:
                 target_changes.append("commit_sha")
             target_state["last_sha"] = new_sha
-        else:
-            target_obs["checks"]["commit"] = "not_run_budget"
+    else:
+        target_obs["checks"]["commit"] = "not_run_budget"
 
     # Target Content (SKILL.md)
     if budget.can_request():
@@ -997,8 +1012,8 @@ def observe_challenge(
             if last_digest and content_digest != last_digest:
                 target_changes.append("content_digest")
             target_state["last_content_digest"] = content_digest
-        else:
-            target_obs["checks"]["content"] = "not_run_budget"
+    else:
+        target_obs["checks"]["content"] = "not_run_budget"
 
     # ── Side B: Observe Traceable Comparator ─────────────────────────────────
     comparator_changes: list[str] = []
@@ -1062,10 +1077,15 @@ def observe_challenge(
                           "partial": True, "reason": "comparator repository is unavailable or untraceable"}
 
     # ── Synthesize Verification Packet if Changes Observed ───────────────────
-    if target_obs["checks"] and any(status != "ok" for status in target_obs["checks"].values()):
-        target_obs["partial"] = True
-    if comparator_obs and any(status != "ok" for status in comparator_obs["checks"].values()):
-        comparator_obs["partial"] = True
+    target_obs["partial"] = any(status != "ok" for status in target_obs["checks"].values())
+    if comparator_obs:
+        comparator_obs["partial"] = any(status != "ok" for status in comparator_obs["checks"].values())
+    entry["last_observation"] = {
+        "observedAtUTC": now_utc,
+        "target": target_obs,
+        "comparator": comparator_obs,
+        "partial": bool(target_obs.get("partial") or (comparator_obs or {}).get("partial")),
+    }
     if target_changes or comparator_changes:
         trigger_side = (
             "both" if (target_changes and comparator_changes)
@@ -1195,10 +1215,13 @@ def run_challenge_watch(
     elif isinstance(challenges, list):
         raw_list = challenges
 
+    if not raw_list and ledger.inputs:
+        raw_list = ledger.inputs
+    ledger.inputs = [item for item in raw_list if isinstance(item, dict)]
     if verbose:
         print(f"[challenge-watch] Loaded {len(raw_list)} challenge input(s).", file=sys.stderr)
 
-    # Validate each challenge through the Steward receipt adapter
+    # Validate each challenge through the trusted resolver; manifests are hints only.
     validated_challenges: list[ValidatedChallenge] = []
     for item in raw_list:
         if not isinstance(item, dict):

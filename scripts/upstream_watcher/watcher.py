@@ -71,6 +71,7 @@ def _render_report(
                 f"- **Active monitored challenges:** {challenge_result.active_count}\n"
                 f"- **Resolved (returned to routine):** {challenge_result.resolved_count}\n"
                 f"- **Unverified inputs rejected:** {challenge_result.rejected_unverified_count}\n"
+                f"- **Trusted receipt resolver unavailable:** {challenge_result.unavailable_count}\n"
                 f"- **New verification packets emitted:** {len(challenge_result.packets)}\n"
             )
         return base
@@ -84,6 +85,7 @@ def _render_report(
         lines.append(f"- **Active challenges:** {challenge_result.active_count}")
         lines.append(f"- **Resolved challenges (returned to routine):** {challenge_result.resolved_count}")
         lines.append(f"- **Unverified inputs rejected:** {challenge_result.rejected_unverified_count}")
+        lines.append(f"- **Trusted receipt resolver unavailable:** {challenge_result.unavailable_count}")
         lines.append(f"- **Verification packets emitted:** {len(challenge_result.packets)}")
         lines.append("")
         if challenge_result.packets:

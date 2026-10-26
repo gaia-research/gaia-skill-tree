@@ -21,6 +21,7 @@ All tests run strictly offline with SimulatedTransport and VirtualClock; zero ne
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -158,12 +159,17 @@ def test_runner_execution_end_to_end(tmp_path: Path) -> None:
     assert len(saved_packets) == 1
     disk_data = json.loads(saved_packets[0].read_text(encoding="utf-8"))
     assert disk_data["packetId"] == packet.packet_id
+    packet_digest = disk_data.pop("packetSha256")
+    assert packet_digest == hashlib.sha256(
+        json.dumps(disk_data, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
     assert disk_data["canonicalMutation"] is None
 
     # Verify ledger saved
     assert ledger_file.is_file()
     ledger_data = json.loads(ledger_file.read_text(encoding="utf-8"))
     assert packet.packet_id in ledger_data["emitted_packet_digests"]
+    assert ledger_data["packets"][packet.packet_id]["packetSha256"] == packet_digest
 
 
 def test_dedup_across_retry_and_restart(tmp_path: Path) -> None:
@@ -523,6 +529,37 @@ def test_return_to_routine_on_technical_resolution(tmp_path: Path) -> None:
     )
     assert len(res2.packets) == 0
     assert len(transport.recorded_requests) == 0
+
+
+def test_partial_observation_is_unknown_retryable_and_comparator_is_explicit(tmp_path: Path) -> None:
+    challenge = _make_verified_challenge_dict(comparator_id="")
+    transport = SimulatedTransport()
+    transport.register_probe("https://github.com/pbakaus/impeccable", status_code=200)
+    transport.register_release("pbakaus", "impeccable", tag="v1.0.0", status_code=500)
+    transport.register_commit("pbakaus", "impeccable", sha="sha-pinned-100")
+    transport.register_content("pbakaus", "impeccable", "SKILL.md", "baseline")
+    ledger_path = tmp_path / "ledger.json"
+
+    run_challenge_watch(
+        challenges=[challenge], transport=transport, clock=VirtualClock(),
+        ledger_path=ledger_path, packets_dir=tmp_path / "packets",
+    )
+    state = json.loads(ledger_path.read_text(encoding="utf-8"))
+    observation = state["challenges"][challenge["challenge_id"]]["last_observation"]
+    assert observation["target"]["checks"]["release"] == "unknown"
+    assert observation["target"]["partial"] is True
+    assert observation["comparator"]["partial"] is True
+    assert all(value == "unknown" for value in observation["comparator"]["checks"].values())
+
+    transport.register_release("pbakaus", "impeccable", tag="v1.0.0")
+    run_challenge_watch(
+        challenges=[challenge], transport=transport, clock=VirtualClock("2026-10-27T00:00:00Z"),
+        ledger_path=ledger_path, packets_dir=tmp_path / "packets",
+    )
+    state = json.loads(ledger_path.read_text(encoding="utf-8"))
+    observation = state["challenges"][challenge["challenge_id"]]["last_observation"]
+    assert observation["target"]["checks"]["release"] == "ok"
+    assert observation["target"]["partial"] is False
 
 
 def test_runner_without_trusted_resolver_fails_closed_on_malicious_resolved_status(tmp_path: Path) -> None:
