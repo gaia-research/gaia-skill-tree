@@ -278,7 +278,7 @@ Navigate skills:
 <!-- gaia:cli-start -->
 ```text
 usage: gaia [-h] [--registry REGISTRY] [--global] [--version]
-            {help,init,scan,steward,fetch,pull,update,install,uninstall,share,tree,push,propose,version,whoami,login,logout,reset,graph,stats,appraise,fuse,lookup,path,dev,skills,curate,trust}
+            {help,init,scan,steward,fetch,pull,update,install,uninstall,share,tree,push,propose,version,whoami,login,logout,reset,graph,stats,appraise,fuse,lookup,path,dev,skills,curate,trust,shadow}
             ...
 
 Gaia CLI
