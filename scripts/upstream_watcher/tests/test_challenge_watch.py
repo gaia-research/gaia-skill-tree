@@ -64,13 +64,15 @@ class _TestOnlyAdmissionResolver:
         receipt = raw.get("verification_receipt")
         if not isinstance(receipt, dict) or not receipt.get("receipt_id"):
             return None, "test fixture receipt missing"
-        target_repo = raw.get("target_repo", "test/target").split("/", 1)
+        target_repo = raw.get("target_repo", "test/target").lower().split("/", 1)
         comparator = str(raw.get("comparator", "unspecified-comparator"))
-        comp_repo = comparator.split("/", 1)
+        comp_name, _, comp_version = comparator.partition("@")
+        comp_repo = comp_name.split("/", 1)
         target = ChallengeTarget(str(raw["subject_id"]), target_repo[0], target_repo[1],
-                                 raw.get("pinned_version"), raw.get("pinned_sha"))
+                                 raw.get("pinned_version"), raw.get("pinned_sha"),
+                                 raw.get("pinned_content_digest"))
         comp = ChallengeComparator(comparator, *(comp_repo if len(comp_repo) == 2 else (None, None)),
-                                   is_traceable=len(comp_repo) == 2)
+                                   is_traceable=len(comp_repo) == 2, pinned_version=comp_version or None)
         fake_receipt = VerificationReceipt(str(receipt["receipt_id"]),
             str(receipt.get("verifier_id", "fixture-verifier")),
             str(receipt.get("verified_at_utc", raw.get("created_at_utc"))),

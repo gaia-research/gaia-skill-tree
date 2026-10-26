@@ -25,7 +25,9 @@ Core Invariants:
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, replace
+from copy import deepcopy
+import tempfile
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -43,6 +45,7 @@ from scripts.upstream_watcher.transport import (
     HttpTransport,
     Response,
     SystemClock,
+    VirtualClock,
 )
 
 # ---------------------------------------------------------------------------
@@ -215,6 +218,9 @@ class ObservationPacket:
     canonical_mutation: None = None
     notes: str = ""
     authority_notice: str = AUTHORITY_NOTICE
+    context_digest: str = ""
+    observation_ref: str = ""
+    intent: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         payload = {
@@ -231,6 +237,9 @@ class ObservationPacket:
             "canonicalMutation": self.canonical_mutation,
             "notes": self.notes,
             "authorityNotice": self.authority_notice,
+            "contextDigest": self.context_digest,
+            "observationRef": self.observation_ref,
+            "intent": self.intent,
         }
         payload["packetSha256"] = hashlib.sha256(
             json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
@@ -298,143 +307,322 @@ class ChallengeWatchResult:
 
 
 class WatchLedger:
-    """Manages durable state for challenge tracking across retries and restarts."""
+    """Shared operations outbox with immutable inputs/observations and CAS folding.
+
+    Only input/event deltas cross the retry boundary. Every retry validates and
+    folds the fresh shared ledger, never writes a stale challenge projection.
+    Local mode is single-process/offline only; a local cache never seeds shared
+    state. Hashes detect corruption, not malicious writers of the trusted store.
+    """
 
     def __init__(self, ledger_path: Path = DEFAULT_LEDGER_PATH, *, shared_store: Any = None) -> None:
         self.path = ledger_path
         self.shared_store = shared_store
-        self.ledger_version = 1
-        self.last_run_utc: str | None = None
-        self.rate_limits: dict[str, str] = {}
-        self.emitted_packet_digests: set[str] = set()
-        self.packets: dict[str, dict[str, Any]] = {}
-        self.inputs: list[dict[str, Any]] = []
-        self.challenges: dict[str, dict[str, Any]] = {}
-        # A shared transport is authoritative. Never seed it from an ephemeral
-        # clone-local file, including when the shared operation has not yet been
-        # initialized.
-        if self.shared_store is None:
-            self._load()
-        else:
-            from gaia_cli.steward.ledger import LedgerUnavailable
-            try:
-                document, _ = self.shared_store.load()
-                data = document.get("operations", {}).get("upstreamWatcherChallengeWatch")
-                if data is not None:
-                    self._restore(data)
-            except LedgerUnavailable:
-                raise
+        self._reset()
+        if shared_store is not None:
+            document, _ = shared_store.load()
+            data = document.get("operations", {}).get("upstreamWatcherChallengeWatch")
+            if data is not None:
+                self._restore(data)
+        elif self.path.is_file():
+            self._restore(json.loads(self.path.read_text(encoding="utf-8")))
 
-    def _restore(self, data: dict[str, Any]) -> None:
-        if not isinstance(data, dict):
-            raise ValueError("shared challenge-watch state must be an object")
-        self.ledger_version = data.get("ledger_version", 1)
-        self.last_run_utc = data.get("last_run_utc")
-        self.rate_limits = data.get("rate_limits", {})
-        self.emitted_packet_digests = set(data.get("emitted_packet_digests", []))
-        self.packets = data.get("packets", {})
-        self.inputs = data.get("inputs", [])
-        self.challenges = data.get("challenges", {})
-        if not isinstance(self.inputs, list) or not all(isinstance(item, dict) for item in self.inputs):
-            raise ValueError("challenge-watch inputs must be a list of objects")
-        if not isinstance(self.packets, dict):
-            raise ValueError("challenge-watch packets must be an object")
-        for packet_id, packet in self.packets.items():
-            _verify_packet_payload(packet, packet_id)
-        if not isinstance(self.rate_limits, dict) or not isinstance(self.challenges, dict):
-            raise ValueError("shared challenge-watch maps must be objects")
+    def _reset(self) -> None:
+        self.ledger_version = 2
+        self.last_run_utc = None
+        self.rate_limits = {}
+        self.emitted_packet_digests = set()
+        self.packets = {}
+        self.inputs = []
+        self.observations = {}
+        self.challenges = {}
+        self.contexts = {}
+        self.current_context = ""
+        self.current_observation = ""
 
-    def _load(self) -> None:
-        if not self.path.is_file():
-            return
-        try:
-            data = json.loads(self.path.read_text(encoding="utf-8"))
-            if not isinstance(data, dict):
-                return
-            self.ledger_version = data.get("ledger_version", 1)
-            self.last_run_utc = data.get("last_run_utc")
-            self.rate_limits = data.get("rate_limits", {})
-            self.emitted_packet_digests = set(data.get("emitted_packet_digests", []))
-            self.packets = data.get("packets", {})
-            self.inputs = data.get("inputs", [])
-            self.challenges = data.get("challenges", {})
-        except Exception as exc:  # noqa: BLE001
-            print(f"  [warn] Could not load challenge ledger from {self.path}: {exc}", file=sys.stderr)
+    @classmethod
+    def _blank(cls):
+        ledger = object.__new__(cls)
+        ledger._reset()
+        return ledger
 
-    def save(self) -> None:
-        payload = {
-            "ledger_version": self.ledger_version,
+    def _payload(self) -> dict[str, Any]:
+        body = {
+            "ledger_version": 2,
             "last_run_utc": self.last_run_utc,
             "rate_limits": self.rate_limits,
-            "emitted_packet_digests": sorted(self.emitted_packet_digests),
+            "emitted_packet_digests": sorted(self.packets),
             "packets": self.packets,
             "inputs": self.inputs,
+            "observations": self.observations,
             "challenges": self.challenges,
+            "contexts": self.contexts,
         }
+        return {**body, "stateSha256": _hash(body)}
+
+    def _restore(self, data: dict[str, Any]) -> None:
+        if not isinstance(data, dict) or data.get("ledger_version") != 2:
+            raise ValueError("unsupported challenge-watch state; explicit audited migration required")
+        body = {key: value for key, value in data.items() if key != "stateSha256"}
+        if data.get("stateSha256") != _hash(body):
+            raise ValueError("challenge-watch state integrity mismatch")
+        folded = self._fold(data["inputs"], data["observations"], data["packets"])
+        if folded._payload() != data:
+            raise ValueError("challenge-watch state projection/context mismatch")
+        self.__dict__.update({key: deepcopy(value) for key, value in folded.__dict__.items()})
+
+    @classmethod
+    def _fold(cls, inputs, observations, packets):
+        ledger = cls._blank()
+        ledger.inputs = _union_inputs([], inputs)
+        ledger.observations = deepcopy(observations)
+        if not isinstance(observations, dict) or not isinstance(packets, dict):
+            raise ValueError("observations/packets must be maps")
+        for packet_id, payload in packets.items():
+            _verify_packet_payload(payload, packet_id)
+            event = observations.get(payload["observationRef"])
+            if event is None or payload["contextDigest"] != event.get("contextDigest"):
+                raise ValueError("packet observation/context reference mismatch")
+        ledger.packets = deepcopy(packets)
+        ledger.emitted_packet_digests = set(packets)
+        input_digests = {_hash(raw) for raw in ledger.inputs}
+        # Total order is deterministic even for equal clocks in different clones.
+        for event_id, event in sorted(observations.items(),
+                                      key=lambda pair: (pair[1]["observedAtUTC"], pair[0])):
+            if _hash(event) != event_id or event["inputDigest"] not in input_digests:
+                raise ValueError("observation identity/input reference mismatch")
+            challenge = _challenge_from_snapshot(event["challenge"])
+            context = _context_digest(challenge)
+            if context != event["contextDigest"]:
+                raise ValueError("observation challenge context mismatch")
+            prior = ledger.contexts.setdefault(challenge.challenge_id, context)
+            if prior != context:
+                raise ValueError("immutable challenge context conflict")
+            ledger.current_context = context
+            ledger.current_observation = event_id
+            entry = ledger.get_challenge_entry(challenge.challenge_id)
+            # Technical closure is terminal for this immutable challenge identity;
+            # a stale open manifest/observation cannot reactivate it.
+            if entry["targeted_monitoring"] == "returned_to_routine" and not challenge.is_resolved:
+                continue
+            replay = _ObservationTransport(responses=event["responses"])
+            observe_challenge(challenge, replay, VirtualClock(event["observedAtUTC"]),
+                              WatchBudget(max_requests=event["maxRequests"]), ledger)
+            ledger.last_run_utc = event["observedAtUTC"]
+        ledger.current_context = ledger.current_observation = ""
+        return ledger
+
+    def save(self, *, inputs=None, observations=None) -> list[str]:
+        """Atomically union immutable deltas and reserve complete packet intents.
+
+        Returns only newly committed intent IDs. No HTTP, local files, or
+        outward side effects occur in the CAS callback.
+        """
+        pending_inputs = deepcopy(self.inputs if inputs is None else inputs)
+        pending_events = deepcopy(self.observations if observations is None else observations)
+
+        def merge(previous):
+            fresh = self._blank()
+            if previous is not None:
+                fresh._restore(previous)
+            merged_inputs = _union_inputs(fresh.inputs, pending_inputs)
+            merged_events = _union_map(fresh.observations, pending_events, "observation")
+            folded = self._fold(merged_inputs, merged_events, fresh.packets)
+            new_ids = sorted(set(folded.packets) - set(fresh.packets))
+            return folded._payload(), new_ids
+
         if self.shared_store is not None:
             from gaia_cli.steward.ledger import update
 
-            def merge(document: dict[str, Any]) -> None:
+            def mutate(document):
                 operations = document.setdefault("operations", {})
-                previous = operations.get("upstreamWatcherChallengeWatch", {})
-                # Preserve all unrelated operational metadata and union durable
-                # packet identities across CAS retries/processes.
-                merged = dict(previous) if isinstance(previous, dict) else {}
-                merged.update(payload)
-                merged["emitted_packet_digests"] = sorted(
-                    set(merged.get("emitted_packet_digests", []))
-                    | set(payload["emitted_packet_digests"])
-                )
-                old_challenges = previous.get("challenges", {}) if isinstance(previous, dict) else {}
-                merged["challenges"] = {**old_challenges, **payload["challenges"]}
-                old_packets = previous.get("packets", {}) if isinstance(previous, dict) else {}
-                merged["packets"] = {**old_packets, **payload["packets"]}
-                operations["upstreamWatcherChallengeWatch"] = merged
+                data, new_ids = merge(operations.get("upstreamWatcherChallengeWatch"))
+                operations["upstreamWatcherChallengeWatch"] = data
+                return data, new_ids
 
-            update(self.shared_store, merge, message="upstream watcher challenge observation")
-            return
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        temp_path = self.path.with_suffix(".tmp")
-        temp_path.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
-        temp_path.replace(self.path)
+            (payload, new_ids), _ = update(
+                self.shared_store, mutate, message="upstream watcher challenge observation")
+        else:
+            previous = json.loads(self.path.read_text(encoding="utf-8")) if self.path.is_file() else None
+            payload, new_ids = merge(previous)
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            _atomic_json(self.path, payload)
+        self._restore(payload)
+        return new_ids
+
+    def materialize(self, directory: Path) -> None:
+        """Repair the entire disposable local outbox from shared bytes."""
+        directory.mkdir(parents=True, exist_ok=True)
+        for packet_id, payload in sorted(self.packets.items()):
+            _verify_packet_payload(payload, packet_id)
+            path = directory / f"{packet_id}.json"
+            if path.exists():
+                existing = json.loads(path.read_text(encoding="utf-8"))
+                _verify_packet_payload(existing, packet_id)
+                if existing != payload:
+                    raise ValueError(f"immutable local packet collision for {packet_id}")
+            else:
+                _atomic_json(path, payload)
 
     def is_packet_emitted(self, packet_id: str) -> bool:
-        return packet_id in self.emitted_packet_digests
+        return packet_id in self.packets
 
-    def record_packet(self, packet: ObservationPacket) -> None:
-        self.emitted_packet_digests.add(packet.packet_id)
-        self.packets[packet.packet_id] = packet.to_dict()
+    def record_packet(self, packet: ObservationPacket) -> ObservationPacket:
+        if not self.current_context or not self.current_observation:
+            # Direct observe_challenge callers can explore locally, but only a
+            # recorded, admitted event may be committed through save().
+            return packet
+        entry = self.get_challenge_entry(packet.challenge_id)
+        episode = None
+        if packet.trigger_type.startswith("availability") or packet.trigger_type == "unavailability_review_pending":
+            episode = entry["availability_probes"].get("episode_index")
+        elif packet.trigger_type == "unknown_review_pending":
+            episode = entry.get("unknown_episode_index")
+        intent = {
+            "policy": "two-sided-watch-v2",
+            "contextDigest": self.current_context,
+            "triggerSide": packet.trigger_side,
+            "triggerType": packet.trigger_type,
+            "episode": episode,
+            "window": "72h-review" if "review_pending" in packet.trigger_type else None,
+            "probeStep": packet.target_observation.get("probeStep"),
+            "target": _semantic_observation(packet.target_observation) if episode is None else None,
+            "comparator": _semantic_observation(packet.comparator_observation) if episode is None else None,
+        }
+        packet = replace(packet, packet_id=_hash(intent), context_digest=self.current_context,
+                         observation_ref=self.current_observation, intent=intent)
+        if packet.packet_id not in self.packets:
+            self.packets[packet.packet_id] = packet.to_dict()
+            self.emitted_packet_digests.add(packet.packet_id)
+        return _packet_from_payload(self.packets[packet.packet_id])
 
     def get_challenge_entry(self, challenge_id: str) -> dict[str, Any]:
-        if challenge_id not in self.challenges:
-            self.challenges[challenge_id] = {
-                "status": "unknown",
-                "targeted_monitoring": "active",
-                "last_checked_utc": None,
-                "target": {},
-                "comparator": {},
-                "availability_probes": {
-                    "status": "healthy",
-                    "t0_utc": None,
-                    "t24_utc": None,
-                    "t72_utc": None,
-                    "failed_probes": 0,
-                },
-            }
-        return self.challenges[challenge_id]
+        return self.challenges.setdefault(challenge_id, {
+            "status": "unknown", "targeted_monitoring": "active",
+            "last_checked_utc": None, "target": {}, "comparator": {},
+            "availability_probes": {"status": "healthy", "t0_utc": None,
+                                    "t24_utc": None, "t72_utc": None, "failed_probes": 0},
+        })
 
     def is_rate_limited(self, host: str, now: datetime) -> bool:
-        retry_until = self.rate_limits.get(host)
-        if not retry_until:
-            return False
-        try:
-            until_dt = datetime.fromisoformat(retry_until.replace("Z", "+00:00")).astimezone(timezone.utc)
-            return now < until_dt
-        except Exception:
-            return False
+        until = self.rate_limits.get(host)
+        return bool(until and now < datetime.fromisoformat(until.replace("Z", "+00:00")))
 
     def set_rate_limit(self, host: str, retry_until_utc: str) -> None:
-        self.rate_limits[host] = retry_until_utc
+        self.rate_limits[host] = max(self.rate_limits.get(host, ""), retry_until_utc)
+
+
+def _hash(data: Any) -> str:
+    return hashlib.sha256(json.dumps(data, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+
+
+def _union_map(previous, incoming, label):
+    result = deepcopy(previous)
+    for key, value in incoming.items():
+        if key in result and result[key] != value:
+            raise ValueError(f"immutable {label} conflict: {key}")
+        result[key] = deepcopy(value)
+    return result
+
+
+def _union_inputs(previous, incoming):
+    identities = {}
+    for item in [*previous, *incoming]:
+        if not isinstance(item, dict):
+            raise ValueError("challenge inputs must be objects")
+        identity = str(item.get("challenge_id") or item.get("challengeId") or _hash(item))
+        if identity in identities and identities[identity] != item:
+            raise ValueError(f"immutable challenge input conflict: {identity}")
+        identities[identity] = deepcopy(item)
+    return [identities[key] for key in sorted(identities)]
+
+
+def _context_digest(challenge):
+    snapshot = asdict(challenge)
+    for key in ("status", "verification_receipt", "is_verified", "is_shadow"):
+        snapshot.pop(key)
+    return _hash(snapshot)
+
+
+def _challenge_from_snapshot(snapshot):
+    snapshot = deepcopy(snapshot)
+    target = snapshot.pop("target")
+    target["watched_paths"] = tuple(target["watched_paths"])
+    challenge = ValidatedChallenge(
+        target=ChallengeTarget(**target),
+        comparator=ChallengeComparator(**snapshot.pop("comparator")),
+        verification_receipt=VerificationReceipt(**snapshot.pop("verification_receipt"))
+            if snapshot.get("verification_receipt") else snapshot.pop("verification_receipt"),
+        **snapshot,
+    )
+    if challenge.status not in OPEN_STATUSES | RESOLVED_STATUSES:
+        raise ValueError("unsupported admitted challenge status")
+    receipt = challenge.verification_receipt
+    if challenge.is_verified:
+        if (challenge.is_shadow or receipt is None or not receipt.receipt_id
+                or not receipt.challenge_binding_digest or not receipt.receipt_ref
+                or receipt.verifier_id == challenge.contributor_id):
+            raise ValueError("invalid trusted admission snapshot")
+    elif not challenge.is_shadow or challenge.is_resolved:
+        raise ValueError("unverified challenge cannot authorize lifecycle closure")
+    return challenge
+
+
+def _semantic_observation(value):
+    if isinstance(value, dict):
+        return {key: _semantic_observation(item) for key, item in value.items()
+                if key not in {"checks", "partial", "previous", "previousSha", "previousDigest"}}
+    return value
+
+
+class _ObservationTransport:
+    """Record bounded HTTP once, or replay immutable responses with ZERO I/O."""
+
+    def __init__(self, transport=None, *, responses=None):
+        self.transport = transport
+        self.responses = {} if responses is None else deepcopy(responses)
+
+    def __getattr__(self, method):
+        if method not in {"probe", "get_release", "get_commit", "get_content"}:
+            raise AttributeError(method)
+
+        def call(*args):
+            key = json.dumps([method, *args], separators=(",", ":"))
+            if self.transport is not None:
+                response = getattr(self.transport, method)(*args)
+                self.responses[key] = asdict(response)
+                return response
+            value = self.responses.get(key)
+            return Response(**value) if value else Response(None, error="not observed in bounded collection")
+        return call
+
+
+def _packet_from_payload(payload):
+    return ObservationPacket(**{
+        "packet_id": payload["packetId"], "challenge_id": payload["challengeId"],
+        "subject_id": payload["subjectId"], "comparator_id": payload["comparatorId"],
+        "observed_at_utc": payload["observedAtUTC"], "trigger_side": payload["triggerSide"],
+        "trigger_type": payload["triggerType"], "target_observation": payload["targetObservation"],
+        "comparator_observation": payload["comparatorObservation"],
+        "requires_independent_verification": payload["requiresIndependentVerification"],
+        "canonical_mutation": payload["canonicalMutation"], "notes": payload["notes"],
+        "authority_notice": payload["authorityNotice"], "context_digest": payload["contextDigest"],
+        "observation_ref": payload["observationRef"], "intent": payload["intent"],
+    })
+
+
+def _atomic_json(path, payload):
+    fd, name = tempfile.mkstemp(dir=path.parent, prefix=f".{path.name}.")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            json.dump(payload, handle, indent=2, sort_keys=True)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(name, path)
+    finally:
+        if os.path.exists(name):
+            os.unlink(name)
 
 
 # ---------------------------------------------------------------------------
@@ -453,6 +641,16 @@ def _verify_packet_payload(payload: dict[str, Any], expected_id: str | None = No
     packet_id = payload.get("packetId")
     if expected_id is not None and packet_id != expected_id:
         raise ValueError("stored packet identity mismatch")
+    intent = payload.get("intent", {})
+    if (not intent or packet_id != _hash(intent)
+            or intent.get("contextDigest") != payload.get("contextDigest")
+            or intent.get("triggerSide") != payload.get("triggerSide")
+            or intent.get("triggerType") != payload.get("triggerType")
+            or not payload.get("observationRef")
+            or payload.get("canonicalMutation") is not None
+            or payload.get("requiresIndependentVerification") is not True
+            or payload.get("authorityNotice") != AUTHORITY_NOTICE):
+        raise ValueError("stored packet intent/context/authority mismatch")
 
 
 def _compute_digest(data: Any) -> str:
@@ -523,6 +721,8 @@ def process_availability_probe(
     if failed_probes == 0 or not t0_utc:
         # First failure: t0
         probe_state["t0_utc"] = now_utc
+        probe_state["episode_utc"] = now_utc
+        probe_state["episode_index"] = probe_state.get("episode_index", 0) + 1
         probe_state["failed_probes"] = 1
         probe_state["status"] = "probe_t0"
 
@@ -645,6 +845,8 @@ def observe_challenge(
     packets: list[ObservationPacket] = []
     now_utc = clock.now_utc()
     entry = ledger.get_challenge_entry(challenge.challenge_id)
+    if entry.get("targeted_monitoring") == "returned_to_routine" and not challenge.is_resolved:
+        return packets
 
     # ── Check Resolution & Return-to-Routine ────────────────────────────────
     if challenge.is_resolved:
@@ -675,8 +877,7 @@ def observe_challenge(
                     comparator_observation=None,
                     notes=packet_payload["notes"],
                 )
-                ledger.record_packet(packet)
-                packets.append(packet)
+                packets.append(ledger.record_packet(packet))
         return packets
 
     # Mark monitoring active
@@ -728,17 +929,15 @@ def observe_challenge(
                 comparator_observation=None,
                 notes=f"Rate limit observed from upstream host. Retrying deferred for {probe_resp.retry_after_seconds}s.",
             )
-            ledger.record_packet(p)
-            packets.append(p)
+            packets.append(ledger.record_packet(p))
         return packets
 
     probe_packet = process_availability_probe(challenge, probe_resp, probe_state, clock, ledger)
     if probe_packet:
-        ledger.record_packet(probe_packet)
-        packets.append(probe_packet)
-        # If target is unavailable, do not continue to poll releases
-        if not probe_resp.is_success:
-            return packets
+        packets.append(ledger.record_packet(probe_packet))
+    # Continued outage is not a new packet and must not fall through to GETs.
+    if not probe_resp.is_success:
+        return packets
 
     # ── Side A: Observe Target Releases, Commit SHA, and Content ────────────
     target_changes: list[str] = []
@@ -837,7 +1036,7 @@ def observe_challenge(
             c_content_resp = transport.get_content(challenge.comparator.owner, challenge.comparator.repo, "SKILL.md")
             if c_content_resp.is_success and isinstance(c_content_resp.data, str):
                 c_digest = hashlib.sha256(c_content_resp.data.encode("utf-8")).hexdigest()
-                c_last_digest = comparator_state.get("last_content_digest")
+                c_last_digest = comparator_state.get("last_content_digest") or challenge.comparator.pinned_content_digest
                 comparator_obs["content"] = {"path": "SKILL.md", "digest": c_digest, "previousDigest": c_last_digest}
                 if c_last_digest and c_digest != c_last_digest:
                     comparator_changes.append("content_digest")
@@ -861,6 +1060,21 @@ def observe_challenge(
         "comparator": comparator_obs,
         "partial": bool(target_obs.get("partial") or (comparator_obs or {}).get("partial")),
     }
+    if entry["last_observation"]["partial"]:
+        if not entry.get("unknown_since_utc"):
+            entry["unknown_since_utc"] = now_utc
+            entry["unknown_episode_index"] = entry.get("unknown_episode_index", 0) + 1
+        unknown_start = datetime.fromisoformat(entry["unknown_since_utc"].replace("Z", "+00:00"))
+        if (clock.now_datetime() - unknown_start).total_seconds() >= 72 * 3600:
+            packets.append(ledger.record_packet(ObservationPacket(
+                packet_id="pending-scope", challenge_id=challenge.challenge_id,
+                subject_id=challenge.subject_id, comparator_id=challenge.comparator.comparator_id,
+                observed_at_utc=now_utc, trigger_side="both", trigger_type="unknown_review_pending",
+                target_observation=target_obs, comparator_observation=comparator_obs,
+                notes="Checks remained unknown/partial for 72h; independent review required, no canonical mutation.",
+            )))
+    else:
+        entry["unknown_since_utc"] = None
     if target_changes or comparator_changes:
         trigger_side = (
             "both" if (target_changes and comparator_changes)
@@ -898,8 +1112,7 @@ def observe_challenge(
                 comparator_observation=comparator_obs,
                 notes=packet_payload["notes"],
             )
-            ledger.record_packet(packet)
-            packets.append(packet)
+            packets.append(ledger.record_packet(packet))
 
     return packets
 
@@ -962,7 +1175,6 @@ def run_challenge_watch(
     budget = budget or WatchBudget()
     l_path = Path(ledger_path) if ledger_path else DEFAULT_LEDGER_PATH
     p_dir = Path(packets_dir) if packets_dir else DEFAULT_PACKETS_DIR
-    r_root = Path(receipts_root) if receipts_root else Path(".gaia/steward/receipts")
 
     ledger = WatchLedger(l_path, shared_store=shared_store)
     result = ChallengeWatchResult()
@@ -990,30 +1202,15 @@ def run_challenge_watch(
     elif isinstance(challenges, list):
         raw_list = challenges
 
-    # Merge by immutable challenge identity; filtered manifests cannot silently
-    # drop an already-admitted watch, and context changes are explicit conflicts.
-    if not raw_list and ledger.inputs:
-        raw_list = ledger.inputs
-    incoming = [item for item in raw_list if isinstance(item, dict)]
-    by_identity = {
-        str(item.get("challenge_id") or item.get("challengeId") or ""): item
-        for item in ledger.inputs
-    }
-    for item in incoming:
-        identity = str(item.get("challenge_id") or item.get("challengeId") or "")
-        if not identity:
-            identity = _compute_digest({k: v for k, v in item.items() if k not in {"observedAtUTC", "observed_at_utc"}})
-        prior = by_identity.get(identity)
-        if prior is not None and prior != item:
-            raise ValueError(f"conflicting challenge context for immutable identity {identity}")
-        by_identity[identity] = item
-    ledger.inputs = list(by_identity.values())
-    raw_list = ledger.inputs
+    # Re-resolve cached hints. Filtered/budget-limited manifests never replace
+    # accepted inputs. This complete union is merged again inside each CAS retry.
+    raw_list = _union_inputs(ledger.inputs, raw_list)
+    ledger.inputs = raw_list
     if verbose:
         print(f"[challenge-watch] Loaded {len(raw_list)} challenge input(s).", file=sys.stderr)
 
     # Validate each challenge through the trusted resolver; manifests are hints only.
-    validated_challenges: list[ValidatedChallenge] = []
+    validated_challenges: list[tuple[dict[str, Any], ValidatedChallenge]] = []
     for item in raw_list:
         if not isinstance(item, dict):
             continue
@@ -1039,10 +1236,16 @@ def run_challenge_watch(
             if verbose:
                 print(f"  [reject] {item.get('subject_id') or item.get('claim_id')}: {status_msg}", file=sys.stderr)
             continue
-        validated_challenges.append(validated)
+        # Defensive shape checks are NOT a substitute for receipt verification.
+        validated = _challenge_from_snapshot(asdict(validated))
+        prior_context = ledger.contexts.get(validated.challenge_id)
+        if prior_context is not None and prior_context != _context_digest(validated):
+            raise ValueError("trusted resolver changed immutable challenge context")
+        validated_challenges.append((item, validated))
 
     # Observe validated challenges within budget
-    for challenge in validated_challenges:
+    pending_events = {}
+    for raw, challenge in validated_challenges:
         if budget.is_exhausted or not budget.can_evaluate_subject():
             result.budget_exhausted = True
             if verbose:
@@ -1055,8 +1258,18 @@ def run_challenge_watch(
         else:
             result.active_count += 1
 
-        packets = observe_challenge(challenge, transport, clock, budget, ledger)
-        result.packets.extend(packets)
+        remaining = budget.max_requests - budget.requests_used
+        captured = _ObservationTransport(transport)
+        observed_at = clock.now_utc()
+        # Network collection occurs once, strictly OUTSIDE the CAS callback.
+        packets = observe_challenge(challenge, captured, VirtualClock(observed_at), budget, ledger)
+        event = {
+            "observedAtUTC": observed_at, "inputDigest": _hash(raw),
+            "challenge": json.loads(json.dumps(asdict(challenge))),
+            "contextDigest": _context_digest(challenge),
+            "maxRequests": remaining, "responses": captured.responses,
+        }
+        pending_events[_hash(event)] = event
 
         result.summaries.append({
             "challengeId": challenge.challenge_id,
@@ -1067,28 +1280,10 @@ def run_challenge_watch(
             "packetsEmitted": len(packets),
         })
 
-    # Update ledger metadata & persist
-    ledger.last_run_utc = clock.now_utc()
-    ledger.save()  # Persist packet payloads/intents before local materialization.
-    for packet in result.packets:
-        packet_data = packet.to_dict()
-        packet_path = p_dir / f"{packet.packet_id}.json"
-        p_dir.mkdir(parents=True, exist_ok=True)
-        encoded = json.dumps(packet_data, indent=2, sort_keys=True) + "\n"
-        if packet_path.exists():
-            existing = json.loads(packet_path.read_text(encoding="utf-8"))
-            _verify_packet_payload(existing, packet.packet_id)
-            if existing != packet_data:
-                raise ValueError(f"immutable packet collision for {packet.packet_id}")
-        else:
-            try:
-                with packet_path.open("x", encoding="utf-8") as handle:
-                    handle.write(encoded)
-            except FileExistsError:
-                existing = json.loads(packet_path.read_text(encoding="utf-8"))
-                _verify_packet_payload(existing, packet.packet_id)
-                if existing != packet_data:
-                    raise ValueError(f"immutable packet collision for {packet.packet_id}")
+    new_ids = ledger.save(inputs=raw_list, observations=pending_events)
+    # Recover ALL disposable local files, including intents from a killed clone.
+    ledger.materialize(p_dir)
+    result.packets = [_packet_from_payload(ledger.packets[packet_id]) for packet_id in new_ids]
 
     result.budget_used = {
         "requests": budget.requests_used,
