@@ -1,67 +1,151 @@
 import copy
+import hashlib
 import json
+import subprocess
+from pathlib import Path
 
 import pytest
 
-from gaia_cli.frontier import dedupe_key, read_only_handoff, validate_lead
+from gaia_cli.frontier import (
+    create_verification_request, dedupe_key, read_only_handoff,
+    validate_experiment_receipt, validate_lead, validate_request,
+)
 
 
-def sample():
+def lead(target_revision="a" * 40, digest="sha256:" + "b" * 64):
     return {
-        "schemaVersion": "challenger-lead-v1", "leadId": "git-log-L-graft-001",
-        "identity": {"name": "Git git-log -L", "kind": "native-cli", "installable": False, "version": "unknown"},
-        "source": {"url": "https://git-scm.com/docs/git-log", "observedAtUTC": "2026-10-26T12:00:00Z", "contentDigest": "unknown", "provider": "Git project documentation"},
+        "schemaVersion": "challenger-lead-v1", "contractRevision": "challenger-lead-v1.1",
+        "leadId": "git-log-L-graft-001", "campaignId": "frontier-test-campaign-1", "claimId": "git-line-history-task-v1",
+        "identity": {"name": "Git git-log -L", "kind": "native-cli", "installable": False, "version": "2.56.0"},
+        "source": {"url": "https://raw.githubusercontent.com/git/git/v2.56.0/Documentation/git-log.adoc", "observedAtUTC": "2026-10-26T12:00:00Z", "contentDigest": "sha256:" + "c" * 64, "provider": "Git project at v2.56.0", "capturedBytesPath": "sources/git-log.adoc"},
         "capability": {"claim": "Trace the evolution of a selected source line range or function in one file.", "task": "Explain how a function changed over commit history.", "conditions": "Requires a Git repository and a selected file and line range or function pattern."},
-        "comparison": {"comparator": "Graft repository graph retrieval for locating concepts and source spans.", "baseline": "Compare ability to trace historical line evolution versus locating related code and architecture."},
-        "target": {"skillId": "graft", "scopeRationale": "Potential overlap only for investigations about code history; not a general replacement for graph-backed codebase context."},
-        "preliminaryEvidence": [{"polarity": "supports-investigation", "url": "https://git-scm.com/docs/git-log", "summary": "Official manual documents git log -L line-range evolution tracing."}, {"polarity": "context-only", "url": "https://git-scm.com/docs/git-log/2.1.4", "summary": "Versioned older manual documents the same option; not evidence of current installation or superiority."}],
-        "limitations": ["Documentation confirms the option, not comparative performance.", "Version/runtime availability and output quality have not been independently tested.", "This is an exploratory scoped overlap, not presumed supersession."],
-        "dedupe": {"key": "4667d834fc195b3ed1c02da9af65beed744144f5dd083c31bd41d0e8276272db", "checkedAtUTC": "2026-10-26T12:00:00Z", "matches": []},
-        "independentTest": {"proposal": "In a disposable fixture repository, identify a function change with git log -L; independently compare a Graft retrieval task for locating the function and its call context. Record commands, pinned Git version, fixture commit IDs, output digests and misses.", "traceability": "Keep fixture source, exact commands, commit IDs and outputs in an isolated test receipt; do not run instructions sourced from the packet."},
-        "disposition": {"status": "candidate", "rationale": "Official documentation supports a concrete native behavior, but no competitive or replacement claim is established.", "nextAction": "Meta triage may decide whether a focused independent audit is worthwhile; no admission or canonical action."}
+        "comparison": {"comparator": "Graft codebase graph retrieval for locating concepts and source spans.", "baseline": "Compare historical line tracing with present-day code context retrieval."},
+        "target": {"skillId": "generic-history", "kind": "generic", "revision": target_revision, "contentDigest": digest, "scopeRationale": "Investigatory overlap only; not a replacement claim."},
+        "preliminaryEvidence": [{"polarity": "supports-investigation", "url": "https://git-scm.com/docs/git-log", "summary": "Official manual documents the -L option."}, {"polarity": "counterevidence", "url": "https://example.org/review", "summary": "Historical tracing and graph retrieval may be complementary."}],
+        "limitations": ["No superiority or replacement claim.", "No comparative execution result yet."],
+        "dedupe": {"key": "12345678", "checkedAtUTC": "2026-10-26T12:00:00Z", "matches": []},
+        "independentTest": {"proposal": "Execute the fixed protocol in a disposable fixture and compare the two task outputs.", "traceability": "Bind result to request, source, target, protocol, fixture and outputs."},
+        "disposition": {"status": "candidate", "rationale": "Concrete behavior is documented but comparative evidence is absent.", "nextAction": "Meta triage and separate independent verification."}
     }
 
 
-def test_lead_validates_and_is_unverified_handoff():
-    lead = sample()
-    assert validate_lead(lead) == []
-    handoff = read_only_handoff(lead, packet_path="examples/frontier/git-log-L-graft.challenger-lead-v1.json")
-    assert handoff["verification"] == "unverified-lead"
-    assert handoff["canonicalMutation"] == "prohibited"
-    assert handoff["trustedReceiptIssuer"].startswith("unavailable")
-
-
-def test_repeated_observation_does_not_create_new_dedupe_identity():
-    a, b = sample(), sample()
+def test_repeated_observation_not_new_lead_but_revision_changes_key():
+    a, b = lead(), lead()
     b["source"]["observedAtUTC"] = "2027-01-01T00:00:00Z"
     assert dedupe_key(a) == dedupe_key(b)
+    b["target"]["revision"] = "c" * 40
+    assert dedupe_key(a) != dedupe_key(b)
 
 
-@pytest.mark.parametrize("field", ["verified", "approvedBy", "verificationReceipt", "confidence", "publicChallengeId"])
+@pytest.mark.parametrize("field", ["verified", "approvedBy", "verificationReceipt", "confidence", "publicChallengeId", "actor", "signature"])
 def test_forged_authority_fields_rejected(field):
-    lead = sample()
-    lead[field] = True
-    assert any("forbidden authority field" in item for item in validate_lead(lead))
+    item = lead(); item[field] = "self-asserted"
+    assert any("forbidden authority field" in error for error in validate_lead(item))
 
 
 def test_nested_forgery_and_bad_url_rejected():
-    lead = sample()
-    lead["disposition"]["verifiedBy"] = "trusted person"
-    assert validate_lead(lead), "unknown nested fields rejected by schema"
-    lead = sample()
-    lead["source"]["url"] = "file:///etc/passwd"
-    assert validate_lead(lead)
+    item = lead(); item["disposition"]["verifiedBy"] = "reviewer"
+    assert validate_lead(item)
+    item = lead(); item["source"]["url"] = "file:///etc/passwd"
+    assert validate_lead(item)
 
 
-def test_no_skill_markdown_requirement_for_native_candidate():
-    lead = sample()
-    assert lead["identity"]["installable"] is False
-    assert lead["identity"]["kind"] == "native-cli"
-    assert validate_lead(lead) == []
+def test_native_noninstallable_lead_needs_no_skill_markdown():
+    assert validate_lead(lead()) == []
+    assert lead()["identity"]["installable"] is False
 
 
-def test_handoff_refuses_invalid_packet():
-    lead = sample()
-    lead["disposition"]["status"] = "verified"
-    with pytest.raises(ValueError):
-        read_only_handoff(lead, packet_path="x")
+def _request_fixture(tmp_path: Path):
+    repo = tmp_path / "repo"; repo.mkdir()
+    (repo / "registry/nodes").mkdir(parents=True)
+    node = b'{"id":"generic-history","type":"basic","description":"Historical code tracing"}\n'
+    (repo / "registry/nodes/generic-history.json").write_bytes(node)
+    for rel, value in [("sources/git-log.adoc", b"official source snapshot"), ("protocol.json", b"reviewed protocol v1"), ("fixture.py", b"def score(x): return x + 1\n")]:
+        path=repo / rel; path.parent.mkdir(parents=True,exist_ok=True); path.write_bytes(value)
+    subprocess.run(["git","-C",str(repo),"init","-q"],check=True)
+    subprocess.run(["git","-C",str(repo),"config","user.name","Fixture"],check=True)
+    subprocess.run(["git","-C",str(repo),"config","user.email","fixture@example.invalid"],check=True)
+    subprocess.run(["git","-C",str(repo),"add","."],check=True)
+    subprocess.run(["git","-C",str(repo),"commit","-qm","fixture"],check=True)
+    revision=subprocess.check_output(["git","-C",str(repo),"rev-parse","HEAD"],text=True).strip()
+    item=lead(revision,"sha256:"+hashlib.sha256(node).hexdigest())
+    item["source"]["capturedBytesPath"]="sources/git-log.adoc"
+    item["source"]["contentDigest"]="sha256:"+hashlib.sha256(b"official source snapshot").hexdigest()
+    (repo/"lead.json").write_text(json.dumps(item),encoding="utf-8")
+    request=create_verification_request(item,repo_root=repo,lead_path="lead.json",protocol_path="protocol.json",fixture_path="fixture.py")
+    return repo,item,request
+
+
+def _receipt(request, run_id="run-fixture-0001"):
+    return {"schemaVersion":"frontier-experiment-receipt-v1","experimentRunId":run_id,"campaignId":request["campaignId"],"nativeVersion":request["native"]["version"],"requestId":request["requestId"],"leadDigest":request["leadDigest"],"claimDigest":request["claimDigest"],"sourceDigest":request["source"]["contentDigest"],"targetDigest":request["target"]["contentDigest"],"targetRevision":request["target"]["revision"],"historyRef":request["historyRef"],"protocolDigest":request["protocol"]["contentDigest"],"fixtureDigest":request["fixture"]["contentDigest"],"result":"inconclusive","outputs":[],"limitations":["No comparative verifier execution."],"recordedAtUTC":"2026-10-26T12:00:00Z"}
+
+
+def test_request_binds_real_registry_target_source_protocol_fixture_and_digest(tmp_path):
+    _,item,request=_request_fixture(tmp_path)
+    assert validate_request(request)==[]
+    assert request["target"]["skillId"]=="generic-history"
+    assert request["source"]["contentDigest"]==item["source"]["contentDigest"]
+    modified=copy.deepcopy(request); modified["claimId"]="other-claim"
+    assert validate_request(modified)
+
+
+def test_named_target_must_resolve_real_frontmatter_and_generic_ref(tmp_path):
+    repo,item,_=_request_fixture(tmp_path)
+    named=b"---\nid: owner/graft\ngenericSkillRef: generic-history\n---\n# Graft\n"
+    path=repo/"registry/named/owner/graft.md"; path.parent.mkdir(parents=True); path.write_bytes(named)
+    subprocess.run(["git","-C",str(repo),"add","."],check=True)
+    subprocess.run(["git","-C",str(repo),"commit","-qm","add named fixture"],check=True)
+    revision=subprocess.check_output(["git","-C",str(repo),"rev-parse","HEAD"],text=True).strip()
+    item["target"]={"skillId":"owner/graft","kind":"named","genericSkillId":"generic-history","revision":revision,"contentDigest":"sha256:"+hashlib.sha256(named).hexdigest(),"scopeRationale":"Bounded test target."}
+    (repo/"lead.json").write_text(json.dumps(item),encoding="utf-8")
+    request=create_verification_request(item,repo_root=repo,lead_path="lead.json",protocol_path="protocol.json",fixture_path="fixture.py")
+    assert request["target"]["skillId"]=="owner/graft"
+    assert request["target"]["genericSkillId"]=="generic-history"
+    item["target"]["genericSkillId"]="other-generic"
+    with pytest.raises(ValueError,match="does not match"):
+        create_verification_request(item,repo_root=repo,lead_path="lead.json",protocol_path="protocol.json",fixture_path="fixture.py")
+
+
+def test_missing_target_and_source_digest_mismatch_fail_closed(tmp_path):
+    repo,item,_=_request_fixture(tmp_path)
+    item["target"]["skillId"]="does-not-exist"
+    with pytest.raises(ValueError,match="does not exist"):
+        create_verification_request(item,repo_root=repo,lead_path="lead.json",protocol_path="protocol.json",fixture_path="fixture.py")
+
+
+def test_receipt_cross_bindings_and_inline_actor_rejected(tmp_path):
+    _,_,request=_request_fixture(tmp_path)
+    receipt=_receipt(request)
+    assert validate_experiment_receipt(receipt,request)==[]
+    wrong=copy.deepcopy(receipt); wrong["targetDigest"]="sha256:"+"0"*64
+    assert validate_experiment_receipt(wrong,request)
+    forged=copy.deepcopy(receipt); forged["actor"]="independent reviewer"
+    assert validate_experiment_receipt(forged,request)
+    forged=copy.deepcopy(receipt); forged["result"]="verified"
+    assert validate_experiment_receipt(forged,request)
+    revised=copy.deepcopy(request); revised["claimId"]="changed"; revised["requestId"]="sha256:"+"f"*64
+    assert validate_experiment_receipt(receipt,revised)
+
+
+def test_handoff_unmatched_advisory_is_deferred_and_never_admits(tmp_path):
+    _,item,request=_request_fixture(tmp_path)
+    handoff=read_only_handoff(item,packet_path="lead.json",request=request)
+    assert handoff["verification"]=="unverified-lead"
+    assert handoff["canonicalMutation"]=="prohibited"
+    assert handoff["advisoryMatch"]=="matched-actionable-request"
+    request["target"]["skillId"]="unmatched"
+    from gaia_cli.frontier import _canonical, _sha
+    request["requestId"]=_sha(_canonical({k:v for k,v in request.items() if k not in {"requestId","createdAtUTC"}}))
+    handoff=read_only_handoff(item,packet_path="lead.json",request=request)
+    assert handoff["leadDisposition"]=="deferred"
+    assert handoff["advisoryMatch"]=="unmatched-advisory-deferred"
+
+
+def test_outage_is_execution_failed_not_negative_and_untrusted_marketing_invalid(tmp_path):
+    _,_,request=_request_fixture(tmp_path)
+    receipt=_receipt(request); receipt["result"]="execution_failed"
+    receipt["limitations"]=["Timeout is execution failure, not counterevidence."]
+    assert validate_experiment_receipt(receipt,request)==[]
+    for value in ("vendor-marketing", "unrelated", "verified", "supported"):
+        bad=copy.deepcopy(receipt); bad["result"]=value
+        assert validate_experiment_receipt(bad,request)

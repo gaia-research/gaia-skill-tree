@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gaiaskilltree.com/schemas/frontier-verification-request-v1.schema.json",
+  "title": "Frontier immutable experiment request (engineering-only)",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "requestId", "campaignId", "leadId", "leadDigest", "claimId", "claimDigest", "native", "source", "target", "historyRef", "protocol", "fixture", "conditions", "createdAtUTC"],
+  "properties": {
+    "schemaVersion": {"const": "frontier-verification-request-v1"},
+    "requestId": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "campaignId": {"type": "string", "minLength": 8}, "leadId": {"type": "string", "minLength": 8},
+    "leadDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}, "claimId": {"type": "string", "minLength": 8}, "claimDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "native": {"type": "object", "additionalProperties": false, "required": ["name", "version", "provider"], "properties": {"name": {"type": "string"}, "version": {"type": "string"}, "provider": {"type": "string"}}},
+    "source": {"type": "object", "additionalProperties": false, "required": ["url", "contentDigest", "capturedBytesPath"], "properties": {"url": {"type": "string", "format": "uri"}, "contentDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}, "capturedBytesPath": {"type": "string"}}},
+    "target": {"type": "object", "additionalProperties": false, "required": ["kind", "skillId", "revision", "contentDigest", "path"], "properties": {"kind": {"enum": ["generic", "named"]}, "skillId": {"type": "string"}, "genericSkillId": {"type": "string"}, "revision": {"type": "string", "pattern": "^[a-f0-9]{40,64}$"}, "contentDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}, "path": {"type": "string"}}},
+    "historyRef": {"type": "string", "minLength": 8},
+    "protocol": {"type": "object", "additionalProperties": false, "required": ["path", "revision", "contentDigest"], "properties": {"path": {"type": "string"}, "revision": {"type": "string"}, "contentDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}}},
+    "fixture": {"type": "object", "additionalProperties": false, "required": ["path", "contentDigest"], "properties": {"path": {"type": "string"}, "contentDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}}},
+    "conditions": {"type": "string", "minLength": 10}, "createdAtUTC": {"type": "string", "format": "date-time"}
+  }
+}
