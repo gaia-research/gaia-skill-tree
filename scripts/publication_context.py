@@ -121,7 +121,12 @@ def stamp_outputs(output_root: Path, context: dict) -> dict:
             elif path.suffix.lower() in {".html", ".svg", ".xml"}:
                 marker = f"<!-- publication-context:{context['snapshotId']} mode=rehearsal approval=unavailable -->\n".encode()
                 if marker not in raw:
-                    path.write_bytes(marker + raw)
+                    if path.suffix.lower() in {".svg", ".xml"} and raw.lstrip().startswith(b"<?xml"):
+                        declaration_end = raw.find(b"?>") + 2
+                        raw = raw[:declaration_end] + b"\n" + marker + raw[declaration_end:].lstrip(b"\r\n")
+                        path.write_bytes(raw)
+                    else:
+                        path.write_bytes(marker + raw)
         except (UnicodeDecodeError, json.JSONDecodeError):
             continue
     artifacts = {}

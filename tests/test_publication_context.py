@@ -39,6 +39,9 @@ def test_output_manifest_detects_partial_and_tampered_replay(tmp_path):
                "evaluationAtUTC": "2026-10-25T12:00:00Z"}
     with pytest.raises(ValueError, match="incomplete"):
         stamp_outputs(output, context)
+    xml = output / "docs" / "fixture.svg"
+    xml.parent.mkdir(parents=True, exist_ok=True)
+    xml.write_text('<?xml version="1.0"?>\n<svg></svg>\n', encoding="utf-8")
     required = (
         "registry/named-skills.json", "docs/graph/named/index.json",
         "docs/graph/ledger/data.json", "docs/api/v1/skills/index.json",
@@ -53,5 +56,6 @@ def test_output_manifest_detects_partial_and_tampered_replay(tmp_path):
             path.write_text("<html>fixture</html>", encoding="utf-8")
     stamp_outputs(output, context)
     assert verify_outputs(output)
+    assert xml.read_text(encoding="utf-8").startswith('<?xml version="1.0"?>\n<!-- publication-context:abc')
     (output / required[0]).write_text('{"ok":false}\n', encoding="utf-8")
     assert not verify_outputs(output)
