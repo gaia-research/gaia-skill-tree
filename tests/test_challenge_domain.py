@@ -343,4 +343,3 @@ def test_publication_time_with_earlier_receipt_and_closure_chronology():
                            closed_at="2026-10-27T00:00:00Z")
     assert closed.disposition is ClosureDisposition.CLOSED
     validate_challenge_history(closed.challenge, resolver)
-
