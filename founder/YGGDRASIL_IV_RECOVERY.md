@@ -83,6 +83,16 @@ Parent Sol independently reviewed the entire final two-file delta, reran **12 do
 
 Opened **PR #2155**, domain-only foundation into `dev/yggdrasil-iv`; exactly `src/gaia_cli/challengeDomain.py` and `tests/test_challenge_domain.py`. Current-SHA CI is pending (bounded watcher `b6b91a4f5`). No merge performed and no live receipt authentication or operational watcher readiness claimed. Receipt producer authentication remains separately unavailable. The original domain timestamp blocker is now fixed; do not restart that repair from the older snapshot above.
 
+## Publication rehearsal implementation recovered — verification pending
+
+Collected `b12b7a17`: actual implementation exists at `41e05570a36bfabca17870d60dfdb48b20d88029`, recovery ref `refs/heads/recovery/yggdrasil-iv/publication-build`. Five files changed relative to pending-review engine `6e6c3f08f`: shared `scripts/publication_context.py`, existing docs/named/ledger builders, and focused tests. The permanent publication worktree survived the child ending; source/tests are committed, with only local task logs untracked. Worker reports final remote SHA independently matched.
+
+Worker reports 62 focused tests and an earlier-revision 5,107-artifact scratch replay. **That is not final-HEAD proof.** Final replay task `b8b84f8c8` was killed with SIGTERM during child shutdown, despite the final response saying it was running. Do not count that replay as passed.
+
+Parent took ownership of final-HEAD verification: task `bb899e5ff` runs the 62-test selection and actual builder replay in a fresh external scratch root, pinned `2026-10-25T12:00:00Z`. Independent read-only source review `047af142-f423-482d-a7f6-1ddcbd639d21` is assigned, with durable output at ignored `.gaia/yggdrasil-iv/recovery/publication-review-41e05570a.md`. No acceptance, PR or merge for the publication code yet. Verify semantic cross-surface values, complete consumed-input identity, safe output containment and reproducibility—not only matching snapshot markers.
+
+**Execution discipline change:** parent owns long validation/replay commands after delivery. Writers should commit coherent source and run short synchronous checks; repeated child-finalization has killed their background tests. Persistent worktrees/local refs preserve implementation, but do not turn an interrupted check into evidence.
+
 ## Still binding human gates
 
 Schema adoption, pilot/live standing and canonical trust/rank/evidence/Origin decisions, security/protected-environment activation, visual approval, final main merge, registry-wide rollout and RFC closure remain held. Four weekly operational shadow comparisons require real elapsed operational evidence, not a virtual-clock fixture. All implementation remains engineering preparation until those gates are met.
