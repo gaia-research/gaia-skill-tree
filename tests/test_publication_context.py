@@ -140,6 +140,51 @@ def test_generator_failures_fail_closed_even_with_old_files(tmp_path, code, log)
         pc.record_execution(Path("broken.py"), [], code, log)
 
 
+def test_inplace_generator_cannot_certify_an_unwritten_stale_file(tmp_path):
+    script = tmp_path / "scripts/assemble_gaia.py"
+    script.parent.mkdir()
+    script.touch()
+    output = tmp_path / "registry/gaia.json"
+    output.parent.mkdir()
+    output.write_text('{"old":true}')
+    pc.begin_stage("assembly", tmp_path)
+    pc.record_execution(script, [], 0, "silent success but no actual output write")
+    with pytest.raises(ValueError, match="skipped output write"):
+        pc.finish_stage("assembly", tmp_path)
+
+
+def test_atomic_completed_root_never_clobbers_existing_path(tmp_path):
+    staging = tmp_path / "private"
+    staging.mkdir(mode=0o700)
+    (staging / "complete.json").write_text('{}')
+    destination = tmp_path / "result"
+    destination.mkdir()
+    with pytest.raises(FileExistsError):
+        pc.publish_staging(staging, destination)
+    assert staging.exists() and not (destination / "complete.json").exists()
+    destination = tmp_path / "new-result"
+    pc.publish_staging(staging, destination)
+    assert not staging.exists() and (destination / "complete.json").read_text() == '{}'
+    assert destination.stat().st_mode & 0o777 == 0o700
+
+
+def test_explicit_time_reaches_diversity_witness_and_default_is_unchanged(monkeypatch):
+    import datetime as dt
+    from gaia_cli import trustMagnitude as tm
+    instant = dt.datetime(2026, 10, 25, 12, tzinfo=dt.timezone.utc)
+    skill = {"id": "synthetic/clock", "evidence": [{"type": "peer-review", "source": "https://example.invalid/clock",
+             "reviewers": 3, "grade": "A", "lastVerified": "2025-01-01T00:00:00Z"}]}
+    monkeypatch.setattr(tm, "_utcNow", lambda: instant)
+    expected = (tm._countDistinctEvidenceTypes(skill), tm._hasEligibleIndependentWitness(skill))
+    assert expected == (tm._countDistinctEvidenceTypes(skill, evaluationAtUTC=instant),
+                        tm._hasEligibleIndependentWitness(skill, evaluationAtUTC=instant))
+    def forbidden_clock():
+        raise AssertionError("explicit-context path touched wall clock")
+    monkeypatch.setattr(tm, "_utcNow", forbidden_clock)
+    assert tm._countDistinctEvidenceTypes(skill, evaluationAtUTC=instant) == expected[0]
+    assert tm._hasEligibleIndependentWitness(skill, evaluationAtUTC=instant) == expected[1]
+
+
 def test_stage_does_not_certify_skipped_script(tmp_path):
     script = tmp_path / "scripts/generateNamedIndex.py"
     script.parent.mkdir()
@@ -176,6 +221,29 @@ def test_pinned_datetime_and_absence_default(tmp_path, fast_runtime, monkeypatch
     path.write_text('{}')
     with pytest.raises(ValueError):
         pc.evaluation_at_utc_from_env()
+
+
+def test_production_warning_compatibility_and_strict_worker_refusal(tmp_path, fast_runtime, monkeypatch):
+    from scripts import build_docs as builder
+    monkeypatch.setitem(sys.modules, "publication_context", pc)
+    monkeypatch.setenv("GAIA_PUBLICATION_CONTEXT", "")  # Track restoration after worker sets it directly.
+    monkeypatch.setattr(builder, "ROOT", tmp_path / "scratch")
+    monkeypatch.setattr(builder, "_STRICT_REHEARSAL", False, raising=False)
+    for name in builder.main.__code__.co_names:
+        if name.startswith("build_"):
+            monkeypatch.setattr(builder, name, lambda check: False)
+    def failing(check):
+        raise RuntimeError("intentional generator failure")
+    monkeypatch.setattr(builder, "build_assembly", failing)
+    builder.ROOT.mkdir()
+    assert builder.main([]) == 0  # Existing ordinary write-mode warn-only API.
+    context = _context(tmp_path)
+    (builder.ROOT / "input.json").write_text('{"fixed":true}')
+    context_path = builder.ROOT / "publication-context.json"
+    context_path.write_text(json.dumps(context))
+    assert builder.main(["--publication-rehearsal-worker", str(context_path)]) == 1
+    assert not (builder.ROOT / "publication-stages.json").exists()
+    assert not (builder.ROOT / "publication-artifacts.json").exists()
 
 
 DRIVER = r'''
@@ -218,6 +286,9 @@ level: 2★
 description: Synthetic suite component
 ---
 ''')
+    suites = root / "registry/suites"
+    suites.mkdir()
+    (suites / "tool.json").write_text(json.dumps({"id": "author/tool", "capstone": "author/tool", "standalones": ["author/component"]}))
     # Deliberately low TM, stored 4 stars, dated evidence, historical 5-star
     # award, and incumbent Origin. Not an approval or a live challenge fixture.
     (root / "registry/named/author/tool.md").write_text('''---
@@ -228,8 +299,6 @@ origin: true
 genericSkillRef: tool
 status: named
 level: 4★
-suiteComponents:
-  - author/component
 description: Explicitly synthetic rehearsal fixture
 createdAt: '2025-01-01'
 links:
@@ -275,11 +344,17 @@ def test_real_bounded_builders_double_replay_and_surface_corruption(tmp_path, mo
         roots.append(root)
     assert manifests[0]["snapshotId"] == manifests[1]["snapshotId"]
     assert manifests[0]["artifacts"] == manifests[1]["artifacts"]
+    for rel in manifests[0]["artifacts"]:
+        assert (roots[0] / rel).read_bytes() == (roots[1] / rel).read_bytes(), rel
     root = roots[0]
     named = json.loads((root / "registry/named-skills.json").read_text())["buckets"]["tool"][0]
     assert named["level"] == "4★" and named["origin"] is True
     assert named["eligibilityProposal"]["status"] == "shadow"
     assert named["branch"] == "suite"
+    assert "suiteComponents:" not in (root / "registry/named/author/tool.md").read_text()
+    component = json.loads((root / "registry/named-skills.json").read_text())["buckets"]["component"][0]
+    assert component["suiteRef"] == "author/tool"
+    assert "suiteRef:" not in (root / "registry/named/author/component.md").read_text()
     assert named["apexGateStatus"]["sourceTenureDaysGte180AorS"] is True
     assert named["trustMagnitude"] < 25  # pinned dated freshness, not live clock
     assert "5★" in (root / "docs/u/author/index.html").read_text()
@@ -289,6 +364,10 @@ def test_real_bounded_builders_double_replay_and_surface_corruption(tmp_path, mo
         ("docs/graph/gaia.json", '"namedMaxLevel": "4★"', '"namedMaxLevel": "3★"'),
         ("docs/graph/ledger/data.json", '"currentStars": "4★"', '"currentStars": "3★"'),
         ("docs/api/v1/skills/author/tool.json", '"trustMagnitude":', '"wrongTM":'),
+        ("docs/api/v1/skills/index.json", '"level": "4★"', '"level": "3★"'),
+        ("docs/api/v1/contributors/author.json", '"level": "4★"', '"level": "3★"'),
+        ("docs/api/v1/leaderboard.json", '"origin": true', '"origin": false'),
+        ("docs/api/v1/search-index.json", '"trustMagnitude":', '"wrongTM":'),
         ("docs/u/author/index.html", '5★', '6★'),
         ("docs/badges/registry.json", '"rank": 4', '"rank": 3'),
         ("docs/badges/_assets/author/tool.svg", '4 stars', '3 stars'),

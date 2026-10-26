@@ -32,6 +32,8 @@ def _child_env() -> dict:
     same resolved src/ regardless of how build_docs.py itself was invoked.
     """
     env = dict(os.environ)
+    if globals().get("_STRICT_REHEARSAL", False):
+        env = {key: value for key, value in env.items() if not key.startswith("GIT_")}
     existing = env.get("PYTHONPATH", "")
     parts = [str(SRC)] + ([existing] if existing else [])
     env["PYTHONPATH"] = os.pathsep.join(parts)
@@ -1889,7 +1891,7 @@ def main(argv: list[str] | None = None) -> int:
         parser.error("choose either --publication-rehearsal or its internal worker mode")
     if args.publication_rehearsal:
         import shutil
-        from publication_context import create_context, stamp_outputs, verify_outputs, verify_copied_inputs
+        from publication_context import create_context, stamp_outputs, verify_outputs, verify_copied_inputs, publish_staging
         source_root = ROOT.resolve(strict=True)
         destination = Path(args.publication_rehearsal).expanduser().absolute()
         output_root = destination
@@ -1903,10 +1905,18 @@ def main(argv: list[str] | None = None) -> int:
             destination.parent.mkdir(parents=True, exist_ok=True)
             output_root = Path(tempfile.mkdtemp(prefix=".publication-", dir=destination.parent))
             output_root.chmod(0o700)
-            shutil.copytree(
-                source_root, output_root, dirs_exist_ok=True, symlinks=False,
-                ignore=shutil.ignore_patterns(".git", ".gaia", ".pi", "__pycache__", ".pytest_cache", "node_modules"),
-            )
+            from publication_context import COPY_IGNORES
+            ignore = shutil.ignore_patterns(*COPY_IGNORES)
+            # Copy children, not root metadata: copytree(source, staging) would
+            # temporarily replace the private 0700 staging-root permissions.
+            for child in sorted(source_root.iterdir()):
+                if child.name in COPY_IGNORES:
+                    continue
+                target = output_root / child.name
+                if child.is_dir():
+                    shutil.copytree(child, target, symlinks=False, ignore=ignore)
+                else:
+                    shutil.copy2(child, target)
             verify_copied_inputs(output_root, context)
             (output_root / "publication-context.json").write_text(
                 json.dumps(context, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -1915,7 +1925,8 @@ def main(argv: list[str] | None = None) -> int:
         worker = subprocess.run(
             [sys.executable, str(output_root / "scripts" / "build_docs.py"),
              "--publication-rehearsal-worker", str(output_root / "publication-context.json")],
-            cwd=output_root, env={**os.environ, "GAIA_PUBLICATION_CONTEXT": str(output_root / "publication-context.json"),
+            cwd=output_root, env={**{key: value for key, value in os.environ.items() if not key.startswith("GIT_")},
+                                  "GAIA_PUBLICATION_CONTEXT": str(output_root / "publication-context.json"),
                                   "PYTHONPATH": os.pathsep.join((str(output_root), str(output_root / "src"), str(output_root / "scripts"))),
                                   "PYTHONHASHSEED": "0", "PYTHONDONTWRITEBYTECODE": "1"},
             check=False,
@@ -1939,7 +1950,7 @@ def main(argv: list[str] | None = None) -> int:
             return 1
         if destination.exists() or destination.is_symlink():
             raise ValueError("rehearsal destination appeared during build; private staging retained")
-        output_root.rename(destination)
+        publish_staging(output_root, destination)
         print(f"Rehearsal complete: {destination}")
         print(f"snapshotId={context['snapshotId']} artifacts={len(manifest['artifacts'])} mode=rehearsal approval=unavailable")
         return 0

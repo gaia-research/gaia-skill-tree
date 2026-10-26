@@ -526,6 +526,12 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
     else:
         merged_map = {**generic_skills_map, **named_skill_map}
 
+    from publication_context import rehearsal_context_from_env, project_suite_metadata
+    if rehearsal_context_from_env() is not None and repo_root is not None:
+        # Production normally synchronizes these fields into Markdown before
+        # loading maps. A rehearsal must project them without source writes.
+        project_suite_metadata(merged_map, repo_root)
+
     # Handed back to write_index() so the Fusion Score projection resolves its
     # structural closure against the SAME registry context TM used. Two maps
     # would mean two different graphs and two different answers.

@@ -5,6 +5,8 @@ hostile concurrent filesystem mutation. No receipt issuer is available here.
 """
 from __future__ import annotations
 
+import ctypes
+import errno
 import hashlib
 import importlib.metadata
 import json
@@ -98,14 +100,40 @@ def _inventory(root: Path, exclude_reports=False) -> dict[str, str]:
     return result
 
 
+def publish_staging(staging: Path, destination: Path):
+    """Atomically expose the completed Linux rehearsal without replacing a path.
+
+    Parent-directory substitution by a hostile writer is outside this ordinary
+    filesystem guard; this is not an fd-relative sandbox or an approval issuer.
+    """
+    for path in (staging, destination):
+        if any(p.is_symlink() for p in (path, *path.parents)):
+            raise ValueError("symlink appeared on rehearsal publication path")
+    libc = ctypes.CDLL(None, use_errno=True)
+    rename = getattr(libc, "renameat2", None)
+    if rename is None:
+        raise ValueError("atomic no-replace rehearsal publication requires renameat2")
+    rename.argtypes = (ctypes.c_int, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_uint)
+    rename.restype = ctypes.c_int
+    if rename(-100, os.fsencode(staging), -100, os.fsencode(destination), 1) != 0:
+        code = ctypes.get_errno()
+        if code in (errno.EEXIST, errno.ENOTEMPTY):
+            raise FileExistsError(code, "rehearsal destination already exists", str(destination))
+        raise OSError(code, "atomic rehearsal publication failed", str(destination))
+
+
+def _git_env():
+    return {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
+
+
 def source_revision(source_root):
-    result = subprocess.run(["git", "rev-parse", "HEAD"], cwd=source_root, capture_output=True, text=True)
+    result = subprocess.run(["git", "rev-parse", "HEAD"], cwd=source_root, env=_git_env(), capture_output=True, text=True)
     return result.stdout.strip() if result.returncode == 0 else "unavailable"
 
 
 def _worktree_roots(source_root: Path) -> list[Path]:
     try:
-        raw = subprocess.run(["git", "worktree", "list", "--porcelain"], cwd=source_root,
+        raw = subprocess.run(["git", "worktree", "list", "--porcelain"], cwd=source_root, env=_git_env(),
                              check=True, capture_output=True, text=True).stdout
     except (OSError, subprocess.CalledProcessError):
         return [source_root]
@@ -257,6 +285,18 @@ def load_context(path: str | Path) -> dict:
     return _context_cache[key]
 
 
+def project_suite_metadata(skill_map, root):
+    """Reuse the builder's suite projection without synchronizing source Markdown."""
+    from generateNamedIndex import load_suite_mappings
+    references, components = load_suite_mappings(str(Path(root) / "registry/suites"))
+    for identifier, skill in skill_map.items():
+        if identifier in references:
+            skill["suiteRef"] = references[identifier]
+        if identifier in components:
+            skill["suiteComponents"] = components[identifier]
+    return skill_map
+
+
 def evaluation_at_utc_from_env():
     context = rehearsal_context_from_env()
     return context["evaluationAtUTC"] if context else None
@@ -290,7 +330,7 @@ def create_context(source_root: Path, output_root: Path, evaluation_at_utc: str 
         raise ValueError("publication output root must be disjoint from every repository worktree")
     instant = _utc(evaluation_at_utc) if evaluation_at_utc else datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     inputs = _inventory(source_root)
-    if REPORTS & inputs.keys():
+    if (REPORTS | {report + ".tmp" for report in REPORTS}) & inputs.keys():
         raise ValueError("source contains reserved publication report paths")
     revision = source_revision(source_root)
     runtime = runtime_identity()
@@ -402,7 +442,12 @@ def _validate_stages(stages):
         for field in ("outputs", "changedOutputs"):
             for rel in stage.get(field, {}):
                 _safe_path(Path("/"), rel)
+        for rel in stage.get("removedOutputs", []):
+            _safe_path(Path("/"), rel)
         for execution in stage.get("executions", []):
+            if (execution.get("status") != "success" or not isinstance(execution.get("generator"), str)
+                    or Path(execution["generator"]).name != execution["generator"]):
+                raise ValueError("invalid or failed generator invocation")
             for rel in execution.get("candidateOutputs", {}):
                 _safe_path(Path("/"), rel)
         spec = STAGE_SPECS.get(name) or AUXILIARY_SPECS.get(name)
@@ -453,6 +498,8 @@ def _artifact_inventory(inventory, stages):
 def stamp_outputs(output_root: Path, context: dict, stages: dict | None = None) -> dict:
     _validate_context(context)
     _validate_stages(stages)
+    if any(p.is_symlink() for p in (output_root, *output_root.parents)):
+        raise ValueError("symlink on rehearsal output root")
     inventory = _inventory(output_root, True)
     if not set(GENERATED_OUTPUTS) <= inventory.keys():
         raise ValueError("rehearsal incomplete: required generated output missing")

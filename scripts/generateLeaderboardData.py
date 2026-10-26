@@ -106,6 +106,11 @@ def buildRows() -> list[dict]:
     evaluation_at_utc = evaluation_datetime_from_env()
     mergedMap, namedSkillMap = buildMaps()
     skills = loadAllNamedSkills()
+    if evaluation_at_utc is not None:
+        from publication_context import project_suite_metadata
+        project_suite_metadata(mergedMap, REPO_ROOT)
+        project_suite_metadata(namedSkillMap, REPO_ROOT)
+        project_suite_metadata({skill["id"]: skill for skill in skills}, REPO_ROOT)
     apexState = {"genericSkillMap": mergedMap, "namedSkillMap": namedSkillMap}
     mayStarsMap = buildMayStarsMap()
 
