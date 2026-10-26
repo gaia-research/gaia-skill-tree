@@ -221,6 +221,7 @@ class ObservationPacket:
     context_digest: str = ""
     observation_ref: str = ""
     intent: dict[str, Any] = field(default_factory=dict)
+    derivation_refs: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         payload = {
@@ -240,6 +241,7 @@ class ObservationPacket:
             "contextDigest": self.context_digest,
             "observationRef": self.observation_ref,
             "intent": self.intent,
+            "derivationRefs": list(self.derivation_refs),
         }
         payload["packetSha256"] = hashlib.sha256(
             json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
@@ -339,6 +341,7 @@ class WatchLedger:
         self.contexts = {}
         self.current_context = ""
         self.current_observation = ""
+        self.fold_prefix = []
 
     @classmethod
     def _blank(cls):
@@ -383,6 +386,16 @@ class WatchLedger:
             event = observations.get(payload["observationRef"])
             if event is None or payload["contextDigest"] != event.get("contextDigest"):
                 raise ValueError("packet observation/context reference mismatch")
+            # Reproduce the exact prefix that originally reserved this intent.
+            # A later concurrent observation may precede it in the total order;
+            # that cannot rewrite accepted packet bytes or their proof context.
+            refs = payload.get("derivationRefs", [])
+            if (not refs or len(refs) != len(set(refs)) or refs[-1] != payload["observationRef"]
+                    or any(ref not in observations for ref in refs)):
+                raise ValueError("packet derivation reference mismatch")
+            proof = cls._fold(inputs, {ref: observations[ref] for ref in refs}, {})
+            if proof.packets.get(packet_id) != payload:
+                raise ValueError("packet payload does not reproduce from immutable observations")
         ledger.packets = deepcopy(packets)
         ledger.emitted_packet_digests = set(packets)
         input_digests = {_hash(raw) for raw in ledger.inputs}
@@ -400,6 +413,7 @@ class WatchLedger:
                 raise ValueError("immutable challenge context conflict")
             ledger.current_context = context
             ledger.current_observation = event_id
+            ledger.fold_prefix.append(event_id)
             entry = ledger.get_challenge_entry(challenge.challenge_id)
             # Technical closure is terminal for this immutable challenge identity;
             # a stale open manifest/observation cannot reactivate it.
@@ -410,6 +424,7 @@ class WatchLedger:
                               WatchBudget(max_requests=event["maxRequests"]), ledger)
             ledger.last_run_utc = event["observedAtUTC"]
         ledger.current_context = ledger.current_observation = ""
+        ledger.fold_prefix = []
         return ledger
 
     def save(self, *, inputs=None, observations=None) -> list[str]:
@@ -490,7 +505,8 @@ class WatchLedger:
             "comparator": _semantic_observation(packet.comparator_observation) if episode is None else None,
         }
         packet = replace(packet, packet_id=_hash(intent), context_digest=self.current_context,
-                         observation_ref=self.current_observation, intent=intent)
+                         observation_ref=self.current_observation, intent=intent,
+                         derivation_refs=tuple(self.fold_prefix))
         if packet.packet_id not in self.packets:
             self.packets[packet.packet_id] = packet.to_dict()
             self.emitted_packet_digests.add(packet.packet_id)
@@ -608,6 +624,7 @@ def _packet_from_payload(payload):
         "canonical_mutation": payload["canonicalMutation"], "notes": payload["notes"],
         "authority_notice": payload["authorityNotice"], "context_digest": payload["contextDigest"],
         "observation_ref": payload["observationRef"], "intent": payload["intent"],
+        "derivation_refs": tuple(payload["derivationRefs"]),
     })
 
 
