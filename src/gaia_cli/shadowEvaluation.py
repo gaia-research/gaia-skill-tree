@@ -10,6 +10,7 @@ import datetime
 import hashlib
 import json
 import math
+from pathlib import Path
 from dataclasses import dataclass, replace
 from typing import Any
 
@@ -88,17 +89,34 @@ def _digest(value: Any) -> str:
     return hashlib.sha256(_canonical(value)).hexdigest()
 
 
+def _sourceManifest() -> dict[str, str]:
+    """Bind results to scorer source bytes, independent of checkout paths."""
+    from gaia_cli import benchmarkCatalog, evidence, structuralGraph
+    from gaia_cli import grading
+
+    modules = {
+        "shadowEvaluation": Path(__file__),
+        "trustMagnitude": Path(tm.__file__),
+        "benchmarkCatalog": Path(benchmarkCatalog.__file__),
+        "evidence": Path(evidence.__file__),
+        "grading": Path(grading.__file__),
+        "structuralGraph": Path(structuralGraph.__file__),
+    }
+    return {name: hashlib.sha256(path.read_bytes()).hexdigest() for name, path in sorted(modules.items())}
+
+
 def _policyBinding(context: ShadowEvaluationContext) -> dict[str, Any]:
-    """Digest the actual scoring configuration separately from declared labels."""
+    """Digest actual scorer source and config separately from declared labels."""
     actualPolicy = {
         "engine": SHADOW_ENGINE_VERSION,
-        "trustMagnitudeEngine": "trustMagnitude-v1",
+        "sourceManifest": _sourceManifest(),
         "perRowGradeThresholds": context.perRowGradeThresholds,
         "gradeCeiling": context.gradeCeiling,
         "gradeThresholds": context.gradeThresholds,
     }
     return {
         "actualPolicyDigest": _digest(actualPolicy),
+        "sourceManifest": actualPolicy["sourceManifest"],
         "actualCatalogDigest": _digest(context.benchmarkCatalog),
         "engineVersion": SHADOW_ENGINE_VERSION,
         "declaredPolicyVersion": context.policyVersion,
@@ -140,9 +158,13 @@ def _contextProblem(skill: dict, context: ShadowEvaluationContext) -> str | None
         genericNode = context.genericSkillMap[ref]
         if not isinstance(genericNode, dict):
             return f"generic context is malformed for {ref}"
-        inheritedRows = list(genericNode.get("evidence") or [])
-        if any(not isinstance(row, dict) for row in inheritedRows):
+        genericRows = list(genericNode.get("evidence") or [])
+        if any(not isinstance(row, dict) for row in genericRows):
             return f"generic evidence rows must be objects for {ref}"
+        inheritedRows = [
+            row for row in genericRows
+            if tm.EVIDENCE_TYPE_LAYER_CONTRACT.get(tm._typeOf(row) or "", {}).get("inheritMultiplier") is not None
+        ]
         evidenceRows.extend(inheritedRows)
     numericProblem = _invalidNumericInput(skill, context.genericSkillMap)
     if numericProblem:
@@ -168,7 +190,11 @@ def _temporalWarnings(
     ref = skill.get("genericSkillRef")
     generic = (genericSkillMap or {}).get(ref) if ref else None
     if generic is not None:
-        sources.append(("generic", generic.get("evidence") or []))
+        inheritable = [
+            row for row in (generic.get("evidence") or [])
+            if tm.EVIDENCE_TYPE_LAYER_CONTRACT.get(tm._typeOf(row) or "", {}).get("inheritMultiplier") is not None
+        ]
+        sources.append(("generic", inheritable))
     for sourceName, rows in sources:
         for index, row in enumerate(rows):
             for field in ("lastVerified", "sourceStartedAt"):
@@ -179,7 +205,7 @@ def _temporalWarnings(
                 label = f"{sourceName}[{index}].{field}"
                 if parsed is None:
                     warnings.append(f"{label}: malformed legacy date; treated as unknown")
-                elif (parsed.replace(tzinfo=datetime.timezone.utc) if parsed.tzinfo is None else parsed.astimezone(datetime.timezone.utc)) > evaluationAtUTC:
+                elif parsed > evaluationAtUTC:
                     return warnings, f"{label}: future date after pinned evaluation time"
     return warnings, None
 
@@ -346,17 +372,16 @@ def _assessOne(skill: dict, context: ShadowEvaluationContext, computedNamed: dic
     distinct = len({tm._typeOf(row) for row, _ in positive})
     witness = any(tm._isEligibleWitnessRow(row, score, scoredSkill) for row, score in rows)
     grade = tm.computeOverallTrustGrade(tmRaw, distinct, witness)
-    # Expose raw artifact magnitude separately from the actual post-dedup,
-    # plateau and suite-component-cap contribution used in total TM.
-    scoreByKey = {}
+    # Attribute the bounded score only to the selected representative row.
+    # Same-type/same-URL losers remain visible but contribute zero.
+    scoreByIdentity = {}
     for actualRow, bounded in rows:
-        key = (tm._typeOf(actualRow), tm._canonicalUrl(actualRow.get("source") or actualRow.get("url") or actualRow.get("sourceUrl")))
-        scoreByKey.setdefault(key, []).append(bounded)
-    for item in rowReport:
-        key = (item["type"], tm._canonicalUrl(item["source"]))
+        scoreByIdentity.setdefault(_canonical(actualRow), []).append(bounded)
+    for item, original in zip(rowReport, scoredSkill.get("evidence") or []):
         item["rawArtifactScore"] = item["artifactScore"]
-        item["boundedArtifactScore"] = next(iter(scoreByKey.get(key, [])), None)
-        item["artifactScoreMeaning"] = "raw pre-plateau/pre-suite-cap artifact score"
+        matching = scoreByIdentity.get(_canonical(original), [])
+        item["boundedArtifactScore"] = matching.pop(0) if matching else 0.0
+        item["artifactScoreMeaning"] = "raw pre-dedup/pre-plateau/pre-suite-cap artifact score"
         item["contextualGradeBasis"] = "raw artifact score before plateau and suite component cap"
     gateSkill = dict(scoredSkill)
     gradeRow = {**scoredSkill, "overallTrustGrade": grade, "overallGrade": grade, "grade": grade, "_shadowAssessed": True}
@@ -409,13 +434,56 @@ def _assessOne(skill: dict, context: ShadowEvaluationContext, computedNamed: dic
     }
 
 
+def _suiteClosure(skill: dict, namedSkillMap: dict[str, dict[str, Any]]) -> tuple[list[dict[str, Any]], list[str]]:
+    """Resolve a suite's canonical component closure from the pinned named map."""
+    closure: dict[str, dict[str, Any]] = {}
+    missing: set[str] = set()
+    visited: set[str] = set()
+    rawComponents = skill.get("suiteComponents")
+    if not isinstance(rawComponents, list):
+        return [], ["<malformed-suiteComponents>"]
+    stack = list(rawComponents)
+    while stack:
+        componentId = stack.pop()
+        if not isinstance(componentId, str) or not componentId:
+            missing.add(str(componentId) if componentId is not None else "<missing-id>")
+            continue
+        if componentId in visited:
+            continue
+        visited.add(componentId)
+        component = namedSkillMap.get(componentId)
+        if not isinstance(component, dict) or component.get("id") != componentId:
+            missing.add(componentId)
+            continue
+        components = component.get("suiteComponents")
+        if components is not None and (not isinstance(components, list) or any(
+            not isinstance(item, str) or not item for item in components
+        )):
+            missing.add(componentId)
+            continue
+        closure[componentId] = component
+        stack.extend(components or [])
+    return [closure[key] for key in sorted(closure)], sorted(missing)
+
+
 def evaluateShadow(skill: dict, context: ShadowEvaluationContext) -> dict[str, Any]:
     """Evaluate one skill using an explicit immutable context; report proposals only.
 
-    A caller evaluating a registry in dependency order may pass each returned
-    assessment into ``computedNamed`` via ``evaluateShadowRegistry`` below.
+    Suite components are resolved and recomputed through the registry evaluator,
+    so stored grades in the pinned named map cannot stand in for current grades.
     """
     context = _snapshotContext(context)
+    if isinstance(skill, dict) and skill.get("suiteComponents") is not None:
+        components, missing = _suiteClosure(skill, context.namedSkillMap)
+        if missing:
+            return {
+                "status": "not-evaluated", "skillId": skill.get("id"),
+                "reason": "component dependencies missing or malformed in named context: " + ", ".join(missing),
+                "unknownDependencyIds": missing,
+            }
+        result = evaluateShadowRegistry([skill, *components], context)
+        return next((item for item in result["assessments"] if item.get("skillId") == skill.get("id")),
+                    {"status": "not-evaluated", "skillId": skill.get("id"), "reason": "suite evaluation omitted"})
     problem = _contextProblem(skill, context)
     if problem:
         return {"status": "not-evaluated", "reason": problem, "skillId": skill.get("id")}
@@ -426,7 +494,7 @@ def evaluateShadow(skill: dict, context: ShadowEvaluationContext) -> dict[str, A
     assessed["temporalWarnings"] = warnings
     assessed["contextBinding"] = _policyBinding(context)
     assessed["fingerprint"] = _digest({
-        "api": SHADOW_ENGINE_VERSION, "contextBinding": assessed["contextBinding"], "skill": _canonicalSkill(skill),
+        "api": SHADOW_ENGINE_VERSION, "sourceManifest": _sourceManifest(), "contextBinding": assessed["contextBinding"], "skill": _canonicalSkill(skill),
         "genericSkillMap": _canonicalMap(context.genericSkillMap),
         "namedSkillMap": _canonicalMap(context.namedSkillMap),
         "verifierStanding": context.verifierStanding,
@@ -480,6 +548,35 @@ def evaluateShadowRegistry(skills: list[dict], context: ShadowEvaluationContext)
     pending = dict(byId)
     computed = {key: dict(value) for key, value in context.namedSkillMap.items()}
     assessments: dict[str, dict[str, Any]] = {}
+    # A suite assessment is only complete when its entire direct/transitive
+    # component closure is present in this registry input. A stale context map
+    # cannot turn absent registry rows into evaluated coverage.
+    def absentDependencies(sid: str) -> list[str]:
+        absent: set[str] = set()
+        visited: set[str] = set()
+        stack = list(byId.get(sid, {}).get("suiteComponents") or [])
+        while stack:
+            dependency = stack.pop()
+            if dependency in visited:
+                continue
+            visited.add(dependency)
+            component = byId.get(dependency)
+            if component is None:
+                absent.add(dependency)
+                continue
+            stack.extend(component.get("suiteComponents") or [])
+        return sorted(absent)
+
+    for sid, skill in list(pending.items()):
+        if skill.get("suiteComponents"):
+            missing = absentDependencies(sid)
+            if missing:
+                assessments[sid] = {
+                    "status": "not-evaluated", "skillId": sid,
+                    "reason": "component dependencies absent from registry input: " + ", ".join(missing),
+                    "unknownDependencyIds": missing,
+                }
+                pending.pop(sid)
     for sid in duplicateIds:
         assessments[sid] = {"status": "not-evaluated", "skillId": sid,
                             "reason": "duplicate skill id in registry input"}
@@ -512,7 +609,7 @@ def evaluateShadowRegistry(skills: list[dict], context: ShadowEvaluationContext)
             assessment["temporalWarnings"] = temporalById.get(sid, [])
             assessment["contextBinding"] = _policyBinding(context)
             assessment["fingerprint"] = _digest({
-                "api": SHADOW_ENGINE_VERSION, "contextBinding": assessment["contextBinding"],
+                "api": SHADOW_ENGINE_VERSION, "sourceManifest": _sourceManifest(), "contextBinding": assessment["contextBinding"],
                 "skill": _canonicalSkill(skill), "computedDependencies": _canonicalMap(computed),
                 "context": {"time": context.evaluationAtUTC.isoformat(), "policyVersion": context.policyVersion,
                             "policyDigest": context.policyDigest, "catalog": context.benchmarkCatalog,

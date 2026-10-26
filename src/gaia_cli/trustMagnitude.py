@@ -1137,8 +1137,13 @@ def _effectivePool(
         # Dedup is deferred until after eligibility checks in the scoring pass.
         out = list(ownRows)
         for row in (generic or {}).get("evidence") or []:
+            # The shadow comparison must honor the canonical inheritance
+            # contract: pinned-named evidence never crosses the generic layer.
+            contract = EVIDENCE_TYPE_LAYER_CONTRACT.get(_typeOf(row) or "", {})
+            if contract.get("inheritMultiplier") is None:
+                continue
             stamped = dict(row)
-            stamped.setdefault("layer", "generic")
+            stamped["layer"] = "generic"
             out.append(stamped)
         return out
 
