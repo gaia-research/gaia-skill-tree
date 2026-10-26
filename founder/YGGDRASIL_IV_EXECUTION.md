@@ -21,12 +21,12 @@ Sol leads architecture/integration/verification; code authorship is delegated to
 
 | Slice | Deliverable | Initial branch | Status |
 | --- | --- | --- | --- |
-| P1 calculation foundation | Explicit-context shadow evaluation, four isolated implementation-correction regressions, complete fingerprints; production defaults preserved | `dev/yggdrasil-iv-shadow-engine` | Implementation dispatched |
-| P0/P2 challenge proof core | Independent verification and bounded technical closure; history/contested/recovery-pending separation, no numerical authority | `dev/yggdrasil-iv-challenge-core` | Implementation dispatched |
-| P1 corpus proof | Full named/generic census, parser exclusions, stored/legacy/corrected comparisons and cause-classified deltas | Pending engine API | Not implemented |
-| P2 operational integration | Existing Steward receipts/debt and executable two-sided watcher scheduling/transport/retry/resolution | Pending seam reconnaissance | Not implemented |
-| P3 lifecycle preparation | Schema/CLI revisions, migration rehearsal, CAS-bound transactions, dual timelines and rollback | Pending foundation | Not implemented; canonical rollout held |
-| P4 product/publication preparation | Coherent approved snapshot, all public surfaces, rendered preview and pilot proposal | Pending foundation | Not implemented; visual/pilot gates held |
+| P1 calculation foundation | Explicit-context shadow evaluation, four isolated implementation-correction regressions, complete fingerprints; production defaults preserved | `dev/yggdrasil-iv-shadow-engine` | Hardening `6e258d13d` pushed; independent re-review pending |
+| P0/P2 challenge proof core | Independent verification and bounded technical closure; history/contested/recovery-pending separation, no numerical authority | `dev/yggdrasil-iv-challenge-core-hardening` | Hardening `66beb1a0b` pushed; independent re-review pending; runtime resolver not delivered |
+| P1 corpus proof | Full named/generic census, parser exclusions, stored/legacy/corrected comparisons and cause-classified deltas | `dev/yggdrasil-iv-corpus-shadow` | Interrupted work recovered from local patch; no accepted corpus impact yet |
+| P2 operational integration | Existing Steward receipts/debt and executable two-sided watcher scheduling/transport/retry/resolution | `dev/yggdrasil-iv-challenge-watch-repair` | Initial `eed0ffe57` blocked by independent review; persistence/receipt repair underway |
+| P3 lifecycle preparation | Schema/CLI revisions, migration rehearsal, CAS-bound transactions, dual timelines and rollback | `dev/yggdrasil-iv-evidence-revisions-repair` | Initial `38b03890a` blocked by independent review; proposal repair underway; schema/canonical rollout held |
+| P4 product/publication preparation | Coherent approved snapshot, all public surfaces, rendered preview and pilot proposal | `design/yggdrasil-iv-challenge-history` | Interrupted skill-detail UI recovered from local patch; no rendered proof or visual approval yet |
 | P5 release preparation | Registry-wide impact/rollout/rollback receipts, aggregate PR and release checks | Pending pilot evidence | Not implemented; rollout/main/closure held |
 
 Each code slice is independently reviewed before integration, lands by merge commit through a feature PR, and retains proof. No feature branch targets main directly. No production-default calculation correction is silently enabled by a shadow implementation.
@@ -34,6 +34,14 @@ Each code slice is independently reviewed before integration, lands by merge com
 ## Verification ledger
 
 Baseline at `b0f6d9e502369aea2ebebe13eed8d961675094bd`: `PYTHONPATH=src PYTHONDONTWRITEBYTECODE=1 python -m pytest -p no:cacheprovider tests/test_trust_magnitude.py tests/test_row_grading.py tests/test_curation_authority_map.py tests/test_benchmark_catalog.py tests/test_trust_freshness.py tests/test_calibrate_evidence_grades.py tests/steward/test_trust_calibration_regression.py` — **255 passed in 10.29s** (Android, Python 3.14.6). These baseline tests do not prove new Yggdrasil IV behavior. Worker self-reports are not independent review. Later receipts must name exact tested SHA and actual outcomes.
+
+## Recovery and integration receipt — 2026-10-26
+
+- PR #2150 integrated by merge commit `a9a4a624e`: execution baseline and stale Origin vocabulary alignment only. Aggregate draft #2151 targets main and remains held.
+- Initial domain, engine, watcher and evidence-rehearsal tests did not prevent substantive independent-review findings. Only reviewed repaired SHAs may integrate; no acceptance inferred from worker self-report.
+- Interruption left lost worker runs. Engine repair and challenge hardening survived as pushed commits; corpus/UI survived as local patches. Corpus patch contains stale engine and unwanted doc reversals, so recovery is selective. No lost result is treated as tested.
+- Pre-existing case-sensitive GitHub repo matching defect discovered in actual Upstream Approve run `40184391633` is tracked as #2152. Focused fix `fc2b1d147` is under independent verification; no real upstream bootstrap/retry authorized.
+- Approval/change-set digests are checksums, not authenticated founder approvals. Domain/rehearsal APIs must preserve that trust boundary.
 
 ## Release boundaries and outstanding evidence
 
