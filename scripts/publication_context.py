@@ -1,7 +1,7 @@
-"""Read-only, reproducible publication rehearsal context (Yggdrasil IV P4 prep).
+"""Fail-closed, read-only publication rehearsal provenance helpers.
 
-This module grants no publication approval. It binds a builder replay to the
-inputs and policy files it consumed and keeps its output outside the checkout.
+Approval is deliberately unavailable. Provenance is a reproducibility record,
+not an authenticated approval or filesystem security boundary.
 """
 from __future__ import annotations
 
@@ -14,156 +14,146 @@ from datetime import datetime, timezone
 
 MODE = "rehearsal"
 APPROVAL = "unavailable"
+COPY_IGNORES = {".git", ".gaia", ".pi", "__pycache__", ".pytest_cache", "node_modules"}
 REQUIRED_OUTPUTS = (
     "registry/named-skills.json", "docs/graph/named/index.json",
     "docs/graph/ledger/data.json", "docs/api/v1/skills/index.json",
     "docs/u/index.html", "docs/badges/registry.json",
 )
-INPUTS = (
-    "registry/gaia.json", "registry/named-skills.json", "registry/nodes",
-    "registry/named", "registry/suites", "registry/schema/meta.json",
-    "registry/benchmark-sources.json", "META.md", "GOVERNANCE.md",
-    "founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md",
-    "docs/agents/curation-authority-map.md", "src/gaia_cli/trustMagnitude.py",
-    "src/gaia_cli/benchmarkCatalog.py", "scripts/generateNamedIndex.py",
-    "scripts/generateLeaderboardData.py", "scripts/buildApiProjection.py",
-    "scripts/generateProfilePages.py", "scripts/generateBadges.py",
+GENERATED_OUTPUTS = REQUIRED_OUTPUTS + (
+    "docs/graph/gaia.json", "docs/graph/gaia.gexf", "docs/graph/gaia.svg",
+    "docs/api/v1/leaderboard.json", "docs/api/v1/health.json",
 )
-
-
-def evaluation_at_utc_from_env():
-    value = os.environ.get("GAIA_EVALUATION_AT_UTC")
-    if not value:
-        return None
-    parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
-    if parsed.tzinfo is None or parsed.utcoffset().total_seconds() != 0:
-        raise ValueError("GAIA_EVALUATION_AT_UTC must be UTC")
-    return parsed
 
 
 def _digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def _files(path: Path):
-    if path.is_file():
-        yield path
-    elif path.is_dir():
-        yield from sorted(p for p in path.rglob("*") if p.is_file())
+def _inventory(root: Path) -> dict[str, str]:
+    result = {}
+    for path in sorted(root.rglob("*")):
+        if any(part in COPY_IGNORES for part in path.relative_to(root).parts):
+            continue
+        if path.is_symlink():
+            raise ValueError(f"symlink in copied source inventory: {path.relative_to(root)}")
+        if path.is_file():
+            result[path.relative_to(root).as_posix()] = _digest(path.read_bytes())
+    return result
+
+
+def _worktree_roots(source_root: Path) -> list[Path]:
+    try:
+        raw = subprocess.run(["git", "worktree", "list", "--porcelain"], cwd=source_root,
+                             check=True, capture_output=True, text=True).stdout
+    except (OSError, subprocess.CalledProcessError):
+        return [source_root]
+    roots = []
+    for line in raw.splitlines():
+        if line.startswith("worktree "):
+            roots.append(Path(line[9:]).resolve())
+    return roots or [source_root]
+
+
+def load_context(path: str | Path) -> dict:
+    payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    if payload.get("mode") != MODE or payload.get("approval") != APPROVAL:
+        raise ValueError("invalid publication rehearsal context")
+    if payload.get("evaluationAtUTC") != _utc(payload.get("evaluationAtUTC", "")):
+        raise ValueError("malformed publication rehearsal time")
+    if not payload.get("snapshotId") or not isinstance(payload.get("inputDigests"), dict):
+        raise ValueError("incomplete publication rehearsal context")
+    return payload
+
+
+def evaluation_at_utc_from_env():
+    path = os.environ.get("GAIA_PUBLICATION_CONTEXT")
+    return load_context(path)["evaluationAtUTC"] if path else None
+
+
+def rehearsal_context_from_env():
+    path = os.environ.get("GAIA_PUBLICATION_CONTEXT")
+    return load_context(path) if path else None
+
+
+def _utc(value: str) -> str:
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except (ValueError, AttributeError) as exc:
+        raise ValueError("evaluationAtUTC must be an explicit ISO UTC timestamp") from exc
+    if parsed.tzinfo is None or parsed.utcoffset().total_seconds() != 0:
+        raise ValueError("evaluationAtUTC must be an explicit UTC timestamp")
+    return parsed.astimezone(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def create_context(source_root: Path, output_root: Path, evaluation_at_utc: str | None = None) -> dict:
     source_root = source_root.resolve(strict=True)
     output_root = output_root.expanduser().absolute()
-    if output_root.is_symlink() or any(parent.is_symlink() for parent in output_root.parents):
+    if output_root.exists() or output_root.is_symlink():
+        raise ValueError("publication output root must be a new non-symlink path")
+    if any(p.is_symlink() for p in (output_root, *output_root.parents)):
         raise ValueError("publication output root must not be under a symlink path")
-    output_resolved = output_root.resolve(strict=False)
-    if output_resolved == source_root or source_root in output_resolved.parents or output_resolved in source_root.parents:
-        raise ValueError("publication output root must be disjoint from the source checkout")
-    if evaluation_at_utc is None:
-        evaluation_at_utc = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
-    parsed = datetime.fromisoformat(evaluation_at_utc.replace("Z", "+00:00"))
-    if parsed.tzinfo is None or parsed.utcoffset().total_seconds() != 0:
-        raise ValueError("evaluationAtUTC must be an explicit UTC timestamp")
-    revisions = {}
+    resolved = output_root.resolve(strict=False)
+    if any(resolved == root or root in resolved.parents or resolved in root.parents for root in _worktree_roots(source_root)):
+        raise ValueError("publication output root must be disjoint from every repository worktree")
+    instant = _utc(evaluation_at_utc) if evaluation_at_utc else datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    inputs = _inventory(source_root)
     try:
-        revisions["source"] = subprocess.run(
-            ["git", "rev-parse", "HEAD"], cwd=source_root, check=True,
-            capture_output=True, text=True,
-        ).stdout.strip()
+        revision = subprocess.run(["git", "rev-parse", "HEAD"], cwd=source_root, check=True,
+                                  capture_output=True, text=True).stdout.strip()
     except (OSError, subprocess.CalledProcessError):
-        revisions["source"] = "unavailable"
-    inputs = {}
-    for rel in INPUTS:
-        path = source_root / rel
-        if path.exists():
-            for file in _files(path):
-                inputs[file.relative_to(source_root).as_posix()] = _digest(file.read_bytes())
-    policy = {key: inputs.get(key, "missing") for key in (
-        "META.md", "GOVERNANCE.md", "registry/schema/meta.json",
-        "registry/benchmark-sources.json", "src/gaia_cli/trustMagnitude.py",
-        "src/gaia_cli/benchmarkCatalog.py",
-    )}
-    seed = json.dumps({"inputs": inputs, "revisions": revisions, "policy": policy,
-                       "evaluationAtUTC": evaluation_at_utc}, sort_keys=True, separators=(",", ":"))
-    snapshot_id = hashlib.sha256(seed.encode()).hexdigest()
-    return {
-        "mode": MODE, "approval": APPROVAL, "snapshotId": snapshot_id,
-        "evaluationAtUTC": evaluation_at_utc, "sourceRevision": revisions["source"],
-        "inputDigests": inputs, "policyIdentity": policy,
-        "engineIdentity": inputs.get("src/gaia_cli/trustMagnitude.py", "missing"),
-        "catalogIdentity": inputs.get("registry/benchmark-sources.json", "missing"),
-    }
+        revision = "unavailable"
+    seed = json.dumps({"inputs": inputs, "sourceRevision": revision, "evaluationAtUTC": instant}, sort_keys=True, separators=(",", ":"))
+    return {"mode": MODE, "approval": APPROVAL, "snapshotId": _digest(seed.encode()),
+            "evaluationAtUTC": instant, "sourceRevision": revision, "inputDigests": inputs,
+            "engineIdentity": inputs.get("src/gaia_cli/trustMagnitude.py", "missing"),
+            "policyIdentity": {k: inputs.get(k, "missing") for k in ("META.md", "GOVERNANCE.md", "registry/schema/meta.json")}}
 
 
-def stamp_outputs(output_root: Path, context: dict) -> dict:
-    """Stamp actual builder artifacts then emit a non-circular digest manifest."""
+def verify_copied_inputs(output_root: Path, context: dict) -> None:
+    """Verify exact pre-build copy bytes; generated surfaces may change afterwards."""
+    for rel, expected in context["inputDigests"].items():
+        path = output_root / rel
+        if not path.is_file() or path.is_symlink() or _digest(path.read_bytes()) != expected:
+            raise ValueError(f"copied source input differs from snapshot: {rel}")
+
+
+def stamp_outputs(output_root: Path, context: dict, stages: dict | None = None) -> dict:
+    """Write external metadata only; never alter generated, static, or source files."""
     output_root = output_root.resolve(strict=True)
-    missing = [rel for rel in REQUIRED_OUTPUTS if not (output_root / rel).is_file()]
-    if missing:
-        raise ValueError("rehearsal incomplete; required builder outputs missing: " + ", ".join(missing))
+    if context.get("mode") != MODE or context.get("approval") != APPROVAL:
+        raise ValueError("invalid rehearsal context")
+    if not stages or any(v.get("status") != "success" or not v.get("outputs") for v in stages.values()):
+        raise ValueError("rehearsal incomplete: every required generator needs success and output inventory")
+    for rel in GENERATED_OUTPUTS:
+        if not (output_root / rel).is_file():
+            raise ValueError(f"rehearsal incomplete; required generated output missing: {rel}")
     context_path = output_root / "publication-context.json"
     context_path.write_text(json.dumps(context, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    for path in sorted(output_root.rglob("*")):
-        if not path.is_file() or path == context_path or path.name == "publication-artifacts.json":
-            continue
-        try:
-            raw = path.read_bytes()
-            if path.suffix.lower() == ".json":
-                payload = json.loads(raw.decode("utf-8"))
-                if not isinstance(payload, dict):
-                    continue
-                prior = payload.get("publicationContext")
-                if prior and prior != context:
-                    raise ValueError(f"mixed publication context in {path}")
-                payload["publicationContext"] = context
-                path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-            elif path.suffix.lower() in {".html", ".svg", ".xml"}:
-                marker = f"<!-- publication-context:{context['snapshotId']} mode=rehearsal approval=unavailable -->\n".encode()
-                if marker not in raw:
-                    if path.suffix.lower() in {".svg", ".xml"} and raw.lstrip().startswith(b"<?xml"):
-                        declaration_end = raw.find(b"?>") + 2
-                        raw = raw[:declaration_end] + b"\n" + marker + raw[declaration_end:].lstrip(b"\r\n")
-                        path.write_bytes(raw)
-                    else:
-                        path.write_bytes(marker + raw)
-        except (UnicodeDecodeError, json.JSONDecodeError):
-            continue
     artifacts = {}
-    for path in sorted(output_root.rglob("*")):
-        if path.is_file() and path not in {context_path, output_root / "publication-artifacts.json"}:
-            artifacts[path.relative_to(output_root).as_posix()] = _digest(path.read_bytes())
+    for rel in GENERATED_OUTPUTS:
+        path = output_root / rel
+        artifacts[rel] = _digest(path.read_bytes())
     manifest = {"mode": MODE, "approval": APPROVAL, "snapshotId": context["snapshotId"],
-                "artifacts": artifacts}
-    (output_root / "publication-artifacts.json").write_text(
-        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+                "evaluationAtUTC": context["evaluationAtUTC"], "stages": stages, "artifacts": artifacts}
+    (output_root / "publication-artifacts.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return manifest
 
 
 def verify_outputs(output_root: Path) -> bool:
-    """Reject missing, changed, mixed-context or incomplete stamped artifacts."""
-    output_root = output_root.resolve(strict=True)
-    manifest = json.loads((output_root / "publication-artifacts.json").read_text(encoding="utf-8"))
-    context = json.loads((output_root / "publication-context.json").read_text(encoding="utf-8"))
-    if manifest.get("mode") != MODE or manifest.get("approval") != APPROVAL or manifest.get("snapshotId") != context.get("snapshotId"):
-        return False
-    if any(not (output_root / rel).is_file() for rel in REQUIRED_OUTPUTS):
-        return False
-    expected = manifest.get("artifacts", {})
-    for rel, digest in expected.items():
-        path = output_root / rel
-        if not path.is_file() or _digest(path.read_bytes()) != digest:
+    """Verify bounded generated output digests and internally consistent context identity."""
+    try:
+        output_root = output_root.resolve(strict=True)
+        manifest = json.loads((output_root / "publication-artifacts.json").read_text(encoding="utf-8"))
+        context = json.loads((output_root / "publication-context.json").read_text(encoding="utf-8"))
+        if (manifest.get("mode"), manifest.get("approval")) != (MODE, APPROVAL) or (context.get("mode"), context.get("approval")) != (MODE, APPROVAL):
             return False
-        if path.suffix.lower() == ".json":
-            try:
-                payload = json.loads(path.read_text(encoding="utf-8"))
-                if isinstance(payload, dict) and payload.get("publicationContext") != context:
-                    return False
-            except (UnicodeDecodeError, json.JSONDecodeError):
-                pass
-        elif path.suffix.lower() in {".html", ".svg", ".xml"}:
-            text = path.read_text(encoding="utf-8")
-            if f"publication-context:{context['snapshotId']} mode=rehearsal approval=unavailable" not in text:
-                return False
-    actual = {p.relative_to(output_root).as_posix() for p in output_root.rglob("*") if p.is_file() and p.name not in {"publication-context.json", "publication-artifacts.json"}}
-    return actual == set(expected)
+        if manifest.get("snapshotId") != context.get("snapshotId") or manifest.get("evaluationAtUTC") != context.get("evaluationAtUTC"):
+            return False
+        if set(manifest.get("artifacts", {})) != set(GENERATED_OUTPUTS):
+            return False
+        if not manifest.get("stages") or any(v.get("status") != "success" or not v.get("outputs") for v in manifest["stages"].values()):
+            return False
+        return all((output_root / rel).is_file() and not (output_root / rel).is_symlink() and _digest((output_root / rel).read_bytes()) == digest for rel, digest in manifest["artifacts"].items())
+    except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError):
+        return False

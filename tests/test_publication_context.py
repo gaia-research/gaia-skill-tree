@@ -3,63 +3,99 @@ from pathlib import Path
 
 import pytest
 
-from scripts.publication_context import create_context, stamp_outputs, verify_outputs
+from scripts.publication_context import (
+    GENERATED_OUTPUTS, create_context, stamp_outputs, verify_copied_inputs,
+    verify_outputs,
+)
+
+UTC = "2026-10-25T12:00:00Z"
 
 
-def test_context_rejects_source_or_symlink_output(tmp_path):
+def _outputs(root: Path):
+    for rel in GENERATED_OUTPUTS:
+        path = root / rel
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("{}\n" if path.suffix == ".json" else "<html></html>\n", encoding="utf-8")
+
+
+def _stages():
+    return {name: {"status": "success", "outputs": ["docs/api/v1/skills/index.json"]}
+            for name in ("assembly", "named-index", "trust-ledger", "api-projection", "profiles", "badges", "graph-assets")}
+
+
+def test_context_binds_dirty_and_untracked_copied_bytes(tmp_path):
     source = tmp_path / "source"
     source.mkdir()
-    (source / "META.md").write_text("policy", encoding="utf-8")
+    omitted = source / "skill-trees" / "untracked" / "skill-tree.json"
+    omitted.parent.mkdir(parents=True)
+    omitted.write_text('{"level":1}', encoding="utf-8")
+    first = create_context(source, tmp_path / "out1", UTC)
+    copied = tmp_path / "copy"
+    copied.mkdir()
+    (copied / "skill-trees").mkdir()
+    assert first["snapshotId"]
+    omitted.write_text('{"level":2}', encoding="utf-8")
+    second = create_context(source, tmp_path / "out2", UTC)
+    assert second["snapshotId"] != first["snapshotId"]
+    with pytest.raises(ValueError, match="differs"):
+        verify_copied_inputs(copied, second)
+
+
+def test_context_rejects_overlap_symlink_and_foreign_worktree(tmp_path):
+    source = tmp_path / "source"
+    source.mkdir()
     with pytest.raises(ValueError, match="disjoint"):
-        create_context(source, source / "inside", "2026-10-25T12:00:00Z")
+        create_context(source, source / "inside", UTC)
     link = tmp_path / "link"
-    link.symlink_to(tmp_path / "outside")
+    link.symlink_to(tmp_path, target_is_directory=True)
     with pytest.raises(ValueError, match="symlink"):
-        create_context(source, link, "2026-10-25T12:00:00Z")
-    parent_link = tmp_path / "parent-link"
-    parent_link.symlink_to(tmp_path, target_is_directory=True)
-    with pytest.raises(ValueError, match="symlink"):
-        create_context(source, parent_link / "child", "2026-10-25T12:00:00Z")
+        create_context(source, link / "child", UTC)
+    # All active worktrees reported by git are protected, not only source_root.
+    repo = Path(__file__).resolve().parents[1]
+    foreign = next((Path(line[9:]) for line in __import__("subprocess").run(
+        ["git", "worktree", "list", "--porcelain"], cwd=repo, capture_output=True, text=True
+    ).stdout.splitlines() if line.startswith("worktree ") and Path(line[9:]).resolve() != repo.resolve()), None)
+    if foreign:
+        with pytest.raises(ValueError, match="every repository worktree"):
+            create_context(repo, foreign / "publication-fixture", UTC)
 
 
-def test_snapshot_id_binds_inputs_and_pinned_evaluation_time(tmp_path):
-    source = tmp_path / "source"
-    source.mkdir()
-    p = source / "META.md"
-    p.write_text("policy v1", encoding="utf-8")
-    first = create_context(source, tmp_path / "scratch-a", "2026-10-25T12:00:00Z")
-    second = create_context(source, tmp_path / "scratch-b", "2026-10-25T12:00:00Z")
-    assert first["snapshotId"] == second["snapshotId"]
-    assert first["mode"] == "rehearsal" and first["approval"] == "unavailable"
-    p.write_text("policy v2", encoding="utf-8")
-    changed = create_context(source, tmp_path / "scratch-c", "2026-10-25T12:00:00Z")
-    assert changed["snapshotId"] != first["snapshotId"]
-
-
-def test_output_manifest_detects_partial_and_tampered_replay(tmp_path):
+def test_stamping_is_external_and_rejects_skipped_generators(tmp_path):
     output = tmp_path / "output"
     output.mkdir()
-    context = {"mode": "rehearsal", "approval": "unavailable", "snapshotId": "abc",
-               "evaluationAtUTC": "2026-10-25T12:00:00Z"}
-    with pytest.raises(ValueError, match="incomplete"):
-        stamp_outputs(output, context)
-    xml = output / "docs" / "fixture.svg"
-    xml.parent.mkdir(parents=True, exist_ok=True)
-    xml.write_text('<?xml version="1.0"?>\n<svg></svg>\n', encoding="utf-8")
-    required = (
-        "registry/named-skills.json", "docs/graph/named/index.json",
-        "docs/graph/ledger/data.json", "docs/api/v1/skills/index.json",
-        "docs/u/index.html", "docs/badges/registry.json",
-    )
-    for rel in required:
-        path = output / rel
-        path.parent.mkdir(parents=True, exist_ok=True)
-        if path.suffix == ".json":
-            path.write_text(json.dumps({"ok": True}), encoding="utf-8")
-        else:
-            path.write_text("<html>fixture</html>", encoding="utf-8")
-    stamp_outputs(output, context)
+    source_like = output / "registry" / "nodes" / "fixture.json"
+    source_like.parent.mkdir(parents=True)
+    source_like.write_text('{"input":true}\n', encoding="utf-8")
+    before = source_like.read_bytes()
+    context = {"mode": "rehearsal", "approval": "unavailable", "snapshotId": "abc", "evaluationAtUTC": UTC}
+    _outputs(output)
+    failed = _stages()
+    failed["badges"]["status"] = "skipped"
+    with pytest.raises(ValueError, match="success"):
+        stamp_outputs(output, context, failed)
+    stamp_outputs(output, context, _stages())
+    assert source_like.read_bytes() == before
     assert verify_outputs(output)
-    assert xml.read_text(encoding="utf-8").startswith('<?xml version="1.0"?>\n<!-- publication-context:abc')
-    (output / required[0]).write_text('{"ok":false}\n', encoding="utf-8")
+    (output / "publication-context.json").write_text('{"mode":"production"}', encoding="utf-8")
     assert not verify_outputs(output)
+
+
+def test_manifest_detects_stale_artifact_and_context_mix(tmp_path):
+    output = tmp_path / "output"
+    output.mkdir()
+    context = {"mode": "rehearsal", "approval": "unavailable", "snapshotId": "abc", "evaluationAtUTC": UTC}
+    _outputs(output)
+    stamp_outputs(output, context, _stages())
+    assert verify_outputs(output)
+    (output / GENERATED_OUTPUTS[0]).write_text('{"stale":true}', encoding="utf-8")
+    assert not verify_outputs(output)
+
+
+def test_replay_context_is_deterministic_at_pinned_time(tmp_path):
+    source = tmp_path / "source"
+    source.mkdir()
+    (source / "input.json").write_text('{"x":1}', encoding="utf-8")
+    a = create_context(source, tmp_path / "a", UTC)
+    b = create_context(source, tmp_path / "b", UTC)
+    assert a["snapshotId"] == b["snapshotId"]
+    assert a["evaluationAtUTC"] == b["evaluationAtUTC"] == UTC

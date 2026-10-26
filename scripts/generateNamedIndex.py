@@ -553,7 +553,8 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
             currentHash = computeTrustMagnitudeInputHash(entry)
 
             skill_with_effective = {**entry, "evidence": effective}
-            if (os.environ.get("GAIA_PUBLICATION_MODE") != "rehearsal"
+            from publication_context import rehearsal_context_from_env
+            if (rehearsal_context_from_env() is None
                     and fm_tm is not None and fm_grade is not None and fm_hash == currentHash):
                 # Trust the frontmatter — propagate to index unchanged.
                 entry["trustMagnitude"] = round(float(fm_tm), 2)
@@ -615,7 +616,8 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
             max_allowed_stars = GRADE_MAX_STARS.get(current_grade, 1)
             raw_stars = level_num(entry.get("level", ""))
             if raw_stars > max_allowed_stars:
-                if os.environ.get("GAIA_PUBLICATION_MODE") == "rehearsal":
+                from publication_context import rehearsal_context_from_env
+                if rehearsal_context_from_env() is not None:
                     entry["eligibilityProposal"] = {
                         "status": "shadow", "storedLevel": entry.get("level"),
                         "maximumEligibleLevel": f"{max_allowed_stars}★",
@@ -693,11 +695,13 @@ def main():
         print(f"Graph file not found: {graph_path}")
         sys.exit(1)
 
-    today = datetime.date.today().isoformat()
+    from publication_context import evaluation_at_utc_from_env
+    pinned_evaluation = evaluation_at_utc_from_env()
+    today = pinned_evaluation[:10] if pinned_evaluation else datetime.date.today().isoformat()
     with open(graph_path, "r", encoding="utf-8") as f:
         graph_data = json.load(f)
     graph_timestamp = graph_data.get("generatedAt", "")
-    if graph_timestamp:
+    if graph_timestamp and not pinned_evaluation:
         today = graph_timestamp.split("T")[0] if "T" in graph_timestamp else graph_timestamp
 
     print(f"Scanning: {named_dir}")

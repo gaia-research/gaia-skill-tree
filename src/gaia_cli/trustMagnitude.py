@@ -1062,6 +1062,8 @@ def computeTrustMagnitudeByType(
     skill: dict,
     genericSkillMap: Optional[dict] = None,
     namedSkillMap: Optional[dict] = None,
+    *,
+    evaluationAtUTC: Optional[datetime.datetime] = None,
 ) -> dict:
     """Return {evidenceTypeId: contribution} so sum(values) ~= computeTrustMagnitude.
 
@@ -1072,7 +1074,7 @@ def computeTrustMagnitudeByType(
     TM within 0.02. Each value is rounded to 2 decimals. Missing types simply
     don't appear (frontend treats absent as 0).
     """
-    rowsWithScores = _scoredEvidenceRows(skill, genericSkillMap)
+    rowsWithScores = _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC)
 
     # 7: partition by type, applying social-signal A-cap proportionally.
     perType: dict[str, float] = {}

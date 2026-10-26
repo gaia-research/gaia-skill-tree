@@ -1817,7 +1817,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--check", action="store_true", help="Fail (exit 1) if generated docs drift from source. Not read-only: regenerates Class P/S artifacts before comparing (commit any docs/graph/* Class S changes).")
     parser.add_argument("--auto-clean", action="store_true", help="(Opt-in) In write mode, remove left-only generated files in safe bundles (use cautiously)")
     parser.add_argument("--publication-rehearsal", metavar="OUTPUT_ROOT", help="Run the real docs builder in an isolated external scratch copy and stamp a rehearsal snapshot; never publishes approval.")
-    parser.add_argument("--publication-rehearsal-worker", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("--publication-rehearsal-worker", metavar="CONTEXT", help=argparse.SUPPRESS)
     parser.add_argument("--evaluation-at-utc", help="Pinned UTC evaluation instant for publication rehearsal.")
     parser.add_argument(
         "--cache-bust-only",
@@ -1827,12 +1827,20 @@ def main(argv: list[str] | None = None) -> int:
              "without regenerating badges or other Class S artifacts.",
     )
     args = parser.parse_args(argv)
+    strict_rehearsal = bool(args.publication_rehearsal_worker)
+    rehearsal_context = None
+    if strict_rehearsal:
+        try:
+            from publication_context import load_context
+            rehearsal_context = load_context(args.publication_rehearsal_worker)
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            parser.error(f"invalid rehearsal context: {exc}")
 
     if args.publication_rehearsal and args.publication_rehearsal_worker:
         parser.error("choose either --publication-rehearsal or its internal worker mode")
     if args.publication_rehearsal:
         import shutil
-        from publication_context import create_context, stamp_outputs, verify_outputs
+        from publication_context import create_context, stamp_outputs, verify_outputs, verify_copied_inputs
         source_root = ROOT.resolve(strict=True)
         output_root = Path(args.publication_rehearsal).expanduser().absolute()
         if output_root.exists() or output_root.is_symlink():
@@ -1844,22 +1852,25 @@ def main(argv: list[str] | None = None) -> int:
             context = create_context(source_root, output_root, args.evaluation_at_utc)
             output_root.mkdir(parents=True)
             shutil.copytree(
-                source_root, output_root, dirs_exist_ok=True, symlinks=True,
+                source_root, output_root, dirs_exist_ok=True, symlinks=False,
                 ignore=shutil.ignore_patterns(".git", ".gaia", ".pi", "__pycache__", ".pytest_cache", "node_modules"),
             )
+            verify_copied_inputs(output_root, context)
+            (output_root / "publication-context.json").write_text(
+                json.dumps(context, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         except (OSError, ValueError) as exc:
             parser.error(f"cannot prepare safe rehearsal workspace: {exc}")
         worker = subprocess.run(
-            [sys.executable, str(output_root / "scripts" / "build_docs.py"), "--publication-rehearsal-worker"],
-            cwd=output_root, env={**os.environ, "GAIA_PUBLICATION_MODE": "rehearsal",
-                                  "GAIA_PUBLICATION_APPROVAL": "unavailable",
-                                  "GAIA_EVALUATION_AT_UTC": context["evaluationAtUTC"]},
+            [sys.executable, str(output_root / "scripts" / "build_docs.py"),
+             "--publication-rehearsal-worker", str(output_root / "publication-context.json")],
+            cwd=output_root, env={**os.environ, "GAIA_PUBLICATION_CONTEXT": str(output_root / "publication-context.json")},
             check=False,
         )
         if worker.returncode != 0:
             print(f"Rehearsal builder failed (exit {worker.returncode}); no artifact manifest emitted.", file=sys.stderr)
             return worker.returncode
-        manifest = stamp_outputs(output_root, context)
+        stage_report = json.loads((output_root / "publication-stages.json").read_text(encoding="utf-8"))
+        manifest = stamp_outputs(output_root, context, stage_report)
         if not verify_outputs(output_root):
             print("Rehearsal output verification failed; refusing to report a coherent snapshot.", file=sys.stderr)
             return 1
@@ -1931,6 +1942,8 @@ def main(argv: list[str] | None = None) -> int:
         skip_badges = False
     if skip_badges:
         print("[skip-badge-check] detected — skipping badges regen/diff.")
+        if strict_rehearsal:
+            warnings.append("badges: required generator skipped by [skip-badge-check]")
         badges_changed = False
     else:
         badges_changed = _run_step("badges", build_badges, args.check)
@@ -2069,6 +2082,20 @@ def main(argv: list[str] | None = None) -> int:
         )
         if is_stale
     ]
+    if strict_rehearsal:
+        from publication_context import GENERATED_OUTPUTS
+        if warnings:
+            print("Strict rehearsal failed: " + "; ".join(warnings), file=sys.stderr)
+            return 1
+        stages = {name: {"status": "success", "outputs": [rel for rel in GENERATED_OUTPUTS
+                   if rel in {"registry/named-skills.json", "docs/graph/named/index.json", "docs/graph/ledger/data.json", "docs/api/v1/skills/index.json", "docs/u/index.html", "docs/badges/registry.json", "docs/graph/gaia.json", "docs/graph/gaia.gexf", "docs/graph/gaia.svg", "docs/api/v1/leaderboard.json", "docs/api/v1/health.json"}]}
+                  for name in ("assembly", "named-index", "trust-ledger", "api-projection", "profiles", "badges", "graph-assets")}
+        if any(not (ROOT / rel).is_file() for rel in GENERATED_OUTPUTS):
+            print("Strict rehearsal failed: required generated output absent", file=sys.stderr)
+            return 1
+        (ROOT / "publication-stages.json").write_text(json.dumps(stages, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        return 0
+
     if args.check:
         if changed or warnings:
             if warnings:

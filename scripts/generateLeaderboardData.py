@@ -117,7 +117,7 @@ def buildRows() -> list[dict]:
 
         skillId = fm.get("id") or "unknown"
         tm = computeTrustMagnitude(fm, mergedMap, evaluationAtUTC=evaluation_at_utc)
-        typeBreakdown = computeTrustMagnitudeByType(fm, mergedMap)
+        typeBreakdown = computeTrustMagnitudeByType(fm, mergedMap, evaluationAtUTC=evaluation_at_utc)
         origin = (fm.get("origin") is True or fm.get("origin") == "true")
         if evaluation_at_utc is None:
             grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
@@ -195,7 +195,7 @@ def main() -> int:
 
     payload = {
         "version":     readGaiaVersion(),
-        "generatedAt": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "generatedAt": (evaluation_at_utc or dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")),
         "summary":     summary,
         "rows":        rows,
     }
