@@ -12,7 +12,6 @@ import hashlib
 import json
 import os
 import tempfile
-import uuid
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Protocol
@@ -92,13 +91,17 @@ def _root(path: str | Path) -> Path:
 
 def _target(root: Path, value: str) -> Path:
     rel = PurePosixPath(value)
-    if not value or rel.is_absolute() or "\\" in value or any(part in ("", ".", "..") for part in rel.parts):
+    if (not value or rel.is_absolute() or "\\" in value or value != rel.as_posix()
+            or any(part in ("", ".", "..") for part in rel.parts)):
         raise TransactionError(f"unsafe relative target: {value!r}")
     if rel.parts[0] not in {"registry", "skill-trees"}:
         raise TransactionError("target is outside the allowed registry and user-tree areas")
     if rel.parts[0] == "registry" and (len(rel.parts) < 3 or rel.parts[1] not in {"nodes", "named"}):
         raise TransactionError("registry target must be under nodes/ or named/")
-    if rel.parts[0] == "skill-trees" and (len(rel.parts) < 3 or rel.parts[-1] != "skill-tree.json"):
+    if rel.parts[0] == "registry" and ((rel.parts[1] == "nodes" and not value.endswith(".json"))
+                                       or (rel.parts[1] == "named" and not value.endswith(".md"))):
+        raise TransactionError("node targets must be JSON and named-skill targets must be Markdown")
+    if rel.parts[0] == "skill-trees" and (len(rel.parts) != 3 or rel.parts[-1] != "skill-tree.json"):
         raise TransactionError("user-tree target must be a user's skill-tree.json")
     current = root
     for part in rel.parts:
@@ -160,12 +163,19 @@ def _authorize(provider: ApprovalProvider | None, plan: Plan, operation: str) ->
 
 @contextlib.contextmanager
 def _lock(root: Path):
-    state = root / STATE_DIR
-    state.mkdir(parents=True, exist_ok=True)
-    if state.is_symlink():
-        raise TransactionError("transaction state directory cannot be a symlink")
+    metadata_root = root / ".gaia"
+    if metadata_root.is_symlink():
+        raise TransactionError("transaction metadata parent cannot be a symlink")
+    metadata_root.mkdir(exist_ok=True)
+    state = metadata_root / "canonical-transactions"
+    state.mkdir(exist_ok=True, mode=0o700)
+    if state.is_symlink() or not state.is_dir():
+        raise TransactionError("transaction state directory must be a real directory")
     lock_path = state / ".lock"
-    fd = os.open(lock_path, os.O_CREAT | os.O_RDWR, 0o600)
+    if lock_path.is_symlink():
+        raise TransactionError("transaction lock cannot be a symlink")
+    flags = os.O_CREAT | os.O_RDWR | getattr(os, "O_NOFOLLOW", 0)
+    fd = os.open(lock_path, flags, 0o600)
     try:
         fcntl.flock(fd, fcntl.LOCK_EX)
         yield state
@@ -211,7 +221,10 @@ def _journal_data(plan: Plan, mode_map: dict[str, int]) -> bytes:
 
 def assertNoPendingTransaction(root: str | Path) -> None:
     selected = _root(root)
+    metadata_root = selected / ".gaia"
     state = selected / STATE_DIR
+    if metadata_root.is_symlink() or state.is_symlink():
+        raise TransactionError("transaction metadata paths cannot be symlinks")
     if state.exists() and any(p.name.endswith(".pending.json") for p in state.iterdir()):
         raise TransactionError("pending canonical transaction requires explicit recovery")
 
@@ -290,8 +303,10 @@ def rollback(root: str | Path, journal_path: str | Path, provider: ApprovalProvi
     selected = _root(root)
     path = Path(journal_path)
     with _lock(selected):
-        if path.parent.resolve() != (selected / STATE_DIR).resolve() or not (path.name.endswith(".committed.json") or path.name.endswith(".pending.json")):
-            raise TransactionError("rollback requires a pending or committed journal in transaction state")
+        if (path.parent.resolve() != (selected / STATE_DIR).resolve()
+                or not (path.name.endswith(".committed.json") or path.name.endswith(".pending.json"))
+                or path.is_symlink() or not path.is_file()):
+            raise TransactionError("rollback requires a regular pending or committed journal in transaction state")
         doc, plan = _read_journal(path, selected)
         # Only an explicit rollback approval can reverse a committed receipt.
         _authorize(provider, plan, "rollback")

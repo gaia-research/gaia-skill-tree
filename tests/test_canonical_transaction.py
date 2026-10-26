@@ -1,7 +1,7 @@
 import json
-import os
 import tempfile
 import unittest
+from dataclasses import replace
 from pathlib import Path
 
 from gaia_cli.canonicalTransaction import (
@@ -58,8 +58,19 @@ class CanonicalTransactionTests(unittest.TestCase):
         self.assertEqual(b"old-a", (self.root / "registry/nodes/a.json").read_bytes())
         self.assertEqual(b"outside", (self.root / "registry/named/b.md").read_bytes())
 
+    def test_forged_plan_digest_and_replay_are_refused(self):
+        plan = self.plan()
+        forged = replace(plan, identity="different-plan")
+        with self.assertRaisesRegex(TransactionError, "digest is invalid"):
+            apply(forged, TestIssuer())
+        journal = apply(plan, TestIssuer())
+        with self.assertRaisesRegex(TransactionError, "CAS conflict"):
+            apply(plan, TestIssuer())
+        self.assertEqual(b"new-a", (self.root / "registry/nodes/a.json").read_bytes())
+        rollback(self.root, journal, TestIssuer("rollback"))
+
     def test_containment_blocks_paths_traversal_symlinks_and_nonfiles(self):
-        for value in ("registry/nodes/../../outside", "registry/schema/x.json", "config.json"):
+        for value in ("registry/nodes/../../outside", "registry/nodes/./a.json", "registry//nodes/a.json", "registry/schema/x.json", "config.json"):
             with self.subTest(value=value), self.assertRaises(TransactionError):
                 prepare(self.root, "p", "i", [Change(value, b"x")])
         (self.root / "registry/nodes/link.json").symlink_to(self.root / "registry/nodes/a.json")
