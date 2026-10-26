@@ -258,8 +258,8 @@ def open_challenge(*, receipt_resolver: VerificationReceiptResolver | None = Non
                       notice_ref=contributor_notice_ref, at=verified_at_utc)
     if receipt_error:
         raise ValueError(receipt_error)
-    if receipt.verifier_id == contributor_id:
-        raise ValueError("challenge verifier must be independent of contributor")
+    if receipt.verifier_id in {receipt.builder_id, contributor_id}:
+        raise ValueError("challenge verifier must be independent of builder and contributor")
     challenge_id = _challenge_id_from_draft(draft)
     event = _receipt_event("verified-publication", receipt, challenge_id, "public challenge opened")
     return Challenge(claim_id, subject_id, claim, behavior_id, contributor_id,
@@ -273,9 +273,49 @@ def close_technical_challenge(challenge: Challenge, proof: TechnicalProof,
                               receipt_resolver: VerificationReceiptResolver | None = None,
                               verification_receipt_id: str = "") -> ClosureResult:
     """Close only with receipt-authorized, exact-challenge reproducible proof."""
-    _utc(closed_at_utc)
+    closed_at = _utc(closed_at_utc)
     if receipt_resolver is None:
         return _class_c(challenge, "trusted verification receipt resolver is required")
+    # An exact replay of the already approved closure is idempotent; it does not
+    # append a second history event. A different proof remains a Class C case.
+    if challenge.resolved:
+        if len(challenge.history) == 2:
+            event = challenge.history[-1]
+            try:
+                receipt = _resolve(receipt_resolver, verification_receipt_id)
+            except (KeyError, ValueError) as exc:
+                return _class_c(challenge, f"trusted receipt unavailable: {exc}")
+            if (_proof_failure(challenge, proof, allow_resolved_replay=True)
+                    or event.receipt_id != receipt.receipt_id
+                    or event.receipt_digest != _digest(_canonical(receipt))
+                    or event.transcript_digest != proof.proof_digest
+                    or receipt.transcript_digest != proof.proof_digest
+                    or event.challenge_id != challenge.challenge_id
+                    or event.actor != receipt.verifier_id
+                    or event.notice_ref != receipt.notice_ref
+                    or event.method != receipt.method
+                    or event.method_version != receipt.method_version
+                    or event.actual_output != receipt.actual_output
+                    or event.output_digest != receipt.output_digest
+                    or event.at_utc != closed_at_utc
+                    or _utc(event.at_utc) < max(_utc(challenge.created_at_utc),
+                                                  _utc(receipt.verified_at_utc))):
+                return _class_c(challenge, "resolved challenge requires an exact approved receipt replay or a linked new challenge")
+            replay_context = _digest(_canonical({"challenge_id": challenge.challenge_id,
+                "claim_id": challenge.claim_id, "behavior_id": challenge.behavior_id,
+                "pinned_version": challenge.pinned_version, "pinned_sha": challenge.pinned_sha,
+                "environment": challenge.environment, "test_version": challenge.test_version,
+                "baseline": challenge.baseline, "comparator": challenge.comparator}))
+            reason = _validate_receipt(receipt, context_digest=replay_context,
+                transcript_digest=proof.proof_digest, verifier_id=proof.verifier_id,
+                contributor_id=challenge.contributor_id,
+                notice_ref=proof.contributor_notice_ref, at=proof.verified_at_utc)
+            if reason or receipt.verifier_id in {receipt.builder_id, receipt.contributor_id}:
+                return _class_c(challenge, reason or "receipt verifier must be independent of builder and contributor")
+            disposition = ClosureDisposition.CLOSED
+            return ClosureResult(disposition, challenge, "exact approved receipt replay (idempotent)",
+                                 challenge.material_to_origin and not challenge.resolved)
+        return _class_c(challenge, "resolved challenge requires a linked new challenge")
     reason = _proof_failure(challenge, proof)
     if reason:
         return _class_c(challenge, reason)
@@ -303,7 +343,7 @@ def close_technical_challenge(challenge: Challenge, proof: TechnicalProof,
         return _class_c(challenge, "verification receipt method is not an approved reproducible method")
     if receipt.verifier_id in {receipt.builder_id, receipt.contributor_id}:
         return _class_c(challenge, "receipt verifier must be independent of builder and contributor")
-    if _utc(closed_at_utc) < max(_utc(challenge.created_at_utc), _utc(receipt.verified_at_utc)):
+    if closed_at < max(_utc(challenge.created_at_utc), _utc(receipt.verified_at_utc)):
         return _class_c(challenge, "closure cannot predate opening or proof verification")
     status = (ChallengeStatus.RESOLVED_BY_UPSTREAM_IMPROVEMENT if proof.upstream_improvement
               else ChallengeStatus.TECHNICALLY_REBUTTED)
@@ -377,10 +417,14 @@ def validate_challenge_history(challenge: Challenge,
                 raise ValueError("history event does not match its resolved immutable receipt")
             if (receipt.result.lower() not in {"pass", "passed", "verified"}
                     or receipt.method.lower() not in {"reproducible-test", "benchmark-replay", "cli-replay"}
-                    or receipt.verifier_id == receipt.contributor_id
-                    or (event.event_type == "technical-resolution"
-                        and receipt.verifier_id == receipt.builder_id)):
+                    or not isinstance(receipt.builder_id, str)
+                    or not receipt.builder_id.strip()
+                    or receipt.verifier_id in {receipt.builder_id, receipt.contributor_id}):
                 raise ValueError("history receipt lacks independent passing reproducible verification")
+            if _utc(event.at_utc) < _utc(receipt.verified_at_utc):
+                raise ValueError("history event cannot predate receipt verification")
+            if event.event_type == "verified-publication" and event.at_utc != challenge.created_at_utc:
+                raise ValueError("opening event time must match challenge creation time")
             if event.event_type == "verified-publication":
                 context = _digest(_canonical({"subject_id": challenge.subject_id,
                     "claim_id": challenge.claim_id, "claim": challenge.claim,
@@ -402,8 +446,9 @@ def validate_challenge_history(challenge: Challenge,
                 raise ValueError("history receipt is bound to different challenge context")
 
 
-def _proof_failure(challenge: Challenge, proof: TechnicalProof) -> str:
-    if challenge.status is not ChallengeStatus.VERIFIED_PENDING:
+def _proof_failure(challenge: Challenge, proof: TechnicalProof, *,
+                   allow_resolved_replay: bool = False) -> str:
+    if challenge.status is not ChallengeStatus.VERIFIED_PENDING and not allow_resolved_replay:
         return "challenge is not open for technical closure"
     if proof.challenge_id != challenge.challenge_id:
         return "proof does not bind the exact challenge_id"
@@ -454,6 +499,10 @@ def _resolve(resolver: VerificationReceiptResolver, receipt_id: str) -> Verifica
 def _validate_receipt(receipt: VerificationReceipt, *, context_digest: str,
                       transcript_digest: str | None, verifier_id: str,
                       contributor_id: str, notice_ref: str, at: str) -> str:
+    if not isinstance(receipt.builder_id, str) or not receipt.builder_id.strip():
+        return "verification receipt builder identity is absent or ambiguous"
+    if receipt.verifier_id in {receipt.builder_id, contributor_id}:
+        return "verification receipt verifier must be independent of builder and contributor"
     if receipt.context_digest != context_digest:
         return "verification receipt is bound to different exact context"
     if transcript_digest is not None and receipt.transcript_digest != transcript_digest:
