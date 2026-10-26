@@ -4,6 +4,19 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-26, founder authorizes one Sol High implementation worker)
+
+- Founder explicitly said **“Sol High approved.”** This approves the proposed exception: **one Sol High implementation worker, one workstream at a time**, with parent retaining orchestration and all code-writing delegated. Other model/delegation restrictions remain. No publication/schema/security/visual/main-merge gate waived.
+- First assignment is coherent publication engineering: run `0680b90a-a748-4d48-ab32-f8d72cf15ace`, named `worker-sol`, explicit `thinking: high`, permanent worktree `$HOME/.gaia-worktrees/yggdrasil-iv-publication-sol`, branch `dev/yggdrasil-iv-publication-sol`, starting `63afd3b99fe05330d3081b5425ebebb7b7b9be93`. Finish actual all-surface parity, per-stage attribution and deterministic rehearsal; no live approval claim. Then, after delivery/review, use the Sol slot for transactional lifecycle/rollback. Never launch a second simultaneous Sol implementation worker.
+- Domain-only foundation #2155 is integrated at `6aa7aaaede8e9ef154743c16dc2c2737f00a1fa6`; independent 12-test verification and current-head CI passed. This is not live watcher/issuer readiness.
+- Final opt-in engine `6e6c3f08f` independently passed review and 198 tests; parent original production-regression+shadow task `b7494cb9b` pending. Corpus final-engine rerun and canonical rollout remain separate gates.
+- Parent-owned publication replays: corrected old41 task `b4f5a33e9` and hardening63 task `b3b98e936`, results pending. Short tests and worker self-report are not final corpus proof. All future long validation belongs to parent, not children that exit and kill background commands.
+- Existing Luna/Flash tasks remain scoped independently: evidence `0389da50`, UI `75c44f05`, durable watcher `d2a9a477`. Read-only transaction scout `6d3ae39a` delivered exact canonical writers/timeline APIs: no general canonical transaction engine exists, existing writes lack multi-file atomicity; proposed event/schema mismatch findings still need end-to-end verification, not assumptions from call sites.
+- Founder percentage estimate was ~25% of full campaign acceptance, not lines of code. CLI/CAS/dual-history migration/rollback, live receipt provenance, all-surface operational acceptance and rollout are substantial unfinished work. Do not declare closure from foundations.
+- Recovery source of truth: `founder/YGGDRASIL_IV_RECOVERY.md` plus ignored `.gaia/yggdrasil-iv/recovery/` reports, verified incremental bundles, permanent worktrees and local recovery refs. No model escalation beyond this exact founder exception.
+
+---
+
 ## State Snapshot (2026-10-26, Yggdrasil IV #2148 — intermittent-connectivity safeguards)
 
 - User reports intermittent internet; workers must commit coherent local units, anchor detached HEADs with named recovery refs, push best effort and explicitly distinguish local-saved from remote-confirmed. Do not terminate children with dirty owned code or running tests.

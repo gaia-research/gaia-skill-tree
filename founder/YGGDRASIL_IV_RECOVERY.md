@@ -103,6 +103,14 @@ Parent took ownership of final-HEAD verification: task `bb899e5ff` runs the 62-t
 - Current permanent-worktree dispatches: `81e61e1f` final engine read-only review; `0389da50` evidence lifecycle repair; `75c44f05` UI hardening/actual render evidence; `d2a9a477` durable watcher recovery. Read-only `6d3ae39a` maps exact transaction/timeline helpers for immediate P3 work. See task reports under ignored recovery directory; no speculative completions.
 - Parent asked founder for permission for **one Sol High implementation worker at a time** on tightly coupled core work. **Not authorized yet; no Sol implementation worker launched.** Existing worker/model and human gates remain unchanged.
 
+## Founder-approved Sol High exception
+
+Founder explicitly replied **“Sol High approved.”** The approved request was one Sol High implementation worker, one workstream at a time, with parent remaining orchestrator, all code-writing delegated, independent verification retained and no broader gate waiver.
+
+Launched `0680b90a-a748-4d48-ab32-f8d72cf15ace` with named `worker-sol`, explicit `thinking: high`, in permanent `$HOME/.gaia-worktrees/yggdrasil-iv-publication-sol`, branch `dev/yggdrasil-iv-publication-sol`, base `63afd3b99fe05330d3081b5425ebebb7b7b9be93`. It owns finishing actual coherent publication rehearsal: all-surface value/history/Origin parity, per-generator output attribution, complete source/runtime identity and deterministic replay. No source acceptance inferred from launch. Single Sol slot moves to transactional lifecycle/rollback only after this workstream is delivered/reviewed; no second simultaneous Sol implementation worker.
+
+Final independent engine review `81e61e1f` found no blocking defect at `6e6c3f08f111e265c2407759a238f8e64558503e`, **198 passed in 2.33s**. Full review copied to ignored `engine-final-full-review.md`. Parent original regression+shadow check `b7494cb9b` pending; focused engine PR is being prepared. Unusual malformed structural component inputs must be validated by callers before broader CLI exposure in this campaign. Readiness is opt-in integration only, not canonical rollout.
+
 ## Still binding human gates
 
 Schema adoption, pilot/live standing and canonical trust/rank/evidence/Origin decisions, security/protected-environment activation, visual approval, final main merge, registry-wide rollout and RFC closure remain held. Four weekly operational shadow comparisons require real elapsed operational evidence, not a virtual-clock fixture. All implementation remains engineering preparation until those gates are met.
