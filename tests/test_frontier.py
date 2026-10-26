@@ -113,10 +113,28 @@ def test_missing_target_and_source_digest_mismatch_fail_closed(tmp_path):
         create_verification_request(item,repo_root=repo,lead_path="lead.json",protocol_path="protocol.json",fixture_path="fixture.py")
 
 
+def test_captured_source_bytes_must_match_digest(tmp_path):
+    repo,item,_=_request_fixture(tmp_path)
+    (repo/item["source"]["capturedBytesPath"]).write_bytes(b"modified source")
+    with pytest.raises(ValueError,match="source bytes digest mismatch"):
+        create_verification_request(item,repo_root=repo,lead_path="lead.json",protocol_path="protocol.json",fixture_path="fixture.py")
+
+
 def test_receipt_cross_bindings_and_inline_actor_rejected(tmp_path):
-    _,_,request=_request_fixture(tmp_path)
+    root,_,request=_request_fixture(tmp_path)
     receipt=_receipt(request)
     assert validate_experiment_receipt(receipt,request)==[]
+    positive=copy.deepcopy(receipt); positive["result"]="supported"
+    assert any("requires actual native and target" in error for error in validate_experiment_receipt(positive,request,repo_root=root))
+    out=root/"generated-output/frontier"; out.mkdir(parents=True)
+    outputs=[]
+    for label,raw in (("native",b"native output"),("target",b"target output")):
+        path=out/f"{label}.txt"; path.write_bytes(raw)
+        outputs.append({"label":label,"contentDigest":"sha256:"+hashlib.sha256(raw).hexdigest(),"path":path.relative_to(root).as_posix()})
+    positive["outputs"]=outputs
+    assert validate_experiment_receipt(positive,request,repo_root=root)==[]
+    (out/"native.txt").write_bytes(b"tampered")
+    assert any("digest mismatch" in error for error in validate_experiment_receipt(positive,request,repo_root=root))
     wrong=copy.deepcopy(receipt); wrong["targetDigest"]="sha256:"+"0"*64
     assert validate_experiment_receipt(wrong,request)
     forged=copy.deepcopy(receipt); forged["actor"]="independent reviewer"

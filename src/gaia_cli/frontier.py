@@ -104,6 +104,8 @@ def create_verification_request(data: dict[str, Any], *, repo_root: str | Path, 
         _validated_file(root, path)
         pinned = subprocess.check_output(["git", "-C", str(root), "show", f"{revision}:{path}"])
         target_bytes.append(pinned)
+    if target["kind"] == "named" and _read_named_generic_bytes(target_bytes[0], paths[0]) != generic_id:
+        raise ValueError("pinned named target genericSkillRef does not match its lead")
     target_digest = _sha(_canonical({"paths": paths, "digests": [_sha(b) for b in target_bytes]}))
     if target.get("revision") != revision or target.get("contentDigest") != _sha(target_bytes[0]):
         raise ValueError("lead target revision/content digest does not match exact repository bytes")
@@ -138,13 +140,18 @@ def create_verification_request(data: dict[str, Any], *, repo_root: str | Path, 
 
 
 def _read_named_generic(path: Path) -> str:
+    return _read_named_generic_bytes(path.read_bytes(), f"{path.parent.name}/{path.stem}")
+
+
+def _read_named_generic_bytes(raw: bytes, identity_path: str) -> str:
     import yaml
-    text = path.read_text(encoding="utf-8")
-    if not text.startswith("---\n"):  raise ValueError("named target has no frontmatter")
+    text = raw.decode("utf-8")
+    if not text.startswith("---\n"): raise ValueError("named target has no frontmatter")
     meta = yaml.safe_load(text.split("---", 2)[1])
+    expected_id = identity_path.removeprefix("registry/named/").removesuffix(".md")
     if not isinstance(meta, dict) or not meta.get("id") or not meta.get("genericSkillRef"):
         raise ValueError("named target lacks canonical identity/reference")
-    if meta["id"] != f"{path.parent.name}/{path.stem}": raise ValueError("named target identity mismatch")
+    if meta["id"] != expected_id: raise ValueError("named target identity mismatch")
     return meta["genericSkillRef"]
 
 
@@ -173,27 +180,32 @@ def validate_request(request: dict[str, Any]) -> list[str]:
 def validate_experiment_receipt(receipt: dict[str, Any], request: dict[str, Any], *, repo_root: str | Path | None = None) -> list[str]:
     """Check binding and output-file integrity; result remains untrusted and never means admission."""
     errors = _validate_schema(receipt, EXPERIMENT_SCHEMA)
-    errors.extend(f"request: {error}" for error in validate_request(request))
+    request_errors = validate_request(request)
+    errors.extend(f"request: {error}" for error in request_errors)
+    if not isinstance(receipt, dict) or request_errors:
+        return sorted(set(errors))
     links = {"campaignId": request["campaignId"], "nativeVersion": request["native"]["version"], "requestId": request["requestId"], "leadDigest": request["leadDigest"], "claimDigest": request["claimDigest"], "sourceDigest": request["source"]["contentDigest"], "targetDigest": request["target"]["contentDigest"], "targetRevision": request["target"]["revision"], "historyRef": request["historyRef"], "protocolDigest": request["protocol"]["contentDigest"], "fixtureDigest": request["fixture"]["contentDigest"]}
     errors.extend(f"cross-binding mismatch: {key}" for key, value in links.items() if receipt.get(key) != value)
+    outputs = receipt.get("outputs", [])
+    labels = {item.get("label") for item in outputs if isinstance(item, dict)}
     if receipt.get("result") in {"supported", "contradicted"}:
-        outputs = receipt.get("outputs", [])
-        labels = {item.get("label") for item in outputs if isinstance(item, dict)}
         if not {"native", "target"}.issubset(labels):
             errors.append("comparative outcome requires actual native and target output artifacts")
         if repo_root is None:
             errors.append("comparative outcome requires local output integrity verification")
-        else:
-            root = Path(repo_root).resolve()
-            for item in outputs:
-                try:
-                    path, raw = _validated_file(root, item["path"])
-                    if not path.is_relative_to((root / "generated-output/frontier").resolve()):
-                        errors.append("output artifact is outside generated-output/frontier")
-                    if _sha(raw) != item.get("contentDigest"):
-                        errors.append(f"output artifact digest mismatch: {item.get('label')}")
-                except (KeyError, TypeError, ValueError) as exc:
-                    errors.append(f"invalid output artifact: {exc}")
+    if outputs and repo_root is None:
+        errors.append("output artifacts require local integrity verification")
+    if repo_root is not None:
+        root = Path(repo_root).resolve()
+        for item in outputs:
+            try:
+                path, raw = _validated_file(root, item["path"])
+                if not path.is_relative_to((root / "generated-output/frontier").resolve()):
+                    errors.append("output artifact is outside generated-output/frontier")
+                if _sha(raw) != item.get("contentDigest"):
+                    errors.append(f"output artifact digest mismatch: {item.get('label')}")
+            except (KeyError, TypeError, ValueError) as exc:
+                errors.append(f"invalid output artifact: {exc}")
     return sorted(set(errors))
 
 
@@ -202,7 +214,7 @@ def read_only_handoff(data: dict[str, Any], *, packet_path: str, request: dict[s
     errors = validate_lead(data)
     if errors:
         raise ValueError("invalid challenger lead: " + "; ".join(errors))
-    if request and (request.get("leadId") != data["leadId"] or request.get("leadDigest") != _sha(_canonical(data)) or validate_request(request)):
+    if request is not None and (not isinstance(request, dict) or request.get("leadId") != data["leadId"] or request.get("leadDigest") != _sha(_canonical(data)) or validate_request(request)):
         raise ValueError("request does not bind the supplied lead or failed request integrity validation")
     matched = request is not None and request.get("target", {}).get("skillId") == data["target"]["skillId"]
     return {
