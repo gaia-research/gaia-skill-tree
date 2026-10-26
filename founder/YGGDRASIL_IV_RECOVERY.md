@@ -75,6 +75,14 @@ New dispatches use **parent-created permanent isolated worktrees**, not disposab
 
 Both must commit locally first, maintain named recovery refs, keep recovery notes ignored (never force-add `.gaia`), push best effort, preserve dirty source on failure, and collect or stop tests before ending. No source acceptance, integration merge or publication authority is inferred from a launch receipt.
 
+## Challenge publication-time fix — independently verified
+
+Flash High completed `1fedea77` at `b358ea3a2f5fd337ddbc29b42cc29969ee148c02` on `dev/yggdrasil-iv-challenge-publication-time`, with recovery ref `refs/heads/recovery/yggdrasil-iv/challenge-publication-time`. Worker independently checked both remote refs at that SHA. Permanent worktree remains `$HOME/.gaia-worktrees/yggdrasil-iv-challenge-time`; local recovery note is ignored, not committed.
+
+Parent Sol independently reviewed the entire final two-file delta, reran **12 domain tests (12 passed in 0.23s)** and repeated the formerly failing runtime probe: receipt verification 11:00, publication and opening event 12:00, trusted rehydration succeeds. Earlier identity/proof/closure gates are unchanged; diff check passed and worktree clean.
+
+Opened **PR #2155**, domain-only foundation into `dev/yggdrasil-iv`; exactly `src/gaia_cli/challengeDomain.py` and `tests/test_challenge_domain.py`. Current-SHA CI is pending (bounded watcher `b6b91a4f5`). No merge performed and no live receipt authentication or operational watcher readiness claimed. Receipt producer authentication remains separately unavailable. The original domain timestamp blocker is now fixed; do not restart that repair from the older snapshot above.
+
 ## Still binding human gates
 
 Schema adoption, pilot/live standing and canonical trust/rank/evidence/Origin decisions, security/protected-environment activation, visual approval, final main merge, registry-wide rollout and RFC closure remain held. Four weekly operational shadow comparisons require real elapsed operational evidence, not a virtual-clock fixture. All implementation remains engineering preparation until those gates are met.
