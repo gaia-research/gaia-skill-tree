@@ -475,6 +475,7 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
     from gaia_cli.grading import overall_trust_grade, check_ultimate_gate
     from gaia_cli.evidence import inherited_evidence
     from gaia_cli.trustMagnitude import (
+        computeOverallTrustGrade,
         computeTrustMagnitude,
         computeTrustMagnitudeInputHash,
         passesSuiteApexGate,
@@ -552,7 +553,8 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
             currentHash = computeTrustMagnitudeInputHash(entry)
 
             skill_with_effective = {**entry, "evidence": effective}
-            if fm_tm is not None and fm_grade is not None and fm_hash == currentHash:
+            if (os.environ.get("GAIA_PUBLICATION_MODE") != "rehearsal"
+                    and fm_tm is not None and fm_grade is not None and fm_hash == currentHash):
                 # Trust the frontmatter — propagate to index unchanged.
                 entry["trustMagnitude"] = round(float(fm_tm), 2)
                 entry["overallTrustGrade"] = fm_grade
@@ -573,13 +575,19 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
                 # diversity-gate side effects, sometimes deflating) the score
                 # relative to every other TM pipeline in the codebase.
                 from publication_context import evaluation_at_utc_from_env
-                tm = computeTrustMagnitude(entry, merged_map, evaluationAtUTC=evaluation_at_utc_from_env())
+                evaluation_at_utc = evaluation_at_utc_from_env()
+                tm = computeTrustMagnitude(entry, merged_map, evaluationAtUTC=evaluation_at_utc)
                 entry["trustMagnitude"] = round(tm, 2)
-                grade = overall_trust_grade(
-                    effective,
-                    skill=entry,
-                    generic_skill_map=merged_map,
-                )
+                if evaluation_at_utc is None:
+                    grade = overall_trust_grade(
+                        effective, skill=entry, generic_skill_map=merged_map,
+                    )
+                else:
+                    from gaia_cli.trustMagnitude import _countDistinctEvidenceTypes, _hasEligibleIndependentWitness
+                    grade = computeOverallTrustGrade(
+                        tm, _countDistinctEvidenceTypes(entry, merged_map),
+                        _hasEligibleIndependentWitness(entry, merged_map),
+                    )
                 if grade is not None:
                     entry["overallTrustGrade"] = grade
 
@@ -588,7 +596,11 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
                 "genericSkillMap": generic_skills_map,
                 "namedSkillMap": named_skill_map,
             }
-            apex_status = passesSuiteApexGate(skill_with_effective, registry_state)
+            from publication_context import evaluation_at_utc_from_env
+            apex_status = passesSuiteApexGate(
+                skill_with_effective, registry_state,
+                evaluationAtUTC=evaluation_at_utc_from_env(),
+            )
             entry["apexGateStatus"] = apex_status
 
             # Automatically clamp effective level/rank to Trust Magnitude grade ceiling (META §1.1/§4.2)

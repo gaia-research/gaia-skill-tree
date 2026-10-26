@@ -37,6 +37,7 @@ from scripts.inspectTrustMagnitude import (  # noqa: E402
     loadAllNamedSkills,
 )
 from gaia_cli.trustMagnitude import (  # noqa: E402
+    computeOverallTrustGrade,
     computeOverallTrustGradeFromSkill,
     computeTrustMagnitude,
     computeTrustMagnitudeByType,
@@ -101,6 +102,8 @@ def buildMayStarsMap() -> dict[str, str]:
 
 
 def buildRows() -> list[dict]:
+    from publication_context import evaluation_at_utc_from_env
+    evaluation_at_utc = evaluation_at_utc_from_env()
     mergedMap, namedSkillMap = buildMaps()
     skills = loadAllNamedSkills()
     apexState = {"genericSkillMap": mergedMap, "namedSkillMap": namedSkillMap}
@@ -113,10 +116,17 @@ def buildRows() -> list[dict]:
             continue
 
         skillId = fm.get("id") or "unknown"
-        tm = computeTrustMagnitude(fm, mergedMap)
+        tm = computeTrustMagnitude(fm, mergedMap, evaluationAtUTC=evaluation_at_utc)
         typeBreakdown = computeTrustMagnitudeByType(fm, mergedMap)
         origin = (fm.get("origin") is True or fm.get("origin") == "true")
-        grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
+        if evaluation_at_utc is None:
+            grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
+        else:
+            from gaia_cli.trustMagnitude import _countDistinctEvidenceTypes, _hasEligibleIndependentWitness
+            grade = computeOverallTrustGrade(
+                tm, _countDistinctEvidenceTypes(fm, mergedMap),
+                _hasEligibleIndependentWitness(fm, mergedMap),
+            )
         g7Stars, flag = effectiveRank(grade, currentStars)
         # May meta = stars on the eve of G7 cutover (pre-ratification).
         # June meta = current stars after G7 ratification (which is what
@@ -125,7 +135,7 @@ def buildRows() -> list[dict]:
 
         apexResults = None
         if grade == "S":
-            apexResults = passesSuiteApexGate(fm, apexState)
+            apexResults = passesSuiteApexGate(fm, apexState, evaluationAtUTC=evaluation_at_utc)
 
         # Branch fork ('standard'|'suite'|'unique') — canonical read-time
         # derivation (gaia_cli.taxonomy.branchFor). Ships in the row so the
