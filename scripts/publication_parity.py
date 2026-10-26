@@ -41,8 +41,16 @@ def check_semantic_parity(root: Path):
     # Execute this module in the target scratch runtime, not the caller's
     # imports (which may point at another worktree).
     env = {**os.environ, "PYTHONPATH": os.pathsep.join((str(root), str(root / "src"), str(root / "scripts"))),
-           "GAIA_PUBLICATION_CONTEXT": str(root / "publication-context.json"), "PYTHONHASHSEED": "0"}
-    proc = subprocess.run([sys.executable, str(root / "scripts/publication_parity.py"), "--root", str(root)],
+           "PYTHONHASHSEED": "0"}
+    bootstrap = (
+        "import runpy,sys; from pathlib import Path; "
+        "from publication_context import load_context,activate_rehearsal_context; "
+        "ctx=load_context(sys.argv[1]); root=Path(sys.argv[1]).parent; "
+        "activate_rehearsal_context(ctx,root,verify_inputs=False); "
+        "sys.argv=[sys.argv[2],*sys.argv[3:]]; runpy.run_path(sys.argv[0],run_name='__main__')"
+    )
+    proc = subprocess.run([sys.executable, "-c", bootstrap, str(root / "publication-context.json"),
+                           str(root / "scripts/publication_parity.py"), "--root", str(root)],
                           cwd=root, env=env, capture_output=True, text=True)
     if proc.returncode:
         raise ValueError("cross-surface semantic mismatch: " + (proc.stdout + proc.stderr)[-3000:])
@@ -81,9 +89,19 @@ def _check(root):
     with tempfile.TemporaryDirectory(prefix="publication-parity-") as tmp:
         target = Path(tmp)
         def run(script, args):
-            result = subprocess.run([sys.executable, str(root / "scripts" / script), *map(str, args)],
+            target_script = root / "scripts" / script
+            child_args = list(map(str, args))
+            bootstrap = (
+                "import runpy,sys; from pathlib import Path; "
+                "from publication_context import load_context,activate_rehearsal_context; "
+                "ctx=load_context(sys.argv[1]); root=Path(sys.argv[1]).parent; "
+                "activate_rehearsal_context(ctx,root,verify_inputs=False); "
+                "sys.argv=[sys.argv[2],*sys.argv[3:]]; runpy.run_path(sys.argv[0],run_name='__main__')"
+            )
+            result = subprocess.run([sys.executable, "-c", bootstrap, str(root / "publication-context.json"),
+                                     str(target_script), *child_args],
                                     cwd=root, capture_output=True, text=True)
-            record_execution(Path(script), list(map(str, args)), result.returncode, result.stdout + result.stderr)
+            record_execution(Path(script), child_args, result.returncode, result.stdout + result.stderr)
         # Recompute from Markdown/engine/catalog at pinned time. These compare
         # current Origin AND historical named timeline, not snapshot tags.
         run("generateNamedIndex.py", ["--out", target / "named.json"])

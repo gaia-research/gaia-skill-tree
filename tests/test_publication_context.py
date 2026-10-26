@@ -208,19 +208,27 @@ def test_context_traversal_rejected_before_file_reads(tmp_path, fast_runtime, re
 
 
 def test_pinned_datetime_and_absence_default(tmp_path, fast_runtime, monkeypatch):
+    monkeypatch.setattr(pc, "_active_rehearsal_context", None)
     monkeypatch.delenv("GAIA_PUBLICATION_CONTEXT", raising=False)
     assert pc.evaluation_at_utc_from_env() is None
     assert pc.evaluation_datetime_from_env() is None
     context = _context(tmp_path)
-    path = tmp_path / "publication-context.json"
+    root = tmp_path / "context-source"
+    path = root / "publication-context.json"
     path.write_text(json.dumps(context))
-    monkeypatch.setattr(pc, "__file__", str(tmp_path / "scripts/publication_context.py"))
     monkeypatch.setenv("GAIA_PUBLICATION_CONTEXT", str(path))
+    # Ambient context is not authority for a standalone producer/import.
+    assert pc.rehearsal_context_from_env() is None
+    assert pc.evaluation_at_utc_from_env() is None
+    assert pc.evaluation_datetime_from_env() is None
+
+    pc.activate_rehearsal_context(context, root)
+    assert pc.rehearsal_context_from_env() == context
     assert pc.evaluation_at_utc_from_env() == UTC
     assert pc.evaluation_datetime_from_env().isoformat() == "2026-10-25T12:00:00+00:00"
     path.write_text('{}')
     with pytest.raises(ValueError):
-        pc.evaluation_at_utc_from_env()
+        pc.activate_rehearsal_context(context, root)
 
 
 def test_production_warning_compatibility_and_strict_worker_refusal(tmp_path, fast_runtime, monkeypatch):
@@ -250,8 +258,9 @@ DRIVER = r'''
 import json
 from pathlib import Path
 import build_docs as b
-from publication_context import begin_stage, finish_stage, STAGE_SPECS
+from publication_context import begin_stage, finish_stage, STAGE_SPECS, load_context, activate_rehearsal_context
 b._STRICT_REHEARSAL = True
+activate_rehearsal_context(load_context(b.ROOT / 'publication-context.json'), b.ROOT)
 stages = {}
 for name in STAGE_SPECS:
     begin_stage(name, b.ROOT)
@@ -335,7 +344,7 @@ def test_real_bounded_builders_double_replay_and_surface_corruption(tmp_path, mo
         pc.verify_copied_inputs(root, context)
         (root / "publication-context.json").write_text(json.dumps(context))
         env = {**os.environ, "PYTHONPATH": os.pathsep.join((str(root), str(root / "src"), str(root / "scripts"))),
-               "GAIA_PUBLICATION_CONTEXT": str(root / "publication-context.json"), "PYTHONHASHSEED": "0", "PYTHONDONTWRITEBYTECODE": "1"}
+               "PYTHONHASHSEED": "0", "PYTHONDONTWRITEBYTECODE": "1"}
         result = subprocess.run([sys.executable, "-c", DRIVER], cwd=root, env=env, capture_output=True, text=True)
         assert result.returncode == 0, result.stdout + result.stderr
         stages = json.loads((root / "publication-stages.json").read_text())

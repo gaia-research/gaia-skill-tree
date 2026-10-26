@@ -877,8 +877,21 @@ def _diff_tree(reference: Path, candidate: Path) -> list[str]:
 
 def _run_script(script: Path, args: list[str]) -> tuple[int, str]:
     """Run a helper script and return (returncode, stdout+stderr)."""
+    command = [sys.executable, str(script), *args]
+    if globals().get("_STRICT_REHEARSAL", False):
+        # Preserve explicit worker intent across process boundaries without
+        # treating inherited environment variables as rehearsal authority.
+        context_path = ROOT / "publication-context.json"
+        bootstrap = (
+            "import runpy,sys; from pathlib import Path; "
+            "from publication_context import load_context,activate_rehearsal_context; "
+            "ctx=load_context(sys.argv[1]); root=Path(sys.argv[1]).parent; "
+            "activate_rehearsal_context(ctx,root,verify_inputs=False); "
+            "sys.argv=[sys.argv[2],*sys.argv[3:]]; runpy.run_path(sys.argv[0],run_name='__main__')"
+        )
+        command = [sys.executable, "-c", bootstrap, str(context_path), str(script), *args]
     proc = subprocess.run(
-        [sys.executable, str(script), *args],
+        command,
         cwd=ROOT,
         capture_output=True,
         text=True,
@@ -1879,11 +1892,8 @@ def main(argv: list[str] | None = None) -> int:
             rehearsal_context = load_context(args.publication_rehearsal_worker)
             if Path(args.publication_rehearsal_worker).absolute() != ROOT / "publication-context.json":
                 raise ValueError("worker context must belong to its scratch root")
-            from publication_context import verify_copied_inputs, runtime_identity
-            verify_copied_inputs(ROOT, rehearsal_context, allow_context=True)
-            if runtime_identity() != rehearsal_context["runtimeIdentity"]:
-                raise ValueError("worker runtime differs from bound rehearsal context")
-            os.environ["GAIA_PUBLICATION_CONTEXT"] = str(ROOT / "publication-context.json")
+            from publication_context import activate_rehearsal_context
+            activate_rehearsal_context(rehearsal_context, ROOT)
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             parser.error(f"invalid rehearsal context: {exc}")
 
@@ -1926,7 +1936,6 @@ def main(argv: list[str] | None = None) -> int:
             [sys.executable, str(output_root / "scripts" / "build_docs.py"),
              "--publication-rehearsal-worker", str(output_root / "publication-context.json")],
             cwd=output_root, env={**{key: value for key, value in os.environ.items() if not key.startswith("GIT_")},
-                                  "GAIA_PUBLICATION_CONTEXT": str(output_root / "publication-context.json"),
                                   "PYTHONPATH": os.pathsep.join((str(output_root), str(output_root / "src"), str(output_root / "scripts"))),
                                   "PYTHONHASHSEED": "0", "PYTHONDONTWRITEBYTECODE": "1"},
             check=False,

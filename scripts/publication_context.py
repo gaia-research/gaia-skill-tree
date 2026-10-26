@@ -307,14 +307,35 @@ def evaluation_datetime_from_env():
     return datetime.fromisoformat(value.replace("Z", "+00:00")) if value else None
 
 
+_active_rehearsal_context = None
+
+
+def activate_rehearsal_context(context: dict, root: str | Path, *, verify_inputs: bool = True) -> dict:
+    """Activate rehearsal-only producer behavior after the explicit worker validates its inputs.
+
+    The environment variable is deliberately not an activation mechanism: standalone
+    producers and direct imports stay in production mode even when it is present.
+    """
+    root = Path(root).resolve(strict=True)
+    context_path = root / "publication-context.json"
+    if context_path.is_symlink() or load_context(context_path) != context:
+        raise ValueError("worker context must be the validated context at its scratch root")
+    _validate_context(context)
+    if verify_inputs:
+        # The explicit root worker checks the complete copied tree once. Child
+        # producer invocations inherit that validated execution chain and recheck
+        # the immutable context/runtime without rehashing a corpus per process.
+        verify_copied_inputs(root, context, allow_context=True)
+    if runtime_identity() != context["runtimeIdentity"]:
+        raise ValueError("worker runtime differs from bound rehearsal context")
+    global _active_rehearsal_context
+    _active_rehearsal_context = context
+    return context
+
+
 def rehearsal_context_from_env():
-    path = os.environ.get("GAIA_PUBLICATION_CONTEXT")
-    if not path:
-        return None
-    expected = Path(__file__).resolve().parents[1] / "publication-context.json"
-    if Path(path).absolute() != expected or Path(path).is_symlink():
-        raise ValueError("publication context must belong to this isolated scratch source")
-    return load_context(path)
+    """Return context explicitly activated by the validated worker, never by env alone."""
+    return _active_rehearsal_context
 
 
 def create_context(source_root: Path, output_root: Path, evaluation_at_utc: str | None = None) -> dict:
