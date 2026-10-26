@@ -310,7 +310,10 @@ def evaluation_datetime_from_env():
 _active_rehearsal_context = None
 
 
-def activate_rehearsal_context(context: dict, root: str | Path, *, verify_inputs: bool = True) -> dict:
+def activate_rehearsal_context(
+    context: dict, root: str | Path, *, verify_inputs: bool = True,
+    inherit_runtime_check: bool = False,
+) -> dict:
     """Activate rehearsal-only producer behavior after the explicit worker validates its inputs.
 
     The environment variable is deliberately not an activation mechanism: standalone
@@ -323,11 +326,32 @@ def activate_rehearsal_context(context: dict, root: str | Path, *, verify_inputs
     _validate_context(context)
     if verify_inputs:
         # The explicit root worker checks the complete copied tree once. Child
-        # producer invocations inherit that validated execution chain and recheck
-        # the immutable context/runtime without rehashing a corpus per process.
+        # producer invocations inherit that validated execution chain and revalidate
+        # the immutable context without rehashing inputs or runtime per process.
         verify_copied_inputs(root, context, allow_context=True)
-    if runtime_identity() != context["runtimeIdentity"]:
-        raise ValueError("worker runtime differs from bound rehearsal context")
+    proof_path = _safe_path(root, ".gaia/publication-runtime-proof.json")
+    proof = {"snapshotId": context["snapshotId"],
+             "runtimeIdentityDigest": _digest(json.dumps(context["runtimeIdentity"], sort_keys=True,
+                                                           separators=(",", ":")).encode())}
+    if inherit_runtime_check:
+        # This receipt is written only after the explicit parent checked the full
+        # byte-level runtime identity. It is an execution-chain optimization, not
+        # certification: stamp_outputs/verify_outputs independently run the full
+        # parity bootstrap, which checks runtime identity again before accepting.
+        try:
+            inherited = json.loads(proof_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError) as exc:
+            raise ValueError("missing or invalid parent runtime validation proof") from exc
+        if inherited != proof:
+            raise ValueError("parent runtime validation proof does not match context")
+    else:
+        if runtime_identity() != context["runtimeIdentity"]:
+            raise ValueError("worker runtime differs from bound rehearsal context")
+        proof_path.parent.mkdir(mode=0o700, exist_ok=True)
+        temporary = proof_path.with_suffix(".tmp")
+        temporary.write_text(json.dumps(proof, sort_keys=True) + "\n", encoding="utf-8")
+        temporary.chmod(0o600)
+        temporary.replace(proof_path)
     global _active_rehearsal_context
     _active_rehearsal_context = context
     return context

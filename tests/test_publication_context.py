@@ -231,6 +231,23 @@ def test_pinned_datetime_and_absence_default(tmp_path, fast_runtime, monkeypatch
         pc.activate_rehearsal_context(context, root)
 
 
+def test_child_activation_inherits_parent_runtime_check_only_when_explicit(tmp_path, fast_runtime, monkeypatch):
+    context = _context(tmp_path)
+    root = tmp_path / "context-source"
+    context_path = root / "publication-context.json"
+    context_path.write_text(json.dumps(context))
+    calls = []
+    monkeypatch.setattr(pc, "runtime_identity", lambda: calls.append("checked") or context["runtimeIdentity"])
+
+    with pytest.raises(ValueError, match="runtime validation proof"):
+        pc.activate_rehearsal_context(context, root, verify_inputs=False, inherit_runtime_check=True)
+    assert calls == []
+    pc.activate_rehearsal_context(context, root, verify_inputs=False)
+    assert calls == ["checked"]
+    pc.activate_rehearsal_context(context, root, verify_inputs=False, inherit_runtime_check=True)
+    assert calls == ["checked"]
+
+
 def test_production_warning_compatibility_and_strict_worker_refusal(tmp_path, fast_runtime, monkeypatch):
     from scripts import build_docs as builder
     monkeypatch.setitem(sys.modules, "publication_context", pc)
@@ -331,6 +348,9 @@ timeline:
     tree.write_text(json.dumps({"userId": "author", "unlockedSkills": [{"skillId": "author/tool", "level": "4★", "unlockedAt": "2025-01-01T00:00:00Z", "levelHistory": [{"level": "5★", "achievedAt": "2025-01-01T00:00:00Z"}]}], "timeline": [{"skillId": "author/tool", "action": "rank_up", "timestamp": "2025-01-01T00:00:00Z", "previousValue": "3★", "newValue": "5★"}]}))
 
 
+# Each of 11 corruption cases reruns the strict, real multi-surface oracle; measured
+# end-to-end time is 122s on the isolated Cairo runtime, so keep a finite 180s budget.
+@pytest.mark.timeout(180)
 def test_real_bounded_builders_double_replay_and_surface_corruption(tmp_path, monkeypatch):
     # No model/network/full-corpus calls. Actual existing builders, two roots.
     source = tmp_path / "source"

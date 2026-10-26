@@ -95,7 +95,7 @@ def _check(root):
                 "import runpy,sys; from pathlib import Path; "
                 "from publication_context import load_context,activate_rehearsal_context; "
                 "ctx=load_context(sys.argv[1]); root=Path(sys.argv[1]).parent; "
-                "activate_rehearsal_context(ctx,root,verify_inputs=False); "
+                "activate_rehearsal_context(ctx,root,verify_inputs=False,inherit_runtime_check=True); "
                 "sys.argv=[sys.argv[2],*sys.argv[3:]]; runpy.run_path(sys.argv[0],run_name='__main__')"
             )
             result = subprocess.run([sys.executable, "-c", bootstrap, str(root / "publication-context.json"),
