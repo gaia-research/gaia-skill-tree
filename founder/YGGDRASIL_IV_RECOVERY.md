@@ -135,6 +135,22 @@ Parent task `b3b98e936` completed: **100 focused tests passed in 1.37s**, then t
 
 Strict rehearsal rejected the build and emitted **no artifact manifest**; no source/canonical/public data was modified. This is not accepted publication proof. Full log preserved locally at ignored `publication-63-replay-failure.log`. Parent steered the active Sol worker `0680b90a` to normalize time at the validated context/caller boundary, add an actual suite/tenure consumer regression and preserve fail-closed handling. Do not infer a supported-input engine defect from a malformed caller argument or alter tenure policy to hide it.
 
+## Opt-in engine accepted into integration
+
+Parent task `b7494cb9b` completed successfully: **277 tests passed in 8.98s**, covering the original production-regression selection plus shadow tests at exact `6e6c3f08f`. This supplements the independent 198-test review. PR #2156 was marked ready, current-head package tests/build/smoke and applicable integrity/guard checks were verified green, then merged by **merge commit `4b73e62814fca16a01bd1e71325e7abb97316c95`** into `dev/yggdrasil-iv`.
+
+Accepted scope is exactly `shadowEvaluation.py`, opt-in plumbing in `trustMagnitude.py`, and shadow tests. Production defaults, canonical corpus/evidence/ranks/Origin and public generated artifacts remain unchanged. The malformed timestamp observed in publication63 is a separate caller-boundary failure; engine regression success does not certify publication.
+
+Next bounded writer `be0c0c3b-8c8d-415d-90c1-a9163d4b33cd` (Flash High) runs in permanent `$HOME/.gaia-worktrees/yggdrasil-iv-corpus-final`, branch `dev/yggdrasil-iv-corpus-final`, starting `ab726453e`. It must merge accepted `4b73e6281`, keep accepted engine files byte-identical, validate malformed public caller shapes and finish corpus CLI fixtures. Parent owns final actual pinned corpus/double replay; prior impact remains provisional. No corpus PR/acceptance inferred from launch.
+
+## First Sol attempt timed out; same workstream resumed
+
+On founder's direct status request, parent found first Sol run `0680b90a` terminal **timeout** (status showed ~30 minutes), confirmed PID 10542 was gone, and preserved checkpoint **`6dc4772bb`** plus all seven tracked dirty files in ignored `publication-sol-interrupted.patch`. Checkpoint touches eight publication/context/parity-generator files (420 insertions, 102 deletions). No Sol-owned source accepted yet; its UTC normalization claim still requires a real consumer regression and final replay.
+
+Resumed the same child session `01a17709-aa1f-76da-b2a8-7cd5107c90d3` as run **`518f5ea1-2862-4933-be33-132adbd79af0`**, named `worker-sol`, explicit high, same permanent worktree/branch, with an eight-hour watchdog and **no turn cap**. This is the sole active Sol implementation slot, not another concurrent worker or global configuration change. Long watchdog is a ceiling, not an ETA. It must finish original P4 acceptance, not merely the observed timestamp fix.
+
+Founder was explicitly told: engine's 277-test success and #2156 merge are separate prior Luna/parent work, not evidence of Sol's success. Sol produced concrete saved progress, but reduced review/repair churn is not yet demonstrated; final real replay and independent review decide that.
+
 ## Still binding human gates
 
 Schema adoption, pilot/live standing and canonical trust/rank/evidence/Origin decisions, security/protected-environment activation, visual approval, final main merge, registry-wide rollout and RFC closure remain held. Four weekly operational shadow comparisons require real elapsed operational evidence, not a virtual-clock fixture. All implementation remains engineering preparation until those gates are met.
