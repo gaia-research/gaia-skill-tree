@@ -548,6 +548,7 @@ def test_return_to_routine_on_technical_resolution(tmp_path: Path) -> None:
         transport=transport,
         clock=clock,
         ledger_path=ledger_file,
+        packets_dir=tmp_path / "packets",
     )
     assert len(res2.packets) == 0
     assert len(transport.recorded_requests) == 0

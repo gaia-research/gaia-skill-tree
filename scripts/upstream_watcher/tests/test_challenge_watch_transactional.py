@@ -21,7 +21,7 @@ if str(ROOT) not in sys.path:
 
 from gaia_cli.steward.ledger import FileLedgerStore, GitRefLedgerStore, LedgerConflict, update
 from scripts.upstream_watcher.challenge_watch import WatchBudget, WatchLedger, _hash, run_challenge_watch
-from scripts.upstream_watcher.transport import SimulatedTransport, VirtualClock
+from scripts.upstream_watcher.transport import Response, SimulatedTransport, VirtualClock
 from scripts.upstream_watcher.tests.test_challenge_watch import (
     _ExplicitTestResolver, _make_verified_challenge_dict,
 )
@@ -113,7 +113,7 @@ def worker(spec_path):
     if spec.get("crash"):
         # Deliberately die AFTER successful shared save, BEFORE any local packet.
         WatchLedger.materialize = lambda self, directory: os._exit(73)
-    transport = fixture_transport(spec.get("tag", "v2"))
+    transport = fixture_transport(spec.get("tag", "v2"), probe=spec.get("probe", 200))
     result = run_fixture(
         BarrierStore(directory), directory, raw=spec["raw"], clock=spec["clock"],
         transport=transport, budget=WatchBudget(max_requests=spec.get("requests", 7), max_subjects=1),
@@ -141,7 +141,7 @@ def collect(process, expected=0):
     assert process.returncode == expected, f"{stdout}\n{stderr}"
 
 
-def concurrent_pair(tmp_path, *, identical=False):
+def concurrent_pair(tmp_path, *, identical=False, outage=False):
     remote = make_remote(tmp_path)
     a = clone(remote, tmp_path / "a")
     b = clone(remote, tmp_path / "b")
@@ -162,6 +162,7 @@ def concurrent_pair(tmp_path, *, identical=False):
                 "clock": "2026-10-26T02:00:00Z" if name == "a" else "2026-10-26T01:00:00Z",
                 "tag": "v3" if name == "a" or identical else "v2",
                 "requests": 7 if identical or name == "b" else 2,
+                "probe": 404 if outage else 200,
             }, tmp_path))
         for process in procs:
             collect(process)
@@ -205,6 +206,15 @@ def test_two_process_two_clone_identical_event_has_one_reserved_intent(tmp_path)
     assert len(state.packets) == 1
     assert sum(len(log["newIds"]) for log in logs) == 1
     assert [log["requests"] for log in logs] == [7, 7]
+
+
+def test_two_process_outage_reserves_one_episode_despite_different_poll_times(tmp_path):
+    state, logs, challenge = concurrent_pair(tmp_path, outage=True)
+    assert [log["requests"] for log in logs] == [1, 1]
+    assert len(state.packets) == 1
+    assert sum(len(log["newIds"]) for log in logs) == 1
+    assert state.challenges[challenge["challenge_id"]]["availability_probes"]["t0_utc"] == "2026-10-26T01:00:00Z"
+    assert next(iter(state.packets.values()))["intent"]["episode"] == 1
 
 
 def test_process_crash_after_shared_save_restores_without_original_files(tmp_path):
@@ -330,7 +340,57 @@ def test_outage_and_unknown_review_episode_dedupe_is_not_daily(tmp_path):
         reviews.extend(p for p in result.packets if p.trigger_type == "unknown_review_pending")
     assert len(reviews) == 1
     assert reviews[0].intent["window"] == "72h-review"
+    run_fixture(unknown_store, tmp_path / "unknown", clock="2026-11-01T00:00:00Z")
+    run_fixture(unknown_store, tmp_path / "unknown", clock="2026-11-02T00:00:00Z", transport=transport)
+    result = run_fixture(unknown_store, tmp_path / "unknown", clock="2026-11-05T00:00:00Z", transport=transport)
+    new_reviews = [p for p in result.packets if p.trigger_type == "unknown_review_pending"]
+    assert len(new_reviews) == 1
+    assert new_reviews[0].intent["episode"] == 2
+    assert new_reviews[0].packet_id != reviews[0].packet_id
     # Virtual timestamps prove policy only, NOT four elapsed operational weeks.
+
+
+def test_malformed_success_is_unknown_and_preserves_last_known_fields(tmp_path):
+    store = FileLedgerStore(tmp_path / "operations.json")
+    run_fixture(store, tmp_path)
+    transport = fixture_transport()
+    for key in list(transport.releases):
+        transport.releases[key] = Response(200, data={})
+    for key in list(transport.commits):
+        transport.commits[key] = Response(200, data={"sha": None})
+    run_fixture(store, tmp_path, transport=transport, clock="2026-10-27T00:00:00Z")
+    state = WatchLedger(tmp_path / "none", shared_store=store)
+    entry = state.challenges[_make_verified_challenge_dict()["challenge_id"]]
+    assert entry["target"]["last_version"] == "v2"
+    assert entry["target"]["last_sha"] == "v2-sha"
+    assert entry["comparator"]["last_version"] == "rival-v1"
+    assert entry["comparator"]["last_sha"] == "rival-sha"
+    for side in ("target", "comparator"):
+        checks = entry["last_observation"][side]["checks"]
+        assert checks["release"] == checks["commit"] == "unknown"
+
+
+def test_rate_limit_delay_is_frozen_for_replay_and_no_request_is_not_an_outage(tmp_path, monkeypatch):
+    from scripts.upstream_watcher import transport as transport_module
+    store = FileLedgerStore(tmp_path / "operations.json")
+    transport = fixture_transport()
+    monkeypatch.setattr(transport_module.time, "time", lambda: 1000)
+    transport.register_probe("https://github.com/pbakaus/impeccable", status_code=403,
+                             headers={"x-ratelimit-remaining": "0", "x-ratelimit-reset": "1060"})
+    result = run_fixture(store, tmp_path, transport=transport)
+    assert [p.trigger_type for p in result.packets] == ["rate_limit"]
+    before = WatchLedger(tmp_path / "none", shared_store=store)
+    monkeypatch.setattr(transport_module.time, "time", lambda: 9000)
+    # Rehydration must use captured delay, not recalculate from current wall time.
+    after = WatchLedger(tmp_path / "none", shared_store=store)
+    assert after._payload() == before._payload()
+    transport.recorded_requests.clear()
+    result = run_fixture(store, tmp_path, transport=transport, clock="2026-10-26T00:00:30Z")
+    assert result.packets == []
+    assert transport.recorded_requests == []
+    after = WatchLedger(tmp_path / "none", shared_store=store)
+    challenge_id = _make_verified_challenge_dict()["challenge_id"]
+    assert after.challenges[challenge_id]["availability_probes"]["failed_probes"] == 0
 
 
 if __name__ == "__main__":

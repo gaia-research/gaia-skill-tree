@@ -12,8 +12,8 @@ Core Invariants:
    independent verification receipt. Raw status strings alone are never accepted
    as proof. Unverified challenges are rejected or restricted to shadow mode.
 3. Bounded Run Budget: Hard limits on network requests and evaluated subjects.
-4. Durable Semantic Dedup: State stored in .gaia/upstream-watcher/challenge-watch-ledger.json
-   deduplicates events across retries and restarts.
+4. Durable Semantic Dedup: The existing Steward operations store atomically
+   unions observations and reserves complete packet intents across clones.
 5. Availability Probes: Progressive t0 -> +24h -> +72h schedule; elapsed timeout
    NEVER demotes or mutates canonical trust.
 6. Observations Only: Description/release events produce verification packets for
@@ -33,12 +33,9 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import re
 import sys
 from typing import Any, Protocol
-from urllib.parse import urlparse
 
-from scripts.lib.github_api import parse_owner_repo, parse_owner_repo_normalized
 from scripts.upstream_watcher.transport import (
     BaseTransport,
     Clock,
@@ -415,6 +412,9 @@ class WatchLedger:
             ledger.current_observation = event_id
             ledger.fold_prefix.append(event_id)
             entry = ledger.get_challenge_entry(challenge.challenge_id)
+            ledger.last_run_utc = event["observedAtUTC"]
+            if not event["responses"] and not challenge.is_resolved:
+                continue  # No request was observed (e.g. a collection-time rate limit).
             # Technical closure is terminal for this immutable challenge identity;
             # a stale open manifest/observation cannot reactivate it.
             if entry["targeted_monitoring"] == "returned_to_routine" and not challenge.is_resolved:
@@ -564,11 +564,11 @@ def _challenge_from_snapshot(snapshot):
     snapshot = deepcopy(snapshot)
     target = snapshot.pop("target")
     target["watched_paths"] = tuple(target["watched_paths"])
+    receipt = snapshot.pop("verification_receipt")
     challenge = ValidatedChallenge(
         target=ChallengeTarget(**target),
         comparator=ChallengeComparator(**snapshot.pop("comparator")),
-        verification_receipt=VerificationReceipt(**snapshot.pop("verification_receipt"))
-            if snapshot.get("verification_receipt") else snapshot.pop("verification_receipt"),
+        verification_receipt=VerificationReceipt(**receipt) if receipt is not None else None,
         **snapshot,
     )
     if challenge.status not in OPEN_STATUSES | RESOLVED_STATUSES:
@@ -596,6 +596,7 @@ class _ObservationTransport:
 
     def __init__(self, transport=None, *, responses=None):
         self.transport = transport
+        self.is_replay = transport is None
         self.responses = {} if responses is None else deepcopy(responses)
 
     def __getattr__(self, method):
@@ -606,6 +607,11 @@ class _ObservationTransport:
             key = json.dumps([method, *args], separators=(",", ":"))
             if self.transport is not None:
                 response = getattr(self.transport, method)(*args)
+                if response.is_rate_limited or response.status_code == 429:
+                    # x-ratelimit-reset is wall-clock relative. Freeze its delay
+                    # once, so replay never depends on a later process clock.
+                    seconds = max(1, response.retry_after_seconds or 60)
+                    response = replace(response, headers={**response.headers, "retry-after": str(seconds)})
                 self.responses[key] = asdict(response)
                 return response
             value = self.responses.get(key)
@@ -851,6 +857,11 @@ def process_availability_probe(
 # ---------------------------------------------------------------------------
 
 
+def _has_field(response: Response, key: str) -> bool:
+    return (response.is_success and isinstance(response.data, dict)
+            and isinstance(response.data.get(key), str) and bool(response.data[key].strip()))
+
+
 def observe_challenge(
     challenge: ValidatedChallenge,
     transport: BaseTransport,
@@ -903,7 +914,8 @@ def observe_challenge(
     entry["last_checked_utc"] = now_utc
 
     # ── Check Rate Limits ───────────────────────────────────────────────────
-    if ledger.is_rate_limited("api.github.com", clock.now_datetime()):
+    if (ledger.is_rate_limited("api.github.com", clock.now_datetime())
+            and not getattr(transport, "is_replay", False)):
         return packets
 
     target_state = entry.setdefault("target", {})
@@ -964,8 +976,8 @@ def observe_challenge(
     if budget.can_request():
         budget.record_request()
         rel_resp = transport.get_release(challenge.target.owner, challenge.target.repo)
-        target_obs["checks"]["release"] = "ok" if rel_resp.is_success and isinstance(rel_resp.data, dict) else "unknown"
-        if rel_resp.is_success and isinstance(rel_resp.data, dict):
+        target_obs["checks"]["release"] = "ok" if _has_field(rel_resp, "tag_name") else "unknown"
+        if _has_field(rel_resp, "tag_name"):
             new_tag = rel_resp.data.get("tag_name")
             last_tag = target_state.get("last_version") or challenge.target.pinned_version
             target_obs["release"] = {"latest": new_tag, "previous": last_tag, "url": rel_resp.data.get("html_url")}
@@ -979,8 +991,8 @@ def observe_challenge(
     if budget.can_request():
         budget.record_request()
         commit_resp = transport.get_commit(challenge.target.owner, challenge.target.repo, "HEAD")
-        target_obs["checks"]["commit"] = "ok" if commit_resp.is_success and isinstance(commit_resp.data, dict) else "unknown"
-        if commit_resp.is_success and isinstance(commit_resp.data, dict):
+        target_obs["checks"]["commit"] = "ok" if _has_field(commit_resp, "sha") else "unknown"
+        if _has_field(commit_resp, "sha"):
             new_sha = commit_resp.data.get("sha")
             last_sha = target_state.get("last_sha") or challenge.target.pinned_sha
             target_obs["commit"] = {"latestSha": new_sha, "previousSha": last_sha}
@@ -1017,7 +1029,7 @@ def observe_challenge(
         if budget.can_request():
             budget.record_request()
             c_rel_resp = transport.get_release(challenge.comparator.owner, challenge.comparator.repo)
-            if c_rel_resp.is_success and isinstance(c_rel_resp.data, dict):
+            if _has_field(c_rel_resp, "tag_name"):
                 c_new_tag = c_rel_resp.data.get("tag_name")
                 c_last_tag = comparator_state.get("last_version") or challenge.comparator.pinned_version
                 comparator_obs["release"] = {"latest": c_new_tag, "previous": c_last_tag}
@@ -1034,7 +1046,7 @@ def observe_challenge(
         if budget.can_request():
             budget.record_request()
             c_commit_resp = transport.get_commit(challenge.comparator.owner, challenge.comparator.repo, "HEAD")
-            if c_commit_resp.is_success and isinstance(c_commit_resp.data, dict):
+            if _has_field(c_commit_resp, "sha"):
                 c_new_sha = c_commit_resp.data.get("sha")
                 c_last_sha = comparator_state.get("last_sha") or challenge.comparator.pinned_sha
                 comparator_obs["commit"] = {"latestSha": c_new_sha, "previousSha": c_last_sha}
@@ -1174,7 +1186,7 @@ def run_challenge_watch(
     packets_dir:
         Directory to write emitted verification packets (defaults to .gaia/upstream-watcher/packets).
     receipts_root:
-        Path to directory with Steward verification receipts.
+        Inert compatibility argument. Local files never provide receipt authority.
     allow_shadow:
         If True, unverified challenges run as shadow-only observations without public authority.
     admission_resolver:
@@ -1222,7 +1234,6 @@ def run_challenge_watch(
     # Re-resolve cached hints. Filtered/budget-limited manifests never replace
     # accepted inputs. This complete union is merged again inside each CAS retry.
     raw_list = _union_inputs(ledger.inputs, raw_list)
-    ledger.inputs = raw_list
     if verbose:
         print(f"[challenge-watch] Loaded {len(raw_list)} challenge input(s).", file=sys.stderr)
 
@@ -1260,6 +1271,9 @@ def run_challenge_watch(
             raise ValueError("trusted resolver changed immutable challenge context")
         validated_challenges.append((item, validated))
 
+    # Only trusted admitted inputs enter the durable set, including subjects
+    # beyond this run's budget. Untrusted leads/manifests cannot poison that set.
+    persisted_inputs = _union_inputs(ledger.inputs, [raw for raw, _ in validated_challenges])
     # Observe validated challenges within budget
     pending_events = {}
     for raw, challenge in validated_challenges:
@@ -1297,10 +1311,23 @@ def run_challenge_watch(
             "packetsEmitted": len(packets),
         })
 
-    new_ids = ledger.save(inputs=raw_list, observations=pending_events)
+    new_ids = ledger.save(inputs=persisted_inputs, observations=pending_events)
     # Recover ALL disposable local files, including intents from a killed clone.
     ledger.materialize(p_dir)
     result.packets = [_packet_from_payload(ledger.packets[packet_id]) for packet_id in new_ids]
+    # Report committed truth, not the stale collection snapshot after a CAS loss.
+    result.active_count = result.resolved_count = 0
+    for summary in result.summaries:
+        entry = ledger.challenges.get(summary.get("challengeId"))
+        if entry is None:
+            continue
+        summary["status"] = entry["status"]
+        summary["targetedMonitoring"] = entry["targeted_monitoring"]
+        summary["packetsEmitted"] = sum(p.challenge_id == summary["challengeId"] for p in result.packets)
+        if entry["targeted_monitoring"] == "returned_to_routine":
+            result.resolved_count += 1
+        else:
+            result.active_count += 1
 
     result.budget_used = {
         "requests": budget.requests_used,
