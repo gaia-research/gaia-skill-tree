@@ -572,7 +572,8 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
                 # double-counting inherited rows and inflating (or, via grade
                 # diversity-gate side effects, sometimes deflating) the score
                 # relative to every other TM pipeline in the codebase.
-                tm = computeTrustMagnitude(entry, merged_map)
+                from publication_context import evaluation_at_utc_from_env
+                tm = computeTrustMagnitude(entry, merged_map, evaluationAtUTC=evaluation_at_utc_from_env())
                 entry["trustMagnitude"] = round(tm, 2)
                 grade = overall_trust_grade(
                     effective,
@@ -602,7 +603,14 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
             max_allowed_stars = GRADE_MAX_STARS.get(current_grade, 1)
             raw_stars = level_num(entry.get("level", ""))
             if raw_stars > max_allowed_stars:
-                entry["level"] = f"{max_allowed_stars}★"
+                if os.environ.get("GAIA_PUBLICATION_MODE") == "rehearsal":
+                    entry["eligibilityProposal"] = {
+                        "status": "shadow", "storedLevel": entry.get("level"),
+                        "maximumEligibleLevel": f"{max_allowed_stars}★",
+                        "reason": "current stored standing preserved; rehearsal-only eligibility proposal",
+                    }
+                else:
+                    entry["level"] = f"{max_allowed_stars}★"
 
             # Resolved taxonomy fields (Yggdrasil II authority — additive, PR2).
             # Derived purely from entry["level"] + entry.get("suiteComponents");

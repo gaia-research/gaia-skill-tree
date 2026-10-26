@@ -1816,6 +1816,9 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build generated Gaia docs regions.")
     parser.add_argument("--check", action="store_true", help="Fail (exit 1) if generated docs drift from source. Not read-only: regenerates Class P/S artifacts before comparing (commit any docs/graph/* Class S changes).")
     parser.add_argument("--auto-clean", action="store_true", help="(Opt-in) In write mode, remove left-only generated files in safe bundles (use cautiously)")
+    parser.add_argument("--publication-rehearsal", metavar="OUTPUT_ROOT", help="Run the real docs builder in an isolated external scratch copy and stamp a rehearsal snapshot; never publishes approval.")
+    parser.add_argument("--publication-rehearsal-worker", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("--evaluation-at-utc", help="Pinned UTC evaluation instant for publication rehearsal.")
     parser.add_argument(
         "--cache-bust-only",
         action="store_true",
@@ -1824,6 +1827,39 @@ def main(argv: list[str] | None = None) -> int:
              "without regenerating badges or other Class S artifacts.",
     )
     args = parser.parse_args(argv)
+
+    if args.publication_rehearsal and args.publication_rehearsal_worker:
+        parser.error("choose either --publication-rehearsal or its internal worker mode")
+    if args.publication_rehearsal:
+        import shutil
+        from publication_context import create_context, stamp_outputs
+        source_root = ROOT.resolve(strict=True)
+        output_root = Path(args.publication_rehearsal).expanduser().absolute()
+        if output_root.exists() or output_root.is_symlink():
+            parser.error("rehearsal output root must be a new, non-symlink path")
+        try:
+            context = create_context(source_root, output_root, args.evaluation_at_utc)
+            output_root.mkdir(parents=True)
+            shutil.copytree(
+                source_root, output_root, dirs_exist_ok=True, symlinks=True,
+                ignore=shutil.ignore_patterns(".git", ".gaia", "__pycache__", ".pytest_cache", "node_modules"),
+            )
+        except (OSError, ValueError) as exc:
+            parser.error(f"cannot prepare safe rehearsal workspace: {exc}")
+        worker = subprocess.run(
+            [sys.executable, str(output_root / "scripts" / "build_docs.py"), "--publication-rehearsal-worker"],
+            cwd=output_root, env={**os.environ, "GAIA_PUBLICATION_MODE": "rehearsal",
+                                  "GAIA_PUBLICATION_APPROVAL": "unavailable",
+                                  "GAIA_EVALUATION_AT_UTC": context["evaluationAtUTC"]},
+            check=False,
+        )
+        if worker.returncode != 0:
+            print(f"Rehearsal builder failed (exit {worker.returncode}); no artifact manifest emitted.", file=sys.stderr)
+            return worker.returncode
+        manifest = stamp_outputs(output_root, context)
+        print(f"Rehearsal complete: {output_root}")
+        print(f"snapshotId={context['snapshotId']} artifacts={len(manifest['artifacts'])} mode=rehearsal approval=unavailable")
+        return 0
 
     if args.cache_bust_only:
         # Refresh every version-derived surface that `gaia dev docs --check`
