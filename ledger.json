@@ -1,5 +1,5 @@
 {
- "generation": 71,
+ "generation": 72,
  "lane": {
   "entries": [
    {
@@ -4393,6 +4393,9 @@
    ]
   },
   "run-20261021T174049Z-36e4510c": {
+   "abandonReason": "Operator disposition 2026-10-27: run stuck awaiting-action since 2026-10-21; builder task packet lost with ephemeral .gaia/ and its Class C desk superseded by merged PR #2147. Unbuilt Class B debt (trust_calibration_drift addy-osmani-api-and-interface-design) stays building for adoption by the next run.",
+   "abandonedAt": "2026-10-27T14:58:56.285484Z",
+   "abandonedBy": "operator:cli",
    "actions": [
     {
      "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
@@ -4419,8 +4422,9 @@
       "promptPath": ".gaia/steward/full/run-20261021T174049Z-36e4510c/build-0bdd26975824.prompt.md"
      },
      "recoveredAt": "2026-10-27T09:38:50.466658Z",
-     "status": "pending",
+     "status": "superseded",
      "stepId": "build:0bdd26975824:1",
+     "supersededAt": "2026-10-27T14:58:56.285484Z",
      "type": "agent.build"
     }
    ],
@@ -4540,7 +4544,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-10-27T14:58:56.285484Z",
    "floor": {
     "branch": "dev/steward-integration",
     "ok": true,
@@ -4558,7 +4562,7 @@
    "mode": "full",
    "modelIds": [],
    "mutated": false,
-   "nextAction": "perform 1 pending action(s) (agent.build), record each with `gaia steward full record run-20261021T174049Z-36e4510c <stepId> --input FILE`, then `gaia steward full run --resume run-20261021T174049Z-36e4510c`",
+   "nextAction": "abandoned by operator: Operator disposition 2026-10-27: run stuck awaiting-action since 2026-10-21; builder task packet lost with ephemeral .gaia/ and its Class C desk superseded by merged PR #2147. Unbuilt Class B debt (trust_calibration_drift addy-osmani-api-and-interface-design) stays building for adoption by the next run.",
    "options": {
     "afk": false,
     "agents": true,
@@ -5574,7 +5578,7 @@
    "runId": "run-20261021T174049Z-36e4510c",
    "sourceHead": "011a795f4185eb5dc5ccf06e505d5f106c7e4b52",
    "startedAt": "2026-10-21T17:40:49.295823Z",
-   "status": "awaiting-action",
+   "status": "abandoned",
    "steps": [
     {
      "at": "2026-10-21T17:40:49.295823Z",
@@ -5611,7 +5615,7 @@
      "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
      "idempotencyKey": "dispatch-241305ea9ef1a8c1c959:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:0bdd26975824:1"
     }
    ],
@@ -5629,7 +5633,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-27T09:40:48.321801Z",
+ "updatedAt": "2026-10-27T14:58:56.835922Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261021T174049Z-36e4510c",
@@ -5652,7 +5656,12 @@
     }
    ],
    "kind": "trust_calibration_drift",
-   "notes": [],
+   "notes": [
+    {
+     "at": "2026-10-27T14:58:56.285484Z",
+     "note": "run run-20261021T174049Z-36e4510c abandoned by operator: Operator disposition 2026-10-27: run stuck awaiting-action since 2026-10-21; builder task packet lost with ephemeral .gaia/ and its Class C desk superseded by merged PR #2147. Unbuilt Class B debt (trust_calibration_drift addy-osmani-api-and-interface-design) stays building for adoption by the next run."
+    }
+   ],
    "promptPath": ".gaia/steward/full/run-20261021T162622Z-2b8067d3/build-0bdd26975824.prompt.md",
    "pullRequest": null,
    "routine": "gaia-trust-calibration-steward",
