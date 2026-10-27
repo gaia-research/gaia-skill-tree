@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-trust-stamp-refresh-policy-1642",
+  "status": "open",
+  "decision": "Decide the standing policy for refreshing stale cached trust-magnitude stamps (#1642).",
+  "whyItMatters": "The one-time correction of 22 stamps is complete, but stamps drift again whenever evidence changes; without a standing rule each recurrence becomes new Class C debt on the desk.",
+  "evidence": [
+    "The 22 stale stamps were corrected on main by PR #2147 using gaia dev calibrate-trust-magnitude, with no grade or star-level change.",
+    "Issue #1642 remains open for the recurring policy, not for those corrections."
+  ],
+  "recommended": "Choose one mechanism in #1642 (for example a gated gaia dev command that restamps inside a reviewed PR) and record it as a decision.",
+  "alternative": "Declare stored stamps historical snapshots and exclude them from drift detection.",
+  "unblocks": "Any future trust_stamp_stale debt; Steward takes no action until you rule.",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/issues/1642"
+  ]
+}
