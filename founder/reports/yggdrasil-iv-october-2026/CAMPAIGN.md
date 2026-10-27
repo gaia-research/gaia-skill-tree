@@ -33,7 +33,9 @@ Recovery entry point. Updated on every material state change and pushed to
 - D3 `trust-lifecycle.js` loaded only on 2 of the pages that load `skill-explorer.js` → W2.
 - D4 `leaderboard.json` has no `generatedAt` though `leaderboard.js` reads it → W0.
 - D5 `docs/badges/registry.json` stale (missing `nvidia`) — warn-only, human-curated badge lane.
-- Anomaly: one `awakened` named file at 4★ (sweep will adjudicate).
+- Anomaly: one `awakened` named file at 4★ — `google-deepmind/workflow-skill-creator` (grade A, `origin: true`), sits only in `awaitingClassification`, absent from every public list (W0 #2195 finding).
+- D6 cross-surface level disagreement: 39 ungraded skills show 2–3★ on ledger/leaderboard but 1★ in named index + skills API (the 268→229 gap). Pinned by strict xfails in #2195; needs a single source of truth (visible change ⇒ founder decision packet).
+- D1/D2/D4 fixed in #2195 (W0), pending review.
 
 ## Founder decision packets (accumulating)
 
