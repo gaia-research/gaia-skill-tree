@@ -6,8 +6,10 @@ import copy
 import datetime as dt
 import json
 from pathlib import Path
+from typing import Any
 
 import pytest
+import yaml
 
 from gaia_cli import shadowCorpus as sc
 from gaia_cli import shadowEvaluation as shadow
@@ -17,6 +19,49 @@ from gaia_cli.fusionScore import computeFusionScore
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PINNED_TIME = dt.datetime(2026, 10, 25, 0, 0, 0, tzinfo=dt.timezone.utc)
+
+
+def independentCorpusCounts() -> dict[str, Any]:
+    """Count the corpus directly (census scope: registry/named/**/*.md, registry/nodes/**/*.json).
+
+    Deliberately does not call the census code under test; uses yaml.safe_load / json.
+    """
+    datedTypes = {"benchmark-result", "social-signal", "peer-review"}
+    namedFiles = sorted((REPO_ROOT / "registry" / "named").rglob("*.md"))
+    genericFiles = sorted((REPO_ROOT / "registry" / "nodes").rglob("*.json"))
+    statuses: dict[str, int] = {}
+    namedRows = genericRows = cacheHashes = missingDates = 0
+
+    def countMissing(rows: list[Any]) -> int:
+        return sum(
+            1 for row in rows
+            if isinstance(row, dict) and row.get("type") in datedTypes and not row.get("lastVerified")
+        )
+
+    for mdFile in namedFiles:
+        text = mdFile.read_text(encoding="utf-8")
+        frontMatter = yaml.safe_load(text.split("---", 2)[1]) or {}
+        status = frontMatter.get("status") or "unknown"
+        statuses[status] = statuses.get(status, 0) + 1
+        if frontMatter.get("trustMagnitudeInputHash"):
+            cacheHashes += 1
+        rows = frontMatter.get("evidence") if isinstance(frontMatter.get("evidence"), list) else []
+        namedRows += len(rows)
+        missingDates += countMissing(rows)
+    for jsonFile in genericFiles:
+        node = json.loads(jsonFile.read_text(encoding="utf-8"))
+        rows = node.get("evidence") if isinstance(node.get("evidence"), list) else []
+        genericRows += len(rows)
+        missingDates += countMissing(rows)
+    return {
+        "named": len(namedFiles),
+        "generic": len(genericFiles),
+        "statuses": statuses,
+        "namedRows": namedRows,
+        "genericRows": genericRows,
+        "cacheHashes": cacheHashes,
+        "missingDates": missingDates,
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -67,12 +112,13 @@ def test_census_full_corpus_statuses_and_counts() -> None:
     """Census must load every record and reconcile yaml.safe_load vs load_yaml_simple."""
     census = sc.censusRegistry(REPO_ROOT, failClosed=True, evaluationAtUTC=PINNED_TIME)
 
-    assert census.totalNamedFiles == 398
-    assert census.statusCounts == {"named": 350, "awakened": 48}
-    assert census.totalGenericFiles == 299
-    assert census.namedEvidenceRowCount == 613
-    assert census.genericEvidenceRowCount == 254
-    assert census.cacheHashCount == 347
+    expected = independentCorpusCounts()
+    assert census.totalNamedFiles == expected["named"]
+    assert census.statusCounts == expected["statuses"]
+    assert census.totalGenericFiles == expected["generic"]
+    assert census.namedEvidenceRowCount == expected["namedRows"]
+    assert census.genericEvidenceRowCount == expected["genericRows"]
+    assert census.cacheHashCount == expected["cacheHashes"]
 
     # Parser reconciliation
     assert len(census.parseFailures) == 0
@@ -344,7 +390,8 @@ def test_cli_shadow_command_writes_into_scratch(tmp_path: Path) -> None:
     # Verify summary text
     summaryText = written["summary"].read_text(encoding="utf-8")
     assert "GAIA YGGDRASIL IV TRUST MAGNITUDE" in summaryText
-    assert "Total Named Records       : 398" in summaryText
+    expectedNamed = independentCorpusCounts()["named"]
+    assert f"Total Named Records       : {expectedNamed}" in summaryText
 
 
 # ---------------------------------------------------------------------------
@@ -357,12 +404,13 @@ def test_full_corpus_containment_and_zero_canonical_mutation() -> None:
     beforeManifest = sc.buildFileDigestManifest(REPO_ROOT)
     census = sc.censusRegistry(REPO_ROOT, failClosed=True, evaluationAtUTC=PINNED_TIME)
 
-    assert census.totalNamedFiles == 398
-    assert census.totalGenericFiles == 299
+    expected = independentCorpusCounts()
+    assert census.totalNamedFiles == expected["named"]
+    assert census.totalGenericFiles == expected["generic"]
     assert len(census.dependencyCycles) == 0
     assert len(census.temporalAnomalies) == 0
     assert len(census.unknownVerifiers) == 0
-    assert len(census.missingDates) == 154
+    assert len(census.missingDates) == expected["missingDates"]
 
     context, metadata = sc.buildShadowContext(census, REPO_ROOT, evaluationAtUTC=PINNED_TIME)
     assert context.registryRevision != "unknown"
