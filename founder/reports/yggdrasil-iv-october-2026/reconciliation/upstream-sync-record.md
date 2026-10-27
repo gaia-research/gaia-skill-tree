@@ -26,7 +26,7 @@ Resolved live via `gh api repos/<repo>/releases/latest` on 2026-10-27T21:3xZ. Ap
 
 ## Note on file diffs
 
-Besides the `upstream:` block and timeline event, the CLI serializer re-wraps YAML in `mattpocock/skills.md` and `leonxlnx/taste-skill.md` (existing evidence notes, words unchanged). The sync is otherwise upstream-only.
+Besides the `upstream:` block and timeline event, the CLI serializer re-wraps YAML in `mattpocock/skills.md` (existing evidence notes and timeline details, words unchanged; `leonxlnx/taste-skill.md` is additions only, checked by diff). The sync is otherwise upstream-only.
 
 ## Not applied (needs a human decision)
 
