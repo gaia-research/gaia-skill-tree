@@ -339,6 +339,31 @@ def build_tokens_css(gaia: dict) -> str:
         )
         body.append(f"  --ev-type-{name}-rgb: {rgb_triplet};")
 
+    # ── Challenge identity tokens (Yggdrasil IV, DESIGN.md § Challenge) ──────
+    # A fixed constant (like UNIQUE_RANK_LADDER above): a public-challenge state
+    # colour, not a taxonomy tier or rank. Signal chartreuse is the hazard-stripe
+    # hue of an open challenge's hachure. It is deliberately off the Unique copper
+    # ladder (--rank-5-unique burnished copper, --rank-6-unique ember copper) and
+    # off the Suite/Apex gold axis, so a challenge never reads as a rank.
+    #   challenge        open-challenge hachure, edges, chip text (AA on --bg/--surface)
+    #   challenge-deep   chevron inlay on a hallmark (>= 3:1 on challenge-steel)
+    #   challenge-slate  the touchstone ground of an open mark
+    #   challenge-steel  the struck hallmark plate and the Trust Meter fill
+    body.append("")
+    body.append(
+        "  /* ── Challenge identity tokens (Yggdrasil IV — not rank/branch) ─── */"
+    )
+    challenge_colors = {
+        "challenge": "#c4e23e",
+        "challenge-deep": "#566e00",
+        "challenge-slate": "#161210",
+        "challenge-steel": "#d6dee8",
+    }
+    for name, hex_val in challenge_colors.items():
+        rgb_triplet = _rgb_str(_hex_to_rgb_triplet(hex_val))
+        body.append(f"  --{name}: {hex_val}; /* var(--{name}, {hex_val}) */")
+        body.append(f"  --{name}-rgb: {rgb_triplet};")
+
     body.append("}")
     body.append("")
     return "\n".join(body)
