@@ -1,6 +1,6 @@
 # Intake L4 packet - October 2026 (Yggdrasil IV launch lane, EPIC #2189 outcome 2)
 
-Provisional snapshot 2026-10-27T22:12:20Z, cutoff 2026-10-31, dev baseline `43797a441`. Companion data: `intake-triage.json`; receipts: `intake-receipts/`.
+Provisional snapshot 2026-10-27T22:12:20Z, cutoff 2026-10-31, dev baseline `7d8f2d5f3` (re-checked 2026-10-28; was `43797a441`, no `registry/` change between them, exact-dedupe/already-named checks re-run clean, receipts remain valid because the catalog is unchanged). Companion data: `intake-triage.json`; receipts: `intake-receipts/`.
 
 **Nothing here is approved.** No `gaia dev ratify`, add, calibrate or evidence verb was run. Each row needs an actual human L4 decision on topology (the generic mapping) before `gaia dev ratify --assessment <receipt>`. Proposed generics are reviewer judgment over the 301-node generic catalog (MiniLM retrieval is weak here, and with `--jev off` the receipt principles stay `unknown` by design); confidence high/medium rows are in this table, low-confidence rows are in the needs-info list below.
 
@@ -27,6 +27,12 @@ By group:
 | emilkowalski | 12 | 0 | 0 | 0 | 0 |
 | ruvnet-siblings | 0 | 0 | 0 | 0 | 6 |
 | pre-october-batch-ids | 0 | 1 | 0 | 7 | 0 |
+
+## L4 flags (read before deciding)
+
+- **Basename overlap, `garrytan/skill-creator`** vs registry `anthropic/skill-creator`: different id and source, same name. Confirm it is a separate named implementation (proposed generic `skill-authoring`) and not a duplicate capability.
+- **Basename overlap, `emilkowalski/prototype`** vs registry `mattpocock/prototype`: different id and source, same name; both would sit on generic `prototype`. Confirm as a second named implementation.
+- **License, `theqtcompanyrnd/qt-qml-review`**: the GitHub repo license is NOASSERTION; the SKILL.md declares `LicenseRef-Qt-Commercial OR BSD-3-Clause`. L4 to confirm the BSD-3-Clause option is acceptable before admission.
 
 ## Ready for L4 (59)
 
