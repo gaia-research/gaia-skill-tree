@@ -102,7 +102,8 @@ def test_reset_refuses_tree_removal_while_pending(fixtureRepo):
     result = subprocess.run(
         [sys.executable, "-m", "gaia_cli", "--registry", str(root), "reset", "-y"],
         env=proposeEnv(root), cwd=root, text=True, capture_output=True, timeout=60)
-    assert "pending canonical transaction" in result.stderr or result.returncode != 0
+    assert result.returncode == 1, result.stdout + result.stderr  # exit status propagates
+    assert "pending canonical transaction" in result.stderr
     assert (root / "skill-trees/alice/skill-tree.json").exists()
     assert sources(root) == before
 
@@ -341,3 +342,74 @@ def test_real_killed_atomic_write_leaves_a_reported_temp_file(fixtureRepo):
     assert len(snapshot["strayTempFiles"]) == 1
     assert snapshot["strayTempFiles"][0].startswith("registry/named/alice/.tool.md.")
     assert (root / snapshot["strayTempFiles"][0]).exists()
+
+
+# --- re-review P3s: stargazer script, FIFO journal, reset exit status ------------------
+
+def loadStargazer():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("stargazerHeartbeatUnderTest", REPO / "scripts/stargazerHeartbeat.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def stargazerRoot(tmp_path):
+    root = tmp_path.resolve() / "repo"
+    named = root / "registry/named/alice/tool.md"
+    named.parent.mkdir(parents=True)
+    named.write_text("---\nid: alice/tool\nname: Tool\nlinks:\n  github: https://github.com/alice/tool\n"
+                     "evidence:\n- source: https://github.com/alice/tool\n  type: github-stars-own\n"
+                     "  stars: 10\n---\n# Body\n", encoding="utf-8")
+    return root, named
+
+
+def runStargazer(module, root, monkeypatch):
+    monkeypatch.setattr(module, "REPO_ROOT", root)
+    monkeypatch.setattr(module, "NAMED_DIR", root / "registry/named")
+    monkeypatch.setattr(module, "_fetch_stars", lambda owner, repo: 5000)
+    monkeypatch.setattr(sys, "argv", ["stargazerHeartbeat.py", "--apply"])
+    return module.main()
+
+
+def test_stargazer_apply_refuses_cleanly_while_transaction_pending(tmp_path, monkeypatch, capsys):
+    module = loadStargazer()
+    root, named = stargazerRoot(tmp_path)
+    pendingMarker(root)
+    original = named.read_bytes()
+    assert runStargazer(module, root, monkeypatch) == 1
+    assert named.read_bytes() == original
+    assert "pending canonical transaction" in capsys.readouterr().err
+
+
+def test_stargazer_apply_still_writes_when_nothing_is_pending(tmp_path, monkeypatch):
+    module = loadStargazer()
+    root, named = stargazerRoot(tmp_path)
+    assert runStargazer(module, root, monkeypatch) == 0
+    assert "stars: 5000" in named.read_text(encoding="utf-8")
+
+
+def test_stargazer_process_file_write_is_itself_guarded(tmp_path):
+    module = loadStargazer()
+    root, named = stargazerRoot(tmp_path)
+    pendingMarker(root)
+    module._fetch_stars = lambda owner, repo: 5000
+    original = named.read_bytes()
+    with pytest.raises(tx.TransactionError, match="pending canonical transaction"):
+        module.process_file(named, apply=True)
+    assert named.read_bytes() == original
+
+
+@pytest.mark.skipif(not hasattr(os, "mkfifo"), reason="POSIX FIFOs required")
+def test_fifo_named_like_a_journal_cannot_hang_status_or_reads(fixtureRepo):
+    root = fixtureRepo
+    state = root / tx.STATE_DIR
+    state.mkdir(parents=True)
+    fifo = state / ("d" * 64 + ".pending.json")
+    os.mkfifo(fifo)
+    with pytest.raises(tx.TransactionError, match="bounded regular file"):
+        tx._read_journal(fifo, root.resolve())
+    result = cli(root, "canonical", "status")  # cli() has a 25s timeout: a hang fails the test
+    assert result.returncode == 0, result.stderr
+    snapshot = json.loads(result.stdout)
+    assert snapshot["receipts"][0]["status"] == "unreadable" and snapshot["pending"] is True

@@ -379,15 +379,22 @@ def apply(plan: Plan, provider: ApprovalProvider | None = None, *, fail_after: i
 
 
 def _readBounded(path: Path) -> bytes:
-    """Read a journal through one descriptor: no symlink, regular file, bounded size."""
+    """Read a journal safely: lstat before open, never block on a FIFO, no symlink.
+
+    The descriptor is opened O_NONBLOCK|O_NOFOLLOW (so a FIFO/device cannot hang the
+    open) and verified regular via fstat on that descriptor before any read.
+    """
+    refusal = "journal must be a bounded regular file"
     try:
-        fd = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+        if not stat.S_ISREG(os.lstat(path).st_mode):
+            raise TransactionError(refusal)
+        fd = os.open(path, os.O_RDONLY | getattr(os, "O_NONBLOCK", 0) | getattr(os, "O_NOFOLLOW", 0))
     except OSError as exc:
-        raise TransactionError("journal must be a bounded regular file") from exc
+        raise TransactionError(refusal) from exc
     with os.fdopen(fd, "rb") as stream:
         info = os.fstat(stream.fileno())
         if not stat.S_ISREG(info.st_mode) or info.st_size > MAX_JOURNAL_BYTES:
-            raise TransactionError("journal must be a bounded regular file")
+            raise TransactionError(refusal)
         return stream.read(MAX_JOURNAL_BYTES + 1)
 
 
