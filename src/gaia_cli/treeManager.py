@@ -39,9 +39,11 @@ def load_tree(username, registry_path="."):
 def save_tree(username, tree_data, registry_path="."):
     _check_username(username)
     tree_path = user_tree_path(registry_path, username)
-    os.makedirs(os.path.dirname(tree_path), exist_ok=True)
-    with open(tree_path, 'w', encoding='utf-8') as f:
-        json.dump(tree_data, f, indent=2)
+    from gaia_cli.canonicalTransaction import canonicalTransactionLock
+    with canonicalTransactionLock(registry_path):
+        os.makedirs(os.path.dirname(tree_path), exist_ok=True)
+        with open(tree_path, 'w', encoding='utf-8') as f:
+            json.dump(tree_data, f, indent=2)
 
 def show_status(tree_data):
     if not tree_data:

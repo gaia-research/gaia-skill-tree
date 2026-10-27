@@ -11,6 +11,14 @@ def append_skill_tree_event(
     username, skill_id, action, details, registry_path=".", timestamp=None,
     previous_value=None, new_value=None,
 ):
+    from gaia_cli.canonicalTransaction import canonicalTransactionLock
+    with canonicalTransactionLock(registry_path):
+        return _append_skill_tree_event(username, skill_id, action, details, registry_path,
+                                       timestamp, previous_value, new_value)
+
+
+def _append_skill_tree_event(username, skill_id, action, details, registry_path,
+                             timestamp, previous_value, new_value):
     tree_data = load_tree(username, registry_path)
     if not tree_data:
         return
@@ -24,9 +32,9 @@ def append_skill_tree_event(
         "action": action,
         "skillId": skill_id,
     }
-    if previous_value:
+    if previous_value is not None:
         event["previousValue"] = previous_value
-    if new_value:
+    if new_value is not None:
         event["newValue"] = new_value
     if details:
         event["details"] = details
@@ -58,11 +66,8 @@ def _parse_md(path):
     return (yaml.safe_load(frontmatter) or {}), body
 
 def _write_md(path, meta, body) -> None:
-    import yaml
-    path.write_text(
-        "---\n" + yaml.dump(meta, sort_keys=False, allow_unicode=True) + "---" + body,
-        encoding="utf-8",
-    )
+    from gaia_cli.commands.dev.helpers import _write_md as writeMarkdown
+    writeMarkdown(path, meta, body)
 
 def _named_skill_file(skill_id, registry_path="."):
     """Return the Path to the named skill .md file for skill_id, or None."""
@@ -79,6 +84,12 @@ def _named_skill_file(skill_id, registry_path="."):
     return None
 
 def append_skill_event(skill_id, action, contributor, details, registry_path="."):
+    from gaia_cli.canonicalTransaction import canonicalTransactionLock
+    with canonicalTransactionLock(registry_path):
+        return _append_skill_event(skill_id, action, contributor, details, registry_path)
+
+
+def _append_skill_event(skill_id, action, contributor, details, registry_path="."):
     from gaia_cli.registry import registry_nodes_dir, named_skills_dir
     nodes_dir = Path(registry_nodes_dir(registry_path))
     
