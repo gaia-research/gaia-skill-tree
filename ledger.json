@@ -1,5 +1,5 @@
 {
- "generation": 78,
+ "generation": 79,
  "lane": {
   "entries": [
    {
@@ -1916,13 +1916,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-10-27T16:01:34.166216Z",
-   "expiresAt": "2026-10-27T16:35:14.968610Z",
-   "holder": "run-20261027T160134Z-e979a749"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -5639,7 +5633,57 @@
    "ciResults": [],
    "costUsd": 0.0,
    "decisions": [],
-   "finishedAt": null,
+   "desk": {
+    "asOf": "2026-10-27T16:05:23.096638Z",
+    "decisions": [
+     {
+      "alternative": "Declare stored stamps historical snapshots and exclude them from drift detection.",
+      "debtIds": [],
+      "decision": "Decide the standing policy for refreshing stale cached trust-magnitude stamps (#1642).",
+      "decisionId": "steward-trust-stamp-refresh-policy-1642",
+      "evidence": [
+       "The 22 stale stamps were corrected on main by PR #2147 using gaia dev calibrate-trust-magnitude, with no grade or star-level change.",
+       "Issue #1642 remains open for the recurring policy, not for those corrections."
+      ],
+      "links": [
+       "https://github.com/gaia-research/gaia-skill-tree/issues/1642"
+      ],
+      "priority": 20,
+      "recommended": "Choose one mechanism in #1642 (for example a gated gaia dev command that restamps inside a reviewed PR) and record it as a decision.",
+      "source": "decision-record",
+      "unblocks": "Any future trust_stamp_stale debt; Steward takes no action until you rule.",
+      "whyItMatters": "The one-time correction of 22 stamps is complete, but stamps drift again whenever evidence changes; without a standing rule each recurrence becomes new Class C debt on the desk."
+     },
+     {
+      "alternative": "Leave the event as written and note the discrepancy as known.",
+      "debtIds": [],
+      "decision": "Rule on the workflow-skill-creator demotion event whose previousValue (4-star) disagrees with the level in the log (3-star).",
+      "decisionId": "steward-workflow-skill-creator-demote-1699",
+      "evidence": [
+       "google-deepmind/workflow-skill-creator event 0 records previousValue 4-star while the log's level was 3-star at that point.",
+       "The ordering fix in PR #2147 changed order only and did not touch this content."
+      ],
+      "links": [
+       "https://github.com/gaia-research/gaia-skill-tree/issues/1699"
+      ],
+      "priority": 20,
+      "recommended": "Review the #1699 demotion history and either record the 4-star value as an accepted historical note or direct a corrective event through the timeline CLI.",
+      "source": "decision-record",
+      "unblocks": "Closing the historical-provenance question left over from #1699.",
+      "whyItMatters": "Timeline events are canonical provenance. The chronological re-sort kept the content as written, so the historical discrepancy remains and Steward may not correct history itself."
+     }
+    ],
+    "operations": [
+     {
+      "detail": "no scheduled run has ever been recorded.",
+      "kind": "stale_schedule",
+      "subject": "scheduled run"
+     }
+    ],
+    "quiet": false,
+    "schemaVersion": "steward-desk-v1"
+   },
+   "finishedAt": "2026-10-27T16:05:23.096638Z",
    "integrationBranch": null,
    "integrationHead": "unknown",
    "leases": [
@@ -5652,7 +5696,7 @@
    "mode": "observe",
    "modelIds": [],
    "mutated": false,
-   "nextAction": "",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": false,
     "agents": true,
@@ -5660,7 +5704,7 @@
     "push": false,
     "routine": null
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "observe": {
      "authorityCounts": {
@@ -6312,7 +6356,7 @@
    "runId": "run-20261027T160134Z-e979a749",
    "sourceHead": "515b70df83180bbe1aa439d6ab7e4a27ef8ca44f",
    "startedAt": "2026-10-27T16:01:34.166216Z",
-   "status": "active",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-10-27T16:01:34.166216Z",
@@ -6331,6 +6375,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:observe"
+    },
+    {
+     "at": "2026-10-27T16:05:23.096638Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [],
@@ -6347,7 +6397,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-27T16:05:14.969510Z",
+ "updatedAt": "2026-10-27T16:05:25.612265Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261027T160134Z-e979a749",
