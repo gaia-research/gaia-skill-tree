@@ -18,9 +18,10 @@
  * - Historical awards and prior Origin holdings are preserved without erasure.
  *
  * CONSUMED PROJECTION CONTRACT:
- * The trustLifecycle object is an optional projection payload from an APPROVED
- * snapshot (never live client-side recomputation). If absent, the explorer UI
- * preserves current rendering exactly.
+ * The proposed trustLifecycle projection has no connected trusted producer yet.
+ * The panel is disabled even when a payload is present: strings and URLs in a
+ * caller-supplied object cannot authenticate approval or verification. Existing
+ * rank, Origin and history outside this optional panel are not modified.
  *
  * Schema:
  * {
@@ -283,6 +284,11 @@
     var payload = entry.trustLifecycle;
     if (!payload || typeof payload !== 'object') return null;
 
+    // No trusted publication producer is connected yet. Payload fields cannot
+    // establish their own authority, including challenge and Origin assertions.
+    // Suppress this panel until the public-source boundary is implemented.
+    return null;
+
     // 1. Snapshot Identity & Provenance
     var rawSnap = payload.snapshot || {};
     var snapshotId = typeof rawSnap.snapshotId === 'string' ? rawSnap.snapshotId.trim() : '';
@@ -292,11 +298,9 @@
     var approvalRef = isSafeHttps(rawSnap.approvalRef) ? rawSnap.approvalRef.trim() : '';
 
     var isPinned = Boolean(snapshotId && evaluatedAtUTC);
-    // Adequate approved snapshot provenance requires:
-    // 1) Pinned snapshot identity (snapshotId and evaluatedAtUTC)
-    // 2) Verified maintainer/founder approval handle (approvedBy)
-    // 3) Safe HTTPS approval reference URL (approvalRef)
-    var hasApprovedProvenance = Boolean(isPinned && approvedBy && approvalRef);
+    // Display metadata is not authentication. This dormant rendering path must
+    // not be re-enabled without a trusted publication-source contract.
+    var hasApprovedProvenance = false;
 
     // Rehearsal explicit check (contract validation; trusted publication backend pending)
     var isRehearsal = Boolean(
