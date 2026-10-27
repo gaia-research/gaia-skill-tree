@@ -78,7 +78,15 @@ class CurateCommand(Command):
             return 0
 
         orchestrator = CurationOrchestrator(run, dry_run=args.dry_run or run.dry_run)
-        orchestrator.run_to_next_gate()
+        try:
+            orchestrator.run_to_next_gate()
+        except NotImplementedError:
+            print(
+                f"gaia curate: run {run.run_id} is in state {run.current_state}; "
+                "automatic transitions beyond INITIALIZED are not implemented. "
+                "Use /gaia-full-pipeline for manual L4-gated curation."
+            )
+            return 1
         run.save(run.run_dir)
         CurationOrchestrator.print_status(run)
         return 0

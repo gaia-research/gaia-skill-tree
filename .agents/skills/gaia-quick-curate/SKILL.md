@@ -2,15 +2,15 @@
 name: gaia-quick-curate
 description: >-
   Inspect or exercise the paused gaia curate orchestration scaffold for one
-  source URL. The command currently persists an INITIALIZED run ledger and
-  reports status; its 25 named workflow states and transition methods are a
-  design skeleton, not an implemented automated curation or merge pipeline.
-  Use only for scaffold development, status inspection, or dry-run contract
-  work. For live curation, use gaia-full-pipeline or gaia-consult. Trigger
-  phrases: "/gaia-quick-curate", "inspect gaia curate", "curate scaffold",
-  "quick curate status". For batch/multi-page runs use gaia-curate-dynamic;
-  for crawler branches use gaia-bot-curate; for pending intake proposals use
-  gaia-draft-curate.
+  source URL. The command persists an INITIALIZED run ledger and reports
+  status. Its former transition stubs were pruned, so no automated curation
+  or merge pipeline runs. Outward discovery belongs to /gaia-frontier, and
+  manual L4-gated curation is supported via /gaia-full-pipeline or
+  /gaia-consult. Use only for scaffold development, status inspection, or
+  dry-run contract work. Trigger phrases: "/gaia-quick-curate", "inspect gaia
+  curate", "curate scaffold", "quick curate status". For batch/multi-page runs
+  use gaia-curate-dynamic; for crawler branches use gaia-bot-curate; for
+  pending intake proposals use gaia-draft-curate.
 version: 1.1.0
 argument-hint: "<url> [--generic <id>] [--discover] [--dry-run] [--resume <run-id>] [--status]"
 ---

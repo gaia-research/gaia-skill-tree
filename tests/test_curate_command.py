@@ -169,6 +169,23 @@ def test_resume_resolved_blockers_do_not_cross_human_gates(tmp_path, monkeypatch
     assert CurationRun.load(run.run_dir) == run
 
 
+def test_resume_past_initialized_prints_clear_message_not_traceback(tmp_path, monkeypatch, capsys):
+    monkeypatch.chdir(tmp_path)
+    run = CurationRun(run_id="synthetic-fetching", current_state="FETCHING_SOURCE")
+    run.save(run.run_dir)
+    command = CurateCommand()
+    parser = argparse.ArgumentParser()
+    command.configure(parser)
+
+    assert command.execute(parser.parse_args(["--resume", run.run_id])) == 1
+    output = capsys.readouterr().out
+    assert "FETCHING_SOURCE" in output
+    assert "automatic transitions beyond INITIALIZED are not implemented" in output
+    assert "/gaia-full-pipeline" in output
+    assert "Traceback" not in output
+    assert CurationRun.load(run.run_dir) == run
+
+
 def test_resume_legacy_ledger_without_checkpoint(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     run = CurationRun(run_id="legacy")
