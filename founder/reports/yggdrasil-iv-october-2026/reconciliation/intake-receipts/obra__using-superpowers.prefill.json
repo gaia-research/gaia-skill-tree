@@ -1,0 +1,73 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "obra/using-superpowers",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "obra/using-superpowers",
+  "canonicalUrl": "https://github.com/obra/superpowers/blob/v7.0.1/skills/using-superpowers/SKILL.md",
+  "checked": true,
+  "contentSha256": "82c5c8866ad7f5dd4440ce66bd7806ba48a2f13771beae5cf112e53f08fe36ba",
+  "hostRepository": "https://github.com/obra/superpowers",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "remotion-dev/remotion-interactivity",
+     "similarity": 0.457401
+    },
+    {
+     "id": "obra/writing-skills",
+     "similarity": 0.453568
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Use when starting any conversation - establishes how to find and use skills, requiring skill invocation before ANY response including clarifying questions",
+  "name": "using-superpowers"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/obra/superpowers/blob/v7.0.1/skills/using-superpowers/SKILL.md",
+  "contentSha256": "82c5c8866ad7f5dd4440ce66bd7806ba48a2f13771beae5cf112e53f08fe36ba",
+  "fetchedAt": "2026-10-27T21:58:23.917110+00:00",
+  "frontmatter": {
+   "description": "Use when starting any conversation - establishes how to find and use skills, requiring skill invocation before ANY response including clarifying questions",
+   "name": "using-superpowers"
+  },
+  "hostRepository": "https://github.com/obra/superpowers",
+  "sourceLane": "source-repository"
+ }
+}

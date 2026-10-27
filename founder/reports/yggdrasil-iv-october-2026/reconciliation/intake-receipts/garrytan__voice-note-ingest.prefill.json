@@ -1,0 +1,108 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/voice-note-ingest",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/voice-note-ingest",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/voice-note-ingest/SKILL.md",
+  "checked": true,
+  "contentSha256": "da09a82cdea92e8407a9dff946f2e25bb3ccbd433d767ea38f275e087457086d",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/meeting-ingestion",
+     "similarity": 0.525615
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "voice-agent",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4735 to generic 'voice-agent' (weak match).",
+   "similarity": 0.473525
+  },
+  {
+   "genericId": "text-to-speech",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4650 to generic 'text-to-speech' (weak match).",
+   "similarity": 0.465016
+  },
+  {
+   "genericId": "speech-to-text",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4563 to generic 'speech-to-text' (weak match).",
+   "similarity": 0.456302
+  }
+ ],
+ "normalized": {
+  "description": "Ingest a voice note with exact-phrasing preservation (never paraphrased). Routes content to originals/, concepts/, people/, companies/, ideas/, personal/, or voice-notes/ based on a decision tree. The user's exact words are the signal.",
+  "name": "voice-note-ingest"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/voice-note-ingest/SKILL.md",
+  "contentSha256": "da09a82cdea92e8407a9dff946f2e25bb3ccbd433d767ea38f275e087457086d",
+  "fetchedAt": "2026-10-27T22:00:27.687685+00:00",
+  "frontmatter": {
+   "description": "Ingest a voice note with exact-phrasing preservation (never paraphrased). Routes content to originals/, concepts/, people/, companies/, ideas/, personal/, or voice-notes/ based on a decision tree. The user's exact words are the signal.",
+   "mutating": true,
+   "name": "voice-note-ingest",
+   "triggers": [
+    "voice note",
+    "ingest this voice memo",
+    "transcribe and file",
+    "voice note ingest",
+    "save this audio note",
+    "audio message"
+   ],
+   "version": "0.1.0",
+   "writes_pages": true,
+   "writes_to": [
+    "voice-notes/",
+    "originals/",
+    "concepts/",
+    "people/",
+    "companies/",
+    "ideas/",
+    "personal/"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

@@ -1,0 +1,86 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "addy-osmani/interview-me",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "addy-osmani/interview-me",
+  "canonicalUrl": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/interview-me/SKILL.md",
+  "checked": true,
+  "contentSha256": "ace4b675999bb504593d572e0f73f3d7e803ad6fddf318445598c82c11939db2",
+  "hostRepository": "https://github.com/addyosmani/agent-skills",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "mattpocock/grill-me",
+     "similarity": 0.531485
+    },
+    {
+     "id": "mattpocock/grilling",
+     "similarity": 0.517969
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "grill-me",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5445 to generic 'grill-me' (weak match).",
+   "similarity": 0.544499
+  },
+  {
+   "genericId": "questionnaire-generation",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4555 to generic 'questionnaire-generation' (weak match).",
+   "similarity": 0.455462
+  }
+ ],
+ "normalized": {
+  "description": "Extracts what the user actually wants instead of what they think they should want. Achieves this through one-question-at-a-time interview until ~95% confidence about the underlying intent. Use when an ask is underspecified (\"build me X\" without \"for whom\" or \"why now\"), when the user explicitly invokes (\"interview me\", \"grill me\", \"are we sure?\", \"stress-test my thinking\"), or when you catch yours",
+  "name": "interview-me"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/interview-me/SKILL.md",
+  "contentSha256": "ace4b675999bb504593d572e0f73f3d7e803ad6fddf318445598c82c11939db2",
+  "fetchedAt": "2026-10-27T21:59:02.821988+00:00",
+  "frontmatter": {
+   "description": "Extracts what the user actually wants instead of what they think they should want. Achieves this through one-question-at-a-time interview until ~95% confidence about the underlying intent. Use when an ask is underspecified (\"build me X\" without \"for whom\" or \"why now\"), when the user explicitly invokes (\"interview me\", \"grill me\", \"are we sure?\", \"stress-test my thinking\"), or when you catch yourself silently filling in ambiguous requirements before any plan, spec, or code exists.",
+   "name": "interview-me"
+  },
+  "hostRepository": "https://github.com/addyosmani/agent-skills",
+  "sourceLane": "source-repository"
+ }
+}

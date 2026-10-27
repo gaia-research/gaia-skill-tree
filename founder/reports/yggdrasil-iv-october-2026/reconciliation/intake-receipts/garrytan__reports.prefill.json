@@ -1,0 +1,88 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/reports",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/reports",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/reports/SKILL.md",
+  "checked": true,
+  "contentSha256": "3d3ad45a4ebe82251244f74c98c29f633c1b4b98745ad88fdbc01bd6e43b6dec",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "feed-monitoring",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4803 to generic 'feed-monitoring' (weak match).",
+   "similarity": 0.48032
+  },
+  {
+   "genericId": "crm-data-cleanup",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4760 to generic 'crm-data-cleanup' (weak match).",
+   "similarity": 0.475965
+  }
+ ],
+ "normalized": {
+  "description": "Save and load timestamped reports. Keyword routing for fast lookup. Cron jobs save output as reports; the agent or user queries them by keyword. Includes the Actionability Gate: delivery-time link checks (Broken/Dead/Indirect/ Missing) for briefings, meeting digests, and research reports.",
+  "name": "reports"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/reports/SKILL.md",
+  "contentSha256": "3d3ad45a4ebe82251244f74c98c29f633c1b4b98745ad88fdbc01bd6e43b6dec",
+  "fetchedAt": "2026-10-27T22:06:12.759472+00:00",
+  "frontmatter": {
+   "description": "Save and load timestamped reports. Keyword routing for fast lookup. Cron jobs\nsave output as reports; the agent or user queries them by keyword. Includes\nthe Actionability Gate: delivery-time link checks (Broken/Dead/Indirect/\nMissing) for briefings, meeting digests, and research reports.\n",
+   "mutating": true,
+   "name": "reports",
+   "tools": [
+    "get_page",
+    "put_page",
+    "search"
+   ],
+   "triggers": [
+    "save report",
+    "load latest report",
+    "what's the latest briefing",
+    "show me the pulse",
+    "report quality",
+    "link quality check",
+    "validate report links"
+   ],
+   "upstream": "report-quality-gate@fc834ee",
+   "version": "1.1.0"
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}
