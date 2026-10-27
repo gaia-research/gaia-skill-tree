@@ -308,6 +308,8 @@ def apply(plan: Plan, provider: ApprovalProvider | None = None, *, fail_after: i
 
 def _read_journal(path: Path, root: Path) -> tuple[dict, Plan]:
     try:
+        if path.is_symlink() or not path.is_file() or path.stat().st_size > MAX_PAYLOAD_BYTES * 2:
+            raise TransactionError("journal must be a bounded regular file")
         doc = json.loads(path.read_bytes())
         digest = doc.pop("journalDigest")
         if hashlib.sha256(_canonical(doc)).hexdigest() != digest:
