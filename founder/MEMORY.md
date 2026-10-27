@@ -4,6 +4,20 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-27, CAS FOUNDATION INTEGRATED — publication replay and lifecycle work active)
+
+Gaia remains the primary mission; Pi tooling remains parked/uninstalled. No original canonical/schema/issuer/visual/operational/pilot/main gates are waived.
+
+- **#2161 MERGED** into integration at **bed78e716bc56d61cddc039c88ac95980be2ddf7**. Exact b18 source independently PASS:9focused tests0.485s plus actual temp-target stale-create/deletion/marker/outside-edit/pending rollback probes. Default approval unavailable; no CLI wired by this foundation. Main unchangedb0f6d9e5. Sol **f84ce707-e2fa-438c-bd0d-7cc748e62f9a** continues real CLI/dual-history/migration/rollback; notified of accepted base.
+- Publication author762 collected repair **93fb731ea8842ef07fd703bb0b58dea944a83a0d**:19orphan PNG root cause, strict fresh raster coverage;50focused passes, bounded double replay timed out, not waived. Independent **a2acc7d1-b6cc-4f33-a0d9-51fe9935f6e7**, frozen93. Parent **b92d1cc91** two full disjoint-root genuine builds/independent verification/byte equality/full regressions incl timed-out test with unchanged timeout. Earlier **b432bfe2f** intentionally stopped for import binding; not a failed product result or counted proof. Corrected harness checks exact source module origins. No certification/publication yet.
+- Frontier authorad7 collected unchangedc172/17passes/inconclusive/blocked admission. Separate Graft output not bound into receipt; exact score/caller protocol not actually exercised, and untested native prefix != unavailable. Independent **2ad02724-869b-4ed8-81bc-2fa31bb8e726**, own frozen frontier-review-c172, executes paired protocol/audits22files. Broad Graft capability-negation not accepted.
+- New Terra High **b526404f-f860-48c5-9d10-e203c6e896c3** fixes lifecycle producer/trusted boundary and consumer authority guessing on permanent design/yggdrasil-iv-lifecycle-hardening from702. Actual trusted ports fail closed, no registry/schema mutations or fake approval. Parent will align narrow API/consequence port with Sol/publication. Native panel desktop/390/320/focus evidence and founder approval still required; no hero/synthetic UI substitutes.
+- Corpus actual native CLI **ba89e3a14 collected exit0**:398named/299generic,398evaluated, no findings, clean manifest,14TM/8grade diagnostic differences only. Text != pixel/founder approval;#2159 remains draft. Watcher#2166 and docs#2167 prior merges retained; only watcher421 is tree-identical to reviewed d311.
+- Final parked Pi **b81972d03 collected exit0**:1Node test/10 actual copied-source component cases,0skips,1.855s. NOT actual SDK lifecycle/GC or deployment acceptance; no new Pi jobs/review/install. No bypass of prior provider-filtered review.
+- Root control feature dev/yggdrasil-iv-execution-continued; checkpoint holds active owners/proof paths. Preserve unrelated.pi and all full sessions/recovery refs. Delayed already-collected notifications are not new work.
+
+---
+
 ## State Snapshot (2026-10-27, WATCHER INTEGRATED — canonical and publication moving)
 
 Gaia remains first; no Pi tooling dependency. Watcher **#2166 merged42135170c**, exact tree equals reviewed/tested d311; parent231tests and independent review support bounded default-off engineering. Docs **#2167 merged7098cac1f**, current integration. Mainb0 unchanged. RFC progress receipt: https://github.com/gaia-research/gaia-skill-tree/issues/2148#issuecomment-6439283343 .
