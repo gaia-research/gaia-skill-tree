@@ -227,6 +227,9 @@ def test_stale_inputs_forged_plans_and_grants_refuse(fixtureRepo, mutation):
     before = sources(root)
     result = cli(root, "canonical", "apply", "--plan", str(path), mode="approved", grant=grant)
     assert result.returncode == 1, result.stdout
+    if mutation in {"policy", "schema"}:
+        # Refused for the bound-context reason, not incidentally (e.g. a validation error).
+        assert "changed or are stale" in result.stderr, result.stderr
     assert sources(root) == before
 
 
