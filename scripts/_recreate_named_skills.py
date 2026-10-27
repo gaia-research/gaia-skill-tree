@@ -5,6 +5,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
 
+# Refuse to wipe while a canonical transaction is pending (check only: the `gaia dev add`
+# subprocesses below take the canonical lock themselves, so it must not be held here).
+sys.path.insert(0, str(ROOT / "src"))
+from gaia_cli.canonicalTransaction import assertNoPendingTransaction  # noqa: E402
+assertNoPendingTransaction(ROOT)
+
 # Wipe existing
 shutil.rmtree(ROOT / "registry/named/mbtiongson1", ignore_errors=True)
 

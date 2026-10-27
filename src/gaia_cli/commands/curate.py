@@ -1,4 +1,12 @@
-"""`gaia curate` command scaffold."""
+"""`gaia curate` command scaffold and ledger inspector.
+
+Migration Notice:
+Unimplemented future-transition Python stubs in the curation orchestrator were
+NOT working automation. Outward discovery is canonically owned by Gaia Frontier
+(`/gaia-frontier`), while `/gaia-full-pipeline` provides manual L4-bounded
+curation. `gaia curate` retains initialization, status inspection, and ledger
+persistence for local run ledgers.
+"""
 
 from __future__ import annotations
 
@@ -70,7 +78,15 @@ class CurateCommand(Command):
             return 0
 
         orchestrator = CurationOrchestrator(run, dry_run=args.dry_run or run.dry_run)
-        orchestrator.run_to_next_gate()
+        try:
+            orchestrator.run_to_next_gate()
+        except NotImplementedError:
+            print(
+                f"gaia curate: run {run.run_id} is in state {run.current_state}; "
+                "automatic transitions beyond INITIALIZED are not implemented. "
+                "Use /gaia-full-pipeline for manual L4-gated curation."
+            )
+            return 1
         run.save(run.run_dir)
         CurationOrchestrator.print_status(run)
         return 0

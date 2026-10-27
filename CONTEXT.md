@@ -4,6 +4,10 @@ Gaia Skill Tree is an open, evidence-backed skill registry for agents. Capabilit
 
 _See also: `PRODUCT.md` for audience, product purpose, and the design-principle / anti-reference / accessibility baseline. `DESIGN.md` for visual tokens and motion specs._
 
+## Ecosystem intelligence responsibilities
+
+Founder ruling (2026-10-26): **Gaia Frontier discovers. Gaia Meta evaluates. Gaia Steward maintains. Governance decides.** Frontier owns bounded external ecosystem discovery and challenger leads; Meta owns internal triage, appraisal and focused independent verification; Steward reacts to tree observations, independently verified challenges and authorized maintenance. Steward's targeted two-sided D8 monitoring remains valid, but it is not a general ecosystem crawler. Discovery and semantic matching never establish supersession or authorize canonical changes. Native capabilities without `SKILL.md` use a separate challenger-lead contract, not weakened skill intake. Authority: [locked founder ruling](founder/GAIA_FRONTIER_RULING_2026-10-26.md).
+
 ## Language
 
 ### Skill taxonomy (the categories)

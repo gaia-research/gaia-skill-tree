@@ -605,6 +605,8 @@ observe
 
 Steward therefore moves Gaia toward the observation-driven architecture described in `ENDGAME.md` rather than away from it.
 
+**Proposed evolution (not ratified).** [`STEWARD-EVOLUTION.md`](STEWARD-EVOLUTION.md) proposes how this shared pattern could serve Gaia's other repositories: one shared runtime with separate domain authority, leaving this document and the Tree Steward's charter unchanged. Until a founder ruling adopts it, this section governs as written.
+
 ---
 
 # 14. Success Condition
