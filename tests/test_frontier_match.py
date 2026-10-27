@@ -164,7 +164,7 @@ def test_dedupe_leaves_ledger_bytes_unchanged(repo):
 
 def run_cli(args, repo, capsys):
     from gaia_cli.main import main
-    argv = ["gaia", "--registry", str(repo / "registry"), "dev", "frontier", *args]
+    argv = ["gaia", "--registry", str(repo), "dev", "frontier", *args]
     import sys
     old, sys.argv = sys.argv, argv
     try:
@@ -213,3 +213,114 @@ def test_real_registry_graphify_is_registered_elsewhere():
     assert result["registeredElsewhere"] is True
     assert any(item["skillId"] == "safishamsi/graphify" and item["genericSkillId"] == "knowledge-graph-build" for item in result["registeredAs"])
     assert tree_digest(REPO / "registry/nodes") == before
+
+
+def addNamed(repo, owner, slug, name, github, crlf=False):
+    path = repo / "registry/named" / owner / f"{slug}.md"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    text = f"---\nid: {owner}/{slug}\nname: {name}\ngenericSkillRef: synthetic-line-history\nstatus: named\ntitle: T\ndescription: SYNTHETIC. line history helper\nlinks:\n  github: {github}\n---\n\nbody\n"
+    path.write_bytes(text.replace("\n", "\r\n").encode() if crlf else text.encode())
+
+
+def test_monorepo_source_does_not_flag_or_drop_sibling_skills(repo):
+    for slug in ("alpha", "beta", "gamma"):
+        addNamed(repo, "synthetic-mono", slug, f"Synthetic {slug.title()}", f"https://github.com/synthetic-mono/skills/blob/main/skills/{slug}/SKILL.md")
+    lead = make_lead(identity={"name": "Unrelated Name", "kind": "installable-agent-capability", "installable": True, "version": "1"})
+    lead["source"]["url"] = "https://github.com/synthetic-mono/skills"
+    bare = match_candidates(lead, repo)
+    assert bare["registeredElsewhere"] is False and bare["ambiguousRepository"]["entries"] == 3
+    assert any(c["skillId"].startswith("synthetic-mono/") for c in match_candidates(lead, repo, top=50)["candidates"])
+    lead["source"]["url"] = "https://github.com/synthetic-mono/skills/blob/main/skills/beta/SKILL.md"
+    exact = match_candidates(lead, repo)
+    assert [r["skillId"] for r in exact["registeredAs"]] == ["synthetic-mono/beta"] and exact["registeredAs"][0]["via"] == ["repository"]
+    assert exact["ambiguousRepository"] is None
+    lead["source"]["url"] = "https://github.com/synthetic-mono/skills/blob/main/skills/delta/SKILL.md"
+    assert match_candidates(lead, repo)["registeredElsewhere"] is False
+
+
+@pytest.mark.parametrize("source", ["https://example.org", [], "text", None, 7])
+def test_non_object_or_odd_source_is_a_clean_refusal_or_result(repo, source, tmp_path, capsys):
+    lead = make_lead()
+    lead["source"] = source
+    result = match_candidates(lead, repo)
+    assert result["registeredElsewhere"] is False
+    path = tmp_path / "odd.json"
+    path.write_text(json.dumps(lead))
+    code, out = run_cli(["dedupe", "--lead", str(path), "--repo-root", str(repo)], repo, capsys)
+    assert code == 1 and "refused" in out.err and "Traceback" not in out.err
+
+
+def test_crlf_frontmatter_is_loaded_and_counted(repo):
+    addNamed(repo, "synthetic-crlf", "windows-skill", "Synthetic Windows Skill", "https://github.com/synthetic-crlf/x/blob/main/a/SKILL.md", crlf=True)
+    entries, _, _ = frontierMatch.loadRegistryEntries(repo)
+    assert any(e["skillId"] == "synthetic-crlf/windows-skill" for e in entries)
+
+
+def test_registry_digest_covers_similarity_and_skips_symlinks_and_oversize(repo, monkeypatch):
+    _, first, count = frontierMatch.loadRegistryEntries(repo)
+    (repo / "registry/similarity.json").write_text('{"pairs": []}')
+    _, second, _ = frontierMatch.loadRegistryEntries(repo)
+    assert first != second
+    outside = repo.parent / "outside.json"
+    outside.write_text(json.dumps({"id": "leaked-skill", "name": "Leaked", "description": "x"}))
+    (repo / "registry/nodes/basic/link.json").symlink_to(outside)
+    entries, _, _ = frontierMatch.loadRegistryEntries(repo)
+    assert all(e["skillId"] != "leaked-skill" for e in entries)
+    monkeypatch.setattr(frontierMatch, "MAX_REGISTRY_FILE_BYTES", 10)
+    assert frontierMatch.loadRegistryEntries(repo)[0] == []
+
+
+@pytest.mark.parametrize("field", ["VERIFIED", "ApprovedBy", "Signature"])
+def test_forbidden_authority_keys_are_casefolded(repo, field):
+    lead = make_lead()
+    lead["disposition"][field] = "x"
+    with pytest.raises(ValueError, match="forbidden authority field"):
+        match_candidates(lead, repo)
+
+
+def test_symlinked_ledger_lead_is_skipped_not_followed(repo):
+    outside = repo.parent / "outside-lead.json"
+    outside.write_text(json.dumps(make_lead()))
+    folder = repo / "evidence/frontier-challenges/synthetic-link"
+    folder.mkdir(parents=True)
+    (folder / "lead.json").symlink_to(outside)
+    result = dedupe_against_ledger(make_lead(), repo)
+    assert result["isDuplicate"] is False and result["ledger"]["skipped"]
+
+
+def test_cli_default_root_is_the_checkout_and_dedupe_fails_closed_on_unread_ledger(repo, tmp_path, capsys):
+    lead = tmp_path / "lead.json"
+    lead.write_text(json.dumps(make_lead()))
+    write_ledger(repo, "synthetic-case-1", make_lead())
+    code, out = run_cli(["dedupe", "--lead", str(lead)], repo, capsys)  # no --repo-root: root comes from --registry
+    assert code in (0, None) and json.loads(out.out)["isDuplicate"] is True
+    # registry path naming the registry directory itself is tolerated
+    from gaia_cli.main import main
+    import sys
+    old, sys.argv = sys.argv, ["gaia", "--registry", str(repo / "registry"), "dev", "frontier", "dedupe", "--lead", str(lead)]
+    try:
+        main()
+    finally:
+        sys.argv = old
+    assert json.loads(capsys.readouterr().out)["isDuplicate"] is True
+    # empty ledger without an explicit root is refused; with one it is a stated "not duplicate"
+    shutil.rmtree(repo / "evidence")
+    code, out = run_cli(["dedupe", "--lead", str(lead)], repo, capsys)
+    assert code == 1 and "not read" in out.err and not out.out.strip()
+    code, out = run_cli(["dedupe", "--lead", str(lead), "--repo-root", str(repo)], repo, capsys)
+    result = json.loads(out.out)
+    assert code in (0, None) and result["isDuplicate"] is False and result["ledger"]["present"] is False
+
+
+def test_cli_wrong_root_is_refused_for_match(tmp_path, capsys):
+    from gaia_cli.main import main
+    import sys
+    lead = tmp_path / "lead.json"
+    lead.write_text(json.dumps(make_lead()))
+    old, sys.argv = sys.argv, ["gaia", "--registry", str(tmp_path), "dev", "frontier", "match", "--lead", str(lead)]
+    try:
+        with pytest.raises(SystemExit) as exit_info:
+            main()
+    finally:
+        sys.argv = old
+    assert exit_info.value.code == 1 and "--repo-root" in capsys.readouterr().err

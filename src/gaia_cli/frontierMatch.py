@@ -24,6 +24,8 @@ LEDGER_GLOB = "evidence/frontier-challenges/*/lead.json"
 MATCH_METHOD = "lexical-bm25-v1"
 MATCH_AUTHORITY = "advisory ranking only; never admission, approval, verification, rank or Trust Magnitude"
 MAX_LEAD_BYTES = 1_048_576
+MAX_REGISTRY_FILE_BYTES = 2_097_152
+FORBIDDEN_CASEFOLDED = frozenset(name.casefold() for name in FORBIDDEN_AUTHORITY_FIELDS)
 STOPWORDS = frozenset(
     "a an and are as at be by for from how in into is it its of on or over that the their this to with "
     "via using use used can may not no than then when which who will would one two selected given each".split()
@@ -54,7 +56,7 @@ def _forbiddenAuthorityKeys(value: Any, path: str = "$") -> list[str]:
     found = []
     if isinstance(value, dict):
         for key, child in value.items():
-            if key in FORBIDDEN_AUTHORITY_FIELDS:
+            if str(key).casefold() in FORBIDDEN_CASEFOLDED:
                 found.append(f"{path}.{key}")
             found.extend(_forbiddenAuthorityKeys(child, f"{path}.{key}"))
     elif isinstance(value, list):
@@ -80,15 +82,30 @@ def _requireLeadShape(lead: Any, fields: tuple[tuple[str, ...], ...]) -> None:
 
 def _yamlFrontmatter(raw: bytes) -> dict[str, Any]:
     import yaml
-    text = raw.decode("utf-8", errors="replace")
+    text = raw.decode("utf-8", errors="replace").replace("\r\n", "\n").lstrip("\ufeff")
     if not text.startswith("---\n"):
+        return {}
+    end = text.find("\n---", 4)
+    if end < 0:
         return {}
     loader = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
     try:
-        meta = yaml.load(text.split("---", 2)[1], Loader=loader)
+        meta = yaml.load(text[4:end], Loader=loader)
     except yaml.YAMLError:
         return {}
     return meta if isinstance(meta, dict) else {}
+
+
+def _readBounded(path: Path, root: Path) -> bytes | None:
+    """Registry bytes for a regular, in-tree, size-bounded file; symlinks and oversize files are skipped."""
+    try:
+        if path.is_symlink() or not path.is_file() or path.stat().st_size > MAX_REGISTRY_FILE_BYTES:
+            return None
+        if not path.resolve().is_relative_to(root):
+            return None
+        return path.read_bytes()
+    except OSError:
+        return None
 
 
 def loadRegistryEntries(repo_root: str | Path) -> tuple[list[dict[str, Any]], str, int]:
@@ -96,10 +113,12 @@ def loadRegistryEntries(repo_root: str | Path) -> tuple[list[dict[str, Any]], st
     root = Path(repo_root).resolve()
     nodes, named = root / "registry" / "nodes", root / "registry" / "named"
     if not nodes.is_dir() or not named.is_dir():
-        raise ValueError(f"no registry/nodes and registry/named under {root}")
+        raise ValueError(f"no registry/nodes and registry/named under {root}; pass --repo-root <checkout>")
     entries, manifest = [], []
     for path in sorted(nodes.rglob("*.json")):
-        raw = path.read_bytes()
+        raw = _readBounded(path, root)
+        if raw is None:
+            continue
         manifest.append(f"{path.relative_to(root).as_posix()}\0{_sha(raw)}")
         try:
             node = json.loads(raw)
@@ -108,11 +127,16 @@ def loadRegistryEntries(repo_root: str | Path) -> tuple[list[dict[str, Any]], st
         if isinstance(node, dict) and node.get("id"):
             entries.append({"kind": "generic", "skillId": node["id"], "genericSkillId": node["id"], "fields": node, "path": path.relative_to(root).as_posix()})
     for path in sorted(named.rglob("*.md")):
-        raw = path.read_bytes()
+        raw = _readBounded(path, root)
+        if raw is None:
+            continue
         manifest.append(f"{path.relative_to(root).as_posix()}\0{_sha(raw)}")
         meta = _yamlFrontmatter(raw)
         if meta.get("id") and meta.get("genericSkillRef"):
             entries.append({"kind": "named", "skillId": str(meta["id"]), "genericSkillId": str(meta["genericSkillRef"]), "fields": meta, "path": path.relative_to(root).as_posix()})
+    similarity = _readBounded(root / "registry" / "similarity.json", root)
+    if similarity is not None:
+        manifest.append(f"registry/similarity.json\0{_sha(similarity)}")
     return entries, _sha("\n".join(manifest).encode()), len(manifest)
 
 
@@ -129,7 +153,8 @@ def _docTokens(entry: dict[str, Any]) -> Counter:
     return weighted
 
 
-def _repoPath(url: Any) -> str | None:
+def _repoRef(url: Any) -> tuple[str, tuple[str, ...]] | None:
+    """(owner/repo, subpath directory segments) for a GitHub URL; None for anything else."""
     try:
         parts = urlsplit(canonical_source_url(str(url)))
     except ValueError:
@@ -137,24 +162,51 @@ def _repoPath(url: Any) -> str | None:
     if parts.hostname not in {"github.com", "raw.githubusercontent.com", "www.github.com"}:
         return None
     segments = [p for p in parts.path.split("/") if p]
-    return "/".join(segments[:2]).casefold() if len(segments) >= 2 else None
+    if len(segments) < 2:
+        return None
+    repo = "/".join(segments[:2]).casefold()
+    rest = segments[3:] if parts.hostname == "raw.githubusercontent.com" else segments[4:]
+    if segments[2:3] not in (["blob"], ["tree"]) and parts.hostname != "raw.githubusercontent.com":
+        rest = []
+    if rest and "." in rest[-1]:
+        rest = rest[:-1]  # drop the file name (SKILL.md, __init__.py): compare directories
+    return repo, tuple(part.casefold() for part in rest)
 
 
-def findRegisteredChallenger(lead: dict[str, Any], entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Named/generic registry skills that are the challenger itself, matched by name or source repository."""
+def findRegisteredChallenger(lead: dict[str, Any], entries: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], dict[str, Any] | None]:
+    """Registry skills that are the challenger itself, matched by exact name or by repository plus subpath.
+
+    A bare repository URL matches only when exactly one registry entry lives in that repository;
+    otherwise (monorepos such as many skills in one repo) it is reported as ambiguous, not matched.
+    """
     name = lead["identity"]["name"].strip().casefold()
-    repo = _repoPath(lead.get("source", {}).get("url", ""))
+    source = lead.get("source") if isinstance(lead.get("source"), dict) else {}
+    ref = _repoRef(source.get("url", ""))
+    inRepo = []
+    if ref:
+        for entry in entries:
+            links = entry["fields"].get("links") if isinstance(entry["fields"].get("links"), dict) else {}
+            other = _repoRef(links.get("github"))
+            if other and other[0] == ref[0]:
+                inRepo.append((entry, other))
+    ambiguous = None
+    byRepo: set[str] = set()
+    if ref and ref[1]:
+        byRepo = {e["skillId"] for e, other in inRepo if other[1] == ref[1]}
+    elif ref and len(inRepo) == 1:
+        byRepo = {inRepo[0][0]["skillId"]}
+    elif ref and len(inRepo) > 1:
+        ambiguous = {"repository": ref[0], "entries": len(inRepo), "note": "bare repository URL matches several registry skills; not treated as the challenger itself"}
     found = []
     for entry in entries:
-        fields, via = entry["fields"], []
-        if str(fields.get("name", "")).strip().casefold() == name:
+        via = []
+        if str(entry["fields"].get("name", "")).strip().casefold() == name:
             via.append("name")
-        links = fields.get("links") if isinstance(fields.get("links"), dict) else {}
-        if repo and _repoPath(links.get("github")) == repo:
+        if entry["skillId"] in byRepo:
             via.append("repository")
         if via:
             found.append({"kind": entry["kind"], "skillId": entry["skillId"], "genericSkillId": entry["genericSkillId"], "via": via, "path": entry["path"]})
-    return found
+    return found, ambiguous
 
 
 def _similarityPairs(repo_root: Path) -> dict[str, dict[str, float]]:
@@ -178,7 +230,7 @@ def match_candidates(lead: dict[str, Any], repo_root: str | Path, *, top: int = 
         raise ValueError("top must be an integer between 1 and 50")
     root = Path(repo_root).resolve()
     entries, registryDigest, fileCount = loadRegistryEntries(root)
-    challengers = findRegisteredChallenger(lead, entries)
+    challengers, ambiguousRepository = findRegisteredChallenger(lead, entries)
     challengerIds = {item["skillId"] for item in challengers}
     challengerBuckets = {item["genericSkillId"] for item in challengers}
     queryText = " ".join((lead["identity"]["name"], lead["capability"]["claim"], lead["capability"]["task"], lead["comparison"]["comparator"]))
@@ -224,8 +276,10 @@ def match_candidates(lead: dict[str, Any], repo_root: str | Path, *, top: int = 
         note = "The challenger is already a registry skill; it is excluded from the ranked targets and its bucket is flagged."
     elif candidates:
         note = "Ranked by lexical overlap between the lead's claim and registry text; a human or Meta audit must still choose any target."
+        if ambiguousRepository:
+            note += f" The source repository holds {ambiguousRepository['entries']} registry skills, so no single registered challenger was assumed."
     else:
-        note = "No registry text overlaps the lead's claim; no candidate is suggested."
+        note = f"No registry text among {len(entries)} entries overlaps the lead's claim; no candidate is suggested. If that is unexpected, confirm --repo-root points at the checkout."
     return {
         "schemaVersion": MATCH_SCHEMA,
         "advisory": True,
@@ -235,6 +289,7 @@ def match_candidates(lead: dict[str, Any], repo_root: str | Path, *, top: int = 
         "query": query,
         "registeredElsewhere": bool(challengers),
         "registeredAs": challengers,
+        "ambiguousRepository": ambiguousRepository,
         "declaredTarget": declaredReport,
         "candidates": candidates,
         "rationale": note,
@@ -275,6 +330,8 @@ def dedupe_against_ledger(lead: dict[str, Any], repo_root: str | Path, *, exclud
         if excluded is not None and path.resolve() == excluded:
             continue
         try:
+            if path.is_symlink() or not path.resolve().is_relative_to(root):
+                raise ValueError("ledger lead is a symlink or outside the checkout")
             if path.stat().st_size > MAX_LEAD_BYTES:
                 raise ValueError("ledger lead exceeds bounded size")
             existing = json.loads(path.read_bytes())
@@ -299,7 +356,7 @@ def dedupe_against_ledger(lead: dict[str, Any], repo_root: str | Path, *, exclud
         "isDuplicate": bool(duplicates),
         "duplicates": duplicates,
         "related": related,
-        "ledger": {"glob": LEDGER_GLOB, "scanned": scanned, "skipped": skipped},
+        "ledger": {"glob": LEDGER_GLOB, "present": (root / "evidence" / "frontier-challenges").is_dir(), "scanned": scanned, "skipped": skipped},
     }
 
 
