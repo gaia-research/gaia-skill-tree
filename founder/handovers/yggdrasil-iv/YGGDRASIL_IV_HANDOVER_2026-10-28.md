@@ -9,7 +9,7 @@ Session: founder "continue" on 2026-10-28, Opus 5.5 lead in Claude Code on macOS
 (not the Termux device that produced the 10-27 pause). Roster: Opus / Sonnet / Haiku.
 Worktrees live under `~/.gaia-worktrees/yggiv-*` on that Mac.
 
-## 1. Integration state — `dev/yggdrasil-iv` = `4d3fba9e6`
+## 1. Integration state — `dev/yggdrasil-iv` = `91726e440`
 
 Contains **all of `main`** (0 behind at merge time) plus, landed this session by
 merge commit after independent review:
@@ -20,6 +20,8 @@ merge commit after independent review:
 | #2182 | Curation stub cleanup (routes discovery to `/gaia-frontier`) | Sonnet: ACCEPT; P3s fixed | same combined run |
 | #2180 | Guarded canonical CLI + strict held-proposal fixtures | Opus: HOLD → repaired → ACCEPT; 3 P3s fixed | merged tree: 20 + 137 passed, 5 subtests |
 | #2185 | Sync `main` → integration (ledger ref-leak reconciliation) | parent | merged tree: 439 passed, 5 subtests; lockstep + mirror clean |
+| #2186 | Canonical CLI test harness: diagnosable subprocess timeouts, module timeout 600s | parent (test-only diff) | 20 passed; forced-timeout message verified |
+| #2181 | Fail-closed challenge receipt-source boundary | Sonnet: HOLD ×3 → ACCEPT path (digest binding, authenticated-source allowlist, deflate+bzip2/lzma bomb closed, challengeDomain forces `for_challenge(id)` binding) | merged tree: 183 passed (receipts, challenge domain, lifecycle, ledger) |
 
 Notes:
 - #2180 lands `src/gaia_cli/evidenceLifecycle.py` byte-identical to held #2177's
@@ -32,15 +34,16 @@ Notes:
   main's post-push `update-ref -d refs/remotes/<remote>/<ref>` (could delete a user's own
   tracking ref). Also fixed two tests already failing on `main` (trust-appraise-all lost its
   curation-authority-map link in 3fba06736).
-- Under heavy machine load, subprocess-heavy canonical CLI tests approach the repo's 60s
-  per-test timeout; one transient failure did not reproduce. Disclosed on #2180.
+- Under heavy machine load one run failed `test_interrupted_rollback_is_pending_and_can_be_completed`
+  (test #13) then timed out in #14. Not reproduced in 5 full-file runs under ncpu busy-loops nor
+  16 parallel crash/rollback runs under 2×ncpu. Likely the old 25s per-subprocess cap; unconfirmed.
+  #2186 makes any recurrence self-identifying. Re-check under load before the final main merge.
 
 ## 2. Open lanes
 
 | PR | State | Next |
 |---|---|---|
-| #2181 receipt-source boundary | Repaired once; re-review found P1 zip-bomb (lying headers inflate ~8 GiB before CRC) + P2 `challengeDomain` not forcing `for_challenge()` binding; fix in progress | re-review delta, then land |
-| #2184 lifecycle producer/consumer | Engineering ACCEPT (Sonnet; 588-variant TM matrix, XSS/malformed matrix). 320px clip fixed. Node suite now runs in CI via pytest wrapper. **Founder ordered a full Challenge visual-identity redesign** (bars not text, prose in tooltips, reusable components, own identity) — Opus designer in progress | founder visual approval (renders shared as throwaway local HTML, never Artifact); product decision on 6 dropped legacy states |
+| #2184 lifecycle producer/consumer | Engineering ACCEPT (Sonnet; 588-variant TM matrix, XSS/malformed matrix). 320px clip fixed. Node suite now runs in CI via pytest wrapper. **Challenge visual identity redesigned** at `2e020476c` ("the assay": ember-hatched notched plate = open challenge, notch depth = severity; struck-steel ember chevron = rebutted honour, permanent; log-scale Trust Meter; prose in hover/focus/tap tooltips; reusable `challengeMark`/`stateChip`/`trustMeter`/`tip`; DESIGN.md Challenge section). 82 Node + 14 Python passed. Review pack shared as local HTML. Open founder questions: Rebutted vs "vetoed" label, ember token location, log-scale meter + strike-through, GitHub avatar in Origin row; orchestrator flag: contested chip repeated ×3 | founder visual approval (renders shared as throwaway local HTML, never Artifact); product decision on 6 dropped legacy states |
 | #2176 schema proposal | Fast-forwarded to `bf9097b7a` (typed timeline linkage); 73 contract tests, 3-mirror parity; body rewritten | two Core Maintainer approvals |
 | #2177 evidence core | Retargeted onto #2176 (2-file diff); code now in integration via #2180 | record only; held with #2176 |
 | #2172 publication | Body updated with completed b81 full proof (2,555×2 artifacts, snapshot `a0e07524…`, 326 regressions) | founder visual approval |
