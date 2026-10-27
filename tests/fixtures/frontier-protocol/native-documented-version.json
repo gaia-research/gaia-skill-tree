@@ -1,4 +1,5 @@
 {
+  "syntheticFixture": "SYNTHETIC: derived from native-host-version.json by editing the version fields; unit data, not an execution of Git 2.56.0.",
   "experiment": "git-log-L-vs-graft-v1",
   "requestId": "sha256:bb2b9be667b6a4a94a8312b6bfcea192277d8412f3a0f818e4ff2a6d8f0eaa3d",
   "fixtureDigest": "sha256:deb9f81d78e97c503f48028e4dafb5167ff3b6c966e282e9b1f1c5a77b62c388",

@@ -237,22 +237,33 @@ def validate_experiment_receipt(receipt: dict[str, Any], request: dict[str, Any]
         errors.append("output artifacts require local integrity verification")
     if repo_root is not None:
         root = Path(repo_root).resolve()
-        try:
-            base = _artifact_base(root, artifact_root)
-        except ValueError as exc:
-            errors.append(str(exc))
-            base = None
+        resolved_outputs = []
         for item in outputs:
-            if base is None:
-                break
             try:
-                path, raw = _validated_file(root, item["path"])
-                if not path.is_relative_to(base):
-                    errors.append(f"output artifact is outside {artifact_root}")
+                relative = item["path"]
+                if Path(relative).as_posix() != relative:
+                    errors.append(f"output artifact path is not normalized: {relative}")
+                path = resolve_artifact(root, relative, artifact_root)
+                _, raw = _validated_file(root, relative)
+                resolved_outputs.append(path)
                 if _sha(raw) != item.get("contentDigest"):
                     errors.append(f"output artifact digest mismatch: {item.get('label')}")
             except (KeyError, TypeError, ValueError) as exc:
-                errors.append(f"invalid output artifact: {exc}")
+                if "descendant" in str(exc):
+                    errors.append(f"output artifact is outside {artifact_root}")
+                else:
+                    errors.append(f"invalid output artifact: {exc}")
+        if len(set(resolved_outputs)) != len(resolved_outputs):
+            errors.append("output artifacts alias each other")
+        try:
+            pinned = pinned_declaration(root, request)
+            if receipt.get("result") not in pinned["resultRule"]["allowedResults"]:
+                errors.append("result is not permitted by the pinned protocol result rule")
+            if "experimentId" in receipt and receipt["experimentId"] != pinned["id"]:
+                errors.append("experimentId does not match the pinned protocol")
+        except ValueError:
+            if "experimentId" in receipt:
+                errors.append("experimentId cannot be checked: pinned protocol declares no experiment contract")
     return sorted(set(errors))
 
 
@@ -315,15 +326,30 @@ def experiment_declaration(protocol: Any) -> dict[str, Any]:
     raise ValueError("protocol declares no experiment contract (expected schemaVersion frontier-protocol-v1)")
 
 
-def build_experiment_receipt(*, root: str | Path, request: dict[str, Any], execution_path: str, protocol: str | dict[str, Any],
+def pinned_declaration(root: Path, request: dict[str, Any], protocol: str | None = None) -> dict[str, Any]:
+    """Experiment contract declared by the protocol file the request pins; digest-checked, never caller-supplied."""
+    pinned = request["protocol"]["path"]
+    if protocol is not None and str(protocol) != pinned:
+        raise ValueError("protocol path does not match the request's pinned protocol")
+    _, raw = _validated_file(root, pinned)
+    if _sha(raw) != request["protocol"]["contentDigest"]:
+        raise ValueError("checkout protocol bytes differ from the request")
+    try:
+        document = json.loads(raw)
+    except ValueError as exc:
+        raise ValueError(f"protocol is not valid JSON: {exc}") from None
+    return experiment_declaration(document)
+
+
+def build_experiment_receipt(*, root: str | Path, request: dict[str, Any], execution_path: str, protocol: str | None = None,
                              target_path: str | None = None, result: str = "inconclusive",
                              artifact_root: str = DEFAULT_ARTIFACT_ROOT, run_id: str | None = None,
                              recorded_at: str | None = None) -> dict[str, Any]:
-    """Bind a runner artifact to a request under a protocol-declared experiment contract.
+    """Bind a runner artifact to a request under the contract its pinned protocol declares.
 
-    `protocol` is a repo-relative path to the protocol file (which must be the one the
-    request pins, byte for byte) or an already-parsed protocol document. The result is
-    an untrusted experiment record, never a verifier authentication or admission.
+    The experiment contract is always read from the protocol file the request pins (checked
+    against the request's digest); `protocol`, if given, must name that same path. The result
+    is an untrusted experiment record, never a verifier authentication or admission.
     """
     root = Path(root).resolve()
     if result not in EXPERIMENT_RESULTS:
@@ -331,19 +357,7 @@ def build_experiment_receipt(*, root: str | Path, request: dict[str, Any], execu
     request_errors = validate_request(request)
     if request_errors:
         raise ValueError("request integrity check failed")
-    if isinstance(protocol, dict):
-        document = protocol
-    else:
-        if str(protocol) != request["protocol"]["path"]:
-            raise ValueError("protocol path does not match the request's pinned protocol")
-        _, protocol_raw = _validated_file(root, str(protocol))
-        if _sha(protocol_raw) != request["protocol"]["contentDigest"]:
-            raise ValueError("checkout protocol bytes differ from the request")
-        try:
-            document = json.loads(protocol_raw)
-        except ValueError as exc:
-            raise ValueError(f"protocol is not valid JSON: {exc}") from None
-    declaration = experiment_declaration(document)
+    declaration = pinned_declaration(root, request, protocol)
     if result not in declaration["resultRule"]["allowedResults"]:
         raise ValueError(f"result {result} is not permitted by the protocol result rule")
     native_file = resolve_artifact(root, execution_path, artifact_root)
@@ -358,7 +372,7 @@ def build_experiment_receipt(*, root: str | Path, request: dict[str, Any], execu
         raise ValueError("native artifact is missing expected keys: " + ", ".join(missing))
     probed = str(execution.get(probe["field"], "")).strip()
     match = re.fullmatch(probe["pattern"], probed) if len(probed) <= 200 else None
-    if not match:
+    if not match or not match.group(1):
         raise ValueError(f"native artifact lacks a recognizable {probe['label']} string")
     executed = match.group(1)
     cross = probe.get("crossCheckField")
@@ -367,14 +381,16 @@ def build_experiment_receipt(*, root: str | Path, request: dict[str, Any], execu
     documented = request["native"]["version"]
     if executed != documented and result not in VERSION_MISMATCH_RESULTS:
         raise ValueError(f"executed {declaration['toolName']} {executed} differs from documented {documented}: only inconclusive or execution_failed may be recorded")
+    recorded = execution.get("result")
+    if recorded is not None and recorded != result and not (recorded == "inconclusive" and target_path is not None):
+        raise ValueError(f"result {result} contradicts the runner artifact's recorded result {recorded}; only a paired target artifact may move an inconclusive runner result")
     for key, expected in (("requestId", request["requestId"]), ("fixtureDigest", request["fixture"]["contentDigest"]), ("protocolDigest", request["protocol"]["contentDigest"])):
         if execution.get(key) != expected:
             raise ValueError(f"native artifact {key} does not match the request")
-    # Also bind to the actual files this checkout holds, not only the request's claim.
-    for key, spec in (("fixtureDigest", request["fixture"]), ("protocolDigest", request["protocol"])):
-        _, raw = _validated_file(root, spec["path"])
-        if _sha(raw) != spec["contentDigest"]:
-            raise ValueError(f"checkout {key[:-6]} bytes differ from the request")
+    # Also bind to the fixture bytes this checkout holds, not only the request's claim.
+    _, fixture_raw = _validated_file(root, request["fixture"]["path"])
+    if _sha(fixture_raw) != request["fixture"]["contentDigest"]:
+        raise ValueError("checkout fixture bytes differ from the request")
     output = execution.get(declaration["outputField"])
     if not isinstance(output, str) or execution.get(declaration["outputDigestField"]) != _sha(output.encode("utf-8")):
         raise ValueError("native recorded output digest mismatch")
@@ -406,6 +422,8 @@ def build_experiment_receipt(*, root: str | Path, request: dict[str, Any], execu
         "result": result, "outputs": outputs, "limitations": limitations,
         "recordedAtUTC": recorded_at or datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
     }
+    if declaration is not LEGACY_EXPERIMENTS.get(declaration["id"]):
+        receipt["experimentId"] = declaration["id"]
     errors = validate_experiment_receipt(receipt, request, repo_root=root, artifact_root=artifact_root)
     if errors:
         raise ValueError("receipt invalid: " + "; ".join(errors))

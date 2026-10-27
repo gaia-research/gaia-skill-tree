@@ -49,13 +49,16 @@ def legacyRoot(tmp_path, native, target=None, artifact_root="generated-output/fr
 ])
 def test_legacy_git_log_L_receipt_is_byte_identical_to_pre_refactor_golden(tmp_path, name, native, target, result):
     root, request = legacyRoot(tmp_path, native, target)
-    golden = (FIXTURE / f"golden-receipt-{name}.json").read_text()
+    wrapped = json.loads((FIXTURE / f"golden-receipt-{name}.json").read_text())
+    assert "SYNTHETIC" in wrapped["syntheticFixture"]
+    golden = json.dumps(wrapped["receipt"], indent=2) + "\n"
     kwargs = dict(root=root, execution_path="generated-output/frontier/native.json", result=result, **FIXED,
                   target_path="generated-output/frontier/target.txt" if target else None)
     # 1. through the protocol file the request pins (legacy file declares no contract itself)
     receipt = build_experiment_receipt(request=request, protocol=request["protocol"]["path"], **kwargs)
     assert json.dumps(receipt, indent=2) + "\n" == golden
     assert validate_experiment_receipt(receipt, request, repo_root=root) == []
+    assert "experimentId" not in receipt  # legacy contract: receipt bytes unchanged
     # 2. through the original recorder entry point
     recorder = loadScript("record_experiment")
     old = recorder.build_receipt(root=root, request_rel="generated-output/frontier/request.json",
@@ -264,3 +267,116 @@ def test_recorder_cli_accepts_protocol_and_artifact_root(tmp_path, monkeypatch):
     assert validate_experiment_receipt(receipt, request, repo_root=repo, artifact_root=art) == []
     with pytest.raises(SystemExit):
         recorder.main(args)
+
+
+# --- review repairs -------------------------------------------------------------------------
+
+def v1Receipt(tmp_path, **experiment):
+    repo, request, out = syntheticRepo(tmp_path, syntheticProtocol(**experiment))
+    writeNative(out, request)
+    return repo, request, out
+
+
+def test_legacy_default_cannot_override_a_pinned_protocol_that_forbids_supported(tmp_path):
+    """A request pinning an inconclusive-only protocol must not yield `supported` via the legacy default."""
+    repo, request, out = syntheticRepo(tmp_path, syntheticProtocol())
+    writeNative(out, request)
+    (out / "target.txt").write_text("synthetic target output")
+    recorder = loadScript("record_experiment")
+    kwargs = dict(root=repo, request_rel="generated-output/frontier/req.json", native_rel="generated-output/frontier/native.json",
+                  target_rel="generated-output/frontier/target.txt")
+    (out / "req.json").write_text(json.dumps(request))
+    for result in ("supported", "contradicted"):
+        with pytest.raises(ValueError, match="not permitted by the protocol result rule"):
+            recorder.build_receipt(**kwargs, result=result)
+    receipt = recorder.build_receipt(**kwargs, result="inconclusive")
+    assert receipt["experimentId"] == "synthetic-echo-v1"
+    assert validate_experiment_receipt(receipt, request, repo_root=repo) == []
+
+
+def test_dict_protocol_is_no_longer_accepted_and_pinned_path_must_match(tmp_path):
+    repo, request, out = v1Receipt(tmp_path)
+    with pytest.raises(ValueError, match="does not match the request's pinned protocol"):
+        build_experiment_receipt(root=repo, request=request, protocol="other.json", execution_path="generated-output/frontier/native.json")
+    receipt = build_experiment_receipt(root=repo, request=request, execution_path="generated-output/frontier/native.json")  # protocol defaults to the pinned file
+    assert receipt["result"] == "inconclusive"
+
+
+def test_pinned_file_without_declaration_is_refused(tmp_path):
+    repo, request, out = syntheticRepo(tmp_path, {"protocolId": "unknown-protocol"})
+    writeNative(out, request)
+    with pytest.raises(ValueError, match="declares no experiment contract"):
+        build(repo, request)
+
+
+def test_validator_rejects_forged_result_and_experiment_id_from_pinned_protocol(tmp_path):
+    repo, request, out = v1Receipt(tmp_path)
+    receipt = build(repo, request)
+    forged = dict(receipt, result="supported")
+    assert any("not permitted by the pinned protocol result rule" in e for e in validate_experiment_receipt(forged, request, repo_root=repo))
+    forged = dict(receipt, experimentId="other-experiment")
+    assert any("experimentId does not match" in e for e in validate_experiment_receipt(forged, request, repo_root=repo))
+
+
+def test_result_must_not_contradict_runner_recorded_result(tmp_path):
+    repo, request, out = v1Receipt(tmp_path, resultRule={"statement": "Synthetic rule permitting every result.", "allowedResults": ["supported", "contradicted", "inconclusive", "execution_failed"]})
+    (out / "target.txt").write_text("synthetic target output")
+    writeNative(out, request, result="contradicted")
+    with pytest.raises(ValueError, match="contradicts the runner artifact's recorded result"):
+        build(repo, request, result="supported", target_path="generated-output/frontier/target.txt")
+    assert build(repo, request, result="contradicted", target_path="generated-output/frontier/target.txt")["result"] == "contradicted"
+    writeNative(out, request, result="inconclusive")
+    with pytest.raises(ValueError, match="only a paired target artifact"):
+        build(repo, request, result="supported")
+    assert build(repo, request, result="supported", target_path="generated-output/frontier/target.txt")["result"] == "supported"
+
+
+def test_version_capture_group_must_actually_capture(tmp_path):
+    repo, request, out = v1Receipt(tmp_path, versionProbe={"field": "echoVersion", "pattern": r"echo( \S+)?", "label": "echo --version"})
+    writeNative(out, request, echoVersion="echo")
+    with pytest.raises(ValueError, match="recognizable echo --version"):
+        build(repo, request)
+
+
+def test_validator_refuses_symlink_aliases_and_unnormalized_output_paths(tmp_path):
+    repo, request, out = v1Receipt(tmp_path, resultRule={"statement": "Synthetic rule permitting every result.", "allowedResults": ["supported", "contradicted", "inconclusive", "execution_failed"]})
+    (out / "target.txt").write_text("synthetic target output")
+    receipt = build(repo, request, result="inconclusive", target_path="generated-output/frontier/target.txt")
+    assert validate_experiment_receipt(receipt, request, repo_root=repo) == []
+    alias = copy.deepcopy(receipt)
+    alias["outputs"][1]["path"] = "generated-output/frontier/./target.txt"
+    assert any("not normalized" in e for e in validate_experiment_receipt(alias, request, repo_root=repo))
+    (out / "target.txt").unlink()
+    (out / "target.txt").symlink_to(out / "native.json")
+    alias = copy.deepcopy(receipt)
+    alias["outputs"][1]["contentDigest"] = alias["outputs"][0]["contentDigest"]
+    errors = validate_experiment_receipt(alias, request, repo_root=repo)
+    assert any("symlinks" in e for e in errors)
+
+
+def test_request_builder_refuses_tracked_and_out_of_area_outputs(tmp_path, monkeypatch):
+    repo, _, _ = syntheticRepo(tmp_path, syntheticProtocol())
+    builder = loadScript("build_verification_request")
+    monkeypatch.setattr(builder, "ROOT", repo)
+    base = ["--lead", "lead.json", "--protocol", "protocol.json", "--fixture", "fixture.py"]
+    for target in ("lead.json", "protocol.json", "registry/nodes/generic-history.json", "docs/x.json"):
+        before = (repo / target).read_bytes() if (repo / target).exists() else None
+        with pytest.raises(SystemExit):
+            builder.main([*base, "--request-out", target])
+        assert ((repo / target).read_bytes() if (repo / target).exists() else None) == before
+    # a tracked file under an allowed prefix is also protected
+    tracked = repo / "evidence/frontier-challenges/case/request.json"
+    tracked.parent.mkdir(parents=True)
+    tracked.write_text("{}")
+    subprocess.run(["git", "-C", str(repo), "add", "."], check=True)
+    with pytest.raises(SystemExit):
+        builder.main([*base, "--request-out", "evidence/frontier-challenges/case/request.json"])
+    assert tracked.read_text() == "{}"
+
+
+def test_request_builder_refuses_protocol_with_no_declaration(tmp_path, monkeypatch):
+    repo, _, _ = syntheticRepo(tmp_path, {"protocolId": "unknown-protocol"})
+    builder = loadScript("build_verification_request")
+    monkeypatch.setattr(builder, "ROOT", repo)
+    with pytest.raises(SystemExit):
+        builder.main(["--lead", "lead.json", "--protocol", "protocol.json", "--fixture", "fixture.py"])

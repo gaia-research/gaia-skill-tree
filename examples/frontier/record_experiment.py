@@ -5,8 +5,8 @@ claim for Meta review, not authentication or public challenge admission.
 
 Receipt construction lives in `gaia_cli.frontier.build_experiment_receipt`; a
 protocol file declares the experiment id, version probe, expected artifact keys
-and pre-registered result rule. Without `--protocol` the recorder keeps its
-original behavior for the git-log-L experiment.
+and pre-registered result rule. The contract is always read from the protocol file
+the request pins; `--protocol`, if given, must name that same file.
 """
 from __future__ import annotations
 
@@ -23,7 +23,6 @@ DEFAULT_REQUEST = "generated-output/frontier/git-log-L-graft.verification-reques
 DEFAULT_NATIVE = "generated-output/frontier/git-log-L.execution.json"
 DEFAULT_RECEIPT = "generated-output/frontier/git-log-L.experiment-receipt-v1.json"
 RESULTS = EXPERIMENT_RESULTS
-LEGACY_PROTOCOL = {"protocolId": "git-log-L-vs-graft-v1"}
 
 
 def artifact_path(root: Path, relative: str, artifact_root: str = DEFAULT_ARTIFACT_ROOT) -> Path:
@@ -33,14 +32,14 @@ def artifact_path(root: Path, relative: str, artifact_root: str = DEFAULT_ARTIFA
 
 def build_receipt(*, root: Path, request_rel: str = DEFAULT_REQUEST,
                   native_rel: str = DEFAULT_NATIVE, target_rel: str | None = None,
-                  result: str = "inconclusive", protocol: str | dict | None = None,
+                  result: str = "inconclusive", protocol: str | None = None,
                   artifact_root: str = DEFAULT_ARTIFACT_ROOT) -> dict:
     if result not in RESULTS:
         raise ValueError("invalid experimental result")
     request = json.loads(artifact_path(root, request_rel, artifact_root).read_text(encoding="utf-8"))
     return build_experiment_receipt(
         root=root, request=request, execution_path=native_rel, target_path=target_rel, result=result,
-        protocol=LEGACY_PROTOCOL if protocol is None else protocol, artifact_root=artifact_root)
+        protocol=protocol, artifact_root=artifact_root)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -49,7 +48,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--native-output", default=DEFAULT_NATIVE)
     parser.add_argument("--target-output", help="actual separately recorded paired target output, never a command")
     parser.add_argument("--result", choices=RESULTS, default="inconclusive")
-    parser.add_argument("--protocol", help="repo-relative protocol file pinned by the request (default: legacy git-log-L contract)")
+    parser.add_argument("--protocol", help="repo-relative protocol file; must be the one the request pins (default: the pinned file)")
     parser.add_argument("--artifact-root", default=DEFAULT_ARTIFACT_ROOT, help="generated-output/frontier (default) or evidence/frontier-challenges/<id>/artifacts")
     parser.add_argument("--output", default=DEFAULT_RECEIPT, help="new receipt path; existing history is never replaced")
     args = parser.parse_args(argv)
