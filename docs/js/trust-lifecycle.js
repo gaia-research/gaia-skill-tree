@@ -14,9 +14,9 @@
  *     size 'sm' 14px | 'md' 20px | 'lg' 32px | 'xl' 56-72px.
  *     .lc-mark[data-state][data-severity][data-size] > svg.lc-mark__svg
  *     Open: a touchstone-slate plate with a V-notch cut into its top edge,
- *     filled with ember hachure. Notch depth is severity (scoped nicks the
+ *     filled with signal hachure. Notch depth is severity (scoped nicks the
  *     plate; material cleaves it past centre). Answered: the notch becomes a
- *     struck steel hallmark with an ember chevron (two chevrons = material;
+ *     struck steel hallmark with an inlaid chevron (two chevrons = material;
  *     a plinth bar beneath = resolved by upstream improvement).
  *   markStateOf(challenge) -> {state, severity} for a normalized challenge.
  *   stateChip(kind, {label})
@@ -777,8 +777,8 @@
   }
 
   var CHIPS = {
-    'open-scoped': {label: 'Scoped challenge', tone: 'ember', mark: ['open', 'scoped']},
-    'open-material': {label: 'Contests Origin', tone: 'ember', mark: ['open', 'material']},
+    'open-scoped': {label: 'Scoped challenge', tone: 'signal', mark: ['open', 'scoped']},
+    'open-material': {label: 'Contests Origin', tone: 'signal', mark: ['open', 'material']},
     'rebutted-scoped': {label: 'Rebutted', tone: 'steel', mark: ['rebutted', 'scoped']},
     'rebutted-material': {label: 'Rebutted', tone: 'steel', mark: ['rebutted', 'material']},
     'upstream-scoped': {label: 'Resolved upstream', tone: 'steel', mark: ['upstream', 'scoped']},
@@ -788,7 +788,7 @@
     'unavailable': {label: 'Unavailable', tone: 'quiet', swatch: 'dotted'},
     'recalibration': {label: 'Recalibration pending', tone: 'quiet', swatch: 'dashed'},
     'origin-held': {label: 'Held', tone: 'steel', swatch: 'solid'},
-    'origin-contested': {label: 'Contested', tone: 'ember', mark: ['open', 'material']},
+    'origin-contested': {label: 'Contested', tone: 'signal', mark: ['open', 'material']},
     'origin-unknown': {label: 'Unavailable', tone: 'quiet', swatch: 'dotted'}
   };
 
@@ -977,12 +977,12 @@
 
   function boutHtml(ch) {
     var mark = markStateOf(ch);
-    var chipKind = mark.state === 'open' ? 'open-' + mark.severity : mark.state + '-' + mark.severity;
+    // The row's mark carries its state (no duplicate text chip); its accessible name says it.
     var h = ['<li class="lc-bout" data-state="' + mark.state + '" data-severity="' + mark.severity + '">'];
     h.push('<details class="lc-bout__details"><summary class="lc-bout__sum">');
-    h.push(challengeMark(mark.state, {severity: mark.severity, size: 'md', decorative: true}));
+    h.push(challengeMark(mark.state, {severity: mark.severity, size: 'md'}));
     h.push('<span class="lc-bout__main"><span class="lc-bout__claim">' + esc(ch.claim) + '</span>');
-    h.push('<span class="lc-bout__meta">' + stateChip(chipKind) + railHtml(ch) + '</span></span>');
+    h.push('<span class="lc-bout__meta">' + railHtml(ch) + '</span></span>');
     h.push('<span class="lc-bout__toggle" aria-hidden="true"></span></summary>');
     h.push(recordHtml(ch, mark));
     h.push('</details></li>');
@@ -1029,7 +1029,7 @@
     var h = [];
     h.push('<section class="lc-panel" data-lc-state="' + panelState + '" aria-labelledby="seLifecycleHeading">');
 
-    // Header: the dominant challenge, shown not told.
+    // Header: the dominant challenge, shown not told. Its chip is the one text chip in the view.
     h.push('<header class="lc-head lc-anchor">');
     if (lead) {
       var leadMark = markStateOf(lead);
@@ -1077,8 +1077,10 @@
     inst.push('<span class="lc-instrument__read"><span class="lc-num">' + (hasNumbers ? esc(formatTm(vm.consequence.tm)) : '&#8212;') +
       '</span><span class="lc-unit">TM</span></span>');
     if (hasNumbers) inst.push(starsHtml(vm.consequence.stars, opts.branch));
+    // Decision, baseline and recalibration are carried by the meter's form (solid, hollow,
+    // dashed collar); the trigger's accessible name and tooltip say it in words.
     inst.push(trustMeter({tm: hasNumbers ? vm.consequence.tm : null, kind: kind, recalibrationPending: !!recal, decorative: true}));
-    inst.push('<span class="lc-instrument__chips">' + stateChip(kind) + (recal ? stateChip('recalibration') : '') + '</span></span>');
+    inst.push('</span>');
     h.push('<div class="lc-plate__row lc-anchor">' + tip(inst.join(''), meterLines, {cls: 'lc-plate__meter', label: meterLabel}) + '</div>');
 
     // Origin: the wreath carries the contest, or the honour of having held it.
@@ -1099,14 +1101,13 @@
     }
     if (pin) wreath.push('<span class="lc-wreath__pin">' + pin + '</span>');
     wreath.push('</span>');
-    var originChip = origin.isContested ? 'origin-contested' : (origin.status === 'held' ? 'origin-held' : 'origin-unknown');
     var originLabel = handle
       ? 'Current Origin @' + handle + ', ' + (origin.isContested ? 'contested' : 'held') +
         (!origin.isContested && materialAnswered.length ? ', defended against a material challenge' : '')
       : 'Origin unavailable';
     var originInner = '<span class="lc-origin">' + wreath.join('') + '<span class="lc-origin__text">' +
       '<span class="lc-origin__line"><span class="lc-origin__handle"' + (handle ? '>@' + esc(handle) : ' data-none="">&#8212;') +
-      '</span>' + stateChip(originChip) + '</span>' +
+      '</span></span>' +
       (origin.genericSkillRef ? '<span class="lc-origin__bucket">' + esc(origin.genericSkillRef) + '</span>' : '') +
       '</span></span>';
     var originLines = [origin.notice];

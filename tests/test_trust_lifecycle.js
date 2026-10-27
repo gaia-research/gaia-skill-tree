@@ -93,9 +93,9 @@ test('missing consequence stays unknown, not a fabricated incumbent or rank', ()
   assert.equal(vm.origin.status, 'unknown');
   assert.equal(vm.standing.approvedStars, null);
   const html = lifecycle.renderTrustLifecycleHtml(vm);
-  assert.match(html, /data-chip="origin-unknown"/);
+  assert.match(html, /<span class="lc-wreath" data-status="unknown">/);
   assert.match(html, /aria-label="Origin unavailable"/);
-  assert.doesNotMatch(html, /data-chip="origin-held"/);
+  assert.doesNotMatch(html, /data-status="held"/);
   assert.doesNotMatch(html, /lc-wreath__avatar/);
 });
 
@@ -320,9 +320,10 @@ test('approved decision renders numeric standing, incumbent and empty challenge 
   assert.equal(vm.activeChallengesCount, 0);
   const html = lifecycle.renderTrustLifecycleHtml(vm);
   assert.match(html, /aria-label="Trust Magnitude 72, 3 of 6 stars, approved decision"/);
-  assert.match(html, /data-chip="approved-decision"/);
+  assert.match(html, /<span class="lc-meter" data-kind="approved-decision"/);
   assert.match(html, /@author/);
   assert.match(html, /data-lc-state="clear"/);
+  assert.doesNotMatch(html, /class="lc-chip"/);
   assert.doesNotMatch(html, /lc-ledger|lc-head__mark/);
 });
 
@@ -338,11 +339,11 @@ test('scoped challenge detail: standing, verifier, comparator, receipt link, nev
   assert.equal(lifecycle.isSafeHttps(ch.verifier.receiptUrl), true);
   const html = lifecycle.renderTrustLifecycleHtml(vm);
   assert.match(html, /data-chip="open-scoped"/);
-  assert.match(html, /data-chip="origin-held"/);
+  assert.match(html, /<span class="lc-wreath" data-status="held">/);
   assert.match(html, /comparator@2\.1/);
   assert.match(html, /Verification receipt/);
   assert.match(html, /rel="noopener noreferrer"/);
-  assert.doesNotMatch(html, /data-chip="origin-contested"|data-chip="open-material"/);
+  assert.doesNotMatch(html, /data-status="contested"|data-chip="open-material"|data-severity="material"/);
 });
 
 test('material challenge contests Origin without transfer or vacancy', () => {
@@ -354,7 +355,7 @@ test('material challenge contests Origin without transfer or vacancy', () => {
   assert.equal(vm.origin.handle, 'author');
   assert.equal(vm.challenges[0].status, 'verified-pending');
   const html = lifecycle.renderTrustLifecycleHtml(vm);
-  assert.match(html, /data-chip="origin-contested"/);
+  assert.match(html, /<span class="lc-wreath" data-status="contested">/);
   assert.match(html, /aria-label="Current Origin @author, contested"/);
   // Doctrine prose lives in the Origin toggletip, not on the surface.
   assert.match(html, /role="tooltip"[^>]*>(?:(?!<\/span><\/span>).)*Origin remains held by the incumbent and does not transfer or vacate while contested/);
@@ -368,7 +369,7 @@ test('technical resolution renders Class B proof distinct from pending recalibra
   assert.notEqual(vm.standing.recalibrationPending, null);
   assert.match(vm.standing.recalibrationPending.reason, /recalibration pending/);
   const html = lifecycle.renderTrustLifecycleHtml(vm);
-  assert.match(html, /data-chip="recalibration"[^>]*>.*?Recalibration pending/);
+  assert.match(html, /aria-label="Trust Magnitude 72, 3 of 6 stars, approved decision, recalibration pending"/);
   assert.match(html, /<span class="lc-meter" data-kind="approved-decision" data-recal=""/);
   assert.match(html, /Technical resolution recorded; trust recalibration pending\./);
   assert.match(html, /Resolution proof/);
@@ -410,7 +411,7 @@ test('current baseline is never presented as an approved decision', () => {
   assert.strictEqual(vm.standing.approvedTm, null);
   const html = lifecycle.renderTrustLifecycleHtml(vm);
   assert.doesNotMatch(html, /data-chip="approved-decision"|approved decision/i);
-  assert.match(html, /data-chip="current-baseline"/);
+  assert.match(html, /<span class="lc-meter" data-kind="current-baseline"/);
   assert.match(html, /No numeric decision is asserted/);
 });
 
@@ -494,8 +495,10 @@ test('rendered DOM exposes labelled regions, toggletips, keyboard targets and la
   assert.doesNotMatch(html, /<details[^>]* open/);
   // Chips always pair the glyph with a visible label (never symbol alone).
   const chips = [...html.matchAll(/<span class="lc-chip" data-chip="([a-z-]+)" data-tone="[a-z]+">(?:<span class="lc-mark"[^>]*aria-hidden="true">.*?<\/span>|<span class="lc-chip__swatch"[^>]*aria-hidden="true"><\/span>)<span class="lc-chip__label">([^<]+)<\/span>/g)];
-  assert.ok(chips.length >= 3);
-  for (const [, , label] of chips) assert.ok(label.trim().length > 2);
+  assert.equal(chips.length, 1);
+  assert.equal(chips[0][2], 'Contests Origin');
+  // Row marks carry the state that a chip used to repeat.
+  assert.match(html, /<summary class="lc-bout__sum"><span class="lc-mark" data-state="open" data-severity="material" data-size="md" role="img" aria-label="Open material challenge, contests Origin">/);
   assert.match(html, /target="_blank" rel="noopener noreferrer"/);
   assert.doesNotMatch(html, /target="_blank"(?![^>]*rel="noopener noreferrer")/);
 });
@@ -554,9 +557,16 @@ test('lifecycle CSS: empty mount hidden, mobile-first containment, token-only co
   assert.match(block, /\.lc-chip\s*\{[^}]*max-width:\s*100%/);
   assert.doesNotMatch(block, /#[0-9a-fA-F]{3,8}\b/);
   // Challenge tokens are declared once in :root as RGB triplets, never hex.
-  for (const token of ['--challenge-ember-rgb', '--challenge-ember-deep-rgb', '--challenge-slate-rgb', '--hallmark-steel-rgb']) {
-    assert.match(css, new RegExp(token + ':\\s*\\d+, \\d+, \\d+;'));
+  // Challenge tokens come from the canonical generator (tokens.css), never re-declared in styles.css.
+  const tokens = read('../docs/css/tokens.css');
+  const generator = read('../scripts/generateCssTokens.py');
+  for (const token of ['--challenge', '--challenge-deep', '--challenge-slate', '--challenge-steel']) {
+    assert.match(tokens, new RegExp('\\n  ' + token + ': #[0-9a-f]{6};'));
+    assert.match(tokens, new RegExp('\\n  ' + token + '-rgb: \\d+, \\d+, \\d+;'));
+    assert.ok(generator.includes('"' + token.slice(2) + '": "#'), token);
   }
+  assert.doesNotMatch(css, /\n\s*--challenge[a-z-]*\s*:/);
+  assert.doesNotMatch(css, /--challenge-ember|--hallmark-steel/);
   // The module no longer injects a second, competing stylesheet.
   assert.doesNotMatch(js, /createElement\('style'\)|ensureStyles/);
 });
@@ -638,11 +648,11 @@ test('stateChip: glyph is decorative and a visible label always carries the mean
     'approved-decision', 'current-baseline', 'unavailable', 'recalibration', 'origin-held', 'origin-contested', 'origin-unknown'];
   for (const kind of kinds) {
     const html = C.stateChip(kind);
-    assert.match(html, new RegExp('^<span class="lc-chip" data-chip="' + kind + '" data-tone="(ember|steel|quiet)">'));
+    assert.match(html, new RegExp('^<span class="lc-chip" data-chip="' + kind + '" data-tone="(signal|steel|quiet)">'));
     assert.match(html, /aria-hidden="true"/);
     assert.match(html, /<span class="lc-chip__label">[A-Z][^<]{2,}<\/span><\/span>$/);
   }
-  assert.match(C.stateChip('open-material'), /data-tone="ember"/);
+  assert.match(C.stateChip('open-material'), /data-tone="signal"/);
   assert.match(C.stateChip('rebutted-material'), /data-tone="steel"/);
   assert.match(C.stateChip('nope'), /Unavailable/);
   assert.match(C.stateChip('open-scoped', {label: '<b>'}), /&lt;b&gt;/);
@@ -734,4 +744,49 @@ test('panel: avatar only for GitHub-shaped handles; other handles keep an initia
   assert.match(html, /lc-wreath__initial" aria-hidden="true">B</);
   assert.match(lifecycle.renderTrustLifecycleHtml(lifecycle.buildTrustLifecycleViewModel(fixtures.material)),
     /<img class="lc-wreath__avatar" src="https:\/\/github\.com\/author\.png\?size=96" alt=""/);
+});
+
+test('at most one text chip per view; marks and accessible names carry the rest', () => {
+  const mixed = clone(fixtures.scoped);
+  const answered = clone(rebutted().trustLifecycle.challenges[0]);
+  answered.subjectId = mixed.id;
+  answered.history.forEach(e => { e.challenge_id = answered.challengeId; });
+  mixed.trustLifecycle.challenges.push(answered);
+  for (const entry of [fixtures.scoped, fixtures.material, fixtures.resolved, fixtures.unknown, rebutted(), mixed, withoutChallenges(fixtures.material)]) {
+    const vm = lifecycle.buildTrustLifecycleViewModel(entry);
+    assert.ok(vm);
+    const html = lifecycle.renderTrustLifecycleHtml(vm);
+    const chips = (html.match(/class="lc-chip"/g) || []).length;
+    assert.ok(chips <= 1, chips + ' chips');
+    const rowMarks = [...html.matchAll(/<summary class="lc-bout__sum"><span class="lc-mark"[^>]* role="img" aria-label="([^"]+)">/g)];
+    assert.equal(rowMarks.length, vm.challenges.length);
+  }
+});
+
+test('challenge hue is distinct from the Unique copper ladder and meets contrast', () => {
+  const tokens = read('../docs/css/tokens.css');
+  const css = read('../docs/css/styles.css');
+  const hex = name => {
+    const m = (name === '--bg' ? css : tokens).match(new RegExp('\\n  ' + name + ': (#[0-9a-fA-F]{6});'));
+    assert.ok(m, name);
+    return [1, 3, 5].map(i => parseInt(m[1].slice(i, i + 2), 16));
+  };
+  const hue = ([r, g, b]) => {
+    const [R, G, B] = [r, g, b].map(v => v / 255), max = Math.max(R, G, B), min = Math.min(R, G, B), d = max - min;
+    if (!d) return 0;
+    const h = max === R ? ((G - B) / d) % 6 : max === G ? (B - R) / d + 2 : (R - G) / d + 4;
+    return (h * 60 + 360) % 360;
+  };
+  const lum = rgb => {
+    const [r, g, b] = rgb.map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  const contrast = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+  const challenge = hex('--challenge');
+  for (const unique of ['--rank-4-unique', '--rank-5-unique', '--rank-6-unique']) {
+    const diff = Math.abs(hue(challenge) - hue(hex(unique)));
+    assert.ok(Math.min(diff, 360 - diff) >= 40, unique + ' hue too close: ' + diff);
+  }
+  assert.ok(contrast(challenge, hex('--bg')) >= 4.5);
+  assert.ok(contrast(hex('--challenge-deep'), hex('--challenge-steel')) >= 3);
 });

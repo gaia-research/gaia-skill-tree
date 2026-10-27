@@ -49,15 +49,6 @@
   --font-body: 'Bricolage Grotesque', Inter, system-ui, sans-serif;
   --font-mono: 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
   --diamond-seal-stroke: 1.5;
-  /* Challenge identity (Yggdrasil IV) — DESIGN.md § Challenge. Ember is an
-     open challenge's heat; slate is the touchstone it is tested on; steel is
-     the struck hallmark of a challenge answered. RGB triplets, no hex. */
-  --challenge-ember-rgb: 249, 115, 22;
-  --challenge-ember: rgb(var(--challenge-ember-rgb));
-  --challenge-ember-deep-rgb: 194, 65, 12;
-  --challenge-slate-rgb: 22, 18, 16;
-  --hallmark-steel-rgb: 214, 222, 232;
-  --hallmark-steel: rgb(var(--hallmark-steel-rgb));
   /* ── Cluster palette (8 semantic groups, read by skill-graph.js) ── */
   --cluster-0: #4e9bff;
   --cluster-1: #f0a030;
@@ -13489,18 +13480,18 @@ body[data-overall-grade="S"] .report-card {
   overflow: visible;
 }
 
-/* Open: touchstone slate, ember hachure, ember edge. */
+/* Open: touchstone slate, signal hachure, signal edge. */
 .lc-mark__slate { fill: rgb(var(--challenge-slate-rgb)); }
 
 .lc-mark__hatch line {
-  stroke: var(--challenge-ember);
+  stroke: var(--challenge);
   stroke-width: 1.1;
   stroke-linecap: square;
 }
 
 .lc-mark__edge {
   fill: none;
-  stroke: var(--challenge-ember);
+  stroke: var(--challenge);
   stroke-width: 1.6;
   stroke-linejoin: miter;
 }
@@ -13508,8 +13499,8 @@ body[data-overall-grade="S"] .report-card {
 .lc-mark[data-size="sm"] .lc-mark__edge { stroke-width: 2.2; }
 .lc-mark[data-size="sm"] .lc-mark__hatch line { stroke-width: 1.5; }
 
-/* Answered: struck steel hallmark, engraved bevel, forged ember chevron. */
-.lc-mark__steel { fill: var(--hallmark-steel); }
+/* Answered: struck steel hallmark, engraved bevel, inlaid chevron. */
+.lc-mark__steel { fill: var(--challenge-steel); }
 
 .lc-mark__bevel-hi {
   fill: none;
@@ -13523,7 +13514,7 @@ body[data-overall-grade="S"] .report-card {
   stroke-width: .9;
 }
 
-.lc-mark__chev { fill: rgb(var(--challenge-ember-deep-rgb)); }
+.lc-mark__chev { fill: rgb(var(--challenge-deep-rgb)); }
 
 .lc-mark__rim {
   fill: none;
@@ -13575,15 +13566,15 @@ body[data-overall-grade="S"] .report-card {
   box-shadow: inset 0 0 0 1px var(--lc-hair);
 }
 
-.lc-chip[data-tone="ember"] {
-  color: var(--challenge-ember);
-  background: rgba(var(--challenge-ember-rgb), .08);
-  box-shadow: inset 0 0 0 1px rgba(var(--challenge-ember-rgb), .45);
+.lc-chip[data-tone="signal"] {
+  color: var(--challenge);
+  background: rgba(var(--challenge-rgb), .08);
+  box-shadow: inset 0 0 0 1px rgba(var(--challenge-rgb), .45);
 }
 
 .lc-chip[data-tone="steel"] {
-  color: var(--hallmark-steel);
-  box-shadow: inset 0 0 0 1px rgba(var(--hallmark-steel-rgb), .3);
+  color: var(--challenge-steel);
+  box-shadow: inset 0 0 0 1px rgba(var(--challenge-steel-rgb), .3);
 }
 
 /* A state label never truncates: at the narrowest widths it wraps inside the chip. */
@@ -13601,9 +13592,9 @@ body[data-overall-grade="S"] .report-card {
   border-radius: 1px;
 }
 
-.lc-chip__swatch[data-swatch="solid"] { background: var(--hallmark-steel); }
-.lc-chip__swatch[data-swatch="hollow"] { box-shadow: inset 0 0 0 1.5px rgba(var(--hallmark-steel-rgb), .85); }
-.lc-chip__swatch[data-swatch="dashed"] { border: 1px dashed rgba(var(--hallmark-steel-rgb), .85); }
+.lc-chip__swatch[data-swatch="solid"] { background: var(--challenge-steel); }
+.lc-chip__swatch[data-swatch="hollow"] { box-shadow: inset 0 0 0 1.5px rgba(var(--challenge-steel-rgb), .85); }
+.lc-chip__swatch[data-swatch="dashed"] { border: 1px dashed rgba(var(--challenge-steel-rgb), .85); }
 .lc-chip__swatch[data-swatch="dotted"] {
   background: radial-gradient(circle, rgba(226, 232, 240, .6) 1px, transparent 1.3px) 0 50% / 4px 4px repeat-x;
 }
@@ -13631,13 +13622,13 @@ body[data-overall-grade="S"] .report-card {
   left: 0;
   width: var(--lc-fill, 0%);
   border-radius: 2px 0 0 2px;
-  background: linear-gradient(180deg, rgba(var(--hallmark-steel-rgb), 1), rgba(var(--hallmark-steel-rgb), .62));
+  background: linear-gradient(180deg, rgba(var(--challenge-steel-rgb), 1), rgba(var(--challenge-steel-rgb), .62));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .55);
 }
 
 .lc-meter[data-kind="current-baseline"] .lc-meter__fill {
-  background: rgba(var(--hallmark-steel-rgb), .1);
-  box-shadow: inset 0 0 0 1.5px rgba(var(--hallmark-steel-rgb), .85);
+  background: rgba(var(--challenge-steel-rgb), .1);
+  box-shadow: inset 0 0 0 1.5px rgba(var(--challenge-steel-rgb), .85);
 }
 
 .lc-meter[data-kind="unavailable"] .lc-meter__track {
@@ -13673,7 +13664,7 @@ body[data-overall-grade="S"] .report-card {
   left: calc(var(--lc-fill, 0%) - 9px);
   width: 18px;
   box-sizing: border-box;
-  border: 1px dashed rgba(var(--hallmark-steel-rgb), .9);
+  border: 1px dashed rgba(var(--challenge-steel-rgb), .9);
   border-radius: 2px;
   animation: lc-recal 2.4s ease-in-out infinite;
 }
@@ -13845,7 +13836,7 @@ body[data-overall-grade="S"] .report-card {
   right: 0;
   left: 0;
   height: 5px;
-  background: repeating-linear-gradient(-45deg, rgba(var(--challenge-ember-rgb), .9) 0 1.5px, transparent 1.5px 5px);
+  background: repeating-linear-gradient(-45deg, rgba(var(--challenge-rgb), .9) 0 1.5px, transparent 1.5px 5px);
 }
 
 .lc-plate[data-challenge="open-material"]::before { height: 9px; }
@@ -13853,7 +13844,7 @@ body[data-overall-grade="S"] .report-card {
 .lc-plate[data-challenge="answered"]::before {
   top: 3px;
   height: 1px;
-  background: rgb(var(--challenge-ember-deep-rgb));
+  background: rgb(var(--challenge-deep-rgb));
 }
 
 .lc-plate__row { min-width: 0; }
@@ -13872,11 +13863,11 @@ body[data-overall-grade="S"] .report-card {
   .lc-plate__origin:hover { background: rgba(226, 232, 240, .025); }
 }
 
-/* Mobile: reading + stars on one line, the meter full width, chips beneath. */
+/* Mobile: reading + stars on one line, the meter full width beneath. */
 .lc-instrument {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  grid-template-areas: "read stars" "meter meter" "chips chips";
+  grid-template-areas: "read stars" "meter meter";
   align-items: center;
   gap: .55rem .9rem;
 }
@@ -13895,14 +13886,6 @@ body[data-overall-grade="S"] .report-card {
 
 .lc-instrument > .lc-meter { grid-area: meter; }
 
-.lc-instrument__chips {
-  grid-area: chips;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: .4rem .5rem;
-  min-width: 0;
-}
 
 .lc-num {
   font-family: var(--font-mono);
@@ -14092,7 +14075,7 @@ body[data-overall-grade="S"] .report-card {
 .lc-bout:not([data-state="open"]) .lc-bout__claim {
   color: var(--lc-ink-soft);
   text-decoration: line-through;
-  text-decoration-color: rgba(var(--challenge-ember-rgb), .7);
+  text-decoration-color: rgba(var(--challenge-rgb), .7);
   text-decoration-thickness: 1px;
 }
 
@@ -14140,12 +14123,12 @@ body[data-overall-grade="S"] .report-card {
   width: 2.75rem;
   height: 4px;
   border-radius: 1px;
-  background: rgba(var(--hallmark-steel-rgb), .6);
+  background: rgba(var(--challenge-steel-rgb), .6);
 }
 
 .lc-rail[data-state="open"] .lc-rail__bar {
   width: 3.25rem;
-  background: repeating-linear-gradient(-45deg, var(--challenge-ember) 0 1.5px, transparent 1.5px 4px);
+  background: repeating-linear-gradient(-45deg, var(--challenge) 0 1.5px, transparent 1.5px 4px);
   -webkit-mask: linear-gradient(90deg, black 55%, transparent);
   mask: linear-gradient(90deg, black 55%, transparent);
 }
@@ -14154,7 +14137,7 @@ body[data-overall-grade="S"] .report-card {
   width: 7px;
   height: 7px;
   border-radius: 1px;
-  background: var(--challenge-ember);
+  background: var(--challenge);
 }
 
 /* The record: prose and receipts live behind the disclosure. */
@@ -14215,9 +14198,9 @@ body[data-overall-grade="S"] .report-card {
   border-radius: 1px;
 }
 
-.lc-assay--subject dt::before { background: var(--challenge-ember); }
-.lc-assay--comparator dt::before { background: var(--hallmark-steel); }
-.lc-assay--baseline dt::before { box-shadow: inset 0 0 0 1px var(--hallmark-steel); }
+.lc-assay--subject dt::before { background: var(--challenge); }
+.lc-assay--comparator dt::before { background: var(--challenge-steel); }
+.lc-assay--baseline dt::before { box-shadow: inset 0 0 0 1px var(--challenge-steel); }
 
 .lc-code {
   font-family: var(--font-mono);
@@ -14261,8 +14244,8 @@ body[data-overall-grade="S"] .report-card {
   box-shadow: inset 0 0 0 1.5px var(--lc-ink-soft);
 }
 
-.lc-events__item[data-event="verified-publication"]::before { background: var(--challenge-ember); box-shadow: none; }
-.lc-events__item[data-event="technical-resolution"]::before { background: var(--hallmark-steel); box-shadow: none; }
+.lc-events__item[data-event="verified-publication"]::before { background: var(--challenge); box-shadow: none; }
+.lc-events__item[data-event="technical-resolution"]::before { background: var(--challenge-steel); box-shadow: none; }
 
 .lc-events__date { color: var(--lc-ink-soft); font-variant-numeric: tabular-nums; }
 
@@ -14312,7 +14295,7 @@ body[data-overall-grade="S"] .report-card {
 .lc-awards__title { font-weight: 600; }
 
 .lc-panel ::selection {
-  background: rgba(var(--challenge-ember-rgb), .35);
+  background: rgba(var(--challenge-rgb), .35);
   color: var(--text);
 }
 
@@ -14338,8 +14321,8 @@ body[data-overall-grade="S"] .report-card {
   }
   .lc-num { font-size: 2.4rem; }
   .lc-instrument {
-    grid-template-columns: auto auto minmax(0, 1fr);
-    grid-template-areas: "read meter meter" "read stars chips";
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "read meter" "read stars";
     gap: .5rem 1rem;
   }
   .lc-instrument > .lc-stars { justify-self: start; }

@@ -175,32 +175,32 @@ A chamfered square plate on a 24-unit grid (`M5 3H19L21 5V19L19 21H5L3 19V5Z`), 
 
 | State | Form | Reads as |
 |---|---|---|
-| Open · scoped | Slate plate, ember hachure, **shallow** V-notch cut into the top edge (apex y=9) | Struck, one capability under test |
+| Open · scoped | Slate plate, signal hachure, **shallow** V-notch cut into the top edge (apex y=9) | Struck, one capability under test |
 | Open · material | Same plate, **deep** V-notch cleaving past centre (apex y=15), denser hachure | Struck to the core: Origin is contested |
-| Rebutted | Struck steel hallmark, one ember **chevron** (two when the challenge was material) | Repelled; the notch reversed into an insignia |
+| Rebutted | Struck steel hallmark, one inlaid **chevron** (two when the challenge was material) | Repelled; the notch reversed into an insignia |
 | Resolved upstream | Hallmark with chevron(s) plus a **plinth bar** beneath | Answered by improving the skill |
 
 Severity is geometry (notch depth, chevron count), never colour alone. Open is asymmetric tension (a wedge driven in); answered is a symmetric, settled insignia. Answered marks are permanent: they stay in the ledger, appear as an **honours strip** beside an open challenge, and pin to the Origin wreath when a material challenge was answered.
 
 ### Materials and tokens
 
-Declared in `docs/css/styles.css` `:root` as RGB triplets (no hex):
+The `--challenge-*` family is emitted by the canonical token generator, `scripts/generateCssTokens.py` (a fixed constant block, like the Unique ladder), into `docs/css/tokens.css`. Never re-declare it in `styles.css`; change the constant and regenerate (`python scripts/generateCssTokens.py`, checked by `--check`).
 
-| Token | Role |
-|---|---|
-| `--challenge-ember` / `-rgb` | An open challenge's heat: hachure, edges, chips, the hatched plate rule |
-| `--challenge-ember-deep-rgb` | The forged chevron on a hallmark (3:1+ on steel) |
-| `--challenge-slate-rgb` | The touchstone ground of an open mark |
-| `--hallmark-steel` / `-rgb` | Struck steel: hallmarks, the Trust Meter fill |
+| Token | Hex | Role |
+|---|---|---|
+| `--challenge` / `-rgb` | `#c4e23e` signal chartreuse (hue ≈ 76°) | An open challenge's hazard hachure, edges, the one header chip, the hatched plate rule. 12:1+ on `--bg`. |
+| `--challenge-deep` / `-rgb` | `#566e00` | The chevron inlaid in a hallmark (4.2:1 on steel) and the plate's forged line once answered |
+| `--challenge-slate` / `-rgb` | `#161210` | The touchstone ground of an open mark |
+| `--challenge-steel` / `-rgb` | `#d6dee8` | Struck steel: hallmarks, the Trust Meter fill |
 
-**Hachure** (diagonal engraved hatch, the atlas convention for contested ground) is the challenge's material and is used for nothing else. Do not hatch unknown or unavailable states. Ember is not Honor Red (contributor handles) and not Apex Gold (6★ only).
+**Signal chartreuse is deliberately off the Unique copper ladder** (`--rank-5-unique` burnished copper `#b26a3a`, `--rank-6-unique` ember copper `#e0894a`, both ≈ 24°) and off the Suite/Apex gold axis (≈ 43°): a challenge must never read as a rank. A test pins the hue gap (≥ 40° from every Unique rung) and the contrast floors. **Hachure** (diagonal engraved hatch, the atlas and hazard-stripe convention for contested ground) is the challenge's material and is used for nothing else. Do not hatch unknown or unavailable states. The challenge hue is not Honor Red (contributor handles) and not Apex Gold (6★ only).
 
 ### Components (reuse API)
 
 | Function | Class | Notes |
 |---|---|---|
 | `challengeMark(state, {severity, size, label, decorative})` | `.lc-mark[data-state][data-severity][data-size]` | Sizes `sm` 14, `md` 20, `lg` 32, `xl` 56 (72 at ≥768px). `role="img"` + accessible name unless `decorative`. |
-| `stateChip(kind, {label})` | `.lc-chip[data-chip][data-tone]` | Glyph (aria-hidden) + short visible label. Labels wrap, never truncate. |
+| `stateChip(kind, {label})` | `.lc-chip[data-chip][data-tone]` | Glyph (aria-hidden) + short visible label. Labels wrap, never truncate. **At most one text chip per view**: where a mark already carries the state (row marks, the wreath pin, the meter's fill form), drop the chip and keep the meaning in the accessible name and tooltip. |
 | `trustMeter({tm, kind, recalibrationPending})` | `.lc-meter[data-kind][data-recal]` | TM on a log bar (0–500) with C/B/A/S grade-floor notches. Solid = approved decision, hollow = published baseline, dotted empty = unavailable, dashed collar = recalibration pending. The meter never shows a challenge's effect on numbers: challenges do not change TM. |
 | `tip(inner, lines, {label})` + `bindTips(mount)` | `.lc-tip` + `.lc-tipbox[role=tooltip]` | Toggletip: hover (pointer devices), focus and tap reveal; Escape and outside tap dismiss; `aria-describedby` carries the text to screen readers while hidden. |
 
@@ -208,7 +208,7 @@ Not yet wired into badges, graph nodes, profiles or the Hall of Heroes; those su
 
 ### Panel (Skill Explorer `#se-tm`)
 
-Header: the lead challenge's mark at `xl` + title + state chip (+ honours strip). Standing plate between ledger double rules: an open challenge lays its hachure over the top rule (5px scoped, 9px material); an answered one leaves a 1px forged line. Then the Trust Meter instrument (reading, stars from `rank-badge.js`, meter, chips) and Origin (gold wreath, avatar, Honor Red handle, pinned mark). Ledger: one `<details>` per challenge, open ones first; settled claims are struck through as a ledger strikes a settled entry. Doctrine prose lives only in tooltips and the collapsed record. Mobile-first: the 320px layout is the base; the plate splits into meter | Origin at 768px.
+Header: the lead challenge's mark at `xl` + title + the view's single state chip (+ honours strip). Standing plate between ledger double rules: an open challenge lays its hachure over the top rule (5px scoped, 9px material); an answered one leaves a 1px forged line. Then the Trust Meter instrument (reading, stars from `rank-badge.js`, meter; decision / baseline / recalibration shown by the fill form, not chips) and Origin (gold wreath, avatar, Honor Red handle, pinned mark; no status chip). Ledger: one `<details>` per challenge, open ones first, each led by its mark (no chip); settled claims are struck through as a ledger strikes a settled entry. Doctrine prose lives only in tooltips and the collapsed record. Mobile-first: the 320px layout is the base; the plate splits into meter | Origin at 768px.
 
 ### Motion
 
