@@ -95,6 +95,17 @@ class VerificationReceipt:
 
 
 class VerificationReceiptResolver(Protocol):
+    """Challenge-bindable trusted resolver.
+
+    ``for_challenge`` must return a resolver bound to exactly that challenge id
+    (exposing it as ``challenge_id``); the domain never calls an unbound resolver.
+    """
+    def for_challenge(self, challenge_id: str) -> "BoundVerificationReceiptResolver": ...
+
+
+class BoundVerificationReceiptResolver(Protocol):
+    challenge_id: str
+
     def resolve(self, receipt_id: str) -> VerificationReceipt: ...
 
 
@@ -252,7 +263,8 @@ def open_challenge(*, receipt_resolver: VerificationReceiptResolver | None = Non
              "material_to_origin": material_to_origin, "created_at_utc": verified_at_utc,
              "linked_challenge_id": linked_challenge_id}
     context = _digest(_canonical(draft))
-    receipt = _resolve(receipt_resolver, verification_receipt_id)
+    challenge_id = _challenge_id_from_draft(draft)
+    receipt = _resolve(receipt_resolver, verification_receipt_id, challenge_id)
     receipt_error = _validate_receipt(receipt, context_digest=context, transcript_digest=None,
                       verifier_id=verifier_id, contributor_id=contributor_id,
                       notice_ref=contributor_notice_ref, at=verified_at_utc)
@@ -260,7 +272,6 @@ def open_challenge(*, receipt_resolver: VerificationReceiptResolver | None = Non
         raise ValueError(receipt_error)
     if receipt.verifier_id in {receipt.builder_id, contributor_id}:
         raise ValueError("challenge verifier must be independent of builder and contributor")
-    challenge_id = _challenge_id_from_draft(draft)
     event = _receipt_event("verified-publication", receipt, challenge_id,
                            "public challenge opened", verified_at_utc)
     return Challenge(claim_id, subject_id, claim, behavior_id, contributor_id,
@@ -283,7 +294,7 @@ def close_technical_challenge(challenge: Challenge, proof: TechnicalProof,
         if len(challenge.history) == 2:
             event = challenge.history[-1]
             try:
-                receipt = _resolve(receipt_resolver, verification_receipt_id)
+                receipt = _resolve(receipt_resolver, verification_receipt_id, challenge.challenge_id)
             except (KeyError, ValueError) as exc:
                 return _class_c(challenge, f"trusted receipt unavailable: {exc}")
             if (_proof_failure(challenge, proof, allow_resolved_replay=True)
@@ -321,7 +332,7 @@ def close_technical_challenge(challenge: Challenge, proof: TechnicalProof,
     if reason:
         return _class_c(challenge, reason)
     try:
-        receipt = _resolve(receipt_resolver, verification_receipt_id)
+        receipt = _resolve(receipt_resolver, verification_receipt_id, challenge.challenge_id)
     except (KeyError, ValueError) as exc:
         return _class_c(challenge, f"trusted receipt unavailable: {exc}")
     context = _digest(_canonical({"challenge_id": challenge.challenge_id,
@@ -405,7 +416,7 @@ def validate_challenge_history(challenge: Challenge,
             raise ValueError("status does not match authorized technical history")
     if receipt_resolver is not None:
         for event in challenge.history:
-            receipt = _resolve(receipt_resolver, event.receipt_id)
+            receipt = _resolve(receipt_resolver, event.receipt_id, challenge.challenge_id)
             if (_digest(_canonical(receipt)) != event.receipt_digest
                     or receipt.transcript_digest != event.transcript_digest
                     or event.challenge_id != challenge.challenge_id
@@ -489,9 +500,17 @@ def _class_c(challenge: Challenge, reason: str) -> ClosureResult:
                          challenge.material_to_origin and not challenge.resolved)
 
 
-def _resolve(resolver: VerificationReceiptResolver, receipt_id: str) -> VerificationReceipt:
+def _resolve(resolver: VerificationReceiptResolver, receipt_id: str,
+             challenge_id: str) -> VerificationReceipt:
     _required(receipt_id, "verification_receipt_id")
-    receipt = resolver.resolve(receipt_id)
+    _required(challenge_id, "challenge_id")
+    binder = getattr(resolver, "for_challenge", None)
+    if not callable(binder):
+        raise ValueError("receipt resolver cannot bind to a challenge; refusing unbound resolution")
+    bound = binder(challenge_id)
+    if getattr(bound, "challenge_id", None) != challenge_id:
+        raise ValueError("receipt resolver is not bound to this exact challenge id")
+    receipt = bound.resolve(receipt_id)
     if not isinstance(receipt, VerificationReceipt) or receipt.receipt_id != receipt_id:
         raise ValueError("resolver did not return the requested immutable verification receipt")
     return receipt
