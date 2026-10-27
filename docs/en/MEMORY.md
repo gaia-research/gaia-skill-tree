@@ -2,6 +2,24 @@
 
 ---
 
+## 2026-10-27 — Weekly Editor Pass (editor-064wk)
+
+**Branch:** `docs/routines/064`. No daily PR was open, so this was a health audit
+of `main`'s `docs/en/` (v8.26.10) plus one gap fix.
+
+- **Checked, clean:** version chips match 8.26.10; no broken links or anchors
+  across the 13 pages; Page Map matches the files on disk.
+- **Added:** `cli-reference.html` cards for seven `gaia dev` verbs that had none:
+  `prefill`, `assess`, `ratify`, `embed`, `evidence-seed`, `provenance`,
+  `verify-tier`. Sidebar and TOC entries added. Only `ratify` is verifier-gated
+  (`require_operator`); the rest are open. Flags checked against live `--help`.
+- **Cut / merged / deleted:** nothing.
+- **Users must adapt:** nothing changed in behavior. The discovery path
+  (`embed` → `prefill` → `assess` → `ratify` → `evidence-seed` → `provenance`)
+  is now documented in order.
+
+---
+
 ## 2026-10-21 — Weekly Editor Pass (editor-063wk)
 
 **Branch:** `docs/routines/063`. No daily PR was open (routines 056–062 had all
