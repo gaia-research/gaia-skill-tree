@@ -105,6 +105,9 @@ def test_cache_bust_only_main_refreshes_html_and_readme(bd, monkeypatch):
     monkeypatch.setattr(
         bd, "build_readme_version_only", lambda check: calls.append(("readme", check)) or False
     )
+    monkeypatch.setattr(
+        bd, "build_health_version_only", lambda check: calls.append(("health", check)) or False
+    )
     # Guard: a full-pipeline step must NOT run in cache-bust-only mode.
     monkeypatch.setattr(
         bd, "build_badges", lambda check: (_ for _ in ()).throw(
@@ -117,6 +120,7 @@ def test_cache_bust_only_main_refreshes_html_and_readme(bd, monkeypatch):
     assert rc == 0
     assert ("html", False) in calls
     assert ("readme", False) in calls
+    assert ("health", False) in calls
 
 
 # --- build_html_cache_busting: docs/en/*.html coverage (#2042) -------------
@@ -220,3 +224,22 @@ def test_cache_bust_preserves_crlf_line_endings(bd, tmp_path, monkeypatch):
     assert data.count(b"\n") == data.count(b"\r\n")  # every newline is CRLF
     assert b'window.GAIA_VERSION = "9.9.9";' in data
     assert b'<span class="nav-version">v9.9.9</span>' in data
+
+
+def test_health_version_only_restamps_version_and_nothing_else(bd, tmp_path, monkeypatch):
+    health = tmp_path / "docs" / "api" / "v1" / "health.json"
+    health.parent.mkdir(parents=True)
+    health.write_text(
+        '{\n  "ok": true,\n  "version": "1.0.0",\n  "namedSkillsCount": 7\n}',
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(bd, "ROOT", tmp_path)
+    monkeypatch.setattr(bd, "_read_version", lambda: "9.9.9")
+
+    assert bd.build_health_version_only(check=True) is True
+    assert '"1.0.0"' in health.read_text(encoding="utf-8")  # check never writes
+    assert bd.build_health_version_only(check=False) is True
+    assert health.read_text(encoding="utf-8") == (
+        '{\n  "ok": true,\n  "version": "9.9.9",\n  "namedSkillsCount": 7\n}'
+    )
+    assert bd.build_health_version_only(check=False) is False

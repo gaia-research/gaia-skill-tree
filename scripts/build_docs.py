@@ -317,6 +317,29 @@ def build_readme_version_only(check: bool) -> bool:
     return changed
 
 
+def build_health_version_only(check: bool) -> bool:
+    """Refresh ONLY `docs/api/v1/health.json` `version` from pyproject.toml.
+
+    health.json is an API contract whose `version` is meaningful, but the
+    full API regen masks version stamps in its drift check, so a release that
+    skips the full pipeline left it frozen (8.26.10 vs 8.28.1). Version-derived
+    and independent of Class P data, so safe in a release context.
+    """
+    path = ROOT / "docs" / "api" / "v1" / "health.json"
+    if not path.exists():
+        return False
+    text = path.read_bytes().decode("utf-8")
+    updated = _VERSION_STAMP_RE.sub(lambda m: f'{m.group(1)}"{_read_version()}"', text, count=1)
+    if updated == text:
+        return False
+    if check:
+        print("diff docs/api/v1/health.json (version stale)")
+    else:
+        path.write_bytes(updated.encode("utf-8"))
+        print("cache-bust: updated docs/api/v1/health.json")
+    return True
+
+
 def build_docs_index(check: bool) -> bool:
     path = ROOT / "docs" / "index.html"
     if not path.exists():
@@ -655,6 +678,26 @@ def build_html_cache_busting(check: bool) -> bool:
             )
         )
     ]
+    # Any other page that already carries a version stamp (`?v=X.Y.Z` asset
+    # query or `window.GAIA_VERSION`) is discovered rather than listed, so a
+    # stamped page that was never registered cannot silently freeze at an old
+    # release (docs/evidence/index.html sat at 5.0.6 and
+    # docs/benchmarks/alphaxiv-arxivqa/index.html at 7.3.6). docs/u/<handle>/
+    # pages are handled separately below: their generator strips the no-cache
+    # meta tags that this transform would re-inject.
+    stamped_pages = []
+    stamp_re = re.compile(r'\?v=\d+\.\d+\.\d+|window\.GAIA_VERSION\s*=\s*"')
+    for path in sorted((ROOT / "docs").rglob("*.html")):
+        rel = path.relative_to(ROOT / "docs")
+        if rel.parts[0] in ("u", "og", "DRAFT"):
+            continue
+        try:
+            text = path.read_bytes().decode("utf-8")
+        except UnicodeDecodeError:
+            continue
+        if stamp_re.search(text):
+            stamped_pages.append(rel.as_posix())
+    seen: set[str] = set()
     for filename in (
         "reports/index.html",
         "index.html",
@@ -682,7 +725,10 @@ def build_html_cache_busting(check: bool) -> bool:
         "benchmarks/humaneval-v1/index.html",
         "benchmarks/mmlu-v1/index.html",
         "skills/index.html",
-    ) + tuple(en_pages) + tuple(report_pages):
+    ) + tuple(en_pages) + tuple(report_pages) + tuple(stamped_pages):
+        if filename in seen:
+            continue
+        seen.add(filename)
         path = ROOT / "docs" / filename
         if not path.exists():
             continue
@@ -697,6 +743,26 @@ def build_html_cache_busting(check: bool) -> bool:
             else:
                 path.write_bytes(updated_text.encode("utf-8"))
                 print(f"cache-bust: updated docs/{filename}")
+    # Per-contributor profile pages: re-stamp with the generator's own transform
+    # (version-only; it keeps the pages free of no-cache meta). build_profile_pages
+    # compares trees ignoring version stamps, so without this step a regen never
+    # rewrites a page whose only drift is the stamp and all 65 froze at 8.26.10.
+    profile_pages = sorted((ROOT / "docs" / "u").glob("*/index.html"))
+    if profile_pages:
+        import importlib.util as _ilu
+        spec = _ilu.spec_from_file_location("generateProfilePages", SCRIPTS / "generateProfilePages.py")
+        gen = _ilu.module_from_spec(spec)  # type: ignore[arg-type]
+        spec.loader.exec_module(gen)  # type: ignore[union-attr]
+        for path in profile_pages:
+            original_text = path.read_bytes().decode("utf-8")
+            updated_text = gen._apply_cache_busting(original_text, version)
+            if original_text != updated_text:
+                changed = True
+                rel = path.relative_to(ROOT / "docs").as_posix()
+                if check:
+                    print(f"diff docs/{rel} (cache busting / version stale)")
+                else:
+                    path.write_bytes(updated_text.encode("utf-8"))
     return changed
 
 
@@ -1127,6 +1193,36 @@ def build_installability_projection(check: bool) -> bool:
     return write_projection(document, committed, anchor=ROOT)
 
 
+_VERSION_STAMP_RE = re.compile(r'("version"\s*:\s*)"\d+\.\d+\.\d+"')
+
+
+def _refresh_version_only_drift(committed: Path, generated: Path) -> list[str]:
+    """Copy generated files over committed ones that differ ONLY in `"version"`.
+
+    Returns the relative paths refreshed. Files with any other difference are
+    left to the caller's normal tree replacement.
+    """
+    refreshed: list[str] = []
+    for gen_path in sorted(generated.rglob("*.json")):
+        rel = gen_path.relative_to(generated)
+        com_path = committed / rel
+        if not com_path.is_file():
+            continue
+        try:
+            gen_text = gen_path.read_bytes().decode("utf-8")
+            com_text = com_path.read_bytes().decode("utf-8")
+        except UnicodeDecodeError:
+            continue
+        if gen_text == com_text:
+            continue
+        mask = lambda t: _VERSION_STAMP_RE.sub(r'\1"<v>"', t)  # noqa: E731
+        if mask(gen_text) == mask(com_text):
+            com_path.write_bytes(gen_text.encode("utf-8"))
+            refreshed.append(rel.as_posix())
+            print(f"version-stamp: refreshed docs/api/v1/{rel.as_posix()}")
+    return refreshed
+
+
 def build_api_projection(check: bool) -> bool:
     """Run buildApiProjection.py to a tempdir and diff against docs/api/v1/."""
     script = SCRIPTS / "buildApiProjection.py"
@@ -1164,6 +1260,16 @@ def build_api_projection(check: bool) -> bool:
                 shutil.copytree(out_dir, committed)
             return True
         drifts = _diff_tree(committed, out_dir)
+        if not check:
+            # `_diff_tree` normalizes `"version"` stamps (so --check does not
+            # flap between a release and its next sync), which also meant a
+            # regen never rewrote a file whose ONLY drift is that stamp:
+            # health.json froze at 8.26.10 while pyproject moved to 8.28.1.
+            # health.json is an API contract whose `version` is meaningful, so
+            # heal it in write mode. Only files that are byte-different yet
+            # identical once the version stamp is masked are refreshed, so this
+            # never introduces timestamp churn.
+            _refresh_version_only_drift(committed, out_dir)
         if not drifts:
             return False
         if check:
@@ -1979,7 +2085,8 @@ def main(argv: list[str] | None = None) -> int:
         # avoid the 2026-06-24 stale-snapshot badge-wipe class of failure.
         html_changed = build_html_cache_busting(check=False)
         readme_changed = build_readme_version_only(check=False)
-        changed = html_changed or readme_changed
+        health_changed = build_health_version_only(check=False)
+        changed = html_changed or readme_changed or health_changed
         print("Cache-bust strings updated." if changed else "Cache-bust strings already current.")
         return 0
 
