@@ -202,6 +202,14 @@
       "previousValue": "v3.25.5",
       "newValue": "v3.41.2",
       "details": "synced from https://github.com/ruvnet/ruflo/releases/tag/v3.41.2"
+    },
+    {
+      "timestamp": "2026-10-27T21:39:00Z",
+      "action": "upstream_synced",
+      "contributor": "mbtiongson1",
+      "previousValue": "v3.41.2",
+      "newValue": "v3.63.5",
+      "details": "synced from https://github.com/ruvnet/ruflo/releases/tag/v3.63.5"
     }
   ],
   "links": {

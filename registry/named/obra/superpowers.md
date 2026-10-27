@@ -181,6 +181,12 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 220.81 -> 221.52, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-27T21:38:54Z'
+  action: upstream_synced
+  contributor: mbtiongson1
+  previousValue: v6.4.1
+  newValue: v7.0.1
+  details: synced from https://github.com/obra/superpowers/releases/tag/v7.0.1
 trustMagnitude: 221.52
 overallTrustGrade: A
 apexGateStatus:
@@ -199,11 +205,11 @@ verification:
 trustMagnitudeInputHash: 90efcc86186878db6c43cce49093fe7d52f13c4441b15ddc36baeb469d16e784
 upstream:
   mode: components
-  releasedAt: '2026-09-19T00:32:44Z'
+  releasedAt: '2026-10-21T21:05:11Z'
   repo: obra/superpowers
-  sourceUrl: https://github.com/obra/superpowers/releases/tag/v6.4.1
-  syncedAt: '2026-09-22T19:48:02Z'
-  version: v6.4.1
+  sourceUrl: https://github.com/obra/superpowers/releases/tag/v7.0.1
+  syncedAt: '2026-10-27T21:38:54Z'
+  version: v7.0.1
 ---
 
 ## Overview
