@@ -4,7 +4,7 @@
 
 Founder asked to be told when to reset and then explicitly said **Continue**. Continue the safe Pi recovery-tooling repair; **do not issue READY TO RESTART yet**. No additional Gaia campaign jobs before this restart window. This is temporary execution sequencing, not a campaign restart, permanent pause, completion claim or waiver of the original mission.
 
-All previously assigned Gaia implementation workers, independent reviews and parent shell tests are now terminal and collected. The old tooling review's assertion that publication task `ba7cb70f5` remains live is stale. The first Pi repair and lifecycle scout are also now collected. That subsequent review and first actual-SDK probe are now also collected. Product repair2 is now also collected. Current work is resumed actual-SDK verification, independent78b review and the parent isolated Python regressions; see the latest follow-on section below.
+All previously assigned Gaia implementation workers, independent reviews and parent shell tests are now terminal and collected. The old tooling review's assertion that publication task `ba7cb70f5` remains live is stale. The first Pi repair and lifecycle scout are also now collected. That subsequent review and first actual-SDK probe are now also collected. Product repair2 is now also collected. Independent78b review is now collected and REFUTED. Current work is complex safety implementation, resumed actual-SDK verification and parent regression collection; see the latest follow-on section below.
 
 ## Campaign state safely saved
 
@@ -43,7 +43,28 @@ Repair continues existing source, not a fresh implementation reset. Preserve ear
 
 Prefer supported mechanisms or honest logical recovery over fighting native lifecycle with false states. Require actual SDK/event/async binding, native cleanup/distillation/worktree tests, policy-valid absolute-path recovery, identity/unknown-state safety, lease handoff/expiry, fail-closed corruption with DB/WAL/SHM preserved, privacy/bounds/migration and atomic hash-safe installer/rollback. WAL/FULL alone is not lossless admission, process resurrection or external exactly-once proof.
 
-### Latest: repair2 saved; independent native-safety gate
+### Latest: repair2 refused; complex safety repair and concrete exploit
+
+Independent review **`6f05b8b5`** returned **partial/source-level REFUTED**; no tests run by that reviewer. Report `~/.pi/durable-recovery/independent-review-78b.md` confirms:
+
+- Staged Android compatibility treats unknown live legacy identities as dead, permitting destructive native cleanup.
+- Startup converts unknown/unverifiable liveness to `interrupted`; claim only rechecks `running`/`resuming`, making that unknown live worker claimable.
+- Lineage binds during observational event admission, with no valid reservation owner/token/expiry check, before successor admission/native dispatch. Suffix `LIKE` lookup is ambiguous; pre-launch crash can permanently strand the predecessor while leaving queued successor state.
+- Installer and doctor `eval` assignments derived from manifest text. Retained preimage contents/mode are not verified.
+
+Parent independently **reproduced actual installer shell execution** against frozen78b: isolated first install, crafted manifest backupPath with benign command substitution, same-version reinstall exits0 and creates a private marker. Evidence `~/.pi/durable-recovery/manifest-eval-probe-78b-20261027T054547Z/{crafted-manifest.json,first.log,second.log,result.json}`. All install paths were isolated; live extension remains absent and native SHA remains stock5cf89e…b2702. This is concrete negative runtime evidence, not model agreement or positive deployment proof.
+
+Complex implementation now moves to authorized **Luna High** rather than another Flash patch round. Existing Flash work/history remains preserved:
+
+| Owner | Run | Scope / output |
+|---|---|---|
+| Luna High safety implementation | `4582923b-05dc-41b0-b610-ddd6211c7ede` | NEW permanent `~/.pi/worktrees/pi-config-durable-safety`, branch `fix/durable-recovery-safety` from78b; unknown/claim state, exact reservation/lineage pre-dispatch atomicity, safe structured manifest/preimage handling, conservative Android identity/cleanup patch; `~/.pi/durable-recovery/safety-repair-result.md` |
+| Resumed Luna actual-SDK verifier | `eeb5ed78-9a98-4449-85cc-df47494ee57d` | Continues its separate test branch; genuine child/session/completion/crash/native-resume proof, not manual callback simulation |
+| Parent isolated Python regressions | task `b36a02e4e` | Original78b feature worktree stays FROZEN until collected; no competing product edits there |
+
+Source-only review findings must gain composed regression proof. Unknown/dead/pending launch remain distinct; reserve/consume exactly once before actual native side effects using a real blocking hook, not unawaited event observation. No automatic replay of ambiguous launches, no stale/foreign claim, no manifest `eval`, no unverified backup. Native unknown must not signal OR prune live state; boot/reuse/permission safety and real Android behavior need actual tests. No full Termux restart is required; activation remains held until reviewed installation and verified checkpoints.
+
+### Earlier: repair2 saved; independent native-safety gate
 
 Product repair2 **`78b63102fa64867cc2b7cb9edfe6f198d87b1b87`** is clean and matches the fresh feature remote, through coherent ec6b39f/02f12e3/b342023/78b6310 commits. Master still0e4. Author reports18 Node/helper tests,3 mock-contract subtests and3 Python tests passing. Claims include schema2 execution pins/support matrix, transactional predecessor/successor lineage, preimage preservation, removal of automatic quarantine and truthful docs/mock labels. **Not independent acceptance or SDK recovery proof.**
 
