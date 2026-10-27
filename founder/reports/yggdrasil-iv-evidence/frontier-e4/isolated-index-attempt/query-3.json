@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "graft",
+    "--dir",
+    "/data/data/com.termux/files/usr/tmp/frontier-e4-graft-index-u27oe2d_",
+    "callers",
+    "score",
+    "/data/data/com.termux/files/home/.gaia-worktrees/yggdrasil-iv-frontier-native-e4",
+    "--in",
+    "examples/frontier/fixtures/line-history/sample-v1.py",
+    "--json",
+    "--no-refresh"
+  ],
+  "exitCode": 0,
+  "stdout": "{\n  \"query\": \"score\",\n  \"matches\": [\n    {\n      \"symbol\": {\n        \"id\": \"examples/frontier/fixtures/line-history/sample-v1.py#score\",\n        \"name\": \"score\",\n        \"kind\": \"function\",\n        \"path\": \"examples/frontier/fixtures/line-history/sample-v1.py\",\n        \"span\": \"L1-L3\"\n      },\n      \"hits\": [\n        {\n          \"id\": \"examples/frontier/fixtures/line-history/sample-v1.py#caller\",\n          \"relation\": \"calls\",\n          \"depth\": 1,\n          \"name\": \"caller\",\n          \"kind\": \"function\",\n          \"path\": \"examples/frontier/fixtures/line-history/sample-v1.py\",\n          \"span\": \"L6-L7\"\n        }\n      ]\n    }\n  ],\n  \"saved\": {\n    \"files\": 1,\n    \"baselineChars\": 112\n  }\n}\n",
+  "stderr": "",
+  "seconds": 1.745
+}

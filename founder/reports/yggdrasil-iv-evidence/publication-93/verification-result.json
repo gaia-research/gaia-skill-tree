@@ -1,0 +1,34 @@
+{
+  "evaluation_at": "2026-10-25T12:00:00Z",
+  "head_after": "93fb731ea8842ef07fd703bb0b58dea944a83a0d",
+  "interpreter": "/data/data/com.termux/files/home/gaia-skill-tree/.gaia/yggdrasil-iv/runtime/publication-venv/bin/python",
+  "runs": [
+    {
+      "artifact_count": 2555,
+      "build_seconds": 780.37,
+      "exit": 0,
+      "independent_verify": true,
+      "name": "replay-one",
+      "root": "/data/data/com.termux/files/usr/tmp/yggiv-publication-93.ueb33698/replay-one",
+      "snapshotId": "862c3537babee14e27ad8c19afd8e30d0a07cf1b8d319ff6465757465d788c3f",
+      "verify_seconds": 252.1
+    },
+    {
+      "artifact_count": 2555,
+      "build_seconds": 881.86,
+      "exit": 0,
+      "independent_verify": true,
+      "name": "replay-two",
+      "root": "/data/data/com.termux/files/usr/tmp/yggiv-publication-93.ueb33698/replay-two",
+      "snapshotId": "862c3537babee14e27ad8c19afd8e30d0a07cf1b8d319ff6465757465d788c3f",
+      "verify_seconds": 219.13
+    }
+  ],
+  "seconds": 2324.65,
+  "sha": "93fb731ea8842ef07fd703bb0b58dea944a83a0d",
+  "source_changed": [],
+  "state": "completed",
+  "success": true,
+  "tests_exit": 0,
+  "two_root_byte_equal": true
+}

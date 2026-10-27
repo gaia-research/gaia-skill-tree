@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/home/gaia-skill-tree/.pi/probes/exercise-frontier-e4.py", line 51, in <module>
+    command_results = [execute(c, f'graft-{i}.json') for i, c in enumerate(commands)]
+                       ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/.pi/probes/exercise-frontier-e4.py", line 33, in execute
+    raise RuntimeError(f'command failed {command!r}: {p.stderr[-4000:]}')
+RuntimeError: command failed ['graft', 'ask', 'score function and its caller context', '--in', 'examples/frontier/fixtures/line-history', '--json']: [graft] refreshed the graph (7 files changed) before answering — copied the graph from the main checkout (/data/data/com.termux/files/home/gaia-skill-tree)
+✗ nothing indexed under "examples/frontier/fixtures/line-history/" — scopes here: packages/api-client-py/ · packages/api-client-ts/ · packages/cli-npm/ · (root) (or any path prefix)
+

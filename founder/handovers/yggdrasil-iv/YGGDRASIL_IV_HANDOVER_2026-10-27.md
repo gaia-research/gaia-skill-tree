@@ -375,13 +375,26 @@ not been received.**
 
 ## 6. Evidence map and preservation
 
+**Tracked proof set (durable, off-device):** `founder/reports/yggdrasil-iv-evidence/` —
+byte-identical copies of this campaign's verification evidence with a `SHA256SUMS`
+manifest and a `README.md` scoping what each proof does and does not establish. That
+now includes the pause preservation receipt, both publication full proofs (b81 and the
+earlier 93), both Frontier attempts, the canonical CLI combined-verification run, the
+held proposal schema bytes, and the four independent reports. Prefer these committed
+copies when you need to read evidence; the working originals stay under `.gaia/`.
+
+The four declared-artifact archives (~94 MB each) are deliberately **not** committed;
+their sizes and SHA256 digests are recorded in that folder's README and in each
+`preservation-receipt.json`, and are reconstructible from the committed manifests plus
+the pinned source SHA and the fixed evaluation timestamp.
+
 Remote (Git, durable): every campaign branch in §3 plus recovery refs
 `recovery/yggdrasil-iv-pause-canonical-fixtures-96d329995` = `fbf9f203d` (CLI
 strict-fixture WIP) and `recovery/yggdrasil-iv-pause-frontier-index-e4` =
 `9dc1183d9` (Frontier `.gitignore` mutation WIP). Older recovery refs from earlier
 pauses are retained and listed in the restart checkpoint.
 
-Local only — **not** off-device backup, and `.gaia/` is gitignored:
+Working evidence, local only — **not** off-device backup, and `.gaia/` is gitignored:
 
 - `.gaia/yggdrasil-iv/recovery/graceful-pause-96d329995/` — this pause's
   preservation receipt, per-lane WIP patches/status, copied task JSON/output for

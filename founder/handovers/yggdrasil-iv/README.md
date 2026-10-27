@@ -37,11 +37,16 @@ match current state.
 
 ## Where the evidence lives
 
-Large proofs, review reports, full session transcripts, WIP patches and archives are
-**not** committed here — `.gaia/` is gitignored. They live under
-`.gaia/yggdrasil-iv/recovery/` in the working copy and are indexed in the handover's
-evidence map (§6), together with the pushed `recovery/yggdrasil-iv-*` Git refs that
-preserve uncommitted work. Local evidence is not an off-device backup.
+**Committed proof set:** [`founder/reports/yggdrasil-iv-evidence/`](../../reports/yggdrasil-iv-evidence/README.md) —
+byte-identical copies of the campaign's verification evidence (`SHA256SUMS`-manifested)
+with an explicit scope note per directory. Read evidence there first; it survives session
+archives and device loss.
+
+Working copies, large archives, full session transcripts and WIP patches are **not**
+committed — `.gaia/` is gitignored. They live under `.gaia/yggdrasil-iv/recovery/` in the
+working copy and are indexed in the handover's evidence map (§6), together with the
+pushed `recovery/yggdrasil-iv-*` Git refs that preserve uncommitted work. The four
+~94 MB declared-artifact archives stay local only, with recorded digests.
 
 ## Conventions for new entries
 
