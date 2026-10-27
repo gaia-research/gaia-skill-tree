@@ -362,3 +362,32 @@ def test_ordinary_authorized_legacy_evidence_still_works(fixtureRepo):
     result = cli(root, "evidence", "alice/tool", "https://example.invalid/new", "--type", "repo-own", "--commits", "1", "--contributors", "1", "--no-build")
     assert result.returncode == 0, result.stderr
     assert len(loadNamed(root)["evidence"]) == 2
+
+
+@pytest.mark.parametrize("owner", ["registry", "skill-trees"])
+def test_native_legacy_writer_cannot_bypass_pending_guard_via_owner_name(fixtureRepo, owner):
+    root = fixtureRepo
+    named = loadNamed(root)
+    named.update(id=f"{owner}/tool", contributor=owner)
+    newNamed = root / "registry/named" / owner / "tool.md"
+    newNamed.parent.mkdir()
+    newNamed.write_text("---\n" + yaml.safe_dump(named, sort_keys=False, allow_unicode=True) + "---\n# Fixture\n")
+    (root / "registry/named/alice/tool.md").unlink()
+    oldTree = root / "skill-trees/alice/skill-tree.json"
+    tree = json.loads(oldTree.read_bytes())
+    tree["userId"] = owner
+    tree["unlockedSkills"][0]["skillId"] = f"{owner}/tool"
+    newTree = root / "skill-trees" / owner / "skill-tree.json"
+    newTree.parent.mkdir()
+    dump(newTree, tree)
+    oldTree.unlink()
+    state = root / ".gaia/canonical-transactions"
+    state.mkdir(parents=True)
+    (state / "unknown.pending.json").write_text("unknown pending must remain blocked")
+    before = sources(root)
+
+    result = cli(root, "evidence", f"{owner}/tool", "https://example.invalid/new",
+                 "--type", "repo-own", "--commits", "1", "--contributors", "1", "--no-build")
+
+    assert result.returncode == 1 and "pending canonical transaction" in result.stderr
+    assert sources(root) == before

@@ -19,6 +19,7 @@ from typing import Protocol
 
 MAX_TARGETS = 32
 MAX_PAYLOAD_BYTES = 1_048_576
+MAX_JOURNAL_BYTES = MAX_PAYLOAD_BYTES * 2
 STATE_DIR = ".gaia/canonical-transactions"
 _heldLocks = threading.local()
 
@@ -230,6 +231,12 @@ def _journal_data(plan: Plan, mode_map: dict[str, int]) -> bytes:
                           "after": base64.b64encode(t.after).decode("ascii"), "beforeSha256": _hash(t.before),
                           "afterSha256": _hash(t.after), "mode": mode_map[t.path]} for t in plan.targets]}
     value["journalDigest"] = hashlib.sha256(_canonical(value)).hexdigest()
+    # Refuse before any journal/target write if our own recovery reader could
+    # reject this record. Reserve the exact largest state we may later persist,
+    # including interrupted rollback metadata, rather than just the pending form.
+    largest_state = dict(value, status="rolled-back", recoveryOperation="rollback")
+    if len(_canonical(largest_state)) + 1 > MAX_JOURNAL_BYTES:
+        raise TransactionError("journal exceeds bounded recovery size")
     return _canonical(value) + b"\n"
 
 
@@ -257,7 +264,14 @@ def guardCanonicalPath(path: str | Path):
     """Guard shared file serializers without imposing a Class-C issuer on legacy work."""
     selected = Path(path).absolute()
     for parent in selected.parents:
-        if parent.name in {"registry", "skill-trees"}:
+        # A valid contributor may itself be named registry or skill-trees.
+        # Match the namespace's internal path, not just an ancestor basename.
+        parts = selected.relative_to(parent).parts
+        registry_target = (parent.name == "registry" and len(parts) >= 2
+                           and parts[0] in {"nodes", "named"})
+        tree_target = (parent.name == "skill-trees" and len(parts) == 2
+                       and parts[-1] == "skill-tree.json")
+        if registry_target or tree_target:
             with canonicalTransactionLock(parent.parent):
                 yield
             return
@@ -308,6 +322,8 @@ def apply(plan: Plan, provider: ApprovalProvider | None = None, *, fail_after: i
 
 def _read_journal(path: Path, root: Path) -> tuple[dict, Plan]:
     try:
+        if path.is_symlink() or not path.is_file() or path.stat().st_size > MAX_JOURNAL_BYTES:
+            raise TransactionError("journal must be a bounded regular file")
         doc = json.loads(path.read_bytes())
         digest = doc.pop("journalDigest")
         if hashlib.sha256(_canonical(doc)).hexdigest() != digest:
