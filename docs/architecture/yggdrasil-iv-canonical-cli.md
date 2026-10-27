@@ -29,3 +29,28 @@ external side effects. Multi-file replacement is journaled/recoverable, not an
 OS-atomic multi-file publication or external exactly-once guarantee. Publication,
 issuer activation, schema quorum, independent integration review, pilot selection,
 visual review and main/release remain held.
+
+## Native command surface
+
+`gaia --registry <repository> dev canonical` exposes `plan --request`,
+`validate --plan`, `apply --plan`, `status`, and `rollback --plan --journal`.
+Preparation is read-only; validation is not approval. The production approval
+resolver remains unavailable, and no CLI/environment fixture-provider switch
+exists. Fixture grants in `tests/fixtures/` are explicitly not issuers.
+
+## Platform boundary
+
+The ordinary CLI, including help and legacy writers, must not gain an unconditional
+POSIX-only import. Cooperating legacy writers use `fcntl.flock` on POSIX or the
+standard-library `msvcrt` byte lock on Windows; absence/failure of a lock backend
+fails closed. A failed acquisition is never treated as a held lock or unlocked.
+
+Durable canonical **apply/rollback remain POSIX-only**: the Windows legacy lock
+adapter does not establish recoverable directory-fsync semantics. These canonical
+operations refuse before recovery metadata or target writes when POSIX capability
+is absent. Read-only preparation/status does not authenticate an approval.
+
+Platform-capability regression tests include an actual native CLI help invocation
+with `fcntl` unavailable and explicit Windows-adapter doubles. The latter are
+unit evidence, **not native Windows runtime certification**. Existing real POSIX
+two-process contention/crash tests remain in the expanded suite.

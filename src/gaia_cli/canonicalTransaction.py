@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import base64
 import contextlib
-import fcntl
 import hashlib
 import json
 import os
@@ -16,6 +15,15 @@ import threading
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Protocol
+
+try:
+    import fcntl
+except ImportError:  # Windows: ordinary CLI commands must still import.
+    fcntl = None
+try:
+    import msvcrt
+except ImportError:
+    msvcrt = None
 
 MAX_TARGETS = 32
 MAX_PAYLOAD_BYTES = 1_048_576
@@ -169,8 +177,32 @@ def _authorize(provider: ApprovalProvider | None, plan: Plan, operation: str) ->
         raise ApprovalRejected("approval does not authorize this exact operation and plan")
 
 
+def _acquire_lock(fd: int) -> None:
+    if fcntl is not None:
+        fcntl.flock(fd, fcntl.LOCK_EX)
+        return
+    try:
+        if os.fstat(fd).st_size == 0:
+            os.write(fd, b"\0")
+            os.fsync(fd)
+        os.lseek(fd, 0, os.SEEK_SET)
+        msvcrt.locking(fd, msvcrt.LK_LOCK, 1)
+    except OSError as exc:
+        raise TransactionError("cooperative Windows lock unavailable") from exc
+
+
+def _release_lock(fd: int) -> None:
+    if fcntl is not None:
+        fcntl.flock(fd, fcntl.LOCK_UN)
+    else:
+        os.lseek(fd, 0, os.SEEK_SET)
+        msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+
+
 @contextlib.contextmanager
 def _lock(root: Path):
+    if fcntl is None and msvcrt is None:
+        raise TransactionError("no supported cooperative file lock backend")
     held = getattr(_heldLocks, "roots", set()) if getattr(_heldLocks, "pid", None) == os.getpid() else set()
     _heldLocks.pid = os.getpid()
     if str(root) in held:
@@ -189,14 +221,19 @@ def _lock(root: Path):
         raise TransactionError("transaction lock cannot be a symlink")
     flags = os.O_CREAT | os.O_RDWR | getattr(os, "O_NOFOLLOW", 0)
     fd = os.open(lock_path, flags, 0o600)
+    acquired = False
     try:
-        fcntl.flock(fd, fcntl.LOCK_EX)
+        _acquire_lock(fd)
+        acquired = True
         _heldLocks.roots = held | {str(root)}
         yield state
     finally:
         _heldLocks.roots = held
-        fcntl.flock(fd, fcntl.LOCK_UN)
-        os.close(fd)
+        try:
+            if acquired:
+                _release_lock(fd)
+        finally:
+            os.close(fd)
 
 
 def _fsync_dir(path: Path) -> None:
@@ -280,6 +317,8 @@ def guardCanonicalPath(path: str | Path):
 
 def apply(plan: Plan, provider: ApprovalProvider | None = None, *, fail_after: int | None = None) -> str:
     """Apply authorized plan with CAS, durable preimages/stages and recoverable journal."""
+    if fcntl is None:
+        raise TransactionError("durable canonical apply requires POSIX locking and directory fsync support")
     selected = _root(plan.root)
     if str(selected) != plan.root:
         raise TransactionError("plan root identity changed")
@@ -356,6 +395,8 @@ def _read_journal(path: Path, root: Path) -> tuple[dict, Plan]:
 
 
 def rollback(root: str | Path, journal_path: str | Path, provider: ApprovalProvider | None = None) -> None:
+    if fcntl is None:
+        raise TransactionError("durable canonical rollback requires POSIX locking and directory fsync support")
     selected = _root(root)
     path = Path(journal_path)
     with _lock(selected):
