@@ -20,6 +20,8 @@ DATA = Path(__file__).parent / "data" / "frontier"
 SCHEMA = DATA / "challenger-lead-v1.1.schema.json"
 REQUEST_SCHEMA = DATA / "frontier-verification-request-v1.schema.json"
 EXPERIMENT_SCHEMA = DATA / "experiment-receipt-v1.schema.json"
+EXPERIMENT_SCHEMA_V11 = DATA / "experiment-receipt-v1.1.schema.json"
+VERSION_MISMATCH_RESULTS = {"inconclusive", "execution_failed"}
 FORBIDDEN_AUTHORITY_FIELDS = {"verified", "verifiedBy", "approvedBy", "verificationReceipt", "confidence", "publicChallengeId", "challengeStatus", "verifierId", "actor", "signature", "admission"}
 
 
@@ -185,13 +187,23 @@ def validate_request(request: dict[str, Any]) -> list[str]:
 
 def validate_experiment_receipt(receipt: dict[str, Any], request: dict[str, Any], *, repo_root: str | Path | None = None) -> list[str]:
     """Check binding and output-file integrity; result remains untrusted and never means admission."""
-    errors = _validate_schema(receipt, EXPERIMENT_SCHEMA)
+    is_v11 = isinstance(receipt, dict) and receipt.get("schemaVersion") == "frontier-experiment-receipt-v1.1"
+    errors = _validate_schema(receipt, EXPERIMENT_SCHEMA_V11 if is_v11 else EXPERIMENT_SCHEMA)
     request_errors = validate_request(request)
     errors.extend(f"request: {error}" for error in request_errors)
     if not isinstance(receipt, dict) or request_errors:
         return sorted(set(errors))
     links = {"campaignId": request["campaignId"], "nativeVersion": request["native"]["version"], "requestId": request["requestId"], "leadDigest": request["leadDigest"], "claimDigest": request["claimDigest"], "sourceDigest": request["source"]["contentDigest"], "targetDigest": request["target"]["contentDigest"], "targetRevision": request["target"]["revision"], "historyRef": request["historyRef"], "protocolDigest": request["protocol"]["contentDigest"], "fixtureDigest": request["fixture"]["contentDigest"]}
+    if is_v11:
+        # nativeVersion reports what actually ran; the request's version is claim provenance only.
+        links["nativeVersion"] = receipt.get("executedVersion")
+        links["documentedVersion"] = request["native"]["version"]
     errors.extend(f"cross-binding mismatch: {key}" for key, value in links.items() if receipt.get(key) != value)
+    if is_v11 and receipt.get("documentedVersion") != receipt.get("executedVersion"):
+        if receipt.get("result") not in VERSION_MISMATCH_RESULTS:
+            errors.append("documented and executed versions differ: only inconclusive or execution_failed is permitted")
+        if not any(isinstance(x, str) and "differs from documented version" in x for x in receipt.get("limitations", [])):
+            errors.append("documented and executed versions differ: limitation entry required")
     outputs = receipt.get("outputs", [])
     labels = {item.get("label") for item in outputs if isinstance(item, dict)}
     if receipt.get("result") in {"supported", "contradicted"}:
