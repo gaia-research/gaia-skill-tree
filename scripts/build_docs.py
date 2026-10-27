@@ -1716,6 +1716,15 @@ def build_og_cards(check: bool) -> bool:
                 print(f"diff docs/og/ (regen failed: rc={rc})")
                 print(output)
             raise RuntimeError(f"docs/og/ regen failed: rc={rc}")
+        # A strict rehearsal requires a freshly rendered PNG for every SVG,
+        # including cards that did not previously have a raster.
+        strict = globals().get("_STRICT_REHEARSAL", False)
+        if strict:
+            candidate_pngs = {p.relative_to(out_dir) for p in out_dir.rglob("*.png")}
+            expected_pngs = {p.relative_to(out_dir).with_suffix(".png") for p in out_dir.rglob("*.svg")}
+            if candidate_pngs != expected_pngs:
+                raise RuntimeError("rehearsal cannot certify incomplete OG PNG coverage; install a supported rasterizer: "
+                                   + ", ".join(map(str, sorted(expected_pngs - candidate_pngs)[:5])))
         if not committed.exists():
             if check:
                 print("diff docs/og/ (missing)")
@@ -1724,17 +1733,14 @@ def build_og_cards(check: bool) -> bool:
                 shutil.copytree(out_dir, committed)
             return True
 
-        # Production preserves the historical SVG-only behavior. A rehearsal
-        # cannot certify old raster cards as regenerated: refresh every PNG
-        # produced and refuse copied PNGs when this runtime cannot render them.
-        strict = globals().get("_STRICT_REHEARSAL", False)
+        # Production retains its historical SVG-only behavior. In rehearsal,
+        # replace all rasters and remove even orphan PNGs with no old SVG.
+        removed_pngs = set()
         if strict:
             committed_pngs = {p.relative_to(committed) for p in committed.rglob("*.png")}
-            candidate_pngs = {p.relative_to(out_dir) for p in out_dir.rglob("*.png")}
-            missing_rasters = {p for p in committed_pngs - candidate_pngs if (out_dir / p.with_suffix(".svg")).exists()}
-            if missing_rasters:
-                raise RuntimeError("rehearsal cannot certify stale OG PNGs; install a supported rasterizer: "
-                                   + ", ".join(map(str, sorted(missing_rasters)[:5])))
+            removed_pngs = committed_pngs - candidate_pngs
+            for rel in sorted(removed_pngs):
+                (committed / rel).unlink()
             for rel in sorted(candidate_pngs):
                 destination = committed / rel
                 destination.parent.mkdir(parents=True, exist_ok=True)
@@ -1751,7 +1757,7 @@ def build_og_cards(check: bool) -> bool:
             elif not filecmp.cmp(c, n, shallow=False):
                 drifts.append(str(rel))
         if not drifts:
-            return False
+            return bool(removed_pngs)
         if check:
             for d in drifts:
                 print(f"diff docs/og/{d}")
