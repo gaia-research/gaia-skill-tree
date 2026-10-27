@@ -103,6 +103,19 @@ class CanonicalTransactionTests(unittest.TestCase):
         self.assertEqual(b"old-b", (self.root / "registry/named/b.md").read_bytes())
         assertNoPendingTransaction(self.root)
 
+    def test_rollback_accepts_journal_named_through_symlinked_root(self):
+        # macOS temp dirs (/var -> /private/var) hit this naturally; pin it everywhere.
+        plan = self.plan()
+        with self.assertRaisesRegex(OSError, "injected"):
+            apply(plan, TestIssuer(), fail_after=1)
+        alias = Path(self.temp.name + "-alias")
+        alias.symlink_to(self.root, target_is_directory=True)
+        self.addCleanup(alias.unlink)
+        journal = next((alias / ".gaia/canonical-transactions").glob("*.pending.json"))
+        rollback(alias, journal, TestIssuer("rollback"))
+        self.assertEqual(b"old-a", (self.root / "registry/nodes/a.json").read_bytes())
+        assertNoPendingTransaction(self.root)
+
     def test_rollback_refuses_outside_edit_without_clobber(self):
         plan = self.plan()
         journal = apply(plan, TestIssuer())

@@ -405,7 +405,7 @@ def rollback(root: str | Path, journal_path: str | Path, provider: ApprovalProvi
                 or path.is_symlink() or not path.is_file()):
             raise TransactionError("rollback requires a regular pending or committed journal in transaction state")
         doc, plan = _read_journal(path, selected)
-        others = [p for p in (selected / STATE_DIR).glob("*.pending.json") if p != path]
+        others = [p for p in (selected / STATE_DIR).glob("*.pending.json") if p.resolve() != path.resolve()]
         if others:
             raise TransactionError("another pending canonical transaction requires recovery first")
         # Only an explicit rollback approval can reverse a committed receipt.
