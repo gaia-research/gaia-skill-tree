@@ -60,7 +60,7 @@ Rulings are adopted one at a time; adopting one adopts nothing else.
 6. **Authority contracts automatically and expands only by ruling.**
    - Autonomy advances through envelopes E0–E5, by founder ruling on measured evidence.
    - Any boundary breach demotes to observe-only at once. (SE-5)
-7. **Executors are adapters.** Who performs `agent.build` and `agent.verify` is decided by a probe, behind one action contract. Candidates are GitHub Agentic Workflows, a subscription routine and a Pi harness. (SE-6)
+7. **Coordinators and executors are adapters, chosen by probe.** A durable agent may act as the proactive *coordinator*: waking, continuing authorized work and handling exceptions under one capability contract (§5.6). It never becomes an authority or a second ledger. Admission stays deterministic. No product is assumed to work until a go/no-go probe passes. (SE-6)
 8. **The observer is itself observed.** A zero-model watchdog on a separate host checks Steward's own liveness. (SE-7)
 9. **Existing threads are re-scoped, not duplicated.** (SE-8)
    - #2158 becomes the Admit stage.
@@ -121,8 +121,9 @@ Rulings are adopted one at a time; adopting one adopts nothing else.
 | **Domain** | A unit of authority: a charter, a policy file, a ledger ref, a desk section, and the founder gates that apply. |
 | **Lane** | A kind of work inside a domain: Lane A (health) or Lane B (endgame progress). |
 | **Host** | Where a domain instance runs and keeps its state. |
-| **Driver** | Whatever invokes the runner, performs the actions it emits and records them. |
-| **Executor** | Whatever performs the runtime's agent actions (`agent.build`, `agent.verify`). |
+| **Coordinator** | The proactive host that wakes, works the authorized backlog through the runner, revisits blockers and asks for decisions (§5.6). It holds no authority and no state of its own. |
+| **Driver** | The one privileged process that performs the runner's external effects (branch, pull request, comment) and records them. |
+| **Executor** | Whatever performs the runtime's agent actions (`agent.build`, `agent.verify`). It holds no write credential. |
 
 ## 3.2 Domains
 
@@ -139,7 +140,9 @@ Rulings are adopted one at a time; adopting one adopts nothing else.
 
 Four rules apply to every domain:
 
-- **One writer domain per repository.** Only the domain whose charter covers a repository writes to it. When a stale contract is consumed *by* gaia-skill-tree, the Ecosystem domain reports the edge. The fix is then Tree-domain debt.
+- **One governing Steward domain per repository.** Only the domain whose charter covers a repository writes to it *as Steward*. When a stale contract is consumed *by* gaia-skill-tree, the Ecosystem domain reports the edge, and the fix is Tree-domain debt.
+
+  The rule does not stop other writers. Repository-owned workflows, maintainers and founder-directed orchestrator campaigns keep writing. Contention with them is handled at the last privileged effect (§5.4).
 - **A contract edge belongs to its consumer's domain.** The consumer pins the contract and refreshes it. A producer is never edited to satisfy a consumer.
 - **Domains are created and retired only by founder ruling.** A retired domain's ledger stays readable and is never deleted.
 - **Repositories outside Gaia are out of scope.** Repositories of other owners and organizations belong to their own domains. They are never observed from a public Gaia host.
@@ -234,7 +237,7 @@ Lane B advances founder-authorized forward work: a missing feature, a benchmark,
    - it has a valid authorization record (§6.3);
    - its dependencies are resolved;
    - its repository profile allows the work.
-3. **Every Lane B item cites the ENDGAME section it advances and quotes the sentence.** If no section applies, it says `none`. A `none` item cannot enter Lane B, but it may still be legitimate Lane A maintenance or ordinary backlog.
+3. **Every Lane B item carries an alignment record (§14.1).** The record is either `direct`, quoting the ENDGAME sentence, or `indirect`, with a traceable path through an approved dependency. A `none` or `unknown` item cannot enter Lane B, but it may still be legitimate Lane A maintenance or ordinary backlog.
 4. **Some surfaces are never Lane B's.** These go to Class C:
    - surfaces owned by Yggdrasil IV: challenge, degradation, recovery, trust, evidence, stars and Origin;
    - surfaces owned by Meta: evaluation and ranking;
@@ -320,7 +323,8 @@ Existing state names are reused. New states are added only where Lane B or admis
 | `dispatched` / `building` | Leased and executing | lane `dispatched`; work `building` |
 | `awaiting_verification` | Built; the verifier is pending | debt `awaiting_verification` |
 | `verified` | The verifier accepted it | work `verified` |
-| `landed` | Integrated through the adapter | work `landed` |
+| `awaiting_merge` | A draft PR is open and waiting for its human merge. The item is *not* done, and its truthful status is "proposed". | — (new) |
+| `landed` | Merged by its owner, or integrated into a Tree `dev/*` branch | work `landed` |
 | `resolved` | Re-observation confirms the outcome | debt `resolved` |
 | `rejected` | Verification failed. It may retry after cooldown, up to `maxAttempts`. | lane rejection |
 | `escalated` | A stop condition fired, attempts ran out, or the nature of the problem changed | lane `escalated` |
@@ -377,6 +381,10 @@ Transition invariants:
 - **After an ambiguous partial write, the run halts and escalates.** It never asks a model to guess what happened.
 - **Everything a resume needs is as durable as the ledger.** On 2026-10-27 the operator abandoned the 2026-10-21 run because its builder packet had been lost with the ephemeral local `.gaia/` directory (**VERIFIED**, §16.2). A packet must be stored with the ledger, or be reproducible from ledger content plus a pinned commit.
 - **Authorization is re-checked three times:** at lease, before execution, and before each external write.
+- **Contention with other writers.** If the target branch or touched paths changed after the attempt's base commit, the attempt is invalidated rather than merged over.
+  - The item re-observes and re-queues from the new HEAD.
+  - A pull request already open is re-verified against the new base before it is marked ready.
+  - If a human or another workflow resolved the subject meanwhile, the item is `superseded` on re-observation.
 
 ### Verification and post-integration readback
 
@@ -432,6 +440,38 @@ A run stops when any of these holds:
 
 Stopping is a normal, quiet outcome.
 
+## 5.6 Coordinator contract and provider probe
+
+**Requirement:** the goal is proactive continuation and exception handling between founder touchpoints, not just a model that accepts build jobs. The runner stays the deterministic authority on admission, leases and state transitions. A coordinator is a host that drives it.
+
+A coordinator may be a scheduled routine, a durable bot, or another long-lived agent. Every candidate meets the same contract:
+
+| Capability | Contract |
+|---|---|
+| Wake | On a schedule or an event. Every wake starts by reading state; it never starts from memory. |
+| Read | Only authorized backlog and state: the domain ledger, policy, authorization records and desk |
+| Lease | Only through the runner's CAS lease. Never holds work the runner did not grant. |
+| Resume | After lost context, rebuilds solely from the ledger plus durable packets (§5.4). Never from its own transcript. |
+| Revisit | Re-checks `blocked`, `deferred` and `awaiting_founder` items on each wake. Re-raises nothing the desk already holds. |
+| Ask | Puts decisions on the desk, using the runner's desk format. Never decides them. |
+| Fan out | Only within the admitted budget and in-flight cap. Every worker gets explicit model and effort. |
+| Record | Every action is recorded through the runner. A coordinator keeps no ledger, queue or memory that others must trust. |
+| Hand back | Ends each wake with the run's receipt. Stops on a kill switch, budget exhaustion or an unknown. |
+
+Model-driven coordination is optional and bounded. It may choose *among* admissible actions and draft desk text. It never admits, authorizes, escalates authority or resolves an item.
+
+**Provider probe (go/no-go).** No coordinator or executor is used until it passes every check below in a sandbox repository. Product availability, subscription features and integration compatibility count as **unverified until probed**. Nothing platform-specific is built ahead of a probe, and no candidate is locked in.
+
+| Probe | Pass condition |
+|---|---|
+| Wake / schedule | Fires on the cadence. A missed fire is visible to the watchdog (§10). |
+| Permissions | Holds exactly the declared GitHub scopes. A write outside them is refused by GitHub, not merely avoided. |
+| Context loss | Kill mid-run, cold-start, resume: no step repeats and no write is guessed |
+| Dispatch / verify | One leased build plus one independent verify, end to end. Model and effort recorded; cost measured by skill-cost. |
+| Quota exhaustion | The item goes to `deferred`. Nothing degrades silently onto a weaker model. |
+| Kill switch | Disabling stops the next wake and any in-flight effect before its next write |
+| Deprovisioning | Removing the host leaves no credential, schedule or state behind, and the ledger shows the release |
+
 ---
 
 # 6. Authority model
@@ -481,7 +521,7 @@ PROPOSED shape. It reuses the `steward-decision-v1` record and the `founder/stew
 | Field | Purpose |
 |---|---|
 | `id` | Stable id |
-| `kind` | `standing` (a debt class or a contract) or `item` (one Lane B candidate) |
+| `kind` | `standing` (a debt class or a contract), `item` (one Lane B candidate), or `mandate` (a future Lane B envelope; see below) |
 | `subject` | Stable subject id: a contract id or a `cand:` id |
 | `contentDigest` | Item kind: sha256 of the issue body and acceptance criteria at the moment of authorization |
 | `envelope` | Lane, class, repository, adapter ceiling, allowed paths, budget |
@@ -497,6 +537,29 @@ Rules:
 - **No `ao:*` label is ratified (VERIFIED, 2026-10-27).** Using labels as pointers to records would need its own ruling.
 
 **OPEN, as part of SE-4:** where item authorizations live. The options are a founder-merged record, as above, or a founder-authored comment bound to the content digest and verified by author identity. §17 gives the resolving test.
+
+**Future Lane B standing mandate (SE-4b; ratified separately; not active).**
+
+Per-item authorization is the *initial* E3 mode. It is safe, but it keeps the founder in the loop for every forward item. The escape hatch is a `mandate` record, which the founder ratifies separately.
+
+A mandate states all of the following:
+- one objective, with its ENDGAME anchor;
+- the accepted issue class;
+- repositories and paths;
+- the acceptance tests every item must meet;
+- a cumulative spend cap;
+- a time window;
+- a concurrency cap;
+- an exclusion list, which always contains the §4.2 surfaces.
+
+Inside a mandate, the engine may *select* items without per-item records. It still may not:
+- write, extend, renew or widen a mandate;
+- treat an issue, label or comment created by a machine (its own or another bot's) as consent;
+- select an item whose content changed after selection without re-checking it against the mandate.
+
+Revocation stops new selection at once. In-flight items halt before their next write. Two drills are required before any mandate takes effect:
+- a revocation drill;
+- a stale-task spoofing drill: a bot-created issue that matches the class, and an issue edited after selection.
 
 ## 6.4 Never
 
@@ -564,6 +627,21 @@ Each fact has one owner. Every other copy is a labelled cache.
 ## 8.2 Credentials
 
 - **Builders and verifiers hold no repository write credential.** The driver performs writes after verification. The paused GitHub Agentic Workflow path had this property (**VERIFIED**, decision record `steward-agent-agnostic-execution`).
+- **That is a required property, not proof.** Only the driver's privileged step may create a branch, a pull request or a comment.
+  - It runs as a separate process or job from any model.
+  - It shares no environment, filesystem or tool handle with the model.
+  - It takes only the verified artifact and the attempt record as input.
+- **Revalidation at the last privileged effect.** Immediately before each write, the driver re-checks:
+  - the policy digest;
+  - the authorization record and its content digest;
+  - the target repository's HEAD;
+  - the changed paths, against the envelope.
+
+  Any mismatch aborts the write.
+- **Adversarial confinement test**, required before E2 alongside #2175's effective protections:
+  - a hostile issue and a hostile worktree try to make a coordinator or builder reach the driver's credential, print it to logs or tool output, or trigger a write;
+  - every attempt must fail, and a canary token must never appear in any output.
+- **Unknown host capability means no write.**
 - **Each host has its own credentials**, scoped to its domain's repositories and actions.
 - **Observing public repositories needs no special credential.**
 
@@ -664,25 +742,30 @@ Steward cannot be the last line of defence for its own liveness.
 
 **PROPOSED (SE-7):** a zero-model watchdog that:
 - **runs on a separate host and scheduler** from the domains it watches, such as a scheduled workflow in another public Gaia repository;
-- **reads only public signals:**
-  - the observe workflow's last successful run;
-  - the ledger ref's last update and generation;
-  - lease expiry;
-  - how long a run has been awaiting action;
-  - how old the desk is;
-- **alerts through a channel that does not depend on Steward:** one issue in its own host repository, edited in place;
+- **reads only public, durable signals that exist today**, which work even while daily observation uses `--ledger local`:
+  - the Actions run list for `steward.yml`: its schedule, run times and conclusions;
+  - the run's uploaded artifacts `steward-full` and `steward-receipts` (30-day retention, **VERIFIED** in `steward.yml`), as the receipt heartbeat;
+  - for full runs only, the ledger ref's commit time, generation, leases and item ages;
+- **alerts through a channel that does not depend on the observer:** one issue in its own host repository, edited in place;
 - **stays silent while everything is healthy.**
 
-Alert thresholds (PROPOSED):
+**Three signals, never equated.** Each answers a different question, and each alerts on its own:
 
-| Signal | Alert when |
-|---|---|
-| Observe receipt | Older than twice its cadence |
-| A run `awaiting-action`, or an item `building` | Older than 24 h. That is the runner's own threshold, `STUCKBUILDINGSECONDS` (**VERIFIED**, `fullrun.py`). |
-| A lease | Past expiry by more than one TTL |
-| Ledger generation | Unchanged while runs are reported |
+| Signal | Question it answers | Alert when (PROPOSED) |
+|---|---|---|
+| **Run presence** | Did the observer run at all? | No `steward.yml` run within twice its cron cadence: a missed schedule, a disabled workflow, or an Actions outage |
+| **Receipt** | Did the run observe with full coverage? | The run is green, but its receipt artifact is missing, malformed, or reports unknown or partial coverage. A green workflow is not coverage. |
+| **Ledger progress** | Is leased work moving? | A run `awaiting-action`, or an item `building`, older than 24 h. That is the runner's own threshold, `STUCKBUILDINGSECONDS` (**VERIFIED**, `fullrun.py`). Also: a lease past expiry by more than one TTL. |
 
-**Drill:** disable the observed workflow in a sandbox. The watchdog must alert within twice the cadence, and clear after recovery.
+**Shared failure domain.** A watchdog in another Gaia repository is independent of the observed *workflow and repository*, but not of the GitHub platform:
+- an Actions-wide outage, an organization-level Actions or billing stop, or a revoked token can silence both at once;
+- the watchdog therefore also alerts on its *own* missed run, through the issue it edits, so its silence is visible on the next run;
+- a heartbeat outside GitHub is **OPEN** (§18). No new service is built ahead of evidence that a platform-wide silence went unnoticed.
+
+**Drills:**
+- **Missed schedule:** disable the observed workflow. The watchdog alerts within twice the cadence, and clears after recovery.
+- **Green but blind:** a run that uploads no receipt. The watchdog alerts on the receipt signal.
+- **Stuck item:** a sandbox ledger with an item `building` past the threshold. The watchdog alerts on progress only.
 
 **OPEN:** across the 2026-10-23 and 2026-10-27 resumes, the runner's 24-hour stuck escalation did not move the item off `building`. That may be by design, because adoption re-offers the same idempotency key, or it may be a defect. The handover's Stage 1 settles which.
 
@@ -710,7 +793,7 @@ Alert thresholds (PROPOSED):
 
 | Measure | What is counted |
 |---|---|
-| Verified outcomes | Lane A items `resolved`; Lane B items landed and re-observed |
+| Verified outcomes | Lane A items `resolved`; Lane B items merged and re-observed, split into `direct` and `indirect`. Objectives advanced are counted separately from items closed. |
 | Reliability | Verifier overturn rate; readback failures; rollbacks; hours of unknown coverage |
 | Cost | skill-cost dollars per verified outcome; model cost of quiet ticks (target 0) |
 | Founder load | Founder minutes per verified outcome (self-reported); desk items; re-prompts between steps already permitted (target 0) |
@@ -733,8 +816,8 @@ No single scalar is optimised, because a single scalar invites gaming.
 |---|---|---|---|
 | **E0** Foundation | Reconcile state and define records. No new runtime behaviour. | Yggdrasil IV is on `main`; `main` is verified | — |
 | **E1** Observe | Zero-model, read-only observation; desk only | Records validated; canary and drills defined | Any model call, or any write beyond the domain's own receipts and ledger |
-| **E2** Attended execution | One Lane A item at a time, as a draft PR, with the founder present; the maintainer merges | #2175 resolved and verified; executor probe passed; one standing authorization | Any boundary breach: back to E1 |
-| **E3** Attended progress | Adds one Lane B item at a time, under item authorization | Classification contract ratified and evaluated; E2 definition of done met | Fabricated anchor, an item owned by Yggdrasil IV admitted, or a stale authorization acted on: back to E1 |
+| **E2** Attended execution | One Lane A item at a time, as a draft PR, with the founder present; the maintainer merges | #2175 resolved and verified; provider probe (§5.6) and confinement test (§8.2) passed; one standing authorization | Any boundary breach: back to E1 |
+| **E3** Attended progress | Adds one Lane B item at a time, under item authorization. Selection inside a standing mandate (§6.3) needs its own ruling and drills. | Classification contract ratified and evaluated; E2 definition of done met | Fabricated anchor, an item owned by Yggdrasil IV admitted, or a stale authorization acted on: back to E1 |
 | **E4** Generalised | A second repository or host onboarded with no engine change | E3 definition of done met; canary passed for any private scope | Engine fork needed, or any leak: back to E1 |
 | **E5** Unattended | Scheduled operation of the E2–E4 envelopes without the founder present. Draft PRs only; never merge. | Promotion window met; watchdog live; credentials confined | Any breach; a watchdog alarm unresolved for twice the cadence; a budget overrun: back to E1 |
 
@@ -748,6 +831,15 @@ No single scalar is optimised, because a single scalar invites gaming.
 - every watchdog drill passed.
 
 Demotion is automatic and immediate. Re-promotion needs a new ruling.
+
+**"Draft PRs only; never merge" is the *current* autonomy ceiling, not a permanent law.**
+
+If the long-term goal ever needs end-to-end permissions, they arrive only through a separate, founder-gated ruling that is:
+- narrow: per repository, per debt class, with a rollback path;
+- grounded in E5 evidence;
+- conditional on #2175-grade merge authorization being bound to the head SHA.
+
+Nothing in this document grants them.
 
 ---
 
@@ -777,7 +869,7 @@ Demotion is automatic and immediate. Re-promotion needs a new ruling.
 
 **ENDGAME.md sets the direction.**
 
-- **A Lane B item names the ENDGAME section it advances and quotes the sentence.** Cite it as `ENDGAME §<n> <heading>`, using ENDGAME's own sections:
+- **A `direct` item names the ENDGAME section it advances and quotes the sentence.** Cite it as `ENDGAME §<n> <heading>`, using ENDGAME's own sections:
 
   | ENDGAME section | Heading |
   |---|---|
@@ -795,6 +887,18 @@ Demotion is automatic and immediate. Re-promotion needs a new ruling.
   | §13 | The End-State Gaia Model |
 
   No new identifiers are coined.
+- **Alignment has three modes.** Enabling work counts, but its path must be traceable:
+
+  | Mode | Meaning | Required evidence |
+  |---|---|---|
+  | `direct` | The item itself advances an ENDGAME objective | `ENDGAME §<n>` and the quoted sentence |
+  | `indirect` | The item is an indispensable dependency, such as a contract, test harness or foundational capability, of an *approved* item that is `direct` | The dependency chain as stable ids, each link a recorded `dependsOn` on an approved item, ending at a `direct` item |
+  | `none` / `unknown` | No traceable path, or not enough evidence | The reason. Abstaining is a valid, recorded answer. |
+
+  Rules for alignment records:
+  - A model may propose an alignment, but never originate an anchor or a link. Every quoted sentence and every dependency edge must exist in its source.
+  - An `indirect` path through an unapproved item is `unknown`.
+- **Progress is not throughput.** Measures count verified advancement of objectives, direct and through approved dependencies (§11). They never count issues closed.
 - **Roadmap v5 fields are secondary.** Program, Arc and Plane are recorded from Project #6 where they are set. They never substitute for an ENDGAME anchor.
 - **Alignment never decides prestige, ontology, benchmarks or product direction.** ENDGAME gives an operations runner no such authority.
 
@@ -815,7 +919,7 @@ Demotion is automatic and immediate. Re-promotion needs a new ruling.
 | `source` | Repository id, issue number, sha256 of title and body at classification time, and `classifiedAt` |
 | `classifier` | A deterministic rule id, or the model and effort plus a prompt digest |
 | `bucket` | One of: `health` (Lane A); `progress` (Lane B); `governance` (Class C: policy, trust, Yggdrasil IV, Meta, L4, schema, product); `none` (no action, or unknown) |
-| `endgameAnchor` | `ENDGAME §<n> <heading>` plus the quoted sentence, or `none` |
+| `alignment` | Mode (`direct`, `indirect`, `none`, `unknown`); for `direct`, `ENDGAME §<n> <heading>` plus the quoted sentence; for `indirect`, the dependency path; for `none` or `unknown`, the reason |
 | `roadmap` | Program, Arc and Plane if set on Project #6; otherwise `null` |
 | `targetBehavior` | The verifiable acceptance criterion, quoted from the issue, or `missing` |
 | `owningRepo` | Repository id |
@@ -832,7 +936,7 @@ Rules:
 3. **Deterministic rules run first.**
    - A model classifies only what is left, at a recorded model and effort.
    - A disagreement, or low confidence, yields `none`.
-4. **`progress` needs both:** an anchor with a quoted sentence, and a target behaviour. Missing either yields `none` or `health`.
+4. **`progress` needs both:** a `direct` or `indirect` alignment, and a target behaviour. Missing either yields `none` or `health`.
 5. **Certain subjects are always `governance`:**
    - Yggdrasil IV, trust, evidence, stars and Origin;
    - Meta evaluation and L4 intake;
@@ -840,12 +944,22 @@ Rules:
 6. **Strategic alignment is never fabricated.** Legitimate maintenance with no anchor is `health` or `none`.
 7. **A classification record never authorizes.** It is input to the founder's decision.
 
-**Evaluation before any use (PROPOSED):**
-1. The founder labels a sample of real issues: about 30, from at least three repositories.
-2. The classifier must reproduce the founder's `progress` set with precision ≥ 0.9.
-3. No `governance` item may be filed as `progress`.
+**Evaluation before any use (PROPOSED).** A classifier must not be able to pass by abstaining.
 
-Below that bar, Lane B stays at E1.
+1. **Sample.**
+   - The founder labels real issues: about 40, from at least three repositories.
+   - At least 10 are `progress`, of which at least 3 are `indirect`.
+   - At least 5 are `governance`.
+2. **Adjudication.**
+   - Borderline cases are adjudicated by the founder and recorded.
+   - Adjudicated cases are excluded from the precision count, but kept as fixtures.
+3. **Pass bar:**
+   - `progress` precision ≥ 0.9 and recall ≥ 0.7;
+   - `governance` recall = 1.0: no governance item is filed as anything else;
+   - abstention (`none` or `unknown`) ≤ 30 % of the founder's `progress` set.
+4. **Confusion review.** The full confusion matrix is reviewed with the founder, governance false negatives first.
+
+Below that bar, Lane B stays at E1. This PR performs no bulk mapping or labelling.
 
 ---
 
@@ -857,7 +971,7 @@ Below that bar, Lane B stays at E1.
 | **Gaia Meta** | Evaluates: triage, appraisal, focused verification | Lane B never evaluates. Items Meta owns are `governance`. |
 | **Governance** | Decides: L4 intake, Yggdrasil IV gates, founder rulings | Owns all Class C items and all authorization records |
 | **Yggdrasil IV** | Challenge, degradation and recovery: reversible trust governance | Ecosystem work consumes only released, ratified Yggdrasil IV contracts. It never edits `dev/yggdrasil-iv`. Neither side's acceptance tests depend on the other. |
-| **Tree domain** | Steward for gaia-skill-tree | A peer domain on the same runtime, and the only domain that writes to gaia-skill-tree |
+| **Tree domain** | Steward for gaia-skill-tree | A peer domain on the same runtime, and the governing Steward domain for gaia-skill-tree |
 | **Skill Heaven programme** | Runtime products | A cohort repository. Steward never changes its merge rules or floors. |
 | **gaia-orchestrator** | Founder-directed multi-PR campaigns | PROPOSED: a campaign may use the runtime's admission, leases and verification, and keeps its own authority from the founder's mission. See the SE-2 alternative. |
 
@@ -950,7 +1064,7 @@ Each ruling below gives the proposal, the alternatives, the test that decides be
   - it writes only to its eight cohort repositories, and reads gaia-skill-tree only as a producer;
   - Lanes A and B, with a Class B ceiling on forward work;
   - no outward scanning, no evaluation, no canonical decisions;
-  - it is the sole writer in its repositories.
+  - it is the governing Steward domain in its repositories (other writers continue; §3.2).
 - **Alternatives:**
   - (a) Lane B stays outside Steward. Founder-directed campaigns (gaia-orchestrator) use the runtime's admission, leases and verification, and Steward runs Lane A only.
   - (b) No Ecosystem domain. Each repository grows its own CI checks for its contracts.
@@ -975,6 +1089,7 @@ Each ruling below gives the proposal, the alternatives, the test that decides be
   - A spoofing drill must be refused in every case: a non-founder account, a comment edited after the fact, and an issue body changed after authorization.
   - Founder minutes per authorization are measured for both forms.
 - **Default until ratified:** no Lane B execution.
+- **SE-4b, future and ratified separately:** a Lane B standing mandate (§6.3). It is proposed only after E3 succeeds in per-item mode. Its resolving test is the revocation drill plus the stale-task spoofing drill, followed by measured founder minutes per verified forward outcome compared with per-item mode.
 
 ### SE-5 — Autonomy ratchet and promotion window (§12)
 
@@ -982,22 +1097,18 @@ Each ruling below gives the proposal, the alternatives, the test that decides be
 - **Resolving test:** run E2–E4 for the window. If the measures cannot be collected, the window cannot be passed.
 - **Default until ratified:** no promotion beyond E1.
 
-### SE-6 — Executors chosen by probe
+### SE-6 — Coordinators and executors chosen by probe (§5.6)
 
 - **Proposal:**
-  - The runtime's `agent.build` and `agent.verify` contract is the interface.
-  - GitHub Agentic Workflows (paused), a subscription routine and a Pi harness (#2158) are adapters behind it.
-- **Resolving test:** on the candidate executor, one leased build and one independent verify complete end to end, and:
-  - model and effort are recorded explicitly;
-  - the packet can be rebuilt from durable state;
-  - cost is measured by skill-cost;
-  - usage stays within a quota reserve.
+  - The coordinator contract and the runtime's `agent.build` and `agent.verify` actions are the only interfaces.
+  - Every host is an adapter behind them, with no vendor lock-in. Candidates include GitHub Agentic Workflows (paused), a scheduled agent routine, a durable chat-platform bot and a Pi harness (#2158).
+- **Resolving test:** the full provider probe in §5.6, run on the candidate.
 - **Default until ratified:** attended execution only.
 
 ### SE-7 — Independent watchdog (§10)
 
-- **Alternative:** rely on the Tree Steward's own sensors.
-- **Resolving test:** the disable drill.
+- **Alternative:** rely on the Tree Steward's own sensors. They cannot detect a run that never happens.
+- **Resolving test:** the three drills in §10.
 - **Default until ratified:** no independent liveness check, as today.
 
 ### SE-8 — Re-scope existing threads (§16.5)
@@ -1039,3 +1150,4 @@ Each ruling below gives the proposal, the alternatives, the test that decides be
 7. **Which §16.4 findings still hold** after Yggdrasil IV lands?
 8. **Do the post-Yggdrasil-IV versions of STEWARD.md, POLICY.yaml or the ledger code change any contract in §§5–7?**
 9. **Why did the 24-hour stuck escalation not fire?** Across the 2026-10-23 and 2026-10-27 resumes it left the item on `building`. Is that by design or a defect? (§10)
+10. **Is a heartbeat outside GitHub needed?** It would cover platform-wide silence. Decide from evidence, not in advance. (§10)

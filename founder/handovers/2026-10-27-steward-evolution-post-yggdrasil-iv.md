@@ -182,10 +182,15 @@ A stage's acceptance must pass before the next stage begins.
     - unknown coverage;
     - a malformed contract, reported as unknown;
     - an edge frozen by decision, which stays quiet.
-  - The first live run raises, unprompted, every §16.4 finding that still holds, and nothing for the healthy controls.
+  - **The first live run raises, unprompted, every re-verified finding *within the ratified scope*, and nothing for the healthy controls:**
+
+    | Scope | Must raise (if the finding still holds on re-verification) | Must not claim |
+    |---|---|---|
+    | **Tree-only** (SE-2 unratified) | gaia-skill-tree's own red or silent scheduled workflows (for example `verify-evidence`); the Tree-consumed lexicon vendor drift | Anything about other repositories' health. Their findings stay unobserved and are reported as out of scope, not as healthy. |
+    | **Ecosystem cohort** (SE-2 ratified) | Additionally, the cross-repository findings in STEWARD-EVOLUTION §16.4 for each onboarded repository: the craft resync, the retrieval index, `arbor-identity`, the deleted schema branch, the unpinned vendor copy | Repositories not onboarded |
   - A re-run creates no duplicates.
   - The job makes zero model calls; no model credential is present in it.
-  - The watchdog disable drill alerts within twice the cadence, and clears after recovery.
+  - **If SE-7 is ratified**, the three watchdog drills in STEWARD-EVOLUTION §10 pass: missed schedule, green but blind, and stuck item.
   - The private canary passes, or no private repository is in scope.
 - **Failure:**
   - any false "healthy";
@@ -200,14 +205,15 @@ A stage's acceptance must pass before the next stage begins.
 - **Prerequisites:**
   - Stage 2 done.
   - #2175 resolved, with its protections verified effective.
-  - The SE-6 executor probe passed.
+  - The SE-6 provider probe (STEWARD-EVOLUTION §5.6) passed for the coordinator and the executor actually used.
+  - The adversarial confinement test (STEWARD-EVOLUTION §8.2) passed on that host: a hostile issue and a hostile worktree, with a canary token. An unknown host capability means no write.
   - One standing authorization record. Candidate: the retrieval-index contract behind gaia-skill-heaven#216, if it is still breached.
 - **Scope, in:**
   1. Admit, then lease.
   2. Build, with a builder that holds no write credential.
   3. Run the repository's checks, then an independent verifier.
-  4. The driver opens a draft PR through the repository's adapter.
-  5. The maintainer merges.
+  4. The driver re-checks policy, authorization, target HEAD and paths, then opens a draft PR through the repository's adapter. The item is now `awaiting_merge`.
+  5. The maintainer merges. If the target moved first, the attempt is invalidated and re-queued.
   6. Read back, then mark `resolved`.
 - **Scope, out:**
   - merge, release or deploy;
@@ -253,7 +259,7 @@ A stage's acceptance must pass before the next stage begins.
 - **Prerequisites:**
   - Stage 3 done.
   - SE-4 and SE-10 ratified.
-  - Classification evaluated on a founder-labelled sample: precision ≥ 0.9, and no `governance` item filed as `progress`.
+  - Classification passes the evaluation bar in STEWARD-EVOLUTION §14.2. It covers positives and recall as well as precision, and needs perfect governance recall.
 - **Scope, in:**
   1. Read-only classification of a bounded sample.
   2. The founder authorizes one item.
@@ -274,7 +280,7 @@ A stage's acceptance must pass before the next stage begins.
   - a receipt chain.
 - **Acceptance:**
   - The classification can be reproduced from its recorded inputs.
-  - The item's anchor quotes ENDGAME, and the verifier confirms its target behaviour.
+  - The item's alignment record is `direct` (quoting ENDGAME) or `indirect` (with a traceable path through approved dependencies), and the verifier confirms its target behaviour.
   - Drills give the right result:
 
     | Drill | Required result |
@@ -322,8 +328,9 @@ A stage's acceptance must pass before the next stage begins.
   - budget enforcement;
   - a weekly retro, with at most one improvement PR a week (STEWARD-EVOLUTION §13).
 - **Scope, out:**
-  - merge, release or publication;
-  - any expansion of authority.
+  - merge, release or publication. This is the *current* ceiling; any future end-to-end permission needs its own ruling (STEWARD-EVOLUTION §12);
+  - any expansion of authority;
+  - standing-mandate selection in Lane B, unless SE-4b is ratified and its drills pass.
 - **Acceptance:**
   - The promotion-window measures hold for four unattended weeks.
   - Every demotion trigger has been tested once by drill.
@@ -349,13 +356,24 @@ A stage's acceptance must pass before the next stage begins.
    - **If it does**, the gap is a *consumer*, not detection: Class B debt with no executor and no route to the desk. Record that, and do not build a duplicate detector.
 3. **Add only what is missing, as zero-model checks with fixtures and tests:**
    - **silence**: a scheduled workflow on `main` with no run within twice its cron cadence;
-   - **Steward liveness**:
+   - **Steward ledger progress**, read from the remote `steward/ledger` ref:
      - a run `awaiting-action`, or an item `building`, for longer than `STUCKBUILDINGSECONDS`;
-     - a lease past expiry that is held by a finished run;
-     - the age of the last observe receipt.
+     - a lease past expiry that is held by a finished run.
 
    Wire them into the existing daily observe in `steward.yml`, still with `--ledger local`. Add no new workflow and no new schedule.
 4. **Let it run on `main`** for one scheduled tick, then trigger one manual re-run.
+
+**What this slice proves, and what it does not:**
+
+| Proves (when `steward.yml` runs) | Does not prove |
+|---|---|
+| The Tree's own scheduled workflows that are red or silent are detected with zero model calls, without duplicates | That `steward.yml` itself runs. A check inside the run cannot see a run that never happens. That needs the separate watchdog (STEWARD-EVOLUTION §10, SE-7). |
+| Ledger items stuck past the threshold are detected | That the observation had full coverage. A green workflow is not coverage; the receipt's coverage field says that. |
+| | Anything about other repositories' health |
+
+The heartbeat a later watchdog can read already exists, and this slice must keep it intact:
+- `steward.yml`'s Actions run list;
+- its `steward-full` and `steward-receipts` artifacts.
 
 **Stopping point:** after that second run. Report:
 - what it found;
