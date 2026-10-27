@@ -3,10 +3,6 @@ import json
 import sys
 from pathlib import Path
 
-from gaia_cli import canonicalTransaction as tx
-from gaia_cli import canonicalWorkflow as workflow
-from gaia_cli.evidenceLifecycle import EvidenceLifecycleError
-
 
 def configureCanonical(parser):
     sub = parser.add_subparsers(dest="canonical_command", required=True)
@@ -22,6 +18,7 @@ def configureCanonical(parser):
 
 
 def readDocument(path):
+    from gaia_cli import canonicalTransaction as tx
     path = Path(path)
     if path.stat().st_size > 4_194_304:
         raise tx.TransactionError("request/plan exceeds bounded JSON input size")
@@ -29,6 +26,10 @@ def readDocument(path):
 
 
 def canonicalCommand(args):
+    # Lazy imports: canonicalWorkflow pulls jsonschema; parser construction must stay dependency-free.
+    from gaia_cli import canonicalTransaction as tx
+    from gaia_cli import canonicalWorkflow as workflow
+    from gaia_cli.evidenceLifecycle import EvidenceLifecycleError
     try:
         command = args.canonical_command
         if command in {"apply", "rollback"}:
