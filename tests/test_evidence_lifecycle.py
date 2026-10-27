@@ -506,8 +506,8 @@ def test_schema_mirrors_are_byte_identical():
         assert bundled.read_bytes() == canon_bytes, f"{bundled} drifted from {canon}"
 
 
-def test_proposed_schema_validates_both_legacy_and_migrated_evidence(sample_legacy_skill):
-    """The additive schema accepts legacy rows and migrated lifecycle rows cleanly for skills."""
+def test_unadopted_schema_refuses_migrated_evidence(sample_legacy_skill):
+    """This integration deliberately does not adopt the separately held schemas."""
     skill_schema_path = REPO_ROOT / "registry" / "schema" / "skill.schema.json"
     with open(skill_schema_path, "r", encoding="utf-8") as f:
         skill_schema = json.load(f)
@@ -517,7 +517,8 @@ def test_proposed_schema_validates_both_legacy_and_migrated_evidence(sample_lega
 
     # 2. Validate migrated generic skill
     rehearsal = rehearse_legacy_migration(sample_legacy_skill)
-    jsonschema.validate(instance=rehearsal.after_payload, schema=skill_schema)
+    with pytest.raises(jsonschema.ValidationError, match="Additional properties"):
+        jsonschema.validate(instance=rehearsal.after_payload, schema=skill_schema)
 
     # 3. Validate named skill with proposed schema
     named_schema_path = REPO_ROOT / "registry" / "schema" / "namedSkill.schema.json"
@@ -557,7 +558,8 @@ def test_proposed_schema_validates_both_legacy_and_migrated_evidence(sample_lega
             }
         ],
     }
-    jsonschema.validate(instance=named_skill, schema=named_schema)
+    with pytest.raises(jsonschema.ValidationError, match="Additional properties"):
+        jsonschema.validate(instance=named_skill, schema=named_schema)
 
 
 def test_restoration_is_proposal_and_prior_decision_remains_in_history():

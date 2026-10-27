@@ -251,6 +251,18 @@ def canonicalTransactionLock(root: str | Path):
         yield
 
 
+@contextlib.contextmanager
+def guardCanonicalPath(path: str | Path):
+    """Guard shared file serializers without imposing a Class-C issuer on legacy work."""
+    selected = Path(path).absolute()
+    for parent in selected.parents:
+        if parent.name in {"registry", "skill-trees"}:
+            with canonicalTransactionLock(parent.parent):
+                yield
+            return
+    yield
+
+
 def apply(plan: Plan, provider: ApprovalProvider | None = None, *, fail_after: int | None = None) -> str:
     """Apply authorized plan with CAS, durable preimages/stages and recoverable journal."""
     selected = _root(plan.root)
