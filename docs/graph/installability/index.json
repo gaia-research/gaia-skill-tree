@@ -1849,7 +1849,7 @@
         "entrypoint": "autoplan/SKILL.md",
         "installSubpath": "autoplan"
       },
-      "currentSkillContentSha256": "22e9fb5215bd7c1a532dd29d3b10c35c5c0b1a6a8c46f1ea136f982b587c5f81",
+      "currentSkillContentSha256": "b6be4fb27e80edca3ad224ab49b8ba3e7914bd56cd70f38c327a620e2e94efa7",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,

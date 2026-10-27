@@ -78,6 +78,12 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 3★ to 2★
+- timestamp: '2026-10-27T11:13:45Z'
+  action: upstream_synced
+  contributor: github-actions[bot]
+  previousValue: null
+  newValue: v1.91.242.0
+  details: first-run baseline
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md
@@ -106,6 +112,13 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-03T05:51:33Z'
 trustMagnitudeInputHash: 3a7efead9add3794494a2924ac358404fa1a174cd5aa4d8ac3b154cf77ff88ac
+upstream:
+  mode: components
+  releasedAt: '2026-10-26T12:01:30Z'
+  repo: garrytan/gstack
+  sourceUrl: https://github.com/garrytan/gstack/releases/tag/v1.91.242.0
+  syncedAt: '2026-10-27T11:13:45Z'
+  version: v1.91.242.0
 ---
 ## Overview
 
