@@ -100,6 +100,37 @@ def test_consequence_port_is_distinct_and_does_not_restore_on_closure():
         assert produce_lifecycle(entry, LifecyclePorts(source, resolver, SyntheticConsequenceSource(bad))) is None
 
 
+def test_consequence_must_agree_with_every_tm_field_the_explorer_can_show():
+    # Explorer hero = trustMagnitude || overallTrustMagnitude || trustNumber.
+    challenge, resolver = opened()
+    source = SyntheticChallengeSource((challenge,))
+    base = {'id': challenge.subject_id, 'genericSkillRef': 'bucket', 'level': '3★'}
+
+    def produce(kind, **display):
+        consequence = CanonicalConsequence(base['id'], 'bucket', kind, 3, 72, 'author')
+        ports = LifecyclePorts(source, resolver, SyntheticConsequenceSource(consequence))
+        return produce_lifecycle({**base, **display}, ports)
+
+    for kind in ('current-baseline', 'approved-decision'):
+        assert produce(kind, trustMagnitude=72) is not None
+        assert produce(kind, trustMagnitude=72, overallTrustMagnitude=72, trustNumber=72.005) is not None
+        assert produce(kind) is not None  # no displayed TM: nothing to contradict
+        # Original repro: baseline TM 72 accepted next to overallTrustMagnitude 999.
+        assert produce(kind, trustMagnitude=72, overallTrustMagnitude=999) is None
+        # Hero falls through to overallTrustMagnitude when trustMagnitude is absent or 0.
+        assert produce(kind, overallTrustMagnitude=999) is None
+        assert produce(kind, trustMagnitude=0, overallTrustMagnitude=999) is None
+        assert produce(kind, trustMagnitude=0, overallTrustMagnitude=72) is None
+        assert produce(kind, trustNumber=999) is None
+        # Unusable displayed values cannot be reconciled and fail closed.
+        for bad in (True, 'abc', float('nan'), float('inf'), [72], {'v': 72}):
+            assert produce(kind, trustMagnitude=bad) is None
+            assert produce(kind, overallTrustMagnitude=bad) is None
+        # Numeric strings are what Number() in the browser would display.
+        assert produce(kind, trustMagnitude='72') is not None
+        assert produce(kind, trustMagnitude='73') is None
+
+
 def test_named_index_build_strips_spoof_and_only_injects_producer(tmp_path):
     import json
     from scripts.generateNamedIndex import write_index

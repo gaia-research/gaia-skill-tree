@@ -5,11 +5,28 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const vmModule = require('node:vm');
 const path = require('node:path');
 const {execFileSync} = require('node:child_process');
 const lifecycle = require('../docs/js/trust-lifecycle.js');
 const fixtures = JSON.parse(execFileSync('python3', [path.join(__dirname, 'fixtures/lifecycle_dto_test_ports.py')], {encoding: 'utf8'}));
 const clone = value => JSON.parse(JSON.stringify(value));
+const read = file => fs.readFileSync(path.join(__dirname, file), 'utf8');
+const mockMount = () => ({innerHTML: ''});
+// Only the scoped fixture is a pending challenge with a non-material scope; material is pending+material;
+// resolved is resolved-by-upstream-improvement with a technical-resolution event.
+const withoutChallenges = entry => {
+  const copy = clone(entry);
+  copy.trustLifecycle.challenges = [];
+  copy.trustLifecycle.materialOriginContested = false;
+  return copy;
+};
+const rebutted = () => {
+  const copy = clone(fixtures.resolved);
+  copy.trustLifecycle.challenges[0].status = 'technically-rebutted';
+  copy.trustLifecycle.challenges[0].resolution.disposition = 'technically-rebutted';
+  return copy;
+};
 
 test('safe URL and escaping primitives', () => {
   assert.equal(lifecycle.isSafeHttps('https://example.org/receipt'), true);
@@ -124,4 +141,367 @@ test('native Explorer entrypoint and sections remain wired', () => {
   assert.match(explorer, /renderLifecycleSection\('se-tm', ns\)/);
   for (const section of ['Install', 'Docs', 'Upgrade', 'Timeline']) assert.ok(explorer.includes("_safeRender('" + section + "'"));
   for (const file of ['named-skills.js', 'trust-lifecycle.js', 'skill-explorer.js']) assert.ok(named.includes(file));
+});
+
+// ── Defect 1: baseline/decision must agree with the Explorer hero TM ────────
+
+test('hero TM fallback chain in skill-explorer.js is what the validator mirrors', () => {
+  const explorer = read('../docs/js/skill-explorer.js');
+  assert.match(explorer, /trustMagnitude: ns\.trustMagnitude \|\| ns\.overallTrustMagnitude \|\| ns\.trustNumber \|\| null/);
+});
+
+test('original repro: TM 72 consequence next to overallTrustMagnitude 999 is rejected for both kinds', () => {
+  for (const source of [fixtures.scoped, fixtures.material]) {  // current-baseline, approved-decision
+    assert.ok(lifecycle.buildTrustLifecycleViewModel(source));
+    const entry = clone(source); entry.overallTrustMagnitude = 999;
+    assert.equal(lifecycle.buildTrustLifecycleViewModel(entry), null);
+    const mount = mockMount(); mount.innerHTML = 'stale';
+    lifecycle.renderLifecycleSection(mount, entry);
+    assert.equal(mount.innerHTML, '');
+  }
+});
+
+test('every displayed TM field and fallthrough is reconciled for both consequence kinds', () => {
+  for (const source of [fixtures.scoped, fixtures.material]) {
+    const mutations = [
+      e => { e.overallTrustMagnitude = 72; e.trustNumber = 72.005; },          // all agree
+      e => { delete e.trustMagnitude; e.overallTrustMagnitude = 72; },         // hero falls through, agrees
+    ];
+    for (const mutate of mutations) {
+      const entry = clone(source); mutate(entry);
+      assert.ok(lifecycle.buildTrustLifecycleViewModel(entry));
+    }
+    const rejections = [
+      e => { delete e.trustMagnitude; e.overallTrustMagnitude = 999; },        // hero would show 999
+      e => { e.trustMagnitude = 0; e.overallTrustMagnitude = 72; },            // 0 falls through to 72, but 0 is displayed data
+      e => { e.trustNumber = 999; },
+      e => { e.trustMagnitude = 73; },
+      e => { e.overallTrustMagnitude = 'abc'; },
+      e => { e.trustMagnitude = true; },
+      e => { e.trustMagnitude = NaN; },
+    ];
+    for (const mutate of rejections) {
+      const entry = clone(source); mutate(entry);
+      assert.equal(lifecycle.buildTrustLifecycleViewModel(entry), null);
+    }
+  }
+});
+
+test('rank contradiction with the hero level is rejected for both consequence kinds', () => {
+  for (const source of [fixtures.scoped, fixtures.material]) {
+    const entry = clone(source); entry.level = '4★';
+    assert.equal(lifecycle.buildTrustLifecycleViewModel(entry), null);
+  }
+});
+
+// ── Defect 2: malformed v1 DTOs fail closed ────────────────────────────────
+
+const malformations = {
+  'deleted pinnedSha': e => { delete e.trustLifecycle.challenges[0].pinnedSha; },
+  'deleted claimId': e => { delete e.trustLifecycle.challenges[0].claimId; },
+  'blank pinnedVersion': e => { e.trustLifecycle.challenges[0].pinnedVersion = '  '; },
+  'deleted behaviorId': e => { delete e.trustLifecycle.challenges[0].behaviorId; },
+  'deleted contributorId': e => { delete e.trustLifecycle.challenges[0].contributorId; },
+  'deleted contributorNoticeRef': e => { delete e.trustLifecycle.challenges[0].contributorNoticeRef; },
+  'deleted receipt_id': e => { delete e.trustLifecycle.challenges[0].history[0].receipt_id; },
+  'deleted receipt_digest': e => { delete e.trustLifecycle.challenges[0].history[0].receipt_digest; },
+  'deleted transcript_digest': e => { delete e.trustLifecycle.challenges[0].history[0].transcript_digest; },
+  'deleted receipt method': e => { delete e.trustLifecycle.challenges[0].history[0].method; },
+  'garbage event date': e => { e.trustLifecycle.challenges[0].history[0].at_utc = 'not-a-date'; },
+  'impossible calendar date': e => { const c = e.trustLifecycle.challenges[0]; c.verifiedAtUTC = c.history[0].at_utc = '2026-02-31T00:00:00Z'; },
+  'non-UTC offset date': e => { const c = e.trustLifecycle.challenges[0]; c.verifiedAtUTC = c.history[0].at_utc = '2026-10-25T12:00:00+08:00'; },
+  'date-only event date': e => { const c = e.trustLifecycle.challenges[0]; c.verifiedAtUTC = c.history[0].at_utc = '2026-10-25'; },
+  'garbage verifiedAtUTC': e => { e.trustLifecycle.challenges[0].verifiedAtUTC = 'garbage'; },
+  'opening event time differs from verifiedAtUTC': e => { e.trustLifecycle.challenges[0].history[0].at_utc = '2026-10-26T12:00:00Z'; },
+  'opening actor differs from verifier': e => { e.trustLifecycle.challenges[0].history[0].actor = 'someone-else'; },
+  'verifier method differs from receipt method': e => { e.trustLifecycle.challenges[0].verifier.verificationMethod = 'benchmark-replay'; },
+  'resolution on a pending challenge': e => {
+    e.trustLifecycle.challenges[0].resolution = {disposition: 'technically-rebutted', resolvedAtUTC: '2026-10-27T00:00:00Z',
+      verifierId: 'independent-reviewer', receiptUrl: 'https://example.org/receipts/x'};
+  },
+  'null resolution on a pending challenge': e => { e.trustLifecycle.challenges[0].resolution = null; },
+  'foreign subjectId on challenge': e => { e.trustLifecycle.challenges[0].subjectId = 'foreign/id'; },
+  'non-null non-string linkedChallengeId': e => { e.trustLifecycle.challenges[0].linkedChallengeId = 7; },
+};
+for (const [name, mutate] of Object.entries(malformations)) {
+  test('pending v1 DTO fails closed: ' + name, () => {
+    const entry = clone(fixtures.material); mutate(entry);
+    assert.equal(lifecycle.buildTrustLifecycleViewModel(entry), null);
+    const mount = mockMount(); mount.innerHTML = 'stale';
+    lifecycle.renderLifecycleSection(mount, entry);
+    assert.equal(mount.innerHTML, '');
+  });
+}
+
+const resolvedMalformations = {
+  'resolved without resolution object': e => { delete e.trustLifecycle.challenges[0].resolution; },
+  'resolution disposition differs from status': e => { e.trustLifecycle.challenges[0].resolution.disposition = 'technically-rebutted'; },
+  'resolution date differs from closing event': e => { e.trustLifecycle.challenges[0].resolution.resolvedAtUTC = '2026-10-28T00:00:00Z'; },
+  'resolution verifier differs from closing actor': e => { e.trustLifecycle.challenges[0].resolution.verifierId = 'someone-else'; },
+  'resolution receipt unsafe': e => { e.trustLifecycle.challenges[0].resolution.receiptUrl = 'javascript:alert(1)'; },
+  'closing event garbage date': e => { const c = e.trustLifecycle.challenges[0]; c.history[1].at_utc = c.resolution.resolvedAtUTC = 'garbage'; },
+  'closing event predates opening': e => { const c = e.trustLifecycle.challenges[0]; c.history[1].at_utc = c.resolution.resolvedAtUTC = '2026-10-24T00:00:00Z'; },
+  'closing event deleted receipt_digest': e => { delete e.trustLifecycle.challenges[0].history[1].receipt_digest; },
+  'closing event wrong type': e => { e.trustLifecycle.challenges[0].history[1].event_type = 'verified-publication'; },
+  'closing event foreign challenge_id': e => { e.trustLifecycle.challenges[0].history[1].challenge_id = 'foreign'; },
+  'resolved history truncated to one event': e => { e.trustLifecycle.challenges[0].history.pop(); },
+};
+for (const [name, mutate] of Object.entries(resolvedMalformations)) {
+  test('resolved v1 DTO fails closed: ' + name, () => {
+    const entry = clone(fixtures.resolved); mutate(entry);
+    assert.equal(lifecycle.buildTrustLifecycleViewModel(entry), null);
+    const mount = mockMount(); mount.innerHTML = 'stale';
+    lifecycle.renderLifecycleSection(mount, entry);
+    assert.equal(mount.innerHTML, '');
+  });
+}
+
+test('well-formed fixtures still pass the strict validator (guards against over-rejection)', () => {
+  for (const entry of Object.values(fixtures)) assert.ok(lifecycle.buildTrustLifecycleViewModel(entry));
+  assert.ok(lifecycle.buildTrustLifecycleViewModel(rebutted()));
+});
+
+// ── Restored coverage from the pre-rewrite suite (states v1 still supports) ─
+
+test('isSafeHttps rejects every non-https scheme and non-string', () => {
+  assert.strictEqual(lifecycle.isSafeHttps('https://github.com/gaia-research/gaia-skill-tree/issues/100'), true);
+  for (const url of ['data:text/html,<html>', 'ftp://files.example.com', 'http://insecure.com', undefined, 12345, 'https://', 'https://a b']) {
+    assert.strictEqual(lifecycle.isSafeHttps(url), false);
+  }
+});
+
+test('esc escapes quotes and tolerates null/undefined', () => {
+  assert.strictEqual(lifecycle.esc('<script>alert("xss")</script>'), '&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;');
+  assert.strictEqual(lifecycle.esc("Tom & 'Jerry'"), 'Tom &amp; &#39;Jerry&#39;');
+  assert.strictEqual(lifecycle.esc(null), '');
+  assert.strictEqual(lifecycle.esc(undefined), '');
+});
+
+test('formatDateUTC standardizes dates and degrades safely on malformed input', () => {
+  assert.strictEqual(lifecycle.formatDateUTC('2026-10-26T14:30:00Z'), '2026-10-26');
+  assert.strictEqual(lifecycle.formatDateUTC('2026-05-01'), '2026-05-01');
+  assert.strictEqual(lifecycle.formatDateUTC(''), 'Unknown Date');
+  assert.strictEqual(lifecycle.formatDateUTC(null), 'Unknown Date');
+  assert.strictEqual(lifecycle.formatDateUTC(42), 'Unknown Date');
+  assert.strictEqual(lifecycle.formatDateUTC('garbage'), 'garbage');
+});
+
+test('approved decision renders numeric standing, incumbent and empty challenge list', () => {
+  const vm = lifecycle.buildTrustLifecycleViewModel(withoutChallenges(fixtures.material));
+  assert.ok(vm);
+  assert.equal(vm.standing.key, 'approved-decision');
+  assert.equal(vm.standing.badgeText, '[Approved] Published Numeric Decision');
+  assert.equal(vm.standing.tone, 'teal');
+  assert.equal(vm.origin.handle, 'author');
+  assert.equal(vm.origin.status, 'held');
+  assert.equal(vm.activeChallengesCount, 0);
+  const html = lifecycle.renderTrustLifecycleHtml(vm);
+  assert.match(html, /Approved Rank:<\/strong> 3&#9733;/);
+  assert.match(html, /Approved TM:<\/strong> 72/);
+  assert.match(html, /@author/);
+  assert.match(html, /No verified public challenges on record/);
+});
+
+test('scoped challenge detail: standing, verifier, comparator, receipt link, never Origin-contested', () => {
+  const vm = lifecycle.buildTrustLifecycleViewModel(fixtures.scoped);
+  assert.equal(vm.standing.badgeText, '[Pending] Adjudication Pending');
+  assert.equal(vm.standing.tone, 'gold');
+  assert.equal(vm.activeChallengesCount, 1);
+  const ch = vm.challenges[0];
+  assert.equal(ch.status, 'verified-pending');
+  assert.equal(ch.isAdjudicationPending, true);
+  assert.equal(ch.verifier.verifierId, 'independent-reviewer');
+  assert.equal(lifecycle.isSafeHttps(ch.verifier.receiptUrl), true);
+  const html = lifecycle.renderTrustLifecycleHtml(vm);
+  assert.match(html, /\[Pending\] Adjudication Pending/);
+  assert.match(html, /\[Held\] Origin Held/);
+  assert.match(html, /comparator@2\.1/);
+  assert.match(html, /Public Verification Receipt/);
+  assert.match(html, /rel="noopener noreferrer"/);
+  assert.doesNotMatch(html, /\[Contested\] Origin Contested/);
+});
+
+test('material challenge contests Origin without transfer or vacancy', () => {
+  const vm = lifecycle.buildTrustLifecycleViewModel(fixtures.material);
+  assert.equal(vm.standing.key, 'contested');
+  assert.equal(vm.standing.badgeText, '[Contested] Origin Contested');
+  assert.equal(vm.standing.tone, 'honor-red');
+  assert.equal(vm.origin.isContested, true);
+  assert.equal(vm.origin.handle, 'author');
+  assert.equal(vm.challenges[0].status, 'verified-pending');
+  const html = lifecycle.renderTrustLifecycleHtml(vm);
+  assert.match(html, /\[Contested\] Origin Contested/);
+  assert.match(html, /Current Origin remains held by the incumbent/);
+  assert.match(html, /does not transfer or vacate while contested/);
+  assert.match(html, /@author/);
+});
+
+test('technical resolution renders Class B proof distinct from pending recalibration', () => {
+  const vm = lifecycle.buildTrustLifecycleViewModel(fixtures.resolved);
+  assert.equal(vm.standing.badgeText, '[Pending] Trust Recalibration');
+  assert.equal(vm.standing.tone, 'violet');
+  assert.notEqual(vm.standing.recalibrationPending, null);
+  assert.match(vm.standing.recalibrationPending.reason, /recalibration pending/);
+  const html = lifecycle.renderTrustLifecycleHtml(vm);
+  assert.match(html, /\[Technical Resolution\] Recalibration Pending/);
+  assert.match(html, /Technical Resolution Proof/);
+  assert.match(html, new RegExp(vm.challenges[0].challengeId));
+});
+
+test('upstream-superseded and rebutted challenges stay visible in history with explicit labels', () => {
+  const superseded = lifecycle.buildTrustLifecycleViewModel(fixtures.resolved);
+  assert.equal(superseded.challenges.length, 1);
+  assert.equal(superseded.challenges[0].isUpstreamSuperseded, true);
+  assert.equal(superseded.challenges[0].history.length, 2);
+  assert.equal(superseded.resolvedChallengesCount, 1);
+  assert.match(lifecycle.renderTrustLifecycleHtml(superseded), /\[Superseded\] Upstream Resolved/);
+  const html = lifecycle.renderTrustLifecycleHtml(lifecycle.buildTrustLifecycleViewModel(rebutted()));
+  assert.match(html, /\[Rebutted\] Technically Rebutted/);
+  assert.match(html, /<details class="se-lc-challenge-item se-lc-challenge-item--resolved">/);
+});
+
+test('missing consequence stays unassessed and never fabricates 0 stars or TM', () => {
+  const vm = lifecycle.buildTrustLifecycleViewModel(fixtures.unknown);
+  assert.equal(vm.standing.key, 'adjudication-pending');
+  assert.strictEqual(vm.standing.approvedStars, null);
+  assert.strictEqual(vm.standing.approvedTm, null);
+  assert.strictEqual(vm.snapshot.isPinned, false);
+  const html = lifecycle.renderTrustLifecycleHtml(vm);
+  assert.match(html, /Approved Rank:<\/strong> Unassessed/);
+  assert.match(html, /Canonical consequence source unavailable/);
+  assert.match(html, /Publication snapshot metadata unavailable/);
+  assert.doesNotMatch(html, /Approved Rank:<\/strong> 0/);
+  assert.doesNotMatch(html, /Approved TM/);
+});
+
+test('current baseline is never presented as an approved decision', () => {
+  const vm = lifecycle.buildTrustLifecycleViewModel(withoutChallenges(fixtures.scoped));
+  assert.equal(vm.standing.key, 'baseline');
+  assert.strictEqual(vm.standing.approvedStars, null);
+  assert.strictEqual(vm.standing.approvedTm, null);
+  const html = lifecycle.renderTrustLifecycleHtml(vm);
+  assert.doesNotMatch(html, /\[Approved\]/);
+  assert.match(html, /Approved Rank:<\/strong> Unassessed/);
+  assert.match(html, /no numeric decision asserted/);
+});
+
+test('forged display metadata cannot supply provenance, standing or snapshot identity', () => {
+  const entry = clone(fixtures.scoped);
+  entry.trustLifecycle.snapshot = {snapshotId: 'forged-snap', approvedBy: 'founder', approvalRef: 'https://example.org/pr/1'};
+  entry.trustLifecycle.approvedStanding = {status: 'in-good-standing', approvedStars: 6, approvedTm: 999};
+  entry.trustLifecycle.origin = {currentOriginHandle: 'attacker', contested: false};
+  const vm = lifecycle.buildTrustLifecycleViewModel(entry);
+  assert.ok(vm);
+  const html = lifecycle.renderTrustLifecycleHtml(vm);
+  for (const forged of ['forged-snap', 'founder', 'attacker', '999']) assert.ok(!html.includes(forged), forged);
+  assert.equal(vm.standing.approvedStars, null);
+});
+
+test('strict boolean: non-boolean materialToOrigin never contests Origin', () => {
+  const base = {challengeId: 'c', claim: 'x', status: 'verified-pending', verifiedAtUTC: '2026-10-26T00:00:00Z',
+    verifier: {verifierId: 'v', verificationMethod: 'benchmark-replay', receiptUrl: 'https://example.com/receipt'}};
+  for (const value of ['false', 'true', 1, 0, null, undefined]) {
+    assert.strictEqual(lifecycle.normalizeChallenge(Object.assign({}, base, {materialToOrigin: value})).materialToOrigin, false);
+  }
+  assert.strictEqual(lifecycle.normalizeChallenge(Object.assign({}, base, {materialToOrigin: true})).materialToOrigin, true);
+  const entry = clone(fixtures.scoped);
+  entry.trustLifecycle.challenges[0].materialToOrigin = 'false';
+  assert.equal(lifecycle.buildTrustLifecycleViewModel(entry), null);
+});
+
+test('model-only verification, bad receipts and shadow records are rejected', () => {
+  const base = {challengeId: 'c', claim: 'x', status: 'verified-pending', materialToOrigin: false, verifiedAtUTC: '2026-10-26T00:00:00Z',
+    verifier: {verifierId: 'v', verificationMethod: 'benchmark-replay', receiptUrl: 'https://example.com/receipt'}};
+  assert.ok(lifecycle.normalizeChallenge(base));
+  for (const method of ['model', 'LLM', 'model-only', 'semantic-model']) {
+    const raw = clone(base); raw.verifier.verificationMethod = method;
+    assert.equal(lifecycle.normalizeChallenge(raw), null);
+  }
+  for (const mutate of [r => { r.verifier.receiptUrl = 'http://insecure.example'; }, r => { delete r.verifier; },
+                        r => { r.claim = ''; }, r => { r.status = 'bogus'; }, r => { delete r.challengeId; }]) {
+    const raw = clone(base); mutate(raw);
+    assert.equal(lifecycle.normalizeChallenge(raw), null);
+  }
+});
+
+test('unsafe links anywhere in the DTO fail closed and never reach markup', () => {
+  for (const unsafe of ['http://insecure-link.com', 'javascript:alert(2)', 'data:text/html,bad']) {
+    const notice = clone(fixtures.material); notice.trustLifecycle.challenges[0].contributorNoticeRef = unsafe;
+    assert.equal(lifecycle.buildTrustLifecycleViewModel(notice), null);
+    const receipt = clone(fixtures.resolved); receipt.trustLifecycle.challenges[0].resolution.receiptUrl = unsafe;
+    assert.equal(lifecycle.buildTrustLifecycleViewModel(receipt), null);
+  }
+  const html = lifecycle.renderTrustLifecycleHtml(lifecycle.buildTrustLifecycleViewModel(fixtures.resolved));
+  assert.doesNotMatch(html, /javascript:|data:text|http:\/\//);
+});
+
+test('handles and identifiers are escaped in the rendered section', () => {
+  const entry = clone(fixtures.material);
+  entry.trustLifecycle.consequence.originHandle = '<script>alert(1)</script>';
+  entry.trustLifecycle.challenges[0].behaviorId = '"><img src=x onerror=alert(1)>';
+  const html = lifecycle.renderTrustLifecycleHtml(lifecycle.buildTrustLifecycleViewModel(entry));
+  assert.doesNotMatch(html, /<script>|<img/);
+  assert.match(html, /&lt;script&gt;/);
+});
+
+test('rendered DOM exposes labelled regions, status roles, keyboard targets and text-labelled badges', () => {
+  const mount = mockMount();
+  lifecycle.renderLifecycleSection(mount, fixtures.material);
+  const html = mount.innerHTML;
+  assert.match(html, /<h3 id="seLifecycleHeading" class="se-flow-title">/);
+  for (const label of ['Snapshot Identity', 'Approved Standing', 'Merit-Based Origin Status', 'Verified Public Challenges',
+                       'Historical Awards and Permanent Attribution']) {
+    assert.ok(html.includes('role="region" aria-label="' + label + '"'), label);
+  }
+  assert.match(html, /<span class="se-lc-badge se-lc-badge--[a-z-]+" role="status">/);
+  assert.match(html, /<details class="se-lc-challenge-item se-lc-challenge-item--active" open>/);
+  assert.match(html, /<summary class="se-lc-challenge-summary" tabindex="0">/);
+  const badgeRegex = /<span class="se-lc-badge[^"]*"[^>]*>([^<]+)<\/span>/g;
+  let match, count = 0;
+  while ((match = badgeRegex.exec(html)) !== null) {
+    count++;
+    assert.match(match[1].trim(), /^\[(Approved|Contested|Pending|Degraded|Rebutted|Superseded|Held|Unknown|Current|Unassessed)\]/);
+  }
+  assert.ok(count >= 3);
+  assert.match(html, /target="_blank" rel="noopener noreferrer"/);
+  assert.doesNotMatch(html, /target="_blank"(?![^>]*rel="noopener noreferrer")/);
+});
+
+test('absent payload and null entry clear the mount exactly', () => {
+  const mount = {innerHTML: 'pre-existing-content-should-clear'};
+  lifecycle.renderLifecycleSection(mount, {id: 'x'});
+  assert.equal(mount.innerHTML, '');
+  mount.innerHTML = 'again';
+  lifecycle.renderLifecycleSection(mount, null);
+  assert.equal(mount.innerHTML, '');
+});
+
+test('Skill Explorer compiles, keeps both IIFEs, all five sections and the se-tm mount', () => {
+  const code = read('../docs/js/skill-explorer.js');
+  assert.doesNotThrow(() => new vmModule.Script(code));
+  assert.match(code, /^\(function\(\)\{/);
+  assert.match(code, /\(function\(\)\s*\{\s*\n\s*var treeDialog\s*=\s*document\.getElementById\('treeDialog'\);/);
+  assert.match(code, /window\.GaiaTrustLifecycle/);
+  assert.match(code, /'<div id="se-tm" class="se-flow-section"><\/div>'/);
+  assert.match(code, /renderHero\(ns, generic\);/);
+  for (const [name, id] of [['Install', 'se-install'], ['Docs', 'se-docs'], ['Upgrade', 'se-upgrade'], ['Trust Lifecycle', 'se-tm'], ['Timeline', 'se-changelog']]) {
+    assert.match(code, new RegExp("_safeRender\\('" + name + "',\\s*'" + id + "'"));
+  }
+});
+
+test('trust-lifecycle.js compiles standalone and uses design tokens only (no hex colours)', () => {
+  const code = read('../docs/js/trust-lifecycle.js');
+  assert.doesNotThrow(() => new vmModule.Script(code));
+  // Mirrors the intent of CI Guard A (scripts/check_hex_colors.py); HTML entities (&#9733;) and issue numbers (#2148) are excluded.
+  assert.doesNotMatch(code, /(?:^|[^\w&])#(?=[0-9a-fA-F]*[a-fA-F])(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})(?![\w-])/m);
+});
+
+test('scoped CSS keeps lifecycle headings wrapping at 390px and 320px and hides the empty mount', () => {
+  const css = read('../docs/css/styles.css');
+  assert.match(css, /\.se-lc-section \.se-flow-title\s*\{[^}]*overflow-wrap:\s*break-word/);
+  assert.match(css, /\.se-lc-section \.se-flow-h__lede\s*\{[^}]*flex:\s*1 1 100%/);
+  assert.match(css, /\.se-lc-section \.se-flow-h::after\s*\{[^}]*display:\s*none/);
+  assert.match(css, /@media\s*\(\s*max-width:\s*480px\s*\)\s*\{[^}]*\.se-lc-section \.se-flow-title/);
+  assert.match(css, /@media\s*\(\s*max-width:\s*360px\s*\)\s*\{[^}]*\.se-lc-section \.se-flow-title/);
+  assert.match(css, /#se-tm:empty\s*\{[^}]*display:\s*none/);
 });

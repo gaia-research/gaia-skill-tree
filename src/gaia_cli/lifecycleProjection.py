@@ -108,6 +108,39 @@ class LifecyclePorts:
     consequences: CanonicalConsequenceSource | None = None
 
 
+# Skill Explorer hero metric (docs/js/skill-explorer.js renderHero, plaque.js):
+#   ns.trustMagnitude || ns.overallTrustMagnitude || ns.trustNumber
+# i.e. the first truthy value, so a 0 or empty field silently falls through to
+# the next. Every field in that chain can reach the screen, so a baseline or
+# decision must agree with all of them, not only the first one present.
+heroTmFields = ('trustMagnitude', 'overallTrustMagnitude', 'trustNumber')
+
+
+def _displayedTrustMagnitudes(entry: dict) -> list[float] | None:
+    """Return every numeric TM the Explorer could show, or None if one is unusable.
+
+    Absent/None/empty fields are skipped (the Explorer skips them too). A present
+    value that is boolean, non-numeric, or non-finite cannot be reconciled with
+    a canonical consequence, so the caller must reject the entry.
+    """
+    values = []
+    for field in heroTmFields:
+        raw = entry.get(field)
+        if raw is None or raw == '':
+            continue
+        if isinstance(raw, bool):
+            return None
+        if isinstance(raw, str):
+            try:
+                raw = float(raw)
+            except ValueError:
+                return None
+        if type(raw) not in (int, float) or not math.isfinite(raw):
+            return None
+        values.append(float(raw))
+    return values
+
+
 def produce_lifecycle(entry: dict, ports: LifecyclePorts | None = None) -> dict | None:
     """Produce a public DTO only from explicitly installed in-process ports.
 
@@ -156,8 +189,8 @@ def produce_lifecycle(entry: dict, ports: LifecyclePorts | None = None) -> dict 
                 return None
             if isinstance(level, int) and not isinstance(level, bool) and level != consequence.stars:
                 return None
-            tm = entry.get('trustMagnitude')
-            if type(tm) in (int, float) and (not math.isfinite(tm) or abs(tm - consequence.tm) > 0.01):
+            displayed = _displayedTrustMagnitudes(entry)
+            if displayed is None or any(abs(value - consequence.tm) > 0.01 for value in displayed):
                 return None
     items = []
     try:

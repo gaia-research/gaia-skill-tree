@@ -37,11 +37,19 @@ challenges. Technical closure never writes or restores rank, TM or Origin;
 recalibration pending comes only from the consequence source. Existing rank,
 Origin and history fields outside this DTO are not changed by the producer.
 The consequence source must describe the same current hero metrics or the
-producer fails closed. Missing consequence authority does not suppress valid
+producer fails closed. The Explorer hero shows
+`trustMagnitude || overallTrustMagnitude || trustNumber` (first truthy value, so
+`0` falls through); both the producer and the browser therefore require the
+consequence TM to agree with every one of those fields that is present, for
+both `current-baseline` and `approved-decision`, and reject unusable values. Missing consequence authority does not suppress valid
 challenge history, but Origin ownership and numerical consequence stay unknown.
 
 Browser validation rejects unsupported, malformed and contradictory DTOs; it
-is **not authentication**. Only a correctly configured publication boundary
+is **not authentication**. It requires the full v1 challenge shape (identity,
+pinned-source and comparison fields, strict UTC timestamps, receipt-binding
+fields on every history event, history/resolution consistency, and no
+resolution on a pending challenge). Any violation clears the `#se-tm` mount
+(the empty, CSS-hidden unavailable state) instead of rendering a partial view. Only a correctly configured publication boundary
 can attest the source. Direct calls with attacker-created JSON do not establish
 trust. Synthetic test ports in `tests/fixtures/lifecycle_dto_test_ports.py` are
 solely disposable tests and are never installed by production code.

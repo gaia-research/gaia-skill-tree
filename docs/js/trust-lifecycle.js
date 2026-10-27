@@ -274,6 +274,84 @@
     return out;
   }
 
+  // ── 2a. STRICT v1 SHAPE VALIDATION (FAIL CLOSED) ──────────────────────
+
+  var UTC_REGEX = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d+)?(?:Z|\+00:00)$/;
+
+  /** Strict ISO-8601 UTC instant (explicit Z or +00:00, real calendar date). Returns epoch ms or NaN. */
+  function parseUtc(value) {
+    if (typeof value !== 'string') return NaN;
+    var m = UTC_REGEX.exec(value);
+    if (!m) return NaN;
+    var parts = m.slice(1, 7).map(Number);
+    var ms = Date.UTC(parts[0], parts[1] - 1, parts[2], parts[3], parts[4], parts[5]);
+    var d = new Date(ms);
+    if (isNaN(ms) || d.getUTCFullYear() !== parts[0] || d.getUTCMonth() !== parts[1] - 1 ||
+        d.getUTCDate() !== parts[2] || d.getUTCHours() !== parts[3] ||
+        d.getUTCMinutes() !== parts[4] || d.getUTCSeconds() !== parts[5]) return NaN;
+    return Date.parse(value);
+  }
+
+  function isNonEmptyString(value) {
+    return typeof value === 'string' && value.trim() !== '';
+  }
+
+  /**
+   * Every numeric TM the Explorer can show for this entry, or null if one is
+   * unusable. Mirrors skill-explorer.js renderHero():
+   *   ns.trustMagnitude || ns.overallTrustMagnitude || ns.trustNumber
+   * (first truthy wins, so 0 falls through). All three fields are checked
+   * because any of them can reach the screen.
+   */
+  function displayedTrustMagnitudes(entry) {
+    var fields = ['trustMagnitude', 'overallTrustMagnitude', 'trustNumber'];
+    var out = [];
+    for (var f = 0; f < fields.length; f++) {
+      var raw = entry[fields[f]];
+      if (raw === undefined || raw === null || raw === '') continue;
+      if (typeof raw === 'string') raw = Number(raw);
+      if (typeof raw !== 'number' || !isFinite(raw)) return null;
+      out.push(raw);
+    }
+    return out;
+  }
+
+  var HISTORY_RECEIPT_FIELDS = ['receipt_id', 'receipt_digest', 'transcript_digest', 'method'];
+
+  /**
+   * Required v1 challenge shape plus history consistency. Shape checking is not
+   * authentication; it only guarantees the producer contract was not mangled.
+   */
+  function isValidV1Challenge(item, parsed, entry) {
+    var identity = ['challengeId', 'claimId', 'claim', 'behaviorId', 'contributorId',
+      'pinnedVersion', 'pinnedSha', 'environment', 'testVersion', 'baseline', 'comparator'];
+    for (var k = 0; k < identity.length; k++) if (!isNonEmptyString(item[identity[k]])) return false;
+    if (item.subjectId !== entry.id || typeof item.materialToOrigin !== 'boolean') return false;
+    if (['verified-pending', 'technically-rebutted', 'resolved-by-upstream-improvement'].indexOf(item.status) < 0) return false;
+    if (!(item.linkedChallengeId === null || isNonEmptyString(item.linkedChallengeId))) return false;
+    if (!isSafeHttps(item.contributorNoticeRef) || isNaN(parseUtc(item.verifiedAtUTC))) return false;
+    var history = item.history;
+    if (!Array.isArray(history) || history.length !== (parsed.isResolved ? 2 : 1)) return false;
+    for (var e = 0; e < history.length; e++) {
+      var event = history[e];
+      if (!event || typeof event !== 'object' || event.challenge_id !== item.challengeId ||
+          !isNonEmptyString(event.actor) || isNaN(parseUtc(event.at_utc))) return false;
+      for (var r = 0; r < HISTORY_RECEIPT_FIELDS.length; r++) {
+        if (!isNonEmptyString(event[HISTORY_RECEIPT_FIELDS[r]])) return false;
+      }
+    }
+    var opening = history[0];
+    if (opening.event_type !== 'verified-publication' || opening.at_utc !== item.verifiedAtUTC ||
+        opening.actor !== parsed.verifier.verifierId || opening.method !== parsed.verifier.verificationMethod) return false;
+    if (!parsed.isResolved) return item.resolution === undefined;
+    var closing = history[1], res = item.resolution;
+    return closing.event_type === 'technical-resolution' &&
+      parseUtc(closing.at_utc) >= parseUtc(opening.at_utc) &&
+      !!res && typeof res === 'object' && parsed.resolution !== null &&
+      res.disposition === item.status && res.resolvedAtUTC === closing.at_utc &&
+      res.verifierId === closing.actor;
+  }
+
   /**
    * Pure View-Model Builder.
    *
@@ -294,16 +372,7 @@
     var seen = Object.create(null);
     for (var i = 0; i < payload.challenges.length; i++) {
       var item = payload.challenges[i], parsed = normalizeChallenge(item);
-      if (!parsed || ['verified-pending', 'technically-rebutted', 'resolved-by-upstream-improvement'].indexOf(item.status) < 0 || seen[parsed.challengeId] || item.subjectId !== entry.id ||
-          typeof item.materialToOrigin !== 'boolean' || !Array.isArray(item.history) ||
-          !item.history.length || (parsed.isResolved && (!parsed.resolution || item.history.length !== 2)) ||
-          (!parsed.isResolved && item.history.length !== 1) ||
-          !(item.linkedChallengeId === null || typeof item.linkedChallengeId === 'string') ||
-          !item.history[0] || item.history[0].event_type !== 'verified-publication' ||
-          item.history.some(function(event) { return !event || event.challenge_id !== item.challengeId ||
-            typeof event.actor !== 'string' || !event.actor.trim() || typeof event.at_utc !== 'string' || !event.at_utc; }) ||
-          (parsed.isResolved && (item.history[1].event_type !== 'technical-resolution' ||
-            parsed.resolution.disposition !== item.status))) return null;
+      if (!parsed || !isValidV1Challenge(item, parsed, entry) || seen[parsed.challengeId]) return null;
       seen[parsed.challengeId] = true;
     }
     var material = payload.challenges.some(function(ch) {
@@ -317,9 +386,12 @@
          typeof consequence.recalibrationPending !== 'boolean' ||
          !(consequence.originHandle === null || (typeof consequence.originHandle === 'string' && consequence.originHandle.trim())))) return null;
     if (consequence.kind !== 'unavailable') {
+      // Both consequence kinds (baseline and decision) must agree with what the
+      // Explorer hero actually shows; otherwise fail closed.
       var heroRank = typeof entry.level === 'number' ? entry.level : parseInt(entry.level, 10);
-      if ((!isNaN(heroRank) && heroRank !== consequence.stars) ||
-          (typeof entry.trustMagnitude === 'number' && Math.abs(entry.trustMagnitude - consequence.tm) > 0.01)) return null;
+      var heroTms = displayedTrustMagnitudes(entry);
+      if ((!isNaN(heroRank) && heroRank !== consequence.stars) || heroTms === null ||
+          heroTms.some(function(value) { return Math.abs(value - consequence.tm) > 0.01; })) return null;
     }
     // Translate DTO into the presentation model. No display field authenticates it.
     payload = {
