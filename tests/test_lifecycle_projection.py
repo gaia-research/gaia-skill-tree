@@ -167,3 +167,27 @@ def test_named_index_build_strips_spoof_and_only_injects_producer(tmp_path):
     assert published['trustLifecycle']['consequence'] == {'kind': 'unavailable'}
     assert 'forged' not in published['trustLifecycle']
     assert published['timeline'] == [{'historic': 'keep'}]
+
+
+def test_producer_resolves_receipts_only_through_challenge_bound_resolvers():
+    challenge, resolver = opened()
+    source = SyntheticChallengeSource((challenge,))
+    resolver.bound_calls.clear()
+    projected = project_challenges(challenge.subject_id, source, resolver)
+    assert projected is not None
+    assert resolver.bound_calls and all(cid == challenge.challenge_id for cid, _ in resolver.bound_calls)
+
+    class Unbound:  # legacy one-argument resolver: refused, never called
+        called = False
+
+        def resolve(self, receipt_id):
+            Unbound.called = True
+            return resolver.receipts[receipt_id]
+    assert project_challenges(challenge.subject_id, source, Unbound()) is None
+    assert not Unbound.called
+
+    class Misbound:
+        def for_challenge(self, challenge_id):
+            bound = resolver.for_challenge('some-other-challenge')
+            return bound
+    assert project_challenges(challenge.subject_id, source, Misbound()) is None

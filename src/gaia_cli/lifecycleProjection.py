@@ -30,6 +30,36 @@ class ChallengeProjection:
     material_origin_contested: bool
 
 
+class _BoundReceiptCache:
+    """Memoizes receipts per (challenge id, receipt id) without ever resolving unbound.
+
+    The challenge domain refuses resolvers that cannot bind to one challenge id,
+    so every lookup asks the trusted resolver for a resolver bound to exactly
+    that challenge and checks the binding before resolving.
+    """
+
+    def __init__(self, resolver):
+        self.resolver = resolver
+        self.cache = {}
+
+    def for_challenge(self, challenge_id):
+        return _BoundReceiptView(self, challenge_id)
+
+
+class _BoundReceiptView:
+    def __init__(self, cache, challenge_id):
+        self.parent, self.challenge_id = cache, challenge_id
+
+    def resolve(self, receipt_id):
+        key = (self.challenge_id, receipt_id)
+        if key not in self.parent.cache:
+            bound = self.parent.resolver.for_challenge(self.challenge_id)
+            if getattr(bound, "challenge_id", None) != self.challenge_id:
+                raise ValueError("receipt resolver is not bound to this exact challenge id")
+            self.parent.cache[key] = bound.resolve(receipt_id)
+        return self.parent.cache[key]
+
+
 def project_challenges(subject_id: str, source: ChallengeSource | None = None,
                        receipt_resolver: VerificationReceiptResolver | None = None,
                        ) -> ChallengeProjection | None:
@@ -44,16 +74,7 @@ def project_challenges(subject_id: str, source: ChallengeSource | None = None,
         return None
     if source is None or receipt_resolver is None:
         return None
-    class StableResolver:
-        def __init__(self):
-            self.cache = {}
-
-        def resolve(self, receipt_id):
-            if receipt_id not in self.cache:
-                self.cache[receipt_id] = receipt_resolver.resolve(receipt_id)
-            return self.cache[receipt_id]
-
-    resolver = StableResolver()
+    resolver = _BoundReceiptCache(receipt_resolver)
     try:
         challenges = source.challenges_for(subject_id)
         if not isinstance(challenges, tuple):
@@ -68,7 +89,8 @@ def project_challenges(subject_id: str, source: ChallengeSource | None = None,
             # including objects altered after their original construction.
             replace(challenge)
             validate_challenge_history(challenge, resolver)
-            if any(resolver.resolve(event.receipt_id).contributor_id != challenge.contributor_id
+            bound = resolver.for_challenge(challenge.challenge_id)
+            if any(bound.resolve(event.receipt_id).contributor_id != challenge.contributor_id
                    for event in challenge.history):
                 return None
             seen.add(challenge.challenge_id)
@@ -170,16 +192,7 @@ def produce_lifecycle(entry: dict, ports: LifecyclePorts | None = None) -> dict 
     ref = entry.get('genericSkillRef')
     if not isinstance(subject, str) or not subject.strip() or not isinstance(ref, str) or not ref.strip():
         return None
-    class StableReceipts:
-        def __init__(self):
-            self.cache = {}
-
-        def resolve(self, receipt_id):
-            if receipt_id not in self.cache:
-                self.cache[receipt_id] = ports.receipts.resolve(receipt_id)
-            return self.cache[receipt_id]
-
-    receipts = StableReceipts()
+    receipts = _BoundReceiptCache(ports.receipts)
     projection = project_challenges(subject, ports.challenges, receipts)
     if projection is None:
         return None
@@ -208,7 +221,8 @@ def produce_lifecycle(entry: dict, ports: LifecyclePorts | None = None) -> dict 
     items = []
     try:
         for challenge in projection.challenges:
-            opening = receipts.resolve(challenge.history[0].receipt_id)
+            bound = receipts.for_challenge(challenge.challenge_id)
+            opening = bound.resolve(challenge.history[0].receipt_id)
             item = {
                 'challengeId': challenge.challenge_id, 'subjectId': subject,
                 'linkedChallengeId': challenge.linked_challenge_id,
@@ -227,7 +241,7 @@ def produce_lifecycle(entry: dict, ports: LifecyclePorts | None = None) -> dict 
             }
             if challenge.resolved:
                 event = challenge.history[-1]
-                receipt = receipts.resolve(event.receipt_id)
+                receipt = bound.resolve(event.receipt_id)
                 item['resolution'] = {'disposition': challenge.status.value,
                     'resolvedAtUTC': event.at_utc, 'verifierId': event.actor,
                     'receiptUrl': receipt.public_receipt_ref}
