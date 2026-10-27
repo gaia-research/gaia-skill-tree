@@ -198,7 +198,7 @@ class StewardCommand(Command):
         record.add_argument("--input", required=True, metavar="FILE.json", help="JSON outcome file")
         ledgerOptions(record)
 
-        abandon = actions.add_parser("abandon", help="End an open run with an auditable reason; its unbuilt work returns to the queue")
+        abandon = actions.add_parser("abandon", help="End an open run with an auditable reason; its unbuilt work stays adoptable")
         abandon.add_argument("runId", metavar="RUN_ID", help="Open run to abandon")
         abandon.add_argument("--reason", required=True, help="Why the run is being ended (kept in the ledger)")
         ledgerOptions(abandon)

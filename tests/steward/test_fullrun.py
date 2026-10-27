@@ -689,7 +689,7 @@ def test_a_lost_packet_for_a_debt_that_is_gone_releases_the_work_instead_of_bloc
 
     doc = ledgerDoc(store)
     assert doc["runs"][first.runId]["actions"][0]["status"] == "superseded"
-    assert doc["work"][first.actions[0]["debtId"]]["state"] != "building"
+    assert doc["runs"][first.runId]["actions"][0].get("supersededAt")
 
 
 def test_abandon_is_terminal_audited_and_releases_unbuilt_work(tmp_path: Path) -> None:
@@ -707,6 +707,10 @@ def test_abandon_is_terminal_audited_and_releases_unbuilt_work(tmp_path: Path) -
     assert run["abandonedBy"].startswith("operator:") and run["abandonedAt"]
     assert [a["status"] for a in run["actions"]] == ["superseded"]
     assert runner.status().holder is None
+    # The unbuilt Class B debt stays eligible: the next run adopts and re-emits the build.
+    nxt = makeRunner(repo, store, [sensor]).start("full")
+    (rebuilt,) = nxt.actions
+    assert rebuilt["type"] == "agent.build" and rebuilt["debtId"] == first.actions[0]["debtId"]
     with pytest.raises(FullRunError, match="only an open run"):
         runner.abandon(first.runId, "again")
     with pytest.raises(FullRunError, match="needs a reason"):

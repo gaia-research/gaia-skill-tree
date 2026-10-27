@@ -677,16 +677,15 @@ class FullRunner:
                     if step["stepId"] == action["stepId"]:
                         step["status"] = "done"
                 if item is not None and item["state"] == "building" and not item.get("build"):
-                    item["state"] = "queued"
-                    self._note(item, now, "task packet lost and the debt is no longer routable; work released")
+                    self._note(item, now, "task packet lost and the debt is no longer routable; the next run reconciles it")
 
         self._mutateRun(runId, apply, message="steward full recover packets")
 
     def abandon(self, runId: str, reason: str) -> RunView:
         """Operator disposition: end an open run with an auditable reason.
 
-        Pending actions are superseded and unbuilt work is released to the queue, so
-        the next run adopts it from the ledger instead of waiting out the lease.
+        Pending actions are superseded and unbuilt work stays `building`, so the next
+        run adopts it from the ledger instead of waiting out the lease.
         """
 
         if not str(reason).strip():
@@ -705,7 +704,7 @@ class FullRunner:
                             step["status"] = "done"
                 item = doc["work"].get(action["debtId"])
                 if item is not None and item["state"] == "building" and not item.get("build"):
-                    item["state"] = "queued"
+                    # Stays `building`: the next run adopts it and re-emits the build.
                     self._note(item, now, f"run {runId} abandoned by operator: {reason}")
             run["status"] = "abandoned"
             run["abandonedAt"] = now
