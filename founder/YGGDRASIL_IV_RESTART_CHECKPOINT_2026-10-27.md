@@ -1,6 +1,19 @@
-# Yggdrasil IV — restart checkpoint NOT ready (2026-10-27)
+# Yggdrasil IV — checkpoint and Gaia-first continuation (2026-10-27)
 
-## Current control
+## Current priority override — Gaia first
+
+The founder explicitly directed that Pi subagent recovery is a **side lane, not the main mission**. Proceed with the full Gaia campaign even if that tooling cannot be completed. This supersedes the old no-new-Gaia-jobs/restart-window sequencing below; it does not waive canonical/schema/issuer/visual/operational/main approval gates. No Pi installation, package change or restart is required to continue Gaia. Preserve its unaccepted source and evidence, but do not spend another implementation/review loop on it while Gaia is waiting.
+
+Current active Gaia assignments:
+- **188e6abc-e774-4b05-8460-7703dbdaa0c4**, Flash Medium: repair the exact absence/content CAS collision on existing canonical branch/draft #2161, add focused regressions, commit/push; no wider CLI scope yet.
+- **762f184a-424b-46ad-ae3f-049b481857c6**, Terra High: diagnose/repair the real full-corpus publication OG coverage failure on existing publication branch, using retained failed-build artifacts before any expensive replay. Parent owns the combined full-corpus replay.
+- Parent: integrate already independently reviewed watcher/corpus work where gates permit, preserve checkpoints, and coordinate remaining CLI/evidence/Frontier/UI/release dependencies. Watcher draft **#2166** now targets `dev/yggdrasil-iv` at exact reviewed/tested d311.
+
+Use the updated founder roster: Flash/Luna for economical scouting, routine review and bounded work; Terra for intermediate implementation/independent review; Sol for difficult architecture/integration. Assign compact self-contained scopes, preserve coherent commits/full sessions, and resume saved source rather than repeatedly rebuilding context. No recursive workers or gratuitous advisory fanout.
+
+Pi side-lane receipt: deployment repair **5ead1b1acdf5d9157cecec015914e133e2fec42a** is pushed on `fix/durable-recovery-safety`; **13 isolated Python tests passed in12.311s**. Copied native repair passed **10/10 component cases**, not full SDK recovery. Old Luna bindings/SDK continuations ended on subscription-sharing limits; their partial SDK test source remains preserved in its worktree. Flash review3e81328b was user-terminated; Terra deployment review59505651 was rejected by the provider filter before any assessment, not a code finding or acceptance. Do not reword/reroute around that refusal. The product remains uninstalled/unaccepted; neither helper tests nor a component matrix certify it. Newly ported native regression fixture b81972d03 is the final already-started side-lane check to collect, not a reason to hold Gaia.
+
+## Historical restart-window control (superseded by the priority override)
 
 Founder asked to be told when to reset and then explicitly said **Continue**. Continue the safe Pi recovery-tooling repair; **do not issue READY TO RESTART yet**. No additional Gaia campaign jobs before this restart window. This is temporary execution sequencing, not a campaign restart, permanent pause, completion claim or waiver of the original mission.
 
