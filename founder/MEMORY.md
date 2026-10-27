@@ -15,6 +15,13 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-28, DEV READY — #2151 green + preview up; founder merges to main)
+
+- `dev/yggdrasil-iv` = `43797a441`; #2151 ready, CLEAN, all CI green; preview run 40582346698 live.
+- Landed today: #2183 #2182 #2180 #2185 #2186 #2181 #2187 #2188 #2159 #2172 #2184. Held: #2176/#2177 (Core approvals).
+- Founder rulings: Challenge identity dev-only; challenge tokens in token generator, chartreuse (distinct from Unique copper); only land "honestly ours".
+- Lessons: wheel `--no-deps` smoke test catches eager third-party imports in parser construction; corpus-size literals in tests break on every main sync — derive counts independently.
+
 ## State Snapshot (2026-10-28, RESUMED — four PRs landed into dev/yggdrasil-iv; Challenge identity redesign ordered)
 
 - Entry point now [`handovers/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-28.md`](handovers/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-28.md); 10-27 handover still carries binding doctrine/gates.

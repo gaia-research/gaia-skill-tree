@@ -74,3 +74,27 @@ The Termux device's ignored `.gaia/yggdrasil-iv/` evidence was pushed by the fou
 dev branch (see `founder/reports/yggdrasil-iv-evidence/`); this session did not need it.
 This session's review probes and render packs live in the macOS session scratchpad
 (ephemeral, not backup); every collected count above is also recorded on its PR.
+
+## 5. Dev-ready close (2026-10-28, later)
+
+Founder rulings this round: Challenge redesign approved **for dev only** (another human gate
+when real challenger numbers are wired); challenge token family lives with all design tokens
+(`scripts/generateCssTokens.py` → `docs/css/tokens.css`) and moved to chartreuse to stay
+distinct from Unique Ultimate/Impossible copper; "follow recommended" for the rest; #2172 and
+#2159 approved to land on dev; #2176/#2177 stay held — "only land on dev what is honestly ours".
+Definition of done: dev ready, CI green, preview open; **founder merges to main**.
+
+Landed after the earlier set: #2187 (Frontier documented/executed version fields, receipt v1.1),
+#2188 (lazy canonical imports — fixed wheel `--no-deps` smoke failure introduced by #2180),
+#2159 (shadow census; tests now derive corpus counts independently), #2172 (publication; Linux-only
+renameat2/procfs tests skip off-Linux with a fail-closed test), #2184 (lifecycle + Challenge identity;
+producer re-bound to `for_challenge` after #2181).
+
+State: `dev/yggdrasil-iv` = `43797a441`; **#2151 ready for review, mergeStateStatus CLEAN, every CI
+check green**. Preview run 40582346698 succeeded → https://gaia-skill-tree.marco-tngsn.workers.dev/
+(single-slot URL). Production has no lifecycle provider, so the panel stays fail-closed (empty) on
+real pages; synthetic renders are the visual evidence.
+
+Still held (not ours to land): #2176/#2177 schema (two Core approvals), production issuer, real
+challenger numbers wiring + its visual gate, 371 raw named-schema failures, watcher migration audit
+/ live operation, four elapsed weekly comparisons, pilot, main merge (founder), release, RFC #2148 closure.
