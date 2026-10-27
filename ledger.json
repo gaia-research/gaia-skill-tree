@@ -1,5 +1,5 @@
 {
- "generation": 74,
+ "generation": 75,
  "lane": {
   "entries": [
    {
@@ -1919,7 +1919,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-10-27T16:01:34.166216Z",
-   "expiresAt": "2026-10-27T16:31:42.911742Z",
+   "expiresAt": "2026-10-27T16:31:52.501645Z",
    "holder": "run-20261027T160134Z-e979a749"
   }
  },
@@ -5641,7 +5641,7 @@
    "decisions": [],
    "finishedAt": null,
    "integrationBranch": null,
-   "integrationHead": null,
+   "integrationHead": "unknown",
    "leases": [
     {
      "acquiredAt": "2026-10-27T16:01:34.166216Z",
@@ -5660,13 +5660,21 @@
     "push": false,
     "routine": null
    },
-   "phase": "reconcile",
-   "phases": {},
+   "phase": "observe",
+   "phases": {
+    "reconcile": {
+     "integrationBranch": null,
+     "integrationHead": "unknown",
+     "integrationHeadUnknown": "integration branch not configured",
+     "sourceHead": "515b70df83180bbe1aa439d6ab7e4a27ef8ca44f",
+     "unresolvedWork": 1
+    }
+   },
    "proofArtifacts": [],
    "pullRequests": [],
    "receipts": [],
    "runId": "run-20261027T160134Z-e979a749",
-   "sourceHead": null,
+   "sourceHead": "515b70df83180bbe1aa439d6ab7e4a27ef8ca44f",
    "startedAt": "2026-10-27T16:01:34.166216Z",
    "status": "active",
    "steps": [
@@ -5675,6 +5683,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:recover"
+    },
+    {
+     "at": "2026-10-27T16:01:51.617727Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:reconcile"
     }
    ],
    "thinkingEfforts": [],
@@ -5691,7 +5705,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-27T16:01:42.911967Z",
+ "updatedAt": "2026-10-27T16:01:52.501818Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261027T160134Z-e979a749",
