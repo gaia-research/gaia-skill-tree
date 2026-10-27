@@ -15,7 +15,7 @@ Recovery entry point. Updated on every material state change and pushed to
 |---|---|---|---|
 | Meta sweep (13 dims + per-record appraisal of 701 records) | 1 | `sweep/` | running — Workflow run `wf_fb1ee3fb-d06` |
 | Upstream / PR / intake reconciliation | 2 | `reconciliation/` | ledger done (313 items); #2190 lands execution-control branch; upstream sync + intake triage lane running |
-| Challenger pipeline (frontier match → verify → admission → projection) | 3 | `plans/challenger-pipeline.md` | slices 1–3 running; issuer-for-dev design running (founder approved) |
+| Challenger pipeline (frontier match → verify → admission → projection) | 3 | `plans/challenger-pipeline.md`, `plans/issuer.md` | slices 1–3 running; issuer slice dispatched |
 | Adjudication / consequence ledger | 4 | derives from sweep ledger | after sweep |
 | Website (W0..W9) | 5 | `plans/website.md` | W0, W2, W7 dispatched |
 | October record + `/meta-post` (registered as `gaia-post`) | 6 | — | after 1–4 |
