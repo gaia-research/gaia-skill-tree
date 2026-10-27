@@ -711,6 +711,7 @@ def build_html_cache_busting(check: bool) -> bool:
         "privacy.html",
         "starless.html",
         "badges/index.html",
+        "evidence/index.html",
         "named/index.html",
         "named/report.html",
         "share/index.html",

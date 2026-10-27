@@ -1213,20 +1213,30 @@
     var issuesUrl = 'https://github.com/' + REPO_SLUG + '/issues';
     var readmeUrl = repoUrl && isGithubUrl(repoUrl) ? repoUrl.replace(/\.(git|\/?)$/,'') : '';
 
+    // combinedEvidence is what visitors see: every row exactly as recorded, with
+    // no deduplication (duplicates are an audit concern, not a rendering one).
+    // scoringEvidence keeps the (type + source) dedupe the score baseline has
+    // always used, so Trust Magnitude arithmetic is untouched by the display.
     var combinedEvidence = [];
+    var scoringEvidence = [];
     var seenKeys = new Set();
 
     function addEvidences(list, layer) {
       if (Array.isArray(list)) {
         list.forEach(function(ev) {
           if (!ev) return;
-          // Dedupe by (type + source) — same source URL can have different types
+          // Tag each row with its layer so the card can show "via generic" hint
+          var tagged = layer ? Object.assign({}, ev, { _layer: layer }) : ev;
+          // Score baseline dedupes by (type + source) — same source URL can have different types.
+          // A later row with a seen key is still shown, marked "duplicate · not counted".
           var key = (ev.type || '') + '|' + (ev.source || '');
-          if (!seenKeys.has(key)) {
+          if (seenKeys.has(key)) {
+            tagged = Object.assign({}, tagged, { _duplicate: true });
+          } else {
             seenKeys.add(key);
-            // Tag each row with its layer so the card can show "via generic" hint
-            combinedEvidence.push(layer ? Object.assign({}, ev, { _layer: layer }) : ev);
+            scoringEvidence.push(tagged);
           }
+          combinedEvidence.push(tagged);
         });
       }
     }
@@ -1242,19 +1252,21 @@
     var suiteComponents = ns.suiteComponents || [];
     if (suiteComponents.length && !hasFusionRow) {
       // suiteComponents remain visible as composition/provenance metadata.
-      combinedEvidence.unshift({
+      var syntheticFusion = {
         type: 'fusion-recipe',
         origins: suiteComponents,
         grade: ns.overallTrustGrade || null,
         _isSuite: false,   // it IS a fusion, not a mere install suite
         _synthetic: true,
         _layer: 'named',
-      });
+      };
+      combinedEvidence.unshift(syntheticFusion);
+      scoringEvidence.unshift(syntheticFusion);
     }
 
     var TM_SCORE = window.TM_CONFIG;
     var scoreContext = TM_SCORE && TM_SCORE.createSuiteRepositoryBaselineContext
-      ? TM_SCORE.createSuiteRepositoryBaselineContext(combinedEvidence, ns, function (row) {
+      ? TM_SCORE.createSuiteRepositoryBaselineContext(scoringEvidence, ns, function (row) {
           return _deriveWeightedScore(row);
         })
       : null;
@@ -1284,19 +1296,6 @@
           var rawType = (ev.type || 'repo-own');
           if (rawType === 'repo') rawType = 'repo-own';
           if (rawType === 'github-stars') rawType = 'github-stars-own';
-          var typeLabels = {
-            'fusion-recipe': 'fusion', 'github-stars-own': 'stars',
-            'proxy-containment': 'proxy', 'verifier-attestation': 'verifier',
-            'benchmark-result': 'benchmark', 'arxiv': 'arxiv',
-            'peer-review': 'peer-review', 'repo-own': 'repo',
-            'self-attestation': 'self', 'social-signal': 'social'
-          };
-          var typeLbl = typeLabels[rawType] || rawType;
-
-          // Short source URL
-          var shortSrc = (ev.source || '');
-          shortSrc = shortSrc.replace(/^https?:\/\/(www\.)?/, '');
-          if (shortSrc.length > 50) shortSrc = shortSrc.substring(0, 22) + '…' + shortSrc.substring(shortSrc.length - 22);
 
           // Notes
           var notesHtml = ev.notes
@@ -1328,12 +1327,6 @@
               (ev.origins.length > 12 ? '<span class="se-ev-origin-chip" style="opacity:0.5">+' + (ev.origins.length - 12) + ' more</span>' : '') +
               '</div>' +
             '</div>';
-          }
-
-          // Evaluator
-          var evalHtml = '';
-          if (ev.evaluator && ev.evaluator !== 'unknown' && ev.evaluator !== 'claude' && ev.evaluator !== 'system') {
-            evalHtml = '<span class="se-ev-eval">@' + esc(ev.evaluator) + '</span>';
           }
 
           // Freshness indicator — only for decay types (benchmark-result, social-signal, peer-review)
@@ -1394,20 +1387,17 @@
           var hasRichContent = !!(ev.notes || originsHtml || chips.length >= 2);
           var cardClass = 'se-ev-card' + (isUngraded ? ' se-ev-card--ungraded' : '') + (hasRichContent ? ' se-ev-card--wide' : '');
 
+          var EP = window.GaiaEvidenceProvenance;
+          var provenanceHtml = EP
+            ? EP.renderProvenance(ev, { pillTip: typePillTip, topExtra: layerHint, metaExtra: freshnessHtml })
+            : '<div class="se-ev-card-top"><span class="se-ev-eval ev-prov-none">provenance unavailable</span>' + layerHint + '</div>' +
+              '<div class="se-ev-card-meta">' + freshnessHtml + '</div>';
+
           return '<div class="' + cardClass + '">' +
             '<div class="se-ev-card-body">' +
-              '<div class="se-ev-card-top">' +
-                '<span class="ev-type-pill type-' + rawType + '">' + esc(typeLbl) +
-                  '<button class="ev-type-pill-info" type="button" title="' + esc(typePillTip) + '" aria-label="' + esc(rawType) + ' evidence type info">i</button>' +
-                '</span>' +
-                '<a class="se-ev-link" href="' + esc(ev.source||'#') + '" target="_blank" rel="noopener" title="' + esc(ev.source||'') + '">' + esc(shortSrc) + '</a>' +
-                layerHint +
-              '</div>' +
-              '<div class="se-ev-card-meta">' +
-                evalHtml +
-                (ev.date ? '<span class="se-ev-date">' + esc(ev.date) + '</span>' : '') +
-                freshnessHtml +
-              '</div>' +
+              // Type label, source host, evaluator, date and link: one shared
+              // renderer (evidence-provenance.js) so every surface says the same thing.
+              provenanceHtml +
               notesHtml +
               metricsHtml +
               originsHtml +
@@ -1558,6 +1548,7 @@
     '</div>';
 
     el.innerHTML = '<div class="se-flow-h">' + _se_icon('external-link') + ' Documentation</div>' + skillDefHtml + evidenceHtml + agentsHtml + linksHtml;
+    if (window.GaiaEvidenceProvenance) window.GaiaEvidenceProvenance.bindTips(el);
   }
 
   // ── RENDER FLOWCHART (upgrade path) ─────────────────────────
