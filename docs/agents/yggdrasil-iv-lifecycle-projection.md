@@ -1,39 +1,55 @@
-# Yggdrasil IV lifecycle projection: partial source boundary
+# Yggdrasil IV lifecycle projection contract (engineering only)
 
-This is an engineering checkpoint, not an active public producer. The Explorer
-panel remains disabled. `gaia_cli.lifecycleProjection.project_challenges` accepts
-a trusted in-process complete challenge source and the existing trusted
-`VerificationReceiptResolver`. Neither is configured by default. `None` means
-unavailable, not a verified empty collection. An empty tuple is meaningful only
-when the trusted source explicitly returns a complete set. A malformed,
-foreign, duplicate, or receipt-invalid challenge makes the whole projection
-unavailable. The returned domain challenges retain their immutable histories.
-The contested bit is derived from all unresolved material challenges; it does
-not alter Origin or any numerical value.
+`gaia_cli.lifecycleProjection.produce_lifecycle(entry, ports)` produces the
+`gaia-trust-lifecycle/v1` DTO. `scripts/generateNamedIndex.py::write_index`
+accepts an optional in-process `LifecyclePorts`; the ordinary CLI passes none.
+It removes any input `trustLifecycle` before optionally attaching the producer
+output. The index is mirrored to `docs/graph/named/index.json` and consumed by
+`docs/named/index.html` → `openExplorer()` → `#se-tm`. No production provider,
+issuer, canonical migration or deployment is supplied by this increment.
 
-## Required next boundary
+## Trust boundary
 
-A separately trusted canonical-consequence source must supply the approved
-published consequence for the exact subject and coherent publication snapshot,
-including the existing numerical standing and Origin ownership, with its own
-validated provenance and history. The caller must explicitly configure this
-source alongside the challenge source and receipt resolver. An identifier,
-digest, HTTPS URL, approval name, boolean, or raw contributor JSON cannot
-serve as that source. Source unavailability must not be represented as an
-empty collection or as approval. Technical closure alone cannot restore
-standing, rank, or Origin. The specific issuer and canonical consequence types
-are deliberately not invented here; coordinate the adapter with Sol's canonical
-transaction and history work.
+`ChallengeSource.challenges_for(subject)` must return a complete immutable
+challenge tuple, or `None` when unavailable. Empty is a verified empty set
+only when the trusted source explicitly returns it. The source and
+`VerificationReceiptResolver` are injected by trusted application code, not
+loaded from a registry field or a fixture switch. Every challenge must match
+the subject, be unique and have a domain-valid immutable history and receipts.
+The producer rejects the complete projection on malformed or mismatched data;
+it never hides one bad item and claims the remainder is complete.
 
-Before connecting this to the named index or API serializer, reconcile it with
-the actual publication source and add cross-surface parity tests. Contributor
-frontmatter must never pass a `trustLifecycle` field through as trusted output.
-The current checkpoint does not implement that boundary, serializer, API
-wiring, or browser consumption. It is not acceptable to re-enable the dormant
-renderer merely because a payload has the expected shape.
+`CanonicalConsequenceSource.consequence_for(subject)` separately supplies a
+`CanonicalConsequence` or `None`. Its trusted adapter must establish the
+subject, generic scope, coherent publication state and consequence authority.
+`current-baseline` and `approved-decision` are distinct adapter outcomes;
+`None` serializes as `unavailable`, never as an empty verified collection or
+approval. Neither dataclass construction nor a caller-supplied dict, ID, hash,
+URL, name, date or boolean authenticates the adapter. The adapter is a port,
+not a proposed issuer implementation. Parent must align it with Sol's canonical
+transactions and dual histories before activation. The DTO is a read projection,
+not a schema adoption or canonical mutation.
 
-Native route for later evidence: `docs/named/index.html` loads
-`named-skills.js`, `trust-lifecycle.js` and `skill-explorer.js`; `openExplorer`
-mounts at `#se-tm`. Capture this actual panel at desktop, 390px and 320px and a
-keyboard-focus state, labeling any synthetic data. DOM tests do not replace
-rendered captures or founder approval.
+The DTO carries exact subject and generic scope, linked challenge ID, claim,
+comparison conditions, immutable domain event history, verifier receipt
+references and materiality. Its contested bit aggregates all unresolved material
+challenges. Technical closure never writes or restores rank, TM or Origin;
+recalibration pending comes only from the consequence source. Existing rank,
+Origin and history fields outside this DTO are not changed by the producer.
+The consequence source must describe the same current hero metrics or the
+producer fails closed. Missing consequence authority does not suppress valid
+challenge history, but Origin ownership and numerical consequence stay unknown.
+
+Browser validation rejects unsupported, malformed and contradictory DTOs; it
+is **not authentication**. Only a correctly configured publication boundary
+can attest the source. Direct calls with attacker-created JSON do not establish
+trust. Synthetic test ports in `tests/fixtures/lifecycle_dto_test_ports.py` are
+solely disposable tests and are never installed by production code.
+
+## Held gates
+
+No native rendered evidence has been captured. Capture the actual changed
+`#se-tm` panel at desktop, 390px and 320px, including keyboard focus, with
+fixture provenance clearly labeled. DOM tests are not screenshots. Independent
+source review, coherent cross-surface publication alignment, genuine adapter
+security, founder visual approval and rollout gates remain outstanding.

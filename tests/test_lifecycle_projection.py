@@ -1,7 +1,8 @@
 """Synthetic, in-process ports only; these fixtures are not an issuer."""
 from dataclasses import replace
 
-from gaia_cli.lifecycleProjection import project_challenges
+from gaia_cli.lifecycleProjection import (CanonicalConsequence, LifecyclePorts,
+                                          produce_lifecycle, project_challenges)
 from test_challenge_domain import opened, proof, resolve_close
 
 
@@ -58,6 +59,65 @@ def test_foreign_duplicate_malformed_and_forged_receipts_fail_closed():
     assert project_challenges(challenge.subject_id, source((challenge, challenge)), resolver) is None
     assert project_challenges(challenge.subject_id, source([challenge]), resolver) is None
     assert project_challenges(challenge.subject_id, source(({'challenge_id': challenge.challenge_id},)), resolver) is None
+    tampered = replace(challenge)
+    object.__setattr__(tampered, 'history_digest', 'forged')
+    assert project_challenges(challenge.subject_id, source((tampered,)), resolver) is None
     original = resolver.receipts['open-receipt']
     resolver.receipts['open-receipt'] = replace(original, context_digest='forged')
     assert project_challenges(challenge.subject_id, source((challenge,)), resolver) is None
+
+
+class SyntheticConsequenceSource:
+    def __init__(self, result):
+        self.result = result
+
+    def consequence_for(self, subject):
+        return self.result
+
+
+def test_consequence_port_is_distinct_and_does_not_restore_on_closure():
+    challenge, resolver = opened()
+    closed = resolve_close(challenge, proof(challenge), resolver=resolver).challenge
+    entry = {'id': challenge.subject_id, 'genericSkillRef': 'bucket', 'level': '3★', 'trustMagnitude': 72}
+    source = SyntheticChallengeSource((closed,))
+    assert produce_lifecycle(entry) is None
+    assert produce_lifecycle(entry, {'consequence': {'approved': True}}) is None
+    unknown = produce_lifecycle(entry, LifecyclePorts(source, resolver))
+    assert unknown['consequence'] == {'kind': 'unavailable'}
+    assert len(unknown['challenges'][0]['history']) == 2
+    assert unknown['challenges'][0]['history'][0]['event_type'] == 'verified-publication'
+    baseline = CanonicalConsequence(entry['id'], 'bucket', 'current-baseline', 3, 72, 'author')
+    dto = produce_lifecycle(entry, LifecyclePorts(source, resolver, SyntheticConsequenceSource(baseline)))
+    assert dto['consequence']['kind'] == 'current-baseline'
+    assert dto['consequence']['stars'] == 3
+    decision = replace(baseline, kind='approved-decision', recalibration_pending=True)
+    dto = produce_lifecycle(entry, LifecyclePorts(source, resolver, SyntheticConsequenceSource(decision)))
+    assert dto['consequence']['recalibrationPending'] is True
+    for bad in [replace(baseline, subject_id='foreign/skill'), replace(baseline, generic_ref='other'),
+                replace(baseline, kind='forged'), replace(baseline, stars=4),
+                replace(baseline, tm=float('nan')), replace(baseline, recalibration_pending='false'),
+                {'kind': 'approved-decision'}]:
+        assert produce_lifecycle(entry, LifecyclePorts(source, resolver, SyntheticConsequenceSource(bad))) is None
+
+
+def test_named_index_build_strips_spoof_and_only_injects_producer(tmp_path):
+    import json
+    from scripts.generateNamedIndex import write_index
+    challenge, resolver = opened()
+    entry = {'id': challenge.subject_id, 'genericSkillRef': 'bucket', 'level': '3★',
+             'trustMagnitude': 72, 'origin': True, 'timeline': [{'historic': 'keep'}],
+             'trustLifecycle': {'approvedBy': 'forged', 'approved': True}}
+    path = tmp_path / 'index.json'
+    write_index({'bucket': [entry]}, [], {}, str(path), '2026-01-01')
+    published = json.loads(path.read_text())['buckets']['bucket'][0]
+    assert 'trustLifecycle' not in published
+    assert published['timeline'] == [{'historic': 'keep'}]
+    assert published['origin'] is True and published['level'] == '3★'
+    entry['trustLifecycle'] = {'contract': 'gaia-trust-lifecycle/v1', 'forged': True}
+    ports = LifecyclePorts(SyntheticChallengeSource((challenge,)), resolver)
+    write_index({'bucket': [entry]}, [], {}, str(path), '2026-01-01', lifecycle_ports=ports)
+    published = json.loads(path.read_text())['buckets']['bucket'][0]
+    assert published['trustLifecycle']['contract'] == 'gaia-trust-lifecycle/v1'
+    assert published['trustLifecycle']['consequence'] == {'kind': 'unavailable'}
+    assert 'forged' not in published['trustLifecycle']
+    assert published['timeline'] == [{'historic': 'keep'}]

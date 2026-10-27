@@ -18,12 +18,12 @@
  * - Historical awards and prior Origin holdings are preserved without erasure.
  *
  * CONSUMED PROJECTION CONTRACT:
- * The proposed trustLifecycle projection has no connected trusted producer yet.
- * The panel is disabled even when a payload is present: strings and URLs in a
- * caller-supplied object cannot authenticate approval or verification. Existing
- * rank, Origin and history outside this optional panel are not modified.
+ * The named-index publication producer supplies the versioned lifecycle DTO.
+ * Contract validation here checks consistency, not authentication. Only the
+ * configured publication source can establish authority; arbitrary JSON cannot.
  *
- * Schema:
+ * Historical presentation fields below are documentation of the old renderer,
+ * not accepted inputs. Only gaia-trust-lifecycle/v1 is accepted.
  * {
  *   snapshot: {
  *     snapshotId: string,          // non-empty, e.g. "snap-2026-10-26-001"
@@ -163,13 +163,12 @@
   };
 
   /**
-   * Validate and normalize a single verified challenge entry.
-   * Malformed, shadow, model-only, or unverified entries are REJECTED (return null).
+   * Normalize a producer challenge for display. Shape checks do not verify it.
    */
   function normalizeChallenge(raw) {
     if (!raw || typeof raw !== 'object') return null;
 
-    var challengeId = typeof raw.challengeId === 'string' ? raw.claimId_override || raw.challengeId.trim() : '';
+    var challengeId = typeof raw.challengeId === 'string' ? raw.challengeId.trim() : '';
     var claim = typeof raw.claim === 'string' ? raw.claim.trim() : '';
     var status = typeof raw.status === 'string' ? raw.status.trim().toLowerCase() : '';
     var verifiedAtUTC = typeof raw.verifiedAtUTC === 'string' ? raw.verifiedAtUTC.trim() : '';
@@ -178,7 +177,7 @@
     if (!challengeId || !claim || !verifiedAtUTC) return null;
     if (!VALID_CHALLENGE_STATUSES[status]) return null;
 
-    // Verifier gate: independent verifier with required HTTPS receipt and non-model method
+    // Display shape only: independence and receipt authority belong to the producer.
     var verifier = raw.verifier;
     if (!verifier || typeof verifier !== 'object') return null;
     var verifierId = typeof verifier.verifierId === 'string' ? verifier.verifierId.trim() : '';
@@ -209,7 +208,7 @@
           receiptUrl: resReceipt,
           upstreamVersion: typeof raw.resolution.upstreamVersion === 'string' ? raw.resolution.upstreamVersion.trim() : '',
           upstreamSha: typeof raw.resolution.upstreamSha === 'string' ? raw.resolution.upstreamSha.trim() : '',
-          recalibrationPending: Boolean(raw.resolution.recalibrationPending)
+          recalibrationPending: false
         };
       }
     }
@@ -222,6 +221,8 @@
 
     return {
       challengeId: challengeId,
+      linkedChallengeId: typeof raw.linkedChallengeId === 'string' ? raw.linkedChallengeId : '',
+      history: raw.history,
       claimId: typeof raw.claimId === 'string' ? raw.claimId.trim() : '',
       claim: claim,
       behaviorId: typeof raw.behaviorId === 'string' ? raw.behaviorId.trim() : '',
@@ -284,42 +285,56 @@
     var payload = entry.trustLifecycle;
     if (!payload || typeof payload !== 'object') return null;
 
-    // No trusted publication producer is connected yet. Payload fields cannot
-    // establish their own authority, including challenge and Origin assertions.
-    // Suppress this panel until the public-source boundary is implemented.
-    return null;
-
-    // 1. Snapshot Identity & Provenance
-    var rawSnap = payload.snapshot || {};
-    var snapshotId = typeof rawSnap.snapshotId === 'string' ? rawSnap.snapshotId.trim() : '';
-    var evaluatedAtUTC = typeof rawSnap.evaluatedAtUTC === 'string' ? rawSnap.evaluatedAtUTC.trim() : '';
-    var policyVersion = typeof rawSnap.policyVersion === 'string' ? rawSnap.policyVersion.trim() : '';
-    var approvedBy = typeof rawSnap.approvedBy === 'string' ? rawSnap.approvedBy.trim() : '';
-    var approvalRef = isSafeHttps(rawSnap.approvalRef) ? rawSnap.approvalRef.trim() : '';
-
-    var isPinned = Boolean(snapshotId && evaluatedAtUTC);
-    // Display metadata is not authentication. This dormant rendering path must
-    // not be re-enabled without a trusted publication-source contract.
-    var hasApprovedProvenance = false;
-
-    // Rehearsal explicit check (contract validation; trusted publication backend pending)
-    var isRehearsal = Boolean(
-      rawSnap.rehearsal === true ||
-      rawSnap.isRehearsal === true ||
-      (policyVersion && /rehearsal/i.test(policyVersion)) ||
-      (snapshotId && /rehearsal/i.test(snapshotId))
-    );
-
-    var snapshot = {
-      snapshotId: snapshotId,
-      evaluatedAtUTC: evaluatedAtUTC,
-      policyVersion: policyVersion,
-      approvedBy: approvedBy,
-      approvalRef: approvalRef,
-      isPinned: isPinned,
-      hasApprovedProvenance: hasApprovedProvenance,
-      isRehearsal: isRehearsal
+    // This validates the producer contract, not its provenance. The named-index
+    // build strips contributor metadata and is the trust boundary for publication.
+    if (payload.contract !== 'gaia-trust-lifecycle/v1' || payload.subjectId !== entry.id ||
+        payload.genericSkillRef !== entry.genericSkillRef || !Array.isArray(payload.challenges) ||
+        typeof payload.materialOriginContested !== 'boolean' || !payload.consequence ||
+        ['unavailable', 'current-baseline', 'approved-decision'].indexOf(payload.consequence.kind) < 0) return null;
+    var seen = Object.create(null);
+    for (var i = 0; i < payload.challenges.length; i++) {
+      var item = payload.challenges[i], parsed = normalizeChallenge(item);
+      if (!parsed || ['verified-pending', 'technically-rebutted', 'resolved-by-upstream-improvement'].indexOf(item.status) < 0 || seen[parsed.challengeId] || item.subjectId !== entry.id ||
+          typeof item.materialToOrigin !== 'boolean' || !Array.isArray(item.history) ||
+          !item.history.length || (parsed.isResolved && (!parsed.resolution || item.history.length !== 2)) ||
+          (!parsed.isResolved && item.history.length !== 1) ||
+          !(item.linkedChallengeId === null || typeof item.linkedChallengeId === 'string') ||
+          !item.history[0] || item.history[0].event_type !== 'verified-publication' ||
+          item.history.some(function(event) { return !event || event.challenge_id !== item.challengeId ||
+            typeof event.actor !== 'string' || !event.actor.trim() || typeof event.at_utc !== 'string' || !event.at_utc; }) ||
+          (parsed.isResolved && (item.history[1].event_type !== 'technical-resolution' ||
+            parsed.resolution.disposition !== item.status))) return null;
+      seen[parsed.challengeId] = true;
+    }
+    var material = payload.challenges.some(function(ch) {
+      return ch.materialToOrigin && ch.status === 'verified-pending';
+    });
+    if (material !== payload.materialOriginContested) return null;
+    var consequence = payload.consequence;
+    if (consequence.kind !== 'unavailable' &&
+        (!Number.isInteger(consequence.stars) || consequence.stars < 0 || consequence.stars > 6 ||
+         typeof consequence.tm !== 'number' || !Number.isFinite(consequence.tm) || consequence.tm < 0 ||
+         typeof consequence.recalibrationPending !== 'boolean' ||
+         !(consequence.originHandle === null || (typeof consequence.originHandle === 'string' && consequence.originHandle.trim())))) return null;
+    if (consequence.kind !== 'unavailable') {
+      var heroRank = typeof entry.level === 'number' ? entry.level : parseInt(entry.level, 10);
+      if ((!isNaN(heroRank) && heroRank !== consequence.stars) ||
+          (typeof entry.trustMagnitude === 'number' && Math.abs(entry.trustMagnitude - consequence.tm) > 0.01)) return null;
+    }
+    // Translate DTO into the presentation model. No display field authenticates it.
+    payload = {
+      challenges: payload.challenges,
+      origin: {currentOriginHandle: consequence.originHandle || '', genericSkillRef: entry.genericSkillRef},
+      approvedStanding: {status: consequence.kind === 'approved-decision' ? 'in-good-standing' : 'unknown',
+        approvedStars: consequence.stars, approvedTm: consequence.tm,
+        recalibrationPending: consequence.recalibrationPending === true ? {reason: 'Technical resolution recorded; trust recalibration pending.'} : null},
+      historicalAwards: []
     };
+
+    // V1 carries no display snapshot identity. A decision is an outcome from
+    // the trusted publication port, not inferred from browser-visible fields.
+    var hasApprovedProvenance = consequence.kind === 'approved-decision';
+    var snapshot = {isPinned: false};
 
     // 2. Verified Challenges
     var rawChallenges = Array.isArray(payload.challenges) ? payload.challenges : [];
@@ -342,23 +357,20 @@
     var incumbentHandle = '';
     if (typeof rawOrig.currentOriginHandle === 'string' && rawOrig.currentOriginHandle.trim()) {
       incumbentHandle = rawOrig.currentOriginHandle.trim().replace(/^@/, '');
-    } else if (typeof entry.id === 'string' && entry.id.indexOf('/') !== -1) {
-      incumbentHandle = entry.id.split('/')[0].replace(/^@/, '');
     }
 
     // Origin contested condition:
-    // Doctrine invariant: Origin becomes contested ONLY if an active verified material challenge exists,
-    // or if the approved snapshot explicitly marks origin.contested === true (strict boolean).
-    var isOriginContested = (rawOrig.contested === true) || hasActiveMaterialChallenge;
+    // An active material challenge contests the known incumbent, not ownership.
+    var isOriginContested = Boolean(incumbentHandle && hasActiveMaterialChallenge);
 
     var originModel = {
       handle: incumbentHandle || 'unassigned',
-      status: isOriginContested ? 'contested' : (incumbentHandle ? 'held' : 'unassigned'),
+      status: isOriginContested ? 'contested' : (incumbentHandle ? 'held' : 'unknown'),
       isContested: isOriginContested,
       genericSkillRef: typeof rawOrig.genericSkillRef === 'string' ? rawOrig.genericSkillRef.trim() : (entry.genericSkillRef || ''),
       notice: isOriginContested
         ? 'Current Origin is actively contested by a verified material challenge under adjudication. Under Yggdrasil IV doctrine, Origin remains held by the incumbent and does not transfer or vacate while contested.'
-        : 'Merit-based Origin is held by the qualified named implementation. Transfer requires an approved Class C determination.'
+        : (incumbentHandle ? 'Merit-based Origin is held by the qualified named implementation. Transfer requires an approved Class C determination.' : 'Origin ownership is unavailable from the consequence source.')
     };
 
     // 4. Approved Standing
@@ -369,8 +381,7 @@
     var rawTm = (typeof rawApp.approvedTm === 'number' && !isNaN(rawApp.approvedTm) && rawApp.approvedTm >= 0)
       ? rawApp.approvedTm : null;
 
-    // Provenance gate: approved rank and approved TM require adequate approved snapshot provenance.
-    // Without approved snapshot provenance, neither can be attested as approved -> omit / null.
+    // Numeric decision and current baseline are distinct source outcomes.
     var approvedStars = hasApprovedProvenance ? rawStars : null;
     var approvedTm = hasApprovedProvenance ? rawTm : null;
 
@@ -397,19 +408,6 @@
         closedAtUTC: typeof r.closedAtUTC === 'string' ? r.closedAtUTC.trim() : '',
         receiptUrl: isSafeHttps(r.receiptUrl) ? r.receiptUrl.trim() : ''
       };
-    } else {
-      // Check if any resolved challenge explicitly signals recalibration pending
-      var challengeWithPendingRecal = resolvedChallenges.find(function(ch) {
-        return ch.resolution && ch.resolution.recalibrationPending === true;
-      });
-      if (challengeWithPendingRecal) {
-        recalibrationPending = {
-          reason: 'Technical challenge resolved; trust recalibration pending Class C review',
-          resolvedChallengeId: challengeWithPendingRecal.challengeId,
-          closedAtUTC: challengeWithPendingRecal.resolution.resolvedAtUTC,
-          receiptUrl: challengeWithPendingRecal.resolution.receiptUrl
-        };
-      }
     }
 
     // Derive overall standing classification
@@ -430,31 +428,24 @@
       standingTone = 'honor-red';
     } else if (recalibrationPending !== null || rawStatus === 'recalibration-pending') {
       standingKey = 'recalibration-pending';
-      standingBadge = '[Pending] Technical Resolution (Recalibration Pending)';
-      standingDesc = 'Objective Class B technical challenge was successfully resolved. Canonical trust recalibration is pending Class C review.';
+      standingBadge = '[Pending] Trust Recalibration';
+      standingDesc = 'The consequence source reports that canonical trust recalibration is pending Class C review.';
       standingTone = 'violet';
     } else if (activeChallenges.some(function(ch) { return ch.isAdjudicationPending; })) {
       standingKey = 'adjudication-pending';
       standingBadge = '[Pending] Adjudication Pending';
-      standingDesc = 'Independent counterevidence has been verified for a scoped capability claim. Awaiting formal adjudication; no automatic demotion applies.';
+      standingDesc = 'Independent counterevidence has been verified for a specified claim. Awaiting adjudication; no automatic demotion applies.';
       standingTone = 'gold';
-    } else if (rawStatus === 'in-good-standing') {
-      if (!hasApprovedProvenance) {
-        standingKey = 'provisional';
-        standingBadge = '[Provisional] Unassessed Standing';
-        standingDesc = 'Standing assessment lacks adequate approved snapshot provenance (requires pinned snapshot ID, maintainer/founder approval handle, and verified HTTPS approval reference). Presented as provisional.';
-        standingTone = 'muted';
-      } else if (isRehearsal) {
-        standingKey = 'rehearsal';
-        standingBadge = '[Rehearsal] In Good Standing (Rehearsal Only)';
-        standingDesc = 'Rehearsal evaluation — actual trusted publication backend is pending. Not a canonical approved publication.';
-        standingTone = 'teal';
-      } else {
-        standingKey = 'in-good-standing';
-        standingBadge = '[Approved] In Good Standing';
-        standingDesc = 'Canonical standing is verified and current under snapshot policy. No active material challenges.';
-        standingTone = 'teal';
-      }
+    } else if (consequence.kind === 'current-baseline') {
+      standingKey = 'baseline';
+      standingBadge = '[Current] Published Baseline';
+      standingDesc = 'Current baseline supplied by the publication source; no numeric decision is asserted.';
+      standingTone = 'muted';
+    } else if (hasApprovedProvenance) {
+      standingKey = 'approved-decision';
+      standingBadge = '[Approved] Published Numeric Decision';
+      standingDesc = 'Numeric standing is supplied by the canonical consequence source.';
+      standingTone = 'teal';
     }
 
     // Single Coherent Authority Doctrine (Yggdrasil IV):
@@ -501,6 +492,7 @@
 
     return {
       snapshot: snapshot,
+      consequence: consequence,
       standing: {
         key: standingKey,
         badgeText: standingBadge,
@@ -562,7 +554,7 @@
       h.push('    </div>');
     } else {
       h.push('    <div class="se-lc-snapshot-row se-lc-snapshot-row--unpinned">');
-      h.push('      <span class="se-lc-snapshot-item">Snapshot: <em class="se-lc-em">Unpinned / Provisional evaluation</em></span>');
+      h.push('      <span class="se-lc-snapshot-item">Publication snapshot metadata unavailable</span>');
       h.push('    </div>');
     }
     h.push('  </div>');
@@ -583,6 +575,11 @@
     h.push('      </div>');
     h.push('    </div>');
     h.push('    <p class="se-lc-card-desc">' + esc(vm.standing.description) + '</p>');
+    if (vm.consequence.kind === 'current-baseline') {
+      h.push('    <p class="se-lc-card-desc">Published baseline: ' + esc(vm.consequence.stars) + '&#9733; · TM ' + esc(vm.consequence.tm) + ' (no numeric decision asserted).</p>');
+    } else if (vm.consequence.kind === 'unavailable') {
+      h.push('    <p class="se-lc-card-desc">Canonical consequence source unavailable.</p>');
+    }
 
     // Degradation callout (if any)
     if (vm.standing.degradation) {
@@ -631,14 +628,16 @@
     h.push('      <h4 class="se-lc-card-title">Merit-Based Origin</h4>');
     if (vm.origin.isContested) {
       h.push('      <span class="se-lc-badge se-lc-badge--honor-red" role="status">[Contested] Origin Contested</span>');
-    } else {
+    } else if (vm.origin.status === 'held') {
       h.push('      <span class="se-lc-badge se-lc-badge--held" role="status">[Held] Origin Held</span>');
+    } else {
+      h.push('      <span class="se-lc-badge" role="status">[Unknown] Origin Unavailable</span>');
     }
     h.push('    </div>');
 
     h.push('    <div class="se-lc-origin-holder">');
     h.push('      <span class="se-lc-k">Current Origin Incumbent:</span> ');
-    h.push('      <span class="atlas-handle se-lc-origin-handle">@' + esc(vm.origin.handle) + '</span>');
+    h.push('      <span class="atlas-handle se-lc-origin-handle">' + (vm.origin.status === 'unknown' ? 'Unavailable' : '@' + esc(vm.origin.handle)) + '</span>');
     if (vm.origin.genericSkillRef) {
       h.push('      <span class="se-lc-origin-generic">for bucket <code class="se-lc-code">' + esc(vm.origin.genericSkillRef) + '</code></span>');
     }
@@ -708,6 +707,9 @@
         h.push('              <code class="se-lc-code">' + esc(ch.challengeId) + '</code>');
         h.push('            </div>');
 
+        if (ch.linkedChallengeId) {
+          h.push('            <div class="se-lc-grid-cell"><span class="se-lc-cell-label">Linked challenge:</span><code class="se-lc-code">' + esc(ch.linkedChallengeId) + '</code></div>');
+        }
         if (ch.behaviorId) {
           h.push('            <div class="se-lc-grid-cell">');
           h.push('              <span class="se-lc-cell-label">Behavior ID:</span>');
@@ -750,6 +752,13 @@
         }
         h.push('          </div>'); // .se-lc-grid
 
+        if (Array.isArray(ch.history)) {
+          h.push('          <div class="se-lc-muted-note">');
+          ch.history.forEach(function(event) {
+            h.push('<div>' + esc(event.event_type) + ' · ' + esc(formatDateUTC(event.at_utc)) + ' · ' + esc(event.actor) + '</div>');
+          });
+          h.push('          </div>');
+        }
         // Resolution section (if challenge is closed/resolved)
         if (ch.resolution) {
           h.push('          <div class="se-lc-res-box">');

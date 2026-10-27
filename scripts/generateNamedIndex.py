@@ -28,6 +28,7 @@ import datetime
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
 from gaia_cli.redaction import is_redacted, level_num  # noqa: E402  single source of truth
 from gaia_cli.taxonomy import branchFor, rankWord, medallion, normalize  # noqa: E402
+from gaia_cli.lifecycleProjection import produce_lifecycle  # noqa: E402
 
 REQUIRED_FIELDS = [
     "id",
@@ -629,7 +630,7 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
 
 
 def write_index(buckets, awaiting_classification, by_contributor, output_path, today,
-                generic_skills_map=None, gate_config=None, repo_root=None):
+                generic_skills_map=None, gate_config=None, repo_root=None, lifecycle_ports=None):
     """Write the named skill index JSON file."""
     if generic_skills_map is not None:
         merged_map = _inject_trust_grades(
@@ -639,6 +640,14 @@ def write_index(buckets, awaiting_classification, by_contributor, output_path, t
         _inject_fusion_scores(buckets, merged_map)
     for entry in awaiting_classification:
         _inject_resolved_taxonomy(entry)
+
+    # Never publish contributor-supplied lifecycle metadata. The only optional
+    # source is the explicitly injected in-process producer boundary.
+    for entry in [item for group in buckets.values() for item in group] + list(awaiting_classification):
+        entry.pop("trustLifecycle", None)
+        lifecycle = produce_lifecycle(entry, lifecycle_ports)
+        if lifecycle is not None:
+            entry["trustLifecycle"] = lifecycle
 
     index = {
         "generatedAt": today,
