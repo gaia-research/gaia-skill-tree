@@ -1,12 +1,12 @@
 ---
 name: gaia-full-pipeline
 description: >-
-  End-to-end Gaia curation pipeline orchestrator. Routes each phase to its dedicated
+  End-to-end Gaia curation and intake orchestrator. Routes each phase to its dedicated
   skill and keeps you on track from first discovery to closed intake. Use when starting
   a fresh curation run or when you want a single skill to hold the sequence together
   without duplicating each phase's instructions. Trigger phrases: "/gaia-full-pipeline",
-  "run the full pipeline", "start a curation from scratch", "take this skill through
-  the full pipeline", "curate end-to-end", "pipeline run", "full curation flow".
+  "run the full curation pipeline", "start a curation from scratch", "take this skill through
+  the full curation pipeline", "curate end-to-end", "full curation flow".
   Fused from: gaia-curate + gaia-curate-chain + gaia-curate-dynamic + gaia-curate-trending
   + gaia-bot-curate + gaia-draft-curate + ev-pipeline + gaia-ingest + gaia-intake-close.
 version: 2.0.0

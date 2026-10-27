@@ -1,7 +1,7 @@
 ---
 name: ev-adversarial-audit
 description: >
-  Run this skill for Phase 3 of the evidence verification pipeline — the adversarial audit step. Use when you need to check the evidence data lake for bad data before ingestion: dead links, wrong URL formats (tree/ vs blob/), subjective wording ("elite", "high-quality"), stale migration notes, benchmark catalog misuse/vendor-claim leakage, or skills whose star evidence conflicts with classified evidence level. Triggers on phrases like: "audit the data lake", "adversarial check", "ev-adversarial-audit", "check for noise in evidence", "flag bad evidence", "run the audit phase", "quality check the by-type files", or any reference to Phase 3 of the pipeline.
+  Run this skill for Phase 3 of the evidence verification pipeline — the adversarial audit step. Use when you need to check the evidence data lake for bad data before ingestion: dead links, wrong URL formats (tree/ vs blob/), subjective wording ("elite", "high-quality"), stale migration notes, benchmark catalog misuse/vendor-claim leakage, or skills whose star evidence conflicts with classified evidence level. Triggers on phrases like: "adversarial evidence check", "adversarial check", "ev-adversarial-audit", "check for noise in evidence", "flag bad evidence", "run the audit phase", "quality check the by-type files", or any reference to Phase 3 of the pipeline.
 ---
 
 # Adversarial Evidence Audit (ev-adversarial-audit)
