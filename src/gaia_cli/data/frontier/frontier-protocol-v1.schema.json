@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gaiaskilltree.com/schemas/frontier-protocol-v1.schema.json",
+  "title": "Pre-registered Frontier experiment protocol: declares what a runner artifact must contain and which results are permitted",
+  "type": "object",
+  "required": ["schemaVersion", "protocolId", "revision", "purpose", "question", "experiment"],
+  "properties": {
+    "schemaVersion": {"const": "frontier-protocol-v1"},
+    "protocolId": {"type": "string", "minLength": 3, "maxLength": 200},
+    "revision": {"type": "string", "minLength": 1, "maxLength": 100},
+    "purpose": {"type": "string", "minLength": 8},
+    "question": {"type": "string", "minLength": 8},
+    "experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "toolName", "runnerLabel", "expectedArtifactKeys", "outputField", "outputDigestField", "versionProbe", "resultRule"],
+      "properties": {
+        "id": {"type": "string", "minLength": 3, "maxLength": 200, "description": "Experiment id the runner artifact must carry in its `experiment` field."},
+        "toolName": {"type": "string", "minLength": 1, "maxLength": 100, "description": "Native tool name used in receipt wording."},
+        "runnerLabel": {"type": "string", "minLength": 1, "maxLength": 200, "description": "Runner description used in the no-target limitation."},
+        "expectedArtifactKeys": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 100}},
+        "outputField": {"type": "string", "minLength": 1, "maxLength": 100},
+        "outputDigestField": {"type": "string", "minLength": 1, "maxLength": 100},
+        "versionProbe": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["field", "pattern", "label"],
+          "properties": {
+            "field": {"type": "string", "minLength": 1, "maxLength": 100},
+            "pattern": {"type": "string", "minLength": 1, "maxLength": 300, "description": "Full-match regex with exactly the executed version in group 1."},
+            "label": {"type": "string", "minLength": 1, "maxLength": 100},
+            "crossCheckField": {"type": "string", "minLength": 1, "maxLength": 100}
+          }
+        },
+        "resultRule": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["statement", "allowedResults"],
+          "properties": {
+            "statement": {"type": "string", "minLength": 8, "description": "Pre-registered rule text; bound to the request through the protocol digest."},
+            "allowedResults": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["supported", "contradicted", "inconclusive", "execution_failed"]}}
+          }
+        }
+      }
+    }
+  }
+}
