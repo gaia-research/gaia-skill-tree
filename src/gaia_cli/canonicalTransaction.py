@@ -1,7 +1,7 @@
 """Bounded, approval-gated canonical multi-file transaction foundation.
 
-This module is not wired to CLI writers. Its lock coordinates only callers that
-cooperate with this transaction protocol; legacy readers are not linearizable.
+The guarded CLI and cooperating legacy writers share this lock. Readers that do
+not take it can observe intermediate replacements; this is not reader linearizability.
 """
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ import hashlib
 import json
 import os
 import tempfile
+import threading
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Protocol
@@ -19,6 +20,7 @@ from typing import Protocol
 MAX_TARGETS = 32
 MAX_PAYLOAD_BYTES = 1_048_576
 STATE_DIR = ".gaia/canonical-transactions"
+_heldLocks = threading.local()
 
 
 class TransactionError(RuntimeError):
@@ -168,6 +170,10 @@ def _authorize(provider: ApprovalProvider | None, plan: Plan, operation: str) ->
 
 @contextlib.contextmanager
 def _lock(root: Path):
+    held = getattr(_heldLocks, "roots", set())
+    if str(root) in held:
+        yield root / STATE_DIR
+        return
     metadata_root = root / ".gaia"
     if metadata_root.is_symlink():
         raise TransactionError("transaction metadata parent cannot be a symlink")
@@ -183,8 +189,10 @@ def _lock(root: Path):
     fd = os.open(lock_path, flags, 0o600)
     try:
         fcntl.flock(fd, fcntl.LOCK_EX)
+        _heldLocks.roots = held | {str(root)}
         yield state
     finally:
+        _heldLocks.roots = held
         fcntl.flock(fd, fcntl.LOCK_UN)
         os.close(fd)
 
@@ -290,7 +298,7 @@ def _read_journal(path: Path, root: Path) -> tuple[dict, Plan]:
         if hashlib.sha256(_canonical(doc)).hexdigest() != digest:
             raise TransactionError("journal integrity check failed")
         doc["journalDigest"] = digest
-        if doc.get("format") != 1 or doc.get("status") not in {"pending", "committed"} or doc.get("root") != str(root):
+        if doc.get("format") != 1 or doc.get("status") not in {"pending", "committed", "rolled-back"} or doc.get("root") != str(root):
             raise TransactionError("journal state or root invalid")
         targets = []
         for item in doc["targets"]:
@@ -304,8 +312,11 @@ def _read_journal(path: Path, root: Path) -> tuple[dict, Plan]:
         ordered = tuple(targets)
         plan = Plan(doc["root"], doc["purpose"], doc["identity"], ordered,
                     _plan_digest(doc["root"], doc["purpose"], doc["identity"], ordered))
-        if plan.digest != doc["planDigest"]:
-            raise TransactionError("journal plan digest mismatch")
+        if (plan.digest != doc["planDigest"] or not path.name.startswith(plan.digest + ".")
+                or not 1 <= len(ordered) <= MAX_TARGETS
+                or len({t.path for t in ordered}) != len(ordered)
+                or sum(len(t.before or b"") + len(t.after) for t in ordered) > MAX_PAYLOAD_BYTES):
+            raise TransactionError("journal plan digest, name or bounds mismatch")
         return doc, plan
     except TransactionError:
         raise
@@ -322,12 +333,31 @@ def rollback(root: str | Path, journal_path: str | Path, provider: ApprovalProvi
                 or path.is_symlink() or not path.is_file()):
             raise TransactionError("rollback requires a regular pending or committed journal in transaction state")
         doc, plan = _read_journal(path, selected)
+        if doc["status"] == "rolled-back":
+            raise TransactionError("journal is already rolled back")
+        others = [p for p in (selected / STATE_DIR).glob("*.pending.json") if p != path]
+        if others:
+            raise TransactionError("another pending canonical transaction requires recovery first")
         # Only an explicit rollback approval can reverse a committed receipt.
         _authorize(provider, plan, "rollback")
         paths = {t.path: _target(selected, t.path) for t in plan.targets}
         states = {t.path: (paths[t.path].read_bytes() if paths[t.path].exists() else None) for t in plan.targets}
         if any(_hash(states[t.path]) not in {_hash(t.before), _hash(t.after)} for t in plan.targets):
             raise TransactionError("rollback refused: a target has an unrecognized outside edit")
+        if doc["status"] == "committed" and any(states[t.path] != t.after for t in plan.targets):
+            raise TransactionError("rollback refused: committed target is not its exact after image")
+        # Persist rollback intent before restoration so an interrupted reversal also
+        # blocks ordinary writers. The journal retains exact preimages and modes.
+        if path.name.endswith(".committed.json"):
+            pending = path.with_name(path.name.replace(".committed.json", ".pending.json"))
+            os.replace(path, pending)
+            _fsync_dir(pending.parent)
+            path = pending
+        doc["status"] = "pending"
+        doc["recoveryOperation"] = "rollback"
+        doc.pop("journalDigest")
+        doc["journalDigest"] = hashlib.sha256(_canonical(doc)).hexdigest()
+        _atomic(path, _canonical(doc) + b"\n", 0o600)
         # Preflight all targets before the first restoration.
         for target in plan.targets:
             if _hash(states[target.path]) == _hash(target.before):
