@@ -14,8 +14,8 @@ Recovery entry point. Updated on every material state change and pushed to
 | Lane | Outcome | Plan | State |
 |---|---|---|---|
 | Meta sweep (13 dims + per-record appraisal of 701 records) | 1 | `sweep/` | running — Workflow run `wf_fb1ee3fb-d06` |
-| Upstream / PR / intake reconciliation | 2 | `reconciliation/` | ledger done (313 items); #2190 lands execution-control branch; upstream sync + intake triage lane running |
-| Challenger pipeline (frontier match → verify → admission → projection) | 3 | `plans/challenger-pipeline.md`, `plans/issuer.md` | slices 1–3 running; issuer slice dispatched |
+| Upstream / PR / intake reconciliation | 2 | `reconciliation/` | ledger done (313); #2190 landed (fa90e9d85); #2197 upstream sync (15 skills; supersedes #2170/#2171); #2199 intake triage (90: 59 ready-for-L4, 17 needs-info, 1 reject, 7 dup, 6 by-sync); 38 stale intakes closed |
+| Challenger pipeline (frontier match → verify → admission → projection) | 3 | `plans/challenger-pipeline.md`, `plans/issuer.md` | #2191 landed (85fd1bf89); #2193/#2196 repairing after review; #2198 issuer in security review; cases C1–C4 running |
 | Adjudication / consequence ledger | 4 | derives from sweep ledger | after sweep |
 | Website (W0..W9) | 5 | `plans/website.md` | W0, W2, W7 dispatched |
 | October record + `/meta-post` (registered as `gaia-post`) | 6 | — | after 1–4 |
@@ -61,3 +61,12 @@ plus existing: #2176/#2177 two Core approvals, visual acceptance, main merge, re
   authenticated approver), simplest GitHub-authenticated mechanism, pluggable so Steward can
   automate later (RFC #2148 D8 trail) without Steward work now. Issues genuinely fixed by a PR are
   closed when that PR lands on `dev/yggdrasil-iv`, not at the main merge.
+
+## Pending founder decisions (accumulating packets)
+
+- FD-6 sealed attested approval snapshot as durable offline approval proof (recommend yes).
+- FD-7 39 named skills stored above the TM-grade ceiling (38×2★, 1×3★ ungraded): canonical calibration vs display reconciliation.
+- FD-8 hyperframes: 12 components dropped upstream (all 3★, SHA-pinned links still resolve) — freeze or keep.
+- L4: 59 intake candidates ready (`reconciliation/INTAKE-L4-PACKET.md` via #2199).
+- Environment `challenge-receipt-issuer` settings (founder action, see `plans/issuer.md`).
+- Machine: disk ≈2.7 GB free after removing finished worktrees; caches outside the campaign are the founder's call.
