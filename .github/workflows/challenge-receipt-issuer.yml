@@ -1,0 +1,142 @@
+name: Challenge receipt issuer
+
+# Single-operator issuer for Yggdrasil IV challenge receipts (EPIC #2189).
+#
+# Push a tag `challenge-receipt/<case>-r<n>` that points at a commit containing
+# evidence/frontier-challenges/<case>/admission-request.json. `prepare` packages the receipt
+# and prints its digest; `issue` waits for the founder to approve the
+# `challenge-receipt-issuer` environment, seals the observed approval, and attests the
+# receipt archive and the sealed approval. Verifiers pin THIS file by git blob SHA
+# (src/gaia_cli/data/trust/challenge-receipt-issuer.json), so any edit here must be
+# followed by re-pinning (tests/steward/test_challenge_receipt_issuer.py prints the value).
+# Design: founder/reports/yggdrasil-iv-october-2026/plans/issuer.md
+
+on:
+  push:
+    tags:
+      - "challenge-receipt/**"
+
+permissions: {}
+
+concurrency:
+  group: challenge-receipt-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    name: Prepare receipt
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      receipt: ${{ steps.build.outputs.receipt }}
+      digest: ${{ steps.build.outputs.digest }}
+    steps:
+      - name: Check out the tagged commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Build receipt archive
+        id: build
+        run: |
+          set -euo pipefail
+          [ "$GITHUB_REF_TYPE" = "tag" ] || { echo "not a tag push" >&2; exit 1; }
+          PYTHONPATH=src python3 scripts/buildChallengeReceipt.py build \
+            --tag "$GITHUB_REF_NAME" --out out | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "receipt=$(jq -r .receiptId out/build.json)" >> "$GITHUB_OUTPUT"
+          echo "digest=$(jq -r .artifactSha256 out/build.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload build output
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: receipt-build
+          path: |
+            out/artifact.zip
+            out/build.json
+          if-no-files-found: error
+          retention-days: 7
+
+  issue:
+    name: Issue receipt (founder approval)
+    needs: prepare
+    runs-on: ubuntu-latest
+    environment: challenge-receipt-issuer
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+      attestations: write
+    env:
+      REVIEWER_ID: "153011150"
+      ENVIRONMENT_NAME: challenge-receipt-issuer
+      RECEIPT_ID: ${{ needs.prepare.outputs.receipt }}
+      EXPECTED_DIGEST: ${{ needs.prepare.outputs.digest }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out the tagged commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Download prepared receipt
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: receipt-build
+          path: out
+
+      - name: Require exactly one approval by the founder, none rejected, attempt 1
+        run: |
+          set -euo pipefail
+          [ "$GITHUB_RUN_ATTEMPT" = "1" ] || { echo "re-runs are never trusted" >&2; exit 1; }
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/approvals" > approvals.json
+          jq -e --argjson uid "$REVIEWER_ID" --arg env "$ENVIRONMENT_NAME" '
+            (map(select(.state == "approved")) | length) == 1
+            and (map(select(.state != "approved")) | length) == 0
+            and (map(select(.state == "approved"))[0].user.id == $uid)
+            and (map(select(.state == "approved"))[0].environments | map(.name) | index($env) != null)
+          ' approvals.json > /dev/null || { echo "approval check failed" >&2; cat approvals.json >&2; exit 1; }
+
+      - name: Seal the observed approval
+        run: |
+          set -euo pipefail
+          PYTHONPATH=src python3 scripts/buildChallengeReceipt.py seal \
+            --tag "$GITHUB_REF_NAME" --out out --approvals approvals.json \
+            --repository "$GITHUB_REPOSITORY" --sha "$GITHUB_SHA" \
+            --run-id "$GITHUB_RUN_ID" --run-attempt "$GITHUB_RUN_ATTEMPT" \
+            --actor "$GITHUB_ACTOR" --expected-digest "$EXPECTED_DIGEST"
+
+      - name: Attest receipt archive and sealed approval
+        id: attest
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          create-storage-record: false
+          subject-path: |
+            out/artifact.zip
+            out/issuer-approval.json
+
+      - name: Collect the offline verification bundle
+        env:
+          BUNDLE_PATH: ${{ steps.attest.outputs.bundle-path }}
+        run: |
+          set -euo pipefail
+          cp "$BUNDLE_PATH" out/attestation.jsonl
+          gh attestation trusted-root > out/trusted_root.jsonl
+          {
+            echo "### Challenge receipt issued: \`${RECEIPT_ID}\`"
+            echo
+            echo "Download the \`challenge-receipt-${RECEIPT_ID}\` artifact into"
+            echo "\`evidence/frontier-challenges/<case>/receipt/\` and commit it."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the issuer bundle
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: challenge-receipt-${{ needs.prepare.outputs.receipt }}
+          path: |
+            out/artifact.zip
+            out/issuer-approval.json
+            out/attestation.jsonl
+            out/trusted_root.jsonl
+          if-no-files-found: error
+          retention-days: 90

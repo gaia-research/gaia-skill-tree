@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "issuer": "github-actions",
+  "repository": "gaia-research/gaia-skill-tree",
+  "workflowPath": ".github/workflows/challenge-receipt-issuer.yml",
+  "triggerRefPrefix": "refs/tags/challenge-receipt/",
+  "workflowBlobSha": "c20ba8ba73c2440eac8669f68e6a6a1428ae5d65",
+  "environment": "challenge-receipt-issuer",
+  "requiredReviewerIds": [153011150],
+  "preventSelfReview": false
+}

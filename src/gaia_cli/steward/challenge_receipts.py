@@ -1,24 +1,39 @@
 """Fail-closed GitHub Actions receipt proposal boundary for Yggdrasil IV.
 
-This module packages complete technical proof for a future protected producer and
-resolves only when an independently authenticated source adapter can prove every
-required fact. The current GitHub REST API does not expose durable historical
-environment approval evidence with enough specificity to authenticate the human
-approver. Accordingly the live adapter is deliberately unavailable; fixtures test
-transport and validation logic only and are not live authorization evidence.
+This module packages complete technical proof for a protected producer workflow
+(``.github/workflows/challenge-receipt-issuer.yml``) and resolves a receipt only when an
+independently authenticated source adapter can prove every required fact.
+
+Trust model (single operator, founder ruling 2026-10-28). GitHub's REST API does not
+keep a durable, attributable environment-approval record, so the producer *seals* the
+approvals it observed (``issuer-approval.json``) and attests the sealed file and the
+receipt archive with ``actions/attest-build-provenance``. A verifier then proves, with
+``gh attestation verify``: (1) a GitHub-hosted runner signed both files for a tag push
+in the trusted repository; (2) the workflow file at the signing commit is byte-identical
+(git blob SHA) to the pinned ``TrustedReceiptConfig.workflow_blob_sha`` and that commit is
+reachable from the verifier's ``HEAD``; (3) exactly one ``approved`` review, by a
+configured reviewer user id, none rejected, on attempt 1 (``_authenticate_approval``).
+Two adapters share that core: ``GitHubActionsSource`` (online, at admission, additionally
+cross-checks the live run, artifact and approvals) and ``CommittedAttestedReceiptSource``
+(offline, every docs build, from the committed ``receipt/`` bundle).
 
 Source boundary: the source document carries an ``approvalHistoryVerified`` boolean,
 a reviewer name and a roster. Those values are only meaningful when produced by an
-``AuthenticatedApprovalSource``, i.e. an adapter that itself authenticated the
-approver against GitHub. A boolean, name, id, URL, hash, ``decisionRef`` or
-``eventId`` supplied by any other party is never approval. The resolver therefore
-accepts only the exact adapter types in ``GitHubVerificationReceiptResolver.
-AUTHENTICATED_SOURCES`` (production: ``GitHubActionsSource``, which is currently
-unavailable by design). Test ports live under ``tests/`` and must opt in explicitly
-by subclassing the resolver; they are never accepted by the production class.
-The allowlist guards against accidental adapters and misconfiguration, not hostile
-in-process code: Python class attributes can be reassigned by any code already
-running in the process, which is outside this module's threat model.
+``AuthenticatedApprovalSource``, i.e. an adapter that itself authenticated the approver.
+A boolean, name, id, URL, hash, ``decisionRef`` or ``eventId`` supplied by any other
+party is never approval. The resolver therefore accepts only the exact adapter types in
+``GitHubVerificationReceiptResolver.AUTHENTICATED_SOURCES``. Test ports live under
+``tests/`` and must opt in explicitly by subclassing the resolver; they are never accepted
+by the production class. The allowlist guards against accidental adapters and
+misconfiguration, not hostile in-process code.
+
+Steward plug point: ``AuthenticatedApprovalSource._authenticate_approval`` is the single
+method that decides who approved. A future automated approver replaces only that method;
+admission without the founder's click needs its own founder ruling.
+
+Residual risks (see the issuer PR): credential equivalence (the operator's ``gh`` token can
+approve through the API), squash merges break the commit-reachability check (fails closed),
+and verification needs the ``gh`` CLI plus full git history.
 
 Challenge binding: ``resolve()`` requires the expected challenge id. Callers should
 use ``for_challenge()``, which returns a ``BoundReceiptResolver`` exposing the bound
@@ -37,10 +52,14 @@ import io
 import json
 import os
 import re
+import shutil
+import subprocess
+import tempfile
 import zipfile
 import zlib
 from abc import ABC, abstractmethod
-from typing import Any, Mapping
+from pathlib import Path
+from typing import Any, Callable, Mapping
 
 from gaia_cli.challengeDomain import VerificationReceipt
 
@@ -56,58 +75,146 @@ SHA256_RE = re.compile(r"^(?:sha256:)?[0-9a-f]{64}$")
 # (SHA-256 object format). Never prefixed.
 GIT_SHA_RE = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
 
+# Issuer bundle: the four files the producer workflow emits and the repo commits under
+# ``evidence/frontier-challenges/<case>/receipt/``.
+BUNDLE_ARTIFACT = "artifact.zip"
+BUNDLE_APPROVAL = "issuer-approval.json"
+BUNDLE_ATTESTATION = "attestation.jsonl"
+BUNDLE_TRUSTED_ROOT = "trusted_root.jsonl"
+BUNDLE_LIMITS = {BUNDLE_ARTIFACT: MAX_ARCHIVE_BYTES, BUNDLE_APPROVAL: 1024 * 1024,
+                 BUNDLE_ATTESTATION: 2 * 1024 * 1024, BUNDLE_TRUSTED_ROOT: 4 * 1024 * 1024}
+MAX_BUNDLE_ZIP_BYTES = 20 * 1024 * 1024
+EVIDENCE_ROOT = "evidence/frontier-challenges"
+RECEIPT_SUBDIR = "receipt"
+ARTIFACT_NAME_PREFIX = "challenge-receipt-"
+SOURCE_LIVE = "github-actions-live"
+SOURCE_COMMITTED = "committed-attested"
+OIDC_ISSUER = "https://token.actions.githubusercontent.com"
+SLSA_PREDICATE = "https://slsa.dev/provenance/v1"
+DEFAULT_CONFIG_PATH = Path(__file__).resolve().parents[1] / "data" / "trust" / "challenge-receipt-issuer.json"
+
 
 class ReceiptUnavailable(RuntimeError):
     """A required trusted source fact is absent, ambiguous, or unprovable."""
 
 
+class ReceiptMisconfigured(ReceiptUnavailable):
+    """Configuration exists but is incomplete, malformed, or inconsistent."""
+
+
 @dataclass(frozen=True)
 class TrustedReceiptConfig:
-    """Deployment-owned allowlist; never deserialize this from challenge input."""
+    """Deployment-owned allowlist; never deserialize this from challenge input.
+
+    ``workflow_blob_sha`` pins the issuer workflow file by git blob SHA; the verified
+    signing commit must carry exactly that blob. ``required_reviewer_ids`` are GitHub
+    user ids (stable, unlike logins). ``prevent_self_review`` may be False: the single
+    operator is both pusher and approver; the receipt verifier must still differ from the
+    builder and contributor (enforced in the resolver).
+    """
 
     repository: str
     workflow_path: str
-    workflow_ref: str
-    workflow_sha: str
+    trigger_ref_prefix: str
+    workflow_blob_sha: str
     environment: str
-    required_reviewers: tuple[str, ...]
-    prevent_self_review: bool = True
+    required_reviewer_ids: tuple[int, ...]
+    prevent_self_review: bool = False
     issuer: str = "github-actions"
 
     def __post_init__(self) -> None:
         if not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", self.repository):
             raise ValueError("trusted repository configuration is invalid")
-        if not self.workflow_path.startswith(".github/workflows/") or ".." in self.workflow_path:
+        if (not self.workflow_path.startswith(".github/workflows/") or ".." in self.workflow_path
+                or not self.workflow_path.endswith((".yml", ".yaml"))):
             raise ValueError("trusted workflow path must be a repository workflow path")
-        if not self.workflow_ref or not GIT_SHA_RE.fullmatch(self.workflow_sha):
-            raise ValueError("trusted workflow ref and pinned source SHA are required")
-        if not self.environment or not self.required_reviewers or not self.prevent_self_review:
-            raise ValueError("protected environment, required reviewers, and prevent-self-review are mandatory")
+        if (not self.trigger_ref_prefix.startswith("refs/tags/") or not self.trigger_ref_prefix.endswith("/")
+                or len(self.trigger_ref_prefix) <= len("refs/tags/") + 1):
+            raise ValueError("trigger ref prefix must be a non-empty tag namespace such as refs/tags/name/")
+        if not GIT_SHA_RE.fullmatch(self.workflow_blob_sha):
+            raise ValueError("pinned workflow blob SHA must be a 40- or 64-hex git object id")
+        if not self.environment:
+            raise ValueError("protected environment is mandatory")
+        ids = self.required_reviewer_ids
+        if (not isinstance(ids, tuple) or not ids
+                or not all(type(item) is int and item > 0 for item in ids)):
+            raise ValueError("required reviewer ids must be a non-empty tuple of positive GitHub user ids")
+        if not isinstance(self.prevent_self_review, bool):
+            raise ValueError("prevent_self_review must be a boolean")
         if self.issuer != "github-actions":
             raise ValueError("unsupported trusted receipt issuer")
 
 
-def trusted_config_from_environment(env: Mapping[str, str] | None = None) -> TrustedReceiptConfig:
-    """Load explicit deployment configuration; absence means not configured."""
+# JSON key -> environment override. Environment values override the committed file per field.
+CONFIG_ENV = {
+    "repository": "GAIA_RECEIPT_REPOSITORY",
+    "workflowPath": "GAIA_RECEIPT_WORKFLOW_PATH",
+    "triggerRefPrefix": "GAIA_RECEIPT_TRIGGER_REF_PREFIX",
+    "workflowBlobSha": "GAIA_RECEIPT_WORKFLOW_BLOB_SHA",
+    "environment": "GAIA_RECEIPT_ENVIRONMENT",
+    "requiredReviewerIds": "GAIA_RECEIPT_REQUIRED_REVIEWER_IDS",
+    "preventSelfReview": "GAIA_RECEIPT_PREVENT_SELF_REVIEW",
+}
+CONFIG_KEYS = frozenset(CONFIG_ENV) | {"schemaVersion", "issuer"}
+
+
+def loadTrustedConfig(env: Mapping[str, str] | None = None,
+                      path: Path | str | None = DEFAULT_CONFIG_PATH) -> TrustedReceiptConfig:
+    """Load the committed issuer config, overridden per field by ``GAIA_RECEIPT_*`` env.
+
+    Neither a committed file nor any override => ``ReceiptUnavailable`` (not configured).
+    A file or override that is incomplete, malformed or invalid => ``ReceiptMisconfigured``.
+    """
     source = os.environ if env is None else env
-    names = ("GAIA_RECEIPT_REPOSITORY", "GAIA_RECEIPT_WORKFLOW_PATH",
-             "GAIA_RECEIPT_WORKFLOW_REF", "GAIA_RECEIPT_WORKFLOW_SHA",
-             "GAIA_RECEIPT_ENVIRONMENT", "GAIA_RECEIPT_REQUIRED_REVIEWERS")
-    missing = [name for name in names if not source.get(name)]
-    reviewers = tuple(sorted({part.strip().lower() for part in source.get(
-        "GAIA_RECEIPT_REQUIRED_REVIEWERS", "").split(",") if part.strip()}))
-    if missing or not reviewers or source.get("GAIA_RECEIPT_PREVENT_SELF_REVIEW") != "true":
+    fields: dict[str, Any] = {}
+    if path is not None and Path(path).is_file():
+        try:
+            loaded = json.loads(Path(path).read_text(encoding="utf-8"))
+        except (OSError, ValueError) as exc:
+            raise ReceiptMisconfigured(f"challenge receipt config file is unreadable: {exc}") from exc
+        if not isinstance(loaded, dict) or loaded.get("schemaVersion") != 1:
+            raise ReceiptMisconfigured("challenge receipt config file must be an object with schemaVersion 1")
+        unknown = sorted(set(loaded) - CONFIG_KEYS)
+        if unknown:
+            raise ReceiptMisconfigured(f"challenge receipt config has unknown keys: {', '.join(unknown)}")
+        fields.update(loaded)
+    overrides = {key: source[name] for key, name in CONFIG_ENV.items() if source.get(name)}
+    if not fields and not overrides:
         raise ReceiptUnavailable(
-            "trusted challenge receipt source is not configured; missing deployment-owned "
-            "repository/workflow/ref/SHA/environment/reviewer roster or prevent-self-review=true"
-        )
+            "trusted challenge receipt source is not configured; no committed "
+            "challenge-receipt-issuer.json and no GAIA_RECEIPT_* deployment overrides")
     try:
-        return TrustedReceiptConfig(
-            source[names[0]], source[names[1]], source[names[2]], source[names[3]],
-            source[names[4]], reviewers, True,
-        )
+        if "requiredReviewerIds" in overrides:
+            overrides["requiredReviewerIds"] = [
+                int(part) for part in overrides["requiredReviewerIds"].split(",") if part.strip()]
+        if "preventSelfReview" in overrides:
+            flag = overrides["preventSelfReview"].strip().lower()
+            if flag not in {"true", "false"}:
+                raise ValueError("GAIA_RECEIPT_PREVENT_SELF_REVIEW must be true or false")
+            overrides["preventSelfReview"] = flag == "true"
     except ValueError as exc:
-        raise ReceiptUnavailable(f"trusted challenge receipt configuration is invalid: {exc}") from exc
+        raise ReceiptMisconfigured(f"challenge receipt override is invalid: {exc}") from exc
+    fields.update(overrides)
+    missing = [key for key in ("repository", "workflowPath", "triggerRefPrefix", "workflowBlobSha",
+                               "environment", "requiredReviewerIds") if key not in fields]
+    if missing:
+        raise ReceiptMisconfigured(
+            f"challenge receipt configuration is incomplete; missing {', '.join(missing)}")
+    try:
+        ids = fields["requiredReviewerIds"]
+        if not isinstance(ids, list):
+            raise ValueError("requiredReviewerIds must be a list of user ids")
+        return TrustedReceiptConfig(
+            fields["repository"], fields["workflowPath"], fields["triggerRefPrefix"],
+            fields["workflowBlobSha"], fields["environment"], tuple(ids),
+            fields.get("preventSelfReview", False), fields.get("issuer", "github-actions"))
+    except (TypeError, ValueError) as exc:
+        raise ReceiptMisconfigured(f"trusted challenge receipt configuration is invalid: {exc}") from exc
+
+
+def trusted_config_from_environment(env: Mapping[str, str] | None = None) -> TrustedReceiptConfig:
+    """Environment-only deployment configuration; absence means not configured."""
+    return loadTrustedConfig(env, path=None)
 
 
 def _canonical(value: Any) -> bytes:
@@ -229,34 +336,410 @@ class AuthenticatedApprovalSource(ABC):
     @abstractmethod
     def fetch(self, receipt_id: str, config: TrustedReceiptConfig) -> Mapping[str, Any]: ...
 
+    def _authenticate_approval(self, run: Mapping[str, Any], items: Any,
+                               config: TrustedReceiptConfig) -> dict[str, Any]:
+        """Decide who approved. THE Steward plug point: override only this method.
 
-class GitHubActionsSource(AuthenticatedApprovalSource):
-    """Authenticated GitHub REST probe. Never infers approval from actor claims."""
+        ``run`` is ``{"id", "attempt", "environment"}``; ``items`` is the GitHub
+        ``/actions/runs/{id}/approvals`` list (live or sealed). Founder rule: exactly one
+        ``approved`` review for ``config.environment``, by a configured reviewer user id,
+        no ``rejected`` review, attempt 1. Self-review is permitted (single operator).
+        Returns ``{"reviewer": login, "reviewerId": id}`` or raises ``ReceiptUnavailable``.
+        """
+        if type(run.get("attempt")) is not int or run["attempt"] != 1:
+            raise ReceiptUnavailable("workflow run attempt must be 1; re-runs are never trusted")
+        if not isinstance(items, list) or not items:
+            raise ReceiptUnavailable("no environment approval record is present")
+        approved: list[Mapping[str, Any]] = []
+        for item in items:
+            if not isinstance(item, Mapping):
+                raise ReceiptUnavailable("approval record is malformed")
+            if item.get("state") == "rejected":
+                raise ReceiptUnavailable("a rejected environment review exists for this run")
+            if item.get("state") != "approved":
+                raise ReceiptUnavailable("approval record has an unrecognized state")
+            approved.append(item)
+        if len(approved) != 1:
+            raise ReceiptUnavailable("exactly one approved environment review is required")
+        item = approved[0]
+        user = item.get("user")
+        environments = item.get("environments")
+        if not isinstance(user, Mapping) or type(user.get("id")) is not int or not isinstance(user.get("login"), str):
+            raise ReceiptUnavailable("approval record has no authenticated reviewer identity")
+        if not isinstance(environments, list) or config.environment not in {
+                env.get("name") for env in environments if isinstance(env, Mapping)}:
+            raise ReceiptUnavailable("approval was not recorded for the trusted protected environment")
+        if user["id"] not in config.required_reviewer_ids or not user["login"].strip():
+            raise ReceiptUnavailable("approving user is not in the configured reviewer roster")
+        return {"reviewer": user["login"], "reviewerId": user["id"]}
 
-    API = "https://api.github.com"
 
-    def __init__(self, token: str | None = None, *, timeout: float = 10.0) -> None:
+# ---- Injectable collaborators (real defaults shell out to ``gh`` / ``git`` lazily) -----------
+
+def identityFromGhResult(text: str, subjectSha256: str) -> dict[str, Any]:
+    """Reduce ``gh attestation verify --format json`` to the signed workflow identity.
+
+    ``gh`` has already checked the signature, trusted root and certificate chain; this
+    only extracts the Fulcio certificate claims and requires the statement to name the
+    subject digest. All returned attestations must agree.
+    """
+    try:
+        results = json.loads(text)
+    except ValueError as exc:
+        raise ReceiptUnavailable(f"attestation verification output is not JSON: {exc}") from exc
+    if not isinstance(results, list) or not results:
+        raise ReceiptUnavailable("attestation verification returned no verified attestation")
+    identities: list[dict[str, Any]] = []
+    for entry in results:
+        try:
+            verification = entry["verificationResult"]
+            cert = verification["signature"]["certificate"]
+            statement = verification["statement"]
+            subjects = {subject["digest"]["sha256"] for subject in statement["subject"]}
+            if statement["predicateType"] != SLSA_PREDICATE or subjectSha256 not in subjects:
+                raise ReceiptUnavailable("attestation statement does not name this exact subject digest")
+            if cert["issuer"] != OIDC_ISSUER:
+                raise ReceiptUnavailable("attestation certificate was not issued to GitHub Actions OIDC")
+            repoUri, signer = cert["sourceRepositoryURI"], cert["buildSignerURI"]
+            if not repoUri.startswith("https://github.com/") or not signer.startswith(repoUri + "/"):
+                raise ReceiptUnavailable("attestation signer is not a workflow of the source repository")
+            repository = repoUri.removeprefix("https://github.com/")
+            workflowPath, _, signerRef = signer.removeprefix(repoUri + "/").rpartition("@")
+            invocation = re.fullmatch(
+                re.escape(repoUri) + r"/actions/runs/([0-9]+)/attempts/([0-9]+)", cert["runInvocationURI"])
+            if (not invocation or cert["buildSignerDigest"] != cert["sourceRepositoryDigest"]
+                    or signerRef != cert["sourceRepositoryRef"]
+                    or cert["buildTrigger"] != cert["githubWorkflowTrigger"]):
+                raise ReceiptUnavailable("attestation certificate claims are internally inconsistent")
+            identities.append({
+                "repository": repository, "workflowPath": workflowPath,
+                "ref": cert["sourceRepositoryRef"], "sourceSha": cert["sourceRepositoryDigest"],
+                "trigger": cert["buildTrigger"], "runnerEnvironment": cert["runnerEnvironment"],
+                "runId": int(invocation.group(1)), "runAttempt": int(invocation.group(2)),
+                "subjectSha256": subjectSha256,
+            })
+        except ReceiptUnavailable:
+            raise
+        except (KeyError, TypeError, AttributeError, ValueError) as exc:
+            raise ReceiptUnavailable(f"attestation verification output has an unexpected shape: {exc!r}") from exc
+    if any(identity != identities[0] for identity in identities):
+        raise ReceiptUnavailable("verified attestations disagree about the signing identity")
+    return identities[0]
+
+
+class GhAttestationVerifier:
+    """Verify a subject against a bundle with ``gh attestation verify`` (offline-capable)."""
+
+    def __init__(self, ghPath: str = "gh", *, runner: Callable[..., Any] = subprocess.run,
+                 timeout: float = 120.0) -> None:
+        self.ghPath, self.runner, self.timeout = ghPath, runner, timeout
+
+    def __call__(self, subject: Path, bundle: Path, trustedRoot: Path | None,
+                 config: TrustedReceiptConfig) -> dict[str, Any]:
+        command = [self.ghPath, "attestation", "verify", str(subject), "--repo", config.repository,
+                   "--bundle", str(bundle), "--signer-workflow", f"{config.repository}/{config.workflow_path}",
+                   "--deny-self-hosted-runners", "--format", "json"]
+        if trustedRoot is not None:
+            command += ["--custom-trusted-root", str(trustedRoot)]
+        try:
+            done = self.runner(command, capture_output=True, text=True, timeout=self.timeout, check=False)
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise ReceiptUnavailable(f"gh CLI is required to verify attestations: {exc}") from exc
+        if done.returncode != 0:
+            raise ReceiptUnavailable(f"attestation verification failed: {str(done.stderr).strip()[:300]}")
+        digest = hashlib.sha256(Path(subject).read_bytes()).hexdigest()
+        return identityFromGhResult(done.stdout, digest)
+
+
+class LocalGit:
+    """Blob and ancestry facts from a local checkout; needs the full history."""
+
+    def __init__(self, repoRoot: Path | str | None = None, *, runner: Callable[..., Any] = subprocess.run) -> None:
+        self.repoRoot = Path.cwd() if repoRoot is None else Path(repoRoot)
+        self.runner = runner
+
+    def _git(self, *args: str) -> Any:
+        try:
+            return self.runner(["git", "-C", str(self.repoRoot), *args], capture_output=True, text=True,
+                               timeout=60, check=False)
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise ReceiptUnavailable(f"git is required to verify the pinned workflow: {exc}") from exc
+
+    def blobShaAt(self, commit: str, path: str) -> str | None:
+        if not GIT_SHA_RE.fullmatch(commit):
+            return None
+        done = self._git("rev-parse", "--verify", "--quiet", f"{commit}:{path}")
+        out = str(done.stdout).strip()
+        return out if done.returncode == 0 and GIT_SHA_RE.fullmatch(out) else None
+
+    def isAncestor(self, commit: str, head: str = "HEAD") -> bool:
+        return GIT_SHA_RE.fullmatch(commit) is not None and self._git(
+            "merge-base", "--is-ancestor", commit, head).returncode == 0
+
+
+class GhApiTransport:
+    """Read-only ``gh api`` transport; ``gh`` handles auth and artifact download redirects."""
+
+    def __init__(self, token: str | None = None, *, timeout: float = 60.0, ghPath: str = "gh",
+                 runner: Callable[..., Any] = subprocess.run) -> None:
+        self.token, self.timeout, self.ghPath, self.runner = token, timeout, ghPath, runner
+
+    def _call(self, path: str) -> bytes:
+        env = dict(os.environ)
+        if self.token:
+            env["GH_TOKEN"] = self.token
+        try:
+            done = self.runner([self.ghPath, "api", path], capture_output=True, timeout=self.timeout,
+                               env=env, check=False)
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise ReceiptUnavailable(f"gh CLI is required to read GitHub Actions state: {exc}") from exc
+        if done.returncode != 0:
+            detail = done.stderr.decode("utf-8", "replace") if isinstance(done.stderr, bytes) else str(done.stderr)
+            raise ReceiptUnavailable(f"GitHub API read failed for {path}: {detail.strip()[:200]}")
+        return done.stdout
+
+    def getJson(self, path: str) -> Any:
+        try:
+            return json.loads(self._call(path))
+        except ValueError as exc:
+            raise ReceiptUnavailable(f"GitHub API returned non-JSON for {path}") from exc
+
+    def getBytes(self, path: str) -> bytes:
+        data = self._call(path)
+        if len(data) > MAX_BUNDLE_ZIP_BYTES:
+            raise ReceiptUnavailable("GitHub artifact download exceeds the bundle size limit")
+        return data
+
+
+# ---- Bundle parsing ---------------------------------------------------------------------------
+
+def _readBundleZip(data: bytes) -> dict[str, bytes]:
+    """Parse a downloaded Actions artifact: exactly the four bundle files, hard byte caps."""
+    if not isinstance(data, bytes) or len(data) > MAX_BUNDLE_ZIP_BYTES:
+        raise ReceiptUnavailable("receipt bundle download is absent or too large")
+    files: dict[str, bytes] = {}
+    try:
+        with zipfile.ZipFile(io.BytesIO(data)) as bundle:
+            infos = bundle.infolist()
+            if sorted(info.filename for info in infos) != sorted(BUNDLE_LIMITS):
+                raise ValueError("bundle must contain exactly the four issuer files")
+            for info in infos:
+                cap = BUNDLE_LIMITS[info.filename]
+                if (info.is_dir() or info.flag_bits & 0x1 or info.file_size > cap
+                        or info.compress_type not in ARTIFACT_COMPRESSION_TYPES):
+                    raise ValueError(f"unsafe bundle member {info.filename}")
+                with bundle.open(info) as stream:
+                    content = stream.read(cap + 1)
+                if len(content) > cap or len(content) != info.file_size:
+                    raise ValueError(f"bundle member {info.filename} violates its size cap")
+                files[info.filename] = content
+    except (ValueError, KeyError, OSError, RuntimeError, EOFError, NotImplementedError,
+            zlib.error, zipfile.BadZipFile, zipfile.LargeZipFile) as exc:
+        raise ReceiptUnavailable(f"invalid receipt bundle: {exc}") from exc
+    return files
+
+
+def _readBundleDir(directory: Path) -> dict[str, bytes]:
+    files: dict[str, bytes] = {}
+    for name, cap in BUNDLE_LIMITS.items():
+        path = directory / name
+        try:
+            if path.is_symlink() or not path.is_file() or path.stat().st_size > cap:
+                raise ReceiptUnavailable(f"committed receipt file {name} is missing, linked, or oversized")
+            files[name] = path.read_bytes()
+        except OSError as exc:
+            raise ReceiptUnavailable(f"committed receipt file {name} is unreadable: {exc}") from exc
+    return files
+
+
+def _json(data: bytes, what: str) -> dict[str, Any]:
+    try:
+        value = json.loads(data)
+    except (UnicodeDecodeError, ValueError) as exc:
+        raise ReceiptUnavailable(f"{what} is not valid JSON") from exc
+    if not isinstance(value, dict):
+        raise ReceiptUnavailable(f"{what} must be a JSON object")
+    return value
+
+
+class _BundleSource(AuthenticatedApprovalSource):
+    """Shared core: attestation, pinned-workflow and sealed-approval verification."""
+
+    def __init__(self, *, verifier: Callable[..., Mapping[str, Any]] | None = None,
+                 git: Any = None) -> None:
+        self.verifier = GhAttestationVerifier() if verifier is None else verifier
+        self.git = git
+
+    def _history(self) -> Any:
+        return LocalGit() if self.git is None else self.git
+
+    def _authenticateBundle(self, files: Mapping[str, bytes], receipt_id: str,
+                            config: TrustedReceiptConfig, *, useBundledRoot: bool) -> dict[str, Any]:
+        sealed = _json(files[BUNDLE_APPROVAL], "issuer approval")
+        archive = files[BUNDLE_ARTIFACT]
+        identities = []
+        with tempfile.TemporaryDirectory(prefix="gaia-receipt-") as tmp:
+            root = Path(tmp)
+            for name, content in files.items():
+                (root / name).write_bytes(content)
+            for name in (BUNDLE_ARTIFACT, BUNDLE_APPROVAL):
+                identity = self.verifier(root / name, root / BUNDLE_ATTESTATION,
+                                         root / BUNDLE_TRUSTED_ROOT if useBundledRoot else None, config)
+                if (not isinstance(identity, Mapping)
+                        or identity.get("subjectSha256") != _sha(files[name])):
+                    raise ReceiptUnavailable("attestation does not cover the exact bundle file bytes")
+                identities.append(dict(identity))
+        identity = identities[0]
+        if any({k: v for k, v in other.items() if k != "subjectSha256"}
+               != {k: v for k, v in identity.items() if k != "subjectSha256"} for other in identities):
+            raise ReceiptUnavailable("receipt archive and approval were not signed by the same run")
+        if (identity.get("repository") != config.repository
+                or identity.get("workflowPath") != config.workflow_path):
+            raise ReceiptUnavailable("attested workflow is not the trusted issuer workflow")
+        ref, sha = identity.get("ref"), identity.get("sourceSha")
+        if not isinstance(ref, str) or not ref.startswith(config.trigger_ref_prefix):
+            raise ReceiptUnavailable("attested ref is outside the trusted challenge-receipt tag namespace")
+        if identity.get("trigger") != "push" or identity.get("runnerEnvironment") != "github-hosted":
+            raise ReceiptUnavailable("attestation was not produced by a push-triggered GitHub-hosted run")
+        runId, attempt = identity.get("runId"), identity.get("runAttempt")
+        if type(runId) is not int or runId <= 0 or type(attempt) is not int or attempt != 1:
+            raise ReceiptUnavailable("attested run identity is invalid or not attempt 1")
+        if not isinstance(sha, str) or not GIT_SHA_RE.fullmatch(sha):
+            raise ReceiptUnavailable("attested source commit is invalid")
+        history = self._history()
+        blob = history.blobShaAt(sha, config.workflow_path)
+        if blob is None:
+            raise ReceiptUnavailable(
+                "attested source commit is not in local history (full history required; a squash "
+                "merge orphans it and fails closed)")
+        if blob != config.workflow_blob_sha:
+            raise ReceiptUnavailable("issuer workflow at the attested commit does not match the pinned blob SHA")
+        if not history.isAncestor(sha):
+            raise ReceiptUnavailable("attested source commit is not reachable from HEAD")
+        if (sealed.get("schemaVersion") != 1 or sealed.get("kind") != "challenge-receipt-issuer-approval"
+                or sealed.get("repository") != config.repository
+                or sealed.get("environment") != config.environment
+                or sealed.get("runId") != runId or sealed.get("runAttempt") != attempt
+                or sealed.get("ref") != ref or sealed.get("sourceSha") != sha
+                or sealed.get("receiptId") != receipt_id
+                or sealed.get("artifactSha256") != _sha(archive)):
+            raise ReceiptUnavailable("sealed approval does not bind this exact run, ref, receipt and artifact")
+        payloadDigest, builder, contributor = (sealed.get("payloadDigest"), sealed.get("builder"),
+                                               sealed.get("contributor"))
+        if not isinstance(payloadDigest, str) or not SHA256_RE.fullmatch(payloadDigest):
+            raise ReceiptUnavailable("sealed approval payload digest is invalid")
+        approval = self._authenticate_approval(
+            {"id": runId, "attempt": attempt, "environment": config.environment},
+            sealed.get("approvals"), config)
+        return {
+            "repository": config.repository, "workflowPath": config.workflow_path,
+            "workflowRef": ref, "workflowSha": sha, "workflowBlobSha": blob,
+            "environment": config.environment, "runId": runId, "runAttempt": attempt,
+            "builder": builder, "contributor": contributor,
+            "reviewer": approval["reviewer"], "reviewerId": approval["reviewerId"],
+            "requiredReviewerIds": list(config.required_reviewer_ids),
+            "preventSelfReview": config.prevent_self_review, "approvalHistoryVerified": True,
+            "payloadDigest": payloadDigest, "archive": archive,
+            "sealedChallengeId": sealed.get("challengeId"),
+        }
+
+
+class GitHubActionsSource(_BundleSource):
+    """Online adapter, used at admission: live run, artifact and approvals + attestation.
+
+    Everything is read through the injectable ``transport`` (default: ``gh api``). The
+    sealed approval inside the attested bundle must agree with the live approvals.
+    """
+
+    def __init__(self, token: str | None = None, *, timeout: float = 60.0, transport: Any = None,
+                 verifier: Callable[..., Mapping[str, Any]] | None = None, git: Any = None) -> None:
+        super().__init__(verifier=verifier, git=git)
         self.token = token or os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
-        self.timeout = timeout
+        self.transport = GhApiTransport(self.token, timeout=timeout) if transport is None else transport
 
     def fetch(self, receipt_id: str, config: TrustedReceiptConfig) -> Mapping[str, Any]:
-        # GitHub REST exposes run, workflow, artifact and environment protection
-        # configuration. It does not expose a durable, independently attributable
-        # environment-review history for a completed run via this read-only API.
-        # Do not accept actor/reviewer details from artifact JSON as a substitute.
-        raise ReceiptUnavailable(
-            "GitHub REST cannot currently prove completed protected-environment approval "
-            "actor/history bound to this run; no trusted receipt is available"
-        )
+        repo, name = config.repository, ARTIFACT_NAME_PREFIX + receipt_id
+        listing = self.transport.getJson(f"repos/{repo}/actions/artifacts?name={name}&per_page=100")
+        artifacts = listing.get("artifacts") if isinstance(listing, Mapping) else None
+        if (not isinstance(artifacts, list) or len(artifacts) != 1
+                or listing.get("total_count") != 1 or not isinstance(artifacts[0], Mapping)):
+            raise ReceiptUnavailable("receipt artifact is absent or ambiguous (exactly one is required)")
+        artifact = artifacts[0]
+        workflowRun = artifact.get("workflow_run")
+        if (artifact.get("name") != name or type(artifact.get("id")) is not int
+                or not isinstance(workflowRun, Mapping) or type(workflowRun.get("id")) is not int):
+            raise ReceiptUnavailable("receipt artifact listing is malformed")
+        runId = workflowRun["id"]
+        run = self.transport.getJson(f"repos/{repo}/actions/runs/{runId}")
+        approvals = self.transport.getJson(f"repos/{repo}/actions/runs/{runId}/approvals")
+        data = self.transport.getBytes(f"repos/{repo}/actions/artifacts/{artifact['id']}/zip")
+        document = self._authenticateBundle(_readBundleZip(data), receipt_id, config, useBundledRoot=False)
+        if not isinstance(run, Mapping):
+            raise ReceiptUnavailable("live workflow run is malformed")
+        def repoOf(key: str) -> Any:
+            value = run.get(key)
+            return value.get("full_name") if isinstance(value, Mapping) else None
+
+        if (run.get("id") != runId or run.get("run_attempt") != document["runAttempt"]
+                or str(run.get("path", "")).split("@")[0] != config.workflow_path
+                or run.get("event") != "push" or run.get("head_sha") != document["workflowSha"]
+                or "refs/tags/" + str(run.get("head_branch")) != document["workflowRef"]
+                or repoOf("repository") != config.repository
+                or repoOf("head_repository") != config.repository):
+            raise ReceiptUnavailable("live workflow run does not match the attested run")
+        live = self._authenticate_approval(
+            {"id": runId, "attempt": run["run_attempt"], "environment": config.environment},
+            approvals, config)
+        if live != {"reviewer": document["reviewer"], "reviewerId": document["reviewerId"]}:
+            raise ReceiptUnavailable("live approvals disagree with the sealed approval")
+        document.update({
+            "sourceKind": SOURCE_LIVE, "runStatus": run.get("status"), "runConclusion": run.get("conclusion"),
+            "artifactId": artifact["id"], "artifactName": artifact["name"],
+            "artifactExpired": artifact.get("expired"), "artifactRunId": runId,
+            "artifactAttempt": document["runAttempt"], "artifactCount": 1,
+        })
+        return document
+
+
+class CommittedAttestedReceiptSource(_BundleSource):
+    """Offline adapter, used by every docs build: verifies the committed ``receipt/`` bundle.
+
+    The sealed approval is the durable approval proof (GitHub's own record has unknown
+    retention); it is trusted only because the pinned workflow signed it.
+    """
+
+    def __init__(self, repo_root: Path | str, *, verifier: Callable[..., Mapping[str, Any]] | None = None,
+                 git: Any = None) -> None:
+        self.repoRoot = Path(repo_root)
+        super().__init__(verifier=verifier, git=LocalGit(self.repoRoot) if git is None else git)
+
+    def fetch(self, receipt_id: str, config: TrustedReceiptConfig) -> Mapping[str, Any]:
+        base = self.repoRoot / EVIDENCE_ROOT
+        matches = []
+        for candidate in sorted(base.glob(f"*/{RECEIPT_SUBDIR}")) if base.is_dir() else []:
+            approval = candidate / BUNDLE_APPROVAL
+            if candidate.is_symlink() or not candidate.is_dir() or approval.is_symlink() or not approval.is_file():
+                continue
+            try:
+                if approval.stat().st_size <= BUNDLE_LIMITS[BUNDLE_APPROVAL] and _json(
+                        approval.read_bytes(), "issuer approval").get("receiptId") == receipt_id:
+                    matches.append(candidate)
+            except (OSError, ReceiptUnavailable):
+                continue
+        if len(matches) != 1:
+            raise ReceiptUnavailable("committed receipt bundle is absent or ambiguous (exactly one is required)")
+        document = self._authenticateBundle(_readBundleDir(matches[0]), receipt_id, config, useBundledRoot=True)
+        document["sourceKind"] = SOURCE_COMMITTED
+        return document
 
 
 class GitHubVerificationReceiptResolver:
     """Resolve immutable receipts only after source provenance and artifact checks."""
 
-    # Exact-type allowlist of adapters trusted to authenticate approval. Production
-    # contains only the (currently unavailable) GitHub adapter. Tests opt in by
-    # subclassing and overriding this attribute with their visibly synthetic port.
-    AUTHENTICATED_SOURCES: tuple[type, ...] = (GitHubActionsSource,)
+    # Exact-type allowlist of adapters trusted to authenticate approval: the online
+    # GitHub Actions adapter and the offline committed-attestation adapter. Tests opt in
+    # by subclassing and overriding this attribute with their visibly synthetic port.
+    AUTHENTICATED_SOURCES: tuple[type, ...] = (GitHubActionsSource, CommittedAttestedReceiptSource)
 
     def __init__(self, config: TrustedReceiptConfig | None = None,
                  source: AuthenticatedApprovalSource | None = None) -> None:
@@ -319,40 +802,50 @@ class GitHubVerificationReceiptResolver:
     @staticmethod
     def _verify_source(source: Mapping[str, Any], receipt_id: str,
                        config: TrustedReceiptConfig) -> None:
-        required = {"repository", "workflowPath", "workflowRef", "workflowSha", "environment",
-                    "runId", "runAttempt", "runStatus", "runConclusion", "artifactId",
-                    "artifactName", "artifactExpired", "artifactRunId", "artifactAttempt",
-                    "artifactCount", "builder", "contributor", "reviewer", "requiredReviewers",
+        required = {"sourceKind", "repository", "workflowPath", "workflowRef", "workflowSha",
+                    "workflowBlobSha", "environment", "runId", "runAttempt", "builder",
+                    "contributor", "reviewer", "reviewerId", "requiredReviewerIds",
                     "preventSelfReview", "approvalHistoryVerified", "payloadDigest", "archive"}
         if not required.issubset(source):
             raise ReceiptUnavailable("trusted Actions provenance is incomplete")
+        kind = source["sourceKind"]
+        if kind not in (SOURCE_LIVE, SOURCE_COMMITTED):
+            raise ReceiptUnavailable("trusted source kind is not recognized")
+        workflowRef = source["workflowRef"]
         if (source["repository"] != config.repository or source["workflowPath"] != config.workflow_path
-                or source["workflowRef"] != config.workflow_ref or source["workflowSha"] != config.workflow_sha
-                or source["environment"] != config.environment):
+                or source["environment"] != config.environment
+                or not isinstance(workflowRef, str) or not workflowRef.startswith(config.trigger_ref_prefix)
+                or source["workflowBlobSha"] != config.workflow_blob_sha
+                or not isinstance(source["workflowSha"], str) or not GIT_SHA_RE.fullmatch(source["workflowSha"])):
             raise ReceiptUnavailable("workflow source or protected environment does not match trusted configuration")
         run_id, attempt = source["runId"], source["runAttempt"]
-        if type(run_id) is not int or run_id <= 0 or type(attempt) is not int or attempt <= 0:
-            raise ReceiptUnavailable("workflow run/attempt identity is invalid")
-        if source["runStatus"] != "completed" or source["runConclusion"] != "success":
-            raise ReceiptUnavailable("workflow run did not complete successfully")
-        if (source["artifactExpired"] is not False or type(source["artifactCount"]) is not int
-                or source["artifactCount"] != 1):
-            raise ReceiptUnavailable("receipt artifact is expired or ambiguous/duplicated")
-        expected_name = f"challenge-receipt-{run_id}-{attempt}-{receipt_id}"
-        if (source["artifactName"] != expected_name or type(source["artifactRunId"]) is not int
-                or source["artifactRunId"] != run_id or type(source["artifactAttempt"]) is not int
-                or source["artifactAttempt"] != attempt or type(source["artifactId"]) is not int):
-            raise ReceiptUnavailable("artifact is not uniquely bound to the exact run and attempt")
+        if type(run_id) is not int or run_id <= 0 or type(attempt) is not int or attempt != 1:
+            raise ReceiptUnavailable("workflow run/attempt identity is invalid or not attempt 1")
+        if kind == SOURCE_LIVE:
+            live = {"runStatus", "runConclusion", "artifactId", "artifactName", "artifactExpired",
+                    "artifactRunId", "artifactAttempt", "artifactCount"}
+            if not live.issubset(source):
+                raise ReceiptUnavailable("trusted Actions provenance is incomplete")
+            if source["runStatus"] != "completed" or source["runConclusion"] != "success":
+                raise ReceiptUnavailable("workflow run did not complete successfully")
+            if (source["artifactExpired"] is not False or type(source["artifactCount"]) is not int
+                    or source["artifactCount"] != 1):
+                raise ReceiptUnavailable("receipt artifact is expired or ambiguous/duplicated")
+            if (source["artifactName"] != ARTIFACT_NAME_PREFIX + receipt_id
+                    or type(source["artifactRunId"]) is not int or source["artifactRunId"] != run_id
+                    or type(source["artifactAttempt"]) is not int or source["artifactAttempt"] != attempt
+                    or type(source["artifactId"]) is not int):
+                raise ReceiptUnavailable("artifact is not uniquely bound to the exact run and attempt")
         if (source["approvalHistoryVerified"] is not True
-                or source["requiredReviewers"] != list(config.required_reviewers)
-                or source["preventSelfReview"] is not True):
+                or source["requiredReviewerIds"] != list(config.required_reviewer_ids)
+                or source["preventSelfReview"] is not config.prevent_self_review):
             raise ReceiptUnavailable("protected environment approval history/configuration is unavailable or mismatched")
+        if type(source["reviewerId"]) is not int or source["reviewerId"] not in config.required_reviewer_ids:
+            raise ReceiptUnavailable("authenticated reviewer is not in the configured reviewer roster")
         reviewer, builder, contributor = source["reviewer"], source["builder"], source["contributor"]
         if (not all(isinstance(actor, str) and actor.strip() for actor in (reviewer, builder, contributor))
                 or reviewer.lower() in {builder.lower(), contributor.lower()}):
             raise ReceiptUnavailable("independent reviewer must differ from builder and contributor")
-        if reviewer.lower() not in {name.lower() for name in config.required_reviewers}:
-            raise ReceiptUnavailable("authenticated reviewer is not in the configured reviewer roster")
         if (not isinstance(source["payloadDigest"], str)
                 or not SHA256_RE.fullmatch(source["payloadDigest"])):
             raise ReceiptUnavailable("artifact complete-payload digest is invalid")
@@ -370,6 +863,9 @@ class GitHubVerificationReceiptResolver:
             raise ReceiptUnavailable("challenge context digest differs from immutable receipt")
         if payload.get("notificationRef") != receipt.notice_ref:
             raise ReceiptUnavailable("contributor notification does not match receipt")
+        sealedChallenge = source.get("sealedChallengeId")
+        if sealedChallenge is not None and payload.get("challengeId") != sealedChallenge:
+            raise ReceiptUnavailable("sealed approval challenge id differs from the receipt artifact")
         if not isinstance(payload.get("proofSourceSha"), str) or not GIT_SHA_RE.fullmatch(payload["proofSourceSha"]):
             raise ReceiptUnavailable("proof source SHA is absent or invalid")
         if (payload.get("receipt", {}).get("receipt_id") != receipt_id
@@ -404,18 +900,59 @@ class BoundReceiptResolver:
             expected_proof_source_sha=self._proof_source_sha)
 
 
-def probe_trusted_receipt_source(config: TrustedReceiptConfig | None = None) -> dict[str, Any]:
-    """Return truthful deployment readiness without claiming live authorization."""
+def probe_trusted_receipt_source(
+        config: TrustedReceiptConfig | None = None, *, repoRoot: Path | str | None = None,
+        env: Mapping[str, str] | None = None, configPath: Path | str | None = DEFAULT_CONFIG_PATH,
+        which: Callable[[str], str | None] = shutil.which,
+        runner: Callable[..., Any] = subprocess.run) -> dict[str, Any]:
+    """Return truthful deployment readiness. Never claims that anything was admitted.
+
+    ``not-configured`` (nothing configured) | ``misconfigured`` (config invalid, workflow
+    pin drifted from the checkout, or ``gh`` missing) | ``offline-only`` (``gh`` present, no
+    GitHub credential: committed bundles verify, live admission cannot) | ``available``
+    (live admission and offline verification are both possible). Admission is decided per
+    challenge by the resolver, not by this probe.
+    """
     if config is None:
         try:
-            config = trusted_config_from_environment()
+            config = loadTrustedConfig(env, configPath)
+        except ReceiptMisconfigured as exc:
+            return {"status": "misconfigured", "available": False, "reason": str(exc)}
         except ReceiptUnavailable as exc:
             return {"status": "not-configured", "available": False, "reason": str(exc)}
-    return {
-        "status": "unavailable", "available": False,
-        "reason": "no dispatch-only protected producer is active and GitHub REST does not expose "
-                  "durable completed environment approval actor/history for independent verification",
-        "configuredIssuer": config.issuer, "repository": config.repository,
-        "workflowPath": config.workflow_path, "workflowRef": config.workflow_ref,
-        "environment": config.environment,
+    report: dict[str, Any] = {
+        "available": False, "configuredIssuer": config.issuer, "repository": config.repository,
+        "workflowPath": config.workflow_path, "triggerRefPrefix": config.trigger_ref_prefix,
+        "environment": config.environment, "workflowBlobSha": config.workflow_blob_sha,
     }
+    if repoRoot is not None:
+        workflow = Path(repoRoot) / config.workflow_path
+        if not workflow.is_file():
+            return {**report, "status": "misconfigured",
+                    "reason": f"pinned workflow {config.workflow_path} is missing from the checkout"}
+        try:
+            done = runner(["git", "-C", str(repoRoot), "hash-object", "--", str(workflow)],
+                          capture_output=True, text=True, timeout=30, check=False)
+            actual = str(done.stdout).strip() if done.returncode == 0 else None
+        except (OSError, subprocess.SubprocessError):
+            actual = None
+        if actual != config.workflow_blob_sha:
+            return {**report, "status": "misconfigured",
+                    "reason": "pinned workflow blob SHA does not match the checked-out workflow file"}
+    if not which("gh"):
+        return {**report, "status": "misconfigured",
+                "reason": "gh CLI not found; attestation verification requires it"}
+    source = os.environ if env is None else env
+    authed = bool(source.get("GH_TOKEN") or source.get("GITHUB_TOKEN"))
+    if not authed:
+        try:
+            authed = runner(["gh", "auth", "token"], capture_output=True, text=True, timeout=30,
+                            check=False).returncode == 0
+        except (OSError, subprocess.SubprocessError):
+            authed = False
+    if not authed:
+        return {**report, "status": "offline-only",
+                "reason": "no GitHub credential: committed receipt bundles can be verified, "
+                          "live admission cannot"}
+    return {**report, "status": "available", "available": True,
+            "reason": "issuer configured; admission is still decided per challenge by the resolver"}
