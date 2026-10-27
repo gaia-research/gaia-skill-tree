@@ -52,3 +52,10 @@ plus existing: #2176/#2177 two Core approvals, visual acceptance, main merge, re
   Production publication of anything it admits still rides the founder-gated `main` merge.
   Each admitted challenge still needs its own authenticated approval; the issuer approval is not
   a blanket admission of any case.
+- **2026-10-28 — founder clarification:** "Right now only me--I'm the only operator. Don't
+  overcomplicate the issuer approval. I'm leaning towards steward automating this--see issue
+  trails. For any issues you genuinely closed on dev, close it once it lands on dev. I'll still be
+  the one merging to main after my checks." Applied: single-operator issuer (founder as the one
+  authenticated approver), simplest GitHub-authenticated mechanism, pluggable so Steward can
+  automate later (RFC #2148 D8 trail) without Steward work now. Issues genuinely fixed by a PR are
+  closed when that PR lands on `dev/yggdrasil-iv`, not at the main merge.
