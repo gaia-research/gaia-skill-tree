@@ -1,8 +1,8 @@
 {
   "distribution": {
-    "total": 267,
+    "total": 268,
     "S": 3,
-    "A": 27,
+    "A": 28,
     "B": 94,
     "C": 104,
     "ungraded": 39,
@@ -287,6 +287,18 @@
         "github-stars-own": 130.23
       },
       "origin": false,
+      "branch": "unique"
+    },
+    {
+      "id": "nvidia/accelerated-computing-cudf",
+      "trustMagnitude": 126.12,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 90.12
+      },
+      "origin": true,
       "branch": "unique"
     },
     {

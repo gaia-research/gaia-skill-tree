@@ -1,10 +1,10 @@
 {
-  "version": "8.27.2",
-  "generatedAt": "2026-10-27T16:23:32Z",
+  "version": "8.26.10",
+  "generatedAt": "2026-10-27T16:33:02Z",
   "summary": {
-    "total": 267,
+    "total": 268,
     "S": 3,
-    "A": 27,
+    "A": 28,
     "B": 94,
     "C": 104,
     "ungraded": 39,
@@ -426,6 +426,23 @@
         "github-stars-own": 130.23
       },
       "origin": false,
+      "branch": "unique"
+    },
+    {
+      "skillId": "nvidia/accelerated-computing-cudf",
+      "tm": 126.12,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 90.12
+      },
+      "origin": true,
       "branch": "unique"
     },
     {

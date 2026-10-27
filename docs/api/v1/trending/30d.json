@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-10-27T13:41:38Z",
+  "generatedAt": "2026-10-27T15:47:44Z",
   "firstRun": false,
   "skills": [
     {
@@ -309,6 +309,20 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/ayghri/i-have-adhd.json"
+      }
+    },
+    {
+      "id": "nvidia/accelerated-computing-cudf",
+      "name": "accelerated-computing-cudf",
+      "level": "4★",
+      "contributor": "nvidia",
+      "trustMagnitude": 126.12,
+      "overallTrustGrade": "A",
+      "trendingScore": 63.06,
+      "tmDelta": 126.12,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/nvidia/accelerated-computing-cudf.json"
       }
     },
     {
@@ -3196,7 +3210,7 @@
       }
     }
   ],
-  "totalTrending": 228,
+  "totalTrending": 229,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

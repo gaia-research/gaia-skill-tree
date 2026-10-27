@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "browser-use/browser-harness",
+      "name": "Browser Harness",
+      "level": "3★",
+      "trustMagnitude": 73.59,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "browser-use",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/browser-use/browser-harness.json"
+      },
+      "genericSkillRef": "browser-control"
+    },
+    {
       "id": "firecrawl/firecrawl-skills",
       "name": "Firecrawl Skills",
       "level": "3★",
@@ -839,28 +856,11 @@
         "self": "/api/v1/skills/heygen-com/hyperframes-cli.json"
       },
       "genericSkillRef": "video-scaffolding"
-    },
-    {
-      "id": "heygen-com/hyperframes-core",
-      "name": "HyperFrames Core",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-core.json"
-      },
-      "genericSkillRef": "video-rendering"
     }
   ],
   "page": 2,
   "totalPages": 5,
-  "totalSkills": 228,
+  "totalSkills": 229,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",

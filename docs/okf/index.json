@@ -4,7 +4,7 @@
   "families": [
     {
       "id": "basic",
-      "count": 152,
+      "count": 153,
       "skills": [
         {
           "id": "adaptive-pattern-learning",
@@ -275,6 +275,11 @@
           "id": "git-diff-risk-analysis",
           "name": "Git Diff Risk Analysis",
           "summary": "Analyzes git diffs for complexity, churn, and risk scores to prioritize review attention and flag dangerous changes."
+        },
+        {
+          "id": "gpu-dataframe-acceleration",
+          "name": "GPU DataFrame Acceleration",
+          "summary": "Migrates and optimizes tabular data-processing workloads for GPU execution while checking supported operations, transfer overhead, hardware limits, numerical precision, and semantic parity with the original CPU workflow."
         },
         {
           "id": "grant-application-processing",
