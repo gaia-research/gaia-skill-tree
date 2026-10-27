@@ -12,7 +12,7 @@ description: >-
 version: 2.0.0
 ---
 
-> **Discovery execution:** [/gaia-quick-curate](../gaia-quick-curate/SKILL.md) describes the curation discovery surface. FAN-OUT retains model-neutral workers and shared reconciliation. Both pause for independently verified human L4 authority; neither automatically submits, promotes, calibrates, or merges.
+> **Discovery execution:** Use [/gaia-curate](../gaia-curate/SKILL.md) or the appropriate discovery strategy below. [/gaia-quick-curate](../gaia-quick-curate/SKILL.md) is a paused scaffold, not an automated discovery pipeline. FAN-OUT retains model-neutral workers and shared reconciliation. Discovery pauses for independently verified human L4 authority; it does not automatically submit, promote, calibrate, or merge.
 
 # gaia-full-pipeline
 
@@ -46,7 +46,7 @@ The pipeline starts differently depending on whether you already know *what* you
 
 | You want to… | Use |
 |---|---|
-| Curate **one specific skill** you already have the URL for | [`/gaia-curate`](#strategy-a) |
+| Curate **one selected source page** with up to five candidates | [`/gaia-curate`](#strategy-a) |
 | Curate a **small batch of up to ~5** where recoverability matters (each step checkpointed, retries on failure) | [`/gaia-curate-chain`](#strategy-b) |
 | Curate a **large or broad batch** with parallelism across multiple candidates (fan-out to Luna workers) | [`/gaia-curate-dynamic`](#strategy-c) |
 | **Discover what's trending** — you don't have a specific skill in mind, you want to see what's hot on configured marketplaces/repos | [`/gaia-curate-trending`](#strategy-d) |
@@ -57,13 +57,13 @@ The pipeline starts differently depending on whether you already know *what* you
 
 ---
 
-### Strategy A — `/gaia-curate` · Single declared skill {#strategy-a}
+### Strategy A — `/gaia-curate` · One selected source page {#strategy-a}
 
-**When:** You have one specific upstream `SKILL.md` URL. Lowest overhead.
+**When:** You have one selected source page or a specific upstream `SKILL.md` URL. Lowest overhead.
 
-**Depth:** One candidate. No parallelism. No checkpointing.
+**Depth:** Discovery and mapping without the chain's checkpointed recovery.
 
-**Breadth:** 1 skill per run.
+**Breadth:** Up to five candidates from one source page.
 
 ```
 gaia dev list --generic --json > /tmp/generic-snapshot.json
