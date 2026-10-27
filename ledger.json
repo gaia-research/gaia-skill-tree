@@ -1,5 +1,5 @@
 {
- "generation": 68,
+ "generation": 69,
  "lane": {
   "entries": [
    {
@@ -1919,7 +1919,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-10-27T09:18:01.283988Z",
-   "expiresAt": "2026-10-27T10:08:47.147613Z",
+   "expiresAt": "2026-10-27T10:10:40.092200Z",
    "holder": "run-20261021T174049Z-36e4510c"
   }
  },
@@ -4418,6 +4418,7 @@
       },
       "promptPath": ".gaia/steward/full/run-20261021T174049Z-36e4510c/build-0bdd26975824.prompt.md"
      },
+     "recoveredAt": "2026-10-27T09:38:50.466658Z",
      "status": "pending",
      "stepId": "build:0bdd26975824:1",
      "type": "agent.build"
@@ -5628,7 +5629,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-27T09:38:47.147826Z",
+ "updatedAt": "2026-10-27T09:40:40.092426Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261021T174049Z-36e4510c",
