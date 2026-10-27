@@ -8,7 +8,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 
 ## Registry Index
 
-### Basic Skills (150)
+### Basic Skills (152)
 
 * [API Call](/skills/basic/api-call.md) - A fundamental skill that enables agents to interact with external services via HTTP API calls.
 * [Adaptive Pattern Learning](/skills/basic/adaptive-pattern-learning.md) - Implements adaptive learning through pattern recognition and strategy optimization.
@@ -57,6 +57,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Fine-Tune](/skills/basic/fine-tune.md) - Adapts a pre-trained model to a new task or domain by updating model weights using parameter-efficient methods such as LoRA, QLoRA, or full supervised fine-tuning, without retraining from scratch.
 * [Format Output](/skills/basic/format-output.md) - Structures raw output into a specified format such as markdown, JSON, CSV, or HTML.
 * [Framework Upgrade](/skills/basic/framework-upgrade.md) - Guides an agent through upgrading a project from one major framework version to another, including breaking-change detection, migration steps, and post-upgrade validation.
+* [GPU DataFrame Acceleration](/skills/basic/gpu-dataframe-acceleration.md) - Migrates and optimizes tabular data-processing workloads for GPU execution while checking supported operations, transfer overhead, hardware limits, numerical precision, and semantic parity with the original CPU workflow.
 * [Generate SQL](/skills/basic/generate-sql.md) - Translates natural-language data questions into syntactically correct, executable SQL queries against a given schema.
 * [Generate Test](/skills/basic/generate-test.md) - Produces comprehensive unit, integration, and edge-case test suites from source code.
 * [Generate Text](/skills/basic/generate-text.md) - Produces coherent natural language output given a prompt, instruction, or context window.
@@ -70,6 +71,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Hypothesis Generation](/skills/basic/hypothesis-generate.md) - Formulates novel, testable scientific hypotheses by synthesising existing literature, identifying knowledge gaps, and proposing mechanistic explanations.
 * [Image Caption](/skills/basic/image-caption.md) - Generates accurate natural-language descriptions of images, capturing objects, actions, and spatial relationships.
 * [Image Generate](/skills/basic/image-generate.md) - Creates photorealistic or stylized images from text prompts using diffusion-based or autoregressive generative models.
+* [Interactive Mechanism Illustration](/skills/basic/interactive-mechanism-illustration.md) - Explains a technical concept by constructing an interactive physical mechanism whose geometry, motion, controls and numeric readouts share a coherent model, and verifies that the rendered explanation behaves consistently across interaction states.
 * [Interactive Presentation Authoring](/skills/basic/interactive-presentation-authoring.md) - Design and implement presentations with structured slides, navigation, and interactive visual content.
 * [Issue Triage](/skills/basic/issue-triage.md) - Classifies incoming issue reports through a structured state machine, assigns triage roles (bug/enhancement, needs-info/ready-for-agent/wontfix), reproduces bugs, requests missing detail, and produces structured resolution briefs for agent or human handoff.
 * [Literature Search](/skills/basic/literature-search.md) - Queries and searches academic literature databases (e.g. PubMed, arXiv, bioRxiv, OpenAlex) to locate papers, retrieve abstracts, resolve citations, and fetch full-text documents.

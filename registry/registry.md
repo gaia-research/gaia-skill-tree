@@ -97,6 +97,7 @@
 | · ████████/draft-in-voice | Fusion | — | `/ghostwrite` |
 | · [ruvnet](../docs/u/ruvnet/)/github-suite | Fusion | 2★ | `/git-integration` |
 | · [addy-osmani](../docs/u/addy-osmani/)/agent-skills | Fusion | 4★ | `/git-ship-done-pipeline` |
+| ○ [nvidia](../docs/u/nvidia/)/accelerated-computing-cudf | Basic | 4★ | `/gpu-dataframe-acceleration` |
 | · [mbtiongson1](../docs/u/mbtiongson1/)/graphify-triage | Fusion | 2★ | `/graph-driven-issue-triage` |
 | · ████████/torch-geometric | Fusion | — | `/graph-neural-network-modeling` |
 | · [mattpocock](../docs/u/mattpocock/)/grill-me | Fusion | 3★ | `/grill-me` |
@@ -111,6 +112,7 @@
 | ○ /hypothesis-generate | Basic | — | `/hypothesis-generate` |
 | ○ /image-caption | Basic | — | `/image-caption` |
 | ○ [dietrichgebert](../docs/u/dietrichgebert/)/ponytail | Basic | 4★ | `/implement-with-discernment` |
+| ○ [wheresryan22](../docs/u/wheresryan22/)/anatomy | Basic | 4★ | `/interactive-mechanism-illustration` |
 | ○ [mattpocock](../docs/u/mattpocock/)/triage | Basic | 3★ | `/issue-triage` |
 | · [safishamsi](../docs/u/safishamsi/)/graphify | Fusion | 5★ | `/knowledge-graph-build` |
 | · ████████/archive-crawler | Fusion | — | `/knowledge-harvest` |
@@ -273,7 +275,9 @@
 | ◉ [trailhq](../docs/u/trailhq/)/graft | Unique Skill | 4★ | `/codebase-graph-retrieval` |
 | ◉ [mksglu](../docs/u/mksglu/)/context-mode | Unique Skill | 4★ | `/context-safe-execution` |
 | ◉ [ayghri](../docs/u/ayghri/)/i-have-adhd | Unique Skill | 4★ | `/format-output` |
+| ◉ [nvidia](../docs/u/nvidia/)/accelerated-computing-cudf | Unique Skill | 4★ | `/gpu-dataframe-acceleration` |
 | ◉ [dietrichgebert](../docs/u/dietrichgebert/)/ponytail | Unique Skill | 4★ | `/implement-with-discernment` |
+| ◉ [wheresryan22](../docs/u/wheresryan22/)/anatomy | Unique Skill | 4★ | `/interactive-mechanism-illustration` |
 | ◉ [safishamsi](../docs/u/safishamsi/)/graphify | Unique Skill | 5★ | `/knowledge-graph-build` |
 | ◉ [vercel-labs](../docs/u/vercel-labs/)/vercel-react-best-practices | Unique Skill | 4★ | `/react-performance-optimization` |
 | ◉ [addy-osmani](../docs/u/addy-osmani/)/code-simplification | Unique Skill | 4★ | `/refactor-code` |

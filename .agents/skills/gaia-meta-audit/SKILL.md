@@ -7,7 +7,8 @@ description: >
   check on the registry", "show me flagged skills", "find problems in the registry",
   "what skills need fixing?", or "triage the registry". This is the triage layer — it
   surfaces candidates ranked P0–P4 so that focused work (via /gaia-audit) targets the
-  right things first. Run this before any audit pass. Also invoke proactively when a PR
+  right things first. Use it when a prioritized queue is needed; a focused single-target
+  audit can use /gaia-audit directly. Also invoke proactively when a PR
   changes registry/named/ at scale, or before a release, to catch regressions early.
 version: 1.2.0
 ---

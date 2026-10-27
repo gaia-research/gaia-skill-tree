@@ -1,7 +1,7 @@
 ---
 name: gaia-curate-trending
 description: >-
-  Discovery-only global trending extension for Gaia. Snapshots configured
+  Use for discovery-only global trending curation across configured sources; for one source page use gaia-curate. Snapshots configured
   external skill sources, prioritizes five-candidate pages for L4 review, and
   stops before trust, evidence, intake, or registry mutation.
 version: 1.0.0
