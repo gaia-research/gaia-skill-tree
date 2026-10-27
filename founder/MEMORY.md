@@ -3,8 +3,8 @@
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
 > **Resume pointer (campaign handovers live in a folder, not in `founder/` root).**
-> Yggdrasil IV is paused at a resumable state. Its entry point is
-> [`founder/handovers/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-27.md`](handovers/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-27.md);
+> Yggdrasil IV resumed 2026-10-28. Its entry point is
+> [`founder/handovers/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-28.md`](handovers/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-28.md);
 > the folder index with reading order and the supersession chain is
 > [`founder/handovers/yggdrasil-iv/README.md`](handovers/yggdrasil-iv/README.md).
 > Root `founder/` keeps only durable governing material — this memory file, the
@@ -14,6 +14,14 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 > **New pause/resume/recovery documents go in `founder/handovers/<initiative>/`.**
 
 ---
+
+## State Snapshot (2026-10-28, RESUMED — four PRs landed into dev/yggdrasil-iv; Challenge identity redesign ordered)
+
+- Entry point now [`handovers/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-28.md`](handovers/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-28.md); 10-27 handover still carries binding doctrine/gates.
+- `dev/yggdrasil-iv` = `4d3fba9e6`, contains all of main. Landed after independent review: #2183 Frontier, #2182 curation cleanup, #2180 canonical CLI (Opus re-review ACCEPT; propose-bypass P2 fixed), #2185 main sync.
+- Open: #2181 (zip-bomb P1 fix in progress), #2184 (engineering ACCEPT; founder ordered Challenge visual-identity redesign — bars not text, prose in tooltips, reusable components; renders go to founder as throwaway local HTML, never an Artifact).
+- Held for founder: #2176 Core approvals, #2184/#2172 visuals, #2159 CLI copy, Frontier version-binding schema decision, 6 dropped legacy lifecycle states.
+- Lesson: background agents sharing one scratch `pr-body.md` cross-wrote a PR body; give each agent a private body filename.
 
 ## State Snapshot (2026-10-27, PAUSE + HANDOVER REORGANIZATION — single resumable entry point outside `founder/` root)
 

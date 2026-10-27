@@ -9,7 +9,8 @@ history rather than cluttering the top level.
 
 | Order | Document | Role |
 |---|---|---|
-| 1 | [`YGGDRASIL_IV_HANDOVER_2026-10-27.md`](YGGDRASIL_IV_HANDOVER_2026-10-27.md) | **Current entry point.** Roster-agnostic resume brief: original scope, binding doctrine, verified lane SHAs, open review defects, held human gates, evidence map, ordered next steps. |
+| 1 | [`YGGDRASIL_IV_HANDOVER_2026-10-28.md`](YGGDRASIL_IV_HANDOVER_2026-10-28.md) | **Current entry point.** 2026-10-28 resume: integration state, landed PRs, open lanes, decisions pending. |
+| 1b | [`YGGDRASIL_IV_HANDOVER_2026-10-27.md`](YGGDRASIL_IV_HANDOVER_2026-10-27.md) | Binding mission (§1), doctrine (§2) and held gates (§4). Roster-agnostic resume brief: original scope, binding doctrine, verified lane SHAs, open review defects, held human gates, evidence map, ordered next steps. |
 | 2 | [`YGGDRASIL_IV_RESTART_CHECKPOINT_2026-10-27.md`](YGGDRASIL_IV_RESTART_CHECKPOINT_2026-10-27.md) | Live checkpoint/ledger. Its topmost section is authoritative over every older section below it. |
 | 3 | [`../YGGDRASIL_IV_EXECUTION.md`](../../YGGDRASIL_IV_EXECUTION.md) | Campaign charter and engineering execution receipt (kept in `founder/` root). |
 | 4 | [`../YGGDRASIL_IV_RATIFICATION_2026-10-25.md`](../../YGGDRASIL_IV_RATIFICATION_2026-10-25.md) | Governing ratification / authority (kept in `founder/` root). |
@@ -29,7 +30,8 @@ Founder rulings that bind this campaign remain in `founder/` root:
 | [`YGGDRASIL_IV_CRASH_RECOVERY_2026-10-26.md`](YGGDRASIL_IV_CRASH_RECOVERY_2026-10-26.md) | Historical — post-crash recovery receipt. |
 | [`YGGDRASIL_IV_DELIVERY_REVIEW_2026-10-26.md`](YGGDRASIL_IV_DELIVERY_REVIEW_2026-10-26.md) | Historical — three recovered deliveries saved but not accepted. |
 | [`YGGDRASIL_IV_RESTART_CHECKPOINT_2026-10-27.md`](YGGDRASIL_IV_RESTART_CHECKPOINT_2026-10-27.md) | **Live** — pause/resume control, collected outcomes, owners, gates. Newest section wins. |
-| [`YGGDRASIL_IV_HANDOVER_2026-10-27.md`](YGGDRASIL_IV_HANDOVER_2026-10-27.md) | **Live** — graceful-pause handover and the canonical resume brief. |
+| [`YGGDRASIL_IV_HANDOVER_2026-10-27.md`](YGGDRASIL_IV_HANDOVER_2026-10-27.md) | **Live (doctrine)** — graceful-pause handover; mission/doctrine/gates still binding. |
+| [`YGGDRASIL_IV_HANDOVER_2026-10-28.md`](YGGDRASIL_IV_HANDOVER_2026-10-28.md) | **Live (control)** — resumed session: four PRs landed, open lanes, pending founder decisions. |
 
 Supersession rule: each newer checkpoint/handover supersedes the control statements of
 the ones above it. Historical documents stay intact as evidence; do not rewrite them to
