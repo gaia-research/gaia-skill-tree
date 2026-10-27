@@ -6019,6 +6019,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "nvidia/accelerated-computing-cudf": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/NVIDIA/skills/blob/main/skills/accelerated-computing-cudf/SKILL.md",
+        "owner": "NVIDIA",
+        "repo": "skills",
+        "ref": "main",
+        "subpath": "skills/accelerated-computing-cudf",
+        "entrypoint": "skills/accelerated-computing-cudf/SKILL.md",
+        "installSubpath": "skills/accelerated-computing-cudf"
+      },
+      "currentSkillContentSha256": "f776bcbbdd3878815e88add2de153e0fec348ea4514281cb252acb9351d7d302",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "obra/brainstorming": {
       "state": "unknown",
       "reason": "not-observed",

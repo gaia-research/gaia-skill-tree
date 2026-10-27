@@ -397,6 +397,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     └─ ○ ████████/context-audit  [2★]
   ◉ mksglu/context-mode  [4★]
   ◉ ayghri/i-have-adhd  [4★]
+  ◉ nvidia/accelerated-computing-cudf  [4★]
   ◉ dietrichgebert/ponytail  [4★]
   ◉ wheresryan22/anatomy  [4★]
   ◉ vercel-labs/vercel-react-best-practices  [4★]

@@ -300,6 +300,19 @@
       }
     },
     {
+      "handle": "nvidia",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "nvidia/accelerated-computing-cudf",
+        "level": "4★",
+        "trustMagnitude": 126.12
+      },
+      "prestigeScore": 126.12,
+      "_links": {
+        "self": "/api/v1/contributors/nvidia.json"
+      }
+    },
+    {
       "handle": "hikari9",
       "namedSkills": 2,
       "topSkill": {
@@ -547,7 +560,7 @@
       }
     }
   ],
-  "totalContributors": 42,
+  "totalContributors": 43,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

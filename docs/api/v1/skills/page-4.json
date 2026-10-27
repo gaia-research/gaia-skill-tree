@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "disler/opinion",
+      "name": "Opinion",
+      "level": "2★",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "disler",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/disler/opinion.json"
+      },
+      "genericSkillRef": "opinion"
+    },
+    {
       "id": "disler/plan-synthesis",
       "name": "Plan Synthesis",
       "level": "2★",
@@ -843,33 +860,11 @@
         "self": "/api/v1/skills/ruvnet/dual-spawn.json"
       },
       "genericSkillRef": "headless-worker-spawn"
-    },
-    {
-      "id": "ruvnet/flow-nexus",
-      "name": "Flow Nexus",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 240.0,
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/flow-nexus.json"
-      },
-      "genericSkillRef": "multi-node-orchestration",
-      "suiteComponents": [
-        "ruvnet/flow-nexus-neural",
-        "ruvnet/flow-nexus-platform",
-        "ruvnet/flow-nexus-swarm"
-      ]
     }
   ],
   "page": 4,
   "totalPages": 5,
-  "totalSkills": 228,
+  "totalSkills": 229,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json",

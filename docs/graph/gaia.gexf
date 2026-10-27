@@ -781,6 +781,13 @@
           <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
+      <node id="gpu-dataframe-acceleration" label="GPU DataFrame Acceleration">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="grant-application-processing" label="Grant Application Processing">
         <attvalues>
           <attvalue for="level" value="" />

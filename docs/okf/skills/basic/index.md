@@ -47,6 +47,7 @@
 * [Fine-Tune](/fine-tune.md) - Adapts a pre-trained model to a new task or domain by updating model weights using parameter-efficient methods such as LoRA, QLoRA, or full supervised fine-tuning, without retraining from scratch.
 * [Format Output](/format-output.md) - Structures raw output into a specified format such as markdown, JSON, CSV, or HTML.
 * [Framework Upgrade](/framework-upgrade.md) - Guides an agent through upgrading a project from one major framework version to another, including breaking-change detection, migration steps, and post-upgrade validation.
+* [GPU DataFrame Acceleration](/gpu-dataframe-acceleration.md) - Migrates and optimizes tabular data-processing workloads for GPU execution while checking supported operations, transfer overhead, hardware limits, numerical precision, and semantic parity with the original CPU workflow.
 * [Generate SQL](/generate-sql.md) - Translates natural-language data questions into syntactically correct, executable SQL queries against a given schema.
 * [Generate Test](/generate-test.md) - Produces comprehensive unit, integration, and edge-case test suites from source code.
 * [Generate Text](/generate-text.md) - Produces coherent natural language output given a prompt, instruction, or context window.
