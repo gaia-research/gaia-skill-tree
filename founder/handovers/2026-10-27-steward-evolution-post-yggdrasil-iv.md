@@ -186,8 +186,9 @@ A stage's acceptance must pass before the next stage begins.
 
     | Scope | Must raise (if the finding still holds on re-verification) | Must not claim |
     |---|---|---|
-    | **Tree-only** (SE-2 unratified) | gaia-skill-tree's own red or silent scheduled workflows (for example `verify-evidence`); the Tree-consumed lexicon vendor drift | Anything about other repositories' health. Their findings stay unobserved and are reported as out of scope, not as healthy. |
+    | **Tree-only** (SE-2 unratified) | gaia-skill-tree's own red or silent scheduled workflows (for example `verify-evidence`), and stuck items in the Tree ledger. Nothing that needs a read of another repository. | Anything about other repositories' health, or any cross-repository contract. These findings stay unobserved and are reported as out of scope, not as healthy. |
     | **Ecosystem cohort** (SE-2 ratified) | Additionally, the cross-repository findings in STEWARD-EVOLUTION §16.4 for each onboarded repository: the craft resync, the retrieval index, `arbor-identity`, the deleted schema branch, the unpinned vendor copy | Repositories not onboarded |
+    | **Typed contracts** (each edge ratified in the contract registry) | Each ratified edge's drift. This includes the gaia-skill-tree lexicon checker vendored from gaia-research, whose producer read is authorized only by its ratified edge. | Edges that are still `proposed` |
   - A re-run creates no duplicates.
   - The job makes zero model calls; no model credential is present in it.
   - **If SE-7 is ratified**, the three watchdog drills in STEWARD-EVOLUTION §10 pass: missed schedule, green but blind, and stuck item.
@@ -203,9 +204,13 @@ A stage's acceptance must pass before the next stage begins.
 
 - **Objective:** one governed Lane A outcome, end to end, in a repository other than gaia-skill-tree.
 - **Prerequisites:**
-  - Stage 2 done.
+  - Stage 2 done **in Ecosystem scope**. Tree-only E1 never leads to a cross-repository write.
+  - SE-1 and SE-2 ratified, and the SE-1 minimum proof met: the Ecosystem domain observes on the unchanged runtime with its own policy file and ledger ref.
+  - The target repository's onboarding record (STEWARD-EVOLUTION §9.2) merged at profile `draft-pr`.
+  - SE-3 ratified for the host that will hold the write credential.
+  - **STOP if any of these is missing.** Report which one, and never substitute Tree-domain authority for a cross-repository write.
   - #2175 resolved, with its protections verified effective.
-  - The SE-6 provider probe (STEWARD-EVOLUTION §5.6) passed for the coordinator and the executor actually used.
+  - The SE-6 provider probe (STEWARD-EVOLUTION §5.6) passed for the coordinator and the executor actually used. That includes showing the host enforces the digest-addressed handoff to the driver (§8.2).
   - The adversarial confinement test (STEWARD-EVOLUTION §8.2) passed on that host: a hostile issue and a hostile worktree, with a canary token. An unknown host capability means no write.
   - One standing authorization record. Candidate: the retrieval-index contract behind gaia-skill-heaven#216, if it is still breached.
 - **Scope, in:**
@@ -297,7 +302,7 @@ A stage's acceptance must pass before the next stage begins.
 
 ### Stage 5 — Generalization (envelope E4)
 
-- **Objective:** show the runtime is reusable. Onboard one new repository and offboard one, with no engine change. Stand up a private host only if a trigger in STEWARD-EVOLUTION §8.4 has fired.
+- **Objective:** show the runtime generalizes beyond the first proof. The minimum second-domain proof already happened before Stage 3. Onboard one *additional* repository and offboard one, with no engine change. Stand up a private host only if a trigger in STEWARD-EVOLUTION §8.4 has fired.
 - **Prerequisites:** Stage 4 done.
 - **Scope, in:**
   - discovery, which yields candidates only;

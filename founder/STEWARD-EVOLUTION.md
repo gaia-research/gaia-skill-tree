@@ -631,6 +631,7 @@ Each fact has one owner. Every other copy is a labelled cache.
   - It runs as a separate process or job from any model.
   - It shares no environment, filesystem or tool handle with the model.
   - It takes only the verified artifact and the attempt record as input.
+  - **Model output is untrusted data until the driver validates it.** The handoff is an immutable, digest-addressed artifact plus manifest. Immediately before each external write, the driver checks it independently against the exact approved base SHA, the allowed paths and the authorization record. It is never an instruction, and never a privileged tool a model can call. The provider probe (§5.6) must show the chosen host can enforce this boundary.
 - **Revalidation at the last privileged effect.** Immediately before each write, the driver re-checks:
   - the policy digest;
   - the authorization record and its content digest;
@@ -759,8 +760,8 @@ Steward cannot be the last line of defence for its own liveness.
 
 **Shared failure domain.** A watchdog in another Gaia repository is independent of the observed *workflow and repository*, but not of the GitHub platform:
 - an Actions-wide outage, an organization-level Actions or billing stop, or a revoked token can silence both at once;
-- the watchdog therefore also alerts on its *own* missed run, through the issue it edits, so its silence is visible on the next run;
-- a heartbeat outside GitHub is **OPEN** (§18). No new service is built ahead of evidence that a platform-wide silence went unnoticed.
+- **Limitation, stated plainly:** a watchdog hosted on GitHub catches an absent *Steward* run only while GitHub and the watchdog itself work. It cannot detect its own absence, or GitHub's. A later successful run can record a gap after the fact, but that is a retrospective report, not an alert, and it does not close this common-mode failure;
+- **a heartbeat outside GitHub is deferred**, as a separately justified option (§18 Q10). It is built only if evidence shows a platform-wide or watchdog silence went unnoticed.
 
 **Drills:**
 - **Missed schedule:** disable the observed workflow. The watchdog alerts within twice the cadence, and clears after recovery.
@@ -950,9 +951,11 @@ Rules:
    - The founder labels real issues: about 40, from at least three repositories.
    - At least 10 are `progress`, of which at least 3 are `indirect`.
    - At least 5 are `governance`.
-2. **Adjudication.**
-   - Borderline cases are adjudicated by the founder and recorded.
-   - Adjudicated cases are excluded from the precision count, but kept as fixtures.
+2. **Held-out cohort, fixed before scoring.**
+   - The evaluation cohort is chosen and frozen before the classifier is run on it.
+   - Disputed ground-truth labels are adjudicated by the founder *before* scoring, and recorded.
+   - Every cohort case, including the adjudicated ones, counts in the final metrics. The denominator never changes after the hard cases are seen.
+   - Cases used to tune rules or prompts belong to a separate exploratory set and are never scored.
 3. **Pass bar:**
    - `progress` precision ≥ 0.9 and recall ≥ 0.7;
    - `governance` recall = 1.0: no governance item is filed as anything else;
@@ -1055,7 +1058,10 @@ Each ruling below gives the proposal, the alternatives, the test that decides be
   - The Tree domain is unchanged.
 - **Why:** the Frontier ruling scopes the Tree Steward. Duplicating the runtime would duplicate its hardest-won properties.
 - **Alternatives:** (a) widen the Tree charter (v3 D1); (b) build a separate engine or fleet platform (v2).
-- **Resolving test:** a second domain runs on the runtime with configuration-only changes (Stage 5). If it needs an engine fork, revisit this ruling.
+- **Resolving test, in two parts:**
+  - **Minimum proof, before the first cross-repository write (Stages 2–3):** the Ecosystem domain runs on the unchanged runtime with only its own policy file, repository records and ledger ref. Its observe run, and one attended execution, need no engine fork.
+  - **Generalization (Stage 5):** additional repositories onboard and offboard with configuration only.
+  - If either part needs an engine fork, revisit this ruling.
 - **Default until ratified:** nothing changes. The Tree Steward continues as ratified.
 
 ### SE-2 — Ecosystem domain charter
