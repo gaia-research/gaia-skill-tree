@@ -1,5 +1,7 @@
 # Yggdrasil IV — recovered deliveries and independent review (2026-10-26)
 
+**Latest control:** read [the 2026-10-27 restart checkpoint](YGGDRASIL_IV_RESTART_CHECKPOINT_2026-10-27.md) first. All former campaign jobs are terminal/collected; Pi tooling failed independent review and source repair is assigned. This receipt preserves the preceding deliveries.
+
 ## Control and restart boundary
 
 The campaign remains explicitly resumed. The founder asked to be told when to reset; the answer is **not yet**. Give an explicit **READY TO RESTART** only after recovery tooling is tested/reviewed/installed and critical work is finished or has acknowledged a verified safe checkpoint. Specify Pi reload versus full Termux restart. Do not infer restart permission from a completion notification. No additional campaign jobs before this restart checkpoint: collect existing checks and prioritize reviewed durable-tooling installation. This is restart sequencing, not campaign completion or a new permanent pause.
@@ -13,7 +15,7 @@ Continue RFC #2148 and held aggregate #2151. Main, canonical/schema/standing/Ori
 | Slice | Saved and remotely confirmed source | Evidence / remaining verification |
 |---|---|---|
 | Publication | `36883266812824dc49de48ffe1bda757d22d45ce`, `dev/yggdrasil-iv-publication-last-mile` | Worker reports **24 context tests passed in 106.10s**, including actual bounded two-root/corruption fixture. Repeated runtime/font hashing diagnosed as expensive work, not deadlock. Context-bound child reuse must still pass independent outer runtime certification. Parent **323 regressions passed in 122.66s**; first full build failed strict OG PNG coverage after541.79s. No second replay or snapshot certification; tracked-source inventory unchanged. Independent runtime-proof P1 is disputed by an actual gate counterprobe; see verification update below. |
-| Durable watcher | `d311d9624f0072d17b270f970733d89535e3926c`, `dev/yggdrasil-iv-watcher-transactional` | Worker reports **50 distinct focused passes**, actual two-process/two-clone CAS barriers, crash73after shared save/before materialization, fresh-clone packet restoration and tamper/dedupe probes. Full combined parent suite and independent15-file review launched; not accepted. Default issuer unavailable. |
+| Durable watcher | `d311d9624f0072d17b270f970733d89535e3926c`, `dev/yggdrasil-iv-watcher-transactional` | Worker reports **50 distinct focused passes**, actual two-process/two-clone CAS barriers, crash73after shared save/before materialization, fresh-clone packet restoration and tamper/dedupe probes. Parent **231 tests passed in 64.50s**, with unchanged tracked/nonignored source inventory. Independent full15-file review found no P0/P1; three actual concurrency probes, eleven recovery/tamper/preservation/dedupe probes and four workflow checks passed. **Conditional bounded engineering pass only**; integration, audited legacyv1 migration and all live/operational gates remain held. Default issuer unavailable. |
 | Transaction foundation | `e183246809486faec6b3d1016480291e0575e575`, proper feature branch `dev/yggdrasil-iv-canonical-transactions`, draft PR #2161 | Parent **8 tests passed; 5 containment subtests passed in 0.47s**, clean diff; whole source tree byte-identical to deliverededf below. Independent implementation review outstanding. No CLI writer/dual history/migration wired. Real process-coordination proof was not supplied by author. |
 | Corpus | Draft PR #2159, head `cc1c3e1735e95a44df94d59145e4b7d5638bcc61` | Initial CI correctly found generated README CLI choices omitted `shadow`; README-only correction matches actual generator (`README_CLI_GENERATOR_PARITY_OK`). Implementation remains exact reviewed/tested `b6103d7bd`: **324 parent tests**, complete **398 named / 299 generic** no-write replay, and **45 independent focused passes**. New-head CI/final applicable visual gate not inferred. |
 
@@ -52,10 +54,10 @@ Only after restoration, the original feature branch fast-forwarded to repaired i
 | Work | Run/task | Output / namespace |
 |---|---|---|
 | Publication independent review collected, Luna High; P1 challenged | `1b98475f-9c5b-409f-aa98-52d6d30aed42` | `publication-368-independent-review.md`; detached worktree suffix `publication-review-368` |
-| Watcher independent review, Luna High | `7759a499-ff38-4220-be62-cbc8b4fcf4cb` | `watcher-d311-independent-review.md`; suffix `watcher-review-d311` |
+| Watcher independent review collected — conditional pass, Luna High | `7759a499-ff38-4220-be62-cbc8b4fcf4cb` | `watcher-d311-independent-review.md`; suffix `watcher-review-d311` |
 | Transaction independent review, Luna High | `cb30f5b8-5d1e-42a7-adb1-ce97160b9286` | `canonical-e183-independent-review.md`; suffix `canonical-review-e183` |
 | Parent publication attempt — FAILED/collected; second replay not run | `ba7cb70f5` | `.pi/tasks/01a1753c-3a9c-7024-bcb2-ac1114464e09-10612/ba7cb70f5.output`; durable launch metadata `publication-368-parent-run.json` |
-| Parent complete watcher/ledger tests | `bbdc8140c` | Same task directory, `bbdc8140c.output`; disjoint temporary evidence prefix `yggiv-watcher-d311.` |
+| Parent complete watcher/ledger tests collected — 231 passed | `bbdc8140c` | Same task directory, `bbdc8140c.output`; disjoint temporary evidence prefix `yggiv-watcher-d311.` |
 | Durable Pi tooling phase1 collected, Flash High | `e2c1a27a-7940-4d45-82a3-8b8f92bc9dbc` | External `~/.pi/durable-recovery/{manifest.json,implementation-result.md}`; isolated `~/.pi/worktrees/pi-config-durable-recovery`, branch `feat/durable-subagent-recovery` |
 
 All worktree suffixes above use `~/.gaia-worktrees/yggdrasil-iv-`. Reviewers are read-only on frozen source. Collect terminal results rather than polling or launching duplicate owners. The two original resumed implementation workers and foundation author have completed their bounded deliveries; they are not still actively implementing.
