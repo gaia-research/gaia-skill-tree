@@ -1,6 +1,6 @@
 # Yggdrasil IV — pause handover (2026-10-27)
 
-**Read this file first, then `founder/YGGDRASIL_IV_RESTART_CHECKPOINT_2026-10-27.md`,
+**Read this file first, then `founder/handovers/yggdrasil-iv/YGGDRASIL_IV_RESTART_CHECKPOINT_2026-10-27.md`,
 `founder/YGGDRASIL_IV_EXECUTION.md`, `founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md`,
 `founder/GAIA_FRONTIER_RULING_2026-10-26.md`, `CLAUDE.md`, `founder/CLAUDE.md`,
 `founder/ORCHESTRATOR.md`, `META.md` §4.1, `GOVERNANCE.md`, and
@@ -10,6 +10,14 @@ This document is written to be **roster-agnostic**. It assumes you are a fresh
 `/gaia-orchestrator` in a new session, on any model, with no memory of the
 conversation that produced it. Everything needed to resume is either here, in the
 cited Git refs, or in the cited local evidence directories.
+
+**Location convention (2026-10-27):** this is a temporary/dated handover, so it
+lives in `founder/handovers/yggdrasil-iv/` together with the campaign's other
+checkpoints and receipts — see the folder's [`README.md`](README.md) for reading
+order and the supersession chain. `founder/` root keeps only durable governing
+material (ratification, Frontier ruling, campaign charter, memory, orchestrator
+rules). Add new pause/resume/recovery documents here, not to the root. Paths cited
+below already reflect that layout.
 
 ---
 

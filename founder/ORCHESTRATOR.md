@@ -57,7 +57,8 @@ Auto-compact summaries describe what happened but do NOT re-activate loaded skil
 2. `git branch` — confirm which branch and worktree you are on.
 3. `gh pr list --author @me --state open --json number,title,headRefName,baseRefName` — reconstruct the active PR stack (feature → integration → main).
 4. Read the most recent `## State Snapshot` block in `founder/MEMORY.md` — it has the session headline, open tasks, and PR numbers at close of last session.
-5. Resume from the last open task listed in that snapshot.
+5. If that snapshot says a campaign is paused with a handover, open it before planning: campaign handovers/checkpoints live in `founder/handovers/<initiative>/` (Yggdrasil IV → `founder/handovers/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-27.md`, index in that folder's `README.md`). Root `founder/` holds only durable governing docs.
+6. Resume from the last open task listed in that snapshot.
 
 **Invariants that survive any sprint:**
 - Never commit directly to `main` or the integration branch (`dev/<sprint-name>`). All work goes through a feature branch PR. Exception under superadmin mode: founder-owned docs (root `*.md`, `founder/`) may be authored directly by the orchestrator, but still land via a `dev/*` feature branch PR — never a direct push to `main`.

@@ -5,7 +5,7 @@ Gaia Skill Tree is an open, evidence-backed skill registry for agents. Capabilit
 _See also: `PRODUCT.md` for audience, product purpose, and the design-principle / anti-reference / accessibility baseline. `DESIGN.md` for visual tokens and motion specs._
 
 > **Resuming Yggdrasil IV after the 2026-10-27 graceful pause?** Read
-> [`founder/YGGDRASIL_IV_HANDOVER_2026-10-27.md`](founder/YGGDRASIL_IV_HANDOVER_2026-10-27.md)
+> [`founder/handovers/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-27.md`](founder/handovers/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-27.md)
 > first. It is written for a fresh orchestrator on any roster: original scope,
 > binding doctrine, verified lane state with exact SHAs, open review findings,
 > held human gates, evidence map, and ordered next steps. Nothing was merged to

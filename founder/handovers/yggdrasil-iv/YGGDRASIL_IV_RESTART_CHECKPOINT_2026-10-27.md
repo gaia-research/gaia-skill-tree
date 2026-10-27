@@ -6,7 +6,7 @@ The founder subsequently directed: **“Continue. We have tokens now, skip the p
 
 ### Latest collected state after progress check — authoritative over earlier ledgers
 
-**PAUSED GRACEFULLY (founder instruction). Resume by reading `founder/YGGDRASIL_IV_HANDOVER_2026-10-27.md` first; it is roster-agnostic and preserves the original scope, doctrine and gates. Founder also directed: no explicit `max_turns` on future agent dispatches.**
+**PAUSED GRACEFULLY (founder instruction). Resume by reading `founder/handovers/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-27.md` first; it is roster-agnostic and preserves the original scope, doctrine and gates. Founder also directed: no explicit `max_turns` on future agent dispatches.**
 
 Continue Gaia with Luna/Terra routing; no new pause, Flash dispatch, Pi repair or approval waiver.
 
