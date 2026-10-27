@@ -1,0 +1,92 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/brain-pdf",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/brain-pdf",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-pdf/SKILL.md",
+  "checked": true,
+  "contentSha256": "2dfffd2373f00b5f11c1e4b39a75be48e90870201b4c11979d520bd5975dcae4",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/make-pdf",
+     "similarity": 0.534898
+    },
+    {
+     "id": "garrytan/book-mirror",
+     "similarity": 0.491202
+    },
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.476731
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "parse-pdf",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4608 to generic 'parse-pdf' (weak match).",
+   "similarity": 0.460764
+  }
+ ],
+ "normalized": {
+  "description": "Generate a publication-quality PDF from any brain page via the gstack make-pdf binary. Strips YAML frontmatter, sanitizes emoji, applies running headers and page numbers. Brain page is always the source of truth; PDF is a rendering.",
+  "name": "brain-pdf"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-pdf/SKILL.md",
+  "contentSha256": "2dfffd2373f00b5f11c1e4b39a75be48e90870201b4c11979d520bd5975dcae4",
+  "fetchedAt": "2026-10-27T22:08:43.214475+00:00",
+  "frontmatter": {
+   "description": "Generate a publication-quality PDF from any brain page via the gstack make-pdf binary. Strips YAML frontmatter, sanitizes emoji, applies running headers and page numbers. Brain page is always the source of truth; PDF is a rendering.",
+   "name": "brain-pdf",
+   "triggers": [
+    "make pdf from brain",
+    "brain pdf",
+    "convert brain page to pdf",
+    "publish this page as pdf",
+    "export brain page"
+   ],
+   "version": "0.1.0"
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

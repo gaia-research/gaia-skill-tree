@@ -1,0 +1,92 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/postgres-adopt",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/postgres-adopt",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/postgres-adopt/SKILL.md",
+  "checked": true,
+  "contentSha256": "8cf801e2e0d29da525a8c4ba275b91e6caffc8aae8e648cbcc8bceaab865c890",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "supabase",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5427 to generic 'supabase' (weak match).",
+   "similarity": 0.542677
+  },
+  {
+   "genericId": "postgres-best-practices",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4776 to generic 'postgres-best-practices' (weak match).",
+   "similarity": 0.477574
+  },
+  {
+   "genericId": "gbrain",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4685 to generic 'gbrain' (weak match).",
+   "similarity": 0.468547
+  }
+ ],
+ "normalized": {
+  "description": "Detect which gbrain engine is in use (PGLite vs Postgres), prefer Postgres for agent-harness installs, install/provision Postgres (Supabase discovery via SUPABASE_ACCESS_TOKEN, local Postgres, opt-in Docker), and move an existing PGLite brain to Postgres with its history (plan, ask, run). Detection is one engine-free command; the install ladder is one flag.",
+  "name": "postgres-adopt"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/postgres-adopt/SKILL.md",
+  "contentSha256": "8cf801e2e0d29da525a8c4ba275b91e6caffc8aae8e648cbcc8bceaab865c890",
+  "fetchedAt": "2026-10-27T22:08:16.245035+00:00",
+  "frontmatter": {
+   "brain_first": "exempt",
+   "description": "Detect which gbrain engine is in use (PGLite vs Postgres), prefer Postgres\nfor agent-harness installs, install/provision Postgres (Supabase discovery\nvia SUPABASE_ACCESS_TOKEN, local Postgres, opt-in Docker), and move an\nexisting PGLite brain to Postgres with its history (plan, ask, run).\nDetection is one engine-free command; the install ladder is one flag.\n",
+   "mutating": true,
+   "name": "postgres-adopt",
+   "tools": [
+    "exec"
+   ],
+   "triggers": [
+    "which gbrain engine",
+    "pglite or postgres",
+    "gbrain engine status",
+    "upgrade to postgres",
+    "switch gbrain to postgres",
+    "install postgres for gbrain",
+    "move my brain to supabase",
+    "set up postgres for the brain"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

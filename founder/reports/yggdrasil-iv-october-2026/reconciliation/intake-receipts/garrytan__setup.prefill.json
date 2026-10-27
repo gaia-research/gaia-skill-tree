@@ -1,0 +1,91 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/setup",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/setup",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/setup/SKILL.md",
+  "checked": true,
+  "contentSha256": "d6b82f858e60699ff8c5ee82d61c94a98c2fbc7a852b5f74571e7ab3f0921139",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "ruvnet/reasoningbank-agentdb",
+     "similarity": 0.506847
+    },
+    {
+     "id": "ruvnet/agentdb",
+     "similarity": 0.461408
+    },
+    {
+     "id": "ruvnet/agentdb-memory-patterns",
+     "similarity": 0.450333
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Add keyless GBrain memory to an existing agent, or connect a hosted brain while preserving identity and configuration",
+  "name": "setup"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/setup/SKILL.md",
+  "contentSha256": "d6b82f858e60699ff8c5ee82d61c94a98c2fbc7a852b5f74571e7ab3f0921139",
+  "fetchedAt": "2026-10-27T22:04:04.275914+00:00",
+  "frontmatter": {
+   "description": "Add keyless GBrain memory to an existing agent, or connect a hosted brain while preserving identity and configuration",
+   "mutating": true,
+   "name": "setup",
+   "tools": [
+    "get_stats",
+    "get_health",
+    "sync_brain",
+    "put_page"
+   ],
+   "triggers": [
+    "set up gbrain",
+    "initialize brain",
+    "gbrain setup",
+    "install gbrain into this agent workspace",
+    "add gbrain to my agent"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

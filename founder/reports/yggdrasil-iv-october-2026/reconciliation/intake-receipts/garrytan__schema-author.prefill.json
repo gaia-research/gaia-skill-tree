@@ -1,0 +1,146 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/schema-author",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/schema-author",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-author/SKILL.md",
+  "checked": true,
+  "contentSha256": "38efb8b48399a2dc526d7084579aa265b2ab232882605bc2f86f6ba2869619f5",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.515574
+    },
+    {
+     "id": "huggingface/huggingface-papers",
+     "similarity": 0.471736
+    },
+    {
+     "id": "garrytan/idea-lineage",
+     "similarity": 0.467564
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.463501
+    },
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.457196
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "wiki-search",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4568 to generic 'wiki-search' (weak match).",
+   "similarity": 0.456785
+  }
+ ],
+ "normalized": {
+  "description": "Evolve your brain's schema pack. Add page types, propose new ones from corpus scans, backfill page.type on existing pages, audit pack health. Triggers when an agent notices untyped pages, custom domains needing typed entities (researcher, contract, deposition), or wants to see what types the pack declares.",
+  "name": "schema-author"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-author/SKILL.md",
+  "contentSha256": "38efb8b48399a2dc526d7084579aa265b2ab232882605bc2f86f6ba2869619f5",
+  "fetchedAt": "2026-10-27T22:05:05.406114+00:00",
+  "frontmatter": {
+   "brain_first": "exempt",
+   "description": "Evolve your brain's schema pack. Add page types, propose new ones from corpus scans, backfill page.type on existing pages, audit pack health. Triggers when an agent notices untyped pages, custom domains needing typed entities (researcher, contract, deposition), or wants to see what types the pack declares.",
+   "name": "schema-author",
+   "tools": [
+    "gbrain schema active",
+    "gbrain schema list",
+    "gbrain schema stats",
+    "gbrain schema review-orphans",
+    "gbrain schema detect",
+    "gbrain schema suggest",
+    "gbrain schema lint",
+    "gbrain schema graph",
+    "gbrain schema explain",
+    "gbrain schema fork",
+    "gbrain schema use",
+    "gbrain schema add-type",
+    "gbrain schema remove-type",
+    "gbrain schema update-type",
+    "gbrain schema add-alias",
+    "gbrain schema remove-alias",
+    "gbrain schema add-prefix",
+    "gbrain schema remove-prefix",
+    "gbrain schema add-link-type",
+    "gbrain schema remove-link-type",
+    "gbrain schema set-extractable",
+    "gbrain schema set-expert-routing",
+    "gbrain schema sync",
+    "gbrain schema reload",
+    "mcp:get_active_schema_pack",
+    "mcp:list_schema_packs",
+    "mcp:schema_stats",
+    "mcp:schema_lint",
+    "mcp:schema_graph",
+    "mcp:schema_explain_type",
+    "mcp:schema_review_orphans",
+    "mcp:schema_apply_mutations",
+    "mcp:reload_schema_pack"
+   ],
+   "triggers": [
+    "add a page type",
+    "add a type to my schema",
+    "my brain has untyped pages",
+    "schema isn't matching my notes",
+    "propose new types from my corpus",
+    "backfill page types",
+    "evolve my schema",
+    "extend the schema pack",
+    "create a custom type for",
+    "researcher type",
+    "make X an expert type",
+    "schema pack add",
+    "schema mutate",
+    "schema sync",
+    "schema author"
+   ],
+   "writes_pages": false
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}
