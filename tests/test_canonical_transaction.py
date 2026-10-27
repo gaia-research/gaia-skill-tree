@@ -6,7 +6,7 @@ from pathlib import Path
 
 from gaia_cli.canonicalTransaction import (
     ApprovalRejected, ApprovalUnavailable, Change, TransactionError,
-    apply, assertNoPendingTransaction, canonicalTransactionLock, prepare, rollback,
+    _hash, apply, assertNoPendingTransaction, canonicalTransactionLock, prepare, rollback,
 )
 
 
@@ -120,6 +120,61 @@ class CanonicalTransactionTests(unittest.TestCase):
         journal.write_text(json.dumps(doc))
         with self.assertRaisesRegex(TransactionError, "integrity"):
             rollback(self.root, journal, TestIssuer("rollback"))
+
+    def test_absence_vs_content_domain_separation_and_creation_rollback(self):
+        # 1. Direct domain separation check: absence vs content bytes b"<absent>"
+        self.assertEqual("<absent>", _hash(None))
+        self.assertNotEqual(_hash(None), _hash(b"<absent>"))
+        self.assertNotEqual(_hash(None), _hash(b""))
+
+        # 2. Prepare creation while target is genuinely absent
+        target_path = "registry/nodes/new.json"
+        disk_target = self.root / target_path
+        self.assertFalse(disk_target.exists())
+        create_plan = prepare(self.root, "create new node", "create-plan-1", [
+            Change(target_path, b"created-content"),
+        ])
+        self.assertIsNone(create_plan.targets[0].before)
+        self.assertEqual(b"created-content", create_plan.targets[0].after)
+
+        # 3. Introduce literal b"<absent>" content before apply
+        disk_target.write_bytes(b"<absent>")
+
+        # 4. Apply must detect CAS conflict and preserve the file
+        with self.assertRaisesRegex(TransactionError, "CAS conflict"):
+            apply(create_plan, TestIssuer())
+        self.assertEqual(b"<absent>", disk_target.read_bytes())
+
+        # 5. Restore genuine absence and verify successful apply (creation)
+        disk_target.unlink()
+        self.assertFalse(disk_target.exists())
+        journal = apply(create_plan, TestIssuer())
+        self.assertEqual(b"created-content", disk_target.read_bytes())
+
+        # 6. Outside edit introducing b"<absent>" refuses rollback and preserves file
+        disk_target.write_bytes(b"<absent>")
+        with self.assertRaisesRegex(TransactionError, "outside edit"):
+            rollback(self.root, journal, TestIssuer("rollback"))
+        self.assertEqual(b"<absent>", disk_target.read_bytes())
+
+        # 7. Restore applied content and verify compare-safe rollback deletes the created file
+        disk_target.write_bytes(b"created-content")
+        rollback(self.root, journal, TestIssuer("rollback"))
+        self.assertFalse(disk_target.exists())
+        assertNoPendingTransaction(self.root)
+
+        # 8. Deletion detection: if a plan is prepared for an existing file with b"<absent>",
+        # deleting the file must trigger a CAS conflict on apply rather than matching absence.
+        disk_target.write_bytes(b"<absent>")
+        update_plan = prepare(self.root, "update absent-content file", "update-plan-1", [
+            Change(target_path, b"updated-content"),
+        ])
+        self.assertEqual(b"<absent>", update_plan.targets[0].before)
+        disk_target.unlink()
+        self.assertFalse(disk_target.exists())
+        with self.assertRaisesRegex(TransactionError, "CAS conflict"):
+            apply(update_plan, TestIssuer())
+        self.assertFalse(disk_target.exists())
 
 
 if __name__ == "__main__":

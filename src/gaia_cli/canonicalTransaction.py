@@ -74,8 +74,13 @@ class UnavailableApprovalProvider:
         raise ApprovalUnavailable("No trusted canonical transaction issuer is configured")
 
 
-def _sha(data: bytes | None) -> str:
-    return hashlib.sha256(b"<absent>" if data is None else data).hexdigest()
+def _hash(data: bytes | None) -> str:
+    if data is None:
+        return "<absent>"
+    return hashlib.sha256(data).hexdigest()
+
+
+_sha = _hash
 
 
 def _canonical(value: object) -> bytes:
@@ -121,7 +126,7 @@ def _target(root: Path, value: str) -> Path:
 
 def _plan_digest(root: str, purpose: str, identity: str, targets: tuple[Target, ...]) -> str:
     payload = {"root": root, "purpose": purpose, "identity": identity,
-               "targets": [{"path": t.path, "before": _sha(t.before), "after": _sha(t.after),
+               "targets": [{"path": t.path, "before": _hash(t.before), "after": _hash(t.after),
                             "beforeLength": None if t.before is None else len(t.before), "afterLength": len(t.after)} for t in targets]}
     return hashlib.sha256(_canonical(payload)).hexdigest()
 
@@ -213,8 +218,8 @@ def _journal_data(plan: Plan, mode_map: dict[str, int]) -> bytes:
     value = {"format": 1, "status": "pending", "root": plan.root, "purpose": plan.purpose,
              "identity": plan.identity, "planDigest": plan.digest,
              "targets": [{"path": t.path, "before": None if t.before is None else base64.b64encode(t.before).decode("ascii"),
-                          "after": base64.b64encode(t.after).decode("ascii"), "beforeSha256": _sha(t.before),
-                          "afterSha256": _sha(t.after), "mode": mode_map[t.path]} for t in plan.targets]}
+                          "after": base64.b64encode(t.after).decode("ascii"), "beforeSha256": _hash(t.before),
+                          "afterSha256": _hash(t.after), "mode": mode_map[t.path]} for t in plan.targets]}
     value["journalDigest"] = hashlib.sha256(_canonical(value)).hexdigest()
     return _canonical(value) + b"\n"
 
@@ -254,7 +259,7 @@ def apply(plan: Plan, provider: ApprovalProvider | None = None, *, fail_after: i
         assertNoPendingTransaction(selected)
         paths = {t.path: _target(selected, t.path) for t in plan.targets}
         current = {rel: (p.read_bytes() if p.exists() else None) for rel, p in paths.items()}
-        if any(_sha(current[t.path]) != _sha(t.before) for t in plan.targets):
+        if any(_hash(current[t.path]) != _hash(t.before) for t in plan.targets):
             raise TransactionError("CAS conflict: no targets were changed")
         modes = {t.path: (paths[t.path].stat().st_mode & 0o777 if paths[t.path].exists() else 0o644) for t in plan.targets}
         journal = state / f"{plan.digest}.pending.json"
@@ -291,7 +296,7 @@ def _read_journal(path: Path, root: Path) -> tuple[dict, Plan]:
         for item in doc["targets"]:
             before = None if item["before"] is None else base64.b64decode(item["before"], validate=True)
             after = base64.b64decode(item["after"], validate=True)
-            if _sha(before) != item["beforeSha256"] or _sha(after) != item["afterSha256"]:
+            if _hash(before) != item["beforeSha256"] or _hash(after) != item["afterSha256"]:
                 raise TransactionError("journal preimage or staged bytes are corrupt")
             _target(root, item["path"])
             targets.append(Target(item["path"], before, after))
@@ -321,11 +326,11 @@ def rollback(root: str | Path, journal_path: str | Path, provider: ApprovalProvi
         _authorize(provider, plan, "rollback")
         paths = {t.path: _target(selected, t.path) for t in plan.targets}
         states = {t.path: (paths[t.path].read_bytes() if paths[t.path].exists() else None) for t in plan.targets}
-        if any(_sha(states[t.path]) not in {_sha(t.before), _sha(t.after)} for t in plan.targets):
+        if any(_hash(states[t.path]) not in {_hash(t.before), _hash(t.after)} for t in plan.targets):
             raise TransactionError("rollback refused: a target has an unrecognized outside edit")
         # Preflight all targets before the first restoration.
         for target in plan.targets:
-            if _sha(states[target.path]) == _sha(target.before):
+            if _hash(states[target.path]) == _hash(target.before):
                 continue
             if target.before is None:
                 paths[target.path].unlink()
