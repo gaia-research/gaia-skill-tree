@@ -2,8 +2,7 @@
 name: fp-drift
 description: >-
   Inspect scope and unexpected registry drift against the actual PR base and
-  leave a concise final receipt. Use for "check for drift", "wrap up the
-  pipeline", or the final stage; never silently discard unknown changes or
+  leave a concise final receipt. Use for "check for PR drift" or the final stage of feature-pipeline; never silently discard unknown changes or
   infer a clean diff from validator success.
 version: 4.0.0
 ---

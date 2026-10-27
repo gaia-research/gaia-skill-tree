@@ -1,7 +1,7 @@
 ---
 name: gaia-curate-chain
 description: >-
-  Fixed-topology, discovery-only extension for Gaia curation. Atomically
+  Use for explicitly requested fixed-topology, discovery-only Gaia curation; for one source page use gaia-curate. Atomically
   checkpoints each candidate transition, retries only the failed field, and
   stops at human L4 review.
 version: 3.0.0
