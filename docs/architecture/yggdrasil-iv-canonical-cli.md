@@ -12,8 +12,13 @@ adopt schemas, authorize a live pilot or publish a canonical consequence.
 not a cherry-pick of the held evidence/schema lane. Schema commit
 `fa0ba3a9257682e76a57568358e2806391099f9c` is NOT adopted. The lifecycle core is a
 proposal/rehearsal engine; production TM does not consume its assertion states.
-The copied schema-acceptance test was adapted to assert the actual unadopted
-schema refusal; no held schema was copied just to make a test green.
+Production schema bytes remain unchanged and their refusal is asserted. Positive
+native CLI tests use exact strict proposal bytes from `bf9097b7a2414aeb47e34c7fcfb2d067df50199c`
+ONLY in marked disposable test repositories, not `registry/schema/` in this tree.
+The actual validator and its input-context schema digests are exercised, with no
+schemaPolicy monkeypatch or permissive `{}` lifecycle overlay. Separate negatives
+show that even valid proposed-schema output cannot authenticate an approval.
+Fixture provenance/digests are documented under `tests/fixtures/canonical-proposed-schema/`.
 
 ## Authority and limits
 
