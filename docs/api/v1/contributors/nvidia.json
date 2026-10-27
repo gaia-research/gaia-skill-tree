@@ -1,0 +1,36 @@
+{
+  "handle": "nvidia",
+  "namedSkills": [
+    {
+      "id": "nvidia/accelerated-computing-cudf",
+      "name": "accelerated-computing-cudf",
+      "level": "4★",
+      "trustMagnitude": 126.12,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "nvidia",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/nvidia/accelerated-computing-cudf.json"
+      },
+      "genericSkillRef": "gpu-dataframe-acceleration"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "nvidia/accelerated-computing-cudf",
+    "level": "4★",
+    "trustMagnitude": 126.12
+  },
+  "prestigeScore": 126.12,
+  "gradeDistribution": {
+    "A": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/nvidia.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

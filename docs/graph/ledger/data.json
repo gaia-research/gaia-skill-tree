@@ -1,10 +1,10 @@
 {
-  "version": "8.26.10",
-  "generatedAt": "2026-10-24T20:32:48Z",
+  "version": "8.28.1",
+  "generatedAt": "2026-10-27T18:48:47Z",
   "summary": {
-    "total": 266,
+    "total": 268,
     "S": 3,
-    "A": 26,
+    "A": 28,
     "B": 94,
     "C": 104,
     "ungraded": 39,
@@ -361,6 +361,23 @@
       "branch": "unique"
     },
     {
+      "skillId": "wheresryan22/anatomy",
+      "tm": 152.48,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 116.48
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
       "skillId": "trailhq/graft",
       "tm": 145.16,
       "grade": "A",
@@ -409,6 +426,23 @@
         "github-stars-own": 130.23
       },
       "origin": false,
+      "branch": "unique"
+    },
+    {
+      "skillId": "nvidia/accelerated-computing-cudf",
+      "tm": 126.12,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 90.12
+      },
+      "origin": true,
       "branch": "unique"
     },
     {

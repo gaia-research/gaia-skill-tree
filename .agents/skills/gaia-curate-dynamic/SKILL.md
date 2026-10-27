@@ -1,7 +1,7 @@
 ---
 name: gaia-curate-dynamic
 description: >-
-  Harness-neutral, discovery-only Gaia curation extension. A Sol/Terra-class
+  Use for broad, sharded discovery-only Gaia curation; for one source page use gaia-curate. A Sol/Terra-class
   orchestrator preflights capacity, shards safe volume work to configurable Luna
   workers, converges risky cases, and stops at human L4 review.
 version: 3.0.0
