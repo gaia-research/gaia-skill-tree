@@ -48,6 +48,7 @@ MAX_ARCHIVE_BYTES = 8 * 1024 * 1024
 MAX_PAYLOAD_BYTES = 4 * 1024 * 1024
 MAX_TRANSCRIPT_BYTES = 2 * 1024 * 1024
 ARTIFACT_FILE = "verification-receipt.json"
+ARTIFACT_COMPRESSION_TYPES = (zipfile.ZIP_STORED, zipfile.ZIP_DEFLATED)
 RECEIPT_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 # sha256 digests of bytes (optionally ``sha256:``-prefixed) are exactly 64 lowercase hex.
 SHA256_RE = re.compile(r"^(?:sha256:)?[0-9a-f]{64}$")
@@ -180,6 +181,11 @@ def _parse_archive(archive: bytes, expected_payload_digest: str) -> dict[str, An
             info = infos[0]
             if info.is_dir() or info.flag_bits & 0x1 or info.file_size > MAX_PAYLOAD_BYTES:
                 raise ValueError("directory, encrypted, or oversized archive member")
+            # Only stored/deflate members: bzip2 and lzma can inflate enormous
+            # payloads internally before any chunk is returned, so the streaming
+            # cap cannot bound them. Checked before the member is ever opened.
+            if info.compress_type not in ARTIFACT_COMPRESSION_TYPES:
+                raise ValueError("unsupported archive compression method")
             # No compression-ratio bound: the producer legitimately emits highly
             # repetitive transcripts. The bomb defense is a hard cap on bytes
             # actually inflated: zipfile does NOT stop at the (attacker-patchable)

@@ -429,3 +429,43 @@ def test_bounded_read_stops_at_cap_plus_one(monkeypatch):
     with pytest.raises(ReceiptUnavailable):
         resolve(good_fixture(archive=archive, payloadDigest="0" * 64))
     assert read["bytes"] <= module.MAX_PAYLOAD_BYTES + 1
+
+
+@pytest.mark.parametrize("method", [zipfile.ZIP_BZIP2, zipfile.ZIP_LZMA])
+def test_bzip2_and_lzma_members_refused_before_any_decompression(method, monkeypatch):
+    import tracemalloc
+    stream = io.BytesIO()
+    with zipfile.ZipFile(stream, "w", method) as zf:
+        zf.writestr("verification-receipt.json", b" " * (24 * 1024 * 1024))
+    raw = bytearray(stream.getvalue())
+    for sig, off in ((b"PK\x03\x04", 22), (b"PK\x01\x02", 24)):  # lying sizes
+        pos = raw.find(sig)
+        while pos >= 0:
+            raw[pos + off:pos + off + 4] = struct.pack("<I", 100)
+            pos = raw.find(sig, pos + 4)
+    fixture = good_fixture(archive=bytes(raw), payloadDigest="0" * 64)  # built before counting
+    opened = {"count": 0}
+    real_open = zipfile.ZipFile.open
+
+    def counting_open(self, *args, **kwargs):
+        opened["count"] += 1
+        return real_open(self, *args, **kwargs)
+    monkeypatch.setattr(zipfile.ZipFile, "open", counting_open)
+    tracemalloc.start()
+    try:
+        with pytest.raises(ReceiptUnavailable, match="unsupported archive compression"):
+            resolve(fixture)
+        _, peak = tracemalloc.get_traced_memory()
+    finally:
+        tracemalloc.stop()
+    assert opened["count"] == 0
+    assert peak < 4 * 1024 * 1024
+
+
+def test_producer_emits_only_stored_or_deflate_members():
+    archive, _ = make_artifact_archive(
+        make_receipt_payload(receipt(), challenge_id="c", context_digest=CONTEXT,
+                             raw_transcript=TRANSCRIPT, notification_ref=receipt().notice_ref,
+                             source_sha=PROOF_SOURCE_SHA))
+    with zipfile.ZipFile(io.BytesIO(archive)) as zf:
+        assert [i.compress_type for i in zf.infolist()] == [zipfile.ZIP_DEFLATED]
