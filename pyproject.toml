@@ -87,6 +87,7 @@ include = ["gaia_cli*"]
 gaia_cli = [
     "tui/theme.tcss",
     "data/curation/*.json",
+    "data/frontier/*.json",
     "data/registry/gaia.json",
     "data/registry/named-skills.json",
     "data/registry/support/*.json",
