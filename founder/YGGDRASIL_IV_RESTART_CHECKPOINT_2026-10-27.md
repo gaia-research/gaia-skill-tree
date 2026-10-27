@@ -4,7 +4,7 @@
 
 Founder asked to be told when to reset and then explicitly said **Continue**. Continue the safe Pi recovery-tooling repair; **do not issue READY TO RESTART yet**. No additional Gaia campaign jobs before this restart window. This is temporary execution sequencing, not a campaign restart, permanent pause, completion claim or waiver of the original mission.
 
-All previously assigned Gaia implementation workers, independent reviews and parent shell tests are now terminal and collected. The old tooling review's assertion that publication task `ba7cb70f5` remains live is stale. The first Pi repair and lifecycle scout are also now collected. Only the newly assigned actual-SDK verification and repaired-source review below should be treated as current work.
+All previously assigned Gaia implementation workers, independent reviews and parent shell tests are now terminal and collected. The old tooling review's assertion that publication task `ba7cb70f5` remains live is stale. The first Pi repair and lifecycle scout are also now collected. That subsequent review and first actual-SDK probe are now also collected. Current work is Flash product repair2 plus resumed Luna actual-SDK verification; see the follow-on section below.
 
 ## Campaign state safely saved
 
@@ -43,13 +43,34 @@ Repair continues existing source, not a fresh implementation reset. Preserve ear
 
 Prefer supported mechanisms or honest logical recovery over fighting native lifecycle with false states. Require actual SDK/event/async binding, native cleanup/distillation/worktree tests, policy-valid absolute-path recovery, identity/unknown-state safety, lease handoff/expiry, fail-closed corruption with DB/WAL/SHM preserved, privacy/bounds/migration and atomic hash-safe installer/rollback. WAL/FULL alone is not lossless admission, process resurrection or external exactly-once proof.
 
-### Repaired candidate and actual-proof gate
+### Follow-on: repaired candidate refused; actual Android probe
+
+Independent re-review **REFUTED a761** (`~/.pi/durable-recovery/independent-review-a761.md`):
+
+- `buildResumeSpec` drops profile/backend/model/thinking/agent/tools: an original read-only explore request becomes general/write-capable and routing can change.
+- Claimed original resumes are never linked to the new child; after60s an expired lease can permit a second live worker on the same session/worktree.
+- Same-version reinstall nulls backup fields in deployment manifest, so rollback loses the true preimage.
+- Explicit DB quarantine can rename an inode with active SQLite writers and initialize a split-brain store.
+- Managed worktree cwd alone is not preservation; stale docs still describe rejected terminal-lock protection/corrupt-state reset.
+
+Real SDK fixture **`86898a46608e25d8acfb169c1410841dd1771187`**, branch `test/durable-recovery-real-sdk`, is an honest **partial negative probe**. It uses actual `createAgentSession`, extension runtime/native factory and a counted localhost transport, observing real tool dispatch/UUID lock record. But child launcher is `/bin/false`, so no real child JSONL/completion/recovery is proved. It fails on native `process.startTime=0`. Parent independently confirmed **Node reports `process.platform='android'`**, while stock `process-lock.ts:128–142` reads `/proc` only for `linux`. Prior blanket native PID-reuse-protection claims do not hold on this Termux stack. No pretending the platform is Linux or substituting a late PID observation for trusted birth identity.
+
+Current jobs (the previous14389/372e lanes are finished):
+
+| Owner | Run | Scope / output |
+|---|---|---|
+| Flash High product repair2 | `c3f6e953-23b9-4ff9-8395-de1ebcd402f5` | Existing feature worktree; privilege/routing, resume lineage/lease, rollback, corruption and truthful support fixes; `~/.pi/durable-recovery/repair2-result.md` |
+| Resumed Luna High actual-SDK verification | `eeb5ed78-9a98-4449-85cc-df47494ee57d` | Same isolated test branch, continued from full saved JSONL rather than restarted; `~/.pi/durable-recovery/actual-sdk-proof-continuation.md` |
+
+No live installation or vendor patch. The old detached-mode bypass remains unaccepted/unnecessary. A **different, narrowly version/hash-guarded Android process-identity compatibility fix** may be staged if needed, with actual unknown/reused/boot safety tests and independent review before live use. Preserve logical recovery, not claimed process resurrection. Support actual permanent/shared Pi workflow; unsupported formats/managed WIP must be enforced nonresumable, never silently widened. Keep valid original preimages, refuse uncertain takeover and remove unsafe automated quarantine rather than shipping an unproven repair escape hatch.
+
+### Earlier repaired candidate and contract-test snapshot
 
 Repair/scout above are **completed and collected**. Source **`a7611a2d33ea0dfce3319f5dc973ea0514810d9a`** is clean and matches the fresh feature remote; master remains0e4. No live extension or vendor patch installed. The source adds event/UUID/command/corruption/liveness/installer repairs and an optional **unapplied** detached-mode patch. Prefer non-mutating logical recovery; live process survival is not required.
 
 Author reports17 Node subtests,3 fixture subtests and3 Python tests passing. Parent inspected all370lines of `tests/test_real_integration_fixture.mjs`: it registers through **`mockPi`**, manually emits SDK-named events, handwrites a simplified native record/session, imports native policy only, and starts a loopback server without using it. These are contract/helper tests, **not actual SDK/native end-to-end proof**. Preserve the report but don't accept the label.
 
-Current independent lanes, each in a permanent isolated worktree:
+Those now-collected independent lanes, each in a permanent isolated worktree:
 
 | Owner | Run | Scope / output |
 |---|---|---|
