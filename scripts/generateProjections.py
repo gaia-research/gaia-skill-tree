@@ -44,7 +44,14 @@ def _run_generate_named_index():
             ts = gdata.get("generatedAt", "")
             today = (ts.split("T")[0] if "T" in ts else ts) if ts else datetime.date.today().isoformat()
             named_skills = mod.load_named_skills(named_dir)
-            errors, buckets, awaiting_classification, by_contributor = mod.validate_and_group(named_skills, gdata)
+            from publication_context import evaluation_at_utc_from_env
+            if evaluation_at_utc_from_env() is not None:
+                references, components = mod.load_suite_mappings(os.path.join(repo_root, "registry", "suites"))
+                errors, buckets, awaiting_classification, by_contributor = mod.validate_and_group(
+                    named_skills, gdata, references, components,
+                )
+            else:
+                errors, buckets, awaiting_classification, by_contributor = mod.validate_and_group(named_skills, gdata)
             if errors:
                 print(f"Warning: named skill validation errors ({len(errors)}):")
                 for err in errors:

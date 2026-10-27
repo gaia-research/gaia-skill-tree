@@ -422,7 +422,8 @@ def _rebuildArchive(
 
 
 def _isoNow() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    from publication_context import evaluation_at_utc_from_env
+    return evaluation_at_utc_from_env() or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def run(
@@ -440,7 +441,9 @@ def run(
     from synthesizer import synthesize  # noqa: WPS433 — local import to avoid cycle
 
     if now is None:
-        now = datetime.now(timezone.utc).replace(tzinfo=None)
+        from publication_context import evaluation_at_utc_from_env
+        pinned = evaluation_at_utc_from_env()
+        now = (datetime.fromisoformat(pinned.replace("Z", "+00:00")) if pinned else datetime.now(timezone.utc)).replace(tzinfo=None)
 
     year, week = isoYearWeek(now)
     generatedAt = _isoNow()

@@ -394,7 +394,8 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
     # every consumer that takes the first/origin entry maps to a ranked skill.
     for ref, entries in buckets.items():
         for e in entries:
-            if e.get("origin") and is_redacted(e.get("level", "")):
+            from publication_context import rehearsal_context_from_env
+            if e.get("origin") and is_redacted(e.get("level", "")) and rehearsal_context_from_env() is None:
                 e["origin"] = False
                 e["role"] = "variant"
         entries.sort(key=lambda e: (
@@ -477,6 +478,7 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
     from gaia_cli.grading import overall_trust_grade, check_ultimate_gate
     from gaia_cli.evidence import inherited_evidence
     from gaia_cli.trustMagnitude import (
+        computeOverallTrustGrade,
         computeTrustMagnitude,
         computeTrustMagnitudeInputHash,
         passesSuiteApexGate,
@@ -526,6 +528,12 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
     else:
         merged_map = {**generic_skills_map, **named_skill_map}
 
+    from publication_context import rehearsal_context_from_env, project_suite_metadata
+    if rehearsal_context_from_env() is not None and repo_root is not None:
+        # Production normally synchronizes these fields into Markdown before
+        # loading maps. A rehearsal must project them without source writes.
+        project_suite_metadata(merged_map, repo_root)
+
     # Handed back to write_index() so the Fusion Score projection resolves its
     # structural closure against the SAME registry context TM used. Two maps
     # would mean two different graphs and two different answers.
@@ -554,7 +562,9 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
             currentHash = computeTrustMagnitudeInputHash(entry)
 
             skill_with_effective = {**entry, "evidence": effective}
-            if fm_tm is not None and fm_grade is not None and fm_hash == currentHash:
+            from publication_context import rehearsal_context_from_env
+            if (rehearsal_context_from_env() is None
+                    and fm_tm is not None and fm_grade is not None and fm_hash == currentHash):
                 # Trust the frontmatter — propagate to index unchanged.
                 entry["trustMagnitude"] = round(float(fm_tm), 2)
                 entry["overallTrustGrade"] = fm_grade
@@ -574,13 +584,20 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
                 # double-counting inherited rows and inflating (or, via grade
                 # diversity-gate side effects, sometimes deflating) the score
                 # relative to every other TM pipeline in the codebase.
-                tm = computeTrustMagnitude(entry, merged_map)
+                from publication_context import evaluation_datetime_from_env
+                evaluation_at_utc = evaluation_datetime_from_env()
+                tm = computeTrustMagnitude(entry, merged_map, evaluationAtUTC=evaluation_at_utc)
                 entry["trustMagnitude"] = round(tm, 2)
-                grade = overall_trust_grade(
-                    effective,
-                    skill=entry,
-                    generic_skill_map=merged_map,
-                )
+                if evaluation_at_utc is None:
+                    grade = overall_trust_grade(
+                        effective, skill=entry, generic_skill_map=merged_map,
+                    )
+                else:
+                    from gaia_cli.trustMagnitude import _countDistinctEvidenceTypes, _hasEligibleIndependentWitness
+                    grade = computeOverallTrustGrade(
+                        tm, _countDistinctEvidenceTypes(entry, merged_map, evaluationAtUTC=evaluation_at_utc),
+                        _hasEligibleIndependentWitness(entry, merged_map, evaluationAtUTC=evaluation_at_utc),
+                    )
                 if grade is not None:
                     entry["overallTrustGrade"] = grade
 
@@ -589,7 +606,11 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
                 "genericSkillMap": generic_skills_map,
                 "namedSkillMap": named_skill_map,
             }
-            apex_status = passesSuiteApexGate(skill_with_effective, registry_state)
+            from publication_context import evaluation_datetime_from_env
+            apex_status = passesSuiteApexGate(
+                skill_with_effective, registry_state,
+                evaluationAtUTC=evaluation_datetime_from_env(),
+            )
             entry["apexGateStatus"] = apex_status
 
             # Automatically clamp effective level/rank to Trust Magnitude grade ceiling (META §1.1/§4.2)
@@ -604,7 +625,16 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
             max_allowed_stars = GRADE_MAX_STARS.get(current_grade, 1)
             raw_stars = level_num(entry.get("level", ""))
             if raw_stars > max_allowed_stars:
-                entry["level"] = f"{max_allowed_stars}★"
+                from publication_context import rehearsal_context_from_env
+                if rehearsal_context_from_env() is not None:
+                    entry["eligibilityProposal"] = {
+                        "status": "shadow", "storedLevel": entry.get("level"),
+                        "basis": "TM-grade-ceiling-only", "otherPromotionGates": "not-authorized",
+                        "maximumEligibleLevel": f"{max_allowed_stars}★",
+                        "reason": "current stored standing preserved; rehearsal-only eligibility proposal",
+                    }
+                else:
+                    entry["level"] = f"{max_allowed_stars}★"
 
             # Resolved taxonomy fields (Yggdrasil II authority — additive, PR2).
             # Derived purely from entry["level"] + entry.get("suiteComponents");
@@ -675,11 +705,13 @@ def main():
         print(f"Graph file not found: {graph_path}")
         sys.exit(1)
 
-    today = datetime.date.today().isoformat()
+    from publication_context import evaluation_at_utc_from_env
+    pinned_evaluation = evaluation_at_utc_from_env()
+    today = pinned_evaluation[:10] if pinned_evaluation else datetime.date.today().isoformat()
     with open(graph_path, "r", encoding="utf-8") as f:
         graph_data = json.load(f)
     graph_timestamp = graph_data.get("generatedAt", "")
-    if graph_timestamp:
+    if graph_timestamp and not pinned_evaluation:
         today = graph_timestamp.split("T")[0] if "T" in graph_timestamp else graph_timestamp
 
     print(f"Scanning: {named_dir}")
@@ -695,7 +727,10 @@ def main():
     skill_to_suite, suite_to_components = load_suite_mappings(suites_dir)
 
     print("Syncing named skill frontmatters with suite definitions...")
-    update_markdown_files_with_suite_metadata(named_skills, skill_to_suite, suite_to_components)
+    if pinned_evaluation is None:
+        update_markdown_files_with_suite_metadata(named_skills, skill_to_suite, suite_to_components)
+    # Rehearsal uses validate_and_group's in-memory suite projection only;
+    # a docs producer must never rewrite copied canonical Markdown.
 
     # Reload named skills to ensure validation and index reflect the newly synced files
     named_skills = load_named_skills(named_dir)

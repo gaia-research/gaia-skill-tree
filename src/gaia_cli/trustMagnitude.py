@@ -1062,6 +1062,8 @@ def computeTrustMagnitudeByType(
     skill: dict,
     genericSkillMap: Optional[dict] = None,
     namedSkillMap: Optional[dict] = None,
+    *,
+    evaluationAtUTC: Optional[datetime.datetime] = None,
 ) -> dict:
     """Return {evidenceTypeId: contribution} so sum(values) ~= computeTrustMagnitude.
 
@@ -1072,7 +1074,7 @@ def computeTrustMagnitudeByType(
     TM within 0.02. Each value is rounded to 2 decimals. Missing types simply
     don't appear (frontend treats absent as 0).
     """
-    rowsWithScores = _scoredEvidenceRows(skill, genericSkillMap)
+    rowsWithScores = _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC)
 
     # 7: partition by type, applying social-signal A-cap proportionally.
     perType: dict[str, float] = {}
@@ -1224,11 +1226,12 @@ def computeRowArtifactScores(
     return [(row, score if score is not None else 0.0) for row, score in rowsWithScores]
 
 
-def _countDistinctEvidenceTypes(skill: dict, genericSkillMap: Optional[dict] = None) -> int:
+def _countDistinctEvidenceTypes(skill: dict, genericSkillMap: Optional[dict] = None, *,
+                                evaluationAtUTC: Optional[datetime.datetime] = None) -> int:
     """Count positive scoring evidence types; fusion remains structural only."""
     return len({
         rowType
-        for row, score in _scoredEvidenceRows(skill, genericSkillMap)
+        for row, score in _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC)
         if (rowType := _typeOf(row))
         and rowType != "fusion-recipe"
         and score is not None
@@ -1262,11 +1265,13 @@ def _isEligibleWitnessRow(row: dict, score: Optional[float], skill: dict) -> boo
 def _hasEligibleIndependentWitness(
     skill: dict,
     genericSkillMap: Optional[dict] = None,
+    *,
+    evaluationAtUTC: Optional[datetime.datetime] = None,
 ) -> bool:
     """Return whether a positive, eligible Yggdrasil III S witness is present."""
     return any(
         _isEligibleWitnessRow(row, score, skill)
-        for row, score in _scoredEvidenceRows(skill, genericSkillMap)
+        for row, score in _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC)
     )
 
 

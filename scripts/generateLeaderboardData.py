@@ -37,6 +37,7 @@ from scripts.inspectTrustMagnitude import (  # noqa: E402
     loadAllNamedSkills,
 )
 from gaia_cli.trustMagnitude import (  # noqa: E402
+    computeOverallTrustGrade,
     computeOverallTrustGradeFromSkill,
     computeTrustMagnitude,
     computeTrustMagnitudeByType,
@@ -72,7 +73,7 @@ def buildMayStarsMap() -> dict[str, str]:
     out: dict[str, str] = {}
     if not SKILL_TREES_DIR.exists():
         return out
-    for tree in SKILL_TREES_DIR.glob("*/skill-tree.json"):
+    for tree in sorted(SKILL_TREES_DIR.glob("*/skill-tree.json")):
         try:
             data = json.loads(tree.read_text(encoding="utf-8"))
         except Exception:
@@ -101,8 +102,15 @@ def buildMayStarsMap() -> dict[str, str]:
 
 
 def buildRows() -> list[dict]:
+    from publication_context import evaluation_datetime_from_env
+    evaluation_at_utc = evaluation_datetime_from_env()
     mergedMap, namedSkillMap = buildMaps()
     skills = loadAllNamedSkills()
+    if evaluation_at_utc is not None:
+        from publication_context import project_suite_metadata
+        project_suite_metadata(mergedMap, REPO_ROOT)
+        project_suite_metadata(namedSkillMap, REPO_ROOT)
+        project_suite_metadata({skill["id"]: skill for skill in skills}, REPO_ROOT)
     apexState = {"genericSkillMap": mergedMap, "namedSkillMap": namedSkillMap}
     mayStarsMap = buildMayStarsMap()
 
@@ -113,10 +121,17 @@ def buildRows() -> list[dict]:
             continue
 
         skillId = fm.get("id") or "unknown"
-        tm = computeTrustMagnitude(fm, mergedMap)
-        typeBreakdown = computeTrustMagnitudeByType(fm, mergedMap)
+        tm = computeTrustMagnitude(fm, mergedMap, evaluationAtUTC=evaluation_at_utc)
+        typeBreakdown = computeTrustMagnitudeByType(fm, mergedMap, evaluationAtUTC=evaluation_at_utc)
         origin = (fm.get("origin") is True or fm.get("origin") == "true")
-        grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
+        if evaluation_at_utc is None:
+            grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
+        else:
+            from gaia_cli.trustMagnitude import _countDistinctEvidenceTypes, _hasEligibleIndependentWitness
+            grade = computeOverallTrustGrade(
+                tm, _countDistinctEvidenceTypes(fm, mergedMap, evaluationAtUTC=evaluation_at_utc),
+                _hasEligibleIndependentWitness(fm, mergedMap, evaluationAtUTC=evaluation_at_utc),
+            )
         g7Stars, flag = effectiveRank(grade, currentStars)
         # May meta = stars on the eve of G7 cutover (pre-ratification).
         # June meta = current stars after G7 ratification (which is what
@@ -125,7 +140,7 @@ def buildRows() -> list[dict]:
 
         apexResults = None
         if grade == "S":
-            apexResults = passesSuiteApexGate(fm, apexState)
+            apexResults = passesSuiteApexGate(fm, apexState, evaluationAtUTC=evaluation_at_utc)
 
         # Branch fork ('standard'|'suite'|'unique') — canonical read-time
         # derivation (gaia_cli.taxonomy.branchFor). Ships in the row so the
@@ -179,13 +194,15 @@ def main() -> int:
                         help=f"Output path (default: {DEFAULT_OUT.relative_to(REPO_ROOT)})")
     args = parser.parse_args()
 
+    from publication_context import evaluation_at_utc_from_env
+    evaluation_at_utc = evaluation_at_utc_from_env()
     print(f"Loading skill maps from {NODES_DIR.relative_to(REPO_ROOT)} + {NAMED_DIR.relative_to(REPO_ROOT)}...")
     rows = buildRows()
     summary = buildSummary(rows)
 
     payload = {
         "version":     readGaiaVersion(),
-        "generatedAt": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "generatedAt": (evaluation_at_utc or dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")),
         "summary":     summary,
         "rows":        rows,
     }

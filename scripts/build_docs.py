@@ -32,6 +32,8 @@ def _child_env() -> dict:
     same resolved src/ regardless of how build_docs.py itself was invoked.
     """
     env = dict(os.environ)
+    if globals().get("_STRICT_REHEARSAL", False):
+        env = {key: value for key, value in env.items() if not key.startswith("GIT_")}
     existing = env.get("PYTHONPATH", "")
     parts = [str(SRC)] + ([existing] if existing else [])
     env["PYTHONPATH"] = os.pathsep.join(parts)
@@ -439,6 +441,9 @@ def build_okf_bundle(check: bool) -> bool:
         return False
 
     if not check:
+        if globals().get("_STRICT_REHEARSAL", False):
+            rc, output = _run_script(script_path, [])
+            return rc == 0
         res = subprocess.run(
             [sys.executable, str(script_path)], capture_output=True, text=True, env=_child_env(),
         )
@@ -537,6 +542,9 @@ def build_skills_index(check: bool) -> bool:
             return True
         return False
     else:
+        if globals().get("_STRICT_REHEARSAL", False):
+            rc, output = _run_script(script_path, [])
+            return rc == 0
         res = subprocess.run(
             [sys.executable, str(script_path)],
             capture_output=True, text=True,
@@ -616,6 +624,9 @@ def build_sitemap(check: bool) -> bool:
             return True
         return False
     else:
+        if globals().get("_STRICT_REHEARSAL", False):
+            rc, output = _run_script(script_path, [])
+            return rc == 0
         res = subprocess.run(
             [sys.executable, str(script_path)],
             capture_output=True, text=True,
@@ -706,6 +717,9 @@ def build_jsonld(check: bool) -> bool:
             return True
         return False
     else:
+        if globals().get("_STRICT_REHEARSAL", False):
+            rc, output = _run_script(script_path, [])
+            return rc == 0
         res = subprocess.run(
             [sys.executable, str(script_path)],
             capture_output=True, text=True,
@@ -863,8 +877,21 @@ def _diff_tree(reference: Path, candidate: Path) -> list[str]:
 
 def _run_script(script: Path, args: list[str]) -> tuple[int, str]:
     """Run a helper script and return (returncode, stdout+stderr)."""
+    command = [sys.executable, str(script), *args]
+    if globals().get("_STRICT_REHEARSAL", False):
+        # Preserve explicit worker intent across process boundaries without
+        # treating inherited environment variables as rehearsal authority.
+        context_path = ROOT / "publication-context.json"
+        bootstrap = (
+            "import runpy,sys; from pathlib import Path; "
+            "from publication_context import load_context,activate_rehearsal_context; "
+            "ctx=load_context(sys.argv[1]); root=Path(sys.argv[1]).parent; "
+            "activate_rehearsal_context(ctx,root,verify_inputs=False,inherit_runtime_check=True); "
+            "sys.argv=[sys.argv[2],*sys.argv[3:]]; runpy.run_path(sys.argv[0],run_name='__main__')"
+        )
+        command = [sys.executable, "-c", bootstrap, str(context_path), str(script), *args]
     proc = subprocess.run(
-        [sys.executable, str(script), *args],
+        command,
         cwd=ROOT,
         capture_output=True,
         text=True,
@@ -872,7 +899,11 @@ def _run_script(script: Path, args: list[str]) -> tuple[int, str]:
         errors="replace",
         env=_child_env(),
     )
-    return proc.returncode, (proc.stdout or "") + (proc.stderr or "")
+    output = (proc.stdout or "") + (proc.stderr or "")
+    if globals().get("_STRICT_REHEARSAL", False):
+        from publication_context import record_execution
+        record_execution(script, args, proc.returncode, output)
+    return proc.returncode, output
 
 
 # Steps that shell out used to raise a bare "rc=1", and _run_step() collapses
@@ -1184,6 +1215,9 @@ def build_benchmark_projection(check: bool) -> bool:
             return True
         return False
     else:
+        if globals().get("_STRICT_REHEARSAL", False):
+            rc, output = _run_script(script, ["--out-dir", str(committed)])
+            return "nothing changed" not in output
         result = _sp.run(
             [sys.executable, str(script), "--out-dir", str(committed)],
             capture_output=True, text=True, encoding="utf-8", errors="replace",
@@ -1397,6 +1431,8 @@ def build_profile_pages(check: bool) -> bool:
             for _hp in sorted(out_dir.rglob("*.html")):
                 _ild.inject_file(_hp, check=False)
         except Exception:
+            if globals().get("_STRICT_REHEARSAL", False):
+                raise
             pass  # JSON-LD injection is best-effort in check mode
         if not committed.exists():
             if check:
@@ -1680,6 +1716,15 @@ def build_og_cards(check: bool) -> bool:
                 print(f"diff docs/og/ (regen failed: rc={rc})")
                 print(output)
             raise RuntimeError(f"docs/og/ regen failed: rc={rc}")
+        # A strict rehearsal requires a freshly rendered PNG for every SVG,
+        # including cards that did not previously have a raster.
+        strict = globals().get("_STRICT_REHEARSAL", False)
+        if strict:
+            candidate_pngs = {p.relative_to(out_dir) for p in out_dir.rglob("*.png")}
+            expected_pngs = {p.relative_to(out_dir).with_suffix(".png") for p in out_dir.rglob("*.svg")}
+            if candidate_pngs != expected_pngs:
+                raise RuntimeError("rehearsal cannot certify incomplete OG PNG coverage; install a supported rasterizer: "
+                                   + ", ".join(map(str, sorted(expected_pngs - candidate_pngs)[:5])))
         if not committed.exists():
             if check:
                 print("diff docs/og/ (missing)")
@@ -1688,8 +1733,19 @@ def build_og_cards(check: bool) -> bool:
                 shutil.copytree(out_dir, committed)
             return True
 
-        # Compare only SVG files — PNGs are optional (cairosvg may be absent
-        # in CI) and the SVG is the canonical artifact.
+        # Production retains its historical SVG-only behavior. In rehearsal,
+        # replace all rasters and remove even orphan PNGs with no old SVG.
+        removed_pngs = set()
+        if strict:
+            committed_pngs = {p.relative_to(committed) for p in committed.rglob("*.png")}
+            removed_pngs = committed_pngs - candidate_pngs
+            for rel in sorted(removed_pngs):
+                (committed / rel).unlink()
+            for rel in sorted(candidate_pngs):
+                destination = committed / rel
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                destination.write_bytes((out_dir / rel).read_bytes())
+        # Compare only SVG files in ordinary production mode.
         drifts = []
         committed_svgs = {p.relative_to(committed) for p in committed.rglob("*.svg")}
         candidate_svgs = {p.relative_to(out_dir) for p in out_dir.rglob("*.svg")}
@@ -1701,7 +1757,7 @@ def build_og_cards(check: bool) -> bool:
             elif not filecmp.cmp(c, n, shallow=False):
                 drifts.append(str(rel))
         if not drifts:
-            return False
+            return bool(removed_pngs)
         if check:
             for d in drifts:
                 print(f"diff docs/og/{d}")
@@ -1816,6 +1872,9 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build generated Gaia docs regions.")
     parser.add_argument("--check", action="store_true", help="Fail (exit 1) if generated docs drift from source. Not read-only: regenerates Class P/S artifacts before comparing (commit any docs/graph/* Class S changes).")
     parser.add_argument("--auto-clean", action="store_true", help="(Opt-in) In write mode, remove left-only generated files in safe bundles (use cautiously)")
+    parser.add_argument("--publication-rehearsal", metavar="OUTPUT_ROOT", help="Run the real docs builder in an isolated external scratch copy and stamp a rehearsal snapshot; never publishes approval.")
+    parser.add_argument("--publication-rehearsal-worker", metavar="CONTEXT", help=argparse.SUPPRESS)
+    parser.add_argument("--evaluation-at-utc", help="Pinned UTC evaluation instant for publication rehearsal.")
     parser.add_argument(
         "--cache-bust-only",
         action="store_true",
@@ -1824,6 +1883,92 @@ def main(argv: list[str] | None = None) -> int:
              "without regenerating badges or other Class S artifacts.",
     )
     args = parser.parse_args(argv)
+    strict_rehearsal = bool(args.publication_rehearsal_worker)
+    globals()["_STRICT_REHEARSAL"] = strict_rehearsal
+    rehearsal_context = None
+    if os.environ.get("GAIA_PUBLICATION_CONTEXT") and not strict_rehearsal:
+        parser.error("GAIA_PUBLICATION_CONTEXT is private to the explicit rehearsal worker")
+    if (strict_rehearsal or args.publication_rehearsal) and (args.check or args.cache_bust_only):
+        parser.error("rehearsal requires the complete write pipeline")
+    if args.evaluation_at_utc and not args.publication_rehearsal:
+        parser.error("--evaluation-at-utc requires --publication-rehearsal")
+    if strict_rehearsal:
+        try:
+            from publication_context import load_context
+            rehearsal_context = load_context(args.publication_rehearsal_worker)
+            if Path(args.publication_rehearsal_worker).absolute() != ROOT / "publication-context.json":
+                raise ValueError("worker context must belong to its scratch root")
+            from publication_context import activate_rehearsal_context
+            activate_rehearsal_context(rehearsal_context, ROOT)
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            parser.error(f"invalid rehearsal context: {exc}")
+
+    if args.publication_rehearsal and args.publication_rehearsal_worker:
+        parser.error("choose either --publication-rehearsal or its internal worker mode")
+    if args.publication_rehearsal:
+        import shutil
+        from publication_context import create_context, stamp_outputs, verify_outputs, verify_copied_inputs, publish_staging
+        source_root = ROOT.resolve(strict=True)
+        destination = Path(args.publication_rehearsal).expanduser().absolute()
+        output_root = destination
+        if output_root.exists() or output_root.is_symlink():
+            parser.error("rehearsal output root must be a new, non-symlink path")
+        try:
+            source_links = [path for path in source_root.rglob("*") if path.is_symlink()]
+            if source_links:
+                raise ValueError(f"source tree contains symlinks; refusing to copy them into rehearsal: {source_links[0]}")
+            context = create_context(source_root, output_root, args.evaluation_at_utc)
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            output_root = Path(tempfile.mkdtemp(prefix=".publication-", dir=destination.parent))
+            output_root.chmod(0o700)
+            from publication_context import COPY_IGNORES
+            ignore = shutil.ignore_patterns(*COPY_IGNORES)
+            # Copy children, not root metadata: copytree(source, staging) would
+            # temporarily replace the private 0700 staging-root permissions.
+            for child in sorted(source_root.iterdir()):
+                if child.name in COPY_IGNORES:
+                    continue
+                target = output_root / child.name
+                if child.is_dir():
+                    shutil.copytree(child, target, symlinks=False, ignore=ignore)
+                else:
+                    shutil.copy2(child, target)
+            verify_copied_inputs(output_root, context)
+            (output_root / "publication-context.json").write_text(
+                json.dumps(context, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        except (OSError, ValueError) as exc:
+            parser.error(f"cannot prepare safe rehearsal workspace: {exc}")
+        worker = subprocess.run(
+            [sys.executable, str(output_root / "scripts" / "build_docs.py"),
+             "--publication-rehearsal-worker", str(output_root / "publication-context.json")],
+            cwd=output_root, env={**{key: value for key, value in os.environ.items() if not key.startswith("GIT_")},
+                                  "PYTHONPATH": os.pathsep.join((str(output_root), str(output_root / "src"), str(output_root / "scripts"))),
+                                  "PYTHONHASHSEED": "0", "PYTHONDONTWRITEBYTECODE": "1"},
+            check=False,
+        )
+        if worker.returncode != 0:
+            print(f"Rehearsal builder failed (exit {worker.returncode}); no artifact manifest emitted.", file=sys.stderr)
+            return worker.returncode
+        # Reject concurrent source mutation while the isolated worker ran.
+        # This is detection, not a lock against a hostile filesystem writer.
+        verify_copied_inputs(source_root, context)
+        from publication_context import runtime_identity
+        if runtime_identity() != context["runtimeIdentity"]:
+            raise ValueError("runtime changed during rehearsal")
+        from publication_context import source_revision
+        if source_revision(source_root) != context["sourceRevision"]:
+            raise ValueError("source HEAD changed during rehearsal")
+        stage_report = json.loads((output_root / "publication-stages.json").read_text(encoding="utf-8"))
+        manifest = stamp_outputs(output_root, context, stage_report)
+        if not verify_outputs(output_root, expected_snapshot_id=context["snapshotId"]):
+            print("Rehearsal output verification failed; refusing to report a coherent snapshot.", file=sys.stderr)
+            return 1
+        if destination.exists() or destination.is_symlink():
+            raise ValueError("rehearsal destination appeared during build; private staging retained")
+        publish_staging(output_root, destination)
+        print(f"Rehearsal complete: {destination}")
+        print(f"snapshotId={context['snapshotId']} artifacts={len(manifest['artifacts'])} mode=rehearsal approval=unavailable")
+        return 0
 
     if args.cache_bust_only:
         # Refresh every version-derived surface that `gaia dev docs --check`
@@ -1845,9 +1990,17 @@ def main(argv: list[str] | None = None) -> int:
     # but swallow the root cause). We surface warnings so they aren't silent.
     warnings: list[str] = []
 
+    stages = {}
+
     def _run_step(name: str, func, check: bool) -> bool:
         try:
-            return func(check)
+            if strict_rehearsal:
+                from publication_context import begin_stage, finish_stage
+                begin_stage(name, ROOT)
+            changed = func(check)
+            if strict_rehearsal:
+                stages[name] = finish_stage(name, ROOT)
+            return changed
         except Exception as exc:
             warnings.append(f"{name}: {exc}")
             return False
@@ -1889,6 +2042,8 @@ def main(argv: list[str] | None = None) -> int:
         skip_badges = False
     if skip_badges:
         print("[skip-badge-check] detected — skipping badges regen/diff.")
+        if strict_rehearsal:
+            warnings.append("badges: required generator skipped by [skip-badge-check]")
         badges_changed = False
     else:
         badges_changed = _run_step("badges", build_badges, args.check)
@@ -2027,6 +2182,17 @@ def main(argv: list[str] | None = None) -> int:
         )
         if is_stale
     ]
+    if strict_rehearsal:
+        from publication_context import GENERATED_OUTPUTS
+        if warnings:
+            print("Strict rehearsal failed: " + "; ".join(warnings), file=sys.stderr)
+            return 1
+        if any(not (ROOT / rel).is_file() for rel in GENERATED_OUTPUTS):
+            print("Strict rehearsal failed: required generated output absent", file=sys.stderr)
+            return 1
+        (ROOT / "publication-stages.json").write_text(json.dumps(stages, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        return 0
+
     if args.check:
         if changed or warnings:
             if warnings:
