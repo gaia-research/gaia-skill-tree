@@ -4,7 +4,7 @@
 
 Founder asked to be told when to reset and then explicitly said **Continue**. Continue the safe Pi recovery-tooling repair; **do not issue READY TO RESTART yet**. No additional Gaia campaign jobs before this restart window. This is temporary execution sequencing, not a campaign restart, permanent pause, completion claim or waiver of the original mission.
 
-All previously assigned Gaia implementation workers, independent reviews and parent shell tests are now terminal and collected. The old tooling review's assertion that publication task `ba7cb70f5` remains live is stale. The first Pi repair and lifecycle scout are also now collected. That subsequent review and first actual-SDK probe are now also collected. Current work is Flash product repair2 plus resumed Luna actual-SDK verification; see the follow-on section below.
+All previously assigned Gaia implementation workers, independent reviews and parent shell tests are now terminal and collected. The old tooling review's assertion that publication task `ba7cb70f5` remains live is stale. The first Pi repair and lifecycle scout are also now collected. That subsequent review and first actual-SDK probe are now also collected. Product repair2 is now also collected. Current work is resumed actual-SDK verification, independent78b review and the parent isolated Python regressions; see the latest follow-on section below.
 
 ## Campaign state safely saved
 
@@ -43,7 +43,23 @@ Repair continues existing source, not a fresh implementation reset. Preserve ear
 
 Prefer supported mechanisms or honest logical recovery over fighting native lifecycle with false states. Require actual SDK/event/async binding, native cleanup/distillation/worktree tests, policy-valid absolute-path recovery, identity/unknown-state safety, lease handoff/expiry, fail-closed corruption with DB/WAL/SHM preserved, privacy/bounds/migration and atomic hash-safe installer/rollback. WAL/FULL alone is not lossless admission, process resurrection or external exactly-once proof.
 
-### Follow-on: repaired candidate refused; actual Android probe
+### Latest: repair2 saved; independent native-safety gate
+
+Product repair2 **`78b63102fa64867cc2b7cb9edfe6f198d87b1b87`** is clean and matches the fresh feature remote, through coherent ec6b39f/02f12e3/b342023/78b6310 commits. Master still0e4. Author reports18 Node/helper tests,3 mock-contract subtests and3 Python tests passing. Claims include schema2 execution pins/support matrix, transactional predecessor/successor lineage, preimage preservation, removal of automatic quarantine and truthful docs/mock labels. **Not independent acceptance or SDK recovery proof.**
+
+The speculative detached-mode patch was replaced by an **unapplied**33-line Android/proc safety patch. Parent inspected its actual code and found a source-backed cleanup hazard: `isAlive` returnsfalse for a legacy identity with missing birth time when current `/proc` ticks are readable. Native `reconcileOrphans` then marks the record dead and drops busy/live-worktree protections even though the worker is actually alive. Refusing one signal is not sufficient if cleanup deletes live state. Unreadable-proc/boot/reused-PID behavior also needs independent verification. Do not install this patch based merely on successful positive Android tick capture.
+
+Current jobs:
+
+| Owner | Run | Scope / output |
+|---|---|---|
+| Resumed Luna actual-SDK verifier | `eeb5ed78-9a98-4449-85cc-df47494ee57d` | Continuing real child/session/completion/kill/recovery proof from saved session; exact78b available for isolated copies; no blanket patch approval |
+| Luna High independent78b reviewer | `6f05b8b5-0f90-41dd-894b-7a19147c6b64` | Frozen `~/.pi/worktrees/pi-config-durable-review-78b`; full feature/lineage/rollback and actual native unknown/boot/cleanup adversarial review; `~/.pi/durable-recovery/independent-review-78b.md` |
+| Parent full Python regressions | task `b36a02e4e` | Sanitized isolated HOME, complete unittest discovery, tracked-source before/after inventories; durable results under `~/.pi/durable-recovery/parent-78b-regressions-*`; shell log in current `.pi/tasks/` |
+
+Flash repair2 owner c3f6e953 is **completed/collected**, not active. No live extension/vendor patch/config installation; source and tests remain separate from deployment. Do not confuse helper regression success with actual SDK recovery or original campaign completion.
+
+### Earlier: repaired candidate refused; actual Android probe
 
 Independent re-review **REFUTED a761** (`~/.pi/durable-recovery/independent-review-a761.md`):
 
@@ -55,7 +71,7 @@ Independent re-review **REFUTED a761** (`~/.pi/durable-recovery/independent-revi
 
 Real SDK fixture **`86898a46608e25d8acfb169c1410841dd1771187`**, branch `test/durable-recovery-real-sdk`, is an honest **partial negative probe**. It uses actual `createAgentSession`, extension runtime/native factory and a counted localhost transport, observing real tool dispatch/UUID lock record. But child launcher is `/bin/false`, so no real child JSONL/completion/recovery is proved. It fails on native `process.startTime=0`. Parent independently confirmed **Node reports `process.platform='android'`**, while stock `process-lock.ts:128–142` reads `/proc` only for `linux`. Prior blanket native PID-reuse-protection claims do not hold on this Termux stack. No pretending the platform is Linux or substituting a late PID observation for trusted birth identity.
 
-Current jobs (the previous14389/372e lanes are finished):
+The following assignments are historical (repair2 has since completed; resumed verifier continues, see current table above):
 
 | Owner | Run | Scope / output |
 |---|---|---|
