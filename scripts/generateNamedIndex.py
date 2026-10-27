@@ -26,6 +26,7 @@ import argparse
 import datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
+from gaia_cli.canonicalTransaction import guardCanonicalPath  # noqa: E402  pending-transaction guard
 from gaia_cli.redaction import is_redacted, level_num  # noqa: E402  single source of truth
 from gaia_cli.taxonomy import branchFor, rankWord, medallion, normalize  # noqa: E402
 from gaia_cli.lifecycleProjection import produce_lifecycle  # noqa: E402
@@ -251,8 +252,9 @@ def _write_frontmatter_updates(filepath, updates):
     new_fm_block = "\n".join(new_lines) + "\n"
     new_content = f"---{new_fm_block}---{body}"
 
-    with open(filepath, "w", encoding="utf-8") as f:
-        f.write(new_content)
+    with guardCanonicalPath(filepath):
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(new_content)
 
 
 def update_markdown_files_with_suite_metadata(named_skills, skill_to_suite, suite_to_components):

@@ -3,7 +3,7 @@ name: gaia-meta-sweep
 description: >
   Appraise the complete post-ingest Gaia tree: run 13 deterministic audit dimensions, recompute evidence, Trust Magnitude and rank eligibility, use Jev/Luna for bounded semantic review, adversarially verify findings, and report structural proposals. Gaia computes authority; Jev is read-only advice; humans ratify all mutations.
 
-  Use for a registry-wide sweep, full meta audit, evidence/rank review, fusion candidates, generic proposals, or a durable findings report. This is the macro companion to /gaia-meta-audit (prioritized queue) and /gaia-audit (single skill).
+  Use for an explicitly requested full post-ingest registry sweep and durable findings report; for a prioritized review queue use gaia-meta-audit, and for one skill use gaia-audit. This is the macro companion to /gaia-meta-audit (prioritized queue) and /gaia-audit (single skill).
 ---
 
 # gaia-meta-sweep

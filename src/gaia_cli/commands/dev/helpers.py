@@ -626,12 +626,16 @@ def _parse_md(path):
     return (yaml.safe_load(frontmatter) or {}), body
 
 
-def _write_md(path, meta, body) -> None:
+def serializeMarkdown(meta, body) -> str:
+    """Shared legacy/transaction serializer; no canonical write side effects."""
     import yaml
-    path.write_text(
-        "---\n" + yaml.dump(meta, sort_keys=False, allow_unicode=True) + "---" + body,
-        encoding="utf-8",
-    )
+    return "---\n" + yaml.dump(meta, sort_keys=False, allow_unicode=True) + "---" + body
+
+
+def _write_md(path, meta, body) -> None:
+    from gaia_cli.canonicalTransaction import guardCanonicalPath
+    with guardCanonicalPath(path):
+        path.write_text(serializeMarkdown(meta, body), encoding="utf-8")
 
 
 def _find_named_file(named_dir, skill_id):

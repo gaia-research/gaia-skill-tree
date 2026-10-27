@@ -493,7 +493,7 @@ class GitRefLedgerStore:
             result = None
             for attempt in range(6):
                 result = self.git(
-                    ["fetch", "--no-tags", "--quiet", self.ephemeralRemote, refspec],
+                    ["fetch", "--no-tags", "--quiet", "--refmap=", self.ephemeralRemote, refspec],
                     timeout=self.remoteTimeout,
                     env=self._remoteEnv(fetchUrl),
                 )

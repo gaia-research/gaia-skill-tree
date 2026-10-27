@@ -36,6 +36,10 @@ import re
 import sys
 from pathlib import Path
 
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
+from gaia_cli.canonicalTransaction import guardCanonicalPath  # noqa: E402  pending-transaction guard
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 NAMED_JSON = REPO_ROOT / "registry" / "named-skills.json"
 NAMED_DIR = REPO_ROOT / "registry" / "named"
@@ -199,8 +203,9 @@ def reconcile(skill_id: str, apply: bool) -> tuple[int, list[str]]:
                  "source": "demote" if e.get("action") == "demote" else "promotion"}
                 for e in runs
             ]
-        tree_path.write_text(json.dumps(tree, indent=2, ensure_ascii=False) + "\n",
-                             encoding="utf-8")
+        with guardCanonicalPath(tree_path):
+            tree_path.write_text(json.dumps(tree, indent=2, ensure_ascii=False) + "\n",
+                                 encoding="utf-8")
     return len(to_add), log
 
 
