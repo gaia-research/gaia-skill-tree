@@ -243,3 +243,45 @@ def test_health_version_only_restamps_version_and_nothing_else(bd, tmp_path, mon
         '{\n  "ok": true,\n  "version": "9.9.9",\n  "namedSkillsCount": 7\n}'
     )
     assert bd.build_health_version_only(check=False) is False
+
+
+def test_cache_bust_prints_every_written_path_for_release_staging(bd, tmp_path, monkeypatch, capsys):
+    """`gaia dev release` stages only `cache-bust: updated <path>` lines.
+
+    Profile pages are rewritten by their own loop; every file it (or the
+    discovery loop) writes must be announced or the release commit ships stale.
+    """
+    docs = tmp_path / "docs"
+    profile = docs / "u" / "someone"
+    profile.mkdir(parents=True)
+    head = '<html><head>\n<script>window.GAIA_VERSION = "1.0.0";</script>\n'
+    profile.joinpath("index.html").write_text(
+        head + '<link rel="stylesheet" href="../../css/styles.css?v=1.0.0"></head></html>',
+        encoding="utf-8",
+    )
+    (docs / "evidence").mkdir()
+    docs.joinpath("evidence", "index.html").write_text(
+        head + '<script src="../js/ui.js?v=1.0.0"></script></head></html>', encoding="utf-8"
+    )
+    # Prose/external URL with a `?v=` must neither be discovered nor rewritten.
+    docs.joinpath("prose.html").write_text(
+        '<html><head></head><body><a href="https://x.test/watch?v=1.2.3">x</a></body></html>',
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(bd, "ROOT", tmp_path)
+    monkeypatch.setattr(bd, "_read_version", lambda: "9.9.9")
+    before = {p: p.read_bytes() for p in docs.rglob("*.html")}
+
+    assert bd.build_html_cache_busting(check=False) is True
+
+    printed = {
+        line[len("cache-bust: updated "):].strip()
+        for line in capsys.readouterr().out.splitlines()
+        if line.startswith("cache-bust: updated ")
+    }
+    written = {
+        p.relative_to(tmp_path).as_posix() for p in docs.rglob("*.html") if p.read_bytes() != before[p]
+    }
+    assert written == {"docs/u/someone/index.html", "docs/evidence/index.html"}
+    assert printed == written
+    assert "9.9.9" in profile.joinpath("index.html").read_text(encoding="utf-8")

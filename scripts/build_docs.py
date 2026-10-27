@@ -686,10 +686,14 @@ def build_html_cache_busting(check: bool) -> bool:
     # pages are handled separately below: their generator strips the no-cache
     # meta tags that this transform would re-inject.
     stamped_pages = []
-    stamp_re = re.compile(r'\?v=\d+\.\d+\.\d+|window\.GAIA_VERSION\s*=\s*"')
+    # Only asset stamps (`.css?v=` / `.js?v=`) and the GAIA_VERSION global count,
+    # so prose or external URLs containing `?v=1.2.3` are never rewritten.
+    stamp_re = re.compile(
+        r'\.(?:css|js)\?v=\d+\.\d+\.\d+|window\.GAIA_VERSION\s*=\s*"'
+    )
     for path in sorted((ROOT / "docs").rglob("*.html")):
         rel = path.relative_to(ROOT / "docs")
-        if rel.parts[0] in ("u", "og", "DRAFT"):
+        if rel.parts[0] in ("u", "og") or "DRAFT" in rel.parts:
             continue
         try:
             text = path.read_bytes().decode("utf-8")
@@ -763,6 +767,8 @@ def build_html_cache_busting(check: bool) -> bool:
                     print(f"diff docs/{rel} (cache busting / version stale)")
                 else:
                     path.write_bytes(updated_text.encode("utf-8"))
+                    # `gaia dev release` stages only the paths printed here.
+                    print(f"cache-bust: updated docs/{rel}")
     return changed
 
 

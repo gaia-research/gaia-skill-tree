@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 import re
+from datetime import datetime
 from collections import defaultdict
 from pathlib import Path
 
@@ -155,8 +156,13 @@ def test_leaderboard_sorted_by_tm_desc_with_stable_tiebreak(leaderboard):
 
 def test_leaderboard_carries_generated_at_the_page_reads(leaderboard, ledger):
     # docs/trust/leaderboard/leaderboard.js stamps its "Updated" tag from this.
-    assert leaderboard.get("generatedAt"), "leaderboard.json lost generatedAt"
-    assert leaderboard["generatedAt"] == ledger["generatedAt"]
+    # Every `gaia dev docs` bumps the ledger's generatedAt while the drift check
+    # masks it, so leaderboard.json may legitimately lag the ledger: require a
+    # valid ISO-8601 stamp that is not newer than the ledger's.
+    stamp = leaderboard.get("generatedAt")
+    assert stamp, "leaderboard.json lost generatedAt"
+    parse = lambda value: datetime.fromisoformat(value.replace("Z", "+00:00"))  # noqa: E731
+    assert parse(stamp) <= parse(ledger["generatedAt"])
 
 
 # --- (b) skills API vs ledger (1-star redaction) ----------------------------
@@ -237,8 +243,20 @@ def test_ledger_level_differs_from_named_index_only_by_grade_ceiling(
         )
 
 
+def test_ledger_level_drift_rows_are_all_ungraded(ledgerRows, namedEntries):
+    """Pin the shape of finding F1: only ungraded skills diverge on level."""
+    drift = [
+        skillId
+        for skillId, row in ledgerRows.items()
+        if row["currentStars"] != namedEntries[skillId]["level"]
+    ]
+    assert all(ledgerRows[skillId]["grade"] == "ungraded" for skillId in drift)
+    assert all(stars(namedEntries[skillId]["level"]) == 1 for skillId in drift)
+
+
 @pytest.mark.xfail(
     strict=True,
+    raises=AssertionError,
     reason=(
         "Finding: docs/graph/ledger/data.json (and the leaderboard API built "
         "from it) publish the stored frontmatter level, while the named index "
@@ -310,6 +328,7 @@ def test_origin_is_unique_across_all_named_entries(namedIndex):
 
 @pytest.mark.xfail(
     strict=True,
+    raises=AssertionError,
     reason=(
         "Finding: a named skill at 2-star or above sits in awaitingClassification "
         "(status awakened) so it is absent from the ledger, leaderboard, skills "
