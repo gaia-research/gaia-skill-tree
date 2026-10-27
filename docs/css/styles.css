@@ -13268,6 +13268,110 @@ body[data-overall-grade="S"] .report-card {
   cursor: help;
 }
 
+/* Evidence provenance — type label, source host, evaluator, date, link.
+   One renderer (docs/js/evidence-provenance.js) feeds every evidence surface.
+   Colour comes from tokens only; absence is italic, never hidden. */
+.ev-prov-link {
+  display: inline-flex;
+  align-items: baseline;
+  min-width: 0;
+  max-width: 100%;
+}
+.ev-prov-host {
+  flex: 0 0 auto;
+  color: var(--text);
+  font-weight: 600;
+}
+.ev-prov-path {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--muted);
+}
+.ev-prov-link:hover .ev-prov-path {
+  color: inherit;
+}
+.ev-prov-none {
+  font-style: italic;
+  opacity: 0.7;
+  border-bottom: 0;
+  cursor: default;
+}
+.ev-prov-info {
+  background: transparent;
+  border: 1px solid currentColor;
+  color: var(--muted);
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  font-size: 8px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  line-height: 1;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: help;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+.ev-prov-tip .ev-prov-info {
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 8px/1 var(--font-mono);
+  color: var(--muted);
+  opacity: 0.7;
+}
+.ev-prov-info:hover,
+.ev-prov-info:focus-visible {
+  opacity: 1;
+}
+/* The host link claims at least 7rem: the path gives way first, and in a narrow
+   card the link (with its tooltip trigger) wraps to its own line instead of
+   being crushed. */
+.se-ev-card-top > .ev-type-pill {
+  width: auto;
+  flex: 0 0 auto;
+}
+.se-ev-card-top > .se-ev-layer-hint {
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+.se-ev-card-top > .ev-prov-link,
+.se-ev-card-top > .ev-prov-none {
+  flex: 1 1 7rem;
+  min-width: 0;
+}
+/* The toggletip anchors to the card, not the 14px trigger, and the card must
+   let it overhang the row. */
+.lc-anchor.ev-prov-tip {
+  position: static;
+  display: inline-flex;
+}
+.se-ev-card:has(.ev-prov-tip) {
+  position: relative;
+  overflow: visible;
+}
+.ev-prov-tip .lc-tipbox__line {
+  overflow-wrap: anywhere;
+}
+.ev-prov-tip .lc-tipbox {
+  top: 2rem;
+  left: 8px;
+  right: 8px;
+  width: auto;
+  max-width: none;
+}
+
 /* Layer hint — subtle "via generic" tag on evidence rows */
 .se-ev-layer-hint {
   font-family: var(--font-mono);

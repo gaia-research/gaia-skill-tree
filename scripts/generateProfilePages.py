@@ -1224,6 +1224,7 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
   <script src="../../js/plaque-reveal.js" defer></script>
   <script src="../../js/profile-timeline.js" defer></script>
   <script src="../../js/profile-filter.js" defer></script>
+  <script src="../../js/evidence-provenance.js" defer></script>
   <script src="../../js/named-skills.js" defer></script>
   <script src="../../js/skill-explorer.js" defer></script>
   <script src="../../js/hoh-modal.js" defer></script>

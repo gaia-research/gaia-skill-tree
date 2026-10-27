@@ -20,6 +20,7 @@
   <script src="../js/atlas-helpers.js?v=8.28.1"></script>
   <script src="../js/skill-semantics.js?v=8.28.1"></script>
   <script src="../js/rank-badge.js?v=8.28.1"></script>
+  <script src="../js/evidence-provenance.js?v=8.28.1"></script>
 
   <style>
     /* ── Report status tokens — semantic aliases over the shared palette.
@@ -297,6 +298,20 @@
       max-width: 240px;
     }
     .ev-source-link:hover { color: var(--text); text-decoration: underline; }
+
+    /* Shared provenance cells (evidence-provenance.js): the source keeps the 240px
+       cap the old link had (host stays whole, path ellipsises); evaluator and date
+       stay on one line. */
+    .evidence-table .se-ev-link {
+      display: flex;
+      max-width: 240px;
+    }
+    .evidence-table .se-ev-eval,
+    .evidence-table .se-ev-date {
+      display: inline-block;
+      margin-left: 0;
+      white-space: nowrap;
+    }
 
     .ev-trust-num {
       font-family: var(--font-mono);
@@ -861,9 +876,9 @@
       return '<span class="' + cls + '" data-grade="' + esc(g) + '">' + esc(g) + '</span>';
     }
 
-    function renderTypeChip(type) {
+    function renderTypeChip(type, label) {
       var t = type || '—';
-      return '<span class="ev-type" data-type="' + esc(t) + '">' + esc(t) + '</span>';
+      return '<span class="ev-type" data-type="' + esc(t) + '">' + esc(label || t) + '</span>';
     }
 
     function renderHeader(skill) {
@@ -1020,6 +1035,7 @@
             '<th>Grade</th>' +
             '<th>Type</th>' +
             '<th>Source</th>' +
+            '<th>Evaluator</th>' +
             '<th style="min-width:4rem">Trust №</th>' +
             '<th>Date</th>' +
           '</tr></thead>' +
@@ -1029,10 +1045,11 @@
           var ev = evidence[i];
           var grade = ev.grade || '—';
           var type = ev.type || ev['class'] || '—';
-          var srcUrl = ev.source || '';
-          var srcLabel = srcUrl.replace(/^https?:\/\//, '');
+          // Source host, evaluator and date come from the shared renderer
+          // (evidence-provenance.js) exactly as the row records them.
+          var EP = window.GaiaEvidenceProvenance;
+          var provRow = Object.assign({}, ev, { type: type });
           var trustNum = ev.trustNumber != null ? Number(ev.trustNumber).toFixed(1) : '—';
-          var evDate = ev.date || '';
 
           // Stale / dead-link flags (future fields; graceful if absent)
           var flags = '';
@@ -1043,13 +1060,14 @@
 
           html += '<tr>' +
             '<td>' + renderGradeChip(grade) + '</td>' +
-            '<td>' + renderTypeChip(type) + '</td>' +
+            '<td>' + renderTypeChip(type, EP ? EP.typeLabel(type) : type) + '</td>' +
             '<td>' +
-              (srcUrl ? '<a class="ev-source-link" href="' + esc(srcUrl) + '" target="_blank" rel="noopener">' + esc(srcLabel) + '</a>' : '<span class="ev-source-link" style="cursor:default;">—</span>') +
+              (EP ? EP.renderSource(provRow) : '<span class="ev-source-link" style="cursor:default;">—</span>') +
               flags +
             '</td>' +
+            '<td>' + (EP ? EP.renderEvaluator(provRow) : '') + '</td>' +
             '<td><span class="ev-trust-num">' + esc(trustNum) + '</span></td>' +
-            '<td><span class="ev-date">' + esc(evDate) + '</span></td>' +
+            '<td>' + (EP ? EP.renderDate(provRow) : '') + '</td>' +
           '</tr>';
         }
 
