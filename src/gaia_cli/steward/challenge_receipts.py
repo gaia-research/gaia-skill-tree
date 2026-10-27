@@ -7,12 +7,20 @@ independently authenticated source adapter can prove every required fact.
 Trust model (single operator, founder ruling 2026-10-28). GitHub's REST API does not
 keep a durable, attributable environment-approval record, so the producer *seals* the
 approvals it observed (``issuer-approval.json``) and attests the sealed file and the
-receipt archive with ``actions/attest-build-provenance``. A verifier then proves, with
-``gh attestation verify``: (1) a GitHub-hosted runner signed both files for a tag push
-in the trusted repository; (2) the workflow file at the signing commit is byte-identical
-(git blob SHA) to the pinned ``TrustedReceiptConfig.workflow_blob_sha`` and that commit is
-reachable from the verifier's ``HEAD``; (3) exactly one ``approved`` review, by a
-configured reviewer user id, none rejected, on attempt 1 (``_authenticate_approval``).
+receipt archive with ``actions/attest-build-provenance``. All post-approval work is inline
+in the pinned workflow (no repository code runs after the click); the founder approves on
+a summary the pinned workflow re-derives from the archive bytes. A verifier then proves,
+with ``gh attestation verify`` against a Sigstore trusted root shipped in the package and
+pinned by sha256 (a bundle never supplies its own root): (1) a GitHub-hosted runner signed
+both files for a tag push in the trusted repository (repository and owner ids pinned);
+(2) the workflow file at the signing commit is byte-identical (git blob SHA) to the pinned
+``TrustedReceiptConfig.workflow_blob_sha`` and that commit is reachable from the
+verifier's ``HEAD``; (3) exactly one ``approved`` review, by a configured reviewer user
+id, none rejected, on attempt 1 (``_authenticate_approval``).
+
+Authenticated facts are the approver, tag pusher, run, tag, commit and exact archive
+bytes. Builder/contributor independence from the verifier is *declared* in the admission
+request and is a convention, not an authenticated GitHub-side fact.
 Two adapters share that core: ``GitHubActionsSource`` (online, at admission, additionally
 cross-checks the live run, artifact and approvals) and ``CommittedAttestedReceiptSource``
 (offline, every docs build, from the committed ``receipt/`` bundle).
@@ -33,7 +41,8 @@ admission without the founder's click needs its own founder ruling.
 
 Residual risks (see the issuer PR): credential equivalence (the operator's ``gh`` token can
 approve through the API), squash merges break the commit-reachability check (fails closed),
-and verification needs the ``gh`` CLI plus full git history.
+and verification needs the ``gh`` CLI plus FULL git history (any CI that verifies committed
+receipts must check out with ``fetch-depth: 0``).
 
 Challenge binding: ``resolve()`` requires the expected challenge id. Callers should
 use ``for_challenge()``, which returns a ``BoundReceiptResolver`` exposing the bound
@@ -55,6 +64,8 @@ import re
 import shutil
 import subprocess
 import tempfile
+import threading
+import warnings
 import zipfile
 import zlib
 from abc import ABC, abstractmethod
@@ -75,14 +86,13 @@ SHA256_RE = re.compile(r"^(?:sha256:)?[0-9a-f]{64}$")
 # (SHA-256 object format). Never prefixed.
 GIT_SHA_RE = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
 
-# Issuer bundle: the four files the producer workflow emits and the repo commits under
+# Issuer bundle: the three files the producer workflow emits and the repo commits under
 # ``evidence/frontier-challenges/<case>/receipt/``.
 BUNDLE_ARTIFACT = "artifact.zip"
 BUNDLE_APPROVAL = "issuer-approval.json"
 BUNDLE_ATTESTATION = "attestation.jsonl"
-BUNDLE_TRUSTED_ROOT = "trusted_root.jsonl"
 BUNDLE_LIMITS = {BUNDLE_ARTIFACT: MAX_ARCHIVE_BYTES, BUNDLE_APPROVAL: 1024 * 1024,
-                 BUNDLE_ATTESTATION: 2 * 1024 * 1024, BUNDLE_TRUSTED_ROOT: 4 * 1024 * 1024}
+                 BUNDLE_ATTESTATION: 2 * 1024 * 1024}
 MAX_BUNDLE_ZIP_BYTES = 20 * 1024 * 1024
 EVIDENCE_ROOT = "evidence/frontier-challenges"
 RECEIPT_SUBDIR = "receipt"
@@ -91,7 +101,11 @@ SOURCE_LIVE = "github-actions-live"
 SOURCE_COMMITTED = "committed-attested"
 OIDC_ISSUER = "https://token.actions.githubusercontent.com"
 SLSA_PREDICATE = "https://slsa.dev/provenance/v1"
-DEFAULT_CONFIG_PATH = Path(__file__).resolve().parents[1] / "data" / "trust" / "challenge-receipt-issuer.json"
+TRUST_DIR = Path(__file__).resolve().parents[1] / "data" / "trust"
+DEFAULT_CONFIG_PATH = TRUST_DIR / "challenge-receipt-issuer.json"
+# Sigstore trusted root (``gh attestation trusted-root``), shipped in the package and pinned
+# by ``TrustedReceiptConfig.trusted_root_sha256``. Bundles never carry their own root.
+DEFAULT_TRUSTED_ROOT_PATH = TRUST_DIR / "sigstore-trusted-root.jsonl"
 
 
 class ReceiptUnavailable(RuntimeError):
@@ -108,7 +122,9 @@ class TrustedReceiptConfig:
 
     ``workflow_blob_sha`` pins the issuer workflow file by git blob SHA; the verified
     signing commit must carry exactly that blob. ``required_reviewer_ids`` are GitHub
-    user ids (stable, unlike logins). ``prevent_self_review`` may be False: the single
+    user ids (stable, unlike logins). ``repository_id`` / ``repository_owner_id`` pin the
+    repository identity against rename or transfer. ``trusted_root_sha256`` pins the shipped
+    Sigstore trusted root. ``prevent_self_review`` may be False: the single
     operator is both pusher and approver; the receipt verifier must still differ from the
     builder and contributor (enforced in the resolver).
     """
@@ -119,6 +135,9 @@ class TrustedReceiptConfig:
     workflow_blob_sha: str
     environment: str
     required_reviewer_ids: tuple[int, ...]
+    repository_id: int
+    repository_owner_id: int
+    trusted_root_sha256: str
     prevent_self_review: bool = False
     issuer: str = "github-actions"
 
@@ -139,6 +158,11 @@ class TrustedReceiptConfig:
         if (not isinstance(ids, tuple) or not ids
                 or not all(type(item) is int and item > 0 for item in ids)):
             raise ValueError("required reviewer ids must be a non-empty tuple of positive GitHub user ids")
+        if (type(self.repository_id) is not int or self.repository_id <= 0
+                or type(self.repository_owner_id) is not int or self.repository_owner_id <= 0):
+            raise ValueError("repository id and owner id must be positive GitHub numeric ids")
+        if not re.fullmatch(r"[0-9a-f]{64}", self.trusted_root_sha256):
+            raise ValueError("trusted root sha256 must be 64 lowercase hex")
         if not isinstance(self.prevent_self_review, bool):
             raise ValueError("prevent_self_review must be a boolean")
         if self.issuer != "github-actions":
@@ -153,6 +177,9 @@ CONFIG_ENV = {
     "workflowBlobSha": "GAIA_RECEIPT_WORKFLOW_BLOB_SHA",
     "environment": "GAIA_RECEIPT_ENVIRONMENT",
     "requiredReviewerIds": "GAIA_RECEIPT_REQUIRED_REVIEWER_IDS",
+    "repositoryId": "GAIA_RECEIPT_REPOSITORY_ID",
+    "repositoryOwnerId": "GAIA_RECEIPT_REPOSITORY_OWNER_ID",
+    "trustedRootSha256": "GAIA_RECEIPT_TRUSTED_ROOT_SHA256",
     "preventSelfReview": "GAIA_RECEIPT_PREVENT_SELF_REVIEW",
 }
 CONFIG_KEYS = frozenset(CONFIG_ENV) | {"schemaVersion", "issuer"}
@@ -164,6 +191,8 @@ def loadTrustedConfig(env: Mapping[str, str] | None = None,
 
     Neither a committed file nor any override => ``ReceiptUnavailable`` (not configured).
     A file or override that is incomplete, malformed or invalid => ``ReceiptMisconfigured``.
+    Every override is a trust-root change: a ``RuntimeWarning`` names each override that
+    alters a field the committed file already pins.
     """
     source = os.environ if env is None else env
     fields: dict[str, Any] = {}
@@ -187,6 +216,9 @@ def loadTrustedConfig(env: Mapping[str, str] | None = None,
         if "requiredReviewerIds" in overrides:
             overrides["requiredReviewerIds"] = [
                 int(part) for part in overrides["requiredReviewerIds"].split(",") if part.strip()]
+        for key in ("repositoryId", "repositoryOwnerId"):
+            if key in overrides:
+                overrides[key] = int(overrides[key])
         if "preventSelfReview" in overrides:
             flag = overrides["preventSelfReview"].strip().lower()
             if flag not in {"true", "false"}:
@@ -194,9 +226,15 @@ def loadTrustedConfig(env: Mapping[str, str] | None = None,
             overrides["preventSelfReview"] = flag == "true"
     except ValueError as exc:
         raise ReceiptMisconfigured(f"challenge receipt override is invalid: {exc}") from exc
+    changed = sorted(CONFIG_ENV[key] for key, value in overrides.items()
+                     if key in fields and fields[key] != value)
+    if changed:
+        warnings.warn("challenge receipt trust pins overridden by environment: " + ", ".join(changed)
+                      + " (the committed pins are NOT in force)", RuntimeWarning, stacklevel=2)
     fields.update(overrides)
     missing = [key for key in ("repository", "workflowPath", "triggerRefPrefix", "workflowBlobSha",
-                               "environment", "requiredReviewerIds") if key not in fields]
+                               "environment", "requiredReviewerIds", "repositoryId",
+                               "repositoryOwnerId", "trustedRootSha256") if key not in fields]
     if missing:
         raise ReceiptMisconfigured(
             f"challenge receipt configuration is incomplete; missing {', '.join(missing)}")
@@ -207,6 +245,7 @@ def loadTrustedConfig(env: Mapping[str, str] | None = None,
         return TrustedReceiptConfig(
             fields["repository"], fields["workflowPath"], fields["triggerRefPrefix"],
             fields["workflowBlobSha"], fields["environment"], tuple(ids),
+            fields["repositoryId"], fields["repositoryOwnerId"], fields["trustedRootSha256"],
             fields.get("preventSelfReview", False), fields.get("issuer", "github-actions"))
     except (TypeError, ValueError) as exc:
         raise ReceiptMisconfigured(f"trusted challenge receipt configuration is invalid: {exc}") from exc
@@ -416,6 +455,8 @@ def identityFromGhResult(text: str, subjectSha256: str) -> dict[str, Any]:
                 "ref": cert["sourceRepositoryRef"], "sourceSha": cert["sourceRepositoryDigest"],
                 "trigger": cert["buildTrigger"], "runnerEnvironment": cert["runnerEnvironment"],
                 "runId": int(invocation.group(1)), "runAttempt": int(invocation.group(2)),
+                "repositoryId": int(cert["sourceRepositoryIdentifier"]),
+                "ownerId": int(cert["sourceRepositoryOwnerIdentifier"]),
                 "subjectSha256": subjectSha256,
             })
         except ReceiptUnavailable:
@@ -478,43 +519,65 @@ class LocalGit:
 
 
 class GhApiTransport:
-    """Read-only ``gh api`` transport; ``gh`` handles auth and artifact download redirects."""
+    """Read-only ``gh api`` transport; ``gh`` handles auth and artifact download redirects.
+
+    Output is read in chunks and the process is killed the moment it exceeds the byte cap,
+    so an oversized response is never fully buffered.
+    """
+
+    JSON_LIMIT = 4 * 1024 * 1024
 
     def __init__(self, token: str | None = None, *, timeout: float = 60.0, ghPath: str = "gh",
-                 runner: Callable[..., Any] = subprocess.run) -> None:
-        self.token, self.timeout, self.ghPath, self.runner = token, timeout, ghPath, runner
+                 popen: Callable[..., Any] = subprocess.Popen) -> None:
+        self.token, self.timeout, self.ghPath, self.popen = token, timeout, ghPath, popen
 
-    def _call(self, path: str) -> bytes:
+    def _call(self, path: str, limit: int) -> bytes:
         env = dict(os.environ)
         if self.token:
             env["GH_TOKEN"] = self.token
-        try:
-            done = self.runner([self.ghPath, "api", path], capture_output=True, timeout=self.timeout,
-                               env=env, check=False)
-        except (OSError, subprocess.SubprocessError) as exc:
-            raise ReceiptUnavailable(f"gh CLI is required to read GitHub Actions state: {exc}") from exc
-        if done.returncode != 0:
-            detail = done.stderr.decode("utf-8", "replace") if isinstance(done.stderr, bytes) else str(done.stderr)
-            raise ReceiptUnavailable(f"GitHub API read failed for {path}: {detail.strip()[:200]}")
-        return done.stdout
+        with tempfile.TemporaryFile() as errors:
+            try:
+                proc = self.popen([self.ghPath, "api", path], stdout=subprocess.PIPE, stderr=errors, env=env)
+            except OSError as exc:
+                raise ReceiptUnavailable(f"gh CLI is required to read GitHub Actions state: {exc}") from exc
+            timer = threading.Timer(self.timeout, proc.kill)
+            timer.start()
+            chunks: list[bytes] = []
+            total = 0
+            try:
+                while True:
+                    chunk = proc.stdout.read(65536)
+                    if not chunk:
+                        break
+                    total += len(chunk)
+                    if total > limit:
+                        proc.kill()
+                        raise ReceiptUnavailable(f"GitHub API response for {path} exceeds the size limit")
+                    chunks.append(chunk)
+                code = proc.wait()
+            finally:
+                timer.cancel()
+                proc.stdout.close()
+            if code != 0:
+                errors.seek(0)
+                detail = errors.read(400).decode("utf-8", "replace").strip()
+                raise ReceiptUnavailable(f"GitHub API read failed for {path}: {detail[:200]}")
+        return b"".join(chunks)
 
     def getJson(self, path: str) -> Any:
         try:
-            return json.loads(self._call(path))
+            return json.loads(self._call(path, self.JSON_LIMIT))
         except ValueError as exc:
             raise ReceiptUnavailable(f"GitHub API returned non-JSON for {path}") from exc
 
     def getBytes(self, path: str) -> bytes:
-        data = self._call(path)
-        if len(data) > MAX_BUNDLE_ZIP_BYTES:
-            raise ReceiptUnavailable("GitHub artifact download exceeds the bundle size limit")
-        return data
+        return self._call(path, MAX_BUNDLE_ZIP_BYTES)
 
 
 # ---- Bundle parsing ---------------------------------------------------------------------------
 
 def _readBundleZip(data: bytes) -> dict[str, bytes]:
-    """Parse a downloaded Actions artifact: exactly the four bundle files, hard byte caps."""
+    """Parse a downloaded Actions artifact: exactly the three bundle files, hard byte caps."""
     if not isinstance(data, bytes) or len(data) > MAX_BUNDLE_ZIP_BYTES:
         raise ReceiptUnavailable("receipt bundle download is absent or too large")
     files: dict[str, bytes] = {}
@@ -522,7 +585,7 @@ def _readBundleZip(data: bytes) -> dict[str, bytes]:
         with zipfile.ZipFile(io.BytesIO(data)) as bundle:
             infos = bundle.infolist()
             if sorted(info.filename for info in infos) != sorted(BUNDLE_LIMITS):
-                raise ValueError("bundle must contain exactly the four issuer files")
+                raise ValueError("bundle must contain exactly the three issuer files")
             for info in infos:
                 cap = BUNDLE_LIMITS[info.filename]
                 if (info.is_dir() or info.flag_bits & 0x1 or info.file_size > cap
@@ -566,25 +629,38 @@ class _BundleSource(AuthenticatedApprovalSource):
     """Shared core: attestation, pinned-workflow and sealed-approval verification."""
 
     def __init__(self, *, verifier: Callable[..., Mapping[str, Any]] | None = None,
-                 git: Any = None) -> None:
+                 git: Any = None, trustedRoot: Path | str = DEFAULT_TRUSTED_ROOT_PATH) -> None:
         self.verifier = GhAttestationVerifier() if verifier is None else verifier
         self.git = git
+        self.trustedRoot = Path(trustedRoot)
+
+    def _pinnedRoot(self, config: TrustedReceiptConfig) -> bytes:
+        """The packaged Sigstore root, accepted only if it matches the pinned digest."""
+        try:
+            data = self.trustedRoot.read_bytes()
+        except OSError as exc:
+            raise ReceiptUnavailable(f"pinned Sigstore trusted root is unreadable: {exc}") from exc
+        if _sha(data) != config.trusted_root_sha256:
+            raise ReceiptUnavailable("Sigstore trusted root does not match the pinned sha256")
+        return data
 
     def _history(self) -> Any:
         return LocalGit() if self.git is None else self.git
 
     def _authenticateBundle(self, files: Mapping[str, bytes], receipt_id: str,
-                            config: TrustedReceiptConfig, *, useBundledRoot: bool) -> dict[str, Any]:
+                            config: TrustedReceiptConfig) -> dict[str, Any]:
         sealed = _json(files[BUNDLE_APPROVAL], "issuer approval")
         archive = files[BUNDLE_ARTIFACT]
         identities = []
+        pinnedRoot = self._pinnedRoot(config)
         with tempfile.TemporaryDirectory(prefix="gaia-receipt-") as tmp:
             root = Path(tmp)
             for name, content in files.items():
                 (root / name).write_bytes(content)
+            (root / "pinned-trusted-root.jsonl").write_bytes(pinnedRoot)
             for name in (BUNDLE_ARTIFACT, BUNDLE_APPROVAL):
                 identity = self.verifier(root / name, root / BUNDLE_ATTESTATION,
-                                         root / BUNDLE_TRUSTED_ROOT if useBundledRoot else None, config)
+                                         root / "pinned-trusted-root.jsonl", config)
                 if (not isinstance(identity, Mapping)
                         or identity.get("subjectSha256") != _sha(files[name])):
                     raise ReceiptUnavailable("attestation does not cover the exact bundle file bytes")
@@ -594,7 +670,9 @@ class _BundleSource(AuthenticatedApprovalSource):
                != {k: v for k, v in identity.items() if k != "subjectSha256"} for other in identities):
             raise ReceiptUnavailable("receipt archive and approval were not signed by the same run")
         if (identity.get("repository") != config.repository
-                or identity.get("workflowPath") != config.workflow_path):
+                or identity.get("workflowPath") != config.workflow_path
+                or identity.get("repositoryId") != config.repository_id
+                or identity.get("ownerId") != config.repository_owner_id):
             raise ReceiptUnavailable("attested workflow is not the trusted issuer workflow")
         ref, sha = identity.get("ref"), identity.get("sourceSha")
         if not isinstance(ref, str) or not ref.startswith(config.trigger_ref_prefix):
@@ -618,6 +696,8 @@ class _BundleSource(AuthenticatedApprovalSource):
             raise ReceiptUnavailable("attested source commit is not reachable from HEAD")
         if (sealed.get("schemaVersion") != 1 or sealed.get("kind") != "challenge-receipt-issuer-approval"
                 or sealed.get("repository") != config.repository
+                or sealed.get("repositoryId") != config.repository_id
+                or sealed.get("ownerId") != config.repository_owner_id
                 or sealed.get("environment") != config.environment
                 or sealed.get("runId") != runId or sealed.get("runAttempt") != attempt
                 or sealed.get("ref") != ref or sealed.get("sourceSha") != sha
@@ -647,13 +727,15 @@ class _BundleSource(AuthenticatedApprovalSource):
 class GitHubActionsSource(_BundleSource):
     """Online adapter, used at admission: live run, artifact and approvals + attestation.
 
-    Everything is read through the injectable ``transport`` (default: ``gh api``). The
+    Everything is read through the injectable ``transport`` (default: ``gh api``); the
+    attestation is verified against the same pinned packaged Sigstore root. The
     sealed approval inside the attested bundle must agree with the live approvals.
     """
 
     def __init__(self, token: str | None = None, *, timeout: float = 60.0, transport: Any = None,
-                 verifier: Callable[..., Mapping[str, Any]] | None = None, git: Any = None) -> None:
-        super().__init__(verifier=verifier, git=git)
+                 verifier: Callable[..., Mapping[str, Any]] | None = None, git: Any = None,
+                 trustedRoot: Path | str = DEFAULT_TRUSTED_ROOT_PATH) -> None:
+        super().__init__(verifier=verifier, git=git, trustedRoot=trustedRoot)
         self.token = token or os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
         self.transport = GhApiTransport(self.token, timeout=timeout) if transport is None else transport
 
@@ -673,7 +755,7 @@ class GitHubActionsSource(_BundleSource):
         run = self.transport.getJson(f"repos/{repo}/actions/runs/{runId}")
         approvals = self.transport.getJson(f"repos/{repo}/actions/runs/{runId}/approvals")
         data = self.transport.getBytes(f"repos/{repo}/actions/artifacts/{artifact['id']}/zip")
-        document = self._authenticateBundle(_readBundleZip(data), receipt_id, config, useBundledRoot=False)
+        document = self._authenticateBundle(_readBundleZip(data), receipt_id, config)
         if not isinstance(run, Mapping):
             raise ReceiptUnavailable("live workflow run is malformed")
         def repoOf(key: str) -> Any:
@@ -709,9 +791,10 @@ class CommittedAttestedReceiptSource(_BundleSource):
     """
 
     def __init__(self, repo_root: Path | str, *, verifier: Callable[..., Mapping[str, Any]] | None = None,
-                 git: Any = None) -> None:
+                 git: Any = None, trustedRoot: Path | str = DEFAULT_TRUSTED_ROOT_PATH) -> None:
         self.repoRoot = Path(repo_root)
-        super().__init__(verifier=verifier, git=LocalGit(self.repoRoot) if git is None else git)
+        super().__init__(verifier=verifier, git=LocalGit(self.repoRoot) if git is None else git,
+                         trustedRoot=trustedRoot)
 
     def fetch(self, receipt_id: str, config: TrustedReceiptConfig) -> Mapping[str, Any]:
         base = self.repoRoot / EVIDENCE_ROOT
@@ -726,9 +809,13 @@ class CommittedAttestedReceiptSource(_BundleSource):
                     matches.append(candidate)
             except (OSError, ReceiptUnavailable):
                 continue
-        if len(matches) != 1:
-            raise ReceiptUnavailable("committed receipt bundle is absent or ambiguous (exactly one is required)")
-        document = self._authenticateBundle(_readBundleDir(matches[0]), receipt_id, config, useBundledRoot=True)
+        if len(matches) > 1:
+            raise ReceiptUnavailable(
+                "committed receipt bundle is ambiguous: receipt id " + repr(receipt_id) + " is sealed in "
+                + ", ".join(sorted(path.parent.name for path in matches)) + " (exactly one is required)")
+        if not matches:
+            raise ReceiptUnavailable("committed receipt bundle is absent (exactly one is required)")
+        document = self._authenticateBundle(_readBundleDir(matches[0]), receipt_id, config)
         document["sourceKind"] = SOURCE_COMMITTED
         return document
 
@@ -904,27 +991,39 @@ def probe_trusted_receipt_source(
         config: TrustedReceiptConfig | None = None, *, repoRoot: Path | str | None = None,
         env: Mapping[str, str] | None = None, configPath: Path | str | None = DEFAULT_CONFIG_PATH,
         which: Callable[[str], str | None] = shutil.which,
-        runner: Callable[..., Any] = subprocess.run) -> dict[str, Any]:
+        runner: Callable[..., Any] = subprocess.run,
+        trustedRoot: Path | str = DEFAULT_TRUSTED_ROOT_PATH) -> dict[str, Any]:
     """Return truthful deployment readiness. Never claims that anything was admitted.
 
     ``not-configured`` (nothing configured) | ``misconfigured`` (config invalid, workflow
     pin drifted from the checkout, or ``gh`` missing) | ``offline-only`` (``gh`` present, no
     GitHub credential: committed bundles verify, live admission cannot) | ``available``
-    (live admission and offline verification are both possible). Admission is decided per
-    challenge by the resolver, not by this probe.
+    (live admission and offline verification are both possible). ``available`` means tooling
+    only: every report carries ``admitted: False``; admission is decided per challenge by the
+    resolver, never by this probe. ``envOverrides`` lists any GAIA_RECEIPT_* trust-pin overrides.
     """
     if config is None:
         try:
             config = loadTrustedConfig(env, configPath)
         except ReceiptMisconfigured as exc:
-            return {"status": "misconfigured", "available": False, "reason": str(exc)}
+            return {"status": "misconfigured", "available": False, "admitted": False, "reason": str(exc)}
         except ReceiptUnavailable as exc:
-            return {"status": "not-configured", "available": False, "reason": str(exc)}
+            return {"status": "not-configured", "available": False, "admitted": False, "reason": str(exc)}
+    source = os.environ if env is None else env
     report: dict[str, Any] = {
-        "available": False, "configuredIssuer": config.issuer, "repository": config.repository,
+        "available": False, "admitted": False, "admission": "not-evaluated",
+        "envOverrides": sorted(name for name in CONFIG_ENV.values() if source.get(name)),
+        "configuredIssuer": config.issuer, "repository": config.repository,
         "workflowPath": config.workflow_path, "triggerRefPrefix": config.trigger_ref_prefix,
         "environment": config.environment, "workflowBlobSha": config.workflow_blob_sha,
     }
+    try:
+        rootOk = _sha(Path(trustedRoot).read_bytes()) == config.trusted_root_sha256
+    except OSError:
+        rootOk = False
+    if not rootOk:
+        return {**report, "status": "misconfigured",
+                "reason": "packaged Sigstore trusted root is missing or does not match the pinned sha256"}
     if repoRoot is not None:
         workflow = Path(repoRoot) / config.workflow_path
         if not workflow.is_file():
@@ -942,7 +1041,6 @@ def probe_trusted_receipt_source(
     if not which("gh"):
         return {**report, "status": "misconfigured",
                 "reason": "gh CLI not found; attestation verification requires it"}
-    source = os.environ if env is None else env
     authed = bool(source.get("GH_TOKEN") or source.get("GITHUB_TOKEN"))
     if not authed:
         try:
@@ -955,4 +1053,5 @@ def probe_trusted_receipt_source(
                 "reason": "no GitHub credential: committed receipt bundles can be verified, "
                           "live admission cannot"}
     return {**report, "status": "available", "available": True,
-            "reason": "issuer configured; admission is still decided per challenge by the resolver"}
+            "reason": "tooling and credentials are present; this says nothing about any challenge "
+                      "(nothing is admitted until the resolver verifies that challenge's receipt)"}

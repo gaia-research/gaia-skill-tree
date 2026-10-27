@@ -37,6 +37,9 @@ def config(**overrides):
         workflow_blob_sha=WORKFLOW_BLOB_SHA,
         environment="challenge-receipt-issuer",
         required_reviewer_ids=(7,),
+        repository_id=1,
+        repository_owner_id=2,
+        trusted_root_sha256="d" * 64,
         prevent_self_review=False,
     )
     values.update(overrides)

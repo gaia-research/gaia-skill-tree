@@ -2,10 +2,15 @@
   "schemaVersion": 1,
   "issuer": "github-actions",
   "repository": "gaia-research/gaia-skill-tree",
+  "repositoryId": 1221716703,
+  "repositoryOwnerId": 297590332,
   "workflowPath": ".github/workflows/challenge-receipt-issuer.yml",
   "triggerRefPrefix": "refs/tags/challenge-receipt/",
-  "workflowBlobSha": "c20ba8ba73c2440eac8669f68e6a6a1428ae5d65",
+  "workflowBlobSha": "d107f6272579a12a085bf595291dedf5ce86e8d7",
+  "trustedRootSha256": "65ca537f6ed8a47fd0e560c421baa1f6c1efb8b25fc200d8c5c02c0e92eb2b9c",
   "environment": "challenge-receipt-issuer",
-  "requiredReviewerIds": [153011150],
+  "requiredReviewerIds": [
+    153011150
+  ],
   "preventSelfReview": false
 }
