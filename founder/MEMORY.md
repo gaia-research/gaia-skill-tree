@@ -68,7 +68,8 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 - **Handovers/checkpoints/receipts:** `founder/handovers/yggdrasil-iv/` (index `README.md`; live entry point `YGGDRASIL_IV_HANDOVER_2026-10-27.md`; live ledger `YGGDRASIL_IV_RESTART_CHECKPOINT_2026-10-27.md`; everything else there is history).
 - **Governing material:** `founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md`, `founder/GAIA_FRONTIER_RULING_2026-10-26.md`, `founder/YGGDRASIL_IV_EXECUTION.md`, `founder/MEMORY.md`, `founder/ORCHESTRATOR.md`.
-- **Delivery evidence (local, gitignored, not off-device backup):** `.gaia/yggdrasil-iv/recovery/` — `graceful-pause-96d329995/`, `publication-b81-parent-evidence/`, `publication-93-parent-evidence/`, `frontier-e4-executed-evidence/`, `lifecycle-6fa-independent-review.md`, `canonical-proposed-schema-fixtures/`.
+- **Delivery evidence (committed, off-device):** `founder/reports/yggdrasil-iv-evidence/` — hash-manifested copies of the pause receipt, both publication full proofs (b81 + 93), both Frontier attempts, canonical CLI verification, held proposal schema bytes and the four independent reports. Read evidence there first.
+- **Working evidence (local, gitignored, not off-device backup):** `.gaia/yggdrasil-iv/recovery/` — `graceful-pause-96d329995/`, `publication-b81-parent-evidence/`, `publication-93-parent-evidence/` (incl. the four ~94 MB declared-artifact archives, deliberately uncommitted with recorded digests), `frontier-e4-executed-evidence/`, `lifecycle-6fa-independent-review.md`, `canonical-proposed-schema-fixtures/`.
 - **Runbooks/harnesses:** `.pi/probes/verify-publication-b81.py`, `exercise-frontier-e4.py`, `resume-frontier-e4-isolated.py`, `preserve-graceful-pause.py`.
 - **Isolated worktrees:** `~/.gaia-worktrees/yggdrasil-iv-*`; control docs in `yggdrasil-iv-execution-control`. **Never switch or reset the shared primary checkout** (it is on its own branch).
 
