@@ -1,0 +1,395 @@
+[
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/supply-chain-optimization.json",
+  "id": "supply-chain-optimization",
+  "type": "fusion",
+  "name": "Supply Chain Optimization",
+  "prerequisites": [
+   "data-analysis",
+   "detect-anomaly",
+   "statistical-analysis"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/systematic-debugging.json",
+  "id": "systematic-debugging",
+  "type": "fusion",
+  "name": "Systematic Debugging",
+  "prerequisites": [
+   "hypothesis-generate",
+   "error-interpretation"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/task-depth-enforcement.json",
+  "id": "task-depth-enforcement",
+  "type": "fusion",
+  "name": "Task Depth Enforcement",
+  "prerequisites": [
+   "plan-decompose",
+   "verification-before-completion"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/text-to-sql-pipeline.json",
+  "id": "text-to-sql-pipeline",
+  "type": "fusion",
+  "name": "Text-to-SQL Pipeline",
+  "prerequisites": [
+   "generate-sql",
+   "parse-json",
+   "format-output"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/threat-intelligence-synthesis.json",
+  "id": "threat-intelligence-synthesis",
+  "type": "fusion",
+  "name": "Threat Intelligence Synthesis",
+  "prerequisites": [
+   "feed-monitoring",
+   "knowledge-graph-build",
+   "security-audit"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/tool-chaining.json",
+  "id": "tool-chaining",
+  "type": "fusion",
+  "name": "Tool Chaining",
+  "prerequisites": [
+   "tool-use",
+   "tool-select"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/tool-creation.json",
+  "id": "tool-creation",
+  "type": "fusion",
+  "name": "Tool Creation",
+  "prerequisites": [
+   "code-generation",
+   "tool-use"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/transformer-model-engineering.json",
+  "id": "transformer-model-engineering",
+  "type": "fusion",
+  "name": "Transformer Model Engineering",
+  "prerequisites": [
+   "fine-tune",
+   "embed-text",
+   "ml-pipeline"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 66.0,
+  "computedGrade": "B",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/translation-pipeline.json",
+  "id": "translation-pipeline",
+  "type": "fusion",
+  "name": "Translation Pipeline",
+  "prerequisites": [
+   "translate",
+   "sentiment-analysis",
+   "audience-model"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/tree-of-thought.json",
+  "id": "tree-of-thought",
+  "type": "fusion",
+  "name": "Tree of Thought",
+  "prerequisites": [
+   "chain-of-thought",
+   "plan-decompose"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/ubiquitous-language.json",
+  "id": "ubiquitous-language",
+  "type": "fusion",
+  "name": "Ubiquitous Language",
+  "prerequisites": [
+   "extract-entities",
+   "requirements-analysis"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/using-git-worktrees.json",
+  "id": "using-git-worktrees",
+  "type": "fusion",
+  "name": "Using Git Worktrees",
+  "prerequisites": [
+   "code-execution",
+   "tool-use"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/verification-before-completion.json",
+  "id": "verification-before-completion",
+  "type": "fusion",
+  "name": "Verification Before Completion",
+  "prerequisites": [
+   "code-execution",
+   "self-critique"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 3.8,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/vertical-slice-planning.json",
+  "id": "vertical-slice-planning",
+  "type": "fusion",
+  "name": "Vertical Slice Planning",
+  "prerequisites": [
+   "plan-decompose",
+   "route-intent"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/video-composition.json",
+  "id": "video-composition",
+  "type": "fusion",
+  "name": "Video Composition",
+  "prerequisites": [
+   "video-scaffolding",
+   "timeline-animation",
+   "video-preview",
+   "video-rendering",
+   "map-animation",
+   "video-saas",
+   "video-interactivity",
+   "video-captions"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/video-intelligence.json",
+  "id": "video-intelligence",
+  "type": "fusion",
+  "name": "Video Intelligence",
+  "prerequisites": [
+   "multimodal-reasoning",
+   "speech-to-text"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/voice-agent.json",
+  "id": "voice-agent",
+  "type": "fusion",
+  "name": "Voice Agent",
+  "prerequisites": [
+   "speech-to-text",
+   "question-answer",
+   "text-to-speech"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/web-accessibility.json",
+  "id": "web-accessibility",
+  "type": "fusion",
+  "name": "web-accessibility",
+  "prerequisites": [
+   "browser-control",
+   "ux-audit"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/web-best-practices.json",
+  "id": "web-best-practices",
+  "type": "fusion",
+  "name": "web-best-practices",
+  "prerequisites": [
+   "code-review-pipeline",
+   "performance-tuning"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/web-quality-audit.json",
+  "id": "web-quality-audit",
+  "type": "fusion",
+  "name": "web-quality-audit",
+  "prerequisites": [
+   "registry-health-scan",
+   "performance-tuning",
+   "search-engine-optimization",
+   "web-accessibility",
+   "web-best-practices"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/web-scrape.json",
+  "id": "web-scrape",
+  "type": "fusion",
+  "name": "Web Scrape",
+  "prerequisites": [
+   "web-search",
+   "parse-html",
+   "extract-entities"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/wiki-search.json",
+  "id": "wiki-search",
+  "type": "fusion",
+  "name": "Wiki Search",
+  "prerequisites": [
+   "retrieve",
+   "embed-text",
+   "summarize"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/workflow-automation.json",
+  "id": "workflow-automation",
+  "type": "fusion",
+  "name": "Workflow Automation",
+  "prerequisites": [
+   "plan-decompose",
+   "tool-use",
+   "api-call"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/workspace-automation.json",
+  "id": "workspace-automation",
+  "type": "fusion",
+  "name": "Workspace Automation",
+  "prerequisites": [
+   "api-call",
+   "document-editing"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/writing-plans.json",
+  "id": "writing-plans",
+  "type": "fusion",
+  "name": "Writing Plans",
+  "prerequisites": [
+   "plan-decompose",
+   "requirements-analysis"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ }
+]

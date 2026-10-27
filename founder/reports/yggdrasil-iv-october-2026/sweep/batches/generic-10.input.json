@@ -1,0 +1,404 @@
+[
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/ml-artifact-management.json",
+  "id": "ml-artifact-management",
+  "type": "fusion",
+  "name": "ML Artifact Management",
+  "prerequisites": [
+   "api-call",
+   "classify"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/ml-pipeline.json",
+  "id": "ml-pipeline",
+  "type": "fusion",
+  "name": "ML Pipeline",
+  "prerequisites": [
+   "data-analysis",
+   "automated-testing",
+   "code-generation"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/molecular-machine-learning.json",
+  "id": "molecular-machine-learning",
+  "type": "fusion",
+  "name": "Molecular Machine Learning",
+  "prerequisites": [
+   "molecular-databases",
+   "data-analysis",
+   "ml-pipeline"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 136.0,
+  "computedGrade": "A",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/molecular-visualization.json",
+  "id": "molecular-visualization",
+  "type": "fusion",
+  "name": "Molecular Visualization",
+  "prerequisites": [
+   "protein-structure-analysis",
+   "scientific-visualization"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/multi-agent-debate.json",
+  "id": "multi-agent-debate",
+  "type": "fusion",
+  "name": "Multi-Agent Debate",
+  "prerequisites": [
+   "self-critique",
+   "evaluate-output",
+   "chain-of-thought"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/multi-agent-orchestration-v.json",
+  "id": "multi-agent-orchestration-v",
+  "type": "fusion",
+  "name": "Multi-Agent Orchestration",
+  "prerequisites": [
+   "plan-and-execute",
+   "route-intent",
+   "tool-select"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/multi-node-orchestration.json",
+  "id": "multi-node-orchestration",
+  "type": "fusion",
+  "name": "Flow Nexus Orchestration",
+  "prerequisites": [
+   "multi-agent-orchestration-v",
+   "cloud-platform-management",
+   "distributed-neural-training"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/multi-topology-orchestration.json",
+  "id": "multi-topology-orchestration",
+  "type": "fusion",
+  "name": "Ruflo",
+  "prerequisites": [
+   "multi-node-orchestration",
+   "agent-memory-platform",
+   "git-integration",
+   "reasoning-pattern-bank",
+   "platform-modernization-sprint",
+   "dual-mode"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/multimodal-reasoning.json",
+  "id": "multimodal-reasoning",
+  "type": "fusion",
+  "name": "Multimodal Reasoning",
+  "prerequisites": [
+   "image-caption",
+   "question-answer",
+   "logical-inference"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/neural-training-orchestration.json",
+  "id": "neural-training-orchestration",
+  "type": "fusion",
+  "name": "Neural Training Orchestration",
+  "prerequisites": [
+   "ml-pipeline",
+   "distributed-neural-training",
+   "ml-artifact-management"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 36.0,
+  "computedGrade": "C",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/ontology-alignment.json",
+  "id": "ontology-alignment",
+  "type": "fusion",
+  "name": "Ontology Alignment",
+  "prerequisites": [
+   "extract-entities",
+   "knowledge-graph-build",
+   "schema-design"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/personal-knowledge-management.json",
+  "id": "personal-knowledge-management",
+  "type": "fusion",
+  "name": "personal-knowledge-management",
+  "prerequisites": [
+   "retrieve",
+   "context-compression"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/personal.json",
+  "id": "personal",
+  "type": "fusion",
+  "name": "mattpocock-personal",
+  "prerequisites": [
+   "document-editing",
+   "personal-knowledge-management"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/plan-and-execute.json",
+  "id": "plan-and-execute",
+  "type": "fusion",
+  "name": "Plan and Execute",
+  "prerequisites": [
+   "route-intent",
+   "plan-decompose",
+   "tool-select"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/platform-modernization-sprint.json",
+  "id": "platform-modernization-sprint",
+  "type": "fusion",
+  "name": "Platform Modernization Sprint",
+  "prerequisites": [
+   "cli-modernization",
+   "core-platform-implementation",
+   "system-integration",
+   "performance-tuning",
+   "advanced-swarm-coordination"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/prd-generation.json",
+  "id": "prd-generation",
+  "type": "fusion",
+  "name": "PRD Generation",
+  "prerequisites": [
+   "write-report",
+   "plan-decompose"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/prediction-market-analysis.json",
+  "id": "prediction-market-analysis",
+  "type": "fusion",
+  "name": "Prediction Market Analysis",
+  "prerequisites": [
+   "data-analysis",
+   "web-search",
+   "statistical-analysis"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/productivity.json",
+  "id": "productivity",
+  "type": "fusion",
+  "name": "mattpocock-productivity",
+  "prerequisites": [
+   "agent-handoff",
+   "context-compression",
+   "grill-me",
+   "tool-creation",
+   "knowledge-management",
+   "questionnaire-generation",
+   "plain-language-restatement"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/project-launch-video-production.json",
+  "id": "project-launch-video-production",
+  "type": "fusion",
+  "name": "Project Launch Video Production",
+  "prerequisites": [
+   "creative-direction",
+   "video-composition"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/project-management.json",
+  "id": "project-management",
+  "type": "fusion",
+  "name": "Project Management",
+  "prerequisites": [
+   "api-call",
+   "issue-triage"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/prompt-optimization.json",
+  "id": "prompt-optimization",
+  "type": "fusion",
+  "name": "Prompt Optimization",
+  "prerequisites": [
+   "evaluate-output",
+   "generate-text"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/prototype.json",
+  "id": "prototype",
+  "type": "fusion",
+  "name": "prototype",
+  "prerequisites": [
+   "code-generation",
+   "code-execution"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/rag-pipeline.json",
+  "id": "rag-pipeline",
+  "type": "fusion",
+  "name": "RAG Pipeline",
+  "prerequisites": [
+   "retrieve",
+   "chunk-document",
+   "embed-text",
+   "score-relevance",
+   "tokenize",
+   "rank"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/re-act-reasoning.json",
+  "id": "re-act-reasoning",
+  "type": "fusion",
+  "name": "ReAct Reasoning",
+  "prerequisites": [
+   "plan-decompose",
+   "tool-use"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/real-time-voice-assistant.json",
+  "id": "real-time-voice-assistant",
+  "type": "fusion",
+  "name": "Real-Time Voice Assistant",
+  "prerequisites": [
+   "voice-agent",
+   "memory-manage",
+   "plan-and-execute"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ }
+]

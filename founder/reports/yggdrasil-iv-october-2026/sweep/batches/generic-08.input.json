@@ -1,0 +1,405 @@
+[
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/codebase-graph-retrieval.json",
+  "id": "codebase-graph-retrieval",
+  "type": "fusion",
+  "name": "Codebase Graph Retrieval",
+  "prerequisites": [
+   "knowledge-graph-build",
+   "retrieve",
+   "context-compression"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/collaborative-diagramming.json",
+  "id": "collaborative-diagramming",
+  "type": "fusion",
+  "name": "Collaborative Diagramming",
+  "prerequisites": [
+   "api-call",
+   "data-visualize"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/computational-biology-workflows.json",
+  "id": "computational-biology-workflows",
+  "type": "fusion",
+  "name": "Computational Biology Workflows",
+  "prerequisites": [
+   "bioinformatic-sequence-analysis",
+   "genomic-data-retrieval",
+   "molecular-databases",
+   "protein-structure-analysis",
+   "proteomic-data-retrieval"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/computational-science-platform.json",
+  "id": "computational-science-platform",
+  "type": "fusion",
+  "name": "Computational Science Platform",
+  "prerequisites": [
+   "agent-environment-setup",
+   "core-platform-implementation"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/concept-synthesis.json",
+  "id": "concept-synthesis",
+  "type": "fusion",
+  "name": "Concept Synthesis",
+  "prerequisites": [
+   "knowledge-management",
+   "logical-inference"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/content-moderation.json",
+  "id": "content-moderation",
+  "type": "fusion",
+  "name": "Content Moderation",
+  "prerequisites": [
+   "classify",
+   "sentiment-analysis",
+   "extract-entities"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/conversational-agent.json",
+  "id": "conversational-agent",
+  "type": "fusion",
+  "name": "Conversational Agent",
+  "prerequisites": [
+   "question-answer",
+   "memory-manage",
+   "route-intent"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/data-analysis.json",
+  "id": "data-analysis",
+  "type": "fusion",
+  "name": "Data Analysis",
+  "prerequisites": [
+   "generate-sql",
+   "data-visualize",
+   "summarize"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/deployment-automation.json",
+  "id": "deployment-automation",
+  "type": "fusion",
+  "name": "Deployment Automation",
+  "prerequisites": [
+   "workflow-automation",
+   "code-execution"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/design-generation.json",
+  "id": "design-generation",
+  "type": "fusion",
+  "name": "Design Generation",
+  "prerequisites": [
+   "code-generation",
+   "ui-audit",
+   "vision-qa"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/design-review.json",
+  "id": "design-review",
+  "type": "fusion",
+  "name": "Design Review",
+  "prerequisites": [
+   "evaluate-output",
+   "plan-decompose"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/design-system-extraction.json",
+  "id": "design-system-extraction",
+  "type": "fusion",
+  "name": "Design System Extraction",
+  "prerequisites": [
+   "browser-automation",
+   "parse-html"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/detect-anomaly.json",
+  "id": "detect-anomaly",
+  "type": "fusion",
+  "name": "Detect Anomaly",
+  "prerequisites": [
+   "evaluate-output",
+   "error-interpretation"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/dispatching-parallel-agents.json",
+  "id": "dispatching-parallel-agents",
+  "type": "fusion",
+  "name": "Dispatching Parallel Agents",
+  "prerequisites": [
+   "plan-decompose",
+   "parallel-execution"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/distributed-consensus-coordination.json",
+  "id": "distributed-consensus-coordination",
+  "type": "fusion",
+  "name": "Hive Mind Coordination",
+  "prerequisites": [
+   "swarm-topology-management",
+   "worker-agent-dispatch"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/distributed-neural-training.json",
+  "id": "distributed-neural-training",
+  "type": "fusion",
+  "name": "Distributed Neural Training",
+  "prerequisites": [
+   "parallel-execution",
+   "embed-text"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/distributed-vector-memory.json",
+  "id": "distributed-vector-memory",
+  "type": "fusion",
+  "name": "Distributed Vector Memory",
+  "prerequisites": [
+   "vector-search",
+   "memory-manage"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/document-analyst.json",
+  "id": "document-analyst",
+  "type": "fusion",
+  "name": "Document Analyst",
+  "prerequisites": [
+   "extract-entities",
+   "format-output",
+   "optical-character-recognition",
+   "parse-json",
+   "parse-pdf",
+   "summarize"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/dual-mode.json",
+  "id": "dual-mode",
+  "type": "fusion",
+  "name": "Dual Mode",
+  "prerequisites": [
+   "headless-worker-spawn",
+   "headless-worker-collect",
+   "hybrid-workflow-coordination"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/e2e-testing.json",
+  "id": "e2e-testing",
+  "type": "fusion",
+  "name": "End-to-End Testing",
+  "prerequisites": [
+   "browser-automation",
+   "automated-testing"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/edge-optimization.json",
+  "id": "edge-optimization",
+  "type": "fusion",
+  "name": "Edge Optimization",
+  "prerequisites": [
+   "evaluate-output",
+   "fine-tune",
+   "performance-tuning"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/engineering-discipline.json",
+  "id": "engineering-discipline",
+  "type": "fusion",
+  "name": "mattpocock-engineering",
+  "prerequisites": [
+   "agent-environment-setup",
+   "autonomous-debug",
+   "code-explain",
+   "domain-modeling",
+   "grill-with-docs",
+   "issue-triage",
+   "prd-generation",
+   "prototype",
+   "refactor-code",
+   "vertical-slice-planning",
+   "requesting-code-review",
+   "research",
+   "decision-ticket-planning",
+   "guided-setup-scripting"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/executing-plans.json",
+  "id": "executing-plans",
+  "type": "fusion",
+  "name": "Executing Plans",
+  "prerequisites": [
+   "writing-plans",
+   "tool-use"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/explainability-audit.json",
+  "id": "explainability-audit",
+  "type": "fusion",
+  "name": "Explainability Audit",
+  "prerequisites": [
+   "data-visualize",
+   "evaluate-output",
+   "statistical-analysis"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/financial-modeling.json",
+  "id": "financial-modeling",
+  "type": "fusion",
+  "name": "Financial Modeling",
+  "prerequisites": [
+   "data-analysis",
+   "generate-sql",
+   "statistical-analysis"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ }
+]

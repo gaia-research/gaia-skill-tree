@@ -1,0 +1,18 @@
+[
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/x-twitter-automation.json",
+  "id": "x-twitter-automation",
+  "type": "fusion",
+  "name": "X/Twitter Automation",
+  "prerequisites": [
+   "browser-automation",
+   "web-scrape",
+   "workflow-automation"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ }
+]

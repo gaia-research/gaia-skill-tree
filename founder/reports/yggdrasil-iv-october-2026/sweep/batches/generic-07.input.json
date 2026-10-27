@@ -1,0 +1,380 @@
+[
+ {
+  "kind": "generic",
+  "path": "registry/nodes/basic/vision-qa.json",
+  "id": "vision-qa",
+  "type": "basic",
+  "name": "Visual Question Answering",
+  "prerequisites": [],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/basic/web-search.json",
+  "id": "web-search",
+  "type": "basic",
+  "name": "Web Search",
+  "prerequisites": [],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/basic/worker-agent-dispatch.json",
+  "id": "worker-agent-dispatch",
+  "type": "basic",
+  "name": "Worker Agent Dispatch",
+  "prerequisites": [],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/basic/write-report.json",
+  "id": "write-report",
+  "type": "basic",
+  "name": "Write Report",
+  "prerequisites": [],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/advanced-swarm-coordination.json",
+  "id": "advanced-swarm-coordination",
+  "type": "fusion",
+  "name": "Advanced Swarm Coordination",
+  "prerequisites": [
+   "swarm-topology-management",
+   "multi-agent-debate"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/adversarial-robustness-testing.json",
+  "id": "adversarial-robustness-testing",
+  "type": "fusion",
+  "name": "Adversarial Robustness Testing",
+  "prerequisites": [
+   "agent-eval",
+   "guardrails",
+   "prompt-injection-defense"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/agent-environment-setup.json",
+  "id": "agent-environment-setup",
+  "type": "fusion",
+  "name": "agent-environment-setup",
+  "prerequisites": [
+   "document-editing",
+   "tool-use"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/agent-eval.json",
+  "id": "agent-eval",
+  "type": "fusion",
+  "name": "Agent Evaluation",
+  "prerequisites": [
+   "evaluate-output",
+   "score-relevance"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/agent-handoff.json",
+  "id": "agent-handoff",
+  "type": "fusion",
+  "name": "agent-handoff",
+  "prerequisites": [
+   "summarize",
+   "document-editing",
+   "context-compression"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/agent-memory-learning.json",
+  "id": "agent-memory-learning",
+  "type": "fusion",
+  "name": "Agent Memory Learning",
+  "prerequisites": [
+   "adaptive-pattern-learning",
+   "memory-manage"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/agent-memory-platform.json",
+  "id": "agent-memory-platform",
+  "type": "fusion",
+  "name": "Agent Memory Platform",
+  "prerequisites": [
+   "distributed-vector-memory",
+   "agent-memory-learning",
+   "memory-pattern-design",
+   "vector-db-optimization",
+   "vector-search"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/agentic-workflow-design.json",
+  "id": "agentic-workflow-design",
+  "type": "fusion",
+  "name": "Agentic Workflow Design",
+  "prerequisites": [
+   "workflow-automation",
+   "plan-decompose"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/architecture-diagram.json",
+  "id": "architecture-diagram",
+  "type": "fusion",
+  "name": "Architecture Diagram",
+  "prerequisites": [
+   "data-visualize",
+   "format-output",
+   "write-report"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/automated-testing.json",
+  "id": "automated-testing",
+  "type": "fusion",
+  "name": "Automated Testing",
+  "prerequisites": [
+   "generate-test",
+   "code-execution",
+   "error-interpretation"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/autonomous-data-scientist.json",
+  "id": "autonomous-data-scientist",
+  "type": "fusion",
+  "name": "Autonomous Data Scientist",
+  "prerequisites": [
+   "data-analysis",
+   "math-reason",
+   "research"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/autonomous-debug.json",
+  "id": "autonomous-debug",
+  "type": "fusion",
+  "name": "Autonomous Debug",
+  "prerequisites": [
+   "code-generation",
+   "code-execution",
+   "error-interpretation"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/autonomous-engineering-platform.json",
+  "id": "autonomous-engineering-platform",
+  "type": "fusion",
+  "name": "Autonomous Engineering Platform",
+  "prerequisites": [
+   "verification-before-completion"
+  ],
+  "evidenceRows": 6,
+  "computedTm": 96.12,
+  "computedGrade": "B",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/autonomous-web-research.json",
+  "id": "autonomous-web-research",
+  "type": "fusion",
+  "name": "Autonomous Web Research",
+  "prerequisites": [
+   "ghostwrite",
+   "knowledge-harvest",
+   "research",
+   "web-scrape",
+   "web-search"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/brainstorming.json",
+  "id": "brainstorming",
+  "type": "fusion",
+  "name": "Brainstorming",
+  "prerequisites": [
+   "requirements-analysis",
+   "question-answer"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/browser-automation.json",
+  "id": "browser-automation",
+  "type": "fusion",
+  "name": "Browser Automation",
+  "prerequisites": [
+   "web-search",
+   "computer-use"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/career-operations.json",
+  "id": "career-operations",
+  "type": "fusion",
+  "name": "Career Operations",
+  "prerequisites": [
+   "autonomous-web-research",
+   "summarize",
+   "document-editing"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/causal-inference.json",
+  "id": "causal-inference",
+  "type": "fusion",
+  "name": "Causal Inference",
+  "prerequisites": [
+   "hypothesis-generate",
+   "logical-inference",
+   "statistical-analysis"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/cheminformatics-analysis.json",
+  "id": "cheminformatics-analysis",
+  "type": "fusion",
+  "name": "Cheminformatics Analysis",
+  "prerequisites": [
+   "molecular-databases",
+   "molecular-visualization",
+   "data-analysis"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/cloud-platform-management.json",
+  "id": "cloud-platform-management",
+  "type": "fusion",
+  "name": "Cloud Platform Management",
+  "prerequisites": [
+   "api-call",
+   "tool-use"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/code-review-pipeline.json",
+  "id": "code-review-pipeline",
+  "type": "fusion",
+  "name": "Code Review Pipeline",
+  "prerequisites": [
+   "code-generation",
+   "diff-content",
+   "evaluate-output"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ }
+]
