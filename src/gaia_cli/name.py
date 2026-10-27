@@ -8,6 +8,7 @@ import datetime
 import json
 import os
 import re
+from pathlib import Path
 
 from gaia_cli.registry import named_skills_dir
 
@@ -76,7 +77,6 @@ def promote_to_named(skill_data, contributor, skill_name, registry_path):
         raise ValueError(f"Invalid skill_name: {skill_name!r}")
     named_id = f"{contributor}/{skill_name}"
     dest_dir = os.path.join(named_skills_dir(registry_path), contributor)
-    os.makedirs(dest_dir, exist_ok=True)
     dest_path = os.path.join(dest_dir, f"{skill_name}.md")
 
     content = (
@@ -106,17 +106,22 @@ def promote_to_named(skill_data, contributor, skill_name, registry_path):
         f"for the \"{skill_data['id']}\" skill bucket.\n"
     )
 
-    with open(dest_path, "w", encoding="utf-8") as f:
-        f.write(content)
+    # Canonical-namespace write: serialize with, and refuse during, a pending
+    # canonical transaction (the same cooperative guard the dev writers use).
+    from gaia_cli.canonicalTransaction import guardCanonicalPath
+    with guardCanonicalPath(Path(dest_path)):
+        os.makedirs(dest_dir, exist_ok=True)
+        with open(dest_path, "w", encoding="utf-8") as f:
+            f.write(content)
 
-    from gaia_cli.timeline import append_skill_event
-    append_skill_event(
-        skill_data['id'],
-        "name",
-        contributor,
-        f"Named by @{contributor} as {contributor}/{skill_name}",
-        registry_path
-    )
+        from gaia_cli.timeline import append_skill_event
+        append_skill_event(
+            skill_data['id'],
+            "name",
+            contributor,
+            f"Named by @{contributor} as {contributor}/{skill_name}",
+            registry_path
+        )
 
     return dest_path
 
