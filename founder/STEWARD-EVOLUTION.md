@@ -1058,10 +1058,11 @@ Each ruling below gives the proposal, the alternatives, the test that decides be
   - The Tree domain is unchanged.
 - **Why:** the Frontier ruling scopes the Tree Steward. Duplicating the runtime would duplicate its hardest-won properties.
 - **Alternatives:** (a) widen the Tree charter (v3 D1); (b) build a separate engine or fleet platform (v2).
-- **Resolving test, in two parts:**
-  - **Minimum proof, before the first cross-repository write (Stages 2–3):** the Ecosystem domain runs on the unchanged runtime with only its own policy file, repository records and ledger ref. Its observe run, and one attended execution, need no engine fork.
-  - **Generalization (Stage 5):** additional repositories onboard and offboard with configuration only.
-  - If either part needs an engine fork, revisit this ruling.
+- **Resolving test, in sequence:**
+  1. **Observe proof, before Stage 3:** the Ecosystem domain completes an observe run on the unchanged runtime, with only its own policy file, repository records and ledger ref.
+  2. **Execution proof, during Stage 3:** the first attended cross-repository outcome completes on that same unchanged runtime. All pre-write gates still apply in full before any privileged external effect.
+  3. **Check, after Stage 3:** record whether both proofs held without an engine fork. If they did not, stop. Do not advance to E3 or Stage 4, and revisit this ruling.
+  4. **Generalization, in Stage 5:** additional repositories onboard and offboard with configuration only.
 - **Default until ratified:** nothing changes. The Tree Steward continues as ratified.
 
 ### SE-2 — Ecosystem domain charter

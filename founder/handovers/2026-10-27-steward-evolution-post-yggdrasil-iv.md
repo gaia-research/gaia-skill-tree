@@ -205,7 +205,7 @@ A stage's acceptance must pass before the next stage begins.
 - **Objective:** one governed Lane A outcome, end to end, in a repository other than gaia-skill-tree.
 - **Prerequisites:**
   - Stage 2 done **in Ecosystem scope**. Tree-only E1 never leads to a cross-repository write.
-  - SE-1 and SE-2 ratified, and the SE-1 minimum proof met: the Ecosystem domain observes on the unchanged runtime with its own policy file and ledger ref.
+  - SE-1 and SE-2 ratified, and SE-1's *observe proof* met: the Ecosystem domain has completed an observe run on the unchanged runtime with its own policy file, records and ledger ref. SE-1's execution proof is completed *by* this stage, not required before it.
   - The target repository's onboarding record (STEWARD-EVOLUTION §9.2) merged at profile `draft-pr`.
   - SE-3 ratified for the host that will hold the write credential.
   - **STOP if any of these is missing.** Report which one, and never substitute Tree-domain authority for a cross-repository write.
@@ -256,7 +256,9 @@ A stage's acceptance must pass before the next stage begins.
   - the verifier is the builder;
   - resolution without readback;
   - self-authorization.
-- **Definition of done:** one verified, re-observed outcome, with every drill recorded.
+- **Definition of done:**
+  - one verified, re-observed outcome, with every drill recorded;
+  - the SE-1 check recorded: both the observe proof and the execution proof held without an engine fork. If they did not, STOP and do not enter Stage 4.
 
 ### Stage 4 — Progress (envelope E3, attended)
 
@@ -302,7 +304,7 @@ A stage's acceptance must pass before the next stage begins.
 
 ### Stage 5 — Generalization (envelope E4)
 
-- **Objective:** show the runtime generalizes beyond the first proof. The minimum second-domain proof already happened before Stage 3. Onboard one *additional* repository and offboard one, with no engine change. Stand up a private host only if a trigger in STEWARD-EVOLUTION §8.4 has fired.
+- **Objective:** show the runtime generalizes beyond the first proof. SE-1's observe and execution proofs already happened in Stages 2–3. Onboard one *additional* repository and offboard one, with no engine change. Stand up a private host only if a trigger in STEWARD-EVOLUTION §8.4 has fired.
 - **Prerequisites:** Stage 4 done.
 - **Scope, in:**
   - discovery, which yields candidates only;
