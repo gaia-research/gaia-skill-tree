@@ -4,6 +4,19 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-27, WATCHER INTEGRATED — canonical and publication moving)
+
+Gaia remains first; no Pi tooling dependency. Watcher **#2166 merged42135170c**, exact tree equals reviewed/tested d311; parent231tests and independent review support bounded default-off engineering. Docs **#2167 merged7098cac1f**, current integration. Mainb0 unchanged. RFC progress receipt: https://github.com/gaia-research/gaia-skill-tree/issues/2148#issuecomment-6439283343 .
+
+- CAS author188 collected: **b18bafb19cfba5af89845edf5e20ca3983d8dc8b**, 9 tests, explicit remote verified; #2161 still draft. Independent Flash reviewer **6209e473-ec4c-45e2-a53a-f99a1864a7b6** frozenb18 active.
+- Sol High **f84ce707-e2fa-438c-bd0d-7cc748e62f9a** owns actual guarded CLI/dual histories/migration/rollback preparation in permanent `.gaia-worktrees/yggdrasil-iv-canonical-cli`, new featurebranch fromb18. No schema/issuer/canonical activation or main merge; fixture proof must remain honestly labelled. Output `canonical-cli-integration-result.md`.
+- Terra High publication **762f184a-424b-46ad-ae3f-049b481857c6** continues original368 coverage repair; Flash Medium Frontier **ad7a1c74-805d-405d-883f-a398073f3a61** exercises native invocation/same-task real Graft comparison, not fabricated supersession/admission. Outputs `publication-coverage-repair-result.md`, `frontier-native-exercise-result.md`.
+- Corpus#2159 new-headCI observedgreen; native read-only CLI capture **ba89e3a14**, no inferred founder visual approval. No need to rerun identical reviewed suites merely to inflate progress.
+- Parked Pi native/test checkpoint **2285b0c20ca94d36bc2c615d5b8f555f0fb499df** pushed; deployment5ead13Pythonpasses, copied native10componentpasses. Final already-launched component fixture b81972d03 only collect, no more repair loops. Recovery remains unaccepted/uninstalled; provider-filtered deployment review not rerouted. Full SDK WIP remains in permanent test worktree.
+- Root control branch now **dev/yggdrasil-iv-execution-continued** from integration7098, explicitly no upstream tracking; all feature pushes must name the feature ref. Other active writers each retain separate permanent worktrees. See checkpoint for exact original held gates; unfinished work stays in this campaign, not follow-up debt.
+
+---
+
 ## State Snapshot (2026-10-27, GAIA FIRST — tooling side lane parked)
 
 Founder explicitly reprioritized: finish original Yggdrasil IV end to end; Pi subagent recovery is support only and must not block Gaia even if unfixable. This supersedes all older no-new-Gaia-jobs/restart-first instructions below. No live installation/restart required. Keep gates: canonical/schema, genuine issuer, founder visuals, actual weekly coverage/pilot, main/release/RFC closure.
