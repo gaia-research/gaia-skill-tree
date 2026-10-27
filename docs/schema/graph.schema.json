@@ -725,7 +725,11 @@
             "migrate_trust_magnitude",
             "installation_updated",
             "discovered",
-            "intake_opened"
+            "intake_opened",
+            "migrate_evidence",
+            "assertion_transition",
+            "metric_refresh",
+            "reconcile_owner"
           ],
           "description": "The meta-action that occurred."
         },
@@ -761,8 +765,44 @@
           "type": "string",
           "pattern": "^[a-z0-9-]+@\\d{4}-\\d{2}-\\d{2}$",
           "description": "Optional structured provenance: the migration batch identifier in '<epoch-slug>@YYYY-MM-DD' form (e.g. 'yggdrasil-ii@2026-07-16'). Groups the events of one dated migration batch so provenance can be verified structurally. Absent on non-migration and legacy events."
+        },
+        "decisionRef": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Decision or migration linkage recorded by the canonical workflow; reference metadata only and not authenticated approval.",
+          "pattern": "\\S"
+        },
+        "eventId": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 event identity emitted by the canonical workflow; integrity/linkage metadata only and not approval authentication."
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "action": {
+                "enum": [
+                  "migrate_evidence",
+                  "assertion_transition",
+                  "metric_refresh",
+                  "reconcile_owner"
+                ]
+              }
+            },
+            "required": [
+              "action"
+            ]
+          },
+          "then": {
+            "required": [
+              "decisionRef",
+              "eventId"
+            ]
+          }
+        }
+      ]
     },
     "graphEdge": {
       "type": "object",
