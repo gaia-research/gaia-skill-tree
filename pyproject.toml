@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gaia-cli"
-version = "8.26.10"
+version = "8.28.1"
 description = "Gaia Skill Tree CLI for AI agents"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -89,6 +89,7 @@ include = ["gaia_cli*"]
 gaia_cli = [
     "tui/theme.tcss",
     "data/curation/*.json",
+    "data/frontier/*.json",
     "data/registry/gaia.json",
     "data/registry/named-skills.json",
     "data/registry/support/*.json",

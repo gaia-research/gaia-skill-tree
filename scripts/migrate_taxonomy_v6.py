@@ -55,6 +55,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
+from gaia_cli.canonicalTransaction import guardCanonicalPath  # noqa: E402  pending-transaction guard
 from gaia_cli.taxonomy import branchFor as computeBranch  # noqa: E402  Ygg-II branch authority
 from gaia_cli.trustMagnitude import computeTrustMagnitude  # noqa: E402
 from gaia_cli.promotion import checkUniqueBranchGate  # noqa: E402
@@ -168,7 +169,8 @@ def _load_node(path: Path) -> dict:
 
 
 def _save_node(path: Path, data: dict) -> None:
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    with guardCanonicalPath(path):
+        path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
 def _load_named_skill(path: Path) -> tuple[dict | None, str]:
@@ -182,7 +184,8 @@ def _load_named_skill(path: Path) -> tuple[dict | None, str]:
 
 def _save_named_skill(path: Path, fm: dict, body: str) -> None:
     serialized = yaml.dump(fm, allow_unicode=True, sort_keys=False)
-    path.write_text(f"---\n{serialized}---\n{body}", encoding="utf-8")
+    with guardCanonicalPath(path):
+        path.write_text(f"---\n{serialized}---\n{body}", encoding="utf-8")
 
 
 def _git_mv(src: Path, dst: Path, dry_run: bool) -> None:

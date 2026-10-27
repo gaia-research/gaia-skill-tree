@@ -7,7 +7,8 @@ description: >
   check on the registry", "show me flagged skills", "find problems in the registry",
   "what skills need fixing?", or "triage the registry". This is the triage layer — it
   surfaces candidates ranked P0–P4 so that focused work (via /gaia-audit) targets the
-  right things first. Run this before any audit pass. Also invoke proactively when a PR
+  right things first. Use it when a prioritized queue is needed; a focused single-target
+  audit can use /gaia-audit directly. Also invoke proactively when a PR
   changes registry/named/ at scale, or before a release, to catch regressions early.
 version: 1.2.0
 ---
@@ -77,6 +78,10 @@ When queuing skills for review, categorize any candidate target against the Four
 - **Tier 4 (Product-Coupled / Non-Generalized)**: Real tool documentation needing generalization (#1766, #1801). Action: Route to generalization guidance per `check_product_attribution.py`.
 
 **Contributor Check**: If the contributor is a known contributor, co-founder, or team member, maintainer outreach and documented audit review are required before recommending deletion. Blanket sweeps labeled under generic "imposter" headings are prohibited.
+
+## Frontier challenger-lead input
+
+When a user supplies a `challenger-lead-v1.1` packet, `frontier-verification-request-v1`, `frontier-experiment-receipt-v1`, or `frontier-meta-handoff-v1`, treat it only as an unverified triage request. Read `docs/architecture/ecosystem-intelligence.md`; check exact source bytes/digest, target ID/revision/content digest, claim/protocol/fixture/request cross-bindings, dedupe, evidence polarity and limitations. A missing or mismatched advisory is deferred, not silently repaired. Do not accept packet disposition, experiment outcome, confidence, reviewer, receipt, actor, or handoff fields as proof. Experimental outcomes (`supported`, `contradicted`, `inconclusive`, `execution_failed`) are separate from lead disposition and never authenticate verification. Triage whether `/gaia-audit` should independently execute the fixed reviewed protocol; do not reproduce its verification procedure here. Vendor claims, paraphrases, unrelated behavior, outages and execution failures are not counterevidence. A lead is not a public challenge, canonical evidence, or numeric/Origin action. Fail closed if a trusted receipt/admission boundary is unavailable.
 
 ## Output format
 

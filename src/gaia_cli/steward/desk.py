@@ -36,7 +36,7 @@ import json
 import os
 import re
 import textwrap
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
@@ -302,6 +302,30 @@ def _records_to_desk(
 
 _SECRETISH = re.compile(r"(?=[A-Za-z0-9+_=-]*\d)(?=[A-Za-z0-9+_=-]*[A-Za-z])[A-Za-z0-9+_=-]{32,}|AKIA[0-9A-Z]{8,}|gh[pousr]_[A-Za-z0-9]{8,}|sk-[A-Za-z0-9]{8,}|xox[abprs]-[A-Za-z0-9-]{8,}")
 _FINGERPRINT = re.compile(r"[0-9a-f]{6,64}")
+
+
+def _absorb_duplicates(
+    record: DeskDecision, decisions: dict[str, DeskDecision]
+) -> DeskDecision:
+    """Fold generated Class C groups that cite the same issue into the founder's record.
+
+    A record and an auto-grouped decision about one issue are one question asked
+    twice. The record wins, takes over the group's debt ids so no debt loses its
+    desk entry, and the group is removed.
+    """
+
+    issues = {link for link in record.links if "/issues/" in link}
+    absorbed = [
+        other for other in decisions.values()
+        if other.source == "class-c-debt" and issues.intersection(other.links)
+    ]
+    if not absorbed:
+        return record
+    debt_ids = tuple(sorted({*record.debt_ids, *(i for other in absorbed for i in other.debt_ids)}))
+    for other in absorbed:
+        del decisions[other.decision_id]
+    note = f"Also covers {len(debt_ids)} open Class C debt(s) cited on the same issue."
+    return replace(record, debt_ids=debt_ids, evidence=record.evidence + ((note,) if debt_ids else ()))
 
 
 def _scrub(text: str) -> str:
@@ -654,7 +678,7 @@ def build_desk(
     # (d) explicit decision records.
     record_decisions, record_operations = _records_to_desk(decision_records)
     for item in record_decisions:
-        decisions.setdefault(item.decision_id, item)
+        decisions.setdefault(item.decision_id, _absorb_duplicates(item, decisions))
 
     ordered = tuple(sorted(decisions.values(), key=lambda item: (item.priority, item.decision_id)))
     operations = _operations(

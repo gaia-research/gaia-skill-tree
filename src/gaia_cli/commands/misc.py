@@ -62,8 +62,7 @@ class ResetCommand(Command):
 
     def execute(self, args: argparse.Namespace) -> int | None:
         from gaia_cli.main import reset_command
-        reset_command(args)
-        return 0
+        return reset_command(args) or 0
 
 class TrustCommand(Command):
     name = "trust"

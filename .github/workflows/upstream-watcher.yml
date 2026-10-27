@@ -11,6 +11,18 @@ on:
         description: "Actually create issues (default: dry-run)"
         type: boolean
         default: false
+      challenge_watch:
+        description: "Enable two-sided challenge watch (opt-in / configured)"
+        type: boolean
+        default: false
+      challenge_input:
+        description: "Optional path to active challenges input file"
+        required: false
+        default: ""
+      challenge_shadow:
+        description: "Allow unverified challenges in shadow mode"
+        type: boolean
+        default: false
   schedule:
     - cron: '0 6 * * *'  # 06:00 UTC daily
 
@@ -51,14 +63,31 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GAIA_OPERATOR_OVERRIDE: "1"
+          # Repository variable is the reviewed, default-off schedule gate.
+          # Setting it to "true" or "1" opts scheduled runs into challenge watch.
+          GAIA_CHALLENGE_WATCH_ENABLED: ${{ vars.GAIA_CHALLENGE_WATCH_ENABLED }}
+          ACTION_SKILL_ID: ${{ inputs.skill_id }}
+          ACTION_APPLY: ${{ inputs.apply }}
+          ACTION_CHALLENGE_WATCH: ${{ inputs.challenge_watch }}
+          ACTION_CHALLENGE_INPUT: ${{ inputs.challenge_input }}
+          ACTION_CHALLENGE_SHADOW: ${{ inputs.challenge_shadow }}
         run: |
-          ARGS=""
-          if [ -n "${{ inputs.skill_id }}" ]; then
-            ARGS="--skill ${{ inputs.skill_id }}"
+          ARGS=()
+          if [[ -n "$ACTION_SKILL_ID" ]]; then
+            ARGS+=(--skill "$ACTION_SKILL_ID")
           fi
-          if [ "${{ inputs.apply }}" = "true" ] || [ "${{ github.event_name }}" = "schedule" ]; then
-            ARGS="$ARGS --apply"
+          if [[ "$ACTION_APPLY" == "true" || "$GITHUB_EVENT_NAME" == "schedule" ]]; then
+            ARGS+=(--apply)
           else
-            ARGS="$ARGS --dry-run"
+            ARGS+=(--dry-run)
           fi
-          python scripts/upstream_watcher/watcher.py $ARGS
+          if [[ "$ACTION_CHALLENGE_WATCH" == "true" || "$GAIA_CHALLENGE_WATCH_ENABLED" == "true" || "$GAIA_CHALLENGE_WATCH_ENABLED" == "1" ]]; then
+            ARGS+=(--challenge-watch)
+            if [[ -n "$ACTION_CHALLENGE_INPUT" ]]; then
+              ARGS+=(--challenge-input "$ACTION_CHALLENGE_INPUT")
+            fi
+            if [[ "$ACTION_CHALLENGE_SHADOW" == "true" ]]; then
+              ARGS+=(--challenge-shadow)
+            fi
+          fi
+          python scripts/upstream_watcher/watcher.py "${ARGS[@]}"
