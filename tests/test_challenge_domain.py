@@ -10,12 +10,22 @@ from gaia_cli.challengeDomain import (
 )
 
 
+class BoundResolver:
+    def __init__(self, parent, challenge_id):
+        self.parent, self.challenge_id = parent, challenge_id
+
+    def resolve(self, receipt_id):
+        self.parent.bound_calls.append((self.challenge_id, receipt_id))
+        return self.parent.receipts[receipt_id]
+
+
 class Resolver:
     def __init__(self):
         self.receipts = {}
+        self.bound_calls = []
 
-    def resolve(self, receipt_id):
-        return self.receipts[receipt_id]
+    def for_challenge(self, challenge_id):
+        return BoundResolver(self, challenge_id)
 
 
 def challenge_values(**overrides):
@@ -291,3 +301,32 @@ def test_multiple_material_challenges_and_observation_idempotence():
     one = Observation("repo/a", "2026-10-25T00:00:00Z", ObservationState.TRANSIENT_FAILURE)
     assert one.observation_id == Observation("repo/a", "2026-10-25T00:00:00Z",
                                              ObservationState.TRANSIENT_FAILURE).observation_id
+
+
+def test_domain_always_resolves_bound_to_the_derived_challenge_id():
+    challenge, resolver = opened()
+    assert resolver.bound_calls[0][0] == challenge.challenge_id  # derived before resolving
+
+    class Unbound:  # legacy one-argument resolver: refused, never called unbound
+        called = False
+
+        def resolve(self, receipt_id):
+            Unbound.called = True
+            return resolver.receipts[receipt_id]
+    with pytest.raises(ValueError, match="cannot bind"):
+        open_challenge(**challenge_values(), receipt_resolver=Unbound(),
+                       verification_receipt_id="open-receipt")
+    assert not Unbound.called
+
+    class Wrong(Resolver):
+        def for_challenge(self, challenge_id):
+            return BoundResolver(self, "some-other-challenge")
+    wrong = Wrong()
+    wrong.receipts = resolver.receipts
+    with pytest.raises(ValueError, match="not bound to this exact challenge"):
+        open_challenge(**challenge_values(), receipt_resolver=wrong,
+                       verification_receipt_id="open-receipt")
+    with pytest.raises(ValueError, match="cannot bind"):
+        validate_challenge_history(challenge, Unbound())
+    validate_challenge_history(challenge, resolver)
+    assert all(cid == challenge.challenge_id for cid, _ in resolver.bound_calls)

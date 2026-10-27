@@ -16,6 +16,14 @@ accepts only the exact adapter types in ``GitHubVerificationReceiptResolver.
 AUTHENTICATED_SOURCES`` (production: ``GitHubActionsSource``, which is currently
 unavailable by design). Test ports live under ``tests/`` and must opt in explicitly
 by subclassing the resolver; they are never accepted by the production class.
+The allowlist guards against accidental adapters and misconfiguration, not hostile
+in-process code: Python class attributes can be reassigned by any code already
+running in the process, which is outside this module's threat model.
+
+Challenge binding: ``resolve()`` requires the expected challenge id. Callers should
+use ``for_challenge()``, which returns a ``BoundReceiptResolver`` exposing the bound
+``challenge_id``; ``challengeDomain`` derives the challenge id first and refuses any
+resolver that cannot bind to it.
 
 No local field, artifact, workflow input, actor string, comment, or checksum is
 itself authorization. This module is not connected to curation authorization and
@@ -173,11 +181,23 @@ def _parse_archive(archive: bytes, expected_payload_digest: str) -> dict[str, An
             if info.is_dir() or info.flag_bits & 0x1 or info.file_size > MAX_PAYLOAD_BYTES:
                 raise ValueError("directory, encrypted, or oversized archive member")
             # No compression-ratio bound: the producer legitimately emits highly
-            # repetitive transcripts, and ratio is not the real defense. The bomb
-            # defense is the absolute cap above (header size <= MAX_PAYLOAD_BYTES);
-            # zipfile never yields more than the header size and CRC-checks it, so
-            # a lying header fails rather than inflating past the cap.
-            content = bundle.read(info)
+            # repetitive transcripts. The bomb defense is a hard cap on bytes
+            # actually inflated: zipfile does NOT stop at the (attacker-patchable)
+            # header size, so we stream in chunks and refuse past the cap.
+            chunks: list[bytes] = []
+            total = 0
+            with bundle.open(info) as stream:
+                while True:
+                    chunk = stream.read(min(65536, MAX_PAYLOAD_BYTES + 1 - total))
+                    if not chunk:
+                        break
+                    total += len(chunk)
+                    chunks.append(chunk)
+                    if total > MAX_PAYLOAD_BYTES:
+                        raise ValueError("decompressed payload exceeds the 4 MiB cap")
+            content = b"".join(chunks)
+            if len(content) != info.file_size:
+                raise ValueError("decompressed size differs from the declared member size")
     except (ValueError, KeyError, OSError, RuntimeError, EOFError, NotImplementedError,
             zlib.error, zipfile.BadZipFile, zipfile.LargeZipFile) as exc:
         raise ReceiptUnavailable(f"invalid receipt artifact archive: {exc}") from exc
@@ -368,6 +388,7 @@ class BoundReceiptResolver:
     def __init__(self, resolver: GitHubVerificationReceiptResolver, challenge_id: str,
                  proof_source_sha: str | None = None) -> None:
         self._resolver = resolver
+        self.challenge_id = challenge_id
         self._challenge_id = challenge_id
         self._proof_source_sha = proof_source_sha
 

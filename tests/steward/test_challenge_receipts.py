@@ -383,3 +383,49 @@ def test_expected_challenge_and_proof_source_must_match():
     assert bound.resolve("receipt-17") == receipt()
     with pytest.raises(ReceiptUnavailable, match="challenge id does not match"):
         SyntheticTestResolver(config(), fixture).for_challenge("challenge-x").resolve("receipt-17")
+
+
+def _bomb_archive(size, header_size):
+    """Deflate ``size`` bytes, then patch local+central uncompressed sizes to ``header_size``."""
+    stream = io.BytesIO()
+    with zipfile.ZipFile(stream, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr("verification-receipt.json", b" " * size)
+    raw = bytearray(stream.getvalue())
+    for sig, off in ((b"PK\x03\x04", 22), (b"PK\x01\x02", 24)):
+        pos = raw.find(sig)
+        while pos >= 0:
+            raw[pos + off:pos + off + 4] = struct.pack("<I", header_size)
+            pos = raw.find(sig, pos + 4)
+    return bytes(raw)
+
+
+@pytest.mark.parametrize("header_size", [100, 4 * 1024 * 1024])
+def test_lying_header_decompression_bomb_is_bounded_not_inflated(header_size):
+    import tracemalloc
+    payload_size = 96 * 1024 * 1024
+    archive = _bomb_archive(payload_size, header_size)
+    assert len(archive) < 1024 * 1024
+    tracemalloc.start()
+    try:
+        with pytest.raises(ReceiptUnavailable):
+            resolve(good_fixture(archive=archive, payloadDigest="0" * 64))
+        _, peak = tracemalloc.get_traced_memory()
+    finally:
+        tracemalloc.stop()
+    assert peak < 16 * 1024 * 1024, f"peak {peak} bytes: payload was inflated past the cap"
+
+
+def test_bounded_read_stops_at_cap_plus_one(monkeypatch):
+    from gaia_cli.steward import challenge_receipts as module
+    read = {"bytes": 0}
+    real = zipfile.ZipExtFile.read
+
+    def counting(self, n=-1):
+        data = real(self, n)
+        read["bytes"] += len(data)
+        return data
+    monkeypatch.setattr(zipfile.ZipExtFile, "read", counting)
+    archive = _bomb_archive(64 * 1024 * 1024, 4 * 1024 * 1024)
+    with pytest.raises(ReceiptUnavailable):
+        resolve(good_fixture(archive=archive, payloadDigest="0" * 64))
+    assert read["bytes"] <= module.MAX_PAYLOAD_BYTES + 1
