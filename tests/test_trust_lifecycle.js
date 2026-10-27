@@ -177,12 +177,27 @@ test('every displayed TM field and fallthrough is reconciled for both consequenc
       e => { e.trustNumber = 999; },
       e => { e.trustMagnitude = 73; },
       e => { e.overallTrustMagnitude = 'abc'; },
+      e => { e.trustMagnitude = '72'; },
       e => { e.trustMagnitude = true; },
       e => { e.trustMagnitude = NaN; },
     ];
     for (const mutate of rejections) {
       const entry = clone(source); mutate(entry);
       assert.equal(lifecycle.buildTrustLifecycleViewModel(entry), null);
+    }
+  }
+});
+
+test('shared hero matrix accepts and rejects exactly like the Python producer', () => {
+  const matrix = JSON.parse(read('fixtures/lifecycle_hero_matrix.json'));
+  assert.ok(matrix.cases.length >= 40);
+  for (const source of [fixtures.scoped, fixtures.material]) {  // current-baseline, approved-decision
+    for (const c of matrix.cases) {
+      const entry = clone(source);
+      for (const key of ['level', 'trustMagnitude', 'overallTrustMagnitude', 'trustNumber']) delete entry[key];
+      Object.assign(entry, c.entry);
+      const accepted = lifecycle.buildTrustLifecycleViewModel(entry) !== null;
+      assert.equal(accepted, c.accept, source.trustLifecycle.consequence.kind + ': ' + c.name);
     }
   }
 });

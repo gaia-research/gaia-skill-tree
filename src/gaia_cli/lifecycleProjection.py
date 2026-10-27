@@ -119,26 +119,41 @@ heroTmFields = ('trustMagnitude', 'overallTrustMagnitude', 'trustNumber')
 def _displayedTrustMagnitudes(entry: dict) -> list[float] | None:
     """Return every numeric TM the Explorer could show, or None if one is unusable.
 
-    Absent/None/empty fields are skipped (the Explorer skips them too). A present
-    value that is boolean, non-numeric, or non-finite cannot be reconciled with
-    a canonical consequence, so the caller must reject the entry.
+    Only real numbers (int/float, never bool) are accepted. Strings are rejected
+    outright so Python float() and browser Number() parsing can never disagree
+    ("7_2", full-width digits and "0x48" differ between them); real data is
+    float-only. None (absent) is skipped, as the Explorer skips it.
     """
     values = []
     for field in heroTmFields:
         raw = entry.get(field)
-        if raw is None or raw == '':
+        if raw is None:
             continue
-        if isinstance(raw, bool):
-            return None
-        if isinstance(raw, str):
-            try:
-                raw = float(raw)
-            except ValueError:
-                return None
         if type(raw) not in (int, float) or not math.isfinite(raw):
             return None
         values.append(float(raw))
     return values
+
+
+def _heroStars(entry: dict) -> int | None:
+    """Mirror plaque.js levelNum() for the Explorer hero rank.
+
+    None means the entry carries no level (nothing to contradict). Numbers
+    truncate (`level | 0`); anything else keeps only its ASCII digits, clamped
+    to 0-6, so "N★", "★N" and "Level N" all read as N. No digits reads as 0.
+    """
+    level = entry.get('level')
+    if level is None:
+        return None
+    if isinstance(level, bool):
+        return 0
+    if isinstance(level, (int, float)):
+        if not math.isfinite(level):
+            return 0
+        wrapped = int(level) % 2 ** 32  # JS ToInt32, as in `level | 0`
+        return wrapped - 2 ** 32 if wrapped >= 2 ** 31 else wrapped
+    digits = ''.join(ch for ch in str(level) if '0' <= ch <= '9')
+    return max(0, min(6, int(digits))) if digits else 0
 
 
 def produce_lifecycle(entry: dict, ports: LifecyclePorts | None = None) -> dict | None:
@@ -184,10 +199,8 @@ def produce_lifecycle(entry: dict, ports: LifecyclePorts | None = None) -> dict 
                     or (consequence.origin_handle is not None and
                         (not isinstance(consequence.origin_handle, str) or not consequence.origin_handle.strip()))):
                 return None
-            level = entry.get('level')
-            if isinstance(level, str) and level and level[0].isdigit() and int(level[0]) != consequence.stars:
-                return None
-            if isinstance(level, int) and not isinstance(level, bool) and level != consequence.stars:
+            heroStars = _heroStars(entry)
+            if heroStars is not None and heroStars != consequence.stars:
                 return None
             displayed = _displayedTrustMagnitudes(entry)
             if displayed is None or any(abs(value - consequence.tm) > 0.01 for value in displayed):

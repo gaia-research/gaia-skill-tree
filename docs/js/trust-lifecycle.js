@@ -304,16 +304,29 @@
    * because any of them can reach the screen.
    */
   function displayedTrustMagnitudes(entry) {
+    // Real numbers only. Strings are rejected outright so Number() and Python
+    // float() parsing can never disagree; real data is float-only.
     var fields = ['trustMagnitude', 'overallTrustMagnitude', 'trustNumber'];
     var out = [];
     for (var f = 0; f < fields.length; f++) {
       var raw = entry[fields[f]];
-      if (raw === undefined || raw === null || raw === '') continue;
-      if (typeof raw === 'string') raw = Number(raw);
+      if (raw === undefined || raw === null) continue;
       if (typeof raw !== 'number' || !isFinite(raw)) return null;
       out.push(raw);
     }
     return out;
+  }
+
+  /**
+   * Hero rank exactly as plaque.js levelNum() reads it. null = entry has no
+   * level (nothing to contradict). Mirrored by _heroStars in lifecycleProjection.py.
+   */
+  function heroStars(entry) {
+    var level = entry.level;
+    if (level === undefined || level === null) return null;
+    if (typeof level === 'number') return level | 0;
+    var n = parseInt(String(level).replace(/[^\d]/g, ''), 10);
+    return isNaN(n) ? 0 : Math.max(0, Math.min(6, n));
   }
 
   var HISTORY_RECEIPT_FIELDS = ['receipt_id', 'receipt_digest', 'transcript_digest', 'method'];
@@ -388,9 +401,9 @@
     if (consequence.kind !== 'unavailable') {
       // Both consequence kinds (baseline and decision) must agree with what the
       // Explorer hero actually shows; otherwise fail closed.
-      var heroRank = typeof entry.level === 'number' ? entry.level : parseInt(entry.level, 10);
+      var heroRank = heroStars(entry);
       var heroTms = displayedTrustMagnitudes(entry);
-      if ((!isNaN(heroRank) && heroRank !== consequence.stars) || heroTms === null ||
+      if ((heroRank !== null && heroRank !== consequence.stars) || heroTms === null ||
           heroTms.some(function(value) { return Math.abs(value - consequence.tm) > 0.01; })) return null;
     }
     // Translate DTO into the presentation model. No display field authenticates it.

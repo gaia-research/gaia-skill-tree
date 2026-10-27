@@ -123,12 +123,27 @@ def test_consequence_must_agree_with_every_tm_field_the_explorer_can_show():
         assert produce(kind, trustMagnitude=0, overallTrustMagnitude=72) is None
         assert produce(kind, trustNumber=999) is None
         # Unusable displayed values cannot be reconciled and fail closed.
-        for bad in (True, 'abc', float('nan'), float('inf'), [72], {'v': 72}):
+        for bad in (True, 'abc', '72', float('nan'), float('inf'), [72], {'v': 72}):
             assert produce(kind, trustMagnitude=bad) is None
             assert produce(kind, overallTrustMagnitude=bad) is None
-        # Numeric strings are what Number() in the browser would display.
-        assert produce(kind, trustMagnitude='72') is not None
-        assert produce(kind, trustMagnitude='73') is None
+        # Strings are rejected outright (Python float() and JS Number() disagree).
+        assert produce(kind, trustMagnitude='72') is None
+
+
+def test_shared_hero_matrix_accepts_and_rejects_exactly_like_the_browser():
+    """tests/test_trust_lifecycle.js runs this same matrix against trust-lifecycle.js."""
+    import json
+    from pathlib import Path
+    matrix = json.loads((Path(__file__).parent / 'fixtures' / 'lifecycle_hero_matrix.json').read_text(encoding='utf-8'))
+    challenge, resolver = opened()
+    source = SyntheticChallengeSource((challenge,))
+    for kind in ('current-baseline', 'approved-decision'):
+        consequence = CanonicalConsequence(challenge.subject_id, 'bucket', kind, 3, 72, 'author')
+        ports = LifecyclePorts(source, resolver, SyntheticConsequenceSource(consequence))
+        for case in matrix['cases']:
+            entry = {'id': challenge.subject_id, 'genericSkillRef': 'bucket', **case['entry']}
+            produced = produce_lifecycle(entry, ports) is not None
+            assert produced is case['accept'], (kind, case['name'])
 
 
 def test_named_index_build_strips_spoof_and_only_injects_producer(tmp_path):
