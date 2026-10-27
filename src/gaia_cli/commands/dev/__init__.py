@@ -97,6 +97,7 @@ Read-only (no Verifier required):
   gaia dev arbor check [record.json]
   gaia dev frontier match --lead <lead.json> [--top N] [--repo-root <dir>]
   gaia dev frontier dedupe --lead <lead.json> [--repo-root <dir>] [--fail-on-duplicate]
+  gaia dev frontier meta-validate --record <record.json> --receipt <receipt.json> [--request <request.json>] [--artifact-root <dir>]
   gaia dev test <suite>
 
 Evidence note: typed magnitude inputs drive per-row Evidence Grade. --trust is

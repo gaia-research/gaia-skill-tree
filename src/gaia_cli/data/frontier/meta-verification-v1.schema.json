@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gaiaskilltree.com/schemas/frontier-meta-verification-v1.schema.json",
+  "title": "Meta verification record: a separate session's untrusted assessment of an experiment receipt; never an admission, approval or authentication",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "verificationId", "campaignId", "requestId", "receiptDigest", "receiptRunId", "verifierRunId",
+    "outcome", "recommend", "counterevidence", "reexecution", "independence", "limitations", "recordedAtUTC"
+  ],
+  "properties": {
+    "schemaVersion": {"const": "frontier-meta-verification-v1"},
+    "verificationId": {"type": "string", "minLength": 8, "maxLength": 200},
+    "campaignId": {"type": "string", "minLength": 8},
+    "requestId": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "receiptDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$", "description": "sha256 of the receipt's canonical JSON (sorted keys, compact separators, UTF-8)."},
+    "receiptRunId": {"type": "string", "minLength": 8, "maxLength": 200, "description": "experimentRunId of the receipt under review."},
+    "verifierRunId": {"type": "string", "minLength": 8, "maxLength": 200, "description": "Run id of this verification; must differ from receiptRunId. Author-asserted, not authenticated."},
+    "outcome": {"enum": ["substantiated", "narrowed", "contradicted", "inconclusive", "execution_failed"]},
+    "recommend": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action", "rationale"],
+      "properties": {
+        "action": {"enum": ["request-admission-review", "narrow-claim", "hold", "rerun", "reject-lead"], "description": "A suggestion to human Meta review; never a decision."},
+        "rationale": {"type": "string", "minLength": 8}
+      }
+    },
+    "counterevidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["searched", "items"],
+      "properties": {
+        "searched": {"type": "string", "minLength": 8, "description": "What was searched for contrary evidence; required even when nothing was found."},
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["summary", "source"],
+            "properties": {
+              "summary": {"type": "string", "minLength": 8},
+              "source": {"type": "string", "minLength": 3, "description": "URL or repo-relative artifact path."}
+            }
+          }
+        }
+      }
+    },
+    "reexecution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["performed", "artifacts"],
+      "properties": {
+        "performed": {"type": "boolean", "description": "Declared by the record's author; the validator checks the artifacts parse, not that anyone ran them."},
+        "notes": {"type": "string"},
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "contentDigest", "path"],
+            "properties": {
+              "label": {"type": "string", "minLength": 1},
+              "contentDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+              "path": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      },
+      "allOf": [
+        {"if": {"properties": {"performed": {"const": true}}}, "then": {"properties": {"artifacts": {"minItems": 1}}}},
+        {"if": {"properties": {"performed": {"const": false}}}, "then": {"properties": {"artifacts": {"maxItems": 0}}}}
+      ]
+    },
+    "independence": {"const": "declared-unauthenticated", "description": "Separation of sessions is asserted by the author of this record and cannot be authenticated here."},
+    "declaredSession": {
+      "description": "Author-declared harness/model/session notes; never authenticated and not evidence of a separate session.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "harness": {"type": "string"},
+        "model": {"type": "string"},
+        "note": {"type": "string"}
+      }
+    },
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 3}},
+    "recordedAtUTC": {"type": "string", "format": "date-time"}
+  }
+}

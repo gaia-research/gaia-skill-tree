@@ -360,13 +360,16 @@ def dedupe_against_ledger(lead: dict[str, Any], repo_root: str | Path, *, exclud
     }
 
 
-def loadLeadFile(path: str | Path) -> dict[str, Any]:
-    """Bounded JSON read for CLI use."""
+def loadJsonFile(path: str | Path, what: str = "lead") -> dict[str, Any]:
+    """Bounded JSON-object read for CLI use."""
     path = Path(path)
     if path.stat().st_size > MAX_LEAD_BYTES:
-        raise ValueError("lead file exceeds bounded size")
+        raise ValueError(f"{what} file exceeds bounded size")
     data = json.loads(path.read_bytes())
     if not isinstance(data, dict):
-        raise ValueError("lead must be a JSON object")
+        raise ValueError(f"{what} must be a JSON object")
     return data
 
+
+def loadLeadFile(path: str | Path) -> dict[str, Any]:
+    return loadJsonFile(path, "lead")
