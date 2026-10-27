@@ -53,6 +53,7 @@ def main() -> int:
         git(repo, "add", "sample.py")
         git(repo, "commit", "-qm", "fixture update")
         updated = git(repo, "rev-parse", "HEAD").strip()
+        git_version = git(repo, "--version").strip()
         output = git(repo, "log", "--format=%H %s", "-L", ":score:sample.py")
         if baseline not in output or updated not in output or "return value + 1" not in output or "return value + 2" not in output:
             raise RuntimeError("controlled git log -L fixture did not contain both expected revisions and line bodies")
@@ -61,7 +62,8 @@ def main() -> int:
             "requestId": request_id,
             "fixtureDigest": fixture_digest,
             "protocolDigest": protocol_digest,
-            "gitVersion": git(repo, "--version").strip(),
+            "gitVersion": git_version,
+            "executedVersion": git_version.split()[2],
             "fixtureBaselineCommit": baseline,
             "fixtureUpdatedCommit": updated,
             "output": output,

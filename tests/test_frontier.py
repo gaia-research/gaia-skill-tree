@@ -312,3 +312,70 @@ def test_outage_is_execution_failed_not_negative_and_untrusted_marketing_invalid
     for value in ("vendor-marketing", "unrelated", "verified", "supported"):
         bad=copy.deepcopy(receipt); bad["result"]=value
         assert validate_experiment_receipt(bad,request)
+
+
+def _set_native_version(repo, kwargs, version, **extra):
+    native = repo / kwargs["native_rel"]
+    execution = json.loads(native.read_text())
+    execution["gitVersion"] = "git version " + version + " (Apple Git-155)"
+    execution.update(extra)
+    native.write_text(json.dumps(execution))
+
+
+def test_equal_versions_record_both_fields_without_mismatch_limitation(tmp_path):
+    repo, request, recorder, kwargs = _recording_fixture(tmp_path)
+    receipt = recorder.build_receipt(**kwargs)
+    assert receipt["schemaVersion"] == "frontier-experiment-receipt-v1.1"
+    assert receipt["documentedVersion"] == receipt["executedVersion"] == receipt["nativeVersion"] == request["native"]["version"]
+    assert not any("differs from documented" in line for line in receipt["limitations"])
+    assert validate_experiment_receipt(receipt, request, repo_root=repo) == []
+
+
+def test_differing_versions_recorded_with_limitation_and_comparative_refused(tmp_path):
+    repo, request, recorder, kwargs = _recording_fixture(tmp_path)
+    _set_native_version(repo, kwargs, "2.50.1", executedVersion="2.50.1")
+    for result in ("supported", "contradicted"):
+        with pytest.raises(ValueError, match="only inconclusive or execution_failed"):
+            recorder.build_receipt(**kwargs, target_rel="generated-output/frontier/target.txt", result=result)
+    for result in ("inconclusive", "execution_failed"):
+        receipt = recorder.build_receipt(**kwargs, result=result)
+        assert receipt["documentedVersion"] == request["native"]["version"]
+        assert receipt["executedVersion"] == receipt["nativeVersion"] == "2.50.1"
+        assert any("differs from documented version" in line for line in receipt["limitations"])
+        assert validate_experiment_receipt(receipt, request, repo_root=repo) == []
+    # A hand-edited receipt cannot bypass the rule in the validator either.
+    forged = dict(receipt, result="supported")
+    assert any("only inconclusive" in e for e in validate_experiment_receipt(forged, request, repo_root=repo))
+    stripped = dict(receipt, limitations=["No comparative verifier execution."])
+    assert any("limitation entry required" in e for e in validate_experiment_receipt(stripped, request, repo_root=repo))
+
+
+def test_tampered_executed_version_in_native_artifact_is_detected(tmp_path):
+    repo, _, recorder, kwargs = _recording_fixture(tmp_path)
+    _set_native_version(repo, kwargs, "2.50.1", executedVersion="2.56.0")
+    with pytest.raises(ValueError, match="executedVersion does not match"):
+        recorder.build_receipt(**kwargs)
+
+
+def test_receipt_schema_v1_still_validates_and_v11_requires_new_fields(tmp_path):
+    _, _, request = _request_fixture(tmp_path)
+    assert validate_experiment_receipt(_receipt(request), request) == []
+    v11 = _receipt(request)
+    v11.update(schemaVersion="frontier-experiment-receipt-v1.1", documentedVersion=request["native"]["version"], executedVersion=request["native"]["version"])
+    assert validate_experiment_receipt(v11, request) == []
+    del v11["executedVersion"]
+    assert validate_experiment_receipt(v11, request)
+    v11["executedVersion"] = "9.9.9"
+    assert any("cross-binding mismatch: nativeVersion" in e for e in validate_experiment_receipt(v11, request))
+
+
+def test_runner_embeds_executed_version(tmp_path, monkeypatch):
+    repo, request, _, kwargs = _recording_fixture(tmp_path)
+    script = Path(__file__).resolve().parents[1] / "examples/frontier/run_git_log_L_fixture.py"
+    spec = importlib.util.spec_from_file_location("frontier_runner2", script)
+    runner = importlib.util.module_from_spec(spec); spec.loader.exec_module(runner)
+    out = tmp_path / "native-v.json"
+    monkeypatch.setattr("sys.argv", ["x", "--request", str(repo / kwargs["request_rel"]), "--output", str(out)])
+    assert runner.main() == 0
+    record = json.loads(out.read_text())
+    assert record["gitVersion"] == "git version " + record["executedVersion"] or record["gitVersion"].startswith("git version " + record["executedVersion"] + " ")

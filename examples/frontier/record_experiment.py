@@ -11,11 +11,12 @@ import hashlib
 import json
 from pathlib import Path
 import sys
+import re
 import uuid
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
-from gaia_cli.frontier import validate_experiment_receipt, validate_request
+from gaia_cli.frontier import VERSION_MISMATCH_RESULTS, validate_experiment_receipt, validate_request
 
 DEFAULT_REQUEST = "generated-output/frontier/git-log-L-graft.verification-request-v1.json"
 DEFAULT_NATIVE = "generated-output/frontier/git-log-L.execution.json"
@@ -59,8 +60,15 @@ def build_receipt(*, root: Path, request_rel: str = DEFAULT_REQUEST,
     execution = json.loads(native_raw)
     if not isinstance(execution, dict) or execution.get("experiment") != "git-log-L-vs-graft-v1" or execution.get("executionCheck") != "passed":
         raise ValueError("fixed runner output did not match expected reviewed protocol")
-    if execution.get("gitVersion") not in {request["native"]["version"], "git version " + request["native"]["version"]}:
-        raise ValueError("local Git version differs from candidate version bound by request")
+    match = re.fullmatch(r"git version (\S+)(?: .*)?", str(execution.get("gitVersion", "")).strip())
+    if not match:
+        raise ValueError("native artifact lacks a recognizable git --version string")
+    executed = match.group(1)
+    if "executedVersion" in execution and execution["executedVersion"] != executed:
+        raise ValueError("native artifact executedVersion does not match its recorded git --version")
+    documented = request["native"]["version"]
+    if executed != documented and result not in VERSION_MISMATCH_RESULTS:
+        raise ValueError(f"executed Git {executed} differs from documented {documented}: only inconclusive or execution_failed may be recorded")
     for key, expected in (("requestId", request["requestId"]), ("fixtureDigest", request["fixture"]["contentDigest"]), ("protocolDigest", request["protocol"]["contentDigest"])):
         if execution.get(key) != expected:
             raise ValueError(f"native artifact {key} does not match the request")
@@ -74,6 +82,8 @@ def build_receipt(*, root: Path, request_rel: str = DEFAULT_REQUEST,
         raise ValueError("native recorded output digest mismatch")
     outputs = [{"label": "native", "contentDigest": "sha256:" + hashlib.sha256(native_raw).hexdigest(), "path": native_rel}]
     limitations = ["This is an untrusted experiment record, not verifier authentication or public challenge admission."]
+    if executed != documented:
+        limitations.append(f"Executed Git version {executed} differs from documented version {documented}; the documented tag is claim provenance only, so only inconclusive or execution_failed is permitted.")
     if target_rel is not None:
         target_raw = artifact_path(root, target_rel).read_bytes()
         if not target_raw.strip():
@@ -87,8 +97,9 @@ def build_receipt(*, root: Path, request_rel: str = DEFAULT_REQUEST,
     else:
         limitations.append("Fixed Git fixture runner executed; no target comparison output is attached.")
     receipt = {
-        "schemaVersion": "frontier-experiment-receipt-v1", "experimentRunId": "run-" + uuid.uuid4().hex,
-        "campaignId": request["campaignId"], "nativeVersion": request["native"]["version"],
+        "schemaVersion": "frontier-experiment-receipt-v1.1", "experimentRunId": "run-" + uuid.uuid4().hex,
+        "campaignId": request["campaignId"], "nativeVersion": executed,
+        "documentedVersion": documented, "executedVersion": executed,
         "requestId": request["requestId"], "leadDigest": request["leadDigest"], "claimDigest": request["claimDigest"],
         "sourceDigest": request["source"]["contentDigest"], "targetDigest": request["target"]["contentDigest"],
         "targetRevision": request["target"]["revision"], "historyRef": request["historyRef"],
