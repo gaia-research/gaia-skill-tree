@@ -7,7 +7,7 @@ The founder explicitly directed that Pi subagent recovery is a **side lane, not 
 Current active Gaia assignments:
 - **188e6abc-e774-4b05-8460-7703dbdaa0c4**, Flash Medium: repair the exact absence/content CAS collision on existing canonical branch/draft #2161, add focused regressions, commit/push; no wider CLI scope yet.
 - **762f184a-424b-46ad-ae3f-049b481857c6**, Terra High: diagnose/repair the real full-corpus publication OG coverage failure on existing publication branch, using retained failed-build artifacts before any expensive replay. Parent owns the combined full-corpus replay.
-- Parent: integrate already independently reviewed watcher/corpus work where gates permit, preserve checkpoints, and coordinate remaining CLI/evidence/Frontier/UI/release dependencies. Watcher draft **#2166** now targets `dev/yggdrasil-iv` at exact reviewed/tested d311.
+- Parent: integrate already independently reviewed watcher/corpus work where gates permit, preserve checkpoints, and coordinate remaining CLI/evidence/Frontier/UI/release dependencies. Watcher **#2166 merged** by merge commit **42135170c690d37e59ed7da64207635ee65fc54c**. Its complete tree is exactly **5c1a40fb26f4ca531849bb30512fc3dc49a60bd1**, identical to the reviewed/parent-tested d311 head. Default challenge/issuer activation remains off. Corpus #2159 new-head CI is now observed green; applicable CLI visual review remains held.
 
 Use the updated founder roster: Flash/Luna for economical scouting, routine review and bounded work; Terra for intermediate implementation/independent review; Sol for difficult architecture/integration. Assign compact self-contained scopes, preserve coherent commits/full sessions, and resume saved source rather than repeatedly rebuilding context. No recursive workers or gratuitous advisory fanout.
 
@@ -19,7 +19,7 @@ Founder asked to be told when to reset and then explicitly said **Continue**. Co
 
 All previously assigned Gaia implementation workers, independent reviews and parent shell tests are now terminal and collected. The old tooling review's assertion that publication task `ba7cb70f5` remains live is stale. The first Pi repair and lifecycle scout are also now collected. That subsequent review and first actual-SDK probe are now also collected. Product repair2 is now also collected. Independent78b review is now collected and REFUTED. Actual-SDK continuation is now collected and remains RED on transcript preservation. Corrected78b regressions are collected94passed/1skip. New partial source0ec is saved/pushed; source-only independent review refutes acceptance. SDK955 now verifies0ec; parent installer/native safety matrices await terminal collection.
 
-## Campaign state safely saved
+## Campaign state at the historical restart checkpoint
 
 - Integration **`fd4038afb9a34062ca993a4eb0878e0464cfe564`** has exactly the accepted `4b73e6281` code tree after audited restoration PR #2160; main remains `b0f6d9e502369aea2ebebe13eed8d961675094bd`. No canonical trust/schema/standing/Origin or security activation occurred.
 - Watcher **`d311d9624f0072d17b270f970733d89535e3926c`**: parent complete watcher+ledger suite **231 tests passed in 64.50s**, unchanged tracked/nonignored source inventory. Independent full 15-file review **conditional pass/no P0/P1**, including actual process/CAS, recovery/tamper/preservation/dedupe and workflow probes. Unmerged; live issuer unavailable; audited legacy v1 migration and elapsed operational gates still required. Evidence copied under `.gaia/yggdrasil-iv/recovery/watcher-d311-parent-evidence/`.
