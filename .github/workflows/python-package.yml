@@ -60,6 +60,19 @@ jobs:
       - name: Install development dependencies
         run: uv pip install --system -e ".[dev]"
 
+      - name: Verify genuine publication rasterizer
+        run: |
+          python - <<'PY'
+          import struct
+          import cairosvg
+          from PIL import features
+          png = cairosvg.svg2png(bytestring=b'<svg xmlns="http://www.w3.org/2000/svg" width="2" height="2"><rect width="2" height="2"/></svg>')
+          assert png.startswith(b'\x89PNG\r\n\x1a\n')
+          assert struct.unpack(">II", png[16:24]) == (2, 2)
+          assert features.check("webp"), "OG medallion rendering requires Pillow WebP support"
+          print("Genuine CairoSVG PNG rendering and WebP decoding available")
+          PY
+
       # Class P artifacts (registry/gaia.json, registry/named-skills.json) are
       # gitignored — they never exist in a fresh CI checkout. The integration /
       # slow tier reads them from the real repo (not tmp_path), so without this

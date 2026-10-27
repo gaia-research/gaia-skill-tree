@@ -59,6 +59,8 @@ docs = [
 ]
 dev = [
     "build>=1.2.0",
+    # Strict publication tests require genuine PNG rendering, never a skipped oracle.
+    "cairosvg>=2.9.1",
     "numpy>=1.21.0",
     "pytest>=8.0",
     "pytest-timeout>=2.1.0",
