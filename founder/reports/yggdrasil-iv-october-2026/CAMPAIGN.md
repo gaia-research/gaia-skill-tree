@@ -40,3 +40,15 @@ Recovery entry point. Updated on every material state change and pushed to
 FD-1 held-review disclosure on dev; FD-2 contributor notice route; FD-3 independence standard;
 FD-4 issuer + Class C admission (existing gate); FD-5 cross-bucket comparison if C1 substantiates;
 plus existing: #2176/#2177 two Core approvals, visual acceptance, main merge, release, launch.
+
+## Founder rulings this campaign
+
+- **2026-10-28 — "approved issuer for dev"** (founder, in session, replying to the FD-4 packet:
+  contested marks require the trusted challenge issuer). Scope as interpreted: build and activate
+  an authenticated challenge-receipt issuer for the `dev/yggdrasil-iv` integration environment,
+  confined to the receipt-source adapter (`src/gaia_cli/steward/challenge_receipts.py`
+  `AuthenticatedApprovalSource` + its producer workflow). This is the one authorized exception to
+  the Steward exclusion; no Steward sensors, watcher, scheduler, transport or policy changes.
+  Production publication of anything it admits still rides the founder-gated `main` merge.
+  Each admitted challenge still needs its own authenticated approval; the issuer approval is not
+  a blanket admission of any case.
