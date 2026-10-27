@@ -13542,6 +13542,9 @@ body[data-overall-grade="S"] .report-card {
   border: 1px solid var(--border);
   color: var(--text);
   word-break: break-all;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .se-lc-card {
@@ -13880,6 +13883,7 @@ body[data-overall-grade="S"] .report-card {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
+  min-width: 0;
 }
 
 .se-lc-cell-label {
@@ -13892,6 +13896,8 @@ body[data-overall-grade="S"] .report-card {
 
 .se-lc-cell-val {
   color: var(--text);
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .se-lc-res-box {

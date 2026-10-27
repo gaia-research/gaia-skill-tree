@@ -520,3 +520,19 @@ test('scoped CSS keeps lifecycle headings wrapping at 390px and 320px and hides 
   assert.match(css, /@media\s*\(\s*max-width:\s*360px\s*\)\s*\{[^}]*\.se-lc-section \.se-flow-title/);
   assert.match(css, /#se-tm:empty\s*\{[^}]*display:\s*none/);
 });
+
+test('challenge detail containment: shrinkable grid tracks and wrapping long tokens (320px clip regression)', () => {
+  const css = read('../docs/css/styles.css');
+  const js = read('../docs/js/trust-lifecycle.js');
+  assert.match(css, /\.se-lc-grid\s*\{[^}]*minmax\(min\(240px, 100%\), 1fr\)/);
+  assert.match(css, /\.se-lc-grid-cell\s*\{[^}]*min-width:\s*0/);
+  assert.match(css, /\.se-lc-cell-val\s*\{[^}]*min-width:\s*0[^}]*overflow-wrap:\s*anywhere/);
+  assert.match(css, /\.se-lc-code\s*\{[^}]*font-family:\s*var\(--font-mono\)[^}]*overflow-wrap:\s*anywhere[^}]*max-width:\s*100%/);
+  assert.match(css, /\.se-lc-challenge-item\s*\{[^}]*max-width:\s*100%/);
+  // The stylesheet injected by trust-lifecycle.js is appended later and wins ties, so it must not
+  // reintroduce a fixed 260px track minimum or drop the shrinkable cell rules.
+  assert.doesNotMatch(js, /minmax\(260px/);
+  assert.match(js, /\.se-lc-grid \{[^}]*minmax\(min\(240px, 100%\), 1fr\)/);
+  assert.match(js, /\.se-lc-grid-cell \{[^}]*min-width: 0/);
+  assert.match(js, /\.se-lc-cell-val \{[^}]*min-width: 0; overflow-wrap: anywhere/);
+});
