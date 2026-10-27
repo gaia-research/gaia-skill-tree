@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import subprocess
 import tempfile
 from pathlib import Path
@@ -12,17 +13,35 @@ FIXTURE_PATH = Path(__file__).parent / "fixtures" / "line-history" / "sample-v1.
 UPDATED = b'''def score(value):\n    # Updated implementation with a bounded input guard.\n    if value < 0:\n        return 0\n    return value + 2\n\n\ndef caller(item):\n    return score(item)\n'''
 
 
+ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_REQUEST = "generated-output/frontier/git-log-L-graft.verification-request-v1.json"
+PROTOCOL_PATH = Path(__file__).parent / "protocols" / "git-log-L-vs-graft-v1.json"
+
+
+def sha(raw: bytes) -> str:
+    return "sha256:" + hashlib.sha256(raw).hexdigest()
+
+
 def git(cwd: Path, *args: str) -> str:
-    return subprocess.check_output(["git", "-C", str(cwd), *args], stderr=subprocess.STDOUT, text=True)
+    """Run Git isolated from ambient user/system config, templates and hooks."""
+    env = {**os.environ, "GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_NOSYSTEM": "1", "HOME": str(cwd), "GIT_TERMINAL_PROMPT": "0"}
+    isolation = ["-c", "core.hooksPath=" + os.devnull, "-c", "commit.gpgsign=false"]
+    return subprocess.check_output(["git", *isolation, "-C", str(cwd), *args], stderr=subprocess.STDOUT, text=True, env=env)
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", required=True, help="reviewer-controlled receipt output path")
+    parser.add_argument("--request", default=DEFAULT_REQUEST, help="bound verification request (repo-relative or absolute); only its id is embedded")
     args = parser.parse_args()
+    request_path = Path(args.request)
+    request = json.loads((request_path if request_path.is_absolute() else ROOT / request_path).read_text(encoding="utf-8"))
+    request_id = request["requestId"]
+    fixture_digest = sha(FIXTURE_PATH.read_bytes())
+    protocol_digest = sha(PROTOCOL_PATH.read_bytes())
     with tempfile.TemporaryDirectory(prefix="gaia-frontier-git-L-") as td:
         repo = Path(td)
-        git(repo, "init", "-q")
+        git(repo, "init", "-q", "--template=")
         git(repo, "config", "user.name", "Frontier Fixture")
         git(repo, "config", "user.email", "fixture@example.invalid")
         target = repo / "sample.py"
@@ -39,6 +58,9 @@ def main() -> int:
             raise RuntimeError("controlled git log -L fixture did not contain both expected revisions and line bodies")
         record = {
             "experiment": "git-log-L-vs-graft-v1",
+            "requestId": request_id,
+            "fixtureDigest": fixture_digest,
+            "protocolDigest": protocol_digest,
             "gitVersion": git(repo, "--version").strip(),
             "fixtureBaselineCommit": baseline,
             "fixtureUpdatedCommit": updated,
@@ -51,7 +73,8 @@ def main() -> int:
         }
     destination = Path(args.output)
     destination.parent.mkdir(parents=True, exist_ok=True)
-    destination.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+    with destination.open("x", encoding="utf-8") as stream:  # exclusive: never overwrite an existing output
+        stream.write(json.dumps(record, indent=2) + "\n")
     print(json.dumps({k: record[k] for k in ("gitVersion", "fixtureBaselineCommit", "fixtureUpdatedCommit", "outputDigest", "result")}, indent=2))
     return 0
 

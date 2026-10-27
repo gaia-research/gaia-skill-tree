@@ -39,6 +39,14 @@ def artifact_path(root: Path, relative: str) -> Path:
     return current
 
 
+def artifact_source(root: Path, relative: str) -> Path:
+    rel = Path(relative)
+    path = (root / rel).resolve()
+    if rel.is_absolute() or ".." in rel.parts or not path.is_relative_to(root.resolve()) or not path.is_file():
+        raise ValueError("request input path is not a file inside the checkout")
+    return path
+
+
 def build_receipt(*, root: Path, request_rel: str = DEFAULT_REQUEST,
                   native_rel: str = DEFAULT_NATIVE, target_rel: str | None = None,
                   result: str = "inconclusive") -> dict:
@@ -53,6 +61,14 @@ def build_receipt(*, root: Path, request_rel: str = DEFAULT_REQUEST,
         raise ValueError("fixed runner output did not match expected reviewed protocol")
     if execution.get("gitVersion") not in {request["native"]["version"], "git version " + request["native"]["version"]}:
         raise ValueError("local Git version differs from candidate version bound by request")
+    for key, expected in (("requestId", request["requestId"]), ("fixtureDigest", request["fixture"]["contentDigest"]), ("protocolDigest", request["protocol"]["contentDigest"])):
+        if execution.get(key) != expected:
+            raise ValueError(f"native artifact {key} does not match the request")
+    # Also bind to the actual files this checkout holds, not only the request's claim.
+    for key, spec in (("fixtureDigest", request["fixture"]), ("protocolDigest", request["protocol"])):
+        actual = "sha256:" + hashlib.sha256(artifact_source(root, spec["path"]).read_bytes()).hexdigest()
+        if actual != spec["contentDigest"]:
+            raise ValueError(f"checkout {key[:-6]} bytes differ from the request")
     output = execution.get("output")
     if not isinstance(output, str) or execution.get("outputDigest") != "sha256:" + hashlib.sha256(output.encode("utf-8")).hexdigest():
         raise ValueError("native recorded output digest mismatch")
@@ -64,6 +80,8 @@ def build_receipt(*, root: Path, request_rel: str = DEFAULT_REQUEST,
             raise ValueError("target output artifact is empty")
         if artifact_path(root, native_rel) == artifact_path(root, target_rel):
             raise ValueError("native and target outputs must be distinct artifacts")
+        if hashlib.sha256(target_raw).digest() == hashlib.sha256(native_raw).digest():
+            raise ValueError("native and target outputs must have distinct content")
         outputs.append({"label": "target", "contentDigest": "sha256:" + hashlib.sha256(target_raw).hexdigest(), "path": target_rel})
         limitations.append("Paired artifacts alone establish neither comparable performance, superiority nor independent verification; Meta must assess protocol execution and counterevidence.")
     else:

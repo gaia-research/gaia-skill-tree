@@ -168,6 +168,8 @@ def _recording_fixture(tmp_path):
     # Synthetic unit data; not an actual Git/Graft execution or trusted receipt.
     output = "synthetic unit-only native output"
     native = {"experiment": "git-log-L-vs-graft-v1", "executionCheck": "passed",
+              "requestId": request["requestId"], "fixtureDigest": request["fixture"]["contentDigest"],
+              "protocolDigest": request["protocol"]["contentDigest"],
               "gitVersion": "git version " + request["native"]["version"], "output": output,
               "outputDigest": "sha256:" + hashlib.sha256(output.encode()).hexdigest()}
     (directory / "native.json").write_text(json.dumps(native))
@@ -208,6 +210,65 @@ def test_recorder_checks_native_internal_digest_and_distinct_outputs(tmp_path):
     native.write_text(json.dumps(execution))
     with pytest.raises(ValueError, match="native recorded output digest"):
         recorder.build_receipt(**kwargs)
+
+
+def test_recorder_refuses_identical_native_and_target_content(tmp_path):
+    repo, _, recorder, kwargs = _recording_fixture(tmp_path)
+    directory = repo / "generated-output/frontier"
+    (directory / "copy.json").write_bytes((directory / "native.json").read_bytes())
+    with pytest.raises(ValueError, match="distinct content"):
+        recorder.build_receipt(**kwargs, target_rel="generated-output/frontier/copy.json", result="supported")
+
+
+@pytest.mark.parametrize("field", ["requestId", "fixtureDigest", "protocolDigest"])
+def test_recorder_refuses_native_not_bound_to_request(tmp_path, field):
+    repo, _, recorder, kwargs = _recording_fixture(tmp_path)
+    native = repo / kwargs["native_rel"]
+    execution = json.loads(native.read_text()); execution[field] = "sha256:" + "0" * 64
+    native.write_text(json.dumps(execution))
+    with pytest.raises(ValueError, match=field):
+        recorder.build_receipt(**kwargs)
+    del execution[field]
+    native.write_text(json.dumps(execution))
+    with pytest.raises(ValueError, match=field):
+        recorder.build_receipt(**kwargs)
+
+
+def test_recorder_refuses_checkout_inputs_that_differ_from_request(tmp_path):
+    repo, request, recorder, kwargs = _recording_fixture(tmp_path)
+    (repo / request["fixture"]["path"]).write_text("changed after request")
+    with pytest.raises(ValueError, match="fixture bytes differ"):
+        recorder.build_receipt(**kwargs)
+
+
+def test_runner_embeds_bindings_isolates_git_and_never_overwrites(tmp_path, monkeypatch):
+    repo, request, _, kwargs = _recording_fixture(tmp_path)
+    script = Path(__file__).resolve().parents[1] / "examples/frontier/run_git_log_L_fixture.py"
+    spec = importlib.util.spec_from_file_location("frontier_runner", script)
+    runner = importlib.util.module_from_spec(spec); spec.loader.exec_module(runner)
+    monkeypatch.setenv("GIT_AUTHOR_NAME", "ambient")
+    out = tmp_path / "native-out.json"
+    args = ["x", "--request", str(repo / kwargs["request_rel"]), "--output", str(out)]
+    monkeypatch.setattr("sys.argv", args)
+    assert runner.main() == 0
+    record = json.loads(out.read_text())
+    assert record["requestId"] == request["requestId"]
+    assert record["fixtureDigest"] == runner.sha(runner.FIXTURE_PATH.read_bytes())
+    assert record["protocolDigest"] == runner.sha(runner.PROTOCOL_PATH.read_bytes())
+    before = out.read_bytes()
+    with pytest.raises(FileExistsError):
+        runner.main()
+    assert out.read_bytes() == before
+
+
+def test_request_refuses_target_revision_that_is_not_a_commit(tmp_path):
+    repo, item, _ = _request_fixture(tmp_path)
+    blob = subprocess.check_output(["git", "-C", str(repo), "rev-parse", "HEAD:fixture.py"], text=True).strip()
+    for bogus in (blob, "0" * 40):
+        bad = copy.deepcopy(item); bad["target"]["revision"] = bogus
+        (repo / "lead.json").write_text(json.dumps(bad))
+        with pytest.raises(ValueError, match="resolve to a commit"):
+            create_verification_request(bad, repo_root=repo, lead_path="lead.json", protocol_path="protocol.json", fixture_path="fixture.py")
 
 
 @pytest.mark.parametrize("relative", ["registry/named/new.json", "../escaped.json", "/tmp/absolute.json", "generated-output/frontier/../escaped.json"])

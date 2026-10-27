@@ -99,6 +99,12 @@ def create_verification_request(data: dict[str, Any], *, repo_root: str | Path, 
         generic_id = ref
     protocol_revision = subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip()
     revision = target["revision"]
+    try:
+        resolved = subprocess.check_output(["git", "-C", str(root), "rev-parse", "--verify", f"{revision}^{{commit}}"], text=True, stderr=subprocess.DEVNULL).strip()
+    except subprocess.CalledProcessError:
+        raise ValueError("lead target revision does not resolve to a commit in this repository") from None
+    if resolved != revision:
+        raise ValueError("lead target revision must be the full immutable commit id it resolves to")
     target_bytes = []
     for path in paths:
         _validated_file(root, path)
@@ -107,8 +113,8 @@ def create_verification_request(data: dict[str, Any], *, repo_root: str | Path, 
     if target["kind"] == "named" and _read_named_generic_bytes(target_bytes[0], paths[0]) != generic_id:
         raise ValueError("pinned named target genericSkillRef does not match its lead")
     target_digest = _sha(_canonical({"paths": paths, "digests": [_sha(b) for b in target_bytes]}))
-    if target.get("revision") != revision or target.get("contentDigest") != _sha(target_bytes[0]):
-        raise ValueError("lead target revision/content digest does not match exact repository bytes")
+    if target.get("contentDigest") != _sha(target_bytes[0]):
+        raise ValueError("lead target content digest does not match exact repository bytes")
     source_path, source_bytes = _validated_file(root, data["source"]["capturedBytesPath"])
     if _sha(source_bytes) != data["source"]["contentDigest"]:
         raise ValueError("captured source bytes digest mismatch")
