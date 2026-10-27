@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "heygen-com/hyperframes-creative",
+      "name": "Hyperframes Creative",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "heygen-com",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-creative.json"
+      },
+      "genericSkillRef": "creative-direction"
+    },
+    {
       "id": "heygen-com/hyperframes-keyframes",
       "name": "Hyperframes Keyframes",
       "level": "3★",
@@ -837,28 +854,11 @@
         "self": "/api/v1/skills/disler/opinion.json"
       },
       "genericSkillRef": "opinion"
-    },
-    {
-      "id": "disler/plan-synthesis",
-      "name": "Plan Synthesis",
-      "level": "2★",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "disler",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/disler/plan-synthesis.json"
-      },
-      "genericSkillRef": "plan-synthesis"
     }
   ],
   "page": 3,
   "totalPages": 5,
-  "totalSkills": 227,
+  "totalSkills": 228,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

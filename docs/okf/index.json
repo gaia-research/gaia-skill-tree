@@ -4,7 +4,7 @@
   "families": [
     {
       "id": "basic",
-      "count": 151,
+      "count": 152,
       "skills": [
         {
           "id": "adaptive-pattern-learning",
@@ -320,6 +320,11 @@
           "id": "implement-with-discernment",
           "name": "implement-with-discernment",
           "summary": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value, and stopping when the task is done."
+        },
+        {
+          "id": "interactive-mechanism-illustration",
+          "name": "Interactive Mechanism Illustration",
+          "summary": "Explains a technical concept by constructing an interactive physical mechanism whose geometry, motion, controls and numeric readouts share a coherent model, and verifies that the rendered explanation behaves consistently across interaction states."
         },
         {
           "id": "interactive-presentation-authoring",
