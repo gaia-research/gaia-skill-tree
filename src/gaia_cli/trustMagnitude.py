@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import datetime
 import hashlib
+import json
 import math
 from typing import Any, Optional
 
@@ -178,9 +179,15 @@ def _finalRowScore(
     row: dict,
     skill: dict,
     genericSkillMap: Optional[dict],
+    *,
+    evaluationAtUTC: Optional[datetime.datetime] = None,
+    benchmarkCatalog: Optional[dict] = None,
 ) -> Optional[float]:
     """Return the row contribution after eligibility and layer multipliers."""
-    baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
+    baseScore = computeArtifactScoreOrNone(
+        row, genericSkillMap, evaluationAtUTC=evaluationAtUTC,
+        benchmarkCatalog=benchmarkCatalog,
+    )
     if baseScore is None:
         return None
     return baseScore * _inheritMultiplierFor(row, skill)
@@ -355,7 +362,11 @@ def _isSuiteRootRepositoryEvidence(row: dict, skill: dict) -> bool:
     return False
 
 
-def _freshnessFactor(row: dict, evidenceType: str) -> float:
+def _freshnessFactor(
+    row: dict,
+    evidenceType: str,
+    evaluationAtUTC: Optional[datetime.datetime] = None,
+) -> float:
     """Compute freshness multiplier in [0, 1] (RFC §3 Freshness multipliers).
 
     Returns 1.0 if row has no `lastVerified` or the type doesn't decay.
@@ -371,7 +382,10 @@ def _freshnessFactor(row: dict, evidenceType: str) -> float:
     last = _parseIso(row.get("lastVerified"))
     if last is None:
         return 1.0
-    ageYears = (_utcNow() - last).days / 365.25
+    now = evaluationAtUTC or _utcNow()
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=datetime.timezone.utc)
+    ageYears = (now.astimezone(datetime.timezone.utc) - last).days / 365.25
     factor = 1.0 - rate * ageYears
     return max(0.0, factor)
 
@@ -488,6 +502,9 @@ def computeArtifactScore(
 def computeArtifactScoreOrNone(
     evidenceRow: dict,
     genericSkillMap: Optional[dict] = None,
+    *,
+    evaluationAtUTC: Optional[datetime.datetime] = None,
+    benchmarkCatalog: Optional[dict] = None,
 ) -> Optional[float]:
     """Same as computeArtifactScore but returns None for null-on-derank rows.
 
@@ -510,7 +527,7 @@ def computeArtifactScoreOrNone(
     # rejected/pending/unknown/candidate/retired = 0x. Unknown or catalog-rejected
     # benchmarkIds fail closed.
     if evidenceType == "benchmark-result":
-        if not isBenchmarkScoringEligible(evidenceRow):
+        if not isBenchmarkScoringEligible(evidenceRow, catalog=benchmarkCatalog):
             return None
 
     # Null-on-derank: verifier-attestation rows tied to a now-sub-4-star verifier
@@ -534,7 +551,7 @@ def computeArtifactScoreOrNone(
     if cap is not None:
         rawMagnitude = min(rawMagnitude, cap)
 
-    freshness = _freshnessFactor(evidenceRow, evidenceType)
+    freshness = _freshnessFactor(evidenceRow, evidenceType, evaluationAtUTC)
 
     # Creator multiplier and engagement ratio for social-signal (RFC §2.11)
     creatorMult = 1.0
@@ -699,6 +716,38 @@ def _dedupeSameSource(rows: list[dict]) -> list[dict]:
     return out
 
 
+def _shadowDeduplicate(rows: list[dict], scoreFn=None) -> list[dict]:
+    """Select the highest eligible final-magnitude row per type+canonical URL.
+
+    ``scoreFn`` is supplied by the shadow scoring pipeline so representatives
+    are chosen by the same artifact magnitude that will be reported, not a
+    proxy comparator. Legacy/other shadow callers retain deterministic fallback.
+    """
+    groups: dict[tuple[str, str], list[dict]] = {}
+    unkeyed: list[dict] = []
+    for row in rows:
+        url = (
+            _canonicalUrl(row.get("source"))
+            or _canonicalUrl(row.get("url"))
+            or _canonicalUrl(row.get("sourceUrl"))
+        )
+        if url is None:
+            unkeyed.append(row)
+        else:
+            groups.setdefault((_typeOf(row) or "", url), []).append(row)
+    winners = list(unkeyed)
+    for key in sorted(groups):
+        choices = groups[key]
+        def rank(row):
+            score = scoreFn(row) if scoreFn is not None else _rowComparableMagnitude(row)
+            # Stable canonical tie-break: equal scoring magnitude cannot depend
+            # on evidence input order. Invalid values are never a valid winner.
+            canonical = json.dumps(row, sort_keys=True, separators=(",", ":"), default=str, allow_nan=False)
+            return (score is not None, float(score or 0.0), canonical)
+        winners.append(max(choices, key=rank))
+    return winners
+
+
 def _rowComparableMagnitude(row: dict) -> float:
     """A cheap comparator for same-source dedup tie-breaking."""
     t = _typeOf(row)
@@ -838,11 +887,32 @@ def _applySuiteComponentRepositoryCap(
 def _scoredEvidenceRows(
     skill: dict,
     genericSkillMap: Optional[dict],
+    *,
+    evaluationAtUTC: Optional[datetime.datetime] = None,
+    benchmarkCatalog: Optional[dict] = None,
+    shadowCorrections: bool = False,
 ) -> list[tuple[dict, Optional[float]]]:
     """Resolve, score, and bound the effective evidence pool once for all TM views."""
-    pool = _effectivePool(skill, genericSkillMap)
+    pool = _effectivePool(skill, genericSkillMap, shadowCorrections=shadowCorrections)
     evidence = enforceAntiAutoMint({"evidence": pool})
-    deduped = _dedupeSameSource(evidence)
+    if shadowCorrections:
+        # Exclude ineligible rows before representative selection.
+        evidence = [
+            row for row in evidence
+            if computeArtifactScoreOrNone(
+                row, genericSkillMap, evaluationAtUTC=evaluationAtUTC,
+                benchmarkCatalog=benchmarkCatalog,
+            ) is not None
+        ]
+        deduped = _shadowDeduplicate(
+            evidence,
+            scoreFn=lambda row: _finalRowScore(
+                row, skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC,
+                benchmarkCatalog=benchmarkCatalog,
+            ),
+        )
+    else:
+        deduped = _dedupeSameSource(evidence)
 
     # Retain an auto-derived fusion row for provenance and structural reports.
     suiteComponents = skill.get("suiteComponents") or []
@@ -857,7 +927,10 @@ def _scoredEvidenceRows(
 
     rowsWithScores: list[tuple[dict, Optional[float]]] = []
     for row in deduped:
-        score = _finalRowScore(row, skill, genericSkillMap)
+        score = _finalRowScore(
+            row, skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC,
+            benchmarkCatalog=benchmarkCatalog,
+        )
         rowsWithScores.append((row, score))
     rowsWithScores = _applyPlateauAndCreatorDedup(rowsWithScores)
     return _applySuiteComponentRepositoryCap(rowsWithScores, skill)
@@ -945,6 +1018,10 @@ def computeTrustMagnitude(
     skill: dict,
     genericSkillMap: Optional[dict] = None,
     namedSkillMap: Optional[dict] = None,
+    *,
+    evaluationAtUTC: Optional[datetime.datetime] = None,
+    benchmarkCatalog: Optional[dict] = None,
+    shadowCorrections: bool = False,
 ) -> float:
     """Compute the skill's Trust Magnitude (RFC §3, v2 inheritance contract).
 
@@ -963,7 +1040,10 @@ def computeTrustMagnitude(
     - social-signal hard A-cap (sum of social-signal contributions <= 80)
     """
     del namedSkillMap  # suiteRef contains the bounded repository identity.
-    rowsWithScores = _scoredEvidenceRows(skill, genericSkillMap)
+    rowsWithScores = _scoredEvidenceRows(
+        skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC,
+        benchmarkCatalog=benchmarkCatalog, shadowCorrections=shadowCorrections,
+    )
 
     socialTotal = 0.0
     nonSocialTotal = 0.0
@@ -1022,7 +1102,12 @@ def computeTrustMagnitudeByType(
     return out
 
 
-def _effectivePool(skill: dict, genericSkillMap: Optional[dict]) -> list[dict]:
+def _effectivePool(
+    skill: dict,
+    genericSkillMap: Optional[dict],
+    *,
+    shadowCorrections: bool = False,
+) -> list[dict]:
     """Resolve the merged own + inherited evidence pool for a skill.
 
     Generic skills return their own evidence (no parent to inherit from).
@@ -1047,10 +1132,23 @@ def _effectivePool(skill: dict, genericSkillMap: Optional[dict]) -> list[dict]:
     if genericSkillMap is not None:
         generic = genericSkillMap.get(skill.get("genericSkillRef"))
 
-    # `inherited_evidence` returns own-first then generic, deduped by source.
-    merged = inherited_evidence({"evidence": ownRows}, generic)
+    if shadowCorrections:
+        # Keep each row's origin explicit; do not infer it from source/URL.
+        # Dedup is deferred until after eligibility checks in the scoring pass.
+        out = list(ownRows)
+        for row in (generic or {}).get("evidence") or []:
+            # The shadow comparison must honor the canonical inheritance
+            # contract: pinned-named evidence never crosses the generic layer.
+            contract = EVIDENCE_TYPE_LAYER_CONTRACT.get(_typeOf(row) or "", {})
+            if contract.get("inheritMultiplier") is None:
+                continue
+            stamped = dict(row)
+            stamped["layer"] = "generic"
+            out.append(stamped)
+        return out
 
-    # Stamp any inherited rows that aren't already layer-tagged with "generic".
+    # Production-compatible legacy merge (source-only, own-first).
+    merged = inherited_evidence({"evidence": ownRows}, generic)
     out: list[dict] = []
     ownSources = {r.get("source") for r in ownRows if r.get("source")}
     for row in merged:
@@ -1253,7 +1351,13 @@ def checkAGradedOriginsGte5(
     return count >= APEX_AGRADED_ORIGINS_MIN
 
 
-def checkSourceTenureDaysGte180AorS(skill: dict, now: Optional[datetime.datetime] = None) -> bool:
+def checkSourceTenureDaysGte180AorS(
+    skill: dict,
+    now: Optional[datetime.datetime] = None,
+    *,
+    evaluationAtUTC: Optional[datetime.datetime] = None,
+    shadowCorrections: bool = False,
+) -> bool:
     """A/S rows: max source age across A/S rows must be >= 180 days (delta §B).
 
     - Compute post-weight magnitude per row first to determine effective A/S.
@@ -1262,9 +1366,9 @@ def checkSourceTenureDaysGte180AorS(skill: dict, now: Optional[datetime.datetime
     - If no A/S rows exist, return False.
     - If `sourceStartedAt` absent on an A/S row, treat as age=0 days.
     """
-    nowDt = now or _utcNow()
+    nowDt = evaluationAtUTC or now or _utcNow()
     evidence = enforceAntiAutoMint(skill)
-    deduped = _dedupeSameSource(evidence)
+    deduped = _shadowDeduplicate(evidence) if shadowCorrections else _dedupeSameSource(evidence)
     aOrSAges: list[int] = []
     for row in deduped:
         g = _grade(row)
@@ -1387,9 +1491,27 @@ def _fusionAndSuiteOriginIds(
     return out
 
 
-def checkOverallGradeS(skill: dict, genericSkillMap: Optional[dict] = None) -> bool:
+def checkOverallGradeS(
+    skill: dict,
+    genericSkillMap: Optional[dict] = None,
+    *,
+    evaluationAtUTC: Optional[datetime.datetime] = None,
+    benchmarkCatalog: Optional[dict] = None,
+    shadowCorrections: bool = False,
+) -> bool:
     """Apex Overall Trust Grade must equal S (under strict-evidence reading)."""
-    return computeOverallTrustGradeFromSkill(skill, genericSkillMap) == "S"
+    tmValue = computeTrustMagnitude(
+        skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC,
+        benchmarkCatalog=benchmarkCatalog, shadowCorrections=shadowCorrections,
+    )
+    rows = _scoredEvidenceRows(
+        skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC,
+        benchmarkCatalog=benchmarkCatalog, shadowCorrections=shadowCorrections,
+    )
+    positive = [(row, score) for row, score in rows if score is not None and score > 0]
+    types = len({_typeOf(row) for row, _score in positive})
+    witness = any(_isEligibleWitnessRow(row, score, skill) for row, score in rows)
+    return computeOverallTrustGrade(tmValue, types, witness) == "S"
 
 
 def checkApexPromotionPrSigned(skill: dict) -> bool:
@@ -1441,6 +1563,10 @@ def checkSystemWideCap(registryState: Optional[dict] = None) -> Optional[bool]:
 def passesSuiteApexGate(
     skill: dict,
     registryState: Optional[dict] = None,
+    *,
+    evaluationAtUTC: Optional[datetime.datetime] = None,
+    benchmarkCatalog: Optional[dict] = None,
+    shadowCorrections: bool = False,
 ) -> dict[str, Optional[bool]]:
     """Run the six active apex predicates plus the two OFF scaffolds.
 
@@ -1455,10 +1581,15 @@ def passesSuiteApexGate(
     namedSkillMap = state.get("namedSkillMap")
     return {
         "aGradedOriginsGte5": checkAGradedOriginsGte5(skill, genericSkillMap, namedSkillMap),
-        "sourceTenureDaysGte180AorS": checkSourceTenureDaysGte180AorS(skill),
+        "sourceTenureDaysGte180AorS": checkSourceTenureDaysGte180AorS(
+            skill, evaluationAtUTC=evaluationAtUTC, shadowCorrections=shadowCorrections,
+        ),
         "directNestedSuiteGte1": checkDirectNestedSuiteGte1(skill, genericSkillMap),
         "depth2OnlyReachableGte1": checkDepth2OnlyReachableGte1(skill, state),
-        "overallGradeS": checkOverallGradeS(skill, genericSkillMap),
+        "overallGradeS": checkOverallGradeS(
+            skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC,
+            benchmarkCatalog=benchmarkCatalog, shadowCorrections=shadowCorrections,
+        ),
         "apexPromotionPrSigned": checkApexPromotionPrSigned(skill),
         "crossOrgVerifier": checkCrossOrgVerifier(skill, state),
         "systemWideCap": checkSystemWideCap(state),
@@ -1473,6 +1604,10 @@ def isSuiteApex(passResult: dict[str, Optional[bool]]) -> bool:
 def checkUniqueImpossibleGate(
     skill: dict,
     registryState: Optional[dict] = None,
+    *,
+    evaluationAtUTC: Optional[datetime.datetime] = None,
+    benchmarkCatalog: Optional[dict] = None,
+    shadowCorrections: bool = False,
 ) -> dict[str, Optional[bool]]:
     """PROVISIONAL 6★ Unique Impossible gate (Yggdrasil II decision log Q9).
 
@@ -1497,11 +1632,16 @@ def checkUniqueImpossibleGate(
     namedSkillMap = state.get("namedSkillMap")
     return {
         "aGradedOriginsGte5": checkAGradedOriginsGte5(skill, genericSkillMap, namedSkillMap),
-        "sourceTenureDaysGte180AorS": checkSourceTenureDaysGte180AorS(skill),
+        "sourceTenureDaysGte180AorS": checkSourceTenureDaysGte180AorS(
+            skill, evaluationAtUTC=evaluationAtUTC, shadowCorrections=shadowCorrections,
+        ),
         # directNestedSuiteGte1 intentionally omitted — the defining difference
         # between Unique Impossible and Suite Apex (no nested-suite requirement).
         "depth2OnlyReachableGte1": checkDepth2OnlyReachableGte1(skill, state),
-        "overallGradeS": checkOverallGradeS(skill, genericSkillMap),
+        "overallGradeS": checkOverallGradeS(
+            skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC,
+            benchmarkCatalog=benchmarkCatalog, shadowCorrections=shadowCorrections,
+        ),
         "apexPromotionPrSigned": checkApexPromotionPrSigned(skill),
         "crossOrgVerifier": checkCrossOrgVerifier(skill, state),
         "systemWideCap": checkSystemWideCap(state),

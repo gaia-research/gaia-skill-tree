@@ -75,6 +75,18 @@ def parse_owner_repo(url: str) -> tuple[str, str] | None:
     return (owner, repo)
 
 
+def parse_owner_repo_normalized(url: str) -> tuple[str, str] | None:
+    """Extract case-normalized ``(owner.lower(), repo.lower())`` from a GitHub URL.
+
+    GitHub repository paths are ASCII case-insensitive. Normalizing prevents
+    false mismatches such as ``Leonxlnx/taste-skill`` vs ``leonxlnx/taste-skill``.
+    """
+    parsed = parse_owner_repo(url)
+    if not parsed:
+        return None
+    return (parsed[0].lower(), parsed[1].lower())
+
+
 # ---------------------------------------------------------------------------
 # JSON fetch — generalised from stargazerHeartbeat.fetch_stars
 # ---------------------------------------------------------------------------

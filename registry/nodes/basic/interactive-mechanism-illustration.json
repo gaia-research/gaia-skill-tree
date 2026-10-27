@@ -1,0 +1,22 @@
+{
+  "id": "interactive-mechanism-illustration",
+  "name": "Interactive Mechanism Illustration",
+  "type": "basic",
+  "description": "Explains a technical concept by constructing an interactive physical mechanism whose geometry, motion, controls and numeric readouts share a coherent model, and verifies that the rendered explanation behaves consistently across interaction states.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-10-27",
+  "updatedAt": "2026-10-27",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-10-27T12:57:39Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill interactive-mechanism-illustration"
+    }
+  ]
+}

@@ -47,6 +47,7 @@
 * [Fine-Tune](/fine-tune.md) - Adapts a pre-trained model to a new task or domain by updating model weights using parameter-efficient methods such as LoRA, QLoRA, or full supervised fine-tuning, without retraining from scratch.
 * [Format Output](/format-output.md) - Structures raw output into a specified format such as markdown, JSON, CSV, or HTML.
 * [Framework Upgrade](/framework-upgrade.md) - Guides an agent through upgrading a project from one major framework version to another, including breaking-change detection, migration steps, and post-upgrade validation.
+* [GPU DataFrame Acceleration](/gpu-dataframe-acceleration.md) - Migrates and optimizes tabular data-processing workloads for GPU execution while checking supported operations, transfer overhead, hardware limits, numerical precision, and semantic parity with the original CPU workflow.
 * [Generate SQL](/generate-sql.md) - Translates natural-language data questions into syntactically correct, executable SQL queries against a given schema.
 * [Generate Test](/generate-test.md) - Produces comprehensive unit, integration, and edge-case test suites from source code.
 * [Generate Text](/generate-text.md) - Produces coherent natural language output given a prompt, instruction, or context window.
@@ -60,6 +61,7 @@
 * [Hypothesis Generation](/hypothesis-generate.md) - Formulates novel, testable scientific hypotheses by synthesising existing literature, identifying knowledge gaps, and proposing mechanistic explanations.
 * [Image Caption](/image-caption.md) - Generates accurate natural-language descriptions of images, capturing objects, actions, and spatial relationships.
 * [Image Generate](/image-generate.md) - Creates photorealistic or stylized images from text prompts using diffusion-based or autoregressive generative models.
+* [Interactive Mechanism Illustration](/interactive-mechanism-illustration.md) - Explains a technical concept by constructing an interactive physical mechanism whose geometry, motion, controls and numeric readouts share a coherent model, and verifies that the rendered explanation behaves consistently across interaction states.
 * [Interactive Presentation Authoring](/interactive-presentation-authoring.md) - Design and implement presentations with structured slides, navigation, and interactive visual content.
 * [Issue Triage](/issue-triage.md) - Classifies incoming issue reports through a structured state machine, assigns triage roles (bug/enhancement, needs-info/ready-for-agent/wontfix), reproduces bugs, requests missing detail, and produces structured resolution briefs for agent or human handoff.
 * [Literature Search](/literature-search.md) - Queries and searches academic literature databases (e.g. PubMed, arXiv, bioRxiv, OpenAlex) to locate papers, retrieve abstracts, resolve citations, and fetch full-text documents.

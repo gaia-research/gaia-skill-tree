@@ -4,6 +4,10 @@ Gaia Skill Tree is an open, evidence-backed skill registry for agents. Capabilit
 
 _See also: `PRODUCT.md` for audience, product purpose, and the design-principle / anti-reference / accessibility baseline. `DESIGN.md` for visual tokens and motion specs._
 
+## Ecosystem intelligence responsibilities
+
+Founder ruling (2026-10-26): **Gaia Frontier discovers. Gaia Meta evaluates. Gaia Steward maintains. Governance decides.** Frontier owns bounded external ecosystem discovery and challenger leads; Meta owns internal triage, appraisal and focused independent verification; Steward reacts to tree observations, independently verified challenges and authorized maintenance. Steward's targeted two-sided D8 monitoring remains valid, but it is not a general ecosystem crawler. Discovery and semantic matching never establish supersession or authorize canonical changes. Native capabilities without `SKILL.md` use a separate challenger-lead contract, not weakened skill intake. Authority: [locked founder ruling](founder/GAIA_FRONTIER_RULING_2026-10-26.md).
+
 ## Language
 
 ### Skill taxonomy (the categories)
@@ -181,7 +185,7 @@ A canonical skill that has been claimed by a real contributor with Class C evide
 _Avoid_: claimed skill, owned skill.
 
 **Origin Contributor**:
-The first contributor to successfully promote a skill into the canonical graph — their name attaches permanently.
+The contributor whose qualified Named Skill holds current Origin in a generic bucket. Current Origin is merit-based and transferable by approved review, not permanently assigned by chronology (`META.md` §4.1). Exactly one current Origin remains in each claimed eligible bucket, including while contested. Earlier Origin attribution remains permanent as historical achievement; a challenge alone never transfers or vacates current Origin.
 _Avoid_: owner, author, creator.
 
 **Named Contributors**:
@@ -256,7 +260,7 @@ _Yggdrasil II (2026-07-07) updates these relationships. Legacy Yggdrasil I copy 
 > **Dev:** "Karpathy demonstrated `/autoresearch` — does that make it a Named Skill?"
 > **Maintainer:** "It does, but only after `gaia propose` lands with Class C evidence or stronger. Until then it sits in **Intake**. Once accepted, Karpathy becomes the **Origin Contributor** and the skill ranks up to **Named** (2★)."
 > **Dev:** "And if `/autoresearch` climbs to Ultimate rank, the same contributor stays attached as it climbs?"
-> **Maintainer:** "Yes — Origin sticks for the life of the skill, even at 6★."
+> **Maintainer:** "The historical attribution stays attached, even at 6★. Current Origin can transfer through approved merit-based review if another qualified implementation earns it; a challenge alone cannot remove it."
 > **Dev:** "Can two fusion skills fuse into a new fusion?"
 > **Maintainer:** "They can. Fusion isn't restricted to basics-only; a `fusion`-type skill can compose with another and the result is still `fusion` by **type**. Where it lands on the star axis — 4★ **Extra**, 5★ **Ultimate**, 6★ **Apex** (Suite branch) — is a **rank** question, decided by Trust Magnitude at curation, not by the type."
 

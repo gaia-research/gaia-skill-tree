@@ -1,0 +1,22 @@
+{
+  "id": "gpu-dataframe-acceleration",
+  "name": "GPU DataFrame Acceleration",
+  "type": "basic",
+  "description": "Migrates and optimizes tabular data-processing workloads for GPU execution while checking supported operations, transfer overhead, hardware limits, numerical precision, and semantic parity with the original CPU workflow.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-10-27",
+  "updatedAt": "2026-10-27",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-10-27T13:14:37Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill gpu-dataframe-acceleration"
+    }
+  ]
+}

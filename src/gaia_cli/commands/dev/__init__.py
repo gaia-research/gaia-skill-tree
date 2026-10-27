@@ -111,6 +111,8 @@ class DevCommand(Command):
 
     def configure(self, parser: argparse.ArgumentParser) -> None:
         dev_sub = parser.add_subparsers(dest="dev_command")
+        from gaia_cli.commands.dev.canonicalCmd import configureCanonical
+        configureCanonical(dev_sub.add_parser("canonical", help="Guarded canonical decision planning, validation and recovery"))
 
         dev_list = dev_sub.add_parser(
             "list", help="List skills in the registry with filtering"
@@ -1154,7 +1156,20 @@ class DevCommand(Command):
                 f"dev arbor {args.arbor_command}" if dev_cmd == "arbor" else f"dev {dev_cmd}"
             )
             require_operator(operation, args.registry)
+            from gaia_cli.canonicalTransaction import canonicalTransactionLock, TransactionError
+            try:
+                with canonicalTransactionLock(args.registry):
+                    return self._dispatch(args)
+            except TransactionError as exc:
+                print(f"Canonical writer refused: {exc}", file=__import__("sys").stderr)
+                return 1
+        return self._dispatch(args)
 
+    def _dispatch(self, args):
+        dev_cmd = getattr(args, "dev_command", None)
+        if dev_cmd == "canonical":
+            from gaia_cli.commands.dev.canonicalCmd import canonicalCommand
+            return canonicalCommand(args)
         if dev_cmd == "list":
             from gaia_cli.commands.dev.list import meta_list_command
             meta_list_command(args)

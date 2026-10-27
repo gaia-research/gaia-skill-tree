@@ -272,7 +272,8 @@ def open_challenge(*, receipt_resolver: VerificationReceiptResolver | None = Non
         raise ValueError(receipt_error)
     if receipt.verifier_id in {receipt.builder_id, contributor_id}:
         raise ValueError("challenge verifier must be independent of builder and contributor")
-    event = _receipt_event("verified-publication", receipt, challenge_id, "public challenge opened")
+    event = _receipt_event("verified-publication", receipt, challenge_id,
+                           "public challenge opened", verified_at_utc)
     return Challenge(claim_id, subject_id, claim, behavior_id, contributor_id,
                      contributor_notice_ref, pinned_version, pinned_sha, environment,
                      test_version, baseline, comparator, ChallengeStatus.VERIFIED_PENDING,
