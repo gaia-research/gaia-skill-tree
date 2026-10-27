@@ -165,6 +165,57 @@ The `social-signal` green (`#34d399`) is not in `tokens.css` and is not on the G
 
 ---
 
+## Challenge (Yggdrasil IV)
+
+Evidence owns **metal**; rank owns its **star ladders and medallions**; a verified public challenge owns **the assay**: the skill's claim is tested on a touchstone, and if it holds it is **hallmarked**. The identity is read from form first, colour second, words last. Implemented once in `docs/js/trust-lifecycle.js` (`GaiaTrustLifecycle.components`) with CSS in the `.lc-*` block of `docs/css/styles.css`.
+
+### The Challenge Mark
+
+A chamfered square plate on a 24-unit grid (`M5 3H19L21 5V19L19 21H5L3 19V5Z`), the punch every state is struck on.
+
+| State | Form | Reads as |
+|---|---|---|
+| Open · scoped | Slate plate, ember hachure, **shallow** V-notch cut into the top edge (apex y=9) | Struck, one capability under test |
+| Open · material | Same plate, **deep** V-notch cleaving past centre (apex y=15), denser hachure | Struck to the core: Origin is contested |
+| Rebutted | Struck steel hallmark, one ember **chevron** (two when the challenge was material) | Repelled; the notch reversed into an insignia |
+| Resolved upstream | Hallmark with chevron(s) plus a **plinth bar** beneath | Answered by improving the skill |
+
+Severity is geometry (notch depth, chevron count), never colour alone. Open is asymmetric tension (a wedge driven in); answered is a symmetric, settled insignia. Answered marks are permanent: they stay in the ledger, appear as an **honours strip** beside an open challenge, and pin to the Origin wreath when a material challenge was answered.
+
+### Materials and tokens
+
+Declared in `docs/css/styles.css` `:root` as RGB triplets (no hex):
+
+| Token | Role |
+|---|---|
+| `--challenge-ember` / `-rgb` | An open challenge's heat: hachure, edges, chips, the hatched plate rule |
+| `--challenge-ember-deep-rgb` | The forged chevron on a hallmark (3:1+ on steel) |
+| `--challenge-slate-rgb` | The touchstone ground of an open mark |
+| `--hallmark-steel` / `-rgb` | Struck steel: hallmarks, the Trust Meter fill |
+
+**Hachure** (diagonal engraved hatch, the atlas convention for contested ground) is the challenge's material and is used for nothing else. Do not hatch unknown or unavailable states. Ember is not Honor Red (contributor handles) and not Apex Gold (6★ only).
+
+### Components (reuse API)
+
+| Function | Class | Notes |
+|---|---|---|
+| `challengeMark(state, {severity, size, label, decorative})` | `.lc-mark[data-state][data-severity][data-size]` | Sizes `sm` 14, `md` 20, `lg` 32, `xl` 56 (72 at ≥768px). `role="img"` + accessible name unless `decorative`. |
+| `stateChip(kind, {label})` | `.lc-chip[data-chip][data-tone]` | Glyph (aria-hidden) + short visible label. Labels wrap, never truncate. |
+| `trustMeter({tm, kind, recalibrationPending})` | `.lc-meter[data-kind][data-recal]` | TM on a log bar (0–500) with C/B/A/S grade-floor notches. Solid = approved decision, hollow = published baseline, dotted empty = unavailable, dashed collar = recalibration pending. The meter never shows a challenge's effect on numbers: challenges do not change TM. |
+| `tip(inner, lines, {label})` + `bindTips(mount)` | `.lc-tip` + `.lc-tipbox[role=tooltip]` | Toggletip: hover (pointer devices), focus and tap reveal; Escape and outside tap dismiss; `aria-describedby` carries the text to screen readers while hidden. |
+
+Not yet wired into badges, graph nodes, profiles or the Hall of Heroes; those surfaces adopt the same functions (or port the 24-unit geometry) rather than redrawing.
+
+### Panel (Skill Explorer `#se-tm`)
+
+Header: the lead challenge's mark at `xl` + title + state chip (+ honours strip). Standing plate between ledger double rules: an open challenge lays its hachure over the top rule (5px scoped, 9px material); an answered one leaves a 1px forged line. Then the Trust Meter instrument (reading, stars from `rank-badge.js`, meter, chips) and Origin (gold wreath, avatar, Honor Red handle, pinned mark). Ledger: one `<details>` per challenge, open ones first; settled claims are struck through as a ledger strikes a settled entry. Doctrine prose lives only in tooltips and the collapsed record. Mobile-first: the 320px layout is the base; the plate splits into meter | Origin at 768px.
+
+### Motion
+
+One grammar: an open `lg`/`xl` mark is **under heat** (a slow opacity wave runs through the hachure toward the notch, 2.8s); an answered `xl` hallmark is **struck once** on arrival (scale 1.2 → 1 with a brightness flash, 0.6s expo-out). Tooltips unroll with a clip-path reveal. `prefers-reduced-motion: reduce` removes all of it; meaning survives in the static form.
+
+---
+
 ## Level 6★ — Apex Special Rendering
 
 6★ (Apex) nodes bypass `drawNode` entirely and use `drawNodeVI`, which runs every animation frame using the shared `state.t` clock:

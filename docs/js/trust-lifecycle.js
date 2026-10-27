@@ -4,6 +4,35 @@
  * Pure view-model builder and accessible DOM renderer for the skill detail
  * explorer (docs/js/skill-explorer.js).
  *
+ * CHALLENGE IDENTITY — REUSABLE COMPONENTS (DESIGN.md § Challenge)
+ * Exposed as GaiaTrustLifecycle.components; every function returns an HTML
+ * string, escapes its inputs and carries no colour values (CSS tokens in
+ * docs/css/styles.css own colour). Not yet wired into other surfaces.
+ *
+ *   challengeMark(state, {severity, size, label, decorative})
+ *     state 'open' | 'rebutted' | 'upstream'; severity 'scoped' | 'material';
+ *     size 'sm' 14px | 'md' 20px | 'lg' 32px | 'xl' 56-72px.
+ *     .lc-mark[data-state][data-severity][data-size] > svg.lc-mark__svg
+ *     Open: a touchstone-slate plate with a V-notch cut into its top edge,
+ *     filled with ember hachure. Notch depth is severity (scoped nicks the
+ *     plate; material cleaves it past centre). Answered: the notch becomes a
+ *     struck steel hallmark with an ember chevron (two chevrons = material;
+ *     a plinth bar beneath = resolved by upstream improvement).
+ *   markStateOf(challenge) -> {state, severity} for a normalized challenge.
+ *   stateChip(kind, {label})
+ *     .lc-chip[data-chip][data-tone] — glyph + short visible label. Kinds:
+ *     open-scoped, open-material, rebutted-{scoped,material},
+ *     upstream-{scoped,material}, approved-decision, current-baseline,
+ *     unavailable, recalibration, origin-held, origin-contested, origin-unknown.
+ *   trustMeter({tm, kind, recalibrationPending, decorative})
+ *     .lc-meter[data-kind][data-recal] — Trust Magnitude on a log bar
+ *     (0-500) with grade-floor ticks. Solid fill = approved decision, hollow
+ *     = published baseline, empty = unavailable, dashed collar = recalibration.
+ *   tip(innerHtml, lines, {label, cls})
+ *     button.lc-tip + span.lc-tipbox[role=tooltip]; hover, focus and tap
+ *     reveal it, aria-describedby carries it to screen readers.
+ *   bindTips(mountEl) — tap toggle, Escape and outside-click dismissal.
+ *
  * GOVERNANCE DOCTRINE & RATIFICATION (2026-10-25 RFC #2148 / D8):
  * - Gaia is a long-lived trust registry, not a fast-moving leaderboard.
  * - Confirmed degradation requires independently verified, materially relevant
@@ -596,405 +625,565 @@
     };
   }
 
-  // ── 3. ACCESSIBLE HTML RENDERER ───────────────────────────────────────
+  // ── 3. CHALLENGE IDENTITY COMPONENTS (REUSABLE) ───────────────────────
+  //
+  // Geometry lives on a 24-unit grid so the same marks can be ported to SVG
+  // badges, OG cards, graph nodes and Python generators without redrawing.
+  // Colours come only from CSS tokens in docs/css/styles.css; the markup
+  // carries classes and data attributes, never colour values.
+
+  var MARK_SIZES = {sm: true, md: true, lg: true, xl: true};
+
+  // The plate: a chamfered square, the punch every challenge mark is struck on.
+  var PLATE = [[5, 3], [19, 3], [21, 5], [21, 19], [19, 21], [5, 21], [3, 19], [3, 5]];
+
+  // An open challenge cuts a V-notch into the top edge. Depth carries severity:
+  // a scoped challenge nicks the plate, a material one cleaves it past centre.
+  var NOTCH = {
+    scoped: [[9.5, 3], [12, 9], [14.5, 3]],
+    material: [[9, 3], [12, 15], [15, 3]]
+  };
+
+  // Hachure spacing (x + y step). Material hatching is denser.
+  var HATCH_STEP = {scoped: 3.4, material: 2.6};
+
+  function round2(n) {
+    return Math.round(n * 100) / 100;
+  }
+
+  function pathOf(points) {
+    var d = '';
+    for (var i = 0; i < points.length; i++) {
+      d += (i ? 'L' : 'M') + round2(points[i][0]) + ' ' + round2(points[i][1]);
+    }
+    return d + 'Z';
+  }
+
+  function notchedPlate(severity) {
+    return [PLATE[0]].concat(NOTCH[severity], PLATE.slice(1));
+  }
 
   /**
-   * Render the complete Trust Lifecycle & Challenge History section HTML.
+   * Diagonal hachure clipped to a (possibly concave) polygon. Lines run along
+   * x + y = c; each line keeps only the even-odd inside spans.
    */
-  function renderTrustLifecycleHtml(vm) {
+  function hatchSegments(poly, step) {
+    var segs = [];
+    for (var c = 8 + step / 2; c < 40; c += step) {
+      var ts = [];
+      for (var i = 0; i < poly.length; i++) {
+        var a = poly[i], b = poly[(i + 1) % poly.length];
+        var fa = a[0] + a[1] - c, fb = b[0] + b[1] - c;
+        if ((fa < 0) !== (fb < 0)) {
+          var u = fa / (fa - fb);
+          ts.push(a[0] + u * (b[0] - a[0]));
+        }
+      }
+      ts.sort(function(x, y) { return x - y; });
+      for (var k = 0; k + 1 < ts.length; k += 2) {
+        segs.push([ts[k], c - ts[k], ts[k + 1], c - ts[k + 1]]);
+      }
+    }
+    return segs;
+  }
+
+  /** Heraldic chevron band: tip at (12, yTip), arms reaching the plate edges (x = 4 / 20). */
+  function chevronPath(yTip, thickness) {
+    var drop = 7;
+    return pathOf([[4, yTip + drop], [12, yTip], [20, yTip + drop],
+      [20, yTip + drop + thickness], [12, yTip + thickness], [4, yTip + drop + thickness]]);
+  }
+
+  // Answered challenges become a struck hallmark. One chevron = scoped,
+  // two = material (Origin was on the line). Upstream adds a plinth bar.
+  var HALLMARK = {
+    rebutted: {
+      scoped: [chevronPath(7, 3.6)],
+      material: [chevronPath(4.5, 2.9), chevronPath(9.6, 2.9)]
+    },
+    upstream: {
+      scoped: [chevronPath(5.5, 3.4), 'M6.5 17.3L17.5 17.3L17.5 19.3L6.5 19.3Z'],
+      material: [chevronPath(3.9, 2.5), chevronPath(8.2, 2.5), 'M7 18.6L17 18.6L17 20L7 20Z']
+    }
+  };
+
+  var MARK_LABELS = {
+    'open:scoped': 'Open scoped challenge',
+    'open:material': 'Open material challenge, contests Origin',
+    'rebutted:scoped': 'Scoped challenge technically rebutted',
+    'rebutted:material': 'Material challenge technically rebutted',
+    'upstream:scoped': 'Scoped challenge resolved by upstream improvement',
+    'upstream:material': 'Material challenge resolved by upstream improvement'
+  };
+
+  var markSvgCache = {};
+
+  function markSvg(state, severity) {
+    var key = state + ':' + severity;
+    if (markSvgCache[key]) return markSvgCache[key];
+    var s = ['<svg class="lc-mark__svg" viewBox="0 0 24 24" focusable="false" aria-hidden="true">'];
+    if (state === 'open') {
+      var poly = notchedPlate(severity);
+      var d = pathOf(poly);
+      s.push('<path class="lc-mark__slate" d="' + d + '"/>');
+      s.push('<g class="lc-mark__hatch">');
+      var segs = hatchSegments(poly, HATCH_STEP[severity]);
+      for (var i = 0; i < segs.length; i++) {
+        var g = segs[i];
+        s.push('<line x1="' + round2(g[0]) + '" y1="' + round2(g[1]) + '" x2="' + round2(g[2]) +
+          '" y2="' + round2(g[3]) + '" style="--i:' + i + '"/>');
+      }
+      s.push('</g>');
+      s.push('<path class="lc-mark__edge" d="' + d + '"/>');
+    } else {
+      var plate = pathOf(PLATE);
+      s.push('<path class="lc-mark__steel" d="' + plate + '"/>');
+      s.push('<path class="lc-mark__bevel-hi" d="M3 19V5L5 3H19"/>');
+      s.push('<path class="lc-mark__bevel-lo" d="M21 5V19L19 21H5"/>');
+      var parts = HALLMARK[state][severity];
+      for (var p = 0; p < parts.length; p++) s.push('<path class="lc-mark__chev" d="' + parts[p] + '"/>');
+      s.push('<path class="lc-mark__rim" d="' + plate + '"/>');
+    }
+    s.push('</svg>');
+    markSvgCache[key] = s.join('');
+    return markSvgCache[key];
+  }
+
+  /**
+   * Challenge Mark.
+   *   state     'open' | 'rebutted' | 'upstream'
+   *   opts.severity    'scoped' | 'material'   (default 'scoped')
+   *   opts.size        'sm' | 'md' | 'lg' | 'xl' (default 'md')
+   *   opts.label       accessible name override
+   *   opts.decorative  true => aria-hidden (an adjacent label carries meaning)
+   */
+  function challengeMark(state, opts) {
+    opts = opts || {};
+    if (state !== 'open' && state !== 'rebutted' && state !== 'upstream') state = 'open';
+    var severity = opts.severity === 'material' ? 'material' : 'scoped';
+    var size = MARK_SIZES[opts.size] ? opts.size : 'md';
+    var a11y = opts.decorative
+      ? ' aria-hidden="true"'
+      : ' role="img" aria-label="' + esc(opts.label || MARK_LABELS[state + ':' + severity]) + '"';
+    return '<span class="lc-mark" data-state="' + state + '" data-severity="' + severity +
+      '" data-size="' + size + '"' + a11y + '>' + markSvg(state, severity) + '</span>';
+  }
+
+  /** Map a normalized challenge to its mark state and severity. */
+  function markStateOf(challenge) {
+    var severity = challenge && challenge.materialToOrigin ? 'material' : 'scoped';
+    if (!challenge || !challenge.isResolved) return {state: 'open', severity: severity};
+    return {state: challenge.isUpstreamSuperseded ? 'upstream' : 'rebutted', severity: severity};
+  }
+
+  var CHIPS = {
+    'open-scoped': {label: 'Scoped challenge', tone: 'ember', mark: ['open', 'scoped']},
+    'open-material': {label: 'Contests Origin', tone: 'ember', mark: ['open', 'material']},
+    'rebutted-scoped': {label: 'Rebutted', tone: 'steel', mark: ['rebutted', 'scoped']},
+    'rebutted-material': {label: 'Rebutted', tone: 'steel', mark: ['rebutted', 'material']},
+    'upstream-scoped': {label: 'Resolved upstream', tone: 'steel', mark: ['upstream', 'scoped']},
+    'upstream-material': {label: 'Resolved upstream', tone: 'steel', mark: ['upstream', 'material']},
+    'approved-decision': {label: 'Approved', tone: 'steel', swatch: 'solid'},
+    'current-baseline': {label: 'Baseline', tone: 'quiet', swatch: 'hollow'},
+    'unavailable': {label: 'Unavailable', tone: 'quiet', swatch: 'dotted'},
+    'recalibration': {label: 'Recalibration pending', tone: 'quiet', swatch: 'dashed'},
+    'origin-held': {label: 'Held', tone: 'steel', swatch: 'solid'},
+    'origin-contested': {label: 'Contested', tone: 'ember', mark: ['open', 'material']},
+    'origin-unknown': {label: 'Unavailable', tone: 'quiet', swatch: 'dotted'}
+  };
+
+  /**
+   * State Chip: glyph + short visible label (symbol never stands alone).
+   *   kind  key of CHIPS ('open-scoped', 'rebutted-material', 'approved-decision', ...)
+   *   opts.label  visible label override
+   */
+  function stateChip(kind, opts) {
+    opts = opts || {};
+    var spec = CHIPS[kind] || CHIPS.unavailable;
+    var glyph = spec.mark
+      ? challengeMark(spec.mark[0], {severity: spec.mark[1], size: 'sm', decorative: true})
+      : '<span class="lc-chip__swatch" data-swatch="' + spec.swatch + '" aria-hidden="true"></span>';
+    return '<span class="lc-chip" data-chip="' + esc(kind) + '" data-tone="' + spec.tone + '">' +
+      glyph + '<span class="lc-chip__label">' + esc(opts.label || spec.label) + '</span></span>';
+  }
+
+  // Trust Magnitude is drawn on a log scale; ticks mark the grade floors.
+  var METER_CAP = 500;
+  var GRADE_FLOORS = [['C', 20], ['B', 50], ['A', 100], ['S', 250]];
+
+  function meterPosition(tm) {
+    var p = Math.log(1 + Math.max(0, tm)) / Math.log(1 + METER_CAP);
+    return Math.max(0, Math.min(1, p));
+  }
+
+  function formatTm(tm) {
+    return String(round2(tm));
+  }
+
+  var KIND_WORDS = {
+    'approved-decision': 'approved decision',
+    'current-baseline': 'published baseline',
+    'unavailable': 'unavailable'
+  };
+
+  /**
+   * Trust Meter: Trust Magnitude as a log-scale bar with grade-floor ticks.
+   *   opts.tm                    number | null (null => unavailable)
+   *   opts.kind                  'approved-decision' | 'current-baseline' | 'unavailable'
+   *   opts.recalibrationPending  boolean
+   *   opts.decorative            true => aria-hidden (an enclosing control is labelled)
+   */
+  function trustMeter(opts) {
+    opts = opts || {};
+    var hasTm = typeof opts.tm === 'number' && isFinite(opts.tm) && opts.tm >= 0;
+    var kind = KIND_WORDS[opts.kind] && hasTm ? opts.kind : 'unavailable';
+    var pct = hasTm ? round2(meterPosition(opts.tm) * 100) : 0;
+    var a11y;
+    if (opts.decorative) {
+      a11y = ' aria-hidden="true"';
+    } else if (hasTm) {
+      a11y = ' role="meter" aria-label="Trust Magnitude" aria-valuemin="0" aria-valuemax="' + METER_CAP +
+        '" aria-valuenow="' + esc(formatTm(opts.tm)) + '" aria-valuetext="' +
+        esc(formatTm(opts.tm) + ', ' + KIND_WORDS[kind] + (opts.recalibrationPending ? ', recalibration pending' : '')) + '"';
+    } else {
+      a11y = ' role="img" aria-label="Trust Magnitude unavailable"';
+    }
+    var h = ['<span class="lc-meter" data-kind="' + kind + '"' + (opts.recalibrationPending ? ' data-recal=""' : '') +
+      ' style="--lc-fill:' + pct + '%"' + a11y + '>'];
+    h.push('<span class="lc-meter__track">');
+    if (hasTm) h.push('<span class="lc-meter__fill"></span>');
+    if (hasTm && opts.recalibrationPending) h.push('<span class="lc-meter__recal"></span>');
+    for (var i = 0; hasTm && i < GRADE_FLOORS.length; i++) {
+      h.push('<span class="lc-meter__tick" data-grade="' + GRADE_FLOORS[i][0] + '" style="--at:' +
+        round2(meterPosition(GRADE_FLOORS[i][1]) * 100) + '%"></span>');
+    }
+    h.push('</span></span>');
+    return h.join('');
+  }
+
+  var tipSeq = 0;
+
+  /**
+   * Accessible tooltip (toggletip). The trigger is a real button: hover, focus
+   * and tap all reveal the tip, and aria-describedby gives screen readers the
+   * full text even while it is visually hidden.
+   *   inner      trigger HTML (must not contain interactive elements)
+   *   lines      string | string[] tooltip text (escaped here)
+   *   opts.label accessible name of the trigger
+   *   opts.cls   extra classes on the trigger
+   */
+  function tip(inner, lines, opts) {
+    opts = opts || {};
+    tipSeq += 1;
+    var id = 'lc-tip-' + tipSeq;
+    var list = Array.isArray(lines) ? lines : [lines];
+    var body = [];
+    for (var i = 0; i < list.length; i++) {
+      if (list[i]) body.push('<span class="lc-tipbox__line">' + esc(list[i]) + '</span>');
+    }
+    return '<button type="button" class="lc-tip' + (opts.cls ? ' ' + esc(opts.cls) : '') + '"' +
+      (opts.label ? ' aria-label="' + esc(opts.label) + '"' : '') + ' aria-describedby="' + id + '">' + inner +
+      '</button><span class="lc-tipbox" role="tooltip" id="' + id + '">' + body.join('') + '</span>';
+  }
+
+  // ── 4. ACCESSIBLE PANEL RENDERER ─────────────────────────────────────
+
+  var SEVERITY_NOTES = {
+    scoped: 'Scoped capability challenge: it tests one specified capability and does not contest Origin.',
+    material: 'Material challenge: it could affect present Origin qualification. Origin stays with the incumbent while contested.'
+  };
+
+  var STATUS_NOTES = {
+    open: 'Verified and public. Awaiting adjudication; there is no automatic demotion.',
+    rebutted: 'Technically rebutted under independent, reproducible verification. The original challenge stays on record.',
+    upstream: 'Resolved by an upstream improvement to the same challenged claim, independently verified. The original challenge stays on record.'
+  };
+
+  var EVENT_LABELS = {
+    'verified-publication': 'Verified and published',
+    'technical-resolution': 'Technical resolution'
+  };
+
+  var GITHUB_HANDLE = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$/;
+
+  function link(href, label) {
+    return '<a class="lc-link" href="' + esc(href) + '" target="_blank" rel="noopener noreferrer">' +
+      esc(label) + '<span aria-hidden="true"> &#8599;</span></a>';
+  }
+
+  function dayCount(fromUtc, toUtc) {
+    var a = parseUtc(fromUtc), b = parseUtc(toUtc);
+    if (isNaN(a) || isNaN(b) || b < a) return null;
+    return Math.round((b - a) / 86400000);
+  }
+
+  function railHtml(ch) {
+    var opened = formatDateUTC(ch.verifiedAtUTC);
+    if (!ch.isResolved || !ch.resolution) {
+      return '<span class="lc-rail" data-state="open" role="img" aria-label="Published ' + esc(opened) + ', still open">' +
+        '<span class="lc-rail__date">' + esc(opened) + '</span><span class="lc-rail__bar"></span>' +
+        '<span class="lc-rail__end"></span></span>';
+    }
+    var closed = formatDateUTC(ch.resolution.resolvedAtUTC);
+    var days = dayCount(ch.verifiedAtUTC, ch.resolution.resolvedAtUTC);
+    var span = days === null ? '' : ' after ' + days + (days === 1 ? ' day' : ' days');
+    return '<span class="lc-rail" data-state="closed" role="img" aria-label="Published ' + esc(opened) +
+      ', resolved ' + esc(closed) + esc(span) + '">' +
+      '<span class="lc-rail__date">' + esc(opened) + '</span><span class="lc-rail__bar"></span>' +
+      '<span class="lc-rail__date">' + esc(closed) + '</span></span>';
+  }
+
+  function recordRow(term, value, cls) {
+    return '<div class="lc-record__row' + (cls ? ' ' + cls : '') + '"><dt>' + esc(term) + '</dt><dd>' + value + '</dd></div>';
+  }
+
+  function recordHtml(ch, mark) {
+    var h = ['<div class="lc-record">'];
+    h.push('<p class="lc-record__note">' + esc(SEVERITY_NOTES[mark.severity]) + ' ' + esc(STATUS_NOTES[mark.state]) + '</p>');
+    h.push('<dl class="lc-record__grid">');
+    h.push(recordRow('Challenge', '<code class="lc-code">' + esc(ch.challengeId) + '</code>', 'lc-record__row--wide'));
+    if (ch.linkedChallengeId) h.push(recordRow('Linked', '<code class="lc-code">' + esc(ch.linkedChallengeId) + '</code>', 'lc-record__row--wide'));
+    if (ch.behaviorId) h.push(recordRow('Behavior', esc(ch.behaviorId)));
+    if (ch.environment) h.push(recordRow('Environment', esc(ch.environment)));
+    // The assay: the pinned subject read against its comparator and baseline.
+    if (ch.pinnedVersion || ch.pinnedSha) {
+      h.push(recordRow('Pinned', esc(ch.pinnedVersion || 'pinned') + ' <span class="lc-dim">' + esc(ch.pinnedSha) + '</span>', 'lc-assay lc-assay--subject'));
+    }
+    if (ch.comparator) h.push(recordRow('Comparator', esc(ch.comparator), 'lc-assay lc-assay--comparator'));
+    if (ch.baseline) h.push(recordRow('Baseline', esc(ch.baseline), 'lc-assay lc-assay--baseline'));
+    h.push(recordRow('Verifier', '@' + esc(ch.verifier.verifierId) + ' <span class="lc-dim">' + esc(ch.verifier.verificationMethod) + '</span>'));
+    if (ch.resolution && (ch.resolution.upstreamVersion || ch.resolution.upstreamSha)) {
+      h.push(recordRow('Upstream', esc(ch.resolution.upstreamVersion || 'newer version') + ' <span class="lc-dim">' + esc(ch.resolution.upstreamSha) + '</span>'));
+    }
+    h.push('</dl>');
+    if (Array.isArray(ch.history) && ch.history.length) {
+      h.push('<ol class="lc-events">');
+      for (var e = 0; e < ch.history.length; e++) {
+        var ev = ch.history[e] || {};
+        var type = typeof ev.event_type === 'string' ? ev.event_type : '';
+        h.push('<li class="lc-events__item" data-event="' + esc(type) + '"><time class="lc-events__date">' +
+          esc(formatDateUTC(ev.at_utc)) + '</time><span class="lc-events__what">' + esc(EVENT_LABELS[type] || type) +
+          '</span><span class="lc-dim">@' + esc(ev.actor) + '</span></li>');
+      }
+      h.push('</ol>');
+    }
+    h.push('<p class="lc-record__links">');
+    h.push(link(ch.verifier.receiptUrl, 'Verification receipt'));
+    if (ch.contributorNoticeRef) h.push(link(ch.contributorNoticeRef, 'Contributor notice'));
+    if (ch.resolution) h.push(link(ch.resolution.receiptUrl, 'Resolution proof'));
+    h.push('</p></div>');
+    return h.join('');
+  }
+
+  function boutHtml(ch) {
+    var mark = markStateOf(ch);
+    var chipKind = mark.state === 'open' ? 'open-' + mark.severity : mark.state + '-' + mark.severity;
+    var h = ['<li class="lc-bout" data-state="' + mark.state + '" data-severity="' + mark.severity + '">'];
+    h.push('<details class="lc-bout__details"><summary class="lc-bout__sum">');
+    h.push(challengeMark(mark.state, {severity: mark.severity, size: 'md', decorative: true}));
+    h.push('<span class="lc-bout__main"><span class="lc-bout__claim">' + esc(ch.claim) + '</span>');
+    h.push('<span class="lc-bout__meta">' + stateChip(chipKind) + railHtml(ch) + '</span></span>');
+    h.push('<span class="lc-bout__toggle" aria-hidden="true"></span></summary>');
+    h.push(recordHtml(ch, mark));
+    h.push('</details></li>');
+    return h.join('');
+  }
+
+  function latestResolved(resolved) {
+    var best = null, bestAt = -Infinity;
+    for (var i = 0; i < resolved.length; i++) {
+      var at = resolved[i].resolution ? parseUtc(resolved[i].resolution.resolvedAtUTC) : NaN;
+      if (best === null || (!isNaN(at) && at >= bestAt)) { best = resolved[i]; bestAt = isNaN(at) ? bestAt : at; }
+    }
+    return best;
+  }
+
+  function starsHtml(stars, branch) {
+    if (typeof stars !== 'number') return '';
+    var rb = (typeof globalThis !== 'undefined' && typeof globalThis.rankBadge === 'function') ? globalThis.rankBadge : null;
+    if (rb) {
+      var opts = {variant: 'stars', size: 'sm', ariaLabel: stars + ' of 6 stars'};
+      if (branch) opts.branch = branch;
+      return '<span class="lc-stars" aria-hidden="true">' + rb(stars, opts) + '</span>';
+    }
+    return '<span class="lc-stars lc-stars--plain" aria-hidden="true">' + esc(stars) + '&#9733;</span>';
+  }
+
+  /**
+   * Render the complete Trust Lifecycle panel HTML.
+   *   opts.branch  resolved rank branch for star colouring (read, never derived)
+   */
+  function renderTrustLifecycleHtml(vm, opts) {
     if (!vm) return '';
+    opts = opts || {};
+    var open = [], resolved = [];
+    for (var i = 0; i < vm.challenges.length; i++) (vm.challenges[i].isResolved ? resolved : open).push(vm.challenges[i]);
+    var openMaterial = open.filter(function(c) { return c.materialToOrigin; });
+    var lead = openMaterial[0] || open[0] || latestResolved(resolved);
+    var panelState = open.length ? (openMaterial.length ? 'open-material' : 'open-scoped') : (resolved.length ? 'answered' : 'clear');
+
+    var kind = vm.consequence.kind;
+    var hasNumbers = kind !== 'unavailable' && typeof vm.consequence.tm === 'number';
+    var recal = vm.standing.recalibrationPending;
 
     var h = [];
-    h.push('<section class="se-lc-section" aria-labelledby="seLifecycleHeading">');
+    h.push('<section class="lc-panel" data-lc-state="' + panelState + '" aria-labelledby="seLifecycleHeading">');
 
-    // Section Header
-    h.push('  <div class="se-flow-h">');
-    h.push('    <div class="se-flow-h__lede">');
-    h.push('      <span class="se-flow-eyebrow">Yggdrasil IV Governance</span>');
-    h.push('      <h3 id="seLifecycleHeading" class="se-flow-title">Trust Lifecycle &amp; Challenge History</h3>');
-    h.push('    </div>');
-    h.push('  </div>');
-
-    // Snapshot Identity Bar
-    h.push('  <div class="se-lc-snapshot-bar" role="region" aria-label="Snapshot Identity">');
-    if (vm.snapshot.isPinned) {
-      h.push('    <div class="se-lc-snapshot-row">');
-      h.push('      <span class="se-lc-snapshot-item"><strong class="se-lc-k">Snapshot:</strong> <code class="se-lc-code">' + esc(vm.snapshot.snapshotId) + '</code></span>');
-      h.push('      <span class="se-lc-snapshot-item"><strong class="se-lc-k">Evaluated:</strong> ' + esc(formatDateUTC(vm.snapshot.evaluatedAtUTC)) + '</span>');
-      if (vm.snapshot.policyVersion) {
-        h.push('      <span class="se-lc-snapshot-item"><strong class="se-lc-k">Policy:</strong> ' + esc(vm.snapshot.policyVersion) + '</span>');
-      }
-      if (vm.snapshot.approvedBy) {
-        h.push('      <span class="se-lc-snapshot-item"><strong class="se-lc-k">Approved By:</strong> ' + esc(vm.snapshot.approvedBy) + '</span>');
-      }
-      if (vm.snapshot.approvalRef) {
-        h.push('      <span class="se-lc-snapshot-item"><a class="se-lc-link" href="' + esc(vm.snapshot.approvalRef) + '" target="_blank" rel="noopener noreferrer">Approval Reference &#8599;</a></span>');
-      }
-      if (vm.snapshot.isRehearsal) {
-        h.push('      <span class="se-lc-snapshot-item"><span class="se-lc-badge se-lc-badge--gold" role="note">REHEARSAL</span> <em class="se-lc-em">Publication backend pending</em></span>');
-      }
-      if (!vm.snapshot.hasApprovedProvenance) {
-        h.push('      <span class="se-lc-snapshot-item"><span class="se-lc-badge se-lc-badge--narrowed" role="note">UNAPPROVED SNAPSHOT</span> <em class="se-lc-em">Lacks maintainer/founder approval provenance</em></span>');
-      }
-      h.push('    </div>');
-    } else {
-      h.push('    <div class="se-lc-snapshot-row se-lc-snapshot-row--unpinned">');
-      h.push('      <span class="se-lc-snapshot-item">Publication snapshot metadata unavailable</span>');
-      h.push('    </div>');
+    // Header: the dominant challenge, shown not told.
+    h.push('<header class="lc-head lc-anchor">');
+    if (lead) {
+      var leadMark = markStateOf(lead);
+      var leadLabel = MARK_LABELS[leadMark.state + ':' + leadMark.severity];
+      h.push(tip(challengeMark(leadMark.state, {severity: leadMark.severity, size: 'xl', decorative: true}),
+        [leadLabel + '.', SEVERITY_NOTES[leadMark.severity], STATUS_NOTES[leadMark.state]],
+        {cls: 'lc-head__mark', label: leadLabel}));
     }
-    h.push('  </div>');
-
-    // Approved Standing Card
-    h.push('  <div class="se-lc-card se-lc-card--standing se-lc-card--tone-' + esc(vm.standing.tone) + '" role="region" aria-label="Approved Standing">');
-    h.push('    <div class="se-lc-card-header">');
-    h.push('      <span class="se-lc-badge se-lc-badge--' + esc(vm.standing.tone) + '" role="status">' + esc(vm.standing.badgeText) + '</span>');
-    h.push('      <div class="se-lc-metrics-group">');
-    if (vm.standing.approvedStars != null) {
-      h.push('        <span class="se-lc-metric-pill"><strong class="se-lc-k">Approved Rank:</strong> ' + esc(vm.standing.approvedStars) + '&#9733;</span>');
-    } else {
-      h.push('        <span class="se-lc-metric-pill se-lc-metric-pill--unassessed"><strong class="se-lc-k">Approved Rank:</strong> Unassessed</span>');
-    }
-    if (vm.standing.approvedTm != null) {
-      h.push('        <span class="se-lc-metric-pill"><strong class="se-lc-k">Approved TM:</strong> ' + esc(vm.standing.approvedTm) + '</span>');
-    }
-    h.push('      </div>');
-    h.push('    </div>');
-    h.push('    <p class="se-lc-card-desc">' + esc(vm.standing.description) + '</p>');
-    if (vm.consequence.kind === 'current-baseline') {
-      h.push('    <p class="se-lc-card-desc">Published baseline: ' + esc(vm.consequence.stars) + '&#9733; · TM ' + esc(vm.consequence.tm) + ' (no numeric decision asserted).</p>');
-    } else if (vm.consequence.kind === 'unavailable') {
-      h.push('    <p class="se-lc-card-desc">Canonical consequence source unavailable.</p>');
-    }
-
-    // Degradation callout (if any)
-    if (vm.standing.degradation) {
-      var deg = vm.standing.degradation;
-      h.push('    <div class="se-lc-callout se-lc-callout--degradation" role="alert">');
-      h.push('      <div class="se-lc-callout-title">[Adjudicated Degradation] Approved Score Adjustment</div>');
-      h.push('      <div class="se-lc-callout-body">');
-      if (deg.priorStars != null && deg.degradedStars != null) {
-        h.push('        <div class="se-lc-callout-row"><strong>Rank Shift:</strong> ' + esc(deg.priorStars) + '&#9733; &#8594; ' + esc(deg.degradedStars) + '&#9733;</div>');
+    h.push('<div class="lc-head__text"><h3 id="seLifecycleHeading" class="lc-title">Trust Lifecycle</h3>');
+    if (lead) {
+      var leadState = markStateOf(lead);
+      var group = leadState.state === 'open' ? (openMaterial.length ? openMaterial : open) : [lead];
+      var chipKind = leadState.state === 'open' ? 'open-' + leadState.severity : leadState.state + '-' + leadState.severity;
+      var chipLabel = group.length > 1 ? CHIPS[chipKind].label + ' ×' + group.length : null;
+      h.push('<div class="lc-head__chips">' + stateChip(chipKind, {label: chipLabel}));
+      if (resolved.length && (open.length || resolved.length > 1)) {
+        h.push('<span class="lc-honors" role="img" aria-label="' + resolved.length + ' resolved ' +
+          (resolved.length === 1 ? 'challenge' : 'challenges') + ' on record">');
+        for (var r = 0; r < resolved.length; r++) {
+          var rm = markStateOf(resolved[r]);
+          h.push(challengeMark(rm.state, {severity: rm.severity, size: 'sm', decorative: true}));
+        }
+        h.push('</span>');
       }
-      h.push('        <div class="se-lc-callout-row"><strong>Adjudication Rationale:</strong> ' + esc(deg.reason) + '</div>');
-      if (deg.adjudicatedAtUTC) {
-        h.push('        <div class="se-lc-callout-row"><strong>Adjudicated:</strong> ' + esc(formatDateUTC(deg.adjudicatedAtUTC)) + '</div>');
-      }
-      if (deg.decisionRef) {
-        h.push('        <div class="se-lc-callout-row"><a class="se-lc-link" href="' + esc(deg.decisionRef) + '" target="_blank" rel="noopener noreferrer">Class C Ruling Reference &#8599;</a></div>');
-      }
-      h.push('      </div>');
-      h.push('    </div>');
+      h.push('</div>');
+    }
+    h.push('</div></header>');
+
+    // Standing plate: the numbers as instruments, then Origin.
+    h.push('<div class="lc-plate" data-challenge="' + panelState + '" role="group" aria-label="Standing">');
+
+    var meterLabel = hasNumbers
+      ? 'Trust Magnitude ' + formatTm(vm.consequence.tm) + ', ' + vm.consequence.stars + ' of 6 stars, ' + KIND_WORDS[kind] +
+        (recal ? ', recalibration pending' : '')
+      : 'Trust standing unavailable';
+    var meterLines = [];
+    if (kind === 'approved-decision') meterLines.push('Approved numeric decision published by the canonical consequence source.');
+    else if (kind === 'current-baseline') meterLines.push('Published baseline. No numeric decision is asserted.');
+    else meterLines.push('The canonical consequence source is unavailable, so no rank or Trust Magnitude is shown.');
+    if (recal) meterLines.push(recal.reason);
+    if (open.length) meterLines.push('A pending challenge never changes these numbers by itself; there is no automatic demotion.');
+    if (hasNumbers) meterLines.push('Log scale. Ticks mark grade floors: C 20, B 50, A 100, S 250 (S also needs evidence diversity).');
+
+    var inst = ['<span class="lc-instrument">'];
+    inst.push('<span class="lc-instrument__read"><span class="lc-num">' + (hasNumbers ? esc(formatTm(vm.consequence.tm)) : '&#8212;') +
+      '</span><span class="lc-unit">TM</span></span>');
+    if (hasNumbers) inst.push(starsHtml(vm.consequence.stars, opts.branch));
+    inst.push(trustMeter({tm: hasNumbers ? vm.consequence.tm : null, kind: kind, recalibrationPending: !!recal, decorative: true}));
+    inst.push('<span class="lc-instrument__chips">' + stateChip(kind) + (recal ? stateChip('recalibration') : '') + '</span></span>');
+    h.push('<div class="lc-plate__row lc-anchor">' + tip(inst.join(''), meterLines, {cls: 'lc-plate__meter', label: meterLabel}) + '</div>');
+
+    // Origin: the wreath carries the contest, or the honour of having held it.
+    var origin = vm.origin;
+    var handle = origin.status === 'unknown' ? '' : origin.handle;
+    var materialAnswered = resolved.filter(function(c) { return c.materialToOrigin; });
+    var pin = '';
+    if (origin.isContested) pin = challengeMark('open', {severity: 'material', size: 'sm', decorative: true});
+    else if (handle && materialAnswered.length) {
+      var pm = markStateOf(latestResolved(materialAnswered));
+      pin = challengeMark(pm.state, {severity: 'material', size: 'sm', decorative: true});
+    }
+    var wreath = ['<span class="lc-wreath" data-status="' + esc(origin.status) + '">'];
+    wreath.push('<span class="lc-wreath__initial" aria-hidden="true">' + (handle ? esc(handle.charAt(0).toUpperCase()) : '') + '</span>');
+    if (handle && GITHUB_HANDLE.test(handle)) {
+      wreath.push('<img class="lc-wreath__avatar" src="https://github.com/' + encodeURIComponent(handle) +
+        '.png?size=96" alt="" width="40" height="40" loading="lazy" decoding="async">');
+    }
+    if (pin) wreath.push('<span class="lc-wreath__pin">' + pin + '</span>');
+    wreath.push('</span>');
+    var originChip = origin.isContested ? 'origin-contested' : (origin.status === 'held' ? 'origin-held' : 'origin-unknown');
+    var originLabel = handle
+      ? 'Current Origin @' + handle + ', ' + (origin.isContested ? 'contested' : 'held') +
+        (!origin.isContested && materialAnswered.length ? ', defended against a material challenge' : '')
+      : 'Origin unavailable';
+    var originInner = '<span class="lc-origin">' + wreath.join('') + '<span class="lc-origin__text">' +
+      '<span class="lc-origin__line"><span class="lc-origin__handle"' + (handle ? '>@' + esc(handle) : ' data-none="">&#8212;') +
+      '</span>' + stateChip(originChip) + '</span>' +
+      (origin.genericSkillRef ? '<span class="lc-origin__bucket">' + esc(origin.genericSkillRef) + '</span>' : '') +
+      '</span></span>';
+    var originLines = [origin.notice];
+    if (origin.genericSkillRef) originLines.push('Bucket: ' + origin.genericSkillRef + '.');
+    h.push('<div class="lc-plate__row lc-anchor">' + tip(originInner, originLines, {cls: 'lc-plate__origin', label: originLabel}) + '</div>');
+    h.push('</div>');
+
+    // Challenge ledger: every verified challenge, open first, history kept.
+    if (vm.challenges.length) {
+      tipSeq += 1;
+      var ledgerId = 'lc-ledger-' + tipSeq;
+      h.push('<div class="lc-ledger"><h4 class="lc-ledger__title" id="' + ledgerId + '">Challenges' +
+        '<span class="lc-ledger__count">' + open.length + ' open &middot; ' + resolved.length + ' resolved</span></h4>');
+      h.push('<ol class="lc-ledger__list" aria-labelledby="' + ledgerId + '">');
+      var ordered = open.concat(resolved);
+      for (var b = 0; b < ordered.length; b++) h.push(boutHtml(ordered[b]));
+      h.push('</ol></div>');
     }
 
-    // Recalibration pending callout (if any)
-    if (vm.standing.recalibrationPending) {
-      var rec = vm.standing.recalibrationPending;
-      h.push('    <div class="se-lc-callout se-lc-callout--recalibration" role="note">');
-      h.push('      <div class="se-lc-callout-title">[Technical Resolution] Recalibration Pending</div>');
-      h.push('      <div class="se-lc-callout-body">');
-      h.push('        <div class="se-lc-callout-row">' + esc(rec.reason) + '</div>');
-      if (rec.resolvedChallengeId) {
-        h.push('        <div class="se-lc-callout-row"><strong>Resolved Challenge:</strong> <code class="se-lc-code">' + esc(rec.resolvedChallengeId) + '</code></div>');
-      }
-      if (rec.closedAtUTC) {
-        h.push('        <div class="se-lc-callout-row"><strong>Resolved Date:</strong> ' + esc(formatDateUTC(rec.closedAtUTC)) + '</div>');
-      }
-      if (rec.receiptUrl) {
-        h.push('        <div class="se-lc-callout-row"><a class="se-lc-link" href="' + esc(rec.receiptUrl) + '" target="_blank" rel="noopener noreferrer">Technical Resolution Proof &#8599;</a></div>');
-      }
-      h.push('      </div>');
-      h.push('    </div>');
-    }
-    h.push('  </div>');
-
-    // Current Origin & Contest Status Card
-    h.push('  <div class="se-lc-card se-lc-card--origin" role="region" aria-label="Merit-Based Origin Status">');
-    h.push('    <div class="se-lc-card-header">');
-    h.push('      <h4 class="se-lc-card-title">Merit-Based Origin</h4>');
-    if (vm.origin.isContested) {
-      h.push('      <span class="se-lc-badge se-lc-badge--honor-red" role="status">[Contested] Origin Contested</span>');
-    } else if (vm.origin.status === 'held') {
-      h.push('      <span class="se-lc-badge se-lc-badge--held" role="status">[Held] Origin Held</span>');
-    } else {
-      h.push('      <span class="se-lc-badge" role="status">[Unknown] Origin Unavailable</span>');
-    }
-    h.push('    </div>');
-
-    h.push('    <div class="se-lc-origin-holder">');
-    h.push('      <span class="se-lc-k">Current Origin Incumbent:</span> ');
-    h.push('      <span class="atlas-handle se-lc-origin-handle">' + (vm.origin.status === 'unknown' ? 'Unavailable' : '@' + esc(vm.origin.handle)) + '</span>');
-    if (vm.origin.genericSkillRef) {
-      h.push('      <span class="se-lc-origin-generic">for bucket <code class="se-lc-code">' + esc(vm.origin.genericSkillRef) + '</code></span>');
-    }
-    h.push('    </div>');
-
-    h.push('    <p class="se-lc-notice-text">' + esc(vm.origin.notice) + '</p>');
-    h.push('  </div>');
-
-    // Verified Public Challenges Section
-    h.push('  <div class="se-lc-challenges-block" role="region" aria-label="Verified Public Challenges">');
-    h.push('    <div class="se-lc-block-header">');
-    h.push('      <h4 class="se-lc-block-title">Verified Public Challenges</h4>');
-    h.push('      <span class="se-lc-count-pill">' + esc(vm.activeChallengesCount) + ' Active &middot; ' + esc(vm.resolvedChallengesCount) + ' Resolved</span>');
-    h.push('    </div>');
-
-    if (!vm.challenges.length) {
-      h.push('    <div class="se-lc-empty">No verified public challenges on record for this skill.</div>');
-    } else {
-      h.push('    <div class="se-lc-challenge-list">');
-      for (var j = 0; j < vm.challenges.length; j++) {
-        var ch = vm.challenges[j];
-        var openAttr = !ch.isResolved ? ' open' : '';
-        h.push('      <details class="se-lc-challenge-item se-lc-challenge-item--' + (ch.isResolved ? 'resolved' : 'active') + '"' + openAttr + '>');
-        h.push('        <summary class="se-lc-challenge-summary" tabindex="0">');
-        h.push('          <div class="se-lc-challenge-summary-left">');
-
-        // Scope Tag (Material Origin vs Scoped Capability)
-        if (ch.materialToOrigin) {
-          h.push('            <span class="se-lc-scope-tag se-lc-scope-tag--material">[Material Origin Challenge]</span>');
-        } else {
-          h.push('            <span class="se-lc-scope-tag se-lc-scope-tag--scoped">[Scoped Capability Challenge]</span>');
-        }
-
-        // Status Badge
-        var statusClass = 'pending';
-        var statusLabel = '[Pending] Verified Pending';
-        if (ch.status === 'technically-rebutted') {
-          statusClass = 'resolved';
-          statusLabel = '[Rebutted] Technically Rebutted';
-        } else if (ch.status === 'resolved-by-upstream-improvement') {
-          statusClass = 'superseded';
-          statusLabel = '[Superseded] Upstream Resolved';
-        } else if (ch.status === 'upheld') {
-          statusClass = 'upheld';
-          statusLabel = '[Upheld] Upheld';
-        } else if (ch.status === 'narrowed') {
-          statusClass = 'narrowed';
-          statusLabel = '[Narrowed] Narrowed';
-        } else if (ch.status === 'rejected') {
-          statusClass = 'rejected';
-          statusLabel = '[Rejected] Rejected';
-        }
-
-        h.push('            <span class="se-lc-badge se-lc-badge--' + statusClass + '">' + esc(statusLabel) + '</span>');
-        h.push('            <span class="se-lc-claim-text">' + esc(ch.claim) + '</span>');
-        h.push('          </div>');
-        h.push('          <div class="se-lc-challenge-summary-right">');
-        h.push('            <span class="se-lc-date">' + esc(formatDateUTC(ch.verifiedAtUTC)) + '</span>');
-        h.push('          </div>');
-        h.push('        </summary>');
-
-        // Expanded details
-        h.push('        <div class="se-lc-challenge-details">');
-        h.push('          <div class="se-lc-grid">');
-        h.push('            <div class="se-lc-grid-cell">');
-        h.push('              <span class="se-lc-cell-label">Challenge ID:</span>');
-        h.push('              <code class="se-lc-code">' + esc(ch.challengeId) + '</code>');
-        h.push('            </div>');
-
-        if (ch.linkedChallengeId) {
-          h.push('            <div class="se-lc-grid-cell"><span class="se-lc-cell-label">Linked challenge:</span><code class="se-lc-code">' + esc(ch.linkedChallengeId) + '</code></div>');
-        }
-        if (ch.behaviorId) {
-          h.push('            <div class="se-lc-grid-cell">');
-          h.push('              <span class="se-lc-cell-label">Behavior ID:</span>');
-          h.push('              <span class="se-lc-cell-val">' + esc(ch.behaviorId) + '</span>');
-          h.push('            </div>');
-        }
-
-        if (ch.pinnedVersion || ch.pinnedSha) {
-          h.push('            <div class="se-lc-grid-cell">');
-          h.push('              <span class="se-lc-cell-label">Pinned Source:</span>');
-          h.push('              <span class="se-lc-cell-val">' + esc(ch.pinnedVersion || 'Pinned') + ' (' + esc(ch.pinnedSha || 'SHA') + ')</span>');
-          h.push('            </div>');
-        }
-
-        if (ch.comparator || ch.baseline) {
-          h.push('            <div class="se-lc-grid-cell">');
-          h.push('              <span class="se-lc-cell-label">Comparison:</span>');
-          h.push('              <span class="se-lc-cell-val">Comparator: ' + esc(ch.comparator || 'N/A') + ' &middot; Baseline: ' + esc(ch.baseline || 'N/A') + '</span>');
-          h.push('            </div>');
-        }
-
-        h.push('            <div class="se-lc-grid-cell">');
-        h.push('              <span class="se-lc-cell-label">Independent Verifier:</span>');
-        h.push('              <span class="se-lc-cell-val">@' + esc(ch.verifier.verifierId) + ' (' + esc(ch.verifier.verificationMethod) + ')</span>');
-        h.push('            </div>');
-
-        h.push('            <div class="se-lc-grid-cell">');
-        h.push('              <span class="se-lc-cell-label">Verification Receipt:</span>');
-        h.push('              <a class="se-lc-link" href="' + esc(ch.verifier.receiptUrl) + '" target="_blank" rel="noopener noreferrer">Public Verification Receipt &#8599;</a>');
-        h.push('            </div>');
-
-        if (ch.contributorNoticeRef) {
-          h.push('            <div class="se-lc-grid-cell">');
-          h.push('              <span class="se-lc-cell-label">Contributor Notice:</span>');
-          h.push('              <a class="se-lc-link" href="' + esc(ch.contributorNoticeRef) + '" target="_blank" rel="noopener noreferrer">Public Notice &#8599;</a>');
-          if (ch.responseDueUTC) {
-            h.push('              <span class="se-lc-muted-note">(Response due: ' + esc(formatDateUTC(ch.responseDueUTC)) + ')</span>');
-          }
-          h.push('            </div>');
-        }
-        h.push('          </div>'); // .se-lc-grid
-
-        if (Array.isArray(ch.history)) {
-          h.push('          <div class="se-lc-muted-note">');
-          ch.history.forEach(function(event) {
-            h.push('<div>' + esc(event.event_type) + ' · ' + esc(formatDateUTC(event.at_utc)) + ' · ' + esc(event.actor) + '</div>');
-          });
-          h.push('          </div>');
-        }
-        // Resolution section (if challenge is closed/resolved)
-        if (ch.resolution) {
-          h.push('          <div class="se-lc-res-box">');
-          h.push('            <div class="se-lc-res-title">[Resolution Proof] ' + esc(ch.resolution.disposition) + '</div>');
-          h.push('            <div class="se-lc-res-body">');
-          h.push('              <div><strong>Resolved Date:</strong> ' + esc(formatDateUTC(ch.resolution.resolvedAtUTC)) + ' by @' + esc(ch.resolution.verifierId) + '</div>');
-          if (ch.resolution.upstreamVersion || ch.resolution.upstreamSha) {
-            h.push('              <div><strong>Upstream Source:</strong> ' + esc(ch.resolution.upstreamVersion || 'Newer version') + ' (' + esc(ch.resolution.upstreamSha || 'SHA') + ')</div>');
-          }
-          h.push('              <div><a class="se-lc-link" href="' + esc(ch.resolution.receiptUrl) + '" target="_blank" rel="noopener noreferrer">Technical Resolution Proof &#8599;</a></div>');
-          if (ch.resolution.recalibrationPending) {
-            h.push('              <div class="se-lc-muted-note">Canonical trust recalibration is pending Class C founder review.</div>');
-          }
-          h.push('            </div>');
-          h.push('          </div>');
-        } else if (ch.isUpstreamSuperseded) {
-          h.push('          <div class="se-lc-res-box">');
-          h.push('            <div class="se-lc-res-title">[Historical Record] Upstream-Superseded Historical Challenge</div>');
-          h.push('            <p class="se-lc-muted-note">This challenge was historically verified and later superseded by an upstream improvement. Under Yggdrasil IV doctrine, historical challenge records remain publicly discoverable.</p>');
-          h.push('          </div>');
-        }
-
-        h.push('        </div>'); // .se-lc-challenge-details
-        h.push('      </details>');
-      }
-      h.push('    </div>'); // .se-lc-challenge-list
-    }
-    h.push('  </div>'); // .se-lc-challenges-block
-
-    // Historical Awards Section
-    h.push('  <div class="se-lc-awards-block" role="region" aria-label="Historical Awards and Permanent Attribution">');
-    h.push('    <div class="se-lc-block-header">');
-    h.push('      <h4 class="se-lc-block-title">Historical Awards &amp; Permanent Attribution</h4>');
-    h.push('    </div>');
-
-    if (!vm.historicalAwards.length) {
-      h.push('    <div class="se-lc-empty">No historical awards recorded in the active snapshot.</div>');
-    } else {
-      h.push('    <div class="se-lc-award-list">');
+    // Historical awards (not carried by v1; rendered only if a later contract supplies them).
+    if (vm.historicalAwards.length) {
+      h.push('<ol class="lc-awards" aria-label="Historical awards">');
       for (var a = 0; a < vm.historicalAwards.length; a++) {
         var aw = vm.historicalAwards[a];
-        h.push('      <div class="se-lc-award-item">');
-        h.push('        <div class="se-lc-award-left">');
-        h.push('          <span class="se-lc-award-date">' + esc(formatDateUTC(aw.dateUTC)) + '</span>');
-        h.push('          <span class="se-lc-award-title">' + esc(aw.title) + '</span>');
-        if (aw.stars != null) {
-          h.push('          <span class="se-lc-award-stars">' + esc(aw.stars) + '&#9733;</span>');
-        }
-        h.push('          <span class="se-lc-award-handle">@' + esc(aw.handle) + '</span>');
-        if (aw.notes) {
-          h.push('          <div class="se-lc-award-notes">' + esc(aw.notes) + '</div>');
-        }
-        h.push('        </div>');
-        if (aw.receiptRef) {
-          h.push('        <div class="se-lc-award-right">');
-          h.push('          <a class="se-lc-link" href="' + esc(aw.receiptRef) + '" target="_blank" rel="noopener noreferrer">Award Receipt &#8599;</a>');
-          h.push('        </div>');
-        }
-        h.push('      </div>');
+        h.push('<li class="lc-awards__item"><time class="lc-events__date">' + esc(formatDateUTC(aw.dateUTC)) + '</time>' +
+          '<span class="lc-awards__title">' + esc(aw.title) + '</span>' +
+          (aw.stars != null ? '<span class="lc-dim">' + esc(aw.stars) + '&#9733;</span>' : '') +
+          (aw.handle ? '<span class="lc-origin__handle">@' + esc(aw.handle) + '</span>' : '') +
+          (aw.receiptRef ? link(aw.receiptRef, 'Receipt') : '') + '</li>');
       }
-      h.push('    </div>');
+      h.push('</ol>');
     }
-    h.push('  </div>'); // .se-lc-awards-block
 
     h.push('</section>');
-    return h.join('\n');
+    return h.join('');
   }
 
-  // ── 4. STYLESHEET INJECTION (SCOPED, STRICTLY TOKEN-ANCHORED) ─────────
+  // ── 5. TOOLTIP BEHAVIOUR (TAP, ESCAPE, OUTSIDE CLICK) ────────────────
 
-  function ensureStyles() {
-    if (typeof document === 'undefined') return;
-    if (document.getElementById('se-trust-lifecycle-styles')) return;
+  var docBound = false;
 
-    var style = document.createElement('style');
-    style.id = 'se-trust-lifecycle-styles';
-    style.textContent = [
-      '.se-lc-section { width: 100%; margin: 0 auto; color: var(--text); font-family: var(--font-body); }',
-      '.se-lc-snapshot-bar { margin-bottom: 1.2rem; padding: 0.55rem 0.85rem; border: 1px solid var(--border); border-radius: 6px; background: rgba(0, 0, 0, 0.35); font-size: 0.78rem; color: var(--muted); }',
-      '.se-lc-snapshot-row { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; align-items: center; }',
-      '.se-lc-snapshot-item { display: inline-flex; align-items: center; gap: 0.35rem; }',
-      '.se-lc-k { color: var(--text); font-weight: 600; }',
-      '.se-lc-code { font-family: var(--font-mono); font-size: 0.76rem; background: var(--code-bg); padding: 0.1rem 0.3rem; border-radius: 3px; border: 1px solid var(--border); color: var(--text); }',
-      '.se-lc-card { border-radius: 8px; padding: 1.1rem 1.25rem; margin-bottom: 1.4rem; background: var(--surface); border: 1px solid var(--border); }',
-      '.se-lc-card-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; }',
-      '.se-lc-card-title { font-size: 1.05rem; font-weight: 600; margin: 0; font-family: var(--font-display); color: var(--text); letter-spacing: -0.01em; }',
-      '.se-lc-card-desc { margin: 0.4rem 0 0; font-size: 0.88rem; line-height: 1.5; color: var(--text); }',
-      '.se-lc-card--tone-honor-red { border-color: rgba(var(--honor-red-rgb, 239, 68, 68), 0.5); background: linear-gradient(180deg, rgba(var(--honor-red-rgb, 239, 68, 68), 0.08) 0%, var(--surface) 100%); }',
-      '.se-lc-card--tone-teal { border-color: rgba(99, 202, 183, 0.4); background: linear-gradient(180deg, rgba(99, 202, 183, 0.06) 0%, var(--surface) 100%); }',
-      '.se-lc-card--tone-violet { border-color: rgba(167, 139, 250, 0.4); background: linear-gradient(180deg, rgba(167, 139, 250, 0.06) 0%, var(--surface) 100%); }',
-      '.se-lc-card--tone-gold { border-color: rgba(251, 191, 36, 0.4); background: linear-gradient(180deg, rgba(251, 191, 36, 0.06) 0%, var(--surface) 100%); }',
-      '.se-lc-badge { display: inline-flex; align-items: center; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.2; border: 1px solid var(--border); }',
-      '.se-lc-badge--honor-red,.se-lc-badge--upheld { color: var(--honor-red); border-color: rgba(var(--honor-red-rgb, 239, 68, 68), 0.4); background: rgba(var(--honor-red-rgb, 239, 68, 68), 0.12); }',
-      '.se-lc-badge--teal,.se-lc-badge--resolved,.se-lc-badge--held { color: var(--rank-2); border-color: rgba(99, 202, 183, 0.4); background: rgba(99, 202, 183, 0.12); }',
-      '.se-lc-badge--violet,.se-lc-badge--recalibration { color: var(--rank-3); border-color: rgba(167, 139, 250, 0.4); background: rgba(167, 139, 250, 0.12); }',
-      '.se-lc-badge--gold,.se-lc-badge--pending { color: var(--apex-gold); border-color: rgba(251, 191, 36, 0.4); background: rgba(251, 191, 36, 0.12); }',
-      '.se-lc-badge--superseded { color: var(--muted); border-color: var(--border); background: rgba(148, 163, 184, 0.1); }',
-      '.se-lc-badge--narrowed,.se-lc-badge--rejected { color: var(--muted); border-color: var(--border); background: rgba(148, 163, 184, 0.1); }',
-      '.se-lc-metrics-group { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }',
-      '.se-lc-metric-pill { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.5rem; background: rgba(0, 0, 0, 0.35); border: 1px solid var(--border); border-radius: 4px; font-size: 0.78rem; font-family: var(--font-mono); }',
-      '.se-lc-callout { margin-top: 0.9rem; padding: 0.75rem 0.9rem; border-radius: 6px; border: 1px solid var(--border); background: rgba(0, 0, 0, 0.3); font-size: 0.84rem; }',
-      '.se-lc-callout--degradation { border-color: rgba(var(--honor-red-rgb, 239, 68, 68), 0.35); }',
-      '.se-lc-callout--recalibration { border-color: rgba(167, 139, 250, 0.35); }',
-      '.se-lc-callout-title { font-weight: 700; margin-bottom: 0.35rem; font-size: 0.82rem; letter-spacing: 0.03em; }',
-      '.se-lc-callout-body { display: flex; flex-direction: column; gap: 0.25rem; color: var(--text); }',
-      '.se-lc-origin-holder { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 0.4rem 0; font-size: 0.95rem; }',
-      '.se-lc-origin-handle { color: var(--honor-red); font-weight: 700; font-family: var(--font-mono); }',
-      '.se-lc-origin-generic { color: var(--muted); font-size: 0.8rem; }',
-      '.se-lc-notice-text { font-size: 0.82rem; color: var(--muted); line-height: 1.45; margin: 0.5rem 0 0; }',
-      '.se-lc-challenges-block { margin-top: 1.6rem; }',
-      '.se-lc-block-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.8rem; }',
-      '.se-lc-block-title { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; margin: 0; color: var(--text); letter-spacing: -0.01em; }',
-      '.se-lc-count-pill { font-size: 0.76rem; color: var(--muted); font-family: var(--font-mono); padding: 0.15rem 0.45rem; border: 1px solid var(--border); border-radius: 4px; background: rgba(0,0,0,0.25); }',
-      '.se-lc-challenge-list { display: flex; flex-direction: column; gap: 0.75rem; }',
-      '.se-lc-challenge-item { border: 1px solid var(--border); border-radius: 6px; background: var(--surface); overflow: hidden; transition: border-color 0.15s ease; }',
-      '.se-lc-challenge-item:focus-within { border-color: var(--rank-2); }',
-      '.se-lc-challenge-summary { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; cursor: pointer; user-select: none; list-style: none; gap: 0.75rem; background: rgba(0,0,0,0.18); outline: none; }',
-      '.se-lc-challenge-summary::-webkit-details-marker { display: none; }',
-      '.se-lc-challenge-summary:focus-visible { outline: 2px solid var(--rank-2); outline-offset: -2px; }',
-      '.se-lc-challenge-summary-left { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.7rem; flex: 1 1 auto; }',
-      '.se-lc-scope-tag { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--font-mono); }',
-      '.se-lc-scope-tag--material { color: var(--honor-red); }',
-      '.se-lc-scope-tag--scoped { color: var(--tier-basic); }',
-      '.se-lc-claim-text { font-size: 0.88rem; font-weight: 600; color: var(--text); }',
-      '.se-lc-challenge-summary-right { flex: 0 0 auto; font-size: 0.76rem; color: var(--muted); font-family: var(--font-mono); }',
-      '.se-lc-challenge-details { padding: 1rem 1.1rem; border-top: 1px solid var(--border); background: rgba(0,0,0,0.25); }',
-      '.se-lc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 0.65rem 1rem; font-size: 0.82rem; }',
-      '.se-lc-grid-cell { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }',
-      '.se-lc-cell-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; }',
-      '.se-lc-cell-val { color: var(--text); min-width: 0; overflow-wrap: anywhere; }',
-      '.se-lc-res-box { margin-top: 0.9rem; padding: 0.75rem 0.85rem; border-radius: 4px; border: 1px solid var(--border); background: rgba(0,0,0,0.35); font-size: 0.82rem; }',
-      '.se-lc-res-title { font-weight: 700; font-size: 0.8rem; margin-bottom: 0.35rem; color: var(--rank-2); }',
-      '.se-lc-res-body { display: flex; flex-direction: column; gap: 0.25rem; color: var(--text); }',
-      '.se-lc-awards-block { margin-top: 1.8rem; padding-top: 1.4rem; border-top: 1px solid var(--border); }',
-      '.se-lc-award-list { display: flex; flex-direction: column; gap: 0.55rem; }',
-      '.se-lc-award-item { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.6rem; padding: 0.65rem 0.85rem; border: 1px solid var(--border); border-radius: 6px; background: rgba(0,0,0,0.22); font-size: 0.84rem; }',
-      '.se-lc-award-left { display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem 0.7rem; }',
-      '.se-lc-award-date { font-family: var(--font-mono); font-size: 0.76rem; color: var(--muted); }',
-      '.se-lc-award-title { font-weight: 600; color: var(--text); }',
-      '.se-lc-award-stars { color: var(--apex-gold); font-weight: 700; font-family: var(--font-mono); }',
-      '.se-lc-award-handle { color: var(--honor-red); font-family: var(--font-mono); font-size: 0.8rem; }',
-      '.se-lc-award-notes { width: 100%; color: var(--muted); font-size: 0.78rem; margin-top: 0.15rem; }',
-      '.se-lc-link { color: var(--tier-basic); text-decoration: none; font-size: 0.8rem; }',
-      '.se-lc-link:hover { text-decoration: underline; }',
-      '.se-lc-empty { padding: 1.1rem; text-align: center; color: var(--muted); font-size: 0.84rem; border: 1px dashed var(--border); border-radius: 6px; }',
-      '.se-lc-muted-note { color: var(--muted); font-size: 0.78rem; }'
-    ].join('\n');
-    document.head.appendChild(style);
+  function closeTips(scope, except) {
+    if (!scope || typeof scope.querySelectorAll !== 'function') return;
+    var openTips = scope.querySelectorAll('.lc-tip[data-open]');
+    for (var i = 0; i < openTips.length; i++) {
+      if (openTips[i] !== except) openTips[i].removeAttribute('data-open');
+    }
   }
 
-  // ── 5. PUBLIC MOUNT RENDER FUNCTION ───────────────────────────────────
+  /** Tap toggles a tip (touch has no hover); Escape and outside taps close it. */
+  function bindTips(el) {
+    if (!el || typeof el.addEventListener !== 'function' || el.getAttribute('data-lc-tips') === 'bound') return;
+    el.setAttribute('data-lc-tips', 'bound');
+    el.addEventListener('click', function(ev) {
+      var trigger = ev.target && ev.target.closest ? ev.target.closest('.lc-tip') : null;
+      closeTips(el, trigger);
+      if (!trigger) return;
+      if (trigger.hasAttribute('data-open')) trigger.removeAttribute('data-open');
+      else trigger.setAttribute('data-open', '');
+    });
+    el.addEventListener('keydown', function(ev) {
+      if (ev.key === 'Escape') closeTips(el, null);
+    });
+    el.addEventListener('focusout', function(ev) {
+      var t = ev.target;
+      if (t && t.classList && t.classList.contains('lc-tip')) t.removeAttribute('data-open');
+    });
+    if (!docBound && typeof document !== 'undefined') {
+      docBound = true;
+      document.addEventListener('click', function(ev) {
+        if (ev.target && ev.target.closest && ev.target.closest('.lc-panel')) return;
+        closeTips(document, null);
+      });
+    }
+  }
+
+  // ── 6. PUBLIC MOUNT RENDER FUNCTION ───────────────────────────────────
 
   /**
    * Main entrypoint invoked by skill-explorer.js inside openExplorer().
@@ -1018,8 +1207,14 @@
       return;
     }
 
-    ensureStyles();
-    el.innerHTML = renderTrustLifecycleHtml(vm);
+    // Branch is read from the taxonomy authority's emitted field, never derived.
+    var semantics = typeof globalThis !== 'undefined' ? globalThis.GaiaSemantics : null;
+    var branch = semantics && typeof semantics.branchOf === 'function'
+      ? semantics.branchOf(entry)
+      : (typeof entry.branch === 'string' ? entry.branch : '');
+
+    el.innerHTML = renderTrustLifecycleHtml(vm, {branch: branch});
+    bindTips(el);
   }
 
   return {
@@ -1031,6 +1226,13 @@
     buildTrustLifecycleViewModel: buildTrustLifecycleViewModel,
     renderTrustLifecycleHtml: renderTrustLifecycleHtml,
     renderLifecycleSection: renderLifecycleSection,
-    ensureStyles: ensureStyles
+    components: {
+      challengeMark: challengeMark,
+      markStateOf: markStateOf,
+      stateChip: stateChip,
+      trustMeter: trustMeter,
+      tip: tip,
+      bindTips: bindTips
+    }
   };
 });
