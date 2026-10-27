@@ -25,7 +25,7 @@ Open it in any browser. It is self-contained, offline-capable, and covers every 
 
 | You are in… | Jump to section in the doc |
 |---|---|
-| You want to automate everything from a URL | **[/gaia-quick-curate](../gaia-quick-curate/SKILL.md)** — not this doc |
+| You want to inspect or initialize a paused curate ledger | **[/gaia-quick-curate](../gaia-quick-curate/SKILL.md)** — not this doc (use [/gaia-full-pipeline](../gaia-full-pipeline/SKILL.md) for live curation, [/gaia-frontier](../gaia-frontier/SKILL.md) for outward discovery) |
 | Discovering a skill, running prefill, writing the packet | **Phase 1 — gaia-curate** |
 | Reviewing the packet, ratifying with `gaia dev ratify` | **Phase 2 — L4 Review** |
 | Running `gaia push`, branching, opening the draft PR | **Phase 3 — gaia push → PR** |

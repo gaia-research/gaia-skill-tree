@@ -12,7 +12,7 @@ description: >-
 version: 2.0.0
 ---
 
-> **Discovery execution:** [/gaia-quick-curate](../gaia-quick-curate/SKILL.md) describes the curation discovery surface. FAN-OUT retains model-neutral workers and shared reconciliation. Both pause for independently verified human L4 authority; neither automatically submits, promotes, calibrates, or merges.
+> **Discovery execution:** [/gaia-quick-curate](../gaia-quick-curate/SKILL.md) provides ledger status inspection for the paused curate scaffold. Outward ecosystem discovery is owned by `/gaia-frontier`, while manual L4-bounded curation continues through `/gaia-full-pipeline`. FAN-OUT retains model-neutral workers and shared reconciliation. Both pause for independently verified human L4 authority; neither automatically submits, promotes, calibrates, or merges.
 
 # gaia-full-pipeline
 
