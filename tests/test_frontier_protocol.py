@@ -380,3 +380,18 @@ def test_request_builder_refuses_protocol_with_no_declaration(tmp_path, monkeypa
     monkeypatch.setattr(builder, "ROOT", repo)
     with pytest.raises(SystemExit):
         builder.main(["--lead", "lead.json", "--protocol", "protocol.json", "--fixture", "fixture.py"])
+
+
+def test_validator_fails_closed_when_pinned_protocol_is_altered_or_declares_no_contract(tmp_path):
+    repo, request, out = v1Receipt(tmp_path)
+    receipt = build(repo, request)
+    forged = dict(receipt, result="supported")
+    forged.pop("experimentId")
+    assert validate_experiment_receipt(receipt, request, repo_root=repo) == []
+    (repo / "protocol.json").write_text(json.dumps(syntheticProtocol(resultRule={"statement": "Altered rule permitting everything.", "allowedResults": ["supported", "contradicted", "inconclusive", "execution_failed"]})) + "\n")
+    errors = validate_experiment_receipt(forged, request, repo_root=repo)
+    assert any("checkout protocol bytes differ from the request" in e for e in errors)
+    (repo / "protocol.json").write_text("not json")
+    assert any("pinned protocol check failed" in e for e in validate_experiment_receipt(receipt, request, repo_root=repo))
+    (repo / "protocol.json").unlink()
+    assert any("pinned protocol check failed" in e for e in validate_experiment_receipt(receipt, request, repo_root=repo))

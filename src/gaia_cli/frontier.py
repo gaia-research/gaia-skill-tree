@@ -261,9 +261,8 @@ def validate_experiment_receipt(receipt: dict[str, Any], request: dict[str, Any]
                 errors.append("result is not permitted by the pinned protocol result rule")
             if "experimentId" in receipt and receipt["experimentId"] != pinned["id"]:
                 errors.append("experimentId does not match the pinned protocol")
-        except ValueError:
-            if "experimentId" in receipt:
-                errors.append("experimentId cannot be checked: pinned protocol declares no experiment contract")
+        except ValueError as exc:
+            errors.append(f"pinned protocol check failed: {exc}")
     return sorted(set(errors))
 
 
