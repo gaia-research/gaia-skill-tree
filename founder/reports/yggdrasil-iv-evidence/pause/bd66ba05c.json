@@ -1,0 +1,28 @@
+{
+  "id": "bd66ba05c",
+  "name": "Check strict native schema fixtures",
+  "command": "cd \"$HOME/.gaia-worktrees/yggdrasil-iv-canonical-cli\" && PYTHONPATH=src PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider tests/test_canonical_cli.py -k 'unadopted_schema or strict_proposal_validation or migration_dual_histories'",
+  "status": "completed",
+  "outputPath": ".pi/tasks/01a1753c-3a9c-7024-bcb2-ac1114464e09-10046/bd66ba05c.output",
+  "cwd": "/data/data/com.termux/files/home/gaia-skill-tree",
+  "startTime": 1793118829008,
+  "endTime": 1793118854662,
+  "exitCode": 0,
+  "signal": null,
+  "pid": 15244,
+  "bytesWritten": 114,
+  "isAgent": false,
+  "surviveReload": false,
+  "notified": true,
+  "notifyOnCompletion": true,
+  "triggerOnCompletion": true,
+  "timeoutSeconds": 180,
+  "shellPolicy": {
+    "policy": "inherit",
+    "executable": "/data/data/com.termux/files/usr/bin/bash",
+    "argvPrefix": [
+      "-c"
+    ],
+    "dialect": "bash"
+  }
+}
