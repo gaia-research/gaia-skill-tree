@@ -22,10 +22,17 @@ def sha(raw: bytes) -> str:
     return "sha256:" + hashlib.sha256(raw).hexdigest()
 
 
-def verifierNative(root, request, receipt, art, output="SYNTHETIC verifier re-run output"):
+def rerun(output):
+    """Simulate a genuine re-run: same content, fresh commit ids (the run-varying part of git-log-L output)."""
+    import re
+    return re.sub(r"\b[0-9a-f]{40}\b", lambda m: hashlib.sha1(m.group(0).encode()).hexdigest(), output)
+
+
+def verifierNative(root, request, receipt, art, output=None, **extra):
     native = json.loads((root / art / "native.json").read_text())
     native.pop("syntheticFixture", None)
-    native.update(output=output, outputDigest=sha(output.encode()), verifierNote="SYNTHETIC separate run")
+    output = rerun(native["output"]) if output is None else output
+    native.update(output=output, outputDigest=sha(output.encode()), verifierNote="SYNTHETIC separate run", **extra)
     raw = (json.dumps(native, indent=2) + "\n").encode()
     (root / art / "verifier-native.json").write_bytes(raw)
     return {"label": "native", "contentDigest": sha(raw), "path": f"{art}/verifier-native.json"}
@@ -329,3 +336,44 @@ def test_skills_emit_the_record_and_mirrors_are_identical(skill):
     text = claude.decode()
     for needle in ("frontier-meta-verification-v1", "declared-unauthenticated", "meta-validate", "verifierRunId"):
         assert needle in text
+
+
+def test_fabricated_reexecution_output_with_recomputed_digest_is_refused(case):
+    root, req, receipt, rec = case
+    bad = copy.deepcopy(rec)
+    bad["reexecution"]["artifacts"][0] = verifierNative(root, req, receipt, ART, output="SYNTHETIC fabricated output text")
+    assert any("differs from the receipt's native output after declared normalization" in e for e in check(case, bad))
+
+
+def test_copy_of_receipt_native_with_an_extra_key_is_refused_by_raw_identity(case):
+    root, req, receipt, rec = case
+    bad = copy.deepcopy(rec)
+    native = json.loads((root / ART / "native.json").read_text())
+    native["extraKey"] = "one extra key"
+    raw = json.dumps(native).encode()
+    (root / ART / "verifier-native.json").write_bytes(raw)
+    bad["reexecution"]["artifacts"][0]["contentDigest"] = sha(raw)
+    assert any("raw-identical to the receipt's" in e for e in check(case, bad))
+
+
+def test_receipt_native_artifact_is_parsed_under_the_pinned_protocol_too(case):
+    root, req, receipt, rec = case
+    native = json.loads((root / ART / "native.json").read_text())
+    native["extraKey"] = "edited"
+    (root / ART / "native.json").write_text(json.dumps(native))
+    errors = check(case)
+    assert any("digest mismatch" in e for e in errors)  # the receipt no longer matches its own artifact
+
+
+def test_declared_normalization_compares_modulo_declared_patterns_and_defaults_to_exact(tmp_path):
+    from gaia_cli.frontier import normalize_output, validate_protocol
+    from test_frontier_protocol import syntheticProtocol
+    exact = syntheticProtocol()["experiment"]
+    assert normalize_output(exact, "run 12345") == "run 12345"
+    masked = syntheticProtocol(outputNormalization=[[r"run \d+", "run <n>"], [r"at \S+", "at <t>"]])
+    assert validate_protocol(masked) == []
+    assert normalize_output(masked["experiment"], "run 12345 at 10:00") == "run <n> at <t>"
+    assert validate_protocol(syntheticProtocol(outputNormalization=[["(", "x"]]))
+    assert validate_protocol(syntheticProtocol(outputNormalization=[["a"]]))
+    legacy = frontier.LEGACY_EXPERIMENTS["git-log-L-vs-graft-v1"]
+    assert normalize_output(legacy, "a" * 40 + " x") == "<commit-id> x"

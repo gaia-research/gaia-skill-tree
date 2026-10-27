@@ -16,7 +16,7 @@
     "receiptDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$", "description": "sha256 of the receipt's canonical JSON (sorted keys, compact separators, UTF-8)."},
     "receiptRunId": {"type": "string", "minLength": 8, "maxLength": 200, "description": "experimentRunId of the receipt under review."},
     "verifierRunId": {"type": "string", "minLength": 8, "maxLength": 200, "description": "Run id of this verification; must differ from receiptRunId. Author-asserted, not authenticated."},
-    "outcome": {"enum": ["substantiated", "narrowed", "contradicted", "inconclusive", "execution_failed"]},
+    "outcome": {"description": "substantiated and narrowed require a supported receipt and re-execution artifacts; against other receipt results use contradicted, inconclusive or execution_failed.", "enum": ["substantiated", "narrowed", "contradicted", "inconclusive", "execution_failed"]},
     "recommend": {
       "type": "object",
       "additionalProperties": false,

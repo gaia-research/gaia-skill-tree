@@ -37,6 +37,7 @@ LEGACY_EXPERIMENTS = {
         "expectedArtifactKeys": list(UNIVERSAL_ARTIFACT_KEYS) + ["gitVersion", "output", "outputDigest"],
         "outputField": "output", "outputDigestField": "outputDigest",
         "versionProbe": {"field": "gitVersion", "pattern": r"git version (\S+)(?: .*)?", "label": "git --version", "crossCheckField": "executedVersion"},
+        "outputNormalization": [[r"\b[0-9a-f]{40}\b", "<commit-id>"]],
         "resultRule": {"statement": "Legacy git-log-L rule: comparative results need native and target artifacts; a version mismatch permits only inconclusive or execution_failed.", "allowedResults": list(EXPERIMENT_RESULTS)},
     }
 }
@@ -321,6 +322,11 @@ def validate_protocol(protocol: Any) -> list[str]:
                 errors.append("experiment.versionProbe.pattern: must have exactly one capture group (the executed version)")
         except re.error as exc:
             errors.append(f"experiment.versionProbe.pattern: invalid regex: {exc}")
+        for index, (pattern, _) in enumerate(protocol["experiment"].get("outputNormalization", [])):
+            try:
+                re.compile(pattern)
+            except re.error as exc:
+                errors.append(f"experiment.outputNormalization[{index}]: invalid regex: {exc}")
     return errors
 
 
@@ -349,6 +355,18 @@ def pinned_declaration(root: Path, request: dict[str, Any], protocol: str | None
     except ValueError as exc:
         raise ValueError(f"protocol is not valid JSON: {exc}") from None
     return experiment_declaration(document)
+
+
+MAX_COMPARED_OUTPUT = 1_048_576
+
+
+def normalize_output(declaration: dict[str, Any], text: str) -> str:
+    """Apply the declaration's outputNormalization pairs in order (default: none, i.e. exact comparison)."""
+    if len(text) > MAX_COMPARED_OUTPUT:
+        raise ValueError("runner output is too large to compare")
+    for pattern, replacement in declaration.get("outputNormalization", []):
+        text = re.sub(pattern, replacement, text)
+    return text
 
 
 def check_execution_artifact(declaration: dict[str, Any], execution: Any, request: dict[str, Any]) -> str:
@@ -524,6 +542,26 @@ def validate_meta_verification(record: Any, receipt: dict[str, Any], request: di
     return sorted(set(errors))
 
 
+def _compare_native_outputs(declaration: dict[str, Any], execution: dict[str, Any], receipt: dict[str, Any], request: dict[str, Any],
+                            root: Path, artifact_root: str) -> list[str]:
+    """The verifier's native output must equal the receipt's native output after the declared normalization."""
+    native = next((o for o in receipt.get("outputs", []) if isinstance(o, dict) and o.get("label") == "native"), None)
+    if native is None:
+        return ["receipt has no native output to compare the re-execution against"]
+    try:
+        receipt_execution = json.loads(_checked_artifact_path(root, native.get("path"), artifact_root).read_bytes())
+        check_execution_artifact(declaration, receipt_execution, request)
+        field = declaration["outputField"]
+        mine, theirs = execution[field], receipt_execution[field]
+        if normalize_output(declaration, mine) != normalize_output(declaration, theirs):
+            return ["re-execution native output differs from the receipt's native output after declared normalization"]
+        if mine == theirs and normalize_output(declaration, theirs) != theirs:
+            return ["re-execution native output is raw-identical to the receipt's although the protocol declares run-varying content to normalize; indistinguishable from a copy"]
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        return [f"receipt native artifact does not parse under the pinned protocol: {exc}"]
+    return []
+
+
 def _check_reexecution(record: dict[str, Any], receipt: dict[str, Any], request: dict[str, Any], artifacts: list[dict[str, Any]],
                        root: Path, artifact_root: str, positive: bool) -> list[str]:
     errors: list[str] = []
@@ -566,12 +604,15 @@ def _check_reexecution(record: dict[str, Any], receipt: dict[str, Any], request:
             errors.append(f"re-execution artifact is empty: {label}")
         if label == "native" and declaration is not None:
             try:
-                executed = check_execution_artifact(declaration, json.loads(raw), request)
+                execution = json.loads(raw)
+                executed = check_execution_artifact(declaration, execution, request)
             except (ValueError, TypeError) as exc:
                 errors.append(f"re-execution native artifact does not parse under the pinned protocol: {exc}")
                 continue
-            if positive and executed != receipt.get("executedVersion"):
-                errors.append(f"re-execution executed version {executed} differs from the receipt's {receipt.get('executedVersion')}")
+            if positive:
+                if executed != receipt.get("executedVersion"):
+                    errors.append(f"re-execution executed version {executed} differs from the receipt's {receipt.get('executedVersion')}")
+                errors.extend(_compare_native_outputs(declaration, execution, receipt, request, root, artifact_root))
     if positive and not any(a.get("label") == "native" for a in artifacts):
         errors.append("re-execution requires a native artifact that parses under the pinned protocol")
     return errors
