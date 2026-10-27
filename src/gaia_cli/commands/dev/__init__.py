@@ -95,6 +95,8 @@ Read-only (no Verifier required):
   gaia dev diff [ref]
   gaia dev validate [--intake] [--meta-sync]
   gaia dev arbor check [record.json]
+  gaia dev frontier match --lead <lead.json> [--top N] [--repo-root <dir>]
+  gaia dev frontier dedupe --lead <lead.json> [--repo-root <dir>] [--fail-on-duplicate]
   gaia dev test <suite>
 
 Evidence note: typed magnitude inputs drive per-row Evidence Grade. --trust is
@@ -113,6 +115,9 @@ class DevCommand(Command):
         dev_sub = parser.add_subparsers(dest="dev_command")
         from gaia_cli.commands.dev.canonicalCmd import configureCanonical
         configureCanonical(dev_sub.add_parser("canonical", help="Guarded canonical decision planning, validation and recovery"))
+
+        from gaia_cli.commands.dev.frontierCmd import configureFrontier
+        configureFrontier(dev_sub.add_parser("frontier", help="Advisory registry match and ledger dedupe for challenger leads (read-only)"))
 
         dev_list = dev_sub.add_parser(
             "list", help="List skills in the registry with filtering"
@@ -1170,6 +1175,9 @@ class DevCommand(Command):
         if dev_cmd == "canonical":
             from gaia_cli.commands.dev.canonicalCmd import canonicalCommand
             return canonicalCommand(args)
+        if dev_cmd == "frontier":
+            from gaia_cli.commands.dev.frontierCmd import frontierCommand
+            return frontierCommand(args)
         if dev_cmd == "list":
             from gaia_cli.commands.dev.list import meta_list_command
             meta_list_command(args)

@@ -1,0 +1,10 @@
+{
+  "id": "synthetic-codebase-graph",
+  "name": "Synthetic Codebase Graph",
+  "type": "basic",
+  "description": "SYNTHETIC FIXTURE. Retrieve source spans and callers from a repository graph of symbols.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "status": "provisional"
+}
