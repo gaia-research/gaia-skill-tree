@@ -1,5 +1,6 @@
 import copy
 import hashlib
+import importlib.util
 import json
 import subprocess
 from pathlib import Path
@@ -157,6 +158,89 @@ def test_handoff_unmatched_advisory_is_deferred_and_never_admits(tmp_path):
     handoff=read_only_handoff(item,packet_path="lead.json",request=request)
     assert handoff["leadDisposition"]=="deferred"
     assert handoff["advisoryMatch"]=="unmatched-advisory-deferred"
+
+
+def _recording_fixture(tmp_path):
+    repo, _, request = _request_fixture(tmp_path)
+    directory = repo / "generated-output/frontier"
+    directory.mkdir(parents=True)
+    (directory / "request.json").write_text(json.dumps(request))
+    # Synthetic unit data; not an actual Git/Graft execution or trusted receipt.
+    output = "synthetic unit-only native output"
+    native = {"experiment": "git-log-L-vs-graft-v1", "executionCheck": "passed",
+              "gitVersion": "git version " + request["native"]["version"], "output": output,
+              "outputDigest": "sha256:" + hashlib.sha256(output.encode()).hexdigest()}
+    (directory / "native.json").write_text(json.dumps(native))
+    (directory / "target.txt").write_text("synthetic unit-only target output")
+    script = Path(__file__).resolve().parents[1] / "examples/frontier/record_experiment.py"
+    spec = importlib.util.spec_from_file_location("frontier_recorder", script)
+    recorder = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(recorder)
+    kwargs = {"root": repo, "request_rel": "generated-output/frontier/request.json",
+              "native_rel": "generated-output/frontier/native.json"}
+    return repo, request, recorder, kwargs
+
+
+def test_recorder_binds_paired_output_and_detects_subsequent_tampering(tmp_path):
+    repo, request, recorder, kwargs = _recording_fixture(tmp_path)
+    receipt = recorder.build_receipt(**kwargs, target_rel="generated-output/frontier/target.txt")
+    assert receipt["result"] == "inconclusive"
+    assert {out["label"] for out in receipt["outputs"]} == {"native", "target"}
+    assert not any("no target comparison" in line for line in receipt["limitations"])
+    assert validate_experiment_receipt(receipt, request, repo_root=repo) == []
+    (repo / "generated-output/frontier/target.txt").write_text("changed")
+    assert any("digest mismatch" in e for e in validate_experiment_receipt(receipt, request, repo_root=repo))
+
+
+@pytest.mark.parametrize("result", ["supported", "contradicted"])
+def test_recorder_refuses_comparative_outcome_without_target(tmp_path, result):
+    _, _, recorder, kwargs = _recording_fixture(tmp_path)
+    with pytest.raises(ValueError, match="requires actual native and target"):
+        recorder.build_receipt(**kwargs, result=result)
+
+
+def test_recorder_checks_native_internal_digest_and_distinct_outputs(tmp_path):
+    repo, _, recorder, kwargs = _recording_fixture(tmp_path)
+    with pytest.raises(ValueError, match="distinct artifacts"):
+        recorder.build_receipt(**kwargs, target_rel=kwargs["native_rel"])
+    native = repo / kwargs["native_rel"]
+    execution = json.loads(native.read_text()); execution["output"] = "tampered"
+    native.write_text(json.dumps(execution))
+    with pytest.raises(ValueError, match="native recorded output digest"):
+        recorder.build_receipt(**kwargs)
+
+
+@pytest.mark.parametrize("relative", ["registry/named/new.json", "../escaped.json", "/tmp/absolute.json", "generated-output/frontier/../escaped.json"])
+def test_recorder_rejects_outside_paths(tmp_path, relative):
+    _, _, recorder, _ = _recording_fixture(tmp_path)
+    with pytest.raises(ValueError, match="relative generated-output/frontier"):
+        recorder.artifact_path(tmp_path, relative)
+
+
+def test_recorder_refuses_symlinked_generated_ancestor(tmp_path):
+    _, _, recorder, _ = _recording_fixture(tmp_path)
+    other = tmp_path / "other"; other.mkdir()
+    (other / "registry").mkdir()
+    (other / "generated-output").symlink_to(other / "registry", target_is_directory=True)
+    with pytest.raises(ValueError, match="symlinks"):
+        recorder.artifact_path(other, "generated-output/frontier/new.json")
+    assert list((other / "registry").iterdir()) == []
+
+
+def test_recorder_cli_preserves_existing_receipt_and_treats_target_as_inert(tmp_path, monkeypatch):
+    repo, _, recorder, kwargs = _recording_fixture(tmp_path)
+    monkeypatch.setattr(recorder, "ROOT", repo)
+    marker = repo / "must-not-execute"
+    (repo / "generated-output/frontier/target.txt").write_text("$(touch " + str(marker) + ")")
+    args = ["--request", kwargs["request_rel"], "--native-output", kwargs["native_rel"],
+            "--target-output", "generated-output/frontier/target.txt", "--output", "generated-output/frontier/new-receipt.json"]
+    assert recorder.main(args) == 0
+    destination = repo / "generated-output/frontier/new-receipt.json"
+    before = destination.read_bytes()
+    with pytest.raises(SystemExit) as error:
+        recorder.main(args)
+    assert error.value.code == 2 and destination.read_bytes() == before
+    assert not marker.exists()
 
 
 def test_outage_is_execution_failed_not_negative_and_untrusted_marketing_invalid(tmp_path):
