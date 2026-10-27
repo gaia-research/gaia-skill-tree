@@ -10,6 +10,7 @@ import contextlib
 import hashlib
 import json
 import os
+import stat
 import tempfile
 import threading
 from dataclasses import dataclass
@@ -25,6 +26,7 @@ try:
 except ImportError:
     msvcrt = None
 
+DEFAULT_MODE = 0o644
 MAX_TARGETS = 32
 MAX_PAYLOAD_BYTES = 1_048_576
 MAX_JOURNAL_BYTES = MAX_PAYLOAD_BYTES * 2
@@ -55,6 +57,9 @@ class Target:
     path: str
     before: bytes | None
     after: bytes
+    # Permission bits restored/applied for this target. Part of the plan digest so an
+    # approved plan binds them; setuid/setgid/sticky bits are never representable.
+    mode: int = DEFAULT_MODE
 
 
 @dataclass(frozen=True)
@@ -135,10 +140,17 @@ def _target(root: Path, value: str) -> Path:
     return current
 
 
+def _checkMode(mode: object) -> int:
+    if type(mode) is not int or not 0 <= mode <= 0o777:
+        raise TransactionError("target mode must be permission bits 0..0o777 (no setuid/setgid/sticky)")
+    return mode
+
+
 def _plan_digest(root: str, purpose: str, identity: str, targets: tuple[Target, ...]) -> str:
     payload = {"root": root, "purpose": purpose, "identity": identity,
                "targets": [{"path": t.path, "before": _hash(t.before), "after": _hash(t.after),
-                            "beforeLength": None if t.before is None else len(t.before), "afterLength": len(t.after)} for t in targets]}
+                            "beforeLength": None if t.before is None else len(t.before), "afterLength": len(t.after),
+                            "mode": _checkMode(t.mode)} for t in targets]}
     return hashlib.sha256(_canonical(payload)).hexdigest()
 
 
@@ -152,7 +164,12 @@ def prepare(root: str | Path, purpose: str, identity: str, changes: tuple[Change
     paths = [change.path for change in changes]
     if len(set(paths)) != len(paths):
         raise TransactionError("duplicate target paths are forbidden")
-    targets = tuple(sorted((Target(c.path, _target(selected, c.path).read_bytes() if _target(selected, c.path).exists() else None, bytes(c.after)) for c in changes), key=lambda t: t.path))
+    def _target_of(change):
+        path = _target(selected, change.path)
+        if path.exists():
+            return Target(change.path, path.read_bytes(), bytes(change.after), path.stat().st_mode & 0o777)
+        return Target(change.path, None, bytes(change.after), DEFAULT_MODE)
+    targets = tuple(sorted((_target_of(c) for c in changes), key=lambda t: t.path))
     if sum(len(t.before or b"") + len(t.after) for t in targets) > MAX_PAYLOAD_BYTES:
         raise TransactionError("changeset exceeds bounded payload size")
     return Plan(str(selected), purpose, identity, targets, _plan_digest(str(selected), purpose, identity, targets))
@@ -335,7 +352,9 @@ def apply(plan: Plan, provider: ApprovalProvider | None = None, *, fail_after: i
         current = {rel: (p.read_bytes() if p.exists() else None) for rel, p in paths.items()}
         if any(_hash(current[t.path]) != _hash(t.before) for t in plan.targets):
             raise TransactionError("CAS conflict: no targets were changed")
-        modes = {t.path: (paths[t.path].stat().st_mode & 0o777 if paths[t.path].exists() else 0o644) for t in plan.targets}
+        modes = {t.path: t.mode for t in plan.targets}
+        if any(paths[t.path].exists() and paths[t.path].stat().st_mode & 0o777 != t.mode for t in plan.targets):
+            raise TransactionError("CAS conflict: a target mode changed; no targets were changed")
         journal = state / f"{plan.digest}.pending.json"
         if any(state.glob(f"{plan.digest}.*.json")):
             raise TransactionError("previously journaled plan cannot be replayed; prepare a new decision")
@@ -359,11 +378,22 @@ def apply(plan: Plan, provider: ApprovalProvider | None = None, *, fail_after: i
         return str(committed)
 
 
+def _readBounded(path: Path) -> bytes:
+    """Read a journal through one descriptor: no symlink, regular file, bounded size."""
+    try:
+        fd = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+    except OSError as exc:
+        raise TransactionError("journal must be a bounded regular file") from exc
+    with os.fdopen(fd, "rb") as stream:
+        info = os.fstat(stream.fileno())
+        if not stat.S_ISREG(info.st_mode) or info.st_size > MAX_JOURNAL_BYTES:
+            raise TransactionError("journal must be a bounded regular file")
+        return stream.read(MAX_JOURNAL_BYTES + 1)
+
+
 def _read_journal(path: Path, root: Path) -> tuple[dict, Plan]:
     try:
-        if path.is_symlink() or not path.is_file() or path.stat().st_size > MAX_JOURNAL_BYTES:
-            raise TransactionError("journal must be a bounded regular file")
-        doc = json.loads(path.read_bytes())
+        doc = json.loads(_readBounded(path))
         digest = doc.pop("journalDigest")
         if hashlib.sha256(_canonical(doc)).hexdigest() != digest:
             raise TransactionError("journal integrity check failed")
@@ -377,7 +407,7 @@ def _read_journal(path: Path, root: Path) -> tuple[dict, Plan]:
             if _hash(before) != item["beforeSha256"] or _hash(after) != item["afterSha256"]:
                 raise TransactionError("journal preimage or staged bytes are corrupt")
             _target(root, item["path"])
-            targets.append(Target(item["path"], before, after))
+            targets.append(Target(item["path"], before, after, _checkMode(item["mode"])))
         targets.sort(key=lambda t: t.path)
         ordered = tuple(targets)
         plan = Plan(doc["root"], doc["purpose"], doc["identity"], ordered,
@@ -398,14 +428,21 @@ def rollback(root: str | Path, journal_path: str | Path, provider: ApprovalProvi
     if fcntl is None:
         raise TransactionError("durable canonical rollback requires POSIX locking and directory fsync support")
     selected = _root(root)
-    path = Path(journal_path)
     with _lock(selected):
-        if (path.parent.resolve() != (selected / STATE_DIR).resolve()
+        # Resolve the journal's parent exactly once, verify containment, and use that
+        # resolved path for every later read/replace (no check-then-use on an alias).
+        # The state directory itself is verified not to be a symlink by _lock.
+        raw = Path(journal_path)
+        try:
+            path = raw.parent.resolve(strict=True) / raw.name
+        except OSError as exc:
+            raise TransactionError("rollback requires a regular pending or committed journal in transaction state") from exc
+        if (path.parent != selected / STATE_DIR
                 or not (path.name.endswith(".committed.json") or path.name.endswith(".pending.json"))
                 or path.is_symlink() or not path.is_file()):
             raise TransactionError("rollback requires a regular pending or committed journal in transaction state")
         doc, plan = _read_journal(path, selected)
-        others = [p for p in (selected / STATE_DIR).glob("*.pending.json") if p.resolve() != path.resolve()]
+        others = [p for p in (selected / STATE_DIR).glob("*.pending.json") if p != path]
         if others:
             raise TransactionError("another pending canonical transaction requires recovery first")
         # Only an explicit rollback approval can reverse a committed receipt.
@@ -438,7 +475,7 @@ def rollback(root: str | Path, journal_path: str | Path, provider: ApprovalProvi
                 paths[target.path].unlink()
                 _fsync_dir(paths[target.path].parent)
             else:
-                _atomic(paths[target.path], target.before, int(next(i["mode"] for i in doc["targets"] if i["path"] == target.path)))
+                _atomic(paths[target.path], target.before, target.mode)
         doc["status"] = "rolled-back"
         doc.pop("journalDigest")
         doc["journalDigest"] = hashlib.sha256(_canonical(doc)).hexdigest()

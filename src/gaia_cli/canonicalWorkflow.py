@@ -46,6 +46,29 @@ def schemaPolicy(root):
             for name in ("namedSkill.schema.json", "skillTree.schema.json")}
 
 
+LIFECYCLE_EVIDENCE_FIELDS = frozenset({
+    "evidenceId", "revision", "assertionState", "supersedes", "decisionRef", "decisionHistory",
+    "reviewedOldDigest", "reviewedNewDigest", "metricMethod", "observationState", "lastObservedAt",
+    "contentDigest", "sourceRevision", "measurementScope"})
+LIFECYCLE_TIMELINE_FIELDS = frozenset({"decisionRef", "eventId"})
+
+
+def schemaAdoptionGaps(schemas):
+    """Name the canonical lifecycle fields the current schemas lack (empty = adopted)."""
+    gaps = []
+    for name, schema in schemas.items():
+        definitions = schema.get("definitions", {})
+        timeline = set(definitions.get("timelineEvent", {}).get("properties", {}))
+        lacking = LIFECYCLE_TIMELINE_FIELDS - timeline
+        if lacking:
+            gaps.append(f"{name} timelineEvent lacks {', '.join(sorted(lacking))}")
+    evidence = set(schemas["namedSkill.schema.json"].get("definitions", {}).get("evidenceEntry", {}).get("properties", {}))
+    lacking = LIFECYCLE_EVIDENCE_FIELDS - evidence
+    if lacking:
+        gaps.append("namedSkill.schema.json evidenceEntry lacks " + ", ".join(sorted(lacking)))
+    return gaps
+
+
 def resolveApproval(root, plan, operation):
     """Trusted deployment seam. No configured genuine issuer exists yet.
 
@@ -188,14 +211,16 @@ def buildPlan(root, request, *, preparedAt=None):
                 "identity": identity, "targets": [{"path": t.path,
                     "before": base64.b64encode(t.before).decode("ascii"),
                     "after": base64.b64encode(t.after).decode("ascii"),
-                    "beforeSha256": tx._hash(t.before), "afterSha256": tx._hash(t.after)} for t in plan.targets] if plan else []}
+                    "beforeSha256": tx._hash(t.before), "afterSha256": tx._hash(t.after),
+                    "mode": t.mode} for t in plan.targets] if plan else []}
     document["planDigest"] = digest(document)
     return document
 
 
 def transactionPlan(document):
     targets = tuple(tx.Target(t["path"], base64.b64decode(t["before"], validate=True),
-                              base64.b64decode(t["after"], validate=True)) for t in document["targets"])
+                              base64.b64decode(t["after"], validate=True), tx._checkMode(t["mode"]))
+                    for t in document["targets"])
     return tx.Plan(document["root"], document["request"]["operation"], document["identity"],
                    targets, document["transactionDigest"])
 
@@ -207,6 +232,10 @@ def validatePlan(root, document):
     if buildPlan(root, document["request"], preparedAt=document["preparedAtUTC"]) != document:
         raise tx.TransactionError("plan/context/targets changed or are stale; prepare and review a new plan")
     schemas = schemaPolicy(root)
+    missing = schemaAdoptionGaps(schemas)
+    if missing:
+        raise tx.TransactionError("schema adoption held: the current registry schema does not define the canonical "
+                                  "lifecycle fields this plan stages (" + "; ".join(missing) + ")")
     errors = []
     for item in document["targets"]:
         data = base64.b64decode(item["after"], validate=True).decode("utf-8")
@@ -221,7 +250,7 @@ def validatePlan(root, document):
             # Do not dump raw canonical evidence into command errors.
             errors.append(f"{item['path']}: {error.validator} at /{'/'.join(map(str, error.absolute_path))}")
     if errors:
-        raise tx.TransactionError("schema adoption held or invalid staged output: " + "; ".join(errors[:12]))
+        raise tx.TransactionError("invalid staged output (schema defines the lifecycle fields): " + "; ".join(errors[:12]))
     return document
 
 
@@ -249,6 +278,20 @@ def applyPlan(root, document):
         return {"status": "committed", "journal": journal}
 
 
+TEMP_FILE = re.compile(r"^\..+\.tmp$")
+
+
+def strayTempFiles(root):
+    """Report (never delete) interrupted-write temp files left by tx._atomic."""
+    found = []
+    for area in ("registry/nodes", "registry/named", "skill-trees", tx.STATE_DIR):
+        base = root / area
+        if base.is_dir() and not base.is_symlink():
+            found += [p.relative_to(root).as_posix() for p in sorted(base.rglob("*"))
+                      if TEMP_FILE.match(p.name) and p.is_file()]
+    return found
+
+
 def status(root):
     root = tx._root(root)
     state = root / tx.STATE_DIR
@@ -257,17 +300,24 @@ def status(root):
     receipts = []
     if state.exists():
         for path in sorted(state.glob("*.json")):
-            if path.is_symlink():
-                raise tx.TransactionError("journal cannot be a symlink")
-            doc, plan = tx._read_journal(path, root)
-            states = {}
-            for target in plan.targets:
-                p = tx._target(root, target.path)
-                current = p.read_bytes() if p.exists() else None
-                states[target.path] = "before" if current == target.before else "after" if current == target.after else "outside-edit"
-            receipts.append({"journal": str(path), "status": doc["status"], "targets": states,
-                             "recovery": "rollback only; requires separately resolved approval" if path.name.endswith(".pending.json") else None})
-    return {"receipts": receipts, "pending": any(r["journal"].endswith(".pending.json") for r in receipts)}
+            recovery = "rollback only; requires separately resolved approval" if path.name.endswith(".pending.json") else None
+            try:
+                if path.is_symlink():
+                    raise tx.TransactionError("journal cannot be a symlink")
+                doc, plan = tx._read_journal(path, root)
+                states = {}
+                for target in plan.targets:
+                    p = tx._target(root, target.path)
+                    current = p.read_bytes() if p.exists() else None
+                    states[target.path] = "before" if current == target.before else "after" if current == target.after else "outside-edit"
+                receipts.append({"journal": str(path), "id": path.name, "status": doc["status"], "targets": states,
+                                 "recovery": recovery})
+            except tx.TransactionError as exc:
+                # One damaged journal must not hide the others; it still blocks writers if pending.
+                receipts.append({"journal": str(path), "id": path.name, "status": "unreadable", "targets": {},
+                                 "error": str(exc), "recovery": recovery})
+    return {"receipts": receipts, "pending": any(r["journal"].endswith(".pending.json") for r in receipts),
+            "strayTempFiles": strayTempFiles(root)}
 
 
 def rollbackPlan(root, document, journal):
@@ -284,7 +334,11 @@ def _rollbackPlan(root, document, journal):
     body = {k: v for k, v in document.items() if k != "planDigest"}
     if digest(body) != document.get("planDigest") or inputContext(root) != document["context"]:
         raise tx.TransactionError("rollback plan integrity/input revision mismatch")
-    path = Path(journal).absolute()
+    raw = Path(journal).absolute()
+    try:
+        path = raw.parent.resolve(strict=True) / raw.name
+    except OSError as exc:
+        raise tx.TransactionError("rollback journal must be in selected transaction state") from exc
     if path.parent != root / tx.STATE_DIR or path.is_symlink():
         raise tx.TransactionError("rollback journal must be in selected transaction state")
     _, saved = tx._read_journal(path, root)
