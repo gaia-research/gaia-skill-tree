@@ -34,7 +34,7 @@ Recovery entry point. Updated on every material state change and pushed to
 - D4 `leaderboard.json` has no `generatedAt` though `leaderboard.js` reads it → W0.
 - D5 `docs/badges/registry.json` stale (missing `nvidia`) — warn-only, human-curated badge lane.
 - Anomaly: one `awakened` named file at 4★ — `google-deepmind/workflow-skill-creator` (grade A, `origin: true`), sits only in `awaitingClassification`, absent from every public list (W0 #2195 finding).
-- D6 cross-surface level disagreement: 39 ungraded skills show 2–3★ on ledger/leaderboard but 1★ in named index + skills API (the 268→229 gap). Pinned by strict xfails in #2195; needs a single source of truth (visible change ⇒ founder decision packet).
+- D6 cross-surface level disagreement: 39 ungraded skills show 2–3★ on ledger/leaderboard but 1★ in named index + skills API (the 268→229 gap). Pinned by strict xfails in #2195. Cause: `scripts/generateNamedIndex.py:617` clamps the projected level to the TM-grade ceiling (S6/A4/B3/C2/ungraded1, #1729, 2026-09-05) while ledger/leaderboard publish the stored level. Prepass: exactly 39 named skills stored above ceiling (38× 2★ ungraded, 1× 3★ ungraded). Core adjudication candidate set (outcome 4) — deterministic Ygg III gate, not IV decay; canonical calibration or display reconciliation is a founder decision (FD-7).
 - D1/D2/D4 fixed in #2195 (W0), pending review.
 
 ## Founder decision packets (accumulating)
