@@ -14,6 +14,12 @@ def configureFrontier(parser):
     dedupe.add_argument("--lead", required=True, help="Challenger lead JSON")
     dedupe.add_argument("--repo-root", help="Checkout root holding evidence/ (default: the resolved registry path, which is the checkout root)")
     dedupe.add_argument("--fail-on-duplicate", action="store_true", help="Exit 2 when an exact duplicate is found")
+    meta = sub.add_parser("meta-validate", help="Structurally validate a Meta verification record against its receipt (read-only; not verification)")
+    meta.add_argument("--record", required=True, help="frontier-meta-verification-v1 JSON")
+    meta.add_argument("--receipt", required=True, help="experiment receipt JSON the record assesses")
+    meta.add_argument("--request", required=True, help="verification request JSON; re-validates the receipt and pins the protocol re-execution artifacts must parse under")
+    meta.add_argument("--repo-root", help="Checkout root used to verify artifact bytes (default: the resolved registry path, which is the checkout root)")
+    meta.add_argument("--artifact-root", default="generated-output/frontier", help="generated-output/frontier (default) or evidence/frontier-challenges/<id>/artifacts")
 
 
 def _repoRoot(args):
@@ -32,8 +38,16 @@ def frontierCommand(args):
     # Lazy import keeps parser construction dependency-free.
     from gaia_cli import frontierMatch as fm
     try:
-        lead = fm.loadLeadFile(args.lead)
         root, explicitRoot = _repoRoot(args)
+        if args.frontier_command == "meta-validate":
+            from gaia_cli import frontier
+            record, receipt = fm.loadJsonFile(args.record, "record"), fm.loadJsonFile(args.receipt, "receipt")
+            request = fm.loadJsonFile(args.request, "request")
+            errors = frontier.validate_meta_verification(record, receipt, request, repo_root=root, artifact_root=args.artifact_root)
+            print(json.dumps({"schemaVersion": "frontier-meta-validation-v1", "structurallyValid": not errors, "errors": errors,
+                              "authority": "structural check only; run ids, session separation and independence are declared and unauthenticated; not verification, approval or admission"}, indent=2))
+            return 1 if errors else 0
+        lead = fm.loadLeadFile(args.lead)
         if args.frontier_command == "match":
             result = fm.match_candidates(lead, root, top=args.top)
         else:

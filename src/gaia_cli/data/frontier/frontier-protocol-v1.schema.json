@@ -32,6 +32,12 @@
             "crossCheckField": {"type": "string", "minLength": 1, "maxLength": 100}
           }
         },
+        "outputNormalization": {
+          "type": "array",
+          "maxItems": 10,
+          "description": "Optional [regex, replacement] pairs applied in order to the runner output before a verifier's re-execution output is compared with the receipt's. Default is exact match.",
+          "items": {"type": "array", "minItems": 2, "maxItems": 2, "prefixItems": [{"type": "string", "minLength": 1, "maxLength": 300}, {"type": "string", "maxLength": 100}], "items": false}
+        },
         "resultRule": {
           "type": "object",
           "additionalProperties": false,
