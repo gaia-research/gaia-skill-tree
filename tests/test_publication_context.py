@@ -153,6 +153,7 @@ def test_inplace_generator_cannot_certify_an_unwritten_stale_file(tmp_path):
         pc.finish_stage("assembly", tmp_path)
 
 
+@pytest.mark.skipif(sys.platform != "linux", reason="requires Linux renameat2/procfs; feature fails closed elsewhere")
 def test_atomic_completed_root_never_clobbers_existing_path(tmp_path):
     staging = tmp_path / "private"
     staging.mkdir(mode=0o700)
@@ -166,6 +167,19 @@ def test_atomic_completed_root_never_clobbers_existing_path(tmp_path):
     pc.publish_staging(staging, destination)
     assert not staging.exists() and (destination / "complete.json").read_text() == '{}'
     assert destination.stat().st_mode & 0o777 == 0o700
+
+
+@pytest.mark.skipif(sys.platform == "linux", reason="asserts the off-Linux fail-closed refusal")
+def test_off_linux_publication_and_runtime_binding_fail_closed(tmp_path):
+    staging = tmp_path / "private"
+    staging.mkdir(mode=0o700)
+    (staging / "complete.json").write_text('{}')
+    destination = tmp_path / "result"
+    with pytest.raises(ValueError, match="requires renameat2"):
+        pc.publish_staging(staging, destination)
+    assert staging.exists() and not destination.exists()
+    with pytest.raises(subprocess.CalledProcessError):
+        pc._native_runtime_identity()
 
 
 def test_explicit_time_reaches_diversity_witness_and_default_is_unchanged(monkeypatch):
@@ -351,6 +365,7 @@ timeline:
 # Each of 11 corruption cases reruns the strict, real multi-surface oracle; measured
 # end-to-end time is 122s on the isolated Cairo runtime, so keep a finite 180s budget.
 @pytest.mark.timeout(180)
+@pytest.mark.skipif(sys.platform != "linux", reason="requires Linux renameat2/procfs; feature fails closed elsewhere")
 def test_real_bounded_builders_double_replay_and_surface_corruption(tmp_path, monkeypatch):
     # No model/network/full-corpus calls. Actual existing builders, two roots.
     source = tmp_path / "source"
