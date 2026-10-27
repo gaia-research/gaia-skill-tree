@@ -27,6 +27,11 @@ def fixtureRepo(tmp_path):
     (root / "skill-trees/alice").mkdir(parents=True)
     shutil.copytree(REPO / "registry/schema", root / "registry/schema")
     (root / "DISPOSABLE_CANONICAL_FIXTURE").touch()
+    # Strict held-proposal bytes ONLY inside this explicitly disposable root.
+    # The actual native schema reader/validator and context digest remain intact.
+    for name in ("namedSkill.schema.json", "skillTree.schema.json"):
+        shutil.copyfile(REPO / "tests/fixtures/canonical-proposed-schema" / name,
+                        root / "registry/schema" / name)
     named = {"id": "alice/tool", "name": "Fixture Tool", "contributor": "alice", "origin": True,
              "genericSkillRef": "tool", "status": "named", "level": "4★", "title": "Fixture",
              "description": "Disposable fixture implementation", "createdAt": "2026-01-01", "updatedAt": "2026-10-27",
@@ -83,17 +88,33 @@ def loadNamed(root):
     return yaml.safe_load((root / "registry/named/alice/tool.md").read_text().split("---", 2)[1])
 
 
-def test_production_refuses_schema_and_missing_issuer_without_writes(fixtureRepo):
+def test_production_refuses_unadopted_schema_without_writes(fixtureRepo):
     root = fixtureRepo
+    for name in ("namedSkill.schema.json", "skillTree.schema.json"):
+        shutil.copyfile(REPO / "registry/schema" / name, root / "registry/schema" / name)
     before = sources(root)
-    plan, path, grant = makePlan(root)
+    plan, path, _ = makePlan(root)
     assert sources(root) == before
     assert plan["summary"]["legacyBeforeTM"] == plan["summary"]["legacyAfterTM"]
     for verb in ("validate", "apply"):
         result = cli(root, "canonical", verb, "--plan", str(path))
         assert result.returncode == 1 and "schema adoption held" in result.stderr
-    # Even test-only schema extension cannot authenticate a production approval.
-    result = cli(root, "canonical", "apply", "--plan", str(path), mode="schema-only", grant=grant)
+    assert sources(root) == before
+    assert not list((root / ".gaia/canonical-transactions").glob("*.json"))
+
+
+def test_strict_proposal_validation_is_not_a_production_approval(fixtureRepo):
+    import hashlib
+    root = fixtureRepo
+    before = sources(root)
+    plan, path, _ = makePlan(root)
+    for name in ("namedSkill.schema.json", "skillTree.schema.json"):
+        data = (REPO / "tests/fixtures/canonical-proposed-schema" / name).read_bytes()
+        assert plan["context"]["files"]["registry/schema/" + name] == hashlib.sha256(data).hexdigest()
+    result = cli(root, "canonical", "validate", "--plan", str(path))
+    assert result.returncode == 0, result.stderr
+    assert "validation is not approval" in json.loads(result.stdout)["approval"]
+    result = cli(root, "canonical", "apply", "--plan", str(path))
     assert result.returncode == 1 and "No trusted canonical transaction issuer" in result.stderr
     assert sources(root) == before
     assert not list((root / ".gaia/canonical-transactions").glob("*.json"))
@@ -179,7 +200,7 @@ def test_interruption_guards_actual_legacy_cli_and_recovers(fixtureRepo):
     assert not json.loads(cli(root, "canonical", "status").stdout)["pending"]
 
 
-@pytest.mark.parametrize("mutation", ["target", "policy", "revision", "plan", "grant"])
+@pytest.mark.parametrize("mutation", ["target", "policy", "schema", "revision", "plan", "grant"])
 def test_stale_inputs_forged_plans_and_grants_refuse(fixtureRepo, mutation):
     root = fixtureRepo
     plan, path, grant = makePlan(root)
@@ -188,6 +209,11 @@ def test_stale_inputs_forged_plans_and_grants_refuse(fixtureRepo, mutation):
             stream.write("outside edit\n")
     elif mutation == "policy":
         (root / "META.md").write_text("changed policy")
+    elif mutation == "schema":
+        schemaPath = root / "registry/schema/namedSkill.schema.json"
+        schema = json.loads(schemaPath.read_bytes())
+        schema["description"] = "changed schema input"
+        dump(schemaPath, schema)
     elif mutation == "revision":
         subprocess.run(["git", "-C", str(root), "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid", "commit", "--allow-empty", "-qm", "new revision"], check=True)
     elif mutation == "plan":

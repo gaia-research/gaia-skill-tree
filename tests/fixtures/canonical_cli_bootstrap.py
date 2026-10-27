@@ -1,8 +1,9 @@
 """TEST-ONLY interpreter bootstrap. Not a production issuer or CLI option.
 
 Runs the real native CLI in an isolated subprocess after replacing trusted Python
-resolver seams. A separately authored fixture grant binds the entire plan. Schema
-extensions below are synthetic test contracts, NOT adoption of held schemas.
+resolver seam. A separately authored fixture grant binds the entire plan.
+Actual strict proposed schema bytes are installed by fixture setup in the marked
+repository, not patched here. This is NOT adoption of held schemas.
 """
 import contextlib
 import json
@@ -19,24 +20,6 @@ grant = json.loads(Path(grantPath).read_bytes())
 root = Path(grant["root"])
 if not (root / "DISPOSABLE_CANONICAL_FIXTURE").is_file():
     raise RuntimeError("fixture bootstrap requires an explicitly disposable fixture repository")
-originalSchemas = workflow.schemaPolicy
-
-
-def fixtureSchemas(selected):
-    assert selected == root
-    schemas = originalSchemas(selected)
-    for schema in schemas.values():
-        timeline = schema["definitions"]["timelineEvent"]
-        timeline["properties"]["action"]["enum"] += [s.replace("-", "_") for s in workflow.OPERATIONS]
-        timeline["properties"].update(decisionRef={"type": "string"}, eventId={"type": "string"})
-    evidence = schemas["namedSkill.schema.json"]["definitions"]["evidenceEntry"]
-    evidence["properties"].update({key: {} for key in (
-        "evidenceId", "revision", "assertionState", "supersedes", "decisionRef", "decisionHistory",
-        "reviewedOldDigest", "reviewedNewDigest", "metricMethod", "observationState", "lastObservedAt",
-        "contentDigest", "sourceRevision", "measurementScope")})
-    return schemas
-
-
 class FixtureIssuer:
     def __init__(self, plan, operation):
         self.plan, self.operation = plan, operation
@@ -53,8 +36,7 @@ class FixtureIssuer:
                 and request.context_digest == tx._context(expected, self.operation))
 
 
-workflow.schemaPolicy = fixtureSchemas
-if mode != "schema-only":
+if mode in {"approved", "interrupt", "interrupt-rollback"}:
     def fixtureResolver(selected, plan, operation):
         assert selected == root
         return FixtureIssuer(plan, operation)
