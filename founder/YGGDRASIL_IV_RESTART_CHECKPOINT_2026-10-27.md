@@ -4,7 +4,7 @@
 
 Founder asked to be told when to reset and then explicitly said **Continue**. Continue the safe Pi recovery-tooling repair; **do not issue READY TO RESTART yet**. No additional Gaia campaign jobs before this restart window. This is temporary execution sequencing, not a campaign restart, permanent pause, completion claim or waiver of the original mission.
 
-All previously assigned Gaia implementation workers, independent reviews and parent shell tests are now terminal and collected. The old tooling review's assertion that publication task `ba7cb70f5` remains live is stale. The first Pi repair and lifecycle scout are also now collected. That subsequent review and first actual-SDK probe are now also collected. Product repair2 is now also collected. Independent78b review is now collected and REFUTED. Current work is complex safety implementation, resumed actual-SDK verification and parent regression collection; see the latest follow-on section below.
+All previously assigned Gaia implementation workers, independent reviews and parent shell tests are now terminal and collected. The old tooling review's assertion that publication task `ba7cb70f5` remains live is stale. The first Pi repair and lifecycle scout are also now collected. That subsequent review and first actual-SDK probe are now also collected. Product repair2 is now also collected. Independent78b review is now collected and REFUTED. Actual-SDK continuation is now collected and remains RED on transcript preservation. Current work is complex safety implementation and the corrected isolated parent regression retry; the SDK verifier waits for exact replacement source before resuming.
 
 ## Campaign state safely saved
 
@@ -43,7 +43,19 @@ Repair continues existing source, not a fresh implementation reset. Preserve ear
 
 Prefer supported mechanisms or honest logical recovery over fighting native lifecycle with false states. Require actual SDK/event/async binding, native cleanup/distillation/worktree tests, policy-valid absolute-path recovery, identity/unknown-state safety, lease handoff/expiry, fail-closed corruption with DB/WAL/SHM preserved, privacy/bounds/migration and atomic hash-safe installer/rollback. WAL/FULL alone is not lossless admission, process resurrection or external exactly-once proof.
 
-### Latest: repair2 refused; complex safety repair and concrete exploit
+### Latest: genuine SDK recovery failure; regression harness correction
+
+Actual-SDK continuation **eeb5ed78** is **partial/collected**, not active. It saved clean test commit **`899fec56dda93b721ca011362800558a8e5d3be3`** on `test/durable-recovery-real-sdk`. It now genuinely exercises real Pi CLI child/session, counted localhost transport, pinned child settings/read-only tools, native completion, synthetic parent SIGKILL, fresh SDK startup/native reconciliation, SDK-authored transcript loading/distillation and manual cross-CWD native resume. **Automatic product preservation remains RED** against baseline and frozen78b: native record is already terminal/orphaned-dead before the recovery handler, and neither product preserves the transcript. Manual resume uses a separately identified operator copy, not proof that product recovery works. Frozen78b retains route fields; branch baseline loses them. Stock Android native startTime0 remains. Report: `~/.pi/durable-recovery/actual-sdk-proof-continuation.md`; exact commands/limits in test branch `tests/ACTUAL_SDK_SUBAGENT_RECOVERY.md`.
+
+Safety implementer **4582923b** has these real failing fixtures and must fix ordering/actual metadata binding, not merely claim startup capture in helper tests. The verification author will continue only after an exact coherent replacement commit/patch is available; do not leave an idle model waiting or treat partial as accepted. Guarded fixture runs detected no global content-hash changes; an earlier unguarded settings watcher event remains unattributed. No blind restoration.
+
+Parent regression task **b36a02e4e** is terminal **FAILED**:95tests,1failure/1error/1skip,14.678s, tracked source bytes unchanged. Errors were ENOENT executing existing `#!/usr/bin/env` scripts (new installer and mock codex). Parent isolated harness had stripped essential Termux **LD_PRELOAD**. A controlled separate Python-process probe reproduced ENOENT without that platform shim and `SHEBANG_OK` with it, without source or assertion changes. Evidence: `~/.pi/durable-recovery/termux-exec-probe-20261027T055345Z/result.json`. This harness correction does not waive real software defects or the Android startTime bug.
+
+Retry task **`b5e99e731`** runs the same frozen78b full Python discovery with platform-only environment preserved (including Termux exec shim), provider credentials cleared, isolated HOME, byte/mode source inventories. Operational runner: `~/.pi/durable-recovery/run-parent-regressions.py`; results under `parent-78b6310-platform-regressions-*`. Collect terminal output before any claim of green. One installed-Pi loader skip under the isolated HOME is disclosed, not a full SDK acceptance.
+
+Current model worker: **Luna High safety implementation4582923b** in the new safety worktree. Actual-SDK verifier/eeb and independent reviewer/6f are both finished/collected. Still no installed extension, applied native patch or READY TO RESTART.
+
+### Earlier: repair2 refused; complex safety repair and concrete exploit
 
 Independent review **`6f05b8b5`** returned **partial/source-level REFUTED**; no tests run by that reviewer. Report `~/.pi/durable-recovery/independent-review-78b.md` confirms:
 
