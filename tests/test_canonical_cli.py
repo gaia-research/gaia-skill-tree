@@ -13,6 +13,10 @@ import pytest
 import yaml
 
 REPO = Path(__file__).resolve().parents[1]
+# These tests chain several CLI subprocesses; under load they can outlast the global 60s
+# thread timeout and kill the session before the failing assertion is reported.
+pytestmark = pytest.mark.timeout(600)
+CLI_TIMEOUT_SECONDS = 120
 
 
 def dump(path, value):
@@ -54,14 +58,35 @@ def fixtureRepo(tmp_path):
     return root
 
 
+def _text(value):
+    if value is None:
+        return ""
+    if isinstance(value, bytes):
+        return value.decode("utf-8", "replace")
+    return value
+
+
 def cli(root, *args, mode=None, grant=None):
     env = os.environ.copy()
     env.update(PYTHONPATH=str(REPO / "src"), PYTHONDONTWRITEBYTECODE="1", GAIA_OPERATOR_OVERRIDE="1", GAIA_HOME=str(root / "isolated-home"))
     command = [sys.executable, "-m", "gaia_cli"]
     if mode:
         command = [sys.executable, str(REPO / "tests/fixtures/canonical_cli_bootstrap.py"), mode, str(grant)]
-    return subprocess.run(command + ["--registry", str(root), "dev", *args], env=env, cwd=root,
-                          text=True, capture_output=True, timeout=25)
+    started = time.monotonic()
+    timedOut = None
+    try:
+        return subprocess.run(command + ["--registry", str(root), "dev", *args], env=env, cwd=root,
+                              text=True, capture_output=True, timeout=CLI_TIMEOUT_SECONDS)
+    except subprocess.TimeoutExpired as exc:
+        timedOut = exc
+    # Fail outside the except block so the report is not chained to the raw TimeoutExpired.
+    elapsed = time.monotonic() - started
+    pytest.fail(
+        f"CLI subprocess timed out after {elapsed:.1f}s (limit {CLI_TIMEOUT_SECONDS}s, mode={mode!r}): "
+        f"dev {' '.join(args)}\n"
+        f"partial stdout:\n{_text(timedOut.stdout)}\n"
+        f"partial stderr:\n{_text(timedOut.stderr)}",
+        pytrace=False)
 
 
 def makePlan(root, operation="migrate-evidence", **extra):
