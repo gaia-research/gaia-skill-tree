@@ -464,7 +464,7 @@ class GitRefLedgerStore:
             result = None
             for attempt in range(6):
                 result = self.git(
-                    ["fetch", "--no-tags", "--quiet", fetchUrl, refspec],
+                    ["fetch", "--no-tags", "--quiet", "--refmap=", fetchUrl, refspec],
                     timeout=self.remoteTimeout,
                 )
                 if result.returncode == 0:
@@ -548,6 +548,13 @@ class GitRefLedgerStore:
             timeout=self.remoteTimeout,
         )
         if result.returncode == 0:
+            # Git may opportunistically update refs/remotes/<remote>/<ref>
+            # when pushUrl matches a configured remote. Remove it so the
+            # ledger leaves no trace outside refs/steward/.
+            self.git(
+                ["update-ref", "-d", f"refs/remotes/{self.remote}/{self.ref}"],
+                timeout=self.localTimeout,
+            )
             return commit
         self.classifyPushFailure(result, expected)
         raise AssertionError("classifyPushFailure always raises")  # pragma: no cover

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-workflow-skill-creator-demote-1699",
+  "status": "open",
+  "decision": "Rule on the workflow-skill-creator demotion event whose previousValue (4-star) disagrees with the level in the log (3-star).",
+  "whyItMatters": "Timeline events are canonical provenance. The chronological re-sort kept the content as written, so the historical discrepancy remains and Steward may not correct history itself.",
+  "evidence": [
+    "google-deepmind/workflow-skill-creator event 0 records previousValue 4-star while the log's level was 3-star at that point.",
+    "The ordering fix in PR #2147 changed order only and did not touch this content."
+  ],
+  "recommended": "Review the #1699 demotion history and either record the 4-star value as an accepted historical note or direct a corrective event through the timeline CLI.",
+  "alternative": "Leave the event as written and note the discrepancy as known.",
+  "unblocks": "Closing the historical-provenance question left over from #1699.",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/issues/1699"
+  ]
+}
