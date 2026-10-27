@@ -136,6 +136,12 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 174.62 -> 176.04, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-27T21:38:48Z'
+  action: upstream_synced
+  contributor: mbtiongson1
+  previousValue: 0.6.10
+  newValue: 0.6.13
+  details: synced from https://github.com/addyosmani/agent-skills/releases/tag/0.6.13
 evidence:
 - source: https://github.com/addyosmani/agent-skills/stargazers
   updatedAt: '2026-10-01'
@@ -180,11 +186,11 @@ links:
   github: https://github.com/addyosmani/agent-skills/blob/main/README.md
 upstream:
   mode: components
-  releasedAt: '2026-09-18T03:32:23Z'
+  releasedAt: '2026-10-13T20:21:58Z'
   repo: addyosmani/agent-skills
-  sourceUrl: https://github.com/addyosmani/agent-skills/releases/tag/0.6.10
-  syncedAt: '2026-09-22T19:48:02Z'
-  version: 0.6.10
+  sourceUrl: https://github.com/addyosmani/agent-skills/releases/tag/0.6.13
+  syncedAt: '2026-10-27T21:38:48Z'
+  version: 0.6.13
 ---
 
 ## Installation

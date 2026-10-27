@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "/data/data/com.termux/files/usr/bin/python",
+    "examples/frontier/record_experiment.py",
+    "--target-output",
+    "generated-output/frontier/graft-paired-isolated.execution.json",
+    "--result",
+    "inconclusive",
+    "--output",
+    "generated-output/frontier/git-log-L.paired-isolated.experiment-receipt-v1.json"
+  ],
+  "exitCode": 0,
+  "stdout": "generated-output/frontier/git-log-L.paired-isolated.experiment-receipt-v1.json\nresult inconclusive verification=untrusted-experiment-record admission=blocked\n",
+  "stderr": "",
+  "seconds": 0.74
+}

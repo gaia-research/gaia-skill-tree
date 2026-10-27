@@ -1,0 +1,28 @@
+{
+  "id": "b7a08db9e",
+  "name": "Verify corrected canonical CLI",
+  "command": "set -euo pipefail\ncd \"$HOME/.gaia-worktrees/yggdrasil-iv-canonical-cli\"\ntest \"$(git rev-parse HEAD)\" = 9cdcd8553f62bb6f75961790a1acd431c04b08f5\ntest -z \"$(git status --porcelain)\"\nPYTHONPATH=src PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider tests/test_canonical_transaction.py tests/test_canonical_cli.py tests/test_canonical_guard_regressions.py tests/test_evidence_lifecycle.py tests/test_dev_evidence.py tests/test_curation_authority_map.py\ntest \"$(git rev-parse HEAD)\" = 9cdcd8553f62bb6f75961790a1acd431c04b08f5\ntest -z \"$(git status --porcelain)\"",
+  "status": "completed",
+  "outputPath": ".pi/tasks/01a1753c-3a9c-7024-bcb2-ac1114464e09-10046/b7a08db9e.output",
+  "cwd": "/data/data/com.termux/files/home/gaia-skill-tree",
+  "startTime": 1793116119155,
+  "endTime": 1793116201977,
+  "exitCode": 0,
+  "signal": null,
+  "pid": 28927,
+  "bytesWritten": 205,
+  "isAgent": false,
+  "surviveReload": false,
+  "notified": true,
+  "notifyOnCompletion": true,
+  "triggerOnCompletion": true,
+  "timeoutSeconds": 600,
+  "shellPolicy": {
+    "policy": "inherit",
+    "executable": "/data/data/com.termux/files/usr/bin/bash",
+    "argvPrefix": [
+      "-c"
+    ],
+    "dialect": "bash"
+  }
+}

@@ -1,0 +1,101 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "emilkowalski/improve-animations",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "emilkowalski/improve-animations",
+  "canonicalUrl": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/improve-animations/SKILL.md",
+  "checked": true,
+  "contentSha256": "73962447464433476343e2c12cd08ab39cc99a9e5f3c118c5fb54ed897574ef6",
+  "hostRepository": "https://github.com/emilkowalski/skills",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "heygen-com/motion-graphics",
+     "similarity": 0.511136
+    },
+    {
+     "id": "heygen-com/pr-to-video",
+     "similarity": 0.491086
+    },
+    {
+     "id": "heygen-com/hyperframes-animation",
+     "similarity": 0.481899
+    },
+    {
+     "id": "heygen-com/hyperframes-creative",
+     "similarity": 0.471116
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "timeline-animation",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5196 to generic 'timeline-animation' (weak match).",
+   "similarity": 0.51956
+  },
+  {
+   "genericId": "video-interactivity",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4869 to generic 'video-interactivity' (weak match).",
+   "similarity": 0.486869
+  },
+  {
+   "genericId": "video-captions",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4516 to generic 'video-captions' (weak match).",
+   "similarity": 0.451606
+  }
+ ],
+ "normalized": {
+  "description": "Survey a codebase's animation and motion code as a senior motion advisor, then produce a prioritized audit and self-contained implementation plans for other agents (or cheaper models) to execute. Read-only on source code \u2014 it plans improvements, it does not apply them. Use when the user asks to \"improve the animations\", \"audit the motion\", \"make this app feel better\", or wants a roadmap of animation fixes rather than a review of a single diff.",
+  "name": "improve-animations"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/improve-animations/SKILL.md",
+  "contentSha256": "73962447464433476343e2c12cd08ab39cc99a9e5f3c118c5fb54ed897574ef6",
+  "fetchedAt": "2026-10-27T22:11:27.337137+00:00",
+  "frontmatter": {
+   "description": "Survey a codebase's animation and motion code as a senior motion advisor, then produce a prioritized audit and self-contained implementation plans for other agents (or cheaper models) to execute. Read-only on source code \u2014 it plans improvements, it does not apply them. Use when the user asks to \"improve the animations\", \"audit the motion\", \"make this app feel better\", or wants a roadmap of animation fixes rather than a review of a single diff.",
+   "name": "improve-animations"
+  },
+  "hostRepository": "https://github.com/emilkowalski/skills",
+  "revision": "2d228630ba1446365f614a108cb8252f1feda202",
+  "sourceLane": "source-repository"
+ }
+}

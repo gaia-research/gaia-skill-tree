@@ -91,6 +91,12 @@ timeline:
   previousValue: v3.25.5
   newValue: v3.41.2
   details: synced from https://github.com/ruvnet/ruflo/releases/tag/v3.41.2
+- timestamp: '2026-10-27T21:38:57Z'
+  action: upstream_synced
+  contributor: mbtiongson1
+  previousValue: v3.41.2
+  newValue: v3.63.5
+  details: synced from https://github.com/ruvnet/ruflo/releases/tag/v3.63.5
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -105,11 +111,11 @@ apexGateStatus:
 trustMagnitudeInputHash: db20d0fef4ac24590e0f954f745c84b9542b300e92855436ec38ce2cf3ce679e
 upstream:
   mode: components
-  releasedAt: '2026-09-10T20:02:34Z'
+  releasedAt: '2026-10-27T19:12:42Z'
   repo: ruvnet/ruflo
-  sourceUrl: https://github.com/ruvnet/ruflo/releases/tag/v3.41.2
-  syncedAt: '2026-09-12T09:52:03Z'
-  version: v3.41.2
+  sourceUrl: https://github.com/ruvnet/ruflo/releases/tag/v3.63.5
+  syncedAt: '2026-10-27T21:38:57Z'
+  version: v3.63.5
 ---
 ## Overview
 

@@ -1,0 +1,29 @@
+{
+  "id": "b8188eac7",
+  "name": "Run isolated Frontier comparison",
+  "command": "PYTHONDONTWRITEBYTECODE=1 python /data/data/com.termux/files/home/gaia-skill-tree/.pi/probes/resume-frontier-e4-isolated.py",
+  "status": "failed",
+  "outputPath": ".pi/tasks/01a1753c-3a9c-7024-bcb2-ac1114464e09-10046/b8188eac7.output",
+  "cwd": "/data/data/com.termux/files/home/gaia-skill-tree",
+  "startTime": 1793119451033,
+  "endTime": 1793119630108,
+  "exitCode": 1,
+  "signal": null,
+  "pid": 24771,
+  "bytesWritten": 350,
+  "isAgent": false,
+  "surviveReload": false,
+  "error": "Exited with code 1",
+  "notified": true,
+  "notifyOnCompletion": true,
+  "triggerOnCompletion": true,
+  "timeoutSeconds": 1500,
+  "shellPolicy": {
+    "policy": "inherit",
+    "executable": "/data/data/com.termux/files/usr/bin/bash",
+    "argvPrefix": [
+      "-c"
+    ],
+    "dialect": "bash"
+  }
+}

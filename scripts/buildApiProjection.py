@@ -339,6 +339,7 @@ def build_leaderboard(out_dir: Path, ledger_path: Path) -> None:
     """Write leaderboard.json by reshaping docs/graph/ledger/data.json."""
     if not ledger_path.exists():
         _write_json(out_dir / "leaderboard.json", {
+            "generatedAt": "",
             "distribution": {},
             "rows": [],
             "_links": {"self": "/api/v1/leaderboard.json"},
@@ -347,8 +348,6 @@ def build_leaderboard(out_dir: Path, ledger_path: Path) -> None:
 
     ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
 
-    # Strip internal top-level fields
-    _STRIP_TOP = {"version", "generatedAt"}
     distribution = ledger.get("summary", {})
 
     # Reshape rows
@@ -369,7 +368,13 @@ def build_leaderboard(out_dir: Path, ledger_path: Path) -> None:
                 reshaped[k] = v
         rows.append(reshaped)
 
+    # `generatedAt` is the ledger's own stamp (not wall-clock), so it only moves
+    # when the committed ledger does. The /trust/leaderboard/ page reads it for
+    # its "Updated" tag, and build_docs --check masks every `generatedAt`, so
+    # carrying it adds no timestamp churn. `version` stays out: the leaderboard
+    # is data, not an API contract with a version meaning.
     _write_json(out_dir / "leaderboard.json", {
+        "generatedAt": ledger.get("generatedAt", ""),
         "distribution": distribution,
         "rows": rows,
         "_links": {"self": "/api/v1/leaderboard.json"},

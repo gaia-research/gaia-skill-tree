@@ -10,7 +10,7 @@ CairoSVG installation and genuine PNG smoke passed in the isolated venv. Parent 
 
 ## Earlier resume pointer — explicit resume / Frontier (2026-10-26)
 
-The founder explicitly resumed the saved campaign and added the [locked Frontier ruling](GAIA_FRONTIER_RULING_2026-10-26.md). Read the newest `MEMORY.md` snapshot and refreshed `YGGDRASIL_IV_EXECUTION.md`; the capture below is historical, not a current stop instruction or the latest acceptance ledger. Preserve the pause bundle, original SHAs and interrupted evidence.
+The founder explicitly resumed the saved campaign and added the [locked Frontier ruling](../../GAIA_FRONTIER_RULING_2026-10-26.md). Read the newest `MEMORY.md` snapshot and refreshed `YGGDRASIL_IV_EXECUTION.md`; the capture below is historical, not a current stop instruction or the latest acceptance ledger. Preserve the pause bundle, original SHAs and interrupted evidence.
 
 - Accepted integration remains `4b73e62814fca16a01bd1e71325e7abb97316c95` (#2156), including domain #2155. Root `dev/yggdrasil-iv-frontier-reconciliation` reconciles saved docs with that integration; no main or aggregate merge.
 - Frontier initial local `6b0b48b68` implements mirrored invocation, separate native lead contract/helper and read-only handoff. Provenance/binding completion is in progress; independent real experiment, fresh harness invocation and final review outstanding. This is not production challenge admission.
@@ -188,7 +188,7 @@ Deep same-challenge CAS/outbox/input-integrity/legacy-adapter correction is queu
 
 ## FOUNDER PAUSE — 2026-10-26
 
-**No dispatches or further campaign execution until explicit resume. Queued completions are not authorization.** Authoritative compact handover: `founder/YGGDRASIL_IV_PAUSED.md`; ignored pause manifest/results/evidence/bundle under `.gaia/yggdrasil-iv/recovery/pause-2026-10-26/`. All nine source worktrees clean at capture and recovery-anchored; active corpus and helper workers cancelled, no nonterminal current-session worker metadata, all parent shell tasks terminal. No cleanup/deletion or source loss.
+**No dispatches or further campaign execution until explicit resume. Queued completions are not authorization.** Authoritative compact handover: `founder/handovers/yggdrasil-iv/YGGDRASIL_IV_PAUSED.md`; ignored pause manifest/results/evidence/bundle under `.gaia/yggdrasil-iv/recovery/pause-2026-10-26/`. All nine source worktrees clean at capture and recovery-anchored; active corpus and helper workers cancelled, no nonterminal current-session worker metadata, all parent shell tasks terminal. No cleanup/deletion or source loss.
 
 Newly collected final results: Sol publication **b21d391771f0**,158 focused tests reported, clean and remote verified; **full parent corpus/double replay + independent review pending**. Held schema **fa0ba3a92576** / core **e75623416da2**, exact reviewed blobs,100 tests, zero newly introduced errors relative baseline (371 raw named-schema failures pre-exist; native validator is programmatic). Corpus clean **0dffcf96ed0a**, interrupted/unaccepted. UI clean70239bcee,19 parent JS checks; worker152Python tests/native screenshots reported and copied, not independently inspected. Ledger/workflow helper trees unchanged at4b/77: no repair implemented before cancellation.
 

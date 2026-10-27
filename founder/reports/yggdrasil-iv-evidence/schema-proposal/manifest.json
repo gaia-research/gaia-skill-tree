@@ -1,0 +1,35 @@
+{
+  "format": "gaia-canonical-proposed-schema-fixtures-v1",
+  "purpose": "Private proposal fixtures for Parent review and isolated disposable canonical-workflow schema tests only.",
+  "status": "PROPOSAL_ONLY_NOT_ADOPTED",
+  "approvalMeaning": "Schema contents, decisionRef metadata, eventId hashes, and this manifest are not human approval or authorization.",
+  "source": {
+    "repository": "/data/data/com.termux/files/home/.gaia-worktrees/yggdrasil-iv-evidence-schema-contract",
+    "branch": "dev/yggdrasil-iv-evidence-schema-contract",
+    "sourceCommit": "bf9097b7a2414aeb47e34c7fcfb2d067df50199c",
+    "parentReadOnlyRepository": "/data/data/com.termux/files/home/.gaia-worktrees/yggdrasil-iv-canonical-cli",
+    "parentReadOnlyCommit": "9cdcd8553f62bb6f75961790a1acd431c04b08f5",
+    "schemaPaths": [
+      "registry/schema/namedSkill.schema.json",
+      "registry/schema/skillTree.schema.json"
+    ]
+  },
+  "fixtures": {
+    "namedSkill.schema.json": {
+      "path": "namedSkill.schema.json",
+      "sha256": "a74301da361b0ba2055920316a1b473a8f39575854feb1bcc183f32ef370e63c",
+      "bytes": 39468
+    },
+    "skillTree.schema.json": {
+      "path": "skillTree.schema.json",
+      "sha256": "8aa373fb4bc253d049bf235ae15ae8873f731f7b2dd69750290402e723cb0272",
+      "bytes": 8307
+    }
+  },
+  "constraints": [
+    "Use only in explicitly disposable test roots.",
+    "Do not use as adopted production schemas or to imply either required Core schema approval.",
+    "Separate founder rollout remains held.",
+    "Schema/test proposal does not edit Parent CLI source or its test bootstrap."
+  ]
+}

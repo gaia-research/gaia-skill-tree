@@ -1,0 +1,70 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/skillpack-check",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/skillpack-check",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/skillpack-check/SKILL.md",
+  "checked": true,
+  "contentSha256": "bcb96d0d231827c9fcd47865f63aaef70c9b9f7a7402464594f24f5fe1eeff8c",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Run `gbrain skillpack-check` to produce an agent-readable JSON health report for the gbrain install. Wraps `gbrain doctor` + `gbrain apply-migrations --list` so a host agent (your OpenClaw's morning-briefing, any OpenClaw cron) can see at a glance whether the skillpack needs attention. Use when the user asks \"is gbrain healthy?\", when a cron fires a morning check, or proactively when something see",
+  "name": "skillpack-check"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/skillpack-check/SKILL.md",
+  "contentSha256": "bcb96d0d231827c9fcd47865f63aaef70c9b9f7a7402464594f24f5fe1eeff8c",
+  "fetchedAt": "2026-10-27T22:03:05.800564+00:00",
+  "frontmatter": {
+   "description": "Run `gbrain skillpack-check` to produce an agent-readable JSON health report\nfor the gbrain install. Wraps `gbrain doctor` + `gbrain apply-migrations\n--list` so a host agent (your OpenClaw's morning-briefing, any OpenClaw cron)\ncan see at a glance whether the skillpack needs attention.\n\nUse when the user asks \"is gbrain healthy?\", when a cron fires a morning\ncheck, or proactively when something seems off (jobs not running, brain\nnot updating, autopilot silent).\n",
+   "mutating": false,
+   "name": "skillpack-check",
+   "tools": [
+    "shell"
+   ],
+   "triggers": [
+    "skillpack check",
+    "is gbrain healthy",
+    "gbrain health",
+    "check the brain",
+    "is the brain working"
+   ],
+   "version": "1.0.0"
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}
