@@ -6,12 +6,14 @@ adopt schemas, authorize a live pilot or publish a canonical consequence.
 
 ## Source reuse
 
-`evidenceLifecycle.py` and its focused tests are reused byte-for-byte from
+`evidenceLifecycle.py` is reused byte-for-byte, with its focused tests, from
 `e75623416da27cd9695bcc39f2f024d4d41025ac`, stacked over the independently reviewed
 `4aad305b34e00b30d2ff8ba42bc9a09e75641127` repair. This is selective source reuse,
 not a cherry-pick of the held evidence/schema lane. Schema commit
 `fa0ba3a9257682e76a57568358e2806391099f9c` is NOT adopted. The lifecycle core is a
 proposal/rehearsal engine; production TM does not consume its assertion states.
+The copied schema-acceptance test was adapted to assert the actual unadopted
+schema refusal; no held schema was copied just to make a test green.
 
 ## Authority and limits
 

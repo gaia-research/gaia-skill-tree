@@ -112,6 +112,29 @@ class CanonicalTransactionTests(unittest.TestCase):
         self.assertEqual(b"new-a", (self.root / "registry/nodes/a.json").read_bytes())
         self.assertEqual(b"outside", (self.root / "registry/named/b.md").read_bytes())
 
+    def test_rollback_final_receipt_rename_failure_is_recoverable(self):
+        from unittest.mock import patch
+        from gaia_cli import canonicalTransaction as tx
+        journal = apply(self.plan(), TestIssuer())
+        original = tx.os.replace
+
+        def failFinalRename(source, target):
+            if str(target).endswith(".rolled-back.json"):
+                raise OSError("fixture final rename interruption")
+            return original(source, target)
+
+        with patch.object(tx.os, "replace", failFinalRename):
+            with self.assertRaisesRegex(OSError, "final rename interruption"):
+                rollback(self.root, journal, TestIssuer("rollback"))
+        pending = next((self.root / tx.STATE_DIR).glob("*.pending.json"))
+        self.assertEqual(json.loads(pending.read_bytes())["status"], "rolled-back")
+        with self.assertRaisesRegex(TransactionError, "pending"):
+            assertNoPendingTransaction(self.root)
+        rollback(self.root, pending, TestIssuer("rollback"))
+        assertNoPendingTransaction(self.root)
+        self.assertEqual(b"old-a", (self.root / "registry/nodes/a.json").read_bytes())
+        self.assertEqual(b"old-b", (self.root / "registry/named/b.md").read_bytes())
+
     def test_tampered_journal_fails_closed(self):
         plan = self.plan()
         journal = Path(apply(plan, TestIssuer()))

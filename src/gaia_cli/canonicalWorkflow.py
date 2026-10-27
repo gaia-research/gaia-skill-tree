@@ -11,6 +11,7 @@ import hashlib
 import json
 import re
 import subprocess
+from datetime import datetime
 from pathlib import Path
 
 from jsonschema import Draft7Validator, FormatChecker
@@ -132,8 +133,17 @@ def buildPlan(root, request, *, preparedAt=None):
         if not result.score_neutral:
             raise tx.TransactionError("legacy migration comparison was not score-neutral")
         after = result.after_payload
-        summary.update(migratedRows=result.migrated_row_count, legacyBeforeTM=result.before_score,
-                       legacyAfterTM=result.after_score)
+        from gaia_cli.trustMagnitude import computeTrustMagnitude
+        catalogPath = root / "registry/benchmark-sources.json"
+        catalog = json.loads(catalogPath.read_bytes()) if catalogPath.exists() else {}
+        evaluationAt = datetime.fromisoformat(request["evaluationAtUTC"].replace("Z", "+00:00"))
+        oldScore = computeTrustMagnitude(named, generic, evaluationAtUTC=evaluationAt, benchmarkCatalog=catalog)
+        newScore = computeTrustMagnitude(after, generic, evaluationAtUTC=evaluationAt, benchmarkCatalog=catalog)
+        if oldScore != newScore:
+            raise tx.TransactionError("pinned migration comparison was not score-neutral")
+        summary.update(migratedRows=result.migrated_row_count, legacyBeforeTM=oldScore,
+                       legacyAfterTM=newScore, evaluationAtUTC=request["evaluationAtUTC"],
+                       scoreAuthority="none; pinned legacy comparison is informational, not a published assessment")
     elif operation == "assertion-transition":
         after = prepare_assertion_transition(named, request["evidenceId"], request["targetState"], request["decisionRef"]).after_payload
         # Proposal core records wall time; make the transaction's proposal provenance replayable.
@@ -261,6 +271,11 @@ def status(root):
 
 
 def rollbackPlan(root, document, journal):
+    with tx._lock(tx._root(root)):
+        return _rollbackPlan(root, document, journal)
+
+
+def _rollbackPlan(root, document, journal):
     # Do NOT re-run forward CAS/validators against a partially applied tree. The
     # exact original plan and current input revisions are separately bound below.
     root = tx._root(root)

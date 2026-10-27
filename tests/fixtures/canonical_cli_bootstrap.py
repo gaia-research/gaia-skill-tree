@@ -4,7 +4,9 @@ Runs the real native CLI in an isolated subprocess after replacing trusted Pytho
 resolver seams. A separately authored fixture grant binds the entire plan. Schema
 extensions below are synthetic test contracts, NOT adoption of held schemas.
 """
+import contextlib
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -57,13 +59,22 @@ if mode != "schema-only":
         assert selected == root
         return FixtureIssuer(plan, operation)
     workflow.resolveApproval = fixtureResolver
-if mode == "interrupt":
+if mode in {"interrupt", "interrupt-rollback"}:
     originalAtomic = tx._atomic
     def interruptCanonical(path, data, permissions):
         originalAtomic(path, data, permissions)
         if path.is_relative_to(root / "registry/named"):
-            raise OSError("TEST-ONLY interruption after canonical replacement")
+            os._exit(73 if mode == "interrupt" else 74)  # real abrupt fixture-process death
     tx._atomic = interruptCanonical
+
+if mode == "observe-lock":
+    originalLock = tx._lock
+    @contextlib.contextmanager
+    def observedLock(selected):
+        (root / "writer-lock-attempt").touch()
+        with originalLock(selected) as state:
+            yield state
+    tx._lock = observedLock
 
 from gaia_cli.main import main
 sys.exit(main() or 0)

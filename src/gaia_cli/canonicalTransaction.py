@@ -170,7 +170,8 @@ def _authorize(provider: ApprovalProvider | None, plan: Plan, operation: str) ->
 
 @contextlib.contextmanager
 def _lock(root: Path):
-    held = getattr(_heldLocks, "roots", set())
+    held = getattr(_heldLocks, "roots", set()) if getattr(_heldLocks, "pid", None) == os.getpid() else set()
+    _heldLocks.pid = os.getpid()
     if str(root) in held:
         yield root / STATE_DIR
         return
@@ -283,6 +284,8 @@ def apply(plan: Plan, provider: ApprovalProvider | None = None, *, fail_after: i
             raise TransactionError("CAS conflict: no targets were changed")
         modes = {t.path: (paths[t.path].stat().st_mode & 0o777 if paths[t.path].exists() else 0o644) for t in plan.targets}
         journal = state / f"{plan.digest}.pending.json"
+        if any(state.glob(f"{plan.digest}.*.json")):
+            raise TransactionError("previously journaled plan cannot be replayed; prepare a new decision")
         journal_bytes = _journal_data(plan, modes)
         _atomic(journal, journal_bytes, 0o600)
         try:
@@ -345,8 +348,6 @@ def rollback(root: str | Path, journal_path: str | Path, provider: ApprovalProvi
                 or path.is_symlink() or not path.is_file()):
             raise TransactionError("rollback requires a regular pending or committed journal in transaction state")
         doc, plan = _read_journal(path, selected)
-        if doc["status"] == "rolled-back":
-            raise TransactionError("journal is already rolled back")
         others = [p for p in (selected / STATE_DIR).glob("*.pending.json") if p != path]
         if others:
             raise TransactionError("another pending canonical transaction requires recovery first")
@@ -356,6 +357,8 @@ def rollback(root: str | Path, journal_path: str | Path, provider: ApprovalProvi
         states = {t.path: (paths[t.path].read_bytes() if paths[t.path].exists() else None) for t in plan.targets}
         if any(_hash(states[t.path]) not in {_hash(t.before), _hash(t.after)} for t in plan.targets):
             raise TransactionError("rollback refused: a target has an unrecognized outside edit")
+        if doc["status"] == "rolled-back" and any(states[t.path] != t.before for t in plan.targets):
+            raise TransactionError("rollback finalization refused: target differs from restored preimage")
         if doc["status"] == "committed" and any(states[t.path] != t.after for t in plan.targets):
             raise TransactionError("rollback refused: committed target is not its exact after image")
         # Persist rollback intent before restoration so an interrupted reversal also

@@ -7,6 +7,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import time
 
 import pytest
 import yaml
@@ -124,6 +125,10 @@ def test_migration_dual_histories_and_exact_byte_rollback(fixtureRepo):
     assert json.loads(result.stdout)["receipts"][0]["status"] == "committed"
     replay = cli(root, "canonical", "apply", "--plan", str(path), mode="approved", grant=grant)
     assert replay.returncode == 1
+    applied = sources(root)
+    refused = cli(root, "canonical", "rollback", "--plan", str(path), "--journal", journal)
+    assert refused.returncode == 1 and "No trusted canonical transaction issuer" in refused.stderr
+    assert sources(root) == applied
     result = cli(root, "canonical", "rollback", "--plan", str(path), "--journal", journal, mode="approved", grant=grant)
     assert result.returncode == 0, result.stderr
     assert sources(root) == before
@@ -158,7 +163,7 @@ def test_interruption_guards_actual_legacy_cli_and_recovers(fixtureRepo):
     before = sources(root)
     plan, path, grant = makePlan(root)
     result = cli(root, "canonical", "apply", "--plan", str(path), mode="interrupt", grant=grant)
-    assert result.returncode == 1 and "TEST-ONLY interruption" in result.stderr
+    assert result.returncode == 73  # abrupt child death after the first durable replacement
     status = json.loads(cli(root, "canonical", "status").stdout)
     assert status["pending"]
     assert set(status["receipts"][0]["targets"].values()) == {"before", "after"}
@@ -211,6 +216,145 @@ def test_rollback_outside_edit_preserves_every_other_target(fixtureRepo):
     result = cli(root, "canonical", "rollback", "--plan", str(path), "--journal", journal, mode="approved", grant=grant)
     assert result.returncode == 1 and "outside edit" in result.stderr
     assert sources(root) == before
+
+
+def test_interrupted_rollback_is_pending_and_can_be_completed(fixtureRepo):
+    root = fixtureRepo
+    before = sources(root)
+    _, path, grant = makePlan(root)
+    result = cli(root, "canonical", "apply", "--plan", str(path), mode="approved", grant=grant)
+    assert result.returncode == 0, result.stderr
+    journal = json.loads(result.stdout)["journal"]
+    result = cli(root, "canonical", "rollback", "--plan", str(path), "--journal", journal,
+                 mode="interrupt-rollback", grant=grant)
+    assert result.returncode == 74
+    snapshot = json.loads(cli(root, "canonical", "status").stdout)
+    assert snapshot["pending"] and set(snapshot["receipts"][0]["targets"].values()) == {"before", "after"}
+    pending = snapshot["receipts"][0]["journal"]
+    result = cli(root, "canonical", "rollback", "--plan", str(path), "--journal", pending, mode="approved", grant=grant)
+    assert result.returncode == 0, result.stderr
+    assert sources(root) == before
+    # A consumed decision cannot replay after exact preimage restoration.
+    result = cli(root, "canonical", "apply", "--plan", str(path), mode="approved", grant=grant)
+    assert result.returncode == 1 and "previously journaled plan" in result.stderr
+    assert sources(root) == before
+
+
+def test_cli_revision_transitions_preserve_payloads_and_have_no_score_authority(fixtureRepo):
+    root = fixtureRepo
+    _, path, grant = makePlan(root)
+    result = cli(root, "canonical", "apply", "--plan", str(path), mode="approved", grant=grant)
+    assert result.returncode == 0, result.stderr
+    first = copy.deepcopy(loadNamed(root)["evidence"][0])
+    plan, path, grant = makePlan(root, "assertion-transition", evidenceId=first["evidenceId"], targetState="revoked")
+    assert "scoreAuthority" in plan["summary"]
+    result = cli(root, "canonical", "apply", "--plan", str(path), mode="approved", grant=grant)
+    assert result.returncode == 0, result.stderr
+    rows = loadNamed(root)["evidence"]
+    assert rows[0] == first and rows[1]["assertionState"] == "revoked" and rows[1]["revision"] == 2
+    assert loadNamed(root)["level"] == "4★" and loadNamed(root)["origin"] is True
+    # Restoration is a successor, not deletion of the historical revocation.
+    _, path, grant = makePlan(root, "assertion-transition", evidenceId=first["evidenceId"], targetState="active")
+    result = cli(root, "canonical", "apply", "--plan", str(path), mode="approved", grant=grant)
+    assert result.returncode == 0, result.stderr
+    restored = copy.deepcopy(loadNamed(root))
+    assert len(restored["evidence"]) == 3 and restored["evidence"][-1]["revision"] == 3
+    _, path, grant = makePlan(root, "metric-refresh", evidenceId=first["evidenceId"], metrics={"commits": 500},
+        observationProvenance={"metricMethod": "reported", "observationState": "changed", "lastObservedAt": "2026-10-27T12:00:00Z",
+            "contentDigest": "unknown", "sourceRevision": "fixture-v2", "measurementScope": "repository"})
+    result = cli(root, "canonical", "apply", "--plan", str(path), mode="approved", grant=grant)
+    assert result.returncode == 0, result.stderr
+    refreshed = loadNamed(root)
+    assert refreshed["evidence"][:-1] == restored["evidence"]
+    assert refreshed["evidence"][-1]["commits"] == 500 and refreshed["evidence"][-1]["revision"] == 4
+    assert refreshed["level"] == "4★" and refreshed["origin"] is True
+
+
+def test_invalid_staged_schema_refused_even_with_fixture_issuer(fixtureRepo):
+    root = fixtureRepo
+    treePath = root / "skill-trees/alice/skill-tree.json"
+    tree = json.loads(treePath.read_bytes())
+    tree["unsupportedCanonicalField"] = True
+    dump(treePath, tree)
+    _, path, grant = makePlan(root)
+    before = sources(root)
+    result = cli(root, "canonical", "apply", "--plan", str(path), mode="approved", grant=grant)
+    assert result.returncode == 1 and "invalid staged output" in result.stderr
+    assert sources(root) == before
+
+
+def test_shared_writer_seams_refuse_pending_journal(fixtureRepo):
+    from gaia_cli import canonicalTransaction as tx
+    from gaia_cli.commands.dev.helpers import _write_md
+    from gaia_cli.timeline import append_skill_event, append_skill_tree_event
+    from gaia_cli.treeManager import save_tree
+    root = fixtureRepo
+    # An unknown/corrupt pending record must block, not silently clear itself.
+    state = root / tx.STATE_DIR
+    state.mkdir(parents=True)
+    (state / "unknown.pending.json").write_text("corrupt")
+    before = sources(root)
+    for writer in (lambda: _write_md(root / "registry/named/alice/tool.md", {}, ""),
+                   lambda: append_skill_event("tool", "add", "alice", "fixture", root),
+                   lambda: append_skill_tree_event("alice", "alice/tool", "rank_up", "fixture", root),
+                   lambda: save_tree("alice", {}, root)):
+        with pytest.raises(tx.TransactionError, match="pending canonical transaction"):
+            writer()
+        assert sources(root) == before
+
+
+def test_two_process_lock_then_pending_guard_blocks_native_writer(fixtureRepo):
+    root = fixtureRepo
+    env = os.environ.copy()
+    env.update(PYTHONPATH=str(REPO / "src"), PYTHONDONTWRITEBYTECODE="1", GAIA_OPERATOR_OVERRIDE="1", GAIA_HOME=str(root / "isolated-home"))
+    holderCode = '''
+import sys, time
+from pathlib import Path
+from gaia_cli.canonicalTransaction import _lock
+root = Path(sys.argv[1])
+with _lock(root) as state:
+    (root / "ready").touch()
+    end = time.monotonic() + 10
+    while not (root / "release").exists():
+        if time.monotonic() > end:
+            raise RuntimeError("fixture timed out")
+        time.sleep(0.02)
+    (state / "unknown.pending.json").write_text("corrupt fixture blocks safely")
+'''
+    before = sources(root)
+    holder = subprocess.Popen([sys.executable, "-c", holderCode, str(root)], env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    writer = None
+    try:
+        end = time.monotonic() + 5
+        while not (root / "ready").exists() and time.monotonic() < end:
+            assert holder.poll() is None
+            time.sleep(0.02)
+        assert (root / "ready").exists()
+        grant = root.parent / "lock-observation.json"
+        dump(grant, {"root": str(root)})
+        writer = subprocess.Popen([sys.executable, str(REPO / "tests/fixtures/canonical_cli_bootstrap.py"), "observe-lock", str(grant),
+            "--registry", str(root), "dev", "evidence", "alice/tool",
+            "https://example.invalid/new", "--type", "repo-own", "--commits", "1", "--contributors", "1", "--no-build"],
+            env=env, cwd=root, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        end = time.monotonic() + 5
+        while not (root / "writer-lock-attempt").exists() and time.monotonic() < end:
+            assert writer.poll() is None
+            time.sleep(0.02)
+        assert (root / "writer-lock-attempt").exists()
+        time.sleep(0.1)
+        assert writer.poll() is None  # observed at lock boundary, still blocked on the other interpreter
+        assert sources(root) == before
+        (root / "release").touch()
+        holder.communicate(timeout=10)
+        assert holder.returncode == 0
+        _, stderr = writer.communicate(timeout=15)
+        assert writer.returncode == 1 and "pending canonical transaction" in stderr
+        assert sources(root) == before
+    finally:
+        for child in (writer, holder):
+            if child and child.poll() is None:
+                child.kill()  # only this test's own finite synthetic processes
+                child.communicate(timeout=5)
 
 
 def test_ordinary_authorized_legacy_evidence_still_works(fixtureRepo):
