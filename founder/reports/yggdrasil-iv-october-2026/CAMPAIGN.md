@@ -70,3 +70,19 @@ plus existing: #2176/#2177 two Core approvals, visual acceptance, main merge, re
 - L4: 59 intake candidates ready (`reconciliation/INTAKE-L4-PACKET.md` via #2199).
 - Environment `challenge-receipt-issuer` settings (founder action, see `plans/issuer.md`).
 - Machine: disk ≈2.7 GB free after removing finished worktrees; caches outside the campaign are the founder's call.
+
+## Landed on `dev/yggdrasil-iv` (this campaign)
+
+| PR | What | Review | Merge |
+|---|---|---|---|
+| #2190 | execution-control handovers + proof set | lead (docs only) | fa90e9d85 |
+| #2191 | frontier match/dedupe | Sonnet HOLD → ACCEPT | 85fd1bf89 |
+| #2193 | protocol-driven receipts | Sonnet HOLD → ACCEPT | 7d8f2d5f3 |
+| #2196 | Meta verification record | Sonnet HOLD ×2 → ACCEPT-with-nits | 8279689cc |
+| #2199 | intake triage + L4 packet (no admissions) | Sonnet ACCEPT-with-nits (fixed) | — |
+| #2197 | October upstream sync (15 skills) | Sonnet ACCEPT-with-nits (fixed) | 9d3bdca35 |
+| #2195 | W0 web consistency + content-engine fix + parity tests | Sonnet HOLD → fixed | 67a85524c |
+
+Closed on dev: PRs #2170/#2171 (superseded by #2197); issues #1823 #2040 #2091 #2168 #2169 (synced by #2197); 38 stale intake issues (reconciliation lane).
+In flight: #2192 W2 (ACCEPT, rebasing after #2195), #2200 W7 (ACCEPT-with-nits, fixing), #2198 issuer (HOLD: P0 bundled trust root, P1 unpinned post-approval code; repairing), cases C1–C4, sweep in verification.
+Usage note: the session hit the account usage limit once (reset 07:40 Asia/Manila); sweep resumed automatically.
