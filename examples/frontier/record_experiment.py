@@ -2,115 +2,45 @@
 
 This recorder reads artifacts, not packet commands. A comparative result is a
 claim for Meta review, not authentication or public challenge admission.
+
+Receipt construction lives in `gaia_cli.frontier.build_experiment_receipt`; a
+protocol file declares the experiment id, version probe, expected artifact keys
+and pre-registered result rule. Without `--protocol` the recorder keeps its
+original behavior for the git-log-L experiment.
 """
 from __future__ import annotations
 
 import argparse
-from datetime import datetime, timezone
-import hashlib
 import json
 from pathlib import Path
 import sys
-import re
-import uuid
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
-from gaia_cli.frontier import VERSION_MISMATCH_RESULTS, validate_experiment_receipt, validate_request
+from gaia_cli.frontier import DEFAULT_ARTIFACT_ROOT, EXPERIMENT_RESULTS, build_experiment_receipt, resolve_artifact
 
 DEFAULT_REQUEST = "generated-output/frontier/git-log-L-graft.verification-request-v1.json"
 DEFAULT_NATIVE = "generated-output/frontier/git-log-L.execution.json"
 DEFAULT_RECEIPT = "generated-output/frontier/git-log-L.experiment-receipt-v1.json"
-RESULTS = ("supported", "contradicted", "inconclusive", "execution_failed")
+RESULTS = EXPERIMENT_RESULTS
+LEGACY_PROTOCOL = {"protocolId": "git-log-L-vs-graft-v1"}
 
 
-def artifact_path(root: Path, relative: str) -> Path:
-    """Confine reads/writes to real generated-output/frontier descendants."""
-    root = root.resolve()
-    rel = Path(relative)
-    if rel.is_absolute() or ".." in rel.parts or rel.parts[:2] != ("generated-output", "frontier") or len(rel.parts) < 3:
-        raise ValueError("artifact must be a relative generated-output/frontier descendant")
-    current = root
-    for part in rel.parts:
-        current = current / part
-        if current.is_symlink():
-            raise ValueError("artifact paths must not contain symlinks")
-    if not current.resolve().is_relative_to(root):
-        raise ValueError("artifact is outside checkout")
-    return current
-
-
-def artifact_source(root: Path, relative: str) -> Path:
-    rel = Path(relative)
-    path = (root / rel).resolve()
-    if rel.is_absolute() or ".." in rel.parts or not path.is_relative_to(root.resolve()) or not path.is_file():
-        raise ValueError("request input path is not a file inside the checkout")
-    return path
+def artifact_path(root: Path, relative: str, artifact_root: str = DEFAULT_ARTIFACT_ROOT) -> Path:
+    """Confine reads/writes to real artifact-root descendants."""
+    return resolve_artifact(root, relative, artifact_root)
 
 
 def build_receipt(*, root: Path, request_rel: str = DEFAULT_REQUEST,
                   native_rel: str = DEFAULT_NATIVE, target_rel: str | None = None,
-                  result: str = "inconclusive") -> dict:
+                  result: str = "inconclusive", protocol: str | dict | None = None,
+                  artifact_root: str = DEFAULT_ARTIFACT_ROOT) -> dict:
     if result not in RESULTS:
         raise ValueError("invalid experimental result")
-    request = json.loads(artifact_path(root, request_rel).read_text(encoding="utf-8"))
-    if validate_request(request):
-        raise ValueError("request integrity check failed")
-    native_raw = artifact_path(root, native_rel).read_bytes()
-    execution = json.loads(native_raw)
-    if not isinstance(execution, dict) or execution.get("experiment") != "git-log-L-vs-graft-v1" or execution.get("executionCheck") != "passed":
-        raise ValueError("fixed runner output did not match expected reviewed protocol")
-    match = re.fullmatch(r"git version (\S+)(?: .*)?", str(execution.get("gitVersion", "")).strip())
-    if not match:
-        raise ValueError("native artifact lacks a recognizable git --version string")
-    executed = match.group(1)
-    if "executedVersion" in execution and execution["executedVersion"] != executed:
-        raise ValueError("native artifact executedVersion does not match its recorded git --version")
-    documented = request["native"]["version"]
-    if executed != documented and result not in VERSION_MISMATCH_RESULTS:
-        raise ValueError(f"executed Git {executed} differs from documented {documented}: only inconclusive or execution_failed may be recorded")
-    for key, expected in (("requestId", request["requestId"]), ("fixtureDigest", request["fixture"]["contentDigest"]), ("protocolDigest", request["protocol"]["contentDigest"])):
-        if execution.get(key) != expected:
-            raise ValueError(f"native artifact {key} does not match the request")
-    # Also bind to the actual files this checkout holds, not only the request's claim.
-    for key, spec in (("fixtureDigest", request["fixture"]), ("protocolDigest", request["protocol"])):
-        actual = "sha256:" + hashlib.sha256(artifact_source(root, spec["path"]).read_bytes()).hexdigest()
-        if actual != spec["contentDigest"]:
-            raise ValueError(f"checkout {key[:-6]} bytes differ from the request")
-    output = execution.get("output")
-    if not isinstance(output, str) or execution.get("outputDigest") != "sha256:" + hashlib.sha256(output.encode("utf-8")).hexdigest():
-        raise ValueError("native recorded output digest mismatch")
-    outputs = [{"label": "native", "contentDigest": "sha256:" + hashlib.sha256(native_raw).hexdigest(), "path": native_rel}]
-    limitations = ["This is an untrusted experiment record, not verifier authentication or public challenge admission."]
-    if executed != documented:
-        limitations.append(f"Executed Git version {executed} differs from documented version {documented}; the documented tag is claim provenance only, so only inconclusive or execution_failed is permitted.")
-    if target_rel is not None:
-        target_raw = artifact_path(root, target_rel).read_bytes()
-        if not target_raw.strip():
-            raise ValueError("target output artifact is empty")
-        if artifact_path(root, native_rel) == artifact_path(root, target_rel):
-            raise ValueError("native and target outputs must be distinct artifacts")
-        if hashlib.sha256(target_raw).digest() == hashlib.sha256(native_raw).digest():
-            raise ValueError("native and target outputs must have distinct content")
-        outputs.append({"label": "target", "contentDigest": "sha256:" + hashlib.sha256(target_raw).hexdigest(), "path": target_rel})
-        limitations.append("Paired artifacts alone establish neither comparable performance, superiority nor independent verification; Meta must assess protocol execution and counterevidence.")
-    else:
-        limitations.append("Fixed Git fixture runner executed; no target comparison output is attached.")
-    receipt = {
-        "schemaVersion": "frontier-experiment-receipt-v1.1", "experimentRunId": "run-" + uuid.uuid4().hex,
-        "campaignId": request["campaignId"], "nativeVersion": executed,
-        "documentedVersion": documented, "executedVersion": executed,
-        "requestId": request["requestId"], "leadDigest": request["leadDigest"], "claimDigest": request["claimDigest"],
-        "sourceDigest": request["source"]["contentDigest"], "targetDigest": request["target"]["contentDigest"],
-        "targetRevision": request["target"]["revision"], "historyRef": request["historyRef"],
-        "protocolDigest": request["protocol"]["contentDigest"], "fixtureDigest": request["fixture"]["contentDigest"],
-        "result": result, "outputs": outputs, "limitations": limitations,
-        "recordedAtUTC": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-    }
-    errors = validate_experiment_receipt(receipt, request, repo_root=root)
-    if errors:
-        raise ValueError("receipt invalid: " + "; ".join(errors))
-    return receipt
+    request = json.loads(artifact_path(root, request_rel, artifact_root).read_text(encoding="utf-8"))
+    return build_experiment_receipt(
+        root=root, request=request, execution_path=native_rel, target_path=target_rel, result=result,
+        protocol=LEGACY_PROTOCOL if protocol is None else protocol, artifact_root=artifact_root)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -119,12 +49,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--native-output", default=DEFAULT_NATIVE)
     parser.add_argument("--target-output", help="actual separately recorded paired target output, never a command")
     parser.add_argument("--result", choices=RESULTS, default="inconclusive")
+    parser.add_argument("--protocol", help="repo-relative protocol file pinned by the request (default: legacy git-log-L contract)")
+    parser.add_argument("--artifact-root", default=DEFAULT_ARTIFACT_ROOT, help="generated-output/frontier (default) or evidence/frontier-challenges/<id>/artifacts")
     parser.add_argument("--output", default=DEFAULT_RECEIPT, help="new receipt path; existing history is never replaced")
     args = parser.parse_args(argv)
     try:
         receipt = build_receipt(root=ROOT, request_rel=args.request, native_rel=args.native_output,
-                                target_rel=args.target_output, result=args.result)
-        destination = artifact_path(ROOT, args.output)
+                                target_rel=args.target_output, result=args.result,
+                                protocol=args.protocol, artifact_root=args.artifact_root)
+        destination = artifact_path(ROOT, args.output, args.artifact_root)
         destination.parent.mkdir(parents=True, exist_ok=True)
         with destination.open("x", encoding="utf-8") as stream:
             stream.write(json.dumps(receipt, indent=2) + "\n")
