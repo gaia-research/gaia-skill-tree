@@ -13290,8 +13290,32 @@ body[data-overall-grade="S"] .report-card {
   white-space: nowrap;
   color: var(--muted);
 }
-.ev-prov-link:hover .ev-prov-path {
+.ev-prov-tail {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  color: var(--muted);
+}
+.ev-prov-link:hover .ev-prov-path,
+.ev-prov-link:hover .ev-prov-tail {
   color: inherit;
+}
+.ev-prov-dup {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: 2px;
+  padding: 1px 5px;
+  white-space: nowrap;
+  cursor: help;
+}
+.ev-type-pill.type-none {
+  color: var(--muted);
+  background: transparent;
+  border: 1px dashed var(--border);
+  font-style: italic;
 }
 .ev-prov-none {
   font-style: italic;
@@ -13318,11 +13342,14 @@ body[data-overall-grade="S"] .report-card {
   opacity: 0.7;
   flex-shrink: 0;
 }
+/* 24px hit target around a 14px mark; negative margins keep the row height. */
 .ev-prov-tip .ev-prov-info {
-  border: 1px solid currentColor;
+  position: relative;
+  border: 0;
   border-radius: 50%;
-  width: 14px;
-  height: 14px;
+  width: 24px;
+  height: 24px;
+  margin: -5px -5px -5px -3px;
   padding: 0;
   display: inline-flex;
   align-items: center;
@@ -13331,11 +13358,19 @@ body[data-overall-grade="S"] .report-card {
   color: var(--muted);
   opacity: 0.7;
 }
+.ev-prov-tip .ev-prov-info::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  pointer-events: none;
+}
 .ev-prov-info:hover,
 .ev-prov-info:focus-visible {
   opacity: 1;
 }
-/* The host link claims at least 7rem: the path gives way first, and in a narrow
+/* The host link claims at least 11rem: the path gives way first, and in a narrow
    card the link (with its tooltip trigger) wraps to its own line instead of
    being crushed. */
 .se-ev-card-top > .ev-type-pill {
@@ -13348,7 +13383,7 @@ body[data-overall-grade="S"] .report-card {
 }
 .se-ev-card-top > .ev-prov-link,
 .se-ev-card-top > .ev-prov-none {
-  flex: 1 1 7rem;
+  flex: 1 1 11rem;
   min-width: 0;
 }
 /* The toggletip anchors to the card, not the 14px trigger, and the card must

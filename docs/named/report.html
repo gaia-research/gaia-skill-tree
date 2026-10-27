@@ -1041,14 +1041,15 @@
           '</tr></thead>' +
           '<tbody>';
 
-        for (var i = 0; i < evidence.length; i++) {
-          var ev = evidence[i];
+        var shownEvidence = window.GaiaEvidenceProvenance ? window.GaiaEvidenceProvenance.markDuplicates(evidence) : evidence;
+        for (var i = 0; i < shownEvidence.length; i++) {
+          var ev = shownEvidence[i];
           var grade = ev.grade || '—';
-          var type = ev.type || ev['class'] || '—';
+          var type = ev.type || '';
           // Source host, evaluator and date come from the shared renderer
           // (evidence-provenance.js) exactly as the row records them.
           var EP = window.GaiaEvidenceProvenance;
-          var provRow = Object.assign({}, ev, { type: type });
+          var provRow = ev;
           var trustNum = ev.trustNumber != null ? Number(ev.trustNumber).toFixed(1) : '—';
 
           // Stale / dead-link flags (future fields; graceful if absent)
@@ -1060,14 +1061,14 @@
 
           html += '<tr>' +
             '<td>' + renderGradeChip(grade) + '</td>' +
-            '<td>' + renderTypeChip(type, EP ? EP.typeLabel(type) : type) + '</td>' +
+            '<td>' + renderTypeChip(type || 'none', EP ? EP.typeLabel(type) : (type || 'no type')) + '</td>' +
             '<td>' +
               (EP ? EP.renderSource(provRow) : '<span class="ev-source-link" style="cursor:default;">—</span>') +
               flags +
             '</td>' +
             '<td>' + (EP ? EP.renderEvaluator(provRow) : '') + '</td>' +
             '<td><span class="ev-trust-num">' + esc(trustNum) + '</span></td>' +
-            '<td>' + (EP ? EP.renderDate(provRow) : '') + '</td>' +
+            '<td>' + (EP ? EP.renderDate(provRow) + EP.renderDuplicate(provRow) : '') + '</td>' +
           '</tr>';
         }
 

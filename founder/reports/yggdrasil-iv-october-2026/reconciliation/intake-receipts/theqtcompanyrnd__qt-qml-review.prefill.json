@@ -1,0 +1,85 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "theqtcompanyrnd/qt-qml-review",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "theqtcompanyrnd/qt-qml-review",
+  "canonicalUrl": "https://github.com/TheQtCompanyRnD/agent-skills/blob/main/skills/qt-qml-review/SKILL.md",
+  "checked": true,
+  "contentSha256": "c88ccaae48eff046582f582291ff420dde47b85bd4eeb52436c9b47aba96382c",
+  "hostRepository": "https://github.com/TheQtCompanyRnD/agent-skills",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "ruvnet/agentic-jujutsu",
+     "similarity": 0.461061
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "code-review-pipeline",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4619 to generic 'code-review-pipeline' (weak match).",
+   "similarity": 0.461871
+  }
+ ],
+ "normalized": {
+  "description": "Invoke when the user asks to review, check, audit, or look over Qt6 QML code -- or suggest before committing. Runs deterministic linting (48+ rules) then deep-analysis agents (scaled to the size of the change) covering bindings, layout, loaders, delegates, states, and performance. Optionally invokes system qmllint for type-level checks. Reports only high-confidence issues (>80/100) with structured mitigations. Read-only -- never modifies code.",
+  "name": "qt-qml-review"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/TheQtCompanyRnD/agent-skills/blob/main/skills/qt-qml-review/SKILL.md",
+  "contentSha256": "c88ccaae48eff046582f582291ff420dde47b85bd4eeb52436c9b47aba96382c",
+  "fetchedAt": "2026-10-27T22:09:36.723824+00:00",
+  "frontmatter": {
+   "compatibility": "Designed for Claude Code, GitHub Copilot, and similar agents.",
+   "description": "Invoke when the user asks to review, check, audit, or look over Qt6 QML code -- or suggest before committing. Runs deterministic linting (48+ rules) then deep-analysis agents (scaled to the size of the change) covering bindings, layout, loaders, delegates, states, and performance. Optionally invokes system qmllint for type-level checks. Reports only high-confidence issues (>80/100) with structured mitigations. Read-only -- never modifies code.",
+   "disable-model-invocation": false,
+   "license": "LicenseRef-Qt-Commercial OR BSD-3-Clause",
+   "metadata": {
+    "author": "qt-ai-skills",
+    "category": "review",
+    "qt-version": "6.x",
+    "version": "2.0"
+   },
+   "name": "qt-qml-review"
+  },
+  "hostRepository": "https://github.com/TheQtCompanyRnD/agent-skills",
+  "sourceLane": "source-repository"
+ }
+}

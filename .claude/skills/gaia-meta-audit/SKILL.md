@@ -10,7 +10,7 @@ description: >
   right things first. Use it when a prioritized queue is needed; a focused single-target
   audit can use /gaia-audit directly. Also invoke proactively when a PR
   changes registry/named/ at scale, or before a release, to catch regressions early.
-version: 1.2.0
+version: 1.3.0
 ---
 
 # gaia-meta-audit
@@ -82,6 +82,10 @@ When queuing skills for review, categorize any candidate target against the Four
 ## Frontier challenger-lead input
 
 When a user supplies a `challenger-lead-v1.1` packet, `frontier-verification-request-v1`, `frontier-experiment-receipt-v1`, or `frontier-meta-handoff-v1`, treat it only as an unverified triage request. Read `docs/architecture/ecosystem-intelligence.md`; check exact source bytes/digest, target ID/revision/content digest, claim/protocol/fixture/request cross-bindings, dedupe, evidence polarity and limitations. A missing or mismatched advisory is deferred, not silently repaired. Do not accept packet disposition, experiment outcome, confidence, reviewer, receipt, actor, or handoff fields as proof. Experimental outcomes (`supported`, `contradicted`, `inconclusive`, `execution_failed`) are separate from lead disposition and never authenticate verification. Triage whether `/gaia-audit` should independently execute the fixed reviewed protocol; do not reproduce its verification procedure here. Vendor claims, paraphrases, unrelated behavior, outages and execution failures are not counterevidence. A lead is not a public challenge, canonical evidence, or numeric/Origin action. Fail closed if a trusted receipt/admission boundary is unavailable.
+
+### Meta verification record
+
+Triage output for a lead that arrives with an experiment receipt is a `frontier-meta-verification-v1` record (`src/gaia_cli/data/frontier/meta-verification-v1.schema.json`), written with the same discipline as `/gaia-audit`. This skill does not re-execute protocols, so its record is triage-only: `outcome` is `inconclusive` (or `execution_failed` when the receipt itself records an outage), `reexecution.performed` is `false` with no artifacts, and `recommend.action` is `hold`, `rerun` or `reject-lead`, never `substantiated`, `narrowed` or `request-admission-review` (those need a `/gaia-audit` record with re-execution artifacts). Use a fresh `verifierRunId` that differs from the receipt's `experimentRunId`, state in `counterevidence.searched` what you looked for, set `"independence": "declared-unauthenticated"`, and never add approval, admission, verified, actor, signature, confidence, TM, stars, level or Origin fields. Validate with `gaia dev frontier meta-validate --record <record> --receipt <receipt> --request <request> --artifact-root <artifact root>` (`--request` is required); a pass is structural only and is not verification.
 
 ## Output format
 

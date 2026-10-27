@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "graft",
+    "--version"
+  ],
+  "exitCode": 0,
+  "stdout": "0.18.0\n",
+  "stderr": "",
+  "seconds": 1.442
+}

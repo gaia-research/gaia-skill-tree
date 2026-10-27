@@ -1,0 +1,84 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/brain-link-discipline",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/brain-link-discipline",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-link-discipline/SKILL.md",
+  "checked": true,
+  "contentSha256": "db2a77319475dd8eb370e9a3bb0eafe81d3b19d2de126113b30df7454dd9a069",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.503472
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "When you report a brain page to the user \u2014 created, edited, committed, or relayed from a subagent \u2014 a working link is part of the deliverable, in the SAME message. Derive the path mechanically (git ls-files --full-name), push BEFORE linking, verify the link resolves when a hosted remote exists, and degrade through a defined fallback chain when it doesn't. Inside brain pages the rule inverts: relat",
+  "name": "brain-link-discipline"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-link-discipline/SKILL.md",
+  "contentSha256": "db2a77319475dd8eb370e9a3bb0eafe81d3b19d2de126113b30df7454dd9a069",
+  "fetchedAt": "2026-10-27T22:08:52.683647+00:00",
+  "frontmatter": {
+   "brain_first": "exempt",
+   "description": "When you report a brain page to the user \u2014 created, edited, committed, or\nrelayed from a subagent \u2014 a working link is part of the deliverable, in the\nSAME message. Derive the path mechanically (git ls-files --full-name), push\nBEFORE linking, verify the link resolves when a hosted remote exists, and\ndegrade through a defined fallback chain when it doesn't. Inside brain\npages the rule inverts: relative links preserve the link graph; absolute\nURLs are for chat deliverables only.\n",
+   "mutating": true,
+   "name": "brain-link-discipline",
+   "triggers": [
+    "give me the link",
+    "where is the page",
+    "why does this link 404",
+    "brain link discipline",
+    "rewrite subagent paths",
+    "report the pages you created",
+    "send me a clickable link",
+    "link the page in the same message"
+   ],
+   "upstream": "brain-link-on-commit@fc834ee + brain-link-report@fc834ee",
+   "version": "1.0.0",
+   "writes_pages": false
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

@@ -74,10 +74,28 @@ def test_skill_explorer_does_not_dedupe_the_displayed_rows() -> None:
     source = (DOCS / "js" / "skill-explorer.js").read_text(encoding="utf-8")
     body = source[source.index("var combinedEvidence = [];"):source.index("var TM_SCORE = window.TM_CONFIG;")]
     # Display list is pushed unconditionally; only the scoring baseline dedupes.
-    assert re.search(r"combinedEvidence\.push\(tagged\);\s*\n\s*// Score baseline dedupes", body)
+    assert "combinedEvidence.push(tagged);" in body
+    assert body.index("combinedEvidence.push(tagged);") > body.index("_duplicate: true")
     assert "scoringEvidence.push(tagged)" in body
+    assert body.count("combinedEvidence.push(") == 1
 
 
 def test_evidence_index_is_cache_busted_by_the_docs_build() -> None:
     build = (ROOT / "scripts" / "build_docs.py").read_text(encoding="utf-8")
     assert '"evidence/index.html"' in build
+
+
+def test_duplicates_are_marked_on_every_surface() -> None:
+    explorer = (DOCS / "js" / "skill-explorer.js").read_text(encoding="utf-8")
+    library = (DOCS / "js" / "evidence-library.js").read_text(encoding="utf-8")
+    report = (DOCS / "named" / "report.html").read_text(encoding="utf-8")
+    assert "_duplicate: true" in explorer
+    assert "_duplicate: true" in library
+    assert "markDuplicates(evidence)" in report and "renderDuplicate" in report
+
+
+def test_missing_type_is_not_defaulted_to_a_real_type_on_any_surface() -> None:
+    report = (DOCS / "named" / "report.html").read_text(encoding="utf-8")
+    library = (DOCS / "js" / "evidence-library.js").read_text(encoding="utf-8")
+    assert "ev['class']" not in report
+    assert "type: ev.typeRecorded" in library

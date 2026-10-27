@@ -61,7 +61,7 @@ def _request_fixture(tmp_path: Path):
     (repo / "registry/nodes").mkdir(parents=True)
     node = b'{"id":"generic-history","type":"basic","description":"Historical code tracing"}\n'
     (repo / "registry/nodes/generic-history.json").write_bytes(node)
-    for rel, value in [("sources/git-log.adoc", b"official source snapshot"), ("protocol.json", b"reviewed protocol v1"), ("fixture.py", b"def score(x): return x + 1\n")]:
+    for rel, value in [("sources/git-log.adoc", b"official source snapshot"), ("protocol.json", b'{"protocolId": "git-log-L-vs-graft-v1"}\n'), ("fixture.py", b"def score(x): return x + 1\n")]:
         path=repo / rel; path.parent.mkdir(parents=True,exist_ok=True); path.write_bytes(value)
     subprocess.run(["git","-C",str(repo),"init","-q"],check=True)
     subprocess.run(["git","-C",str(repo),"config","user.name","Fixture"],check=True)

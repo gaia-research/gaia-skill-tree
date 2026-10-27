@@ -55,6 +55,12 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 172.43 -> 174.68, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-27T21:39:04Z'
+  action: upstream_synced
+  contributor: mbtiongson1
+  previousValue: null
+  newValue: v2.1.5
+  details: first-run baseline
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md
   updatedAt: '2026-10-01'
@@ -91,6 +97,13 @@ suiteComponents:
 trustMagnitude: 174.68
 overallTrustGrade: A
 trustMagnitudeInputHash: 2b7d435989bd529ab3ba8d82a72daa51958dbd9f2f2b068f6bf5489c1aadd0c8
+upstream:
+  mode: components
+  releasedAt: '2026-10-24T23:44:17Z'
+  repo: Leonxlnx/taste-skill
+  sourceUrl: https://github.com/Leonxlnx/taste-skill/releases/tag/v2.1.5
+  syncedAt: '2026-10-27T21:39:04Z'
+  version: v2.1.5
 ---
 
 ## Installation

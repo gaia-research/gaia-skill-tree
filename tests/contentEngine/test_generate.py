@@ -273,3 +273,36 @@ def test_no_snake_case_new_publics():
         f"Public functions must be camelCase per workspace rules; found "
         f"snake_case: {banned}"
     )
+
+
+def test_entry_runs_as_script_like_build_docs(tmp_path: Path):
+    """Regression (#2172): the entry imports `publication_context` from scripts/.
+
+    build_docs.py runs this file as a subprocess, so sys.path[0] is
+    scripts/contentEngine/ and the parent scripts/ dir is NOT importable unless
+    the entry puts it there. In-process imports mask the failure (conftest
+    already has scripts/ on sys.path), so spawn a clean interpreter.
+    """
+    import os
+    import subprocess
+
+    apiDir = _seedTrendingApi(tmp_path)
+    docsRoot = tmp_path / "docs"
+    env = {k: v for k, v in os.environ.items() if k != "PYTHONPATH"}
+    env["PYTHONPATH"] = str(ROOT / "src")
+    proc = subprocess.run(
+        [
+            sys.executable,
+            str(PKG_DIR / "generate_weekly_report.py"),
+            "--out-dir", str(docsRoot),
+            "--api-dir", str(apiDir),
+            "--publish", "0",
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        env=env,
+    )
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert "ModuleNotFoundError" not in proc.stderr
+    assert list((docsRoot / "reports" / "DRAFT").glob("*"))

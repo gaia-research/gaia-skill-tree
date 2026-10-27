@@ -35,7 +35,10 @@ test('legacy type aliases normalize and unknown types show as written', () => {
   assert.equal(EP.typeLabel('github-stars'), 'stars');
   assert.equal(EP.typeLabel('benchmark-result'), 'benchmark');
   assert.equal(EP.typeLabel('brand-new-type'), 'brand-new-type');
-  assert.equal(EP.normalizeType(''), 'repo-own');
+  // A row that records no type is rendered as missing, never defaulted to a real type.
+  assert.equal(EP.normalizeType(''), '');
+  assert.equal(EP.normalizeType(undefined), '');
+  assert.equal(EP.typeLabel(''), 'no type');
 });
 
 test('evaluators are never hidden, including unknown, claude and system', () => {
@@ -62,7 +65,7 @@ test('full row renders type pill, host link, evaluator and date', () => {
   assert.match(html, /<span class="ev-type-pill type-repo-own">repo<button/);
   assert.match(html, /title="formula"/);
   assert.match(html, /<a class="se-ev-link ev-prov-link" href="https:\/\/www\.github\.com\/acme\/widget\/blob\/main\/SKILL\.md" target="_blank" rel="noopener noreferrer"/);
-  assert.match(html, /<span class="ev-prov-host">github\.com<\/span><span class="ev-prov-path">\/acme\/widget\/blob\/main\/SKILL\.md<\/span>/);
+  assert.match(html, /<span class="ev-prov-host">github\.com<\/span><span class="ev-prov-path">\/acme\/widget\/blob\/m<\/span><span class="ev-prov-tail">ain\/SKILL\.md<\/span>/);
   assert.match(html, /by mbtiongson1/);
   assert.match(html, /<time class="se-ev-date" title="Date" datetime="2026-06-14">2026-06-14<\/time>/);
   assert.ok(html.indexOf('data-x="layer"') < html.indexOf('se-ev-card-meta'));
@@ -116,7 +119,7 @@ test('hostile strings are escaped in every field and attribute', () => {
 test('tooltip uses the shared toggletip when the lifecycle module is loaded', () => {
   withLifecycle(() => {
     const html = EP.renderTip(row);
-    assert.match(html, /<span class="lc-anchor ev-prov-tip"><button type="button" class="lc-tip ev-prov-info" aria-label="Evidence provenance" aria-describedby="lc-tip-\d+">i<\/button>/);
+    assert.match(html, /<span class="lc-anchor ev-prov-tip"><button type="button" class="lc-tip ev-prov-info" aria-label="Evidence provenance: repo, github\.com" aria-describedby="lc-tip-\d+">i<\/button>/);
     assert.match(html, /role="tooltip"/);
     assert.match(html, /Evaluator, as recorded: mbtiongson1\./);
     assert.match(html, /Source: https:\/\/www\.github\.com\/acme\/widget\/blob\/main\/SKILL\.md/);
@@ -174,4 +177,56 @@ test('a toggletip outside a .lc-panel stays open after the click that opened it'
   } finally {
     delete globalThis.document;
   }
+});
+
+test('a row with no recorded type renders as "no type", not as repo', () => {
+  for (const type of [undefined, '', '   ', null]) {
+    const html = EP.renderProvenance({type, source: 'https://www.youtube.com/watch?v=6Y1tXh12W-g', evaluator: 'unknown', date: '2026-06-19'}, {pillTip: 'repo formula', tip: () => ''});
+    assert.match(html, /<span class="ev-type-pill type-none">no type<button/);
+    assert.doesNotMatch(html, />repo</);
+    assert.doesNotMatch(html, /repo formula/);
+    assert.match(html, /title="No evidence type is recorded for this row\."/);
+    assert.match(html, /aria-label="no type evidence type info"/);
+  }
+  assert.ok(EP.provenanceLines({source: 'https://example.org/x'})[0].startsWith('No evidence type is recorded'));
+});
+
+test('the distinguishing tail of a source path never ellipsises', () => {
+  const a = EP.renderSource({source: 'https://github.com/obra/superpowers/issues/1808'});
+  const b = EP.renderSource({source: 'https://github.com/obra/superpowers/issues/1803'});
+  assert.match(a, /<span class="ev-prov-tail">\/issues\/1808<\/span>/);
+  assert.match(b, /<span class="ev-prov-tail">\/issues\/1803<\/span>/);
+  // Head + tail reassemble to the recorded path exactly.
+  for (const source of ['https://github.com/obra/superpowers/issues/1808', 'https://example.org/a', 'https://example.org/', 'https://example.org/p?q=1#frag']) {
+    const html = EP.renderSource({source});
+    const pieces = [...html.matchAll(/class="ev-prov-(?:path|tail)">([^<]*)</g)].map(match => match[1]).join('');
+    assert.equal(pieces.replace(/&amp;/g, '&'), EP.describe({source}).path);
+  }
+  assert.doesNotMatch(EP.renderSource({source: 'https://example.org/a'}), /ev-prov-path/);
+});
+
+test('duplicates are shown, marked, and explained; the first row is not', () => {
+  const rows = EP.markDuplicates([row, {...row, evaluator: 'x'}, {...row, type: 'arxiv'}, {...row}]);
+  assert.equal(rows.length, 4);
+  assert.deepEqual(rows.map(item => !!item._duplicate), [false, true, false, true]);
+  assert.equal(rows[0], row, 'the first row is returned untouched');
+  assert.equal(row._duplicate, undefined, 'the input is not mutated');
+  const dup = EP.renderProvenance(rows[1], {tip: () => ''});
+  assert.match(dup, /duplicate \u00b7 not counted/);
+  assert.doesNotMatch(EP.renderProvenance(rows[0], {tip: () => ''}), /not counted/);
+  assert.ok(EP.provenanceLines(rows[1]).some(line => /only the first row counts toward the score/.test(line)));
+  assert.equal(EP.duplicateKey({type: 'repo', source: 's'}), 'repo|s');
+  const synthetic = EP.markDuplicates([{_synthetic: true, type: 'fusion-recipe'}, {_synthetic: true, type: 'fusion-recipe'}]);
+  assert.ok(synthetic.every(item => !item._duplicate));
+});
+
+test('the tooltip trigger names the type and host for assistive tech', () => {
+  const native = EP.renderTip(row);
+  assert.match(native, /aria-label="Evidence provenance: repo, github\.com"/);
+  assert.match(EP.renderTip({type: 'arxiv'}), /aria-label="Evidence provenance: arxiv, no source"/);
+  assert.match(EP.renderTip({source: 'ftp://x/y'}), /aria-label="Evidence provenance: no type, unlinked source"/);
+  assert.match(EP.renderTip({type: 'fusion-recipe', _synthetic: true}), /aria-label="Evidence provenance: derived from suite components"/);
+  withLifecycle(() => {
+    assert.match(EP.renderTip(row), /aria-label="Evidence provenance: repo, github\.com"/);
+  });
 });

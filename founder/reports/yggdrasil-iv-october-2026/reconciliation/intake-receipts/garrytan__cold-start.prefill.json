@@ -1,0 +1,110 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/cold-start",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/cold-start",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cold-start/SKILL.md",
+  "checked": true,
+  "contentSha256": "eb10547b5f2fba3edffd47c5023cd3f28335e1ee3b599f98f298c1ccd07090eb",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/sync-gbrain",
+     "similarity": 0.516142
+    },
+    {
+     "id": "garrytan/setup-gbrain",
+     "similarity": 0.514607
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.492127
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Day-one data bootstrapping for a new brain. Sequences the highest-leverage data sources to go from empty brain to useful brain in one session. Uses ClawVisor for safe credential handling \u2014 the agent never holds raw API keys. Covers Gmail import, calendar sync, contacts seeding, X/Twitter archive, conversation imports, and file archives. Use when a user has just finished gbrain setup and asks \"now ",
+  "name": "cold-start"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cold-start/SKILL.md",
+  "contentSha256": "eb10547b5f2fba3edffd47c5023cd3f28335e1ee3b599f98f298c1ccd07090eb",
+  "fetchedAt": "2026-10-27T22:07:50.813355+00:00",
+  "frontmatter": {
+   "description": "Day-one data bootstrapping for a new brain. Sequences the highest-leverage\ndata sources to go from empty brain to useful brain in one session. Uses\nClawVisor for safe credential handling \u2014 the agent never holds raw API keys.\nCovers Gmail import, calendar sync, contacts seeding, X/Twitter archive,\nconversation imports, and file archives.\nUse when a user has just finished gbrain setup and asks \"now what?\"\n",
+   "mutating": true,
+   "name": "cold-start",
+   "tools": [
+    "search",
+    "query",
+    "get_page",
+    "put_page",
+    "add_link",
+    "add_timeline_entry",
+    "sync_brain"
+   ],
+   "triggers": [
+    "cold start",
+    "fill my brain",
+    "bootstrap brain",
+    "bootstrap my data",
+    "import my data",
+    "day one",
+    "get started",
+    "what should I import first",
+    "populate brain",
+    "now what?"
+   ],
+   "version": "1.0.0",
+   "writes_pages": true,
+   "writes_to": [
+    "people/",
+    "companies/",
+    "meetings/",
+    "daily/",
+    "media/",
+    "conversations/",
+    "sources/"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

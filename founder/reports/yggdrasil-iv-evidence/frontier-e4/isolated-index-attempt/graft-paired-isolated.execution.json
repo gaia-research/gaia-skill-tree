@@ -1,0 +1,80 @@
+{
+  "sourceCommit": "e4df38cfbb21f4b6fe999da3e94c5e4199cb94e7",
+  "kind": "parent-executed-graft-fixed-fixture-context",
+  "cache": "/data/data/com.termux/files/usr/tmp/frontier-e4-graft-index-u27oe2d_",
+  "fixturePath": "examples/frontier/fixtures/line-history/sample-v1.py",
+  "fixtureSha256": "deb9f81d78e97c503f48028e4dafb5167ff3b6c966e282e9b1f1c5a77b62c388",
+  "executable": "/data/data/com.termux/files/usr/lib/node_modules/@nanonets/graft/dist/cli.js",
+  "entrypointSha256": "f076683029cd82afd4fd32817f017b71e28570b390ece80b19c288bd5eb7ce9f",
+  "indexProfile": "full default repo walk plus explicit fixtures include; no global config or ignore writes",
+  "commands": [
+    {
+      "argv": [
+        "graft",
+        "--version"
+      ],
+      "exitCode": 0,
+      "stdout": "0.18.0\n",
+      "stderr": "",
+      "seconds": 1.442
+    },
+    {
+      "argv": [
+        "graft",
+        "--dir",
+        "/data/data/com.termux/files/usr/tmp/frontier-e4-graft-index-u27oe2d_",
+        "ask",
+        "score function and its caller context",
+        "/data/data/com.termux/files/home/.gaia-worktrees/yggdrasil-iv-frontier-native-e4",
+        "--in",
+        "examples/frontier/fixtures/line-history",
+        "--json",
+        "--no-refresh"
+      ],
+      "exitCode": 0,
+      "stdout": "{\n  \"query\": \"score function and its caller context\",\n  \"mode\": \"lexical\",\n  \"hits\": [\n    {\n      \"kind\": \"symbol\",\n      \"title\": \"caller \u00b7 function\",\n      \"pointer\": \"examples/frontier/fixtures/line-history/sample-v1.py:L6-L7\",\n      \"snippet\": \"def caller(item)\",\n      \"score\": 1.5,\n      \"scope\": \"\"\n    },\n    {\n      \"kind\": \"symbol\",\n      \"title\": \"score \u00b7 function\",\n      \"pointer\": \"examples/frontier/fixtures/line-history/sample-v1.py:L1-L3\",\n      \"snippet\": \"def score(value): # Initial implementation.\",\n      \"score\": 1.1025151509580522,\n      \"scope\": \"\"\n    }\n  ],\n  \"coverage\": 0.27901323688603563,\n  \"coverageStrong\": 0.1588487763670415,\n  \"note\": \"structural index: no entries for 'caller' \u2014 showing lexical matches; for precise edges try graft callers 'caller', or graft grep 'caller' for every reference (loosen the pattern if it returns nothing)\"\n}\n",
+      "stderr": "",
+      "seconds": 1.927
+    },
+    {
+      "argv": [
+        "graft",
+        "--dir",
+        "/data/data/com.termux/files/usr/tmp/frontier-e4-graft-index-u27oe2d_",
+        "skeleton",
+        "examples/frontier/fixtures/line-history/sample-v1.py",
+        "/data/data/com.termux/files/home/.gaia-worktrees/yggdrasil-iv-frontier-native-e4",
+        "--no-refresh"
+      ],
+      "exitCode": 0,
+      "stdout": "graft skeleton \u2014 examples/frontier/fixtures/line-history/sample-v1.py\n- L1-L3  function score  def score(value): # Initial implementation.\n- L6-L7  function caller  def caller(item)\n",
+      "stderr": "",
+      "seconds": 1.725
+    },
+    {
+      "argv": [
+        "graft",
+        "--dir",
+        "/data/data/com.termux/files/usr/tmp/frontier-e4-graft-index-u27oe2d_",
+        "callers",
+        "score",
+        "/data/data/com.termux/files/home/.gaia-worktrees/yggdrasil-iv-frontier-native-e4",
+        "--in",
+        "examples/frontier/fixtures/line-history/sample-v1.py",
+        "--json",
+        "--no-refresh"
+      ],
+      "exitCode": 0,
+      "stdout": "{\n  \"query\": \"score\",\n  \"matches\": [\n    {\n      \"symbol\": {\n        \"id\": \"examples/frontier/fixtures/line-history/sample-v1.py#score\",\n        \"name\": \"score\",\n        \"kind\": \"function\",\n        \"path\": \"examples/frontier/fixtures/line-history/sample-v1.py\",\n        \"span\": \"L1-L3\"\n      },\n      \"hits\": [\n        {\n          \"id\": \"examples/frontier/fixtures/line-history/sample-v1.py#caller\",\n          \"relation\": \"calls\",\n          \"depth\": 1,\n          \"name\": \"caller\",\n          \"kind\": \"function\",\n          \"path\": \"examples/frontier/fixtures/line-history/sample-v1.py\",\n          \"span\": \"L6-L7\"\n        }\n      ]\n    }\n  ],\n  \"saved\": {\n    \"files\": 1,\n    \"baselineChars\": 112\n  }\n}\n",
+      "stderr": "",
+      "seconds": 1.745
+    }
+  ],
+  "result": "inconclusive",
+  "limitations": [
+    "Parent execution plus independent static code review, not independent authenticated verification.",
+    "Native Git traces temporary baseline/updated history; Graft retrieves the pinned Gaia baseline fixture/current caller. Not a like-for-like performance benchmark.",
+    "Fresh explicit isolated graph avoids copied graph from another checkout; queries use the just-built checked graph.",
+    "No global configuration changes, no model calls, no supersession or public admission."
+  ]
+}

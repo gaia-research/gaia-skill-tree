@@ -1,0 +1,96 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/gbrain-advisor",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/gbrain-advisor",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/gbrain-advisor/SKILL.md",
+  "checked": true,
+  "contentSha256": "976b3c5c3798f9fec764fa5bacd1567f751875bd837fe188a0c6df041805ed51",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/gbrain",
+     "similarity": 0.549776
+    },
+    {
+     "id": "garrytan/sync-gbrain",
+     "similarity": 0.505264
+    },
+    {
+     "id": "k-dense-ai/pytorch-lightning",
+     "similarity": 0.461551
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "gbrain",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5456 to generic 'gbrain' (weak match).",
+   "similarity": 0.545627
+  }
+ ],
+ "normalized": {
+  "description": "Proactive \"make the most of gbrain\" coaching. Runs `gbrain advisor` on a cadence and pings the user with the top high-leverage actions for their brain: version drift, pending migrations, stalled jobs, low embed coverage, setup smells, and uninstalled brain skills. Read-only; always asks before fixing.",
+  "name": "gbrain-advisor"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/gbrain-advisor/SKILL.md",
+  "contentSha256": "976b3c5c3798f9fec764fa5bacd1567f751875bd837fe188a0c6df041805ed51",
+  "fetchedAt": "2026-10-27T22:11:52.012924+00:00",
+  "frontmatter": {
+   "description": "Proactive \"make the most of gbrain\" coaching. Runs `gbrain advisor` on a\ncadence and pings the user with the top high-leverage actions for their brain:\nversion drift, pending migrations, stalled jobs, low embed coverage, setup\nsmells, and uninstalled brain skills. Read-only; always asks before fixing.\n",
+   "mutating": false,
+   "name": "gbrain-advisor",
+   "tools": [
+    "advisor"
+   ],
+   "triggers": [
+    "what should I do to get more out of gbrain",
+    "is my brain set up right",
+    "gbrain advisor",
+    "advise me on my brain",
+    "weekly brain checkup"
+   ],
+   "version": "1.0.0"
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

@@ -106,6 +106,7 @@
             entries.push({
               ...ev,
               type: normType,
+              typeRecorded: ev.type,
               skillId: s.id,
               skillName: s.name,
               skillLevel: null,
@@ -128,6 +129,7 @@
                 entries.push({
                   ...ev,
                   type: normType,
+                  typeRecorded: ev.type,
                   skillId: ns.id,
                   skillName: ns.name,
                   skillLevel: ns.level,
@@ -141,7 +143,15 @@
       });
     }
 
-    allEntries = entries;
+    // Rows repeating an earlier (type + source) within the same skill and layer are
+    // shown as recorded but marked: only the first counts toward the score.
+    const seenKeys = new Set();
+    allEntries = entries.map(ev => {
+      const key = ev.layer + '|' + ev.skillId + '|' + (ev.typeRecorded || '') + '|' + (ev.source || '');
+      if (seenKeys.has(key)) return { ...ev, _duplicate: true };
+      seenKeys.add(key);
+      return ev;
+    });
     // Sort types by count descending
     allTypes = Object.entries(typeCounts)
       .sort((a, b) => b[1] - a[1])
@@ -616,7 +626,7 @@
     // (evidence-provenance.js) so every surface says the same thing.
     const EP = window.GaiaEvidenceProvenance;
     const provenanceHtml = EP
-      ? EP.renderProvenance(ev, { pillTip: pillTip, topExtra: layerHtml, metaExtra: freshHtml })
+      ? EP.renderProvenance(Object.assign({}, ev, { type: ev.typeRecorded }), { pillTip: pillTip, topExtra: layerHtml, metaExtra: freshHtml })
       : '<div class="se-ev-card-top"><span class="se-ev-eval ev-prov-none">provenance unavailable</span>' + layerHtml + '</div>' +
         '<div class="se-ev-card-meta">' + freshHtml + '</div>';
 

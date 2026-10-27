@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "graft",
+    "--dir",
+    "/data/data/com.termux/files/usr/tmp/frontier-e4-graft-index-u27oe2d_",
+    "skeleton",
+    "examples/frontier/fixtures/line-history/sample-v1.py",
+    "/data/data/com.termux/files/home/.gaia-worktrees/yggdrasil-iv-frontier-native-e4",
+    "--no-refresh"
+  ],
+  "exitCode": 0,
+  "stdout": "graft skeleton \u2014 examples/frontier/fixtures/line-history/sample-v1.py\n- L1-L3  function score  def score(value): # Initial implementation.\n- L6-L7  function caller  def caller(item)\n",
+  "stderr": "",
+  "seconds": 1.725
+}

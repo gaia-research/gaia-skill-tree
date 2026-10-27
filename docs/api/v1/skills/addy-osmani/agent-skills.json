@@ -222,6 +222,14 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 174.62 -> 176.04, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-10-27T21:38:48Z",
+      "action": "upstream_synced",
+      "contributor": "mbtiongson1",
+      "previousValue": "0.6.10",
+      "newValue": "0.6.13",
+      "details": "synced from https://github.com/addyosmani/agent-skills/releases/tag/0.6.13"
     }
   ],
   "links": {

@@ -1,0 +1,115 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/skill-creator",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/skill-creator",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/skill-creator/SKILL.md",
+  "checked": true,
+  "contentSha256": "ae8119e6a28faacdc48b13a51c89ff752e9d1b698a4ed0b49f380eb1de16e322",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "anthropic/skill-creator",
+     "similarity": 0.755852
+    },
+    {
+     "id": "google-deepmind/workflow-skill-creator",
+     "similarity": 0.732792
+    },
+    {
+     "id": "ruvnet/skill-builder",
+     "similarity": 0.668196
+    },
+    {
+     "id": "garrytan/skillify",
+     "similarity": 0.63346
+    },
+    {
+     "id": "mattpocock/write-a-skill",
+     "similarity": 0.623719
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "skill-authoring",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.6064 to generic 'skill-authoring' (weak match).",
+   "similarity": 0.606449
+  },
+  {
+   "genericId": "registry-curation",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5943 to generic 'registry-curation' (weak match).",
+   "similarity": 0.594286
+  },
+  {
+   "genericId": "skill-fusion",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5847 to generic 'skill-fusion' (weak match).",
+   "similarity": 0.58473
+  }
+ ],
+ "normalized": {
+  "description": "Create new skills following the GBrain conformance standard. Generates SKILL.md with frontmatter, Contract, Phases, Output Format, and Anti-Patterns. Checks MECE against existing skills. Updates manifest and resolver.",
+  "name": "skill-creator"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/skill-creator/SKILL.md",
+  "contentSha256": "ae8119e6a28faacdc48b13a51c89ff752e9d1b698a4ed0b49f380eb1de16e322",
+  "fetchedAt": "2026-10-27T22:03:35.635953+00:00",
+  "frontmatter": {
+   "description": "Create new skills following the GBrain conformance standard. Generates SKILL.md\nwith frontmatter, Contract, Phases, Output Format, and Anti-Patterns. Checks\nMECE against existing skills. Updates manifest and resolver.\n",
+   "mutating": true,
+   "name": "skill-creator",
+   "tools": [
+    "search",
+    "list_pages"
+   ],
+   "triggers": [
+    "create a skill",
+    "new skill",
+    "improve this skill"
+   ],
+   "version": "1.0.0"
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

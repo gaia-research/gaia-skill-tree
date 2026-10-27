@@ -1227,13 +1227,16 @@
           if (!ev) return;
           // Tag each row with its layer so the card can show "via generic" hint
           var tagged = layer ? Object.assign({}, ev, { _layer: layer }) : ev;
-          combinedEvidence.push(tagged);
-          // Score baseline dedupes by (type + source) — same source URL can have different types
+          // Score baseline dedupes by (type + source) — same source URL can have different types.
+          // A later row with a seen key is still shown, marked "duplicate · not counted".
           var key = (ev.type || '') + '|' + (ev.source || '');
-          if (!seenKeys.has(key)) {
+          if (seenKeys.has(key)) {
+            tagged = Object.assign({}, tagged, { _duplicate: true });
+          } else {
             seenKeys.add(key);
             scoringEvidence.push(tagged);
           }
+          combinedEvidence.push(tagged);
         });
       }
     }

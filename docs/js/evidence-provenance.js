@@ -47,6 +47,8 @@
     'social-signal': 'social'
   };
 
+  var TAIL_CHARS = 12;
+
   var TYPE_ALIASES = { 'repo': 'repo-own', 'github-stars': 'github-stars-own' };
 
   function esc(value) {
@@ -62,17 +64,42 @@
     return typeof value === 'string' ? value.trim() : '';
   }
 
-  /** Canonical evidence type for a raw (possibly legacy-aliased) type. */
+  /**
+   * Canonical evidence type for a raw (possibly legacy-aliased) type. A row
+   * that records no type has no type here: it is never defaulted to a real one.
+   */
   function normalizeType(raw) {
     var type = text(raw);
-    if (!type) return 'repo-own';
+    if (!type) return '';
     return TYPE_ALIASES[type] || type;
   }
 
   /** Short visible label for a raw type; unknown types show as written. */
   function typeLabel(raw) {
     var type = normalizeType(raw);
+    if (!type) return 'no type';
     return TYPE_LABELS[type] || type;
+  }
+
+  /**
+   * Key under which a row counts as a duplicate of an earlier one: the score
+   * baseline counts only the first row per (type + source).
+   */
+  function duplicateKey(ev) {
+    var row = ev && typeof ev === 'object' ? ev : {};
+    return (row.type || '') + '|' + (row.source || '');
+  }
+
+  /** Rows (same order) tagged `_duplicate` when an earlier row shares their key. */
+  function markDuplicates(rows) {
+    var seen = {};
+    return (Array.isArray(rows) ? rows : []).map(function(row) {
+      if (!row || typeof row !== 'object' || row._synthetic) return row;
+      var key = duplicateKey(row);
+      if (Object.prototype.hasOwnProperty.call(seen, key)) return Object.assign({}, row, { _duplicate: true });
+      seen[key] = true;
+      return row;
+    });
   }
 
   /** The URL when it is a well-formed http(s) URL, else ''. */
@@ -128,6 +155,7 @@
       href: href,
       host: sourceHost(url),
       path: sourcePath(url),
+      duplicate: !!row._duplicate,
       evaluator: text(row.evaluator),
       date: text(row.date),
       lastVerified: text(row.lastVerified),
@@ -139,7 +167,9 @@
   function provenanceLines(ev) {
     var d = describe(ev);
     var lines = [];
-    lines.push('Type: ' + d.typeLabel + (d.type !== d.typeLabel ? ' (' + d.type + ')' : '') + '.');
+    lines.push(d.type
+      ? 'Type: ' + d.typeLabel + (d.type !== d.typeLabel ? ' (' + d.type + ')' : '') + '.'
+      : 'No evidence type is recorded for this row.');
     if (d.synthetic) {
       lines.push('Derived from the skill’s suite components; it is not a recorded evidence row.');
       return lines;
@@ -149,6 +179,7 @@
     lines.push(d.evaluator ? 'Evaluator, as recorded: ' + d.evaluator + '.' : 'No evaluator is recorded for this row.');
     lines.push(d.date ? 'Date, as recorded: ' + d.date + '.' : 'No date is recorded for this row.');
     if (d.lastVerified && d.lastVerified !== d.date) lines.push('Last verified: ' + d.lastVerified + '.');
+    if (d.duplicate) lines.push('Duplicate of an earlier row with the same type and source. It is shown as recorded; only the first row counts toward the score.');
     return lines;
   }
 
@@ -167,7 +198,9 @@
   function renderTip(ev, opts) {
     var lines = provenanceLines(ev);
     var tip = (opts && opts.tip) || lifecycleTip();
-    var label = 'Evidence provenance';
+    var d = describe(ev);
+    var label = 'Evidence provenance: ' + (d.synthetic ? 'derived from suite components' :
+      d.typeLabel + ', ' + (d.host || (d.url ? 'unlinked source' : 'no source')));
     if (tip) {
       return '<span class="lc-anchor ev-prov-tip">' + tip('i', lines, { label: label, cls: 'ev-prov-info' }) + '</span>';
     }
@@ -178,10 +211,11 @@
   /** `.ev-type-pill` with the caller's formula tooltip, labelled by type. */
   function renderTypePill(ev, opts) {
     var d = describe(ev);
-    var pillTip = opts && opts.pillTip != null ? opts.pillTip : d.type;
-    return '<span class="ev-type-pill type-' + esc(d.type) + '">' + esc(d.typeLabel) +
+    var pillTip = !d.type ? 'No evidence type is recorded for this row.'
+      : (opts && opts.pillTip != null ? opts.pillTip : d.type);
+    return '<span class="ev-type-pill type-' + esc(d.type || 'none') + '">' + esc(d.typeLabel) +
       '<button class="ev-type-pill-info" type="button" title="' + esc(pillTip) +
-      '" aria-label="' + esc(d.type + ' evidence type info') + '">i</button></span>';
+      '" aria-label="' + esc((d.type || 'no type') + ' evidence type info') + '">i</button></span>';
   }
 
   /** Host (emphasised) + path (ellipsised) as one link, or inert text. */
@@ -196,10 +230,15 @@
     if (!d.href) {
       return '<span class="se-ev-link ev-prov-none" title="' + esc(d.url) + '">' + esc(d.url) + '</span>';
     }
+    // The tail of the path (an issue number, a file name) is what tells two
+    // rows on one host apart, so it never ellipsises: only the middle gives way.
+    var head = d.path.length > TAIL_CHARS ? d.path.slice(0, d.path.length - TAIL_CHARS) : '';
+    var tail = head ? d.path.slice(d.path.length - TAIL_CHARS) : d.path;
     return '<a class="se-ev-link ev-prov-link" href="' + esc(d.href) +
       '" target="_blank" rel="noopener noreferrer" title="' + esc(d.href) + '">' +
       '<span class="ev-prov-host">' + esc(d.host) + '</span>' +
-      (d.path ? '<span class="ev-prov-path">' + esc(d.path) + '</span>' : '') + '</a>';
+      (head ? '<span class="ev-prov-path">' + esc(head) + '</span>' : '') +
+      (tail ? '<span class="ev-prov-tail">' + esc(tail) + '</span>' : '') + '</a>';
   }
 
   /** "by <evaluator>" exactly as recorded, or an explicit absence. */
@@ -216,6 +255,13 @@
     if (d.synthetic) return '';
     if (!d.date) return '<span class="se-ev-date ev-prov-none" title="Date">undated</span>';
     return '<time class="se-ev-date" title="Date" datetime="' + esc(d.date) + '">' + esc(d.date) + '</time>';
+  }
+
+  /** Marker for a row shown as recorded that the score baseline does not count. */
+  function renderDuplicate(ev) {
+    var d = describe(ev);
+    if (!d.duplicate) return '';
+    return '<span class="ev-prov-dup" title="Duplicate of an earlier row with the same type and source; shown as recorded, not counted.">duplicate \u00b7 not counted</span>';
   }
 
   /**
@@ -239,6 +285,7 @@
       '<div class="se-ev-card-meta">' +
         renderEvaluator(ev) +
         renderDate(ev) +
+        renderDuplicate(ev) +
         (opts.metaExtra || '') +
       '</div>';
   }
@@ -264,6 +311,9 @@
     renderSource: renderSource,
     renderEvaluator: renderEvaluator,
     renderDate: renderDate,
+    renderDuplicate: renderDuplicate,
+    duplicateKey: duplicateKey,
+    markDuplicates: markDuplicates,
     renderProvenance: renderProvenance,
     bindTips: bindTips
   };

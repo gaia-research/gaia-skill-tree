@@ -1,0 +1,139 @@
+{
+  "contractVersion": "curation-assessment-v1",
+  "authority": "advisory",
+  "assessedAt": "2026-10-27T22:06:08.532112+00:00",
+  "candidateId": "garrytan/eiirp",
+  "candidate": {
+    "name": "eiirp",
+    "description": "Everything In Its Right Place. The universal post-work organizer. After any significant work session, EIIRP runs a 7-phase audit: (1) inventory every output, (2) walk taxonomy to decide where each lands, (3) check schema-pack consistency against the brain's actual shape, (4) file enriched brain pages, (5) audit the skill graph for DRY+MECE, (6) verify resolvability, (7) report. Named after the Rad"
+  },
+  "source": {
+    "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/eiirp/SKILL.md",
+    "contentSha256": "507249ce40746c0f3d5ae2a374164797798c6ebbc6209b312e3404a2f4902e6c",
+    "commitSha": null
+  },
+  "candidateSourceDigest": "507249ce40746c0f3d5ae2a374164797798c6ebbc6209b312e3404a2f4902e6c",
+  "semanticInputSha256": "c6742bfaf538e74ccba93e5bb28ab5ec020022a2a626ec0ff113123437f9287b",
+  "catalogSha256": "77991271cdf9d32370d92244389486b1e19a02a3a72326e0fe452816e6d4043c",
+  "rubric": {
+    "rubricId": "gaia-curation-principles",
+    "rubricVersion": "1.0.0",
+    "rubricSha256": "1f14f6b09ee6a72570bba04617de1ee7bf92040afaf862f6059f4cb413879349"
+  },
+  "retrievedGenerics": [
+    {
+      "id": "registry-entry-audit",
+      "name": "Gaia Audit",
+      "description": "Reviews one Gaia skill, named skill, or real-skill catalog item against current evidence, source URLs, taxonomy mapping, promotion status, and demotion criteria, then proposes the smallest source-of-truth correction. Implements a sophisticated 7-phase audit discipline including evidence re-verification, demotion checks, and automatic asset regeneration.",
+      "type": "fusion",
+      "prerequisites": [
+        "cite-sources",
+        "evaluate-output",
+        "retrieve"
+      ],
+      "definitionAvailable": true,
+      "similarity": 0.484967,
+      "matchTier": "weak"
+    },
+    {
+      "id": "session-journaling",
+      "name": "Session Journaling",
+      "description": "At the end of a work session, the agent summarizes the conversation and appends a structured, timestamped entry to a persistent dated note so future sessions can read back the durable record.",
+      "type": "basic",
+      "prerequisites": [],
+      "definitionAvailable": true,
+      "similarity": 0.475571,
+      "matchTier": "weak"
+    },
+    {
+      "id": "skill-authoring",
+      "name": "Skill Authoring",
+      "description": "Designs, writes, packages, and iteratively improves reusable agent skill directories with metadata, progressive instructions, supporting assets, and measurable trigger criteria.",
+      "type": "fusion",
+      "prerequisites": [
+        "code-generation",
+        "generate-text",
+        "structured-output"
+      ],
+      "definitionAvailable": true,
+      "similarity": 0.46244,
+      "matchTier": "weak"
+    }
+  ],
+  "retrieval": {
+    "model": "all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+    "thresholds": {
+      "strongMap": 0.72,
+      "weakMap": 0.45,
+      "topK": 3
+    }
+  },
+  "principles": {
+    "identity": {
+      "evaluation": "unknown",
+      "question": "After stripping vendor, product, repository, contributor and implementation details, identify the reusable capability. A named implementation is not automatically a narrower generic."
+    },
+    "transferability": {
+      "evaluation": "unknown",
+      "question": "Could another independent implementation reasonably implement this generic? Generic identity describes capability, not product vocabulary. Product dependence of a named implementation is not itself grounds for rejection or purging."
+    },
+    "relation": {
+      "evaluation": "unknown",
+      "question": "Relative to the strongest existing generic, is the reusable capability the same, narrower, broader, composite, orthogonal, or unknown? State the comparison target; similarity alone cannot answer.",
+      "relation": "unknown"
+    },
+    "material_distinction": {
+      "evaluation": "unknown",
+      "question": "A split needs an observable, falsifiable behavioral distinction from its strongest neighbor. Naming, vendor, CLI syntax, implementation technique or framework alone are weak justification for a new generic."
+    },
+    "atomicity": {
+      "evaluation": "unknown",
+      "question": "Does the capability stand alone, or compose independently useful prerequisites? Yggdrasil basic has zero prerequisites and fusion has at least one. Do not derive capability structure from mentions of required software or from packaging.",
+      "type": "unknown"
+    },
+    "artifact_packaging": {
+      "evaluation": "unknown",
+      "question": "Distinguish a capability from suite, package, router, wrapper, category or capstone packaging. A component is not its suite. suiteComponents belongs to named implementations; it is not a generic capability identity.",
+      "shape": "unknown",
+      "declaredSuite": {
+        "role": null,
+        "suiteId": null,
+        "componentCandidateIds": null
+      }
+    },
+    "overlap": {
+      "evaluation": "unknown",
+      "question": "Compare a proposed new generic to its strongest existing neighbor. If no falsifiable distinction can be written, question the split. Empty retrieval does not prove novelty; two high-scoring neighbors do not prove fusion.",
+      "notes": "Scores never imply identity or novelty; compare observable behavior with the strongest neighbor.",
+      "strongestNeighbor": "registry-entry-audit"
+    },
+    "topology_independence": {
+      "evaluation": "independent",
+      "question": "Topology must not change merely because contributor fame, stars, Trust Magnitude, evidence abundance or popularity changes. These signals are excluded from semantic decision inputs. Advice answers SHOULD, human L4 decides MAY.",
+      "inputs": "Allowlisted semantic fields only; rank, popularity and evidence excluded."
+    }
+  },
+  "uncertainty": {
+    "level": "review-required",
+    "emptyRecall": false,
+    "reasons": [
+      "Only human L4 may resolve semantic identity and canonical topology."
+    ],
+    "jevDisagreement": null
+  },
+  "proposedDisposition": {
+    "value": "DEFER",
+    "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+    "targetGenericId": "registry-entry-audit",
+    "advisoryOnly": true
+  },
+  "jevAdvice": {
+    "status": "skipped",
+    "reason": "jev_off",
+    "answers": {},
+    "calls": [],
+    "disagreement": null
+  }
+}
