@@ -20,6 +20,14 @@ Resolved live via `gh api repos/<repo>/releases/latest` on 2026-10-27T21:3xZ. Ap
 | `ruvnet/ruflo-v3` | v3.41.2 | v3.63.5 | 2026-10-27T19:12:42Z | https://github.com/ruvnet/ruflo/releases/tag/v3.63.5 | components |
 | `ruvnet/ruflo` | v3.41.2 | v3.63.5 | 2026-10-27T19:12:42Z | https://github.com/ruvnet/ruflo/releases/tag/v3.63.5 | components |
 
+## Moved since this sync
+
+- ruvnet/ruflo published `v3.63.6` (2026-10-27T21:53:35Z) after the sync recorded `v3.63.5`; all seven ruvnet skills therefore lag by one patch. Left for the 2026-10-31 cutoff re-run (not applied here).
+
+## Note on file diffs
+
+Besides the `upstream:` block and timeline event, the CLI serializer re-wraps YAML in `mattpocock/skills.md` and `leonxlnx/taste-skill.md` (existing evidence notes, words unchanged). The sync is otherwise upstream-only.
+
 ## Not applied (needs a human decision)
 
 - heygen-com/hyperframes: upstream v0.8.209 `skills/` no longer contains 12 components (embedded-captions, faceless-explainer, hyperframes-animation, hyperframes-audio, hyperframes-core, hyperframes-creative, hyperframes-keyframes, motion-graphics, music-to-video, pr-to-video, product-launch-video, talking-head-recut). Umbrella #1823 says to freeze them (`gaia dev freeze`, installable:false). Not done here: all 12 are 3★, their `links.github` are SHA-pinned blobs that still resolve, and `freeze` on 3★+ may trip the META.md §2.4 Star Bar. Decision for a human; the version sync itself is applied.
