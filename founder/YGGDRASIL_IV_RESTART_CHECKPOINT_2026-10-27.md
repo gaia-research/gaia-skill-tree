@@ -4,7 +4,7 @@
 
 Founder asked to be told when to reset and then explicitly said **Continue**. Continue the safe Pi recovery-tooling repair; **do not issue READY TO RESTART yet**. No additional Gaia campaign jobs before this restart window. This is temporary execution sequencing, not a campaign restart, permanent pause, completion claim or waiver of the original mission.
 
-All previously assigned Gaia implementation workers, independent reviews and parent shell tests are now terminal and collected. The old tooling review's assertion that publication task `ba7cb70f5` remains live is stale. Only the newly assigned Pi tooling repair/research below should be treated as current work.
+All previously assigned Gaia implementation workers, independent reviews and parent shell tests are now terminal and collected. The old tooling review's assertion that publication task `ba7cb70f5` remains live is stale. The first Pi repair and lifecycle scout are also now collected. Only the newly assigned actual-SDK verification and repaired-source review below should be treated as current work.
 
 ## Campaign state safely saved
 
@@ -43,9 +43,26 @@ Repair continues existing source, not a fresh implementation reset. Preserve ear
 
 Prefer supported mechanisms or honest logical recovery over fighting native lifecycle with false states. Require actual SDK/event/async binding, native cleanup/distillation/worktree tests, policy-valid absolute-path recovery, identity/unknown-state safety, lease handoff/expiry, fail-closed corruption with DB/WAL/SHM preserved, privacy/bounds/migration and atomic hash-safe installer/rollback. WAL/FULL alone is not lossless admission, process resurrection or external exactly-once proof.
 
+### Repaired candidate and actual-proof gate
+
+Repair/scout above are **completed and collected**. Source **`a7611a2d33ea0dfce3319f5dc973ea0514810d9a`** is clean and matches the fresh feature remote; master remains0e4. No live extension or vendor patch installed. The source adds event/UUID/command/corruption/liveness/installer repairs and an optional **unapplied** detached-mode patch. Prefer non-mutating logical recovery; live process survival is not required.
+
+Author reports17 Node subtests,3 fixture subtests and3 Python tests passing. Parent inspected all370lines of `tests/test_real_integration_fixture.mjs`: it registers through **`mockPi`**, manually emits SDK-named events, handwrites a simplified native record/session, imports native policy only, and starts a loopback server without using it. These are contract/helper tests, **not actual SDK/native end-to-end proof**. Preserve the report but don't accept the label.
+
+Current independent lanes, each in a permanent isolated worktree:
+
+| Owner | Run | Scope / output |
+|---|---|---|
+| Luna High verification author | `14389bb1-4673-432d-acbe-fb1658d67a7f` | Actual SDK/native launch, completion and crash/recovery fixtures; `~/.pi/worktrees/pi-config-durable-sdk-proof`, branch `test/durable-recovery-real-sdk`; `~/.pi/durable-recovery/actual-sdk-proof-result.md` |
+| Flash High independent re-review | `372e4708-0096-40a6-99d7-4177521342f8` | Frozen a761 full feature/contracts/adversarial review, no product edits; `~/.pi/worktrees/pi-config-durable-review-a761`; `~/.pi/durable-recovery/independent-review-a761.md` |
+
+Flash remains product implementation owner. Failing genuine fixtures are useful; do not alter expectations or invent native metadata to make them pass. No source installation, actual vendor patch, global config write or real model/API call is authorized in these lanes. Fully isolated, deterministic loopback transport and own synthetic processes are allowed.
+
+Scout found no supported native config/env/hook to bypass orphan reaping while keeping busy/live tracking. It confirmed native distillation deletes non-busy raw sessions and managed worktree pruning is separate. Verify preservation before that actual path, including append/rewrite/WIP limits; hardlinks alone are not immutable snapshots. A fresh Pi process is sufficient OS isolation; full Termux restart is unnecessary. Actual `/reload` adequacy is not yet proven.
+
 ## Environment preservation and readiness
 
-Read-only private baseline saved at **`~/.pi/durable-recovery/environment-baseline-20261027T035205Z.json`**: 110 paths fingerprinted, no credential contents copied. Verified **Node v24.17.0 / Pi 1.4.0 / subagent 0.8.0**. Auth may legitimately refresh independently; never blindly restore old auth bytes because a hash changed. No settings or packages were modified by baseline capture.
+Read-only private baseline saved at **`~/.pi/durable-recovery/environment-baseline-20261027T035205Z.json`**: 110 paths fingerprinted, no credential contents copied. Verified **Node v24.17.0 / Pi 1.4.0 / subagent 0.8.0**. Auth may legitimately refresh independently; never blindly restore old auth bytes because a hash changed. No settings or packages were modified by baseline capture. A later read-only check (`environment-after-a761-source-only.json`) found2changed paths: auth.json and settings.json; all other108fingerprints match and the live extension is absent. Current nonsecret settings routing matches a Flash High child; ordinary SDK/CLI model persistence is possible, but cause is not yet established. Reviewer is tracing actual writes and verification author must isolate SDK imports/settings explicitly. Do not claim all110remain unchanged or blindly roll back either file. Recheck immediately around any eventual installer.
 
 READY TO RESTART requires:
 
