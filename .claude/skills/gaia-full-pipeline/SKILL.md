@@ -12,7 +12,7 @@ description: >-
 version: 2.0.0
 ---
 
-> **Discovery execution:** Use [/gaia-curate](../gaia-curate/SKILL.md) or the appropriate discovery strategy below. [/gaia-quick-curate](../gaia-quick-curate/SKILL.md) is a paused scaffold, not an automated discovery pipeline. FAN-OUT retains model-neutral workers and shared reconciliation. Discovery pauses for independently verified human L4 authority; it does not automatically submit, promote, calibrate, or merge.
+> **Discovery execution:** Use [/gaia-curate](../gaia-curate/SKILL.md) or the appropriate discovery strategy below. Outward ecosystem discovery is owned by [/gaia-frontier](../gaia-frontier/SKILL.md). [/gaia-quick-curate](../gaia-quick-curate/SKILL.md) provides ledger status inspection for the paused curate scaffold; it is not an automated discovery pipeline. FAN-OUT retains model-neutral workers and shared reconciliation. Discovery pauses for independently verified human L4 authority; it does not automatically submit, promote, calibrate, or merge.
 
 # gaia-full-pipeline
 

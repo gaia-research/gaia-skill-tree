@@ -1,0 +1,13 @@
+{
+  "protocolId": "git-log-L-vs-graft-v1",
+  "revision": "1.0.0",
+  "purpose": "Bounded, non-ranking comparison of native line-history tracing with Gaia Graft's codebase graph retrieval.",
+  "question": "Can the native Git feature trace a selected function's historical line evolution, and what related current code context does the actual Graft skill retrieve?",
+  "fixedFixture": "examples/frontier/fixtures/line-history/sample-v1.py",
+  "expected": {
+    "gitLogLineHistory": "Must show both fixture commits and historical implementation lines for score.",
+    "graftCodeContext": "An independent reviewer uses the actual pinned Graft skill on the pinned Gaia checkout to locate score and caller context. Historical line evolution is not presumed supported by Graft unless retrieved evidence demonstrates it.",
+    "interpretation": "Complementary outputs or a missing retrieval are inconclusive for superiority. Git history tracing alone cannot establish replacement of codebase context retrieval. Never promote a vendor/documentation statement to experimental confirmation."
+  },
+  "limitations": ["This tiny fixture does not benchmark speed, accuracy at scale, or cross-repository generality.", "Graft retrieval runs in the independent reviewer's supported harness; the harness, model and transcript must be recorded by that reviewer outside the lead packet.", "Result never authenticates reviewer identity and cannot admit a public challenge."]
+}
