@@ -60,6 +60,7 @@
 * [Hypothesis Generation](/hypothesis-generate.md) - Formulates novel, testable scientific hypotheses by synthesising existing literature, identifying knowledge gaps, and proposing mechanistic explanations.
 * [Image Caption](/image-caption.md) - Generates accurate natural-language descriptions of images, capturing objects, actions, and spatial relationships.
 * [Image Generate](/image-generate.md) - Creates photorealistic or stylized images from text prompts using diffusion-based or autoregressive generative models.
+* [Interactive Mechanism Illustration](/interactive-mechanism-illustration.md) - Explains a technical concept by constructing an interactive physical mechanism whose geometry, motion, controls and numeric readouts share a coherent model, and verifies that the rendered explanation behaves consistently across interaction states.
 * [Interactive Presentation Authoring](/interactive-presentation-authoring.md) - Design and implement presentations with structured slides, navigation, and interactive visual content.
 * [Issue Triage](/issue-triage.md) - Classifies incoming issue reports through a structured state machine, assigns triage roles (bug/enhancement, needs-info/ready-for-agent/wontfix), reproduces bugs, requests missing detail, and produces structured resolution briefs for agent or human handoff.
 * [Literature Search](/literature-search.md) - Queries and searches academic literature databases (e.g. PubMed, arXiv, bioRxiv, OpenAlex) to locate papers, retrieve abstracts, resolve citations, and fetch full-text documents.

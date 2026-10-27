@@ -7679,6 +7679,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "wheresryan22/anatomy": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/wheresryan22/anatomy/blob/main/SKILL.md",
+        "owner": "wheresryan22",
+        "repo": "anatomy",
+        "ref": "main",
+        "subpath": "",
+        "entrypoint": "SKILL.md",
+        "installSubpath": ""
+      },
+      "currentSkillContentSha256": "6f2e0e62a985e51e885c528a3df810453f78a447400a648ae646d5eb5149bac8",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "xquik-dev/hermes-tweet": {
       "state": "unknown",
       "reason": "not-observed",

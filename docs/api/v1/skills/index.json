@@ -500,6 +500,23 @@
       "genericSkillRef": "context-safe-execution"
     },
     {
+      "id": "wheresryan22/anatomy",
+      "name": "anatomy",
+      "level": "4★",
+      "trustMagnitude": 152.48,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "wheresryan22",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/wheresryan22/anatomy.json"
+      },
+      "genericSkillRef": "interactive-mechanism-illustration"
+    },
+    {
       "id": "trailhq/graft",
       "name": "graft",
       "level": "4★",
@@ -1068,35 +1085,11 @@
         "self": "/api/v1/skills/browser-use/browser-harness.json"
       },
       "genericSkillRef": "browser-control"
-    },
-    {
-      "id": "firecrawl/firecrawl-skills",
-      "name": "Firecrawl Skills",
-      "level": "3★",
-      "trustMagnitude": 72.86,
-      "overallTrustGrade": "B",
-      "fusionScore": 240.0,
-      "contributor": "firecrawl",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
-      },
-      "genericSkillRef": "firecrawl",
-      "suiteComponents": [
-        "firecrawl/firecrawl-build-interact",
-        "firecrawl/firecrawl-build-onboarding",
-        "firecrawl/firecrawl-build-scrape",
-        "firecrawl/firecrawl-build-search",
-        "firecrawl/firecrawl-research-index"
-      ]
     }
   ],
   "page": 1,
   "totalPages": 5,
-  "totalSkills": 227,
+  "totalSkills": 228,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

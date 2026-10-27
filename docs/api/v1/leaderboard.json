@@ -1,8 +1,8 @@
 {
   "distribution": {
-    "total": 266,
+    "total": 267,
     "S": 3,
-    "A": 26,
+    "A": 27,
     "B": 94,
     "C": 104,
     "ungraded": 39,
@@ -237,6 +237,18 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 118.71
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "id": "wheresryan22/anatomy",
+      "trustMagnitude": 152.48,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 116.48
       },
       "origin": true,
       "branch": "unique"

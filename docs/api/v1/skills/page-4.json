@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "disler/plan-synthesis",
+      "name": "Plan Synthesis",
+      "level": "2★",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "disler",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/disler/plan-synthesis.json"
+      },
+      "genericSkillRef": "plan-synthesis"
+    },
+    {
       "id": "Manavarya09/design-extract",
       "name": "Design Extract",
       "level": "2★",
@@ -848,28 +865,11 @@
         "ruvnet/flow-nexus-platform",
         "ruvnet/flow-nexus-swarm"
       ]
-    },
-    {
-      "id": "ruvnet/flow-nexus-neural",
-      "name": "Flow Nexus Neural",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 40.0,
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/flow-nexus-neural.json"
-      },
-      "genericSkillRef": "distributed-neural-training"
     }
   ],
   "page": 4,
   "totalPages": 5,
-  "totalSkills": 227,
+  "totalSkills": 228,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json",
