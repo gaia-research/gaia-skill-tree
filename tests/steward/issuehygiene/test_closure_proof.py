@@ -14,7 +14,7 @@ from gaia_cli.steward.issuehygiene.closure import (
     closureCommentFor,
     closureProven,
     commentIdFromUrl,
-    executeClosure,
+    _executeProvenClosure as executeClosure,
 )
 from tests.steward.issuehygiene.test_b_closure import (
     NOW,

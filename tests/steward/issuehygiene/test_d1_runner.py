@@ -89,6 +89,8 @@ def outcomeFor(action: dict, result: str = "closed", **extra) -> dict:
 def runnerFor(tmp_path: Path, *extra_sensors, agents: bool = False):
     repo, _bare = makeFixture(tmp_path)
     # The shipped policy is dry-run (B5). These runner tests exercise the writable path explicitly.
+    from .e_fakes import approveClosureFixture
+    approveClosureFixture(repo)
     policyFile = repo / "founder/steward/POLICY.yaml"
     policyFile.write_text(policyFile.read_text(encoding="utf-8").replace("writesEnabled: false", "writesEnabled: true", 1),
                           encoding="utf-8")

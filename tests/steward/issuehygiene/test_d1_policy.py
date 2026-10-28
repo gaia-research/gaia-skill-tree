@@ -85,7 +85,7 @@ def test_repository_policy_wires_issue_debt_authority_and_routes() -> None:
     # B5: the shipped policy is dry-run (contract section 6). The pilot runs through explicit flags, not this policy.
     assert policy.issue_hygiene.writesEnabled is False
     assert policy.issue_hygiene.maxClosuresPerRun == 10
-    assert policy.issue_hygiene.enabledRules == KNOWN_RULE_IDS
+    assert policy.issue_hygiene.enabledRules == ()  # pending Class C authority, not a decided allowlist
 
 
 def test_founder_rule_must_name_its_own_debt_kind(tmp_path) -> None:

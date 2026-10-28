@@ -278,6 +278,10 @@ def gateClosure(root: Path, action: Mapping[str, Any], receipt: Path, runId: str
 
     if action.get("authority") != "A":
         raise ActionRefused("only authority A closures are performed", code="authority")
+    from .authority import closureAuthorityApproved
+
+    if not closureAuthorityApproved(root):
+        raise ActionRefused("issue closure authority is an unratified Class C proposal", code="authority-pending")
     policy = loadHygienePolicyOrRefuse(root)
     if not policy.writesEnabled:
         raise ActionRefused("issueHygiene.writesEnabled is false; closures are not performed", code="writes-disabled")

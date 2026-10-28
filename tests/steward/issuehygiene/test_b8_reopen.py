@@ -12,7 +12,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from gaia_cli.steward.issuehygiene.closure import executeClosure, executeClosures, planClosures, storeDonePairs
+from gaia_cli.steward.issuehygiene.closure import _executeProvenClosure as executeClosure, _executeProvenClosures as executeClosures, planClosures, storeDonePairs
 from gaia_cli.steward.issuehygiene.executor import RECEIPTDIR, ActionRefused, gateClosure
 from gaia_cli.steward.issuehygiene.reconcile import reconcile
 from gaia_cli.steward.issuehygiene.registryindex import buildRegistryIndex

@@ -15,7 +15,7 @@ import pytest
 from gaia_cli.steward.issuehygiene.census import Census, bodySha256, validateCensus
 from gaia_cli.steward.issuehygiene.closure import (
     ForgeBlockedError,
-    executeClosures,
+    _executeProvenClosures as executeClosures,
     planClosures,
     resumeState,
 )

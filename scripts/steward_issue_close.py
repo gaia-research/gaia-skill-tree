@@ -60,10 +60,8 @@ from gaia_cli.steward.issuehygiene.executor import (  # noqa: E402
     AlreadyRecorded,
     gateClosure,
     loadActionFile,
-    loadHygienePolicyOrRefuse,
     receiptFor,
     recordedReceipt,
-    reserveClosure,
 )
 from steward_issue_census import DEFAULT_REPO  # noqa: E402
 from steward_issue_reconcile import GhForge  # noqa: E402
@@ -144,10 +142,9 @@ def main(argv: list[str] | None = None, forgeFactory: Callable[[str, str | None]
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
     try:
         forge = (forgeFactory or GhForge)(repo, token)
-        policy = loadHygienePolicyOrRefuse(root)
         executed = executeClosure(
             plan, forge, receipt, now, runId, repo,
-            reserve=lambda: reserveClosure(root, receipt, policy, now, plan["key"], plan["issue"], runId, repo),
+            root=root,
         )
     except ActionRefused as exc:  # the budget reservation, or the policy, refused: nothing was written
         return refusal(exc, action)

@@ -588,6 +588,16 @@ def diffFields(plan: dict, live: dict, ownMarker: bool = False) -> list[str]:
     return found
 
 
+def commentContent(body: str) -> str:
+    """Only the census-wide audit stamp may change on a same-decision replay.
+
+    The closure digest binds the item and preserved payload; unrelated census
+    churn changes the manifest stamp but must not force a duplicate comment.
+    Every other character, including every payload part, is compared exactly.
+    """
+    return re.sub(r"(reconciliation manifest `)[0-9a-f]{8}(`)", r"\1<same-decision>\2", body, count=1)
+
+
 def findOwnMarker(comments: list[dict], key: str, sha8: str, closer: str | None) -> dict | None:
     """Our closing comment: the full marker for this key and manifest, authored by the closer identity.
 
@@ -645,8 +655,9 @@ def closerIdentity(forge: Any) -> str | None:
     return value if isinstance(value, str) and value.strip() else None
 
 
-def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now: Any, runId: str = "",
-                   repo: str | None = None, reserve: Any = None) -> dict:
+def _executeProvenClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now: Any, runId: str = "",
+                          repo: str | None = None, reserve: Any = None, beforeClose: Any = None,
+                          closedClock: Any = None) -> dict:
     """Close one planned issue after a live re-read, under a per-pair lock. Returns the receipt it appended.
 
     A pair that ANY receipts file in the store records as done is returned as ``resumed-done`` with no forge call and
@@ -667,7 +678,8 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
 
     def finish(outcome: str, commentUrl: str | None = None, failure: str | None = None,
                commentId: int | None = None, markerVerified: bool = False, closer: str | None = None) -> dict:
-        receipt = buildReceipt(plan, runId, outcome, now, commentUrl, failure, commentId=commentId,
+        recordedAt = closedClock() if closedClock is not None and outcome == "closed" else now
+        receipt = buildReceipt(plan, runId, outcome, recordedAt, commentUrl, failure, commentId=commentId,
                                markerVerified=markerVerified, closer=closer, preservedParts=preservedParts)
         appendReceipt(receiptsPath, receipt)
         return receipt
@@ -700,7 +712,8 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
         except Exception as exc:  # item-local
             return finish("failed", failure=f"list-comments: {exc}")
         # A row we cannot read may be a maintainer's objection; the history is not provable, so nothing is written.
-        if any(not isinstance(comment, dict) for comment in listed):
+        if any(not isinstance(comment, dict) or not isinstance(comment.get("body"), str)
+               or not isinstance(comment.get("author"), str) for comment in listed):
             return finish("blocked-identity", failure="unreadable comment row; comment history is not provable",
                           closer=closer)
 
@@ -721,7 +734,7 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
         # own updatedAt drift, but no later maintainer comment can be ignored.
         laterForeignComment = bool(markerPositions) and any(
             not isinstance(comment, dict) or comment.get("author") != closer
-            for comment in listed[markerPositions[-1] + 1:])
+            for comment in listed[markerPositions[0] + 1:])
         differences = diffFields(plan, live, ownMarker=ownMarker is not None)
         if laterForeignComment:
             differences.append("comment-after-closure-marker")
@@ -748,8 +761,45 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
                         return finish("failed", failure="write: closing comment posted but not verifiable; issue left open",
                                       closer=closer)
             for index in range(2, total + 1):
-                if findPart(listed, key, sha8, index, total, closer) is None:
+                if findPart(listed, key, sha8, index - 1, total - 1, closer) is None:
                     forge.addComment(issue, comments[index - 1])
+            # Posting can take several requests. Re-read issue AND full history
+            # after the last part, immediately before closing. A POST URL alone
+            # cannot prove that all preserved candidate information survived.
+            finalLive = forge.getIssue(issue)
+            problem = identityProblem(finalLive, issue)
+            if problem is not None:
+                return finish("blocked-identity", failure=problem, closer=closer)
+            finalComments = forge.listComments(issue)
+            if any(not isinstance(row, dict) or not isinstance(row.get("body"), str)
+                   or not isinstance(row.get("author"), str) for row in finalComments):
+                return finish("blocked-identity", failure="unreadable comment history before close", closer=closer)
+            positions = [i for i, row in enumerate(finalComments) if markerNeedle in row["body"]]
+            if any(finalComments[i]["author"] != closer for i in positions):
+                return finish("blocked-identity", failure="foreign closure marker before close", closer=closer)
+            if not positions or any(row["author"] != closer for row in finalComments[positions[0] + 1:]):
+                return finish("stale-skip", failure="comment-after-closure-marker", closer=closer)
+            for index, expected in enumerate(comments, 1):
+                needle = markerNeedle if index == 1 else partMarkerLine(key, sha8, index - 1, total - 1)
+                parts = [row for row in finalComments if needle in row["body"]]
+                if not parts or any(row["author"] != closer or commentContent(row["body"]) != commentContent(expected)
+                                    for row in parts):
+                    return finish("failed", failure=f"preserved comment part {index} not verified", closer=closer)
+            # Detect edits or comments that landed during the paginated history read.
+            afterHistory = forge.getIssue(issue)
+            if afterHistory.get("updatedAt") != finalLive.get("updatedAt"):
+                return finish("stale-skip", failure="updatedAt-during-final-history", closer=closer)
+            finalLive = afterHistory
+            problem = identityProblem(finalLive, issue)
+            if problem is not None:
+                return finish("blocked-identity", failure=problem, closer=closer)
+            differences = diffFields(plan, finalLive, ownMarker=True)
+            if finalLive.get("state") != "open":
+                differences.append("state")
+            if differences:
+                return finish("stale-skip", failure=",".join(differences), closer=closer)
+            if beforeClose is not None:
+                beforeClose()
             forge.closeIssue(issue, plan["stateReason"], plan["duplicateOf"])
         except ForgeIdentityError as exc:
             return finish("blocked-identity", commentUrl, f"write: {exc}", commentId, markerVerified, closer)
@@ -760,8 +810,8 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
         return finish("closed", commentUrl, None, commentId, markerVerified, closer)
 
 
-def executeClosures(plans: list[dict], forge: IssueForge, receiptsPath: Path | str, now: Any, runId: str = "",
-                    repo: str | None = None) -> list[dict]:
+def _executeProvenClosures(plans: list[dict], forge: IssueForge, receiptsPath: Path | str, now: Any, runId: str = "",
+                           repo: str | None = None) -> list[dict]:
     """Run plans in order. Done pairs in the receipts file are skipped without any forge call.
 
     Stops after the first ``blocked`` receipt: auth or rate failures stop the batch. A ``blocked-identity``
@@ -773,7 +823,60 @@ def executeClosures(plans: list[dict], forge: IssueForge, receiptsPath: Path | s
         if state.isDone(plan["key"], plan["issue"]):
             results.append({"key": plan["key"], "issue": plan["issue"], "outcome": "resumed-done"})
             continue
-        receipt = executeClosure(plan, forge, receiptsPath, now, runId, repo)
+        receipt = _executeProvenClosure(plan, forge, receiptsPath, now, runId, repo)
+        results.append(receipt)
+        if receipt["outcome"] == "blocked":
+            break
+    return results
+
+
+def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now: Any, runId: str = "",
+                   repo: str | None = None, *, root: Path | None = None) -> dict:
+    """Public executor: re-derive authority and proof even for direct library calls.
+
+    No checkout means no authority. A supplied plan or clock cannot bypass the
+    policy, decided record, census freshness, receipt confinement or budgets.
+    """
+    from gaia_cli.steward.clock import utcNow
+    from .executor import AlreadyRecorded, gateClosure, receiptFor, reserveClosure, loadHygienePolicyOrRefuse
+
+    if root is None or not repo:
+        raise ActionRefused("a checkout and target repository are required", code="authority")
+    root = root.resolve()
+    try:
+        relative = Path(receiptsPath).absolute().relative_to(root).as_posix()
+    except ValueError:
+        raise ActionRefused("receipt path is outside the checkout", code="receipt-path") from None
+    receipt = receiptFor(root, relative)
+    instant = utcNow()
+    action = closureAction(plan, relative, "", repo)
+    try:
+        proven = gateClosure(root, action, receipt, runId, instant, repo)
+    except AlreadyRecorded:
+        return {"key": plan["key"], "issue": plan["issue"], "outcome": "resumed-done"}
+
+    def stillAuthorized() -> HygienePolicy:
+        from .authority import closureAuthorityApproved
+        policy = loadHygienePolicyOrRefuse(root)
+        if not closureAuthorityApproved(root) or not policy.writesEnabled or not policy.ruleEnabled(proven["ruleId"]):
+            raise ActionRefused("closure authority withdrawn", code="authority")
+        return policy
+
+    return _executeProvenClosure(
+        proven, forge, receipt, instant, runId, repo,
+        reserve=lambda: reserveClosure(root, receipt, stillAuthorized(), utcNow(), proven["key"], proven["issue"], runId, repo),
+        beforeClose=stillAuthorized, closedClock=utcNow,
+    )
+
+
+def executeClosures(plans: list[dict], forge: IssueForge, receiptsPath: Path | str, now: Any, runId: str = "",
+                    repo: str | None = None, *, root: Path | None = None) -> list[dict]:
+    """Batch facade; each item goes through the same public policy/proof gate."""
+    if root is None:
+        raise ActionRefused("a checkout is required", code="authority")
+    results = []
+    for plan in plans:
+        receipt = executeClosure(plan, forge, receiptsPath, now, runId, repo, root=root)
         results.append(receipt)
         if receipt["outcome"] == "blocked":
             break

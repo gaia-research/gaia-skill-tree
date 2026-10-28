@@ -33,7 +33,7 @@ from urllib.parse import parse_qs, quote, urlparse
 import yaml
 
 from gaia_cli.steward.issuehygiene.census import Census, validateCensus
-from gaia_cli.steward.issuehygiene.closure import ForgeBlockedError, ForgeItemError, executeClosures, planClosures
+from gaia_cli.steward.issuehygiene.closure import ForgeBlockedError, ForgeItemError, _executeProvenClosures as executeClosures, planClosures
 from gaia_cli.steward.issuehygiene.hygienepolicy import KNOWN_RULE_IDS, HygienePolicy, loadHygienePolicy
 from gaia_cli.steward.issuehygiene.reconcile import reconcile
 from gaia_cli.steward.issuehygiene.registryindex import buildRegistryIndex
@@ -364,6 +364,15 @@ def editPolicy(root: Path, overrides: Mapping[str, Any]) -> None:
     target.write_text(yaml.safe_dump(raw, sort_keys=False), encoding="utf-8")
 
 
+def approveClosureFixture(root: Path) -> None:
+    """Synthetic founder ruling in a temporary test checkout, never the repository."""
+    from gaia_cli.steward.issuehygiene.authority import DECISION_PATH, DECISION_ID
+    target = root / DECISION_PATH
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps({"schemaVersion": "steward-decision-v1", "id": DECISION_ID,
+                                 "status": "decided"}), encoding="utf-8")
+
+
 def makeCheckout(
     tmp: Path,
     census: Mapping[str, Any] | str | None = None,
@@ -386,6 +395,7 @@ def makeCheckout(
     subprocess.run(["git", "init", "-q", str(root)], check=True)
     (root / "founder" / "steward").mkdir(parents=True)
     shutil.copy(REPO_ROOT / "founder" / "steward" / "POLICY.yaml", root / "founder" / "steward" / "POLICY.yaml")
+    approveClosureFixture(root)
     copySchema(root)
     editPolicy(root, {"writesEnabled": True, **(policy or {})})
     (root / "registry" / "named").mkdir(parents=True, exist_ok=True)

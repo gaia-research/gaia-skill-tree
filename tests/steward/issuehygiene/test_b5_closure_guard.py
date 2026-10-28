@@ -23,7 +23,7 @@ from gaia_cli.steward.issuehygiene.closure import (
     ForgeIdentityError,
     closureCommentsFor,
     closureProven,
-    executeClosure,
+    _executeProvenClosure as executeClosure,
     planClosures,
     resumeState,
 )
@@ -119,7 +119,7 @@ def receiptsOf(path: Path) -> list[dict]:
 
 
 def markerFor(plan: dict, sha8: str, author: str = CLOSER) -> dict:
-    body = f"<!-- gaia-steward-closure:{plan['key']}:{sha8} -->\nclosed earlier"
+    body = plan["comment"].replace(plan["closureSha8"], sha8)
     return {"body": body, "url": "https://github.com/x/y/issues/1#issuecomment-900", "author": author}
 
 

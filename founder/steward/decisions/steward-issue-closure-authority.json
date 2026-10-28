@@ -1,27 +1,24 @@
 {
   "schemaVersion": "steward-decision-v1",
   "id": "steward-issue-closure-authority",
-  "status": "decided",
-  "decision": "Grant Steward bounded authority to close GitHub issues only under the enumerated closure rules A1 to A5, with per-run caps, a writesEnabled kill switch, and an exactly-once outcome record (#2130)?",
-  "whyItMatters": "The upstream and bot-report backlog grows faster than it is closed by hand, and most of it is work the registry already preserved. Closing is visible to the founder, so the rule set is narrow: only an item whose payload is proven preserved may be closed, and nothing is closed on a similar title, a stale issue, or a skipped child gate.",
+  "status": "open",
+  "decision": "Ratify the proposed Class A GitHub issue-closure allowlist A1–A5 and its rollout, or retain human-reviewed closure authority (#2130)?",
+  "whyItMatters": "This is new external-write authority, not an extension inferred from local mirror repairs. Engineering proof does not ratify it. The current mission explicitly keeps this Class C decision open.",
   "evidence": [
-    "Decided by founder (campaign brief 2026-10-21) under #2130. This record is the authority; no agent inference grants closure.",
-    "Allowlist (POLICY.yaml issueHygiene.enabledRules): A1-child-curated, A2-umbrella-synced, A3-umbrella-superseded, A4-duplicate-child, A5-botreport-superseded. Each rule has a positive and a negative test in tests/steward/issuehygiene.",
-    "A5 cannot fire until issueHygiene.a5Disabled names a workflow file that is verifiably disabled in repository files; the list is empty, so A5 stays inert.",
-    "Caps: maxClosuresPerRun 10 (code ceiling 25), maxCensusAgeSeconds 21600, closedWindowDays 30. Any stale, incomplete or unreconciled census blocks closure for the run. An hourly budget counts every run's receipts: the policy cap per UTC hour, and never more than 25 closures in any 60 minutes (B7 L2).",
-    "Each closure re-reads the issue and requires the same updatedAt, bodySha256 and labels as the reconciled snapshot; otherwise it is skipped and re-observed. Outcomes are recorded once per semantic key and survive resume. The live updatedAt may differ only when our own marker comment for this closure explains it (B7 D12); title, body, labels and state drift still skip. B8 (H-1): the own-marker tolerance never applies to a pair the receipts already record as done.",
-    "Single executor (B7 H1): every closure, from the close script or from reconcile --apply-closures, passes one gate (executor.gateClosure). Writes off refuse with no forge call; the pilot runs only in a throwaway checkout with writesEnabled set there.",
-    "B8 (round 3): a closure the steward performed is never performed again, even after a person reopens the issue; the reopened issue is a Class C note (`reopened-after-closure`).",
-    "B8 (round 3): an exit-2 gate refusal is recorded as a `refused` outcome with a reason code; three refusals of one pair escalate once (`closure-refused`).",
-    "B8 (round 3): each closure is gated on its own evidence digest (`itemSha256`), not on the whole census; the hourly budget is reserved under a repository-keyed lock and counts pending closures."
+    "The Oct 21 architecture brief and earlier version of this record claimed founder authorization without a separately verified ruling. That inference is superseded by the current mission: the allowlist remains an unratified proposal. No historical approval is asserted here.",
+    "POLICY.yaml retains the disabled implementation: writesEnabled is false, the proposed rules are enumerated, maxClosuresPerRun is 10, and a5Disabled is empty. Editing the switch alone cannot activate it: runtime also requires this record to be explicitly decided.",
+    "Both script entrypoints and the public library executor re-derive proof from the checkout, require a complete fresh census and unchanged item digest, reserve bounded budget, and compare live issue and complete comment history before closing.",
+    "Mock tests cover comment-then-close crash recovery, foreign or unknown marker authors, maintainer objections, multipart preservation, receipt replay, reopened pairs and unrelated issue protection. No live closure pilot or burn-down is authorized by those tests.",
+    "Issue #1981 was accidentally closed during the prior verifier session (Oct 22 handover). Keeping or reversing that incident is a separate founder disposition, not resolved here."
   ],
-  "recommended": "Rollout in the order of the architecture contract: dry-run the manifest on the live census, pilot at most five closures under the A1 rule, then expand in checkpointed batches of at most ten. Rollback at any point by setting issueHygiene.writesEnabled to false in founder/steward/POLICY.yaml; no further closure is emitted and closures already made stay closed.",
-  "alternative": "Keep every closure Class B: a person reviews each proposal and closes each issue by hand. Slower, but no automated closure authority exists.",
-  "unblocks": "Class A closure debt (issue_closure_ready) may emit forge.close_issue actions. Without this record the rule set has no authority and emits nothing.",
+  "recommended": "Review the exact A1–A5 proof boundaries and mocked evidence. Keep writes disabled and do not run a live closure dry run or pilot in this mission. Any later rollout requires an explicit ruling and a separately authorized operational plan.",
+  "alternative": "Keep closures human-reviewed; retain deterministic reconciliation as read-only context and batch review proposals.",
+  "unblocks": "Only a future decided record plus an explicitly enabled policy can emit and execute Class A closure actions. Neither a green test nor a writesEnabled edit grants that authority.",
   "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2130",
+    "https://github.com/gaia-research/gaia-skill-tree/pull/2133",
     "founder/steward/POLICY.yaml",
-    "founder/handovers/2026-10-21-steward-issue-hygiene-architecture.md",
-    "founder/steward/routines/issue-hygiene.md",
-    "src/gaia_cli/steward/issuehygiene/hygienepolicy.py"
+    "founder/handovers/2026-10-22-steward-issue-hygiene-handover.md",
+    "src/gaia_cli/steward/issuehygiene/authority.py"
   ]
 }

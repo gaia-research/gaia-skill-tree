@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pytest
 
-from gaia_cli.steward.issuehygiene.closure import executeClosure, planClosures, resumeState
+from gaia_cli.steward.issuehygiene.closure import _executeProvenClosure as executeClosure, planClosures, resumeState
 from tests.steward.issuehygiene.e_fakes import SimulatedCrash
 from tests.steward.issuehygiene.test_b5_closure_guard import (
     CLOSER,

@@ -215,6 +215,14 @@ item needs at least one entry; every entry must have exited zero.
 
 ## Routine 18 — GitHub issue hygiene (#2130)
 
+**Unratified Class C proposal.** The implementation allowlist is not a grant of
+issue-write authority. `steward-issue-closure-authority.json` is OPEN; the effective
+policy disables all closure rules until that exact record is explicitly decided.
+Changing `writesEnabled` alone cannot emit plans or actions, or authorize either
+script or public library executor. No live closure dry run, pilot or burn-down is
+authorized in this mission. The Oct 21–22 handovers describe historical procedures,
+not present permission; the current mission supersedes their inferred approval.
+
 Routine 18 reconciles the open GitHub issues that upstream intake and gh-aw
 generate against the registry, and closes only what the registry proves preserved.
 
@@ -235,14 +243,18 @@ crash), so a stale file cannot pass as current. An exit 3 file is kept so the se
 
 A closure (`forge.close_issue`) is emitted only under an enabled rule A1 to A5, a
 complete census, an unchanged manifest snapshot, and `issueHygiene.writesEnabled: true`.
-The shipped policy is dry-run (`writesEnabled: false`, contract section 6): proven closures
-are reported as `ready (writes disabled)` debt and no action is emitted.
+The shipped policy has `writesEnabled: false`. With the authority record open, no
+closure plan or action is emitted. In an explicitly approved fixture, disabling
+writes reports proven items as `ready (writes disabled)`; neither case can close.
 
 The executor does not trust the action file. `scripts/steward_issue_close.py` re-derives the
 proof from the checkout (writes, rule, A5 workflows, per-run cap, receipt path, census, manifest
 digest, closing comments) and exits 2 on any gap, before a forge is built. It re-reads the live
-issue, then posts one marked comment, or finds the one our closer identity already posted, then
-closes the issue and appends a receipt to `.gaia/steward/issue-hygiene/receipts/<run>.jsonl`.
+issue, then posts one marked comment, or finds the one our closer identity already posted.
+Immediately before close it re-reads the live issue and complete comment history,
+verifies every preserved part byte-for-byte, and refuses edits, objections or unknown
+identity. The public `executeClosure(s)` facade independently enforces the same gate;
+calling it without a checkout cannot write. It then closes the issue and appends a receipt to `.gaia/steward/issue-hygiene/receipts/<run>.jsonl`.
 A `closed` outcome carries exactly one proof of its closing comment: `commentUrl` naming this
 issue, `commentId`, or `markerVerified: true`. Two or more proofs are refused.
 

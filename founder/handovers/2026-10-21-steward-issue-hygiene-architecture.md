@@ -1,6 +1,15 @@
 # Steward Issue Hygiene — architecture contract (#2130 / #2131 / #2132)
 
-Status: working contract for the `dev/steward-issue-hygiene` integration branch.
+Status: historical working contract for the `dev/steward-issue-hygiene` integration branch.
+
+**Current mission supersession (2026-10-28):** engineering authorization is not
+Class A issue-write ratification. The closure decision is OPEN and runtime requires
+an explicit decided record in addition to the disabled-by-default switch. F3 batch
+emission is staged opt-in, not the scheduled/default mode. Prior statements below
+claiming founder authorization from the campaign brief are historical inference,
+not verified approval. No live closure dry run or pilot is authorized here. The
+canonical-suite founder correction on PR #2133 remains evidence; closed-umbrella
+recreation/suppression and empty-page cross-check policy remain founder questions.
 Authors: Sonnet 5.5 High (architecture/integration lead); lanes by Haiku 5.5.
 Ground truth (live census 2026-10-21, REST pagination of 4 pages): 224 open issues + 8 open PRs;
 105 authored by `github-actions[bot]`; 96 `upstream:child` (#1835:72, #2002:17, #2020:4, #1823:3);

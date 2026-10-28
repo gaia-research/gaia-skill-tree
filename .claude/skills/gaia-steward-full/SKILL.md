@@ -42,6 +42,9 @@ Scheduled runs add `--trigger scheduled`. Class A landing additionally needs
 the runner refuses `main`, `master` and the remote default branch.
 
 `--routine` takes 1 to 18. Routine 18 is GitHub issue hygiene (`issue-hygiene`).
+Issue-write authority remains an OPEN Class C proposal: no live closure dry run,
+pilot or burn-down. The effective policy emits no closure actions until explicit
+ratification AND write opt-in; changing the kill switch alone grants no authority.
 
 ## Step 0: refresh the issue census
 

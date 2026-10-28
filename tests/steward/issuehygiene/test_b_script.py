@@ -77,13 +77,15 @@ def test_gh_forge_transport_failure_is_blocked_and_never_leaks_the_token():
 
 
 def test_gh_forge_lists_all_comment_pages():
-    first = [{"body": f"c{index}", "html_url": f"u{index}"} for index in range(100)]
-    second = [{"body": "last", "html_url": "ulast"}]
-    transport = FakeTransport([jsonResponse(200, first), jsonResponse(200, second)])
+    first = [{"id": index + 1, "body": f"c{index}", "html_url": f"u{index}", "user": {"login": "bot"}} for index in range(100)]
+    second = [{"id": 101, "body": "last", "html_url": "ulast", "user": {"login": "bot"}}]
+    link = '<https://api.github.com/repos/o/r/issues/9/comments?per_page=100&page=2>; rel="next"'
+    transport = FakeTransport([jsonResponse(200, {"comments": 101}), jsonResponse(200, first, {"link": link}),
+                               jsonResponse(200, second), jsonResponse(200, [])])
     comments = GhForge("o/r", TOKEN, transport).listComments(9)
     assert len(comments) == 101
-    assert comments[-1] == {"body": "last", "url": "ulast", "author": None}
-    assert "page=2" in transport.requests[1][1]
+    assert comments[-1] == {"body": "last", "url": "ulast", "author": "bot", "createdAt": None, "updatedAt": None}
+    assert "page=2" in transport.requests[2][1]
 
 
 def test_gh_forge_close_sends_state_reason_and_comment_returns_url():
@@ -219,13 +221,13 @@ def test_apply_with_forge_writes_receipts_for_plans_and_is_replay_idempotent(tmp
                     "labels": [label if isinstance(label, str) else label["name"] for label in live["labels"]]}
 
         def listComments(self, number):
-            return []
+            return [{"body": body, "author": "steward-bot"} for n, body in self.comments if n == number]
 
         def whoami(self):
             return "steward-bot"
 
         def addComment(self, number, body):
-            self.comments.append(number)
+            self.comments.append((number, body))
             return f"https://github.com/gaia-research/gaia-skill-tree/issues/{number}#issuecomment-{9000 + number}"
 
         def closeIssue(self, number, stateReason, duplicateOf=None):

@@ -20,7 +20,7 @@ from gaia_cli.steward.issuehygiene.closure import (
     ForgeItemError,
     itemDigest,
     closureProven,
-    executeClosure,
+    _executeProvenClosure as executeClosure,
     planClosures,
 )
 from gaia_cli.steward.issuehygiene.executor import (
@@ -331,6 +331,8 @@ def test_a_compact_action_is_re_derived_and_posts_the_full_preserved_payload(tmp
     from tests.steward.issuehygiene.e_fakes import REPO_ROOT
     shutil.copy(REPO_ROOT / "founder" / "steward" / "POLICY.yaml", root / "founder" / "steward" / "POLICY.yaml")
     editPolicy(root, {"writesEnabled": True})
+    from tests.steward.issuehygiene.e_fakes import approveClosureFixture
+    approveClosureFixture(root)
     plan = planClosures(manifest, policyFor())[0]
     action = {**compactPlan(plan), "receiptPath": RECEIPT, "manifestSha256": observedDigest(manifest),
               "itemSha256": itemDigest(plan), "repo": REPO}

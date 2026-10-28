@@ -30,6 +30,8 @@ def scenario(tmp_path: Path):
     policy.parent.mkdir(parents=True, exist_ok=True)
     text = (REPO_ROOT / "founder" / "steward" / "POLICY.yaml").read_text(encoding="utf-8")
     policy.write_text(text.replace("writesEnabled: false", "writesEnabled: true", 1), encoding="utf-8")
+    from .e_fakes import approveClosureFixture
+    approveClosureFixture(tmp_path)
     target = tmp_path / CENSUS_INPUT
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps(census.document), encoding="utf-8")

@@ -229,7 +229,7 @@ Every routine inherits the repository rules in `AGENTS.md`, `CLAUDE.md`, and the
 
 **Run when:** The issue census is refreshed, a suite batch gains candidates, an umbrella is superseded, or a founder question is answered.
 
-**Operating boundaries:** Closure is a forge action allowed only under the rules A1 to A5 enabled in `founder/steward/POLICY.yaml`, with a per-run cap. Class B work proposes dispositions and never closes or accepts anything. Registry mutation goes through `gaia dev` verbs only. Founder questions are decided by the founder, not by this routine.
+**Operating boundaries:** Class A issue-write authority is an OPEN proposal, not inferred from this routine. Closure requires an explicit decided `steward-issue-closure-authority` record as well as rules A1 to A5 enabled in `founder/steward/POLICY.yaml`, with a per-run cap. No live closure dry run or pilot is authorized in this mission. Class B work proposes dispositions and never closes or accepts anything. Registry mutation goes through `gaia dev` verbs only. Founder questions are decided by the founder, not by this routine.
 
 **Proof:** Each closure carries its rule, registry or merged-pull-request evidence, the original payload, and a durable outcome. Each batch disposition is reproducible from the census and local registry state. A resumed run neither repeats nor loses a pending closure.
 

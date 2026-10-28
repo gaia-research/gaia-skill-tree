@@ -12,7 +12,7 @@ from pathlib import Path
 
 import pytest
 
-from gaia_cli.steward.issuehygiene.closure import executeClosure, planClosures
+from gaia_cli.steward.issuehygiene.closure import _executeProvenClosure as executeClosure, planClosures
 from gaia_cli.steward.issuehygiene.executor import compactPlan
 from gaia_cli.steward.issuehygiene.reconcile import reconcile
 from gaia_cli.steward.issuehygiene.registryindex import buildRegistryIndex

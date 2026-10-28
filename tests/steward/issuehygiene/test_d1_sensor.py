@@ -98,6 +98,8 @@ def repo(tmp_path: Path) -> Path:
     assert "writesEnabled: false" in text
     (tmp_path / "founder/steward/POLICY.yaml").write_text(
         text.replace("writesEnabled: false", "writesEnabled: true", 1), encoding="utf-8")
+    from .e_fakes import approveClosureFixture
+    approveClosureFixture(tmp_path)
     return tmp_path
 
 

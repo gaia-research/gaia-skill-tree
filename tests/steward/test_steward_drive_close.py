@@ -33,6 +33,8 @@ def closeRoot(tmp_path):
     target.parent.mkdir(parents=True, exist_ok=True)
     text = policy.read_text(encoding="utf-8")
     target.write_text(text.replace("writesEnabled: false", "writesEnabled: true", 1), encoding="utf-8")
+    from tests.steward.issuehygiene.e_fakes import approveClosureFixture
+    approveClosureFixture(root)
     return root
 
 

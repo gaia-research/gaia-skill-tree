@@ -64,7 +64,10 @@ a URL that does not name this issue and repo, or no proof at all is refused.
 
 The executor re-derives every gate below before any forge is built:
 
+0. `founder/steward/decisions/steward-issue-closure-authority.json` is explicitly `decided`.
+   It is OPEN in this mission: no inferred approval, live closure dry run or pilot.
 1. `founder/steward/POLICY.yaml` sets `issueHygiene.writesEnabled: true`, and the policy parses.
+   Changing this switch alone cannot ratify the proposed Class A issue-write authority.
 2. The action's rule is in `issueHygiene.enabledRules`. An A5 closure also needs a
    non-empty `a5Disabled` covering every workflow its evidence names.
 2a. The pair is not recorded as done in ANY receipts file or in the outcome store (B8 H-1). A pair the steward
@@ -85,7 +88,8 @@ The executor re-derives every gate below before any forge is built:
   `expectedSnapshot`. The live `updatedAt` may differ only when our own marker comment for this
   closure explains it. Any other difference is `stale-skip`: no write.
 - Writes the marked closing comments, or finds them already posted by the closer identity.
-  Another author's comment, or a marker for another closure decision, is never proof.
+  Another author's marker or unknown closer blocks without a duplicate comment. Before close,
+  re-reads the issue and complete history, checks for objections, and verifies every part's full content.
 - Never edits a title or body, never deletes, never reopens, never touches another issue, and
   never edits `registry/`, `POLICY.yaml` or `.gaia/steward/` state beyond the receipt and the
   recorded outcome.
@@ -108,7 +112,9 @@ Exit 0 also covers `resumed-done`: a repeat of a closure already recorded, print
 
 ### Pilot procedure (contract section 6)
 
-The pilot is never enabled in the committed policy. It runs in a throwaway checkout:
+Historical procedure, NOT current authorization: do not execute a pilot in this mission.
+Only after an explicit founder ruling and separate operational authorization could a
+pilot run in a throwaway checkout; merely enabling writes is insufficient:
 
 1. Copy the checkout to a throwaway directory. In that copy only, edit `founder/steward/POLICY.yaml`:
    `issueHygiene.writesEnabled: true` and `maxClosuresPerRun: 5`. Do not commit the edit.

@@ -50,7 +50,6 @@ from gaia_cli.steward.issuehygiene.executor import (
     AlreadyRecorded,
     gateClosure,
     receiptFor,
-    reserveClosure,
     sameRepo,
 )
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy, loadHygienePolicy
@@ -171,18 +170,38 @@ class GhForge:
         }
 
     def listComments(self, number: int) -> list[dict]:
-        found: list[dict] = []
-        for page in range(1, MAX_COMMENT_PAGES + 1):
-            headers, data = self.call("GET", f"/issues/{number}/comments?per_page={PAGE_SIZE}&page={page}")
-            rows = data if isinstance(data, list) else []
-            for row in rows:
-                if isinstance(row, dict):
-                    author = row.get("user") if isinstance(row.get("user"), dict) else {}
-                    found.append({"body": row.get("body") or "", "url": row.get("html_url"),
-                                  "author": author.get("login")})
-            if len(rows) < PAGE_SIZE:
-                return found
-        raise ForgeBlockedError("comment-pagination-cap")
+        from steward_issue_census import Response, listAll
+
+        # The issue's count cross-checks even a 200/empty/no-Link first page.
+        _, issue = self.call("GET", f"/issues/{number}")
+        count = issue.get("comments") if isinstance(issue, dict) else None
+        if isinstance(count, bool) or not isinstance(count, int) or count < 0:
+            raise ForgeBlockedError("comment-count-unavailable")
+        start = f"{GITHUB_API}/repos/{self.repo}/issues/{number}/comments?per_page={PAGE_SIZE}&page=1"
+
+        def fetch(url: str) -> Response:
+            # listAll verifies continuation origin/path/query before calling us.
+            path = url.removeprefix(f"{GITHUB_API}/repos/{self.repo}")
+            headers, rows = self.call("GET", path)
+            return Response(200, headers, json.dumps(rows))
+
+        listing = listAll(start, fetch, expectedItems=count)
+        if listing.reason or len(listing.rows) != count:
+            raise ForgeBlockedError(f"comment-history-incomplete:{listing.reason or 'count-mismatch'}")
+        found = []
+        ids = set()
+        for row in listing.rows:
+            if not isinstance(row, dict) or not isinstance(row.get("body"), str) or isinstance(row.get("id"), bool) \
+                    or not isinstance(row.get("id"), int) or row["id"] <= 0:
+                raise ForgeBlockedError("malformed-comment-row")
+            author = row.get("user")
+            if not isinstance(author, dict) or not isinstance(author.get("login"), str) \
+                    or not author["login"].strip() or row["id"] in ids:
+                raise ForgeBlockedError("malformed-comment-identity")
+            ids.add(row["id"])
+            found.append({"body": row["body"], "url": row.get("html_url"), "author": author["login"],
+                          "createdAt": row.get("created_at"), "updatedAt": row.get("updated_at")})
+        return found
 
     def addComment(self, number: int, body: str) -> str | None:
         headers, data = self.call("POST", f"/issues/{number}/comments", {"body": body})
@@ -330,6 +349,8 @@ def applyClosures(args: argparse.Namespace, root: Path, forgeFactory: Callable[[
     if not args.i_understand_writes or args.receipts is None:
         print("refusing: --apply-closures needs --receipts PATH and --i-understand-writes", file=sys.stderr)
         return EXIT_USAGE
+    if args.census is not None:
+        return refuse("--census is not accepted with --apply-closures; the checkout census is authoritative")
     if args.policy is not None:
         return refuse("--apply-closures reads the checkout's founder/steward/POLICY.yaml only; --policy is not accepted")
     if not args.repo:
@@ -389,7 +410,7 @@ def applyClosures(args: argparse.Namespace, root: Path, forgeFactory: Callable[[
         try:
             result = executeClosure(
                 gated, forge, receipt, now, runId, args.repo,
-                reserve=lambda plan=plan: reserveClosure(root, receipt, policy, now, plan["key"], plan["issue"], runId, args.repo),
+                root=root,
             )
         except ActionRefused as exc:
             print(f"refusing {plan['key']} (#{plan['issue']}): {exc}", file=sys.stderr)

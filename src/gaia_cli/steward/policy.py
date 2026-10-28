@@ -236,7 +236,14 @@ class StewardPolicy:
             data = yaml.safe_load(raw_bytes.decode("utf-8"))
         except (UnicodeDecodeError, yaml.YAMLError) as exc:
             raise PolicyError(f"invalid Steward policy YAML: {exc}") from exc
-        return cls._from_mapping(data)
+        from dataclasses import replace
+        from .issuehygiene.authority import closureAuthorityApproved
+
+        loaded = cls._from_mapping(data)
+        # A switch or rule-list edit cannot ratify a new external-write authority.
+        if not closureAuthorityApproved(repo_root):
+            loaded = replace(loaded, issue_hygiene=replace(loaded.issue_hygiene, writesEnabled=False, enabledRules=()))
+        return loaded
 
     @classmethod
     def _from_mapping(cls, data: Any) -> "StewardPolicy":

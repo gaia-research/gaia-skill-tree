@@ -38,6 +38,8 @@ def writesFixture(tmp_path: Path, writes: bool) -> Path:
     raw = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
     raw["issueHygiene"]["writesEnabled"] = writes
     (tmp_path / "founder" / "steward" / "POLICY.yaml").write_text(yaml.safe_dump(raw, sort_keys=False), encoding="utf-8")
+    from .e_fakes import approveClosureFixture
+    approveClosureFixture(tmp_path)
     return tmp_path
 
 
@@ -53,7 +55,7 @@ def test_the_repo_policy_ships_with_closure_writes_disabled() -> None:
     assert policy.writesEnabled is False
 
 
-def test_the_repo_policy_still_enables_the_five_rules_for_the_pilot() -> None:
+def test_raw_policy_retains_the_five_implementation_rules_without_ratification() -> None:
     policy = loadHygienePolicy(yaml.safe_load(POLICY.read_text(encoding="utf-8"))["issueHygiene"])
 
     assert policy.enabledRules == (

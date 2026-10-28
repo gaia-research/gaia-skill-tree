@@ -48,11 +48,14 @@ def test_whoami_that_cannot_be_read_raises_so_no_marker_is_proof(response) -> No
 
 def test_list_comments_carries_each_comment_author() -> None:
     rows = [
-        {"body": "ours", "html_url": "https://github.com/o/r/issues/3#issuecomment-1", "user": {"login": "steward-bot"}},
-        {"body": "theirs", "html_url": "https://github.com/o/r/issues/3#issuecomment-2", "user": {"login": "someone"}},
-        {"body": "anonymous", "html_url": "https://github.com/o/r/issues/3#issuecomment-3"},
+        {"id": 1, "body": "ours", "html_url": "https://github.com/o/r/issues/3#issuecomment-1", "user": {"login": "steward-bot"}},
+        {"id": 2, "body": "theirs", "html_url": "https://github.com/o/r/issues/3#issuecomment-2", "user": {"login": "someone"}},
     ]
+    comments = GhForge("o/r", TOKEN, Transport([ok({"comments": 2}), ok(rows), ok([])])).listComments(3)
+    assert [comment["author"] for comment in comments] == ["steward-bot", "someone"]
 
-    comments = GhForge("o/r", TOKEN, Transport([ok(rows)])).listComments(3)
 
-    assert [comment["author"] for comment in comments] == ["steward-bot", "someone", None]
+def test_unknown_comment_author_is_not_silently_discarded() -> None:
+    rows = [{"id": 1, "body": "anonymous", "html_url": "https://github.com/o/r/issues/3#issuecomment-1"}]
+    with pytest.raises(ForgeBlockedError):
+        GhForge("o/r", TOKEN, Transport([ok({"comments": 1}), ok(rows), ok([])])).listComments(3)
