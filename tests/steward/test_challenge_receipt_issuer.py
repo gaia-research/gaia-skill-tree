@@ -288,10 +288,6 @@ def test_online_path_resolves_and_cross_checks_live_run_artifact_and_approvals(t
 
 @pytest.mark.parametrize("kwargs,match", [
     ({"listing": {"total_count": 0, "artifacts": []}}, "absent or ambiguous"),
-    ({"listing": {"total_count": 2, "artifacts": [
-        {"id": 555, "name": "challenge-receipt-receipt-17", "expired": False, "workflow_run": {"id": RUN_ID}},
-        {"id": 556, "name": "challenge-receipt-receipt-17", "expired": False, "workflow_run": {"id": RUN_ID}}]}},
-     "absent or ambiguous"),
     ({"listing": {"total_count": 1, "artifacts": [{}]}}, "malformed"),
     ({"listing": {"total_count": 21, "artifacts": [{}] * 21}}, "absent or ambiguous"),
     ({"listing": [1]}, "absent or ambiguous"),
@@ -353,6 +349,47 @@ def test_same_named_artifacts_from_other_workflows_cannot_deny_or_hijack(tmp_pat
     transport.responses = {"actions/runs/901": {**foreign, "id": 901}, **transport.responses}
     source = GitHubActionsSource(transport=transport, verifier=FakeVerifier(repo.sha), git=cr.LocalGit(repo.root))
     with pytest.raises(ReceiptUnavailable, match="0 of 1 same-named"):
+        GitHubVerificationReceiptResolver(cfg, source).resolve(RECEIPT_ID, expected_challenge_id=CHALLENGE)
+
+
+def test_two_fully_verifying_artifacts_are_ambiguous_but_a_branch_squatter_is_not(tmp_path, repo, cfg):
+    files = bundleFiles(makeBundle(tmp_path, repo))
+    genuine = {"id": 555, "name": "challenge-receipt-receipt-17", "expired": False, "workflow_run": {"id": RUN_ID}}
+    twin = {**genuine, "id": 556}
+    transport = liveTransport(files, repo.sha, listing={"total_count": 2, "artifacts": [genuine, twin]})
+    transport.responses["actions/artifacts/556/zip"] = zipOf(files)
+    source = GitHubActionsSource(transport=transport, verifier=FakeVerifier(repo.sha), git=cr.LocalGit(repo.root))
+    with pytest.raises(ReceiptUnavailable, match="2 same-named artifacts fully verify"):
+        GitHubVerificationReceiptResolver(cfg, source).resolve(RECEIPT_ID, expected_challenge_id=CHALLENGE)
+    # A BRANCH named challenge-receipt/x running a same-path workflow passes the structural filter
+    # (its head_branch has the tag-like prefix) but can never verify, so it cannot force "ambiguous".
+    for squatPath in (COMMITTED.workflow_path, COMMITTED.workflow_path + "@refs/heads/challenge-receipt/x"):
+        squatter = {"id": 777, "name": "challenge-receipt-receipt-17", "expired": False, "workflow_run": {"id": 700}}
+        listing = {"total_count": 2, "artifacts": [squatter, genuine]}
+        transport = liveTransport(files, repo.sha, listing=listing)
+        transport.responses = {
+            "actions/runs/700/approvals": [approval()],
+            "actions/runs/700": {"id": 700, "path": squatPath, "event": "push", "run_attempt": 1,
+                                 "head_branch": "challenge-receipt/x", "head_sha": repo.sha, "status": "completed",
+                                 "conclusion": "success", "repository": {"full_name": COMMITTED.repository},
+                                 "head_repository": {"full_name": COMMITTED.repository}},
+            "actions/artifacts/777/zip": b"attacker junk that is not a bundle",
+            **transport.responses}
+        source = GitHubActionsSource(transport=transport, verifier=FakeVerifier(repo.sha),
+                                     git=cr.LocalGit(repo.root))
+        assert GitHubVerificationReceiptResolver(cfg, source).resolve(
+            RECEIPT_ID, expected_challenge_id=CHALLENGE).receipt_id == RECEIPT_ID
+        if "@" in squatPath:  # an explicit non-tag ref in `path` is dropped before any download
+            assert not any("artifacts/777/zip" in request for request in transport.requests)
+    # a squatter whose junk is the ONLY same-named artifact fails closed with the real reason
+    transport = liveTransport(files, repo.sha, listing={"total_count": 1, "artifacts": [squatter]})
+    transport.responses = {"actions/artifacts?name=": {"total_count": 1, "artifacts": [squatter]},
+                           "actions/runs/700/approvals": [approval()],
+                           "actions/runs/700": {"id": 700, "path": COMMITTED.workflow_path, "event": "push",
+                                                "head_branch": "challenge-receipt/x"},
+                           "actions/artifacts/777/zip": b"junk"}
+    source = GitHubActionsSource(transport=transport, verifier=FakeVerifier(repo.sha), git=cr.LocalGit(repo.root))
+    with pytest.raises(ReceiptUnavailable, match="invalid receipt bundle"):
         GitHubVerificationReceiptResolver(cfg, source).resolve(RECEIPT_ID, expected_challenge_id=CHALLENGE)
 
 

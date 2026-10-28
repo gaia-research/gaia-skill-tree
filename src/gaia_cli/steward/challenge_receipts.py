@@ -746,8 +746,10 @@ class GitHubActionsSource(_BundleSource):
         if (not isinstance(artifacts, list) or not artifacts or len(artifacts) > 20
                 or listing.get("total_count") != len(artifacts)):
             raise ReceiptUnavailable("receipt artifact is absent or ambiguous (exactly one is required)")
-        # Any writer can upload an artifact with this name from another workflow; only artifacts
-        # whose run is a push of the pinned issuer workflow on a challenge-receipt tag count.
+        # Any writer can upload an artifact with this name from another workflow or from a
+        # same-path workflow run on a branch. Structural filter first (cheap), then only the
+        # candidate(s) that FULLY verify count: a squatter cannot verify, so it can neither
+        # deny nor hijack the lookup; two fully verified candidates are genuinely ambiguous.
         tagPrefix = config.trigger_ref_prefix.removeprefix("refs/tags/")
         candidates: list[tuple[Mapping[str, Any], Mapping[str, Any]]] = []
         for item in artifacts:
@@ -756,20 +758,39 @@ class GitHubActionsSource(_BundleSource):
                     or not isinstance(workflowRun, Mapping) or type(workflowRun.get("id")) is not int):
                 raise ReceiptUnavailable("receipt artifact listing is malformed")
             candidate = self.transport.getJson(f"repos/{repo}/actions/runs/{workflowRun['id']}")
-            if (isinstance(candidate, Mapping) and candidate.get("id") == workflowRun["id"]
-                    and str(candidate.get("path", "")).split("@")[0] == config.workflow_path
-                    and candidate.get("event") == "push"
-                    and str(candidate.get("head_branch", "")).startswith(tagPrefix)):
+            if not isinstance(candidate, Mapping) or candidate.get("id") != workflowRun["id"]:
+                continue
+            path, _, pathRef = str(candidate.get("path", "")).partition("@")
+            if (path == config.workflow_path and candidate.get("event") == "push"
+                    and str(candidate.get("head_branch", "")).startswith(tagPrefix)
+                    and (not pathRef or pathRef.startswith(config.trigger_ref_prefix))):
                 candidates.append((item, candidate))
-        if len(candidates) != 1:
+        if not candidates:
             raise ReceiptUnavailable(
-                f"receipt artifact is absent or ambiguous: {len(candidates)} of {len(artifacts)} same-named "
+                f"receipt artifact is absent or ambiguous: 0 of {len(artifacts)} same-named "
                 "artifacts come from the issuer workflow (exactly one is required)")
-        artifact, run = candidates[0]
-        runId = run["id"]
+        verified: list[dict[str, Any]] = []
+        failures: list[ReceiptUnavailable] = []
+        for artifact, run in candidates:
+            try:
+                verified.append(self._fetchCandidate(receipt_id, config, artifact, run))
+            except ReceiptUnavailable as exc:
+                failures.append(exc)
+        if len(verified) > 1:
+            raise ReceiptUnavailable(
+                f"receipt artifact is ambiguous: {len(verified)} same-named artifacts fully verify "
+                "(exactly one is required)")
+        if not verified:
+            raise failures[0]
+        return verified[0]
+
+    def _fetchCandidate(self, receipt_id: str, config: TrustedReceiptConfig,
+                        artifact: Mapping[str, Any], run: Mapping[str, Any]) -> dict[str, Any]:
+        repo, runId = config.repository, run["id"]
         approvals = self.transport.getJson(f"repos/{repo}/actions/runs/{runId}/approvals")
         data = self.transport.getBytes(f"repos/{repo}/actions/artifacts/{artifact['id']}/zip")
         document = self._authenticateBundle(_readBundleZip(data), receipt_id, config)
+
         def repoOf(key: str) -> Any:
             value = run.get(key)
             return value.get("full_name") if isinstance(value, Mapping) else None
