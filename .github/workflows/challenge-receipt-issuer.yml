@@ -2,13 +2,21 @@ name: Challenge receipt issuer
 
 # Single-operator issuer for Yggdrasil IV challenge receipts (EPIC #2189).
 #
+# FOUNDER, FIRST: create the repository environment `challenge-receipt-issuer` (required reviewer,
+# no admin bypass, tag rule `challenge-receipt/*`) BEFORE any tag is pushed. GitHub silently
+# auto-creates a missing environment WITHOUT protection; the approvals check then fails closed
+# (empty approvals), but the environment must exist and be protected for the click to mean anything.
+#
 # Push a tag `challenge-receipt/<case>-r<n>` that points at a commit containing
 # evidence/frontier-challenges/<case>/admission-request.json.
-#   prepare: repository code builds artifact.zip (no privileges); then PINNED inline code re-derives
-#            the facts from the archive bytes and shows them to the founder.
+#   prepare: repository code builds artifact.zip. UNTRUSTED runner (repository code can poison it);
+#            it only builds and uploads, and shows nothing the founder should rely on.
+#   show:    clean runner (no checkout, `python3 -I`): downloads the uploaded archive, derives the facts
+#            from its bytes, writes the ONLY founder-facing summary and the digest output.
 #   issue:   after the founder approves the `challenge-receipt-issuer` environment, ONLY pinned inline
-#            code runs (no checkout, no repository code): it re-derives the facts, checks the
-#            approvals, seals them, and the attest action signs artifact.zip + issuer-approval.json.
+#            code runs (no checkout, no repository code, `python3 -I`): it re-derives the facts, checks
+#            the digest from `show` and the approvals, seals them, and the attest action signs
+#            artifact.zip + issuer-approval.json.
 # Verifiers pin THIS file by git blob SHA (src/gaia_cli/data/trust/challenge-receipt-issuer.json);
 # any edit here must be followed by re-pinning (tests/steward/test_challenge_receipt_issuer.py
 # prints the value). Keep the two `facts begin/end` blocks byte-identical (a test enforces it).
@@ -27,15 +35,10 @@ concurrency:
 
 jobs:
   prepare:
-    name: Prepare receipt
+    name: Build receipt (untrusted runner)
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    env:
-      TRIGGERING_ACTOR: ${{ github.triggering_actor }}
-    outputs:
-      receipt: ${{ steps.derive.outputs.receipt }}
-      digest: ${{ steps.derive.outputs.digest }}
     steps:
       - name: Check out the tagged commit
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -47,12 +50,38 @@ jobs:
           set -euo pipefail
           [ "$GITHUB_REF_TYPE" = "tag" ] || { echo "not a tag push" >&2; exit 1; }
           PYTHONPATH=src python3 scripts/buildChallengeReceipt.py build --tag "$GITHUB_REF_NAME" --out out
+          echo "Built by repository code on an untrusted runner. Review the facts in the 'show' job summary, not here." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload build output
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: receipt-build
+          path: out/artifact.zip
+          if-no-files-found: error
+          retention-days: 35
+
+  show:
+    name: Show facts (clean runner)
+    needs: prepare
+    runs-on: ubuntu-latest
+    permissions: {}
+    env:
+      TRIGGERING_ACTOR: ${{ github.triggering_actor }}
+    outputs:
+      receipt: ${{ steps.derive.outputs.receipt }}
+      digest: ${{ steps.derive.outputs.digest }}
+    steps:
+      - name: Download prepared receipt
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: receipt-build
+          path: out
 
       - name: Derive and show the facts (pinned code)
         id: derive
         run: |
           set -euo pipefail
-          python3 - <<'PY'
+          python3 -I - <<'PY'
           # --- facts begin
           import hashlib, io, json, re, zipfile
           def clean(value, pattern=r"[A-Za-z0-9._:/@+-]{1,200}"):
@@ -103,25 +132,17 @@ jobs:
               out.write("receipt=" + f["receiptId"] + "\ndigest=" + f["archiveSha256"] + "\n")
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as summary:
               summary.write("\n".join([
-                  "### Challenge receipt prepared (NOT yet issued)", "",
-                  "Derived by the pinned workflow from artifact.zip itself, not by repository code.",
+                  "### Challenge receipt ready for review (NOT yet issued)", "",
+                  "Derived in a clean runner (no checkout, python -I) from the exact artifact.zip that will be signed.",
                   "Approve the environment only if every fact below is right.", "",
                   "```json", json.dumps(f, indent=2, sort_keys=True), "```", "",
                   "builder and contributor independence is declared by the request; it is not authenticated.",
                   "The approver (you) is recorded as the verifier.", ""]))
           PY
 
-      - name: Upload build output
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: receipt-build
-          path: out/artifact.zip
-          if-no-files-found: error
-          retention-days: 35
-
   issue:
     name: Issue receipt (founder approval)
-    needs: prepare
+    needs: [prepare, show]
     runs-on: ubuntu-latest
     environment: challenge-receipt-issuer
     permissions:
@@ -132,8 +153,8 @@ jobs:
     env:
       REVIEWER_ID: "153011150"
       ENVIRONMENT_NAME: challenge-receipt-issuer
-      RECEIPT_ID: ${{ needs.prepare.outputs.receipt }}
-      EXPECTED_DIGEST: ${{ needs.prepare.outputs.digest }}
+      RECEIPT_ID: ${{ needs.show.outputs.receipt }}
+      EXPECTED_DIGEST: ${{ needs.show.outputs.digest }}
       REPOSITORY_ID: ${{ github.repository_id }}
       OWNER_ID: ${{ github.repository_owner_id }}
       TRIGGERING_ACTOR: ${{ github.triggering_actor }}
@@ -153,7 +174,7 @@ jobs:
       - name: Verify the facts and seal the approval (pinned code)
         run: |
           set -euo pipefail
-          python3 - <<'PY'
+          python3 -I - <<'PY'
           # --- facts begin
           import hashlib, io, json, re, zipfile
           def clean(value, pattern=r"[A-Za-z0-9._:/@+-]{1,200}"):
@@ -261,7 +282,7 @@ jobs:
       - name: Upload the issuer bundle
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: challenge-receipt-${{ needs.prepare.outputs.receipt }}
+          name: challenge-receipt-${{ needs.show.outputs.receipt }}
           path: |
             out/artifact.zip
             out/issuer-approval.json

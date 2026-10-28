@@ -131,11 +131,12 @@ def workflowSteps(job):
 
 def inlineBody(job, stepPrefix):
     run = next(step["run"] for step in workflowSteps(job) if step.get("name", "").startswith(stepPrefix))
-    return run.split("python3 - <<'PY'\n", 1)[1].rsplit("\nPY", 1)[0]
+    return run.split("python3 -I - <<'PY'\n", 1)[1].rsplit("\nPY", 1)[0]
 
 
 def runInline(body, cwd, env):
-    return subprocess.run([sys.executable, "-"], input=body, cwd=cwd, capture_output=True, text=True,
+    # same interpreter flags as the workflow's `python3 -I -` (isolated: no cwd/env on sys.path)
+    return subprocess.run([sys.executable, "-I", "-"], input=body, cwd=cwd, capture_output=True, text=True,
                           env={"PATH": os.environ["PATH"], **env})
 
 
@@ -287,7 +288,12 @@ def test_online_path_resolves_and_cross_checks_live_run_artifact_and_approvals(t
 
 @pytest.mark.parametrize("kwargs,match", [
     ({"listing": {"total_count": 0, "artifacts": []}}, "absent or ambiguous"),
-    ({"listing": {"total_count": 2, "artifacts": [{}, {}]}}, "absent or ambiguous"),
+    ({"listing": {"total_count": 2, "artifacts": [
+        {"id": 555, "name": "challenge-receipt-receipt-17", "expired": False, "workflow_run": {"id": RUN_ID}},
+        {"id": 556, "name": "challenge-receipt-receipt-17", "expired": False, "workflow_run": {"id": RUN_ID}}]}},
+     "absent or ambiguous"),
+    ({"listing": {"total_count": 1, "artifacts": [{}]}}, "malformed"),
+    ({"listing": {"total_count": 21, "artifacts": [{}] * 21}}, "absent or ambiguous"),
     ({"listing": [1]}, "absent or ambiguous"),
     ({"listing": {"total_count": 1, "artifacts": [{"id": 555, "name": "challenge-receipt-other",
                                                    "workflow_run": {"id": RUN_ID}}]}}, "malformed"),
@@ -296,9 +302,10 @@ def test_online_path_resolves_and_cross_checks_live_run_artifact_and_approvals(t
      "expired or ambiguous"),
     ({"run": {"conclusion": "failure"}}, "did not complete successfully"),
     ({"run": {"status": "in_progress"}}, "did not complete successfully"),
-    ({"run": {"path": ".github/workflows/other.yml"}}, "live workflow run does not match"),
-    ({"run": {"event": "workflow_dispatch"}}, "live workflow run does not match"),
+    ({"run": {"path": ".github/workflows/other.yml"}}, "0 of 1 same-named"),
+    ({"run": {"event": "workflow_dispatch"}}, "0 of 1 same-named"),
     ({"run": {"head_sha": "d" * 40}}, "live workflow run does not match"),
+    ({"run": {"head_branch": "main"}}, "0 of 1 same-named"),
     ({"run": {"head_branch": "challenge-receipt/other-r9"}}, "live workflow run does not match"),
     ({"run": {"run_attempt": 2}}, "live workflow run does not match"),
     ({"run": {"head_repository": {"full_name": "attacker/fork"}}}, "live workflow run does not match"),
@@ -318,6 +325,34 @@ def test_online_transport_failure_is_receipt_unavailable(repo, cfg):
     transport = FakeTransport({"actions/artifacts?name=": ReceiptUnavailable("GitHub API read failed")})
     source = GitHubActionsSource(transport=transport, verifier=FakeVerifier(repo.sha), git=cr.LocalGit(repo.root))
     with pytest.raises(ReceiptUnavailable, match="GitHub API read failed"):
+        GitHubVerificationReceiptResolver(cfg, source).resolve(RECEIPT_ID, expected_challenge_id=CHALLENGE)
+
+
+def squatterArtifact(runId):
+    return {"id": 900 + runId, "name": "challenge-receipt-receipt-17", "expired": False,
+            "workflow_run": {"id": runId}}
+
+
+def test_same_named_artifacts_from_other_workflows_cannot_deny_or_hijack(tmp_path, repo, cfg):
+    files = bundleFiles(makeBundle(tmp_path, repo))
+    genuine = {"id": 555, "name": "challenge-receipt-receipt-17", "expired": False, "workflow_run": {"id": RUN_ID}}
+    listing = {"total_count": 3, "artifacts": [squatterArtifact(901), genuine, squatterArtifact(902)]}
+    transport = liveTransport(files, repo.sha, listing=listing)
+    foreign = {"id": 901, "path": ".github/workflows/evil.yml", "event": "push", "head_branch": TAG}
+    transport.responses = {**{f"actions/runs/{rid}": {**foreign, "id": rid} for rid in (901, 902)},
+                           **transport.responses}
+    # a squatter run on a branch push of the right file name is also ignored
+    transport.responses["actions/runs/902"] = {**foreign, "id": 902, "path": COMMITTED.workflow_path,
+                                               "head_branch": "main"}
+    source = GitHubActionsSource(transport=transport, verifier=FakeVerifier(repo.sha), git=cr.LocalGit(repo.root))
+    receipt = GitHubVerificationReceiptResolver(cfg, source).resolve(RECEIPT_ID, expected_challenge_id=CHALLENGE)
+    assert receipt.receipt_id == RECEIPT_ID
+    # only squatters: nothing from the issuer workflow, fail closed with a count in the message
+    only = {"total_count": 1, "artifacts": [squatterArtifact(901)]}
+    transport = liveTransport(files, repo.sha, listing=only)
+    transport.responses = {"actions/runs/901": {**foreign, "id": 901}, **transport.responses}
+    source = GitHubActionsSource(transport=transport, verifier=FakeVerifier(repo.sha), git=cr.LocalGit(repo.root))
+    with pytest.raises(ReceiptUnavailable, match="0 of 1 same-named"):
         GitHubVerificationReceiptResolver(cfg, source).resolve(RECEIPT_ID, expected_challenge_id=CHALLENGE)
 
 
@@ -880,15 +915,17 @@ def factsBlock(job, stepPrefix):
     return body[body.index("# --- facts begin"):body.index("# --- facts end")]
 
 
-def test_workflow_is_a_least_privilege_sha_pinned_tag_triggered_two_job_issuer():
+def test_workflow_is_a_least_privilege_sha_pinned_tag_triggered_three_job_issuer():
     import yaml
     text = WORKFLOW.read_text()
     data = yaml.safe_load(text)
     assert (data.get(True) or data["on"]) == {"push": {"tags": ["challenge-receipt/**"]}}
     assert data["permissions"] == {}
-    prepare, issue = data["jobs"]["prepare"], data["jobs"]["issue"]
-    assert issue["needs"] == "prepare" and issue["environment"] == COMMITTED.environment
-    assert "environment" not in prepare and prepare["permissions"] == {"contents": "read"}
+    prepare, show, issue = (data["jobs"][name] for name in ("prepare", "show", "issue"))
+    assert show["needs"] == "prepare" and issue["needs"] == ["prepare", "show"]
+    assert issue["environment"] == COMMITTED.environment
+    assert "environment" not in prepare and "environment" not in show
+    assert prepare["permissions"] == {"contents": "read"} and show["permissions"] == {}
     assert issue["permissions"] == {"contents": "read", "actions": "read", "id-token": "write",
                                     "attestations": "write"}
     assert "secrets." not in text and "pull_request" not in text and "workflow_dispatch" not in text
@@ -901,32 +938,62 @@ def test_workflow_is_a_least_privilege_sha_pinned_tag_triggered_two_job_issuer()
     # approval wait can be up to 30 days; the prepared archive must outlive it
     uploads = [s for s in prepare["steps"] if "upload-artifact" in s.get("uses", "")]
     assert uploads and uploads[0]["with"]["retention-days"] >= 35
+    # the founder must create the protected environment first (GitHub auto-creates it unprotected)
+    assert "FOUNDER, FIRST" in text and "auto-creates a missing environment" in text
 
 
-def test_no_repository_code_runs_after_the_founder_approves():
-    issue = workflowSteps("issue")
-    blob = stepText("issue")
-    assert not any("actions/checkout" in s.get("uses", "") for s in issue)
-    for forbidden in ("scripts/", "src/", "PYTHONPATH", "gaia_cli", "pip ", "npm ", "buildChallengeReceipt"):
-        assert forbidden not in blob, f"post-approval job references repository code: {forbidden}"
-    # the only interpreter use after approval is the inline heredoc inside this very file
-    for step in issue:
-        run = step.get("run", "")
-        if "python" in run:
-            assert run.count("python3 - <<'PY'") == 1
-    # the unprivileged prepare job is the only place repository code may run
-    assert "buildChallengeReceipt.py" in stepText("prepare")
+def test_founder_facts_come_from_a_clean_runner_and_the_issue_digest_comes_from_it():
+    show, issue, prepare = (workflowSteps(name) for name in ("show", "issue", "prepare"))
+    for steps in (show, issue):
+        assert not any("checkout" in step.get("uses", "") for step in steps)
+    assert any("checkout" in step.get("uses", "") for step in prepare)  # the only job that runs repo code
+    import yaml
+    jobs = yaml.safe_load(WORKFLOW.read_text())["jobs"]
+    assert jobs["issue"]["env"]["EXPECTED_DIGEST"] == "${{ needs.show.outputs.digest }}"
+    assert jobs["issue"]["env"]["RECEIPT_ID"] == "${{ needs.show.outputs.receipt }}"
+    assert "outputs" not in jobs["prepare"]  # nothing the founder relies on is computed in prepare
+    assert "needs.prepare.outputs" not in WORKFLOW.read_text()
+    # prepare's summary is explicitly untrusted and points at `show`
+    prepareText = stepText("prepare")
+    assert "untrusted runner" in prepareText and "'show' job summary" in prepareText
+    assert "```json" not in prepareText
+
+
+def test_every_pinned_interpreter_call_is_isolated():
+    for job in ("show", "issue"):
+        for step in workflowSteps(job):
+            for match in re.finditer(r"(?m)^\s*(?:\w+=\S+\s+)*python3?\b.*", step.get("run", "")):
+                assert match.group(0).strip().startswith("python3 -I - <<'PY'"), match.group(0)
+    # repository code runs only in the unprivileged prepare job, and nothing there is trusted
+    assert "PYTHONPATH=src python3 scripts/buildChallengeReceipt.py" in stepText("prepare")
+
+
+def test_a_shadowing_stdlib_module_in_the_workspace_cannot_poison_the_pinned_code(tmp_path, repo):
+    run, build = buildArchive(tmp_path)
+    for name in ("json.py", "zipfile.py", "hashlib.py", "re.py", "io.py"):
+        (run / name).write_text("raise SystemExit('poisoned stdlib shadow imported')\n")
+    env = prepareEnv(run)
+    proc = runInline(inlineBody("show", "Derive and show"), run, {**env, "PYTHONPATH": str(run)})
+    assert proc.returncode == 0, proc.stderr
+    (run / "approvals.json").write_text(json.dumps([approval()]))
+    sealed = runInline(inlineBody("issue", "Verify the facts"), run,
+                       {**sealEnv(run, build["artifactSha256"], shaValue=repo.sha), "PYTHONPATH": str(run)})
+    assert sealed.returncode == 0, sealed.stderr
+    # control: the same shadow DOES poison a non-isolated interpreter, so the test is meaningful
+    control = subprocess.run([sys.executable, "-"], input=inlineBody("show", "Derive and show"), cwd=run,
+                             capture_output=True, text=True, env={**os.environ, **env})
+    assert control.returncode != 0 and "poisoned" in control.stderr
 
 
 def test_both_jobs_derive_facts_with_byte_identical_pinned_code():
-    prepare = factsBlock("prepare", "Derive and show")
+    prepare = factsBlock("show", "Derive and show")
     seal = factsBlock("issue", "Verify the facts")
     assert prepare == seal and "def facts" in prepare
 
 
 def test_pinned_summary_is_derived_from_the_archive_bytes_and_escaped(tmp_path):
     run, build = buildArchive(tmp_path)
-    proc = runInline(inlineBody("prepare", "Derive and show"), run, prepareEnv(run))
+    proc = runInline(inlineBody("show", "Derive and show"), run, prepareEnv(run))
     assert proc.returncode == 0, proc.stderr
     summary = (run / "summary.md").read_text()
     shown = json.loads(summary.split("```json\n", 1)[1].split("\n```", 1)[0])
@@ -935,7 +1002,7 @@ def test_pinned_summary_is_derived_from_the_archive_bytes_and_escaped(tmp_path):
     assert shown["contributor"] == "contributor-x" and shown["triggeringActor"] == "mbtiongson1"
     assert shown["archiveSha256"] == build["artifactSha256"]
     assert shown["transcriptSha256"] == sha(TRANSCRIPT)
-    assert "not authenticated" in summary
+    assert "not authenticated" in summary and "clean runner" in summary
     outputs = dict(line.split("=", 1) for line in (run / "output.txt").read_text().splitlines())
     assert outputs == {"receipt": RECEIPT_ID, "digest": build["artifactSha256"]}
 
@@ -964,7 +1031,7 @@ def forgedArchive(run: Path, mutate):
 def test_pinned_code_refuses_forged_archives_before_the_founder_sees_or_signs_them(tmp_path, repo, mutate):
     run, build = buildArchive(tmp_path)
     forgedArchive(run, mutate)
-    proc = runInline(inlineBody("prepare", "Derive and show"), run, prepareEnv(run))
+    proc = runInline(inlineBody("show", "Derive and show"), run, prepareEnv(run))
     assert proc.returncode != 0
     assert not (run / "output.txt").exists() and not (run / "summary.md").exists()
     # the post-approval code applies the same refusal even if the digest were somehow replayed

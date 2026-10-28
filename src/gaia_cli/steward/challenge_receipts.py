@@ -743,21 +743,33 @@ class GitHubActionsSource(_BundleSource):
         repo, name = config.repository, ARTIFACT_NAME_PREFIX + receipt_id
         listing = self.transport.getJson(f"repos/{repo}/actions/artifacts?name={name}&per_page=100")
         artifacts = listing.get("artifacts") if isinstance(listing, Mapping) else None
-        if (not isinstance(artifacts, list) or len(artifacts) != 1
-                or listing.get("total_count") != 1 or not isinstance(artifacts[0], Mapping)):
+        if (not isinstance(artifacts, list) or not artifacts or len(artifacts) > 20
+                or listing.get("total_count") != len(artifacts)):
             raise ReceiptUnavailable("receipt artifact is absent or ambiguous (exactly one is required)")
-        artifact = artifacts[0]
-        workflowRun = artifact.get("workflow_run")
-        if (artifact.get("name") != name or type(artifact.get("id")) is not int
-                or not isinstance(workflowRun, Mapping) or type(workflowRun.get("id")) is not int):
-            raise ReceiptUnavailable("receipt artifact listing is malformed")
-        runId = workflowRun["id"]
-        run = self.transport.getJson(f"repos/{repo}/actions/runs/{runId}")
+        # Any writer can upload an artifact with this name from another workflow; only artifacts
+        # whose run is a push of the pinned issuer workflow on a challenge-receipt tag count.
+        tagPrefix = config.trigger_ref_prefix.removeprefix("refs/tags/")
+        candidates: list[tuple[Mapping[str, Any], Mapping[str, Any]]] = []
+        for item in artifacts:
+            workflowRun = item.get("workflow_run") if isinstance(item, Mapping) else None
+            if (not isinstance(item, Mapping) or item.get("name") != name or type(item.get("id")) is not int
+                    or not isinstance(workflowRun, Mapping) or type(workflowRun.get("id")) is not int):
+                raise ReceiptUnavailable("receipt artifact listing is malformed")
+            candidate = self.transport.getJson(f"repos/{repo}/actions/runs/{workflowRun['id']}")
+            if (isinstance(candidate, Mapping) and candidate.get("id") == workflowRun["id"]
+                    and str(candidate.get("path", "")).split("@")[0] == config.workflow_path
+                    and candidate.get("event") == "push"
+                    and str(candidate.get("head_branch", "")).startswith(tagPrefix)):
+                candidates.append((item, candidate))
+        if len(candidates) != 1:
+            raise ReceiptUnavailable(
+                f"receipt artifact is absent or ambiguous: {len(candidates)} of {len(artifacts)} same-named "
+                "artifacts come from the issuer workflow (exactly one is required)")
+        artifact, run = candidates[0]
+        runId = run["id"]
         approvals = self.transport.getJson(f"repos/{repo}/actions/runs/{runId}/approvals")
         data = self.transport.getBytes(f"repos/{repo}/actions/artifacts/{artifact['id']}/zip")
         document = self._authenticateBundle(_readBundleZip(data), receipt_id, config)
-        if not isinstance(run, Mapping):
-            raise ReceiptUnavailable("live workflow run is malformed")
         def repoOf(key: str) -> Any:
             value = run.get(key)
             return value.get("full_name") if isinstance(value, Mapping) else None

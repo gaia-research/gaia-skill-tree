@@ -6,7 +6,7 @@
   "repositoryOwnerId": 297590332,
   "workflowPath": ".github/workflows/challenge-receipt-issuer.yml",
   "triggerRefPrefix": "refs/tags/challenge-receipt/",
-  "workflowBlobSha": "d107f6272579a12a085bf595291dedf5ce86e8d7",
+  "workflowBlobSha": "5f63fbebc87ec832eb2677c950bb0a2d4dff9e39",
   "trustedRootSha256": "65ca537f6ed8a47fd0e560c421baa1f6c1efb8b25fc200d8c5c02c0e92eb2b9c",
   "environment": "challenge-receipt-issuer",
   "requiredReviewerIds": [
