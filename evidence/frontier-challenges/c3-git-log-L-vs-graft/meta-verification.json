@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "frontier-meta-verification-v1",
+  "verificationId": "meta-c3-git-log-L-vs-graft-2026-10-28",
+  "campaignId": "yggiv-challenger-cases-2026-10",
+  "requestId": "sha256:50a864e709d674403353090556d9342ce9e63a040cd782ebde7c228aae999929",
+  "receiptDigest": "sha256:34ab4534afba2f35a52e44d3600402294fa7eefb41037cbdb595e654b8fadc2e",
+  "receiptRunId": "run-375e99a368284220a1a6cacd7a7d78d4",
+  "verifierRunId": "meta-run-e2936f737e704e76b4713650e4800c49",
+  "outcome": "inconclusive",
+  "recommend": {
+    "action": "reject-lead",
+    "rationale": "Verdict: upheld (inconclusive). recommendAdmission: false. The pre-registration commit 61f6f8a9a (18:18:40Z) precedes the native run (18:18:53Z), the receipt (18:19:00Z) and the results commit 8ad06877c. The pinned protocol and fixture are the dev example files, unchanged since ff3ed46a3 (2026-10-26), and their digests match. The receipt validates. The executed Git version is 2.50.1 (Apple Git-155), confirmed on this host, while the documented version is 2.56.0, so the version-binding rule permits only inconclusive or execution_failed. On substance, git log -L traces line history, while Graft returns current code and callers and produced no historical evolution. The two serve complementary scopes, so this is not a challenger to Graft. Reject the lead rather than re-running at 2.56.0."
+  },
+  "counterevidence": {
+    "searched": "Checked host git --version, receipt and request validity, the protocol and fixture digests and their first-add commits, and the graft target output for any line-history answer.",
+    "items": [
+      {
+        "summary": "The protocol is the pre-existing dev example (authored 2026-10-26 for the git-log-L demo), not a case-specific pre-registration. Its rule declares the pair complementary, so no comparative outcome was reachable.",
+        "source": "examples/frontier/protocols/git-log-L-vs-graft-v1.json"
+      }
+    ]
+  },
+  "reexecution": {
+    "performed": false,
+    "notes": "Not re-executed. A re-run is not required for a non-positive outcome, and this host still has Git 2.50.1, so it would carry the same version mismatch.",
+    "artifacts": []
+  },
+  "independence": "declared-unauthenticated",
+  "declaredSession": {
+    "harness": "Claude Code 2.1.312 (agent session)",
+    "model": "claude-opus-5-5",
+    "note": "Separate session from the runner, dispatched by the same orchestrator, on the same host, account and Claude Code install. Declared, not authenticated; not environment-independent."
+  },
+  "limitations": [
+    "One 7-line fixture; Graft 0.25.0 rather than the current 0.28.0.",
+    "Independence is declared and unauthenticated: the verifier was dispatched by the same orchestrator as the runner and ran on the same host, account and tool installs.",
+    "This record is an untrusted Meta assessment for human review. It is not an approval, an admission, a verification receipt or a Trust Magnitude, star, grade or Origin input.",
+    "Lead observedAtUTC/checkedAtUTC values in all four cases postdate the commits that contain them by roughly 8 to 10 hours (apparently local +08:00 times labelled Z, rounded). Git commit order, not those fields, was used to establish pre-registration.",
+    "events.jsonl entries were written in one batch at results-commit time (identical timestamps), so they are a summary, not a contemporaneous log."
+  ],
+  "recordedAtUTC": "2026-10-28T18:38:44Z"
+}
