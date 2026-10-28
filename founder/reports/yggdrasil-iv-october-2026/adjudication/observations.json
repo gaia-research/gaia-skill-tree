@@ -1,0 +1,81 @@
+{
+ "links": {
+  "leonxlnx/brandkit": {
+   "blobHttp": "404",
+   "rawHttp": "404",
+   "url": "https://github.com/leonxlnx/taste-skill/blob/main/skills/brandkit/SKILL.md"
+  },
+  "leonxlnx/brutalist-skill": {
+   "blobHttp": "404",
+   "rawHttp": "404",
+   "url": "https://github.com/leonxlnx/taste-skill/blob/main/skills/brutalist-skill/SKILL.md"
+  },
+  "leonxlnx/gpt-tasteskill": {
+   "blobHttp": "404",
+   "rawHttp": "404",
+   "url": "https://github.com/leonxlnx/taste-skill/blob/main/skills/gpt-tasteskill/SKILL.md"
+  },
+  "leonxlnx/image-to-code-skill": {
+   "blobHttp": "404",
+   "rawHttp": "404",
+   "url": "https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md"
+  },
+  "leonxlnx/imagegen-frontend-mobile": {
+   "blobHttp": "404",
+   "rawHttp": "404",
+   "url": "https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-mobile/SKILL.md"
+  },
+  "leonxlnx/imagegen-frontend-web": {
+   "blobHttp": "404",
+   "rawHttp": "404",
+   "url": "https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-web/SKILL.md"
+  },
+  "leonxlnx/minimalist-skill": {
+   "blobHttp": "404",
+   "rawHttp": "404",
+   "url": "https://github.com/leonxlnx/taste-skill/blob/main/skills/minimalist-skill/SKILL.md"
+  },
+  "leonxlnx/output-skill": {
+   "blobHttp": "404",
+   "rawHttp": "404",
+   "url": "https://github.com/leonxlnx/taste-skill/blob/main/skills/output-skill/SKILL.md"
+  },
+  "leonxlnx/redesign-skill": {
+   "blobHttp": "404",
+   "rawHttp": "404",
+   "url": "https://github.com/leonxlnx/taste-skill/blob/main/skills/redesign-skill/SKILL.md"
+  },
+  "leonxlnx/soft-skill": {
+   "blobHttp": "404",
+   "rawHttp": "404",
+   "url": "https://github.com/leonxlnx/taste-skill/blob/main/skills/soft-skill/SKILL.md"
+  },
+  "leonxlnx/stitch-skill": {
+   "blobHttp": "404",
+   "rawHttp": "404",
+   "url": "https://github.com/leonxlnx/taste-skill/blob/main/skills/stitch-skill/SKILL.md"
+  },
+  "leonxlnx/taste-skill": {
+   "blobHttp": "200",
+   "rawHttp": "200",
+   "url": "https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md"
+  },
+  "leonxlnx/unlazy": {
+   "blobHttp": "200",
+   "rawHttp": "200",
+   "url": "https://github.com/leonxlnx/unlazy/blob/main/SKILL.md"
+  }
+ },
+ "method": "curl -L GET of links.github (blob) and raw.githubusercontent.com equivalent; single probe, not the IV t0/+24h/+72h schedule",
+ "observedAt": "2026-10-28T18:07:31Z",
+ "other": {
+  "arxiv-2607.03238-citations": {
+   "note": "Semantic Scholar API returned HTTP 429 on re-check (rate limit); citation count 2 from sweep finding F384 is NOT independently re-verified here. arxiv abs page exists (title: An Empirical Study of Downstream Adaptation for Agent Skills)."
+  },
+  "frontendmastery-witness": {
+   "http": "404",
+   "note": "single GET via curl -L on 2026-10-29; consistent with sweep finding F385",
+   "url": "https://frontendmastery.com/posts/matt-pocock-claude-code-skills-architecture/"
+  }
+ }
+}

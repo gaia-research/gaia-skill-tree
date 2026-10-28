@@ -24,6 +24,14 @@ def setupPaths(root: Path):
     sys.path.insert(0, str(root / "src"))
 
 
+def pinClock(when):
+    """Pin Gaia's wall clock (freshness decay, source-tenure predicate) to ``when`` so
+    every recompute is a pure function of the registry bytes. Without this the
+    ledger would change daily."""
+    import gaia_cli.trustMagnitude as tmod
+    tmod._utcNow = lambda: when
+
+
 def lvl(s):
     return STARS.get(str(s), 0)
 
@@ -205,6 +213,10 @@ def applyOps(reg: Registry, ops):
         elif kind == "setOrigin":
             reg.named[op["id"]]["origin"] = bool(op["value"])
             log.append(f"origin of {op['id']} -> {bool(op['value'])}")
+        elif kind == "setField":
+            pool = reg.generic if op.get("layer") == "generic" else reg.named
+            pool[op["id"]][op["field"]] = op["value"]
+            log.append(f"{op['field']} of {op['id']} -> {op['value']}")
         elif kind == "setLevel":
             reg.named[op["id"]]["level"] = op["value"]
             log.append(f"level of {op['id']} -> {op['value']}")
