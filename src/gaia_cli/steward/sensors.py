@@ -6,7 +6,6 @@ import ast
 import hashlib
 import json
 import re
-from urllib.parse import urlparse
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable, Protocol
