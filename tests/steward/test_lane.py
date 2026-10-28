@@ -339,6 +339,28 @@ def test_a_closed_condition_that_returns_starts_its_attempt_count_over() -> None
     assert entry.last_verdict is None
 
 
+def test_debt_a_sensor_declares_not_repairable_never_holds_a_lane_slot() -> None:
+    """``laneEligible: false`` keeps a finding visible but out of the agent lane.
+
+    A trust evidence gap can only end in evidence discovery or a governed
+    decision, so dispatching a builder and verifier at it would burn lane
+    capacity and attempts for an outcome that is already known.
+    """
+
+    from dataclasses import replace
+
+    kinds = {"registry_integrity_failed": "registry-integrity-review"}
+    gap = replace(_debt("debt:gap"), observed_state={"laneEligible": False})
+    result = reconcile(_lane(), open_debts=[gap, _debt("debt:ok")], dispatchable_kinds=kinds, now=NOW)
+    assert result.by_id("debt:gap") is None
+    assert result.by_id("debt:ok").state == "queued"
+
+    queued = _lane(_entry("debt:gap"))
+    closed = reconcile(queued, open_debts=[gap], dispatchable_kinds=kinds, now=NOW)
+    assert closed.by_id("debt:gap").state == "closed"
+    assert "no longer eligible" in closed.by_id("debt:gap").history[-1].reason
+
+
 def test_debt_with_no_dispatch_rule_never_enters_the_lane() -> None:
     from gaia_cli.steward.models import Debt
 

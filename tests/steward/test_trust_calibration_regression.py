@@ -304,3 +304,98 @@ def test_stamp_findings_resolve_through_the_controller_when_restamped(tmp_path: 
 
     assert second.open_debts == ()
     assert second.receipt.debt_resolved == (first.open_debts[0].id,)
+
+
+# --- #2201: an empty evidence pool is a gap, never a demotion --------------------
+
+
+def _bare(tmp_path: Path, *, level: str, evidence: list, parent_rows: list | None = None) -> Path:
+    parent = {**PARENT, "evidence": parent_rows if parent_rows is not None else []}
+    skill = {
+        "id": "owner/child",
+        "name": "child",
+        "status": "named",
+        "level": level,
+        "genericSkillRef": "parent-platform",
+        "evidence": evidence,
+    }
+    return make_repo(
+        tmp_path,
+        {
+            "registry/nodes/fusion/parent-platform.json": json.dumps(parent),
+            "registry/named/owner/child.md": "---\n" + yaml.safe_dump(skill, sort_keys=False) + "---\n",
+        },
+    )
+
+
+def test_zero_evidence_rows_never_recommend_a_demotion(tmp_path: Path) -> None:
+    repo = _bare(tmp_path, level="2★", evidence=[])
+
+    (observation,) = TrustCalibrationDriftSensor().scan(repo, NOW)
+
+    state = observation.observed_state
+    assert observation.kind == "trust_calibration_drift"
+    assert observation.current_state == {"level": "2★"}
+    assert state["evidenceGap"] is True
+    assert state["evidenceBasis"] == "no-effective-evidence-rows"
+    assert state["effectiveRowCount"] == 0
+    assert state["preservedLevel"] == "2★"
+    assert state["laneEligible"] is False
+    assert "targetLevel" not in state
+    assert "calibrationCommand" not in state
+
+
+def test_rows_that_score_nothing_are_a_gap_not_counter_evidence(tmp_path: Path) -> None:
+    ungraded = {"type": "repo", "source": "https://github.com/owner/ungraded"}
+    repo = _bare(tmp_path, level="2★", evidence=[], parent_rows=[ungraded])
+
+    (observation,) = TrustCalibrationDriftSensor().scan(repo, NOW)
+
+    assert observation.observed_state["evidenceBasis"] == "no-scoring-evidence-rows"
+    assert observation.observed_state["effectiveRowCount"] == 1
+    assert "calibrationCommand" not in observation.observed_state
+
+
+def test_a_real_low_score_is_still_a_reportable_demotion(tmp_path: Path) -> None:
+    """The guard is for missing evidence only: a measured low grade still drifts."""
+
+    repo = _bare(
+        tmp_path,
+        level="5★",
+        evidence=[{"type": "github-stars-own", "source": "https://github.com/owner/child", "stars": 100}],
+    )
+
+    (observation,) = TrustCalibrationDriftSensor().scan(repo, NOW)
+
+    assert "evidenceGap" not in observation.observed_state
+    assert observation.observed_state["calibrationCommand"].startswith("gaia dev calibrate owner/child ")
+
+
+def test_explicit_counter_evidence_is_not_mistaken_for_a_gap(tmp_path: Path) -> None:
+    deranked = {
+        "type": "verifier-attestation",
+        "source": "https://github.com/owner/verifier",
+        "verifierActiveRank": False,
+    }
+    repo = _bare(tmp_path, level="2★", evidence=[deranked])
+
+    (observation,) = TrustCalibrationDriftSensor().scan(repo, NOW)
+
+    assert "evidenceGap" not in observation.observed_state
+    assert observation.observed_state["targetLevel"] == "1★"
+
+
+def test_a_promotion_target_from_an_empty_pool_is_impossible_but_upward_drift_is_untouched(
+    tmp_path: Path,
+) -> None:
+    repo = _bare(
+        tmp_path,
+        level="1★",
+        evidence=[{"type": "github-stars-own", "source": "https://github.com/owner/child", "stars": 100}],
+        parent_rows=PARENT["evidence"],
+    )
+
+    (observation,) = TrustCalibrationDriftSensor().scan(repo, NOW)
+
+    assert "evidenceGap" not in observation.observed_state
+    assert observation.observed_state["targetLevel"] == "3★"

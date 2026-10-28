@@ -262,10 +262,18 @@ def reconcile(
     decision it escalated for.
     """
 
+    # A sensor may declare an observation not agent-repairable
+    # (``laneEligible: false``), e.g. a trust evidence gap whose only honest
+    # outcome is evidence discovery or a governed decision. Such debt stays open
+    # and visible but never holds a lane slot. That only narrows what the lane
+    # may hand out; it never widens it.
+    ineligible = {
+        debt.id for debt in open_debts if debt.observed_state.get("laneEligible") is False
+    }
     observed = {
         debt.id: debt
         for debt in open_debts
-        if debt.kind in dispatchable_kinds
+        if debt.kind in dispatchable_kinds and debt.id not in ineligible
     }
     result = lane
     for debt_id, debt in sorted(observed.items()):
@@ -308,7 +316,11 @@ def reconcile(
                 entry.moved(
                     to="closed",
                     at=now,
-                    reason="the condition is no longer observed",
+                    reason=(
+                        "the debt is no longer eligible for agent repair"
+                        if entry.debt_id in ineligible
+                        else "the condition is no longer observed"
+                    ),
                 )
             )
     return result
