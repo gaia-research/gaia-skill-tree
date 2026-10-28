@@ -5,9 +5,10 @@ approval, registry mutation, trust, rank, or challenge-admission API.
 """
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -247,6 +248,8 @@ def validate_experiment_receipt(receipt: dict[str, Any], request: dict[str, Any]
             errors.append("comparative outcome requires local output integrity verification")
     if outputs and repo_root is None:
         errors.append("output artifacts require local integrity verification")
+    if receipt.get("traces") and repo_root is None:
+        errors.append("trace artifacts require local integrity verification")
     if repo_root is not None:
         root = Path(repo_root).resolve()
         resolved_outputs = []
@@ -267,6 +270,7 @@ def validate_experiment_receipt(receipt: dict[str, Any], request: dict[str, Any]
                     errors.append(f"invalid output artifact: {exc}")
         if len(set(resolved_outputs)) != len(resolved_outputs):
             errors.append("output artifacts alias each other")
+        errors.extend(_check_receipt_traces(receipt, root, artifact_root, set(resolved_outputs)))
         try:
             pinned = pinned_declaration(root, request)
             if receipt.get("result") not in pinned["resultRule"]["allowedResults"]:
@@ -276,6 +280,28 @@ def validate_experiment_receipt(receipt: dict[str, Any], request: dict[str, Any]
         except ValueError as exc:
             errors.append(f"pinned protocol check failed: {exc}")
     return sorted(set(errors))
+
+
+def _check_receipt_traces(receipt: dict[str, Any], root: Path, artifact_root: str, output_paths: set[Path]) -> list[str]:
+    """Trace artifacts a receipt binds are integrity-checked like outputs; their content stays declared, not authenticated."""
+    errors: list[str] = []
+    seen: set[Path] = set()
+    for item in receipt.get("traces", []) or []:
+        label = item.get("label") if isinstance(item, dict) else None
+        try:
+            relative = item["path"]
+            if Path(relative).as_posix() != relative:
+                errors.append(f"trace artifact path is not normalized: {relative}")
+            path = resolve_artifact(root, relative, artifact_root)
+            _, raw = _validated_file(root, relative)
+            if _sha(raw) != item.get("contentDigest"):
+                errors.append(f"trace artifact digest mismatch: {label}")
+            if path in output_paths or path in seen:
+                errors.append(f"trace artifact aliases another artifact: {label}")
+            seen.add(path)
+        except (KeyError, TypeError, ValueError) as exc:
+            errors.append(f"invalid trace artifact: {exc}")
+    return errors
 
 
 def _artifact_base(root: Path, artifact_root: str) -> Path:
@@ -398,12 +424,16 @@ def check_execution_artifact(declaration: dict[str, Any], execution: Any, reques
 def build_experiment_receipt(*, root: str | Path, request: dict[str, Any], execution_path: str, protocol: str | None = None,
                              target_path: str | None = None, result: str = "inconclusive",
                              artifact_root: str = DEFAULT_ARTIFACT_ROOT, run_id: str | None = None,
-                             recorded_at: str | None = None) -> dict[str, Any]:
+                             recorded_at: str | None = None, trace_paths: list[tuple[str, str]] | None = None) -> dict[str, Any]:
     """Bind a runner artifact to a request under the contract its pinned protocol declares.
 
     The experiment contract is always read from the protocol file the request pins (checked
     against the request's digest); `protocol`, if given, must name that same path. The result
     is an untrusted experiment record, never a verifier authentication or admission.
+
+    `trace_paths` is an optional list of `(label, repo-relative path)` raw-stream trace artifacts
+    (argv, tool versions, stdout/stderr digests) whose digests the receipt binds under `traces`.
+    The trace content is declared by the runner, not authenticated by this binding.
     """
     root = Path(root).resolve()
     if result not in EXPERIMENT_RESULTS:
@@ -445,6 +475,12 @@ def build_experiment_receipt(*, root: str | Path, request: dict[str, Any], execu
         limitations.append("Paired artifacts alone establish neither comparable performance, superiority nor independent verification; Meta must assess protocol execution and counterevidence.")
     else:
         limitations.append(f"{declaration['runnerLabel']} executed; no target comparison output is attached.")
+    traces = []
+    for label, trace_path in trace_paths or []:
+        trace_raw = resolve_artifact(root, trace_path, artifact_root).read_bytes()
+        if not trace_raw.strip():
+            raise ValueError(f"trace artifact is empty: {label}")
+        traces.append({"label": label, "contentDigest": _sha(trace_raw), "path": trace_path})
     receipt = {
         "schemaVersion": "frontier-experiment-receipt-v1.1", "experimentRunId": run_id or "run-" + uuid.uuid4().hex,
         "campaignId": request["campaignId"], "nativeVersion": executed,
@@ -458,6 +494,8 @@ def build_experiment_receipt(*, root: str | Path, request: dict[str, Any], execu
     }
     if declaration is not LEGACY_EXPERIMENTS.get(declaration["id"]):
         receipt["experimentId"] = declaration["id"]
+    if traces:
+        receipt["traces"] = traces
     errors = validate_experiment_receipt(receipt, request, repo_root=root, artifact_root=artifact_root)
     if errors:
         raise ValueError("receipt invalid: " + "; ".join(errors))
@@ -488,21 +526,241 @@ def _checked_artifact_path(root: Path, relative: Any, artifact_root: str) -> Pat
     return resolve_artifact(root, relative, artifact_root)
 
 
+CLOCK_SKEW = timedelta(seconds=120)
+
+
+def _parse_utc(value: Any) -> datetime | None:
+    if not isinstance(value, str):
+        return None
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return parsed if parsed.tzinfo else None
+
+
+def _git(root: Path, *args: str) -> str | None:
+    try:
+        done = subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, timeout=30)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return done.stdout.strip() if done.returncode == 0 else None
+
+
+def committer_time(root: str | Path, path: str | Path) -> tuple[datetime | None, str]:
+    """Committer time of the last commit touching `path` in a git checkout, with the reason when unknown.
+
+    Returns `(None, reason)` when there is no git context, the path is untracked, or it has
+    uncommitted edits (an uncommitted file cannot postdate a commit it is not in).
+    """
+    root = Path(root).resolve()
+    if _git(root, "rev-parse", "--is-inside-work-tree") != "true":
+        return None, "no git checkout"
+    target = str(Path(path).resolve())
+    if _git(root, "ls-files", "--error-unmatch", "--", target) is None:
+        return None, "file is not tracked by git"
+    if _git(root, "status", "--porcelain", "--", target):
+        return None, "file has uncommitted changes"
+    stamp = _git(root, "log", "-1", "--format=%ct", "--", target)
+    if not stamp or not stamp.isdigit():
+        return None, "file has no commit"
+    return datetime.fromtimestamp(int(stamp), tz=timezone.utc), ""
+
+
+def check_timestamps(stamps: dict[str, Any], *, repo_root: str | Path | None = None, committed_path: str | Path | None = None,
+                     now: datetime | None = None, warnings: list[str] | None = None) -> list[str]:
+    """Reject future timestamps and, in a git checkout, timestamps later than the committing commit.
+
+    A local +08:00 time mislabelled `Z` reads as 8 hours in the future and is caught by both
+    rules. The commit rule needs a git context; without one it is warn-only. Both rules allow
+    `CLOCK_SKEW` of slack. Timestamps stay author-asserted: passing proves nothing about when anything ran.
+    """
+    errors: list[str] = []
+    now = now or datetime.now(timezone.utc)
+    limit, reason = None, "no committed path supplied"
+    if repo_root is not None and committed_path is not None:
+        limit, reason = committer_time(repo_root, committed_path)
+    if limit is None and warnings is not None and committed_path is not None:
+        warnings.append(f"timestamps not checked against a committing commit: {reason}")
+    for name, value in stamps.items():
+        parsed = _parse_utc(value)
+        if parsed is None:
+            continue
+        if parsed > now + CLOCK_SKEW:
+            errors.append(f"timestamp is in the future: {name} {value}")
+        if limit is not None and parsed > limit + CLOCK_SKEW:
+            errors.append(f"timestamp is later than the committing commit's committer time ({limit.isoformat().replace('+00:00', 'Z')}): {name} {value}")
+    return errors
+
+
+def validate_lead_timestamps(data: Any, *, repo_root: str | Path | None = None, lead_path: str | Path | None = None,
+                             now: datetime | None = None, warnings: list[str] | None = None) -> list[str]:
+    """Timestamp sanity for a lead's `source.observedAtUTC` and `dedupe.checkedAtUTC` (see `check_timestamps`)."""
+    if not isinstance(data, dict):
+        return []
+    stamps = {}
+    for block, field in (("source", "observedAtUTC"), ("dedupe", "checkedAtUTC")):
+        value = data.get(block, {}).get(field) if isinstance(data.get(block), dict) else None
+        if value:
+            stamps[f"{block}.{field}"] = value
+    return check_timestamps(stamps, repo_root=repo_root, committed_path=lead_path, now=now, warnings=warnings)
+
+
+EVENTS_FILE = "events.jsonl"
+EVENT_TYPE = re.compile(r"[a-z0-9][a-z0-9._-]{1,63}")
+
+
+def _line_hash(line: bytes) -> str:
+    return _sha(line.rstrip(b"\n"))
+
+
+def append_event(case_dir: str | Path, event_type: str, note: str, *, extra: dict[str, Any] | None = None, now: datetime | None = None) -> dict[str, Any]:
+    """Append one event to `<case_dir>/events.jsonl` at the moment it happens.
+
+    O_APPEND write under an exclusive lock; refuses a symlinked case directory or log. Each entry
+    carries `seq` (1-based line number) and `prevHash` (sha256 of the previous line's bytes, null
+    for the first), so editing, reordering or deleting lines in the middle is detectable.
+    Pre-existing unchained lines count toward `seq` and are hashed as they stand. This is
+    tamper-evidence, not authentication: whoever can rewrite the whole file can rebuild the chain.
+    """
+    case = Path(case_dir)
+    if case.is_symlink() or not case.is_dir():
+        raise ValueError("case directory must be a real directory (symlinks are refused)")
+    if not isinstance(event_type, str) or not EVENT_TYPE.fullmatch(event_type):
+        raise ValueError("event type must be 2-64 characters of a-z 0-9 . _ - starting with a letter or digit")
+    if not isinstance(note, str) or not note.strip() or len(note) > 2000:
+        raise ValueError("note must be non-empty text of at most 2000 characters")
+    fields: dict[str, Any] = {}
+    for key, value in (extra or {}).items():
+        if key in {"seq", "atUTC", "event", "note", "prevHash"} or not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]{0,40}", str(key)) or not isinstance(value, (str, int, float, bool)):
+            raise ValueError(f"invalid extra event field: {key}")
+        fields[key] = value
+    path = case / EVENTS_FILE
+    if path.is_symlink():
+        raise ValueError("events.jsonl must not be a symlink")
+    flags = os.O_RDWR | os.O_APPEND | os.O_CREAT | getattr(os, "O_NOFOLLOW", 0)
+    fd = os.open(path, flags, 0o644)
+    try:
+        try:
+            import fcntl
+            fcntl.flock(fd, fcntl.LOCK_EX)
+        except ImportError:  # platforms without flock keep O_APPEND atomicity only
+            pass
+        size = os.fstat(fd).st_size
+        existing = os.pread(fd, size, 0) if size else b""
+        lines = existing.splitlines(keepends=True)
+        if existing and not existing.endswith(b"\n"):
+            raise ValueError("existing events.jsonl does not end with a newline; refusing to append to a damaged log")
+        if lines:
+            try:
+                json.loads(lines[-1])
+            except ValueError:
+                raise ValueError("last line of events.jsonl is not valid JSON; refusing to append") from None
+        moment = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
+        entry = {"seq": len(lines) + 1, "atUTC": moment.strftime("%Y-%m-%dT%H:%M:%SZ"), "event": event_type, "note": note,
+                 **fields, "prevHash": _line_hash(lines[-1]) if lines else None}
+        os.write(fd, (json.dumps(entry, ensure_ascii=False) + "\n").encode("utf-8"))
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+    return entry
+
+
+def validate_events(path: str | Path, *, now: datetime | None = None) -> tuple[list[str], list[str]]:
+    """Check an events.jsonl log; returns `(errors, warnings)`.
+
+    Errors: malformed lines, missing atUTC/event, decreasing or future timestamps, and a broken
+    `seq`/`prevHash` chain on chained entries (older unchained lines are tolerated before the
+    first chained one). Warning: every event shares one timestamp, the signature of a log
+    written in one batch at results time rather than appended as events happened.
+    """
+    path = Path(path)
+    if path.is_symlink():
+        return ["events.jsonl must not be a symlink"], []
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        return [f"events log unreadable: {exc}"], []
+    errors: list[str] = []
+    warnings: list[str] = []
+    now = now or datetime.now(timezone.utc)
+    lines = raw.splitlines(keepends=True)
+    stamps: list[datetime] = []
+    chained = False
+    for index, line in enumerate(lines):
+        try:
+            entry = json.loads(line)
+        except ValueError:
+            errors.append(f"line {index + 1}: not valid JSON")
+            continue
+        if not isinstance(entry, dict) or not isinstance(entry.get("event"), str):
+            errors.append(f"line {index + 1}: missing event")
+            continue
+        moment = _parse_utc(entry.get("atUTC"))
+        if moment is None:
+            errors.append(f"line {index + 1}: missing or invalid atUTC")
+        else:
+            if stamps and moment < stamps[-1]:
+                errors.append(f"line {index + 1}: atUTC goes backwards")
+            if moment > now + CLOCK_SKEW:
+                errors.append(f"line {index + 1}: atUTC is in the future")
+            stamps.append(moment)
+        if "seq" in entry or "prevHash" in entry:
+            chained = True
+            if entry.get("seq") != index + 1:
+                errors.append(f"line {index + 1}: seq {entry.get('seq')} does not match position")
+            expected = _line_hash(lines[index - 1]) if index else None
+            if entry.get("prevHash") != expected:
+                errors.append(f"line {index + 1}: prevHash does not match the previous line")
+        elif chained:
+            errors.append(f"line {index + 1}: unchained entry after chained entries")
+    if len(stamps) >= 2 and len(set(stamps)) == 1:
+        warnings.append("all events share one timestamp: the log looks batch-written, not appended as events happened")
+    return sorted(set(errors)), warnings
+
+
+def _trace_errors(trace: Any, label: Any, receipt: dict[str, Any], recorded: Any) -> list[str]:
+    """Plausibility of a declared rerun trace against the receipt and record times (still unauthenticated)."""
+    errors: list[str] = []
+    started, finished = _parse_utc(trace.get("startedAtUTC")), _parse_utc(trace.get("finishedAtUTC"))
+    if started and finished and finished < started:
+        errors.append(f"rerun trace for {label} finishes before it starts")
+    receipt_at = _parse_utc(receipt.get("recordedAtUTC"))
+    if started and receipt_at and started + CLOCK_SKEW < receipt_at:
+        errors.append(f"rerun trace for {label} starts before the receipt it claims to reproduce was recorded")
+    recorded_at = _parse_utc(recorded)
+    if finished and recorded_at and finished > recorded_at + CLOCK_SKEW:
+        errors.append(f"rerun trace for {label} finishes after the verification record was recorded")
+    return errors
+
+
 def validate_meta_verification(record: Any, receipt: dict[str, Any], request: dict[str, Any], *,
-                               repo_root: str | Path | None = None, artifact_root: str = DEFAULT_ARTIFACT_ROOT) -> list[str]:
+                               repo_root: str | Path | None = None, artifact_root: str = DEFAULT_ARTIFACT_ROOT,
+                               record_path: str | Path | None = None, now: datetime | None = None,
+                               warnings: list[str] | None = None) -> list[str]:
     """Check a Meta verification record against the receipt it assesses and the request that pins its protocol.
 
-    Everything checked here is structural. Run ids, digests, `reexecution.performed`, session
-    separation and the `independence` declaration are author-asserted and never authenticate the
-    verifier; passing this validator is not verification by an independent party, approval or
-    admission. Positive outcomes and admission-review recommendations additionally require
-    re-execution artifacts that parse under the request-pinned protocol and are not copies of
-    the receipt's own outputs.
+    Everything checked here is structural. Run ids, digests, `reexecution.performed`, rerun
+    traces, session separation and the `independence` declaration are author-asserted and never
+    authenticate the verifier; passing this validator is not verification by an independent
+    party, approval or admission. Positive outcomes and admission-review recommendations
+    additionally require, for every receipt output label, a re-execution artifact that parses
+    under the request-pinned protocol, a declared rerun trace (argv, tool versions, start/finish
+    UTC, raw stdout/stderr digests), and normalized output equal to the receipt's (identity
+    normalization when the protocol declares none). Byte-identical output is expected of a
+    deterministic rerun and is accepted only with such a trace; without one it cannot be told
+    apart from a copy.
+
+    Timestamps must not be in the future and, in a git checkout with `record_path` committed,
+    not later than the committing commit (warn-only without git; see `check_timestamps`).
+    Triage-stage records (`stage: "triage"`) have no receipt: use `validate_triage_record`.
     """
     if not isinstance(record, dict):
         return ["record must be a JSON object"]
     errors = [f"forbidden authority field: {path}" for path in sorted(_forbidden_paths(record))]
     errors.extend(_validate_schema(record, META_VERIFICATION_SCHEMA))
+    if record.get("stage") == "triage":
+        return sorted(set(errors + ["triage-stage record has no receipt to validate against; use validate_triage_record (CLI: --lead --match --dedupe)"]))
     if not isinstance(receipt, dict):
         return sorted(set(errors + ["receipt must be a JSON object"]))
     if not isinstance(request, dict):
@@ -515,6 +773,14 @@ def validate_meta_verification(record: Any, receipt: dict[str, Any], request: di
         errors.append("verifierRunId must differ from the receipt's experimentRunId")
     reexec = record.get("reexecution") if isinstance(record.get("reexecution"), dict) else {}
     artifacts = [a for a in reexec.get("artifacts", []) if isinstance(a, dict)] if isinstance(reexec.get("artifacts"), list) else []
+    stamps = {"recordedAtUTC": record.get("recordedAtUTC")}
+    for item in artifacts:
+        trace = item.get("trace")
+        if isinstance(trace, dict):
+            stamps[f"reexecution[{item.get('label')}].trace.startedAtUTC"] = trace.get("startedAtUTC")
+            stamps[f"reexecution[{item.get('label')}].trace.finishedAtUTC"] = trace.get("finishedAtUTC")
+            errors.extend(_trace_errors(trace, item.get("label"), receipt, record.get("recordedAtUTC")))
+    errors.extend(check_timestamps({k: v for k, v in stamps.items() if v}, repo_root=repo_root, committed_path=record_path, now=now, warnings=warnings))
     outcome, recommend = record.get("outcome"), record.get("recommend")
     admission = isinstance(recommend, dict) and recommend.get("action") == "request-admission-review"
     positive = outcome in POSITIVE_OUTCOMES
@@ -530,6 +796,9 @@ def validate_meta_verification(record: Any, receipt: dict[str, Any], request: di
         receipt_labels = {o.get("label") for o in receipt.get("outputs", []) if isinstance(o, dict)}
         if not receipt_labels.issubset({a.get("label") for a in artifacts}):
             errors.append("re-execution artifacts are required for every receipt output label")
+        for item in artifacts:
+            if item.get("label") in receipt_labels and not isinstance(item.get("trace"), dict):
+                errors.append(f"re-execution artifact {item.get('label')} requires a rerun trace (argv, tool versions, start/finish UTC, stdout/stderr digests)")
         if repo_root is None:
             errors.append("local artifact integrity verification (--repo-root) is required")
     labels = [a.get("label") for a in artifacts]
@@ -542,9 +811,38 @@ def validate_meta_verification(record: Any, receipt: dict[str, Any], request: di
     return sorted(set(errors))
 
 
+def validate_triage_record(record: Any, lead: Any, matchRaw: bytes, dedupeRaw: bytes, *, repo_root: str | Path | None = None,
+                           record_path: str | Path | None = None, now: datetime | None = None, warnings: list[str] | None = None) -> list[str]:
+    """Check a triage-stage Meta record: a review of a lead rejected or deferred before any request or receipt existed.
+
+    Binds the lead (canonical digest) and the raw `match` / `dedupe` outputs the reviewer read.
+    Like every Meta record it is a declared, unauthenticated claim and never an admission.
+    """
+    if not isinstance(record, dict):
+        return ["record must be a JSON object"]
+    errors = [f"forbidden authority field: {path}" for path in sorted(_forbidden_paths(record))]
+    errors.extend(_validate_schema(record, META_VERIFICATION_SCHEMA))
+    if record.get("stage") != "triage":
+        errors.append("record is not a triage-stage record (stage must be 'triage')")
+    errors.extend(f"lead: {error}" for error in validate_lead(lead))
+    if isinstance(lead, dict) and record.get("leadDigest") != _sha(_canonical(lead)):
+        errors.append("lead binding mismatch: leadDigest")
+    for key, raw, name in (("matchDigest", matchRaw, "match"), ("dedupeDigest", dedupeRaw, "dedupe")):
+        if record.get(key) != _sha(raw):
+            errors.append(f"{name} output binding mismatch: {key}")
+        try:
+            if not isinstance(json.loads(raw), dict):
+                errors.append(f"{name} output is not a JSON object")
+        except ValueError:
+            errors.append(f"{name} output is not valid JSON")
+    stamps = {"recordedAtUTC": record["recordedAtUTC"]} if record.get("recordedAtUTC") else {}
+    errors.extend(check_timestamps(stamps, repo_root=repo_root, committed_path=record_path, now=now, warnings=warnings))
+    return sorted(set(errors))
+
+
 def _compare_native_outputs(declaration: dict[str, Any], execution: dict[str, Any], receipt: dict[str, Any], request: dict[str, Any],
                             root: Path, artifact_root: str) -> list[str]:
-    """The verifier's native output must equal the receipt's native output after the declared normalization."""
+    """The verifier's native output must equal the receipt's native output after the declared normalization (identity when none)."""
     native = next((o for o in receipt.get("outputs", []) if isinstance(o, dict) and o.get("label") == "native"), None)
     if native is None:
         return ["receipt has no native output to compare the re-execution against"]
@@ -555,20 +853,34 @@ def _compare_native_outputs(declaration: dict[str, Any], execution: dict[str, An
         mine, theirs = execution[field], receipt_execution[field]
         if normalize_output(declaration, mine) != normalize_output(declaration, theirs):
             return ["re-execution native output differs from the receipt's native output after declared normalization"]
-        if mine == theirs and normalize_output(declaration, theirs) != theirs:
-            return ["re-execution native output is raw-identical to the receipt's although the protocol declares run-varying content to normalize; indistinguishable from a copy"]
     except (OSError, ValueError, TypeError, KeyError) as exc:
         return [f"receipt native artifact does not parse under the pinned protocol: {exc}"]
+    return []
+
+
+def _compare_label_outputs(declaration: dict[str, Any], label: str, raw: bytes, receipt: dict[str, Any], root: Path, artifact_root: str) -> list[str]:
+    """A non-native rerun artifact's text must equal the receipt's same-label output after declared normalization."""
+    source = next((o for o in receipt.get("outputs", []) if isinstance(o, dict) and o.get("label") == label), None)
+    if source is None:
+        return []
+    try:
+        theirs = _checked_artifact_path(root, source.get("path"), artifact_root).read_bytes().decode("utf-8")
+        mine = raw.decode("utf-8")
+        if normalize_output(declaration, mine) != normalize_output(declaration, theirs):
+            return [f"re-execution {label} output differs from the receipt's {label} output after declared normalization"]
+    except (OSError, ValueError) as exc:
+        return [f"cannot compare re-execution {label} output with the receipt's: {exc}"]
     return []
 
 
 def _check_reexecution(record: dict[str, Any], receipt: dict[str, Any], request: dict[str, Any], artifacts: list[dict[str, Any]],
                        root: Path, artifact_root: str, positive: bool) -> list[str]:
     errors: list[str] = []
-    receipt_paths, receipt_digests = set(), set()
+    receipt_paths: set[Path] = set()
+    receipt_digests: dict[Any, set[Any]] = {}
     for output in receipt.get("outputs", []):
         if isinstance(output, dict):
-            receipt_digests.add(output.get("contentDigest"))
+            receipt_digests.setdefault(output.get("contentDigest"), set()).add(output.get("label"))
             try:
                 receipt_paths.add(_checked_artifact_path(root, output.get("path"), artifact_root))
             except ValueError:
@@ -596,8 +908,11 @@ def _check_reexecution(record: dict[str, Any], receipt: dict[str, Any], request:
             errors.append(f"re-execution artifact digest mismatch: {label}")
         if path in receipt_paths or path in seen_paths:
             errors.append(f"re-execution artifact reuses an existing output path: {label}")
-        if digest in receipt_digests or digest in seen_digests:
-            errors.append(f"re-execution artifact is byte-identical to another output and cannot be told apart from a copy: {label}")
+        # Identical bytes are expected of a deterministic rerun, so they are accepted only as the
+        # same label's output and only when a declared rerun trace says where they came from.
+        explained = isinstance(item.get("trace"), dict) and label in receipt_digests.get(digest, set())
+        if (digest in receipt_digests and not explained) or digest in seen_digests:
+            errors.append(f"re-execution artifact is byte-identical to another output and cannot be told apart from a copy without a rerun trace for the matching label: {label}")
         seen_paths.add(path)
         seen_digests.add(digest)
         if not raw.strip():
@@ -613,6 +928,8 @@ def _check_reexecution(record: dict[str, Any], receipt: dict[str, Any], request:
                 if executed != receipt.get("executedVersion"):
                     errors.append(f"re-execution executed version {executed} differs from the receipt's {receipt.get('executedVersion')}")
                 errors.extend(_compare_native_outputs(declaration, execution, receipt, request, root, artifact_root))
+        elif positive and declaration is not None and isinstance(item.get("trace"), dict):
+            errors.extend(_compare_label_outputs(declaration, str(label), raw, receipt, root, artifact_root))
     if positive and not any(a.get("label") == "native" for a in artifacts):
         errors.append("re-execution requires a native artifact that parses under the pinned protocol")
     return errors
