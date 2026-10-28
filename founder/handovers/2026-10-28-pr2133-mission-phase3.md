@@ -16,7 +16,7 @@ This is an engineering receipt, **not** founder ratification, rollout approval, 
 
 - Luna follow-up `ddc762a000ec9af47cc8171db41e0545a3ee51b8` cherry-picked cleanly as `1743f2d7c`: arbitrary slash-ref prefixes are no longer stripped, and `www.github.com` canonicalizes to `github.com`. The ref-ignoring comparison uses the same simple-ref trust policy as Steward's `registryindex.refSplitTrusted` (HEAD/main/master, semver-like tags and commit-like hashes), not a live GitHub ref lookup.
 
-Final broad gate results are recorded below when complete.
+Final broad gate evidence is recorded below. The focused and broad scopes overlap; their counts must not be summed as distinct tests.
 
 ## Verification already completed
 
@@ -31,11 +31,32 @@ All local forge interactions below are mocked. Test commands clear `GH_TOKEN` an
 - Sensor fleet, reset behavior and rollout contracts: **20 passed**.
 - Upstream CLI verbs, Steward CLI and browser-render sensor tests: **73 passed** (`mission-cli-render.log`).
 - Fresh full issue-hygiene plus CLI, browser-render, driver closure, founder desk, routine coverage, full sensor fleet and upstream verb integration: **1,023 passed** (`mission-closure-final.log`). This includes the repaired receipt assertion.
+- Final complete mocked watcher, approval/workflow, rollout and dispatch suites after all three Luna commits: **733 passed** (`mission-watcher-final.log`).
+- Fresh remaining Steward suite (everything under `tests/steward` outside issue-hygiene): **1,621 passed** (`mission-steward-rest.log`), including full-abandon, controller, desk, driver, coverage and sensor compatibility. The component gates are green; local Python is 3.14/Termux, not the publication PR's Ubuntu CI environment.
 - Coverage, skill mirror, both Steward skill quick validators and playbook contract: pass.
 - Skill inventory validation: **81 skills, 0 errors**, with **64 existing orphan-asset warnings**; not represented as a warning-free run.
 - Python compile checks, browser collector JavaScript syntax, workflow YAML and embedded Bash syntax: pass. Legacy workflow step objects independently compare equal to merged main.
 
 Logs named here are session-local under `$TMPDIR`, not public evidence or committed artifacts. The interrupted older broad run is not a passing result. A later combined run was deliberately interrupted after **3,027 passes and four failures**; it had collected two expectations before concurrent repairs and exposed the remaining fleet/reset contracts fixed above. A closure integration run completed **891 passes and one failure**, the old URL-only receipt expectation corrected in `87e19fb54`. Neither run is represented as green; fresh final gate results follow below.
+
+### Exact final component commands
+
+```bash
+env -u GH_TOKEN -u GITHUB_TOKEN PYTHONPATH=src python -m pytest \
+  tests/steward/issuehygiene tests/steward/test_cli.py \
+  tests/steward/test_sensors_render.py tests/steward/test_steward_drive_close.py \
+  tests/steward/test_desk.py tests/steward/test_routine_coverage.py \
+  tests/steward/test_sensors.py tests/test_dev_upstream_verbs.py -n 4 -q
+
+env -u GH_TOKEN -u GITHUB_TOKEN PYTHONPATH=src python -m pytest \
+  tests/steward --ignore=tests/steward/issuehygiene -n 4 -q
+
+env -u GH_TOKEN -u GITHUB_TOKEN PYTHONPATH=src python -m pytest \
+  tests/upstream_watcher tests/test_upstream_approve_workflow.py \
+  scripts/upstream_watcher/tests -n 4 -q
+```
+
+Engineering is complete with the feature disabled, ready for the parent's independent verification and publication on existing PR #2133. PR Ubuntu CI, the source founder merge, the separate founder decisions below, and any later authorized release sequence remain gates—not claims of work performed here.
 
 ## Explicit remaining founder decisions
 
@@ -56,4 +77,5 @@ These decisions are not pending coding tasks. Engineering completion does not au
 - REST rechecks are conservative, not an atomic server-side transaction with comment creation and issue close. No live operational result is inferred from mocked safety tests.
 - Reference normalization follows the existing Steward simple-ref trust envelope. It refuses arbitrary prefixes such as `release/feature`, but does not query GitHub to disambiguate a slash ref beginning with an otherwise trusted prefix (for example `main/feature`). That broader shared-policy limitation is explicitly disclosed, not claimed fixed by the watcher follow-up.
 - No registry nodes, generated site assets, founder ledger lifecycle rows or unrelated worktrees were edited by the mission repair commits. Tool task output under `.pi/tasks/` is excluded.
+- Scope audit: 170 feature-PR files versus merged main; 515 files versus the old feature head (including main's authorized registry/site/release updates); 66 files in the repair range after `6b0d2f9a0`. Both starting heads remain ancestors. The repair range is whitespace-clean. Whole-PR `diff --check` versus main retains two original feature-file EOF-blank warnings (`batch.py`, `test_e_watcher_adversarial.py`); neither was introduced by the mission repairs. Browser collector and browser-render sensor source remain identical to merged main.
 - Graft was used before source exploration; the observed context calls reported at least **71,107 tokens saved** (not a claim of complete session-wide instrumentation).
