@@ -792,6 +792,7 @@ def _executeProvenClosure(plan: dict, forge: IssueForge, receiptsPath: Path | st
                 if not parts or any(row["author"] != closer or commentContent(row["body"]) != commentContent(expected)
                                     for row in parts):
                     return finish("failed", failure=f"preserved comment part {index} not verified", closer=closer)
+            markerVerified = True  # The final complete history proved every own payload part.
             # Detect edits or comments that landed during the paginated history read.
             afterHistory = forge.getIssue(issue)
             if afterHistory.get("updatedAt") != finalLive.get("updatedAt"):

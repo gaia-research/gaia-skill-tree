@@ -121,7 +121,7 @@ def test_public_executor_runs_once_and_replays_without_calls_or_receipts(tmp_pat
     plan = planFrom(root, document)
     forge = Forge({10: childLive(document)})
     first = executeClosure(plan, forge, root / RECEIPT, NOW, "R1", REPO, root=root)
-    assert first["outcome"] == "closed"
+    assert first["outcome"] == "closed" and first["markerVerified"] is True
     before = (root / RECEIPT).read_bytes()
     calls = list(forge.calls)
     second = executeClosure(plan, forge, root / RECEIPT, NOW, "R1", REPO, root=root)
