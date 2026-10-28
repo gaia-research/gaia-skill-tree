@@ -65,6 +65,6 @@ Generated deterministically by `tools/rebuild_from_journal.py` from workflow run
 
 ## Exceptions (stated, not hidden)
 
-- Liveness: 962 unique URLs probed; 211 returned HTTP 429 (GitHub rate limit late in run) and were not re-probed in this pass — liveness for those rows is **unknown**, not alive/dead. Re-probe at reduced concurrency before the cutoff record.
+- Liveness: first pass (concurrency 16) hit 211 GitHub HTTP 429s. Full re-probe at concurrency 3 (`liveness-reprobe/`): 962 URLs, 903 alive, 59 dead, 0 unknown. Every dead URL is review debt only (bounded t0/+24h/+72h probes), never a demotion.
 - The workflow's own synthesis agent hand-transcribed an abridged findings list (810 surviving); it was replaced by this deterministic replay (817). Counts here are authoritative.
 - All findings are proposals. No registry mutation was made. Under Yggdrasil IV no proposal rests on elapsed time, dead links, competitor existence or model confidence; consequences are adjudicated separately (`../adjudication/`).
