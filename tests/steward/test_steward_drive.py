@@ -370,6 +370,51 @@ def test_integrate_refuses_main(tmp_path):
 
 # -- agents unavailable --------------------------------------------------------
 
+def test_explicit_no_agents_overrides_ready_agent_configuration(tmp_path):
+    root = makeRoot(tmp_path)
+    world = FakeWorld(root, [view("R1", [buildAction()])])
+    driver = makeDriver(tmp_path, world, env=AGENTENV, agents=False)
+
+    assert driver.ready is False
+    assert driver.notReadyReason == "agent dispatch disabled by --no-agents"
+    assert driver.drive() == drive.EXITNOTRUN
+    runArgs = next(c for c in world.calls if isRun(c))
+    assert "--no-agents" in runArgs
+    assert world.agentCalls == [] and world.recorded == []
+    assert "agent dispatch disabled by --no-agents" in driver.unperformed[0]["reason"]
+
+
+def test_no_agents_keeps_class_a_closure_routing_enabled(tmp_path):
+    root = makeRoot(tmp_path)
+    actions = [closeAction(), buildAction()]
+    world = FakeWorld(root, [view("R1", actions), view("R1", [], "completed")])
+    driver = makeDriver(tmp_path, world, env=AGENTENV, agents=False)
+    # Permit the route in-process, while the actual closure executor remains behind FakeWorld.
+    driver.closuresEnabled = lambda: True
+    driver.forgeToken = lambda: "synthetic-test-token"
+
+    assert driver.drive() == drive.EXITNOTRUN
+    assert len(world.closeCalls) == 1
+    assert [step for step, _ in world.recorded] == ["close:abc:abcd1234"]
+    assert world.agentCalls == []
+    assert any(item["stepId"] == "build:abc:1" for item in driver.unperformed)
+
+
+def test_no_agents_cli_flag_is_wired_to_driver_option(monkeypatch, tmp_path):
+    captured = {}
+
+    class DriverStub:
+        def __init__(self, options):
+            captured["options"] = options
+
+        def drive(self):
+            return drive.EXITCOMPLETED
+
+    monkeypatch.setattr(drive, "Driver", DriverStub)
+    assert drive.main(["--root", str(tmp_path), "--no-agents", "--no-census"]) == drive.EXITCOMPLETED
+    assert captured["options"].agents is False
+
+
 def test_missing_credentials_runs_no_agents_and_exits_5_when_agent_work_is_pending(tmp_path):
     root = makeRoot(tmp_path)
     earlier = {"runs": [{"runId": "OLD", "actions": [

@@ -224,6 +224,7 @@ class DriveOptions:
     push: bool = True
     trigger: str = "scheduled"
     afk: bool = False
+    agents: bool = True
     reportPath: Path = Path(DEFAULTREPORT)
     python: str = sys.executable
     agentTimeout: float = DEFAULTAGENTTIMEOUT
@@ -273,6 +274,9 @@ class Driver:
         if self.builderFamily == "sonnet" and self.sonnetId is None and self.engine is None:
             raise DriverConfigError("STEWARD_BUILDER_MODEL=sonnet needs STEWARD_SONNET_MODEL_ID")
         self.ready, self.notReadyReason = agentReadiness(self.env, self.which)
+        if not self.options.agents:
+            self.ready = False
+            self.notReadyReason = "agent dispatch disabled by --no-agents"
         self.failures: dict[str, int] = {}
         self.handled: list[dict[str, Any]] = []
         self.refused: list[dict[str, Any]] = []
@@ -881,6 +885,7 @@ def buildParser() -> argparse.ArgumentParser:
     parser.add_argument("--no-push", action="store_true", help="Do not push Class A landing branches")
     parser.add_argument("--trigger", choices=("manual", "scheduled"), default="scheduled")
     parser.add_argument("--afk", action="store_true", help="Queue founder decisions instead of prompting")
+    parser.add_argument("--no-agents", action="store_true", help="Never dispatch Class B agent work")
     parser.add_argument("--report", default=DEFAULTREPORT, metavar="PATH",
                         help=f"Machine-readable summary (default: {DEFAULTREPORT})")
     parser.add_argument("--no-census", action="store_true",
@@ -896,13 +901,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     options = DriveOptions(
         root=root, integrationBranch=args.integration_branch, ledger=args.ledger,
         push=not args.no_push, trigger=args.trigger, afk=args.afk, reportPath=Path(args.report),
-        census=not args.no_census, repo=args.repo,
     )
     if options.integrationBranch:
         refusal = baseRefusal(options.integrationBranch, None)
         if refusal:
             print(f"steward drive refused: {refusal}", file=sys.stderr)
             return EXITREFUSEDINPUT
+    options.census = not args.no_census
+    options.repo = args.repo
+    options.agents = not args.no_agents
     try:
         driver = Driver(options)
     except DriverConfigError as exc:
