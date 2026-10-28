@@ -22,7 +22,7 @@ def configureChallenge(parser):
     admit.add_argument("--case", required=True)
     admit.add_argument("--repo-root", help="Checkout root (default: the resolved registry path)")
     fetch = sub.add_parser("fetch-receipt", help="Verify the issuer run live, then write the committed receipt/ files the offline source reads")
-    fetch.add_argument("case", help="Case id")
+    fetch.add_argument("--case", required=True, help="Case id")
     fetch.add_argument("--repo-root", help="Checkout root (default: the resolved registry path)")
 
 

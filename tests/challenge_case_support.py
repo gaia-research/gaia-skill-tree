@@ -64,26 +64,34 @@ BUILDKWARGS = dict(verifier="founder-login", builder="builder-bot", noticeRef="h
 
 
 class SyntheticBound:
-    def __init__(self, receipt, challengeId):
-        self.receipt, self.challenge_id = receipt, challengeId
+    def __init__(self, receipts, challengeId):
+        self.receipts, self.challenge_id = receipts, challengeId
 
     def resolve(self, receiptId):
-        if receiptId != self.receipt.receipt_id:
-            raise KeyError(receiptId)
-        return self.receipt
+        return self.receipts[receiptId]  # KeyError for any receipt this port does not hold
 
 
 class SyntheticVerifiedResolver:
-    """SYNTHETIC stand-in for a verified issuer receipt. Never the production resolver."""
+    """SYNTHETIC stand-in for verified issuer receipts of one or more cases. Never the production resolver."""
 
     SYNTHETIC_TEST_ONLY = True
 
-    def __init__(self, directory):
-        data = json.loads((Path(directory) / "admission-request.json").read_text())
-        self.receipt = VerificationReceipt(**data["receipt"])
+    def __init__(self, *directories):
+        self.receipts = {}
+        for directory in directories:
+            data = json.loads((Path(directory) / "admission-request.json").read_text())
+            self.receipts[data["receipt"]["receipt_id"]] = VerificationReceipt(**data["receipt"])
+
+    @property
+    def receipt(self):  # single-case convenience
+        return next(iter(self.receipts.values()))
+
+    @receipt.setter
+    def receipt(self, value):
+        self.receipts = {value.receipt_id: value}
 
     def for_challenge(self, challengeId):
-        return SyntheticBound(self.receipt, challengeId)
+        return SyntheticBound(self.receipts, challengeId)
 
 
 def tamper(directory, name="meta-verification.json"):

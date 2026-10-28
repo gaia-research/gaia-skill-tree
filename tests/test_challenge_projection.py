@@ -104,12 +104,26 @@ def test_contested_guard_covers_only_system_fields():
     assert projection.validateReviews(bad)
 
 
-def test_one_bad_review_makes_the_reviews_file_fail_closed(tmp_path):
+def test_one_bad_review_is_dropped_alone_in_both_channels(tmp_path, capsys):
     root, _ = heldCase(tmp_path, built=True)
-    found = collect(root)
-    poisoned = Collected(True, {}, {}, ({**found.reviews[0], "status": "contested"},), ())
-    assert projection.buildReviews(root, collected=poisoned) == projection.emptyReviews()
-    assert reviewsBySubject(poisoned) == {}  # the named-index channel uses the same validator
+    good = collect(root).reviews[0]
+    bad = {**good, "caseId": "other", "status": "contested"}
+    poisoned = Collected(True, {}, {}, (bad, good), ())
+    assert projection.buildReviews(root, collected=poisoned)["reviews"] == [good]
+    assert sum(len(v) for v in reviewsBySubject(poisoned).values()) == 1
+    assert "dropping review other" in capsys.readouterr().err
+
+
+def test_challenger_controlled_version_strings_cannot_blank_reviews(tmp_path):
+    """Reviewer attack b4: an executed version like '2.56.0-uncontested' is data, not a label."""
+    root, _ = heldCase(tmp_path, built=True)
+    good = collect(root).reviews[0]
+    odd = copy.deepcopy(good)
+    odd["experiment"]["executedVersion"] = "2.56.0-uncontested"
+    odd["caseId"] = "other"
+    found = Collected(True, {}, {}, (odd, good), ())
+    assert [r["caseId"] for r in projection.buildReviews(root, collected=found)["reviews"]] == ["other", CASE]
+    assert sum(len(v) for v in reviewsBySubject(found).values()) == 2
 
 
 # --- tamper / collisions / fail closed -------------------------------------------------
@@ -146,14 +160,25 @@ def test_one_bad_case_does_not_hide_a_good_one_but_is_itself_dropped(tmp_path):
     assert [r["caseId"] for r in found.reviews] == [CASE] and [r["caseId"] for r in found.rejected] == ["second-case"]
 
 
-def test_cases_sharing_a_challenge_id_are_both_rejected_not_first_wins(tmp_path):
+def test_cases_that_would_both_be_admitted_with_one_challenge_id_are_both_rejected(tmp_path):
     """Reviewer attack a2: identical drafts give identical challenge ids; neither case may admit."""
     root, directory = heldCase(tmp_path, built=True)
     addCase(root, tmp_path / "b", "case-b")
-    found = collect(root, resolver=SyntheticVerifiedResolver(directory))
+    both = SyntheticVerifiedResolver(directory, root / admission.EVIDENCE / "case-b")
+    found = collect(root, resolver=both)
     assert sorted(r["caseId"] for r in found.rejected) == ["case-b", CASE]
     assert found.admitted == {} and found.reviews == ()
     assert "challenge id" in found.rejected[0]["reason"]
+
+
+def test_a_receiptless_case_cannot_erase_a_real_admission(tmp_path):
+    """Reviewer attack R1b: a collider with no receipt is held, and the admitted case stays intact."""
+    root, directory = heldCase(tmp_path, built=True)
+    addCase(root, tmp_path / "b", "case-b")
+    found = collect(root, resolver=SyntheticVerifiedResolver(directory))
+    assert found.rejected == () and found.sourceStatus == "verified"
+    assert [r["caseId"] for r in found.reviews] == ["case-b"]
+    assert len(next(iter(found.admitted.values()))) == 1
 
 
 def test_receipt_id_collisions_are_detected_directly():

@@ -37,7 +37,7 @@ CONSEQUENCES = ("current-baseline", "approved-decision", "unavailable")
 FILES = {"index": ("docs/graph/challenges/index.json", "docs/api/v1/challenges/index.json"),
          "reviews": ("docs/graph/challenges/reviews.json", "docs/api/v1/challenges/reviews.json")}
 CONTESTED = re.compile(r"contested", re.IGNORECASE)
-SYSTEMFIELDS = ("contract", "status", "held", "assessment", "experiment", "disclosure")
+SYSTEMFIELDS = ("contract", "status", "held", "disclosure")  # experiment/assessment hold challenger-authored strings
 FORBIDDENKEYS = re.compile(r"contested|propos|^(tm|stars?|grade|origin|level|trustmagnitude|rank)$", re.IGNORECASE)
 
 
@@ -168,11 +168,14 @@ def buildReviews(root: str | Path, *, collected: Collected | None = None) -> dic
         found = collected if collected is not None else collect(root)
         if found.disabled:
             return emptyReviews()
-        document = {"contract": REVIEWCONTRACT, "reviews": list(found.reviews)}
-        errors = validateReviews(document)
-        if errors:
-            raise ValueError("; ".join(errors))
-        return document
+        kept = []
+        for record in found.reviews:  # drop only the offending record, as the named-index channel does
+            errors = validateReview(record)
+            if errors:
+                print(f"  warning: dropping review {record.get('caseId')}: {'; '.join(errors)}", file=sys.stderr)
+            else:
+                kept.append(record)
+        return {"contract": REVIEWCONTRACT, "reviews": kept}
     except Exception as exc:
         print(f"  warning: challenge reviews failed closed ({type(exc).__name__}: {exc}); publishing none",
               file=sys.stderr)

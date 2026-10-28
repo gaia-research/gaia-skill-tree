@@ -25,7 +25,6 @@ adapter and resolver.
 """
 from __future__ import annotations
 
-import fcntl
 import hashlib
 import json
 import os
@@ -39,6 +38,15 @@ from enum import Enum
 from pathlib import Path
 from typing import Any
 
+try:  # POSIX advisory locking; Windows falls back to msvcrt, else no lock (single operator)
+    import fcntl
+except ImportError:  # pragma: no cover
+    fcntl = None
+try:
+    import msvcrt
+except ImportError:  # pragma: no cover
+    msvcrt = None
+
 from . import frontier
 from .challengeDomain import (
     Challenge, VerificationReceipt, draft_challenge_id, draft_context_digest, open_challenge,
@@ -49,6 +57,8 @@ from .steward.challenge_receipts import (
     loadTrustedConfig,
 )
 
+NOFOLLOW = getattr(os, "O_NOFOLLOW", 0)  # absent on Windows; assertPlain still checks every component
+BINARY = getattr(os, "O_BINARY", 0)
 EVIDENCE = "evidence/frontier-challenges"
 CASEIDRE = re.compile(r"^[a-z0-9][a-z0-9-]{0,62}$")
 LOGINRE = re.compile(r"^[A-Za-z0-9-]{1,39}$")
@@ -159,7 +169,7 @@ def readJson(path: Path) -> tuple[dict[str, Any], bytes]:
 def writeNew(path: Path, data: bytes) -> None:
     """Exclusive, symlink-refusing create; an existing path (even a dangling link) is an error."""
     try:
-        descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o644)
+        descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | NOFOLLOW | BINARY, 0o644)
     except OSError as exc:
         raise AdmissionError(f"cannot create {path.name} safely: {exc.strerror}") from None
     try:
@@ -204,15 +214,24 @@ def readEvents(path: Path) -> tuple[list[dict[str, Any]], list[str]]:
     return events, errors
 
 
+def lockFile(descriptor: int) -> None:
+    """Exclusive lock released when the descriptor closes."""
+    if fcntl is not None:
+        fcntl.flock(descriptor, fcntl.LOCK_EX)
+    elif msvcrt is not None:  # pragma: no cover
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        msvcrt.locking(descriptor, msvcrt.LK_LOCK, 1)
+
+
 def appendEvent(directory: Path, kind: str, fields: dict[str, Any], *, at: str | None = None) -> dict[str, Any]:
     """Append under an exclusive lock; refuses symlinks and a broken chain."""
     path = directory / "events.jsonl"
     try:
-        descriptor = os.open(path, os.O_RDWR | os.O_APPEND | os.O_CREAT | os.O_NOFOLLOW, 0o644)
+        descriptor = os.open(path, os.O_RDWR | os.O_APPEND | os.O_CREAT | NOFOLLOW | BINARY, 0o644)
     except OSError as exc:
         raise AdmissionError(f"cannot open events.jsonl safely: {exc.strerror}") from None
     try:
-        fcntl.flock(descriptor, fcntl.LOCK_EX)
+        lockFile(descriptor)
         os.lseek(descriptor, 0, os.SEEK_SET)
         raw = os.read(descriptor, MAXFILE + 1)
         if len(raw) > MAXFILE:
@@ -545,6 +564,17 @@ class CaseResolver:
         return CaseBound(self, challengeId)
 
 
+def scrubbedGit(command, **kwargs):
+    """Run git with every GIT_* variable removed so no environment can redirect object lookup
+    (GIT_DIR, GIT_OBJECT_DIRECTORY, GIT_ALTERNATE_OBJECT_DIRECTORIES, GIT_CONFIG_*, ...)."""
+    env = {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
+    return subprocess.run(command, env=env, **kwargs)
+
+
+def localGit(rootPath: Path) -> LocalGit:
+    return LocalGit(rootPath, runner=scrubbedGit)
+
+
 class IssuerNotConfigured(ReceiptUnavailable):
     """No committed or deployed issuer pins: structurally unavailable, not unverifiable."""
 
@@ -576,7 +606,7 @@ def committedResolver(rootPath: Path, report: BundleReport, receiptDir: Path | N
     scratch = tempfile.TemporaryDirectory(prefix="gaia-case-receipt-")
     destination = Path(scratch.name) / EVIDENCE / report.caseId / RECEIPT_SUBDIR
     copyReceiptFiles(receiptDir or report.directory / RECEIPT_SUBDIR, destination)
-    source = CommittedAttestedReceiptSource(scratch.name, git=LocalGit(rootPath))
+    source = CommittedAttestedReceiptSource(scratch.name, git=localGit(rootPath))
     request = report.admission or {}
     return CaseResolver(GitHubVerificationReceiptResolver(config, source), report.caseId, report.receiptId or "",
                         request.get("proofSourceSha", ""), destination / BUNDLE_APPROVAL, scratch)
@@ -585,7 +615,7 @@ def committedResolver(rootPath: Path, report: BundleReport, receiptDir: Path | N
 def liveResolver(rootPath: Path, report: BundleReport) -> CaseResolver:
     config = pinnedConfig()
     request = report.admission or {}
-    return CaseResolver(GitHubVerificationReceiptResolver(config, GitHubActionsSource(git=LocalGit(rootPath))),
+    return CaseResolver(GitHubVerificationReceiptResolver(config, GitHubActionsSource(git=localGit(rootPath))),
                         report.caseId, report.receiptId or "", request.get("proofSourceSha", ""))
 
 
@@ -710,7 +740,7 @@ def fetchReceipt(root: str | Path, caseId: str, *, source: Any = None, resolver:
     if report.hasCommittedReceipt:
         raise AdmissionError("receipt/ already exists; it is never overwritten")
     config = pinnedConfig()
-    live = source if source is not None else GitHubActionsSource(git=LocalGit(rootPath))
+    live = source if source is not None else GitHubActionsSource(git=localGit(rootPath))
     try:
         document = live.fetch(report.receiptId, config)
         data = live.transport.getBytes(f"repos/{config.repository}/actions/artifacts/{document['artifactId']}/zip")

@@ -2,6 +2,7 @@ import io
 import json
 import os
 import shutil
+import subprocess
 import sys
 import threading
 import zipfile
@@ -343,9 +344,41 @@ def test_cli_wiring_and_operator_gate(tmp_path, monkeypatch, capsys):
     monkeypatch.delenv("GAIA_OPERATOR_OVERRIDE")
     monkeypatch.setattr("gaia_cli.authz.authorization_status",
                         lambda *a, **k: {"authorized": False, "via": "denied", "reason": "denied for test"})
-    for verb in (["admit", "--case", CASE], ["fetch-receipt", CASE]):
+    for verb in (["admit", "--case", CASE], ["fetch-receipt", "--case", CASE]):
         monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(root), "dev", "challenge", *verb])
         with pytest.raises(SystemExit) as exc:
             main()
         assert exc.value.code == 1
     assert not (directory / "events.jsonl").exists()
+
+
+# --- portability and environment ---------------------------------------------------------
+
+def test_module_imports_and_appends_without_fcntl_or_nofollow(tmp_path):
+    """Windows: no fcntl, no O_NOFOLLOW. The docs build imports this module unconditionally."""
+    code = (
+        "import sys, os, tempfile; from pathlib import Path\n"
+        "sys.modules['fcntl'] = None; sys.modules['msvcrt'] = None\n"
+        "if hasattr(os, 'O_NOFOLLOW'): del os.O_NOFOLLOW\n"
+        "import gaia_cli.challengeAdmission as a\n"
+        "assert a.fcntl is None and a.NOFOLLOW == 0\n"
+        "d = Path(tempfile.mkdtemp()); e = a.appendEvent(d, 'note', {}); f = a.appendEvent(d, 'note', {})\n"
+        "assert (e['seq'], f['seq']) == (1, 2) and a.readEvents(d / 'events.jsonl')[1] == []\n"
+        "a.writeNew(d / 'x', b'1')\n")
+    done = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True,
+                          env={**os.environ, "PYTHONPATH": str(Path(__file__).resolve().parent.parent / "src")})
+    assert done.returncode == 0, done.stderr
+
+
+def test_git_environment_cannot_redirect_object_lookup(tmp_path, monkeypatch):
+    repo = Path(__file__).resolve().parent.parent
+    head = subprocess.run(["git", "-C", str(repo), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
+    path = ".github/workflows/challenge-receipt-issuer.yml"
+    expected = admission.localGit(repo).blobShaAt(head, path)
+    assert expected
+    monkeypatch.setenv("GIT_DIR", str(tmp_path / "empty"))
+    monkeypatch.setenv("GIT_ALTERNATE_OBJECT_DIRECTORIES", str(tmp_path / "fake"))
+    monkeypatch.setenv("GIT_OBJECT_DIRECTORY", str(tmp_path / "fake2"))
+    assert admission.localGit(repo).blobShaAt(head, path) == expected
+    from gaia_cli.committedChallenges import gitIsShallow
+    assert gitIsShallow(repo) in (True, False)  # ran against the real repo, not GIT_DIR

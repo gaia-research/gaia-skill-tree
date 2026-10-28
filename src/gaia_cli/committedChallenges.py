@@ -21,7 +21,6 @@ from __future__ import annotations
 
 import os
 import shutil
-import subprocess
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -53,8 +52,8 @@ def overridesPresent() -> list[str]:
 
 
 def gitIsShallow(root: Path) -> bool:
-    done = subprocess.run(["git", "-C", str(root), "rev-parse", "--is-shallow-repository"],
-                          capture_output=True, text=True, check=False)
+    done = admission.scrubbedGit(["git", "-C", str(root), "rev-parse", "--is-shallow-repository"],
+                                 capture_output=True, text=True, check=False)
     return done.returncode != 0 or done.stdout.strip() != "false"
 
 
@@ -114,7 +113,9 @@ def listCases(base: Path) -> tuple[list[str], list[dict[str, str]]]:
 
 
 def rejectCollisions(reports: dict[str, admission.BundleReport]) -> dict[str, str]:
-    """Cases that share a challenge id or receipt id are ALL rejected (never first-wins)."""
+    """Cases that share a challenge id or receipt id are ALL rejected (never first-wins).
+
+    Called with the would-be-admitted cases only, so a held case cannot suppress a real admission."""
     owners: dict[tuple[str, str], list[str]] = {}
     for caseId, report in reports.items():
         for kind, value in (("challenge id", report.challengeId), ("receipt id", report.receiptId)):
@@ -164,9 +165,6 @@ def collect(root: str | Path, *, resolver: Any = None, which: Callable[[str], st
             reports[caseId] = report
         else:
             rejected.append({"caseId": caseId, "reason": report.errors[0][:200]})
-    for caseId, reason in rejectCollisions(reports).items():
-        reports.pop(caseId)
-        rejected.append({"caseId": caseId, "reason": reason})
     claims = [r.caseId for r in reports.values() if r.admission is not None and r.hasCommittedReceipt]
     if claims and resolver is None:
         if not which("gh"):
@@ -177,23 +175,30 @@ def collect(root: str | Path, *, resolver: Any = None, which: Callable[[str], st
             raise admission.BuildEnvironmentError(
                 f"case(s) {', '.join(claims)} claim an issuer receipt but git history is shallow or unreadable; "
                 "check out with fetch-depth: 0 (attested commits must be reachable)")
+    results: dict[str, admission.AdmissionOutcome] = {}
+    for caseId, report in sorted(reports.items()):
+        try:
+            results[caseId] = admission.attemptAdmission(report, rootPath, resolver=resolver, online=False)
+        except Exception as exc:
+            rejected.append({"caseId": caseId, "reason": f"{type(exc).__name__}: {exc}"[:200]})
+    # Collisions matter only between cases that would BOTH be admitted: a held case that shares
+    # an id with an admitted one becomes a review and leaves the admitted case intact.
+    winners = {caseId: reports[caseId] for caseId, out in results.items() if out.outcome is admission.Outcome.ADMITTED}
+    collided = rejectCollisions(winners)
     admitted: dict[str, list[Challenge]] = {}
     refs: dict[str, str] = {}
     routes: dict[str, Any] = {}
     reviews: list[dict[str, Any]] = []
-    for caseId, report in sorted(reports.items()):
-        try:
-            outcome = admission.attemptAdmission(report, rootPath, resolver=resolver, online=False)
-        except Exception as exc:
-            rejected.append({"caseId": caseId, "reason": f"{type(exc).__name__}: {exc}"[:200]})
-            continue
-        if outcome.outcome is admission.Outcome.ADMITTED and outcome.challenge is not None:
+    for caseId, outcome in sorted(results.items()):
+        report = reports[caseId]
+        if caseId in collided:
+            rejected.append({"caseId": caseId, "reason": collided[caseId]})
+        elif outcome.outcome is admission.Outcome.ADMITTED and outcome.challenge is not None:
             subject = outcome.challenge.subject_id
-            admitted.setdefault(subject, []).append(outcome.challenge)
             if refs.setdefault(subject, outcome.genericRef or "") != outcome.genericRef:
-                admitted[subject].pop()  # two cases disagree on the subject's generic bucket: fail closed
                 rejected.append({"caseId": caseId, "reason": "generic skill reference conflicts with another case"})
                 continue
+            admitted.setdefault(subject, []).append(outcome.challenge)
             routes[outcome.challenge.challenge_id] = outcome.resolver
         else:
             reviews.append(reviewOf(report, outcome))
