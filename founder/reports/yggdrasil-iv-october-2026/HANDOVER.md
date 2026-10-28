@@ -26,6 +26,18 @@ Nothing is half-merged. Machine disk ≈5 GB free after cleanup.
   (`dev/yggiv-frontier-verify-fixes`, worktree `~/.gaia-worktrees/fverify`).
 - Next after those land: open cases PR into dev (after #2232), then steps 4–7.
 
+- PAUSED AGAIN 2026-10-29 (usage limit). Landed on dev: #2231 `1e0a27984`, #2232 admission+projection `cf49bada5`
+  (3 review rounds → SHIP), #2233 frontier verify fixes `f37562750` (2 rounds → SHIP).
+- Cases PR #2234 open (`24d9e65d7`): Meta verdicts final (C1 contradicted, C2 inconclusive, C3 inconclusive, C4 rejected
+  at triage; recommendAdmission false all; C4 triage record + timestamp errata). Public delta is ZERO because the
+  #2232 projection rejects all 4 bundles (layout drift: receipts/experiment-receipt.json vs receipt.json; C3 id has
+  uppercase L failing CASEIDRE; triage-only C4 has no request path; rejections not surfaced by `gaia dev docs`).
+  NEXT: small dev PR making the projection read the frontier bundle layout (and lowercase-tolerant or alias for C3,
+  triage cases → review entries) + surface rejections in `gaia dev docs`; then merge #2234. FD-1 still open.
+- Website W3–W6 agent STOPPED mid-task on `design/yggiv-challenge-surfaces` (remote head: not pushed;
+  worktree `~/.gaia-worktrees/web`, may hold uncommitted work — inspect before reuse). Re-dispatch with the same brief.
+- Then steps 4 (W9 screenshots), 5 (October post), 6 (cutoff refresh after 2026-10-31T23:59:59Z), 7.
+
 ## 1. State
 
 - `dev/yggdrasil-iv` = `d237c0839` (merge of #2198). Contains all of `main`.
