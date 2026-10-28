@@ -1,6 +1,6 @@
 # PR #2133 — mission phase 3 engineering receipt
 
-This is an engineering receipt, **not** founder ratification, rollout approval, a live closure receipt, or permission to merge. Work is on `work/steward-legacy-2133`; the parent retains publication and independent-verification responsibility for the existing draft PR #2133. No replacement feature PR is needed.
+This is the **historical builder checkpoint**, not the final independent verdict. Subsequent review found additional defects; the final repairs, verification and founder decisions are recorded in [the reconciliation receipt](2026-10-28-steward-legacy-reconciliation.md) and the current #2133 published-head receipt. Nothing here grants founder ratification, rollout approval, live closure authority, or permission to merge. Work stays on `work/steward-legacy-2133` and the existing draft PR #2133; no replacement feature PR is needed.
 
 ## Integration and coherent units
 

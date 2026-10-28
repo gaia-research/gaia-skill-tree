@@ -4,6 +4,27 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-28, legacy Steward final engineering — founder gates remain)
+
+### TLDR
+
+- #2202 is already merged (`953021736c136a8b0aa1d74339d4ae8804ee5536`); #2139 was safely superseded by the sole next weekly draft #2230 (`4be508c06d6fdd9e4cac32d154c226886f522974`). #2133 remains the one draft issue-hygiene feature PR; do not create component/replacement campaigns or enable auto-merge.
+- Final closure production-code checkpoint `a61d31f19b7bfdca6a141ab25c1600b85db33d06` passed Terra/high independent review: 709 tests plus seven independent mocked probes. Parent broader gate at that exact SHA: **2,356 passed**. Workflow final review passed at `f617bc75c`; broad watcher/workflow gate **739 passed**. Shared no-agents driver review passed (45 tests plus five probes); final files are byte-identical to the reviewed worker commit.
+- Review found real defects after the earlier builder-green checkpoint: same-account objections, retry absorption of a pre-marker objection, an initial history-read race, and guard-step success allowing downstream approval writes. All received targeted repairs; do not reuse an earlier review or CI run as proof for a newer head. Original-history baselines now persist across receipt files; initial issue/history reads are bracketed before journal creation or marker writes.
+- Driver compatibility from #2230 was intentionally included only at the shared driver/test seam (`dab19e94e`); the feature and weekly merge-tree probe is clean. The weekly's documentation/workflow payload remains separate. An earlier package CI failure was a pre-existing 20 ms worker-start assumption (6,666 pass / 7 skip / 1 fail). The bounded test-only correction ends at `41e591c56316303162508c6e07c4dcb73dc7b0ff`; production curation/timeout policy is unchanged. Consult #2133's final receipt for its independent review and latest published-head Ubuntu CI, not the old failing run.
+- Founder decision receipt: `founder/handovers/2026-10-28-steward-legacy-reconciliation.md`. Original builder history/commands: `founder/handovers/2026-10-28-pr2133-mission-phase3.md`. Runtime remains disabled/unratified: issue authority OPEN/pending, writes false; V2 rollout variable absent; scheduled fanout and concurrency unchanged. Five OPEN decisions remain: closure authority, #1981 disposition, F3/batch rollout, closed-umbrella semantics, empty-history cross-checks. No live closure/pilot or issue-state remediation occurred.
+- The full-driver registration currently reports API `active`, but its source remains dispatch-only with `jobs.drive.if: false`; do not confuse registration with an enabled driver. No enable/disable/dispatch action was performed. Existing upstream watcher remains active. All operational-health statements in the receipt are timestamped, not inferred from static checks.
+- Rendered evidence is still unavailable: bounded recovery also produced zero screenshots, Chromium timed out, and no browser MCP was available. #2230 still needs supported-browser desktop/mobile before/after capture and founder content/design review. Do not fabricate an empty review page or waive the gate. No preview deployment/global installation was attempted.
+- Release is held until required source integrations actually merge with founder authorization. Later release-PR merge/PyPI authorization does not authorize source merges. Observed baseline is main/GitHub prerelease 8.28.2 and PyPI production 8.25.0; its clean baseline install lacks `steward full`. Recompute the minor from actual post-merge main, then canonical release/publisher and independent official-PyPI install/artifact verification. No version bump/tag/release PR/publication yet.
+
+### Routing and handoff
+
+Sol/high orchestration and initial implementation; Luna/high bounded repairs (medium read-only CI diagnosis); Terra/high independent reviews. No Flash review or premium escalation. Source branch `work/steward-legacy-2133` publishes non-destructively to existing `dev/steward-issue-hygiene`; original worktrees and unrelated `.pi/`/census files remain untouched. Numeric cost is not a bill; use session-log provenance, not invented totals.
+
+**Next:** use the final #2133 published-head receipt and checks to establish engineering readiness. Founder source merges and #2230 rendered/content review remain separate gates from all five activation decisions. Only after authorized source integration execute `/gaia-release`; do not publish unmerged work. Preserve earlier snapshots verbatim.
+
+---
+
 ## State Snapshot (2026-10-28, legacy Steward reconciliation — source gates retained)
 
 - #2202 was already merged with founder authorization: head `d144490c`, merge `953021736c136a8b0aa1d74339d4ae8804ee5536`, ancestor of main `fc0e6f8d9`. Latest-head checks passed; the one-time authority-map correction preserves #2178's `gaia-tm-inspect` compatibility delegation. Outstanding Class C proposals remain open.
