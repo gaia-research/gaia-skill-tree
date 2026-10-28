@@ -668,19 +668,16 @@ def test_timeout_late_worker_cannot_change_reconciled_snapshot(registry, monkeyp
     assert late[0]["packetPath"] == "late-worker-packet.json"
     assert canonicalJson(reconcileFanout(frozen, result, packetRoot=str(registry))) == before_bytes
 
-    # Exercise the same safe-relative artifact API on an on-time control. The
-    # path and digest must validate into a real accepted receipt, not be vacuous.
-    monkeypatch.setattr(fanout.concurrent.futures, "ThreadPoolExecutor", real_executor)
-    monkeypatch.setattr(fanout, "time", time)
-    control = receipt(row, registry)
-    control_path = registry / "on-time-control-packet.json"
-    control_path.write_bytes(control.pop("packetBytes"))
-    control["packetPath"] = "on-time-control-packet.json"
-    accepted = runFanout(frozen, lambda task, attempt: control, timeoutSeconds=1.0,
-                         packetRoot=str(registry))
-    assert accepted["errors"] == {}
-    assert [item["candidateId"] for item in accepted["receipts"]] == [row["candidateId"]]
-    assert reconcileFanout(frozen, accepted, packetRoot=str(registry))["decisions"][0]["receiptValid"] is True
+    # Reconcile the completed late artifact directly: validity and SHA checks
+    # do not need a second executor run or a startup-time assumption.
+    accepted = reconcileFanout(frozen, {"receipts": [late[0]]}, packetRoot=str(registry))
+    assert accepted["decisions"][0]["outcome"] == "review-ready"
+    assert accepted["decisions"][0]["receiptValid"] is True
+
+    corrupt = dict(late[0], outputDigest="0" * 64)
+    rejected = reconcileFanout(frozen, {"receipts": [corrupt]}, packetRoot=str(registry))
+    assert rejected["decisions"][0]["outcome"] == "deferred"
+    assert "hash" in rejected["decisions"][0]["reason"]
 
 
 def test_timeout_is_one_wall_clock_budget_for_the_whole_run(registry):
