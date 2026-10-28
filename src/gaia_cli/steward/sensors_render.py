@@ -163,6 +163,7 @@ class BrowserRenderSensor:
                         "repository": repository,
                         "browser": f"{browser_name} {browser_version}",
                         "externalRequests": "not judged",
+                        "renderedAgainst": "local static server of tracked docs/, not the deployed site",
                         **freshness,
                     },
                 )

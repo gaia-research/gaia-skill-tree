@@ -131,6 +131,8 @@ def test_historical_render_surfaces_the_failures_the_static_sensor_missed(tmp_pa
     }
     trust = found["rendered:docs/trust/index.html"]
     assert trust.kind == "frontend_contract_drift"
+    assert trust.provenance["renderedAgainst"] == "local static server of tracked docs/, not the deployed site"
+    assert trust.provenance["externalRequests"] == "not judged"
     assert trust.source == "browser-render"
     assert trust.status == "drift"
     assert trust.observed_state["findings"] == [{

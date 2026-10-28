@@ -40,7 +40,7 @@ Prioritisation: confirmed, reproducible, low-risk and inside an existing envelop
 
 | Finding | Evidence it was real | Change | Independent verification |
 |---|---|---|---|
-| **Main was red.** `Python Package` run 40544152854 on `30b3cac` (2026-10-27) failed in the fast unit gate: `test_knowledge_contradiction_sensor_healthy_on_real_repo` and two `tests/test_curation_authority_map.py` cases. Steward saw the cause as a Class B `knowledge_contradiction` debt but could not see CI was red (no `ci-runs` input). | Job log read; the 3 tests fail on `07a1c08`, pass on the branch. | `b6e2d05`: both mirrored copies of `trust-appraise-all/SKILL.md` link `docs/agents/curation-authority-map.md`. | Sonnet verifier: PASS. |
+| **Main was red (path exception pending authorization).** `Python Package` run 40544152854 on `30b3cac` (2026-10-27) failed in the fast unit gate: `test_knowledge_contradiction_sensor_healthy_on_real_repo` and two `tests/test_curation_authority_map.py` cases. Steward saw the cause as a Class B `knowledge_contradiction` debt but could not see CI was red (no `ci-runs` input). | Job log read; the 3 tests fail on `07a1c08`, pass on the branch. | `b6e2d05`: both mirrored copies of `trust-appraise-all/SKILL.md` link `docs/agents/curation-authority-map.md`. | Sonnet verifier: PASS. **Not an ordinary Class B closure:** the route forbids `.agents/skills/**`; it needs your explicit authorization (record `steward-knowledge-skill-path-exception`, ledger row 15). |
 | 37 of 51 `trust_calibration_drift` debts proposed 2★→1★ **solely from an empty or non-scoring effective evidence pool** (24 no rows at all, 13 inherited rows that score nothing). Direct conflict with founder ruling A. | Reproduced with the canonical `computeRowArtifactScores`; the 14 other findings are unchanged byte for byte. | `164b2a9`: evidence-gap observation, no `targetLevel`, no `calibrationCommand`, `preservedLevel`, `laneEligible: false`; lane skips such debt. Counter-evidence (deranked verifier) and measured low scores still report. Debt ids unchanged. | PASS (low concern D7, below). |
 | 4 of 8 `frozen_skill_drift` debts were only the approved #2147 trust restamp (`recalibrate_trust_magnitude`, which never writes the star level). | `calibrate.py:382` writes TM, grade, hash only. | `78cb5c1` | PASS |
 | `dev:assess` / `dev:prefill` stayed open `ungated_mutation` debt after the founder decided they stay ungated. | decided record `steward-dev-mutation-gates`. | `3b201db`: visible healthy observation, name-pinned, only while the record is `decided`, fails closed. | PASS (low concern D5) |
@@ -75,7 +75,15 @@ Not touched, and why: 32 flagged imports carry `sideEffectPossible` (stop condit
 
 Baseline 256 open. Rescan: **263 open, 23 resolved**: 16 unused imports, 4 frozen-skill false positives, 2 ungated-mutation exemptions, 1 knowledge contradiction. New: **29 rendered-frontend debts and 1 `ci_failure`** that were previously unobservable (this is observation improving, not regression). `ci_failure` (`Python Package`) will resolve on the next run of that workflow on main; the cause is fixed on this branch. 37 trust debts remain open as evidence gaps by design.
 
-### 2.3 Open, blocked or unrouted
+### 2.3 Incomplete, not closed by this PR
+
+- The 37 evidence-gap debts are **open**: Steward now refuses to demote them, but nothing searches for the missing evidence. The discovery routine is not built (record `steward-trust-evidence-gap-kind`).
+- The browser sensor is not collected by the scheduled workflow (record `steward-browser-render-driver`); its findings are rendered against a **local static server** with external requests aborted and may differ from the deployed site. Receipts carry that qualifier.
+- The 29 rendered defects and the 2 static viewport findings are reported only; fixing them is founder-gated frontend work.
+- Ruling B is half built (detection); the event trigger awaits approval.
+- The knowledge-contradiction and `ci_failure` closures are conditional on the path exception above and on a green CI run.
+
+### 2.3a Open, blocked or unrouted
 
 | Debt | Count | Disposition |
 |---|---|---|
@@ -175,7 +183,7 @@ Accessibility and visual correctness; flake history (one run); installability ag
 
 - No trust star, grade, evidence assertion, Origin, topology, schema, `POLICY.yaml` or throughput change. `git diff 07a1c08 -- founder/steward/POLICY.yaml registry registry/schema skill-trees` is empty.
 - Authority was only narrowed (`laneEligible: false`); nothing was upgraded.
-- Deviations to review: (1) `b6e2d05` edits skills, which the `knowledge-contradiction` route forbids; it is a separate commit because the lane would have stopped on it, and it is what turns main green. (2) `164b2a9` edits one routine guide under `founder/steward/routines/`.
+- Deviations to review: (1) `b6e2d05` edits skills, which the `knowledge-contradiction` route forbids. A separate commit is not an authorization: it is **unauthorized until you say so** (decision record `steward-knowledge-skill-path-exception`); the alternative is to move it to its own infra PR. (2) `164b2a9` edits one routine guide under `founder/steward/routines/`.
 - No automatic merge. Squash merging is disabled repo-wide; merge with a merge commit.
 
 ## 6. Integration, scope and rollback
