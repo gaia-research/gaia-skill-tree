@@ -18,7 +18,11 @@
   ],
   "properties": {
     "schemaVersion": {
-      "const": "frontier-meta-verification-v1"
+      "enum": [
+        "frontier-meta-verification-v1",
+        "frontier-meta-verification-v1.1"
+      ],
+      "description": "v1.1 adds the triage stage, per-artifact rerun traces (required for positive outcomes) and tightened positive rules. Positive outcomes, admission recommendations, traces and triage records must declare v1.1; earlier v1 records stay valid in their original, non-positive shape."
     },
     "verificationId": {
       "type": "string",
@@ -211,6 +215,16 @@
                   },
                   "cwd": {
                     "type": "string"
+                  },
+                  "stdoutPath": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Repo-relative path under the artifact root of a committed raw stdout artifact; required for positive outcomes. Its sha256 must equal stdoutDigest and its normalized content the normalized receipt output."
+                  },
+                  "stderrPath": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Optional committed raw stderr artifact for stderrDigest."
                   }
                 }
               }
@@ -368,6 +382,9 @@
                 ]
               }
             }
+          },
+          "schemaVersion": {
+            "const": "frontier-meta-verification-v1.1"
           }
         }
       },

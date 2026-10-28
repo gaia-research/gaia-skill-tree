@@ -42,6 +42,16 @@ def build_receipt(*, root: Path, request_rel: str = DEFAULT_REQUEST,
         protocol=protocol, artifact_root=artifact_root, trace_paths=trace_paths)
 
 
+def parse_traces(items: list[str]) -> list[tuple[str, str]]:
+    pairs = []
+    for item in items:
+        label, sep, path = item.partition("=")
+        if not sep or not label or not path:
+            raise ValueError(f"--trace expects LABEL=PATH, got {item!r}")
+        pairs.append((label, path))
+    return pairs
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--request", default=DEFAULT_REQUEST)
@@ -57,7 +67,7 @@ def main(argv: list[str] | None = None) -> int:
         receipt = build_receipt(root=ROOT, request_rel=args.request, native_rel=args.native_output,
                                 target_rel=args.target_output, result=args.result,
                                 protocol=args.protocol, artifact_root=args.artifact_root,
-                                trace_paths=[tuple(item.split("=", 1)) for item in args.trace])
+                                trace_paths=parse_traces(args.trace))
         destination = artifact_path(ROOT, args.output, args.artifact_root)
         destination.parent.mkdir(parents=True, exist_ok=True)
         with destination.open("x", encoding="utf-8") as stream:

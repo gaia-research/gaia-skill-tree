@@ -28,11 +28,15 @@ def rerun(output):
     return re.sub(r"\b[0-9a-f]{40}\b", lambda m: hashlib.sha1(m.group(0).encode()).hexdigest(), output)
 
 
-def rerunTrace(**override):
-    """Declared (unauthenticated) rerun provenance: argv, tool versions, start/finish UTC, raw stream digests."""
+def rerunTrace(root=None, art=None, name=None, stdout=None, **override):
+    """Declared (unauthenticated) rerun provenance. With `stdout`, the raw stream is committed under the artifact root and bound by path and digest."""
+    stdout = b"" if stdout is None else stdout
     trace = {"argv": ["python3", "run.py", "--fixture", "f.json"], "toolVersions": {"git": "2.56.0"},
              "startedAtUTC": "2026-10-28T01:30:00Z", "finishedAtUTC": "2026-10-28T01:30:05Z",
-             "stdoutDigest": sha(b"stdout"), "stderrDigest": sha(b"")}
+             "stdoutDigest": sha(stdout), "stderrDigest": sha(b"")}
+    if root is not None:
+        (root / art / name).write_bytes(stdout)
+        trace["stdoutPath"] = f"{art}/{name}"
     trace.update(override)
     return trace
 
@@ -44,21 +48,23 @@ def verifierNative(root, request, receipt, art, output=None, **extra):
     native.update(output=output, outputDigest=sha(output.encode()), verifierNote="SYNTHETIC separate run", **extra)
     raw = (json.dumps(native, indent=2) + "\n").encode()
     (root / art / "verifier-native.json").write_bytes(raw)
-    return {"label": "native", "contentDigest": sha(raw), "path": f"{art}/verifier-native.json", "trace": rerunTrace()}
+    return {"label": "native", "contentDigest": sha(raw), "path": f"{art}/verifier-native.json",
+            "trace": rerunTrace(root, art, "verifier-native.stdout", output.encode("utf-8"))}
 
 
 @pytest.fixture
 def case(tmp_path):
     """Synthetic committed bundle: a receipt plus separately recorded verifier re-execution artifacts."""
     root, request, art = committedBundle(tmp_path)
+    (root / art / "target.txt").write_text("SYNTHETIC target output at commit " + "ab12" * 10 + "\n")  # run-varying content the protocol normalizes
     receipt = build_experiment_receipt(root=root, request=request, protocol=request["protocol"]["path"],
         execution_path=f"{art}/native.json", target_path=f"{art}/target.txt", result="supported",
         artifact_root=art, run_id=RECEIPT_RUN, recorded_at="2026-10-28T01:02:03Z")
-    raw = (root / art / "target.txt").read_bytes()  # a deterministic rerun reproduces the target bytes exactly
+    raw = rerun((root / art / "target.txt").read_text()).encode()  # a genuine rerun: same content modulo run-varying commit ids
     (root / art / "verifier-target.txt").write_bytes(raw)
-    reexec = [verifierNative(root, request, receipt, art), {"label": "target", "contentDigest": sha(raw), "path": f"{art}/verifier-target.txt", "trace": rerunTrace()}]
+    reexec = [verifierNative(root, request, receipt, art), {"label": "target", "contentDigest": sha(raw), "path": f"{art}/verifier-target.txt", "trace": rerunTrace(root, art, "verifier-target.stdout", raw)}]
     record = {
-        "schemaVersion": "frontier-meta-verification-v1", "verificationId": "synthetic-verification-0001",
+        "schemaVersion": "frontier-meta-verification-v1.1", "verificationId": "synthetic-verification-0001",
         "campaignId": receipt["campaignId"], "requestId": receipt["requestId"],
         "receiptDigest": receipt_digest(receipt), "receiptRunId": receipt["experimentRunId"], "verifierRunId": VERIFIER_RUN,
         "outcome": "substantiated",
@@ -207,7 +213,7 @@ def test_positive_outcome_refused_against_a_version_mismatch_receipt(tmp_path):
     receipt = build_experiment_receipt(root=root, request=request, protocol=request["protocol"]["path"], execution_path=f"{art}/native.json",
                                        result="inconclusive", artifact_root=art, run_id=RECEIPT_RUN, recorded_at="2026-10-28T01:02:03Z")
     ver = verifierNative(root, request, receipt, art)
-    rec = {"schemaVersion": "frontier-meta-verification-v1", "verificationId": "synthetic-verification-0002", "campaignId": receipt["campaignId"],
+    rec = {"schemaVersion": "frontier-meta-verification-v1.1", "verificationId": "synthetic-verification-0002", "campaignId": receipt["campaignId"],
            "requestId": receipt["requestId"], "receiptDigest": receipt_digest(receipt), "receiptRunId": receipt["experimentRunId"], "verifierRunId": VERIFIER_RUN,
            "outcome": "substantiated", "recommend": {"action": "hold", "rationale": "Synthetic hold rationale."},
            "counterevidence": {"searched": "Synthetic search statement.", "items": []},

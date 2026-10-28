@@ -20,19 +20,83 @@ from test_frontier_protocol import committedBundle
 
 # ---- 1. rerun provenance replaces the byte-identical copy check -------------------------------
 
-def identicalNative(root, art):
-    """An honest deterministic rerun: the verifier's native artifact equals the receipt's, byte for byte."""
+def identicalTarget(root, art):
+    raw = (root / art / "target.txt").read_bytes()
+    (root / art / "verifier-target.txt").write_bytes(raw)
+    return {"label": "target", "contentDigest": sha(raw), "path": f"{art}/verifier-target.txt", "trace": rerunTrace(root, art, "verifier-target.stdout", raw)}
+
+
+def identicalNative(root, art, **trace):
+    """A byte-identical native artifact; its trace commits the receipt output text as the raw stdout stream."""
     raw = (root / art / "native.json").read_bytes()
     (root / art / "verifier-native.json").write_bytes(raw)
-    return {"label": "native", "contentDigest": sha(raw), "path": f"{art}/verifier-native.json", "trace": rerunTrace()}
+    stdout = json.loads(raw)["output"].encode()
+    return {"label": "native", "contentDigest": sha(raw), "path": f"{art}/verifier-native.json", "trace": rerunTrace(root, art, "verifier-native.stdout", stdout, **trace)}
 
 
-def test_byte_identical_rerun_with_a_trace_is_accepted(case):
+@pytest.fixture
+def noNormalization(monkeypatch):
+    """A deterministic protocol: the pinned declaration declares no run-varying content to normalize."""
+    real = frontier.pinned_declaration
+    monkeypatch.setattr(frontier, "pinned_declaration", lambda *a, **k: {**real(*a, **k), "outputNormalization": []})
+
+
+def test_byte_identical_rerun_with_a_backed_trace_is_accepted_for_a_deterministic_protocol(case, noNormalization):
     root, _, _, rec = case
     rec = copy.deepcopy(rec)
     rec["reexecution"]["artifacts"][0] = identicalNative(root, ART)
+    rec["reexecution"]["artifacts"][1] = identicalTarget(root, ART)
     assert check(case, rec) == []
 
+
+def test_byte_identical_rerun_is_refused_even_with_a_trace_when_the_protocol_normalizes_run_varying_content(case):
+    root, _, _, rec = case
+    rec = copy.deepcopy(rec)
+    rec["reexecution"]["artifacts"][0] = identicalNative(root, ART)
+    assert any("byte-identical" in e for e in check(case, rec))
+
+
+def test_dummy_trace_on_a_byte_copy_cannot_record_a_positive(case, noNormalization):
+    """P1 regression: a copied native.json plus a made-up trace (argv ['true']) used to validate as substantiated."""
+    root, _, _, rec = case
+    rec = copy.deepcopy(rec)
+    raw = (root / ART / "native.json").read_bytes()
+    (root / ART / "verifier-native.json").write_bytes(raw)
+    rec["reexecution"]["artifacts"][0] = {"label": "native", "contentDigest": sha(raw), "path": f"{ART}/verifier-native.json", "trace": rerunTrace(argv=["true"])}
+    assert any("requires stdoutPath" in e for e in check(case, rec))
+    # ... and the same copy with a stdout file that merely hashes correctly but is not the receipt output
+    rec["reexecution"]["artifacts"][0]["trace"] = rerunTrace(root, ART, "fake.stdout", b"made up", argv=["true"])
+    assert any("stdout for native differs from the receipt's native output" in e for e in check(case, rec))
+
+
+def test_non_positive_outcome_remains_possible_for_an_unbacked_identical_rerun(case, noNormalization):
+    root, _, _, rec = case
+    rec = copy.deepcopy(rec)
+    rec["reexecution"]["artifacts"][0] = identicalNative(root, ART)
+    del rec["reexecution"]["artifacts"][0]["trace"]["stdoutPath"]
+    rec.update(outcome="inconclusive", recommend={"action": "hold", "rationale": "Identical rerun without committed stdout evidence."})
+    assert check(case, rec) == []
+
+
+@pytest.mark.parametrize("mutate,needle", [
+    (lambda t, root: t.update(stdoutDigest=sha(b"other")), "does not match the sha256"),
+    (lambda t, root: t.update(stdoutPath="registry/nodes/x.stdout"), "stdout artifact"),
+    (lambda t, root: t.update(stdoutPath=t["stdoutPath"] + ".missing"), "not found"),
+    (lambda t, root: t.update(toolVersions={"git": "9.9.9"}), "differs from the receipt's executed version"),
+    (lambda t, root: t.update(toolVersions={"other-tool": "2.56.0"}), "no toolVersions entry"),
+])
+def test_positive_trace_must_be_backed_by_stdout_evidence_and_the_executed_version(case, mutate, needle):
+    root, _, _, rec = case
+    rec = copy.deepcopy(rec)
+    mutate(rec["reexecution"]["artifacts"][0]["trace"], root)
+    assert any(needle in e for e in check(case, rec))
+
+
+def test_trace_stdout_artifact_cannot_reuse_a_receipt_output(case):
+    root, _, receipt, rec = case
+    rec = copy.deepcopy(rec)
+    rec["reexecution"]["artifacts"][1]["trace"].update(stdoutPath=receipt["outputs"][1]["path"], stdoutDigest=receipt["outputs"][1]["contentDigest"])
+    assert any("reuses a receipt output path" in e for e in check(case, rec))
 
 def test_byte_identical_artifact_without_a_trace_is_still_indistinguishable_from_a_copy(case):
     root, _, _, rec = case
@@ -53,18 +117,17 @@ def test_reformatted_copy_without_a_trace_no_longer_passes(case):
     assert any("requires a rerun trace" in e for e in check(case, rec))
 
 
-def test_identical_bytes_are_only_explained_for_the_matching_label(case):
+def test_identical_bytes_are_only_explained_for_the_matching_label(case, noNormalization):
     root, _, _, rec = case
     rec = copy.deepcopy(rec)
     raw = (root / ART / "target.txt").read_bytes()
-    (root / ART / "verifier-target.txt").write_bytes(raw)
-    rec["reexecution"]["artifacts"][1] = {"label": "target", "contentDigest": sha(raw), "path": f"{ART}/verifier-target.txt", "trace": rerunTrace()}
+    rec["reexecution"]["artifacts"][0] = identicalNative(root, ART)
+    rec["reexecution"]["artifacts"][1] = identicalTarget(root, ART)
     assert check(case, rec) == []
     # a native artifact that is byte-identical to the receipt's *target* output is a copy, trace or not
     (root / ART / "verifier-native.json").write_bytes(raw)
-    rec["reexecution"]["artifacts"][0] = {"label": "native", "contentDigest": sha(raw), "path": f"{ART}/verifier-native.json", "trace": rerunTrace()}
+    rec["reexecution"]["artifacts"][0] = {"label": "native", "contentDigest": sha(raw), "path": f"{ART}/verifier-native.json", "trace": rerunTrace(root, ART, "n.stdout", raw)}
     assert any("byte-identical" in e for e in check(case, rec))
-
 
 def test_traced_rerun_output_must_equal_the_receipt_output_after_normalization(case):
     root, _, _, rec = case
@@ -277,7 +340,7 @@ def test_append_event_extends_a_legacy_unchained_log(tmp_path):
     legacy.write_text(json.dumps({"atUTC": "2026-10-28T18:22:57Z", "event": "lead-written"}) + "\n")
     entry = append_event(tmp_path, "results", "later", now=datetime(2026, 10, 29, tzinfo=timezone.utc))
     assert entry["seq"] == 2 and entry["prevHash"].startswith("sha256:")
-    assert validate_events(legacy, now=datetime(2026, 10, 30, tzinfo=timezone.utc)) == ([], [])
+    assert validate_events(legacy, now=datetime(2026, 10, 30, tzinfo=timezone.utc)) == ([], [])  # chained tail, so no unchained warning
 
 
 def test_append_event_refuses_symlinks_and_damaged_logs(tmp_path):
@@ -314,7 +377,7 @@ def test_batch_written_log_with_one_timestamp_warns(tmp_path):
     errors, warnings = validate_events(path, now=datetime(2026, 10, 30, tzinfo=timezone.utc))
     assert errors == [] and any("share one timestamp" in w for w in warnings)
     path.write_text(json.dumps({"atUTC": stamp, "event": "only"}) + "\n")
-    assert validate_events(path, now=datetime(2026, 10, 30, tzinfo=timezone.utc))[1] == []
+    assert not any("share one timestamp" in w for w in validate_events(path, now=datetime(2026, 10, 30, tzinfo=timezone.utc))[1])
 
 
 def test_events_validation_flags_backwards_and_future_times(tmp_path):
@@ -347,7 +410,7 @@ def triage(tmp_path):
     lead = json.loads(LEAD.read_text())
     match, dedupe = b'{"candidates": []}\n', b'{"isDuplicate": true}\n'
     record = {
-        "schemaVersion": "frontier-meta-verification-v1", "stage": "triage", "verificationId": "meta-triage-c4-2026-10-29",
+        "schemaVersion": "frontier-meta-verification-v1.1", "stage": "triage", "verificationId": "meta-triage-c4-2026-10-29",
         "campaignId": "yggiv-challenger-cases-2026-10", "verifierRunId": "meta-run-" + "2" * 32,
         "leadDigest": frontier._sha(frontier._canonical(lead)), "matchDigest": sha(match), "dedupeDigest": sha(dedupe),
         "outcome": "rejected_at_triage",
@@ -423,3 +486,96 @@ def test_skill_documents_rerun_traces_events_and_triage_and_mirrors_match():
     text = claude.decode().casefold()
     for needle in ("rerun trace", "gaia dev frontier event", "stage", "triage", "declared, not authenticated", "events-validate"):
         assert needle in text
+
+
+# ---- review hold repairs ------------------------------------------------------------------------
+
+@pytest.mark.parametrize("bad", ["2026-10-28T10:00:00", "2026-10-28T10:00:00z", "2026-10-28T18:00:00+08:00", "yesterday", "2026-10-28", 12345])
+def test_malformed_timestamps_are_errors_not_silent_skips(bad):
+    assert any("malformed UTC timestamp" in e for e in check_timestamps({"t": bad}))
+    assert any("malformed UTC timestamp" in e for e in validate_lead_timestamps({"source": {"observedAtUTC": bad}, "dedupe": {"checkedAtUTC": "2026-10-28T10:00:00Z"}}))
+
+
+@pytest.mark.parametrize("good", ["2026-10-28T10:00:00Z", "2026-10-28T10:00:00+00:00", "2026-10-28T10:00:00.250Z"])
+def test_strict_utc_forms_are_accepted(good):
+    assert check_timestamps({"t": good}, now=datetime(2026, 11, 1, tzinfo=timezone.utc)) == []
+
+
+def test_malformed_record_and_trace_timestamps_are_errors(case):
+    rec = copy.deepcopy(case[3])
+    rec["recordedAtUTC"] = "2026-10-28T02:00:00z"
+    rec["reexecution"]["artifacts"][0]["trace"]["startedAtUTC"] = "2026-10-28T01:30:00"
+    errors = check(case, rec)
+    assert sum("malformed UTC timestamp" in e for e in errors) >= 2
+
+
+def test_append_event_does_not_need_pread_or_forget_binary_mode(tmp_path, monkeypatch):
+    import inspect
+    monkeypatch.delattr(os, "pread", raising=False)  # Windows has no os.pread
+    append_event(tmp_path, "step", "one")
+    assert append_event(tmp_path, "step", "two")["seq"] == 2
+    assert "O_BINARY" in inspect.getsource(append_event)
+
+
+def test_events_without_any_chained_entry_warn(tmp_path):
+    path = tmp_path / "events.jsonl"
+    path.write_text(json.dumps({"atUTC": "2026-10-28T10:00:00Z", "event": "a"}) + "\n" + json.dumps({"atUTC": "2026-10-28T11:00:00Z", "event": "b"}) + "\n")
+    errors, warnings = validate_events(path, now=datetime(2026, 11, 1, tzinfo=timezone.utc))
+    assert errors == [] and any("no chained entries" in w for w in warnings)
+    doc = " ".join((append_event.__doc__ + validate_events.__doc__).split())
+    assert "truncating the tail" in doc and "Git history is the anchor" in doc
+
+
+def test_shallow_clone_makes_the_commit_time_check_inconclusive(tmp_path):
+    repo = gitRepo(tmp_path, "2026-10-28T10:00:00+00:00")
+    clone = tmp_path / "clone"
+    subprocess.run(["git", "clone", "-q", "--depth", "1", f"file://{repo}", str(clone)], check=True, capture_output=True)
+    warnings: list[str] = []
+    errors = check_timestamps({"t": "2026-10-28T09:00:00Z"}, repo_root=clone, committed_path=clone / "record.json", now=datetime(2026, 11, 1, tzinfo=timezone.utc), warnings=warnings)
+    assert errors == [] and any("shallow" in w and "inconclusive" in w for w in warnings)
+    assert "shallow" in frontier.committer_time.__doc__ and "lenient" in " ".join(frontier.check_timestamps.__doc__.split())
+
+
+def test_duplicate_trace_labels_on_a_receipt_are_rejected(tmp_path):
+    root, request, art = committedBundle(tmp_path)
+    (root / art / "t1.json").write_text("{}")
+    (root / art / "t2.json").write_text('{"a": 1}')
+    with pytest.raises(ValueError, match="duplicate trace label"):
+        build_experiment_receipt(root=root, request=request, protocol=request["protocol"]["path"], execution_path=f"{art}/native.json", result="inconclusive",
+                                 artifact_root=art, trace_paths=[("same", f"{art}/t1.json"), ("same", f"{art}/t2.json")])
+
+
+def test_append_event_rejects_non_finite_floats(tmp_path):
+    for value in (float("nan"), float("inf"), float("-inf")):
+        with pytest.raises(ValueError, match="invalid extra event field"):
+            append_event(tmp_path, "step", "x", extra={"score": value})
+    assert append_event(tmp_path, "step", "x", extra={"score": 0.5})["score"] == 0.5
+
+
+def test_missing_or_directory_trace_path_is_a_clean_value_error(tmp_path, capsys):
+    root, request, art = committedBundle(tmp_path)
+    (root / art / "adir").mkdir()
+    common = dict(root=root, request=request, protocol=request["protocol"]["path"], execution_path=f"{art}/native.json", result="inconclusive", artifact_root=art)
+    for path in (f"{art}/missing.json", f"{art}/adir"):
+        with pytest.raises(ValueError, match="missing or not a readable file"):
+            build_experiment_receipt(**common, trace_paths=[("t", path)])
+    sys.path.insert(0, str(REPO / "examples/frontier"))
+    import record_experiment
+    with pytest.raises(ValueError, match="LABEL=PATH"):
+        record_experiment.parse_traces(["no-equals"])
+    assert record_experiment.parse_traces(["a=b/c"]) == [("a", "b/c")]
+
+
+def test_schema_version_gates_the_new_shape(case):
+    Draft202012Validator.check_schema(json.loads(frontier.META_VERIFICATION_SCHEMA.read_text()))
+    old = copy.deepcopy(case[3])
+    old["schemaVersion"] = "frontier-meta-verification-v1"
+    assert any("require schemaVersion frontier-meta-verification-v1.1" in e for e in check(case, old))  # positive + traces
+    old.update(outcome="inconclusive", recommend={"action": "hold", "rationale": "Legacy-shaped record."}, reexecution={"performed": False, "artifacts": []})
+    assert check(case, old) == []  # the original v1 shape still validates
+    assert check(case, {**old, "schemaVersion": "frontier-meta-verification-v2"})
+
+
+def test_triage_record_must_declare_v11(triage):
+    record, lead, match, dedupe = triage
+    assert validate_triage_record({**record, "schemaVersion": "frontier-meta-verification-v1"}, lead, match, dedupe)

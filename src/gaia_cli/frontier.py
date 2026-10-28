@@ -8,6 +8,7 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -48,6 +49,7 @@ FORBIDDEN_AUTHORITY_FIELDS = {"verified", "verifiedBy", "approvedBy", "verificat
 # A Meta verification record is a claim, so it may not carry any field that would read as an
 # approval, admission, authentication or numeric/rank outcome. Matched case-insensitively at any depth.
 POSITIVE_OUTCOMES = {"substantiated", "narrowed"}
+META_VERIFICATION_V11 = "frontier-meta-verification-v1.1"
 META_FORBIDDEN_FIELDS = {name.casefold() for name in FORBIDDEN_AUTHORITY_FIELDS} | {
     "approval", "approved", "admitted", "admittedby", "isverified", "verifiedflag", "authenticated", "trusted",
     "independent", "independentverified", "challengeadmitted", "contested", "resolved", "tm", "trustmagnitude",
@@ -286,8 +288,12 @@ def _check_receipt_traces(receipt: dict[str, Any], root: Path, artifact_root: st
     """Trace artifacts a receipt binds are integrity-checked like outputs; their content stays declared, not authenticated."""
     errors: list[str] = []
     seen: set[Path] = set()
+    labels: set[Any] = set()
     for item in receipt.get("traces", []) or []:
         label = item.get("label") if isinstance(item, dict) else None
+        if label in labels:
+            errors.append(f"duplicate trace label: {label}")
+        labels.add(label)
         try:
             relative = item["path"]
             if Path(relative).as_posix() != relative:
@@ -477,7 +483,10 @@ def build_experiment_receipt(*, root: str | Path, request: dict[str, Any], execu
         limitations.append(f"{declaration['runnerLabel']} executed; no target comparison output is attached.")
     traces = []
     for label, trace_path in trace_paths or []:
-        trace_raw = resolve_artifact(root, trace_path, artifact_root).read_bytes()
+        try:
+            trace_raw = resolve_artifact(root, trace_path, artifact_root).read_bytes()
+        except OSError as exc:
+            raise ValueError(f"trace artifact {label} is missing or not a readable file: {trace_path}") from exc
         if not trace_raw.strip():
             raise ValueError(f"trace artifact is empty: {label}")
         traces.append({"label": label, "contentDigest": _sha(trace_raw), "path": trace_path})
@@ -529,14 +538,21 @@ def _checked_artifact_path(root: Path, relative: Any, artifact_root: str) -> Pat
 CLOCK_SKEW = timedelta(seconds=120)
 
 
+STRICT_UTC = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,9})?(?:Z|\+00:00)")
+
+
 def _parse_utc(value: Any) -> datetime | None:
-    if not isinstance(value, str):
+    """Strict RFC3339 UTC: an uppercase `Z` or `+00:00` offset is required; naive, lowercase-z and other offsets give None."""
+    if not isinstance(value, str) or not STRICT_UTC.fullmatch(value):
         return None
     try:
-        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError:
         return None
-    return parsed if parsed.tzinfo else None
+
+
+def _malformed(name: str, value: Any) -> str:
+    return f"malformed UTC timestamp (strict RFC3339 with uppercase Z or +00:00 required): {name} {value!r}"
 
 
 def _git(root: Path, *args: str) -> str | None:
@@ -551,7 +567,10 @@ def committer_time(root: str | Path, path: str | Path) -> tuple[datetime | None,
     """Committer time of the last commit touching `path` in a git checkout, with the reason when unknown.
 
     Returns `(None, reason)` when there is no git context, the path is untracked, or it has
-    uncommitted edits (an uncommitted file cannot postdate a commit it is not in).
+    uncommitted edits (an uncommitted file cannot postdate a commit it is not in). In a
+    shallow repository the time is returned with a non-empty caveat: history is truncated, so
+    the last commit seen for the file can be later than its true committing commit and the
+    check can only be more lenient, never stricter.
     """
     root = Path(root).resolve()
     if _git(root, "rev-parse", "--is-inside-work-tree") != "true":
@@ -564,7 +583,10 @@ def committer_time(root: str | Path, path: str | Path) -> tuple[datetime | None,
     stamp = _git(root, "log", "-1", "--format=%ct", "--", target)
     if not stamp or not stamp.isdigit():
         return None, "file has no commit"
-    return datetime.fromtimestamp(int(stamp), tz=timezone.utc), ""
+    note = ""
+    if _git(root, "rev-parse", "--is-shallow-repository") == "true":
+        note = "shallow repository: the last commit touching the file may be the shallow boundary, so the commit-time check is inconclusive and lenient"
+    return datetime.fromtimestamp(int(stamp), tz=timezone.utc), note
 
 
 def check_timestamps(stamps: dict[str, Any], *, repo_root: str | Path | None = None, committed_path: str | Path | None = None,
@@ -572,19 +594,28 @@ def check_timestamps(stamps: dict[str, Any], *, repo_root: str | Path | None = N
     """Reject future timestamps and, in a git checkout, timestamps later than the committing commit.
 
     A local +08:00 time mislabelled `Z` reads as 8 hours in the future and is caught by both
-    rules. The commit rule needs a git context; without one it is warn-only. Both rules allow
-    `CLOCK_SKEW` of slack. Timestamps stay author-asserted: passing proves nothing about when anything ran.
+    rules. The commit rule needs a git context; without one it is warn-only, and in a shallow
+    clone it is inconclusive and lenient (warned). Both rules allow `CLOCK_SKEW` of slack. Any
+    non-empty value that is not strict RFC3339 UTC (uppercase `Z` or `+00:00`) is an error, so
+    naive, lowercase-z or garbage values cannot skip the checks. Timestamps stay
+    author-asserted: passing proves nothing about when anything ran.
     """
     errors: list[str] = []
     now = now or datetime.now(timezone.utc)
     limit, reason = None, "no committed path supplied"
     if repo_root is not None and committed_path is not None:
         limit, reason = committer_time(repo_root, committed_path)
-    if limit is None and warnings is not None and committed_path is not None:
-        warnings.append(f"timestamps not checked against a committing commit: {reason}")
+    if warnings is not None and committed_path is not None:
+        if limit is None:
+            warnings.append(f"timestamps not checked against a committing commit: {reason}")
+        elif reason:
+            warnings.append(f"timestamps checked against a committing commit with a caveat: {reason}")
     for name, value in stamps.items():
+        if value is None or value == "":
+            continue
         parsed = _parse_utc(value)
         if parsed is None:
+            errors.append(_malformed(name, value))
             continue
         if parsed > now + CLOCK_SKEW:
             errors.append(f"timestamp is in the future: {name} {value}")
@@ -601,7 +632,7 @@ def validate_lead_timestamps(data: Any, *, repo_root: str | Path | None = None, 
     stamps = {}
     for block, field in (("source", "observedAtUTC"), ("dedupe", "checkedAtUTC")):
         value = data.get(block, {}).get(field) if isinstance(data.get(block), dict) else None
-        if value:
+        if value not in (None, ""):
             stamps[f"{block}.{field}"] = value
     return check_timestamps(stamps, repo_root=repo_root, committed_path=lead_path, now=now, warnings=warnings)
 
@@ -621,7 +652,9 @@ def append_event(case_dir: str | Path, event_type: str, note: str, *, extra: dic
     carries `seq` (1-based line number) and `prevHash` (sha256 of the previous line's bytes, null
     for the first), so editing, reordering or deleting lines in the middle is detectable.
     Pre-existing unchained lines count toward `seq` and are hashed as they stand. This is
-    tamper-evidence, not authentication: whoever can rewrite the whole file can rebuild the chain.
+    tamper-evidence, not authentication: whoever can rewrite the whole file can rebuild the chain,
+    and truncating the tail (dropping the newest lines) is undetectable from the file alone.
+    Git history is the anchor: commit the log, and compare against earlier committed copies.
     """
     case = Path(case_dir)
     if case.is_symlink() or not case.is_dir():
@@ -632,13 +665,14 @@ def append_event(case_dir: str | Path, event_type: str, note: str, *, extra: dic
         raise ValueError("note must be non-empty text of at most 2000 characters")
     fields: dict[str, Any] = {}
     for key, value in (extra or {}).items():
-        if key in {"seq", "atUTC", "event", "note", "prevHash"} or not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]{0,40}", str(key)) or not isinstance(value, (str, int, float, bool)):
+        if key in {"seq", "atUTC", "event", "note", "prevHash"} or not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]{0,40}", str(key)) \
+                or not isinstance(value, (str, int, float, bool)) or (isinstance(value, float) and not math.isfinite(value)):
             raise ValueError(f"invalid extra event field: {key}")
         fields[key] = value
     path = case / EVENTS_FILE
     if path.is_symlink():
         raise ValueError("events.jsonl must not be a symlink")
-    flags = os.O_RDWR | os.O_APPEND | os.O_CREAT | getattr(os, "O_NOFOLLOW", 0)
+    flags = os.O_RDWR | os.O_APPEND | os.O_CREAT | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_BINARY", 0)
     fd = os.open(path, flags, 0o644)
     try:
         try:
@@ -646,8 +680,14 @@ def append_event(case_dir: str | Path, event_type: str, note: str, *, extra: dic
             fcntl.flock(fd, fcntl.LOCK_EX)
         except ImportError:  # platforms without flock keep O_APPEND atomicity only
             pass
-        size = os.fstat(fd).st_size
-        existing = os.pread(fd, size, 0) if size else b""
+        os.lseek(fd, 0, os.SEEK_SET)  # os.pread is unavailable on Windows; O_APPEND still sends writes to the end
+        chunks = []
+        while True:
+            chunk = os.read(fd, 1 << 20)
+            if not chunk:
+                break
+            chunks.append(chunk)
+        existing = b"".join(chunks)
         lines = existing.splitlines(keepends=True)
         if existing and not existing.endswith(b"\n"):
             raise ValueError("existing events.jsonl does not end with a newline; refusing to append to a damaged log")
@@ -672,7 +712,9 @@ def validate_events(path: str | Path, *, now: datetime | None = None) -> tuple[l
     Errors: malformed lines, missing atUTC/event, decreasing or future timestamps, and a broken
     `seq`/`prevHash` chain on chained entries (older unchained lines are tolerated before the
     first chained one). Warning: every event shares one timestamp, the signature of a log
-    written in one batch at results time rather than appended as events happened.
+    written in one batch at results time rather than appended as events happened. Also a
+    warning: no chained entries at all (a log not written by `append_event`). Tail truncation is
+    undetectable here; git history is the anchor.
     """
     path = Path(path)
     if path.is_symlink():
@@ -714,6 +756,8 @@ def validate_events(path: str | Path, *, now: datetime | None = None) -> tuple[l
                 errors.append(f"line {index + 1}: prevHash does not match the previous line")
         elif chained:
             errors.append(f"line {index + 1}: unchained entry after chained entries")
+    if lines and not chained:
+        warnings.append("log has no chained entries (no seq/prevHash): it was not written by `gaia dev frontier event`, so ordering and deletions are unprotected")
     if len(stamps) >= 2 and len(set(stamps)) == 1:
         warnings.append("all events share one timestamp: the log looks batch-written, not appended as events happened")
     return sorted(set(errors)), warnings
@@ -722,12 +766,17 @@ def validate_events(path: str | Path, *, now: datetime | None = None) -> tuple[l
 def _trace_errors(trace: Any, label: Any, receipt: dict[str, Any], recorded: Any) -> list[str]:
     """Plausibility of a declared rerun trace against the receipt and record times (still unauthenticated)."""
     errors: list[str] = []
+    for key in ("startedAtUTC", "finishedAtUTC"):
+        if trace.get(key) not in (None, "") and _parse_utc(trace.get(key)) is None:
+            errors.append(_malformed(f"trace[{label}].{key}", trace.get(key)))
     started, finished = _parse_utc(trace.get("startedAtUTC")), _parse_utc(trace.get("finishedAtUTC"))
     if started and finished and finished < started:
         errors.append(f"rerun trace for {label} finishes before it starts")
     receipt_at = _parse_utc(receipt.get("recordedAtUTC"))
     if started and receipt_at and started + CLOCK_SKEW < receipt_at:
         errors.append(f"rerun trace for {label} starts before the receipt it claims to reproduce was recorded")
+    if recorded not in (None, "") and _parse_utc(recorded) is None:
+        errors.append(_malformed("recordedAtUTC", recorded))
     recorded_at = _parse_utc(recorded)
     if finished and recorded_at and finished > recorded_at + CLOCK_SKEW:
         errors.append(f"rerun trace for {label} finishes after the verification record was recorded")
@@ -747,9 +796,15 @@ def validate_meta_verification(record: Any, receipt: dict[str, Any], request: di
     additionally require, for every receipt output label, a re-execution artifact that parses
     under the request-pinned protocol, a declared rerun trace (argv, tool versions, start/finish
     UTC, raw stdout/stderr digests), and normalized output equal to the receipt's (identity
-    normalization when the protocol declares none). Byte-identical output is expected of a
-    deterministic rerun and is accepted only with such a trace; without one it cannot be told
-    apart from a copy.
+    normalization when the protocol declares none). The trace must be backed by a committed raw
+    stdout artifact (`stdoutPath`, sha256 = `stdoutDigest`, normalized content equal to the
+    receipt output) and a tool version equal to the receipt's executed version. Byte-identical
+    output is accepted only with such a trace and only when the protocol declares no
+    `outputNormalization` (run-varying content means an honest rerun differs in raw bytes);
+    otherwise it cannot be told apart from a copy and no positive outcome is possible.
+    Records using positive outcomes, admission recommendations, traces or triage stage must
+    declare schemaVersion `frontier-meta-verification-v1.1`; v1 records stay valid for the
+    non-positive shape they had.
 
     Timestamps must not be in the future and, in a git checkout with `record_path` committed,
     not later than the committing commit (warn-only without git; see `check_timestamps`).
@@ -784,6 +839,8 @@ def validate_meta_verification(record: Any, receipt: dict[str, Any], request: di
     outcome, recommend = record.get("outcome"), record.get("recommend")
     admission = isinstance(recommend, dict) and recommend.get("action") == "request-admission-review"
     positive = outcome in POSITIVE_OUTCOMES
+    if (positive or admission or any(isinstance(a.get("trace"), dict) for a in artifacts)) and record.get("schemaVersion") != META_VERIFICATION_V11:
+        errors.append(f"positive outcomes, admission recommendations and rerun traces require schemaVersion {META_VERIFICATION_V11}")
     if admission and not positive:
         errors.append("request-admission-review may only be recommended for substantiated or narrowed outcomes")
     if positive or admission:
@@ -873,6 +930,62 @@ def _compare_label_outputs(declaration: dict[str, Any], label: str, raw: bytes, 
     return []
 
 
+def _reference_text(declaration: dict[str, Any], label: str, receipt: dict[str, Any], request: dict[str, Any], root: Path, artifact_root: str) -> str:
+    """The receipt output text a rerun's stdout must reproduce: the native artifact's output field, or the raw labelled output."""
+    source = next((o for o in receipt.get("outputs", []) if isinstance(o, dict) and o.get("label") == label), None)
+    if source is None:
+        raise ValueError(f"receipt has no {label} output")
+    raw = _checked_artifact_path(root, source.get("path"), artifact_root).read_bytes()
+    if label == "native":
+        document = json.loads(raw)
+        check_execution_artifact(declaration, document, request)
+        return document[declaration["outputField"]]
+    return raw.decode("utf-8")
+
+
+def _check_trace_evidence(declaration: dict[str, Any], item: dict[str, Any], receipt: dict[str, Any], request: dict[str, Any],
+                          root: Path, artifact_root: str, receipt_paths: set[Path]) -> list[str]:
+    """A positive rerun's trace must be backed by committed evidence, not just assertions.
+
+    `stdoutDigest` must equal the sha256 of a committed raw stream artifact (`stdoutPath`, confined
+    to the artifact root) whose normalized content equals the normalized receipt output, and the
+    traced tool version must equal the receipt's executed version. All of it is still declared by
+    the record's author and unauthenticated: it makes a lazy or dummy trace fail, nothing more.
+    """
+    label, trace, errors = item.get("label"), item["trace"], []
+    if label not in {o.get("label") for o in receipt.get("outputs", []) if isinstance(o, dict)}:
+        return errors
+    tool = str(declaration.get("toolName", ""))
+    versions = trace.get("toolVersions") if isinstance(trace.get("toolVersions"), dict) else {}
+    traced = next((str(v).strip() for k, v in versions.items() if str(k).casefold() == tool.casefold()), None)
+    executed = str(receipt.get("executedVersion", receipt.get("nativeVersion", "")))
+    if traced is None:
+        errors.append(f"rerun trace for {label} has no toolVersions entry for {tool}")
+    elif traced != executed and not traced.endswith(" " + executed):
+        errors.append(f"rerun trace for {label} reports {tool} {traced}, which differs from the receipt's executed version {executed}")
+    stream = trace.get("stdoutPath")
+    if not stream:
+        return errors + [f"rerun trace for {label} requires stdoutPath: a committed raw stdout artifact whose sha256 is stdoutDigest"]
+    try:
+        stream_path = _checked_artifact_path(root, stream, artifact_root)
+        stream_raw = stream_path.read_bytes() if stream_path.is_file() else None
+    except (OSError, ValueError) as exc:
+        return errors + [f"rerun trace stdout artifact for {label} is invalid: {exc}"]
+    if stream_raw is None:
+        return errors + [f"rerun trace stdout artifact for {label} not found: {stream}"]
+    if stream_path in receipt_paths:
+        errors.append(f"rerun trace stdout artifact for {label} reuses a receipt output path")
+    if _sha(stream_raw) != trace.get("stdoutDigest"):
+        errors.append(f"rerun trace stdoutDigest for {label} does not match the sha256 of {stream}")
+    try:
+        reference = _reference_text(declaration, str(label), receipt, request, root, artifact_root)
+        if normalize_output(declaration, stream_raw.decode("utf-8")) != normalize_output(declaration, reference):
+            errors.append(f"rerun trace stdout for {label} differs from the receipt's {label} output after declared normalization")
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        errors.append(f"cannot compare rerun trace stdout for {label} with the receipt: {exc}")
+    return errors
+
+
 def _check_reexecution(record: dict[str, Any], receipt: dict[str, Any], request: dict[str, Any], artifacts: list[dict[str, Any]],
                        root: Path, artifact_root: str, positive: bool) -> list[str]:
     errors: list[str] = []
@@ -910,7 +1023,10 @@ def _check_reexecution(record: dict[str, Any], receipt: dict[str, Any], request:
             errors.append(f"re-execution artifact reuses an existing output path: {label}")
         # Identical bytes are expected of a deterministic rerun, so they are accepted only as the
         # same label's output and only when a declared rerun trace says where they came from.
-        explained = isinstance(item.get("trace"), dict) and label in receipt_digests.get(digest, set())
+        # When the protocol declares run-varying content to normalize, an honest rerun differs in raw
+        # bytes, so identical bytes are refused even with a trace.
+        explained = (isinstance(item.get("trace"), dict) and label in receipt_digests.get(digest, set())
+                     and declaration is not None and not declaration.get("outputNormalization"))
         if (digest in receipt_digests and not explained) or digest in seen_digests:
             errors.append(f"re-execution artifact is byte-identical to another output and cannot be told apart from a copy without a rerun trace for the matching label: {label}")
         seen_paths.add(path)
@@ -930,6 +1046,8 @@ def _check_reexecution(record: dict[str, Any], receipt: dict[str, Any], request:
                 errors.extend(_compare_native_outputs(declaration, execution, receipt, request, root, artifact_root))
         elif positive and declaration is not None and isinstance(item.get("trace"), dict):
             errors.extend(_compare_label_outputs(declaration, str(label), raw, receipt, root, artifact_root))
+        if positive and declaration is not None and isinstance(item.get("trace"), dict):
+            errors.extend(_check_trace_evidence(declaration, item, receipt, request, root, artifact_root, receipt_paths))
     if positive and not any(a.get("label") == "native" for a in artifacts):
         errors.append("re-execution requires a native artifact that parses under the pinned protocol")
     return errors
