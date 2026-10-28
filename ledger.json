@@ -1,5 +1,5 @@
 {
- "generation": 110,
+ "generation": 111,
  "lane": {
   "entries": [
    {
@@ -68,14 +68,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-37bd74ce6b4e0a62bb17",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-10-28T02:58:09.941944Z",
+      "from": "dispatched",
+      "reason": "verification escalated (independent verification by sonnet-verifier-a6e02929 (sonnet, effort medium))",
+      "to": "escalated"
      }
     ],
-    "lastTransitionAt": "2026-10-28T02:49:20.771873Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-10-28T02:58:09.941944Z",
+    "lastVerdict": "escalate",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "escalated"
    },
    {
     "attempts": 0,
@@ -6514,6 +6520,13 @@
      "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
      "emittedAt": "2026-10-28T02:55:35.349456Z",
      "idempotencyKey": "verify:dispatch-37bd74ce6b4e0a62bb17:1",
+     "outcome": {
+      "agentId": "sonnet-verifier-a6e02929",
+      "effort": "medium",
+      "model": "sonnet",
+      "rationale": "Finding reproduces (stored 2-star, TM 0.00 ungraded, effective pool 0 rows, G7 target 1-star). Demotion with empty evidence pool is a calibration authority decision; route to dev-calibrate / founder. Command not run: gaia dev calibrate addy-osmani/browser-testing-with-devtools 1★",
+      "verdict": "escalate"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -6529,7 +6542,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261028T024707Z-af472d28/verify-94521a044486.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-10-28T02:58:09.941854Z",
+     "status": "done",
      "stepId": "verify:94521a044486:1",
      "type": "agent.verify"
     }
@@ -6545,6 +6559,18 @@
      "model": "haiku",
      "role": "builder",
      "stepId": "build:94521a044486:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "sonnet-verifier-a6e02929",
+     "at": "2026-10-28T02:58:09.941944Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
+     "effort": "medium",
+     "model": "sonnet",
+     "role": "verifier",
+     "stepId": "verify:94521a044486:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -6634,7 +6660,8 @@
    ],
    "mode": "full",
    "modelIds": [
-    "haiku"
+    "haiku",
+    "sonnet"
    ],
    "mutated": true,
    "nextAction": "perform 1 pending action(s) (agent.verify), record each with `gaia steward full record run-20261028T024707Z-af472d28 <stepId> --input FILE`, then `gaia steward full run --resume run-20261028T024707Z-af472d28`",
@@ -7635,11 +7662,11 @@
      "stepId": "phase:class_b"
     },
     {
-     "at": "2026-10-28T02:55:35.349456Z",
+     "at": "2026-10-28T02:58:09.941854Z",
      "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
      "idempotencyKey": "verify:dispatch-37bd74ce6b4e0a62bb17:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:94521a044486:1"
     }
    ],
@@ -7656,11 +7683,11 @@
      "state": "building"
     }
    ],
-   "updatedAt": "2026-10-28T02:53:39.463744Z"
+   "updatedAt": "2026-10-28T02:58:09.941854Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-28T02:56:40.958023Z",
+ "updatedAt": "2026-10-28T02:58:09.945038Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -7716,6 +7743,17 @@
      "stepId": "build:94521a044486:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "sonnet-verifier-a6e02929",
+     "at": "2026-10-28T02:58:09.941944Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "sonnet",
+     "role": "verifier",
+     "stepId": "verify:94521a044486:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
@@ -7742,6 +7780,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-37bd74ce6b4e0a62bb17 (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-10-28T02:58:09.941944Z",
+     "from": "building",
+     "reason": "independent verification by sonnet-verifier-a6e02929 (sonnet, effort medium): escalate",
+     "to": "escalated"
     }
    ],
    "kind": "trust_calibration_drift",
@@ -7751,13 +7795,14 @@
    "routine": "gaia-trust-calibration-steward",
    "runId": "run-20261028T024707Z-af472d28",
    "source": "trust-calibration-drift",
-   "state": "building",
-   "updatedAt": "2026-10-28T02:53:39.463801Z",
+   "state": "escalated",
+   "updatedAt": "2026-10-28T02:58:09.941944Z",
    "verification": {
-    "mode": "no-change",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261028T024707Z-af472d28/verify-94521a044486.prompt.md"
+    "agentId": "sonnet-verifier-a6e02929",
+    "rationale": "Finding reproduces (stored 2-star, TM 0.00 ungraded, effective pool 0 rows, G7 target 1-star). Demotion with empty evidence pool is a calibration authority decision; route to dev-calibrate / founder. Command not run: gaia dev calibrate addy-osmani/browser-testing-with-devtools 1★",
+    "recordedAt": "2026-10-28T02:58:09.941944Z",
+    "stage": "judged",
+    "verdict": "escalate"
    }
   }
  }
