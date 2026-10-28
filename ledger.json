@@ -1,5 +1,5 @@
 {
- "generation": 92,
+ "generation": 93,
  "lane": {
   "entries": [
    {
@@ -1988,7 +1988,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-10-28T02:47:07.474384Z",
-   "expiresAt": "2026-10-28T03:20:50.093187Z",
+   "expiresAt": "2026-10-28T03:20:56.032460Z",
    "holder": "run-20261028T024707Z-af472d28"
   }
  },
@@ -6507,6 +6507,69 @@
    "ciResults": [],
    "costUsd": 0.0,
    "decisions": [],
+   "desk": {
+    "asOf": "2026-10-28T02:50:55.349694Z",
+    "decisions": [
+     {
+      "alternative": "Take the finding yourself as a direct Class C ruling, or retire the routine instead of widening its envelope.",
+      "debtIds": [
+       "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811"
+      ],
+      "decision": "Bounded repair exhausted its attempt ceiling on this routine. Decide whether the authority envelope is wrong, whether the finding is a Class C question in disguise, or whether the routine should be retired. Another attempt under the same envelope is not one of the options — that is what the ceiling already ruled out.",
+      "decisionId": "decision-8e5aa9337484cb863d96",
+      "evidence": [
+       "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811 - attempts: 1; reason: verification escalated (building for more than 24h without a verified outcome)"
+      ],
+      "links": [
+       "founder/steward/POLICY.yaml"
+      ],
+      "priority": 10,
+      "recommended": "Bounded repair under `trust-calibration-drift` reached its attempt ceiling. The envelope is the likelier defect, not the attempt — the ceiling has already ruled out trying again under the same terms. The three answers worth weighing are: widen the envelope in `POLICY.yaml`, accept that this finding is a Class C question in disguise and rule on it directly, or retire the routine.",
+      "source": "escalated-lane",
+      "unblocks": "1 open Class C debt item(s) under lane-escalation/trust-calibration-drift.",
+      "whyItMatters": "Bounded repair stopped: the attempt ceiling was reached or a verifier escalated. The envelope, not the attempt, is the likelier defect, and nothing retries until you rule."
+     },
+     {
+      "alternative": "Declare stored stamps historical snapshots and exclude them from drift detection.",
+      "debtIds": [],
+      "decision": "Decide the standing policy for refreshing stale cached trust-magnitude stamps (#1642).",
+      "decisionId": "steward-trust-stamp-refresh-policy-1642",
+      "evidence": [
+       "The 22 stale stamps were corrected on main by PR #2147 using gaia dev calibrate-trust-magnitude, with no grade or star-level change.",
+       "Issue #1642 remains open for the recurring policy, not for those corrections."
+      ],
+      "links": [
+       "https://github.com/gaia-research/gaia-skill-tree/issues/1642"
+      ],
+      "priority": 20,
+      "recommended": "Choose one mechanism in #1642 (for example a gated gaia dev command that restamps inside a reviewed PR) and record it as a decision.",
+      "source": "decision-record",
+      "unblocks": "Any future trust_stamp_stale debt; Steward takes no action until you rule.",
+      "whyItMatters": "The one-time correction of 22 stamps is complete, but stamps drift again whenever evidence changes; without a standing rule each recurrence becomes new Class C debt on the desk."
+     },
+     {
+      "alternative": "Leave the event as written and note the discrepancy as known.",
+      "debtIds": [],
+      "decision": "Rule on the workflow-skill-creator demotion event whose previousValue (4-star) disagrees with the level in the log (3-star).",
+      "decisionId": "steward-workflow-skill-creator-demote-1699",
+      "evidence": [
+       "google-deepmind/workflow-skill-creator event 0 records previousValue 4-star while the log's level was 3-star at that point.",
+       "The ordering fix in PR #2147 changed order only and did not touch this content."
+      ],
+      "links": [
+       "https://github.com/gaia-research/gaia-skill-tree/issues/1699"
+      ],
+      "priority": 20,
+      "recommended": "Review the #1699 demotion history and either record the 4-star value as an accepted historical note or direct a corrective event through the timeline CLI.",
+      "source": "decision-record",
+      "unblocks": "Closing the historical-provenance question left over from #1699.",
+      "whyItMatters": "Timeline events are canonical provenance. The chronological re-sort kept the content as written, so the historical discrepancy remains and Steward may not correct history itself."
+     }
+    ],
+    "operations": [],
+    "quiet": false,
+    "schemaVersion": "steward-desk-v1"
+   },
    "finishedAt": null,
    "floor": {
     "branch": "dev/steward-integration",
@@ -6525,7 +6588,7 @@
    "mode": "full",
    "modelIds": [],
    "mutated": false,
-   "nextAction": "",
+   "nextAction": "perform 1 pending action(s) (agent.build), record each with `gaia steward full record run-20261028T024707Z-af472d28 <stepId> --input FILE`, then `gaia steward full run --resume run-20261028T024707Z-af472d28`",
    "options": {
     "afk": true,
     "agents": true,
@@ -7471,7 +7534,7 @@
    "runId": "run-20261028T024707Z-af472d28",
    "sourceHead": "07a1c08ef91a2eef3bec084a9d769d1916b20b41",
    "startedAt": "2026-10-28T02:47:07.474384Z",
-   "status": "active",
+   "status": "awaiting-action",
    "steps": [
     {
      "at": "2026-10-28T02:47:07.474384Z",
@@ -7526,7 +7589,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-28T02:50:50.098135Z",
+ "updatedAt": "2026-10-28T02:50:56.032708Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
