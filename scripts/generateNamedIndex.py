@@ -30,6 +30,8 @@ from gaia_cli.canonicalTransaction import guardCanonicalPath  # noqa: E402  pend
 from gaia_cli.redaction import is_redacted, level_num  # noqa: E402  single source of truth
 from gaia_cli.taxonomy import branchFor, rankWord, medallion, normalize  # noqa: E402
 from gaia_cli.lifecycleProjection import produce_lifecycle  # noqa: E402
+from gaia_cli.committedChallenges import collect as collect_challenges  # noqa: E402
+from gaia_cli.committedChallenges import lifecyclePorts, reviewsBySubject  # noqa: E402
 
 REQUIRED_FIELDS = [
     "id",
@@ -662,7 +664,8 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
 
 
 def write_index(buckets, awaiting_classification, by_contributor, output_path, today,
-                generic_skills_map=None, gate_config=None, repo_root=None, lifecycle_ports=None):
+                generic_skills_map=None, gate_config=None, repo_root=None, lifecycle_ports=None,
+                challenge_reviews=None):
     """Write the named skill index JSON file."""
     if generic_skills_map is not None:
         merged_map = _inject_trust_grades(
@@ -677,9 +680,15 @@ def write_index(buckets, awaiting_classification, by_contributor, output_path, t
     # source is the explicitly injected in-process producer boundary.
     for entry in [item for group in buckets.values() for item in group] + list(awaiting_classification):
         entry.pop("trustLifecycle", None)
+        entry.pop("challengeReviews", None)
         lifecycle = produce_lifecycle(entry, lifecycle_ports)
         if lifecycle is not None:
             entry["trustLifecycle"] = lifecycle
+        # Held admissions travel ONLY on this separate channel (gaia-challenge-review/v1);
+        # they never feed trustLifecycle, and no numeric field depends on them.
+        reviews = (challenge_reviews or {}).get(entry.get("id"))
+        if reviews:
+            entry["challengeReviews"] = reviews
 
     index = {
         "generatedAt": today,
@@ -768,8 +777,14 @@ def main():
     except Exception:
         gate_config = {}
 
+    # Committed Frontier case bundles are re-validated here, per item, fail closed. With no
+    # bundles (or none admitted) both ports are empty and the index is byte-identical.
+    collected = collect_challenges(repo_root)
+    for item in collected.rejected:
+        print(f"  warning: challenge bundle {item['caseId']} rejected: {item['reason']}")
     write_index(buckets, awaiting_classification, by_contributor, output_path, today,
-                generic_skills_map=generic_skills_map, gate_config=gate_config, repo_root=repo_root)
+                generic_skills_map=generic_skills_map, gate_config=gate_config, repo_root=repo_root,
+                lifecycle_ports=lifecyclePorts(collected), challenge_reviews=reviewsBySubject(collected))
     total_named = sum(len(v) for v in buckets.values())
     total_awaiting = len(awaiting_classification)
     print(f"\nWrote {output_path}")

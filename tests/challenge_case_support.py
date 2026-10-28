@@ -100,3 +100,11 @@ def availableProbe(root):
 
 def unavailableProbe(root):
     return {"status": "misconfigured", "available": False, "admitted": False, "reason": "synthetic"}
+
+
+def corrupt(directory, name="meta-verification.json"):
+    """An edit that no longer validates (an outcome that cannot carry that recommendation)."""
+    path = Path(directory) / name
+    data = json.loads(path.read_text())
+    data["outcome"] = "contradicted"
+    path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
