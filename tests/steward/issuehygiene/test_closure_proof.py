@@ -63,7 +63,7 @@ def test_forge_url_closure_is_recorded_with_its_proof(tmp_path: Path) -> None:
     receipt = executeClosure(planFor(manifest), forge, tmp_path / "r.jsonl", NOW, "run-1")
     assert receipt["outcome"] == "closed"
     assert receipt["commentUrl"].startswith("https://github.com/gaia-research/gaia-skill-tree/issues/10#issuecomment-")
-    assert receipt["commentId"] == int(receipt["commentUrl"].rsplit("-", 1)[1]) and receipt["markerVerified"] is False
+    assert receipt["commentId"] == int(receipt["commentUrl"].rsplit("-", 1)[1]) and receipt["markerVerified"] is True
     assert closureProven({"outcome": "closed", "commentUrl": receipt["commentUrl"]}, 10, "gaia-research/gaia-skill-tree")
 
 
