@@ -9,6 +9,7 @@ history rather than cluttering the top level.
 
 | Order | Document | Role |
 |---|---|---|
+| 0 | [`../../reports/yggdrasil-iv-october-2026/HANDOVER.md`](../../reports/yggdrasil-iv-october-2026/HANDOVER.md) | **Current entry point (EPIC #2189 launch campaign, paused 2026-10-28 on weekly quota).** Ordered next steps, founder decisions, state. |
 | 1 | [`YGGDRASIL_IV_HANDOVER_2026-10-28.md`](YGGDRASIL_IV_HANDOVER_2026-10-28.md) | **Current entry point.** 2026-10-28 resume: integration state, landed PRs, open lanes, decisions pending. |
 | 1b | [`YGGDRASIL_IV_HANDOVER_2026-10-27.md`](YGGDRASIL_IV_HANDOVER_2026-10-27.md) | Binding mission (§1), doctrine (§2) and held gates (§4). Roster-agnostic resume brief: original scope, binding doctrine, verified lane SHAs, open review defects, held human gates, evidence map, ordered next steps. |
 | 2 | [`YGGDRASIL_IV_RESTART_CHECKPOINT_2026-10-27.md`](YGGDRASIL_IV_RESTART_CHECKPOINT_2026-10-27.md) | Live checkpoint/ledger. Its topmost section is authoritative over every older section below it. |

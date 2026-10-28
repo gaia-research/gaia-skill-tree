@@ -15,6 +15,57 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-28, LAUNCH CAMPAIGN PAUSED ON WEEKLY QUOTA — EPIC #2189; resume from HANDOVER.md)
+
+### TLDR
+- **New entry point:** [`founder/reports/yggdrasil-iv-october-2026/HANDOVER.md`](reports/yggdrasil-iv-october-2026/HANDOVER.md) on branch `dev/yggdrasil-iv-launch` (then `CAMPAIGN.md` beside it). Supersedes the 10-28 handover's control statements for EPIC #2189.
+- Weekly account limit hit; resets **2026-10-31 04:00 Asia/Manila** (same day as the October cutoff). Paused clean: nothing half-merged, only `yggiv-launch` worktree kept.
+- `dev/yggdrasil-iv` = `d237c0839`. **#2151 not green:** one CodeQL high alert in test `tests/test_trust_lifecycle.js:473` (case-sensitive `<script>` regex) — first next step.
+- Full October Meta Sweep complete (provisional 2026-10-28): 701 records, 874 evidence rows, 817 verified findings; liveness 962 URLs (903 alive / 59 dead / 0 unknown).
+
+### What changed this session
+| Layer | State |
+|---|---|
+| RFC #2148 | closed + locked (ratified); EPIC #2189 is the execution umbrella |
+| Frontier tooling | ✅ #2191 match/dedupe, #2193 protocol receipts, #2196 Meta verification record |
+| Challenge issuer (founder: "approved issuer for dev", single operator) | ✅ #2198 (tag-triggered, founder-approved environment, pinned blob + pinned Sigstore root, clean `show` job); environment NOT yet created |
+| Website | ✅ #2195 W0 consistency + parity tests, #2192 W2 lifecycle everywhere, #2200 W7 evidence provenance; ⏳ W1/W3–W6/W8/W9 |
+| Upstream / intake | ✅ #2197 sync (15 skills), #2199 triage (59 ready-for-L4), 38 stale intakes closed |
+| Meta Sweep | ✅ `sweep/` (deterministic replay of workflow wf_fb1ee3fb-d06) |
+| Adjudication ledger | ⏳ core only (`adjudication/tools/adjcore.py`) |
+| Challenge admission + projection | ❌ not started (agent died before edits) |
+| Challenger cases C1–C4 | ❌ not started |
+| October report / gaia-post / release notes | ❌ not started |
+
+### Branches at end of session
+| Branch | Head | Status |
+|---|---|---|
+| `dev/yggdrasil-iv` | `d237c0839` | integration; #2151 → main (founder merges) |
+| `dev/yggdrasil-iv-launch` | this commit | proof-of-work (plans, sweep, reconciliation, handover); merged with dev; land into dev by PR later |
+| `dev/yggdrasil-iv-evidence-schema-final` / `-core-final` | — | #2176/#2177 held on two Core approvals |
+
+### Issues + PRs touched
+Landed into dev: #2190 #2191 #2193 #2196 #2197 #2199 #2195 #2192 #2200 #2198. Closed: PRs #2170 #2171 (superseded); issues #1823 #2040 #2091 #2168 #2169 + 38 stale intake issues.
+
+### Routing — where things live now
+- Campaign record: `founder/reports/yggdrasil-iv-october-2026/` — `HANDOVER.md`, `CAMPAIGN.md` (rulings, defects, landed table, pending decisions), `plans/` (challenger, website, issuer), `sweep/`, `reconciliation/`, `adjudication/`.
+- Sweep workflow script/journal (same-session resume only): `~/.claude/projects/-Users-marcotiongson-gaia-skill-tree/873dce0c-…/workflows/`.
+
+### Lessons / hazards preserved
+- Rebuild large results from the workflow journal, never from a model synthesis (810 vs 817 discrepancy).
+- First-round independent review HOLD'd nearly every trust-boundary PR (fail-open dedupe, protocol bypass, forgeable offline root, unpinned post-approval code, poisoned summary runner). Keep adversarial review.
+- This Mac's `gh` runs as `mbtiongson1` with repo+workflow scope: agents could approve deployments as the founder. Switch to `nova-gaia` before issuer use.
+- Disk: worktrees ~160 MB each + Class P; machine hit 344 MB free once. Remove on merge.
+- D6: 39 named skills stored 2–3★ with ungraded TM; named index clamps (#1729) but ledger/leaderboard don't. Founder decision FD-7.
+
+### Open questions for next orchestrator
+Founder: create `challenge-receipt-issuer` environment; FD-1 held-review disclosure; FD-6 sealed approval snapshot as offline proof; FD-7 39-skill fix; FD-8 hyperframes freeze; L4 on 59 intakes; #2176/#2177 Core approvals; visual acceptance; main merge; release.
+
+### Token cost (this session)
+Sweep workflow alone ≈52M subagent tokens (642 agents). Session hit the 5-hour limit once and then the weekly limit.
+
+---
+
 ## State Snapshot (2026-10-28, DEV READY — #2151 green + preview up; founder merges to main)
 
 - `dev/yggdrasil-iv` = `43797a441`; #2151 ready, CLEAN, all CI green; preview run 40582346698 live.
