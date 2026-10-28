@@ -15,6 +15,7 @@ import sys
 import tempfile
 
 import yaml
+import pytest
 
 WORKFLOW_PATH = (
     pathlib.Path(__file__).resolve().parents[1]
@@ -953,6 +954,61 @@ def test_guard_grants_a_verifier_and_refuses_a_non_verifier(tmp_path):
     assert refused.comments() and "does not hold a 4★+ named skill" in refused.comments()[0]
 
 
+@pytest.mark.parametrize("event_name", ["issues", "workflow_dispatch"])
+@pytest.mark.parametrize("issue_kind", ["unrelated", "malformed"])
+def test_unproven_ownership_stops_approval_job_before_downstream_writes(
+    tmp_path, event_name, issue_kind
+):
+    """Exercise the guard, state check and payload extraction with Actions failure gating.
+
+    A guard-level successful exit would let the open/approved check pass and the
+    malformed payload step post a comment. GitHub skips subsequent default-success
+    steps after a failing guard, so model that exact sequencing here.
+    """
+    if issue_kind == "unrelated":
+        issue = umbrella_issue(LEGACY_PAYLOAD)
+        issue["title"] = "Unrelated issue title"
+    else:
+        issue = umbrella_issue(None)
+        issue["body"] = "malformed upstream payload"
+
+    issue["labels"] = [
+        {"name": name} for name in ("upstream:release", "upstream:approved")
+    ]
+    world_data = world(issue)
+    repo = REPO_ROOT
+    guard = run_step(
+        _fresh(tmp_path, "guard"), _step_run(WORKFLOW_PATH, GUARD), world_data,
+        {"LABELER": "mallory", "LABELER_TYPE": "User", "LABELER_ID": "999",
+         "ISSUE_NUMBER": str(UMBRELLA), "EVENT_NAME": event_name,
+         "INPUT_REFIRE": "false", "REPO": REPO}, cwd=repo,
+    )
+    # These are the actual workflow steps. Their lack of always()/continue-on-error
+    # means the failing guard prevents either one from running in a real job.
+    steps = {step.get("name"): step for step in _load()["jobs"]["approve"]["steps"]}
+    for name in ("Verify the issue is open and approved", "Extract payload from issue body"):
+        assert not steps[name].get("continue-on-error", False)
+        assert "always()" not in steps[name].get("if", "")
+
+    downstream = []
+    if guard.code == 0:  # default GitHub Actions success() gating
+        downstream.append(run_step(
+            _fresh(tmp_path, "verify"), steps["Verify the issue is open and approved"]["run"],
+            world_data, {"ISSUE_NUMBER": str(UMBRELLA)}, cwd=repo,
+        ))
+        if downstream[-1].code == 0:
+            downstream.append(run_step(
+                _fresh(tmp_path, "payload"), steps["Extract payload from issue body"]["run"],
+                world_data, {"ISSUE_NUMBER": str(UMBRELLA)}, cwd=repo,
+            ))
+
+    writes = [call for result in [guard, *downstream] for call in result.calls
+              if call[:2] in (["issue", "comment"], ["issue", "edit"])]
+    assert writes == []
+    assert downstream == []
+    assert guard.code != 0, guard.output
+
+
 def test_bot_allowlist_still_passes_without_any_index(tmp_path):
     assert _guard(tmp_path, "github-actions[bot]", index=None, actor_type="Bot").code == 0
 
@@ -1751,7 +1807,9 @@ def test_unrelated_issue_dispatch_by_unauthorized_actor_makes_no_writes(tmp_path
         "labels": [{"name": "upstream:approved"}], "body": "not an upstream watcher issue",
     }
     result = _guard_run(tmp_path, event="workflow_dispatch", actor="mallory", issue=unrelated)
-    assert result.code == 0, result.output
+    # Ownership denial now fails the job, not just the guard step, so default
+    # GitHub Actions success() gating skips every later step without side effects.
+    assert result.code == 1, result.output
     assert not result.comments()
     assert not any(call[:2] == ["issue", "remove-label"] or call[:2] == ["issue", "edit"]
                    for call in result.calls)

@@ -218,8 +218,8 @@ jobs:
             exit 1
           }
           if [ "$OWNED" != true ]; then
-            echo "Not a proven upstream umbrella/bootstrap; no approval-path writes."
-            exit 0
+            echo "::error::Not a proven upstream umbrella/bootstrap; stopping the approval job before downstream writes."
+            exit 1
           fi
           verifier_check() {
             python3 - "$1" <<'PY'
