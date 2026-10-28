@@ -1,5 +1,5 @@
 {
- "generation": 121,
+ "generation": 122,
  "lane": {
   "entries": [
    {
@@ -1991,13 +1991,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-10-28T02:47:07.474384Z",
-   "expiresAt": "2026-10-28T03:30:19.942858Z",
-   "holder": "run-20261028T024707Z-af472d28"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -6581,17 +6575,19 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-10-28T02:55:43.025074Z",
+    "asOf": "2026-10-28T03:00:23.601652Z",
     "decisions": [
      {
       "alternative": "Take the finding yourself as a direct Class C ruling, or retire the routine instead of widening its envelope.",
       "debtIds": [
-       "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811"
+       "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
+       "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1"
       ],
       "decision": "Bounded repair exhausted its attempt ceiling on this routine. Decide whether the authority envelope is wrong, whether the finding is a Class C question in disguise, or whether the routine should be retired. Another attempt under the same envelope is not one of the options — that is what the ceiling already ruled out.",
       "decisionId": "decision-8e5aa9337484cb863d96",
       "evidence": [
-       "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811 - attempts: 1; reason: verification escalated (building for more than 24h without a verified outcome)"
+       "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811 - attempts: 1; reason: verification escalated (building for more than 24h without a verified outcome)",
+       "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1 - attempts: 1; reason: verification escalated (independent verification by sonnet-verifier-a6e02929 (sonnet, effort me…"
       ],
       "links": [
        "founder/steward/POLICY.yaml"
@@ -6599,7 +6595,7 @@
       "priority": 10,
       "recommended": "Bounded repair under `trust-calibration-drift` reached its attempt ceiling. The envelope is the likelier defect, not the attempt — the ceiling has already ruled out trying again under the same terms. The three answers worth weighing are: widen the envelope in `POLICY.yaml`, accept that this finding is a Class C question in disguise and rule on it directly, or retire the routine.",
       "source": "escalated-lane",
-      "unblocks": "1 open Class C debt item(s) under lane-escalation/trust-calibration-drift.",
+      "unblocks": "2 open Class C debt item(s) under lane-escalation/trust-calibration-drift.",
       "whyItMatters": "Bounded repair stopped: the attempt ceiling was reached or a verifier escalated. The envelope, not the attempt, is the likelier defect, and nothing retries until you rule."
      },
      {
@@ -6643,7 +6639,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-10-28T03:00:23.601652Z",
    "floor": {
     "branch": "dev/steward-integration",
     "ok": true,
@@ -6664,7 +6660,7 @@
     "sonnet"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": true,
     "agents": true,
@@ -6672,7 +6668,7 @@
     "push": false,
     "routine": null
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "landings": [],
@@ -8985,7 +8981,7 @@
    "runId": "run-20261028T024707Z-af472d28",
    "sourceHead": "07a1c08ef91a2eef3bec084a9d769d1916b20b41",
    "startedAt": "2026-10-28T02:47:07.474384Z",
-   "status": "active",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-10-28T02:47:07.474384Z",
@@ -9056,6 +9052,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-10-28T03:00:23.601652Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -9075,7 +9077,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-28T03:00:19.943009Z",
+ "updatedAt": "2026-10-28T03:00:24.490795Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
