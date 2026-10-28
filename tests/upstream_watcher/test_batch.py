@@ -458,10 +458,10 @@ def test_batch_mode_bootstrap_lookup_failure_exits_3(monkeypatch, tmp_path):
     assert json.loads(report_path.read_text(encoding="utf-8"))["unknownEvidence"][0]["source"] == "github-list"
 
 
-def test_batch_mode_is_default_and_fails_closed_on_registry(monkeypatch, tmp_path):
+def test_explicit_batch_mode_fails_closed_on_registry(monkeypatch, tmp_path):
     monkeypatch.setattr(watcher, "_build_registry_map", lambda: (_ for _ in ()).throw(RuntimeError("no registry")))
     report_path = tmp_path / "report.json"
-    code = watcher.main(["--apply", "--report", str(report_path)])
+    code = watcher.main(["--apply", "--child-mode", "batch", "--report", str(report_path)])
     assert code == 3
     report = json.loads(report_path.read_text(encoding="utf-8"))
     assert report["unknownEvidence"][0]["source"] == "registry"
