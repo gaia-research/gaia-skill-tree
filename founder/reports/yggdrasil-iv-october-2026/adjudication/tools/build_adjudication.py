@@ -678,7 +678,9 @@ def decisionsMd(c, L):
           "| Scenario | TM | Grade | Independent witness | 5-star TM gate (>=250, S) |", "|---|---|---|---|---|"]
     for k, v in sc.items():
         o.append(f"| {k} | {v['tm']} | {v['grade']} | {v['witness']} | {v['tmGate5']} |")
-    o += ["", f"Observations: witness URL (frontendmastery) HTTP {c.obs['other']['frontendmastery-witness']['http']} on one probe; the citation count of 2 comes from the sweep (Semantic Scholar returned 429 on re-check, so not independently re-verified here). "
+    o += ["", f"Reading: correcting the citation count alone leaves TM {sc['citationsCorrectedTo2']['tm']} ({sc['citationsCorrectedTo2']['grade']}), still above the 5-star gate; the S grade and the gate fail only when the unreachable witness row is also removed ({sc['bothCorrections']['tm']}, {sc['bothCorrections']['grade']}). "
+          f"The pre-witness baseline recomputes to {sc['preWitnessBaseline']['tm']} at the pinned clock (the sweep quoted 233.42 from the 2026-09-04 timeline; both are below 250).", "",
+          f"Observations: witness URL (frontendmastery) HTTP {c.obs['other']['frontendmastery-witness']['http']} on one probe; the citation count of 2 comes from the sweep (Semantic Scholar returned 429 on re-check, so not independently re-verified here). "
           "Under IV a 404 is review debt with bounded probes (t0/+24h/+72h), not a demotion. Also note ledger.json shows mayStars 6 for this skill while the local apex recompute is false (apexPromotionPrSigned and tenure predicates), a separate surface question.", "",
           "Decision asked (founder, Class C): (1) source a dated, correct citation count and replace/re-verify the witness; (2) whether any level action follows only after the recompute. Recompute does not assign levels; none is proposed.", ""]
     # FD-10
