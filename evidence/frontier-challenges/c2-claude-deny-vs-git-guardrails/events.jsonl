@@ -1,0 +1,8 @@
+{"atUTC": "2026-10-28T18:28:35Z", "event": "lead-written", "leadId": "claude-deny-git-guardrails-001"}
+{"atUTC": "2026-10-28T18:28:35Z", "event": "frontier-match", "artifact": "artifacts/match.json", "top": "mattpocock/git-guardrails-claude-code 0.1611 (rank 1)"}
+{"atUTC": "2026-10-28T18:28:35Z", "event": "frontier-dedupe", "artifact": "artifacts/dedupe.json", "isDuplicate": false, "ledgerScanned": 3}
+{"atUTC": "2026-10-28T18:28:35Z", "event": "hook-side-selftest", "note": "runner hook side exercised once on all 18 commands before protocol commit (disclosed in protocol purpose); native side not run"}
+{"atUTC": "2026-10-28T18:28:35Z", "event": "pre-registration-commit", "commit": "d9d742169"}
+{"atUTC": "2026-10-28T18:28:35Z", "event": "request-built", "requestId": "sha256:294c769e208bfb615c0fb2e69cf01fbcd280b056ba75c9ba1b3efa66f6fae8bf"}
+{"atUTC": "2026-10-28T18:28:35Z", "event": "run", "tools": "claude 2.1.312 (haiku, claude-haiku-5-5) native; hook script sha256 234922b8...", "native_commands": 18, "artifacts": ["artifacts/native.json", "artifacts/hook.target.json", "artifacts/scoring.json", "artifacts/native-trace.json"]}
+{"atUTC": "2026-10-28T18:28:35Z", "event": "receipt-built", "result": "supported", "file": "receipts/experiment-receipt.json"}
