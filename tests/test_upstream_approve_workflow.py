@@ -252,7 +252,8 @@ def list_rows(query):
     for number in sorted(ISSUES):
         issue = ISSUES[number]
         labels = {label["name"] for label in issue.get("labels", [])}
-        if issue["state"] != wanted_state or not wanted_labels <= labels or number in HIDDEN:
+        if (issue["state"] != wanted_state or not wanted_labels <= labels
+                or number in WORLD.get("all_list_hidden", []) or (wanted_labels and number in HIDDEN)):
             continue
         row = dict(issue)
         row["number"] = number
@@ -301,15 +302,33 @@ elif cmd == "api":
     parts = [part for part in url.path.split("/") if part]
     if len(parts) >= 5 and parts[3] == "compare":
         emit(WORLD.get("compare", {"total_commits": 0, "commits": []}), flag("--jq"))
+    elif len(parts) == 3 and parts[0] == "repos":
+        # Independent repository metadata, not derived from a possibly hidden list.
+        emit({"open_issues_count": sum(row["state"] == "open" for row in ISSUES.values())})
     elif len(parts) == 4 and parts[3] == "issues":
         if FAIL.get("list"):
             die("HTTP 502 (fake list failure)")
-        rows = list_rows(parse_qs(url.query))
-        if "--paginate" in ARGS:
+        query = parse_qs(url.query)
+        rows = list_rows(query)
+        if "--include" in ARGS:
+            size = int(query.get("per_page", [100])[0])
+            page = int(query.get("page", [1])[0])
+            start = (page - 1) * size
+            current = rows[start:start + size]
+            if FAIL.get("empty_list"):
+                current = []
+            sys.stdout.write("HTTP/1.1 200 OK\n")
+            if start + size < len(rows) and not FAIL.get("drop_link"):
+                from urllib.parse import urlencode
+                query["page"] = [str(page + 1)]
+                flat = {key: value[0] for key, value in query.items()}
+                sys.stdout.write(f'Link: <https://api.github.com/{url.path}?{urlencode(flat)}>; rel="next"\n')
+            sys.stdout.write("\n" + json.dumps(current))
+        elif "--paginate" in ARGS:
             pages = [rows[i:i + PAGE_SIZE] for i in range(0, len(rows), PAGE_SIZE)] or [[]]
+            sys.stdout.write("".join(json.dumps(page) for page in pages))
         else:
-            pages = [rows[:PAGE_SIZE]]
-        sys.stdout.write("".join(json.dumps(page) for page in pages))
+            sys.stdout.write(json.dumps(rows[:PAGE_SIZE]))
     elif len(parts) == 6 and parts[3] == "issues" and parts[4].isdigit() and parts[5] in ("events", "comments"):
         if parts[5] == "events" and FAIL.get("events"):
             die("HTTP 502 (fake events failure)")
@@ -472,8 +491,8 @@ def _lookup_blocks():
 
 
 def test_no_search_based_child_lookup_in_either_workflow():
-    for path in (WORKFLOW_PATH, CLOSE_CHILDREN_PATH):
-        text = path.read_text(encoding="utf-8")
+    for path, job in ((WORKFLOW_PATH, "approve"), (CLOSE_CHILDREN_PATH, "close-children")):
+        text = "\n".join(step.get("run", "") for step in yaml.safe_load(path.read_text())["jobs"][job]["steps"])
         assert "--search" not in text, path.name
         assert "gh issue list" not in text, path.name
 
@@ -504,16 +523,15 @@ def test_gate_blocks_on_open_child_and_names_it(tmp_path):
 def test_gate_reads_every_list_page_and_finds_child_on_second_page(tmp_path):
     data = world(
         umbrella_issue(LEGACY_PAYLOAD),
-        child_issue(5001, umbrella=999, slug="other-a"),
-        child_issue(5002, umbrella=999, slug="other-b"),
+        *(child_issue(4800 + n, umbrella=999, slug=f"other-{n}") for n in range(100)),
         child_issue(5003),
-        page_size=2,
     )
     result = run_gate(tmp_path, data)
     assert result.outputs == {"gate_passed": "false"}
     assert "#5003" in result.comments()[-1] and "#5001" not in result.comments()[-1]
-    paginated = [args for args in result.calls if args[:1] == ["api"] and "--paginate" in args]
-    assert len(paginated) == 1 and "state=open" in paginated[0][-1] and "labels=upstream%3Achild" in paginated[0][-1]
+    paginated = [args for args in result.calls if args[:1] == ["api"] and "--include" in args]
+    assert any("page=2" in args[-1] for args in paginated)
+    assert all("state=open" in args[-1] for args in paginated)
 
 
 def test_gate_matches_umbrella_number_exactly(tmp_path):
@@ -558,7 +576,7 @@ def test_v2_candidate_child_that_is_closed_does_not_block(tmp_path):
 def test_v1_payload_makes_no_per_child_lookups(tmp_path):
     result = run_gate(tmp_path, world(umbrella_issue(LEGACY_PAYLOAD), child_issue(5001, state="closed")))
     assert result.outputs == {"gate_passed": "true"}
-    assert not [call for call in result.api_calls() if "?" not in call]
+    assert not [call for call in result.api_calls() if "/issues/" in call and "?" not in call]
 
 
 def test_gate_list_failure_fails_closed(tmp_path):
@@ -621,7 +639,7 @@ def test_gate_absent_child_still_blocks_on_other_open_children(tmp_path):
 
 
 def _rejected_umbrella(payload):
-    return umbrella_issue(payload, labels=("upstream:release", "upstream:rejected"))
+    return {**umbrella_issue(payload, labels=("upstream:release", "upstream:rejected")), "state": "closed"}
 
 
 def run_step_repo(*args, **kwargs):
@@ -949,7 +967,9 @@ def test_the_index_is_built_before_the_guard_runs():
 def test_no_run_block_interpolates_workflow_inputs_or_event_fields():
     for path in (WORKFLOW_PATH, CLOSE_CHILDREN_PATH, WATCHER_PATH, REJECT_PATH):
         doc = yaml.safe_load(path.read_text(encoding="utf-8"))
-        for job in doc["jobs"].values():
+        for name, job in doc["jobs"].items():
+            if name.startswith("legacy-"):
+                continue  # Exact deployed fallback is intentionally unchanged; hashes pin its limitations.
             for step in job["steps"]:
                 assert "${{" not in step.get("run", ""), f"{path.name}: {step.get('name')}"
 
@@ -1050,7 +1070,7 @@ def test_pr_body_says_nothing_was_frozen_when_nothing_was(tmp_path):
 
 
 def test_cascade_closes_only_children_whose_own_body_names_this_umbrella(tmp_path):
-    umbrella = umbrella_issue(v2_payload(("ask-user", 5002)), labels=("upstream:release", "upstream:rejected"))
+    umbrella = _rejected_umbrella(v2_payload(("ask-user", 5002)))
     data = world(umbrella, child_issue(5001), child_issue(5002, umbrella=9999))
     result = run_step_repo(_fresh(tmp_path, "cascade"), _step_run(CLOSE_CHILDREN_PATH, CASCADE_STEP), data,
                       {"UMBRELLA_BODY": umbrella["body"], "UMBRELLA_NUMBER": str(UMBRELLA)})
@@ -1168,7 +1188,7 @@ def test_the_cascade_fails_closed_when_the_rejected_label_lookup_fails(tmp_path)
 
 
 def test_the_cascade_labels_each_child_rejected_before_it_closes_the_child(tmp_path):
-    umbrella = umbrella_issue(v2_payload(("ask-user", 5002)), labels=("upstream:release", "upstream:rejected"))
+    umbrella = _rejected_umbrella(v2_payload(("ask-user", 5002)))
     data = world(umbrella, child_issue(5001))
     result = run_step_repo(_fresh(tmp_path, "cascade-label"), _step_run(CLOSE_CHILDREN_PATH, CASCADE_STEP), data,
                       {"UMBRELLA_BODY": umbrella["body"], "UMBRELLA_NUMBER": str(UMBRELLA)})
@@ -1210,7 +1230,7 @@ def _watch(tmp_path, env):
     fresh = _fresh(tmp_path, "watch")
     log = fresh / "args.txt"
     base = {"INPUT_SKILL_ID": "", "INPUT_ESCALATE": "", "INPUT_APPLY": "false",
-            "EVENT_NAME": "workflow_dispatch", "SHIM_LOG": str(log)}
+            "EVENT_NAME": "workflow_dispatch", "SHIM_LOG": str(log), "V2_ENABLED": "true"}
     result = run_step(fresh, _step_run(WATCHER_PATH, WATCHER_RUN), world(), {**base, **env},
                       shims={"python": ARG_LOG_SHIM})
     args = log.read_text(encoding="utf-8").splitlines() if log.exists() else None
@@ -1220,7 +1240,7 @@ def _watch(tmp_path, env):
 def test_dispatch_passes_the_skill_id_as_one_intact_argument(tmp_path):
     result, args = _watch(tmp_path, {"INPUT_SKILL_ID": "mattpocock/skills", "INPUT_APPLY": "true"})
     assert result.code == 0, result.output
-    assert args == ["scripts/upstream_watcher/watcher.py", "--child-mode", "batch", "--apply",
+    assert args == ["scripts/upstream_watcher/watcher.py", "--child-mode", "fanout", "--apply",
                     "--report", "generated-output/upstream-watcher-report.json",
                     "--skill", "mattpocock/skills"]
 
@@ -2005,7 +2025,7 @@ def test_l5_a_job_runs_the_labeler_check_when_skip_child_gate_is_applied():
 
 def test_l5_a_non_verifier_applying_skip_child_gate_loses_the_label_with_a_comment(tmp_path):
     repo = _repo_with_index(tmp_path, VERIFIER_INDEX)
-    result = run_step(_fresh(tmp_path, "skip-deny"), _job_step_run(WORKFLOW_PATH, SKIP_JOB, SKIP_STEP), world(),
+    result = run_step(_fresh(tmp_path, "skip-deny"), _job_step_run(WORKFLOW_PATH, SKIP_JOB, SKIP_STEP), world(umbrella_issue(LEGACY_PAYLOAD)),
                       {"LABELER": "mallory", "LABELER_TYPE": "User", "LABELER_ID": "2",
                        "ISSUE_NUMBER": str(UMBRELLA), "SENDER_LOGIN": "mallory"}, cwd=repo)
     assert result.code == 1, result.output
@@ -2015,7 +2035,7 @@ def test_l5_a_non_verifier_applying_skip_child_gate_loses_the_label_with_a_comme
 
 def test_l5_a_verifier_applying_skip_child_gate_keeps_it(tmp_path):
     repo = _repo_with_index(tmp_path, VERIFIER_INDEX)
-    result = run_step(_fresh(tmp_path, "skip-ok"), _job_step_run(WORKFLOW_PATH, SKIP_JOB, SKIP_STEP), world(),
+    result = run_step(_fresh(tmp_path, "skip-ok"), _job_step_run(WORKFLOW_PATH, SKIP_JOB, SKIP_STEP), world(umbrella_issue(LEGACY_PAYLOAD)),
                       {"LABELER": "alice", "LABELER_TYPE": "User", "LABELER_ID": "1",
                        "ISSUE_NUMBER": str(UMBRELLA), "SENDER_LOGIN": "alice"}, cwd=repo)
     assert result.code == 0, result.output

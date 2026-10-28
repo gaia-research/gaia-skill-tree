@@ -11,9 +11,8 @@ Flags
 --dry-run         (default) Print findings as a markdown report; do NOT create issues.
 --apply           Create GitHub issues (requires gh CLI + GH_TOKEN).
 --skill <id>      Scope to a single suite skill-id (e.g. mattpocock/skills).
---child-mode M    batch (default): one umbrella per suite with a payloadVersion 2
-                  candidate batch record and no per-candidate children.
-                  fanout: legacy one-child-per-component behaviour.
+--child-mode M    fanout (default): preserve the deployed emission contract.
+                  batch: opt-in payloadVersion 2 record, no per-candidate children.
 --escalate ID     Create (or adopt) ONE intake child for the batch row ``ID``
                   (for example ``garrytan/gbrain:foo``) and exit.
 --report FILE     Write the JSON run report (issuesCreated, issuesUpdated,
@@ -281,8 +280,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--child-mode",
         choices=("batch", "fanout"),
-        default="batch",
-        help="batch (default): umbrella batch record, no per-candidate children. fanout: legacy children.",
+        default="fanout",
+        help="fanout (default): deployed children. batch: opt-in umbrella batch record.",
     )
     parser.add_argument(
         "--escalate",

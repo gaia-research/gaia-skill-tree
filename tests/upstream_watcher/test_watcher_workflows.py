@@ -28,7 +28,7 @@ def test_watcher_passes_inputs_through_env_not_shell_interpolation():
     doc = _load("upstream-watcher.yml")
     run = _run_script(doc, "Run upstream watcher")
     assert "${{ inputs." not in run
-    assert "--child-mode batch" in run
+    assert 'ARGS=(--child-mode "$MODE"' in run
     assert "--report generated-output/upstream-watcher-report.json" in run
 
 
@@ -80,13 +80,13 @@ def _run_block_with(tmp_path, event, env_inputs, python_exit=0):
     return result, calls
 
 
-def test_the_daily_schedule_runs_in_apply_mode_with_batch_and_no_closure_flag(tmp_path):
+def test_the_daily_schedule_keeps_deployed_fanout_and_no_closure_flag(tmp_path):
     result, calls = _run_block_with(tmp_path, "schedule", {})
 
     assert result.returncode == 0, result.stderr
     assert len(calls) == 1
     assert "--apply" in calls[0] and "--dry-run" not in calls[0]
-    assert "--child-mode batch" in calls[0]
+    assert "--child-mode fanout" in calls[0]
     assert "--report generated-output/upstream-watcher-report.json" in calls[0]
     assert "closure" not in calls[0] and "apply-closures" not in calls[0]
 

@@ -11,6 +11,11 @@ on:
         description: "Actually create issues (default: dry-run)"
         type: boolean
         default: false
+      child_mode:
+        description: "Emission contract (batch is staged; scheduled runs stay fanout)"
+        type: choice
+        options: [fanout, batch]
+        default: fanout
       escalate_candidate:
         description: "Optional: create ONE intake child for this batch row, e.g. garrytan/gbrain:foo (uses the apply flag). Skips polling."
         required: false
@@ -58,6 +63,8 @@ jobs:
           INPUT_SKILL_ID: ${{ inputs.skill_id }}
           INPUT_ESCALATE: ${{ inputs.escalate_candidate }}
           INPUT_APPLY: ${{ inputs.apply }}
+          INPUT_CHILD_MODE: ${{ inputs.child_mode }}
+          V2_ENABLED: ${{ vars.STEWARD_ISSUE_HYGIENE_V2 }}
           EVENT_NAME: ${{ github.event_name }}
         run: |
           set -euo pipefail
@@ -77,12 +84,24 @@ jobs:
             echo "::error::skill_id must match ${ID_RE}; got a value with other characters."
             exit 1
           fi
+          MODE=fanout
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            MODE="${INPUT_CHILD_MODE:-fanout}"
+          fi
+          if [[ "$MODE" != fanout && "$MODE" != batch ]]; then
+            echo "::error::Unknown child_mode"
+            exit 1
+          fi
+          if { [ "$MODE" = batch ] || [ -n "$INPUT_ESCALATE" ]; } && [ "${APPLY[0]}" = --apply ] && [ "${V2_ENABLED:-}" != true ]; then
+            echo "::error::Staged issue writes require STEWARD_ISSUE_HYGIENE_V2=true and founder rollout approval."
+            exit 1
+          fi
           if [ -n "$INPUT_ESCALATE" ]; then
             # One child for one batch row; no polling, no umbrella rewrite beyond that row.
             python scripts/upstream_watcher/watcher.py --escalate "$INPUT_ESCALATE" "${APPLY[@]}"
             exit 0
           fi
-          ARGS=(--child-mode batch "${APPLY[@]}" --report generated-output/upstream-watcher-report.json)
+          ARGS=(--child-mode "$MODE" "${APPLY[@]}" --report generated-output/upstream-watcher-report.json)
           if [ -n "$INPUT_SKILL_ID" ]; then
             ARGS+=(--skill "$INPUT_SKILL_ID")
           fi

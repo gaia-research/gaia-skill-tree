@@ -86,6 +86,24 @@ def extract_payload(body: str | None) -> tuple[dict, str]:
     return data, digest
 
 
+def owned_upstream_issue(issue: dict) -> bool:
+    """Prove upstream umbrella/bootstrap ownership before any label-guard write."""
+    from scripts.upstream_watcher.evidence import title_suite_and_version, suite_of
+
+    if not isinstance(issue, dict):
+        return False
+    labels = {label.get("name") if isinstance(label, dict) else label for label in issue.get("labels", [])}
+    kind = "bootstrap" if "upstream:bootstrap" in labels else "release" if "upstream:release" in labels else None
+    if kind is None:
+        return False
+    try:
+        payload, _ = extract_payload(issue.get("body"))
+        title = title_suite_and_version(issue.get("title", ""), kind)
+        return bool(title and title == (suite_of(payload, kind), payload.get("newVersion")))
+    except (PayloadError, KeyError, TypeError, ValueError):
+        return False
+
+
 def approval_marker(payload_hash: str) -> str:
     return f"<!-- gaia-upstream-approval payload={payload_hash} -->"
 
