@@ -9,3 +9,5 @@ genericSkillRef: registry-inspection
 # Trust appraisal compatibility entry point
 
 Read and follow [gaia-tm-inspect](../gaia-tm-inspect/SKILL.md), passing through the skill ID or `--leaderboard` and all other user context. For proposed skills or suites instead, use [trust-appraise](../trust-appraise/SKILL.md).
+
+Formulas, grade floors and star gates are not restated here. The canonical source is [`docs/agents/curation-authority-map.md`](../../../docs/agents/curation-authority-map.md).
