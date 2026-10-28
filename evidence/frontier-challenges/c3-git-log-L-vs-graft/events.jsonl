@@ -1,0 +1,8 @@
+{"atUTC": "2026-10-28T18:19:14Z", "event": "lead-written", "leadId": "git-log-L-graft-002", "note": "derived from examples/frontier lead; target rebound to registry rev d237c0839; committed before any run"}
+{"atUTC": "2026-10-28T18:19:14Z", "event": "frontier-match", "artifact": "artifacts/match.json", "top": "codebase-graph-retrieval 0.1713; trailhq/graft rank 2 at 0.0844"}
+{"atUTC": "2026-10-28T18:19:14Z", "event": "frontier-dedupe", "artifact": "artifacts/dedupe.json", "isDuplicate": false, "ledgerScanned": 1}
+{"atUTC": "2026-10-28T18:19:14Z", "event": "pre-registration-commit", "protocol": "examples/frontier/protocols/git-log-L-vs-graft-v1.json (unchanged, legacy declaration)"}
+{"atUTC": "2026-10-28T18:19:14Z", "event": "request-built", "requestId": "sha256:50a864e709d674403353090556d9342ce9e63a040cd782ebde7c228aae999929", "file": "request.json"}
+{"atUTC": "2026-10-28T18:19:14Z", "event": "native-run", "tool": "git", "executedVersion": "2.50.1", "artifact": "artifacts/native.json"}
+{"atUTC": "2026-10-28T18:19:14Z", "event": "target-run", "tool": "graft 0.25.0", "artifact": "artifacts/graft.target-output.txt"}
+{"atUTC": "2026-10-28T18:19:14Z", "event": "receipt-built", "result": "inconclusive", "file": "receipts/experiment-receipt.json", "documentedVersion": "2.56.0", "executedVersion": "2.50.1"}
