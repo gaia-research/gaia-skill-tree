@@ -26,7 +26,7 @@ from __future__ import annotations
 import sys
 from typing import Any
 
-from scripts.lib.github_api import fetch_json, head_check, parse_owner_repo
+from scripts.lib.github_api import fetch_json, head_check
 
 # ---------------------------------------------------------------------------
 # URL conversion

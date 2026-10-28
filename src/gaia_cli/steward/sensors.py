@@ -6,7 +6,6 @@ import ast
 import hashlib
 import json
 import re
-from urllib.parse import urlparse
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable, Protocol
@@ -26,7 +25,11 @@ from gaia_cli.steward.primitives.files import SensorUnavailable, SkipLog, tracke
 from gaia_cli.steward.primitives.redact import scrub
 from gaia_cli.steward.knowledge_contracts import check_trust_guidance
 from gaia_cli.steward.repository_hygiene import RepositoryHygieneSensor
-from gaia_cli.trustMagnitude import computeOverallTrustGradeFromSkill, computeTrustMagnitude
+from gaia_cli.trustMagnitude import (
+    computeOverallTrustGradeFromSkill,
+    computeRowArtifactScores,
+    computeTrustMagnitude,
+)
 
 
 
@@ -1669,12 +1672,39 @@ class TrustCalibrationDriftSensor:
     resolution_scope = "exhaustive"
     _NAMED_ROOT = "registry/named"
     _TARGET_LEVEL = {"S": "5★", "A": "4★", "B": "3★", "C": "2★", "ungraded": "1★"}
+    _LEVEL_ORDER = {"1★": 1, "2★": 2, "3★": 3, "4★": 4, "5★": 5}
     # Stamps are written as round(computeTrustMagnitude(...), 2) (calibrate.py,
     # generateNamedIndex.py), so a fresh stamp is within 0.005 of the computed
     # value; the repo's own scripts/check_trust_magnitude_consistency.py allows
     # 0.02. On the live tree 325 of 347 stamps sit inside 0.005 and the next
     # step is 0.046, so 0.02 separates rounding noise from real movement.
     _STAMP_TOLERANCE = 0.02
+
+    @staticmethod
+    def _evidenceGap(skill: dict, context: dict) -> dict[str, Any] | None:
+        """Describe an effective evidence pool that cannot support any rating.
+
+        Returns None when at least one effective row contributes to Trust
+        Magnitude, or when a row carries explicit counter-evidence (a deranked
+        verifier attestation). Otherwise the pool is empty or holds only rows
+        that score nothing, and a computed "ungraded" is an absence of evidence,
+        not a measurement of low trust.
+        """
+
+        rows = [
+            (row, score)
+            for row, score in computeRowArtifactScores(skill, context)
+            if not row.get("_autoDerived")
+        ]
+        if any(score > 0 for _, score in rows):
+            return None
+        if any(row.get("derank") is True or row.get("verifierActiveRank") is False for row, _ in rows):
+            return None
+        return {
+            "evidenceBasis": "no-effective-evidence-rows" if not rows else "no-scoring-evidence-rows",
+            "effectiveRowCount": len(rows),
+            "scoringRowCount": 0,
+        }
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         return list(self.scan_detailed(repo_root, observed_at).observations)
@@ -1747,6 +1777,13 @@ class TrustCalibrationDriftSensor:
                         "trustMagnitude": round(tm, 2),
                         "delta": round(abs(float(stored_tm) - tm), 2),
                         "tolerance": self._STAMP_TOLERANCE,
+                        # Founder ruling 2026-10-28 (#1642): refreshing a derived
+                        # stamp is a recomputation; moving a star level, grade
+                        # policy or evidence assertion is a governed change. A
+                        # stamp is recomputation-only when the computed grade
+                        # still agrees with the stored star level.
+                        "recomputationOnly": skill.get("level") == self._TARGET_LEVEL[grade],
+                        "restampCommand": f"gaia dev calibrate-trust-magnitude --skill {skill_id}",
                     },
                     confidence=1.0,
                     provenance={"path": relative},
@@ -1767,6 +1804,32 @@ class TrustCalibrationDriftSensor:
                 continue
             target_level = self._TARGET_LEVEL[grade]
             if current_level == target_level:
+                continue
+            gap = self._evidenceGap(skill, context)
+            if gap is not None and self._LEVEL_ORDER[target_level] < self._LEVEL_ORDER[current_level]:
+                # Founder ruling 2026-10-28 (#2201): missing evidence is not
+                # evidence of degradation. An empty effective pool carries no
+                # demotion target and no calibration command; the stored level
+                # is preserved and the finding waits for evidence discovery or
+                # a governed decision.
+                observations.append(Observation(
+                    kind="trust_calibration_drift",
+                    subject=Subject(type="named-skill", id=skill_id),
+                    observed_at=observed_at,
+                    source=self.id,
+                    status="drift",
+                    current_state={"level": current_level},
+                    observed_state={
+                        "trustMagnitude": round(tm, 2),
+                        "trustGrade": grade,
+                        "evidenceGap": True,
+                        "laneEligible": False,
+                        "preservedLevel": current_level,
+                        **gap,
+                    },
+                    confidence=1.0,
+                    provenance={"path": relative},
+                ))
                 continue
             observations.append(Observation(
                 kind="trust_calibration_drift",
@@ -1914,7 +1977,12 @@ class FrozenSkillIntegritySensor:
                     details = str(ev.get("details") or "").lower()
                     if "founder override" in details:
                         continue
-                    if action in ("demote", "rank_up", "recalibrate_trust_magnitude"):
+                    # recalibrate_trust_magnitude only restamps the derived
+                    # trustMagnitude / grade / input hash (calibrate-trust-magnitude);
+                    # it never writes the star level. Recomputing derived
+                    # information is not a rank mutation (founder ruling
+                    # 2026-10-28), so only rank-changing events count here.
+                    if action in ("demote", "rank_up"):
                         post_freeze_events.append(str(action))
 
                 has_level_mismatch = bool(frozen_level and current_level != frozen_level)
@@ -2483,6 +2551,7 @@ def default_sensors() -> tuple[Sensor, ...]:
         SchemaValiditySensor,
         TimelineCausalitySensor,
     )
+    from gaia_cli.steward.sensors_render import BrowserRenderSensor
     from gaia_cli.steward.sensors_security import (
         BrowserSinkSensor,
         MutationBoundarySensor,
@@ -2525,6 +2594,7 @@ def default_sensors() -> tuple[Sensor, ...]:
         SchemaValiditySensor(),
         TimelineCausalitySensor(),
         FrontendContractSensor(),
+        BrowserRenderSensor(),
     )
 
 
