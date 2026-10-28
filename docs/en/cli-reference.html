@@ -1817,7 +1817,7 @@
         <div class="cmd-card" id="steward">
           <div class="cmd-card-header">
             <span class="cmd-name">gaia steward</span>
-            <span class="cmd-signature">{scan, run, dispatch, lane, verify, founder} [options]</span>
+            <span class="cmd-signature">{scan, run, dispatch, lane, verify, founder, full} [options]</span>
             <span class="gate-badge open">● open</span>
           </div>
           <div class="cmd-body">
@@ -1876,6 +1876,26 @@
                   <td style="max-width: 420px;">Render the report-only Class C founder decision queue for unresolved discovery candidates.</td>
                   <td>—</td>
                 </tr>
+                <tr>
+                  <td><code>full run [--observe | --triage | --verify | --retro] [--routine N] [--debt ID] [--resume RUN] [--afk] [--trigger {manual,scheduled}] [--no-agents] [--integration-branch B] [--push] [--ledger {auto,git,local}] [--json]</code></td>
+                  <td style="max-width: 420px;">Run or resume the deterministic pipeline. Observation, triage, verification, and retro modes narrow the phases; <code>--no-agents</code> never dispatches Class B work. Actions needing a model or forge are emitted for a driver. Never merges or pushes to <code>main</code>.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>full record RUN_ID STEP_ID --input FILE.json [--ledger {auto,git,local}] [--json]</code></td>
+                  <td style="max-width: 420px;">Record a driver's outcome for an action emitted by <code>full run</code>.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>full abandon RUN_ID --reason TEXT [--ledger {auto,git,local}] [--json]</code></td>
+                  <td style="max-width: 420px;">End an open run with an auditable reason. Pending actions are superseded, and unbuilt work stays adoptable by a later run.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>full status [--ledger {auto,git,local}] [--json]</code></td>
+                  <td style="max-width: 420px;">Read-only view of the ledger and active run.</td>
+                  <td>—</td>
+                </tr>
               </tbody>
             </table>
 
@@ -1891,7 +1911,13 @@
 <span class="cmd">gaia steward run</span>
 
 <span class="c"># Record an independent verification decision</span>
-<span class="cmd">gaia steward lane record</span> <span class="arg">debt-001 --verdict accept --note "Verified clean by CI"</span></pre>
+<span class="cmd">gaia steward lane record</span> <span class="arg">debt-001 --verdict accept --note "Verified clean by CI"</span>
+
+<span class="c"># Run the resumable pipeline in observation-only mode</span>
+<span class="cmd">gaia steward full run</span> <span class="arg">--observe</span>
+
+<span class="c"># Abandon an open run with an audit reason</span>
+<span class="cmd">gaia steward full abandon</span> <span class="arg">RUN_ID --reason "operator stopped the run"</span></pre>
             </div>
           </div>
         </div>
@@ -3546,4 +3572,4 @@
 <!-- impeccable-live-end -->
 </body>
 
-</html>
+</html>
