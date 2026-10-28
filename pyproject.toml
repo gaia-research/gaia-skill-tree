@@ -90,6 +90,8 @@ gaia_cli = [
     "tui/theme.tcss",
     "data/curation/*.json",
     "data/frontier/*.json",
+    "data/trust/*.json",
+    "data/trust/*.jsonl",
     "data/registry/gaia.json",
     "data/registry/named-skills.json",
     "data/registry/support/*.json",
