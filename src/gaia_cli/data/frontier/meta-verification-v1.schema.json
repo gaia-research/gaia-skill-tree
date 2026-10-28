@@ -5,42 +5,123 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "schemaVersion", "verificationId", "campaignId", "requestId", "receiptDigest", "receiptRunId", "verifierRunId",
-    "outcome", "recommend", "counterevidence", "reexecution", "independence", "limitations", "recordedAtUTC"
+    "schemaVersion",
+    "verificationId",
+    "campaignId",
+    "verifierRunId",
+    "outcome",
+    "recommend",
+    "counterevidence",
+    "independence",
+    "limitations",
+    "recordedAtUTC"
   ],
   "properties": {
-    "schemaVersion": {"const": "frontier-meta-verification-v1"},
-    "verificationId": {"type": "string", "minLength": 8, "maxLength": 200},
-    "campaignId": {"type": "string", "minLength": 8},
-    "requestId": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
-    "receiptDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$", "description": "sha256 of the receipt's canonical JSON (sorted keys, compact separators, UTF-8)."},
-    "receiptRunId": {"type": "string", "minLength": 8, "maxLength": 200, "description": "experimentRunId of the receipt under review."},
-    "verifierRunId": {"type": "string", "minLength": 8, "maxLength": 200, "description": "Run id of this verification; must differ from receiptRunId. Author-asserted, not authenticated."},
-    "outcome": {"description": "substantiated and narrowed require a supported receipt and re-execution artifacts; against other receipt results use contradicted, inconclusive or execution_failed.", "enum": ["substantiated", "narrowed", "contradicted", "inconclusive", "execution_failed"]},
+    "schemaVersion": {
+      "enum": [
+        "frontier-meta-verification-v1",
+        "frontier-meta-verification-v1.1"
+      ],
+      "description": "v1.1 adds the triage stage, per-artifact rerun traces (required for positive outcomes) and tightened positive rules. Positive outcomes, admission recommendations, traces and triage records must declare v1.1; earlier v1 records stay valid in their original, non-positive shape."
+    },
+    "verificationId": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 200
+    },
+    "campaignId": {
+      "type": "string",
+      "minLength": 8
+    },
+    "requestId": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "receiptDigest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "sha256 of the receipt's canonical JSON (sorted keys, compact separators, UTF-8)."
+    },
+    "receiptRunId": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 200,
+      "description": "experimentRunId of the receipt under review."
+    },
+    "verifierRunId": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 200,
+      "description": "Run id of this verification; must differ from receiptRunId. Author-asserted, not authenticated."
+    },
+    "outcome": {
+      "description": "Verification stage: substantiated and narrowed require a supported receipt and re-execution artifacts; against other receipt results use contradicted, inconclusive or execution_failed. Triage stage: rejected_at_triage or deferred_at_triage.",
+      "enum": [
+        "substantiated",
+        "narrowed",
+        "contradicted",
+        "inconclusive",
+        "execution_failed",
+        "rejected_at_triage",
+        "deferred_at_triage"
+      ]
+    },
     "recommend": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["action", "rationale"],
+      "required": [
+        "action",
+        "rationale"
+      ],
       "properties": {
-        "action": {"enum": ["request-admission-review", "narrow-claim", "hold", "rerun", "reject-lead"], "description": "A suggestion to human Meta review; never a decision."},
-        "rationale": {"type": "string", "minLength": 8}
+        "action": {
+          "enum": [
+            "request-admission-review",
+            "narrow-claim",
+            "hold",
+            "rerun",
+            "reject-lead"
+          ],
+          "description": "A suggestion to human Meta review; never a decision."
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 8
+        }
       }
     },
     "counterevidence": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["searched", "items"],
+      "required": [
+        "searched",
+        "items"
+      ],
       "properties": {
-        "searched": {"type": "string", "minLength": 8, "description": "What was searched for contrary evidence; required even when nothing was found."},
+        "searched": {
+          "type": "string",
+          "minLength": 8,
+          "description": "What was searched for contrary evidence; required even when nothing was found."
+        },
         "items": {
           "type": "array",
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["summary", "source"],
+            "required": [
+              "summary",
+              "source"
+            ],
             "properties": {
-              "summary": {"type": "string", "minLength": 8},
-              "source": {"type": "string", "minLength": 3, "description": "URL or repo-relative artifact path."}
+              "summary": {
+                "type": "string",
+                "minLength": 8
+              },
+              "source": {
+                "type": "string",
+                "minLength": 3,
+                "description": "URL or repo-relative artifact path."
+              }
             }
           }
         }
@@ -49,41 +130,302 @@
     "reexecution": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["performed", "artifacts"],
+      "required": [
+        "performed",
+        "artifacts"
+      ],
       "properties": {
-        "performed": {"type": "boolean", "description": "Declared by the record's author; the validator checks the artifacts parse, not that anyone ran them."},
-        "notes": {"type": "string"},
+        "performed": {
+          "type": "boolean",
+          "description": "Declared by the record's author; the validator checks the artifacts parse, not that anyone ran them."
+        },
+        "notes": {
+          "type": "string"
+        },
         "artifacts": {
           "type": "array",
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["label", "contentDigest", "path"],
+            "required": [
+              "label",
+              "contentDigest",
+              "path"
+            ],
             "properties": {
-              "label": {"type": "string", "minLength": 1},
-              "contentDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
-              "path": {"type": "string", "minLength": 1}
+              "label": {
+                "type": "string",
+                "minLength": 1
+              },
+              "contentDigest": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "trace": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "argv",
+                  "toolVersions",
+                  "startedAtUTC",
+                  "finishedAtUTC",
+                  "stdoutDigest",
+                  "stderrDigest"
+                ],
+                "description": "Rerun provenance for one re-execution artifact. DECLARED, NOT AUTHENTICATED: argv, tool versions, times and stream digests are author-asserted; ids and hashes here are never authentication and the validator cannot show the command ran. It makes a reproduction auditable: the artifact's normalized output is compared for equality with the receipt output, so byte-identical output of a deterministic protocol is expected.",
+                "properties": {
+                  "argv": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "description": "Command line that was executed (inert data, never run by the validator)."
+                  },
+                  "toolVersions": {
+                    "type": "object",
+                    "minProperties": 1,
+                    "additionalProperties": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "startedAtUTC": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "finishedAtUTC": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "stdoutDigest": {
+                    "type": "string",
+                    "pattern": "^sha256:[a-f0-9]{64}$",
+                    "description": "sha256 of the raw stdout stream bytes."
+                  },
+                  "stderrDigest": {
+                    "type": "string",
+                    "pattern": "^sha256:[a-f0-9]{64}$",
+                    "description": "sha256 of the raw stderr stream bytes (the digest of empty bytes when nothing was written)."
+                  },
+                  "cwd": {
+                    "type": "string"
+                  },
+                  "stdoutPath": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Repo-relative path under the artifact root of a committed raw stdout artifact; required for positive outcomes. Its sha256 must equal stdoutDigest and its normalized content the normalized receipt output."
+                  },
+                  "stderrPath": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Optional committed raw stderr artifact for stderrDigest."
+                  }
+                }
+              }
             }
           }
         }
       },
       "allOf": [
-        {"if": {"properties": {"performed": {"const": true}}}, "then": {"properties": {"artifacts": {"minItems": 1}}}},
-        {"if": {"properties": {"performed": {"const": false}}}, "then": {"properties": {"artifacts": {"maxItems": 0}}}}
+        {
+          "if": {
+            "properties": {
+              "performed": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "artifacts": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "performed": {
+                "const": false
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "artifacts": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
       ]
     },
-    "independence": {"const": "declared-unauthenticated", "description": "Separation of sessions is asserted by the author of this record and cannot be authenticated here."},
+    "independence": {
+      "const": "declared-unauthenticated",
+      "description": "Separation of sessions is asserted by the author of this record and cannot be authenticated here."
+    },
     "declaredSession": {
       "description": "Author-declared harness/model/session notes; never authenticated and not evidence of a separate session.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "harness": {"type": "string"},
-        "model": {"type": "string"},
-        "note": {"type": "string"}
+        "harness": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
       }
     },
-    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 3}},
-    "recordedAtUTC": {"type": "string", "format": "date-time"}
-  }
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 3
+      }
+    },
+    "recordedAtUTC": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "stage": {
+      "enum": [
+        "verification",
+        "triage"
+      ],
+      "description": "Absent or 'verification': assesses an experiment receipt (requestId, receipt binding and reexecution required). 'triage': a Meta review of a lead that was rejected or deferred before any request or receipt existed (leadDigest, matchDigest, dedupeDigest required; no receipt, request or reexecution)."
+    },
+    "leadDigest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "Triage stage: sha256 of the lead's canonical JSON (sorted keys, compact separators, UTF-8)."
+    },
+    "matchDigest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "Triage stage: sha256 of the raw bytes of the `gaia dev frontier match` output the reviewer read."
+    },
+    "dedupeDigest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "Triage stage: sha256 of the raw bytes of the `gaia dev frontier dedupe` output the reviewer read."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "stage"
+        ],
+        "properties": {
+          "stage": {
+            "const": "triage"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "stage",
+          "leadDigest",
+          "matchDigest",
+          "dedupeDigest"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "requestId"
+              ]
+            },
+            {
+              "required": [
+                "receiptDigest"
+              ]
+            },
+            {
+              "required": [
+                "receiptRunId"
+              ]
+            },
+            {
+              "required": [
+                "reexecution"
+              ]
+            }
+          ]
+        },
+        "properties": {
+          "outcome": {
+            "enum": [
+              "rejected_at_triage",
+              "deferred_at_triage"
+            ]
+          },
+          "recommend": {
+            "properties": {
+              "action": {
+                "enum": [
+                  "hold",
+                  "reject-lead",
+                  "narrow-claim"
+                ]
+              }
+            }
+          },
+          "schemaVersion": {
+            "const": "frontier-meta-verification-v1.1"
+          }
+        }
+      },
+      "else": {
+        "required": [
+          "requestId",
+          "receiptDigest",
+          "receiptRunId",
+          "reexecution"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "leadDigest"
+              ]
+            },
+            {
+              "required": [
+                "matchDigest"
+              ]
+            },
+            {
+              "required": [
+                "dedupeDigest"
+              ]
+            }
+          ]
+        },
+        "properties": {
+          "outcome": {
+            "enum": [
+              "substantiated",
+              "narrowed",
+              "contradicted",
+              "inconclusive",
+              "execution_failed"
+            ]
+          }
+        }
+      }
+    }
+  ]
 }
