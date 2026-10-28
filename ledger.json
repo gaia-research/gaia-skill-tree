@@ -1,5 +1,5 @@
 {
- "generation": 90,
+ "generation": 91,
  "lane": {
   "entries": [
    {
@@ -18,14 +18,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-241305ea9ef1a8c1c959",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-10-28T02:49:17.565826Z",
+      "from": "dispatched",
+      "reason": "verification escalated (building for more than 24h without a verified outcome)",
+      "to": "escalated"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-10-28T02:49:17.565826Z",
+    "lastVerdict": "escalate",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "escalated"
    },
    {
     "attempts": 0,
@@ -1919,7 +1925,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-10-28T02:47:07.474384Z",
-   "expiresAt": "2026-10-28T03:19:13.683110Z",
+   "expiresAt": "2026-10-28T03:19:17.981286Z",
    "holder": "run-20261028T024707Z-af472d28"
   }
  },
@@ -7414,7 +7420,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-28T02:49:13.683388Z",
+ "updatedAt": "2026-10-28T02:49:17.985196Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -7434,6 +7440,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-241305ea9ef1a8c1c959 (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-10-28T02:49:17.565826Z",
+     "from": "building",
+     "reason": "building for more than 24h without a verified outcome",
+     "to": "escalated"
     }
    ],
    "kind": "trust_calibration_drift",
@@ -7448,8 +7460,8 @@
    "routine": "gaia-trust-calibration-steward",
    "runId": "run-20261021T174049Z-36e4510c",
    "source": "trust-calibration-drift",
-   "state": "building",
-   "updatedAt": "2026-10-21T16:28:00.196543Z",
+   "state": "escalated",
+   "updatedAt": "2026-10-28T02:49:17.565826Z",
    "verification": null
   }
  }
