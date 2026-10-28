@@ -579,6 +579,7 @@ def test_explicit_no_agents_overrides_ready_claude_cli_fallback(tmp_path):
         "ANTHROPIC_API_KEY": "test-only",
         "STEWARD_HAIKU_MODEL_ID": "haiku-test-id",
     }
+    assert drive.agentReadiness(env, readyWhich) == (True, "")
     driver = makeDriver(tmp_path, world, env=env, ready_which=readyWhich, agents=False)
 
     assert driver.ready is False
