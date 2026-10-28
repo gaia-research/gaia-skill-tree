@@ -779,7 +779,12 @@ def main():
 
     # Committed Frontier case bundles are re-validated here, per item, fail closed. With no
     # bundles (or none admitted) both ports are empty and the index is byte-identical.
-    collected = collect_challenges(repo_root)
+    from gaia_cli.challengeAdmission import BuildEnvironmentError
+    try:
+        collected = collect_challenges(repo_root)
+    except BuildEnvironmentError as exc:
+        print(f"\nFATAL: {exc}")
+        sys.exit(1)
     for item in collected.rejected:
         print(f"  warning: challenge bundle {item['caseId']} rejected: {item['reason']}")
     write_index(buckets, awaiting_classification, by_contributor, output_path, today,

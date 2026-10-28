@@ -21,6 +21,9 @@ def configureChallenge(parser):
     admit = sub.add_parser("admit", help="Attempt a real admission through the production resolver and append the outcome to events.jsonl")
     admit.add_argument("--case", required=True)
     admit.add_argument("--repo-root", help="Checkout root (default: the resolved registry path)")
+    fetch = sub.add_parser("fetch-receipt", help="Verify the issuer run live, then write the committed receipt/ files the offline source reads")
+    fetch.add_argument("case", help="Case id")
+    fetch.add_argument("--repo-root", help="Checkout root (default: the resolved registry path)")
 
 
 def challengeCommand(args):
@@ -40,8 +43,12 @@ def challengeCommand(args):
                 verifiedAt=args.verified_at, actor=actor)
             print(json.dumps({"caseId": args.case, "challengeId": document["challengeId"], "receiptId": document["receipt"]["receipt_id"],
                               "written": ["transcript.json", "admission-request.json"],
-                              "next": f"commit, then push tag challenge-receipt/{args.case}-r{args.revision}; the founder approves the environment; then `gaia dev challenge admit`",
+                              "next": f"commit, then push tag challenge-receipt/{args.case}-r{args.revision}; the founder approves the environment; then `gaia dev challenge admit` and `fetch-receipt`",
                               "authority": "a request is not an admission"}, indent=2))
+            return 0
+        if command == "fetch-receipt":
+            event = admission.fetchReceipt(root, args.case, actor=actor)
+            print(json.dumps({**event, "next": "commit evidence/frontier-challenges/<case>/receipt/ with the case; the docs build then admits it offline"}, indent=2))
             return 0
         event = admission.admit(root, args.case, actor=actor)
         print(json.dumps(event, indent=2, ensure_ascii=False))

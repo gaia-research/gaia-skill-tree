@@ -94,12 +94,22 @@ def tamper(directory, name="meta-verification.json"):
     path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def availableProbe(root):
-    return {"status": "available", "available": True, "admitted": False}
+def addCase(root, scratch, caseId, **kwargs):
+    """Add a second built SYNTHETIC case to ``root`` (built from an identical lead, so ids can collide)."""
+    import shutil
+    from gaia_cli import challengeAdmission as admission
+    _, source = makeCase(scratch, caseId)
+    shutil.copytree(source, Path(root) / admission.EVIDENCE / caseId)
+    return admission.buildRequest(root, caseId, **{**BUILDKWARGS, **kwargs})
 
 
-def unavailableProbe(root):
-    return {"status": "misconfigured", "available": False, "admitted": False, "reason": "synthetic"}
+def stubReceiptDir(directory):
+    """Dummy receipt/ files so a case LOOKS like it claims an issuer receipt (never verifies)."""
+    target = Path(directory) / "receipt"
+    target.mkdir()
+    for name in ("artifact.zip", "issuer-approval.json", "attestation.jsonl"):
+        (target / name).write_bytes(b"{}")
+    return target
 
 
 def corrupt(directory, name="meta-verification.json"):

@@ -8,28 +8,45 @@ A case bundle lives at ``evidence/frontier-challenges/<caseId>/``::
 Nothing in a bundle is authority. ``inspectBundle`` only re-validates the pieces against
 each other and against the committed protocol bytes. Admission happens in exactly one
 place, ``attemptAdmission``, by calling ``challengeDomain.open_challenge`` through a
-receipt resolver. The production resolver admits only when the issuer's attested receipt
-verifies; otherwise the outcome is ``held`` with a reason. The append-only
-``events.jsonl`` is an audit trail only: no reader treats a recorded ``admitted`` event
-as proof (the docs build re-attempts admission every time).
+receipt resolver bound to ONE case (``CaseResolver``): it looks only inside that case's own
+``receipt/`` directory, pins the pinned-issuer config with no environment overrides, demands
+the receipt id ``<caseId>-r<n>``, passes the request's proof source SHA, and afterwards
+requires the issuer-attested transcript digest to equal the bytes of ``transcript.json``
+(which embeds the recomputed bundle digest). Only then is a case ``admitted``.
+
+``events.jsonl`` is an audit trail, never authority: no reader treats a recorded
+``admitted`` event as proof (every docs build re-attempts admission). It is a hash chain
+under an exclusive lock, so accidental edits are detected loudly; the append-only guarantee
+itself is anchored by git history (an edit to an earlier line is a visible diff on a
+meta-guard protected path), not by the chain alone.
 
 No code here touches the Steward package; it only imports the already-landed receipt
 adapter and resolver.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
+import fcntl
 import hashlib
 import json
 import os
-from pathlib import Path
 import re
-from typing import Any, Callable
+import shutil
+import subprocess
+import tempfile
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
+from pathlib import Path
+from typing import Any
 
 from . import frontier
 from .challengeDomain import (
     Challenge, VerificationReceipt, draft_challenge_id, draft_context_digest, open_challenge,
+)
+from .steward.challenge_receipts import (
+    BUNDLE_APPROVAL, BUNDLE_LIMITS, RECEIPT_SUBDIR, CommittedAttestedReceiptSource, GitHubActionsSource,
+    GitHubVerificationReceiptResolver, LocalGit, ReceiptMisconfigured, ReceiptUnavailable, _readBundleZip,
+    loadTrustedConfig,
 )
 
 EVIDENCE = "evidence/frontier-challenges"
@@ -47,12 +64,35 @@ BUNDLEFILES = ("lead.json", "request.json", "receipt.json", "meta-verification.j
 DRAFTKEYS = ("subject_id", "claim_id", "claim", "behavior_id", "contributor_id", "contributor_notice_ref",
              "pinned_version", "pinned_sha", "environment", "test_version", "baseline", "comparator",
              "material_to_origin", "created_at_utc", "linked_challenge_id")
-REASONS = ("trusted-issuer-unavailable", "trusted-issuer-misconfigured", "receipt-unverifiable",
-           "challenge-rejected", "admission-request-missing", "not-recommended-for-admission")
+TRANSCRIPTKIND = "gaia-challenge-admission-transcript/v1"
 
 
 class AdmissionError(ValueError):
     """The bundle or request cannot be processed; nothing was written."""
+
+
+class BuildEnvironmentError(RuntimeError):
+    """A bundle claims admission but this machine cannot verify it (no gh, or shallow history)."""
+
+
+class HoldReason(str, Enum):
+    ISSUER_UNAVAILABLE = "trusted-issuer-unavailable"
+    ISSUER_MISCONFIGURED = "trusted-issuer-misconfigured"
+    RECEIPT_UNVERIFIABLE = "receipt-unverifiable"
+    CHALLENGE_REJECTED = "challenge-rejected"
+    BUNDLE_NOT_BOUND = "bundle-not-bound-to-receipt"
+    REQUEST_MISSING = "admission-request-missing"
+    NOT_RECOMMENDED = "not-recommended-for-admission"
+    EVENT_LOG_BROKEN = "event-log-broken"
+
+
+class Outcome(str, Enum):
+    ADMITTED = "admitted"
+    HELD = "held"
+    LIVE_UNCOMMITTED = "live-verified-uncommitted"
+
+
+REASONS = tuple(item.value for item in HoldReason)
 
 
 def sha(data: bytes) -> str:
@@ -67,12 +107,32 @@ def nowUtc() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+def receiptPattern(caseId: str) -> re.Pattern:
+    return re.compile(rf"^{re.escape(caseId)}-r[1-9][0-9]{{0,2}}$")
+
+
+# --- path safety ---------------------------------------------------------------------
+
+def assertPlain(root: Path, path: Path) -> None:
+    """No component of ``path`` below ``root`` may be a symlink."""
+    try:
+        relative = Path(path).relative_to(root)
+    except ValueError:
+        raise AdmissionError("path escapes the checkout") from None
+    current = Path(root)
+    for part in relative.parts:
+        current = current / part
+        if current.is_symlink():
+            raise AdmissionError(f"refusing symlinked path component: {current.name}")
+
+
 def caseDirectory(root: str | Path, caseId: str) -> Path:
     if not isinstance(caseId, str) or not CASEIDRE.fullmatch(caseId):
         raise AdmissionError("case id must be lowercase letters, digits and hyphens (max 63)")
-    base = Path(root).resolve() / EVIDENCE
-    path = base / caseId
-    if path.is_symlink() or not path.is_dir() or not path.resolve().is_relative_to(base.resolve()):
+    rootPath = Path(root).resolve()
+    path = rootPath / EVIDENCE / caseId
+    assertPlain(rootPath, path)
+    if not path.is_dir():
         raise AdmissionError(f"no case directory {EVIDENCE}/{caseId}")
     return path
 
@@ -96,20 +156,29 @@ def readJson(path: Path) -> tuple[dict[str, Any], bytes]:
     return data, raw
 
 
-# --- append-only events -------------------------------------------------------------
-
-def readEvents(path: Path) -> tuple[list[dict[str, Any]], list[str]]:
-    """Return ``(events, errors)``; a broken hash chain, gap or edit is an error."""
-    if not path.exists():
-        return [], []
+def writeNew(path: Path, data: bytes) -> None:
+    """Exclusive, symlink-refusing create; an existing path (even a dangling link) is an error."""
     try:
-        raw = readBounded(path)
-    except AdmissionError as exc:
-        return [], [str(exc)]
+        descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o644)
+    except OSError as exc:
+        raise AdmissionError(f"cannot create {path.name} safely: {exc.strerror}") from None
+    try:
+        os.write(descriptor, data)
+    finally:
+        os.close(descriptor)
+
+
+# --- append-only events --------------------------------------------------------------
+
+def parseEvents(raw: bytes) -> tuple[list[dict[str, Any]], list[str], str]:
+    """Return ``(events, errors, lastLineDigest)``; a broken chain, gap or edit is an error."""
     events, errors, prev = [], [], GENESIS
     if raw and not raw.endswith(b"\n"):
         errors.append("events.jsonl does not end with a newline")
-    for index, line in enumerate(raw.split(b"\n")[:-1] if raw.endswith(b"\n") else raw.split(b"\n"), start=1):
+    lines = raw.split(b"\n")
+    if raw.endswith(b"\n"):
+        lines = lines[:-1]
+    for index, line in enumerate(lines if raw else [], start=1):
         try:
             event = json.loads(line)
         except ValueError:
@@ -121,41 +190,60 @@ def readEvents(path: Path) -> tuple[list[dict[str, Any]], list[str]]:
             break
         events.append(event)
         prev = hashlib.sha256(line).hexdigest()
+    return events, errors, prev
+
+
+def readEvents(path: Path) -> tuple[list[dict[str, Any]], list[str]]:
+    if not os.path.lexists(path):
+        return [], []
+    try:
+        raw = readBounded(path)
+    except AdmissionError as exc:
+        return [], [str(exc)]
+    events, errors, _ = parseEvents(raw)
     return events, errors
 
 
 def appendEvent(directory: Path, kind: str, fields: dict[str, Any], *, at: str | None = None) -> dict[str, Any]:
+    """Append under an exclusive lock; refuses symlinks and a broken chain."""
     path = directory / "events.jsonl"
-    events, errors = readEvents(path)
-    if errors:
-        raise AdmissionError("refusing to append to a broken event log: " + "; ".join(errors))
-    prev = GENESIS
-    if events:
-        prev = hashlib.sha256(path.read_bytes().rstrip(b"\n").split(b"\n")[-1]).hexdigest()
-    event = {"schemaVersion": EVENTSCHEMA, "seq": len(events) + 1, "prev": prev, "at": at or nowUtc(),
-             "type": kind, **fields}
-    line = json.dumps(event, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8") + b"\n"
-    descriptor = os.open(path, os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o644)
     try:
+        descriptor = os.open(path, os.O_RDWR | os.O_APPEND | os.O_CREAT | os.O_NOFOLLOW, 0o644)
+    except OSError as exc:
+        raise AdmissionError(f"cannot open events.jsonl safely: {exc.strerror}") from None
+    try:
+        fcntl.flock(descriptor, fcntl.LOCK_EX)
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        raw = os.read(descriptor, MAXFILE + 1)
+        if len(raw) > MAXFILE:
+            raise AdmissionError("events.jsonl exceeds the bounded size")
+        events, errors, prev = parseEvents(raw)
+        if errors:
+            raise AdmissionError("refusing to append to a broken event log: " + "; ".join(errors))
+        event = {"schemaVersion": EVENTSCHEMA, "seq": len(events) + 1, "prev": prev, "at": at or nowUtc(),
+                 "type": kind, **fields}
+        line = json.dumps(event, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8") + b"\n"
         os.write(descriptor, line)
         os.fsync(descriptor)
+        return event
     finally:
-        os.close(descriptor)
-    return event
+        os.close(descriptor)  # also releases the flock
 
 
-# --- bundle inspection --------------------------------------------------------------
+# --- bundle inspection ---------------------------------------------------------------
 
 @dataclass
 class BundleReport:
     caseId: str
     directory: Path
     errors: list[str] = field(default_factory=list)
+    eventErrors: list[str] = field(default_factory=list)
     lead: dict[str, Any] = field(default_factory=dict)
     request: dict[str, Any] = field(default_factory=dict)
     receipt: dict[str, Any] = field(default_factory=dict)
     meta: dict[str, Any] = field(default_factory=dict)
     admission: dict[str, Any] | None = None
+    transcript: dict[str, Any] | None = None
     digests: dict[str, str] = field(default_factory=dict)
 
     @property
@@ -171,9 +259,24 @@ class BundleReport:
         recommend = self.meta.get("recommend") if isinstance(self.meta.get("recommend"), dict) else {}
         return self.meta.get("outcome") in frontier.POSITIVE_OUTCOMES and recommend.get("action") == "request-admission-review"
 
+    @property
+    def receiptId(self) -> str | None:
+        data = (self.admission or {}).get("receipt")
+        return data.get("receipt_id") if isinstance(data, dict) else None
+
+    @property
+    def challengeId(self) -> str | None:
+        value = (self.admission or {}).get("challengeId")
+        return value if isinstance(value, str) else None
+
+    @property
+    def hasCommittedReceipt(self) -> bool:
+        path = self.directory / RECEIPT_SUBDIR
+        return os.path.lexists(path)
+
 
 def bundleDigest(directory: Path) -> str:
-    """Digest of the material an admission binds: the four bundle files and artifacts/."""
+    """Digest of the material an admission binds: the four bundle files and artifacts/ (from disk)."""
     entries = {name: sha(readBounded(directory / name)) for name in BUNDLEFILES}
     artifacts = directory / "artifacts"
     if artifacts.is_symlink():
@@ -193,9 +296,9 @@ def inspectBundle(root: str | Path, caseId: str) -> BundleReport:
     directory = caseDirectory(rootPath, caseId)
     report = BundleReport(caseId, directory)
     try:
-        report.lead, leadRaw = readJson(directory / "lead.json")
-        report.request, requestRaw = readJson(directory / "request.json")
-        report.receipt, receiptRaw = readJson(directory / "receipt.json")
+        report.lead, _ = readJson(directory / "lead.json")
+        report.request, _ = readJson(directory / "request.json")
+        report.receipt, _ = readJson(directory / "receipt.json")
         report.meta, metaRaw = readJson(directory / "meta-verification.json")
         report.digests = {"lead": sha(canonical(report.lead)), "request": report.request.get("requestId", ""),
                           "receipt": frontier.receipt_digest(report.receipt), "meta": sha(metaRaw),
@@ -218,10 +321,10 @@ def inspectBundle(root: str | Path, caseId: str) -> BundleReport:
             report.receipt, report.request, repo_root=rootPath, artifact_root=report.artifactRoot))
         errors.extend(f"meta-verification: {item}" for item in frontier.validate_meta_verification(
             report.meta, report.receipt, report.request, repo_root=rootPath, artifact_root=report.artifactRoot))
-    _, eventErrors = readEvents(directory / "events.jsonl")
-    errors.extend(eventErrors)
+    # A broken event log does not invalidate the evidence, but it is never silent: it holds admission.
+    report.eventErrors = readEvents(directory / "events.jsonl")[1]
     requestPath = directory / "admission-request.json"
-    if requestPath.exists() or requestPath.is_symlink():
+    if os.path.lexists(requestPath):
         try:
             report.admission, _ = readJson(requestPath)
             errors.extend(checkAdmissionRequest(report))
@@ -238,8 +341,21 @@ def draftOf(request: dict[str, Any]) -> dict[str, Any]:
     return draft
 
 
+def expectedTranscript(report: BundleReport, draft: dict[str, Any]) -> dict[str, Any]:
+    target = report.lead["target"]
+    return {
+        "kind": TRANSCRIPTKIND, "caseId": report.caseId, "leadId": report.lead["leadId"],
+        "leadDigest": report.digests["lead"], "requestId": report.digests["request"],
+        "receiptDigest": report.digests["receipt"], "metaVerificationDigest": report.digests["meta"],
+        "bundleDigest": report.digests["bundle"], "challengeId": draft_challenge_id(draft),
+        "contextDigest": draft_context_digest(draft),
+        "subject": {"skillId": target["skillId"], "kind": target["kind"],
+                    "genericSkillId": target.get("genericSkillId") or target["skillId"]},
+    }
+
+
 def checkAdmissionRequest(report: BundleReport) -> list[str]:
-    """Structural bindings only; none of this is authentication."""
+    """Structural bindings recomputed from the files on disk; none of this is authentication."""
     request, errors = report.admission or {}, []
     if request.get("schemaVersion") != REQUESTSCHEMA or request.get("caseId") != report.caseId:
         return ["schemaVersion must be 1 and name its own case id"]
@@ -248,6 +364,8 @@ def checkAdmissionRequest(report: BundleReport) -> list[str]:
         receipt = VerificationReceipt(**request["receipt"])
     except (AdmissionError, TypeError, KeyError, ValueError) as exc:
         return [f"draft or receipt is unusable: {exc}"]
+    if not receiptPattern(report.caseId).fullmatch(receipt.receipt_id):
+        errors.append(f"receipt id must be {report.caseId}-r<n>")
     expected = {"leadDigest": report.digests["lead"], "requestId": report.digests["request"],
                 "receiptDigest": report.digests["receipt"], "metaVerificationDigest": report.digests["meta"],
                 "bundleDigest": report.digests["bundle"]}
@@ -266,18 +384,22 @@ def checkAdmissionRequest(report: BundleReport) -> list[str]:
         errors.append("request verifier differs from the receipt verifier")
     if not GITSHARE.fullmatch(str(request.get("proofSourceSha", ""))):
         errors.append("proofSourceSha must be a git commit id")
-    transcript = request.get("transcriptPath")
     try:
-        if transcript != "transcript.json":
+        if request.get("transcriptPath") != "transcript.json":
             raise AdmissionError("transcriptPath must be transcript.json")
-        if sha(readBounded(report.directory / transcript)) != receipt.transcript_digest:
+        raw = readBounded(report.directory / "transcript.json")
+        if sha(raw) != receipt.transcript_digest:
             errors.append("transcript bytes differ from the receipt transcript digest")
-    except AdmissionError as exc:
+        report.transcript, _ = readJson(report.directory / "transcript.json")
+        wanted = expectedTranscript(report, draft)
+        if any(report.transcript.get(key) != value for key, value in wanted.items()):
+            errors.append("transcript does not bind this bundle's current bytes")
+    except (AdmissionError, KeyError) as exc:
         errors.append(str(exc))
     return errors
 
 
-# --- build-request -----------------------------------------------------------------
+# --- build-request -------------------------------------------------------------------
 
 def buildRequest(root: str | Path, caseId: str, *, verifier: str, builder: str, noticeRef: str,
                  contributor: str | None = None, materialToOrigin: bool = False, revision: int = 1,
@@ -285,9 +407,12 @@ def buildRequest(root: str | Path, caseId: str, *, verifier: str, builder: str, 
                  proofSourceSha: str | None = None, verifiedAt: str | None = None,
                  linkedChallengeId: str | None = None, actor: str = "unknown") -> dict[str, Any]:
     """Write ``transcript.json`` and ``admission-request.json`` for a bundle that recommends admission."""
-    report = inspectBundle(root, caseId)
-    if report.admission is not None or (report.directory / "admission-request.json").exists():
-        raise AdmissionError("admission-request.json already exists; it is pinned by a tag once pushed, never overwritten")
+    rootPath = Path(root).resolve()
+    report = inspectBundle(rootPath, caseId)
+    if (report.admission is not None or os.path.lexists(report.directory / "admission-request.json")
+            or os.path.lexists(report.directory / "transcript.json")):
+        raise AdmissionError("admission-request.json or transcript.json already exists; a request is pinned by a "
+                             "tag once pushed and never overwritten")
     if not report.ok:
         raise AdmissionError("bundle does not re-validate: " + "; ".join(report.errors))
     if not report.eligible:
@@ -314,7 +439,7 @@ def buildRequest(root: str | Path, caseId: str, *, verifier: str, builder: str, 
     if not GITSHARE.fullmatch(proof):
         raise AdmissionError("proof source SHA must be a full git commit id")
     at = verifiedAt or nowUtc()
-    declaration = frontier.pinned_declaration(Path(root).resolve(), request)
+    declaration = frontier.pinned_declaration(rootPath, request)
     draft = {
         "subject_id": target["skillId"], "claim_id": lead["claimId"], "claim": lead["capability"]["claim"],
         "behavior_id": declaration.get("id") or lead["claimId"], "contributor_id": contributorId,
@@ -328,12 +453,9 @@ def buildRequest(root: str | Path, caseId: str, *, verifier: str, builder: str, 
     }
     contextDigest, challengeId = draft_context_digest(draft), draft_challenge_id(draft)
     transcript = {
-        "kind": "gaia-challenge-admission-transcript/v1", "caseId": caseId, "leadId": lead["leadId"],
-        "leadDigest": report.digests["lead"], "requestId": report.digests["request"],
-        "receiptDigest": report.digests["receipt"], "receiptResult": receipt.get("result"),
-        "metaVerificationDigest": report.digests["meta"], "metaOutcome": meta["outcome"],
+        **expectedTranscript(report, draft),
+        "receiptResult": receipt.get("result"), "metaOutcome": meta["outcome"],
         "metaRecommendation": meta["recommend"]["action"], "independence": meta["independence"],
-        "bundleDigest": report.digests["bundle"],
         "outputs": sorted(({"label": o["label"], "path": o["path"], "contentDigest": o["contentDigest"]}
                            for o in receipt.get("outputs", [])), key=lambda item: item["label"]),
         "reexecution": sorted(({"label": a["label"], "path": a["path"], "contentDigest": a["contentDigest"]}
@@ -342,8 +464,7 @@ def buildRequest(root: str | Path, caseId: str, *, verifier: str, builder: str, 
     transcriptBytes = (json.dumps(transcript, indent=2, sort_keys=True) + "\n").encode("utf-8")
     output = (f"meta-verification outcome={meta['outcome']}; receipt result={receipt.get('result')}; "
               f"recommendation={meta['recommend']['action']}; independence={meta['independence']}")
-    repo = DEFAULTREPO
-    ref = publicReceiptRef or f"https://github.com/{repo}/blob/main/{EVIDENCE}/{caseId}/receipt/issuer-approval.json"
+    ref = publicReceiptRef or f"https://github.com/{DEFAULTREPO}/blob/main/{EVIDENCE}/{caseId}/receipt/issuer-approval.json"
     verification = VerificationReceipt(
         receipt_id=f"{caseId}-r{revision}", context_digest=contextDigest, transcript_digest=sha(transcriptBytes),
         verifier_id=verifier, builder_id=builder, contributor_id=contributorId, result="verified", method=method,
@@ -360,95 +481,255 @@ def buildRequest(root: str | Path, caseId: str, *, verifier: str, builder: str, 
         "receipt": {name: getattr(verification, name) for name in verification.__dataclass_fields__},
     }
     transcriptPath, requestPath = report.directory / "transcript.json", report.directory / "admission-request.json"
-    if transcriptPath.exists():
-        raise AdmissionError("transcript.json already exists; refusing to overwrite")
-    transcriptPath.write_bytes(transcriptBytes)
-    requestPath.write_text(json.dumps(document, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    after = inspectBundle(root, caseId)
-    if not after.ok:  # never leave a half-valid request behind
-        transcriptPath.unlink()
-        requestPath.unlink()
-        raise AdmissionError("generated request does not re-validate: " + "; ".join(after.errors))
+    created = []
+    try:
+        writeNew(transcriptPath, transcriptBytes)
+        created.append(transcriptPath)
+        writeNew(requestPath, (json.dumps(document, indent=2, sort_keys=True) + "\n").encode("utf-8"))
+        created.append(requestPath)
+        after = inspectBundle(rootPath, caseId)
+        if not after.ok:
+            raise AdmissionError("generated request does not re-validate: " + "; ".join(after.errors))
+    except Exception:
+        for path in created:  # never leave a half-valid request behind
+            path.unlink(missing_ok=True)
+        raise
     appendEvent(report.directory, "admission-request-built", {
         "actor": actor, "challengeId": challengeId, "receiptId": verification.receipt_id,
         "requestDigest": sha(requestPath.read_bytes()), "bundleDigest": report.digests["bundle"]})
     return document
 
 
-# --- admission ---------------------------------------------------------------------
+# --- case-bound resolution -----------------------------------------------------------
+
+class CaseBound:
+    def __init__(self, parent: "CaseResolver", challengeId: str) -> None:
+        self.parent, self.challenge_id = parent, challengeId
+
+    def resolve(self, receiptId: str) -> VerificationReceipt:
+        parent = self.parent
+        if receiptId != parent.receiptId:
+            raise ReceiptUnavailable("receipt id is not this case's own receipt")
+        inner = parent.inner
+        if isinstance(inner, GitHubVerificationReceiptResolver):
+            receipt = inner.resolve(receiptId, expected_challenge_id=self.challenge_id,
+                                    expected_proof_source_sha=parent.proofSourceSha)
+        else:  # injected port (tests only); production resolvers take the branch above
+            bound = inner.for_challenge(self.challenge_id)
+            if getattr(bound, "challenge_id", None) != self.challenge_id:
+                raise ReceiptUnavailable("resolver is not bound to this challenge")
+            receipt = bound.resolve(receiptId)
+        if parent.approvalPath is not None:
+            try:
+                sealed = json.loads(parent.approvalPath.read_bytes())
+            except (OSError, ValueError):
+                raise ReceiptUnavailable("sealed approval is unreadable") from None
+            if not isinstance(sealed, dict) or sealed.get("caseId") != parent.caseId:
+                raise ReceiptUnavailable("sealed approval names a different case")
+        return receipt
+
+
+class CaseResolver:
+    """``VerificationReceiptResolver`` bound to ONE case.
+
+    The committed lookup sees only this case's own ``receipt/`` files (copied to a private
+    directory), so a receipt sealed for another case can never satisfy this one.
+    """
+
+    def __init__(self, inner: Any, caseId: str, receiptId: str, proofSourceSha: str,
+                 approvalPath: Path | None = None, keepalive: Any = None) -> None:
+        self.inner, self.caseId, self.receiptId = inner, caseId, receiptId
+        self.proofSourceSha, self.approvalPath, self.keepalive = proofSourceSha, approvalPath, keepalive
+
+    def for_challenge(self, challengeId: str) -> CaseBound:
+        return CaseBound(self, challengeId)
+
+
+class IssuerNotConfigured(ReceiptUnavailable):
+    """No committed or deployed issuer pins: structurally unavailable, not unverifiable."""
+
+
+def pinnedConfig():
+    """The committed issuer pins ONLY; GAIA_RECEIPT_* overrides never apply to admission."""
+    try:
+        return loadTrustedConfig(env={})
+    except ReceiptMisconfigured:
+        raise
+    except ReceiptUnavailable as exc:
+        raise IssuerNotConfigured(str(exc)) from None
+
+
+def copyReceiptFiles(source: Path, destination: Path) -> None:
+    destination.mkdir(parents=True)
+    if source.is_symlink() or not source.is_dir():
+        raise ReceiptUnavailable("committed receipt directory is missing or linked")
+    for name, cap in BUNDLE_LIMITS.items():
+        path = source / name
+        if path.is_symlink() or not path.is_file() or path.stat().st_size > cap:
+            raise ReceiptUnavailable(f"committed receipt file {name} is missing, linked, or oversized")
+        shutil.copyfile(path, destination / name)
+
+
+def committedResolver(rootPath: Path, report: BundleReport, receiptDir: Path | None = None) -> CaseResolver:
+    """Production offline resolver for one case: pinned config (no env), case-private receipt lookup."""
+    config = pinnedConfig()
+    scratch = tempfile.TemporaryDirectory(prefix="gaia-case-receipt-")
+    destination = Path(scratch.name) / EVIDENCE / report.caseId / RECEIPT_SUBDIR
+    copyReceiptFiles(receiptDir or report.directory / RECEIPT_SUBDIR, destination)
+    source = CommittedAttestedReceiptSource(scratch.name, git=LocalGit(rootPath))
+    request = report.admission or {}
+    return CaseResolver(GitHubVerificationReceiptResolver(config, source), report.caseId, report.receiptId or "",
+                        request.get("proofSourceSha", ""), destination / BUNDLE_APPROVAL, scratch)
+
+
+def liveResolver(rootPath: Path, report: BundleReport) -> CaseResolver:
+    config = pinnedConfig()
+    request = report.admission or {}
+    return CaseResolver(GitHubVerificationReceiptResolver(config, GitHubActionsSource(git=LocalGit(rootPath))),
+                        report.caseId, report.receiptId or "", request.get("proofSourceSha", ""))
+
+
+# --- admission -----------------------------------------------------------------------
 
 @dataclass(frozen=True)
 class AdmissionOutcome:
-    outcome: str          # "admitted" | "held"
-    reason: str           # "" when admitted, else one of REASONS
+    outcome: Outcome
+    reason: HoldReason | None
     detail: str
     challenge: Challenge | None = None
+    genericRef: str | None = None
+    resolver: CaseResolver | None = None
 
 
 def clean(text: Any) -> str:
     return re.sub(r"[^\x20-\x7e]", " ", str(text))[:240].strip()
 
 
-def productionResolver(root: str | Path, *, online: bool):
-    """The only resolver that may admit: pinned config + an allowlisted authenticated source.
-
-    ``online`` uses the live GitHub Actions adapter (admission time); otherwise the
-    committed attested bundle (every docs build). Raises ``ReceiptUnavailable`` when the
-    issuer is not configured.
-    """
-    from .steward.challenge_receipts import (
-        CommittedAttestedReceiptSource, GitHubActionsSource, GitHubVerificationReceiptResolver, loadTrustedConfig,
-    )
-    config = loadTrustedConfig()
-    source = GitHubActionsSource() if online else CommittedAttestedReceiptSource(root)
-    return GitHubVerificationReceiptResolver(config, source)
+def held(reason: HoldReason, detail: str) -> AdmissionOutcome:
+    return AdmissionOutcome(Outcome.HELD, reason, clean(detail))
 
 
 def attemptAdmission(report: BundleReport, root: str | Path, *, resolver: Any = None, online: bool = False) -> AdmissionOutcome:
-    """Try a real admission; anything short of a verified receipt is ``held``. Writes nothing."""
-    from .steward.challenge_receipts import ReceiptMisconfigured, ReceiptUnavailable
+    """Try a real admission; anything short of a verified, bundle-bound receipt is a hold. Writes nothing.
+
+    ``resolver`` is a test seam standing in for an offline committed lookup. Without it, a case
+    with a committed ``receipt/`` uses the offline case-bound source; a case without one is
+    held as issuer-unavailable (structurally, no tooling needed) unless ``online`` asks for the
+    live adapter, whose success is reported as ``live-verified-uncommitted``, never ``admitted``.
+    """
+    rootPath = Path(root).resolve()
     if not report.ok:
         raise AdmissionError("bundle does not re-validate: " + "; ".join(report.errors))
+    if report.eventErrors:
+        return held(HoldReason.EVENT_LOG_BROKEN, "; ".join(report.eventErrors))
     if not report.eligible:
-        return AdmissionOutcome("held", "not-recommended-for-admission",
-                                f"meta verification outcome is {report.meta.get('outcome')}")
+        return held(HoldReason.NOT_RECOMMENDED, f"meta verification outcome is {report.meta.get('outcome')}")
     if report.admission is None:
-        return AdmissionOutcome("held", "admission-request-missing", "no admission request has been built")
+        return held(HoldReason.REQUEST_MISSING, "no admission request has been built")
     request = report.admission
-    draft = dict(draftOf(request))
+    live = False
     try:
-        useLive = online and not (report.directory / "receipt").is_dir()
-        active = resolver if resolver is not None else productionResolver(root, online=useLive)
+        if resolver is not None:
+            active = CaseResolver(resolver, report.caseId, report.receiptId or "", request["proofSourceSha"])
+        elif report.hasCommittedReceipt:
+            active = committedResolver(rootPath, report)
+        elif online:
+            active, live = liveResolver(rootPath, report), True
+        else:
+            return held(HoldReason.ISSUER_UNAVAILABLE, "this case has no committed receipt/ directory")
+    except ReceiptMisconfigured as exc:
+        return held(HoldReason.ISSUER_MISCONFIGURED, exc)
+    except IssuerNotConfigured as exc:
+        return held(HoldReason.ISSUER_UNAVAILABLE, exc)
+    except ReceiptUnavailable as exc:
+        return held(HoldReason.RECEIPT_UNVERIFIABLE, exc)
+    try:
+        draft = dict(draftOf(request))
         values = {key: value for key, value in draft.items() if key != "created_at_utc"}
         challenge = open_challenge(
             receipt_resolver=active, verification_receipt_id=request["receipt"]["receipt_id"],
             verified_at_utc=draft["created_at_utc"], verifier_id=request["verifierId"], **values)
     except ReceiptMisconfigured as exc:
-        return AdmissionOutcome("held", "trusted-issuer-misconfigured", clean(exc))
+        return held(HoldReason.ISSUER_MISCONFIGURED, exc)
     except ReceiptUnavailable as exc:
-        message = str(exc)
-        absent = ("absent" in message or "not configured" in message or "no committed" in message
-                  or "not found" in message or "no GitHub" in message)
-        return AdmissionOutcome("held", "trusted-issuer-unavailable" if absent else "receipt-unverifiable", clean(message))
+        return held(HoldReason.ISSUER_UNAVAILABLE if live else HoldReason.RECEIPT_UNVERIFIABLE, exc)
     except ValueError as exc:
-        return AdmissionOutcome("held", "challenge-rejected", clean(exc))
+        return held(HoldReason.CHALLENGE_REJECTED, exc)
     except Exception as exc:  # fail closed: an unexpected adapter error is never an admission
-        return AdmissionOutcome("held", "receipt-unverifiable", clean(f"{type(exc).__name__}: {exc}"))
-    if challenge.challenge_id != request.get("challengeId"):
-        return AdmissionOutcome("held", "challenge-rejected", "opened challenge id differs from the admission request")
-    return AdmissionOutcome("admitted", "", "issuer receipt verified", challenge)
+        return held(HoldReason.RECEIPT_UNVERIFIABLE, f"{type(exc).__name__}: {exc}")
+    opening = challenge.history[0]
+    try:
+        local = sha(readBounded(report.directory / "transcript.json"))
+    except AdmissionError as exc:
+        return held(HoldReason.BUNDLE_NOT_BOUND, exc)
+    if (challenge.challenge_id != request.get("challengeId") or opening.receipt_id != request["receipt"]["receipt_id"]
+            or opening.transcript_digest.removeprefix("sha256:") != local.removeprefix("sha256:")):
+        return held(HoldReason.BUNDLE_NOT_BOUND,
+                    "the issuer-attested transcript digest does not match this bundle's transcript.json")
+    subject = (report.transcript or {}).get("subject", {})
+    if not isinstance(subject.get("genericSkillId"), str) or not subject["genericSkillId"].strip():
+        return held(HoldReason.BUNDLE_NOT_BOUND, "transcript carries no bound generic skill reference")
+    if live:
+        return AdmissionOutcome(Outcome.LIVE_UNCOMMITTED, None,
+                                "verified live; run `gaia dev challenge fetch-receipt` and commit receipt/ to count")
+    return AdmissionOutcome(Outcome.ADMITTED, None, "issuer receipt verified and bound to the bundle",
+                            challenge, subject["genericSkillId"], active)
 
 
 def admit(root: str | Path, caseId: str, *, resolver: Any = None, actor: str = "unknown",
           online: bool = True) -> dict[str, Any]:
     """Attempt admission through the production resolver and append the outcome to events.jsonl."""
     report = inspectBundle(root, caseId)
+    if report.eventErrors:
+        raise AdmissionError("refusing to record on a broken event log: " + "; ".join(report.eventErrors))
     outcome = attemptAdmission(report, root, resolver=resolver, online=online)
-    fields: dict[str, Any] = {"actor": actor, "outcome": outcome.outcome, "reason": outcome.reason,
-                              "detail": outcome.detail, "bundleDigest": report.digests["bundle"],
-                              "recordedStateIsNotAuthority": True}
+    fields: dict[str, Any] = {"actor": actor, "outcome": outcome.outcome.value,
+                              "reason": outcome.reason.value if outcome.reason else "", "detail": outcome.detail,
+                              "bundleDigest": report.digests["bundle"], "recordedStateIsNotAuthority": True}
     if report.admission is not None:
         fields["challengeId"] = report.admission.get("challengeId")
     if outcome.challenge is not None:
         fields["historyDigest"] = outcome.challenge.history_digest
     return appendEvent(report.directory, "admission-attempt", fields)
+
+
+# --- fetch-receipt -------------------------------------------------------------------
+
+def fetchReceipt(root: str | Path, caseId: str, *, source: Any = None, resolver: Any = None,
+                 actor: str = "unknown") -> dict[str, Any]:
+    """Verify the issuer's run live, then write the committed ``receipt/`` files the offline source reads.
+
+    The three files come from the verified artifact (``artifact.zip``, ``issuer-approval.json``,
+    ``attestation.jsonl``); the pinned Sigstore root ships in the package. They are re-verified
+    through the case-bound offline resolver before the directory is kept.
+    """
+    rootPath = Path(root).resolve()
+    report = inspectBundle(rootPath, caseId)
+    if not report.ok or report.admission is None:
+        raise AdmissionError("a valid bundle with an admission request is required")
+    if report.hasCommittedReceipt:
+        raise AdmissionError("receipt/ already exists; it is never overwritten")
+    config = pinnedConfig()
+    live = source if source is not None else GitHubActionsSource(git=LocalGit(rootPath))
+    try:
+        document = live.fetch(report.receiptId, config)
+        data = live.transport.getBytes(f"repos/{config.repository}/actions/artifacts/{document['artifactId']}/zip")
+        files = _readBundleZip(data)
+    except (ReceiptUnavailable, KeyError, TypeError) as exc:
+        raise AdmissionError(f"live issuer receipt is not retrievable: {clean(exc)}") from None
+    target = report.directory / RECEIPT_SUBDIR
+    assertPlain(rootPath, target)
+    target.mkdir()
+    try:
+        for name, content in files.items():
+            writeNew(target / name, content)
+        check = inspectBundle(rootPath, caseId)
+        outcome = attemptAdmission(check, rootPath, resolver=resolver, online=False)
+        if outcome.outcome is not Outcome.ADMITTED:
+            raise AdmissionError(f"fetched receipt does not verify offline: {outcome.reason.value if outcome.reason else ''}: {outcome.detail}")
+    except Exception:
+        shutil.rmtree(target, ignore_errors=True)
+        raise
+    return appendEvent(report.directory, "receipt-fetched", {
+        "actor": actor, "receiptId": report.receiptId, "files": sorted(files),
+        "bundleDigest": report.digests["bundle"], "recordedStateIsNotAuthority": True})
