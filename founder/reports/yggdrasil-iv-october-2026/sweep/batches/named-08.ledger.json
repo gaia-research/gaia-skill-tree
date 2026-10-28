@@ -1,0 +1,677 @@
+[
+  {
+    "id": "gsd-build/gsd-plan-phase",
+    "kind": "named",
+    "path": "registry/named/gsd-build/gsd-plan-phase.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ standard-branch component (no suiteComponents; suiteRef gsd-build/get-shit-done lists it). Prepass TM 50.0 B, gates clean. links.github is a blob at open-gsd/gsd-core next branch, alive (200). Origin false is correct: writing-plans bucket holder obra/writing-plans is 4★ TM 110.15. Evidence: stars row (64413, source URL still on the legacy gsd-build/get-shit-done commands path, alive) plus repo-own (commits 2888, contributors 136). Body documents the external @opengsd/gsd-core runtime prerequisite; it is not explicit about the runtime maker, which is a minor note only.",
+    "evidenceRefs": [
+      "registry/named/gsd-build/gsd-plan-phase.md",
+      "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-plan-phase/SKILL.md",
+      "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md",
+      "https://github.com/gsd-build/get-shit-done",
+      "registry/named-skills.json (bucket writing-plans)"
+    ]
+  },
+  {
+    "id": "gsd-build/gsd-ship",
+    "kind": "named",
+    "path": "registry/named/gsd-build/gsd-ship.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ standard-branch component, prepass TM 50.0 B, links.github blob alive (200). Rename history (gsd-build/ship to gsd-build/gsd-ship) is consistent with id, file and title. Description (PR creation, review, phase archive) fits finishing-a-development-branch. Origin false: finishing-a-development-branch holder addy-osmani/shipping-and-launch is 3★ TM 50 B, a tie with gsd-ship; the tie-break is not decidable from registry fields, so no change. Evidence mirrors gsd-plan-phase (shared host stars and repo-own rows).",
+    "evidenceRefs": [
+      "registry/named/gsd-build/gsd-ship.md",
+      "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-ship/SKILL.md",
+      "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/ship.md",
+      "registry/named-skills.json (bucket finishing-a-development-branch)"
+    ]
+  },
+  {
+    "id": "gsd-build/gsd-verify-work",
+    "kind": "named",
+    "path": "registry/named/gsd-build/gsd-verify-work.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ standard-branch component, prepass TM 52.66 B (matches the frontmatter cache), links.github blob alive (200). Description (walk through built work, diagnose gaps, fix before completion) fits verification-before-completion. Origin false is correct: holder obra/verification-before-completion is 3★ TM 97.81, higher. Evidence mirrors the GSD suite baseline rows.",
+    "evidenceRefs": [
+      "registry/named/gsd-build/gsd-verify-work.md",
+      "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-verify-work/SKILL.md",
+      "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md",
+      "registry/named-skills.json (bucket verification-before-completion)"
+    ]
+  },
+  {
+    "id": "heygen-com/embedded-captions",
+    "kind": "named",
+    "path": "registry/named/heygen-com/embedded-captions.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ non-suite component of heygen-com/hyperframes (suiteRef matches the suite's suiteComponents). Prepass TM 50.0 B; 3★ has no TM gate. links.github is a pinned blob SHA (7a2a691), alive (200). Evidence = the two host-repository rows shared by all 18 components (host stars 55019, repo metrics); they support platform adoption, not component-level use, but the 3★ rank does not depend on a component-level gate. Body is the install pointer only. Origin true is the only member with a 3★ rank in video-captions (remotion-captions is 1★ ungraded).",
+    "evidenceRefs": [
+      "registry/named/heygen-com/embedded-captions.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/embedded-captions/SKILL.md",
+      "https://github.com/heygen-com/hyperframes",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "heygen-com/faceless-explainer",
+    "kind": "named",
+    "path": "registry/named/heygen-com/faceless-explainer.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ non-suite component of heygen-com/hyperframes (suiteRef matches the suite's suiteComponents). Prepass TM 50.0 B; 3★ has no TM gate. links.github is a pinned blob SHA (7a2a691), alive (200). Evidence = the two host-repository rows shared by all 18 components (host stars 55019, repo metrics); they support platform adoption, not component-level use, but the 3★ rank does not depend on a component-level gate. Body is the install pointer only. Origin false is correct: video-composition has no current holder, but this record is not the leader (see heygen-com/hyperframes).",
+    "evidenceRefs": [
+      "registry/named/heygen-com/faceless-explainer.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/faceless-explainer/SKILL.md",
+      "https://github.com/heygen-com/hyperframes",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "heygen-com/figma",
+    "kind": "named",
+    "path": "registry/named/heygen-com/figma.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ non-suite component of heygen-com/hyperframes (suiteRef matches the suite's suiteComponents). Prepass TM 50.0 B; 3★ has no TM gate. links.github is a pinned blob SHA (7a2a691), alive (200). Evidence = the two host-repository rows shared by all 18 components (host stars 55019, repo metrics); they support platform adoption, not component-level use, but the 3★ rank does not depend on a component-level gate. Body is the install pointer only. Origin true is the sole member of design-source-import.",
+    "evidenceRefs": [
+      "registry/named/heygen-com/figma.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/figma/SKILL.md",
+      "https://github.com/heygen-com/hyperframes",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "heygen-com/general-video",
+    "kind": "named",
+    "path": "registry/named/heygen-com/general-video.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Stored level 2★ but the record has zero evidence rows, prepass TM 0.0 and grade ungraded, and its timeline has only an add event (no rank_up). The index generator clamps level to the grade ceiling (scripts/generateNamedIndex.py ~L618-638; ungraded maps to 1★), so registry/named-skills.json publishes 1★ while the file says 2★. Basis is deterministic (TM grade), not elapsed time or URL health. Proposal: reconcile the stored level to the grade ceiling through the gaia dev CLI (or attach evidence through gaia dev evidence), never by hand-edit. Other notes: body is a placeholder (see body finding); no trustMagnitude cache; not a member of the hyperframes suite although it is a heygen HyperFrames skill added after the suite (structural choice, left for steward); links.github pins the v0.8.60 tag, alive (200).",
+    "evidenceRefs": [
+      "registry/named/heygen-com/general-video.md",
+      "https://github.com/heygen-com/hyperframes/blob/v0.8.60/skills/general-video/SKILL.md",
+      "scripts/generateNamedIndex.py",
+      "registry/named-skills.json (bucket video-composition, generatedAt 2026-10-27)"
+    ]
+  },
+  {
+    "id": "heygen-com/hyperframes-animation",
+    "kind": "named",
+    "path": "registry/named/heygen-com/hyperframes-animation.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ non-suite component of heygen-com/hyperframes (suiteRef matches the suite's suiteComponents). Prepass TM 50.0 B; 3★ has no TM gate. links.github is a pinned blob SHA (7a2a691), alive (200). Evidence = the two host-repository rows shared by all 18 components (host stars 55019, repo metrics); they support platform adoption, not component-level use, but the 3★ rank does not depend on a component-level gate. Body is the install pointer only. Origin true ties at TM 50 with hyperframes-keyframes and motion-graphics; the tie-break is not decidable from registry fields, so no change.",
+    "evidenceRefs": [
+      "registry/named/heygen-com/hyperframes-animation.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-animation/SKILL.md",
+      "https://github.com/heygen-com/hyperframes",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "heygen-com/hyperframes-audio",
+    "kind": "named",
+    "path": "registry/named/heygen-com/hyperframes-audio.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ non-suite component of heygen-com/hyperframes (suiteRef matches the suite's suiteComponents). Prepass TM 50.0 B; 3★ has no TM gate. links.github is a pinned blob SHA (7a2a691), alive (200). Evidence = the two host-repository rows shared by all 18 components (host stars 55019, repo metrics); they support platform adoption, not component-level use, but the 3★ rank does not depend on a component-level gate. Body is the install pointer only. Origin true is the sole member of audio-mixing.",
+    "evidenceRefs": [
+      "registry/named/heygen-com/hyperframes-audio.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-audio/SKILL.md",
+      "https://github.com/heygen-com/hyperframes",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "heygen-com/hyperframes-cli",
+    "kind": "named",
+    "path": "registry/named/heygen-com/hyperframes-cli.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ non-suite component of heygen-com/hyperframes (suiteRef matches the suite's suiteComponents). Prepass TM 50.0 B; 3★ has no TM gate. links.github is a pinned blob SHA (7a2a691), alive (200). Evidence = the two host-repository rows shared by all 18 components (host stars 55019, repo metrics); they support platform adoption, not component-level use, but the 3★ rank does not depend on a component-level gate. Body is the install pointer only. Origin true is the sole member of video-scaffolding among 3★ records (remotion-create is 1★ ungraded).",
+    "evidenceRefs": [
+      "registry/named/heygen-com/hyperframes-cli.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-cli/SKILL.md",
+      "https://github.com/heygen-com/hyperframes",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "heygen-com/hyperframes-core",
+    "kind": "named",
+    "path": "registry/named/heygen-com/hyperframes-core.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ non-suite component of heygen-com/hyperframes (suiteRef matches the suite's suiteComponents). Prepass TM 50.0 B; 3★ has no TM gate. links.github is a pinned blob SHA (7a2a691), alive (200). Evidence = the two host-repository rows shared by all 18 components (host stars 55019, repo metrics); they support platform adoption, not component-level use, but the 3★ rank does not depend on a component-level gate. Body is the install pointer only. Origin true is the leader of video-rendering (remotion-render is 1★ ungraded).",
+    "evidenceRefs": [
+      "registry/named/heygen-com/hyperframes-core.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-core/SKILL.md",
+      "https://github.com/heygen-com/hyperframes",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "heygen-com/hyperframes-creative",
+    "kind": "named",
+    "path": "registry/named/heygen-com/hyperframes-creative.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ non-suite component of heygen-com/hyperframes (suiteRef matches the suite's suiteComponents). Prepass TM 50.0 B; 3★ has no TM gate. links.github is a pinned blob SHA (7a2a691), alive (200). Evidence = the two host-repository rows shared by all 18 components (host stars 55019, repo metrics); they support platform adoption, not component-level use, but the 3★ rank does not depend on a component-level gate. Body is the install pointer only. Origin true is the sole member of creative-direction.",
+    "evidenceRefs": [
+      "registry/named/heygen-com/hyperframes-creative.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-creative/SKILL.md",
+      "https://github.com/heygen-com/hyperframes",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "heygen-com/hyperframes-keyframes",
+    "kind": "named",
+    "path": "registry/named/heygen-com/hyperframes-keyframes.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ non-suite component of heygen-com/hyperframes (suiteRef matches the suite's suiteComponents). Prepass TM 50.0 B; 3★ has no TM gate. links.github is a pinned blob SHA (7a2a691), alive (200). Evidence = the two host-repository rows shared by all 18 components (host stars 55019, repo metrics); they support platform adoption, not component-level use, but the 3★ rank does not depend on a component-level gate. Body is the install pointer only. Origin false is consistent with the TM 50 tie in timeline-animation (hyperframes-animation holds origin).",
+    "evidenceRefs": [
+      "registry/named/heygen-com/hyperframes-keyframes.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-keyframes/SKILL.md",
+      "https://github.com/heygen-com/hyperframes",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "heygen-com/hyperframes-registry",
+    "kind": "named",
+    "path": "registry/named/heygen-com/hyperframes-registry.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "fail",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "3★ TM 50.0 B component of heygen-com/hyperframes, link alive, body and evidence as siblings. Origin inversion in bucket skill-discovery: holder vercel/find-skills is 2★ TM 36.0 C (origin true). By the META §4.1 merit rule (highest rated, ties aside) this record should hold origin. Deterministic basis: rank 3★ > 2★ and TM 50.0 > 36.0. Requires the CLI origin transfer and a coordinated origin removal on vercel/find-skills (outside this batch).",
+    "evidenceRefs": [
+      "registry/named/heygen-com/hyperframes-registry.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-registry/SKILL.md",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json (vercel/find-skills 2★ 36.0 C origin true)",
+      "registry/named-skills.json (bucket skill-discovery)"
+    ]
+  },
+  {
+    "id": "heygen-com/hyperframes",
+    "kind": "named",
+    "path": "registry/named/heygen-com/hyperframes.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "fail",
+      "evidence": "pass",
+      "upstream": "review-debt",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "4★ Extra suite orchestrator. Prepass TM 166.92 grade A (gate ≥100 met), links.github blob at pinned SHA alive (200). All 18 suiteComponents exist under registry/named/heygen-com/ and each lists suiteRef heygen-com/hyperframes. Suite branch 4★ does not require bucket Origin (CLAUDE.md), but the video-composition bucket (8 members) has no Origin holder while this record is the unique highest-rated member (4★ A vs 3★ B and 1★ ungraded). Proposal: assign Origin by merit through the CLI, after founder confirmation, since 105 of 202 buckets lack Origin (systemic). Separate metadata issue: upstream block pins v0.8.60 (synced 2026-09-22) while the latest upstream release is v0.8.209 (published 2026-10-27). Review debt only, no demotion basis. No fusion-recipe row is expected on a suite-based ultimate (trustMagnitude.py ~L1419).",
+    "evidenceRefs": [
+      "registry/named/heygen-com/hyperframes.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md",
+      "https://github.com/heygen-com/hyperframes/releases/tag/v0.8.209",
+      "https://github.com/heygen-com/hyperframes/releases/tag/v0.8.60",
+      "registry/named-skills.json (bucket video-composition)",
+      "src/gaia_cli/trustMagnitude.py"
+    ]
+  },
+  {
+    "id": "heygen-com/media-use",
+    "kind": "named",
+    "path": "registry/named/heygen-com/media-use.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ non-suite component of heygen-com/hyperframes (suiteRef matches the suite's suiteComponents). Prepass TM 50.0 B; 3★ has no TM gate. links.github is a pinned blob SHA (7a2a691), alive (200). Evidence = the two host-repository rows shared by all 18 components (host stars 55019, repo metrics); they support platform adoption, not component-level use, but the 3★ rank does not depend on a component-level gate. Body is the install pointer only. Origin true is the sole member of media-asset-orchestration.",
+    "evidenceRefs": [
+      "registry/named/heygen-com/media-use.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/media-use/SKILL.md",
+      "https://github.com/heygen-com/hyperframes",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "heygen-com/motion-graphics",
+    "kind": "named",
+    "path": "registry/named/heygen-com/motion-graphics.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ non-suite component of heygen-com/hyperframes (suiteRef matches the suite's suiteComponents). Prepass TM 50.0 B; 3★ has no TM gate. links.github is a pinned blob SHA (7a2a691), alive (200). Evidence = the two host-repository rows shared by all 18 components (host stars 55019, repo metrics); they support platform adoption, not component-level use, but the 3★ rank does not depend on a component-level gate. Body is the install pointer only. Origin false is consistent with the TM 50 tie in timeline-animation.",
+    "evidenceRefs": [
+      "registry/named/heygen-com/motion-graphics.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/motion-graphics/SKILL.md",
+      "https://github.com/heygen-com/hyperframes",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "heygen-com/music-to-video",
+    "kind": "named",
+    "path": "registry/named/heygen-com/music-to-video.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ non-suite component of heygen-com/hyperframes (suiteRef matches the suite's suiteComponents). Prepass TM 50.0 B; 3★ has no TM gate. links.github is a pinned blob SHA (7a2a691), alive (200). Evidence = the two host-repository rows shared by all 18 components (host stars 55019, repo metrics); they support platform adoption, not component-level use, but the 3★ rank does not depend on a component-level gate. Body is the install pointer only. Origin false: video-composition has no current holder, and this record is not the leader.",
+    "evidenceRefs": [
+      "registry/named/heygen-com/music-to-video.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/music-to-video/SKILL.md",
+      "https://github.com/heygen-com/hyperframes",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "heygen-com/pr-to-video",
+    "kind": "named",
+    "path": "registry/named/heygen-com/pr-to-video.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ non-suite component of heygen-com/hyperframes (suiteRef matches the suite's suiteComponents). Prepass TM 50.0 B; 3★ has no TM gate. links.github is a pinned blob SHA (7a2a691), alive (200). Evidence = the two host-repository rows shared by all 18 components (host stars 55019, repo metrics); they support platform adoption, not component-level use, but the 3★ rank does not depend on a component-level gate. Body is the install pointer only. Origin false: video-composition has no current holder, and this record is not the leader.",
+    "evidenceRefs": [
+      "registry/named/heygen-com/pr-to-video.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/pr-to-video/SKILL.md",
+      "https://github.com/heygen-com/hyperframes",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "heygen-com/product-launch-video",
+    "kind": "named",
+    "path": "registry/named/heygen-com/product-launch-video.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ non-suite component of heygen-com/hyperframes (suiteRef matches the suite's suiteComponents). Prepass TM 50.0 B; 3★ has no TM gate. links.github is a pinned blob SHA (7a2a691), alive (200). Evidence = the two host-repository rows shared by all 18 components (host stars 55019, repo metrics); they support platform adoption, not component-level use, but the 3★ rank does not depend on a component-level gate. Body is the install pointer only. Origin false: video-composition has no current holder, and this record is not the leader.",
+    "evidenceRefs": [
+      "registry/named/heygen-com/product-launch-video.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/product-launch-video/SKILL.md",
+      "https://github.com/heygen-com/hyperframes",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "heygen-com/remotion-to-hyperframes",
+    "kind": "named",
+    "path": "registry/named/heygen-com/remotion-to-hyperframes.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "fail",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "3★ TM 50.0 B component, link alive, classification standard. framework-upgrade bucket has no Origin holder; this record is the unique highest-rated member (siblings laravel/upgrade-laravel-v13 and remotion-dev/remotion-upgrade are 1★ ungraded). Proposal: origin through the CLI after founder confirmation, same systemic caveat as heygen-com/hyperframes. Description is well scoped (explicit port requests only).",
+    "evidenceRefs": [
+      "registry/named/heygen-com/remotion-to-hyperframes.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/remotion-to-hyperframes/SKILL.md",
+      "registry/named-skills.json (bucket framework-upgrade)"
+    ]
+  },
+  {
+    "id": "heygen-com/slideshow",
+    "kind": "named",
+    "path": "registry/named/heygen-com/slideshow.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ non-suite component of heygen-com/hyperframes (suiteRef matches the suite's suiteComponents). Prepass TM 50.0 B; 3★ has no TM gate. links.github is a pinned blob SHA (7a2a691), alive (200). Evidence = the two host-repository rows shared by all 18 components (host stars 55019, repo metrics); they support platform adoption, not component-level use, but the 3★ rank does not depend on a component-level gate. Body is the install pointer only. Origin true is the leader of interactive-presentation-authoring (sole member).",
+    "evidenceRefs": [
+      "registry/named/heygen-com/slideshow.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/slideshow/SKILL.md",
+      "https://github.com/heygen-com/hyperframes",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "heygen-com/talking-head-recut",
+    "kind": "named",
+    "path": "registry/named/heygen-com/talking-head-recut.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ non-suite component of heygen-com/hyperframes (suiteRef matches the suite's suiteComponents). Prepass TM 50.0 B; 3★ has no TM gate. links.github is a pinned blob SHA (7a2a691), alive (200). Evidence = the two host-repository rows shared by all 18 components (host stars 55019, repo metrics); they support platform adoption, not component-level use, but the 3★ rank does not depend on a component-level gate. Body is the install pointer only. Origin false: video-composition has no current holder, and this record is not the leader.",
+    "evidenceRefs": [
+      "registry/named/heygen-com/talking-head-recut.md",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/talking-head-recut/SKILL.md",
+      "https://github.com/heygen-com/hyperframes",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "hikari9/auto-office",
+    "kind": "named",
+    "path": "registry/named/hikari9/auto-office.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "fail",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "3★ suite-branch record with suiteComponents [hikari9/office-submit] (exists, suiteRef matches). Prepass TM 88.97 B, gates clean, links.github root SKILL.md blob alive (200); the body says there is no standalone SKILL.md copy, which reads oddly beside the link but the link resolves, so no change. Origin: sole member of the autonomous-engineering-platform bucket (fusion node) with origin false, so the one-Origin-per-bucket rule is unmet. Proposal: origin through the CLI after founder confirmation; systemic caveat (70 single-member buckets have origin false). Evidence: repo-own row explicitly describes a whole-repository baseline (grade C); disclosed, not a component-level claim. No TM cache fields in frontmatter (recomputed by catalogs), which is a minor metadata note.",
+    "evidenceRefs": [
+      "registry/named/hikari9/auto-office.md",
+      "https://github.com/Hikari9/auto-office/blob/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/SKILL.md",
+      "https://github.com/Hikari9/auto-office/blob/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/skills/office-submit/SKILL.md",
+      "registry/named-skills.json (bucket autonomous-engineering-platform)"
+    ]
+  },
+  {
+    "id": "hikari9/office-submit",
+    "kind": "named",
+    "path": "registry/named/hikari9/office-submit.md",
+    "reviewer": "haiku:named-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ suite component of hikari9/auto-office (suiteRef matches the parent's suiteComponents). Prepass TM 24.34 C, within the 2★ ceiling. Link alive (200). Evidence rows are explicitly disclosed as shared whole-repository baselines (repo-own C, 1 star). Description (finish an Office executor task: self-review, run checks, submit) is a reasonable fit for verification-before-completion (verify before claiming done). Origin false is correct: holder obra/verification-before-completion is 3★ TM 97.81. Body relative link ../hikari9/auto-office.md resolves inside the registry tree.",
+    "evidenceRefs": [
+      "registry/named/hikari9/office-submit.md",
+      "https://github.com/Hikari9/auto-office/blob/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/skills/office-submit/SKILL.md"
+    ]
+  }
+]

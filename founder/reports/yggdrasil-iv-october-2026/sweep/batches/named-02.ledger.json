@@ -1,0 +1,651 @@
+[
+  {
+    "id": "anthropics/brand-guidelines",
+    "kind": "named",
+    "path": "registry/named/anthropics/brand-guidelines.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "concern",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "4* Unique gate (TM 184.87, A) rests on a github-stars-own row for anthropics/skills (179,239 recorded) that is a 17-skill monorepo; with that row removed TM is 36.0 and 4* fails. Sibling anthropics/canvas-design shares the repo but has no star row, so the policy is applied inconsistently. Curator/Class C decision needed; no demotion proposed. Body is the template stub.",
+    "evidenceRefs": [
+      "registry/named/anthropics/brand-guidelines.md",
+      "https://github.com/anthropics/skills",
+      "https://github.com/anthropics/skills/stargazers",
+      "https://github.com/anthropics/skills/blob/main/skills/brand-guidelines/SKILL.md"
+    ]
+  },
+  {
+    "id": "anthropics/canvas-design",
+    "kind": "named",
+    "path": "registry/named/anthropics/canvas-design.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "concern",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Sole qualified (2*) claimant of bucket static-artwork-design with origin=false. Invariant is exactly one current Origin per claimed generic node (YG-IV IV), so the sole claimant should hold it. Part of a systemic gap: 51 of 202 buckets have qualified claimants and no Origin. Body is the template stub.",
+    "evidenceRefs": [
+      "registry/named/anthropics/canvas-design.md",
+      "registry/named-skills.json",
+      "https://github.com/anthropics/skills/blob/main/skills/canvas-design/SKILL.md",
+      "https://arxiv.org/abs/2605.23657",
+      "https://www.youtube.com/watch?v=Iup1WlUyj9M"
+    ]
+  },
+  {
+    "id": "aplaceforallmystuff/log-to-daily",
+    "kind": "named",
+    "path": "registry/named/aplaceforallmystuff/log-to-daily.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "concern",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Sole qualified (2*) claimant of bucket session-journaling with origin=false; same one-Origin invariant gap as canvas-design (systemic, 51 buckets). Stars row (41 on own repo) and blob link (HTTP 200) are fine. Body is the template stub.",
+    "evidenceRefs": [
+      "registry/named/aplaceforallmystuff/log-to-daily.md",
+      "registry/named-skills.json",
+      "https://github.com/aplaceforallmystuff/daily-patterns-pack/blob/main/skills/log-to-daily/SKILL.md"
+    ]
+  },
+  {
+    "id": "ayghri/i-have-adhd",
+    "kind": "named",
+    "path": "registry/named/ayghri/i-have-adhd.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "fail",
+      "evidence": "concern",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "4* Unique (TM 130.23, A; prepass gates clean) but format-output has three claimants and none holds Origin. Merit-based winner is this record (130.23 vs output-skill 50 and make-pdf 36). CLAUDE.md requires bucket-level Origin for 4* Unique, so the rank is not supported until Origin is assigned. Stars row (52,569) conflicts with its own note (13,300 as of 2026-07-29); live count is 59,038. At 13,300 TM would be 109.33, still grade A, so rank holds. Body is the template stub.",
+    "evidenceRefs": [
+      "registry/named/ayghri/i-have-adhd.md",
+      "registry/named-skills.json",
+      "https://github.com/ayghri/i-have-adhd",
+      "https://api.github.com/repos/ayghri/i-have-adhd",
+      "https://github.com/ayghri/i-have-adhd/blob/main/skills/i-have-adhd/SKILL.md"
+    ]
+  },
+  {
+    "id": "balukosuri/autoresearch-universal",
+    "kind": "named",
+    "path": "registry/named/balukosuri/autoresearch-universal.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "pass",
+      "body": "concern",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "reclassification",
+    "findingSummary": "Upstream SKILL.md is a prompt-optimization loop (generate, eval, score, mutate) using the Karpathy autoresearch pattern. The registry description and body say academic paper search and synthesis, and genericSkillRef autonomous-web-research is a web-research fusion node. prompt-optimization (fusion) fits better. The only evidence row is karpathy/autoresearch, the upstream inspiration and not evidence for this implementation; without it TM is 0.0 (ungraded).",
+    "evidenceRefs": [
+      "registry/named/balukosuri/autoresearch-universal.md",
+      "registry/nodes/fusion/prompt-optimization.json",
+      "https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill/blob/main/SKILL.md",
+      "https://github.com/karpathy/autoresearch"
+    ]
+  },
+  {
+    "id": "bradautomates/watch",
+    "kind": "named",
+    "path": "registry/named/bradautomates/watch.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "concern",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Only social-signal row points to youtube.com/watch?v=QZMljuD10sU, which now returns 'This video has been removed for violating YouTube's Community Guidelines'. It carries about 36 of the 37.47 TM. Dead-link review debt, not an automatic demotion (YG-IV). The repo bradautomates/claude-video has 19,384 live stars and only the watch skill, but no github-stars-own row. Adding one (stargazers URL) would give TM about 152.53 (A). Whisper is credited to no maker in the body.",
+    "evidenceRefs": [
+      "registry/named/bradautomates/watch.md",
+      "https://www.youtube.com/watch?v=QZMljuD10sU",
+      "https://github.com/bradautomates/claude-video",
+      "https://github.com/bradautomates/claude-video/blob/main/skills/watch/SKILL.md"
+    ]
+  },
+  {
+    "id": "browser-use/browser-harness",
+    "kind": "named",
+    "path": "registry/named/browser-use/browser-harness.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "fail",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "fail",
+      "evidence": "fail",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "concern"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Origin contradiction. The timeline records Origin transferred to garrytan/browse on 2026-06-02T23:32:59Z, and garrytan/browse records Origin set at the same timestamp. This record still has origin=true with no later event, and garrytan/browse is origin=false. Merit favours garrytan/browse (TM 88.5 vs 73.59, both B). Class C transfer. Also: provisional=true with no provisionalUntil; the B grade is provisional for failing the diversity gate, with only 2 positive-scoring types. Evidence concerns: the social-signal video XQn6yGq6oN8 is unavailable on YouTube and its 50,000 views are an estimate (37.59 of 73.59 TM); the benchmark row is a vendor self-benchmark of a different product and is null-on-derank; the peer-review row dedupes into the repo-own source. The repo has 18,658 live stars with no stars row.",
+    "evidenceRefs": [
+      "registry/named/browser-use/browser-harness.md",
+      "registry/named/garrytan/browse.md",
+      "https://www.youtube.com/watch?v=XQn6yGq6oN8",
+      "https://browser-use.com/posts/online-mind2web-benchmark",
+      "https://github.com/browser-use/browser-harness",
+      "https://github.com/browser-use/browser-harness/blob/main/SKILL.md"
+    ]
+  },
+  {
+    "id": "browserbase/browse",
+    "kind": "named",
+    "path": "registry/named/browserbase/browse.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "concern",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "concern",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Description and body describe the Stagehand SDK ('SDK for browser agents'). The linked upstream SKILL.md is the browse CLI skill (Browserbase cloud APIs, Browse.sh discovery, npm install -g browse). The description needs to match the artifact. catalogRef browserbase-stagehand is also stale after the rename. Zero evidence rows is acceptable at 1*; TM 0 ungraded.",
+    "evidenceRefs": [
+      "registry/named/browserbase/browse.md",
+      "https://github.com/browserbase/stagehand/blob/main/packages/cli/skills/browse/SKILL.md"
+    ]
+  },
+  {
+    "id": "caioribeiroclw-pixel/evidence-attestation",
+    "kind": "named",
+    "path": "registry/named/caioribeiroclw-pixel/evidence-attestation.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Upstream SKILL.md matches the registry description. The only row is a self-attestation of the spec itself, which is a legitimate 1* basis. Body is the template stub 'Add installation instructions here.' (low priority at 1*). Timeline has a no-op 'demote 2*->2*' entry (noise only).",
+    "evidenceRefs": [
+      "registry/named/caioribeiroclw-pixel/evidence-attestation.md",
+      "https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md"
+    ]
+  },
+  {
+    "id": "citrolabs/ego-browser",
+    "kind": "named",
+    "path": "registry/named/citrolabs/ego-browser.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "concern",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Pinned-SHA blob link resolves and upstream matches. Origin false is plausible under browser-harness/garrytan-browse. Body is the template stub. Coverage note: citrolabs/ego-lite has 20,124 live stars and no github-stars-own row (about 151.63 TM if added with a stargazers URL).",
+    "evidenceRefs": [
+      "registry/named/citrolabs/ego-browser.md",
+      "https://github.com/citrolabs/ego-lite/blob/5ca3c36cba2240b8df2e22ba32127747029039d5/skills/ego-browser/SKILL.md",
+      "https://api.github.com/repos/citrolabs/ego-lite"
+    ]
+  },
+  {
+    "id": "dietrichgebert/ponytail",
+    "kind": "named",
+    "path": "registry/named/dietrichgebert/ponytail.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "fail",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "4* Unique, TM 225.42 (A), blob link resolves. CLAUDE.md requires bucket-level Origin for 4* Unique. implement-with-discernment has one qualified claimant (this record); rico-favor is 1*, so it is not qualified. Origin should be held here. Body is the template stub. Metadata note: the stars row note says a 'skill-count divisor' is applied, but the TM code applies none (formula min(175, 35*log10(stars/10))). The row grade C also conflicts with its roughly 146 TM contribution. Recomputed TM is 224.72 vs prepass 225.42, consistent with a freshness evaluation-date difference.",
+    "evidenceRefs": [
+      "registry/named/dietrichgebert/ponytail.md",
+      "registry/named-skills.json",
+      "https://github.com/DietrichGebert/ponytail/blob/main/skills/ponytail/SKILL.md",
+      "https://api.github.com/repos/DietrichGebert/ponytail"
+    ]
+  },
+  {
+    "id": "disler/agent-fusion",
+    "kind": "named",
+    "path": "registry/named/disler/agent-fusion.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "concern",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Suite (2*): suiteComponents auto-review, opinion and plan-synthesis all exist and are in the agent-fusion generic's prerequisites, so classification is consistent. Origin is false, but the timeline shows a deliberate human strip as 'unearned' on 2026-09-04, so it is not re-proposed here. Body is the template stub. Coverage note: the fusion-harness repo has 600 live stars and no star row; a suite-level baseline is capped.",
+    "evidenceRefs": [
+      "registry/named/disler/agent-fusion.md",
+      "https://github.com/disler/fusion-harness",
+      "https://github.com/disler/fusion-harness/blob/main/README.md"
+    ]
+  },
+  {
+    "id": "disler/auto-review",
+    "kind": "named",
+    "path": "registry/named/disler/auto-review.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Origin plausible (sole claimant, human-set 2026-07-30). Blob link resolves to the fusion-harness validator prompt, which matches the description. Single social-signal row (live video AQl5Q-0l7FQ) is shared with three siblings but is relevant to /autovalidate. Body is the template stub.",
+    "evidenceRefs": [
+      "registry/named/disler/auto-review.md",
+      "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/prompts/USER_PROMPT_VALIDATOR.md",
+      "https://www.youtube.com/watch?v=AQl5Q-0l7FQ"
+    ]
+  },
+  {
+    "id": "disler/opinion",
+    "kind": "named",
+    "path": "registry/named/disler/opinion.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "concern",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "The only evidence is the IndyDevDan video, which shows /opinion running both models in parallel, side by side. It does not show the claimed 'avoiding model selection bias'. Notes should be scoped to what the video shows. Score is grade C and TM 36.34, so no rank effect. Body is the template stub.",
+    "evidenceRefs": [
+      "registry/named/disler/opinion.md",
+      "https://www.youtube.com/watch?v=AQl5Q-0l7FQ",
+      "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/prompts/USER_PROMPT_OPINION.md"
+    ]
+  },
+  {
+    "id": "disler/plan-synthesis",
+    "kind": "named",
+    "path": "registry/named/disler/plan-synthesis.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Origin plausible (sole claimant, human-set). Blob link resolves to the fusion-merge prompt, which matches the description. Body is the template stub.",
+    "evidenceRefs": [
+      "registry/named/disler/plan-synthesis.md",
+      "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/prompts/USER_PROMPT_FUSION_MERGE.md"
+    ]
+  },
+  {
+    "id": "favorchurch/attendees",
+    "kind": "named",
+    "path": "registry/named/favorchurch/attendees.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "1* awakened, TM 5.0 (self-attestation flat 10 at weight 0.5). Body matches upstream SKILL.md exactly. No credentials. Cross-batch question: the upstream financial-assistance skill declares Fluro retired, but this skill still uses Fluro as a fallback. Owner should confirm upstream before the next sync.",
+    "evidenceRefs": [
+      "registry/named/favorchurch/attendees.md",
+      "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/attendees/SKILL.md"
+    ]
+  },
+  {
+    "id": "favorchurch/count-checkin-by-church",
+    "kind": "named",
+    "path": "registry/named/favorchurch/count-checkin-by-church.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "1* awakened, TM 5.0. Body matches upstream exactly. Owner note only: the public body contains internal Google Sheet IDs and a named staff work account (rico@favor.church). The relative link ../update-unique-churches/SKILL.md does not resolve in the registry. Changes should go upstream, not into the mirror.",
+    "evidenceRefs": [
+      "registry/named/favorchurch/count-checkin-by-church.md",
+      "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/count-checkin-by-church/SKILL.md"
+    ]
+  },
+  {
+    "id": "favorchurch/export-attendees",
+    "kind": "named",
+    "path": "registry/named/favorchurch/export-attendees.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "1* awakened, TM 5.0. Body matches upstream exactly; safety gates (values-only paste, Remote Workbench) are documented. Owner note only: internal sheet IDs appear in the body.",
+    "evidenceRefs": [
+      "registry/named/favorchurch/export-attendees.md",
+      "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/export-attendees/SKILL.md"
+    ]
+  },
+  {
+    "id": "favorchurch/financial-assistance",
+    "kind": "named",
+    "path": "registry/named/favorchurch/financial-assistance.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "fail",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Stale mirror. Upstream main (fetched 2026-10-28) states 'Fluro is retired' and runs the process from the Rock connection board. The registry body still directs operators to the retired Fluro board (64afa26a6a4b2c0033c9bccf) and Fluro tooling; only 21 of 152 non-empty body lines match upstream. Re-sync the body from upstream. No upstream block exists to track drift. Owner note: sender address and sheet/board IDs are in the public body.",
+    "evidenceRefs": [
+      "registry/named/favorchurch/financial-assistance.md",
+      "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/financial-assistance/SKILL.md"
+    ]
+  },
+  {
+    "id": "favorchurch/resend-conference-emails-carefully-with-smtp",
+    "kind": "named",
+    "path": "registry/named/favorchurch/resend-conference-emails-carefully-with-smtp.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "1* awakened, TM 5.0. Body matches upstream exactly. Only env-var names and the SMTP host appear, with no secret values. Warm-up, validation and human go-ahead gates are documented.",
+    "evidenceRefs": [
+      "registry/named/favorchurch/resend-conference-emails-carefully-with-smtp.md",
+      "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/resend-conference-emails-carefully-with-smtp/SKILL.md"
+    ]
+  },
+  {
+    "id": "favorchurch/speak-like-favor",
+    "kind": "named",
+    "path": "registry/named/favorchurch/speak-like-favor.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "fail",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Schema drift: the repo-own row uses non-canonical key source_started_at (schema is sourceStartedAt), so the value is silently dropped. Low priority; TM is unaffected. Owner note: a brand-voice QA guide is mapped to humanize-prose (a fusion node for removing AI patterns). The mapping is loose but not clearly wrong, so it is not proposed.",
+    "evidenceRefs": [
+      "registry/named/favorchurch/speak-like-favor.md",
+      "https://github.com/favorchurch/favor-skills/blob/main/speak-like-favor/SKILL.md"
+    ]
+  },
+  {
+    "id": "favorchurch/ticket-transfer",
+    "kind": "named",
+    "path": "registry/named/favorchurch/ticket-transfer.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "1* awakened, TM 5.0. Body matches upstream exactly. It still describes a Fluro kanban (same open question as attendees and the retired-Fluro note in financial-assistance).",
+    "evidenceRefs": [
+      "registry/named/favorchurch/ticket-transfer.md",
+      "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/ticket-transfer/SKILL.md"
+    ]
+  },
+  {
+    "id": "favorchurch/triage-conference",
+    "kind": "named",
+    "path": "registry/named/favorchurch/triage-conference.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "1* awakened, TM 5.0. Body matches upstream exactly. It depends on a bundled references/conference-kb.md that is not published in the registry, so the skill is not self-contained there. 1* does not require installability, so this is noted only.",
+    "evidenceRefs": [
+      "registry/named/favorchurch/triage-conference.md",
+      "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/triage-conference/SKILL.md"
+    ]
+  },
+  {
+    "id": "favorchurch/update-unique-churches",
+    "kind": "named",
+    "path": "registry/named/favorchurch/update-unique-churches.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "1* awakened, TM 5.0. Body matches upstream exactly. It depends on a bundled church_recount.py not published in the registry (noted only). Owner note: internal sheet ID in the public body.",
+    "evidenceRefs": [
+      "registry/named/favorchurch/update-unique-churches.md",
+      "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/update-unique-churches/SKILL.md"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-build-interact",
+    "kind": "named",
+    "path": "registry/named/firecrawl/firecrawl-build-interact.md",
+    "reviewer": "haiku:named-02",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "3* standard branch; blob link (skills/build/.../SKILL.md) resolves; history of the invalid 4* at TM 70.69 was corrected on 2026-09-09. Suite membership is consistent with suiteRef and the capstone suiteComponents. Repo-own row uses the product monorepo firecrawl/firecrawl (5,714 commits); excluding it gives TM 36.86 vs 50.0, with no rank effect at 3*. Body is the template stub.",
+    "evidenceRefs": [
+      "registry/named/firecrawl/firecrawl-build-interact.md",
+      "registry/named/firecrawl/firecrawl-skills.md",
+      "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-interact/SKILL.md"
+    ]
+  }
+]

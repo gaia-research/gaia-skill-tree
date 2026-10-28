@@ -1,0 +1,661 @@
+[
+  {
+    "id": "mattpocock/to-questionnaire",
+    "kind": "named",
+    "path": "registry/named/mattpocock/to-questionnaire.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Body is the intake placeholder ('Add installation instructions here.') with no Overview. Frontmatter, 2★ level (prepass TM 20.77, C) and the blob link (HTTP 200 on 2026-10-28) are consistent; 2★ has no TM gate. The single repo-own row cites shared monorepo volume (523 commits, 4 contributors), which supports the repository more than this skill; noted, no rank consequence.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mattpocock/to-questionnaire.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/productivity/to-questionnaire/SKILL.md"
+    ]
+  },
+  {
+    "id": "mattpocock/to-spec",
+    "kind": "named",
+    "path": "registry/named/mattpocock/to-spec.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "fail",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 5,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Origin flag not supported on merit. Same prd-generation bucket: addy-osmani/spec-driven-development is 3★, origin false, prepass computedTm 80.0 (B) vs this record 63.71 (B). META §4.1 makes Origin the most renowned qualified implementation, not the earliest; the TM gap (16.3) is a deterministic basis, not model confidence. Any transfer is Class C (Origin change) and founder-gated. Evidence: row 1 source .../engineering/to-prd/SKILL.md returns 404 (live file is to-spec/SKILL.md, 200); legacy type 'repo'; four peer-review rows are GitHub issue/discussion threads (issues 156, 212, 240; discussion 217, all 200) rather than structured walkthroughs by 4★+ reviewers; two rows have no grade. Star bar holds (blob link 200). Dead row is review debt, not a demotion; no rank change proposed.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mattpocock/to-spec.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/addy-osmani/spec-driven-development.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md (404)",
+      "https://github.com/mattpocock/skills/issues/156",
+      "https://github.com/mattpocock/skills/issues/212",
+      "https://github.com/mattpocock/skills/issues/240",
+      "https://github.com/mattpocock/skills/discussions/217",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named-skills.json (bucket prd-generation)"
+    ]
+  },
+  {
+    "id": "mattpocock/to-tickets",
+    "kind": "named",
+    "path": "registry/named/mattpocock/to-tickets.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ with blob link (200) and TM 94.92 (B). Origin holder is 0.08 below addy-osmani/planning-and-task-breakdown (95.0): a near-tie, so no transfer proposed. Evidence fixes: repo row points to .../engineering/to-issues/SKILL.md (404; live file is to-tickets/SKILL.md). github-stars-own note says '137k GitHub stars' while the stars field says 273408; reconcile via gaia dev evidence re-verification. social-signal row (youtube EJyuu6zlQCg, 412k views, covers mattpocock/skills) is the skill author's own channel; META defines social-signal as external-creator evidence, so the type fit needs Class C review and a TM recompute.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mattpocock/to-tickets.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md (404)",
+      "https://www.youtube.com/watch?v=EJyuu6zlQCg",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/addy-osmani/planning-and-task-breakdown.md"
+    ]
+  },
+  {
+    "id": "mattpocock/triage",
+    "kind": "named",
+    "path": "registry/named/mattpocock/triage.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Link (200), sole 3★ Origin holder in issue-triage bucket (sibling gaia-triage is 1★, TM 0) and TM 56.21 are consistent. Two peer-review rows (issues 205 and 289, both 200) are GitHub feature/bug threads, not structured walkthroughs by 4★+ reviewers as META §2.1b defines peer-review. Retype candidate (e.g. engagement, ceiling B) for Class C review; TM effect must be computed with gaia dev, not inferred.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mattpocock/triage.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md",
+      "https://github.com/mattpocock/skills/issues/205",
+      "https://github.com/mattpocock/skills/issues/289"
+    ]
+  },
+  {
+    "id": "mattpocock/ubiquitous-language",
+    "kind": "named",
+    "path": "registry/named/mattpocock/ubiquitous-language.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Star bar fails on live probe 2026-10-28: links.github .../skills/deprecated/ubiquitous-language/SKILL.md returns 404, and the evidence row path .../engineering/ubiquitous-language/SKILL.md also returns 404. Description, installable:false and the upstream timeline (2026-08-05) all record removal in v1.0.1. A dead link is review debt, not a demotion, so no rank change is proposed here; restoring a live blob or an approved canonical rank action (META §2.4) is needed before the 3★ claim can be verified. Also: the social-signal row is the author's own channel (type-fit concern) and the stars row credits the whole suite (273408 stars) for a skill upstream removed. Classification conflict: still listed in suiteComponents of mattpocock/engineering and mattpocock/skills despite the removed descriptor. Bucket ubiquitous-language has no current Origin; this is the highest TM in the bucket (94.92), so any Origin decision waits on the link.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mattpocock/ubiquitous-language.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/deprecated/ubiquitous-language/SKILL.md (404)",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md (404)",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mattpocock/engineering.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mattpocock/skills.md"
+    ]
+  },
+  {
+    "id": "mattpocock/wait-what",
+    "kind": "named",
+    "path": "registry/named/mattpocock/wait-what.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Body is the intake placeholder ('Add installation instructions here.') with no Overview. Frontmatter, 2★ level (TM 20.77, C), link (200) and productivity capstone membership are consistent. Single repo-own row uses shared-repo volume (523 commits); noted only.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mattpocock/wait-what.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mattpocock/productivity.md"
+    ]
+  },
+  {
+    "id": "mattpocock/wayfinder",
+    "kind": "named",
+    "path": "registry/named/mattpocock/wayfinder.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Link (200) and 2★ level (TM 20.77, C) are consistent. Body is substantive: it documents the Gaia-specific tracker expression, the referenced .agents/skills/wayfinder/SKILL.md exists locally, and the wayfinder:* labels are declared in .github/labels.yml. Credits Matt Pocock as upstream. Single shared-repo repo-own row noted only.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mattpocock/wayfinder.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/.agents/skills/wayfinder/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/.github/labels.yml",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/wayfinder/SKILL.md"
+    ]
+  },
+  {
+    "id": "mattpocock/wizard",
+    "kind": "named",
+    "path": "registry/named/mattpocock/wizard.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Body is the intake placeholder ('Add installation instructions here.') under an Installation heading only. Other checks pass (link 200, 2★ TM 20.77, engineering capstone membership). Minor metadata drift: timeline says suiteRef was set to mattpocock/engineering, frontmatter says mattpocock/skills.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mattpocock/wizard.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/wizard/SKILL.md"
+    ]
+  },
+  {
+    "id": "mattpocock/write-a-skill",
+    "kind": "named",
+    "path": "registry/named/mattpocock/write-a-skill.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "fail",
+      "body": "fail",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Upstream removal is recorded (timeline 2026-08-05 'write-a-skill has been removed'; description 'Removed from mattpocock/skills suite in v1.0.1'; installable:false). The link returns 404. Installation body text ('included in the Matt Pocock skills suite ... npx skills add mattpocock/skills') contradicts removal and the installable flag. Origin body text calls it the 'second named implementation' while origin:true; the flag itself matches merit (TM 45 vs anthropic/skill-creator 30, origin false), so no origin change is proposed. Still listed in productivity and skills suiteComponents (structural). Two peer-review rows (issues 271 and discussion 246, both 200) are community threads, same type-fit concern as triage. Dead link is review debt; 2★ has no link requirement.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mattpocock/write-a-skill.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md (404)",
+      "https://github.com/mattpocock/skills/issues/271",
+      "https://github.com/mattpocock/skills/discussions/246",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/anthropic/skill-creator.md"
+    ]
+  },
+  {
+    "id": "mattpocock/writing-for-agents",
+    "kind": "named",
+    "path": "registry/named/mattpocock/writing-for-agents.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Link (writing-for-agents/SKILL.md, 200) is live. Three of four evidence rows still point at the pre-rename path .../productivity/writing-great-skills, which returns 404 on 2026-10-28: the repo-own row (trustNumber 65, skillCountInRepo 34), the self-attestation directory row, and a legacy row with class B but no type and no grade. Repoint to live paths and type the untyped row. Body is an Installation stub with no Overview and says the skill 'is included in the Matt Pocock skills suite', but suiteRef is None and it appears in no suite capstone (classification mismatch). The repo-own row for mattpocock/skills (525 commits, grade B) is repo-level.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mattpocock/writing-for-agents.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-for-agents/SKILL.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills/SKILL.md (404)",
+      "https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills (404)"
+    ]
+  },
+  {
+    "id": "mattpocock/zoom-out",
+    "kind": "named",
+    "path": "registry/named/mattpocock/zoom-out.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "fail",
+      "body": "fail",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Upstream removal recorded (timeline 2026-08-05, 'zoom-out went unused ... removed'); link returns 404; installable:false; 1★, so no star-bar requirement and the dead link is review debt. Body 'Origin' section states 'This is the origin implementation for the code-explain bucket' while origin:false; fix the body claim (no origin change proposed: 1★, zero evidence, Origin is merit-based). Still listed in suiteComponents of mattpocock/skills and mattpocock/engineering despite the removed descriptor (structural).",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mattpocock/zoom-out.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md (404)",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mattpocock/engineering.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mattpocock/skills.md"
+    ]
+  },
+  {
+    "id": "mbtiongson1/gaia-audit",
+    "kind": "named",
+    "path": "registry/named/mbtiongson1/gaia-audit.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Single evidence row source ends in skill.md (lowercase) and returns 404; the file is SKILL.md (200). Row has class C and grade B, while its notes say 'Downgraded A->C per META §2.4', so grade and notes disagree. Legacy type 'repo' (normalized to repo-own by code). Origin is tied with gaia-curation-review at TM 36.0; incumbent kept, no transfer basis. Self-referential evidence in the registry repo, noted.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mbtiongson1/gaia-audit.md",
+      "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md (404)",
+      "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/SKILL.md (200)"
+    ]
+  },
+  {
+    "id": "mbtiongson1/gaia-bot-curate",
+    "kind": "named",
+    "path": "registry/named/mbtiongson1/gaia-bot-curate.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. 1★, TM 0 (ungraded), zero evidence rows as expected for 1★. Link resolves (200). Body describes the bot/* batch pass and is consistent with registry-curation bucket membership.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mbtiongson1/gaia-bot-curate.md",
+      "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md (200)"
+    ]
+  },
+  {
+    "id": "mbtiongson1/gaia-curate",
+    "kind": "named",
+    "path": "registry/named/mbtiongson1/gaia-curate.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. 1★, TM 0, zero evidence rows (expected at 1★). Link resolves (200). Body references only current gaia dev verbs (add, link, evidence).",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mbtiongson1/gaia-curate.md",
+      "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md (200)"
+    ]
+  },
+  {
+    "id": "mbtiongson1/gaia-curation-review",
+    "kind": "named",
+    "path": "registry/named/mbtiongson1/gaia-curation-review.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. 2★, TM 36.0 (C). Link resolves (200). Single repo-own row resolves; legacy type 'repo' is normalized to repo-own by code (TYPE_ALIASES), noted for the eventual migration. Origin tie with gaia-audit is noted in that record.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mbtiongson1/gaia-curation-review.md",
+      "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md (200)",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/src/gaia_cli/trustMagnitude.py"
+    ]
+  },
+  {
+    "id": "mbtiongson1/gaia-docs-sync",
+    "kind": "named",
+    "path": "registry/named/mbtiongson1/gaia-docs-sync.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. 1★, TM 0, zero evidence (expected). Link resolves (200). Body is a substantive Overview and uses no retired verbs.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mbtiongson1/gaia-docs-sync.md",
+      "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-docs-sync/SKILL.md (200)"
+    ]
+  },
+  {
+    "id": "mbtiongson1/gaia-draft-curate",
+    "kind": "named",
+    "path": "registry/named/mbtiongson1/gaia-draft-curate.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Body says the skill can trigger a promotion PR via `gaia promote`. CLAUDE.md states gaia promote has been removed (use gaia dev verbs). Stale CLI reference; body fix needed. registry-for-review/skill-batches/ exists. Link resolves (200). 1★, no rank consequence.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mbtiongson1/gaia-draft-curate.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/CLAUDE.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry-for-review/skill-batches"
+    ]
+  },
+  {
+    "id": "mbtiongson1/gaia-integrity",
+    "kind": "named",
+    "path": "registry/named/mbtiongson1/gaia-integrity.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Link .agents/skills/gaia-integrity/SKILL.md returns 404 on main and no gaia-integrity directory exists under .agents/skills in this worktree, so the registry entry has no implementation file. Body also tells the agent to run `gaia validate` (retired per CLAUDE.md) and verify registry/skills/ (directory does not exist; registry/nodes is the canonical location). 1★, so the dead link is review debt with no rank consequence; restore the implementation file or retire the entry (founder/curator decision).",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mbtiongson1/gaia-integrity.md",
+      "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-integrity/SKILL.md (404)",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/.agents/skills",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/CLAUDE.md"
+    ]
+  },
+  {
+    "id": "mbtiongson1/gaia-meta-audit",
+    "kind": "named",
+    "path": "registry/named/mbtiongson1/gaia-meta-audit.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. 2★, TM 36.0 (C); sole Origin in registry-health-scan bucket. Link resolves (200). Single repo evidence row points at the registry repo root with a descriptive note, which is acceptable for a 2★ repo-own row; legacy type 'repo' noted.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mbtiongson1/gaia-meta-audit.md",
+      "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md (200)"
+    ]
+  },
+  {
+    "id": "mbtiongson1/gaia-preview",
+    "kind": "named",
+    "path": "registry/named/mbtiongson1/gaia-preview.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. 2★, TM 36.0 (C). Link resolves (200). Body's referenced workflow .github/workflows/sync-artifacts.yml exists. Evidence row points at the concrete SKILL.md.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mbtiongson1/gaia-preview.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/.github/workflows/sync-artifacts.yml"
+    ]
+  },
+  {
+    "id": "mbtiongson1/gaia-triage",
+    "kind": "named",
+    "path": "registry/named/mbtiongson1/gaia-triage.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. 1★, TM 0, zero evidence (expected). Link resolves (200). Body is substantive and describes a project-specific specialization of issue-triage.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mbtiongson1/gaia-triage.md",
+      "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md (200)"
+    ]
+  },
+  {
+    "id": "mbtiongson1/gaia-wiki-sync",
+    "kind": "named",
+    "path": "registry/named/mbtiongson1/gaia-wiki-sync.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Link .agents/skills/gaia-wiki-sync/SKILL.md returns 404 on main and the file is absent from .agents/skills in this worktree, so the implementation the registry points at does not exist. 1★, so the dead link is review debt with no rank consequence; restore the file or retire the entry (founder/curator decision). Body itself is substantive.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mbtiongson1/gaia-wiki-sync.md",
+      "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-wiki-sync/SKILL.md (404)",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/.agents/skills"
+    ]
+  },
+  {
+    "id": "mbtiongson1/graphify-triage",
+    "kind": "named",
+    "path": "registry/named/mbtiongson1/graphify-triage.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. 2★, TM 36.0 (C); sole Origin in graph-driven-issue-triage bucket. Link resolves (200). Third-party tool (safishamsi/graphify) is credited by handle in the body. Single repo-own row resolves to the concrete SKILL.md.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mbtiongson1/graphify-triage.md",
+      "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md (200)"
+    ]
+  },
+  {
+    "id": "mksglu/context-mode",
+    "kind": "named",
+    "path": "registry/named/mksglu/context-mode.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "4★ Unique gate holds: prepass TM 154.71 (A) ≥ 100; blob link pinned to SHA 6b8bf61 resolves (200); Origin is sole holder in context-safe-execution bucket; no suiteComponents. Body is the intake placeholder ('Add installation instructions here.'), which is a defect at 4★ and must be replaced with real install instructions. Observations for steward (not changes): the record went 2★→4★ with Origin set 22 seconds after intake (timeline 2026-09-06T17:59:36Z to 17:59:58Z) with no separate review event; title equals name and there is no catalogRef, so the RPG-title/catalogRef naming requirement needs a reviewer decision; the TM cache fields are absent from frontmatter. Stars 24651 not re-verified (GitHub API rate-limited during audit).",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mksglu/context-mode.md",
+      "https://github.com/mksglu/context-mode/blob/6b8bf61f83abed6c3faf4e7c3ba02c162fadfedf/skills/context-mode/SKILL.md (200)",
+      "https://github.com/mksglu/context-mode (200)"
+    ]
+  },
+  {
+    "id": "mvanhorn/last30days",
+    "kind": "named",
+    "path": "registry/named/mvanhorn/last30days.md",
+    "reviewer": "haiku:named-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "4★ Unique gate holds: prepass TM 205.75 (A); blob link resolves (200); sole Origin in autonomous-web-research bucket (sibling balukosuri is 2★ TM 36). Evidence inconsistency: github-stars-own row stars field is 63314 while its notes say 'Verified upstream repository star count (55,151 stars)'. Re-verify the live count via gaia dev evidence and reconcile the notes. Sensitivity is small (log-curve difference of about 2 TM, grade unchanged). Social-signal row (Greg Isenberg podcast, external creator) fits the type.",
+    "evidenceRefs": [
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/named/mvanhorn/last30days.md",
+      "https://github.com/mvanhorn/last30days-skill/blob/main/skills/last30days/SKILL.md (200)",
+      "https://github.com/mvanhorn/last30days-skill (200)",
+      "https://www.youtube.com/watch?v=71ES9jzqa0Q"
+    ]
+  }
+]

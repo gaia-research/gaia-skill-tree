@@ -1,0 +1,656 @@
+[
+  {
+    "id": "vision-qa",
+    "kind": "generic",
+    "path": "registry/nodes/basic/vision-qa.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "fail: one eligible child (leonxlnx/image-to-code-skill, 3★, TM 50.0 B) and no Origin in bucket; Origin cannot be assigned while the mapping is wrong",
+      "evidence": "fail: row 2 (skillsmp.com search-API URL, legacy type repo, class C) is a discovery query, not a source; row 1 (AutoVQA-G arXiv) is relevant but class-only, so the engine scores it 0 (prepass TM 0)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "fail: genericSkillRef vision-qa on leonxlnx/image-to-code-skill contradicts its description (UI mockup to frontend code, not question answering)"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Child leonxlnx/image-to-code-skill (3★) is mapped to vision-qa, but its description covers UI-mockup-to-frontend-code translation, not question answering. Re-review its genericSkillRef (remap or unlink) through gaia dev before any Origin decision; the missing Origin is only a violation if the mapping stands. Separately, drop the skillsmp search-API row, which is a discovery query rather than evidence.",
+    "evidenceRefs": [
+      "registry/nodes/basic/vision-qa.json",
+      "registry/named/leonxlnx/image-to-code-skill.md",
+      "registry/named-skills.json (bucket vision-qa)",
+      "https://skillsmp.com/api/v1/skills/search?q=vision-qa",
+      "https://arxiv.org/abs/2604.17488"
+    ]
+  },
+  {
+    "id": "web-search",
+    "kind": "generic",
+    "path": "registry/nodes/basic/web-search.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (sole eligible child firecrawl/firecrawl-build-search 3★ holds origin=true)",
+      "evidence": "pass (0 generic rows; prior dead gaia-registry row was removed 2026-06-02)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (single child, bucket matches file genericSkillRef)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Origin holder is the only eligible child; description is precise and vendor-neutral; no prerequisites.",
+    "evidenceRefs": [
+      "registry/nodes/basic/web-search.json",
+      "registry/named/firecrawl/firecrawl-build-search.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "worker-agent-dispatch",
+    "kind": "generic",
+    "path": "registry/nodes/basic/worker-agent-dispatch.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (sole eligible child ruvnet/worker-integration 2★ holds origin=true)",
+      "evidence": "pass (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail: description uses the evaluative word 'optimal' with no criterion; mechanism text (trigger-to-agent mapping, performance tracking, feedback) is precise",
+      "classification": "pass (single child, bucket matches file)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Strike the evaluative word 'optimal' from the description and keep the mechanism wording. Low priority; no rank or Origin impact. Same pattern as the adaptive-pattern-learning finding in generic-01.",
+    "evidenceRefs": [
+      "registry/nodes/basic/worker-agent-dispatch.json",
+      "registry/named/ruvnet/worker-integration.md"
+    ]
+  },
+  {
+    "id": "write-report",
+    "kind": "generic",
+    "path": "registry/nodes/basic/write-report.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (garrytan/retro 3★, TM 81.0 B, origin=true; merit-based holder, no other child ranks higher)",
+      "evidence": "pass (0 generic rows; dead gaia-registry row removed 2026-06-02)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (4 children, all bucket memberships match named files; Champion is display-derived and ordered champion-first)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Projection drift: named file addy-osmani/documentation-and-adrs is level 2★ but registry/named-skills.json shows 1★. Regenerate Class P projections with gaia dev docs; no generic-level change. The child's zero-evidence 2★ standing belongs to the named-skill audit.",
+    "evidenceRefs": [
+      "registry/nodes/basic/write-report.json",
+      "registry/named/addy-osmani/documentation-and-adrs.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "advanced-swarm-coordination",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/advanced-swarm-coordination.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (sole eligible child ruvnet/swarm-advanced 2★ holds origin=true)",
+      "evidence": "pass (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (fusion prerequisites swarm-topology-management and multi-agent-debate both exist; 2 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Prerequisites resolve, origin holder is the sole eligible child, description is a falsifiable scope.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/advanced-swarm-coordination.json",
+      "registry/named/ruvnet/swarm-advanced.md"
+    ]
+  },
+  {
+    "id": "adversarial-robustness-testing",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/adversarial-robustness-testing.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (0 children, no eligible child, no Origin required)",
+      "evidence": "fail: row 3 (skillsmp.com single-skill page, class C) is implementation-level evidence at the generic layer; rows 1-2 (arXiv red-teaming and multi-turn jailbreak benchmarks) are relevant Class A capability evidence but class-only, so unscored by the engine",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (prerequisites agent-eval, guardrails, prompt-injection-defense all exist)"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Remove the skillsmp.com skill-page row (row 3). It points at one marketplace implementation, which belongs on a named skill, and it is not capability-level Class A evidence. Keep the two arXiv rows.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/adversarial-robustness-testing.json",
+      "https://arxiv.org/abs/2505.04806",
+      "https://arxiv.org/abs/2605.01687",
+      "https://skillsmp.com/skills/maruakshay-mii-ai-security-skills-adversarial-robustness-skill-md"
+    ]
+  },
+  {
+    "id": "agent-environment-setup",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/agent-environment-setup.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (firecrawl/firecrawl-build-onboarding 3★ holds origin=true). Open note: mattpocock/setup-matt-pocock-skills is also 3★ with a higher prepass TM (56.21 vs 50.0); the META §4.1 tiebreak (most-attributed / Trust Score) is not in the prepass, so no transfer is proposed",
+      "evidence": "pass (0 rows in array; timeline records evidence_added events that no longer appear in the array, noted only)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "fail: bucket shows addy-osmani/context-engineering at 1★ but its named file is 2★ (projection drift); bucket membership otherwise matches"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Two metadata items: the name 'agent-environment-setup' is the id rather than a display name (set a Title Case name); and registry/named-skills.json lags the named file for addy-osmani/context-engineering (1★ vs 2★). Regenerate Class P projections. Origin tie needs Trust Score or attribution data before any transfer.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/agent-environment-setup.json",
+      "registry/named/addy-osmani/context-engineering.md",
+      "registry/named/firecrawl/firecrawl-build-onboarding.md",
+      "registry/named/mattpocock/setup-matt-pocock-skills.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "agent-eval",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/agent-eval.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (0 children)",
+      "evidence": "fail: rows 2-3 (truera/trulens and Giskard-AI/giskard-oss, class B repo) are tooling implementations at the generic layer, not Class A capability evidence; row 1 (Agent-SafetyBench arXiv) is relevant, though safety-focused, and class-only",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (prerequisites evaluate-output and score-relevance exist)"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Relocate the two tool-repository rows (TruLens, Giskard) to the named implementations that use them. Keep the Agent-SafetyBench arXiv row as the capability-level anchor.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/agent-eval.json",
+      "https://arxiv.org/abs/2412.14470",
+      "https://github.com/truera/trulens",
+      "https://github.com/Giskard-AI/giskard-oss"
+    ]
+  },
+  {
+    "id": "agent-handoff",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/agent-handoff.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "fail: sole child mattpocock/handoff is 3★ (prepass TM 63.71 B) with origin=false, so the bucket has no Origin despite an eligible child",
+      "evidence": "pass (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: compacting the conversation into a summary for a fresh agent)",
+      "classification": "pass (single child, bucket matches file)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Assign Origin to mattpocock/handoff, the only eligible child (3★, TM 63.71 B). Basis is structural (exactly one Origin per bucket), not elapsed time or model confidence. Secondary: the name 'agent-handoff' is the id, so set a display name. Note for the named audit: the child's links.github is a blob path to a directory, not a concrete SKILL.md.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/agent-handoff.json",
+      "registry/named/mattpocock/handoff.md",
+      "registry/named-skills.json (bucket agent-handoff)"
+    ]
+  },
+  {
+    "id": "agent-memory-learning",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/agent-memory-learning.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (2 children, both 1★, none eligible, no Origin required)",
+      "evidence": "fail: rows 1 and 2 are the same URL (ruflo, legacy type github-stars, class B), which the same-source dedup rule collapses to one; the source is a multi-purpose orchestration platform repo, implementation-level rather than Class A capability evidence",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail: description says 'AgentDB-backed persistence', a product-brand reference inside a capability description",
+      "classification": "pass (prerequisites adaptive-pattern-learning and memory-manage exist; children match)"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Remove both ruflo rows: they are duplicates and implementation-level. The generic then carries no capability evidence until a Class A anchor is added. Secondary: replace 'AgentDB-backed' with a vendor-neutral phrase. Timeline entries that say the ruflo rows were regraded C do not match the class B rows in the array; noted for the timeline audit.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/agent-memory-learning.json",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "agent-memory-platform",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/agent-memory-platform.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (ruvnet/agentdb 3★ suite child holds origin=true; sole child)",
+      "evidence": "pass (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail: description ('Complete AgentDB vector memory ecosystem ... QUIC-synchronized') and conditions ('Requires demonstrating all 5 AgentDB discipline skills') carry a product brand and an evaluative 'Complete'; the name and id are abstract",
+      "classification": "pass (5 prerequisites all exist; fusion with 5 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Rewrite the description and conditions in vendor-neutral capability wording. Remove 'AgentDB' and 'Complete'; keep the five-component composition (distributed vector storage, learning, pattern design, optimization, search). No rank impact.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/agent-memory-platform.json",
+      "registry/named/ruvnet/agentdb.md"
+    ]
+  },
+  {
+    "id": "agentic-workflow-design",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/agentic-workflow-design.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (sole child ruvnet/sparc-methodology 1★; none eligible)",
+      "evidence": "fail: the single row (apache/airflow AGENTS.md, class B repo) is a contributor-instruction file for one project's codebase, not a capability source; relevance to workflow design is weak",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (prerequisites workflow-automation and plan-decompose exist). Review question for the curator: ruvnet/sparc-methodology is a development methodology, so its genericSkillRef fit is doubtful, but it is not a defect on the record"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Remove or relocate the Airflow AGENTS.md row. The generic is left without evidence, which is acceptable for a starless capability node; the curator should add a Class A anchor if one exists.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/agentic-workflow-design.json",
+      "https://github.com/apache/airflow/blob/main/AGENTS.md"
+    ]
+  },
+  {
+    "id": "architecture-diagram",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/architecture-diagram.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (0 children)",
+      "evidence": "fail: the single row (NousResearch/hermes-agent architecture-diagram SKILL.md, class B) is a concrete implementation at the generic layer; there is no Class A capability row",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "fail: missing anchor. The evidenced implementation has no named child in the bucket"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Relocate the hermes-agent implementation to a named child (through the gaia dev curation path) so the bucket has its anchor, and remove the generic-level row. Timeline shows a stale 4★ propose event on a starless generic; noted only.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/architecture-diagram.json",
+      "https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/architecture-diagram/SKILL.md"
+    ]
+  },
+  {
+    "id": "automated-testing",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/automated-testing.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "fail: sole eligible child garrytan/health is 2★ (prepass TM 36.0 C) with origin=false; pytest-patterns is 1★ and ineligible; no Origin in bucket",
+      "evidence": "fail (minor): the single row (princeton-nlp/SWE-bench, legacy type repo, class B) benchmarks issue resolution, a weak fit for generating, executing and interpreting test suites",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (three prerequisites exist; garrytan/health matches the capability)"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Assign Origin to garrytan/health, the only eligible child (2★, TM 36.0 C). Basis is structural (exactly one Origin per bucket). Secondary: the SWE-bench row is a weak capability fit, so re-check its relevance and remove or replace it with the benchmark's capability paper if the curator confirms.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/automated-testing.json",
+      "registry/named/garrytan/health.md",
+      "https://github.com/princeton-nlp/SWE-bench"
+    ]
+  },
+  {
+    "id": "autonomous-data-scientist",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/autonomous-data-scientist.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid; title is an allowed field)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (0 children)",
+      "evidence": "fail: row 3 (microsoft/autogen, class B repo) is a framework implementation at the generic layer; rows 1-2 (DS-1000 and AutoML survey on arXiv) are relevant Class A capability evidence, but class-only and so unscored (prepass TM 0)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail (minor): conditions 'Minimum 3 Class A/B evidence sources' restates an evidence floor and Class A/B vocabulary that META §1.1 retires",
+      "classification": "pass (prerequisites data-analysis, math-reason, research exist)"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Relocate the AutoGen repo row to a named implementation. Rewrite or drop the stale 'Minimum 3 Class A/B evidence sources' condition, since the per-star evidence floor is retired.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/autonomous-data-scientist.json",
+      "https://arxiv.org/abs/2210.12641",
+      "https://arxiv.org/abs/2208.01756",
+      "https://github.com/microsoft/autogen"
+    ]
+  },
+  {
+    "id": "autonomous-debug",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/autonomous-debug.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "fail: sole eligible child mattpocock/diagnose is 3★ (prepass TM 94.92 B) with origin=false; no Origin in bucket",
+      "evidence": "pass (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (three prerequisites exist; mattpocock/diagnose matches the debugging capability)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Assign Origin to mattpocock/diagnose, the only eligible child (3★, TM 94.92 B). Basis is structural (exactly one Origin per bucket).",
+    "evidenceRefs": [
+      "registry/nodes/fusion/autonomous-debug.json",
+      "registry/named/mattpocock/diagnose.md"
+    ]
+  },
+  {
+    "id": "autonomous-engineering-platform",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/autonomous-engineering-platform.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "fail: sole eligible child hikari9/auto-office is 3★ (suite-branch, prepass TM 88.97 B) with origin=false; no Origin in bucket",
+      "evidence": "fail: rows 1-2 (changkun/wallfacer and Taoidle/plan-cascade, class B repos) are implementation-level at the generic layer. Rows 3-6 (MetaGPT, ChatDev, OpenHands, Agentless) are relevant research, carry grades, and their single-record citation counts are noted as record-specific; the ChatDev sourceStartedAt is an observation date, not a publication date",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail (minor): description 'An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery' restates a product category rather than a falsifiable capability",
+      "classification": "pass (one prerequisite, verification-before-completion, exists). Batch note: META §1.2 requires at least one prerequisite for fusion; the batch checklist says two. No change proposed; orchestrator to decide"
+    },
+    "evidenceRowsReviewed": 6,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Assign Origin to hikari9/auto-office, the only eligible child (3★, TM 88.97 B). Basis is structural. Secondary: relocate the wallfacer and plan-cascade repo rows to named implementations; rewrite the description as a capability statement. No rank proposal: the generic prepass TM (96.12) is not a rank input.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/autonomous-engineering-platform.json",
+      "registry/named/hikari9/auto-office.md",
+      "https://github.com/changkun/wallfacer",
+      "https://github.com/Taoidle/plan-cascade",
+      "https://arxiv.org/abs/2308.00352",
+      "https://aclanthology.org/2024.acl-long.810/",
+      "https://arxiv.org/abs/2407.16741",
+      "https://arxiv.org/abs/2407.01489"
+    ]
+  },
+  {
+    "id": "autonomous-web-research",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/autonomous-web-research.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (mvanhorn/last30days 4★, TM 205.75 A, origin=true; balukosuri/autoresearch-universal 2★ not origin)",
+      "evidence": "fail: rows 1-2 (firecrawl-mcp-server and the Karpathy autoresearch community repo, class B) are implementation repos at the generic layer; row 2 duplicates the named child's own link",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (five prerequisites exist; children match)"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Relocate both repo rows to the named implementations that use them. The generic keeps its prerequisites and Origin structure unchanged.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/autonomous-web-research.json",
+      "https://github.com/firecrawl/firecrawl-mcp-server",
+      "https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill",
+      "registry/named/mvanhorn/last30days.md"
+    ]
+  },
+  {
+    "id": "brainstorming",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/brainstorming.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (obra/brainstorming 4★, TM 110.15 A, origin=true; gsd-build/gsd-discuss-phase 3★ not origin)",
+      "evidence": "pass (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: explores user intent, requirements and design before implementation)",
+      "classification": "pass (prerequisites requirements-analysis and question-answer exist)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Origin holder is the highest-rated eligible child, prerequisites resolve, and the description is falsifiable.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/brainstorming.json",
+      "registry/named/obra/brainstorming.md"
+    ]
+  },
+  {
+    "id": "browser-automation",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/browser-automation.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (3 children, all 1★, none eligible, no Origin required). Champion is display-derived (champion-first ordering) and applies at 3 children",
+      "evidence": "fail (minor): row 2 (web-arena-x/webarena, class B repo) is a benchmark environment held as a repository rather than as a Class A capability source; row 1 (WebVoyager arXiv) is relevant and Class A but class-only",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (prerequisites web-search and computer-use exist; children match)"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Replace the WebArena repo row with the WebArena paper if the curator verifies it, or relocate it. The WebVoyager arXiv row stays.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/browser-automation.json",
+      "https://arxiv.org/abs/2401.13919",
+      "https://github.com/web-arena-x/webarena"
+    ]
+  },
+  {
+    "id": "career-operations",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/career-operations.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (santifer/career-ops 2★, origin=true; sole child)",
+      "evidence": "pass (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (end-to-end job-application pipeline with search, fit evaluation and CV/cover-letter generation)",
+      "classification": "pass (prerequisites autonomous-web-research, summarize, document-editing exist)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Origin holder is the sole child, prerequisites resolve, and the scope is a falsifiable capability.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/career-operations.json",
+      "registry/named/santifer/career-ops.md"
+    ]
+  },
+  {
+    "id": "causal-inference",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/causal-inference.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (0 children)",
+      "evidence": "fail: row 2 (aj-geddes/useful-ai-prompts SKILL.md, class B) is a single-skill implementation at the generic layer. Row 1 (causal ML for treatment outcomes, arXiv 2410.08770, class A) is relevant, but class-only, and its arXiv identifier was not verified in this pass",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (prerequisites hypothesis-generate, logical-inference, statistical-analysis exist)"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Remove or relocate the aj-geddes SKILL.md row to a named implementation. Keep the Class A row, and have the curator confirm its arXiv identifier.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/causal-inference.json",
+      "https://arxiv.org/abs/2410.08770",
+      "https://github.com/aj-geddes/useful-ai-prompts/blob/main/skills/causal-inference/SKILL.md"
+    ]
+  },
+  {
+    "id": "cheminformatics-analysis",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/cheminformatics-analysis.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (k-dense-ai/rdkit 1★ is ineligible; no Origin required)",
+      "evidence": "pass (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: molecular structure representation, transformation and property-modeling analysis)",
+      "classification": "pass (prerequisites molecular-databases, molecular-visualization, data-analysis all exist)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Prerequisites resolve, the single child is 1★ and ineligible, and the description is precise.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/cheminformatics-analysis.json",
+      "registry/named/k-dense-ai/rdkit.md"
+    ]
+  },
+  {
+    "id": "cloud-platform-management",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/cloud-platform-management.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (ruvnet/flow-nexus-platform 2★, origin=true; sole child)",
+      "evidence": "pass (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail: the description reproduces one vendor platform's feature list (user auth, sandbox environments, app store, payments, challenge systems) and ends with 'Home of the Queen Seraphina AI assistant', a persona and product reference inside a generic description",
+      "classification": "pass (prerequisites api-call and tool-use exist; child matches the platform)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Rewrite the description as a vendor-neutral capability statement and remove the persona sentence. This is a public-copy change, so it is not a rank or Origin change. Keep the Origin holder unchanged.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/cloud-platform-management.json",
+      "registry/named/ruvnet/flow-nexus-platform.md"
+    ]
+  },
+  {
+    "id": "code-review-pipeline",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/code-review-pipeline.json",
+    "reviewer": "haiku:generic-07",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (skill.schema.json valid)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "fail: three eligible children (addy-osmani/code-review-and-quality 3★ TM 50.0; garrytan/plan-eng-review 3★ TM 66.0; garrytan/review 3★ TM 50.0) and none has origin=true, so the bucket has no Origin. The two code-review implementations tie at TM 50.0, and the META §4.1 tiebreak (Trust Score or attribution) is not in the prepass",
+      "evidence": "pass (CodeReviewer arXiv 2203.09095, class A, is relevant capability evidence; class-only, prepass TM 0)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "fail: garrytan/plan-eng-review is mapped here but its description is an engineering plan review (architecture and implementation), not code review; the candidate set for Origin depends on this mapping"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Resolve the mapping first: re-review garrytan/plan-eng-review's genericSkillRef through gaia dev. Then assign the missing Origin to the best code-review implementation. Candidates are garrytan/review (Pre-landing code review) and addy-osmani/code-review-and-quality, which tie at TM 50.0. The tiebreak needs Trust Score or attribution data before one is chosen. Do not use the higher TM of plan-eng-review to pick Origin while it is mis-mapped.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/code-review-pipeline.json",
+      "registry/named/garrytan/plan-eng-review.md",
+      "registry/named/garrytan/review.md",
+      "registry/named/addy-osmani/code-review-and-quality.md",
+      "https://arxiv.org/abs/2203.09095"
+    ]
+  }
+]

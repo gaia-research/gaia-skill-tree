@@ -1,0 +1,636 @@
+[
+  {
+    "id": "garrytan/context-audit",
+    "kind": "named",
+    "path": "registry/named/garrytan/context-audit.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Stored level 2★ but computedTm 0.0 / ungraded with no evidence rows and no catalogRef; generateNamedIndex clamps ungraded to 1★ (registry/named-skills.json lists 1★), so node and published index disagree. Named needs a unique RPG title or catalogRef (META §4.1); title is only the slug. Installation section is the unedited stub 'Add installation instructions here.'. Link resolves HTTP 200.",
+    "evidenceRefs": [
+      "registry/named/garrytan/context-audit.md",
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/context-audit/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/context-restore",
+    "kind": "named",
+    "path": "registry/named/garrytan/context-restore.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ with recomputed TM 36.0 (C) matches stored; 2★ within C ceiling. Single repo row (B) points at SKILL.md that resolves HTTP 200 and matches the description. Legacy type 'repo' is normalized to repo-own by TYPE_ALIASES with no TM effect (sweep-level note). Origin: context-compression bucket has no Origin and no sibling exceeds TM 36.",
+    "evidenceRefs": [
+      "registry/named/garrytan/context-restore.md",
+      "https://github.com/garrytan/gstack/blob/main/context-restore/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/context-save",
+    "kind": "named",
+    "path": "registry/named/garrytan/context-save.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ with recomputed TM 36.0 (C) matches stored. Single repo row (B) points at SKILL.md (HTTP 200) that matches the description. Legacy type 'repo' alias is TM-neutral (sweep-level note). No Origin claim.",
+    "evidenceRefs": [
+      "registry/named/garrytan/context-save.md",
+      "https://github.com/garrytan/gstack/blob/main/context-save/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/conversation-archive",
+    "kind": "named",
+    "path": "registry/named/garrytan/conversation-archive.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Stored level 2★ but computedTm 0.0 / ungraded with no evidence rows and no catalogRef; generateNamedIndex clamps ungraded to 1★ (registry/named-skills.json lists 1★), so node and published index disagree. Named needs a unique RPG title or catalogRef (META §4.1); title is only the slug. Installation section is the unedited stub 'Add installation instructions here.'. Link resolves HTTP 200.",
+    "evidenceRefs": [
+      "registry/named/garrytan/conversation-archive.md",
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/conversation-archive/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/cso",
+    "kind": "named",
+    "path": "registry/named/garrytan/cso.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ with TM 50.0 (B) recomputed exactly; 3★ ceiling is B. Blob SKILL.md link resolves (HTTP 200). Origin in security-audit is plausible: sibling entries have TM 0 or 6.3 ungraded. Star row notes say 110,930 stars while the stars field is 134,645 (live 137,930 on 2026-10-27); TM-neutral because the suite-baseline cap of 50 binds. Refresh at next star pass. Legacy type 'repo' alias is TM-neutral.",
+    "evidenceRefs": [
+      "registry/named/garrytan/cso.md",
+      "https://github.com/garrytan/gstack/blob/main/cso/SKILL.md",
+      "https://github.com/garrytan/gstack/stargazers"
+    ]
+  },
+  {
+    "id": "garrytan/data-research",
+    "kind": "named",
+    "path": "registry/named/garrytan/data-research.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Stored level 2★ but computedTm 0.0 / ungraded with no evidence rows and no catalogRef; generateNamedIndex clamps ungraded to 1★ (registry/named-skills.json lists 1★), so node and published index disagree. Named needs a unique RPG title or catalogRef (META §4.1); title is only the slug. Installation section is the unedited stub 'Add installation instructions here.'. Link resolves HTTP 200.",
+    "evidenceRefs": [
+      "registry/named/garrytan/data-research.md",
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/data-research/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/design-consultation",
+    "kind": "named",
+    "path": "registry/named/garrytan/design-consultation.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ with TM 50.0 (B) recomputed exactly. Blob link resolves. Origin correctly false: stitch-skill holds Origin in design-system-extraction at equal TM 50 and the 2026-08-22 transfer is in the timeline. Same stale star-row notes mismatch as cso (TM-neutral under the suite cap). Legacy 'repo' alias TM-neutral.",
+    "evidenceRefs": [
+      "registry/named/garrytan/design-consultation.md",
+      "https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/design-html",
+    "kind": "named",
+    "path": "registry/named/garrytan/design-html.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ with TM 50.0 (B) recomputed exactly. Blob link resolves. Origin true is sole named holder in code-generation bucket. Star-row notes mismatch and legacy 'repo' alias are TM-neutral sweep-level notes. 'Pretext-native' is unexplained jargon but not a defect requiring change.",
+    "evidenceRefs": [
+      "registry/named/garrytan/design-html.md",
+      "https://github.com/garrytan/gstack/blob/main/design-html/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/design-review",
+    "kind": "named",
+    "path": "registry/named/garrytan/design-review.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ with TM 36.0 (C) recomputed; within ceiling. Repo row (B) with resolving SKILL.md matches description. Origin false is plausible: redesign-skill holds Origin in ui-audit at TM 50 > 36. Legacy 'repo' alias TM-neutral. Timeline churn on 2026-06-02/03 is recorded, no unexplained rank change.",
+    "evidenceRefs": [
+      "registry/named/garrytan/design-review.md",
+      "https://github.com/garrytan/gstack/blob/main/design-review/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/design-shotgun",
+    "kind": "named",
+    "path": "registry/named/garrytan/design-shotgun.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "reclassification",
+    "findingSummary": "genericSkillRef design-review resolves to registry/nodes/fusion/design-review.json, whose description is plan/design stress-testing by questioning (the grilling-type node). design-shotgun generates multiple design variants and iterates on visual direction, which matches registry/nodes/fusion/design-generation.json. Proposed reclassification to design-generation (Class C canonical change). Rank 3★ TM 50.0 B matches stored and the blob link resolves. The design-review bucket has no Origin with two named children; that vacancy follows from the misclassification and is not separately proposed. Star-row notes mismatch is TM-neutral.",
+    "evidenceRefs": [
+      "registry/named/garrytan/design-shotgun.md",
+      "registry/nodes/fusion/design-review.json",
+      "registry/nodes/fusion/design-generation.json",
+      "https://github.com/garrytan/gstack/blob/main/design-shotgun/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/devex-review",
+    "kind": "named",
+    "path": "registry/named/garrytan/devex-review.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ with TM 36.0 (C) recomputed. Repo row resolves to SKILL.md that matches description. Origin false is plausible: nextlevelbuilder holds Origin in ux-audit at TM 227. Developer-experience audit under ux-audit is an acceptable fit. Legacy 'repo' alias TM-neutral.",
+    "evidenceRefs": [
+      "registry/named/garrytan/devex-review.md",
+      "https://github.com/garrytan/gstack/blob/main/devex-review/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/document-generate",
+    "kind": "named",
+    "path": "registry/named/garrytan/document-generate.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "fail",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Origin is held in document-editing at TM 50.0 (B), but mattpocock/edit-article in the same bucket (3★, origin false) has prepass TM 94.92 (B). META §4.1 makes Origin merit-based on the highest-rated implementation, so the current holder is not the highest-rated in the bucket on the deterministic TM. Origin transfer is Class C and needs adjudication; the edit-article evidence was not audited in this batch. Rank 3★ and blob link are fine.",
+    "evidenceRefs": [
+      "registry/named/garrytan/document-generate.md",
+      "registry/named-skills.json (bucket document-editing)",
+      "registry/named/mattpocock/edit-article.md"
+    ]
+  },
+  {
+    "id": "garrytan/document-release",
+    "kind": "named",
+    "path": "registry/named/garrytan/document-release.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ with TM 36.0 (C) recomputed. Repo row resolves to SKILL.md (HTTP 200). Origin false is plausible: document-generate holds Origin at TM 50 > 36. Release-note drafting under document-editing is an acceptable fit. Legacy 'repo' alias TM-neutral.",
+    "evidenceRefs": [
+      "registry/named/garrytan/document-release.md",
+      "https://github.com/garrytan/gstack/blob/main/document-release/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/draft-in-voice",
+    "kind": "named",
+    "path": "registry/named/garrytan/draft-in-voice.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Stored level 2★ but computedTm 0.0 / ungraded with no evidence rows and no catalogRef; generateNamedIndex clamps ungraded to 1★ (registry/named-skills.json lists 1★), so node and published index disagree. Named needs a unique RPG title or catalogRef (META §4.1); title is only the slug. Installation section is the unedited stub 'Add installation instructions here.'. Link resolves HTTP 200. Ghostwrite is a sole-child bucket, so Origin is not in question (1★ cannot hold Origin).",
+    "evidenceRefs": [
+      "registry/named/garrytan/draft-in-voice.md",
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/draft-in-voice/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/fact-check",
+    "kind": "named",
+    "path": "registry/named/garrytan/fact-check.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Stored level 2★ but computedTm 0.0 / ungraded with no evidence rows and no catalogRef; generateNamedIndex clamps ungraded to 1★ (registry/named-skills.json lists 1★), so node and published index disagree. Named needs a unique RPG title or catalogRef (META §4.1); title is only the slug. Installation section is the unedited stub 'Add installation instructions here.'. Link resolves HTTP 200.",
+    "evidenceRefs": [
+      "registry/named/garrytan/fact-check.md",
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/fact-check/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/freeze",
+    "kind": "named",
+    "path": "registry/named/garrytan/freeze.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ with TM 36.0 (C) recomputed. Repo row resolves to SKILL.md (HTTP 200) that matches the change-freeze description. Guardrails bucket has no Origin, and careful (3★, TM 66) is the top TM there; that is a careful-record question, not this one. Legacy 'repo' alias TM-neutral.",
+    "evidenceRefs": [
+      "registry/named/garrytan/freeze.md",
+      "https://github.com/garrytan/gstack/blob/main/freeze/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/functional-area-resolver",
+    "kind": "named",
+    "path": "registry/named/garrytan/functional-area-resolver.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Stored 2★ with zero evidence rows (TM 0.0, ungraded), so the derived index level is 1★; catalogRef absent and title is the slug. Body is the unedited installation stub. Description also says 'Proven via held-out A/B eval' with no evidence row backing the claim. Link resolves HTTP 200.",
+    "evidenceRefs": [
+      "registry/named/garrytan/functional-area-resolver.md",
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/functional-area-resolver/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/garrytan",
+    "kind": "named",
+    "path": "registry/named/garrytan/garrytan.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "structural",
+    "findingSummary": "Rank 2★ matches recomputed TM 36.0 (C). Suite branch at 2★ is allowed by suiteComponents presence. Structural mismatch: description says it reads and runs the CEO, design, engineering and DX review skills (plan-ceo-review, plan-design-review, plan-eng-review, plan-devex-review), but suiteComponents lists browse, cso, design-review and office-hours, none of the four plan-* skills. Body says 'Promoted to the highest level', contradicting 2★ and the timeline demotions from 5★. Origin false is plausible: to-tickets holds Origin in vertical-slice-planning at TM 94.92.",
+    "evidenceRefs": [
+      "registry/named/garrytan/garrytan.md",
+      "https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/gbrain",
+    "kind": "named",
+    "path": "registry/named/garrytan/gbrain.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "fail",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "4★ with TM 121.94 (A) recomputed exactly; the TM 100 gate holds. The only evidence row is github-stars-own, so the 4★ rests entirely on repo adoption. Stars field 30,471 (2026-09-07), notes say 29,650, live count 31,276 (2026-10-27). The notes claim 'repo-wide adoption is discounted by skill count', but the formula has no skill-count divisor (see CLAUDE.md TM learnings), so the claim is wrong. Link and evidence pin commit 8c70f62 while the upstream block was synced to v0.51.6.0 on 2026-09-22 (stale pin). Body is the install stub on a 4★ skill. Suite components brain-ops, capture and concept-synthesis all exist.",
+    "evidenceRefs": [
+      "registry/named/garrytan/gbrain.md",
+      "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/README.md",
+      "https://api.github.com/repos/garrytan/gbrain"
+    ]
+  },
+  {
+    "id": "garrytan/gstack-upgrade",
+    "kind": "named",
+    "path": "registry/named/garrytan/gstack-upgrade.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ with TM 36.0 (C) recomputed. Repo row resolves to SKILL.md (HTTP 200) matching description. Sole named child of workspace-automation with no Origin; not proposed because every Origin holder observed in sibling buckets is 3★+ and the registry has no 2★ Origin precedent. Legacy 'repo' alias TM-neutral.",
+    "evidenceRefs": [
+      "registry/named/garrytan/gstack-upgrade.md",
+      "https://github.com/garrytan/gstack/blob/main/gstack-upgrade/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/gstack",
+    "kind": "named",
+    "path": "registry/named/garrytan/gstack.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 5,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "5★ with TM 356.11 (S) recomputed exactly. Ultimate origin requirement holds (cso, design-html, document-generate and investigate hold Origin among 47 components); all 47 suiteComponents exist. The S grade depends on the peer-review row: the augmentcode.com article is a vendor product-site article, not a structured walkthrough by 4★+ reviewers, and reviewers are unnamed. Recomputed without it, TM is 296.11 and grade A, so the 5★ S gate fails and the index clamp would place it at 4★. Class C review required. Body component table is stale and the code fences are unbalanced.",
+    "evidenceRefs": [
+      "registry/named/garrytan/gstack.md",
+      "https://www.augmentcode.com/learn/garry-tan-gstack-claude-code",
+      "https://arxiv.org/abs/2607.18970",
+      "https://github.com/garrytan/gstack/stargazers",
+      "registry/schema/meta.json"
+    ]
+  },
+  {
+    "id": "garrytan/guard",
+    "kind": "named",
+    "path": "registry/named/garrytan/guard.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ with TM 36.0 (C) recomputed. Repo row resolves to SKILL.md (HTTP 200). Origin false is plausible; guardrails bucket has no Origin and careful is the top-TM sibling (a careful-record question). Legacy 'repo' alias TM-neutral.",
+    "evidenceRefs": [
+      "registry/named/garrytan/guard.md",
+      "https://github.com/garrytan/gstack/blob/main/guard/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/health",
+    "kind": "named",
+    "path": "registry/named/garrytan/health.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ with TM 36.0 (C) recomputed. Repo row resolves to SKILL.md (HTTP 200). Origin is vacant in automated-testing, but the only other entry is ungraded 1★, and no Origin is proposed at 2★ because observed Origin holders are 3★+. Legacy 'repo' alias TM-neutral.",
+    "evidenceRefs": [
+      "registry/named/garrytan/health.md",
+      "https://github.com/garrytan/gstack/blob/main/health/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/idea-lineage",
+    "kind": "named",
+    "path": "registry/named/garrytan/idea-lineage.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Stored level 2★ but computedTm 0.0 / ungraded with no evidence rows and no catalogRef; generateNamedIndex clamps ungraded to 1★ (registry/named-skills.json lists 1★), so node and published index disagree. Named needs a unique RPG title or catalogRef (META §4.1); title is only the slug. Installation section is the unedited stub 'Add installation instructions here.'. Link resolves HTTP 200.",
+    "evidenceRefs": [
+      "registry/named/garrytan/idea-lineage.md",
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/idea-lineage/SKILL.md"
+    ]
+  },
+  {
+    "id": "garrytan/investigate",
+    "kind": "named",
+    "path": "registry/named/garrytan/investigate.md",
+    "reviewer": "haiku:named-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "fail",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "3★ with TM 50.0 (B) recomputed; blob link resolves. Origin is held in systematic-debugging at TM 50 (B), but obra/systematic-debugging in the same bucket (3★, origin false) has prepass TM 65.15 (B). META §4.1 makes Origin merit-based, so the deterministic ranking favors the sibling. Origin transfer is Class C. Star-row notes mismatch is TM-neutral.",
+    "evidenceRefs": [
+      "registry/named/garrytan/investigate.md",
+      "registry/named/obra/systematic-debugging.md",
+      "https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md"
+    ]
+  }
+]

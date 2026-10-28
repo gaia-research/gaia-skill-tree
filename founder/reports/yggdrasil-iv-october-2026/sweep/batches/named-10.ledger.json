@@ -1,0 +1,622 @@
+[
+ {
+  "id": "langgenius/backend-code-review",
+  "kind": "named",
+  "path": "registry/named/langgenius/backend-code-review.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1-star, TM 0 consistent; link resolves (200); no own evidence rows.",
+  "evidenceRefs": [
+   "https://github.com/langgenius/dify/blob/main/.agents/skills/backend-code-review/SKILL.md"
+  ]
+ },
+ {
+  "id": "langgenius/component-refactoring",
+  "kind": "named",
+  "path": "registry/named/langgenius/component-refactoring.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "pass",
+   "evidence": "n/a",
+   "upstream": "fail",
+   "body": "fail",
+   "classification": "fail"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "change-proposed",
+  "proposalType": "link",
+  "findingSummary": "Upstream dir removed (timeline upstream_deprecated 2026-08-05); link resolves only to a differently scoped how-to-write-component skill; body documents removed pnpm scripts. Re-scope or retire record.",
+  "evidenceRefs": [
+   "https://github.com/langgenius/dify/blob/main/.agents/skills/how-to-write-component/SKILL.md",
+   "https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring/SKILL.md"
+  ]
+ },
+ {
+  "id": "langgenius/e2e-cucumber-playwright",
+  "kind": "named",
+  "path": "registry/named/langgenius/e2e-cucumber-playwright.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1-star, zero own evidence; link resolves; body accurate.",
+  "evidenceRefs": [
+   "https://github.com/langgenius/dify/blob/main/.agents/skills/e2e-cucumber-playwright/SKILL.md"
+  ]
+ },
+ {
+  "id": "langgenius/frontend-code-review",
+  "kind": "named",
+  "path": "registry/named/langgenius/frontend-code-review.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1-star; link resolves; body consistent.",
+  "evidenceRefs": [
+   "https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-code-review/SKILL.md"
+  ]
+ },
+ {
+  "id": "langgenius/frontend-testing",
+  "kind": "named",
+  "path": "registry/named/langgenius/frontend-testing.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1-star; link resolves; body consistent.",
+  "evidenceRefs": [
+   "https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-testing/SKILL.md"
+  ]
+ },
+ {
+  "id": "laravel/upgrade-laravel-v13",
+  "kind": "named",
+  "path": "registry/named/laravel/upgrade-laravel-v13.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "fail",
+   "starBar": "n/a",
+   "origin": "fail",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "change-proposed",
+  "proposalType": "rank",
+  "findingSummary": "Status 'named' at 1-star conflicts with META 1.1 (2-star minimum for named); evidence array empty though timeline records a B row (laravel/boost issue 698) removed without a logged event; TM 36 -> 0. Body claims origin for framework-upgrade while frontmatter origin:false and bucket has no origin holder; 'First published by @laravel team' is unsourced.",
+  "evidenceRefs": [
+   "https://github.com/laravel/boost/issues/698"
+  ]
+ },
+ {
+  "id": "latent-spaces/brag",
+  "kind": "named",
+  "path": "registry/named/latent-spaces/brag.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "rank",
+  "findingSummary": "TM 144.54 A (stars 108.54 + repo-own 36) with SHA-pinned blob link; Unique branch and sole bucket Origin holder; 4-star Unique numeric gates (TM>=100, grade A, blob, bucket origin) are met while recorded rank is 3-star. Eligibility only; 4-star also says 'proved at production depth', a founder/Class C judgment. Body names Hyperframes without crediting its maker (heygen-com/hyperframes is in the registry).",
+  "evidenceRefs": [
+   "https://github.com/latent-spaces/brag/blob/c893c5ed52aed84e3e2ee56787de869fccdae6b0/skills/brag/SKILL.md",
+   "https://github.com/latent-spaces/brag"
+  ]
+ },
+ {
+  "id": "leonxlnx/brandkit",
+  "kind": "named",
+  "path": "registry/named/leonxlnx/brandkit.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "fail",
+   "starBar": "fail",
+   "origin": "pass",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "rank",
+  "findingSummary": "3-star rests only on suite-repository baseline: TM 50.0 = github-stars-own 39.70 + repo-own 10.30, exactly the 50 SUITE_COMPONENT_REPOSITORY_CAP; no component-specific evidence (META 2.1a: rank not gated by suite baseline alone). Link blob/main/skills/brandkit/SKILL.md returns 404 (repo has only skills/taste-skill/SKILL.md). Body is placeholder. Notes say 79.0k stars vs stars field 91660.",
+  "evidenceRefs": [
+   "https://github.com/leonxlnx/taste-skill/blob/main/skills/brandkit/SKILL.md",
+   "https://github.com/leonxlnx/taste-skill"
+  ]
+ },
+ {
+  "id": "leonxlnx/brutalist-skill",
+  "kind": "named",
+  "path": "registry/named/leonxlnx/brutalist-skill.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "fail",
+   "starBar": "fail",
+   "origin": "pass",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "rank",
+  "findingSummary": "3-star rests only on suite-repository baseline: TM 50.0 = github-stars-own 39.70 + repo-own 10.30, exactly the 50 SUITE_COMPONENT_REPOSITORY_CAP; no component-specific evidence (META 2.1a: rank not gated by suite baseline alone). Link blob/main/skills/brutalist-skill/SKILL.md returns 404 (repo has only skills/taste-skill/SKILL.md). Body is placeholder. Notes say 79.0k stars vs stars field 91660.",
+  "evidenceRefs": [
+   "https://github.com/leonxlnx/taste-skill/blob/main/skills/brutalist-skill/SKILL.md",
+   "https://github.com/leonxlnx/taste-skill"
+  ]
+ },
+ {
+  "id": "leonxlnx/gpt-tasteskill",
+  "kind": "named",
+  "path": "registry/named/leonxlnx/gpt-tasteskill.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "fail",
+   "starBar": "fail",
+   "origin": "pass",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "rank",
+  "findingSummary": "3-star rests only on suite-repository baseline: TM 50.0 = github-stars-own 39.70 + repo-own 10.30, exactly the 50 SUITE_COMPONENT_REPOSITORY_CAP; no component-specific evidence (META 2.1a: rank not gated by suite baseline alone). Link blob/main/skills/gpt-tasteskill/SKILL.md returns 404 (repo has only skills/taste-skill/SKILL.md). Body is placeholder. Notes say 79.0k stars vs stars field 91660.",
+  "evidenceRefs": [
+   "https://github.com/leonxlnx/taste-skill/blob/main/skills/gpt-tasteskill/SKILL.md",
+   "https://github.com/leonxlnx/taste-skill"
+  ]
+ },
+ {
+  "id": "leonxlnx/image-to-code-skill",
+  "kind": "named",
+  "path": "registry/named/leonxlnx/image-to-code-skill.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "fail",
+   "starBar": "fail",
+   "origin": "pass",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "rank",
+  "findingSummary": "3-star rests only on suite-repository baseline: TM 50.0 = github-stars-own 39.70 + repo-own 10.30, exactly the 50 SUITE_COMPONENT_REPOSITORY_CAP; no component-specific evidence (META 2.1a: rank not gated by suite baseline alone). Link blob/main/skills/image-to-code-skill/SKILL.md returns 404 (repo has only skills/taste-skill/SKILL.md). Body is placeholder. Notes say 79.0k stars vs stars field 91660.",
+  "evidenceRefs": [
+   "https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md",
+   "https://github.com/leonxlnx/taste-skill"
+  ]
+ },
+ {
+  "id": "leonxlnx/imagegen-frontend-mobile",
+  "kind": "named",
+  "path": "registry/named/leonxlnx/imagegen-frontend-mobile.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "fail",
+   "starBar": "fail",
+   "origin": "pass",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "rank",
+  "findingSummary": "3-star rests only on suite-repository baseline: TM 50.0 = github-stars-own 39.70 + repo-own 10.30, exactly the 50 SUITE_COMPONENT_REPOSITORY_CAP; no component-specific evidence (META 2.1a: rank not gated by suite baseline alone). Link blob/main/skills/imagegen-frontend-mobile/SKILL.md returns 404 (repo has only skills/taste-skill/SKILL.md). Body is placeholder. Notes say 79.0k stars vs stars field 91660.",
+  "evidenceRefs": [
+   "https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-mobile/SKILL.md",
+   "https://github.com/leonxlnx/taste-skill"
+  ]
+ },
+ {
+  "id": "leonxlnx/imagegen-frontend-web",
+  "kind": "named",
+  "path": "registry/named/leonxlnx/imagegen-frontend-web.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "fail",
+   "starBar": "fail",
+   "origin": "fail",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "rank",
+  "findingSummary": "3-star rests only on suite-repository baseline: TM 50.0 = github-stars-own 39.70 + repo-own 10.30, exactly the 50 SUITE_COMPONENT_REPOSITORY_CAP; no component-specific evidence (META 2.1a: rank not gated by suite baseline alone). Link blob/main/skills/imagegen-frontend-web/SKILL.md returns 404 (repo has only skills/taste-skill/SKILL.md). Body is placeholder. Notes say 79.0k stars vs stars field 91660. Origin granted 2026-08-22T08:07:42Z before any evidence row existed; ties imagegen-frontend-mobile at TM 50.0 B, so no deterministic merit basis (META 4.1). Class C adjudication required.",
+  "evidenceRefs": [
+   "https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-web/SKILL.md",
+   "https://github.com/leonxlnx/taste-skill"
+  ]
+ },
+ {
+  "id": "leonxlnx/minimalist-skill",
+  "kind": "named",
+  "path": "registry/named/leonxlnx/minimalist-skill.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "fail",
+   "starBar": "fail",
+   "origin": "pass",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "rank",
+  "findingSummary": "3-star rests only on suite-repository baseline: TM 50.0 = github-stars-own 39.70 + repo-own 10.30, exactly the 50 SUITE_COMPONENT_REPOSITORY_CAP; no component-specific evidence (META 2.1a: rank not gated by suite baseline alone). Link blob/main/skills/minimalist-skill/SKILL.md returns 404 (repo has only skills/taste-skill/SKILL.md). Body is placeholder. Notes say 79.0k stars vs stars field 91660.",
+  "evidenceRefs": [
+   "https://github.com/leonxlnx/taste-skill/blob/main/skills/minimalist-skill/SKILL.md",
+   "https://github.com/leonxlnx/taste-skill"
+  ]
+ },
+ {
+  "id": "leonxlnx/output-skill",
+  "kind": "named",
+  "path": "registry/named/leonxlnx/output-skill.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "fail",
+   "starBar": "fail",
+   "origin": "pass",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "rank",
+  "findingSummary": "3-star rests only on suite-repository baseline: TM 50.0 = github-stars-own 39.70 + repo-own 10.30, exactly the 50 SUITE_COMPONENT_REPOSITORY_CAP; no component-specific evidence (META 2.1a: rank not gated by suite baseline alone). Link blob/main/skills/output-skill/SKILL.md returns 404 (repo has only skills/taste-skill/SKILL.md). Body is placeholder. Notes say 79.0k stars vs stars field 91660.",
+  "evidenceRefs": [
+   "https://github.com/leonxlnx/taste-skill/blob/main/skills/output-skill/SKILL.md",
+   "https://github.com/leonxlnx/taste-skill"
+  ]
+ },
+ {
+  "id": "leonxlnx/redesign-skill",
+  "kind": "named",
+  "path": "registry/named/leonxlnx/redesign-skill.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "fail",
+   "starBar": "fail",
+   "origin": "pass",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "rank",
+  "findingSummary": "3-star rests only on suite-repository baseline: TM 50.0 = github-stars-own 39.70 + repo-own 10.30, exactly the 50 SUITE_COMPONENT_REPOSITORY_CAP; no component-specific evidence (META 2.1a: rank not gated by suite baseline alone). Link blob/main/skills/redesign-skill/SKILL.md returns 404 (repo has only skills/taste-skill/SKILL.md). Body is placeholder. Notes say 79.0k stars vs stars field 91660.",
+  "evidenceRefs": [
+   "https://github.com/leonxlnx/taste-skill/blob/main/skills/redesign-skill/SKILL.md",
+   "https://github.com/leonxlnx/taste-skill"
+  ]
+ },
+ {
+  "id": "leonxlnx/soft-skill",
+  "kind": "named",
+  "path": "registry/named/leonxlnx/soft-skill.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "fail",
+   "starBar": "fail",
+   "origin": "pass",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "rank",
+  "findingSummary": "3-star rests only on suite-repository baseline: TM 50.0 = github-stars-own 39.70 + repo-own 10.30, exactly the 50 SUITE_COMPONENT_REPOSITORY_CAP; no component-specific evidence (META 2.1a: rank not gated by suite baseline alone). Link blob/main/skills/soft-skill/SKILL.md returns 404 (repo has only skills/taste-skill/SKILL.md). Body is placeholder. Notes say 79.0k stars vs stars field 91660.",
+  "evidenceRefs": [
+   "https://github.com/leonxlnx/taste-skill/blob/main/skills/soft-skill/SKILL.md",
+   "https://github.com/leonxlnx/taste-skill"
+  ]
+ },
+ {
+  "id": "leonxlnx/stitch-skill",
+  "kind": "named",
+  "path": "registry/named/leonxlnx/stitch-skill.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "fail",
+   "starBar": "fail",
+   "origin": "fail",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "rank",
+  "findingSummary": "3-star rests only on suite-repository baseline: TM 50.0 = github-stars-own 39.70 + repo-own 10.30, exactly the 50 SUITE_COMPONENT_REPOSITORY_CAP; no component-specific evidence (META 2.1a: rank not gated by suite baseline alone). Link blob/main/skills/stitch-skill/SKILL.md returns 404 (repo has only skills/taste-skill/SKILL.md). Body is placeholder. Notes say 79.0k stars vs stars field 91660. Origin ties garrytan/design-consultation at TM 50.0 B; no deterministic merit basis. Class C adjudication required.",
+  "evidenceRefs": [
+   "https://github.com/leonxlnx/taste-skill/blob/main/skills/stitch-skill/SKILL.md",
+   "https://github.com/leonxlnx/taste-skill"
+  ]
+ },
+ {
+  "id": "leonxlnx/taste-skill",
+  "kind": "named",
+  "path": "registry/named/leonxlnx/taste-skill.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "body",
+  "findingSummary": "4-star suite capstone passes numeric gates: TM 174.68 A (stars 138.68 + repo-own 36), blob link resolves (200), 11 suiteComponents bidirectionally referenced. Body is placeholder. Notes say 79.0k stars vs stars field 91660. Component links 404, so suite linkage is not fully verified.",
+  "evidenceRefs": [
+   "https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md",
+   "https://github.com/leonxlnx/taste-skill"
+  ]
+ },
+ {
+  "id": "leonxlnx/unlazy",
+  "kind": "named",
+  "path": "registry/named/leonxlnx/unlazy.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "fail",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "origin",
+  "findingSummary": "Sole named implementation in claimed bucket task-depth-enforcement, yet origin:false; timeline records 'Origin status set to true' 2026-08-22T07:57 with no revocation (drift). TM 91.46 B (stars 90.23 + repo-own 1.23), blob link 200. Notes say 700 stars vs stars field 3785. Body is placeholder.",
+  "evidenceRefs": [
+   "https://github.com/leonxlnx/unlazy/blob/main/SKILL.md",
+   "https://github.com/leonxlnx/unlazy"
+  ]
+ },
+ {
+  "id": "martin-stepanoski/nielsen-heuristics-audit",
+  "kind": "named",
+  "path": "registry/named/martin-stepanoski/nielsen-heuristics-audit.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "fail",
+   "starBar": "pass",
+   "origin": "fail",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "change-proposed",
+  "proposalType": "evidence",
+  "findingSummary": "TM fell 94.9 -> 4.9 because the nngroup peer-review row (timeline 2026-06-19, graded A 80) is absent from the evidence array; surviving row uses type 'repo', not in registry/schema/meta.json. Status 'named' at 1-star violates META 1.1. Body claims origin for ux-audit but origin:false; bucket Origin holder is nextlevelbuilder/ui-ux-pro-max. Retype to repo-own; restore or formally remove peer-review row via decisionRef.",
+  "evidenceRefs": [
+   "https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md",
+   "https://www.nngroup.com/articles/ten-usability-heuristics/"
+  ]
+ },
+ {
+  "id": "mattpocock/ask-matt",
+  "kind": "named",
+  "path": "registry/named/mattpocock/ask-matt.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "pass",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 6,
+  "disposition": "change-proposed",
+  "proposalType": "evidence",
+  "findingSummary": "Evidence rows cite skills/productivity/ask-matt(/SKILL.md) which return 404; link moved to skills/engineering/ask-matt (200). One row has no type (class B only). Duplicate rows for the same URLs.",
+  "evidenceRefs": [
+   "https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md",
+   "https://github.com/mattpocock/skills/blob/main/skills/engineering/ask-matt/SKILL.md"
+  ]
+ },
+ {
+  "id": "mattpocock/code-review",
+  "kind": "named",
+  "path": "registry/named/mattpocock/code-review.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "pass",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "fail"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "change-proposed",
+  "proposalType": "evidence",
+  "findingSummary": "Repo-own row for mattpocock/skills reports 523 commits / 4 contributors (TM 20.77 C) while codebase-design and ask-matt rows for the same repo, both dated 2026-08-20, report 525 / 7 (TM 36 B). Reconcile. Frontmatter suiteRef 'mattpocock/skills' conflicts with timeline 'mattpocock/engineering'. Body is placeholder.",
+  "evidenceRefs": [
+   "https://github.com/mattpocock/skills/blob/main/skills/engineering/code-review/SKILL.md",
+   "https://github.com/mattpocock/skills"
+  ]
+ },
+ {
+  "id": "mattpocock/codebase-design",
+  "kind": "named",
+  "path": "registry/named/mattpocock/codebase-design.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 4,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "2-star TM 41 C; link (200) and installation body consistent; class-only row without type noted as legacy debt.",
+  "evidenceRefs": [
+   "https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design/SKILL.md"
+  ]
+ },
+ {
+  "id": "mattpocock/diagnose",
+  "kind": "named",
+  "path": "registry/named/mattpocock/diagnose.md",
+  "reviewer": "haiku:named-10",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "pass",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "fail"
+  },
+  "evidenceRowsReviewed": 3,
+  "disposition": "change-proposed",
+  "proposalType": "evidence",
+  "findingSummary": "Own row has invalid type 'repo' and path skills/engineering/diagnose/SKILL.md returns 404; social-signal YouTube row (44.92 of TM 94.92) is a general video about the 5-skill repo, relevance to this skill unverified; 50.0 is suite-root baseline. Duplicate of mattpocock/diagnosing-bugs (timeline: superseded). installable:false at 3-star with public blob link conflicts with curation guidelines. Rank 3-star deferred until evidence is corrected.",
+  "evidenceRefs": [
+   "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md",
+   "https://www.youtube.com/watch?v=EJyuu6zlQCg",
+   "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md"
+  ]
+ }
+]

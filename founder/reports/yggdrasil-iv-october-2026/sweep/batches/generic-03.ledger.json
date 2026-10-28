@@ -1,0 +1,643 @@
+[
+  {
+    "id": "generate-test",
+    "kind": "generic",
+    "path": "registry/nodes/basic/generate-test.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Sole arXiv row 2107.03374 (Codex/HumanEval) is only weakly relevant: HumanEval scores function synthesis against hand-written tests, not generation of test suites. Its note credits 'pass@1 72.0% for GPT-4' to a July 2021 paper that predates GPT-4, so the figure cannot come from that source. The row has no citations driver, so its arXiv magnitude is 0 and the generic computes TM 0.0. Sole child upsonic/unittest-generator (2★, origin true, TM 30 C) satisfies the one-Origin rule. Correct or replace the row via gaia dev evidence (canonical assertion change, Class C).",
+    "evidenceRefs": [
+      "https://arxiv.org/abs/2107.03374",
+      "registry/nodes/basic/generate-test.json",
+      "registry/schema/meta.json (arxiv allowedLayers, magnitude min(100, citations/5))"
+    ]
+  },
+  {
+    "id": "generate-text",
+    "kind": "generic",
+    "path": "registry/nodes/basic/generate-text.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Abstract id and name. Basic primitive with 0 prerequisites, 0 named children and 0 evidence rows (the only earlier row was removed as a self-referential dead link). No Origin is owed. The description is broad, but a root primitive covering text generation is an acceptable scope. Legacy '0★' propose residue is historical and left untouched.",
+    "evidenceRefs": [
+      "registry/nodes/basic/generate-text.json"
+    ]
+  },
+  {
+    "id": "genomic-data-retrieval",
+    "kind": "generic",
+    "path": "registry/nodes/basic/genomic-data-retrieval.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Only evidence row is type 'repo' (google-deepmind/science-skills, grade B, TM 70) at the generic layer. 'repo' is not a valid Evidence Type, and repo-own/github-stars-own are allowedLayers named-only, so implementation evidence belongs on the named children. The generic also has no Class A capability source (arXiv or peer-review), so its inherited pool is empty. Zero named children are bucketed; nine 1★ awakened google-deepmind/* entries sit in awaitingClassification, are ineligible for Origin, and need classification review. Action: relocate or remove the repo row and source a capability-level reference if one exists.",
+    "evidenceRefs": [
+      "https://github.com/google-deepmind/science-skills",
+      "registry/nodes/basic/genomic-data-retrieval.json",
+      "registry/named-skills.json (awaitingClassification: google-deepmind/*-database, ncbi-sequence-fetch)"
+    ]
+  },
+  {
+    "id": "git-diff-risk-analysis",
+    "kind": "generic",
+    "path": "registry/nodes/basic/git-diff-risk-analysis.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Generic is clean: abstract name, basic type, 0 evidence rows, sole child ruvnet/agentic-jujutsu (2★, origin true, TM 36 C). The child's links.github is the bare repo root https://github.com/ruvnet/ruflo, which violates the blob/branch/subpath rule for links.github (CLAUDE.md Curation Guidelines). Fix on the named side by pointing to the concrete SKILL.md blob. The liveness 429 on this URL is transient and is not a dead-link finding.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/agentic-jujutsu.md",
+      "https://github.com/ruvnet/ruflo",
+      "CLAUDE.md#Curation Guidelines"
+    ]
+  },
+  {
+    "id": "gpu-dataframe-acceleration",
+    "kind": "generic",
+    "path": "registry/nodes/basic/gpu-dataframe-acceleration.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Vendor-neutral name, precise description (operation support, transfer overhead, precision parity). Sole child nvidia/accelerated-computing-cudf is 4★ with origin true, TM 126.12 A and no gate violations, so the one-Origin rule holds. The child blob probe returned 429 (transient). Child body is the 51-char installation placeholder: routed to named audit as body debt, not a generic change.",
+    "evidenceRefs": [
+      "registry/named/nvidia/accelerated-computing-cudf.md",
+      "registry/nodes/basic/gpu-dataframe-acceleration.json"
+    ]
+  },
+  {
+    "id": "grant-application-processing",
+    "kind": "generic",
+    "path": "registry/nodes/basic/grant-application-processing.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Abstract id and name. The description is specific (discount calculation, code assignment, tracker updates) but describes a recognisable assistance-processing capability, so scope is acceptable. Sole child favorchurch/financial-assistance is 1★ (not Origin-eligible), TM 5.0 ungraded, no gate violations. No generic evidence. No change.",
+    "evidenceRefs": [
+      "registry/nodes/basic/grant-application-processing.json",
+      "registry/named/favorchurch/financial-assistance.md"
+    ]
+  },
+  {
+    "id": "guided-setup-scripting",
+    "kind": "generic",
+    "path": "registry/nodes/basic/guided-setup-scripting.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Exactly one eligible child exists: mattpocock/wizard (2★, origin false, TM 20.77 grade C, no gate violations). Zero Origin holders violates META §4.1 and Yggdrasil IV §IV (exactly one current Origin per claimed eligible generic). Proposed: approved Origin transfer to mattpocock/wizard. The basis is sole eligibility, not TM. Liveness 429 on its blob link is transient. Child body is the installation placeholder (routed to named audit).",
+    "evidenceRefs": [
+      "registry/named/mattpocock/wizard.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/wizard/SKILL.md",
+      "founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md §IV",
+      "prepass.json (mattpocock/wizard TM 20.77 C, gates [])"
+    ]
+  },
+  {
+    "id": "headless-worker-collect",
+    "kind": "generic",
+    "path": "registry/nodes/basic/headless-worker-collect.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Generic is clean (abstract name, no generic evidence, origin satisfied by ruvnet/dual-collect 2★ origin true TM 36 C). The child's links.github is the bare repo root https://github.com/ruvnet/ruflo, which violates the CLAUDE.md blob-link rule. Fix on the named side. Legacy 2★ propose residue on this starless node is historical and left untouched.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/dual-collect.md",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "headless-worker-spawn",
+    "kind": "generic",
+    "path": "registry/nodes/basic/headless-worker-spawn.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Generic is clean (ruvnet/dual-spawn 2★ origin true TM 36 C is the sole eligible child). Child links.github is the bare repo root https://github.com/ruvnet/ruflo, which violates the blob-link rule. Fix on the named side. Legacy 2★ propose residue is historical.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/dual-spawn.md",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "hybrid-workflow-coordination",
+    "kind": "generic",
+    "path": "registry/nodes/basic/hybrid-workflow-coordination.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Generic is clean (ruvnet/dual-coordinate 2★ origin true TM 36 C is the sole eligible child). Child links.github is the bare repo root https://github.com/ruvnet/ruflo, which violates the blob-link rule. Fix on the named side. Legacy 2★ propose residue is historical.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/dual-coordinate.md",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "hypothesis-generate",
+    "kind": "generic",
+    "path": "registry/nodes/basic/hypothesis-generate.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Three rows. ChemCrow (2304.05376) and Coscientist (2304.05332) are chemistry-specific autonomous agents, so relevance to domain-general hypothesis formulation is partial. The AI Scientist row (github repo, TM 70 B) is typed 'repo' at the generic layer, which is invalid (repo-own is named-only), so it belongs on named children. The two arXiv rows lack citations, so they score 0 magnitude and the generic computes TM 0.0. Notes contain mojibake (3 occurrences). No named children, so no Origin is owed.",
+    "evidenceRefs": [
+      "https://arxiv.org/abs/2304.05376",
+      "https://arxiv.org/abs/2304.05332",
+      "https://github.com/SakanaAI/AI-Scientist",
+      "registry/nodes/basic/hypothesis-generate.json"
+    ]
+  },
+  {
+    "id": "image-caption",
+    "kind": "generic",
+    "path": "registry/nodes/basic/image-caption.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "BLIP-2 (2301.12597) is a relevant Class A capability source and resolves (200). The row lacks a citations driver, so its arXiv magnitude is 0 and the generic computes TM 0.0. The CIDEr 145.8 note was not re-fetched in this run. No named children. Action: populate citations from a live source via gaia dev evidence. Mojibake in notes is logged separately.",
+    "evidenceRefs": [
+      "https://arxiv.org/abs/2301.12597",
+      "registry/nodes/basic/image-caption.json"
+    ]
+  },
+  {
+    "id": "image-generate",
+    "kind": "generic",
+    "path": "registry/nodes/basic/image-generate.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Latent Diffusion (2112.10752) is a relevant foundational source and resolves (200). The row lacks a citations driver (generic TM 0.0). The FID 5.11 and '200x less compute' figures in the note were not verified in this run. Origin is correct: leonxlnx/imagegen-frontend-web is the one Origin among two 3★ children. Liveness 404 on both leonxlnx/taste-skill blob links (web and mobile) is review debt routed to gaia-audit, not a demotion, and is a path-level cluster on that repo. Mojibake is logged separately.",
+    "evidenceRefs": [
+      "https://arxiv.org/abs/2112.10752",
+      "registry/nodes/basic/image-generate.json",
+      "https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-web/SKILL.md",
+      "https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-mobile/SKILL.md"
+    ]
+  },
+  {
+    "id": "implement-with-discernment",
+    "kind": "generic",
+    "path": "registry/nodes/basic/implement-with-discernment.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Eligible child dietrichgebert/ponytail (4★, origin false, TM 225.42 A, no gate violations) with zero Origin in the bucket violates the one-Origin rule. Proposed: approved Origin transfer to dietrichgebert/ponytail. The sole-eligibility basis does not depend on TM. Before approval, verify the github-stars-own row (/stargazers returned 404 in liveness; dead link is review debt, not demotion). Ponytail's body is an installation placeholder. Generic evidence: the one arXiv row (2403.06484, a technical-debt management survey, 5 citations, magnitude 1.0) is only indirectly relevant.",
+    "evidenceRefs": [
+      "registry/named/dietrichgebert/ponytail.md",
+      "https://github.com/DietrichGebert/ponytail/stargazers",
+      "https://arxiv.org/abs/2403.06484",
+      "prepass.json (dietrichgebert/ponytail TM 225.42 A)"
+    ]
+  },
+  {
+    "id": "interactive-mechanism-illustration",
+    "kind": "generic",
+    "path": "registry/nodes/basic/interactive-mechanism-illustration.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Precise, vendor-neutral description. Sole child wheresryan22/anatomy is 4★, origin true, TM 152.48 A with no gate violations. Its blob probe returned 429 (transient). Child body is the installation placeholder, routed to named audit. No generic evidence is required. No change.",
+    "evidenceRefs": [
+      "registry/named/wheresryan22/anatomy.md",
+      "registry/nodes/basic/interactive-mechanism-illustration.json"
+    ]
+  },
+  {
+    "id": "interactive-presentation-authoring",
+    "kind": "generic",
+    "path": "registry/nodes/basic/interactive-presentation-authoring.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Abstract name and a precise scope (slide structure, navigation, interactive content). Sole child heygen-com/slideshow is 3★, origin true, TM 50 B, with a pinned-SHA blob link that resolves (200). No change.",
+    "evidenceRefs": [
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/slideshow/SKILL.md",
+      "registry/nodes/basic/interactive-presentation-authoring.json"
+    ]
+  },
+  {
+    "id": "issue-triage",
+    "kind": "generic",
+    "path": "registry/nodes/basic/issue-triage.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Stale genericSkillRef mapping. mattpocock/triage (3★, origin true, TM 56.21 B) matches the capability. Two other children mapped to issue-triage do not: mbtiongson1/gaia-triage (1★) describes sorting skill proposals and backlog items by impact and feasibility, and gaiabot/gaia-triage (awakened, awaitingClassification) describes repo maintenance triage for docs drift and build dependencies. Review both genericSkillRef values; this is not an Origin change because neither is eligible. Both arXiv rows (2501.18908, 2504.18804) are relevant and resolve, but lack citations (see evidence finding).",
+    "evidenceRefs": [
+      "registry/named/mbtiongson1/gaia-triage.md",
+      "registry/named/gaiabot/gaia-triage.md",
+      "registry/named/mattpocock/triage.md",
+      "registry/named-skills.json (awaitingClassification)"
+    ]
+  },
+  {
+    "id": "literature-search",
+    "kind": "generic",
+    "path": "registry/nodes/basic/literature-search.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Eligible child firecrawl/firecrawl-research-index (3★, origin false, TM 50.0 B, no gate violations) is the sole eligible child, so the bucket has zero Origin in violation of the one-Origin rule. Proposed: approved Origin transfer to firecrawl/firecrawl-research-index. Also, the generic's only row is type 'repo' (google-deepmind/science-skills) at the generic layer, which is invalid and implementation-level. The child's /stargazers URL returned 404 in liveness (review debt, not demotion) and its body is the installation placeholder.",
+    "evidenceRefs": [
+      "registry/named/firecrawl/firecrawl-research-index.md",
+      "https://github.com/google-deepmind/science-skills",
+      "https://github.com/firecrawl/skills/stargazers"
+    ]
+  },
+  {
+    "id": "logical-inference",
+    "kind": "generic",
+    "path": "registry/nodes/basic/logical-inference.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Chain-of-Thought (2201.11903) is a relevant but partial source: CoT is multi-step prompting, not a formal deductive, inductive or abductive inference method. The row lacks a citations driver (generic TM 0.0). Its headline deltas ('+18% GSM8K, +15% SVAMP') were not verified here and do not match my recollection of the paper's PaLM-540B GSM8K result, so they need source verification before reliance. No named children. Mojibake is logged separately.",
+    "evidenceRefs": [
+      "https://arxiv.org/abs/2201.11903",
+      "registry/nodes/basic/logical-inference.json"
+    ]
+  },
+  {
+    "id": "map-animation",
+    "kind": "generic",
+    "path": "registry/nodes/basic/map-animation.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Generic name 'map-animation' is an id-style string, unlike Title Case peers. Low priority. Sole child remotion-dev/remotion-maps is 1★ (not Origin-eligible; origin false after its 2026-09-09 demotion). The child's description is a placeholder, its body is the installation placeholder, and it has no links and no installable flag (curation guidelines require installable: false). Routed to named audit as a separate finding.",
+    "evidenceRefs": [
+      "registry/named/remotion-dev/remotion-maps.md",
+      "registry/nodes/basic/map-animation.json"
+    ]
+  },
+  {
+    "id": "math-reason",
+    "kind": "generic",
+    "path": "registry/nodes/basic/math-reason.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Minerva (2206.14858) is a relevant Class A capability source and resolves (200). The row lacks a citations driver, so the generic computes TM 0.0. The 50.3% MATH and 78.5% MMLU-STEM figures are consistent with my recollection of the paper but were not re-fetched in this run. No named children. Mojibake is logged separately.",
+    "evidenceRefs": [
+      "https://arxiv.org/abs/2206.14858",
+      "registry/nodes/basic/math-reason.json"
+    ]
+  },
+  {
+    "id": "mattpocock-misc",
+    "kind": "generic",
+    "path": "registry/nodes/basic/mattpocock-misc.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Generic name 'Matt Pocock Misc' carries a person/handle, which violates the abstract, vendor-neutral id/name rule. The id 'mattpocock-misc' also embeds it. An id rename is structural: mattpocock-misc is referenced by registry/nodes/fusion/skill-mastery.json and by the named genericSkillRef and registry/named-skills.json, so it needs gaia dev rename. The display name can be fixed as metadata (e.g. 'Utility and Setup Skills'). Origin is correct: mattpocock/misc (4★, origin true, suite branch, TM 200.29 A). The child body is the installation placeholder (routed to named audit).",
+    "evidenceRefs": [
+      "registry/nodes/basic/mattpocock-misc.json",
+      "registry/nodes/fusion/skill-mastery.json",
+      "registry/named/mattpocock/misc.md"
+    ]
+  },
+  {
+    "id": "mcp-integration",
+    "kind": "generic",
+    "path": "registry/nodes/basic/mcp-integration.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Three bucketed children. The only eligible child is garrytan/pair-agent (2★, origin false, TM 36 C), so the one-Origin rule is violated. Proposed: approved Origin transfer to garrytan/pair-agent. The Champion rule (≥3 children) is met. The stored data has no champion field, the UI role is display-only, and pair-agent is also the highest-TM child (TM 36 vs 6.3 and 0), so the Champion coincides with this Origin proposal. Generic evidence: two 'repo' rows (go-sdk, 5ire) are invalid at the generic layer and are implementation-level, so they belong on named children. Two awakened sickn33/* children sit in awaitingClassification.",
+    "evidenceRefs": [
+      "registry/named/garrytan/pair-agent.md",
+      "https://github.com/modelcontextprotocol/go-sdk",
+      "https://github.com/nanbingxyz/5ire",
+      "registry/named-skills.json (awaitingClassification sickn33/*)"
+    ]
+  },
+  {
+    "id": "mcp-server-deployment",
+    "kind": "generic",
+    "path": "registry/nodes/basic/mcp-server-deployment.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Vendor-neutral, precise description (transport, authentication, least-privilege access, connectivity checks). Sole child garrytan/remote-mcp is 1★ (no Origin owed) and pins a blob to gbrain v0.51.6.0. Its body is the installation placeholder, routed to named audit. No generic evidence is required. No change.",
+    "evidenceRefs": [
+      "registry/named/garrytan/remote-mcp.md",
+      "registry/nodes/basic/mcp-server-deployment.json"
+    ]
+  },
+  {
+    "id": "media-asset-orchestration",
+    "kind": "generic",
+    "path": "registry/nodes/basic/media-asset-orchestration.json",
+    "reviewer": "haiku:generic-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "n/a",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Abstract name and clear scope (discover, prepare, organise, route media assets). Sole child heygen-com/media-use is 3★, origin true, TM 50 B, with a pinned-SHA blob link that resolves (200). No change.",
+    "evidenceRefs": [
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/media-use/SKILL.md",
+      "registry/nodes/basic/media-asset-orchestration.json"
+    ]
+  }
+]

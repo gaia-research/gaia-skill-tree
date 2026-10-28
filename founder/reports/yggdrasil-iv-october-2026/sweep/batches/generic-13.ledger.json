@@ -1,0 +1,34 @@
+[
+  {
+    "id": "x-twitter-automation",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/x-twitter-automation.json",
+    "reviewer": "haiku:generic-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "n/a",
+      "classification": "flag"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Type fusion with three prerequisites (browser-automation, web-scrape, workflow-automation), all present as fusion nodes that reference back; schema fields complete. Generic is starless, so rank and star bar are n/a. Origin: the only named child, xquik-dev/hermes-tweet (awaitingClassification, genericSkillRef x-twitter-automation), is 1★ awakened (demoted 2026-09-05, #1699) yet carries origin: true. META §4 and the Yggdrasil IV ratification bar a ≤1★ entry from Origin standing, and no child is ≥2★, so the stale flag should clear. This is an Origin change (Class C): propose clearing it and do not transfer Origin. Identity: the id and name embed the vendor/brand 'X/Twitter', while sibling capability generics are abstract. Proposed abstract replacement is a founder-approved structural rename via the CLI, which must remap the three prerequisite references and the child genericSkillRef. Description is precise and falsifiable but scoped to one platform. The child is not placed in any named-skills bucket key (it sits in awaitingClassification), which meta-audit should confirm. Zero generic evidence rows is not a defect here. No mutation was made.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/x-twitter-automation.json",
+      "registry/nodes/fusion/browser-automation.json",
+      "registry/nodes/fusion/web-scrape.json",
+      "registry/nodes/fusion/workflow-automation.json",
+      "registry/named-skills.json",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "META.md",
+      "founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md",
+      "https://github.com/Xquik-dev/hermes-tweet/blob/master/skills/hermes-tweet/SKILL.md"
+    ]
+  }
+]

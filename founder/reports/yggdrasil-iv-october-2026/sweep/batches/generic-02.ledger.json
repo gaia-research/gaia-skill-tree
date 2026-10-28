@@ -1,0 +1,640 @@
+[
+ {
+  "id": "creative-direction",
+  "kind": "generic",
+  "path": "registry/nodes/basic/creative-direction.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "pass",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Basic, no prerequisites. Name and description vendor-neutral and precise. Exactly one Origin: heygen-com/hyperframes-creative (3 star, TM 50.0 B, origin true, blob link), which fits the scope. Single child, so no Champion comparison applies. No generic rows. No change.",
+  "evidenceRefs": [
+   "registry/nodes/basic/creative-direction.json",
+   "registry/named-skills.json (bucket creative-direction)",
+   "registry/named/heygen-com/hyperframes-creative.md"
+  ]
+ },
+ {
+  "id": "crm-data-cleanup",
+  "kind": "generic",
+  "path": "registry/nodes/basic/crm-data-cleanup.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "n/a",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Basic, no prerequisites. Description precise and vendor-neutral. Only child favorchurch/update-unique-churches is 1 star, below the 2 star eligibility floor, so no Origin is required. No generic rows. No change.",
+  "evidenceRefs": [
+   "registry/nodes/basic/crm-data-cleanup.json",
+   "registry/named-skills.json (bucket crm-data-cleanup)"
+  ]
+ },
+ {
+  "id": "cultural-localization",
+  "kind": "generic",
+  "path": "registry/nodes/basic/cultural-localization.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "n/a",
+   "starBar": "n/a",
+   "origin": "n/a",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 3,
+  "disposition": "change-proposed",
+  "proposalType": "evidence",
+  "findingSummary": "Basic, no named children. Two rows are capability-level Class A arXiv papers (2603.23301, 2602.04729) and are relevant. The third row (class C, repo type) is a skillsmp.com directory page for one implementation (sapraudnynew-intakto-cco-claude-skills-cultural-localization-skill-md). That is implementation evidence on a starless generic, which the Class A capability rule excludes. Proposal: relocate it to a named implementation or drop it. Prepass generic TM 0.0 is expected for a starless node.",
+  "evidenceRefs": [
+   "registry/nodes/basic/cultural-localization.json",
+   "https://arxiv.org/abs/2603.23301",
+   "https://arxiv.org/abs/2602.04729",
+   "https://skillsmp.com/skills/sapraudnynew-intakto-cco-claude-skills-cultural-localization-skill-md"
+  ]
+ },
+ {
+  "id": "data-visualize",
+  "kind": "generic",
+  "path": "registry/nodes/basic/data-visualize.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "n/a",
+   "starBar": "n/a",
+   "origin": "n/a",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "change-proposed",
+  "proposalType": "evidence",
+  "findingSummary": "Basic, no children. Sole row is https://github.com/microsoft/lida (class B, repo type): a repo-root URL for one tool, which fails the Class A capability rule and the specific-URL rule (META 2.4). Proposal: relocate to a named implementation; the generic then needs a capability-level anchor (not invented here). Notes contain mojibake (em dash rendered as a-circumflex sequence). Description precise. Timeline shows a 2 star propose event on a starless node (history only, not changed).",
+  "evidenceRefs": [
+   "registry/nodes/basic/data-visualize.json",
+   "https://github.com/microsoft/lida"
+  ]
+ },
+ {
+  "id": "decision-ticket-planning",
+  "kind": "generic",
+  "path": "registry/nodes/basic/decision-ticket-planning.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "fail",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "change-proposed",
+  "proposalType": "origin",
+  "findingSummary": "Basic, description precise and falsifiable. Sole child mattpocock/wayfinder is 2 star (eligible), origin false, computed TM 20.77 (C), no gate violations, blob link, and its description matches this scope. Exactly one eligible child and no Origin, so the one-Origin invariant (META 4.1, Yggdrasil IV Origin section) is unmet. Proposal: assign Origin to mattpocock/wayfinder. Class C, founder-gated. The ratification's 'claimed bucket' qualifier is undefined, so the founder confirms this bucket is claimed.",
+  "evidenceRefs": [
+   "registry/nodes/basic/decision-ticket-planning.json",
+   "registry/named/mattpocock/wayfinder.md",
+   "registry/named-skills.json (bucket decision-ticket-planning)"
+  ]
+ },
+ {
+  "id": "deprecation-and-migration",
+  "kind": "generic",
+  "path": "registry/nodes/basic/deprecation-and-migration.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "flag",
+   "starBar": "n/a",
+   "origin": "n/a",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Basic, description precise. Only child addy-osmani/deprecation-and-migration is stored at 2 star (named file and prepass) but projected 1 star in named-skills.json; computed TM 0.0 (ungraded). This is the D6 cross-surface disagreement (CAMPAIGN.md, FD-7), a named-level issue, not a generic defect. At index level no eligible child exists, so no Origin is required. Flagged to the named auditor and founder.",
+  "evidenceRefs": [
+   "registry/nodes/basic/deprecation-and-migration.json",
+   "registry/named/addy-osmani/deprecation-and-migration.md",
+   "registry/named-skills.json (bucket deprecation-and-migration)"
+  ]
+ },
+ {
+  "id": "design-source-import",
+  "kind": "generic",
+  "path": "registry/nodes/basic/design-source-import.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "pass",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Basic, description vendor-neutral. Sole child heygen-com/figma (3 star, origin true, TM 50.0 B, blob link) matches 'import design sources as reusable assets'. Exactly one Origin. No change.",
+  "evidenceRefs": [
+   "registry/nodes/basic/design-source-import.json",
+   "registry/named/heygen-com/figma.md"
+  ]
+ },
+ {
+  "id": "diff-content",
+  "kind": "generic",
+  "path": "registry/nodes/basic/diff-content.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "n/a",
+   "starBar": "n/a",
+   "origin": "n/a",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Basic, no prerequisites, no children, zero rows. Description precise and generic. The 2026-06-02 removal of a dead registry-doc link left no evidence; absence of a Class A anchor is not a rule violation. Historical demote events on a starless node are history only.",
+  "evidenceRefs": [
+   "registry/nodes/basic/diff-content.json"
+  ]
+ },
+ {
+  "id": "document-editing",
+  "kind": "generic",
+  "path": "registry/nodes/basic/document-editing.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "fail",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "change-proposed",
+  "proposalType": "origin",
+  "findingSummary": "Basic, 4 named children, one Origin (garrytan/document-generate, 3 star, TM 50.0 B). Origin was set 2026-06-02 as 'highest-rated' when mattpocock/edit-article had TM 0.0. Its TM is now 94.92 (B) at the same 3 star rating, so the deterministic basis favors re-adjudication (META 4.1). The Trust Score tie-break is not in the prepass, so this is not a transfer; Origin transfer needs an approved transfer (Class C). Also: edit-article's body cites 'origin: anthropic/pptx', which is stale. Description (binary PPTX/DOCX/XLSX only) is narrower than its children (prose article editing, Diataxis docs, release notes); see body proposal. Champion (3+ children) is a derived view, not stored.",
+  "evidenceRefs": [
+   "registry/nodes/basic/document-editing.json",
+   "registry/named/mattpocock/edit-article.md",
+   "registry/named/garrytan/document-generate.md",
+   "registry/named/garrytan/document-release.md",
+   "registry/named/anthropic/pptx.md"
+  ]
+ },
+ {
+  "id": "domain-modeling",
+  "kind": "generic",
+  "path": "registry/nodes/basic/domain-modeling.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "fail",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "change-proposed",
+  "proposalType": "origin",
+  "findingSummary": "Basic, description precise (shared domain model, ubiquitous language, ADRs). Sole child mattpocock/domain-modeling is 2 star (eligible), origin false, computed TM 41.0 (C), 4 rows, no gates, and its description matches. No Origin, so the one-Origin invariant is unmet. Proposal: assign Origin to mattpocock/domain-modeling. Class C, founder-gated.",
+  "evidenceRefs": [
+   "registry/nodes/basic/domain-modeling.json",
+   "registry/named/mattpocock/domain-modeling.md"
+  ]
+ },
+ {
+  "id": "embed-text",
+  "kind": "generic",
+  "path": "registry/nodes/basic/embed-text.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "n/a",
+   "starBar": "n/a",
+   "origin": "n/a",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Basic, description precise, no children, no rows, derivatives resolve. No change.",
+  "evidenceRefs": [
+   "registry/nodes/basic/embed-text.json"
+  ]
+ },
+ {
+  "id": "error-interpretation",
+  "kind": "generic",
+  "path": "registry/nodes/basic/error-interpretation.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "n/a",
+   "starBar": "n/a",
+   "origin": "n/a",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Basic, description precise, no children, no rows, derivatives resolve. No change.",
+  "evidenceRefs": [
+   "registry/nodes/basic/error-interpretation.json"
+  ]
+ },
+ {
+  "id": "evaluate-output",
+  "kind": "generic",
+  "path": "registry/nodes/basic/evaluate-output.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "n/a",
+   "starBar": "pass",
+   "origin": "fail",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "fail"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "change-proposed",
+  "proposalType": "reclassification",
+  "findingSummary": "Basic, description precise. Two eligible children, both 3 star with TM 50.0 B, and no Origin. The one-Origin invariant is unmet, and the tie cannot be broken on the deterministic basis (tie-break needs Trust Score). Fit is weak: garrytan/benchmark is web-performance benchmarking (load times, Core Web Vitals), which does not evaluate generated output; garrytan/plan-ceo-review reviews product-strategy plans. Proposal: reclassify garrytan/benchmark away from evaluate-output first, then resolve Origin for any remaining eligible child (Class C).",
+  "evidenceRefs": [
+   "registry/nodes/basic/evaluate-output.json",
+   "registry/named/garrytan/benchmark.md",
+   "registry/named/garrytan/plan-ceo-review.md"
+  ]
+ },
+ {
+  "id": "event-attendance-metrics",
+  "kind": "generic",
+  "path": "registry/nodes/basic/event-attendance-metrics.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "n/a",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Basic, description precise. Children favorchurch/attendees and favorchurch/count-checkin-by-church are both 1 star (below eligibility), so no Origin is required. No rows. No change.",
+  "evidenceRefs": [
+   "registry/nodes/basic/event-attendance-metrics.json",
+   "registry/named-skills.json (bucket event-attendance-metrics)"
+  ]
+ },
+ {
+  "id": "event-attendee-management",
+  "kind": "generic",
+  "path": "registry/nodes/basic/event-attendee-management.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "n/a",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Basic, description precise. Only child favorchurch/export-attendees is 1 star; no Origin required. No change.",
+  "evidenceRefs": [
+   "registry/nodes/basic/event-attendee-management.json",
+   "registry/named-skills.json (bucket event-attendee-management)"
+  ]
+ },
+ {
+  "id": "event-support-triage",
+  "kind": "generic",
+  "path": "registry/nodes/basic/event-support-triage.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "n/a",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Basic, description precise. Only child favorchurch/triage-conference is 1 star; no Origin required. No change.",
+  "evidenceRefs": [
+   "registry/nodes/basic/event-support-triage.json",
+   "registry/named-skills.json (bucket event-support-triage)"
+  ]
+ },
+ {
+  "id": "event-ticket-transfer",
+  "kind": "generic",
+  "path": "registry/nodes/basic/event-ticket-transfer.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "n/a",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Basic, description precise. Only child favorchurch/ticket-transfer is 1 star; no Origin required. No change.",
+  "evidenceRefs": [
+   "registry/nodes/basic/event-ticket-transfer.json",
+   "registry/named-skills.json (bucket event-ticket-transfer)"
+  ]
+ },
+ {
+  "id": "evidence-attestation",
+  "kind": "generic",
+  "path": "registry/nodes/basic/evidence-attestation.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "flag",
+   "rank": "n/a",
+   "starBar": "n/a",
+   "origin": "n/a",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "evidence",
+  "findingSummary": "Basic. Both generic rows are implementation-level evidence on the single implementation caioribeiroclw-pixel/pluribus: a SKILL.md self-attestation (class C) and a repo-own row with no grade. They fail the Class A capability rule and belong on the named child. Arxiv capability rows were removed as dead on 2026-07-08, leaving no Class A anchor. Description duplicates the named child's description verbatim, so the generic is effectively a 1:1 wrapper. Name is lowercase kebab-case while other generics use Title Case. Proposal: remove implementation rows from the generic, relocate to the named child, then re-scope the description to the capability.",
+  "evidenceRefs": [
+   "registry/nodes/basic/evidence-attestation.json",
+   "https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md",
+   "https://github.com/caioribeiroclw-pixel/pluribus",
+   "registry/named/caioribeiroclw-pixel/evidence-attestation.md"
+  ]
+ },
+ {
+  "id": "extract-entities",
+  "kind": "generic",
+  "path": "registry/nodes/basic/extract-entities.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "n/a",
+   "starBar": "n/a",
+   "origin": "n/a",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Basic, description precise (people, organizations, dates, locations), no children, no rows, derivatives resolve. No change.",
+  "evidenceRefs": [
+   "registry/nodes/basic/extract-entities.json"
+  ]
+ },
+ {
+  "id": "feed-monitoring",
+  "kind": "generic",
+  "path": "registry/nodes/basic/feed-monitoring.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Basic, description precise. Sole child nousresearch/feed-monitoring is 2 star, origin true, TM 36.0 (C), no GitHub link and installable false. Registry-only 2 star is allowed by the Star Bar (META 2.4); exactly one Origin held. Missing link is a named-level observation. knownAgents names a vendor agent repo, but that field is not id or name. No change.",
+  "evidenceRefs": [
+   "registry/nodes/basic/feed-monitoring.json",
+   "registry/named/nousresearch/feed-monitoring.md"
+  ]
+ },
+ {
+  "id": "few-shot-learning",
+  "kind": "generic",
+  "path": "registry/nodes/basic/few-shot-learning.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "n/a",
+   "starBar": "n/a",
+   "origin": "n/a",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "change-proposed",
+  "proposalType": "metadata",
+  "findingSummary": "Basic, description precise. Single row arXiv 2005.14165 (in-context learning, Brown et al.) is Class A, capability-level, and relevant. Evidence notes contain mojibake (em dash rendered as a-circumflex sequence). Proposal: encoding-only fix to the notes text. Row carries no explicit grade field; timeline shows it was graded A.",
+  "evidenceRefs": [
+   "registry/nodes/basic/few-shot-learning.json",
+   "https://arxiv.org/abs/2005.14165"
+  ]
+ },
+ {
+  "id": "fine-tune",
+  "kind": "generic",
+  "path": "registry/nodes/basic/fine-tune.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "n/a",
+   "starBar": "n/a",
+   "origin": "n/a",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 3,
+  "disposition": "change-proposed",
+  "proposalType": "evidence",
+  "findingSummary": "Basic, description precise. Keep arXiv 2604.22783 (LARS, Class A, on-device fine-tuning memory: relevant). Two rows are repo-root library URLs at class B: https://github.com/huggingface/peft and https://github.com/hiyouga/LlamaFactory. These are implementation evidence and fail the Class A capability rule and the specific-URL rule (META 2.4). Proposal: remove or relocate to named implementations. Only child huggingface/huggingface-llm-trainer is 1 star with zero evidence. No Origin required.",
+  "evidenceRefs": [
+   "registry/nodes/basic/fine-tune.json",
+   "https://arxiv.org/abs/2604.22783",
+   "https://github.com/huggingface/peft",
+   "https://github.com/hiyouga/LlamaFactory",
+   "registry/named/huggingface/huggingface-llm-trainer.md"
+  ]
+ },
+ {
+  "id": "format-output",
+  "kind": "generic",
+  "path": "registry/nodes/basic/format-output.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "fail",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "change-proposed",
+  "proposalType": "origin",
+  "findingSummary": "Basic, description precise. Three eligible children with no Origin: ayghri/i-have-adhd (4 star, TM 130.23 A), leonxlnx/output-skill (3 star, TM 50.0 B), garrytan/make-pdf (2 star, TM 36.0 C). The one-Origin invariant is unmet. Deterministic basis: i-have-adhd has the highest rating and TM with no tie. Proposal: assign Origin to ayghri/i-have-adhd (Class C, founder-gated). Champion view (3+ children) would also be i-have-adhd on TM, but no champion field is stored, so no champion change is proposed.",
+  "evidenceRefs": [
+   "registry/nodes/basic/format-output.json",
+   "registry/named/ayghri/i-have-adhd.md",
+   "registry/named/leonxlnx/output-skill.md",
+   "registry/named/garrytan/make-pdf.md"
+  ]
+ },
+ {
+  "id": "framework-upgrade",
+  "kind": "generic",
+  "path": "registry/nodes/basic/framework-upgrade.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "pass",
+   "origin": "fail",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "fail"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "change-proposed",
+  "proposalType": "reclassification",
+  "findingSummary": "Basic, description describes same-framework major-version upgrade. Sole eligible child heygen-com/remotion-to-hyperframes (3 star, TM 50.0 B) is a one-way cross-framework port (Remotion to HyperFrames), not a version upgrade. Scope mismatch. Proposal: reclassify the child (candidate: deprecation-and-migration, replacement) or broaden this description; founder or curator decision. Origin proposal is deferred until that decision, because assigning Origin to a mismatched child would be wrong. laravel/upgrade-laravel-v13 and remotion-dev/remotion-upgrade are 1 star registry-only.",
+  "evidenceRefs": [
+   "registry/nodes/basic/framework-upgrade.json",
+   "registry/named/heygen-com/remotion-to-hyperframes.md",
+   "registry/named-skills.json (bucket framework-upgrade)"
+  ]
+ },
+ {
+  "id": "generate-sql",
+  "kind": "generic",
+  "path": "registry/nodes/basic/generate-sql.json",
+  "reviewer": "haiku:generic-02",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "n/a",
+   "starBar": "n/a",
+   "origin": "n/a",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "change-proposed",
+  "proposalType": "metadata",
+  "findingSummary": "Basic, description precise. Single row arXiv 1809.08887 (Spider text-to-SQL benchmark) is Class A, capability-level, and relevant. Evidence notes contain mojibake. Encoding-only metadata fix. No children.",
+  "evidenceRefs": [
+   "registry/nodes/basic/generate-sql.json",
+   "https://arxiv.org/abs/1809.08887"
+  ]
+ }
+]

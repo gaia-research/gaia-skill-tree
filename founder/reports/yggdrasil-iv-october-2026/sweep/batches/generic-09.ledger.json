@@ -1,0 +1,642 @@
+[
+  {
+    "id": "finishing-a-development-branch",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/finishing-a-development-branch.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (exactly one Origin: addy-osmani/shipping-and-launch; 3★ ties at TM 50.0 noted, no transfer)",
+      "evidence": "n/a (no generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Prereqs exist (2), description precise, one current Origin (addy-osmani/shipping-and-launch, origin=true) among four eligible children. Three 3★ children tie at computed TM 50.0; no transfer warranted without an approved decision. Champion is derived display only (4 children).",
+    "evidenceRefs": [
+      "registry/nodes/fusion/finishing-a-development-branch.json",
+      "registry/named-skills.json (bucket finishing-a-development-branch)"
+    ]
+  },
+  {
+    "id": "firecrawl",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/firecrawl.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass",
+      "evidence": "n/a (no generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail: brand-specific id, name and description",
+      "classification": "pass (one child, bucket matches file)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "structural",
+    "findingSummary": "Id and name are a vendor brand (firecrawl) and the description is vendor-specific ('A suite for integrating Firecrawl ...'), violating the vendor-neutral id/name rule. Propose a vendor-neutral id/name and description with cascade to genericSkillRef of firecrawl/firecrawl-skills and the bucket key (Class C identity change). Origin is satisfied (sole eligible child origin=true).",
+    "evidenceRefs": [
+      "registry/nodes/fusion/firecrawl.json",
+      "registry/named-skills.json (bucket firecrawl)",
+      "https://github.com/firecrawl/firecrawl"
+    ]
+  },
+  {
+    "id": "founder-mode-orchestration",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/founder-mode-orchestration.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass",
+      "evidence": "n/a (no generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail: personal attribution in description; counts (19 vs 31) inconsistent with prerequisites and bucket",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Description attributes the suite to a real person ('Garry Tan's complete autonomous agent discipline suite') and states 'spanning 19 named skills' while conditions say 'all 31 garrytan discipline skills'. The 31 prerequisites are cross-contributor generic refs and this bucket holds one named child (garrytan/gstack). Propose a person-neutral description with reconciled counts. Origin satisfied (garrytan/gstack origin=true, sole eligible).",
+    "evidenceRefs": [
+      "registry/nodes/fusion/founder-mode-orchestration.json",
+      "registry/named-skills.json (bucket founder-mode-orchestration)",
+      "https://github.com/garrytan/gstack/blob/main/SKILL.md"
+    ]
+  },
+  {
+    "id": "full-stack-developer",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/full-stack-developer.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass",
+      "evidence": "fail: repo row at generic layer (named-only); SWE-bench 'Verified' note not attributable to cited paper; 2 of 3 rows remain after fix",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (no named children)"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Row 2 (princeton-nlp/SWE-agent, type repo) is implementation evidence and repo/repo-own is allowed only at the named layer (meta.json: repo-own allowedLayers=[named]), so it is a layer violation. The SWE-bench row note attributes a 'Verified' 49% result to arXiv 2310.06770, a 2023 paper that predates the Verified subset (2024); that number needs its real source or removal. Conditions text ('Minimum 3 Class A/B evidence sources') must be reconciled after the repo row is removed. No named children, so no Origin check applies.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/full-stack-developer.json",
+      "https://arxiv.org/abs/2310.06770",
+      "https://github.com/princeton-nlp/SWE-agent",
+      "https://arxiv.org/abs/2402.01030"
+    ]
+  },
+  {
+    "id": "function-calling",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/function-calling.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass",
+      "evidence": "pass (2 arxiv rows, capability-relevant, layer-allowed)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Both generic evidence rows (ToolLLM arXiv 2307.16789; Gorilla arXiv 2305.15334) are Class A arxiv capability evidence for LLM tool and API invocation, which is semantically on-topic. Prereqs exist, description precise, no named children.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/function-calling.json",
+      "https://arxiv.org/abs/2307.16789",
+      "https://arxiv.org/abs/2305.15334"
+    ]
+  },
+  {
+    "id": "gbrain",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/gbrain.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "fail: zero Origin in bucket with one eligible child (garrytan/gbrain 4★, TM 121.94 A); proposal: garrytan/gbrain",
+      "evidence": "n/a (no generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail: product-brand id and name",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Sole eligible child garrytan/gbrain is 4★ with computed TM 121.94 (grade A, meets the 4★ gate) but origin=false, violating the exactly-one-Origin invariant (META §4.1; Yggdrasil IV §IV). Propose approved Origin to garrytan/gbrain. This is a Class C Origin change. The CLAUDE.md suite-branch note only relaxes the rank gate for 4★ Extra, not the bucket invariant. Separate structural finding: id and name 'gbrain' / 'GBrain' are a product brand.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/gbrain.json",
+      "registry/named-skills.json (bucket gbrain)",
+      "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/README.md"
+    ]
+  },
+  {
+    "id": "generative-media",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/generative-media.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass",
+      "evidence": "fail: repo row at generic layer; implementation evidence",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Sole generic evidence row is the ComfyUI repository (type repo, class B), which is implementation evidence and layer-restricted to named skills (repo-own allowedLayers=[named]). Propose removal from the generic node; capability-level evidence should be sourced separately if wanted. Sole child remotion-dev/remotion-multimedia is 1★ effective, so no Origin is required.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/generative-media.json",
+      "https://github.com/comfyanonymous/ComfyUI"
+    ]
+  },
+  {
+    "id": "ghostwrite",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/ghostwrite.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (no eligible child; bucket 1★ effective; file-level 2★ drift is named-side)",
+      "evidence": "n/a (no generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Prereqs exist, description precise, no generic evidence. Sole child garrytan/draft-in-voice is 1★ effective (bucket clamp, TM 0 ungraded), so no eligible child and no Origin needed. Named-side note: its file frontmatter still says 2★, a named-file reconciliation item, not a generic finding.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/ghostwrite.json",
+      "registry/named-skills.json (bucket ghostwrite)"
+    ]
+  },
+  {
+    "id": "git-integration",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/git-integration.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass",
+      "evidence": "n/a (no generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail: vendor brand and evaluative word in name",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Name 'GitHub Platform Mastery' carries a vendor brand ('GitHub') and an evaluative word ('Mastery'), against the vendor-neutral name rule. Propose a neutral display name (curator to choose). Id is already abstract. Origin satisfied (ruvnet/github-suite origin=true, one of two eligible children). Minor note: description lists release management, which is not a prerequisite.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/git-integration.json",
+      "registry/named-skills.json (bucket git-integration)"
+    ]
+  },
+  {
+    "id": "git-ship-done-pipeline",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/git-ship-done-pipeline.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (exactly one Origin: addy-osmani/agent-skills)",
+      "evidence": "n/a (no generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Prereqs exist (5), description precise, one Origin (addy-osmani/agent-skills origin=true) among two eligible 4★ children. Suite-branch children; no generic evidence.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/git-ship-done-pipeline.json",
+      "registry/named-skills.json (bucket git-ship-done-pipeline)"
+    ]
+  },
+  {
+    "id": "graph-driven-issue-triage",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/graph-driven-issue-triage.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (sole eligible child is origin=true)",
+      "evidence": "n/a (no generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Prereqs exist (issue-triage, knowledge-graph-build), description precise, sole eligible child mbtiongson1/graphify-triage (2★) is origin=true. No generic evidence.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/graph-driven-issue-triage.json",
+      "registry/named-skills.json (bucket graph-driven-issue-triage)"
+    ]
+  },
+  {
+    "id": "graph-neural-network-modeling",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/graph-neural-network-modeling.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass",
+      "evidence": "fail: repo-own row at generic layer; library-paper row is implementation evidence",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "(a) pyg-team/pytorch_geometric row is type repo-own, which is allowedLayers=[named] only, so it violates the generic layer. Its commit/contributor volume is implementation evidence. (b) arXiv 1903.02428 is the PyG library paper, which supports the implementation rather than the GNN capability; it belongs on the implementing named skill or should be replaced by a capability-foundational source (curator judgment). The prepass generic TM 136 includes the layer-violating row and is not a rank input. Named child k-dense-ai/torch-geometric is stored 1★ with computed TM 111 (A); its rank review belongs to the named-file audit, not this generic node.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/graph-neural-network-modeling.json",
+      "https://github.com/pyg-team/pytorch_geometric",
+      "https://arxiv.org/abs/1903.02428"
+    ]
+  },
+  {
+    "id": "grill-me",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/grill-me.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "fail: zero Origin with one eligible child (mattpocock/grill-me 3★, TM 63.71 B); proposal: mattpocock/grill-me",
+      "evidence": "n/a (no generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Sole eligible child mattpocock/grill-me is 3★ (computed TM 63.71, grade B) with origin=false, leaving the bucket with zero Origin. Propose approved Origin to mattpocock/grill-me (Class C Origin change per Yggdrasil IV §IV).",
+    "evidenceRefs": [
+      "registry/nodes/fusion/grill-me.json",
+      "registry/named-skills.json (bucket grill-me)",
+      "https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md"
+    ]
+  },
+  {
+    "id": "grill-with-docs",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/grill-with-docs.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass",
+      "evidence": "n/a (no generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail: unfalsifiable superlative in description",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Description opens with an unfalsifiable superlative ('The apex of agentic design alignment.'). Strike the superlative and keep the mechanism (live glossary, ADR generation). Title 'The Domain Sovereign' is a named-style RPG title on a generic node; curator to confirm it belongs. Origin satisfied (mattpocock/grill-with-docs origin=true, sole child).",
+    "evidenceRefs": [
+      "registry/nodes/fusion/grill-with-docs.json",
+      "registry/named-skills.json (bucket grill-with-docs)"
+    ]
+  },
+  {
+    "id": "grounding",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/grounding.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (all children effective 1★; no eligible child)",
+      "evidence": "pass (RARR arxiv, capability-relevant)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "RARR (arXiv 2210.08726) is Class A capability evidence for retrieval-based attribution and is relevant. Prereqs exist, description precise. All three children are effective 1★ (ungraded bucket clamp), so no eligible child and no Origin needed. Named-side note: their file frontmatter says 2★.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/grounding.json",
+      "https://arxiv.org/abs/2210.08726",
+      "registry/named-skills.json (bucket grounding)"
+    ]
+  },
+  {
+    "id": "guardrails",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/guardrails.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "fail: zero Origin with six eligible children; proposal: garrytan/careful (TM 66.0 B, merit leader)",
+      "evidence": "n/a (no generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Six eligible children (garrytan/careful 3★ TM 66.0 B; freeze, guard, unfreeze, git-guardrails-claude-code, setup-pre-commit at 2★) and zero Origin, which violates the one-Origin invariant. Propose approved Origin to garrytan/careful (highest computed TM 66.0 versus next 41.0; Class C Origin change). Champion is derived display for 7 children. Separate evidence finding for the NeMo repo row.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/guardrails.json",
+      "registry/named-skills.json (bucket guardrails)",
+      "https://github.com/garrytan/gstack/blob/main/careful/SKILL.md"
+    ]
+  },
+  {
+    "id": "humanize-prose",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/humanize-prose.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass",
+      "evidence": "fail: repo row at generic layer; implementation evidence",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Sole generic row is the Hermes Agent humanizer SKILL.md (type repo, class B). This is implementation evidence for one SKILL.md and is layer-restricted to named skills. Propose removal from the generic node. Child favorchurch/speak-like-favor is 1★ effective, so no Origin is required. Fit of that church-specific voice guide to this capability is loose; flagged for curator review, not changed here.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/humanize-prose.json",
+      "https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/humanizer/SKILL.md"
+    ]
+  },
+  {
+    "id": "knowledge-graph-build",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/knowledge-graph-build.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass",
+      "evidence": "fail: benchmark-result row misattributed to CodexGraph (no token-reduction result); Pan et al. quantitative note unsupported",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Benchmark-result row (arXiv 2408.03910) is misattributed: the paper is CodexGraph (Aug 2024), which reports no token-reduction or compression figures and does not mention AST-based graphs; the '71.5x' and 'May 2026' note cannot come from it. The benchmark-result type also requires a percentile within a field, and the row has no grade. Propose removal (Class C canonical evidence assertion change). Separately, the Pan et al. note ('5-15%' downstream gain) is not supported; arXiv 2306.08302 is a roadmap with no quantitative results.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/knowledge-graph-build.json",
+      "https://arxiv.org/abs/2408.03910",
+      "https://arxiv.org/abs/2306.08302"
+    ]
+  },
+  {
+    "id": "knowledge-harvest",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/knowledge-harvest.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (no eligible child; all four effective 1★)",
+      "evidence": "n/a (no generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Prereqs exist, description precise, no generic evidence. All four children (gbrain ingest skills) are effective 1★ (ungraded bucket clamp), so no eligible child and no Origin needed. Champion derived display only.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/knowledge-harvest.json",
+      "registry/named-skills.json (bucket knowledge-harvest)"
+    ]
+  },
+  {
+    "id": "knowledge-management",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/knowledge-management.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "fail: zero Origin with four eligible children; proposal: garrytan/brain-ops (TM 50.0 B, merit leader)",
+      "evidence": "n/a (no generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Four eligible children (garrytan/brain-ops 3★ TM 50.0 B; teach, setup-gbrain, sync-gbrain 2★) and zero Origin, violating the one-Origin invariant. Propose approved Origin to garrytan/brain-ops (highest computed TM; Class C Origin change). Separate evidence finding for the Hermes docs row.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/knowledge-management.json",
+      "registry/named-skills.json (bucket knowledge-management)"
+    ]
+  },
+  {
+    "id": "literature-review",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/literature-review.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass",
+      "evidence": "pass (LatteReview arxiv, capability-relevant)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail: unverified protocol name 'SWARM' in description",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Description names 'PRISMA/SWARM protocols'. PRISMA is an established reporting standard; 'SWARM' could not be verified as a systematic-review protocol. Verify the reference or strike it. Evidence row (LatteReview arXiv 2501.05468, Class A) is capability-relevant. The child huggingface/huggingface-papers is 1★ effective, so no Origin needed.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/literature-review.json",
+      "https://arxiv.org/abs/2501.05468",
+      "registry/named-skills.json (bucket literature-review)"
+    ]
+  },
+  {
+    "id": "mathematical-animation",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/mathematical-animation.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass",
+      "evidence": "fail: repo row at generic layer; implementation evidence",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Sole generic row is the Manim repository (type repo, class B), implementation evidence layer-restricted to named skills. Propose removal from the generic node. Also, the description's 'high pedagogical and visual quality' is evaluative and not falsifiable (see the second finding). No named children.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/mathematical-animation.json",
+      "https://github.com/ManimCommunity/manim"
+    ]
+  },
+  {
+    "id": "mcp-debugger-control",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/mcp-debugger-control.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass",
+      "evidence": "n/a (no generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (no named children)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Prereqs exist, description precise, no generic evidence (a prior dead row was already removed per timeline), no named children. The refactor-code prerequisite is plausible given 'autonomous bug fixing', so no mapping change proposed.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/mcp-debugger-control.json"
+    ]
+  },
+  {
+    "id": "mcp-server-creation",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/mcp-server-creation.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass",
+      "evidence": "fail: three repo rows at generic layer; duplicate source; raw URL form",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "All three rows are type repo, which is layer-restricted to named skills. Row 1 (anthropics/skills mcp-builder SKILL.md) and row 3 (sickn33 raw.githubusercontent copy of the same file) duplicate one source; row 3 also uses a raw URL form rather than blob. Row 2 (MCP python-sdk) is implementation tooling. Propose removal of all three from the generic node. A named file sickn33/mcp-builder maps here but is awakened 1★ and unindexed; that is named-side. No named children are in the bucket.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/mcp-server-creation.json",
+      "https://github.com/anthropics/skills/blob/main/skills/mcp-builder/SKILL.md",
+      "https://github.com/modelcontextprotocol/python-sdk",
+      "https://raw.githubusercontent.com/sickn33/antigravity-awesome-skills/main/skills/mcp-builder/SKILL.md",
+      "registry/named/sickn33/mcp-builder.md"
+    ]
+  },
+  {
+    "id": "memory-manage",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/memory-manage.json",
+    "reviewer": "haiku:generic-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "fail: zero Origin with one eligible child (garrytan/learn 2★ TM 36 C); proposal: garrytan/learn",
+      "evidence": "pass (MemGPT arxiv, capability-relevant)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Sole eligible child garrytan/learn (2★, computed TM 36.0 C) has origin=false, leaving the bucket with zero Origin. Propose approved Origin to garrytan/learn (Class C Origin change). MemGPT arXiv 2310.08560 is capability-relevant Class A evidence. Other child is 1★.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/memory-manage.json",
+      "registry/named-skills.json (bucket memory-manage)",
+      "https://arxiv.org/abs/2310.08560"
+    ]
+  }
+]
