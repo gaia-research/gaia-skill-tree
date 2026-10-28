@@ -579,3 +579,21 @@ def test_schema_version_gates_the_new_shape(case):
 def test_triage_record_must_declare_v11(triage):
     record, lead, match, dedupe = triage
     assert validate_triage_record({**record, "schemaVersion": "frontier-meta-verification-v1"}, lead, match, dedupe)
+
+
+def test_trace_stdout_path_cannot_point_at_a_reexecution_artifact(case):
+    root, _, _, rec = case
+    rec = copy.deepcopy(rec)
+    artifact = rec["reexecution"]["artifacts"][1]
+    artifact["trace"].update(stdoutPath=artifact["path"], stdoutDigest=artifact["contentDigest"])
+    assert any("reuses a re-execution artifact path" in e for e in check(case, rec))
+    other = copy.deepcopy(case[3])  # also refused when it names the other label's rerun artifact
+    other["reexecution"]["artifacts"][1]["trace"].update(stdoutPath=other["reexecution"]["artifacts"][0]["path"], stdoutDigest=other["reexecution"]["artifacts"][0]["contentDigest"])
+    assert any("reuses a re-execution artifact path" in e for e in check(case, other))
+
+
+@pytest.mark.parametrize("version,ok", [("2.56.0", True), ("git version 2.56.0", True), ("Git Version 2.56.0", True), ("foo 2.56.0", False), ("xx git version 2.56.0", False), ("2.56.0-rc1", False), ("git 2.56.0", False)])
+def test_traced_tool_version_match_is_anchored(case, version, ok):
+    rec = copy.deepcopy(case[3])
+    rec["reexecution"]["artifacts"][0]["trace"]["toolVersions"] = {"git": version}
+    assert (not any("executed version" in e for e in check(case, rec))) is ok

@@ -944,7 +944,7 @@ def _reference_text(declaration: dict[str, Any], label: str, receipt: dict[str, 
 
 
 def _check_trace_evidence(declaration: dict[str, Any], item: dict[str, Any], receipt: dict[str, Any], request: dict[str, Any],
-                          root: Path, artifact_root: str, receipt_paths: set[Path]) -> list[str]:
+                          root: Path, artifact_root: str, receipt_paths: set[Path], reexec_paths: set[Path]) -> list[str]:
     """A positive rerun's trace must be backed by committed evidence, not just assertions.
 
     `stdoutDigest` must equal the sha256 of a committed raw stream artifact (`stdoutPath`, confined
@@ -961,7 +961,7 @@ def _check_trace_evidence(declaration: dict[str, Any], item: dict[str, Any], rec
     executed = str(receipt.get("executedVersion", receipt.get("nativeVersion", "")))
     if traced is None:
         errors.append(f"rerun trace for {label} has no toolVersions entry for {tool}")
-    elif traced != executed and not traced.endswith(" " + executed):
+    elif traced != executed and traced.casefold() != f"{tool} version {executed}".casefold():
         errors.append(f"rerun trace for {label} reports {tool} {traced}, which differs from the receipt's executed version {executed}")
     stream = trace.get("stdoutPath")
     if not stream:
@@ -975,6 +975,8 @@ def _check_trace_evidence(declaration: dict[str, Any], item: dict[str, Any], rec
         return errors + [f"rerun trace stdout artifact for {label} not found: {stream}"]
     if stream_path in receipt_paths:
         errors.append(f"rerun trace stdout artifact for {label} reuses a receipt output path")
+    if stream_path in reexec_paths:
+        errors.append(f"rerun trace stdout artifact for {label} reuses a re-execution artifact path")
     if _sha(stream_raw) != trace.get("stdoutDigest"):
         errors.append(f"rerun trace stdoutDigest for {label} does not match the sha256 of {stream}")
     try:
@@ -1003,6 +1005,12 @@ def _check_reexecution(record: dict[str, Any], receipt: dict[str, Any], request:
     except ValueError as exc:
         declaration = None
         errors.append(f"re-execution cannot be parsed: {exc}")
+    reexec_paths: set[Path] = set()
+    for item in artifacts:
+        try:
+            reexec_paths.add(_checked_artifact_path(root, item.get("path"), artifact_root))
+        except ValueError:
+            pass  # reported per artifact below
     seen_paths: set[Path] = set()
     seen_digests: set[str] = set()
     for item in artifacts:
@@ -1047,7 +1055,7 @@ def _check_reexecution(record: dict[str, Any], receipt: dict[str, Any], request:
         elif positive and declaration is not None and isinstance(item.get("trace"), dict):
             errors.extend(_compare_label_outputs(declaration, str(label), raw, receipt, root, artifact_root))
         if positive and declaration is not None and isinstance(item.get("trace"), dict):
-            errors.extend(_check_trace_evidence(declaration, item, receipt, request, root, artifact_root, receipt_paths))
+            errors.extend(_check_trace_evidence(declaration, item, receipt, request, root, artifact_root, receipt_paths, reexec_paths))
     if positive and not any(a.get("label") == "native" for a in artifacts):
         errors.append("re-execution requires a native artifact that parses under the pinned protocol")
     return errors
