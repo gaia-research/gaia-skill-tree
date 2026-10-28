@@ -571,6 +571,25 @@ def test_engine_mode_without_gh_token_is_not_ready_and_runs_no_agents(tmp_path):
     assert "GH_TOKEN" in report["agents"]["reason"]
 
 
+def test_explicit_no_agents_overrides_ready_claude_cli_fallback(tmp_path):
+    root = makeRoot(tmp_path)
+    world = FakeWorld(root, [view("R1", [buildAction()])])
+    env = {
+        "STEWARD_SONNET_MODEL_ID": "sonnet-test-id",
+        "ANTHROPIC_API_KEY": "test-only",
+        "STEWARD_HAIKU_MODEL_ID": "haiku-test-id",
+    }
+    driver = makeDriver(tmp_path, world, env=env, ready_which=readyWhich, agents=False)
+
+    assert driver.ready is False
+    assert driver.drive() == drive.EXITNOTRUN == 5
+    assert "--no-agents" in next(c for c in world.calls if isRun(c))
+    assert world.agentCalls == [] and world.recorded == []
+    report = json.loads((tmp_path / "report.json").read_text(encoding="utf-8"))
+    assert report["agents"]["state"] == "NOT RUN"
+    assert "--no-agents" in report["agents"]["reason"]
+
+
 def test_engine_adapter_argv_never_carries_a_turn_limit(tmp_path):
     root = makeRoot(tmp_path)
     world = FakeWorld(root, [view("R1", [buildAction()]), view("R1", [verifyAction()]), view("R1", [], "completed")])
