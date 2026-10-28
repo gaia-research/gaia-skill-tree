@@ -1,5 +1,5 @@
 {
- "generation": 101,
+ "generation": 102,
  "lane": {
   "entries": [
    {
@@ -1988,7 +1988,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-10-28T02:47:07.474384Z",
-   "expiresAt": "2026-10-28T03:25:32.405351Z",
+   "expiresAt": "2026-10-28T03:25:35.744239Z",
    "holder": "run-20261028T024707Z-af472d28"
   }
  },
@@ -6509,6 +6509,29 @@
      "status": "done",
      "stepId": "build:94521a044486:1",
      "type": "agent.build"
+    },
+    {
+     "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
+     "emittedAt": "2026-10-28T02:55:35.349456Z",
+     "idempotencyKey": "verify:dispatch-37bd74ce6b4e0a62bb17:1",
+     "params": {
+      "allowedModels": [
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
+      "effortRequired": true,
+      "forbiddenAgentIds": [
+       "haiku-builder-a6c689f7"
+      ],
+      "verifierPromptPath": ".gaia/steward/full/run-20261028T024707Z-af472d28/verify-94521a044486.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "verify:94521a044486:1",
+     "type": "agent.verify"
     }
    ],
    "actor": "cli",
@@ -7603,6 +7626,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_b"
+    },
+    {
+     "at": "2026-10-28T02:55:35.349456Z",
+     "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
+     "idempotencyKey": "verify:dispatch-37bd74ce6b4e0a62bb17:1",
+     "kind": "agent.verify",
+     "status": "awaiting",
+     "stepId": "verify:94521a044486:1"
     }
    ],
    "thinkingEfforts": [
@@ -7622,7 +7653,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-28T02:55:32.407164Z",
+ "updatedAt": "2026-10-28T02:55:35.744426Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -7715,7 +7746,12 @@
    "source": "trust-calibration-drift",
    "state": "building",
    "updatedAt": "2026-10-28T02:53:39.463801Z",
-   "verification": null
+   "verification": {
+    "mode": "no-change",
+    "stage": "awaiting-verifier",
+    "verdict": "pending",
+    "verifierPromptPath": ".gaia/steward/full/run-20261028T024707Z-af472d28/verify-94521a044486.prompt.md"
+   }
   }
  }
 }
