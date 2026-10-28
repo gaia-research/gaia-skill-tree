@@ -33,11 +33,64 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 from scripts.lib.named_iterator import iter_named_skills
+from scripts.upstream_watcher.live import GhError
 
 SUPPRESSED_STATUSES = frozenset({"present", "tracked", "rejected"})
 
 _SUGGESTED_ID_RE = re.compile(r"\*\*Suggested ID:\*\*\s*`([^`]+)`")
+_EVIDENCE_URL_RE = re.compile(r"(?mi)^\s*-\s*\*\*url:\*\*\s*(\S+)\s*$")
 _UMBRELLA_RE = re.compile(r"Umbrella:\s*#(\d+)")
+
+
+class AmbiguousChildIdentity(GhError):
+    """A legacy child cannot be safely associated with a candidate source."""
+
+
+class _ChildIndex(dict):
+    """Compatibility view of child indexes with source-qualified identity lookup."""
+
+    def __init__(self):
+        super().__init__()
+        self.by_identity: dict[tuple[str, str], int] = {}
+        self.ambiguous_ids: set[str] = set()
+
+    def get(self, key, default=None):
+        if isinstance(key, tuple):
+            if key[0] in self.ambiguous_ids:
+                raise AmbiguousChildIdentity(f"child for {key[0]} has an ambiguous source")
+            return self.by_identity.get(key, default)
+        if isinstance(key, str):
+            raise AmbiguousChildIdentity(
+                "child lookup by suggested ID alone is unsafe; candidate source identity is required"
+            )
+        return super().get(key, default)
+
+
+def child_source_identity(body: str, suggested_id: str) -> tuple[str, str]:
+    """Return the suggested ID and normalized GitHub blob path, rejecting unknown sources."""
+    urls = _EVIDENCE_URL_RE.findall(body or "")
+    if len(urls) != 1:
+        raise AmbiguousChildIdentity(f"child for {suggested_id} has no unique evidence URL")
+    url = urls[0]
+    parts = urlsplit(url)
+    segments = [segment for segment in parts.path.split("/") if segment]
+    if (
+        parts.scheme.lower() != "https"
+        or parts.netloc.lower() not in {"github.com", "www.github.com"}
+        or len(segments) < 5
+        or segments[2] not in {"blob", "tree"}
+        or not segments[4:]
+    ):
+        raise AmbiguousChildIdentity(f"child for {suggested_id} has an unsupported evidence URL")
+    normalized = normalize_blob(url, ignore_ref=True)
+    if not normalized:
+        raise AmbiguousChildIdentity(f"child for {suggested_id} has an unsupported evidence URL")
+    return suggested_id, normalized
+
+
+def candidate_identity(row: dict) -> tuple[str, str]:
+    """Identity shared by a candidate and its child across equivalent Git refs."""
+    return child_source_identity(f"- **url:** {row.get('evidenceUrl', '')}", row["suggestedId"])
 
 
 class RegistryUnreadable(RuntimeError):
@@ -133,39 +186,54 @@ def registry_state(row: dict, index: dict) -> str:
     return "absent"
 
 
-def tracked_state(row: dict, open_children: dict[str, int]) -> str:
-    """Return ``child:#N`` when an open intake child already tracks the candidate."""
-    number = open_children.get(row["suggestedId"])
+def tracked_state(row: dict, open_children: dict) -> str:
+    """Return ``child:#N`` only for an open child with the same source-qualified identity."""
+    number = (
+        open_children.get(candidate_identity(row))
+        if isinstance(open_children, _ChildIndex)
+        else open_children.get(row["suggestedId"])
+    )
     return f"child:#{number}" if number is not None else "none"
 
 
-def prior_disposition(row: dict, rejected: dict[str, int]) -> str:
-    """Return ``rejected:#N`` when a closed, rejected intake child covers the candidate."""
-    number = rejected.get(row["suggestedId"])
+def prior_disposition(row: dict, rejected: dict) -> str:
+    """Return a rejection only for a child with the same source-qualified identity."""
+    number = (
+        rejected.get(candidate_identity(row))
+        if isinstance(rejected, _ChildIndex)
+        else rejected.get(row["suggestedId"])
+    )
     return f"rejected:#{number}" if number is not None else "none"
 
 
-def index_children(issues: list[dict]) -> tuple[dict[str, int], dict[str, int]]:
-    """Map suggested ids to issue numbers for open and rejected intake children.
+def index_children(issues: list[dict]) -> tuple[dict, dict]:
+    """Index children by suggested ID and normalized source blob path.
 
     ``issues`` are raw REST issue dicts from a LIST call (open and closed).
-    Only ``upstream:child`` issues count. Returns (open_children, rejected).
+    Only ``upstream:child`` issues count. A child with a suggested ID but no
+    uniquely supported source URL makes the snapshot ambiguous and fails closed.
     """
-    open_children: dict[str, int] = {}
-    rejected: dict[str, int] = {}
+    open_children = _ChildIndex()
+    rejected = _ChildIndex()
     for issue in issues:
         if issue.get("pull_request"):
             continue
         labels = {label["name"] if isinstance(label, dict) else label for label in issue.get("labels", [])}
         if "upstream:child" not in labels:
             continue
-        suggested = suggested_id_of(issue.get("body") or "")
+        body = issue.get("body") or ""
+        suggested = suggested_id_of(body)
         if not suggested:
             continue
-        if issue.get("state") == "open":
-            open_children.setdefault(suggested, issue["number"])
-        elif "upstream:rejected" in labels:
-            rejected.setdefault(suggested, issue["number"])
+        target = open_children if issue.get("state") == "open" else rejected
+        if issue.get("state") == "open" or "upstream:rejected" in labels:
+            target.setdefault(suggested, issue["number"])
+            try:
+                identity = child_source_identity(body, suggested)
+            except AmbiguousChildIdentity:
+                target.ambiguous_ids.add(suggested)
+            else:
+                target.by_identity.setdefault(identity, issue["number"])
     return open_children, rejected
 
 

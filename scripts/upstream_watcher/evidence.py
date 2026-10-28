@@ -78,12 +78,28 @@ def title_suite_and_version(title: str, kind: str) -> tuple[str, str] | None:
     return (suite, version.group("version")) if suite and version else None
 
 
+_ACTIONABLE_FIELDS = ("componentAdds", "componentRemoves", "linkLiveness", "nameDrift")
+
+
 def usable_payload(payload: dict, kind: str) -> bool:
     if not isinstance(payload.get("skillId"), str) or not isinstance(payload.get("newVersion"), str):
         return False
     if kind == "bootstrap":
         return True
-    return isinstance(payload.get("componentAdds", []), list)
+    # These fields are the complete actionable finding content in both legacy and v2 payloads.
+    # Missing legacy fields mean empty; malformed fields cannot prove coverage.
+    return all(isinstance(payload.get(field, []), list) for field in _ACTIONABLE_FIELDS)
+
+
+def _contains_all(recorded: list, current: list) -> bool:
+    """Whether a closed payload records every current actionable item."""
+    recorded_items = {
+        json.dumps(item, sort_keys=True, separators=(",", ":"), ensure_ascii=False) for item in recorded
+    }
+    return all(
+        json.dumps(item, sort_keys=True, separators=(",", ":"), ensure_ascii=False) in recorded_items
+        for item in current
+    )
 
 
 def classify(finding: dict, kind: str, closed_issues: list[dict]) -> Verdict:
@@ -111,7 +127,14 @@ def classify(finding: dict, kind: str, closed_issues: list[dict]) -> Verdict:
         if suite_of(payload, kind) != suite or payload["newVersion"] != version:
             ambiguous.append(number)
             continue
-        if ids <= candidate_ids(payload, kind):
+        if kind == "bootstrap":
+            covering.append(number)
+            continue
+        covers_actionable_content = all(
+            _contains_all(payload.get(field, []), finding.get(field, []))
+            for field in _ACTIONABLE_FIELDS
+        )
+        if ids <= candidate_ids(payload, kind) and covers_actionable_content:
             covering.append(number)
     if ambiguous:
         return Verdict("ambiguous", tuple(sorted(covering)), tuple(sorted(ambiguous)))
