@@ -370,7 +370,7 @@ def approveClosureFixture(root: Path) -> None:
     target = root / DECISION_PATH
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps({"schemaVersion": "steward-decision-v1", "id": DECISION_ID,
-                                 "status": "decided"}), encoding="utf-8")
+                                 "status": "decided", "resolution": "approved"}), encoding="utf-8")
 
 
 def makeCheckout(

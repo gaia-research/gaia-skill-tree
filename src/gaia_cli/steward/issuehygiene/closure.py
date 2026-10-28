@@ -774,6 +774,13 @@ def _executeProvenClosure(plan: dict, forge: IssueForge, receiptsPath: Path | st
             if any(not isinstance(row, dict) or not isinstance(row.get("body"), str)
                    or not isinstance(row.get("author"), str) for row in finalComments):
                 return finish("blocked-identity", failure="unreadable comment history before close", closer=closer)
+            # Own comments explain updatedAt drift, not intervening maintainer
+            # objections. A new foreign row may precede our newly posted marker.
+            # Compare the entire foreign history with the initial complete read;
+            # additions, edits, removals and ambiguous reordering all fail closed.
+            if [row for row in finalComments if row["author"] != closer] != [
+                    row for row in listed if row["author"] != closer]:
+                return finish("stale-skip", failure="foreign-comment-history-changed", closer=closer)
             positions = [i for i, row in enumerate(finalComments) if markerNeedle in row["body"]]
             if any(finalComments[i]["author"] != closer for i in positions):
                 return finish("blocked-identity", failure="foreign closure marker before close", closer=closer)

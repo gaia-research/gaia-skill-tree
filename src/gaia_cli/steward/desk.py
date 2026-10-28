@@ -76,6 +76,7 @@ _RECORD_KEYS = frozenset({
     "schemaVersion", "id", "status", "decision", "whyItMatters", "evidence",
     "recommended", "alternative", "unblocks", "links",
 })
+_RECORD_OPTIONAL_KEYS = frozenset({"resolution"})
 _RECORD_ID = re.compile(r"[a-z0-9][a-z0-9._-]{0,127}")
 _MAX_RECORD_BYTES = 64 * 1024
 _MAX_EVIDENCE_ITEMS = 8
@@ -238,7 +239,7 @@ def _check_record(record: Mapping[str, Any]) -> str | None:
     if body.get("schemaVersion") != DECISION_RECORD_SCHEMA:
         return f"schemaVersion must be {DECISION_RECORD_SCHEMA!r}"
     missing = sorted(_RECORD_KEYS - set(body))
-    extra = sorted(set(body) - _RECORD_KEYS)
+    extra = sorted(set(body) - _RECORD_KEYS - _RECORD_OPTIONAL_KEYS)
     if missing:
         return "missing keys: " + ", ".join(missing)
     if extra:
@@ -251,6 +252,8 @@ def _check_record(record: Mapping[str, Any]) -> str | None:
         return f"id {identifier!r} does not match the file name"
     if body["status"] not in ("open", "decided"):
         return "status must be 'open' or 'decided'"
+    if "resolution" in body and (not isinstance(body["resolution"], str) or not body["resolution"].strip()):
+        return "resolution must be a non-empty string when present"
     for key in ("decision", "whyItMatters", "recommended", "alternative", "unblocks"):
         if not isinstance(body[key], str) or not body[key].strip():
             return f"{key} must be a non-empty string"

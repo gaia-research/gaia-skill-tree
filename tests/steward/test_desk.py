@@ -699,6 +699,14 @@ def test_a_record_on_another_issue_does_not_absorb_unrelated_groups() -> None:
     assert {item.source for item in desk.decisions} == {"decision-record", "class-c-debt"}
 
 
+def test_optional_resolution_preserves_existing_records_and_validates_explicit_outcome() -> None:
+    for resolution in ("approved", "rejected", "pending"):
+        desk = _desk(decision_records=(_record(status="decided", resolution=resolution),))
+        assert desk.quiet()
+    desk = _desk(decision_records=(_record(resolution=False),))
+    assert [op.kind for op in desk.operations] == ["invalid_decision_record"]
+
+
 def test_the_repository_decision_records_are_valid_and_not_duplicated() -> None:
     root = Path(__file__).resolve().parents[2]
     records = load_decision_records(root)

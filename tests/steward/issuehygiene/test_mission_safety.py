@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from gaia_cli.steward.issuehygiene.authority import DECISION_PATH
+from gaia_cli.steward.issuehygiene.authority import DECISION_PATH, closureAuthorityApproved
 from gaia_cli.steward.issuehygiene.closure import (
     ActionRefused, ForgeBlockedError, executeClosure, executeClosures,
     _executeProvenClosure, planClosures,
@@ -59,6 +59,45 @@ def test_switch_alone_cannot_ratify_closure(tmp_path, status):
         executeClosure(plan, forge, root / RECEIPT, NOW, "R1", REPO, root=root)
     assert forge.calls == []
     assert not (root / RECEIPT).exists()
+
+
+@pytest.mark.parametrize("resolution", [None, "rejected", "reject proposal: retain human-reviewed closure"])
+def test_decided_is_not_affirmative_authority(tmp_path, resolution):
+    root, document = checkout(tmp_path)
+    plan = planFrom(root, document)
+    path = root / DECISION_PATH
+    record = json.loads(path.read_text())
+    record["status"] = "decided"
+    if resolution is None:
+        record.pop("resolution", None)
+    else:
+        record["resolution"] = resolution
+    path.write_text(json.dumps(record))
+    assert not closureAuthorityApproved(root)
+    assert not StewardPolicy.load(root).issue_hygiene.writesEnabled
+    forge = Forge({10: childLive(document)})
+    with pytest.raises(ActionRefused, match="unratified"):
+        executeClosure(plan, forge, root / RECEIPT, NOW, "R1", REPO, root=root)
+    assert not forge.calls
+
+
+@pytest.mark.parametrize("position", ["before-marker", "after-marker"])
+def test_intervening_foreign_comment_anywhere_in_final_history_blocks_close(tmp_path, position):
+    _, plan = ownMarkerPlan(tmp_path)
+    class RacingForge(Forge):
+        def addComment(self, number, body):
+            objection = {"body": "maintainer: keep this issue open", "author": "maintainer",
+                         "url": f"https://example.test/issues/{number}#issuecomment-9999"}
+            if position == "before-marker":
+                self.comments.setdefault(number, []).append(objection)
+            url = super().addComment(number, body)
+            if position == "after-marker":
+                self.comments[number].append(objection)
+            return url
+    forge = RacingForge({10: liveOf(scenarioRow(10))})
+    result = _executeProvenClosure(plan, forge, tmp_path / "r.jsonl", NOW)
+    assert result["outcome"] == "stale-skip"
+    assert not any(call[0] == "close" for call in forge.calls)
 
 
 def test_public_executor_honors_disabled_switch_and_rejects_forged_proof(tmp_path):

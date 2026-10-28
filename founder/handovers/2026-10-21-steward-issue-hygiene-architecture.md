@@ -4,7 +4,8 @@ Status: historical working contract for the `dev/steward-issue-hygiene` integrat
 
 **Current mission supersession (2026-10-28):** engineering authorization is not
 Class A issue-write ratification. The closure decision is OPEN and runtime requires
-an explicit decided record in addition to the disabled-by-default switch. F3 batch
+an explicitly decided record with affirmative `resolution: "approved"` in addition
+to the disabled-by-default switch. A decided rejection is not authority. F3 batch
 emission is staged opt-in, not the scheduled/default mode. Prior statements below
 claiming founder authorization from the campaign brief are historical inference,
 not verified approval. No live closure dry run or pilot is authorized here. The

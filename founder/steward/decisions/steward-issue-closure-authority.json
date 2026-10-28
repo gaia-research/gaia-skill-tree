@@ -2,18 +2,19 @@
   "schemaVersion": "steward-decision-v1",
   "id": "steward-issue-closure-authority",
   "status": "open",
+  "resolution": "pending",
   "decision": "Ratify the proposed Class A GitHub issue-closure allowlist A1–A5 and its rollout, or retain human-reviewed closure authority (#2130)?",
   "whyItMatters": "This is new external-write authority, not an extension inferred from local mirror repairs. Engineering proof does not ratify it. The current mission explicitly keeps this Class C decision open.",
   "evidence": [
     "The Oct 21 architecture brief and earlier version of this record claimed founder authorization without a separately verified ruling. That inference is superseded by the current mission: the allowlist remains an unratified proposal. No historical approval is asserted here.",
-    "POLICY.yaml retains the disabled implementation: writesEnabled is false, the proposed rules are enumerated, maxClosuresPerRun is 10, and a5Disabled is empty. Editing the switch alone cannot activate it: runtime also requires this record to be explicitly decided.",
+    "POLICY.yaml retains the disabled implementation: writesEnabled is false, the proposed rules are enumerated, maxClosuresPerRun is 10, and a5Disabled is empty. Editing the switch alone cannot activate it: runtime also requires this record to be explicitly decided with resolution approved. Decided-but-rejected is not authority.",
     "Both script entrypoints and the public library executor re-derive proof from the checkout, require a complete fresh census and unchanged item digest, reserve bounded budget, and compare live issue and complete comment history before closing.",
     "Mock tests cover comment-then-close crash recovery, foreign or unknown marker authors, maintainer objections, multipart preservation, receipt replay, reopened pairs and unrelated issue protection. No live closure pilot or burn-down is authorized by those tests.",
     "Issue #1981 was accidentally closed during the prior verifier session (Oct 22 handover). Keeping or reversing that incident is a separate founder disposition, not resolved here."
   ],
   "recommended": "Review the exact A1–A5 proof boundaries and mocked evidence. Keep writes disabled and do not run a live closure dry run or pilot in this mission. Any later rollout requires an explicit ruling and a separately authorized operational plan.",
   "alternative": "Keep closures human-reviewed; retain deterministic reconciliation as read-only context and batch review proposals.",
-  "unblocks": "Only a future decided record plus an explicitly enabled policy can emit and execute Class A closure actions. Neither a green test nor a writesEnabled edit grants that authority.",
+  "unblocks": "Only a future decided record with the exact affirmative resolution approved plus an explicitly enabled policy can emit and execute Class A closure actions. Neither a green test nor a writesEnabled edit grants that authority.",
   "links": [
     "https://github.com/gaia-research/gaia-skill-tree/issues/2130",
     "https://github.com/gaia-research/gaia-skill-tree/pull/2133",

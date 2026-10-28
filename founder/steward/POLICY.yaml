@@ -678,8 +678,8 @@ issueHygiene:
   closedWindowDays: 30
   # UNRATIFIED implementation proposal, not Class A issue-write authority.
   # Effective rules are empty while steward-issue-closure-authority.json is open.
-  # A switch edit alone never authorizes closures; an explicit decided record is
-  # required too. No live closure dry run or pilot is authorized in this mission.
+  # A switch edit alone never authorizes closures; an explicit decided record
+  # with resolution: approved is required too (decided may mean rejected). No live closure dry run or pilot is authorized in this mission.
   writesEnabled: false
   enabledRules:
     - A1-child-curated

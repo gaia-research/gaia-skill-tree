@@ -217,7 +217,8 @@ item needs at least one entry; every entry must have exited zero.
 
 **Unratified Class C proposal.** The implementation allowlist is not a grant of
 issue-write authority. `steward-issue-closure-authority.json` is OPEN; the effective
-policy disables all closure rules until that exact record is explicitly decided.
+policy disables all closure rules until that exact record is explicitly `decided`
+with `resolution: "approved"`. A rejected or merely decided question grants no authority.
 Changing `writesEnabled` alone cannot emit plans or actions, or authorize either
 script or public library executor. No live closure dry run, pilot or burn-down is
 authorized in this mission. The Oct 21–22 handovers describe historical procedures,

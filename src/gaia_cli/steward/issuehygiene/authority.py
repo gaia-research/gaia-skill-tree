@@ -1,7 +1,9 @@
 """The issue-write proposal is not authority until the founder decides it.
 
 POLICY.yaml selects implementation rules; a writesEnabled edit cannot ratify a
-new Class A capability. Missing, malformed and symlinked records fail closed.
+new Class A capability. A decided question may have been rejected: only the exact
+explicit resolution "approved" ratifies it. Missing, malformed and symlinked
+records fail closed.
 """
 
 from __future__ import annotations
@@ -22,4 +24,5 @@ def closureAuthorityApproved(root: Path) -> bool:
     except (OSError, ValueError):
         return False
     return isinstance(record, dict) and record.get("schemaVersion") == "steward-decision-v1" \
-        and record.get("id") == DECISION_ID and record.get("status") == "decided"
+        and record.get("id") == DECISION_ID and record.get("status") == "decided" \
+        and record.get("resolution") == "approved"

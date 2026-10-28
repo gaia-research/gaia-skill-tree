@@ -64,7 +64,8 @@ a URL that does not name this issue and repo, or no proof at all is refused.
 
 The executor re-derives every gate below before any forge is built:
 
-0. `founder/steward/decisions/steward-issue-closure-authority.json` is explicitly `decided`.
+0. `founder/steward/decisions/steward-issue-closure-authority.json` is explicitly `decided`
+   with `resolution: "approved"`; a rejected or merely decided question grants no authority.
    It is OPEN in this mission: no inferred approval, live closure dry run or pilot.
 1. `founder/steward/POLICY.yaml` sets `issueHygiene.writesEnabled: true`, and the policy parses.
    Changing this switch alone cannot ratify the proposed Class A issue-write authority.
