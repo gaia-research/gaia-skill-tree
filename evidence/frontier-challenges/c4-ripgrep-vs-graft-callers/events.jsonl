@@ -1,0 +1,4 @@
+{"atUTC": "2026-10-28T18:18:14Z", "event": "lead-written", "leadId": "ripgrep-graft-callers-001", "disposition": "rejected", "note": "authored from the challenger-pipeline plan; no experiment preregistered"}
+{"atUTC": "2026-10-28T18:18:14Z", "event": "frontier-match", "artifact": "artifacts/match.json", "top": "trailhq/graft score 0.0878 (lexical, driven by lead comparator wording)"}
+{"atUTC": "2026-10-28T18:18:14Z", "event": "frontier-dedupe", "artifact": "artifacts/dedupe.json", "isDuplicate": false, "ledgerScanned": 0}
+{"atUTC": "2026-10-28T18:18:14Z", "event": "triage-rejected", "reason": "weak similarity; ripgrep is text search, no symbol/call model; no experiment run"}
