@@ -62,6 +62,53 @@ def test_a_maintainer_objection_after_our_marker_stale_skips_with_no_writes(tmp_
     assert forge.issues[10]["state"] == "open"
 
 
+def test_same_account_objection_after_existing_marker_stale_skips(tmp_path: Path) -> None:
+    _, plan = ownMarkerPlan(tmp_path)
+    own = markerFor(plan, plan["closureSha8"], author=CLOSER)
+    forge = Forge({10: liveOf(scenarioRow(10))}, comments={10: [own, objection(author=CLOSER)]})
+
+    receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW, "R1")
+
+    assert receipt["outcome"] == "stale-skip"
+    assert "comment-after-closure-marker" in receipt["failure"]
+    assert forge.writes() == []
+
+
+def test_same_account_comment_added_before_marker_post_is_detected(tmp_path: Path) -> None:
+    _, plan = ownMarkerPlan(tmp_path)
+
+    class RacingForge(Forge):
+        def addComment(self, number: int, body: str):
+            self.comments.setdefault(number, []).append(objection(author=CLOSER, n=901))
+            return super().addComment(number, body)
+
+    forge = RacingForge({10: liveOf(scenarioRow(10))})
+    receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW, "R1")
+
+    assert receipt["outcome"] == "stale-skip"
+    assert "comment-history-changed" in receipt["failure"]
+    assert not any(call[0] == "close" for call in forge.calls)
+    assert forge.issues[10]["state"] == "open"
+
+
+def test_same_account_comment_added_after_marker_before_close_is_detected(tmp_path: Path) -> None:
+    _, plan = ownMarkerPlan(tmp_path)
+
+    class RacingForge(Forge):
+        def addComment(self, number: int, body: str):
+            url = super().addComment(number, body)
+            self.comments[number].append(objection(author=CLOSER, n=902))
+            return url
+
+    forge = RacingForge({10: liveOf(scenarioRow(10))})
+    receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW, "R1")
+
+    assert receipt["outcome"] == "stale-skip"
+    assert "comment-history-changed" in receipt["failure"]
+    assert not any(call[0] == "close" for call in forge.calls)
+    assert forge.issues[10]["state"] == "open"
+
+
 def test_a_crash_then_a_maintainer_objection_before_the_resume_never_closes(tmp_path: Path) -> None:
     _, plan = ownMarkerPlan(tmp_path)
     forge = Forge({10: liveOf(scenarioRow(10))}, crashAfter={("addComment", 10)})

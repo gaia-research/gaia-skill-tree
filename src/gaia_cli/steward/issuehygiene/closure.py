@@ -598,6 +598,18 @@ def commentContent(body: str) -> str:
     return re.sub(r"(reconciliation manifest `)[0-9a-f]{8}(`)", r"\1<same-decision>\2", body, count=1)
 
 
+def isExpectedClosureComment(comment: dict, expected: list[str], closer: str) -> bool:
+    """Whether a closer-authored row exactly matches one of this decision's payload comments.
+
+    The login alone is not ownership proof: the same account may be used by a human in
+    another browser. Only exact, verified closure payloads may be excluded from history
+    comparisons or treated as expected comments after the marker.
+    """
+    return comment.get("author") == closer and any(
+        commentContent(comment["body"]) == commentContent(body) for body in expected
+    )
+
+
 def findOwnMarker(comments: list[dict], key: str, sha8: str, closer: str | None) -> dict | None:
     """Our closing comment: the full marker for this key and manifest, authored by the closer identity.
 
@@ -730,13 +742,15 @@ def _executeProvenClosure(plan: dict, forge: IssueForge, receiptsPath: Path | st
         if not closer:
             return finish("blocked-identity", failure="closer identity unavailable; refusing comment write")
         ownMarker = findOwnMarker(listed, key, sha8, closer)
-        # GitHub lists issue comments oldest first. Our prior marker explains its
-        # own updatedAt drift, but no later maintainer comment can be ignored.
-        laterForeignComment = bool(markerPositions) and any(
-            not isinstance(comment, dict) or comment.get("author") != closer
+        # GitHub lists issue comments oldest first. The marker explains updatedAt
+        # drift, but only exact expected payload parts may follow it; author identity
+        # alone cannot distinguish the bot from a maintainer using the same account.
+        laterUnverifiedComment = bool(markerPositions) and any(
+            not isinstance(comment, dict) or not isinstance(comment.get("body"), str)
+            or not isExpectedClosureComment(comment, comments, closer)
             for comment in listed[markerPositions[0] + 1:])
         differences = diffFields(plan, live, ownMarker=ownMarker is not None)
-        if laterForeignComment:
+        if laterUnverifiedComment:
             differences.append("comment-after-closure-marker")
         if live.get("state") != "open":
             differences.insert(0, "state")
@@ -774,17 +788,17 @@ def _executeProvenClosure(plan: dict, forge: IssueForge, receiptsPath: Path | st
             if any(not isinstance(row, dict) or not isinstance(row.get("body"), str)
                    or not isinstance(row.get("author"), str) for row in finalComments):
                 return finish("blocked-identity", failure="unreadable comment history before close", closer=closer)
-            # Own comments explain updatedAt drift, not intervening maintainer
-            # objections. A new foreign row may precede our newly posted marker.
-            # Compare the entire foreign history with the initial complete read;
-            # additions, edits, removals and ambiguous reordering all fail closed.
-            if [row for row in finalComments if row["author"] != closer] != [
-                    row for row in listed if row["author"] != closer]:
-                return finish("stale-skip", failure="foreign-comment-history-changed", closer=closer)
+            # Exclude only exact, expected closure payloads. Every other row — even
+            # one authored by the closer account — must match the initial complete
+            # history; additions, edits, removals and reordering fail closed.
+            if [row for row in finalComments if not isExpectedClosureComment(row, comments, closer)] != [
+                    row for row in listed if not isExpectedClosureComment(row, comments, closer)]:
+                return finish("stale-skip", failure="comment-history-changed", closer=closer)
             positions = [i for i, row in enumerate(finalComments) if markerNeedle in row["body"]]
             if any(finalComments[i]["author"] != closer for i in positions):
                 return finish("blocked-identity", failure="foreign closure marker before close", closer=closer)
-            if not positions or any(row["author"] != closer for row in finalComments[positions[0] + 1:]):
+            if not positions or any(not isExpectedClosureComment(row, comments, closer)
+                                    for row in finalComments[positions[0] + 1:]):
                 return finish("stale-skip", failure="comment-after-closure-marker", closer=closer)
             for index, expected in enumerate(comments, 1):
                 needle = markerNeedle if index == 1 else partMarkerLine(key, sha8, index - 1, total - 1)
