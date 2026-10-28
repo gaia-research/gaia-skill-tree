@@ -7,10 +7,11 @@
   "evidence": [
     "Main's Python Package workflow failed on 2026-10-27 in 3 tests (tests/steward test_knowledge_contradiction_sensor_healthy_on_real_repo and 2 cases in tests/test_curation_authority_map.py) because trust-appraise-all lacked a link to docs/agents/curation-authority-map.md.",
     "The change adds one sentence with that link to both mirrored copies; the mirror check, quick_validate_skill and validate_skills pass; an independent Sonnet verifier passed it.",
-    "Review by mbtiongson1 on PR #2202 (2026-10-28) asked for explicit authorization or a move to an authorized owner workflow."
+    "Review by mbtiongson1 on PR #2202 (2026-10-28) asked for explicit authorization or a move to an authorized owner workflow.",
+    "Follow-up comment by mbtiongson1 on PR #2202 (2026-10-28): merged PR #2178 intentionally converted both mirrors into a minimal compatibility alias for gaia-tm-inspect but dropped the authority-map reference the Python Package tests require; this edit restores only that reference (2 lines per mirror) and keeps the alias and implicit-invocation policy. Recommended retaining it, no split into another PR, and not treating it as a blanket widening of the Class B lane; asked that the authorization of the .agents/skills/** touch be documented."
   ],
-  "recommended": "Authorize it as a one-time exception on this PR (comment 'authorized'), and separately decide whether the route should ever allow .agents/skills/** for trust-guidance links (recommended: no; keep such edits human-reviewed).",
-  "alternative": "Move the commit to its own infra/ PR so main can go green independently of the weekly batch.",
+  "recommended": "Retain the commit on this PR as a one-time, path-specific exception for this single reference sentence; the knowledge-contradiction route's forbiddenPaths stay unchanged and the lane is not widened. Status stays open until you state the authorization explicitly on the PR.",
+  "alternative": "Move the commit to its own infra/ PR (reviewer said this is not needed).",
   "unblocks": "Counting the knowledge_contradiction debt and the red Python Package check as closed.",
   "links": [
     "https://github.com/gaia-research/gaia-skill-tree/pull/2202",

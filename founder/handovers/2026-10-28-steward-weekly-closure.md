@@ -183,7 +183,7 @@ Accessibility and visual correctness; flake history (one run); installability ag
 
 - No trust star, grade, evidence assertion, Origin, topology, schema, `POLICY.yaml` or throughput change. `git diff 07a1c08 -- founder/steward/POLICY.yaml registry registry/schema skill-trees` is empty.
 - Authority was only narrowed (`laneEligible: false`); nothing was upgraded.
-- Deviations to review: (1) `b6e2d05` edits skills, which the `knowledge-contradiction` route forbids. A separate commit is not an authorization: it is **unauthorized until you say so** (decision record `steward-knowledge-skill-path-exception`); the alternative is to move it to its own infra PR. (2) `164b2a9` edits one routine guide under `founder/steward/routines/`.
+- Deviations to review: (1) `b6e2d05` edits skills, which the `knowledge-contradiction` route forbids. A separate commit is not an authorization: it is **unauthorized until you say so** (decision record `steward-knowledge-skill-path-exception`). The reviewer's follow-up recommends retaining it: PR #2178 had reduced the skill to a compatibility alias and dropped the authority-map reference the tests require, and this restores only that sentence (2 lines per mirror). He asked that it not be read as a blanket widening of the lane and that its authorization be documented; `POLICY.yaml` and the route's forbidden paths are unchanged. (2) `164b2a9` edits one routine guide under `founder/steward/routines/`.
 - No automatic merge. Squash merging is disabled repo-wide; merge with a merge commit.
 
 ## 6. Integration, scope and rollback
