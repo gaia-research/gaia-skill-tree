@@ -399,3 +399,17 @@ def test_a_promotion_target_from_an_empty_pool_is_impossible_but_upward_drift_is
 
     assert "evidenceGap" not in observation.observed_state
     assert observation.observed_state["targetLevel"] == "3★"
+
+
+def test_stale_stamp_separates_recomputation_from_a_governed_rank_change(tmp_path: Path) -> None:
+    """#1642: only a stamp whose grade still agrees with the star level is a pure restamp."""
+
+    agrees = _fixture(tmp_path / "agrees", level="3★", trustMagnitude=50.0)
+    stamp = next(o for o in TrustCalibrationDriftSensor().scan(agrees, NOW) if o.kind == "trust_stamp_stale")
+    assert stamp.observed_state["recomputationOnly"] is True
+    assert stamp.observed_state["restampCommand"] == "gaia dev calibrate-trust-magnitude --skill owner/child"
+
+    moves = _fixture(tmp_path / "moves", level="5★", trustMagnitude=50.0)
+    observed = {o.kind: o for o in TrustCalibrationDriftSensor().scan(moves, NOW)}
+    assert observed["trust_stamp_stale"].observed_state["recomputationOnly"] is False
+    assert observed["trust_calibration_drift"].observed_state["targetLevel"] == "3★"

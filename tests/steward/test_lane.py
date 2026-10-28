@@ -361,6 +361,21 @@ def test_debt_a_sensor_declares_not_repairable_never_holds_a_lane_slot() -> None
     assert "no longer eligible" in closed.by_id("debt:gap").history[-1].reason
 
 
+def test_an_escalation_is_answered_when_the_debt_becomes_ineligible() -> None:
+    from dataclasses import replace
+
+    kinds = {"registry_integrity_failed": "registry-integrity-review"}
+    gap = replace(_debt("debt:a"), observed_state={"laneEligible": False})
+    escalated = _lane(_entry("debt:a", state="escalated", attempts=1, last_verdict="escalate"))
+    result = reconcile(escalated, open_debts=[gap], dispatchable_kinds=kinds, now=NOW)
+    entry = result.by_id("debt:a")
+    assert entry.state == "closed"
+    assert "escalation is answered" in entry.history[-1].reason
+
+    still_eligible = reconcile(escalated, open_debts=[_debt("debt:a")], dispatchable_kinds=kinds, now=NOW)
+    assert still_eligible.by_id("debt:a").state == "escalated"
+
+
 def test_debt_with_no_dispatch_rule_never_enters_the_lane() -> None:
     from gaia_cli.steward.models import Debt
 

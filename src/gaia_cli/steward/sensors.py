@@ -1778,6 +1778,13 @@ class TrustCalibrationDriftSensor:
                         "trustMagnitude": round(tm, 2),
                         "delta": round(abs(float(stored_tm) - tm), 2),
                         "tolerance": self._STAMP_TOLERANCE,
+                        # Founder ruling 2026-10-28 (#1642): refreshing a derived
+                        # stamp is a recomputation; moving a star level, grade
+                        # policy or evidence assertion is a governed change. A
+                        # stamp is recomputation-only when the computed grade
+                        # still agrees with the stored star level.
+                        "recomputationOnly": skill.get("level") == self._TARGET_LEVEL[grade],
+                        "restampCommand": f"gaia dev calibrate-trust-magnitude --skill {skill_id}",
                     },
                     confidence=1.0,
                     provenance={"path": relative},

@@ -310,6 +310,19 @@ def reconcile(
         elif existing.priority != debt.priority.score:
             result = result.replaced(replace(existing, priority=debt.priority.score))
 
+    # An escalation exists to get a ruling. Once the sensor says the debt is not
+    # agent-repairable at all, the question the lane escalated (should an agent
+    # keep attempting this?) has its answer, so the entry closes with the reason
+    # rather than lingering in the founder queue as a decision nobody can make.
+    for entry in result.entries:
+        if entry.state == "escalated" and entry.debt_id in ineligible:
+            result = result.replaced(
+                entry.moved(
+                    to="closed",
+                    at=now,
+                    reason="the debt is no longer eligible for agent repair; the escalation is answered",
+                )
+            )
     for entry in result.entries:
         if entry.debt_id not in observed and entry.live:
             result = result.replaced(
