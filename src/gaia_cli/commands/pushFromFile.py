@@ -47,7 +47,7 @@ from gaia_cli.push import (
     skill_name_from_id,
 )
 from gaia_cli.namedIdentity import findIdentityCollisions, validateContributor
-from gaia_cli.registry import registry_graph_path, skill_batches_dir
+from gaia_cli.registry import registry_graph_path
 
 
 def _is_github_tree_url(url):
