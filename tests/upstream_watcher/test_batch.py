@@ -40,7 +40,11 @@ def open_child(number, slug, contributor="garrytan", umbrella=1):
     return {
         "number": number, "title": f"[intake] {contributor}/{slug}", "state": "open",
         "labels": [{"name": "intake"}, {"name": "upstream:child"}],
-        "body": f"> Auto-populated by upstream watcher. Umbrella: #{umbrella}.\n\n**Suggested ID:** `{contributor}/{slug}`\n",
+        "body": (
+            f"> Auto-populated by upstream watcher. Umbrella: #{umbrella}.\n\n"
+            f"**Suggested ID:** `{contributor}/{slug}`\n\n### Evidence\n\n"
+            f"- **url:** {BLOB.format(slug=slug)}\n"
+        ),
     }
 
 
@@ -79,7 +83,8 @@ def test_precheck_matrix_retains_every_row_and_suppresses_duplicates():
         open_child(40, "tracked-one"),
         {"number": 41, "title": "[intake] garrytan/rejected-one", "state": "closed",
          "labels": [{"name": "upstream:child"}, {"name": "upstream:rejected"}],
-         "body": "**Suggested ID:** `garrytan/rejected-one`\n"},
+         "body": "**Suggested ID:** `garrytan/rejected-one`\n\n### Evidence\n\n"
+                 "- **url:** https://github.com/garrytan/gbrain/blob/main/skills/rejected-one/SKILL.md\n"},
     ])
     entries = [
         {"id": "garrytan/present-one", "github": BLOB.format(slug="present-one")},
@@ -268,6 +273,23 @@ def test_escalate_adopts_an_existing_child_instead_of_duplicating():
     result, _ = escalate_candidate("garrytan/gbrain:ask-user", gh, apply=True)
     assert result["outcome"] == "already-child" and result["child"] == 40
     assert sum(1 for w in gh.writes if w[0] == "create") == 1
+
+
+def test_escalate_does_not_adopt_same_suggested_id_from_another_source_repo():
+    unrelated = open_child(40, "ask-user")
+    unrelated["body"] = unrelated["body"].replace(
+        "https://github.com/garrytan/gbrain/",
+        "https://github.com/another/source-repo/",
+    )
+    gh = FakeGh([unrelated])
+    run(gh, [finding("v1", ["ask-user"])])
+
+    result, code = escalate_candidate("garrytan/gbrain:ask-user", gh, apply=True)
+
+    assert code == 0 and result["outcome"] == "created"
+    assert result["child"] != 40
+    assert gh.issues[40]["state"] == "open"
+    assert sum(1 for write in gh.writes if write[0] == "create") == 2
 
 
 def test_escalate_adopts_a_child_created_after_the_umbrella_was_written():

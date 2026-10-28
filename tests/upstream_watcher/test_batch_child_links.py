@@ -38,7 +38,11 @@ def open_child(number, slug):
     return {
         "number": number, "title": f"[intake] garrytan/{slug}", "state": "open",
         "labels": [{"name": "intake"}, {"name": "upstream:child"}],
-        "body": f"> Auto-populated by upstream watcher. Umbrella: #1.\n\n**Suggested ID:** `garrytan/{slug}`\n",
+        "body": (
+            f"> Auto-populated by upstream watcher. Umbrella: #1.\n\n"
+            f"**Suggested ID:** `garrytan/{slug}`\n\n### Evidence\n\n"
+            f"- **url:** https://github.com/garrytan/gbrain/blob/main/skills/{slug}/SKILL.md\n"
+        ),
     }
 
 

@@ -1095,7 +1095,10 @@ def escalate_candidate(candidate_id: str, gh: LiveGh, apply: bool) -> tuple[dict
             return {**result, "outcome": "already-child", "child": row["child"], "umbrella": umbrella["number"]}, 0
 
     open_children, _ = prechecks.index_children(live["issues"])
-    child_number = open_children.get(row["suggestedId"])
+    try:
+        child_number = open_children.get(prechecks.candidate_identity(row))
+    except GhError as exc:
+        return {**result, "outcome": "unknown", "detail": str(exc)}, UNKNOWN_EXIT_CODE
     if child_number is not None:
         outcome = "adopted"
     else:

@@ -27,7 +27,10 @@ def child(number, slug, state="open", labels=("intake", "upstream:child"), updat
         "title": f"[intake] garrytan/{slug}",
         "state": state,
         "labels": [{"name": name} for name in labels],
-        "body": f"> Umbrella: #5000.\n\n**Suggested ID:** `garrytan/{slug}`\n",
+        "body": (
+            f"> Umbrella: #5000.\n\n**Suggested ID:** `garrytan/{slug}`\n\n### Evidence\n\n"
+            f"- **url:** https://github.com/garrytan/gbrain/blob/main/skills/{slug}/SKILL.md\n"
+        ),
         "updated_at": updated or "2026-10-20T00:00:00Z",
         "pull_request": None,
     }
@@ -75,7 +78,10 @@ def test_rejection_on_a_later_page_of_the_closed_history_is_still_found():
             "state": "closed",
             "labels": [{"name": "intake"}, {"name": "upstream:child"}]
             + ([{"name": "upstream:rejected"}] if number == 150 else []),
-            "body": f"**Suggested ID:** `garrytan/slug-{number}`\n",
+            "body": (
+                f"**Suggested ID:** `garrytan/slug-{number}`\n\n### Evidence\n\n"
+                f"- **url:** https://github.com/garrytan/gbrain/blob/main/skills/slug-{number}/SKILL.md\n"
+            ),
             "updated_at": OLD,
         }
         for number in range(1, 151)

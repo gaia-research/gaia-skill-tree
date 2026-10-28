@@ -142,7 +142,8 @@ def test_a_component_listed_in_three_releases_is_one_row_with_first_and_last_see
 def test_a_component_whose_child_was_rejected_stays_rejected_across_later_releases() -> None:
     rejected = {"number": 41, "title": "[intake] garrytan/rejected-one", "state": "closed",
                 "labels": [{"name": "upstream:child"}, {"name": "upstream:rejected"}],
-                "body": "**Suggested ID:** `garrytan/rejected-one`\n"}
+                "body": "**Suggested ID:** `garrytan/rejected-one`\n\n### Evidence\n\n"
+                        "- **url:** https://github.com/garrytan/gbrain/blob/main/skills/rejected-one/SKILL.md\n"}
     gh = FakeGh([rejected])
     for version in ("v1", "v2", "v3"):
         report, code = run(gh, [finding(version, ["rejected-one"], previous="v0")])

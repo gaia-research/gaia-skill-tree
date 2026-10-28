@@ -73,7 +73,10 @@ def child(number, slug, state="open", labels=("intake", "upstream:child")):
         "title": f"[intake] garrytan/{slug}",
         "state": state,
         "labels": [{"name": name} for name in labels],
-        "body": f"> Umbrella: #5000.\n\n**Suggested ID:** `garrytan/{slug}`\n",
+        "body": (
+            f"> Umbrella: #5000.\n\n**Suggested ID:** `garrytan/{slug}`\n\n### Evidence\n\n"
+            f"- **url:** https://github.com/garrytan/gbrain/blob/main/skills/{slug}/SKILL.md\n"
+        ),
         "updated_at": "2026-10-20T00:00:00Z",
     }
 

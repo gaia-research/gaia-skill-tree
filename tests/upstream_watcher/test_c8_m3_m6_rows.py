@@ -82,7 +82,10 @@ def child(gh, number, slug, state, labels=("upstream:child",)):
     gh.add({
         "number": number, "title": f"[intake] garrytan/{slug}", "state": state,
         "labels": [{"name": name} for name in ("intake", *labels)],
-        "body": f"> Umbrella: #5000.\n\n**Suggested ID:** `garrytan/{slug}`\n",
+        "body": (
+            f"> Umbrella: #5000.\n\n**Suggested ID:** `garrytan/{slug}`\n\n### Evidence\n\n"
+            f"- **url:** https://github.com/garrytan/gbrain/blob/main/skills/{slug}/SKILL.md\n"
+        ),
     })
 
 

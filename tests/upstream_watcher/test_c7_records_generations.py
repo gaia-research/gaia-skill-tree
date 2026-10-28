@@ -221,7 +221,8 @@ def test_a_600_row_suite_converges_after_a_mid_run_fault_and_then_writes_nothing
     gh.add({"number": 7001, "title": "[intake] garrytan/skill-010", "state": "open",
             "labels": [{"name": "upstream:child"}],
             "body": f"> Auto-populated by upstream watcher. Umbrella: #{umbrella(gh)}.\n\n"
-                    "**Suggested ID:** `garrytan/skill-010`\n"})
+                    "**Suggested ID:** `garrytan/skill-010`\n\n### Evidence\n\n"
+                    "- **url:** https://github.com/garrytan/gbrain/blob/main/skills/skill-010/SKILL.md\n"})
     gh.create_fault_at = 7
     report, code = run(gh, "v1", 600)
     assert code == 3

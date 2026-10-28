@@ -63,12 +63,18 @@ def test_registry_absent_when_nothing_matches():
 
 
 def test_index_children_splits_open_and_rejected():
-    body = "**Suggested ID:** `garrytan/foo`\n"
+    body = (
+        "**Suggested ID:** `garrytan/foo`\n\n### Evidence\n\n"
+        "- **url:** https://github.com/garrytan/gbrain/blob/main/skills/foo/SKILL.md\n"
+    )
     issues = [
         {"number": 10, "state": "open", "labels": [{"name": "upstream:child"}], "body": body},
         {"number": 11, "state": "closed", "labels": [{"name": "upstream:child"}, {"name": "upstream:rejected"}],
-         "body": "**Suggested ID:** `garrytan/bar`\n"},
-        {"number": 12, "state": "closed", "labels": [{"name": "upstream:child"}], "body": "**Suggested ID:** `x/y`\n"},
+         "body": "**Suggested ID:** `garrytan/bar`\n\n### Evidence\n\n"
+                 "- **url:** https://github.com/garrytan/gbrain/blob/main/skills/bar/SKILL.md\n"},
+        {"number": 12, "state": "closed", "labels": [{"name": "upstream:child"}],
+         "body": "**Suggested ID:** `x/y`\n\n### Evidence\n\n"
+                 "- **url:** https://github.com/x/y/blob/main/skills/y/SKILL.md\n"},
         {"number": 13, "state": "open", "labels": [{"name": "upstream:child"}], "body": body, "pull_request": {}},
     ]
     open_children, rejected = pc.index_children(issues)
