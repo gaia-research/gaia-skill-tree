@@ -305,7 +305,7 @@ def main(argv: list[str] | None = None) -> int:
         "--reset-records",
         metavar="SUITE",
         default=None,
-        help="Rebuild SUITE's record state from the fresh poll (M4). Requires --apply. Per-row status and child "
+        help="Rebuild SUITE's record state from the fresh poll (M4). Requires --apply --child-mode batch. Per-row status and child "
         "links stored only in the lost record comments are not recovered.",
     )
     args = parser.parse_args(argv)
@@ -317,6 +317,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.reset_records and not apply:
         print("[watcher] --reset-records requires --apply: a reset rewrites the umbrella's record comments.",
               file=sys.stderr)
+        return 1
+
+    if args.reset_records and args.child_mode != "batch":
+        print("[watcher] --reset-records requires --child-mode batch; fanout cannot reset records.", file=sys.stderr)
         return 1
 
     if args.escalate:

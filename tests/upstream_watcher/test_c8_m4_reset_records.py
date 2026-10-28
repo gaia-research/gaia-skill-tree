@@ -166,6 +166,12 @@ def test_the_cli_refuses_reset_records_without_apply(monkeypatch, tmp_path, caps
     assert "--reset-records requires --apply" in capsys.readouterr().err
 
 
+def test_the_cli_refuses_silently_ignored_reset_in_default_fanout(monkeypatch, capsys):
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda root=None: pytest.fail("no registry read"))
+    assert watcher.main(["--apply", "--reset-records", SUITE]) == 1
+    assert "--child-mode batch" in capsys.readouterr().err
+
+
 def test_the_cli_accepts_reset_records_with_apply(monkeypatch, tmp_path):
     captured = {}
 
@@ -178,7 +184,8 @@ def test_the_cli_accepts_reset_records_with_apply(monkeypatch, tmp_path):
     monkeypatch.setattr(watcher, "iter_suite_skills", lambda root=None: iter([]))
     monkeypatch.setattr(watcher, "run_batch", fake_run_batch)
     monkeypatch.setattr(watcher, "LiveGh", lambda *a, **k: FakeGh())
-    assert watcher.main(["--apply", "--reset-records", SUITE, "--report", str(tmp_path / "r.json")]) == 0
+    assert watcher.main(["--apply", "--child-mode", "batch", "--reset-records", SUITE,
+                         "--report", str(tmp_path / "r.json")]) == 0
     assert captured["reset"] == SUITE
 
 
