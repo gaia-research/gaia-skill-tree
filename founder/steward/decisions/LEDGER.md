@@ -29,6 +29,6 @@ Nothing below is landed: it all sits on the draft weekly PR. "Verified" names th
 | 12 | Class B route for workflow timeouts | no | none | n/a | n/a | open (`steward-workflow-timeout-route`) |
 | 13 | Wire the browser-render collector into the scheduled workflow | no | collector and sensor exist; workflow untouched | n/a | n/a | open (`steward-browser-render-driver`) |
 | 14 | `gaia steward founder` should list open decision records | no | none (visible CLI output is human-gated) | n/a | n/a | open (`steward-founder-command-records`) |
-| 15 | One-line edit to `.agents/skills/trust-appraise-all` (forbidden path for the knowledge-contradiction route) | **no, awaiting authorization** | `b6e2d05` on the PR | independent Sonnet verifier | no | open (`steward-knowledge-skill-path-exception`) |
+| 15 | One-line edit to `.agents/skills/trust-appraise-all` (forbidden path for the knowledge-contradiction route) | yes, one-time and path-specific (founder, PR #2202 comment, 2026-10-28); does not widen the Class B envelope or amend `POLICY.yaml` | `b6e2d05` on the PR | independent Sonnet verifier PASS; required GitHub check pending on the current head | no | decided (`steward-knowledge-skill-path-exception`) |
 
 Throughput (`maxDispatchesPerRun` 1, `maxInFlight` 2, `maxAttempts` 2, `maxRepairsPerRun` 2): reviewed on 2026-10-28 and **not** proposed for change; see the weekly closure report. Nothing here modifies a governed limit.
