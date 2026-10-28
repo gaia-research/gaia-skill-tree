@@ -40,6 +40,18 @@ SUPPRESSED_STATUSES = frozenset({"present", "tracked", "rejected"})
 _SUGGESTED_ID_RE = re.compile(r"\*\*Suggested ID:\*\*\s*`([^`]+)`")
 _EVIDENCE_URL_RE = re.compile(r"(?mi)^\s*-\s*\*\*url:\*\*\s*(\S+)\s*$")
 _UMBRELLA_RE = re.compile(r"Umbrella:\s*#(\d+)")
+_SIMPLE_REF_NAMES = frozenset({"HEAD", "main", "master"})
+_SEMVER_REF_RE = re.compile(r"v?[0-9]+(?:\.[0-9]+){0,3}(?:[-+][0-9A-Za-z.-]+)?")
+_SHA_REF_RE = re.compile(r"[0-9a-f]{7,40}")
+
+
+def _simple_ref(ref: str) -> bool:
+    """Whether a URL's single-segment ref/path split is safe to ignore."""
+    return (
+        ref in _SIMPLE_REF_NAMES
+        or _SEMVER_REF_RE.fullmatch(ref) is not None
+        or _SHA_REF_RE.fullmatch(ref) is not None
+    )
 
 
 class AmbiguousChildIdentity(GhError):
@@ -102,8 +114,9 @@ def normalize_blob(url: str | None, ignore_ref: bool = False) -> str:
 
     ``tree/`` is rewritten to ``blob/``, ``.git`` and trailing slashes are
     dropped, and host/owner/repo are lowercased. The path is kept case-sensitive.
-    With ``ignore_ref`` the ``blob/<ref>/`` segment is dropped, so a registry
-    record pinned to a release tag matches the same file on ``main``. Returns ""
+    With ``ignore_ref`` a trusted simple ``blob/<ref>/`` segment is dropped, so
+    a registry record pinned to a release tag matches the same file on ``main``.
+    Ambiguous refs (which may contain slashes) are retained in the path. Returns ""
     for anything that is not a GitHub owner/repo URL.
     """
     if not url:
@@ -119,10 +132,13 @@ def normalize_blob(url: str | None, ignore_ref: bool = False) -> str:
     rest = segments[2:]
     if rest and rest[0] == "tree":
         rest[0] = "blob"
-    if ignore_ref and rest and rest[0] == "blob":
+    if ignore_ref and len(rest) >= 3 and rest[0] == "blob" and _simple_ref(rest[1]):
         rest = rest[2:]
     tail = "/".join(rest).rstrip("/")
-    base = f"{parts.netloc.lower()}/{owner}/{repo}"
+    host = parts.netloc.lower()
+    if host == "www.github.com":
+        host = "github.com"
+    base = f"{host}/{owner}/{repo}"
     return f"{base}/{tail}" if tail else base
 
 

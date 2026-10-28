@@ -42,6 +42,36 @@ def test_registry_present_ignores_ref_pinning():
     assert pc.registry_state(_row(), _index([("garrytan/foo", pinned)])) == "present"
 
 
+def test_registry_does_not_treat_slash_ref_as_simple_ref():
+    candidate = _row(url="https://github.com/garrytan/gbrain/blob/main/feature/skills/foo/SKILL.md")
+    slash_ref = "https://github.com/garrytan/gbrain/blob/release/feature/skills/foo/SKILL.md"
+    assert pc.registry_state(candidate, _index([("garrytan/foo", slash_ref)])) == "alias-suspect"
+
+
+def test_slash_ref_does_not_collapse_into_a_different_path():
+    candidate = _row(url="https://github.com/garrytan/gbrain/blob/main/feature/skills/foo/SKILL.md")
+    issue_body = (
+        "**Suggested ID:** `garrytan/foo`\n\n### Evidence\n\n"
+        "- **url:** https://github.com/garrytan/gbrain/blob/release/feature/skills/foo/SKILL.md\n"
+    )
+    open_children, _ = pc.index_children([
+        {"number": 51, "state": "open", "labels": ["upstream:child"], "body": issue_body}
+    ])
+    assert pc.tracked_state(candidate, open_children) == "none"
+
+
+def test_same_file_on_simple_refs_still_has_same_identity():
+    main = _row(url="https://github.com/garrytan/gbrain/blob/main/skills/foo/SKILL.md")
+    tag = _row(url="https://github.com/garrytan/gbrain/blob/v1.2.3/skills/foo/SKILL.md")
+    assert pc.candidate_identity(main) == pc.candidate_identity(tag)
+
+
+def test_github_www_host_aliases_have_same_identity():
+    github = _row(url="https://github.com/garrytan/gbrain/blob/main/skills/foo/SKILL.md")
+    www = _row(url="https://www.github.com/garrytan/gbrain/blob/main/skills/foo/SKILL.md")
+    assert pc.candidate_identity(github) == pc.candidate_identity(www)
+
+
 def test_registry_same_id_different_link_is_alias_suspect_not_present():
     idx = _index([("garrytan/foo", "https://github.com/other/repo/blob/main/x/SKILL.md")])
     assert pc.registry_state(_row(), idx) == "alias-suspect"
