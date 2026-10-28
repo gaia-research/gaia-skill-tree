@@ -1,5 +1,5 @@
 {
- "generation": 93,
+ "generation": 94,
  "lane": {
   "entries": [
    {
@@ -6476,6 +6476,15 @@
      "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
      "emittedAt": "2026-10-28T02:49:20.771873Z",
      "idempotencyKey": "dispatch-37bd74ce6b4e0a62bb17:1",
+     "outcome": {
+      "agentId": "haiku-builder-a6c689f7",
+      "effort": "medium",
+      "model": "haiku",
+      "noChange": true,
+      "summary": "Reproduced: addy-osmani/browser-testing-with-devtools stored 2-star, computes ungraded TM 0.00 (effective pool 0 rows), G7 target 1-star. Proposed (not run) command: gaia dev calibrate addy-osmani/browser-testing-with-devtools 1★. No change made; focused pytest unavailable in sandbox (no pytest module).",
+      "tokensIn": null,
+      "tokensOut": null
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -6496,13 +6505,27 @@
       },
       "promptPath": ".gaia/steward/full/run-20261028T024707Z-af472d28/build-94521a044486.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-10-28T02:53:39.463744Z",
+     "status": "done",
      "stepId": "build:94521a044486:1",
      "type": "agent.build"
     }
    ],
    "actor": "cli",
-   "agentAssignments": [],
+   "agentAssignments": [
+    {
+     "agentId": "haiku-builder-a6c689f7",
+     "at": "2026-10-28T02:53:39.463801Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
+     "effort": "medium",
+     "model": "haiku",
+     "role": "builder",
+     "stepId": "build:94521a044486:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
@@ -6586,8 +6609,10 @@
     }
    ],
    "mode": "full",
-   "modelIds": [],
-   "mutated": false,
+   "modelIds": [
+    "haiku"
+   ],
+   "mutated": true,
    "nextAction": "perform 1 pending action(s) (agent.build), record each with `gaia steward full record run-20261028T024707Z-af472d28 <stepId> --input FILE`, then `gaia steward full run --resume run-20261028T024707Z-af472d28`",
    "options": {
     "afk": true,
@@ -7567,15 +7592,17 @@
      "stepId": "phase:class_a"
     },
     {
-     "at": "2026-10-28T02:49:20.771873Z",
+     "at": "2026-10-28T02:53:39.463744Z",
      "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
      "idempotencyKey": "dispatch-37bd74ce6b4e0a62bb17:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:94521a044486:1"
     }
    ],
-   "thinkingEfforts": [],
+   "thinkingEfforts": [
+    "medium"
+   ],
    "tokensIn": 0,
    "tokensOut": 0,
    "trigger": "scheduled",
@@ -7585,11 +7612,12 @@
      "previousRun": "run-20261021T174049Z-36e4510c",
      "state": "building"
     }
-   ]
+   ],
+   "updatedAt": "2026-10-28T02:53:39.463744Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-28T02:50:56.032708Z",
+ "updatedAt": "2026-10-28T02:53:39.464021Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -7634,12 +7662,33 @@
    "verification": null
   },
   "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "haiku-builder-a6c689f7",
+     "at": "2026-10-28T02:53:39.463801Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "haiku",
+     "role": "builder",
+     "stepId": "build:94521a044486:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-integration",
    "branch": "steward/b/trust-calibration-drift-94521a044486",
-   "build": null,
+   "build": {
+    "agentId": "haiku-builder-a6c689f7",
+    "attempt": 1,
+    "diffPath": null,
+    "dispatchId": "dispatch-37bd74ce6b4e0a62bb17",
+    "noChange": true,
+    "proofPath": null,
+    "recordedAt": "2026-10-28T02:53:39.463801Z",
+    "summary": "Reproduced: addy-osmani/browser-testing-with-devtools stored 2-star, computes ungraded TM 0.00 (effective pool 0 rows), G7 target 1-star. Proposed (not run) command: gaia dev calibrate addy-osmani/browser-testing-with-devtools 1★. No change made; focused pytest unavailable in sandbox (no pytest module)."
+   },
    "createdAt": "2026-10-28T02:49:20.771873Z",
    "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
    "dispatchId": "dispatch-37bd74ce6b4e0a62bb17",
@@ -7660,7 +7709,7 @@
    "runId": "run-20261028T024707Z-af472d28",
    "source": "trust-calibration-drift",
    "state": "building",
-   "updatedAt": "2026-10-28T02:49:20.771873Z",
+   "updatedAt": "2026-10-28T02:53:39.463801Z",
    "verification": null
   }
  }
