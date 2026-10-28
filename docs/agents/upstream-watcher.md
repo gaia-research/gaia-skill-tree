@@ -366,7 +366,7 @@ Also handles the reject cascade: if an umbrella is closed as `upstream:rejected`
 - `apply` — create or update issues (default dry-run).
 - `escalate_candidate` — create or adopt one intake child for a batch row (for example `garrytan/gbrain:foo`), then exit. Uses the `apply` flag.
 
-The run always uses `--child-mode batch` and writes `generated-output/upstream-watcher-report.json`, uploaded as the `upstream-watcher-report` artifact. The workflow builds its arguments as a bash array, so nothing is word-split (L1). Before any run, `skill_id` must match `^[A-Za-z0-9._/-]+$` and `escalate_candidate` must match `^[A-Za-z0-9._/:-]+$`. A value with other characters fails the job without running the watcher.
+The workflow writes `generated-output/upstream-watcher-report.json`, uploaded as the `upstream-watcher-report` artifact. Its default manual dispatch and daily scheduled run use `fanout`; `--child-mode batch` is opt-in and requires the staged v2 rollout controls described above. The workflow builds its arguments as a bash array, so nothing is word-split (L1). Before any run, `skill_id` must match `^[A-Za-z0-9._/-]+$` and `escalate_candidate` must match `^[A-Za-z0-9._/:-]+$`. A value with other characters fails the job without running the watcher.
 
 The workflow's token scope is `issues: write` and `contents: read` (L5). The watcher never pushes, opens PRs or dispatches workflows.
 

@@ -28,9 +28,10 @@ jobs:
       (vars.STEWARD_ISSUE_HYGIENE_V2 == 'true') && (github.event_name == 'workflow_dispatch' || contains(github.event.issue.labels.*.name, 'upstream:child') || contains(github.event.issue.labels.*.name, 'upstream:release'))
 
     steps:
-      - name: Checkout
+      - name: Checkout trusted main
         uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 1
 
       # ── Case 1: An upstream:child issue was closed ──────────────────────────

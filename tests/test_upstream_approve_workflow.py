@@ -1649,7 +1649,7 @@ def test_the_approval_marker_step_runs_before_the_child_gate_so_a_blocked_approv
 BOT_ACTOR = "github-actions[bot]"
 
 
-def _guard_run(tmp_path, *, event, actor, labels_events=None, refire="", index=VERIFIER_INDEX, fail=None):
+def _guard_run(tmp_path, *, event, actor, labels_events=None, refire="", index=VERIFIER_INDEX, fail=None, issue=None):
     scratch = pathlib.Path(tempfile.mkdtemp(dir=tmp_path))
     repo = _fresh(scratch, "repo")
     (repo / "registry").mkdir()
@@ -1657,7 +1657,7 @@ def _guard_run(tmp_path, *, event, actor, labels_events=None, refire="", index=V
     if index is not None:
         text = index if isinstance(index, str) else json.dumps(index)
         (repo / "registry" / "named-skills.json").write_text(text, encoding="utf-8")
-    data = world(umbrella_issue(LEGACY_PAYLOAD), events={str(UMBRELLA): labels_events or []}, fail=fail or {})
+    data = world(issue or umbrella_issue(LEGACY_PAYLOAD), events={str(UMBRELLA): labels_events or []}, fail=fail or {})
     actor_type = "Bot" if actor.endswith("[bot]") else "User"
     env = {"LABELER": actor, "LABELER_TYPE": actor_type, "LABELER_ID": "1", "ISSUE_NUMBER": str(UMBRELLA),
            "EVENT_NAME": event, "INPUT_REFIRE": refire}
@@ -1743,6 +1743,27 @@ def test_guard_bot_redispatch_is_refused_when_the_index_is_missing(tmp_path):
 def test_guard_human_redispatch_still_needs_a_verifier_actor(tmp_path):
     assert _guard_run(tmp_path, event="workflow_dispatch", actor="alice").code == 0
     assert _guard_run(tmp_path, event="workflow_dispatch", actor="mallory").code == 1
+
+
+def test_unrelated_issue_dispatch_by_unauthorized_actor_makes_no_writes(tmp_path):
+    unrelated = {
+        "number": UMBRELLA, "title": "Unrelated issue", "state": "open",
+        "labels": [{"name": "upstream:approved"}], "body": "not an upstream watcher issue",
+    }
+    result = _guard_run(tmp_path, event="workflow_dispatch", actor="mallory", issue=unrelated)
+    assert result.code == 0, result.output
+    assert not result.comments()
+    assert not any(call[:2] == ["issue", "remove-label"] or call[:2] == ["issue", "edit"]
+                   for call in result.calls)
+    assert any(call[:3] == ["issue", "view", str(UMBRELLA)] for call in result.calls)
+
+
+def test_staged_close_children_dispatch_checks_out_trusted_main_not_dispatch_ref():
+    doc = yaml.safe_load(CLOSE_CHILDREN_PATH.read_text(encoding="utf-8"))
+    checkout = doc["jobs"]["close-children"]["steps"][0]
+    assert checkout["uses"] == "actions/checkout@v4"
+    assert checkout["with"]["ref"] == "main"
+    assert checkout["with"]["fetch-depth"] == 1
 
 
 def test_close_children_refire_names_refire_true_so_the_guard_can_check_the_labeler():

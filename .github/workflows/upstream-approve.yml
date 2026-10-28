@@ -203,6 +203,24 @@ jobs:
             echo "::error::$1"
             exit 1
           }
+          # Prove fresh ownership before any authorization-denial path can comment
+          # or remove labels. Dispatch inputs and event labels are not ownership proof.
+          LIVE_ISSUE=$(gh issue view "$ISSUE_NUMBER" --json title,body,labels) || {
+            echo "::error::Could not verify ownership of issue #${ISSUE_NUMBER}. No approval-path writes were made."
+            exit 1
+          }
+          OWNED=$(printf '%s' "$LIVE_ISSUE" | python3 -c '
+          import json, sys
+          from scripts.upstream_watcher.approval import owned_upstream_issue
+          print("true" if owned_upstream_issue(json.load(sys.stdin)) else "false")
+          ') || {
+            echo "::error::Could not parse ownership proof for issue #${ISSUE_NUMBER}. No approval-path writes were made."
+            exit 1
+          }
+          if [ "$OWNED" != true ]; then
+            echo "Not a proven upstream umbrella/bootstrap; no approval-path writes."
+            exit 0
+          fi
           verifier_check() {
             python3 - "$1" <<'PY'
           import os, sys
