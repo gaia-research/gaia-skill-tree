@@ -1971,7 +1971,12 @@ class FrozenSkillIntegritySensor:
                     details = str(ev.get("details") or "").lower()
                     if "founder override" in details:
                         continue
-                    if action in ("demote", "rank_up", "recalibrate_trust_magnitude"):
+                    # recalibrate_trust_magnitude only restamps the derived
+                    # trustMagnitude / grade / input hash (calibrate-trust-magnitude);
+                    # it never writes the star level. Recomputing derived
+                    # information is not a rank mutation (founder ruling
+                    # 2026-10-28), so only rank-changing events count here.
+                    if action in ("demote", "rank_up"):
                         post_freeze_events.append(str(action))
 
                 has_level_mismatch = bool(frozen_level and current_level != frozen_level)

@@ -2399,6 +2399,62 @@ def test_frozen_skill_integrity_sensor_detects_post_freeze_demote_rank_up(tmp_pa
     assert obs.observed_state["frozenLevel"] == "3★"
 
 
+def test_frozen_skill_integrity_sensor_ignores_derived_trust_stamp_refresh(tmp_path: Path) -> None:
+    """A TM restamp on a frozen skill recomputes derived data; it is not a rank mutation."""
+
+    content = (
+        "---\n"
+        "id: owner/restamped-frozen\n"
+        "name: Restamped Frozen Skill\n"
+        "status: named\n"
+        "level: 2★\n"
+        "installable: false\n"
+        "timeline:\n"
+        "  - timestamp: '2026-08-05T00:00:00Z'\n"
+        "    action: upstream_deprecated\n"
+        "    details: superseded upstream\n"
+        "  - timestamp: '2026-10-21T00:00:00Z'\n"
+        "    action: recalibrate_trust_magnitude\n"
+        "    details: TM 10.0 -> 12.5, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)\n"
+        "---\n"
+    )
+    _write(tmp_path / "registry/named/owner/restamped-frozen.md", content)
+
+    track_all(tmp_path)
+    (obs,) = FrozenSkillIntegritySensor().scan(tmp_path, NOW)
+    assert obs.status == "healthy"
+    assert obs.observed_state["postFreezeEvents"] == []
+    assert "remediationCommand" not in obs.observed_state
+
+
+def test_frozen_skill_integrity_sensor_still_reports_rank_events_beside_a_restamp(tmp_path: Path) -> None:
+    content = (
+        "---\n"
+        "id: owner/mixed-frozen\n"
+        "name: Mixed Frozen Skill\n"
+        "status: named\n"
+        "level: 3★\n"
+        "installable: false\n"
+        "timeline:\n"
+        "  - timestamp: '2026-08-19T00:00:00Z'\n"
+        "    action: upstream_deprecated\n"
+        "    details: deprecated\n"
+        "  - timestamp: '2026-09-01T00:00:00Z'\n"
+        "    action: recalibrate_trust_magnitude\n"
+        "    details: TM 1 -> 2\n"
+        "  - timestamp: '2026-09-02T00:00:00Z'\n"
+        "    action: rank_up\n"
+        "    details: Calibrated level from 3★ to 4★\n"
+        "---\n"
+    )
+    _write(tmp_path / "registry/named/owner/mixed-frozen.md", content)
+
+    track_all(tmp_path)
+    (obs,) = FrozenSkillIntegritySensor().scan(tmp_path, NOW)
+    assert obs.status == "drift"
+    assert obs.observed_state["postFreezeEvents"] == ["rank_up"]
+
+
 def test_frozen_skill_integrity_sensor_detects_level_mismatch_and_provides_remediation(tmp_path: Path) -> None:
     content = (
         "---\n"
