@@ -11,7 +11,12 @@ from pathlib import Path
 
 import pytest
 
-from gaia_cli.steward.issuehygiene.closure import _executeProvenClosure as executeClosure, planClosures, resumeState
+from gaia_cli.steward.issuehygiene.closure import (
+    _executeProvenClosure as executeClosure,
+    _historyBaselinePath,
+    planClosures,
+    resumeState,
+)
 from tests.steward.issuehygiene.e_fakes import SimulatedCrash
 from tests.steward.issuehygiene.test_b5_closure_guard import (
     CLOSER,
@@ -77,6 +82,44 @@ def test_same_account_objection_after_existing_marker_stale_skips(tmp_path: Path
     assert receipt["outcome"] == "stale-skip"
     assert "comment-after-closure-marker" in receipt["failure"]
     assert forge.writes() == []
+
+
+@pytest.mark.parametrize("author", [MAINTAINER, CLOSER], ids=["maintainer", "same-account"])
+def test_comment_arriving_during_initial_history_read_is_not_absorbed_into_baseline(
+    tmp_path: Path, author: str,
+) -> None:
+    _, plan = ownMarkerPlan(tmp_path)
+    receipts = tmp_path / "r.jsonl"
+    baseline = _historyBaselinePath(receipts, None, plan["key"], plan["issue"], plan["closureSha8"])
+    forge = Forge({10: liveOf(scenarioRow(10))})
+
+    def objectionDuringHistoryRead() -> None:
+        forge.comments.setdefault(10, []).append(objection(author=author, n=903))
+        forge.issues[10]["updatedAt"] = DRIFTED
+
+    originalList = forge.listComments
+
+    def listWithRace(number: int) -> list[dict]:
+        if not forge.comments.get(number):
+            objectionDuringHistoryRead()
+        return originalList(number)
+
+    forge.listComments = listWithRace  # type: ignore[method-assign]
+
+    first = executeClosure(plan, forge, receipts, NOW, "R1")
+
+    assert first["outcome"] == "stale-skip"
+    assert "updatedAt-during-initial-history" in first["failure"]
+    assert forge.writes() == [], "the race must stop before marker POST and close"
+    assert not baseline.exists(), "unbracketed history must never become the immutable baseline"
+    assert forge.issues[10]["state"] == "open"
+
+    second = executeClosure(plan, forge, receipts, NOW, "R1")
+
+    assert second["outcome"] == "stale-skip"
+    assert forge.writes() == []
+    assert not baseline.exists()
+    assert forge.issues[10]["state"] == "open"
 
 
 def test_same_account_comment_added_before_marker_post_is_detected(tmp_path: Path) -> None:

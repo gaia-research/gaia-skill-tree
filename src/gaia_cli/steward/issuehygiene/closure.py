@@ -810,6 +810,28 @@ def _executeProvenClosure(plan: dict, forge: IssueForge, receiptsPath: Path | st
         if not closer:
             return finish("blocked-identity", failure="closer identity unavailable; refusing comment write")
         ownMarker = findOwnMarker(listed, key, sha8, closer)
+        # Bracket the complete initial history read before it can become a trusted
+        # immutable baseline. A comment arriving during pagination may advance
+        # updatedAt after the first issue read; accepting that history would absorb
+        # the objection and authorize a marker write against a stale snapshot.
+        try:
+            historyLive = forge.getIssue(issue)
+        except ForgeIdentityError as exc:
+            return finish("blocked-identity", failure=f"get-issue-after-history: {exc}", closer=closer)
+        except ForgeBlockedError as exc:
+            return finish("blocked", failure=f"get-issue-after-history: {exc}", closer=closer)
+        except Exception as exc:  # item-local
+            return finish("failed", failure=f"get-issue-after-history: {exc}", closer=closer)
+        problem = identityProblem(historyLive, issue)
+        if problem is not None:
+            return finish("blocked-identity", failure=problem, closer=closer)
+        if historyLive.get("updatedAt") != live.get("updatedAt"):
+            return finish("stale-skip", failure="updatedAt-during-initial-history", closer=closer)
+        differences = diffFields(plan, historyLive, ownMarker=ownMarker is not None)
+        if historyLive.get("state") != "open":
+            differences.insert(0, "state")
+        if differences:
+            return finish("stale-skip", failure=",".join(differences), closer=closer)
         # Check any already-present payload pieces before generic history drift. A
         # damaged multipart resume is a preservation failure, not merely stale history.
         for index, expected in enumerate(comments, 1):
@@ -833,10 +855,10 @@ def _executeProvenClosure(plan: dict, forge: IssueForge, receiptsPath: Path | st
             return finish("stale-skip", failure="comment-after-closure-marker", closer=closer)
         if _historyDigest(listed, comments, closer) != baseline:
             return finish("stale-skip", failure="comment-history-changed", closer=closer)
-        differences = diffFields(plan, live, ownMarker=ownMarker is not None)
+        differences = diffFields(plan, historyLive, ownMarker=ownMarker is not None)
         if laterUnverifiedComment:
             differences.append("comment-after-closure-marker")
-        if live.get("state") != "open":
+        if historyLive.get("state") != "open":
             differences.insert(0, "state")
         if differences:
             return finish("stale-skip", failure=",".join(differences), closer=closer)
