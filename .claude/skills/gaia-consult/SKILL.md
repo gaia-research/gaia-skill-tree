@@ -25,7 +25,8 @@ Open it in any browser. It is self-contained, offline-capable, and covers every 
 
 | You are in… | Jump to section in the doc |
 |---|---|
-| You want to automate everything from a URL | **[/gaia-quick-curate](../gaia-quick-curate/SKILL.md)** — not this doc |
+| You want end-to-end curation and intake | **[/gaia-full-pipeline](../gaia-full-pipeline/SKILL.md)**; human L4 review remains required |
+| You are inspecting the paused `gaia curate` scaffold | **[/gaia-quick-curate](../gaia-quick-curate/SKILL.md)** — not an automated pipeline |
 | Discovering a skill, running prefill, writing the packet | **Phase 1 — gaia-curate** |
 | Reviewing the packet, ratifying with `gaia dev ratify` | **Phase 2 — L4 Review** |
 | Running `gaia push`, branching, opening the draft PR | **Phase 3 — gaia push → PR** |

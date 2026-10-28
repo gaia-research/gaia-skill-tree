@@ -3,8 +3,8 @@ name: feature-pipeline
 description: >-
   Explore a feature or CLI, repair verified defects, review adversarially, and
   leave one existing or new PR ready for its authorized reviewer. Use for
-  "explore X", "test and ship X", "run the pipeline on X", "stress-test X",
-  or "take X through the full pipeline" when exploration and integration
+  "test and ship this feature", "stress-test this CLI",
+  or "take this feature through the feature pipeline" when exploration and integration
   matter. Supports lean autonomous, structured economy (default), and explicit
   hard-gated runs. Routine checkpoints do not require user approval; actual
   founder, L4, security, schema and merge gates always apply. Not for a one-file

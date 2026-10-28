@@ -627,6 +627,7 @@ class FullRunner:
                 if run["status"] not in OPENRUNSTATES:
                     break
                 self._supersede(runId)
+                self._recoverLostPackets(runId)
                 run = self._loadRun(runId)
                 if run["phase"] == "done" and run["status"] == "awaiting-action":
                     self._settleDone(runId)
@@ -653,6 +654,95 @@ class FullRunner:
             raise
         except Exception as exc:  # noqa: BLE001 - a failing phase fails the run, loudly
             self._failRun(runId, f"{type(exc).__name__}: {exc}")
+        return self._view(self._load(), runId)
+
+    def _recoverLostPackets(self, runId: str) -> None:
+        """Give every pending build a task packet that exists on disk.
+
+        The packet lives in ignored `.gaia/`, so a fresh checkout loses it while the
+        ledger still says "awaiting-action". Re-render it from the live debt; when the
+        debt is no longer routable the action is superseded and its work released, so
+        a lost packet is never an indefinite block.
+        """
+
+        from gaia_cli.steward.routing import RoutingError, render_dispatch_prompt
+
+        run = self._loadRun(runId)
+        lost = [a for a in self._pending(run, "agent.build")
+                if not (self.root / str(a["params"].get("promptPath", ""))).is_file()]
+        if not lost:
+            return
+        now = self._now()
+        rendered: dict[str, str | None] = {}
+        for action in lost:
+            try:
+                _result, text = render_dispatch_prompt(self.root, action["debtId"], controller=self._controllerInstance())
+            except RoutingError:
+                text = None
+            rendered[action["stepId"]] = text
+        for action in lost:
+            text = rendered[action["stepId"]]
+            if text is None:
+                continue
+            params = action["params"]
+            path = self._resolvePath(params["promptPath"])
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(withHandoff(text, base=params["base"], branch=params["branch"], **params["outputs"]),
+                            encoding="utf-8")
+
+        def apply(doc: dict[str, Any], record: dict[str, Any]) -> None:
+            for action in record["actions"]:
+                if action["status"] != "pending" or action["stepId"] not in rendered:
+                    continue
+                item = doc["work"].get(action["debtId"])
+                if rendered[action["stepId"]] is not None:
+                    action["recoveredAt"] = now
+                    continue
+                action["status"] = "superseded"
+                action["supersededAt"] = now
+                for step in record["steps"]:
+                    if step["stepId"] == action["stepId"]:
+                        step["status"] = "done"
+                if item is not None and item["state"] == "building" and not item.get("build"):
+                    self._note(item, now, "task packet lost and the debt is no longer routable; the next run reconciles it")
+
+        self._mutateRun(runId, apply, message="steward full recover packets")
+
+    def abandon(self, runId: str, reason: str) -> RunView:
+        """Operator disposition: end an open run with an auditable reason.
+
+        Pending actions are superseded and unbuilt work stays `building`, so the next
+        run adopts it from the ledger instead of waiting out the lease.
+        """
+
+        if not str(reason).strip():
+            raise FullRunError("abandon needs a reason; the ledger keeps it as the audit record")
+        now = self._now()
+
+        def apply(doc: dict[str, Any], run: dict[str, Any]) -> None:
+            if run["status"] not in OPENRUNSTATES:
+                raise FullRunError(f"run {runId} is already {run['status']}; only an open run can be abandoned")
+            for action in run["actions"]:
+                if action["status"] == "pending":
+                    action["status"] = "superseded"
+                    action["supersededAt"] = now
+                    for step in run["steps"]:
+                        if step["stepId"] == action["stepId"]:
+                            step["status"] = "done"
+                item = doc["work"].get(action["debtId"])
+                if item is not None and item["state"] == "building" and not item.get("build"):
+                    # Stays `building`: the next run adopts it and re-emits the build.
+                    self._note(item, now, f"run {runId} abandoned by operator: {reason}")
+            run["status"] = "abandoned"
+            run["abandonedAt"] = now
+            run["abandonedBy"] = f"operator:{self.config.holder}"
+            run["abandonReason"] = str(reason).strip()
+            run["finishedAt"] = now
+            run["nextAction"] = f"abandoned by operator: {str(reason).strip()}"
+            if leaseHolder(doc, RUNLEASE, now) == runId:
+                release_lease(doc, RUNLEASE, runId)
+
+        self._mutateRun(runId, apply, holdsLease=False, message="steward full abandon")
         return self._view(self._load(), runId)
 
     def _supersede(self, runId: str) -> None:
@@ -771,6 +861,25 @@ class FullRunner:
                     "partialCoverage": retro.get("partiallyCovered", [])}
         return {}
 
+    def _reconcileDesk(self, desk: dict[str, Any]) -> dict[str, Any]:
+        """Drop stored record decisions that the checkout no longer holds open.
+
+        The desk is a snapshot taken when its run last built it; a founder ruling
+        recorded since (status "decided", or the record removed) must not keep
+        surfacing as pending until some later run happens to rebuild it.
+        """
+
+        from gaia_cli.steward.desk import load_decision_records
+
+        openIds = {r.get("id") for r in load_decision_records(self.root) if r.get("status") == "open"}
+        kept = [d for d in desk.get("decisions", [])
+                if d.get("source") != "decision-record" or d.get("decisionId") in openIds]
+        retired = [d["decisionId"] for d in desk.get("decisions", []) if d not in kept]
+        desk["decisions"] = kept
+        if retired:
+            desk["retiredFromSnapshot"] = retired
+        return desk
+
     def status(self) -> StatusView:
         doc = self._load()
         now = self._now()
@@ -789,7 +898,7 @@ class FullRunner:
         scheduled = [r["startedAt"] for r in runs if r.get("trigger") == "scheduled" and r.get("status") != "abandoned"]
         latestDesk = next((r for r in runs if r.get("desk") is not None), None)
         return StatusView(
-            desk=copy.deepcopy(latestDesk["desk"]) if latestDesk else None,
+            desk=self._reconcileDesk(copy.deepcopy(latestDesk["desk"])) if latestDesk else None,
             deskRunId=latestDesk["runId"] if latestDesk else None,
             ledger=self._ledgerInfo(),
             holder=held,

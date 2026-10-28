@@ -5,7 +5,7 @@ description: >-
   (bounded dispatch) and Class C (founder decision) with priorities, optionally
   narrowed to one routine or one debt id, without acting on any of it. Use for
   "/gaia-steward-full --triage", "--routine N", "--debt ID", "what should
-  Steward do next", or "triage the maintenance debt".
+  Steward do next", or "triage Steward debt". This is not issue or intake triage (gaia-triage).
 version: 1.0.0
 ---
 

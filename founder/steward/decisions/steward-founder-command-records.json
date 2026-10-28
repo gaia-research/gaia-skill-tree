@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-founder-command-records",
+  "status": "open",
+  "decision": "Should `gaia steward founder` also list the open decision records in founder/steward/decisions/, as `gaia steward full` already does?",
+  "whyItMatters": "On 2026-10-28 `gaia steward founder` printed 'Decisions for you 0 / Nothing requires a decision' while two records in that directory were open, so a founder using the dedicated command is told nothing is waiting. It changes visible CLI output, so it is human-gated.",
+  "evidence": [
+    "src/gaia_cli/steward/digest.py renders only the Class C debt queue; build_desk() in desk.py is the only reader of decision records and is reached through steward full.",
+    "Observed output: 'Decisions for you 0' with steward-trust-stamp-refresh-policy-1642 and steward-workflow-skill-creator-demote-1699 open."
+  ],
+  "recommended": "Yes: append the open records to the digest, with before/after CLI output in the PR for review.",
+  "alternative": "Document that only steward full shows the desk and remove the second wording ('Nothing requires a decision') from steward founder.",
+  "unblocks": "A single trustworthy founder queue.",
+  "links": [
+    "src/gaia_cli/steward/digest.py",
+    "src/gaia_cli/steward/desk.py"
+  ]
+}

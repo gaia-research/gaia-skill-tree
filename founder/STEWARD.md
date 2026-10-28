@@ -320,6 +320,8 @@ integrate   escalate
 
 Class B autonomy should expand only through measured evidence.
 
+**Yggdrasil IV delegated technical closure:** Class B may close a publicly verified, objectively testable technical challenge **only after independent, reproducible, release-pinned verification of the same challenged behavior**, with source/version and comparison conditions, a durable linked public receipt, and contributor notice. This authority can update **technical challenge status and a derived contested display marker only**; it cannot change canonical evidence assertions, Trust Magnitude/Grade, stars, Origin or meta/schema policy. Watch both the challenged upstream and comparator, particularly for Unique skills. Descriptions are leads, not proof. See [Yggdrasil IV](YGGDRASIL_IV_RATIFICATION_2026-10-25.md).
+
 ## Class C — Governance Decision
 
 Changes whose correctness depends on product, ontology, prestige, or irreversible interpretation.
@@ -602,6 +604,8 @@ observe
 ```
 
 Steward therefore moves Gaia toward the observation-driven architecture described in `ENDGAME.md` rather than away from it.
+
+**Proposed evolution (not ratified).** [`STEWARD-EVOLUTION.md`](STEWARD-EVOLUTION.md) proposes how this shared pattern could serve Gaia's other repositories: one shared runtime with separate domain authority, leaving this document and the Tree Steward's charter unchanged. Until a founder ruling adopts it, this section governs as written.
 
 ---
 

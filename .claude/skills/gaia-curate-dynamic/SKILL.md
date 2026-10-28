@@ -1,7 +1,7 @@
 ---
 name: gaia-curate-dynamic
 description: >-
-  Harness-neutral, discovery-only Gaia curation extension. A Sol/Terra-class
+  Use for broad, sharded discovery-only Gaia curation; for one source page use gaia-curate. A Sol/Terra-class
   orchestrator preflights capacity, shards safe volume work to configurable Luna
   workers, converges risky cases, and stops at human L4 review.
 version: 3.0.0
@@ -71,7 +71,8 @@ Use only the recipe supported by the active harness. Never expose prompts, trans
 4. Skip adversarial calls for exact duplicates and straightforward existing-generic mappings.
 5. Run isolated proposer/refuter passes only for `NEW_GENERIC`, fusion proposals, attribution conflicts, and unresolved semantic duplicates. Freeze identical input and hide each response from the other.
 6. Sol/Terra arbitrates disagreements only. Conflicting mappings become `DEFER`, never a silent merge.
-7. Present one consolidated L4 checkpoint and stop.
+7. Reconcile against the inventory frozen before dispatch. Use candidate ID, exact named identity and generic ID as separate keys. Verify task/attempt/input/output and actual packet digests; missing or failed candidates remain explicit deferred rows. Require exactly one final outcome per expected candidate. Shared-generic mappings never collapse named rows; conflicting generic definitions defer deterministically, not by completion order.
+8. Present the entire accounted-for inventory, including deferrals, rejections and proven duplicates, at one consolidated L4 checkpoint and stop. Review-ready is not human-approved; local reviewer metadata never grants authority.
 
 ## Retry and budget policy
 

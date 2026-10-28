@@ -1,0 +1,36 @@
+{
+  "handle": "wheresryan22",
+  "namedSkills": [
+    {
+      "id": "wheresryan22/anatomy",
+      "name": "anatomy",
+      "level": "4★",
+      "trustMagnitude": 152.48,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "wheresryan22",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/wheresryan22/anatomy.json"
+      },
+      "genericSkillRef": "interactive-mechanism-illustration"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "wheresryan22/anatomy",
+    "level": "4★",
+    "trustMagnitude": 152.48
+  },
+  "prestigeScore": 152.48,
+  "gradeDistribution": {
+    "A": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/wheresryan22.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

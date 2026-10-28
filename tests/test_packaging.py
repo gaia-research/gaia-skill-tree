@@ -74,10 +74,12 @@ def stage_bundled_registry():
     src_gaia = REPO_ROOT / "registry" / "gaia.json"
     src_named_index = REPO_ROOT / "registry" / "named-skills.json"
     src_named_dir = REPO_ROOT / "registry" / "named"
+    src_support_dir = REPO_ROOT / "registry" / "support"
 
     dest_gaia = bundled_dir / "gaia.json"
     dest_named_index = bundled_dir / "named-skills.json"
     dest_named_dir = bundled_dir / "named"
+    dest_support_dir = bundled_dir / "support"
 
     created = []
     if src_gaia.exists() and not dest_gaia.exists():
@@ -89,6 +91,15 @@ def stage_bundled_registry():
     if src_named_dir.exists() and not dest_named_dir.exists():
         shutil.copytree(src_named_dir, dest_named_dir)
         created.append(dest_named_dir)
+    if not dest_support_dir.exists():
+        if src_support_dir.exists():
+            shutil.copytree(src_support_dir, dest_support_dir)
+        else:
+            dest_support_dir.mkdir(parents=True)
+            (dest_support_dir / "components.json").write_text(
+                '{"schemaVersion": 1, "components": []}', encoding="utf-8"
+            )
+        created.append(dest_support_dir)
     return created
 
 
@@ -460,6 +471,7 @@ def test_built_wheel_contains_only_python_package_data(tmp_path):
 
     assert "gaia_cli/data/registry/gaia.json" in names
     assert "gaia_cli/data/registry/schema/skill.schema.json" in names
+    assert "gaia_cli/data/registry/support/components.json" in names
     assert any(name.startswith("gaia_cli/data/registry/named/") for name in names)
     forbidden_parts = (
         "node_modules/",

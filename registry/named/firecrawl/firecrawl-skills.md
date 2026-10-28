@@ -20,7 +20,7 @@ tags:
 - extraction
 - crawler
 createdAt: '2026-05-17'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-24'
 timeline:
 - timestamp: '2026-06-02T23:33:01Z'
   action: demote
@@ -102,6 +102,11 @@ timeline:
   previousValue: null
   newValue: v2.11.0
   details: first-run baseline
+- timestamp: '2026-10-24T04:37:55Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 70.69 -> 72.86, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/firecrawl/firecrawl
@@ -130,7 +135,7 @@ evidence:
   grade: B
   evaluator: mbtiongson1
   date: '2026-07-13'
-trustMagnitude: 70.69
+trustMagnitude: 72.86
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -143,7 +148,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
-trustMagnitudeInputHash: e89db6eaa6ee4c818b88e83542ff34fd8ee6630a2a48e1c3d03272c16fc25305
+trustMagnitudeInputHash: f90eef10fd0a996373d205d106d16bb2021811b53b3876dafd26a5cda350ce71
 suiteComponents:
 - firecrawl/firecrawl-build-interact
 - firecrawl/firecrawl-build-onboarding

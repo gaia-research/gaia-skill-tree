@@ -253,6 +253,11 @@ def build_intake_issue_body(batch_data, repo_root="."):
         f"| Proposed new skills | `{len(proposedSkills)}` |",
     ]
 
+    if batch_data.get("submissionKey"):
+        from gaia_cli.curation.submission import contentKey
+        # Derived from actual proposal bytes, never a caller-authored claim.
+        lines += ["", f"<!-- gaia:submission {contentKey(batch_data)} -->", ""]
+
     if fileUrl:
         lines += [
             f"| Batch file | [{batchId}.json]({fileUrl}) |",
@@ -283,6 +288,9 @@ def build_intake_issue_body(batch_data, repo_root="."):
         "| # | ID | Type | Attribution | Decision |",
         "|---|---|---|---|---|",
     ]
+    idCounts = {}
+    for skill in proposedSkills:
+        idCounts[skill.get("id", "")] = idCounts.get(skill.get("id", ""), 0) + 1
     for i, skill in enumerate(proposedSkills, 1):
         skillId = skill.get("id", "")
         skType = skill.get("type", "basic")
@@ -290,8 +298,14 @@ def build_intake_issue_body(batch_data, repo_root="."):
         attrType = attr.get("type", "-") if attr else "-"
         attrAuthor = attr.get("upstream_author", "") if attr else ""
         attrCell = f"`{attrType}`" + (f" (`{attrAuthor}`)") if attrAuthor else f"`{attrType}`"
+        # N:1 fan-out: several named implementations share one generic id, so
+        # the row must also say which named implementation it decides.
+        named = skill.get("named")
+        idCell = f"`{skillId}`"
+        if idCounts.get(skillId, 0) > 1 and isinstance(named, dict) and named.get("contributor"):
+            idCell += f" (`{named['contributor']}/{named.get('skill_name') or skillId}`)"
         lines.append(
-            f"| {i} | `{skillId}` | `{skType}` | {attrCell} | *(pending)* |"
+            f"| {i} | {idCell} | `{skType}` | {attrCell} | *(pending)* |"
         )
 
     if not proposedSkills:
@@ -426,7 +440,7 @@ def _build_intake_issue_title(batch_data):
     if count == 1:
         return f"[intake] single: {proposed[0].get('id', 'unknown')}"
     if count <= 4:
-        ids = ", ".join(s.get("id", "?") for s in proposed[:4])
+        ids = ", ".join(dict.fromkeys(s.get("id", "?") for s in proposed[:4]))
         return f"[intake] {count} skills: {ids}"
     sources = {}
     for s in proposed:
@@ -452,6 +466,30 @@ def open_intake_issue(username, batch_data, batch_path=None, repo_root="."):
         print(reason)
         _print_manual_issue_steps(title, bodyPath)
         return None
+
+    if batch_data.get("submissionKey"):
+        from gaia_cli.curation.submission import contentKey
+        key = contentKey(batch_data)
+        existing = _run(
+            ["gh", "issue", "list", "--repo", "gaia-research/gaia-skill-tree",
+             "--state", "all", "--label", "intake", "--search", f'"{key}" in:body',
+             "--json", "body,url", "--limit", "100"], cwd=repo_root,
+        )
+        try:
+            records = json.loads(existing.stdout) if existing.returncode == 0 else None
+        except (ValueError, TypeError):
+            records = None
+        if not isinstance(records, list):
+            print("Cannot verify prior content-addressed submissions; refusing duplicate-prone creation.")
+            return None
+        matches = [record for record in records if
+                   f"<!-- gaia:submission {key} -->" in record.get("body", "")
+                   and f"| Batch ID | `{batch_data['batchId']}` |" in record.get("body", "")]
+        if len(matches) > 1:
+            print("Multiple existing intake receipts for this content; reconcile them before continuing.")
+            return None
+        if matches:
+            return matches[0].get("url") or None
 
     issue = _run(
         ["gh", "issue", "create", "--title", title,

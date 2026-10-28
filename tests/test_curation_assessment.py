@@ -771,7 +771,8 @@ class TestAssessCommandCLI:
         rc = assessCommand(args)
         assert rc == 0
 
-        expected_output = tmp_path / "generated-output" / "curation" / "alice-graph-tool.assessment.json"
+        from gaia_cli.prefill import safeCandidateSlug
+        expected_output = tmp_path / "generated-output" / "curation" / f"{safeCandidateSlug('alice/graph-tool')}.assessment.json"
         assert expected_output.is_file()
 
         with open(expected_output, "r", encoding="utf-8") as f:

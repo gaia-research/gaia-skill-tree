@@ -19,9 +19,9 @@ Every sprint ships COMPLETE; a sprint does NOT generate follow-up issues.
 
 ## Stale Tooling & Tech Debt Discipline
 
-As Gaia has evolved through three major meta eras (Yggdrasil I user self-promotion → Yggdrasil II type/branch orthogonality → Yggdrasil III logarithmic TM, 0 TM fusion-recipe, and structural Fusion Score), some legacy CLI verbs, test scripts, and curation checklists retain assumptions from earlier epochs.
+Gaia's four major meta eras are Yggdrasil I (user self-promotion), Yggdrasil II (type/branch orthogonality), Yggdrasil III (logarithmic TM, zero-TM fusion-recipe, and separate structural Fusion Score), and **Yggdrasil IV** (challenge-driven, reversible trust governance). See [the IV founder ratification](founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md). Legacy tools and curation checklists may retain assumptions from earlier epochs.
 
-- **Be wary of stale tooling:** Always verify ground truth against live Yggdrasil III code (`src/gaia_cli/trustMagnitude.py`, `META.md`, `GOVERNANCE.md`). Do not blindly trust legacy scripts or comments when they conflict with the active specification.
+- **Be wary of stale tooling:** Verify numerical behavior against the Yggdrasil III engine and governance against the Yggdrasil IV ratification, `META.md` and `GOVERNANCE.md`. Live code may lag the new governance contract. Do not blindly trust legacy scripts or comments when they conflict with the active specification.
 - **Log tech debt issues aggressively:** Whenever you encounter tooling friction, misleading errors, or pre-Yggdrasil-III assumptions (e.g. scripts reading empty generic nodes, conflated Unique vs Suite branch origin gates, or deprecated CLI flags), file a GitHub issue immediately with clear repro and remediation steps.
 - **Suite-branch vs Unique-branch origin rules:** 4★ requires Overall Trust Grade A (TM ≥ 100) and live verified blob evidence. On the **Unique branch** (standalone), 4★ Unique requires bucket-level Origin. On the **Suite branch** (carrying `suiteComponents`), 4★ Extra does NOT require bucket-level Origin on its generic bucket; Suite origin requirements apply at 5★ Ultimate (holding Origin on ≥1 of the `suiteComponents` per `META.md` §4.2).
 

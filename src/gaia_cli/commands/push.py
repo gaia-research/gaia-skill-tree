@@ -121,6 +121,10 @@ class PushCommand(Command):
             dest="overrideReason",
             help="Document an --allow-unsafe override for the audit trail",
         )
+        parser.add_argument("--authorization-envelope", metavar="PATH", help="External L4 authorization carrier; no authority until independently verified.")
+        parser.add_argument("--review-inventory", metavar="PATH", help="Complete frozen inventory and reconciliation report for trusted manifest review.")
+        parser.add_argument("--existing-intake", metavar="ISSUE", help="Continue a verified existing intake; never open a second issue.")
+        parser.add_argument("--existing-batch-id", metavar="ID", help="Preserve the original batch ID for existing-intake continuation.")
         parser.add_argument(
             "--from-file",
             dest="fromFile",
@@ -130,6 +134,8 @@ class PushCommand(Command):
                 "Load a batch of skills from a YAML file instead of scanning the repo. "
                 "The file must contain a top-level 'skills:' list using the intake schema "
                 "(see .github/ISSUE_TEMPLATE/new_skill_intake.yml for the schema). "
+                "A discovery-packet-manifest-v1 file (see CONTRIBUTING.md) submits several "
+                "ratified discovery packets as one batch. "
                 "Bypasses the .gaia/custom_state.json scan path entirely. "
                 "Compatible with --dry-run, --no-issue, and --yes."
             ),

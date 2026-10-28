@@ -216,6 +216,12 @@
       "previousValue": "0.6.9",
       "newValue": "0.6.10",
       "details": "synced from https://github.com/addyosmani/agent-skills/releases/tag/0.6.10"
+    },
+    {
+      "timestamp": "2026-10-24T04:37:54Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 174.62 -> 176.04, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

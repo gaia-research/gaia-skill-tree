@@ -1,18 +1,18 @@
 ---
 name: gaia-full-pipeline
 description: >-
-  End-to-end Gaia curation pipeline orchestrator. Routes each phase to its dedicated
+  End-to-end Gaia curation and intake orchestrator. Routes each phase to its dedicated
   skill and keeps you on track from first discovery to closed intake. Use when starting
   a fresh curation run or when you want a single skill to hold the sequence together
   without duplicating each phase's instructions. Trigger phrases: "/gaia-full-pipeline",
-  "run the full pipeline", "start a curation from scratch", "take this skill through
-  the full pipeline", "curate end-to-end", "pipeline run", "full curation flow".
+  "run the full curation pipeline", "start a curation from scratch", "take this skill through
+  the full curation pipeline", "curate end-to-end", "full curation flow".
   Fused from: gaia-curate + gaia-curate-chain + gaia-curate-dynamic + gaia-curate-trending
   + gaia-bot-curate + gaia-draft-curate + ev-pipeline + gaia-ingest + gaia-intake-close.
 version: 2.0.0
 ---
 
-> **Have one repo URL and want full automation?** Run [/gaia-quick-curate](../gaia-quick-curate/SKILL.md) — 2 human gates, auto-merge. This document is the **manual reference** explaining what runs inside each gate.
+> **Discovery execution:** Use [/gaia-curate](../gaia-curate/SKILL.md) or the appropriate discovery strategy below. [/gaia-quick-curate](../gaia-quick-curate/SKILL.md) is a paused scaffold, not an automated discovery pipeline. FAN-OUT retains model-neutral workers and shared reconciliation. Discovery pauses for independently verified human L4 authority; it does not automatically submit, promote, calibrate, or merge.
 
 # gaia-full-pipeline
 
@@ -46,7 +46,7 @@ The pipeline starts differently depending on whether you already know *what* you
 
 | You want to… | Use |
 |---|---|
-| Curate **one specific skill** you already have the URL for | [`/gaia-curate`](#strategy-a) |
+| Curate **one selected source page** with up to five candidates | [`/gaia-curate`](#strategy-a) |
 | Curate a **small batch of up to ~5** where recoverability matters (each step checkpointed, retries on failure) | [`/gaia-curate-chain`](#strategy-b) |
 | Curate a **large or broad batch** with parallelism across multiple candidates (fan-out to Luna workers) | [`/gaia-curate-dynamic`](#strategy-c) |
 | **Discover what's trending** — you don't have a specific skill in mind, you want to see what's hot on configured marketplaces/repos | [`/gaia-curate-trending`](#strategy-d) |
@@ -57,13 +57,13 @@ The pipeline starts differently depending on whether you already know *what* you
 
 ---
 
-### Strategy A — `/gaia-curate` · Single declared skill {#strategy-a}
+### Strategy A — `/gaia-curate` · One selected source page {#strategy-a}
 
-**When:** You have one specific upstream `SKILL.md` URL. Lowest overhead.
+**When:** You have one selected source page or a specific upstream `SKILL.md` URL. Lowest overhead.
 
-**Depth:** One candidate. No parallelism. No checkpointing.
+**Depth:** Discovery and mapping without the chain's checkpointed recovery.
 
-**Breadth:** 1 skill per run.
+**Breadth:** Up to five candidates from one source page.
 
 ```
 gaia dev list --generic --json > /tmp/generic-snapshot.json
@@ -190,7 +190,7 @@ Every strategy stops after producing review-ready `discovery-packet-v2` files in
 
 For strategies A–D and F, L4 means:
 1. Open each packet JSON and its companion advisory assessment receipt (`generated-output/curation/<candidate>.assessment.json`). Verify mapping decision, `blob/` URL, and verbatim description against curation principles.
-2. Ratify topology using `gaia dev ratify` with explicit human review attestation flags (`--assessment`, `--reviewed-by`, `--approval-ref`, `--reason`, and `--acknowledge-human-review`), which atomically attaches `l4Resolution` with ratified `generic`, `named`, `upstreamSkillFileUrl`, and `humanReview` metadata. Operator authorization alone is not L4 approval; no manual append of fake resolutions.
+2. Ratify topology using `gaia dev ratify` only after independent human authorization over the complete reviewed inventory and exact payload. Local acknowledgement flags, reviewer names, approval references, operator permission and hand-written `humanReview` JSON are not proof. If the trusted authorization ceremony is unavailable, preserve pending L4 state; do not ratify or submit a trusted packet.
 3. Re-validate: `python3 scripts/validate_discovery_packet.py --generic-snapshot /tmp/generic-snapshot.json <packet>.json`
 
 ---
@@ -239,6 +239,10 @@ gaia push --from-file <packet>.json             # opens intake issue (auto-label
 git add . && git commit -m "feat(intake): ..." && git push -u origin <branch>
 # No `gh pr create` here — wait for intake:evidence-approved to open the canonical PR (see below).
 ```
+
+### Existing-intake continuation (no second submission)
+
+Preserve `batchId`, intake issue references and the original batch on resume. If the candidate already belongs to an intake, continue that issue into `/ev-pipeline`; do not run a fresh push to manufacture another intake. For an explicitly recovered submission, `gaia push --from-file <input> --existing-intake <issue> --existing-batch-id <original-id>` verifies the existing issue/batch reference and returns a continuation receipt without opening an issue. Identical content-addressed submissions return their existing receipt. An interrupted/uncertain issue creation fails closed pending explicit recovery. These receipts do not confer L4 authority.
 
 ### `intake:*` label lifecycle — machine gates, applied in order
 

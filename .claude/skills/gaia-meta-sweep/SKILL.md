@@ -1,16 +1,32 @@
 ---
 name: gaia-meta-sweep
 description: >
-  Orchestrate a whole-registry sweep of Gaia — fan out 13 parallel audit agents across every skill, run adversarial verification, surface Semantic Fusion candidates, propose new generic skill references, and synthesize a publish-ready HTML report under docs/meta/reports/.
+  Appraise the complete post-ingest Gaia tree: run 13 deterministic audit dimensions, recompute evidence, Trust Magnitude and rank eligibility, use Jev/Luna for bounded semantic review, adversarially verify findings, and report structural proposals. Gaia computes authority; Jev is read-only advice; humans ratify all mutations.
 
-  Use this skill for broad, systemic analysis across many skills at once: "run a meta sweep", "sweep the meta", "full meta audit", "audit the whole registry against META.md", "widespread nomenclature issues", "find all skills missing a GitHub link", "produce a meta report", "check for evidence type mismatches across the registry", "find skills that document a third-party tool with no attribution", or explicitly types /gaia-meta-sweep.
-
-  This is the registry-wide macro companion to /gaia-meta-audit (a prioritized queue, single-pass) and /gaia-audit (fixes one skill). Use it when you need the full surface — 13 audit dimensions, adversarial verification, fusion proposals, and a durable findings artifact — not just a queue.
+  Use for an explicitly requested full post-ingest registry sweep and durable findings report; for a prioritized review queue use gaia-meta-audit, and for one skill use gaia-audit. This is the macro companion to /gaia-meta-audit (prioritized queue) and /gaia-audit (single skill).
 ---
 
 # gaia-meta-sweep
 
-Orchestrate a registry-wide meta audit using a multi-phase Workflow. The skill fans out 13 parallel audit agents, one per audit dimension from META.md, then runs adversarial verification on every finding before synthesizing a journal-style HTML report, a Chart.js timeline JSON, and a machine-readable findings index.
+**Yggdrasil IV authority:** [Ratified challenge/degradation/recovery policy](../../../founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md). A whole-registry sweep **appraises and proposes**. Potential age/freshness decay is shadow-only; published trust decreases require independently verified relevant counterevidence and approved canonical publication. Current Origin is merit-based per `META.md` §4.1 and cannot become vacant from a challenge. Class B Steward may resolve only reproducible technical challenge status, not scores or ranks. Existing weights/caps/thresholds/Fusion Score are frozen pending an explicit RFC #2148 implementation gate.
+
+Orchestrate a registry-wide **current-tree appraisal** using a multi-phase Workflow. The skill fans out the 13 audit dimensions from META.md across the complete post-ingest tree, performs a deterministic evidence / Trust Magnitude / rank appraisal, layers Jev semantic review and Luna fallback where meaning or abstraction needs judgment, then adversarially verifies findings before synthesis.
+
+## Mission and non-negotiable completion gate
+
+A meta sweep answers one question: **does the canonical tree need updating now, and why?** The tree is the subject; Jev, Luna, issue trackers, and intake queues are instruments or adjacent surfaces.
+
+A run is not a completed `/gaia-meta-sweep` unless all of the following are true for the requested scope:
+
+1. **Whole-tree coverage:** every in-scope post-ingest named skill and generic node is accounted for. Default `scope=all` means the complete canonical tree.
+2. **All 13 deterministic audit dimensions ran:** no Jev or model pass substitutes for these checks.
+3. **Evidence / Trust / rank appraisal ran:** current evidence inventories are re-appraised with Gaia's deterministic Trust Magnitude machinery; current rank is compared with evidence-backed eligibility; Origin / Champion implications are surfaced.
+4. **Semantic review ran where meaning matters:** use Jev as the cheap semantic reviewer for evidence relevance, generic scope, mapping coherence, and structural hypotheses. Low-confidence, exhausted-budget, or consequential cases go to Luna. Semantic models never set TM, grades, stars, Origin, or Champion directly.
+5. **Structural delta was considered:** inspect fusion candidates, overly broad / narrow generics, missing generic anchors, and stale mappings.
+6. **Findings were adversarially verified:** the verification phase must receive the complete deduplicated finding set.
+7. **Coverage is reported:** the final artifact states named-skill count, generic-node count, evidence rows appraised, Jev calls / fallbacks, findings by dimension, and proposed rank / Origin / Champion / structural deltas.
+
+The following are useful adjacent tasks but **do not count as a meta sweep**: issue backlog triage, upstream-release triage, intake candidate mapping, a Jev demo, or a review of a handful of generic nodes. Discovery→ingest coverage remains deferred under RFC3 §3.7 / GAP9 unless that policy changes.
 
 ## Inputs
 
@@ -18,7 +34,7 @@ Ask the user (or infer from context) before kicking off. These four parameters g
 
 | Input | Description | Default |
 |---|---|---|
-| `mode` | `read-only` (findings + report only) or `apply-safe` (also runs `gaia dev rename`/`calibrate`/`evidence` for high-confidence corrections) | `read-only` |
+| `mode` | `read-only` (findings + report only) or `apply-safe` (only narrowly **separately authorized** CLI changes; never publish TM, ranks, evidence assertions, Origin or meta changes on confidence alone) | `read-only` |
 | `fusion-aggressiveness` | `moderate` (3–8 high-confidence Semantic Fusion candidates, adversarially verified) or `aggressive` (10–20+ including speculative pairings) | `moderate` |
 | `scope` | `all` (every named + generic skill) or a filter expression (e.g. `level>=3★`, `contributor:mbtiongson1`) | `all` |
 | `report-slug` | Filename for the report under `docs/meta/reports/` | `<YYYY-MM-DD>-meta-audit.html` |
@@ -55,18 +71,19 @@ Use the Workflow tool. Author the script inline. Only ask the user before launch
 
 ### Phase plan
 
-Five phases with a barrier only between Survey → Verify, because the synthesis phase needs the full deduplicated finding set before it can write the report. Phases 1–3 run in parallel (pipeline) since they produce independent outputs.
+Six phases. Survey and Appraise can begin in parallel over the same canonical snapshot. Fuse and Propose may consume their outputs. Verify waits for the complete deduplicated finding set; Report waits for Verify. Do not skip Appraise simply because the registry validates cleanly.
 
 ```javascript
 export const meta = {
   name: 'gaia-meta-sweep',
   description: 'Whole-registry audit against META.md with fusion + new-generic proposals',
   phases: [
-    { title: 'Survey',  detail: 'fan-out audit dimensions across registry' },
-    { title: 'Fuse',    detail: 'identify Semantic Fusion candidates (META §6.2)' },
-    { title: 'Propose', detail: 'propose new generic skill refs for the schema' },
-    { title: 'Verify',  detail: 'adversarially verify each finding' },
-    { title: 'Report',  detail: 'synthesize HTML + timeline JSON' },
+    { title: 'Survey',   detail: 'fan-out all 13 deterministic audit dimensions across the post-ingest registry' },
+    { title: 'Appraise', detail: 'recompute evidence-backed Trust Magnitude / grade / rank eligibility and semantic concerns' },
+    { title: 'Fuse',     detail: 'identify Semantic Fusion candidates (META §6.2)' },
+    { title: 'Propose',  detail: 'propose new generic skill refs for the schema' },
+    { title: 'Verify',   detail: 'adversarially verify the complete finding set' },
+    { title: 'Report',   detail: 'synthesize coverage, rank deltas, structural deltas, HTML + timeline JSON' },
   ],
 }
 ```
@@ -108,7 +125,57 @@ Each agent returns structured findings so Phase 4 can process them programmatica
       }}}}}
 ```
 
-### Phase 2 — Fuse (Semantic Fusion candidates)
+### Phase 2 — Appraise (evidence, Trust Magnitude, rank, and semantic fit)
+
+This phase is first-class, not an appendix. Shard the named registry across workers and re-appraise the current evidence state for every in-scope named skill.
+
+For each named skill:
+
+1. Read its canonical frontmatter and evidence rows from `registry/named/**`.
+2. Compute live Trust Magnitude and Overall Trust Grade using the repository's deterministic implementation. The canonical dry-run helper is:
+
+   ```bash
+   python scripts/trust_appraise.py --skill <contributor/skill>
+   ```
+
+   Fan this out across the registry; do not mutate cached TM fields merely to inspect them.
+3. Compare computed TM / grade and META.md gates with the skill's current star level. Record `currentLevel`, `computedTm`, `computedGrade`, `eligibleLevel` (or the bounded set of eligible levels when another non-TM gate remains), and the exact gate causing any mismatch.
+4. Feed evidence rows that require **semantic** judgment into Jev `--mode evidence`: relevance to the claimed capability, methodology mismatch, suspiciously broad claims, or evidence that appears duplicative in meaning. Jev is not the liveness checker and does not calculate TM.
+5. Jev emits a fallback packet; it does not launch Luna. The orchestrator may hand routine uncertainty to `worker-luna`, conflicting evidence or ambiguous taxonomy to `worker-luna-high`, and deep architectural or contested-policy questions to `worker-luna-xhigh`. Record a fallback as covered only after Luna actually reviews the packet.
+6. Re-evaluate Origin standing when rank / TM order changes inside a generic bucket, and flag Champion review when the implementation landscape materially changed. Models may recommend review; deterministic META rules and human ratification own the actual designation.
+
+For generic nodes, use Jev `--mode meta --collect-repo` in bounded pages to review abstraction scope and vendor neutrality. Combine those semantic hints with the deterministic Survey findings and the observed named-skill landscape.
+
+**Required Phase-2 outputs:**
+
+```json
+{
+  "coverage": {
+    "namedSkills": 0,
+    "genericNodes": 0,
+    "evidenceRows": 0,
+    "jevLiveCalls": 0,
+    "jevFallbacks": 0
+  },
+  "rankDeltas": [
+    {
+      "skillRef": "contributor/skill",
+      "currentLevel": "3★",
+      "computedTm": 0,
+      "computedGrade": "B",
+      "eligibleLevel": "3★",
+      "reason": "..."
+    }
+  ],
+  "originReview": [],
+  "championReview": [],
+  "semanticFindings": []
+}
+```
+
+A zero-delta result is valid. Omitting the appraisal is not.
+
+### Phase 3 — Fuse (Semantic Fusion candidates)
 
 Spawn one agent that walks named skills pairwise within shared topical clusters and surfaces fusion candidates per META §6.2. Aggressiveness controls the cap (3–8 moderate vs. 10–20 aggressive). Reject any candidate whose composite would require S-grade Trust Magnitude (TM ≥ 250, the 5★ Ultimate gate per §1.1/§4.2) — that implies a top-rank fusion; redirect to `/gaia-fuse-full-suite` instead.
 
@@ -127,7 +194,7 @@ Reference the worked example from PR #525 (`safishamsi/graphify` + `mattpocock/t
     }}}}}
 ```
 
-### Phase 3 — Propose (new generic skill refs)
+### Phase 4 — Propose (new generic skill refs)
 
 Spawn one agent that reads `registry/schema/meta.json` plus the Phase-1 findings and proposes new generic node IDs for capabilities being repeatedly named without a canonical generic to anchor them. Focus on:
 
@@ -149,9 +216,9 @@ Spawn one agent that reads `registry/schema/meta.json` plus the Phase-1 findings
     }}}}}
 ```
 
-### Phase 4 — Verify (adversarial)
+### Phase 5 — Verify (adversarial)
 
-For every Phase-1, Phase-2, and Phase-3 finding, spawn **3 independent skeptic agents** prompted to *refute* the finding. Use diverse lenses (correctness / evidence-strength / META-rule-precedent). A finding survives only if ≥2 of 3 agree it is real. This prevents false positives from polluting the report and eroding reviewer trust in future sweeps.
+For every finding or proposed delta from Phases 1–4, spawn **3 independent skeptic agents** prompted to *refute* it. Rank, Origin, Champion, fusion, and generic-node changes are findings too and receive the same challenge. Use diverse lenses (correctness / evidence-strength / META-rule-precedent). A finding survives only if ≥2 of 3 agree it is real. This prevents false positives from polluting the report and eroding reviewer trust in future sweeps.
 
 ```javascript
 const votes = await parallel(Array.from({length: 3}, () => () =>
@@ -164,9 +231,9 @@ const survives = votes.filter(Boolean).filter(v => !v.refuted).length >= 2
   "properties":{"refuted":{"type":"boolean"},"reason":{"type":"string"},"counterEvidence":{"type":"string"}}}
 ```
 
-### Phase 5 — Report (synthesis)
+### Phase 6 — Report (synthesis)
 
-A single synthesis agent receives all surviving findings, fusion candidates, and new-generic proposals and produces three artifacts:
+A single synthesis agent receives all surviving audit findings, evidence / TM / rank deltas, Origin / Champion review items, fusion candidates, and new-generic proposals and produces three artifacts:
 
 1. **`docs/meta/reports/<slug>.html`** — Copy the structure of `docs/meta/reports/2026-05-25-programmatic-registry-audit.html` (LaTeX-style journal layout: abstract, executive summary, sections per dimension, references). Title: `Registry Audit Report: <Month YYYY> Meta Sweep`. Author: from `git config user.name` or `gaia` config.
 
@@ -180,21 +247,24 @@ The synthesis agent must:
 - Tag every Semantic Fusion candidate with `META §6.2`
 - Tag every new generic proposal with `META §1` + the originating dimension
 - Include a "Before/After" rank distribution table from the Pre-flight snapshot vs. projected post-mutation counts
-- If `mode == apply-safe`, list every applied `gaia dev` command in a "Mutations Applied" section; otherwise list them under "Mutations Proposed"
+- Include a coverage receipt: named skills, generic nodes, evidence rows, all 13 dimensions, Jev live/cached/fallback counts, and adversarial-verification counts
+- Include every proposed rank change with the deterministic TM/grade/gate basis; semantic-model output may explain or challenge evidence meaning but may not be the numerical authority
+- Explicitly state "FULL META SWEEP COMPLETE" only when the completion gate above is satisfied; otherwise label the artifact "PARTIAL META AUDIT" and enumerate omitted coverage
+- If `mode == apply-safe`, list **only independently approved** commands in a "Mutations Applied" section, and keep all other numerical/evidence/Origin changes under "Mutations Proposed". No model-confidence override.
 
 ## Apply-safe mutations (only if mode = apply-safe)
 
-After Phase 5 produces the findings.json, replay the high-confidence subset programmatically. Only these mutation types are auto-applyable — everything else stays a proposal because the risk of irreversible registry damage outweighs the convenience:
+After Phase 5, present proposed changes and their deterministic basis for explicit human L4 approval. **No new Yggdrasil IV canonical/public trust, rank, evidence or Origin mutation is authorized by invoking `apply-safe`**; separate founder approval and a governed implementation phase are required. Model confidence and a generic request to run a sweep are not approval. Apply approved changes only through canonical Gaia CLI verbs—never edit registry YAML/frontmatter directly. Gaia computes evidence, TM, grade, and rank gates; Jev/Luna advice cannot authorize a change.
 
-| Finding type | CLI command |
+| Finding type | Approved CLI action |
 |---|---|
 | Brand-coupled generic ID | `gaia dev rename <old> <new>` |
-| Unbacked named star | `gaia dev calibrate <author/skill> N★` or direct YAML edit on the named markdown |
-| Missing 3★+ evidence | `gaia dev evidence <id> <url> --type repo --trust <value> --evaluator <user>` (grade auto-derives from Trust Magnitude) |
-| Dead evidence link | Remove/replace the offending evidence entry + log a `demote` timeline event |
-| Unique named star dropped below 4★ | `gaia dev calibrate <author/skill> N★` on the NAMED skill — the branch re-derives to `standard` automatically; do NOT reclassify the generic (that strips prerequisites) |
+| Unbacked named star | `gaia dev calibrate <author/skill> N★` |
+| Missing evidence | `gaia dev evidence <id> <url> --type <type> ...` with verified inputs; grade derives from Trust Magnitude |
+| Dead evidence link | `gaia dev rm-evidence <id> --source <url>`; add a verified replacement with `gaia dev evidence` if supported |
+| Unique named star dropped below 4★ | `gaia dev calibrate <author/skill> N★` on the NAMED skill; do NOT reclassify the generic |
 
-After every mutation, validate immediately — a half-applied set that fails CI is worse than no mutations at all:
+If a required change has no supported CLI verb or its inputs are not verified, leave it proposal-only and report the tooling gap; never use a direct YAML edit as a workaround. After each approved mutation, validate immediately:
 
 ```bash
 gaia dev validate
@@ -210,6 +280,8 @@ Report back:
 
 - Path to the HTML report and timeline JSON
 - Counts: findings by priority, fusion candidates, new generic proposals, surviving after Verify
+- Coverage receipt: named skills, generic nodes, evidence rows, dimensions completed, Jev calls / fallbacks
+- Evidence / Trust / rank delta summary, including Origin / Champion review triggered by those deltas
 - Any mutations applied (or "none — read-only run")
 - Validation status (`gaia dev validate` exit code if mutations were applied)
 - Suggested follow-ups: which P0/P1 findings should be routed to `/gaia-audit` for source-level correction
@@ -229,10 +301,10 @@ Report back:
 pipeline runs as a *continuous additive loop*: there is no green gate; evidence
 accumulates additively and Trust Magnitude / rank are recomputed at appraisal
 time, not at collection time. The monthly gaia-meta-sweep run is what *triggers*
-that loop across the registry — each sweep re-appraises skills against freshly
-accumulated evidence rather than gating on a one-time pass. Do not treat a
-skill's evidence as "final"; a later sweep can raise or lower rank as evidence
-grows.
+that loop across the registry. **Phase 2 Appraise operationalizes this requirement**:
+a sweep that does not re-appraise the in-scope named tree and report rank deltas
+is partial, even if every validation command is green. Do not treat a skill's
+evidence as "final"; a later sweep can raise or lower rank as evidence grows.
 
 **Audit coverage of discovery→ingest is DEFERRED + blocked (RFC3 §3.7, GAP9).**
 Today gaia-meta-sweep + gaia-meta-audit sweep only the POST-ingest surface
@@ -244,18 +316,30 @@ RFC1 + #1148 + the RFC3 umbrella landing. Tracked by issue #1353 — do NOT buil
 the pre-ingest sweep here; when it lands it reuses this skill's fan-out topology
 over the pre-ingest artifacts.
 
-## Optional Semantic Advisory Sidecar
+## Jev semantic review inside the sweep
 
-During Phase 2 (Fuse) or Phase 3 (Propose), an operator may optionally run the read-only Jev advisory runner ([docs/agents/jev.md](../../../docs/agents/jev.md)):
+Jev is the default **semantic reviewer** for questions that deterministic code cannot answer from structure alone. It is part of the fan-out, not a replacement workflow and not the authority for Trust or rank.
+
+Use the repository-native runner; do not install a provider's general-purpose agent skill into this repository merely to call the API.
 
 ```bash
-# Offline dry-run by default ($0 spend); add --live to query TypeSafe API
-# Uses --collect-repo to inspect canonical generic nodes directly from registry/nodes/
-# Supports bounded paging via --offset (default: 0) and --max-calls
+# Generic abstraction / scope review, bounded and pageable
 python scripts/jev_advisory.py --mode meta --collect-repo --offset 0
+
+# Evidence semantic review; prepare bounded evidence-row inputs from the Phase-2 shard
+python scripts/jev_advisory.py --mode evidence --input <evidence-shard.json>
 ```
 
-This advisory operates strictly as an auxiliary sidecar; it does not replace the 13 deterministic audit dimensions, never commits registry changes, and falls back to `worker-luna` when confidence is below 0.75 or budget is exhausted.
+Add `--live` only when credentials and the budget ledger permit it. A semantic lane that falls back counts as covered only after Luna actually reviews the emitted packet.
+
+**Division of authority:**
+
+- Deterministic Gaia code owns URL/liveness checks, evidence arithmetic, Trust Magnitude, Overall Trust Grade, star-gate eligibility, and rule enforcement.
+- Jev judges bounded semantic questions such as evidence-to-capability relevance, abstraction scope, mapping coherence, and whether a structural hypothesis merits deeper review.
+- Jev's fallback packet is not a Luna result: the orchestrator routes routine uncertainty to `worker-luna`, conflicting evidence/ambiguous taxonomy to `worker-luna-high`, and deep architecture or contested policy to `worker-luna-xhigh`.
+- L4 / human review owns ratification. No model response is itself a promotion, demotion, Origin change, Champion change, fusion, split, or admission.
+
+Every worker must keep this hierarchy intact: **Jev judges meaning; Gaia computes authority.**
 
 ## Non-goal
 

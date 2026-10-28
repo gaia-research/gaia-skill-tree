@@ -25,8 +25,10 @@ from gaia_cli.steward.fullrun import (
     MODEPHASES,
     VERIFIERMODELS,
     FullRunConfig,
+    FullRunError,
     FullRunner,
     RecordRefused,
+    UnknownRun,
     validateAgent,
 )
 from gaia_cli.steward.ledger import FileLedgerStore
@@ -648,3 +650,103 @@ def test_retained_runs_beyond_the_newest_keep_headlines_not_payloads() -> None:
     assert oldest["phases"]["observe"] == {"status": "ok", "openDebt": 3, "openDebtIds": 3}
     newest = document["runs"][f"run-{fullrun.DETAILEDRUNS + 1:03d}"]
     assert newest["phases"]["observe"]["openDebtIds"] == ["a", "b", "c"] and newest["desk"] == {"quiet": True}
+
+
+# --- lost task packets, operator disposition, and stale desk reporting ------------------------
+
+
+def pendingBuild(view: Any) -> dict[str, Any]:
+    (build,) = [a for a in view.actions if a["type"] == "agent.build"]
+    return build
+
+
+def test_a_lost_task_packet_is_rendered_again_on_resume(tmp_path: Path) -> None:
+    repo, _bare = makeFixture(tmp_path)
+    store = fileStore(tmp_path)
+    sensor = StubSensor("repository-hygiene", "repository_hygiene", ["leak"])
+    runner = makeRunner(repo, store, [sensor])
+    first = runner.start("full")
+    packet = repo / pendingBuild(first)["params"]["promptPath"]
+    packet.unlink()
+
+    resumed = runner.resume(first.runId)
+
+    assert packet.is_file()
+    assert pendingBuild(resumed)["stepId"] == pendingBuild(first)["stepId"]
+    assert "recoveredAt" in ledgerDoc(store)["runs"][first.runId]["actions"][0]
+
+
+def test_a_lost_packet_for_a_debt_that_is_gone_releases_the_work_instead_of_blocking(tmp_path: Path) -> None:
+    repo, _bare = makeFixture(tmp_path)
+    store = fileStore(tmp_path)
+    sensor = StubSensor("repository-hygiene", "repository_hygiene", ["leak"])
+    runner = makeRunner(repo, store, [sensor])
+    first = runner.start("full")
+    (repo / pendingBuild(first)["params"]["promptPath"]).unlink()
+    sensor.heal("leak")
+
+    runner.resume(first.runId)
+
+    doc = ledgerDoc(store)
+    assert doc["runs"][first.runId]["actions"][0]["status"] == "superseded"
+    assert doc["runs"][first.runId]["actions"][0].get("supersededAt")
+
+
+def test_abandon_is_terminal_audited_and_releases_unbuilt_work(tmp_path: Path) -> None:
+    repo, _bare = makeFixture(tmp_path)
+    store = fileStore(tmp_path)
+    sensor = StubSensor("repository-hygiene", "repository_hygiene", ["leak"])
+    runner = makeRunner(repo, store, [sensor])
+    first = runner.start("full")
+
+    view = runner.abandon(first.runId, "task packet lost with the ephemeral container")
+
+    run = ledgerDoc(store)["runs"][first.runId]
+    assert view.status == run["status"] == "abandoned"
+    assert run["abandonReason"] == "task packet lost with the ephemeral container"
+    assert run["abandonedBy"].startswith("operator:") and run["abandonedAt"]
+    assert [a["status"] for a in run["actions"]] == ["superseded"]
+    assert runner.status().holder is None
+    # The unbuilt Class B debt stays eligible: the next run adopts and re-emits the build.
+    nxt = makeRunner(repo, store, [sensor]).start("full")
+    (rebuilt,) = nxt.actions
+    assert rebuilt["type"] == "agent.build" and rebuilt["debtId"] == first.actions[0]["debtId"]
+    with pytest.raises(FullRunError, match="only an open run"):
+        runner.abandon(first.runId, "again")
+    with pytest.raises(FullRunError, match="needs a reason"):
+        runner.abandon(first.runId, "  ")
+
+
+def test_abandon_touches_only_the_named_run(tmp_path: Path) -> None:
+    repo, _bare = makeFixture(tmp_path)
+    store = fileStore(tmp_path)
+    sensor = StubSensor("repository-hygiene", "repository_hygiene", ["leak"])
+    runner = makeRunner(repo, store, [sensor])
+    done = runner.start("full")
+    runner.abandon(done.runId, "first")
+    with pytest.raises(UnknownRun):
+        runner.abandon("run-does-not-exist", "nope")
+    assert ledgerDoc(store)["runs"][done.runId]["status"] == "abandoned"
+
+
+def test_status_drops_stored_record_decisions_that_are_no_longer_open(tmp_path: Path) -> None:
+    repo, _bare = makeFixture(tmp_path)
+    store = fileStore(tmp_path)
+    directory = repo / "founder" / "steward" / "decisions"
+    directory.mkdir(parents=True, exist_ok=True)
+    record = {
+        "schemaVersion": "steward-decision-v1", "id": "old-ruling", "status": "open",
+        "decision": "Merge it?", "whyItMatters": "w", "evidence": ["e"], "recommended": "r",
+        "alternative": "a", "unblocks": "u", "links": ["https://example.test/pull/1"],
+    }
+    (directory / "old-ruling.json").write_text(json.dumps(record), encoding="utf-8")
+    sensor = StubSensor("repository-hygiene", "repository_hygiene", ["leak"])
+    runner = makeRunner(repo, store, [sensor])
+    runner.start("full")
+    assert "old-ruling" in [d["decisionId"] for d in runner.status().desk["decisions"]]
+
+    (directory / "old-ruling.json").write_text(json.dumps({**record, "status": "decided"}), encoding="utf-8")
+    desk = runner.status().desk
+
+    assert "old-ruling" not in [d["decisionId"] for d in desk["decisions"]]
+    assert desk["retiredFromSnapshot"] == ["old-ruling"]

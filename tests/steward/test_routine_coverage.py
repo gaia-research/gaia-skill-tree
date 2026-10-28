@@ -45,7 +45,7 @@ def test_catalog_is_static_and_has_expected_routine_distribution() -> None:
     # Every routine has at least one registered detector, and a static catalog
     # never claims full coverage.
     assert result["statusCounts"] == {"absent": 0, "partially-covered": 18}
-    assert result["registeredSensorCount"] == result["accountedSensorCount"] == 31
+    assert result["registeredSensorCount"] == result["accountedSensorCount"] == 32
     assert result["unaccountedSensors"] == []
 
 
@@ -396,6 +396,7 @@ def test_driver_inputs_come_from_the_sensor_not_the_catalog() -> None:
         sensor.id: tuple(sensor.driver_inputs) for sensor in default_sensors() if hasattr(sensor, "driver_inputs")
     }
     assert declared == {
+        "browser-render": (".gaia/steward/inputs/browser-render.json",),
         "ci-health": (".gaia/steward/inputs/ci-runs.json",),
         "dependency-advisory": (".gaia/steward/inputs/advisories.json",),
         "test-history": (".gaia/steward/inputs/test-history.json",),

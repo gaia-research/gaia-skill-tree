@@ -18,6 +18,8 @@ version: 1.0.0
 
 # gaia-trace-timeline
 
+**Yggdrasil IV:** [Ratified reversible trust and historical achievement](../../../founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md). Never invent or automatically synthesize a **new** canonical demotion because evidence aged, a URL failed, or a public challenge appeared. Preserve both canonical and owner-tree approved `previousValue → newValue` events; a historically true challenge may be followed by independently verified recovery, with a separate approval for any TM/star restoration. This skill repairs **already-authorized** provenance drift, not governance.
+
 The profile **Hero's Journey** (rank chart + event list) is rendered from the
 contributor's **user tree** (`skill-trees/<owner>/skill-tree.json`) — its
 `timeline[]` and `unlockedSkills[]`. Rank changes are typically applied to the
@@ -116,7 +118,7 @@ Common causes and the META reference to cite in the note:
 |---|---|
 | Star-Bar hard reset | `Star-Bar hard reset (META §2.4): no verified blob link` |
 | Reclassification | `Type change (Unique→Basic) caps max rank` |
-| Evidence rot / dead link | `Broken evidence demerit — link no longer resolves` |
+| Approved evidence degradation | `Adjudicated material counterevidence: <decisionRef>; previously valid evidence challenged` (never create this from a bare dead link) |
 
 ## Guardrails
 

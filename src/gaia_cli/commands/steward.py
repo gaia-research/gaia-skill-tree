@@ -198,6 +198,11 @@ class StewardCommand(Command):
         record.add_argument("--input", required=True, metavar="FILE.json", help="JSON outcome file")
         ledgerOptions(record)
 
+        abandon = actions.add_parser("abandon", help="End an open run with an auditable reason; its unbuilt work stays adoptable")
+        abandon.add_argument("runId", metavar="RUN_ID", help="Open run to abandon")
+        abandon.add_argument("--reason", required=True, help="Why the run is being ended (kept in the ledger)")
+        ledgerOptions(abandon)
+
         status = actions.add_parser("status", help="Read-only view of the ledger and the active run")
         ledgerOptions(status)
 
@@ -483,8 +488,8 @@ class StewardCommand(Command):
         from gaia_cli.steward.receipts import StateError
 
         action = getattr(args, "fullAction", None)
-        if action not in {"run", "record", "status"}:
-            print("usage: gaia steward full {run,record,status} [--json]", file=sys.stderr)
+        if action not in {"run", "record", "abandon", "status"}:
+            print("usage: gaia steward full {run,record,abandon,status} [--json]", file=sys.stderr)
             return 2
         root = Path(args.registry).resolve()
         remote = "origin"
@@ -507,6 +512,8 @@ class StewardCommand(Command):
             runner = FullRunner(config)
             if action == "status":
                 result = runner.status()
+            elif action == "abandon":
+                result = runner.abandon(args.runId, args.reason)
             elif action == "record":
                 outcome = self._readOutcome(args.input)
                 result = runner.record(args.runId, args.stepId, outcome)

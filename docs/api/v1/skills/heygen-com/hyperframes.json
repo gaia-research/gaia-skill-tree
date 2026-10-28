@@ -164,6 +164,12 @@
       "previousValue": "v0.8.34",
       "newValue": "v0.8.60",
       "details": "synced from https://github.com/heygen-com/hyperframes/releases/tag/v0.8.60"
+    },
+    {
+      "timestamp": "2026-10-24T04:37:55Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 163.63 -> 166.92, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

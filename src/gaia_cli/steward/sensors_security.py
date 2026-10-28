@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import ast
 import hashlib
+import json
 import re
 import tomllib
 from collections import Counter
@@ -52,6 +53,15 @@ from gaia_cli.steward.primitives.redact import CREDENTIAL_PATTERNS
 
 _IMPL_PATH = "src/gaia_cli/impl.py"
 _DEV_COMMAND_PATH = "src/gaia_cli/commands/dev/__init__.py"
+# Dev commands the founder ruled intentionally ungated, each tied to the decided
+# record that says so. The exemption holds only while that record exists and is
+# still ``decided``; otherwise the command is reported as drift again. Commands
+# are matched by name, never by pattern, so a new writer cannot inherit one.
+_RECORDED_UNGATED = {
+    "assess": "steward-dev-mutation-gates",
+    "prefill": "steward-dev-mutation-gates",
+}
+_DECISIONS_DIR = "founder/steward/decisions"
 _GATING_NAME = "MUTATING_DEV_COMMANDS"
 _PYTHON_ROOTS = ("src/gaia_cli", "scripts")
 _CROSS_MODULE_DEPTH = 1
@@ -593,6 +603,27 @@ class MutationBoundarySensor:
                 "inLegacySet": name in legacy,
                 "writesLookLikeScratch": scratch_only,
             }
+            exemption = self._decidedExemption(root, name)
+            if exemption is not None:
+                observations.append(
+                    Observation(
+                        kind="ungated_mutation",
+                        subject=Subject(type="cli-surface", id=f"dev:{name}"),
+                        observed_at=observed_at,
+                        source=self.id,
+                        status="healthy",
+                        current_state={"gated": True},
+                        observed_state={
+                            "gated": False,
+                            "intentionallyUngated": True,
+                            "decisionRecord": f"{_DECISIONS_DIR}/{exemption}.json",
+                            "writeSiteCount": len(sites),
+                        },
+                        confidence=1.0,
+                        provenance={"check": "founder-decided exemption", "decision": exemption},
+                    )
+                )
+                continue
             observations.append(
                 Observation(
                     kind="ungated_mutation",
@@ -616,6 +647,21 @@ class MutationBoundarySensor:
                 )
             )
         return observations
+
+    @staticmethod
+    def _decidedExemption(root: Path, name: str) -> str | None:
+        """Return the decided record id that exempts ``name``, or None (fail closed)."""
+
+        record_id = _RECORDED_UNGATED.get(name)
+        if record_id is None:
+            return None
+        try:
+            record = json.loads((root / _DECISIONS_DIR / f"{record_id}.json").read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return None
+        if isinstance(record, dict) and record.get("id") == record_id and record.get("status") == "decided":
+            return record_id
+        return None
 
     @staticmethod
     def _parse_required(path: Path, rel: str) -> ast.Module:

@@ -32,12 +32,6 @@ evidence:
   trustNumber: 70.0
   grade: B
 timeline:
-- timestamp: '2026-09-05T00:00:00Z'
-  action: demote
-  author: mbtiongson1
-  notes: "Demoted from 2★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)"
-  previousValue: 2★
-  newValue: 1★
 - timestamp: '2026-06-10T05:38:16Z'
   action: evidence_added
   contributor: unknown
@@ -63,6 +57,12 @@ timeline:
   action: note
   contributor: unknown
   details: Set installable to false
+- timestamp: '2026-09-05T00:00:00Z'
+  action: demote
+  author: mbtiongson1
+  notes: "Demoted from 2★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)"
+  previousValue: 2★
+  newValue: 1★
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

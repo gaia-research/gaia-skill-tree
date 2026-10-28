@@ -634,6 +634,16 @@ def build_html_cache_busting(check: bool) -> bool:
         f"en/{path.name}"
         for path in sorted((ROOT / "docs" / "en").glob("*.html"))
     ]
+    # Published weekly report pages have versioned local assets too. Discover
+    # them by ISO week so new reports are covered without per-page registration.
+    report_pages = [
+        f"reports/{path.parent.name}/index.html"
+        for path in sorted(
+            (ROOT / "docs" / "reports").glob(
+                "[0-9][0-9][0-9][0-9]-[0-9][0-9]/index.html"
+            )
+        )
+    ]
     for filename in (
         "reports/index.html",
         "index.html",
@@ -661,7 +671,7 @@ def build_html_cache_busting(check: bool) -> bool:
         "benchmarks/humaneval-v1/index.html",
         "benchmarks/mmlu-v1/index.html",
         "skills/index.html",
-    ) + tuple(en_pages):
+    ) + tuple(en_pages) + tuple(report_pages):
         path = ROOT / "docs" / filename
         if not path.exists():
             continue

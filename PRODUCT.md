@@ -15,8 +15,9 @@ their repos to claim origin status on skills they've demonstrated. Technically f
 they distrust hype; they respond to evidence and provenance.
 
 **Secondary:** Open-source contributors wanting to claim a Named Skill — earning origin
-status and a permanent plaque in the registry. Attribution matters to them: their
-handle should appear in Honor Red, permanently.
+status and permanent historical attribution in the registry. Attribution matters to
+contributors: the current merit-based Origin receives Honor Red, and previous holders
+retain traceable historical recognition.
 
 **Tertiary:** Curious technologists evaluating whether Gaia is worth adopting — exploring
 the Registry and Ascension Cycle before committing.
@@ -33,7 +34,7 @@ is no canonical registry of what agents can do — capabilities are scattered,
 undocumented, and unverified. Gaia provides a DAG where every capability is catalogued by
 type (Basic / Fusion) as a **starless** generic reference — rank-less
 taxonomy that carries no stars of its own — and each named implementation hanging off it is
-ranked by evidence (0★–6★), attributed to the Origin Contributor who first demonstrated it,
+ranked by evidence (0★–6★), attributed to the current merit-based Origin Contributor,
 and composable into emergent fusions. A starless reference's effective rank is the top star
 among its named children; in the UI it reads as *generic* in italic, greyed-out styling.
 
@@ -94,9 +95,9 @@ meticulously. The data speaks. The prose doesn't oversell it.
    Apex must be unmistakable. Level VI shimmer, orbit sparkles, and Apex
    Gold are hard-locked to that tier only — never repurposed as decoration elsewhere.
 
-4. **Attribution is structural, not decorative.** Origin Contributor handles always
-   render in Honor Red, always at the same visual weight as the tier itself. The most
-   permanent thing on the page.
+4. **Attribution is structural, not decorative.** The **current merit-based Origin**
+   handle renders in Honor Red at the same visual weight as the tier. Historical Origin
+   holders retain recognition even after an approved transfer; current Origin is not permanent.
 
 5. **Half-Merged voice, all the way down.** Every copy surface — headers, CTAs,
    tooltips, empty states — must pass the Half-Merged test: canonical primary labels,
@@ -109,6 +110,11 @@ meticulously. The data speaks. The prose doesn't oversell it.
    programmatic-first culture: the CLI is preferred *because* it records the event for
    you, and the **Transparency Gate** fails any build whose timeline can't explain a
    skill's current rank.
+
+7. **Reversible trust is visible.** Under [Yggdrasil IV](founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md),
+   a verified technical challenge, an Origin-contested marker, a resolved challenge
+   and a pending score recalculation are different public states. Every approved
+   numerical change tells its cause and preserves the original historical achievement.
 
 ## Accessibility & Inclusion
 

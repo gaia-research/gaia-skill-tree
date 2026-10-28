@@ -17,6 +17,7 @@
   },
   "properties": {
     "fromFile": { "type": "boolean", "description": "True when the batch was produced by `gaia push --from-file` (legacy YAML) or the RFC2-B discovery-packet adapter (intakeAdapter.py). File-sourced batches are not similarity-scored against the scan, so `similarity` is NOT required when fromFile is true (the conditional at the schema root)." },
+    "submissionKey": { "type": "string", "pattern": "^[0-9a-f]{64}$", "description": "Content-derived SHA-256 idempotency key of the batch body. It identifies identical submissions so a replay reuses the existing receipt instead of opening a second intake. It carries no approval authority." },
     "batchId": { "type": "string", "minLength": 1 },
     "userId": { "type": "string", "minLength": 1 },
     "sourceRepo": { "type": "string", "minLength": 1 },

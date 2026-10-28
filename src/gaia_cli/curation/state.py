@@ -3,6 +3,9 @@
 from __future__ import annotations
 
 import json
+import os
+import re
+import tempfile
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Optional
@@ -123,6 +126,10 @@ class CurationRun:
     # Current blocker records are separate from the append-only historical ledger.
     checkpoint: dict[str, Any] = field(default_factory=dict)
 
+    def __post_init__(self) -> None:
+        if not isinstance(self.run_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}", self.run_id):
+            raise ValueError("run_id must be 1–64 ASCII letters, digits, underscores, or hyphens")
+
     @property
     def run_dir(self) -> Path:
         """Return the default local run directory for this curation run."""
@@ -138,7 +145,23 @@ class CurationRun:
         if target.suffix == "":
             target = target / "state.json"
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(json.dumps(asdict(self), indent=2) + "\n", encoding="utf-8")
+        payload = (json.dumps(asdict(self), indent=2) + "\n").encode("utf-8")
+        fd, temporary_name = tempfile.mkstemp(prefix=f".{target.name}.", suffix=".tmp", dir=target.parent)
+        try:
+            with os.fdopen(fd, "wb") as stream:
+                stream.write(payload)
+                stream.flush()
+                os.fsync(stream.fileno())
+            os.replace(temporary_name, target)
+            try:
+                dir_fd = os.open(target.parent, os.O_RDONLY)
+                try: os.fsync(dir_fd)
+                finally: os.close(dir_fd)
+            except OSError:
+                pass
+        finally:
+            try: os.unlink(temporary_name)
+            except FileNotFoundError: pass
 
     @classmethod
     def load(cls, path: str | Path) -> "CurationRun":
@@ -151,4 +174,5 @@ class CurationRun:
         if target.suffix == "":
             target = target / "state.json"
         data = json.loads(target.read_text(encoding="utf-8"))
-        return cls(**data)
+        # Keep old ledgers loadable as fields are added to the local workflow.
+        return cls(**{key: value for key, value in data.items() if key in cls.__dataclass_fields__})

@@ -11,7 +11,7 @@ import os
 import re
 import sys
 import urllib.request
-from typing import Dict, Optional, List
+from typing import Optional, List
 
 # Add project root to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))

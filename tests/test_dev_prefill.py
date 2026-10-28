@@ -6,6 +6,7 @@ sentence-transformers download is needed.
 import json
 import os
 import sys
+from pathlib import Path
 
 import pytest
 
@@ -447,11 +448,140 @@ class TestGenericSnapshot:
         assert snapshot["generics"][0]["id"] == "legacy-generic"
 
 
+class TestExactDedupe:
+    def test_exact_source_and_canonical_named_identity_produce_proof(self, tmp_path):
+        source_url = "https://github.com/owner/repo/blob/main/SKILL.md"
+        content = b"---\nname: Same Skill\ndescription: Exact source.\n---\nbody\n"
+        named = tmp_path / "registry" / "named" / "owner" / "repo.md"
+        named.parent.mkdir(parents=True)
+        named.write_text(
+            "---\nid: owner/repo\nname: Same Skill\nlinks:\n  github: " + source_url + "\n---\n",
+            encoding="utf-8",
+        )
+        packet = prefill.buildPrefillPacket(
+            candidateId="owner/repo", name="Same Skill", description="Exact source.",
+            canonicalUrl=source_url, sourceLane="source-repository",
+            embeddings=makeEmbeddings(), thresholds=THRESHOLDS, registryPath=tmp_path,
+            fetcher=lambda _url: content, precomputedVector=[1.0, 0.0, 0.0],
+        )
+        assert packet["exactDedupe"]["matched"] is True
+        assert packet["exactDedupe"]["namedIdentity"] == "owner/repo"
+        assert "deduped" in packet["lifecycle"]
+
+    def test_semantic_or_shared_generic_similarity_is_not_duplicate_proof(self, tmp_path):
+        source_url = "https://github.com/new/repo/blob/main/SKILL.md"
+        other_url = "https://github.com/existing/repo/blob/main/SKILL.md"
+        named = tmp_path / "registry" / "named" / "existing" / "repo.md"
+        named.parent.mkdir(parents=True)
+        named.write_text(
+            "---\nid: existing/repo\nname: Similar\nlinks:\n  github: " + other_url + "\n---\n",
+            encoding="utf-8",
+        )
+        packet = prefill.buildPrefillPacket(
+            candidateId="new/repo", name="Similar", description="Same generic mapping.",
+            canonicalUrl=source_url, sourceLane="source-repository",
+            embeddings=makeEmbeddings(), thresholds=THRESHOLDS, registryPath=tmp_path,
+            fetcher=lambda _url: b"---\nname: Skill\ndescription: Source.\n---\nbody",
+            precomputedVector=[1.0, 0.0, 0.0],
+        )
+        assert packet["exactDedupe"]["matched"] is False
+        assert "deduped" in packet["lifecycle"]
+
+
 class TestSafeCandidateSlug:
-    def test_valid_slugs(self):
-        assert prefill.safeCandidateSlug("owner/repo") == "owner-repo"
-        assert prefill.safeCandidateSlug("org/sub-team/repo") == "org-sub-team-repo"
-        assert prefill.safeCandidateSlug("simple-id") == "simple-id"
+    def test_valid_slugs_are_readable_and_collision_resistant(self):
+        assert prefill.safeCandidateSlug("owner/repo").startswith("owner-repo-")
+        assert prefill.safeCandidateSlug("org/sub-team/repo").startswith("org-sub-team-repo-")
+        assert prefill.safeCandidateSlug("simple-id").startswith("simple-id-")
+
+    def test_a_b_and_a_slash_b_have_distinct_slugs(self):
+        assert prefill.safeCandidateSlug("a-b") != prefill.safeCandidateSlug("a/b")
+        assert prefill.safeCandidateSlug("Owner/repo") != prefill.safeCandidateSlug("owner/repo")
+
+    def test_write_packet_refuses_poisoned_owner(self, tmp_path):
+        candidate = "a/b"
+        target = tmp_path / "registry-for-review" / "discovery-packets"
+        target.mkdir(parents=True)
+        poisoned = target / f"{prefill.safeCandidateSlug(candidate)}.json"
+        poisoned.write_text(json.dumps({"candidateId": "someone/else", "sentinel": True}), encoding="utf-8")
+        with pytest.raises(ValueError, match="different candidate"):
+            prefill.writePacket({"candidateId": candidate, "value": "replacement"}, tmp_path)
+        assert json.loads(poisoned.read_text(encoding="utf-8"))["sentinel"] is True
+
+    def test_assessment_write_uses_digest_slug_and_owner_guard(self, tmp_path):
+        packet = {"candidateId": "a/b"}
+        target = tmp_path / "generated-output" / "curation"
+        target.mkdir(parents=True)
+        slug = prefill.safeCandidateSlug("a/b")
+        poisoned = target / f"{slug}.assessment.json"
+        poisoned.write_text(json.dumps({"candidateId": "a-b", "sentinel": True}), encoding="utf-8")
+        with pytest.raises(ValueError, match="owned by another candidate"):
+            prefill.writeAssessmentReceipt(packet, {"candidateId": "a/b"}, tmp_path)
+        assert json.loads(poisoned.read_text(encoding="utf-8"))["sentinel"] is True
+
+    def test_packet_output_directory_symlink_cannot_escape_registry(self, tmp_path):
+        registry = tmp_path / "registry"
+        outside = tmp_path / "outside"
+        outside.mkdir()
+        target = registry / "registry-for-review" / "discovery-packets"
+        target.parent.mkdir(parents=True)
+        target.symlink_to(outside, target_is_directory=True)
+
+        with pytest.raises(ValueError, match="escapes registry root"):
+            prefill.writePacket({"candidateId": "synthetic/a-b"}, registry)
+
+        assert list(outside.iterdir()) == []
+
+    def test_assessment_output_directory_symlink_cannot_escape_registry(self, tmp_path):
+        registry = tmp_path / "registry"
+        outside = tmp_path / "outside"
+        outside.mkdir()
+        curation = registry / "generated-output" / "curation"
+        curation.parent.mkdir(parents=True)
+        curation.symlink_to(outside, target_is_directory=True)
+
+        with pytest.raises(ValueError, match="escapes registry root"):
+            prefill.writeAssessmentReceipt(
+                {"candidateId": "synthetic/a-b"}, {"candidateId": "synthetic/a-b"}, registry
+            )
+
+        assert list(outside.iterdir()) == []
+
+    def test_packet_leaf_symlink_is_refused(self, tmp_path):
+        candidate = "synthetic/a-b"
+        target = tmp_path / "registry-for-review" / "discovery-packets"
+        target.mkdir(parents=True)
+        outside_file = tmp_path / "outside.json"
+        outside_file.write_text('{"sentinel": true}', encoding="utf-8")
+        leaf = target / f"{prefill.safeCandidateSlug(candidate)}.json"
+        leaf.symlink_to(outside_file)
+
+        with pytest.raises(ValueError, match="escapes target directory"):
+            prefill.writePacket({"candidateId": candidate}, tmp_path)
+
+        assert json.loads(outside_file.read_text(encoding="utf-8"))["sentinel"] is True
+
+    def test_normal_output_writes_remain_inside_registry(self, tmp_path):
+        packet = {"candidateId": "synthetic/a-b"}
+        packet_path = prefill.writePacket(packet, tmp_path)
+        receipt_path = prefill.writeAssessmentReceipt(packet, packet, tmp_path)
+
+        assert Path(packet_path).parent == (tmp_path / "registry-for-review" / "discovery-packets")
+        assert Path(receipt_path).parent == (tmp_path / "generated-output" / "curation")
+        assert json.loads(Path(packet_path).read_text(encoding="utf-8")) == packet
+        assert json.loads(Path(receipt_path).read_text(encoding="utf-8")) == packet
+
+    def test_write_packet_uses_process_lock_for_owner_check_and_replace(self, tmp_path):
+        from gaia_cli.curation.submission import advisoryLock
+        candidate = "locked/candidate"
+        target = tmp_path / "registry-for-review" / "discovery-packets"
+        target.mkdir(parents=True)
+        path = target / f"{prefill.safeCandidateSlug(candidate)}.json"
+        path.write_text(json.dumps({"candidateId": candidate, "sentinel": True}), encoding="utf-8")
+        with advisoryLock(f"{path}.lock"):
+            with pytest.raises(ValueError, match="already in progress"):
+                prefill.writePacket({"candidateId": candidate, "sentinel": False}, tmp_path)
+        assert json.loads(path.read_text(encoding="utf-8"))["sentinel"] is True
 
     def test_reject_unsafe_path_traversal(self):
         with pytest.raises(ValueError, match="Unsafe or invalid"):
@@ -462,3 +592,7 @@ class TestSafeCandidateSlug:
             prefill.safeCandidateSlug("")
         with pytest.raises(ValueError, match="Unsafe or invalid"):
             prefill.safeCandidateSlug("bad space/id")
+        with pytest.raises(ValueError, match="leading/trailing whitespace"):
+            prefill.safeCandidateSlug(" a/b")
+        with pytest.raises(ValueError, match="leading/trailing whitespace"):
+            prefill.safeCandidateSlug("a/b ")

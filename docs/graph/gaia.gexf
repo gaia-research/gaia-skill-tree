@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <gexf xmlns="http://www.gexf.net/1.2draft" version="1.2">
-  <meta lastmodifieddate="2026-10-21">
+  <meta lastmodifieddate="2026-10-28">
     <creator>Gaia</creator>
     <description>Gaia Skill Tree Graph</description>
   </meta>
@@ -781,6 +781,13 @@
           <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
+      <node id="gpu-dataframe-acceleration" label="GPU DataFrame Acceleration">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="grant-application-processing" label="Grant Application Processing">
         <attvalues>
           <attvalue for="level" value="" />
@@ -887,6 +894,13 @@
         </attvalues>
       </node>
       <node id="implement-with-discernment" label="implement-with-discernment">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="interactive-mechanism-illustration" label="Interactive Mechanism Illustration">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
