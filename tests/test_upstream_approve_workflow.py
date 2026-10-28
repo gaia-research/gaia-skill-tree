@@ -1099,7 +1099,8 @@ def test_a_successful_refire_dispatches_the_approve_workflow(tmp_path):
 def test_close_children_grants_actions_write_to_its_own_job_only():
     doc = yaml.safe_load(CLOSE_CHILDREN_PATH.read_text(encoding="utf-8"))
     assert doc["permissions"] == {"issues": "write"}
-    assert doc["jobs"]["close-children"]["permissions"] == {"issues": "write", "actions": "write"}
+    assert doc["jobs"]["close-children"]["permissions"] == {
+        "issues": "write", "actions": "write", "contents": "read"}
 
 
 def test_watcher_workflow_drops_unused_write_scopes_and_keeps_its_schedule():

@@ -22,6 +22,7 @@ jobs:
     permissions:
       issues: write
       actions: write
+      contents: read
     # Fire for upstream:child closes OR upstream:release closes
     if: >-
       (vars.STEWARD_ISSUE_HYGIENE_V2 == 'true') && (github.event_name == 'workflow_dispatch' || contains(github.event.issue.labels.*.name, 'upstream:child') || contains(github.event.issue.labels.*.name, 'upstream:release'))

@@ -14,8 +14,9 @@ jobs:
     permissions:
       issues: write
       actions: write
+      contents: read
     if: >-
-      (vars.STEWARD_ISSUE_HYGIENE_V2 == 'true') && (github.event.label.name == 'upstream:rejected') && contains(github.event.issue.labels.*.name, 'upstream:release')
+      (vars.STEWARD_ISSUE_HYGIENE_V2 == 'true') && (github.event.label.name == 'upstream:rejected') && (contains(github.event.issue.labels.*.name, 'upstream:release') || contains(github.event.issue.labels.*.name, 'upstream:bootstrap'))
 
     steps:
       - name: Checkout main

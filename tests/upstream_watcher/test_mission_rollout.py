@@ -28,6 +28,8 @@ def test_deployed_main_job_steps_retained_verbatim_until_opt_in(name, digest):
     for key, job in jobs.items():
         if not key.startswith("legacy-"):
             assert "vars.STEWARD_ISSUE_HYGIENE_V2 == 'true'" in job["if"]
+    if name in ("reject", "close-children"):
+        assert jobs[name]["permissions"] == {"issues": "write", "actions": "write", "contents": "read"}
     if name == "close-children":
         assert legacy["permissions"] == {"issues": "write"}
 
