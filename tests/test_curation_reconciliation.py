@@ -614,9 +614,19 @@ def test_timeout_late_worker_cannot_change_reconciled_snapshot(registry, monkeyp
     late = []
     started = threading.Event()
     gate = threading.Event()
+    completed = threading.Event()
     clock_started = threading.Event()
     real_monotonic = time.monotonic
     clock_origin = []
+    real_executor = fanout.concurrent.futures.ThreadPoolExecutor
+
+    class WorkerEntryExecutor(real_executor):
+        def submit(self, *args, **kwargs):
+            future = super().submit(*args, **kwargs)
+            assert started.wait(5), "worker did not enter before submit returned"
+            return future
+
+    monkeypatch.setattr(fanout.concurrent.futures, "ThreadPoolExecutor", WorkerEntryExecutor)
 
     class WorkerStartClock:
         @staticmethod
@@ -633,30 +643,44 @@ def test_timeout_late_worker_cannot_change_reconciled_snapshot(registry, monkeyp
         started.set()
         clock_origin.append(real_monotonic())
         clock_started.set()
-        gate.wait(0.2)
+        gate.wait()
         late_receipt = receipt(row, registry, attempt=attempt)
         late_path = registry / "late-worker-packet.json"
         late_path.write_bytes(late_receipt.pop("packetBytes"))
-        late_receipt["packetPath"] = str(late_path)
+        late_receipt["packetPath"] = "late-worker-packet.json"
         late.append(late_receipt)
+        completed.set()
         return late_receipt
 
-    result = runFanout(frozen, worker, timeoutSeconds=0.02, packetRoot=str(registry))
-    assert started.is_set(), "the worker must have entered before checking timeout protection"
-    assert "timeout" in result["errors"][row["candidateId"]]
-    before = reconcileFanout(frozen, result, packetRoot=str(registry))
-    before_bytes = canonicalJson(before)
-    assert before["decisions"][0]["outcome"] == "deferred"
+    try:
+        result = runFanout(frozen, worker, timeoutSeconds=0.02, packetRoot=str(registry))
+        assert started.is_set(), "the worker must have entered before checking timeout protection"
+        assert "timeout" in result["errors"][row["candidateId"]]
+        before = reconcileFanout(frozen, result, packetRoot=str(registry))
+        before_bytes = canonicalJson(before)
+        assert before["decisions"][0]["outcome"] == "deferred"
+    finally:
+        gate.set()
 
-    gate.set()
-    for _ in range(50):
-        if late:
-            break
-        time.sleep(0.01)
-    assert late, "the late worker result must have been produced"
+    assert completed.wait(5), "the released late worker must finish"
     late_path = registry / "late-worker-packet.json"
     assert late_path.is_file(), "the late worker's packet artifact must be written"
+    assert late[0]["packetPath"] == "late-worker-packet.json"
     assert canonicalJson(reconcileFanout(frozen, result, packetRoot=str(registry))) == before_bytes
+
+    # Exercise the same safe-relative artifact API on an on-time control. The
+    # path and digest must validate into a real accepted receipt, not be vacuous.
+    monkeypatch.setattr(fanout.concurrent.futures, "ThreadPoolExecutor", real_executor)
+    monkeypatch.setattr(fanout, "time", time)
+    control = receipt(row, registry)
+    control_path = registry / "on-time-control-packet.json"
+    control_path.write_bytes(control.pop("packetBytes"))
+    control["packetPath"] = "on-time-control-packet.json"
+    accepted = runFanout(frozen, lambda task, attempt: control, timeoutSeconds=1.0,
+                         packetRoot=str(registry))
+    assert accepted["errors"] == {}
+    assert [item["candidateId"] for item in accepted["receipts"]] == [row["candidateId"]]
+    assert reconcileFanout(frozen, accepted, packetRoot=str(registry))["decisions"][0]["receiptValid"] is True
 
 
 def test_timeout_is_one_wall_clock_budget_for_the_whole_run(registry):
