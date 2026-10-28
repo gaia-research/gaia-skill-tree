@@ -1,0 +1,164 @@
+{
+ "challenger": "graphify",
+ "challengerScore": {
+  "microPrecision": 1.0,
+  "perTarget": {
+   "computeTrustMagnitude": {
+    "extra": [],
+    "groundTruth": 11,
+    "missed": [
+     [
+      "shadowEvaluation.py",
+      "_assessOne"
+     ],
+     [
+      "shadowEvaluation.py",
+      "evaluateShadow"
+     ],
+     [
+      "shadowEvaluation.py",
+      "evaluateShadowRegistry"
+     ]
+    ],
+    "precision": 1.0,
+    "predicted": 8,
+    "recall": 0.7273,
+    "truePositives": 8
+   },
+   "embeddings_path": {
+    "extra": [],
+    "groundTruth": 5,
+    "missed": [],
+    "precision": 1.0,
+    "predicted": 5,
+    "recall": 1.0,
+    "truePositives": 5
+   },
+   "rankWord": {
+    "extra": [],
+    "groundTruth": 4,
+    "missed": [
+     [
+      "cardRenderer.py",
+      "<module>"
+     ]
+    ],
+    "precision": 1.0,
+    "predicted": 3,
+    "recall": 0.75,
+    "truePositives": 3
+   },
+   "spec_by_id": {
+    "extra": [],
+    "groundTruth": 4,
+    "missed": [],
+    "precision": 1.0,
+    "predicted": 4,
+    "recall": 1.0,
+    "truePositives": 4
+   },
+   "suiteComponentIds": {
+    "extra": [],
+    "groundTruth": 3,
+    "missed": [
+     [
+      "trustMagnitude.py",
+      "_fusionAndSuiteOriginIds"
+     ]
+    ],
+    "precision": 1.0,
+    "predicted": 2,
+    "recall": 0.6667,
+    "truePositives": 2
+   }
+  },
+  "totalPredicted": 22,
+  "totalTruePositives": 22
+ },
+ "decision": {
+  "incumbentAtLeastChallengerOnAll": true,
+  "precisionWithinMargin": true,
+  "recallWinTargets": [],
+  "result": "contradicted"
+ },
+ "incumbent": "graft",
+ "incumbentScore": {
+  "microPrecision": 1.0,
+  "perTarget": {
+   "computeTrustMagnitude": {
+    "extra": [],
+    "groundTruth": 11,
+    "missed": [
+     [
+      "shadowEvaluation.py",
+      "_assessOne"
+     ],
+     [
+      "shadowEvaluation.py",
+      "evaluateShadow"
+     ],
+     [
+      "shadowEvaluation.py",
+      "evaluateShadowRegistry"
+     ]
+    ],
+    "precision": 1.0,
+    "predicted": 8,
+    "recall": 0.7273,
+    "truePositives": 8
+   },
+   "embeddings_path": {
+    "extra": [],
+    "groundTruth": 5,
+    "missed": [],
+    "precision": 1.0,
+    "predicted": 5,
+    "recall": 1.0,
+    "truePositives": 5
+   },
+   "rankWord": {
+    "extra": [],
+    "groundTruth": 4,
+    "missed": [
+     [
+      "cardRenderer.py",
+      "<module>"
+     ]
+    ],
+    "precision": 1.0,
+    "predicted": 3,
+    "recall": 0.75,
+    "truePositives": 3
+   },
+   "spec_by_id": {
+    "extra": [],
+    "groundTruth": 4,
+    "missed": [],
+    "precision": 1.0,
+    "predicted": 4,
+    "recall": 1.0,
+    "truePositives": 4
+   },
+   "suiteComponentIds": {
+    "extra": [],
+    "groundTruth": 3,
+    "missed": [
+     [
+      "trustMagnitude.py",
+      "_fusionAndSuiteOriginIds"
+     ]
+    ],
+    "precision": 1.0,
+    "predicted": 2,
+    "recall": 0.6667,
+    "truePositives": 2
+   }
+  },
+  "totalPredicted": 22,
+  "totalTruePositives": 22
+ },
+ "versions": {
+  "graft": "0.25.0",
+  "graphify": "graphify 0.8.13"
+ }
+}

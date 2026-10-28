@@ -1,0 +1,7 @@
+{"atUTC": "2026-10-28T18:22:57Z", "event": "lead-written", "leadId": "graphify-graft-callers-001"}
+{"atUTC": "2026-10-28T18:22:57Z", "event": "frontier-match", "artifact": "artifacts/match.json", "registeredElsewhere": "safishamsi/graphify (knowledge-graph-build)", "top": "trailhq/graft 0.1215"}
+{"atUTC": "2026-10-28T18:22:57Z", "event": "frontier-dedupe", "artifact": "artifacts/dedupe.json", "isDuplicate": false, "ledgerScanned": 2}
+{"atUTC": "2026-10-28T18:22:57Z", "event": "pre-registration-commit", "note": "lead, protocol (decision rule), ground-truth fixture and runner committed before request/run; commit 61f6.. -> see git log"}
+{"atUTC": "2026-10-28T18:22:57Z", "event": "request-built", "requestId": "sha256:19a1c7ab29fd5e86a0e8c1aab7d446e16b9191f02c903eb923fa031eda507be1"}
+{"atUTC": "2026-10-28T18:22:57Z", "event": "run", "tool": "graphify 0.8.13 + graft 0.25.0", "runner": "runner/run-c1.py", "artifacts": ["artifacts/native.json", "artifacts/graft.target.json", "artifacts/scoring.json"]}
+{"atUTC": "2026-10-28T18:22:57Z", "event": "receipt-built", "result": "contradicted", "file": "receipts/experiment-receipt.json"}
