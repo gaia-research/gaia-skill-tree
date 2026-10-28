@@ -1,0 +1,129 @@
+{
+  "contractVersion": "curation-assessment-v1",
+  "authority": "advisory",
+  "assessedAt": "2026-10-27T22:09:54.848832+00:00",
+  "candidateId": "cis2042/product-design-harness",
+  "candidate": {
+    "name": "product-design-harness",
+    "description": "Use when a product direction, feature, workflow, experiment, launch, feedback signal, automation, or scale decision needs judgment before execution or the next iteration."
+  },
+  "source": {
+    "canonicalUrl": "https://github.com/cis2042/ux3-product-design-harness/blob/7f9f724c5e31813d1c35767f9f454fe9a1e96891/skills/product-design-harness/SKILL.md",
+    "contentSha256": "ebdb52ec57481aefa76033b6a6367eaa1155659cccad6c76135dc693c6adeb21",
+    "commitSha": null
+  },
+  "candidateSourceDigest": "ebdb52ec57481aefa76033b6a6367eaa1155659cccad6c76135dc693c6adeb21",
+  "semanticInputSha256": "2a2974ed20a2e11051f401f9b7a4ae9b22dcacb8d20198efe0cfe42b9b2a9852",
+  "catalogSha256": "77991271cdf9d32370d92244389486b1e19a02a3a72326e0fe452816e6d4043c",
+  "rubric": {
+    "rubricId": "gaia-curation-principles",
+    "rubricVersion": "1.0.0",
+    "rubricSha256": "1f14f6b09ee6a72570bba04617de1ee7bf92040afaf862f6059f4cb413879349"
+  },
+  "retrievedGenerics": [
+    {
+      "id": "plan-and-execute",
+      "name": "Plan and Execute",
+      "description": "Decomposes complex objectives into sub-tasks, selects tools, and orchestrates execution.",
+      "type": "fusion",
+      "prerequisites": [
+        "plan-decompose",
+        "route-intent",
+        "tool-select"
+      ],
+      "definitionAvailable": true,
+      "similarity": 0.475841,
+      "matchTier": "weak"
+    },
+    {
+      "id": "design-generation",
+      "name": "Design Generation",
+      "description": "Generates high-fidelity visual assets, prototypes, and UI components from design intent or discovery forms, adhering to brand and UX standards.",
+      "type": "fusion",
+      "prerequisites": [
+        "code-generation",
+        "ui-audit",
+        "vision-qa"
+      ],
+      "definitionAvailable": true,
+      "similarity": 0.467955,
+      "matchTier": "weak"
+    }
+  ],
+  "retrieval": {
+    "model": "all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+    "thresholds": {
+      "strongMap": 0.72,
+      "weakMap": 0.45,
+      "topK": 3
+    }
+  },
+  "principles": {
+    "identity": {
+      "evaluation": "unknown",
+      "question": "After stripping vendor, product, repository, contributor and implementation details, identify the reusable capability. A named implementation is not automatically a narrower generic."
+    },
+    "transferability": {
+      "evaluation": "unknown",
+      "question": "Could another independent implementation reasonably implement this generic? Generic identity describes capability, not product vocabulary. Product dependence of a named implementation is not itself grounds for rejection or purging."
+    },
+    "relation": {
+      "evaluation": "unknown",
+      "question": "Relative to the strongest existing generic, is the reusable capability the same, narrower, broader, composite, orthogonal, or unknown? State the comparison target; similarity alone cannot answer.",
+      "relation": "unknown"
+    },
+    "material_distinction": {
+      "evaluation": "unknown",
+      "question": "A split needs an observable, falsifiable behavioral distinction from its strongest neighbor. Naming, vendor, CLI syntax, implementation technique or framework alone are weak justification for a new generic."
+    },
+    "atomicity": {
+      "evaluation": "unknown",
+      "question": "Does the capability stand alone, or compose independently useful prerequisites? Yggdrasil basic has zero prerequisites and fusion has at least one. Do not derive capability structure from mentions of required software or from packaging.",
+      "type": "unknown"
+    },
+    "artifact_packaging": {
+      "evaluation": "unknown",
+      "question": "Distinguish a capability from suite, package, router, wrapper, category or capstone packaging. A component is not its suite. suiteComponents belongs to named implementations; it is not a generic capability identity.",
+      "shape": "unknown",
+      "declaredSuite": {
+        "role": null,
+        "suiteId": null,
+        "componentCandidateIds": null
+      }
+    },
+    "overlap": {
+      "evaluation": "unknown",
+      "question": "Compare a proposed new generic to its strongest existing neighbor. If no falsifiable distinction can be written, question the split. Empty retrieval does not prove novelty; two high-scoring neighbors do not prove fusion.",
+      "notes": "Scores never imply identity or novelty; compare observable behavior with the strongest neighbor.",
+      "strongestNeighbor": "plan-and-execute"
+    },
+    "topology_independence": {
+      "evaluation": "independent",
+      "question": "Topology must not change merely because contributor fame, stars, Trust Magnitude, evidence abundance or popularity changes. These signals are excluded from semantic decision inputs. Advice answers SHOULD, human L4 decides MAY.",
+      "inputs": "Allowlisted semantic fields only; rank, popularity and evidence excluded."
+    }
+  },
+  "uncertainty": {
+    "level": "review-required",
+    "emptyRecall": false,
+    "reasons": [
+      "Only human L4 may resolve semantic identity and canonical topology."
+    ],
+    "jevDisagreement": null
+  },
+  "proposedDisposition": {
+    "value": "DEFER",
+    "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+    "targetGenericId": "plan-and-execute",
+    "advisoryOnly": true
+  },
+  "jevAdvice": {
+    "status": "skipped",
+    "reason": "jev_off",
+    "answers": {},
+    "calls": [],
+    "disagreement": null
+  }
+}

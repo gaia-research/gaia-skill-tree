@@ -1179,7 +1179,9 @@
       docBound = true;
       document.addEventListener('click', function(ev) {
         if (ev.target && ev.target.closest && ev.target.closest('.lc-panel')) return;
-        closeTips(document, null);
+        // The tip just clicked was toggled by its own mount's handler; closing
+        // it here too would make every toggletip outside a .lc-panel unopenable.
+        closeTips(document, ev.target && ev.target.closest ? ev.target.closest('.lc-tip') : null);
       });
     }
   }

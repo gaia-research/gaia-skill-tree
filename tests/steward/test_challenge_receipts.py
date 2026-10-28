@@ -9,6 +9,7 @@ from gaia_cli.challengeDomain import VerificationReceipt
 from tests.steward.receipt_test_ports import SyntheticReceiptPort, SyntheticTestResolver
 from gaia_cli.steward.challenge_receipts import (
     AuthenticatedApprovalSource,
+    CommittedAttestedReceiptSource,
     GitHubActionsSource,
     GitHubVerificationReceiptResolver,
     ReceiptUnavailable,
@@ -20,7 +21,9 @@ from gaia_cli.steward.challenge_receipts import (
 )
 
 
-WORKFLOW_SHA = "a" * 64
+WORKFLOW_BLOB_SHA = "a" * 40
+SOURCE_SHA = "e" * 40
+REF = "refs/tags/challenge-receipt/case-r1"
 CONTEXT = "b" * 64
 PROOF_SOURCE_SHA = "c" * 64
 TRANSCRIPT = b'{"cases":3,"result":"passed"}'
@@ -29,12 +32,15 @@ TRANSCRIPT = b'{"cases":3,"result":"passed"}'
 def config(**overrides):
     values = dict(
         repository="gaia-research/gaia-skill-tree",
-        workflow_path=".github/workflows/challenge-receipt.yml",
-        workflow_ref="refs/heads/dev/yggdrasil-iv-challenge-receipts",
-        workflow_sha=WORKFLOW_SHA,
-        environment="challenge-receipt-review",
-        required_reviewers=("maintainer",),
-        prevent_self_review=True,
+        workflow_path=".github/workflows/challenge-receipt-issuer.yml",
+        trigger_ref_prefix="refs/tags/challenge-receipt/",
+        workflow_blob_sha=WORKFLOW_BLOB_SHA,
+        environment="challenge-receipt-issuer",
+        required_reviewer_ids=(7,),
+        repository_id=1,
+        repository_owner_id=2,
+        trusted_root_sha256="d" * 64,
+        prevent_self_review=False,
     )
     values.update(overrides)
     return TrustedReceiptConfig(**values)
@@ -59,16 +65,18 @@ def good_fixture(**source_changes):
     archive, digest = make_artifact_archive(payload)
     source = {
         "repository": "gaia-research/gaia-skill-tree",
-        "workflowPath": ".github/workflows/challenge-receipt.yml",
-        "workflowRef": "refs/heads/dev/yggdrasil-iv-challenge-receipts",
-        "workflowSha": WORKFLOW_SHA,
-        "environment": "challenge-receipt-review",
-        "runId": 111, "runAttempt": 2, "runStatus": "completed", "runConclusion": "success",
-        "artifactId": 555, "artifactName": "challenge-receipt-111-2-receipt-17",
-        "artifactExpired": False, "artifactRunId": 111, "artifactAttempt": 2,
+        "sourceKind": "github-actions-live",
+        "workflowPath": ".github/workflows/challenge-receipt-issuer.yml",
+        "workflowRef": REF,
+        "workflowSha": SOURCE_SHA,
+        "workflowBlobSha": WORKFLOW_BLOB_SHA,
+        "environment": "challenge-receipt-issuer",
+        "runId": 111, "runAttempt": 1, "runStatus": "completed", "runConclusion": "success",
+        "artifactId": 555, "artifactName": "challenge-receipt-receipt-17",
+        "artifactExpired": False, "artifactRunId": 111, "artifactAttempt": 1,
         "artifactCount": 1, "builder": "builder", "contributor": "contributor",
-        "reviewer": "maintainer", "requiredReviewers": ["maintainer"],
-        "preventSelfReview": True, "approvalHistoryVerified": True,
+        "reviewer": "maintainer", "reviewerId": 7, "requiredReviewerIds": [7],
+        "preventSelfReview": False, "approvalHistoryVerified": True,
         "payloadDigest": digest, "archive": archive,
     }
     source.update(source_changes)
@@ -99,21 +107,26 @@ def test_synthetic_transport_fixture_resolves_but_is_not_live_proof():
     ({"repository": "attacker/repo"}, "workflow source"),
     ({"workflowPath": ".github/workflows/other.yml"}, "workflow source"),
     ({"workflowRef": "refs/heads/untrusted"}, "workflow source"),
-    ({"workflowSha": "f" * 64}, "workflow source"),
+    ({"workflowRef": "refs/tags/other/case-r1"}, "workflow source"),
+    ({"workflowBlobSha": "f" * 40}, "workflow source"),
+    ({"workflowSha": "not-a-sha"}, "workflow source"),
     ({"environment": "unprotected"}, "workflow source"),
-    ({"runAttempt": 3}, "artifact is not uniquely"),
+    ({"sourceKind": "forged"}, "source kind"),
+    ({"runAttempt": 2}, "not attempt 1"),
     ({"artifactRunId": 112}, "artifact is not uniquely"),
-    ({"artifactAttempt": 1}, "artifact is not uniquely"),
+    ({"artifactAttempt": 2}, "artifact is not uniquely"),
+    ({"artifactName": "challenge-receipt-other"}, "artifact is not uniquely"),
     ({"artifactCount": 2}, "expired or ambiguous"),
     ({"artifactExpired": True}, "expired or ambiguous"),
     ({"runConclusion": "failure"}, "did not complete"),
     ({"runStatus": "in_progress"}, "did not complete"),
     ({"reviewer": "builder"}, "independent reviewer"),
-    ({"reviewer": "outsider"}, "configured reviewer roster"),
+    ({"reviewerId": 999}, "configured reviewer roster"),
+    ({"reviewerId": True}, "configured reviewer roster"),
     ({"builder": "maintainer"}, "independent reviewer"),
     ({"contributor": "maintainer"}, "independent reviewer"),
-    ({"requiredReviewers": ["other"]}, "approval history/configuration"),
-    ({"preventSelfReview": False}, "approval history/configuration"),
+    ({"requiredReviewerIds": [8]}, "approval history/configuration"),
+    ({"preventSelfReview": True}, "approval history/configuration"),
     ({"approvalHistoryVerified": False}, "approval history/configuration"),
     ({"payloadDigest": "0" * 64}, "payload digest mismatch"),
 ])
@@ -159,27 +172,22 @@ def test_transcript_notification_contributor_and_result_bindings_are_checked():
             SyntheticTestResolver(config(), good_fixture(**changes)).resolve("receipt-17", **CH)
 
 
-def test_invalid_receipt_ids_config_and_live_api_unavailability_are_explicit():
+def test_invalid_receipt_ids_and_missing_config_are_explicit():
     with pytest.raises(ReceiptUnavailable, match="not configured"):
         GitHubVerificationReceiptResolver().resolve("receipt-17", **CH)
     with pytest.raises(ReceiptUnavailable, match="invalid"):
         SyntheticTestResolver(config(), good_fixture()).resolve("../receipt", **CH)
 
 
-def test_environment_config_missing_protected_settings_refuses():
+def test_environment_config_missing_protected_settings_refuses(tmp_path):
     with pytest.raises(ReceiptUnavailable, match="not configured"):
         trusted_config_from_environment({})
-    with pytest.raises(ValueError, match="prevent-self-review"):
-        config(prevent_self_review=False)
-    assert probe_trusted_receipt_source()["status"] == "not-configured"
-
-
-def test_live_github_adapter_does_not_claim_unavailable_approval_history():
-    with pytest.raises(ReceiptUnavailable, match="cannot currently prove completed protected-environment"):
-        GitHubActionsSource(token="fake-token").fetch("receipt-17", config())
-    probe = probe_trusted_receipt_source(config())
-    assert probe["status"] == "unavailable"
-    assert probe["available"] is False
+    # prevent_self_review may be False (single operator); it must still be a boolean
+    assert config(prevent_self_review=False).prevent_self_review is False
+    with pytest.raises(ValueError, match="prevent_self_review"):
+        config(prevent_self_review="no")
+    missing = tmp_path / "absent.json"
+    assert probe_trusted_receipt_source(env={}, configPath=missing)["status"] == "not-configured"
 
 
 def test_artifact_archive_rejects_duplicate_members_and_wrong_digest():
@@ -228,12 +236,12 @@ def rebuilt(rec=None, transcript=TRANSCRIPT, challenge_id="challenge-42", source
     return fixture
 
 
-def test_git_commit_sha_accepts_40_and_64_hex_but_digests_stay_64():
-    assert config(workflow_sha="a" * 40).workflow_sha == "a" * 40
-    assert config(workflow_sha="a" * 64)
+def test_git_object_sha_accepts_40_and_64_hex_but_digests_stay_64():
+    assert config(workflow_blob_sha="a" * 40).workflow_blob_sha == "a" * 40
+    assert config(workflow_blob_sha="a" * 64)
     for bad in ("a" * 39, "a" * 41, "A" * 40, "sha256:" + "a" * 40, "a" * 63):
-        with pytest.raises(ValueError, match="pinned source SHA"):
-            config(workflow_sha=bad)
+        with pytest.raises(ValueError, match="blob SHA"):
+            config(workflow_blob_sha=bad)
     rec = receipt()
     p = make_receipt_payload(rec, challenge_id="c", context_digest=CONTEXT, raw_transcript=TRANSCRIPT,
                              notification_ref=rec.notice_ref, source_sha="b" * 40)
@@ -241,9 +249,9 @@ def test_git_commit_sha_accepts_40_and_64_hex_but_digests_stay_64():
     with pytest.raises(ValueError, match="context digest|SHA-256"):
         make_receipt_payload(rec, challenge_id="c", context_digest="b" * 40, raw_transcript=TRANSCRIPT,
                              notification_ref=rec.notice_ref, source_sha="b" * 40)
-    # a 40-hex workflow SHA end-to-end resolves
-    cfg = config(workflow_sha="a" * 40)
-    assert resolve(good_fixture(workflowSha="a" * 40), cfg=cfg) == receipt()
+    # a 64-hex (SHA-256 object format) blob pin end-to-end resolves
+    cfg = config(workflow_blob_sha="a" * 64)
+    assert resolve(good_fixture(workflowBlobSha="a" * 64), cfg=cfg) == receipt()
 
 
 def test_receipt_digests_are_bound_to_transcript_and_output():
@@ -262,7 +270,8 @@ def test_receipt_digests_are_bound_to_transcript_and_output():
 
 
 def test_production_resolver_refuses_synthetic_and_duck_typed_sources():
-    assert GitHubVerificationReceiptResolver.AUTHENTICATED_SOURCES == (GitHubActionsSource,)
+    assert GitHubVerificationReceiptResolver.AUTHENTICATED_SOURCES == (
+        GitHubActionsSource, CommittedAttestedReceiptSource)
     port = good_fixture()
     with pytest.raises(ReceiptUnavailable, match="allowlisted authenticated"):
         GitHubVerificationReceiptResolver(config(), port).resolve("receipt-17", **CH)
@@ -281,10 +290,13 @@ def test_production_resolver_refuses_synthetic_and_duck_typed_sources():
     # the test resolver's opt-in does not extend to other subclasses either
     with pytest.raises(ReceiptUnavailable, match="allowlisted authenticated"):
         SyntheticTestResolver(config(), Sub()).resolve("receipt-17", **CH)
-    # default production source is the unavailable GitHub adapter
-    with pytest.raises(ReceiptUnavailable, match="cannot currently prove|authentication"):
-        GitHubVerificationReceiptResolver(config()).resolve("receipt-17", **CH)
-    assert not hasattr(GitHubActionsSource, "_get")
+    # the production GitHub adapter fails closed when its transport cannot reach GitHub
+    class Down:
+        def getJson(self, path):
+            raise ReceiptUnavailable("transport down")
+    with pytest.raises(ReceiptUnavailable, match="transport down"):
+        GitHubVerificationReceiptResolver(config(), GitHubActionsSource(transport=Down())).resolve(
+            "receipt-17", **CH)
 
 
 class _Raw(AuthenticatedApprovalSource):
@@ -312,7 +324,7 @@ def _corrupt_deflate(archive):
     lambda d: [],
     lambda d: {**d, "archive": _corrupt_deflate(d["archive"])},
     lambda d: {**d, "archive": bytearray(d["archive"])},
-    lambda d: {**d, "requiredReviewers": [["x"]]},
+    lambda d: {**d, "requiredReviewerIds": [["x"]]},
     lambda d: {**d, "reviewer": 5},
     lambda d: {**d, "payloadDigest": 7},
     lambda d: {**d, "runId": True},

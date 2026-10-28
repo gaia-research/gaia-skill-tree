@@ -1,0 +1,112 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/ingest",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/ingest",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/ingest/SKILL.md",
+  "checked": true,
+  "contentSha256": "1acc220ce6e9e65876fa2ccede6ce11f9c75457feb6695ef904955f8debecaae",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/meeting-ingestion",
+     "similarity": 0.542112
+    },
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.483086
+    },
+    {
+     "id": "garrytan/capture",
+     "similarity": 0.460443
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "registry-curation",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4591 to generic 'registry-curation' (weak match).",
+   "similarity": 0.459083
+  },
+  {
+   "genericId": "skill-authoring",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4506 to generic 'skill-authoring' (weak match).",
+   "similarity": 0.450562
+  }
+ ],
+ "normalized": {
+  "description": "Route content to specialized ingestion skills. Detects input type and delegates.",
+  "name": "ingest"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/ingest/SKILL.md",
+  "contentSha256": "1acc220ce6e9e65876fa2ccede6ce11f9c75457feb6695ef904955f8debecaae",
+  "fetchedAt": "2026-10-27T22:10:17.504836+00:00",
+  "frontmatter": {
+   "description": "Route content to specialized ingestion skills. Detects input type and delegates.",
+   "mutating": true,
+   "name": "ingest",
+   "tools": [
+    "search",
+    "get_page",
+    "put_page",
+    "add_link",
+    "add_timeline_entry",
+    "sync_brain"
+   ],
+   "triggers": [
+    "ingest this",
+    "save this to brain",
+    "process this meeting"
+   ],
+   "writes_pages": true,
+   "writes_to": [
+    "people/",
+    "companies/",
+    "concepts/",
+    "meetings/",
+    "sources/"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

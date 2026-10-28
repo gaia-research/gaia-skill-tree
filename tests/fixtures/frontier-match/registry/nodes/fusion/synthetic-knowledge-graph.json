@@ -1,0 +1,10 @@
+{
+  "id": "synthetic-knowledge-graph",
+  "name": "Synthetic Knowledge Graph",
+  "type": "fusion",
+  "description": "SYNTHETIC FIXTURE. Assemble documents and source code into a queryable knowledge graph with typed edges.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "status": "provisional"
+}

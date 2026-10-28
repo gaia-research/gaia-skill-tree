@@ -1,0 +1,146 @@
+diff --git a/docs/architecture/yggdrasil-iv-canonical-cli.md b/docs/architecture/yggdrasil-iv-canonical-cli.md
+index a681a361a..880d8cd6e 100644
+--- a/docs/architecture/yggdrasil-iv-canonical-cli.md
++++ b/docs/architecture/yggdrasil-iv-canonical-cli.md
+@@ -12,8 +12,13 @@ adopt schemas, authorize a live pilot or publish a canonical consequence.
+ not a cherry-pick of the held evidence/schema lane. Schema commit
+ `fa0ba3a9257682e76a57568358e2806391099f9c` is NOT adopted. The lifecycle core is a
+ proposal/rehearsal engine; production TM does not consume its assertion states.
+-The copied schema-acceptance test was adapted to assert the actual unadopted
+-schema refusal; no held schema was copied just to make a test green.
++Production schema bytes remain unchanged and their refusal is asserted. Positive
++native CLI tests use exact strict proposal bytes from `bf9097b7a2414aeb47e34c7fcfb2d067df50199c`
++ONLY in marked disposable test repositories, not `registry/schema/` in this tree.
++The actual validator and its input-context schema digests are exercised, with no
++schemaPolicy monkeypatch or permissive `{}` lifecycle overlay. Separate negatives
++show that even valid proposed-schema output cannot authenticate an approval.
++Fixture provenance/digests are documented under `tests/fixtures/canonical-proposed-schema/`.
+ 
+ ## Authority and limits
+ 
+diff --git a/tests/fixtures/canonical_cli_bootstrap.py b/tests/fixtures/canonical_cli_bootstrap.py
+index 4e3005ca5..dafed0316 100644
+--- a/tests/fixtures/canonical_cli_bootstrap.py
++++ b/tests/fixtures/canonical_cli_bootstrap.py
+@@ -1,8 +1,9 @@
+ """TEST-ONLY interpreter bootstrap. Not a production issuer or CLI option.
+ 
+ Runs the real native CLI in an isolated subprocess after replacing trusted Python
+-resolver seams. A separately authored fixture grant binds the entire plan. Schema
+-extensions below are synthetic test contracts, NOT adoption of held schemas.
++resolver seam. A separately authored fixture grant binds the entire plan.
++Actual strict proposed schema bytes are installed by fixture setup in the marked
++repository, not patched here. This is NOT adoption of held schemas.
+ """
+ import contextlib
+ import json
+@@ -19,24 +20,6 @@ grant = json.loads(Path(grantPath).read_bytes())
+ root = Path(grant["root"])
+ if not (root / "DISPOSABLE_CANONICAL_FIXTURE").is_file():
+     raise RuntimeError("fixture bootstrap requires an explicitly disposable fixture repository")
+-originalSchemas = workflow.schemaPolicy
+-
+-
+-def fixtureSchemas(selected):
+-    assert selected == root
+-    schemas = originalSchemas(selected)
+-    for schema in schemas.values():
+-        timeline = schema["definitions"]["timelineEvent"]
+-        timeline["properties"]["action"]["enum"] += [s.replace("-", "_") for s in workflow.OPERATIONS]
+-        timeline["properties"].update(decisionRef={"type": "string"}, eventId={"type": "string"})
+-    evidence = schemas["namedSkill.schema.json"]["definitions"]["evidenceEntry"]
+-    evidence["properties"].update({key: {} for key in (
+-        "evidenceId", "revision", "assertionState", "supersedes", "decisionRef", "decisionHistory",
+-        "reviewedOldDigest", "reviewedNewDigest", "metricMethod", "observationState", "lastObservedAt",
+-        "contentDigest", "sourceRevision", "measurementScope")})
+-    return schemas
+-
+-
+ class FixtureIssuer:
+     def __init__(self, plan, operation):
+         self.plan, self.operation = plan, operation
+@@ -53,8 +36,7 @@ class FixtureIssuer:
+                 and request.context_digest == tx._context(expected, self.operation))
+ 
+ 
+-workflow.schemaPolicy = fixtureSchemas
+-if mode != "schema-only":
++if mode in {"approved", "interrupt", "interrupt-rollback"}:
+     def fixtureResolver(selected, plan, operation):
+         assert selected == root
+         return FixtureIssuer(plan, operation)
+diff --git a/tests/test_canonical_cli.py b/tests/test_canonical_cli.py
+index fe494b30e..958d97e31 100644
+--- a/tests/test_canonical_cli.py
++++ b/tests/test_canonical_cli.py
+@@ -27,6 +27,11 @@ def fixtureRepo(tmp_path):
+     (root / "skill-trees/alice").mkdir(parents=True)
+     shutil.copytree(REPO / "registry/schema", root / "registry/schema")
+     (root / "DISPOSABLE_CANONICAL_FIXTURE").touch()
++    # Strict held-proposal bytes ONLY inside this explicitly disposable root.
++    # The actual native schema reader/validator and context digest remain intact.
++    for name in ("namedSkill.schema.json", "skillTree.schema.json"):
++        shutil.copyfile(REPO / "tests/fixtures/canonical-proposed-schema" / name,
++                        root / "registry/schema" / name)
+     named = {"id": "alice/tool", "name": "Fixture Tool", "contributor": "alice", "origin": True,
+              "genericSkillRef": "tool", "status": "named", "level": "4★", "title": "Fixture",
+              "description": "Disposable fixture implementation", "createdAt": "2026-01-01", "updatedAt": "2026-10-27",
+@@ -83,17 +88,33 @@ def loadNamed(root):
+     return yaml.safe_load((root / "registry/named/alice/tool.md").read_text().split("---", 2)[1])
+ 
+ 
+-def test_production_refuses_schema_and_missing_issuer_without_writes(fixtureRepo):
++def test_production_refuses_unadopted_schema_without_writes(fixtureRepo):
+     root = fixtureRepo
++    for name in ("namedSkill.schema.json", "skillTree.schema.json"):
++        shutil.copyfile(REPO / "registry/schema" / name, root / "registry/schema" / name)
+     before = sources(root)
+-    plan, path, grant = makePlan(root)
++    plan, path, _ = makePlan(root)
+     assert sources(root) == before
+     assert plan["summary"]["legacyBeforeTM"] == plan["summary"]["legacyAfterTM"]
+     for verb in ("validate", "apply"):
+         result = cli(root, "canonical", verb, "--plan", str(path))
+         assert result.returncode == 1 and "schema adoption held" in result.stderr
+-    # Even test-only schema extension cannot authenticate a production approval.
+-    result = cli(root, "canonical", "apply", "--plan", str(path), mode="schema-only", grant=grant)
++    assert sources(root) == before
++    assert not list((root / ".gaia/canonical-transactions").glob("*.json"))
++
++
++def test_strict_proposal_validation_is_not_a_production_approval(fixtureRepo):
++    import hashlib
++    root = fixtureRepo
++    before = sources(root)
++    plan, path, _ = makePlan(root)
++    for name in ("namedSkill.schema.json", "skillTree.schema.json"):
++        data = (REPO / "tests/fixtures/canonical-proposed-schema" / name).read_bytes()
++        assert plan["context"]["files"]["registry/schema/" + name] == hashlib.sha256(data).hexdigest()
++    result = cli(root, "canonical", "validate", "--plan", str(path))
++    assert result.returncode == 0, result.stderr
++    assert "validation is not approval" in json.loads(result.stdout)["approval"]
++    result = cli(root, "canonical", "apply", "--plan", str(path))
+     assert result.returncode == 1 and "No trusted canonical transaction issuer" in result.stderr
+     assert sources(root) == before
+     assert not list((root / ".gaia/canonical-transactions").glob("*.json"))
+@@ -179,7 +200,7 @@ def test_interruption_guards_actual_legacy_cli_and_recovers(fixtureRepo):
+     assert not json.loads(cli(root, "canonical", "status").stdout)["pending"]
+ 
+ 
+-@pytest.mark.parametrize("mutation", ["target", "policy", "revision", "plan", "grant"])
++@pytest.mark.parametrize("mutation", ["target", "policy", "schema", "revision", "plan", "grant"])
+ def test_stale_inputs_forged_plans_and_grants_refuse(fixtureRepo, mutation):
+     root = fixtureRepo
+     plan, path, grant = makePlan(root)
+@@ -188,6 +209,11 @@ def test_stale_inputs_forged_plans_and_grants_refuse(fixtureRepo, mutation):
+             stream.write("outside edit\n")
+     elif mutation == "policy":
+         (root / "META.md").write_text("changed policy")
++    elif mutation == "schema":
++        schemaPath = root / "registry/schema/namedSkill.schema.json"
++        schema = json.loads(schemaPath.read_bytes())
++        schema["description"] = "changed schema input"
++        dump(schemaPath, schema)
+     elif mutation == "revision":
+         subprocess.run(["git", "-C", str(root), "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid", "commit", "--allow-empty", "-qm", "new revision"], check=True)
+     elif mutation == "plan":

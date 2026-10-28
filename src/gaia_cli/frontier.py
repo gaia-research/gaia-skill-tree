@@ -11,6 +11,7 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import uuid
 from typing import Any
 from urllib.parse import urlsplit, urlunsplit
 
@@ -21,8 +22,36 @@ SCHEMA = DATA / "challenger-lead-v1.1.schema.json"
 REQUEST_SCHEMA = DATA / "frontier-verification-request-v1.schema.json"
 EXPERIMENT_SCHEMA = DATA / "experiment-receipt-v1.schema.json"
 EXPERIMENT_SCHEMA_V11 = DATA / "experiment-receipt-v1.1.schema.json"
+META_VERIFICATION_SCHEMA = DATA / "meta-verification-v1.schema.json"
+PROTOCOL_SCHEMA = DATA / "frontier-protocol-v1.schema.json"
+DEFAULT_ARTIFACT_ROOT = "generated-output/frontier"
+COMMITTED_ARTIFACT_ROOT = re.compile(r"evidence/frontier-challenges/[A-Za-z0-9][A-Za-z0-9._-]*/artifacts")
+EXPERIMENT_RESULTS = ("supported", "contradicted", "inconclusive", "execution_failed")
+UNIVERSAL_ARTIFACT_KEYS = ("experiment", "executionCheck", "requestId", "fixtureDigest", "protocolDigest")
 VERSION_MISMATCH_RESULTS = {"inconclusive", "execution_failed"}
+# Declaration for the pre-generic git-log-L protocol file, which stays byte-identical
+# (its digest is bound into existing requests/receipts) and so declares nothing itself.
+LEGACY_EXPERIMENTS = {
+    "git-log-L-vs-graft-v1": {
+        "id": "git-log-L-vs-graft-v1", "toolName": "Git", "runnerLabel": "Fixed Git fixture runner",
+        "expectedArtifactKeys": list(UNIVERSAL_ARTIFACT_KEYS) + ["gitVersion", "output", "outputDigest"],
+        "outputField": "output", "outputDigestField": "outputDigest",
+        "versionProbe": {"field": "gitVersion", "pattern": r"git version (\S+)(?: .*)?", "label": "git --version", "crossCheckField": "executedVersion"},
+        "outputNormalization": [[r"\b[0-9a-f]{40}\b", "<commit-id>"]],
+        "resultRule": {"statement": "Legacy git-log-L rule: comparative results need native and target artifacts; a version mismatch permits only inconclusive or execution_failed.", "allowedResults": list(EXPERIMENT_RESULTS)},
+    }
+}
 FORBIDDEN_AUTHORITY_FIELDS = {"verified", "verifiedBy", "approvedBy", "verificationReceipt", "confidence", "publicChallengeId", "challengeStatus", "verifierId", "actor", "signature", "admission"}
+
+
+# A Meta verification record is a claim, so it may not carry any field that would read as an
+# approval, admission, authentication or numeric/rank outcome. Matched case-insensitively at any depth.
+POSITIVE_OUTCOMES = {"substantiated", "narrowed"}
+META_FORBIDDEN_FIELDS = {name.casefold() for name in FORBIDDEN_AUTHORITY_FIELDS} | {
+    "approval", "approved", "admitted", "admittedby", "isverified", "verifiedflag", "authenticated", "trusted",
+    "independent", "independentverified", "challengeadmitted", "contested", "resolved", "tm", "trustmagnitude",
+    "stars", "level", "origin", "grade", "decision", "reviewer", "reviewedby", "issuer", "receiptissuer",
+}
 
 
 def canonical_source_url(value: str) -> str:
@@ -185,8 +214,13 @@ def validate_request(request: dict[str, Any]) -> list[str]:
     return errors
 
 
-def validate_experiment_receipt(receipt: dict[str, Any], request: dict[str, Any], *, repo_root: str | Path | None = None) -> list[str]:
-    """Check binding and output-file integrity; result remains untrusted and never means admission."""
+def validate_experiment_receipt(receipt: dict[str, Any], request: dict[str, Any], *, repo_root: str | Path | None = None, artifact_root: str = DEFAULT_ARTIFACT_ROOT) -> list[str]:
+    """Check binding and output-file integrity; result remains untrusted and never means admission.
+
+    `artifact_root` names the repo-relative directory every output must live under:
+    `generated-output/frontier` (default) or a committed bundle's
+    `evidence/frontier-challenges/<id>/artifacts`, so archived bundles re-validate.
+    """
     is_v11 = isinstance(receipt, dict) and receipt.get("schemaVersion") == "frontier-experiment-receipt-v1.1"
     errors = _validate_schema(receipt, EXPERIMENT_SCHEMA_V11 if is_v11 else EXPERIMENT_SCHEMA)
     request_errors = validate_request(request)
@@ -215,16 +249,373 @@ def validate_experiment_receipt(receipt: dict[str, Any], request: dict[str, Any]
         errors.append("output artifacts require local integrity verification")
     if repo_root is not None:
         root = Path(repo_root).resolve()
+        resolved_outputs = []
         for item in outputs:
             try:
-                path, raw = _validated_file(root, item["path"])
-                if not path.is_relative_to((root / "generated-output/frontier").resolve()):
-                    errors.append("output artifact is outside generated-output/frontier")
+                relative = item["path"]
+                if Path(relative).as_posix() != relative:
+                    errors.append(f"output artifact path is not normalized: {relative}")
+                path = resolve_artifact(root, relative, artifact_root)
+                _, raw = _validated_file(root, relative)
+                resolved_outputs.append(path)
                 if _sha(raw) != item.get("contentDigest"):
                     errors.append(f"output artifact digest mismatch: {item.get('label')}")
             except (KeyError, TypeError, ValueError) as exc:
-                errors.append(f"invalid output artifact: {exc}")
+                if "descendant" in str(exc):
+                    errors.append(f"output artifact is outside {artifact_root}")
+                else:
+                    errors.append(f"invalid output artifact: {exc}")
+        if len(set(resolved_outputs)) != len(resolved_outputs):
+            errors.append("output artifacts alias each other")
+        try:
+            pinned = pinned_declaration(root, request)
+            if receipt.get("result") not in pinned["resultRule"]["allowedResults"]:
+                errors.append("result is not permitted by the pinned protocol result rule")
+            if "experimentId" in receipt and receipt["experimentId"] != pinned["id"]:
+                errors.append("experimentId does not match the pinned protocol")
+        except ValueError as exc:
+            errors.append(f"pinned protocol check failed: {exc}")
     return sorted(set(errors))
+
+
+def _artifact_base(root: Path, artifact_root: str) -> Path:
+    """Resolve a permitted artifact root; refuse unknown roots and symlinked components."""
+    if artifact_root != DEFAULT_ARTIFACT_ROOT and not COMMITTED_ARTIFACT_ROOT.fullmatch(str(artifact_root)):
+        raise ValueError("artifact_root must be generated-output/frontier or evidence/frontier-challenges/<id>/artifacts")
+    current = root
+    for part in Path(artifact_root).parts:
+        current = current / part
+        if current.is_symlink():
+            raise ValueError("artifact_root must not contain symlinks")
+    resolved = current.resolve()
+    if not resolved.is_relative_to(root.resolve()):
+        raise ValueError("artifact_root is outside checkout")
+    return resolved
+
+
+def resolve_artifact(root: str | Path, relative: str, artifact_root: str = DEFAULT_ARTIFACT_ROOT) -> Path:
+    """Confine reads/writes to real descendants of the artifact root; never follow symlinks."""
+    root = Path(root).resolve()
+    _artifact_base(root, artifact_root)
+    rel, prefix = Path(relative), Path(artifact_root).parts
+    if rel.is_absolute() or ".." in rel.parts or rel.parts[:len(prefix)] != prefix or len(rel.parts) <= len(prefix):
+        raise ValueError(f"artifact must be a relative {artifact_root} descendant")
+    current = root
+    for part in rel.parts:
+        current = current / part
+        if current.is_symlink():
+            raise ValueError("artifact paths must not contain symlinks")
+    if not current.resolve().is_relative_to(root):
+        raise ValueError("artifact is outside checkout")
+    return current
+
+
+def validate_protocol(protocol: Any) -> list[str]:
+    """Schema-check a `frontier-protocol-v1` document, including its version-probe regex."""
+    if not isinstance(protocol, dict):
+        return ["protocol must be a JSON object"]
+    errors = _validate_schema(protocol, PROTOCOL_SCHEMA)
+    if not errors:
+        try:
+            probe = protocol["experiment"]["versionProbe"]["pattern"]
+            if re.compile(probe).groups != 1:
+                errors.append("experiment.versionProbe.pattern: must have exactly one capture group (the executed version)")
+        except re.error as exc:
+            errors.append(f"experiment.versionProbe.pattern: invalid regex: {exc}")
+        for index, (pattern, _) in enumerate(protocol["experiment"].get("outputNormalization", [])):
+            try:
+                re.compile(pattern)
+            except re.error as exc:
+                errors.append(f"experiment.outputNormalization[{index}]: invalid regex: {exc}")
+    return errors
+
+
+def experiment_declaration(protocol: Any) -> dict[str, Any]:
+    """Return the experiment contract a protocol declares (explicitly, or the legacy git-log-L one)."""
+    if isinstance(protocol, dict) and protocol.get("schemaVersion") == "frontier-protocol-v1":
+        errors = validate_protocol(protocol)
+        if errors:
+            raise ValueError("invalid protocol: " + "; ".join(errors))
+        return protocol["experiment"]
+    if isinstance(protocol, dict) and protocol.get("protocolId") in LEGACY_EXPERIMENTS:
+        return LEGACY_EXPERIMENTS[protocol["protocolId"]]
+    raise ValueError("protocol declares no experiment contract (expected schemaVersion frontier-protocol-v1)")
+
+
+def pinned_declaration(root: Path, request: dict[str, Any], protocol: str | None = None) -> dict[str, Any]:
+    """Experiment contract declared by the protocol file the request pins; digest-checked, never caller-supplied."""
+    pinned = request["protocol"]["path"]
+    if protocol is not None and str(protocol) != pinned:
+        raise ValueError("protocol path does not match the request's pinned protocol")
+    _, raw = _validated_file(root, pinned)
+    if _sha(raw) != request["protocol"]["contentDigest"]:
+        raise ValueError("checkout protocol bytes differ from the request")
+    try:
+        document = json.loads(raw)
+    except ValueError as exc:
+        raise ValueError(f"protocol is not valid JSON: {exc}") from None
+    return experiment_declaration(document)
+
+
+MAX_COMPARED_OUTPUT = 1_048_576
+
+
+def normalize_output(declaration: dict[str, Any], text: str) -> str:
+    """Apply the declaration's outputNormalization pairs in order (default: none, i.e. exact comparison)."""
+    if len(text) > MAX_COMPARED_OUTPUT:
+        raise ValueError("runner output is too large to compare")
+    for pattern, replacement in declaration.get("outputNormalization", []):
+        text = re.sub(pattern, replacement, text)
+    return text
+
+
+def check_execution_artifact(declaration: dict[str, Any], execution: Any, request: dict[str, Any]) -> str:
+    """Validate a runner artifact against a declared contract and its request; return the executed version."""
+    if not isinstance(execution, dict) or execution.get("experiment") != declaration["id"] or execution.get("executionCheck") != "passed":
+        raise ValueError("fixed runner output did not match expected reviewed protocol")
+    probe = declaration["versionProbe"]
+    required = list(dict.fromkeys([*declaration["expectedArtifactKeys"], *UNIVERSAL_ARTIFACT_KEYS, probe["field"], declaration["outputField"], declaration["outputDigestField"]]))
+    missing = [key for key in required if key not in execution]
+    if missing:
+        raise ValueError("native artifact is missing expected keys: " + ", ".join(missing))
+    probed = str(execution.get(probe["field"], "")).strip()
+    match = re.fullmatch(probe["pattern"], probed) if len(probed) <= 200 else None
+    if not match or not match.group(1):
+        raise ValueError(f"native artifact lacks a recognizable {probe['label']} string")
+    executed = match.group(1)
+    cross = probe.get("crossCheckField")
+    if cross and cross in execution and execution[cross] != executed:
+        raise ValueError(f"native artifact {cross} does not match its recorded {probe['label']}")
+    for key, expected in (("requestId", request["requestId"]), ("fixtureDigest", request["fixture"]["contentDigest"]), ("protocolDigest", request["protocol"]["contentDigest"])):
+        if execution.get(key) != expected:
+            raise ValueError(f"native artifact {key} does not match the request")
+    output = execution.get(declaration["outputField"])
+    if not isinstance(output, str) or execution.get(declaration["outputDigestField"]) != _sha(output.encode("utf-8")):
+        raise ValueError("native recorded output digest mismatch")
+    return executed
+
+
+def build_experiment_receipt(*, root: str | Path, request: dict[str, Any], execution_path: str, protocol: str | None = None,
+                             target_path: str | None = None, result: str = "inconclusive",
+                             artifact_root: str = DEFAULT_ARTIFACT_ROOT, run_id: str | None = None,
+                             recorded_at: str | None = None) -> dict[str, Any]:
+    """Bind a runner artifact to a request under the contract its pinned protocol declares.
+
+    The experiment contract is always read from the protocol file the request pins (checked
+    against the request's digest); `protocol`, if given, must name that same path. The result
+    is an untrusted experiment record, never a verifier authentication or admission.
+    """
+    root = Path(root).resolve()
+    if result not in EXPERIMENT_RESULTS:
+        raise ValueError("invalid experimental result")
+    request_errors = validate_request(request)
+    if request_errors:
+        raise ValueError("request integrity check failed")
+    declaration = pinned_declaration(root, request, protocol)
+    if result not in declaration["resultRule"]["allowedResults"]:
+        raise ValueError(f"result {result} is not permitted by the protocol result rule")
+    native_file = resolve_artifact(root, execution_path, artifact_root)
+    native_raw = native_file.read_bytes()
+    execution = json.loads(native_raw)
+    executed = check_execution_artifact(declaration, execution, request)
+    documented = request["native"]["version"]
+    if executed != documented and result not in VERSION_MISMATCH_RESULTS:
+        raise ValueError(f"executed {declaration['toolName']} {executed} differs from documented {documented}: only inconclusive or execution_failed may be recorded")
+    recorded = execution.get("result")
+    if recorded is not None and recorded != result and not (recorded == "inconclusive" and target_path is not None):
+        raise ValueError(f"result {result} contradicts the runner artifact's recorded result {recorded}; only a paired target artifact may move an inconclusive runner result")
+    # Also bind to the fixture bytes this checkout holds, not only the request's claim.
+    _, fixture_raw = _validated_file(root, request["fixture"]["path"])
+    if _sha(fixture_raw) != request["fixture"]["contentDigest"]:
+        raise ValueError("checkout fixture bytes differ from the request")
+    outputs = [{"label": "native", "contentDigest": _sha(native_raw), "path": execution_path}]
+    limitations = ["This is an untrusted experiment record, not verifier authentication or public challenge admission."]
+    if executed != documented:
+        limitations.append(f"Executed {declaration['toolName']} version {executed} differs from documented version {documented}; the documented tag is claim provenance only, so only inconclusive or execution_failed is permitted.")
+    if target_path is not None:
+        target_file = resolve_artifact(root, target_path, artifact_root)
+        target_raw = target_file.read_bytes()
+        if not target_raw.strip():
+            raise ValueError("target output artifact is empty")
+        if native_file == target_file:
+            raise ValueError("native and target outputs must be distinct artifacts")
+        if hashlib.sha256(target_raw).digest() == hashlib.sha256(native_raw).digest():
+            raise ValueError("native and target outputs must have distinct content")
+        outputs.append({"label": "target", "contentDigest": _sha(target_raw), "path": target_path})
+        limitations.append("Paired artifacts alone establish neither comparable performance, superiority nor independent verification; Meta must assess protocol execution and counterevidence.")
+    else:
+        limitations.append(f"{declaration['runnerLabel']} executed; no target comparison output is attached.")
+    receipt = {
+        "schemaVersion": "frontier-experiment-receipt-v1.1", "experimentRunId": run_id or "run-" + uuid.uuid4().hex,
+        "campaignId": request["campaignId"], "nativeVersion": executed,
+        "documentedVersion": documented, "executedVersion": executed,
+        "requestId": request["requestId"], "leadDigest": request["leadDigest"], "claimDigest": request["claimDigest"],
+        "sourceDigest": request["source"]["contentDigest"], "targetDigest": request["target"]["contentDigest"],
+        "targetRevision": request["target"]["revision"], "historyRef": request["historyRef"],
+        "protocolDigest": request["protocol"]["contentDigest"], "fixtureDigest": request["fixture"]["contentDigest"],
+        "result": result, "outputs": outputs, "limitations": limitations,
+        "recordedAtUTC": recorded_at or datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+    }
+    if declaration is not LEGACY_EXPERIMENTS.get(declaration["id"]):
+        receipt["experimentId"] = declaration["id"]
+    errors = validate_experiment_receipt(receipt, request, repo_root=root, artifact_root=artifact_root)
+    if errors:
+        raise ValueError("receipt invalid: " + "; ".join(errors))
+    return receipt
+
+
+def receipt_digest(receipt: dict[str, Any]) -> str:
+    """Digest a Meta verification record uses to name the receipt it assessed."""
+    return _sha(_canonical(receipt))
+
+
+def _forbidden_paths(value: Any, path: str = "$") -> list[str]:
+    found: list[str] = []
+    if isinstance(value, dict):
+        for key, child in value.items():
+            if str(key).casefold() in META_FORBIDDEN_FIELDS:
+                found.append(f"{path}.{key}")
+            found.extend(_forbidden_paths(child, f"{path}.{key}"))
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            found.extend(_forbidden_paths(child, f"{path}[{index}]"))
+    return found
+
+
+def _checked_artifact_path(root: Path, relative: Any, artifact_root: str) -> Path:
+    if not isinstance(relative, str) or Path(relative).as_posix() != relative:
+        raise ValueError(f"path is not normalized: {relative}")
+    return resolve_artifact(root, relative, artifact_root)
+
+
+def validate_meta_verification(record: Any, receipt: dict[str, Any], request: dict[str, Any], *,
+                               repo_root: str | Path | None = None, artifact_root: str = DEFAULT_ARTIFACT_ROOT) -> list[str]:
+    """Check a Meta verification record against the receipt it assesses and the request that pins its protocol.
+
+    Everything checked here is structural. Run ids, digests, `reexecution.performed`, session
+    separation and the `independence` declaration are author-asserted and never authenticate the
+    verifier; passing this validator is not verification by an independent party, approval or
+    admission. Positive outcomes and admission-review recommendations additionally require
+    re-execution artifacts that parse under the request-pinned protocol and are not copies of
+    the receipt's own outputs.
+    """
+    if not isinstance(record, dict):
+        return ["record must be a JSON object"]
+    errors = [f"forbidden authority field: {path}" for path in sorted(_forbidden_paths(record))]
+    errors.extend(_validate_schema(record, META_VERIFICATION_SCHEMA))
+    if not isinstance(receipt, dict):
+        return sorted(set(errors + ["receipt must be a JSON object"]))
+    if not isinstance(request, dict):
+        return sorted(set(errors + ["request is required to validate the receipt"]))
+    errors.extend(f"receipt: {error}" for error in validate_experiment_receipt(receipt, request, repo_root=repo_root, artifact_root=artifact_root))
+    for key, expected in (("campaignId", receipt.get("campaignId")), ("requestId", receipt.get("requestId")), ("receiptRunId", receipt.get("experimentRunId")), ("receiptDigest", receipt_digest(receipt))):
+        if record.get(key) != expected:
+            errors.append(f"receipt binding mismatch: {key}")
+    if record.get("verifierRunId") == receipt.get("experimentRunId"):
+        errors.append("verifierRunId must differ from the receipt's experimentRunId")
+    reexec = record.get("reexecution") if isinstance(record.get("reexecution"), dict) else {}
+    artifacts = [a for a in reexec.get("artifacts", []) if isinstance(a, dict)] if isinstance(reexec.get("artifacts"), list) else []
+    outcome, recommend = record.get("outcome"), record.get("recommend")
+    admission = isinstance(recommend, dict) and recommend.get("action") == "request-admission-review"
+    positive = outcome in POSITIVE_OUTCOMES
+    if admission and not positive:
+        errors.append("request-admission-review may only be recommended for substantiated or narrowed outcomes")
+    if positive or admission:
+        if reexec.get("performed") is not True or not artifacts:
+            errors.append(f"{outcome} / request-admission-review requires verifier re-execution artifacts")
+        if receipt.get("result") != "supported":
+            errors.append(f"{outcome} requires the receipt result to be supported, not {receipt.get('result')}")
+        if receipt.get("documentedVersion") != receipt.get("executedVersion"):
+            errors.append(f"{outcome} is not available when the receipt's executed version differs from the documented version")
+        receipt_labels = {o.get("label") for o in receipt.get("outputs", []) if isinstance(o, dict)}
+        if not receipt_labels.issubset({a.get("label") for a in artifacts}):
+            errors.append("re-execution artifacts are required for every receipt output label")
+        if repo_root is None:
+            errors.append("local artifact integrity verification (--repo-root) is required")
+    labels = [a.get("label") for a in artifacts]
+    if len(set(labels)) != len(labels):
+        errors.append("re-execution artifact labels must be unique")
+    if artifacts and repo_root is None:
+        errors.append("re-execution artifacts require local integrity verification")
+    if artifacts and repo_root is not None:
+        errors.extend(_check_reexecution(record, receipt, request, artifacts, Path(repo_root).resolve(), artifact_root, positive or admission))
+    return sorted(set(errors))
+
+
+def _compare_native_outputs(declaration: dict[str, Any], execution: dict[str, Any], receipt: dict[str, Any], request: dict[str, Any],
+                            root: Path, artifact_root: str) -> list[str]:
+    """The verifier's native output must equal the receipt's native output after the declared normalization."""
+    native = next((o for o in receipt.get("outputs", []) if isinstance(o, dict) and o.get("label") == "native"), None)
+    if native is None:
+        return ["receipt has no native output to compare the re-execution against"]
+    try:
+        receipt_execution = json.loads(_checked_artifact_path(root, native.get("path"), artifact_root).read_bytes())
+        check_execution_artifact(declaration, receipt_execution, request)
+        field = declaration["outputField"]
+        mine, theirs = execution[field], receipt_execution[field]
+        if normalize_output(declaration, mine) != normalize_output(declaration, theirs):
+            return ["re-execution native output differs from the receipt's native output after declared normalization"]
+        if mine == theirs and normalize_output(declaration, theirs) != theirs:
+            return ["re-execution native output is raw-identical to the receipt's although the protocol declares run-varying content to normalize; indistinguishable from a copy"]
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        return [f"receipt native artifact does not parse under the pinned protocol: {exc}"]
+    return []
+
+
+def _check_reexecution(record: dict[str, Any], receipt: dict[str, Any], request: dict[str, Any], artifacts: list[dict[str, Any]],
+                       root: Path, artifact_root: str, positive: bool) -> list[str]:
+    errors: list[str] = []
+    receipt_paths, receipt_digests = set(), set()
+    for output in receipt.get("outputs", []):
+        if isinstance(output, dict):
+            receipt_digests.add(output.get("contentDigest"))
+            try:
+                receipt_paths.add(_checked_artifact_path(root, output.get("path"), artifact_root))
+            except ValueError:
+                pass  # the receipt's own validation already reports this
+    try:
+        declaration = pinned_declaration(root, request)
+    except ValueError as exc:
+        declaration = None
+        errors.append(f"re-execution cannot be parsed: {exc}")
+    seen_paths: set[Path] = set()
+    seen_digests: set[str] = set()
+    for item in artifacts:
+        label = item.get("label")
+        try:
+            path = _checked_artifact_path(root, item.get("path"), artifact_root)
+            raw = path.read_bytes() if path.is_file() else None
+        except (OSError, ValueError) as exc:
+            errors.append(f"invalid re-execution artifact {label}: {exc}")
+            continue
+        if raw is None:
+            errors.append(f"invalid re-execution artifact {label}: file not found")
+            continue
+        digest = _sha(raw)
+        if digest != item.get("contentDigest"):
+            errors.append(f"re-execution artifact digest mismatch: {label}")
+        if path in receipt_paths or path in seen_paths:
+            errors.append(f"re-execution artifact reuses an existing output path: {label}")
+        if digest in receipt_digests or digest in seen_digests:
+            errors.append(f"re-execution artifact is byte-identical to another output and cannot be told apart from a copy: {label}")
+        seen_paths.add(path)
+        seen_digests.add(digest)
+        if not raw.strip():
+            errors.append(f"re-execution artifact is empty: {label}")
+        if label == "native" and declaration is not None:
+            try:
+                execution = json.loads(raw)
+                executed = check_execution_artifact(declaration, execution, request)
+            except (ValueError, TypeError) as exc:
+                errors.append(f"re-execution native artifact does not parse under the pinned protocol: {exc}")
+                continue
+            if positive:
+                if executed != receipt.get("executedVersion"):
+                    errors.append(f"re-execution executed version {executed} differs from the receipt's {receipt.get('executedVersion')}")
+                errors.extend(_compare_native_outputs(declaration, execution, receipt, request, root, artifact_root))
+    if positive and not any(a.get("label") == "native" for a in artifacts):
+        errors.append("re-execution requires a native artifact that parses under the pinned protocol")
+    return errors
 
 
 def read_only_handoff(data: dict[str, Any], *, packet_path: str, request: dict[str, Any] | None = None) -> dict[str, Any]:

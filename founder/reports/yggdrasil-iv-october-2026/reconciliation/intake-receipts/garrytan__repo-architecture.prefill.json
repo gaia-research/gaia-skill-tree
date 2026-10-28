@@ -1,0 +1,90 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/repo-architecture",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/repo-architecture",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/repo-architecture/SKILL.md",
+  "checked": true,
+  "contentSha256": "c57c629d31676ef02f4f42f6dd55dd432e02e0d3a6397aacbbd1037138493763",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.621083
+    },
+    {
+     "id": "mattpocock/research",
+     "similarity": 0.454351
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.452827
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Where new brain files go. Decision protocol for filing brain pages by primary subject, not by format or source. Reference for all brain-writing skills.",
+  "name": "repo-architecture"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/repo-architecture/SKILL.md",
+  "contentSha256": "c57c629d31676ef02f4f42f6dd55dd432e02e0d3a6397aacbbd1037138493763",
+  "fetchedAt": "2026-10-27T22:06:46.861500+00:00",
+  "frontmatter": {
+   "description": "Where new brain files go. Decision protocol for filing brain pages by primary\nsubject, not by format or source. Reference for all brain-writing skills.\n",
+   "mutating": false,
+   "name": "repo-architecture",
+   "tools": [
+    "search",
+    "get_page",
+    "list_pages"
+   ],
+   "triggers": [
+    "where does this go",
+    "filing rules",
+    "create new page",
+    "which directory"
+   ],
+   "version": "1.0.0"
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

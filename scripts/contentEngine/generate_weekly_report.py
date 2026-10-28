@@ -42,6 +42,14 @@ _PKG_DIR = Path(__file__).resolve().parent
 if str(_PKG_DIR) not in sys.path:
     sys.path.insert(0, str(_PKG_DIR))
 
+# `publication_context` lives one level up in scripts/ and is imported bare by
+# `_isoNow()` / `run()`. When this file runs as a script, sys.path[0] is
+# scripts/contentEngine/, so scripts/ must be added explicitly or the import
+# raises ModuleNotFoundError (regression from #2172).
+_SCRIPTS_DIR = _PKG_DIR.parent
+if str(_SCRIPTS_DIR) not in sys.path:
+    sys.path.append(str(_SCRIPTS_DIR))
+
 # ---------------------------------------------------------------------------
 # ISO week helpers
 # ---------------------------------------------------------------------------

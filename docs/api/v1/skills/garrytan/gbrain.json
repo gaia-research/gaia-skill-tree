@@ -91,6 +91,14 @@
       "previousValue": "v0.50.0.0",
       "newValue": "v0.51.6.0",
       "details": "synced from https://github.com/garrytan/gbrain/releases/tag/v0.51.6.0"
+    },
+    {
+      "timestamp": "2026-10-27T21:38:50Z",
+      "action": "upstream_synced",
+      "contributor": "mbtiongson1",
+      "previousValue": "v0.51.6.0",
+      "newValue": "v0.60.474.0",
+      "details": "synced from https://github.com/garrytan/gbrain/releases/tag/v0.60.474.0"
     }
   ],
   "links": {

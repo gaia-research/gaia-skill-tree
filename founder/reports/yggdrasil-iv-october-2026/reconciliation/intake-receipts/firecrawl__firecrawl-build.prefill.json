@@ -1,0 +1,131 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "firecrawl/firecrawl-build",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "firecrawl/firecrawl-build",
+  "canonicalUrl": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build/SKILL.md",
+  "checked": true,
+  "contentSha256": "6c52fd79c4322ba9f0cf560fc28c9c9ee961d1cd0d930b7656b61449ff693d2b",
+  "hostRepository": "https://github.com/firecrawl/skills",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "firecrawl/firecrawl-build-search",
+     "similarity": 0.75809
+    },
+    {
+     "id": "firecrawl/firecrawl-build-interact",
+     "similarity": 0.718209
+    },
+    {
+     "id": "firecrawl/firecrawl-skills",
+     "similarity": 0.655643
+    },
+    {
+     "id": "firecrawl/firecrawl-build-scrape",
+     "similarity": 0.634825
+    },
+    {
+     "id": "firecrawl/firecrawl-build-onboarding",
+     "similarity": 0.578222
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "firecrawl",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.6094 to generic 'firecrawl' (weak match).",
+   "similarity": 0.609449
+  },
+  {
+   "genericId": "browser-automation",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4655 to generic 'browser-automation' (weak match).",
+   "similarity": 0.465514
+  },
+  {
+   "genericId": "web-scrape",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4587 to generic 'web-scrape' (weak match).",
+   "similarity": 0.458717
+  }
+ ],
+ "normalized": {
+  "description": "Integrate Firecrawl into application code whenever a product, agent, or workflow needs web data inside the app \u2014 web search, live search results, page scraping, structured extraction, or browser interaction. Use when building any feature that needs data from the web in code, even if the user does not mention Firecrawl explicitly and only describes wanting web data, website content, search, scraping, or interaction in an application. Trigger for Firecrawl requests, \"fire girl\" shorthand, and gene",
+  "name": "firecrawl-build"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build/SKILL.md",
+  "contentSha256": "6c52fd79c4322ba9f0cf560fc28c9c9ee961d1cd0d930b7656b61449ff693d2b",
+  "fetchedAt": "2026-10-27T22:10:18.244078+00:00",
+  "frontmatter": {
+   "description": "Integrate Firecrawl into application code whenever a product, agent, or workflow needs web data inside the app \u2014 web search, live search results, page scraping, structured extraction, or browser interaction. Use when building any feature that needs data from the web in code, even if the user does not mention Firecrawl explicitly and only describes wanting web data, website content, search, scraping, or interaction in an application. Trigger for Firecrawl requests, \"fire girl\" shorthand, and generic app-level web-data needs that should map to `/scrape`, `/search`, or `/interact`. Do not use this skill for one-off terminal-only web tasks during the current session; use `firecrawl/cli` for those.",
+   "inputs": [
+    {
+     "description": "Firecrawl API key for cloud usage. Store it in `.env` or the runtime environment before making Firecrawl API calls.",
+     "name": "FIRECRAWL_API_KEY",
+     "required": true
+    },
+    {
+     "description": "Optional base URL for self-hosted Firecrawl deployments. Only set this when the project is not using the hosted `api.firecrawl.dev`.",
+     "name": "FIRECRAWL_API_URL",
+     "required": false
+    }
+   ],
+   "license": "ISC",
+   "metadata": {
+    "author": "firecrawl",
+    "homepage": "https://www.firecrawl.dev",
+    "source": "https://github.com/firecrawl/skills",
+    "version": "0.1.0"
+   },
+   "name": "firecrawl-build",
+   "references": [
+    "references/project-intake.md",
+    "references/endpoint-selection.md",
+    "references/integration-patterns.md",
+    "references/sdk-installation.md",
+    "references/auth-and-env.md",
+    "references/verification.md"
+   ]
+  },
+  "hostRepository": "https://github.com/firecrawl/skills",
+  "sourceLane": "source-repository"
+ }
+}
