@@ -1,7 +1,26 @@
 {
- "generation": 91,
+ "generation": 92,
  "lane": {
   "entries": [
+   {
+    "attempts": 0,
+    "debtId": "debt:knowledge_contradiction:governance-policy:4d419b891727eb98",
+    "firstQueuedAt": "2026-10-28T02:49:20.771873Z",
+    "history": [
+     {
+      "at": "2026-10-28T02:49:20.771873Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-28T02:49:20.771873Z",
+    "lastVerdict": null,
+    "priority": 0.4032,
+    "rule": "knowledge-contradiction",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
    {
     "attempts": 1,
     "debtId": "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811",
@@ -34,7 +53,7 @@
     "state": "escalated"
    },
    {
-    "attempts": 0,
+    "attempts": 1,
     "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
     "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
     "history": [
@@ -43,14 +62,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-10-28T02:49:20.771873Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-37bd74ce6b4e0a62bb17",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-10-28T02:49:20.771873Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 0,
@@ -1422,6 +1447,25 @@
    },
    {
     "attempts": 0,
+    "debtId": "debt:unused_import:scripts-merge-gate-check-py:1cff37f84d221787",
+    "firstQueuedAt": "2026-10-28T02:49:20.771873Z",
+    "history": [
+     {
+      "at": "2026-10-28T02:49:20.771873Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-28T02:49:20.771873Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
     "debtId": "debt:unused_import:scripts-migrate-taxonomy-v6-py:8219619acd869521",
     "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
     "history": [
@@ -1585,6 +1629,25 @@
      }
     ],
     "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:unused_import:scripts-verify-review-findings-py:c0bd2a33a077a588",
+    "firstQueuedAt": "2026-10-28T02:49:20.771873Z",
+    "history": [
+     {
+      "at": "2026-10-28T02:49:20.771873Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-28T02:49:20.771873Z",
     "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
@@ -1925,7 +1988,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-10-28T02:47:07.474384Z",
-   "expiresAt": "2026-10-28T03:19:17.981286Z",
+   "expiresAt": "2026-10-28T03:20:50.093187Z",
    "holder": "run-20261028T024707Z-af472d28"
   }
  },
@@ -6408,7 +6471,36 @@
    ]
   },
   "run-20261028T024707Z-af472d28": {
-   "actions": [],
+   "actions": [
+    {
+     "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
+     "emittedAt": "2026-10-28T02:49:20.771873Z",
+     "idempotencyKey": "dispatch-37bd74ce6b4e0a62bb17:1",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "base": "dev/steward-integration",
+      "branch": "steward/b/trust-calibration-drift-94521a044486",
+      "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
+      "dispatchId": "dispatch-37bd74ce6b4e0a62bb17",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261028T024707Z-af472d28/build-94521a044486.diff",
+       "proofPath": ".gaia/steward/full/run-20261028T024707Z-af472d28/build-94521a044486.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261028T024707Z-af472d28/build-94521a044486.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:94521a044486:1",
+     "type": "agent.build"
+    }
+   ],
    "actor": "cli",
    "agentAssignments": [],
    "branches": [],
@@ -6446,6 +6538,12 @@
     "class_a": {
      "landings": [],
      "status": "ok"
+    },
+    "class_b": {
+     "dispatchId": "dispatch-37bd74ce6b4e0a62bb17",
+     "dispatched": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
+     "status": "awaiting-build",
+     "stepId": "build:94521a044486:1"
     },
     "observe": {
      "authorityCounts": {
@@ -7404,6 +7502,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-10-28T02:49:20.771873Z",
+     "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
+     "idempotencyKey": "dispatch-37bd74ce6b4e0a62bb17:1",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:94521a044486:1"
     }
    ],
    "thinkingEfforts": [],
@@ -7420,7 +7526,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-28T02:49:17.985196Z",
+ "updatedAt": "2026-10-28T02:50:50.098135Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -7462,6 +7568,36 @@
    "source": "trust-calibration-drift",
    "state": "escalated",
    "updatedAt": "2026-10-28T02:49:17.565826Z",
+   "verification": null
+  },
+  "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1": {
+   "assignments": [],
+   "attempt": 1,
+   "authority": "B",
+   "baseBranch": "dev/steward-integration",
+   "branch": "steward/b/trust-calibration-drift-94521a044486",
+   "build": null,
+   "createdAt": "2026-10-28T02:49:20.771873Z",
+   "debtId": "debt:trust_calibration_drift:addy-osmani-browser-testing-with-devtools:3c0da65fe5f99fd1",
+   "dispatchId": "dispatch-37bd74ce6b4e0a62bb17",
+   "dispatchedAt": "2026-10-28T02:49:20.771873Z",
+   "history": [
+    {
+     "at": "2026-10-28T02:49:20.771873Z",
+     "from": "queued",
+     "reason": "dispatched as dispatch-37bd74ce6b4e0a62bb17 (attempt 1)",
+     "to": "building"
+    }
+   ],
+   "kind": "trust_calibration_drift",
+   "notes": [],
+   "promptPath": ".gaia/steward/full/run-20261028T024707Z-af472d28/build-94521a044486.prompt.md",
+   "pullRequest": null,
+   "routine": "gaia-trust-calibration-steward",
+   "runId": "run-20261028T024707Z-af472d28",
+   "source": "trust-calibration-drift",
+   "state": "building",
+   "updatedAt": "2026-10-28T02:49:20.771873Z",
    "verification": null
   }
  }
