@@ -9,6 +9,23 @@ with explicit effort on every dispatch.
 same day as the October cutoff). Three agents died mid-task; their partial state is recorded below.
 Nothing is half-merged. Machine disk ≈5 GB free after cleanup.
 
+## 0. Resume log (2026-10-29, resumed session)
+
+- Step 0 DONE: #2231 merged into dev `1e0a27984` (CodeQL regex). #2151 re-running.
+- Step 1 DONE: adjudication ledger `adjudication/` (`ea47c5ed7`, `be42d5371`): 190 candidates, 65 proposed-with-numbers,
+  125 needs-decision, 0 refuted, 0 approved, no level change proposed; packets FD-7, FD-9..FD-18 in `DECISIONS.md`.
+- Step 2 IN REVIEW: PR #2232 (`dev/yggiv-challenge-admission`, worktree `~/.gaia-worktrees/admit`). First adversarial
+  review HOLD (5 P1: receipt replay across cases, receipt not binding bundle digest, symlink writes, GAIA_RECEIPT_* env
+  overrides honoured, machine-dependent bytes; 7 P2). Author agent repairing; needs re-review before merge.
+- Step 3 DONE (not landed): cases on `review/meta/yggiv-challenger-cases` (worktree `~/.gaia-worktrees/cases`; uncommitted
+  regen noise there is NOT to be committed). Runner: C1 contradicted (tie), C2 substantiated (narrow), C3 inconclusive,
+  C4 rejected at triage. Independent Opus Meta verification `6807ef4be`: C1/C3/C4 upheld, C2 downgraded to
+  inconclusive; recommendAdmission false for all → no issuer tag, no admission this month (truthful negative).
+- Frontier tooling defects found by the verifier (copy check blocks honest reruns, receipt not binding trace, local-time
+  timestamps labelled Z, batch-written events, no triage-stage meta record) → fix PR in progress
+  (`dev/yggiv-frontier-verify-fixes`, worktree `~/.gaia-worktrees/fverify`).
+- Next after those land: open cases PR into dev (after #2232), then steps 4–7.
+
 ## 1. State
 
 - `dev/yggdrasil-iv` = `d237c0839` (merge of #2198). Contains all of `main`.
