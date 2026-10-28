@@ -21,6 +21,7 @@ from tests.steward.issuehygiene.test_b5_closure_guard import (
     markerFor,
     ownMarkerPlan,
     receiptsOf,
+    seedHistoryBaseline,
 )
 from tests.steward.issuehygiene.test_b_closure import liveOf, scenarioRow
 from tests.steward.issuehygiene.test_b_reconcile import NOW, policyFor
@@ -52,9 +53,11 @@ def drifted(row: dict) -> dict:
 def test_a_maintainer_objection_after_our_marker_stale_skips_with_no_writes(tmp_path: Path) -> None:
     _, plan = ownMarkerPlan(tmp_path)
     own = markerFor(plan, plan["closureSha8"], author=CLOSER)
+    receiptPath = tmp_path / "r.jsonl"
     forge = Forge({10: drifted(scenarioRow(10))}, comments={10: [own, objection()]})
+    seedHistoryBaseline(receiptPath, plan)
 
-    receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW, "R1")
+    receipt = executeClosure(plan, forge, receiptPath, NOW, "R1")
 
     assert receipt["outcome"] == "stale-skip"
     assert "comment-after-closure-marker" in receipt["failure"]
@@ -65,9 +68,11 @@ def test_a_maintainer_objection_after_our_marker_stale_skips_with_no_writes(tmp_
 def test_same_account_objection_after_existing_marker_stale_skips(tmp_path: Path) -> None:
     _, plan = ownMarkerPlan(tmp_path)
     own = markerFor(plan, plan["closureSha8"], author=CLOSER)
+    receiptPath = tmp_path / "r.jsonl"
     forge = Forge({10: liveOf(scenarioRow(10))}, comments={10: [own, objection(author=CLOSER)]})
+    seedHistoryBaseline(receiptPath, plan)
 
-    receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW, "R1")
+    receipt = executeClosure(plan, forge, receiptPath, NOW, "R1")
 
     assert receipt["outcome"] == "stale-skip"
     assert "comment-after-closure-marker" in receipt["failure"]
@@ -104,7 +109,7 @@ def test_same_account_comment_added_after_marker_before_close_is_detected(tmp_pa
     receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW, "R1")
 
     assert receipt["outcome"] == "stale-skip"
-    assert "comment-history-changed" in receipt["failure"]
+    assert "comment-after-closure-marker" in receipt["failure"]
     assert not any(call[0] == "close" for call in forge.calls)
     assert forge.issues[10]["state"] == "open"
 
@@ -179,9 +184,11 @@ def test_an_unreadable_comment_row_with_no_marker_blocks_rather_than_closing(tmp
 def test_our_marker_explains_updatedAt_drift_and_the_resume_posts_nothing_and_closes(tmp_path: Path) -> None:
     _, plan = ownMarkerPlan(tmp_path)
     own = markerFor(plan, plan["closureSha8"], author=CLOSER)
+    receiptPath = tmp_path / "r.jsonl"
     forge = Forge({10: drifted(scenarioRow(10))}, comments={10: [own]})
+    seedHistoryBaseline(receiptPath, plan)
 
-    receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW, "R1")
+    receipt = executeClosure(plan, forge, receiptPath, NOW, "R1")
 
     assert receipt["outcome"] == "closed"
     assert receipt["markerVerified"] is True and receipt["closer"] == CLOSER
@@ -191,9 +198,11 @@ def test_our_marker_explains_updatedAt_drift_and_the_resume_posts_nothing_and_cl
 def test_two_own_markers_reuse_the_first_and_post_nothing(tmp_path: Path) -> None:
     _, plan = ownMarkerPlan(tmp_path)
     own = markerFor(plan, plan["closureSha8"], author=CLOSER)
+    receiptPath = tmp_path / "r.jsonl"
     forge = Forge({10: liveOf(scenarioRow(10))}, comments={10: [own, dict(own)]})
+    seedHistoryBaseline(receiptPath, plan)
 
-    receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW, "R1")
+    receipt = executeClosure(plan, forge, receiptPath, NOW, "R1")
 
     assert receipt["outcome"] == "closed"
     assert [call[0] for call in forge.writes()] == ["close"]
@@ -245,6 +254,7 @@ def test_refused_attempts_are_not_done_so_the_pair_is_emitted_again(tmp_path: Pa
     receipts = tmp_path / "r.jsonl"
     own = markerFor(plan, plan["closureSha8"], author=CLOSER)
     forge = Forge({10: drifted(scenarioRow(10))}, comments={10: [own, objection()]})
+    seedHistoryBaseline(receipts, plan)
 
     executeClosure(plan, forge, receipts, NOW, "R1")
 

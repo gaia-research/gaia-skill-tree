@@ -14,6 +14,7 @@ from gaia_cli.steward.issuehygiene.closure import (
     closureCommentFor,
     closureProven,
     commentIdFromUrl,
+    _historyBaselinePath, _historyDigest, _readOrCreateHistoryBaseline,
     _executeProvenClosure as executeClosure,
 )
 from tests.steward.issuehygiene.test_b_closure import (
@@ -91,8 +92,11 @@ def test_resumed_marker_without_url_still_counts_as_proof(tmp_path: Path) -> Non
     manifest, _ = a1Scenario(tmp_path)
     plan = planFor(manifest)
     marker = {"body": plan["comment"], "url": None, "author": "steward-bot"}
+    receiptPath = tmp_path / "r.jsonl"
     forge = FakeForge({10: liveOf(scenarioRow(10))}, comments={10: [marker]})
-    receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW, "run-1")
+    baseline = _historyBaselinePath(receiptPath, None, plan["key"], plan["issue"], plan["closureSha8"])
+    _readOrCreateHistoryBaseline(baseline, _historyDigest([], plan["comments"], "steward-bot"))
+    receipt = executeClosure(plan, forge, receiptPath, NOW, "run-1")
     assert receipt["outcome"] == "closed"
     assert receipt["markerVerified"] is True
     assert [call[0] for call in forge.writes()] == ["close"]

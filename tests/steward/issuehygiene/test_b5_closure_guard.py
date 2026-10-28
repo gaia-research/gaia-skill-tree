@@ -24,6 +24,7 @@ from gaia_cli.steward.issuehygiene.closure import (
     closureCommentsFor,
     closureProven,
     _executeProvenClosure as executeClosure,
+    _historyBaselinePath, _historyDigest, _readOrCreateHistoryBaseline,
     planClosures,
     resumeState,
 )
@@ -121,6 +122,12 @@ def receiptsOf(path: Path) -> list[dict]:
 def markerFor(plan: dict, sha8: str, author: str = CLOSER) -> dict:
     body = plan["comment"].replace(plan["closureSha8"], sha8)
     return {"body": body, "url": "https://github.com/x/y/issues/1#issuecomment-900", "author": author}
+
+
+def seedHistoryBaseline(receiptsPath: Path, plan: dict, history: list[dict] | None = None,
+                        repo: str | None = None) -> None:
+    baseline = _historyBaselinePath(receiptsPath, repo, plan["key"], plan["issue"], plan["closureSha8"])
+    _readOrCreateHistoryBaseline(baseline, _historyDigest(history or [], plan["comments"], CLOSER))
 
 
 def sha8Of(plan: dict, manifest: dict) -> str:
@@ -437,15 +444,15 @@ def test_a_marker_for_another_manifest_is_not_proof(tmp_path: Path) -> None:
     assert any(call[0] == "comment" for call in forge.writes())
 
 
-def test_our_own_marker_is_proof_and_a_resume_posts_no_second_comment(tmp_path: Path) -> None:
+def test_existing_own_marker_without_trusted_baseline_fails_closed(tmp_path: Path) -> None:
     manifest, plan = ownMarkerPlan(tmp_path)
     forge = Forge({10: liveOf(scenarioRow(10))}, comments={10: [markerFor(plan, plan["closureSha8"], author=CLOSER)]})
 
     receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW, "R1")
 
-    assert receipt["outcome"] == "closed"
-    assert receipt["markerVerified"] is True
-    assert not any(call[0] == "comment" for call in forge.writes())
+    assert receipt["outcome"] == "blocked-identity"
+    assert "no trusted history baseline" in receipt["failure"]
+    assert forge.writes() == []
 
 
 def test_when_the_closer_identity_is_unknown_an_existing_marker_blocks_and_nothing_is_written(tmp_path: Path) -> None:
@@ -488,9 +495,12 @@ def test_a_crash_between_comment_and_close_resumes_on_the_same_action(tmp_path: 
 def test_a_real_title_change_still_stale_skips_even_with_our_own_comment(tmp_path: Path) -> None:
     manifest, plan = ownMarkerPlan(tmp_path)
     live = {**liveOf(scenarioRow(10)), "title": "edited by a human"}
+    receipts = tmp_path / "r.jsonl"
     forge = Forge({10: live}, comments={10: [markerFor(plan, plan["closureSha8"], author=CLOSER)]})
+    baseline = _historyBaselinePath(receipts, None, plan["key"], plan["issue"], plan["closureSha8"])
+    _readOrCreateHistoryBaseline(baseline, _historyDigest([], plan["comments"], CLOSER))
 
-    receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW, "R1")
+    receipt = executeClosure(plan, forge, receipts, NOW, "R1")
 
     assert receipt["outcome"] == "stale-skip"
     assert forge.writes() == []

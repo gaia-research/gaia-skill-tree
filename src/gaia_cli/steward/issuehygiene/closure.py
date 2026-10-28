@@ -610,6 +610,74 @@ def isExpectedClosureComment(comment: dict, expected: list[str], closer: str) ->
     )
 
 
+def _historyDigest(comments: list[dict], expected: list[str], closer: str) -> str:
+    """Digest the ordered complete non-payload comment history in stable forge fields."""
+    rows = [{name: comment.get(name) for name in ("body", "author", "url", "createdAt", "updatedAt")}
+            for comment in comments if not isExpectedClosureComment(comment, expected, closer)]
+    encoded = json.dumps(rows, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
+
+
+def _historyBaselinePath(receiptsPath: Path | str, repo: str | None, key: str, issue: int, sha8: str) -> Path:
+    identity = json.dumps([str(repo or "").strip().lower(), key, issue, sha8], separators=(",", ":"))
+    name = hashlib.sha256(identity.encode("utf-8")).hexdigest() + ".history.json"
+    return Path(receiptsPath).parent / ".history" / name
+
+
+def _readOrCreateHistoryBaseline(path: Path, digest: str | None) -> str:
+    """Read an immutable baseline, or atomically create it before the first marker post.
+
+    A missing baseline is never reconstructed once a marker exists. Symlinks, malformed
+    contents and digest disagreement are errors so callers can fail closed.
+    """
+    directory = path.parent
+    if directory.is_symlink() or (directory.exists() and not directory.is_dir()):
+        raise OSError("history baseline store is not a confined directory")
+    directory.mkdir(parents=True, exist_ok=True)
+    if directory.is_symlink():
+        raise OSError("history baseline store is a symlink")
+    if path.is_symlink():
+        raise OSError("history baseline is a symlink")
+    if path.exists():
+        try:
+            record = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise OSError("history baseline is unreadable or corrupt") from exc
+        if not isinstance(record, dict) or record.get("schemaVersion") != "steward-issue-history-v1" \
+                or not isinstance(record.get("sha256"), str) or not re.fullmatch(r"[0-9a-f]{64}", record["sha256"]):
+            raise OSError("history baseline is corrupt")
+        if digest is not None and record["sha256"] != digest:
+            raise OSError("comment history differs from the immutable baseline")
+        return record["sha256"]
+    if digest is None:
+        raise OSError("existing marker has no trusted history baseline")
+    payload = json.dumps({"schemaVersion": "steward-issue-history-v1", "sha256": digest},
+                         sort_keys=True, separators=(",", ":")) + "\n"
+    fd, temporary = tempfile.mkstemp(prefix=".history-", dir=directory)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            handle.write(payload)
+            handle.flush()
+            os.fsync(handle.fileno())
+        # The caller holds the pair lock for the shared receipts store. Rename is
+        # atomic on the same filesystem; a crash exposes either no baseline or the
+        # complete, fsynced immutable record.
+        if path.exists():
+            return _readOrCreateHistoryBaseline(path, digest)
+        os.rename(temporary, path)
+        dirFd = os.open(directory, os.O_RDONLY)
+        try:
+            os.fsync(dirFd)
+        finally:
+            os.close(dirFd)
+    finally:
+        try:
+            os.unlink(temporary)
+        except FileNotFoundError:
+            pass
+    return digest
+
+
 def findOwnMarker(comments: list[dict], key: str, sha8: str, closer: str | None) -> dict | None:
     """Our closing comment: the full marker for this key and manifest, authored by the closer identity.
 
@@ -742,13 +810,29 @@ def _executeProvenClosure(plan: dict, forge: IssueForge, receiptsPath: Path | st
         if not closer:
             return finish("blocked-identity", failure="closer identity unavailable; refusing comment write")
         ownMarker = findOwnMarker(listed, key, sha8, closer)
-        # GitHub lists issue comments oldest first. The marker explains updatedAt
-        # drift, but only exact expected payload parts may follow it; author identity
-        # alone cannot distinguish the bot from a maintainer using the same account.
+        # Check any already-present payload pieces before generic history drift. A
+        # damaged multipart resume is a preservation failure, not merely stale history.
+        for index, expected in enumerate(comments, 1):
+            needle = markerNeedle if index == 1 else partMarkerLine(key, sha8, index - 1, total - 1)
+            present = [row for row in listed if needle in row["body"]]
+            if any(row["author"] != closer or commentContent(row["body"]) != commentContent(expected)
+                   for row in present):
+                return finish("failed", failure=f"preserved comment part {index} not verified", closer=closer)
+        baselinePath = _historyBaselinePath(receiptsPath, repo, key, issue, sha8)
+        try:
+            baseline = _readOrCreateHistoryBaseline(
+                baselinePath, None if markerPositions else _historyDigest(listed, comments, closer))
+        except OSError as exc:
+            return finish("blocked-identity", failure=f"comment history baseline unavailable: {exc}", closer=closer)
+        # Preserve the specific objection-after-marker outcome. An objection before
+        # the marker is instead detected by the immutable baseline comparison below.
         laterUnverifiedComment = bool(markerPositions) and any(
-            not isinstance(comment, dict) or not isinstance(comment.get("body"), str)
-            or not isExpectedClosureComment(comment, comments, closer)
+            not isExpectedClosureComment(comment, comments, closer)
             for comment in listed[markerPositions[0] + 1:])
+        if laterUnverifiedComment:
+            return finish("stale-skip", failure="comment-after-closure-marker", closer=closer)
+        if _historyDigest(listed, comments, closer) != baseline:
+            return finish("stale-skip", failure="comment-history-changed", closer=closer)
         differences = diffFields(plan, live, ownMarker=ownMarker is not None)
         if laterUnverifiedComment:
             differences.append("comment-after-closure-marker")
@@ -788,24 +872,24 @@ def _executeProvenClosure(plan: dict, forge: IssueForge, receiptsPath: Path | st
             if any(not isinstance(row, dict) or not isinstance(row.get("body"), str)
                    or not isinstance(row.get("author"), str) for row in finalComments):
                 return finish("blocked-identity", failure="unreadable comment history before close", closer=closer)
-            # Exclude only exact, expected closure payloads. Every other row — even
-            # one authored by the closer account — must match the initial complete
-            # history; additions, edits, removals and reordering fail closed.
-            if [row for row in finalComments if not isExpectedClosureComment(row, comments, closer)] != [
-                    row for row in listed if not isExpectedClosureComment(row, comments, closer)]:
-                return finish("stale-skip", failure="comment-history-changed", closer=closer)
             positions = [i for i, row in enumerate(finalComments) if markerNeedle in row["body"]]
             if any(finalComments[i]["author"] != closer for i in positions):
                 return finish("blocked-identity", failure="foreign closure marker before close", closer=closer)
-            if not positions or any(not isExpectedClosureComment(row, comments, closer)
-                                    for row in finalComments[positions[0] + 1:]):
-                return finish("stale-skip", failure="comment-after-closure-marker", closer=closer)
+            if not positions:
+                return finish("failed", failure="preserved comment part 1 not verified", closer=closer)
             for index, expected in enumerate(comments, 1):
                 needle = markerNeedle if index == 1 else partMarkerLine(key, sha8, index - 1, total - 1)
                 parts = [row for row in finalComments if needle in row["body"]]
                 if not parts or any(row["author"] != closer or commentContent(row["body"]) != commentContent(expected)
                                     for row in parts):
                     return finish("failed", failure=f"preserved comment part {index} not verified", closer=closer)
+            if any(not isExpectedClosureComment(row, comments, closer)
+                   for row in finalComments[positions[0] + 1:]):
+                return finish("stale-skip", failure="comment-after-closure-marker", closer=closer)
+            # Compare only after validating payload parts so a tampered multipart
+            # resume retains the specific preservation-failure contract.
+            if _historyDigest(finalComments, comments, closer) != baseline:
+                return finish("stale-skip", failure="comment-history-changed", closer=closer)
             markerVerified = True  # The final complete history proved every own payload part.
             # Detect edits or comments that landed during the paginated history read.
             afterHistory = forge.getIssue(issue)

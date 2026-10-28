@@ -15,6 +15,7 @@ from gaia_cli.steward.issuehygiene.closure import (
     closureCommentFor,
     closureProven,
     commentIdFromUrl,
+    _historyBaselinePath, _historyDigest, _readOrCreateHistoryBaseline,
     _executeProvenClosure as executeClosure,
     _executeProvenClosures as executeClosures,
     planClosures,
@@ -251,8 +252,11 @@ def test_crash_resume_skips_comment_when_marker_exists_and_only_closes(tmp_path:
     live = liveOf(scenarioRow(10))
     marker = {"body": plan["comment"], "url": "https://github.com/gaia-research/gaia-skill-tree/issues/10#issuecomment-1001",
               "author": "steward-bot"}
+    receiptPath = tmp_path / "r.jsonl"
     forge = FakeForge({10: live}, comments={10: [marker]})
-    receipt = executeClosure(plan, forge, tmp_path / "r.jsonl", NOW)
+    baseline = _historyBaselinePath(receiptPath, None, plan["key"], plan["issue"], plan["closureSha8"])
+    _readOrCreateHistoryBaseline(baseline, _historyDigest([], plan["comments"], "steward-bot"))
+    receipt = executeClosure(plan, forge, receiptPath, NOW)
     assert receipt["outcome"] == "closed"
     assert receipt["commentUrl"] == marker["url"]
     assert [call[0] for call in forge.writes()] == ["close"]

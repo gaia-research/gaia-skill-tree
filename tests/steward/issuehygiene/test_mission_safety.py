@@ -13,7 +13,7 @@ import pytest
 from gaia_cli.steward.issuehygiene.authority import DECISION_PATH, closureAuthorityApproved
 from gaia_cli.steward.issuehygiene.closure import (
     ActionRefused, ForgeBlockedError, executeClosure, executeClosures,
-    _executeProvenClosure, planClosures,
+    _executeProvenClosure, _historyBaselinePath, planClosures,
 )
 from gaia_cli.steward.policy import StewardPolicy
 from scripts.steward_issue_reconcile import GhForge
@@ -98,6 +98,58 @@ def test_intervening_foreign_comment_anywhere_in_final_history_blocks_close(tmp_
     result = _executeProvenClosure(plan, forge, tmp_path / "r.jsonl", NOW)
     assert result["outcome"] == "stale-skip"
     assert not any(call[0] == "close" for call in forge.calls)
+
+
+@pytest.mark.parametrize("author", ["maintainer", "steward-bot"])
+def test_retry_cannot_absorb_objection_added_before_first_marker(tmp_path, author):
+    _, plan = ownMarkerPlan(tmp_path)
+
+    class RacingForge(Forge):
+        def addComment(self, number, body):
+            self.comments.setdefault(number, []).append({"body": "please keep open", "author": author})
+            return super().addComment(number, body)
+
+    forge = RacingForge({10: liveOf(scenarioRow(10))})
+    first = _executeProvenClosure(plan, forge, tmp_path / "receipts" / "first.jsonl", NOW, "first")
+    assert first["outcome"] == "stale-skip"
+    calls = list(forge.calls)
+    retry = _executeProvenClosure(plan, forge, tmp_path / "receipts" / "retry.jsonl", NOW, "retry")
+    assert retry["outcome"] == "stale-skip"
+    assert retry["failure"] == "comment-history-changed"
+    assert not any(call[0] == "close" for call in forge.calls[len(calls):])
+
+
+@pytest.mark.parametrize("baseline_state", ["missing", "corrupt", "symlink"])
+def test_existing_marker_never_adopts_missing_or_corrupt_baseline(tmp_path, baseline_state):
+    _, plan = ownMarkerPlan(tmp_path)
+    receipt = tmp_path / "receipts" / "retry.jsonl"
+    forge = Forge({10: liveOf(scenarioRow(10))}, comments={10: [{"body": plan["comment"], "author": "steward-bot"}]})
+    if baseline_state == "corrupt":
+        baseline = _historyBaselinePath(receipt, None, plan["key"], plan["issue"], plan["closureSha8"])
+        baseline.parent.mkdir(parents=True)
+        if baseline_state == "symlink":
+            target = tmp_path / "outside.json"
+            target.write_text('{"schemaVersion":"steward-issue-history-v1","sha256":"' + "0" * 64 + '"}')
+            baseline.symlink_to(target)
+        else:
+            baseline.write_text("{broken")
+    result = _executeProvenClosure(plan, forge, receipt, NOW, "retry")
+    assert result["outcome"] == "blocked-identity"
+    assert "baseline" in result["failure"]
+    assert not any(call[0] == "close" for call in forge.calls)
+
+
+def test_multipart_resume_after_transport_failure_uses_original_baseline(tmp_path):
+    manifest, _, row = bigUmbrella(tmp_path)
+    plan = planClosures(manifest, policyFor())[0]
+    forge = Forge({20: liveUmbrella(row)}, failures={("comment", 20): ForgeBlockedError("synthetic transport")})
+    receipt = tmp_path / "receipts" / "run-one.jsonl"
+    first = _executeProvenClosure(plan, forge, receipt, NOW, "run-one")
+    assert first["outcome"] == "blocked"
+    second = _executeProvenClosure(plan, forge, tmp_path / "receipts" / "run-two.jsonl", NOW, "run-two")
+    assert second["outcome"] == "closed"
+    assert len([call for call in forge.calls if call[0] == "close"]) == 1
+    assert len([row for row in forge.comments[20] if "gaia-steward-closure:" in row["body"]]) == 1
 
 
 def test_public_executor_honors_disabled_switch_and_rejects_forged_proof(tmp_path):
