@@ -13,9 +13,9 @@
  *   - uncaught page errors (count only, never their text),
  *   - horizontal overflow of the document at each viewport.
  *
- * It makes NO claim about visual correctness or accessibility. Requests to any
- * other host are aborted without being sent (nothing leaves the machine, no
- * analytics ping) and are not judged.
+ * It makes NO claim about visual correctness or accessibility. Page HTTP(S)
+ * requests to any other host are aborted without being sent (no analytics ping)
+ * and are not judged; WebSocket connections are not intercepted.
  *
  * Usage (repository root):
  *   node scripts/steward_collect_browser_render.js --repository gaia-research/gaia-skill-tree
@@ -83,7 +83,8 @@ function trackedPages() {
 
 function serve(root) {
   const server = http.createServer((req, res) => {
-    let pathname = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+    let pathname;
+    try { pathname = decodeURIComponent(new URL(req.url, 'http://x').pathname); } catch (error) { res.writeHead(400).end(); return; }
     let file = path.join(root, pathname);
     if (!file.startsWith(root + path.sep) && file !== root) { res.writeHead(403).end(); return; }
     try {
@@ -98,25 +99,28 @@ function serve(root) {
 }
 
 async function renderOne(browser, origin, page, viewport) {
+  const sameOrigin = (url) => url === origin || url.startsWith(origin + '/');
   const context = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height } });
   const tab = await context.newPage();
   const failures = new Map();
   let pageErrors = 0;
-  const note = (resourcePath, status) => {
+  const note = (rawPath, status) => {
+    // The sensor carries only plain paths; anything else is reported as a marker.
+    const resourcePath = /^\/[A-Za-z0-9._~%\/+=@:,()'!$*;-]{0,300}$/.test(rawPath) ? rawPath : '/unrepresentable-path';
     if (failures.size < MAX_FAILURES) failures.set(`${resourcePath}\0${status}`, { path: resourcePath, status });
   };
-  await tab.route('**/*', (route) => (route.request().url().startsWith(origin) ? route.continue() : route.abort()));
+  await tab.route('**/*', (route) => (sameOrigin(route.request().url()) ? route.continue() : route.abort()));
   tab.on('pageerror', () => { pageErrors++; });
   tab.on('requestfailed', (request) => {
     const url = request.url();
     // ERR_ABORTED is the page cancelling its own request (navigation, teardown,
     // an image scrolled out of a lazy list), not a server or network fault.
     const aborted = /ERR_ABORTED/.test((request.failure() || {}).errorText || '');
-    if (url.startsWith(origin) && !aborted) note(new URL(url).pathname, null);
+    if (sameOrigin(url) && !aborted) note(new URL(url).pathname, null);
   });
   tab.on('response', (response) => {
     const url = response.url();
-    if (url.startsWith(origin) && response.status() >= 400) note(new URL(url).pathname, response.status());
+    if (sameOrigin(url) && response.status() >= 400) note(new URL(url).pathname, response.status());
   });
   const result = { path: page, viewport: viewport.name, navigation: 'ok', httpStatus: null, sameOriginFailures: [], pageErrors: 0, horizontalOverflow: null };
   try {
@@ -143,6 +147,8 @@ async function main() {
   const args = parseArgs(process.argv.slice(2));
   const { chromium } = require('playwright');
   const discovered = trackedPages();
+  const unknown = args.pages.filter((page) => !discovered.pages.includes(page));
+  if (unknown.length) throw new Error(`--page is not a tracked docs page: ${unknown[0]}`);
   const wanted = args.pages.length ? args.pages : discovered.pages;
   const unrendered = discovered.pages.filter((page) => !wanted.includes(page)).map((page) => ({ path: page, reason: 'not requested' }));
   for (const file of discovered.unsupported) unrendered.push({ path: 'docs/unsupported-file-name.html', reason: 'unsupported file name' });
