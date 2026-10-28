@@ -33,13 +33,23 @@ def artifact_path(root: Path, relative: str, artifact_root: str = DEFAULT_ARTIFA
 def build_receipt(*, root: Path, request_rel: str = DEFAULT_REQUEST,
                   native_rel: str = DEFAULT_NATIVE, target_rel: str | None = None,
                   result: str = "inconclusive", protocol: str | None = None,
-                  artifact_root: str = DEFAULT_ARTIFACT_ROOT) -> dict:
+                  artifact_root: str = DEFAULT_ARTIFACT_ROOT, trace_paths: list[tuple[str, str]] | None = None) -> dict:
     if result not in RESULTS:
         raise ValueError("invalid experimental result")
     request = json.loads(artifact_path(root, request_rel, artifact_root).read_text(encoding="utf-8"))
     return build_experiment_receipt(
         root=root, request=request, execution_path=native_rel, target_path=target_rel, result=result,
-        protocol=protocol, artifact_root=artifact_root)
+        protocol=protocol, artifact_root=artifact_root, trace_paths=trace_paths)
+
+
+def parse_traces(items: list[str]) -> list[tuple[str, str]]:
+    pairs = []
+    for item in items:
+        label, sep, path = item.partition("=")
+        if not sep or not label or not path:
+            raise ValueError(f"--trace expects LABEL=PATH, got {item!r}")
+        pairs.append((label, path))
+    return pairs
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -50,12 +60,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--result", choices=RESULTS, default="inconclusive")
     parser.add_argument("--protocol", help="repo-relative protocol file; must be the one the request pins (default: the pinned file)")
     parser.add_argument("--artifact-root", default=DEFAULT_ARTIFACT_ROOT, help="generated-output/frontier (default) or evidence/frontier-challenges/<id>/artifacts")
+    parser.add_argument("--trace", action="append", default=[], metavar="LABEL=PATH", help="raw-stream trace artifact (argv, tool versions, stdout/stderr digests) whose digest the receipt binds; repeatable. Declared, not authenticated")
     parser.add_argument("--output", default=DEFAULT_RECEIPT, help="new receipt path; existing history is never replaced")
     args = parser.parse_args(argv)
     try:
         receipt = build_receipt(root=ROOT, request_rel=args.request, native_rel=args.native_output,
                                 target_rel=args.target_output, result=args.result,
-                                protocol=args.protocol, artifact_root=args.artifact_root)
+                                protocol=args.protocol, artifact_root=args.artifact_root,
+                                trace_paths=parse_traces(args.trace))
         destination = artifact_path(ROOT, args.output, args.artifact_root)
         destination.parent.mkdir(parents=True, exist_ok=True)
         with destination.open("x", encoding="utf-8") as stream:

@@ -138,6 +138,32 @@
       "minLength": 3,
       "maxLength": 200,
       "description": "Experiment id declared by the frontier-protocol-v1 file the request pins; absent for the legacy git-log-L protocol."
+    },
+    "traces": {
+      "type": "array",
+      "description": "Optional raw-stream trace artifacts (command/argv, tool versions, stdout/stderr digests) of the runs that produced the outputs. Declared, not authenticated: binding a trace digest here proves which bytes the receipt names, not that the trace is true.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "label",
+          "contentDigest",
+          "path"
+        ],
+        "properties": {
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "contentDigest": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "path": {
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }
