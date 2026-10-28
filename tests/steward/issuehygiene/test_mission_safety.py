@@ -124,19 +124,24 @@ def test_existing_marker_never_adopts_missing_or_corrupt_baseline(tmp_path, base
     _, plan = ownMarkerPlan(tmp_path)
     receipt = tmp_path / "receipts" / "retry.jsonl"
     forge = Forge({10: liveOf(scenarioRow(10))}, comments={10: [{"body": plan["comment"], "author": "steward-bot"}]})
-    if baseline_state == "corrupt":
+    if baseline_state in {"corrupt", "symlink"}:
         baseline = _historyBaselinePath(receipt, None, plan["key"], plan["issue"], plan["closureSha8"])
         baseline.parent.mkdir(parents=True)
         if baseline_state == "symlink":
             target = tmp_path / "outside.json"
             target.write_text('{"schemaVersion":"steward-issue-history-v1","sha256":"' + "0" * 64 + '"}')
+            target_before = target.read_bytes()
             baseline.symlink_to(target)
+            assert baseline.is_symlink()
         else:
             baseline.write_text("{broken")
     result = _executeProvenClosure(plan, forge, receipt, NOW, "retry")
     assert result["outcome"] == "blocked-identity"
     assert "baseline" in result["failure"]
     assert not any(call[0] == "close" for call in forge.calls)
+    if baseline_state == "symlink":
+        assert baseline.is_symlink()
+        assert target.read_bytes() == target_before
 
 
 def test_multipart_resume_after_transport_failure_uses_original_baseline(tmp_path):
