@@ -2552,6 +2552,7 @@ def default_sensors() -> tuple[Sensor, ...]:
         SchemaValiditySensor,
         TimelineCausalitySensor,
     )
+    from gaia_cli.steward.sensors_render import BrowserRenderSensor
     from gaia_cli.steward.sensors_security import (
         BrowserSinkSensor,
         MutationBoundarySensor,
@@ -2594,6 +2595,7 @@ def default_sensors() -> tuple[Sensor, ...]:
         SchemaValiditySensor(),
         TimelineCausalitySensor(),
         FrontendContractSensor(),
+        BrowserRenderSensor(),
     )
 
 

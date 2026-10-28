@@ -700,7 +700,8 @@
       "status": "partially-covered",
       "detectorIds": [
         "generated-projections",
-        "frontend-contract"
+        "frontend-contract",
+        "browser-render"
       ],
       "bindings": [
         {
@@ -720,18 +721,29 @@
           "repairExecutor": null,
           "founderRule": null,
           "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "browser-render",
+          "debtKind": "frontend_contract_drift",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
         }
       ],
-      "predicate": "Selected generated frontend projections are checked for drift, not rendered browser quality.",
+      "predicate": "Selected generated frontend projections and hand-authored page source are checked statically; a driver-supplied headless-browser render adds same-origin load failures, page errors and mobile overflow.",
       "remainingGaps": [
-        "Rendered behaviour (layout, accessibility in a browser) is not observed; frontend fixes are human-gated by CLAUDE.md."
+        "Accessibility and visual correctness are not observed: the render input records load, script-error and overflow facts only, so no accessibility or visual assurance is claimed; frontend fixes are human-gated by CLAUDE.md.",
+        "The browser render needs a driver (Chromium via scripts/steward_collect_browser_render.js); without a fresh input the detector is not evaluated, never healthy."
       ],
       "owners": [
         2042
       ],
       "tests": [
         "tests/steward/test_sensors.py",
-        "tests/steward/test_sensors_contracts.py"
+        "tests/steward/test_sensors_contracts.py",
+        "tests/steward/test_sensors_render.py"
       ]
     },
     {
@@ -2208,6 +2220,48 @@
       "failureBehavior": {
         "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
         "notEvaluated": null
+      }
+    },
+    {
+      "id": "browser-render",
+      "routineIds": [
+        15
+      ],
+      "debtKinds": [
+        "frontend_contract_drift"
+      ],
+      "trigger": "every-scan-with-driver-input",
+      "inputs": [
+        {
+          "path": ".gaia/steward/inputs/browser-render.json",
+          "required": false
+        }
+      ],
+      "sourceOfTruth": "driver-supplied headless-browser render of the tracked docs pages (scripts/steward_collect_browser_render.js)",
+      "evidence": "same-origin request failures, uncaught page errors and horizontal overflow observed by a real browser at mobile and desktop widths",
+      "freshness": "driver-input",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "frontend_contract_drift": "B"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "frontend_contract_drift": "gaia-steward-lane"
+      },
+      "proof": [
+        "tests/steward/test_sensors_render.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": "receipt.notEvaluated: nothing resolved, nothing reported healthy"
       }
     }
   ],
