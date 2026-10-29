@@ -566,10 +566,16 @@
         border-bottom: none;
       }
 
-      #steward .flag-table tbody td {
+      /* tbody + nth-child outranks desktop cell widths/display for every column. */
+      #steward .flag-table tbody td:nth-child(n) {
         display: block;
         width: auto;
         padding: 0.15rem 0;
+      }
+
+      #steward .steward-full-synopsis td code {
+        word-break: normal;
+        overflow-wrap: anywhere;
       }
 
       #steward .flag-table tbody td::before {

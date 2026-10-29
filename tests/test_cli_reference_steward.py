@@ -59,6 +59,8 @@ def test_steward_lifecycle_synopses_wrap_inside_their_card():
     assert "#steward .flag-table td:first-child {\n      display: table-cell;\n      white-space: normal;\n      overflow-wrap: anywhere;" in html
     assert "#steward .flag-table td:first-child code," in html
     assert "#steward .flag-table th:nth-child(3),\n    #steward .flag-table td:nth-child(3) {\n      width: 15%;" in html
+    assert "#steward .flag-table tbody td:nth-child(n) {\n        display: block;\n        width: auto;" in html
+    assert "#steward .steward-full-synopsis td code {\n        word-break: normal;\n        overflow-wrap: anywhere;" in html
     assert "#steward .flag-table th {\n        padding-left: 0.35rem;" not in html
     assert "#steward .mini-terminal-screen" not in html
     assert "if (row.closest('[data-no-copy]')) return;" in html
