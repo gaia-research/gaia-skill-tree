@@ -5,13 +5,13 @@ contributor: latent-spaces
 origin: true
 genericSkillRef: project-launch-video-production
 status: named
-level: 3★
+level: 4★
 description: Turn the current project website into a short, polished, shareable launch
   video using Hyperframes. Use when someone says "/brag", "let's brag about this",
   "make a launch video", "turn this into a video", or wants to share what they built.
   Reads the project code directly — no live URL or screenshots needed.
 createdAt: '2026-09-27'
-updatedAt: '2026-09-27'
+updatedAt: '2026-10-30'
 title: Project Launch Director
 links:
   github: https://github.com/latent-spaces/brag/blob/c893c5ed52aed84e3e2ee56787de869fccdae6b0/skills/brag/SKILL.md
@@ -45,6 +45,17 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-10-29T16:39:48Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-10-29T16:39:48Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Founder ruling 2026-10-30 FD-12 (Raise to 4★): 3★ -> 4★ Unique. Verified
+    before raise: TM 144.54 grade A (>=100), live SHA-pinned blob link HTTP 200, Unique
+    branch (no suiteComponents), sole bucket Origin on project-launch-video-production;
+    checkUniqueBranchGate(4★) passed.'
 evidence:
 - source: https://github.com/latent-spaces/brag/blob/c893c5ed52aed84e3e2ee56787de869fccdae6b0/skills/brag/SKILL.md
   updatedAt: '2026-10-01'
