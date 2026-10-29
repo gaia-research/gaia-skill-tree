@@ -1,5 +1,5 @@
 {
- "generation": 147,
+ "generation": 148,
  "lane": {
   "entries": [
    {
@@ -367,14 +367,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-bb4935847a60cdc598d9",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-10-29T02:56:37.663533Z",
+      "from": "dispatched",
+      "reason": "verification escalated (independent verification by sonnet-verifier-ab63f80a (sonnet, effort medium))",
+      "to": "escalated"
      }
     ],
-    "lastTransitionAt": "2026-10-29T02:48:28.394927Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-10-29T02:56:37.663533Z",
+    "lastVerdict": "escalate",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "escalated"
    },
    {
     "attempts": 0,
@@ -9453,6 +9459,13 @@
      "debtId": "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9",
      "emittedAt": "2026-10-29T02:56:03.754308Z",
      "idempotencyKey": "verify:dispatch-bb4935847a60cdc598d9:1",
+     "outcome": {
+      "agentId": "sonnet-verifier-ab63f80a",
+      "effort": "medium",
+      "model": "sonnet",
+      "rationale": "Finding reproduces independently (1★ stored, TM 36.00 grade C, G7 target 2★). The only correction is a mutating gaia dev calibrate requiring human approval; escalate to the desk, not accept.",
+      "verdict": "escalate"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -9468,7 +9481,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261029T024635Z-79c43bd1/verify-4a3e9be56a38.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-10-29T02:56:37.663471Z",
+     "status": "done",
      "stepId": "verify:4a3e9be56a38:1",
      "type": "agent.verify"
     }
@@ -9484,6 +9498,18 @@
      "model": "haiku",
      "role": "builder",
      "stepId": "build:4a3e9be56a38:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "sonnet-verifier-ab63f80a",
+     "at": "2026-10-29T02:56:37.663533Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9",
+     "effort": "medium",
+     "model": "sonnet",
+     "role": "verifier",
+     "stepId": "verify:4a3e9be56a38:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -9645,7 +9671,8 @@
    ],
    "mode": "full",
    "modelIds": [
-    "haiku"
+    "haiku",
+    "sonnet"
    ],
    "mutated": true,
    "nextAction": "perform 1 pending action(s) (agent.verify), record each with `gaia steward full record run-20261029T024635Z-79c43bd1 <stepId> --input FILE`, then `gaia steward full run --resume run-20261029T024635Z-79c43bd1`",
@@ -10590,11 +10617,11 @@
      "stepId": "phase:class_b"
     },
     {
-     "at": "2026-10-29T02:56:03.754308Z",
+     "at": "2026-10-29T02:56:37.663471Z",
      "debtId": "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9",
      "idempotencyKey": "verify:dispatch-bb4935847a60cdc598d9:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:4a3e9be56a38:1"
     }
    ],
@@ -10605,11 +10632,11 @@
    "tokensOut": 0,
    "trigger": "scheduled",
    "unresolvedWork": [],
-   "updatedAt": "2026-10-29T02:54:31.510479Z"
+   "updatedAt": "2026-10-29T02:56:37.663471Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-29T02:56:10.950251Z",
+ "updatedAt": "2026-10-29T02:56:37.665450Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -10739,6 +10766,17 @@
      "stepId": "build:4a3e9be56a38:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "sonnet-verifier-ab63f80a",
+     "at": "2026-10-29T02:56:37.663533Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "sonnet",
+     "role": "verifier",
+     "stepId": "verify:4a3e9be56a38:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
@@ -10765,6 +10803,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-bb4935847a60cdc598d9 (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-10-29T02:56:37.663533Z",
+     "from": "building",
+     "reason": "independent verification by sonnet-verifier-ab63f80a (sonnet, effort medium): escalate",
+     "to": "escalated"
     }
    ],
    "kind": "trust_calibration_drift",
@@ -10774,13 +10818,14 @@
    "routine": "gaia-trust-calibration-steward",
    "runId": "run-20261029T024635Z-79c43bd1",
    "source": "trust-calibration-drift",
-   "state": "building",
-   "updatedAt": "2026-10-29T02:54:31.510508Z",
+   "state": "escalated",
+   "updatedAt": "2026-10-29T02:56:37.663533Z",
    "verification": {
-    "mode": "no-change",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261029T024635Z-79c43bd1/verify-4a3e9be56a38.prompt.md"
+    "agentId": "sonnet-verifier-ab63f80a",
+    "rationale": "Finding reproduces independently (1★ stored, TM 36.00 grade C, G7 target 2★). The only correction is a mutating gaia dev calibrate requiring human approval; escalate to the desk, not accept.",
+    "recordedAt": "2026-10-29T02:56:37.663533Z",
+    "stage": "judged",
+    "verdict": "escalate"
    }
   }
  }
