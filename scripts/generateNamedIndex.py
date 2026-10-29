@@ -30,6 +30,7 @@ from gaia_cli.canonicalTransaction import guardCanonicalPath  # noqa: E402  pend
 from gaia_cli.redaction import is_redacted, level_num  # noqa: E402  single source of truth
 from gaia_cli.taxonomy import branchFor, rankWord, medallion, normalize  # noqa: E402
 from gaia_cli.lifecycleProjection import produce_lifecycle  # noqa: E402
+from gaia_cli.challengeAdmission import clean as admission_clean  # noqa: E402
 from gaia_cli.committedChallenges import collect as collect_challenges  # noqa: E402
 from gaia_cli.committedChallenges import lifecyclePorts, reviewsBySubject  # noqa: E402
 
@@ -786,7 +787,7 @@ def main():
         print(f"\nFATAL: {exc}")
         sys.exit(1)
     for item in collected.rejected:
-        print(f"  warning: challenge bundle {item['caseId']} rejected: {item['reason']}")
+        print(f"  warning: challenge bundle {admission_clean(item['caseId'])} rejected: {admission_clean(item['reason'])}")
     write_index(buckets, awaiting_classification, by_contributor, output_path, today,
                 generic_skills_map=generic_skills_map, gate_config=gate_config, repo_root=repo_root,
                 lifecycle_ports=lifecyclePorts(collected), challenge_reviews=reviewsBySubject(collected))

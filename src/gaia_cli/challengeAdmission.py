@@ -2,7 +2,7 @@
 
 A case bundle lives at ``evidence/frontier-challenges/<caseId>/``::
 
-    lead.json  request.json  receipt.json  meta-verification.json  artifacts/
+    lead.json  request.json  receipts/experiment-receipt.json  meta-verification.json  artifacts/
     [admission-request.json  transcript.json  receipt/  events.jsonl  RUN.md]
 
 Nothing in a bundle is authority. ``inspectBundle`` only re-validates the pieces against
@@ -60,7 +60,10 @@ from .steward.challenge_receipts import (
 NOFOLLOW = getattr(os, "O_NOFOLLOW", 0)  # absent on Windows; assertPlain still checks every component
 BINARY = getattr(os, "O_BINARY", 0)
 EVIDENCE = "evidence/frontier-challenges"
-CASEIDRE = re.compile(r"^[a-z0-9][a-z0-9-]{0,62}$")
+# Mirrors the Frontier lead id charset (letters of either case, digits) minus its dot/colon/underscore:
+# a case id is a single directory name that is also bound in digests and receipt ids, so it can never
+# contain a separator, a dot (no traversal, no dot-leading names) or a leading hyphen.
+CASEIDRE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9-]{0,62}$")
 LOGINRE = re.compile(r"^[A-Za-z0-9-]{1,39}$")
 FIELDRE = re.compile(r"^[A-Za-z0-9._:/@+-]{1,200}$")
 GITSHARE = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
@@ -70,7 +73,10 @@ REQUESTSCHEMA = 1
 GENESIS = "0" * 64
 METHODS = ("reproducible-test", "benchmark-replay", "cli-replay")
 DEFAULTREPO = "gaia-research/gaia-skill-tree"
-BUNDLEFILES = ("lead.json", "request.json", "receipt.json", "meta-verification.json")
+RECEIPTPATH = "receipts/experiment-receipt.json"  # canonical Frontier layout (frontier.py receipt builder)
+LEGACYRECEIPT = "receipt.json"  # pre-Frontier-layout location, still accepted
+BUNDLEFILES = ("lead.json", "request.json", RECEIPTPATH, "meta-verification.json")
+TRIAGEFILES = ("lead.json", "meta-verification.json", "artifacts/match.json", "artifacts/dedupe.json")
 DRAFTKEYS = ("subject_id", "claim_id", "claim", "behavior_id", "contributor_id", "contributor_notice_ref",
              "pinned_version", "pinned_sha", "environment", "test_version", "baseline", "comparator",
              "material_to_origin", "created_at_utc", "linked_challenge_id")
@@ -92,7 +98,7 @@ class HoldReason(str, Enum):
     CHALLENGE_REJECTED = "challenge-rejected"
     BUNDLE_NOT_BOUND = "bundle-not-bound-to-receipt"
     REQUEST_MISSING = "admission-request-missing"
-    NOT_RECOMMENDED = "not-recommended-for-admission"
+    META_NOT_RECOMMENDED = "meta-not-recommended"
     EVENT_LOG_BROKEN = "event-log-broken"
 
 
@@ -181,23 +187,46 @@ def writeNew(path: Path, data: bytes) -> None:
 # --- append-only events --------------------------------------------------------------
 
 def parseEvents(raw: bytes) -> tuple[list[dict[str, Any]], list[str], str]:
-    """Return ``(events, errors, lastLineDigest)``; a broken chain, gap or edit is an error."""
+    """Return ``(events, errors, lastLineDigest)``; a broken chain, gap or edit is an error.
+
+    Reconciled with ``frontier.validate_events``: legacy unchained lines before the first chained entry are
+    tolerated (and count toward ``seq``). Two chained forms exist and may follow each other: this module's
+    (``schemaVersion``/``seq``/``prev``, hex digest of the previous line) and the Frontier tool's
+    (``seq``/``prevHash``, ``sha256:`` digest, null on line 1). Once a chain starts, every later line must be
+    chained with a ``seq`` equal to its position and a digest of the previous line; an unchained line after
+    that, a gap, or an edit breaks it.
+
+    This is tamper-evidence only. A legacy-only log has no chain, and a truncated tail is invisible in the
+    file; both are non-authoritative and git history is the anchor (as in ``frontier.append_event``)."""
     events, errors, prev = [], [], GENESIS
     if raw and not raw.endswith(b"\n"):
         errors.append("events.jsonl does not end with a newline")
     lines = raw.split(b"\n")
     if raw.endswith(b"\n"):
         lines = lines[:-1]
+    chained = False
     for index, line in enumerate(lines if raw else [], start=1):
         try:
             event = json.loads(line)
         except ValueError:
             errors.append(f"events.jsonl line {index} is not JSON")
             break
-        if (not isinstance(event, dict) or event.get("schemaVersion") != EVENTSCHEMA
-                or event.get("seq") != index or event.get("prev") != prev):
+        if not isinstance(event, dict):
             errors.append(f"events.jsonl line {index} breaks the append-only chain")
             break
+        own = "schemaVersion" in event or "prev" in event
+        tool = "prevHash" in event or ("seq" in event and not own)
+        if own:
+            valid = event.get("schemaVersion") == EVENTSCHEMA and event.get("seq") == index and event.get("prev") == prev
+        elif tool:
+            expected = "sha256:" + prev if index > 1 else None
+            valid = event.get("seq") == index and event.get("prevHash") == expected
+        else:
+            valid = not chained  # legacy line: only allowed before the chain starts
+        if not valid:
+            errors.append(f"events.jsonl line {index} breaks the append-only chain")
+            break
+        chained = chained or own or tool
         events.append(event)
         prev = hashlib.sha256(line).hexdigest()
     return events, errors, prev
@@ -264,6 +293,8 @@ class BundleReport:
     admission: dict[str, Any] | None = None
     transcript: dict[str, Any] | None = None
     digests: dict[str, str] = field(default_factory=dict)
+    triage: bool = False  # lead + match/dedupe + a stage:"triage" Meta record; no request, receipt or experiment
+    receiptFile: str = RECEIPTPATH
 
     @property
     def ok(self) -> bool:
@@ -294,9 +325,32 @@ class BundleReport:
         return os.path.lexists(path)
 
 
-def bundleDigest(directory: Path) -> str:
-    """Digest of the material an admission binds: the four bundle files and artifacts/ (from disk)."""
-    entries = {name: sha(readBounded(directory / name)) for name in BUNDLEFILES}
+def receiptLocation(directory: Path) -> str:
+    """The receipt file of a case: the canonical Frontier path, else the legacy root path (never both)."""
+    for name in (RECEIPTPATH, LEGACYRECEIPT):
+        assertPlain(directory, directory / name)  # a symlinked receipts/ or receipt file is refused before any read
+    canonicalPath, legacy = os.path.lexists(directory / RECEIPTPATH), os.path.lexists(directory / LEGACYRECEIPT)
+    if canonicalPath and legacy:
+        raise AdmissionError(f"ambiguous receipt: both {RECEIPTPATH} and {LEGACYRECEIPT} exist")
+    return LEGACYRECEIPT if legacy else RECEIPTPATH
+
+
+def isTriageBundle(directory: Path) -> bool:
+    """A triage-only case has no request and no receipt anywhere, and a stage:"triage" Meta record."""
+    if any(os.path.lexists(directory / name) for name in ("request.json", "receipts", LEGACYRECEIPT, "admission-request.json")):
+        return False
+    try:
+        meta, _ = readJson(directory / "meta-verification.json")
+    except AdmissionError:
+        return False
+    return meta.get("stage") == "triage"
+
+
+def bundleDigest(directory: Path, files: tuple[str, ...] | None = None) -> str:
+    """Digest of the material an admission binds: the bundle files and artifacts/ (from disk)."""
+    names = files if files is not None else tuple(
+        receiptLocation(directory) if name == RECEIPTPATH else name for name in BUNDLEFILES)
+    entries = {name: sha(readBounded(directory / name)) for name in names}
     artifacts = directory / "artifacts"
     if artifacts.is_symlink():
         raise AdmissionError("artifacts must not be a symlink")
@@ -314,10 +368,13 @@ def inspectBundle(root: str | Path, caseId: str) -> BundleReport:
     rootPath = Path(root).resolve()
     directory = caseDirectory(rootPath, caseId)
     report = BundleReport(caseId, directory)
+    if isTriageBundle(directory):
+        return inspectTriage(report, rootPath)
     try:
+        report.receiptFile = receiptLocation(directory)
         report.lead, _ = readJson(directory / "lead.json")
         report.request, _ = readJson(directory / "request.json")
-        report.receipt, _ = readJson(directory / "receipt.json")
+        report.receipt, _ = readJson(directory / report.receiptFile)
         report.meta, metaRaw = readJson(directory / "meta-verification.json")
         report.digests = {"lead": sha(canonical(report.lead)), "request": report.request.get("requestId", ""),
                           "receipt": frontier.receipt_digest(report.receipt), "meta": sha(metaRaw),
@@ -350,6 +407,28 @@ def inspectBundle(root: str | Path, caseId: str) -> BundleReport:
         except AdmissionError as exc:
             errors.append(f"admission-request: {exc}")
     report.errors = sorted(set(errors))
+    return report
+
+
+def inspectTriage(report: BundleReport, rootPath: Path) -> BundleReport:
+    """Re-validate a triage-only case (lead rejected before any request/receipt). It can only ever be a review."""
+    directory = report.directory
+    report.triage = True
+    try:
+        report.lead, _ = readJson(directory / "lead.json")
+        report.meta, metaRaw = readJson(directory / "meta-verification.json")
+        matchRaw, dedupeRaw = (readBounded(directory / "artifacts" / name) for name in ("match.json", "dedupe.json"))
+        report.digests = {"lead": sha(canonical(report.lead)), "meta": sha(metaRaw),
+                          "bundle": bundleDigest(directory, TRIAGEFILES)}
+    except AdmissionError as exc:
+        report.errors.append(str(exc))
+        return report
+    report.errors.extend(f"meta-verification: {item}" for item in frontier.validate_triage_record(
+        report.meta, report.lead, matchRaw, dedupeRaw, repo_root=rootPath))
+    # events.jsonl is an audit trail with no authority here and no admission to hold, so it is not checked.
+    if os.path.lexists(directory / RECEIPT_SUBDIR):
+        report.errors.append("a triage-only case must not carry an issuer receipt")
+    report.errors = sorted(set(report.errors))
     return report
 
 
@@ -632,7 +711,8 @@ class AdmissionOutcome:
 
 
 def clean(text: Any) -> str:
-    return re.sub(r"[^\x20-\x7e]", " ", str(text))[:240].strip()
+    """Printable ASCII, bounded, with workflow-command markers (``::``) defused for CI logs."""
+    return re.sub(r"[^\x20-\x7e]", " ", str(text))[:240].strip().replace("::", ": :")
 
 
 def held(reason: HoldReason, detail: str) -> AdmissionOutcome:
@@ -650,10 +730,12 @@ def attemptAdmission(report: BundleReport, root: str | Path, *, resolver: Any = 
     rootPath = Path(root).resolve()
     if not report.ok:
         raise AdmissionError("bundle does not re-validate: " + "; ".join(report.errors))
+    if report.triage:
+        raise AdmissionError("a triage-only case has no experiment and can never be admitted")
+    if not report.eligible:  # the Meta record's own verdict takes precedence over a missing request or a log problem
+        return held(HoldReason.META_NOT_RECOMMENDED, f"meta verification outcome is {report.meta.get('outcome')}")
     if report.eventErrors:
         return held(HoldReason.EVENT_LOG_BROKEN, "; ".join(report.eventErrors))
-    if not report.eligible:
-        return held(HoldReason.NOT_RECOMMENDED, f"meta verification outcome is {report.meta.get('outcome')}")
     if report.admission is None:
         return held(HoldReason.REQUEST_MISSING, "no admission request has been built")
     request = report.admission

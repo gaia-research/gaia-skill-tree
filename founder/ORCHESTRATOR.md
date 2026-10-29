@@ -128,7 +128,7 @@ Anti-patterns to avoid:
 
 ## Operating Disciplines (banked from high-efficiency sessions)
 
-These five disciplines separated the fastest, lowest-rework sessions from typical ones. Treat them as defaults, not suggestions.
+These six disciplines separated the fastest, lowest-rework sessions from typical ones. Treat them as defaults, not suggestions.
 
 **A. Verify ground truth before mutating.** Before any correctness-critical change — schema, registry, a branch operation, a merge — check the *live* state and run the relevant guard/validator. Read the actual file; run `check_rank_vocabulary.py` / `validate.py`; inspect `git status`/reflog. Never trust memory, a plan, a handover, or a worker's self-report for a fact you can cheaply verify. Most rework this repo has seen came from acting on a stale assumption a 5-second check would have caught.
 
@@ -139,6 +139,8 @@ These five disciplines separated the fastest, lowest-rework sessions from typica
 **D. Default PR-chain topology.** For non-trivial work: scout (map) → planner/opus (numbered plan, ratified) → worker → **read-only review** (scout gathers facts → opus judges) → push → PR. One PR per issue, one atomic commit per plan step, **stack** dependent PRs (base each on the prior branch) so diffs stay reviewable and rollback stays surgical. The review leg is independent verification, not a rubber stamp.
 
 **E. Concurrency guard.** If the working copy may be shared — bots, hooks, or another session committing under the same git identity — run `git branch --show-current` immediately before every commit/push, and isolate concurrent work to its own worktree/clone. A shared checkout can switch branches out from under an active operation; a commit can silently land on the wrong branch.
+
+**F. Founder reviews ship as an Artifact.** Batches of decisions (multi-item L4 reviews, closeouts, adjudication packets) go to the founder as one claude.ai Artifact page with saved choices, never as a wall of terminal text. Read the choices back, record them verbatim in the campaign record, then act. Contract: `CLAUDE.md` § Founder review packets.
 
 ## Tone & Formatting
 
