@@ -1033,6 +1033,7 @@
           <li><a href="#dev-update-named"><code>dev update-named</code></a></li>
           <li><a href="#dev-timeline"><code>dev timeline</code></a></li>
           <li><a href="#dev-timeline-resort"><code>dev timeline-resort</code></a></li>
+          <li><a href="#dev-ratify"><code>dev ratify</code></a></li>
           <li><a href="#dev-list"><code>dev list</code></a></li>
           <li><a href="#dev-audit"><code>dev audit</code></a></li>
           <li><a href="#dev-diff"><code>dev diff</code></a></li>
@@ -1137,6 +1138,7 @@
             <li><a href="#dev-update-named"><code>dev update-named</code> — Update named frontmatter</a></li>
             <li><a href="#dev-timeline"><code>dev timeline</code> — Add timeline log</a></li>
             <li><a href="#dev-timeline-resort"><code>dev timeline-resort</code> — Re-sort timeline</a></li>
+            <li><a href="#dev-ratify"><code>dev ratify</code> — L4 ratification</a></li>
             <li><a href="#dev-list"><code>dev list</code> — Query registry</a></li>
             <li><a href="#dev-audit"><code>dev audit</code> — Run registry linter</a></li>
             <li><a href="#dev-diff"><code>dev diff</code> — Diff registry vs main</a></li>
@@ -3153,6 +3155,37 @@
 
 <span class="c"># Apply it</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev timeline-resort</span> <span class="arg">alice/web-search</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev ratify -->
+        <div class="cmd-card" id="dev-ratify">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev ratify</span>
+            <span class="cmd-signature">&lt;packet&gt; --decision {MAP,NEW_GENERIC} --generic-id &lt;id&gt; --contributor &lt;handle&gt; --skill-name &lt;name&gt; --assessment &lt;receipt&gt; --reviewed-by &lt;who&gt; --approval-ref &lt;ref&gt; --reason &lt;text&gt;</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>The L4 human-review step for a discovery packet. It records who approved a candidate and why.</li>
+              <li>Writes a <code>l4Resolution</code> block to the packet and sets it to review-ready. The packet then goes to <code>gaia push --from-file</code>.</li>
+              <li>Pre-flight checks run before any write. One failed check writes nothing.</li>
+              <li><code>--assessment</code> takes the principles receipt from the prefill step. The receipt proves it is fresh, not that its semantics are right.</li>
+              <li><code>--contributor</code> must be lowercase. Mixed-case input is rejected.</li>
+              <li><code>--generic-name</code>, <code>--generic-description</code>, <code>--generic-type</code>, and <code>--prereqs</code> are optional for <code>MAP</code>, which reads them from the live node. <code>NEW_GENERIC</code> requires them.</li>
+              <li><code>--skill-file-url</code> defaults to the packet's source URL. Without <code>--acknowledge-human-review</code>, the write is rejected. Pass it only after a person has reviewed the candidate.</li>
+            </ul>
+            <div class="callout warn" style="margin-bottom:0.85rem;">
+              <strong>⚠️ Operator access is not approval.</strong> <code>GAIA_OPERATOR_OVERRIDE=1</code> lets the command run. It does not count as L4 approval. Only a named human reviewer may record <code>--reviewed-by</code>, <code>--approval-ref</code>, and <code>--reason</code>.
+            </div>
+            <div class="example-block">
+              <div class="example-label">example</div>
+              <pre><span class="c"># Map a candidate to an existing generic skill, after human review</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev ratify</span> <span class="arg">registry-for-review/discovery-packets/owner--skill-name.json \
+  --decision MAP --generic-id web-search --contributor marco --skill-name web-search \
+  --assessment &lt;receipt.json&gt; --reviewed-by marco --approval-ref &lt;issue-or-PR-URL&gt; \
+  --reason "Matches the generic web-search node" --acknowledge-human-review</span></pre>
             </div>
           </div>
         </div>

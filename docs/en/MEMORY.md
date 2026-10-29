@@ -2,6 +2,55 @@
 
 ---
 
+## 2026-10-29 — Routine 064
+
+**Branch:** `docs/routines/064` (new, from `origin/main` v8.28.2). No `docs/routines/*`
+branch existed on the remote, so this run created the next number.
+
+**Task chosen:** SYNC/ROTATE from "Planned next (Routine 063)". The planned item was to
+annotate the lowercase-contributor rule on `dev ratify`, `dev evidence --evaluator`, and
+`dev timeline --user`. Checking the source changed the plan.
+
+### What I did
+
+- **Added the missing `gaia dev ratify` card** to `cli-reference.html`, with nav entries in
+  both lists. It was undocumented anywhere under `docs/en/`, and it is a mutating,
+  verifier-gated verb (`MUTATING_DEV_COMMANDS` in `commands/dev/__init__.py`).
+- The card covers the required flags, the optional `MAP` fallbacks, and the
+  `--acknowledge-human-review` gate, which `ratify.py` enforces at runtime. It also carries
+  a callout: operator override does not count as L4 approval.
+
+### Design decisions
+
+- **Dropped two of the three planned annotations.** `dev evidence --evaluator` and
+  `dev timeline --user` do no contributor validation (`evidence.py` stores the value as free
+  text, `timeline.py` never calls `validateContributor`). Adding a "must be lowercase" note to
+  either card would document a rule the CLI does not enforce. Only `dev ratify` and
+  `dev add --named` reject mixed case.
+- The `dev ratify` card did not exist, so "annotate the card" became "write the card".
+  Kept it to one card; it is still a single-page edit.
+
+### Files
+
+- `docs/en/cli-reference.html`: new `dev ratify` card; nav entries in both lists.
+- `docs/en/DOCS.md`: Page Map row 3 updated (status and routine pointer).
+- `docs/en/MEMORY.md`: this entry.
+
+### Verification
+
+- HTML parse-check on `cli-reference.html` passes.
+- `#dev-ratify` appears 3 times (card id plus two nav links).
+- Banned-synonym grep and hex grep on the diff: see the commit.
+
+### Planned next (Routine 065)
+
+- `dev evidence` and `dev timeline` cards: nothing to add for the lowercase rule (verified
+  above). Only candidates are the `--evaluator` and `--user` help text, which should say
+  "handle, not validated".
+- ROTATE to the least-recently-touched page in the Page Map (`faq.html` or `fusion.html`).
+
+---
+
 ## 2026-10-21 — Weekly Editor Pass (editor-063wk)
 
 **Branch:** `docs/routines/063`. No daily PR was open (routines 056–062 had all
