@@ -3653,15 +3653,6 @@
         table.after(list);
       });
 
-      function decodeEntities(str) {
-        return str
-          .replace(/&lt;/g, '<')
-          .replace(/&gt;/g, '>')
-          .replace(/&amp;/g, '&')
-          .replace(/&quot;/g, '"')
-          .replace(/&#39;/g, "'");
-      }
-
       function makeCopyIcon() {
         return (typeof window.gaiaIcon === 'function')
           ? window.gaiaIcon('copy', { size: 14 })
@@ -3672,8 +3663,7 @@
       document.querySelectorAll('.example-block').forEach(block => {
         const pre = block.querySelector('pre');
         if (!pre) return;
-        const rawHtml = pre.innerHTML;
-        const fullText = decodeEntities(rawHtml.replace(/<[^>]+>/g, '')).trim();
+        const fullText = pre.textContent.trim();
 
         const label = block.querySelector('.example-label');
         if (label) {
@@ -3696,24 +3686,52 @@
           label.appendChild(blockCopyBtn);
         }
 
-        const lines = rawHtml.split(/\r?\n/);
+        const lines = [];
+        let currentLine = [];
+        pre.childNodes.forEach(node => {
+          if (node.nodeType === Node.TEXT_NODE) {
+            const parts = node.textContent.split('\n');
+            for (let i = 0; i < parts.length; i++) {
+              if (i > 0) {
+                lines.push(currentLine);
+                currentLine = [];
+              }
+              if (parts[i].length > 0) {
+                currentLine.push(document.createTextNode(parts[i]));
+              }
+            }
+          } else {
+            currentLine.push(node.cloneNode(true));
+          }
+        });
+        if (currentLine.length > 0) {
+          lines.push(currentLine);
+        }
+
         const container = document.createElement('div');
         container.className = 'example-lines';
         container.setAttribute('role', 'region');
         container.setAttribute('aria-label', 'Command examples');
 
-        let curCmdLines = [];
-        let curCmdHtml = [];
+        let pendingCmdNodes = [];
+        let pendingCmdTextParts = [];
 
         function flushCmd() {
-          if (!curCmdLines.length) return;
-          const cmdText = curCmdLines.join('\n').trim();
+          if (!pendingCmdTextParts.length) return;
+          const cmdText = pendingCmdTextParts.join('\n').trim();
           const row = document.createElement('div');
           row.className = 'example-cmd-row';
 
           const code = document.createElement('div');
           code.className = 'example-cmd-code';
-          code.innerHTML = curCmdHtml.join('\n');
+          pendingCmdNodes.forEach((lineNodes, lIdx) => {
+            if (lIdx > 0) {
+              code.appendChild(document.createTextNode('\n'));
+            }
+            lineNodes.forEach(n => {
+              code.appendChild(n);
+            });
+          });
 
           const btn = document.createElement('button');
           btn.type = 'button';
@@ -3736,42 +3754,43 @@
           row.append(code, btn);
           container.appendChild(row);
 
-          curCmdLines = [];
-          curCmdHtml = [];
+          pendingCmdNodes = [];
+          pendingCmdTextParts = [];
         }
 
-        for (let i = 0; i < lines.length; i++) {
-          const line = lines[i];
-          const plain = decodeEntities(line.replace(/<[^>]+>/g, '')).trim();
-          if (!plain) {
+        lines.forEach(lineNodes => {
+          const lineText = lineNodes.map(n => n.textContent).join('').trim();
+          if (!lineText) {
             flushCmd();
             const spacer = document.createElement('div');
             spacer.className = 'example-spacer';
             container.appendChild(spacer);
-            continue;
+            return;
           }
-          if (plain.startsWith('#')) {
+          if (lineText.startsWith('#')) {
             flushCmd();
             const comment = document.createElement('div');
             comment.className = 'example-comment';
-            comment.innerHTML = line;
+            lineNodes.forEach(n => {
+              comment.appendChild(n);
+            });
             container.appendChild(comment);
-            continue;
+            return;
           }
 
-          let cleanLine = line.replace(/<span class="c">[\s\S]*?<\/span>/g, '');
-          let cleanPlain = decodeEntities(cleanLine.replace(/<[^>]+>/g, '')).trim();
-          if (cleanPlain.includes(' # ')) {
-            cleanPlain = cleanPlain.split(' # ')[0].trim();
-          }
+          const cmdOnlyText = lineNodes
+            .filter(n => !(n.nodeType === Node.ELEMENT_NODE && n.classList.contains('c') && n.textContent.includes('#')))
+            .map(n => n.textContent)
+            .join('')
+            .trim();
 
-          curCmdLines.push(cleanPlain);
-          curCmdHtml.push(line);
+          pendingCmdTextParts.push(cmdOnlyText);
+          pendingCmdNodes.push(lineNodes);
 
-          if (!cleanPlain.endsWith('\\')) {
+          if (!cmdOnlyText.endsWith('\\')) {
             flushCmd();
           }
-        }
+        });
         flushCmd();
 
         pre.classList.add('example-source', 'pre-wrap');

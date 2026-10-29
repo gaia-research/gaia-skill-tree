@@ -86,7 +86,9 @@ def test_example_blocks_provide_per_line_and_whole_block_copying():
     assert "example-line-btn" in html
     assert "example-cmd-row" in html
     assert "example-lines" in html
-    assert "cleanLine.replace" in html
+    assert "pre.childNodes.forEach" in html
+    assert "cmdOnlyText" in html
+    assert "decodeEntities" not in html  # Clean DOM traversal, no unsafe entity decoding or regex sanitization
     assert "pre.classList.add('example-source', 'pre-wrap')" in html
     assert ".example-block pre.example-source" in html
     assert "mini-terminal" not in html
@@ -105,25 +107,20 @@ def test_example_blocks_provide_per_line_and_whole_block_copying():
     script = """
     const fs = require('fs');
     const raw = fs.readFileSync(0, 'utf8');
-    function decodeEntities(str) {
-      return str.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
-    }
     const lines = raw.split(/\\r?\\n/);
     const cmds = [];
-    let curLines = [];
+    let cur = [];
     function flush() {
-      if (!curLines.length) return;
-      cmds.push(curLines.join('\\n').trim());
-      curLines = [];
+      if (!cur.length) return;
+      cmds.push(cur.join('\\n').trim());
+      cur = [];
     }
     for (const line of lines) {
-      const plain = decodeEntities(line.replace(/<[^>]+>/g, '')).trim();
-      if (!plain || plain.startsWith('#')) { flush(); continue; }
-      let cleanLine = line.replace(/<span class="c">[\\s\\S]*?<\\/span>/g, '');
-      let cleanPlain = decodeEntities(cleanLine.replace(/<[^>]+>/g, '')).trim();
-      if (cleanPlain.includes(' # ')) cleanPlain = cleanPlain.split(' # ')[0].trim();
-      curLines.push(cleanPlain);
-      if (!cleanPlain.endsWith('\\\\')) flush();
+      const stripped = line.replace(/<[^>]+>/g, '').trim();
+      if (!stripped || stripped.startsWith('#')) { flush(); continue; }
+      let clean = line.replace(/<span class="c">#[^<]*<\\/span>/g, '').replace(/<[^>]+>/g, '').trim();
+      cur.push(clean);
+      if (!clean.endsWith('\\\\')) flush();
     }
     flush();
     process.stdout.write(JSON.stringify(cmds));
