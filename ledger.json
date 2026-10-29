@@ -1,5 +1,5 @@
 {
- "generation": 146,
+ "generation": 147,
  "lane": {
   "entries": [
    {
@@ -2324,7 +2324,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-10-29T02:46:35.401453Z",
-   "expiresAt": "2026-10-29T03:26:07.362630Z",
+   "expiresAt": "2026-10-29T03:26:10.950134Z",
    "holder": "run-20261029T024635Z-79c43bd1"
   }
  },
@@ -9494,7 +9494,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-10-29T02:49:32.806249Z",
+    "asOf": "2026-10-29T02:56:10.528464Z",
     "decisions": [
      {
       "alternative": "Keep it an operator-run collector until a quarter of local runs shows low noise.",
@@ -9648,7 +9648,7 @@
     "haiku"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "perform 1 pending action(s) (agent.verify), record each with `gaia steward full record run-20261029T024635Z-79c43bd1 <stepId> --input FILE`, then `gaia steward full run --resume run-20261029T024635Z-79c43bd1`",
    "options": {
     "afk": true,
     "agents": true,
@@ -10543,7 +10543,7 @@
    "runId": "run-20261029T024635Z-79c43bd1",
    "sourceHead": "fc0e6f8d91aa759629bb36c0e188b116b4511808",
    "startedAt": "2026-10-29T02:46:35.401453Z",
-   "status": "active",
+   "status": "awaiting-action",
    "steps": [
     {
      "at": "2026-10-29T02:46:35.401453Z",
@@ -10609,7 +10609,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-29T02:56:07.362743Z",
+ "updatedAt": "2026-10-29T02:56:10.950251Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
