@@ -4,7 +4,7 @@ name: Workflow-Skill-Creator
 contributor: google-deepmind
 origin: true
 genericSkillRef: skill-authoring
-status: awakened
+status: named
 level: 4★
 description: Distills a completed user workflow or interaction into a reusable agent
   skill. Use when the user asks to turn their workflow, interaction, or multi-step
@@ -12,7 +12,7 @@ description: Distills a completed user workflow or interaction into a reusable a
   what we just did", "package this workflow" or similar. Do not use for creating skills
   from scratch without an existing workflow (use a generic skill-creator for that).
 createdAt: '2026-05-23'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-30'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md
 evidence:
@@ -115,6 +115,17 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Calibrated level from 1★ to 4★
+- timestamp: '2026-10-29T16:39:13Z'
+  action: name
+  contributor: mbtiongson1
+  details: Promoted from awakened to named.
+- timestamp: '2026-10-29T16:39:20Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Founder ruling 2026-10-30 FD-11 (Promote to named): awakened -> named
+    at 4★; title from upstream SKILL.md H1 ''Workflow-to-Skill Distiller'' (upstream
+    name: workflow-skill-creator). Live blob link verified HTTP 200; TM 100.82 A (thin,
+    barely over 4★ floor).'
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:
@@ -129,6 +140,7 @@ apexGateStatus:
 trustMagnitudeInputHash: c8b411f2ad420b10dc898fd32a3f584b790df498231e6a3178b7353f75db7d30
 verification:
   firstEvidenceAt: '2026-06-19T17:06:48Z'
+title: Workflow-to-Skill Distiller
 ---
 
 # Workflow-to-Skill Distiller
