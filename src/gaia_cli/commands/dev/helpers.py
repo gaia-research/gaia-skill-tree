@@ -155,15 +155,21 @@ def _starNumber(level) -> int:
 def _preflight_star_gate(skill_id: str, skill_data: dict, level: str, registry_path) -> None:
     """Refuse to set a level (4★+) whose Trust Magnitude / branch gate fails.
 
-    Raising to, or re-asserting, a gated level is checked against live Trust
-    Magnitude (never the cached frontmatter). Lowering stays unconditional.
+    A strict raise to a gated level is checked against live Trust Magnitude (never
+    the cached frontmatter) and refused on failure. Re-asserting the current level
+    only warns (evidence-only re-calibration stays possible). Lowering is
+    unconditional.
     Unique branch (no ``suiteComponents``): 4★/5★ use
     ``promotion.checkUniqueBranchGate``. Suite branch: 4★ Extra needs Grade A
     (TM >= 100), 5★+ Ultimate needs Grade S (TM >= 250) plus Origin on >=1
-    ``suiteComponents`` (META.md section 4.2); no bucket-level Origin is required.
+    ``suiteComponents`` (META.md section 4.2), held by the proposing contributor; no bucket-level
+    Origin is required. Scope: 4★/5★ are fully gated; a 6★ target only
+    enforces the Grade S floor -- `checkUniqueImpossibleGate` / `passesSuiteApexGate`
+    are NOT enforced here.
     """
     target = _starNumber(level)
-    if target < 4 or target < _starNumber(skill_data.get("level")):
+    current = _starNumber(skill_data.get("level"))
+    if target < 4 or target < current:
         return
 
     from gaia_cli.promotion import checkUniqueBranchGate
@@ -182,22 +188,18 @@ def _preflight_star_gate(skill_id: str, skill_data: dict, level: str, registry_p
     if components:
         branch = "Suite"
         if target >= 5:
+            from gaia_cli.promotion import _contributor_holds_origin_in
             contributor = skill_data.get("contributor")
-            holdsOrigin = False
-            for component in components:
-                entry = mergedMap.get(component)
-                if entry and entry.get("origin") is True:
-                    holdsOrigin = True
-                    break
-                for other in mergedMap.values():
-                    if (other.get("genericSkillRef") == component and other.get("origin") is True
-                            and other.get("contributor") == contributor):
-                        holdsOrigin = True
-                        break
-                if holdsOrigin:
-                    break
+            # Generic-ref components resolve through the shared promotion helper;
+            # named-id components (contributor/slug) must carry origin: true AND
+            # belong to the proposing contributor.
+            holdsOrigin = _contributor_holds_origin_in(contributor, components, mergedMap) or any(
+                (mergedMap.get(c) or {}).get("origin") is True
+                and (mergedMap.get(c) or {}).get("contributor") == contributor
+                for c in components
+            )
             if not holdsOrigin:
-                problems.append("5★+ Suite Ultimate requires Origin on at least one suiteComponent (META.md 4.2)")
+                problems.append("5★+ Suite Ultimate requires the proposing contributor to hold Origin on at least one suiteComponent (META.md 4.2)")
     else:
         branch = "Unique"
         if target in (4, 5):
@@ -210,6 +212,13 @@ def _preflight_star_gate(skill_id: str, skill_data: dict, level: str, registry_p
             if result.get("branch") not in (None, "unique") and not problems:
                 problems.append(f"skill resolves to branch '{result.get('branch')}' at {level}, not Unique")
 
+    if problems and target == current:
+        print(
+            f"Warning: {skill_id} no longer satisfies the {level} gate ({branch} branch): "
+            + "; ".join(problems) + ". Re-calibrating at the same level anyway.",
+            file=sys.stderr,
+        )
+        return
     if problems:
         _fail_dev_preflight(
             f"Cannot set {skill_id} to {level} ({branch} branch): " + "; ".join(problems) + ".",
@@ -658,20 +667,31 @@ def _add_build_flags(parser, verb: str) -> None:
 def _get_contributor():
     """Resolve the acting operator for timeline events.
 
-    Order: `.gaia/config.json` (`gaiaUser` / `username`), then the same git-based
-    GitHub identity detection `gaia init` uses (origin remote, noreply email,
-    git display name), then ``"unknown"`` as a last resort.
+    Order: `.gaia/config.json` (`gaiaUser` / `username`), then ``GITHUB_ACTOR``
+    (CI; ``*[bot]`` actors kept as-is), then the GitHub login in a noreply
+    ``git config user.email``, then ``"unknown"``. The git remote owner is never
+    used: it names the org, not the actor.
     """
     config = load_config() or {}
     configured = config.get("gaiaUser") or config.get("username")
     if configured:
         return configured
+    actor = (os.environ.get("GITHUB_ACTOR") or "").strip()
+    if actor:
+        return actor
     try:
-        from gaia_cli.impl import _detect_github_username
-        detected = _detect_github_username()
+        result = subprocess.run(
+            ["git", "config", "user.email"], capture_output=True, text=True, timeout=5
+        )
+        if result.returncode == 0:
+            match = re.match(
+                r"^(?:\d+\+)?([^@]+)@users\.noreply\.github\.com$", result.stdout.strip()
+            )
+            if match:
+                return match.group(1)
     except Exception:
-        detected = None
-    return detected or "unknown"
+        pass
+    return "unknown"
 
 
 def _is_verifier(username, registry_path=".") -> bool:
