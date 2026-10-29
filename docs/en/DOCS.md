@@ -81,8 +81,9 @@ The default view is a compact index, not a wall of syntax:
 - Put complete syntax, defaults, and extended explanations behind native
   `details` / `summary` controls. Support click, tap, and keyboard activation.
   Several entries may stay open for comparison.
-- On mobile, put the name and Details affordance on the first line and the
-  purpose below. Use one full-width explanation when expanded, not three narrow
+- On mobile, put the name and disclosure chevron on the first line and the
+  purpose below. Hide the repeated Details label on compact screens instead
+  of squeezing or fragmenting identifiers. Use one full-width explanation when expanded, not three narrow
   columns or repeated all-caps field labels. New breakpoints are mobile-first.
 - Preserve every authored option, argument, default, link, explanation, and
   example. An ellipsis is acceptable in a short overview only when the complete

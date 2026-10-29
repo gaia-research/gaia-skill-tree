@@ -68,7 +68,8 @@ def test_disclosure_enhances_all_tables_without_inferred_commands():
     assert "navigator.clipboard" not in html  # Shared ui.js owns copying.
     assert html.index('src="../js/icons.js?') < html.index('src="../js/ui.js?')
     assert 'data-icon-base="../assets/icons.svg"' in html
-    assert "word-break: normal" in html
+    assert re.search(r"\.reference-name\s*\{[^}]*word-break: normal;[^}]*overflow-wrap: normal;", html)
+    assert ".reference-toggle-label" in html
     assert "token.className = 'reference-token'" in html
     assert re.search(r"\.reference-body \.reference-token\s*\{\s*white-space: nowrap;", html)
     for example in (

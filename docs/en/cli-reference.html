@@ -347,7 +347,8 @@
       font-weight: 600;
       color: var(--text);
       white-space: normal;
-      overflow-wrap: anywhere;
+      word-break: normal;
+      overflow-wrap: normal;
     }
 
     .reference-purpose {
@@ -365,6 +366,10 @@
       gap: 0.5rem;
       font-size: 0.84rem;
       white-space: nowrap;
+    }
+
+    .reference-toggle-label {
+      display: none;
     }
 
     .reference-chevron {
@@ -444,10 +449,14 @@
 
     @media (min-width: 768px) {
       .reference-entry > summary {
-        grid-template-columns: minmax(10rem, 0.9fr) minmax(0, 1.6fr) auto;
+        grid-template-columns: minmax(12rem, 1.1fr) minmax(0, 1.4fr) auto;
         grid-template-areas: "name purpose toggle";
         gap: 1rem;
         padding-block: 1rem;
+      }
+
+      .reference-toggle-label {
+        display: inline;
       }
     }
 
@@ -3469,7 +3478,10 @@
           const toggle = document.createElement('span');
           toggle.className = 'reference-toggle';
           toggle.setAttribute('aria-hidden', 'true');
-          toggle.appendChild(document.createTextNode('Details '));
+          const toggleLabel = document.createElement('span');
+          toggleLabel.className = 'reference-toggle-label';
+          toggleLabel.textContent = 'Details';
+          toggle.appendChild(toggleLabel);
           const chevron = document.createElement('span');
           chevron.className = 'reference-chevron';
           chevron.textContent = '›';
