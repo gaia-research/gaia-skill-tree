@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="../../css/styles.css?v=8.28.1">
   <link rel="stylesheet" href="ledger.css?v=8.28.1">
+  <link rel="stylesheet" href="../../css/challenge-surfaces.css?v=8.28.1">
   <script src="../../js/icons.js?v=8.28.1"></script>
 <script type="application/ld+json" data-injector="gaia-json-ld">
 {
@@ -102,6 +103,9 @@
       </table>
     </div>
 
+    <!-- ─── CHALLENGE HISTORY (admitted events only; hidden until there is one) ─── -->
+    <div class="cs-history" id="lbChallengeHistory" hidden></div>
+
     <!-- ─── FOOTER LEDGER ─── -->
     <section class="lb-ledger" aria-label="Legend">
       <div class="lb-ledger__row">
@@ -135,6 +139,8 @@
 
   </main>
 
+  <script src="../../js/trust-lifecycle.js?v=8.28.1"></script>
+  <script src="../../js/challenge-surfaces.js?v=8.28.1"></script>
   <script src="ledger.js?v=8.28.1"></script>
 </body>
 </html>

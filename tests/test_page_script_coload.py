@@ -64,3 +64,55 @@ def test_profile_generator_template_loads_trust_lifecycle_first() -> None:
     lifecycle = indexOfScript(sources, "trust-lifecycle.js")
     explorer = indexOfScript(sources, "skill-explorer.js")
     assert 0 <= lifecycle < explorer
+
+
+def pagesLoading(script: str) -> list[Path]:
+    return [page for page in sorted(DOCS.rglob("*.html"))
+            if indexOfScript(scriptSources(page.read_text(encoding="utf-8")), script) >= 0]
+
+
+def test_challenge_surface_pages_are_discovered() -> None:
+    names = {page.relative_to(DOCS).as_posix() for page in pagesLoading("challenge-surfaces.js")}
+    # Guard against the scan silently matching nothing.
+    assert {"trust/challenges/index.html", "trust/leaderboard/index.html", "trust/ledger/index.html"} <= names
+
+
+def test_every_challenge_surface_page_loads_its_dependencies_in_order() -> None:
+    """challenge-surfaces.js draws marks and toggletips through GaiaTrustLifecycle and fails closed
+    without it, so the lifecycle module must come first; a host script must come after both."""
+    problems = []
+    for page in pagesLoading("challenge-surfaces.js"):
+        text = page.read_text(encoding="utf-8")
+        sources = scriptSources(text)
+        rel = page.relative_to(DOCS).as_posix()
+        lifecycle = indexOfScript(sources, "trust-lifecycle.js")
+        surfaces = indexOfScript(sources, "challenge-surfaces.js")
+        if lifecycle < 0:
+            problems.append(f"{rel}: missing trust-lifecycle.js")
+        elif lifecycle > surfaces:
+            problems.append(f"{rel}: trust-lifecycle.js must load before challenge-surfaces.js")
+        for host in ("leaderboard.js", "ledger.js", "challenges.js"):
+            position = indexOfScript(sources, host)
+            if position >= 0 and position < surfaces:
+                problems.append(f"{rel}: {host} must load after challenge-surfaces.js")
+        if "challenge-surfaces.css" not in text:
+            problems.append(f"{rel}: missing challenge-surfaces.css")
+    assert not problems, "\n".join(problems)
+
+
+def test_challenges_page_is_wired_into_nav_mounts_and_cache_busting() -> None:
+    page = (DOCS / "trust" / "challenges" / "index.html").read_text(encoding="utf-8")
+    sources = scriptSources(page)
+    assert 0 <= indexOfScript(sources, "mounts.js") < indexOfScript(sources, "site-nav.js")
+    mounts = (DOCS / "js" / "mounts.js").read_text(encoding="utf-8")
+    assert "'trust'" in mounts  # /trust/challenges/ is served under the existing trust mount
+    build = (ROOT / "scripts" / "build_docs.py").read_text(encoding="utf-8")
+    assert '"trust/challenges/index.html"' in build
+    assert "?v=" in page and "challenge-surfaces.js?v=" in page
+
+
+def test_challenges_page_has_the_held_heading_and_no_contested_wording_around_it() -> None:
+    page = (DOCS / "trust" / "challenges" / "index.html").read_text(encoding="utf-8")
+    held = page.split('id="csHeld"', 1)[1].split("</section>", 1)[0]
+    assert "Admission held, under review, no effect on standing" in held
+    assert "contested" not in held.lower()
