@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: knowledge-graph-build
 status: named
 title: The Structural Muse
-level: 5★
+level: 4★
 description: Maps codebases and documentation into a queryable knowledge graph using
   AST analysis and semantic extraction.
 links:
@@ -16,7 +16,7 @@ tags:
 - rag
 - ast
 createdAt: '2026-05-14'
-updatedAt: '2026-10-24'
+updatedAt: '2026-10-30'
 timeline:
 - timestamp: '2026-06-02T23:48:24Z'
   action: demote
@@ -118,6 +118,23 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 316.88 -> 318.14, grade S -> S (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-29T16:37:00Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 5★ to 4★
+- timestamp: '2026-10-29T16:37:00Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Founder ruling 2026-10-30 FD-10 (review graphify; demote if it fails 5-star):
+    Unique-branch 5-star gate (checkUniqueBranchGate, Yggdrasil II ratification v4
+    Q3) = TM>=250 AND fusion-structure Origin, i.e. contributor holds Origin on >=1
+    prerequisite of knowledge-graph-build (extract-entities, logical-inference). TM
+    318.14 S passes; structure test fails: both prerequisite buckets have zero named
+    implementations, safishamsi holds no other named skill, and this skill maps to
+    one generic (knowledge-graph-build) so it cannot hold prerequisite Origin by merit.
+    5-star was set 2026-09-02 by calibrate, which has no unique-gate pre-flight. 4-star
+    Unique gate passes (bucket Origin, TM>=100, live blob link HTTP 200). Reversible:
+    re-promote if a prerequisite Origin is later earned.'
 trustMagnitude: 318.14
 overallTrustGrade: S
 trustMagnitudeInputHash: 69748e24fa83b90d211e1aeb09bc0d1bd69985016489931669ff2c55b5be0266
