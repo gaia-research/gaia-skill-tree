@@ -46,7 +46,7 @@ HELDTEXT = {
     HoldReason.CHALLENGE_REJECTED: "The challenge domain rejected the admission request.",
     HoldReason.BUNDLE_NOT_BOUND: "The issued receipt does not bind this exact review bundle.",
     HoldReason.REQUEST_MISSING: "No admission request has been prepared for this review.",
-    HoldReason.NOT_RECOMMENDED: "The independent assessment does not recommend an admission review.",
+    HoldReason.META_NOT_RECOMMENDED: "The independent assessment of this review does not recommend an admission review.",
     HoldReason.EVENT_LOG_BROKEN: "The review's event log failed its integrity check, so admission is held.",
 }
 

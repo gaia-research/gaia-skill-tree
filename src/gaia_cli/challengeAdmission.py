@@ -98,7 +98,7 @@ class HoldReason(str, Enum):
     CHALLENGE_REJECTED = "challenge-rejected"
     BUNDLE_NOT_BOUND = "bundle-not-bound-to-receipt"
     REQUEST_MISSING = "admission-request-missing"
-    NOT_RECOMMENDED = "not-recommended-for-admission"
+    META_NOT_RECOMMENDED = "meta-not-recommended"
     EVENT_LOG_BROKEN = "event-log-broken"
 
 
@@ -187,23 +187,43 @@ def writeNew(path: Path, data: bytes) -> None:
 # --- append-only events --------------------------------------------------------------
 
 def parseEvents(raw: bytes) -> tuple[list[dict[str, Any]], list[str], str]:
-    """Return ``(events, errors, lastLineDigest)``; a broken chain, gap or edit is an error."""
+    """Return ``(events, errors, lastLineDigest)``; a broken chain, gap or edit is an error.
+
+    Reconciled with ``frontier.validate_events``: legacy unchained lines before the first chained entry are
+    tolerated (and count toward ``seq``). Two chained forms exist and may follow each other: this module's
+    (``schemaVersion``/``seq``/``prev``, hex digest of the previous line) and the Frontier tool's
+    (``seq``/``prevHash``, ``sha256:`` digest, null on line 1). Once a chain starts, every later line must be
+    chained with a ``seq`` equal to its position and a digest of the previous line; an unchained line after
+    that, a gap, or an edit breaks it."""
     events, errors, prev = [], [], GENESIS
     if raw and not raw.endswith(b"\n"):
         errors.append("events.jsonl does not end with a newline")
     lines = raw.split(b"\n")
     if raw.endswith(b"\n"):
         lines = lines[:-1]
+    chained = False
     for index, line in enumerate(lines if raw else [], start=1):
         try:
             event = json.loads(line)
         except ValueError:
             errors.append(f"events.jsonl line {index} is not JSON")
             break
-        if (not isinstance(event, dict) or event.get("schemaVersion") != EVENTSCHEMA
-                or event.get("seq") != index or event.get("prev") != prev):
+        if not isinstance(event, dict):
             errors.append(f"events.jsonl line {index} breaks the append-only chain")
             break
+        own = "schemaVersion" in event or "prev" in event
+        tool = "prevHash" in event or ("seq" in event and not own)
+        if own:
+            valid = event.get("schemaVersion") == EVENTSCHEMA and event.get("seq") == index and event.get("prev") == prev
+        elif tool:
+            expected = "sha256:" + prev if index > 1 else None
+            valid = event.get("seq") == index and event.get("prevHash") == expected
+        else:
+            valid = not chained  # legacy line: only allowed before the chain starts
+        if not valid:
+            errors.append(f"events.jsonl line {index} breaks the append-only chain")
+            break
+        chained = chained or own or tool
         events.append(event)
         prev = hashlib.sha256(line).hexdigest()
     return events, errors, prev
@@ -706,10 +726,10 @@ def attemptAdmission(report: BundleReport, root: str | Path, *, resolver: Any = 
         raise AdmissionError("bundle does not re-validate: " + "; ".join(report.errors))
     if report.triage:
         raise AdmissionError("a triage-only case has no experiment and can never be admitted")
+    if not report.eligible:  # the Meta record's own verdict takes precedence over a missing request or a log problem
+        return held(HoldReason.META_NOT_RECOMMENDED, f"meta verification outcome is {report.meta.get('outcome')}")
     if report.eventErrors:
         return held(HoldReason.EVENT_LOG_BROKEN, "; ".join(report.eventErrors))
-    if not report.eligible:
-        return held(HoldReason.NOT_RECOMMENDED, f"meta verification outcome is {report.meta.get('outcome')}")
     if report.admission is None:
         return held(HoldReason.REQUEST_MISSING, "no admission request has been built")
     request = report.admission

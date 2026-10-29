@@ -120,3 +120,64 @@ def test_sync_surfaces_every_rejected_bundle_as_a_warning(tmp_path):
     with redirect_stderr(err):
         projection.sync(root, check=False)
     assert "warning: challenge bundle bad.name rejected:" in err.getvalue()
+
+
+# --- event log reconciliation with frontier.validate_events -------------------------------
+
+LEGACY = {"atUTC": "2026-10-28T18:22:57Z", "event": "lead-written", "leadId": "synthetic-lead-0001"}
+
+
+def c1ShapedLog(directory, *, erratums=2):
+    """One legacy unchained line followed by chained ``erratum`` lines written by the Frontier event tool."""
+    from gaia_cli import frontier
+    (Path(directory) / "events.jsonl").write_text(json.dumps(LEGACY) + "\n", encoding="utf-8")
+    for number in range(erratums):
+        frontier.append_event(directory, "erratum", f"synthetic correction {number}")
+    return Path(directory) / "events.jsonl"
+
+
+def test_legacy_lines_before_a_chain_are_tolerated_like_frontier_validate_events(tmp_path):
+    from gaia_cli import frontier
+    root, directory = makeCase(tmp_path)
+    log = c1ShapedLog(directory)
+    assert frontier.validate_events(log)[0] == []
+    assert admission.readEvents(log)[1] == []
+    assert admission.inspectBundle(root, CASE).eventErrors == []
+
+
+def test_chained_log_that_breaks_or_gaps_is_still_broken(tmp_path):
+    _, directory = makeCase(tmp_path)
+    log = c1ShapedLog(directory, erratums=3)
+    lines = log.read_bytes().splitlines(keepends=True)
+    log.write_bytes(b"".join(lines[:2] + lines[3:]))  # delete a middle line: seq gap + hash break
+    assert admission.readEvents(log)[1]
+    log.write_bytes(b"".join(lines) + json.dumps(LEGACY).encode() + b"\n")  # unchained line after the chain started
+    assert admission.readEvents(log)[1]
+    edited = lines[:]
+    edited[1] = edited[1].replace(b"synthetic correction 0", b"edited")
+    log.write_bytes(b"".join(edited))
+    assert admission.readEvents(log)[1]
+
+
+def test_own_events_append_after_legacy_and_tool_chained_lines(tmp_path):
+    _, directory = makeCase(tmp_path)
+    log = c1ShapedLog(directory)
+    event = admission.appendEvent(directory, "note", {})
+    assert event["seq"] == 4 and admission.readEvents(log)[1] == []
+
+
+def test_meta_not_recommended_is_the_hold_reason_and_is_neutral(tmp_path):
+    root, directory = makeCase(tmp_path, positive=False)  # Meta record recommends "hold"
+    c1ShapedLog(directory)
+    found = collect(root)
+    [review] = found.reviews
+    assert not found.rejected and review["held"]["reason"] == "meta-not-recommended"
+    assert "contested" not in json.dumps(review).lower()
+    assert projection.validateReviews({"contract": "gaia-challenge-review/v1", "reviews": [review]}) == []
+
+
+def test_meta_verdict_takes_precedence_over_a_broken_log_and_a_missing_request(tmp_path):
+    root, directory = makeCase(tmp_path, positive=False)
+    (directory / "events.jsonl").write_text("not json\n", encoding="utf-8")
+    [review] = collect(root).reviews
+    assert review["held"]["reason"] == "meta-not-recommended"
