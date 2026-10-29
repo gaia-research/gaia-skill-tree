@@ -143,6 +143,83 @@ def _preflight_calibrate_status(skill_id: str, skill_data: dict, level: str) -> 
         )
 
 
+_STAR_GRADE_ORDER = {"ungraded": 0, "C": 1, "B": 2, "A": 3, "S": 4}
+
+
+def _starNumber(level) -> int:
+    if isinstance(level, str) and level[:1].isdigit():
+        return int(level[0])
+    return 0
+
+
+def _preflight_star_gate(skill_id: str, skill_data: dict, level: str, registry_path) -> None:
+    """Refuse to set a level (4★+) whose Trust Magnitude / branch gate fails.
+
+    Raising to, or re-asserting, a gated level is checked against live Trust
+    Magnitude (never the cached frontmatter). Lowering stays unconditional.
+    Unique branch (no ``suiteComponents``): 4★/5★ use
+    ``promotion.checkUniqueBranchGate``. Suite branch: 4★ Extra needs Grade A
+    (TM >= 100), 5★+ Ultimate needs Grade S (TM >= 250) plus Origin on >=1
+    ``suiteComponents`` (META.md section 4.2); no bucket-level Origin is required.
+    """
+    target = _starNumber(level)
+    if target < 4 or target < _starNumber(skill_data.get("level")):
+        return
+
+    from gaia_cli.promotion import checkUniqueBranchGate
+    from gaia_cli.registryMaps import buildMergedSkillMap
+    from gaia_cli.trustMagnitude import computeTrustMagnitude, computeOverallTrustGradeFromSkill
+
+    mergedMap = buildMergedSkillMap(registry_path)
+    tm = round(float(computeTrustMagnitude(skill_data, mergedMap)), 2)
+    grade = computeOverallTrustGradeFromSkill(skill_data, mergedMap) or "ungraded"
+    required = "A" if target == 4 else "S"
+    problems = []
+    if _STAR_GRADE_ORDER.get(grade, 0) < _STAR_GRADE_ORDER[required]:
+        problems.append(f"Overall Trust Grade {grade} (TM {tm}) is below the required Grade {required}")
+
+    components = skill_data.get("suiteComponents") or []
+    if components:
+        branch = "Suite"
+        if target >= 5:
+            contributor = skill_data.get("contributor")
+            holdsOrigin = False
+            for component in components:
+                entry = mergedMap.get(component)
+                if entry and entry.get("origin") is True:
+                    holdsOrigin = True
+                    break
+                for other in mergedMap.values():
+                    if (other.get("genericSkillRef") == component and other.get("origin") is True
+                            and other.get("contributor") == contributor):
+                        holdsOrigin = True
+                        break
+                if holdsOrigin:
+                    break
+            if not holdsOrigin:
+                problems.append("5★+ Suite Ultimate requires Origin on at least one suiteComponent (META.md 4.2)")
+    else:
+        branch = "Unique"
+        if target in (4, 5):
+            result = checkUniqueBranchGate(skill_data, level, mergedMap, mergedMap)
+            if not result.get("originPresent"):
+                problems.append(
+                    "4★ Unique requires bucket-level Origin on its generic" if target == 4
+                    else "5★ Unique Ultimate requires Origin on a node in the generic parent's prerequisites"
+                )
+            if result.get("branch") not in (None, "unique") and not problems:
+                problems.append(f"skill resolves to branch '{result.get('branch')}' at {level}, not Unique")
+
+    if problems:
+        _fail_dev_preflight(
+            f"Cannot set {skill_id} to {level} ({branch} branch): " + "; ".join(problems) + ".",
+            fix=(
+                "Add the missing evidence/Origin through the matching `gaia dev` verb, or calibrate to a level "
+                "the gate allows. Lowering a level is always permitted."
+            ),
+        )
+
+
 def _preflight_url(value: str | None, flag: str) -> None:
     if not value:
         return
@@ -579,8 +656,22 @@ def _add_build_flags(parser, verb: str) -> None:
 
 
 def _get_contributor():
+    """Resolve the acting operator for timeline events.
+
+    Order: `.gaia/config.json` (`gaiaUser` / `username`), then the same git-based
+    GitHub identity detection `gaia init` uses (origin remote, noreply email,
+    git display name), then ``"unknown"`` as a last resort.
+    """
     config = load_config() or {}
-    return config.get("gaiaUser") or config.get("username") or "unknown"
+    configured = config.get("gaiaUser") or config.get("username")
+    if configured:
+        return configured
+    try:
+        from gaia_cli.impl import _detect_github_username
+        detected = _detect_github_username()
+    except Exception:
+        detected = None
+    return detected or "unknown"
 
 
 def _is_verifier(username, registry_path=".") -> bool:

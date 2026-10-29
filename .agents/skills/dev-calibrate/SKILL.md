@@ -63,7 +63,7 @@ steps:
     proves: exit 0 — the committed artifact set has no undeclared drift beyond the documented warn-only categories
 stopConditions:
   - decide resolves BLOCKED_MISSING_EVIDENCE — land in the review packet for sourced-evidence follow-up, do not force a level change
-  - the calibrate step's pre-flight rejects the target (missing verified links.github blob for a 3★+ promotion) — land in the review packet, the fix is evidence work, not a retry
+  - the calibrate step's pre-flight rejects the target (missing verified links.github blob for a 3★+ promotion, or a 4★+ target whose Trust Magnitude / Unique-vs-Suite branch gate fails — lowering a level is never gated) — land in the review packet, the fix is evidence work, not a retry
   - verify-landed shows the stored level still does not equal target_level after calibrate ran clean — escalate to the founder queue, do not re-run blindly
 proof:
   - snapshot-target and verify-landed both ran, and verify-landed's stored level equals decide's target_level

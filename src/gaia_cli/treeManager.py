@@ -42,8 +42,23 @@ def save_tree(username, tree_data, registry_path="."):
     from gaia_cli.canonicalTransaction import canonicalTransactionLock
     with canonicalTransactionLock(registry_path):
         os.makedirs(os.path.dirname(tree_path), exist_ok=True)
+        # Preserve the file's existing formatting so rewrites are minimal diffs:
+        # raw unicode (no \\uXXXX escapes), the existing indent, and the
+        # existing trailing-newline state (new files get a trailing newline).
+        indent, trailingNewline = 2, True
+        if os.path.exists(tree_path):
+            with open(tree_path, 'r', encoding='utf-8') as f:
+                existing = f.read()
+            trailingNewline = existing.endswith("\n") or not existing
+            for line in existing.splitlines():
+                stripped = line.lstrip(" ")
+                if stripped and stripped != line:
+                    indent = len(line) - len(stripped)
+                    break
         with open(tree_path, 'w', encoding='utf-8') as f:
-            json.dump(tree_data, f, indent=2)
+            json.dump(tree_data, f, indent=indent, ensure_ascii=False)
+            if trailingNewline:
+                f.write("\n")
 
 def show_status(tree_data):
     if not tree_data:

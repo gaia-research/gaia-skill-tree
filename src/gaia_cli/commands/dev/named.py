@@ -103,6 +103,8 @@ def meta_update_named_command(args):
                 meta.pop("links")
 
     origin_val = getattr(args, "origin", None)
+    notesText = (getattr(args, "notes", None) or "").strip()
+    notesSuffix = f" {notesText}" if notesText else ""
     origin_changed = False
     if origin_val is not None:
         target_val = (origin_val.lower() == "true")
@@ -126,7 +128,7 @@ def meta_update_named_command(args):
                             o_meta["id"],
                             "demote",
                             _get_contributor(),
-                            f"Origin status removed. Transferred to {skill_id}.",
+                            f"Origin status removed. Transferred to {skill_id}." + notesSuffix,
                             registry_path=registry_path
                         )
                         print(f"Removed origin from competing skill: {o_meta['id']}")
@@ -145,7 +147,7 @@ def meta_update_named_command(args):
                 skill_id,
                 "rank_up" if target_val else "demote",
                 contributor,
-                f"Origin status set to {'true' if target_val else 'false'}.",
+                f"Origin status set to {'true' if target_val else 'false'}." + notesSuffix,
                 registry_path=registry_path
             )
         if status_promoted_to_named:
