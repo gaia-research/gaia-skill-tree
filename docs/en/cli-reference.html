@@ -900,6 +900,13 @@
           <li><a href="#dev-update-named"><code>dev update-named</code></a></li>
           <li><a href="#dev-timeline"><code>dev timeline</code></a></li>
           <li><a href="#dev-timeline-resort"><code>dev timeline-resort</code></a></li>
+          <li><a href="#dev-prefill"><code>dev prefill</code></a></li>
+          <li><a href="#dev-assess"><code>dev assess</code></a></li>
+          <li><a href="#dev-ratify"><code>dev ratify</code></a></li>
+          <li><a href="#dev-embed"><code>dev embed</code></a></li>
+          <li><a href="#dev-evidence-seed"><code>dev evidence-seed</code></a></li>
+          <li><a href="#dev-provenance"><code>dev provenance</code></a></li>
+          <li><a href="#dev-verify-tier"><code>dev verify-tier</code></a></li>
           <li><a href="#dev-list"><code>dev list</code></a></li>
           <li><a href="#dev-audit"><code>dev audit</code></a></li>
           <li><a href="#dev-diff"><code>dev diff</code></a></li>
@@ -1004,6 +1011,13 @@
             <li><a href="#dev-update-named"><code>dev update-named</code> — Update named frontmatter</a></li>
             <li><a href="#dev-timeline"><code>dev timeline</code> — Add timeline log</a></li>
             <li><a href="#dev-timeline-resort"><code>dev timeline-resort</code> — Re-sort timeline</a></li>
+            <li><a href="#dev-prefill"><code>dev prefill</code> — Prefill a discovery packet</a></li>
+            <li><a href="#dev-assess"><code>dev assess</code> — Assess a packet</a></li>
+            <li><a href="#dev-ratify"><code>dev ratify</code> — Ratify a packet (L4)</a></li>
+            <li><a href="#dev-embed"><code>dev embed</code> — Build skill embeddings</a></li>
+            <li><a href="#dev-evidence-seed"><code>dev evidence-seed</code> — Seed evidence for an approved skill</a></li>
+            <li><a href="#dev-provenance"><code>dev provenance</code> — Write a provenance ledger</a></li>
+            <li><a href="#dev-verify-tier"><code>dev verify-tier</code> — Recompute verification tier</a></li>
             <li><a href="#dev-list"><code>dev list</code> — Query registry</a></li>
             <li><a href="#dev-audit"><code>dev audit</code> — Run registry linter</a></li>
             <li><a href="#dev-diff"><code>dev diff</code> — Diff registry vs main</a></li>
@@ -2994,6 +3008,146 @@
 
 <span class="c"># Apply it</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev timeline-resort</span> <span class="arg">alice/web-search</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev prefill -->
+        <div class="cmd-card" id="dev-prefill">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev prefill</span>
+            <span class="cmd-signature">&lt;candidate-id&gt; --name &lt;n&gt; --description &lt;d&gt; --url &lt;url&gt; [--vector &lt;file&gt;] [--allow-stale] [--json]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Builds a discovery packet for one candidate skill and maps it to the closest generic skills by embedding similarity.</li>
+              <li>Writes the packet to disk, or prints it with <code>--json</code>.</li>
+              <li>Refuses a stale embeddings file unless you pass <code>--allow-stale</code>. Refresh it with <a href="#dev-embed"><code>dev embed</code></a> first.</li>
+              <li>Suite fan-outs use <code>--suite-role</code>, <code>--suite-id</code> and <code>--component-ids</code>.</li>
+            </ul>
+            <div class="example-block">
+              <div class="example-label">example</div>
+              <pre><span class="cmd">gaia dev prefill</span> <span class="arg">alice/web-search --name "Web Search" --description "Search the web and cite sources" --url https://github.com/alice/skills/blob/main/web-search/SKILL.md</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev assess -->
+        <div class="cmd-card" id="dev-assess">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev assess</span>
+            <span class="cmd-signature">&lt;packet-path&gt; [--output &lt;path&gt;] [--jev {off,offline,live}]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Checks a discovery packet against the curation principles and writes an advisory receipt.</li>
+              <li>The receipt binds the candidate, the source bytes and the live generic catalog. It proves the packet is fresh, not that the mapping is right.</li>
+              <li><code>--jev off</code> is the default; semantic principles stay <code>unknown</code>. <code>live</code> adds cached, budget-bounded Jev advice.</li>
+            </ul>
+            <div class="example-block">
+              <div class="example-label">example</div>
+              <pre><span class="cmd">gaia dev assess</span> <span class="arg">generated-output/curation/alice-web-search.json</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev ratify -->
+        <div class="cmd-card" id="dev-ratify">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev ratify</span>
+            <span class="cmd-signature">&lt;packet-path&gt; --decision {MAP,NEW_GENERIC} --generic-id &lt;id&gt; --contributor &lt;handle&gt; --skill-name &lt;slug&gt; --assessment &lt;receipt&gt; --reviewed-by &lt;who&gt; --approval-ref &lt;ref&gt; --reason &lt;text&gt;</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Records the human L4 decision on a packet: <code>MAP</code> to an existing generic, or <code>NEW_GENERIC</code>.</li>
+              <li>Requires the <a href="#dev-assess"><code>dev assess</code></a> receipt via <code>--assessment</code>. Operator authorization alone is not approval.</li>
+              <li>Pass <code>--reviewed-by</code>, <code>--approval-ref</code> and <code>--reason</code> to log who approved and why. The contributor handle must be lowercase.</li>
+              <li><code>NEW_GENERIC</code> also needs <code>--generic-name</code>, <code>--generic-description</code> and <code>--generic-type</code>.</li>
+            </ul>
+            <div class="example-block">
+              <div class="example-label">example</div>
+              <pre><span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev ratify</span> <span class="arg">packet.json --decision MAP --generic-id web-search --contributor alice --skill-name web-search --assessment receipt.json --reviewed-by bob --approval-ref https://github.com/gaia-research/gaia-skill-tree/issues/1 --reason "Same capability as the generic" --acknowledge-human-review</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev embed -->
+        <div class="cmd-card" id="dev-embed">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev embed</span>
+            <span class="cmd-signature">[--model &lt;model&gt;] [--force] [--check] [--output &lt;path&gt;]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Generates <code>registry/embeddings.json</code>, the index <a href="#dev-prefill"><code>dev prefill</code></a> searches.</li>
+              <li><code>--check</code> only reports whether the file is fresh. <code>--force</code> rebuilds it anyway.</li>
+            </ul>
+            <div class="example-block">
+              <div class="example-label">example</div>
+              <pre><span class="cmd">gaia dev embed</span> <span class="arg">--check</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev evidence-seed -->
+        <div class="cmd-card" id="dev-evidence-seed">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev evidence-seed</span>
+            <span class="cmd-signature">&lt;skill-id&gt; [--source url::type[::scope]] [--scope {standalone,suite-component,suite-wide}] [--no-collectors]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Writes a per-type seed under <code>evidence/seeds/</code> for an L4-approved skill, plus collector rows.</li>
+              <li>Takes raw sources only. Stars, grades and tiers are computed later, never supplied here.</li>
+              <li><code>--source</code> repeats. <code>--no-collectors</code> writes the seed file alone.</li>
+            </ul>
+            <div class="example-block">
+              <div class="example-label">example</div>
+              <pre><span class="cmd">gaia dev evidence-seed</span> <span class="arg">alice/web-search --source https://github.com/alice/skills::repo-own</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev provenance -->
+        <div class="cmd-card" id="dev-provenance">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev provenance</span>
+            <span class="cmd-signature">&lt;skill-id&gt; [--from-packet &lt;file&gt;] [--generic-ref &lt;id&gt;] [--status &lt;status&gt;] [--stage-event {discovered,intake_opened}]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Writes <code>registry/provenance/&lt;skill-id&gt;.json</code>, linking a node back to its packet, intake batch, issue and evidence seed.</li>
+              <li><code>--stage-event</code> logs a pre-ingest event. <a href="#dev-timeline"><code>dev timeline</code></a> cannot, because no node exists yet.</li>
+              <li><code>--status</code> defaults to <code>ingested</code>.</li>
+            </ul>
+            <div class="example-block">
+              <div class="example-label">example</div>
+              <pre><span class="cmd">gaia dev provenance</span> <span class="arg">alice/web-search --from-packet packet.json --generic-ref web-search</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev verify-tier -->
+        <div class="cmd-card" id="dev-verify-tier">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev verify-tier</span>
+            <span class="cmd-signature">&lt;skill-id&gt;</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Recomputes a skill's verification tier: <code>community</code>, <code>benchmark</code>, <code>security</code> or <code>enterprise</code>.</li>
+              <li>Takes a generic id or a <code>contributor/slug</code>.</li>
+            </ul>
+            <div class="example-block">
+              <div class="example-label">example</div>
+              <pre><span class="cmd">gaia dev verify-tier</span> <span class="arg">alice/web-search</span></pre>
             </div>
           </div>
         </div>
