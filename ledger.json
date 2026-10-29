@@ -1,5 +1,5 @@
 {
- "generation": 158,
+ "generation": 159,
  "lane": {
   "entries": [
    {
@@ -2327,13 +2327,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-10-29T02:46:35.401453Z",
-   "expiresAt": "2026-10-29T03:28:17.619561Z",
-   "holder": "run-20261029T024635Z-79c43bd1"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -9520,8 +9514,27 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-10-29T02:56:10.528464Z",
+    "asOf": "2026-10-29T02:58:20.850341Z",
     "decisions": [
+     {
+      "alternative": "Take the finding yourself as a direct Class C ruling, or retire the routine instead of widening its envelope.",
+      "debtIds": [
+       "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9"
+      ],
+      "decision": "Bounded repair exhausted its attempt ceiling on this routine. Decide whether the authority envelope is wrong, whether the finding is a Class C question in disguise, or whether the routine should be retired. Another attempt under the same envelope is not one of the options — that is what the ceiling already ruled out.",
+      "decisionId": "decision-8e5aa9337484cb863d96",
+      "evidence": [
+       "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9 - attempts: 1; reason: verification escalated (independent verification by sonnet-verifier-ab63f80a (sonnet, effort me…"
+      ],
+      "links": [
+       "founder/steward/POLICY.yaml"
+      ],
+      "priority": 10,
+      "recommended": "Bounded repair under `trust-calibration-drift` reached its attempt ceiling. The envelope is the likelier defect, not the attempt — the ceiling has already ruled out trying again under the same terms. The three answers worth weighing are: widen the envelope in `POLICY.yaml`, accept that this finding is a Class C question in disguise and rule on it directly, or retire the routine.",
+      "source": "escalated-lane",
+      "unblocks": "1 open Class C debt item(s) under lane-escalation/trust-calibration-drift.",
+      "whyItMatters": "Bounded repair stopped: the attempt ceiling was reached or a verifier escalated. The envelope, not the attempt, is the likelier defect, and nothing retries until you rule."
+     },
      {
       "alternative": "Keep it an operator-run collector until a quarter of local runs shows low noise.",
       "debtIds": [],
@@ -9654,7 +9667,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-10-29T02:58:20.850341Z",
    "floor": {
     "branch": "dev/steward-integration",
     "ok": true,
@@ -9675,7 +9688,7 @@
     "sonnet"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": true,
     "agents": true,
@@ -9683,7 +9696,7 @@
     "push": false,
     "routine": null
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "landings": [],
@@ -11917,7 +11930,7 @@
    "runId": "run-20261029T024635Z-79c43bd1",
    "sourceHead": "fc0e6f8d91aa759629bb36c0e188b116b4511808",
    "startedAt": "2026-10-29T02:46:35.401453Z",
-   "status": "active",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-10-29T02:46:35.401453Z",
@@ -11988,6 +12001,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-10-29T02:58:20.850341Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -12001,7 +12020,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-29T02:58:17.619647Z",
+ "updatedAt": "2026-10-29T02:58:21.709473Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
