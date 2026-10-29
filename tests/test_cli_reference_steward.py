@@ -79,6 +79,68 @@ def test_disclosure_enhances_all_tables_without_inferred_commands():
         assert example in html
 
 
+def test_example_blocks_provide_per_line_and_whole_block_copying():
+    html, _ = steward_rows()
+    assert "document.querySelectorAll('.example-block').forEach" in html
+    assert "example-block-copy-btn" in html
+    assert "example-line-btn" in html
+    assert "example-cmd-row" in html
+    assert "example-lines" in html
+    assert "cleanLine.replace" in html
+    assert "pre.classList.add('example-source', 'pre-wrap')" in html
+    assert ".example-block pre.example-source" in html
+    assert "mini-terminal" not in html
+    assert "navigator.clipboard" not in html  # Shared ui.js owns copying.
+
+    node = shutil.which("node")
+    if node is None:
+        pytest.skip("Optional JavaScript source check requires Node.js")
+
+    steward_block = re.search(
+        r'<div class="cmd-card" id="steward">[\s\S]*?<div class="example-block">[\s\S]*?<pre>([\s\S]*?)</pre>',
+        html,
+    )
+    assert steward_block is not None
+
+    script = """
+    const fs = require('fs');
+    const raw = fs.readFileSync(0, 'utf8');
+    function decodeEntities(str) {
+      return str.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+    }
+    const lines = raw.split(/\\r?\\n/);
+    const cmds = [];
+    let curLines = [];
+    function flush() {
+      if (!curLines.length) return;
+      cmds.push(curLines.join('\\n').trim());
+      curLines = [];
+    }
+    for (const line of lines) {
+      const plain = decodeEntities(line.replace(/<[^>]+>/g, '')).trim();
+      if (!plain || plain.startsWith('#')) { flush(); continue; }
+      let cleanLine = line.replace(/<span class="c">[\\s\\S]*?<\\/span>/g, '');
+      let cleanPlain = decodeEntities(cleanLine.replace(/<[^>]+>/g, '')).trim();
+      if (cleanPlain.includes(' # ')) cleanPlain = cleanPlain.split(' # ')[0].trim();
+      curLines.push(cleanPlain);
+      if (!cleanPlain.endsWith('\\\\')) flush();
+    }
+    flush();
+    process.stdout.write(JSON.stringify(cmds));
+    """
+    result = subprocess.run([node, "-e", script], input=steward_block.group(1), text=True, capture_output=True, check=True)
+    parsed_cmds = json.loads(result.stdout)
+    assert parsed_cmds == [
+        "gaia steward scan",
+        "gaia steward lane next --prompt",
+        "gaia steward run",
+        'gaia steward lane record debt-001 --verdict accept --note "Verified clean by CI"',
+        "gaia steward full run --observe",
+        'gaia steward full abandon RUN_ID --reason "operator stopped the run"',
+    ]
+
+
+
 @pytest.mark.parametrize(("syntax", "expected"), [
     ("scan [--json]", "scan"),
     ("full run [--observe | --triage]", "full run"),

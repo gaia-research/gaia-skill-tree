@@ -101,12 +101,41 @@ when its first sentence is too long or misses an important safety boundary.
 
 ### Copy controls and notes
 
-Reuse the shared `ui.js` copy control for authored syntax and example blocks.
-One control per code pane is enough. Put it in the pane's label, not over the
-code. Keep the shared icon helper loaded with the correct nested-page sprite
-path. Do not infer runnable commands by joining
-a command prefix to a flag cell: required subcommands and arguments can be lost.
-Do not restore per-flag mini-terminal windows or duplicate example copy buttons.
+Reuse the shared `ui.js` copy utilities (`copyToClipboard`, `gaiaFlashCopied`)
+for syntax references and example blocks. Keep the shared icon helper loaded
+with the correct nested-page sprite path.
+
+Reference entries and example blocks serve distinct copy needs:
+
+- **Authored example blocks:**
+  - Provide whole-block copy in the example block's label (`.example-label`),
+    copying all authored commands, comments, and structure together.
+  - Provide functional per-line Bash copy for independently runnable command
+    lines. Each line-copy control copies the exact intended shell command
+    without prompt glyphs (`$`, `>`), UI labels, formatting whitespace, or
+    unrelated lines. Multi-line commands with line continuations (`\`) must
+    preserve the continuation syntax intact. Inline comments are stripped
+    from the runnable line copy.
+- **Reference disclosures and syntax panes:**
+  - Retain complete terminal flag semantics in reference entries: flag names,
+    argument and value forms, positional context, defaults, and combinations
+    must remain accurately represented.
+  - Never manufacture a standalone runnable command by joining a command prefix
+    to a flag cell: required subcommands and arguments can be lost or falsified.
+  - The syntax copy control in a reference entry disclosure copies the exact
+    descriptive syntax specification fragment (e.g. `--user <handle>` or
+    `full run [--observe | --triage]`), clearly distinguished from runnable
+    Bash lines.
+  - Do not restore per-flag mini-terminal windows.
+- **Accessibility and responsiveness:**
+  - Copy controls must use native `<button type="button">` elements with
+    explicit, contextual `aria-label` and `title` attributes (e.g.
+    `Copy all examples`, `Copy command: gaia init`, `Copy syntax for full run`).
+  - Support mouse click, tap, and keyboard activation (Tab focus, Enter/Space).
+  - Provide visible copy feedback by flashing the checkmark icon and `.copied`
+    class for 1600ms.
+  - Ensure all controls meet minimum 44px touch targets without causing
+    horizontal overflow across viewports from 320px to 1440px.
 
 Keep existing non-critical notes in `.callout.info` and critical requirements in
 `.callout.warn` / `.callout.danger`. Place them below the command description,

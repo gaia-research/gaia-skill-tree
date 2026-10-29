@@ -832,6 +832,106 @@
       color: var(--text);
       opacity: 0.8;
     }
+
+    .example-lines {
+      padding: 0.85rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .example-comment {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: var(--muted, #64748b);
+      white-space: pre-wrap;
+      word-break: normal;
+      overflow-wrap: normal;
+      padding: 0.15rem 0.25rem;
+    }
+
+    .example-comment .c {
+      color: var(--muted, #64748b);
+    }
+
+    .example-spacer {
+      height: 0.35rem;
+    }
+
+    .example-cmd-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      padding: 0.35rem 0.65rem;
+      min-height: 44px;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .example-cmd-row:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .example-cmd-code {
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow-x: auto;
+      white-space: pre;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: #c9d1d9;
+      word-break: normal;
+      overflow-wrap: normal;
+    }
+
+    .example-cmd-code .cmd { color: #86efac; }
+    .example-cmd-code .arg { color: var(--tier-extra, #c084fc); }
+    .example-cmd-code .kw { color: var(--tier-basic, #38bdf8); }
+    .example-cmd-code .str { color: #fbbf24; }
+    .example-cmd-code .c { color: var(--muted, #64748b); }
+
+    .example-line-btn {
+      flex: 0 0 auto;
+      min-width: 44px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .example-line-btn:hover {
+      background: var(--surface-hover, rgba(255, 255, 255, 0.08));
+      border-color: var(--tier-basic, #38bdf8);
+      color: var(--tier-basic, #38bdf8);
+    }
+
+    .example-line-btn:focus-visible {
+      outline: 2px solid var(--text);
+      outline-offset: 2px;
+    }
+
+    @media print {
+      .example-lines {
+        display: none !important;
+      }
+
+      .example-block pre.example-source {
+        display: block !important;
+      }
+    }
   </style>
 <script type="application/ld+json" data-injector="gaia-json-ld">
 {
@@ -3496,7 +3596,28 @@
           const syntaxLabel = document.createElement('p');
           syntaxLabel.className = 'reference-label';
           syntaxLabel.textContent = 'Syntax';
+          const syntaxCopyBtn = document.createElement('button');
+          syntaxCopyBtn.type = 'button';
+          syntaxCopyBtn.className = 'copy-btn';
+          syntaxCopyBtn.setAttribute('aria-label', 'Copy syntax for ' + name.textContent);
+          syntaxCopyBtn.title = 'Copy syntax';
+          syntaxCopyBtn.innerHTML = (typeof window.gaiaIcon === 'function')
+            ? window.gaiaIcon('copy', { size: 14 })
+            : '<svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#copy"></use></svg>';
+          syntaxCopyBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            if (typeof window.copyToClipboard === 'function') {
+              window.copyToClipboard(syntax).then(function () {
+                if (typeof window.gaiaFlashCopied === 'function') {
+                  window.gaiaFlashCopied(syntaxCopyBtn);
+                }
+              });
+            }
+          });
+          syntaxLabel.appendChild(syntaxCopyBtn);
+
           const pre = document.createElement('pre');
+          pre.className = 'pre-wrap';
           const code = document.createElement('code');
           syntax.split(/(\s+)/).forEach(part => {
             if (/^\s+$/.test(part)) {
@@ -3532,23 +3653,130 @@
         table.after(list);
       });
 
-      /* ui.js owns copying and its insecure-context fallback. Label its controls. */
-      document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.reference-entry').forEach(entry => {
-          const button = entry.querySelector('.copy-btn');
-          if (button) {
-            button.setAttribute('aria-label', 'Copy syntax for ' + entry.querySelector('.reference-name').textContent);
-            entry.querySelector('.reference-label').appendChild(button);
+      function decodeEntities(str) {
+        return str
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&amp;/g, '&')
+          .replace(/&quot;/g, '"')
+          .replace(/&#39;/g, "'");
+      }
+
+      function makeCopyIcon() {
+        return (typeof window.gaiaIcon === 'function')
+          ? window.gaiaIcon('copy', { size: 14 })
+          : '<svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#copy"></use></svg>';
+      }
+
+      /* Enhance authored example blocks: whole-block copy in label, per-line copy for runnable commands. */
+      document.querySelectorAll('.example-block').forEach(block => {
+        const pre = block.querySelector('pre');
+        if (!pre) return;
+        const rawHtml = pre.innerHTML;
+        const fullText = decodeEntities(rawHtml.replace(/<[^>]+>/g, '')).trim();
+
+        const label = block.querySelector('.example-label');
+        if (label) {
+          const blockCopyBtn = document.createElement('button');
+          blockCopyBtn.type = 'button';
+          blockCopyBtn.className = 'copy-btn example-block-copy-btn';
+          blockCopyBtn.setAttribute('aria-label', 'Copy all examples');
+          blockCopyBtn.title = 'Copy all examples';
+          blockCopyBtn.innerHTML = makeCopyIcon();
+          blockCopyBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            if (typeof window.copyToClipboard === 'function') {
+              window.copyToClipboard(fullText).then(function () {
+                if (typeof window.gaiaFlashCopied === 'function') {
+                  window.gaiaFlashCopied(blockCopyBtn);
+                }
+              });
+            }
+          });
+          label.appendChild(blockCopyBtn);
+        }
+
+        const lines = rawHtml.split(/\r?\n/);
+        const container = document.createElement('div');
+        container.className = 'example-lines';
+        container.setAttribute('role', 'region');
+        container.setAttribute('aria-label', 'Command examples');
+
+        let curCmdLines = [];
+        let curCmdHtml = [];
+
+        function flushCmd() {
+          if (!curCmdLines.length) return;
+          const cmdText = curCmdLines.join('\n').trim();
+          const row = document.createElement('div');
+          row.className = 'example-cmd-row';
+
+          const code = document.createElement('div');
+          code.className = 'example-cmd-code';
+          code.innerHTML = curCmdHtml.join('\n');
+
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'copy-btn example-line-btn';
+          btn.setAttribute('aria-label', 'Copy command: ' + cmdText.split('\n')[0]);
+          btn.title = 'Copy command';
+          btn.innerHTML = makeCopyIcon();
+
+          btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            if (typeof window.copyToClipboard === 'function') {
+              window.copyToClipboard(cmdText).then(function () {
+                if (typeof window.gaiaFlashCopied === 'function') {
+                  window.gaiaFlashCopied(btn);
+                }
+              });
+            }
+          });
+
+          row.append(code, btn);
+          container.appendChild(row);
+
+          curCmdLines = [];
+          curCmdHtml = [];
+        }
+
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          const plain = decodeEntities(line.replace(/<[^>]+>/g, '')).trim();
+          if (!plain) {
+            flushCmd();
+            const spacer = document.createElement('div');
+            spacer.className = 'example-spacer';
+            container.appendChild(spacer);
+            continue;
           }
-        });
-        document.querySelectorAll('.example-block').forEach(block => {
-          const button = block.querySelector('.copy-btn');
-          const label = block.querySelector('.example-label');
-          if (button && label) {
-            button.setAttribute('aria-label', 'Copy authored examples');
-            label.appendChild(button);
+          if (plain.startsWith('#')) {
+            flushCmd();
+            const comment = document.createElement('div');
+            comment.className = 'example-comment';
+            comment.innerHTML = line;
+            container.appendChild(comment);
+            continue;
           }
-        });
+
+          let cleanLine = line.replace(/<span class="c">[\s\S]*?<\/span>/g, '');
+          let cleanPlain = decodeEntities(cleanLine.replace(/<[^>]+>/g, '')).trim();
+          if (cleanPlain.includes(' # ')) {
+            cleanPlain = cleanPlain.split(' # ')[0].trim();
+          }
+
+          curCmdLines.push(cleanPlain);
+          curCmdHtml.push(line);
+
+          if (!cleanPlain.endsWith('\\')) {
+            flushCmd();
+          }
+        }
+        flushCmd();
+
+        pre.classList.add('example-source', 'pre-wrap');
+        pre.hidden = true;
+        pre.after(container);
       });
     })();
   </script>
