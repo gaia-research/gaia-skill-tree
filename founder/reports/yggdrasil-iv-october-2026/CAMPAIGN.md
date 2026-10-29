@@ -62,6 +62,35 @@ plus existing: #2176/#2177 two Core approvals, visual acceptance, main merge, re
   automate later (RFC #2148 D8 trail) without Steward work now. Issues genuinely fixed by a PR are
   closed when that PR lands on `dev/yggdrasil-iv`, not at the main merge.
 
+## Founder rulings 2026-10-30 (decision review page, verbatim from the store)
+
+Recorded from https://claude.ai/artifact/W2YnN4Sa7Lgrki521tzbK3 (collection `choices`). Choice and note are the founder's own words.
+
+| Decision | Choice | Note |
+|---|---|---|
+| challenger-outcome | Accept the negative result |  |
+| core-2176 | Discuss | No core reviewers needed. There is only me who is maintaining this. Maybe nova-gaia or milim-gaia but those are also me. |
+| fd-1 | Recommended: neutral, Explorer + API, all outcomes |  |
+| fd-10 | Assign the four and review graphify | Graphify can be demoted if it fails 5 star. Review thoughtfully. |
+| fd-11 | Promote to named |  |
+| fd-12 | Raise to 4★ |  |
+| fd-13 | Discuss | Review. This was one of the contributor skills named after them. Check if there really is a skill. If not, clear origin. |
+| fd-14 | Gather evidence first | evidence |
+| fd-15 | Regenerate |  |
+| fd-16 | Recommended policy |  |
+| fd-17 | Recommended |  |
+| fd-18 | Review now |  |
+| fd-6 | Yes, accept as offline proof |  |
+| fd-7 | A · align leaderboard and ledger to the clamp | These skills should have trust magnitudes. Double-check what is causing this. Now for "frozen" skills leave them be. I know personal is a frozen skill. DO NOT touch frozen skills. Make sure any new closeout does not touch frozen. |
+| fd-8 | Freeze | Gaia dev freeze. |
+| fd-9 | Recommended: fix evidence, re-probe, no level action yet |  |
+| issuer-env | Will create it now | created |
+| main-merge | Discuss | Once meta audit is verified, merge is allowed. Dev calibration as a batch is the priority. |
+| visual | Will review the preview | approved |
+
+Standing rule from FD-7: **never touch frozen skills** in any batch calibration or closeout (e.g. `mattpocock/personal`).
+L4 topology choices: none recorded yet.
+
 ## Pending founder decisions (accumulating packets)
 
 - FD-6 sealed attested approval snapshot as durable offline approval proof (recommend yes).
