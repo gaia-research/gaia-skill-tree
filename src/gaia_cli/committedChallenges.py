@@ -33,6 +33,10 @@ from .lifecycleProjection import LifecyclePorts
 from .steward.challenge_receipts import CONFIG_ENV
 
 REVIEWCONTRACT = "gaia-challenge-review/v1"
+TRIAGESTATUS = "rejected-at-triage"
+TRIAGEDISCLOSURE = ("Review record only. This lead was rejected at triage: no experiment was run and no admission "
+                    "was attempted, so this is not an admitted Gaia challenge and it changes no Trust Magnitude, "
+                    "star, grade, Origin or ranking.")
 DISCLOSURE = ("Review record only. An admission was attempted and held, so this is not an admitted Gaia challenge "
               "and it changes no Trust Magnitude, star, grade, Origin or ranking.")
 HELDTEXT = {
@@ -75,6 +79,25 @@ class Collected:
         produced: a tooling probe is not proof that the set of challenges is empty.
         """
         return "verified" if self.admitted and not self.disabled else "unavailable"
+
+
+def triageReviewOf(report: admission.BundleReport) -> dict[str, Any]:
+    """Public, neutral record of a lead rejected at triage (no request, receipt or numbers)."""
+    lead, meta = report.lead, report.meta
+    target = lead["target"]
+    return {
+        "contract": REVIEWCONTRACT, "caseId": report.caseId, "status": TRIAGESTATUS,
+        "subjectId": target["skillId"], "subjectKind": target["kind"],
+        "genericSkillRef": target.get("genericSkillId") or target["skillId"],
+        "leadId": lead["leadId"], "claimId": lead["claimId"], "claim": lead["capability"]["claim"],
+        "challenger": {"name": lead["identity"]["name"], "version": lead["identity"]["version"],
+                       "sourceUrl": lead["source"]["url"]},
+        "comparator": lead["comparison"]["comparator"],
+        "assessment": {"outcome": meta["outcome"], "suggestedAction": meta["recommend"]["action"],
+                       "independence": meta["independence"]},
+        "triage": {"explanation": "The lead was rejected at triage, before any experiment was preregistered or run."},
+        "bundleDigest": report.digests["bundle"], "disclosure": TRIAGEDISCLOSURE,
+    }
 
 
 def reviewOf(report: admission.BundleReport, outcome: admission.AdmissionOutcome) -> dict[str, Any]:
@@ -165,7 +188,7 @@ def collect(root: str | Path, *, resolver: Any = None, which: Callable[[str], st
             reports[caseId] = report
         else:
             rejected.append({"caseId": caseId, "reason": report.errors[0][:200]})
-    claims = [r.caseId for r in reports.values() if r.admission is not None and r.hasCommittedReceipt]
+    claims = [r.caseId for r in reports.values() if not r.triage and r.admission is not None and r.hasCommittedReceipt]
     if claims and resolver is None:
         if not which("gh"):
             raise admission.BuildEnvironmentError(
@@ -176,7 +199,14 @@ def collect(root: str | Path, *, resolver: Any = None, which: Callable[[str], st
                 f"case(s) {', '.join(claims)} claim an issuer receipt but git history is shallow or unreadable; "
                 "check out with fetch-depth: 0 (attested commits must be reachable)")
     results: dict[str, admission.AdmissionOutcome] = {}
+    reviews: list[dict[str, Any]] = []
     for caseId, report in sorted(reports.items()):
+        if report.triage:  # never enters admission: a review entry only
+            try:
+                reviews.append(triageReviewOf(report))
+            except Exception as exc:
+                rejected.append({"caseId": caseId, "reason": f"{type(exc).__name__}: {exc}"[:200]})
+            continue
         try:
             results[caseId] = admission.attemptAdmission(report, rootPath, resolver=resolver, online=False)
         except Exception as exc:
@@ -188,7 +218,6 @@ def collect(root: str | Path, *, resolver: Any = None, which: Callable[[str], st
     admitted: dict[str, list[Challenge]] = {}
     refs: dict[str, str] = {}
     routes: dict[str, Any] = {}
-    reviews: list[dict[str, Any]] = []
     for caseId, outcome in sorted(results.items()):
         report = reports[caseId]
         if caseId in collided:

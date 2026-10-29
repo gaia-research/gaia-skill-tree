@@ -14,7 +14,7 @@ from pathlib import Path
 from gaia_cli import frontier
 from gaia_cli.challengeDomain import VerificationReceipt
 from gaia_cli.frontier import build_experiment_receipt, receipt_digest
-from test_frontier_meta_verification import RECEIPT_RUN, VERIFIER_RUN, sha, verifierNative
+from test_frontier_meta_verification import RECEIPT_RUN, VERIFIER_RUN, rerun, rerunTrace, sha, verifierNative
 from test_frontier_protocol import committedBundle
 
 REPO = Path(__file__).resolve().parent.parent
@@ -27,18 +27,20 @@ def makeCase(tmp_path, caseId=CASE, *, positive=True):
     """Write a complete, internally consistent SYNTHETIC bundle; return ``(root, caseDir)``."""
     root, request, art = committedBundle(tmp_path, caseId)
     art = f"evidence/frontier-challenges/{caseId}/artifacts"
+    (root / art / "target.txt").write_text("SYNTHETIC target output at commit " + "ab12" * 10 + "\n")  # run-varying id the protocol normalizes
     receipt = build_experiment_receipt(
         root=root, request=request, protocol=request["protocol"]["path"],
         execution_path=f"{art}/native.json", target_path=f"{art}/target.txt", result="supported",
         artifact_root=art, run_id=RECEIPT_RUN, recorded_at="2026-10-28T01:02:03Z")
     reexec = []
     if positive:
-        raw = b"SYNTHETIC verifier re-execution of target\n"
+        raw = rerun((root / art / "target.txt").read_text()).encode()  # genuine rerun modulo run-varying ids
         (root / art / "verifier-target.txt").write_bytes(raw)
         reexec = [verifierNative(root, request, receipt, art),
-                  {"label": "target", "contentDigest": sha(raw), "path": f"{art}/verifier-target.txt"}]
+                  {"label": "target", "contentDigest": sha(raw), "path": f"{art}/verifier-target.txt",
+                   "trace": rerunTrace(root, art, "verifier-target.stdout", raw)}]
     record = {
-        "schemaVersion": "frontier-meta-verification-v1", "verificationId": "synthetic-verification-0001",
+        "schemaVersion": "frontier-meta-verification-v1.1", "verificationId": "synthetic-verification-0001",
         "campaignId": receipt["campaignId"], "requestId": receipt["requestId"],
         "receiptDigest": receipt_digest(receipt), "receiptRunId": receipt["experimentRunId"],
         "verifierRunId": VERIFIER_RUN, "outcome": "substantiated" if positive else "inconclusive",
