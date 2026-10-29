@@ -315,6 +315,42 @@
       color: var(--muted, #64748b);
     }
 
+    /* Keep the long Steward lifecycle synopsis readable without widening the card. */
+    #steward .flag-table {
+      table-layout: fixed;
+    }
+
+    #steward .flag-table th:first-child,
+    #steward .flag-table td:first-child {
+      width: 43%;
+    }
+
+    #steward .flag-table .flag-text {
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    #steward .flag-table th:nth-child(2),
+    #steward .flag-table td:nth-child(2) {
+      width: 42%;
+    }
+
+    #steward .flag-table th:nth-child(3),
+    #steward .flag-table td:nth-child(3) {
+      width: 15%;
+    }
+
+    #steward .steward-full-synopsis td:first-child {
+      display: table-cell;
+    }
+
+    #steward .steward-full-synopsis td:first-child code,
+    #steward .steward-full-synopsis td:nth-child(2),
+    #steward .steward-full-synopsis td:nth-child(3) {
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+
     /* ── Examples ── */
     .example-block {
       background: #06080f;
@@ -1876,22 +1912,22 @@
                   <td style="max-width: 420px;">Render the report-only Class C founder decision queue for unresolved discovery candidates.</td>
                   <td>—</td>
                 </tr>
-                <tr>
+                <tr class="steward-full-synopsis" data-no-copy>
                   <td><code>full run [--observe | --triage | --verify | --retro] [--routine N] [--debt ID] [--resume RUN] [--afk] [--trigger {manual,scheduled}] [--no-agents] [--integration-branch B] [--push] [--ledger {auto,git,local}] [--json]</code></td>
                   <td style="max-width: 420px;">Run or resume the deterministic pipeline. Observation, triage, verification, and retro modes narrow the phases; <code>--no-agents</code> never dispatches Class B work. Actions needing a model or forge are emitted for a driver. Never merges or pushes to <code>main</code>.</td>
                   <td>—</td>
                 </tr>
-                <tr>
+                <tr class="steward-full-synopsis" data-no-copy>
                   <td><code>full record RUN_ID STEP_ID --input FILE.json [--ledger {auto,git,local}] [--json]</code></td>
                   <td style="max-width: 420px;">Record a driver's outcome for an action emitted by <code>full run</code>.</td>
                   <td>—</td>
                 </tr>
-                <tr>
+                <tr class="steward-full-synopsis" data-no-copy>
                   <td><code>full abandon RUN_ID --reason TEXT [--ledger {auto,git,local}] [--json]</code></td>
                   <td style="max-width: 420px;">End an open run with an auditable reason. Pending actions are superseded, and unbuilt work stays adoptable by a later run.</td>
                   <td>—</td>
                 </tr>
-                <tr>
+                <tr class="steward-full-synopsis" data-no-copy>
                   <td><code>full status [--ledger {auto,git,local}] [--json]</code></td>
                   <td style="max-width: 420px;">Read-only view of the ledger and active run.</td>
                   <td>—</td>
@@ -3425,6 +3461,8 @@
       flagTables.forEach(table => {
         const rows = table.querySelectorAll('tbody tr');
         rows.forEach(row => {
+          if (row.hasAttribute('data-no-copy')) return;
+
           const firstCell = row.cells[0];
           if (firstCell) {
             const rawText = firstCell.textContent || '';
