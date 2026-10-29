@@ -41,18 +41,32 @@ DEFERREDDISCLOSURE = ("Review record only. This lead was deferred at triage, wit
 TRIAGEDISCLOSURE = ("Review record only. This lead was rejected at triage: no experiment was run and no admission "
                     "was attempted, so this is not an admitted Gaia challenge and it changes no Trust Magnitude, "
                     "star, grade, Origin or ranking.")
-DISCLOSURE = ("Review record only. An admission was attempted and held, so this is not an admitted Gaia challenge "
-              "and it changes no Trust Magnitude, star, grade, Origin or ranking.")
 HELDTEXT = {
     HoldReason.ISSUER_UNAVAILABLE: "The trusted receipt issuer produced no verifiable receipt for this review.",
     HoldReason.ISSUER_MISCONFIGURED: "The trusted receipt issuer configuration is not usable in this build.",
     HoldReason.RECEIPT_UNVERIFIABLE: "A receipt exists but could not be verified.",
     HoldReason.CHALLENGE_REJECTED: "The challenge domain rejected the admission request.",
     HoldReason.BUNDLE_NOT_BOUND: "The issued receipt does not bind this exact review bundle.",
-    HoldReason.REQUEST_MISSING: "No admission request has been prepared for this review.",
+    HoldReason.REQUEST_MISSING: "No admission was requested.",
     HoldReason.META_NOT_RECOMMENDED: "The independent assessment of this review does not recommend an admission review.",
     HoldReason.EVENT_LOG_BROKEN: "The review's event log failed its integrity check, so admission is held.",
 }
+
+
+NOEFFECT = "with no effect on Trust Magnitude, stars, grade, Origin or ranking"
+DISCLOSURELEAD = "Review record only. This is not an admitted Gaia challenge, "
+
+
+def heldDisclosure(reason: HoldReason) -> str:
+    """Public text for a held review, keyed to what actually happened: an admission is described as
+    requested only when a request exists. The build's automatic re-attempt is not a request."""
+    if reason is HoldReason.REQUEST_MISSING:
+        state = "No admission was requested."
+    elif reason is HoldReason.META_NOT_RECOMMENDED:
+        state = "The independent assessment does not recommend an admission review."
+    else:
+        state = f"An admission was requested and is held: {HELDTEXT[reason]}"
+    return f"{DISCLOSURELEAD}{NOEFFECT}. {state}"
 
 
 def overridesPresent() -> list[str]:
@@ -128,7 +142,7 @@ def reviewOf(report: admission.BundleReport, outcome: admission.AdmissionOutcome
         "assessment": {"outcome": meta["outcome"], "suggestedAction": meta["recommend"]["action"],
                        "independence": meta["independence"]},
         "held": {"reason": reason.value, "explanation": HELDTEXT[reason]},
-        "bundleDigest": report.digests["bundle"], "disclosure": DISCLOSURE,
+        "bundleDigest": report.digests["bundle"], "disclosure": heldDisclosure(reason),
     }
 
 
