@@ -41,7 +41,7 @@ from datetime import timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
-from gaia_cli.steward.digest import _evidence_lines, _parse, _recommendation
+from gaia_cli.steward.digest import ISSUE_FOUNDER_RULE, _evidence_lines, _parse, _recommendation, issueQuestion
 from gaia_cli.steward.lane import Lane
 from gaia_cli.steward.models import (
     AuthorityClass,
@@ -69,12 +69,14 @@ OPERATION_KINDS = (
     "stale_schedule",
     "ledger_local_only",
     "invalid_decision_record",
+    "issue_backlog",
 )
 
 _RECORD_KEYS = frozenset({
     "schemaVersion", "id", "status", "decision", "whyItMatters", "evidence",
     "recommended", "alternative", "unblocks", "links",
 })
+_RECORD_OPTIONAL_KEYS = frozenset({"resolution"})
 _RECORD_ID = re.compile(r"[a-z0-9][a-z0-9._-]{0,127}")
 _MAX_RECORD_BYTES = 64 * 1024
 _MAX_EVIDENCE_ITEMS = 8
@@ -237,7 +239,7 @@ def _check_record(record: Mapping[str, Any]) -> str | None:
     if body.get("schemaVersion") != DECISION_RECORD_SCHEMA:
         return f"schemaVersion must be {DECISION_RECORD_SCHEMA!r}"
     missing = sorted(_RECORD_KEYS - set(body))
-    extra = sorted(set(body) - _RECORD_KEYS)
+    extra = sorted(set(body) - _RECORD_KEYS - _RECORD_OPTIONAL_KEYS)
     if missing:
         return "missing keys: " + ", ".join(missing)
     if extra:
@@ -250,6 +252,8 @@ def _check_record(record: Mapping[str, Any]) -> str | None:
         return f"id {identifier!r} does not match the file name"
     if body["status"] not in ("open", "decided"):
         return "status must be 'open' or 'decided'"
+    if "resolution" in body and (not isinstance(body["resolution"], str) or not body["resolution"].strip()):
+        return "resolution must be a non-empty string when present"
     for key in ("decision", "whyItMatters", "recommended", "alternative", "unblocks"):
         if not isinstance(body[key], str) or not body[key].strip():
             return f"{key} must be a non-empty string"
@@ -481,6 +485,13 @@ _NO_OPINION = (
     "None. This turns on product, ontology, or prestige judgment, which Steward has "
     "no basis to hold an opinion about."
 )
+_RULE_WHY[ISSUE_FOUNDER_RULE] = (
+    "Steward can prove which upstream candidates are curated, but whether a family of them is "
+    "accepted, rejected or deferred is a product decision. Nothing is closed or accepted until you rule."
+)
+_RULE_ALTERNATIVE[ISSUE_FOUNDER_RULE] = (
+    "Defer; the affected issues stay open exactly as they are, and Steward takes no action on them."
+)
 
 
 def _flatten_evidence(evidence: Mapping[str, Any]) -> str:
@@ -497,7 +508,7 @@ def _from_founder_decision(decision: FounderDecision, source: str) -> DeskDecisi
     )
     return DeskDecision(
         decision_id=decision.decision_id,
-        decision=decision.objective,
+        decision=issueQuestion(decision) or decision.objective,
         why_it_matters=_RULE_WHY.get(
             decision.rule,
             f"{count} open Class C debt item(s) are blocked on this ruling; Steward will not act on them.",
@@ -562,6 +573,23 @@ def _aligned(decision: FounderDecision) -> list[Mapping[str, Any]]:
 
 
 # --- operations ------------------------------------------------------------------------
+
+
+def _backlogLine(backlog: Mapping[str, Any]) -> str:
+    """One line of issue backlog: counts, closures this run and total, and the change since the last run."""
+
+    net = backlog.get("netChange")
+    change = "no previous run recorded" if not isinstance(net, int) else f"net change {net:+d} since the previous run"
+    total = backlog.get("closedTotal")
+    closedTotal = str(total) if isinstance(total, int) else "unknown"
+    ready = backlog.get("readyWritesDisabled")
+    readyText = f"; ready (writes disabled): {ready} proven closures" if isinstance(ready, int) and ready > 0 else ""
+    return (
+        f"open issues {backlog.get('openIssues')} (bot {backlog.get('botOpen')}, upstream children "
+        f"{backlog.get('upstreamChildOpen')}); closed this run {backlog.get('closedThisRun', 0)} of "
+        f"{closedTotal} total; {change}{readyText}"
+    )
+
 
 
 def _operations(
@@ -648,6 +676,7 @@ def build_desk(
     stale_after_hours: int = 48,
     failed_dispatches: Sequence[Mapping[str, Any]] = (),
     coverage_unknown_reasons: Mapping[str, str] | None = None,
+    backlog: Mapping[str, Any] | None = None,
 ) -> Desk:
     """Assemble the desk from already-computed inputs. Pure: no I/O, no clock."""
 
@@ -692,6 +721,8 @@ def build_desk(
         now=now,
         stale_after_hours=stale_after_hours,
     ) + record_operations
+    if backlog:
+        operations.append(DeskOperation("issue_backlog", "issue backlog", _backlogLine(backlog)))
     operations.sort(key=lambda op: (OPERATION_KINDS.index(op.kind), op.subject, op.detail))
     return Desk(decisions=ordered, operations=tuple(operations), as_of=now)
 

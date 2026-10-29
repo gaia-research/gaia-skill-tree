@@ -4,6 +4,41 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-28, legacy Steward final engineering — founder gates remain)
+
+### TLDR
+
+- #2202 is already merged (`953021736c136a8b0aa1d74339d4ae8804ee5536`); #2139 was safely superseded by the sole next weekly draft #2230 (`4be508c06d6fdd9e4cac32d154c226886f522974`). #2133 remains the one draft issue-hygiene feature PR; do not create component/replacement campaigns or enable auto-merge.
+- Final closure production-code checkpoint `a61d31f19b7bfdca6a141ab25c1600b85db33d06` passed Terra/high independent review: 709 tests plus seven independent mocked probes. Parent broader gate at that exact SHA: **2,356 passed**. Workflow final review passed at `f617bc75c`; broad watcher/workflow gate **739 passed**. Shared no-agents driver review passed (45 tests plus five probes); final files are byte-identical to the reviewed worker commit.
+- Review found real defects after the earlier builder-green checkpoint: same-account objections, retry absorption of a pre-marker objection, an initial history-read race, and guard-step success allowing downstream approval writes. All received targeted repairs; do not reuse an earlier review or CI run as proof for a newer head. Original-history baselines now persist across receipt files; initial issue/history reads are bracketed before journal creation or marker writes.
+- Driver compatibility from #2230 was intentionally included only at the shared driver/test seam (`dab19e94e`); the feature and weekly merge-tree probe is clean. The weekly's documentation/workflow payload remains separate. An earlier package CI failure was a pre-existing 20 ms worker-start assumption (6,666 pass / 7 skip / 1 fail). The bounded test-only correction ends at `41e591c56316303162508c6e07c4dcb73dc7b0ff`; production curation/timeout policy is unchanged. Consult #2133's final receipt for its independent review and latest published-head Ubuntu CI, not the old failing run.
+- Founder decision receipt: `founder/handovers/2026-10-28-steward-legacy-reconciliation.md`. Original builder history/commands: `founder/handovers/2026-10-28-pr2133-mission-phase3.md`. Runtime remains disabled/unratified: issue authority OPEN/pending, writes false; V2 rollout variable absent; scheduled fanout and concurrency unchanged. Five OPEN decisions remain: closure authority, #1981 disposition, F3/batch rollout, closed-umbrella semantics, empty-history cross-checks. No live closure/pilot or issue-state remediation occurred.
+- The full-driver registration currently reports API `active`, but its source remains dispatch-only with `jobs.drive.if: false`; do not confuse registration with an enabled driver. No enable/disable/dispatch action was performed. Existing upstream watcher remains active. All operational-health statements in the receipt are timestamped, not inferred from static checks.
+- Rendered evidence is still unavailable: bounded recovery also produced zero screenshots, Chromium timed out, and no browser MCP was available. #2230 still needs supported-browser desktop/mobile before/after capture and founder content/design review. Do not fabricate an empty review page or waive the gate. No preview deployment/global installation was attempted.
+- Release is held until required source integrations actually merge with founder authorization. Later release-PR merge/PyPI authorization does not authorize source merges. Observed baseline is main/GitHub prerelease 8.28.2 and PyPI production 8.25.0; its clean baseline install lacks `steward full`. Recompute the minor from actual post-merge main, then canonical release/publisher and independent official-PyPI install/artifact verification. No version bump/tag/release PR/publication yet.
+
+### Routing and handoff
+
+Sol/high orchestration and initial implementation; Luna/high bounded repairs (medium read-only CI diagnosis); Terra/high independent reviews. No Flash review or premium escalation. Source branch `work/steward-legacy-2133` publishes non-destructively to existing `dev/steward-issue-hygiene`; original worktrees and unrelated `.pi/`/census files remain untouched. Numeric cost is not a bill; use session-log provenance, not invented totals.
+
+**Next:** use the final #2133 published-head receipt and checks to establish engineering readiness. Founder source merges and #2230 rendered/content review remain separate gates from all five activation decisions. Only after authorized source integration execute `/gaia-release`; do not publish unmerged work. Preserve earlier snapshots verbatim.
+
+---
+
+## State Snapshot (2026-10-28, legacy Steward reconciliation — source gates retained)
+
+- #2202 was already merged with founder authorization: head `d144490c`, merge `953021736c136a8b0aa1d74339d4ae8804ee5536`, ancestor of main `fc0e6f8d9`. Latest-head checks passed; the one-time authority-map correction preserves #2178's `gaia-tm-inspect` compatibility delegation. Outstanding Class C proposals remain open.
+- #2139 closed as superseded only after useful work was pushed and independently verified in draft #2230, `dev/steward-weekly-legacy-2026-10-28` at `4be508c06d6fdd9e4cac32d154c226886f522974`. Empty/whitespace agent selection cannot invoke the Claude fallback; paused workflow and current full-command reference preserved. Independent 133 focused tests and GitHub CI green. No auto-merge. Founder content/design and source-merge gates remain; local screenshot capture stalled and produced no rendered evidence.
+- #2133 remains the sole draft feature campaign. `work/steward-legacy-2133` preserves old head `7facad74` and merges actual main non-destructively at `6b0d2f9a0`; implementation checkpoint `14c3c6dc1` is complete with writes disabled. Parent publishes to the existing `dev/steward-issue-hygiene` branch, never a replacement feature PR. Detailed commits, conflicts, tests and limitations: `founder/handovers/2026-10-28-pr2133-mission-phase3.md`. Browser-render and routine 18 both retained (32 sensors, 18 routines).
+- Fresh mocked component gates: 1,023 closure/integration; 1,621 remaining Steward; 733 watcher/workflow cases passed (overlapping scopes, not additive). Final independent reviews were launched against `14c3c6dc1`; consult the current PR receipt/CI rather than treating this checkpoint as their verdict. Earlier review findings were repaired, including public executor authority, rejected decisions, pre-marker objections, final receipt readback, pagination and source-qualified watcher identity.
+- Live behavior unchanged: no source merge, workflow activation, schedule change, rollout variable change, live closure verification/pilot, issue-state mutation or publication. New issue writes require affirmative ratification plus the disabled policy switch; batch/event paths require separate rollout. Open decisions: closure authority, #1981 incident, batch/F3 rollout, closed-umbrella disposition, and empty-history cross-checks. The trusted-simple-ref and non-atomic REST limitations are disclosed, not claimed solved.
+- Release authorization covers a later release PR merge and canonical publisher, not source merges. Official PyPI/current latest production is 8.25.0; main/latest GitHub prerelease is 8.28.2. Clean PyPI install reports 8.25.0 but lacks `steward full`. Required source integrations must merge first; recompute the next minor from actual main, then canonical bump/changelog/build/review/trusted publisher and independent PyPI verification. No release PR/tag/publication was created here.
+- Routing: Sol/high lead and main worker; Luna/high bounded watcher/documentation workers; Terra/high independent reviewers. No Flash review or premium escalation. One worker hit a subscription-sharing limit after committing its implementation; no source work was discarded. Usage/cost belongs in the final PR receipt, not an inferred bill.
+
+**Next:** collect final independent verdicts, publish the existing #2133 head and verify applicable Ubuntu CI; founder reviews #2230 and decides source merges separately from the five activation/governance rulings. Keep auto-merge off. Only then execute the authorized minor-release sequence. Original unrelated worktrees and untracked files remain untouched.
+
+---
+
 ## State Snapshot (2026-10-15, #2105 — Steward coverage ready for founder preview)
 
 ### TLDR

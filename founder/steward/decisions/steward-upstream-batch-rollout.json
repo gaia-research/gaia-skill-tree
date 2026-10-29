@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-upstream-batch-rollout",
+  "status": "open",
+  "decision": "Approve the staged F3 batch emission and hardened approve/reject/close-children workflow rollout, or keep legacy fanout?",
+  "whyItMatters": "Merging engineering must not silently change the daily issue queue or activate new event-driven write semantics.",
+  "evidence": [
+    "Issue #2131 explicitly requests founder-compatible F3 amendment review. Earlier campaign prose inferred approval from a brief; this mission does not ratify that inference.",
+    "The daily cron remains 0 6 * * *; CLI and workflow defaults are fanout. New event jobs and manual batch writes are staged behind STEWARD_ISSUE_HYGIENE_V2, which this work does not set.",
+    "PR #2133 comment 6344218194 records the canonical open-issue-per-suite correction. It is retained as evidence, not a ruling on rollout or closed-history suppression."
+  ],
+  "recommended": "Review mocked behavior and explicitly decide rollout. Leave the variable unset and existing default jobs active until then.",
+  "alternative": "Retain the legacy deployed issue contract and use batch dry-run reports only.",
+  "unblocks": "Batch rollout only; Steward closure authority remains a separate OPEN decision.",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2131",
+    "https://github.com/gaia-research/gaia-skill-tree/pull/2133#issuecomment-6344218194",
+    "docs/agents/upstream-watcher.md"
+  ]
+}

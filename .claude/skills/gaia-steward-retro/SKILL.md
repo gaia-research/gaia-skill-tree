@@ -3,7 +3,8 @@ name: gaia-steward-retro
 description: >-
   Produce the Gaia Steward coverage retrospective: the 17-routine table of
   registered detectors, what each actually observed in the latest receipt, the
-  remaining gaps, and the no-op versus closure record. Use for
+  remaining gaps, and the no-op versus closure record. Covers all 18 routines,
+  including GitHub issue hygiene (18). Use for
   "/gaia-steward-full --retro", "steward coverage report", "which routines are
   covered", or "how is steward doing".
 version: 1.0.0
@@ -14,7 +15,9 @@ version: 1.0.0
 ## Responsibility
 
 Report coverage honestly: what is registered, what ran, what was blind, and
-what the catalog admits it cannot see.
+what the catalog admits it cannot see. For routine 18 the retro also names the
+census state of the latest receipt; a stale or missing census is a blind routine,
+not a quiet one.
 
 ## Input
 
@@ -25,7 +28,7 @@ python scripts/check_steward_coverage.py --receipt .gaia/steward/receipts/<run>.
 
 ## Output
 
-One row per routine (1-17): detectors, live state per detector
+One row per routine (1-18): detectors, live state per detector
 (`actively-observed` or `unknown-unavailable`), static states
 (`eligible-auto-remediation`, `human-gated`, `partially-covered`), open debt by
 class, and `remainingGaps` from `founder/steward/routine-coverage.json`.

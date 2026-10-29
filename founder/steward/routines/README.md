@@ -94,6 +94,7 @@ once; paste the prompt every time.
 | [Trust calibration drift](trust-calibration-drift.md) | `trust_calibration_drift` | **Partial** | Every scan | Stored rank differs from computed grade; not cache-hash freshness |
 | [Repository hygiene](repository-hygiene.md) | `repository_hygiene` | **Partial** | Every scan; weekly review ceiling | One of eight explicitly enumerated Class P paths is tracked in Git |
 | [Knowledge contradiction](knowledge-contradiction.md) | `knowledge_contradiction` | **Partial** | Every scan; especially after a contract change | Selected policy/schema contradictions or exact retired trust-guidance claims |
+| [GitHub issue hygiene](issue-hygiene.md) | `issue_suite_review` (also `issue_closure_ready`, `issue_founder_decision`) | **Partial** | Each census refresh | A suite batch gains candidates, an umbrella is superseded, or a founder question is answered |
 
 [**Heartbeat**](heartbeat.md) is not a repair routine and is not in that table.
 It is the standing scheduled question — *is anything happening a person should
@@ -101,7 +102,7 @@ know about?* — and it reports by exception. Daily is plenty.
 
 **Partial is not healthy, and a sensor is not the whole routine.** The coverage
 catalog at [`../routine-coverage.json`](../routine-coverage.json) reconciles all
-17 founder routines with registered sensors, debt kinds, policy authority and
+18 founder routines with registered sensors, debt kinds, policy authority and
 available routes. Validate it from the checkout with
 `python scripts/check_steward_coverage.py --check --json`. This is a static
 capability inventory; it does not run sensors or establish live repository health.

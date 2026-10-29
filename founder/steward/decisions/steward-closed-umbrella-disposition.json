@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-closed-umbrella-disposition",
+  "status": "open",
+  "decision": "Does any matching closed umbrella count as processed, or only one with an explicit accepted/rejected or Steward-receipt disposition?",
+  "whyItMatters": "The staged implementation suppresses a matching finding even if a human closed it with unresolved rows; the opposite rule can recreate daily issue noise.",
+  "evidence": [
+    "PR #2133 comments 6344218194 and 6344758147 describe competing recreation/suppression behavior and explicitly request a founder ruling.",
+    "The staged evidence classifier preserves payload identity, treats contradictory history as unknown, and suppresses a finding when closed history records the same suite, version and candidate ids.",
+    "Tests prove that behavior, not its governance validity. The new batch path is not the default scheduled path."
+  ],
+  "recommended": "Decide the disposition semantics before batch rollout; keep historical payloads and existing issues untouched.",
+  "alternative": "Require a formal receipt or explicit rejection; unresolved human-closed findings then remain actionable and may be recreated.",
+  "unblocks": "Closed-history semantics independently of canonical open-issue identity or Class A authority.",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/pull/2133#issuecomment-6344758147",
+    "scripts/upstream_watcher/evidence.py",
+    "tests/upstream_watcher/test_processed_findings.py"
+  ]
+}

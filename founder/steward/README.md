@@ -96,7 +96,7 @@ can never grant unbounded autonomy:
 
 | Bound | Shipped | Why it exists |
 |---|---:|---|
-| `maxInFlight` | 1 | Autonomy that outruns review is not autonomy, it is backlog |
+| `maxInFlight` | 2 | Autonomy that outruns review is not autonomy, it is backlog. Raised from 1 by founder authorization 2026-10-21 (steward-class-b-throughput) |
 | `maxAttempts` | 2 | A debt that keeps failing bounded repair is telling you the envelope is wrong |
 | `cooldownSeconds` | 3600 | A broken loop cannot spend an afternoon rediscovering one rejection |
 
@@ -212,3 +212,67 @@ read as one.
 
 `contractIndex` is the 1-based position in the packet's proof contract. Every
 item needs at least one entry; every entry must have exited zero.
+
+## Routine 18 — GitHub issue hygiene (#2130)
+
+**Unratified Class C proposal.** The implementation allowlist is not a grant of
+issue-write authority. `steward-issue-closure-authority.json` is OPEN; the effective
+policy disables all closure rules until that exact record is explicitly `decided`
+with `resolution: "approved"`. A rejected or merely decided question grants no authority.
+Changing `writesEnabled` alone cannot emit plans or actions, or authorize either
+script or public library executor. No live closure dry run, pilot or burn-down is
+authorized in this mission. The Oct 21–22 handovers describe historical procedures,
+not present permission; the current mission supersedes their inferred approval.
+
+Routine 18 reconciles the open GitHub issues that upstream intake and gh-aw
+generate against the registry, and closes only what the registry proves preserved.
+
+The census is driver input. `python scripts/steward_issue_census.py` writes
+`.gaia/steward/inputs/github-issues.json` over REST and fails closed: a short or
+failed page leaves `completeness` false. The unattended driver refreshes it before
+each run (`--no-census` skips it), and `steward.yml` collects it in the observe job.
+A missing census reports the routine not evaluated (`notEvaluated`) and no closure is
+emitted. An incomplete or stale one reports coverage unknown, which blocks Class A for the run.
+The driver deletes a census whose collector exited with any code other than 0 or 3 (exit 1, exit 2, or a
+crash), so a stale file cannot pass as current. An exit 3 file is kept so the sensor reports it incomplete. The collector itself only writes.
+
+| Debt kind | Class | Who acts |
+|---|---|---|
+| `issue_closure_ready` | A | `gaia-steward-issue-hygiene`, through `scripts/steward_issue_close.py` |
+| `issue_suite_review` | B | `gaia-steward-lane` (`issue-suite-review`), a written proposal only |
+| `issue_founder_decision` | C | `gaia-steward-desk`, one question per affected family |
+
+A closure (`forge.close_issue`) is emitted only under an enabled rule A1 to A5, a
+complete census, an unchanged manifest snapshot, and `issueHygiene.writesEnabled: true`.
+The shipped policy has `writesEnabled: false`. With the authority record open, no
+closure plan or action is emitted. In an explicitly approved fixture, disabling
+writes reports proven items as `ready (writes disabled)`; neither case can close.
+
+The executor does not trust the action file. `scripts/steward_issue_close.py` re-derives the
+proof from the checkout (writes, rule, A5 workflows, per-run cap, receipt path, census, manifest
+digest, closing comments) and exits 2 on any gap, before a forge is built. It re-reads the live
+issue, then posts one marked comment, or finds the one our closer identity already posted.
+Immediately before close it re-reads the live issue and complete comment history,
+verifies every preserved part byte-for-byte, and refuses edits, objections or unknown
+identity. The public `executeClosure(s)` facade independently enforces the same gate;
+calling it without a checkout cannot write. It then closes the issue and appends a receipt to `.gaia/steward/issue-hygiene/receipts/<run>.jsonl`.
+A `closed` outcome carries exactly one proof of its closing comment: `commentUrl` naming this
+issue, `commentId`, or `markerVerified: true`. Two or more proofs are refused.
+
+Closures are exactly-once: the runner never emits a pair already recorded in the outcome store or
+a receipts file, and such a pair is skipped with no forge call and no new receipt. A live re-read
+that finds the issue already closed, without our receipt, writes an `already-closed` receipt. Exit
+codes are documented in `gaia-steward-issue-hygiene` (0 done, 1 failed or blocked-identity, 2 refused,
+3 blocked). An exit-2 refusal is recorded as a `refused` outcome with a reason code: the step settles, and a later
+emission may try the pair again. Three refusals of one pair escalate to one founder question (`closure-refused`).
+
+A pair the steward closed is never closed again, even when a person reopens it. The sensor raises one founder note
+(`reopened-after-closure`) that lists the reopened issues. The closure budget is per UTC hour and per run; pending
+closures count against it at emission, and the gate reserves each slot under a repository-keyed lock (B8).
+
+Nothing is deleted, and nothing is accepted on a person's behalf. A blocked forge
+(auth, rate limit, transport) halts the run. A closure with no token is not run and
+reports `NOT RUN`.
+
+Routine 18's human contract is `founder/steward/routines/issue-hygiene.md`.
+Its decision record is `founder/steward/decisions/steward-issue-closure-authority.json`.
