@@ -26,6 +26,7 @@ ATOMIC_SKILLS = (
     "gaia-steward-verify",
     "gaia-steward-retro",
     "gaia-steward-desk",
+    "gaia-steward-issue-hygiene",
 )
 REUSED_SKILLS = (
     "gaia-steward-lane",

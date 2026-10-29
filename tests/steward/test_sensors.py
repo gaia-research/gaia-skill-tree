@@ -1204,11 +1204,13 @@ def test_default_sensors_contains_knowledge_contradiction_sensor() -> None:
     assert len(matching) == 1
 
 
-def test_default_sensor_fleet_has_thirty_one_unique_ids_and_repository_hygiene_once() -> None:
+def test_default_sensor_fleet_has_thirty_two_unique_ids_and_repository_hygiene_once() -> None:
     sensors = default_sensors()
-    assert len(sensors) == 31
-    assert len({sensor.id for sensor in sensors}) == 31
+    assert len(sensors) == 32
+    assert len({sensor.id for sensor in sensors}) == 32
     assert sum(isinstance(sensor, RepositoryHygieneSensor) for sensor in sensors) == 1
+    assert sum(sensor.id == "browser-render" for sensor in sensors) == 1
+    assert sum(sensor.id == "issue-hygiene" for sensor in sensors) == 1
 
 
 def test_every_sensor_declares_debt_kinds_and_routines() -> None:
@@ -1218,7 +1220,7 @@ def test_every_sensor_declares_debt_kinds_and_routines() -> None:
     policy = StewardPolicy.load(Path(__file__).resolve().parents[2])
     for sensor in default_sensors():
         assert sensor.debt_kinds, sensor.id
-        assert sensor.routine_ids and all(1 <= n <= 17 for n in sensor.routine_ids), sensor.id
+        assert sensor.routine_ids and all(1 <= n <= 18 for n in sensor.routine_ids), sensor.id
         for kind in sensor.debt_kinds:
             policy.authority_for(kind)
             policy.priority_for(kind, 1.0)

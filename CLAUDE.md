@@ -136,7 +136,7 @@ Skill levels are stored in slots, not on skill objects — account for this when
 
 ## Commands & Setup
 
-See [DEV.md](DEV.md) for common commands and testing.
+See [DEV.md](DEV.md) for common commands and testing. Steward issue closures (routine 18, #2130) go only through `gaia-steward-issue-hygiene`; see `founder/steward/README.md`.
 
 ### Portable curation environment
 
