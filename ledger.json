@@ -1,5 +1,5 @@
 {
- "generation": 135,
+ "generation": 136,
  "lane": {
   "entries": [
    {
@@ -2324,7 +2324,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-10-29T02:46:35.401453Z",
-   "expiresAt": "2026-10-29T03:19:29.403160Z",
+   "expiresAt": "2026-10-29T03:19:33.278631Z",
    "holder": "run-20261029T024635Z-79c43bd1"
   }
  },
@@ -9448,6 +9448,141 @@
    "ciResults": [],
    "costUsd": 0.0,
    "decisions": [],
+   "desk": {
+    "asOf": "2026-10-29T02:49:32.806249Z",
+    "decisions": [
+     {
+      "alternative": "Keep it an operator-run collector until a quarter of local runs shows low noise.",
+      "debtIds": [],
+      "decision": "Wire scripts/steward_collect_browser_render.js into the scheduled steward workflow (installing Chromium for it) so the browser-render sensor is evaluated on every run?",
+      "decisionId": "steward-browser-render-driver",
+      "evidence": [
+       "Run locally on 2026-10-28 it rendered 95 pages x 2 viewports in about 4 minutes and found 29 pages with rendered defects the static sensor cannot see.",
+       "The collector serves docs/ from a local static server and aborts every external request unsent.",
+       "Frontend fixes remain human-gated (CLAUDE.md); this only observes."
+      ],
+      "links": [
+       ".github/workflows/steward.yml",
+       "scripts/steward_collect_browser_render.js",
+       "src/gaia_cli/steward/sensors_render.py"
+      ],
+      "priority": 20,
+      "recommended": "Approve an optional workflow step (npx playwright install chromium; node scripts/steward_collect_browser_render.js --repository $GITHUB_REPOSITORY) that records ok/failed in the existing inputs report.",
+      "source": "decision-record",
+      "unblocks": "Scheduled rendered-frontend observation (routine 15).",
+      "whyItMatters": "The sensor reports not-evaluated without a fresh browser-render input, so rendered frontend facts stay unobserved on scheduled runs. Adding the step changes the workflow's dependencies and runtime."
+     },
+     {
+      "alternative": "Document that only steward full shows the desk and remove the second wording ('Nothing requires a decision') from steward founder.",
+      "debtIds": [],
+      "decision": "Should `gaia steward founder` also list the open decision records in founder/steward/decisions/, as `gaia steward full` already does?",
+      "decisionId": "steward-founder-command-records",
+      "evidence": [
+       "src/gaia_cli/steward/digest.py renders only the Class C debt queue; build_desk() in desk.py is the only reader of decision records and is reached through steward full.",
+       "Observed output: 'Decisions for you 0' with steward-trust-stamp-refresh-policy-1642 and steward-workflow-skill-creator-demote-1699 open."
+      ],
+      "links": [
+       "src/gaia_cli/steward/digest.py",
+       "src/gaia_cli/steward/desk.py"
+      ],
+      "priority": 20,
+      "recommended": "Yes: append the open records to the digest, with before/after CLI output in the PR for review.",
+      "source": "decision-record",
+      "unblocks": "A single trustworthy founder queue.",
+      "whyItMatters": "On 2026-10-28 `gaia steward founder` printed 'Decisions for you 0 / Nothing requires a decision' while two records in that directory were open, so a founder using the dedicated command is told nothing is waiting. It changes visible CLI output, so it is human-gated."
+     },
+     {
+      "alternative": "Keep the interim marker and run evidence discovery as an ad hoc /ev-discovery pass per skill.",
+      "debtIds": [],
+      "decision": "Give an empty-evidence trust finding its own Class C debt kind (trust_evidence_gap) and a bounded evidence-discovery routine, replacing the interim laneEligible:false marker on trust_calibration_drift?",
+      "decisionId": "steward-trust-evidence-gap-kind",
+      "evidence": [
+       "37 of 51 open trust_calibration_drift debts proposed 2-star to 1-star solely from an empty or non-scoring effective pool (13 have inherited rows that score nothing, 24 have no effective rows at all).",
+       "The 2026-10-28 run's builder reproduced addy-osmani/browser-testing-with-devtools but changed nothing and the Sonnet verifier escalated it; two lane entries had escalated.",
+       "A new kind needs authority and priority entries in founder/steward/POLICY.yaml and a founder rule; Steward may not add them itself."
+      ],
+      "links": [
+       "https://github.com/gaia-research/gaia-skill-tree/issues/2201",
+       "https://github.com/gaia-research/gaia-skill-tree/issues/2114",
+       "https://github.com/gaia-research/gaia-skill-tree/issues/2148",
+       "founder/steward/POLICY.yaml"
+      ],
+      "priority": 20,
+      "recommended": "Approve trust_evidence_gap as Class C with a founder rule, and a read-only evidence-discovery routine (authoritative upstream, releases, benchmarks, peer review; record URLs, dates, attribution, freshness, duplicates, admissibility) that never writes evidence or ratings; keep the interim marker until then.",
+      "source": "decision-record",
+      "unblocks": "One grouped desk decision for all evidence-gap skills instead of 37 Class B items, and a reusable discovery workflow.",
+      "whyItMatters": "Founder ruling 2026-10-28 (#2201): missing evidence is not evidence of degradation. The interim fix keeps these findings as Class B trust_calibration_drift debt that the lane never dispatches, so their authority label (B) misdescribes a governed question and no routine searches for the missing evidence."
+     },
+     {
+      "alternative": "Keep restamping manual, run by a Verifier from the recomputationOnly findings.",
+      "debtIds": [],
+      "decision": "Founder ruled 2026-10-28 for event-driven trust recalculation with periodic reconciliation as a backup. Approve the implementation: which events trigger a restamp, who runs it, and the policy amendment it needs?",
+      "decisionId": "steward-trust-stamp-refresh-policy-1642",
+      "evidence": [
+       "The 22 stale stamps were corrected on main by PR #2147 using gaia dev calibrate-trust-magnitude, with no grade or star-level change.",
+       "Issue #1642 remains open for the recurring policy, not for those corrections.",
+       "Founder ruling 2026-10-28: event-driven recalculation with periodic reconciliation as backup; recomputing derived information is distinct from canonical trust, grade, star, evidence-assertion or policy mutation, which stay Class C.",
+       "Built (this PR): trust_stamp_stale observations now carry recomputationOnly (computed grade still agrees with the stored star level) and the exact gaia dev calibrate-trust-magnitude command. Periodic reconciliation already exists: the sensor re-measures every scan. Not built: the event trigger.",
+       "Proposed trigger: the same reviewed PR that changes evidence (gaia dev evidence, star refresh, ingest) runs calibrate-trust-magnitude for only the affected skills; a restamp that would move a star level is not a restamp and goes to the desk."
+      ],
+      "links": [
+       "https://github.com/gaia-research/gaia-skill-tree/issues/1642"
+      ],
+      "priority": 20,
+      "recommended": "Approve: restamp only affected skills inside the PR that changes their evidence, with recomputationOnly as the gate; periodic reconciliation stays the backstop; any star, grade or policy movement stays Class C.",
+      "source": "decision-record",
+      "unblocks": "Retiring trust_stamp_stale debt without per-event founder work; the Class C debt kind stays for anything not recomputation-only.",
+      "whyItMatters": "The ruling is made but only its detection half is built. Restamping writes registry/named frontmatter and a timeline event, a Verifier-gated gaia dev mutation outside any Steward envelope, so the trigger and its authority need your approval before anything runs unattended."
+     },
+     {
+      "alternative": "Accept 4-star as an exception and record why, leaving the invariant unenforced.",
+      "debtIds": [],
+      "decision": "Rule on google-deepmind/workflow-skill-creator: it is status awakened at 4-star, which #1699 closed as fixed by demoting it to 1-star. Keep it at 4-star, restore the 1-star the issue ordered, or promote its status to named?",
+      "decisionId": "steward-workflow-skill-creator-demote-1699",
+      "evidence": [
+       "Timeline: 2026-09-05T00:00:00Z demote 4-star to 1-star citing #1699; 2026-09-05T03:50:03Z 'Calibrated 1-star to 1-star'; 2026-09-09T20:31:06Z rank_up 'Calibrated level from 1-star to 4-star'. Current file: status awakened, level 4-star, trustMagnitude 100.82.",
+       "The 2026-09-05 demote event records previousValue 4-star while the preceding log level was 3-star (2026-07-30 demote, then a rename): the historical discrepancy this record originally asked about.",
+       "A scan of registry/named finds exactly one awakened skill above 1-star (this one); 47 awakened skills sit at 1-star. scripts/validate.py passes on this state.",
+       "#1699's closing comment says the CLI preflight (_preflight_calibrate_status) now rejects level >= 2-star on awakened skills; the preflight is present, so the 2026-09-09 change took another path (not diagnosed: canonical data, out of Steward authority).",
+       "The three #1699 decision records previously cited #1699 for timeline ordering; #1699 is about calibrate and awakened skills, not ordering."
+      ],
+      "links": [
+       "https://github.com/gaia-research/gaia-skill-tree/issues/1699",
+       "https://github.com/gaia-research/gaia-skill-tree/pull/2147",
+       "registry/named/google-deepmind/workflow-skill-creator.md",
+       "founder/steward/decisions/LEDGER.md"
+      ],
+      "priority": 20,
+      "recommended": "Decide the skill's level and status as a canonical ruling (restore 1-star per #1699 and CONTEXT.md unless you promote its status to named), and have a Verifier run the gaia dev calibrate or update-named verb. Then approve adding the awakened-rank invariant to the registry integrity check so it cannot recur silently.",
+      "source": "decision-record",
+      "unblocks": "Closing the #1699 regression and the historical-provenance question; adding the invariant guard to scripts/validate.py without turning main red.",
+      "whyItMatters": "CONTEXT.md allows 2-star and above only for status named. #1699 (closed 2026-09-05) demoted this skill to 1-star for that reason, then a later calibration (2026-09-09) raised it back to 4-star while it is still awakened; it is the only awakened skill above 1-star, and no validator rejects the state. Timeline events are canonical provenance, so Steward may not edit them or the level."
+     },
+     {
+      "alternative": "Leave workflow timeouts to ordinary reviewed PRs and downgrade the sensor to report-only.",
+      "debtIds": [],
+      "decision": "Add a Class B dispatch route for workflow_hygiene (missing job timeout-minutes) limited to .github/workflows/*.yml and excluding compiled gh-aw lock files?",
+      "decisionId": "steward-workflow-timeout-route",
+      "evidence": [
+       "Every open workflow_hygiene finding is rule missing-timeout.",
+       "The fix is mechanical but a timeout is a per-job judgement: too low kills legitimate long jobs (the unit gate already takes about 2 minutes, full tests more).",
+       "Workflow files are a security-relevant surface; this PR did not edit any."
+      ],
+      "links": [
+       "founder/steward/POLICY.yaml",
+       "src/gaia_cli/steward/sensors_ci.py"
+      ],
+      "priority": 20,
+      "recommended": "Approve a route that proposes a timeout from the job's observed durations (ci-runs input) and requires independent verification; keep .github/** forbidden for every other rule.",
+      "source": "decision-record",
+      "unblocks": "Closure of up to 38 debts and a reusable path for workflow hygiene repairs.",
+      "whyItMatters": "38 open workflow_hygiene debts (64 missing-timeout findings) have no dispatch rule, and every existing rule forbids .github/**, so the lane cannot touch them. A job without timeout-minutes can run for the 6-hour default."
+     }
+    ],
+    "operations": [],
+    "quiet": false,
+    "schemaVersion": "steward-desk-v1"
+   },
    "finishedAt": null,
    "floor": {
     "branch": "dev/steward-integration",
@@ -9466,7 +9601,7 @@
    "mode": "full",
    "modelIds": [],
    "mutated": false,
-   "nextAction": "",
+   "nextAction": "perform 1 pending action(s) (agent.build), record each with `gaia steward full record run-20261029T024635Z-79c43bd1 <stepId> --input FILE`, then `gaia steward full run --resume run-20261029T024635Z-79c43bd1`",
    "options": {
     "afk": true,
     "agents": true,
@@ -10349,7 +10484,7 @@
    "runId": "run-20261029T024635Z-79c43bd1",
    "sourceHead": "fc0e6f8d91aa759629bb36c0e188b116b4511808",
    "startedAt": "2026-10-29T02:46:35.401453Z",
-   "status": "active",
+   "status": "awaiting-action",
    "steps": [
     {
      "at": "2026-10-29T02:46:35.401453Z",
@@ -10398,7 +10533,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-29T02:49:29.408689Z",
+ "updatedAt": "2026-10-29T02:49:33.278722Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
