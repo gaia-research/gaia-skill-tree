@@ -2,14 +2,14 @@
 id: addy-osmani/code-simplification
 name: Code Simplification
 contributor: addy-osmani
-origin: false
+origin: true
 genericSkillRef: refactor-code
 status: named
 level: 4★
 description: Code simplification workflow identifying opportunities to reduce cognitive
   complexity.
 createdAt: '2026-07-03'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-30'
 timeline:
 - timestamp: '2026-07-02T18:42:19Z'
   action: add
@@ -97,6 +97,16 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 5★ to 4★
+- timestamp: '2026-10-29T16:34:49Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Origin status set to true.
+- timestamp: '2026-10-29T16:34:50Z'
+  action: note
+  contributor: mbtiongson1
+  details: Bucket Origin assigned to the unique merit winner of its generic bucket
+    (sole top TM/level member); 4-star Unique gate (checkUniqueBranchGate, bucket-level
+    Origin + TM>=100) now satisfied. Founder ruling 2026-10-30 FD-10 (Assign the four).
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md
   updatedAt: '2026-10-01'

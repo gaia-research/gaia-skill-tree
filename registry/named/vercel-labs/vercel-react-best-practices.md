@@ -2,14 +2,14 @@
 id: vercel-labs/vercel-react-best-practices
 name: Vercel React Best Practices
 contributor: vercel-labs
-origin: false
+origin: true
 genericSkillRef: react-performance-optimization
 status: named
 level: 4★
 description: Optimizes component rendering, data fetching, and bundle composition
   in React applications while preserving requested behavior.
 createdAt: '2026-07-30'
-updatedAt: '2026-10-24'
+updatedAt: '2026-10-30'
 title: Vercel React Best Practices
 links:
   github: https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md
@@ -74,6 +74,16 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 162.66 -> 163.19, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-29T16:34:47Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Origin status set to true.
+- timestamp: '2026-10-29T16:34:48Z'
+  action: note
+  contributor: mbtiongson1
+  details: Bucket Origin assigned to the unique merit winner of its generic bucket
+    (sole top TM/level member); 4-star Unique gate (checkUniqueBranchGate, bucket-level
+    Origin + TM>=100) now satisfied. Founder ruling 2026-10-30 FD-10 (Assign the four).
 evidence:
 - source: https://github.com/vercel-labs/agent-skills
   updatedAt: '2026-10-01'
