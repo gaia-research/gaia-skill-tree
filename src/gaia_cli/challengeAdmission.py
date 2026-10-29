@@ -194,7 +194,10 @@ def parseEvents(raw: bytes) -> tuple[list[dict[str, Any]], list[str], str]:
     (``schemaVersion``/``seq``/``prev``, hex digest of the previous line) and the Frontier tool's
     (``seq``/``prevHash``, ``sha256:`` digest, null on line 1). Once a chain starts, every later line must be
     chained with a ``seq`` equal to its position and a digest of the previous line; an unchained line after
-    that, a gap, or an edit breaks it."""
+    that, a gap, or an edit breaks it.
+
+    This is tamper-evidence only. A legacy-only log has no chain, and a truncated tail is invisible in the
+    file; both are non-authoritative and git history is the anchor (as in ``frontier.append_event``)."""
     events, errors, prev = [], [], GENESIS
     if raw and not raw.endswith(b"\n"):
         errors.append("events.jsonl does not end with a newline")
@@ -324,6 +327,8 @@ class BundleReport:
 
 def receiptLocation(directory: Path) -> str:
     """The receipt file of a case: the canonical Frontier path, else the legacy root path (never both)."""
+    for name in (RECEIPTPATH, LEGACYRECEIPT):
+        assertPlain(directory, directory / name)  # a symlinked receipts/ or receipt file is refused before any read
     canonicalPath, legacy = os.path.lexists(directory / RECEIPTPATH), os.path.lexists(directory / LEGACYRECEIPT)
     if canonicalPath and legacy:
         raise AdmissionError(f"ambiguous receipt: both {RECEIPTPATH} and {LEGACYRECEIPT} exist")
@@ -332,7 +337,7 @@ def receiptLocation(directory: Path) -> str:
 
 def isTriageBundle(directory: Path) -> bool:
     """A triage-only case has no request and no receipt anywhere, and a stage:"triage" Meta record."""
-    if any(os.path.lexists(directory / name) for name in ("request.json", RECEIPTPATH, LEGACYRECEIPT, "admission-request.json")):
+    if any(os.path.lexists(directory / name) for name in ("request.json", "receipts", LEGACYRECEIPT, "admission-request.json")):
         return False
     try:
         meta, _ = readJson(directory / "meta-verification.json")
@@ -706,7 +711,8 @@ class AdmissionOutcome:
 
 
 def clean(text: Any) -> str:
-    return re.sub(r"[^\x20-\x7e]", " ", str(text))[:240].strip()
+    """Printable ASCII, bounded, with workflow-command markers (``::``) defused for CI logs."""
+    return re.sub(r"[^\x20-\x7e]", " ", str(text))[:240].strip().replace("::", ": :")
 
 
 def held(reason: HoldReason, detail: str) -> AdmissionOutcome:

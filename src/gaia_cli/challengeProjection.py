@@ -26,8 +26,9 @@ import traceback
 from pathlib import Path
 from typing import Any
 
+from . import challengeAdmission as admission
 from .challengeAdmission import REASONS
-from .committedChallenges import REVIEWCONTRACT, TRIAGESTATUS, Collected, collect, lifecyclePorts
+from .committedChallenges import REVIEWCONTRACT, DEFERREDSTATUS, TRIAGESTATUS, Collected, collect, lifecyclePorts
 from .lifecycleProjection import produce_lifecycle
 
 CONTRACT = "gaia-challenge-projection/v1"
@@ -77,10 +78,10 @@ def validateReview(record: Any) -> list[str]:
         return ["review must be an object"]
     errors = []
     status = record.get("status")
-    if record.get("contract") != REVIEWCONTRACT or status not in ("admission-held", TRIAGESTATUS):
+    if record.get("contract") != REVIEWCONTRACT or status not in ("admission-held", TRIAGESTATUS, DEFERREDSTATUS):
         errors.append("review must be a held or rejected-at-triage gaia-challenge-review/v1 record")
     held = record.get("held")
-    if status == TRIAGESTATUS:
+    if status in (TRIAGESTATUS, DEFERREDSTATUS):
         if "held" in record or not isinstance(record.get("triage"), dict) or "experiment" in record:
             errors.append("a triage review carries a triage note and no held reason or experiment")
     elif not isinstance(held, dict) or held.get("reason") not in REASONS:
@@ -195,7 +196,7 @@ def sync(root: str | Path, *, check: bool) -> bool:
     base = Path(root)
     found = collect(base)
     for item in found.rejected:  # never silent: every refused bundle is named with its reason
-        print(f"  warning: challenge bundle {item['caseId']} rejected: {item['reason']}", file=sys.stderr)
+        print(f"  warning: challenge bundle {admission.clean(item['caseId'])} rejected: {admission.clean(item['reason'])}", file=sys.stderr)
     outputs = {"index": render(buildIndex(base, collected=found)), "reviews": render(buildReviews(base, collected=found))}
     changed = False
     for name, data in outputs.items():

@@ -181,3 +181,92 @@ def test_meta_verdict_takes_precedence_over_a_broken_log_and_a_missing_request(t
     (directory / "events.jsonl").write_text("not json\n", encoding="utf-8")
     [review] = collect(root).reviews
     assert review["held"]["reason"] == "meta-not-recommended"
+
+
+# --- independent review hardening ------------------------------------------------------------
+
+def test_symlinked_receipts_directory_is_refused_before_any_read(tmp_path):
+    root, directory = makeCase(tmp_path)
+    target = relocate(directory)
+    outside = tmp_path / "elsewhere"
+    outside.mkdir()
+    shutil.move(str(target.parent), str(outside / "receipts"))
+    (directory / "receipts").symlink_to(outside / "receipts", target_is_directory=True)
+    report = admission.inspectBundle(root, CASE)
+    assert not report.ok and any("symlink" in e for e in report.errors)
+    found = collect(root)
+    assert found.reviews == () and "symlink" in found.rejected[0]["reason"]
+
+
+def test_symlinked_legacy_receipt_is_refused(tmp_path):
+    root, directory = makeCase(tmp_path)
+    real = tmp_path / "real-receipt.json"
+    shutil.move(str(directory / "receipt.json"), str(real))
+    (directory / "receipt.json").symlink_to(real)
+    assert "symlink" in collect(root).rejected[0]["reason"]
+
+
+def test_symlinked_receipts_cannot_make_a_case_look_triage_only(tmp_path):
+    root, directory = triageRoot(tmp_path)
+    (directory / "receipts").symlink_to(tmp_path)
+    assert not admission.isTriageBundle(directory)
+
+
+def triageWithOutcome(tmp_path, outcome):
+    root, directory = triageRoot(tmp_path)
+    path = directory / "meta-verification.json"
+    record = json.loads(path.read_text())
+    record["outcome"] = outcome
+    path.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+    return root
+
+
+def test_triage_status_follows_the_meta_outcome(tmp_path):
+    [rejected] = collect(triageWithOutcome(tmp_path / "a", "rejected_at_triage")).reviews
+    assert rejected["status"] == "rejected-at-triage" and "rejected at triage" in rejected["triage"]["explanation"]
+    found = collect(triageWithOutcome(tmp_path / "b", "deferred_at_triage"))
+    [deferred] = found.reviews
+    assert deferred["status"] == "deferred-at-triage" and "no effect on standing" in deferred["triage"]["explanation"]
+    assert "no effect on standing" in deferred["disclosure"] and "rejected" not in json.dumps(deferred).lower()
+    assert projection.validateReviews({"contract": "gaia-challenge-review/v1", "reviews": [deferred]}) == []
+
+
+def test_list_cases_rejects_casefold_sets(tmp_path):
+    from types import SimpleNamespace
+    from gaia_cli.committedChallenges import listCases
+    class Entry(SimpleNamespace):
+        def __lt__(self, other):
+            return self.name < other.name
+    entries = [Entry(name=name, is_symlink=lambda: False, is_file=lambda: False, is_dir=lambda: True)
+               for name in ("Case-A", "case-a", "other")]
+    base = SimpleNamespace(iterdir=lambda: iter(entries))
+    names, rejected = listCases(base)
+    assert names == ["other"] and sorted(r["caseId"] for r in rejected) == ["Case-A", "case-a"]
+    assert all("letter case" in r["reason"] for r in rejected)
+
+
+def test_collisions_casefold_challenge_and_receipt_ids():
+    from types import SimpleNamespace
+    from gaia_cli.committedChallenges import rejectCollisions
+    reports = {"x": SimpleNamespace(challengeId="Chal-1", receiptId="X-r1"),
+               "y": SimpleNamespace(challengeId="chal-1", receiptId="y-r1")}
+    assert set(rejectCollisions(reports)) == {"x", "y"}
+
+
+def test_printed_rejection_reasons_are_cleaned(tmp_path):
+    root, directory = makeCase(tmp_path)
+    (directory / "lead.json").write_text('{"x": "::error::pwned\\u001b[31m"}\n', encoding="utf-8")
+    err = io.StringIO()
+    with redirect_stderr(err):
+        projection.sync(root, check=False)
+    text = err.getvalue()
+    assert "::" not in text.replace(": :", "") and "\x1b" not in text
+
+
+def test_masked_broken_event_log_is_still_warned(tmp_path):
+    root, directory = makeCase(tmp_path, positive=False)
+    (directory / "events.jsonl").write_text("not json\n", encoding="utf-8")
+    err = io.StringIO()
+    with redirect_stderr(err):
+        [review] = collect(root).reviews
+    assert review["held"]["reason"] == "meta-not-recommended" and "event log is broken" in err.getvalue()
