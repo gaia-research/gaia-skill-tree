@@ -1,30 +1,5 @@
 [
   {
-    "id": "mattpocock/skills",
-    "name": "Matt Pocock Skills",
-    "contributor": "mattpocock",
-    "level": "5★",
-    "grade": "S",
-    "trustMagnitude": 374.99,
-    "branch": "suite",
-    "tokens": [
-      "all",
-      "capstone",
-      "encompassing",
-      "engineering",
-      "mastery",
-      "matt",
-      "personal",
-      "pocock",
-      "pocock's",
-      "productivity",
-      "skill",
-      "skills",
-      "suite",
-      "ultimate"
-    ]
-  },
-  {
     "id": "garrytan/gstack",
     "name": "Founder Mode",
     "contributor": "garrytan",
@@ -68,7 +43,7 @@
     "id": "safishamsi/graphify",
     "name": "Graphify",
     "contributor": "safishamsi",
-    "level": "5★",
+    "level": "4★",
     "grade": "S",
     "trustMagnitude": 318.14,
     "branch": "unique",
@@ -88,6 +63,31 @@
       "rag",
       "semantic",
       "using"
+    ]
+  },
+  {
+    "id": "mattpocock/skills",
+    "name": "Matt Pocock Skills",
+    "contributor": "mattpocock",
+    "level": "5★",
+    "grade": "S",
+    "trustMagnitude": 280.39,
+    "branch": "suite",
+    "tokens": [
+      "all",
+      "capstone",
+      "encompassing",
+      "engineering",
+      "mastery",
+      "matt",
+      "personal",
+      "pocock",
+      "pocock's",
+      "productivity",
+      "skill",
+      "skills",
+      "suite",
+      "ultimate"
     ]
   },
   {
@@ -657,10 +657,10 @@
     "id": "latent-spaces/brag",
     "name": "brag",
     "contributor": "latent-spaces",
-    "level": "3★",
+    "level": "4★",
     "grade": "A",
     "trustMagnitude": 144.54,
-    "branch": "standard",
+    "branch": "unique",
     "tokens": [
       "\"",
       "\"let's",
@@ -983,6 +983,40 @@
       "skills",
       "suite",
       "v1"
+    ]
+  },
+  {
+    "id": "google-deepmind/workflow-skill-creator",
+    "name": "Workflow-Skill-Creator",
+    "contributor": "google-deepmind",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 100.82,
+    "branch": "unique",
+    "tokens": [
+      "\"make",
+      "agent",
+      "asks",
+      "authoring",
+      "completed",
+      "creator",
+      "distills",
+      "interaction",
+      "into",
+      "multi",
+      "process",
+      "reusable",
+      "say",
+      "skill",
+      "step",
+      "th",
+      "their",
+      "they",
+      "turn",
+      "use",
+      "user",
+      "when",
+      "workflow"
     ]
   },
   {

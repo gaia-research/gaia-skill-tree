@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  ·  generated 2026-10-27
+GAIA SKILL TREE  ·  generated 2026-10-29
 ══════════════════════════════════════════════════════════════════════
 ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -60,7 +60,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
   │  ├─ ○ /parse-html  (↑ see above)
   │  └─ ○ /extract-entities
-  ├─ · garrytan/skillify  [3★]
+  ├─ · google-deepmind/workflow-skill-creator  [4★]
   │  ├─ ○ /generate-text
   │  ├─ ○ /structured-output
   │  └─ ○ garrytan/design-html  [3★]  (↑ see above)
@@ -152,7 +152,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ ○ /classify
   │  │  └─ ○ /structured-output
   │  ├─ ○ addy-osmani/code-simplification  [4★]  (↑ see above)
-  │  └─ · garrytan/skillify  [3★]
+  │  └─ · google-deepmind/workflow-skill-creator  [4★]
   │     ├─ ○ /generate-text
   │     ├─ ○ /structured-output  (↑ see above)
   │     └─ ○ garrytan/design-html  [3★]  (↑ see above)
@@ -390,7 +390,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     └─ ○ garrytan/office-hours  [3★]
   ◉ anthropics/brand-guidelines  [4★]
   ◉ trailhq/graft  [4★]
-    ├─ · safishamsi/graphify  [5★]
+    ├─ · safishamsi/graphify  [4★]
     │  ├─ ○ /extract-entities
     │  └─ ○ /logical-inference
     ├─ ○ /retrieve
@@ -400,8 +400,23 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
   ◉ nvidia/accelerated-computing-cudf  [4★]
   ◉ dietrichgebert/ponytail  [4★]
   ◉ wheresryan22/anatomy  [4★]
+  ◉ latent-spaces/brag  [4★]
+    ├─ ○ heygen-com/hyperframes-creative  [3★]
+    └─ · heygen-com/hyperframes  [4★]
+       ├─ ○ heygen-com/hyperframes-cli  [3★]
+       ├─ ○ heygen-com/hyperframes-animation  [3★]
+       ├─ ○ ████████/remotion-studio
+       ├─ ○ heygen-com/hyperframes-core  [3★]
+       ├─ ○ ████████/remotion-maps
+       ├─ ○ ████████/remotion-saas
+       ├─ ○ ████████/remotion-interactivity
+       └─ ○ heygen-com/embedded-captions  [3★]
   ◉ vercel-labs/vercel-react-best-practices  [4★]
   ◉ addy-osmani/code-simplification  [4★]
+  ◉ google-deepmind/workflow-skill-creator  [4★]
+    ├─ ○ /generate-text
+    ├─ ○ /structured-output
+    └─ ○ garrytan/design-html  [3★]
   ◉ obra/subagent-driven-development  [4★]
     ├─ · obra/executing-plans  [3★]
     │  ├─ · obra/writing-plans  [4★]
@@ -469,4 +484,4 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
-*Generated from gaia.json on 2026-10-27. Do not edit directly.*
+*Generated from gaia.json on 2026-10-29. Do not edit directly.*

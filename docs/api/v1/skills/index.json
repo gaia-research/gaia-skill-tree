@@ -1,50 +1,6 @@
 {
   "skills": [
     {
-      "id": "mattpocock/skills",
-      "name": "Matt Pocock Skills",
-      "level": "5★",
-      "trustMagnitude": 374.99,
-      "overallTrustGrade": "S",
-      "fusionScore": 364.92,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Ultimate",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/skills.json"
-      },
-      "genericSkillRef": "skill-mastery",
-      "suiteComponents": [
-        "mattpocock/code-review",
-        "mattpocock/diagnose",
-        "mattpocock/edit-article",
-        "mattpocock/engineering",
-        "mattpocock/grill-me",
-        "mattpocock/grill-with-docs",
-        "mattpocock/handoff",
-        "mattpocock/improve-codebase-architecture",
-        "mattpocock/obsidian-vault",
-        "mattpocock/personal",
-        "mattpocock/productivity",
-        "mattpocock/prototype",
-        "mattpocock/research",
-        "mattpocock/setup-matt-pocock-skills",
-        "mattpocock/teach",
-        "mattpocock/to-questionnaire",
-        "mattpocock/to-spec",
-        "mattpocock/to-tickets",
-        "mattpocock/triage",
-        "mattpocock/ubiquitous-language",
-        "mattpocock/wait-what",
-        "mattpocock/wayfinder",
-        "mattpocock/wizard",
-        "mattpocock/write-a-skill",
-        "mattpocock/zoom-out"
-      ]
-    },
-    {
       "id": "garrytan/gstack",
       "name": "Founder Mode",
       "level": "5★",
@@ -112,19 +68,63 @@
     {
       "id": "safishamsi/graphify",
       "name": "Graphify",
-      "level": "5★",
+      "level": "4★",
       "trustMagnitude": 318.14,
       "overallTrustGrade": "S",
       "fusionScore": 40.0,
       "contributor": "safishamsi",
       "type": "fusion",
       "branch": "unique",
-      "rankWord": "Unique Ultimate",
+      "rankWord": "Unique",
       "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/safishamsi/graphify.json"
       },
       "genericSkillRef": "knowledge-graph-build"
+    },
+    {
+      "id": "mattpocock/skills",
+      "name": "Matt Pocock Skills",
+      "level": "5★",
+      "trustMagnitude": 280.39,
+      "overallTrustGrade": "S",
+      "fusionScore": 364.92,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/skills.json"
+      },
+      "genericSkillRef": "skill-mastery",
+      "suiteComponents": [
+        "mattpocock/code-review",
+        "mattpocock/diagnose",
+        "mattpocock/edit-article",
+        "mattpocock/engineering",
+        "mattpocock/grill-me",
+        "mattpocock/grill-with-docs",
+        "mattpocock/handoff",
+        "mattpocock/improve-codebase-architecture",
+        "mattpocock/obsidian-vault",
+        "mattpocock/personal",
+        "mattpocock/productivity",
+        "mattpocock/prototype",
+        "mattpocock/research",
+        "mattpocock/setup-matt-pocock-skills",
+        "mattpocock/teach",
+        "mattpocock/to-questionnaire",
+        "mattpocock/to-spec",
+        "mattpocock/to-tickets",
+        "mattpocock/triage",
+        "mattpocock/ubiquitous-language",
+        "mattpocock/wait-what",
+        "mattpocock/wayfinder",
+        "mattpocock/wizard",
+        "mattpocock/write-a-skill",
+        "mattpocock/zoom-out"
+      ]
     },
     {
       "id": "nextlevelbuilder/ui-ux-pro-max",
@@ -536,15 +536,15 @@
     {
       "id": "latent-spaces/brag",
       "name": "brag",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 144.54,
       "overallTrustGrade": "A",
       "fusionScore": 200.0,
       "contributor": "latent-spaces",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/latent-spaces/brag.json"
       },
@@ -748,6 +748,23 @@
         "mattpocock/wait-what",
         "mattpocock/write-a-skill"
       ]
+    },
+    {
+      "id": "google-deepmind/workflow-skill-creator",
+      "name": "Workflow-Skill-Creator",
+      "level": "4★",
+      "trustMagnitude": 100.82,
+      "overallTrustGrade": "A",
+      "fusionScore": 60.0,
+      "contributor": "google-deepmind",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/google-deepmind/workflow-skill-creator.json"
+      },
+      "genericSkillRef": "skill-authoring"
     },
     {
       "id": "obra/verification-before-completion",
@@ -1068,28 +1085,11 @@
         "ruvnet/agentdb-optimization",
         "ruvnet/agentdb-vector-search"
       ]
-    },
-    {
-      "id": "addy-osmani/spec-driven-development",
-      "name": "Spec-Driven Development",
-      "level": "3★",
-      "trustMagnitude": 80.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
-      },
-      "genericSkillRef": "prd-generation"
     }
   ],
   "page": 1,
   "totalPages": 5,
-  "totalSkills": 229,
+  "totalSkills": 230,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "heygen-com/hyperframes-cli",
+      "name": "HyperFrames CLI",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "heygen-com",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes-cli.json"
+      },
+      "genericSkillRef": "video-scaffolding"
+    },
+    {
       "id": "heygen-com/hyperframes-core",
       "name": "HyperFrames Core",
       "level": "3★",
@@ -837,28 +854,11 @@
         "self": "/api/v1/skills/yylo-dev/ledger-tasks-yylo.json"
       },
       "genericSkillRef": "project-management"
-    },
-    {
-      "id": "disler/auto-review",
-      "name": "Auto-Review",
-      "level": "2★",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "disler",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/disler/auto-review.json"
-      },
-      "genericSkillRef": "auto-review"
     }
   ],
   "page": 3,
   "totalPages": 5,
-  "totalSkills": 229,
+  "totalSkills": 230,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

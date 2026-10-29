@@ -114,7 +114,7 @@
 | ○ [dietrichgebert](../docs/u/dietrichgebert/)/ponytail | Basic | 4★ | `/implement-with-discernment` |
 | ○ [wheresryan22](../docs/u/wheresryan22/)/anatomy | Basic | 4★ | `/interactive-mechanism-illustration` |
 | ○ [mattpocock](../docs/u/mattpocock/)/triage | Basic | 3★ | `/issue-triage` |
-| · [safishamsi](../docs/u/safishamsi/)/graphify | Fusion | 5★ | `/knowledge-graph-build` |
+| · [safishamsi](../docs/u/safishamsi/)/graphify | Fusion | 4★ | `/knowledge-graph-build` |
 | · ████████/archive-crawler | Fusion | — | `/knowledge-harvest` |
 | · [garrytan](../docs/u/garrytan/)/brain-ops | Fusion | 3★ | `/knowledge-management` |
 | · ████████/huggingface-papers | Fusion | — | `/literature-review` |
@@ -160,7 +160,7 @@
 | · /prediction-market-analysis | Fusion | — | `/prediction-market-analysis` |
 | ○ ████████/pymc | Basic | — | `/probabilistic-programming` |
 | · [mattpocock](../docs/u/mattpocock/)/productivity | Fusion | 4★ | `/productivity` |
-| · [latent-spaces](../docs/u/latent-spaces/)/brag | Fusion | 3★ | `/project-launch-video-production` |
+| · [latent-spaces](../docs/u/latent-spaces/)/brag | Fusion | 4★ | `/project-launch-video-production` |
 | · [yylo-dev](../docs/u/yylo-dev/)/ledger-tasks-yylo | Fusion | 2★ | `/project-management` |
 | ○ /prompt-injection-defense | Basic | — | `/prompt-injection-defense` |
 | · [garrytan](../docs/u/garrytan/)/plan-tune | Fusion | 2★ | `/prompt-optimization` |
@@ -201,7 +201,7 @@
 | ○ /self-critique | Basic | — | `/self-critique` |
 | ○ /sentiment-analysis | Basic | — | `/sentiment-analysis` |
 | · ████████/scvi-tools | Fusion | — | `/single-cell-omics-modeling` |
-| · [garrytan](../docs/u/garrytan/)/skillify | Fusion | 3★ | `/skill-authoring` |
+| · [google-deepmind](../docs/u/google-deepmind/)/workflow-skill-creator | Fusion | 4★ | `/skill-authoring` |
 | ○ [vercel](../docs/u/vercel/)/find-skills | Basic | 3★ | `/skill-discovery` |
 | · [gaia-research](../docs/u/gaia-research/)/fuse | Fusion | 2★ | `/skill-fusion` |
 | · [mattpocock](../docs/u/mattpocock/)/skills | Fusion | 5★ | `/skill-mastery` |
@@ -278,9 +278,11 @@
 | ◉ [nvidia](../docs/u/nvidia/)/accelerated-computing-cudf | Unique Skill | 4★ | `/gpu-dataframe-acceleration` |
 | ◉ [dietrichgebert](../docs/u/dietrichgebert/)/ponytail | Unique Skill | 4★ | `/implement-with-discernment` |
 | ◉ [wheresryan22](../docs/u/wheresryan22/)/anatomy | Unique Skill | 4★ | `/interactive-mechanism-illustration` |
-| ◉ [safishamsi](../docs/u/safishamsi/)/graphify | Unique Skill | 5★ | `/knowledge-graph-build` |
+| ◉ [safishamsi](../docs/u/safishamsi/)/graphify | Unique Skill | 4★ | `/knowledge-graph-build` |
+| ◉ [latent-spaces](../docs/u/latent-spaces/)/brag | Unique Skill | 4★ | `/project-launch-video-production` |
 | ◉ [vercel-labs](../docs/u/vercel-labs/)/vercel-react-best-practices | Unique Skill | 4★ | `/react-performance-optimization` |
 | ◉ [addy-osmani](../docs/u/addy-osmani/)/code-simplification | Unique Skill | 4★ | `/refactor-code` |
+| ◉ [google-deepmind](../docs/u/google-deepmind/)/workflow-skill-creator | Unique Skill | 4★ | `/skill-authoring` |
 | ◉ [obra](../docs/u/obra/)/subagent-driven-development | Unique Skill | 4★ | `/subagent-driven-development` |
 | ◉ [obra](../docs/u/obra/)/using-git-worktrees | Unique Skill | 4★ | `/using-git-worktrees` |
 | ◉ [nextlevelbuilder](../docs/u/nextlevelbuilder/)/ui-ux-pro-max | Unique Skill | 4★ | `/ux-audit` |

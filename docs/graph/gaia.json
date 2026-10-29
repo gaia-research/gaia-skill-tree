@@ -1,6 +1,6 @@
 {
   "$schema": "https://gaiaskilltree.com/schema/graph.schema.json",
-  "generatedAt": "2026-10-27T21:43:43Z",
+  "generatedAt": "2026-10-29T16:46:14Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -7464,6 +7464,15 @@
           -0.3839081364703183,
           0.623302450875537
         ]
+      },
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
       }
     },
     {
@@ -9846,6 +9855,15 @@
           -0.29416228796567384,
           -0.22294638810437611
         ]
+      },
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
       }
     },
     {
@@ -10138,10 +10156,10 @@
         ]
       },
       "branch": "unique",
-      "rank": 5,
-      "rankWord": "Unique Ultimate",
+      "rank": 4,
+      "rankWord": "Unique",
       "medallion": "◉",
-      "namedMaxLevel": "5★",
+      "namedMaxLevel": "4★",
       "ultimateGateStatus": {
         "passes": false,
         "reason": "only 0/3 graded evidence sources"
@@ -14105,11 +14123,15 @@
           -0.0006404567786459075
         ]
       },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "project-management",
@@ -15281,6 +15303,15 @@
           -0.31009779737980336,
           0.0006650742592751015
         ]
+      },
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
       }
     },
     {
@@ -15671,6 +15702,15 @@
           -0.2119781577462668,
           -0.06912293116231315
         ]
+      },
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
       }
     },
     {
@@ -18231,6 +18271,15 @@
           0.23538548255586425,
           -0.3971034989134465
         ]
+      },
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
       }
     },
     {

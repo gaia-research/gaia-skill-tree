@@ -2,14 +2,14 @@
   "id": "latent-spaces/brag",
   "name": "brag",
   "contributor": "latent-spaces",
-  "level": "3★",
+  "level": "4★",
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 144.54,
   "overallTrustGrade": "A",
-  "branch": "standard",
-  "rankWord": "Evolved",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/latent-spaces/brag.json",
     "contributor": "/api/v1/contributors/latent-spaces.json",
@@ -105,6 +105,18 @@
       "action": "rank_up",
       "contributor": "mbtiongson1",
       "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-10-29T16:39:48Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 3★ to 4★"
+    },
+    {
+      "timestamp": "2026-10-29T16:39:48Z",
+      "action": "note",
+      "contributor": "mbtiongson1",
+      "details": "Founder ruling 2026-10-30 FD-12 (Raise to 4★): 3★ -> 4★ Unique. Verified before raise: TM 144.54 grade A (>=100), live SHA-pinned blob link HTTP 200, Unique branch (no suiteComponents), sole bucket Origin on project-launch-video-production; checkUniqueBranchGate(4★) passed."
     }
   ],
   "links": {

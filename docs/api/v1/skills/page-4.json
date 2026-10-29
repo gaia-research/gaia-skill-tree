@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "disler/auto-review",
+      "name": "Auto-Review",
+      "level": "2★",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "disler",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/disler/auto-review.json"
+      },
+      "genericSkillRef": "auto-review"
+    },
+    {
       "id": "disler/opinion",
       "name": "Opinion",
       "level": "2★",
@@ -843,28 +860,11 @@
         "ruvnet/dual-coordinate",
         "ruvnet/dual-spawn"
       ]
-    },
-    {
-      "id": "ruvnet/dual-spawn",
-      "name": "Dual Spawn",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/dual-spawn.json"
-      },
-      "genericSkillRef": "headless-worker-spawn"
     }
   ],
   "page": 4,
   "totalPages": 5,
-  "totalSkills": 229,
+  "totalSkills": 230,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json",

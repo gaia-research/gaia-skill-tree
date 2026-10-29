@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-27T18:48:47Z",
+  "generatedAt": "2026-10-29T16:46:22Z",
   "distribution": {
-    "total": 268,
+    "total": 269,
     "S": 3,
-    "A": 28,
+    "A": 29,
     "B": 94,
     "C": 104,
     "ungraded": 39,
@@ -11,20 +11,6 @@
     "up": 2
   },
   "rows": [
-    {
-      "id": "mattpocock/skills",
-      "trustMagnitude": 374.99,
-      "grade": "S",
-      "level": "5★",
-      "typeBreakdown": {
-        "arxiv": 105.2,
-        "peer-review": 75.0,
-        "github-stars-own": 155.29,
-        "social-signal": 39.5
-      },
-      "origin": true,
-      "branch": "suite"
-    },
     {
       "id": "garrytan/gstack",
       "trustMagnitude": 356.11,
@@ -44,7 +30,7 @@
       "id": "safishamsi/graphify",
       "trustMagnitude": 318.14,
       "grade": "S",
-      "level": "5★",
+      "level": "4★",
       "typeBreakdown": {
         "arxiv": 100.0,
         "peer-review": 75.0,
@@ -52,6 +38,20 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "id": "mattpocock/skills",
+      "trustMagnitude": 280.39,
+      "grade": "S",
+      "level": "5★",
+      "typeBreakdown": {
+        "arxiv": 10.6,
+        "peer-review": 75.0,
+        "github-stars-own": 155.29,
+        "social-signal": 39.5
+      },
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "nextlevelbuilder/ui-ux-pro-max",
@@ -77,7 +77,7 @@
         "social-signal": 42.58,
         "arxiv": 0.7
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -128,7 +128,7 @@
         "repo-own": 10.23,
         "benchmark-result": 140.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -227,7 +227,7 @@
         "social-signal": 35.41,
         "self-attestation": 5.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -271,13 +271,13 @@
       "id": "latent-spaces/brag",
       "trustMagnitude": 144.54,
       "grade": "A",
-      "level": "3★",
+      "level": "4★",
       "typeBreakdown": {
         "github-stars-own": 108.54,
         "repo-own": 36.0
       },
       "origin": true,
-      "branch": "standard"
+      "branch": "unique"
     },
     {
       "id": "ayghri/i-have-adhd",
@@ -287,7 +287,7 @@
       "typeBreakdown": {
         "github-stars-own": 130.23
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -401,6 +401,18 @@
       },
       "origin": true,
       "branch": "suite"
+    },
+    {
+      "id": "google-deepmind/workflow-skill-creator",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "obra/verification-before-completion",

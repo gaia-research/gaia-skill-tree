@@ -4,14 +4,14 @@
     {
       "id": "safishamsi/graphify",
       "name": "Graphify",
-      "level": "5★",
+      "level": "4★",
       "trustMagnitude": 318.14,
       "overallTrustGrade": "S",
       "fusionScore": 40.0,
       "contributor": "safishamsi",
       "type": "fusion",
       "branch": "unique",
-      "rankWord": "Unique Ultimate",
+      "rankWord": "Unique",
       "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/safishamsi/graphify.json"
@@ -22,7 +22,7 @@
   "namedSkillsCount": 1,
   "topSkill": {
     "id": "safishamsi/graphify",
-    "level": "5★",
+    "level": "4★",
     "trustMagnitude": 318.14
   },
   "prestigeScore": 318.14,

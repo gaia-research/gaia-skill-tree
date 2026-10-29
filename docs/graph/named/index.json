@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-27",
+  "generatedAt": "2026-10-29",
   "buckets": {
     "automated-testing": [
       {
@@ -3296,7 +3296,7 @@
         "id": "addy-osmani/code-simplification",
         "name": "Code Simplification",
         "contributor": "addy-osmani",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "refactor-code",
         "status": "named",
         "level": "4★",
@@ -3342,7 +3342,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-09-10",
+        "updatedAt": "2026-10-30",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:19Z",
@@ -3462,6 +3462,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Calibrated level from 5★ to 4★"
+          },
+          {
+            "timestamp": "2026-10-29T16:34:49Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-10-29T16:34:50Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Bucket Origin assigned to the unique merit winner of its generic bucket (sole top TM/level member); 4-star Unique gate (checkUniqueBranchGate, bucket-level Origin + TM>=100) now satisfied. Founder ruling 2026-10-30 FD-10 (Assign the four)."
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -3480,7 +3492,7 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant",
+        "role": "origin",
         "branch": "unique",
         "rank": 4,
         "rankWord": "Unique",
@@ -11404,7 +11416,7 @@
         "id": "ayghri/i-have-adhd",
         "name": "I Have ADHD",
         "contributor": "ayghri",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "format-output",
         "status": "named",
         "level": "4★",
@@ -11453,7 +11465,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-10-24",
+        "updatedAt": "2026-10-30",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:23Z",
@@ -11520,6 +11532,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 119.66 -> 130.23, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-29T16:34:52Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-10-29T16:34:52Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Bucket Origin assigned to the unique merit winner of its generic bucket (sole top TM/level member); 4-star Unique gate (checkUniqueBranchGate, bucket-level Origin + TM>=100) now satisfied. Founder ruling 2026-10-30 FD-10 (Assign the four)."
           }
         ],
         "trustMagnitude": 130.23,
@@ -11527,7 +11551,7 @@
         "trustMagnitudeInputHash": "1f6aa911d28c31aacd66606df5740a42ec521ed1cfab99d64d6bc81eabf41db2",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
+        "role": "origin",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12588,7 +12612,7 @@
         "id": "dietrichgebert/ponytail",
         "name": "Ponytail",
         "contributor": "dietrichgebert",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "implement-with-discernment",
         "status": "named",
         "level": "4★",
@@ -12633,7 +12657,7 @@
           }
         ],
         "createdAt": "2026-07-31",
-        "updatedAt": "2026-10-24",
+        "updatedAt": "2026-10-30",
         "timeline": [
           {
             "timestamp": "2026-07-31T14:20:36Z",
@@ -12682,6 +12706,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 221.96 -> 225.42, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-29T16:34:54Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-10-29T16:34:55Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Bucket Origin assigned to the unique merit winner of its generic bucket (sole top TM/level member); 4-star Unique gate (checkUniqueBranchGate, bucket-level Origin + TM>=100) now satisfied. Founder ruling 2026-10-30 FD-10 (Assign the four)."
           }
         ],
         "trustMagnitude": 225.42,
@@ -12689,7 +12725,7 @@
         "trustMagnitudeInputHash": "5601edf7b47017bc7aa31c18ad380d47b3d70366fd43632c9c6084bc28aa9472",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
+        "role": "origin",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -17113,7 +17149,7 @@
         "origin": true,
         "genericSkillRef": "knowledge-graph-build",
         "status": "named",
-        "level": "5★",
+        "level": "4★",
         "description": "Maps codebases and documentation into a queryable knowledge graph using AST analysis and semantic extraction.",
         "title": "The Structural Muse",
         "tags": [
@@ -17173,7 +17209,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-10-24",
+        "updatedAt": "2026-10-30",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:24Z",
@@ -17314,6 +17350,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 316.88 -> 318.14, grade S -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-29T16:37:00Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 5★ to 4★"
+          },
+          {
+            "timestamp": "2026-10-29T16:37:00Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Founder ruling 2026-10-30 FD-10 (review graphify; demote if it fails 5-star): Unique-branch 5-star gate (checkUniqueBranchGate, Yggdrasil II ratification v4 Q3) = TM>=250 AND fusion-structure Origin, i.e. contributor holds Origin on >=1 prerequisite of knowledge-graph-build (extract-entities, logical-inference). TM 318.14 S passes; structure test fails: both prerequisite buckets have zero named implementations, safishamsi holds no other named skill, and this skill maps to one generic (knowledge-graph-build) so it cannot hold prerequisite Origin by merit. 5-star was set 2026-09-02 by calibrate, which has no unique-gate pre-flight. 4-star Unique gate passes (bucket Origin, TM>=100, live blob link HTTP 200). Reversible: re-promote if a prerequisite Origin is later earned."
           }
         ],
         "trustMagnitude": 318.14,
@@ -17332,8 +17380,8 @@
         "type": "fusion",
         "role": "origin",
         "branch": "unique",
-        "rank": 5,
-        "rankWord": "Unique Ultimate",
+        "rank": 4,
+        "rankWord": "Unique",
         "medallion": "◉",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
@@ -23032,6 +23080,198 @@
     ],
     "skill-authoring": [
       {
+        "id": "google-deepmind/workflow-skill-creator",
+        "name": "Workflow-Skill-Creator",
+        "contributor": "google-deepmind",
+        "origin": true,
+        "genericSkillRef": "skill-authoring",
+        "status": "named",
+        "level": "4★",
+        "description": "Distills a completed user workflow or interaction into a reusable agent skill. Use when the user asks to turn their workflow, interaction, or multi-step process into a skill, or when they say \"make this a skill\", \"create a skill from what we just did\", \"package this workflow\" or similar. Do not use for creating skills from scratch without an existing workflow (use a generic skill-creator for that).",
+        "title": "Workflow-to-Skill Distiller",
+        "links": {
+          "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
+            "evaluator": "unknown",
+            "date": "2026-05-23",
+            "notes": "Official Google DeepMind workflow_skill_creator science-skill implementation. (backfilled — class-to-type migration)",
+            "type": "repo",
+            "trustNumber": 70.0,
+            "commits": 6,
+            "contributors": 3,
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/google-deepmind/science-skills",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "peer-review",
+            "trustNumber": 78.0,
+            "grade": "S",
+            "notes": "google-deepmind/science-skills workflow creator — meta-skill for composing science database skill workflows",
+            "reviewers": 3,
+            "sourceStartedAt": "2024-01-01"
+          }
+        ],
+        "createdAt": "2026-05-23",
+        "updatedAt": "2026-10-30",
+        "timeline": [
+          {
+            "timestamp": "2026-06-14T12:32:40Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:17Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:57Z",
+            "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
+            "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:06:48Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/google-deepmind/science-skills (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T17:06:48Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/google-deepmind/science-skills as B (trustNumber: 78.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:02Z",
+            "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-20T06:31:27Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-16T08:36:43Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'skill-authoring' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:43Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "3★",
+            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-30T22:37:34Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-07-30T23:21:54Z",
+            "action": "demote",
+            "contributor": "marcotiongson",
+            "details": "Calibrated level from 4★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-05T06:28:46Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from google-deepmind/workflow_skill_creator to google-deepmind/workflow-skill-creator"
+          },
+          {
+            "timestamp": "2026-09-05T00:00:00Z",
+            "action": "demote",
+            "author": "mbtiongson1",
+            "notes": "Demoted from 4★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
+            "previousValue": "4★",
+            "newValue": "1★"
+          },
+          {
+            "timestamp": "2026-09-05T03:50:03Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 1★ to 1★"
+          },
+          {
+            "timestamp": "2026-09-09T20:31:06Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 4★"
+          },
+          {
+            "timestamp": "2026-10-29T16:39:13Z",
+            "action": "name",
+            "contributor": "mbtiongson1",
+            "details": "Promoted from awakened to named."
+          },
+          {
+            "timestamp": "2026-10-29T16:39:20Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Founder ruling 2026-10-30 FD-11 (Promote to named): awakened -> named at 4★; title from upstream SKILL.md H1 'Workflow-to-Skill Distiller' (upstream name: workflow-skill-creator). Live blob link verified HTTP 200; TM 100.82 A (thin, barely over 4★ floor)."
+          }
+        ],
+        "trustMagnitude": 100.82,
+        "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "c8b411f2ad420b10dc898fd32a3f584b790df498231e6a3178b7353f75db7d30",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "role": "origin",
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 2/3 graded evidence sources"
+        },
+        "fusionScore": 60.0,
+        "fusionScoreVersion": "yggdrasil-iii-v1",
+        "fusionBreakdown": {
+          "directCount": 3,
+          "transitiveCount": 3,
+          "maxDepth": 1,
+          "nestedSuiteCount": 0
+        }
+      },
+      {
         "id": "garrytan/skillify",
         "name": "Skillify",
         "contributor": "garrytan",
@@ -25624,6 +25864,7 @@
         "level": "3★",
         "description": "Subtitle and caption synchronization engine for code-defined video, generating word-level animated typography, styling, and transcript alignments.",
         "title": "The Typographic Director",
+        "installable": false,
         "links": {
           "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/embedded-captions/SKILL.md"
         },
@@ -25701,6 +25942,14 @@
             "action": "installation_updated",
             "contributor": "mbtiongson1",
             "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/embedded-captions.md"
+          },
+          {
+            "timestamp": "2026-10-29T16:33:17Z",
+            "action": "upstream_deprecated",
+            "contributor": "mbtiongson1",
+            "previousValue": null,
+            "newValue": null,
+            "details": "founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes skills/ at upstream v0.8.209; links.github kept, installable false"
           }
         ],
         "suiteRef": "heygen-com/hyperframes",
@@ -26027,6 +26276,7 @@
         "level": "3★",
         "description": "Turn arbitrary text — an article, notes, a topic, a brief — into a faceless explainer video: there is no site or footage to capture, so the visuals are invented per scene (typography, abstract graphics, diagrams, data-viz). Use for topic explainers, concept breakdowns, how-tos, listicles. Not a video built from a website (/product-launch-video — promo or tour). Unclear → /hyperframes.",
         "title": "The Explainer",
+        "installable": false,
         "links": {
           "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/faceless-explainer/SKILL.md"
         },
@@ -26118,6 +26368,14 @@
             "action": "installation_updated",
             "contributor": "mbtiongson1",
             "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/faceless-explainer.md"
+          },
+          {
+            "timestamp": "2026-10-29T16:33:18Z",
+            "action": "upstream_deprecated",
+            "contributor": "mbtiongson1",
+            "previousValue": null,
+            "newValue": null,
+            "details": "founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes skills/ at upstream v0.8.209; links.github kept, installable false"
           }
         ],
         "suiteRef": "heygen-com/hyperframes",
@@ -26161,6 +26419,7 @@
         "level": "3★",
         "description": "Turn a music track (an audio file, a video to pull audio from, or a track generated from a mood brief) into a beat-synced video — lyric video, slideshow, or kinetic promo. The music drives all pacing; any user-supplied images/videos are cut onto the same beat grid, and a complete video needs zero assets. Narrated pieces → the input-matched workflow (see /hyperframes). Unclear → /hyperframes.",
         "title": "The Beat Director",
+        "installable": false,
         "links": {
           "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/music-to-video/SKILL.md"
         },
@@ -26252,6 +26511,14 @@
             "action": "installation_updated",
             "contributor": "mbtiongson1",
             "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/music-to-video.md"
+          },
+          {
+            "timestamp": "2026-10-29T16:33:23Z",
+            "action": "upstream_deprecated",
+            "contributor": "mbtiongson1",
+            "previousValue": null,
+            "newValue": null,
+            "details": "founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes skills/ at upstream v0.8.209; links.github kept, installable false"
           }
         ],
         "suiteRef": "heygen-com/hyperframes",
@@ -26295,6 +26562,7 @@
         "level": "3★",
         "description": "Turn a GitHub pull request (a PR URL, owner/repo#N, or 'this PR' in a checked-out repo) into a code-change explainer video — changelog, feature reveal, fix, or refactor walkthrough built from the diff, commits, and files: the input is a code change, not a website. Not a product promo (/product-launch-video) or a no-PR topic explainer (/faceless-explainer). Unclear → /hyperframes.",
         "title": "The Change Narrator",
+        "installable": false,
         "links": {
           "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/pr-to-video/SKILL.md"
         },
@@ -26386,6 +26654,14 @@
             "action": "installation_updated",
             "contributor": "mbtiongson1",
             "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/pr-to-video.md"
+          },
+          {
+            "timestamp": "2026-10-29T16:33:24Z",
+            "action": "upstream_deprecated",
+            "contributor": "mbtiongson1",
+            "previousValue": null,
+            "newValue": null,
+            "details": "founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes skills/ at upstream v0.8.209; links.github kept, installable false"
           }
         ],
         "suiteRef": "heygen-com/hyperframes",
@@ -26429,6 +26705,7 @@
         "level": "3★",
         "description": "Turn a product or marketing URL, pasted script, or brief into a product launch / promo video — SaaS promos, feature reveals, product demos, app and company launches. Use when the user wants to market, launch, promote, or reveal a product; the default for any commercial URL. Site tours / showcases of a website route here too — the brief carries the show-it-as-is intent. Unclear → /hyperframes.",
         "title": "The Launch Director",
+        "installable": false,
         "links": {
           "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/product-launch-video/SKILL.md"
         },
@@ -26520,6 +26797,14 @@
             "action": "installation_updated",
             "contributor": "mbtiongson1",
             "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/product-launch-video.md"
+          },
+          {
+            "timestamp": "2026-10-29T16:33:25Z",
+            "action": "upstream_deprecated",
+            "contributor": "mbtiongson1",
+            "previousValue": null,
+            "newValue": null,
+            "details": "founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes skills/ at upstream v0.8.209; links.github kept, installable false"
           }
         ],
         "suiteRef": "heygen-com/hyperframes",
@@ -26563,6 +26848,7 @@
         "level": "3★",
         "description": "Package an existing talking-head / interview / podcast video with timed, designed GRAPHIC OVERLAY cards — kinetic titles, lower-thirds, data callouts, quotes, side panels, picture-in-picture — synced to the transcript, on a 16:9 / 9:16 / 4:5 canvas of your choice; the clip plays untouched underneath. Trigger on \"graphic overlays\", \"on-screen graphics\", \"package / dress up my video\". Not plain subtitles (/embedded-captions). Unclear → /hyperframes.",
         "title": "The Overlay Producer",
+        "installable": false,
         "links": {
           "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/talking-head-recut/SKILL.md"
         },
@@ -26654,6 +26940,14 @@
             "action": "installation_updated",
             "contributor": "mbtiongson1",
             "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/talking-head-recut.md"
+          },
+          {
+            "timestamp": "2026-10-29T16:33:26Z",
+            "action": "upstream_deprecated",
+            "contributor": "mbtiongson1",
+            "previousValue": null,
+            "newValue": null,
+            "details": "founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes skills/ at upstream v0.8.209; links.github kept, installable false"
           }
         ],
         "suiteRef": "heygen-com/hyperframes",
@@ -26971,6 +27265,7 @@
         "level": "3★",
         "description": "Timeline-based motion driver compiling HTML/CSS/DOM transforms, physics springs, and bezier easings into frame-accurate video sequences.",
         "title": "The Motion Architect",
+        "installable": false,
         "links": {
           "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-animation/SKILL.md"
         },
@@ -27048,6 +27343,14 @@
             "action": "installation_updated",
             "contributor": "mbtiongson1",
             "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-animation.md"
+          },
+          {
+            "timestamp": "2026-10-29T16:33:18Z",
+            "action": "upstream_deprecated",
+            "contributor": "mbtiongson1",
+            "previousValue": null,
+            "newValue": null,
+            "details": "founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes skills/ at upstream v0.8.209; links.github kept, installable false"
           }
         ],
         "suiteRef": "heygen-com/hyperframes",
@@ -27091,6 +27394,7 @@
         "level": "3★",
         "description": "Use when a HyperFrames composition needs a punch-in, punch-out, zoom, reframe, Ken Burns treatment, camera move, visual match/whip handoff, or other seek-safe 2D/3D keyframes; also for GSAP, CSS keyframes, Anime.js, WAAPI, FLIP, paths, masks, SVG morph/draw, text trails, 3D depth, or `hyperframes keyframes` diagnostics. Don't use for broad scene strategy, brand design, media sourcing, captions, or general video planning.",
         "title": "The Camera Choreographer",
+        "installable": false,
         "links": {
           "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-keyframes/SKILL.md"
         },
@@ -27170,6 +27474,14 @@
             "action": "installation_updated",
             "contributor": "mbtiongson1",
             "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-keyframes.md"
+          },
+          {
+            "timestamp": "2026-10-29T16:33:22Z",
+            "action": "upstream_deprecated",
+            "contributor": "mbtiongson1",
+            "previousValue": null,
+            "newValue": null,
+            "details": "founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes skills/ at upstream v0.8.209; links.github kept, installable false"
           }
         ],
         "suiteRef": "heygen-com/hyperframes",
@@ -27213,6 +27525,7 @@
         "level": "3★",
         "description": "A short, design-led motion graphic where motion is the message — kinetic typography, stat count-up, chart/data-viz hit, logo sting / brand lockup, lower-third / callout / social overlay, animated map (highlight regions, connect places, zoom to a location), animated tweet / news-article / headline, webpage / UI animation (scroll, cursor, callouts), or fusing a real image's geometry into a chart. Usually under 10s (up to ~30s), no narration or live-action subject; renders to MP4 or transparent overlay. Longer / narrated / multi-scene → /general-video. Unclear → /hyperframes.",
         "title": "The Motion Designer",
+        "installable": false,
         "links": {
           "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/motion-graphics/SKILL.md"
         },
@@ -27304,6 +27617,14 @@
             "action": "installation_updated",
             "contributor": "mbtiongson1",
             "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/motion-graphics.md"
+          },
+          {
+            "timestamp": "2026-10-29T16:33:22Z",
+            "action": "upstream_deprecated",
+            "contributor": "mbtiongson1",
+            "previousValue": null,
+            "newValue": null,
+            "details": "founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes skills/ at upstream v0.8.209; links.github kept, installable false"
           }
         ],
         "suiteRef": "heygen-com/hyperframes",
@@ -27418,6 +27739,7 @@
         "level": "3★",
         "description": "Use when audio already placed in a HyperFrames composition needs to be mixed: fade-in/fade-out, crossfade, track gain or volume, volume automation, ducking, a music bed that fights a voiceover (voiceover carve), effects on a track (EQ, compressor, limiter, gate, saturation, delay, reverb, chorus, phaser, bitcrush), automation envelopes drawn on a track's volume or any effect parameter, or one submix bus carrying a chain, a fader and an automation clock for several tracks at once (`<hf-audio-group>`). Don't use for sourcing or generating audio — finding BGM, SFX, or making a voiceover is `/media-use`. Don't use for clip timing or track layout, which is `/hyperframes-core`.",
         "title": "The Sound Engineer",
+        "installable": false,
         "links": {
           "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-audio/SKILL.md"
         },
@@ -27503,6 +27825,14 @@
             "action": "installation_updated",
             "contributor": "mbtiongson1",
             "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-audio.md"
+          },
+          {
+            "timestamp": "2026-10-29T16:33:19Z",
+            "action": "upstream_deprecated",
+            "contributor": "mbtiongson1",
+            "previousValue": null,
+            "newValue": null,
+            "details": "founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes skills/ at upstream v0.8.209; links.github kept, installable false"
           }
         ],
         "suiteRef": "heygen-com/hyperframes",
@@ -27739,6 +28069,7 @@
         "level": "3★",
         "description": "Core rendering pipeline orchestrating headless browser execution, WebGL canvas capture, audio-video multiplexing, and deterministic frame export.",
         "title": "The DOM Render Engine",
+        "installable": false,
         "links": {
           "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-core/SKILL.md"
         },
@@ -27816,6 +28147,14 @@
             "action": "installation_updated",
             "contributor": "mbtiongson1",
             "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-core.md"
+          },
+          {
+            "timestamp": "2026-10-29T16:33:20Z",
+            "action": "upstream_deprecated",
+            "contributor": "mbtiongson1",
+            "previousValue": null,
+            "newValue": null,
+            "details": "founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes skills/ at upstream v0.8.209; links.github kept, installable false"
           }
         ],
         "suiteRef": "heygen-com/hyperframes",
@@ -27930,6 +28269,7 @@
         "level": "3★",
         "description": "Non-animation creative direction for HyperFrames videos. Use for design spec (frame.md / design.md) handling, palettes, typography, narration, beat planning, audio-reactive visuals, composition patterns, and brand / style decisions. For atomic motion patterns and scene blueprints, use `hyperframes-animation`.",
         "title": "The Visual Director",
+        "installable": false,
         "links": {
           "github": "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-creative/SKILL.md"
         },
@@ -28015,6 +28355,14 @@
             "action": "installation_updated",
             "contributor": "mbtiongson1",
             "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-creative.md"
+          },
+          {
+            "timestamp": "2026-10-29T16:33:21Z",
+            "action": "upstream_deprecated",
+            "contributor": "mbtiongson1",
+            "previousValue": null,
+            "newValue": null,
+            "details": "founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes skills/ at upstream v0.8.209; links.github kept, installable false"
           }
         ],
         "suiteRef": "heygen-com/hyperframes",
@@ -31210,7 +31558,7 @@
         "origin": true,
         "genericSkillRef": "project-launch-video-production",
         "status": "named",
-        "level": "3★",
+        "level": "4★",
         "description": "Turn the current project website into a short, polished, shareable launch video using Hyperframes. Use when someone says \"/brag\", \"let's brag about this\", \"make a launch video\", \"turn this into a video\", or wants to share what they built. Reads the project code directly — no live URL or screenshots needed.",
         "title": "Project Launch Director",
         "links": {
@@ -31243,7 +31591,7 @@
           }
         ],
         "createdAt": "2026-09-27",
-        "updatedAt": "2026-09-27",
+        "updatedAt": "2026-10-30",
         "timeline": [
           {
             "timestamp": "2026-09-26T16:33:46Z",
@@ -31286,6 +31634,18 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-10-29T16:39:48Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-10-29T16:39:48Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Founder ruling 2026-10-30 FD-12 (Raise to 4★): 3★ -> 4★ Unique. Verified before raise: TM 144.54 grade A (>=100), live SHA-pinned blob link HTTP 200, Unique branch (no suiteComponents), sole bucket Origin on project-launch-video-production; checkUniqueBranchGate(4★) passed."
           }
         ],
         "type": "fusion",
@@ -31303,11 +31663,15 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
         "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 2/3 graded evidence sources"
+        },
         "fusionScore": 200.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
         "fusionBreakdown": {
@@ -34120,11 +34484,10 @@
           {
             "source": "https://arxiv.org/abs/2607.03238",
             "evaluator": "mbtiongson1",
-            "date": "2026-09-04",
+            "date": "2026-10-29",
             "type": "arxiv",
-            "citations": 500,
-            "grade": "S",
-            "notes": "Foundational empirical study analyzing 1,126 skill adaptations across 6 core upstream repositories, explicitly profiling mattpocock/skills in Table I and Table IV."
+            "citations": 2,
+            "notes": "Foundational empirical study analyzing 1,126 skill adaptations across 6 core upstream repositories, explicitly profiling mattpocock/skills in Table I and Table IV. Citation count corrected 500 -> 2 per Semantic Scholar Graph API (citationCount=2, influentialCitationCount=1) retrieved 2026-10-29T16:45:40Z; OpenAlex cited_by_count=0 (updated 2026-10-28). Founder ruling 2026-10-30 FD-9."
           },
           {
             "source": "https://frontendmastery.com/posts/matt-pocock-claude-code-skills-architecture/",
@@ -34179,7 +34542,7 @@
           }
         ],
         "createdAt": "2026-05-22",
-        "updatedAt": "2026-10-24",
+        "updatedAt": "2026-10-30",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -34356,6 +34719,24 @@
             "previousValue": "v1.2.3",
             "newValue": "v1.3.1",
             "details": "synced from https://github.com/mattpocock/skills/releases/tag/v1.3.1"
+          },
+          {
+            "timestamp": "2026-10-29T16:45:49Z",
+            "action": "evidence_graded",
+            "contributor": "mbtiongson1",
+            "details": "Updated evidence #0 from https://arxiv.org/abs/2607.03238; changed citations, date, grade, notes (grade: S → ungraded)"
+          },
+          {
+            "timestamp": "2026-10-29T16:45:57Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 374.99 -> 280.39, grade S -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-29T16:46:06Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Founder ruling 2026-10-30 FD-9 (fix evidence, re-probe, no level action). (1) arXiv:2607.03238 citations corrected 500 -> 2 (Semantic Scholar Graph API citationCount=2, retrieved 2026-10-29T16:45:40Z; OpenAlex 0); TM 374.99 -> 280.39 (S), still above the 250 S floor. (2) Witness re-probe t0 2026-10-29T16:40:49Z: https://frontendmastery.com/posts/matt-pocock-claude-code-skills-architecture/ returned HTTP 404 (default and browser User-Agent, redirects followed). Under Yggdrasil IV a 404 is review debt with bounded probes (t0/+24h/+72h), not a demotion; next probes due 2026-10-30T16:40Z and 2026-11-01T16:40Z. Level unchanged at 5★."
           }
         ],
         "suiteComponents": [
@@ -34385,9 +34766,9 @@
           "mattpocock/write-a-skill",
           "mattpocock/zoom-out"
         ],
-        "trustMagnitude": 374.99,
+        "trustMagnitude": 280.39,
         "overallTrustGrade": "S",
-        "trustMagnitudeInputHash": "791f647448722906eb72d90b10a2f63d68aa8ffeda6bef00a303745f0787b0d2",
+        "trustMagnitudeInputHash": "1d88c4ba03a8b6f444deca6f668ce7e240cd09b0bdba3232d35440748e5ca699",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": true,
@@ -42958,7 +43339,7 @@
         "id": "vercel-labs/vercel-react-best-practices",
         "name": "Vercel React Best Practices",
         "contributor": "vercel-labs",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "react-performance-optimization",
         "status": "named",
         "level": "4★",
@@ -43018,7 +43399,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-10-24",
+        "updatedAt": "2026-10-30",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:42Z",
@@ -43097,6 +43478,18 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 162.66 -> 163.19, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-29T16:34:47Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-10-29T16:34:48Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Bucket Origin assigned to the unique merit winner of its generic bucket (sole top TM/level member); 4-star Unique gate (checkUniqueBranchGate, bucket-level Origin + TM>=100) now satisfied. Founder ruling 2026-10-30 FD-10 (Assign the four)."
           }
         ],
         "trustMagnitude": 163.19,
@@ -43104,7 +43497,7 @@
         "trustMagnitudeInputHash": "dccc689a84a75e7dd7f03fc96838204e206646051e65b311658f40366d603ab1",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
+        "role": "origin",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -48265,172 +48658,6 @@
       "rank": 1,
       "rankWord": "Awakened",
       "medallion": "◇",
-      "contractVersion": "gaia-public-v1"
-    },
-    {
-      "id": "google-deepmind/workflow-skill-creator",
-      "name": "Workflow-Skill-Creator",
-      "contributor": "google-deepmind",
-      "origin": true,
-      "genericSkillRef": "skill-authoring",
-      "status": "awakened",
-      "level": "4★",
-      "description": "Distills a completed user workflow or interaction into a reusable agent skill. Use when the user asks to turn their workflow, interaction, or multi-step process into a skill, or when they say \"make this a skill\", \"create a skill from what we just did\", \"package this workflow\" or similar. Do not use for creating skills from scratch without an existing workflow (use a generic skill-creator for that).",
-      "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
-      },
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind workflow_skill_creator science-skill implementation. (backfilled — class-to-type migration)",
-          "type": "repo",
-          "trustNumber": 70.0,
-          "commits": 6,
-          "contributors": 3,
-          "grade": "C"
-        },
-        {
-          "source": "https://github.com/google-deepmind/science-skills",
-          "evaluator": "unknown",
-          "date": "2026-06-20",
-          "type": "peer-review",
-          "trustNumber": 78.0,
-          "grade": "S",
-          "notes": "google-deepmind/science-skills workflow creator — meta-skill for composing science database skill workflows",
-          "reviewers": 3,
-          "sourceStartedAt": "2024-01-01"
-        }
-      ],
-      "createdAt": "2026-05-23",
-      "updatedAt": "2026-09-10",
-      "timeline": [
-        {
-          "timestamp": "2026-06-14T12:32:40Z",
-          "action": "evidence_graded",
-          "contributor": "unknown",
-          "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md as B (trustNumber: 70.0)"
-        },
-        {
-          "action": "migrate_trust_magnitude",
-          "timestamp": "2026-06-18T11:27:17Z",
-          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-        },
-        {
-          "action": "migrate_trust_magnitude",
-          "timestamp": "2026-06-19T11:07:57Z",
-          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
-        },
-        {
-          "action": "migrate_trust_magnitude",
-          "timestamp": "2026-06-19T13:19:38Z",
-          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
-        },
-        {
-          "action": "migrate_trust_magnitude",
-          "timestamp": "2026-06-19T13:26:40Z",
-          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
-        },
-        {
-          "timestamp": "2026-06-19T17:06:48Z",
-          "action": "evidence_added",
-          "contributor": "unknown",
-          "details": "Added evidence from https://github.com/google-deepmind/science-skills (type: peer-review)"
-        },
-        {
-          "timestamp": "2026-06-19T17:06:48Z",
-          "action": "evidence_graded",
-          "contributor": "unknown",
-          "details": "Graded evidence from https://github.com/google-deepmind/science-skills as B (trustNumber: 78.0)"
-        },
-        {
-          "action": "migrate_trust_magnitude",
-          "timestamp": "2026-06-19T17:13:02Z",
-          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
-        },
-        {
-          "timestamp": "2026-06-20T06:31:27Z",
-          "action": "rank_up",
-          "contributor": "mbtiongson1",
-          "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
-        },
-        {
-          "timestamp": "2026-07-16T08:36:43Z",
-          "action": "type_change",
-          "contributor": "mbtiongson1",
-          "details": "Generic parent 'skill-authoring' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
-          "metaEpoch": "yggdrasil-ii",
-          "migrationBatch": "yggdrasil-ii@2026-07-16"
-        },
-        {
-          "timestamp": "2026-07-16T08:36:43Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "previousValue": "4★",
-          "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
-          "metaEpoch": "yggdrasil-ii",
-          "migrationBatch": "yggdrasil-ii@2026-07-16"
-        },
-        {
-          "timestamp": "2026-07-30T22:37:34Z",
-          "action": "rank_up",
-          "contributor": "marcotiongson",
-          "details": "Calibrated level from 3★ to 4★"
-        },
-        {
-          "timestamp": "2026-07-30T23:21:54Z",
-          "action": "demote",
-          "contributor": "marcotiongson",
-          "details": "Calibrated level from 4★ to 3★"
-        },
-        {
-          "timestamp": "2026-08-05T06:28:46Z",
-          "action": "rename",
-          "contributor": "unknown",
-          "details": "Renamed named skill from google-deepmind/workflow_skill_creator to google-deepmind/workflow-skill-creator"
-        },
-        {
-          "timestamp": "2026-09-05T00:00:00Z",
-          "action": "demote",
-          "author": "mbtiongson1",
-          "notes": "Demoted from 4★ to 1★ Awakened (status is awakened; 2★+ requires status: named per CONTEXT.md) (#1699)",
-          "previousValue": "4★",
-          "newValue": "1★"
-        },
-        {
-          "timestamp": "2026-09-05T03:50:03Z",
-          "action": "demote",
-          "contributor": "unknown",
-          "details": "Calibrated level from 1★ to 1★"
-        },
-        {
-          "timestamp": "2026-09-09T20:31:06Z",
-          "action": "rank_up",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 4★"
-        }
-      ],
-      "trustMagnitude": 100.82,
-      "overallTrustGrade": "A",
-      "trustMagnitudeInputHash": "c8b411f2ad420b10dc898fd32a3f584b790df498231e6a3178b7353f75db7d30",
-      "apexGateStatus": {
-        "aGradedOriginsGte5": false,
-        "sourceTenureDaysGte180AorS": false,
-        "directNestedSuiteGte1": false,
-        "depth2OnlyReachableGte1": false,
-        "overallGradeS": false,
-        "apexPromotionPrSigned": false,
-        "crossOrgVerifier": null,
-        "systemWideCap": null
-      },
-      "type": "fusion",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {

@@ -25,7 +25,7 @@
   },
   "title": "Ponytail",
   "genericSkillRef": "implement-with-discernment",
-  "origin": false,
+  "origin": true,
   "description": "Forces the laziest solution that actually works: question whether the task should exist, prefer standard library and native features, and ship the smallest correct implementation.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -120,6 +120,18 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 221.96 -> 225.42, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-10-29T16:34:54Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Origin status set to true."
+    },
+    {
+      "timestamp": "2026-10-29T16:34:55Z",
+      "action": "note",
+      "contributor": "mbtiongson1",
+      "details": "Bucket Origin assigned to the unique merit winner of its generic bucket (sole top TM/level member); 4-star Unique gate (checkUniqueBranchGate, bucket-level Origin + TM>=100) now satisfied. Founder ruling 2026-10-30 FD-10 (Assign the four)."
     }
   ],
   "links": {
