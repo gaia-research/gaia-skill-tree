@@ -1,5 +1,5 @@
 {
- "generation": 136,
+ "generation": 137,
  "lane": {
   "entries": [
    {
@@ -9417,6 +9417,13 @@
      "debtId": "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9",
      "emittedAt": "2026-10-29T02:48:28.394927Z",
      "idempotencyKey": "dispatch-bb4935847a60cdc598d9:1",
+     "outcome": {
+      "agentId": "haiku-builder-af3efe12",
+      "effort": "medium",
+      "model": "haiku",
+      "noChange": true,
+      "summary": "Finding reproduces: gaiabot/repo-docs-before-pr stored 1★, TM 36.00 grade C, G7 target 2★. No automatic mutation. Proposed (human-approved only): gaia dev calibrate gaiabot/repo-docs-before-pr 2★. Sensor tests 131 passed."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -9437,13 +9444,27 @@
       },
       "promptPath": ".gaia/steward/full/run-20261029T024635Z-79c43bd1/build-4a3e9be56a38.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-10-29T02:54:31.510479Z",
+     "status": "done",
      "stepId": "build:4a3e9be56a38:1",
      "type": "agent.build"
     }
    ],
    "actor": "cli",
-   "agentAssignments": [],
+   "agentAssignments": [
+    {
+     "agentId": "haiku-builder-af3efe12",
+     "at": "2026-10-29T02:54:31.510508Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9",
+     "effort": "medium",
+     "model": "haiku",
+     "role": "builder",
+     "stepId": "build:4a3e9be56a38:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
@@ -9599,8 +9620,10 @@
     }
    ],
    "mode": "full",
-   "modelIds": [],
-   "mutated": false,
+   "modelIds": [
+    "haiku"
+   ],
+   "mutated": true,
    "nextAction": "perform 1 pending action(s) (agent.build), record each with `gaia steward full record run-20261029T024635Z-79c43bd1 <stepId> --input FILE`, then `gaia steward full run --resume run-20261029T024635Z-79c43bd1`",
    "options": {
     "afk": true,
@@ -10517,23 +10540,26 @@
      "stepId": "phase:class_a"
     },
     {
-     "at": "2026-10-29T02:48:28.394927Z",
+     "at": "2026-10-29T02:54:31.510479Z",
      "debtId": "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9",
      "idempotencyKey": "dispatch-bb4935847a60cdc598d9:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:4a3e9be56a38:1"
     }
    ],
-   "thinkingEfforts": [],
+   "thinkingEfforts": [
+    "medium"
+   ],
    "tokensIn": 0,
    "tokensOut": 0,
    "trigger": "scheduled",
-   "unresolvedWork": []
+   "unresolvedWork": [],
+   "updatedAt": "2026-10-29T02:54:31.510479Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-29T02:49:33.278722Z",
+ "updatedAt": "2026-10-29T02:54:31.510737Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -10652,12 +10678,33 @@
    }
   },
   "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "haiku-builder-af3efe12",
+     "at": "2026-10-29T02:54:31.510508Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "haiku",
+     "role": "builder",
+     "stepId": "build:4a3e9be56a38:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-integration",
    "branch": "steward/b/trust-calibration-drift-4a3e9be56a38",
-   "build": null,
+   "build": {
+    "agentId": "haiku-builder-af3efe12",
+    "attempt": 1,
+    "diffPath": null,
+    "dispatchId": "dispatch-bb4935847a60cdc598d9",
+    "noChange": true,
+    "proofPath": null,
+    "recordedAt": "2026-10-29T02:54:31.510508Z",
+    "summary": "Finding reproduces: gaiabot/repo-docs-before-pr stored 1★, TM 36.00 grade C, G7 target 2★. No automatic mutation. Proposed (human-approved only): gaia dev calibrate gaiabot/repo-docs-before-pr 2★. Sensor tests 131 passed."
+   },
    "createdAt": "2026-10-29T02:48:28.394927Z",
    "debtId": "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9",
    "dispatchId": "dispatch-bb4935847a60cdc598d9",
@@ -10678,7 +10725,7 @@
    "runId": "run-20261029T024635Z-79c43bd1",
    "source": "trust-calibration-drift",
    "state": "building",
-   "updatedAt": "2026-10-29T02:48:28.394927Z",
+   "updatedAt": "2026-10-29T02:54:31.510508Z",
    "verification": null
   }
  }
