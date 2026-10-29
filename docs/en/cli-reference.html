@@ -325,7 +325,12 @@
       width: 43%;
     }
 
-    #steward .flag-table .flag-text {
+    #steward .flag-table td {
+      overflow-wrap: anywhere;
+    }
+
+    #steward .flag-table td:first-child {
+      display: table-cell;
       white-space: normal;
       overflow-wrap: anywhere;
     }
@@ -340,11 +345,7 @@
       width: 15%;
     }
 
-    #steward .steward-full-synopsis td:first-child {
-      display: table-cell;
-    }
-
-    #steward .steward-full-synopsis td:first-child code,
+    #steward .flag-table td:first-child code,
     #steward .steward-full-synopsis td:nth-child(2),
     #steward .steward-full-synopsis td:nth-child(3) {
       overflow-wrap: anywhere;
@@ -531,6 +532,60 @@
       .cmd-body {
         padding: 0.85rem 1rem;
       }
+
+      #steward .flag-table {
+        display: block;
+        table-layout: auto;
+      }
+
+      #steward .flag-table thead tr {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0 0.75rem;
+      }
+
+      #steward .flag-table thead th {
+        display: block;
+        flex: 0 0 max-content;
+        width: max-content;
+        padding: 0.4rem 0 0.5rem;
+        white-space: nowrap;
+      }
+
+      #steward .flag-table tbody,
+      #steward .flag-table tbody tr {
+        display: block;
+      }
+
+      #steward .flag-table tbody tr {
+        padding: 0.45rem 0;
+        border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+      }
+
+      #steward .flag-table tbody tr:last-child {
+        border-bottom: none;
+      }
+
+      #steward .flag-table tbody td {
+        display: block;
+        width: auto;
+        padding: 0.15rem 0;
+      }
+
+      #steward .flag-table tbody td::before {
+        display: block;
+        color: var(--muted, #64748b);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.66rem;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        white-space: nowrap;
+        width: max-content;
+      }
+
+      #steward .flag-table tbody td:nth-child(1)::before { content: "Subcommand / Flag"; }
+      #steward .flag-table tbody td:nth-child(2)::before { content: "Description"; }
+      #steward .flag-table tbody td:nth-child(3)::before { content: "Default"; }
     }
 
     @media (max-width: 360px) {
@@ -1863,7 +1918,7 @@
               <li>Enforces strict policy boundaries: never executes arbitrary commands or spends unbounded agent turns.</li>
             </ul>
 
-            <table class="flag-table">
+            <table class="flag-table" data-no-copy>
               <thead>
                 <tr>
                   <th>Subcommand / Flag</th>
@@ -3461,7 +3516,7 @@
       flagTables.forEach(table => {
         const rows = table.querySelectorAll('tbody tr');
         rows.forEach(row => {
-          if (row.hasAttribute('data-no-copy')) return;
+          if (row.closest('[data-no-copy]')) return;
 
           const firstCell = row.cells[0];
           if (firstCell) {
