@@ -900,7 +900,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     root = Path(args.root).resolve()
     options = DriveOptions(
         root=root, integrationBranch=args.integration_branch, ledger=args.ledger,
-        push=not args.no_push, trigger=args.trigger, afk=args.afk, reportPath=Path(args.report),
+        push=not args.no_push, trigger=args.trigger, afk=args.afk, agents=not args.no_agents,
+        reportPath=Path(args.report),
     )
     if options.integrationBranch:
         refusal = baseRefusal(options.integrationBranch, None)
