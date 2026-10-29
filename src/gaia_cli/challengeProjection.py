@@ -14,7 +14,7 @@ yields the ``unavailable`` document. Consequence is only ``current-baseline`` |
 proposed value is ever published, and there is no ``pendingProposal`` field until an
 adjudication ledger exists to point into.
 
-``reviews.json`` is the separate ``gaia-challenge-review/v1`` artifact: held admissions only,
+``reviews.json`` is the separate ``gaia-challenge-review/v1`` artifact: held admissions and leads rejected at triage,
 never part of the index, never labelled as a dispute.
 """
 from __future__ import annotations
@@ -26,8 +26,9 @@ import traceback
 from pathlib import Path
 from typing import Any
 
+from . import challengeAdmission as admission
 from .challengeAdmission import REASONS
-from .committedChallenges import REVIEWCONTRACT, Collected, collect, lifecyclePorts
+from .committedChallenges import REVIEWCONTRACT, DEFERREDSTATUS, TRIAGESTATUS, Collected, collect, lifecyclePorts
 from .lifecycleProjection import produce_lifecycle
 
 CONTRACT = "gaia-challenge-projection/v1"
@@ -37,7 +38,7 @@ CONSEQUENCES = ("current-baseline", "approved-decision", "unavailable")
 FILES = {"index": ("docs/graph/challenges/index.json", "docs/api/v1/challenges/index.json"),
          "reviews": ("docs/graph/challenges/reviews.json", "docs/api/v1/challenges/reviews.json")}
 CONTESTED = re.compile(r"contested", re.IGNORECASE)
-SYSTEMFIELDS = ("contract", "status", "held", "disclosure")  # experiment/assessment hold challenger-authored strings
+SYSTEMFIELDS = ("contract", "status", "held", "triage", "disclosure")  # experiment/assessment hold challenger-authored strings
 FORBIDDENKEYS = re.compile(r"contested|propos|^(tm|stars?|grade|origin|level|trustmagnitude|rank)$", re.IGNORECASE)
 
 
@@ -76,10 +77,14 @@ def validateReview(record: Any) -> list[str]:
     if not isinstance(record, dict):
         return ["review must be an object"]
     errors = []
-    if record.get("contract") != REVIEWCONTRACT or record.get("status") != "admission-held":
-        errors.append("review must be a held gaia-challenge-review/v1 record")
+    status = record.get("status")
+    if record.get("contract") != REVIEWCONTRACT or status not in ("admission-held", TRIAGESTATUS, DEFERREDSTATUS):
+        errors.append("review must be a held or rejected-at-triage gaia-challenge-review/v1 record")
     held = record.get("held")
-    if not isinstance(held, dict) or held.get("reason") not in REASONS:
+    if status in (TRIAGESTATUS, DEFERREDSTATUS):
+        if "held" in record or not isinstance(record.get("triage"), dict) or "experiment" in record:
+            errors.append("a triage review carries a triage note and no held reason or experiment")
+    elif not isinstance(held, dict) or held.get("reason") not in REASONS:
         errors.append("held.reason must be a known hold reason")
     system = {name: record.get(name) for name in SYSTEMFIELDS}
     if any(CONTESTED.search(text) for text in strings(system)):
@@ -190,6 +195,8 @@ def sync(root: str | Path, *, check: bool) -> bool:
     """Write (or, with ``check``, only compare) all mirrors. Returns True when they drift/changed."""
     base = Path(root)
     found = collect(base)
+    for item in found.rejected:  # never silent: every refused bundle is named with its reason
+        print(f"  warning: challenge bundle {admission.clean(item['caseId'])} rejected: {admission.clean(item['reason'])}", file=sys.stderr)
     outputs = {"index": render(buildIndex(base, collected=found)), "reviews": render(buildReviews(base, collected=found))}
     changed = False
     for name, data in outputs.items():

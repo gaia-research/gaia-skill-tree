@@ -317,7 +317,7 @@ def test_hold_reasons_without_a_request_or_recommendation(tmp_path):
     root, directory = makeCase(tmp_path)
     assert admission.admit(root, CASE, online=False)["reason"] == "admission-request-missing"
     root2, _ = makeCase(tmp_path / "n", positive=False)
-    assert admission.admit(root2, CASE, online=False)["reason"] == "not-recommended-for-admission"
+    assert admission.admit(root2, CASE, online=False)["reason"] == "meta-not-recommended"
 
 
 def test_pinned_config_ignores_environment_overrides(monkeypatch):
