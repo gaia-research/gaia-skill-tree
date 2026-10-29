@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-icon-base="../assets/icons.svg">
 
 <head>
   <script>window.GAIA_VERSION = "8.28.2";</script>
@@ -262,94 +262,212 @@
       list-style-type: disc;
     }
 
-    /* ── Flag table ── */
+    /* Source tables remain readable if progressive enhancement is unavailable. */
     .flag-table {
+      display: block;
       width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
       border-collapse: collapse;
-      font-size: 0.84rem;
+      font-size: 0.94rem;
     }
 
-    .flag-table th {
-      text-align: left;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.66rem;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: var(--muted, #64748b);
-      padding: 0.4rem 0.75rem 0.5rem;
-      border-bottom: 1px solid var(--border, #1e293b);
-    }
-
+    .flag-table th,
     .flag-table td {
-      padding: 0.45rem 0.75rem;
+      padding: 0.65rem 0.75rem;
+      text-align: left;
       vertical-align: top;
-      border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      line-height: 1.6;
     }
 
-    .flag-table tr:last-child td {
-      border-bottom: none;
-    }
-
+    .flag-table th:first-child,
     .flag-table td:first-child {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      color: var(--tier-extra, #c084fc);
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.35rem;
+      min-width: 12rem;
+      font-family: var(--font-mono, 'JetBrains Mono', monospace);
     }
 
-    .flag-text {
+    .flag-table th:nth-child(2),
+    .flag-table td:nth-child(2) {
+      min-width: 22rem;
+    }
+
+    .flag-table[hidden] {
+      display: none;
+    }
+
+    /* A quiet index first. Complete reference information stays one action away. */
+    .reference-list {
+      min-width: 0;
+      color: var(--text);
+      font-size: 0.94rem;
+      line-height: 1.6;
+    }
+
+    .reference-entry {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .reference-entry:first-child {
+      border-top: 1px solid var(--border);
+    }
+
+    .reference-entry > summary {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas: "name toggle" "purpose purpose";
+      align-items: baseline;
+      gap: 0.3rem 1rem;
+      min-height: 44px;
+      padding: 0.9rem 0.25rem;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .reference-entry > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .reference-entry > summary:hover,
+    .reference-entry[open] > summary {
+      background: var(--bg);
+    }
+
+    .reference-entry > summary:focus-visible {
+      outline: 2px solid var(--text);
+      outline-offset: -2px;
+    }
+
+    .reference-name {
+      grid-area: name;
+      min-width: 0;
+      font-family: var(--font-mono, 'JetBrains Mono', monospace);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .reference-purpose {
+      grid-area: purpose;
+      min-width: 0;
+      max-width: 68ch;
+      overflow-wrap: anywhere;
+      word-break: normal;
+    }
+
+    .reference-toggle {
+      grid-area: toggle;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.84rem;
       white-space: nowrap;
     }
 
-    .flag-table td:nth-child(2) {
-      color: var(--text, #e2e8f0);
-      max-width: 420px;
+    .reference-chevron {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.5rem;
+      height: 1.5rem;
+      font-size: 1.2rem;
+      line-height: 1;
     }
 
-    .flag-table td:nth-child(3) {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--muted, #64748b);
+    .reference-entry[open] .reference-chevron {
+      transform: rotate(90deg);
     }
 
-    /* Keep the long Steward lifecycle synopsis readable without widening the card. */
-    #steward .flag-table {
-      table-layout: fixed;
-    }
-
-    #steward .flag-table th:first-child,
-    #steward .flag-table td:first-child {
-      width: 43%;
-    }
-
-    #steward .flag-table td {
+    .reference-body {
+      min-width: 0;
+      padding: 0.25rem 0.25rem 1.25rem;
       overflow-wrap: anywhere;
     }
 
-    #steward .flag-table td:first-child {
-      display: table-cell;
+    .reference-description {
+      max-width: 68ch;
+      margin: 0 0 1rem;
+    }
+
+    .reference-label,
+    .reference-default dt {
+      font-weight: 600;
+      margin: 0 0 0.35rem;
+    }
+
+    .reference-body pre {
+      max-width: 100%;
+      margin: 0 0 1rem;
+      padding: 1rem;
+      overflow-x: auto;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-mono, 'JetBrains Mono', monospace);
+      font-size: 0.875rem;
+      line-height: 1.75;
+      white-space: pre-wrap;
+      word-break: normal;
+      overflow-wrap: normal;
+    }
+
+    .reference-body pre code {
+      font: inherit;
+      color: inherit;
+      white-space: inherit;
+      word-break: normal;
+      overflow-wrap: normal;
+    }
+
+    .reference-body .reference-token {
+      white-space: nowrap;
+      word-break: normal;
+      overflow-wrap: normal;
+    }
+
+    .reference-description code,
+    .reference-default code {
       white-space: normal;
+      word-break: normal;
       overflow-wrap: anywhere;
     }
 
-    #steward .flag-table th:nth-child(2),
-    #steward .flag-table td:nth-child(2) {
-      width: 42%;
+    .reference-default {
+      margin: 0;
     }
 
-    #steward .flag-table th:nth-child(3),
-    #steward .flag-table td:nth-child(3) {
-      width: 15%;
+    .reference-default dd {
+      margin: 0;
     }
 
-    #steward .flag-table td:first-child code,
-    #steward .steward-full-synopsis td:nth-child(2),
-    #steward .steward-full-synopsis td:nth-child(3) {
-      overflow-wrap: anywhere;
-      white-space: normal;
+    @media (min-width: 768px) {
+      .reference-entry > summary {
+        grid-template-columns: minmax(10rem, 0.9fr) minmax(0, 1.6fr) auto;
+        grid-template-areas: "name purpose toggle";
+        gap: 1rem;
+        padding-block: 1rem;
+      }
+    }
+
+    @media print {
+      .reference-list {
+        display: none;
+      }
+
+      .flag-table[hidden],
+      .flag-table {
+        display: table;
+        table-layout: fixed;
+        overflow: visible;
+      }
+
+      .flag-table th,
+      .flag-table td {
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
     }
 
     /* ── Examples ── */
@@ -524,74 +642,10 @@
         padding: 1.5rem 1.25rem 3rem;
       }
 
-      .flag-table td:first-child {
-        white-space: normal;
-        word-break: break-word;
-      }
-
       .cmd-body {
         padding: 0.85rem 1rem;
       }
 
-      #steward .flag-table {
-        display: block;
-        table-layout: auto;
-      }
-
-      #steward .flag-table thead tr {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0 0.75rem;
-      }
-
-      #steward .flag-table thead th {
-        display: block;
-        flex: 0 0 max-content;
-        width: max-content;
-        padding: 0.4rem 0 0.5rem;
-        white-space: nowrap;
-      }
-
-      #steward .flag-table tbody,
-      #steward .flag-table tbody tr {
-        display: block;
-      }
-
-      #steward .flag-table tbody tr {
-        padding: 0.45rem 0;
-        border-bottom: 1px solid rgba(30, 41, 59, 0.5);
-      }
-
-      #steward .flag-table tbody tr:last-child {
-        border-bottom: none;
-      }
-
-      /* tbody + nth-child outranks desktop cell widths/display for every column. */
-      #steward .flag-table tbody td:nth-child(n) {
-        display: block;
-        width: auto;
-        padding: 0.15rem 0;
-      }
-
-      #steward .steward-full-synopsis td code {
-        word-break: normal;
-        overflow-wrap: anywhere;
-      }
-
-      #steward .flag-table tbody td::before {
-        display: block;
-        color: var(--muted, #64748b);
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.66rem;
-        text-transform: uppercase;
-        letter-spacing: .08em;
-        white-space: nowrap;
-        width: max-content;
-      }
-
-      #steward .flag-table tbody td:nth-child(1)::before { content: "Subcommand / Flag"; }
-      #steward .flag-table tbody td:nth-child(2)::before { content: "Description"; }
-      #steward .flag-table tbody td:nth-child(3)::before { content: "Default"; }
     }
 
     @media (max-width: 360px) {
@@ -716,186 +770,58 @@
       color: #86efac;
     }
 
-    /* ── Click to Copy UI ── */
-    .copy-feedback {
-      position: fixed;
-      background: #10b981;
-      color: #fff;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      font-family: 'JetBrains Mono', monospace;
-      pointer-events: none;
-      z-index: 9999;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      animation: copyFade 0.8s ease-out forwards;
-    }
-
-    @keyframes copyFade {
-      0% {
-        opacity: 0;
-        transform: translateY(5px);
-      }
-
-      15% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      80% {
-        opacity: 1;
-      }
-
-      100% {
-        opacity: 0;
-        transform: translateY(-5px);
-      }
-    }
-
-    .copyable-flag {
-      cursor: pointer;
-      position: relative;
-      transition: color 0.15s;
-    }
-
-    .copyable-flag:hover {
-      color: #86efac !important;
-    }
-
-    .example-block {
-      position: relative;
-    }
-
-    .copy-btn {
-      position: absolute;
-      top: 6px;
-      right: 8px;
-      background: rgba(30, 41, 59, 0.7);
-      border: 1px solid var(--border, #1e293b);
-      border-radius: 4px;
-      color: var(--muted, #64748b);
-      padding: 0.2rem 0.4rem;
-      font-size: 0.7rem;
-      cursor: pointer;
-      font-family: system-ui, sans-serif;
-      transition: background 0.15s, color 0.15s;
-    }
-
-    .copy-btn:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text, #e2e8f0);
-    }
-
-    /* ── Mini Terminal Copy UI ── */
-    .mini-terminal-copy {
-      display: block;
-      width: fit-content;
-      max-width: 100%;
-      margin-top: 0.5rem;
-      background: #080c14;
-      border: 1px solid var(--border, #1e293b);
-      border-radius: 6px;
-      overflow: hidden;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      text-align: left;
-      cursor: pointer;
-      user-select: none;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      white-space: normal;
-    }
-
-    .mini-terminal-copy:hover {
-      border-color: var(--tier-basic, #38bdf8);
-      box-shadow: 0 6px 16px rgba(56, 189, 248, 0.15);
-      transform: translateY(-1.5px);
-    }
-
-    .mini-terminal-copy:active {
-      transform: translateY(0);
-      background: #0d1322;
-    }
-
-    .mini-terminal-header {
-      background: rgba(255, 255, 255, 0.03);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 0.25rem 0.5rem;
+    /* Keep one shared copy control in the label, never over the code. */
+    .example-label,
+    .reference-label {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 1rem;
+      min-height: 44px;
     }
 
-    .mini-terminal-dots {
-      display: flex;
-      gap: 4px;
+    .example-label {
+      font-size: 0.75rem;
+      color: var(--text);
     }
 
-    .mini-terminal-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #475569;
-      transition: background 0.15s ease;
-    }
-
-    .mini-terminal-copy:hover .mini-terminal-dot.red { background: #ef4444; }
-    .mini-terminal-copy:hover .mini-terminal-dot.yellow { background: #fbbf24; }
-    .mini-terminal-copy:hover .mini-terminal-dot.green { background: #22c55e; }
-
-    .mini-terminal-title {
-      font-size: 0.58rem;
-      color: var(--muted, #64748b);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .mini-terminal-copy-btn {
-      background: transparent;
-      border: none;
-      color: var(--muted, #64748b);
-      padding: 0;
-      cursor: pointer;
-      display: flex;
+    .example-block .copy-btn,
+    .reference-body .copy-btn {
+      position: static;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: color 0.15s;
+      flex: 0 0 auto;
+      min-width: 44px;
+      min-height: 44px;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
     }
 
-    .mini-terminal-copy:hover .mini-terminal-copy-btn {
-      color: var(--text, #e2e8f0);
+    .example-block .copy-btn:focus-visible,
+    .reference-body .copy-btn:focus-visible {
+      outline: 2px solid var(--text);
+      outline-offset: 2px;
     }
 
-    .mini-terminal-copy-btn:hover {
-      color: var(--tier-basic, #38bdf8) !important;
+    .example-block pre {
+      font-size: 0.875rem;
+      line-height: 1.75;
+      white-space: pre;
+      word-break: normal;
+      overflow-wrap: normal;
     }
 
-    .mini-terminal-screen {
-      padding: 0.4rem 0.6rem;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.2rem 0.35rem;
-      white-space: pre-wrap;
-      word-break: break-all;
+    .example-block pre span {
+      white-space: inherit;
+      word-break: normal;
+      overflow-wrap: normal;
     }
 
-    .mini-terminal-screen::-webkit-scrollbar {
-      display: none;
-    }
-
-    .mini-terminal-prompt {
-      color: var(--tier-basic, #38bdf8);
-      font-weight: bold;
-    }
-
-    .mini-terminal-cmd {
-      color: #f8fafc;
-    }
-
-    .mini-terminal-flag {
-      color: #34d399;
-      font-weight: 500;
+    .example-block pre .c {
+      color: var(--text);
+      opacity: 0.8;
     }
   </style>
 <script type="application/ld+json" data-injector="gaia-json-ld">
@@ -914,6 +840,7 @@
   <nav id="site-nav"></nav>
   <script src="../js/mounts.js?v=8.28.2"></script>
   <script src="../js/site-nav.js?v=8.28.2"></script>
+  <script src="../js/icons.js?v=8.28.2"></script>
   <script src="../js/ui.js?v=8.28.2"></script>
 
 
@@ -1924,7 +1851,7 @@
               <li>Enforces strict policy boundaries: never executes arbitrary commands or spends unbounded agent turns.</li>
             </ul>
 
-            <table class="flag-table" data-no-copy>
+            <table class="flag-table">
               <thead>
                 <tr>
                   <th>Subcommand / Flag</th>
@@ -1933,62 +1860,62 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr data-summary="Find local maintenance debt.">
                   <td><code>scan [--json]</code></td>
                   <td style="max-width: 420px;">Run local sensors to detect and report repository maintenance debt. Writes receipts strictly under <code>.gaia/steward/</code>.</td>
                   <td>—</td>
                 </tr>
-                <tr>
+                <tr data-summary="Apply one authorized Class A repair.">
                   <td><code>run [--json]</code></td>
                   <td style="max-width: 420px;">Execute at most one policy-authorized Class A debt repair with automated independent proof.</td>
                   <td>—</td>
                 </tr>
-                <tr>
+                <tr data-summary="Prepare a Class B task packet.">
                   <td><code>dispatch &lt;debt_id&gt; [--prompt] [--json]</code></td>
                   <td style="max-width: 420px;">Render a report-only Class B task packet or agent prompt for a specific maintenance debt.</td>
                   <td>—</td>
                 </tr>
-                <tr>
+                <tr data-summary="Check the maintenance lane.">
                   <td><code>lane status [--json]</code></td>
                   <td style="max-width: 420px;">Report the state of the bounded rolling maintenance lane.</td>
                   <td>—</td>
                 </tr>
-                <tr>
+                <tr data-summary="Get the next eligible task.">
                   <td><code>lane next [--prompt] [--json]</code></td>
                   <td style="max-width: 420px;">Hand out the next eligible bounded task from the lane (agent pickup point).</td>
                   <td>—</td>
                 </tr>
-                <tr>
+                <tr data-summary="Record a verifier decision.">
                   <td><code>lane record &lt;debt_id&gt; --verdict {accept,reject,escalate} [--note &lt;text&gt;]</code></td>
                   <td style="max-width: 420px;">Record an independent verifier's judgment on a completed maintenance dispatch.</td>
                   <td>—</td>
                 </tr>
-                <tr>
+                <tr data-summary="Check a candidate patch.">
                   <td><code>verify &lt;debt_id&gt; --diff &lt;diff&gt; --proof &lt;json&gt; [--prompt]</code></td>
                   <td style="max-width: 420px;">Independently verify a candidate patch against the envelope recorded in its dispatch receipt.</td>
                   <td>—</td>
                 </tr>
-                <tr>
+                <tr data-summary="Read unresolved founder decisions.">
                   <td><code>founder [--json]</code></td>
                   <td style="max-width: 420px;">Render the report-only Class C founder decision queue for unresolved discovery candidates.</td>
                   <td>—</td>
                 </tr>
-                <tr class="steward-full-synopsis" data-no-copy>
+                <tr data-summary="Run or resume. Never merges or pushes to main.">
                   <td><code>full run [--observe | --triage | --verify | --retro] [--routine N] [--debt ID] [--resume RUN] [--afk] [--trigger {manual,scheduled}] [--no-agents] [--integration-branch B] [--push] [--ledger {auto,git,local}] [--json]</code></td>
                   <td style="max-width: 420px;">Run or resume the deterministic pipeline. Observation, triage, verification, and retro modes narrow the phases; <code>--no-agents</code> never dispatches Class B work. Actions needing a model or forge are emitted for a driver. Never merges or pushes to <code>main</code>.</td>
                   <td>—</td>
                 </tr>
-                <tr class="steward-full-synopsis" data-no-copy>
+                <tr data-summary="Record a driver action result.">
                   <td><code>full record RUN_ID STEP_ID --input FILE.json [--ledger {auto,git,local}] [--json]</code></td>
                   <td style="max-width: 420px;">Record a driver's outcome for an action emitted by <code>full run</code>.</td>
                   <td>—</td>
                 </tr>
-                <tr class="steward-full-synopsis" data-no-copy>
+                <tr data-summary="End a run with an audit reason.">
                   <td><code>full abandon RUN_ID --reason TEXT [--ledger {auto,git,local}] [--json]</code></td>
                   <td style="max-width: 420px;">End an open run with an auditable reason. Pending actions are superseded, and unbuilt work stays adoptable by a later run.</td>
                   <td>—</td>
                 </tr>
-                <tr class="steward-full-synopsis" data-no-copy>
+                <tr data-summary="Read the ledger and active run.">
                   <td><code>full status [--ledger {auto,git,local}] [--json]</code></td>
                   <td style="max-width: 420px;">Read-only view of the ledger and active run.</td>
                   <td>—</td>
@@ -3500,169 +3427,116 @@
       onScroll();
     })();
 
-    /* Click to Copy Features */
+    /* Progressive reference disclosure. Source tables are the no-JS/print fallback. */
     (function () {
-      // 1. Set up copy tooltip feedback
-      function showFeedback(e, text) {
-        const tooltip = document.createElement('div');
-        tooltip.className = 'copy-feedback';
-        tooltip.textContent = text;
-        tooltip.style.left = e.clientX + 'px';
-        tooltip.style.top = e.clientY + 'px';
-        document.body.appendChild(tooltip);
-        setTimeout(() => tooltip.remove(), 800);
+      function conciseName(syntax) {
+        const boundary = syntax.search(/\s+(?:\[|<|\{|[A-Z][A-Z0-9_]*(?:\.[a-z]+)?(?:\s|$))/);
+        return boundary > 0 ? syntax.slice(0, boundary) : syntax;
       }
 
-      // Inline SVG constants for copy and success checkmark
-      const copyIconSvg = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
-      const checkIconSvg = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+      function concisePurpose(text) {
+        const sentence = text.match(/^.+?[.!?](?=\s|$)/);
+        const purpose = sentence ? sentence[0] : text;
+        if (purpose.length <= 100) return purpose;
+        const fragment = purpose.slice(0, 97);
+        const boundary = fragment.lastIndexOf(' ');
+        return fragment.slice(0, boundary > 0 ? boundary : fragment.length) + '…';
+      }
 
-      // 2. Make flag table cells copyable and inject mini terminal windows
-      const flagTables = document.querySelectorAll('.flag-table');
-      flagTables.forEach(table => {
-        const rows = table.querySelectorAll('tbody tr');
-        rows.forEach(row => {
-          if (row.closest('[data-no-copy]')) return;
+      document.querySelectorAll('.flag-table').forEach(table => {
+        const list = document.createElement('div');
+        list.className = 'reference-list';
+        const card = table.closest('.cmd-card');
+        const context = card ? card.querySelector('.cmd-name') : table.closest('section').querySelector('h2');
+        list.setAttribute('role', 'group');
+        list.setAttribute('aria-label', context.textContent.trim() + ' reference');
+        const headers = table.querySelectorAll('thead th');
 
-          const firstCell = row.cells[0];
-          if (firstCell) {
-            const rawText = firstCell.textContent || '';
-            
-            // Extract the flag cleanly (prefer double-dash flag if exists, e.g., --global from --global, -g)
-            const flags = rawText.match(/--?[a-zA-Z0-9-]+/g) || [];
-            let cleanFlag = flags.find(f => f.startsWith('--')) || flags[0] || '';
-            cleanFlag = cleanFlag.replace(/,/g, '').trim();
+        table.querySelectorAll('tbody tr').forEach(row => {
+          const cells = row.cells;
+          if (cells.length < 2) return;
+          const syntax = cells[0].textContent.trim().replace(/\s+/g, ' ');
+          const description = cells[1].textContent.trim().replace(/\s+/g, ' ');
+          const entry = document.createElement('details');
+          entry.className = 'reference-entry';
+          const summary = document.createElement('summary');
+          const name = document.createElement('code');
+          name.className = 'reference-name';
+          name.textContent = conciseName(syntax);
+          const purpose = document.createElement('span');
+          purpose.className = 'reference-purpose';
+          purpose.textContent = row.dataset.summary || concisePurpose(description);
+          const toggle = document.createElement('span');
+          toggle.className = 'reference-toggle';
+          toggle.setAttribute('aria-hidden', 'true');
+          toggle.appendChild(document.createTextNode('Details '));
+          const chevron = document.createElement('span');
+          chevron.className = 'reference-chevron';
+          chevron.textContent = '›';
+          toggle.appendChild(chevron);
+          summary.append(name, purpose, toggle);
 
-            if (!cleanFlag) return;
-
-            // Find parent command card name or default to 'gaia'
-            const cmdCard = row.closest('.cmd-card');
-            let cmdName = cmdCard ? cmdCard.querySelector('.cmd-name').textContent.trim() : '';
-
-            // Wrap the original flag content inside a .flag-text span
-            const span = document.createElement('span');
-            span.className = 'flag-text copyable-flag-text';
-            span.title = 'Click to copy flag name';
-            while (firstCell.firstChild) {
-              span.appendChild(firstCell.firstChild);
+          const body = document.createElement('div');
+          body.className = 'reference-body';
+          const explanation = document.createElement('div');
+          explanation.className = 'reference-description';
+          cells[1].childNodes.forEach(node => explanation.appendChild(node.cloneNode(true)));
+          const syntaxLabel = document.createElement('p');
+          syntaxLabel.className = 'reference-label';
+          syntaxLabel.textContent = 'Syntax';
+          const pre = document.createElement('pre');
+          const code = document.createElement('code');
+          syntax.split(/(\s+)/).forEach(part => {
+            if (/^\s+$/.test(part)) {
+              code.appendChild(document.createTextNode(part));
+            } else {
+              const token = document.createElement('span');
+              token.className = 'reference-token';
+              token.textContent = part;
+              code.appendChild(token);
             }
-            firstCell.appendChild(span);
+          });
+          pre.appendChild(code);
+          body.append(explanation, syntaxLabel, pre);
 
-            // Click listener for the flag name text to copy just the flag option
-            const flagText = firstCell.querySelector('.flag-text');
-            flagText.addEventListener('click', (e) => {
-              e.stopPropagation();
-              navigator.clipboard.writeText(cleanFlag).then(() => {
-                showFeedback(e, `Copied ${cleanFlag}`);
-              });
-            });
-
-            // Create and append the mini-terminal component
-            const miniTerminal = document.createElement('div');
-            miniTerminal.className = 'mini-terminal-copy';
-            miniTerminal.title = 'Click to copy full command';
-
-            const termHeader = document.createElement('div');
-            termHeader.className = 'mini-terminal-header';
-
-            const termDots = document.createElement('div');
-            termDots.className = 'mini-terminal-dots';
-            ['red', 'yellow', 'green'].forEach(c => {
-              const dot = document.createElement('span');
-              dot.className = `mini-terminal-dot ${c}`;
-              termDots.appendChild(dot);
-            });
-
-            const termTitle = document.createElement('span');
-            termTitle.className = 'mini-terminal-title';
-            termTitle.textContent = 'bash';
-
-            const termBtn = document.createElement('button');
-            termBtn.className = 'mini-terminal-copy-btn';
-            termBtn.setAttribute('aria-label', 'Copy command');
-            const svgDoc = new DOMParser().parseFromString(copyIconSvg, 'image/svg+xml');
-            if (svgDoc.documentElement) {
-              termBtn.appendChild(document.importNode(svgDoc.documentElement, true));
-            }
-
-            termHeader.appendChild(termDots);
-            termHeader.appendChild(termTitle);
-            termHeader.appendChild(termBtn);
-
-            const termScreen = document.createElement('div');
-            termScreen.className = 'mini-terminal-screen';
-
-            const termPrompt = document.createElement('span');
-            termPrompt.className = 'mini-terminal-prompt';
-            termPrompt.textContent = '$';
-
-            const termCmd = document.createElement('span');
-            termCmd.className = 'mini-terminal-cmd';
-            termCmd.appendChild(document.createTextNode((cmdName || 'gaia') + ' '));
-
-            const termFlag = document.createElement('span');
-            termFlag.className = 'mini-terminal-flag';
-            termFlag.textContent = cleanFlag;
-            termCmd.appendChild(termFlag);
-
-            termScreen.appendChild(termPrompt);
-            termScreen.appendChild(termCmd);
-
-            miniTerminal.appendChild(termHeader);
-            miniTerminal.appendChild(termScreen);
-
-            // Click action: copies full command
-            miniTerminal.addEventListener('click', (e) => {
-              e.stopPropagation();
-              const fullCmdText = `${cmdName || 'gaia'} ${cleanFlag}`;
-              navigator.clipboard.writeText(fullCmdText).then(() => {
-                showFeedback(e, `Copied: ${fullCmdText}`);
-                
-                // Temporary success icon state
-                const btn = miniTerminal.querySelector('.mini-terminal-copy-btn');
-                if (btn) {
-                  btn.replaceChildren();
-                  const svgDoc = new DOMParser().parseFromString(checkIconSvg, 'image/svg+xml');
-                  if (svgDoc.documentElement) {
-                    btn.appendChild(document.importNode(svgDoc.documentElement, true));
-                  }
-                  setTimeout(() => {
-                    btn.replaceChildren();
-                    const svgDocOrig = new DOMParser().parseFromString(copyIconSvg, 'image/svg+xml');
-                    if (svgDocOrig.documentElement) {
-                      btn.appendChild(document.importNode(svgDocOrig.documentElement, true));
-                    }
-                  }, 1500);
-                }
-              });
-            });
-
-            firstCell.appendChild(miniTerminal);
+          if (cells[2]) {
+            const metadata = document.createElement('dl');
+            metadata.className = 'reference-default';
+            const label = document.createElement('dt');
+            label.textContent = headers[2].textContent.trim();
+            const value = document.createElement('dd');
+            cells[2].childNodes.forEach(node => value.appendChild(node.cloneNode(true)));
+            metadata.append(label, value);
+            body.appendChild(metadata);
           }
+
+          entry.append(summary, body);
+          list.appendChild(entry);
         });
+
+        /* Retain the authored table for printing, not as duplicate accessible content. */
+        table.classList.add('reference-source');
+        table.hidden = true;
+        table.after(list);
       });
 
-      // 3. Add copy buttons to example blocks
-      const exampleBlocks = document.querySelectorAll('.example-block');
-      exampleBlocks.forEach(block => {
-        const pre = block.querySelector('pre');
-        if (pre) {
-          const btn = document.createElement('button');
-          btn.className = 'copy-btn';
-          btn.textContent = 'Copy';
-          // Align position relative
-          block.style.position = 'relative';
-          block.appendChild(btn);
-
-          btn.addEventListener('click', (e) => {
-            const codeText = pre.textContent || '';
-            navigator.clipboard.writeText(codeText.trim()).then(() => {
-              btn.textContent = 'Copied!';
-              setTimeout(() => btn.textContent = 'Copy', 1500);
-              showFeedback(e, 'Copied example');
-            });
-          });
-        }
+      /* ui.js owns copying and its insecure-context fallback. Label its controls. */
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.reference-entry').forEach(entry => {
+          const button = entry.querySelector('.copy-btn');
+          if (button) {
+            button.setAttribute('aria-label', 'Copy syntax for ' + entry.querySelector('.reference-name').textContent);
+            entry.querySelector('.reference-label').appendChild(button);
+          }
+        });
+        document.querySelectorAll('.example-block').forEach(block => {
+          const button = block.querySelector('.copy-btn');
+          const label = block.querySelector('.example-label');
+          if (button && label) {
+            button.setAttribute('aria-label', 'Copy authored examples');
+            label.appendChild(button);
+          }
+        });
       });
     })();
   </script>
