@@ -74,10 +74,28 @@ def review(caseId="synthetic-review-0001", subject="skill/held-example", reason=
     }
 
 
+def triageReview(caseId="synthetic-review-0003", subject="skill/triage-example", status="rejected-at-triage"):
+    """A lead that never reached admission: a triage note, no held reason, no experiment."""
+    record = review(caseId, subject, outcome="rejected_at_triage", action="no-action")
+    for key in ("held", "experiment", "protocolDigest", "requestId"):
+        del record[key]
+    deferred = status == "deferred-at-triage"
+    record["status"] = status
+    record["assessment"]["outcome"] = "deferred_at_triage" if deferred else "rejected_at_triage"
+    record["triage"] = {"explanation": ("The lead was deferred at triage, with no effect on standing; no experiment was run." if deferred
+                                        else "The lead was rejected at triage, before any experiment was preregistered or run.")}
+    record["disclosure"] = ("Review record only. This lead was " + ("deferred" if deferred else "rejected") +
+                            " at triage: no experiment was run and no admission was attempted, so this is not an admitted Gaia challenge "
+                            "and it changes no Trust Magnitude, star, grade, Origin or ranking.")
+    return record
+
+
 def reviews(records=None):
+    held2 = review("synthetic-review-0002", "skill/other-held-example", "meta-not-recommended", "contradicted", "no-action")
+    held2["held"]["explanation"] = "The independent assessment of this review does not recommend an admission review."
     return {"contract": "gaia-challenge-review/v1",
-            "reviews": records if records is not None else [review(), review("synthetic-review-0002", "skill/other-held-example",
-                                                                             "not-recommended-for-admission", "contradicted", "no-action")]}
+            "reviews": records if records is not None else [review(), held2, triageReview(),
+                                                            triageReview("synthetic-review-0004", "skill/deferred-example", "deferred-at-triage")]}
 
 
 if __name__ == "__main__":

@@ -44,13 +44,19 @@
   var HOLD_REASONS = [
     'trusted-issuer-unavailable', 'trusted-issuer-misconfigured', 'receipt-unverifiable',
     'challenge-rejected', 'bundle-not-bound-to-receipt', 'admission-request-missing',
-    'not-recommended-for-admission', 'event-log-broken'
+    'meta-not-recommended', 'not-recommended-for-admission', 'event-log-broken'
   ];
+  // A review record is a held admission, or a lead rejected or deferred at triage (no admission attempted).
+  var REVIEW_STATUS = {
+    'admission-held': 'Admission held',
+    'rejected-at-triage': 'Rejected at triage',
+    'deferred-at-triage': 'Deferred at triage'
+  };
   var CASE_ID = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
   var REPO = 'https://github.com/gaia-research/gaia-skill-tree';
   var SVG_NS = 'http://www.w3.org/2000/svg';
 
-  var HELD_HEADING = 'Admission held, under review, no effect on standing';
+  var HELD_HEADING = 'Admission held, no effect on standing';
 
   // ── 1. Small guards ────────────────────────────────────────────────────
 
@@ -124,12 +130,20 @@
     var parsed = mod.normalizeChallenge(item);
     if (!parsed || item.subjectId !== subjectId || typeof item.materialToOrigin !== 'boolean') return null;
     if (seen[parsed.challengeId]) return null;
-    if (!Array.isArray(item.history) || !item.history.length) return null;
+    // Only what the producer can emit (mirrors isValidV1Challenge in trust-lifecycle.js): an open
+    // challenge is `verified-pending` with one event; an answered one is `technically-rebutted` or
+    // `resolved-by-upstream-improvement` with an opening and a closing event. A stray `upheld`,
+    // `narrowed` or `rejected` fails closed instead of reading as open or contested.
+    var open = parsed.status === 'verified-pending';
+    if (!open && parsed.status !== 'technically-rebutted' && parsed.status !== 'resolved-by-upstream-improvement') return null;
+    if (!Array.isArray(item.history) || item.history.length !== (open ? 1 : 2)) return null;
     for (var e = 0; e < item.history.length; e++) {
       var event = item.history[e];
       if (!isObj(event) || event.challenge_id !== parsed.challengeId || !isStr(event.event_type) || !isStr(event.at_utc)) return null;
     }
-    if (parsed.isResolved && !parsed.resolution) return null;
+    if (item.history[0].event_type !== 'verified-publication') return null;
+    if (open ? item.resolution !== undefined
+             : (item.history[1].event_type !== 'technical-resolution' || !parsed.resolution || parsed.resolution.disposition !== parsed.status)) return null;
     seen[parsed.challengeId] = true;
     parsed.subjectId = subjectId;
     parsed.contributorId = isStr(item.contributorId) ? item.contributorId.trim() : '';
@@ -229,12 +243,24 @@
   var FORBIDDEN_REVIEW_KEY = /contested|propos|^(tm|stars?|grade|origin|level|trustmagnitude|rank)$/i;
 
   function parseReview(rec) {
-    if (!isObj(rec) || rec.contract !== REVIEW_CONTRACT || rec.status !== 'admission-held') return null;
+    if (!isObj(rec) || rec.contract !== REVIEW_CONTRACT || !Object.prototype.hasOwnProperty.call(REVIEW_STATUS, rec.status)) return null;
     if (!isStr(rec.caseId) || !CASE_ID.test(rec.caseId) || !isStr(rec.subjectId) || !isStr(rec.claim)) return null;
-    var held = rec.held;
-    if (!isObj(held) || HOLD_REASONS.indexOf(held.reason) < 0 || !isStr(held.explanation)) return null;
+    // The reason line is the producer's own system text: the hold explanation for a held admission,
+    // the triage note for a lead that never reached admission (which carries no hold and no experiment).
+    var reason, code;
+    if (rec.status === 'admission-held') {
+      var held = rec.held;
+      if (!isObj(held) || HOLD_REASONS.indexOf(held.reason) < 0 || !isStr(held.explanation)) return null;
+      reason = held.explanation.trim();
+      code = held.reason;
+    } else {
+      if (Object.prototype.hasOwnProperty.call(rec, 'held') || Object.prototype.hasOwnProperty.call(rec, 'experiment')) return null;
+      if (!isObj(rec.triage) || !isStr(rec.triage.explanation)) return null;
+      reason = rec.triage.explanation.trim();
+      code = rec.status;
+    }
     // System-generated fields may never carry the dispute word; challenger-authored text is data.
-    if (anyStringMatches({contract: rec.contract, status: rec.status, held: held, disclosure: rec.disclosure}, CONTESTED_WORD)) return null;
+    if (anyStringMatches({contract: rec.contract, status: rec.status, held: rec.held, triage: rec.triage, disclosure: rec.disclosure}, CONTESTED_WORD)) return null;
     if (anyKeyMatches(rec, FORBIDDEN_REVIEW_KEY)) return null;
     var challenger = isObj(rec.challenger) ? rec.challenger : null;
     if (!challenger || !isStr(challenger.name)) return null;
@@ -242,6 +268,7 @@
     var experiment = isObj(rec.experiment) ? rec.experiment : {};
     return {
       caseId: rec.caseId, subjectId: rec.subjectId.trim(), claim: rec.claim.trim(),
+      status: rec.status, statusLabel: REVIEW_STATUS[rec.status],
       comparator: isStr(rec.comparator) ? rec.comparator.trim() : '',
       challenger: {name: challenger.name.trim(), version: isStr(challenger.version) ? challenger.version.trim() : '',
         sourceUrl: safeHttps(challenger.sourceUrl) ? challenger.sourceUrl.trim() : ''},
@@ -249,7 +276,7 @@
       suggestedAction: isStr(assessment.suggestedAction) ? assessment.suggestedAction.trim() : '',
       independence: isStr(assessment.independence) ? assessment.independence.trim() : '',
       experimentResult: isStr(experiment.result) ? experiment.result.trim() : '',
-      holdReason: held.reason, holdExplanation: held.explanation.trim(),
+      holdReason: code, reasonLine: reason,
       disclosure: isStr(rec.disclosure) ? rec.disclosure.trim() : '',
       evidenceUrl: REPO + '/tree/main/evidence/frontier-challenges/' + encodeURIComponent(rec.caseId)
     };
@@ -467,7 +494,8 @@
 
   var OUTCOME_WORDS = {
     substantiated: 'Substantiated', narrowed: 'Narrowed', contradicted: 'Contradicted',
-    inconclusive: 'Inconclusive', rejected: 'Rejected'
+    inconclusive: 'Inconclusive', rejected: 'Rejected',
+    rejected_at_triage: 'Rejected at triage', deferred_at_triage: 'Deferred at triage'
   };
 
   var RESULT_WORDS = {
@@ -538,12 +566,13 @@
 
   function reviewHtml(r) {
     var rows = [
+      ['Status', r.statusLabel],
+      ['Reason', r.reasonLine],
       ['Assessment outcome', OUTCOME_WORDS[r.outcome] || r.outcome],
       ['Suggested action', ACTION_WORDS[r.suggestedAction] || r.suggestedAction],
       ['Experiment result', RESULT_WORDS[r.experimentResult] || r.experimentResult],
       ['Comparator', r.comparator],
-      ['Independence', r.independence ? r.independence.replace(/-/g, ' ') : ''],
-      ['Held because', r.holdExplanation]];
+      ['Independence', r.independence ? r.independence.replace(/-/g, ' ') : '']];
     var dl = rows.filter(function(x) { return x[1]; }).map(function(x) {
       return '<div class="cs-kv"><dt>' + esc(x[0]) + '</dt><dd>' + esc(x[1]) + '</dd></div>';
     }).join('');
@@ -582,7 +611,7 @@
       if (reviews.loadFailed) {
         mounts.held.innerHTML = '<p class="cs-empty" data-state="failed">The held reviews could not be loaded.</p>';
       } else if (!reviews.reviews.length) {
-        mounts.held.innerHTML = '<p class="cs-empty" data-state="none">No admission is being held for review.</p>';
+        mounts.held.innerHTML = '<p class="cs-empty" data-state="none">No review is on record.</p>';
       } else {
         mounts.held.innerHTML = reviews.reviews.map(reviewHtml).join('');
       }

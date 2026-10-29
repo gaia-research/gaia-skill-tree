@@ -168,7 +168,7 @@ test('challenge history lists admitted events only, newest first; unavailable hi
 
 test('held reviews parse separately and never read as contested', () => {
   const parsed = surfaces.parseReviews(clone(fixture.reviews));
-  assert.equal(parsed.reviews.length, 2);
+  assert.equal(parsed.reviews.length, 4);
   assert.match(parsed.reviews[0].evidenceUrl, /^https:\/\/github\.com\/gaia-research\/gaia-skill-tree\/tree\/main\/evidence\/frontier-challenges\/synthetic-review-0001$/);
   const mounts = {admitted: {innerHTML: ''}, held: {innerHTML: ''}};
   surfaces.renderPage(mounts, {projection: surfaces.parseProjection(unavailableDoc), reviews: parsed}, {root: '../../'});
@@ -178,7 +178,7 @@ test('held reviews parse separately and never read as contested', () => {
   assert.match(mounts.held.innerHTML, /Synthetic Challenger 0\.0\.1<\/span><span class="cs-review__vs">against<\/span><span class="cs-review__side">skill\/held-example/);
   assert.match(mounts.held.innerHTML, /Substantiated/);
   assert.match(mounts.held.innerHTML, /changes no Trust Magnitude, star, grade, Origin or ranking/);
-  assert.equal(surfaces.HELD_HEADING, 'Admission held, under review, no effect on standing');
+  assert.equal(surfaces.HELD_HEADING, 'Admission held, no effect on standing');
 });
 
 test('a review that carries a dispute label, a proposal or a Gaia number is dropped alone', () => {
@@ -204,7 +204,7 @@ test('the page states unavailable and empty truthfully and quietly', () => {
   const quiet = mounts();
   surfaces.renderPage(quiet, {projection: surfaces.parseProjection(unavailableDoc), reviews: surfaces.parseReviews({contract: 'gaia-challenge-review/v1', reviews: []})}, {root: '../../'});
   assert.match(quiet.admitted.innerHTML, /data-state="unavailable">No challenge has been admitted\./);
-  assert.match(quiet.held.innerHTML, /data-state="none">No admission is being held for review\./);
+  assert.match(quiet.held.innerHTML, /data-state="none">No review is on record\./);
   assert.doesNotMatch(quiet.admitted.innerHTML + quiet.held.innerHTML, /lc-mark|lc-chip|<article|<table/);
   const failed = mounts();
   surfaces.renderPage(failed, {projection: {status: 'unavailable', subjects: [], loadFailed: true}, reviews: {reviews: [], loadFailed: true}}, {root: '../../'});
@@ -233,4 +233,54 @@ test('the heading toggletip is a real button with a tooltip', () => {
   assert.match(tip, /<button type="button" class="lc-tip cs-infotip"/);
   assert.match(tip, /role="tooltip"/);
   assert.match(tip, /no automatic demotion/);
+});
+
+test('only producer-reachable challenge statuses and history lengths are accepted', () => {
+  const variants = [
+    ['upheld', doc => { doc.subjects[0].challenges[0].status = 'upheld'; }],
+    ['narrowed', doc => { doc.subjects[0].challenges[0].status = 'narrowed'; }],
+    ['rejected', doc => { doc.subjects[2].challenges[0].status = 'rejected'; doc.subjects[2].challenges[0].resolution.disposition = 'rejected'; }],
+    ['open with two events', doc => { doc.subjects[0].challenges[0].history.push(clone(doc.subjects[2].challenges[0].history[1])); }],
+    ['answered with one event', doc => { doc.subjects[2].challenges[0].history.pop(); }],
+    ['open with a resolution', doc => { doc.subjects[0].challenges[0].resolution = clone(doc.subjects[2].challenges[0].resolution); }],
+    ['disposition differs from status', doc => { doc.subjects[2].challenges[0].resolution.disposition = 'technically-rebutted'; }],
+    ['opening event is not a publication', doc => { doc.subjects[0].challenges[0].history[0].event_type = 'technical-resolution'; }]
+  ];
+  for (const [name, mutate] of variants) {
+    const doc = clone(fixture.index);
+    mutate(doc);
+    const parsed = surfaces.parseProjection(doc);
+    assert.equal(parsed.status, 'unavailable', name);
+    assert.deepEqual(Object.keys(surfaces.contestedIndex(parsed)), [], name);
+  }
+  const rebutted = clone(fixture.index);
+  const answered = rebutted.subjects[2].challenges[0];
+  answered.status = 'technically-rebutted';
+  answered.resolution.disposition = 'technically-rebutted';
+  assert.equal(surfaces.parseProjection(rebutted).status, 'verified');
+});
+
+test('held and triage reviews carry their own neutral reason line and never "contested"', () => {
+  const parsed = surfaces.parseReviews(clone(fixture.reviews));
+  assert.deepEqual(parsed.reviews.map(r => r.statusLabel), ['Admission held', 'Admission held', 'Rejected at triage', 'Deferred at triage']);
+  assert.equal(parsed.reviews[1].holdReason, 'meta-not-recommended');
+  const mounts = {admitted: {innerHTML: ''}, held: {innerHTML: ''}};
+  surfaces.renderPage(mounts, {projection: surfaces.parseProjection(unavailableDoc), reviews: parsed}, {root: '../../'});
+  const html = mounts.held.innerHTML;
+  assert.match(html, /<dt>Reason<\/dt><dd>The independent assessment of this review does not recommend an admission review\.<\/dd>/);
+  assert.match(html, /<dt>Reason<\/dt><dd>The lead was rejected at triage, before any experiment was preregistered or run\.<\/dd>/);
+  assert.match(html, /<dt>Reason<\/dt><dd>The lead was deferred at triage, with no effect on standing; no experiment was run\.<\/dd>/);
+  assert.match(html, /<dt>Status<\/dt><dd>Rejected at triage<\/dd>/);
+  assert.doesNotMatch(html, /contested|under review/i);
+  // A triage record may not carry a hold or an experiment, and must carry its note.
+  const good = fixture.reviews.reviews[2];
+  const withHold = Object.assign(clone(good), {caseId: 'synthetic-review-0010', held: clone(fixture.reviews.reviews[0].held)});
+  const withExperiment = Object.assign(clone(good), {caseId: 'synthetic-review-0011', experiment: {result: 'supported'}});
+  const noNote = Object.assign(clone(good), {caseId: 'synthetic-review-0012'});
+  delete noNote.triage;
+  const disputed = Object.assign(clone(good), {caseId: 'synthetic-review-0013'});
+  disputed.triage.explanation = 'The lead is contested.';
+  const unknownStatus = Object.assign(clone(good), {caseId: 'synthetic-review-0014', status: 'under-review'});
+  const kept = surfaces.parseReviews({contract: 'gaia-challenge-review/v1', reviews: [good, withHold, withExperiment, noNote, disputed, unknownStatus]});
+  assert.deepEqual(kept.reviews.map(r => r.caseId), ['synthetic-review-0003']);
 });

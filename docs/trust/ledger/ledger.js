@@ -82,7 +82,12 @@
 
   function contestFor(id) {
     var entry = window.GaiaChallenges.combineEntries([state.contested[id]]);
-    return entry ? { entry: entry, isOrigin: false } : null;
+    if (!entry) return null;
+    var origin = false;
+    for (var i = 0; i < state.rows.length; i++) {
+      if (state.rows[i].skillId === id) { origin = state.rows[i].origin === true; break; }
+    }
+    return { entry: entry, isOrigin: origin };
   }
 
   function loadChallenges() {

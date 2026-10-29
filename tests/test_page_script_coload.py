@@ -114,5 +114,6 @@ def test_challenges_page_is_wired_into_nav_mounts_and_cache_busting() -> None:
 def test_challenges_page_has_the_held_heading_and_no_contested_wording_around_it() -> None:
     page = (DOCS / "trust" / "challenges" / "index.html").read_text(encoding="utf-8")
     held = page.split('id="csHeld"', 1)[1].split("</section>", 1)[0]
-    assert "Admission held, under review, no effect on standing" in held
+    assert "Admission held, no effect on standing" in held
+    assert "under review" not in held
     assert "contested" not in held.lower()
