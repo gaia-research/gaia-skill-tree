@@ -9,10 +9,10 @@ level: 3★
 description: Mobile app mockup prompt engineering generating realistic iOS and Android
   UI screen concept art for diffusion models.
 createdAt: '2026-08-22'
-updatedAt: '2026-09-02'
+updatedAt: '2026-10-30'
 title: Imagegen Frontend Mobile
 links:
-  github: https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-mobile/SKILL.md
+  github: https://github.com/Leonxlnx/imagegen-skills/blob/main/skills/imagegen-frontend-mobile/SKILL.md
 timeline:
 - timestamp: '2026-08-22T08:07:42Z'
   action: add
@@ -40,6 +40,18 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-10-29T17:02:18Z'
+  action: note
+  contributor: mbtiongson1
+  details: Updated GitHub link to https://github.com/Leonxlnx/imagegen-skills/blob/main/skills/imagegen-frontend-mobile/SKILL.md
+- timestamp: '2026-10-29T17:02:19Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Founder ruling 2026-10-30 FD-17: second bounded re-probe 2026-10-29T17:00Z
+    of the old links.github (blob/main/skills/imagegen-frontend-mobile/SKILL.md in
+    Leonxlnx/taste-skill) = HTTP 404. Upstream moved the skill (taste-skill CHANGELOG
+    2.1.1/2.1.3); links.github corrected to https://github.com/Leonxlnx/imagegen-skills/blob/main/skills/imagegen-frontend-mobile/SKILL.md
+    (HTTP 200). No level change.'
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-mobile/SKILL.md
   updatedAt: '2026-10-01'
