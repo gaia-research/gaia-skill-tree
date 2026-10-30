@@ -9,6 +9,21 @@ with explicit effort on every dispatch.
 same day as the October cutoff). Three agents died mid-task; their partial state is recorded below.
 Nothing is half-merged. Machine disk ≈5 GB free after cleanup.
 
+## 0b. Resume log (2026-10-30)
+
+- Founder rulings recorded in CAMPAIGN.md §Founder rulings 2026-10-30 (review page https://claude.ai/artifact/W2YnN4Sa7Lgrki521tzbK3,
+  db collection `choices`; Round 2 questions added, unanswered at time of writing; L4 choices: none yet).
+- Repo rule landed (#2249): founder review packets ship as an Artifact. Memory: never touch frozen skills.
+- Merged to dev: #2248 projection reads Frontier layout `61c2284d7`; #2249 rule `8547d23c5`; #2253 review channel +
+  wording `087da01bf`; #2252 CLI gaps (apex refresh, calibrate gate pre-flight, actor fix, save_tree) `7b672a854`.
+- Open, reviewed: #2234 cases (head `63201adbb`, --check 0; 4 neutral reviews), #2250 website W3-W6 (SHIP; founder visual
+  approval pending; preview deployed from `8437cdcac`), #2251 October calibration (FD-8/9/10/11/12/7/14/17 committed;
+  FD-15/16/18 in progress; graphify 5->4 awaits founder confirm).
+- main moved (#2133, #2230, v8.29.1) -> #2151 conflicts in ~15 files. Sync PR `dev/yggiv-sync-main` (merge, not rebase)
+  in progress. MERGE ORDER after it lands: #2234 -> #2251 -> #2250 (each: merge dev in, regen, --check, merge).
+- Then: independent Meta verification of the calibration batch (founder's condition for main merge), FD-7 option A
+  display alignment (code PR), October post (gaia-post), cutoff refresh after 2026-10-31T23:59:59Z, #2189 update.
+
 ## 0. Resume log (2026-10-29, resumed session)
 
 - Step 0 DONE: #2231 merged into dev `1e0a27984` (CodeQL regex). #2151 re-running.
