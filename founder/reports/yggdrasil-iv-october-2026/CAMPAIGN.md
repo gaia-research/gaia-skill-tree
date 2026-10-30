@@ -62,6 +62,111 @@ plus existing: #2176/#2177 two Core approvals, visual acceptance, main merge, re
   automate later (RFC #2148 D8 trail) without Steward work now. Issues genuinely fixed by a PR are
   closed when that PR lands on `dev/yggdrasil-iv`, not at the main merge.
 
+## Founder rulings 2026-10-30, rounds 2-4 and L4 (verbatim from the review page store)
+
+| Decision | Choice | Note |
+|---|---|---|
+| r2-core-signoff | Yes, land both into dev |  |
+| r2-general-video | Freeze |  |
+| r2-graphify | Keep 5★ and change the rule | Uniques dont need a fusion prerequisite origin at all. Where did that come from? thats from suites. A lot of hallucinations lately, for uniques only it being the origin is required, tm is the usual gate. audit this and I dont want to see this issue again. |
+| r2-hermes | Keep Origin, gather evidence | origin = "the original" with the highest merit. It is still the origin, it is just not "named". 2 star up is "named" and I have no rule about origins having a star requirement. |
+| r2-main-merge | Hand it to me ready |  |
+| r2-visual-2250 | Approve #2250 |  |
+| r3-adj-evidence | Defer all three to November |  |
+| r3-adj-judgement | Recommended | agent-reach is a really highly regarded skill. There is evjdence. Rederive |
+| r3-fd17-leftovers | Remove the dead evidence rows now | dead evidence means either skill moved elsewhere or skill was superseded. If it was removed, freeze is the right option. If superseded or removed, renaming or editing the links is the better option. |
+| r3-fd7-basis | Accept this basis |  |
+| r3-origin-meaning | Highest merit (transfer) | why is this asked again?? document properly so agent never asks again. Origin is highest merit. Better if there is an automated system for this. File issue and fix before ship. |
+| r3-structural | Discuss | Use recommended defaults first for L4, gather evidence, then meta audit deferred on november. These authors are verified with named skills. I expect the same treatment for new upstreams. File issue, ill fix the system to treat it like this on november. |
+| r4-2257 | Approve #2257 |  |
+| r4-audit | Acknowledged |  |
+| r4-frozen-def | Also suites whose upstream is frozen | gaia dev freeze any node. |
+| r4-peer-review-rows | Discuss | Check any articles related for actual peer reviews, or better since its google deepmind, actual papers (arxiv, etc) related. |
+| r4-suite-membership | Discuss | Discuss the sibling cap. I dont recal having this. I think some skills have high TMs, and only the fusion is separated |
+
+Founder message 2026-10-30 (verbatim): "Done. FD-7 should be automated, doesnt need my call anymore. Remove manual work on origins, make them automatic--only exceptions would be frozen contenders. Frozen skills lock the TM and grade, and they can beat live ones. Highest merit only."
+
+### L4 topology choices (76; reviewer: founder, via the review page)
+
+| Skill | Choice | Generic | Note |
+|---|---|---|---|
+| (7 parked drafts) | approve |  |  |
+| addy-osmani/debugging-and-error-recovery | approve |  |  |
+| addy-osmani/git-workflow-and-versioning | approve |  |  |
+| addy-osmani/idea-refine | approve |  |  |
+| addy-osmani/interview-me | approve |  | I do think we need to rrename the generic node to NOT be grill me, but have both as named skills |
+| addy-osmani/using-agent-skills | decline |  | support |
+| arcmira/find-quotes | approve |  |  |
+| cathrynlavery/diagram-design | approve |  |  |
+| cis2042/product-design-harness | new |  | product design plus design review fusion |
+| emilkowalski/animate-expo | approve |  |  |
+| emilkowalski/animate | approve |  |  |
+| emilkowalski/animation-performance | new |  | fuse performance-tuning and an animation skill |
+| emilkowalski/apple-design | approve |  |  |
+| emilkowalski/break-ui | new |  | make a new generic, breaking ui should be different from auditing ui. Its like a fusion of red teaming and ui audit perhaps |
+| emilkowalski/emil-design-eng | approve |  |  |
+| emilkowalski/find-animation-opportunities | approve |  |  |
+| emilkowalski/improve-animations | approve |  |  |
+| emilkowalski/mobile-native | approve |  |  |
+| emilkowalski/prototype | other | design-review | the same with design shotgun  |
+| emilkowalski/review-animations | approve |  |  |
+| emilkowalski/write-swift | approve |  |  |
+| firecrawl/firecrawl-build | other | browser-automation |  |
+| garrytan/article-enrichment | approve |  |  |
+| garrytan/ask-user | approve |  |  |
+| garrytan/brain-ingest-gate | approve |  | make sure this is prereq to the one that needs this skill. |
+| garrytan/brain-link-discipline | approve |  | link as prereq. |
+| garrytan/brain-pdf | approve |  |  |
+| garrytan/brain-taxonomist | approve |  | prereq |
+| garrytan/briefing | approve |  |  |
+| garrytan/chat-connectors | other |  | maybe more chat integration or mcp related |
+| garrytan/citation-fixer | approve |  |  |
+| garrytan/cold-start | approve |  |  |
+| garrytan/company-brainify | new |  | make a fusion of knowledge management and internal company knowledge generic or something |
+| garrytan/correction-pipeline | approve |  | good skill |
+| garrytan/cron-scheduler | approve |  |  |
+| garrytan/cross-modal-review | approve |  |  |
+| garrytan/daily-task-manager | approve |  |  |
+| garrytan/daily-task-prep | approve |  |  |
+| garrytan/data-loss-gate | approve |  |  |
+| garrytan/db-repair | approve |  |  |
+| garrytan/eiirp | approve |  |  |
+| garrytan/enrich | new |  |  |
+| garrytan/frontmatter-guard | new |  | fuse any frontend skill with knowledge management |
+| garrytan/gbrain-advisor | decline |  | support |
+| garrytan/gbrain-upgrade | approve |  |  |
+| garrytan/google-loops | new |  |  |
+| garrytan/idea-ingest | approve |  |  |
+| garrytan/ingest | approve |  |  |
+| garrytan/maintain | decline |  | maybe a support skill. |
+| garrytan/mcp-access | approve |  |  |
+| garrytan/media-ingest | approve |  | fusion of generative media and something |
+| garrytan/migrate | decline |  | support skill. |
+| garrytan/perplexity-research | approve |  |  |
+| garrytan/postgres-adopt | approve |  |  |
+| garrytan/publish | new |  | prereq, should be different from usual publish skill node |
+| garrytan/query | new |  | hmm maybe a new search or query only lookup, prereq to the brain |
+| garrytan/repo-architecture | other |  | maybe an architecture skill |
+| garrytan/reports | approve |  |  |
+| garrytan/resolve-before-asking | approve |  |  |
+| garrytan/schema-author | approve |  |  |
+| garrytan/schema-unify | approve |  |  |
+| garrytan/setup | decline |  | support skill |
+| garrytan/skill-creator | approve |  |  |
+| garrytan/skillpack-check | decline |  |  |
+| garrytan/skillpack-harvest | approve |  |  |
+| garrytan/smoke-test | approve |  |  |
+| garrytan/soul-audit | approve |  |  |
+| garrytan/testing | approve |  |  |
+| garrytan/voice-note-ingest | new |  | fusion of voice-agent and something |
+| garrytan/webhook-transforms | other |  | hmm something else thats more webhook and fused with a brain related node |
+| jpoutrin/create-plugin | approve |  |  |
+| obra/diagnosing-superpowers | decline |  | support |
+| obra/using-superpowers | decline |  | support |
+| theqtcompanyrnd/qt-qml-review | approve |  | accepted but |
+| yylo-dev/plan-ledger-tasks-yylo | approve |  |  |
+| zhaoxuya520/reverse-skill | approve |  |  |
+
 ## Founder rulings 2026-10-30 (decision review page, verbatim from the store)
 
 Recorded from https://claude.ai/artifact/W2YnN4Sa7Lgrki521tzbK3 (collection `choices`). Choice and note are the founder's own words.
