@@ -21,7 +21,7 @@
         "level": "5★",
         "trustMagnitude": 374.99
       },
-      "prestigeScore": 2464.45,
+      "prestigeScore": 2485.03,
       "_links": {
         "self": "/api/v1/contributors/mattpocock.json"
       }
@@ -58,9 +58,9 @@
       "topSkill": {
         "id": "heygen-com/hyperframes",
         "level": "4★",
-        "trustMagnitude": 166.92
+        "trustMagnitude": 171.92
       },
-      "prestigeScore": 1066.92,
+      "prestigeScore": 1071.92,
       "_links": {
         "self": "/api/v1/contributors/heygen-com.json"
       }
@@ -222,6 +222,19 @@
       }
     },
     {
+      "handle": "wheresryan22",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "wheresryan22/anatomy",
+        "level": "4★",
+        "trustMagnitude": 157.48
+      },
+      "prestigeScore": 157.48,
+      "_links": {
+        "self": "/api/v1/contributors/wheresryan22.json"
+      }
+    },
+    {
       "handle": "mksglu",
       "namedSkills": 1,
       "topSkill": {
@@ -232,19 +245,6 @@
       "prestigeScore": 154.71,
       "_links": {
         "self": "/api/v1/contributors/mksglu.json"
-      }
-    },
-    {
-      "handle": "wheresryan22",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "wheresryan22/anatomy",
-        "level": "4★",
-        "trustMagnitude": 152.48
-      },
-      "prestigeScore": 152.48,
-      "_links": {
-        "self": "/api/v1/contributors/wheresryan22.json"
       }
     },
     {
@@ -287,6 +287,19 @@
       }
     },
     {
+      "handle": "nvidia",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "nvidia/accelerated-computing-cudf",
+        "level": "4★",
+        "trustMagnitude": 131.12
+      },
+      "prestigeScore": 131.12,
+      "_links": {
+        "self": "/api/v1/contributors/nvidia.json"
+      }
+    },
+    {
       "handle": "ayghri",
       "namedSkills": 1,
       "topSkill": {
@@ -300,19 +313,6 @@
       }
     },
     {
-      "handle": "nvidia",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "nvidia/accelerated-computing-cudf",
-        "level": "4★",
-        "trustMagnitude": 126.12
-      },
-      "prestigeScore": 126.12,
-      "_links": {
-        "self": "/api/v1/contributors/nvidia.json"
-      }
-    },
-    {
       "handle": "hikari9",
       "namedSkills": 2,
       "topSkill": {
@@ -323,6 +323,19 @@
       "prestigeScore": 113.31,
       "_links": {
         "self": "/api/v1/contributors/hikari9.json"
+      }
+    },
+    {
+      "handle": "browser-use",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "browser-use/browser-harness",
+        "level": "3★",
+        "trustMagnitude": 103.59
+      },
+      "prestigeScore": 103.59,
+      "_links": {
+        "self": "/api/v1/contributors/browser-use.json"
       }
     },
     {
@@ -349,19 +362,6 @@
       "prestigeScore": 82.62,
       "_links": {
         "self": "/api/v1/contributors/gaia-research.json"
-      }
-    },
-    {
-      "handle": "browser-use",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "browser-use/browser-harness",
-        "level": "3★",
-        "trustMagnitude": 73.59
-      },
-      "prestigeScore": 73.59,
-      "_links": {
-        "self": "/api/v1/contributors/browser-use.json"
       }
     },
     {
