@@ -9,6 +9,29 @@ with explicit effort on every dispatch.
 same day as the October cutoff). Three agents died mid-task; their partial state is recorded below.
 Nothing is half-merged. Machine disk ≈5 GB free after cleanup.
 
+## PAUSE STATE — 2026-10-31 ~01:00 Manila (session tokens exhausted; supersedes the in-flight table below)
+
+All subagents stopped. Nothing is half-merged. Every worktree's work is committed and pushed (WIP commits labelled).
+`dev/yggdrasil-iv` = `f70b55e62` (includes #2264 dedup fallout: dev fast gate + Schema/DAG should be green again).
+Founder rulings since the FINISH PLAN was written (all in CAMPAIGN.md, `17fd2ac93`): sibling cap unchanged + audit
+issue #2263; Origin ties → all tied hold Origin; Origin is automatic, no manual path. October post drafted (#2266).
+
+| # | Item | Branch / worktree | Exact state | Next action |
+|---|---|---|---|---|
+| A | Origin automation + rule fixes (Unique 5★ prereq-Origin removed, no Origin star floor, ties share Origin, suite-wide freeze, docs) | `dev/yggiv-origin-automation` @ `80150fff8`, `~/.gaia-worktrees/origin`, **no PR** | **WIP, UNREVIEWED.** One commit holding new `src/gaia_cli/origin.py`, `frozen.py`, `tests/test_origin_rule.py`, code in promotion/helpers/named/freeze/sensors/generateNamedIndex/leaderboard/build_docs/validate/run_meta_sweep, docs (META, GOVERNANCE, CLAUDE, CONTEXT, README, ratification notes, 4 skills ×2 mirrors), ~200 `registry/named/*` Origin-flag rewrites, and regen output | Merge dev in; split generated noise out; verify (a) no frozen file touched, (b) registry edits are what the automatic rule yields (ideally Origin is derived at build time so named files need no flag edits — confirm the design), (c) tie rule = all tied hold Origin, (d) ratification §IV superseding note present; file issue "Origin is automatic (highest merit)" (not yet filed); run tests; independent adversarial review; open PR; merge |
+| B | #2251 October calibration | `review/meta/yggiv-october-calibration` @ `aa9bc3239`, `~/.gaia-worktrees/calib` | Done: FD-8/9/10/11/12/14/15/17/18, C1a+C1b suite links (all 37 now capped), C2 tests, graphify revert, general-video freeze, agent-reach re-derived, FD-17 leftovers (redesign-skill relinked, output-skill frozen), peer-review rows retyped honestly (workflow-skill-creator TM 100.82→59.65 B, stored 4★ = review debt; browser-harness similar) | Verify PR body is current; merge dev in after A lands; regen; merge |
+| C | #2176 schema (founder Core sign-off) | `dev/yggdrasil-iv-evidence-schema-final` @ `1c9613aee` | CI red: 3 tests still assert the schema is UNadopted (`test_canonical_cli.py::test_production_refuses_unadopted_schema_without_writes`, `test_canonical_review_repairs.py::test_unadopted_schema_and_invalid_output_have_distinct_refusals`, `::test_schema_adoption_gaps_names_the_missing_fields`) | Update those tests to the adopted state (keep the refusal path tested with a synthetic unadopted schema fixture); CI green; merge |
+| D | #2259 clamp alignment (option A) | `dev/yggiv-clamp-alignment` @ `3bd9de0cc` | Ready; must follow B | Merge dev in after B, regen ledger+leaderboard together, merge |
+| E | #2266 October Meta Post (IV drop) + W8 era wording + Origin legend fix | `docs/yggiv-october-post` @ `9cba53f4e`, `~/.gaia-worktrees/post` | Draft with 13 `[[VERIFY]]` markers + facts ledger `docs/meta/2026-10-YGGDRASIL-IV.FACTS.md`; screenshots `~/.gaia-worktrees/post-evidence/`. **Founder-gated, do not merge.** | Before founder review: (1) fix shared report template table overflow at 390px (#2265) in `scripts/add_post.py`, re-render; (2) homepage stats strip shows "— NAMED / — ULTIMATES" dashes and hero "96 named" vs stats 352 — find cause/definitions; (3) contributor counts disagree (about 59 / API 43 / listing 65) — cite the public contributors page definition; (4) separate `schema/yggiv-era` PR adding era IV to `registry/schema/meta.json` + `src/gaia_cli/data/registry/schema/meta.json`. Then resolve every `[[VERIFY]]` after steps 6–9 below, re-render, preview, founder review |
+| F | Calibration re-audit (founder's main-merge condition) | — | Not started | After A+B+D merge: fresh independent Opus-class auditor → `verification/CALIBRATION-REVERIFICATION.md`; must PASS |
+| G | Adjudication ledger approvals regen | launch branch, `adjudication/tools/` (WIP `c35b1b69b`) | WIP edits from the A run, unreviewed | Review the WIP; add approvals input from CAMPAIGN rulings; regenerate; `--check` |
+| H | L4 batch (76 founder choices) | — | Not started | FINISH PLAN step 8 |
+| I | Cutoff refresh (after 2026-10-31T23:59:59Z) + mattpocock witness +72h (2026-11-01T16:40Z) | — | Not started | FINISH PLAN step 9 |
+| J | W9 screenshot matrix, rollback plan, launch-branch PR into dev, #2189 update, #2151 handed ready | — | Not started | FINISH PLAN steps 11–12 |
+
+Order: C (independent) · A → B → D → F → G → H → I → resolve E markers → founder reviews E (+ W9) → J.
+Never merge on red CI; gate merges on `gh pr checks` with no `fail`. Founder merges #2151.
+
 ## FINISH PLAN — read this first (2026-10-30 21:30 Manila, roster-agnostic)
 
 Any orchestrator (any model) can finish from here. Environment: macOS, `python3` (no `python`, no `timeout`),

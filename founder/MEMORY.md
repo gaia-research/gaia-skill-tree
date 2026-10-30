@@ -15,6 +15,21 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-31, PAUSED ON TOKENS — October closeout; resume from HANDOVER.md §PAUSE STATE)
+
+### TLDR
+- Resume: `founder/reports/yggdrasil-iv-october-2026/HANDOVER.md` §"PAUSE STATE" (exact per-item state A–J) then §"FINISH PLAN" (gap review, 12 steps, hazards) on `dev/yggdrasil-iv-launch`.
+- dev `f70b55e62`. Merged since the previous snapshot: #2264 (dedup fallout). October Meta Post drafted as #2266 (founder-gated, 13 VERIFY markers + facts ledger).
+- Biggest unreviewed asset: Origin automation WIP on `dev/yggiv-origin-automation` @ `80150fff8` (no PR) — review before trusting.
+- Founder rulings 2026-10-30 late: sibling cap unchanged (#2263 audit), Origin ties all hold Origin, Origin automatic only.
+- Main merge still gated on a PASSING calibration re-audit; founder merges #2151.
+
+### Open questions for next orchestrator
+None pending from the founder. Founder review needed only for #2266 (the IV drop post + era wording) once its VERIFY markers are resolved.
+
+### Token cost
+Session ended on the account usage limit (third pause this campaign).
+
 ## State Snapshot (2026-10-30, OCTOBER CLOSEOUT LAST SPRINTS — EPIC #2189; finish plan in HANDOVER.md §FINISH PLAN)
 
 ### TLDR
