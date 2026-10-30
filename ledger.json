@@ -1,5 +1,5 @@
 {
- "generation": 185,
+ "generation": 186,
  "lane": {
   "entries": [
    {
@@ -1112,14 +1112,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-85da151344100d2bf011",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-10-30T02:58:33.826102Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (independent verification by sonnet-verifier-a0680fa7 (sonnet, effort medium))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-10-30T02:50:15.169447Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-10-30T02:58:33.826102Z",
+    "lastVerdict": "reject",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 0,
@@ -2512,7 +2518,7 @@
   "policy": {
    "cooldownSeconds": 3600,
    "maxAttempts": 2,
-   "maxInFlight": 2
+   "maxInFlight": 1
   },
   "schemaVersion": "steward-lane-v1"
  },
@@ -11197,6 +11203,13 @@
      "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
      "emittedAt": "2026-10-30T02:57:41.982856Z",
      "idempotencyKey": "verify:dispatch-85da151344100d2bf011:1",
+     "outcome": {
+      "agentId": "sonnet-verifier-a0680fa7",
+      "effort": "medium",
+      "model": "sonnet",
+      "rationale": "Finding reproduces (stored 1★, TM 111.0 grade A, G7 effective 4★; 129 sensor tests pass), so the builder's noChange claim is wrong. The correction is a registry calibration (`gaia dev calibrate k-dense-ai/deepchem 4★`) outside the dispatch envelope; 4★ pre-flight (verified links.github blob) unchecked. Timeline shows level was earlier reset 4★->1★, so a human should confirm intent.",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet"
@@ -11209,7 +11222,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261030T024735Z-6eec6709/verify-8782d71a11bc.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-10-30T02:58:33.826045Z",
+     "status": "done",
      "stepId": "verify:8782d71a11bc:1",
      "type": "agent.verify"
     }
@@ -11225,6 +11239,18 @@
      "model": "haiku",
      "role": "builder",
      "stepId": "build:8782d71a11bc:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "sonnet-verifier-a0680fa7",
+     "at": "2026-10-30T02:58:33.826102Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+     "effort": "medium",
+     "model": "sonnet",
+     "role": "verifier",
+     "stepId": "verify:8782d71a11bc:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -11467,7 +11493,8 @@
    ],
    "mode": "full",
    "modelIds": [
-    "haiku"
+    "haiku",
+    "sonnet"
    ],
    "mutated": true,
    "nextAction": "perform 1 pending action(s) (agent.verify), record each with `gaia steward full record run-20261030T024735Z-6eec6709 <stepId> --input FILE`, then `gaia steward full run --resume run-20261030T024735Z-6eec6709`",
@@ -12589,11 +12616,11 @@
      "stepId": "phase:class_b"
     },
     {
-     "at": "2026-10-30T02:57:41.982856Z",
+     "at": "2026-10-30T02:58:33.826045Z",
      "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
      "idempotencyKey": "verify:dispatch-85da151344100d2bf011:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:8782d71a11bc:1"
     }
    ],
@@ -12604,11 +12631,11 @@
    "tokensOut": 0,
    "trigger": "scheduled",
    "unresolvedWork": [],
-   "updatedAt": "2026-10-30T02:56:15.410234Z"
+   "updatedAt": "2026-10-30T02:58:33.826045Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-30T02:57:49.776411Z",
+ "updatedAt": "2026-10-30T02:58:33.828502Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -12812,22 +12839,25 @@
      "stepId": "build:8782d71a11bc:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "sonnet-verifier-a0680fa7",
+     "at": "2026-10-30T02:58:33.826102Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "sonnet",
+     "role": "verifier",
+     "stepId": "verify:8782d71a11bc:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-integration",
+   "blockedReason": "independent verification by sonnet-verifier-a0680fa7 (sonnet, effort medium): rejected - Finding reproduces (stored 1★, TM 111.0 grade A, G7 effective 4★; 129 sensor tests pass), so the builder's noChange claim is wrong. The correction is a registry",
    "branch": "steward/b/trust-calibration-drift-8782d71a11bc",
-   "build": {
-    "agentId": "haiku-builder-a81036c9",
-    "attempt": 1,
-    "diffPath": null,
-    "dispatchId": "dispatch-85da151344100d2bf011",
-    "noChange": true,
-    "proofPath": null,
-    "recordedAt": "2026-10-30T02:56:15.410267Z",
-    "summary": "Reproduced: k-dense-ai/deepchem stored 1★; inspectTrustMagnitude computes TM 111.0, grade A, G7 target 4★. No change within allowed paths (src/gaia_cli/steward, tests/steward) is needed; correction is the human-approved command `gaia dev calibrate k-dense-ai/deepchem 4★`, not executed. Focused sensor tests (129 passed) were run by the lead after installing pytest/jsonschema/pyyaml; builder was blocked by the missing pytest."
-   },
+   "build": null,
    "createdAt": "2026-10-30T02:50:15.169447Z",
    "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
    "dispatchId": "dispatch-85da151344100d2bf011",
@@ -12838,6 +12868,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-85da151344100d2bf011 (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-10-30T02:58:33.826102Z",
+     "from": "building",
+     "reason": "independent verification by sonnet-verifier-a0680fa7 (sonnet, effort medium): rejected - Finding reproduces (stored 1★, TM 111.0 grade A, G7 effective 4★; 129 sensor tests pass), so the builder's noChange claim is wrong. The correction is a registry",
+     "to": "blocked"
     }
    ],
    "kind": "trust_calibration_drift",
@@ -12847,13 +12883,14 @@
    "routine": "gaia-trust-calibration-steward",
    "runId": "run-20261030T024735Z-6eec6709",
    "source": "trust-calibration-drift",
-   "state": "building",
-   "updatedAt": "2026-10-30T02:56:15.410267Z",
+   "state": "blocked",
+   "updatedAt": "2026-10-30T02:58:33.826102Z",
    "verification": {
-    "mode": "no-change",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261030T024735Z-6eec6709/verify-8782d71a11bc.prompt.md"
+    "agentId": "sonnet-verifier-a0680fa7",
+    "rationale": "Finding reproduces (stored 1★, TM 111.0 grade A, G7 effective 4★; 129 sensor tests pass), so the builder's noChange claim is wrong. The correction is a registry calibration (`gaia dev calibrate k-dense-ai/deepchem 4★`) outside the dispatch envelope; 4★ pre-flight (verified links.github blob) unchecked. Timeline shows level was earlier reset 4★->1★, so a human should confirm intent.",
+    "recordedAt": "2026-10-30T02:58:33.826102Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   }
  }
