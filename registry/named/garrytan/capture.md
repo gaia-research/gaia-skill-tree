@@ -9,7 +9,7 @@ level: 3★
 description: Captures thoughts and content into a persistent personal knowledge brain
   through one idempotent ingestion entrypoint.
 createdAt: '2026-09-07'
-updatedAt: '2026-09-07'
+updatedAt: '2026-10-30'
 title: GBrain Capture
 links:
   github: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/capture/SKILL.md
@@ -45,6 +45,11 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 4★ to 3★
+- timestamp: '2026-10-30T04:58:32Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/capture/SKILL.md
   updatedAt: '2026-10-01'
@@ -61,6 +66,9 @@ evidence:
 verification:
   firstEvidenceAt: '2026-09-06T16:54:27Z'
 suiteRef: garrytan/gbrain
+trustMagnitude: 50.0
+overallTrustGrade: B
+trustMagnitudeInputHash: 0460e480f3b261cc6002e71cd749d8fc6763fb52c8fcb7e94052dfa1b5b39113
 ---
 
 ## Installation

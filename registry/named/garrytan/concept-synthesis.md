@@ -9,7 +9,7 @@ level: 3★
 description: Synthesizes and curates raw knowledge concepts into a grounded, tiered
   intellectual map.
 createdAt: '2026-09-07'
-updatedAt: '2026-09-07'
+updatedAt: '2026-10-30'
 title: GBrain Concept Synthesis
 links:
   github: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md
@@ -37,6 +37,11 @@ timeline:
   contributor: unknown
   details: 'Updated evidence #0 metadata from https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md;
     changed notes, stars'
+- timestamp: '2026-10-30T04:58:32Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md
   updatedAt: '2026-10-01'
@@ -52,7 +57,10 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-09-06T16:54:29Z'
-suiteRef: "garrytan/gbrain"
+suiteRef: garrytan/gbrain
+trustMagnitude: 50.0
+overallTrustGrade: B
+trustMagnitudeInputHash: 3b9dc55d459397624635608a6f81e7c32c19b5282bc81232cf95eed81d007ab4
 ---
 
 ## Installation

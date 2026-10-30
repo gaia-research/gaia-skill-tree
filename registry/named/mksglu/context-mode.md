@@ -20,7 +20,7 @@ description: "Use context-mode tools (ctx_execute, ctx_execute_file) instead of 
   , \"CI/CD output\".\n  Also triggers on ANY MCP tool output that may exceed 20 lines.\n\
   \  Subagent routing is handled automatically via PreToolUse hook."
 createdAt: '2026-09-07'
-updatedAt: '2026-09-07'
+updatedAt: '2026-10-30'
 title: Context Mode
 links:
   github: https://github.com/mksglu/context-mode/blob/6b8bf61f83abed6c3faf4e7c3ba02c162fadfedf/skills/context-mode/SKILL.md
@@ -46,6 +46,11 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Calibrated level from 2★ to 4★
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 154.71, grade (none) -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/mksglu/context-mode
   evaluator: mbtiongson1
@@ -68,6 +73,9 @@ evidence:
   grade: A
 verification:
   firstEvidenceAt: '2026-09-06T17:59:39Z'
+trustMagnitude: 154.71
+overallTrustGrade: A
+trustMagnitudeInputHash: 227a7a3229efaa02842bc82cb94bed8f8f6f5406a0ee36bdaed59e9f6677cbce
 ---
 
 ## Installation

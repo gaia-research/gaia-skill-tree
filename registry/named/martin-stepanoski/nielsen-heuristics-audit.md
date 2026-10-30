@@ -20,20 +20,42 @@ tags:
 - heuristics
 - accessibility
 createdAt: '2026-04-30'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-30'
 evidence:
 - class: B
   source: https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md
   evaluator: mbtiongson1
-  date: '2026-04-30'
+  date: '2026-10-29'
   notes: 'Martin Stepanoski @mastepanoski/claude-skills -- /nielsen-heuristics-audit"
     audits UI against Nielsen 10 usability heuristics step-by-step. (backfilled —
     class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia
     dev evidence)'
   type: repo
   trustNumber: 70.0
-  commits: 32
+  commits: 51
   contributors: 2
+- source: https://www.npmjs.com/package/@mastepanoski/claude-skills
+  evaluator: mbtiongson1
+  date: '2026-10-29'
+  type: npm-downloads
+  notes: npm registry downloads API last-week (2026-10-22..2026-10-28) for @mastepanoski/claude-skills
+    (whole 13-skill bundle, v1.9.3, repository git+https://github.com/mastepanoski/claude-skills).
+    Founder ruling 2026-10-30 FD-14.
+  downloads: 57
+  sourceStartedAt: '2026-02-05'
+- source: https://github.com/mastepanoski/claude-skills
+  evaluator: mbtiongson1
+  date: '2026-10-29'
+  type: github-stars-own
+  notes: GitHub REST stargazers_count of mastepanoski/claude-skills at 2026-10-29
+    (13 skills in repo; skill-file blob URL for this skill verified HTTP 200). Recorded
+    at the repo root because the existing legacy repo row already occupies the skill
+    blob URL and the production evidence merge drops same-URL cross-type rows (src/gaia_cli/evidence.py
+    merge_evidence). Founder ruling 2026-10-30 FD-14.
+  stars: 59
+  skillCountInRepo: 13
+  sourceStartedAt: '2026-02-05'
+  grade: C
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
   action: demote
@@ -82,8 +104,37 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 3★ to 1★
-trustMagnitude: 4.9
-overallTrustGrade: ungraded
+- timestamp: '2026-10-29T16:58:48Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md
+    (type: github-stars-own)'
+- timestamp: '2026-10-29T16:58:49Z'
+  action: evidence_graded
+  contributor: mbtiongson1
+  details: 'Updated evidence #0 metadata from https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md;
+    changed commits, date'
+- timestamp: '2026-10-29T16:58:50Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://www.npmjs.com/package/@mastepanoski/claude-skills
+    (type: npm-downloads)'
+- timestamp: '2026-10-29T16:59:36Z'
+  action: evidence_removed
+  contributor: mbtiongson1
+  details: 'Removed dead/invalid evidence: https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md'
+- timestamp: '2026-10-29T16:59:37Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/mastepanoski/claude-skills (type:
+    github-stars-own)'
+- timestamp: '2026-10-29T16:59:48Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 4.9 -> 31.93, grade ungraded -> C (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 31.93
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: true
@@ -93,7 +144,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 0db6ef3e729f795d19b09306634e9888229eaf3c843202b8e70a0557d8915685
+trustMagnitudeInputHash: 56455d0946732a254ac5a96ba4f747f51deaaee4721ff276fd0a413c6d258756
 verification:
   firstEvidenceAt: '2026-06-19T17:09:30Z'
 ---

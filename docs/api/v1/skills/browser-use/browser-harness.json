@@ -5,8 +5,8 @@
   "level": "3★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 73.59,
-  "overallTrustGrade": "B",
+  "trustMagnitude": 118.59,
+  "overallTrustGrade": "A",
   "branch": "standard",
   "rankWord": "Evolved",
   "medallion": "◇",
@@ -76,12 +76,23 @@
       "views": 50000
     },
     {
-      "source": "https://github.com/browser-use/browser-harness",
+      "source": "https://scored.tools/blog/browser-harness-review-2026/",
       "evaluator": "mbtiongson1",
-      "date": "2026-06-19",
+      "date": "2026-10-30",
       "type": "peer-review",
-      "class": "A",
-      "notes": "AI Agent Developer Community: commended as lightweight CDP bridge, self-healing via runtime agent_helpers.py, steeper learning curve than Playwright. Mid-2026.",
+      "notes": "Independent written review (scored.tools, 2026-05-31, ~1,300 words): assesses the self-healing CDP loop, direct CDP integration, deployment modes, pricing and fit; verdict 'core idea is good, implementation genuinely lean, project too young to bet a production pipeline on'. Replaces the mislabelled repo-URL peer-review row (a repository URL is not a peer review; repo metrics stay in the repo-own row). Founder ruling 2026-10-30 (r4-peer-review-rows).",
+      "reviewers": 1,
+      "sourceStartedAt": "2026-05-31",
+      "grade": "C"
+    },
+    {
+      "source": "https://www.tensorlake.ai/blog/browser-harness-cdp-self-healing",
+      "evaluator": "mbtiongson1",
+      "date": "2026-10-30",
+      "type": "peer-review",
+      "notes": "Independent critical analysis (Tensorlake blog, published 2026-05-01): examines the self-healing CDP design and contrasts the team-reported 97% Online-Mind2Web score with the HAL Princeton leaderboard figure (about 40% for Browser-Use). Counted as one reviewer. Founder ruling 2026-10-30 (r4-peer-review-rows).",
+      "reviewers": 1,
+      "sourceStartedAt": "2026-05-01",
       "grade": "C"
     }
   ],
@@ -187,6 +198,24 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 73.59 -> 73.59, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-10-30T13:13:56Z",
+      "action": "evidence_removed",
+      "contributor": "mbtiongson1",
+      "details": "Removed dead/invalid evidence: https://github.com/browser-use/browser-harness"
+    },
+    {
+      "timestamp": "2026-10-30T13:13:57Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://scored.tools/blog/browser-harness-review-2026/ (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-10-30T13:13:58Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://www.tensorlake.ai/blog/browser-harness-cdp-self-healing (type: peer-review)"
     }
   ],
   "links": {

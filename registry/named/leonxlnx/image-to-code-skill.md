@@ -9,10 +9,10 @@ level: 3★
 description: Multimodal visual decomposition and pixel-accurate translation of UI
   mockups into responsive frontend code.
 createdAt: '2026-08-22'
-updatedAt: '2026-09-02'
+updatedAt: '2026-10-30'
 title: Image to Code
 links:
-  github: https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md
+  github: https://github.com/Leonxlnx/imagegen-skills/blob/main/skills/image-to-code/SKILL.md
 timeline:
 - timestamp: '2026-08-22T08:07:45Z'
   action: add
@@ -40,16 +40,45 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-10-29T17:02:17Z'
+  action: note
+  contributor: mbtiongson1
+  details: Updated GitHub link to https://github.com/Leonxlnx/imagegen-skills/blob/main/skills/image-to-code/SKILL.md
+- timestamp: '2026-10-29T17:02:18Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Founder ruling 2026-10-30 FD-17: second bounded re-probe 2026-10-29T17:00Z
+    of the old links.github (blob/main/skills/image-to-code-skill/SKILL.md in Leonxlnx/taste-skill)
+    = HTTP 404. Upstream moved the skill (taste-skill CHANGELOG 2.1.1/2.1.3); links.github
+    corrected to https://github.com/Leonxlnx/imagegen-skills/blob/main/skills/image-to-code/SKILL.md
+    (HTTP 200). No level change.'
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-10-30T13:06:52Z'
+  action: evidence_removed
+  contributor: mbtiongson1
+  details: 'Removed dead/invalid evidence: https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md'
+- timestamp: '2026-10-30T13:06:55Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/Leonxlnx/taste-skill (type: github-stars-own)'
+- timestamp: '2026-10-30T13:06:58Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Founder ruling 2026-10-30 (r3-fd17-leftovers): dead evidence means the
+    skill moved. Proof: taste-skill CHANGELOG 2.1.1/2.1.3 and README ''Moved skills''
+    place it in Leonxlnx/imagegen-skills (same install name); old blob 404, new blob
+    200. Dead github-stars-own row removed and replaced at the live canonical repo
+    URL. No level change.'
+- timestamp: '2026-10-30T13:08:02Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
-- source: https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md
-  updatedAt: '2026-10-01'
-  evaluator: mbtiongson1
-  date: '2026-08-22'
-  type: github-stars-own
-  notes: 79.0k stars on Leonxlnx/taste-skill suite component
-  stars: 91660
-  sourceStartedAt: '2026-02-19'
-  grade: A
 - source: https://github.com/leonxlnx/taste-skill
   evaluator: mbtiongson1
   date: '2026-08-22'
@@ -59,12 +88,24 @@ evidence:
   contributors: 6
   sourceStartedAt: '2026-02-19'
   grade: B
+- source: https://github.com/Leonxlnx/taste-skill
+  evaluator: mbtiongson1
+  date: '2026-10-30'
+  type: github-stars-own
+  notes: Replaces the dead per-skill blob row (leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md,
+    HTTP 404 since the skill moved out of the repo). GitHub REST stargazers_count
+    of the live canonical project repo Leonxlnx/taste-skill at 2026-10-30; its README
+    'Moved skills' section documents the relocation to Leonxlnx/imagegen-skills with
+    the same install name. Founder ruling 2026-10-30 (r3-fd17-leftovers).
+  stars: 106002
+  sourceStartedAt: '2026-02-19'
+  grade: A
 verification:
   firstEvidenceAt: '2026-08-22T08:08:25Z'
 suiteRef: leonxlnx/taste-skill
 trustMagnitude: 50.0
 overallTrustGrade: B
-trustMagnitudeInputHash: abde51837947f4180bed82debe378688c3c4aa2aea161b9b71d1010d97364948
+trustMagnitudeInputHash: cab6872bf8752b6b22c42563ef836461460d5dc2f32abebf138f491aab0c013b
 ---
 
 ## Installation

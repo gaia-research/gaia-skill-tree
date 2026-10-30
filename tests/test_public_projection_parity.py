@@ -326,17 +326,9 @@ def test_origin_is_unique_across_all_named_entries(namedIndex):
     }
 
 
-@pytest.mark.xfail(
-    strict=True,
-    raises=AssertionError,
-    reason=(
-        "Finding: a named skill at 2-star or above sits in awaitingClassification "
-        "(status awakened) so it is absent from the ledger, leaderboard, skills "
-        "API and every bucket, yet carries origin true. At the time of writing: "
-        "google-deepmind/workflow-skill-creator (4-star, TM 100.82, grade A). "
-        "Registry data must not be edited here."
-    ),
-)
+# The data defect this test pinned (google-deepmind/workflow-skill-creator at 4-star
+# but status awakened) was fixed by founder ruling 2026-10-30 FD-11, which
+# promoted it to named. The strict xfail marker is therefore removed.
 def test_no_public_level_entry_is_hidden_in_awaiting_classification(namedIndex):
     hidden = [
         entry["id"]

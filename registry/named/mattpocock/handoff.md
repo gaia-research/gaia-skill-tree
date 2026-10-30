@@ -10,9 +10,9 @@ level: 3★
 description: Compacts the current conversation into a summary for a fresh agent to
   continue the work.
 createdAt: '2026-05-21'
-updatedAt: '2026-09-04'
+updatedAt: '2026-10-30'
 links:
-  github: https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff
+  github: https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md
@@ -129,6 +129,17 @@ timeline:
   contributor: unknown
   details: 'TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-10-29T17:02:23Z'
+  action: note
+  contributor: mbtiongson1
+  details: Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md
+- timestamp: '2026-10-29T17:02:23Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Founder ruling 2026-10-30 FD-17: links.github pointed at the directory
+    (blob/main/skills/productivity/handoff, HTTP 200 as a tree page, not a skill file);
+    corrected to the SKILL.md file URL (HTTP 200, probed 2026-10-29T17:01Z). No level
+    change.'
 trustMagnitude: 63.71
 overallTrustGrade: B
 apexGateStatus:
@@ -143,7 +154,7 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-19T12:33:32Z'
 trustMagnitudeInputHash: 8a02d6aa3a8ccd2e4ae149a13f2c8551735a66942040d1b6714f52de86aa792e
-suiteRef: "mattpocock/skills"
+suiteRef: mattpocock/skills
 ---
 
 ## Installation

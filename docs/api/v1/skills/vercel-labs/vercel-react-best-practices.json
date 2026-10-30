@@ -25,7 +25,7 @@
   },
   "title": "Vercel React Best Practices",
   "genericSkillRef": "react-performance-optimization",
-  "origin": false,
+  "origin": true,
   "description": "Optimizes component rendering, data fetching, and bundle composition in React applications while preserving requested behavior.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -165,6 +165,18 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 162.66 -> 163.19, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-10-29T16:34:47Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Origin status set to true."
+    },
+    {
+      "timestamp": "2026-10-29T16:34:48Z",
+      "action": "note",
+      "contributor": "mbtiongson1",
+      "details": "Bucket Origin assigned to the unique merit winner of its generic bucket (sole top TM/level member); 4-star Unique gate (checkUniqueBranchGate, bucket-level Origin + TM>=100) now satisfied. Founder ruling 2026-10-30 FD-10 (Assign the four)."
     }
   ],
   "links": {

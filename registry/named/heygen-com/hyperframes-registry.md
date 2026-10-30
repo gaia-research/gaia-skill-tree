@@ -13,7 +13,7 @@ description: Install, discover, and wire registry blocks and components into Hyp
   wiring, component snippet merging, and authoring a new block or component to contribute
   upstream (idea → scaffold → validate → PR).
 createdAt: '2026-09-07'
-updatedAt: '2026-09-07'
+updatedAt: '2026-10-30'
 title: The Component Curator
 timeline:
 - timestamp: '2026-09-06T17:23:01Z'
@@ -50,6 +50,11 @@ timeline:
   action: installation_updated
   contributor: mbtiongson1
   details: 'Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-registry.md'
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 links:
   github: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-registry/SKILL.md
 evidence:
@@ -78,7 +83,7 @@ verification:
 suiteRef: heygen-com/hyperframes
 trustMagnitude: 50.0
 overallTrustGrade: B
-trustMagnitudeInputHash: 2f995c79ee7935d08203cbea8681ad7d02cddca21194e8a31dda1a6f0f9d53e2
+trustMagnitudeInputHash: cd105e648b4b8b9f8a74925bd20227399ee54e4715649552fad7955adf5ab674
 ---
 
 ## Installation

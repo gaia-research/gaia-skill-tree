@@ -5,8 +5,8 @@
       "id": "panniantong/agent-reach",
       "name": "Agent Reach",
       "level": "3★",
-      "trustMagnitude": 53.86,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 260.83,
+      "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "panniantong",
       "type": "basic",
@@ -23,11 +23,11 @@
   "topSkill": {
     "id": "panniantong/agent-reach",
     "level": "3★",
-    "trustMagnitude": 53.86
+    "trustMagnitude": 260.83
   },
-  "prestigeScore": 53.86,
+  "prestigeScore": 260.83,
   "gradeDistribution": {
-    "B": 1
+    "A": 1
   },
   "_links": {
     "self": "/api/v1/contributors/panniantong.json",

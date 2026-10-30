@@ -19,7 +19,7 @@ tags:
 - discipline
 - multi-skill
 createdAt: '2026-05-18'
-updatedAt: '2026-10-24'
+updatedAt: '2026-10-30'
 suiteComponents:
 - obra/brainstorming
 - obra/dispatching-parallel-agents
@@ -187,6 +187,26 @@ timeline:
   previousValue: v6.4.1
   newValue: v7.0.1
   details: synced from https://github.com/obra/superpowers/releases/tag/v7.0.1
+- timestamp: '2026-10-30T04:52:18Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 221.52 -> 221.52, grade A -> A, apexGateStatus {''aGradedOriginsGte5'':
+    False, ''sourceTenureDaysGte180AorS'': False, ''directNestedSuiteGte1'': False,
+    ''depth2OnlyReachableGte1'': False, ''overallGradeS'': True, ''apexPromotionPrSigned'':
+    True, ''apexPromotionPrSignedBy'': ''mbtiongson1'', ''apexPromotionPrSignedAt'':
+    ''2026-06-20'', ''crossOrgVerifier'': None, ''systemWideCap'': None} -> {''aGradedOriginsGte5'':
+    False, ''sourceTenureDaysGte180AorS'': False, ''directNestedSuiteGte1'': False,
+    ''depth2OnlyReachableGte1'': False, ''overallGradeS'': False, ''apexPromotionPrSigned'':
+    True, ''crossOrgVerifier'': None, ''systemWideCap'': None} (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-10-30T04:52:18Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Founder ruling 2026-10-30 FD-15 (Regenerate): stale apexGateStatus cache
+    refreshed via calibrate-trust-magnitude --refresh-apex (overallGradeS true ->
+    false; recomputed grade A, TM 221.52 < 250). apexPromotionPrSigned stays true;
+    the refresh does not retain the apexPromotionPrSignedBy/At annotations. No rank
+    effect, level unchanged.'
 trustMagnitude: 221.52
 overallTrustGrade: A
 apexGateStatus:
@@ -194,10 +214,8 @@ apexGateStatus:
   sourceTenureDaysGte180AorS: false
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
-  overallGradeS: true
+  overallGradeS: false
   apexPromotionPrSigned: true
-  apexPromotionPrSignedBy: mbtiongson1
-  apexPromotionPrSignedAt: '2026-06-20'
   crossOrgVerifier: null
   systemWideCap: null
 verification:

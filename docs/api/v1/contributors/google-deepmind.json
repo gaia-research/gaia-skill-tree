@@ -1,0 +1,36 @@
+{
+  "handle": "google-deepmind",
+  "namedSkills": [
+    {
+      "id": "google-deepmind/workflow-skill-creator",
+      "name": "Workflow-Skill-Creator",
+      "level": "3★",
+      "trustMagnitude": 59.65,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "google-deepmind",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/google-deepmind/workflow-skill-creator.json"
+      },
+      "genericSkillRef": "skill-authoring"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "google-deepmind/workflow-skill-creator",
+    "level": "3★",
+    "trustMagnitude": 59.65
+  },
+  "prestigeScore": 59.65,
+  "gradeDistribution": {
+    "B": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/google-deepmind.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

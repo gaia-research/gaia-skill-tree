@@ -1,0 +1,111 @@
+{
+  "id": "garrytan/skill-autobench",
+  "name": "skill-autobench",
+  "contributor": "garrytan",
+  "level": "2★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 50.0,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/garrytan/skill-autobench.json",
+    "contributor": "/api/v1/contributors/garrytan.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 100.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 3,
+    "transitiveCount": 5,
+    "maxDepth": 2,
+    "nestedSuiteCount": 0
+  },
+  "title": "skill-autobench",
+  "genericSkillRef": "skill-performance-benchmarking",
+  "origin": false,
+  "description": "Author an eval for an existing skill from its REAL usage history, not its\nspec. Mine invocations from the brain's conversation archive\n(conversations/) and per-harness session transcripts — a user correction\nafter an invocation is the gold signal — then synthesize an eval_contract\nplus 4-8 replayable cases with honesty labels (SPEC-DERIVED vs\nHISTORY-IMPLIED) and stage the result at skills/<name>/eval/autobench-<date>.md\nas PENDING-HUMAN-APPROVAL. Never rewrites SKILL.md. Ships two guard\ncompanions: panel integrity (multi-model judging must prove each provider\nactually responded) and the fail-improve taxonomy (logged LLM-fallback\ncases convert to deterministic code over time).",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": true,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/skills/skill-autobench/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-10-29",
+      "type": "github-stars-own",
+      "notes": "GitHub REST stargazers_count of garrytan/gbrain at 2026-10-29 (host suite repo); skill-file blob link verified HTTP 200 at its pinned ref. Founder ruling 2026-10-30 FD-7: skill was added at intake (2026-09-23) with no evidence rows.",
+      "stars": 31330,
+      "skillCountInRepo": 71,
+      "sourceStartedAt": "2026-04-05",
+      "grade": "A"
+    },
+    {
+      "source": "https://github.com/garrytan/gbrain",
+      "evaluator": "mbtiongson1",
+      "date": "2026-10-29",
+      "type": "repo-own",
+      "notes": "GitHub REST default-branch commit count and contributor count of garrytan/gbrain at 2026-10-29; host-repository maintenance, not independent quality evidence. Founder ruling 2026-10-30 FD-7.",
+      "commits": 11443,
+      "contributors": 136,
+      "sourceStartedAt": "2026-04-05",
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-09-23T06:08:11Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added named skill garrytan/skill-autobench"
+    },
+    {
+      "timestamp": "2026-10-29T16:55:50Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/garrytan/gbrain/blob/v0.51.6.0/skills/skill-autobench/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-10-29T16:55:51Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/garrytan/gbrain (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-10-29T16:56:48Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 158.36, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-10-30T13:15:37Z",
+      "action": "suite_ref_set",
+      "contributor": "mbtiongson1",
+      "details": "Set suiteRef to garrytan/gbrain"
+    },
+    {
+      "timestamp": "2026-10-30T13:15:38Z",
+      "action": "note",
+      "contributor": "mbtiongson1",
+      "details": "Founder ruling 2026-10-30 (FD-7 suite linking is automatic; sibling cap unchanged, audit filed as #2263) and audit correction C1 of PR #2251: suiteRef garrytan/gbrain set. Upstream path is inside the suite repo: garrytan/gbrain/blob/v0.51.6.0/skills/skill-autobench/SKILL.md."
+    },
+    {
+      "timestamp": "2026-10-30T13:17:39Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 158.36 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/skills/skill-autobench/SKILL.md"
+  }
+}

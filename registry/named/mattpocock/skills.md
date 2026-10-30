@@ -13,8 +13,8 @@ description: The ultimate capstone suite encompassing all of Matt Pocock's engin
 links:
   github: https://github.com/mattpocock/skills
 createdAt: '2026-05-22'
-updatedAt: '2026-10-24'
-trustMagnitude: 374.99
+updatedAt: '2026-10-30'
+trustMagnitude: 280.39
 overallTrustGrade: S
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -165,16 +165,38 @@ timeline:
   previousValue: v1.2.3
   newValue: v1.3.1
   details: synced from https://github.com/mattpocock/skills/releases/tag/v1.3.1
+- timestamp: '2026-10-29T16:45:49Z'
+  action: evidence_graded
+  contributor: mbtiongson1
+  details: 'Updated evidence #0 from https://arxiv.org/abs/2607.03238; changed citations,
+    date, grade, notes (grade: S → ungraded)'
+- timestamp: '2026-10-29T16:45:57Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 374.99 -> 280.39, grade S -> S (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-10-29T16:46:06Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Founder ruling 2026-10-30 FD-9 (fix evidence, re-probe, no level action).
+    (1) arXiv:2607.03238 citations corrected 500 -> 2 (Semantic Scholar Graph API
+    citationCount=2, retrieved 2026-10-29T16:45:40Z; OpenAlex 0); TM 374.99 -> 280.39
+    (S), still above the 250 S floor. (2) Witness re-probe t0 2026-10-29T16:40:49Z:
+    https://frontendmastery.com/posts/matt-pocock-claude-code-skills-architecture/
+    returned HTTP 404 (default and browser User-Agent, redirects followed). Under
+    Yggdrasil IV a 404 is review debt with bounded probes (t0/+24h/+72h), not a demotion;
+    next probes due 2026-10-30T16:40Z and 2026-11-01T16:40Z. Level unchanged at 5★.'
 evidence:
 - source: https://arxiv.org/abs/2607.03238
   evaluator: mbtiongson1
-  date: '2026-09-04'
+  date: '2026-10-29'
   type: arxiv
-  citations: 500
-  grade: S
+  citations: 2
   notes: Foundational empirical study analyzing 1,126 skill adaptations across 6 core
     upstream repositories, explicitly profiling mattpocock/skills in Table I and Table
-    IV.
+    IV. Citation count corrected 500 -> 2 per Semantic Scholar Graph API (citationCount=2,
+    influentialCitationCount=1) retrieved 2026-10-29T16:45:40Z; OpenAlex cited_by_count=0
+    (updated 2026-10-28). Founder ruling 2026-10-30 FD-9.
 - source: https://frontendmastery.com/posts/matt-pocock-claude-code-skills-architecture/
   evaluator: mbtiongson1
   date: '2026-09-04'
@@ -222,7 +244,7 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-06-19T09:18:11Z'
-trustMagnitudeInputHash: 791f647448722906eb72d90b10a2f63d68aa8ffeda6bef00a303745f0787b0d2
+trustMagnitudeInputHash: 1d88c4ba03a8b6f444deca6f668ce7e240cd09b0bdba3232d35440748e5ca699
 upstream:
   mode: components
   releasedAt: '2026-10-04T12:48:18Z'
