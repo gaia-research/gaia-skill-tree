@@ -32,6 +32,40 @@
       ]
     },
     {
+      "id": "obra/test-driven-development",
+      "name": "test-driven-development",
+      "level": "2★",
+      "trustMagnitude": 202.11,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "obra",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/test-driven-development.json"
+      },
+      "genericSkillRef": "test-driven-development"
+    },
+    {
+      "id": "obra/writing-skills",
+      "name": "writing-skills",
+      "level": "2★",
+      "trustMagnitude": 193.11,
+      "overallTrustGrade": "A",
+      "fusionScore": 60.0,
+      "contributor": "obra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/writing-skills.json"
+      },
+      "genericSkillRef": "skill-authoring"
+    },
+    {
       "id": "obra/subagent-driven-development",
       "name": "Subagent-Driven Development",
       "level": "4★",
@@ -219,15 +253,15 @@
       "genericSkillRef": "requesting-code-review"
     }
   ],
-  "namedSkillsCount": 12,
+  "namedSkillsCount": 14,
   "topSkill": {
     "id": "obra/superpowers",
     "level": "4★",
     "trustMagnitude": 221.52
   },
-  "prestigeScore": 1093.23,
+  "prestigeScore": 1488.45,
   "gradeDistribution": {
-    "A": 5,
+    "A": 7,
     "B": 4,
     "C": 3
   },

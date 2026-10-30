@@ -117,6 +117,12 @@
       "action": "note",
       "contributor": "mbtiongson1",
       "details": "Founder ruling 2026-10-30 FD-12 (Raise to 4★): 3★ -> 4★ Unique. Verified before raise: TM 144.54 grade A (>=100), live SHA-pinned blob link HTTP 200, Unique branch (no suiteComponents), sole bucket Origin on project-launch-video-production; checkUniqueBranchGate(4★) passed."
+    },
+    {
+      "timestamp": "2026-10-30T04:58:33Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 144.54, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

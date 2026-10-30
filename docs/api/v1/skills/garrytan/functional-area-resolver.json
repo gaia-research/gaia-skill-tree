@@ -1,0 +1,93 @@
+{
+  "id": "garrytan/functional-area-resolver",
+  "name": "functional-area-resolver",
+  "contributor": "garrytan",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 158.36,
+  "overallTrustGrade": "A",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/garrytan/functional-area-resolver.json",
+    "contributor": "/api/v1/contributors/garrytan.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 0.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 0,
+    "transitiveCount": 0,
+    "maxDepth": 0,
+    "nestedSuiteCount": 0
+  },
+  "title": "functional-area-resolver",
+  "genericSkillRef": "route-intent",
+  "origin": false,
+  "description": "Compress an agent's routing file (RESOLVER.md or AGENTS.md) by converting\ngranular skill-per-row tables into functional-area dispatchers. Each area\nlists sub-skills in a \"(dispatcher for: ...)\" clause. The LLM reads one\narea entry and routes to the correct sub-skill. Proven via held-out\nA/B eval: dispatcher pattern outperforms naive pipe-table compression.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": true,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/functional-area-resolver/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-10-29",
+      "type": "github-stars-own",
+      "notes": "GitHub REST stargazers_count of garrytan/gbrain at 2026-10-29 (host suite repo); skill-file blob link verified HTTP 200 at its pinned ref. Founder ruling 2026-10-30 FD-7: skill was added at intake (2026-09-23) with no evidence rows.",
+      "stars": 31330,
+      "skillCountInRepo": 71,
+      "sourceStartedAt": "2026-04-05",
+      "grade": "A"
+    },
+    {
+      "source": "https://github.com/garrytan/gbrain",
+      "evaluator": "mbtiongson1",
+      "date": "2026-10-29",
+      "type": "repo-own",
+      "notes": "GitHub REST default-branch commit count and contributor count of garrytan/gbrain at 2026-10-29; host-repository maintenance, not independent quality evidence. Founder ruling 2026-10-30 FD-7.",
+      "commits": 11443,
+      "contributors": 136,
+      "sourceStartedAt": "2026-04-05",
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-09-23T06:08:09Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added named skill garrytan/functional-area-resolver"
+    },
+    {
+      "timestamp": "2026-10-29T16:55:31Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/functional-area-resolver/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-10-29T16:55:32Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/garrytan/gbrain (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-10-29T16:56:48Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 158.36, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/functional-area-resolver/SKILL.md"
+  }
+}

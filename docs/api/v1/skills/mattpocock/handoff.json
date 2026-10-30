@@ -186,9 +186,21 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
       "details": "TM 63.71 -> 63.71, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-10-29T17:02:23Z",
+      "action": "note",
+      "contributor": "mbtiongson1",
+      "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md"
+    },
+    {
+      "timestamp": "2026-10-29T17:02:23Z",
+      "action": "note",
+      "contributor": "mbtiongson1",
+      "details": "Founder ruling 2026-10-30 FD-17: links.github pointed at the directory (blob/main/skills/productivity/handoff, HTTP 200 as a tree page, not a skill file); corrected to the SKILL.md file URL (HTTP 200, probed 2026-10-29T17:01Z). No level change."
     }
   ],
   "links": {
-    "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff"
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md"
   }
 }

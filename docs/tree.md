@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  ·  generated 2026-10-29
+GAIA SKILL TREE  ·  generated 2026-10-30
 ══════════════════════════════════════════════════════════════════════
 ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -19,7 +19,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ○ nextlevelbuilder/ui-ux-pro-max  [4★]
   ├─ · mattpocock/to-tickets  [3★]
   │  ├─ ○ /plan-decompose
-  │  └─ ○ ████████/functional-area-resolver  [2★]
+  │  └─ ○ garrytan/functional-area-resolver  [2★]
   ├─ · leonxlnx/stitch-skill  [3★]
   │  ├─ · ████████/browse
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]
@@ -78,7 +78,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · garrytan/health  [2★]  (↑ see above)
   ├─ ○ garrytan/pair-agent  [2★]
   ├─ · garrytan/learn  [2★]
-  │  ├─ ○ ████████/context-audit  [2★]
+  │  ├─ ○ garrytan/context-audit  [2★]
   │  └─ ○ /retrieve
   ├─ · garrytan/careful  [3★]
   │  ├─ ○ garrytan/benchmark  [3★]  (↑ see above)
@@ -131,7 +131,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ addy-osmani/code-simplification  [4★]
   │  ├─ · mattpocock/to-tickets  [3★]
   │  │  ├─ ○ /plan-decompose  (↑ see above)
-  │  │  └─ ○ ████████/functional-area-resolver  [2★]
+  │  │  └─ ○ garrytan/functional-area-resolver  [2★]
   │  ├─ · obra/requesting-code-review  [2★]
   │  │  ├─ · addy-osmani/code-review-and-quality  [3★]
   │  │  │  ├─ ○ garrytan/design-html  [3★]  (↑ see above)
@@ -140,7 +140,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  └─ · obra/dispatching-parallel-agents  [3★]
   │  │     ├─ ○ /plan-decompose  (↑ see above)
   │  │     └─ ○ ████████/parallel-execution
-  │  ├─ · ████████/data-research  [2★]
+  │  ├─ · garrytan/data-research  [2★]
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]
   │  │  ├─ ○ /summarize
   │  │  └─ ○ /cite-sources
@@ -160,8 +160,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · mattpocock/handoff  [3★]
   │  │  ├─ ○ /summarize  (↑ see above)
   │  │  ├─ ○ garrytan/document-generate  [3★]  (↑ see above)
-  │  │  └─ ○ ████████/context-audit  [2★]
-  │  ├─ ○ ████████/context-audit  [2★]  (↑ see above)
+  │  │  └─ ○ garrytan/context-audit  [2★]
+  │  ├─ ○ garrytan/context-audit  [2★]  (↑ see above)
   │  ├─ · mattpocock/grill-me  [3★]  (↑ see above)
   │  ├─ · mattpocock/write-a-skill  [2★]
   │  │  ├─ ○ garrytan/design-html  [3★]  (↑ see above)
@@ -176,12 +176,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 ◆ ruvnet/ruflo  [4★]
 ─────────────────────────────────────────────────────────────────
   ├─ · ruvnet/flow-nexus  [2★]
-  │  ├─ · ████████/minion-orchestrator
+  │  ├─ · garrytan/minion-orchestrator  [2★]
   │  │  ├─ · /plan-and-execute
-  │  │  │  ├─ ○ ████████/functional-area-resolver  [2★]
+  │  │  │  ├─ ○ garrytan/functional-area-resolver  [2★]
   │  │  │  ├─ ○ /plan-decompose
   │  │  │  └─ ○ /tool-select
-  │  │  ├─ ○ ████████/functional-area-resolver  [2★]  (↑ see above)
+  │  │  ├─ ○ garrytan/functional-area-resolver  [2★]  (↑ see above)
   │  │  └─ ○ /tool-select  (↑ see above)
   │  ├─ · ruvnet/flow-nexus-platform  [2★]
   │  │  ├─ ○ ████████/hf-cli
@@ -193,7 +193,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ruvnet/agentdb-advanced  [2★]
   │  │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
   │  │  └─ · garrytan/learn  [2★]
-  │  │     ├─ ○ ████████/context-audit  [2★]
+  │  │     ├─ ○ garrytan/context-audit  [2★]
   │  │     └─ ○ /retrieve
   │  ├─ · ████████/agentdb-learning
   │  │  ├─ ○ ruvnet/reasoningbank-intelligence  [2★]
@@ -326,7 +326,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ ○ /retrieve
   ├─ · garrytan/capture  [3★]
   │  ├─ ○ /retrieve  (↑ see above)
-  │  └─ ○ ████████/context-audit  [2★]
+  │  └─ ○ garrytan/context-audit  [2★]
   └─ · garrytan/concept-synthesis  [3★]
      ├─ · garrytan/brain-ops  [3★]  (↑ see above)
      └─ ○ /logical-inference
@@ -361,28 +361,28 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ○ garrytan/document-generate  [3★]
   └─ · garrytan/capture  [3★]
      ├─ ○ /retrieve
-     └─ ○ ████████/context-audit  [2★]
+     └─ ○ garrytan/context-audit  [2★]
 
 ══════════════════════════════════════════════════════════════════════
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
   ◉ mvanhorn/last30days  [4★]
-    ├─ · ████████/draft-in-voice
-    │  ├─ · ████████/data-research  [2★]
+    ├─ · garrytan/draft-in-voice  [2★]
+    │  ├─ · garrytan/data-research  [2★]
     │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]
     │  │  ├─ ○ /summarize
     │  │  └─ ○ /cite-sources
     │  ├─ ○ garrytan/retro  [3★]
     │  └─ ○ /audience-model
-    ├─ · ████████/archive-crawler
+    ├─ · garrytan/archive-crawler  [2★]
     │  ├─ · firecrawl/firecrawl-build-scrape  [4★]
     │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
     │  │  ├─ ○ /parse-html
     │  │  └─ ○ /extract-entities
     │  ├─ ○ /extract-entities  (↑ see above)
     │  └─ ○ /embed-text
-    ├─ · ████████/data-research  [2★]  (↑ see above)
+    ├─ · garrytan/data-research  [2★]  (↑ see above)
     ├─ · firecrawl/firecrawl-build-scrape  [4★]  (↑ see above)
     └─ ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
   ◉ obra/brainstorming  [4★]
@@ -394,7 +394,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     │  ├─ ○ /extract-entities
     │  └─ ○ /logical-inference
     ├─ ○ /retrieve
-    └─ ○ ████████/context-audit  [2★]
+    └─ ○ garrytan/context-audit  [2★]
   ◉ mksglu/context-mode  [4★]
   ◉ ayghri/i-have-adhd  [4★]
   ◉ nvidia/accelerated-computing-cudf  [4★]
@@ -439,14 +439,14 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
 Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
 ══════════════════════════════════════════════════════════════════════
 
-  ○ ████████/doubt-driven-development
+  ○ addy-osmani/doubt-driven-development  [2★]
   ○ panniantong/agent-reach  [3★]
   ○ heygen-com/hyperframes-audio  [3★]
   ○ gaia-research/ci-churn  [2★]
   ○ /clinical-data-retrieval
   ○ ████████/update-unique-churches
   ○ /cultural-localization
-  ○ ████████/deprecation-and-migration
+  ○ addy-osmani/deprecation-and-migration  [2★]
   ○ heygen-com/figma  [3★]
   ○ ████████/attendees
   ○ ████████/export-attendees
@@ -459,10 +459,10 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ████████/financial-assistance
   ○ leonxlnx/imagegen-frontend-web  [3★]
   ○ heygen-com/slideshow  [3★]
-  ○ ████████/remote-mcp
+  ○ garrytan/remote-mcp  [2★]
   ○ heygen-com/media-use  [3★]
   ○ ████████/huggingface-vision-trainer
-  ○ ████████/observability-and-instrumentation
+  ○ addy-osmani/observability-and-instrumentation  [2★]
   ○ /pathway-ontology-retrieval
   ○ ████████/supabase-postgres-best-practices
   ○ /prompt-caching
@@ -474,7 +474,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ruvnet/stream-chain  [2★]
   ○ aplaceforallmystuff/log-to-daily  [2★]
   ○ ████████/scanpy
-  ○ ████████/api-and-interface-design  [2★]
+  ○ addy-osmani/api-and-interface-design  [2★]
   ○ anthropics/canvas-design  [2★]
   ○ ████████/supabase
   ○ /synthetic-data-generation
@@ -484,4 +484,4 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
-*Generated from gaia.json on 2026-10-29. Do not edit directly.*
+*Generated from gaia.json on 2026-10-30. Do not edit directly.*

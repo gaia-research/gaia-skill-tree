@@ -48,7 +48,7 @@
 | ○ /computer-use | Basic | — | `/computer-use` |
 | · [garrytan](../docs/u/garrytan/)/concept-synthesis | Fusion | 3★ | `/concept-synthesis` |
 | · /content-moderation | Fusion | — | `/content-moderation` |
-| ○ ████████/context-audit | Basic | 2★ | `/context-compression` |
+| ○ [garrytan](../docs/u/garrytan/)/context-audit | Basic | 2★ | `/context-compression` |
 | ○ [mksglu](../docs/u/mksglu/)/context-mode | Basic | 4★ | `/context-safe-execution` |
 | · /conversational-agent | Fusion | — | `/conversational-agent` |
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-core-implementation | Basic | 2★ | `/core-platform-implementation` |
@@ -66,7 +66,7 @@
 | · [ruvnet](../docs/u/ruvnet/)/hive-mind | Fusion | 3★ | `/distributed-consensus-coordination` |
 | · [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Fusion | 2★ | `/distributed-neural-training` |
 | · [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Fusion | 2★ | `/distributed-vector-memory` |
-| · ████████/book-mirror | Fusion | — | `/document-analyst` |
+| · [garrytan](../docs/u/garrytan/)/book-mirror | Fusion | 2★ | `/document-analyst` |
 | ○ [garrytan](../docs/u/garrytan/)/document-generate | Basic | 3★ | `/document-editing` |
 | ○ [mattpocock](../docs/u/mattpocock/)/domain-modeling | Basic | 2★ | `/domain-modeling` |
 | · [ruvnet](../docs/u/ruvnet/)/dual-mode | Fusion | 2★ | `/dual-mode` |
@@ -94,7 +94,7 @@
 | ○ /generate-text | Basic | — | `/generate-text` |
 | · ████████/remotion-multimedia | Fusion | — | `/generative-media` |
 | ○ /genomic-data-retrieval | Basic | — | `/genomic-data-retrieval` |
-| · ████████/draft-in-voice | Fusion | — | `/ghostwrite` |
+| · [garrytan](../docs/u/garrytan/)/draft-in-voice | Fusion | 2★ | `/ghostwrite` |
 | · [ruvnet](../docs/u/ruvnet/)/github-suite | Fusion | 2★ | `/git-integration` |
 | · [addy-osmani](../docs/u/addy-osmani/)/agent-skills | Fusion | 4★ | `/git-ship-done-pipeline` |
 | ○ [nvidia](../docs/u/nvidia/)/accelerated-computing-cudf | Basic | 4★ | `/gpu-dataframe-acceleration` |
@@ -102,7 +102,7 @@
 | · ████████/torch-geometric | Fusion | — | `/graph-neural-network-modeling` |
 | · [mattpocock](../docs/u/mattpocock/)/grill-me | Fusion | 3★ | `/grill-me` |
 | · [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Fusion | 3★ | `/grill-with-docs` |
-| · ████████/source-driven-development | Fusion | — | `/grounding` |
+| · [addy-osmani](../docs/u/addy-osmani/)/source-driven-development | Fusion | 2★ | `/grounding` |
 | · [garrytan](../docs/u/garrytan/)/careful | Fusion | 3★ | `/guardrails` |
 | ○ [mattpocock](../docs/u/mattpocock/)/wizard | Basic | 2★ | `/guided-setup-scripting` |
 | ○ [ruvnet](../docs/u/ruvnet/)/dual-collect | Basic | 2★ | `/headless-worker-collect` |
@@ -115,7 +115,7 @@
 | ○ [wheresryan22](../docs/u/wheresryan22/)/anatomy | Basic | 4★ | `/interactive-mechanism-illustration` |
 | ○ [mattpocock](../docs/u/mattpocock/)/triage | Basic | 3★ | `/issue-triage` |
 | · [safishamsi](../docs/u/safishamsi/)/graphify | Fusion | 4★ | `/knowledge-graph-build` |
-| · ████████/archive-crawler | Fusion | — | `/knowledge-harvest` |
+| · [garrytan](../docs/u/garrytan/)/archive-crawler | Fusion | 2★ | `/knowledge-harvest` |
 | · [garrytan](../docs/u/garrytan/)/brain-ops | Fusion | 3★ | `/knowledge-management` |
 | · ████████/huggingface-papers | Fusion | — | `/literature-review` |
 | ○ [firecrawl](../docs/u/firecrawl/)/firecrawl-research-index | Basic | 3★ | `/literature-search` |
@@ -135,7 +135,7 @@
 | · ████████/deepchem | Fusion | — | `/molecular-machine-learning` |
 | · /molecular-visualization | Fusion | — | `/molecular-visualization` |
 | · [garrytan](../docs/u/garrytan/)/codex | Fusion | 2★ | `/multi-agent-debate` |
-| · ████████/minion-orchestrator | Fusion | — | `/multi-agent-orchestration-v` |
+| · [garrytan](../docs/u/garrytan/)/minion-orchestrator | Fusion | 2★ | `/multi-agent-orchestration-v` |
 | · [ruvnet](../docs/u/ruvnet/)/flow-nexus | Fusion | 2★ | `/multi-node-orchestration` |
 | ○ [ruvnet](../docs/u/ruvnet/)/github-multi-repo | Basic | 2★ | `/multi-repo-coordination` |
 | · [ruvnet](../docs/u/ruvnet/)/ruflo | Fusion | 4★ | `/multi-topology-orchestration` |
@@ -186,10 +186,10 @@
 | · ████████/release | Fusion | — | `/release-automation` |
 | · [obra](../docs/u/obra/)/requesting-code-review | Fusion | 2★ | `/requesting-code-review` |
 | ○ ████████/requirements-engineer | Basic | — | `/requirements-analysis` |
-| · ████████/data-research | Fusion | 2★ | `/research` |
+| · [garrytan](../docs/u/garrytan/)/data-research | Fusion | 2★ | `/research` |
 | ○ /retrieve | Basic | — | `/retrieve` |
 | ○ /reward-modeling | Basic | — | `/reward-modeling` |
-| ○ ████████/functional-area-resolver | Basic | 2★ | `/route-intent` |
+| ○ [garrytan](../docs/u/garrytan/)/functional-area-resolver | Basic | 2★ | `/route-intent` |
 | ○ ████████/database-engineer | Basic | — | `/schema-design` |
 | · /scientific-discovery | Fusion | — | `/scientific-discovery` |
 | · /scientific-literature-retrieval | Fusion | — | `/scientific-literature-retrieval` |
@@ -295,14 +295,14 @@
 
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
-| ○ Adversarial Review | Intrinsic Skill | — | `/adversarial-review` |
+| ○ Adversarial Review | Intrinsic Skill | 2★ | `/adversarial-review` |
 | ○ Agent Reach | Intrinsic Skill | 3★ | `/agent-reach` |
 | ○ Audio Mixing | Intrinsic Skill | 3★ | `/audio-mixing` |
 | ○ CI Churn Analysis | Intrinsic Skill | 2★ | `/ci-churn-analysis` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
 | ○ CRM Data Cleanup | Intrinsic Skill | — | `/crm-data-cleanup` |
 | ○ Cultural Localization | Intrinsic Skill | — | `/cultural-localization` |
-| ○ Deprecation and Migration | Intrinsic Skill | — | `/deprecation-and-migration` |
+| ○ Deprecation and Migration | Intrinsic Skill | 2★ | `/deprecation-and-migration` |
 | ○ Design Source Import | Intrinsic Skill | 3★ | `/design-source-import` |
 | ○ Event Attendance Metrics | Intrinsic Skill | — | `/event-attendance-metrics` |
 | ○ Event Attendee Management | Intrinsic Skill | — | `/event-attendee-management` |
@@ -315,10 +315,10 @@
 | ○ Grant Application Processing | Intrinsic Skill | — | `/grant-application-processing` |
 | ○ Image Generate | Intrinsic Skill | 3★ | `/image-generate` |
 | ○ Interactive Presentation Authoring | Intrinsic Skill | 3★ | `/interactive-presentation-authoring` |
-| ○ MCP Server Deployment | Intrinsic Skill | — | `/mcp-server-deployment` |
+| ○ MCP Server Deployment | Intrinsic Skill | 2★ | `/mcp-server-deployment` |
 | ○ Media Asset Orchestration | Intrinsic Skill | 3★ | `/media-asset-orchestration` |
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
-| ○ Observability Instrumentation | Intrinsic Skill | — | `/observability-instrumentation` |
+| ○ Observability Instrumentation | Intrinsic Skill | 2★ | `/observability-instrumentation` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
 | ○ postgres-best-practices | Intrinsic Skill | — | `/postgres-best-practices` |
 | ○ Prompt Caching | Intrinsic Skill | — | `/prompt-caching` |

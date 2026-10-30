@@ -2,15 +2,28 @@
   "contributors": [
     {
       "handle": "garrytan",
-      "namedSkills": 51,
+      "namedSkills": 74,
       "topSkill": {
         "id": "garrytan/gstack",
         "level": "5★",
         "trustMagnitude": 356.11
       },
-      "prestigeScore": 2695.55,
+      "prestigeScore": 6337.83,
       "_links": {
         "self": "/api/v1/contributors/garrytan.json"
+      }
+    },
+    {
+      "handle": "addy-osmani",
+      "namedSkills": 21,
+      "topSkill": {
+        "id": "addy-osmani/code-simplification",
+        "level": "4★",
+        "trustMagnitude": 190.0
+      },
+      "prestigeScore": 2963.2,
+      "_links": {
+        "self": "/api/v1/contributors/addy-osmani.json"
       }
     },
     {
@@ -27,6 +40,19 @@
       }
     },
     {
+      "handle": "obra",
+      "namedSkills": 14,
+      "topSkill": {
+        "id": "obra/superpowers",
+        "level": "4★",
+        "trustMagnitude": 221.52
+      },
+      "prestigeScore": 1488.45,
+      "_links": {
+        "self": "/api/v1/contributors/obra.json"
+      }
+    },
+    {
       "handle": "ruvnet",
       "namedSkills": 30,
       "topSkill": {
@@ -40,19 +66,6 @@
       }
     },
     {
-      "handle": "obra",
-      "namedSkills": 12,
-      "topSkill": {
-        "id": "obra/superpowers",
-        "level": "4★",
-        "trustMagnitude": 221.52
-      },
-      "prestigeScore": 1093.23,
-      "_links": {
-        "self": "/api/v1/contributors/obra.json"
-      }
-    },
-    {
       "handle": "heygen-com",
       "namedSkills": 19,
       "topSkill": {
@@ -63,19 +76,6 @@
       "prestigeScore": 1066.92,
       "_links": {
         "self": "/api/v1/contributors/heygen-com.json"
-      }
-    },
-    {
-      "handle": "addy-osmani",
-      "namedSkills": 9,
-      "topSkill": {
-        "id": "addy-osmani/code-simplification",
-        "level": "4★",
-        "trustMagnitude": 190.0
-      },
-      "prestigeScore": 831.04,
-      "_links": {
-        "self": "/api/v1/contributors/addy-osmani.json"
       }
     },
     {

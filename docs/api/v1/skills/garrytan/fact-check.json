@@ -1,0 +1,93 @@
+{
+  "id": "garrytan/fact-check",
+  "name": "fact-check",
+  "contributor": "garrytan",
+  "level": "2★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 158.36,
+  "overallTrustGrade": "A",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/garrytan/fact-check.json",
+    "contributor": "/api/v1/contributors/garrytan.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 60.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 3,
+    "transitiveCount": 3,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
+  },
+  "title": "fact-check",
+  "genericSkillRef": "grounding",
+  "origin": false,
+  "description": "Systematic claim-by-claim verification for any content before it ships.\nModeled on professional fact-checking desks (The New Yorker, ProPublica,\nIFCN standards): extract every verifiable claim, check each against live\ncitable sources (never training data), assign a 6-level confidence status,\napply corrections, and produce a scored pass/fail report. Includes a\ndata-derived-claims gate for outputs produced FROM the brain or a database:\nPRODUCER ≠ VERIFIER (re-derive each claim via a different query path) and\nAFFILIATION ≠ AUTHORSHIP (person→thing claims resolve through typed edges),\nwith delivery hard-blocked on unsupported claims.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": true,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/fact-check/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-10-29",
+      "type": "github-stars-own",
+      "notes": "GitHub REST stargazers_count of garrytan/gbrain at 2026-10-29 (host suite repo); skill-file blob link verified HTTP 200 at its pinned ref. Founder ruling 2026-10-30 FD-7: skill was added at intake (2026-09-23) with no evidence rows.",
+      "stars": 31330,
+      "skillCountInRepo": 71,
+      "sourceStartedAt": "2026-04-05",
+      "grade": "A"
+    },
+    {
+      "source": "https://github.com/garrytan/gbrain",
+      "evaluator": "mbtiongson1",
+      "date": "2026-10-29",
+      "type": "repo-own",
+      "notes": "GitHub REST default-branch commit count and contributor count of garrytan/gbrain at 2026-10-29; host-repository maintenance, not independent quality evidence. Founder ruling 2026-10-30 FD-7.",
+      "commits": 11443,
+      "contributors": 136,
+      "sourceStartedAt": "2026-04-05",
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-09-23T06:08:08Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added named skill garrytan/fact-check"
+    },
+    {
+      "timestamp": "2026-10-29T16:55:28Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/fact-check/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-10-29T16:55:29Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/garrytan/gbrain (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-10-29T16:56:47Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 158.36, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/fact-check/SKILL.md"
+  }
+}
