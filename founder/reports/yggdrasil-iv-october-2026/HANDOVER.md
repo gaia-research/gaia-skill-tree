@@ -9,6 +9,18 @@ with explicit effort on every dispatch.
 same day as the October cutoff). Three agents died mid-task; their partial state is recorded below.
 Nothing is half-merged. Machine disk ≈5 GB free after cleanup.
 
+## 0c. Resume log (2026-10-30, later)
+
+- Merged to dev: #2234 cases `39eb288d9`; #2255 main sync (#2133, #2230, v8.29.1; least-privilege watcher split) `f92b887fb`;
+  #2256 watcher admission + CI coverage + health `ba140cc39`; #2258 live-reviews test `8bfc540ff`. dev->main conflict-free.
+- Independent Meta audit of #2251: **FAIL** (verification/CALIBRATION-VERIFICATION.md, `cc67dddb1`). FD-7 refuted (no suiteRef ->
+  37 skills escape the 50-TM sibling cap). C2 tests fixed on #2251 (`4220b0af3`). C1 root cause: generateNamedIndex erases
+  CLI-set suiteRef not listed in a suite manifest -> fix PR `dev/yggiv-suiteref-guard` in progress; then set suiteRef on the
+  12 addy-osmani skills (timeline already says set); 23 garrytan + 2 obra await founder (review page Round 4).
+- Open, held for founder: #2250 (visual), #2251 (graphify confirm, FD-16 48 Origins, audit corrections), #2257 dedup fix
+  (SHIP; browser-harness peer-review row + META wording), #2259 option A clamp alignment (merge AFTER #2251, regen).
+- Review page rounds 2-4 unanswered; L4 choices none. Main merge blocked until audit corrections pass a re-audit.
+
 ## 0b. Resume log (2026-10-30)
 
 - Founder rulings recorded in CAMPAIGN.md §Founder rulings 2026-10-30 (review page https://claude.ai/artifact/W2YnN4Sa7Lgrki521tzbK3,
