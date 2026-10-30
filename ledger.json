@@ -1,5 +1,5 @@
 {
- "generation": 182,
+ "generation": 183,
  "lane": {
   "entries": [
    {
@@ -2519,7 +2519,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-10-30T02:47:35.167564Z",
-   "expiresAt": "2026-10-30T03:27:39.137432Z",
+   "expiresAt": "2026-10-30T03:27:42.428842Z",
    "holder": "run-20261030T024735Z-6eec6709"
   }
  },
@@ -11192,6 +11192,26 @@
      "status": "done",
      "stepId": "build:8782d71a11bc:1",
      "type": "agent.build"
+    },
+    {
+     "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+     "emittedAt": "2026-10-30T02:57:41.982856Z",
+     "idempotencyKey": "verify:dispatch-85da151344100d2bf011:1",
+     "params": {
+      "allowedModels": [
+       "sonnet"
+      ],
+      "attempt": 1,
+      "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+      "effortRequired": true,
+      "forbiddenAgentIds": [
+       "haiku-builder-a81036c9"
+      ],
+      "verifierPromptPath": ".gaia/steward/full/run-20261030T024735Z-6eec6709/verify-8782d71a11bc.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "verify:8782d71a11bc:1",
+     "type": "agent.verify"
     }
    ],
    "actor": "cli",
@@ -12885,6 +12905,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_b"
+    },
+    {
+     "at": "2026-10-30T02:57:41.982856Z",
+     "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+     "idempotencyKey": "verify:dispatch-85da151344100d2bf011:1",
+     "kind": "agent.verify",
+     "status": "awaiting",
+     "stepId": "verify:8782d71a11bc:1"
     }
    ],
    "thinkingEfforts": [
@@ -12898,7 +12926,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-30T02:57:39.137964Z",
+ "updatedAt": "2026-10-30T02:57:42.428949Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -13139,7 +13167,12 @@
    "source": "trust-calibration-drift",
    "state": "building",
    "updatedAt": "2026-10-30T02:56:15.410267Z",
-   "verification": null
+   "verification": {
+    "mode": "no-change",
+    "stage": "awaiting-verifier",
+    "verdict": "pending",
+    "verifierPromptPath": ".gaia/steward/full/run-20261030T024735Z-6eec6709/verify-8782d71a11bc.prompt.md"
+   }
   }
  }
 }
