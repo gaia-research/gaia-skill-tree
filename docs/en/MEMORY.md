@@ -2,6 +2,47 @@
 
 ---
 
+## 2026-10-30 — Routine 065
+
+**Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
+Rebased onto `origin/main` v8.29.1. The rebase conflicted only on the DOCS.md Page Map row for
+`cli-reference.html`; resolved by keeping main's row and adding the `dev ratify` note and the 064 pointer.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 065)" from 064. The 064 plan said the
+`dev evidence --evaluator` and `dev timeline --user` cards should state that the value is a handle,
+not validated. Source check confirmed it: `evidence.py` stores `evaluator` as free text and
+`timeline.py` never calls a contributor validator. The docs had no such note.
+
+### What I did
+
+- `cli-reference.html`: the `--evaluator <handle>` row (`dev evidence`) and the `--user <handle>` row
+  (`dev timeline`) now say the value is stored as typed and not checked against the contributor registry.
+- `DOCS.md`: Page Map row 3 gains the 065 routine pointer (`064` already listed).
+
+### Design decisions
+
+- Docs only. The 064 plan also floated changing the CLI help text. That is code, out of scope for
+  this writer, so it is not done here. Filing it is a candidate for a follow-up issue if one is wanted.
+- Kept it to two table cells. No layout change, no new classes, no new colours.
+
+### Files
+
+- `docs/en/cli-reference.html`: two table cells.
+- `docs/en/DOCS.md`: Page Map row 3.
+- `docs/en/MEMORY.md`: this entry.
+
+### Verification
+
+- Hex grep on the diff: no new hex. Banned-synonym grep on the diff: no hits.
+- Scope: `git status` shows only `docs/en/` paths.
+
+### Planned next (Routine 066)
+
+- ROTATE to the least-recently-touched Page Map page: `fusion.html` (last touched at editor-055wk).
+  Check the Type/Branch wording against `CONTEXT.md` § Taxonomy v6 and the `dev fuse` flags in source.
+
+---
+
 ## 2026-10-29 — Routine 064
 
 **Branch:** `docs/routines/064` (new, from `origin/main` v8.28.2). No `docs/routines/*`
