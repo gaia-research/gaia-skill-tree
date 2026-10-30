@@ -62,6 +62,19 @@ plus existing: #2176/#2177 two Core approvals, visual acceptance, main merge, re
   automate later (RFC #2148 D8 trail) without Steward work now. Issues genuinely fixed by a PR are
   closed when that PR lands on `dev/yggdrasil-iv`, not at the main merge.
 
+## Founder rulings 2026-10-30, late (verbatim, in session)
+
+> "my last request of change management that includes /meta-post after everything requires Yggdrasil IV drop with the new challenger mechanic to be the highlight for October. This is the last piece of the puzzle. Find the dependencies for this as this is the user facing one and one that genuinely needs my eye before the big merge. Draft one in anticipation of all our decisions so far--so that final passes are more of sanity checks and verification of facts only. Commits on dev branch"
+>
+> "For my rulings, 1 is deferred. Lets change nothing, keep the cap but add a filed issue for audit.
+> 2. origin ties mean two are origin. Very rare edge case since tm is a real number.
+> 3. No more manual. Automatic from now on"
+
+Applied as:
+1. Suite sibling cap (META §2.1a, 50 TM per component): unchanged; audit issue filed. FD-7 suite linking stays automatic under the existing cap (founder earlier: "FD-7 should be automated").
+2. Automatic Origin ties: every tied top contender holds Origin.
+3. Origin is automatic; the IV ratification §IV manual "Origin transfer = Class C" path is superseded.
+
 ## Founder rulings 2026-10-30, rounds 2-4 and L4 (verbatim from the review page store)
 
 | Decision | Choice | Note |
