@@ -1,5 +1,5 @@
 {
- "generation": 184,
+ "generation": 185,
  "lane": {
   "entries": [
    {
@@ -2519,7 +2519,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-10-30T02:47:35.167564Z",
-   "expiresAt": "2026-10-30T03:27:45.964717Z",
+   "expiresAt": "2026-10-30T03:27:49.776315Z",
    "holder": "run-20261030T024735Z-6eec6709"
   }
  },
@@ -11235,204 +11235,8 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-10-30T02:51:59.146690Z",
+    "asOf": "2026-10-30T02:57:49.338118Z",
     "decisions": [
-     {
-      "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
-      "debtIds": [
-       "dd0fc386f410185b",
-       "7c8824c086679135",
-       "5f45d00d7f30b9c6",
-       "0b64558129c498be",
-       "a972d25ee1973c95",
-       "bd8dca1fcdf7945b",
-       "a671be5f79c2a3ff",
-       "f32377b5380cfa3e",
-       "54ae5604e12e2a9b",
-       "1deecfb89c8de90c",
-       "4560dad03a613faa",
-       "d8222ce8d9bd957f",
-       "0801364f7f0e77a3",
-       "f8f331ec1404ea92",
-       "4df9c2b6ff80b3e6",
-       "04765e48ffb67e0b",
-       "412fc74a40db779e",
-       "e8be47c2eebc4b65",
-       "b132c45b86c3ebcb",
-       "b526f075e4ecd1e6",
-       "86888e095876410e",
-       "2393fe51171e5834",
-       "2ed435a394e19f87",
-       "74fbb7100ac456ad",
-       "ba7fcb08fe3ef5c9",
-       "82d92c373e57e5b6",
-       "affc47d215e53abe",
-       "ec37ccfcb574c2d1",
-       "c82313badc903f74",
-       "055f6db7f83bf7eb",
-       "100e8e97ff9a51ef",
-       "8dd6930a15057584",
-       "d1900b51970bdc61",
-       "edc1563abdfa70e4",
-       "062a191c5b535bb7",
-       "b8c7a3d24c6492cf",
-       "30a58d0ac04e28de",
-       "50a878d42ae01243",
-       "29db1b7469907462"
-      ],
-      "decision": "Rotate the exposed credential(s) and decide whether to purge git history (39 finding(s)).",
-      "decisionId": "decision-fe90ffcb6f165235b47f",
-      "evidence": [
-       ".agents/skills/firecrawl/SKILL.md line 256 fingerprint 764a6efd41a6",
-       ".agents/skills/firecrawl/SKILL.md line 286 fingerprint 7786f66c14fb",
-       ".agents/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs line 117 fingerprint 799f18baed47",
-       ".agents/skills/impeccable/scripts/live-browser.js line 22 fingerprint a75f704f9b05",
-       ".agents/skills/impeccable/scripts/live-browser.js line 9584 fingerprint 0f5b4a4bcda5",
-       ".agents/skills/impeccable/scripts/live-browser.js line 9585 fingerprint 0f5b4a4bcda5",
-       ".agents/skills/impeccable/scripts/live-complete.mjs line 63 fingerprint db2e24d57724",
-       ".agents/skills/impeccable/scripts/live/manual-edit-routes.mjs line 261 fingerprint ef9ae85da1c4",
-       ".agents/skills/impeccable/scripts/live-poll.mjs line 121 fingerprint 7b132df01592",
-       ".agents/skills/impeccable/scripts/live-poll.mjs line 160 fingerprint 0fdcab4106d5",
-       ".agents/skills/impeccable/scripts/live-server.mjs line 1758 fingerprint ef9ae85da1c4",
-       ".agents/skills/impeccable/scripts/live-server.mjs line 2213 fingerprint e24e481c36cb",
-       ".agents/skills/impeccable/scripts/live-server.mjs line 2312 fingerprint e91023eb493e",
-       ".agents/skills/impeccable/scripts/live-server.mjs line 2315 fingerprint d82b1fd22cbe",
-       ".agents/skills/impeccable/scripts/live-status.mjs line 17 fingerprint e24e481c36cb",
-       ".claude/skills/firecrawl/SKILL.md line 256 fingerprint 764a6efd41a6",
-       ".claude/skills/firecrawl/SKILL.md line 286 fingerprint 7786f66c14fb",
-       ".claude/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs line 117 fingerprint 799f18baed47",
-       ".claude/skills/impeccable/scripts/live-browser.js line 22 fingerprint a75f704f9b05",
-       ".claude/skills/impeccable/scripts/live-browser.js line 9584 fingerprint 0f5b4a4bcda5",
-       ".claude/skills/impeccable/scripts/live-browser.js line 9585 fingerprint 0f5b4a4bcda5",
-       ".claude/skills/impeccable/scripts/live-complete.mjs line 63 fingerprint db2e24d57724",
-       ".claude/skills/impeccable/scripts/live/manual-edit-routes.mjs line 261 fingerprint ef9ae85da1c4",
-       ".claude/skills/impeccable/scripts/live-poll.mjs line 121 fingerprint 7b132df01592",
-       ".claude/skills/impeccable/scripts/live-poll.mjs line 160 fingerprint 0fdcab4106d5",
-       ".claude/skills/impeccable/scripts/live-server.mjs line 1758 fingerprint ef9ae85da1c4",
-       ".claude/skills/impeccable/scripts/live-server.mjs line 2213 fingerprint e24e481c36cb",
-       ".claude/skills/impeccable/scripts/live-server.mjs line 2312 fingerprint e91023eb493e",
-       ".claude/skills/impeccable/scripts/live-server.mjs line 2315 fingerprint d82b1fd22cbe",
-       ".claude/skills/impeccable/scripts/live-status.mjs line 17 fingerprint e24e481c36cb",
-       "docs/samples/registry-3d-fonts.html line 160 fingerprint 3751653efd6c",
-       "docs/samples/registry-3d-fonts.html line 161 fingerprint 13e1b3d950fb",
-       "docs/samples/registry-3d-fonts.html line 162 fingerprint 493df6923d8a",
-       "founder/handovers/[redacted].md line 392 fingerprint fbb4c62d3ac3",
-       "founder/handovers/[redacted].md line 517 fingerprint 684ec27b63dc",
-       "founder/handovers/[redacted].md line 518 fingerprint a261e68349db",
-       "founder/issues.json line 1 fingerprint 821389db4920",
-       "founder/issues.json line 1 fingerprint b668ec33907d",
-       ".github/workflows/sync-artifacts.yml line 177 fingerprint 41e3de627921",
-       "scripts/jev_ci_budget.py line 387 fingerprint 98d5d12ef43f",
-       "scripts/upstream_watcher/live.py line 465 fingerprint 39be36177943",
-       "src/gaia_cli/auth.py line 241 fingerprint caf47aa7ff21",
-       "src/gaia_cli/auth.py line 405 fingerprint be3a74739ccb",
-       "src/gaia_cli/auth.py line 420 fingerprint 114fc3873c35",
-       "src/gaia_cli/auth.py line 436 fingerprint caf47aa7ff21",
-       "src/gaia_cli/jev.py line 634 fingerprint b17e86ead565",
-       "src/gaia_cli/securityScanner.py line 513 fingerprint fc84c742aab2",
-       "tests/steward/issuehygiene/test_b_script.py line 15 fingerprint 7eb3777115fa",
-       "tests/steward/issuehygiene/test_b_script.py line 248 fingerprint 7c6791c527dc",
-       "tests/steward/issuehygiene/test_b5_identity.py line 15 fingerprint 9210a2236f68",
-       "tests/steward/issuehygiene/test_b6_census_live.py line 219 fingerprint 70901d36b258",
-       "tests/steward/issuehygiene/test_b7_scrub.py line 31 fingerprint 59b647a4197a",
-       "tests/steward/issuehygiene/test_b7_scrub.py line 32 fingerprint 59b647a4197a",
-       "tests/steward/issuehygiene/test_b7_scrub.py line 34 fingerprint 100512181d07",
-       "tests/steward/issuehygiene/test_b7_scrub.py line 35 fingerprint 5b349ee29dd2",
-       "tests/steward/issuehygiene/test_b7_scrub.py line 37 fingerprint 4c46513008e3",
-       "tests/steward/issuehygiene/test_b8_census.py line 94 fingerprint 88b11cd7d986",
-       "tests/steward/issuehygiene/test_b8_census.py line 95 fingerprint 817d1450133f",
-       "tests/steward/issuehygiene/test_b8_census.py line 96 fingerprint 529e66593269",
-       "tests/steward/issuehygiene/test_b8_refusal.py line 82 fingerprint 2198f003c5b0",
-       "tests/steward/issuehygiene/test_e_steward_full_e2e.py line 135 fingerprint e8ea09ffe951",
-       "tests/steward/test_desk.py line 187 fingerprint 08109091b0eb",
-       "tests/test_auth.py line 351 fingerprint 7105abe1b034",
-       "tests/test_auth.py line 366 fingerprint 4c7ad6353034",
-       "tests/test_auth.py line 404 fingerprint 0095a8f1708e",
-       "tests/test_auth.py line 418 fingerprint 0095a8f1708e",
-       "tests/test_badge_reconcile.py line 861 fingerprint a3522810e912",
-       "tests/test_curation_assessment.py line 433 fingerprint 5a3ec2abc81e",
-       "tests/test_curation_error_contract.py line 175 fingerprint 5d47666b7611",
-       "tests/test_installability.py line 125 fingerprint 4d631a121aac",
-       "tests/test_jev.py line 438 fingerprint be6e8e2fecc9"
-      ],
-      "links": [
-       ".agents/skills/firecrawl/SKILL.md#L256",
-       ".agents/skills/firecrawl/SKILL.md#L286",
-       ".agents/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs#L117",
-       ".agents/skills/impeccable/scripts/live-browser.js#L22",
-       ".agents/skills/impeccable/scripts/live-browser.js#L9584",
-       ".agents/skills/impeccable/scripts/live-browser.js#L9585",
-       ".agents/skills/impeccable/scripts/live-complete.mjs#L63",
-       ".agents/skills/impeccable/scripts/live-poll.mjs#L121",
-       ".agents/skills/impeccable/scripts/live-poll.mjs#L160",
-       ".agents/skills/impeccable/scripts/live-server.mjs#L1758",
-       ".agents/skills/impeccable/scripts/live-server.mjs#L2213",
-       ".agents/skills/impeccable/scripts/live-server.mjs#L2312",
-       ".agents/skills/impeccable/scripts/live-server.mjs#L2315",
-       ".agents/skills/impeccable/scripts/live-status.mjs#L17",
-       ".agents/skills/impeccable/scripts/live/manual-edit-routes.mjs#L261",
-       ".claude/skills/firecrawl/SKILL.md#L256",
-       ".claude/skills/firecrawl/SKILL.md#L286",
-       ".claude/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs#L117",
-       ".claude/skills/impeccable/scripts/live-browser.js#L22",
-       ".claude/skills/impeccable/scripts/live-browser.js#L9584",
-       ".claude/skills/impeccable/scripts/live-browser.js#L9585",
-       ".claude/skills/impeccable/scripts/live-complete.mjs#L63",
-       ".claude/skills/impeccable/scripts/live-poll.mjs#L121",
-       ".claude/skills/impeccable/scripts/live-poll.mjs#L160",
-       ".claude/skills/impeccable/scripts/live-server.mjs#L1758",
-       ".claude/skills/impeccable/scripts/live-server.mjs#L2213",
-       ".claude/skills/impeccable/scripts/live-server.mjs#L2312",
-       ".claude/skills/impeccable/scripts/live-server.mjs#L2315",
-       ".claude/skills/impeccable/scripts/live-status.mjs#L17",
-       ".claude/skills/impeccable/scripts/live/manual-edit-routes.mjs#L261",
-       ".github/workflows/sync-artifacts.yml#L177",
-       "docs/samples/registry-3d-fonts.html#L160",
-       "docs/samples/registry-3d-fonts.html#L161",
-       "docs/samples/registry-3d-fonts.html#L162",
-       "founder/handovers/[redacted].md#L392",
-       "founder/handovers/[redacted].md#L517",
-       "founder/handovers/[redacted].md#L518",
-       "founder/issues.json#L1",
-       "scripts/jev_ci_budget.py#L387",
-       "scripts/upstream_watcher/live.py#L465",
-       "src/gaia_cli/auth.py#L241",
-       "src/gaia_cli/auth.py#L405",
-       "src/gaia_cli/auth.py#L420",
-       "src/gaia_cli/auth.py#L436",
-       "src/gaia_cli/jev.py#L634",
-       "src/gaia_cli/securityScanner.py#L513",
-       "tests/steward/issuehygiene/test_b5_identity.py#L15",
-       "tests/steward/issuehygiene/test_b6_census_live.py#L219",
-       "tests/steward/issuehygiene/test_b7_scrub.py#L31",
-       "tests/steward/issuehygiene/test_b7_scrub.py#L32",
-       "tests/steward/issuehygiene/test_b7_scrub.py#L34",
-       "tests/steward/issuehygiene/test_b7_scrub.py#L35",
-       "tests/steward/issuehygiene/test_b7_scrub.py#L37",
-       "tests/steward/issuehygiene/test_b8_census.py#L94",
-       "tests/steward/issuehygiene/test_b8_census.py#L95",
-       "tests/steward/issuehygiene/test_b8_census.py#L96",
-       "tests/steward/issuehygiene/test_b8_refusal.py#L82",
-       "tests/steward/issuehygiene/test_b_script.py#L15",
-       "tests/steward/issuehygiene/test_b_script.py#L248",
-       "tests/steward/issuehygiene/test_e_steward_full_e2e.py#L135",
-       "tests/steward/test_desk.py#L187",
-       "tests/test_auth.py#L351",
-       "tests/test_auth.py#L366",
-       "tests/test_auth.py#L404",
-       "tests/test_auth.py#L418",
-       "tests/test_badge_reconcile.py#L861",
-       "tests/test_curation_assessment.py#L433",
-       "tests/test_curation_error_contract.py#L175",
-       "tests/test_installability.py#L125",
-       "tests/test_jev.py#L438"
-      ],
-      "priority": 0,
-      "recommended": "Rotate or revoke the credential at its issuer first, then purge history only if the repository is public or the secret grants production access.",
-      "source": "class-c-debt",
-      "unblocks": "39 open Class C debt item(s) of kind credential_leak; Steward takes no action until you rule.",
-      "whyItMatters": "A credential committed to a repository must be treated as compromised from the moment it was pushed; removing the line does not revoke it."
-     },
      {
       "alternative": "Take the finding yourself as a direct Class C ruling, or retire the routine instead of widening its envelope.",
       "debtIds": [
@@ -11453,332 +11257,196 @@
       "whyItMatters": "Bounded repair stopped: the attempt ceiling was reached or a verifier escalated. The envelope, not the attempt, is the likelier defect, and nothing retries until you rule."
      },
      {
-      "alternative": "Keep it an operator-run collector until a quarter of local runs shows low noise.",
+      "alternative": "Keep all new Class B kinds report-only and work them through ordinary issues until a quarter of detector precision data exists.",
       "debtIds": [],
-      "decision": "Wire scripts/steward_collect_browser_render.js into the scheduled steward workflow (installing Chromium for it) so the browser-render sensor is evaluated on every run?",
-      "decisionId": "steward-browser-render-driver",
+      "decision": "Add a Class B dispatch route `unused-import-cleanup` for debt kind unused_import, so the lane can hand one file's unused imports to a bounded builder and an independent verifier?",
+      "decisionId": "steward-class-b-route-unused-import",
       "evidence": [
-       "Run locally on 2026-10-28 it rendered 95 pages x 2 viewports in about 4 minutes and found 29 pages with rendered defects the static sensor cannot see.",
-       "The collector serves docs/ from a local static server and aborts every external request unsent.",
-       "Frontend fixes remain human-gated (CLAUDE.md); this only observes."
+       "The dead-code detector reports only module-level imports with no in-module read; it skips __init__.py re-export surfaces, star imports, guarded (try/TYPE_CHECKING) imports and noqa-marked lines, honours explicit re-exports, and flags plain `import x` as sideEffectPossible for the builder to keep.",
+       "A route only renders a packet; the builder's envelope would be the one source file, the proof contract would be `python -m pytest` on the importing package plus `python -m compileall` of the file, and the verifier is a different agent.",
+       "Lane limits stay maxInFlight 1, maxAttempts 2, cooldownSeconds 3600, maxDispatchesPerRun 1, runtime modelCalls 0.",
+       "No route is added by this PR; POLICY.yaml is unchanged."
+      ],
+      "links": [
+       "founder/steward/POLICY.yaml",
+       "founder/steward/routines/README.md",
+       "src/gaia_cli/steward/sensors_code.py"
+      ],
+      "priority": 20,
+      "recommended": "Approve the route with a routine guide founder/steward/routines/unused-import-cleanup.md, writable path limited to the subject file, and the protected-path floor unchanged.",
+      "source": "decision-record",
+      "unblocks": "Live Class B dispatch for dead-code findings (routine 1) through /gaia-steward-full.",
+      "whyItMatters": "Of the 22 newly registered Class B kinds, none has a dispatch rule yet: their debt is observed and reported but cannot reach the lane. unused_import is the narrowest of them (49 open findings, one file per subject, no behaviour change when the import is truly unused), so it is the safest first route to prove the full A/B loop on live debt."
+     },
+     {
+      "alternative": "Keep maxInFlight 1 until a quarter of measured closure and no-op rates exists.",
+      "debtIds": [],
+      "decision": "Amend the Class B lane throughput: raise routing.lane.maxInFlight from 1 to 2, keeping maxDispatchesPerRun 1, maxAttempts 2 and cooldownSeconds 3600?",
+      "decisionId": "steward-class-b-throughput",
+      "evidence": [
+       "Code pins maxDispatchesPerRun to exactly 1 and caps maxInFlight at 4; policy can only narrow.",
+       "The shared ledger serializes dispatch through a fast-forward-only compare-and-swap; concurrency tests show exactly one lease winner and no duplicate work.",
+       "Independent verification is enforced: a verifier verdict from the builder's own agent id is refused."
+      ],
+      "links": [
+       "founder/steward/POLICY.yaml",
+       "src/gaia_cli/steward/policy.py"
+      ],
+      "priority": 20,
+      "recommended": "Raise maxInFlight to 2 after the first ten /gaia-steward-full runs show zero verifier overturns of accepted work.",
+      "source": "decision-record",
+      "unblocks": "Two concurrent bounded Class B repairs (builder plus independent verifier each).",
+      "whyItMatters": "With maxInFlight 1 the lane advances one debt per verified review, so a backlog drains only as fast as a person closes each item. Raising it trades review load for throughput."
+     },
+     {
+      "alternative": "Keep all four ungated and record each as an intentional exception.",
+      "debtIds": [],
+      "decision": "Should gaia dev provenance, evidence-seed, assess and prefill require Verifier authorization like the other mutating dev verbs?",
+      "decisionId": "steward-dev-mutation-gates",
+      "evidence": [
+       "dev provenance writes the provenance ledger via os.makedirs + write_text with no require_operator (confidence 0.7).",
+       "dev evidence-seed writes evidence/seeds/<skill>/<type>.jsonl.",
+       "dev assess and prefill write advisory receipts via _atomic_write_json; these may be intentionally ungated.",
+       "The legacy MUTATING_DEV_COMMANDS in impl.py lacks six verbs the live set gates (calibrate-trust-magnitude, embed, freeze, fuse, ratify, sync-upstream)."
+      ],
+      "links": [
+       "src/gaia_cli/commands/dev/__init__.py",
+       "src/gaia_cli/impl.py",
+       "src/gaia_cli/steward/sensors_security.py"
+      ],
+      "priority": 20,
+      "recommended": "Gate provenance and evidence-seed; keep assess/prefill ungated as advisory receipts and record that as intentional.",
+      "source": "decision-record",
+      "unblocks": "Closing the ungated_mutation debt either by a gate change (Class B proposal) or by recorded exemptions.",
+      "whyItMatters": "Who may write registry-adjacent state is authorization policy. The mutation-boundary sensor found these verbs write files with no require_operator gate."
+     },
+     {
+      "alternative": "Keep landing off: scheduled runs keep producing receipts and patches only, and a person applies Class A repairs by hand.",
+      "debtIds": [],
+      "decision": "Authorize Class A landing: which integration branch may Steward open repair PRs against, and may the scheduled workflow push steward/a/* branches and the steward/ledger ref?",
+      "decisionId": "steward-landing-target",
+      "evidence": [
+       "Landing refuses main/master/default branch in code; a target is configured only by GAIA_STEWARD_INTEGRATION_BRANCH or --integration-branch.",
+       "Without a target every Class A debt is recorded blocked: landing target not configured.",
+       "The shared ledger needs an unprotected refs/heads/steward/ledger that the Steward identity can fast-forward (never force)."
       ],
       "links": [
        ".github/workflows/steward.yml",
-       "scripts/steward_collect_browser_render.js",
-       "src/gaia_cli/steward/sensors_render.py"
+       "src/gaia_cli/steward/landing.py",
+       "founder/handovers/2026-10-20-steward-full-architecture.md"
       ],
       "priority": 20,
-      "recommended": "Approve an optional workflow step (npx playwright install chromium; node scripts/steward_collect_browser_render.js --repository $GITHUB_REPOSITORY) that records ok/failed in the existing inputs report.",
+      "recommended": "Set repository variable STEWARD_INTEGRATION_BRANCH to a long-lived steward integration branch, set STEWARD_LANDING_ENABLED=true, and leave steward/ledger and steward/a/* unprotected.",
       "source": "decision-record",
-      "unblocks": "Scheduled rendered-frontend observation (routine 15).",
-      "whyItMatters": "The sensor reports not-evaluated without a fresh browser-render input, so rendered frontend facts stay unobserved on scheduled runs. Adding the step changes the workflow's dependencies and runtime."
+      "unblocks": "Unattended Class A detect-repair-verify-PR without founder involvement; shared ledger for scheduled runs.",
+      "whyItMatters": "Class A repairs are proven in a throwaway checkout and stop there. Landing needs a target branch and contents/pull-requests write permission for the Steward workflow, which is a security-policy expansion only you can grant."
      },
      {
-      "alternative": "Retain the current conservative boundaries and explicitly accept their residual false-empty risk and stalls.",
+      "alternative": "Rule that array order is display-only and exempt hand-authored demotes from the ordering check.",
       "debtIds": [],
-      "decision": "Ratify or strengthen the completeness policy for persistent empty closed-history responses and repository-count drift?",
-      "decisionId": "steward-census-empty-page-crosschecks",
+      "decision": "Correct the three named skills whose hand-authored #1699 demote event (2026-09-05) sits ahead of older events, or rule that order is not significant?",
+      "decisionId": "steward-timeline-order-1699",
       "evidence": [
-       "The inherited census cross-checks open_issues_count, refuses false-empty and unverified-empty open listings, and confirms open walks. LiveGh verifies open totals exactly.",
-       "Closed listings have no independent total: the inherited watcher accepts a history that is empty on every attempt, and refuses a full-page terminal boundary without a count. Those limits are preserved, not claimed fixed.",
-       "The current mission runs mocked tests only, including false-empty, linked-empty, missing-link and exact-multiple cases. No live census or closure dry run has been used to resolve the question."
+       "gaiabot/repo-docs-before-pr, google-deepmind/workflow-skill-creator, xquik-dev/hermes-tweet: event 0 at 2026-09-05T00:00:00Z precedes event 1 in June 2026.",
+       "All 3689 other events across 398 named skills are chronological."
       ],
       "links": [
-       "https://github.com/gaia-research/gaia-skill-tree/pull/2133#issuecomment-6345851647",
-       "scripts/steward_issue_census.py",
-       "scripts/upstream_watcher/live.py"
+       "src/gaia_cli/steward/sensors_contracts.py"
       ],
       "priority": 20,
-      "recommended": "Review a trustworthy independent closed-count source and its completeness contract before relaxing any refusal. Keep unknown coverage visible.",
+      "recommended": "Authorize a CLI-driven re-sort (no new events, no timestamp changes) on a review/meta branch.",
       "source": "decision-record",
-      "unblocks": "Completeness-policy ruling; never authorization to close issues.",
-      "whyItMatters": "Repeated empty 200 responses are not independently verified closed-history absence. Conservative full-page refusal can also stall a closed-history walk."
+      "unblocks": "Retiring three timeline_causality_drift debts.",
+      "whyItMatters": "Timeline arrays are canonical provenance and may not be hand-edited; the CLI auto-sorts backfilled events, so these three were written outside it."
      },
      {
-      "alternative": "Require a formal receipt or explicit rejection; unresolved human-closed findings then remain actionable and may be recreated.",
-      "debtIds": [],
-      "decision": "Does any matching closed umbrella count as processed, or only one with an explicit accepted/rejected or Steward-receipt disposition?",
-      "decisionId": "steward-closed-umbrella-disposition",
-      "evidence": [
-       "PR #2133 comments 6344218194 and 6344758147 describe competing recreation/suppression behavior and explicitly request a founder ruling.",
-       "The staged evidence classifier preserves payload identity, treats contradictory history as unknown, and suppresses a finding when closed history records the same suite, version and candidate ids.",
-       "Tests prove that behavior, not its governance validity. The new batch path is not the default scheduled path."
-      ],
-      "links": [
-       "https://github.com/gaia-research/gaia-skill-tree/pull/2133#issuecomment-6344758147",
-       "scripts/upstream_watcher/evidence.py",
-       "tests/upstream_watcher/test_processed_findings.py"
-      ],
-      "priority": 20,
-      "recommended": "Decide the disposition semantics before batch rollout; keep historical payloads and existing issues untouched.",
-      "source": "decision-record",
-      "unblocks": "Closed-history semantics independently of canonical open-issue identity or Class A authority.",
-      "whyItMatters": "The staged implementation suppresses a matching finding even if a human closed it with unresolved rows; the opposite rule can recreate daily issue noise."
-     },
-     {
-      "alternative": "Document that only steward full shows the desk and remove the second wording ('Nothing requires a decision') from steward founder.",
-      "debtIds": [],
-      "decision": "Should `gaia steward founder` also list the open decision records in founder/steward/decisions/, as `gaia steward full` already does?",
-      "decisionId": "steward-founder-command-records",
-      "evidence": [
-       "src/gaia_cli/steward/digest.py renders only the Class C debt queue; build_desk() in desk.py is the only reader of decision records and is reached through steward full.",
-       "Observed output: 'Decisions for you 0' with steward-trust-stamp-refresh-policy-1642 and steward-workflow-skill-creator-demote-1699 open."
-      ],
-      "links": [
-       "src/gaia_cli/steward/digest.py",
-       "src/gaia_cli/steward/desk.py"
-      ],
-      "priority": 20,
-      "recommended": "Yes: append the open records to the digest, with before/after CLI output in the PR for review.",
-      "source": "decision-record",
-      "unblocks": "A single trustworthy founder queue.",
-      "whyItMatters": "On 2026-10-28 `gaia steward founder` printed 'Decisions for you 0 / Nothing requires a decision' while two records in that directory were open, so a founder using the dedicated command is told nothing is waiting. It changes visible CLI output, so it is human-gated."
-     },
-     {
-      "alternative": "Explicitly authorize and audit a reversal, separately from the general closure-authority ruling.",
-      "debtIds": [],
-      "decision": "Keep or reverse the accidental live closure of #1981 documented on Oct 22?",
-      "decisionId": "steward-issue-1981-incident",
-      "evidence": [
-       "The Oct 22 issue-hygiene handover records an accidental verifier closure at 2026-10-22T04:57:42Z, comment 6333084478, while a token was present.",
-       "The current mission authorizes mocks only. Neither closure nor reopening nor comment deletion has been performed here."
-      ],
-      "links": [
-       "https://github.com/gaia-research/gaia-skill-tree/issues/1981",
-       "founder/handovers/2026-10-22-steward-issue-hygiene-handover.md"
-      ],
-      "priority": 20,
-      "recommended": "Founder disposition after reviewing the preserved closing proof; keep the issue untouched meanwhile.",
-      "source": "decision-record",
-      "unblocks": "Incident disposition, not automatic issue-write authority.",
-      "whyItMatters": "Reversing it is another external write; engineering proof of an A1 match does not decide the incident."
-     },
-     {
-      "alternative": "Keep closures human-reviewed; retain deterministic reconciliation as read-only context and batch review proposals.",
-      "debtIds": [],
-      "decision": "Ratify the proposed Class A GitHub issue-closure allowlist A1–A5 and its rollout, or retain human-reviewed closure authority (#2130)?",
-      "decisionId": "steward-issue-closure-authority",
-      "evidence": [
-       "The Oct 21 architecture brief and earlier version of this record claimed founder authorization without a separately verified ruling. That inference is superseded by the current mission: the allowlist remains an unratified proposal. No historical approval is asserted here.",
-       "POLICY.yaml retains the disabled implementation: writesEnabled is false, the proposed rules are enumerated, maxClosuresPerRun is 10, and a5Disabled is empty. Editing the switch alone cannot activate it: runtime also requires this record to be explicitly decided with resolution approved. Decided-but-rejected is not authority.",
-       "Both script entrypoints and the public library executor re-derive proof from the checkout, require a complete fresh census and unchanged item digest, reserve bounded budget, and compare live issue and complete comment history before closing.",
-       "Mock tests cover comment-then-close crash recovery, foreign or unknown marker authors, maintainer objections, multipart preservation, receipt replay, reopened pairs and unrelated issue protection. No live closure pilot or burn-down is authorized by those tests.",
-       "Issue #1981 was accidentally closed during the prior verifier session (Oct 22 handover). Keeping or reversing that incident is a separate founder disposition, not resolved here."
-      ],
-      "links": [
-       "https://github.com/gaia-research/gaia-skill-tree/issues/2130",
-       "https://github.com/gaia-research/gaia-skill-tree/pull/2133",
-       "founder/steward/POLICY.yaml",
-       "founder/handovers/2026-10-22-steward-issue-hygiene-handover.md",
-       "src/gaia_cli/steward/issuehygiene/authority.py"
-      ],
-      "priority": 20,
-      "recommended": "Review the exact A1–A5 proof boundaries and mocked evidence. Keep writes disabled and do not run a live closure dry run or pilot in this mission. Any later rollout requires an explicit ruling and a separately authorized operational plan.",
-      "source": "decision-record",
-      "unblocks": "Only a future decided record with the exact affirmative resolution approved plus an explicitly enabled policy can emit and execute Class A closure actions. Neither a green test nor a writesEnabled edit grants that authority.",
-      "whyItMatters": "This is new external-write authority, not an extension inferred from local mirror repairs. Engineering proof does not ratify it. The current mission explicitly keeps this Class C decision open."
-     },
-     {
-      "alternative": "Keep the interim marker and run evidence discovery as an ad hoc /ev-discovery pass per skill.",
-      "debtIds": [],
-      "decision": "Give an empty-evidence trust finding its own Class C debt kind (trust_evidence_gap) and a bounded evidence-discovery routine, replacing the interim laneEligible:false marker on trust_calibration_drift?",
-      "decisionId": "steward-trust-evidence-gap-kind",
-      "evidence": [
-       "37 of 51 open trust_calibration_drift debts proposed 2-star to 1-star solely from an empty or non-scoring effective pool (13 have inherited rows that score nothing, 24 have no effective rows at all).",
-       "The 2026-10-28 run's builder reproduced addy-osmani/browser-testing-with-devtools but changed nothing and the Sonnet verifier escalated it; two lane entries had escalated.",
-       "A new kind needs authority and priority entries in founder/steward/POLICY.yaml and a founder rule; Steward may not add them itself."
-      ],
-      "links": [
-       "https://github.com/gaia-research/gaia-skill-tree/issues/2201",
-       "https://github.com/gaia-research/gaia-skill-tree/issues/2114",
-       "https://github.com/gaia-research/gaia-skill-tree/issues/2148",
-       "founder/steward/POLICY.yaml"
-      ],
-      "priority": 20,
-      "recommended": "Approve trust_evidence_gap as Class C with a founder rule, and a read-only evidence-discovery routine (authoritative upstream, releases, benchmarks, peer review; record URLs, dates, attribution, freshness, duplicates, admissibility) that never writes evidence or ratings; keep the interim marker until then.",
-      "source": "decision-record",
-      "unblocks": "One grouped desk decision for all evidence-gap skills instead of 37 Class B items, and a reusable discovery workflow.",
-      "whyItMatters": "Founder ruling 2026-10-28 (#2201): missing evidence is not evidence of degradation. The interim fix keeps these findings as Class B trust_calibration_drift debt that the lane never dispatches, so their authority label (B) misdescribes a governed question and no routine searches for the missing evidence."
-     },
-     {
-      "alternative": "Keep restamping manual, run by a Verifier from the recomputationOnly findings.",
-      "debtIds": [],
-      "decision": "Founder ruled 2026-10-28 for event-driven trust recalculation with periodic reconciliation as a backup. Approve the implementation: which events trigger a restamp, who runs it, and the policy amendment it needs?",
-      "decisionId": "steward-trust-stamp-refresh-policy-1642",
-      "evidence": [
-       "The 22 stale stamps were corrected on main by PR #2147 using gaia dev calibrate-trust-magnitude, with no grade or star-level change.",
-       "Issue #1642 remains open for the recurring policy, not for those corrections.",
-       "Founder ruling 2026-10-28: event-driven recalculation with periodic reconciliation as backup; recomputing derived information is distinct from canonical trust, grade, star, evidence-assertion or policy mutation, which stay Class C.",
-       "Built (this PR): trust_stamp_stale observations now carry recomputationOnly (computed grade still agrees with the stored star level) and the exact gaia dev calibrate-trust-magnitude command. Periodic reconciliation already exists: the sensor re-measures every scan. Not built: the event trigger.",
-       "Proposed trigger: the same reviewed PR that changes evidence (gaia dev evidence, star refresh, ingest) runs calibrate-trust-magnitude for only the affected skills; a restamp that would move a star level is not a restamp and goes to the desk."
-      ],
-      "links": [
-       "https://github.com/gaia-research/gaia-skill-tree/issues/1642"
-      ],
-      "priority": 20,
-      "recommended": "Approve: restamp only affected skills inside the PR that changes their evidence, with recomputationOnly as the gate; periodic reconciliation stays the backstop; any star, grade or policy movement stays Class C.",
-      "source": "decision-record",
-      "unblocks": "Retiring trust_stamp_stale debt without per-event founder work; the Class C debt kind stays for anything not recomputation-only.",
-      "whyItMatters": "The ruling is made but only its detection half is built. Restamping writes registry/named frontmatter and a timeline event, a Verifier-gated gaia dev mutation outside any Steward envelope, so the trigger and its authority need your approval before anything runs unattended."
-     },
-     {
-      "alternative": "Retain the legacy deployed issue contract and use batch dry-run reports only.",
-      "debtIds": [],
-      "decision": "Approve the staged F3 batch emission and hardened approve/reject/close-children workflow rollout, or keep legacy fanout?",
-      "decisionId": "steward-upstream-batch-rollout",
-      "evidence": [
-       "Issue #2131 explicitly requests founder-compatible F3 amendment review. Earlier campaign prose inferred approval from a brief; this mission does not ratify that inference.",
-       "The daily cron remains 0 6 * * *; CLI and workflow defaults are fanout. New event jobs and manual batch writes are staged behind STEWARD_ISSUE_HYGIENE_V2, which this work does not set.",
-       "PR #2133 comment 6344218194 records the canonical open-issue-per-suite correction. It is retained as evidence, not a ruling on rollout or closed-history suppression."
-      ],
-      "links": [
-       "https://github.com/gaia-research/gaia-skill-tree/issues/2131",
-       "https://github.com/gaia-research/gaia-skill-tree/pull/2133#issuecomment-6344218194",
-       "docs/agents/upstream-watcher.md"
-      ],
-      "priority": 20,
-      "recommended": "Review mocked behavior and explicitly decide rollout. Leave the variable unset and existing default jobs active until then.",
-      "source": "decision-record",
-      "unblocks": "Batch rollout only; Steward closure authority remains a separate OPEN decision.",
-      "whyItMatters": "Merging engineering must not silently change the daily issue queue or activate new event-driven write semantics."
-     },
-     {
-      "alternative": "Accept 4-star as an exception and record why, leaving the invariant unenforced.",
-      "debtIds": [],
-      "decision": "Rule on google-deepmind/workflow-skill-creator: it is status awakened at 4-star, which #1699 closed as fixed by demoting it to 1-star. Keep it at 4-star, restore the 1-star the issue ordered, or promote its status to named?",
-      "decisionId": "steward-workflow-skill-creator-demote-1699",
-      "evidence": [
-       "Timeline: 2026-09-05T00:00:00Z demote 4-star to 1-star citing #1699; 2026-09-05T03:50:03Z 'Calibrated 1-star to 1-star'; 2026-09-09T20:31:06Z rank_up 'Calibrated level from 1-star to 4-star'. Current file: status awakened, level 4-star, trustMagnitude 100.82.",
-       "The 2026-09-05 demote event records previousValue 4-star while the preceding log level was 3-star (2026-07-30 demote, then a rename): the historical discrepancy this record originally asked about.",
-       "A scan of registry/named finds exactly one awakened skill above 1-star (this one); 47 awakened skills sit at 1-star. scripts/validate.py passes on this state.",
-       "#1699's closing comment says the CLI preflight (_preflight_calibrate_status) now rejects level >= 2-star on awakened skills; the preflight is present, so the 2026-09-09 change took another path (not diagnosed: canonical data, out of Steward authority).",
-       "The three #1699 decision records previously cited #1699 for timeline ordering; #1699 is about calibrate and awakened skills, not ordering."
-      ],
-      "links": [
-       "https://github.com/gaia-research/gaia-skill-tree/issues/1699",
-       "https://github.com/gaia-research/gaia-skill-tree/pull/2147",
-       "registry/named/google-deepmind/workflow-skill-creator.md",
-       "founder/steward/decisions/LEDGER.md"
-      ],
-      "priority": 20,
-      "recommended": "Decide the skill's level and status as a canonical ruling (restore 1-star per #1699 and CONTEXT.md unless you promote its status to named), and have a Verifier run the gaia dev calibrate or update-named verb. Then approve adding the awakened-rank invariant to the registry integrity check so it cannot recur silently.",
-      "source": "decision-record",
-      "unblocks": "Closing the #1699 regression and the historical-provenance question; adding the invariant guard to scripts/validate.py without turning main red.",
-      "whyItMatters": "CONTEXT.md allows 2-star and above only for status named. #1699 (closed 2026-09-05) demoted this skill to 1-star for that reason, then a later calibration (2026-09-09) raised it back to 4-star while it is still awakened; it is the only awakened skill above 1-star, and no validator rejects the state. Timeline events are canonical provenance, so Steward may not edit them or the level."
-     },
-     {
-      "alternative": "Leave workflow timeouts to ordinary reviewed PRs and downgrade the sensor to report-only.",
-      "debtIds": [],
-      "decision": "Add a Class B dispatch route for workflow_hygiene (missing job timeout-minutes) limited to .github/workflows/*.yml and excluding compiled gh-aw lock files?",
-      "decisionId": "steward-workflow-timeout-route",
-      "evidence": [
-       "Every open workflow_hygiene finding is rule missing-timeout.",
-       "The fix is mechanical but a timeout is a per-job judgement: too low kills legitimate long jobs (the unit gate already takes about 2 minutes, full tests more).",
-       "Workflow files are a security-relevant surface; this PR did not edit any."
-      ],
-      "links": [
-       "founder/steward/POLICY.yaml",
-       "src/gaia_cli/steward/sensors_ci.py"
-      ],
-      "priority": 20,
-      "recommended": "Approve a route that proposes a timeout from the job's observed durations (ci-runs input) and requires independent verification; keep .github/** forbidden for every other rule.",
-      "source": "decision-record",
-      "unblocks": "Closure of up to 38 debts and a reusable path for workflow hygiene repairs.",
-      "whyItMatters": "38 open workflow_hygiene debts (64 missing-timeout findings) have no dispatch rule, and every existing rule forbids .github/**, so the lane cannot touch them. A job without timeout-minutes can run for the 6-hour default."
-     },
-     {
-      "alternative": "Defer; the affected issues stay open exactly as they are, and Steward takes no action on them.",
+      "alternative": "Defer; the findings stay open and nothing else depends on them unless listed under Unblocks.",
       "debtIds": [
-       "debt:issue_founder_decision:q-bfd37238:ac2f25b1b6af9db6"
-      ],
-      "decision": "An umbrella for suite \"garrytan/gbrain\" was approved with skip-child-gate while child intakes remain open. Accept that approval as recorded, reject it, or defer? Affected issues: #1835.",
-      "decisionId": "decision-559722957f83a09b8d32",
-      "evidence": [
-       "Q-bfd37238 - affected: 1 item(s); affectedCount: 1; basis: no basis for an opinion; manifestDigest: 3d90627b49b1b7adbc856f637905ca0841d65aa32059faf24b818bc619ee4314; options: 3 item(s)"
-      ],
-      "links": [],
-      "priority": 30,
-      "recommended": "None. This turns on product, ontology, or prestige judgment, which Steward has no basis to hold an opinion about.",
-      "source": "class-c-debt",
-      "unblocks": "1 open Class C debt item(s) under issue-question/q-bfd37238.",
-      "whyItMatters": "Steward can prove which upstream candidates are curated, but whether a family of them is accepted, rejected or deferred is a product decision. Nothing is closed or accepted until you rule."
-     },
-     {
-      "alternative": "Defer; the affected issues stay open exactly as they are, and Steward takes no action on them.",
-      "debtIds": [
+       "debt:issue_founder_decision:q-08ecd62d:b46650ebeefbdb87",
+       "debt:issue_founder_decision:q-2568173e:749fb275800fe372",
+       "debt:issue_founder_decision:q-6720aecf:e5f9c70bc8f1e0c9",
+       "debt:issue_founder_decision:q-bfd37238:ac2f25b1b6af9db6",
        "debt:issue_founder_decision:q-d736d093:27341e60e516d302"
       ],
-      "decision": "Is the registry record anthropic/skill-creator the same skill as the child intake candidate garrytan/skill-creator? Affected issues: #1982.",
-      "decisionId": "decision-5613214d22445b8ada9b",
+      "decision": "Rule on 5 open Class C issue_founder_decision finding(s).",
+      "decisionId": "decision-6d6b968e52db4fc1441b",
       "evidence": [
+       "Q-08ecd62d - affected: 1 item(s); affectedCount: 1; basis: no basis for an opinion; manifestDigest: 3d90627b49b1b7adbc856f637905ca0841d65aa32059faf24b818bc619ee4314; options: 3 item(s)",
+       "Q-2568173e - affected: 1 item(s); affectedCount: 1; basis: no basis for an opinion; manifestDigest: 3d90627b49b1b7adbc856f637905ca0841d65aa32059faf24b818bc619ee4314; options: 3 item(s)",
+       "Q-6720aecf - affected: 2 item(s); affectedCount: 2; basis: no basis for an opinion; manifestDigest: 3d90627b49b1b7adbc856f637905ca0841d65aa32059faf24b818bc619ee4314; options: 3 item(s)",
+       "Q-bfd37238 - affected: 1 item(s); affectedCount: 1; basis: no basis for an opinion; manifestDigest: 3d90627b49b1b7adbc856f637905ca0841d65aa32059faf24b818bc619ee4314; options: 3 item(s)",
        "Q-d736d093 - affected: 1 item(s); affectedCount: 1; basis: no basis for an opinion; manifestDigest: 3d90627b49b1b7adbc856f637905ca0841d65aa32059faf24b818bc619ee4314; options: 3 item(s)"
       ],
       "links": [],
       "priority": 30,
-      "recommended": "None. This turns on product, ontology, or prestige judgment, which Steward has no basis to hold an opinion about.",
+      "recommended": "None. Steward has grouped the evidence and stopped deliberately.",
       "source": "class-c-debt",
-      "unblocks": "1 open Class C debt item(s) under issue-question/q-d736d093.",
-      "whyItMatters": "Steward can prove which upstream candidates are curated, but whether a family of them is accepted, rejected or deferred is a product decision. Nothing is closed or accepted until you rule."
+      "unblocks": "5 open Class C debt item(s) of kind issue_founder_decision; Steward takes no action until you rule.",
+      "whyItMatters": "Policy classifies issue_founder_decision as Class C: its correct resolution turns on a governance judgment that Steward has no basis to make."
      },
      {
-      "alternative": "Defer; the affected issues stay open exactly as they are, and Steward takes no action on them.",
+      "alternative": "Declare stored stamps historical snapshots and exclude them from drift detection.",
       "debtIds": [
-       "debt:issue_founder_decision:q-08ecd62d:b46650ebeefbdb87"
+       "debt:trust_stamp_stale:addy-osmani-agent-skills:32227faac781ea76",
+       "debt:trust_stamp_stale:anthropics-brand-guidelines:454534a009158ce2",
+       "debt:trust_stamp_stale:aplaceforallmystuff-log-to-daily:56eb41aef8d7e24f",
+       "debt:trust_stamp_stale:ayghri-i-have-adhd:e25ca806132d9199",
+       "debt:trust_stamp_stale:dietrichgebert-ponytail:8322967a69e8bfad",
+       "debt:trust_stamp_stale:favorchurch-speak-like-favor:0980c5b3057d2e61",
+       "debt:trust_stamp_stale:firecrawl-firecrawl-skills:cdf720aa0e1c09bb",
+       "debt:trust_stamp_stale:garrytan-gstack:7ab449246d9ccc16",
+       "debt:trust_stamp_stale:gsd-build-get-shit-done:c19cb1b0bc1dc867",
+       "debt:trust_stamp_stale:gsd-build-gsd-verify-work:7fa68b3fa17c3318",
+       "debt:trust_stamp_stale:heygen-com-hyperframes:7de0c77baaecda54",
+       "debt:trust_stamp_stale:leonxlnx-taste-skill:da5338a7133cfe2c",
+       "debt:trust_stamp_stale:leonxlnx-unlazy:fce3d2bea45b6bbf",
+       "debt:trust_stamp_stale:mattpocock-misc:2b158d43b32c7dc9",
+       "debt:trust_stamp_stale:mattpocock-skills:54a5385842b1acfb",
+       "debt:trust_stamp_stale:mvanhorn-last30days:82cdd6cde765a3e6",
+       "debt:trust_stamp_stale:nextlevelbuilder-ui-ux-pro-max:02cca773ebcfd2c9",
+       "debt:trust_stamp_stale:obra-superpowers:94400eaabf63c98e",
+       "debt:trust_stamp_stale:pbakaus-impeccable:97bf6eea6b4f4bba",
+       "debt:trust_stamp_stale:ruvnet-ruflo:386f6e3c31a1c946",
+       "debt:trust_stamp_stale:safishamsi-graphify:83b3205a3747669b",
+       "debt:trust_stamp_stale:vercel-labs-vercel-react-best-practices:d6eaa85bf0657184"
       ],
-      "decision": "The umbrella title names suite \"ruvnet/ruflo\" but its payload names suite \"ruvnet/agentdb\". Which suite key is canonical for this umbrella? Affected issues: #1833.",
-      "decisionId": "decision-6b602653b3456c518b80",
+      "decision": "Decide the Trust Magnitude stamp refresh policy for stale stored stamps.",
+      "decisionId": "decision-bd6c25b50dfe8d0d3b4e",
       "evidence": [
-       "Q-08ecd62d - affected: 1 item(s); affectedCount: 1; basis: no basis for an opinion; manifestDigest: 3d90627b49b1b7adbc856f637905ca0841d65aa32059faf24b818bc619ee4314; options: 3 item(s)"
+       "addy-osmani/agent-skills - delta: 1.42; tolerance: 0.02; trustMagnitude: 176.04",
+       "anthropics/brand-guidelines - delta: 0.55; tolerance: 0.02; trustMagnitude: 184.87",
+       "aplaceforallmystuff/log-to-daily - delta: 1.16; tolerance: 0.02; trustMagnitude: 22.67",
+       "ayghri/i-have-adhd - delta: 10.57; tolerance: 0.02; trustMagnitude: 130.23",
+       "dietrichgebert/ponytail - delta: 3.46; tolerance: 0.02; trustMagnitude: 225.42",
+       "favorchurch/speak-like-favor - delta: 1.28; tolerance: 0.02; trustMagnitude: 6.28",
+       "firecrawl/firecrawl-skills - delta: 2.17; tolerance: 0.02; trustMagnitude: 72.86",
+       "garrytan/gstack - delta: 0.45; tolerance: 0.02; trustMagnitude: 356.11",
+       "gsd-build/get-shit-done - delta: 0.05; tolerance: 0.02; trustMagnitude: 169.31",
+       "gsd-build/gsd-verify-work - delta: 2.66; tolerance: 0.02; trustMagnitude: 52.66",
+       "heygen-com/hyperframes - delta: 3.29; tolerance: 0.02; trustMagnitude: 166.92",
+       "leonxlnx/taste-skill - delta: 2.25; tolerance: 0.02; trustMagnitude: 174.68",
+       "leonxlnx/unlazy - delta: 25.65; tolerance: 0.02; trustMagnitude: 91.46",
+       "mattpocock/misc - delta: 1.16; tolerance: 0.02; trustMagnitude: 200.29",
+       "mattpocock/skills - delta: 1.77; tolerance: 0.02; trustMagnitude: 374.99",
+       "mvanhorn/last30days - delta: 0.6; tolerance: 0.02; trustMagnitude: 205.75",
+       "nextlevelbuilder/ui-ux-pro-max - delta: 1.01; tolerance: 0.02; trustMagnitude: 227.51",
+       "obra/superpowers - delta: 0.71; tolerance: 0.02; trustMagnitude: 221.52",
+       "pbakaus/impeccable - delta: 1.93; tolerance: 0.02; trustMagnitude: 171.27",
+       "ruvnet/ruflo - delta: 0.75; tolerance: 0.02; trustMagnitude: 175.34",
+       "safishamsi/graphify - delta: 1.26; tolerance: 0.02; trustMagnitude: 318.14",
+       "vercel-labs/vercel-react-best-practices - delta: 0.53; tolerance: 0.02; trustMagnitude: 163.19"
       ],
-      "links": [],
+      "links": [
+       "https://github.com/gaia-research/gaia-skill-tree/issues/1642"
+      ],
       "priority": 30,
-      "recommended": "None. This turns on product, ontology, or prestige judgment, which Steward has no basis to hold an opinion about.",
+      "recommended": "Choose one refresh mechanism in #1642 (for example a gated `gaia dev` command that restamps inside a reviewed PR) and record it as a decision.",
       "source": "class-c-debt",
-      "unblocks": "1 open Class C debt item(s) under issue-question/q-08ecd62d.",
-      "whyItMatters": "Steward can prove which upstream candidates are curated, but whether a family of them is accepted, rejected or deferred is a product decision. Nothing is closed or accepted until you rule."
-     },
-     {
-      "alternative": "Defer; the affected issues stay open exactly as they are, and Steward takes no action on them.",
-      "debtIds": [
-       "debt:issue_founder_decision:q-6720aecf:e5f9c70bc8f1e0c9"
-      ],
-      "decision": "The gh-aw bot reports are open while the workflows they report on are still enabled in the repository, so policy cannot close them. Disable or delete the gh-aw steward-build and steward-verify workflows, then close the reports? Affected issues: #2126, #2127.",
-      "decisionId": "decision-95d3e7a9b67f5429da1a",
-      "evidence": [
-       "Q-6720aecf - affected: 2 item(s); affectedCount: 2; basis: no basis for an opinion; manifestDigest: 3d90627b49b1b7adbc856f637905ca0841d65aa32059faf24b818bc619ee4314; options: 3 item(s)"
-      ],
-      "links": [],
-      "priority": 30,
-      "recommended": "None. This turns on product, ontology, or prestige judgment, which Steward has no basis to hold an opinion about.",
-      "source": "class-c-debt",
-      "unblocks": "1 open Class C debt item(s) under issue-question/q-6720aecf.",
-      "whyItMatters": "Steward can prove which upstream candidates are curated, but whether a family of them is accepted, rejected or deferred is a product decision. Nothing is closed or accepted until you rule."
-     },
-     {
-      "alternative": "Defer; the affected issues stay open exactly as they are, and Steward takes no action on them.",
-      "debtIds": [
-       "debt:issue_founder_decision:q-2568173e:749fb275800fe372"
-      ],
-      "decision": "The umbrella title names suite \"addyosmani/agent-skills\" but its payload names suite \"addy-osmani/agent-skills\". Which suite key is canonical for this umbrella? Affected issues: #2002.",
-      "decisionId": "decision-a7d4af04e3caac0f441d",
-      "evidence": [
-       "Q-2568173e - affected: 1 item(s); affectedCount: 1; basis: no basis for an opinion; manifestDigest: 3d90627b49b1b7adbc856f637905ca0841d65aa32059faf24b818bc619ee4314; options: 3 item(s)"
-      ],
-      "links": [],
-      "priority": 30,
-      "recommended": "None. This turns on product, ontology, or prestige judgment, which Steward has no basis to hold an opinion about.",
-      "source": "class-c-debt",
-      "unblocks": "1 open Class C debt item(s) under issue-question/q-2568173e.",
-      "whyItMatters": "Steward can prove which upstream candidates are curated, but whether a family of them is accepted, rejected or deferred is a product decision. Nothing is closed or accepted until you rule."
+      "unblocks": "22 open Class C debt item(s) of kind trust_stamp_stale; Steward takes no action until you rule.",
+      "whyItMatters": "Stored trustMagnitude stamps disagree with the computed effective value, so displayed trust and computed trust differ until a refresh policy exists. Steward measures this and never edits stamps."
      }
     ],
-    "operations": [
-     {
-      "detail": "open issues 226 (bot 2, upstream children 92); closed this run 0 of 0 total; no previous run recorded",
-      "kind": "issue_backlog",
-      "subject": "issue backlog"
-     }
-    ],
+    "operations": [],
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
@@ -11802,7 +11470,7 @@
     "haiku"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "perform 1 pending action(s) (agent.verify), record each with `gaia steward full record run-20261030T024735Z-6eec6709 <stepId> --input FILE`, then `gaia steward full run --resume run-20261030T024735Z-6eec6709`",
    "options": {
     "afk": true,
     "agents": true,
@@ -12874,7 +12542,7 @@
    "sequence": 1,
    "sourceHead": "dc07528884a759dbd3668d4a0007469265ab396f",
    "startedAt": "2026-10-30T02:47:35.167564Z",
-   "status": "active",
+   "status": "awaiting-action",
    "steps": [
     {
      "at": "2026-10-30T02:47:35.167564Z",
@@ -12940,7 +12608,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-30T02:57:45.964821Z",
+ "updatedAt": "2026-10-30T02:57:49.776411Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
