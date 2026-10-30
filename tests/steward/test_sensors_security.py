@@ -204,6 +204,58 @@ class TestUngatedMutation:
             "call": ".write_text",
         }
 
+    def _assessFiles(self, status: str | None) -> dict[str, str]:
+        files = {
+            "src/gaia_cli/commands/dev/__init__.py": _dev_init(
+                parsers="add rm assess",
+                dispatch={
+                    "add": "gaia_cli.commands.dev.writer:addCommand",
+                    "rm": "gaia_cli.commands.dev.writer:rmCommand",
+                    "assess": "gaia_cli.commands.dev.assessor:assessCommand",
+                },
+            ),
+            "src/gaia_cli/commands/dev/assessor.py": (
+                "from pathlib import Path\n\n\n"
+                "def assessCommand(args):\n"
+                "    Path(args.registry).joinpath('receipt.json').write_text('{}')\n"
+            ),
+        }
+        if status is not None:
+            files["founder/steward/decisions/steward-dev-mutation-gates.json"] = (
+                '{"schemaVersion": "steward-decision-v1", "id": "steward-dev-mutation-gates", '
+                f'"status": "{status}"}}'
+            )
+        return files
+
+    def test_a_decided_exemption_is_recorded_not_reported_as_drift(self, tmp_path: Path) -> None:
+        _, observations = _mutation(tmp_path, **self._assessFiles("decided"))
+        (item,) = _gating(observations)
+        assert item.subject.id == "dev:assess"
+        assert item.status == "healthy"
+        assert item.observed_state["intentionallyUngated"] is True
+        assert item.observed_state["decisionRecord"].endswith("steward-dev-mutation-gates.json")
+
+    def test_the_exemption_fails_closed_without_a_decided_record(self, tmp_path: Path) -> None:
+        for index, status in enumerate((None, "open")):
+            _, observations = _mutation(tmp_path / str(index), **self._assessFiles(status))
+            (item,) = _gating(observations)
+            assert item.status == "drift", status
+
+    def test_an_exemption_never_extends_to_another_command_name(self, tmp_path: Path) -> None:
+        files = self._assessFiles("decided")
+        files["src/gaia_cli/commands/dev/__init__.py"] = _dev_init(
+            parsers="add rm export",
+            dispatch={
+                "add": "gaia_cli.commands.dev.writer:addCommand",
+                "rm": "gaia_cli.commands.dev.writer:rmCommand",
+                "export": "gaia_cli.commands.dev.assessor:assessCommand",
+            },
+        )
+        _, observations = _mutation(tmp_path, **files)
+        (item,) = _gating(observations)
+        assert item.subject.id == "dev:export"
+        assert item.status == "drift"
+
     def test_write_reached_through_helper_in_same_module(self, tmp_path: Path) -> None:
         files = {
             "src/gaia_cli/commands/dev/__init__.py": _dev_init(

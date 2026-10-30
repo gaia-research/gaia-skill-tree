@@ -17,7 +17,6 @@ import html
 import io
 import os
 import sys
-from contextlib import contextmanager
 
 # Ensure src/ is importable when this script is run from the repo root
 HERE = os.path.dirname(os.path.abspath(__file__))

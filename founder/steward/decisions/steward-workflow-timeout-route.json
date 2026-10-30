@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-workflow-timeout-route",
+  "status": "open",
+  "decision": "Add a Class B dispatch route for workflow_hygiene (missing job timeout-minutes) limited to .github/workflows/*.yml and excluding compiled gh-aw lock files?",
+  "whyItMatters": "38 open workflow_hygiene debts (64 missing-timeout findings) have no dispatch rule, and every existing rule forbids .github/**, so the lane cannot touch them. A job without timeout-minutes can run for the 6-hour default.",
+  "evidence": [
+    "Every open workflow_hygiene finding is rule missing-timeout.",
+    "The fix is mechanical but a timeout is a per-job judgement: too low kills legitimate long jobs (the unit gate already takes about 2 minutes, full tests more).",
+    "Workflow files are a security-relevant surface; this PR did not edit any."
+  ],
+  "recommended": "Approve a route that proposes a timeout from the job's observed durations (ci-runs input) and requires independent verification; keep .github/** forbidden for every other rule.",
+  "alternative": "Leave workflow timeouts to ordinary reviewed PRs and downgrade the sensor to report-only.",
+  "unblocks": "Closure of up to 38 debts and a reusable path for workflow hygiene repairs.",
+  "links": [
+    "founder/steward/POLICY.yaml",
+    "src/gaia_cli/steward/sensors_ci.py"
+  ]
+}

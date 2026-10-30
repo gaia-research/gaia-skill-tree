@@ -25,6 +25,12 @@ gaia steward full status --json
 Decision records live in `founder/steward/decisions/*.json`
 (`steward-decision-v1`); Class C debt comes from the ledger's latest run.
 
+Routine 18 contributes Class C through `issue_founder_decision`: one question per
+affected family of issues (for example, whether a family of upstream candidates is
+accepted, rejected or deferred), listed once with its `Q-` id and the affected issue
+numbers. A question is never answered by the desk. Only the founder's ruling, recorded
+as a decision record, releases the work it blocks.
+
 ## Output
 
 Under `NEEDS YOUR DECISION`, each item shows Decision / Why it matters /

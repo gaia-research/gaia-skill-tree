@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-from datetime import date
 from pathlib import Path
 
 REGISTRY_PATH = Path("registry/gaia.json")

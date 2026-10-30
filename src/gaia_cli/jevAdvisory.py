@@ -15,7 +15,6 @@ import re
 from pathlib import Path
 from typing import Any, Callable, Mapping
 
-from gaia_cli.jev import JevClient
 
 REPORT_SCHEMA_VERSION = "jev-advisory-report-v1"
 PINNED_MODEL = "jev-1.13.0"
