@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-trust-evidence-gap-kind",
+  "status": "open",
+  "decision": "Give an empty-evidence trust finding its own Class C debt kind (trust_evidence_gap) and a bounded evidence-discovery routine, replacing the interim laneEligible:false marker on trust_calibration_drift?",
+  "whyItMatters": "Founder ruling 2026-10-28 (#2201): missing evidence is not evidence of degradation. The interim fix keeps these findings as Class B trust_calibration_drift debt that the lane never dispatches, so their authority label (B) misdescribes a governed question and no routine searches for the missing evidence.",
+  "evidence": [
+    "37 of 51 open trust_calibration_drift debts proposed 2-star to 1-star solely from an empty or non-scoring effective pool (13 have inherited rows that score nothing, 24 have no effective rows at all).",
+    "The 2026-10-28 run's builder reproduced addy-osmani/browser-testing-with-devtools but changed nothing and the Sonnet verifier escalated it; two lane entries had escalated.",
+    "A new kind needs authority and priority entries in founder/steward/POLICY.yaml and a founder rule; Steward may not add them itself."
+  ],
+  "recommended": "Approve trust_evidence_gap as Class C with a founder rule, and a read-only evidence-discovery routine (authoritative upstream, releases, benchmarks, peer review; record URLs, dates, attribution, freshness, duplicates, admissibility) that never writes evidence or ratings; keep the interim marker until then.",
+  "alternative": "Keep the interim marker and run evidence discovery as an ad hoc /ev-discovery pass per skill.",
+  "unblocks": "One grouped desk decision for all evidence-gap skills instead of 37 Class B items, and a reusable discovery workflow.",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2201",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2114",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2148",
+    "founder/steward/POLICY.yaml"
+  ]
+}

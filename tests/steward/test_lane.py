@@ -339,6 +339,43 @@ def test_a_closed_condition_that_returns_starts_its_attempt_count_over() -> None
     assert entry.last_verdict is None
 
 
+def test_debt_a_sensor_declares_not_repairable_never_holds_a_lane_slot() -> None:
+    """``laneEligible: false`` keeps a finding visible but out of the agent lane.
+
+    A trust evidence gap can only end in evidence discovery or a governed
+    decision, so dispatching a builder and verifier at it would burn lane
+    capacity and attempts for an outcome that is already known.
+    """
+
+    from dataclasses import replace
+
+    kinds = {"registry_integrity_failed": "registry-integrity-review"}
+    gap = replace(_debt("debt:gap"), observed_state={"laneEligible": False})
+    result = reconcile(_lane(), open_debts=[gap, _debt("debt:ok")], dispatchable_kinds=kinds, now=NOW)
+    assert result.by_id("debt:gap") is None
+    assert result.by_id("debt:ok").state == "queued"
+
+    queued = _lane(_entry("debt:gap"))
+    closed = reconcile(queued, open_debts=[gap], dispatchable_kinds=kinds, now=NOW)
+    assert closed.by_id("debt:gap").state == "closed"
+    assert "no longer eligible" in closed.by_id("debt:gap").history[-1].reason
+
+
+def test_an_escalation_is_answered_when_the_debt_becomes_ineligible() -> None:
+    from dataclasses import replace
+
+    kinds = {"registry_integrity_failed": "registry-integrity-review"}
+    gap = replace(_debt("debt:a"), observed_state={"laneEligible": False})
+    escalated = _lane(_entry("debt:a", state="escalated", attempts=1, last_verdict="escalate"))
+    result = reconcile(escalated, open_debts=[gap], dispatchable_kinds=kinds, now=NOW)
+    entry = result.by_id("debt:a")
+    assert entry.state == "closed"
+    assert "escalation is answered" in entry.history[-1].reason
+
+    still_eligible = reconcile(escalated, open_debts=[_debt("debt:a")], dispatchable_kinds=kinds, now=NOW)
+    assert still_eligible.by_id("debt:a").state == "escalated"
+
+
 def test_debt_with_no_dispatch_rule_never_enters_the_lane() -> None:
     from gaia_cli.steward.models import Debt
 

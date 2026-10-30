@@ -1,7 +1,7 @@
 import html
 import json
 import os
-from typing import Dict, Iterable, List, Tuple
+from typing import Dict, Tuple
 
 
 CATALOG_PATH = os.path.join("registry", "real-skills.json")

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-evidence-before-demotion-2201",
+  "status": "decided",
+  "decision": "When Trust Magnitude has zero effective evidence rows, may Steward infer or propose a demotion from the empty pool?",
+  "whyItMatters": "An empty pool can be a sensor or context omission (#2114), a collection failure, or a genuine absence; treating it as degradation would mass-demote skills on missing data.",
+  "evidence": [
+    "Founder ruling 2026-10-28 (#2201): no. Check canonical effective evidence including inheritance, search for admissible new evidence, recalculate from qualifying evidence, and if none remains preserve the existing rating pending a governed decision. No bulk calibration.",
+    "37 of 51 open trust_calibration_drift debts were empty-pool demotion proposals on 2026-10-28.",
+    "Implemented as a sensor evidence-gap observation without a target level or calibration command (founder/steward/decisions/LEDGER.md row 9)."
+  ],
+  "recommended": "Preserve the stored rating; report an evidence gap; never auto-demote on absence. A demotion needs actual counter-evidence or supersession under #2148.",
+  "alternative": "Treat an empty pool as ungraded and demote (rejected by the founder).",
+  "unblocks": "Retiring the empty-pool demotion proposals; evidence discovery as the next step (see steward-trust-evidence-gap-kind).",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2201",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2114",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2148",
+    "founder/steward/routines/trust-calibration-drift.md"
+  ]
+}

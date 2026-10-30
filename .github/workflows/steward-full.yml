@@ -1,6 +1,7 @@
 name: Gaia Steward Full
 
-# One click: Actions -> "Gaia Steward Full" -> Run workflow -> pick an agent.
+# Founder-paused workflow: do not dispatch agents unless the founder reauthorizes it.
+# If reauthorized, a scheduled agent run requires explicit STEWARD_AGENT opt-in.
 #
 #   Class A  detect -> repair -> verify -> land on dev/steward-integration -> record
 #   Class B  detect -> dispatch builder -> independent verifier -> land -> record
@@ -23,9 +24,8 @@ name: Gaia Steward Full
 # reports what it can see; a missing credential makes the agent run fail and the
 # step is reported failed. Class B is only ever claimed when an agent ran.
 #
-# Cadence: lane maxInFlight is 2 but maxDispatchesPerRun is pinned to 1 in code,
-# so a run dispatches at most one new Class B repair. Running every 4 hours
-# fills both slots within one run-gap and refills a freed slot at the next run.
+# If the workflow is separately reauthorized, maxDispatchesPerRun remains pinned
+# to 1 in code; an empty STEWARD_AGENT selection must still run without agents.
 
 # Paused by founder: subscription-driven Claude routine replaces gh-aw GitHub inference.
 # No scheduled or manual dispatch here until explicitly reauthorized.
@@ -51,7 +51,7 @@ jobs:
     env:
       INTEGRATION_BRANCH: ${{ vars.STEWARD_INTEGRATION_BRANCH || 'dev/steward-integration' }}
       GH_TOKEN: ${{ github.token }}
-      STEWARD_AGENT: ${{ inputs.agent || vars.STEWARD_AGENT || 'copilot' }}
+      STEWARD_AGENT: ${{ inputs.agent || vars.STEWARD_AGENT || '' }}
       STEWARD_VERIFIER_AGENT: ${{ (inputs.verifier != 'same' && inputs.verifier) || vars.STEWARD_VERIFIER_AGENT || '' }}
       STEWARD_AGENT_REF: ${{ github.event.repository.default_branch }}
       STEWARD_BUILD_EFFORT: medium
@@ -103,33 +103,44 @@ jobs:
             row "GITHUB_TOKEN can create and delete steward/* refs" "**NO** - $(head -c 200 /tmp/probe.err | tr '\n' ' ')"
             echo "::error title=steward cannot write refs::push of $probe was refused"
           fi
-          for engine in "$STEWARD_AGENT" "${STEWARD_VERIFIER_AGENT:-$STEWARD_AGENT}"; do
-            for role in build verify; do
-              wf=".github/workflows/steward-${role}-${engine}.lock.yml"
-              if git ls-remote --exit-code --heads origin "$STEWARD_AGENT_REF" >/dev/null 2>&1 \
-                 && git cat-file -e "origin/${STEWARD_AGENT_REF}:${wf}" 2>/dev/null; then
-                row "agent workflow ${wf##*/} on $STEWARD_AGENT_REF" "yes"
-              else
-                row "agent workflow ${wf##*/} on $STEWARD_AGENT_REF" "**NO** - dispatch will fail until it is merged to $STEWARD_AGENT_REF"
-                echo "::error title=steward agent workflow missing::${wf##*/} is not on $STEWARD_AGENT_REF"
-              fi
+          if [ -n "${STEWARD_AGENT//[[:space:]]/}" ]; then
+            for engine in "$STEWARD_AGENT" "${STEWARD_VERIFIER_AGENT:-$STEWARD_AGENT}"; do
+              for role in build verify; do
+                wf=".github/workflows/steward-${role}-${engine}.lock.yml"
+                if git ls-remote --exit-code --heads origin "$STEWARD_AGENT_REF" >/dev/null 2>&1 \
+                   && git cat-file -e "origin/${STEWARD_AGENT_REF}:${wf}" 2>/dev/null; then
+                  row "agent workflow ${wf##*/} on $STEWARD_AGENT_REF" "yes"
+                else
+                  row "agent workflow ${wf##*/} on $STEWARD_AGENT_REF" "**NO** - dispatch will fail until it is merged to $STEWARD_AGENT_REF"
+                  echo "::error title=steward agent workflow missing::${wf##*/} is not on $STEWARD_AGENT_REF"
+                fi
+              done
+              case "$engine" in
+                copilot|pi) row "$engine credentials" "Copilot entitlement via copilot-requests (org billing); fallback secret COPILOT_GITHUB_TOKEN present: $HAS_COPILOT_TOKEN" ;;
+                claude) row "claude credentials" "ANTHROPIC_API_KEY present: $HAS_ANTHROPIC"
+                        [ "$HAS_ANTHROPIC" = true ] || echo "::warning title=steward claude agent unauthenticated::ANTHROPIC_API_KEY is not set; Claude agent runs will fail" ;;
+                codex) row "codex credentials" "OPENAI_API_KEY or CODEX_API_KEY present: $HAS_OPENAI"
+                       [ "$HAS_OPENAI" = true ] || echo "::warning title=steward codex agent unauthenticated::no OPENAI_API_KEY or CODEX_API_KEY; Codex agent runs will fail" ;;
+              esac
             done
-            case "$engine" in
-              copilot|pi) row "$engine credentials" "Copilot entitlement via copilot-requests (org billing); fallback secret COPILOT_GITHUB_TOKEN present: $HAS_COPILOT_TOKEN" ;;
-              claude) row "claude credentials" "ANTHROPIC_API_KEY present: $HAS_ANTHROPIC"
-                      [ "$HAS_ANTHROPIC" = true ] || echo "::warning title=steward claude agent unauthenticated::ANTHROPIC_API_KEY is not set; Claude agent runs will fail" ;;
-              codex) row "codex credentials" "OPENAI_API_KEY or CODEX_API_KEY present: $HAS_OPENAI"
-                     [ "$HAS_OPENAI" = true ] || echo "::warning title=steward codex agent unauthenticated::no OPENAI_API_KEY or CODEX_API_KEY; Codex agent runs will fail" ;;
-            esac
-          done
+          else
+            row "agent dispatch" "disabled: STEWARD_AGENT is empty or whitespace-only"
+          fi
           exit 0
 
       - name: Drive the pipeline
         run: |
           set +e
+          agent_args=()
+          if [ -z "${STEWARD_AGENT//[[:space:]]/}" ]; then
+            # An empty selection must not fall through to steward_drive.py's
+            # local Claude CLI fallback. Observation and Class A work continue.
+            agent_args+=(--no-agents)
+          fi
           python scripts/steward_drive.py \
             --integration-branch "$INTEGRATION_BRANCH" \
             --ledger git --trigger scheduled \
+            "${agent_args[@]}" \
             --report drive-report.json
           rc=$?
           # Exit 4: another run holds the ledger lease (30 min TTL). Nothing is

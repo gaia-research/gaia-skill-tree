@@ -25,7 +25,6 @@ from gaia_cli.steward.models import (
 )
 from gaia_cli.steward.lane import (
     Lane,
-    LaneError,
     lane_document,
     load_lane,
     mark_dispatched,
