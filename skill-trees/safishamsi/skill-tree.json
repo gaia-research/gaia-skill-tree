@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "safishamsi/graphify",
-      "level": "4★",
+      "level": "5★",
       "unlockedAt": "2026-05-14T00:00:00Z",
       "unlockedIn": "safishamsi/gaia-skill-tree",
       "combinedFrom": [],
@@ -38,11 +38,6 @@
           "level": "5★",
           "achievedAt": "2026-09-02T15:11:45Z",
           "source": "promotion"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-10-29T16:37:34Z",
-          "source": "demote"
         }
       ]
     }
@@ -95,14 +90,6 @@
       "newValue": "5★",
       "details": "Calibrated level from 4★ to 5★",
       "skillId": "safishamsi/graphify"
-    },
-    {
-      "timestamp": "2026-10-29T16:37:34Z",
-      "action": "demote",
-      "skillId": "safishamsi/graphify",
-      "previousValue": "5★",
-      "newValue": "4★",
-      "details": "Founder ruling 2026-10-30 FD-10: calibrated 5★ -> 4★; fails Unique Ultimate fusion-structure Origin gate (see registry timeline note)."
     }
   ],
   "stats": {
