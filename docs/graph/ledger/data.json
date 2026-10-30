@@ -1,15 +1,15 @@
 {
   "version": "8.28.1",
-  "generatedAt": "2026-10-27T21:39:21Z",
+  "generatedAt": "2026-10-30T05:25:45Z",
   "summary": {
     "total": 268,
     "S": 3,
-    "A": 28,
-    "B": 94,
+    "A": 29,
+    "B": 93,
     "C": 104,
     "ungraded": 39,
     "floor": 0,
-    "up": 2
+    "up": 3
   },
   "rows": [
     {
@@ -152,6 +152,24 @@
       "branch": "suite"
     },
     {
+      "skillId": "mattpocock/misc",
+      "tm": 220.87,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 155.29,
+        "repo-own": 20.58,
+        "peer-review": 45.0
+      },
+      "origin": true,
+      "branch": "suite"
+    },
+    {
       "skillId": "mvanhorn/last30days",
       "tm": 205.75,
       "grade": "A",
@@ -168,23 +186,6 @@
       },
       "origin": true,
       "branch": "unique"
-    },
-    {
-      "skillId": "mattpocock/misc",
-      "tm": 200.29,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 155.29,
-        "peer-review": 45.0
-      },
-      "origin": true,
-      "branch": "suite"
     },
     {
       "skillId": "addy-osmani/code-simplification",
@@ -274,6 +275,24 @@
       "branch": "suite"
     },
     {
+      "skillId": "heygen-com/hyperframes",
+      "tm": 171.92,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 130.92,
+        "repo-own": 36.0,
+        "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "suite"
+    },
+    {
       "skillId": "pbakaus/impeccable",
       "tm": 171.27,
       "grade": "A",
@@ -308,23 +327,6 @@
       "branch": "suite"
     },
     {
-      "skillId": "heygen-com/hyperframes",
-      "tm": 166.92,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 130.92,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "suite"
-    },
-    {
       "skillId": "vercel-labs/vercel-react-best-practices",
       "tm": 163.19,
       "grade": "A",
@@ -344,6 +346,24 @@
       "branch": "unique"
     },
     {
+      "skillId": "wheresryan22/anatomy",
+      "tm": 157.48,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 116.48,
+        "self-attestation": 5.0
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
       "skillId": "mksglu/context-mode",
       "tm": 154.71,
       "grade": "A",
@@ -356,23 +376,6 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 118.71
-      },
-      "origin": true,
-      "branch": "unique"
-    },
-    {
-      "skillId": "wheresryan22/anatomy",
-      "tm": 152.48,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 116.48
       },
       "origin": true,
       "branch": "unique"
@@ -413,6 +416,24 @@
       "branch": "standard"
     },
     {
+      "skillId": "nvidia/accelerated-computing-cudf",
+      "tm": 131.12,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 90.12,
+        "self-attestation": 5.0
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
       "skillId": "ayghri/i-have-adhd",
       "tm": 130.23,
       "grade": "A",
@@ -426,23 +447,6 @@
         "github-stars-own": 130.23
       },
       "origin": false,
-      "branch": "unique"
-    },
-    {
-      "skillId": "nvidia/accelerated-computing-cudf",
-      "tm": 126.12,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 90.12
-      },
-      "origin": true,
       "branch": "unique"
     },
     {
@@ -552,6 +556,24 @@
       "branch": "unique"
     },
     {
+      "skillId": "browser-use/browser-harness",
+      "tm": 103.59,
+      "grade": "A",
+      "currentStars": "3★",
+      "mayStars": "2★",
+      "juneStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "social-signal": 37.59,
+        "peer-review": 30.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
       "skillId": "mattpocock/engineering",
       "tm": 102.5,
       "grade": "A",
@@ -562,7 +584,8 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 50.0,
+        "github-stars-own": 44.15,
+        "repo-own": 5.85,
         "peer-review": 52.5
       },
       "origin": true,
@@ -579,7 +602,8 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 50.0,
+        "github-stars-own": 44.15,
+        "repo-own": 5.85,
         "peer-review": 52.5
       },
       "origin": true,
@@ -767,6 +791,24 @@
       "branch": "standard"
     },
     {
+      "skillId": "nateherkai/scroll-craft",
+      "tm": 92.38,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.25,
+        "github-stars-own": 86.13,
+        "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "leonxlnx/unlazy",
       "tm": 91.46,
       "grade": "B",
@@ -833,23 +875,6 @@
       },
       "origin": true,
       "branch": "suite"
-    },
-    {
-      "skillId": "nateherkai/scroll-craft",
-      "tm": 87.38,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 1.25,
-        "github-stars-own": 86.13
-      },
-      "origin": false,
-      "branch": "standard"
     },
     {
       "skillId": "firecrawl/firecrawl-build-search",
@@ -919,23 +944,6 @@
         "peer-review": 30.0
       },
       "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "browser-use/browser-harness",
-      "tm": 73.59,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "2★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "social-signal": 37.59
-      },
-      "origin": true,
       "branch": "standard"
     },
     {
@@ -2170,8 +2178,8 @@
       "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
         "repo-own": 36.0,
+        "self-attestation": 5.0,
         "peer-review": 9.0
       },
       "origin": true,
@@ -2339,8 +2347,8 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2356,8 +2364,8 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2373,8 +2381,8 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2390,8 +2398,8 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2407,8 +2415,8 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2424,8 +2432,8 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2441,8 +2449,8 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2458,8 +2466,8 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2475,8 +2483,8 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2492,8 +2500,8 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2509,8 +2517,8 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2526,8 +2534,8 @@
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"

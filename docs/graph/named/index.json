@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-27",
+  "generatedAt": "2026-10-30",
   "buckets": {
     "automated-testing": [
       {
@@ -36642,7 +36642,7 @@
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 87.38,
+        "trustMagnitude": 92.38,
         "overallTrustGrade": "B",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -36902,7 +36902,7 @@
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
           "passes": false,
-          "reason": "only 2/3 graded evidence sources"
+          "reason": "need ≥1 graded source(s) at S+, have 0"
         },
         "fusionScore": 0.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",
@@ -43256,7 +43256,7 @@
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
           "passes": false,
-          "reason": "only 2/3 graded evidence sources"
+          "reason": "need ≥1 graded source(s) at S+, have 0"
         },
         "fusionScore": 0.0,
         "fusionScoreVersion": "yggdrasil-iii-v1",

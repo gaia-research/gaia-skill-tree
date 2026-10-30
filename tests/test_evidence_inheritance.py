@@ -13,6 +13,8 @@ sys.path.insert(
 )
 
 from gaia_cli.evidence import (
+    EVIDENCE_TYPE_ALIASES,
+    canonicalSourceUrl,
     inherited_evidence,
     merge_evidence,
     build_generic_evidence_map,
@@ -67,6 +69,88 @@ class TestInheritedEvidence(unittest.TestCase):
         m = build_generic_evidence_map(skills)
         self.assertEqual(m["a"], [{"source": "s"}])
         self.assertEqual(m["b"], [])
+
+
+class TestWithinTypeDedup(unittest.TestCase):
+    """merge_evidence dedups on (type, canonical source), never source alone.
+
+    Regression for the Yggdrasil IV October calibration: a row of a different
+    type at the same URL as a legacy row was silently dropped from Trust
+    Magnitude. The documented rule is same-source dedup *within type*
+    (docs/agents/curation-authority-map.md; ``_dedupeSameSource``).
+    """
+
+    URL = "https://github.com/o/r"
+
+    def test_different_types_at_same_url_both_kept(self):
+        stars = {"type": "github-stars-own", "source": self.URL, "stars": 100}
+        attest = {"type": "self-attestation", "source": self.URL}
+        pool = merge_evidence([stars], [attest])
+        self.assertEqual(pool, [stars, attest])
+
+    def test_different_types_within_one_group_both_kept(self):
+        rows = [
+            {"type": "repo", "source": self.URL},
+            {"type": "peer-review", "source": self.URL},
+        ]
+        self.assertEqual(len(merge_evidence(rows)), 2)
+
+    def test_same_type_same_url_first_wins(self):
+        first = {"type": "repo-own", "source": self.URL, "commits": 1}
+        second = {"type": "repo-own", "source": self.URL, "commits": 2}
+        self.assertEqual(merge_evidence([first], [second]), [first])
+
+    def test_legacy_type_alias_normalized(self):
+        legacy = {"type": "repo", "source": self.URL}
+        modern = {"type": "repo-own", "source": self.URL}
+        self.assertEqual(merge_evidence([legacy], [modern]), [legacy])
+
+    def test_source_is_canonicalized(self):
+        a = {"type": "repo-own", "source": "https://GitHub.com/o/r/tree/main/x/"}
+        b = {"type": "repo-own", "source": "https://github.com/o/r/blob/main/x#frag"}
+        self.assertEqual(merge_evidence([a], [b]), [a])
+
+    def test_inherited_cross_type_row_survives(self):
+        generic = {"evidence": [{"type": "peer-review", "source": self.URL}]}
+        named = {"evidence": [{"type": "repo-own", "source": self.URL}]}
+        pool = inherited_evidence(named, generic)
+        self.assertEqual([r["type"] for r in pool], ["repo-own", "peer-review"])
+
+    def test_dedup_key_matches_trust_magnitude_normalization(self):
+        from gaia_cli import trustMagnitude as tm
+
+        for raw in (
+            "https://GitHub.com/o/r/tree/main/",
+            "https://github.com/o/r#x",
+            "  https://github.com/o/r/  ",
+            "",
+            None,
+        ):
+            self.assertEqual(tm._canonicalUrl(raw), canonicalSourceUrl(raw))
+        self.assertIs(tm.TYPE_ALIASES, EVIDENCE_TYPE_ALIASES)
+
+    def test_trust_magnitude_counts_both_types_at_one_url(self):
+        from gaia_cli.trustMagnitude import computeTrustMagnitude
+
+        base = {"id": "x/y", "evidence": [{"type": "repo-own", "source": self.URL,
+                                           "commits": 400, "contributors": 20}]}
+        withPeer = {"id": "x/y", "evidence": base["evidence"] + [
+            {"type": "peer-review", "source": self.URL, "class": "A", "grade": "C"}
+        ]}
+        self.assertGreater(
+            computeTrustMagnitude(withPeer, {}), computeTrustMagnitude(base, {})
+        )
+
+    def test_effective_pool_layers_cross_type_generic_row_as_generic(self):
+        from gaia_cli.trustMagnitude import _effectivePool
+
+        generic = {"id": "g", "evidence": [{"type": "peer-review", "source": self.URL}]}
+        named = {"id": "x/y", "genericSkillRef": "g",
+                 "evidence": [{"type": "repo-own", "source": self.URL}]}
+        pool = _effectivePool(named, {"g": generic})
+        layers = {r["type"]: r.get("layer") for r in pool}
+        self.assertEqual(layers["peer-review"], "generic")
+        self.assertNotEqual(layers["repo-own"], "generic")
 
 
 class TestRanklessGenerics(unittest.TestCase):
