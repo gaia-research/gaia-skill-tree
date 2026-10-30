@@ -112,7 +112,7 @@ Offline proofs include actual concurrent two-clone Python processes against a lo
 
 ### Challenge watch rollout gate
 
-The workflow's scheduled path reads the repository variable `GAIA_CHALLENGE_WATCH_ENABLED`. It is intentionally unset/off by default; setting it to `true` or `1` is the reviewed configuration step that opts scheduled runs into challenge watch. This repair does not set the variable or authorize production activation. Manual CLI flags are for isolated development fixtures only until the independent-receipt and cross-run persistence work is complete.
+The workflow's scheduled path reads the repository variable `GAIA_CHALLENGE_WATCH_ENABLED`. It is intentionally unset/off by default; setting it to `true` or `1` is the reviewed configuration step that opts scheduled runs into challenge watch. Challenge watch runs in its own `challenge-watch` job (`watcher.py --challenge-only`), the only job with `contents: write` (it pushes the `steward/ledger` ref); the poll/issue job stays at `contents: read`. The job `needs` the watcher job (exit 3 unknown evidence skips it), is skipped for single-row escalations and for any ref other than the default branch, and hands its packets on as the `challenge-watch-packets` artifact. This repair does not set the variable or authorize production activation. Manual CLI flags are for isolated development fixtures only until the independent-receipt and cross-run persistence work is complete.
 
 ---
 
@@ -120,7 +120,7 @@ The workflow's scheduled path reads the repository variable `GAIA_CHALLENGE_WATC
 
 ```
 scripts/upstream_watcher/
-├── watcher.py            # Main entry point (CLI flags, poll loop, dry-run report, batch dispatch, challenge seam)
+├── watcher.py            # Main entry point (CLI flags, poll loop, dry-run report, batch dispatch, challenge seam, --challenge-only)
 ├── challenge_watch.py    # Two-sided watch, fresh-state CAS journal/outbox, probes
 ├── admission.py          # Explicit domain receipt-port bridge (CLI default unavailable)
 ├── transport.py          # Transport abstraction, HttpTransport, SimulatedTransport, VirtualClock

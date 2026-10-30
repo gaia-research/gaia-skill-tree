@@ -48,12 +48,6 @@ jobs:
   watcher:
     name: Poll upstream repos for new releases
     runs-on: ubuntu-latest
-    # Job-scoped exception: the opt-in challenge watch persists its CAS ledger by pushing the dedicated
-    # steward/ledger ref (GitRefLedgerStore). Nothing else in the watcher writes repository contents, and the
-    # challenge watch stays default-off (GAIA_CHALLENGE_WATCH_ENABLED unset).
-    permissions:
-      issues: write
-      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -78,16 +72,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GAIA_OPERATOR_OVERRIDE: "1"
-          # Repository variable is the reviewed, default-off schedule gate.
-          # Setting it to "true" or "1" opts scheduled runs into challenge watch.
-          GAIA_CHALLENGE_WATCH_ENABLED: ${{ vars.GAIA_CHALLENGE_WATCH_ENABLED }}
           INPUT_SKILL_ID: ${{ inputs.skill_id }}
           INPUT_ESCALATE: ${{ inputs.escalate_candidate }}
           INPUT_APPLY: ${{ inputs.apply }}
           INPUT_CHILD_MODE: ${{ inputs.child_mode }}
-          INPUT_CHALLENGE_WATCH: ${{ inputs.challenge_watch }}
-          INPUT_CHALLENGE_INPUT: ${{ inputs.challenge_input }}
-          INPUT_CHALLENGE_SHADOW: ${{ inputs.challenge_shadow }}
           V2_ENABLED: ${{ vars.STEWARD_ISSUE_HYGIENE_V2 }}
           EVENT_NAME: ${{ github.event_name }}
         run: |
@@ -129,16 +117,6 @@ jobs:
           if [ -n "$INPUT_SKILL_ID" ]; then
             ARGS+=(--skill "$INPUT_SKILL_ID")
           fi
-          # Challenge watch stays default-off: opted in by the dispatch input or the reviewed repository variable.
-          if [ "${INPUT_CHALLENGE_WATCH:-}" = "true" ] || [ "${GAIA_CHALLENGE_WATCH_ENABLED:-}" = "true" ] || [ "${GAIA_CHALLENGE_WATCH_ENABLED:-}" = "1" ]; then
-            ARGS+=(--challenge-watch)
-            if [ -n "${INPUT_CHALLENGE_INPUT:-}" ]; then
-              ARGS+=(--challenge-input "$INPUT_CHALLENGE_INPUT")
-            fi
-            if [ "${INPUT_CHALLENGE_SHADOW:-}" = "true" ]; then
-              ARGS+=(--challenge-shadow)
-            fi
-          fi
           # Exit 3 = unknown evidence (zero writes); the report is still uploaded below.
           python scripts/upstream_watcher/watcher.py "${ARGS[@]}"
 
@@ -148,4 +126,69 @@ jobs:
         with:
           name: upstream-watcher-report
           path: generated-output/upstream-watcher-report.json
+          if-no-files-found: ignore
+
+  # Opt-in challenge watch, kept out of the job above so the poll/issue job stays at contents: read. This is the only
+  # job with contents: write, because the shared CAS ledger (GitRefLedgerStore) pushes the dedicated steward/ledger ref.
+  # It receives nothing from the watcher job beyond ordering: it needs it to succeed (exit 3 unknown evidence therefore
+  # skips it, preserving "zero writes"), rebuilds its own inputs from the checkout, and hands its packets on as an artifact.
+  # It writes nothing but that ref and runs only default-branch code, so no untrusted ref sees the write token.
+  challenge-watch:
+    name: Challenge watch (opt-in, writes the steward/ledger ref)
+    needs: watcher
+    # Default-off: a reviewed repository variable or the dispatch input opts in. Never on a single-row escalation, and
+    # never from a non-default branch (a dispatch from another ref would run that ref's code with the write token).
+    if: >-
+      ${{ (inputs.challenge_watch == true || vars.GAIA_CHALLENGE_WATCH_ENABLED == 'true' || vars.GAIA_CHALLENGE_WATCH_ENABLED == '1')
+      && inputs.escalate_candidate == ''
+      && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Run challenge watch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GAIA_OPERATOR_OVERRIDE: "1"
+          INPUT_CHALLENGE_INPUT: ${{ inputs.challenge_input }}
+          INPUT_CHALLENGE_SHADOW: ${{ inputs.challenge_shadow }}
+        run: |
+          set -euo pipefail
+          mkdir -p generated-output/challenge-packets
+          # Arguments are a bash array (no word splitting); the input path is passed as one exact argv element.
+          ARGS=(--challenge-only --challenge-output generated-output/challenge-packets)
+          if [ -n "${INPUT_CHALLENGE_INPUT:-}" ]; then
+            ARGS+=(--challenge-input "$INPUT_CHALLENGE_INPUT")
+          fi
+          if [ "${INPUT_CHALLENGE_SHADOW:-}" = "true" ]; then
+            ARGS+=(--challenge-shadow)
+          fi
+          python scripts/upstream_watcher/watcher.py "${ARGS[@]}"
+
+      - name: Upload challenge packets
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: challenge-watch-packets
+          path: generated-output/challenge-packets
           if-no-files-found: ignore

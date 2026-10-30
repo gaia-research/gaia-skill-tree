@@ -18,6 +18,9 @@ Flags
 --report FILE     Write the JSON run report (issuesCreated, issuesUpdated,
                   suppressedDuplicates, retainedCandidates, unknownEvidence, suites).
 --verbose         Extra logging to stderr.
+--challenge-only  Run ONLY the opt-in two-sided challenge watch (no suite poll, no issue writes). The workflow
+                  runs this in its own job, the only one granted ``contents: write``, because the shared CAS
+                  ledger pushes the ``steward/ledger`` ref. Implies --challenge-watch.
 
 Exit codes
 ----------
@@ -278,6 +281,30 @@ def _poll_suite(
     return finding
 
 
+def runChallengeWatchStep(args: argparse.Namespace, registry_map: dict[str, dict], verbose: bool) -> ChallengeWatchResult:
+    """Run the bounded two-sided challenge watch with the CLI's budget, ledger and packet options."""
+    if verbose:
+        print("[watcher] Executing two-sided challenge watch seam ...", file=sys.stderr)
+    c_budget = WatchBudget(
+        max_requests=args.challenge_budget_requests,
+        max_subjects=args.challenge_budget_subjects,
+    )
+    shared_store = None
+    if args.challenge_ledger is None:
+        from gaia_cli.steward.ledger import GitRefLedgerStore
+        shared_store = GitRefLedgerStore(Path.cwd(), "origin")
+    return run_challenge_watch(
+        challenges=args.challenge_input,
+        registry_map=registry_map,
+        budget=c_budget,
+        ledger_path=args.challenge_ledger,
+        packets_dir=args.challenge_output,
+        shared_store=shared_store,
+        allow_shadow=args.challenge_shadow,
+        verbose=verbose,
+    )
+
+
 # ---------------------------------------------------------------------------
 # main()
 # ---------------------------------------------------------------------------
@@ -380,6 +407,12 @@ def main(argv: list[str] | None = None) -> int:
         help="Maximum subjects evaluated in challenge watch (default: 10).",
     )
     parser.add_argument(
+        "--challenge-only",
+        action="store_true",
+        default=False,
+        help="Run only the challenge watch: no suite poll and no issue writes (the workflow's contents:write job).",
+    )
+    parser.add_argument(
         "--reset-records",
         metavar="SUITE",
         default=None,
@@ -391,9 +424,25 @@ def main(argv: list[str] | None = None) -> int:
     # --apply wins over --dry-run
     apply = args.apply
     verbose = args.verbose
-    challenge_watch_enabled = args.challenge_watch or (
+    challenge_watch_enabled = args.challenge_watch or args.challenge_only or (
         os.environ.get("GAIA_CHALLENGE_WATCH_ENABLED", "").lower() in {"1", "true", "yes"}
     )
+
+    if args.challenge_only:
+        if args.escalate or args.reset_records:
+            print("[watcher] --challenge-only cannot be combined with --escalate or --reset-records.", file=sys.stderr)
+            return 1
+        try:
+            registry_map = _build_registry_map()
+        except Exception as exc:  # noqa: BLE001
+            print(f"[error] Failed to build registry map: {exc}", file=sys.stderr)
+            return 1
+        result = runChallengeWatchStep(args, registry_map, verbose)
+        print(
+            f"[watcher] Challenge watch: {len(result.packets)} verification packet(s) written, "
+            f"{result.active_count} active challenge(s) monitored."
+        )
+        return 0
 
     if args.reset_records and not apply:
         print("[watcher] --reset-records requires --apply: a reset rewrites the umbrella's record comments.",
@@ -486,28 +535,7 @@ def main(argv: list[str] | None = None) -> int:
         return 3
 
     # ── Optional Two-Sided Challenge Watch (Opt-In / Configured) ────────────
-    challenge_result: ChallengeWatchResult | None = None
-    if challenge_watch_enabled:
-        if verbose:
-            print("[watcher] Executing two-sided challenge watch seam ...", file=sys.stderr)
-        c_budget = WatchBudget(
-            max_requests=args.challenge_budget_requests,
-            max_subjects=args.challenge_budget_subjects,
-        )
-        shared_store = None
-        if args.challenge_ledger is None:
-            from gaia_cli.steward.ledger import GitRefLedgerStore
-            shared_store = GitRefLedgerStore(Path.cwd(), "origin")
-        challenge_result = run_challenge_watch(
-            challenges=args.challenge_input,
-            registry_map=registry_map,
-            budget=c_budget,
-            ledger_path=args.challenge_ledger,
-            packets_dir=args.challenge_output,
-            shared_store=shared_store,
-            allow_shadow=args.challenge_shadow,
-            verbose=verbose,
-        )
+    challenge_result = runChallengeWatchStep(args, registry_map, verbose) if challenge_watch_enabled else None
 
     if not apply:
         # Dry-run: render markdown report to stdout
