@@ -2,7 +2,7 @@
 id: huggingface/huggingface-vision-trainer
 name: Hugging Face Vision Trainer
 contributor: huggingface
-origin: true
+origin: false
 genericSkillRef: object-detection
 status: named
 title: The Vision Forge

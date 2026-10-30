@@ -2,7 +2,7 @@
 id: favorchurch/attendees
 name: Attendees
 contributor: favorchurch
-origin: true
+origin: false
 genericSkillRef: event-attendance-metrics
 status: named
 level: 1★

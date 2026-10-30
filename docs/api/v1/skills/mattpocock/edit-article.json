@@ -25,7 +25,7 @@
   },
   "title": "The Section-by-Section Rewrite",
   "genericSkillRef": "document-editing",
-  "origin": true,
+  "origin": false,
   "description": "Edits articles by first sectioning them as a DAG of information dependencies, confirming the section order, then rewriting each section for clarity and flow with a 240-character-per-paragraph constraint.",
   "tags": [
     "article-editing",

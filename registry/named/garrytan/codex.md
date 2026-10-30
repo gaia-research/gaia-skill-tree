@@ -2,7 +2,7 @@
 id: garrytan/codex
 name: Codex
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: multi-agent-debate
 status: named
 title: Gstack Codex — Multi-Agent Code Debate

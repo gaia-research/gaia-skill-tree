@@ -2,7 +2,7 @@
 id: leonxlnx/imagegen-frontend-mobile
 name: imagegen-frontend-mobile
 contributor: leonxlnx
-origin: true
+origin: false
 genericSkillRef: image-generate
 status: named
 level: 3★

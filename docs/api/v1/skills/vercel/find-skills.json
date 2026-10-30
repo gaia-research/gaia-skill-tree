@@ -25,7 +25,7 @@
   },
   "title": "The Registry Scout",
   "genericSkillRef": "skill-discovery",
-  "origin": false,
+  "origin": true,
   "description": "Searches the skills.sh registry by keyword or category, queries install counts to surface popular skills, and auto-installs the selected skill into the current project's skills directory.",
   "tags": [
     "skill-registry",

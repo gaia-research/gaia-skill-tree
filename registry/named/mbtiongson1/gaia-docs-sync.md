@@ -2,7 +2,7 @@
 id: mbtiongson1/gaia-docs-sync
 name: Gaia Docs Sync
 contributor: mbtiongson1
-origin: true
+origin: false
 genericSkillRef: registry-curation
 status: named
 level: 1★

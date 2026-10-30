@@ -25,7 +25,7 @@
   },
   "title": "Gstack Pair Agent — MCP Tool Integration",
   "genericSkillRef": "mcp-integration",
-  "origin": true,
+  "origin": false,
   "description": "Wires a new MCP server into the Gstack agent environment, validates the tool manifest, and demonstrates round-trip invocation through a test prompt.",
   "tags": [
     "mcp-integration",

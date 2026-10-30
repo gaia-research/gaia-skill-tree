@@ -2,7 +2,7 @@
 id: mattpocock/ask-matt
 name: Ask Matt
 contributor: mattpocock
-origin: true
+origin: false
 genericSkillRef: route-intent
 status: named
 links:

@@ -2,7 +2,7 @@
 id: mbtiongson1/gaia-integrity
 name: Gaia Integrity
 contributor: mbtiongson1
-origin: true
+origin: false
 genericSkillRef: registry-curation
 status: named
 level: 1★

@@ -2,7 +2,7 @@
 id: intelligentcode-ai/release
 name: Release
 contributor: intelligentcode-ai
-origin: true
+origin: false
 links:
   github: https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md
 genericSkillRef: release-automation

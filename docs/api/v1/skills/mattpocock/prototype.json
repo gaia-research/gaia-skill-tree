@@ -25,7 +25,7 @@
   },
   "title": "The Prototyping Engine",
   "genericSkillRef": "prototype",
-  "origin": true,
+  "origin": false,
   "description": "Build throwaway prototypes to answer specific design or logic questions before committing to production code.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

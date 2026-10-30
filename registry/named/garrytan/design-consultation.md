@@ -2,7 +2,7 @@
 id: garrytan/design-consultation
 name: Design Consultation
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: design-system-extraction
 status: named
 title: Gstack Design Consultation

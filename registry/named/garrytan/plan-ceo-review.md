@@ -2,7 +2,7 @@
 id: garrytan/plan-ceo-review
 name: Plan CEO Review
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: evaluate-output
 status: named
 title: CEO Plan Review

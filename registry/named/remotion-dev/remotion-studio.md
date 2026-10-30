@@ -2,7 +2,7 @@
 id: remotion-dev/remotion-studio
 name: Remotion Studio
 contributor: remotion-dev
-origin: true
+origin: false
 genericSkillRef: video-preview
 status: named
 level: 1★

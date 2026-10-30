@@ -2,7 +2,7 @@
 id: remotion-dev/remotion-multimedia
 name: Remotion Multimedia
 contributor: remotion-dev
-origin: true
+origin: false
 genericSkillRef: generative-media
 status: named
 level: 1★

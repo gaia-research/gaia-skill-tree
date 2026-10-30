@@ -25,7 +25,7 @@
   },
   "title": "Gstack Learn — Persistent Memory Management",
   "genericSkillRef": "memory-manage",
-  "origin": true,
+  "origin": false,
   "description": "Reads the active memory store, consolidates new observations from the current session, deduplicates stale entries, and writes back an updated, ranked knowledge base for future sessions.",
   "tags": [
     "memory-manage",

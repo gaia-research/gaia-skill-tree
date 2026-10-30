@@ -2,7 +2,7 @@
 id: google-deepmind/pymol
 name: Pymol
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: molecular-visualization
 status: awakened
 level: 1★

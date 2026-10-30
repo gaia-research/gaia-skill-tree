@@ -2,7 +2,7 @@
 id: garrytan/ship
 name: Ship
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: finishing-a-development-branch
 status: named
 title: Gstack Ship

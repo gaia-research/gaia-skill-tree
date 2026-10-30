@@ -2,7 +2,7 @@
 id: remotion-dev/remotion-saas
 name: Remotion SaaS
 contributor: remotion-dev
-origin: true
+origin: false
 genericSkillRef: video-saas
 status: named
 level: 1★

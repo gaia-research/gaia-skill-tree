@@ -2,7 +2,7 @@
 id: mbtiongson1/gaia-bot-curate
 name: Gaia Bot Curate
 contributor: mbtiongson1
-origin: true
+origin: false
 genericSkillRef: registry-curation
 status: named
 level: 1★

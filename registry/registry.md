@@ -7,7 +7,7 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/reasoningbank-intelligence | Basic | 2★ | `/adaptive-pattern-learning` |
 | · [ruvnet](../docs/u/ruvnet/)/swarm-advanced | Fusion | 2★ | `/advanced-swarm-coordination` |
 | · /adversarial-robustness-testing | Fusion | — | `/adversarial-robustness-testing` |
-| · [mattpocock](../docs/u/mattpocock/)/setup-matt-pocock-skills | Fusion | 3★ | `/agent-environment-setup` |
+| · [firecrawl](../docs/u/firecrawl/)/firecrawl-build-onboarding | Fusion | 3★ | `/agent-environment-setup` |
 | · /agent-eval | Fusion | — | `/agent-eval` |
 | · [disler](../docs/u/disler/)/agent-fusion | Fusion | 2★ | `/agent-fusion` |
 | · [mattpocock](../docs/u/mattpocock/)/handoff | Fusion | 3★ | `/agent-handoff` |
@@ -27,7 +27,7 @@
 | · [obra](../docs/u/obra/)/brainstorming | Fusion | 4★ | `/brainstorming` |
 | ○ [anthropics](../docs/u/anthropics/)/brand-guidelines | Basic | 4★ | `/brand-guideline-application` |
 | · ████████/browse | Fusion | — | `/browser-automation` |
-| ○ [garrytan](../docs/u/garrytan/)/browse | Basic | 3★ | `/browser-control` |
+| ○ [browser-use](../docs/u/browser-use/)/browser-harness | Basic | 3★ | `/browser-control` |
 | · [santifer](../docs/u/santifer/)/career-ops | Fusion | 2★ | `/career-operations` |
 | · /causal-inference | Fusion | — | `/causal-inference` |
 | ○ /chain-of-thought | Basic | — | `/chain-of-thought` |
@@ -40,7 +40,7 @@
 | ○ /code-execution | Basic | — | `/code-execution` |
 | ○ ████████/zoom-out | Basic | — | `/code-explain` |
 | ○ [garrytan](../docs/u/garrytan/)/design-html | Basic | 3★ | `/code-generation` |
-| · [garrytan](../docs/u/garrytan/)/plan-eng-review | Fusion | 3★ | `/code-review-pipeline` |
+| · [addy-osmani](../docs/u/addy-osmani/)/code-review-and-quality | Fusion | 3★ | `/code-review-pipeline` |
 | · [trailhq](../docs/u/trailhq/)/graft | Fusion | 4★ | `/codebase-graph-retrieval` |
 | · /collaborative-diagramming | Fusion | — | `/collaborative-diagramming` |
 | · /computational-biology-workflows | Fusion | — | `/computational-biology-workflows` |
@@ -48,7 +48,7 @@
 | ○ /computer-use | Basic | — | `/computer-use` |
 | · [garrytan](../docs/u/garrytan/)/concept-synthesis | Fusion | 3★ | `/concept-synthesis` |
 | · /content-moderation | Fusion | — | `/content-moderation` |
-| ○ [garrytan](../docs/u/garrytan/)/context-restore | Basic | 2★ | `/context-compression` |
+| ○ ████████/context-audit | Basic | 2★ | `/context-compression` |
 | ○ [mksglu](../docs/u/mksglu/)/context-mode | Basic | 4★ | `/context-safe-execution` |
 | · /conversational-agent | Fusion | — | `/conversational-agent` |
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-core-implementation | Basic | 2★ | `/core-platform-implementation` |
@@ -57,9 +57,9 @@
 | ○ /data-visualize | Basic | — | `/data-visualize` |
 | ○ [mattpocock](../docs/u/mattpocock/)/wayfinder | Basic | 2★ | `/decision-ticket-planning` |
 | · [garrytan](../docs/u/garrytan/)/land-and-deploy | Fusion | 3★ | `/deployment-automation` |
-| · [leonxlnx](../docs/u/leonxlnx/)/taste-skill | Fusion | 4★ | `/design-generation` |
+| · [pbakaus](../docs/u/pbakaus/)/impeccable | Fusion | 4★ | `/design-generation` |
 | · [garrytan](../docs/u/garrytan/)/design-shotgun | Fusion | 3★ | `/design-review` |
-| · [garrytan](../docs/u/garrytan/)/design-consultation | Fusion | 3★ | `/design-system-extraction` |
+| · [leonxlnx](../docs/u/leonxlnx/)/stitch-skill | Fusion | 3★ | `/design-system-extraction` |
 | · [garrytan](../docs/u/garrytan/)/canary | Fusion | 3★ | `/detect-anomaly` |
 | ○ /diff-content | Basic | — | `/diff-content` |
 | · [obra](../docs/u/obra/)/dispatching-parallel-agents | Fusion | 3★ | `/dispatching-parallel-agents` |
@@ -67,7 +67,7 @@
 | · [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Fusion | 2★ | `/distributed-neural-training` |
 | · [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Fusion | 2★ | `/distributed-vector-memory` |
 | · ████████/book-mirror | Fusion | — | `/document-analyst` |
-| ○ [mattpocock](../docs/u/mattpocock/)/edit-article | Basic | 3★ | `/document-editing` |
+| ○ [garrytan](../docs/u/garrytan/)/document-generate | Basic | 3★ | `/document-editing` |
 | ○ [mattpocock](../docs/u/mattpocock/)/domain-modeling | Basic | 2★ | `/domain-modeling` |
 | · [ruvnet](../docs/u/ruvnet/)/dual-mode | Fusion | 2★ | `/dual-mode` |
 | · [garrytan](../docs/u/garrytan/)/qa | Fusion | 3★ | `/e2e-testing` |
@@ -95,7 +95,7 @@
 | · ████████/remotion-multimedia | Fusion | — | `/generative-media` |
 | ○ /genomic-data-retrieval | Basic | — | `/genomic-data-retrieval` |
 | · ████████/draft-in-voice | Fusion | — | `/ghostwrite` |
-| · [mattpocock](../docs/u/mattpocock/)/resolving-merge-conflicts | Fusion | 2★ | `/git-integration` |
+| · [ruvnet](../docs/u/ruvnet/)/github-suite | Fusion | 2★ | `/git-integration` |
 | · [addy-osmani](../docs/u/addy-osmani/)/agent-skills | Fusion | 4★ | `/git-ship-done-pipeline` |
 | ○ [nvidia](../docs/u/nvidia/)/accelerated-computing-cudf | Basic | 4★ | `/gpu-dataframe-acceleration` |
 | · [mbtiongson1](../docs/u/mbtiongson1/)/graphify-triage | Fusion | 2★ | `/graph-driven-issue-triage` |
@@ -150,13 +150,13 @@
 | ○ /parse-pdf | Basic | — | `/parse-pdf` |
 | ○ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Basic | 3★ | `/performance-tuning` |
 | · ████████/personal | Fusion | — | `/personal` |
-| · [mattpocock](../docs/u/mattpocock/)/obsidian-vault | Fusion | 3★ | `/personal-knowledge-management` |
+| · [garrytan](../docs/u/garrytan/)/capture | Fusion | 3★ | `/personal-knowledge-management` |
 | ○ [mattpocock](../docs/u/mattpocock/)/wait-what | Basic | 2★ | `/plain-language-restatement` |
 | · /plan-and-execute | Fusion | — | `/plan-and-execute` |
 | ○ /plan-decompose | Basic | — | `/plan-decompose` |
 | ○ [disler](../docs/u/disler/)/plan-synthesis | Basic | 2★ | `/plan-synthesis` |
 | · [ruvnet](../docs/u/ruvnet/)/ruflo-v3 | Fusion | 2★ | `/platform-modernization-sprint` |
-| · [addy-osmani](../docs/u/addy-osmani/)/spec-driven-development | Fusion | 3★ | `/prd-generation` |
+| · [mattpocock](../docs/u/mattpocock/)/to-spec | Fusion | 3★ | `/prd-generation` |
 | · /prediction-market-analysis | Fusion | — | `/prediction-market-analysis` |
 | ○ ████████/pymc | Basic | — | `/probabilistic-programming` |
 | · [mattpocock](../docs/u/mattpocock/)/productivity | Fusion | 4★ | `/productivity` |
@@ -186,10 +186,10 @@
 | · ████████/release | Fusion | — | `/release-automation` |
 | · [obra](../docs/u/obra/)/requesting-code-review | Fusion | 2★ | `/requesting-code-review` |
 | ○ ████████/requirements-engineer | Basic | — | `/requirements-analysis` |
-| · [mattpocock](../docs/u/mattpocock/)/research | Fusion | 2★ | `/research` |
+| · ████████/data-research | Fusion | 2★ | `/research` |
 | ○ /retrieve | Basic | — | `/retrieve` |
 | ○ /reward-modeling | Basic | — | `/reward-modeling` |
-| ○ [mattpocock](../docs/u/mattpocock/)/ask-matt | Basic | 2★ | `/route-intent` |
+| ○ ████████/functional-area-resolver | Basic | 2★ | `/route-intent` |
 | ○ ████████/database-engineer | Basic | — | `/schema-design` |
 | · /scientific-discovery | Fusion | — | `/scientific-discovery` |
 | · /scientific-literature-retrieval | Fusion | — | `/scientific-literature-retrieval` |
@@ -202,7 +202,7 @@
 | ○ /sentiment-analysis | Basic | — | `/sentiment-analysis` |
 | · ████████/scvi-tools | Fusion | — | `/single-cell-omics-modeling` |
 | · [garrytan](../docs/u/garrytan/)/skillify | Fusion | 3★ | `/skill-authoring` |
-| ○ [heygen-com](../docs/u/heygen-com/)/hyperframes-registry | Basic | 3★ | `/skill-discovery` |
+| ○ [vercel](../docs/u/vercel/)/find-skills | Basic | 3★ | `/skill-discovery` |
 | · [gaia-research](../docs/u/gaia-research/)/fuse | Fusion | 2★ | `/skill-fusion` |
 | · [mattpocock](../docs/u/mattpocock/)/skills | Fusion | 5★ | `/skill-mastery` |
 | · [garrytan](../docs/u/garrytan/)/benchmark-models | Fusion | 2★ | `/skill-performance-benchmarking` |
@@ -217,7 +217,7 @@
 | · /supply-chain-optimization | Fusion | — | `/supply-chain-optimization` |
 | ○ [ruvnet](../docs/u/ruvnet/)/swarm-orchestration | Basic | 2★ | `/swarm-topology-management` |
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-integration-deep | Basic | 2★ | `/system-integration` |
-| · [obra](../docs/u/obra/)/systematic-debugging | Fusion | 3★ | `/systematic-debugging` |
+| · [garrytan](../docs/u/garrytan/)/investigate | Fusion | 3★ | `/systematic-debugging` |
 | · [leonxlnx](../docs/u/leonxlnx/)/unlazy | Fusion | 3★ | `/task-depth-enforcement` |
 | ○ /text-to-speech | Basic | — | `/text-to-speech` |
 | · /text-to-sql-pipeline | Fusion | — | `/text-to-sql-pipeline` |
@@ -239,7 +239,7 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-optimization | Basic | 2★ | `/vector-db-optimization` |
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-vector-search | Basic | 2★ | `/vector-search` |
 | · [obra](../docs/u/obra/)/verification-before-completion | Fusion | 3★ | `/verification-before-completion` |
-| · [addy-osmani](../docs/u/addy-osmani/)/planning-and-task-breakdown | Fusion | 3★ | `/vertical-slice-planning` |
+| · [mattpocock](../docs/u/mattpocock/)/to-tickets | Fusion | 3★ | `/vertical-slice-planning` |
 | ○ [heygen-com](../docs/u/heygen-com/)/embedded-captions | Basic | 3★ | `/video-captions` |
 | · [heygen-com](../docs/u/heygen-com/)/hyperframes | Fusion | 4★ | `/video-composition` |
 | · [bradautomates](../docs/u/bradautomates/)/watch | Fusion | 2★ | `/video-intelligence` |

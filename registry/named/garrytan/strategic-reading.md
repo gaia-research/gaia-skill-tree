@@ -2,7 +2,7 @@
 id: garrytan/strategic-reading
 name: strategic-reading
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: document-analyst
 status: named
 level: 2★

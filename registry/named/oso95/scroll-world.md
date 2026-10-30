@@ -2,7 +2,7 @@
 id: oso95/scroll-world
 name: Scroll World
 contributor: oso95
-origin: true
+origin: false
 genericSkillRef: scroll-world
 status: named
 level: 3★

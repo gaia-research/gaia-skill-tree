@@ -2,7 +2,7 @@
 id: garrytan/fact-check
 name: fact-check
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: grounding
 status: named
 level: 2★

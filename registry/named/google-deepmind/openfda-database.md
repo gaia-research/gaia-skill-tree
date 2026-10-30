@@ -2,7 +2,7 @@
 id: google-deepmind/openfda-database
 name: Openfda-Database
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: clinical-data-retrieval
 status: awakened
 level: 1★

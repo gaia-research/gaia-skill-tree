@@ -2,7 +2,7 @@
 id: dietrichgebert/ponytail
 name: Ponytail
 contributor: dietrichgebert
-origin: true
+origin: false
 genericSkillRef: implement-with-discernment
 status: named
 level: 4★

@@ -2,7 +2,7 @@
 id: garrytan/careful
 name: Careful
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: guardrails
 status: named
 title: Gstack Careful — Conservative Execution Mode

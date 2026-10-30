@@ -2,7 +2,7 @@
 id: heygen-com/hyperframes
 name: HyperFrames
 contributor: heygen-com
-origin: true
+origin: false
 genericSkillRef: video-composition
 status: named
 level: 4★

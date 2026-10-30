@@ -2,7 +2,7 @@
 id: leonxlnx/image-to-code-skill
 name: image-to-code-skill
 contributor: leonxlnx
-origin: true
+origin: false
 genericSkillRef: vision-qa
 status: named
 level: 3★

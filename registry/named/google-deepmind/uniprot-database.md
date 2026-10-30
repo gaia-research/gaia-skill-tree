@@ -2,7 +2,7 @@
 id: google-deepmind/uniprot-database
 name: Uniprot-Database
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: proteomic-data-retrieval
 status: awakened
 level: 1★

@@ -25,7 +25,7 @@
   },
   "title": "Canvas Design",
   "genericSkillRef": "static-artwork-design",
-  "origin": true,
+  "origin": false,
   "description": "Creates original static visual artifacts such as posters and print-ready graphics from a design brief.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

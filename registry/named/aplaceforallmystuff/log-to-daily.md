@@ -2,7 +2,7 @@
 id: aplaceforallmystuff/log-to-daily
 name: Log To Daily
 contributor: aplaceforallmystuff
-origin: true
+origin: false
 genericSkillRef: session-journaling
 status: named
 level: 2★

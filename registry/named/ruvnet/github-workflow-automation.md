@@ -2,7 +2,7 @@
 id: ruvnet/github-workflow-automation
 name: GitHub Workflow Automation
 contributor: ruvnet
-origin: true
+origin: false
 role: variant
 genericSkillRef: workflow-automation
 status: named

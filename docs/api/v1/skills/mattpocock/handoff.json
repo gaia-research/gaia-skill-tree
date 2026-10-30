@@ -25,7 +25,7 @@
   },
   "title": "The Handoff Protocol",
   "genericSkillRef": "agent-handoff",
-  "origin": true,
+  "origin": false,
   "description": "Compacts the current conversation into a summary for a fresh agent to continue the work.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

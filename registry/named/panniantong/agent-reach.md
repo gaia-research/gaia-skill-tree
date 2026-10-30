@@ -2,7 +2,7 @@
 id: panniantong/agent-reach
 name: Agent Reach
 contributor: panniantong
-origin: true
+origin: false
 genericSkillRef: agent-reach
 status: named
 level: 3★

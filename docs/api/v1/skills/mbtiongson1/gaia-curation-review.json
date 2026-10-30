@@ -25,7 +25,7 @@
   },
   "title": "The Quality Gate",
   "genericSkillRef": "registry-entry-audit",
-  "origin": true,
+  "origin": false,
   "description": "Reviews pending skill submissions against registry standards — checking evidence class thresholds, naming conventions, and tier accuracy before approving or requesting revisions.",
   "tags": [
     "registry-curation",

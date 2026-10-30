@@ -2,7 +2,7 @@
 id: k-dense-ai/deepchem
 name: DeepChem Prompt Wrapper
 contributor: k-dense-ai
-origin: true
+origin: false
 genericSkillRef: molecular-machine-learning
 status: named
 level: 1★

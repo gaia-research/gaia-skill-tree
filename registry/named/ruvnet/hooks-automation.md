@@ -2,7 +2,7 @@
 id: ruvnet/hooks-automation
 name: Hooks Automation
 contributor: ruvnet
-origin: true
+origin: false
 genericSkillRef: workflow-automation
 status: named
 title: The Event Weaver

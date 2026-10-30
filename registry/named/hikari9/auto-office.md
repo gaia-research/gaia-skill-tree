@@ -2,7 +2,7 @@
 id: hikari9/auto-office
 name: Auto Office
 contributor: hikari9
-origin: true
+origin: false
 genericSkillRef: autonomous-engineering-platform
 status: named
 level: 3★

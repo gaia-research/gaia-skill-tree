@@ -2,7 +2,7 @@
 id: k-dense-ai/rdkit
 name: RDKit Prompt Wrapper
 contributor: k-dense-ai
-origin: true
+origin: false
 genericSkillRef: cheminformatics-analysis
 status: named
 level: 1★

@@ -2,7 +2,7 @@
 id: huggingface/hf-cli
 name: HF CLI
 contributor: huggingface
-origin: true
+origin: false
 genericSkillRef: api-call
 status: named
 title: The Hub Operator

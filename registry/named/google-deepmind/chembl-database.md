@@ -2,7 +2,7 @@
 id: google-deepmind/chembl-database
 name: Chembl-Database
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: molecular-databases
 status: awakened
 level: 1★

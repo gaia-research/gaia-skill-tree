@@ -2,7 +2,7 @@
 id: mattpocock/wait-what
 name: Wait What
 contributor: mattpocock
-origin: true
+origin: false
 genericSkillRef: plain-language-restatement
 status: named
 level: 2★

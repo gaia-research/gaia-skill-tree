@@ -25,7 +25,7 @@
   },
   "title": "The Root Cause Hunter",
   "genericSkillRef": "systematic-debugging",
-  "origin": true,
+  "origin": false,
   "description": "Finds the root cause before attempting any fix — building a minimal reproduction, forming ranked hypotheses, and instrumenting to confirm before writing a single corrective line.",
   "tags": [
     "debugging",

@@ -2,7 +2,7 @@
 id: google-deepmind/quickgo-database
 name: Quickgo-Database
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: pathway-ontology-retrieval
 status: awakened
 level: 1★

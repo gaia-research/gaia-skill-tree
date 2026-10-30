@@ -25,7 +25,7 @@
   },
   "title": "Unlazy",
   "genericSkillRef": "task-depth-enforcement",
-  "origin": true,
+  "origin": false,
   "description": "Anti-laziness execution discipline for substantial tasks. Decomposes work into recursive depth trees and enforces completion criteria through gate files and runnable checks.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

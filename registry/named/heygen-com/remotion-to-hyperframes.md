@@ -2,7 +2,7 @@
 id: heygen-com/remotion-to-hyperframes
 name: Remotion To Hyperframes
 contributor: heygen-com
-origin: true
+origin: false
 genericSkillRef: framework-upgrade
 status: named
 level: 3★

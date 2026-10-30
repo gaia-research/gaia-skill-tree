@@ -2,7 +2,7 @@
 id: google-deepmind/reactome-database
 name: Reactome-Database
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: pathway-ontology-retrieval
 status: awakened
 level: 1★

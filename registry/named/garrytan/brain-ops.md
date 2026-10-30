@@ -2,7 +2,7 @@
 id: garrytan/brain-ops
 name: Brain Ops
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: knowledge-management
 status: named
 level: 3★

@@ -2,7 +2,7 @@
 id: mattpocock/wizard
 name: Wizard
 contributor: mattpocock
-origin: true
+origin: false
 genericSkillRef: guided-setup-scripting
 status: named
 level: 2★

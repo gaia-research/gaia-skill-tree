@@ -25,7 +25,7 @@
   },
   "title": "Log To Daily",
   "genericSkillRef": "session-journaling",
-  "origin": true,
+  "origin": false,
   "description": "Logs conversation activity to today's daily note on demand, capturing decisions, outcomes, and next steps in a structured dated entry.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

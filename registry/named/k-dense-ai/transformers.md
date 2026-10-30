@@ -2,7 +2,7 @@
 id: k-dense-ai/transformers
 name: Transformers Prompt Wrapper
 contributor: k-dense-ai
-origin: true
+origin: false
 genericSkillRef: transformer-model-engineering
 status: named
 level: 1★

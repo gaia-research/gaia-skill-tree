@@ -2,7 +2,7 @@
 id: garrytan/two-tier-extraction
 name: two-tier-extraction
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: knowledge-harvest
 status: named
 level: 2★

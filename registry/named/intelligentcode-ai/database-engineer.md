@@ -2,7 +2,7 @@
 id: intelligentcode-ai/database-engineer
 name: Database Engineer
 contributor: intelligentcode-ai
-origin: true
+origin: false
 links:
   github: https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md
 genericSkillRef: schema-design

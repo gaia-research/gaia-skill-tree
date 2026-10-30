@@ -2,7 +2,7 @@
 id: mattpocock/research
 name: Research
 contributor: mattpocock
-origin: true
+origin: false
 genericSkillRef: research
 status: named
 level: 2★

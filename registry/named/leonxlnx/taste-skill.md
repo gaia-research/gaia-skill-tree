@@ -2,7 +2,7 @@
 id: leonxlnx/taste-skill
 name: taste-skill
 contributor: leonxlnx
-origin: true
+origin: false
 genericSkillRef: design-generation
 status: named
 level: 4★

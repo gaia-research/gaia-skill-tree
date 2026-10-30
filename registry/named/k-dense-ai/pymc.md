@@ -2,7 +2,7 @@
 id: k-dense-ai/pymc
 name: PyMC Prompt Wrapper
 contributor: k-dense-ai
-origin: true
+origin: false
 genericSkillRef: probabilistic-programming
 status: named
 level: 1★

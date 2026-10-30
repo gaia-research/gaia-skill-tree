@@ -2,7 +2,7 @@
 id: garrytan/book-mirror
 name: book-mirror
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: document-analyst
 status: named
 level: 2★

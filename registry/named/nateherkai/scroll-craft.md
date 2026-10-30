@@ -2,7 +2,7 @@
 id: nateherkai/scroll-craft
 name: Scroll Craft
 contributor: nateherkai
-origin: true
+origin: false
 genericSkillRef: scroll-driven-web-design
 status: named
 level: 3★

@@ -2,7 +2,7 @@
 id: mattpocock/wayfinder
 name: Wayfinder
 contributor: mattpocock
-origin: true
+origin: false
 genericSkillRef: decision-ticket-planning
 status: named
 level: 2★

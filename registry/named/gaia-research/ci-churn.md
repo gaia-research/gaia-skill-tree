@@ -2,7 +2,7 @@
 id: gaia-research/ci-churn
 name: CI Churn
 contributor: gaia-research
-origin: true
+origin: false
 genericSkillRef: ci-churn-analysis
 status: named
 level: 2★

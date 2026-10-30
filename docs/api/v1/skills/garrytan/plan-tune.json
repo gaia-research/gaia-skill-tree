@@ -25,7 +25,7 @@
   },
   "title": "Gstack Plan Tune — Prompt Refinement Pass",
   "genericSkillRef": "prompt-optimization",
-  "origin": true,
+  "origin": false,
   "description": "Takes a draft plan or system prompt, identifies vague or ambiguous instructions, and rewrites them to reduce hallucination and improve task completion rate.",
   "tags": [
     "prompt-optimization",

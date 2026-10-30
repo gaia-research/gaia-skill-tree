@@ -2,7 +2,7 @@
 id: addy-osmani/spec-driven-development
 name: Spec-Driven Development
 contributor: addy-osmani
-origin: true
+origin: false
 genericSkillRef: prd-generation
 status: named
 level: 3★

@@ -2,7 +2,7 @@
 id: favorchurch/count-checkin-by-church
 name: Count Check-in by Church
 contributor: favorchurch
-origin: true
+origin: false
 genericSkillRef: event-attendance-metrics
 status: named
 level: 1★

@@ -2,7 +2,7 @@
 id: intelligentcode-ai/parallel-execution
 name: Parallel Execution
 contributor: intelligentcode-ai
-origin: true
+origin: false
 links:
   github: https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md
 genericSkillRef: parallel-execution

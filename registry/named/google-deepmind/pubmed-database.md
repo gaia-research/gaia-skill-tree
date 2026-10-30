@@ -2,7 +2,7 @@
 id: google-deepmind/pubmed-database
 name: Pubmed-Database
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: scientific-literature-retrieval
 status: awakened
 level: 1★

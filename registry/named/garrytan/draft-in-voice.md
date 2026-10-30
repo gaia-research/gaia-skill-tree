@@ -2,7 +2,7 @@
 id: garrytan/draft-in-voice
 name: draft-in-voice
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: ghostwrite
 status: named
 level: 2★

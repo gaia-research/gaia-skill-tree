@@ -25,7 +25,7 @@
   },
   "title": "Vercel React Best Practices",
   "genericSkillRef": "react-performance-optimization",
-  "origin": true,
+  "origin": false,
   "description": "Optimizes component rendering, data fetching, and bundle composition in React applications while preserving requested behavior.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

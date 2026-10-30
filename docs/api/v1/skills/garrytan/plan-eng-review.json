@@ -25,7 +25,7 @@
   },
   "title": "Engineering Plan Review",
   "genericSkillRef": "code-review-pipeline",
-  "origin": true,
+  "origin": false,
   "description": "Comprehensive, interactive architecture and implementation review before coding begins, systematically evaluating scope, architecture, code quality, test coverage, and performance through structured questioning — synthesising findings into actionable tasks and an explicit not-in-scope section.",
   "tags": [
     "engineering",

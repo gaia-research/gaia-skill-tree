@@ -2,7 +2,7 @@
 id: mattpocock/prototype
 name: Prototype
 contributor: mattpocock
-origin: true
+origin: false
 genericSkillRef: prototype
 status: named
 title: The Prototyping Engine

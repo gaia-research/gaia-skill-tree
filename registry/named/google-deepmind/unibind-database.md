@@ -2,7 +2,7 @@
 id: google-deepmind/unibind-database
 name: Unibind-Database
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
 level: 1★

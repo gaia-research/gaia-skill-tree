@@ -25,7 +25,7 @@
   },
   "title": "Domain Modeling",
   "genericSkillRef": "domain-modeling",
-  "origin": true,
+  "origin": false,
   "description": "Build and sharpen a project domain model with ubiquitous language and CONTEXT.md maintenance.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

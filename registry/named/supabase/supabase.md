@@ -2,7 +2,7 @@
 id: supabase/supabase
 name: Supabase
 contributor: supabase
-origin: true
+origin: false
 genericSkillRef: supabase
 status: named
 level: 1★

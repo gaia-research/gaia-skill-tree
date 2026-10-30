@@ -2,7 +2,7 @@
 id: google-deepmind/literature-search-arxiv
 name: Literature-Search-Arxiv
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: scientific-literature-retrieval
 status: awakened
 level: 1★

@@ -2,7 +2,7 @@
 id: garrytan/benchmark
 name: Benchmark
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: evaluate-output
 status: named
 title: Gstack Benchmark

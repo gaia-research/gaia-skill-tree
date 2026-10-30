@@ -25,7 +25,7 @@
   },
   "title": "The Obsidian Vault Mapper",
   "genericSkillRef": "personal-knowledge-management",
-  "origin": true,
+  "origin": false,
   "description": "Manage notes and organization in a specific Obsidian vault using Title Case and wikilinks.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

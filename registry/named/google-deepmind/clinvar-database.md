@@ -2,7 +2,7 @@
 id: google-deepmind/clinvar-database
 name: Clinvar-Database
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: clinical-data-retrieval
 status: awakened
 level: 1★

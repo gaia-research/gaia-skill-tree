@@ -2,7 +2,7 @@
 id: k-dense-ai/scvi-tools
 name: scvi-tools Prompt Wrapper
 contributor: k-dense-ai
-origin: true
+origin: false
 genericSkillRef: single-cell-omics-modeling
 status: named
 level: 1★

@@ -2,7 +2,7 @@
 id: intelligentcode-ai/requirements-engineer
 name: Requirements Engineer
 contributor: intelligentcode-ai
-origin: true
+origin: false
 links:
   github: https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md
 genericSkillRef: requirements-analysis

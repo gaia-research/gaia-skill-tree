@@ -25,7 +25,7 @@
   },
   "title": "The Relentless Interviewer",
   "genericSkillRef": "grill-me",
-  "origin": true,
+  "origin": false,
   "description": "Conducts a relentless one-question-at-a-time interview about a plan or design, walking every branch of the decision tree with a recommended answer per question, resolving dependencies in order, and substituting codebase exploration wherever a question can be answered empirically.",
   "tags": [
     "design-review",

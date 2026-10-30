@@ -25,7 +25,7 @@
   },
   "title": "Planning and Task Breakdown",
   "genericSkillRef": "vertical-slice-planning",
-  "origin": true,
+  "origin": false,
   "description": "Planning and task breakdown workflow decomposing features into manageable vertical slices.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

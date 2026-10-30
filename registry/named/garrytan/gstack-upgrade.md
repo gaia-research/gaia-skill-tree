@@ -2,7 +2,7 @@
 id: garrytan/gstack-upgrade
 name: GStack Upgrade
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: workspace-automation
 status: named
 title: Gstack Upgrade — Workspace Dependency Upgrade

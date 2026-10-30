@@ -2,7 +2,7 @@
 id: garrytan/plan-tune
 name: Plan Tune
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: prompt-optimization
 status: named
 title: Gstack Plan Tune — Prompt Refinement Pass

@@ -2,7 +2,7 @@
 id: ruvnet/reasoningbank-agentdb
 name: ReasoningBank AgentDB
 contributor: ruvnet
-origin: true
+origin: false
 genericSkillRef: agent-memory-learning
 status: named
 title: The Knowledge Crystallizer

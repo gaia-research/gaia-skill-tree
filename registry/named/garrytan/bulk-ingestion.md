@@ -2,7 +2,7 @@
 id: garrytan/bulk-ingestion
 name: bulk-ingestion
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: knowledge-harvest
 status: named
 level: 2★

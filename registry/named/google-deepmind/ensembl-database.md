@@ -2,7 +2,7 @@
 id: google-deepmind/ensembl-database
 name: Ensembl-Database
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
 level: 1★

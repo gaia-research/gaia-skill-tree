@@ -25,7 +25,7 @@
   },
   "title": "CI Churn Analysis",
   "genericSkillRef": "ci-churn-analysis",
-  "origin": true,
+  "origin": false,
   "description": "Measures avoidable CI iteration cost for a pull request by classifying commits as feature work versus fix-the-CI rework, summing CI compute time burned on avoidable push rounds, and surfacing pre-push checks that would have prevented them.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

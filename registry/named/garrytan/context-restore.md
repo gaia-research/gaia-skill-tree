@@ -2,7 +2,7 @@
 id: garrytan/context-restore
 name: Context Restore
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: context-compression
 status: named
 title: Gstack Context Restore — Session State Recovery

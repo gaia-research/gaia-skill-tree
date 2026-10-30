@@ -2,7 +2,7 @@
 id: google-deepmind/foldseek-structural-search
 name: Foldseek-Structural-Search
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: protein-structure-analysis
 status: awakened
 level: 1★

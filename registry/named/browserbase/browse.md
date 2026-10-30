@@ -2,7 +2,7 @@
 id: browserbase/browse
 name: Browse
 contributor: browserbase
-origin: true
+origin: false
 genericSkillRef: browser-automation
 status: named
 title: The SDK of Intent

@@ -25,7 +25,7 @@
   },
   "title": "Firecrawl Research Index",
   "genericSkillRef": "literature-search",
-  "origin": true,
+  "origin": false,
   "description": "Retrieve and query academic literature through Firecrawl Research.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

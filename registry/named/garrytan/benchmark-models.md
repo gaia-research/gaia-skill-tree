@@ -2,7 +2,7 @@
 id: garrytan/benchmark-models
 name: Benchmark Models
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: skill-performance-benchmarking
 status: named
 title: Gstack Benchmark Models — LLM Performance Profiling

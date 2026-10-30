@@ -25,7 +25,7 @@
   },
   "title": "The Re-Pitcher",
   "genericSkillRef": "plain-language-restatement",
-  "origin": true,
+  "origin": false,
   "description": "Stop. That last message did not land: re-pitch it.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

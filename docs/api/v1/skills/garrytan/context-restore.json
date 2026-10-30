@@ -25,7 +25,7 @@
   },
   "title": "Gstack Context Restore — Session State Recovery",
   "genericSkillRef": "context-compression",
-  "origin": true,
+  "origin": false,
   "description": "Reads a saved context snapshot and reconstructs a warm session state, surfacing the last decision point and pending tasks so work can resume without recap.",
   "tags": [
     "context-compression",

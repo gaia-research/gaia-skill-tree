@@ -2,7 +2,7 @@
 id: google-deepmind/alphagenome-single-variant-analysis
 name: Alphagenome-Single-Variant-Analysis
 contributor: google-deepmind
-origin: true
+origin: false
 genericSkillRef: computational-biology-workflows
 status: awakened
 level: 1★

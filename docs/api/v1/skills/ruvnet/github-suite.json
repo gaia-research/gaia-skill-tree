@@ -25,7 +25,7 @@
   },
   "title": "The GitHub Maestro",
   "genericSkillRef": "git-integration",
-  "origin": false,
+  "origin": true,
   "description": "Full GitHub platform automation fused from 5 skills — code review, multi-repo coordination, project management, release management, and workflow automation.",
   "tags": [
     "github",

@@ -25,7 +25,7 @@
   },
   "title": "Image to Code",
   "genericSkillRef": "vision-qa",
-  "origin": true,
+  "origin": false,
   "description": "Multimodal visual decomposition and pixel-accurate translation of UI mockups into responsive frontend code.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

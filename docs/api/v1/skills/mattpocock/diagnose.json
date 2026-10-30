@@ -25,7 +25,7 @@
   },
   "title": "The Disciplined Diagnosis Loop",
   "genericSkillRef": "autonomous-debug",
-  "origin": true,
+  "origin": false,
   "description": "Drives a rigorous five-phase debugging discipline — build a feedback loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance regressions. Removed from mattpocock/skills suite in v1.0.1.",
   "tags": [
     "debugging",

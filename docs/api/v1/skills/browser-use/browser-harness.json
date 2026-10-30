@@ -25,7 +25,7 @@
   },
   "title": "The Dom Whispering",
   "genericSkillRef": "browser-control",
-  "origin": false,
+  "origin": true,
   "description": "Self-healing harness for direct browser control via CDP, enabling agents to write custom helpers at runtime.",
   "tags": [
     "browser",

@@ -31,15 +31,15 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 · ◆ garrytan/gstack  [5★]
   ├─ · ○ garrytan/office-hours  [3★]
   ├─ · ○ garrytan/benchmark  [3★]
-  ├─ · · garrytan/plan-eng-review  [3★]
+  ├─ · · addy-osmani/code-review-and-quality  [3★]
   │  ├─ · ○ garrytan/design-html  [3★]
   │  ├─ · ○ /diff-content
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [4★]
-  ├─ · · addy-osmani/planning-and-task-breakdown  [3★]
+  ├─ · · mattpocock/to-tickets  [3★]
   │  ├─ · ○ /plan-decompose
-  │  └─ · ○ mattpocock/ask-matt  [2★]
-  ├─ · · garrytan/design-consultation  [3★]
+  │  └─ · ○ ████████/functional-area-resolver  [2★]
+  ├─ · · leonxlnx/stitch-skill  [3★]
   │  ├─ · · ████████/browse
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  │  └─ · ○ /computer-use
@@ -48,7 +48,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ · ○ /plan-decompose  (↑ see above)
   ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
-  ├─ · · obra/systematic-debugging  [3★]
+  ├─ · · garrytan/investigate  [3★]
   │  ├─ · ○ /hypothesis-generate
   │  └─ · ○ /error-interpretation
   ├─ · · garrytan/qa  [3★]
@@ -58,7 +58,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ · ○ /code-execution
   │     └─ · ○ /error-interpretation  (↑ see above)
   ├─ · · addy-osmani/shipping-and-launch  [3★]
-  │  ├─ · · garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ /diff-content  (↑ see above)
   ├─ · · garrytan/land-and-deploy  [3★]
   │  ├─ · · ████████/github-workflow-automation
@@ -69,12 +69,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/canary  [3★]
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ · ○ /error-interpretation  (↑ see above)
-  ├─ · ○ mattpocock/edit-article  [3★]
+  ├─ · ○ garrytan/document-generate  [3★]
   ├─ · · ████████/browse  (↑ see above)
   ├─ · · garrytan/cso  [3★]
-  │  ├─ · · garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
-  ├─ · ○ garrytan/browse  [3★]
+  ├─ · ○ browser-use/browser-harness  [3★]
   ├─ · · firecrawl/firecrawl-build-scrape  [4★]
   │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
   │  ├─ · ○ /parse-html  (↑ see above)
@@ -92,12 +92,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · · /agent-eval
   │  │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  │  └─ · ○ /score-relevance
-  │  ├─ · ○ heygen-com/hyperframes-registry  [3★]
+  │  ├─ · ○ vercel/find-skills  [3★]
   │  └─ · ○ /statistical-analysis
   ├─ · · garrytan/health  [2★]  (↑ see above)
   ├─ · ○ garrytan/pair-agent  [2★]
   ├─ · · garrytan/learn  [2★]
-  │  ├─ · ○ garrytan/context-restore  [2★]
+  │  ├─ · ○ ████████/context-audit  [2★]
   │  └─ · ○ /retrieve
   ├─ · · garrytan/careful  [3★]
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
@@ -109,7 +109,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ○ ayghri/i-have-adhd  [4★]
   ├─ · · garrytan/gstack-upgrade  [2★]
   │  ├─ ✓ ○ ████████/hf-cli  (↑ see above)
-  │  └─ · ○ mattpocock/edit-article  [3★]  (↑ see above)
+  │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
   ├─ · · yylo-dev/ledger-tasks-yylo  [2★]
   │  ├─ ✓ ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]
@@ -120,8 +120,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 · ◆ mattpocock/skills  [5★]
   ├─ · ○ mattpocock/domain-modeling  [2★]
   ├─ · · mattpocock/engineering  [4★]
-  │  ├─ · · mattpocock/setup-matt-pocock-skills  [3★]
-  │  │  ├─ · ○ mattpocock/edit-article  [3★]
+  │  ├─ · · firecrawl/firecrawl-build-onboarding  [3★]
+  │  │  ├─ · ○ garrytan/document-generate  [3★]
   │  │  └─ · ○ /tool-use
   │  ├─ · · mattpocock/diagnose  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
@@ -138,27 +138,27 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · · mattpocock/ubiquitous-language  [3★]
   │  │  │  ├─ · ○ /extract-entities
   │  │  │  └─ · ○ ████████/requirements-engineer
-  │  │  └─ · ○ mattpocock/edit-article  [3★]  (↑ see above)
+  │  │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
   │  ├─ · ○ mattpocock/triage  [3★]
-  │  ├─ · · addy-osmani/spec-driven-development  [3★]
+  │  ├─ · · mattpocock/to-spec  [3★]
   │  │  ├─ · ○ garrytan/retro  [3★]
   │  │  └─ · ○ /plan-decompose  (↑ see above)
   │  ├─ · · mattpocock/prototype  [2★]
   │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ · ○ /code-execution  (↑ see above)
   │  ├─ · ○ addy-osmani/code-simplification  [4★]
-  │  ├─ · · addy-osmani/planning-and-task-breakdown  [3★]
+  │  ├─ · · mattpocock/to-tickets  [3★]
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
-  │  │  └─ · ○ mattpocock/ask-matt  [2★]
+  │  │  └─ · ○ ████████/functional-area-resolver  [2★]
   │  ├─ · · obra/requesting-code-review  [2★]
-  │  │  ├─ · · garrytan/plan-eng-review  [3★]
+  │  │  ├─ · · addy-osmani/code-review-and-quality  [3★]
   │  │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  │  ├─ · ○ /diff-content
   │  │  │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  │  └─ · · obra/dispatching-parallel-agents  [3★]
   │  │     ├─ · ○ /plan-decompose  (↑ see above)
   │  │     └─ · ○ ████████/parallel-execution
-  │  ├─ · · mattpocock/research  [2★]
+  │  ├─ · · ████████/data-research  [2★]
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  │  ├─ · ○ /summarize
   │  │  └─ · ○ /cite-sources
@@ -177,9 +177,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · mattpocock/productivity  [4★]
   │  ├─ · · mattpocock/handoff  [3★]
   │  │  ├─ · ○ /summarize  (↑ see above)
-  │  │  ├─ · ○ mattpocock/edit-article  [3★]  (↑ see above)
-  │  │  └─ · ○ garrytan/context-restore  [2★]
-  │  ├─ · ○ garrytan/context-restore  [2★]  (↑ see above)
+  │  │  ├─ · ○ garrytan/document-generate  [3★]  (↑ see above)
+  │  │  └─ · ○ ████████/context-audit  [2★]
+  │  ├─ · ○ ████████/context-audit  [2★]  (↑ see above)
   │  ├─ · · mattpocock/grill-me  [3★]  (↑ see above)
   │  ├─ · · mattpocock/write-a-skill  [2★]
   │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
@@ -195,10 +195,10 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · ruvnet/flow-nexus  [2★]
   │  ├─ · · ████████/minion-orchestrator
   │  │  ├─ · · /plan-and-execute
-  │  │  │  ├─ · ○ mattpocock/ask-matt  [2★]
+  │  │  │  ├─ · ○ ████████/functional-area-resolver  [2★]
   │  │  │  ├─ · ○ /plan-decompose
   │  │  │  └─ · ○ /tool-select
-  │  │  ├─ · ○ mattpocock/ask-matt  [2★]  (↑ see above)
+  │  │  ├─ · ○ ████████/functional-area-resolver  [2★]  (↑ see above)
   │  │  └─ · ○ /tool-select  (↑ see above)
   │  ├─ · · ruvnet/flow-nexus-platform  [2★]
   │  │  ├─ ✓ ○ ████████/hf-cli
@@ -210,7 +210,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · · ruvnet/agentdb-advanced  [2★]
   │  │  ├─ · ○ ruvnet/agentdb-vector-search  [2★]
   │  │  └─ · · garrytan/learn  [2★]
-  │  │     ├─ · ○ garrytan/context-restore  [2★]
+  │  │     ├─ · ○ ████████/context-audit  [2★]
   │  │     └─ · ○ /retrieve
   │  ├─ · · ████████/agentdb-learning
   │  │  ├─ · ○ ruvnet/reasoningbank-intelligence  [2★]
@@ -218,8 +218,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ ruvnet/agentdb-memory-patterns  [2★]
   │  ├─ · ○ ruvnet/agentdb-optimization  [2★]
   │  └─ · ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
-  ├─ · · mattpocock/resolving-merge-conflicts  [2★]
-  │  ├─ · · garrytan/plan-eng-review  [3★]
+  ├─ · · ruvnet/github-suite  [2★]
+  │  ├─ · · addy-osmani/code-review-and-quality  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /diff-content
   │  │  └─ · ○ garrytan/benchmark  [3★]
@@ -257,9 +257,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/brain-ops  [3★]
   │  ├─ ✓ ○ ████████/hf-cli
   │  └─ · ○ /retrieve
-  ├─ · · mattpocock/obsidian-vault  [3★]
+  ├─ · · garrytan/capture  [3★]
   │  ├─ · ○ /retrieve  (↑ see above)
-  │  └─ · ○ garrytan/context-restore  [2★]
+  │  └─ · ○ ████████/context-audit  [2★]
   └─ · · garrytan/concept-synthesis  [3★]
      ├─ · · garrytan/brain-ops  [3★]  (↑ see above)
      └─ · ○ /logical-inference

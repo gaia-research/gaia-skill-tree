@@ -2,7 +2,7 @@
 id: garrytan/academic-verify
 name: academic-verify
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: grounding
 status: named
 level: 2★

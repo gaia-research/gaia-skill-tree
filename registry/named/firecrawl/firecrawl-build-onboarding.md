@@ -2,7 +2,7 @@
 id: firecrawl/firecrawl-build-onboarding
 name: Firecrawl Onboarding
 contributor: firecrawl
-origin: false
+origin: true
 genericSkillRef: agent-environment-setup
 status: named
 level: 3★

@@ -2,7 +2,7 @@
 id: mattpocock/to-spec
 name: To PRD
 contributor: mattpocock
-origin: false
+origin: true
 genericSkillRef: prd-generation
 status: named
 title: The PRD Synthesiser

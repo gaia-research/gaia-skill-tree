@@ -2,7 +2,7 @@
 id: mbtiongson1/gaia-curation-review
 name: Gaia Curation Review
 contributor: mbtiongson1
-origin: true
+origin: false
 genericSkillRef: registry-entry-audit
 status: named
 level: 2★

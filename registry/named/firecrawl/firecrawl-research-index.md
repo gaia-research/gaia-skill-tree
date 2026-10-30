@@ -2,7 +2,7 @@
 id: firecrawl/firecrawl-research-index
 name: Firecrawl Research Index
 contributor: firecrawl
-origin: true
+origin: false
 genericSkillRef: literature-search
 status: named
 level: 3★

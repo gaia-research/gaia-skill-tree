@@ -2,7 +2,7 @@
 id: heygen-com/hyperframes-registry
 name: Hyperframes Registry
 contributor: heygen-com
-origin: true
+origin: false
 genericSkillRef: skill-discovery
 status: named
 level: 3★

@@ -2,7 +2,7 @@
 id: addy-osmani/code-simplification
 name: Code Simplification
 contributor: addy-osmani
-origin: true
+origin: false
 genericSkillRef: refactor-code
 status: named
 level: 4★

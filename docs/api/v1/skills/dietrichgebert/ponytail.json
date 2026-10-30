@@ -25,7 +25,7 @@
   },
   "title": "Ponytail",
   "genericSkillRef": "implement-with-discernment",
-  "origin": true,
+  "origin": false,
   "description": "Forces the laziest solution that actually works: question whether the task should exist, prefer standard library and native features, and ship the smallest correct implementation.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

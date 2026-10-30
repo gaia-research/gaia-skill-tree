@@ -2,7 +2,7 @@
 id: garrytan/minion-orchestrator
 name: minion-orchestrator
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: multi-agent-orchestration-v
 status: named
 level: 2★

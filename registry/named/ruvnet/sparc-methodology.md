@@ -2,7 +2,7 @@
 id: ruvnet/sparc-methodology
 name: SPARC Methodology
 contributor: ruvnet
-origin: true
+origin: false
 genericSkillRef: agentic-workflow-design
 status: named
 title: The Five-Phase Maestro

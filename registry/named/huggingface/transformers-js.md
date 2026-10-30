@@ -2,7 +2,7 @@
 id: huggingface/transformers-js
 name: Transformers.js
 contributor: huggingface
-origin: true
+origin: false
 genericSkillRef: multimodal-reasoning
 status: named
 title: The Browser Modelwright

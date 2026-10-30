@@ -25,7 +25,7 @@
   },
   "title": "Gstack QA",
   "genericSkillRef": "e2e-testing",
-  "origin": true,
+  "origin": false,
   "description": "Browser-driven web application testing that explores pages as a real user, documents bugs with annotated screenshots, fixes issues with atomic commits and re-verification, and produces structured reports with before/after evidence and health scores showing quality improvement.",
   "tags": [
     "qa",

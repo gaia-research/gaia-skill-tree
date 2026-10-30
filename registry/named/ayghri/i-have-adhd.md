@@ -2,7 +2,7 @@
 id: ayghri/i-have-adhd
 name: I Have ADHD
 contributor: ayghri
-origin: true
+origin: false
 genericSkillRef: format-output
 status: named
 level: 4★

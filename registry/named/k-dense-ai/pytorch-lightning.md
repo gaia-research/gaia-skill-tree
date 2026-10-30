@@ -2,7 +2,7 @@
 id: k-dense-ai/pytorch-lightning
 name: PyTorch Lightning Prompt Wrapper
 contributor: k-dense-ai
-origin: true
+origin: false
 genericSkillRef: neural-training-orchestration
 status: named
 level: 1★
