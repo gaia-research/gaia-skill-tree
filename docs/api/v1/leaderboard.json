@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-27T18:48:47Z",
+  "generatedAt": "2026-10-30T05:48:51Z",
   "distribution": {
     "total": 268,
     "S": 3,
@@ -16,6 +16,7 @@
       "trustMagnitude": 374.99,
       "grade": "S",
       "level": "5★",
+      "storedStars": "5★",
       "typeBreakdown": {
         "arxiv": 105.2,
         "peer-review": 75.0,
@@ -30,6 +31,7 @@
       "trustMagnitude": 356.11,
       "grade": "S",
       "level": "5★",
+      "storedStars": "5★",
       "typeBreakdown": {
         "arxiv": 70.0,
         "peer-review": 60.0,
@@ -45,6 +47,7 @@
       "trustMagnitude": 318.14,
       "grade": "S",
       "level": "5★",
+      "storedStars": "5★",
       "typeBreakdown": {
         "arxiv": 100.0,
         "peer-review": 75.0,
@@ -58,6 +61,7 @@
       "trustMagnitude": 227.51,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 144.24,
         "peer-review": 30.0,
@@ -71,6 +75,7 @@
       "trustMagnitude": 225.42,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 146.14,
@@ -85,6 +90,7 @@
       "trustMagnitude": 221.52,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 156.38,
@@ -98,6 +104,7 @@
       "trustMagnitude": 205.75,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 133.05,
         "repo-own": 36.0,
@@ -111,6 +118,7 @@
       "trustMagnitude": 200.29,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 155.29,
         "peer-review": 45.0
@@ -123,6 +131,7 @@
       "trustMagnitude": 190.0,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 39.77,
         "repo-own": 10.23,
@@ -136,6 +145,7 @@
       "trustMagnitude": 184.87,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 148.87
@@ -148,6 +158,7 @@
       "trustMagnitude": 176.04,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 140.04,
         "repo-own": 36.0
@@ -160,6 +171,7 @@
       "trustMagnitude": 175.34,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 135.34,
@@ -173,6 +185,7 @@
       "trustMagnitude": 174.68,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 138.68,
         "repo-own": 36.0
@@ -185,6 +198,7 @@
       "trustMagnitude": 171.27,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 135.27
@@ -197,6 +211,7 @@
       "trustMagnitude": 169.31,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 133.31,
         "repo-own": 36.0
@@ -209,6 +224,7 @@
       "trustMagnitude": 166.92,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 130.92,
         "repo-own": 36.0
@@ -221,6 +237,7 @@
       "trustMagnitude": 163.19,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 122.58,
         "arxiv": 0.2,
@@ -235,6 +252,7 @@
       "trustMagnitude": 154.71,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 118.71
@@ -247,6 +265,7 @@
       "trustMagnitude": 152.48,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 116.48
@@ -259,6 +278,7 @@
       "trustMagnitude": 145.16,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 104.16,
@@ -272,6 +292,7 @@
       "trustMagnitude": 144.54,
       "grade": "A",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 108.54,
         "repo-own": 36.0
@@ -284,6 +305,7 @@
       "trustMagnitude": 130.23,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 130.23
       },
@@ -295,6 +317,7 @@
       "trustMagnitude": 126.12,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 90.12
@@ -307,6 +330,7 @@
       "trustMagnitude": 121.94,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 121.94
       },
@@ -318,6 +342,7 @@
       "trustMagnitude": 117.65,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 52.5,
@@ -331,6 +356,7 @@
       "trustMagnitude": 117.65,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 52.5,
@@ -344,6 +370,7 @@
       "trustMagnitude": 110.15,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 45.0,
@@ -357,6 +384,7 @@
       "trustMagnitude": 110.15,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 45.0,
@@ -370,6 +398,7 @@
       "trustMagnitude": 110.02,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "social-signal": 60.02,
         "repo-own": 24.71,
@@ -383,6 +412,7 @@
       "trustMagnitude": 102.5,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 50.0,
         "peer-review": 52.5
@@ -395,6 +425,7 @@
       "trustMagnitude": 102.5,
       "grade": "A",
       "level": "4★",
+      "storedStars": "4★",
       "typeBreakdown": {
         "github-stars-own": 50.0,
         "peer-review": 52.5
@@ -407,6 +438,7 @@
       "trustMagnitude": 97.81,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "social-signal": 29.15,
@@ -421,6 +453,7 @@
       "trustMagnitude": 95.15,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 30.0,
@@ -434,6 +467,7 @@
       "trustMagnitude": 95.02,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.49,
         "repo-own": 10.51,
@@ -447,6 +481,7 @@
       "trustMagnitude": 95.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.77,
         "repo-own": 10.23,
@@ -460,6 +495,7 @@
       "trustMagnitude": 95.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.77,
         "repo-own": 10.23,
@@ -473,6 +509,7 @@
       "trustMagnitude": 94.92,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 3.37,
         "github-stars-own": 46.63,
@@ -486,6 +523,7 @@
       "trustMagnitude": 94.92,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 3.37,
         "github-stars-own": 46.63,
@@ -499,6 +537,7 @@
       "trustMagnitude": 94.92,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 3.37,
         "github-stars-own": 46.63,
@@ -512,6 +551,7 @@
       "trustMagnitude": 94.92,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 3.37,
         "github-stars-own": 46.63,
@@ -525,6 +565,7 @@
       "trustMagnitude": 94.92,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 3.37,
         "github-stars-own": 46.63,
@@ -538,6 +579,7 @@
       "trustMagnitude": 91.46,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 90.23,
         "repo-own": 1.23
@@ -550,6 +592,7 @@
       "trustMagnitude": 88.97,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 21.68,
         "arxiv": 67.29
@@ -562,6 +605,7 @@
       "trustMagnitude": 88.5,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 52.5
@@ -574,6 +618,7 @@
       "trustMagnitude": 88.5,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 52.5
@@ -586,6 +631,7 @@
       "trustMagnitude": 87.38,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 1.25,
         "github-stars-own": 86.13
@@ -598,6 +644,7 @@
       "trustMagnitude": 83.62,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "social-signal": 33.62,
         "repo-own": 24.71,
@@ -611,6 +658,7 @@
       "trustMagnitude": 81.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 45.0
@@ -623,6 +671,7 @@
       "trustMagnitude": 81.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 45.0
@@ -635,6 +684,7 @@
       "trustMagnitude": 80.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.77,
         "repo-own": 10.23,
@@ -648,6 +698,7 @@
       "trustMagnitude": 73.59,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "social-signal": 37.59
@@ -660,6 +711,7 @@
       "trustMagnitude": 72.86,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 36.86
@@ -672,6 +724,7 @@
       "trustMagnitude": 66.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 30.0
@@ -684,6 +737,7 @@
       "trustMagnitude": 66.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 30.0
@@ -696,6 +750,7 @@
       "trustMagnitude": 66.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 30.0
@@ -708,6 +763,7 @@
       "trustMagnitude": 65.15,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "social-signal": 29.15
@@ -720,6 +776,7 @@
       "trustMagnitude": 63.71,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 11.21,
         "peer-review": 52.5
@@ -732,6 +789,7 @@
       "trustMagnitude": 63.71,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 11.21,
         "peer-review": 52.5
@@ -744,6 +802,7 @@
       "trustMagnitude": 63.71,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 11.21,
         "peer-review": 52.5
@@ -756,6 +815,7 @@
       "trustMagnitude": 63.71,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 11.21,
         "peer-review": 52.5
@@ -768,6 +828,7 @@
       "trustMagnitude": 60.98,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "social-signal": 60.98
       },
@@ -779,6 +840,7 @@
       "trustMagnitude": 56.21,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 11.21,
         "peer-review": 45.0
@@ -791,6 +853,7 @@
       "trustMagnitude": 56.21,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 11.21,
         "peer-review": 45.0
@@ -803,6 +866,7 @@
       "trustMagnitude": 53.86,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "social-signal": 48.86,
         "self-attestation": 5.0
@@ -815,6 +879,7 @@
       "trustMagnitude": 52.66,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.37,
         "repo-own": 10.63,
@@ -828,6 +893,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.77,
         "repo-own": 10.23
@@ -840,6 +906,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 10.23,
         "github-stars-own": 39.77
@@ -852,6 +919,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.77,
         "repo-own": 10.23
@@ -864,6 +932,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 24.71,
         "github-stars-own": 25.29
@@ -876,6 +945,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 24.71,
         "github-stars-own": 25.29
@@ -888,6 +958,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 24.71,
         "github-stars-own": 25.29
@@ -900,6 +971,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
@@ -912,6 +984,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 50.0
       },
@@ -923,6 +996,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
@@ -935,6 +1009,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 50.0
       },
@@ -946,6 +1021,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 50.0
       },
@@ -957,6 +1033,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
@@ -969,6 +1046,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
@@ -981,6 +1059,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
@@ -993,6 +1072,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
@@ -1005,6 +1085,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
@@ -1017,6 +1098,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
@@ -1029,6 +1111,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
@@ -1041,6 +1124,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
@@ -1053,6 +1137,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
@@ -1065,6 +1150,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
@@ -1077,6 +1163,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
@@ -1089,6 +1176,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
@@ -1101,6 +1189,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
@@ -1113,6 +1202,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
@@ -1125,6 +1215,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.37,
         "repo-own": 10.63
@@ -1137,6 +1228,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.37,
         "repo-own": 10.63
@@ -1149,6 +1241,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.37,
         "repo-own": 10.63
@@ -1161,6 +1254,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.37,
         "repo-own": 10.63
@@ -1173,6 +1267,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1185,6 +1280,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1197,6 +1293,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1209,6 +1306,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1221,6 +1319,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1233,6 +1332,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1245,6 +1345,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1257,6 +1358,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1269,6 +1371,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1281,6 +1384,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1293,6 +1397,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1305,6 +1410,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1317,6 +1423,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1329,6 +1436,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1341,6 +1449,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1353,6 +1462,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1365,6 +1475,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1377,6 +1488,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.22,
         "repo-own": 10.78
@@ -1389,6 +1501,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.7,
         "repo-own": 10.3
@@ -1401,6 +1514,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.7,
         "repo-own": 10.3
@@ -1413,6 +1527,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.7,
         "repo-own": 10.3
@@ -1425,6 +1540,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.7,
         "repo-own": 10.3
@@ -1437,6 +1553,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.7,
         "repo-own": 10.3
@@ -1449,6 +1566,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.7,
         "repo-own": 10.3
@@ -1461,6 +1579,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.7,
         "repo-own": 10.3
@@ -1473,6 +1592,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.7,
         "repo-own": 10.3
@@ -1485,6 +1605,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.7,
         "repo-own": 10.3
@@ -1497,6 +1618,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.7,
         "repo-own": 10.3
@@ -1509,6 +1631,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "github-stars-own": 39.7,
         "repo-own": 10.3
@@ -1521,6 +1644,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0,
@@ -1534,6 +1658,7 @@
       "trustMagnitude": 50.0,
       "grade": "B",
       "level": "3★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 9.36,
         "github-stars-own": 40.64
@@ -1546,6 +1671,7 @@
       "trustMagnitude": 45.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 9.0
@@ -1558,6 +1684,7 @@
       "trustMagnitude": 45.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "peer-review": 45.0
       },
@@ -1569,6 +1696,7 @@
       "trustMagnitude": 45.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "peer-review": 45.0
       },
@@ -1580,6 +1708,7 @@
       "trustMagnitude": 44.48,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "social-signal": 39.48
@@ -1592,6 +1721,7 @@
       "trustMagnitude": 43.52,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "arxiv": 0.4,
         "social-signal": 43.12
@@ -1604,6 +1734,7 @@
       "trustMagnitude": 41.62,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.62,
         "self-attestation": 5.0
@@ -1616,6 +1747,7 @@
       "trustMagnitude": 41.21,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 11.21,
         "peer-review": 30.0
@@ -1628,6 +1760,7 @@
       "trustMagnitude": 41.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "self-attestation": 5.0
@@ -1640,6 +1773,7 @@
       "trustMagnitude": 41.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0
@@ -1652,6 +1786,7 @@
       "trustMagnitude": 41.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0
@@ -1664,6 +1799,7 @@
       "trustMagnitude": 41.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0
@@ -1676,6 +1812,7 @@
       "trustMagnitude": 41.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0
@@ -1688,6 +1825,7 @@
       "trustMagnitude": 41.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0
@@ -1700,6 +1838,7 @@
       "trustMagnitude": 41.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0
@@ -1712,6 +1851,7 @@
       "trustMagnitude": 41.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0
@@ -1724,6 +1864,7 @@
       "trustMagnitude": 41.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0
@@ -1736,6 +1877,7 @@
       "trustMagnitude": 41.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0
@@ -1748,6 +1890,7 @@
       "trustMagnitude": 41.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0
@@ -1760,6 +1903,7 @@
       "trustMagnitude": 41.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0
@@ -1772,6 +1916,7 @@
       "trustMagnitude": 41.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "self-attestation": 5.0,
         "repo-own": 36.0
@@ -1784,6 +1929,7 @@
       "trustMagnitude": 38.66,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "arxiv": 2.66
@@ -1796,6 +1942,7 @@
       "trustMagnitude": 37.54,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 1.2,
         "social-signal": 36.34
@@ -1808,6 +1955,7 @@
       "trustMagnitude": 37.47,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 1.22,
         "social-signal": 36.25
@@ -1820,6 +1968,7 @@
       "trustMagnitude": 36.6,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.6
       },
@@ -1831,6 +1980,7 @@
       "trustMagnitude": 36.34,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "social-signal": 36.34
       },
@@ -1842,6 +1992,7 @@
       "trustMagnitude": 36.34,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "social-signal": 36.34
       },
@@ -1853,6 +2004,7 @@
       "trustMagnitude": 36.34,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "social-signal": 36.34
       },
@@ -1864,6 +2016,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -1875,6 +2028,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -1886,6 +2040,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -1897,6 +2052,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -1908,6 +2064,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -1919,6 +2076,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -1930,6 +2088,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -1941,6 +2100,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -1952,6 +2112,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -1963,6 +2124,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -1974,6 +2136,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -1985,6 +2148,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -1996,6 +2160,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2007,6 +2172,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2018,6 +2184,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2029,6 +2196,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2040,6 +2208,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2051,6 +2220,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2062,6 +2232,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2073,6 +2244,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2084,6 +2256,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2095,6 +2268,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2106,6 +2280,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2117,6 +2292,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2128,6 +2304,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2139,6 +2316,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2150,6 +2328,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2161,6 +2340,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2172,6 +2352,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2183,6 +2364,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2194,6 +2376,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2205,6 +2388,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2216,6 +2400,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2227,6 +2412,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2238,6 +2424,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2249,6 +2436,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2260,6 +2448,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2271,6 +2460,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2282,6 +2472,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2293,6 +2484,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2304,6 +2496,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2315,6 +2508,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2326,6 +2520,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2337,6 +2532,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2348,6 +2544,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2359,6 +2556,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2370,6 +2568,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2381,6 +2580,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2392,6 +2592,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2403,6 +2604,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2414,6 +2616,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2425,6 +2628,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2436,6 +2640,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2447,6 +2652,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2458,6 +2664,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2469,6 +2676,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2480,6 +2688,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2491,6 +2700,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2502,6 +2712,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2513,6 +2724,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2524,6 +2736,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2535,6 +2748,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2546,6 +2760,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2557,6 +2772,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2568,6 +2784,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2579,6 +2796,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2590,6 +2808,7 @@
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 36.0
       },
@@ -2601,6 +2820,7 @@
       "trustMagnitude": 30.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "peer-review": 30.0
       },
@@ -2612,6 +2832,7 @@
       "trustMagnitude": 30.0,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "peer-review": 30.0
       },
@@ -2623,6 +2844,7 @@
       "trustMagnitude": 24.34,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 21.68,
         "arxiv": 2.66
@@ -2635,6 +2857,7 @@
       "trustMagnitude": 22.67,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 1.22,
         "github-stars-own": 21.45
@@ -2647,6 +2870,7 @@
       "trustMagnitude": 20.77,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 20.77
       },
@@ -2658,6 +2882,7 @@
       "trustMagnitude": 20.77,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 20.77
       },
@@ -2669,6 +2894,7 @@
       "trustMagnitude": 20.77,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 20.77
       },
@@ -2680,6 +2906,7 @@
       "trustMagnitude": 20.77,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 20.77
       },
@@ -2691,6 +2918,7 @@
       "trustMagnitude": 20.77,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 20.77
       },
@@ -2702,6 +2930,7 @@
       "trustMagnitude": 20.77,
       "grade": "C",
       "level": "2★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "repo-own": 20.77
       },
@@ -2712,7 +2941,8 @@
       "id": "obra/test-driven-development",
       "trustMagnitude": 9.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {
         "peer-review": 9.0
       },
@@ -2723,7 +2953,8 @@
       "id": "addy-osmani/api-and-interface-design",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2732,7 +2963,8 @@
       "id": "addy-osmani/browser-testing-with-devtools",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2741,7 +2973,8 @@
       "id": "addy-osmani/ci-cd-and-automation",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2750,7 +2983,8 @@
       "id": "addy-osmani/constraint-driven-development",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2759,7 +2993,8 @@
       "id": "addy-osmani/context-engineering",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2768,7 +3003,8 @@
       "id": "addy-osmani/deprecation-and-migration",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2777,7 +3013,8 @@
       "id": "addy-osmani/documentation-and-adrs",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2786,7 +3023,8 @@
       "id": "addy-osmani/doubt-driven-development",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2795,7 +3033,8 @@
       "id": "addy-osmani/frontend-ui-engineering",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2804,7 +3043,8 @@
       "id": "addy-osmani/observability-and-instrumentation",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2813,7 +3053,8 @@
       "id": "addy-osmani/security-and-hardening",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2822,7 +3063,8 @@
       "id": "addy-osmani/source-driven-development",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2831,7 +3073,8 @@
       "id": "garrytan/academic-verify",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2840,7 +3083,8 @@
       "id": "garrytan/archive-crawler",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2849,7 +3093,8 @@
       "id": "garrytan/blog-ingest",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2858,7 +3103,8 @@
       "id": "garrytan/book-mirror",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2867,7 +3113,8 @@
       "id": "garrytan/bulk-ingestion",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2876,7 +3123,8 @@
       "id": "garrytan/citation-graph-ingest",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2885,7 +3133,8 @@
       "id": "garrytan/context-audit",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2894,7 +3143,8 @@
       "id": "garrytan/conversation-archive",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2903,7 +3153,8 @@
       "id": "garrytan/data-research",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2912,7 +3163,8 @@
       "id": "garrytan/draft-in-voice",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2921,7 +3173,8 @@
       "id": "garrytan/fact-check",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2930,7 +3183,8 @@
       "id": "garrytan/functional-area-resolver",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2939,7 +3193,8 @@
       "id": "garrytan/idea-lineage",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2948,7 +3203,8 @@
       "id": "garrytan/measure-before-you-fix",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2957,7 +3213,8 @@
       "id": "garrytan/meeting-ingestion",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2966,7 +3223,8 @@
       "id": "garrytan/minion-orchestrator",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2975,7 +3233,8 @@
       "id": "garrytan/remote-mcp",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2984,7 +3243,8 @@
       "id": "garrytan/research-compendium",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -2993,7 +3253,8 @@
       "id": "garrytan/signal-detector",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -3002,7 +3263,8 @@
       "id": "garrytan/skill-autobench",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -3011,7 +3273,8 @@
       "id": "garrytan/skill-optimizer",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -3020,7 +3283,8 @@
       "id": "garrytan/strategic-reading",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -3029,7 +3293,8 @@
       "id": "garrytan/two-tier-extraction",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -3038,7 +3303,8 @@
       "id": "heygen-com/general-video",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
@@ -3047,7 +3313,8 @@
       "id": "mattpocock/personal",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "3★",
+      "level": "1★",
+      "storedStars": "3★",
       "typeBreakdown": {},
       "origin": true,
       "branch": "suite"
@@ -3056,7 +3323,8 @@
       "id": "obra/writing-skills",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
+      "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
       "branch": "standard"
