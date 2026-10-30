@@ -191,27 +191,10 @@
       ]
     },
     {
-      "id": "mvanhorn/last30days",
-      "name": "Last 30 Days Web Research",
-      "level": "4★",
-      "trustMagnitude": 205.75,
-      "overallTrustGrade": "A",
-      "fusionScore": 228.28,
-      "contributor": "mvanhorn",
-      "type": "fusion",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "_links": {
-        "self": "/api/v1/skills/mvanhorn/last30days.json"
-      },
-      "genericSkillRef": "autonomous-web-research"
-    },
-    {
       "id": "mattpocock/misc",
       "name": "Misc",
       "level": "4★",
-      "trustMagnitude": 200.29,
+      "trustMagnitude": 220.87,
       "overallTrustGrade": "A",
       "fusionScore": 228.28,
       "contributor": "mattpocock",
@@ -229,6 +212,23 @@
         "mattpocock/scaffold-exercises",
         "mattpocock/setup-pre-commit"
       ]
+    },
+    {
+      "id": "mvanhorn/last30days",
+      "name": "Last 30 Days Web Research",
+      "level": "4★",
+      "trustMagnitude": 205.75,
+      "overallTrustGrade": "A",
+      "fusionScore": 228.28,
+      "contributor": "mvanhorn",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/mvanhorn/last30days.json"
+      },
+      "genericSkillRef": "autonomous-web-research"
     },
     {
       "id": "addy-osmani/code-simplification",
@@ -388,6 +388,43 @@
       ]
     },
     {
+      "id": "heygen-com/hyperframes",
+      "name": "HyperFrames",
+      "level": "4★",
+      "trustMagnitude": 171.92,
+      "overallTrustGrade": "A",
+      "fusionScore": 280.0,
+      "contributor": "heygen-com",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes.json"
+      },
+      "genericSkillRef": "video-composition",
+      "suiteComponents": [
+        "heygen-com/embedded-captions",
+        "heygen-com/faceless-explainer",
+        "heygen-com/figma",
+        "heygen-com/hyperframes-animation",
+        "heygen-com/hyperframes-audio",
+        "heygen-com/hyperframes-cli",
+        "heygen-com/hyperframes-core",
+        "heygen-com/hyperframes-creative",
+        "heygen-com/hyperframes-keyframes",
+        "heygen-com/hyperframes-registry",
+        "heygen-com/media-use",
+        "heygen-com/motion-graphics",
+        "heygen-com/music-to-video",
+        "heygen-com/pr-to-video",
+        "heygen-com/product-launch-video",
+        "heygen-com/remotion-to-hyperframes",
+        "heygen-com/slideshow",
+        "heygen-com/talking-head-recut"
+      ]
+    },
+    {
       "id": "pbakaus/impeccable",
       "name": "Impeccable",
       "level": "4★",
@@ -429,43 +466,6 @@
       ]
     },
     {
-      "id": "heygen-com/hyperframes",
-      "name": "HyperFrames",
-      "level": "4★",
-      "trustMagnitude": 166.92,
-      "overallTrustGrade": "A",
-      "fusionScore": 280.0,
-      "contributor": "heygen-com",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes.json"
-      },
-      "genericSkillRef": "video-composition",
-      "suiteComponents": [
-        "heygen-com/embedded-captions",
-        "heygen-com/faceless-explainer",
-        "heygen-com/figma",
-        "heygen-com/hyperframes-animation",
-        "heygen-com/hyperframes-audio",
-        "heygen-com/hyperframes-cli",
-        "heygen-com/hyperframes-core",
-        "heygen-com/hyperframes-creative",
-        "heygen-com/hyperframes-keyframes",
-        "heygen-com/hyperframes-registry",
-        "heygen-com/media-use",
-        "heygen-com/motion-graphics",
-        "heygen-com/music-to-video",
-        "heygen-com/pr-to-video",
-        "heygen-com/product-launch-video",
-        "heygen-com/remotion-to-hyperframes",
-        "heygen-com/slideshow",
-        "heygen-com/talking-head-recut"
-      ]
-    },
-    {
       "id": "vercel-labs/vercel-react-best-practices",
       "name": "Vercel React Best Practices",
       "level": "4★",
@@ -483,6 +483,23 @@
       "genericSkillRef": "react-performance-optimization"
     },
     {
+      "id": "wheresryan22/anatomy",
+      "name": "anatomy",
+      "level": "4★",
+      "trustMagnitude": 157.48,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "wheresryan22",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/wheresryan22/anatomy.json"
+      },
+      "genericSkillRef": "interactive-mechanism-illustration"
+    },
+    {
       "id": "mksglu/context-mode",
       "name": "Context Mode",
       "level": "4★",
@@ -498,23 +515,6 @@
         "self": "/api/v1/skills/mksglu/context-mode.json"
       },
       "genericSkillRef": "context-safe-execution"
-    },
-    {
-      "id": "wheresryan22/anatomy",
-      "name": "anatomy",
-      "level": "4★",
-      "trustMagnitude": 152.48,
-      "overallTrustGrade": "A",
-      "fusionScore": 0.0,
-      "contributor": "wheresryan22",
-      "type": "basic",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "_links": {
-        "self": "/api/v1/skills/wheresryan22/anatomy.json"
-      },
-      "genericSkillRef": "interactive-mechanism-illustration"
     },
     {
       "id": "trailhq/graft",
@@ -551,6 +551,23 @@
       "genericSkillRef": "project-launch-video-production"
     },
     {
+      "id": "nvidia/accelerated-computing-cudf",
+      "name": "accelerated-computing-cudf",
+      "level": "4★",
+      "trustMagnitude": 131.12,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "nvidia",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/nvidia/accelerated-computing-cudf.json"
+      },
+      "genericSkillRef": "gpu-dataframe-acceleration"
+    },
+    {
       "id": "ayghri/i-have-adhd",
       "name": "I Have ADHD",
       "level": "4★",
@@ -566,23 +583,6 @@
         "self": "/api/v1/skills/ayghri/i-have-adhd.json"
       },
       "genericSkillRef": "format-output"
-    },
-    {
-      "id": "nvidia/accelerated-computing-cudf",
-      "name": "accelerated-computing-cudf",
-      "level": "4★",
-      "trustMagnitude": 126.12,
-      "overallTrustGrade": "A",
-      "fusionScore": 0.0,
-      "contributor": "nvidia",
-      "type": "basic",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "_links": {
-        "self": "/api/v1/skills/nvidia/accelerated-computing-cudf.json"
-      },
-      "genericSkillRef": "gpu-dataframe-acceleration"
     },
     {
       "id": "garrytan/gbrain",
@@ -690,6 +690,23 @@
         "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
       },
       "genericSkillRef": "web-scrape"
+    },
+    {
+      "id": "browser-use/browser-harness",
+      "name": "Browser Harness",
+      "level": "3★",
+      "trustMagnitude": 103.59,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "browser-use",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/browser-use/browser-harness.json"
+      },
+      "genericSkillRef": "browser-control"
     },
     {
       "id": "mattpocock/engineering",
@@ -1068,23 +1085,6 @@
         "ruvnet/agentdb-optimization",
         "ruvnet/agentdb-vector-search"
       ]
-    },
-    {
-      "id": "addy-osmani/spec-driven-development",
-      "name": "Spec-Driven Development",
-      "level": "3★",
-      "trustMagnitude": 80.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
-      },
-      "genericSkillRef": "prd-generation"
     }
   ],
   "page": 1,
