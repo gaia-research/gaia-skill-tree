@@ -33,18 +33,40 @@ from .lifecycleProjection import LifecyclePorts
 from .steward.challenge_receipts import CONFIG_ENV
 
 REVIEWCONTRACT = "gaia-challenge-review/v1"
-DISCLOSURE = ("Review record only. An admission was attempted and held, so this is not an admitted Gaia challenge "
-              "and it changes no Trust Magnitude, star, grade, Origin or ranking.")
+TRIAGESTATUS = "rejected-at-triage"
+DEFERREDSTATUS = "deferred-at-triage"
+DEFERREDDISCLOSURE = ("Review record only. This lead was deferred at triage, with no effect on standing: no experiment "
+                      "was run and no admission was attempted, so this is not an admitted Gaia challenge and it "
+                      "changes no Trust Magnitude, star, grade, Origin or ranking.")
+TRIAGEDISCLOSURE = ("Review record only. This lead was rejected at triage: no experiment was run and no admission "
+                    "was attempted, so this is not an admitted Gaia challenge and it changes no Trust Magnitude, "
+                    "star, grade, Origin or ranking.")
 HELDTEXT = {
     HoldReason.ISSUER_UNAVAILABLE: "The trusted receipt issuer produced no verifiable receipt for this review.",
     HoldReason.ISSUER_MISCONFIGURED: "The trusted receipt issuer configuration is not usable in this build.",
     HoldReason.RECEIPT_UNVERIFIABLE: "A receipt exists but could not be verified.",
     HoldReason.CHALLENGE_REJECTED: "The challenge domain rejected the admission request.",
     HoldReason.BUNDLE_NOT_BOUND: "The issued receipt does not bind this exact review bundle.",
-    HoldReason.REQUEST_MISSING: "No admission request has been prepared for this review.",
-    HoldReason.NOT_RECOMMENDED: "The independent assessment does not recommend an admission review.",
+    HoldReason.REQUEST_MISSING: "No admission was requested.",
+    HoldReason.META_NOT_RECOMMENDED: "The independent assessment of this review does not recommend an admission review.",
     HoldReason.EVENT_LOG_BROKEN: "The review's event log failed its integrity check, so admission is held.",
 }
+
+
+NOEFFECT = "with no effect on Trust Magnitude, stars, grade, Origin or ranking"
+DISCLOSURELEAD = "Review record only. This is not an admitted Gaia challenge, "
+
+
+def heldDisclosure(reason: HoldReason) -> str:
+    """Public text for a held review, keyed to what actually happened: an admission is described as
+    requested only when a request exists. The build's automatic re-attempt is not a request."""
+    if reason is HoldReason.REQUEST_MISSING:
+        state = "No admission was requested."
+    elif reason is HoldReason.META_NOT_RECOMMENDED:
+        state = "The independent assessment does not recommend an admission review."
+    else:
+        state = f"An admission was requested and is held: {HELDTEXT[reason]}"
+    return f"{DISCLOSURELEAD}{NOEFFECT}. {state}"
 
 
 def overridesPresent() -> list[str]:
@@ -77,6 +99,30 @@ class Collected:
         return "verified" if self.admitted and not self.disabled else "unavailable"
 
 
+def triageReviewOf(report: admission.BundleReport) -> dict[str, Any]:
+    """Public, neutral record of a lead rejected at triage (no request, receipt or numbers)."""
+    lead, meta = report.lead, report.meta
+    target = lead["target"]
+    deferred = meta.get("outcome") == "deferred_at_triage"
+    if not deferred and meta.get("outcome") != "rejected_at_triage":
+        raise ValueError("triage outcome must be rejected_at_triage or deferred_at_triage")
+    return {
+        "contract": REVIEWCONTRACT, "caseId": report.caseId, "status": DEFERREDSTATUS if deferred else TRIAGESTATUS,
+        "subjectId": target["skillId"], "subjectKind": target["kind"],
+        "genericSkillRef": target.get("genericSkillId") or target["skillId"],
+        "leadId": lead["leadId"], "claimId": lead["claimId"], "claim": lead["capability"]["claim"],
+        "challenger": {"name": lead["identity"]["name"], "version": lead["identity"]["version"],
+                       "sourceUrl": lead["source"]["url"]},
+        "comparator": lead["comparison"]["comparator"],
+        "assessment": {"outcome": meta["outcome"], "suggestedAction": meta["recommend"]["action"],
+                       "independence": meta["independence"]},
+        "triage": {"explanation": ("The lead was deferred at triage, with no effect on standing; no experiment was run."
+                                   if deferred else
+                                   "The lead was rejected at triage, before any experiment was preregistered or run.")},
+        "bundleDigest": report.digests["bundle"], "disclosure": DEFERREDDISCLOSURE if deferred else TRIAGEDISCLOSURE,
+    }
+
+
 def reviewOf(report: admission.BundleReport, outcome: admission.AdmissionOutcome) -> dict[str, Any]:
     """Public, neutral record of a held admission."""
     lead, request, receipt, meta = report.lead, report.request, report.receipt, report.meta
@@ -96,7 +142,7 @@ def reviewOf(report: admission.BundleReport, outcome: admission.AdmissionOutcome
         "assessment": {"outcome": meta["outcome"], "suggestedAction": meta["recommend"]["action"],
                        "independence": meta["independence"]},
         "held": {"reason": reason.value, "explanation": HELDTEXT[reason]},
-        "bundleDigest": report.digests["bundle"], "disclosure": DISCLOSURE,
+        "bundleDigest": report.digests["bundle"], "disclosure": heldDisclosure(reason),
     }
 
 
@@ -109,7 +155,14 @@ def listCases(base: Path) -> tuple[list[str], list[dict[str, str]]]:
             rejected.append({"caseId": entry.name, "reason": "not a regular case directory with a valid id"})
         else:
             names.append(entry.name)
-    return names, rejected
+    folded: dict[str, list[str]] = {}
+    for name in names:
+        folded.setdefault(name.casefold(), []).append(name)
+    clashing = {name for group in folded.values() if len(group) > 1 for name in group}
+    for name in sorted(clashing):  # ids that differ only by case would alias on a case-insensitive checkout
+        others = ", ".join(sorted(set(folded[name.casefold()]) - {name}))
+        rejected.append({"caseId": name, "reason": f"case id differs only by letter case from {others}"})
+    return [name for name in names if name not in clashing], rejected
 
 
 def rejectCollisions(reports: dict[str, admission.BundleReport]) -> dict[str, str]:
@@ -120,7 +173,7 @@ def rejectCollisions(reports: dict[str, admission.BundleReport]) -> dict[str, st
     for caseId, report in reports.items():
         for kind, value in (("challenge id", report.challengeId), ("receipt id", report.receiptId)):
             if value:
-                owners.setdefault((kind, value), []).append(caseId)
+                owners.setdefault((kind, value.casefold()), []).append(caseId)
     reasons: dict[str, str] = {}
     for (kind, _), cases in owners.items():
         if len(cases) > 1:
@@ -159,13 +212,13 @@ def collect(root: str | Path, *, resolver: Any = None, which: Callable[[str], st
         try:
             report = admission.inspectBundle(rootPath, caseId)
         except Exception as exc:  # fail closed per item
-            rejected.append({"caseId": caseId, "reason": f"{type(exc).__name__}: {exc}"[:200]})
+            rejected.append({"caseId": caseId, "reason": admission.clean(f"{type(exc).__name__}: {exc}")})
             continue
         if report.ok:
             reports[caseId] = report
         else:
-            rejected.append({"caseId": caseId, "reason": report.errors[0][:200]})
-    claims = [r.caseId for r in reports.values() if r.admission is not None and r.hasCommittedReceipt]
+            rejected.append({"caseId": caseId, "reason": admission.clean(report.errors[0])})
+    claims = [r.caseId for r in reports.values() if not r.triage and r.admission is not None and r.hasCommittedReceipt]
     if claims and resolver is None:
         if not which("gh"):
             raise admission.BuildEnvironmentError(
@@ -176,11 +229,18 @@ def collect(root: str | Path, *, resolver: Any = None, which: Callable[[str], st
                 f"case(s) {', '.join(claims)} claim an issuer receipt but git history is shallow or unreadable; "
                 "check out with fetch-depth: 0 (attested commits must be reachable)")
     results: dict[str, admission.AdmissionOutcome] = {}
+    reviews: list[dict[str, Any]] = []
     for caseId, report in sorted(reports.items()):
+        if report.triage:  # never enters admission: a review entry only
+            try:
+                reviews.append(triageReviewOf(report))
+            except Exception as exc:
+                rejected.append({"caseId": caseId, "reason": admission.clean(f"{type(exc).__name__}: {exc}")})
+            continue
         try:
             results[caseId] = admission.attemptAdmission(report, rootPath, resolver=resolver, online=False)
         except Exception as exc:
-            rejected.append({"caseId": caseId, "reason": f"{type(exc).__name__}: {exc}"[:200]})
+            rejected.append({"caseId": caseId, "reason": admission.clean(f"{type(exc).__name__}: {exc}")})
     # Collisions matter only between cases that would BOTH be admitted: a held case that shares
     # an id with an admitted one becomes a review and leaves the admitted case intact.
     winners = {caseId: reports[caseId] for caseId, out in results.items() if out.outcome is admission.Outcome.ADMITTED}
@@ -188,7 +248,6 @@ def collect(root: str | Path, *, resolver: Any = None, which: Callable[[str], st
     admitted: dict[str, list[Challenge]] = {}
     refs: dict[str, str] = {}
     routes: dict[str, Any] = {}
-    reviews: list[dict[str, Any]] = []
     for caseId, outcome in sorted(results.items()):
         report = reports[caseId]
         if caseId in collided:
@@ -204,6 +263,9 @@ def collect(root: str | Path, *, resolver: Any = None, which: Callable[[str], st
             reviews.append(reviewOf(report, outcome))
             if outcome.reason is HoldReason.EVENT_LOG_BROKEN:
                 print(f"  warning: challenge case {caseId} event log is broken: {outcome.detail}", file=sys.stderr)
+            elif report.eventErrors:  # another hold reason took precedence; the log problem is still surfaced
+                print(f"  warning: challenge case {admission.clean(caseId)} event log is broken: "
+                      f"{admission.clean('; '.join(report.eventErrors))}", file=sys.stderr)
     return Collected(True, {key: tuple(value) for key, value in sorted(admitted.items())}, dict(sorted(refs.items())),
                      tuple(sorted(reviews, key=lambda item: item["caseId"])),
                      tuple(sorted(rejected, key=lambda item: item["caseId"])), RoutingResolver(routes))

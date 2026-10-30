@@ -23,8 +23,10 @@ from _tree_renderer import render_tree  # noqa: E402
 from build_layouts_3d import generate_layouts # noqa: E402
 
 
-def _run_generate_named_index():
-    """Invoke generateNamedIndex as a module to produce registry/named-skills.json."""
+def _run_generate_named_index(repo_root=None):
+    """Invoke generateNamedIndex as a module to produce registry/named-skills.json.
+
+    ``repo_root`` defaults to this checkout; tests pass a scratch tree."""
     scripts_dir = os.path.dirname(os.path.abspath(__file__))
     module_path = os.path.join(scripts_dir, "generateNamedIndex.py")
     if not os.path.isfile(module_path):
@@ -34,7 +36,7 @@ def _run_generate_named_index():
     mod = importlib.util.module_from_spec(spec)
     try:
         spec.loader.exec_module(mod)
-        repo_root = os.path.dirname(scripts_dir)
+        repo_root = repo_root or os.path.dirname(scripts_dir)
         named_dir = os.path.join(repo_root, "registry", "named")
         graph_path = os.path.join(repo_root, "registry", "gaia.json")
         output_path = os.path.join(repo_root, "registry", "named-skills.json")
@@ -68,10 +70,12 @@ def _run_generate_named_index():
                         gate_config = json.load(mf).get("evidence", {}).get("ultimateGate", {})
                 except Exception:
                     gate_config = {}
+                collected = mod.collect_challenges(repo_root)
                 mod.write_index(
                     buckets, awaiting_classification, by_contributor, output_path, today,
                     generic_skills_map=generic_skills_map, gate_config=gate_config,
-                    repo_root=repo_root,
+                    repo_root=repo_root, lifecycle_ports=mod.lifecyclePorts(collected),
+                    challenge_reviews=mod.reviewsBySubject(collected),
                 )
                 total = sum(len(v) for v in buckets.values())
                 print(f"Generated named index: {total} skill(s) across "
