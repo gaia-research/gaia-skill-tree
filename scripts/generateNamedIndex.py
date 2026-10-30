@@ -91,6 +91,21 @@ INDEX_SKILL_FIELDS = [
 ]
 
 
+def championSortKey(entry):
+    """Order key that makes a bucket's first entry its (derived) Champion.
+
+    Champion is never a stored field: each bucket is ordered rank descending,
+    Origin first, then id, and every consumer takes the first entry. This is
+    the single definition; ``scripts/run_meta_sweep.py`` (champion-cluster)
+    imports it rather than restating the rule.
+    """
+    return (
+        -level_num(entry.get("level", "")),
+        0 if entry.get("origin") else 1,
+        entry.get("id", ""),
+    )
+
+
 def role_for_entry(entry):
     """Return the display role for a named skill bucket entry."""
     return "origin" if entry.get("origin") is True else "variant"
@@ -421,11 +436,7 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
             if e.get("origin") and is_redacted(e.get("level", "")) and rehearsal_context_from_env() is None:
                 e["origin"] = False
                 e["role"] = "variant"
-        entries.sort(key=lambda e: (
-            -level_num(e.get("level", "")),
-            0 if e.get("origin") else 1,
-            e.get("id", ""),
-        ))
+        entries.sort(key=championSortKey)
 
     # Origin uniqueness per bucket (named only)
     for ref, entries in buckets.items():
