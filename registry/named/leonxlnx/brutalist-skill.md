@@ -52,6 +52,11 @@ timeline:
     = HTTP 404. Upstream moved the skill (taste-skill CHANGELOG 2.1.1/2.1.3); links.github
     corrected to https://github.com/Leonxlnx/taste-skill-classics/blob/main/skills/brutalist-skill/SKILL.md
     (HTTP 200). No level change.'
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/brutalist-skill/SKILL.md
   updatedAt: '2026-10-01'
@@ -76,7 +81,7 @@ verification:
 suiteRef: leonxlnx/taste-skill
 trustMagnitude: 50.0
 overallTrustGrade: B
-trustMagnitudeInputHash: a77258686fb459cee28898c71ea33a389e8a9c0082335ee6113ff3bcb2a577ce
+trustMagnitudeInputHash: 64e290a0dad070b04869c985e109c3330e1c708a4465ddd7b5c8a56b310b3678
 ---
 
 ## Installation

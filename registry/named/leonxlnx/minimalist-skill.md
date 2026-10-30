@@ -52,6 +52,11 @@ timeline:
     = HTTP 404. Upstream moved the skill (taste-skill CHANGELOG 2.1.1/2.1.3); links.github
     corrected to https://github.com/Leonxlnx/taste-skill-classics/blob/main/skills/minimalist-skill/SKILL.md
     (HTTP 200). No level change.'
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/minimalist-skill/SKILL.md
   updatedAt: '2026-10-01'
@@ -76,7 +81,7 @@ verification:
 suiteRef: leonxlnx/taste-skill
 trustMagnitude: 50.0
 overallTrustGrade: B
-trustMagnitudeInputHash: 6c201325755820158bdf45a54c4a4e6988efb2e9d7ad0bf0626a62c58aa65014
+trustMagnitudeInputHash: 3f8f81c605bb818184efa19b3c80ec8ba957a5ae29d9f3134ce4f8e2b029080e
 ---
 
 ## Installation

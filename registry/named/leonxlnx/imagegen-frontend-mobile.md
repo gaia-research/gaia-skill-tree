@@ -52,6 +52,11 @@ timeline:
     Leonxlnx/taste-skill) = HTTP 404. Upstream moved the skill (taste-skill CHANGELOG
     2.1.1/2.1.3); links.github corrected to https://github.com/Leonxlnx/imagegen-skills/blob/main/skills/imagegen-frontend-mobile/SKILL.md
     (HTTP 200). No level change.'
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-mobile/SKILL.md
   updatedAt: '2026-10-01'
@@ -76,7 +81,7 @@ verification:
 suiteRef: leonxlnx/taste-skill
 trustMagnitude: 50.0
 overallTrustGrade: B
-trustMagnitudeInputHash: a435bd7fa05b345b025737fe5094b91df57e2c552961c0b1190be3681c7cf1e6
+trustMagnitudeInputHash: c63d5c31955fe595484b3d1221f45d4e2f8102a8ff2ae95a84c6cc72d559bd5a
 ---
 
 ## Installation

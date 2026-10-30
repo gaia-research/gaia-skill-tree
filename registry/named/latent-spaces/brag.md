@@ -56,6 +56,11 @@ timeline:
     before raise: TM 144.54 grade A (>=100), live SHA-pinned blob link HTTP 200, Unique
     branch (no suiteComponents), sole bucket Origin on project-launch-video-production;
     checkUniqueBranchGate(4★) passed.'
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 144.54, grade (none) -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/latent-spaces/brag/blob/c893c5ed52aed84e3e2ee56787de869fccdae6b0/skills/brag/SKILL.md
   updatedAt: '2026-10-01'
@@ -81,6 +86,9 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-09-26T16:34:12Z'
+trustMagnitude: 144.54
+overallTrustGrade: A
+trustMagnitudeInputHash: 204018cf9593892055e17e996ba74c08a8400e46ea7be1ee0f5ffc7c0708769f
 ---
 
 ## Installation

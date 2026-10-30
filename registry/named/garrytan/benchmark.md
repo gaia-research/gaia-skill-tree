@@ -19,7 +19,7 @@ tags:
 - core-web-vitals
 - regression
 createdAt: '2026-05-18'
-updatedAt: '2026-09-04'
+updatedAt: '2026-10-30'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -100,6 +100,11 @@ timeline:
   contributor: unknown
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-10-30T04:58:32Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
@@ -113,7 +118,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:29Z'
-trustMagnitudeInputHash: bf499c655ddde36b595c57dbfd229a2eb3c15ecc67208af74daaf1f4876eba49
+trustMagnitudeInputHash: 3baf15abffcd50b53bb85e17101f1f28fcb2d14af8d1b46e7d28a457d48f5b42
 ---
 
 ## Overview

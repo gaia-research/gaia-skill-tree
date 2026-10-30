@@ -9,7 +9,7 @@ level: 3★
 description: Section-by-section web reference image prompt engineering for diffusion
   models to establish website hero and section art direction.
 createdAt: '2026-08-22'
-updatedAt: '2026-09-02'
+updatedAt: '2026-10-30'
 title: Imagegen Frontend Web
 links:
   github: https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-web/SKILL.md
@@ -44,6 +44,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-web/SKILL.md
   updatedAt: '2026-10-01'
@@ -68,7 +73,7 @@ verification:
 suiteRef: leonxlnx/taste-skill
 trustMagnitude: 50.0
 overallTrustGrade: B
-trustMagnitudeInputHash: 5ef0f4a6fbf77ed1a7dc7a46daefb934f92e141f700c7990656fa0ac23385a05
+trustMagnitudeInputHash: 58b7ce5ebed9f2660f23e0492c56de094b04500e78f2c0443f8481f170fb7bee
 ---
 
 ## Installation

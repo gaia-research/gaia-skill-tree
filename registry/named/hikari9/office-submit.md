@@ -13,7 +13,7 @@ description: 'Finish an Auto Office executor task: behavior-preserving simplify 
   with an Office brief) and your work is ready to submit, or when asked to submit,
   resubmit, or finish an Office task.'
 createdAt: '2026-10-09'
-updatedAt: '2026-10-09'
+updatedAt: '2026-10-30'
 title: Office Submit
 links:
   github: https://github.com/Hikari9/auto-office/blob/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/skills/office-submit/SKILL.md
@@ -51,7 +51,13 @@ timeline:
 - timestamp: '2026-10-09T07:00:00Z'
   action: installation_updated
   contributor: unknown
-  details: Updated suite member installation instructions referencing auto-office capstone
+  details: Updated suite member installation instructions referencing auto-office
+    capstone
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 24.34, grade (none) -> C (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/Hikari9/auto-office/blob/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/skills/office-submit/SKILL.md
   evaluator: unknown
@@ -78,6 +84,9 @@ evidence:
   sourceStartedAt: '2026-10-08'
 verification:
   firstEvidenceAt: '2026-10-08T21:36:17Z'
+trustMagnitude: 24.34
+overallTrustGrade: C
+trustMagnitudeInputHash: 6ebe2a62b64e96f81fe0ed80d230217309b06569e59e7353101bf232f5a16db9
 ---
 
 ## Installation

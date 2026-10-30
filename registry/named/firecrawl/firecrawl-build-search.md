@@ -8,7 +8,7 @@ status: named
 level: 3★
 description: Integrate Firecrawl web search into product code.
 createdAt: '2026-07-13'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-30'
 title: Firecrawl Search
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-search/SKILL.md
@@ -68,6 +68,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 4★ to 3★
+- timestamp: '2026-10-30T04:58:32Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 83.62 -> 83.62, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://www.youtube.com/watch?v=tBtPSV_gU6o
   evaluator: unknown
@@ -101,7 +106,7 @@ catalogRef: firecrawl-firecrawl-build-search
 suiteRef: firecrawl/firecrawl-skills
 trustMagnitude: 83.62
 overallTrustGrade: B
-trustMagnitudeInputHash: 0ece15a18818be29e3d8c50cb520b0ea38f56e6119e94aaac6a78d02c8e8aa91
+trustMagnitudeInputHash: 99433d7d135d294a4fcb85be780f7ae3ee72c3d482a464128788892c56dbd56a
 ---
 
 ## Installation

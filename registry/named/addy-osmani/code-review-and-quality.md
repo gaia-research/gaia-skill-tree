@@ -9,7 +9,7 @@ level: 3★
 description: Code review and quality enforcement workflow checking code style and
   patterns.
 createdAt: '2026-07-03'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-30'
 timeline:
 - timestamp: '2026-07-02T18:42:18Z'
   action: add
@@ -78,6 +78,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 4★ to 3★
+- timestamp: '2026-10-30T04:58:32Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md
   updatedAt: '2026-10-01'
@@ -109,7 +114,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 9d32a0d4f4dfa8c5f5e925f1ea1ef420b65e32db6c7753c426c234daa761f70e
+trustMagnitudeInputHash: fb53e9c7caa5a653f790f00e67ed8442069336ab65b741a7d77e26924ede4067
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md
 ---
