@@ -34,7 +34,7 @@
         "explanation": "The independent assessment of this review does not recommend an admission review."
       },
       "bundleDigest": "sha256:bf52bfb7f02a7a1880fe803eee3bc39a550e71b7d965fff7e633d39d1ade9baf",
-      "disclosure": "Review record only. An admission was attempted and held, so this is not an admitted Gaia challenge and it changes no Trust Magnitude, star, grade, Origin or ranking."
+      "disclosure": "Review record only. This is not an admitted Gaia challenge, with no effect on Trust Magnitude, stars, grade, Origin or ranking. The independent assessment does not recommend an admission review."
     },
     {
       "contract": "gaia-challenge-review/v1",
@@ -69,7 +69,7 @@
         "explanation": "The independent assessment of this review does not recommend an admission review."
       },
       "bundleDigest": "sha256:ece0a0b4ea6d2fcd7243055273eb5ad9ab1176ecb0e1e1dfbfe923e4c562244e",
-      "disclosure": "Review record only. An admission was attempted and held, so this is not an admitted Gaia challenge and it changes no Trust Magnitude, star, grade, Origin or ranking."
+      "disclosure": "Review record only. This is not an admitted Gaia challenge, with no effect on Trust Magnitude, stars, grade, Origin or ranking. The independent assessment does not recommend an admission review."
     },
     {
       "contract": "gaia-challenge-review/v1",
@@ -104,7 +104,7 @@
         "explanation": "The independent assessment of this review does not recommend an admission review."
       },
       "bundleDigest": "sha256:1dd15eab93f8d2b0e34627dea74dcd2c70dbc33274da5e2b76eed005acc6c8d4",
-      "disclosure": "Review record only. An admission was attempted and held, so this is not an admitted Gaia challenge and it changes no Trust Magnitude, star, grade, Origin or ranking."
+      "disclosure": "Review record only. This is not an admitted Gaia challenge, with no effect on Trust Magnitude, stars, grade, Origin or ranking. The independent assessment does not recommend an admission review."
     },
     {
       "contract": "gaia-challenge-review/v1",
