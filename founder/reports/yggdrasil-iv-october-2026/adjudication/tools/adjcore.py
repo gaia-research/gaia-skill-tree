@@ -81,14 +81,36 @@ def refreshCaches(reg: Registry):
             sk["overallTrustGrade"] = g
 
 
+def _originModule():
+    """Origin is automatic (founder rulings 2026-10-30): read it from gaia_cli.origin.
+
+    Requires a Gaia checkout that carries src/gaia_cli/origin.py (dev/yggdrasil-iv
+    after the "Origin is automatic" PR). The stored frontmatter flag is never read.
+    """
+    try:
+        import gaia_cli.origin as origin
+    except ImportError as exc:  # pragma: no cover - old checkout
+        raise RuntimeError(
+            "gaia_cli.origin is missing: merge dev/yggdrasil-iv (Origin is automatic) first. "
+            "adjcore no longer reads the stored origin flag."
+        ) from exc
+    return origin
+
+
+def _pool(reg: Registry):
+    return {**reg.generic, **reg.named}
+
+
+def holdsOrigin(sid, reg: Registry):
+    """True when ``sid`` holds its bucket's derived Origin (highest merit; ties all hold)."""
+    sk = reg.named.get(sid) or {}
+    ref = sk.get("genericSkillRef")
+    return bool(ref) and sid in _originModule().bucketHolders(ref, _pool(reg))
+
+
 def holdsSuiteOrigin(sk, reg: Registry):
-    """META 4.2 text: proposer holds Origin on >=1 suiteComponent. No Gaia function
-    exists for the 5-star Suite Ultimate Origin predicate; this mirrors the text."""
-    for cid in sk.get("suiteComponents") or []:
-        c = reg.named.get(cid)
-        if c and c.get("origin") is True and c.get("contributor") == sk.get("contributor"):
-            return True
-    return False
+    """META 4.2: the proposer holds the derived Origin on >=1 suiteComponent."""
+    return _originModule().contributorHoldsOriginIn(sk.get("contributor"), sk.get("suiteComponents") or [], _pool(reg))
 
 
 def namedState(sid, reg: Registry, withApex=True):
@@ -104,7 +126,7 @@ def namedState(sid, reg: Registry, withApex=True):
         "id": sid, "storedLevel": sk.get("level"), "storedN": n, "tm": tm, "grade": grade,
         "distinctTypes": types, "witness": wit, "ceilingN": ceil,
         "projectedLevel": star(min(n, ceil)) if n else sk.get("level"),
-        "origin": bool(sk.get("origin")), "status": sk.get("status"),
+        "origin": holdsOrigin(sid, reg), "status": sk.get("status"),
         "genericSkillRef": sk.get("genericSkillRef"),
         "suite": bool(sk.get("suiteComponents")),
         "branch": branchFor(sk),
@@ -211,8 +233,10 @@ def applyOps(reg: Registry, ops):
                     r[op["field"]] = op["value"]
                 log.append(f"set {op['field']}={op['value']} on {len(hit)} row(s) of {op['id']}")
         elif kind == "setOrigin":
-            reg.named[op["id"]]["origin"] = bool(op["value"])
-            log.append(f"origin of {op['id']} -> {bool(op['value'])}")
+            raise ValueError(
+                "setOrigin is retired: Origin is automatic (highest merit per bucket, founder "
+                "rulings 2026-10-30). Change the merit inputs (rows, level) instead."
+            )
         elif kind == "setField":
             pool = reg.generic if op.get("layer") == "generic" else reg.named
             pool[op["id"]][op["field"]] = op["value"]

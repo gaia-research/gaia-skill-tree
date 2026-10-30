@@ -168,17 +168,14 @@ def bucket(c, gid):
             mem.append({"id": sid, "storedLevel": s["storedLevel"], "projectedLevel": s["projectedLevel"],
                         "projectedN": min(s["storedN"], s["ceilingN"]), "status": s["status"], "origin": s["origin"],
                         "tm": s["tm"], "grade": s["grade"], "suite": s["suite"]})
-    elig = [m for m in mem if m["status"] == "named" and m["projectedN"] >= 2]
-    elig.sort(key=lambda m: (-m["projectedN"], -m["tm"], m["id"]))
-    winner, tie = None, False
-    if elig:
-        winner = elig[0]["id"]
-        if len(elig) > 1 and (elig[0]["projectedN"], elig[0]["tm"]) == (elig[1]["projectedN"], elig[1]["tm"]):
-            winner, tie = None, True
-    eh = [m["id"] for m in elig if m["origin"]]
+    # Origin is automatic (founder rulings 2026-10-30): every record competes (named
+    # or awakened, any star); merit = projected level, then TM; ties all hold.
+    elig = sorted(mem, key=lambda m: (-m["projectedN"], -round(m["tm"], 2), m["id"]))
+    top = (elig[0]["projectedN"], round(elig[0]["tm"], 2)) if elig else None
+    winners = [m["id"] for m in elig if (m["projectedN"], round(m["tm"], 2)) == top]
     return {"genericSkillRef": gid, "members": mem, "originHolders": [m["id"] for m in mem if m["origin"]],
-            "eligibleHolders": eh, "ineligibleHolders": [m["id"] for m in mem if m["origin"] and m["id"] not in eh],
-            "eligible": [m["id"] for m in elig], "meritWinner": winner, "meritTie": tie}
+            "eligible": [m["id"] for m in elig], "meritWinners": winners,
+            "meritWinner": winners[0] if len(winners) == 1 else None, "meritTie": len(winners) > 1}
 
 
 # ----------------------------------------------------------------------------- rechecks
@@ -275,9 +272,9 @@ def recheck(c, f, tgt, kind):
         gid = tgt if kind == "generic" else c.base["named"][tgt]["genericSkillRef"]
         if gid in c.reg.generic and ABSENCE.search(reason):
             b = bucket(c, gid)
-            if b["eligibleHolders"]:
-                return V("refuted-on-recheck", f"claim of no Origin, but eligible holders now: {b['eligibleHolders']}")
-            return V("confirmed", f"bucket {gid} has zero Origin holders; eligible={b['eligible']}")
+            if b["meritWinners"]:
+                return V("refuted-on-recheck", f"Origin is automatic; derived holders: {b['meritWinners']}")
+            return V("confirmed", f"bucket {gid} has no records; nothing to derive")
     return V("not-mechanically-rechecked", "no deterministic re-derivation available; evidence kept as the sweep recorded it")
 
 
@@ -331,41 +328,17 @@ def proposeGraphify(c):
     gates = {lvl: {k: v for k, v in checkUniqueBranchGate(sk, lvl, c.reg.generic, c.reg.named).items()}
              for lvl in ("4★", "5★")}
     g = c.reg.generic[sk["genericSkillRef"]]
-    pre = {}
-    for pid in g.get("prerequisites") or []:
-        pre[pid] = [{"id": i, "contributor": s["contributor"], "level": s["level"], "origin": s["origin"]}
-                    for i, s in sorted(c.reg.named.items()) if s.get("genericSkillRef") == pid]
-    return {"kind": "gate-recompute", "gates": gates, "fusionStructurePrerequisites": pre, "levelChange": None,
-            "note": "5★ Unique Ultimate needs fusion-structure Origin on a prerequisite of the generic parent (promotion.py); the 4★ gate would pass. "
-                    "Any level action is a Class C founder decision; none is proposed here."}
-
-
-def proposeSetOrigin(c, sid, value, focus=None):
-    v = scenarioView(c, [{"op": "setOrigin", "id": sid, "value": value}], focus or sid)
-    return v
+    return {"kind": "gate-recompute", "gates": gates, "levelChange": None,
+            "note": "Founder ruling 2026-10-30: a Unique needs only to be its bucket's Origin at 4★ and 5★; there is no "
+                    "fusion-prerequisite Origin requirement. TM/grade remain the gate."}
 
 
 def proposeBucketOrigin(c, gid, target):
+    """Origin is automatic (founder rulings 2026-10-30): report the derived holders; never propose a transfer."""
     b = bucket(c, gid)
-    p = {"bucket": b}
-    if not b["eligible"]:
-        p.update(kind="needs-decision", reason="no eligible (named, >=2 star after clamp) claimant; nothing to recompute")
-    elif b["ineligibleHolders"]:
-        p.update(kind="needs-decision", reason=f"Origin sits on non-eligible record(s) {b['ineligibleHolders']} (awakened or below 2 star); resolving it is a decision (see their own candidates)")
-    elif not b["originHolders"] and b["meritWinner"]:
-        w = b["meritWinner"]
-        p.update(kind="recomputed", scenario=proposeSetOrigin(c, w, True),
-                 basis=f"merit rule (stored/projected level, then TM): {w} is the unique top eligible member; META 4.1 requires exactly one Origin; "
-                       "assignment itself is a curation act and remains held")
-    elif not b["originHolders"] and b["meritTie"]:
-        p.update(kind="needs-decision", reason="tie on level and TM among the top eligible members; no deterministic merit winner (META 4.1 tie-break by attribution/Trust Score is judgement)")
-    elif len(b["originHolders"]) == 1 and b["meritWinner"] and b["originHolders"][0] != b["meritWinner"]:
-        h, w = b["originHolders"][0], b["meritWinner"]
-        p.update(kind="needs-decision", reason=f"Origin held by {h} but merit winner is {w}; a transfer removes an Origin mark",
-                 ifTransferred=scenarioView(c, [{"op": "setOrigin", "id": h, "value": False}, {"op": "setOrigin", "id": w, "value": True}], w))
-    else:
-        p.update(kind="needs-decision", reason=f"holders={b['originHolders']} meritWinner={b['meritWinner']} tie={b['meritTie']}: not mechanically determined")
-    return p
+    return {"bucket": b, "kind": "automatic", "derivedHolders": b["meritWinners"],
+            "note": "Origin is derived at build time (highest merit: projected level, then TM; ties all hold; "
+                    "no star floor; frozen skills locked). No manual assignment exists."}
 
 
 def proposeUnique4(c, sid):
@@ -383,8 +356,8 @@ def proposeBrag(c):
 def proposeHermes(c):
     sid = "xquik-dev/hermes-tweet"
     b = bucket(c, c.base["named"][sid]["genericSkillRef"])
-    return {"kind": "recomputed", "scenario": proposeSetOrigin(c, sid, False), "bucketAfter": [m for m in b["members"] if m["id"] != sid],
-            "note": "META 1.3/4.1: a 1-star entry cannot hold Origin. Clearing it leaves the bucket without a holder and without an eligible claimant."}
+    return {"kind": "automatic", "derivedHolders": b["meritWinners"],
+            "note": "Founder ruling 2026-10-30: Origin has no star requirement; a 1-star record is still the Origin, just not 'named'."}
 
 
 def proposeWsc(c):
