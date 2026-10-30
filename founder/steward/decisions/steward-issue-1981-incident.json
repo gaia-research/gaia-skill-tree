@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-issue-1981-incident",
+  "status": "open",
+  "decision": "Keep or reverse the accidental live closure of #1981 documented on Oct 22?",
+  "whyItMatters": "Reversing it is another external write; engineering proof of an A1 match does not decide the incident.",
+  "evidence": [
+    "The Oct 22 issue-hygiene handover records an accidental verifier closure at 2026-10-22T04:57:42Z, comment 6333084478, while a token was present.",
+    "The current mission authorizes mocks only. Neither closure nor reopening nor comment deletion has been performed here."
+  ],
+  "recommended": "Founder disposition after reviewing the preserved closing proof; keep the issue untouched meanwhile.",
+  "alternative": "Explicitly authorize and audit a reversal, separately from the general closure-authority ruling.",
+  "unblocks": "Incident disposition, not automatic issue-write authority.",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/issues/1981",
+    "founder/handovers/2026-10-22-steward-issue-hygiene-handover.md"
+  ]
+}

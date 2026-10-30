@@ -10,7 +10,6 @@ from typing import Callable, Iterable
 from urllib.parse import urlparse
 
 from gaia_cli.registry import (
-    registry_graph_path,
     named_skills_index_path,
     registry_nodes_dir,
     named_skills_dir,

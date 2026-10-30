@@ -209,6 +209,11 @@ def load_suite_mappings(suites_dir):
                 # Only map if not already mapped to a more specific sub-suite
                 if skill not in skill_to_suite:
                     skill_to_suite[skill] = suite_id
+                elif skill_to_suite[skill] != suite_id and skill not in suite_to_components:
+                    print(
+                        f"Warning: {skill} is listed by multiple suite manifests "
+                        f"({skill_to_suite[skill]}, {suite_id}); keeping {skill_to_suite[skill]}."
+                    )
         except Exception as exc:
             print(f"Warning: Failed to load suite file {fp}: {exc}")
 
@@ -294,7 +299,10 @@ def update_markdown_files_with_suite_metadata(named_skills, skill_to_suite, suit
         needs_update = False
         updates = {}
 
-        if expected_suite_ref != current_suite_ref:
+        # Only sync suiteRef when a suite manifest actually lists this skill.
+        # When expected_suite_ref is None no manifest has an opinion, so a value
+        # set directly via `gaia dev update-named --suite-ref` must be preserved.
+        if expected_suite_ref is not None and expected_suite_ref != current_suite_ref:
             needs_update = True
             updates["suiteRef"] = expected_suite_ref
 
@@ -326,6 +334,9 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
 
     valid_ids = {s["id"] for s in graph_data.get("skills", [])}
     id_to_type = {s["id"]: s.get("type", "basic") for s in graph_data.get("skills", [])}
+
+    known_suite_refs = set(skill_to_suite.values()) | set(suite_to_components) | valid_ids
+    known_suite_refs |= {m.get("id") for _fp, m in named_skills if m.get("id")}
 
     errors = []
     buckets = {}  # genericSkillRef -> list of dicts (named only)
@@ -368,6 +379,14 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
         # Lookup type from generic skill if not explicitly in named skill
         if "type" not in entry and ref in id_to_type:
             entry["type"] = id_to_type[ref]
+
+        # A directly set suiteRef must point at a known suite or named skill.
+        direct_ref = fm.get("suiteRef")
+        if direct_ref and direct_ref not in known_suite_refs:
+            errors.append(
+                f"{rel}: 'suiteRef' value '{direct_ref}' does not match any suite "
+                f"manifest or named skill ID."
+            )
 
         # Dynamically inject suiteRef and suiteComponents based on loaded suite mappings
         skill_id = fm.get("id", "")

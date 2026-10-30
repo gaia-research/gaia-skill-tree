@@ -33,7 +33,7 @@ import sys
 import tempfile
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 _HERE = Path(__file__).resolve().parent
 if str(_HERE) not in sys.path:

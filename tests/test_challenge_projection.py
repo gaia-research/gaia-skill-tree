@@ -33,14 +33,22 @@ def heldCase(tmp_path, built=False):
 
 # --- live state ---------------------------------------------------------------------
 
-def test_live_artifacts_are_unavailable_empty_and_mirrored_identically():
-    for name, expected in (("index", projection.emptyIndex()), ("reviews", projection.emptyReviews())):
+def test_live_artifacts_match_committed_bundles_and_are_mirrored_identically():
+    """The live index stays unavailable until a verified admission; live reviews are exactly what the
+    committed case bundles project (never hand-edited), every one valid and never contested."""
+    for name in ("index", "reviews"):
         graph, api = (REPO / relative for relative in projection.FILES[name])
         if not graph.exists():
             pytest.skip("run `gaia dev docs` first")
         assert graph.read_bytes() == api.read_bytes()
-        assert json.loads(graph.read_text()) == expected
-    assert json.loads((REPO / projection.FILES["index"][0]).read_text())["sourceStatus"] == "unavailable"
+    index = json.loads((REPO / projection.FILES["index"][0]).read_text())
+    assert index == projection.emptyIndex()
+    assert index["sourceStatus"] == "unavailable"
+    reviews = json.loads((REPO / projection.FILES["reviews"][0]).read_text())
+    assert reviews == projection.buildReviews(REPO)
+    for record in reviews["reviews"]:
+        assert projection.validateReview(record) == []
+        assert "contested" not in json.dumps(record).lower()
 
 
 def test_no_synthetic_data_under_docs():
