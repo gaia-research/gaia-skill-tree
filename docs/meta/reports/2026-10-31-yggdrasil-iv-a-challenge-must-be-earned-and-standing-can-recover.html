@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yggdrasil IV: A Challenge Must Be Earned, and Standing Can Recover — Gaia</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/marks/diamond-seal.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+  <style>
+    :root {
+      --paper-bg: #ffffff;
+      --paper-text: #111111;
+      --paper-muted: #666666;
+      --accent: #ef4444;
+      --font-serif: 'EB Garamond', Georgia, serif;
+      --font-sans: 'Bricolage Grotesque', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      background: #f4f4f2;
+      color: var(--paper-text);
+      font-family: var(--font-serif);
+      font-variant-numeric: oldstyle-nums;
+      line-height: 1.6;
+      margin: 0;
+      padding: 6rem 1rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    .paper {
+      background: var(--paper-bg);
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 6rem 7rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 10px 40px rgba(0,0,0,0.02);
+      position: relative;
+      counter-reset: section;
+    }
+    header { text-align: center; margin-bottom: 5rem; }
+    .paper-journal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 1.5rem;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid #e0e0dc;
+    }
+    .paper-journal-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: #c8a84b;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+    }
+    .paper-journal-logo img {
+      filter: invert(72%) sepia(40%) saturate(600%) hue-rotate(5deg) brightness(95%);
+    }
+    .paper-journal-series {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #999;
+    }
+    h1 {
+      font-family: var(--font-serif);
+      font-size: 2.6rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+    .authors {
+      font-family: var(--font-serif);
+      font-variant-caps: small-caps;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.02em;
+    }
+    .date { font-family: var(--font-serif); font-size: 1.1rem; color: var(--paper-text); }
+    .abstract { margin: 4rem 0; padding: 0 3rem; }
+    .abstract-title {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.75rem;
+      color: var(--paper-muted);
+    }
+    .abstract-content { font-style: italic; text-align: justify; hyphens: auto; font-size: 1.05rem; line-height: 1.5; }
+    h2 {
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4rem;
+      margin-bottom: 1.5rem;
+      counter-increment: section;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+    h2::before { content: counter(section) ". "; }
+    h3 { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 1rem; }
+    p { text-align: justify; margin-bottom: 1.5rem; hyphens: auto; }
+    .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin: 2.5rem 0; }
+    ul { padding-left: 1.2rem; list-style-type: square; }
+    li { margin-bottom: 0.6rem; }
+    code { font-family: var(--font-mono); background: #f7f7f7; padding: 0.15rem 0.35rem; font-size: 0.85em; border: 1px solid #eee; }
+    pre { background: #f7f7f7; border: 1px solid #eee; padding: 1.2rem 1.5rem; overflow-x: auto; margin: 2rem 0; }
+    pre code { background: none; border: none; padding: 0; font-size: 0.85rem; }
+    blockquote { border-left: 3px solid #c8a84b; margin: 2rem 0; padding: 1rem 1.5rem; background: #fafaf8; color: #444; font-style: italic; }
+    table { width: 100%; border-collapse: collapse; margin: 3rem 0; font-family: var(--font-serif); font-size: 1rem; }
+    thead tr { border-top: 2px solid var(--paper-text); border-bottom: 1px solid var(--paper-text); }
+    th { font-weight: 600; text-align: left; padding: 0.8rem 0.5rem; font-variant-caps: small-caps; }
+    td { padding: 0.8rem 0.5rem; border-bottom: 0.5px solid #eee; vertical-align: top; }
+    tbody tr:last-child { border-bottom: 2px solid var(--paper-text); }
+    .chart-container { margin: 4.5rem -2rem; padding: 2.5rem; background: #ffffff; border: 1px solid #eee; }
+    .chart-caption { text-align: center; font-size: 0.85rem; color: var(--paper-muted); margin-top: 1.5rem; line-height: 1.4; }
+    .references { margin-top: 6rem; padding-top: 3rem; border-top: 1px solid #eee; }
+    .ref-item { font-size: 0.9rem; margin-bottom: 1.2rem; text-indent: -1.8rem; padding-left: 1.8rem; text-align: left; }
+    .footer-nav { margin-top: 5rem; text-align: center; font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .footer-nav a { color: var(--paper-text); text-decoration: none; border-bottom: 1px solid #ddd; padding-bottom: 2px; transition: border-color 0.2s; }
+    .footer-nav a:hover { border-color: var(--accent); }
+    .floating-cluster {
+      position: fixed; top: 2rem; right: 2rem; z-index: 1000;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .pja-btn {
+      background: #fff; border: 1px solid #d0d0cc; border-radius: 0; color: #888;
+      cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+      width: 2rem; height: 2rem; padding: 0; text-decoration: none;
+      transition: color 0.15s, border-color 0.15s; flex-shrink: 0;
+    }
+    .pja-btn:hover { color: #111; border-color: #111; }
+    .pja-btn.copied { color: #16a34a; border-color: #16a34a; }
+    .pja-btn svg { width: 15px; height: 15px; display: block; }
+    .floating-changelog-btn {
+      background: #000; color: #fff; border: none;
+      padding: 0.8rem 1.4rem;
+      font-family: var(--font-sans); font-weight: 700; font-size: 0.7rem;
+      text-transform: uppercase; letter-spacing: 0.15em; cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .floating-changelog-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(0,0,0,0.2); background: #111; }
+    .meta-sidebar {
+      position: fixed; top: 0; right: 0; bottom: 0; width: 400px;
+      background: #000; color: #fff; z-index: 2000;
+      transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex; flex-direction: column; border-left: 1px solid #222;
+    }
+    .meta-sidebar.open { transform: translateX(0); }
+    .ms-header { padding: 1.5rem; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
+    .ms-header h2 { margin: 0 !important; border: none !important; font-size: 1.2rem !important; font-family: 'EB Garamond', serif !important; counter-reset: none !important; }
+    .ms-header h2::before { content: none !important; }
+    .ms-body { flex: 1; overflow-y: auto; padding: 1.5rem; font-family: 'Bricolage Grotesque', sans-serif; }
+    .ms-close { background: none; border: none; color: #666; font-size: 1.5rem; cursor: pointer; }
+    @media (max-width: 768px) {
+      .paper { padding: 3rem 2rem; }
+      body { padding: 1rem 0; }
+      .floating-cluster { top: 0.75rem; right: 0.75rem; }
+      .floating-changelog-btn { padding: 0.4rem 0.8rem; font-size: 0.7rem; }
+      .meta-sidebar { width: 100%; }
+    }
+  </style>
+<script type="application/ld+json" data-injector="gaia-json-ld">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "2026 10 31 Yggdrasil Iv A Challenge Must Be Earned And Standing Can Recover",
+  "url": "https://gaiaskilltree.com/meta/reports/2026-10-31-yggdrasil-iv-a-challenge-must-be-earned-and-standing-can-recover.html"
+}
+</script>
+</head>
+<body>
+
+  <div class="floating-cluster">
+    <button type="button" class="pja-btn" id="reportShareBtn" aria-label="Share report">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="15" cy="5" r="2"/><circle cx="5" cy="10" r="2"/><circle cx="15" cy="15" r="2"/>
+        <line x1="7" y1="9" x2="13" y2="6"/><line x1="7" y1="11" x2="13" y2="14"/>
+      </svg>
+    </button>
+    <a href="2026-10-31-yggdrasil-iv-a-challenge-must-be-earned-and-standing-can-recover.html" download="2026-10-31-yggdrasil-iv-a-challenge-must-be-earned-and-standing-can-recover.html" class="pja-btn" aria-label="Download report">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M10 3v9m0 0l-3.5-3.5M10 12l3.5-3.5"/><path d="M4 15h12"/>
+      </svg>
+    </a>
+    <button type="button" class="pja-btn" id="reportCopyLinkBtn" aria-label="Copy link">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M8.5 11.5a4.5 4.5 0 006.364 0l2-2a4.5 4.5 0 00-6.364-6.364L9 4.636"/>
+        <path d="M11.5 8.5a4.5 4.5 0 00-6.364 0l-2 2a4.5 4.5 0 006.364 6.364L11 15.364"/>
+      </svg>
+    </button>
+    <button type="button" class="floating-changelog-btn" id="viewChangelogBtn">View Changelog</button>
+  </div>
+
+  <aside id="metaSidebar" class="meta-sidebar">
+    <div class="ms-header">
+      <h2>Meta Changelog</h2>
+      <button type="button" class="ms-close" id="closeChangelogBtn">✕</button>
+    </div>
+    <div class="ms-body" id="changelogBody">
+      <div style="color:#666;font-size:0.9rem">Loading Skill Tree history…</div>
+    </div>
+  </aside>
+
+  <article class="paper">
+    <div class="paper-journal-header">
+      <a href="../../index.html" class="paper-journal-logo" aria-label="Gaia Skill Tree">
+        <img src="../../assets/marks/diamond-seal.svg" alt="Gaia" width="28" height="28">
+        <span>Gaia Skill Tree</span>
+      </a>
+      <span class="paper-journal-series">Meta Audit Series</span>
+    </div>
+    <header>
+      <h1>Yggdrasil IV: A Challenge Must Be Earned, and Standing Can Recover</h1>
+      <div class="authors">Gaia Research</div>
+      <div class="date">October 31, 2026</div>
+    </header>
+
+    <section class="abstract">
+      <div class="abstract-title">Abstract</div>
+      <div class="abstract-content">Yggdrasil IV changes how trust in the Gaia Skill Tree can go down and come back up. A skill's standing can now be questioned only through a challenge that has been discovered, evaluated, independently verified and admitted through a trusted receipt issuer with founder approval. Elapsed time, a dead link, or the mere existence of a newer competitor is a reason to look, never a penalty. In October we ran four real challenger cases through that pipeline. None was admitted: one ended in a tie, two were inconclusive and one was rejected at triage. We report those negatives as the mechanism working as designed. This report also summarizes the October Meta re-audit of all 701 registry records, the upstream and intake reconciliation, and the adjudication and calibration decisions the founder approved, and it lists what is deferred to November. Results run through 2026-10-31T23:59:59Z, and figures from before the cutoff refresh are provisional.
+</div>
+    </section>
+
+    <p>Yggdrasil IV is challenge-driven, reversible trust governance. Yggdrasil III settled how Trust Magnitude (TM) is computed. Yggdrasil IV settles who may question a skill's standing, what counts as proof, and how a skill recovers. It changes no TM weight, cap, threshold or grade boundary.</p>
+<h2>Cutoff and provisional figures</h2>
+<p><strong>Results through 2026-10-31T23:59:59Z; figures before the cutoff refresh are provisional.</strong></p>
+<p>The October snapshot was taken at registry revision <code>43797a441</code> and labelled provisional-2026-10-28. After the cutoff, the same pipeline reruns the upstream sync, the deterministic pre-pass and the liveness re-probe, and the snapshot is relabelled final. The frozen provisional snapshot is not rewritten. [[VERIFY: cutoff refresh ran and the snapshot was relabelled final / founder/reports/yggdrasil-iv-october-2026/HANDOVER.md step 9 on dev/yggdrasil-iv-launch / git log origin/dev/yggdrasil-iv-launch --oneline -5]]</p>
+<h2>What Yggdrasil IV is</h2>
+<p>The founder ratified Yggdrasil IV on 2026-10-25. Its premise is that Gaia is a long-lived trust registry, not a fast-moving leaderboard. Time invites scrutiny, counterevidence justifies degradation, and only adjudication authorizes a canonical change.</p>
+<p>In practice that means four things:</p>
+<ul>
+  <li><strong>Signals are not penalties.</strong> Elapsed time, a stale benchmark, a new built-in agent capability or a temporarily unreachable URL can open a bounded investigation. None of them lowers a published TM or star rating on its own.</li>
+  <li><strong>Degradation needs counterevidence.</strong> A confirmed degradation requires independently verifiable, materially relevant evidence, for example a newer capability that demonstrably does the same specified task better under comparable conditions. A competitor's existence or a description claim is not proof.</li>
+  <li><strong>Recovery is symmetric.</strong> A later release, a fixed implementation or a new independent benchmark can defeat even a formerly correct challenge. Any score that comes back does so only through the same deterministic recomputation of eligible evidence. There is no comeback bonus.</li>
+  <li><strong>History is kept.</strong> Challenges, consequences, remediation and recovery stay linked on the public record. No valid historical achievement is silently erased.</li>
+</ul>
+<h2>How a challenge works</h2>
+<p>The challenger mechanic is the October highlight. Every step leaves a committed record, and a step can stop the case.</p>
+<ul>
+  <li><strong>Frontier discovers.</strong> A lead names a challenger (a tool, a built-in platform feature or another skill), the specific claim it challenges, the named skill it is compared against, and the exact versions involved. Each lead is matched against the registry and checked for duplicates.</li>
+  <li><strong>Meta evaluates.</strong> Meta triages the lead. If it is worth testing, a protocol with a written decision rule is committed before anything runs, so the result cannot be fitted afterwards. The experiment then runs and produces a receipt bound to that protocol.</li>
+  <li><strong>An independent verification is recorded.</strong> A separate session re-executes or re-checks the case and writes a Meta verification record that upholds, downgrades or rejects the runner's outcome. Independence is declared, not cryptographically authenticated, and every record says so.</li>
+  <li><strong>Admission goes only through the trusted receipt issuer.</strong> A case can become an admitted challenge only through the authenticated challenge-receipt issuer, and the founder approves each admission individually. Approving the issuer did not admit anything.</li>
+  <li><strong>Only an admitted challenge can make a skill contested.</strong> Nothing that stops before admission is labelled contested. The prominent Origin-contested marker is reserved for an unresolved admitted challenge that is material to the skill's current Origin.</li>
+  <li><strong>A held review has no effect on standing.</strong> Review records for cases that were not admitted are published for transparency. They change no Trust Magnitude, star, grade, Origin or ranking. Even after admission, numbers change only through an approved decision.</li>
+</ul>
+<p>A contributor whose skill faces an admitted challenge has 14 calendar days to respond with a rebuttal, an equivalent reproducible test or an upstream improvement. An unanswered challenge does not cause an automatic demotion.</p>
+<p>Automated challenge watching remains switched off this month. Every October case was opened and run deliberately.</p>
+<h2>October's challenger cases: four truthful negatives</h2>
+<p>Four real cases went through the pipeline in October. Three ran a pre-registered experiment, and one was rejected at triage before any experiment. <strong>None was admitted.</strong> The founder accepted the negative result.</p>
+<table><thead><tr><th>Case</th><th>Challenger</th><th>Compared against</th><th>Runner outcome</th><th>Meta verification</th><th>Admitted</th></tr></thead><tbody><tr><td>C1</td><td>Graphify 0.8.13</td><td><code>trailhq/graft</code> caller lookup</td><td>Contradicted (a tie)</td><td>Upheld: contradicted as a tie</td><td>No</td></tr><tr><td>C2</td><td>Claude Code <code>permissions.deny</code> (2.1.312)</td><td><code>mattpocock/git-guardrails-claude-code</code></td><td>Supported, on a narrow fixture</td><td>Downgraded to inconclusive</td><td>No</td></tr><tr><td>C3</td><td><code>git log -L</code> (Git 2.56.0 documented, 2.50.1 executed)</td><td><code>trailhq/graft</code></td><td>Inconclusive</td><td>Inconclusive</td><td>No</td></tr><tr><td>C4</td><td>ripgrep 15.1.0</td><td><code>trailhq/graft</code> caller lookup</td><td>Rejected at triage</td><td>Rejected at triage</td><td>No</td></tr></tbody></table>
+<h3>C1: Graphify against graft</h3>
+<p>The task was finding the callers of five functions in Gaia's own Python source, scored against a reviewed ground truth of 27 call sites. The targets were picked by a mechanical rule committed in advance. The two tools returned identical caller sets: the same recall on all five targets, and all 22 callers each tool returned were correct. Under the pre-registered rule a tie counts as contradicted. That means Graphify showed no caller-lookup advantage here. It does not mean graft is better. Both tools missed the same five call sites, which points to a shared limit of static analysis. Graphify is already registered as <code>safishamsi/graphify</code>, and caller lookup is a narrow slice of what it does, so this case says nothing about its main capability.</p>
+<h3>C2: Claude Code's native deny rules against git-guardrails</h3>
+<p>The question was whether Claude Code's built-in deny rules make an installed git-guardrails hook unnecessary. On 18 commands the native rules blocked 10 of 12 dangerous commands and allowed all 6 safe ones. The hook blocked 8 of 12 and allowed 5 of 6. The runner recorded that as supported. Meta re-ran the case, reproduced it exactly and still downgraded it to inconclusive. The fixture had been frozen after the runner had already seen the hook's results, so the evasions it contained were known hook misses. A wrapper form outside the fixture was blocked by the hook and missed by the native rules. The case is held pending a fixture written without knowledge of either side's outcome.</p>
+<h3>C3 and C4</h3>
+<p>C3 compared <code>git log -L</code> with graft on tracing how one function changed over time. The two tools do different jobs, and the Git version that ran differed from the documented one, so the protocol allowed at most an inconclusive result, and that is what it returned. C4 proposed ripgrep, a regular-expression text search, as a challenger to graft's symbol-level caller lookup. ripgrep makes no caller-resolution claim, so the lead was rejected at triage and no experiment ran.</p>
+<h3>Why the negatives matter</h3>
+<p>An October with no admitted challenge is a correct result, not an empty one. The pipeline's job is to keep weak or unfair comparisons from touching anyone's standing, and here it did that four times, publicly and with receipts. All four review records, each with its bundle digest and a plain disclosure that it has no effect on standing, are on the <a href="../../trust/challenges/">Trust Challenges page</a>. The same records are in the raw files <code>/api/v1/challenges/reviews.json</code> and <code>/api/v1/challenges/index.json</code>. The second file lists admitted challenges, and it is empty this month. [[VERIFY: still no admitted challenge at the cutoff (sourceStatus unavailable, 4 reviews) / docs/graph/challenges/index.json and reviews.json / python3 -c "import json;print(json.load(open('docs/graph/challenges/index.json'))['sourceStatus'], len(json.load(open('docs/graph/challenges/reviews.json'))['reviews']))"]]</p>
+<h2>The October Meta re-audit</h2>
+<p>The October re-audit read every record in the registry against the Yggdrasil III engine and the Yggdrasil IV doctrine. It was read-only: every finding is a proposal, and the sweep changed nothing in the registry.</p>
+<ul>
+  <li><strong>Coverage.</strong> 701 records: 400 named records (48 of them awakened) and 301 generic nodes, plus 874 evidence rows, across 13 survey dimensions.</li>
+  <li><strong>Adversarial verification.</strong> 930 raw findings went to three independent verification lenses. A finding survived only if at least two of the three upheld it. 817 survived: 2 at P0, 90 at P1, 312 at P2, 354 at P3 and 59 at P4.</li>
+  <li><strong>Deterministic counts.</strong> The workflow's own model-written summary reported 810 surviving findings. We replaced it with a deterministic replay of the run journal, which gives 817. The published counts come from the replay.</li>
+  <li><strong>Liveness sweep.</strong> 962 evidence and implementation URLs were probed. The first pass ran into GitHub rate limits, so the whole set was re-probed at low concurrency: 903 alive, 59 dead, none unknown. A dead URL is review debt with bounded probes at t0, +24h and +72h. It is never a demotion. [[VERIFY: liveness re-probe at the cutoff / sweep/liveness-reprobe on dev/yggdrasil-iv-launch / git show origin/dev/yggdrasil-iv-launch:founder/reports/yggdrasil-iv-october-2026/sweep/liveness-reprobe/evidence-health.md]]</li>
+  <li><strong>Upstream and pull-request reconciliation.</strong> 313 items (pull requests, branches, intake issues, upstream releases and evidence records) were each traced to a disposition: 111 verified in the integration branch, 53 already equivalent, 99 waiting for curation, 9 held for governance, 13 duplicates, 27 not applicable, 1 needing action, and none rejected. The October upstream sync brought 15 named skills to their current upstream releases (PR #2197). 38 stale intake issues were closed.</li>
+  <li><strong>Intake triage.</strong> 90 intake items were triaged (PR #2199): 59 ready for curator review, 17 needing more information, 7 duplicates, 6 already covered by the upstream sync, and 1 rejected. No intake was admitted by triage.</li>
+  <li><strong>Curator topology review.</strong> The founder reviewed 76 topology choices as the curator: 53 approved as proposed, 10 routed to new generic skills, 5 remapped to an existing generic, and 8 declined as support material rather than skills. These choices are approved but not yet executed. [[VERIFY: L4 batch executed, with final approved, new-generic, remapped and declined counts (the approve row for the 7 parked drafts counts once in 53) / CAMPAIGN.md L4 table and the L4 review/meta PR / gh pr list --search "L4 batch" --state all]]</li>
+</ul>
+<h2>Adjudication and calibration approved in October</h2>
+<p>The adjudication ledger turned surviving findings into 190 candidate decisions. 65 came with numbers recomputed by Gaia's own engine, and 125 needed a ruling. Every approval below is a founder ruling recorded verbatim in the campaign record. Registry changes went through the CLI, each with a timeline event, and code changes went through reviewed pull requests. [[VERIFY: adjudication ledger regenerated with an approvals input; approved count no longer 0 / adjudication/LEDGER.md on dev/yggdrasil-iv-launch / git show origin/dev/yggdrasil-iv-launch:founder/reports/yggdrasil-iv-october-2026/adjudication/LEDGER.md]]</p>
+<p>The first independent Meta audit of this calibration batch returned <strong>FAIL</strong>. Thirty-seven skills had picked up shared host-repository evidence without being linked to their suite, so they escaped the 50 TM per-component suite cap. The batch was corrected, and a fresh independent re-audit must pass before the batch reaches the public site. [[VERIFY: calibration re-audit verdict PASS / verification/CALIBRATION-REVERIFICATION.md on dev/yggdrasil-iv-launch / git show origin/dev/yggdrasil-iv-launch:founder/reports/yggdrasil-iv-october-2026/verification/CALIBRATION-REVERIFICATION.md]]</p>
+<h3>Freezes for removed upstream skills</h3>
+<p>Twelve <code>heygen-com/hyperframes</code> components were dropped from the upstream repository at v0.8.209. They are frozen: no longer installable, links kept, star ratings unchanged. <code>heygen-com/general-video</code> was frozen for the same reason, and so was <code>leonxlnx/output-skill</code>, which was removed upstream. Where a skill had moved or been superseded instead of removed, its links were repointed to its new home instead. That includes nine leonxlnx skills that moved to new repositories and <code>leonxlnx/redesign-skill</code>, which was folded into another skill. A frozen skill keeps its Trust Magnitude and grade, and no batch calibration or closeout touches it.</p>
+<h3>Origin is automatic and goes to the highest merit</h3>
+<p>Origin is the mark of the highest-merit named implementation in a generic skill. It is no longer assigned by hand. The founder ruled:</p>
+<ul>
+  <li>Origin is computed automatically from merit. Manual Origin adjudication ends.</li>
+  <li>A frozen skill competes with its locked Trust Magnitude and grade, and it can beat a live one.</li>
+  <li>If two or more implementations tie at the top, they all hold Origin. With TM a real number, that should be rare.</li>
+  <li>Origin has no star requirement. A 1★ implementation can hold Origin. It is simply not yet Named.</li>
+</ul>
+<p>This replaces the manual "Origin transfer" path described in the Yggdrasil IV ratification. Before automation landed, four skills received Origin as the clear merit winners of their buckets: <code>vercel-labs/vercel-react-best-practices</code>, <code>addy-osmani/code-simplification</code>, <code>ayghri/i-have-adhd</code> and <code>dietrichgebert/ponytail</code>. [[VERIFY: Origin automation merged; count of buckets whose Origin changed and count of tied buckets / Origin automation PR on dev/yggiv-origin-automation / gh pr list --head dev/yggiv-origin-automation --state all]]</p>
+<h3>Star changes and corrected rules</h3>
+<ul>
+  <li><strong>latent-spaces/brag rises from 3★ to 4★.</strong> TM 144.54 (A), a live pinned link, the Unique branch and sole Origin of its bucket. The 4★ Unique gate passes.</li>
+  <li><strong>google-deepmind/workflow-skill-creator is Named</strong> as <em>Workflow-to-Skill Distiller</em>. Its strongest evidence row was a bare repository filed as a peer review. It was retyped honestly, and its TM went from 100.82 (A) to 59.65 (B). Its stored 4★ stays as review debt, not a demotion. Under the grade clamp it is displayed at 3★, the B ceiling, until that debt is settled. [[VERIFY: displayed star rating of workflow-skill-creator after the clamp alignment / docs/graph/named/index.json after #2251 and #2259 / gh pr view 2259]]</li>
+  <li><strong>safishamsi/graphify stays at 5★.</strong> An earlier rule had required a 5★ Unique skill to hold Origin on one of its generic skill's prerequisites. That requirement was borrowed from the Suite gate and never ratified for Uniques. A Unique needs to be its bucket's Origin and to clear the TM gate, and graphify does both (TM 318.14, S). The demotion proposed during the audit was reverted. [[VERIFY: Unique 5★ gate corrected in code (no prerequisite-Origin check) / src/gaia-cli promotion module after the Origin automation PR / gh pr list --head dev/yggiv-origin-automation --state all]]</li>
+  <li><strong>panniantong/agent-reach</strong> had its evidence re-derived: TM 53.86 (B) went to 260.83 (A), and it stays at 3★.</li>
+</ul>
+<h3>Evidence corrections</h3>
+<ul>
+  <li><strong>Evidence is deduplicated within its type.</strong> Two rows of different types at the same URL now both count, and two rows of the same type at the same URL count once (PR #2257).</li>
+  <li><strong>mattpocock/skills:</strong> an arXiv citation count recorded as 500 was corrected to 2. TM moved from 374.99 to 280.39 and stays S, so the 5★ is unchanged. One supporting witness URL returns 404. It is on bounded re-probes, the last due 2026-11-01T16:40Z, after the cutoff. [[VERIFY: +72h witness probe result for mattpocock/skills / registry/named/mattpocock/skills.md timeline / gh pr view 2251]]</li>
+  <li><strong>Thirty-seven skills that had been added with no evidence</strong> received verified host-repository evidence. Twelve addy-osmani skills were relinked to their suite and capped at 50.0 TM (B). Suite linking for the remaining 23 garrytan and 2 obra skills is automatic under the existing cap. [[VERIFY: the 25 garrytan and obra skills carry their suite link and sit at the capped TM (about 50.0 B) / registry/named/garrytan and registry/named/obra after #2251 / gh pr view 2251]]</li>
+  <li><strong>Stale caches refreshed:</strong> the apex cache of <code>obra/superpowers</code> and 70 Trust Magnitude caches, with no value changes.</li>
+</ul>
+<h3>The grade clamp, shown the same way everywhere</h3>
+<p>A skill's displayed stars cannot exceed what its Overall Trust Grade supports: S up to 6★, A up to 4★, B up to 3★, C up to 2★, ungraded 1★. The named-skill pages and the skills API already applied this clamp. The trust ledger and the leaderboard showed the stored value instead, so the same skill could show two different ratings. They now apply the same clamp. Stored values are not edited, and the ledger shows both the stored and the displayed value. [[VERIFY: clamp alignment merged and the final number of skills whose ledger and leaderboard display changed / PR #2259 / gh pr view 2259 --json state,mergeCommit]]</p>
+<h2>Deferred to November</h2>
+<p>The founder deferred these items to November. Each is tracked:</p>
+<ul>
+  <li><strong>Intake for verified upstream contributors</strong> (<a href="https://github.com/gaia-research/gaia-skill-tree/issues/2261">#2261</a>): apply the recommended curator defaults, gather evidence, then run the Meta audit in the next cycle.</li>
+  <li><strong>Three evidence corrections</strong> (<a href="https://github.com/gaia-research/gaia-skill-tree/issues/2262">#2262</a>): a vendor claim filed as a benchmark result on <code>ruvnet/ruflo</code>, 21 rows with no type or grade, and one mismatched arXiv citation on <code>knowledge-graph-build</code>.</li>
+  <li><strong>An audit of the suite-component cap</strong> (<a href="https://github.com/gaia-research/gaia-skill-tree/issues/2263">#2263</a>): the 50 TM per-component cap on shared suite-repository evidence stays unchanged while it is audited.</li>
+</ul>
+<h2>What changed on the site</h2>
+<p>These surfaces ship with Yggdrasil IV:</p>
+<ul>
+  <li><strong>Trust lifecycle panel.</strong> The panel now loads on every page that opens the Skill Explorer, where some pages used to show an empty space.</li>
+  <li><strong>Evidence provenance.</strong> Every evidence row is rendered by one component and says where it came from in the same way everywhere: type, source, evaluator and date, exactly as recorded.</li>
+  <li><strong>Trust Challenges page</strong> at <a href="../../trust/challenges/">/trust/challenges/</a>. It lists admitted challenges and, separately, review records under "Admission held, no effect on standing". It is linked from the Trust Methodology page and from the Skill Explorer's lifecycle panel.</li>
+  <li><strong>Contested marks.</strong> The leaderboard, the trust ledger and the Skill Explorer can mark a skill whose admitted challenge is unresolved, using a stronger mark when the challenge is material to Origin. Bar lengths and numbers stay exactly the same. <strong>No skill is contested today</strong>, because no challenge has been admitted.</li>
+  <li><strong>Era stamp.</strong> The navigation stamp and the meta-shift notes now read Yggdrasil IV and link to this report.</li>
+</ul>
+<h2>What did not change</h2>
+<p>Yggdrasil IV changed no Trust Magnitude weight, cap, threshold, grade boundary or Fusion Score rule. The within-type deduplication fix corrects how an existing rule was implemented. It is not a new rule. No October challenge changed anyone's standing. Every star, grade and Origin change in this report comes from an approved decision, not from a challenge, a dead link or the passage of time. [[VERIFY: final counts at the cutoff: 301 generic skills, 352 named skills on the public record, 268 trust-ledger rows, 229 skills in the skills API, 59 contributors on the about-page tally / docs/index.html stats block, docs/graph/ledger/data.json, docs/api/v1/skills/index.json, docs/about.html / jq '.summary.total' docs/graph/ledger/data.json]]</p>
+<div class="references">
+  <div class="abstract-title" style="text-align: left; margin-bottom: 1.5rem;">References</div>
+  <div class="ref-item">[1] Gaia Skill Tree. <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/founder/YGGDRASIL%5FIV%5FRATIFICATION%5F2026-10-25.md">Yggdrasil IV founder ratification: trust degradation, challenge and recovery</a>. 2026-10-25.</div>
+  <div class="ref-item">[2] Gaia Skill Tree. <a href="https://github.com/gaia-research/gaia-skill-tree/issues/2148">RFC #2148: trust degradation, deterministic downward recalculation and governance</a>.</div>
+  <div class="ref-item">[3] Gaia Skill Tree. <a href="https://github.com/gaia-research/gaia-skill-tree/issues/2189">EPIC #2189: Yggdrasil IV launch readiness, October Meta re-audit, challenges and release</a>.</div>
+  <div class="ref-item">[4] Gaia Skill Tree. <a href="https://github.com/gaia-research/gaia-skill-tree/tree/main/evidence/frontier-challenges">Challenger case bundles C1 to C4, with Meta verification records</a>. PR #2234.</div>
+  <div class="ref-item">[5] Gaia Skill Tree. <a href="../../trust/challenges/">Trust Challenges page</a>.</div>
+  <div class="ref-item">[6] Gaia Skill Tree. <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/META.md">META.md: evidence methodology and merit-based Origin</a>.</div>
+  <div class="ref-item">[7] Gaia Skill Tree. <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/GOVERNANCE.md">GOVERNANCE.md: approval, challenges and appeals</a>.</div>
+  <div class="ref-item">[8] Gaia Research. <a href="2026-08-29-yggdrasil-iii-structural-provenance-is-not-trust.html">Yggdrasil III: Structural Provenance Is Not Trust</a>. 2026-08-29.</div>
+</div>
+
+    <div class="footer-nav">
+      <a href="../../index.html">← Back to Gaia</a>
+    </div>
+  </article>
+
+  <script>
+    const sidebar = document.getElementById('metaSidebar');
+    const openBtn = document.getElementById('viewChangelogBtn');
+    const closeBtn = document.getElementById('closeChangelogBtn');
+    if (openBtn) openBtn.addEventListener('click', () => sidebar.classList.add('open'));
+    if (closeBtn) closeBtn.addEventListener('click', () => sidebar.classList.remove('open'));
+    async function loadChangelog() {
+      try {
+        const res = await fetch('../../graph/gaia.json');
+        const gaia = await res.json();
+        const body = document.getElementById('changelogBody');
+        body.innerHTML = '';
+        let events = [];
+        gaia.skills.forEach(s => {
+          if (s.timeline) s.timeline.forEach(e => events.push({ ...e, skillName: s.name }));
+        });
+        events.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        events.slice(0, 50).forEach(ev => {
+          const item = document.createElement('div');
+          item.style.cssText = 'margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid #111';
+          item.innerHTML = `<div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#666;margin-bottom:0.3rem">${new Date(ev.timestamp).toLocaleDateString()} · ${ev.action.toUpperCase()}</div><div style="font-weight:500;font-size:0.9rem;color:#fff">${ev.skillName}</div><div style="font-size:0.8rem;color:#aaa;margin-top:0.2rem">${ev.details}</div>`;
+          body.appendChild(item);
+        });
+      } catch (e) { console.error('Failed to load changelog', e); }
+    }
+    loadChangelog();
+
+    (function() {
+      var shareBtn = document.getElementById('reportShareBtn');
+      var copyBtn = document.getElementById('reportCopyLinkBtn');
+      function flashBtn(b) { b.classList.add('copied'); setTimeout(function() { b.classList.remove('copied'); }, 1500); }
+      if (shareBtn) shareBtn.addEventListener('click', function() {
+        var url = location.href, title = document.title;
+        if (navigator.share) { navigator.share({ title: title, url: url }).catch(function() {}); }
+        else if (navigator.clipboard) { navigator.clipboard.writeText(url).then(function() { flashBtn(shareBtn); }); }
+      });
+      if (copyBtn) copyBtn.addEventListener('click', function() {
+        if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(function() { flashBtn(copyBtn); });
+      });
+    })();
+
+  </script>
+</body>
+</html>

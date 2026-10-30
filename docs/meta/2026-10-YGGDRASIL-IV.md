@@ -2,7 +2,7 @@
 title: "Yggdrasil IV: A Challenge Must Be Earned, and Standing Can Recover"
 author: "Gaia Research"
 date: "2026-10-31"
-summary: "Yggdrasil IV makes trust challenge-driven and reversible. In October four real challenger cases went through the new pipeline and none was admitted. This report also covers the 701-record Meta re-audit and the calibrations the founder approved. Results run through 2026-10-31T23:59:59Z."
+summary: "Yggdrasil IV makes trust challenge-driven and reversible. Four real challenger cases ran in October and none was admitted. The 701-record Meta re-audit and the approved calibrations are summarized here, with results through 2026-10-31T23:59:59Z."
 abstract: |
   Yggdrasil IV changes how trust in the Gaia Skill Tree can go down and come back up. A skill's standing can now be questioned only through a challenge that has been discovered, evaluated, independently verified and admitted through a trusted receipt issuer with founder approval. Elapsed time, a dead link, or the mere existence of a newer competitor is a reason to look, never a penalty. In October we ran four real challenger cases through that pipeline. None was admitted: one ended in a tie, two were inconclusive and one was rejected at triage. We report those negatives as the mechanism working as designed. This report also summarizes the October Meta re-audit of all 701 registry records, the upstream and intake reconciliation, and the adjudication and calibration decisions the founder approved, and it lists what is deferred to November. Results run through 2026-10-31T23:59:59Z, and figures from before the cutoff refresh are provisional.
 label: "Meta Report"
