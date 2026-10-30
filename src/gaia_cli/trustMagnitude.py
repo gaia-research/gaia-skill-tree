@@ -29,7 +29,7 @@ from typing import Any, Optional
 
 from gaia_cli import structuralGraph
 from gaia_cli.benchmarkCatalog import benchmarkFinalMagnitude, isBenchmarkScoringEligible
-from gaia_cli.evidence import inherited_evidence
+from gaia_cli.evidence import EVIDENCE_TYPE_ALIASES, canonicalSourceUrl, inherited_evidence
 
 # ---------------------------------------------------------------------------
 # Constants - RFC §2 master table
@@ -251,25 +251,13 @@ def _utcNow() -> datetime.datetime:
 def _canonicalUrl(url: Optional[str]) -> Optional[str]:
     """Normalize a URL for same-source dedup (RFC §5.2).
 
-    Strips fragments, trailing slashes, normalizes tree/->blob/.
+    Delegates to ``gaia_cli.evidence.canonicalSourceUrl`` so the merge and the
+    scoring-time dedup share one normalization.
     """
-    if not url:
-        return None
-    s = str(url).strip()
-    if not s:
-        return None
-    # Strip fragment
-    if "#" in s:
-        s = s.split("#", 1)[0]
-    # Normalize tree/->blob/ for github links
-    s = s.replace("/tree/", "/blob/")
-    # Strip trailing slash
-    while s.endswith("/"):
-        s = s[:-1]
-    return s.lower()
+    return canonicalSourceUrl(url)
 
 
-TYPE_ALIASES: dict = {'repo': 'repo-own'}
+TYPE_ALIASES: dict = EVIDENCE_TYPE_ALIASES
 
 
 def _typeOf(row: dict) -> Optional[str]:
@@ -1152,9 +1140,12 @@ def _effectivePool(
     # Production-compatible legacy merge (source-only, own-first).
     merged = inherited_evidence({"evidence": ownRows}, generic)
     out: list[dict] = []
-    ownSources = {r.get("source") for r in ownRows if r.get("source")}
+    # merge_evidence is first-wins and returns the original row objects, so own
+    # rows are identified by identity. Keying on `source` alone would mistake a
+    # generic row of a different type at an own row's URL for an own row.
+    ownIds = {id(r) for r in ownRows}
     for row in merged:
-        if row.get("source") in ownSources:
+        if id(row) in ownIds:
             out.append(row)
             continue
         stamped = dict(row)

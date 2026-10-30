@@ -331,9 +331,9 @@
       "topSkill": {
         "id": "nateherkai/scroll-craft",
         "level": "3★",
-        "trustMagnitude": 87.38
+        "trustMagnitude": 92.38
       },
-      "prestigeScore": 87.38,
+      "prestigeScore": 92.38,
       "_links": {
         "self": "/api/v1/contributors/nateherkai.json"
       }

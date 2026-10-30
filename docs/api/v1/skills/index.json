@@ -920,6 +920,23 @@
       "genericSkillRef": "ubiquitous-language"
     },
     {
+      "id": "nateherkai/scroll-craft",
+      "name": "Scroll Craft",
+      "level": "3★",
+      "trustMagnitude": 92.38,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "nateherkai",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
+      },
+      "genericSkillRef": "scroll-driven-web-design"
+    },
+    {
       "id": "leonxlnx/unlazy",
       "name": "unlazy",
       "level": "3★",
@@ -993,23 +1010,6 @@
         "ruvnet/reasoningbank-agentdb",
         "ruvnet/reasoningbank-intelligence"
       ]
-    },
-    {
-      "id": "nateherkai/scroll-craft",
-      "name": "Scroll Craft",
-      "level": "3★",
-      "trustMagnitude": 87.38,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "nateherkai",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
-      },
-      "genericSkillRef": "scroll-driven-web-design"
     },
     {
       "id": "firecrawl/firecrawl-build-search",

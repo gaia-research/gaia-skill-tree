@@ -2138,10 +2138,14 @@ def main(argv: list[str] | None = None) -> int:
     # syncDocsGraphAssets fans out gaia.json / tree.md / named-index — the
     # named-index drift specifically is the one most likely to land out of sync.
     named_index_changed = _run_step("named-index", build_named_index, args.check)
+    docs_named_changed = _run_step("docs-named-index", build_docs_named_index, args.check)
+    # Must run AFTER docs-named-index: the installability projection reads the
+    # Class S mirror docs/graph/named/index.json (see installability.py
+    # _load_current_index). Running it first projected the PREVIOUS registry in
+    # write mode, so a single `gaia dev docs` left the artifact one run stale.
     installability_changed = _run_step(
         "installability-projection", build_installability_projection, args.check
     )
-    docs_named_changed = _run_step("docs-named-index", build_docs_named_index, args.check)
     arbor_changed = _run_step("arbor-projection", build_arbor_projection, args.check)
     trust_ledger_changed = _run_step("trust-ledger", build_trust_ledger, args.check)
     api_changed = _run_step("api-projection", build_api_projection, args.check)
