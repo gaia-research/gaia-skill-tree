@@ -1,7 +1,121 @@
 {
- "generation": 172,
+ "generation": 173,
  "lane": {
   "entries": [
+   {
+    "attempts": 0,
+    "debtId": "debt:issue_suite_review:addy-osmani-agent-skills:6ff2bf572d886764",
+    "firstQueuedAt": "2026-10-30T02:50:15.169447Z",
+    "history": [
+     {
+      "at": "2026-10-30T02:50:15.169447Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-30T02:50:15.169447Z",
+    "lastVerdict": null,
+    "priority": 0.324,
+    "rule": "issue-suite-review",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:issue_suite_review:garrytan-gbrain:575f33b9b9a7b8cb",
+    "firstQueuedAt": "2026-10-30T02:50:15.169447Z",
+    "history": [
+     {
+      "at": "2026-10-30T02:50:15.169447Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-30T02:50:15.169447Z",
+    "lastVerdict": null,
+    "priority": 0.324,
+    "rule": "issue-suite-review",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:issue_suite_review:heygen-com-hyperframes:4a832384e4ec5b52",
+    "firstQueuedAt": "2026-10-30T02:50:15.169447Z",
+    "history": [
+     {
+      "at": "2026-10-30T02:50:15.169447Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-30T02:50:15.169447Z",
+    "lastVerdict": null,
+    "priority": 0.324,
+    "rule": "issue-suite-review",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:issue_suite_review:mattpocock-skills:9ae5b30c9482b943",
+    "firstQueuedAt": "2026-10-30T02:50:15.169447Z",
+    "history": [
+     {
+      "at": "2026-10-30T02:50:15.169447Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-30T02:50:15.169447Z",
+    "lastVerdict": null,
+    "priority": 0.324,
+    "rule": "issue-suite-review",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:issue_suite_review:obra-superpowers:dc92428120a70e04",
+    "firstQueuedAt": "2026-10-30T02:50:15.169447Z",
+    "history": [
+     {
+      "at": "2026-10-30T02:50:15.169447Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-30T02:50:15.169447Z",
+    "lastVerdict": null,
+    "priority": 0.324,
+    "rule": "issue-suite-review",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
+    "debtId": "debt:issue_suite_review:unbatched:0c31d5e5639bba08",
+    "firstQueuedAt": "2026-10-30T02:50:15.169447Z",
+    "history": [
+     {
+      "at": "2026-10-30T02:50:15.169447Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-30T02:50:15.169447Z",
+    "lastVerdict": null,
+    "priority": 0.324,
+    "rule": "issue-suite-review",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
    {
     "attempts": 0,
     "debtId": "debt:knowledge_contradiction:governance-policy:4d419b891727eb98",
@@ -983,7 +1097,7 @@
     "state": "closed"
    },
    {
-    "attempts": 0,
+    "attempts": 1,
     "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
     "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
     "history": [
@@ -992,14 +1106,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-10-30T02:50:15.169447Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-85da151344100d2bf011",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-10-30T02:50:15.169447Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 0,
@@ -1824,6 +1944,25 @@
    },
    {
     "attempts": 0,
+    "debtId": "debt:unused_import:scripts-steward-issue-reconcile-py:8ed5a1f9ac67ba3f",
+    "firstQueuedAt": "2026-10-30T02:50:15.169447Z",
+    "history": [
+     {
+      "at": "2026-10-30T02:50:15.169447Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-30T02:50:15.169447Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
     "debtId": "debt:unused_import:scripts-trace-timeline-py:d16ccce81c57f34b",
     "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
     "history": [
@@ -1868,6 +2007,25 @@
    },
    {
     "attempts": 0,
+    "debtId": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
+    "firstQueuedAt": "2026-10-30T02:50:15.169447Z",
+    "history": [
+     {
+      "at": "2026-10-30T02:50:15.169447Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-30T02:50:15.169447Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
     "debtId": "debt:unused_import:scripts-upstream-watcher-issuer-py:604578aa61a55dac",
     "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
     "history": [
@@ -1876,14 +2034,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-10-30T02:50:15.169447Z",
+      "from": "queued",
+      "reason": "the condition is no longer observed",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-10-30T02:50:15.169447Z",
     "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1920,14 +2084,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-10-30T02:50:15.169447Z",
+      "from": "queued",
+      "reason": "the condition is no longer observed",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-10-30T02:50:15.169447Z",
     "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2271,6 +2441,25 @@
    },
    {
     "attempts": 0,
+    "debtId": "debt:unused_import:src-gaia-cli-steward-issuehygiene-reconcile-py:d91a57958d7d1622",
+    "firstQueuedAt": "2026-10-30T02:50:15.169447Z",
+    "history": [
+     {
+      "at": "2026-10-30T02:50:15.169447Z",
+      "from": "none",
+      "reason": "observed by a sensor",
+      "to": "queued"
+     }
+    ],
+    "lastTransitionAt": "2026-10-30T02:50:15.169447Z",
+    "lastVerdict": null,
+    "priority": 0.0864,
+    "rule": "unused-import-cleanup",
+    "schemaVersion": "steward-lane-entry-v1",
+    "state": "queued"
+   },
+   {
+    "attempts": 0,
     "debtId": "debt:unused_import:src-gaia-cli-steward-routing-py:9259e6dcd8820204",
     "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
     "history": [
@@ -2330,7 +2519,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-10-30T02:47:35.167564Z",
-   "expiresAt": "2026-10-30T03:20:12.287762Z",
+   "expiresAt": "2026-10-30T03:21:55.676689Z",
    "holder": "run-20261030T024735Z-6eec6709"
   }
  },
@@ -10967,7 +11156,36 @@
    "updatedAt": "2026-10-29T02:56:37.663471Z"
   },
   "run-20261030T024735Z-6eec6709": {
-   "actions": [],
+   "actions": [
+    {
+     "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+     "emittedAt": "2026-10-30T02:50:15.169447Z",
+     "idempotencyKey": "dispatch-85da151344100d2bf011:1",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "base": "dev/steward-integration",
+      "branch": "steward/b/trust-calibration-drift-8782d71a11bc",
+      "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+      "dispatchId": "dispatch-85da151344100d2bf011",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261030T024735Z-6eec6709/build-8782d71a11bc.diff",
+       "proofPath": ".gaia/steward/full/run-20261030T024735Z-6eec6709/build-8782d71a11bc.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261030T024735Z-6eec6709/build-8782d71a11bc.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:8782d71a11bc:1",
+     "type": "agent.build"
+    }
+   ],
    "actor": "cli",
    "agentAssignments": [],
    "branches": [],
@@ -11011,6 +11229,12 @@
      },
      "landings": [],
      "status": "ok"
+    },
+    "class_b": {
+     "dispatchId": "dispatch-85da151344100d2bf011",
+     "dispatched": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+     "status": "awaiting-build",
+     "stepId": "build:8782d71a11bc:1"
     },
     "observe": {
      "authorityCounts": {
@@ -12077,6 +12301,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-10-30T02:50:15.169447Z",
+     "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+     "idempotencyKey": "dispatch-85da151344100d2bf011:1",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:8782d71a11bc:1"
     }
    ],
    "thinkingEfforts": [],
@@ -12087,7 +12319,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-30T02:50:12.288739Z",
+ "updatedAt": "2026-10-30T02:51:55.680293Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -12278,6 +12510,36 @@
     "stage": "judged",
     "verdict": "escalate"
    }
+  },
+  "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6": {
+   "assignments": [],
+   "attempt": 1,
+   "authority": "B",
+   "baseBranch": "dev/steward-integration",
+   "branch": "steward/b/trust-calibration-drift-8782d71a11bc",
+   "build": null,
+   "createdAt": "2026-10-30T02:50:15.169447Z",
+   "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+   "dispatchId": "dispatch-85da151344100d2bf011",
+   "dispatchedAt": "2026-10-30T02:50:15.169447Z",
+   "history": [
+    {
+     "at": "2026-10-30T02:50:15.169447Z",
+     "from": "queued",
+     "reason": "dispatched as dispatch-85da151344100d2bf011 (attempt 1)",
+     "to": "building"
+    }
+   ],
+   "kind": "trust_calibration_drift",
+   "notes": [],
+   "promptPath": ".gaia/steward/full/run-20261030T024735Z-6eec6709/build-8782d71a11bc.prompt.md",
+   "pullRequest": null,
+   "routine": "gaia-trust-calibration-steward",
+   "runId": "run-20261030T024735Z-6eec6709",
+   "source": "trust-calibration-drift",
+   "state": "building",
+   "updatedAt": "2026-10-30T02:50:15.169447Z",
+   "verification": null
   }
  }
 }
