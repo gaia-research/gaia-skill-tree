@@ -48,7 +48,8 @@ def evidenceTypeOf(entry: dict) -> str | None:
 def evidenceDedupKey(entry: dict) -> tuple:
     """Same-source dedup key: ``(evidence type, canonical source URL)``.
 
-    Dedup is *within type* (META.md / curation authority map): a
+    The URL slot is None for a row with no source; callers must not dedup on
+    such keys. Dedup is *within type* (META.md / curation authority map): a
     ``github-stars-own`` row and a ``repo-own`` row at one URL are different
     keys and both count toward Trust Magnitude. Mirrors ``_dedupeSameSource``
     in ``trustMagnitude.py``.
@@ -65,13 +66,19 @@ def merge_evidence(*groups) -> list:
     """Concatenate evidence lists, de-duplicating by ``(type, source)`` (first wins).
 
     Rows of *different* types at the same URL are distinct evidence and are
-    all kept; only a same-type, same-canonical-source repeat is dropped.
+    all kept; only a same-type, same-canonical-source repeat is dropped. Rows
+    with no source URL at all are never deduplicated (they cannot be shown to
+    be the same source), matching ``_dedupeSameSource`` in ``trustMagnitude.py``,
+    which also keeps URL-less rows.
     """
     seen = set()
     merged = []
     for group in groups:
         for entry in group or []:
             key = evidenceDedupKey(entry)
+            if key[1] is None:
+                merged.append(entry)
+                continue
             if key in seen:
                 continue
             seen.add(key)

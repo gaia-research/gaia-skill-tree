@@ -47,7 +47,8 @@ class TestInheritedEvidence(unittest.TestCase):
         self.assertEqual(merge_evidence(), [])
         self.assertEqual(merge_evidence(None, None), [])
         self.assertEqual(merge_evidence([], []), [])
-        self.assertEqual(merge_evidence([{}], [{}]), [{}])
+        # URL-less rows are never deduplicated (matches _dedupeSameSource).
+        self.assertEqual(merge_evidence([{}], [{}]), [{}, {}])
         self.assertEqual(
             merge_evidence(
                 None, [{"source": "s1"}], [], [{"source": "s1"}, {"source": "s2"}]
@@ -99,6 +100,19 @@ class TestWithinTypeDedup(unittest.TestCase):
         first = {"type": "repo-own", "source": self.URL, "commits": 1}
         second = {"type": "repo-own", "source": self.URL, "commits": 2}
         self.assertEqual(merge_evidence([first], [second]), [first])
+
+    def test_urlless_rows_are_not_deduplicated(self):
+        a = {"type": "repo-own"}
+        b = {"type": "repo-own"}
+        c = {"type": "peer-review", "source": ""}
+        pool = merge_evidence([a], [b], [c])
+        self.assertEqual(len(pool), 3)
+
+    def test_urlless_handling_matches_trust_magnitude_dedup(self):
+        from gaia_cli.trustMagnitude import _dedupeSameSource
+
+        rows = [{"type": "repo-own"}, {"type": "repo-own"}, {"type": "arxiv", "url": ""}]
+        self.assertEqual(len(merge_evidence(rows)), len(_dedupeSameSource(rows)))
 
     def test_legacy_type_alias_normalized(self):
         legacy = {"type": "repo", "source": self.URL}
