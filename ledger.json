@@ -1,5 +1,5 @@
 {
- "generation": 174,
+ "generation": 175,
  "lane": {
   "entries": [
    {
@@ -11161,6 +11161,13 @@
      "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
      "emittedAt": "2026-10-30T02:50:15.169447Z",
      "idempotencyKey": "dispatch-85da151344100d2bf011:1",
+     "outcome": {
+      "agentId": "haiku-builder-a81036c9",
+      "effort": "medium",
+      "model": "haiku",
+      "noChange": true,
+      "summary": "Reproduced: k-dense-ai/deepchem stored 1★; inspectTrustMagnitude computes TM 111.0, grade A, G7 target 4★. No change within allowed paths (src/gaia_cli/steward, tests/steward) is needed; correction is the human-approved command `gaia dev calibrate k-dense-ai/deepchem 4★`, not executed. Focused sensor tests (129 passed) were run by the lead after installing pytest/jsonschema/pyyaml; builder was blocked by the missing pytest."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -11181,13 +11188,27 @@
       },
       "promptPath": ".gaia/steward/full/run-20261030T024735Z-6eec6709/build-8782d71a11bc.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-10-30T02:56:15.410234Z",
+     "status": "done",
      "stepId": "build:8782d71a11bc:1",
      "type": "agent.build"
     }
    ],
    "actor": "cli",
-   "agentAssignments": [],
+   "agentAssignments": [
+    {
+     "agentId": "haiku-builder-a81036c9",
+     "at": "2026-10-30T02:56:15.410267Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+     "effort": "medium",
+     "model": "haiku",
+     "role": "builder",
+     "stepId": "build:8782d71a11bc:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
@@ -11756,8 +11777,10 @@
     }
    ],
    "mode": "full",
-   "modelIds": [],
-   "mutated": false,
+   "modelIds": [
+    "haiku"
+   ],
+   "mutated": true,
    "nextAction": "perform 1 pending action(s) (agent.build), record each with `gaia steward full record run-20261030T024735Z-6eec6709 <stepId> --input FILE`, then `gaia steward full run --resume run-20261030T024735Z-6eec6709`",
    "options": {
     "afk": true,
@@ -12851,23 +12874,26 @@
      "stepId": "phase:class_a"
     },
     {
-     "at": "2026-10-30T02:50:15.169447Z",
+     "at": "2026-10-30T02:56:15.410234Z",
      "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
      "idempotencyKey": "dispatch-85da151344100d2bf011:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:8782d71a11bc:1"
     }
    ],
-   "thinkingEfforts": [],
+   "thinkingEfforts": [
+    "medium"
+   ],
    "tokensIn": 0,
    "tokensOut": 0,
    "trigger": "scheduled",
-   "unresolvedWork": []
+   "unresolvedWork": [],
+   "updatedAt": "2026-10-30T02:56:15.410234Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-30T02:51:59.593966Z",
+ "updatedAt": "2026-10-30T02:56:15.410390Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -13060,12 +13086,33 @@
    }
   },
   "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "haiku-builder-a81036c9",
+     "at": "2026-10-30T02:56:15.410267Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "haiku",
+     "role": "builder",
+     "stepId": "build:8782d71a11bc:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-integration",
    "branch": "steward/b/trust-calibration-drift-8782d71a11bc",
-   "build": null,
+   "build": {
+    "agentId": "haiku-builder-a81036c9",
+    "attempt": 1,
+    "diffPath": null,
+    "dispatchId": "dispatch-85da151344100d2bf011",
+    "noChange": true,
+    "proofPath": null,
+    "recordedAt": "2026-10-30T02:56:15.410267Z",
+    "summary": "Reproduced: k-dense-ai/deepchem stored 1★; inspectTrustMagnitude computes TM 111.0, grade A, G7 target 4★. No change within allowed paths (src/gaia_cli/steward, tests/steward) is needed; correction is the human-approved command `gaia dev calibrate k-dense-ai/deepchem 4★`, not executed. Focused sensor tests (129 passed) were run by the lead after installing pytest/jsonschema/pyyaml; builder was blocked by the missing pytest."
+   },
    "createdAt": "2026-10-30T02:50:15.169447Z",
    "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
    "dispatchId": "dispatch-85da151344100d2bf011",
@@ -13086,7 +13133,7 @@
    "runId": "run-20261030T024735Z-6eec6709",
    "source": "trust-calibration-drift",
    "state": "building",
-   "updatedAt": "2026-10-30T02:50:15.169447Z",
+   "updatedAt": "2026-10-30T02:56:15.410267Z",
    "verification": null
   }
  }
