@@ -57,16 +57,28 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-10-30T13:06:52Z'
+  action: evidence_removed
+  contributor: mbtiongson1
+  details: 'Removed dead/invalid evidence: https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md'
+- timestamp: '2026-10-30T13:06:55Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/Leonxlnx/taste-skill (type: github-stars-own)'
+- timestamp: '2026-10-30T13:06:58Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Founder ruling 2026-10-30 (r3-fd17-leftovers): dead evidence means the
+    skill moved. Proof: taste-skill CHANGELOG 2.1.1/2.1.3 and README ''Moved skills''
+    place it in Leonxlnx/imagegen-skills (same install name); old blob 404, new blob
+    200. Dead github-stars-own row removed and replaced at the live canonical repo
+    URL. No level change.'
+- timestamp: '2026-10-30T13:08:02Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
-- source: https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md
-  updatedAt: '2026-10-01'
-  evaluator: mbtiongson1
-  date: '2026-08-22'
-  type: github-stars-own
-  notes: 79.0k stars on Leonxlnx/taste-skill suite component
-  stars: 91660
-  sourceStartedAt: '2026-02-19'
-  grade: A
 - source: https://github.com/leonxlnx/taste-skill
   evaluator: mbtiongson1
   date: '2026-08-22'
@@ -76,12 +88,24 @@ evidence:
   contributors: 6
   sourceStartedAt: '2026-02-19'
   grade: B
+- source: https://github.com/Leonxlnx/taste-skill
+  evaluator: mbtiongson1
+  date: '2026-10-30'
+  type: github-stars-own
+  notes: Replaces the dead per-skill blob row (leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md,
+    HTTP 404 since the skill moved out of the repo). GitHub REST stargazers_count
+    of the live canonical project repo Leonxlnx/taste-skill at 2026-10-30; its README
+    'Moved skills' section documents the relocation to Leonxlnx/imagegen-skills with
+    the same install name. Founder ruling 2026-10-30 (r3-fd17-leftovers).
+  stars: 106002
+  sourceStartedAt: '2026-02-19'
+  grade: A
 verification:
   firstEvidenceAt: '2026-08-22T08:08:25Z'
 suiteRef: leonxlnx/taste-skill
 trustMagnitude: 50.0
 overallTrustGrade: B
-trustMagnitudeInputHash: ca5a7ceece2c1def394ebd6c8aeaf3630d5e877ea4edc30b061df67ae5e127bb
+trustMagnitudeInputHash: cab6872bf8752b6b22c42563ef836461460d5dc2f32abebf138f491aab0c013b
 ---
 
 ## Installation

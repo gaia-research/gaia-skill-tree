@@ -57,16 +57,28 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-10-30T13:07:16Z'
+  action: evidence_removed
+  contributor: mbtiongson1
+  details: 'Removed dead/invalid evidence: https://github.com/leonxlnx/taste-skill/blob/main/skills/brutalist-skill/SKILL.md'
+- timestamp: '2026-10-30T13:07:18Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/Leonxlnx/taste-skill (type: github-stars-own)'
+- timestamp: '2026-10-30T13:07:20Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Founder ruling 2026-10-30 (r3-fd17-leftovers): dead evidence means the
+    skill moved. Proof: taste-skill CHANGELOG 2.1.1/2.1.3 and README ''Moved skills''
+    place it in Leonxlnx/taste-skill-classics (same install name); old blob 404, new
+    blob 200. Dead github-stars-own row removed and replaced at the live canonical
+    repo URL. No level change.'
+- timestamp: '2026-10-30T13:08:02Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
-- source: https://github.com/leonxlnx/taste-skill/blob/main/skills/brutalist-skill/SKILL.md
-  updatedAt: '2026-10-01'
-  evaluator: mbtiongson1
-  date: '2026-08-22'
-  type: github-stars-own
-  notes: 79.0k stars on Leonxlnx/taste-skill suite component
-  stars: 91660
-  sourceStartedAt: '2026-02-19'
-  grade: A
 - source: https://github.com/leonxlnx/taste-skill
   evaluator: mbtiongson1
   date: '2026-08-22'
@@ -76,12 +88,24 @@ evidence:
   contributors: 6
   sourceStartedAt: '2026-02-19'
   grade: B
+- source: https://github.com/Leonxlnx/taste-skill
+  evaluator: mbtiongson1
+  date: '2026-10-30'
+  type: github-stars-own
+  notes: Replaces the dead per-skill blob row (leonxlnx/taste-skill/blob/main/skills/brutalist-skill/SKILL.md,
+    HTTP 404 since the skill moved out of the repo). GitHub REST stargazers_count
+    of the live canonical project repo Leonxlnx/taste-skill at 2026-10-30; its README
+    'Moved skills' section documents the relocation to Leonxlnx/taste-skill-classics
+    with the same install name. Founder ruling 2026-10-30 (r3-fd17-leftovers).
+  stars: 106002
+  sourceStartedAt: '2026-02-19'
+  grade: A
 verification:
   firstEvidenceAt: '2026-08-22T08:08:14Z'
 suiteRef: leonxlnx/taste-skill
 trustMagnitude: 50.0
 overallTrustGrade: B
-trustMagnitudeInputHash: 64e290a0dad070b04869c985e109c3330e1c708a4465ddd7b5c8a56b310b3678
+trustMagnitudeInputHash: 6c97b61508e8e8d96a95447069211336c40f0b035dcdf47448fd3dbb37f8ff8b
 ---
 
 ## Installation
