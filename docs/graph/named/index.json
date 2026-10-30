@@ -4718,7 +4718,44 @@
           "transitiveCount": 3,
           "maxDepth": 1,
           "nestedSuiteCount": 0
-        }
+        },
+        "challengeReviews": [
+          {
+            "contract": "gaia-challenge-review/v1",
+            "caseId": "c2-claude-deny-vs-git-guardrails",
+            "status": "admission-held",
+            "subjectId": "mattpocock/git-guardrails-claude-code",
+            "subjectKind": "named",
+            "genericSkillRef": "guardrails",
+            "leadId": "claude-deny-git-guardrails-001",
+            "claimId": "block-dangerous-git-v1",
+            "claim": "Deny rules such as Bash(git push *) make Claude Code refuse matching Bash commands without any installed skill.",
+            "challenger": {
+              "name": "Claude Code permissions.deny",
+              "version": "2.1.312",
+              "sourceUrl": "https://code.claude.com/docs/en/permissions.md"
+            },
+            "comparator": "mattpocock/git-guardrails-claude-code PreToolUse hook (regex over the command text).",
+            "protocolDigest": "sha256:9eec1ed0566464502ec5c2d2a3cc1073e18d387c2feed3248bc685ede4880c2a",
+            "requestId": "sha256:294c769e208bfb615c0fb2e69cf01fbcd280b056ba75c9ba1b3efa66f6fae8bf",
+            "experiment": {
+              "result": "supported",
+              "documentedVersion": "2.1.312",
+              "executedVersion": "2.1.312"
+            },
+            "assessment": {
+              "outcome": "inconclusive",
+              "suggestedAction": "hold",
+              "independence": "declared-unauthenticated"
+            },
+            "held": {
+              "reason": "meta-not-recommended",
+              "explanation": "The independent assessment of this review does not recommend an admission review."
+            },
+            "bundleDigest": "sha256:ece0a0b4ea6d2fcd7243055273eb5ad9ab1176ecb0e1e1dfbfe923e4c562244e",
+            "disclosure": "Review record only. This is not an admitted Gaia challenge, with no effect on Trust Magnitude, stars, grade, Origin or ranking. The independent assessment does not recommend an admission review."
+          }
+        ]
       },
       {
         "id": "mattpocock/setup-pre-commit",
@@ -45481,7 +45518,106 @@
           "transitiveCount": 5,
           "maxDepth": 2,
           "nestedSuiteCount": 0
-        }
+        },
+        "challengeReviews": [
+          {
+            "contract": "gaia-challenge-review/v1",
+            "caseId": "c1-graphify-vs-graft",
+            "status": "admission-held",
+            "subjectId": "trailhq/graft",
+            "subjectKind": "named",
+            "genericSkillRef": "codebase-graph-retrieval",
+            "leadId": "graphify-graft-callers-001",
+            "claimId": "code-graph-callers-v1",
+            "claim": "Builds a queryable knowledge graph of a codebase from local tree-sitter AST extraction, with scoped queries preferred over grepping raw files.",
+            "challenger": {
+              "name": "Graphify",
+              "version": "0.8.13",
+              "sourceUrl": "https://raw.githubusercontent.com/Graphify-Labs/graphify/v0.8.13/README.md"
+            },
+            "comparator": "Graft callers lookup over its prebuilt wiring graph (trailhq/graft, graft CLI 0.25.0).",
+            "protocolDigest": "sha256:80a9ceccc85ebe221cb4b1a7d833aa505de565fe97e867c55664fafd2750d651",
+            "requestId": "sha256:19a1c7ab29fd5e86a0e8c1aab7d446e16b9191f02c903eb923fa031eda507be1",
+            "experiment": {
+              "result": "contradicted",
+              "documentedVersion": "0.8.13",
+              "executedVersion": "0.8.13"
+            },
+            "assessment": {
+              "outcome": "contradicted",
+              "suggestedAction": "reject-lead",
+              "independence": "declared-unauthenticated"
+            },
+            "held": {
+              "reason": "meta-not-recommended",
+              "explanation": "The independent assessment of this review does not recommend an admission review."
+            },
+            "bundleDigest": "sha256:bf52bfb7f02a7a1880fe803eee3bc39a550e71b7d965fff7e633d39d1ade9baf",
+            "disclosure": "Review record only. This is not an admitted Gaia challenge, with no effect on Trust Magnitude, stars, grade, Origin or ranking. The independent assessment does not recommend an admission review."
+          },
+          {
+            "contract": "gaia-challenge-review/v1",
+            "caseId": "c3-git-log-L-vs-graft",
+            "status": "admission-held",
+            "subjectId": "trailhq/graft",
+            "subjectKind": "named",
+            "genericSkillRef": "codebase-graph-retrieval",
+            "leadId": "git-log-L-graft-002",
+            "claimId": "git-line-history-task-v1",
+            "claim": "Trace the evolution of a selected source line range or function in one file.",
+            "challenger": {
+              "name": "Git git-log -L",
+              "version": "2.56.0",
+              "sourceUrl": "https://raw.githubusercontent.com/git/git/v2.56.0/Documentation/git-log.adoc"
+            },
+            "comparator": "Graft repository graph retrieval for locating concepts and source spans.",
+            "protocolDigest": "sha256:40778442774ff85693e77e7ba0a80a81259bd939180e5de0cc35ba5efc07ef74",
+            "requestId": "sha256:50a864e709d674403353090556d9342ce9e63a040cd782ebde7c228aae999929",
+            "experiment": {
+              "result": "inconclusive",
+              "documentedVersion": "2.56.0",
+              "executedVersion": "2.50.1"
+            },
+            "assessment": {
+              "outcome": "inconclusive",
+              "suggestedAction": "reject-lead",
+              "independence": "declared-unauthenticated"
+            },
+            "held": {
+              "reason": "meta-not-recommended",
+              "explanation": "The independent assessment of this review does not recommend an admission review."
+            },
+            "bundleDigest": "sha256:1dd15eab93f8d2b0e34627dea74dcd2c70dbc33274da5e2b76eed005acc6c8d4",
+            "disclosure": "Review record only. This is not an admitted Gaia challenge, with no effect on Trust Magnitude, stars, grade, Origin or ranking. The independent assessment does not recommend an admission review."
+          },
+          {
+            "contract": "gaia-challenge-review/v1",
+            "caseId": "c4-ripgrep-vs-graft-callers",
+            "status": "rejected-at-triage",
+            "subjectId": "trailhq/graft",
+            "subjectKind": "named",
+            "genericSkillRef": "codebase-graph-retrieval",
+            "leadId": "ripgrep-graft-callers-001",
+            "claimId": "text-search-vs-symbol-callers-v1",
+            "claim": "Recursively search a directory for a regex pattern, respecting gitignore rules, quickly.",
+            "challenger": {
+              "name": "ripgrep",
+              "version": "15.1.0",
+              "sourceUrl": "https://raw.githubusercontent.com/BurntSushi/ripgrep/15.1.0/README.md"
+            },
+            "comparator": "graft callers symbol-level caller lookup over a prebuilt wiring graph.",
+            "assessment": {
+              "outcome": "rejected_at_triage",
+              "suggestedAction": "reject-lead",
+              "independence": "declared-unauthenticated"
+            },
+            "triage": {
+              "explanation": "The lead was rejected at triage, before any experiment was preregistered or run."
+            },
+            "bundleDigest": "sha256:7c4ae9d56e3683cead8c3af9f4015bf1d6aa56b33847576c172c3503ee494b81",
+            "disclosure": "Review record only. This lead was rejected at triage: no experiment was run and no admission was attempted, so this is not an admitted Gaia challenge and it changes no Trust Magnitude, star, grade, Origin or ranking."
+          }
+        ]
       }
     ],
     "generate-test": [

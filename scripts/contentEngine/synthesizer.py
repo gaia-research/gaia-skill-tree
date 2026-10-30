@@ -24,7 +24,6 @@ field so post-mortems can see which layer produced any given report.
 from __future__ import annotations
 
 import os
-from typing import Any
 
 
 def _llmEnabled() -> bool:

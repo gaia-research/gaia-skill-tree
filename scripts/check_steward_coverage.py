@@ -19,6 +19,14 @@ ROOT = Path(__file__).resolve().parents[1]
 CATALOG = Path("founder/steward/routine-coverage.json")
 ROUTINES = Path("founder/ROUTINES.md")
 SCHEMA_VERSION = 2
+ROUTINECOUNT = 18
+# Forge-executed repair actions: runner-emitted, driver-performed, never a local executor.
+# Each maps to the one debt kind it closes; the runner must emit the literal (checked below).
+FORGE_ACTIONS = {"forge.close_issue": ("issue_closure_ready", "A")}
+# The atomic skill that performs each forge action. A forge-bound debt kind is dispositioned by it,
+# not by its authority's default skill (A -> land), because no land step ever runs for it.
+FORGE_SKILLS = {"forge.close_issue": "gaia-steward-issue-hygiene"}
+FORGE_SOURCE = Path("src/gaia_cli/steward/fullrun.py")
 STATE_VOCABULARY = {
     "registered": "static",
     "executable": "static",
@@ -60,7 +68,7 @@ def _literal(node: ast.AST) -> Any:
 @functools.lru_cache(maxsize=4)
 def _sensor_ownership(root: Path) -> dict[str, set[str]]:
     """Find sensor id -> emitted Observation kind ownership from source AST."""
-    files = list((root / "src/gaia_cli/steward").glob("*.py"))
+    files = list((root / "src/gaia_cli/steward").glob("*.py")) + list((root / "src/gaia_cli/steward/issuehygiene").glob("*.py"))
     mirror_specs: dict[str, str] = {}
     mirror_tree = ast.parse((root / "src/gaia_cli/steward/mirrors.py").read_text(encoding="utf-8"))
     for node in ast.walk(mirror_tree):
@@ -379,7 +387,8 @@ def _check_detector(
             errors.append(f"{label}: static coverage must be {expected_static!r}")
     if detector["owningSkill"] != OBSERVE_SKILL or not _skill_exists(root, OBSERVE_SKILL):
         errors.append(f"{label}: owningSkill must be the existing {OBSERVE_SKILL!r} skill")
-    expected_skills = {kind: DISPOSITION_SKILL.get(authority.get(kind, ""), "") for kind in kinds}
+    forge_kind_skill = {FORGE_ACTIONS[name][0]: skill for name, skill in FORGE_SKILLS.items() if name in FORGE_ACTIONS}
+    expected_skills = {kind: forge_kind_skill.get(kind) or DISPOSITION_SKILL.get(authority.get(kind, ""), "") for kind in kinds}
     if detector["dispositionSkills"] != expected_skills:
         errors.append(f"{label}: dispositionSkills must route each kind by authority {expected_skills!r}")
     else:
@@ -395,16 +404,67 @@ def _check_detector(
                 errors.append(f"{label}: proof test {test} does not import {class_name}")
 
 
+def _forge_skill_errors(root: Path) -> list[str]:
+    """Every forge action names an existing atomic skill that documents the action it performs."""
+
+    errors = []
+    for name, skill in FORGE_SKILLS.items():
+        if not _skill_exists(root, skill):
+            errors.append(f"forge action {name!r}: owning skill {skill!r} does not exist under .agents/skills")
+        elif name not in (root / ".agents/skills" / skill / "SKILL.md").read_text(encoding="utf-8"):
+            errors.append(f"forge action {name!r}: owning skill {skill!r} does not document it")
+    return errors
+
+
+def _live_forge_actions(root: Path) -> dict[str, tuple[str, str]]:
+    """Forge actions the runner really emits: the kind argument of an ``_addAction`` call site.
+
+    A literal that appears anywhere else (a docstring, a constant nothing emits) does not count.
+    The kind is read as a string literal or as a module-level string constant passed by name.
+    """
+
+    try:
+        tree = ast.parse((root / FORGE_SOURCE).read_text(encoding="utf-8"))
+    except (OSError, SyntaxError):
+        return {}
+    constants: dict[str, str] = {}
+    for node in tree.body:
+        if (isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name)
+                and isinstance(node.value, ast.Constant) and isinstance(node.value.value, str)):
+            constants[node.targets[0].id] = node.value.value
+    emitted: set[str] = set()
+    for node in ast.walk(tree):
+        if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+                and node.func.attr == "_addAction" and len(node.args) >= 3):
+            continue
+        kind = node.args[2]
+        if isinstance(kind, ast.Constant) and isinstance(kind.value, str):
+            emitted.add(kind.value)
+        elif isinstance(kind, ast.Name) and kind.id in constants:
+            emitted.add(constants[kind.id])
+    return {name: value for name, value in FORGE_ACTIONS.items() if name in emitted}
+
+
+OPTIONAL_BINDING_FIELDS = {"forgeAction"}
+REQUIRED_BINDING_FIELDS = {"sensorId", "debtKind", "authority", "dispatchRule", "repairExecutor", "founderRule", "bindingStatus"}
+
+
 def _check_binding(
     label: str, index: int, binding: Any, ownership: dict[str, set[str]], registered: dict[str, Any],
     authority: dict[str, str], dispatch_rules: dict, repair_executors: dict, founder_rules: dict, errors: list[str],
+    forge_actions: dict[str, tuple[str, str]] | None = None,
 ) -> tuple[Any, Any] | None:
-    if not isinstance(binding, dict) or set(binding) != {"sensorId", "debtKind", "authority", "dispatchRule", "repairExecutor", "founderRule", "bindingStatus"}:
+    fields = set(binding) if isinstance(binding, dict) else set()
+    if not isinstance(binding, dict) or not REQUIRED_BINDING_FIELDS <= fields <= REQUIRED_BINDING_FIELDS | OPTIONAL_BINDING_FIELDS:
         errors.append(f"{label}: malformed binding fields")
         return None
     sid, kind = binding["sensorId"], binding["debtKind"]
     route, executor, founder_rule = binding["dispatchRule"], binding["repairExecutor"], binding["founderRule"]
-    expected_binding_status = "route-bound" if route is not None else "executor-bound" if executor is not None else "founder-routed" if founder_rule is not None else "unrouted"
+    forge = binding.get("forgeAction")
+    expected_binding_status = (
+        "route-bound" if route is not None else "executor-bound" if executor is not None
+        else "founder-routed" if founder_rule is not None else "forge-bound" if forge is not None else "unrouted"
+    )
     if binding["bindingStatus"] != expected_binding_status:
         errors.append(f"{label}: bindingStatus does not match declared live binding")
     if not isinstance(kind, str) or not kind:
@@ -447,6 +507,15 @@ def _check_binding(
         errors.append(f"{label}: missing live repair executor for {kind!r} at {declared_authority!r}")
     if live_founder_rules and (not isinstance(founder_rule, str) or founder_rule not in live_founder_rules):
         errors.append(f"{label}: missing live founder rule for {kind!r} at {declared_authority!r}")
+    live_forges = forge_actions or {}
+    if forge is not None:
+        if not isinstance(forge, str) or forge not in live_forges:
+            errors.append(f"{label}: fabricated or unemitted forge action {forge!r}")
+        elif live_forges[forge] != (kind, declared_authority):
+            errors.append(f"{label}: forge action {forge!r} does not authorize {kind!r} at {declared_authority!r}")
+    live_forge_names = {name for name, value in live_forges.items() if value == (kind, declared_authority)}
+    if live_forge_names and (not isinstance(forge, str) or forge not in live_forge_names):
+        errors.append(f"{label}: missing live forge action for {kind!r} at {declared_authority!r}")
     return (sid, kind)
 
 
@@ -467,10 +536,10 @@ def validate(root: Path = ROOT, catalog_path: Path | None = None) -> dict[str, A
     except OSError as exc:
         return _result([f"cannot read authoritative routine headings: {exc}"], [], {})
     errors: list[str] = []
-    if len(expected_titles) != 17:
-        errors.append(f"authoritative routines must contain exactly 17 numbered headings; found {len(expected_titles)}")
-    if heading_numbers != list(range(1, 18)):
-        errors.append(f"authoritative routine heading numbers must be exactly 1..17; found {heading_numbers}")
+    if len(expected_titles) != ROUTINECOUNT:
+        errors.append(f"authoritative routines must contain exactly {ROUTINECOUNT} numbered headings; found {len(expected_titles)}")
+    if heading_numbers != list(range(1, ROUTINECOUNT + 1)):
+        errors.append(f"authoritative routine heading numbers must be exactly 1..{ROUTINECOUNT}; found {heading_numbers}")
     vocabulary = data["stateVocabulary"]
     if (not isinstance(vocabulary, dict) or set(vocabulary) != set(STATE_VOCABULARY)
             or any(not isinstance(vocabulary[name], dict) or vocabulary[name].get("evaluation") != evaluation
@@ -479,13 +548,15 @@ def validate(root: Path = ROOT, catalog_path: Path | None = None) -> dict[str, A
         errors.append(f"stateVocabulary must define exactly {sorted(STATE_VOCABULARY)} with their static/live evaluation and a meaning")
     _check_hooks(root, data["hooks"], errors)
     rows = data.get("routines")
-    if not isinstance(rows, list) or len(rows) != 17:
-        return _result(errors + ["catalog must contain exactly 17 routine rows"], [], {})
+    if not isinstance(rows, list) or len(rows) != ROUTINECOUNT:
+        return _result(errors + [f"catalog must contain exactly {ROUTINECOUNT} routine rows"], [], {})
     title_errors = [f"routine {i}: expected authoritative title {title!r}" for i, (row, title) in enumerate(zip(rows, expected_titles), 1) if not isinstance(row, dict) or row.get("number") != i or row.get("title") != title]
     if title_errors:
         return _result(errors + title_errors, [], {})
     ownership = _sensor_ownership(root)
     authority, dispatch_rules, repair_executors, registered, founder_rules = _live_policy(root)
+    forge_actions = _live_forge_actions(root)
+    errors.extend(_forge_skill_errors(root))
 
     detectors = data["detectors"]
     detector_by_id: dict[str, dict] = {}
@@ -548,7 +619,7 @@ def validate(root: Path = ROOT, catalog_path: Path | None = None) -> dict[str, A
             continue
         bound: set[tuple[Any, Any]] = set()
         for binding in row["bindings"]:
-            pair = _check_binding(label, index, binding, ownership, registered, authority, dispatch_rules, repair_executors, founder_rules, errors)
+            pair = _check_binding(label, index, binding, ownership, registered, authority, dispatch_rules, repair_executors, founder_rules, errors, forge_actions)
             if pair is not None:
                 bound.add(pair)
                 if isinstance(pair[0], str):
@@ -585,7 +656,7 @@ def live_states(root: Path, receipt: dict[str, Any], catalog_path: Path | None =
 
 
 def _result(errors: list[str], unaccounted: list[str], statuses: dict[str, int], registered: int = 0, accounted: int = 0, dispatch_rules: int = 0, repair_executors: int = 0) -> dict[str, Any]:
-    return {"capabilityOnly": True, "liveHealth": "not-evaluated", "routineCount": 17 if not errors or statuses else 0,
+    return {"capabilityOnly": True, "liveHealth": "not-evaluated", "routineCount": ROUTINECOUNT if not errors or statuses else 0,
             "statusCounts": statuses, "registeredSensorCount": registered, "accountedSensorCount": accounted,
             "dispatchRuleCount": dispatch_rules, "repairExecutorCount": repair_executors,
             "unaccountedSensors": unaccounted, "dependencyPending": any("dependency pending" in e for e in errors),

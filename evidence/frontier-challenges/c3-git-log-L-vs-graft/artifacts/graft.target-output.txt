@@ -1,0 +1,67 @@
+# graft build
+⬆ graft 0.25.0 → 0.28.0 available: run `graft upgrade` (restart your agent after).
+parsing 1/1: examples/frontier/fixtures/line-history/sample-v1.
+✓ wiring: 3 nodes (2 function, 1 file), 3 edges, 1 cards [python]
+  parsed: 1 of 1 files (0 replayed from cache)
+  → /Users/marcotiongson/.gaia-worktrees/cases-scratch/c3-graft-graph
+  ../cases-scratch/c3-graft-graph/ is a local cache: add it to your gitignore if you want it untracked.
+
+# graft ask "locate function score" . --source
+⬆ graft 0.25.0 → 0.28.0 available: run `graft upgrade` (restart your agent after).
+graft ask — "locate function score"  (lexical)
+
+1. score · function  [symbol]
+   examples/frontier/fixtures/line-history/sample-v1.py:L1-L3
+   def score(value): # Initial implementation.
+
+```
+def score(value):
+    # Initial implementation.
+    return value + 1
+```
+
+2. caller · function  [symbol]
+   examples/frontier/fixtures/line-history/sample-v1.py:L6-L7
+   def caller(item)
+
+```
+def caller(item):
+    return score(item)
+```
+
+[graft] only 2 hits — don't re-ask with new wording; switch tool: `graft grep "<literal>"` for every occurrence · `graft skeleton <file>` for a file's full API · `graft callers <symbol>` for who-uses.
+
+# graft callers score .
+⬆ graft 0.25.0 → 0.28.0 available: run `graft upgrade` (restart your agent after).
+score · function · examples/frontier/fixtures/line-history/sample-v1.py:L1-L3
+  calls ← caller (examples/frontier/fixtures/line-history/sample-v1.py:L6-L7)
+      7: return score(item)
+
+# graft callers caller . --direction out
+⬆ graft 0.25.0 → 0.28.0 available: run `graft upgrade` (restart your agent after).
+caller · function · examples/frontier/fixtures/line-history/sample-v1.py:L6-L7
+  calls → score (examples/frontier/fixtures/line-history/sample-v1.py:L1-L3)
+
+# graft ask "historical line evolution of score across commits" .
+⬆ graft 0.25.0 → 0.28.0 available: run `graft upgrade` (restart your agent after).
+graft ask — "historical line evolution of score across commits"  (lexical)
+
+1. score · function  [symbol]
+   examples/frontier/fixtures/line-history/sample-v1.py:L1-L3
+   def score(value): # Initial implementation.
+
+2. caller · function  [symbol]
+   examples/frontier/fixtures/line-history/sample-v1.py:L6-L7
+   def caller(item)
+
+3. sample-v1.py · file  [symbol]
+   examples/frontier/fixtures/line-history/sample-v1.py
+
+[graft] only 3 hits — don't re-ask with new wording; switch tool: `graft grep "<literal>"` for every occurrence · `graft skeleton <file>` for a file's full API · `graft callers <symbol>` for who-uses.
+
+# graft grep "return value" .
+⬆ graft 0.25.0 → 0.28.0 available: run `graft upgrade` (restart your agent after).
+"return value" — 1 hits in 1 symbols across 1 files (searched 1 indexed files)
+
+score · function · examples/frontier/fixtures/line-history/sample-v1.py:L1-L3 · 1 in-edges
+  L3: return value + 1

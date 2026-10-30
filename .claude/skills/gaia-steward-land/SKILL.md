@@ -17,6 +17,9 @@ Turn one verified Class A repair into a reviewable branch and draft PR on the
 integration branch. The runner builds the commit; this skill only opens the PR
 and records it.
 
+Only `forge.open_pr` is landed here. An issue closure (`forge.close_issue`) is not a
+landing and is never performed by this skill; hand it to `gaia-steward-issue-hygiene`.
+
 ## Input
 
 A pending `forge.open_pr` action from `gaia steward full run`. Its `params` give
