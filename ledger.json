@@ -1,5 +1,5 @@
 {
- "generation": 196,
+ "generation": 197,
  "lane": {
   "entries": [
    {
@@ -2552,13 +2552,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-10-30T02:47:35.167564Z",
-   "expiresAt": "2026-10-30T03:30:09.250175Z",
-   "holder": "run-20261030T024735Z-6eec6709"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -11291,7 +11285,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-10-30T02:57:49.338118Z",
+    "asOf": "2026-10-30T03:00:12.498736Z",
     "decisions": [
      {
       "alternative": "Take the finding yourself as a direct Class C ruling, or retire the routine instead of widening its envelope.",
@@ -11502,11 +11496,17 @@
       "whyItMatters": "Stored trustMagnitude stamps disagree with the computed effective value, so displayed trust and computed trust differ until a refresh policy exists. Steward measures this and never edits stamps."
      }
     ],
-    "operations": [],
+    "operations": [
+     {
+      "detail": "independent verification by sonnet-verifier-a0680fa7 (sonnet, effort medium): rejected - Finding reproduces (stored 1★, TM 111.0 grade A, G7 effective 4★; 129 sensor tests pass), so the builder's noChange claim is wrong. The correction is a registry",
+      "kind": "failed_dispatch",
+      "subject": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6"
+     }
+    ],
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-10-30T03:00:12.498736Z",
    "floor": {
     "branch": "dev/steward-integration",
     "ok": true,
@@ -11527,7 +11527,7 @@
     "sonnet"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": true,
     "agents": true,
@@ -11535,7 +11535,7 @@
     "push": false,
     "routine": null
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -14015,7 +14015,7 @@
    "sequence": 1,
    "sourceHead": "dc07528884a759dbd3668d4a0007469265ab396f",
    "startedAt": "2026-10-30T02:47:35.167564Z",
-   "status": "active",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-10-30T02:47:35.167564Z",
@@ -14086,6 +14086,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-10-30T03:00:12.498736Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -14099,7 +14105,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-10-30T03:00:09.250350Z",
+ "updatedAt": "2026-10-30T03:00:13.328384Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
