@@ -9,7 +9,7 @@ level: 3★
 description: Gives an AI agent internet access by routing web requests across 16+
   platforms with MCP support and harness-agnostic integration.
 createdAt: '2026-07-30'
-updatedAt: '2026-10-09'
+updatedAt: '2026-10-30'
 title: Agent Reach
 links:
   github: https://github.com/Panniantong/Agent-Reach/blob/main/agent_reach/skill/SKILL.md
@@ -70,6 +70,38 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/Panniantong/Agent-Reach/blob/main/agent_reach/skill/SKILL.md
+- timestamp: '2026-10-30T13:04:29Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/Panniantong/Agent-Reach/blob/main/agent_reach/skill/SKILL.md
+    (type: github-stars-own)'
+- timestamp: '2026-10-30T13:04:30Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/Panniantong/Agent-Reach (type:
+    repo-own)'
+- timestamp: '2026-10-30T13:04:31Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://wavect.io/blog/agent-reach-open-source-review/
+    (type: peer-review)'
+- timestamp: '2026-10-30T13:04:45Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 53.86 -> 260.83, grade B -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-10-30T13:04:46Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Founder ruling 2026-10-30 (r3-adj-judgement, ADJ-126; agent-reach is a
+    highly regarded skill, rederive): basis for the 3-star level, re-derived from
+    verified evidence. Live skill-file blob link (HTTP 200); GitHub Panniantong/Agent-Reach
+    has 106,622 stars, 9,463 forks, 444 commits, 38 contributors (REST API, 2026-10-30);
+    independent Wavect review (2026-09-02); Better Stack tutorial (12,681 views).
+    TM 53.86 (B) -> 260.83 (A) after adding the missing github-stars-own, repo-own
+    and peer-review rows. Level not lowered and not changed (3-star); the G7 mapping
+    of the new grade would allow 4-star, which is left for a calibration decision.
+    Supersedes the unrecorded basis of the 2026-09-09 restoration.'
 evidence:
 - source: https://lobehub.com/skills/panniantong-agent-reach-skill
   evaluator: unknown
@@ -111,11 +143,46 @@ evidence:
     passed 2026-04-16.
   sourceStartedAt: '2026-02-26'
   grade: C
+- source: https://github.com/Panniantong/Agent-Reach/blob/main/agent_reach/skill/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-10-30'
+  type: github-stars-own
+  notes: GitHub REST stargazers_count of Panniantong/Agent-Reach at 2026-10-30 (106,622
+    stars, 9,463 forks, MIT, pushed 2026-10-25); the skill file blob URL returns HTTP
+    200; the repo carries this single skill. Founder ruling 2026-10-30 (r3-adj-judgement,
+    ADJ-126).
+  stars: 106622
+  skillCountInRepo: 1
+  sourceStartedAt: '2026-02-24'
+  grade: A
+- source: https://github.com/Panniantong/Agent-Reach
+  evaluator: mbtiongson1
+  date: '2026-10-30'
+  type: repo-own
+  notes: GitHub REST default-branch commit count and contributor count of Panniantong/Agent-Reach
+    at 2026-10-30; host-repository maintenance, not independent quality evidence.
+    Founder ruling 2026-10-30 (r3-adj-judgement, ADJ-126).
+  commits: 444
+  contributors: 38
+  sourceStartedAt: '2026-02-24'
+  grade: B
+- source: https://wavect.io/blog/agent-reach-open-source-review/
+  evaluator: mbtiongson1
+  date: '2026-10-30'
+  type: peer-review
+  notes: 'Independent written technical review by Wavect (software consultancy), last
+    reviewed 2026-09-02: audits the repository, installation guide, package metadata
+    and security policy; assesses cost claims, platform matrix, hidden costs, safety
+    and adoption fit. Fetched via firecrawl 2026-10-30. Founder ruling 2026-10-30
+    (r3-adj-judgement, ADJ-126).'
+  reviewers: 1
+  sourceStartedAt: '2026-09-02'
+  grade: C
 verification:
   firstEvidenceAt: '2026-07-29T20:21:28Z'
-trustMagnitude: 53.86
-overallTrustGrade: B
-trustMagnitudeInputHash: 14c069bd883324e5192fc9845715470db7a0f1db0628d8de1dffa7bb7d2553b3
+trustMagnitude: 260.83
+overallTrustGrade: A
+trustMagnitudeInputHash: e43cf49134997b74978b8e07dc7a7e1b2fc501760b67f74b9a3808b2f089b6d7
 ---
 
 ## Installation
