@@ -15,6 +15,64 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-30, OCTOBER CLOSEOUT LAST SPRINTS — EPIC #2189; finish plan in HANDOVER.md §FINISH PLAN)
+
+### TLDR
+- Resume point for any orchestrator, any roster: `founder/reports/yggdrasil-iv-october-2026/HANDOVER.md` §"FINISH PLAN" on `dev/yggdrasil-iv-launch` (gap review vs the original brief, in-flight table, 12 ordered steps, hazards).
+- Founder answered every decision round and all 76 L4 items on the review Artifact (https://claude.ai/artifact/W2YnN4Sa7Lgrki521tzbK3, db `choices`); all recorded verbatim in `CAMPAIGN.md`.
+- Main merge is gated on a PASSING Meta audit of the calibration; the first audit FAILED (FD-7) and corrections are in flight. Founder merges #2151 himself ("Hand it to me ready").
+- Three agent-introduced gate rules were found and are being removed (provenance report `verification/RULE-PROVENANCE.md`). Origin becomes automatic, highest merit; frozen skills compete with locked TM/grade.
+
+### What changed this session (2026-10-29 → 2026-10-30)
+| Layer | State |
+|---|---|
+| Challenge admission + public projection (#2232, #2248, #2253, #2258) | ✅ on dev; 4 real reviews published neutrally (c1–c3 held, meta-not-recommended; c4 rejected at triage); index `unavailable` |
+| Challenger cases C1–C4 + independent Meta verification (#2234) | ✅ on dev; no admissions (founder accepted the negative) |
+| Frontier tooling fixes (#2233), watcher admission + CI coverage (#2256), CLI calibration gaps (#2252), suiteRef guard (#2260), main sync (#2255) | ✅ on dev |
+| Website W3–W6 challenge surfaces (#2250) | ✅ founder-approved, on dev |
+| Evidence within-type dedup (#2257) | ✅ founder-approved, on dev — but merged with RED CI; fallout fix in flight |
+| Adjudication ledger (190 candidates) | ✅ on launch branch; needs approvals regen |
+| October calibration (#2251) | ⏳ waves 1–2 + audit corrections C1a/C2 done; founder-ruling items running; FD-7 suite linking blocked on sibling-cap discussion; re-audit pending |
+| Origin automation + rule fixes | ⏳ provenance report pushed; implementation running |
+| Schema #2176/#2177 | ⏳ #2177 folded in; #2176 conflict resolved (`8aea82dd4`), merge after fallout |
+| Clamp alignment #2259 | ⏳ merge after #2251 |
+| Repo rule: founder review packets ship as an Artifact (#2249) | ✅ on dev |
+| October post, W8, W9, cutoff refresh, L4 execution, launch-branch PR, rollback plan, #2189 update | ❌ not started (steps 7–12) |
+
+### Branches at end of session
+| Branch | Head | Status |
+|---|---|---|
+| dev/yggdrasil-iv | 577ff6074 | integration; conflict-free vs main; fast gate red until fallout PR lands |
+| dev/yggdrasil-iv-launch | (this commit) | proof-of-work; land into dev at the end |
+| review/meta/yggiv-october-calibration (#2251) | 5abb29637+ | in flight |
+| dev/yggiv-origin-automation | in flight | PR pending |
+| dev/yggiv-dedup-fallout | in flight | PR pending |
+| dev/yggdrasil-iv-evidence-schema-final (#2176) | 8aea82dd4 | ready after fallout |
+| dev/yggiv-clamp-alignment (#2259) | 3bd9de0cc | after #2251 |
+| main | dc0752888 | v8.29.1 |
+
+### Issues + PRs touched
+Merged to dev: #2231 #2232 #2233 #2234 #2248 #2249 #2250 #2252 #2253 #2255 #2256 #2257 #2258 #2260 (#2177 into #2176). Open: #2151 #2176 #2251 #2259 + 2 in flight. Filed: #2261 (L4 defaults for verified authors, November), #2262 (deferred ADJ-152/179/090). To file: "Origin is automatic (highest merit)" (origin PR does it).
+
+### Routing — where things live now
+- Rulings: `founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md`. Audits: `verification/`. Ledger: `adjudication/`. Sweep: `sweep/`. Reconciliation: `reconciliation/`.
+- User memory (Claude Code): never touch frozen skills; founder reviews as Artifact; Origin is highest merit (never ask again); renders as throwaway local HTML.
+
+### Lessons / hazards preserved
+- Never merge on red CI — gate the merge on `gh pr checks` (#2257 slipped through a script that merged unconditionally).
+- Agents enforced rules no founder text backs (Unique prerequisite Origin, Origin star floor, "first published"). Require a cited META/GOVERNANCE/ratification line before any gate.
+- Independent adversarial review caught real defects on nearly every security- or engine-touching PR; keep it.
+- Founder decision batches go out as one Artifact page with saved choices; it turned a multi-hour Q&A into one pass.
+- Stale Class P version stamps regen output; regen noise list in HANDOVER hazards.
+
+### Open questions for next orchestrator (put on the review page, one card each)
+1. Suite sibling cap (50 TM per component, META §2.1a, Ygg III PR #1629): keep, change, or remove? Blocks FD-7 automatic suite linking for 23 garrytan + 2 obra.
+2. Automatic Origin tie rule (proposed: incumbent among tied keeps; else none).
+3. IV ratification §IV "Origin transfer = Class C" wording superseded by automatic Origin: founder note needed.
+
+### Token cost (this session)
+Not measured precisely. Roughly 7–8M subagent tokens across ~45 dispatches (mostly Sonnet medium/high, five Opus high), plus the orchestrator context; three session-limit pauses.
+
 ## State Snapshot (2026-10-28, LAUNCH CAMPAIGN PAUSED ON WEEKLY QUOTA — EPIC #2189; resume from HANDOVER.md)
 
 ### TLDR

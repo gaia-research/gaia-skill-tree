@@ -9,6 +9,85 @@ with explicit effort on every dispatch.
 same day as the October cutoff). Three agents died mid-task; their partial state is recorded below.
 Nothing is half-merged. Machine disk ≈5 GB free after cleanup.
 
+## FINISH PLAN — read this first (2026-10-30 21:30 Manila, roster-agnostic)
+
+Any orchestrator (any model) can finish from here. Environment: macOS, `python3` (no `python`, no `timeout`),
+`PYTHONPATH=src`, `GAIA_OPERATOR_OVERRIDE=1` for `gaia dev` verbs, worktrees under `~/.gaia-worktrees/`.
+Commit identity: `git -c user.name="Marcus Rafael B. Tiongson" -c user.email="153011150+mbtiongson1@users.noreply.github.com"`.
+Founder rulings are binding and recorded verbatim in `CAMPAIGN.md` (three tables, 2026-10-28 and 2026-10-30 x2, plus 76 L4 choices).
+Founder review UI: https://claude.ai/artifact/W2YnN4Sa7Lgrki521tzbK3 (db collection `choices`; repo rule in CLAUDE.md
+§ "Founder review packets", #2249). Read choices back with ArtifactData, record verbatim in CAMPAIGN.md, then act.
+
+### Gap review against the original EPIC #2189 brief
+
+| # | Outcome | State | What is left |
+|---|---|---|---|
+| 1 | October Meta re-audit + per-record ledger | ✅ provisional (`sweep/`, 701 records) | Cutoff refresh after 2026-10-31T23:59:59Z (step 9) |
+| 2 | Upstream + PR reconciliation | ✅ ledger, #2197 sync, intake triage | Cutoff re-run of `reconciliation/upstream-sync-commands.sh`; **execute the 76 L4 choices** (step 8); close intake issues once landed on dev |
+| 3 | Real challenger pipeline (+/− cases) | ✅ 4 real cases, Meta-verified, all non-admitted (founder accepted the negative); issuer env created | Boundary on record: watcher bridge does not pass proofSourceSha (#2256 comment); challenge watch stays gated off |
+| 4 | Adjudication / consequence ledger | ✅ built (`adjudication/`) | Regenerate with an approvals input linking each candidate to the CAMPAIGN rulings (approved ≠ 0 now; FD-16 superseded by automatic Origin; FD-13 keep) (step 7) |
+| 5 | Full IV website | ✅ W0, W2, W7, W3–W6 (#2250 founder-approved, merged) | #2259 clamp alignment (step 5); stale "first published" Origin copy (verify origin PR fixed site legend + GOVERNANCE:64); **W8** era III→IV messaging after the October post + founder approval; **W9** screenshot matrix 1440/390/320/focus across all IV surfaces, founder visual evidence (step 11) |
+| 6 | October record + Meta Post (gaia-post), explicit Oct 31 cutoff | ❌ not started | Step 10 |
+| 7 | Integrate to dev, release + rollback readiness, update #2189 | ⏳ | Rollback plan, land `dev/yggdrasil-iv-launch` into dev by merge-commit PR, update #2189, hand #2151 to the founder **ready** (founder merges; "Hand it to me ready") (step 12) |
+
+Main-merge condition (founder): the calibration Meta audit must PASS. First audit = **FAIL**
+(`verification/CALIBRATION-VERIFICATION.md`); corrections in flight; a fresh re-audit is required (step 6).
+
+### In-flight at snapshot time (check each; agents may or may not have finished)
+
+| Work | Branch / worktree | Done when |
+|---|---|---|
+| #2257 dedup fallout: refresh 6 TM caches + tests pinned to old dedup (dev fast gate + Schema/DAG are RED until this lands) | `dev/yggiv-dedup-fallout`, `~/.gaia-worktrees/fallout` | PR open, CI green, merged |
+| #2176 schema (founder signed off as Core): add/add conflict `tests/test_evidence_lifecycle.py` | `dev/yggdrasil-iv-evidence-schema-final`, `~/.gaia-worktrees/schema` | conflict resolved, CI green, merged |
+| Origin automation + rule fixes (provenance report already pushed `2ecf57fed`) | `dev/yggiv-origin-automation`, `~/.gaia-worktrees/origin` | PR open with Origin change list; GitHub issue "Origin is automatic" filed; reviewed; merged |
+| #2251 founder items: graphify revert (stays 5★), general-video freeze, agent-reach re-derive, FD-17 leftovers (moved→relink, removed→freeze), peer-review research (workflow-skill-creator, browser-harness) | `review/meta/yggiv-october-calibration`, `~/.gaia-worktrees/calib` | commits pushed, PR body updated |
+| #2259 clamp alignment (option A) | `dev/yggiv-clamp-alignment`, `~/.gaia-worktrees/clamp` | merge AFTER #2251 + regen |
+
+### Ordered steps to the finish
+
+1. Land the dedup fallout PR (dev green again). Never merge on red CI: gate merges on `gh pr checks` having no `fail` (lesson: #2257 merged red).
+2. Land #2176 (schema) after its conflict fix.
+3. Review (independent, adversarial) and land the Origin automation PR. Founder items it raises: the **tie rule**
+   (proposed: incumbent among the tied keeps; else no Origin) and the IV ratification §IV "Class C Origin transfer"
+   wording being superseded — put both on the review page as one card each.
+4. #2251: merge dev in (merge commit), re-run `gaia dev docs`, drop anything the automation made redundant
+   (FD-10 manual Origin flags stay harmless; hermes keeps Origin by merit). **FD-7 suite linking for 23 garrytan + 2 obra
+   is blocked on the founder's sibling-cap discussion** (`verification/RULE-PROVENANCE.md` §(d): the 50-TM per-component
+   cap is in META §2.1a since Ygg III PR #1629; founder recalls only the fusion being separated). Put that on the
+   review page as a decision with both consequences; founder said FD-7 linking should then be automatic.
+5. Merge #2251, then refresh #2259 (merge dev, regen ledger + leaderboard together) and merge it.
+6. Fresh independent Meta re-audit (new session, Opus-class) of everything calibrated since the FAIL; write
+   `verification/CALIBRATION-REVERIFICATION.md`. PASS is the founder's main-merge condition.
+7. Adjudication ledger: add an approvals input (CAMPAIGN rulings) to `adjudication/tools/build_adjudication.py`, regenerate, `--check`.
+8. L4 batch (curation PR on `review/meta/`): for the 76 choices in CAMPAIGN.md — 53 approve → `gaia dev ratify`
+   with reviewer = founder and approval ref = CAMPAIGN.md L4 table; 5 "other" → map per note (pick the closest existing
+   generic, list picks for the founder only if none fits); 10 "new" → new generics/fusions per the notes (prereqs as
+   noted); prereq links for brain-ingest-gate / brain-link-discipline / brain-taxonomist; interview-me: rename the
+   grill-me generic so both are named implementations; 8 decline (support skills) → close their intake issues with the
+   reason. Skip frozen. Then evidence (`ev-*`), regen, Meta audit deferred to November (#2261).
+9. After 2026-10-31T23:59:59Z: re-run `reconciliation/upstream-sync-commands.sh`, `sweep/tools/prepass.py` diff vs the
+   provisional snapshot, liveness re-probe (`--concurrency 3`), mattpocock/skills witness +72h probe (due
+   2026-11-01T16:40Z); relabel provisional → final without rewriting the frozen snapshot.
+10. October record via the `gaia-post` skill (`.claude/skills/meta-post/`, `scripts/add_post.py`): Meta audit summary,
+    per-skill ledger link, reconciliation, challenger results (all non-admitted), adjudication (proposed vs approved),
+    calibration + audits, changelog, explicit cutoff. Draft first; founder approves. `/gaia-release` for notes only.
+11. W8 era messaging (`docs/js/site-nav.js:54-60`, `docs/index.html:463,:564`, `docs/heroes/index.html:62`, hero post)
+    after step 10 + founder approval; W9 screenshot matrix via `/gaia-preview` + local server; renders as throwaway
+    local HTML (never Artifact); decision packets as Artifact.
+12. Rollback plan (revert-merge recipe for #2151, registry restore point = main tip before merge), land
+    `dev/yggdrasil-iv-launch` into dev, close issues genuinely closed on dev, update #2189, hand #2151 to the founder ready.
+
+### Hazards
+- Class P `registry/gaia.json` carries a stale version (8.28.1); regen stamps it into `ledger/data.json` — keep 8.29.1
+  (the check normalizes it) and never commit `docs/graph/gaia.json` when only the stamp moved.
+- Regen noise never to commit: `layouts_3d.json`, `docs/og/*`, `docs/api/v1/trending/*` (incl. untracked history),
+  `docs/okf/`, `docs/badges/registry.json`.
+- Frozen skills are never touched (frozen on the node or via a frozen suite; `gaia dev freeze` any node).
+- Cite META/GOVERNANCE/ratification lines before enforcing any gate; three agent-invented rules were found (provenance report).
+- Integration branches: merge, never rebase; check conflicts with `git merge-tree --write-tree --name-only`.
+- This Mac's `gh` is the founder's account: agents could approve issuer deployments as the founder.
+- Subagents hit session limits twice; resume them by message rather than restarting; commit per item.
+
 ## 0c. Resume log (2026-10-30, later)
 
 - Merged to dev: #2234 cases `39eb288d9`; #2255 main sync (#2133, #2230, v8.29.1; least-privilege watcher split) `f92b887fb`;
