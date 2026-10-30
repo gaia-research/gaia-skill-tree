@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "frontier-experiment-receipt-v1.1",
+  "experimentRunId": "run-91fa4862613a4fe58e4f588bd9cfa3e7",
+  "campaignId": "yggiv-challenger-cases-2026-10",
+  "nativeVersion": "2.1.312",
+  "documentedVersion": "2.1.312",
+  "executedVersion": "2.1.312",
+  "requestId": "sha256:294c769e208bfb615c0fb2e69cf01fbcd280b056ba75c9ba1b3efa66f6fae8bf",
+  "leadDigest": "sha256:c92373aca088f38931216d7813f64f5368565b77077c1c83f01237ddc33568aa",
+  "claimDigest": "sha256:603e992d59399cbe52322bd9bb87bbce12fed0523cde82d452897559eb1aa1a8",
+  "sourceDigest": "sha256:a72bafb46a558dec5a641916b6f1482b101a8b4ca7602f0a2d3fb636b0b3c25c",
+  "targetDigest": "sha256:f7009493bfd6a1b262b3177ce58383ac32f3b940c3e12e826803867ab231782d",
+  "targetRevision": "d237c0839c9c9197fc861ecec839ed323a9748a4",
+  "historyRef": "git:d237c0839c9c9197fc861ecec839ed323a9748a4",
+  "protocolDigest": "sha256:9eec1ed0566464502ec5c2d2a3cc1073e18d387c2feed3248bc685ede4880c2a",
+  "fixtureDigest": "sha256:8923491e794b09ccb2fb19f68763a75756770a2684438608f1a7ec795051ae1c",
+  "result": "supported",
+  "outputs": [
+    {
+      "label": "native",
+      "contentDigest": "sha256:cf901a19b8c42a03b48b7e8903831a3dc0811e0cc4f712e8d7e79053dc0881a5",
+      "path": "evidence/frontier-challenges/c2-claude-deny-vs-git-guardrails/artifacts/native.json"
+    },
+    {
+      "label": "target",
+      "contentDigest": "sha256:727a83a6ee724fe57aa472f5179ecc132621d51aa3bd6684b398f8c26a6993f8",
+      "path": "evidence/frontier-challenges/c2-claude-deny-vs-git-guardrails/artifacts/hook.target.json"
+    }
+  ],
+  "limitations": [
+    "This is an untrusted experiment record, not verifier authentication or public challenge admission.",
+    "Paired artifacts alone establish neither comparable performance, superiority nor independent verification; Meta must assess protocol execution and counterevidence."
+  ],
+  "recordedAtUTC": "2026-10-28T18:28:15.734483Z",
+  "experimentId": "c2-claude-deny-vs-git-guardrails-v1"
+}

@@ -1,0 +1,16 @@
+{
+  "experiment": "git-log-L-vs-graft-v1",
+  "requestId": "sha256:50a864e709d674403353090556d9342ce9e63a040cd782ebde7c228aae999929",
+  "fixtureDigest": "sha256:deb9f81d78e97c503f48028e4dafb5167ff3b6c966e282e9b1f1c5a77b62c388",
+  "protocolDigest": "sha256:40778442774ff85693e77e7ba0a80a81259bd939180e5de0cc35ba5efc07ef74",
+  "gitVersion": "git version 2.50.1 (Apple Git-155)",
+  "executedVersion": "2.50.1",
+  "fixtureBaselineCommit": "c5754b6925bbd1db899673a9e686de65c45a350f",
+  "fixtureUpdatedCommit": "cd0aa7e6c1e50663109532cddb4b88d5c786eff6",
+  "output": "cd0aa7e6c1e50663109532cddb4b88d5c786eff6 fixture update\n\ndiff --git a/sample.py b/sample.py\n--- a/sample.py\n+++ b/sample.py\n@@ -1,5 +1,7 @@\n def score(value):\n-    # Initial implementation.\n-    return value + 1\n+    # Updated implementation with a bounded input guard.\n+    if value < 0:\n+        return 0\n+    return value + 2\n \n \nc5754b6925bbd1db899673a9e686de65c45a350f fixture baseline\n\ndiff --git a/sample.py b/sample.py\n--- /dev/null\n+++ b/sample.py\n@@ -0,0 +1,5 @@\n+def score(value):\n+    # Initial implementation.\n+    return value + 1\n+\n+\n",
+  "outputDigest": "sha256:0c1f214aaa432aa717cc169e9a31504fe8d39ef6ec83a3c82d7f12d33c8c9a94",
+  "executionCheck": "passed",
+  "result": "inconclusive",
+  "interpretation": "The bounded Git operation ran as expected; Graft comparison has not been executed by an independent verifier. No comparative conclusion or public challenge follows.",
+  "recordedAtUTC": "2026-10-28T18:18:53.314801Z"
+}
