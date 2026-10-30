@@ -28,15 +28,43 @@ evidence:
   contributors: 3
   grade: C
 - source: https://github.com/google-deepmind/science-skills
-  evaluator: unknown
-  date: '2026-06-20'
+  evaluator: mbtiongson1
+  date: '2026-10-30'
+  type: repo-own
+  notes: 'Retyped from a mislabelled peer-review row: a repository URL is not a peer
+    review. GitHub REST default-branch commit count and contributor count of google-deepmind/science-skills
+    at 2026-10-30; host-repository maintenance, not independent quality evidence.
+    Founder ruling 2026-10-30 (r4-peer-review-rows).'
+  commits: 13
+  contributors: 4
+  sourceStartedAt: '2026-05-13'
+  grade: C
+- source: https://storage.googleapis.com/deepmind-media/papers/google_deepmind_science_skills_for_antigravity_towards_efficient_and_reliable_scientific_workflows.pdf
+  evaluator: mbtiongson1
+  date: '2026-10-30'
+  type: self-attestation
+  notes: 'First-party technical report by the Google DeepMind Science team (dated
+    2026-05-19, HTTP 200): ''Google DeepMind Science Skills for Antigravity: Towards
+    Efficient and Reliable Scientific Workflows''. Appendix describes workflow-skill-creator
+    (''distills a completed user workflow into a reusable agent skill'') as part of
+    the bundle whose evaluations show higher task success and lower token and model-call
+    use. Authors are the skill''s own team, so it is not independent peer review;
+    not on arXiv. Founder ruling 2026-10-30 (r4-peer-review-rows).'
+  sourceStartedAt: '2026-05-19'
+  grade: C
+- source: https://tessl.io/registry/skills/github/google-deepmind/science-skills/workflow-skill-creator/quality
+  evaluator: mbtiongson1
+  date: '2026-10-30'
   type: peer-review
-  trustNumber: 78.0
-  grade: S
-  notes: google-deepmind/science-skills workflow creator — meta-skill for composing
-    science database skill workflows
-  reviewers: 3
-  sourceStartedAt: '2024-01-01'
+  notes: 'Independent third-party review of this exact skill by the Tessl registry
+    (rubric-based quality review at revision 4de6786 plus a Snyk security scan): content
+    67% (15/20 passed), description 90% (18/20 passed), validation 16/16, security
+    passed with no findings. It is an automated rubric review with written suggestions,
+    not a human peer review; counted as one reviewer. Fetched via firecrawl 2026-10-30.
+    Founder ruling 2026-10-30 (r4-peer-review-rows).'
+  reviewers: 1
+  sourceStartedAt: '2026-09-01'
+  grade: C
 timeline:
 - timestamp: '2026-06-14T12:32:40Z'
   action: evidence_graded
@@ -131,8 +159,32 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 100.82 -> 100.82, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
-trustMagnitude: 100.82
-overallTrustGrade: A
+- timestamp: '2026-10-30T13:12:06Z'
+  action: evidence_removed
+  contributor: mbtiongson1
+  details: 'Removed dead/invalid evidence: https://github.com/google-deepmind/science-skills'
+- timestamp: '2026-10-30T13:12:07Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/google-deepmind/science-skills
+    (type: repo-own)'
+- timestamp: '2026-10-30T13:12:09Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://storage.googleapis.com/deepmind-media/papers/google_deepmind_science_skills_for_antigravity_towards_efficient_and_reliable_scientific_workflows.pdf
+    (type: self-attestation)'
+- timestamp: '2026-10-30T13:12:27Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://tessl.io/registry/skills/github/google-deepmind/science-skills/workflow-skill-creator/quality
+    (type: peer-review)'
+- timestamp: '2026-10-30T13:12:46Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 100.82 -> 59.65, grade A -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 59.65
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -142,7 +194,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 4a40e654ba7e58c7061c6a8ed3ed36fe8177c2b07d0da1530ce7a3605383ab85
+trustMagnitudeInputHash: d190a64245ca03b37bbe04befb350bfc129aeb9b274477a72e69b85be4c8d662
 verification:
   firstEvidenceAt: '2026-06-19T17:06:48Z'
 title: Workflow-to-Skill Distiller
