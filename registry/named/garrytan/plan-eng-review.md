@@ -2,7 +2,7 @@
 id: garrytan/plan-eng-review
 name: Plan Eng Review
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: code-review-pipeline
 status: named
 title: Engineering Plan Review

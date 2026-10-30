@@ -2,7 +2,7 @@
 id: mattpocock/codebase-design
 name: Codebase Design
 contributor: mattpocock
-origin: false
+origin: true
 genericSkillRef: software-design
 status: named
 links:

@@ -2,7 +2,7 @@
 id: google-deepmind/literature-search-europepmc
 name: Literature-Search-Europepmc
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: scientific-literature-retrieval
 status: awakened
 level: 1★

@@ -2,7 +2,7 @@
 id: mattpocock/resolving-merge-conflicts
 name: Resolving Merge Conflicts
 contributor: mattpocock
-origin: false
+origin: true
 genericSkillRef: git-integration
 status: named
 links:

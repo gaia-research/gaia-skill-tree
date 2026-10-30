@@ -2,7 +2,7 @@
 id: addy-osmani/deprecation-and-migration
 name: deprecation-and-migration
 contributor: addy-osmani
-origin: false
+origin: true
 genericSkillRef: deprecation-and-migration
 status: named
 level: 2★

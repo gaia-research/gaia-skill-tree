@@ -2,7 +2,7 @@
 id: garrytan/remote-mcp
 name: remote-mcp
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: mcp-server-deployment
 status: named
 level: 2★

@@ -650,15 +650,9 @@ def validate_named_skills(graph, named_dir=None, catalog_path=None):
         if not missing and level in _NAMED_VALID_LEVELS:
             buckets[ref].append(fm)
 
-    # Origin uniqueness per bucket
-    for ref, entries in buckets.items():
-        origins = [e for e in entries if e.get("origin") is True]
-        if len(origins) > 1:
-            ids = [e.get("id", "?") for e in origins]
-            errors.append(
-                f"Named skills: genericSkillRef '{ref}' has more than one "
-                f"origin:true — {ids}"
-            )
+    # No Origin-uniqueness check on frontmatter: Origin is derived at build time
+    # (gaia_cli.origin, highest merit) and tied top contenders all hold it
+    # (founder ruling 2026-10-30). Frontmatter `origin` only mirrors the result.
 
     return errors
 

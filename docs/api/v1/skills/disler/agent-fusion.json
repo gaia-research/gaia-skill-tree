@@ -25,7 +25,7 @@
   },
   "title": "Agent Fusion",
   "genericSkillRef": "agent-fusion",
-  "origin": false,
+  "origin": true,
   "description": "Orchestrate multiple specialized AI models as a fused agentic team: form opinions, merge parallel plans, and auto-validate outputs to achieve frontier performance at reduced cost.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

@@ -2,7 +2,7 @@
 id: mattpocock/to-questionnaire
 name: To Questionnaire
 contributor: mattpocock
-origin: false
+origin: true
 genericSkillRef: questionnaire-generation
 status: named
 level: 2★

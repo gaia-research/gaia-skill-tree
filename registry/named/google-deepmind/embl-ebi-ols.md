@@ -2,7 +2,7 @@
 id: google-deepmind/embl-ebi-ols
 name: Embl-Ebi-Ols
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: pathway-ontology-retrieval
 status: awakened
 level: 1★

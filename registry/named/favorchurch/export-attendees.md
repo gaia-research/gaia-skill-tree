@@ -2,7 +2,7 @@
 id: favorchurch/export-attendees
 name: Export Attendees
 contributor: favorchurch
-origin: false
+origin: true
 genericSkillRef: event-attendee-management
 status: named
 level: 1★

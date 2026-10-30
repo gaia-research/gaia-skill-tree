@@ -554,19 +554,18 @@ def build_contested(
             "trustMagnitude": skill.get("trustMagnitude", 0),
             "level": skill.get("level", ""),
             "overallTrustGrade": skill.get("overallTrustGrade"),
+            # Origin is derived by the build (gaia_cli.origin); never re-decided here.
+            "origin": bool(detail.get("origin")),
         }
         buckets.setdefault(generic_ref, []).append(entry)
 
     # Filter to buckets with >= 2 implementations
     contested = {ref: skills for ref, skills in buckets.items() if len(skills) >= 2}
 
-    # Build output — sort each bucket by TM descending; mark origin (highest TM)
+    # Build output — Origin first (derived upstream), then TM descending.
     bucket_list = []
     for ref, skills in contested.items():
-        skills.sort(key=lambda s: -(s.get("trustMagnitude") or 0))
-        # Mark the top skill as origin (highest TM = most established impl)
-        for i, s in enumerate(skills):
-            s["origin"] = i == 0
+        skills.sort(key=lambda s: (not s.get("origin"), -(s.get("trustMagnitude") or 0)))
         top_tm = skills[0].get("trustMagnitude", 0) if skills else 0
         bucket_list.append({
             "genericSkillRef": ref,

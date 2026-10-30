@@ -2,7 +2,7 @@
 id: addy-osmani/doubt-driven-development
 name: doubt-driven-development
 contributor: addy-osmani
-origin: false
+origin: true
 genericSkillRef: adversarial-review
 status: named
 level: 2★

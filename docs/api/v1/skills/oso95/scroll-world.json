@@ -25,7 +25,7 @@
   },
   "title": "Scroll World",
   "genericSkillRef": "scroll-world",
-  "origin": false,
+  "origin": true,
   "description": "Builds scroll-scrubbed 3D world landing pages for any brand or industry, flying camera paths through connected scenes with zero cuts.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

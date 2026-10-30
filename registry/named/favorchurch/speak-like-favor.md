@@ -2,7 +2,7 @@
 id: favorchurch/speak-like-favor
 name: Speak Like Favor
 contributor: favorchurch
-origin: false
+origin: true
 genericSkillRef: humanize-prose
 status: named
 level: 1★

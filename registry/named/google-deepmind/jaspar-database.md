@@ -2,7 +2,7 @@
 id: google-deepmind/jaspar-database
 name: Jaspar-Database
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: genomic-data-retrieval
 status: awakened
 level: 1★

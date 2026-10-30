@@ -2,7 +2,7 @@
 id: favorchurch/ticket-transfer
 name: Ticket Transfer
 contributor: favorchurch
-origin: false
+origin: true
 genericSkillRef: event-ticket-transfer
 status: named
 level: 1★

@@ -2,7 +2,7 @@
 id: addy-osmani/source-driven-development
 name: source-driven-development
 contributor: addy-osmani
-origin: false
+origin: true
 genericSkillRef: grounding
 status: named
 level: 2★

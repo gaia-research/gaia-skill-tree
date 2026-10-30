@@ -2,7 +2,7 @@
 id: obra/systematic-debugging
 name: Systematic Debugging
 contributor: obra
-origin: false
+origin: true
 genericSkillRef: systematic-debugging
 status: named
 title: The Root Cause Hunter

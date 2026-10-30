@@ -2,7 +2,7 @@
 id: garrytan/land-and-deploy
 name: Land and Deploy
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: deployment-automation
 status: named
 title: Land and Deploy

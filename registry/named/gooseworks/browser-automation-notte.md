@@ -2,7 +2,7 @@
 id: gooseworks/browser-automation-notte
 name: Browser Automation Notte
 contributor: gooseworks
-origin: false
+origin: true
 genericSkillRef: browser-automation
 status: named
 title: The Digital Navigator

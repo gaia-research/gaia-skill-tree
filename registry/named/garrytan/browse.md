@@ -2,7 +2,7 @@
 id: garrytan/browse
 name: Browse
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: browser-control
 status: named
 title: Gstack Browse — Directed Browser Navigation

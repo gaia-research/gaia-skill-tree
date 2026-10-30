@@ -2,7 +2,7 @@
 id: pexp13/sentiment-analysis
 name: Sentiment Analysis
 contributor: pexp13
-origin: false
+origin: true
 genericSkillRef: sentiment-analysis
 status: awakened
 level: 1★

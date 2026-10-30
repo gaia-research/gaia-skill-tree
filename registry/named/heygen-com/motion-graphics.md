@@ -2,7 +2,7 @@
 id: heygen-com/motion-graphics
 name: Motion Graphics
 contributor: heygen-com
-origin: false
+origin: true
 genericSkillRef: timeline-animation
 status: named
 level: 3★

@@ -84,7 +84,8 @@ def promote_to_named(skill_data, contributor, skill_name, registry_path):
         f"id: {named_id}\n"
         f"name: {skill_data['name']}\n"
         f"contributor: {contributor}\n"
-        "origin: true\n"
+        # Mirror only; the build derives Origin (highest merit, gaia_cli.origin).
+        "origin: false\n"
         f"genericSkillRef: {skill_data['id']}\n"
         "status: named\n"
         "level: 2★\n"
@@ -102,8 +103,8 @@ def promote_to_named(skill_data, contributor, skill_name, registry_path):
         "\n"
         "## Origin\n"
         "\n"
-        f"First published by @{contributor}. This is the origin implementation "
-        f"for the \"{skill_data['id']}\" skill bucket.\n"
+        f"Implementation by @{contributor} for the \"{skill_data['id']}\" skill bucket. "
+        "Origin is assigned automatically to the bucket's highest-merit implementation.\n"
     )
 
     # Canonical-namespace write: serialize with, and refuse during, a pending

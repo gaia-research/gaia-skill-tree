@@ -2,7 +2,7 @@
 id: vercel/find-skills
 name: Find Skills
 contributor: vercel
-origin: true
+origin: false
 genericSkillRef: skill-discovery
 status: named
 title: The Registry Scout

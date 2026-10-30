@@ -2,7 +2,7 @@
 id: vercel-labs/vercel-react-best-practices
 name: Vercel React Best Practices
 contributor: vercel-labs
-origin: false
+origin: true
 genericSkillRef: react-performance-optimization
 status: named
 level: 4★

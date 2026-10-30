@@ -2,7 +2,7 @@
 id: garrytan/blog-ingest
 name: blog-ingest
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: knowledge-harvest
 status: named
 level: 2★

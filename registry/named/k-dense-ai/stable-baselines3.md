@@ -2,7 +2,7 @@
 id: k-dense-ai/stable-baselines3
 name: Stable Baselines3 Prompt Wrapper
 contributor: k-dense-ai
-origin: false
+origin: true
 genericSkillRef: reinforcement-learning-training
 status: named
 level: 1★

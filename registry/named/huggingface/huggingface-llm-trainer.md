@@ -2,7 +2,7 @@
 id: huggingface/huggingface-llm-trainer
 name: Hugging Face LLM Trainer
 contributor: huggingface
-origin: false
+origin: true
 genericSkillRef: fine-tune
 status: named
 title: The Cloud Fine-Tuner

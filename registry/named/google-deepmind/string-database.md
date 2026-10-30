@@ -2,7 +2,7 @@
 id: google-deepmind/string-database
 name: String-Database
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: proteomic-data-retrieval
 status: awakened
 level: 1★

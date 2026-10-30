@@ -2,7 +2,7 @@
 id: google-deepmind/literature-search-openalex
 name: Literature-Search-Openalex
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: scientific-literature-retrieval
 status: awakened
 level: 1★

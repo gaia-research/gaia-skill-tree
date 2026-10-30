@@ -25,7 +25,7 @@
   },
   "title": "Codebase Design",
   "genericSkillRef": "software-design",
-  "origin": false,
+  "origin": true,
   "description": "Design deep modules with small interfaces and large implementations for better testability.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

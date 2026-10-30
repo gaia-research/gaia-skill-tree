@@ -2,7 +2,7 @@
 id: heygen-com/hyperframes-keyframes
 name: Hyperframes Keyframes
 contributor: heygen-com
-origin: false
+origin: true
 genericSkillRef: timeline-animation
 status: named
 level: 3★

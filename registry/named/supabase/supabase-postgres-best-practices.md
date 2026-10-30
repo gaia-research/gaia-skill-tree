@@ -2,7 +2,7 @@
 id: supabase/supabase-postgres-best-practices
 name: Supabase Postgres Best Practices
 contributor: supabase
-origin: false
+origin: true
 genericSkillRef: postgres-best-practices
 status: named
 level: 1★

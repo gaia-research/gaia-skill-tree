@@ -2,7 +2,7 @@
 id: caioribeiroclw-pixel/evidence-attestation
 name: evidence-attestation
 contributor: caioribeiroclw-pixel
-origin: false
+origin: true
 genericSkillRef: evidence-attestation
 status: named
 level: 1★

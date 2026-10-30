@@ -44,8 +44,8 @@ Before executing any intake steps, verify understanding of these foundational in
 5. **Branch-Aware 4★ Gate (`META.md` §4 / Issue #1741)**:
    - **4★ Promotion Requirement**: Requires Overall Trust Grade A (TM ≥ 100) and live verified
      blob evidence (The Star Bar, `META.md` §2.4).
-   - **Unique Branch** (standalone, no `suiteComponents`): 4★ Unique requires **bucket-level Origin**
-     on its generic bucket (`META.md` §4.1).
+   - **Unique Branch** (standalone, no `suiteComponents`): 4★ Unique requires being its bucket's
+     automatic Origin (highest merit, `META.md` §4.1); no fusion-prerequisite Origin.
    - **Suite Branch** (capstone carrying `suiteComponents`): 4★ Extra does **NOT** require
      bucket-level Origin on its generic bucket. The capstone represents the suite cluster rather
      than a single generic bucket monopoly. Suite origin requirements apply at **5★ Ultimate**
@@ -119,8 +119,8 @@ For each component:
      ```bash
      grep -rl "genericSkillRef: <generic-id>$" registry/named/
      ```
-   - If bucket has no implementations, it is **vacant**. The incoming component is a primary **Origin candidate**.
-   - If bucket has an incumbent: evaluate whether the incoming component is demonstrably more renowned. If not, incoming component will have `origin: false`.
+   - If bucket has no implementations, the incoming component will be its Origin once built.
+   - If bucket has implementations, Origin goes automatically to the highest merit (published level, then TM; ties all hold it). Do not set `origin` yourself.
 3. If no matching generic capability exists:
    - Create a starless generic `basic` node:
      ```bash
@@ -130,7 +130,7 @@ For each component:
        --type basic \
        --no-build
      ```
-   - The incoming component is the sole implementation and therefore an **Origin candidate**.
+   - The incoming component is the sole implementation and therefore becomes the Origin automatically.
 
 ---
 
@@ -266,13 +266,10 @@ Evaluate the promotion gate:
   gaia dev calibrate <contributor>/<suite-slug> 4★ --no-build
   ```
 
-### 5.3 Component Calibration & Origin Assignment
+### 5.3 Component Calibration (Origin is automatic)
 
-1. **Origin Assignment**:
-   For components that are the sole or most renowned implementation of their generic bucket:
-   ```bash
-   gaia dev update-named <contributor>/<component-slug> --origin true
-   ```
+1. **Origin**: nothing to do. `gaia dev docs` derives each bucket's Origin from merit
+   (`META.md` §4.1); `gaia dev update-named --origin` refuses.
 2. **Component Star Calibration**:
    Calibrate each component to its TM grade band:
    - Grade B (TM ≥ 50) → `3★` (must have verified blob link)

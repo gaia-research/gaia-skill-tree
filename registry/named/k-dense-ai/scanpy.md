@@ -2,7 +2,7 @@
 id: k-dense-ai/scanpy
 name: Scanpy Prompt Wrapper
 contributor: k-dense-ai
-origin: false
+origin: true
 genericSkillRef: single-cell-analysis
 status: named
 level: 1★

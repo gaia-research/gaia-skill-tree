@@ -1,5 +1,7 @@
 # Yggdrasil II — Meta Schema Ratification (2026-07-07)
 
+> **Superseded in part (founder ruling 2026-10-30, EPIC #2189).** The Q3/Q5 rule that a **5★ Unique Ultimate** counts Origin in fusion structure (`prerequisites`) is withdrawn: "Uniques dont need a fusion prerequisite origin at all. Where did that come from? thats from suites. … for uniques only it being the origin is required, tm is the usual gate." A Unique at 4★ and 5★ needs only to be its own bucket's Origin, and Origin is automatic and merit-derived (`META.md` §4.1). The stored-flag wording in the v4 amendment below ("authoritative stored `origin` flag") is also superseded. Provenance: `founder/reports/yggdrasil-iv-october-2026/verification/RULE-PROVENANCE.md` (launch branch). Original text is kept below.
+
 ---
 
 ## v4 Amendment — 2026-07-19 (Q3 origin gates: 4★ = bucket-level; 5★+ = fusion-structure)

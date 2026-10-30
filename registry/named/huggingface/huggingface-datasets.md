@@ -2,7 +2,7 @@
 id: huggingface/huggingface-datasets
 name: Hugging Face Datasets
 contributor: huggingface
-origin: false
+origin: true
 genericSkillRef: data-analysis
 status: named
 title: The Dataset Cartographer

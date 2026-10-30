@@ -2,7 +2,7 @@
 id: garrytan/qa
 name: QA
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: e2e-testing
 status: named
 title: Gstack QA

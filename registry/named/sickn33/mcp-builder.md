@@ -2,7 +2,7 @@
 id: sickn33/mcp-builder
 name: sickn33 MCP Builder
 contributor: sickn33
-origin: false
+origin: true
 genericSkillRef: mcp-server-creation
 status: awakened
 level: 1★

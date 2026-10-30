@@ -2,7 +2,7 @@
 id: gaia-research/fuse
 name: Fuse
 contributor: gaia-research
-origin: false
+origin: true
 genericSkillRef: skill-fusion
 status: named
 level: 2★

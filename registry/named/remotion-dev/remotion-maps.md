@@ -2,7 +2,7 @@
 id: remotion-dev/remotion-maps
 name: Remotion Maps
 contributor: remotion-dev
-origin: false
+origin: true
 genericSkillRef: map-animation
 status: named
 level: 1★

@@ -2,7 +2,7 @@
 id: garrytan/concept-synthesis
 name: Concept Synthesis
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: concept-synthesis
 status: named
 level: 3★

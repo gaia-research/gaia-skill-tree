@@ -4,7 +4,7 @@
 Runs 13 parallel/concurrent audit dimensions:
   1. star-bar           — 3★+ named skills missing/dead links.github or non-blob
   2. liveness           — concurrent URL checking for dead links (404/error)
-  3. origin-attribution — META §4.1 origin standing rules (renowned, <=1★ forbidden, single origin)
+  3. origin-attribution — frontmatter `origin` mirror drift vs the derived Origin (gaia_cli.origin)
   4. unbacked-star      — level exceeds Trust Magnitude grade ceiling
   5. brand-coupled      — generic IDs containing brand/vendor names
   6. heavy-deps         — 3★+ named skills with heavyweight deps
@@ -121,19 +121,16 @@ def check_liveness(urls_to_check, max_workers=20, timeout=6):
         results = list(executor.map(probe, urls_to_check))
     return results
 
+_FROZEN_IDS = None
+
+
 def is_skill_frozen(data: dict) -> bool:
-    """Return True if the skill was frozen via upstream_deprecated or frontmatter."""
-    if data.get("frozen") is True or bool(data.get("frozenAt")):
-        return True
-    if data.get("suiteComponents") and data.get("installable") is not False:
-        return False
-    timeline = data.get("timeline", [])
-    if isinstance(timeline, list):
-        return any(
-            isinstance(e, dict) and e.get("action") == "upstream_deprecated"
-            for e in timeline
-        )
-    return False
+    """Frozen per the one definition in gaia_cli.frozen (self or through a frozen suite)."""
+    from gaia_cli.frozen import isSelfFrozen
+
+    if _FROZEN_IDS is not None:
+        return data.get("id") in _FROZEN_IDS
+    return isSelfFrozen(data)
 
 def championClusterFindings(named, tmById=None):
     """Champion review findings for multi-implementation generics (META §6.1).
@@ -218,6 +215,9 @@ def run_meta_sweep():
     print("=== Gaia Meta Sweep Audit ===")
     nodes, named = load_registry()
     print(f"Loaded {len(nodes)} generic nodes and {len(named)} named skills.")
+    global _FROZEN_IDS
+    from gaia_cli.frozen import frozenIds
+    _FROZEN_IDS = frozenIds(item["meta"] for item in named.values())
 
     findings = collections.defaultdict(list)
 
@@ -282,45 +282,26 @@ def run_meta_sweep():
 
     # 3. Origin Attribution (META §4.1)
     print("Dimension 3: Origin Attribution...")
-    by_generic = collections.defaultdict(list)
+    # Origin is automatic (founder rulings 2026-10-30): the highest-merit named
+    # implementation per bucket, ties all hold it, no star floor. Nothing here
+    # proposes a manual reassignment; it only reports a stale frontmatter mirror.
+    from gaia_cli.origin import contenderPool, registryOrigins
+    from gaia_cli.registryMaps import buildMergedSkillMap
+    holders = registryOrigins(contenderPool(REPO_ROOT, buildMergedSkillMap(REPO_ROOT)))
     for skill_id, item in named.items():
-        gen = item["meta"].get("genericSkillRef")
-        if gen:
-            by_generic[gen].append(item["meta"])
-
-    for gen, skills in by_generic.items():
-        origins = [s for s in skills if s.get("origin") is True]
-        for o in origins:
-            if parse_star(o.get("level")) <= 1:
-                findings["origin-attribution"].append({
-                    "target": o.get("id"),
-                    "priority": "P1",
-                    "reason": f"Skill holds Origin standing despite being ≤1★ ({o.get('level')}) for generic '{gen}'",
-                    "suggestedAction": "Strip origin flag (origin: false) per META §4.1",
-                    "sources": [o.get("id")],
-                })
-        if len(origins) > 1:
+        data = item["meta"]
+        gen = data.get("genericSkillRef")
+        if not gen or data.get("status") not in ("named", "awakened") or is_skill_frozen(data):
+            continue
+        derived = skill_id in holders.get(gen, frozenset())
+        if (data.get("origin") is True) != derived:
             findings["origin-attribution"].append({
-                "target": gen,
-                "priority": "P1",
-                "reason": f"Multiple implementations claim Origin standing in generic '{gen}': {[s.get('id') for s in origins]}",
-                "suggestedAction": "Retain Origin solely on highest-ranking / highest-TM implementation",
-                "sources": [s.get("id") for s in origins],
+                "target": skill_id,
+                "priority": "P3",
+                "reason": f"Frontmatter origin ({data.get('origin')}) differs from the derived Origin ({derived}) in '{gen}'",
+                "suggestedAction": "Run `gaia dev docs`; the build mirrors the derived Origin into frontmatter (never set it by hand)",
+                "sources": [item["path"]],
             })
-        elif len(origins) == 1:
-            origin_skill = origins[0]
-            origin_stars = parse_star(origin_skill.get("level"))
-            for s in skills:
-                s_stars = parse_star(s.get("level"))
-                if s_stars > origin_stars:
-                    findings["origin-attribution"].append({
-                        "target": origin_skill.get("id"),
-                        "priority": "P2",
-                        "reason": f"Origin holder {origin_skill.get('id')} ({origin_stars}★) is outclassed by {s.get('id')} ({s_stars}★) in generic '{gen}'",
-                        "suggestedAction": f"Reassign Origin to {s.get('id')} per META §4.1 renowned rule",
-                        "sources": [origin_skill.get("id"), s.get("id")],
-                    })
-                    break
 
     # 4. Unbacked Star (Level > TM Grade)
     print("Dimension 4: Unbacked Star...")
@@ -791,7 +772,7 @@ def generate_html_report(report_data):
     <h2>1. Executive Summary &amp; Abstract</h2>
     <p>
       This audit presents a programmatic, 12-dimension sweep across the entire Gaia Skill Tree registry, evaluating <strong>{snap['totalGenerics']} generic capabilities</strong> and <strong>{snap['totalNamedSkills']} named skills</strong> against the canonical invariants of <code>META.md</code>.
-      Following the Yggdrasil III recalibration, this sweep enforces the logarithmic adoption curve, verifies active URL liveness across 250+ evidence endpoints, realigns Origin standing under the merit-based renowned rule (§4.1), and screens for brand coupling and unbacked ranks.
+      Following the Yggdrasil III recalibration, this sweep enforces the logarithmic adoption curve, verifies active URL liveness across 250+ evidence endpoints, checks the derived Origin mirror (§4.1), and screens for brand coupling and unbacked ranks.
     </p>
 
     <div class="stats-grid">
@@ -839,7 +820,7 @@ def generate_html_report(report_data):
 
     <h2>6. Governance &amp; Next Actions</h2>
     <ol>
-      <li><strong>Remediate Outclassed Origins:</strong> Apply Origin merit realignments to promote active 4★/5★ implementations over dormant stubs.</li>
+      <li><strong>Origin is automatic:</strong> the build derives each bucket's Origin from merit; run <code>gaia dev docs</code> to refresh any stale frontmatter mirror.</li>
       <li><strong>Calibrate Unbacked Ranks:</strong> Bring historical pre-logarithmic 5★ stubs down to their certified Grade B ceilings (3★).</li>
       <li><strong>Refactor Brand Generics:</strong> Migrate vendor nodes (<code>firecrawl</code>, <code>supabase</code>) to capability nodes.</li>
     </ol>

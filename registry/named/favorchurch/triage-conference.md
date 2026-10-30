@@ -2,7 +2,7 @@
 id: favorchurch/triage-conference
 name: Triage Conference
 contributor: favorchurch
-origin: false
+origin: true
 genericSkillRef: event-support-triage
 status: named
 level: 1★

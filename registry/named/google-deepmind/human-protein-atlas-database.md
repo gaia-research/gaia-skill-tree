@@ -2,7 +2,7 @@
 id: google-deepmind/human-protein-atlas-database
 name: Human-Protein-Atlas-Database
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: proteomic-data-retrieval
 status: awakened
 level: 1★

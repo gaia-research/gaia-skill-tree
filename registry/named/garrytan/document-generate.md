@@ -2,7 +2,7 @@
 id: garrytan/document-generate
 name: Document Generate
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: document-editing
 status: named
 title: Diataxis Doc Generator

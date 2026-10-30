@@ -61,7 +61,7 @@ _Avoid_: writing a `branch` field to a node; treating branch as user-editable.
 1★ Awakened → 2★ Named → 3★ Evolved. The branch for skills **without** `suiteComponents` below 4★. A skill *with* `suiteComponents` is **Suite-branch from 2★** (see below), even while it shows these shared words below 4★.
 
 **Unique branch**:
-4★ Unique → 5★ Unique Ultimate → 6★ Unique Impossible. For skills that reach 4★+ **without** being a suite (the Named Skill carries no `suiteComponents`). `suiteRef` membership does NOT disqualify — a "world-renowned handoff skill" that happens to live inside a suite is still Unique. Standalone-prestige track. Impeccable is the archetype. Gates: 4★ = Origin + TM ≥ 100 (A); 5★ = Origin + TM ≥ 250 (S); origins counted in **fusion structure** (`prerequisites`), not `suiteComponents`. 6★ Unique Impossible = provisional 5-predicate gate (Apex minus `directNestedSuiteGte1`).
+4★ Unique → 5★ Unique Ultimate → 6★ Unique Impossible. For skills that reach 4★+ **without** being a suite (the Named Skill carries no `suiteComponents`). `suiteRef` membership does NOT disqualify — a "world-renowned handoff skill" that happens to live inside a suite is still Unique. Standalone-prestige track. Impeccable is the archetype. Gates: 4★ = bucket Origin + TM ≥ 100 (A); 5★ = bucket Origin + TM ≥ 250 (S). "Bucket Origin" means the skill is the automatic, highest-merit Origin of its own generic bucket (META §4.1); there is no Origin requirement on fusion prerequisites (founder ruling 2026-10-30). 6★ Unique Impossible = provisional 5-predicate gate (Apex minus `directNestedSuiteGte1`).
 _Avoid_: treating suite membership as automatically disqualifying from Unique.
 
 **Suite branch**:
@@ -80,7 +80,7 @@ The rank name for a 6★ Unique-branch skill. Provisional 5-predicate gate; the 
 _Avoid_: using "Apex" for a Unique-branch 6★ (Apex is Suite-branch only, post-Yggdrasil II).
 
 **Fusion structure**:
-The `prerequisites` graph of a starless node — the fusion-recipe origin edges that produce a `type=fusion` skill. Distinct from `suiteComponents` (co-located sibling components of a Suite). Unique gates count origins in fusion structure; Suite gates count origins in `suiteComponents`.
+The `prerequisites` graph of a starless node — the fusion-recipe origin edges that produce a `type=fusion` skill. Distinct from `suiteComponents` (co-located sibling components of a Suite). Suite gates count origins in `suiteComponents`; Unique gates need only bucket Origin (no fusion-structure Origin).
 _Avoid_: conflating fusion structure with suite components.
 
 **`computeBranch(named)`**:

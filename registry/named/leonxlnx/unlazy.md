@@ -2,7 +2,7 @@
 id: leonxlnx/unlazy
 name: unlazy
 contributor: leonxlnx
-origin: false
+origin: true
 genericSkillRef: task-depth-enforcement
 status: named
 level: 3★

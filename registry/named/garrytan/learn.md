@@ -2,7 +2,7 @@
 id: garrytan/learn
 name: Learn
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: memory-manage
 status: named
 title: Gstack Learn — Persistent Memory Management

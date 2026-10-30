@@ -2,7 +2,7 @@
 id: garrytan/canary
 name: Canary
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: detect-anomaly
 status: named
 title: Gstack Canary

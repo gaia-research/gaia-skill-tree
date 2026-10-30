@@ -2,7 +2,7 @@
 id: gaia-research/cost
 name: Cost
 contributor: gaia-research
-origin: false
+origin: true
 genericSkillRef: token-observability
 status: named
 level: 1★

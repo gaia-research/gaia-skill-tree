@@ -2,7 +2,7 @@
 id: k-dense-ai/qiskit
 name: Qiskit Prompt Wrapper
 contributor: k-dense-ai
-origin: false
+origin: true
 genericSkillRef: quantum-circuit-programming
 status: named
 level: 1★

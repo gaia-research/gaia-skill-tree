@@ -2,7 +2,7 @@
 id: google-deepmind/ucsc-conservation-and-tfbs
 name: Ucsc-Conservation-And-Tfbs
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: genomic-data-retrieval
 status: awakened
 level: 1★

@@ -112,6 +112,12 @@ def buildRows() -> list[dict]:
         project_suite_metadata(namedSkillMap, REPO_ROOT)
         project_suite_metadata({skill["id"]: skill for skill in skills}, REPO_ROOT)
     apexState = {"genericSkillMap": mergedMap, "namedSkillMap": namedSkillMap}
+    # Origin is derived (gaia_cli.origin), never read from frontmatter; frozen
+    # skills keep their locked TM and grade (gaia_cli.frozen).
+    from gaia_cli.frozen import frozenIds, frozenLock
+    from gaia_cli.origin import contenderPool, registryOrigins
+    holders = registryOrigins(contenderPool(REPO_ROOT, mergedMap))
+    frozen = frozenIds(skills)
     mayStarsMap = buildMayStarsMap()
 
     rows: list[dict] = []
@@ -123,8 +129,11 @@ def buildRows() -> list[dict]:
         skillId = fm.get("id") or "unknown"
         tm = computeTrustMagnitude(fm, mergedMap, evaluationAtUTC=evaluation_at_utc)
         typeBreakdown = computeTrustMagnitudeByType(fm, mergedMap, evaluationAtUTC=evaluation_at_utc)
-        origin = (fm.get("origin") is True or fm.get("origin") == "true")
-        if evaluation_at_utc is None:
+        origin = skillId in holders.get(fm.get("genericSkillRef"), frozenset())
+        locked = frozenLock(fm) if skillId in frozen else None
+        if locked is not None:
+            tm, grade = locked
+        elif evaluation_at_utc is None:
             grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
         else:
             from gaia_cli.trustMagnitude import _countDistinctEvidenceTypes, _hasEligibleIndependentWitness

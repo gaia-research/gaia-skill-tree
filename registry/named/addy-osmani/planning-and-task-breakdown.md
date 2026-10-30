@@ -2,7 +2,7 @@
 id: addy-osmani/planning-and-task-breakdown
 name: Planning and Task Breakdown
 contributor: addy-osmani
-origin: false
+origin: true
 genericSkillRef: vertical-slice-planning
 status: named
 level: 3★

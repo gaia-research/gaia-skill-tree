@@ -2,7 +2,7 @@
 id: remotion-dev/remotion-interactivity
 name: Remotion Interactivity
 contributor: remotion-dev
-origin: false
+origin: true
 genericSkillRef: video-interactivity
 status: named
 level: 1★

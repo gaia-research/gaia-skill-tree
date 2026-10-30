@@ -85,8 +85,8 @@ updatedAt: "2026-04-29"
 class TestNamedSkillIndexGeneration(unittest.TestCase):
     """Test generateNamedIndex.py bucket grouping and origin uniqueness."""
 
-    def test_single_origin_per_bucket(self):
-        """validate_and_group allows only one origin per genericSkillRef."""
+    def test_stored_origin_flags_are_not_validated_origin_is_derived(self):
+        """Origin is derived at build time; duplicate stored flags are not an error."""
         from scripts.generateNamedIndex import validate_and_group
 
         named_skills = [
@@ -95,7 +95,7 @@ class TestNamedSkillIndexGeneration(unittest.TestCase):
         ]
         graph_data = {"skills": [{"id": "web-search"}]}
         errors, *_ = validate_and_group(named_skills, graph_data)
-        self.assertTrue(any("origin" in e.lower() for e in errors), f"Expected origin duplicate error, got: {errors}")
+        self.assertEqual(errors, [])
 
     def test_bucket_groups_by_generic_ref(self):
         """validate_and_group returns correct bucket grouping."""

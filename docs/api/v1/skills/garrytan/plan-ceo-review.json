@@ -25,7 +25,7 @@
   },
   "title": "CEO Plan Review",
   "genericSkillRef": "evaluate-output",
-  "origin": false,
+  "origin": true,
   "description": "Rigorous product strategy and scope review in four modes — SCOPE EXPANSION, SELECTIVE EXPANSION, HOLD SCOPE, and SCOPE REDUCTION — evaluating architecture, security, data flows, testing, and edge cases to ensure plans ship at the highest standard before implementation begins.",
   "tags": [
     "product-strategy",

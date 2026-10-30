@@ -2,7 +2,7 @@
 id: browser-use/browser-harness
 name: Browser Harness
 contributor: browser-use
-origin: true
+origin: false
 genericSkillRef: browser-control
 status: named
 title: The Dom Whispering

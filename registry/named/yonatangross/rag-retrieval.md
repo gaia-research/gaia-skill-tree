@@ -2,7 +2,7 @@
 id: yonatangross/rag-retrieval
 name: RAG Retrieval
 contributor: yonatangross
-origin: false
+origin: true
 genericSkillRef: rag-pipeline
 status: named
 title: The Knowledge Architect

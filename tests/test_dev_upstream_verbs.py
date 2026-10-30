@@ -51,6 +51,14 @@ _SKILL_MD_1STAR = _SKILL_MD_2STAR.replace("level: 2\u2605", "level: 1\u2605")
 
 _SKILL_MD_ALREADY_FROZEN = _SKILL_MD_2STAR.replace(
     "installable: true", "installable: false"
+).replace(
+    "timeline: []",
+    "timeline:\n- timestamp: '2026-02-01T00:00:00Z'\n  action: upstream_deprecated\n  details: removed upstream",
+)
+
+# installable: false alone (no public repo) is NOT frozen (gaia_cli.frozen).
+_SKILL_MD_NOT_INSTALLABLE = _SKILL_MD_2STAR.replace(
+    "installable: true", "installable: false"
 )
 
 _SKILL_MD_WITH_UPSTREAM = """\
@@ -581,6 +589,15 @@ class TestFreezePreflightRejects:
         from gaia_cli.commands.dev.freeze import freeze_command
         with pytest.raises(SystemExit):
             freeze_command(args)
+
+
+    def test_not_installable_is_not_frozen_and_can_be_frozen(self, tmp_path):
+        registry, skill_file = _make_registry(tmp_path, _SKILL_MD_NOT_INSTALLABLE)
+        args = _freeze_args(registry)
+
+        from gaia_cli.commands.dev.freeze import freeze_command
+        freeze_command(args)
+        assert "upstream_deprecated" in skill_file.read_text(encoding="utf-8")
 
 
 # ---------------------------------------------------------------------------

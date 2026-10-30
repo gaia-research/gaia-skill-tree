@@ -25,7 +25,7 @@
   },
   "title": "GBrain Brain Operations",
   "genericSkillRef": "knowledge-management",
-  "origin": false,
+  "origin": true,
   "description": "Performs the brain-first read, enrich, write, attribution, and backlink cycle for a persistent knowledge base.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

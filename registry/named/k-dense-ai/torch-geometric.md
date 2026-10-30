@@ -2,7 +2,7 @@
 id: k-dense-ai/torch-geometric
 name: Torch Geometric Prompt Wrapper
 contributor: k-dense-ai
-origin: false
+origin: true
 genericSkillRef: graph-neural-network-modeling
 status: named
 level: 1★

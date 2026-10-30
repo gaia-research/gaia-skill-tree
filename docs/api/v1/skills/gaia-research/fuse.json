@@ -25,7 +25,7 @@
   },
   "title": "Skill Fusion",
   "genericSkillRef": "skill-fusion",
-  "origin": false,
+  "origin": true,
   "description": "Composes multiple named skill implementations for a single contributor into a unified ultimate or suite skill node: collecting component IDs, verifying node existence, researching evidence, writing the ultimate node, back-linking derivatives on components, updating registry indexes, and opening a pull request.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

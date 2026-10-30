@@ -2,7 +2,7 @@
 id: favorchurch/update-unique-churches
 name: Update Unique Churches
 contributor: favorchurch
-origin: false
+origin: true
 genericSkillRef: crm-data-cleanup
 status: named
 level: 1★

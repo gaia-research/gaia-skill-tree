@@ -2,7 +2,7 @@
 id: google-deepmind/pubchem-database
 name: Pubchem-Database
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: molecular-databases
 status: awakened
 level: 1★

@@ -2,7 +2,7 @@
 id: google-deepmind/opentargets-database
 name: Opentargets-Database
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: clinical-data-retrieval
 status: awakened
 level: 1★

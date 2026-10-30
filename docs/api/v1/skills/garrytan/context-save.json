@@ -25,7 +25,7 @@
   },
   "title": "Gstack Context Save — Session State Snapshot",
   "genericSkillRef": "context-compression",
-  "origin": false,
+  "origin": true,
   "description": "Compresses the current session context into a compact summary file that can be restored later, enabling long-running workflows to survive context-window limits.",
   "tags": [
     "context-compression",

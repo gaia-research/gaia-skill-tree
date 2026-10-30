@@ -8,7 +8,7 @@ description: >
 
 # gaia-meta-sweep
 
-**Yggdrasil IV authority:** [Ratified challenge/degradation/recovery policy](../../../founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md). A whole-registry sweep **appraises and proposes**. Potential age/freshness decay is shadow-only; published trust decreases require independently verified relevant counterevidence and approved canonical publication. Current Origin is merit-based per `META.md` §4.1 and cannot become vacant from a challenge. Class B Steward may resolve only reproducible technical challenge status, not scores or ranks. Existing weights/caps/thresholds/Fusion Score are frozen pending an explicit RFC #2148 implementation gate.
+**Yggdrasil IV authority:** [Ratified challenge/degradation/recovery policy](../../../founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md). A whole-registry sweep **appraises and proposes**. Potential age/freshness decay is shadow-only; published trust decreases require independently verified relevant counterevidence and approved canonical publication. Current Origin is automatic, highest merit per `META.md` §4.1, and cannot become vacant from a challenge. Class B Steward may resolve only reproducible technical challenge status, not scores or ranks. Existing weights/caps/thresholds/Fusion Score are frozen pending an explicit RFC #2148 implementation gate.
 
 Orchestrate a registry-wide **current-tree appraisal** using a multi-phase Workflow. The skill fans out the 13 audit dimensions from META.md across the complete post-ingest tree, performs a deterministic evidence / Trust Magnitude / rank appraisal, layers Jev semantic review and Luna fallback where meaning or abstraction needs judgment, then adversarially verifies findings before synthesis.
 
@@ -96,7 +96,7 @@ Dimensions:
 
 1. `star-bar` — every 3★+ named skill missing/dead `links.github` (META §2.4)
 2. `liveness` — run `python scripts/verify_evidence.py`, return broken URLs (META §2.2 Liveness Heartbeat)
-3. `origin-attribution` — for every `genericSkillRef`, evaluate Origin standing per META §4.1 (most renowned / highest-rated, ties broken by TM score, exactly one Origin per bucket, ≤1★ cannot hold Origin). Flag multiple origins, ≤1★ origin claims, or lower-ranked skills holding Origin when a higher-ranked/higher-TM implementation exists.
+3. `origin-attribution` — Origin is automatic (META §4.1, `src/gaia_cli/origin.py`): highest published level, then TM; tied top contenders all hold it; no star floor; frozen skills keep their locked TM/grade. This dimension only reports a non-frozen file whose frontmatter `origin` mirror differs from the derived value (fix: `gaia dev docs`). Never propose a manual Origin reassignment.
 4. `unbacked-star` — named skills whose `level` is not backed by their own + inherited evidence (generics are starless — no overshoot possible)
 5. `brand-coupled` — generic IDs containing brand/product names (META §1, §2.4)
 6. `heavy-deps` — 3★+ named skills with known heavyweight deps / niche integrations (generic demerits are removed from the schema)
@@ -142,7 +142,7 @@ For each named skill:
 3. Compare computed TM / grade and META.md gates with the skill's current star level. Record `currentLevel`, `computedTm`, `computedGrade`, `eligibleLevel` (or the bounded set of eligible levels when another non-TM gate remains), and the exact gate causing any mismatch.
 4. Feed evidence rows that require **semantic** judgment into Jev `--mode evidence`: relevance to the claimed capability, methodology mismatch, suspiciously broad claims, or evidence that appears duplicative in meaning. Jev is not the liveness checker and does not calculate TM.
 5. Jev emits a fallback packet; it does not launch Luna. The orchestrator may hand routine uncertainty to `worker-luna`, conflicting evidence or ambiguous taxonomy to `worker-luna-high`, and deep architectural or contested-policy questions to `worker-luna-xhigh`. Record a fallback as covered only after Luna actually reviews the packet.
-6. Re-evaluate Origin standing when rank / TM order changes inside a generic bucket, and flag Champion review when the implementation landscape materially changed. Models may recommend review; deterministic META rules and human ratification own the actual designation.
+6. Origin follows rank / TM automatically at build time (META §4.1); report the resulting Origin deltas, and flag Champion review when the implementation landscape materially changed. Nobody, model or human, designates Origin by hand.
 
 For generic nodes, use Jev `--mode meta --collect-repo` in bounded pages to review abstraction scope and vendor neutrality. Combine those semantic hints with the deterministic Survey findings and the observed named-skill landscape.
 

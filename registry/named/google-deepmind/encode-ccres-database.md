@@ -2,7 +2,7 @@
 id: google-deepmind/encode-ccres-database
 name: Encode-Ccres-Database
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: genomic-data-retrieval
 status: awakened
 level: 1★

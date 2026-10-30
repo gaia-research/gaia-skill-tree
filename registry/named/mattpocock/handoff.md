@@ -2,7 +2,7 @@
 id: mattpocock/handoff
 name: Handoff
 contributor: mattpocock
-origin: false
+origin: true
 genericSkillRef: agent-handoff
 status: named
 title: The Handoff Protocol

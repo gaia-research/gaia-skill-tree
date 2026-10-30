@@ -2,7 +2,7 @@
 id: google-deepmind/protein-sequence-msa
 name: Protein-Sequence-Msa
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: computational-biology-workflows
 status: awakened
 level: 1★

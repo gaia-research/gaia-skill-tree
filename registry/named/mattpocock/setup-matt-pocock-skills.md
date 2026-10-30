@@ -2,7 +2,7 @@
 id: mattpocock/setup-matt-pocock-skills
 name: Setup Matt Pocock Skills
 contributor: mattpocock
-origin: false
+origin: true
 genericSkillRef: agent-environment-setup
 status: named
 title: The Environment Scaffolder

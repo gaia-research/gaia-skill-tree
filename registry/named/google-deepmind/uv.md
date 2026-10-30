@@ -2,7 +2,7 @@
 id: google-deepmind/uv
 name: Uv
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: computational-science-platform
 status: awakened
 level: 1★

@@ -2,7 +2,7 @@
 id: garrytan/gbrain
 name: GBrain
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: gbrain
 status: named
 level: 4★

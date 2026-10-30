@@ -19,6 +19,25 @@ from gaia_cli.commands.dev.helpers import (
 )
 
 
+def _preflight_no_manual_origin(args) -> None:
+    """Origin is automatic (founder rulings 2026-10-30); refuse a manual flag."""
+    if getattr(args, "origin", None) is None:
+        return
+    from gaia_cli.commands.dev.helpers import _fail_dev_preflight
+
+    _fail_dev_preflight(
+        "--origin is retired: Origin is automatic. Each generic bucket's Origin is its "
+        "highest-merit named implementation (published level, then Trust Magnitude); "
+        "tied top contenders all hold it, frozen skills compete with their locked TM/grade, "
+        "and there is no star floor. Nothing was written.",
+        fix=(
+            "Change the skill's merit instead (evidence via `gaia dev evidence`, level via "
+            "`gaia dev calibrate`), then run `gaia dev docs`; the build derives Origin. "
+            "See META.md §4.1 and src/gaia_cli/origin.py."
+        ),
+    )
+
+
 def meta_update_named_command(args):
     registry_path = args.registry
     skill_id = args.skill_id.lstrip("/")
@@ -36,6 +55,7 @@ def meta_update_named_command(args):
     status_promoted_to_named = False
 
     _run_dev_preflights([
+        lambda: _preflight_no_manual_origin(args),
         lambda: _preflight_named_status_identity(skill_id, meta, args),
         lambda: preflightSuiteComponents(registry_path, getattr(args, "suite_components", None)),
         lambda: preflightGithubLink(getattr(args, "github_link", None)),
@@ -102,36 +122,8 @@ def meta_update_named_command(args):
             if not target_val and "links" in meta:
                 meta.pop("links")
 
-    origin_val = getattr(args, "origin", None)
     notesText = (getattr(args, "notes", None) or "").strip()
     notesSuffix = f" {notesText}" if notesText else ""
-    origin_changed = False
-    if origin_val is not None:
-        target_val = (origin_val.lower() == "true")
-        if meta.get("origin") != target_val:
-            meta["origin"] = target_val
-            changed = True
-            origin_changed = True
-
-            # Uniqueness constraint: if we're setting origin=True, strip it from others in the same bucket
-            if target_val and meta.get("genericSkillRef"):
-                bucket_ref = meta["genericSkillRef"]
-                for other_file in named_dir.rglob("*.md"):
-                    if other_file == target_file:
-                        continue
-                    o_meta, o_body = _parse_md(other_file)
-                    if o_meta.get("genericSkillRef") == bucket_ref and o_meta.get("origin") is True:
-                        o_meta["origin"] = False
-                        o_meta["updatedAt"] = datetime.date.today().isoformat()
-                        _write_md(other_file, o_meta, o_body)
-                        append_skill_event(
-                            o_meta["id"],
-                            "demote",
-                            _get_contributor(),
-                            f"Origin status removed. Transferred to {skill_id}." + notesSuffix,
-                            registry_path=registry_path
-                        )
-                        print(f"Removed origin from competing skill: {o_meta['id']}")
 
     if changed:
         meta["updatedAt"] = datetime.date.today().isoformat()
@@ -142,20 +134,12 @@ def meta_update_named_command(args):
         registry_path = args.registry
         contributor = _get_contributor()
 
-        if origin_changed:
-            append_skill_event(
-                skill_id,
-                "rank_up" if target_val else "demote",
-                contributor,
-                f"Origin status set to {'true' if target_val else 'false'}." + notesSuffix,
-                registry_path=registry_path
-            )
         if status_promoted_to_named:
             append_skill_event(
                 skill_id,
                 "name",
                 contributor,
-                f"Promoted from {prior_status or 'unknown'} to named.",
+                f"Promoted from {prior_status or 'unknown'} to named." + notesSuffix,
                 registry_path=registry_path,
             )
         if getattr(args, "suite_ref", None):
@@ -163,7 +147,7 @@ def meta_update_named_command(args):
                 skill_id,
                 "suite_ref_set",
                 contributor,
-                f"Set suiteRef to {args.suite_ref}",
+                f"Set suiteRef to {args.suite_ref}" + notesSuffix,
                 registry_path=registry_path,
             )
         if getattr(args, "installation_file", None):
@@ -171,7 +155,7 @@ def meta_update_named_command(args):
                 skill_id,
                 "installation_updated",
                 contributor,
-                f"Replaced ## Installation section from {args.installation_file}",
+                f"Replaced ## Installation section from {args.installation_file}" + notesSuffix,
                 registry_path=registry_path,
             )
         if getattr(args, "github_link", None) is not None:

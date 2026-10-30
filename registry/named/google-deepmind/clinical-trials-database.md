@@ -2,7 +2,7 @@
 id: google-deepmind/clinical-trials-database
 name: Clinical-Trials-Database
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: clinical-data-retrieval
 status: awakened
 level: 1★

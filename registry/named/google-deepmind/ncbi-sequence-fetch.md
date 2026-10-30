@@ -2,7 +2,7 @@
 id: google-deepmind/ncbi-sequence-fetch
 name: Ncbi-Sequence-Fetch
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: genomic-data-retrieval
 status: awakened
 level: 1★

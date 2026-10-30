@@ -32,7 +32,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     │  ├─ · ○ /extract-entities
     │  └─ · ○ /logical-inference
     ├─ · ○ /retrieve
-    └─ · ○ ████████/context-audit  [2★]
+    └─ · ○ garrytan/context-restore  [2★]
 ```
 
 ## Pending Combinations

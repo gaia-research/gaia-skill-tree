@@ -1,14 +1,21 @@
 """
 gaia dev freeze <skill-id> --reason <text>
 
-Sets ``installable: false`` in a named skill's frontmatter AND appends a
-``timeline.action: upstream_deprecated`` event.  Atomic — both writes land
-together or neither does.
+Freezes any named node, including a suite capstone. Sets ``installable: false``
+in its frontmatter AND appends a ``timeline.action: upstream_deprecated`` event.
+Atomic — both writes land together or neither does.
+
+Frozen semantics (founder rulings 2026-10-30; one definition in
+``gaia_cli.frozen``): the skill's Trust Magnitude and grade are **locked** at the
+values cached in its frontmatter now (written here if missing), it competes for
+Origin with those values, and no tool writes to it again. Freezing a suite
+freezes every component it contains (they inherit frozen status; their own
+cached TM/grade become their lock; their files are not touched).
 
 CLI Pre-Flight checks (per CLAUDE.md CLI Pre-Flight Rule):
   1. Skill must exist in registry/named/**/*.md.
   2. --reason must be non-empty and ≤500 chars.
-  3. Refuses if installable: false is already set (no-op guard).
+  3. Refuses if the skill is already frozen, itself or through a frozen suite.
   4. Warns (does not refuse) if the skill is 3★+:
      META.md §2.4 Star Bar may fail for frozen 3★+ skills.
 """
@@ -96,12 +103,48 @@ def _pf_reason_non_empty(reason: str) -> None:
         )
 
 
-def _pf_not_already_frozen(skill_id: str, meta: dict) -> None:
-    if meta.get("installable") is False:
+def _all_named_metas(named_dir: Path) -> list[dict]:
+    metas = []
+    for path in named_dir.rglob("*.md"):
+        try:
+            _f, fm_text, _b = split_frontmatter(path.read_text(encoding="utf-8"))
+            meta = load_yaml_simple(fm_text)
+        except (OSError, ValueError):
+            continue
+        if isinstance(meta, dict) and meta.get("id"):
+            metas.append(meta)
+    return metas
+
+
+def _pf_not_already_frozen(skill_id: str, meta: dict, all_metas: list[dict]) -> None:
+    from gaia_cli.frozen import frozenIds, isSelfFrozen
+
+    if isSelfFrozen(meta):
         _fail_dev_preflight(
-            f"Skill '{skill_id}' is already frozen (installable: false). No change.",
+            f"Skill '{skill_id}' is already frozen. No change.",
             fix="Nothing was written. The skill is already frozen.",
         )
+    if skill_id in frozenIds(all_metas):
+        _fail_dev_preflight(
+            f"Skill '{skill_id}' is already frozen through a frozen suite. No change.",
+            fix="Nothing was written. Its suite is frozen, so it is frozen too.",
+        )
+
+
+def _trust_lock_values(meta: dict, registry_path) -> dict:
+    """TM/grade to lock: the cached frontmatter values, computed now if missing."""
+    from gaia_cli.frozen import frozenLock
+
+    if frozenLock(meta) is not None:
+        return {}
+    from gaia_cli.registryMaps import buildMergedSkillMap
+    from gaia_cli.trustMagnitude import computeOverallTrustGradeFromSkill, computeTrustMagnitude
+
+    merged = buildMergedSkillMap(registry_path)
+    return {
+        "trustMagnitude": round(float(computeTrustMagnitude(meta, merged)), 2),
+        "overallTrustGrade": computeOverallTrustGradeFromSkill(meta, merged) or "ungraded",
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -132,10 +175,20 @@ def freeze_command(args) -> None:
     meta: dict = load_yaml_simple(fm_text)
 
     # --- Pre-flight validation ---
+    all_metas = _all_named_metas(named_dir)
     _run_dev_preflights([
         lambda: _pf_reason_non_empty(reason),
-        lambda: _pf_not_already_frozen(skill_id, meta),
+        lambda: _pf_not_already_frozen(skill_id, meta, all_metas),
     ])
+
+    # Components that inherit frozen status (suite freeze), for the report.
+    from gaia_cli.frozen import frozenIds, frozenLock
+    before = frozenIds(all_metas)
+    after = frozenIds([m for m in all_metas if m.get("id") != skill_id] + [{**meta, "installable": False, "frozen": True}])
+    inherited = sorted(after - before - {skill_id})
+    by_id = {m.get("id"): m for m in all_metas}
+    unlocked = [c for c in inherited if frozenLock(by_id.get(c, {})) is None]
+    lock_updates = _trust_lock_values(meta, registry_path)
 
     # --- Warn if 3★+ (not a refusal) ---
     level = meta.get("level", "")
@@ -163,15 +216,29 @@ def freeze_command(args) -> None:
         import yaml  # pyyaml
         print("=== DRY RUN — no files written ===")
         print(f"\nWould set installable: false on {named_file}")
+        if lock_updates:
+            print(f"Would cache the locked TM/grade: {lock_updates}")
+        if inherited:
+            print(f"Components that would inherit frozen status ({len(inherited)}): {', '.join(inherited)}")
         print("timeline event that would be appended:")
         print(yaml.dump(timeline_event, sort_keys=False, allow_unicode=True))
         return
 
     # --- Atomic write: compose full content in memory first ---
     new_text = _set_scalar_in_frontmatter(raw_text, "installable", False)
+    for key, value in lock_updates.items():
+        new_text = _set_scalar_in_frontmatter(new_text, key, value)
     new_text = append_timeline_event(new_text, timeline_event)
 
     # Single filesystem write.
     named_file.write_text(new_text, encoding="utf-8")
 
     print(f"Frozen {skill_id}: {reason}")
+    if inherited:
+        print(f"Components now frozen through this suite ({len(inherited)}): {', '.join(inherited)}")
+    if unlocked:
+        print(
+            "Warning: these components have no cached trustMagnitude/overallTrustGrade, so the build "
+            f"cannot lock them and computes them live: {', '.join(unlocked)}",
+            file=sys.stderr,
+        )

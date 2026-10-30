@@ -2,7 +2,7 @@
 id: mattpocock/domain-modeling
 name: Domain Modeling
 contributor: mattpocock
-origin: false
+origin: true
 genericSkillRef: domain-modeling
 status: named
 links:

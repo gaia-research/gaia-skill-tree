@@ -2,7 +2,7 @@
 id: mattpocock/grill-me
 name: Grill Me
 contributor: mattpocock
-origin: false
+origin: true
 genericSkillRef: grill-me
 status: named
 title: The Relentless Interviewer

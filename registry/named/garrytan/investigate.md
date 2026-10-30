@@ -2,7 +2,7 @@
 id: garrytan/investigate
 name: Investigate
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: systematic-debugging
 status: named
 title: Gstack Investigate

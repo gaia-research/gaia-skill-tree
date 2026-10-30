@@ -2,7 +2,7 @@
 id: google-deepmind/pdb-database
 name: Pdb-Database
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: protein-structure-analysis
 status: awakened
 level: 1★

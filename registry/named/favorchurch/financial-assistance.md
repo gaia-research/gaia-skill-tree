@@ -2,7 +2,7 @@
 id: favorchurch/financial-assistance
 name: Financial Assistance
 contributor: favorchurch
-origin: false
+origin: true
 genericSkillRef: grant-application-processing
 status: named
 level: 1★

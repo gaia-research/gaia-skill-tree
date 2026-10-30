@@ -2,7 +2,7 @@
 id: google-deepmind/alphafold-database-fetch-and-analyze
 name: Alphafold-Database-Fetch-And-Analyze
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: computational-biology-workflows
 status: awakened
 level: 1★

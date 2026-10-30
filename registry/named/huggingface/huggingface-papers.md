@@ -2,7 +2,7 @@
 id: huggingface/huggingface-papers
 name: Hugging Face Papers
 contributor: huggingface
-origin: false
+origin: true
 genericSkillRef: literature-review
 status: named
 title: The Paper Indexer

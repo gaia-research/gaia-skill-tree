@@ -2,7 +2,7 @@
 id: anthropics/canvas-design
 name: Canvas Design
 contributor: anthropics
-origin: false
+origin: true
 genericSkillRef: static-artwork-design
 status: named
 level: 2★

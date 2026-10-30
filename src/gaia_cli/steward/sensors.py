@@ -1723,6 +1723,8 @@ class TrustCalibrationDriftSensor:
             raise SensorUnavailable(
                 f"effective-evidence context could not be built: {type(exc).__name__}: {exc}"
             ) from exc
+        from gaia_cli.frozen import frozenIds
+        frozen_ids = frozenIds(v for v in context.values() if isinstance(v, dict) and v.get("contributor"))
 
         unreadable: list[str] = []
         unresolved: list[str] = []
@@ -1790,15 +1792,11 @@ class TrustCalibrationDriftSensor:
                 ))
 
             current_level = skill.get("level")
-            # Only an explicit upstream_deprecated lifecycle event freezes
-            # the historical rank. installable: false also covers skills
-            # that remain reviewable, so it is not an exemption by itself.
-            timeline = skill.get("timeline", [])
-            is_frozen = any(
-                isinstance(event, dict) and event.get("action") == "upstream_deprecated"
-                for event in timeline
-            ) if isinstance(timeline, list) else False
-            if is_frozen:
+            # Frozen skills are never touched (founder ruling FD-7). One
+            # definition: gaia_cli.frozen (self-frozen or in a frozen suite).
+            # installable: false alone is not an exemption.
+            from gaia_cli.frozen import isSelfFrozen
+            if isSelfFrozen(skill) or skill_id in frozen_ids:
                 continue
             if current_level not in self._TARGET_LEVEL.values():
                 continue
@@ -1898,14 +1896,9 @@ class FrozenSkillIntegritySensor:
                 # 1. Explicit frontmatter: frozen: true or frozenAt
                 # 2. Timeline event: action: "upstream_deprecated"
                 # (Active suite capstones with suiteComponents that merely removed a component are not frozen unless installable: false or explicitly frozen)
-                is_suite_capstone = bool(skill.get("suiteComponents")) and skill.get("installable") is not False
-                is_explicit_frozen = bool(skill.get("frozen") is True or skill.get("frozenAt"))
-                has_upstream_deprecated = any(
-                    isinstance(ev, dict) and ev.get("action") == "upstream_deprecated"
-                    for ev in timeline
-                )
-
-                if not is_explicit_frozen and (not has_upstream_deprecated or is_suite_capstone):
+                # One definition: gaia_cli.frozen.isSelfFrozen.
+                from gaia_cli.frozen import isSelfFrozen
+                if not isSelfFrozen(skill):
                     continue
 
                 # Determine freeze timestamp (T_freeze) and freeze index

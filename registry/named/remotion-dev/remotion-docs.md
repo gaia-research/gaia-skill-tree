@@ -2,7 +2,7 @@
 id: remotion-dev/remotion-docs
 name: Remotion Docs
 contributor: remotion-dev
-origin: false
+origin: true
 genericSkillRef: wiki-search
 status: named
 level: 1★

@@ -2,7 +2,7 @@
 id: disler/agent-fusion
 name: Agent Fusion
 contributor: disler
-origin: false
+origin: true
 genericSkillRef: agent-fusion
 status: named
 level: 2★

@@ -25,7 +25,7 @@
   },
   "title": "GBrain — Knowledge Intelligence Suite",
   "genericSkillRef": "gbrain",
-  "origin": false,
+  "origin": true,
   "description": "The installable GBrain router and capstone for knowledge capture, operations, and concept synthesis.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

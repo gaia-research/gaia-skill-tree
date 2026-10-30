@@ -2,7 +2,7 @@
 id: garrytan/pair-agent
 name: Pair Agent
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: mcp-integration
 status: named
 title: Gstack Pair Agent — MCP Tool Integration

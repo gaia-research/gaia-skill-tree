@@ -25,7 +25,7 @@
   },
   "title": "Imagegen Frontend Mobile",
   "genericSkillRef": "image-generate",
-  "origin": false,
+  "origin": true,
   "description": "Mobile app mockup prompt engineering generating realistic iOS and Android UI screen concept art for diffusion models.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

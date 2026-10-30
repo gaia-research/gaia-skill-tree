@@ -2,7 +2,7 @@
 id: favorchurch/resend-conference-emails-carefully-with-smtp
 name: Resend Conference Emails Carefully with SMTP
 contributor: favorchurch
-origin: false
+origin: true
 genericSkillRef: transactional-email-resend
 status: named
 level: 1★

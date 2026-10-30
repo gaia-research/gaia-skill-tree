@@ -2,7 +2,7 @@
 id: ruvnet/github-suite
 name: GitHub Suite
 contributor: ruvnet
-origin: true
+origin: false
 genericSkillRef: git-integration
 status: named
 title: The GitHub Maestro

@@ -2,7 +2,7 @@
 id: garrytan/context-save
 name: Context Save
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: context-compression
 status: named
 title: Gstack Context Save — Session State Snapshot

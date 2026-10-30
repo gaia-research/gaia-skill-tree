@@ -2,7 +2,7 @@
 id: addy-osmani/observability-and-instrumentation
 name: observability-and-instrumentation
 contributor: addy-osmani
-origin: false
+origin: true
 genericSkillRef: observability-instrumentation
 status: named
 level: 2★

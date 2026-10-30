@@ -2,7 +2,7 @@
 id: garrytan/health
 name: Health
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: automated-testing
 status: named
 title: Gstack Health — Automated Test Suite Runner

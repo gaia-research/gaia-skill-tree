@@ -52,7 +52,8 @@ def _bucket_origins(root: Path) -> dict:
     for ref, entries in buckets.items():
         origins = [e for e in entries if e.get("origin") is True]
         if origins:
-            # Exactly one by construction; if data ever regressed, first wins.
+            # Usually one; tied top contenders all hold Origin (gaia_cli.origin).
+            # The bucket is champion-ordered, so the first is the representative.
             out[ref] = origins[0]
     return out
 

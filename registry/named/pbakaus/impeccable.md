@@ -2,7 +2,7 @@
 id: pbakaus/impeccable
 name: Impeccable
 contributor: pbakaus
-origin: true
+origin: false
 genericSkillRef: design-generation
 status: named
 title: The Aesthetic Shield

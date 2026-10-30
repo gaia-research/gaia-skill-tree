@@ -2,7 +2,7 @@
 id: ruvnet/browser
 name: Browser
 contributor: ruvnet
-origin: false
+origin: true
 genericSkillRef: browser-automation
 status: named
 title: The Web Navigator

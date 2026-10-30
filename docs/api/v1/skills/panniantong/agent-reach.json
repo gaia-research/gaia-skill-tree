@@ -25,7 +25,7 @@
   },
   "title": "Agent Reach",
   "genericSkillRef": "agent-reach",
-  "origin": false,
+  "origin": true,
   "description": "Gives an AI agent internet access by routing web requests across 16+ platforms with MCP support and harness-agnostic integration.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

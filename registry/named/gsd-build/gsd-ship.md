@@ -2,7 +2,7 @@
 id: gsd-build/gsd-ship
 name: GSD Ship
 contributor: gsd-build
-origin: false
+origin: true
 genericSkillRef: finishing-a-development-branch
 status: named
 level: 3★

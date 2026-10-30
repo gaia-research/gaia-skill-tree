@@ -2,7 +2,7 @@
 id: google-deepmind/interpro-database
 name: Interpro-Database
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: proteomic-data-retrieval
 status: awakened
 level: 1★

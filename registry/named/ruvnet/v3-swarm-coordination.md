@@ -2,7 +2,7 @@
 id: ruvnet/v3-swarm-coordination
 name: V3 Swarm Coordination
 contributor: ruvnet
-origin: false
+origin: true
 genericSkillRef: multi-agent-orchestration-v
 status: named
 title: The V3 Swarm Engine

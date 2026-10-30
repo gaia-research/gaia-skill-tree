@@ -2,7 +2,7 @@
 id: google-deepmind/protein-sequence-similarity-search
 name: Protein-Sequence-Similarity-Search
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: bioinformatic-sequence-analysis
 status: awakened
 level: 1★

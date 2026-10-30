@@ -2,7 +2,7 @@
 id: ruvnet/agentdb-learning
 name: AgentDB Learning
 contributor: ruvnet
-origin: false
+origin: true
 genericSkillRef: agent-memory-learning
 status: named
 title: The Pattern Seeker

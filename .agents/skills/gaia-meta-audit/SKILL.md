@@ -42,7 +42,7 @@ Work through these checks in order. Stop when you have enough candidates to fill
 
 ### P0 — Critical integrity violations
 - **Unsupported top-rank claim**: a named skill at 5★ whose Trust Magnitude is < 250 (S-grade), or a 6★ skill that fails its branch gate — Suite 6-predicate Apex (META §4.3) or Unique 5-predicate Unique Impossible (META §4.4). TM is the sole numeric gate; there is no repository-star floor.
-- **Unsupported named-origin claim**: more than one current Origin for a claimed generic, a current holder not supported by `META.md` §4.1's merit/qualification criteria, or a contested incumbent whose material challenge has not been surfaced. **Never** infer current Origin from earliest `createdAt`; one current holder is preserved pending approved transfer.
+- **Origin derivation defect**: the published Origin differs from what `META.md` §4.1 derives (highest published level, then TM; tied top contenders all hold it; no star floor; frozen skills locked), or a contested holder whose material challenge has not been surfaced. That is a build bug to file, not a manual reassignment. **Never** infer Origin from earliest `createdAt`.
 - **Named claim with no implementation file**: `links.github` points to a repo root, a 404, or a path that doesn't contain a `SKILL.md`.
 
 ### P1 — Structural correctness
@@ -56,7 +56,7 @@ Work through these checks in order. Stop when you have enough candidates to fill
 ### P2 — Attribution and sourcing issues
 - **Wrong `promotedNamedSkillId`**: the generic's promoted pointer doesn't match the best-evidenced named child.
 - **Stale catalog URL**: points at a directory, homepage, or path that has moved.
-- **Mis-attributed `origin: true`**: current Origin is determined by merit under `META.md` §4.1, **not** earliest `createdAt`. Historical Origin attribution persists after approved transfer.
+- **Stale `origin` mirror**: frontmatter `origin` is a build-written mirror of the derived Origin (`META.md` §4.1); a non-frozen mismatch is fixed by `gaia dev docs`, never by hand.
 
 ### P3 — Registry hygiene
 - **Broad `genericSkillRef` mapping**: implementation skill mapped to a much larger generic when a more specific one exists (e.g. mapped to a broad 0★ generic when a narrower generic is available).
@@ -113,7 +113,7 @@ for — this avoids hand-edits that skip timeline logging.
 | Remove generic | `gaia dev rm <id>` |
 | Change named-skill `genericSkillRef` | `gaia dev update-named <author/skill> --generic-ref <new>` |
 | Change named-skill `status` | `gaia dev update-named ... --status <new>` |
-| Change named-skill `origin` (enforces uniqueness) | `gaia dev update-named <author/skill> --origin true\|false` |
+| Change named-skill `origin` | Not possible by hand: Origin is derived by `gaia dev docs` from merit (`META.md` §4.1). `--origin` refuses. |
 | Append timeline event | `gaia dev timeline <id> --action <action> --notes "..."` |
 | Named-skill `level` / `links.github` / `description` / body | Use supported governed CLI/workflow after approval, or report a missing CLI verb; no silent YAML edit or public rank mutation |
 | Named-skill removal | Class C maintainer review and a governed, timeline-preserving removal workflow; never delete files as a triage fix |

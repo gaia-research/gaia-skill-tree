@@ -25,7 +25,7 @@
   },
   "title": "The Aesthetic Shield",
   "genericSkillRef": "design-generation",
-  "origin": true,
+  "origin": false,
   "description": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
   "tags": [
     "design",
