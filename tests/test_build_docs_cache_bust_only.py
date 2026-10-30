@@ -105,6 +105,9 @@ def test_cache_bust_only_main_refreshes_html_and_readme(bd, monkeypatch):
     monkeypatch.setattr(
         bd, "build_readme_version_only", lambda check: calls.append(("readme", check)) or False
     )
+    monkeypatch.setattr(
+        bd, "build_health_version_only", lambda check: calls.append(("health", check)) or False
+    )
     # Guard: a full-pipeline step must NOT run in cache-bust-only mode.
     monkeypatch.setattr(
         bd, "build_badges", lambda check: (_ for _ in ()).throw(
@@ -117,6 +120,7 @@ def test_cache_bust_only_main_refreshes_html_and_readme(bd, monkeypatch):
     assert rc == 0
     assert ("html", False) in calls
     assert ("readme", False) in calls
+    assert ("health", False) in calls
 
 
 # --- build_html_cache_busting: docs/en/*.html coverage (#2042) -------------
@@ -220,3 +224,64 @@ def test_cache_bust_preserves_crlf_line_endings(bd, tmp_path, monkeypatch):
     assert data.count(b"\n") == data.count(b"\r\n")  # every newline is CRLF
     assert b'window.GAIA_VERSION = "9.9.9";' in data
     assert b'<span class="nav-version">v9.9.9</span>' in data
+
+
+def test_health_version_only_restamps_version_and_nothing_else(bd, tmp_path, monkeypatch):
+    health = tmp_path / "docs" / "api" / "v1" / "health.json"
+    health.parent.mkdir(parents=True)
+    health.write_text(
+        '{\n  "ok": true,\n  "version": "1.0.0",\n  "namedSkillsCount": 7\n}',
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(bd, "ROOT", tmp_path)
+    monkeypatch.setattr(bd, "_read_version", lambda: "9.9.9")
+
+    assert bd.build_health_version_only(check=True) is True
+    assert '"1.0.0"' in health.read_text(encoding="utf-8")  # check never writes
+    assert bd.build_health_version_only(check=False) is True
+    assert health.read_text(encoding="utf-8") == (
+        '{\n  "ok": true,\n  "version": "9.9.9",\n  "namedSkillsCount": 7\n}'
+    )
+    assert bd.build_health_version_only(check=False) is False
+
+
+def test_cache_bust_prints_every_written_path_for_release_staging(bd, tmp_path, monkeypatch, capsys):
+    """`gaia dev release` stages only `cache-bust: updated <path>` lines.
+
+    Profile pages are rewritten by their own loop; every file it (or the
+    discovery loop) writes must be announced or the release commit ships stale.
+    """
+    docs = tmp_path / "docs"
+    profile = docs / "u" / "someone"
+    profile.mkdir(parents=True)
+    head = '<html><head>\n<script>window.GAIA_VERSION = "1.0.0";</script>\n'
+    profile.joinpath("index.html").write_text(
+        head + '<link rel="stylesheet" href="../../css/styles.css?v=1.0.0"></head></html>',
+        encoding="utf-8",
+    )
+    (docs / "evidence").mkdir()
+    docs.joinpath("evidence", "index.html").write_text(
+        head + '<script src="../js/ui.js?v=1.0.0"></script></head></html>', encoding="utf-8"
+    )
+    # Prose/external URL with a `?v=` must neither be discovered nor rewritten.
+    docs.joinpath("prose.html").write_text(
+        '<html><head></head><body><a href="https://x.test/watch?v=1.2.3">x</a></body></html>',
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(bd, "ROOT", tmp_path)
+    monkeypatch.setattr(bd, "_read_version", lambda: "9.9.9")
+    before = {p: p.read_bytes() for p in docs.rglob("*.html")}
+
+    assert bd.build_html_cache_busting(check=False) is True
+
+    printed = {
+        line[len("cache-bust: updated "):].strip()
+        for line in capsys.readouterr().out.splitlines()
+        if line.startswith("cache-bust: updated ")
+    }
+    written = {
+        p.relative_to(tmp_path).as_posix() for p in docs.rglob("*.html") if p.read_bytes() != before[p]
+    }
+    assert written == {"docs/u/someone/index.html", "docs/evidence/index.html"}
+    assert printed == written
+    assert "9.9.9" in profile.joinpath("index.html").read_text(encoding="utf-8")

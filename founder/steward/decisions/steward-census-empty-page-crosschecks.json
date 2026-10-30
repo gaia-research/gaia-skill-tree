@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-census-empty-page-crosschecks",
+  "status": "open",
+  "decision": "Ratify or strengthen the completeness policy for persistent empty closed-history responses and repository-count drift?",
+  "whyItMatters": "Repeated empty 200 responses are not independently verified closed-history absence. Conservative full-page refusal can also stall a closed-history walk.",
+  "evidence": [
+    "The inherited census cross-checks open_issues_count, refuses false-empty and unverified-empty open listings, and confirms open walks. LiveGh verifies open totals exactly.",
+    "Closed listings have no independent total: the inherited watcher accepts a history that is empty on every attempt, and refuses a full-page terminal boundary without a count. Those limits are preserved, not claimed fixed.",
+    "The current mission runs mocked tests only, including false-empty, linked-empty, missing-link and exact-multiple cases. No live census or closure dry run has been used to resolve the question."
+  ],
+  "recommended": "Review a trustworthy independent closed-count source and its completeness contract before relaxing any refusal. Keep unknown coverage visible.",
+  "alternative": "Retain the current conservative boundaries and explicitly accept their residual false-empty risk and stalls.",
+  "unblocks": "Completeness-policy ruling; never authorization to close issues.",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/pull/2133#issuecomment-6345851647",
+    "scripts/steward_issue_census.py",
+    "scripts/upstream_watcher/live.py"
+  ]
+}

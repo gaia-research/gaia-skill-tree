@@ -16,6 +16,7 @@ from gaia_cli.commands.dev.helpers import (
     _run_dev_preflights,
     _preflight_starbar_blob_link,
     _preflight_calibrate_status,
+    _preflight_star_gate,
     _fail_dev_preflight,
 )
 
@@ -50,6 +51,7 @@ def meta_calibrate_command(args):
     _run_dev_preflights([
         lambda: _preflight_starbar_blob_link(skill_id, skill_data, level),
         lambda: _preflight_calibrate_status(skill_id, skill_data, level),
+        lambda: _preflight_star_gate(skill_id, skill_data, level, registry_path),
     ])
     old_level = skill_data.get("level", "2★")
     skill_data["level"] = level
@@ -293,6 +295,7 @@ def calibrate_trust_magnitude_command(args):
 
     registry_path = args.registry
     dry_run = getattr(args, "dry_run", False)
+    refresh_apex = getattr(args, "refresh_apex", False)
     skill_ids = list(getattr(args, "skill", None) or [])
     refresh_all = getattr(args, "all", False)
 
@@ -334,11 +337,22 @@ def calibrate_trust_magnitude_command(args):
     if not dry_run:
         _confirm_destructive(
             f"Recompute and write trustMagnitude/overallTrustGrade/trustMagnitudeInputHash "
-            f"for {len(resolved)} skill(s)?",
+            f"for {len(resolved)} skill(s)"
+            + (" (and refresh apexGateStatus)?" if refresh_apex else "?"),
             args,
         )
 
     merged_map = buildMergedSkillMap(registry_path)
+
+    # Apex maps mirror scripts/generateNamedIndex.py::_inject_trust_grades:
+    # generic nodes on one side, status=named skills on the other.
+    generic_map, named_map = {}, {}
+    if refresh_apex:
+        for key, value in merged_map.items():
+            if value.get("status") == "named" and value.get("contributor"):
+                named_map[key] = value
+            else:
+                generic_map[key] = value
 
     changed = 0
     unchanged = 0
@@ -357,15 +371,41 @@ def calibrate_trust_magnitude_command(args):
         old_grade = skill_data.get("overallTrustGrade")
         old_hash = skill_data.get("trustMagnitudeInputHash")
 
+        new_apex = None
+        old_apex = skill_data.get("apexGateStatus")
+        if refresh_apex:
+            from gaia_cli.evidence import inherited_evidence
+            from gaia_cli.trustMagnitude import passesSuiteApexGate
+
+            # Use the freshly computed cache fields, as the generator does.
+            fresh = {
+                **skill_data,
+                "trustMagnitude": new_tm,
+                "overallTrustGrade": new_grade,
+                "trustMagnitudeInputHash": new_hash,
+            }
+            named_map[skill_id] = fresh
+            generic_node = generic_map.get(fresh.get("genericSkillRef"))
+            withEffective = {**fresh, "evidence": inherited_evidence(fresh, generic_node)}
+            new_apex = passesSuiteApexGate(
+                withEffective,
+                {"genericSkillMap": generic_map, "namedSkillMap": named_map},
+            )
+        apex_same = (not refresh_apex) or old_apex == new_apex
+
         same_tm = old_tm is not None and abs(float(old_tm) - new_tm) < 0.005
-        if same_tm and old_grade == new_grade and old_hash == new_hash:
-            print(f"  {skill_id}: no change (TM already {new_tm}, hash valid)")
+        if same_tm and old_grade == new_grade and old_hash == new_hash and apex_same:
+            suffix = ", apex status current" if refresh_apex else ""
+            print(f"  {skill_id}: no change (TM already {new_tm}, hash valid{suffix})")
             unchanged += 1
             continue
 
         old_tm_str = old_tm if old_tm is not None else "(none)"
         old_grade_str = old_grade if old_grade is not None else "(none)"
-        print(f"  {skill_id}: TM {old_tm_str} -> {new_tm}, grade {old_grade_str} -> {new_grade}")
+        apex_note = ""
+        if refresh_apex and not apex_same:
+            apex_note = f", apexGateStatus {old_apex if old_apex is not None else '(none)'} -> {new_apex}"
+        print(f"  {skill_id}: TM {old_tm_str} -> {new_tm}, grade {old_grade_str} -> {new_grade}{apex_note}")
         changed += 1
 
         if dry_run:
@@ -374,6 +414,8 @@ def calibrate_trust_magnitude_command(args):
         skill_data["trustMagnitude"] = new_tm
         skill_data["overallTrustGrade"] = new_grade
         skill_data["trustMagnitudeInputHash"] = new_hash
+        if refresh_apex:
+            skill_data["apexGateStatus"] = new_apex
         skill_data["updatedAt"] = datetime.date.today().isoformat()
         _write_md(node_file, skill_data, body)
 
@@ -381,7 +423,7 @@ def calibrate_trust_magnitude_command(args):
             skill_id,
             "recalibrate_trust_magnitude",
             _get_contributor(),
-            f"TM {old_tm_str} -> {new_tm}, grade {old_grade_str} -> {new_grade} "
+            f"TM {old_tm_str} -> {new_tm}, grade {old_grade_str} -> {new_grade}{apex_note} "
             f"(gaia dev calibrate-trust-magnitude; Issue #1600)",
             registry_path=registry_path,
         )

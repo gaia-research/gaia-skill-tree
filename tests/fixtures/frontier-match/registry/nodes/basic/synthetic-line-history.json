@@ -1,0 +1,10 @@
+{
+  "id": "synthetic-line-history",
+  "name": "Synthetic Line History",
+  "type": "basic",
+  "description": "SYNTHETIC FIXTURE. Trace how a function or line range changed across commit history of a file.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "status": "provisional"
+}

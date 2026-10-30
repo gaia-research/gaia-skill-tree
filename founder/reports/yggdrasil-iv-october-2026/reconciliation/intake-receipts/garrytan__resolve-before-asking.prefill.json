@@ -1,0 +1,76 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/resolve-before-asking",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/resolve-before-asking",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/resolve-before-asking/SKILL.md",
+  "checked": true,
+  "contentSha256": "ba5aa2ce7bf45116052625eb14fe90f0cc807b4b1490a4646b1cee11b888e897",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Gate on identity questions to the user. Before any \"who is X?\" (or role / relationship question) reaches the user, exhaust the brain's lookup chain: think \u2192 search + page read \u2192 mounted sources \u2192 timeline/graph \u2192 web. If escalation survives the chain, ask WITH a hypothesis, never a bare unknown. Also owns the no-placeholders-at-ingest rule: pages created during bulk ingestion get their relationshi",
+  "name": "resolve-before-asking"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/resolve-before-asking/SKILL.md",
+  "contentSha256": "ba5aa2ce7bf45116052625eb14fe90f0cc807b4b1490a4646b1cee11b888e897",
+  "fetchedAt": "2026-10-27T22:05:37.942879+00:00",
+  "frontmatter": {
+   "description": "Gate on identity questions to the user. Before any \"who is X?\" (or role /\nrelationship question) reaches the user, exhaust the brain's lookup chain:\nthink \u2192 search + page read \u2192 mounted sources \u2192 timeline/graph \u2192 web. If\nescalation survives the chain, ask WITH a hypothesis, never a bare unknown.\nAlso owns the no-placeholders-at-ingest rule: pages created during bulk\ningestion get their relationship/role resolved immediately.\n",
+   "mutating": true,
+   "name": "resolve-before-asking",
+   "triggers": [
+    "resolve before asking",
+    "before asking the user",
+    "unidentified contact",
+    "unknown relationship",
+    "should I ask who",
+    "don't know who this is",
+    "to be filled by content analysis",
+    "placeholder on this page"
+   ],
+   "upstream": "resolve-before-asking@fc834ee",
+   "version": "1.0.0",
+   "writes_pages": true,
+   "writes_to": [
+    "people/",
+    "companies/"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

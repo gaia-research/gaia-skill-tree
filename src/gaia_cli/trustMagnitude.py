@@ -29,7 +29,7 @@ from typing import Any, Optional
 
 from gaia_cli import structuralGraph
 from gaia_cli.benchmarkCatalog import benchmarkFinalMagnitude, isBenchmarkScoringEligible
-from gaia_cli.evidence import inherited_evidence
+from gaia_cli.evidence import EVIDENCE_TYPE_ALIASES, canonicalSourceUrl, inherited_evidence
 
 # ---------------------------------------------------------------------------
 # Constants - RFC §2 master table
@@ -251,25 +251,13 @@ def _utcNow() -> datetime.datetime:
 def _canonicalUrl(url: Optional[str]) -> Optional[str]:
     """Normalize a URL for same-source dedup (RFC §5.2).
 
-    Strips fragments, trailing slashes, normalizes tree/->blob/.
+    Delegates to ``gaia_cli.evidence.canonicalSourceUrl`` so the merge and the
+    scoring-time dedup share one normalization.
     """
-    if not url:
-        return None
-    s = str(url).strip()
-    if not s:
-        return None
-    # Strip fragment
-    if "#" in s:
-        s = s.split("#", 1)[0]
-    # Normalize tree/->blob/ for github links
-    s = s.replace("/tree/", "/blob/")
-    # Strip trailing slash
-    while s.endswith("/"):
-        s = s[:-1]
-    return s.lower()
+    return canonicalSourceUrl(url)
 
 
-TYPE_ALIASES: dict = {'repo': 'repo-own'}
+TYPE_ALIASES: dict = EVIDENCE_TYPE_ALIASES
 
 
 def _typeOf(row: dict) -> Optional[str]:
@@ -1062,6 +1050,8 @@ def computeTrustMagnitudeByType(
     skill: dict,
     genericSkillMap: Optional[dict] = None,
     namedSkillMap: Optional[dict] = None,
+    *,
+    evaluationAtUTC: Optional[datetime.datetime] = None,
 ) -> dict:
     """Return {evidenceTypeId: contribution} so sum(values) ~= computeTrustMagnitude.
 
@@ -1072,7 +1062,7 @@ def computeTrustMagnitudeByType(
     TM within 0.02. Each value is rounded to 2 decimals. Missing types simply
     don't appear (frontend treats absent as 0).
     """
-    rowsWithScores = _scoredEvidenceRows(skill, genericSkillMap)
+    rowsWithScores = _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC)
 
     # 7: partition by type, applying social-signal A-cap proportionally.
     perType: dict[str, float] = {}
@@ -1150,9 +1140,12 @@ def _effectivePool(
     # Production-compatible legacy merge (source-only, own-first).
     merged = inherited_evidence({"evidence": ownRows}, generic)
     out: list[dict] = []
-    ownSources = {r.get("source") for r in ownRows if r.get("source")}
+    # merge_evidence is first-wins and returns the original row objects, so own
+    # rows are identified by identity. Keying on `source` alone would mistake a
+    # generic row of a different type at an own row's URL for an own row.
+    ownIds = {id(r) for r in ownRows}
     for row in merged:
-        if row.get("source") in ownSources:
+        if id(row) in ownIds:
             out.append(row)
             continue
         stamped = dict(row)
@@ -1224,11 +1217,12 @@ def computeRowArtifactScores(
     return [(row, score if score is not None else 0.0) for row, score in rowsWithScores]
 
 
-def _countDistinctEvidenceTypes(skill: dict, genericSkillMap: Optional[dict] = None) -> int:
+def _countDistinctEvidenceTypes(skill: dict, genericSkillMap: Optional[dict] = None, *,
+                                evaluationAtUTC: Optional[datetime.datetime] = None) -> int:
     """Count positive scoring evidence types; fusion remains structural only."""
     return len({
         rowType
-        for row, score in _scoredEvidenceRows(skill, genericSkillMap)
+        for row, score in _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC)
         if (rowType := _typeOf(row))
         and rowType != "fusion-recipe"
         and score is not None
@@ -1262,11 +1256,13 @@ def _isEligibleWitnessRow(row: dict, score: Optional[float], skill: dict) -> boo
 def _hasEligibleIndependentWitness(
     skill: dict,
     genericSkillMap: Optional[dict] = None,
+    *,
+    evaluationAtUTC: Optional[datetime.datetime] = None,
 ) -> bool:
     """Return whether a positive, eligible Yggdrasil III S witness is present."""
     return any(
         _isEligibleWitnessRow(row, score, skill)
-        for row, score in _scoredEvidenceRows(skill, genericSkillMap)
+        for row, score in _scoredEvidenceRows(skill, genericSkillMap, evaluationAtUTC=evaluationAtUTC)
     )
 
 

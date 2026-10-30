@@ -3,7 +3,7 @@ name: gaia-meta-sweep
 description: >
   Appraise the complete post-ingest Gaia tree: run 13 deterministic audit dimensions, recompute evidence, Trust Magnitude and rank eligibility, use Jev/Luna for bounded semantic review, adversarially verify findings, and report structural proposals. Gaia computes authority; Jev is read-only advice; humans ratify all mutations.
 
-  Use for a registry-wide sweep, full meta audit, evidence/rank review, fusion candidates, generic proposals, or a durable findings report. This is the macro companion to /gaia-meta-audit (prioritized queue) and /gaia-audit (single skill).
+  Use for an explicitly requested full post-ingest registry sweep and durable findings report; for a prioritized review queue use gaia-meta-audit, and for one skill use gaia-audit. This is the macro companion to /gaia-meta-audit (prioritized queue) and /gaia-audit (single skill).
 ---
 
 # gaia-meta-sweep
@@ -103,7 +103,7 @@ Dimensions:
 7. `installability` — 3★+ non-suite skills with `installable: false` or no GitHub link (META §2.4 Star Bar)
 8. `placeholder-bodies` — named markdown with stub `## Installation` only (no `## Overview`)
 9. `testuser-timelines` — `contributor: testuser` survivors that were never cleaned up
-10. `champion-cluster` — generics where multi-implementation clusters exist but no Champion is set (META §6.1)
+10. `champion-cluster` — generics with 2+ named implementations whose **derived** Champion (rank desc, Origin first, id — `championSortKey` in `scripts/generateNamedIndex.py`) has lower Trust Magnitude than a sibling implementation (META §6.1). Champion is never a stored field, so "no Champion set" is not a defect and `registry/nodes/**` must never gain a `champion` key; a finding is a rank / Origin ordering review item (ADJ-180)
 11. `unique-isolation` — named skills on the Unique branch (no `suiteComponents`, rank ≥ 4★) that fail a Unique-branch gate — e.g. top named star below 4★ despite Unique labeling, or a Unique skill carrying `suiteComponents` (which would make it Suite branch) (META §1.2 — Unique branch = no suiteComponents AND rank ≥ 4; NOT a prerequisite-count rule)
 12. `grade-mismatch` — evidence whose declared Evidence Grade (S/A/B/C, §2.1b) is unsupported by its Evidence Type/trustNumber, or Trust Magnitude that does not clear the claimed star's TM gate (§2.1c)
 13. `product-attribution` — named skill body documents a specific third-party tool's own commands/API with no credit to that tool's actual maker anywhere in body or evidence notes. Driven by the curated `TOOL_MAKER_MAP` in `scripts/check_product_attribution.py` — a skill id not in that map is never flagged (no blind NLP heuristic; extend the map as new instances surface, e.g. from a `/gaia-triage` audit like #1801) (META §2.4)

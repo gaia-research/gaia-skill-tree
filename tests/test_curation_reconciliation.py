@@ -6,6 +6,7 @@ import time
 
 import pytest
 
+from gaia_cli.curation import fanout
 from gaia_cli.curation.assessment import buildAssessment
 from gaia_cli.curation.fanout import reconcileFanout, runFanout, shardFor
 from gaia_cli.curation.reconciliation import canonicalJson, freezeInventory, reconcileInventory, sha256
@@ -607,33 +608,76 @@ def test_unknown_prior_receipt_remains_visible_in_final_report(registry):
     assert report["decisions"][0]["outcome"] == "deferred"
 
 
-def test_timeout_late_worker_cannot_change_reconciled_snapshot(registry):
+def test_timeout_late_worker_cannot_change_reconciled_snapshot(registry, monkeypatch):
     frozen = inventory(registry, 1)
     row = frozen["candidates"][0]
     late = []
     started = threading.Event()
     gate = threading.Event()
+    completed = threading.Event()
+    clock_started = threading.Event()
+    real_monotonic = time.monotonic
+    clock_origin = []
+    real_executor = fanout.concurrent.futures.ThreadPoolExecutor
+
+    class WorkerEntryExecutor(real_executor):
+        def submit(self, *args, **kwargs):
+            future = super().submit(*args, **kwargs)
+            assert started.wait(5), "worker did not enter before submit returned"
+            return future
+
+    monkeypatch.setattr(fanout.concurrent.futures, "ThreadPoolExecutor", WorkerEntryExecutor)
+
+    class WorkerStartClock:
+        @staticmethod
+        def monotonic():
+            # Exclude executor scheduling from the timeout interval, then use
+            # real elapsed time once the worker is actually in flight.
+            if not clock_started.is_set():
+                return 0.0
+            return real_monotonic() - clock_origin[0]
+
+    monkeypatch.setattr(fanout, "time", WorkerStartClock)
 
     def worker(task, attempt):
-        # Signal that the worker really started before waiting, so the test
-        # does not depend on the scheduler having run the task before the
-        # deadline cancels it.
         started.set()
-        gate.wait(0.2)
-        late.append(receipt(row, registry, attempt=attempt))
-        return late[-1]
+        clock_origin.append(real_monotonic())
+        clock_started.set()
+        gate.wait()
+        late_receipt = receipt(row, registry, attempt=attempt)
+        late_path = registry / "late-worker-packet.json"
+        late_path.write_bytes(late_receipt.pop("packetBytes"))
+        late_receipt["packetPath"] = "late-worker-packet.json"
+        late.append(late_receipt)
+        completed.set()
+        return late_receipt
 
-    result = runFanout(frozen, worker, timeoutSeconds=0.02, packetRoot=str(registry))
-    before = reconcileFanout(frozen, result, packetRoot=str(registry))
-    assert started.wait(1.0), "the worker must have started for this test to be meaningful"
-    gate.set()
-    for _ in range(50):
-        if late:
-            break
-        time.sleep(0.01)
-    assert late, "the late worker result must have been produced"
-    assert before == reconcileFanout(frozen, result, packetRoot=str(registry))
-    assert before["decisions"][0]["outcome"] == "deferred"
+    try:
+        result = runFanout(frozen, worker, timeoutSeconds=0.02, packetRoot=str(registry))
+        assert started.is_set(), "the worker must have entered before checking timeout protection"
+        assert "timeout" in result["errors"][row["candidateId"]]
+        before = reconcileFanout(frozen, result, packetRoot=str(registry))
+        before_bytes = canonicalJson(before)
+        assert before["decisions"][0]["outcome"] == "deferred"
+    finally:
+        gate.set()
+
+    assert completed.wait(5), "the released late worker must finish"
+    late_path = registry / "late-worker-packet.json"
+    assert late_path.is_file(), "the late worker's packet artifact must be written"
+    assert late[0]["packetPath"] == "late-worker-packet.json"
+    assert canonicalJson(reconcileFanout(frozen, result, packetRoot=str(registry))) == before_bytes
+
+    # Reconcile the completed late artifact directly: validity and SHA checks
+    # do not need a second executor run or a startup-time assumption.
+    accepted = reconcileFanout(frozen, {"receipts": [late[0]]}, packetRoot=str(registry))
+    assert accepted["decisions"][0]["outcome"] == "review-ready"
+    assert accepted["decisions"][0]["receiptValid"] is True
+
+    corrupt = dict(late[0], outputDigest="0" * 64)
+    rejected = reconcileFanout(frozen, {"receipts": [corrupt]}, packetRoot=str(registry))
+    assert rejected["decisions"][0]["outcome"] == "deferred"
+    assert "hash" in rejected["decisions"][0]["reason"]
 
 
 def test_timeout_is_one_wall_clock_budget_for_the_whole_run(registry):

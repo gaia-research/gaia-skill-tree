@@ -667,3 +667,53 @@ def test_desk_round_trips_through_its_stored_form() -> None:
                  coverage_unknown_reasons={"broken": "SensorUnavailable: gone"})
     assert Desk.from_dict(desk.to_dict()) == desk
     assert "Cause: SensorUnavailable: gone" in " ".join(render_desk(desk).split())
+
+
+# --- superseded and duplicated decisions ------------------------------------------------
+
+
+ISSUE_1642 = "https://github.com/gaia-research/gaia-skill-tree/issues/1642"
+
+
+def test_a_decided_record_with_a_merged_pr_as_evidence_never_surfaces_while_a_sibling_stays_open() -> None:
+    desk = _desk(decision_records=(
+        _record("stamps-done", status="decided", links=["https://example.test/pull/2147", ISSUE_1642]),
+        _record("stamps-policy", links=[ISSUE_1642]),
+    ))
+    assert [item.decision_id for item in desk.decisions] == ["stamps-policy"]
+
+
+def test_a_record_and_a_generated_group_on_one_issue_are_one_decision_that_keeps_every_debt() -> None:
+    stamps = [_debt("trust_stamp_stale", name) for name in ("skill-a", "skill-b")]
+    desk = _desk(open_debts=stamps, decision_records=(_record("stamps-policy", links=[ISSUE_1642]),))
+
+    (decision,) = desk.decisions
+    assert decision.decision_id == "stamps-policy" and decision.source == "decision-record"
+    assert decision.debt_ids == tuple(sorted(item.id for item in stamps))
+    assert any("2 open Class C debt" in line for line in decision.evidence)
+
+
+def test_a_record_on_another_issue_does_not_absorb_unrelated_groups() -> None:
+    stamps = [_debt("trust_stamp_stale", "skill-a")]
+    desk = _desk(open_debts=stamps, decision_records=(_record("ship-gate"),))
+    assert {item.source for item in desk.decisions} == {"decision-record", "class-c-debt"}
+
+
+def test_optional_resolution_preserves_existing_records_and_validates_explicit_outcome() -> None:
+    for resolution in ("approved", "rejected", "pending"):
+        desk = _desk(decision_records=(_record(status="decided", resolution=resolution),))
+        assert desk.quiet()
+    desk = _desk(decision_records=(_record(resolution=False),))
+    assert [op.kind for op in desk.operations] == ["invalid_decision_record"]
+
+
+def test_the_repository_decision_records_are_valid_and_not_duplicated() -> None:
+    root = Path(__file__).resolve().parents[2]
+    records = load_decision_records(root)
+    desk = _desk(decision_records=records)
+    assert [op for op in desk.operations if op.kind == "invalid_decision_record"] == []
+    ids = [item.decision_id for item in desk.decisions]
+    assert "steward-timeline-order-1699" not in ids
+    assert "steward-trust-stamp-refresh-1642" not in ids
+    assert "steward-trust-stamp-refresh-policy-1642" in ids
+    assert "steward-workflow-skill-creator-demote-1699" in ids

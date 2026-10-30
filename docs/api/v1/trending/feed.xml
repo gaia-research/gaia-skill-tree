@@ -5,8 +5,21 @@
     <link>https://gaiaskilltree.com/trending/</link>
     <description>Skills gaining trust this week — ranked by evidence velocity, not hype.</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 24 Oct 2026 14:41:17 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Oct 2026 00:07:55 +0000</lastBuildDate>
     <atom:link href="https://gaiaskilltree.com/api/v1/trending/feed.xml" rel="self" type="application/rss+xml"/>
-
+    <item>
+      <title>anatomy (+152.5 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/wheresryan22/anatomy</link>
+      <description>Trust Magnitude: 152.5 · Grade A</description>
+      <pubDate>Fri, 30 Oct 2026 00:07:55 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-wheresryan22/anatomy-2026-10-30</guid>
+    </item>
+    <item>
+      <title>accelerated-computing-cudf (+126.1 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/nvidia/accelerated-computing-cudf</link>
+      <description>Trust Magnitude: 126.1 · Grade A</description>
+      <pubDate>Fri, 30 Oct 2026 00:07:55 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-nvidia/accelerated-computing-cudf-2026-10-30</guid>
+    </item>
   </channel>
 </rss>

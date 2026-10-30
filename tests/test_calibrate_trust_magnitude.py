@@ -147,3 +147,82 @@ def test_missing_skill_fails_preflight(tmp_path, monkeypatch, capsys):
 
     assert excinfo.value.code == 1
     assert "does-not-exist" in capsys.readouterr().err
+
+
+# ---------------------------------------------------------------------------
+# --refresh-apex: cached apexGateStatus refresh
+# ---------------------------------------------------------------------------
+
+
+def _prime_valid_hash(path: Path) -> None:
+    """Write the correct TM/grade/hash into frontmatter so only apex can be stale."""
+    import yaml
+    from gaia_cli.registryMaps import buildMergedSkillMap
+    from gaia_cli.trustMagnitude import computeOverallTrustGradeFromSkill
+
+    text = path.read_text(encoding="utf-8")
+    _, fm, body = text.split("---", 2)
+    meta = yaml.safe_load(fm)
+    merged = buildMergedSkillMap(str(path.parents[3]))
+    meta["trustMagnitude"] = round(computeTrustMagnitude(meta, merged), 2)
+    meta["overallTrustGrade"] = computeOverallTrustGradeFromSkill(meta, merged)
+    meta["trustMagnitudeInputHash"] = computeTrustMagnitudeInputHash(meta)
+    meta["apexGateStatus"] = {"overallGradeS": True}  # deliberately stale
+    path.write_text("---\n" + yaml.safe_dump(meta, allow_unicode=True) + "---" + body, encoding="utf-8")
+
+
+def test_without_flag_stale_apex_is_left_alone(tmp_path, monkeypatch):
+    root = _make_registry(tmp_path)
+    path = Path(root) / "registry" / "named" / "acme" / "suite.md"
+    _prime_valid_hash(path)
+    monkeypatch.setattr("gaia_cli.commands.dev.calibrate._get_contributor", lambda: "op")
+    monkeypatch.setattr("gaia_cli.commands.dev.calibrate.append_skill_event", lambda *a, **kw: None)
+
+    calibrate_trust_magnitude_command(_args(root))
+
+    assert _read_frontmatter(path)["apexGateStatus"] == {"overallGradeS": True}
+
+
+def test_refresh_apex_dry_run_reports_without_writing(tmp_path, monkeypatch, capsys):
+    root = _make_registry(tmp_path)
+    path = Path(root) / "registry" / "named" / "acme" / "suite.md"
+    _prime_valid_hash(path)
+    before = path.read_text(encoding="utf-8")
+
+    calibrate_trust_magnitude_command(_args(root, dry_run=True, refresh_apex=True))
+
+    out = capsys.readouterr().out
+    assert "apexGateStatus" in out
+    assert path.read_text(encoding="utf-8") == before
+
+
+def test_refresh_apex_writes_generator_equivalent_status_and_logs(tmp_path, monkeypatch):
+    from gaia_cli.evidence import inherited_evidence
+    from gaia_cli.registryMaps import buildMergedSkillMap
+    from gaia_cli.trustMagnitude import passesSuiteApexGate
+
+    root = _make_registry(tmp_path)
+    path = Path(root) / "registry" / "named" / "acme" / "suite.md"
+    _prime_valid_hash(path)
+    events = []
+    monkeypatch.setattr("gaia_cli.commands.dev.calibrate._get_contributor", lambda: "op")
+    monkeypatch.setattr(
+        "gaia_cli.commands.dev.calibrate.append_skill_event",
+        lambda skill_id, action, contributor, details, registry_path=".": events.append((action, details)),
+    )
+
+    calibrate_trust_magnitude_command(_args(root, refresh_apex=True))
+
+    fm = _read_frontmatter(path)
+    merged = buildMergedSkillMap(root)
+    named = {k: v for k, v in merged.items() if v.get("contributor")}
+    generic = {k: v for k, v in merged.items() if k not in named}
+    named["acme/suite"] = fm
+    expected = passesSuiteApexGate(
+        {**fm, "evidence": inherited_evidence(fm, None)},
+        {"genericSkillMap": generic, "namedSkillMap": named},
+    )
+    assert fm["apexGateStatus"] == expected
+    assert fm["apexGateStatus"] != {"overallGradeS": True}
+    assert events and events[0][0] == "recalibrate_trust_magnitude"
+    assert "apexGateStatus" in events[0][1]

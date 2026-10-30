@@ -62,6 +62,35 @@ def testCaseIdRefusesAClassnameWithNoTestModule() -> None:
         caseId("helpers.common", "test_x")
 
 
+def testCollectionSkippedModuleIsAModuleRecordNotMalformed(tmp_path: Path) -> None:
+    """A module skipped at collection (importorskip) has no classname.
+
+    pytest reports it as classname="" with the dotted module path as the name.
+    Refusing it made the whole history collection fail whenever an optional
+    dependency was absent, leaving the flake detector permanently not evaluated.
+    """
+
+    body = (
+        '<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest">'
+        '<testcase classname="" name="tests.test_optional" time="0.0">'
+        '<skipped type="pytest.skip" message="collection skipped">x</skipped></testcase>'
+        '<testcase classname="tests.steward.test_probe" name="test_ok" time="0.0"/>'
+        "</testsuite></testsuites>"
+    )
+
+    results = readJunit(writeJunit(tmp_path / "junit.xml", body))
+
+    assert results == {
+        "tests/test_optional.py": "skipped",
+        "tests/steward/test_probe.py::test_ok": "passed",
+    }
+    assert caseId("", "tests.test_optional") == "tests/test_optional.py"
+    with pytest.raises(InputError):
+        caseId("", "not a module")
+    with pytest.raises(InputError):
+        caseId("", "helpers.common")
+
+
 def testMergeAppendsNewRunsAndReplacesTheSameRunId() -> None:
     history = {"schemaVersion": collector.SCHEMA, "runs": [makeRun("r1"), makeRun("r2", {"t.py::x": "failed"})]}
 

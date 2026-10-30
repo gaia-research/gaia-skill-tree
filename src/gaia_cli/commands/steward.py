@@ -179,7 +179,7 @@ class StewardCommand(Command):
         modes.add_argument("--triage", action="store_true", help="Observe and triage only")
         modes.add_argument("--verify", action="store_true", help="Verify recorded work and re-observe")
         modes.add_argument("--retro", action="store_true", help="Live sensor/routine coverage table only")
-        run.add_argument("--routine", metavar="N", help="Restrict triage to routine N (1-17)")
+        run.add_argument("--routine", metavar="N", help="Restrict triage to routine N (1-18)")
         run.add_argument("--debt", metavar="ID", help="Restrict triage to one debt id")
         run.add_argument("--resume", metavar="RUN", help="Continue an existing run from its recorded phase")
         run.add_argument("--afk", action="store_true", help="Founder decisions queue silently; never prompt")
@@ -197,6 +197,11 @@ class StewardCommand(Command):
         record.add_argument("stepId", metavar="STEP_ID", help="Step id of the action")
         record.add_argument("--input", required=True, metavar="FILE.json", help="JSON outcome file")
         ledgerOptions(record)
+
+        abandon = actions.add_parser("abandon", help="End an open run with an auditable reason; its unbuilt work stays adoptable")
+        abandon.add_argument("runId", metavar="RUN_ID", help="Open run to abandon")
+        abandon.add_argument("--reason", required=True, help="Why the run is being ended (kept in the ledger)")
+        ledgerOptions(abandon)
 
         status = actions.add_parser("status", help="Read-only view of the ledger and the active run")
         ledgerOptions(status)
@@ -483,8 +488,8 @@ class StewardCommand(Command):
         from gaia_cli.steward.receipts import StateError
 
         action = getattr(args, "fullAction", None)
-        if action not in {"run", "record", "status"}:
-            print("usage: gaia steward full {run,record,status} [--json]", file=sys.stderr)
+        if action not in {"run", "record", "abandon", "status"}:
+            print("usage: gaia steward full {run,record,abandon,status} [--json]", file=sys.stderr)
             return 2
         root = Path(args.registry).resolve()
         remote = "origin"
@@ -507,6 +512,8 @@ class StewardCommand(Command):
             runner = FullRunner(config)
             if action == "status":
                 result = runner.status()
+            elif action == "abandon":
+                result = runner.abandon(args.runId, args.reason)
             elif action == "record":
                 outcome = self._readOutcome(args.input)
                 result = runner.record(args.runId, args.stepId, outcome)
@@ -551,9 +558,9 @@ class StewardCommand(Command):
             try:
                 routine = int(args.routine)
             except ValueError:
-                raise _FullRefused(f"--routine must be a number between 1 and 17, not {args.routine!r}") from None
-            if not 1 <= routine <= 17:
-                raise _FullRefused("--routine must be between 1 and 17")
+                raise _FullRefused(f"--routine must be a number between 1 and 18, not {args.routine!r}") from None
+            if not 1 <= routine <= 18:
+                raise _FullRefused("--routine must be between 1 and 18")
         return runner.start(
             self._fullModeOf(args), routine=routine, debt=args.debt, afk=args.afk
         )
@@ -662,6 +669,10 @@ class StewardCommand(Command):
                   f"escalated {lane['escalated']}  closed {lane['closed']}")
         for run in view.recentRuns[:5]:
             print(f"  {run['runId']}  {run['mode']:<8} {run['status']}")
+        ready = next((run["readyWritesDisabled"] for run in view.recentRuns
+                      if isinstance(run.get("readyWritesDisabled"), int) and run["readyWritesDisabled"] > 0), None)
+        if ready:
+            print(f"Issue closures       ready (writes disabled): {ready} proven closures")
         if view.desk is not None:
             from gaia_cli.steward.desk import Desk, render_desk
 

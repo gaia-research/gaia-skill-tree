@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "graft",
+    "ask",
+    "score function and its caller context",
+    "--in",
+    "examples/frontier/fixtures/line-history",
+    "--json"
+  ],
+  "exitCode": 1,
+  "stdout": "",
+  "stderr": "[graft] refreshed the graph (7 files changed) before answering \u2014 copied the graph from the main checkout (/data/data/com.termux/files/home/gaia-skill-tree)\n\u2717 nothing indexed under \"examples/frontier/fixtures/line-history/\" \u2014 scopes here: packages/api-client-py/ \u00b7 packages/api-client-ts/ \u00b7 packages/cli-npm/ \u00b7 (root) (or any path prefix)\n",
+  "seconds": 8.632
+}

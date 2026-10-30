@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "frontier-experiment-receipt-v1.1",
+  "experimentRunId": "run-375e99a368284220a1a6cacd7a7d78d4",
+  "campaignId": "yggiv-challenger-cases-2026-10",
+  "nativeVersion": "2.50.1",
+  "documentedVersion": "2.56.0",
+  "executedVersion": "2.50.1",
+  "requestId": "sha256:50a864e709d674403353090556d9342ce9e63a040cd782ebde7c228aae999929",
+  "leadDigest": "sha256:8ea960c7ef978a109ec033cc0290d7d1b75d83da3357c205a877cc91a4c1c97e",
+  "claimDigest": "sha256:4891eb9958e8682c0f3dff3f29e6fb20e3206eb546874ea22cfe5fe3571e6af5",
+  "sourceDigest": "sha256:67e2e76723555409941d7a67d501d44e835a98a657fa71fbba664bda74255305",
+  "targetDigest": "sha256:12519de9523bb54f8129ec3142260db580ca0b3ca8998e09fa6571bb24dfbc68",
+  "targetRevision": "d237c0839c9c9197fc861ecec839ed323a9748a4",
+  "historyRef": "git:d237c0839c9c9197fc861ecec839ed323a9748a4",
+  "protocolDigest": "sha256:40778442774ff85693e77e7ba0a80a81259bd939180e5de0cc35ba5efc07ef74",
+  "fixtureDigest": "sha256:deb9f81d78e97c503f48028e4dafb5167ff3b6c966e282e9b1f1c5a77b62c388",
+  "result": "inconclusive",
+  "outputs": [
+    {
+      "label": "native",
+      "contentDigest": "sha256:af9c9bd27a7b0ac073a7350c87c5ddbbc639097c0e02ed8a3b12deaa76551fd3",
+      "path": "evidence/frontier-challenges/c3-git-log-L-vs-graft/artifacts/native.json"
+    },
+    {
+      "label": "target",
+      "contentDigest": "sha256:3321d06556267917fca7276f47278024423ea2fcadf24083d4f42ae788c7fb64",
+      "path": "evidence/frontier-challenges/c3-git-log-L-vs-graft/artifacts/graft.target-output.txt"
+    }
+  ],
+  "limitations": [
+    "This is an untrusted experiment record, not verifier authentication or public challenge admission.",
+    "Executed Git version 2.50.1 differs from documented version 2.56.0; the documented tag is claim provenance only, so only inconclusive or execution_failed is permitted.",
+    "Paired artifacts alone establish neither comparable performance, superiority nor independent verification; Meta must assess protocol execution and counterevidence."
+  ],
+  "recordedAtUTC": "2026-10-28T18:19:00.980036Z"
+}

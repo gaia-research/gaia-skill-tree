@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "graft",
+    "--dir",
+    "/data/data/com.termux/files/usr/tmp/frontier-e4-graft-index-u27oe2d_",
+    "check",
+    "/data/data/com.termux/files/home/.gaia-worktrees/yggdrasil-iv-frontier-native-e4"
+  ],
+  "exitCode": 0,
+  "stdout": "deep layer: not built (run `graft build --deep` for concept nodes) \u2014 wiring graph is the source of truth\n\ngraph check: OK \u2014 the wiring graph is in sync with the code. (meaning tier 0% complete \u2014 11147 of 11147 node(s) pending: backfill.py, docs/assets/Asset D/remove_white_borders_helper.py, docs/assets/Asset G/scripts/asset_g_parallax_snippet.js, docs/assets/Asset G/scripts/asset_g_parallax_snippet.js#updateHazeParallax, docs/assets/Asset G/scripts/audit_asset_g.py, docs/assets/Asset G/scripts/audit_asset_g.py#audit, docs/assets/Asset G/scripts/audit_asset_g.py#main, docs/assets/Asset G/scripts/make_asset_g_haze.py, \u2026 +11139 more. Run `graft build --deep` to summarize them; if a deep build already left these pending, that meaning pass failed \u2014 see that build's errors (re-running alone will not clear them))\n",
+  "stderr": "",
+  "seconds": 83.464
+}

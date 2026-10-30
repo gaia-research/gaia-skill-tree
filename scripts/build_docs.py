@@ -32,6 +32,8 @@ def _child_env() -> dict:
     same resolved src/ regardless of how build_docs.py itself was invoked.
     """
     env = dict(os.environ)
+    if globals().get("_STRICT_REHEARSAL", False):
+        env = {key: value for key, value in env.items() if not key.startswith("GIT_")}
     existing = env.get("PYTHONPATH", "")
     parts = [str(SRC)] + ([existing] if existing else [])
     env["PYTHONPATH"] = os.pathsep.join(parts)
@@ -315,6 +317,29 @@ def build_readme_version_only(check: bool) -> bool:
     return changed
 
 
+def build_health_version_only(check: bool) -> bool:
+    """Refresh ONLY `docs/api/v1/health.json` `version` from pyproject.toml.
+
+    health.json is an API contract whose `version` is meaningful, but the
+    full API regen masks version stamps in its drift check, so a release that
+    skips the full pipeline left it frozen (8.26.10 vs 8.28.1). Version-derived
+    and independent of Class P data, so safe in a release context.
+    """
+    path = ROOT / "docs" / "api" / "v1" / "health.json"
+    if not path.exists():
+        return False
+    text = path.read_bytes().decode("utf-8")
+    updated = _VERSION_STAMP_RE.sub(lambda m: f'{m.group(1)}"{_read_version()}"', text, count=1)
+    if updated == text:
+        return False
+    if check:
+        print("diff docs/api/v1/health.json (version stale)")
+    else:
+        path.write_bytes(updated.encode("utf-8"))
+        print("cache-bust: updated docs/api/v1/health.json")
+    return True
+
+
 def build_docs_index(check: bool) -> bool:
     path = ROOT / "docs" / "index.html"
     if not path.exists():
@@ -439,6 +464,9 @@ def build_okf_bundle(check: bool) -> bool:
         return False
 
     if not check:
+        if globals().get("_STRICT_REHEARSAL", False):
+            rc, output = _run_script(script_path, [])
+            return rc == 0
         res = subprocess.run(
             [sys.executable, str(script_path)], capture_output=True, text=True, env=_child_env(),
         )
@@ -537,6 +565,9 @@ def build_skills_index(check: bool) -> bool:
             return True
         return False
     else:
+        if globals().get("_STRICT_REHEARSAL", False):
+            rc, output = _run_script(script_path, [])
+            return rc == 0
         res = subprocess.run(
             [sys.executable, str(script_path)],
             capture_output=True, text=True,
@@ -616,6 +647,9 @@ def build_sitemap(check: bool) -> bool:
             return True
         return False
     else:
+        if globals().get("_STRICT_REHEARSAL", False):
+            rc, output = _run_script(script_path, [])
+            return rc == 0
         res = subprocess.run(
             [sys.executable, str(script_path)],
             capture_output=True, text=True,
@@ -644,6 +678,30 @@ def build_html_cache_busting(check: bool) -> bool:
             )
         )
     ]
+    # Any other page that already carries a version stamp (`?v=X.Y.Z` asset
+    # query or `window.GAIA_VERSION`) is discovered rather than listed, so a
+    # stamped page that was never registered cannot silently freeze at an old
+    # release (docs/evidence/index.html sat at 5.0.6 and
+    # docs/benchmarks/alphaxiv-arxivqa/index.html at 7.3.6). docs/u/<handle>/
+    # pages are handled separately below: their generator strips the no-cache
+    # meta tags that this transform would re-inject.
+    stamped_pages = []
+    # Only asset stamps (`.css?v=` / `.js?v=`) and the GAIA_VERSION global count,
+    # so prose or external URLs containing `?v=1.2.3` are never rewritten.
+    stamp_re = re.compile(
+        r'\.(?:css|js)\?v=\d+\.\d+\.\d+|window\.GAIA_VERSION\s*=\s*"'
+    )
+    for path in sorted((ROOT / "docs").rglob("*.html")):
+        rel = path.relative_to(ROOT / "docs")
+        if rel.parts[0] in ("u", "og") or "DRAFT" in rel.parts:
+            continue
+        try:
+            text = path.read_bytes().decode("utf-8")
+        except UnicodeDecodeError:
+            continue
+        if stamp_re.search(text):
+            stamped_pages.append(rel.as_posix())
+    seen: set[str] = set()
     for filename in (
         "reports/index.html",
         "index.html",
@@ -653,12 +711,14 @@ def build_html_cache_busting(check: bool) -> bool:
         "privacy.html",
         "starless.html",
         "badges/index.html",
+        "evidence/index.html",
         "named/index.html",
         "named/report.html",
         "share/index.html",
         "trust/index.html",
         "trust/ledger/index.html",
         "trust/leaderboard/index.html",
+        "trust/challenges/index.html",
         "codex/trust-methodology.html",
         "u/index.html",
         "api/index.html",  # pre-registered for Issue #850 (docs page not yet created)
@@ -671,7 +731,10 @@ def build_html_cache_busting(check: bool) -> bool:
         "benchmarks/humaneval-v1/index.html",
         "benchmarks/mmlu-v1/index.html",
         "skills/index.html",
-    ) + tuple(en_pages) + tuple(report_pages):
+    ) + tuple(en_pages) + tuple(report_pages) + tuple(stamped_pages):
+        if filename in seen:
+            continue
+        seen.add(filename)
         path = ROOT / "docs" / filename
         if not path.exists():
             continue
@@ -686,6 +749,28 @@ def build_html_cache_busting(check: bool) -> bool:
             else:
                 path.write_bytes(updated_text.encode("utf-8"))
                 print(f"cache-bust: updated docs/{filename}")
+    # Per-contributor profile pages: re-stamp with the generator's own transform
+    # (version-only; it keeps the pages free of no-cache meta). build_profile_pages
+    # compares trees ignoring version stamps, so without this step a regen never
+    # rewrites a page whose only drift is the stamp and all 65 froze at 8.26.10.
+    profile_pages = sorted((ROOT / "docs" / "u").glob("*/index.html"))
+    if profile_pages:
+        import importlib.util as _ilu
+        spec = _ilu.spec_from_file_location("generateProfilePages", SCRIPTS / "generateProfilePages.py")
+        gen = _ilu.module_from_spec(spec)  # type: ignore[arg-type]
+        spec.loader.exec_module(gen)  # type: ignore[union-attr]
+        for path in profile_pages:
+            original_text = path.read_bytes().decode("utf-8")
+            updated_text = gen._apply_cache_busting(original_text, version)
+            if original_text != updated_text:
+                changed = True
+                rel = path.relative_to(ROOT / "docs").as_posix()
+                if check:
+                    print(f"diff docs/{rel} (cache busting / version stale)")
+                else:
+                    path.write_bytes(updated_text.encode("utf-8"))
+                    # `gaia dev release` stages only the paths printed here.
+                    print(f"cache-bust: updated docs/{rel}")
     return changed
 
 
@@ -706,6 +791,9 @@ def build_jsonld(check: bool) -> bool:
             return True
         return False
     else:
+        if globals().get("_STRICT_REHEARSAL", False):
+            rc, output = _run_script(script_path, [])
+            return rc == 0
         res = subprocess.run(
             [sys.executable, str(script_path)],
             capture_output=True, text=True,
@@ -863,8 +951,21 @@ def _diff_tree(reference: Path, candidate: Path) -> list[str]:
 
 def _run_script(script: Path, args: list[str]) -> tuple[int, str]:
     """Run a helper script and return (returncode, stdout+stderr)."""
+    command = [sys.executable, str(script), *args]
+    if globals().get("_STRICT_REHEARSAL", False):
+        # Preserve explicit worker intent across process boundaries without
+        # treating inherited environment variables as rehearsal authority.
+        context_path = ROOT / "publication-context.json"
+        bootstrap = (
+            "import runpy,sys; from pathlib import Path; "
+            "from publication_context import load_context,activate_rehearsal_context; "
+            "ctx=load_context(sys.argv[1]); root=Path(sys.argv[1]).parent; "
+            "activate_rehearsal_context(ctx,root,verify_inputs=False,inherit_runtime_check=True); "
+            "sys.argv=[sys.argv[2],*sys.argv[3:]]; runpy.run_path(sys.argv[0],run_name='__main__')"
+        )
+        command = [sys.executable, "-c", bootstrap, str(context_path), str(script), *args]
     proc = subprocess.run(
-        [sys.executable, str(script), *args],
+        command,
         cwd=ROOT,
         capture_output=True,
         text=True,
@@ -872,7 +973,11 @@ def _run_script(script: Path, args: list[str]) -> tuple[int, str]:
         errors="replace",
         env=_child_env(),
     )
-    return proc.returncode, (proc.stdout or "") + (proc.stderr or "")
+    output = (proc.stdout or "") + (proc.stderr or "")
+    if globals().get("_STRICT_REHEARSAL", False):
+        from publication_context import record_execution
+        record_execution(script, args, proc.returncode, output)
+    return proc.returncode, output
 
 
 # Steps that shell out used to raise a bare "rc=1", and _run_step() collapses
@@ -979,7 +1084,7 @@ def build_docs_named_index(check: bool) -> bool:
 
 # Files that live in docs/api/v1/ but are hand-authored (not emitted by
 # buildApiProjection.py).  They must be preserved across every regen cycle.
-_API_HAND_AUTHORED = ["openapi.json", "trending", "benchmarks", "reports"]
+_API_HAND_AUTHORED = ["openapi.json", "trending", "benchmarks", "reports", "challenges"]
 
 
 def build_trust_ledger(check: bool) -> bool:
@@ -1065,6 +1170,17 @@ def build_trust_ledger(check: bool) -> bool:
         return True
 
 
+def build_challenge_projection(check: bool) -> bool:
+    """Write/compare gaia-challenge-projection/v1 and its byte-identical API mirror.
+
+    `unavailable` is the truthful state until a challenge is admitted through the
+    production resolver; the whole file fails closed (see challengeProjection.py).
+    """
+    sys.path.insert(0, str(ROOT / "src"))
+    from gaia_cli import challengeProjection
+    return challengeProjection.sync(ROOT, check=check)
+
+
 def build_installability_projection(check: bool) -> bool:
     """Project committed bounded observations without running install parity."""
     committed = ROOT / "docs" / "graph" / "installability" / "index.json"
@@ -1094,6 +1210,36 @@ def build_installability_projection(check: bool) -> bool:
             return True
         return False
     return write_projection(document, committed, anchor=ROOT)
+
+
+_VERSION_STAMP_RE = re.compile(r'("version"\s*:\s*)"\d+\.\d+\.\d+"')
+
+
+def _refresh_version_only_drift(committed: Path, generated: Path) -> list[str]:
+    """Copy generated files over committed ones that differ ONLY in `"version"`.
+
+    Returns the relative paths refreshed. Files with any other difference are
+    left to the caller's normal tree replacement.
+    """
+    refreshed: list[str] = []
+    for gen_path in sorted(generated.rglob("*.json")):
+        rel = gen_path.relative_to(generated)
+        com_path = committed / rel
+        if not com_path.is_file():
+            continue
+        try:
+            gen_text = gen_path.read_bytes().decode("utf-8")
+            com_text = com_path.read_bytes().decode("utf-8")
+        except UnicodeDecodeError:
+            continue
+        if gen_text == com_text:
+            continue
+        mask = lambda t: _VERSION_STAMP_RE.sub(r'\1"<v>"', t)  # noqa: E731
+        if mask(gen_text) == mask(com_text):
+            com_path.write_bytes(gen_text.encode("utf-8"))
+            refreshed.append(rel.as_posix())
+            print(f"version-stamp: refreshed docs/api/v1/{rel.as_posix()}")
+    return refreshed
 
 
 def build_api_projection(check: bool) -> bool:
@@ -1133,6 +1279,16 @@ def build_api_projection(check: bool) -> bool:
                 shutil.copytree(out_dir, committed)
             return True
         drifts = _diff_tree(committed, out_dir)
+        if not check:
+            # `_diff_tree` normalizes `"version"` stamps (so --check does not
+            # flap between a release and its next sync), which also meant a
+            # regen never rewrote a file whose ONLY drift is that stamp:
+            # health.json froze at 8.26.10 while pyproject moved to 8.28.1.
+            # health.json is an API contract whose `version` is meaningful, so
+            # heal it in write mode. Only files that are byte-different yet
+            # identical once the version stamp is masked are refreshed, so this
+            # never introduces timestamp churn.
+            _refresh_version_only_drift(committed, out_dir)
         if not drifts:
             return False
         if check:
@@ -1184,6 +1340,9 @@ def build_benchmark_projection(check: bool) -> bool:
             return True
         return False
     else:
+        if globals().get("_STRICT_REHEARSAL", False):
+            rc, output = _run_script(script, ["--out-dir", str(committed)])
+            return "nothing changed" not in output
         result = _sp.run(
             [sys.executable, str(script), "--out-dir", str(committed)],
             capture_output=True, text=True, encoding="utf-8", errors="replace",
@@ -1397,6 +1556,8 @@ def build_profile_pages(check: bool) -> bool:
             for _hp in sorted(out_dir.rglob("*.html")):
                 _ild.inject_file(_hp, check=False)
         except Exception:
+            if globals().get("_STRICT_REHEARSAL", False):
+                raise
             pass  # JSON-LD injection is best-effort in check mode
         if not committed.exists():
             if check:
@@ -1680,6 +1841,15 @@ def build_og_cards(check: bool) -> bool:
                 print(f"diff docs/og/ (regen failed: rc={rc})")
                 print(output)
             raise RuntimeError(f"docs/og/ regen failed: rc={rc}")
+        # A strict rehearsal requires a freshly rendered PNG for every SVG,
+        # including cards that did not previously have a raster.
+        strict = globals().get("_STRICT_REHEARSAL", False)
+        if strict:
+            candidate_pngs = {p.relative_to(out_dir) for p in out_dir.rglob("*.png")}
+            expected_pngs = {p.relative_to(out_dir).with_suffix(".png") for p in out_dir.rglob("*.svg")}
+            if candidate_pngs != expected_pngs:
+                raise RuntimeError("rehearsal cannot certify incomplete OG PNG coverage; install a supported rasterizer: "
+                                   + ", ".join(map(str, sorted(expected_pngs - candidate_pngs)[:5])))
         if not committed.exists():
             if check:
                 print("diff docs/og/ (missing)")
@@ -1688,8 +1858,19 @@ def build_og_cards(check: bool) -> bool:
                 shutil.copytree(out_dir, committed)
             return True
 
-        # Compare only SVG files — PNGs are optional (cairosvg may be absent
-        # in CI) and the SVG is the canonical artifact.
+        # Production retains its historical SVG-only behavior. In rehearsal,
+        # replace all rasters and remove even orphan PNGs with no old SVG.
+        removed_pngs = set()
+        if strict:
+            committed_pngs = {p.relative_to(committed) for p in committed.rglob("*.png")}
+            removed_pngs = committed_pngs - candidate_pngs
+            for rel in sorted(removed_pngs):
+                (committed / rel).unlink()
+            for rel in sorted(candidate_pngs):
+                destination = committed / rel
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                destination.write_bytes((out_dir / rel).read_bytes())
+        # Compare only SVG files in ordinary production mode.
         drifts = []
         committed_svgs = {p.relative_to(committed) for p in committed.rglob("*.svg")}
         candidate_svgs = {p.relative_to(out_dir) for p in out_dir.rglob("*.svg")}
@@ -1701,7 +1882,7 @@ def build_og_cards(check: bool) -> bool:
             elif not filecmp.cmp(c, n, shallow=False):
                 drifts.append(str(rel))
         if not drifts:
-            return False
+            return bool(removed_pngs)
         if check:
             for d in drifts:
                 print(f"diff docs/og/{d}")
@@ -1816,6 +1997,9 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build generated Gaia docs regions.")
     parser.add_argument("--check", action="store_true", help="Fail (exit 1) if generated docs drift from source. Not read-only: regenerates Class P/S artifacts before comparing (commit any docs/graph/* Class S changes).")
     parser.add_argument("--auto-clean", action="store_true", help="(Opt-in) In write mode, remove left-only generated files in safe bundles (use cautiously)")
+    parser.add_argument("--publication-rehearsal", metavar="OUTPUT_ROOT", help="Run the real docs builder in an isolated external scratch copy and stamp a rehearsal snapshot; never publishes approval.")
+    parser.add_argument("--publication-rehearsal-worker", metavar="CONTEXT", help=argparse.SUPPRESS)
+    parser.add_argument("--evaluation-at-utc", help="Pinned UTC evaluation instant for publication rehearsal.")
     parser.add_argument(
         "--cache-bust-only",
         action="store_true",
@@ -1824,6 +2008,92 @@ def main(argv: list[str] | None = None) -> int:
              "without regenerating badges or other Class S artifacts.",
     )
     args = parser.parse_args(argv)
+    strict_rehearsal = bool(args.publication_rehearsal_worker)
+    globals()["_STRICT_REHEARSAL"] = strict_rehearsal
+    rehearsal_context = None
+    if os.environ.get("GAIA_PUBLICATION_CONTEXT") and not strict_rehearsal:
+        parser.error("GAIA_PUBLICATION_CONTEXT is private to the explicit rehearsal worker")
+    if (strict_rehearsal or args.publication_rehearsal) and (args.check or args.cache_bust_only):
+        parser.error("rehearsal requires the complete write pipeline")
+    if args.evaluation_at_utc and not args.publication_rehearsal:
+        parser.error("--evaluation-at-utc requires --publication-rehearsal")
+    if strict_rehearsal:
+        try:
+            from publication_context import load_context
+            rehearsal_context = load_context(args.publication_rehearsal_worker)
+            if Path(args.publication_rehearsal_worker).absolute() != ROOT / "publication-context.json":
+                raise ValueError("worker context must belong to its scratch root")
+            from publication_context import activate_rehearsal_context
+            activate_rehearsal_context(rehearsal_context, ROOT)
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            parser.error(f"invalid rehearsal context: {exc}")
+
+    if args.publication_rehearsal and args.publication_rehearsal_worker:
+        parser.error("choose either --publication-rehearsal or its internal worker mode")
+    if args.publication_rehearsal:
+        import shutil
+        from publication_context import create_context, stamp_outputs, verify_outputs, verify_copied_inputs, publish_staging
+        source_root = ROOT.resolve(strict=True)
+        destination = Path(args.publication_rehearsal).expanduser().absolute()
+        output_root = destination
+        if output_root.exists() or output_root.is_symlink():
+            parser.error("rehearsal output root must be a new, non-symlink path")
+        try:
+            source_links = [path for path in source_root.rglob("*") if path.is_symlink()]
+            if source_links:
+                raise ValueError(f"source tree contains symlinks; refusing to copy them into rehearsal: {source_links[0]}")
+            context = create_context(source_root, output_root, args.evaluation_at_utc)
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            output_root = Path(tempfile.mkdtemp(prefix=".publication-", dir=destination.parent))
+            output_root.chmod(0o700)
+            from publication_context import COPY_IGNORES
+            ignore = shutil.ignore_patterns(*COPY_IGNORES)
+            # Copy children, not root metadata: copytree(source, staging) would
+            # temporarily replace the private 0700 staging-root permissions.
+            for child in sorted(source_root.iterdir()):
+                if child.name in COPY_IGNORES:
+                    continue
+                target = output_root / child.name
+                if child.is_dir():
+                    shutil.copytree(child, target, symlinks=False, ignore=ignore)
+                else:
+                    shutil.copy2(child, target)
+            verify_copied_inputs(output_root, context)
+            (output_root / "publication-context.json").write_text(
+                json.dumps(context, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        except (OSError, ValueError) as exc:
+            parser.error(f"cannot prepare safe rehearsal workspace: {exc}")
+        worker = subprocess.run(
+            [sys.executable, str(output_root / "scripts" / "build_docs.py"),
+             "--publication-rehearsal-worker", str(output_root / "publication-context.json")],
+            cwd=output_root, env={**{key: value for key, value in os.environ.items() if not key.startswith("GIT_")},
+                                  "PYTHONPATH": os.pathsep.join((str(output_root), str(output_root / "src"), str(output_root / "scripts"))),
+                                  "PYTHONHASHSEED": "0", "PYTHONDONTWRITEBYTECODE": "1"},
+            check=False,
+        )
+        if worker.returncode != 0:
+            print(f"Rehearsal builder failed (exit {worker.returncode}); no artifact manifest emitted.", file=sys.stderr)
+            return worker.returncode
+        # Reject concurrent source mutation while the isolated worker ran.
+        # This is detection, not a lock against a hostile filesystem writer.
+        verify_copied_inputs(source_root, context)
+        from publication_context import runtime_identity
+        if runtime_identity() != context["runtimeIdentity"]:
+            raise ValueError("runtime changed during rehearsal")
+        from publication_context import source_revision
+        if source_revision(source_root) != context["sourceRevision"]:
+            raise ValueError("source HEAD changed during rehearsal")
+        stage_report = json.loads((output_root / "publication-stages.json").read_text(encoding="utf-8"))
+        manifest = stamp_outputs(output_root, context, stage_report)
+        if not verify_outputs(output_root, expected_snapshot_id=context["snapshotId"]):
+            print("Rehearsal output verification failed; refusing to report a coherent snapshot.", file=sys.stderr)
+            return 1
+        if destination.exists() or destination.is_symlink():
+            raise ValueError("rehearsal destination appeared during build; private staging retained")
+        publish_staging(output_root, destination)
+        print(f"Rehearsal complete: {destination}")
+        print(f"snapshotId={context['snapshotId']} artifacts={len(manifest['artifacts'])} mode=rehearsal approval=unavailable")
+        return 0
 
     if args.cache_bust_only:
         # Refresh every version-derived surface that `gaia dev docs --check`
@@ -1834,7 +2104,8 @@ def main(argv: list[str] | None = None) -> int:
         # avoid the 2026-06-24 stale-snapshot badge-wipe class of failure.
         html_changed = build_html_cache_busting(check=False)
         readme_changed = build_readme_version_only(check=False)
-        changed = html_changed or readme_changed
+        health_changed = build_health_version_only(check=False)
+        changed = html_changed or readme_changed or health_changed
         print("Cache-bust strings updated." if changed else "Cache-bust strings already current.")
         return 0
 
@@ -1845,9 +2116,17 @@ def main(argv: list[str] | None = None) -> int:
     # but swallow the root cause). We surface warnings so they aren't silent.
     warnings: list[str] = []
 
+    stages = {}
+
     def _run_step(name: str, func, check: bool) -> bool:
         try:
-            return func(check)
+            if strict_rehearsal:
+                from publication_context import begin_stage, finish_stage
+                begin_stage(name, ROOT)
+            changed = func(check)
+            if strict_rehearsal:
+                stages[name] = finish_stage(name, ROOT)
+            return changed
         except Exception as exc:
             warnings.append(f"{name}: {exc}")
             return False
@@ -1860,13 +2139,18 @@ def main(argv: list[str] | None = None) -> int:
     # syncDocsGraphAssets fans out gaia.json / tree.md / named-index — the
     # named-index drift specifically is the one most likely to land out of sync.
     named_index_changed = _run_step("named-index", build_named_index, args.check)
+    docs_named_changed = _run_step("docs-named-index", build_docs_named_index, args.check)
+    # Must run AFTER docs-named-index: the installability projection reads the
+    # Class S mirror docs/graph/named/index.json (see installability.py
+    # _load_current_index). Running it first projected the PREVIOUS registry in
+    # write mode, so a single `gaia dev docs` left the artifact one run stale.
     installability_changed = _run_step(
         "installability-projection", build_installability_projection, args.check
     )
-    docs_named_changed = _run_step("docs-named-index", build_docs_named_index, args.check)
     arbor_changed = _run_step("arbor-projection", build_arbor_projection, args.check)
     trust_ledger_changed = _run_step("trust-ledger", build_trust_ledger, args.check)
     api_changed = _run_step("api-projection", build_api_projection, args.check)
+    challenge_proj_changed = _run_step("challenge-projection", build_challenge_projection, args.check)
     benchmark_proj_changed = _run_step("benchmark-projection", build_benchmark_projection, args.check)
     trending_changed = _run_step("trending-projection", build_trending_projection, args.check)
     content_engine_changed = _run_step("content-engine", build_content_engine, args.check)
@@ -1889,6 +2173,8 @@ def main(argv: list[str] | None = None) -> int:
         skip_badges = False
     if skip_badges:
         print("[skip-badge-check] detected — skipping badges regen/diff.")
+        if strict_rehearsal:
+            warnings.append("badges: required generator skipped by [skip-badge-check]")
         badges_changed = False
     else:
         badges_changed = _run_step("badges", build_badges, args.check)
@@ -1983,6 +2269,7 @@ def main(argv: list[str] | None = None) -> int:
         or arbor_changed
         or trust_ledger_changed
         or api_changed
+        or challenge_proj_changed
         or benchmark_proj_changed
         # trending_changed: intentionally omitted — see warn-only block above (#1108).
         or content_engine_changed
@@ -2018,6 +2305,7 @@ def main(argv: list[str] | None = None) -> int:
             ("arbor-projection", arbor_changed),
             ("trust-ledger", trust_ledger_changed),
             ("api-projection", api_changed),
+            ("challenge-projection", challenge_proj_changed),
             ("benchmark-projection", benchmark_proj_changed),
             ("content-engine", content_engine_changed),
             ("profiles", profiles_changed),
@@ -2027,6 +2315,17 @@ def main(argv: list[str] | None = None) -> int:
         )
         if is_stale
     ]
+    if strict_rehearsal:
+        from publication_context import GENERATED_OUTPUTS
+        if warnings:
+            print("Strict rehearsal failed: " + "; ".join(warnings), file=sys.stderr)
+            return 1
+        if any(not (ROOT / rel).is_file() for rel in GENERATED_OUTPUTS):
+            print("Strict rehearsal failed: required generated output absent", file=sys.stderr)
+            return 1
+        (ROOT / "publication-stages.json").write_text(json.dumps(stages, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        return 0
+
     if args.check:
         if changed or warnings:
             if warnings:

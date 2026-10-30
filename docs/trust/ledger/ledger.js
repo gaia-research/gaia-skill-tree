@@ -33,7 +33,10 @@
     systemWideCap:              'System cap'
   };
 
+  var ROOT_PREFIX = '../../';
+
   var state = {
+    contested: null,   // Yggdrasil IV: subjectId -> admitted, unresolved challenge summary
     rows: [],
     summary: null,
     generatedAt: '',
@@ -58,6 +61,7 @@
       renderDistribution();
       renderTable();
       renderGeneratedAt();
+      loadChallenges();
     })
     .catch(function (err) {
       console.error('[ledger] failed to load', err);
@@ -67,6 +71,34 @@
           '<a href="' + DATA_URL + '">Try the raw JSON →</a></td></tr>';
       }
     });
+
+  /* ── Yggdrasil IV: admitted challenges (docs/js/challenge-surfaces.js) ──
+     Additive: a "Contested" link beside a contested skill id, and a history
+     block of admitted events. With no admitted challenge (the unavailable
+     projection) nothing here runs and the page is unchanged. */
+  function hasContested() {
+    return !!(window.GaiaChallenges && state.contested && Object.keys(state.contested).length);
+  }
+
+  function contestFor(id) {
+    var entry = window.GaiaChallenges.combineEntries([state.contested[id]]);
+    if (!entry) return null;
+    var origin = false;
+    for (var i = 0; i < state.rows.length; i++) {
+      if (state.rows[i].skillId === id) { origin = state.rows[i].origin === true; break; }
+    }
+    return { entry: entry, isOrigin: origin };
+  }
+
+  function loadChallenges() {
+    if (!window.GaiaChallenges) return;
+    window.GaiaChallenges.load(ROOT_PREFIX + 'api/v1/', GAIA_VER).then(function (data) {
+      state.contested = window.GaiaChallenges.contestedIndex(data.projection);
+      if (data.projection.status !== 'verified') return;
+      renderTable();
+      window.GaiaChallenges.renderHistory(document.getElementById('lbChallengeHistory'), data.projection, { root: ROOT_PREFIX });
+    });
+  }
 
   /* ── Distribution strip (replaces stat cards) ────────────── */
   function renderDistribution() {
@@ -154,6 +186,7 @@
       body.innerHTML = '<tr><td colspan="6" class="lb-empty">No skills match the current filter.</td></tr>';
     } else {
       body.innerHTML = filtered.map(function (r, i) { return renderRow(r, i + 1); }).join('');
+      if (hasContested()) window.GaiaChallenges.decorateRows(body, contestFor, { root: ROOT_PREFIX });
     }
 
     updateSortIndicators();

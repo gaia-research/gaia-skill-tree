@@ -235,6 +235,19 @@
       }
     },
     {
+      "handle": "wheresryan22",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "wheresryan22/anatomy",
+        "level": "4★",
+        "trustMagnitude": 152.48
+      },
+      "prestigeScore": 152.48,
+      "_links": {
+        "self": "/api/v1/contributors/wheresryan22.json"
+      }
+    },
+    {
       "handle": "disler",
       "namedSkills": 4,
       "topSkill": {
@@ -287,6 +300,19 @@
       }
     },
     {
+      "handle": "nvidia",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "nvidia/accelerated-computing-cudf",
+        "level": "4★",
+        "trustMagnitude": 126.12
+      },
+      "prestigeScore": 126.12,
+      "_links": {
+        "self": "/api/v1/contributors/nvidia.json"
+      }
+    },
+    {
       "handle": "hikari9",
       "namedSkills": 2,
       "topSkill": {
@@ -305,9 +331,9 @@
       "topSkill": {
         "id": "nateherkai/scroll-craft",
         "level": "3★",
-        "trustMagnitude": 87.38
+        "trustMagnitude": 92.38
       },
-      "prestigeScore": 87.38,
+      "prestigeScore": 92.38,
       "_links": {
         "self": "/api/v1/contributors/nateherkai.json"
       }
@@ -534,7 +560,7 @@
       }
     }
   ],
-  "totalContributors": 41,
+  "totalContributors": 43,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

@@ -23,7 +23,7 @@ Status reflects current truth only — the per-routine edit history lives in
 |---|------|--------|--------|---------|
 | 1 | `index.html` | Docs Home | ✅ Current. Tier/MCP/Fusion cards accurate; nav version chip self-updates off `window.GAIA_VERSION`, build-stamped every release. | 001, 017, 018, 025, 027, 051, 057 |
 | 2 | `getting-started.html` | Getting Started | ✅ Current. Yggdrasil II Type/Branch taxonomy throughout. | 001, 017, 018, 025, 042, editor-055wk |
-| 3 | `cli-reference.html` | CLI Reference | ✅ Current. All mutating `gaia dev` verbs (incl. `dev timeline-resort`) + `gaia steward` suite documented; `dev add --named` row covers `--contributor`/`--generic-ref` and the lowercase-only contributor rule. | 002, 017, 018, 025, 034, 039, 040, 041, editor-047wk, editor-053wk, 053, 054, editor-055wk, 062, editor-063wk |
+| 3 | `cli-reference.html` | CLI Reference | ✅ Current. All mutating `gaia dev` verbs (incl. `dev timeline-resort`) + `gaia steward` suite documented, including the current `full run`, `record`, `abandon`, and `status` contracts; `dev add --named` row covers `--contributor`/`--generic-ref` and the lowercase-only contributor rule. | 002, 017, 018, 025, 034, 039, 040, 041, editor-047wk, editor-053wk, 053, 054, editor-055wk, 062, editor-063wk, 064 |
 | 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Current. Type/Branch model throughout (closes #1479). | 002, 018, 025, 028, editor-026wk, editor-055wk |
 | 5 | `contributing.html` | Contributing | ✅ Current. `dev evidence`/`dev calibrate` examples match live CLI. | 003, 017, 018, 025, 036, 043, editor-055wk |
 | 6 | `named-skills.html` | Named Skills & Origin | ✅ Current. Claiming walkthrough is CLI-only (`gaia dev add --named`) end to end — no hand-edited frontmatter, `calibrate`/`evidence` target the `contributor/slug` id. | 003, 017, 018, 025, 038, editor-055wk, editor-056wk |
@@ -55,30 +55,92 @@ The site-wide nav is `position: fixed` (~58px). Global `styles.css` hides the le
 
 Rules target body-child shells: `.page-layout`, `.docs-layout`, and index `.docs-hero`. New pages under `docs/en/` must load this sheet after `styles.css`.
 
-Fonts: EB Garamond (display headings), Bricolage Grotesque (body), JetBrains Mono (code).
-Background: `#030712` (`--bg`). Surface: `#0f172a` (`--surface`). Border: `#1e293b`.
-Text colors: Main content headings, introductions (`.page-lead`), section descriptions (`.section-desc`), command summaries (`.cmd-desc`), and callout text must use a high-contrast white font (`#ffffff`) for maximum accessibility.
+### Typography and color
 
-Color vocabulary:
-- Basic tier: `--tier-basic` `#38bdf8`
-- Unique tier: `--tier-unique` `#7c3aed`
-- 4★ rank: `--rank-4` `#e879f9`
-- 5★ rank: `--rank-5` `#fbbf24`
+Keep the existing display, body, and mono font families from the committed
+tokens. Use the font and color tokens rather than overriding their values.
+Do not add fonts, hardcoded color palettes, glass effects, or decorative
+terminal chrome.
 
-Rank colors (0★ → 6★): slate → sky-blue → teal → violet → fuchsia → amber → amber-bright.
+Use `--bg`, `--surface`, `--border`, and `--text` for reference components. Normal
+text needs at least 4.5:1 contrast. Aim for 65 to 75 characters per prose line
+where space permits. Keep code distinct from prose without shrinking either to
+fit a narrow column.
 
-Callouts & Notes Branding:
-- Keep note styles simple using two brand categories:
-  - **Non-critical (`.callout.info`)**: Colored **Blue** (using `#38bdf8` accent) with white text. Used for normal notes and background context.
-  - **Critical (`.callout.warn`, `.callout.danger`)**: Colored **Red** (using `#ef4444` accent) with white text, and prefixed automatically with a warning icon (`⚠️ `). Used for breaking behaviors, strict requirements, or crucial gaps.
-- Callout placement: Always locate notes/callouts directly below the command body description, preceding tables and examples.
+Type colors are `--tier-basic` and `--tier-fusion`. Star colors use `--rank-N` and
+`--rank-N-unique`. Do not use retired structural-tier tokens or repurpose rank
+colors as arbitrary decoration.
 
-Interactive & Copy UI:
-- **Flag Tables**: Flag columns (`td:first-child`) stack the flag label and an interactive terminal copy window vertically using a column flexbox.
-- **Auto-sizing**: Let the flag column width auto-size naturally based on the content (flag label and mini-terminal length) without unnecessary blank padding.
-- **Description Column constraint**: Limit flag description cells (`td:nth-child(2)`) to `max-width: 420px;` to prevent overly long line lengths on widescreen monitors.
-- **Mini-Terminal Copy Windows**: Render a miniature macOS-style terminal window (`.mini-terminal-copy`) for every flag in command reference tables. On hover, the window dots light up, and clicking the window copies the full command invocation (prefix + flag) to the clipboard, switching the icon in the top right to a green checkmark as success feedback.
-- **Copy Buttons**: Embed floating copy buttons in the upper-right corner of code example blocks (`.copy-btn`) to copy raw command snippets.
+### Progressive disclosure for command references
+
+The default view is a compact index, not a wall of syntax:
+
+- Keep a short command or flag name and one short purpose visible in each row.
+- Keep safety limits visible in the summary or a note above the index. Existing
+  critical warnings must not disappear into a tooltip or closed disclosure.
+- Put complete syntax, defaults, and extended explanations behind native
+  `details` / `summary` controls. Support click, tap, and keyboard activation.
+  Several entries may stay open for comparison.
+- On mobile, put the name and disclosure chevron on the first line and the
+  purpose below. Hide the repeated Details label on compact screens instead
+  of squeezing or fragmenting identifiers. Use one full-width explanation when expanded, not three narrow
+  columns or repeated all-caps field labels. New breakpoints are mobile-first.
+- Preserve every authored option, argument, default, link, explanation, and
+  example. An ellipsis is acceptable in a short overview only when the complete
+  text is available in the same disclosure. Never clip or line-clamp the detail.
+- Use simple row dividers, visible focus rings, and targets at least 44px high.
+  Avoid nested cards, hover-only information, and motion that delays reading.
+- Do not shrink fonts or break identifiers into character fragments to make a
+  layout pass. Syntax may wrap at spaces; unusually long tokens may scroll
+  inside their code pane, never off the page.
+
+`cli-reference.html` progressively enhances the authored `.flag-table` rows into
+`.reference-entry` disclosures. The original tables remain the no-JavaScript
+and print fallback. Keep table cells authoritative. Use `data-summary` on a row
+when its first sentence is too long or misses an important safety boundary.
+
+### Copy controls and notes
+
+Reuse the shared `ui.js` copy utilities (`copyToClipboard`, `gaiaFlashCopied`)
+for syntax references and example blocks. Keep the shared icon helper loaded
+with the correct nested-page sprite path.
+
+Reference entries and example blocks serve distinct copy needs:
+
+- **Authored example blocks:**
+  - Provide whole-block copy in the example block's label (`.example-label`),
+    copying all authored commands, comments, and structure together.
+  - Provide functional per-line Bash copy for independently runnable command
+    lines. Each line-copy control copies the exact intended shell command
+    without prompt glyphs (`$`, `>`), UI labels, formatting whitespace, or
+    unrelated lines. Multi-line commands with line continuations (`\`) must
+    preserve the continuation syntax intact. Inline comments are stripped
+    from the runnable line copy.
+- **Reference disclosures and syntax panes:**
+  - Retain complete terminal flag semantics in reference entries: flag names,
+    argument and value forms, positional context, defaults, and combinations
+    must remain accurately represented.
+  - Never manufacture a standalone runnable command by joining a command prefix
+    to a flag cell: required subcommands and arguments can be lost or falsified.
+  - The syntax copy control in a reference entry disclosure copies the exact
+    descriptive syntax specification fragment (e.g. `--user <handle>` or
+    `full run [--observe | --triage]`), clearly distinguished from runnable
+    Bash lines.
+  - Do not restore per-flag mini-terminal windows.
+- **Accessibility and responsiveness:**
+  - Copy controls must use native `<button type="button">` elements with
+    explicit, contextual `aria-label` and `title` attributes (e.g.
+    `Copy all examples`, `Copy command: gaia init`, `Copy syntax for full run`).
+  - Support mouse click, tap, and keyboard activation (Tab focus, Enter/Space).
+  - Provide visible copy feedback by flashing the checkmark icon and `.copied`
+    class for 1600ms.
+  - Ensure all controls meet minimum 44px touch targets without causing
+    horizontal overflow across viewports from 320px to 1440px.
+
+Keep existing non-critical notes in `.callout.info` and critical requirements in
+`.callout.warn` / `.callout.danger`. Place them below the command description,
+before the reference entries and examples. Tooltips may supplement brief,
+non-essential explanations, but must not be the only way to obtain information.
 
 ---
 
@@ -101,7 +163,7 @@ Every doc page includes:
 1. Top nav: `← Back to Atlas` + page title breadcrumb
 2. Left sidebar (on wide viewports): section outline with anchor links
 3. Main content: section headers (h2/h3), code blocks, callout boxes
-4. Table of Contents: For longer or reference-style documents, insert a visual Table of Contents grid immediately after the introduction/lead section.
+4. Table of Contents: For longer or reference-style documents, place a compact, scannable section outline after the introduction. Avoid a second grid of decorative cards.
 5. Footer: version number + link back to registry
 
 ---

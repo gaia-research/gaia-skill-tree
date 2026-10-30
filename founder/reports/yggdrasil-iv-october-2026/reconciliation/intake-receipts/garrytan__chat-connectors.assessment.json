@@ -1,0 +1,111 @@
+{
+  "contractVersion": "curation-assessment-v1",
+  "authority": "advisory",
+  "assessedAt": "2026-10-27T22:08:19.022525+00:00",
+  "candidateId": "garrytan/chat-connectors",
+  "candidate": {
+    "name": "chat-connectors",
+    "description": "Connect a ChatGPT or Claude account and sync its conversation history into the brain automatically. Cookie paste-in is the primary lane; sync is incremental (watermark + trailing-window gap-heal), and can run on a schedule via autopilot or host cron. Distinct from the export-file lane (that lives in conversation-archive) \u2014 this is the LIVE, account-connected, auto-scraping path."
+  },
+  "source": {
+    "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/chat-connectors/SKILL.md",
+    "contentSha256": "44b63309c779b5394c0be8ec6cabff8381099cfb8c0944143a859c48594ddf01",
+    "commitSha": null
+  },
+  "candidateSourceDigest": "44b63309c779b5394c0be8ec6cabff8381099cfb8c0944143a859c48594ddf01",
+  "semanticInputSha256": "73e80a46a00054a5943e1beffd0bc572a3d1dacb16d5e34e1ce8108088fde16b",
+  "catalogSha256": "77991271cdf9d32370d92244389486b1e19a02a3a72326e0fe452816e6d4043c",
+  "rubric": {
+    "rubricId": "gaia-curation-principles",
+    "rubricVersion": "1.0.0",
+    "rubricSha256": "1f14f6b09ee6a72570bba04617de1ee7bf92040afaf862f6059f4cb413879349"
+  },
+  "retrievedGenerics": [
+    {
+      "id": "session-journaling",
+      "name": "Session Journaling",
+      "description": "At the end of a work session, the agent summarizes the conversation and appends a structured, timestamped entry to a persistent dated note so future sessions can read back the durable record.",
+      "type": "basic",
+      "prerequisites": [],
+      "definitionAvailable": true,
+      "similarity": 0.460194,
+      "matchTier": "weak"
+    }
+  ],
+  "retrieval": {
+    "model": "all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+    "thresholds": {
+      "strongMap": 0.72,
+      "weakMap": 0.45,
+      "topK": 3
+    }
+  },
+  "principles": {
+    "identity": {
+      "evaluation": "unknown",
+      "question": "After stripping vendor, product, repository, contributor and implementation details, identify the reusable capability. A named implementation is not automatically a narrower generic."
+    },
+    "transferability": {
+      "evaluation": "unknown",
+      "question": "Could another independent implementation reasonably implement this generic? Generic identity describes capability, not product vocabulary. Product dependence of a named implementation is not itself grounds for rejection or purging."
+    },
+    "relation": {
+      "evaluation": "unknown",
+      "question": "Relative to the strongest existing generic, is the reusable capability the same, narrower, broader, composite, orthogonal, or unknown? State the comparison target; similarity alone cannot answer.",
+      "relation": "unknown"
+    },
+    "material_distinction": {
+      "evaluation": "unknown",
+      "question": "A split needs an observable, falsifiable behavioral distinction from its strongest neighbor. Naming, vendor, CLI syntax, implementation technique or framework alone are weak justification for a new generic."
+    },
+    "atomicity": {
+      "evaluation": "unknown",
+      "question": "Does the capability stand alone, or compose independently useful prerequisites? Yggdrasil basic has zero prerequisites and fusion has at least one. Do not derive capability structure from mentions of required software or from packaging.",
+      "type": "unknown"
+    },
+    "artifact_packaging": {
+      "evaluation": "unknown",
+      "question": "Distinguish a capability from suite, package, router, wrapper, category or capstone packaging. A component is not its suite. suiteComponents belongs to named implementations; it is not a generic capability identity.",
+      "shape": "unknown",
+      "declaredSuite": {
+        "role": null,
+        "suiteId": null,
+        "componentCandidateIds": null
+      }
+    },
+    "overlap": {
+      "evaluation": "unknown",
+      "question": "Compare a proposed new generic to its strongest existing neighbor. If no falsifiable distinction can be written, question the split. Empty retrieval does not prove novelty; two high-scoring neighbors do not prove fusion.",
+      "notes": "Scores never imply identity or novelty; compare observable behavior with the strongest neighbor.",
+      "strongestNeighbor": "session-journaling"
+    },
+    "topology_independence": {
+      "evaluation": "independent",
+      "question": "Topology must not change merely because contributor fame, stars, Trust Magnitude, evidence abundance or popularity changes. These signals are excluded from semantic decision inputs. Advice answers SHOULD, human L4 decides MAY.",
+      "inputs": "Allowlisted semantic fields only; rank, popularity and evidence excluded."
+    }
+  },
+  "uncertainty": {
+    "level": "review-required",
+    "emptyRecall": false,
+    "reasons": [
+      "Only human L4 may resolve semantic identity and canonical topology."
+    ],
+    "jevDisagreement": null
+  },
+  "proposedDisposition": {
+    "value": "DEFER",
+    "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+    "targetGenericId": "session-journaling",
+    "advisoryOnly": true
+  },
+  "jevAdvice": {
+    "status": "skipped",
+    "reason": "jev_off",
+    "answers": {},
+    "calls": [],
+    "disagreement": null
+  }
+}

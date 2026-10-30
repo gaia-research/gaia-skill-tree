@@ -22,6 +22,7 @@ from gaia_cli.steward.receipts import (
 )
 from gaia_cli.steward.sensors import Sensor, default_sensors
 from gaia_cli.steward.repairs import MirrorTransaction, RepairError, prepare_mirror_repair
+from gaia_cli.steward.clock import utcNow
 
 
 Clock = Callable[[], datetime]
@@ -32,7 +33,7 @@ class RepairPostconditionError(RepairError):
 
 
 def _utc_now() -> datetime:
-    return datetime.now(timezone.utc)
+    return utcNow()
 
 
 def _timestamp(value: datetime) -> str:

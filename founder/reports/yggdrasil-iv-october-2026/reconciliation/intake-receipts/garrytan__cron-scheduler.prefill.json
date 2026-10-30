@@ -1,0 +1,82 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/cron-scheduler",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/cron-scheduler",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cron-scheduler/SKILL.md",
+  "checked": true,
+  "contentSha256": "a35d24206d7a309b3630f0492048676c75c6f3d6f8b58518cc9afe8dbcae533b",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "ruvnet/hooks-automation",
+     "similarity": 0.456232
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Schedule management with staggering, quiet hours, and wake-up override. Validates schedules, prevents collisions, and gates delivery during quiet hours.",
+  "name": "cron-scheduler"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cron-scheduler/SKILL.md",
+  "contentSha256": "a35d24206d7a309b3630f0492048676c75c6f3d6f8b58518cc9afe8dbcae533b",
+  "fetchedAt": "2026-10-27T22:07:18.994065+00:00",
+  "frontmatter": {
+   "description": "Schedule management with staggering, quiet hours, and wake-up override.\nValidates schedules, prevents collisions, and gates delivery during quiet hours.\n",
+   "mutating": true,
+   "name": "cron-scheduler",
+   "tools": [
+    "search",
+    "get_page",
+    "put_page"
+   ],
+   "triggers": [
+    "schedule a job",
+    "cron",
+    "quiet hours",
+    "what jobs are running"
+   ],
+   "version": "1.0.0"
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

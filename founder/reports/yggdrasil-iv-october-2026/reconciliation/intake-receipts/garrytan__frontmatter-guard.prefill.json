@@ -1,0 +1,83 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/frontmatter-guard",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/frontmatter-guard",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/frontmatter-guard/SKILL.md",
+  "checked": true,
+  "contentSha256": "5d8dd7aac288063b10b586879d33cbc5ff7794f7841deac9c5bab25f7b4a10ce",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "mattpocock/triage",
+     "similarity": 0.477149
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Validate and auto-repair YAML frontmatter on brain pages. Catches malformed pages before they enter the brain (missing closing ---, nested quotes, slug mismatches, null bytes, empty frontmatter, YAML parse failures), explains files sync holds instead of importing, and drives the previewed `gbrain repair frontmatter` fix. Wraps the `gbrain frontmatter` CLI for agent-driven workflows.",
+  "name": "frontmatter-guard"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/frontmatter-guard/SKILL.md",
+  "contentSha256": "5d8dd7aac288063b10b586879d33cbc5ff7794f7841deac9c5bab25f7b4a10ce",
+  "fetchedAt": "2026-10-27T22:12:14.137324+00:00",
+  "frontmatter": {
+   "description": "Validate and auto-repair YAML frontmatter on brain pages. Catches malformed\npages before they enter the brain (missing closing ---, nested quotes, slug\nmismatches, null bytes, empty frontmatter, YAML parse failures), explains\nfiles sync holds instead of importing, and drives the previewed\n`gbrain repair frontmatter` fix. Wraps the `gbrain frontmatter` CLI for\nagent-driven workflows.\n",
+   "mutating": true,
+   "name": "frontmatter-guard",
+   "tools": [
+    "exec"
+   ],
+   "triggers": [
+    "validate frontmatter",
+    "check frontmatter",
+    "fix frontmatter",
+    "frontmatter audit",
+    "brain lint",
+    "held files",
+    "sync held a file"
+   ],
+   "version": "1.1.0"
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

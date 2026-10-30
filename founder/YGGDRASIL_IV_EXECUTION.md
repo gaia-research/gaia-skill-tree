@@ -1,5 +1,7 @@
 # Yggdrasil IV — engineering execution receipt
 
+**Current control: Gaia is the primary mission; recovery tooling is a parked side lane.** The founder explicitly superseded the restart-first/no-new-Gaia-jobs sequencing: proceed with the full campaign using direct work or the roster, without waiting for Pi recovery installation. Read [the current checkpoint and priority override](handovers/yggdrasil-iv/YGGDRASIL_IV_RESTART_CHECKPOINT_2026-10-27.md) for active owners. The unaccepted Pi tooling remains uninstalled and is not a prerequisite for Gaia. [The delivery/review receipt](handovers/yggdrasil-iv/YGGDRASIL_IV_DELIVERY_REVIEW_2026-10-26.md) records the preceding deliveries and verification. Integration **bed78e716** additionally includes the independently reviewed repaired canonical transaction foundation through **PR#2161** (b18; 9 focused tests plus independent CAS/journal/rollback probes; no CLI wiring or production issuer), alongside the independently reviewed and parent-tested watcher through **PR#2166** (merge42135170c), followed by documentation-only **PR#2167**, after audited restorationPR#2160. The watcher merge421's complete tree equals tested/reviewed d311; the later documentation commit is not claimed byte-identical. This is bounded default-off engineering integration, not live issuer/operational or release acceptance. [The crash-recovery receipt](handovers/yggdrasil-iv/YGGDRASIL_IV_CRASH_RECOVERY_2026-10-26.md) records the preceding recovery; [the second resume receipt](handovers/yggdrasil-iv/YGGDRASIL_IV_RESUMED_2026-10-26.md) records the preceding authorization. The [orchestration-pause checkpoint](handovers/yggdrasil-iv/YGGDRASIL_IV_ORCHESTRATION_PAUSED.md) remains intact as historical recovery evidence; this resume was not inferred from a delayed notification. Main, canonical, schema, issuer/security and visual/operational rollout gates remain held.
+
 Governing issue: [RFC #2148](https://github.com/gaia-research/gaia-skill-tree/issues/2148).
 Doctrine: [founder ratification](YGGDRASIL_IV_RATIFICATION_2026-10-25.md), `META.md`, `GOVERNANCE.md`.
 
@@ -7,7 +9,7 @@ Doctrine: [founder ratification](YGGDRASIL_IV_RATIFICATION_2026-10-25.md), `META
 
 The founder's full-implementation mission authorizes engineering, tests, staging and preview preparation across P0–P5. It does **not** authorize canonical schema publication/rollout, pilot selection or live standing changes, production trust/rank/evidence/Origin changes, final main merge, registry-wide rollout or RFC closure. Existing schema quorum and frontend/CLI visual review gates remain binding. Preparation is not publication.
 
-Sol leads architecture/integration/verification; code authorship is delegated to explicit-effort Flash Medium/High and Luna High workers. Astra Max is selectively available read-only. No default-effort inheritance, model escalation or subagent turn limits.
+The latest founder routing is Flash/Luna for economical scouting, routine review and bounded work; Terra for intermediate implementation and independent review; Sol for difficult architecture/integration. Parent implementation is permitted when it is the smallest effective path; use compact isolated assignments to conserve context, not orchestration for its own sake. Independent review remains required. Use explicit effort, no unapproved escalation or recursive delegation; preserve coherent tested checkpoints so a dropped worker does not trigger a tooling detour or lost work.
 
 ## Ground truth — 2026-10-25
 
@@ -17,17 +19,32 @@ Sol leads architecture/integration/verification; code authorship is delegated to
 - Existing unrelated worktrees and untracked local `.pi/` operational directories are preserved, not staged.
 - RFC technical review is historical evidence to reconcile, not current implementation authority. No canonical data or generated public artifacts have been changed by campaign initialization.
 
+## Explicit resume and Frontier reconciliation — 2026-10-26
+
+The founder explicitly resumed this campaign and added the [locked Gaia Frontier ruling](GAIA_FRONTIER_RULING_2026-10-26.md). This supersedes the pause instruction, not accepted engineering or outstanding gates. Keep #2148, aggregate #2151 and `dev/yggdrasil-iv`; no new umbrella or restart. **Frontier discovers; Meta evaluates; Steward maintains reactively; Governance decides.** Native challenger leads remain separate from ordinary `discovery-packet-v2` intake, which still requires real `SKILL.md` and L4 review. Targeted two-sided D8 monitoring follows independent admission, never a mere lead or semantic match.
+
+Independent experimental support, authorized public challenge admission and canonical numerical action are separate decisions. The live issuer remains unavailable; a TEST resolver cannot satisfy that gate. Implementation cleanup must preserve historical truth and supported interfaces, and demonstrate which surviving owner supersedes a removed path.
+
+The founder additionally authorized dependency installs or supported alternatives for environment problems, with code correctness taking priority. Try isolated dependencies first. If an environment issue remains at the end of the full run, provide a precise handover for the other agent before merge; do not waive validation or silently call blocked work complete.
+
 ## Dependency chain and workstream ownership
 
-| Slice | Deliverable | Initial branch | Status |
+| Slice | Deliverable | Current branch / saved source | Status at resume |
 | --- | --- | --- | --- |
-| P1 calculation foundation | Explicit-context shadow evaluation, four isolated implementation-correction regressions, complete fingerprints; production defaults preserved | `dev/yggdrasil-iv-shadow-engine` | Hardening `6e258d13d` pushed; independent re-review pending |
-| P0/P2 challenge proof core | Independent verification and bounded technical closure; history/contested/recovery-pending separation, no numerical authority | `dev/yggdrasil-iv-challenge-core-hardening` | Hardening `66beb1a0b` pushed; independent re-review pending; runtime resolver not delivered |
-| P1 corpus proof | Full named/generic census, parser exclusions, stored/legacy/corrected comparisons and cause-classified deltas | `dev/yggdrasil-iv-corpus-shadow` | Interrupted work recovered from local patch; no accepted corpus impact yet |
-| P2 operational integration | Existing Steward receipts/debt and executable two-sided watcher scheduling/transport/retry/resolution | `dev/yggdrasil-iv-challenge-watch-repair` | Initial `eed0ffe57` blocked by independent review; persistence/receipt repair underway |
-| P3 lifecycle preparation | Schema/CLI revisions, migration rehearsal, CAS-bound transactions, dual timelines and rollback | `dev/yggdrasil-iv-evidence-revisions-repair` | Initial `38b03890a` blocked by independent review; proposal repair underway; schema/canonical rollout held |
-| P4 product/publication preparation | Coherent approved snapshot, all public surfaces, rendered preview and pilot proposal | `design/yggdrasil-iv-challenge-history` | Interrupted skill-detail UI recovered from local patch; no rendered proof or visual approval yet |
-| P5 release preparation | Registry-wide impact/rollout/rollback receipts, aggregate PR and release checks | Pending pilot evidence | Not implemented; rollout/main/closure held |
+| P1 calculation foundation | Opt-in corrections and explicit-context shadow evaluation; defaults preserved | `dev/yggdrasil-iv`, `4b73e6281` / #2156 | Accepted foundation; parent 277 regressions passed; no live scoring adoption |
+| P0/P2 challenge proof core | Independent receipt binding, reversible technical status and history | `dev/yggdrasil-iv`, `6aa7aaaed` / #2155 | Accepted domain foundation; live issuer/admission unavailable |
+| F0 Frontier discovery / native leads | Invocable mirrored skill, separate versioned lead contract, Meta/audit handoff and actual independent experiment | `dev/yggdrasil-iv-frontier-foundation`, initial `6b0b48b68` | Initial code locally committed; worker 22 tests; binding/provenance completion underway; independent invocation/review still required |
+| Architecture consolidation | Retire proven redundant execution stubs, preserve compatibility and reusable primitives | `dev/yggdrasil-iv-curation-scaffold-cleanup` | Caller inventory completed; bounded removal assigned, not yet accepted |
+| P1 corpus proof | Final-engine census and cause-classified impact, malformed-input and no-write proof | Saved `0dffcf96ed0a` | Preserved, not accepted; final independent inspection/replay outstanding |
+| P2 durable reactive watcher | Fresh-state CAS, shared atomic packet outbox, stable dedupe, input/packet integrity; no outward discovery | `dev/yggdrasil-iv-watcher-transactional`, from rejected `77ab02a` | Correctness repairs assigned; old sequential fixture proof remains insufficient |
+| P2 prerequisites / trusted source | Git ref containment, safe dispatch arguments, real protected approval provenance | `cli/yggdrasil-iv-ledger-containment`; `dev/yggdrasil-iv-watcher-workflow-hardening`; saved receipt `a3df0cbd9` | Small repairs resumed; receipt-source preparation still requires independent review and genuine issuer evidence |
+| P3 evidence proposal | Immutable lifecycle core and separate held schema proposal | Schema `fa0ba3a9`; core `e7562341` | Independently reviewed source packaged; formal proposals/adoption held; raw-schema baseline errors disclosed |
+| P3 canonical transaction foundation | Exact multi-file CAS, guarded provider seam, recoverable journal and rollback before CLI/timeline integration | `dev/yggdrasil-iv-canonical-transactions` | Bounded core implementation assigned; no general canonical CLI transaction/migration delivered yet |
+| P4 coherent publication | Actual producer execution, semantic parity, bound inputs/runtime and two-root byte equality | Saved Sol `b21d39177`; `dev/yggdrasil-iv-publication-last-mile` | Parent replay failed only on missing OG rasterizer, no manifest; independent review found ambient-env activation gap; explicit-context fix assigned |
+| P4 lifecycle UI | Native Explorer history/status coherence and desktop/mobile/focus evidence | Saved `70239bcee` | New image evidence preserved but not independently accepted; founder visual gate held |
+| P5 release preparation | Full integration, actual operational coverage, pilot, impact/rollback and release checks | Aggregate #2151 | Not complete; four elapsed weekly comparisons, live pilot, rollout/main/closure held |
+
+The Frontier lane is additive. It cannot displace corpus correctness, watcher durability, guarded CLI/dual timelines/migration/rollback, coherent publication or release verification. Saved code and worker tests remain distinct from independent acceptance.
 
 Each code slice is independently reviewed before integration, lands by merge commit through a feature PR, and retains proof. No feature branch targets main directly. No production-default calculation correction is silently enabled by a shadow implementation.
 

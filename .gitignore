@@ -119,3 +119,6 @@ founder/handovers/design-v6.1.1-assets/**/*.mp4
 
 campaigns/badge-provisioning/.reservations/
 campaigns/badge-provisioning/*.lock
+
+# graft's local repository settings — not committed.
+/.graft/

@@ -2,7 +2,7 @@
 <html lang="en" data-icon-base="../assets/icons.svg">
 
 <head>
-  <script>window.GAIA_VERSION = "8.26.10";</script>
+  <script>window.GAIA_VERSION = "8.29.1";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -21,12 +21,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
-  <link rel="stylesheet" href="../css/styles.css?v=8.26.10">
+  <link rel="stylesheet" href="../css/styles.css?v=8.29.1">
   <!-- Scripts -->
-  <script src="../js/icons.js?v=8.26.10"></script>
-  <script src="../js/mounts.js?v=8.26.10"></script>
-  <script src="../js/site-nav.js?v=8.26.10"></script>
-  <script src="../js/site-footer.js?v=8.26.10"></script>
+  <script src="../js/icons.js?v=8.29.1"></script>
+  <script src="../js/mounts.js?v=8.29.1"></script>
+  <script src="../js/site-nav.js?v=8.29.1"></script>
+  <script src="../js/site-footer.js?v=8.29.1"></script>
 
   <style>
     /* ── API Docs Page Styles — tokens only, no hex ── */
@@ -409,6 +409,24 @@
                 <br><span class="ep-schema">Leaderboard</span>
               </td>
               <td class="ep-desc">Registry-wide grade distribution (S/A/B/C totals) plus all skills ranked by Trust Magnitude.</td>
+              <td class="ep-tag"><span class="api-tag-pill api-tag-meta">Meta</span></td>
+            </tr>
+            <tr>
+              <td class="ep-method">GET</td>
+              <td class="ep-path">
+                <a href="v1/challenges/index.json" target="_blank" rel="noopener">/api/v1/challenges/index.json</a>
+                <br><span class="ep-schema">gaia-challenge-projection/v1</span>
+              </td>
+              <td class="ep-desc">Admitted trust challenges only, with <code>sourceStatus</code> <code>unavailable</code> or <code>verified</code>. Unavailable means no subjects. Never carries a proposal; a challenge changes no standing. Rendered at <a href="../trust/challenges/">/trust/challenges/</a>.</td>
+              <td class="ep-tag"><span class="api-tag-pill api-tag-meta">Meta</span></td>
+            </tr>
+            <tr>
+              <td class="ep-method">GET</td>
+              <td class="ep-path">
+                <a href="v1/challenges/reviews.json" target="_blank" rel="noopener">/api/v1/challenges/reviews.json</a>
+                <br><span class="ep-schema">gaia-challenge-review/v1</span>
+              </td>
+              <td class="ep-desc">Reviews whose admission was attempted and held. Held reviews are not admitted challenges and affect no Trust Magnitude, star, grade, Origin or ranking.</td>
               <td class="ep-tag"><span class="api-tag-pill api-tag-meta">Meta</span></td>
             </tr>
             <tr>

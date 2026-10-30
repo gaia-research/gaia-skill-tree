@@ -11,7 +11,8 @@ Runs 13 parallel/concurrent audit dimensions:
   7. installability     — 3★+ non-suite skills with installable: false or missing install
   8. placeholder-bodies — named skills with stub ## Installation only
   9. testuser-timelines — testuser mock fixtures in timelines/evaluators
- 10. champion-cluster   — generics with >= 2 implementations and no Champion
+ 10. champion-cluster   — derived Champion (rank, Origin, id) has lower Trust Magnitude
+                           than another implementation of the same generic (META §6.1)
  11. unique-isolation   — unique branch validation
  12. grade-mismatch     — evidence row declared grade vs calculated score
  13. product-attribution — named skill body documents a specific third-party
@@ -133,6 +134,85 @@ def is_skill_frozen(data: dict) -> bool:
             for e in timeline
         )
     return False
+
+def championClusterFindings(named, tmById=None):
+    """Champion review findings for multi-implementation generics (META §6.1).
+
+    Champion is DERIVED, never stored: ``registry/nodes/**`` carries no
+    ``champion`` field and the old "no Champion designated" check flagged every
+    multi-child cluster (ADJ-180 / F73). The Champion of a generic is the first
+    entry of its named bucket under ``generateNamedIndex.championSortKey``
+    (rank descending, Origin first, id), over ``status: named`` skills.
+
+    A cluster is only flagged when that derived Champion's Trust Magnitude is
+    LOWER than another implementation's, i.e. the display ordering disagrees
+    with META §6.1's "highest trust" definition. The finding is a review item
+    (rank / Origin ordering), not a missing field: never write a champion
+    field into registry/nodes (programmatic-first policy).
+
+    ``tmById`` maps named skill id -> Trust Magnitude. When omitted it is
+    recomputed live with the Trust Magnitude engine over the merged registry
+    map; if the engine is unavailable no cluster is flagged.
+    """
+    from generateNamedIndex import championSortKey
+    from gaia_cli.redaction import is_redacted
+
+    clusters = collections.defaultdict(list)
+    for item in named.values():
+        meta = item["meta"]
+        gen = meta.get("genericSkillRef")
+        if gen and meta.get("status", "named") == "named":
+            clusters[gen].append((meta, item["path"]))
+    clusters = {g: v for g, v in clusters.items() if len(v) >= 2}
+    if not clusters:
+        return []
+
+    if tmById is None:
+        try:
+            from gaia_cli.registryMaps import buildMergedSkillMap
+            from gaia_cli.trustMagnitude import computeTrustMagnitude
+            merged = buildMergedSkillMap(REPO_ROOT)
+            tmById = {
+                meta["id"]: round(float(computeTrustMagnitude(merged.get(meta["id"], meta), merged)), 2)
+                for members in clusters.values() for meta, _ in members
+            }
+        except Exception as exc:  # engine unavailable -> never guess a champion
+            print(f"  champion-cluster skipped: Trust Magnitude unavailable ({exc})")
+            return []
+
+    out = []
+    for gen in sorted(clusters):
+        members = clusters[gen]
+
+        def sortKey(member):
+            entry = dict(member[0])
+            # META §4.1: a <=1 star entry cannot hold Origin (mirrors the index builder).
+            if entry.get("origin") and is_redacted(entry.get("level", "")):
+                entry["origin"] = False
+            return championSortKey(entry)
+
+        ordered = sorted(members, key=sortKey)
+        champ, champPath = ordered[0]
+        best = max(members, key=lambda m: (tmById.get(m[0]["id"], 0.0), m[0]["id"]))
+        champTm = tmById.get(champ["id"], 0.0)
+        bestTm = tmById.get(best[0]["id"], 0.0)
+        if champTm < bestTm:
+            out.append({
+                "target": gen,
+                "priority": "P3",
+                "reason": (
+                    f"Derived Champion '{champ['id']}' ({champ.get('level')}, TM {champTm:.2f}) has lower Trust "
+                    f"Magnitude than '{best[0]['id']}' ({best[0].get('level')}, TM {bestTm:.2f}) among "
+                    f"{len(members)} implementations of '{gen}'"
+                ),
+                "suggestedAction": (
+                    "Review rank / Origin ordering for this bucket (META §6.1). Champion is derived from "
+                    "rank, Origin and id; do not write a champion field into registry/nodes."
+                ),
+                "sources": [champPath, best[1]],
+            })
+    return out
+
 
 def run_meta_sweep():
     print("=== Gaia Meta Sweep Audit ===")
@@ -342,18 +422,8 @@ def run_meta_sweep():
 
     # 10. Champion Clusters (META §6.1)
     print("Dimension 10: Champion Clusters...")
-    for gen, skills in by_generic.items():
-        if len(skills) >= 2:
-            node = nodes.get(gen, {})
-            champ = node.get("champion")
-            if not champ:
-                findings["champion-cluster"].append({
-                    "target": gen,
-                    "priority": "P3",
-                    "reason": f"Generic '{gen}' has {len(skills)} implementations ({[s.get('id') for s in skills]}) but no Champion designated",
-                    "suggestedAction": f"Designate top-ranked implementation as Champion in registry/nodes/generic/{gen}.json (META §6.1)",
-                    "sources": [s.get("id") for s in skills],
-                })
+    for finding in championClusterFindings(named):
+        findings["champion-cluster"].append(finding)
 
     # 11. Unique Isolation (META §1.2)
     print("Dimension 11: Unique Isolation...")

@@ -1,0 +1,84 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "arcmira/find-quotes",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "arcmira/find-quotes",
+  "canonicalUrl": "https://github.com/arcmira/mcp/blob/v0.10.6/plugins/arcmira/skills/find-quotes/SKILL.md",
+  "checked": true,
+  "contentSha256": "9a5339bf18024fe2f5307a55172730114d8ac613c2f6bdc698971b63c051490b",
+  "hostRepository": "https://github.com/arcmira/mcp",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "heygen-com/talking-head-recut",
+     "similarity": 0.567139
+    },
+    {
+     "id": "heygen-com/embedded-captions",
+     "similarity": 0.485128
+    },
+    {
+     "id": "garrytan/conversation-archive",
+     "similarity": 0.467781
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "speech-to-text",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4581 to generic 'speech-to-text' (weak match).",
+   "similarity": 0.458119
+  }
+ ],
+ "normalized": {
+  "description": "Finds exact spoken quotes and clip-ready moments on podcasts and YouTube: verbatim words, speaker, date, a timestamped link, clip start and end. Uses arcmira.",
+  "name": "find-quotes"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/arcmira/mcp/blob/v0.10.6/plugins/arcmira/skills/find-quotes/SKILL.md",
+  "contentSha256": "9a5339bf18024fe2f5307a55172730114d8ac613c2f6bdc698971b63c051490b",
+  "fetchedAt": "2026-10-27T22:09:28.836135+00:00",
+  "frontmatter": {
+   "description": "Finds exact spoken quotes and clip-ready moments on podcasts and YouTube: verbatim words, speaker, date, a timestamped link, clip start and end. Uses arcmira.",
+   "name": "find-quotes"
+  },
+  "hostRepository": "https://github.com/arcmira/mcp",
+  "sourceLane": "source-repository"
+ }
+}

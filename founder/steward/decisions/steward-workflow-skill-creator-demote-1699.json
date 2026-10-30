@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-workflow-skill-creator-demote-1699",
+  "status": "open",
+  "decision": "Rule on google-deepmind/workflow-skill-creator: it is status awakened at 4-star, which #1699 closed as fixed by demoting it to 1-star. Keep it at 4-star, restore the 1-star the issue ordered, or promote its status to named?",
+  "whyItMatters": "CONTEXT.md allows 2-star and above only for status named. #1699 (closed 2026-09-05) demoted this skill to 1-star for that reason, then a later calibration (2026-09-09) raised it back to 4-star while it is still awakened; it is the only awakened skill above 1-star, and no validator rejects the state. Timeline events are canonical provenance, so Steward may not edit them or the level.",
+  "evidence": [
+    "Timeline: 2026-09-05T00:00:00Z demote 4-star to 1-star citing #1699; 2026-09-05T03:50:03Z 'Calibrated 1-star to 1-star'; 2026-09-09T20:31:06Z rank_up 'Calibrated level from 1-star to 4-star'. Current file: status awakened, level 4-star, trustMagnitude 100.82.",
+    "The 2026-09-05 demote event records previousValue 4-star while the preceding log level was 3-star (2026-07-30 demote, then a rename): the historical discrepancy this record originally asked about.",
+    "A scan of registry/named finds exactly one awakened skill above 1-star (this one); 47 awakened skills sit at 1-star. scripts/validate.py passes on this state.",
+    "#1699's closing comment says the CLI preflight (_preflight_calibrate_status) now rejects level >= 2-star on awakened skills; the preflight is present, so the 2026-09-09 change took another path (not diagnosed: canonical data, out of Steward authority).",
+    "The three #1699 decision records previously cited #1699 for timeline ordering; #1699 is about calibrate and awakened skills, not ordering."
+  ],
+  "recommended": "Decide the skill's level and status as a canonical ruling (restore 1-star per #1699 and CONTEXT.md unless you promote its status to named), and have a Verifier run the gaia dev calibrate or update-named verb. Then approve adding the awakened-rank invariant to the registry integrity check so it cannot recur silently.",
+  "alternative": "Accept 4-star as an exception and record why, leaving the invariant unenforced.",
+  "unblocks": "Closing the #1699 regression and the historical-provenance question; adding the invariant guard to scripts/validate.py without turning main red.",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/issues/1699",
+    "https://github.com/gaia-research/gaia-skill-tree/pull/2147",
+    "registry/named/google-deepmind/workflow-skill-creator.md",
+    "founder/steward/decisions/LEDGER.md"
+  ]
+}

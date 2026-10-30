@@ -5,7 +5,7 @@ description: >-
   (bounded dispatch) and Class C (founder decision) with priorities, optionally
   narrowed to one routine or one debt id, without acting on any of it. Use for
   "/gaia-steward-full --triage", "--routine N", "--debt ID", "what should
-  Steward do next", or "triage the maintenance debt".
+  Steward do next", or "triage Steward debt". This is not issue or intake triage (gaia-triage).
 version: 1.0.0
 ---
 
@@ -25,8 +25,13 @@ gaia steward full run --triage --routine 9 --json
 gaia steward full run --triage --debt "debt:unused_import:..." --json
 ```
 
-`--routine` takes 1-17 (the numbered routines in `founder/ROUTINES.md`);
+`--routine` takes 1-18 (the numbered routines in `founder/ROUTINES.md`);
 `--debt` takes one exact debt id from the receipt.
+
+Routine 18 (GitHub issue hygiene) routes its three debt kinds by authority: `issue_closure_ready`
+(A) is forge-bound to `gaia-steward-issue-hygiene` and is report-only while
+`issueHygiene.writesEnabled` is false; `issue_suite_review` (B) is the `issue-suite-review`
+dispatch for `gaia-steward-lane`; `issue_founder_decision` (C) goes to `gaia-steward-desk`.
 
 ## Output
 

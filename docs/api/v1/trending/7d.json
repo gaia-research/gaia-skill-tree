@@ -1,9 +1,38 @@
 {
   "window": "7d",
-  "generatedAt": "2026-10-24T14:41:17Z",
+  "generatedAt": "2026-10-30T00:07:55Z",
   "firstRun": false,
-  "skills": [],
-  "totalTrending": 0,
+  "skills": [
+    {
+      "id": "wheresryan22/anatomy",
+      "name": "anatomy",
+      "level": "4★",
+      "contributor": "wheresryan22",
+      "trustMagnitude": 152.48,
+      "overallTrustGrade": "A",
+      "trendingScore": 76.24,
+      "tmDelta": 152.48,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/wheresryan22/anatomy.json"
+      }
+    },
+    {
+      "id": "nvidia/accelerated-computing-cudf",
+      "name": "accelerated-computing-cudf",
+      "level": "4★",
+      "contributor": "nvidia",
+      "trustMagnitude": 126.12,
+      "overallTrustGrade": "A",
+      "trendingScore": 63.06,
+      "tmDelta": 126.12,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/nvidia/accelerated-computing-cudf.json"
+      }
+    }
+  ],
+  "totalTrending": 2,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

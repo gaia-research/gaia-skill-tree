@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-trust-stamp-refresh-policy-1642",
+  "status": "open",
+  "decision": "Founder ruled 2026-10-28 for event-driven trust recalculation with periodic reconciliation as a backup. Approve the implementation: which events trigger a restamp, who runs it, and the policy amendment it needs?",
+  "whyItMatters": "The ruling is made but only its detection half is built. Restamping writes registry/named frontmatter and a timeline event, a Verifier-gated gaia dev mutation outside any Steward envelope, so the trigger and its authority need your approval before anything runs unattended.",
+  "evidence": [
+    "The 22 stale stamps were corrected on main by PR #2147 using gaia dev calibrate-trust-magnitude, with no grade or star-level change.",
+    "Issue #1642 remains open for the recurring policy, not for those corrections.",
+    "Founder ruling 2026-10-28: event-driven recalculation with periodic reconciliation as backup; recomputing derived information is distinct from canonical trust, grade, star, evidence-assertion or policy mutation, which stay Class C.",
+    "Built (this PR): trust_stamp_stale observations now carry recomputationOnly (computed grade still agrees with the stored star level) and the exact gaia dev calibrate-trust-magnitude command. Periodic reconciliation already exists: the sensor re-measures every scan. Not built: the event trigger.",
+    "Proposed trigger: the same reviewed PR that changes evidence (gaia dev evidence, star refresh, ingest) runs calibrate-trust-magnitude for only the affected skills; a restamp that would move a star level is not a restamp and goes to the desk."
+  ],
+  "recommended": "Approve: restamp only affected skills inside the PR that changes their evidence, with recomputationOnly as the gate; periodic reconciliation stays the backstop; any star, grade or policy movement stays Class C.",
+  "alternative": "Keep restamping manual, run by a Verifier from the recomputationOnly findings.",
+  "unblocks": "Retiring trust_stamp_stale debt without per-event founder work; the Class C debt kind stays for anything not recomputation-only.",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/issues/1642"
+  ]
+}
