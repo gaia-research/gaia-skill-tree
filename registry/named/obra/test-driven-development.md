@@ -32,6 +32,21 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 202.11, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-30T13:15:49Z'
+  action: suite_ref_set
+  contributor: mbtiongson1
+  details: Set suiteRef to obra/superpowers
+- timestamp: '2026-10-30T13:15:50Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Founder ruling 2026-10-30 (FD-7 suite linking is automatic; sibling cap
+    unchanged, audit filed as #2263) and audit correction C1 of PR #2251: suiteRef
+    obra/superpowers set. Upstream path is inside the suite repo: obra/superpowers/blob/v6.4.1/skills/test-driven-development/SKILL.md.'
+- timestamp: '2026-10-30T13:17:39Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 202.11 -> 59.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/obra/superpowers/blob/v6.4.1/skills/test-driven-development/SKILL.md
   evaluator: mbtiongson1
@@ -57,9 +72,10 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:55:59Z'
-trustMagnitude: 202.11
-overallTrustGrade: A
-trustMagnitudeInputHash: 52640454ac1b6556ccb0f05ff7d03ac03f74d6eee47a597086d3dc79676a6ca1
+trustMagnitude: 59.0
+overallTrustGrade: B
+trustMagnitudeInputHash: 8ba41abc2969c9298c270fac54f00b62538ab9e32a8e8266952d3c522d872216
+suiteRef: obra/superpowers
 ---
 
 ## Installation

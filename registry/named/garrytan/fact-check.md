@@ -47,6 +47,21 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 158.36, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-30T13:15:06Z'
+  action: suite_ref_set
+  contributor: mbtiongson1
+  details: Set suiteRef to garrytan/gbrain
+- timestamp: '2026-10-30T13:15:07Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Founder ruling 2026-10-30 (FD-7 suite linking is automatic; sibling cap
+    unchanged, audit filed as #2263) and audit correction C1 of PR #2251: suiteRef
+    garrytan/gbrain set. Upstream path is inside the suite repo: garrytan/gbrain/blob/v0.51.6.0/plugin/skills/fact-check/SKILL.md.'
+- timestamp: '2026-10-30T13:17:39Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 158.36 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/fact-check/SKILL.md
   evaluator: mbtiongson1
@@ -72,9 +87,10 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:55:28Z'
-trustMagnitude: 158.36
-overallTrustGrade: A
-trustMagnitudeInputHash: dfcfda1ef2df5cd0d0755e48fd48e51b78b02cedd5d08ffba3b7d28a60e85a72
+trustMagnitude: 50.0
+overallTrustGrade: B
+trustMagnitudeInputHash: ae732ecc91f941ab8e3497ed0f3b43d725c770ec7510c51c534f8d3dc2f43cc6
+suiteRef: garrytan/gbrain
 ---
 
 ## Installation
