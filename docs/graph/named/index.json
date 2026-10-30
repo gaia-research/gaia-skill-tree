@@ -1377,7 +1377,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-08-30",
+        "updatedAt": "2026-10-30",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
@@ -1480,10 +1480,16 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 73.59 -> 73.59, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-30T13:02:39Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "nova-gaia",
+            "details": "TM 73.59 -> 103.59, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
-        "trustMagnitude": 73.59,
-        "overallTrustGrade": "B",
+        "trustMagnitude": 103.59,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "0ecb67a513e951f5b0729ec70bd4f8785bdee8f7e174e7eec2b111b32630d201",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -25889,7 +25895,7 @@
           }
         ],
         "createdAt": "2026-09-06",
-        "updatedAt": "2026-10-24",
+        "updatedAt": "2026-10-30",
         "timeline": [
           {
             "timestamp": "2026-09-06T15:29:17Z",
@@ -25998,6 +26004,12 @@
             "previousValue": "v0.8.60",
             "newValue": "v0.8.209",
             "details": "synced from https://github.com/heygen-com/hyperframes/releases/tag/v0.8.209"
+          },
+          {
+            "timestamp": "2026-10-30T13:02:39Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "nova-gaia",
+            "details": "TM 166.92 -> 171.92, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -26020,7 +26032,7 @@
           "heygen-com/slideshow",
           "heygen-com/talking-head-recut"
         ],
-        "trustMagnitude": 166.92,
+        "trustMagnitude": 171.92,
         "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "db32830b323d3998d9bdc26306e24d73b4a60d47ae7e8639b19ab1f9c039dadf",
         "type": "fusion",
@@ -33261,7 +33273,7 @@
           }
         ],
         "createdAt": "2026-08-19",
-        "updatedAt": "2026-10-24",
+        "updatedAt": "2026-10-30",
         "timeline": [
           {
             "timestamp": "2026-08-19T11:50:18Z",
@@ -33346,6 +33358,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 199.13 -> 200.29, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-30T13:02:39Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "nova-gaia",
+            "details": "TM 200.29 -> 220.87, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -33354,7 +33372,7 @@
           "mattpocock/scaffold-exercises",
           "mattpocock/setup-pre-commit"
         ],
-        "trustMagnitude": 200.29,
+        "trustMagnitude": 220.87,
         "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "9f2cb4be19d4d3723768d88e8ebf0f59b22b0e3aaf016adfbfead7f389227447",
         "type": "fusion",
@@ -36625,7 +36643,7 @@
           }
         ],
         "createdAt": "2026-09-07",
-        "updatedAt": "2026-09-07",
+        "updatedAt": "2026-10-30",
         "timeline": [
           {
             "timestamp": "2026-09-06T16:52:49Z",
@@ -36674,13 +36692,20 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-10-30T13:02:39Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "nova-gaia",
+            "details": "TM (none) -> 92.38, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
+        "trustMagnitude": 92.38,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "35f7e8ab61e6954bacdee126937dc301412da161411c1aff29b3877a9c7a7b6b",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 92.38,
-        "overallTrustGrade": "B",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -36871,7 +36896,7 @@
           }
         ],
         "createdAt": "2026-10-27",
-        "updatedAt": "2026-10-27",
+        "updatedAt": "2026-10-30",
         "timeline": [
           {
             "timestamp": "2026-10-27T13:14:47Z",
@@ -36914,9 +36939,15 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 4★"
+          },
+          {
+            "timestamp": "2026-10-30T13:02:39Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "nova-gaia",
+            "details": "TM 126.12 -> 131.12, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
-        "trustMagnitude": 126.12,
+        "trustMagnitude": 131.12,
         "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "efbcb14106671455b8db3d4b1ac94eac607e75b2763c732ca9617ca80ad6a127",
         "type": "basic",
@@ -43324,7 +43355,7 @@
           }
         ],
         "createdAt": "2026-10-27",
-        "updatedAt": "2026-10-27",
+        "updatedAt": "2026-10-30",
         "timeline": [
           {
             "timestamp": "2026-10-27T12:58:31Z",
@@ -43367,9 +43398,15 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "unknown",
             "details": "TM (none) -> 152.48, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-10-30T13:02:39Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "nova-gaia",
+            "details": "TM 152.48 -> 157.48, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
-        "trustMagnitude": 152.48,
+        "trustMagnitude": 157.48,
         "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "67d3ad43c0f7fe517d484e80ba05a9263b6bfe1d57854ff08cacf5f6a45c3cf5",
         "type": "basic",
