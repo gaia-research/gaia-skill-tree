@@ -29,7 +29,6 @@ from gaia_cli.curation.retrieval import (
     canonicalize_model_id,
     embeddingStatus,
     loadRetrievalConfig,
-    validateVector,
 )
 from gaia_cli.intakeAdapter import REASON_CODES, _canonicalDigest
 from gaia_cli.registry import (

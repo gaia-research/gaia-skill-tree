@@ -23,22 +23,37 @@ on:
         description: "Allow unverified challenges in shadow mode"
         type: boolean
         default: false
+      child_mode:
+        description: "Emission contract (batch is staged; scheduled runs stay fanout)"
+        type: choice
+        options: [fanout, batch]
+        default: fanout
+      escalate_candidate:
+        description: "Optional: create ONE intake child for this batch row, e.g. garrytan/gbrain:foo (uses the apply flag). Skips polling."
+        required: false
+        default: ""
   schedule:
     - cron: '0 6 * * *'  # 06:00 UTC daily
 
 # Prevent overlap between manual runs
 concurrency: upstream-watcher
 
+# L5: the watcher only reads the repo and writes issues; it never opens PRs or dispatches workflows (batch mode
+# creates no approved bootstrap, M3), so the workflow-level token stays issues: write, contents: read.
 permissions:
   issues: write
-  contents: write
-  pull-requests: write
-  actions: write
+  contents: read
 
 jobs:
   watcher:
     name: Poll upstream repos for new releases
     runs-on: ubuntu-latest
+    # Job-scoped exception: the opt-in challenge watch persists its CAS ledger by pushing the dedicated
+    # steward/ledger ref (GitRefLedgerStore). Nothing else in the watcher writes repository contents, and the
+    # challenge watch stays default-off (GAIA_CHALLENGE_WATCH_ENABLED unset).
+    permissions:
+      issues: write
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -66,28 +81,71 @@ jobs:
           # Repository variable is the reviewed, default-off schedule gate.
           # Setting it to "true" or "1" opts scheduled runs into challenge watch.
           GAIA_CHALLENGE_WATCH_ENABLED: ${{ vars.GAIA_CHALLENGE_WATCH_ENABLED }}
-          ACTION_SKILL_ID: ${{ inputs.skill_id }}
-          ACTION_APPLY: ${{ inputs.apply }}
-          ACTION_CHALLENGE_WATCH: ${{ inputs.challenge_watch }}
-          ACTION_CHALLENGE_INPUT: ${{ inputs.challenge_input }}
-          ACTION_CHALLENGE_SHADOW: ${{ inputs.challenge_shadow }}
+          INPUT_SKILL_ID: ${{ inputs.skill_id }}
+          INPUT_ESCALATE: ${{ inputs.escalate_candidate }}
+          INPUT_APPLY: ${{ inputs.apply }}
+          INPUT_CHILD_MODE: ${{ inputs.child_mode }}
+          INPUT_CHALLENGE_WATCH: ${{ inputs.challenge_watch }}
+          INPUT_CHALLENGE_INPUT: ${{ inputs.challenge_input }}
+          INPUT_CHALLENGE_SHADOW: ${{ inputs.challenge_shadow }}
+          V2_ENABLED: ${{ vars.STEWARD_ISSUE_HYGIENE_V2 }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
-          ARGS=()
-          if [[ -n "$ACTION_SKILL_ID" ]]; then
-            ARGS+=(--skill "$ACTION_SKILL_ID")
+          set -euo pipefail
+          mkdir -p generated-output
+          # L1: arguments are a bash array (no word splitting), and each input is validated before use.
+          ID_RE='^[A-Za-z0-9._/-]+$'
+          CANDIDATE_RE='^[A-Za-z0-9._/:-]+$'
+          APPLY=(--dry-run)
+          if [ "$INPUT_APPLY" = "true" ] || [ "$EVENT_NAME" = "schedule" ]; then
+            APPLY=(--apply)
           fi
-          if [[ "$ACTION_APPLY" == "true" || "$GITHUB_EVENT_NAME" == "schedule" ]]; then
-            ARGS+=(--apply)
-          else
-            ARGS+=(--dry-run)
+          if [ -n "$INPUT_ESCALATE" ] && ! [[ "$INPUT_ESCALATE" =~ $CANDIDATE_RE ]]; then
+            echo "::error::escalate_candidate must match ${CANDIDATE_RE}; got a value with other characters."
+            exit 1
           fi
-          if [[ "$ACTION_CHALLENGE_WATCH" == "true" || "$GAIA_CHALLENGE_WATCH_ENABLED" == "true" || "$GAIA_CHALLENGE_WATCH_ENABLED" == "1" ]]; then
+          if [ -n "$INPUT_SKILL_ID" ] && ! [[ "$INPUT_SKILL_ID" =~ $ID_RE ]]; then
+            echo "::error::skill_id must match ${ID_RE}; got a value with other characters."
+            exit 1
+          fi
+          MODE=fanout
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            MODE="${INPUT_CHILD_MODE:-fanout}"
+          fi
+          if [[ "$MODE" != fanout && "$MODE" != batch ]]; then
+            echo "::error::Unknown child_mode"
+            exit 1
+          fi
+          if { [ "$MODE" = batch ] || [ -n "$INPUT_ESCALATE" ]; } && [ "${APPLY[0]}" = --apply ] && [ "${V2_ENABLED:-}" != true ]; then
+            echo "::error::Staged issue writes require STEWARD_ISSUE_HYGIENE_V2=true and founder rollout approval."
+            exit 1
+          fi
+          if [ -n "$INPUT_ESCALATE" ]; then
+            # One child for one batch row; no polling, no umbrella rewrite beyond that row.
+            python scripts/upstream_watcher/watcher.py --escalate "$INPUT_ESCALATE" "${APPLY[@]}"
+            exit 0
+          fi
+          ARGS=(--child-mode "$MODE" "${APPLY[@]}" --report generated-output/upstream-watcher-report.json)
+          if [ -n "$INPUT_SKILL_ID" ]; then
+            ARGS+=(--skill "$INPUT_SKILL_ID")
+          fi
+          # Challenge watch stays default-off: opted in by the dispatch input or the reviewed repository variable.
+          if [ "${INPUT_CHALLENGE_WATCH:-}" = "true" ] || [ "${GAIA_CHALLENGE_WATCH_ENABLED:-}" = "true" ] || [ "${GAIA_CHALLENGE_WATCH_ENABLED:-}" = "1" ]; then
             ARGS+=(--challenge-watch)
-            if [[ -n "$ACTION_CHALLENGE_INPUT" ]]; then
-              ARGS+=(--challenge-input "$ACTION_CHALLENGE_INPUT")
+            if [ -n "${INPUT_CHALLENGE_INPUT:-}" ]; then
+              ARGS+=(--challenge-input "$INPUT_CHALLENGE_INPUT")
             fi
-            if [[ "$ACTION_CHALLENGE_SHADOW" == "true" ]]; then
+            if [ "${INPUT_CHALLENGE_SHADOW:-}" = "true" ]; then
               ARGS+=(--challenge-shadow)
             fi
           fi
+          # Exit 3 = unknown evidence (zero writes); the report is still uploaded below.
           python scripts/upstream_watcher/watcher.py "${ARGS[@]}"
+
+      - name: Upload watcher report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: upstream-watcher-report
+          path: generated-output/upstream-watcher-report.json
+          if-no-files-found: ignore

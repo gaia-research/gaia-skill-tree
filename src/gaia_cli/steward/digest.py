@@ -139,6 +139,34 @@ def _evidence_lines(evidence: Mapping[str, Any]) -> list[str]:
     return lines
 
 
+ISSUE_FOUNDER_RULE = "issue-founder-decision"
+
+
+def issueQuestion(decision: FounderDecision) -> str | None:
+    """The exact issue-hygiene question and its affected issues, when this decision is one."""
+
+    if decision.rule != ISSUE_FOUNDER_RULE or not decision.evidence:
+        return None
+    observed = decision.evidence[0].get("observedState") or {}
+    question = observed.get("question")
+    if not isinstance(question, str) or not question:
+        return None
+    affected = observed.get("affected") or []
+    numbers = ", ".join(f"#{number}" for number in affected if isinstance(number, int)) or "none listed"
+    return f"{question} Affected issues: {numbers}."
+
+
+def backlogHealthLine(scan: ScanResult) -> str | None:
+    """The issue backlog from the census reconciliation the scan observed, or None when no census was read."""
+
+    stats = next((o.provenance.get("stats") for o in scan.observations
+                  if o.source == "issue-hygiene" and isinstance(o.provenance.get("stats"), dict)), None)
+    if not stats:
+        return None
+    return (f"  Issue backlog            open {stats.get('openIssues')} "
+            f"(bot {stats.get('botOpen')}, upstream children {stats.get('upstreamChildOpen')})")
+
+
 def _health(scan: ScanResult, lane: Lane, decisions: int) -> list[str]:
     """The compact health view from the operating model, § 14."""
 
@@ -163,6 +191,9 @@ def _health(scan: ScanResult, lane: Lane, decisions: int) -> list[str]:
         f"{lane_counts['dispatched']} in flight, {lane_counts['escalated']} escalated",
         f"  Decisions for you        {decisions}",
     ]
+    backlog = backlogHealthLine(scan)
+    if backlog is not None:
+        lines.append(backlog)
     if unknown:
         lines.append(
             "\n  Steward is blind, not idle. It refuses to repair or dispatch\n"
@@ -217,7 +248,7 @@ def render_founder_digest(scan: ScanResult, queue: FounderQueue, lane: Lane) -> 
             f"{label} — {decision.decision_target}",
             "",
             "Question",
-            *_wrap(decision.objective),
+            *_wrap(issueQuestion(decision) or decision.objective),
             "",
             f"Blocks  {len(decision.debt_ids)} debt item(s)",
         ])

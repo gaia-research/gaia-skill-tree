@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-browser-render-driver",
+  "status": "open",
+  "decision": "Wire scripts/steward_collect_browser_render.js into the scheduled steward workflow (installing Chromium for it) so the browser-render sensor is evaluated on every run?",
+  "whyItMatters": "The sensor reports not-evaluated without a fresh browser-render input, so rendered frontend facts stay unobserved on scheduled runs. Adding the step changes the workflow's dependencies and runtime.",
+  "evidence": [
+    "Run locally on 2026-10-28 it rendered 95 pages x 2 viewports in about 4 minutes and found 29 pages with rendered defects the static sensor cannot see.",
+    "The collector serves docs/ from a local static server and aborts every external request unsent.",
+    "Frontend fixes remain human-gated (CLAUDE.md); this only observes."
+  ],
+  "recommended": "Approve an optional workflow step (npx playwright install chromium; node scripts/steward_collect_browser_render.js --repository $GITHUB_REPOSITORY) that records ok/failed in the existing inputs report.",
+  "alternative": "Keep it an operator-run collector until a quarter of local runs shows low noise.",
+  "unblocks": "Scheduled rendered-frontend observation (routine 15).",
+  "links": [
+    ".github/workflows/steward.yml",
+    "scripts/steward_collect_browser_render.js",
+    "src/gaia_cli/steward/sensors_render.py"
+  ]
+}

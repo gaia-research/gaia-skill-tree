@@ -50,6 +50,14 @@ python scripts/upstream_watcher/watcher.py --apply
 
 **Warning:** `--apply` creates real GitHub issues. Use `--dry-run` first to confirm the output looks correct.
 
+### Recovery and skipped suites (#2131 round 4)
+
+- A suite whose upstream is permanently refused (HTTP 451, 410, or a 403 whose body is the repository's own refusal, such as a DMCA takedown or a blocked or disabled repository) is **skipped**, not fatal. The run prints a `::notice::`, lists the suite under `unavailable` in the report with `reason: "permanent"`, and writes the other suites as usual. To bring it back, repair or remove its `links.github` entry in the registry. A 403 that names a token or App permission problem, and a bare 403, are not skips: they stop the run with exit 3 and a message that names the permission.
+- A truncated component tree is read one directory at a time, within 200 requests for the suite. If that budget runs out, the suite is skipped with `reason: "tree-truncated"` and the other suites proceed.
+- A transient GitHub read (no response, 5xx, 429, a rate-limited 403) gets three attempts, with waits of 1s and then 2s, before it counts as unknown evidence.
+- One OPEN canonical umbrella per suite. Findings update it in place. When no OPEN umbrella exists, a new one is created only for a genuinely new finding. A finding a closed issue's payload already records is not re-created (listed under `suppressedProcessed`). A closed issue that cannot prove its finding blocks the suite with exit 3. The watcher never edits, comments on or reopens a closed issue. Several open umbrellas for one suite: the lowest number is canonical, the others are listed under `duplicateOpenUmbrellas` for Steward reconciliation and left untouched. A title that names the suite but does not parse blocks that suite with exit 3 and no write.
+- A suite whose record comments are damaged or deleted fails closed with exit 3, and its message names the recovery flag. Rebuild that suite's record state from the fresh poll with `--apply --reset-records <suite>`. The flag is apply-only. See `docs/agents/upstream-watcher.md` (Records, M4) for what a reset does and does not recover.
+
 ---
 
 ## Triggering the workflow manually
@@ -59,7 +67,7 @@ python scripts/upstream_watcher/watcher.py --apply
 3. Optionally fill in `skill_id` to scope to one suite.
 4. Set `apply` to `true` to create issues (default is dry-run).
 
-> **Note:** PR 6 ships this code but PR 7 will perform the first real dry-run against the live registry. Do not enable the cron schedule until outputs are verified for 2+ weeks.
+> **Note:** The daily schedule in `.github/workflows/upstream-watcher.yml` is live (06:00 UTC, `--apply`). That contradicts the manual-only decision in `docs/agents/upstream-watcher.md` (F5). Keeping or disabling the schedule is a founder call (M4); see that document's Open questions.
 
 ---
 
@@ -70,9 +78,11 @@ Issues are created with labels `upstream:release` (umbrella), `upstream:bootstra
 For the full review protocol — label vocab, approval mechanics, child gate — see [upstream-watcher.md §7 Approval mechanics](../../docs/agents/upstream-watcher.md#approval-mechanics).
 
 **Short version:**
-- Apply `upstream:approved` to open a draft sync PR (gated on child intakes being closed first).
-- Apply `upstream:rejected` to close without syncing (auto-closes child intakes).
+- Apply `upstream:approved` to open a draft sync PR (gated on child intakes being closed first). A human applies it, including to a bootstrap baseline: the watcher never does.
+- Apply `upstream:rejected` to close without syncing. The umbrella's open child intakes are closed too, and each one is labelled `upstream:rejected` so the rejection stays on record.
 - Apply `upstream:needs-info` to hold without automating anything.
+- If an approved umbrella's payload changes (a new version, a removed component, a new broken link, a changed candidate row), the watcher removes `upstream:approved`, applies `upstream:needs-info` and posts one note. Re-apply `upstream:approved` after review. A body whose stored `payloadSha256` no longer matches its own payload counts as a change, so an edited body loses its approval too (D1a).
+- A sync runs only for the payload a reviewer approved. The approve workflow records that digest as a watcher-authored approval marker and re-checks it before any sync. A bot re-fire of an approval is accepted only when the labeler of that approval is a Verifier (D1b, D3).
 
 ---
 
@@ -110,14 +120,20 @@ The workflow's scheduled path reads the repository variable `GAIA_CHALLENGE_WATC
 
 ```
 scripts/upstream_watcher/
-├── watcher.py            # Main entry point (CLI flags, poll loop, dry-run report, challenge seam)
+├── watcher.py            # Main entry point (CLI flags, poll loop, dry-run report, batch dispatch, challenge seam)
 ├── challenge_watch.py    # Two-sided watch, fresh-state CAS journal/outbox, probes
 ├── admission.py          # Explicit domain receipt-port bridge (CLI default unavailable)
 ├── transport.py          # Transport abstraction, HttpTransport, SimulatedTransport, VirtualClock
 ├── finder.py             # Suite enumeration, mode detection, finding computation
 ├── liveness.py           # Link liveness checks, blob→raw URL conversion, component diff
 ├── name_drift.py         # SKILL.md frontmatter name-drift detection (issue #1457)
-├── issuer.py             # Issue body renderers, idempotency checks, gh issue create
+├── issuer.py             # Issue body renderers, idempotency checks, gh issue create, bootstrap memory
+├── approval.py           # Digest, approval-marker, reset-note, Verifier and allowlist checks shared with the workflows
+├── markers.py            # The one payload-block regex, imported by every reader (L3)
+├── batch.py              # Umbrella batch planner (payloadVersion 2): prechecks, approval reset, writes
+├── records.py            # Records mode: full batch rows in watcher-authored record comments, written per generation
+├── prechecks.py          # Registry, tracked and prior-disposition checks for candidate rows
+├── live.py               # GitHub access for the planner: paginated LISTs, comments, fail-closed errors
 ├── tests/
 │   ├── test_upstream_watcher.py  # Unit tests for suite watcher (all API calls mocked)
 │   ├── test_challenge_watch.py   # Watch policy (explicit TEST-only admission)

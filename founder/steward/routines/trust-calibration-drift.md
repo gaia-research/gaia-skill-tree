@@ -22,3 +22,24 @@ actionable debt. `installable: false` alone is not a freeze marker.
 A human Verifier reviews the packet, confirms any evidence or Star Bar gates, and
 runs the proposed command. After calibration, rerun the Steward scan; the debt
 should reconcile as healthy.
+
+## Evidence gaps are not demotions (founder ruling 2026-10-28, #2201)
+
+Missing evidence is not evidence of degradation. When the effective evidence pool
+(own rows plus rows inherited from the generic parent) is empty, or holds only
+rows that score nothing, a computed `ungraded` grade describes an absence of
+evidence, not a measurement of low trust. For a would-be demotion the sensor then
+reports an **evidence gap** instead of a calibration target:
+
+- `observedState.evidenceGap: true`, with `evidenceBasis`
+  (`no-effective-evidence-rows` or `no-scoring-evidence-rows`),
+  `effectiveRowCount`, `scoringRowCount: 0` and `preservedLevel`;
+- no `targetLevel` and no `calibrationCommand`: no demotion is proposed;
+- `laneEligible: false`: the debt stays open and visible but is never dispatched,
+  because the only honest outcomes are evidence discovery or a governed decision.
+
+Explicit counter-evidence (a deranked verifier attestation) is not a gap and still
+reports a demotion target. A measured low grade (rows that do score) also still
+reports one. The stored level is preserved until evidence is discovered and
+recalculated through canonical Trust Magnitude semantics, or a governed decision
+(#2148) rules otherwise.
