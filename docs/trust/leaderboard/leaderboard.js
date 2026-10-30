@@ -495,8 +495,41 @@
     tmMethodologyOpen: false,
     updatedDate: '',
     contributorOptions: [],
-    skillById: {}
+    skillById: {},
+    contested: null   // subjectId -> admitted, unresolved challenge summary (see challenge-surfaces.js)
   };
+
+  // ── YGGDRASIL IV: CONTESTED MARKS (docs/js/challenge-surfaces.js) ──
+  // Additive only: marks are appended beside bars and rows; no bar, figure or
+  // row the page draws is touched. With no admitted-and-contested subject
+  // (the unavailable projection), none of this runs and the page is unchanged.
+  function hasContested() {
+    return !!(window.GaiaChallenges && state.contested && Object.keys(state.contested).length);
+  }
+
+  function contestFor(id) {
+    var ids = [id];
+    var groups = state.collapsedNamed || [];
+    for (var i = 0; i < groups.length; i++) {
+      if (groups[i].id === id) { ids = groups[i]._groupMembers || [id]; break; }
+    }
+    var entry = window.GaiaChallenges.combineEntries(ids.map(function(member) { return state.contested[member]; }));
+    if (!entry) return null;
+    var row = state.skillById[id];
+    return { entry: entry, isOrigin: !!(row && row.origin) };
+  }
+
+  function contestForRow(id) {
+    var entry = window.GaiaChallenges.combineEntries([state.contested[id]]);
+    if (!entry) return null;
+    var row = state.skillById[id];
+    return { entry: entry, isOrigin: !!(row && row.origin) };
+  }
+
+  function applyContestMarks() {
+    if (!hasContested()) return;
+    window.GaiaChallenges.decorateBars(document.getElementById('lbNamedChart'), contestFor, { root: ROOT_PREFIX });
+  }
 
   function fetchJson(url) {
     return fetch(url).then(function(r) {
@@ -523,8 +556,14 @@
   // ── DATA FETCH (parallel) ──
   Promise.all([
     fetchJson(BASE + 'leaderboard.json' + VER),
-    fetchSkillPages()
+    fetchSkillPages(),
+    // Yggdrasil IV challenge projection. load() never rejects: any failure is
+    // an unavailable projection and the page renders exactly as without it.
+    window.GaiaChallenges ? window.GaiaChallenges.load(BASE, window.GAIA_VERSION) : Promise.resolve(null)
   ]).then(function(results) {
+    if (results[2] && results[2].projection) {
+      state.contested = window.GaiaChallenges.contestedIndex(results[2].projection);
+    }
     boot(results[0], results[1]);
   }).catch(function(err) {
     var page = document.querySelector('.lb-page');
@@ -869,6 +908,7 @@
         '<td class="col-stars">' + esc(stars) + '</td>' +
       '</tr>';
     }).join('');
+    if (hasContested()) window.GaiaChallenges.decorateRows(body, contestForRow, { root: ROOT_PREFIX });
   }
 
   function wireLedgerToggle() {
@@ -1745,6 +1785,7 @@
     container.insertAdjacentHTML('beforebegin', buildActionButtons('named'));
 
     renderNamedPaginationBtn(container, collapsed.length, needsPagination);
+    applyContestMarks();
   }
 
   function renderNamedPaginationBtn(container, total, needsPagination) {
