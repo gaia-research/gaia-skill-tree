@@ -95,6 +95,10 @@ def test_only_the_challenge_watch_job_can_write_contents_and_it_is_gated():
     assert "vars.GAIA_CHALLENGE_WATCH_ENABLED == 'true'" in condition
     assert "vars.GAIA_CHALLENGE_WATCH_ENABLED == '1'" in condition
     assert "inputs.challenge_watch == true" in condition
+    # Manual dispatch must opt in to writes explicitly; the schedule keeps its variable gate.
+    assert "inputs.apply == true" in condition
+    assert "github.event_name == 'workflow_dispatch'" in condition
+    assert "github.event_name != 'workflow_dispatch'" in condition
     assert "inputs.escalate_candidate == ''" in condition
     # Only default-branch code ever sees the write token.
     assert "github.ref == format('refs/heads/{0}', github.event.repository.default_branch)" in condition
@@ -156,24 +160,37 @@ def test_challenge_job_argv_is_minimal_by_default(tmp_path):
     assert argv == ["--challenge-only", "--challenge-output", "generated-output/challenge-packets"]
 
 
-def test_malicious_challenge_values_remain_exact_argv_and_do_not_execute(tmp_path):
-    marker = tmp_path / "INJECTION_RAN"
-    challenge_input = f"challenge path with spaces; touch {marker}; # `touch {marker}`"
+def test_valid_repo_relative_challenge_input_is_exact_argv(tmp_path):
     _, argv = _run_argv(
-        tmp_path,
-        "challenge-watch",
-        CHALLENGE_STEP,
-        {"INPUT_CHALLENGE_INPUT": challenge_input, "INPUT_CHALLENGE_SHADOW": "true"},
+        tmp_path, "challenge-watch", CHALLENGE_STEP,
+        {"INPUT_CHALLENGE_INPUT": "founder/challenges/active-1.json", "INPUT_CHALLENGE_SHADOW": "true"},
     )
-    assert not marker.exists(), "untrusted dispatch input executed shell commands"
     assert argv == [
         "--challenge-only",
         "--challenge-output",
         "generated-output/challenge-packets",
         "--challenge-input",
-        challenge_input,
+        "founder/challenges/active-1.json",
         "--challenge-shadow",
     ]
+
+
+import pytest  # noqa: E402
+
+
+@pytest.mark.parametrize("bad", [
+    "../etc/passwd", "a/../b.json", "/abs/path.json", "-rf", "has space.json",
+    "x;touch INJECTION_RAN", "$(touch INJECTION_RAN)", "`touch INJECTION_RAN`", "a\nb.json",
+])
+def test_malformed_challenge_input_is_rejected_and_never_executes(tmp_path, bad):
+    result, argv = _run_argv(
+        tmp_path, "challenge-watch", CHALLENGE_STEP,
+        {"INPUT_CHALLENGE_INPUT": bad, "INPUT_CHALLENGE_SHADOW": "false"}, check=False,
+    )
+    assert result.returncode != 0
+    assert "challenge_input must be a repo-relative path" in result.stdout + result.stderr
+    assert argv is None
+    assert not (tmp_path / "INJECTION_RAN").exists(), "untrusted dispatch input executed shell commands"
 
 
 def test_watcher_skill_id_with_exact_argv_and_malformed_one_rejected(tmp_path):

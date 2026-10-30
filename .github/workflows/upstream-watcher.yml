@@ -139,7 +139,8 @@ jobs:
     # Default-off: a reviewed repository variable or the dispatch input opts in. Never on a single-row escalation, and
     # never from a non-default branch (a dispatch from another ref would run that ref's code with the write token).
     if: >-
-      ${{ (inputs.challenge_watch == true || vars.GAIA_CHALLENGE_WATCH_ENABLED == 'true' || vars.GAIA_CHALLENGE_WATCH_ENABLED == '1')
+      ${{ ((github.event_name == 'workflow_dispatch' && inputs.apply == true && inputs.challenge_watch == true)
+      || (github.event_name != 'workflow_dispatch' && (vars.GAIA_CHALLENGE_WATCH_ENABLED == 'true' || vars.GAIA_CHALLENGE_WATCH_ENABLED == '1')))
       && inputs.escalate_candidate == ''
       && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
     runs-on: ubuntu-latest
@@ -178,6 +179,11 @@ jobs:
           # Arguments are a bash array (no word splitting); the input path is passed as one exact argv element.
           ARGS=(--challenge-only --challenge-output generated-output/challenge-packets)
           if [ -n "${INPUT_CHALLENGE_INPUT:-}" ]; then
+            # Repo-relative path only: no absolute paths, no "..", no shell/option metacharacters.
+            if ! [[ "$INPUT_CHALLENGE_INPUT" =~ ^[A-Za-z0-9._/-]+$ ]] || [[ "$INPUT_CHALLENGE_INPUT" == /* || "$INPUT_CHALLENGE_INPUT" == -* || "$INPUT_CHALLENGE_INPUT" == *..* ]]; then
+              echo "::error::challenge_input must be a repo-relative path matching ^[A-Za-z0-9._/-]+\$ with no '..'"
+              exit 1
+            fi
             ARGS+=(--challenge-input "$INPUT_CHALLENGE_INPUT")
           fi
           if [ "${INPUT_CHALLENGE_SHADOW:-}" = "true" ]; then
