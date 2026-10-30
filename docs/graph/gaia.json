@@ -1,6 +1,6 @@
 {
   "$schema": "https://gaiaskilltree.com/schema/graph.schema.json",
-  "generatedAt": "2026-10-30T06:23:27Z",
+  "generatedAt": "2026-10-30T13:18:00Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -10156,10 +10156,10 @@
         ]
       },
       "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
+      "rank": 5,
+      "rankWord": "Unique Ultimate",
       "medallion": "◉",
-      "namedMaxLevel": "4★",
+      "namedMaxLevel": "5★",
       "ultimateGateStatus": {
         "passes": false,
         "reason": "only 0/3 graded evidence sources"
@@ -18272,15 +18272,11 @@
           -0.3971034989134465
         ]
       },
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "namedMaxLevel": "4★",
-      "ultimateGateStatus": {
-        "passes": false,
-        "reason": "only 0/3 graded evidence sources"
-      }
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "namedMaxLevel": "3★"
     },
     {
       "id": "skill-discovery",

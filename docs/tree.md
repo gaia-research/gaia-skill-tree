@@ -60,7 +60,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
   │  ├─ ○ /parse-html  (↑ see above)
   │  └─ ○ /extract-entities
-  ├─ · google-deepmind/workflow-skill-creator  [4★]
+  ├─ · google-deepmind/workflow-skill-creator  [3★]
   │  ├─ ○ /generate-text
   │  ├─ ○ /structured-output
   │  └─ ○ garrytan/design-html  [3★]  (↑ see above)
@@ -152,7 +152,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ ○ /classify
   │  │  └─ ○ /structured-output
   │  ├─ ○ addy-osmani/code-simplification  [4★]  (↑ see above)
-  │  └─ · google-deepmind/workflow-skill-creator  [4★]
+  │  └─ · google-deepmind/workflow-skill-creator  [3★]
   │     ├─ ○ /generate-text
   │     ├─ ○ /structured-output  (↑ see above)
   │     └─ ○ garrytan/design-html  [3★]  (↑ see above)
@@ -390,7 +390,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     └─ ○ garrytan/office-hours  [3★]
   ◉ anthropics/brand-guidelines  [4★]
   ◉ trailhq/graft  [4★]
-    ├─ · safishamsi/graphify  [4★]
+    ├─ · safishamsi/graphify  [5★]
     │  ├─ ○ /extract-entities
     │  └─ ○ /logical-inference
     ├─ ○ /retrieve
@@ -413,10 +413,6 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
        └─ ○ heygen-com/embedded-captions  [3★]
   ◉ vercel-labs/vercel-react-best-practices  [4★]
   ◉ addy-osmani/code-simplification  [4★]
-  ◉ google-deepmind/workflow-skill-creator  [4★]
-    ├─ ○ /generate-text
-    ├─ ○ /structured-output
-    └─ ○ garrytan/design-html  [3★]
   ◉ obra/subagent-driven-development  [4★]
     ├─ · obra/executing-plans  [3★]
     │  ├─ · obra/writing-plans  [4★]

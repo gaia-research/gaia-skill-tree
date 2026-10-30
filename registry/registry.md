@@ -114,7 +114,7 @@
 | ○ [dietrichgebert](../docs/u/dietrichgebert/)/ponytail | Basic | 4★ | `/implement-with-discernment` |
 | ○ [wheresryan22](../docs/u/wheresryan22/)/anatomy | Basic | 4★ | `/interactive-mechanism-illustration` |
 | ○ [mattpocock](../docs/u/mattpocock/)/triage | Basic | 3★ | `/issue-triage` |
-| · [safishamsi](../docs/u/safishamsi/)/graphify | Fusion | 4★ | `/knowledge-graph-build` |
+| · [safishamsi](../docs/u/safishamsi/)/graphify | Fusion | 5★ | `/knowledge-graph-build` |
 | · [garrytan](../docs/u/garrytan/)/archive-crawler | Fusion | 2★ | `/knowledge-harvest` |
 | · [garrytan](../docs/u/garrytan/)/brain-ops | Fusion | 3★ | `/knowledge-management` |
 | · ████████/huggingface-papers | Fusion | — | `/literature-review` |
@@ -201,7 +201,7 @@
 | ○ /self-critique | Basic | — | `/self-critique` |
 | ○ /sentiment-analysis | Basic | — | `/sentiment-analysis` |
 | · ████████/scvi-tools | Fusion | — | `/single-cell-omics-modeling` |
-| · [google-deepmind](../docs/u/google-deepmind/)/workflow-skill-creator | Fusion | 4★ | `/skill-authoring` |
+| · [google-deepmind](../docs/u/google-deepmind/)/workflow-skill-creator | Fusion | 3★ | `/skill-authoring` |
 | ○ [vercel](../docs/u/vercel/)/find-skills | Basic | 3★ | `/skill-discovery` |
 | · [gaia-research](../docs/u/gaia-research/)/fuse | Fusion | 2★ | `/skill-fusion` |
 | · [mattpocock](../docs/u/mattpocock/)/skills | Fusion | 5★ | `/skill-mastery` |
@@ -278,11 +278,10 @@
 | ◉ [nvidia](../docs/u/nvidia/)/accelerated-computing-cudf | Unique Skill | 4★ | `/gpu-dataframe-acceleration` |
 | ◉ [dietrichgebert](../docs/u/dietrichgebert/)/ponytail | Unique Skill | 4★ | `/implement-with-discernment` |
 | ◉ [wheresryan22](../docs/u/wheresryan22/)/anatomy | Unique Skill | 4★ | `/interactive-mechanism-illustration` |
-| ◉ [safishamsi](../docs/u/safishamsi/)/graphify | Unique Skill | 4★ | `/knowledge-graph-build` |
+| ◉ [safishamsi](../docs/u/safishamsi/)/graphify | Unique Skill | 5★ | `/knowledge-graph-build` |
 | ◉ [latent-spaces](../docs/u/latent-spaces/)/brag | Unique Skill | 4★ | `/project-launch-video-production` |
 | ◉ [vercel-labs](../docs/u/vercel-labs/)/vercel-react-best-practices | Unique Skill | 4★ | `/react-performance-optimization` |
 | ◉ [addy-osmani](../docs/u/addy-osmani/)/code-simplification | Unique Skill | 4★ | `/refactor-code` |
-| ◉ [google-deepmind](../docs/u/google-deepmind/)/workflow-skill-creator | Unique Skill | 4★ | `/skill-authoring` |
 | ◉ [obra](../docs/u/obra/)/subagent-driven-development | Unique Skill | 4★ | `/subagent-driven-development` |
 | ◉ [obra](../docs/u/obra/)/using-git-worktrees | Unique Skill | 4★ | `/using-git-worktrees` |
 | ◉ [nextlevelbuilder](../docs/u/nextlevelbuilder/)/ui-ux-pro-max | Unique Skill | 4★ | `/ux-audit` |

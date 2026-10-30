@@ -1,23 +1,6 @@
 {
   "skills": [
     {
-      "id": "garrytan/document-release",
-      "name": "Document Release",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/document-release.json"
-      },
-      "genericSkillRef": "document-editing"
-    },
-    {
       "id": "garrytan/freeze",
       "name": "Freeze",
       "level": "2★",
@@ -328,6 +311,23 @@
         "self": "/api/v1/skills/garrytan/unfreeze.json"
       },
       "genericSkillRef": "guardrails"
+    },
+    {
+      "id": "leonxlnx/output-skill",
+      "name": "output-skill",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/output-skill.json"
+      },
+      "genericSkillRef": "format-output"
     },
     {
       "id": "mbtiongson1/gaia-audit",

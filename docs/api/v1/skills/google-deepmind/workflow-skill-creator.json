@@ -2,14 +2,14 @@
   "id": "google-deepmind/workflow-skill-creator",
   "name": "Workflow-Skill-Creator",
   "contributor": "google-deepmind",
-  "level": "4★",
+  "level": "3★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 100.82,
-  "overallTrustGrade": "A",
-  "branch": "unique",
-  "rankWord": "Unique",
-  "medallion": "◉",
+  "trustMagnitude": 59.65,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/google-deepmind/workflow-skill-creator.json",
     "contributor": "/api/v1/contributors/google-deepmind.json",
@@ -29,7 +29,7 @@
   "description": "Distills a completed user workflow or interaction into a reusable agent skill. Use when the user asks to turn their workflow, interaction, or multi-step process into a skill, or when they say \"make this a skill\", \"create a skill from what we just did\", \"package this workflow\" or similar. Do not use for creating skills from scratch without an existing workflow (use a generic skill-creator for that).",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
-    "sourceTenureDaysGte180AorS": true,
+    "sourceTenureDaysGte180AorS": false,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": false,
     "overallGradeS": false,
@@ -52,14 +52,33 @@
     },
     {
       "source": "https://github.com/google-deepmind/science-skills",
-      "evaluator": "unknown",
-      "date": "2026-06-20",
+      "evaluator": "mbtiongson1",
+      "date": "2026-10-30",
+      "type": "repo-own",
+      "notes": "Retyped from a mislabelled peer-review row: a repository URL is not a peer review. GitHub REST default-branch commit count and contributor count of google-deepmind/science-skills at 2026-10-30; host-repository maintenance, not independent quality evidence. Founder ruling 2026-10-30 (r4-peer-review-rows).",
+      "commits": 13,
+      "contributors": 4,
+      "sourceStartedAt": "2026-05-13",
+      "grade": "C"
+    },
+    {
+      "source": "https://storage.googleapis.com/deepmind-media/papers/google_deepmind_science_skills_for_antigravity_towards_efficient_and_reliable_scientific_workflows.pdf",
+      "evaluator": "mbtiongson1",
+      "date": "2026-10-30",
+      "type": "self-attestation",
+      "notes": "First-party technical report by the Google DeepMind Science team (dated 2026-05-19, HTTP 200): 'Google DeepMind Science Skills for Antigravity: Towards Efficient and Reliable Scientific Workflows'. Appendix describes workflow-skill-creator ('distills a completed user workflow into a reusable agent skill') as part of the bundle whose evaluations show higher task success and lower token and model-call use. Authors are the skill's own team, so it is not independent peer review; not on arXiv. Founder ruling 2026-10-30 (r4-peer-review-rows).",
+      "sourceStartedAt": "2026-05-19",
+      "grade": "C"
+    },
+    {
+      "source": "https://tessl.io/registry/skills/github/google-deepmind/science-skills/workflow-skill-creator/quality",
+      "evaluator": "mbtiongson1",
+      "date": "2026-10-30",
       "type": "peer-review",
-      "trustNumber": 78.0,
-      "grade": "S",
-      "notes": "google-deepmind/science-skills workflow creator — meta-skill for composing science database skill workflows",
-      "reviewers": 3,
-      "sourceStartedAt": "2024-01-01"
+      "notes": "Independent third-party review of this exact skill by the Tessl registry (rubric-based quality review at revision 4de6786 plus a Snyk security scan): content 67% (15/20 passed), description 90% (18/20 passed), validation 16/16, security passed with no findings. It is an automated rubric review with written suggestions, not a human peer review; counted as one reviewer. Fetched via firecrawl 2026-10-30. Founder ruling 2026-10-30 (r4-peer-review-rows).",
+      "reviewers": 1,
+      "sourceStartedAt": "2026-09-01",
+      "grade": "C"
     }
   ],
   "timeline": [
@@ -185,6 +204,36 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM 100.82 -> 100.82, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-10-30T13:12:06Z",
+      "action": "evidence_removed",
+      "contributor": "mbtiongson1",
+      "details": "Removed dead/invalid evidence: https://github.com/google-deepmind/science-skills"
+    },
+    {
+      "timestamp": "2026-10-30T13:12:07Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/google-deepmind/science-skills (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-10-30T13:12:09Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://storage.googleapis.com/deepmind-media/papers/google_deepmind_science_skills_for_antigravity_towards_efficient_and_reliable_scientific_workflows.pdf (type: self-attestation)"
+    },
+    {
+      "timestamp": "2026-10-30T13:12:27Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://tessl.io/registry/skills/github/google-deepmind/science-skills/workflow-skill-creator/quality (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-10-30T13:12:46Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 100.82 -> 59.65, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

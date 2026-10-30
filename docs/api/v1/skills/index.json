@@ -1,50 +1,6 @@
 {
   "skills": [
     {
-      "id": "mattpocock/skills",
-      "name": "Matt Pocock Skills",
-      "level": "5★",
-      "trustMagnitude": 374.99,
-      "overallTrustGrade": "S",
-      "fusionScore": 364.92,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Ultimate",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/skills.json"
-      },
-      "genericSkillRef": "skill-mastery",
-      "suiteComponents": [
-        "mattpocock/code-review",
-        "mattpocock/diagnose",
-        "mattpocock/edit-article",
-        "mattpocock/engineering",
-        "mattpocock/grill-me",
-        "mattpocock/grill-with-docs",
-        "mattpocock/handoff",
-        "mattpocock/improve-codebase-architecture",
-        "mattpocock/obsidian-vault",
-        "mattpocock/personal",
-        "mattpocock/productivity",
-        "mattpocock/prototype",
-        "mattpocock/research",
-        "mattpocock/setup-matt-pocock-skills",
-        "mattpocock/teach",
-        "mattpocock/to-questionnaire",
-        "mattpocock/to-spec",
-        "mattpocock/to-tickets",
-        "mattpocock/triage",
-        "mattpocock/ubiquitous-language",
-        "mattpocock/wait-what",
-        "mattpocock/wayfinder",
-        "mattpocock/wizard",
-        "mattpocock/write-a-skill",
-        "mattpocock/zoom-out"
-      ]
-    },
-    {
       "id": "garrytan/gstack",
       "name": "Founder Mode",
       "level": "5★",
@@ -125,6 +81,67 @@
         "self": "/api/v1/skills/safishamsi/graphify.json"
       },
       "genericSkillRef": "knowledge-graph-build"
+    },
+    {
+      "id": "mattpocock/skills",
+      "name": "Matt Pocock Skills",
+      "level": "5★",
+      "trustMagnitude": 280.39,
+      "overallTrustGrade": "S",
+      "fusionScore": 364.92,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/skills.json"
+      },
+      "genericSkillRef": "skill-mastery",
+      "suiteComponents": [
+        "mattpocock/code-review",
+        "mattpocock/diagnose",
+        "mattpocock/edit-article",
+        "mattpocock/engineering",
+        "mattpocock/grill-me",
+        "mattpocock/grill-with-docs",
+        "mattpocock/handoff",
+        "mattpocock/improve-codebase-architecture",
+        "mattpocock/obsidian-vault",
+        "mattpocock/personal",
+        "mattpocock/productivity",
+        "mattpocock/prototype",
+        "mattpocock/research",
+        "mattpocock/setup-matt-pocock-skills",
+        "mattpocock/teach",
+        "mattpocock/to-questionnaire",
+        "mattpocock/to-spec",
+        "mattpocock/to-tickets",
+        "mattpocock/triage",
+        "mattpocock/ubiquitous-language",
+        "mattpocock/wait-what",
+        "mattpocock/wayfinder",
+        "mattpocock/wizard",
+        "mattpocock/write-a-skill",
+        "mattpocock/zoom-out"
+      ]
+    },
+    {
+      "id": "panniantong/agent-reach",
+      "name": "Agent Reach",
+      "level": "3★",
+      "trustMagnitude": 260.83,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "panniantong",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/panniantong/agent-reach.json"
+      },
+      "genericSkillRef": "agent-reach"
     },
     {
       "id": "nextlevelbuilder/ui-ux-pro-max",
@@ -536,15 +553,15 @@
     {
       "id": "latent-spaces/brag",
       "name": "brag",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 144.54,
       "overallTrustGrade": "A",
       "fusionScore": 200.0,
       "contributor": "latent-spaces",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/latent-spaces/brag.json"
       },
@@ -605,6 +622,23 @@
         "garrytan/capture",
         "garrytan/concept-synthesis"
       ]
+    },
+    {
+      "id": "browser-use/browser-harness",
+      "name": "Browser Harness",
+      "level": "3★",
+      "trustMagnitude": 118.59,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "browser-use",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/browser-use/browser-harness.json"
+      },
+      "genericSkillRef": "browser-control"
     },
     {
       "id": "obra/subagent-driven-development",
@@ -920,23 +954,6 @@
       "genericSkillRef": "ubiquitous-language"
     },
     {
-      "id": "nateherkai/scroll-craft",
-      "name": "Scroll Craft",
-      "level": "3★",
-      "trustMagnitude": 92.38,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "nateherkai",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
-      },
-      "genericSkillRef": "scroll-driven-web-design"
-    },
-    {
       "id": "leonxlnx/unlazy",
       "name": "unlazy",
       "level": "3★",
@@ -1012,6 +1029,23 @@
       ]
     },
     {
+      "id": "nateherkai/scroll-craft",
+      "name": "Scroll Craft",
+      "level": "3★",
+      "trustMagnitude": 87.38,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "nateherkai",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
+      },
+      "genericSkillRef": "scroll-driven-web-design"
+    },
+    {
       "id": "firecrawl/firecrawl-build-search",
       "name": "Firecrawl Search",
       "level": "3★",
@@ -1044,52 +1078,11 @@
         "self": "/api/v1/skills/garrytan/retro.json"
       },
       "genericSkillRef": "write-report"
-    },
-    {
-      "id": "ruvnet/agentdb",
-      "name": "AgentDB",
-      "level": "3★",
-      "trustMagnitude": 81.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 240.0,
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentdb.json"
-      },
-      "genericSkillRef": "agent-memory-platform",
-      "suiteComponents": [
-        "ruvnet/agentdb-advanced",
-        "ruvnet/agentdb-learning",
-        "ruvnet/agentdb-memory-patterns",
-        "ruvnet/agentdb-optimization",
-        "ruvnet/agentdb-vector-search"
-      ]
-    },
-    {
-      "id": "addy-osmani/spec-driven-development",
-      "name": "Spec-Driven Development",
-      "level": "3★",
-      "trustMagnitude": 80.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
-      },
-      "genericSkillRef": "prd-generation"
     }
   ],
   "page": 1,
-  "totalPages": 5,
-  "totalSkills": 229,
+  "totalPages": 6,
+  "totalSkills": 267,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

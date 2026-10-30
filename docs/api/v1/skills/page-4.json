@@ -1,23 +1,6 @@
 {
   "skills": [
     {
-      "id": "leonxlnx/brandkit",
-      "name": "brandkit",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "leonxlnx",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/brandkit.json"
-      },
-      "genericSkillRef": "brand-guideline-application"
-    },
-    {
       "id": "leonxlnx/brutalist-skill",
       "name": "brutalist-skill",
       "level": "3★",
@@ -120,23 +103,6 @@
       "genericSkillRef": "design-generation"
     },
     {
-      "id": "leonxlnx/output-skill",
-      "name": "output-skill",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "leonxlnx",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/output-skill.json"
-      },
-      "genericSkillRef": "format-output"
-    },
-    {
       "id": "leonxlnx/redesign-skill",
       "name": "redesign-skill",
       "level": "3★",
@@ -220,6 +186,23 @@
         "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"
       },
       "genericSkillRef": "dispatching-parallel-agents"
+    },
+    {
+      "id": "obra/writing-skills",
+      "name": "writing-skills",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "obra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/writing-skills.json"
+      },
+      "genericSkillRef": "skill-authoring"
     },
     {
       "id": "addy-osmani/test-driven-development",
@@ -854,6 +837,23 @@
         "self": "/api/v1/skills/garrytan/devex-review.json"
       },
       "genericSkillRef": "ux-audit"
+    },
+    {
+      "id": "garrytan/document-release",
+      "name": "Document Release",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/document-release.json"
+      },
+      "genericSkillRef": "document-editing"
     }
   ],
   "page": 4,
