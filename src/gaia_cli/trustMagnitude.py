@@ -1199,6 +1199,29 @@ def computeOverallTrustGrade(
     return "ungraded"
 
 
+# Ceiling on displayed stars imposed by the overall Trust grade (META 1.1 / 4.2).
+# Single source of truth: the named index, the trust ledger and the leaderboard
+# all project the displayed level through clampLevelToGrade.
+GRADE_MAX_STARS = {"S": 6, "A": 4, "B": 3, "C": 2, "ungraded": 1}
+
+
+def maxStarsForGrade(grade: Optional[str]) -> int:
+    return GRADE_MAX_STARS.get(grade or "ungraded", 1)
+
+
+def clampLevelToGrade(level: str, grade: Optional[str]) -> str:
+    """Return the displayed level: the stored level, capped at the grade ceiling.
+
+    Returns `level` unchanged when it is already within the ceiling. Never
+    mutates registry data; callers use the result for display/projection only.
+    """
+    from gaia_cli.redaction import level_num
+    ceiling = maxStarsForGrade(grade)
+    if level_num(level or "") > ceiling:
+        return f"{ceiling}\u2605"
+    return level
+
+
 def computeOverallTrustGradeFromSkill(
     skill: dict,
     genericSkillMap: Optional[dict] = None,

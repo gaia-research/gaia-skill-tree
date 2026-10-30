@@ -41,6 +41,7 @@ from gaia_cli.trustMagnitude import (  # noqa: E402
     computeOverallTrustGradeFromSkill,
     computeTrustMagnitude,
     computeTrustMagnitudeByType,
+    clampLevelToGrade,
     passesSuiteApexGate,
 )
 from gaia_cli.taxonomy import branchFor  # noqa: E402
@@ -133,10 +134,16 @@ def buildRows() -> list[dict]:
                 _hasEligibleIndependentWitness(fm, mergedMap, evaluationAtUTC=evaluation_at_utc),
             )
         g7Stars, flag = effectiveRank(grade, currentStars)
+        # FD-7 (Yggdrasil IV): publish the same grade-clamped level as the named
+        # index. The stored level stays in storedStars for transparency.
+        storedStars = currentStars
+        from publication_context import rehearsal_context_from_env
+        if rehearsal_context_from_env() is None:
+            currentStars = clampLevelToGrade(storedStars, grade)
         # May meta = stars on the eve of G7 cutover (pre-ratification).
         # June meta = current stars after G7 ratification (which is what
         # `currentStars` already is).
-        mayStars = mayStarsMap.get(skillId, currentStars)
+        mayStars = mayStarsMap.get(skillId, storedStars)
 
         apexResults = None
         if grade == "S":
@@ -152,7 +159,8 @@ def buildRows() -> list[dict]:
             "skillId":      skillId,
             "tm":           round(tm, 2),
             "grade":        grade,
-            "currentStars": currentStars,   # kept for backward compat
+            "currentStars": currentStars,   # displayed (grade-clamped) level
+            "storedStars":  storedStars,    # frontmatter level, pre-clamp
             "mayStars":     mayStars,
             "juneStars":    currentStars,
             "g7Stars":      g7Stars,        # kept for backward compat

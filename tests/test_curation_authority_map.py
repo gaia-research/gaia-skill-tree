@@ -82,14 +82,14 @@ def scoringDisagreements(text: str) -> list[str]:
 
 
 def gradeMaxStars() -> dict[str, int]:
-    """Extract the GRADE_MAX_STARS clamp literal from scripts/generateNamedIndex.py."""
-    tree = ast.parse((ROOT / "scripts" / "generateNamedIndex.py").read_text(encoding="utf-8"))
+    """Extract the GRADE_MAX_STARS clamp literal from src/gaia_cli/trustMagnitude.py (shared by named index, ledger, leaderboard)."""
+    tree = ast.parse((ROOT / "src" / "gaia_cli" / "trustMagnitude.py").read_text(encoding="utf-8"))
     for node in ast.walk(tree):
         if isinstance(node, ast.Assign) and any(
             isinstance(t, ast.Name) and t.id == "GRADE_MAX_STARS" for t in node.targets
         ):
             return ast.literal_eval(node.value)
-    raise AssertionError("GRADE_MAX_STARS clamp not found in generateNamedIndex.py")
+    raise AssertionError("GRADE_MAX_STARS clamp not found in trustMagnitude.py")
 
 
 def gradeDisagreements(text: str) -> list[str]:
