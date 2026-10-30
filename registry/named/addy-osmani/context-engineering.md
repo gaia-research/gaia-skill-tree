@@ -38,6 +38,22 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 177.68, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-30T06:21:27Z'
+  action: suite_ref_set
+  contributor: mbtiongson1
+  details: Set suiteRef to addy-osmani/agent-skills
+- timestamp: '2026-10-30T06:21:36Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Audit correction C1 of PR #2251: suiteRef addy-osmani/agent-skills restored;
+    it matches the existing 2026-09-23 suite_ref_set event that never persisted (the
+    docs generator erased directly set suiteRef values; fixed in PR #2260). Caps host-repo
+    evidence at the suite-component bound. Founder ruling 2026-10-30 FD-7.'
+- timestamp: '2026-10-30T06:22:47Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 177.68 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/context-engineering/SKILL.md
   evaluator: mbtiongson1
@@ -64,9 +80,10 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-10-29T16:54:57Z'
-trustMagnitude: 177.68
-overallTrustGrade: A
-trustMagnitudeInputHash: 4fc7d27104c72a4729a8ca1aaf2f978dfc5452f7b1924bd4715f73cda6f0ab21
+trustMagnitude: 50.0
+overallTrustGrade: B
+trustMagnitudeInputHash: 8fba615ff9338577c26d101bee33983a07b06635eb89b9c876adcbc0be45d7a3
+suiteRef: addy-osmani/agent-skills
 ---
 
 ## Installation
