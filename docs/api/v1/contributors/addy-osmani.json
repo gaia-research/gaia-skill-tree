@@ -19,210 +19,6 @@
       "genericSkillRef": "refactor-code"
     },
     {
-      "id": "addy-osmani/api-and-interface-design",
-      "name": "api-and-interface-design",
-      "level": "2★",
-      "trustMagnitude": 177.68,
-      "overallTrustGrade": "A",
-      "fusionScore": 0.0,
-      "contributor": "addy-osmani",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/api-and-interface-design.json"
-      },
-      "genericSkillRef": "software-design"
-    },
-    {
-      "id": "addy-osmani/browser-testing-with-devtools",
-      "name": "browser-testing-with-devtools",
-      "level": "2★",
-      "trustMagnitude": 177.68,
-      "overallTrustGrade": "A",
-      "fusionScore": 0.0,
-      "contributor": "addy-osmani",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/browser-testing-with-devtools.json"
-      },
-      "genericSkillRef": "browser-control"
-    },
-    {
-      "id": "addy-osmani/ci-cd-and-automation",
-      "name": "ci-cd-and-automation",
-      "level": "2★",
-      "trustMagnitude": 177.68,
-      "overallTrustGrade": "A",
-      "fusionScore": 100.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/ci-cd-and-automation.json"
-      },
-      "genericSkillRef": "deployment-automation"
-    },
-    {
-      "id": "addy-osmani/constraint-driven-development",
-      "name": "constraint-driven-development",
-      "level": "2★",
-      "trustMagnitude": 177.68,
-      "overallTrustGrade": "A",
-      "fusionScore": 60.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/constraint-driven-development.json"
-      },
-      "genericSkillRef": "guardrails"
-    },
-    {
-      "id": "addy-osmani/context-engineering",
-      "name": "context-engineering",
-      "level": "2★",
-      "trustMagnitude": 177.68,
-      "overallTrustGrade": "A",
-      "fusionScore": 40.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/context-engineering.json"
-      },
-      "genericSkillRef": "agent-environment-setup"
-    },
-    {
-      "id": "addy-osmani/deprecation-and-migration",
-      "name": "deprecation-and-migration",
-      "level": "2★",
-      "trustMagnitude": 177.68,
-      "overallTrustGrade": "A",
-      "fusionScore": 0.0,
-      "contributor": "addy-osmani",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/deprecation-and-migration.json"
-      },
-      "genericSkillRef": "deprecation-and-migration"
-    },
-    {
-      "id": "addy-osmani/documentation-and-adrs",
-      "name": "documentation-and-adrs",
-      "level": "2★",
-      "trustMagnitude": 177.68,
-      "overallTrustGrade": "A",
-      "fusionScore": 0.0,
-      "contributor": "addy-osmani",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/documentation-and-adrs.json"
-      },
-      "genericSkillRef": "write-report"
-    },
-    {
-      "id": "addy-osmani/doubt-driven-development",
-      "name": "doubt-driven-development",
-      "level": "2★",
-      "trustMagnitude": 177.68,
-      "overallTrustGrade": "A",
-      "fusionScore": 0.0,
-      "contributor": "addy-osmani",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/doubt-driven-development.json"
-      },
-      "genericSkillRef": "adversarial-review"
-    },
-    {
-      "id": "addy-osmani/frontend-ui-engineering",
-      "name": "frontend-ui-engineering",
-      "level": "2★",
-      "trustMagnitude": 177.68,
-      "overallTrustGrade": "A",
-      "fusionScore": 60.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/frontend-ui-engineering.json"
-      },
-      "genericSkillRef": "design-generation"
-    },
-    {
-      "id": "addy-osmani/observability-and-instrumentation",
-      "name": "observability-and-instrumentation",
-      "level": "2★",
-      "trustMagnitude": 177.68,
-      "overallTrustGrade": "A",
-      "fusionScore": 0.0,
-      "contributor": "addy-osmani",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/observability-and-instrumentation.json"
-      },
-      "genericSkillRef": "observability-instrumentation"
-    },
-    {
-      "id": "addy-osmani/security-and-hardening",
-      "name": "security-and-hardening",
-      "level": "2★",
-      "trustMagnitude": 177.68,
-      "overallTrustGrade": "A",
-      "fusionScore": 80.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/security-and-hardening.json"
-      },
-      "genericSkillRef": "security-audit"
-    },
-    {
-      "id": "addy-osmani/source-driven-development",
-      "name": "source-driven-development",
-      "level": "2★",
-      "trustMagnitude": 177.68,
-      "overallTrustGrade": "A",
-      "fusionScore": 60.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/source-driven-development.json"
-      },
-      "genericSkillRef": "grounding"
-    },
-    {
       "id": "addy-osmani/agent-skills",
       "name": "Agent Skills",
       "level": "4★",
@@ -301,6 +97,57 @@
       "genericSkillRef": "prd-generation"
     },
     {
+      "id": "addy-osmani/api-and-interface-design",
+      "name": "api-and-interface-design",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/api-and-interface-design.json"
+      },
+      "genericSkillRef": "software-design"
+    },
+    {
+      "id": "addy-osmani/browser-testing-with-devtools",
+      "name": "browser-testing-with-devtools",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/browser-testing-with-devtools.json"
+      },
+      "genericSkillRef": "browser-control"
+    },
+    {
+      "id": "addy-osmani/ci-cd-and-automation",
+      "name": "ci-cd-and-automation",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 100.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/ci-cd-and-automation.json"
+      },
+      "genericSkillRef": "deployment-automation"
+    },
+    {
       "id": "addy-osmani/code-review-and-quality",
       "name": "Code Review and Quality",
       "level": "3★",
@@ -316,6 +163,125 @@
         "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
       },
       "genericSkillRef": "code-review-pipeline"
+    },
+    {
+      "id": "addy-osmani/constraint-driven-development",
+      "name": "constraint-driven-development",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/constraint-driven-development.json"
+      },
+      "genericSkillRef": "guardrails"
+    },
+    {
+      "id": "addy-osmani/context-engineering",
+      "name": "context-engineering",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/context-engineering.json"
+      },
+      "genericSkillRef": "agent-environment-setup"
+    },
+    {
+      "id": "addy-osmani/deprecation-and-migration",
+      "name": "deprecation-and-migration",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/deprecation-and-migration.json"
+      },
+      "genericSkillRef": "deprecation-and-migration"
+    },
+    {
+      "id": "addy-osmani/documentation-and-adrs",
+      "name": "documentation-and-adrs",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/documentation-and-adrs.json"
+      },
+      "genericSkillRef": "write-report"
+    },
+    {
+      "id": "addy-osmani/doubt-driven-development",
+      "name": "doubt-driven-development",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/doubt-driven-development.json"
+      },
+      "genericSkillRef": "adversarial-review"
+    },
+    {
+      "id": "addy-osmani/frontend-ui-engineering",
+      "name": "frontend-ui-engineering",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/frontend-ui-engineering.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "addy-osmani/observability-and-instrumentation",
+      "name": "observability-and-instrumentation",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/observability-and-instrumentation.json"
+      },
+      "genericSkillRef": "observability-instrumentation"
     },
     {
       "id": "addy-osmani/performance-optimization",
@@ -335,6 +301,23 @@
       "genericSkillRef": "performance-tuning"
     },
     {
+      "id": "addy-osmani/security-and-hardening",
+      "name": "security-and-hardening",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/security-and-hardening.json"
+      },
+      "genericSkillRef": "security-audit"
+    },
+    {
       "id": "addy-osmani/shipping-and-launch",
       "name": "Shipping and Launch",
       "level": "3★",
@@ -350,6 +333,23 @@
         "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
       },
       "genericSkillRef": "finishing-a-development-branch"
+    },
+    {
+      "id": "addy-osmani/source-driven-development",
+      "name": "source-driven-development",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/source-driven-development.json"
+      },
+      "genericSkillRef": "grounding"
     },
     {
       "id": "addy-osmani/test-driven-development",
@@ -375,10 +375,10 @@
     "level": "4★",
     "trustMagnitude": 190.0
   },
-  "prestigeScore": 2963.2,
+  "prestigeScore": 1431.04,
   "gradeDistribution": {
-    "A": 14,
-    "B": 6,
+    "A": 2,
+    "B": 18,
     "C": 1
   },
   "_links": {

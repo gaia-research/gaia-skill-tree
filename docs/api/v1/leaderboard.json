@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-30T04:58:55Z",
+  "generatedAt": "2026-10-30T06:23:35Z",
   "distribution": {
     "total": 269,
     "S": 3,
-    "A": 66,
-    "B": 94,
+    "A": 54,
+    "B": 106,
     "C": 104,
     "ungraded": 2,
     "floor": 0,
@@ -167,150 +167,6 @@
       },
       "origin": true,
       "branch": "unique"
-    },
-    {
-      "id": "addy-osmani/api-and-interface-design",
-      "trustMagnitude": 177.68,
-      "grade": "A",
-      "level": "2★",
-      "typeBreakdown": {
-        "github-stars-own": 141.68,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/browser-testing-with-devtools",
-      "trustMagnitude": 177.68,
-      "grade": "A",
-      "level": "2★",
-      "typeBreakdown": {
-        "github-stars-own": 141.68,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/ci-cd-and-automation",
-      "trustMagnitude": 177.68,
-      "grade": "A",
-      "level": "2★",
-      "typeBreakdown": {
-        "github-stars-own": 141.68,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/constraint-driven-development",
-      "trustMagnitude": 177.68,
-      "grade": "A",
-      "level": "2★",
-      "typeBreakdown": {
-        "github-stars-own": 141.68,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/context-engineering",
-      "trustMagnitude": 177.68,
-      "grade": "A",
-      "level": "2★",
-      "typeBreakdown": {
-        "github-stars-own": 141.68,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/deprecation-and-migration",
-      "trustMagnitude": 177.68,
-      "grade": "A",
-      "level": "2★",
-      "typeBreakdown": {
-        "github-stars-own": 141.68,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/documentation-and-adrs",
-      "trustMagnitude": 177.68,
-      "grade": "A",
-      "level": "2★",
-      "typeBreakdown": {
-        "github-stars-own": 141.68,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/doubt-driven-development",
-      "trustMagnitude": 177.68,
-      "grade": "A",
-      "level": "2★",
-      "typeBreakdown": {
-        "github-stars-own": 141.68,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/frontend-ui-engineering",
-      "trustMagnitude": 177.68,
-      "grade": "A",
-      "level": "2★",
-      "typeBreakdown": {
-        "github-stars-own": 141.68,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/observability-and-instrumentation",
-      "trustMagnitude": 177.68,
-      "grade": "A",
-      "level": "2★",
-      "typeBreakdown": {
-        "github-stars-own": 141.68,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/security-and-hardening",
-      "trustMagnitude": 177.68,
-      "grade": "A",
-      "level": "2★",
-      "typeBreakdown": {
-        "github-stars-own": 141.68,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/source-driven-development",
-      "trustMagnitude": 177.68,
-      "grade": "A",
-      "level": "2★",
-      "typeBreakdown": {
-        "github-stars-own": 141.68,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
     },
     {
       "id": "addy-osmani/agent-skills",
@@ -1281,6 +1137,42 @@
       "branch": "standard"
     },
     {
+      "id": "addy-osmani/api-and-interface-design",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/browser-testing-with-devtools",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/ci-cd-and-automation",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "addy-osmani/code-review-and-quality",
       "trustMagnitude": 50.0,
       "grade": "B",
@@ -1288,6 +1180,90 @@
       "typeBreakdown": {
         "github-stars-own": 39.77,
         "repo-own": 10.23
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/constraint-driven-development",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/context-engineering",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/deprecation-and-migration",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/documentation-and-adrs",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/doubt-driven-development",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/frontend-ui-engineering",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/observability-and-instrumentation",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
       },
       "origin": false,
       "branch": "standard"
@@ -1305,6 +1281,18 @@
       "branch": "standard"
     },
     {
+      "id": "addy-osmani/security-and-hardening",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "addy-osmani/shipping-and-launch",
       "trustMagnitude": 50.0,
       "grade": "B",
@@ -1314,6 +1302,18 @@
         "repo-own": 10.23
       },
       "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/source-driven-development",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
       "branch": "standard"
     },
     {

@@ -5,8 +5,8 @@
   "level": "2★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 177.68,
-  "overallTrustGrade": "A",
+  "trustMagnitude": 50.0,
+  "overallTrustGrade": "B",
   "branch": "standard",
   "rankWord": "Named",
   "medallion": "◇",
@@ -91,6 +91,24 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "mbtiongson1",
       "details": "TM (none) -> 177.68, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-10-30T06:21:25Z",
+      "action": "suite_ref_set",
+      "contributor": "mbtiongson1",
+      "details": "Set suiteRef to addy-osmani/agent-skills"
+    },
+    {
+      "timestamp": "2026-10-30T06:21:34Z",
+      "action": "note",
+      "contributor": "mbtiongson1",
+      "details": "Audit correction C1 of PR #2251: suiteRef addy-osmani/agent-skills restored; it matches the existing 2026-09-23 suite_ref_set event that never persisted (the docs generator erased directly set suiteRef values; fixed in PR #2260). Caps host-repo evidence at the suite-component bound. Founder ruling 2026-10-30 FD-7."
+    },
+    {
+      "timestamp": "2026-10-30T06:22:47Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 177.68 -> 50.0, grade A -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

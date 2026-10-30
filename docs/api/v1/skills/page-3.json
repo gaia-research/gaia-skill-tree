@@ -1,72 +1,38 @@
 {
   "skills": [
     {
-      "id": "mattpocock/triage",
-      "name": "Triage",
-      "level": "3★",
-      "trustMagnitude": 56.21,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/triage.json"
-      },
-      "genericSkillRef": "issue-triage"
-    },
-    {
-      "id": "panniantong/agent-reach",
-      "name": "Agent Reach",
-      "level": "3★",
-      "trustMagnitude": 53.86,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "panniantong",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/panniantong/agent-reach.json"
-      },
-      "genericSkillRef": "agent-reach"
-    },
-    {
-      "id": "gsd-build/gsd-verify-work",
-      "name": "GSD Verify Work",
-      "level": "3★",
-      "trustMagnitude": 52.66,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "gsd-build",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/gsd-verify-work.json"
-      },
-      "genericSkillRef": "verification-before-completion"
-    },
-    {
-      "id": "addy-osmani/code-review-and-quality",
-      "name": "Code Review and Quality",
-      "level": "3★",
+      "id": "addy-osmani/frontend-ui-engineering",
+      "name": "frontend-ui-engineering",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "addy-osmani",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
+        "self": "/api/v1/skills/addy-osmani/frontend-ui-engineering.json"
       },
-      "genericSkillRef": "code-review-pipeline"
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "addy-osmani/observability-and-instrumentation",
+      "name": "observability-and-instrumentation",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/observability-and-instrumentation.json"
+      },
+      "genericSkillRef": "observability-instrumentation"
     },
     {
       "id": "addy-osmani/performance-optimization",
@@ -86,6 +52,23 @@
       "genericSkillRef": "performance-tuning"
     },
     {
+      "id": "addy-osmani/security-and-hardening",
+      "name": "security-and-hardening",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/security-and-hardening.json"
+      },
+      "genericSkillRef": "security-audit"
+    },
+    {
       "id": "addy-osmani/shipping-and-launch",
       "name": "Shipping and Launch",
       "level": "3★",
@@ -101,6 +84,23 @@
         "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
       },
       "genericSkillRef": "finishing-a-development-branch"
+    },
+    {
+      "id": "addy-osmani/source-driven-development",
+      "name": "source-driven-development",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/source-driven-development.json"
+      },
+      "genericSkillRef": "grounding"
     },
     {
       "id": "firecrawl/firecrawl-build-interact",

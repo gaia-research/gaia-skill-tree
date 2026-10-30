@@ -14,19 +14,6 @@
       }
     },
     {
-      "handle": "addy-osmani",
-      "namedSkills": 21,
-      "topSkill": {
-        "id": "addy-osmani/code-simplification",
-        "level": "4★",
-        "trustMagnitude": 190.0
-      },
-      "prestigeScore": 2963.2,
-      "_links": {
-        "self": "/api/v1/contributors/addy-osmani.json"
-      }
-    },
-    {
       "handle": "mattpocock",
       "namedSkills": 38,
       "topSkill": {
@@ -50,6 +37,19 @@
       "prestigeScore": 1488.45,
       "_links": {
         "self": "/api/v1/contributors/obra.json"
+      }
+    },
+    {
+      "handle": "addy-osmani",
+      "namedSkills": 21,
+      "topSkill": {
+        "id": "addy-osmani/code-simplification",
+        "level": "4★",
+        "trustMagnitude": 190.0
+      },
+      "prestigeScore": 1431.04,
+      "_links": {
+        "self": "/api/v1/contributors/addy-osmani.json"
       }
     },
     {
