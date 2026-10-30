@@ -65,6 +65,16 @@ def caseId(classname: str, name: str) -> str:
         (position for position, part in enumerate(parts) if part.startswith("test_") or part.endswith("_test")),
         None,
     )
+    if index is None and not classname:
+        # A module pytest skipped at collection (``pytest.importorskip``, a
+        # missing optional dependency) is reported with an empty classname and
+        # the dotted module path as the testcase name. It is a module-level
+        # record, not a malformed one: keep it as the module's own node id.
+        module_parts = name.split(".")
+        if any(part.startswith("test_") or part.endswith("_test") for part in module_parts) and all(
+            part.isidentifier() for part in module_parts
+        ):
+            return "/".join(module_parts) + ".py"
     if index is None:
         raise InputError(f"cannot locate the test module for testcase {name!r}")
     module = "/".join(parts[: index + 1]) + ".py"

@@ -1,0 +1,13 @@
+{
+ "executedVersion": "0.8.13",
+ "executionCheck": "passed",
+ "experiment": "c1-graphify-vs-graft-callers-v1",
+ "fixtureDigest": "sha256:a6dd433f1daf9273ae0c79f1094a644a1de6728e78b0b0355474c33c1c7f1235",
+ "graphifyVersion": "graphify 0.8.13",
+ "output": "{\n \"computeTrustMagnitude\": {\n  \"callers\": [\n   [\n    \"canonicalWorkflow.py\",\n    \"buildPlan\"\n   ],\n   [\n    \"commands/dev/calibrate.py\",\n    \"calibrate_trust_magnitude_command\"\n   ],\n   [\n    \"evidenceLifecycle.py\",\n    \"rehearse_legacy_migration\"\n   ],\n   [\n    \"promotion.py\",\n    \"checkUniqueBranchGate\"\n   ],\n   [\n    \"steward/sensors.py\",\n    \"scan_detailed\"\n   ],\n   [\n    \"trustMagnitude.py\",\n    \"checkOverallGradeS\"\n   ],\n   [\n    \"trustMagnitude.py\",\n    \"computeOverallTrustGradeFromSkill\"\n   ],\n   [\n    \"trustMagnitude.py\",\n    \"computeTrustMagnitudeByType\"\n   ]\n  ],\n  \"targetNodes\": 1\n },\n \"embeddings_path\": {\n  \"callers\": [\n   [\n    \"curation/retrieval.py\",\n    \"embeddingStatus\"\n   ],\n   [\n    \"embeddings.py\",\n    \"generate_embeddings\"\n   ],\n   [\n    \"impl.py\",\n    \"doctor_command\"\n   ],\n   [\n    \"impl.py\",\n    \"search_command\"\n   ],\n   [\n    \"prefill.py\",\n    \"prefillCommand\"\n   ]\n  ],\n  \"targetNodes\": 1\n },\n \"rankWord\": {\n  \"callers\": [\n   [\n    \"taxonomy.py\",\n    \"rankLabel\"\n   ],\n   [\n    \"tui/screens/agent.py\",\n    \"compose\"\n   ],\n   [\n    \"tui/screens/levelup.py\",\n    \"_render_frame\"\n   ]\n  ],\n  \"targetNodes\": 1\n },\n \"spec_by_id\": {\n  \"callers\": [\n   [\n    \"steward/landing.py\",\n    \"_resolve_executor\"\n   ],\n   [\n    \"steward/landing.py\",\n    \"execute_class_a_landing\"\n   ],\n   [\n    \"steward/policy.py\",\n    \"_from_mapping\"\n   ],\n   [\n    \"steward/repairs.py\",\n    \"_spec_for\"\n   ]\n  ],\n  \"targetNodes\": 1\n },\n \"suiteComponentIds\": {\n  \"callers\": [\n   [\n    \"fusionScore.py\",\n    \"resolveFusionStructure\"\n   ],\n   [\n    \"structuralGraph.py\",\n    \"directStructuralEdges\"\n   ]\n  ],\n  \"targetNodes\": 1\n }\n}",
+ "outputDigest": "sha256:564a215abcc708f0457662de671a08e5ac0f20e7eb2ae0470eefe9b89b5883f1",
+ "pinnedRevision": "d237c0839c9c9197fc861ecec839ed323a9748a4",
+ "protocolDigest": "sha256:80a9ceccc85ebe221cb4b1a7d833aa505de565fe97e867c55664fafd2750d651",
+ "requestId": "sha256:19a1c7ab29fd5e86a0e8c1aab7d446e16b9191f02c903eb923fa031eda507be1",
+ "result": "contradicted"
+}

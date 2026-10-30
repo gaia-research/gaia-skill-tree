@@ -574,6 +574,11 @@ class DevCommand(Command):
         dev_calibrate_tm.add_argument(
             "--dry-run", action="store_true", help="Show old -> new TM/grade without writing"
         )
+        dev_calibrate_tm.add_argument(
+            "--refresh-apex", action="store_true",
+            help="Also recompute and write the cached apexGateStatus frontmatter "
+                 "(same predicate logic as the named-index generator); logged to the timeline",
+        )
         _add_build_flags(dev_calibrate_tm, "recalibrating")
         dev_calibrate_tm.add_argument(
             "--yes", "-y", action="store_true", help="Skip confirmation prompt"
@@ -690,6 +695,10 @@ class DevCommand(Command):
             "--origin",
             choices=["true", "false"],
             help="Set the origin flag to true or false",
+        )
+        dev_update_named.add_argument(
+            "--notes",
+            help="Rationale appended to the timeline event logged for --origin changes",
         )
         dev_update_named.add_argument(
             "--github-link",

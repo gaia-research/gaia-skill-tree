@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "frontier-verification-request-v1",
+  "requestId": "sha256:50a864e709d674403353090556d9342ce9e63a040cd782ebde7c228aae999929",
+  "campaignId": "yggiv-challenger-cases-2026-10",
+  "leadId": "git-log-L-graft-002",
+  "leadDigest": "sha256:8ea960c7ef978a109ec033cc0290d7d1b75d83da3357c205a877cc91a4c1c97e",
+  "claimId": "git-line-history-task-v1",
+  "claimDigest": "sha256:4891eb9958e8682c0f3dff3f29e6fb20e3206eb546874ea22cfe5fe3571e6af5",
+  "native": {
+    "name": "Git git-log -L",
+    "version": "2.56.0",
+    "provider": "Git project at tag v2.56.0"
+  },
+  "source": {
+    "url": "https://raw.githubusercontent.com/git/git/v2.56.0/Documentation/git-log.adoc",
+    "contentDigest": "sha256:67e2e76723555409941d7a67d501d44e835a98a657fa71fbba664bda74255305",
+    "capturedBytesPath": "evidence/frontier-challenges/c3-git-log-L-vs-graft/sources/git-v2.56.0-Documentation-git-log.adoc"
+  },
+  "target": {
+    "kind": "named",
+    "skillId": "trailhq/graft",
+    "genericSkillId": "codebase-graph-retrieval",
+    "revision": "d237c0839c9c9197fc861ecec839ed323a9748a4",
+    "contentDigest": "sha256:12519de9523bb54f8129ec3142260db580ca0b3ca8998e09fa6571bb24dfbc68",
+    "path": "registry/named/trailhq/graft.md"
+  },
+  "historyRef": "git:d237c0839c9c9197fc861ecec839ed323a9748a4",
+  "protocol": {
+    "path": "examples/frontier/protocols/git-log-L-vs-graft-v1.json",
+    "revision": "61f6f8a9a6c324984f67e7a81c73a0f870b1de61",
+    "contentDigest": "sha256:40778442774ff85693e77e7ba0a80a81259bd939180e5de0cc35ba5efc07ef74"
+  },
+  "fixture": {
+    "path": "examples/frontier/fixtures/line-history/sample-v1.py",
+    "contentDigest": "sha256:deb9f81d78e97c503f48028e4dafb5167ff3b6c966e282e9b1f1c5a77b62c388"
+  },
+  "conditions": "Requires a Git repository and a selected file and line range or function pattern.",
+  "createdAtUTC": "2026-10-28T18:18:40.652357Z"
+}

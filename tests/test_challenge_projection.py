@@ -33,14 +33,22 @@ def heldCase(tmp_path, built=False):
 
 # --- live state ---------------------------------------------------------------------
 
-def test_live_artifacts_are_unavailable_empty_and_mirrored_identically():
-    for name, expected in (("index", projection.emptyIndex()), ("reviews", projection.emptyReviews())):
+def test_live_artifacts_match_committed_bundles_and_are_mirrored_identically():
+    """The live index stays unavailable until a verified admission; live reviews are exactly what the
+    committed case bundles project (never hand-edited), every one valid and never contested."""
+    for name in ("index", "reviews"):
         graph, api = (REPO / relative for relative in projection.FILES[name])
         if not graph.exists():
             pytest.skip("run `gaia dev docs` first")
         assert graph.read_bytes() == api.read_bytes()
-        assert json.loads(graph.read_text()) == expected
-    assert json.loads((REPO / projection.FILES["index"][0]).read_text())["sourceStatus"] == "unavailable"
+    index = json.loads((REPO / projection.FILES["index"][0]).read_text())
+    assert index == projection.emptyIndex()
+    assert index["sourceStatus"] == "unavailable"
+    reviews = json.loads((REPO / projection.FILES["reviews"][0]).read_text())
+    assert reviews == projection.buildReviews(REPO)
+    for record in reviews["reviews"]:
+        assert projection.validateReview(record) == []
+        assert "contested" not in json.dumps(record).lower()
 
 
 def test_no_synthetic_data_under_docs():
@@ -409,3 +417,59 @@ def test_real_registry_named_index_is_unchanged_by_a_bundle(tmp_path, monkeypatc
     assert stripChannels(plain) == stripChannels(bundled)
     subjects = [e["id"] for group in bundled["buckets"].values() for e in group if "challengeReviews" in e]
     assert subjects == ["trailhq/graft"]  # registry/named/trailhq/graft.md exists in this repo
+
+
+def test_projection_pipeline_keeps_the_review_channel_in_the_named_index(tmp_path):
+    """`gaia dev docs` rewrites registry/named-skills.json via generateProjections; it must pass the
+    challenge channels exactly as generateNamedIndex's own main does."""
+    root, _ = heldCase(tmp_path / "case", built=True)
+    shutil.copytree(REPO / "tests/fixtures/named-index-channel/registry", root / "registry", dirs_exist_ok=True)
+    spec = importlib.util.spec_from_file_location("generateProjections", SCRIPTS / "generateProjections.py")
+    sys.path.insert(0, str(SCRIPTS))
+    try:
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        module._run_generate_named_index(str(root))
+    finally:
+        sys.path.remove(str(SCRIPTS))
+    index = json.loads((root / "registry" / "named-skills.json").read_text())
+    [entry] = index["buckets"]["codebase-graph-retrieval"]
+    assert entry["id"] == "trailhq/graft"
+    assert entry["challengeReviews"][0]["status"] == "admission-held"
+    assert "trustLifecycle" not in entry  # held reviews never reach the lifecycle channel
+
+
+def reviewFor(tmp_path, built):
+    root, _ = heldCase(tmp_path, built=built)
+    [review] = collect(root).reviews
+    return review
+
+
+def assertNeutral(text):
+    assert "no effect on Trust Magnitude, stars, grade, Origin or ranking" in text
+    assert not re.search(r"contested|attempted|\d", text, re.IGNORECASE)
+
+
+def test_held_text_says_no_admission_was_requested_when_no_request_exists(tmp_path):
+    review = reviewFor(tmp_path, built=False)
+    assert review["held"]["reason"] == "admission-request-missing"
+    assert review["disclosure"].endswith("No admission was requested.")
+    assert review["held"]["explanation"] == "No admission was requested."
+    assertNeutral(review["disclosure"])
+
+
+def test_held_text_for_a_request_that_was_held_names_the_reason(tmp_path):
+    review = reviewFor(tmp_path, built=True)
+    assert review["held"]["reason"] == "trusted-issuer-unavailable"
+    assert review["disclosure"].endswith(
+        "An admission was requested and is held: The trusted receipt issuer produced no verifiable receipt for this review.")
+    assertNeutral(review["disclosure"])
+
+
+def test_held_text_for_meta_not_recommended_claims_no_request(tmp_path):
+    root, _ = makeCase(tmp_path, positive=False)
+    [review] = collect(root).reviews
+    assert review["held"]["reason"] == "meta-not-recommended"
+    assert review["disclosure"].endswith("The independent assessment does not recommend an admission review.")
+    assert "requested" not in review["disclosure"]
+    assertNeutral(review["disclosure"])

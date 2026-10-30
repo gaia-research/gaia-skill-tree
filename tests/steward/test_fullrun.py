@@ -513,7 +513,7 @@ def test_retro_never_counts_an_unexecuted_sensor_as_healthy(tmp_path: Path) -> N
     assert states["broken"]["routine_ids"] == [7] and all(s["registered"] for s in states.values())
     assert retro["registered"] == 3 and retro["executed"] == 1
     byRoutine = {r["routine"]: r for r in retro["routines"]}
-    assert len(byRoutine) == 17
+    assert len(byRoutine) == 18
     assert byRoutine[12]["state"] == "observed"
     assert byRoutine[7]["state"] == "unknown", "an unknown detector is not coverage"
     assert byRoutine[13]["state"] == "not-evaluated"

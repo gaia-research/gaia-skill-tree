@@ -17,7 +17,7 @@ from pathlib import Path
 import ssl
 import time
 import urllib.parse
-from typing import Any, Callable, Dict, Optional, Tuple, Union
+from typing import Any, Optional, Tuple, Union
 
 try:
     import fcntl
