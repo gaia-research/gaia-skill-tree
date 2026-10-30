@@ -1,6 +1,6 @@
 {
   "$schema": "https://gaiaskilltree.com/schema/graph.schema.json",
-  "generatedAt": "2026-10-30T13:27:53Z",
+  "generatedAt": "2026-10-30T13:15:09Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -303,12 +303,7 @@
           0.9977059567871936,
           0.00017474364110624068
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "adversarial-robustness-testing",
@@ -674,15 +669,6 @@
           0.9707409309280802,
           0.0005460450225360824
         ]
-      },
-      "branch": "suite",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★",
-      "ultimateGateStatus": {
-        "passes": false,
-        "reason": "only 0/3 graded evidence sources"
       }
     },
     {
@@ -768,12 +754,7 @@
           0.475735979370855,
           -0.3785772623806842
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "agent-memory-learning",
@@ -867,12 +848,7 @@
           0.8487228708870611,
           -0.5567938459827767
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "agent-memory-platform",
@@ -996,12 +972,7 @@
           0.9437759050689669,
           0.0008269039073617176
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "agentic-workflow-design",
@@ -1086,12 +1057,7 @@
           0.33820720227634465,
           0.188010514474511
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "api-call",
@@ -1152,12 +1118,7 @@
           0.06344397686531053,
           0.01700580273567713
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "architecture-diagram",
@@ -1478,12 +1439,7 @@
           -0.43023802888597723,
           0.08954946016235303
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "autonomous-data-scientist",
@@ -1690,12 +1646,7 @@
           -0.48630309060724647,
           0.12629920824314572
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "autonomous-engineering-platform",
@@ -1875,16 +1826,7 @@
           0.2042657148151751
         ]
       },
-      "branch": "suite",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★",
-      "overallTrustGrade": "A",
-      "ultimateGateStatus": {
-        "passes": false,
-        "reason": "only 2/3 graded evidence sources"
-      }
+      "overallTrustGrade": "A"
     },
     {
       "id": "autonomous-web-research",
@@ -2284,12 +2226,7 @@
           0.005994944541719211,
           -0.018683171842070356
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "browser-control",
@@ -2647,12 +2584,7 @@
           0.8089507757734002,
           0.00011635645214443835
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "chunk-document",
@@ -2809,12 +2741,7 @@
           -0.44589485708469623,
           -0.2528598074229514
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "cite-sources",
@@ -3351,12 +3278,7 @@
           -0.3253720552271845,
           0.1491463987699438
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "code-generation",
@@ -3530,12 +3452,7 @@
           -0.7426973837488974,
           0.23570930387121683
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "codebase-graph-retrieval",
@@ -3960,12 +3877,7 @@
           0.6943494158721686,
           -0.001041299374147955
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "content-moderation",
@@ -4147,12 +4059,7 @@
           0.20360543247519228,
           0.12510789779034703
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "context-safe-execution",
@@ -4450,12 +4357,7 @@
           -0.27433254780825095,
           -0.21126705952259295
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "cultural-localization",
@@ -4640,12 +4542,7 @@
           -0.4510328931451324,
           -0.05502985825211905
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "data-visualize",
@@ -4753,12 +4650,7 @@
           0.6201955947596068,
           -0.000498184503986581
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "deployment-automation",
@@ -4817,12 +4709,7 @@
           -0.35398330415452245,
           0.2687306197473265
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "deprecation-and-migration",
@@ -4865,12 +4752,7 @@
           0.6067130818300501,
           -0.0003103016717410674
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "design-generation",
@@ -4931,10 +4813,10 @@
           0.41041832412035933
         ]
       },
-      "branch": "suite",
+      "branch": "unique",
       "rank": 4,
-      "rankWord": "Extra",
-      "medallion": "◆",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "namedMaxLevel": "4★",
       "ultimateGateStatus": {
         "passes": false,
@@ -5029,12 +4911,7 @@
           -0.18120911609431714,
           -0.02871441027081758
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "design-source-import",
@@ -5231,12 +5108,7 @@
           -0.3588165923023967,
           -0.39796863589221376
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "diff-content",
@@ -5688,12 +5560,7 @@
           -0.12688103351575006,
           0.09616672202163797
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "document-editing",
@@ -5790,12 +5657,7 @@
           0.1344115426831417,
           0.0937874917595132
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "dual-mode",
@@ -5937,12 +5799,7 @@
           -0.12000503057684671,
           -0.008147222116391978
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "edge-optimization",
@@ -6412,12 +6269,7 @@
           -0.5078774800944077,
           -0.21712413778924805
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "event-attendance-metrics",
@@ -6460,12 +6312,7 @@
           -0.12598663693930215,
           -0.279291741041229
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "event-attendee-management",
@@ -6508,12 +6355,7 @@
           -0.02064739810991652,
           -0.11381449595023904
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "event-support-triage",
@@ -6556,12 +6398,7 @@
           -0.04431525860080072,
           -0.27782675093655335
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "event-ticket-transfer",
@@ -6604,12 +6441,7 @@
           0.07765923478005149,
           -0.2080439515705182
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "evidence-attestation",
@@ -6767,11 +6599,6 @@
           -0.7078899560521008
         ]
       },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★",
       "overallTrustGrade": "C"
     },
     {
@@ -7421,12 +7248,7 @@
           0.3076945818219305,
           -0.22738256548925534
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "finishing-a-development-branch",
@@ -7642,15 +7464,6 @@
           -0.3839081364703183,
           0.623302450875537
         ]
-      },
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "namedMaxLevel": "4★",
-      "ultimateGateStatus": {
-        "passes": false,
-        "reason": "only 0/3 graded evidence sources"
       }
     },
     {
@@ -7816,12 +7629,7 @@
           -0.18719559582137427,
           -0.19292236288882716
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "full-stack-developer",
@@ -8090,15 +7898,6 @@
           0.3370628232389168,
           -0.0005787597034645636
         ]
-      },
-      "branch": "suite",
-      "rank": 4,
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "namedMaxLevel": "4★",
-      "ultimateGateStatus": {
-        "passes": false,
-        "reason": "only 0/3 graded evidence sources"
       }
     },
     {
@@ -8367,12 +8166,7 @@
           0.20175834429932105,
           0.5774574456607833
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "genomic-data-retrieval",
@@ -8559,12 +8353,7 @@
           -0.09543767563466586,
           -0.03639199816950041
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "git-diff-risk-analysis",
@@ -8690,11 +8479,15 @@
           0.13487141919968432
         ]
       },
-      "branch": "standard",
+      "branch": "suite",
       "rank": 2,
       "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "2★"
+      "namedMaxLevel": "2★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "git-ship-done-pipeline",
@@ -8867,12 +8660,7 @@
           -0.30976579971318996,
           -0.14046631458006628
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "graph-driven-issue-triage",
@@ -9040,11 +8828,6 @@
           -0.0009947270455421338
         ]
       },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★",
       "overallTrustGrade": "S"
     },
     {
@@ -9104,12 +8887,7 @@
           -0.27808759885148837,
           -0.14713263339612478
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "grill-with-docs",
@@ -9303,12 +9081,7 @@
           -0.34982689581902493,
           -0.44719809386381354
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "guardrails",
@@ -9399,12 +9172,7 @@
           -0.11227602946314978,
           -0.20831592237102792
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "guided-setup-scripting",
@@ -9447,12 +9215,7 @@
           0.21572020687290674,
           -0.0007304403203519336
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "headless-worker-collect",
@@ -9630,12 +9393,7 @@
           0.14508836289519264,
           -0.27332574562381784
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "hybrid-workflow-coordination",
@@ -10088,15 +9846,6 @@
           -0.29416228796567384,
           -0.22294638810437611
         ]
-      },
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "namedMaxLevel": "4★",
-      "ultimateGateStatus": {
-        "passes": false,
-        "reason": "only 0/3 graded evidence sources"
       }
     },
     {
@@ -10462,12 +10211,7 @@
           0.22164030885561253,
           -0.07543611690630042
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "knowledge-management",
@@ -10545,12 +10289,7 @@
           0.14536138323183007,
           -0.057891847524548685
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "literature-review",
@@ -10631,12 +10370,7 @@
           -0.26991490174929256,
           -0.15201575229784212
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "literature-search",
@@ -10733,12 +10467,7 @@
           -0.18712208450457732,
           -0.012653648246374561
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "logical-inference",
@@ -10846,12 +10575,7 @@
           0.09437759050689686,
           0.000844852299937797
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "math-reason",
@@ -11214,12 +10938,7 @@
           0.01740425580389146,
           0.3142576274672523
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "mcp-server-creation",
@@ -11370,12 +11089,7 @@
           0.04718879525344833,
           0.0009743203380205963
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "media-asset-orchestration",
@@ -11508,12 +11222,7 @@
           0.45455764871613485,
           -0.10632971124158391
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "memory-pattern-design",
@@ -11913,11 +11622,6 @@
           0.0006329373085817428
         ]
       },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★",
       "overallTrustGrade": "S"
     },
     {
@@ -12069,12 +11773,7 @@
           0.5379226622500578,
           -0.32625031159136786
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "multi-agent-orchestration-v",
@@ -12173,12 +11872,7 @@
           0.6105279906777321,
           0.08199332092199527
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "multi-node-orchestration",
@@ -12472,12 +12166,7 @@
           0.5162486707754417,
           0.11864945469735773
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "neural-training-orchestration",
@@ -12552,11 +12241,6 @@
           -0.00012006306699769914
         ]
       },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★",
       "overallTrustGrade": "B"
     },
     {
@@ -12637,12 +12321,7 @@
           0.31422911908618567,
           -0.040842072301298875
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "observability-instrumentation",
@@ -12685,12 +12364,7 @@
           -0.06741256464778322,
           -0.0003189130651876299
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "ontology-alignment",
@@ -12984,12 +12658,7 @@
           0.439726759507088,
           0.27023716650945456
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "parse-html",
@@ -13553,12 +13222,7 @@
           -0.019887742046603065,
           -0.3553515284877585
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "plain-language-restatement",
@@ -13601,12 +13265,7 @@
           -0.14830764222512338,
           -0.001038232167683955
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "plan-and-execute",
@@ -13944,11 +13603,6 @@
           -0.0009526869629997158
         ]
       },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★",
       "overallTrustGrade": "C"
     },
     {
@@ -14266,11 +13920,6 @@
           -0.08704525663818836
         ]
       },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★",
       "overallTrustGrade": "S"
     },
     {
@@ -14861,12 +14510,7 @@
           -0.08893700254690419,
           0.22051954326315878
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "protein-structure-analysis",
@@ -15132,12 +14776,7 @@
           0.07157969902933628,
           0.39371654755858254
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "quantum-circuit-programming",
@@ -15201,11 +14840,6 @@
           0.00012524115070342316
         ]
       },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★",
       "overallTrustGrade": "B"
     },
     {
@@ -15353,12 +14987,7 @@
           -0.28313277152069,
           0.00032149514856063367
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "rag-pipeline",
@@ -15450,12 +15079,7 @@
           0.1525794044992997,
           0.29243660708361097
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "rank",
@@ -15657,15 +15281,6 @@
           -0.31009779737980336,
           0.0006650742592751015
         ]
-      },
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "namedMaxLevel": "4★",
-      "ultimateGateStatus": {
-        "passes": false,
-        "reason": "only 0/3 graded evidence sources"
       }
     },
     {
@@ -16056,15 +15671,6 @@
           -0.2119781577462668,
           -0.06912293116231315
         ]
-      },
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "namedMaxLevel": "4★",
-      "ultimateGateStatus": {
-        "passes": false,
-        "reason": "only 0/3 graded evidence sources"
       }
     },
     {
@@ -16201,12 +15807,7 @@
           -0.2623321753308358,
           -0.4655267519662247
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "registry-entry-audit",
@@ -16572,11 +16173,6 @@
           0.0009714133526230268
         ]
       },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★",
       "overallTrustGrade": "B"
     },
     {
@@ -16635,12 +16231,7 @@
           -0.4793711184828552,
           0.16812285166388313
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "requesting-code-review",
@@ -16762,12 +16353,7 @@
           -0.5800220250394887,
           -0.06014817187652909
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "research",
@@ -16851,12 +16437,7 @@
           -0.14504896758511823,
           -0.09719248170984329
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "retrieve",
@@ -17078,12 +16659,7 @@
           0.364884363196064,
           -0.22175481180997209
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "schema-design",
@@ -17129,12 +16705,7 @@
           -0.15514197910668173,
           0.14733964497809193
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "scientific-discovery",
@@ -17563,12 +17134,7 @@
           -0.47188795253448357,
           -3.579831230469682e-05
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "scroll-world",
@@ -17611,12 +17177,7 @@
           -0.478629208999262,
           -0.0001370363821930758
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "search-engine-optimization",
@@ -18421,12 +17982,7 @@
           -0.5325592607174886,
           -0.0008271006134184038
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "single-cell-analysis",
@@ -18507,11 +18063,6 @@
           -0.0008853587458614732
         ]
       },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★",
       "overallTrustGrade": "B"
     },
     {
@@ -18565,12 +18116,7 @@
           -0.546041773647045,
           -0.0009350386243259567
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "skill-authoring",
@@ -18744,10 +18290,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "skill-fusion",
@@ -18801,12 +18347,7 @@
           0.17812526704720122,
           -0.22053647128897527
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "skill-mastery",
@@ -19082,12 +18623,7 @@
           0.2065065908416416,
           -0.36176899473031127
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "skill-security-analysis",
@@ -19251,12 +18787,7 @@
           -0.3149314915555779,
           0.2842386112621146
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "speech-to-text",
@@ -19363,12 +18894,7 @@
           -0.6067130818300501,
           -0.0009455809020150553
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "statistical-analysis",
@@ -19800,11 +19326,6 @@
           -0.0005421092425335089
         ]
       },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★",
       "overallTrustGrade": "C"
     },
     {
@@ -20345,12 +19866,7 @@
           -0.6943494158721687,
           0.000142085666279874
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "test-driven-development",
@@ -20936,12 +20452,7 @@
           0.05949945513929256,
           -0.16759475940570673
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "tokenize",
@@ -21382,12 +20893,7 @@
           -0.019210843306509445,
           -0.16680618530969937
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "transformer-model-engineering",
@@ -21478,11 +20984,6 @@
           0.0009877346137724468
         ]
       },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★",
       "overallTrustGrade": "B"
     },
     {
@@ -21798,12 +21299,7 @@
           0.33118674936184506,
           -0.10080669841151702
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "ui-audit",
@@ -22394,15 +21890,6 @@
           -0.8763633404211837,
           0.0002480317962794763
         ]
-      },
-      "branch": "suite",
-      "rank": 4,
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "namedMaxLevel": "4★",
-      "ultimateGateStatus": {
-        "passes": false,
-        "reason": "only 0/3 graded evidence sources"
       }
     },
     {
@@ -22510,12 +21997,7 @@
           -0.8898458533507402,
           4.85285475455011e-05
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "video-preview",
@@ -22558,12 +22040,7 @@
           -0.8965871098155185,
           -5.2855070292283334e-05
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "video-rendering",
@@ -22654,12 +22131,7 @@
           -0.9100696227450752,
           -0.0002538314564043042
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "video-scaffolding",
@@ -22798,12 +22270,7 @@
           0.21532934169699283,
           0.225830341792266
         ]
-      },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "voice-agent",
@@ -23389,12 +22856,7 @@
           -0.006407126797958236,
           -0.1412355973107531
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "worker-agent-dispatch",
@@ -23553,12 +23015,7 @@
           0.09267089270469146,
           0.4136205004420996
         ]
-      },
-      "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
-      "medallion": "◇",
-      "namedMaxLevel": "1★"
+      }
     },
     {
       "id": "workspace-automation",
@@ -23635,12 +23092,7 @@
           0.06885925699831844,
           0.2680899897716399
         ]
-      },
-      "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "write-report",

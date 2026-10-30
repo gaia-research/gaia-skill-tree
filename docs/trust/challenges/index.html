@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>window.GAIA_VERSION = "8.29.1";</script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trust Challenges — Trust &amp; Evidence — Gaia</title>
+  <meta name="description" content="Admitted trust challenges and admission reviews on hold. A challenge changes no standing until an approved decision.">
+  <link rel="icon" type="image/svg+xml" href="../../assets/marks/diamond-seal.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../../css/styles.css?v=8.29.1">
+  <link rel="stylesheet" href="../../css/challenge-surfaces.css?v=8.29.1">
+  <script src="../../js/icons.js?v=8.29.1"></script>
+<script type="application/ld+json" data-injector="gaia-json-ld">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Trust Challenges",
+  "url": "https://gaiaskilltree.com/trust/challenges/"
+}
+</script>
+</head>
+<body class="process-page challenges-page">
+
+  <nav id="site-nav"></nav>
+  <script src="../../js/mounts.js?v=8.29.1"></script>
+  <script src="../../js/site-nav.js?v=8.29.1"></script>
+
+  <main class="cs-shell" id="csMain">
+
+    <a class="cs-back" href="../../codex/trust-methodology.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Trust Methodology
+    </a>
+
+    <header class="cs-hero">
+      <p class="cs-kicker">Trust &amp; Evidence</p>
+      <h1>Trust Challenges</h1>
+      <p class="cs-lede">
+        A challenge is a public, independently verified test of one claim a skill makes.
+        It is listed here only after the trusted receipt issuer has admitted it. Admission
+        changes no Trust Magnitude, star, grade or Origin: standing moves only by an approved decision.
+      </p>
+    </header>
+
+    <section class="cs-block" id="csAdmitted" aria-labelledby="csAdmittedTitle">
+      <div class="cs-block__head lc-anchor">
+        <h2 class="cs-block__title" id="csAdmittedTitle">Admitted challenges</h2>
+        <span id="csAdmittedTip"></span>
+      </div>
+      <div id="csAdmittedList" aria-live="polite">
+        <p class="cs-empty" data-state="loading">Loading the challenge projection&hellip;</p>
+      </div>
+      <noscript><p class="cs-empty">This page needs JavaScript to read the public challenge files at <a class="cs-link" href="../../api/v1/challenges/index.json">/api/v1/challenges/index.json</a>.</p></noscript>
+    </section>
+
+    <section class="cs-block" id="csHeld" aria-labelledby="csHeldTitle">
+      <div class="cs-block__head">
+        <h2 class="cs-block__title" id="csHeldTitle">Admission held, no effect on standing</h2>
+      </div>
+      <p class="cs-block__lede">
+        Review records for leads whose admission was held, or that were rejected or deferred at triage.
+        None is an admitted challenge, and none asserts a dispute or changes a Trust Magnitude, star,
+        grade, Origin or ranking. The assessment shown is the reviewer&rsquo;s own finding, with
+        independence declared and not authenticated.
+        Raw files: <a class="cs-link" href="../../api/v1/challenges/reviews.json">/api/v1/challenges/reviews.json</a>.
+      </p>
+      <div id="csHeldList" aria-live="polite">
+        <p class="cs-empty" data-state="loading">Loading held reviews&hellip;</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="site-footer"></footer>
+  <script src="../../js/site-footer.js?v=8.29.1"></script>
+  <script src="../../js/trust-lifecycle.js?v=8.29.1"></script>
+  <script src="../../js/challenge-surfaces.js?v=8.29.1"></script>
+  <script src="challenges.js?v=8.29.1"></script>
+</body>
+</html>

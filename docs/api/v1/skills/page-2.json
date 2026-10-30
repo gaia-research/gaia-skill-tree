@@ -1,21 +1,21 @@
 {
   "skills": [
     {
-      "id": "browser-use/browser-harness",
-      "name": "Browser Harness",
+      "id": "addy-osmani/spec-driven-development",
+      "name": "Spec-Driven Development",
       "level": "3★",
-      "trustMagnitude": 73.59,
+      "trustMagnitude": 80.0,
       "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "browser-use",
-      "type": "basic",
+      "fusionScore": 40.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
       "branch": "standard",
       "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/browser-use/browser-harness.json"
+        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
       },
-      "genericSkillRef": "browser-control"
+      "genericSkillRef": "prd-generation"
     },
     {
       "id": "firecrawl/firecrawl-skills",

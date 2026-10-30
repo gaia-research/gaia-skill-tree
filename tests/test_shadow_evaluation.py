@@ -64,9 +64,12 @@ def test_source_merge_is_cross_type_order_independent_and_tracks_row_layer():
     assert shadow.evaluateShadow(a, ctx)["tmRaw"] == shadow.evaluateShadow(b, ctx)["tmRaw"]
     assert shadow.evaluateShadow(a, ctx)["tmRaw"] == 91.248
     causes = {item["cause"]: item["status"] for item in shadow.evaluateShadow(a, ctx)["correctionCauses"]}
-    assert causes["source-only-inheritance-merge"] == "triggered"
-    # Legacy call path remains unchanged until the canonical rollout gate.
-    assert tm.computeTrustMagnitude(a, generic) != tm.computeTrustMagnitude(b, generic)
+    # Resolved by #2257 (history kept in the catalog, no longer "triggered").
+    assert causes["source-only-inheritance-merge"] == "resolved"
+    # #2257: merge_evidence dedups per type, so the legacy call path is now
+    # order independent and agrees with the shadow path.
+    legacyA = tm.computeTrustMagnitude(a, generic)
+    assert legacyA == tm.computeTrustMagnitude(b, generic) == 91.248
     # A same-URL own row must not erase the generic row when evidence types differ.
     onlyStars = {**a, "evidence": [row("github-stars-own", url, stars=1000)]}
     assert shadow.evaluateShadow(onlyStars, ctx)["tmRaw"] == 84.0

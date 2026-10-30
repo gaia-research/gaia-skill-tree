@@ -16,7 +16,7 @@ tags:
 - cdp
 - automation
 createdAt: '2026-05-14'
-updatedAt: '2026-08-30'
+updatedAt: '2026-10-30'
 evidence:
 - class: B
   source: https://github.com/browser-use/browser-harness
@@ -134,8 +134,13 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 73.59 -> 73.59, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
-trustMagnitude: 73.59
-overallTrustGrade: B
+- timestamp: '2026-10-30T13:02:39Z'
+  action: recalibrate_trust_magnitude
+  contributor: nova-gaia
+  details: 'TM 73.59 -> 103.59, grade B -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 103.59
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
