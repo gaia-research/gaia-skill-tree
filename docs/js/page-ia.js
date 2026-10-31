@@ -115,28 +115,11 @@
 
   var graphPromise = window.GAIA_JSON_CACHE.fetchJson(GRAPH_URL);
 
-  var namedPromise = new Promise(function (resolve) {
-    var triggered = false;
-    function triggerFetch() {
-      if (triggered) return;
-      triggered = true;
-      window.removeEventListener('pointerdown', triggerFetch);
-      window.removeEventListener('keydown', triggerFetch);
-      window.removeEventListener('scroll', triggerFetch);
-      
-      window.GAIA_JSON_CACHE.fetchJson(NAMED_URL).then(resolve).catch(function() { resolve(null); });
-    }
-    
-    window.addEventListener('pointerdown', triggerFetch, { passive: true });
-    window.addEventListener('keydown', triggerFetch, { passive: true });
-    window.addEventListener('scroll', triggerFetch, { passive: true });
-    
-    if (typeof requestIdleCallback === 'function') {
-      requestIdleCallback(function () { triggerFetch(); });
-    } else {
-      setTimeout(function () { triggerFetch(); }, 1500);
-    }
-  });
+  // The homepage ledger has a generated first-paint value. Fetch the named
+  // projection alongside the graph so interactive counts update immediately,
+  // rather than leaving the ledger dependent on idle time or first input.
+  var namedPromise = window.GAIA_JSON_CACHE.fetchJson(NAMED_URL)
+    .catch(function () { return null; });
 
   graphPromise.then(function (graphData) {
     var skills = graphData.skills || [];
@@ -310,14 +293,17 @@
     // Selection: rank >= 4 (read from emitted `rank` field, never derived from type).
     // Order: rank DESC (6★→5★→4★), within same rank: unique before suite.
     var allOrigin = [];
-    var totalNamedCount = 0;
+    // Match the generated namedSkills stat: count every classified entry in
+    // the buckets, not only the subset carrying the Origin distinction.
+    var totalNamedCount = Object.keys(buckets).reduce(function (count, skillId) {
+      return count + (buckets[skillId] || []).length;
+    }, 0);
     Object.keys(buckets).forEach(function (skillId) {
       (buckets[skillId] || []).forEach(function (e) {
         if (!e.origin) return;
         // Defensive: never surface a pre-named/demoted (≤1★) skill in the
         // public Hall of Heroes, even if flagged origin.
         if (window.isRedacted && window.isRedacted(e.level)) return;
-        totalNamedCount++;
         // Hall floor: rank >= 5 (homepage HoH only shows 5★+).
         // Read the emitted rank field; fall back to levelNum for entries that
         // pre-date the Phase 2 emission (absent-field defence).

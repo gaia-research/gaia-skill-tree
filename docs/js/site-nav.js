@@ -45,18 +45,18 @@
   // ── Registry-era stamp ─────────────────────────────────────────────────
   // The one canonical component that says which ruleset the registry is
   // currently running. It is metadata, NOT a rank: no star glyph, no rank
-  // name, no medallion, no rank-token color, no glow, no motion. `III` in a
-  // flat mono ledger stamp — if it ever reads as "3★ Evolved", it is wrong.
+  // name, no medallion, no rank-token color, no glow, no motion. `IV` in a
+  // flat mono ledger stamp — if it ever reads as "4★ Extra", it is wrong.
   //
-  // The literal `III` stays visible at every width; the wordmark is what
+  // The literal `IV` stays visible at every width; the wordmark is what
   // yields when space runs out (see .nav-wordmark in styles.css). The stamp
   // must never grow the fixed nav's height.
-  const ERA_REPORT_HREF = root + 'meta/reports/2026-08-29-yggdrasil-iii-structural-provenance-is-not-trust.html';
+  const ERA_REPORT_HREF = root + 'meta/reports/2026-10-31-yggdrasil-iv-a-challenge-must-be-earned-and-standing-can-recover.html';
   const ERA_STAMP =
     '<a class="nav-era-stamp" href="' + ERA_REPORT_HREF + '"' +
-      ' title="Yggdrasil III"' +
-      ' aria-label="Yggdrasil III, current registry ruleset">' +
-      '<span aria-hidden="true">III</span>' +
+      ' title="Yggdrasil IV"' +
+      ' aria-label="Yggdrasil IV, current registry ruleset">' +
+      '<span aria-hidden="true">IV</span>' +
     '</a>';
 
   const currentPath = window.location.pathname;

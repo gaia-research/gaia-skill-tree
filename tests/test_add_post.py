@@ -35,6 +35,21 @@ def test_md_to_html_preserves_accessible_figure_as_block():
     assert "<p>After it.</p>" in rendered
 
 
+def test_report_tables_remain_semantic_and_are_keyboard_scrollable():
+    rendered = _load_add_post().md_to_html(
+        "| Case | Challenger | Compared against | Runner outcome | Meta verification | Admitted |\n"
+        "|---|---|---|---|---|---|\n"
+        "| C1 | Graphify | graft caller lookup | Contradicted (a tie) | Upheld | No |"
+    )
+
+    assert '<div class="report-table-scroll" role="region"' in rendered
+    assert 'aria-label="Scrollable report table" tabindex="0">' in rendered
+    assert "<table><thead><tr><th>Case</th>" in rendered
+    assert "<tbody><tr><td>C1</td>" in rendered
+    assert rendered.index('<div class="report-table-scroll"') < rendered.index("<table>")
+    assert rendered.endswith("</table></div>")
+
+
 def test_report_html_has_no_trailing_whitespace_without_chart():
     rendered = _load_add_post().render_report_html(
         title="Test report",
@@ -47,4 +62,7 @@ def test_report_html_has_no_trailing_whitespace_without_chart():
 
     assert ".paper-journal-header {" in rendered
     assert ".paper-journal-header {{" not in rendered
+    assert ".report-table-scroll { max-width: 100%; overflow-x: auto;" in rendered
+    assert ".report-table-scroll:focus-visible" in rendered
+    assert "table { width: max-content; min-width: 100%;" in rendered
     assert all(line == line.rstrip() for line in rendered.splitlines())

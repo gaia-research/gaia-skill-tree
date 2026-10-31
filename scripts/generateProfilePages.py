@@ -1386,7 +1386,7 @@ def build_directory_page(by_contributor: dict) -> str:
       <div class="contributor-card-stats">
         <span class="contributor-stat-item">
           <svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#view-tile"/></svg>
-          {skill_count} named skill{s_suffix}
+          {skill_count} skill record{s_suffix}
         </span>
         <span class="contributor-stat-item contributor-stat-level">
           Highest rank: {html.escape(highest_level)}
@@ -1435,7 +1435,7 @@ def build_directory_page(by_contributor: dict) -> str:
     page_title = "Contributors Directory — Gaia Skill Tree"
     og_description = (
         f"Browse the contributors of Gaia Skill Tree. "
-        f"{total_contributors} active builders with {total_skills} named skills claimed."
+        f"{total_contributors} contributors with {total_skills} skill records."
     )
 
     html_content = f"""<!DOCTYPE html>
@@ -1479,7 +1479,7 @@ def build_directory_page(by_contributor: dict) -> str:
   <div class="profile-hero">
     <h1 class="profile-directory-title" style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 600; color: var(--text); margin-bottom: 0.5rem;">Named Contributors</h1>
     <div class="profile-meta">
-      {total_contributors} active builders · {total_skills} named skills claimed
+      {total_contributors} contributors · {total_skills} skill records
     </div>
   </div>
 
