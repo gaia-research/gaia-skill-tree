@@ -9,6 +9,19 @@ Recovery entry point. Updated on every material state change and pushed to
 - Lead: Opus 5.5 (Claude Code, macOS). Roster: Opus / Sonnet / Haiku, explicit effort always.
 - Excluded: Steward implementation (EPIC #2189 exclusion).
 
+## Live resumption — Sol High, 2026-10-30 UTC
+
+This block supplements (does not erase) the recorded founder decisions below. Current lead is Sol High; optional workers/reviewers are Luna/Terra only, explicit effort, no worker turn limits. Lean autonomous execution; no new planning ceremony or Steward work.
+
+- Preserved launch worktree verified at `329acaf82`; remote integration `f70b55e62`; production `dc0752888`. Default `~/gaia-skill-tree` checkout is old main with unrelated local edits and is untouched.
+- **Schema C complete:** worktree fast-forward reconciled `8aea82dd4` → `1c9613aee`; repair `7baa3a148` exercises adopted schemas and explicit synthetic unadopted refusal fixtures. Parent independently reran **155 tests (15.83s)** and inspected schema/test diffs. All current-SHA CI passed/skipped, including full package test/build/smoke. #2176 merged by `nova-gaia` at `5bccf831624ad7fc4c2fbd60557a4240d7ac8a45` (2026-10-31T07:02:37Z), using actual recorded founder r2 sign-off, not a fabricated GitHub approval. [Engineering receipt](https://github.com/gaia-research/gaia-skill-tree/pull/2176#issuecomment-6540383537).
+- Origin automation WIP `80150fff8` received independent Terra High **HOLD** before PR creation. Findings/evidence limitations: `verification/ORIGIN-AUTOMATION-REVIEW.md`. Repairs in progress on its existing feature branch; no PR yet. Promised ruling issue [#2267](https://github.com/gaia-research/gaia-skill-tree/issues/2267) filed as `nova-gaia`.
+- Report presentation repairs continue on existing #2266; separate era metadata PR in preparation. No report/era approval or merge claimed.
+- Agent GitHub operations switched to `nova-gaia` (reasserted at 2026-10-31 resume after active auth reverted). No agent performed founder approvals, issuer approvals, main merge or release.
+- OpenAI worker routes hit Subscription Sharing limits during source repair and again on resume. Origin, report and L4 preparation worktrees retain their partial edits; do not discard/reconstruct them. Same authorized-model alternate-route recovery is being attempted, with no global configuration or auth mutation.
+- Clock at resume `2026-10-30T18:22:54Z` is before October cutoff and the +72h witness deadline. Snapshot remains provisional; do not manufacture finalization.
+- Release/rollback acceptance checklist and operator runbook: `verification/RELEASE-ROLLBACK.md` (preparation only; final-SHA rehearsal still required).
+
 ## Lanes
 
 | Lane | Outcome | Plan | State |
