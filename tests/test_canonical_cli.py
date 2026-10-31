@@ -31,11 +31,8 @@ def fixtureRepo(tmp_path):
     (root / "skill-trees/alice").mkdir(parents=True)
     shutil.copytree(REPO / "registry/schema", root / "registry/schema")
     (root / "DISPOSABLE_CANONICAL_FIXTURE").touch()
-    # Strict held-proposal bytes ONLY inside this explicitly disposable root.
-    # The actual native schema reader/validator and context digest remain intact.
-    for name in ("namedSkill.schema.json", "skillTree.schema.json"):
-        shutil.copyfile(REPO / "tests/fixtures/canonical-proposed-schema" / name,
-                        root / "registry/schema" / name)
+    # This disposable root starts with the current adopted production schema bytes.
+    # Negative tests replace them only with the explicit synthetic-unadopted fixture.
     named = {"id": "alice/tool", "name": "Fixture Tool", "contributor": "alice", "origin": True,
              "genericSkillRef": "tool", "status": "named", "level": "4★", "title": "Fixture",
              "description": "Disposable fixture implementation", "createdAt": "2026-01-01", "updatedAt": "2026-10-27",
@@ -113,10 +110,16 @@ def loadNamed(root):
     return yaml.safe_load((root / "registry/named/alice/tool.md").read_text().split("---", 2)[1])
 
 
+def installUnadoptedSchemas(root):
+    """Install the committed missing-field schema fixture into a disposable root only."""
+    for name in ("namedSkill.schema.json", "skillTree.schema.json"):
+        shutil.copyfile(REPO / "tests/fixtures/canonical-unadopted-schema" / name,
+                        root / "registry/schema" / name)
+
+
 def test_production_refuses_unadopted_schema_without_writes(fixtureRepo):
     root = fixtureRepo
-    for name in ("namedSkill.schema.json", "skillTree.schema.json"):
-        shutil.copyfile(REPO / "registry/schema" / name, root / "registry/schema" / name)
+    installUnadoptedSchemas(root)
     before = sources(root)
     plan, path, _ = makePlan(root)
     assert sources(root) == before
@@ -128,13 +131,13 @@ def test_production_refuses_unadopted_schema_without_writes(fixtureRepo):
     assert not list((root / ".gaia/canonical-transactions").glob("*.json"))
 
 
-def test_strict_proposal_validation_is_not_a_production_approval(fixtureRepo):
+def test_adopted_schema_validation_is_not_a_production_approval(fixtureRepo):
     import hashlib
     root = fixtureRepo
     before = sources(root)
     plan, path, _ = makePlan(root)
     for name in ("namedSkill.schema.json", "skillTree.schema.json"):
-        data = (REPO / "tests/fixtures/canonical-proposed-schema" / name).read_bytes()
+        data = (REPO / "registry/schema" / name).read_bytes()
         assert plan["context"]["files"]["registry/schema/" + name] == hashlib.sha256(data).hexdigest()
     result = cli(root, "canonical", "validate", "--plan", str(path))
     assert result.returncode == 0, result.stderr
