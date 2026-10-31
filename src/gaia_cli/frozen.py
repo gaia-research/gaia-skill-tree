@@ -26,7 +26,11 @@ Every batch tool that skips frozen skills must call :func:`frozenIds` or
 
 from __future__ import annotations
 
+import math
 from typing import Iterable, Optional
+
+
+_VALID_GRADES = frozenset({"S", "A", "B", "C", "ungraded"})
 
 
 def _hasUpstreamDeprecated(meta: dict) -> bool:
@@ -82,16 +86,40 @@ def isFrozen(meta: dict, allMetas: Optional[Iterable[dict]] = None) -> bool:
 
 
 def frozenLock(meta: dict) -> Optional[tuple[float, str]]:
-    """Return the locked ``(trustMagnitude, grade)`` of a frozen skill, or None.
+    """Return a valid locked ``(trustMagnitude, grade)``, else ``None``.
 
-    The lock is the TM/grade cached in the frontmatter when the skill was frozen.
-    None means no cache exists, so the caller has to compute the values live.
+    Frozen records never fall back to live computation. A lock must contain a
+    finite numeric TM and one canonical Overall Trust Grade. Call
+    :func:`requireFrozenLocks` at a read or write boundary to fail closed with
+    the affected ids rather than silently changing historical standing.
     """
     tm = meta.get("trustMagnitude")
     grade = meta.get("overallTrustGrade")
-    if tm is None or grade is None:
+    if tm is None or grade not in _VALID_GRADES:
         return None
     try:
-        return float(tm), str(grade)
+        value = float(tm)
     except (TypeError, ValueError):
         return None
+    return (value, grade) if math.isfinite(value) else None
+
+
+def missingFrozenLocks(metas: Iterable[dict], frozen: Optional[set[str]] = None) -> list[str]:
+    """Return frozen ids lacking a valid historical TM/grade lock."""
+    values = [meta for meta in metas if isinstance(meta, dict) and meta.get("id")]
+    frozen_ids = frozen if frozen is not None else frozenIds(values)
+    return sorted(
+        meta["id"] for meta in values
+        if meta.get("id") in frozen_ids and frozenLock(meta) is None
+    )
+
+
+def requireFrozenLocks(metas: Iterable[dict], frozen: Optional[set[str]] = None) -> None:
+    """Fail closed when a frozen record has no valid historical lock."""
+    missing = missingFrozenLocks(metas, frozen)
+    if missing:
+        raise ValueError(
+            "Frozen skill(s) lack a valid trustMagnitude/overallTrustGrade lock: "
+            + ", ".join(missing)
+            + ". Preserve their bytes and repair through an explicitly authorized historical-lock workflow."
+        )

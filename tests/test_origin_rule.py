@@ -37,8 +37,8 @@ def test_merit_is_level_then_tm():
     assert deriveBucketOrigins([c("a", 3, 60.0), c("b", 3, 95.0), c("z", 2, 400.0)]) == {"b"}
 
 
-def test_tm_compares_at_published_precision():
-    assert deriveBucketOrigins([c("a", 3, 50.001), c("b", 3, 50.004)]) == {"a", "b"}
+def test_tm_compares_at_canonical_precision_not_display_rounding():
+    assert deriveBucketOrigins([c("a", 3, 50.001), c("b", 3, 50.004)]) == {"b"}
 
 
 def test_ties_all_hold_origin_and_there_is_no_vacancy():
@@ -154,19 +154,10 @@ def test_awakened_record_competes_for_origin():
     assert awaiting[1]["origin"] is False
 
 
-def test_frontmatter_mirror_never_writes_frozen_files(tmp_path):
-    from scripts.generateNamedIndex import sync_origin_frontmatter
-
-    live = tmp_path / "live.md"
-    frozen = tmp_path / "frozen.md"
-    live.write_text("---\nid: a/live\norigin: false\nlevel: 2★\n---\nbody\n", encoding="utf-8")
-    frozen.write_text("---\nid: a/frozen\norigin: false\nlevel: 2★\n---\nbody\n", encoding="utf-8")
-    named = [(str(live), {"id": "a/live", "origin": False}), (str(frozen), {"id": "a/frozen", "origin": False})]
-    buckets = {"g": [{"id": "a/live", "origin": True}, {"id": "a/frozen", "origin": True}]}
-    changed = sync_origin_frontmatter(named, buckets, [], {"a/frozen"})
-    assert changed == [("a/live", True)]
-    assert "origin: true" in live.read_text(encoding="utf-8")
-    assert "origin: false" in frozen.read_text(encoding="utf-8")
+def test_named_index_has_no_origin_frontmatter_writer():
+    source = (ROOT / "scripts" / "generateNamedIndex.py").read_text(encoding="utf-8")
+    assert "sync_origin_frontmatter" not in source
+    assert "guardCanonicalPath" not in source
 
 
 # ------------------------------------------------------------ regression guards

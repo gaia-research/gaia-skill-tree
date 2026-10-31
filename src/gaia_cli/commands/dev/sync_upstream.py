@@ -30,6 +30,7 @@ from gaia_cli.commands.dev.helpers import (
     _get_contributor,
     _run_dev_preflights,
     _fail_dev_preflight,
+    preflightNamedSkillMutable,
 )
 from gaia_cli.registry import named_skills_dir
 from gaia_cli.frontmatter import (
@@ -225,6 +226,7 @@ def sync_upstream_command(args) -> None:
 
     # --- Pre-flight validation ---
     _run_dev_preflights([
+        lambda: preflightNamedSkillMutable(registry_path, skill_id),
         lambda: _pf_version_format(version),
         lambda: _pf_source_url_format(source_url),
         lambda: _pf_source_url_matches_skill(source_url, meta, skill_id),

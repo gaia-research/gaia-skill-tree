@@ -33,6 +33,8 @@ status: named
 level: 2\u2605
 description: A test named skill used in upstream-verbs unit tests.
 installable: true
+trustMagnitude: 20.0
+overallTrustGrade: C
 links:
   github: https://github.com/testorg/my-skill/blob/main/skills/my-skill/SKILL.md
 createdAt: '2026-01-01'
@@ -73,6 +75,8 @@ status: named
 level: 2\u2605
 description: A test named skill used in upstream-verbs unit tests.
 installable: true
+trustMagnitude: 20.0
+overallTrustGrade: C
 links:
   github: https://github.com/testorg/my-skill/blob/main/skills/my-skill/SKILL.md
 upstream:

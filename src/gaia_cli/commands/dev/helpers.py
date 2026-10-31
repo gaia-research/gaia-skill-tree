@@ -755,6 +755,31 @@ def _find_named_file(named_dir, skill_id):
     return None
 
 
+def preflightNamedSkillMutable(registry_path, skill_id: str) -> None:
+    """Refuse a named-record mutation when the target is frozen.
+
+    The lookup uses the one suite-aware frozen definition. Command handlers run
+    this before writing either a record or its timeline so frozen canonical
+    bytes remain exact historical bytes.
+    """
+    from gaia_cli.frozen import frozenIds
+
+    named_dir = Path(named_skills_dir(registry_path))
+    metas = []
+    for path in named_dir.rglob("*.md"):
+        try:
+            meta, _body = _parse_md(path)
+        except (OSError, ValueError):
+            continue
+        if isinstance(meta, dict) and meta.get("id"):
+            metas.append(meta)
+    if skill_id in frozenIds(metas):
+        _fail_dev_preflight(
+            f"Named skill '{skill_id}' is frozen (directly or through a frozen suite). Nothing was written.",
+            fix="Frozen records preserve their historical bytes and cannot be changed by this command.",
+        )
+
+
 def _replace_section(body: str, section_heading: str, new_content: str) -> str:
     """Replace (or append) a top-level markdown section in the body text.
 
@@ -1270,6 +1295,11 @@ def preflightAddCommand(args) -> None:
             try:
                 extra = json.loads(extraFieldsStr)
                 if isinstance(extra, dict):
+                    if "origin" in extra:
+                        _fail_dev_preflight(
+                            "--extra-fields cannot set 'origin' on a named skill: Origin is automatic.",
+                            fix="Omit origin; the required legacy initializer remains false and projections derive Origin from merit.",
+                        )
                     catalogRefVal = extra.get("catalogRef")
             except json.JSONDecodeError:
                 pass

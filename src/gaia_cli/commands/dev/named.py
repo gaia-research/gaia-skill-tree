@@ -13,6 +13,7 @@ from gaia_cli.commands.dev.helpers import (
     _run_docs_build,
     _run_dev_preflights,
     _preflight_named_status_identity,
+    preflightNamedSkillMutable,
     preflightSuiteComponents,
     preflightGithubLink,
     parseCommaSeparatedIds,
@@ -55,6 +56,7 @@ def meta_update_named_command(args):
     status_promoted_to_named = False
 
     _run_dev_preflights([
+        lambda: preflightNamedSkillMutable(registry_path, skill_id),
         lambda: _preflight_no_manual_origin(args),
         lambda: _preflight_named_status_identity(skill_id, meta, args),
         lambda: preflightSuiteComponents(registry_path, getattr(args, "suite_components", None)),

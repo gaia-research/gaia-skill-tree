@@ -14,7 +14,8 @@ The rule, computed at build time and never stored by hand:
 2. **Merit.** Contenders are ordered by ``(published level, Trust Magnitude)``,
    both descending. The published level is the stored level capped by the
    grade ceiling (S→6★, A→4★, B→3★, C→2★, ungraded→1★), exactly as the named
-   index publishes it. TM is compared at two decimals, as published. This is
+   index publishes it. TM is compared at canonical computation precision; display
+   rounding never creates a tie. This is
    the merit order META §4.1 already used ("highest-rated named skill, ties
    broken by … Trust Score") and the one ``run_meta_sweep.py`` audited.
 3. **No star floor.** A 1★ skill can be Origin. "Named" starts at 2★; Origin
@@ -46,8 +47,8 @@ def publishedLevelNumber(level, grade: Optional[str]) -> int:
 
 
 def meritKey(levelNumber: int, tm: float) -> tuple[int, float]:
-    """Merit order: published level, then Trust Magnitude (two decimals)."""
-    return (int(levelNumber), round(float(tm or 0.0), 2))
+    """Merit order: published level, then canonical Trust Magnitude precision."""
+    return (int(levelNumber), float(tm or 0.0))
 
 
 def deriveBucketOrigins(contenders: Iterable[dict]) -> frozenset[str]:
@@ -143,9 +144,15 @@ def bucketContenders(bucketRef: str, pool: dict) -> list[dict]:
 
 
 def _frozenIn(pool: dict) -> set[str]:
-    from gaia_cli.frozen import frozenIds
+    from gaia_cli.frozen import frozenIds, requireFrozenLocks
 
-    return frozenIds(e for e in (pool or {}).values() if _isContender(e) or (isinstance(e, dict) and e.get("contributor")))
+    values = [
+        e for e in (pool or {}).values()
+        if _isContender(e) or (isinstance(e, dict) and e.get("contributor"))
+    ]
+    frozen = frozenIds(values)
+    requireFrozenLocks(values, frozen)
+    return frozen
 
 
 def bucketHolders(bucketRef: str, pool: dict, overrides: Optional[dict] = None,

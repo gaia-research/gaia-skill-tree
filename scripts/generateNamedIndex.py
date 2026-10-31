@@ -7,7 +7,7 @@ named skill, groups them by genericSkillRef, and writes registry/named-skills.js
 Validation rules:
   - Each named skill has all required fields.
   - genericSkillRef resolves to a skill ID in registry/gaia.json.
-  - At most one origin: true per genericSkillRef bucket.
+  - Origin is derived from merit; tied top contenders may share it.
   - level is a valid star rating (1★–6★; 1★ indicates a demoted/uninstallable skill).
 
 Usage:
@@ -26,7 +26,6 @@ import argparse
 import datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
-from gaia_cli.canonicalTransaction import guardCanonicalPath  # noqa: E402  pending-transaction guard
 from gaia_cli.redaction import is_redacted, level_num  # noqa: E402  single source of truth
 from gaia_cli.taxonomy import branchFor, rankWord, medallion, normalize  # noqa: E402
 from gaia_cli.lifecycleProjection import produce_lifecycle  # noqa: E402
@@ -693,10 +692,12 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
 
 def frozen_ids_for(buckets, awaiting_classification):
     """Frozen ids among every indexed skill (gaia_cli.frozen is the one definition)."""
-    from gaia_cli.frozen import frozenIds
+    from gaia_cli.frozen import frozenIds, requireFrozenLocks
 
     entries = [e for group in buckets.values() for e in group] + list(awaiting_classification)
-    return frozenIds(entries)
+    frozen = frozenIds(entries)
+    requireFrozenLocks(entries, frozen)
+    return frozen
 
 
 def awaiting_merit(awaiting_classification, frozen, generic_skills_map, repo_root):
@@ -791,35 +792,6 @@ def origin_frontmatter_drift(named_skills, buckets, awaiting_classification, fro
     return drift
 
 
-def sync_origin_frontmatter(named_skills, buckets, awaiting_classification, frozen):
-    """Mirror the derived ``origin`` into frontmatter. Frozen files are never written."""
-    import re
-
-    todo = dict(origin_frontmatter_drift(named_skills, buckets, awaiting_classification, frozen))
-    derived = todo
-    changed = []
-    for fp, fm in named_skills:
-        sid = fm.get("id")
-        if sid not in todo:
-            continue
-        with open(fp, "r", encoding="utf-8") as f:
-            text = f.read()
-        end = text.find("\n---", 3)
-        if not text.startswith("---") or end < 0:
-            continue
-        head, rest = text[:end], text[end:]
-        value = "true" if derived[sid] else "false"
-        if re.search(r"(?m)^origin:.*$", head):
-            head = re.sub(r"(?m)^origin:.*$", f"origin: {value}", head, count=1)
-        else:
-            head = head + f"\norigin: {value}"
-        with guardCanonicalPath(fp):
-            with open(fp, "w", encoding="utf-8") as f:
-                f.write(head + rest)
-        changed.append((sid, derived[sid]))
-    return changed
-
-
 def write_index(buckets, awaiting_classification, by_contributor, output_path, today,
                 generic_skills_map=None, gate_config=None, repo_root=None, lifecycle_ports=None,
                 challenge_reviews=None):
@@ -872,7 +844,7 @@ def main():
     parser.add_argument("--out", default=None, help="Output path for index.json")
     parser.add_argument(
         "--no-frontmatter-sync", action="store_true",
-        help="Do not mirror the derived origin into frontmatter; report drift instead (build_docs --check).",
+        help="Deprecated compatibility flag; Origin source fields are never rewritten.",
     )
     args = parser.parse_args()
 
@@ -963,16 +935,14 @@ def main():
     write_index(buckets, awaiting_classification, by_contributor, output_path, today,
                 generic_skills_map=generic_skills_map, gate_config=gate_config, repo_root=repo_root,
                 lifecycle_ports=lifecyclePorts(collected), challenge_reviews=reviewsBySubject(collected))
-    # Origin is derived (gaia_cli.origin); frontmatter `origin` only mirrors it.
+    # Source `origin` values are historical, non-authoritative mirrors. This
+    # generator never rewrites canonical named files; projections above carry
+    # the derived automatic result instead.
     if pinned_evaluation is None:
         frozen_now = frozen_ids_for(buckets, awaiting_classification)
-        if args.no_frontmatter_sync:
-            drift = origin_frontmatter_drift(named_skills, buckets, awaiting_classification, frozen_now)
-            for sid, value in drift:
-                print(f"  warning: origin frontmatter drift: {sid} should be origin: {str(value).lower()} (run `gaia dev docs`)")
-        else:
-            for sid, value in sync_origin_frontmatter(named_skills, buckets, awaiting_classification, frozen_now):
-                print(f"  Synced derived origin: {sid} -> {str(value).lower()}")
+        drift = origin_frontmatter_drift(named_skills, buckets, awaiting_classification, frozen_now)
+        if drift:
+            print(f"  note: {len(drift)} historical origin source value(s) differ from the derived projection")
     total_named = sum(len(v) for v in buckets.values())
     total_awaiting = len(awaiting_classification)
     print(f"\nWrote {output_path}")
