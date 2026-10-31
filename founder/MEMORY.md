@@ -15,6 +15,42 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-31, SOL HIGH — schema landed; authorized worker routes blocked, WIP preserved)
+
+### TLDR
+- **Not complete; #2151 not founder-merge-ready.** Resume from `founder/reports/yggdrasil-iv-october-2026/HANDOVER.md` §RESUME CHECKPOINT (supersedes older A–J SHAs), then original PAUSE STATE/FINISH PLAN and latest CAMPAIGN rulings.
+- #2176 landed green and independently checked: repair `7baa3a148`, merge **`5bccf831624ad7fc4c2fbd60557a4240d7ac8a45`**. Parent reran **155 tests / 15.83s**; full GitHub package/schema/semantic checks passed. Real recorded founder r2 sign-off used, no agent-authenticated founder approval.
+- Origin remains independent **HOLD**; initial review report `verification/ORIGIN-AUTOMATION-REVIEW.md`; promised automatic-Origin issue **#2267** filed. Repairs checkpointed/pushed, no Origin PR opened.
+- Default OpenAI/Codex quotas exhausted. Existing API gateway blocked by billing verification, Copilot Luna unsupported, OpenRouter credential rejected. No global auth/config/billing changed. Old child JSONL sessions were distilled away, making their resume IDs unusable; continue from preserved diffs with a functioning authorized Luna/Terra route.
+
+### Preserved branch/worktree state
+| Branch | SHA | State |
+|---|---|---|
+| `dev/yggdrasil-iv` | `5bccf8316` | schema integrated; #2151 aggregate still not ready |
+| `dev/yggdrasil-iv-launch` | `dbc19d05e` before this docs checkpoint | existing proof branch synced by merge; new review/runbook/recovery docs |
+| `dev/yggiv-origin-automation` | **`bcca9552a7900f287eaca05233b9afbc774fd187`** | unreviewed repair checkpoint; old dev merge + bulk source/generated churn removed; no PR |
+| `docs/yggiv-october-post` (#2266) | **`b0a34be5e7c2f8fedcbe1ff9d0a33176185a373b`** | unreviewed presentation checkpoint; founder-gated, do not merge |
+| `schema/yggiv-era` (#2268) | **`5009a587e4972aa21092a7c91a54cbff351ea196`** | draft; 2 focused tests + metadata mirror equality; held with report/era review |
+| `review/meta/yggiv-l4-october` | **`53a99b0e35ce9c718129ed1ae827ac488da03a5a`** | preparer + ruling copy only; syntax checked; no ratification/canonical L4 execution |
+| `review/meta/yggiv-october-calibration` (#2251) | `aa9bc3239` | unchanged; after Origin |
+| `dev/yggiv-clamp-alignment` (#2259) | `3bd9de0cc` | unchanged; after calibration |
+| `main` | `dc07528884a759dbd3668d4a0007469265ab396f` | untouched |
+
+L4 generated embedding churn was preserved in Git stash **`f2cc12a42b849a477fd8362ffc0841ac79d1437c`**, not thrown away or committed as 500k-line noise. Inspect/apply only to the L4 worktree when continuing. Post worktree may show untracked `.pi/tasks/` operational logs; do not commit them.
+
+### Decisions remain locked
+Automatic highest-merit Origin; genuine ties share Origin; frozen node/suite contenders retain locked TM/grade and remain eligible. No manual Origin, no invented Origin star floor/Unique fusion prerequisite. Existing sibling cap unchanged (#2263). All 76 L4 choices recorded; no new questionnaire. November deferrals retained. No new Steward engineering.
+
+### Remaining dependency spine
+Finish/review/integrate Origin → #2251 → #2259 → **fresh independent calibration Meta PASS** at `verification/CALIBRATION-REVERIFICATION.md` (not yet created) → adjudication approval ledger + `--check` → full L4 CLI/evidence/topology execution → actual cutoff refresh and witness probe → final report facts/markers + founder visual/content approval → W8/W9, rollback rehearsal, proof PR and #2151 readiness. Release runbook is preparation only (`verification/RELEASE-ROLLBACK.md`).
+
+Clock at resume was **2026-10-31T07:00Z**, before cutoff **2026-10-31T23:59:59Z** and witness **2026-11-01T16:40Z**; neither is manufactured complete. No final release/merge authorization exercised. Auth had reverted to founder during pause; switched back to **nova-gaia** before agent integration. Never impersonate founder approvals.
+
+### Verification limits
+Preserved report and Origin checkpoint tests were launched separately; collect their terminal evidence before recording results. No screenshots/preview acceptance or repaired-Origin SHIP verdict is claimed. No canonical L4 execution or passing calibration re-audit is claimed. Spend omitted (no canonical skill-cost receipt).
+
+---
+
 ## State Snapshot (2026-10-31, PAUSED ON TOKENS — October closeout; resume from HANDOVER.md §PAUSE STATE)
 
 ### TLDR
