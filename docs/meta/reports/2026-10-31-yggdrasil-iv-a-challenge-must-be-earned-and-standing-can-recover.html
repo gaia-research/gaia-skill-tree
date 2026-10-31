@@ -120,7 +120,9 @@
     pre { background: #f7f7f7; border: 1px solid #eee; padding: 1.2rem 1.5rem; overflow-x: auto; margin: 2rem 0; }
     pre code { background: none; border: none; padding: 0; font-size: 0.85rem; }
     blockquote { border-left: 3px solid #c8a84b; margin: 2rem 0; padding: 1rem 1.5rem; background: #fafaf8; color: #444; font-style: italic; }
-    table { width: 100%; border-collapse: collapse; margin: 3rem 0; font-family: var(--font-serif); font-size: 1rem; }
+    .report-table-scroll { max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; -webkit-overflow-scrolling: touch; }
+    .report-table-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    table { width: max-content; min-width: 100%; border-collapse: collapse; margin: 3rem 0; font-family: var(--font-serif); font-size: 1rem; }
     thead tr { border-top: 2px solid var(--paper-text); border-bottom: 1px solid var(--paper-text); }
     th { font-weight: 600; text-align: left; padding: 0.8rem 0.5rem; font-variant-caps: small-caps; }
     td { padding: 0.8rem 0.5rem; border-bottom: 0.5px solid #eee; vertical-align: top; }
@@ -174,14 +176,6 @@
       .meta-sidebar { width: 100%; }
     }
   </style>
-<script type="application/ld+json" data-injector="gaia-json-ld">
-{
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "2026 10 31 Yggdrasil Iv A Challenge Must Be Earned And Standing Can Recover",
-  "url": "https://gaiaskilltree.com/meta/reports/2026-10-31-yggdrasil-iv-a-challenge-must-be-earned-and-standing-can-recover.html"
-}
-</script>
 </head>
 <body>
 
@@ -263,7 +257,7 @@
 <p>Automated challenge watching remains switched off this month. Every October case was opened and run deliberately.</p>
 <h2>October's challenger cases: four truthful negatives</h2>
 <p>Four real cases went through the pipeline in October. Three ran a pre-registered experiment, and one was rejected at triage before any experiment. <strong>None was admitted.</strong> The founder accepted the negative result.</p>
-<table><thead><tr><th>Case</th><th>Challenger</th><th>Compared against</th><th>Runner outcome</th><th>Meta verification</th><th>Admitted</th></tr></thead><tbody><tr><td>C1</td><td>Graphify 0.8.13</td><td><code>trailhq/graft</code> caller lookup</td><td>Contradicted (a tie)</td><td>Upheld: contradicted as a tie</td><td>No</td></tr><tr><td>C2</td><td>Claude Code <code>permissions.deny</code> (2.1.312)</td><td><code>mattpocock/git-guardrails-claude-code</code></td><td>Supported, on a narrow fixture</td><td>Downgraded to inconclusive</td><td>No</td></tr><tr><td>C3</td><td><code>git log -L</code> (Git 2.56.0 documented, 2.50.1 executed)</td><td><code>trailhq/graft</code></td><td>Inconclusive</td><td>Inconclusive</td><td>No</td></tr><tr><td>C4</td><td>ripgrep 15.1.0</td><td><code>trailhq/graft</code> caller lookup</td><td>Rejected at triage</td><td>Rejected at triage</td><td>No</td></tr></tbody></table>
+<div class="report-table-scroll" role="region" aria-label="Scrollable report table" tabindex="0"><table><thead><tr><th>Case</th><th>Challenger</th><th>Compared against</th><th>Runner outcome</th><th>Meta verification</th><th>Admitted</th></tr></thead><tbody><tr><td>C1</td><td>Graphify 0.8.13</td><td><code>trailhq/graft</code> caller lookup</td><td>Contradicted (a tie)</td><td>Upheld: contradicted as a tie</td><td>No</td></tr><tr><td>C2</td><td>Claude Code <code>permissions.deny</code> (2.1.312)</td><td><code>mattpocock/git-guardrails-claude-code</code></td><td>Supported, on a narrow fixture</td><td>Downgraded to inconclusive</td><td>No</td></tr><tr><td>C3</td><td><code>git log -L</code> (Git 2.56.0 documented, 2.50.1 executed)</td><td><code>trailhq/graft</code></td><td>Inconclusive</td><td>Inconclusive</td><td>No</td></tr><tr><td>C4</td><td>ripgrep 15.1.0</td><td><code>trailhq/graft</code> caller lookup</td><td>Rejected at triage</td><td>Rejected at triage</td><td>No</td></tr></tbody></table></div>
 <h3>C1: Graphify against graft</h3>
 <p>The task was finding the callers of five functions in Gaia's own Python source, scored against a reviewed ground truth of 27 call sites. The targets were picked by a mechanical rule committed in advance. The two tools returned identical caller sets: the same recall on all five targets, and all 22 callers each tool returned were correct. Under the pre-registered rule a tie counts as contradicted. That means Graphify showed no caller-lookup advantage here. It does not mean graft is better. Both tools missed the same five call sites, which points to a shared limit of static analysis. Graphify is already registered as <code>safishamsi/graphify</code>, and caller lookup is a narrow slice of what it does, so this case says nothing about its main capability.</p>
 <h3>C2: Claude Code's native deny rules against git-guardrails</h3>
@@ -330,7 +324,7 @@
   <li><strong>Era stamp.</strong> The navigation stamp and the meta-shift notes now read Yggdrasil IV and link to this report.</li>
 </ul>
 <h2>What did not change</h2>
-<p>Yggdrasil IV changed no Trust Magnitude weight, cap, threshold, grade boundary or Fusion Score rule. The within-type deduplication fix corrects how an existing rule was implemented. It is not a new rule. No October challenge changed anyone's standing. Every star, grade and Origin change in this report comes from an approved decision, not from a challenge, a dead link or the passage of time. [[VERIFY: final counts at the cutoff: 301 generic skills, 352 named skills on the public record, 268 trust-ledger rows, 229 skills in the skills API, 59 contributors on the about-page tally / docs/index.html stats block, docs/graph/ledger/data.json, docs/api/v1/skills/index.json, docs/about.html / jq '.summary.total' docs/graph/ledger/data.json]]</p>
+<p>Yggdrasil IV changed no Trust Magnitude weight, cap, threshold, grade boundary or Fusion Score rule. The within-type deduplication fix corrects how an existing rule was implemented. It is not a new rule. No October challenge changed anyone's standing. Every star, grade and Origin change in this report comes from an approved decision, not from a challenge, a dead link or the passage of time. [[VERIFY: cutoff counts remain pending; current contributor totals use distinct documented populations: 65 contributors / 400 skill records in the public contributors directory, 43 contributors with non-redacted skills in the API, and the about tally aligned to the directory; 301 generic nodes, 352 classified named entries, 268 ledger rows and 229 API skills are provisional / registry/named-skills.json, scripts/generateProfilePages.py, scripts/buildApiProjection.py, docs/api/v1/contributors/index.json, docs/api/v1/skills/index.json, docs/graph/ledger/data.json / refresh only after the cutoff]]</p>
 <div class="references">
   <div class="abstract-title" style="text-align: left; margin-bottom: 1.5rem;">References</div>
   <div class="ref-item">[1] Gaia Skill Tree. <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/founder/YGGDRASIL%5FIV%5FRATIFICATION%5F2026-10-25.md">Yggdrasil IV founder ratification: trust degradation, challenge and recovery</a>. 2026-10-25.</div>

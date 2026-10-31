@@ -242,10 +242,13 @@ L=origin/dev/yggdrasil-iv-launch:founder/reports/yggdrasil-iv-october-2026
 - Verify: `grep -n "Yggdrasil IV" docs/js/site-nav.js docs/index.html docs/heroes/index.html`
 - Moves: this PR.
 
-**F43 ⚑. Final counts: 301 generic, 352 named on the public record, 268 ledger rows, 229 skills in the skills API, 59 contributors (about-page tally).**
-- Value now (dev `577ff6074`): stats block `skills=301; namedSkills=352`; ledger `summary.total` 268; `docs/api/v1/skills/index.json` `totalSkills` 229; about tally 59. **Unsure:** contributor counts disagree by surface (about tally 59; contributors API 43; named-skill listing groups 65 handles). The post uses the about tally; pick one before merge.
-- Verify: `tail -3 docs/index.html; python3 -c "import json;print(json.load(open('docs/graph/ledger/data.json'))['summary']['total'], json.load(open('docs/api/v1/skills/index.json'))['totalSkills'])"; grep -A1 '>Contributors<' docs/about.html`
-- Moves: L4, merge:#2251, merge:#2259, cutoff.
+**F43 ⚑. Cutoff counts remain pending. Current generated figures use distinct, documented populations.**
+- Value observed on this branch before regeneration: 301 generic graph nodes; 352 classified named entries in `buckets`; 268 ledger rows; 229 skills in the skills API. The public contributors directory's canonical population is **65 contributors with 400 skill records**, counting both classified buckets and `awaitingClassification` (48 entries across six handles). `generateProfilePages.collect_by_contributor()` defines that population and `build_directory_page()` renders its total. The about-page contributor tally is being aligned to the same 65-handle `byContributor` projection by `scripts/build_docs.py`.
+- The contributors API lists **43 contributors with non-redacted API-projected skills** (229 skills); `scripts/buildApiProjection.build_contributors()` receives that narrower visible-skill set. This is a different population, not an alternate count of everyone in the public directory.
+- Homepage ledger definitions: named = all classified bucket entries (352); ultimates = named entries at rank 5★+ (3 at this snapshot). The live JS count and first-paint generator both use those definitions. These figures are provisional and must be refreshed after the cutoff; do not substitute them for final counts.
+- Sources: `registry/named-skills.json` (`buckets`, `awaitingClassification`, `byContributor`); `scripts/generateProfilePages.py` `collect_by_contributor` / `build_directory_page`; `scripts/buildApiProjection.py` `build_contributors`; `docs/api/v1/contributors/index.json`; `docs/api/v1/skills/index.json`; `docs/graph/ledger/data.json`; `scripts/build_docs.py` `build_docs_index` / `build_about_stats`.
+- Verify: `python3 -c "import json; n=json.load(open('registry/named-skills.json')); print(len(n['byContributor']), sum(map(len,n['byContributor'].values())), sum(map(len,n['buckets'].values())), len(n['awaitingClassification']))"`; then inspect API `totalContributors`, API `totalSkills`, ledger `summary.total`, generated homepage stat markers and about tally.
+- Moves: L4, merge:#2251, merge:#2259, cutoff. All values in this entry are provisional.
 
 ## Keep or remove
 

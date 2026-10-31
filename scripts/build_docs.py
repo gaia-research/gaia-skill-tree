@@ -361,19 +361,36 @@ def build_docs_index(check: bool) -> bool:
         1 for s in graph.get("skills", [])
         if branchFor({**s, "namedMaxLevel": named_max.get(s.get("id"), 0)}) == "unique"
     )
+    ultimate_count = sum(
+        1
+        for entries in named.get("buckets", {}).values()
+        for entry in entries
+        if levelNum(entry.get("level")) >= 5
+    )
     body = (
         f"skills={len(graph.get('skills', []))}; namedSkills={named_count}; "
         f"uniqueSkills={unique_count}"
     )
     text = path.read_text(encoding="utf-8")
-    text, changed = _replace_region(
-        text,
-        "<!-- gaia:stats-start -->",
-        "<!-- gaia:stats-end -->",
-        f"<!-- {body} -->",
+    changed = False
+    regions = (
+        ("<!-- gaia:stats-start -->", "<!-- gaia:stats-end -->", f"<!-- {body} -->"),
+        (
+            "<!-- gaia:homepage-named-start -->",
+            "<!-- gaia:homepage-named-end -->",
+            str(named_count),
+        ),
+        (
+            "<!-- gaia:homepage-ultimates-start -->",
+            "<!-- gaia:homepage-ultimates-end -->",
+            str(ultimate_count),
+        ),
     )
+    for start, end, replacement in regions:
+        text, region_changed = _replace_region(text, start, end, replacement)
+        changed = changed or region_changed
     if changed and check:
-        print('diff', body)
+        print('diff', body, f"homepage named={named_count}; ultimates={ultimate_count}")
     if changed and not check:
         path.write_text(text, encoding="utf-8")
     return changed
@@ -399,11 +416,12 @@ def build_about_stats(check: bool) -> bool:
         for e in entries
         if e.get("origin") is True
     )
+    # Match the public contributors directory: every handle represented by
+    # classified or awaiting-classification entries is included. The API
+    # intentionally projects only non-redacted skills and has a narrower set.
     contributors = len({
-        e.get("contributor")
-        for entries in buckets.values()
-        for e in entries
-        if e.get("contributor")
+        handle for handle, entries in named.get("byContributor", {}).items()
+        if entries
     })
     evidence_entries = sum(len(s.get("evidence", [])) for s in skills)
 

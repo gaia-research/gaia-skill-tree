@@ -328,7 +328,12 @@ def md_to_html(md: str) -> str:
                     tbody_rows.append("<tr>" + "".join(f"<td>{_inline(c)}</td>" for c in cells[:len(header_cells)]) + "</tr>")
                 
                 tbody = "<tbody>" + "".join(tbody_rows) + "</tbody>"
-                out.append(f"<table>{thead}{tbody}</table>")
+                out.append(
+                    '<div class="report-table-scroll" role="region" '
+                    'aria-label="Scrollable report table" tabindex="0">'
+                    f"<table>{thead}{tbody}</table>"
+                    "</div>"
+                )
             continue
 
         # Blockquote parsing
@@ -528,7 +533,9 @@ _REPORT_CSS = """\
     pre { background: #f7f7f7; border: 1px solid #eee; padding: 1.2rem 1.5rem; overflow-x: auto; margin: 2rem 0; }
     pre code { background: none; border: none; padding: 0; font-size: 0.85rem; }
     blockquote { border-left: 3px solid #c8a84b; margin: 2rem 0; padding: 1rem 1.5rem; background: #fafaf8; color: #444; font-style: italic; }
-    table { width: 100%; border-collapse: collapse; margin: 3rem 0; font-family: var(--font-serif); font-size: 1rem; }
+    .report-table-scroll { max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; -webkit-overflow-scrolling: touch; }
+    .report-table-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    table { width: max-content; min-width: 100%; border-collapse: collapse; margin: 3rem 0; font-family: var(--font-serif); font-size: 1rem; }
     thead tr { border-top: 2px solid var(--paper-text); border-bottom: 1px solid var(--paper-text); }
     th { font-weight: 600; text-align: left; padding: 0.8rem 0.5rem; font-variant-caps: small-caps; }
     td { padding: 0.8rem 0.5rem; border-bottom: 0.5px solid #eee; vertical-align: top; }
