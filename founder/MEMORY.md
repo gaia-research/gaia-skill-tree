@@ -15,6 +15,12 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-10-31, CHECKPOINT TEST RESULTS — Origin still red)
+
+Terminal results collected after the preceding recovery snapshot: report `b0a34be5e` focused checks **6 passed / 0.08s**, whitespace and JS syntax exit 0; not rendered acceptance. Origin `bcca9552a` **2 failed, 51 passed / 0.61s**. Generator `_write_frontmatter_updates` has a `guardCanonicalPath` call with no import/definition; homepage and leaderboard still contain retired chronological-Origin copy. Full commands, failing tests and source-inspection limits: `founder/reports/yggdrasil-iv-october-2026/verification/CHECKPOINT-TESTS.md`. Do not integrate Origin, weaken the tests blindly, or treat preserved WIP as reviewed. Authorized worker-route blocker is unchanged; no code repair or new governance decision is claimed.
+
+---
+
 ## State Snapshot (2026-10-31, SOL HIGH — schema landed; authorized worker routes blocked, WIP preserved)
 
 ### TLDR
