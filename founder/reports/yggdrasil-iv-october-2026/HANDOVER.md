@@ -9,6 +9,14 @@ with explicit effort on every dispatch.
 same day as the October cutoff). Three agents died mid-task; their partial state is recorded below.
 Nothing is half-merged. Machine disk ≈5 GB free after cleanup.
 
+## ACTIVE CORRECTION — 2026-10-31, founder rejects invented worker gate
+
+Founder explicitly corrected the attempted stop on optional worker availability: **it is not a campaign blocker**. The lead had misclassified a harness limitation as a hard dependency. Continue authorized engineering as lead; use Luna/Terra workers only where genuinely useful. No new founder ruling or permission questionnaire is needed, and the final report/merge approvals and genuine independent-verification requirements remain intact.
+
+Origin's two observed checkpoint failures are repaired in **`cc700031b1e0c3bae0f88ba8248058d38a55f69b`**, pushed: restore the legitimate canonical-write guard import; prohibit Origin writes in the metadata writer; preserve frozen direct/suite member source bytes during metadata sync; replace the overbroad textual guard ban with guarded-runtime/unchanged-Origin/frozen-byte regressions; correct homepage/leaderboard Origin copy. Focused Origin/upstream/suiteRef regression: **59 passed in 0.59s**. Current verified schema/dev was then merged into the Origin branch without conflicts. Broader integration regression is in progress; **this is not a full Origin SHIP or PR/integration claim**.
+
+The older route errors below are historical execution facts, **not a release gate and not justification to stop remaining work**. Resume at completion/verification of the Origin review findings, then the existing dependency spine.
+
 ## RESUME CHECKPOINT — 2026-10-31 UTC, Sol High (supersedes older state SHAs below)
 
 Engineering is **not finished** and #2151 is **not founder-merge-ready**. No new governance decisions are requested. Existing founder rulings and all 76 L4 choices remain binding.
