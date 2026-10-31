@@ -208,6 +208,12 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 355.66 -> 356.11, grade S -> S (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-27T21:39:08Z'
+  action: upstream_synced
+  contributor: mbtiongson1
+  previousValue: null
+  newValue: v1.91.242.0
+  details: first-run baseline
 trustMagnitude: 356.11
 overallTrustGrade: S
 trustMagnitudeInputHash: 1feb9c20dc9b63ce9c286b423de593b491dfdeb420baa79a33b37d7e920462c7
@@ -224,6 +230,13 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:18:27Z'
+upstream:
+  mode: components
+  releasedAt: '2026-10-26T12:01:30Z'
+  repo: garrytan/gstack
+  sourceUrl: https://github.com/garrytan/gstack/releases/tag/v1.91.242.0
+  syncedAt: '2026-10-27T21:39:08Z'
+  version: v1.91.242.0
 ---
 
 ## Overview

@@ -13268,6 +13268,145 @@ body[data-overall-grade="S"] .report-card {
   cursor: help;
 }
 
+/* Evidence provenance — type label, source host, evaluator, date, link.
+   One renderer (docs/js/evidence-provenance.js) feeds every evidence surface.
+   Colour comes from tokens only; absence is italic, never hidden. */
+.ev-prov-link {
+  display: inline-flex;
+  align-items: baseline;
+  min-width: 0;
+  max-width: 100%;
+}
+.ev-prov-host {
+  flex: 0 0 auto;
+  color: var(--text);
+  font-weight: 600;
+}
+.ev-prov-path {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--muted);
+}
+.ev-prov-tail {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  color: var(--muted);
+}
+.ev-prov-link:hover .ev-prov-path,
+.ev-prov-link:hover .ev-prov-tail {
+  color: inherit;
+}
+.ev-prov-dup {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: 2px;
+  padding: 1px 5px;
+  white-space: nowrap;
+  cursor: help;
+}
+.ev-type-pill.type-none {
+  color: var(--muted);
+  background: transparent;
+  border: 1px dashed var(--border);
+  font-style: italic;
+}
+.ev-prov-none {
+  font-style: italic;
+  opacity: 0.7;
+  border-bottom: 0;
+  cursor: default;
+}
+.ev-prov-info {
+  background: transparent;
+  border: 1px solid currentColor;
+  color: var(--muted);
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  font-size: 8px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  line-height: 1;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: help;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+/* 24px hit target around a 14px mark; negative margins keep the row height. */
+.ev-prov-tip .ev-prov-info {
+  position: relative;
+  border: 0;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  margin: -5px -5px -5px -3px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 8px/1 var(--font-mono);
+  color: var(--muted);
+  opacity: 0.7;
+}
+.ev-prov-tip .ev-prov-info::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.ev-prov-info:hover,
+.ev-prov-info:focus-visible {
+  opacity: 1;
+}
+/* The host link claims at least 11rem: the path gives way first, and in a narrow
+   card the link (with its tooltip trigger) wraps to its own line instead of
+   being crushed. */
+.se-ev-card-top > .ev-type-pill {
+  width: auto;
+  flex: 0 0 auto;
+}
+.se-ev-card-top > .se-ev-layer-hint {
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+.se-ev-card-top > .ev-prov-link,
+.se-ev-card-top > .ev-prov-none {
+  flex: 1 1 11rem;
+  min-width: 0;
+}
+/* The toggletip anchors to the card, not the 14px trigger, and the card must
+   let it overhang the row. */
+.lc-anchor.ev-prov-tip {
+  position: static;
+  display: inline-flex;
+}
+.se-ev-card:has(.ev-prov-tip) {
+  position: relative;
+  overflow: visible;
+}
+.ev-prov-tip .lc-tipbox__line {
+  overflow-wrap: anywhere;
+}
+.ev-prov-tip .lc-tipbox {
+  top: 2rem;
+  left: 8px;
+  right: 8px;
+  width: auto;
+  max-width: none;
+}
+
 /* Layer hint — subtle "via generic" tag on evidence rows */
 .se-ev-layer-hint {
   font-family: var(--font-mono);
@@ -13436,4 +13575,918 @@ body[data-overall-grade="S"] .report-card {
 .home-page #evidence-cycle,
 .home-page #meta-reports {
   max-width: 960px;
+}
+
+/* ── TRUST LIFECYCLE & CHALLENGE IDENTITY (YGGDRASIL IV) ──
+   Rendered by docs/js/trust-lifecycle.js. Reusable components:
+   .lc-mark (Challenge Mark), .lc-chip (State Chip), .lc-meter (Trust Meter),
+   .lc-tip + .lc-tipbox (toggletip). The panel shell is .lc-panel.
+   Spec: DESIGN.md § Challenge. Mobile-first: the base rules are the 320px layout. */
+#se-tm:empty {
+  display: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+}
+
+.lc-panel,
+.lc-chip,
+.lc-meter,
+.lc-tipbox {
+  --lc-ink-soft: rgba(226, 232, 240, .72);
+  --lc-hair: rgba(226, 232, 240, .1);
+}
+
+/* ── Challenge Mark ── */
+.lc-mark {
+  --lc-mark-size: 20px;
+  display: inline-block;
+  flex: none;
+  width: var(--lc-mark-size);
+  height: var(--lc-mark-size);
+  line-height: 0;
+  vertical-align: middle;
+}
+
+.lc-mark[data-size="sm"] { --lc-mark-size: 14px; }
+.lc-mark[data-size="lg"] { --lc-mark-size: 32px; }
+.lc-mark[data-size="xl"] { --lc-mark-size: 56px; }
+
+.lc-mark__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Open: touchstone slate, signal hachure, signal edge. */
+.lc-mark__slate { fill: rgb(var(--challenge-slate-rgb)); }
+
+.lc-mark__hatch line {
+  stroke: var(--challenge);
+  stroke-width: 1.1;
+  stroke-linecap: square;
+}
+
+.lc-mark__edge {
+  fill: none;
+  stroke: var(--challenge);
+  stroke-width: 1.6;
+  stroke-linejoin: miter;
+}
+
+.lc-mark[data-size="sm"] .lc-mark__edge { stroke-width: 2.2; }
+.lc-mark[data-size="sm"] .lc-mark__hatch line { stroke-width: 1.5; }
+
+/* Answered: struck steel hallmark, engraved bevel, inlaid chevron. */
+.lc-mark__steel { fill: var(--challenge-steel); }
+
+.lc-mark__bevel-hi {
+  fill: none;
+  stroke: rgba(255, 255, 255, .9);
+  stroke-width: .9;
+}
+
+.lc-mark__bevel-lo {
+  fill: none;
+  stroke: rgba(0, 0, 0, .3);
+  stroke-width: .9;
+}
+
+.lc-mark__chev { fill: rgb(var(--challenge-deep-rgb)); }
+
+.lc-mark__rim {
+  fill: none;
+  stroke: rgba(0, 0, 0, .5);
+  stroke-width: .6;
+}
+
+/* Motion grammar: an open challenge is under heat (a slow wave runs through
+   the hachure toward the notch); an answered challenge is struck once. */
+@keyframes lc-heat {
+  0%, 100% { opacity: .32; }
+  45% { opacity: 1; }
+}
+
+@keyframes lc-strike {
+  0% { transform: scale(1.2); filter: brightness(1.8); }
+  55% { transform: scale(.97); filter: brightness(1.1); }
+  100% { transform: none; filter: none; }
+}
+
+.lc-mark[data-state="open"][data-size="lg"] .lc-mark__hatch line,
+.lc-mark[data-state="open"][data-size="xl"] .lc-mark__hatch line {
+  animation: lc-heat 2.8s cubic-bezier(.45, 0, .55, 1) infinite;
+  animation-delay: calc(var(--i, 0) * -.16s);
+}
+
+.lc-mark[data-size="xl"]:not([data-state="open"]) {
+  animation: lc-strike .6s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+/* ── State Chip ── */
+.lc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  box-sizing: border-box;
+  min-height: 1.65rem;
+  padding: .2rem .55rem .2rem .4rem;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  line-height: 1;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  max-width: 100%;
+  color: var(--lc-ink-soft);
+  background: rgba(226, 232, 240, .03);
+  box-shadow: inset 0 0 0 1px var(--lc-hair);
+}
+
+.lc-chip[data-tone="signal"] {
+  color: var(--challenge);
+  background: rgba(var(--challenge-rgb), .08);
+  box-shadow: inset 0 0 0 1px rgba(var(--challenge-rgb), .45);
+}
+
+.lc-chip[data-tone="steel"] {
+  color: var(--challenge-steel);
+  box-shadow: inset 0 0 0 1px rgba(var(--challenge-steel-rgb), .3);
+}
+
+/* A state label never truncates: at the narrowest widths it wraps inside the chip. */
+.lc-chip__label {
+  min-width: 0;
+  line-height: 1.25;
+  white-space: normal;
+}
+
+.lc-chip__swatch {
+  flex: none;
+  box-sizing: border-box;
+  width: 14px;
+  height: 6px;
+  border-radius: 1px;
+}
+
+.lc-chip__swatch[data-swatch="solid"] { background: var(--challenge-steel); }
+.lc-chip__swatch[data-swatch="hollow"] { box-shadow: inset 0 0 0 1.5px rgba(var(--challenge-steel-rgb), .85); }
+.lc-chip__swatch[data-swatch="dashed"] { border: 1px dashed rgba(var(--challenge-steel-rgb), .85); }
+.lc-chip__swatch[data-swatch="dotted"] {
+  background: radial-gradient(circle, rgba(226, 232, 240, .6) 1px, transparent 1.3px) 0 50% / 4px 4px repeat-x;
+}
+
+/* ── Trust Meter ── */
+.lc-meter {
+  display: block;
+  width: 100%;
+  padding-bottom: 15px;
+}
+
+.lc-meter__track {
+  position: relative;
+  display: block;
+  height: 10px;
+  border-radius: 2px;
+  background: rgba(226, 232, 240, .05);
+  box-shadow: inset 0 0 0 1px var(--lc-hair);
+}
+
+.lc-meter__fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--lc-fill, 0%);
+  border-radius: 2px 0 0 2px;
+  background: linear-gradient(180deg, rgba(var(--challenge-steel-rgb), 1), rgba(var(--challenge-steel-rgb), .62));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .55);
+}
+
+.lc-meter[data-kind="current-baseline"] .lc-meter__fill {
+  background: rgba(var(--challenge-steel-rgb), .1);
+  box-shadow: inset 0 0 0 1.5px rgba(var(--challenge-steel-rgb), .85);
+}
+
+.lc-meter[data-kind="unavailable"] .lc-meter__track {
+  background: radial-gradient(circle, rgba(226, 232, 240, .35) 1px, transparent 1.3px) 0 50% / 6px 6px repeat-x;
+}
+
+/* Grade floors: an engraved notch through the track and a letter beneath. */
+.lc-meter__tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--at);
+  width: 1px;
+  background: rgba(3, 7, 18, .55);
+}
+
+.lc-meter__tick::after {
+  content: attr(data-grade);
+  position: absolute;
+  top: calc(100% + 3px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: .5625rem;
+  line-height: 1;
+  color: var(--lc-ink-soft);
+}
+
+.lc-meter__recal {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  left: calc(var(--lc-fill, 0%) - 9px);
+  width: 18px;
+  box-sizing: border-box;
+  border: 1px dashed rgba(var(--challenge-steel-rgb), .9);
+  border-radius: 2px;
+  animation: lc-recal 2.4s ease-in-out infinite;
+}
+
+@keyframes lc-recal {
+  50% { opacity: .35; }
+}
+
+/* ── Toggletip ── */
+.lc-anchor { position: relative; }
+
+.lc-tip {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: help;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lc-tip:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+.lc-tipbox {
+  position: absolute;
+  z-index: 6;
+  top: calc(100% + .45rem);
+  left: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  width: max-content;
+  max-width: min(44ch, 100%);
+  padding: .7rem .85rem;
+  border-radius: 4px;
+  background: var(--bg);
+  box-shadow: 0 0 0 1px var(--border), 0 14px 32px rgba(0, 0, 0, .55);
+  color: var(--lc-ink-soft);
+  font-family: var(--font-body);
+  font-size: .8rem;
+  line-height: 1.45;
+  text-transform: none;
+  letter-spacing: normal;
+  white-space: normal;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  clip-path: inset(0 0 100% 0);
+  transition: opacity .16s ease, transform .24s cubic-bezier(.16, 1, .3, 1),
+    clip-path .24s cubic-bezier(.16, 1, .3, 1), visibility 0s linear .24s;
+}
+
+.lc-tipbox__line:first-child {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.lc-tip[data-open] + .lc-tipbox,
+.lc-tip:focus-visible + .lc-tipbox {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  clip-path: inset(0 0 0 0);
+  transition-delay: 0s;
+}
+
+@media (hover: hover) {
+  .lc-tip:hover + .lc-tipbox {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    clip-path: inset(0 0 0 0);
+    transition-delay: 0s;
+  }
+}
+
+/* ── Panel ── */
+.lc-panel {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 100%;
+  color: var(--text);
+  font-family: var(--font-body);
+  overflow-wrap: break-word;
+}
+
+.lc-head {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  min-width: 0;
+}
+
+.lc-head__mark {
+  flex: none;
+  display: inline-flex;
+  border-radius: 6px;
+}
+
+.lc-head__text {
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  min-width: 0;
+}
+
+.lc-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 5.5vw, 2rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -.01em;
+  color: var(--text);
+}
+
+.lc-head__chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .4rem .6rem;
+}
+
+.lc-honors {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* The plate: a ledger strip between double rules. An open challenge lays its
+   hachure over the top rule (thicker for material); an answered one leaves a
+   thin forged line beneath it. */
+.lc-plate {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: .7rem 0;
+  border-top: 3px double var(--border);
+  border-bottom: 3px double var(--border);
+}
+
+.lc-plate[data-challenge="open-scoped"],
+.lc-plate[data-challenge="open-material"] {
+  border-top: 0;
+  padding-top: calc(.7rem + 5px);
+}
+
+.lc-plate[data-challenge="open-material"] { padding-top: calc(.7rem + 9px); }
+
+.lc-plate[data-challenge="open-scoped"]::before,
+.lc-plate[data-challenge="open-material"]::before,
+.lc-plate[data-challenge="answered"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 5px;
+  background: repeating-linear-gradient(-45deg, rgba(var(--challenge-rgb), .9) 0 1.5px, transparent 1.5px 5px);
+}
+
+.lc-plate[data-challenge="open-material"]::before { height: 9px; }
+
+.lc-plate[data-challenge="answered"]::before {
+  top: 3px;
+  height: 1px;
+  background: rgb(var(--challenge-deep-rgb));
+}
+
+.lc-plate__row { min-width: 0; }
+
+.lc-plate__meter,
+.lc-plate__origin {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  padding: .55rem .25rem;
+}
+
+@media (hover: hover) {
+  .lc-plate__meter:hover,
+  .lc-plate__origin:hover { background: rgba(226, 232, 240, .025); }
+}
+
+/* Mobile: reading + stars on one line, the meter full width beneath. */
+.lc-instrument {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas: "read stars" "meter meter";
+  align-items: center;
+  gap: .55rem .9rem;
+}
+
+.lc-instrument__read {
+  grid-area: read;
+  display: flex;
+  align-items: baseline;
+  gap: .3rem;
+}
+
+.lc-instrument > .lc-stars {
+  grid-area: stars;
+  justify-self: end;
+}
+
+.lc-instrument > .lc-meter { grid-area: meter; }
+
+
+.lc-num {
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  line-height: 1;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.lc-unit {
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  letter-spacing: .12em;
+  color: var(--lc-ink-soft);
+}
+
+.lc-stars { display: inline-flex; line-height: 1; }
+
+.lc-stars--plain {
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  color: var(--lc-ink-soft);
+}
+
+/* Origin: the gold wreath carries the contest pin, or the hallmark of having held it. */
+.lc-origin {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  min-width: 0;
+}
+
+.lc-wreath {
+  position: relative;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  background: url("../assets/origin-wreath-gold.svg") center / 100% 100% no-repeat;
+}
+
+.lc-wreath__initial,
+.lc-wreath__avatar {
+  position: absolute;
+  top: 22%;
+  left: 22%;
+  width: 56%;
+  height: 56%;
+  border-radius: 50%;
+}
+
+.lc-wreath__initial {
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--lc-ink-soft);
+}
+
+.lc-wreath__avatar { object-fit: cover; }
+
+.lc-wreath[data-status="unknown"] {
+  opacity: .35;
+  filter: grayscale(1);
+}
+
+.lc-wreath__pin {
+  position: absolute;
+  right: -5px;
+  bottom: -3px;
+  line-height: 0;
+}
+
+.lc-wreath__pin .lc-mark { --lc-mark-size: 22px; }
+
+.lc-origin__text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: .3rem;
+  min-width: 0;
+}
+
+.lc-origin__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .3rem .6rem;
+  min-width: 0;
+}
+
+.lc-origin__handle {
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: .9rem;
+  color: var(--honor-red);
+  overflow-wrap: anywhere;
+}
+
+.lc-origin__handle[data-none] { color: var(--lc-ink-soft); }
+
+.lc-origin__bucket {
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  color: var(--lc-ink-soft);
+  overflow-wrap: anywhere;
+}
+
+/* ── Challenge ledger ── */
+.lc-ledger {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+.lc-ledger__title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .25rem .75rem;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.lc-ledger__count {
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  font-weight: 400;
+  letter-spacing: .08em;
+  white-space: nowrap;
+  color: var(--lc-ink-soft);
+}
+
+.lc-ledger__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+
+.lc-bout { border-bottom: 1px solid var(--border); }
+
+.lc-bout__sum {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: .2rem .75rem;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: .8rem .25rem;
+  list-style: none;
+  cursor: pointer;
+}
+
+.lc-bout__sum::-webkit-details-marker { display: none; }
+.lc-bout__sum::marker { content: ""; }
+
+.lc-bout__sum:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: -2px;
+  border-radius: 3px;
+}
+
+.lc-bout__sum > .lc-mark { margin-top: .1rem; }
+
+.lc-bout__main {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  min-width: 0;
+}
+
+.lc-bout__claim {
+  font-size: .92rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+/* A settled entry is struck through, as a ledger strikes a settled line: still legible, no longer standing. */
+.lc-bout:not([data-state="open"]) .lc-bout__claim {
+  color: var(--lc-ink-soft);
+  text-decoration: line-through;
+  text-decoration-color: rgba(var(--challenge-rgb), .7);
+  text-decoration-thickness: 1px;
+}
+
+.lc-bout__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .4rem .7rem;
+}
+
+.lc-bout__toggle {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  margin-top: .2rem;
+}
+
+.lc-bout__toggle::before,
+.lc-bout__toggle::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  right: 2px;
+  left: 2px;
+  height: 2px;
+  background: var(--lc-ink-soft);
+  transition: transform .2s cubic-bezier(.16, 1, .3, 1);
+}
+
+.lc-bout__toggle::after { transform: rotate(90deg); }
+.lc-bout__details[open] .lc-bout__toggle::after { transform: rotate(0deg); }
+
+.lc-rail {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--lc-ink-soft);
+}
+
+.lc-rail__bar {
+  width: 2.75rem;
+  height: 4px;
+  border-radius: 1px;
+  background: rgba(var(--challenge-steel-rgb), .6);
+}
+
+.lc-rail[data-state="open"] .lc-rail__bar {
+  width: 3.25rem;
+  background: repeating-linear-gradient(-45deg, var(--challenge) 0 1.5px, transparent 1.5px 4px);
+  -webkit-mask: linear-gradient(90deg, black 55%, transparent);
+  mask: linear-gradient(90deg, black 55%, transparent);
+}
+
+.lc-rail__end {
+  width: 7px;
+  height: 7px;
+  border-radius: 1px;
+  background: var(--challenge);
+}
+
+/* The record: prose and receipts live behind the disclosure. */
+.lc-record {
+  display: flex;
+  flex-direction: column;
+  gap: .85rem;
+  padding: .1rem .25rem 1.1rem;
+  font-size: .8rem;
+}
+
+.lc-record__note {
+  max-width: 62ch;
+  margin: 0;
+  line-height: 1.5;
+  color: var(--lc-ink-soft);
+}
+
+.lc-record__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: .55rem 1.25rem;
+  margin: 0;
+}
+
+.lc-record__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: .15rem;
+  min-width: 0;
+}
+
+.lc-record__row dt {
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--lc-ink-soft);
+}
+
+.lc-record__row dd {
+  min-width: 0;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  overflow-wrap: anywhere;
+  color: var(--text);
+}
+
+.lc-assay dt::before {
+  content: "";
+  display: inline-block;
+  box-sizing: border-box;
+  width: 10px;
+  height: 4px;
+  margin-right: .45rem;
+  vertical-align: middle;
+  border-radius: 1px;
+}
+
+.lc-assay--subject dt::before { background: var(--challenge); }
+.lc-assay--comparator dt::before { background: var(--challenge-steel); }
+.lc-assay--baseline dt::before { box-shadow: inset 0 0 0 1px var(--challenge-steel); }
+
+.lc-code {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  overflow-wrap: anywhere;
+  word-break: break-all;
+  color: var(--text);
+}
+
+.lc-dim { color: var(--lc-ink-soft); }
+
+.lc-events {
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lc-events__item {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .15rem .6rem;
+  padding-left: 1.1rem;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  color: var(--text);
+}
+
+.lc-events__item::before {
+  content: "";
+  position: absolute;
+  top: .3em;
+  left: 0;
+  box-sizing: border-box;
+  width: 8px;
+  height: 8px;
+  border-radius: 1px;
+  box-shadow: inset 0 0 0 1.5px var(--lc-ink-soft);
+}
+
+.lc-events__item[data-event="verified-publication"]::before { background: var(--challenge); box-shadow: none; }
+.lc-events__item[data-event="technical-resolution"]::before { background: var(--challenge-steel); box-shadow: none; }
+
+.lc-events__date { color: var(--lc-ink-soft); font-variant-numeric: tabular-nums; }
+
+.lc-record__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem 1.1rem;
+  margin: 0;
+}
+
+.lc-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  font-size: .8rem;
+  color: var(--tier-basic);
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--tier-basic-rgb), .35);
+  text-underline-offset: 3px;
+}
+
+.lc-link:hover { text-decoration-color: currentColor; }
+
+.lc-link:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Entrypoint from the Explorer panel to /trust/challenges/. */
+.lc-more {
+  margin: .25rem 0 0;
+}
+
+.lc-awards {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lc-awards__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .2rem .7rem;
+  font-size: .8rem;
+}
+
+.lc-awards__title { font-weight: 600; }
+
+.lc-panel ::selection {
+  background: rgba(var(--challenge-rgb), .35);
+  color: var(--text);
+}
+
+/* ── Wider screens ── */
+@media (min-width: 480px) {
+  .lc-record { padding-left: calc(20px + 1rem); }
+  .lc-record__row { grid-template-columns: 7rem minmax(0, 1fr); gap: .75rem; align-items: baseline; }
+  .lc-num { font-size: 2rem; }
+}
+
+@media (min-width: 768px) {
+  .lc-mark[data-size="xl"] { --lc-mark-size: 72px; }
+  .lc-panel { gap: 1.6rem; }
+  .lc-head { gap: 1.2rem; }
+  .lc-plate { flex-direction: row; align-items: stretch; }
+  .lc-plate__row:first-child { flex: 1.7 1 0; padding-right: 1.25rem; }
+  .lc-plate__row + .lc-plate__row {
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    padding-left: 1.25rem;
+    border-left: 1px solid var(--lc-hair);
+  }
+  .lc-num { font-size: 2.4rem; }
+  .lc-instrument {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "read meter" "read stars";
+    gap: .5rem 1rem;
+  }
+  .lc-instrument > .lc-stars { justify-self: start; }
+  .lc-bout__main {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .lc-bout__meta { flex: none; flex-wrap: nowrap; }
+  .lc-record__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lc-record__row--wide { grid-column: 1 / -1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lc-mark,
+  .lc-mark__hatch line,
+  .lc-meter__recal { animation: none !important; }
+  .lc-tipbox,
+  .lc-bout__toggle::before,
+  .lc-bout__toggle::after { transition: none; }
+  .lc-tipbox { transform: none; clip-path: none; }
 }

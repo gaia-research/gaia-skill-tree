@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/home/gaia-skill-tree/.pi/probes/resume-frontier-e4-isolated.py", line 54, in <module>
+    assert not subprocess.check_output(['git','status','--porcelain'],text=True).strip()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

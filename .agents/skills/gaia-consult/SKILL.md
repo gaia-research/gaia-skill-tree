@@ -26,7 +26,8 @@ Open it in any browser. It is self-contained, offline-capable, and covers every 
 | You are in… | Jump to section in the doc |
 |---|---|
 | You want end-to-end curation and intake | **[/gaia-full-pipeline](../gaia-full-pipeline/SKILL.md)**; human L4 review remains required |
-| You are inspecting the paused `gaia curate` scaffold | **[/gaia-quick-curate](../gaia-quick-curate/SKILL.md)** — not an automated pipeline |
+| You want outward ecosystem discovery | **[/gaia-frontier](../gaia-frontier/SKILL.md)** |
+| You want to inspect or initialize a paused curate ledger | **[/gaia-quick-curate](../gaia-quick-curate/SKILL.md)** — a paused scaffold, not an automated pipeline, and not this doc |
 | Discovering a skill, running prefill, writing the packet | **Phase 1 — gaia-curate** |
 | Reviewing the packet, ratifying with `gaia dev ratify` | **Phase 2 — L4 Review** |
 | Running `gaia push`, branching, opening the draft PR | **Phase 3 — gaia push → PR** |

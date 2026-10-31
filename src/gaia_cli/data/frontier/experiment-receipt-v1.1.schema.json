@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gaiaskilltree.com/schemas/frontier-experiment-receipt-v1.1.schema.json",
+  "title": "Untrusted bounded experimental result (documented and executed versions); not an admission receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "experimentRunId",
+    "campaignId",
+    "nativeVersion",
+    "documentedVersion",
+    "executedVersion",
+    "requestId",
+    "leadDigest",
+    "claimDigest",
+    "sourceDigest",
+    "targetDigest",
+    "targetRevision",
+    "historyRef",
+    "protocolDigest",
+    "fixtureDigest",
+    "result",
+    "outputs",
+    "limitations",
+    "recordedAtUTC"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "frontier-experiment-receipt-v1.1"
+    },
+    "experimentRunId": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 200
+    },
+    "campaignId": {
+      "type": "string",
+      "minLength": 8
+    },
+    "nativeVersion": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Alias of executedVersion: the version that actually ran."
+    },
+    "requestId": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "leadDigest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "claimDigest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "sourceDigest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "targetDigest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "targetRevision": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40,64}$"
+    },
+    "historyRef": {
+      "type": "string",
+      "minLength": 8
+    },
+    "protocolDigest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "fixtureDigest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "result": {
+      "enum": [
+        "supported",
+        "contradicted",
+        "inconclusive",
+        "execution_failed"
+      ]
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "label",
+          "contentDigest",
+          "path"
+        ],
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "contentDigest": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "path": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 3
+      }
+    },
+    "recordedAtUTC": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "documentedVersion": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Version bound by the request/lead (claim provenance, e.g. documentation tag)."
+    },
+    "executedVersion": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Version reported by the runner's actual git --version."
+    },
+    "experimentId": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 200,
+      "description": "Experiment id declared by the frontier-protocol-v1 file the request pins; absent for the legacy git-log-L protocol."
+    },
+    "traces": {
+      "type": "array",
+      "description": "Optional raw-stream trace artifacts (command/argv, tool versions, stdout/stderr digests) of the runs that produced the outputs. Declared, not authenticated: binding a trace digest here proves which bytes the receipt names, not that the trace is true.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "label",
+          "contentDigest",
+          "path"
+        ],
+        "properties": {
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "contentDigest": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "path": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

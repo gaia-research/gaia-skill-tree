@@ -1,0 +1,97 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/daily-task-prep",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/daily-task-prep",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/daily-task-prep/SKILL.md",
+  "checked": true,
+  "contentSha256": "5ea839012b48761ed8d7a9bab056a2566587d6f7fe044e3907d77b20f8eec5ac",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "aplaceforallmystuff/log-to-daily",
+     "similarity": 0.561948
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "writing-plans",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4633 to generic 'writing-plans' (weak match).",
+   "similarity": 0.463268
+  },
+  {
+   "genericId": "executing-plans",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4527 to generic 'executing-plans' (weak match).",
+   "similarity": 0.452666
+  }
+ ],
+ "normalized": {
+  "description": "Morning preparation. Calendar lookahead, meeting context loading, open threads from yesterday, active task review. Extends briefing with actionable prep.",
+  "name": "daily-task-prep"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/daily-task-prep/SKILL.md",
+  "contentSha256": "5ea839012b48761ed8d7a9bab056a2566587d6f7fe044e3907d77b20f8eec5ac",
+  "fetchedAt": "2026-10-27T22:06:43.318613+00:00",
+  "frontmatter": {
+   "description": "Morning preparation. Calendar lookahead, meeting context loading, open threads\nfrom yesterday, active task review. Extends briefing with actionable prep.\n",
+   "mutating": false,
+   "name": "daily-task-prep",
+   "tools": [
+    "search",
+    "query",
+    "get_page",
+    "list_pages",
+    "get_timeline"
+   ],
+   "triggers": [
+    "morning prep",
+    "prepare for today",
+    "what's on my plate",
+    "day prep"
+   ],
+   "version": "1.0.0"
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

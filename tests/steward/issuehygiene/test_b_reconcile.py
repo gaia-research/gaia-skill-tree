@@ -827,8 +827,10 @@ def test_fixture_census_reconciles_to_known_counts():
     assert stats["upstreamChildOpen"] == 96
     assert stats["umbrellaOpen"] == 6
     assert stats["botOpen"] == 2
-    assert stats["classA"] == 17
-    assert stats["classB"] == 80
+    # dev/yggdrasil-iv synced mattpocock/skills to v1.3.1 (upstream_synced 2026-10-27), so umbrella #2040 now
+    # reconciles as A2-umbrella-synced against the live registry: classA 17 -> 18, classB 80 -> 79.
+    assert stats["classA"] == 18
+    assert stats["classB"] == 79
     assert stats["classC"] == 7
     assert stats["notEvaluated"] == 0
     children = {entry["issue"]: entry for entry in manifest["items"] if entry["kind"] == "child"}

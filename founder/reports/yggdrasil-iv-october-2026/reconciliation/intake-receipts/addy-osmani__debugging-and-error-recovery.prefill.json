@@ -1,0 +1,104 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "addy-osmani/debugging-and-error-recovery",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "addy-osmani/debugging-and-error-recovery",
+  "canonicalUrl": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/debugging-and-error-recovery/SKILL.md",
+  "checked": true,
+  "contentSha256": "21f3960f5d7ae2cc95c40896545004dbbcbbd752ea65fc2d53962554d4174220",
+  "hostRepository": "https://github.com/addyosmani/agent-skills",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "obra/systematic-debugging",
+     "similarity": 0.669662
+    },
+    {
+     "id": "mattpocock/diagnose",
+     "similarity": 0.587762
+    },
+    {
+     "id": "garrytan/investigate",
+     "similarity": 0.55514
+    },
+    {
+     "id": "garrytan/health",
+     "similarity": 0.505072
+    },
+    {
+     "id": "addy-osmani/observability-and-instrumentation",
+     "similarity": 0.477471
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "systematic-debugging",
+   "matchTier": "strong",
+   "rationale": "Cosine similarity 0.7868 to generic 'systematic-debugging' (strong match).",
+   "similarity": 0.786806
+  },
+  {
+   "genericId": "error-interpretation",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.6791 to generic 'error-interpretation' (weak match).",
+   "similarity": 0.67908
+  },
+  {
+   "genericId": "autonomous-debug",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5197 to generic 'autonomous-debug' (weak match).",
+   "similarity": 0.519652
+  }
+ ],
+ "normalized": {
+  "description": "Guides systematic root-cause debugging. Use when tests fail, builds break, something that worked yesterday broke, behavior doesn't match expectations, or you encounter any unexpected error. Use when you need to figure out what broke and why \u2014 a systematic approach to finding and fixing the root cause rather than guessing.",
+  "name": "debugging-and-error-recovery"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/debugging-and-error-recovery/SKILL.md",
+  "contentSha256": "21f3960f5d7ae2cc95c40896545004dbbcbbd752ea65fc2d53962554d4174220",
+  "fetchedAt": "2026-10-27T21:59:42.525017+00:00",
+  "frontmatter": {
+   "description": "Guides systematic root-cause debugging. Use when tests fail, builds break, something that worked yesterday broke, behavior doesn't match expectations, or you encounter any unexpected error. Use when you need to figure out what broke and why \u2014 a systematic approach to finding and fixing the root cause rather than guessing.",
+   "name": "debugging-and-error-recovery"
+  },
+  "hostRepository": "https://github.com/addyosmani/agent-skills",
+  "sourceLane": "source-repository"
+ }
+}

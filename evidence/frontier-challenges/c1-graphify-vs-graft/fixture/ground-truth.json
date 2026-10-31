@@ -1,0 +1,149 @@
+{
+ "fixtureId": "c1-callers-ground-truth-v1",
+ "groundTruth": {
+  "computeTrustMagnitude": [
+   [
+    "canonicalWorkflow.py",
+    "buildPlan"
+   ],
+   [
+    "commands/dev/calibrate.py",
+    "calibrate_trust_magnitude_command"
+   ],
+   [
+    "evidenceLifecycle.py",
+    "rehearse_legacy_migration"
+   ],
+   [
+    "promotion.py",
+    "checkUniqueBranchGate"
+   ],
+   [
+    "shadowEvaluation.py",
+    "_assessOne"
+   ],
+   [
+    "shadowEvaluation.py",
+    "evaluateShadow"
+   ],
+   [
+    "shadowEvaluation.py",
+    "evaluateShadowRegistry"
+   ],
+   [
+    "steward/sensors.py",
+    "scan_detailed"
+   ],
+   [
+    "trustMagnitude.py",
+    "checkOverallGradeS"
+   ],
+   [
+    "trustMagnitude.py",
+    "computeOverallTrustGradeFromSkill"
+   ],
+   [
+    "trustMagnitude.py",
+    "computeTrustMagnitudeByType"
+   ]
+  ],
+  "embeddings_path": [
+   [
+    "curation/retrieval.py",
+    "embeddingStatus"
+   ],
+   [
+    "embeddings.py",
+    "generate_embeddings"
+   ],
+   [
+    "impl.py",
+    "doctor_command"
+   ],
+   [
+    "impl.py",
+    "search_command"
+   ],
+   [
+    "prefill.py",
+    "prefillCommand"
+   ]
+  ],
+  "rankWord": [
+   [
+    "cardRenderer.py",
+    "<module>"
+   ],
+   [
+    "taxonomy.py",
+    "rankLabel"
+   ],
+   [
+    "tui/screens/agent.py",
+    "compose"
+   ],
+   [
+    "tui/screens/levelup.py",
+    "_render_frame"
+   ]
+  ],
+  "spec_by_id": [
+   [
+    "steward/landing.py",
+    "_resolve_executor"
+   ],
+   [
+    "steward/landing.py",
+    "execute_class_a_landing"
+   ],
+   [
+    "steward/policy.py",
+    "_from_mapping"
+   ],
+   [
+    "steward/repairs.py",
+    "_spec_for"
+   ]
+  ],
+  "suiteComponentIds": [
+   [
+    "fusionScore.py",
+    "resolveFusionStructure"
+   ],
+   [
+    "structuralGraph.py",
+    "directStructuralEdges"
+   ],
+   [
+    "trustMagnitude.py",
+    "_fusionAndSuiteOriginIds"
+   ]
+  ]
+ },
+ "groundTruthRule": "Caller = enclosing function (bare name; '<module>' for module-level) and file of every Python ast.Call whose callee bare name (ast.Name id or ast.Attribute attr) equals the target name; all call sites were reviewed by reading the source line. Paths relative to src/gaia_cli.",
+ "pinnedRevision": "d237c0839c9c9197fc861ecec839ed323a9748a4",
+ "reviewNote": "Reviewed 2026-10-29 by the runner session (not independent). 27 caller entries. cardRenderer.py rankWord caller is a module-level dict comprehension (<module>).",
+ "selectionRule": "From src/gaia_cli (excluding data/) at pinnedRevision: function/method names defined exactly once, not dunder, not leading underscore, 3 to 15 distinct caller functions spanning at least 2 files, bare name absent from builtins/hashlib/json/os/pathlib/re/subprocess/time/datetime; sorted ascending by sha256(name + pinnedRevision); first 5 taken.",
+ "targets": {
+  "computeTrustMagnitude": {
+   "definedAtLine": 1017,
+   "definedIn": "trustMagnitude.py"
+  },
+  "embeddings_path": {
+   "definedAtLine": 116,
+   "definedIn": "registry.py"
+  },
+  "rankWord": {
+   "definedAtLine": 275,
+   "definedIn": "taxonomy.py"
+  },
+  "spec_by_id": {
+   "definedAtLine": 100,
+   "definedIn": "steward/mirrors.py"
+  },
+  "suiteComponentIds": {
+   "definedAtLine": 128,
+   "definedIn": "structuralGraph.py"
+  }
+ }
+}

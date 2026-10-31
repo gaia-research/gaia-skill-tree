@@ -1,0 +1,83 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/schema-unify",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/schema-unify",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-unify/SKILL.md",
+  "checked": true,
+  "contentSha256": "36259f1510fd693253535bd203e32db1bfa24aaae7278c7a2e8b7d6859022708",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Migrate a brain from gbrain-base (or any pack) to gbrain-base-v2's 14-canonical-type taxonomy via gbrain onboard --check + the unify-types Minion handler. Collapses 94 noisy types to 15 canonical with subtypes, alias rows, and link rows. Triggers when an agent notices pack_upgrade_available, type_proliferation, or asks \"what is the canonical taxonomy / how do I clean up my page types\".",
+  "name": "schema-unify"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-unify/SKILL.md",
+  "contentSha256": "36259f1510fd693253535bd203e32db1bfa24aaae7278c7a2e8b7d6859022708",
+  "fetchedAt": "2026-10-27T22:04:32.410469+00:00",
+  "frontmatter": {
+   "brain_first": "exempt",
+   "description": "Migrate a brain from gbrain-base (or any pack) to gbrain-base-v2's 14-canonical-type taxonomy via gbrain onboard --check + the unify-types Minion handler. Collapses 94 noisy types to 15 canonical with subtypes, alias rows, and link rows. Triggers when an agent notices pack_upgrade_available, type_proliferation, or asks \"what is the canonical taxonomy / how do I clean up my page types\".",
+   "name": "schema-unify",
+   "tools": [
+    "gbrain onboard --check",
+    "gbrain onboard --check --explain",
+    "gbrain onboard --check --json",
+    "gbrain jobs submit unify-types",
+    "gbrain jobs get",
+    "gbrain schema active",
+    "gbrain schema use",
+    "gbrain schema stats",
+    "gbrain restore",
+    "mcp:run_onboard"
+   ],
+   "triggers": [
+    "unify my types",
+    "migrate to gbrain-base-v2",
+    "94 types to 14",
+    "apply canonical taxonomy",
+    "clean up my page types",
+    "pack upgrade",
+    "shrink type proliferation",
+    "what does the canonical taxonomy look like",
+    "consolidate page types",
+    "retype pages to canonical"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

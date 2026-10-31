@@ -20,7 +20,7 @@ description: Build crafted, highly detailed, interactive isometric SVG figures t
   prints a figure as an A4 PDF (poster, drawing or handout) and publishes it to the
   Anatomy community gallery when asked.
 createdAt: '2026-10-27'
-updatedAt: '2026-10-27'
+updatedAt: '2026-10-30'
 title: Anatomy
 links:
   github: https://github.com/wheresryan22/anatomy/blob/main/SKILL.md
@@ -57,6 +57,11 @@ timeline:
   contributor: unknown
   details: 'TM (none) -> 152.48, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-30T13:02:39Z'
+  action: recalibrate_trust_magnitude
+  contributor: nova-gaia
+  details: 'TM 152.48 -> 157.48, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/wheresryan22/anatomy
   evaluator: unknown
@@ -92,7 +97,7 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-10-27T12:58:43Z'
-trustMagnitude: 152.48
+trustMagnitude: 157.48
 overallTrustGrade: A
 trustMagnitudeInputHash: 67d3ad43c0f7fe517d484e80ba05a9263b6bfe1d57854ff08cacf5f6a45c3cf5
 ---

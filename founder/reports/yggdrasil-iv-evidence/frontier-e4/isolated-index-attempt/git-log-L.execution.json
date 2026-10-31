@@ -1,0 +1,12 @@
+{
+  "experiment": "git-log-L-vs-graft-v1",
+  "gitVersion": "git version 2.56.0",
+  "fixtureBaselineCommit": "b1927910d8f0c0cf9e6d1cb8db58a853462f4eb0",
+  "fixtureUpdatedCommit": "1aa343f904e918f3e89ad627dc11931a8b2f741a",
+  "output": "1aa343f904e918f3e89ad627dc11931a8b2f741a fixture update\n\ndiff --git a/sample.py b/sample.py\nindex 3c23869..eaf1206 100644\n--- a/sample.py\n+++ b/sample.py\n@@ -1,5 +1,7 @@\n def score(value):\n-    # Initial implementation.\n-    return value + 1\n+    # Updated implementation with a bounded input guard.\n+    if value < 0:\n+        return 0\n+    return value + 2\n \n \nb1927910d8f0c0cf9e6d1cb8db58a853462f4eb0 fixture baseline\n\ndiff --git a/sample.py b/sample.py\nnew file mode 100644\nindex 0000000..3c23869\n--- /dev/null\n+++ b/sample.py\n@@ -0,0 +1,5 @@\n+def score(value):\n+    # Initial implementation.\n+    return value + 1\n+\n+\n",
+  "outputDigest": "sha256:3952a1cf1aaeb3eb9afc185e499016848416e2f06332a118b4651def5dd14d97",
+  "executionCheck": "passed",
+  "result": "inconclusive",
+  "interpretation": "The bounded Git operation ran as expected; Graft comparison has not been executed by an independent verifier. No comparative conclusion or public challenge follows.",
+  "recordedAtUTC": "2026-10-27T15:59:12.652326Z"
+}

@@ -1,0 +1,96 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/data-loss-gate",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/data-loss-gate",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/data-loss-gate/SKILL.md",
+  "checked": true,
+  "contentSha256": "c1736e0985121e60ffeba993b68b5c722c9285220057b5ef72059f111aabcb18",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.513423
+    },
+    {
+     "id": "garrytan/careful",
+     "similarity": 0.512667
+    },
+    {
+     "id": "leonxlnx/unlazy",
+     "similarity": 0.472834
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Confirmation gate before any bulk delete, cleanup, or destructive operation that could result in data loss \u2014 shell-level (rm -rf, git rm, bulk sed) or brain-level (bulk forget, delete sweeps, purge-deleted, source removal, raw-SQL truncation). Presents a recoverability card and requires an explicit \"yes\" from the user before proceeding. Routing convention, not an operation-boundary enforcement.",
+  "name": "data-loss-gate"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/data-loss-gate/SKILL.md",
+  "contentSha256": "c1736e0985121e60ffeba993b68b5c722c9285220057b5ef72059f111aabcb18",
+  "fetchedAt": "2026-10-27T22:06:30.815300+00:00",
+  "frontmatter": {
+   "brain_first": true,
+   "description": "Confirmation gate before any bulk delete, cleanup, or destructive operation that could result in data loss \u2014 shell-level (rm -rf, git rm, bulk sed) or brain-level (bulk forget, delete sweeps, purge-deleted, source removal, raw-SQL truncation). Presents a recoverability card and requires an explicit \"yes\" from the user before proceeding. Routing convention, not an operation-boundary enforcement.\n",
+   "mutating": true,
+   "name": "data-loss-gate",
+   "triggers": [
+    "bulk delete",
+    "wipe the",
+    "rm -rf",
+    "purge the",
+    "truncate",
+    "free up space",
+    "bulk forget",
+    "remove the source",
+    "drop the table"
+   ],
+   "upstream": "data-loss-gate@fc834ee",
+   "version": "1.0.0",
+   "writes_pages": true,
+   "writes_to": [
+    "daily/"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

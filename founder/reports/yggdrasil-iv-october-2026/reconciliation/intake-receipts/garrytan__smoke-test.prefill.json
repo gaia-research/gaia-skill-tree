@@ -1,0 +1,82 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/smoke-test",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/smoke-test",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/smoke-test/SKILL.md",
+  "checked": true,
+  "contentSha256": "f5099e1d2ab9dc6827096249e68414f7ae357c29b39fb069a54bb7fb74f414a5",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/health",
+     "similarity": 0.514179
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Health smoke tests + auto-fix for gbrain installs (and OpenClaw services when present). Run after machine/container restarts or whenever something seems broken. Tests critical services, auto-fixes bounded local issues, and reports worker topology without starting daemons. Extensible via user-defined test scripts in ~/.gbrain/smoke-tests.d/*.sh.",
+  "name": "smoke-test"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/smoke-test/SKILL.md",
+  "contentSha256": "f5099e1d2ab9dc6827096249e68414f7ae357c29b39fb069a54bb7fb74f414a5",
+  "fetchedAt": "2026-10-27T22:02:01.211810+00:00",
+  "frontmatter": {
+   "description": "Health smoke tests + auto-fix for gbrain installs (and OpenClaw services\nwhen present). Run after machine/container restarts or whenever something\nseems broken. Tests critical services, auto-fixes bounded local issues,\nand reports worker topology without starting daemons. Extensible via\nuser-defined test scripts in ~/.gbrain/smoke-tests.d/*.sh.\n",
+   "mutating": true,
+   "name": "smoke-test",
+   "tools": [
+    "exec",
+    "read"
+   ],
+   "triggers": [
+    "smoke test",
+    "run smoke tests",
+    "container restart check",
+    "health check",
+    "did the restart break anything",
+    "did the container restart break anything"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

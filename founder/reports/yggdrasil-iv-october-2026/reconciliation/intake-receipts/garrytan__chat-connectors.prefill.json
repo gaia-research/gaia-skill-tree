@@ -1,0 +1,94 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/chat-connectors",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/chat-connectors",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/chat-connectors/SKILL.md",
+  "checked": true,
+  "contentSha256": "44b63309c779b5394c0be8ec6cabff8381099cfb8c0944143a859c48594ddf01",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/conversation-archive",
+     "similarity": 0.608491
+    },
+    {
+     "id": "aplaceforallmystuff/log-to-daily",
+     "similarity": 0.528958
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "session-journaling",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4602 to generic 'session-journaling' (weak match).",
+   "similarity": 0.460194
+  }
+ ],
+ "normalized": {
+  "description": "Connect a ChatGPT or Claude account and sync its conversation history into the brain automatically. Cookie paste-in is the primary lane; sync is incremental (watermark + trailing-window gap-heal), and can run on a schedule via autopilot or host cron. Distinct from the export-file lane (that lives in conversation-archive) \u2014 this is the LIVE, account-connected, auto-scraping path.",
+  "name": "chat-connectors"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/chat-connectors/SKILL.md",
+  "contentSha256": "44b63309c779b5394c0be8ec6cabff8381099cfb8c0944143a859c48594ddf01",
+  "fetchedAt": "2026-10-27T22:08:14.477230+00:00",
+  "frontmatter": {
+   "description": "Connect a ChatGPT or Claude account and sync its conversation history into the brain automatically. Cookie paste-in is the primary lane; sync is incremental (watermark + trailing-window gap-heal), and can run on a schedule via autopilot or host cron. Distinct from the export-file lane (that lives in conversation-archive) \u2014 this is the LIVE, account-connected, auto-scraping path.\n",
+   "mutating": true,
+   "name": "chat-connectors",
+   "triggers": [
+    "connect my chatgpt",
+    "connect my claude account",
+    "sync my chat history",
+    "chatgpt oauth",
+    "auto-import my chats",
+    "keep my conversations synced"
+   ],
+   "version": "1.0.0",
+   "writes_pages": true,
+   "writes_to": [
+    "conversations/"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

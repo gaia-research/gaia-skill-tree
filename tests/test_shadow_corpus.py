@@ -1,0 +1,685 @@
+"""Tests for Yggdrasil IV registry census and shadow evaluation runner."""
+
+from __future__ import annotations
+
+import copy
+import datetime as dt
+import json
+from pathlib import Path
+from typing import Any
+
+import pytest
+import yaml
+
+from gaia_cli import shadowCorpus as sc
+from gaia_cli import shadowEvaluation as shadow
+from gaia_cli import trustMagnitude as tm
+from gaia_cli.fusionScore import computeFusionScore
+
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+PINNED_TIME = dt.datetime(2026, 10, 25, 0, 0, 0, tzinfo=dt.timezone.utc)
+
+
+def independentCorpusCounts() -> dict[str, Any]:
+    """Count the corpus directly (census scope: registry/named/**/*.md, registry/nodes/**/*.json).
+
+    Deliberately does not call the census code under test; uses yaml.safe_load / json.
+    """
+    datedTypes = {"benchmark-result", "social-signal", "peer-review"}
+    namedFiles = sorted((REPO_ROOT / "registry" / "named").rglob("*.md"))
+    genericFiles = sorted((REPO_ROOT / "registry" / "nodes").rglob("*.json"))
+    statuses: dict[str, int] = {}
+    namedRows = genericRows = cacheHashes = missingDates = 0
+
+    def countMissing(rows: list[Any]) -> int:
+        return sum(
+            1 for row in rows
+            if isinstance(row, dict) and row.get("type") in datedTypes and not row.get("lastVerified")
+        )
+
+    for mdFile in namedFiles:
+        text = mdFile.read_text(encoding="utf-8")
+        frontMatter = yaml.safe_load(text.split("---", 2)[1]) or {}
+        status = frontMatter.get("status") or "unknown"
+        statuses[status] = statuses.get(status, 0) + 1
+        if frontMatter.get("trustMagnitudeInputHash"):
+            cacheHashes += 1
+        rows = frontMatter.get("evidence") if isinstance(frontMatter.get("evidence"), list) else []
+        namedRows += len(rows)
+        missingDates += countMissing(rows)
+    for jsonFile in genericFiles:
+        node = json.loads(jsonFile.read_text(encoding="utf-8"))
+        rows = node.get("evidence") if isinstance(node.get("evidence"), list) else []
+        genericRows += len(rows)
+        missingDates += countMissing(rows)
+    return {
+        "named": len(namedFiles),
+        "generic": len(genericFiles),
+        "statuses": statuses,
+        "namedRows": namedRows,
+        "genericRows": genericRows,
+        "cacheHashes": cacheHashes,
+        "missingDates": missingDates,
+    }
+
+
+# ---------------------------------------------------------------------------
+# 1. Output Path Safeguards
+# ---------------------------------------------------------------------------
+
+
+def test_output_path_safeguards_reject_canonical_paths() -> None:
+    """Safeguards must reject canonical/public directories."""
+    forbiddenCases = [
+        "registry",
+        "registry/named",
+        "registry/nodes",
+        "docs",
+        "docs/graph",
+        "skill-trees",
+        "skill-trees/alice",
+        "src",
+        "src/gaia_cli",
+        ".agents/skills",
+        ".claude/skills",
+        ".github",
+        "./docs/about.html",
+    ]
+    for path in forbiddenCases:
+        with pytest.raises(ValueError, match="Output path rejected"):
+            sc.validateOutputPath(path, repoRoot=REPO_ROOT)
+
+
+def test_output_path_safeguards_allow_ignored_and_external_paths(tmp_path: Path) -> None:
+    """Safeguards must allow external paths and allowed gitignored local paths."""
+    # External path
+    external = tmp_path / "shadow-results"
+    assert sc.validateOutputPath(external, repoRoot=REPO_ROOT) == external.resolve()
+
+    # Allowed local directories
+    for allowed in [".gaia/shadow", "generated-output/shadow", ".tmp/shadow"]:
+        expected = (REPO_ROOT / allowed).resolve()
+        assert sc.validateOutputPath(allowed, repoRoot=REPO_ROOT) == expected
+
+
+# ---------------------------------------------------------------------------
+# 2. Complete Registry Census on Current Live Corpus
+# ---------------------------------------------------------------------------
+
+
+def test_census_full_corpus_statuses_and_counts() -> None:
+    """Census must load every record and reconcile yaml.safe_load vs load_yaml_simple."""
+    census = sc.censusRegistry(REPO_ROOT, failClosed=True, evaluationAtUTC=PINNED_TIME)
+
+    expected = independentCorpusCounts()
+    assert census.totalNamedFiles == expected["named"]
+    assert census.statusCounts == expected["statuses"]
+    assert census.totalGenericFiles == expected["generic"]
+    assert census.namedEvidenceRowCount == expected["namedRows"]
+    assert census.genericEvidenceRowCount == expected["genericRows"]
+    assert census.cacheHashCount == expected["cacheHashes"]
+
+    # Parser reconciliation
+    assert len(census.parseFailures) == 0
+    assert len(census.parserDiscrepancies) == 0
+    assert len(census.missingIds) == 0
+    assert len(census.unresolvedRefs) == 0
+    assert census.isValid is True
+
+
+# ---------------------------------------------------------------------------
+# 3. Fail-Closed Parsing in Synthetic Malformed Repository
+# ---------------------------------------------------------------------------
+
+
+def test_parse_failure_fail_closed_in_synthetic_repo(tmp_path: Path) -> None:
+    """Census must record parse failures honestly and fail closed."""
+    reg = tmp_path / "registry"
+    nodes = reg / "nodes"
+    named = reg / "named" / "author"
+    nodes.mkdir(parents=True)
+    named.mkdir(parents=True)
+
+    # Valid generic
+    (nodes / "good.json").write_text('{"id": "good-gen", "evidence": []}', encoding="utf-8")
+    # Broken generic JSON
+    (nodes / "corrupt.json").write_text('{not valid json', encoding="utf-8")
+
+    # Valid named
+    (named / "good.md").write_text(
+        "---\nid: author/good\nstatus: named\ngenericSkillRef: good-gen\nevidence: []\n---\n# Good\n",
+        encoding="utf-8",
+    )
+    # Broken frontmatter
+    (named / "corrupt.md").write_text(
+        "---\nid: author/corrupt\nstatus: [unclosed list\n---\n# Corrupt\n",
+        encoding="utf-8",
+    )
+
+    census = sc.censusRegistry(tmp_path, failClosed=True)
+    assert census.isValid is False
+    assert len(census.parseFailures) == 2
+    failedPaths = [p["path"] for p in census.parseFailures]
+    assert any("corrupt.json" in p for p in failedPaths)
+    assert any("corrupt.md" in p for p in failedPaths)
+
+
+# ---------------------------------------------------------------------------
+# 4. Manifest Before/After Catches Concurrent Input Mutation
+# ---------------------------------------------------------------------------
+
+
+def test_manifest_verification_detects_mutation(tmp_path: Path) -> None:
+    """Manifest verification must detect file modification, addition, and deletion."""
+    reg = tmp_path / "registry" / "nodes"
+    reg.mkdir(parents=True)
+    f1 = reg / "a.json"
+    f1.write_text('{"id": "a"}', encoding="utf-8")
+
+    before = sc.buildFileDigestManifest(tmp_path)
+    clean, disc = sc.verifyFileDigestManifest(before, tmp_path)
+    assert clean is True
+    assert len(disc) == 0
+
+    # Modify file
+    f1.write_text('{"id": "a-modified"}', encoding="utf-8")
+    cleanMod, discMod = sc.verifyFileDigestManifest(before, tmp_path)
+    assert cleanMod is False
+    assert any("file-modified" in item for item in discMod)
+
+    # Add file
+    f2 = reg / "b.json"
+    f2.write_text('{"id": "b"}', encoding="utf-8")
+    cleanAdd, discAdd = sc.verifyFileDigestManifest(before, tmp_path)
+    assert cleanAdd is False
+    assert any("file-added" in item for item in discAdd)
+
+    # Delete file
+    f1.unlink()
+    cleanDel, discDel = sc.verifyFileDigestManifest(before, tmp_path)
+    assert cleanDel is False
+    assert any("file-deleted" in item for item in discDel)
+
+
+# ---------------------------------------------------------------------------
+# 5. Seam Coordination: Preserves Valid Coverage on Invalid Input
+# ---------------------------------------------------------------------------
+
+
+def test_seam_coordination_preserves_valid_coverage(tmp_path: Path) -> None:
+    """Seam coordinator must evaluate valid skills even if an invalid skill exists."""
+    validSkill = {
+        "id": "author/valid",
+        "evidence": [
+            {"type": "github-stars-own", "source": "https://github.com/a/valid", "stars": 1000},
+        ],
+    }
+    futureSkill = {
+        "id": "author/future",
+        "evidence": [
+            {"type": "repo-own", "source": "https://github.com/a/future", "lastVerified": "2029-01-01T00:00:00Z"},
+        ],
+    }
+    suiteSkill = {
+        "id": "author/suite",
+        "suiteComponents": ["author/valid"],
+        "evidence": [],
+    }
+
+    ctx = shadow.ShadowEvaluationContext(
+        evaluationAtUTC=PINNED_TIME,
+        policyVersion="g7-v1",
+        policyDigest="digest",
+        benchmarkCatalog={"benchmarks": []},
+        benchmarkCatalogDigest="cat-digest",
+        registryRevision="rev1",
+        canonicalInputDigest="input-digest",
+        genericSkillMap={},
+        namedSkillMap={},
+        verifierStanding={},
+        perRowGradeThresholds={},
+        gradeCeiling={},
+        gradeThresholds={"S": 250, "A": 100, "B": 50, "C": 20},
+    )
+
+    result = sc.evaluateRegistryWithSeam([validSkill, futureSkill, suiteSkill], ctx)
+    assert result["status"] == "partial"
+    assessments = {a["skillId"]: a for a in result["assessments"]}
+
+    assert assessments["author/valid"]["status"] == "evaluated"
+    assert assessments["author/valid"]["tmRaw"] == 70.0
+
+    assert assessments["author/future"]["status"] == "not-evaluated"
+    assert "future date" in assessments["author/future"]["reason"]
+
+    assert assessments["author/suite"]["status"] == "evaluated"
+
+
+# ---------------------------------------------------------------------------
+# 6. Dependency Cycle Handling
+# ---------------------------------------------------------------------------
+
+
+def test_dependency_cycle_is_reported_honestly() -> None:
+    """Skills participating in a suite component cycle must be reported not-evaluated."""
+    skillX = {"id": "author/x", "suiteComponents": ["author/y"], "evidence": []}
+    skillY = {"id": "author/y", "suiteComponents": ["author/x"], "evidence": []}
+
+    ctx = shadow.ShadowEvaluationContext(
+        evaluationAtUTC=PINNED_TIME,
+        policyVersion="g7-v1",
+        policyDigest="digest",
+        benchmarkCatalog={"benchmarks": []},
+        benchmarkCatalogDigest="cat-digest",
+        registryRevision="rev1",
+        canonicalInputDigest="input-digest",
+        genericSkillMap={},
+        namedSkillMap={},
+        verifierStanding={},
+        perRowGradeThresholds={},
+        gradeCeiling={},
+        gradeThresholds={"S": 250, "A": 100, "B": 50, "C": 20},
+    )
+
+    result = sc.evaluateRegistryWithSeam([skillX, skillY], ctx)
+    assert result["status"] == "partial"
+    for assessment in result["assessments"]:
+        assert assessment["status"] == "not-evaluated"
+        assert "dependency cycle" in assessment["reason"]
+
+
+# ---------------------------------------------------------------------------
+# 7. Threshold Transitions & Star Ceiling Proposals
+# ---------------------------------------------------------------------------
+
+
+def test_threshold_transition_triggers_demotion_risk() -> None:
+    """TM drop crossing grade floor must propose a lower grade ceiling and flag demotion risk."""
+    highSkill = {
+        "id": "author/high",
+        "level": "4★",
+        "evidence": [
+            {"type": "github-stars-own", "source": "https://github.com/a/h", "stars": 10000},
+        ],
+    }
+    lowSkill = {
+        "id": "author/low",
+        "level": "4★",
+        "evidence": [
+            {"type": "github-stars-own", "source": "https://github.com/a/l", "stars": 1000},
+        ],
+    }
+
+    ctx = shadow.ShadowEvaluationContext(
+        evaluationAtUTC=PINNED_TIME,
+        policyVersion="g7-v1",
+        policyDigest="digest",
+        benchmarkCatalog={"benchmarks": []},
+        benchmarkCatalogDigest="cat-digest",
+        registryRevision="rev1",
+        canonicalInputDigest="input-digest",
+        genericSkillMap={},
+        namedSkillMap={},
+        verifierStanding={},
+        perRowGradeThresholds={"github-stars-own": {"A": 100, "B": 50}},
+        gradeCeiling={},
+        gradeThresholds={"S": 250, "A": 100, "B": 50, "C": 20},
+    )
+
+    highResult = shadow.evaluateShadow(highSkill, ctx)
+    lowResult = shadow.evaluateShadow(lowSkill, ctx)
+
+    assert highResult["tmRaw"] == 105.0
+    assert highResult["grade"] == "A"
+    assert highResult["gradeCeilingProposal"] == 4
+
+    assert lowResult["tmRaw"] == 70.0
+    assert lowResult["grade"] == "B"
+    assert lowResult["gradeCeilingProposal"] == 3
+
+
+# ---------------------------------------------------------------------------
+# 8. Fusion Score Invariance
+# ---------------------------------------------------------------------------
+
+
+def test_evidence_changes_leave_fusion_score_invariant() -> None:
+    """Fusion Score is purely structural and must remain unchanged across evidence changes."""
+    skillBefore = {
+        "id": "author/fusion-test",
+        "prerequisites": ["generic/a", "generic/b"],
+        "evidence": [
+            {"type": "github-stars-own", "source": "https://github.com/a/f", "stars": 50000},
+        ],
+    }
+    skillAfter = copy.deepcopy(skillBefore)
+    skillAfter["evidence"] = [
+        {"type": "github-stars-own", "source": "https://github.com/a/f", "stars": 500},
+    ]
+
+    fsBefore = computeFusionScore(skillBefore)
+    fsAfter = computeFusionScore(skillAfter)
+    assert fsBefore == fsAfter
+
+
+# ---------------------------------------------------------------------------
+# 9. CLI Run and Report Writing into Temp/Ignored Directory
+# ---------------------------------------------------------------------------
+
+
+def test_cli_shadow_command_writes_into_scratch(tmp_path: Path) -> None:
+    """CLI must write valid deterministic machine JSON and readable summary into scratch."""
+    outDir = tmp_path / "shadow-output"
+    reportData = sc.runShadowEvaluation(
+        registryPath=REPO_ROOT,
+        evaluationAtUTC=PINNED_TIME,
+        filterStatus="awakened",  # Bounded subset for fast test
+    )
+    written = sc.writeShadowReport(reportData, outDir, repoRoot=REPO_ROOT)
+
+    assert written["json"].is_file()
+    assert written["summary"].is_file()
+
+    # Verify JSON content
+    loaded = json.loads(written["json"].read_text(encoding="utf-8"))
+    assert loaded["metadata"]["engineVersion"] == shadow.SHADOW_ENGINE_VERSION
+    assert loaded["summary"]["targetSkillsCount"] == 48
+    assert loaded["summary"]["manifestVerification"]["clean"] is True
+
+    # Verify summary text
+    summaryText = written["summary"].read_text(encoding="utf-8")
+    assert "GAIA YGGDRASIL IV TRUST MAGNITUDE" in summaryText
+    expectedNamed = independentCorpusCounts()["named"]
+    assert f"Total Named Records       : {expectedNamed}" in summaryText
+
+
+# ---------------------------------------------------------------------------
+# 10. Output Containment and Read-Only Verification
+# ---------------------------------------------------------------------------
+
+
+def test_full_corpus_containment_and_zero_canonical_mutation() -> None:
+    """Full-corpus census and shadow evaluation must leave zero canonical changes."""
+    beforeManifest = sc.buildFileDigestManifest(REPO_ROOT)
+    census = sc.censusRegistry(REPO_ROOT, failClosed=True, evaluationAtUTC=PINNED_TIME)
+
+    expected = independentCorpusCounts()
+    assert census.totalNamedFiles == expected["named"]
+    assert census.totalGenericFiles == expected["generic"]
+    assert len(census.dependencyCycles) == 0
+    assert len(census.temporalAnomalies) == 0
+    assert len(census.unknownVerifiers) == 0
+    assert len(census.missingDates) == expected["missingDates"]
+
+    context, metadata = sc.buildShadowContext(census, REPO_ROOT, evaluationAtUTC=PINNED_TIME)
+    assert context.registryRevision != "unknown"
+    assert len(context.canonicalInputDigest) == 64
+    assert len(context.policyDigest) == 64
+    assert len(context.benchmarkCatalogDigest) == 64
+    assert len(metadata["engineDigest"]) == 64
+
+    # Post-census manifest verification
+    clean, disc = sc.verifyFileDigestManifest(beforeManifest, REPO_ROOT)
+    assert clean is True
+    assert len(disc) == 0
+
+
+def test_output_files_symlinks_refused_before_any_write(tmp_path: Path) -> None:
+    outside = tmp_path / "outside.json"
+    outside.write_text("sentinel", encoding="utf-8")
+    out = tmp_path / "out"
+    out.mkdir()
+    (out / "shadow-report.json").symlink_to(outside)
+    data = {"summary": {}, "census": {}}
+    with pytest.raises(ValueError, match="symlink"):
+        sc.writeShadowReport(data, out, repoRoot=REPO_ROOT)
+    assert outside.read_text(encoding="utf-8") == "sentinel"
+    assert not (out / "shadow-summary.txt").exists()
+
+
+def test_summary_symlink_preflight_blocks_json_write(tmp_path: Path) -> None:
+    outside = tmp_path / "outside.txt"
+    outside.write_text("sentinel", encoding="utf-8")
+    out = tmp_path / "out"
+    out.mkdir()
+    (out / "shadow-summary.txt").symlink_to(outside)
+    with pytest.raises(ValueError, match="symlink"):
+        sc.writeShadowReport({"summary": {}, "census": {}}, out, repoRoot=REPO_ROOT)
+    assert not (out / "shadow-report.json").exists()
+    assert outside.read_text(encoding="utf-8") == "sentinel"
+
+
+def test_census_uses_requested_time_pin(monkeypatch: pytest.MonkeyPatch) -> None:
+    pin = dt.datetime(2000, 1, 1, tzinfo=dt.timezone.utc)
+    seen = {}
+    original = sc.censusRegistry
+    def capture(*args, **kwargs):
+        seen["pin"] = kwargs.get("evaluationAtUTC")
+        return original(*args, **kwargs)
+    monkeypatch.setattr(sc, "censusRegistry", capture)
+    report = sc.runShadowEvaluation(REPO_ROOT, evaluationAtUTC=pin, filterStatus="__none__")
+    assert seen["pin"] == pin
+    assert report["census"]["temporalAnomalies"]
+
+
+def test_output_containment_rejects_all_canonical_and_public_writes(tmp_path: Path) -> None:
+    """Validator must strictly reject writes to any repository canonical or public directory."""
+    for forbidden in sc.FORBIDDEN_CANONICAL_DIRS:
+        badPath = REPO_ROOT / forbidden / "shadow-leak.json"
+        with pytest.raises(ValueError, match="Output path rejected"):
+            sc.validateOutputPath(badPath, repoRoot=REPO_ROOT)
+
+
+def test_output_symlink_zero_target_mutation(tmp_path: Path) -> None:
+    """Symlink output targets (both zero-byte and non-empty) must suffer ZERO mutation."""
+    # 1. Zero-byte target file
+    zeroTarget = tmp_path / "zero_target.json"
+    zeroTarget.touch()
+    assert zeroTarget.stat().st_size == 0
+    zeroMtime = zeroTarget.stat().st_mtime_ns
+
+    outZero = tmp_path / "out_zero"
+    outZero.mkdir()
+    (outZero / "shadow-report.json").symlink_to(zeroTarget)
+
+    data = {"summary": {}, "census": {}}
+    with pytest.raises(ValueError, match="Refusing symlink output file"):
+        sc.writeShadowReport(data, outZero, repoRoot=REPO_ROOT)
+
+    # Verify zero-byte target is untouched
+    assert zeroTarget.exists()
+    assert zeroTarget.stat().st_size == 0
+    assert zeroTarget.stat().st_mtime_ns == zeroMtime
+    assert not (outZero / "shadow-summary.txt").exists()
+
+    # 2. Non-empty target file
+    contentTarget = tmp_path / "content_target.txt"
+    contentTarget.write_text("sentinel pre-existing content", encoding="utf-8")
+    contentMtime = contentTarget.stat().st_mtime_ns
+
+    outContent = tmp_path / "out_content"
+    outContent.mkdir()
+    (outContent / "shadow-summary.txt").symlink_to(contentTarget)
+
+    with pytest.raises(ValueError, match="Refusing symlink output file"):
+        sc.writeShadowReport(data, outContent, repoRoot=REPO_ROOT)
+
+    # Verify non-empty target is untouched
+    assert contentTarget.exists()
+    assert contentTarget.read_text(encoding="utf-8") == "sentinel pre-existing content"
+    assert contentTarget.stat().st_mtime_ns == contentMtime
+    assert not (outContent / "shadow-report.json").exists()
+
+
+def test_ancestor_symlink_traversal_rejected(tmp_path: Path) -> None:
+    """Ancestor symlinks resolving to canonical directories must be rejected."""
+    symAncestor = tmp_path / "sym_to_registry"
+    symAncestor.symlink_to((REPO_ROOT / "registry").resolve())
+
+    nested = symAncestor / "shadow"
+    with pytest.raises(ValueError, match="canonical"):
+        sc.validateOutputPath(nested, repoRoot=REPO_ROOT)
+
+
+def test_caller_validation_heterogeneous_suite_components(tmp_path: Path) -> None:
+    """Caller validation must catch heterogeneous/non-string components before evaluator exposure."""
+    validSkill = {
+        "id": "author/valid-comp",
+        "evidence": [
+            {"type": "github-stars-own", "source": "https://github.com/a/v", "stars": 1000},
+        ],
+    }
+    # Heterogeneous / non-string component array (contains int and None)
+    malformedSuite = {
+        "id": "author/bad-suite",
+        "suiteComponents": ["author/valid-comp", 123, None, {}],
+        "evidence": [],
+    }
+
+    ctx = shadow.ShadowEvaluationContext(
+        evaluationAtUTC=PINNED_TIME,
+        policyVersion="g7-v1",
+        policyDigest="digest",
+        benchmarkCatalog={"benchmarks": []},
+        benchmarkCatalogDigest="cat-digest",
+        registryRevision="rev1",
+        canonicalInputDigest="input-digest",
+        genericSkillMap={},
+        namedSkillMap={},
+        verifierStanding={},
+        perRowGradeThresholds={},
+        gradeCeiling={},
+        gradeThresholds={"S": 250, "A": 100, "B": 50, "C": 20},
+    )
+
+    # evaluateRegistryWithSeam must not crash with TypeError
+    res = sc.evaluateRegistryWithSeam([validSkill, malformedSuite], ctx)
+    assert res["status"] == "partial"
+    assessments = {a["skillId"]: a for a in res["assessments"]}
+
+    assert assessments["author/valid-comp"]["status"] == "evaluated"
+    assert assessments["author/valid-comp"]["tmRaw"] == 70.0
+
+    assert assessments["author/bad-suite"]["status"] == "not-evaluated"
+    assert "structural validation failure" in assessments["author/bad-suite"]["reason"]
+    assert "suiteComponents" in assessments["author/bad-suite"]["reason"]
+    assert res["engineCoverage"]["structuralValidationFailures"] == 1
+
+
+def test_caller_validation_duplicate_ids(tmp_path: Path) -> None:
+    """Duplicate skill IDs must produce explicit per-record not-evaluated coverage and never overwrite."""
+    dup1 = {
+        "id": "author/dup-skill",
+        "level": "4★",
+        "evidence": [
+            {"type": "github-stars-own", "source": "https://github.com/a/1", "stars": 10000},
+        ],
+    }
+    dup2 = {
+        "id": "author/dup-skill",
+        "level": "2★",
+        "evidence": [
+            {"type": "github-stars-own", "source": "https://github.com/a/2", "stars": 1000},
+        ],
+    }
+
+    ctx = shadow.ShadowEvaluationContext(
+        evaluationAtUTC=PINNED_TIME,
+        policyVersion="g7-v1",
+        policyDigest="digest",
+        benchmarkCatalog={"benchmarks": []},
+        benchmarkCatalogDigest="cat-digest",
+        registryRevision="rev1",
+        canonicalInputDigest="input-digest",
+        genericSkillMap={},
+        namedSkillMap={},
+        verifierStanding={},
+        perRowGradeThresholds={},
+        gradeCeiling={},
+        gradeThresholds={"S": 250, "A": 100, "B": 50, "C": 20},
+    )
+
+    res = sc.evaluateRegistryWithSeam([dup1, dup2], ctx)
+    assert len(res["assessments"]) == 2
+    for a in res["assessments"]:
+        assert a["status"] == "not-evaluated"
+        assert "duplicate skill id" in a["reason"]
+        assert a["skillId"] == "author/dup-skill"
+
+    # Levels from both records preserved
+    stars = {a["canonicalStars"] for a in res["assessments"]}
+    assert stars == {"4★", "2★"}
+
+
+def test_caller_validation_malformed_evidence_shapes() -> None:
+    """Malformed evidence shapes and non-finite numerics must be caught by caller validation."""
+    ctx = shadow.ShadowEvaluationContext(
+        evaluationAtUTC=PINNED_TIME,
+        policyVersion="g7-v1",
+        policyDigest="digest",
+        benchmarkCatalog={"benchmarks": []},
+        benchmarkCatalogDigest="cat-digest",
+        registryRevision="rev1",
+        canonicalInputDigest="input-digest",
+        genericSkillMap={},
+        namedSkillMap={},
+        verifierStanding={},
+        perRowGradeThresholds={},
+        gradeCeiling={},
+        gradeThresholds={"S": 250, "A": 100, "B": 50, "C": 20},
+    )
+
+    # 1. Evidence is not a list
+    skillBadEv = {"id": "author/bad-ev-list", "evidence": "not-a-list"}
+    # 2. Evidence row is not a dict
+    skillBadRow = {"id": "author/bad-ev-row", "evidence": ["not-a-dict"]}
+    # 3. Numeric field has boolean
+    skillBoolNum = {"id": "author/bad-bool", "evidence": [{"type": "github-stars-own", "stars": True}]}
+    # 4. Numeric field is non-finite NaN
+    skillNan = {"id": "author/bad-nan", "evidence": [{"type": "github-stars-own", "stars": "nan"}]}
+
+    res = sc.evaluateRegistryWithSeam([skillBadEv, skillBadRow, skillBoolNum, skillNan], ctx)
+    assert len(res["assessments"]) == 4
+    for a in res["assessments"]:
+        assert a["status"] == "not-evaluated"
+        assert "structural validation failure" in a["reason"]
+
+
+def test_caller_validation_malformed_generic_ref() -> None:
+    """Malformed non-string genericSkillRef must produce explicit not-evaluated assessment."""
+    ctx = shadow.ShadowEvaluationContext(
+        evaluationAtUTC=PINNED_TIME,
+        policyVersion="g7-v1",
+        policyDigest="digest",
+        benchmarkCatalog={"benchmarks": []},
+        benchmarkCatalogDigest="cat-digest",
+        registryRevision="rev1",
+        canonicalInputDigest="input-digest",
+        genericSkillMap={},
+        namedSkillMap={},
+        verifierStanding={},
+        perRowGradeThresholds={},
+        gradeCeiling={},
+        gradeThresholds={"S": 250, "A": 100, "B": 50, "C": 20},
+    )
+
+    skillBadRef = {"id": "author/bad-ref", "genericSkillRef": 12345, "evidence": []}
+    res = sc.evaluateRegistryWithSeam([skillBadRef], ctx)
+    assert len(res["assessments"]) == 1
+    assert res["assessments"][0]["status"] == "not-evaluated"
+    assert "genericSkillRef must be a non-empty string" in res["assessments"][0]["reason"]
+
+
+def test_report_metadata_includes_tool_and_runtime_identity(tmp_path: Path) -> None:
+    """Report metadata must record tool identity and runtime environment."""
+    report = sc.runShadowEvaluation(REPO_ROOT, evaluationAtUTC=PINNED_TIME, filterStatus="awakened")
+    meta = report["metadata"]
+
+    assert meta["tool"]["name"] == "gaia shadow"
+    assert meta["tool"]["module"] == "gaia_cli.shadowCorpus"
+    assert "version" in meta["tool"]
+    assert "pythonVersion" in meta["runtime"]
+    assert "platform" in meta["runtime"]
+
+

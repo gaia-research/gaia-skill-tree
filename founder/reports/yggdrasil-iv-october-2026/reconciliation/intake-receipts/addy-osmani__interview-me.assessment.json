@@ -1,0 +1,124 @@
+{
+  "contractVersion": "curation-assessment-v1",
+  "authority": "advisory",
+  "assessedAt": "2026-10-27T21:59:07.760321+00:00",
+  "candidateId": "addy-osmani/interview-me",
+  "candidate": {
+    "name": "interview-me",
+    "description": "Extracts what the user actually wants instead of what they think they should want. Achieves this through one-question-at-a-time interview until ~95% confidence about the underlying intent. Use when an ask is underspecified (\"build me X\" without \"for whom\" or \"why now\"), when the user explicitly invokes (\"interview me\", \"grill me\", \"are we sure?\", \"stress-test my thinking\"), or when you catch yours"
+  },
+  "source": {
+    "canonicalUrl": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/interview-me/SKILL.md",
+    "contentSha256": "ace4b675999bb504593d572e0f73f3d7e803ad6fddf318445598c82c11939db2",
+    "commitSha": null
+  },
+  "candidateSourceDigest": "ace4b675999bb504593d572e0f73f3d7e803ad6fddf318445598c82c11939db2",
+  "semanticInputSha256": "58ac5898c91ea2bcbe5217dc9e0a645632fa01c2468df606ddadaaedc36b5abe",
+  "catalogSha256": "77991271cdf9d32370d92244389486b1e19a02a3a72326e0fe452816e6d4043c",
+  "rubric": {
+    "rubricId": "gaia-curation-principles",
+    "rubricVersion": "1.0.0",
+    "rubricSha256": "1f14f6b09ee6a72570bba04617de1ee7bf92040afaf862f6059f4cb413879349"
+  },
+  "retrievedGenerics": [
+    {
+      "id": "grill-me",
+      "name": "Grill Me",
+      "description": "Conducts a relentless, one-question-at-a-time Socratic interview to stress-test designs and force the resolution of hidden assumptions before code is written.",
+      "type": "fusion",
+      "prerequisites": [
+        "design-review",
+        "self-critique"
+      ],
+      "definitionAvailable": true,
+      "similarity": 0.544499,
+      "matchTier": "weak"
+    },
+    {
+      "id": "questionnaire-generation",
+      "name": "Questionnaire Generation",
+      "description": "Turn a decision that cannot be fully answered alone into a structured questionnaire for someone else to fill in.",
+      "type": "basic",
+      "prerequisites": [],
+      "definitionAvailable": true,
+      "similarity": 0.455462,
+      "matchTier": "weak"
+    }
+  ],
+  "retrieval": {
+    "model": "all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+    "thresholds": {
+      "strongMap": 0.72,
+      "weakMap": 0.45,
+      "topK": 3
+    }
+  },
+  "principles": {
+    "identity": {
+      "evaluation": "unknown",
+      "question": "After stripping vendor, product, repository, contributor and implementation details, identify the reusable capability. A named implementation is not automatically a narrower generic."
+    },
+    "transferability": {
+      "evaluation": "unknown",
+      "question": "Could another independent implementation reasonably implement this generic? Generic identity describes capability, not product vocabulary. Product dependence of a named implementation is not itself grounds for rejection or purging."
+    },
+    "relation": {
+      "evaluation": "unknown",
+      "question": "Relative to the strongest existing generic, is the reusable capability the same, narrower, broader, composite, orthogonal, or unknown? State the comparison target; similarity alone cannot answer.",
+      "relation": "unknown"
+    },
+    "material_distinction": {
+      "evaluation": "unknown",
+      "question": "A split needs an observable, falsifiable behavioral distinction from its strongest neighbor. Naming, vendor, CLI syntax, implementation technique or framework alone are weak justification for a new generic."
+    },
+    "atomicity": {
+      "evaluation": "unknown",
+      "question": "Does the capability stand alone, or compose independently useful prerequisites? Yggdrasil basic has zero prerequisites and fusion has at least one. Do not derive capability structure from mentions of required software or from packaging.",
+      "type": "unknown"
+    },
+    "artifact_packaging": {
+      "evaluation": "unknown",
+      "question": "Distinguish a capability from suite, package, router, wrapper, category or capstone packaging. A component is not its suite. suiteComponents belongs to named implementations; it is not a generic capability identity.",
+      "shape": "unknown",
+      "declaredSuite": {
+        "role": null,
+        "suiteId": null,
+        "componentCandidateIds": null
+      }
+    },
+    "overlap": {
+      "evaluation": "unknown",
+      "question": "Compare a proposed new generic to its strongest existing neighbor. If no falsifiable distinction can be written, question the split. Empty retrieval does not prove novelty; two high-scoring neighbors do not prove fusion.",
+      "notes": "Scores never imply identity or novelty; compare observable behavior with the strongest neighbor.",
+      "strongestNeighbor": "grill-me"
+    },
+    "topology_independence": {
+      "evaluation": "independent",
+      "question": "Topology must not change merely because contributor fame, stars, Trust Magnitude, evidence abundance or popularity changes. These signals are excluded from semantic decision inputs. Advice answers SHOULD, human L4 decides MAY.",
+      "inputs": "Allowlisted semantic fields only; rank, popularity and evidence excluded."
+    }
+  },
+  "uncertainty": {
+    "level": "review-required",
+    "emptyRecall": false,
+    "reasons": [
+      "Only human L4 may resolve semantic identity and canonical topology."
+    ],
+    "jevDisagreement": null
+  },
+  "proposedDisposition": {
+    "value": "DEFER",
+    "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+    "targetGenericId": "grill-me",
+    "advisoryOnly": true
+  },
+  "jevAdvice": {
+    "status": "skipped",
+    "reason": "jev_off",
+    "answers": {},
+    "calls": [],
+    "disagreement": null
+  }
+}

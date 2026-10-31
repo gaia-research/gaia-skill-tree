@@ -1,0 +1,1 @@
+SYNTHETIC unit-only target output for golden receipt tests

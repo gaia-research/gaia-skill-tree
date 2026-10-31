@@ -1,0 +1,483 @@
+import hashlib
+import io
+import struct
+import zipfile
+
+import pytest
+
+from gaia_cli.challengeDomain import VerificationReceipt
+from tests.steward.receipt_test_ports import SyntheticReceiptPort, SyntheticTestResolver
+from gaia_cli.steward.challenge_receipts import (
+    AuthenticatedApprovalSource,
+    CommittedAttestedReceiptSource,
+    GitHubActionsSource,
+    GitHubVerificationReceiptResolver,
+    ReceiptUnavailable,
+    TrustedReceiptConfig,
+    make_artifact_archive,
+    make_receipt_payload,
+    probe_trusted_receipt_source,
+    trusted_config_from_environment,
+)
+
+
+WORKFLOW_BLOB_SHA = "a" * 40
+SOURCE_SHA = "e" * 40
+REF = "refs/tags/challenge-receipt/case-r1"
+CONTEXT = "b" * 64
+PROOF_SOURCE_SHA = "c" * 64
+TRANSCRIPT = b'{"cases":3,"result":"passed"}'
+
+
+def config(**overrides):
+    values = dict(
+        repository="gaia-research/gaia-skill-tree",
+        workflow_path=".github/workflows/challenge-receipt-issuer.yml",
+        trigger_ref_prefix="refs/tags/challenge-receipt/",
+        workflow_blob_sha=WORKFLOW_BLOB_SHA,
+        environment="challenge-receipt-issuer",
+        required_reviewer_ids=(7,),
+        repository_id=1,
+        repository_owner_id=2,
+        trusted_root_sha256="d" * 64,
+        prevent_self_review=False,
+    )
+    values.update(overrides)
+    return TrustedReceiptConfig(**values)
+
+
+def receipt():
+    return VerificationReceipt(
+        "receipt-17", CONTEXT, sha(TRANSCRIPT), "maintainer", "builder", "contributor",
+        "passed", "reproducible-test", "runner-1", "PASS: 3/3", sha(b"PASS: 3/3"),
+        "https://example.org/proof/17", "https://example.org/notices/17",
+        "2026-10-26T12:00:00Z",
+    )
+
+
+def good_fixture(**source_changes):
+    rec = receipt()
+    payload = make_receipt_payload(
+        rec, challenge_id="challenge-42", context_digest=CONTEXT,
+        raw_transcript=TRANSCRIPT,
+        notification_ref=rec.notice_ref, source_sha=PROOF_SOURCE_SHA,
+    )
+    archive, digest = make_artifact_archive(payload)
+    source = {
+        "repository": "gaia-research/gaia-skill-tree",
+        "sourceKind": "github-actions-live",
+        "workflowPath": ".github/workflows/challenge-receipt-issuer.yml",
+        "workflowRef": REF,
+        "workflowSha": SOURCE_SHA,
+        "workflowBlobSha": WORKFLOW_BLOB_SHA,
+        "environment": "challenge-receipt-issuer",
+        "runId": 111, "runAttempt": 1, "runStatus": "completed", "runConclusion": "success",
+        "artifactId": 555, "artifactName": "challenge-receipt-receipt-17",
+        "artifactExpired": False, "artifactRunId": 111, "artifactAttempt": 1,
+        "artifactCount": 1, "builder": "builder", "contributor": "contributor",
+        "reviewer": "maintainer", "reviewerId": 7, "requiredReviewerIds": [7],
+        "preventSelfReview": False, "approvalHistoryVerified": True,
+        "payloadDigest": digest, "archive": archive,
+    }
+    source.update(source_changes)
+    return SyntheticReceiptPort(source, archive)
+
+
+CH = dict(expected_challenge_id="challenge-42")
+
+
+def resolve(fixture, receipt_id="receipt-17", cfg=None, **kw):
+    return SyntheticTestResolver(cfg or config(), fixture).resolve(receipt_id, **{**CH, **kw})
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def test_synthetic_transport_fixture_resolves_but_is_not_live_proof():
+    resolver = SyntheticTestResolver(config(), good_fixture())
+    resolved = resolver.resolve("receipt-17", **CH)
+    assert resolved == receipt()
+    assert isinstance(resolver.source, SyntheticReceiptPort)
+    # This success checks the validation contract only; SyntheticSourceFixture
+    # is explicitly not an authenticated GitHub source adapter.
+
+
+@pytest.mark.parametrize("changes,match", [
+    ({"repository": "attacker/repo"}, "workflow source"),
+    ({"workflowPath": ".github/workflows/other.yml"}, "workflow source"),
+    ({"workflowRef": "refs/heads/untrusted"}, "workflow source"),
+    ({"workflowRef": "refs/tags/other/case-r1"}, "workflow source"),
+    ({"workflowBlobSha": "f" * 40}, "workflow source"),
+    ({"workflowSha": "not-a-sha"}, "workflow source"),
+    ({"environment": "unprotected"}, "workflow source"),
+    ({"sourceKind": "forged"}, "source kind"),
+    ({"runAttempt": 2}, "not attempt 1"),
+    ({"artifactRunId": 112}, "artifact is not uniquely"),
+    ({"artifactAttempt": 2}, "artifact is not uniquely"),
+    ({"artifactName": "challenge-receipt-other"}, "artifact is not uniquely"),
+    ({"artifactCount": 2}, "expired or ambiguous"),
+    ({"artifactExpired": True}, "expired or ambiguous"),
+    ({"runConclusion": "failure"}, "did not complete"),
+    ({"runStatus": "in_progress"}, "did not complete"),
+    ({"reviewer": "builder"}, "independent reviewer"),
+    ({"reviewerId": 999}, "configured reviewer roster"),
+    ({"reviewerId": True}, "configured reviewer roster"),
+    ({"builder": "maintainer"}, "independent reviewer"),
+    ({"contributor": "maintainer"}, "independent reviewer"),
+    ({"requiredReviewerIds": [8]}, "approval history/configuration"),
+    ({"preventSelfReview": True}, "approval history/configuration"),
+    ({"approvalHistoryVerified": False}, "approval history/configuration"),
+    ({"payloadDigest": "0" * 64}, "payload digest mismatch"),
+])
+def test_provenance_mismatches_fail_closed(changes, match):
+    resolver = SyntheticTestResolver(config(), good_fixture(**changes))
+    with pytest.raises(ReceiptUnavailable, match=match):
+        resolver.resolve("receipt-17", **CH)
+
+
+def test_actor_claims_in_artifact_cannot_override_source_actors():
+    fixture = good_fixture()
+    source = dict(fixture.document)
+    payload = {
+        "schemaVersion": 1,
+        "receipt": {**receipt().__dict__, "verifier_id": "forged-reviewer"},
+        "challengeId": "challenge-42", "contextDigest": CONTEXT,
+        "transcript": '{"cases":3,"result":"passed"}',
+        "transcriptBytesSha256": "f" * 64,
+        "notificationRef": receipt().notice_ref,
+        "proofSourceSha": PROOF_SOURCE_SHA,
+    }
+    archive, digest = make_artifact_archive(payload)
+    source.update(archive=archive, payloadDigest=digest)
+    with pytest.raises(ReceiptUnavailable, match="transcript digest mismatch|actor identities"):
+        SyntheticTestResolver(config(), SyntheticReceiptPort(source, archive)).resolve("receipt-17", **CH)
+
+
+def test_transcript_notification_contributor_and_result_bindings_are_checked():
+    fixture = good_fixture()
+    source = dict(fixture.document)
+    payload = {
+        "schemaVersion": 1, "receipt": receipt().__dict__, "challengeId": "challenge-42",
+        "contextDigest": CONTEXT, "transcript": '{"cases":3,"result":"passed"}',
+        "transcriptBytesSha256": sha(TRANSCRIPT),
+        "notificationRef": "https://example.org/notices/other", "proofSourceSha": PROOF_SOURCE_SHA,
+    }
+    archive, digest = make_artifact_archive(payload)
+    source.update(archive=archive, payloadDigest=digest)
+    with pytest.raises(ReceiptUnavailable, match="notification"):
+        SyntheticTestResolver(config(), SyntheticReceiptPort(source, archive)).resolve("receipt-17", **CH)
+    for changes in ({"contributor": "another"}, {"builder": "another"}):
+        with pytest.raises(ReceiptUnavailable, match="actor identities"):
+            SyntheticTestResolver(config(), good_fixture(**changes)).resolve("receipt-17", **CH)
+
+
+def test_invalid_receipt_ids_and_missing_config_are_explicit():
+    with pytest.raises(ReceiptUnavailable, match="not configured"):
+        GitHubVerificationReceiptResolver().resolve("receipt-17", **CH)
+    with pytest.raises(ReceiptUnavailable, match="invalid"):
+        SyntheticTestResolver(config(), good_fixture()).resolve("../receipt", **CH)
+
+
+def test_environment_config_missing_protected_settings_refuses(tmp_path):
+    with pytest.raises(ReceiptUnavailable, match="not configured"):
+        trusted_config_from_environment({})
+    # prevent_self_review may be False (single operator); it must still be a boolean
+    assert config(prevent_self_review=False).prevent_self_review is False
+    with pytest.raises(ValueError, match="prevent_self_review"):
+        config(prevent_self_review="no")
+    missing = tmp_path / "absent.json"
+    assert probe_trusted_receipt_source(env={}, configPath=missing)["status"] == "not-configured"
+
+
+def test_artifact_archive_rejects_duplicate_members_and_wrong_digest():
+    stream = io.BytesIO()
+    with zipfile.ZipFile(stream, "w") as zf:
+        zf.writestr("verification-receipt.json", b"{}")
+        zf.writestr("extra.json", b"{}")
+    source = dict(good_fixture().document)
+    source.update(archive=stream.getvalue(), payloadDigest="0" * 64)
+    with pytest.raises(ReceiptUnavailable, match="exactly the expected"):
+        SyntheticTestResolver(config(), SyntheticReceiptPort(source, stream.getvalue())).resolve("receipt-17", **CH)
+
+
+def test_raw_transcript_and_notification_are_in_full_artifact_payload():
+    value = receipt()
+    payload = make_receipt_payload(
+        value, challenge_id="challenge-42", context_digest=CONTEXT,
+        raw_transcript=TRANSCRIPT, notification_ref=value.notice_ref,
+        source_sha=PROOF_SOURCE_SHA,
+    )
+    assert payload["transcript"] == TRANSCRIPT.decode()
+    assert payload["transcriptBytesSha256"]
+    assert payload["contextDigest"] == value.context_digest
+    assert payload["notificationRef"] == value.notice_ref
+    assert payload["challengeId"] == "challenge-42"
+    with pytest.raises(ValueError, match="notification reference"):
+        make_receipt_payload(value, challenge_id="challenge-42", context_digest=CONTEXT,
+                             raw_transcript=b"x", notification_ref="https://example.org/other",
+                             source_sha=PROOF_SOURCE_SHA)
+
+
+# ---- Repair 2026-10-28 regressions -------------------------------------------------
+
+def rebuilt(rec=None, transcript=TRANSCRIPT, challenge_id="challenge-42", source_sha=PROOF_SOURCE_SHA,
+            check=True, **source_changes):
+    """Fixture whose artifact packages ``rec``/``transcript`` (bypassing producer checks)."""
+    rec = rec or receipt()
+    payload = make_receipt_payload(receipt(), challenge_id=challenge_id, context_digest=CONTEXT,
+                                   raw_transcript=TRANSCRIPT, notification_ref=rec.notice_ref,
+                                   source_sha=source_sha)
+    payload["receipt"] = rec.__dict__
+    payload["transcript"] = transcript.decode()
+    payload["transcriptBytesSha256"] = sha(transcript)
+    archive, digest = make_artifact_archive(payload)
+    fixture = good_fixture(archive=archive, payloadDigest=digest, **source_changes)
+    return fixture
+
+
+def test_git_object_sha_accepts_40_and_64_hex_but_digests_stay_64():
+    assert config(workflow_blob_sha="a" * 40).workflow_blob_sha == "a" * 40
+    assert config(workflow_blob_sha="a" * 64)
+    for bad in ("a" * 39, "a" * 41, "A" * 40, "sha256:" + "a" * 40, "a" * 63):
+        with pytest.raises(ValueError, match="blob SHA"):
+            config(workflow_blob_sha=bad)
+    rec = receipt()
+    p = make_receipt_payload(rec, challenge_id="c", context_digest=CONTEXT, raw_transcript=TRANSCRIPT,
+                             notification_ref=rec.notice_ref, source_sha="b" * 40)
+    assert p["proofSourceSha"] == "b" * 40
+    with pytest.raises(ValueError, match="context digest|SHA-256"):
+        make_receipt_payload(rec, challenge_id="c", context_digest="b" * 40, raw_transcript=TRANSCRIPT,
+                             notification_ref=rec.notice_ref, source_sha="b" * 40)
+    # a 64-hex (SHA-256 object format) blob pin end-to-end resolves
+    cfg = config(workflow_blob_sha="a" * 64)
+    assert resolve(good_fixture(workflowBlobSha="a" * 64), cfg=cfg) == receipt()
+
+
+def test_receipt_digests_are_bound_to_transcript_and_output():
+    rec = receipt()
+    for field, match in (("transcript_digest", "transcript digest"), ("output_digest", "output digest")):
+        forged = VerificationReceipt(**{**rec.__dict__, field: "d" * 64})
+        with pytest.raises(ValueError, match=match):
+            make_receipt_payload(forged, challenge_id="c", context_digest=CONTEXT, raw_transcript=TRANSCRIPT,
+                                 notification_ref=rec.notice_ref, source_sha=PROOF_SOURCE_SHA)
+        # a hostile packager skips the producer: resolver must refuse independently
+        with pytest.raises(ReceiptUnavailable, match=match):
+            resolve(rebuilt(forged))
+    # substituting a different transcript while the receipt still claims the old digest
+    with pytest.raises(ReceiptUnavailable, match="transcript digest"):
+        resolve(rebuilt(transcript=b'{"cases":3,"result":"substituted"}'))
+
+
+def test_production_resolver_refuses_synthetic_and_duck_typed_sources():
+    assert GitHubVerificationReceiptResolver.AUTHENTICATED_SOURCES == (
+        GitHubActionsSource, CommittedAttestedReceiptSource)
+    port = good_fixture()
+    with pytest.raises(ReceiptUnavailable, match="allowlisted authenticated"):
+        GitHubVerificationReceiptResolver(config(), port).resolve("receipt-17", **CH)
+
+    class Duck:
+        def fetch(self, *args):
+            return port.document
+    with pytest.raises(ReceiptUnavailable, match="allowlisted authenticated"):
+        GitHubVerificationReceiptResolver(config(), Duck()).resolve("receipt-17", **CH)
+
+    class Sub(AuthenticatedApprovalSource):
+        def fetch(self, *args):
+            return port.document
+    with pytest.raises(ReceiptUnavailable, match="allowlisted authenticated"):
+        GitHubVerificationReceiptResolver(config(), Sub()).resolve("receipt-17", **CH)
+    # the test resolver's opt-in does not extend to other subclasses either
+    with pytest.raises(ReceiptUnavailable, match="allowlisted authenticated"):
+        SyntheticTestResolver(config(), Sub()).resolve("receipt-17", **CH)
+    # the production GitHub adapter fails closed when its transport cannot reach GitHub
+    class Down:
+        def getJson(self, path):
+            raise ReceiptUnavailable("transport down")
+    with pytest.raises(ReceiptUnavailable, match="transport down"):
+        GitHubVerificationReceiptResolver(config(), GitHubActionsSource(transport=Down())).resolve(
+            "receipt-17", **CH)
+
+
+class _Raw(AuthenticatedApprovalSource):
+    def __init__(self, value):
+        self.value = value
+
+    def fetch(self, *args):
+        return self.value
+
+
+class _RawResolver(GitHubVerificationReceiptResolver):
+    AUTHENTICATED_SOURCES = (_Raw,)
+
+
+def _corrupt_deflate(archive):
+    data = bytearray(archive)
+    start = 30 + len("verification-receipt.json")
+    for k in range(start + 2, start + 12):
+        data[k] ^= 0xFF
+    return bytes(data)
+
+
+@pytest.mark.parametrize("mutate", [
+    lambda d: None,
+    lambda d: [],
+    lambda d: {**d, "archive": _corrupt_deflate(d["archive"])},
+    lambda d: {**d, "archive": bytearray(d["archive"])},
+    lambda d: {**d, "requiredReviewerIds": [["x"]]},
+    lambda d: {**d, "reviewer": 5},
+    lambda d: {**d, "payloadDigest": 7},
+    lambda d: {**d, "runId": True},
+])
+def test_malformed_source_shapes_raise_only_receipt_unavailable(mutate):
+    document = mutate(dict(good_fixture().document))
+    with pytest.raises(ReceiptUnavailable):
+        _RawResolver(config(), _Raw(document)).resolve("receipt-17", **CH)
+
+
+def test_corrupt_deflate_stream_is_receipt_unavailable_not_zlib_error():
+    document = dict(good_fixture().document)
+    document["archive"] = _corrupt_deflate(document["archive"])
+    with pytest.raises(ReceiptUnavailable, match="invalid receipt artifact archive"):
+        resolve(SyntheticReceiptPort(document, document["archive"]))
+
+
+def test_large_repetitive_transcript_round_trips_and_absolute_cap_is_the_defense():
+    rec = receipt()
+    big = b"A" * 1_900_000
+    vr = VerificationReceipt(**{**rec.__dict__, "transcript_digest": sha(big)})
+    payload = make_receipt_payload(vr, challenge_id="challenge-42", context_digest=CONTEXT,
+                                   raw_transcript=big, notification_ref=rec.notice_ref,
+                                   source_sha=PROOF_SOURCE_SHA)
+    archive, digest = make_artifact_archive(payload)
+    assert len(big) > len(archive) * 100  # would have tripped the old 100x ratio bound
+    got = resolve(good_fixture(archive=archive, payloadDigest=digest))
+    assert got == vr
+    # oversized uncompressed member (tiny archive) is refused by the absolute cap
+    stream = io.BytesIO()
+    with zipfile.ZipFile(stream, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr("verification-receipt.json", b" " * (5 * 1024 * 1024))
+    with pytest.raises(ReceiptUnavailable, match="oversized"):
+        resolve(good_fixture(archive=stream.getvalue(), payloadDigest=sha(b" " * (5 * 1024 * 1024))))
+
+
+def test_lying_size_header_cannot_inflate_past_the_cap():
+    payload = b'{"schemaVersion":1}' + b" " * 3_000_000
+    stream = io.BytesIO()
+    with zipfile.ZipFile(stream, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr("verification-receipt.json", payload)
+    raw = bytearray(stream.getvalue())
+    for sig, off in ((b"PK\x03\x04", 22), (b"PK\x01\x02", 24)):
+        pos = raw.find(sig)
+        while pos >= 0:
+            raw[pos + off:pos + off + 4] = struct.pack("<I", 100)
+            pos = raw.find(sig, pos + 4)
+    with pytest.raises(ReceiptUnavailable):
+        resolve(good_fixture(archive=bytes(raw), payloadDigest=sha(payload)))
+
+
+def test_expected_challenge_and_proof_source_must_match():
+    fixture = good_fixture()
+    assert resolve(fixture, expected_proof_source_sha=PROOF_SOURCE_SHA) == receipt()
+    with pytest.raises(ReceiptUnavailable, match="challenge id does not match"):
+        resolve(fixture, expected_challenge_id="challenge-other")
+    with pytest.raises(ReceiptUnavailable, match="proof source SHA does not match"):
+        resolve(fixture, expected_proof_source_sha="9" * 64)
+    with pytest.raises(ReceiptUnavailable, match="proof source SHA is invalid"):
+        resolve(fixture, expected_proof_source_sha="nothex")
+    for bad in ("", "  ", None):
+        with pytest.raises(ReceiptUnavailable, match="expected challenge id"):
+            resolve(fixture, expected_challenge_id=bad)
+    with pytest.raises(TypeError):  # challenge context is a required keyword
+        SyntheticTestResolver(config(), fixture).resolve("receipt-17")
+    # the bound adapter satisfies the one-argument VerificationReceiptResolver protocol
+    bound = SyntheticTestResolver(config(), fixture).for_challenge("challenge-42", PROOF_SOURCE_SHA)
+    assert bound.resolve("receipt-17") == receipt()
+    with pytest.raises(ReceiptUnavailable, match="challenge id does not match"):
+        SyntheticTestResolver(config(), fixture).for_challenge("challenge-x").resolve("receipt-17")
+
+
+def _bomb_archive(size, header_size):
+    """Deflate ``size`` bytes, then patch local+central uncompressed sizes to ``header_size``."""
+    stream = io.BytesIO()
+    with zipfile.ZipFile(stream, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr("verification-receipt.json", b" " * size)
+    raw = bytearray(stream.getvalue())
+    for sig, off in ((b"PK\x03\x04", 22), (b"PK\x01\x02", 24)):
+        pos = raw.find(sig)
+        while pos >= 0:
+            raw[pos + off:pos + off + 4] = struct.pack("<I", header_size)
+            pos = raw.find(sig, pos + 4)
+    return bytes(raw)
+
+
+@pytest.mark.parametrize("header_size", [100, 4 * 1024 * 1024])
+def test_lying_header_decompression_bomb_is_bounded_not_inflated(header_size):
+    import tracemalloc
+    payload_size = 96 * 1024 * 1024
+    archive = _bomb_archive(payload_size, header_size)
+    assert len(archive) < 1024 * 1024
+    tracemalloc.start()
+    try:
+        with pytest.raises(ReceiptUnavailable):
+            resolve(good_fixture(archive=archive, payloadDigest="0" * 64))
+        _, peak = tracemalloc.get_traced_memory()
+    finally:
+        tracemalloc.stop()
+    assert peak < 16 * 1024 * 1024, f"peak {peak} bytes: payload was inflated past the cap"
+
+
+def test_bounded_read_stops_at_cap_plus_one(monkeypatch):
+    from gaia_cli.steward import challenge_receipts as module
+    read = {"bytes": 0}
+    real = zipfile.ZipExtFile.read
+
+    def counting(self, n=-1):
+        data = real(self, n)
+        read["bytes"] += len(data)
+        return data
+    monkeypatch.setattr(zipfile.ZipExtFile, "read", counting)
+    archive = _bomb_archive(64 * 1024 * 1024, 4 * 1024 * 1024)
+    with pytest.raises(ReceiptUnavailable):
+        resolve(good_fixture(archive=archive, payloadDigest="0" * 64))
+    assert read["bytes"] <= module.MAX_PAYLOAD_BYTES + 1
+
+
+@pytest.mark.parametrize("method", [zipfile.ZIP_BZIP2, zipfile.ZIP_LZMA])
+def test_bzip2_and_lzma_members_refused_before_any_decompression(method, monkeypatch):
+    import tracemalloc
+    stream = io.BytesIO()
+    with zipfile.ZipFile(stream, "w", method) as zf:
+        zf.writestr("verification-receipt.json", b" " * (24 * 1024 * 1024))
+    raw = bytearray(stream.getvalue())
+    for sig, off in ((b"PK\x03\x04", 22), (b"PK\x01\x02", 24)):  # lying sizes
+        pos = raw.find(sig)
+        while pos >= 0:
+            raw[pos + off:pos + off + 4] = struct.pack("<I", 100)
+            pos = raw.find(sig, pos + 4)
+    fixture = good_fixture(archive=bytes(raw), payloadDigest="0" * 64)  # built before counting
+    opened = {"count": 0}
+    real_open = zipfile.ZipFile.open
+
+    def counting_open(self, *args, **kwargs):
+        opened["count"] += 1
+        return real_open(self, *args, **kwargs)
+    monkeypatch.setattr(zipfile.ZipFile, "open", counting_open)
+    tracemalloc.start()
+    try:
+        with pytest.raises(ReceiptUnavailable, match="unsupported archive compression"):
+            resolve(fixture)
+        _, peak = tracemalloc.get_traced_memory()
+    finally:
+        tracemalloc.stop()
+    assert opened["count"] == 0
+    assert peak < 4 * 1024 * 1024
+
+
+def test_producer_emits_only_stored_or_deflate_members():
+    archive, _ = make_artifact_archive(
+        make_receipt_payload(receipt(), challenge_id="c", context_digest=CONTEXT,
+                             raw_transcript=TRANSCRIPT, notification_ref=receipt().notice_ref,
+                             source_sha=PROOF_SOURCE_SHA))
+    with zipfile.ZipFile(io.BytesIO(archive)) as zf:
+        assert [i.compress_type for i in zf.infolist()] == [zipfile.ZIP_DEFLATED]

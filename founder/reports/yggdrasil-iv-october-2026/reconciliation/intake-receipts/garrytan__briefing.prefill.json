@@ -1,0 +1,121 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/briefing",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/briefing",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/briefing/SKILL.md",
+  "checked": true,
+  "contentSha256": "551c2f308c27b8a0823e2dfbbcdf7e8ace78ff6498afaa3ac21da852c7cf0d16",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "aplaceforallmystuff/log-to-daily",
+     "similarity": 0.567163
+    },
+    {
+     "id": "mattpocock/grill-with-docs",
+     "similarity": 0.480218
+    },
+    {
+     "id": "garrytan/meeting-ingestion",
+     "similarity": 0.475561
+    },
+    {
+     "id": "garrytan/retro",
+     "similarity": 0.475135
+    },
+    {
+     "id": "garrytan/research-compendium",
+     "similarity": 0.452638
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "research",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5221 to generic 'research' (weak match).",
+   "similarity": 0.522093
+  },
+  {
+   "genericId": "document-analyst",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4873 to generic 'document-analyst' (weak match).",
+   "similarity": 0.487277
+  },
+  {
+   "genericId": "write-report",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4652 to generic 'write-report' (weak match).",
+   "similarity": 0.465193
+  }
+ ],
+ "normalized": {
+  "description": "Compile daily briefing with meeting context, active deals, and citation tracking",
+  "name": "briefing"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/briefing/SKILL.md",
+  "contentSha256": "551c2f308c27b8a0823e2dfbbcdf7e8ace78ff6498afaa3ac21da852c7cf0d16",
+  "fetchedAt": "2026-10-27T22:08:24.428295+00:00",
+  "frontmatter": {
+   "description": "Compile daily briefing with meeting context, active deals, and citation tracking",
+   "mutating": false,
+   "name": "briefing",
+   "tools": [
+    "search",
+    "query",
+    "get_page",
+    "list_pages",
+    "get_timeline"
+   ],
+   "triggers": [
+    "daily briefing",
+    "morning briefing",
+    "what's happening today",
+    "brain pulse",
+    "pre-briefing pull"
+   ],
+   "upstream": "briefing@fc834ee",
+   "version": "1.3.0"
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

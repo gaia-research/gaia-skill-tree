@@ -1,0 +1,135 @@
+{
+  "contractVersion": "curation-assessment-v1",
+  "authority": "advisory",
+  "assessedAt": "2026-10-27T22:08:22.432136+00:00",
+  "candidateId": "garrytan/postgres-adopt",
+  "candidate": {
+    "name": "postgres-adopt",
+    "description": "Detect which gbrain engine is in use (PGLite vs Postgres), prefer Postgres for agent-harness installs, install/provision Postgres (Supabase discovery via SUPABASE_ACCESS_TOKEN, local Postgres, opt-in Docker), and move an existing PGLite brain to Postgres with its history (plan, ask, run). Detection is one engine-free command; the install ladder is one flag."
+  },
+  "source": {
+    "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/postgres-adopt/SKILL.md",
+    "contentSha256": "8cf801e2e0d29da525a8c4ba275b91e6caffc8aae8e648cbcc8bceaab865c890",
+    "commitSha": null
+  },
+  "candidateSourceDigest": "8cf801e2e0d29da525a8c4ba275b91e6caffc8aae8e648cbcc8bceaab865c890",
+  "semanticInputSha256": "e920c9d9f66821398217161624abd5bd695c001e19ce9880a6e6e54e3113823d",
+  "catalogSha256": "77991271cdf9d32370d92244389486b1e19a02a3a72326e0fe452816e6d4043c",
+  "rubric": {
+    "rubricId": "gaia-curation-principles",
+    "rubricVersion": "1.0.0",
+    "rubricSha256": "1f14f6b09ee6a72570bba04617de1ee7bf92040afaf862f6059f4cb413879349"
+  },
+  "retrievedGenerics": [
+    {
+      "id": "supabase",
+      "name": "supabase",
+      "description": "Use when doing any task involving Supabase products including Database, Auth, Edge Functions, Realtime, Storage, client libraries, RLS, migrations, and Postgres extensions.",
+      "type": "basic",
+      "prerequisites": [],
+      "definitionAvailable": true,
+      "similarity": 0.542677,
+      "matchTier": "weak"
+    },
+    {
+      "id": "postgres-best-practices",
+      "name": "postgres-best-practices",
+      "description": "Guiding agents to design, migrate, secure, tune, and operate PostgreSQL databases using robust schema, SQL, RLS, indexing, and performance practices.",
+      "type": "basic",
+      "prerequisites": [],
+      "definitionAvailable": true,
+      "similarity": 0.477574,
+      "matchTier": "weak"
+    },
+    {
+      "id": "gbrain",
+      "name": "GBrain",
+      "description": "Routes the GBrain knowledge, capture, and synthesis suite as one installable capability.",
+      "type": "fusion",
+      "prerequisites": [
+        "concept-synthesis",
+        "knowledge-management",
+        "personal-knowledge-management"
+      ],
+      "definitionAvailable": true,
+      "similarity": 0.468547,
+      "matchTier": "weak"
+    }
+  ],
+  "retrieval": {
+    "model": "all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+    "thresholds": {
+      "strongMap": 0.72,
+      "weakMap": 0.45,
+      "topK": 3
+    }
+  },
+  "principles": {
+    "identity": {
+      "evaluation": "unknown",
+      "question": "After stripping vendor, product, repository, contributor and implementation details, identify the reusable capability. A named implementation is not automatically a narrower generic."
+    },
+    "transferability": {
+      "evaluation": "unknown",
+      "question": "Could another independent implementation reasonably implement this generic? Generic identity describes capability, not product vocabulary. Product dependence of a named implementation is not itself grounds for rejection or purging."
+    },
+    "relation": {
+      "evaluation": "unknown",
+      "question": "Relative to the strongest existing generic, is the reusable capability the same, narrower, broader, composite, orthogonal, or unknown? State the comparison target; similarity alone cannot answer.",
+      "relation": "unknown"
+    },
+    "material_distinction": {
+      "evaluation": "unknown",
+      "question": "A split needs an observable, falsifiable behavioral distinction from its strongest neighbor. Naming, vendor, CLI syntax, implementation technique or framework alone are weak justification for a new generic."
+    },
+    "atomicity": {
+      "evaluation": "unknown",
+      "question": "Does the capability stand alone, or compose independently useful prerequisites? Yggdrasil basic has zero prerequisites and fusion has at least one. Do not derive capability structure from mentions of required software or from packaging.",
+      "type": "unknown"
+    },
+    "artifact_packaging": {
+      "evaluation": "unknown",
+      "question": "Distinguish a capability from suite, package, router, wrapper, category or capstone packaging. A component is not its suite. suiteComponents belongs to named implementations; it is not a generic capability identity.",
+      "shape": "unknown",
+      "declaredSuite": {
+        "role": null,
+        "suiteId": null,
+        "componentCandidateIds": null
+      }
+    },
+    "overlap": {
+      "evaluation": "unknown",
+      "question": "Compare a proposed new generic to its strongest existing neighbor. If no falsifiable distinction can be written, question the split. Empty retrieval does not prove novelty; two high-scoring neighbors do not prove fusion.",
+      "notes": "Scores never imply identity or novelty; compare observable behavior with the strongest neighbor.",
+      "strongestNeighbor": "supabase"
+    },
+    "topology_independence": {
+      "evaluation": "independent",
+      "question": "Topology must not change merely because contributor fame, stars, Trust Magnitude, evidence abundance or popularity changes. These signals are excluded from semantic decision inputs. Advice answers SHOULD, human L4 decides MAY.",
+      "inputs": "Allowlisted semantic fields only; rank, popularity and evidence excluded."
+    }
+  },
+  "uncertainty": {
+    "level": "review-required",
+    "emptyRecall": false,
+    "reasons": [
+      "Only human L4 may resolve semantic identity and canonical topology."
+    ],
+    "jevDisagreement": null
+  },
+  "proposedDisposition": {
+    "value": "DEFER",
+    "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+    "targetGenericId": "supabase",
+    "advisoryOnly": true
+  },
+  "jevAdvice": {
+    "status": "skipped",
+    "reason": "jev_off",
+    "answers": {},
+    "calls": [],
+    "disagreement": null
+  }
+}

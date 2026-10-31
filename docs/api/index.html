@@ -414,6 +414,24 @@
             <tr>
               <td class="ep-method">GET</td>
               <td class="ep-path">
+                <a href="v1/challenges/index.json" target="_blank" rel="noopener">/api/v1/challenges/index.json</a>
+                <br><span class="ep-schema">gaia-challenge-projection/v1</span>
+              </td>
+              <td class="ep-desc">Admitted trust challenges only, with <code>sourceStatus</code> <code>unavailable</code> or <code>verified</code>. Unavailable means no subjects. Never carries a proposal; a challenge changes no standing. Rendered at <a href="../trust/challenges/">/trust/challenges/</a>.</td>
+              <td class="ep-tag"><span class="api-tag-pill api-tag-meta">Meta</span></td>
+            </tr>
+            <tr>
+              <td class="ep-method">GET</td>
+              <td class="ep-path">
+                <a href="v1/challenges/reviews.json" target="_blank" rel="noopener">/api/v1/challenges/reviews.json</a>
+                <br><span class="ep-schema">gaia-challenge-review/v1</span>
+              </td>
+              <td class="ep-desc">Reviews whose admission was attempted and held. Held reviews are not admitted challenges and affect no Trust Magnitude, star, grade, Origin or ranking.</td>
+              <td class="ep-tag"><span class="api-tag-pill api-tag-meta">Meta</span></td>
+            </tr>
+            <tr>
+              <td class="ep-method">GET</td>
+              <td class="ep-path">
                 <a href="v1/evidence-types.json" target="_blank" rel="noopener">/api/v1/evidence-types.json</a>
                 <br><span class="ep-schema">EvidenceTypeCatalogue</span>
               </td>

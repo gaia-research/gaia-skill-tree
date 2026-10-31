@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "/data/data/com.termux/files/usr/bin/python",
+    "examples/frontier/build_verification_request.py"
+  ],
+  "exitCode": 0,
+  "stdout": "generated-output/frontier/git-log-L-graft.verification-request-v1.json\ngenerated-output/frontier/git-log-L-graft.meta-handoff-v1.json\nrequest sha256:e925acc97f7fa2390823a7902f1c2e4ca37c4c54d8b028989f49860d1ef79f21\nhandoff verification unverified-lead matched-actionable-request\n",
+  "stderr": "",
+  "seconds": 0.836
+}

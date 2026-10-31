@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "frontier-verification-request-v1",
+  "requestId": "sha256:e925acc97f7fa2390823a7902f1c2e4ca37c4c54d8b028989f49860d1ef79f21",
+  "campaignId": "frontier-foundation-campaign-1",
+  "leadId": "git-log-L-graft-001",
+  "leadDigest": "sha256:35c705581ca06d5bef3376c4da40d53e67dde4a893cc6235e887645a2de6f378",
+  "claimId": "git-line-history-task-v1",
+  "claimDigest": "sha256:4891eb9958e8682c0f3dff3f29e6fb20e3206eb546874ea22cfe5fe3571e6af5",
+  "native": {
+    "name": "Git git-log -L",
+    "version": "2.56.0",
+    "provider": "Git project at tag v2.56.0"
+  },
+  "source": {
+    "url": "https://raw.githubusercontent.com/git/git/v2.56.0/Documentation/git-log.adoc",
+    "contentDigest": "sha256:67e2e76723555409941d7a67d501d44e835a98a657fa71fbba664bda74255305",
+    "capturedBytesPath": "examples/frontier/sources/git-v2.56.0-Documentation-git-log.adoc"
+  },
+  "target": {
+    "kind": "named",
+    "skillId": "trailhq/graft",
+    "genericSkillId": "codebase-graph-retrieval",
+    "revision": "6b0b48b681538353c7988c6fed9237d99977fc8d",
+    "contentDigest": "sha256:12519de9523bb54f8129ec3142260db580ca0b3ca8998e09fa6571bb24dfbc68",
+    "path": "registry/named/trailhq/graft.md"
+  },
+  "historyRef": "git:6b0b48b681538353c7988c6fed9237d99977fc8d",
+  "protocol": {
+    "path": "examples/frontier/protocols/git-log-L-vs-graft-v1.json",
+    "revision": "e4df38cfbb21f4b6fe999da3e94c5e4199cb94e7",
+    "contentDigest": "sha256:40778442774ff85693e77e7ba0a80a81259bd939180e5de0cc35ba5efc07ef74"
+  },
+  "fixture": {
+    "path": "examples/frontier/fixtures/line-history/sample-v1.py",
+    "contentDigest": "sha256:deb9f81d78e97c503f48028e4dafb5167ff3b6c966e282e9b1f1c5a77b62c388"
+  },
+  "conditions": "Requires a Git repository and a selected file and line range or function pattern.",
+  "createdAtUTC": "2026-10-27T15:59:11.740882Z"
+}

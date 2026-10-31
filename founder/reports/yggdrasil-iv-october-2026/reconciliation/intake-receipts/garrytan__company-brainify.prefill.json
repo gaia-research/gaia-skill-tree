@@ -1,0 +1,105 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/company-brainify",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/company-brainify",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/company-brainify/SKILL.md",
+  "checked": true,
+  "contentSha256": "89e8cae702d468628d110119e325cece897cd15066c7cc7d27e990021904fc04",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.587282
+    },
+    {
+     "id": "garrytan/capture",
+     "similarity": 0.498857
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.486431
+    },
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.459749
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Extract a sanitized shared team/company brain from a personal brain. Strips internal ratings, compensation, performance assessments, retention and political dynamics from pages, takes, and facts across the full scan scope (people, companies, meetings, dailies, cross-references \u2014 not just people/), verifies with grep + retrieval passes, and purges sensitive git history behind the data-loss-gate con",
+  "name": "company-brainify"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/company-brainify/SKILL.md",
+  "contentSha256": "89e8cae702d468628d110119e325cece897cd15066c7cc7d27e990021904fc04",
+  "fetchedAt": "2026-10-27T22:07:39.947006+00:00",
+  "frontmatter": {
+   "brain_first": true,
+   "description": "Extract a sanitized shared team/company brain from a personal brain. Strips internal ratings, compensation, performance assessments, retention and political dynamics from pages, takes, and facts across the full scan scope (people, companies, meetings, dailies, cross-references \u2014 not just people/), verifies with grep + retrieval passes, and purges sensitive git history behind the data-loss-gate confirmation card. Also runs as a report-only re-audit on an existing shared brain.\n",
+   "mutating": true,
+   "name": "company-brainify",
+   "triggers": [
+    "company brain",
+    "team brain",
+    "brainify",
+    "sanitize the brain",
+    "share my brain with the team",
+    "strip sensitive data from the brain",
+    "scrub employee data",
+    "audit the shared brain",
+    "make the brain safe to share"
+   ],
+   "upstream": "company-brainify@fc834ee",
+   "version": "1.0.0",
+   "writes_pages": true,
+   "writes_to": [
+    "people/",
+    "companies/",
+    "meetings/",
+    "daily/",
+    "projects/",
+    "analysis/"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

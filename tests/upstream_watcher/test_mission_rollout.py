@@ -16,7 +16,9 @@ def load(name):
 
 
 @pytest.mark.parametrize("name,digest", [
-    ("approve", "ea9fa2a719ccbf654b1f1ff57b97c16fe0b508b8cd9175264756139b2261456c"),
+    # approve: digest re-pinned after merging dev/yggdrasil-iv, whose only change to the deployed steps is the
+    # checkout `fetch-depth: 1 -> 0` that the docs build needs when a bundle claims an issuer receipt (cc3f7e3ca).
+    ("approve", "3ebaa3240af257e89a32d172e812e71f3aa0fbb655ed9210d5eab42678d5947c"),
     ("reject", "18e30d1c75318486bddd8e9b08c58c7748f54697e773c1c43ab323fabdf77c8c"),
     ("close-children", "5d97163a06c49888c1e4752291e25f1fe5216909a0891ca716876daf4834b7d7"),
 ])

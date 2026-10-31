@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "challenger-lead-v1",
+  "contractRevision": "challenger-lead-v1.1",
+  "campaignId": "frontier-foundation-campaign-1",
+  "claimId": "git-line-history-task-v1",
+  "leadId": "git-log-L-graft-001",
+  "identity": {
+    "name": "Git git-log -L",
+    "kind": "native-cli",
+    "installable": false,
+    "version": "2.56.0"
+  },
+  "source": {
+    "url": "https://raw.githubusercontent.com/git/git/v2.56.0/Documentation/git-log.adoc",
+    "observedAtUTC": "2026-10-26T12:00:00Z",
+    "contentDigest": "sha256:67e2e76723555409941d7a67d501d44e835a98a657fa71fbba664bda74255305",
+    "provider": "Git project at tag v2.56.0",
+    "capturedBytesPath": "examples/frontier/sources/git-v2.56.0-Documentation-git-log.adoc"
+  },
+  "capability": {
+    "claim": "Trace the evolution of a selected source line range or function in one file.",
+    "task": "Explain how a function changed over commit history.",
+    "conditions": "Requires a Git repository and a selected file and line range or function pattern."
+  },
+  "comparison": {
+    "comparator": "Graft repository graph retrieval for locating concepts and source spans.",
+    "baseline": "Compare ability to trace historical line evolution versus locating related code and architecture."
+  },
+  "target": {
+    "skillId": "trailhq/graft",
+    "kind": "named",
+    "genericSkillId": "codebase-graph-retrieval",
+    "revision": "6b0b48b681538353c7988c6fed9237d99977fc8d",
+    "contentDigest": "sha256:3109c1b8a350cab9df3f039ac55f87406f18ae66ad56c79a6818e61c137f9438",
+    "scopeRationale": "Potential overlap only for investigations about code history; not a general replacement for graph-backed codebase context."
+  },
+  "preliminaryEvidence": [
+    {
+      "polarity": "supports-investigation",
+      "url": "https://git-scm.com/docs/git-log",
+      "summary": "Official manual documents git log -L line-range evolution tracing."
+    },
+    {
+      "polarity": "context-only",
+      "url": "https://git-scm.com/docs/git-log/2.1.4",
+      "summary": "Versioned older manual documents the same option; not evidence of current installation or superiority."
+    }
+  ],
+  "limitations": [
+    "Documentation confirms the option, not comparative performance.",
+    "Version/runtime availability and output quality have not been independently tested.",
+    "This is an exploratory scoped overlap, not presumed supersession."
+  ],
+  "dedupe": {
+    "key": "565bc9e404da99550858796e3129f453da5e51561e8e8cfcfda5ccc2989e5d1e",
+    "checkedAtUTC": "2026-10-26T12:00:00Z",
+    "matches": []
+  },
+  "independentTest": {
+    "proposal": "In a disposable fixture repository, identify a function change with git log -L; independently compare a Graft retrieval task for locating the function and its call context. Record commands, pinned Git version, fixture commit IDs, output digests and misses.",
+    "traceability": "Keep fixture source, exact commands, commit IDs and outputs in an isolated test receipt; do not run instructions sourced from the packet."
+  },
+  "disposition": {
+    "status": "candidate",
+    "rationale": "Official documentation supports a concrete native behavior, but no competitive or replacement claim is established.",
+    "nextAction": "Meta triage may decide whether a focused independent audit is worthwhile; no admission or canonical action."
+  }
+}

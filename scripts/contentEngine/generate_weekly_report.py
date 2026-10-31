@@ -42,6 +42,14 @@ _PKG_DIR = Path(__file__).resolve().parent
 if str(_PKG_DIR) not in sys.path:
     sys.path.insert(0, str(_PKG_DIR))
 
+# `publication_context` lives one level up in scripts/ and is imported bare by
+# `_isoNow()` / `run()`. When this file runs as a script, sys.path[0] is
+# scripts/contentEngine/, so scripts/ must be added explicitly or the import
+# raises ModuleNotFoundError (regression from #2172).
+_SCRIPTS_DIR = _PKG_DIR.parent
+if str(_SCRIPTS_DIR) not in sys.path:
+    sys.path.append(str(_SCRIPTS_DIR))
+
 # ---------------------------------------------------------------------------
 # ISO week helpers
 # ---------------------------------------------------------------------------
@@ -422,7 +430,8 @@ def _rebuildArchive(
 
 
 def _isoNow() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    from publication_context import evaluation_at_utc_from_env
+    return evaluation_at_utc_from_env() or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def run(
@@ -440,7 +449,9 @@ def run(
     from synthesizer import synthesize  # noqa: WPS433 — local import to avoid cycle
 
     if now is None:
-        now = datetime.now(timezone.utc).replace(tzinfo=None)
+        from publication_context import evaluation_at_utc_from_env
+        pinned = evaluation_at_utc_from_env()
+        now = (datetime.fromisoformat(pinned.replace("Z", "+00:00")) if pinned else datetime.now(timezone.utc)).replace(tzinfo=None)
 
     year, week = isoYearWeek(now)
     generatedAt = _isoNow()

@@ -5,7 +5,7 @@
       "id": "nvidia/accelerated-computing-cudf",
       "name": "accelerated-computing-cudf",
       "level": "4★",
-      "trustMagnitude": 126.12,
+      "trustMagnitude": 131.12,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "nvidia",
@@ -23,9 +23,9 @@
   "topSkill": {
     "id": "nvidia/accelerated-computing-cudf",
     "level": "4★",
-    "trustMagnitude": 126.12
+    "trustMagnitude": 131.12
   },
-  "prestigeScore": 126.12,
+  "prestigeScore": 131.12,
   "gradeDistribution": {
     "A": 1
   },

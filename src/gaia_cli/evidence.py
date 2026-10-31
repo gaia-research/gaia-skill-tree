@@ -12,16 +12,76 @@ evidence pool, used by rendering, the CLI, and validation.
 from __future__ import annotations
 
 
+# Legacy evidence type aliases, normalized before keying (``repo`` is the
+# historical spelling of ``repo-own``). ``trustMagnitude.TYPE_ALIASES`` is this
+# same mapping so the merge here and the scoring-time dedup there cannot drift.
+EVIDENCE_TYPE_ALIASES: dict = {"repo": "repo-own"}
+
+
+def canonicalSourceUrl(url) -> str | None:
+    """Normalize a source URL for same-source dedup (RFC section 5.2).
+
+    Strips fragments and trailing slashes, normalizes ``tree/`` to ``blob/``,
+    lower-cases. Returns None for an empty or missing URL.
+    """
+    if not url:
+        return None
+    text = str(url).strip()
+    if not text:
+        return None
+    if "#" in text:
+        text = text.split("#", 1)[0]
+    text = text.replace("/tree/", "/blob/")
+    while text.endswith("/"):
+        text = text[:-1]
+    return text.lower()
+
+
+def evidenceTypeOf(entry: dict) -> str | None:
+    """Resolve an evidence row's type, normalizing legacy aliases."""
+    rowType = entry.get("type")
+    if not rowType:
+        return None
+    return EVIDENCE_TYPE_ALIASES.get(rowType, rowType)
+
+
+def evidenceDedupKey(entry: dict) -> tuple:
+    """Same-source dedup key: ``(evidence type, canonical source URL)``.
+
+    The URL slot is None for a row with no source; callers must not dedup on
+    such keys. Dedup is *within type* (META.md / curation authority map): a
+    ``github-stars-own`` row and a ``repo-own`` row at one URL are different
+    keys and both count toward Trust Magnitude. Mirrors ``_dedupeSameSource``
+    in ``trustMagnitude.py``.
+    """
+    url = (
+        canonicalSourceUrl(entry.get("source"))
+        or canonicalSourceUrl(entry.get("url"))
+        or canonicalSourceUrl(entry.get("sourceUrl"))
+    )
+    return (evidenceTypeOf(entry) or "", url)
+
+
 def merge_evidence(*groups) -> list:
-    """Concatenate evidence lists, de-duplicating by ``source`` (first wins)."""
+    """Concatenate evidence lists, de-duplicating by ``(type, source)`` (first wins).
+
+    Rows of *different* types at the same URL are distinct evidence and are
+    all kept; only a same-type, same-canonical-source repeat is dropped. Rows
+    with no source URL at all are never deduplicated (they cannot be shown to
+    be the same source), matching ``_dedupeSameSource`` in ``trustMagnitude.py``,
+    which also keeps URL-less rows.
+    """
     seen = set()
     merged = []
     for group in groups:
         for entry in group or []:
-            src = entry.get("source")
-            if src in seen:
+            key = evidenceDedupKey(entry)
+            if key[1] is None:
+                merged.append(entry)
                 continue
-            seen.add(src)
+            if key in seen:
+                continue
+            seen.add(key)
             merged.append(entry)
     return merged
 
@@ -30,7 +90,7 @@ def inherited_evidence(named_skill: dict, generic_node: dict | None) -> list:
     """Return a named skill's effective evidence pool.
 
     Own evidence first (most specific), then the generic ref's inherited
-    capability evidence. De-duplicated by ``source``.
+    capability evidence. De-duplicated by ``(type, source)``.
     """
     generic = (generic_node or {}).get("evidence") if generic_node else []
     return merge_evidence(named_skill.get("evidence"), generic)
