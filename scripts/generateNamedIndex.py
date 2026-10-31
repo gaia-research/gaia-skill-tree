@@ -26,6 +26,8 @@ import argparse
 import datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
+from gaia_cli.canonicalTransaction import guardCanonicalPath  # noqa: E402
+from gaia_cli.frozen import frozenIds  # noqa: E402
 from gaia_cli.redaction import is_redacted, level_num  # noqa: E402  single source of truth
 from gaia_cli.taxonomy import branchFor, rankWord, medallion, normalize  # noqa: E402
 from gaia_cli.lifecycleProjection import produce_lifecycle  # noqa: E402
@@ -220,7 +222,9 @@ def load_suite_mappings(suites_dir):
 
 
 def _write_frontmatter_updates(filepath, updates):
-    """Safely write updates back to the frontmatter of a markdown file, preserving custom layout/formatting."""
+    """Safely write suite metadata without changing the legacy Origin field."""
+    if "origin" in updates:
+        raise ValueError("Origin is derived; docs generation must not write Origin frontmatter.")
     with open(filepath, "r", encoding="utf-8") as f:
         content = f.read()
 
@@ -280,9 +284,10 @@ def _write_frontmatter_updates(filepath, updates):
 
 
 def update_markdown_files_with_suite_metadata(named_skills, skill_to_suite, suite_to_components):
-    """Automatically update the frontmatter of named skill markdown files to sync suiteRef and suiteComponents."""
+    """Sync suite metadata on live records, preserving every frozen source byte."""
+    protected = frozenIds(fm for _fp, fm in named_skills)
     for fp, fm in named_skills:
-        if "_parse_error" in fm:
+        if "_parse_error" in fm or fm.get("id") in protected:
             continue
 
         skill_id = fm.get("id")

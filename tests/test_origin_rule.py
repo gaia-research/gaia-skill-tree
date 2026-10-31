@@ -6,6 +6,7 @@ Uniques, an Origin star floor, a manual Origin flag, or a tie vacancy returns.
 
 from __future__ import annotations
 
+import contextlib
 import inspect
 import re
 import sys
@@ -157,7 +158,47 @@ def test_awakened_record_competes_for_origin():
 def test_named_index_has_no_origin_frontmatter_writer():
     source = (ROOT / "scripts" / "generateNamedIndex.py").read_text(encoding="utf-8")
     assert "sync_origin_frontmatter" not in source
-    assert "guardCanonicalPath" not in source
+
+
+def test_suite_metadata_writer_is_guarded_and_never_writes_origin(tmp_path, monkeypatch):
+    from scripts import generateNamedIndex as index
+
+    path = tmp_path / "skill.md"
+    path.write_text("---\nid: a/tool\norigin: true\n---\nHistorical attribution.\n", encoding="utf-8")
+    guarded = []
+
+    @contextlib.contextmanager
+    def guard(target):
+        guarded.append(target)
+        yield
+
+    monkeypatch.setattr(index, "guardCanonicalPath", guard)
+    index._write_frontmatter_updates(path, {"suiteRef": "a/suite"})
+    assert guarded == [path]
+    result = path.read_text(encoding="utf-8")
+    assert "origin: true" in result
+    assert 'suiteRef: "a/suite"' in result
+    assert result.endswith("Historical attribution.\n")
+    before = path.read_bytes()
+    with pytest.raises(ValueError, match="Origin is derived"):
+        index._write_frontmatter_updates(path, {"origin": False})
+    assert path.read_bytes() == before
+
+
+def test_suite_metadata_sync_preserves_frozen_node_and_suite_member_bytes(tmp_path):
+    from scripts import generateNamedIndex as index
+
+    suite = tmp_path / "suite.md"
+    member = tmp_path / "member.md"
+    suite.write_text("---\nid: a/suite\nfrozen: true\norigin: true\n---\nHistory.\n", encoding="utf-8")
+    member.write_text("---\nid: a/member\nsuiteRef: a/suite\norigin: false\n---\nHistory.\n", encoding="utf-8")
+    before = {path: path.read_bytes() for path in (suite, member)}
+    records = [(suite, {"id": "a/suite", "frozen": True}),
+               (member, {"id": "a/member", "suiteRef": "a/suite"})]
+    index.update_markdown_files_with_suite_metadata(
+        records, {"a/member": "a/other"}, {"a/suite": ["a/member"]},
+    )
+    assert {path: path.read_bytes() for path in before} == before
 
 
 # ------------------------------------------------------------ regression guards
