@@ -253,6 +253,10 @@ def _withContextualGrades(skill: dict, genericMap: dict, context: ShadowEvaluati
     return clone, report
 
 
+# Causes whose underlying defect has shipped a fix; kept as history, never "triggered".
+RESOLVED_CAUSES = frozenset({"source-only-inheritance-merge"})
+
+
 def _correctionCauses(
     skill: dict,
     context: ShadowEvaluationContext,
@@ -301,9 +305,16 @@ def _correctionCauses(
     rowGradeDrift = any(
         item["gradeDiffers"] or item["trustNumberFallback"] for item in rowReport
     )
+    # RESOLVED: the legacy merge was source-only and order dependent (the defect
+    # this cause recorded). PR #2257 made ``merge_evidence`` dedup within each
+    # Evidence Type, so the production path now equals the corrected path. The
+    # cause is kept in the catalog as history and reports ``resolved`` whenever
+    # the old trigger condition (same-source rows of distinct types, or
+    # source-less own rows) is present; it never reports ``triggered`` again.
     causes = [
         ("source-only-inheritance-merge", inheritanceConflict,
-         "same-source evidence has distinct Evidence Types or row origins"),
+         "resolved by #2257: merge_evidence now dedups within each Evidence Type "
+         "(was: same-source evidence with distinct Evidence Types or row origins)"),
         ("eligibility-before-dedup", eligibilityConflict,
          "same-type URL group contains both ineligible and scoring rows"),
         ("component-before-suite-grade", componentDrift,
@@ -314,7 +325,10 @@ def _correctionCauses(
     return [{
         "cause": name,
         "classification": "implementation-correction",
-        "status": "triggered" if triggered else "not-triggered",
+        "status": (
+            "resolved" if triggered and name in RESOLVED_CAUSES
+            else "triggered" if triggered else "not-triggered"
+        ),
         "evidence": detail if triggered else None,
     } for name, triggered, detail in causes]
 

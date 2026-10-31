@@ -9,10 +9,18 @@ on:
         description: "Issue number to re-run approve logic on"
         required: true
         type: string
+      refire:
+        # D3: upstream-close-children sets this when it re-fires an approved umbrella. A bot actor is
+        # accepted only with refire=true, and then only when the latest upstream:approved labeler is a Verifier.
+        description: "true when upstream-close-children re-fires an approved umbrella"
+        required: false
+        default: "false"
+        type: string
 
 concurrency:
   group: upstream-approve-${{ github.event.issue.number || inputs.issue_number }}
-  cancel-in-progress: true
+  # L4: never cancel. A denied or superseded run must not cancel an in-flight Verifier sync.
+  cancel-in-progress: false
 
 permissions:
   issues: write
@@ -20,6 +28,79 @@ permissions:
   pull-requests: write
 
 jobs:
+  # ── L5: applying skip-child-gate is gated like approval ───────────────────────
+  # A bypass of the child-resolution gate may only be applied by a Verifier or an allowlisted actor. Anyone else
+  # loses the label, with a comment. The approve job also ignores such a label (see the child gate), so a removal
+  # that lags behind an approval cannot bypass the gate.
+  skip-child-gate-guard:
+    name: Gate the skip-child-gate label
+    runs-on: ubuntu-latest
+    if: >-
+      (vars.STEWARD_ISSUE_HYGIENE_V2 == 'true') && (github.event_name == 'issues' && github.event.action == 'labeled' && github.event.label.name == 'skip-child-gate') && (contains(github.event.issue.labels.*.name, 'upstream:release') || contains(github.event.issue.labels.*.name, 'upstream:bootstrap'))
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Build the base named-skills index
+        run: |
+          set -euo pipefail
+          python scripts/assemble_gaia.py
+          python scripts/generateNamedIndex.py
+
+      - name: Check skip-child-gate labeler
+        env:
+          LABELER: ${{ github.event.sender.login }}
+          LABELER_TYPE: ${{ github.event.sender.type }}
+          LABELER_ID: ${{ github.event.sender.id }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          set -euo pipefail
+          # No guard writes on unrelated, malformed or unreadable issues, even
+          # when someone applies skip-child-gate to them.
+          OWNED=$(gh issue view "$ISSUE_NUMBER" --json title,body,labels | python3 -c '
+          import json, sys
+          from scripts.upstream_watcher.approval import owned_upstream_issue
+          print("true" if owned_upstream_issue(json.load(sys.stdin)) else "false")
+          ') || exit 1
+          if [ "$OWNED" != true ]; then
+            echo "Not a proven upstream umbrella/bootstrap; no label or comment writes."
+            exit 0
+          fi
+          # A check that cannot run is a denial: the label is removed, never honoured.
+          ALLOWED=$(python3 - "$LABELER" "${LABELER_TYPE:-}" "${LABELER_ID:-}" <<'PY'
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import allowlisted, verifier_status
+          login, sender_type, sender_id = sys.argv[1], sys.argv[2], sys.argv[3]
+          if allowlisted(login, sender_type, sender_id):
+              print("allowlisted")
+          else:
+              print(verifier_status("registry/named-skills.json", login))
+          PY
+          ) || ALLOWED="error"
+          if [ "$ALLOWED" = "allowlisted" ] || [ "$ALLOWED" = "yes" ]; then
+            echo "✓ skip-child-gate applied by an authorized actor ($LABELER)."
+            exit 0
+          fi
+          gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Authorization failure:** \`$LABELER\` may not apply \`skip-child-gate\`, which bypasses the child-resolution gate. Only a Verifier or an allowlisted actor may. The label has been removed and the gate still applies." || true
+          gh issue edit "$ISSUE_NUMBER" --remove-label "skip-child-gate" || true
+          echo "::error::$LABELER may not apply skip-child-gate ($ALLOWED). The label was removed."
+          exit 1
+
   approve:
     name: Process upstream:approved label
     runs-on: ubuntu-latest
@@ -28,11 +109,860 @@ jobs:
     # 2. An issue is opened with upstream:approved (issues opened path, e.g. auto-bootstrap)
     # 3. Manually dispatched or re-run (retry path)
     if: >-
-      (github.event_name == 'issues' && (
-        (github.event.action == 'labeled' && github.event.label.name == 'upstream:approved')
-        || (github.event.action == 'opened' && contains(github.event.issue.labels.*.name, 'upstream:approved'))
-      ))
-      || github.event_name == 'workflow_dispatch'
+      (vars.STEWARD_ISSUE_HYGIENE_V2 == 'true') && ((github.event_name == 'issues' && ( (github.event.action == 'labeled' && github.event.label.name == 'upstream:approved') || (github.event.action == 'opened' && contains(github.event.issue.labels.*.name, 'upstream:approved')) )) || github.event_name == 'workflow_dispatch')
+
+    steps:
+      # M9: no ${{ }} expression inside a run block. Every value reaches the shell through env,
+      # and the issue number is validated as digits before any step uses it.
+      - name: Resolve issue number and actor
+        id: issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_ISSUE_NUMBER: ${{ inputs.issue_number }}
+          EVENT_ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ACTOR_LOGIN: ${{ github.actor }}
+          SENDER_LOGIN: ${{ github.event.sender.login }}
+          SENDER_TYPE: ${{ github.event.sender.type }}
+          SENDER_ID: ${{ github.event.sender.id }}
+        run: |
+          set -euo pipefail
+          # M2: the actor's user type and id travel with its login. A login alone does not authorize anyone.
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            NUMBER="$INPUT_ISSUE_NUMBER"
+            ACTOR="$ACTOR_LOGIN"
+          else
+            NUMBER="$EVENT_ISSUE_NUMBER"
+            ACTOR="$SENDER_LOGIN"
+          fi
+          # A workflow_dispatch's sender is the dispatching actor (for a re-fire, github-actions[bot]).
+          ACTOR_TYPE="${SENDER_TYPE:-}"
+          ACTOR_ID="${SENDER_ID:-}"
+          case "$NUMBER" in
+            ''|*[!0-9]*)
+              echo "::error::Issue number must be digits only; got: ${NUMBER}"
+              exit 1
+              ;;
+          esac
+          echo "number=$NUMBER" >> "$GITHUB_OUTPUT"
+          echo "actor=$ACTOR" >> "$GITHUB_OUTPUT"
+          echo "actor_type=$ACTOR_TYPE" >> "$GITHUB_OUTPUT"
+          echo "actor_id=$ACTOR_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # registry/named-skills.json is a gitignored Class P artifact, so it never exists in a fresh
+      # checkout. Without this build the guard below read a missing index as "bootstrap" and
+      # authorized every actor. Same fix as meta-guard.yml (#1815).
+      - name: Build the base named-skills index
+        run: |
+          set -euo pipefail
+          python scripts/assemble_gaia.py
+          python scripts/generateNamedIndex.py
+
+      # ── Guard: labeler must be a Verifier ──────────────────────────────────
+      # H1: fail closed. A missing or unparseable index is a denial. M1: there is no bootstrap grant. An index
+      # with no authorised Verifier denies everyone; only the allowlist (M2) can authorize one. The decision is the
+      # shared approval module (D2). D3: the subject is the LABELER of the approval. A bot re-fire
+      # (workflow_dispatch by a Bot) is accepted only with refire=true and only when the most recent
+      # upstream:approved label was applied by an allowlisted actor or a Verifier. L1: a denial removes
+      # upstream:approved, as the reject guard does.
+      - name: Check labeler is a Verifier
+        env:
+          LABELER: ${{ steps.issue.outputs.actor }}
+          LABELER_TYPE: ${{ steps.issue.outputs.actor_type }}
+          LABELER_ID: ${{ steps.issue.outputs.actor_id }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_REFIRE: ${{ inputs.refire }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          deny_comment() {
+            gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Authorization failure:** $1 No sync was attempted and no PR was opened. The \`upstream:approved\` label has been removed; a Verifier must re-apply it after review." || true
+            gh issue edit "$ISSUE_NUMBER" --remove-label "upstream:approved" || true
+            echo "::error::$1"
+            exit 1
+          }
+          # Prove fresh ownership before any authorization-denial path can comment
+          # or remove labels. Dispatch inputs and event labels are not ownership proof.
+          LIVE_ISSUE=$(gh issue view "$ISSUE_NUMBER" --json title,body,labels) || {
+            echo "::error::Could not verify ownership of issue #${ISSUE_NUMBER}. No approval-path writes were made."
+            exit 1
+          }
+          OWNED=$(printf '%s' "$LIVE_ISSUE" | python3 -c '
+          import json, sys
+          from scripts.upstream_watcher.approval import owned_upstream_issue
+          print("true" if owned_upstream_issue(json.load(sys.stdin)) else "false")
+          ') || {
+            echo "::error::Could not parse ownership proof for issue #${ISSUE_NUMBER}. No approval-path writes were made."
+            exit 1
+          }
+          if [ "$OWNED" != true ]; then
+            echo "::error::Not a proven upstream umbrella/bootstrap; stopping the approval job before downstream writes."
+            exit 1
+          fi
+          verifier_check() {
+            python3 - "$1" <<'PY'
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import verifier_status
+          print(verifier_status("registry/named-skills.json", sys.argv[1]))
+          PY
+          }
+          allowlisted() {
+            python3 - "$1" "$2" "$3" <<'PY'
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import allowlisted
+          sys.exit(0 if allowlisted(sys.argv[1], sys.argv[2], sys.argv[3]) else 1)
+          PY
+          }
+
+          # D3: a bot re-fire. The workflow actor is not the authority; the labeler of the approval is.
+          if [ "${EVENT_NAME:-}" = "workflow_dispatch" ] && [ "${LABELER_TYPE:-}" = "Bot" ]; then
+            if [ "${INPUT_REFIRE:-}" != "true" ]; then
+              deny_comment "A bot re-run of upstream-approve is accepted only with refire=true, and this dispatch did not set it."
+            fi
+            EVENTS_FILE="$RUNNER_TEMP/umbrella-events.json"
+            if ! gh api --paginate "repos/${REPO}/issues/${ISSUE_NUMBER}/events" > "$EVENTS_FILE"; then
+              deny_comment "The labeling history of this umbrella could not be read, so the re-run cannot be checked."
+            fi
+            APPROVAL_ACTOR=$(python3 - "$EVENTS_FILE" <<'PY'
+          import json, os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import decode_pages, latest_labeler_actor
+          actor = latest_labeler_actor(decode_pages(open(sys.argv[1], encoding="utf-8").read())) or {}
+          print(json.dumps({"login": actor.get("login") or "", "type": actor.get("type") or "", "id": actor.get("id") or ""}))
+          PY
+          ) || deny_comment "The labeling history of this umbrella could not be parsed, so the re-run cannot be checked."
+            LOA_LOGIN=$(echo "$APPROVAL_ACTOR" | jq -r '.login')
+            LOA_TYPE=$(echo "$APPROVAL_ACTOR" | jq -r '.type')
+            LOA_ID=$(echo "$APPROVAL_ACTOR" | jq -r '.id')
+            if [ -z "$LOA_LOGIN" ]; then
+              deny_comment "No upstream:approved labeling event was found for this umbrella, so the re-run cannot be checked."
+            fi
+            if allowlisted "$LOA_LOGIN" "$LOA_TYPE" "$LOA_ID"; then
+              echo "✓ re-run of an approval labeled by the allowlisted actor $LOA_LOGIN."
+              exit 0
+            fi
+            AUTHORIZED=$(verifier_check "$LOA_LOGIN")
+            case "$AUTHORIZED" in
+              yes)
+                echo "✓ re-run of an approval whose latest labeler ($LOA_LOGIN) is a Verifier."
+                exit 0
+                ;;
+              deny-*)
+                deny_comment "The Verifier index could not be read or is empty ($AUTHORIZED). The re-run is refused."
+                ;;
+              *)
+                deny_comment "The most recent upstream:approved label was applied by \`$LOA_LOGIN\`, who does not hold a 4★+ named skill. The re-run is refused."
+                ;;
+            esac
+          fi
+
+          # M2: an allowlisted actor (by login, sender type and id) keeps its treatment.
+          if allowlisted "$LABELER" "${LABELER_TYPE:-}" "${LABELER_ID:-}"; then
+            echo "✓ $LABELER is an allowlisted actor."
+            exit 0
+          fi
+
+          AUTHORIZED=$(verifier_check "$LABELER")
+          echo "Labeler authorization: $AUTHORIZED"
+          case "$AUTHORIZED" in
+            yes)
+              echo "✓ $LABELER is authorized to approve upstream issues (Verifier)."
+              ;;
+            deny-*)
+              deny_comment "The Verifier index could not be read or is empty ($AUTHORIZED). Refusing to authorize \`$LABELER\`."
+              ;;
+            *)
+              deny_comment "\`$LABELER\` does not hold a 4★+ named skill and cannot approve upstream syncs. The \`upstream:approved\` label has been applied but no PR will be opened. Please have a Verifier re-apply the label."
+              ;;
+          esac
+
+      # ── L3: the issue must be open and still carry upstream:approved ──────────
+      # Every path (labeled, opened, workflow_dispatch) is checked, so a manual re-run cannot
+      # sync a closed umbrella or one whose approval was already withdrawn.
+      - name: Verify the issue is open and approved
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+        run: |
+          set -euo pipefail
+          ISSUE_JSON=$(gh issue view "$ISSUE_NUMBER" --json state,labels) || {
+            echo "::error::Could not read issue #${ISSUE_NUMBER}. Nothing was synced."
+            exit 1
+          }
+          STATE=$(echo "$ISSUE_JSON" | jq -r '.state')
+          APPROVED=$(echo "$ISSUE_JSON" | jq -r '[.labels[].name] | contains(["upstream:approved"])')
+          if [ "$STATE" != "OPEN" ]; then
+            echo "::error::Issue #${ISSUE_NUMBER} is ${STATE}, not open. Nothing was synced."
+            exit 1
+          fi
+          if [ "$APPROVED" != "true" ]; then
+            echo "::error::Issue #${ISSUE_NUMBER} does not carry upstream:approved. Nothing was synced."
+            exit 1
+          fi
+          echo "Issue #${ISSUE_NUMBER} is open and approved."
+
+      # ── Parse and verify the machine-readable payload from the issue body ─────
+      # D1b: the digest is recomputed from the extracted payload. A stored digest that does not match its own
+      # payload is a body edited after approval, so the job fails before anything is synced. D7: the payload
+      # block ends at its own '\n-->' line, so '-->' inside a JSON string cannot cut it short.
+      - name: Extract payload from issue body
+        id: payload
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+        run: |
+          set -euo pipefail
+          BODY_FILE="$RUNNER_TEMP/umbrella-body.md"
+          if ! gh issue view "$ISSUE_NUMBER" --json body --jq '.body' > "$BODY_FILE"; then
+            gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Payload parse failure.** Could not read the umbrella body. Cannot proceed with sync." || true
+            echo "::error::Could not read the umbrella body."
+            exit 1
+          fi
+
+          PARSED=$(python3 - "$BODY_FILE" <<'PY'
+          import json, os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import PayloadError, extract_payload
+          body = open(sys.argv[1], encoding="utf-8").read()
+          try:
+              payload, digest = extract_payload(body)
+          except PayloadError as exc:
+              print(json.dumps({"error": str(exc)}))
+              sys.exit(0)
+          print(json.dumps({"error": "", "payload": payload, "digest": digest}))
+          PY
+          )
+          ERROR=$(echo "$PARSED" | jq -r '.error')
+          if [ -n "$ERROR" ]; then
+            gh issue comment "$ISSUE_NUMBER" \
+              --body "⚠️ **Payload integrity failure.** $ERROR. Cannot proceed with sync. Repair the umbrella body, then re-apply upstream:approved." || true
+            echo "::error::$ERROR"
+            exit 1
+          fi
+
+          PAYLOAD_JSON=$(echo "$PARSED" | jq -c '.payload')
+          DIGEST=$(echo "$PARSED" | jq -r '.digest')
+          echo "payload=$PAYLOAD_JSON" >> $GITHUB_OUTPUT
+          echo "payload_sha256=$DIGEST" >> $GITHUB_OUTPUT
+
+          SKILL_ID=$(echo "$PAYLOAD_JSON" | jq -r '.skillId')
+          NEW_VERSION=$(echo "$PAYLOAD_JSON" | jq -r '.newVersion')
+          SOURCE_URL=$(echo "$PAYLOAD_JSON" | jq -r '.sourceUrl')
+          RELEASED_AT=$(echo "$PAYLOAD_JSON" | jq -r '.releasedAt')
+          MODE=$(echo "$PAYLOAD_JSON" | jq -r '.mode')
+
+          echo "skill_id=$SKILL_ID" >> $GITHUB_OUTPUT
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "source_url=$SOURCE_URL" >> $GITHUB_OUTPUT
+          echo "released_at=$RELEASED_AT" >> $GITHUB_OUTPUT
+          echo "mode=$MODE" >> $GITHUB_OUTPUT
+
+      # ── D1b: the approval covers this payload ───────────────────────────────
+      # On a labeled event the guard has just authorized this labeling, so the digest of the payload it sees is
+      # recorded as the approval. On a dispatch (a re-fire or a manual re-run) the payload syncs only when the
+      # latest approval record names the same digest. The record is a bot-authored comment (I3).
+      - name: Check approval covers this payload
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          EVENT_NAME: ${{ github.event_name }}
+          PAYLOAD_SHA: ${{ steps.payload.outputs.payload_sha256 }}
+          EVENT_BODY: ${{ github.event.issue.body }}
+        run: |
+          set -euo pipefail
+          # H1: on an issues event the approval covers the body the Verifier LABELLED (the event snapshot), not the
+          # body read at extract time. A body edited in between has another digest: refuse, record no marker.
+          if [ "$EVENT_NAME" = "issues" ]; then
+            EVENT_SHA=$(EVENT_BODY="${EVENT_BODY:-}" python3 - <<'PY'
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import PayloadError, extract_payload
+          try:
+              _payload, digest = extract_payload(os.environ.get("EVENT_BODY") or "")
+          except PayloadError:
+              digest = ""
+          print(digest)
+          PY
+          ) || EVENT_SHA=""
+            if [ "$EVENT_SHA" != "$PAYLOAD_SHA" ]; then
+              gh issue comment "$ISSUE_NUMBER" \
+                --body "⚠️ **Sync refused: payload changed after approval; re-apply the label.** The umbrella body changed after the upstream:approved label was applied (labelled payload ${EVENT_SHA:-unreadable}, current payload ${PAYLOAD_SHA}). No approval was recorded and nothing was synced. Re-apply upstream:approved after review." || true
+              echo "::error::payload changed after approval; re-apply the label"
+              exit 1
+            fi
+          fi
+          COMMENTS_FILE="$RUNNER_TEMP/umbrella-comments.json"
+          if ! gh api --paginate "repos/${REPO}/issues/${ISSUE_NUMBER}/comments" > "$COMMENTS_FILE"; then
+            echo "::error::Could not read the approval record of #${ISSUE_NUMBER}. Nothing was synced."
+            exit 1
+          fi
+          LATEST=$(python3 - "$COMMENTS_FILE" <<'PY'
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import decode_pages, latest_approval_sha
+          print(latest_approval_sha(decode_pages(open(sys.argv[1], encoding="utf-8").read())) or "")
+          PY
+          ) || { echo "::error::The approval record of #${ISSUE_NUMBER} could not be parsed. Nothing was synced."; exit 1; }
+
+          if [ "$LATEST" = "$PAYLOAD_SHA" ]; then
+            echo "The approval record already covers payload ${PAYLOAD_SHA}."
+            exit 0
+          fi
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            gh issue comment "$ISSUE_NUMBER" \
+              --body "⚠️ **Sync refused: the approval record does not cover this payload.** The umbrella payload (digest ${PAYLOAD_SHA}) is not the one a reviewer approved. Re-apply upstream:approved after review." || true
+            echo "::error::No approval covers payload ${PAYLOAD_SHA}. Nothing was synced."
+            exit 1
+          fi
+          # A labeled event: the guard has authorized this labeling, so it is the approval of this payload.
+          gh issue comment "$ISSUE_NUMBER" \
+            --body "<!-- gaia-upstream-approval payload=${PAYLOAD_SHA} -->
+
+          Approval recorded for payload \`${PAYLOAD_SHA}\`. It covers this payload only: an edit to the umbrella body is detected before any sync, and the approval is reset."
+
+      # ── Child-gate: check all upstream:child issues are closed ─────────────
+      - name: Check child gate
+        id: child_gate
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          # Fail closed: a lookup error is never read as "no open children".
+          fail_closed() {
+            gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Child gate could not verify child intakes.** $1 No sync was attempted and no PR was opened. Re-apply upstream:approved to retry." || true
+            echo "::error::Child gate could not verify child intakes: $1"
+            exit 1
+          }
+
+          # Skip gate if skip-child-gate label is applied. This bypasses the gate only:
+          # it never closes, accepts or rejects a child intake or the umbrella.
+          # L5: the bypass is honoured only when its most recent labeling was by an allowlisted actor or a Verifier.
+          # Any other labeler's label is ignored here, and the skip-child-gate-guard job removes it.
+          HAS_SKIP=$(gh issue view "$ISSUE_NUMBER" --json labels \
+            --jq '[.labels[].name] | contains(["skip-child-gate"])')
+          if [ "$HAS_SKIP" = "true" ]; then
+            SKIP_EVENTS="$RUNNER_TEMP/skip-events.json"
+            if ! gh api --paginate "repos/${REPO}/issues/${ISSUE_NUMBER}/events" > "$SKIP_EVENTS"; then
+              fail_closed "The labeling history of skip-child-gate could not be read."
+            fi
+            SKIP_OK=$(python3 - "$SKIP_EVENTS" <<'PY'
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import decode_pages, skip_label_authorized
+          events = decode_pages(open(sys.argv[1], encoding="utf-8").read())
+          print("true" if skip_label_authorized(events, "registry/named-skills.json") else "false")
+          PY
+          ) || fail_closed "The skip-child-gate labeling could not be checked."
+            if [ "$SKIP_OK" = "true" ]; then
+              echo "skip-child-gate label present, applied by an authorized actor: bypassing the child-resolution gate only."
+              echo "skip-child-gate does not close, accept or reject any child intake or the umbrella."
+              echo "gate_passed=true" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+            echo "::notice::skip-child-gate was applied by an actor who may not approve. The label is ignored and the gate applies."
+          fi
+
+          UMBRELLA_BODY=$(gh issue view "$ISSUE_NUMBER" --json body --jq '.body') || fail_closed "Could not read the umbrella body."
+
+          # Deterministic lookup (no search). Same block as upstream-close-children.yml.
+          LOOKUP_RC=0
+          OPEN_JSON=$(UMBRELLA_BODY="$UMBRELLA_BODY" REPO="$REPO" ISSUE_NUMBER="$ISSUE_NUMBER" python3 - <<'PY'
+          # shared-child-lookup v1 (identical in upstream-approve.yml and upstream-close-children.yml; parity-tested)
+          import json
+          import os
+          import re
+          import subprocess
+          import sys
+          from urllib.parse import urlencode
+
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.markers import PAYLOAD_RE  # L3: the one definition of the payload block
+
+          REPO = os.environ["REPO"]
+          UMBRELLA = int(os.environ["ISSUE_NUMBER"])
+          BODY = os.environ.get("UMBRELLA_BODY", "")
+          UMBRELLA_RE = re.compile(r"Umbrella:\s*#(\d+)")
+
+
+          class ChildAbsent(Exception):
+              """GitHub answered 301 (transferred), 404 or 410: the number no longer names a live issue."""
+
+
+          def gh_api(path, paginate=False):
+              args = ["gh", "api"] + (["--paginate"] if paginate else []) + [path]
+              res = subprocess.run(args, capture_output=True, text=True, timeout=120)
+              if res.returncode != 0:
+                  message = f"gh api {path} exited {res.returncode}: {res.stderr.strip()}"
+                  if re.search(r"HTTP (301|404|410)\b", res.stderr or ""):
+                      raise ChildAbsent(message)
+                  raise RuntimeError(message)
+              return res.stdout
+
+
+          def decode_pages(text):
+              # gh api --paginate prints one JSON array per page, back to back. Read every page.
+              decoder = json.JSONDecoder()
+              items, pos = [], 0
+              while True:
+                  while pos < len(text) and text[pos].isspace():
+                      pos += 1
+                  if pos >= len(text):
+                      return items
+                  page, pos = decoder.raw_decode(text, pos)
+                  if not isinstance(page, list):
+                      raise RuntimeError("issue list page is not a JSON array")
+                  items.extend(page)
+
+
+          def main():
+              children = {}
+              query = urlencode({"state": "open", "labels": "upstream:child", "per_page": 100})
+              from scripts.upstream_watcher.live import LiveGh
+              for issue in LiveGh(repo=REPO).list_issues("open", labels="upstream:child"):
+                  if issue.get("pull_request") or issue.get("state") != "open":
+                      continue
+                  found = UMBRELLA_RE.search(issue.get("body") or "")
+                  if found and int(found.group(1)) == UMBRELLA:
+                      children[issue["number"]] = issue.get("title", "")
+              match = PAYLOAD_RE.search(BODY)
+              payload = json.loads(match.group(1)) if match else {}
+              if payload.get("payloadVersion") == 2:
+                  for row in payload.get("candidates", []):
+                      number = row.get("child")
+                      if number is None:
+                          continue
+                      if not isinstance(number, int) or isinstance(number, bool):
+                          raise RuntimeError(f"candidate {row.get('id')!r} has a non-numeric child link")
+                      try:
+                          live = json.loads(gh_api(f"repos/{REPO}/issues/{number}"))
+                      except ChildAbsent:
+                          # Definitive 301/404/410: the child was deleted or transferred. It cannot block.
+                          print(f"::notice::candidate {row.get('id')!r} child #{number} is absent (HTTP 301/404/410); not blocking the gate", file=sys.stderr)
+                          continue
+                      if live.get("state") == "open" and not live.get("pull_request"):
+                          children[number] = live.get("title", "")
+              print(json.dumps([{"number": n, "title": children[n]} for n in sorted(children)]))
+
+
+          try:
+              main()
+          except Exception as exc:  # any list, get or parse failure is unknown evidence
+              print(f"child lookup failed: {exc}", file=sys.stderr)
+              sys.exit(1)
+          PY
+          ) || LOOKUP_RC=$?
+          if [ "$LOOKUP_RC" -ne 0 ]; then
+            fail_closed "The child list or a payload candidate lookup failed (see the job log)."
+          fi
+
+          OPEN_COUNT=$(echo "$OPEN_JSON" | jq 'length')
+          if [ "$OPEN_COUNT" = "0" ]; then
+            echo "All child intakes are resolved."
+            echo "gate_passed=true" >> $GITHUB_OUTPUT
+          else
+            CHILD_LIST=$(echo "$OPEN_JSON" | jq -r '[.[] | "#\(.number) \(.title)"] | join("; ")')
+            gh issue comment "$ISSUE_NUMBER" --body "Cannot sync yet: ${OPEN_COUNT} child intake(s) open: ${CHILD_LIST}. Close all child intakes then re-apply upstream:approved. Or add skip-child-gate label to bypass (the bypass never closes or accepts children)."
+            echo "gate_passed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Exit if child gate failed
+        if: steps.child_gate.outputs.gate_passed == 'false'
+        run: |
+          echo "Child gate not passed. Exiting without error (expected state)."
+          exit 0
+
+      # ── Umbrella closure must not lose rows (#2131) ────────────────────────
+      # A row stays unresolved unless it is registry-present, rejected, or linked to a
+      # closed child intake. A definitive 301/404/410 child is unresolved, never resolved.
+      - name: Count unresolved candidate rows
+        id: unresolved
+        if: success() && steps.child_gate.outputs.gate_passed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PAYLOAD: ${{ steps.payload.outputs.payload }}
+          REPO: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+        run: |
+          set -euo pipefail
+          RC=0
+          UNRESOLVED_JSON=$(python3 - <<'PY'
+          import json
+          import os
+          import sys
+
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.batch import unresolved_row_ids
+          from scripts.upstream_watcher.live import GhError, LiveGh
+
+          gh = LiveGh(repo=os.environ["REPO"])
+          try:
+              ids = unresolved_row_ids(json.loads(os.environ["PAYLOAD"]), gh.child_state)
+          except (GhError, ValueError, TypeError, KeyError) as exc:
+              print(f"unresolved-row check failed: {exc}", file=sys.stderr)
+              sys.exit(1)
+          print(json.dumps(ids))
+          PY
+          ) || RC=$?
+          if [ "$RC" -ne 0 ]; then
+            gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Could not verify candidate rows.** The unresolved-row check failed (see the job log). No sync branch or PR was opened. Re-apply upstream:approved to retry." || true
+            echo "::error::Could not verify candidate rows before the sync."
+            exit 1
+          fi
+          COUNT=$(echo "$UNRESOLVED_JSON" | jq 'length')
+          echo "Unresolved candidate rows: ${COUNT} ${UNRESOLVED_JSON}"
+          echo "count=${COUNT}" >> "$GITHUB_OUTPUT"
+
+      # ── D6: re-verify immediately before the sync uses the payload ────────────
+      # The approval, the open state and the digest are checked again, after the index build and the gates, on
+      # the body as it is now. A body edited after extraction, a withdrawn approval or a closed umbrella stops
+      # the job before the branch is touched.
+      - name: Re-verify approval before sync
+        if: success() && steps.child_gate.outputs.gate_passed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          PAYLOAD_SHA: ${{ steps.payload.outputs.payload_sha256 }}
+        run: |
+          set -euo pipefail
+          VIEW_FILE="$RUNNER_TEMP/umbrella-view.json"
+          COMMENTS_FILE="$RUNNER_TEMP/umbrella-recheck-comments.json"
+          if ! gh issue view "$ISSUE_NUMBER" --json state,labels,body > "$VIEW_FILE" \
+             || ! gh api --paginate "repos/${REPO}/issues/${ISSUE_NUMBER}/comments" > "$COMMENTS_FILE"; then
+            echo "::error::Could not re-read #${ISSUE_NUMBER} before the sync. Nothing was synced."
+            exit 1
+          fi
+          set +e
+          PROBLEMS=$(python3 - "$VIEW_FILE" "$COMMENTS_FILE" <<'PY'
+          import json, os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import PayloadError, decode_pages, extract_payload, latest_approval_sha
+          view = json.load(open(sys.argv[1], encoding="utf-8"))
+          problems = []
+          if view.get("state") != "OPEN":
+              problems.append("the umbrella is not open")
+          if "upstream:approved" not in [label["name"] for label in view.get("labels", [])]:
+              problems.append("it no longer carries upstream:approved")
+          try:
+              _payload, digest = extract_payload(view.get("body"))
+          except PayloadError as exc:
+              problems.append(str(exc))
+          else:
+              if digest != os.environ.get("PAYLOAD_SHA"):
+                  problems.append("the payload changed after it was checked")
+          latest = latest_approval_sha(decode_pages(open(sys.argv[2], encoding="utf-8").read()))
+          if latest != os.environ.get("PAYLOAD_SHA"):
+              problems.append("no approval record covers this payload")
+          print("; ".join(problems))
+          sys.exit(1 if problems else 0)
+          PY
+          )
+          RC=$?
+          set -e
+          if [ "$RC" -ne 0 ]; then
+            gh issue comment "$ISSUE_NUMBER" \
+              --body "⚠️ **Sync refused: re-verification failed.** ${PROBLEMS}. No sync branch or PR was created. Repair the umbrella, then re-apply upstream:approved." || true
+            echo "::error::Re-verification failed: ${PROBLEMS}. Nothing was synced."
+            exit 1
+          fi
+          echo "Approval re-verified for payload ${PAYLOAD_SHA}."
+
+      # ── Create sync branch and run gaia dev sync-upstream ─────────────────
+      # M5: a re-run for an existing review/meta/upstream-* branch must not fail at push. The remote
+      # branch is replaced only when every commit on it is the watcher's own: a compare against main
+      # whose commits are all authored by github-actions[bot], listed in full. Anything else is someone's
+      # work and is refused before any sync. The commit step pushes with a lease against the exact sha read here.
+      - name: Create sync branch
+        id: branch
+        if: success() && steps.child_gate.outputs.gate_passed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          SKILL_ID: ${{ steps.payload.outputs.skill_id }}
+          NEW_VERSION: ${{ steps.payload.outputs.new_version }}
+        run: |
+          set -euo pipefail
+
+          # Slugify: replace / and non-alphanumeric with -
+          SKILL_SLUG=$(echo "$SKILL_ID" | tr '/' '-' | tr -cs 'a-zA-Z0-9-' '-' | sed 's/-$//')
+          VERSION_SLUG=$(echo "$NEW_VERSION" | tr -cs 'a-zA-Z0-9-' '-' | sed 's/-$//')
+          BRANCH="review/meta/upstream-${SKILL_SLUG}-${VERSION_SLUG}"
+
+          REMOTE_SHA=$(git ls-remote --heads origin "refs/heads/${BRANCH}" | awk '{print $1}')
+          if [ -n "$REMOTE_SHA" ]; then
+            # D5: a commit counts as the watcher's only when its GitHub author AND committer logins are the bot.
+            # A null author, or a name-only "github-actions[bot]", is not proof and refuses the reuse.
+            if ! COMPARE=$(gh api --jq '{total: .total_commits, commits: [.commits[] | {author: (.author.login // ""), committer: (.committer.login // "")}]}' "repos/${REPO}/compare/main...${BRANCH}"); then
+              echo "::error::Could not compare ${BRANCH} with main. The remote branch was not touched."
+              exit 1
+            fi
+            TOTAL=$(echo "$COMPARE" | jq -r '.total')
+            LISTED=$(echo "$COMPARE" | jq -r '.commits | length')
+            UNRELATED=$(echo "$COMPARE" | jq -r '[.commits[] | select(.author != "github-actions[bot]" or .committer != "github-actions[bot]")] | length')
+            if [ "$UNRELATED" != "0" ] || [ "$TOTAL" != "$LISTED" ]; then
+              echo "::error::${BRANCH} holds unrelated commits, or not all of its commits could be listed. Refusing to replace it."
+              gh issue comment "$ISSUE_NUMBER" --body "⚠️ **Sync aborted: ${BRANCH} holds unrelated commits.** The branch has commits the upstream watcher did not write (or its commit list is incomplete), so it was not replaced. No PR was opened. Review or delete the branch, then re-apply upstream:approved." || true
+              exit 1
+            fi
+          fi
+
+          git checkout -B "$BRANCH"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+          echo "remote_sha=$REMOTE_SHA" >> "$GITHUB_OUTPUT"
+
+      # ── Hotfix 2: bootstrap mode uses --bootstrap flag; --version renamed to --tag
+      - name: Run gaia dev sync-upstream
+        if: success() && steps.child_gate.outputs.gate_passed == 'true'
+        env:
+          GAIA_OPERATOR_OVERRIDE: "1"
+          SKILL_ID: ${{ steps.payload.outputs.skill_id }}
+          NEW_VERSION: ${{ steps.payload.outputs.new_version }}
+          SOURCE_URL: ${{ steps.payload.outputs.source_url }}
+          RELEASED_AT: ${{ steps.payload.outputs.released_at }}
+          MODE: ${{ steps.payload.outputs.mode }}
+        run: |
+          set -euo pipefail
+          if [ "$MODE" = "bootstrap" ]; then
+            python -m gaia_cli dev sync-upstream "$SKILL_ID" \
+              --tag "$NEW_VERSION" \
+              --source-url "$SOURCE_URL" \
+              --released-at "$RELEASED_AT" \
+              --bootstrap \
+              --user "github-actions[bot]"
+          else
+            python -m gaia_cli dev sync-upstream "$SKILL_ID" \
+              --tag "$NEW_VERSION" \
+              --source-url "$SOURCE_URL" \
+              --released-at "$RELEASED_AT" \
+              --mode "$MODE" \
+              --user "github-actions[bot]"
+          fi
+
+      # L4: a failed freeze or docs regeneration fails the job. Nothing is committed and no PR is
+      # opened, and the PR body reports what was actually frozen, never a claim that did not happen.
+      - name: Freeze removed components
+        id: freeze
+        if: success() && steps.child_gate.outputs.gate_passed == 'true'
+        env:
+          GAIA_OPERATOR_OVERRIDE: "1"
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PAYLOAD: ${{ steps.payload.outputs.payload }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          NEW_VERSION: ${{ steps.payload.outputs.new_version }}
+        run: |
+          set -euo pipefail
+          REMOVES=$(echo "$PAYLOAD" | jq -r '.componentRemoves[]? // empty')
+          FROZEN=0
+          FAILED=""
+          if [ -n "$REMOVES" ]; then
+            while IFS= read -r comp_id; do
+              echo "Freezing: $comp_id"
+              if python -m gaia_cli dev freeze "$comp_id" \
+                  --reason "removed from umbrella #${ISSUE_NUMBER}@${NEW_VERSION}"; then
+                FROZEN=$((FROZEN + 1))
+              else
+                FAILED="${FAILED} ${comp_id}"
+              fi
+            done <<< "$REMOVES"
+          else
+            echo "No components to freeze."
+          fi
+          echo "frozen_count=${FROZEN}" >> "$GITHUB_OUTPUT"
+          if [ -n "$FAILED" ]; then
+            echo "::error::Freeze failed for:${FAILED}. Sync aborted; no PR was opened."
+            gh issue comment "$ISSUE_NUMBER" \
+              --body "⚠️ **Sync aborted: freeze failed** for${FAILED}. Nothing was committed and no draft PR was opened. Re-apply upstream:approved after the cause is fixed." || true
+            exit 1
+          fi
+
+      - name: Regenerate Class S artifacts
+        if: success() && steps.child_gate.outputs.gate_passed == 'true'
+        env:
+          GAIA_OPERATOR_OVERRIDE: "1"
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+        run: |
+          set -euo pipefail
+          if ! python -m gaia_cli dev docs; then
+            echo "::error::gaia dev docs failed. Sync aborted; no PR was opened."
+            gh issue comment "$ISSUE_NUMBER" \
+              --body "⚠️ **Sync aborted: Class S regeneration failed** (\`gaia dev docs\`). Nothing was committed and no draft PR was opened. Re-apply upstream:approved after the cause is fixed." || true
+            exit 1
+          fi
+
+      # ── Hotfix 2: abort if sync produced no real registry changes ──────────
+      - name: Verify sync produced real changes
+        if: success() && steps.child_gate.outputs.gate_passed == 'true'
+        id: change_check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+        run: |
+          set -euo pipefail
+          # Sync-upstream + freeze should have modified files under registry/named/
+          # If the ONLY changes are docs regen noise, this was a no-op and we abort.
+          REGISTRY_CHANGES=$(git status --porcelain registry/named/ | wc -l)
+          if [ "$REGISTRY_CHANGES" -eq 0 ]; then
+            echo "no_changes=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::sync-upstream produced no changes to registry/named/. Aborting PR creation."
+            gh issue comment "$ISSUE_NUMBER" \
+              --body "⚠️ **Sync aborted: no registry changes.** The \`gaia dev sync-upstream\` step ran but did not modify any file under \`registry/named/\`. This usually means the sync silently no-op'd (see PR #1043 for the known argparse clash regression). No PR was opened. Please re-run once diagnostics are complete."
+            exit 0
+          fi
+          echo "no_changes=false" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push
+        if: success() && steps.child_gate.outputs.gate_passed == 'true' && steps.change_check.outputs.no_changes != 'true'
+        env:
+          BRANCH: ${{ steps.branch.outputs.branch }}
+          REMOTE_SHA: ${{ steps.branch.outputs.remote_sha }}
+          NEW_VERSION: ${{ steps.payload.outputs.new_version }}
+          SKILL_ID: ${{ steps.payload.outputs.skill_id }}
+        run: |
+          set -euo pipefail
+          # Stage only the paths we intend to commit, and only the ones that exist. One absent pathspec
+          # (for example docs/graph) makes git add fail for every path, which used to stage nothing and
+          # then report "no changes". Stray files (e.g. parse_error.txt) still never reach the commit.
+          for path in registry/named registry/gaia.json registry/named-skills.json docs/graph; do
+            if [ -e "$path" ]; then
+              git add -- "$path"
+            fi
+          done
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "feat(upstream-sync): ${SKILL_ID} → ${NEW_VERSION} [skip-gen]"
+          if [ -n "$REMOTE_SHA" ]; then
+            # M5: replace the remote branch only while it still holds the commits the ownership check
+            # read (a lease on that sha). A racing push makes this fail rather than overwrite it.
+            git push --force-with-lease="${BRANCH}:${REMOTE_SHA}" origin "HEAD:refs/heads/${BRANCH}"
+          else
+            git push origin "HEAD:refs/heads/${BRANCH}"
+          fi
+
+      - name: Open draft PR
+        if: success() && steps.child_gate.outputs.gate_passed == 'true' && steps.change_check.outputs.no_changes != 'true'
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ steps.branch.outputs.branch }}
+          SKILL_ID: ${{ steps.payload.outputs.skill_id }}
+          NEW_VERSION: ${{ steps.payload.outputs.new_version }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          UNRESOLVED: ${{ steps.unresolved.outputs.count }}
+          FROZEN: ${{ steps.freeze.outputs.frozen_count }}
+        run: |
+          set -euo pipefail
+          # L4: the PR body states what the freeze step actually did.
+          if [ "${FROZEN:-0}" -gt 0 ]; then
+            FREEZE_LINE="- Froze ${FROZEN} removed component(s) (see payload in #${ISSUE_NUMBER})"
+          else
+            FREEZE_LINE="- No components were removed upstream, so none were frozen"
+          fi
+          # Re-use existing open draft PR if one already exists for this branch (idempotency). A failed
+          # lookup stops the job: it must not read as "no PR" and open a duplicate (M5).
+          if ! PR_URL=$(gh pr list --head "$BRANCH" --base main --state open --json url --jq '.[0].url // empty'); then
+            echo "::error::Could not list open PRs for ${BRANCH}. No PR was created."
+            exit 1
+          fi
+          if [ -n "$PR_URL" ]; then
+            echo "Draft PR already exists for $BRANCH: $PR_URL"
+            PR_NUMBER=$(echo "$PR_URL" | grep -oE '[0-9]+$')
+            echo "created=false" >> $GITHUB_OUTPUT
+          else
+            # Fixes closes the umbrella on merge only when no candidate row is still owed a
+            # decision. Otherwise Refs keeps it open so those rows stay tracked (#2131).
+            if [ "${UNRESOLVED:-0}" -gt 0 ]; then
+              CLOSE_BLOCK="Refs #${ISSUE_NUMBER}
+
+          Umbrella stays open: ${UNRESOLVED} unresolved candidate row(s). This PR references the umbrella and does not close it."
+            else
+              CLOSE_BLOCK="Fixes #${ISSUE_NUMBER}"
+            fi
+            BODY_FILE="${RUNNER_TEMP:-/tmp}/upstream-pr-body.md"
+            printf '## Upstream sync: `%s` -> `%s`\n\nAuto-generated by the upstream-approve workflow (upstream:approved on #%s).\n\n%s\n\n### Scope\nApproval confirms the version bump to `%s` only (and freezes removed components). It does **not** accept any batch row. Rows from #%s that were not escalated to a child intake remain open candidates in that umbrella.\n\n### Changes\n- Updated `upstream:` frontmatter block\n%s\n- Regenerated Class S artifacts\n\n### Review checklist\n- [ ] upstream.version is correct\n- [ ] frozen components have installable: false\n- [ ] Class S artifacts look sane\n' \
+              "$SKILL_ID" "$NEW_VERSION" "$ISSUE_NUMBER" "$CLOSE_BLOCK" "$NEW_VERSION" "$ISSUE_NUMBER" "$FREEZE_LINE" > "$BODY_FILE"
+            PR_URL=$(gh pr create \
+              --draft \
+              --title "[upstream sync] ${SKILL_ID} -> ${NEW_VERSION}" \
+              --body-file "$BODY_FILE" \
+              --base main \
+              --head "$BRANCH")
+            PR_NUMBER=$(echo "$PR_URL" | grep -oE '[0-9]+$')
+            echo "created=true" >> $GITHUB_OUTPUT
+          fi
+          echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+          echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
+
+      - name: Comment PR link on umbrella
+        if: success() && steps.child_gate.outputs.gate_passed == 'true' && steps.change_check.outputs.no_changes != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          NEW_VERSION: ${{ steps.payload.outputs.new_version }}
+          PR_NUMBER: ${{ steps.pr.outputs.pr_number }}
+          PR_URL: ${{ steps.pr.outputs.pr_url }}
+          UNRESOLVED: ${{ steps.unresolved.outputs.count }}
+        run: |
+          # Avoid duplicate comments if PR link was already posted on umbrella
+          # Fail closed: a failed comment lookup must not read as "not yet commented" and post a duplicate.
+          if ! ALREADY_COMMENTED=$(gh issue view "$ISSUE_NUMBER" --json comments \
+            --jq "[.comments[].body] | any(contains(\"Draft PR #${PR_NUMBER} opened\"))"); then
+            echo "::error::Could not read the comments of umbrella #${ISSUE_NUMBER}. No comment was posted."
+            exit 1
+          fi
+          if [ "$ALREADY_COMMENTED" = "true" ]; then
+            echo "PR link already commented on umbrella #${ISSUE_NUMBER}."
+            exit 0
+          fi
+          if [ "${UNRESOLVED:-0}" -gt 0 ]; then
+            CLOSE_NOTE="Umbrella stays open: ${UNRESOLVED} unresolved candidate row(s). The PR references it (Refs) and does not close it."
+          else
+            CLOSE_NOTE="Auto-closes this umbrella on merge (Fixes #${ISSUE_NUMBER} is in the PR body)."
+          fi
+          gh issue comment "$ISSUE_NUMBER" \
+            --body "Draft PR #${PR_NUMBER} opened: ${PR_URL} -- Approval confirms the version bump to ${NEW_VERSION} only. Batch rows not escalated to a child intake stay open candidates here and are not accepted. ${CLOSE_NOTE}"
+
+  # Deployed main contract, retained until explicit v2 rollout.
+  legacy-approve:
+    name: Process upstream:approved label
+    runs-on: ubuntu-latest
+    # Only fire when:
+    # 1. The applied label is upstream:approved (issues labeled path)
+    # 2. An issue is opened with upstream:approved (issues opened path, e.g. auto-bootstrap)
+    # 3. Manually dispatched or re-run (retry path)
+    if: >-
+      (vars.STEWARD_ISSUE_HYGIENE_V2 != 'true') && ((github.event_name == 'issues' && ( (github.event.action == 'labeled' && github.event.label.name == 'upstream:approved') || (github.event.action == 'opened' && contains(github.event.issue.labels.*.name, 'upstream:approved')) )) || github.event_name == 'workflow_dispatch')
 
     steps:
       - name: Resolve issue number and actor
@@ -52,7 +982,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: main
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5

@@ -44,6 +44,11 @@ gaia steward full record RUN STEP --input verdict.json
 `verdict` is `accept`, `reject` or `escalate`. `model` must be one the action
 allows and `effort` must be explicit.
 
+For an `issue-suite-review` proposal (routine 18), the question is whether every
+disposition in the proposal is reproduced from the census and the local registry. Re-run
+the commands the proposal names. Reject any proposal that closes an issue, comments on one,
+or accepts a candidate: those are not Class B outcomes.
+
 ## Authority ceiling
 
 Read and judge only. Do not edit the diff, rerun the build or widen the

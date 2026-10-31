@@ -28,6 +28,19 @@ def rerun(output):
     return re.sub(r"\b[0-9a-f]{40}\b", lambda m: hashlib.sha1(m.group(0).encode()).hexdigest(), output)
 
 
+def rerunTrace(root=None, art=None, name=None, stdout=None, **override):
+    """Declared (unauthenticated) rerun provenance. With `stdout`, the raw stream is committed under the artifact root and bound by path and digest."""
+    stdout = b"" if stdout is None else stdout
+    trace = {"argv": ["python3", "run.py", "--fixture", "f.json"], "toolVersions": {"git": "2.56.0"},
+             "startedAtUTC": "2026-10-28T01:30:00Z", "finishedAtUTC": "2026-10-28T01:30:05Z",
+             "stdoutDigest": sha(stdout), "stderrDigest": sha(b"")}
+    if root is not None:
+        (root / art / name).write_bytes(stdout)
+        trace["stdoutPath"] = f"{art}/{name}"
+    trace.update(override)
+    return trace
+
+
 def verifierNative(root, request, receipt, art, output=None, **extra):
     native = json.loads((root / art / "native.json").read_text())
     native.pop("syntheticFixture", None)
@@ -35,21 +48,23 @@ def verifierNative(root, request, receipt, art, output=None, **extra):
     native.update(output=output, outputDigest=sha(output.encode()), verifierNote="SYNTHETIC separate run", **extra)
     raw = (json.dumps(native, indent=2) + "\n").encode()
     (root / art / "verifier-native.json").write_bytes(raw)
-    return {"label": "native", "contentDigest": sha(raw), "path": f"{art}/verifier-native.json"}
+    return {"label": "native", "contentDigest": sha(raw), "path": f"{art}/verifier-native.json",
+            "trace": rerunTrace(root, art, "verifier-native.stdout", output.encode("utf-8"))}
 
 
 @pytest.fixture
 def case(tmp_path):
     """Synthetic committed bundle: a receipt plus separately recorded verifier re-execution artifacts."""
     root, request, art = committedBundle(tmp_path)
+    (root / art / "target.txt").write_text("SYNTHETIC target output at commit " + "ab12" * 10 + "\n")  # run-varying content the protocol normalizes
     receipt = build_experiment_receipt(root=root, request=request, protocol=request["protocol"]["path"],
         execution_path=f"{art}/native.json", target_path=f"{art}/target.txt", result="supported",
         artifact_root=art, run_id=RECEIPT_RUN, recorded_at="2026-10-28T01:02:03Z")
-    raw = b"SYNTHETIC verifier re-execution of target\n"
+    raw = rerun((root / art / "target.txt").read_text()).encode()  # a genuine rerun: same content modulo run-varying commit ids
     (root / art / "verifier-target.txt").write_bytes(raw)
-    reexec = [verifierNative(root, request, receipt, art), {"label": "target", "contentDigest": sha(raw), "path": f"{art}/verifier-target.txt"}]
+    reexec = [verifierNative(root, request, receipt, art), {"label": "target", "contentDigest": sha(raw), "path": f"{art}/verifier-target.txt", "trace": rerunTrace(root, art, "verifier-target.stdout", raw)}]
     record = {
-        "schemaVersion": "frontier-meta-verification-v1", "verificationId": "synthetic-verification-0001",
+        "schemaVersion": "frontier-meta-verification-v1.1", "verificationId": "synthetic-verification-0001",
         "campaignId": receipt["campaignId"], "requestId": receipt["requestId"],
         "receiptDigest": receipt_digest(receipt), "receiptRunId": receipt["experimentRunId"], "verifierRunId": VERIFIER_RUN,
         "outcome": "substantiated",
@@ -198,7 +213,7 @@ def test_positive_outcome_refused_against_a_version_mismatch_receipt(tmp_path):
     receipt = build_experiment_receipt(root=root, request=request, protocol=request["protocol"]["path"], execution_path=f"{art}/native.json",
                                        result="inconclusive", artifact_root=art, run_id=RECEIPT_RUN, recorded_at="2026-10-28T01:02:03Z")
     ver = verifierNative(root, request, receipt, art)
-    rec = {"schemaVersion": "frontier-meta-verification-v1", "verificationId": "synthetic-verification-0002", "campaignId": receipt["campaignId"],
+    rec = {"schemaVersion": "frontier-meta-verification-v1.1", "verificationId": "synthetic-verification-0002", "campaignId": receipt["campaignId"],
            "requestId": receipt["requestId"], "receiptDigest": receipt_digest(receipt), "receiptRunId": receipt["experimentRunId"], "verifierRunId": VERIFIER_RUN,
            "outcome": "substantiated", "recommend": {"action": "hold", "rationale": "Synthetic hold rationale."},
            "counterevidence": {"searched": "Synthetic search statement.", "items": []},
@@ -325,7 +340,7 @@ def test_cli_meta_validate_uses_checkout_root_and_requires_request(case, tmp_pat
     code, out = run_cli([*argv, "--request", str(paths["request"])], capsys)
     assert code in (0, None) and json.loads(out.out)["structurallyValid"] is True
     code, out = run_cli(argv, capsys)  # no --request
-    assert code == 2 and "--request" in out.err
+    assert code == 1 and "--request" in out.err
 
 
 @pytest.mark.parametrize("skill", ["gaia-audit", "gaia-meta-audit"])
@@ -345,7 +360,7 @@ def test_fabricated_reexecution_output_with_recomputed_digest_is_refused(case):
     assert any("differs from the receipt's native output after declared normalization" in e for e in check(case, bad))
 
 
-def test_copy_of_receipt_native_with_an_extra_key_is_refused_by_raw_identity(case):
+def test_copy_of_receipt_native_with_an_extra_key_and_no_trace_is_no_longer_special(case):
     root, req, receipt, rec = case
     bad = copy.deepcopy(rec)
     native = json.loads((root / ART / "native.json").read_text())
@@ -353,7 +368,9 @@ def test_copy_of_receipt_native_with_an_extra_key_is_refused_by_raw_identity(cas
     raw = json.dumps(native).encode()
     (root / ART / "verifier-native.json").write_bytes(raw)
     bad["reexecution"]["artifacts"][0]["contentDigest"] = sha(raw)
-    assert any("raw-identical to the receipt's" in e for e in check(case, bad))
+    assert check(case, bad) == []  # output equality is what counts; provenance comes from the declared trace
+    del bad["reexecution"]["artifacts"][0]["trace"]
+    assert any("requires a rerun trace" in e for e in check(case, bad))
 
 
 def test_receipt_native_artifact_is_parsed_under_the_pinned_protocol_too(case):

@@ -104,6 +104,20 @@ Use `--body-file` with real newlines for multiline PR text, then verify with `gh
 
 **Rule of thumb:** if the change alters *structure, styling, or which surfaces exist*, it is gated. If it only corrects *words or link targets inside a block whose layout is unchanged*, it is small — ship it. When genuinely unsure, gate it; a held PR costs a message, an unreviewed design change costs a revert.
 
+## Founder review packets — publish as an Artifact
+
+**Founder ruling, 2026-10-30.** When work needs the founder to decide several things at once (multiple L4 topology reviews, a closeout or adjudication packet, a batch of founder decisions), present it as a claude.ai Artifact page, not as terminal text or a markdown file to read.
+
+- One page per review round. Each decision is a card with its context, the agent's labelled recommendation and explicit options. L4 rows are grouped by proposed generic with the topology visible (generic type, prerequisites, existing named implementations, Origin holder).
+- State at the top why the review exists: which gate it is and what happens after each choice.
+- Declare the `db` capability with owner-only writes so choices save where the agent reads them back (`ArtifactData`); keep a "copy as JSON" fallback.
+- Never pre-select a choice. A choice on the page approves only what that card states.
+- Record the founder's choices verbatim in the campaign or report record (`founder/reports/...`) before acting on them. The repo stays the record; the Artifact is the review surface.
+- Screenshots and renders of site changes are not review packets: share them as throwaway local HTML or a `/gaia-preview` link, as before.
+- If the Artifact tool is unavailable, build the same page as local HTML, serve it on localhost and say so.
+
+Reference: the Yggdrasil IV October review, recorded in `founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md` §Founder rulings 2026-10-30.
+
 ## Design Entrypoints — plan before you ship
 
 **Invariant:** every new user-facing page/section MUST plan its entrypoints during the design pass — main nav, footer, homepage, `window.GAIA_MOUNTS`, cross-page links, and cache-busting — and the PR body MUST include an "Entrypoints" section listing which were touched or explicitly waived (design-review agents bounce PRs missing it). Shipping a section with no way to reach it from the homepage is a broken feature. CI Guard D enforces the `mounts.js` registration.
@@ -136,7 +150,7 @@ Skill levels are stored in slots, not on skill objects — account for this when
 
 ## Commands & Setup
 
-See [DEV.md](DEV.md) for common commands and testing.
+See [DEV.md](DEV.md) for common commands and testing. Steward issue closures (routine 18, #2130) go only through `gaia-steward-issue-hygiene`; see `founder/steward/README.md`.
 
 ### Portable curation environment
 

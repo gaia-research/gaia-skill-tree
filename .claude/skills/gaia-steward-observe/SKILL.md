@@ -25,6 +25,10 @@ evaluated. Nothing else.
 - Optional driver inputs under the ignored `.gaia/steward/inputs/`:
   `ci-runs.json`, `advisories.json`, `test-history.json`. Their absence is a
   not-evaluated state, never an error and never healthy.
+- The GitHub issue census `github-issues.json` (routine 18, `issue-hygiene`), refreshed
+  by `python scripts/steward_issue_census.py` before observing. A missing census reports
+  routine 18 not evaluated. An incomplete or stale census reports it unavailable, which
+  blocks Class A for the run.
 
 ## Output
 

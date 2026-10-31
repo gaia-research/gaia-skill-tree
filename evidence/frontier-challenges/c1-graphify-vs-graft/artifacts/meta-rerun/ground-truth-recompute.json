@@ -1,0 +1,131 @@
+{
+ "callerCount": 27,
+ "callers": {
+  "computeTrustMagnitude": [
+   [
+    "canonicalWorkflow.py",
+    "buildPlan"
+   ],
+   [
+    "commands/dev/calibrate.py",
+    "calibrate_trust_magnitude_command"
+   ],
+   [
+    "evidenceLifecycle.py",
+    "rehearse_legacy_migration"
+   ],
+   [
+    "promotion.py",
+    "checkUniqueBranchGate"
+   ],
+   [
+    "shadowEvaluation.py",
+    "_assessOne"
+   ],
+   [
+    "shadowEvaluation.py",
+    "evaluateShadow"
+   ],
+   [
+    "shadowEvaluation.py",
+    "evaluateShadowRegistry"
+   ],
+   [
+    "steward/sensors.py",
+    "scan_detailed"
+   ],
+   [
+    "trustMagnitude.py",
+    "checkOverallGradeS"
+   ],
+   [
+    "trustMagnitude.py",
+    "computeOverallTrustGradeFromSkill"
+   ],
+   [
+    "trustMagnitude.py",
+    "computeTrustMagnitudeByType"
+   ]
+  ],
+  "embeddings_path": [
+   [
+    "curation/retrieval.py",
+    "embeddingStatus"
+   ],
+   [
+    "embeddings.py",
+    "generate_embeddings"
+   ],
+   [
+    "impl.py",
+    "doctor_command"
+   ],
+   [
+    "impl.py",
+    "search_command"
+   ],
+   [
+    "prefill.py",
+    "prefillCommand"
+   ]
+  ],
+  "rankWord": [
+   [
+    "cardRenderer.py",
+    "<module>"
+   ],
+   [
+    "taxonomy.py",
+    "rankLabel"
+   ],
+   [
+    "tui/screens/agent.py",
+    "compose"
+   ],
+   [
+    "tui/screens/levelup.py",
+    "_render_frame"
+   ]
+  ],
+  "spec_by_id": [
+   [
+    "steward/landing.py",
+    "_resolve_executor"
+   ],
+   [
+    "steward/landing.py",
+    "execute_class_a_landing"
+   ],
+   [
+    "steward/policy.py",
+    "_from_mapping"
+   ],
+   [
+    "steward/repairs.py",
+    "_spec_for"
+   ]
+  ],
+  "suiteComponentIds": [
+   [
+    "fusionScore.py",
+    "resolveFusionStructure"
+   ],
+   [
+    "structuralGraph.py",
+    "directStructuralEdges"
+   ],
+   [
+    "trustMagnitude.py",
+    "_fusionAndSuiteOriginIds"
+   ]
+  ]
+ },
+ "equalsFixtureGroundTruth": true,
+ "input": "git archive <pinnedRevision> src/gaia_cli (data/ excluded)",
+ "pinnedRevision": "d237c0839c9c9197fc861ecec839ed323a9748a4",
+ "purpose": "Meta independent recomputation of C1 ground truth and target selection with a separately written Python ast pass (not the runner's code).",
+ "script": "import ast, sys, json, hashlib, builtins, collections\nfrom pathlib import Path\nbase = Path(sys.argv[1]) / \"src/gaia_cli\"\ntargets = [\"spec_by_id\", \"computeTrustMagnitude\", \"suiteComponentIds\", \"rankWord\", \"embeddings_path\"]\nfiles = [p for p in base.rglob(\"*.py\") if \"data\" not in p.relative_to(base).parts[:1]]\ncallers = collections.defaultdict(set); defs = collections.Counter()\ncallsites = collections.defaultdict(set)\nclass V(ast.NodeVisitor):\n    def __init__(s, rel): s.rel, s.stack = rel, []\n    def fn(s, n):\n        defs[n.name] += 1; s.stack.append(n.name); s.generic_visit(n); s.stack.pop()\n    visit_FunctionDef = visit_AsyncFunctionDef = fn\n    def visit_Call(s, n):\n        f = n.func; name = f.id if isinstance(f, ast.Name) else f.attr if isinstance(f, ast.Attribute) else None\n        if name: callsites[name].add((s.rel, s.stack[-1] if s.stack else \"<module>\"))\n        s.generic_visit(n)\nfor p in files:\n    V(p.relative_to(base).as_posix()).visit(ast.parse(p.read_text(), str(p)))\nout = {t: sorted(map(list, callsites[t])) for t in targets}\nprint(json.dumps({t: [len(v), v] for t, v in out.items()}, indent=0))\n# independent selection-rule check\nexcl = set(dir(builtins))\nimport hashlib as h_, json as j_, os, pathlib, re, subprocess, time, datetime\nfor m in (h_, j_, os, pathlib, re, subprocess, time, datetime): excl |= set(dir(m))\nrev = \"d237c0839c9c9197fc861ecec839ed323a9748a4\"\ncand = [n for n, c in defs.items() if c == 1 and not n.startswith(\"_\") and n not in excl\n        and 3 <= len(callsites[n]) <= 15 and len({f for f, _ in callsites[n]}) >= 2]\ncand.sort(key=lambda n: hashlib.sha256((n + rev).encode()).hexdigest())\nprint(\"selection first 5:\", cand[:5], \"pool\", len(cand))\n",
+ "scriptSha256": "sha256:c4123f8af693ee24760cac860129c84c6df7aaf9f4fcf65e13ddad5832366b5d",
+ "selectionPool": 128,
+ "selectionRuleFirst5": "['spec_by_id', 'computeTrustMagnitude', 'suiteComponentIds', 'rankWord', 'embeddings_path']"
+}

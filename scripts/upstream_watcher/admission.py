@@ -48,13 +48,33 @@ class DomainChallengeAdmissionResolver:
             receipts = {}
             trusted_resolver = self.receipt_resolver
 
-            class CapturedReceipts:
+            class BoundCapture:
+                """Bound to exactly one challenge; never reused across challenges."""
+
+                def __init__(self, challengeId, proofSourceSha):
+                    binder = getattr(trusted_resolver, "for_challenge", None)
+                    if not callable(binder):
+                        raise ValueError("receipt resolver cannot bind to a challenge; refusing unbound resolution")
+                    bound = (binder(challengeId) if proofSourceSha is None
+                             else binder(challengeId, proofSourceSha))
+                    if getattr(bound, "challenge_id", None) != challengeId:
+                        raise ValueError("receipt resolver is not bound to this exact challenge id")
+                    self.challenge_id = challengeId
+                    self._bound = bound
+
                 def resolve(self, receipt_id):
-                    receipt = trusted_resolver.resolve(receipt_id)
-                    prior = receipts.setdefault(receipt_id, receipt)
+                    receipt = self._bound.resolve(receipt_id)
+                    key = (self.challenge_id, receipt_id)
+                    prior = receipts.setdefault(key, receipt)
                     if prior != receipt:
                         raise ValueError("trusted receipt changed during admission")
                     return receipt
+
+            class CapturedReceipts:
+                def for_challenge(self, challengeId, proof_source_sha=None):
+                    if challengeId != challenge.challenge_id:
+                        raise ValueError("receipt capture is bound to a different challenge")
+                    return BoundCapture(challengeId, proof_source_sha)
 
             validate_challenge_history(challenge, CapturedReceipts())
             target = self.targets[challenge.subject_id]
@@ -66,7 +86,7 @@ class DomainChallengeAdmissionResolver:
                 raise ValueError("watch repositories/pins do not bind the admitted challenge")
             # Use the exact immutable object checked during history validation;
             # no second lookup or reconstruction from manifest fields.
-            receipt = receipts[challenge.history[-1].receipt_id]
+            receipt = receipts[(challenge.challenge_id, challenge.history[-1].receipt_id)]
             admitted = ValidatedChallenge(
                 challenge_id=challenge.challenge_id, claim_id=challenge.claim_id,
                 subject_id=challenge.subject_id, contributor_id=challenge.contributor_id,

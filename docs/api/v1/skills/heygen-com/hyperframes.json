@@ -5,7 +5,7 @@
   "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 166.92,
+  "trustMagnitude": 171.92,
   "overallTrustGrade": "A",
   "branch": "suite",
   "rankWord": "Extra",
@@ -178,6 +178,12 @@
       "previousValue": "v0.8.60",
       "newValue": "v0.8.209",
       "details": "synced from https://github.com/heygen-com/hyperframes/releases/tag/v0.8.209"
+    },
+    {
+      "timestamp": "2026-10-30T13:02:39Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "nova-gaia",
+      "details": "TM 166.92 -> 171.92, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

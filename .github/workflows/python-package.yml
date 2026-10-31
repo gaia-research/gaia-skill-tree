@@ -45,6 +45,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -92,7 +94,9 @@ jobs:
         # tests are pure-Python against tmp_path / in-memory objects (issue #684
         # item 3). The full suite below stays sequential because integration
         # tests write to the real repo generated-output/ and are not xdist-safe.
-        run: python -m pytest tests/ -m "not integration and not slow" -n auto --timeout=30
+        # scripts/upstream_watcher/tests is collected explicitly: `pytest tests/` never
+        # reaches it, which hid the challenge-admission regression.
+        run: python -m pytest tests/ scripts/upstream_watcher/tests -m "not integration and not slow" -n auto --timeout=30
 
       - name: Full tests
         run: gaia dev test all

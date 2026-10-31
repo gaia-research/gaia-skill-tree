@@ -100,6 +100,10 @@ Read-only (no Verifier required):
   gaia dev frontier meta-validate --record <record.json> --receipt <receipt.json> [--request <request.json>] [--artifact-root <dir>]
   gaia dev test <suite>
 
+Challenge admission (mutating; Verifier authorization, checked by the verb):
+  gaia dev challenge build-request --case <id> --verifier <login> --builder <id> --notice-ref <https-url> [...]
+  gaia dev challenge admit --case <id>
+
 Evidence note: typed magnitude inputs drive per-row Evidence Grade. --trust is
 the backward-compatible fallback row trustNumber input when no typed
 artifact_score is available; its aggregate grade floors are S>=250, A>=100,
@@ -116,6 +120,9 @@ class DevCommand(Command):
         dev_sub = parser.add_subparsers(dest="dev_command")
         from gaia_cli.commands.dev.canonicalCmd import configureCanonical
         configureCanonical(dev_sub.add_parser("canonical", help="Guarded canonical decision planning, validation and recovery"))
+
+        from gaia_cli.commands.dev.challengeCmd import configureChallenge
+        configureChallenge(dev_sub.add_parser("challenge", help="Bind a Frontier case bundle into an admission request; attempt admission (held unless the issuer receipt verifies)"))
 
         from gaia_cli.commands.dev.frontierCmd import configureFrontier
         configureFrontier(dev_sub.add_parser("frontier", help="Advisory registry match and ledger dedupe for challenger leads (read-only)"))
@@ -567,6 +574,11 @@ class DevCommand(Command):
         dev_calibrate_tm.add_argument(
             "--dry-run", action="store_true", help="Show old -> new TM/grade without writing"
         )
+        dev_calibrate_tm.add_argument(
+            "--refresh-apex", action="store_true",
+            help="Also recompute and write the cached apexGateStatus frontmatter "
+                 "(same predicate logic as the named-index generator); logged to the timeline",
+        )
         _add_build_flags(dev_calibrate_tm, "recalibrating")
         dev_calibrate_tm.add_argument(
             "--yes", "-y", action="store_true", help="Skip confirmation prompt"
@@ -683,6 +695,10 @@ class DevCommand(Command):
             "--origin",
             choices=["true", "false"],
             help="Set the origin flag to true or false",
+        )
+        dev_update_named.add_argument(
+            "--notes",
+            help="Rationale appended to the timeline event logged for --origin changes",
         )
         dev_update_named.add_argument(
             "--github-link",
@@ -1176,6 +1192,9 @@ class DevCommand(Command):
         if dev_cmd == "canonical":
             from gaia_cli.commands.dev.canonicalCmd import canonicalCommand
             return canonicalCommand(args)
+        if dev_cmd == "challenge":
+            from gaia_cli.commands.dev.challengeCmd import challengeCommand
+            return challengeCommand(args)
         if dev_cmd == "frontier":
             from gaia_cli.commands.dev.frontierCmd import frontierCommand
             return frontierCommand(args)

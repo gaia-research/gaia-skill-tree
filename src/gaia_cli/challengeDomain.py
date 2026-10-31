@@ -262,8 +262,8 @@ def open_challenge(*, receipt_resolver: VerificationReceiptResolver | None = Non
              "baseline": baseline, "comparator": comparator,
              "material_to_origin": material_to_origin, "created_at_utc": verified_at_utc,
              "linked_challenge_id": linked_challenge_id}
-    context = _digest(_canonical(draft))
-    challenge_id = _challenge_id_from_draft(draft)
+    context = draft_context_digest(draft)
+    challenge_id = draft_challenge_id(draft)
     receipt = _resolve(receipt_resolver, verification_receipt_id, challenge_id)
     receipt_error = _validate_receipt(receipt, context_digest=context, transcript_digest=None,
                       verifier_id=verifier_id, contributor_id=contributor_id,
@@ -548,7 +548,13 @@ def _receipt_event(event_type: str, receipt: VerificationReceipt, challenge_id: 
                           receipt.method_version, receipt.actual_output, receipt.output_digest)
 
 
-def _challenge_id_from_draft(draft: dict[str, Any]) -> str:
+def draft_context_digest(draft: dict[str, Any]) -> str:
+    """Public: the exact context digest a receipt must bind for ``open_challenge``."""
+    return _digest(_canonical(draft))
+
+
+def draft_challenge_id(draft: dict[str, Any]) -> str:
+    """Public: the challenge id ``open_challenge`` derives from a draft (see its ``draft`` keys)."""
     return _digest(_canonical({"claimId": draft["claim_id"], "subjectId": draft["subject_id"],
         "claim": draft["claim"], "behaviorId": draft["behavior_id"],
         "contributorId": draft["contributor_id"], "contributorNoticeRef": draft["contributor_notice_ref"],

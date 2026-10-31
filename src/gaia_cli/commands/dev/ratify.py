@@ -18,12 +18,10 @@ import re
 import sys
 import time
 from datetime import datetime, timezone
-from typing import Any
 
 from gaia_cli.intakeAdapter import (
     REASON_CODES,
     SKILL_ID_RE,
-    _canonicalDigest,
     _isExactSkillBlob,
     validateL4Resolution,
 )

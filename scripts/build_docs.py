@@ -718,6 +718,7 @@ def build_html_cache_busting(check: bool) -> bool:
         "trust/index.html",
         "trust/ledger/index.html",
         "trust/leaderboard/index.html",
+        "trust/challenges/index.html",
         "codex/trust-methodology.html",
         "u/index.html",
         "api/index.html",  # pre-registered for Issue #850 (docs page not yet created)
@@ -1083,7 +1084,7 @@ def build_docs_named_index(check: bool) -> bool:
 
 # Files that live in docs/api/v1/ but are hand-authored (not emitted by
 # buildApiProjection.py).  They must be preserved across every regen cycle.
-_API_HAND_AUTHORED = ["openapi.json", "trending", "benchmarks", "reports"]
+_API_HAND_AUTHORED = ["openapi.json", "trending", "benchmarks", "reports", "challenges"]
 
 
 def build_trust_ledger(check: bool) -> bool:
@@ -1167,6 +1168,17 @@ def build_trust_ledger(check: bool) -> bool:
             return False
         committed.write_bytes(out_path.read_bytes())
         return True
+
+
+def build_challenge_projection(check: bool) -> bool:
+    """Write/compare gaia-challenge-projection/v1 and its byte-identical API mirror.
+
+    `unavailable` is the truthful state until a challenge is admitted through the
+    production resolver; the whole file fails closed (see challengeProjection.py).
+    """
+    sys.path.insert(0, str(ROOT / "src"))
+    from gaia_cli import challengeProjection
+    return challengeProjection.sync(ROOT, check=check)
 
 
 def build_installability_projection(check: bool) -> bool:
@@ -2127,13 +2139,18 @@ def main(argv: list[str] | None = None) -> int:
     # syncDocsGraphAssets fans out gaia.json / tree.md / named-index — the
     # named-index drift specifically is the one most likely to land out of sync.
     named_index_changed = _run_step("named-index", build_named_index, args.check)
+    docs_named_changed = _run_step("docs-named-index", build_docs_named_index, args.check)
+    # Must run AFTER docs-named-index: the installability projection reads the
+    # Class S mirror docs/graph/named/index.json (see installability.py
+    # _load_current_index). Running it first projected the PREVIOUS registry in
+    # write mode, so a single `gaia dev docs` left the artifact one run stale.
     installability_changed = _run_step(
         "installability-projection", build_installability_projection, args.check
     )
-    docs_named_changed = _run_step("docs-named-index", build_docs_named_index, args.check)
     arbor_changed = _run_step("arbor-projection", build_arbor_projection, args.check)
     trust_ledger_changed = _run_step("trust-ledger", build_trust_ledger, args.check)
     api_changed = _run_step("api-projection", build_api_projection, args.check)
+    challenge_proj_changed = _run_step("challenge-projection", build_challenge_projection, args.check)
     benchmark_proj_changed = _run_step("benchmark-projection", build_benchmark_projection, args.check)
     trending_changed = _run_step("trending-projection", build_trending_projection, args.check)
     content_engine_changed = _run_step("content-engine", build_content_engine, args.check)
@@ -2252,6 +2269,7 @@ def main(argv: list[str] | None = None) -> int:
         or arbor_changed
         or trust_ledger_changed
         or api_changed
+        or challenge_proj_changed
         or benchmark_proj_changed
         # trending_changed: intentionally omitted — see warn-only block above (#1108).
         or content_engine_changed
@@ -2287,6 +2305,7 @@ def main(argv: list[str] | None = None) -> int:
             ("arbor-projection", arbor_changed),
             ("trust-ledger", trust_ledger_changed),
             ("api-projection", api_changed),
+            ("challenge-projection", challenge_proj_changed),
             ("benchmark-projection", benchmark_proj_changed),
             ("content-engine", content_engine_changed),
             ("profiles", profiles_changed),

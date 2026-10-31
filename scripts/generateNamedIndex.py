@@ -30,6 +30,9 @@ from gaia_cli.canonicalTransaction import guardCanonicalPath  # noqa: E402  pend
 from gaia_cli.redaction import is_redacted, level_num  # noqa: E402  single source of truth
 from gaia_cli.taxonomy import branchFor, rankWord, medallion, normalize  # noqa: E402
 from gaia_cli.lifecycleProjection import produce_lifecycle  # noqa: E402
+from gaia_cli.challengeAdmission import clean as admission_clean  # noqa: E402
+from gaia_cli.committedChallenges import collect as collect_challenges  # noqa: E402
+from gaia_cli.committedChallenges import lifecyclePorts, reviewsBySubject  # noqa: E402
 
 REQUIRED_FIELDS = [
     "id",
@@ -86,6 +89,21 @@ INDEX_SKILL_FIELDS = [
     "trustMagnitudeInputHash",
     "apexGateStatus",
 ]
+
+
+def championSortKey(entry):
+    """Order key that makes a bucket's first entry its (derived) Champion.
+
+    Champion is never a stored field: each bucket is ordered rank descending,
+    Origin first, then id, and every consumer takes the first entry. This is
+    the single definition; ``scripts/run_meta_sweep.py`` (champion-cluster)
+    imports it rather than restating the rule.
+    """
+    return (
+        -level_num(entry.get("level", "")),
+        0 if entry.get("origin") else 1,
+        entry.get("id", ""),
+    )
 
 
 def role_for_entry(entry):
@@ -191,6 +209,11 @@ def load_suite_mappings(suites_dir):
                 # Only map if not already mapped to a more specific sub-suite
                 if skill not in skill_to_suite:
                     skill_to_suite[skill] = suite_id
+                elif skill_to_suite[skill] != suite_id and skill not in suite_to_components:
+                    print(
+                        f"Warning: {skill} is listed by multiple suite manifests "
+                        f"({skill_to_suite[skill]}, {suite_id}); keeping {skill_to_suite[skill]}."
+                    )
         except Exception as exc:
             print(f"Warning: Failed to load suite file {fp}: {exc}")
 
@@ -276,7 +299,10 @@ def update_markdown_files_with_suite_metadata(named_skills, skill_to_suite, suit
         needs_update = False
         updates = {}
 
-        if expected_suite_ref != current_suite_ref:
+        # Only sync suiteRef when a suite manifest actually lists this skill.
+        # When expected_suite_ref is None no manifest has an opinion, so a value
+        # set directly via `gaia dev update-named --suite-ref` must be preserved.
+        if expected_suite_ref is not None and expected_suite_ref != current_suite_ref:
             needs_update = True
             updates["suiteRef"] = expected_suite_ref
 
@@ -308,6 +334,9 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
 
     valid_ids = {s["id"] for s in graph_data.get("skills", [])}
     id_to_type = {s["id"]: s.get("type", "basic") for s in graph_data.get("skills", [])}
+
+    known_suite_refs = set(skill_to_suite.values()) | set(suite_to_components) | valid_ids
+    known_suite_refs |= {m.get("id") for _fp, m in named_skills if m.get("id")}
 
     errors = []
     buckets = {}  # genericSkillRef -> list of dicts (named only)
@@ -350,6 +379,14 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
         # Lookup type from generic skill if not explicitly in named skill
         if "type" not in entry and ref in id_to_type:
             entry["type"] = id_to_type[ref]
+
+        # A directly set suiteRef must point at a known suite or named skill.
+        direct_ref = fm.get("suiteRef")
+        if direct_ref and direct_ref not in known_suite_refs:
+            errors.append(
+                f"{rel}: 'suiteRef' value '{direct_ref}' does not match any suite "
+                f"manifest or named skill ID."
+            )
 
         # Dynamically inject suiteRef and suiteComponents based on loaded suite mappings
         skill_id = fm.get("id", "")
@@ -399,11 +436,7 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
             if e.get("origin") and is_redacted(e.get("level", "")) and rehearsal_context_from_env() is None:
                 e["origin"] = False
                 e["role"] = "variant"
-        entries.sort(key=lambda e: (
-            -level_num(e.get("level", "")),
-            0 if e.get("origin") else 1,
-            e.get("id", ""),
-        ))
+        entries.sort(key=championSortKey)
 
     # Origin uniqueness per bucket (named only)
     for ref, entries in buckets.items():
@@ -662,7 +695,8 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
 
 
 def write_index(buckets, awaiting_classification, by_contributor, output_path, today,
-                generic_skills_map=None, gate_config=None, repo_root=None, lifecycle_ports=None):
+                generic_skills_map=None, gate_config=None, repo_root=None, lifecycle_ports=None,
+                challenge_reviews=None):
     """Write the named skill index JSON file."""
     if generic_skills_map is not None:
         merged_map = _inject_trust_grades(
@@ -677,9 +711,15 @@ def write_index(buckets, awaiting_classification, by_contributor, output_path, t
     # source is the explicitly injected in-process producer boundary.
     for entry in [item for group in buckets.values() for item in group] + list(awaiting_classification):
         entry.pop("trustLifecycle", None)
+        entry.pop("challengeReviews", None)
         lifecycle = produce_lifecycle(entry, lifecycle_ports)
         if lifecycle is not None:
             entry["trustLifecycle"] = lifecycle
+        # Held admissions travel ONLY on this separate channel (gaia-challenge-review/v1);
+        # they never feed trustLifecycle, and no numeric field depends on them.
+        reviews = (challenge_reviews or {}).get(entry.get("id"))
+        if reviews:
+            entry["challengeReviews"] = reviews
 
     index = {
         "generatedAt": today,
@@ -768,8 +808,19 @@ def main():
     except Exception:
         gate_config = {}
 
+    # Committed Frontier case bundles are re-validated here, per item, fail closed. With no
+    # bundles (or none admitted) both ports are empty and the index is byte-identical.
+    from gaia_cli.challengeAdmission import BuildEnvironmentError
+    try:
+        collected = collect_challenges(repo_root)
+    except BuildEnvironmentError as exc:
+        print(f"\nFATAL: {exc}")
+        sys.exit(1)
+    for item in collected.rejected:
+        print(f"  warning: challenge bundle {admission_clean(item['caseId'])} rejected: {admission_clean(item['reason'])}")
     write_index(buckets, awaiting_classification, by_contributor, output_path, today,
-                generic_skills_map=generic_skills_map, gate_config=gate_config, repo_root=repo_root)
+                generic_skills_map=generic_skills_map, gate_config=gate_config, repo_root=repo_root,
+                lifecycle_ports=lifecyclePorts(collected), challenge_reviews=reviewsBySubject(collected))
     total_named = sum(len(v) for v in buckets.values())
     total_awaiting = len(awaiting_classification)
     print(f"\nWrote {output_path}")

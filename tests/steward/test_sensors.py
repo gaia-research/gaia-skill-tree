@@ -1204,11 +1204,13 @@ def test_default_sensors_contains_knowledge_contradiction_sensor() -> None:
     assert len(matching) == 1
 
 
-def test_default_sensor_fleet_has_thirty_unique_ids_and_repository_hygiene_once() -> None:
+def test_default_sensor_fleet_has_thirty_two_unique_ids_and_repository_hygiene_once() -> None:
     sensors = default_sensors()
-    assert len(sensors) == 30
-    assert len({sensor.id for sensor in sensors}) == 30
+    assert len(sensors) == 32
+    assert len({sensor.id for sensor in sensors}) == 32
     assert sum(isinstance(sensor, RepositoryHygieneSensor) for sensor in sensors) == 1
+    assert sum(sensor.id == "browser-render" for sensor in sensors) == 1
+    assert sum(sensor.id == "issue-hygiene" for sensor in sensors) == 1
 
 
 def test_every_sensor_declares_debt_kinds_and_routines() -> None:
@@ -1218,7 +1220,7 @@ def test_every_sensor_declares_debt_kinds_and_routines() -> None:
     policy = StewardPolicy.load(Path(__file__).resolve().parents[2])
     for sensor in default_sensors():
         assert sensor.debt_kinds, sensor.id
-        assert sensor.routine_ids and all(1 <= n <= 17 for n in sensor.routine_ids), sensor.id
+        assert sensor.routine_ids and all(1 <= n <= 18 for n in sensor.routine_ids), sensor.id
         for kind in sensor.debt_kinds:
             policy.authority_for(kind)
             policy.priority_for(kind, 1.0)
@@ -2397,6 +2399,62 @@ def test_frozen_skill_integrity_sensor_detects_post_freeze_demote_rank_up(tmp_pa
     assert obs.status == "drift"
     assert obs.observed_state["postFreezeEvents"] == ["rank_up", "demote"]
     assert obs.observed_state["frozenLevel"] == "3★"
+
+
+def test_frozen_skill_integrity_sensor_ignores_derived_trust_stamp_refresh(tmp_path: Path) -> None:
+    """A TM restamp on a frozen skill recomputes derived data; it is not a rank mutation."""
+
+    content = (
+        "---\n"
+        "id: owner/restamped-frozen\n"
+        "name: Restamped Frozen Skill\n"
+        "status: named\n"
+        "level: 2★\n"
+        "installable: false\n"
+        "timeline:\n"
+        "  - timestamp: '2026-08-05T00:00:00Z'\n"
+        "    action: upstream_deprecated\n"
+        "    details: superseded upstream\n"
+        "  - timestamp: '2026-10-21T00:00:00Z'\n"
+        "    action: recalibrate_trust_magnitude\n"
+        "    details: TM 10.0 -> 12.5, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)\n"
+        "---\n"
+    )
+    _write(tmp_path / "registry/named/owner/restamped-frozen.md", content)
+
+    track_all(tmp_path)
+    (obs,) = FrozenSkillIntegritySensor().scan(tmp_path, NOW)
+    assert obs.status == "healthy"
+    assert obs.observed_state["postFreezeEvents"] == []
+    assert "remediationCommand" not in obs.observed_state
+
+
+def test_frozen_skill_integrity_sensor_still_reports_rank_events_beside_a_restamp(tmp_path: Path) -> None:
+    content = (
+        "---\n"
+        "id: owner/mixed-frozen\n"
+        "name: Mixed Frozen Skill\n"
+        "status: named\n"
+        "level: 3★\n"
+        "installable: false\n"
+        "timeline:\n"
+        "  - timestamp: '2026-08-19T00:00:00Z'\n"
+        "    action: upstream_deprecated\n"
+        "    details: deprecated\n"
+        "  - timestamp: '2026-09-01T00:00:00Z'\n"
+        "    action: recalibrate_trust_magnitude\n"
+        "    details: TM 1 -> 2\n"
+        "  - timestamp: '2026-09-02T00:00:00Z'\n"
+        "    action: rank_up\n"
+        "    details: Calibrated level from 3★ to 4★\n"
+        "---\n"
+    )
+    _write(tmp_path / "registry/named/owner/mixed-frozen.md", content)
+
+    track_all(tmp_path)
+    (obs,) = FrozenSkillIntegritySensor().scan(tmp_path, NOW)
+    assert obs.status == "drift"
+    assert obs.observed_state["postFreezeEvents"] == ["rank_up"]
 
 
 def test_frozen_skill_integrity_sensor_detects_level_mismatch_and_provides_remediation(tmp_path: Path) -> None:

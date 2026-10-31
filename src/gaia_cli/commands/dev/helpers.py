@@ -10,7 +10,6 @@ from typing import Callable, Iterable
 from urllib.parse import urlparse
 
 from gaia_cli.registry import (
-    registry_graph_path,
     named_skills_index_path,
     registry_nodes_dir,
     named_skills_dir,
@@ -139,6 +138,92 @@ def _preflight_calibrate_status(skill_id: str, skill_data: dict, level: str) -> 
             fix=(
                 f"Promote the skill to 'named' first via `gaia dev update-named {skill_id} "
                 "--status named --title '<title>'`."
+            ),
+        )
+
+
+_STAR_GRADE_ORDER = {"ungraded": 0, "C": 1, "B": 2, "A": 3, "S": 4}
+
+
+def _starNumber(level) -> int:
+    if isinstance(level, str) and level[:1].isdigit():
+        return int(level[0])
+    return 0
+
+
+def _preflight_star_gate(skill_id: str, skill_data: dict, level: str, registry_path) -> None:
+    """Refuse to set a level (4★+) whose Trust Magnitude / branch gate fails.
+
+    A strict raise to a gated level is checked against live Trust Magnitude (never
+    the cached frontmatter) and refused on failure. Re-asserting the current level
+    only warns (evidence-only re-calibration stays possible). Lowering is
+    unconditional.
+    Unique branch (no ``suiteComponents``): 4★/5★ use
+    ``promotion.checkUniqueBranchGate``. Suite branch: 4★ Extra needs Grade A
+    (TM >= 100), 5★+ Ultimate needs Grade S (TM >= 250) plus Origin on >=1
+    ``suiteComponents`` (META.md section 4.2), held by the proposing contributor; no bucket-level
+    Origin is required. Scope: 4★/5★ are fully gated; a 6★ target only
+    enforces the Grade S floor -- `checkUniqueImpossibleGate` / `passesSuiteApexGate`
+    are NOT enforced here.
+    """
+    target = _starNumber(level)
+    current = _starNumber(skill_data.get("level"))
+    if target < 4 or target < current:
+        return
+
+    from gaia_cli.promotion import checkUniqueBranchGate
+    from gaia_cli.registryMaps import buildMergedSkillMap
+    from gaia_cli.trustMagnitude import computeTrustMagnitude, computeOverallTrustGradeFromSkill
+
+    mergedMap = buildMergedSkillMap(registry_path)
+    tm = round(float(computeTrustMagnitude(skill_data, mergedMap)), 2)
+    grade = computeOverallTrustGradeFromSkill(skill_data, mergedMap) or "ungraded"
+    required = "A" if target == 4 else "S"
+    problems = []
+    if _STAR_GRADE_ORDER.get(grade, 0) < _STAR_GRADE_ORDER[required]:
+        problems.append(f"Overall Trust Grade {grade} (TM {tm}) is below the required Grade {required}")
+
+    components = skill_data.get("suiteComponents") or []
+    if components:
+        branch = "Suite"
+        if target >= 5:
+            from gaia_cli.promotion import _contributor_holds_origin_in
+            contributor = skill_data.get("contributor")
+            # Generic-ref components resolve through the shared promotion helper;
+            # named-id components (contributor/slug) must carry origin: true AND
+            # belong to the proposing contributor.
+            holdsOrigin = _contributor_holds_origin_in(contributor, components, mergedMap) or any(
+                (mergedMap.get(c) or {}).get("origin") is True
+                and (mergedMap.get(c) or {}).get("contributor") == contributor
+                for c in components
+            )
+            if not holdsOrigin:
+                problems.append("5★+ Suite Ultimate requires the proposing contributor to hold Origin on at least one suiteComponent (META.md 4.2)")
+    else:
+        branch = "Unique"
+        if target in (4, 5):
+            result = checkUniqueBranchGate(skill_data, level, mergedMap, mergedMap)
+            if not result.get("originPresent"):
+                problems.append(
+                    "4★ Unique requires bucket-level Origin on its generic" if target == 4
+                    else "5★ Unique Ultimate requires Origin on a node in the generic parent's prerequisites"
+                )
+            if result.get("branch") not in (None, "unique") and not problems:
+                problems.append(f"skill resolves to branch '{result.get('branch')}' at {level}, not Unique")
+
+    if problems and target == current:
+        print(
+            f"Warning: {skill_id} no longer satisfies the {level} gate ({branch} branch): "
+            + "; ".join(problems) + ". Re-calibrating at the same level anyway.",
+            file=sys.stderr,
+        )
+        return
+    if problems:
+        _fail_dev_preflight(
+            f"Cannot set {skill_id} to {level} ({branch} branch): " + "; ".join(problems) + ".",
+            fix=(
+                "Add the missing evidence/Origin through the matching `gaia dev` verb, or calibrate to a level "
+                "the gate allows. Lowering a level is always permitted."
             ),
         )
 
@@ -579,8 +664,33 @@ def _add_build_flags(parser, verb: str) -> None:
 
 
 def _get_contributor():
+    """Resolve the acting operator for timeline events.
+
+    Order: `.gaia/config.json` (`gaiaUser` / `username`), then ``GITHUB_ACTOR``
+    (CI; ``*[bot]`` actors kept as-is), then the GitHub login in a noreply
+    ``git config user.email``, then ``"unknown"``. The git remote owner is never
+    used: it names the org, not the actor.
+    """
     config = load_config() or {}
-    return config.get("gaiaUser") or config.get("username") or "unknown"
+    configured = config.get("gaiaUser") or config.get("username")
+    if configured:
+        return configured
+    actor = (os.environ.get("GITHUB_ACTOR") or "").strip()
+    if actor:
+        return actor
+    try:
+        result = subprocess.run(
+            ["git", "config", "user.email"], capture_output=True, text=True, timeout=5
+        )
+        if result.returncode == 0:
+            match = re.match(
+                r"^(?:\d+\+)?([^@]+)@users\.noreply\.github\.com$", result.stdout.strip()
+            )
+            if match:
+                return match.group(1)
+    except Exception:
+        pass
+    return "unknown"
 
 
 def _is_verifier(username, registry_path=".") -> bool:

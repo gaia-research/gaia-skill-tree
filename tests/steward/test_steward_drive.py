@@ -40,17 +40,23 @@ class FakeWorld:
 
     def __init__(self, root: Path, runs: list[tuple[int, Any]], *, records=None, status=None,
                  agent: Callable[..., drive.CommandResult] | None = None,
-                 gh: Callable[[list[str]], drive.CommandResult] | None = None) -> None:
+                 gh: Callable[[list[str]], drive.CommandResult] | None = None,
+                 close: Callable[[list[str]], drive.CommandResult] | None = None,
+                 census: Callable[[list[str]], drive.CommandResult] | None = None) -> None:
         self.root = root
         self.runs = list(runs)
         self.recordReplies = list(records or [])
         self.statusPayload = status or {}
         self.agentFn = agent or defaultAgent
         self.ghFn = gh or (lambda args: ok("[]"))
+        self.closeFn = close or closedOutcome
+        self.censusFn = census or (lambda argv: ok("census complete"))
         self.calls: list[list[str]] = []
         self.recorded: list[tuple[str, dict[str, Any]]] = []
         self.agentCalls: list[list[str]] = []
         self.ghCalls: list[list[str]] = []
+        self.closeCalls: list[list[str]] = []
+        self.censusCalls: list[list[str]] = []
 
     def __call__(self, argv, *, cwd, timeout=None, env=None):
         argv = list(argv)
@@ -76,8 +82,34 @@ class FakeWorld:
             return self.ghFn(argv[1:])
         if argv[0] == "git":
             return ok("diff --git a/x b/x\n+fix\n")
+        if len(argv) > 1 and str(argv[1]).endswith("steward_issue_close.py"):
+            self.closeCalls.append(argv)
+            return self.closeFn(argv)
+        if len(argv) > 1 and str(argv[1]).endswith("steward_issue_census.py"):
+            self.censusCalls.append(argv)
+            return self.censusFn(argv)
         self.agentCalls.append(argv)
         return self.agentFn(argv, cwd)
+
+
+def closedOutcome(argv: list[str]) -> drive.CommandResult:
+    """The stdout a successful scripts/steward_issue_close.py run prints."""
+
+    outcome = {"outcome": "closed", "key": "upstream-candidate:o/r:foo", "issue": 10,
+               "commentUrl": "https://github.test/o/r/issues/10#issuecomment-55", "commentId": 55,
+               "markerVerified": False, "closedAt": "2026-10-21T20:00:00Z", "failure": None}
+    return ok(json.dumps(outcome))
+
+
+def closeAction(stepId: str = "close:abc:abcd1234", issue: int = 10) -> dict[str, Any]:
+    return {"stepId": stepId, "type": "forge.close_issue", "debtId": "d3", "status": "pending", "params": {
+        "key": "upstream-candidate:o/r:foo", "issue": issue, "ruleId": "A1-child-curated", "authority": "A",
+        "state": "resolved", "stateReason": "completed", "duplicateOf": None, "parent": 1835, "canonical": None,
+        "reason": "curated", "expectedSnapshot": {"updatedAt": "t", "bodySha256": "b", "labels": []},
+        "original": {"title": "[intake] o/r foo"}, "evidence": [],
+        "comment": "<!-- gaia-steward-closure:upstream-candidate:o/r:foo:abcd1234 -->\nclosing",
+        "receiptPath": ".gaia/steward/issue-hygiene/receipts/R1.jsonl", "manifestSha256": "abcd1234" + "0" * 56,
+    }}
 
 
 def defaultAgent(argv, cwd):
@@ -338,6 +370,51 @@ def test_integrate_refuses_main(tmp_path):
 
 # -- agents unavailable --------------------------------------------------------
 
+def test_explicit_no_agents_overrides_ready_agent_configuration(tmp_path):
+    root = makeRoot(tmp_path)
+    world = FakeWorld(root, [view("R1", [buildAction()])])
+    driver = makeDriver(tmp_path, world, env=AGENTENV, agents=False)
+
+    assert driver.ready is False
+    assert driver.notReadyReason == "agent dispatch disabled by --no-agents"
+    assert driver.drive() == drive.EXITNOTRUN
+    runArgs = next(c for c in world.calls if isRun(c))
+    assert "--no-agents" in runArgs
+    assert world.agentCalls == [] and world.recorded == []
+    assert "agent dispatch disabled by --no-agents" in driver.unperformed[0]["reason"]
+
+
+def test_no_agents_keeps_class_a_closure_routing_enabled(tmp_path):
+    root = makeRoot(tmp_path)
+    actions = [closeAction(), buildAction()]
+    world = FakeWorld(root, [view("R1", actions), view("R1", [], "completed")])
+    driver = makeDriver(tmp_path, world, env=AGENTENV, agents=False)
+    # Permit the route in-process, while the actual closure executor remains behind FakeWorld.
+    driver.closuresEnabled = lambda: True
+    driver.forgeToken = lambda: "synthetic-test-token"
+
+    assert driver.drive() == drive.EXITNOTRUN
+    assert len(world.closeCalls) == 1
+    assert [step for step, _ in world.recorded] == ["close:abc:abcd1234"]
+    assert world.agentCalls == []
+    assert any(item["stepId"] == "build:abc:1" for item in driver.unperformed)
+
+
+def test_no_agents_cli_flag_is_wired_to_driver_option(monkeypatch, tmp_path):
+    captured = {}
+
+    class DriverStub:
+        def __init__(self, options):
+            captured["options"] = options
+
+        def drive(self):
+            return drive.EXITCOMPLETED
+
+    monkeypatch.setattr(drive, "Driver", DriverStub)
+    assert drive.main(["--root", str(tmp_path), "--no-agents", "--no-census"]) == drive.EXITCOMPLETED
+    assert captured["options"].agents is False
+
+
 def test_missing_credentials_runs_no_agents_and_exits_5_when_agent_work_is_pending(tmp_path):
     root = makeRoot(tmp_path)
     earlier = {"runs": [{"runId": "OLD", "actions": [
@@ -569,6 +646,26 @@ def test_engine_mode_without_gh_token_is_not_ready_and_runs_no_agents(tmp_path):
     report = json.loads((tmp_path / "report.json").read_text(encoding="utf-8"))
     assert report["agents"]["state"] == "NOT RUN"
     assert "GH_TOKEN" in report["agents"]["reason"]
+
+
+def test_explicit_no_agents_overrides_ready_claude_cli_fallback(tmp_path):
+    root = makeRoot(tmp_path)
+    world = FakeWorld(root, [view("R1", [buildAction()])])
+    env = {
+        "STEWARD_SONNET_MODEL_ID": "sonnet-test-id",
+        "ANTHROPIC_API_KEY": "test-only",
+        "STEWARD_HAIKU_MODEL_ID": "haiku-test-id",
+    }
+    assert drive.agentReadiness(env, readyWhich) == (True, "")
+    driver = makeDriver(tmp_path, world, env=env, ready_which=readyWhich, agents=False)
+
+    assert driver.ready is False
+    assert driver.drive() == drive.EXITNOTRUN == 5
+    assert "--no-agents" in next(c for c in world.calls if isRun(c))
+    assert world.agentCalls == [] and world.recorded == []
+    report = json.loads((tmp_path / "report.json").read_text(encoding="utf-8"))
+    assert report["agents"]["state"] == "NOT RUN"
+    assert "--no-agents" in report["agents"]["reason"]
 
 
 def test_engine_adapter_argv_never_carries_a_turn_limit(tmp_path):

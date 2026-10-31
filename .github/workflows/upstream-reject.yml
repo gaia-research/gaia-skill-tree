@@ -11,7 +11,127 @@ jobs:
   reject:
     name: Process upstream:rejected label
     runs-on: ubuntu-latest
-    if: github.event.label.name == 'upstream:rejected'
+    permissions:
+      issues: write
+      actions: write
+      contents: read
+    if: >-
+      (vars.STEWARD_ISSUE_HYGIENE_V2 == 'true') && (github.event.label.name == 'upstream:rejected') && (contains(github.event.issue.labels.*.name, 'upstream:release') || contains(github.event.issue.labels.*.name, 'upstream:bootstrap'))
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      # Refuse unrelated/stale label events before any comment, label or close write.
+      - name: Verify current rejected upstream ownership
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          set -euo pipefail
+          VIEW=$(gh issue view "$ISSUE_NUMBER" --json title,body,state,labels)
+          printf '%s' "$VIEW" | python3 -c '
+          import json, sys
+          from scripts.upstream_watcher.approval import owned_upstream_issue
+          row = json.load(sys.stdin)
+          labels = {item.get("name") for item in row.get("labels", [])}
+          sys.exit(0 if owned_upstream_issue(row) and row.get("state") == "OPEN"
+                   and "upstream:rejected" in labels else 1)
+          '
+
+      # D2: the reject guard reads the same freshly built index as upstream-approve. Without it the index is
+      # absent on a fresh checkout and every labeler would be denied (or, before this change, granted bootstrap).
+      - name: Build the base named-skills index
+        run: |
+          set -euo pipefail
+          python scripts/assemble_gaia.py
+          python scripts/generateNamedIndex.py
+
+      # ── Guard: labeler must be a Verifier ──────────────────────────────────
+      # L2: no ${{ }} inside a run block. Every event value reaches the shell through env.
+      # D2: the decision is the shared approval.verifier_status, as in upstream-approve. A missing, empty or
+      # unparseable index is a denial. M1: there is no bootstrap grant; an index with no authorised Verifier denies
+      # everyone. M2: the allowlist needs the sender's type and id (approval.allowlisted).
+      - name: Check labeler is a Verifier
+        env:
+          LABELER: ${{ github.event.sender.login }}
+          LABELER_TYPE: ${{ github.event.sender.type }}
+          LABELER_ID: ${{ github.event.sender.id }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          # M2: an allowlisted actor (login, sender type and id) is authorized.
+          if python3 - "$LABELER" "${LABELER_TYPE:-}" "${LABELER_ID:-}" <<'PY'
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import allowlisted
+          sys.exit(0 if allowlisted(sys.argv[1], sys.argv[2], sys.argv[3]) else 1)
+          PY
+          then
+            echo "✓ $LABELER is an allowlisted actor."
+            exit 0
+          fi
+
+          AUTHORIZED=$(python3 - "$LABELER" <<'PY'
+          import os, sys
+          sys.path.insert(0, os.getcwd())
+          from scripts.upstream_watcher.approval import verifier_status
+          print(verifier_status("registry/named-skills.json", sys.argv[1]))
+          PY
+          )
+
+          echo "Labeler authorization: $AUTHORIZED"
+          if [ "$AUTHORIZED" = "yes" ]; then
+            echo "✓ $LABELER is authorized to reject upstream issues."
+          else
+            echo "::error::$LABELER is not an authorized Verifier ($AUTHORIZED). Only Verifiers may apply upstream:rejected."
+            gh issue remove-label "$ISSUE_NUMBER" "upstream:rejected" || true
+            gh issue comment "$ISSUE_NUMBER" \
+              --body "⚠️ **Authorization failure:** \`$LABELER\` does not hold a 4★+ named skill and cannot reject upstream syncs. The \`upstream:rejected\` label has been removed. Please have a Verifier apply the label."
+            exit 1
+          fi
+
+      # ── Close the umbrella as not planned ──────────────────────────────────
+      - name: Close umbrella issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          SENDER_LOGIN: ${{ github.event.sender.login }}
+        run: |
+          gh issue close "$ISSUE_NUMBER" \
+            --reason "not planned" \
+            --comment "Rejected via \`upstream:rejected\` label by @${SENDER_LOGIN}. Cascading to close any \`upstream:child\` intakes."
+
+      # GITHUB_TOKEN issue closures do not generate another issues.closed run.
+      # Explicit dispatch is required; the target independently rechecks ownership.
+      - name: Explicitly dispatch rejected-family cascade
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          set -euo pipefail
+          gh workflow run upstream-close-children.yml -f umbrella_number="$ISSUE_NUMBER"
+
+  # Deployed main contract, retained until explicit v2 rollout.
+  legacy-reject:
+    name: Process upstream:rejected label
+    runs-on: ubuntu-latest
+    if: >-
+      (vars.STEWARD_ISSUE_HYGIENE_V2 != 'true') && (github.event.label.name == 'upstream:rejected')
 
     steps:
       - name: Checkout main

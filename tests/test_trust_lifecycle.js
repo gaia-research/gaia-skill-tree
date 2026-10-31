@@ -470,7 +470,7 @@ test('handles and identifiers are escaped in the rendered section', () => {
   entry.trustLifecycle.consequence.originHandle = '<script>alert(1)</script>';
   entry.trustLifecycle.challenges[0].behaviorId = '"><img src=x onerror=alert(1)>';
   const html = lifecycle.renderTrustLifecycleHtml(lifecycle.buildTrustLifecycleViewModel(entry));
-  assert.doesNotMatch(html, /<script>|<img/);
+  assert.doesNotMatch(html, /<script|<img/i);
   assert.match(html, /&lt;script&gt;/);
 });
 
