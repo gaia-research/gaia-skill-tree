@@ -1,5 +1,5 @@
 {
- "generation": 212,
+ "generation": 213,
  "lane": {
   "entries": [
    {
@@ -13090,6 +13090,13 @@
      "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
      "emittedAt": "2026-11-01T02:48:59.519863Z",
      "idempotencyKey": "dispatch-85da151344100d2bf011:2",
+     "outcome": {
+      "agentId": "haiku-builder-ad44dcb9",
+      "effort": "medium",
+      "model": "haiku",
+      "noChange": true,
+      "summary": "Reproduced stored 1 star vs computed TM 111 grade A, but 4-star target fails the Unique-branch origin gate (origin false, no suiteComponents); inspector mislabels it 4-star Extra; TM relies on inherited/monorepo evidence stripped in 2026-09-04 demotion. Escalate; no calibration proposed as approved."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -13110,13 +13117,27 @@
       },
       "promptPath": ".gaia/steward/full/run-20261101T024620Z-2e201bef/build-8782d71a11bc.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-01T02:56:37.018116Z",
+     "status": "done",
      "stepId": "build:8782d71a11bc:2",
      "type": "agent.build"
     }
    ],
    "actor": "cli",
-   "agentAssignments": [],
+   "agentAssignments": [
+    {
+     "agentId": "haiku-builder-ad44dcb9",
+     "at": "2026-11-01T02:56:37.018143Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+     "effort": "medium",
+     "model": "haiku",
+     "role": "builder",
+     "stepId": "build:8782d71a11bc:2",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
@@ -13690,8 +13711,10 @@
     }
    ],
    "mode": "full",
-   "modelIds": [],
-   "mutated": false,
+   "modelIds": [
+    "haiku"
+   ],
+   "mutated": true,
    "nextAction": "perform 1 pending action(s) (agent.build), record each with `gaia steward full record run-20261101T024620Z-2e201bef <stepId> --input FILE`, then `gaia steward full run --resume run-20261101T024620Z-2e201bef`",
    "options": {
     "afk": true,
@@ -14786,23 +14809,26 @@
      "stepId": "phase:class_a"
     },
     {
-     "at": "2026-11-01T02:48:59.519863Z",
+     "at": "2026-11-01T02:56:37.018116Z",
      "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
      "idempotencyKey": "dispatch-85da151344100d2bf011:2",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:8782d71a11bc:2"
     }
    ],
-   "thinkingEfforts": [],
+   "thinkingEfforts": [
+    "medium"
+   ],
    "tokensIn": 0,
    "tokensOut": 0,
    "trigger": "scheduled",
-   "unresolvedWork": []
+   "unresolvedWork": [],
+   "updatedAt": "2026-11-01T02:56:37.018116Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-01T02:50:48.186068Z",
+ "updatedAt": "2026-11-01T02:56:37.018288Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -15017,13 +15043,33 @@
      "stepId": "verify:8782d71a11bc:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "haiku-builder-ad44dcb9",
+     "at": "2026-11-01T02:56:37.018143Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "haiku",
+     "role": "builder",
+     "stepId": "build:8782d71a11bc:2",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 2,
    "authority": "B",
    "baseBranch": "dev/steward-integration",
    "branch": "steward/b/trust-calibration-drift-8782d71a11bc",
-   "build": null,
+   "build": {
+    "agentId": "haiku-builder-ad44dcb9",
+    "attempt": 2,
+    "diffPath": null,
+    "dispatchId": "dispatch-85da151344100d2bf011",
+    "noChange": true,
+    "proofPath": null,
+    "recordedAt": "2026-11-01T02:56:37.018143Z",
+    "summary": "Reproduced stored 1 star vs computed TM 111 grade A, but 4-star target fails the Unique-branch origin gate (origin false, no suiteComponents); inspector mislabels it 4-star Extra; TM relies on inherited/monorepo evidence stripped in 2026-09-04 demotion. Escalate; no calibration proposed as approved."
+   },
    "createdAt": "2026-10-30T02:50:15.169447Z",
    "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
    "dispatchId": "dispatch-85da151344100d2bf011",
@@ -15056,7 +15102,7 @@
    "runId": "run-20261101T024620Z-2e201bef",
    "source": "trust-calibration-drift",
    "state": "building",
-   "updatedAt": "2026-11-01T02:48:59.519863Z",
+   "updatedAt": "2026-11-01T02:56:37.018143Z",
    "verification": null
   }
  }
