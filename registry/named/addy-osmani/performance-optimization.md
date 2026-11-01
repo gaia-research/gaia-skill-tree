@@ -111,13 +111,13 @@ evidence:
   grade: B
 - source: https://github.com/addyosmani/agent-skills/stargazers
   evaluator: mbtiongson1
-  updatedAt: '2026-10-01'
+  updatedAt: '2026-11-01'
   date: '2026-06-19'
   type: github-stars-own
   class: A
   notes: 47,200 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
     standalone skill)
-  stars: 100245
+  stars: 112397
   grade: B
 trustMagnitude: 50.0
 overallTrustGrade: B

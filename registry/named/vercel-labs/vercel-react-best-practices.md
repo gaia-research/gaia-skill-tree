@@ -76,13 +76,13 @@ timeline:
     Issue #1600)'
 evidence:
 - source: https://github.com/vercel-labs/agent-skills
-  updatedAt: '2026-10-01'
+  updatedAt: '2026-11-01'
   evaluator: unknown
   date: '2026-07-30'
   type: github-stars-own
   notes: 29,600 stars, 2,700 forks. react-best-practices at skills/react-best-practices/.
     SKILL.md blob/ path.
-  stars: 31787
+  stars: 33329
   skillCountInRepo: 3
   sourceStartedAt: '2026-01-18'
 - source: https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md

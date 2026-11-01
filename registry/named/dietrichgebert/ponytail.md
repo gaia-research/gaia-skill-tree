@@ -64,13 +64,13 @@ evidence:
   sourceStartedAt: '2026-06-12'
   grade: B
 - source: https://github.com/DietrichGebert/ponytail/stargazers
-  updatedAt: '2026-10-01'
+  updatedAt: '2026-11-01'
   evaluator: unknown
   date: '2026-07-31'
   type: github-stars-own
   notes: Live GitHub stars for DietrichGebert/ponytail; skill-count divisor uses 6
     SKILL.md files under skills/.
-  stars: 149760
+  stars: 181808
   skillCountInRepo: 6
   sourceStartedAt: '2026-06-12'
   grade: C

@@ -90,11 +90,11 @@ timeline:
   details: Calibrated level from 5★ to 3★
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md
-  updatedAt: '2026-10-01'
+  updatedAt: '2026-11-01'
   evaluator: unknown
   date: '2026-07-03'
   type: github-stars-own
-  stars: 100245
+  stars: 112397
   skillCountInRepo: 7
 - source: https://github.com/addyosmani/agent-skills
   evaluator: unknown

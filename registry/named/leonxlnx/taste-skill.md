@@ -57,12 +57,12 @@ timeline:
     Issue #1600)'
 evidence:
 - source: https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md
-  updatedAt: '2026-10-01'
+  updatedAt: '2026-11-01'
   evaluator: mbtiongson1
   date: '2026-08-22'
   type: github-stars-own
   notes: 79.0k stars on Leonxlnx/taste-skill repository
-  stars: 91660
+  stars: 107401
   sourceStartedAt: '2026-02-19'
   grade: A
 - source: https://github.com/leonxlnx/taste-skill
