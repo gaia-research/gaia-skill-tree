@@ -1,5 +1,5 @@
 {
- "generation": 236,
+ "generation": 237,
  "lane": {
   "entries": [
    {
@@ -2594,13 +2594,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-01T02:46:20.577803Z",
-   "expiresAt": "2026-11-01T03:33:21.184784Z",
-   "holder": "run-20261101T024620Z-2e201bef"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -13194,7 +13188,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-01T02:58:49.077134Z",
+    "asOf": "2026-11-01T03:03:24.141087Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -13733,11 +13727,6 @@
     ],
     "operations": [
      {
-      "detail": "2 of 2 attempts used under trust-calibration-drift while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
-      "subject": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6"
-     },
-     {
       "detail": "open issues 231 (bot 2, upstream children 92); closed this run 0 of 0 total; no previous run recorded",
       "kind": "issue_backlog",
       "subject": "issue backlog"
@@ -13746,7 +13735,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-11-01T03:03:24.141087Z",
    "floor": {
     "branch": "dev/steward-integration",
     "ok": true,
@@ -13754,6 +13743,14 @@
    },
    "integrationBranch": "dev/steward-integration",
    "integrationHead": "8ffdd668775abf261b0dd581f6acf2e3672188cd",
+   "issueBacklog": {
+    "botOpen": 2,
+    "closedThisRun": 0,
+    "closedTotal": 0,
+    "openIssues": 231,
+    "readyWritesDisabled": 0,
+    "upstreamChildOpen": 92
+   },
    "leases": [
     {
      "acquiredAt": "2026-11-01T02:46:20.577803Z",
@@ -13767,7 +13764,7 @@
     "sonnet"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": true,
     "agents": true,
@@ -13775,7 +13772,7 @@
     "push": false,
     "routine": null
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -16327,7 +16324,7 @@
    "sequence": 2,
    "sourceHead": "dc07528884a759dbd3668d4a0007469265ab396f",
    "startedAt": "2026-11-01T02:46:20.577803Z",
-   "status": "active",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-11-01T02:46:20.577803Z",
@@ -16398,6 +16395,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-11-01T03:03:24.141087Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -16411,7 +16414,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-01T03:03:21.184884Z",
+ "updatedAt": "2026-11-01T03:03:24.838820Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
