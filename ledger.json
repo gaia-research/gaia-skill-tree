@@ -1,5 +1,5 @@
 {
- "generation": 210,
+ "generation": 211,
  "lane": {
   "entries": [
    {
@@ -1097,7 +1097,7 @@
     "state": "closed"
    },
    {
-    "attempts": 1,
+    "attempts": 2,
     "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
     "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
     "history": [
@@ -1118,14 +1118,20 @@
       "from": "dispatched",
       "reason": "rejected on attempt 1; returned to the queue (independent verification by sonnet-verifier-a0680fa7 (sonnet, effort medium))",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-01T02:48:59.519863Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-85da151344100d2bf011",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-10-30T02:58:33.826102Z",
-    "lastVerdict": "reject",
+    "lastTransitionAt": "2026-11-01T02:48:59.519863Z",
+    "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 0,
@@ -1863,14 +1869,20 @@
       "from": "queued",
       "reason": "the condition is no longer observed",
       "to": "closed"
+     },
+     {
+      "at": "2026-11-01T02:48:59.519863Z",
+      "from": "closed",
+      "reason": "condition observed again after closing",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-10-30T02:59:57.418794Z",
+    "lastTransitionAt": "2026-11-01T02:48:59.519863Z",
     "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "closed"
+    "state": "queued"
    },
    {
     "attempts": 0,
@@ -1970,14 +1982,20 @@
       "from": "queued",
       "reason": "the condition is no longer observed",
       "to": "closed"
+     },
+     {
+      "at": "2026-11-01T02:48:59.519863Z",
+      "from": "closed",
+      "reason": "condition observed again after closing",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-10-30T02:59:57.418794Z",
+    "lastTransitionAt": "2026-11-01T02:48:59.519863Z",
     "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "closed"
+    "state": "queued"
    },
    {
     "attempts": 0,
@@ -2039,14 +2057,20 @@
       "from": "queued",
       "reason": "the condition is no longer observed",
       "to": "closed"
+     },
+     {
+      "at": "2026-11-01T02:48:59.519863Z",
+      "from": "closed",
+      "reason": "condition observed again after closing",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-10-30T02:59:57.418794Z",
+    "lastTransitionAt": "2026-11-01T02:48:59.519863Z",
     "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "closed"
+    "state": "queued"
    },
    {
     "attempts": 0,
@@ -2139,14 +2163,20 @@
       "from": "queued",
       "reason": "the condition is no longer observed",
       "to": "closed"
+     },
+     {
+      "at": "2026-11-01T02:48:59.519863Z",
+      "from": "closed",
+      "reason": "condition observed again after closing",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-10-30T02:59:57.418794Z",
+    "lastTransitionAt": "2026-11-01T02:48:59.519863Z",
     "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "closed"
+    "state": "queued"
    },
    {
     "attempts": 0,
@@ -2485,14 +2515,20 @@
       "from": "queued",
       "reason": "the condition is no longer observed",
       "to": "closed"
+     },
+     {
+      "at": "2026-11-01T02:48:59.519863Z",
+      "from": "closed",
+      "reason": "condition observed again after closing",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-10-30T02:59:57.418794Z",
+    "lastTransitionAt": "2026-11-01T02:48:59.519863Z",
     "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "closed"
+    "state": "queued"
    },
    {
     "attempts": 0,
@@ -2548,14 +2584,14 @@
   "policy": {
    "cooldownSeconds": 3600,
    "maxAttempts": 2,
-   "maxInFlight": 1
+   "maxInFlight": 2
   },
   "schemaVersion": "steward-lane-v1"
  },
  "leases": {
   "run": {
    "acquiredAt": "2026-11-01T02:46:20.577803Z",
-   "expiresAt": "2026-11-01T03:18:56.734587Z",
+   "expiresAt": "2026-11-01T03:20:44.576062Z",
    "holder": "run-20261101T024620Z-2e201bef"
   }
  },
@@ -13049,7 +13085,36 @@
    "updatedAt": "2026-10-30T02:58:33.826045Z"
   },
   "run-20261101T024620Z-2e201bef": {
-   "actions": [],
+   "actions": [
+    {
+     "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+     "emittedAt": "2026-11-01T02:48:59.519863Z",
+     "idempotencyKey": "dispatch-85da151344100d2bf011:2",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 2,
+      "base": "dev/steward-integration",
+      "branch": "steward/b/trust-calibration-drift-8782d71a11bc",
+      "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+      "dispatchId": "dispatch-85da151344100d2bf011",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261101T024620Z-2e201bef/build-8782d71a11bc.diff",
+       "proofPath": ".gaia/steward/full/run-20261101T024620Z-2e201bef/build-8782d71a11bc.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261101T024620Z-2e201bef/build-8782d71a11bc.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:8782d71a11bc:2",
+     "type": "agent.build"
+    }
+   ],
    "actor": "cli",
    "agentAssignments": [],
    "branches": [],
@@ -13093,6 +13158,12 @@
      },
      "landings": [],
      "status": "ok"
+    },
+    "class_b": {
+     "dispatchId": "dispatch-85da151344100d2bf011",
+     "dispatched": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+     "status": "awaiting-build",
+     "stepId": "build:8782d71a11bc:2"
     },
     "observe": {
      "authorityCounts": {
@@ -14160,6 +14231,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-11-01T02:48:59.519863Z",
+     "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
+     "idempotencyKey": "dispatch-85da151344100d2bf011:2",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:8782d71a11bc:2"
     }
    ],
    "thinkingEfforts": [],
@@ -14170,7 +14249,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-01T02:48:56.735730Z",
+ "updatedAt": "2026-11-01T02:50:44.579454Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -14387,16 +14466,15 @@
      "tokensOut": null
     }
    ],
-   "attempt": 1,
+   "attempt": 2,
    "authority": "B",
    "baseBranch": "dev/steward-integration",
-   "blockedReason": "independent verification by sonnet-verifier-a0680fa7 (sonnet, effort medium): rejected - Finding reproduces (stored 1★, TM 111.0 grade A, G7 effective 4★; 129 sensor tests pass), so the builder's noChange claim is wrong. The correction is a registry",
    "branch": "steward/b/trust-calibration-drift-8782d71a11bc",
    "build": null,
    "createdAt": "2026-10-30T02:50:15.169447Z",
    "debtId": "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6",
    "dispatchId": "dispatch-85da151344100d2bf011",
-   "dispatchedAt": "2026-10-30T02:50:15.169447Z",
+   "dispatchedAt": "2026-11-01T02:48:59.519863Z",
    "history": [
     {
      "at": "2026-10-30T02:50:15.169447Z",
@@ -14409,24 +14487,24 @@
      "from": "building",
      "reason": "independent verification by sonnet-verifier-a0680fa7 (sonnet, effort medium): rejected - Finding reproduces (stored 1★, TM 111.0 grade A, G7 effective 4★; 129 sensor tests pass), so the builder's noChange claim is wrong. The correction is a registry",
      "to": "blocked"
+    },
+    {
+     "at": "2026-11-01T02:48:59.519863Z",
+     "from": "blocked",
+     "reason": "dispatched as dispatch-85da151344100d2bf011 (attempt 2)",
+     "to": "building"
     }
    ],
    "kind": "trust_calibration_drift",
    "notes": [],
-   "promptPath": ".gaia/steward/full/run-20261030T024735Z-6eec6709/build-8782d71a11bc.prompt.md",
+   "promptPath": ".gaia/steward/full/run-20261101T024620Z-2e201bef/build-8782d71a11bc.prompt.md",
    "pullRequest": null,
    "routine": "gaia-trust-calibration-steward",
-   "runId": "run-20261030T024735Z-6eec6709",
+   "runId": "run-20261101T024620Z-2e201bef",
    "source": "trust-calibration-drift",
-   "state": "blocked",
-   "updatedAt": "2026-10-30T02:58:33.826102Z",
-   "verification": {
-    "agentId": "sonnet-verifier-a0680fa7",
-    "rationale": "Finding reproduces (stored 1★, TM 111.0 grade A, G7 effective 4★; 129 sensor tests pass), so the builder's noChange claim is wrong. The correction is a registry calibration (`gaia dev calibrate k-dense-ai/deepchem 4★`) outside the dispatch envelope; 4★ pre-flight (verified links.github blob) unchecked. Timeline shows level was earlier reset 4★->1★, so a human should confirm intent.",
-    "recordedAt": "2026-10-30T02:58:33.826102Z",
-    "stage": "judged",
-    "verdict": "reject"
-   }
+   "state": "building",
+   "updatedAt": "2026-11-01T02:48:59.519863Z",
+   "verification": null
   }
  }
 }
