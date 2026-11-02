@@ -1,5 +1,5 @@
 {
- "generation": 260,
+ "generation": 261,
  "lane": {
   "entries": [
    {
@@ -2685,7 +2685,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-02T02:46:58.836143Z",
-   "expiresAt": "2026-11-02T03:28:02.213719Z",
+   "expiresAt": "2026-11-02T03:28:05.118077Z",
    "holder": "run-20261102T024658Z-f5296156"
   }
  },
@@ -15482,6 +15482,29 @@
      "status": "done",
      "stepId": "build:caf93cdb7373:1",
      "type": "agent.build"
+    },
+    {
+     "debtId": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
+     "emittedAt": "2026-11-02T02:58:04.728451Z",
+     "idempotencyKey": "verify:dispatch-8e3c16dd27af753dc068:1",
+     "params": {
+      "allowedModels": [
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "debtId": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
+      "effortRequired": true,
+      "forbiddenAgentIds": [
+       "a367b02c540933065"
+      ],
+      "verifierPromptPath": ".gaia/steward/full/run-20261102T024658Z-f5296156/verify-caf93cdb7373.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "verify:caf93cdb7373:1",
+     "type": "agent.verify"
     }
    ],
    "actor": "cli",
@@ -17270,6 +17293,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_b"
+    },
+    {
+     "at": "2026-11-02T02:58:04.728451Z",
+     "debtId": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
+     "idempotencyKey": "verify:dispatch-8e3c16dd27af753dc068:1",
+     "kind": "agent.verify",
+     "status": "awaiting",
+     "stepId": "verify:caf93cdb7373:1"
     }
    ],
    "thinkingEfforts": [
@@ -17283,7 +17314,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-02T02:58:02.214339Z",
+ "updatedAt": "2026-11-02T02:58:05.118246Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -17524,7 +17555,12 @@
    "source": "trust-calibration-drift",
    "state": "building",
    "updatedAt": "2026-11-02T02:55:41.112953Z",
-   "verification": null
+   "verification": {
+    "mode": "no-change",
+    "stage": "awaiting-verifier",
+    "verdict": "pending",
+    "verifierPromptPath": ".gaia/steward/full/run-20261102T024658Z-f5296156/verify-caf93cdb7373.prompt.md"
+   }
   },
   "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6": {
    "assignments": [
