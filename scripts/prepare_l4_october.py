@@ -378,7 +378,7 @@ def generate_command_spine(inv: dict) -> Path:
         'APPROVAL_REF="founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices"',
         "",
         "echo \"=== Step 1: Verify L4 Ratified Packets (against unmodified catalog snapshot) ===\"",
-        'RUN_CMD python3 -c "import json,pathlib; from gaia_cli.intakeAdapter import validateL4Resolution; from gaia_cli.prefill import buildGenericSnapshot, selfValidatePacket; g=buildGenericSnapshot(\".\")[\"generics\"]; ps=sorted(pathlib.Path(\"founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets\").glob(\"*.json\")); errs=[(p.name, validateL4Resolution(json.loads(p.read_text()), requireHumanReview=False, trustedGenerics=g), selfValidatePacket(json.loads(p.read_text()), trustedGenerics=g)) for p in ps]; bad=[x for x in errs if x[1] or x[2]]; assert not bad, bad; print(f\"Verified {len(ps)} L4 ratified packets with 0 errors.\")"',
+        "RUN_CMD python3 scripts/prepare_l4_october.py --verify-packets",
     ]
 
     lines.extend([
@@ -519,8 +519,26 @@ def generate_command_spine(inv: dict) -> Path:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--inventory-only", action="store_true")
+    parser.add_argument("--verify-packets", action="store_true")
     parser.add_argument("--prepare", action="store_true", help="Invoke canonical prefill/assess for eligible approval candidates")
     args = parser.parse_args()
+
+    if args.verify_packets:
+        from gaia_cli.intakeAdapter import validateL4Resolution
+        from gaia_cli.prefill import buildGenericSnapshot, selfValidatePacket
+        g = buildGenericSnapshot(".")["generics"]
+        ps = sorted((PREP / "packets").glob("*.json"))
+        bad = []
+        for p in ps:
+            doc = json.loads(p.read_text(encoding="utf-8"))
+            e1 = validateL4Resolution(doc, requireHumanReview=False, trustedGenerics=g)
+            e2 = selfValidatePacket(doc, trustedGenerics=g)
+            if e1 or e2:
+                bad.append((p.name, e1, e2))
+        if bad:
+            raise SystemExit(f"L4 packet verification failed: {bad}")
+        print(f"Verified {len(ps)} L4 ratified packets with 0 errors.")
+        return
 
     inv = inventory()
     PREP.mkdir(parents=True, exist_ok=True)

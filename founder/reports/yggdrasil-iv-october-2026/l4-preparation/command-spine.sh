@@ -32,7 +32,7 @@ REVIEWER="Marcus Rafael B. Tiongson"
 APPROVAL_REF="founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices"
 
 echo "=== Step 1: Verify L4 Ratified Packets (against unmodified catalog snapshot) ==="
-RUN_CMD python3 -c "import json,pathlib; from gaia_cli.intakeAdapter import validateL4Resolution; from gaia_cli.prefill import buildGenericSnapshot, selfValidatePacket; g=buildGenericSnapshot(".")["generics"]; ps=sorted(pathlib.Path("founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets").glob("*.json")); errs=[(p.name, validateL4Resolution(json.loads(p.read_text()), requireHumanReview=False, trustedGenerics=g), selfValidatePacket(json.loads(p.read_text()), trustedGenerics=g)) for p in ps]; bad=[x for x in errs if x[1] or x[2]]; assert not bad, bad; print(f"Verified {len(ps)} L4 ratified packets with 0 errors.")"
+RUN_CMD python3 scripts/prepare_l4_october.py --verify-packets
 
 echo "=== Step 2: Generic Node Renames and New Generics / Fusions ==="
 # 2a. Rename grill-me -> interview-me so both mattpocock/grill-me and addy-osmani/interview-me are named implementations
