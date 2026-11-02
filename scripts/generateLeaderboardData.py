@@ -28,7 +28,7 @@ sys.path.insert(0, str(REPO_ROOT))
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
 # Reuse existing logic from inspectTrustMagnitude.
-# Note: inspectTrustMagnitude rewraps sys.stdout for UTF-8 on Windows; we inherit that.
+# Importing the inspector must not replace or close the caller\'s stdout.
 from scripts.inspectTrustMagnitude import (  # noqa: E402
     NAMED_DIR,
     NODES_DIR,
@@ -112,6 +112,12 @@ def buildRows() -> list[dict]:
         project_suite_metadata(namedSkillMap, REPO_ROOT)
         project_suite_metadata({skill["id"]: skill for skill in skills}, REPO_ROOT)
     apexState = {"genericSkillMap": mergedMap, "namedSkillMap": namedSkillMap}
+    # Origin is derived (gaia_cli.origin), never read from frontmatter; frozen
+    # skills keep their locked TM and grade (gaia_cli.frozen).
+    from gaia_cli.frozen import frozenIds, frozenLock
+    from gaia_cli.origin import contenderPool, registryOrigins
+    holders = registryOrigins(contenderPool(REPO_ROOT, mergedMap))
+    frozen = frozenIds(skills)
     mayStarsMap = buildMayStarsMap()
 
     rows: list[dict] = []
@@ -123,8 +129,11 @@ def buildRows() -> list[dict]:
         skillId = fm.get("id") or "unknown"
         tm = computeTrustMagnitude(fm, mergedMap, evaluationAtUTC=evaluation_at_utc)
         typeBreakdown = computeTrustMagnitudeByType(fm, mergedMap, evaluationAtUTC=evaluation_at_utc)
-        origin = (fm.get("origin") is True or fm.get("origin") == "true")
-        if evaluation_at_utc is None:
+        origin = skillId in holders.get(fm.get("genericSkillRef"), frozenset())
+        locked = frozenLock(fm) if skillId in frozen else None
+        if locked is not None:
+            tm, grade = locked
+        elif evaluation_at_utc is None:
             grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
         else:
             from gaia_cli.trustMagnitude import _countDistinctEvidenceTypes, _hasEligibleIndependentWitness
@@ -200,7 +209,13 @@ def main() -> int:
     rows = buildRows()
     summary = buildSummary(rows)
 
+    # Preserve the named-index snapshot\'s redacted standing for holders that
+    # cannot appear as named leaderboard rows (e.g. awakened 1★ Origins).
+    from gaia_cli.origin import publicOriginStandings
+    named_index = json.loads((REPO_ROOT / "registry" / "named-skills.json").read_text(encoding="utf-8"))
+    standings = publicOriginStandings(named_index.get("buckets", {}), named_index.get("awaitingClassification", []))
     payload = {
+        "originStandings": standings,
         "version":     readGaiaVersion(),
         "generatedAt": (evaluation_at_utc or dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")),
         "summary":     summary,
@@ -218,4 +233,6 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     sys.exit(main())

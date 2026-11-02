@@ -11,7 +11,6 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import io
 import json
 import re
 import sys
@@ -43,9 +42,6 @@ from auditApexAtG7 import formatPredicateDetail  # noqa: E402
 NAMED_DIR = REPO_ROOT / "registry" / "named"
 NODES_DIR = REPO_ROOT / "registry" / "nodes"
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n?(.*)", re.DOTALL)
-
-# Force UTF-8 stdout (handles Windows cp1252)
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
 # G7 RFC §10.10: trust grade -> effective stars
 GRADE_TO_EFFECTIVE_STARS: dict[str, str] = {
@@ -585,4 +581,7 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    # Configure the CLI stream without replacing/closing a caller\'s stdout at import.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     sys.exit(main())

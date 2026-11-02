@@ -25,7 +25,7 @@
   },
   "title": "The Questionnaire Converter",
   "genericSkillRef": "questionnaire-generation",
-  "origin": false,
+  "origin": true,
   "description": "Turn a decision you can't fully answer into a questionnaire for someone else to fill in.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
