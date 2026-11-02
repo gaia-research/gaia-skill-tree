@@ -95,12 +95,14 @@
     "order": [
       "yggdrasil-i",
       "yggdrasil-ii",
-      "yggdrasil-iii"
+      "yggdrasil-iii",
+      "yggdrasil-iv"
     ],
     "labels": {
       "yggdrasil-i": "Yggdrasil I",
       "yggdrasil-ii": "Yggdrasil II",
-      "yggdrasil-iii": "Yggdrasil III"
+      "yggdrasil-iii": "Yggdrasil III",
+      "yggdrasil-iv": "Yggdrasil IV"
     }
   },
   "evidence": {
