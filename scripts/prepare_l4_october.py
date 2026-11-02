@@ -377,33 +377,10 @@ def generate_command_spine(inv: dict) -> Path:
         'REVIEWER="Marcus Rafael B. Tiongson"',
         'APPROVAL_REF="founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices"',
         "",
-        "echo \"=== Step 1: Generic Node Renames and New Generics / Fusions ===\"",
-        "# 1a. Rename grill-me -> interview-me so both mattpocock/grill-me and addy-osmani/interview-me are named implementations",
-        "GAIA dev rename grill-me interview-me --no-build",
-        "",
-        "# 1b. Create the 4 new basic generic nodes per founder choices",
-        f'GAIA dev add {shlex.quote("Knowledge Enrichment")} --id knowledge-enrichment --type basic --description {shlex.quote("Enriches existing knowledge records with structured context, relationships, and useful metadata while preserving their source meaning.")} --no-build',
-        f'GAIA dev add {shlex.quote("Google Workspace Automation")} --id google-workspace-automation --type basic --description {shlex.quote("Automates repeatable workflows across Google Workspace services using connected applications and their native data.")} --no-build',
-        f'GAIA dev add {shlex.quote("Brain Publishing")} --id brain-publishing --type basic --description {shlex.quote("Publishes selected knowledge-base content as controlled, shareable pages while preserving access and privacy boundaries.")} --no-build',
-        f'GAIA dev add {shlex.quote("Knowledge Query")} --id knowledge-query --type basic --description {shlex.quote("Performs focused lookup and retrieval over a knowledge base, returning directly relevant information without broader synthesis or authoring.")} --no-build',
-        "",
-        "# 1c. Create the 6 new fusion generic nodes with prerequisites per founder choices",
-        f'GAIA dev fuse product-design-review --name {shlex.quote("Product Design Review")} --description {shlex.quote("Combines product-design work with structured design review to turn product goals into evaluated interface decisions.")} --prereqs design-generation,design-review --no-build',
-        f'GAIA dev fuse animation-performance --name {shlex.quote("Animation Performance")} --description {shlex.quote("Diagnoses and improves runtime and rendering performance in interactive animations while preserving intended motion behavior.")} --prereqs performance-tuning,timeline-animation --no-build',
-        f'GAIA dev fuse ui-red-teaming --name {shlex.quote("UI Red Teaming")} --description {shlex.quote("Adversarially probes user interfaces for exploitable interaction, accessibility, and resilience failures, combining red-team testing with UI audit.")} --prereqs adversarial-robustness-testing,ui-audit --no-build',
-        f'GAIA dev fuse company-knowledge-management --name {shlex.quote("Company Knowledge Management")} --description {shlex.quote("Builds and maintains an internal company knowledge system by combining knowledge management with organization-specific knowledge capture and retrieval.")} --prereqs domain-modeling,knowledge-management --no-build',
-        f'GAIA dev fuse knowledge-aware-frontend --name {shlex.quote("Knowledge-Aware Frontend")} --description {shlex.quote("Combines frontend implementation with knowledge-management practices so interface changes preserve and expose relevant product knowledge.")} --prereqs knowledge-management,web-best-practices --no-build',
-        f'GAIA dev fuse voice-knowledge-ingestion --name {shlex.quote("Voice Knowledge Ingestion")} --description {shlex.quote("Turns spoken notes into accurately captured and organized knowledge, combining voice processing with knowledge ingestion.")} --prereqs knowledge-harvest,voice-agent --no-build',
-        "",
-        "# 1d. Wire prerequisite links per founder notes (brain-ingest-gate, brain-link-discipline, brain-taxonomist)",
-        "# These capabilities map to knowledge-management, ensuring clean prerequisite relationships for company/brain suites",
-        "GAIA dev link company-knowledge-management knowledge-management --no-build",
-        "GAIA dev link gbrain knowledge-management --no-build",
-        "",
-        "echo \"=== Step 2: L4 Ratification of Packets ===\"",
+        "echo \"=== Step 1: L4 Ratification of Packets (against unmodified catalog snapshot) ===\"",
     ]
 
-    # Generate ratify commands
+    # Generate ratify commands BEFORE mutating registry/nodes/ so live_catalog matches genericSnapshot
     for item in inv["items"]:
         if item.get("disposition") in ("decline-support", "skip-existing", "skip-frozen"):
             continue
@@ -427,14 +404,38 @@ def generate_command_spine(inv: dict) -> Path:
                 f'--reason {shlex.quote(clean_reason)} --acknowledge-human-review'
             )
         else:
-            # For addy-osmani/interview-me, generic is renamed interview-me
-            gen_id = "interview-me" if item["skillId"] == "addy-osmani/interview-me" else item["proposedGeneric"]
+            # Before Step 2 renames grill-me -> interview-me, ratify against grill-me in live_catalog
+            gen_id = "grill-me" if item["skillId"] == "addy-osmani/interview-me" else item["proposedGeneric"]
             lines.append(
                 f'GAIA dev ratify {shlex.quote(packet_rel)} --decision MAP --generic-id {shlex.quote(gen_id)} '
                 f'--contributor {shlex.quote(contributor)} --skill-name {shlex.quote(skill_name)} --skill-file-url {shlex.quote(item["sourceUrl"])} '
                 f'--assessment {shlex.quote(assess_rel)} --reviewed-by "$REVIEWER" --approval-ref "$APPROVAL_REF" '
                 f'--reason {shlex.quote(clean_reason)} --acknowledge-human-review'
             )
+
+    lines.extend([
+        "",
+        "echo \"=== Step 2: Generic Node Renames and New Generics / Fusions ===\"",
+        "# 2a. Rename grill-me -> interview-me so both mattpocock/grill-me and addy-osmani/interview-me are named implementations",
+        "GAIA dev rename grill-me interview-me --no-build",
+        "",
+        "# 2b. Create the 4 new basic generic nodes per founder choices",
+        f'GAIA dev add {shlex.quote("Knowledge Enrichment")} --id knowledge-enrichment --type basic --description {shlex.quote("Enriches existing knowledge records with structured context, relationships, and useful metadata while preserving their source meaning.")} --no-build',
+        f'GAIA dev add {shlex.quote("Google Workspace Automation")} --id google-workspace-automation --type basic --description {shlex.quote("Automates repeatable workflows across Google Workspace services using connected applications and their native data.")} --no-build',
+        f'GAIA dev add {shlex.quote("Brain Publishing")} --id brain-publishing --type basic --description {shlex.quote("Publishes selected knowledge-base content as controlled, shareable pages while preserving access and privacy boundaries.")} --no-build',
+        f'GAIA dev add {shlex.quote("Knowledge Query")} --id knowledge-query --type basic --description {shlex.quote("Performs focused lookup and retrieval over a knowledge base, returning directly relevant information without broader synthesis or authoring.")} --no-build',
+        "",
+        "# 2c. Create the 6 new fusion generic nodes with prerequisites per founder choices",
+        f'GAIA dev fuse product-design-review --name {shlex.quote("Product Design Review")} --description {shlex.quote("Combines product-design work with structured design review to turn product goals into evaluated interface decisions.")} --prereqs design-generation,design-review --no-build',
+        f'GAIA dev fuse animation-performance --name {shlex.quote("Animation Performance")} --description {shlex.quote("Diagnoses and improves runtime and rendering performance in interactive animations while preserving intended motion behavior.")} --prereqs performance-tuning,timeline-animation --no-build',
+        f'GAIA dev fuse ui-red-teaming --name {shlex.quote("UI Red Teaming")} --description {shlex.quote("Adversarially probes user interfaces for exploitable interaction, accessibility, and resilience failures, combining red-team testing with UI audit.")} --prereqs adversarial-robustness-testing,ui-audit --no-build',
+        f'GAIA dev fuse company-knowledge-management --name {shlex.quote("Company Knowledge Management")} --description {shlex.quote("Builds and maintains an internal company knowledge system by combining knowledge management with organization-specific knowledge capture and retrieval.")} --prereqs domain-modeling,knowledge-management --no-build',
+        f'GAIA dev fuse knowledge-aware-frontend --name {shlex.quote("Knowledge-Aware Frontend")} --description {shlex.quote("Combines frontend implementation with knowledge-management practices so interface changes preserve and expose relevant product knowledge.")} --prereqs knowledge-management,web-best-practices --no-build',
+        f'GAIA dev fuse voice-knowledge-ingestion --name {shlex.quote("Voice Knowledge Ingestion")} --description {shlex.quote("Turns spoken notes into accurately captured and organized knowledge, combining voice processing with knowledge ingestion.")} --prereqs knowledge-harvest,voice-agent --no-build',
+        "",
+        "# 2d. Wire prerequisite links per founder notes (brain-publishing and knowledge-query as prerequisites to gbrain; knowledge-management is already linked)",
+        "GAIA dev link gbrain brain-publishing,knowledge-query --no-build",
+    ])
 
     lines.extend([
         "",
