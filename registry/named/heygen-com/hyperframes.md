@@ -105,6 +105,12 @@ timeline:
   contributor: nova-gaia
   details: 'TM 166.92 -> 171.92, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-02T22:17:09Z'
+  action: upstream_synced
+  contributor: mbtiongson1
+  previousValue: v0.8.209
+  newValue: v0.8.225
+  details: synced from https://github.com/heygen-com/hyperframes/releases/tag/v0.8.225
 evidence:
 - source: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes/SKILL.md
   updatedAt: '2026-10-01'
@@ -157,11 +163,11 @@ overallTrustGrade: A
 trustMagnitudeInputHash: db32830b323d3998d9bdc26306e24d73b4a60d47ae7e8639b19ab1f9c039dadf
 upstream:
   mode: components
-  releasedAt: '2026-10-27T15:10:55Z'
+  releasedAt: '2026-10-31T21:24:31Z'
   repo: heygen-com/hyperframes
-  sourceUrl: https://github.com/heygen-com/hyperframes/releases/tag/v0.8.209
-  syncedAt: '2026-10-27T21:38:52Z'
-  version: v0.8.209
+  sourceUrl: https://github.com/heygen-com/hyperframes/releases/tag/v0.8.225
+  syncedAt: '2026-11-02T22:17:09Z'
+  version: v0.8.225
 ---
 
 ## Installation

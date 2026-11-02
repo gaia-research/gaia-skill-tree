@@ -1,0 +1,80 @@
+{
+  "id": "addy-osmani/interview-me",
+  "name": "interview-me",
+  "contributor": "addy-osmani",
+  "level": "2★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 50.0,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/addy-osmani/interview-me.json",
+    "contributor": "/api/v1/contributors/addy-osmani.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 80.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 4,
+    "maxDepth": 2,
+    "nestedSuiteCount": 0
+  },
+  "title": "Interview Me",
+  "genericSkillRef": "interview-me",
+  "origin": false,
+  "description": "Extracts what the user actually wants instead of what they think they should want. Achieves this through one-question-at-a-time interview until ~95% confidence about the underlying intent. Use when an ask is underspecified (\"build me X\" without \"for whom\" or \"why now\"), when the user explicitly invokes (\"interview me\", \"grill me\", \"are we sure?\", \"stress-test my thinking\"), or when you catch yours",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/interview-me/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-03",
+      "type": "github-stars-own",
+      "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag (subject to 50.0 TM suite sibling cap per META §2.1a)",
+      "stars": 111110,
+      "grade": "A"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:53:45Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill addy-osmani/interview-me"
+    },
+    {
+      "timestamp": "2026-11-02T21:55:50Z",
+      "action": "suite_ref_set",
+      "contributor": "mbtiongson1",
+      "details": "Set suiteRef to addy-osmani/agent-skills"
+    },
+    {
+      "timestamp": "2026-11-02T21:55:52Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/interview-me/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-11-02T22:14:48Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/interview-me/SKILL.md"
+  }
+}

@@ -15,7 +15,7 @@ The apex of agentic design alignment. Fuses relentless Socratic questioning with
 
 ## Prerequisites
 
-- [Grill Me](/skills/fusion/grill-me.md)
+- [Grill Me](/skills/fusion/interview-me.md)
 - [Ubiquitous Language](/skills/fusion/ubiquitous-language.md)
 - [Document Editing](/skills/basic/document-editing.md)
 

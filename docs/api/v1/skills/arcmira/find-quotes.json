@@ -1,0 +1,74 @@
+{
+  "id": "arcmira/find-quotes",
+  "name": "find-quotes",
+  "contributor": "arcmira",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 30.83,
+  "overallTrustGrade": "C",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/arcmira/find-quotes.json",
+    "contributor": "/api/v1/contributors/arcmira.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 0.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 0,
+    "transitiveCount": 0,
+    "maxDepth": 0,
+    "nestedSuiteCount": 0
+  },
+  "title": "Find Quotes",
+  "genericSkillRef": "retrieve",
+  "origin": true,
+  "description": "Finds exact spoken quotes and clip-ready moments on podcasts and YouTube: verbatim words, speaker, date, a timestamped link, clip start and end. Uses arcmira.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/arcmira/mcp/blob/v0.10.6/plugins/arcmira/skills/find-quotes/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-03",
+      "type": "github-stars-own",
+      "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag",
+      "stars": 76,
+      "grade": "C"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:53:46Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill arcmira/find-quotes"
+    },
+    {
+      "timestamp": "2026-11-02T21:55:56Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/arcmira/mcp/blob/v0.10.6/plugins/arcmira/skills/find-quotes/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-11-02T22:14:52Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 30.83, grade (none) -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/arcmira/mcp/blob/v0.10.6/plugins/arcmira/skills/find-quotes/SKILL.md"
+  }
+}

@@ -9,7 +9,7 @@ level: 3★
 description: Project initialization, template scaffolding, skill lifecycle management,
   and CI render runner for HyperFrames video projects.
 createdAt: '2026-09-07'
-updatedAt: '2026-09-07'
+updatedAt: '2026-10-30'
 title: The Project Scaffolder
 links:
   github: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-cli/SKILL.md
@@ -48,6 +48,11 @@ timeline:
   action: installation_updated
   contributor: mbtiongson1
   details: 'Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-cli.md'
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-cli/SKILL.md
   updatedAt: '2026-10-01'
@@ -72,7 +77,7 @@ verification:
 suiteRef: heygen-com/hyperframes
 trustMagnitude: 50.0
 overallTrustGrade: B
-trustMagnitudeInputHash: 23d8a654046f302410f88ae8b0616b389073d363079af40e5898eea0399fd8e7
+trustMagnitudeInputHash: a78270c53be33e94fa5a3f9caf74fc30335f72e9621c3b3501f4651bdab9ac62
 ---
 
 ## Installation

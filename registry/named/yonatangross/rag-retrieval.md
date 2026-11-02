@@ -22,7 +22,7 @@ tags:
 - reranking
 - agentic-rag
 createdAt: '2026-04-30'
-updatedAt: '2026-10-09'
+updatedAt: '2026-10-30'
 timeline:
 - timestamp: '2026-06-02T23:48:24Z'
   action: demote
@@ -50,6 +50,11 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/yonatangross/orchestkit/blob/main/plugins/ork/skills/rag-retrieval/SKILL.md
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -61,7 +66,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e8d306f84f5c3c8ea380ad4b6fe33f7ca45873ed33349883fbe2fd529a9bce7b
+trustMagnitudeInputHash: 0ccd4f6252c15621116375e62317818f2ff2e09d350ade51c0bfeb4004842b52
 ---
 
 ## Overview

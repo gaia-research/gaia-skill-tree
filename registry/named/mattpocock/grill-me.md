@@ -3,7 +3,7 @@ id: mattpocock/grill-me
 name: Grill Me
 contributor: mattpocock
 origin: false
-genericSkillRef: grill-me
+genericSkillRef: interview-me
 status: named
 title: The Relentless Interviewer
 catalogRef: mattpocock-grill-me
@@ -135,7 +135,7 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-19T12:00:13Z'
 trustMagnitudeInputHash: c35a5c427b8915e22a0ac8d17ab0a6bf03a1bf3086797c5c59fc2d5f1fa54f2e
-suiteRef: "mattpocock/skills"
+suiteRef: mattpocock/skills
 ---
 
 ## Overview

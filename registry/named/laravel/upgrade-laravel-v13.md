@@ -17,8 +17,44 @@ tags:
 - framework-upgrade
 - migration
 createdAt: '2026-04-30'
-updatedAt: '2026-09-10'
-evidence: []
+updatedAt: '2026-10-30'
+evidence:
+- source: https://github.com/laravel/boost/blob/main/src/Mcp/Prompts/UpgradeLaravelv13/UpgradeLaravelV13.php
+  evaluator: mbtiongson1
+  date: '2026-10-29'
+  type: github-stars-own
+  notes: 'Source of the /upgrade-laravel-v13 prompt (name = ''upgrade-laravel-v13'')
+    in the first-party laravel/boost MCP server, one of 10 prompts under src/Mcp/Prompts;
+    blob URL verified HTTP 200. Stars: GitHub REST stargazers_count of laravel/boost
+    at 2026-10-29. Also referenced by the official Laravel 13 upgrade guide (laravel/docs
+    upgrade.md). Founder ruling 2026-10-30 FD-14.'
+  stars: 3670
+  skillCountInRepo: 10
+  sourceStartedAt: '2025-07-15'
+  grade: A
+- source: https://github.com/laravel/boost
+  evaluator: mbtiongson1
+  date: '2026-10-29'
+  type: repo-own
+  notes: GitHub REST default-branch commit count and contributor count of laravel/boost
+    at 2026-10-29; host-repository maintenance, not independent quality evidence.
+    Founder ruling 2026-10-30 FD-14.
+  commits: 1125
+  contributors: 140
+  sourceStartedAt: '2025-07-15'
+  grade: B
+- source: https://www.youtube.com/watch?v=CH8y8nR_uTI
+  evaluator: mbtiongson1
+  date: '2026-10-29'
+  type: social-signal
+  notes: Laravel Daily (independent creator) hands-on test of the Laravel Boost /upgrade
+    command (upgrade-laravel-v13) against Laravel Shift; 5,094 views and 115 likes
+    retrieved via firecrawl scrape 2026-10-29, uploaded 2026-03-23. Founder ruling
+    2026-10-30 FD-14.
+  views: 5094
+  likes: 115
+  sourceStartedAt: '2026-03-23'
+  grade: B
 timeline:
 - timestamp: '2026-06-14T12:32:42Z'
   action: evidence_graded
@@ -50,8 +86,27 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 2★ to 1★
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- timestamp: '2026-10-29T16:57:43Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/laravel/boost/blob/main/src/Mcp/Prompts/UpgradeLaravelv13/UpgradeLaravelV13.php
+    (type: github-stars-own)'
+- timestamp: '2026-10-29T16:57:44Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/laravel/boost (type: repo-own)'
+- timestamp: '2026-10-29T16:58:47Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://www.youtube.com/watch?v=CH8y8nR_uTI (type:
+    social-signal)'
+- timestamp: '2026-10-29T16:59:48Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 159.24, grade ungraded -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 159.24
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -61,8 +116,10 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 91d49986f363f2adcc80b2fb47dbb4b7bba964704c3dcc8473d47b0e237fe001
+trustMagnitudeInputHash: 5ff51c677b6a29221af9a24ca8410f23cf2b79804bdaca356ed5a0f3455069f6
 installable: false
+verification:
+  firstEvidenceAt: '2026-10-29T16:57:43Z'
 ---
 
 ## Overview

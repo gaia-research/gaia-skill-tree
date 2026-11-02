@@ -25,7 +25,7 @@
   },
   "title": "HyperFrames",
   "genericSkillRef": "video-composition",
-  "origin": false,
+  "origin": true,
   "description": "Suite orchestrator and router for HyperFrames: programmatic video composition framework compiling HTML, CSS, JavaScript, WebGL, WebGPU, and Canvas into production videos.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -184,6 +184,14 @@
       "action": "recalibrate_trust_magnitude",
       "contributor": "nova-gaia",
       "details": "TM 166.92 -> 171.92, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-11-02T22:17:09Z",
+      "action": "upstream_synced",
+      "contributor": "mbtiongson1",
+      "previousValue": "v0.8.209",
+      "newValue": "v0.8.225",
+      "details": "synced from https://github.com/heygen-com/hyperframes/releases/tag/v0.8.225"
     }
   ],
   "links": {

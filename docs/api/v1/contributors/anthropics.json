@@ -19,6 +19,23 @@
       "genericSkillRef": "brand-guideline-application"
     },
     {
+      "id": "anthropics/creating-financial-models",
+      "name": "creating-financial-models",
+      "level": "2★",
+      "trustMagnitude": 127.83,
+      "overallTrustGrade": "A",
+      "fusionScore": 100.0,
+      "contributor": "anthropics",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/anthropics/creating-financial-models.json"
+      },
+      "genericSkillRef": "financial-modeling"
+    },
+    {
       "id": "anthropics/canvas-design",
       "name": "Canvas Design",
       "level": "2★",
@@ -36,15 +53,15 @@
       "genericSkillRef": "static-artwork-design"
     }
   ],
-  "namedSkillsCount": 2,
+  "namedSkillsCount": 3,
   "topSkill": {
     "id": "anthropics/brand-guidelines",
     "level": "4★",
     "trustMagnitude": 184.87
   },
-  "prestigeScore": 228.39,
+  "prestigeScore": 356.22,
   "gradeDistribution": {
-    "A": 1,
+    "A": 2,
     "C": 1
   },
   "_links": {

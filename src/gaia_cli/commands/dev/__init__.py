@@ -694,11 +694,11 @@ class DevCommand(Command):
         dev_update_named.add_argument(
             "--origin",
             choices=["true", "false"],
-            help="Set the origin flag to true or false",
+            help="Retired: Origin is automatic (highest merit per bucket, META.md §4.1). Refuses with a pointer.",
         )
         dev_update_named.add_argument(
             "--notes",
-            help="Rationale appended to the timeline event logged for --origin changes",
+            help="Rationale appended to timeline events logged by this update",
         )
         dev_update_named.add_argument(
             "--github-link",
@@ -1116,11 +1116,11 @@ class DevCommand(Command):
 
         dev_freeze = dev_sub.add_parser(
             "freeze",
-            help="Set installable: false and append upstream_deprecated timeline event",
+            help="Freeze any named node (a suite freezes its components): lock TM/grade, set installable: false, log upstream_deprecated",
         )
         dev_freeze.add_argument(
             "skill_id",
-            help="Named skill ID to freeze (e.g. mattpocock/old-skill)",
+            help="Named skill or suite capstone ID to freeze (e.g. mattpocock/old-skill, mattpocock/personal)",
         )
         dev_freeze.add_argument(
             "--reason",

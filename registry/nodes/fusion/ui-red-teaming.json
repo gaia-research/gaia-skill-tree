@@ -1,0 +1,31 @@
+{
+  "id": "ui-red-teaming",
+  "name": "UI Red Teaming",
+  "type": "fusion",
+  "description": "Adversarially probes user interfaces for exploitable interaction, accessibility, and resilience failures, combining red-team testing with UI audit.",
+  "prerequisites": [
+    "adversarial-robustness-testing",
+    "ui-audit"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-03",
+  "updatedAt": "2026-11-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:53:31Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Created generic fusion node 'ui-red-teaming' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-11-02T21:53:31Z",
+      "action": "fuse",
+      "contributor": "mbtiongson1",
+      "details": "Set prerequisites via `gaia dev fuse`: adversarial-robustness-testing, ui-audit."
+    }
+  ]
+}

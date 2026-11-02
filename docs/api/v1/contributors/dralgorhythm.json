@@ -1,0 +1,36 @@
+{
+  "handle": "dralgorhythm",
+  "namedSkills": [
+    {
+      "id": "dralgorhythm/compliance",
+      "name": "compliance",
+      "level": "2★",
+      "trustMagnitude": 34.38,
+      "overallTrustGrade": "C",
+      "fusionScore": 160.0,
+      "contributor": "dralgorhythm",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/dralgorhythm/compliance.json"
+      },
+      "genericSkillRef": "regulatory-compliance-mapping"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "dralgorhythm/compliance",
+    "level": "2★",
+    "trustMagnitude": 34.38
+  },
+  "prestigeScore": 34.38,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/dralgorhythm.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

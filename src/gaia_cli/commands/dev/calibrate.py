@@ -18,6 +18,7 @@ from gaia_cli.commands.dev.helpers import (
     _preflight_calibrate_status,
     _preflight_star_gate,
     _fail_dev_preflight,
+    preflightNamedSkillMutable,
 )
 
 
@@ -49,6 +50,7 @@ def meta_calibrate_command(args):
 
     skill_data, body = _parse_md(node_file)
     _run_dev_preflights([
+        lambda: preflightNamedSkillMutable(registry_path, skill_id),
         lambda: _preflight_starbar_blob_link(skill_id, skill_data, level),
         lambda: _preflight_calibrate_status(skill_id, skill_data, level),
         lambda: _preflight_star_gate(skill_id, skill_data, level, registry_path),
@@ -159,6 +161,21 @@ def calibrate_evidence_grades_command(args):
             except Exception:
                 pass
 
+    frozen_named_ids: set[str] = set()
+    named_dir = Path(named_skills_dir(registry_path))
+    if named_dir.exists():
+        from gaia_cli.frozen import frozenIds
+
+        named_metas = []
+        for md_file in named_dir.rglob("*.md"):
+            try:
+                meta_fm, _body = _parse_md(md_file)
+            except Exception:
+                continue
+            if isinstance(meta_fm, dict) and meta_fm.get("id"):
+                named_metas.append(meta_fm)
+        frozen_named_ids = frozenIds(named_metas)
+
     total_updated = 0
     total_skipped = 0
     total_errors = 0
@@ -237,14 +254,17 @@ def calibrate_evidence_grades_command(args):
                 total_errors += 1
 
     if scope in ("all", "named"):
-        named_dir = Path(named_skills_dir(registry_path))
         if named_dir.exists():
             for md_file in named_dir.rglob("*.md"):
                 try:
                     meta_fm, body = _parse_md(md_file)
-                    skill_id_nm = meta_fm.get("genericSkillRef") or meta_fm.get("id")
+                    named_id = meta_fm.get("id") or ""
+                    if named_id in frozen_named_ids:
+                        print(f"  {named_id}: skipped (frozen)")
+                        total_skipped += 1
+                        continue
+                    skill_id_nm = meta_fm.get("genericSkillRef") or named_id
                     if target_skill:
-                        named_id = meta_fm.get("id") or ""
                         if named_id != target_skill and skill_id_nm != target_skill:
                             continue
                     ev_list = meta_fm.get("evidence") or []
@@ -307,12 +327,21 @@ def calibrate_trust_magnitude_command(args):
         sys.exit(1)
 
     named_dir = Path(named_skills_dir(registry_path))
+    all_metas = []
+    for md_file in sorted(named_dir.rglob("*.md")):
+        meta, _ = _parse_md(md_file)
+        if isinstance(meta, dict) and meta.get("id"):
+            all_metas.append(meta)
+    from gaia_cli.frozen import frozenIds
+    frozen_ids = frozenIds(all_metas)
 
     if refresh_all:
         skill_ids = []
-        for md_file in sorted(named_dir.rglob("*.md")):
-            meta, _ = _parse_md(md_file)
+        for meta in all_metas:
             if meta.get("status") == "named" and meta.get("id"):
+                if meta["id"] in frozen_ids:
+                    print(f"  {meta['id']}: skipped (frozen)")
+                    continue
                 skill_ids.append(meta["id"])
 
     missing = []
@@ -332,7 +361,10 @@ def calibrate_trust_magnitude_command(args):
                     "`gaia dev calibrate-trust-magnitude --skill mattpocock/skills`.",
             )
 
-    _run_dev_preflights([_preflight_targets_exist])
+    _run_dev_preflights([
+        _preflight_targets_exist,
+        *([] if refresh_all else [lambda: preflightNamedSkillMutable(registry_path, skill_id) for skill_id in skill_ids]),
+    ])
 
     if not dry_run:
         _confirm_destructive(

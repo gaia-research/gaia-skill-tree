@@ -2,14 +2,14 @@
 id: ayghri/i-have-adhd
 name: I Have ADHD
 contributor: ayghri
-origin: false
+origin: true
 genericSkillRef: format-output
 status: named
 level: 4★
 description: Structures raw output into a specified format such as markdown, JSON,
   CSV, HTML, or cognitive accessibility layout constraints.
 createdAt: '2026-07-30'
-updatedAt: '2026-10-24'
+updatedAt: '2026-10-30'
 title: I Have ADHD
 links:
   github: https://github.com/ayghri/i-have-adhd/blob/main/skills/i-have-adhd/SKILL.md
@@ -64,6 +64,16 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 119.66 -> 130.23, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-29T16:34:52Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Origin status set to true.
+- timestamp: '2026-10-29T16:34:52Z'
+  action: note
+  contributor: mbtiongson1
+  details: Bucket Origin assigned to the unique merit winner of its generic bucket
+    (sole top TM/level member); 4-star Unique gate (checkUniqueBranchGate, bucket-level
+    Origin + TM>=100) now satisfied. Founder ruling 2026-10-30 FD-10 (Assign the four).
 evidence:
 - source: https://github.com/ayghri/i-have-adhd
   updatedAt: '2026-10-01'

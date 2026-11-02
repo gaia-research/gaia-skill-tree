@@ -1,0 +1,80 @@
+{
+  "id": "addy-osmani/debugging-and-error-recovery",
+  "name": "debugging-and-error-recovery",
+  "contributor": "addy-osmani",
+  "level": "2★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 50.0,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/addy-osmani/debugging-and-error-recovery.json",
+    "contributor": "/api/v1/contributors/addy-osmani.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 40.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 2,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
+  },
+  "title": "Debugging And Error Recovery",
+  "genericSkillRef": "systematic-debugging",
+  "origin": false,
+  "description": "Guides systematic root-cause debugging. Use when tests fail, builds break, something that worked yesterday broke, behavior doesn't match expectations, or you encounter any unexpected error. Use when you need to figure out what broke and why — a systematic approach to finding and fixing the root cause rather than guessing.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/debugging-and-error-recovery/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-03",
+      "type": "github-stars-own",
+      "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag (subject to 50.0 TM suite sibling cap per META §2.1a)",
+      "stars": 111110,
+      "grade": "A"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:53:41Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill addy-osmani/debugging-and-error-recovery"
+    },
+    {
+      "timestamp": "2026-11-02T21:55:33Z",
+      "action": "suite_ref_set",
+      "contributor": "mbtiongson1",
+      "details": "Set suiteRef to addy-osmani/agent-skills"
+    },
+    {
+      "timestamp": "2026-11-02T21:55:36Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/debugging-and-error-recovery/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-11-02T22:14:44Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/debugging-and-error-recovery/SKILL.md"
+  }
+}

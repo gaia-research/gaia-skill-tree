@@ -1,0 +1,36 @@
+{
+  "handle": "theqtcompanyrnd",
+  "namedSkills": [
+    {
+      "id": "theqtcompanyrnd/qt-qml-review",
+      "name": "qt-qml-review",
+      "level": "2★",
+      "trustMagnitude": 59.74,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "theqtcompanyrnd",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/theqtcompanyrnd/qt-qml-review.json"
+      },
+      "genericSkillRef": "code-review-pipeline"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "theqtcompanyrnd/qt-qml-review",
+    "level": "2★",
+    "trustMagnitude": 59.74
+  },
+  "prestigeScore": 59.74,
+  "gradeDistribution": {
+    "B": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/theqtcompanyrnd.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}
