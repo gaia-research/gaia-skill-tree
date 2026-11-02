@@ -384,7 +384,10 @@ def test_cli_shadow_command_writes_into_scratch(tmp_path: Path) -> None:
     # Verify JSON content
     loaded = json.loads(written["json"].read_text(encoding="utf-8"))
     assert loaded["metadata"]["engineVersion"] == shadow.SHADOW_ENGINE_VERSION
-    assert loaded["summary"]["targetSkillsCount"] == 48
+    # 47, not 48: founder ruling 2026-10-30 FD-11 promoted
+    # google-deepmind/workflow-skill-creator from awakened to named, so one fewer
+    # awakened skill remains in the corpus.
+    assert loaded["summary"]["targetSkillsCount"] == 47
     assert loaded["summary"]["manifestVerification"]["clean"] is True
 
     # Verify summary text

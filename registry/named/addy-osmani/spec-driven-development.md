@@ -9,7 +9,7 @@ level: 3★
 description: Spec-driven development workflow enforcing specification generation before
   any coding starts.
 createdAt: '2026-07-03'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-30'
 timeline:
 - timestamp: '2026-07-02T18:42:16Z'
   action: add
@@ -83,6 +83,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 5★ to 3★
+- timestamp: '2026-10-30T04:58:32Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 80.0 -> 80.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md
   updatedAt: '2026-10-01'
@@ -124,7 +129,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 78a1b83668e22400a25e826afd32045115ab7e8dd7e550a90d570a50ade8cf74
+trustMagnitudeInputHash: 814014aad14a846f70c6e3a95ab3e0dae7df8901fe46b8f5ae622255bc5957dd
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md
 ---

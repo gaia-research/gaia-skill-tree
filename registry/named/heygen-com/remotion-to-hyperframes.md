@@ -11,7 +11,7 @@ description: Port an existing Remotion (React) composition's source to HyperFram
   — one-way, Remotion-only. A passing Remotion mention, reference-only code, or "make
   something like my Remotion video" is a fresh build (/general-video). Unclear → /hyperframes.
 createdAt: '2026-09-07'
-updatedAt: '2026-09-07'
+updatedAt: '2026-10-30'
 title: The Framework Migrator
 timeline:
 - timestamp: '2026-09-06T17:23:08Z'
@@ -56,6 +56,11 @@ timeline:
   action: installation_updated
   contributor: mbtiongson1
   details: 'Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/remotion-to-hyperframes.md'
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 links:
   github: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/remotion-to-hyperframes/SKILL.md
 evidence:
@@ -84,7 +89,7 @@ verification:
 suiteRef: heygen-com/hyperframes
 trustMagnitude: 50.0
 overallTrustGrade: B
-trustMagnitudeInputHash: 94671e8b7596a705d9591888138e8c94a68e354eeffe32e64c3afa09fa3f4ed3
+trustMagnitudeInputHash: 3ffb6411d1d61e36d61220294597ce842a212c7a60ae759347fd56c4b7135389
 ---
 
 ## Installation

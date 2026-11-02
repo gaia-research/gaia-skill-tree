@@ -222,11 +222,7 @@
             "register",
             "bond",
             "push",
-            "rename",
-            "migrate_evidence",
-            "assertion_transition",
-            "metric_refresh",
-            "reconcile_owner"
+            "rename"
           ],
           "description": "The meta-action that occurred."
         },
@@ -248,39 +244,8 @@
         "newValue": {
           "type": "string",
           "description": "The level/status after this event (e.g. '3★')."
-        },
-        "decisionRef": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S",
-          "description": "Decision or migration linkage recorded by the canonical workflow; reference metadata only and not authenticated approval."
-        },
-        "eventId": {
-          "type": "string",
-          "pattern": "^[a-f0-9]{64}$",
-          "description": "SHA-256 event identity emitted by the canonical workflow; integrity/linkage metadata only and not approval authentication."
         }
-      },
-      "allOf": [
-        {
-          "if": {
-            "properties": {
-              "action": {
-                "enum": [
-                  "migrate_evidence",
-                  "assertion_transition",
-                  "metric_refresh",
-                  "reconcile_owner"
-                ]
-              }
-            },
-            "required": ["action"]
-          },
-          "then": {
-            "required": ["decisionRef", "eventId"]
-          }
-        }
-      ]
+      }
     }
   }
 }

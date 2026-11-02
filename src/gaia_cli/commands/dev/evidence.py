@@ -18,6 +18,7 @@ from gaia_cli.commands.dev.helpers import (
     _preflight_evidence_index_bounds,
     _preflight_duplicate_evidence_source,
     _preflight_benchmark_row,
+    preflightNamedSkillMutable,
 )
 
 
@@ -276,6 +277,7 @@ def meta_evidence_command(args):
             sys.exit(1)
         meta, body = _parse_md(named_file)
         _run_dev_preflights([
+            lambda: preflightNamedSkillMutable(registry_path, skill_id),
             lambda: _preflight_evidence_index_bounds(skill_id, meta.get("evidence") or [], index),
             lambda: _preflight_duplicate_evidence_source(skill_id, meta.get("evidence") or [], args.source, evidence_type),
         ])
@@ -425,6 +427,9 @@ def meta_rm_evidence_command(args):
             print(f"Error: Named skill '{skill_id}' not found.")
             sys.exit(1)
         meta, body = _parse_md(named_file)
+        _run_dev_preflights([
+            lambda: preflightNamedSkillMutable(registry_path, skill_id),
+        ])
         kept, removed = _filter(meta.get("evidence", []))
         if not removed:
             print(f"No matching evidence on '{skill_id}'.")

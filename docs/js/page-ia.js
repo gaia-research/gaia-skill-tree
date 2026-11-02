@@ -271,7 +271,7 @@
 
           var originHtml = '';
           if (claim.origin && typeof window.gaiaIcon === 'function') {
-            originHtml = '<span class="plaque__origin" data-tooltip="Origin contributor: The creator of the first skill version" aria-label="Origin contributor: The creator of the first skill version">' +
+            originHtml = '<span class="plaque__origin" data-tooltip="Origin: Current highest-merit implementation (ties share Origin)" aria-label="Origin: Current highest-merit implementation (ties share Origin)">' +
               window.gaiaIcon('origin-badge', { size: 16 }) +
               '<span class="origin-info" style="margin-left: 3px; color: var(--muted); opacity: 0.7;">' + window.gaiaIcon('info', { size: 10 }) + '</span>' +
               '</span>';

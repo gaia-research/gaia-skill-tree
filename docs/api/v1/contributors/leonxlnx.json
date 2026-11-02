@@ -168,23 +168,6 @@
       "genericSkillRef": "design-generation"
     },
     {
-      "id": "leonxlnx/output-skill",
-      "name": "output-skill",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "leonxlnx",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/output-skill.json"
-      },
-      "genericSkillRef": "format-output"
-    },
-    {
       "id": "leonxlnx/redesign-skill",
       "name": "redesign-skill",
       "level": "3★",
@@ -234,6 +217,23 @@
         "self": "/api/v1/skills/leonxlnx/stitch-skill.json"
       },
       "genericSkillRef": "design-system-extraction"
+    },
+    {
+      "id": "leonxlnx/output-skill",
+      "name": "output-skill",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/output-skill.json"
+      },
+      "genericSkillRef": "format-output"
     }
   ],
   "namedSkillsCount": 13,
@@ -242,10 +242,11 @@
     "level": "4★",
     "trustMagnitude": 174.68
   },
-  "prestigeScore": 816.14,
+  "prestigeScore": 802.14,
   "gradeDistribution": {
     "A": 1,
-    "B": 12
+    "B": 11,
+    "C": 1
   },
   "_links": {
     "self": "/api/v1/contributors/leonxlnx.json",

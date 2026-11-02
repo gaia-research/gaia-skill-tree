@@ -2,7 +2,7 @@
 id: dietrichgebert/ponytail
 name: Ponytail
 contributor: dietrichgebert
-origin: false
+origin: true
 genericSkillRef: implement-with-discernment
 status: named
 level: 4★
@@ -10,7 +10,7 @@ description: 'Forces the laziest solution that actually works: question whether 
   task should exist, prefer standard library and native features, and ship the smallest
   correct implementation.'
 createdAt: '2026-07-31'
-updatedAt: '2026-10-24'
+updatedAt: '2026-10-30'
 title: Ponytail
 links:
   github: https://github.com/DietrichGebert/ponytail/blob/main/skills/ponytail/SKILL.md
@@ -53,6 +53,16 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 221.96 -> 225.42, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-29T16:34:54Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Origin status set to true.
+- timestamp: '2026-10-29T16:34:55Z'
+  action: note
+  contributor: mbtiongson1
+  details: Bucket Origin assigned to the unique merit winner of its generic bucket
+    (sole top TM/level member); 4-star Unique gate (checkUniqueBranchGate, bucket-level
+    Origin + TM>=100) now satisfied. Founder ruling 2026-10-30 FD-10 (Assign the four).
 evidence:
 - source: https://github.com/DietrichGebert/ponytail
   evaluator: unknown

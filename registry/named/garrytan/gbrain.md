@@ -9,7 +9,7 @@ level: 4★
 description: The installable GBrain router and capstone for knowledge capture, operations,
   and concept synthesis.
 createdAt: '2026-09-07'
-updatedAt: '2026-09-07'
+updatedAt: '2026-10-30'
 title: GBrain — Knowledge Intelligence Suite
 links:
   github: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/README.md
@@ -50,6 +50,11 @@ timeline:
   previousValue: v0.51.6.0
   newValue: v0.60.474.0
   details: synced from https://github.com/garrytan/gbrain/releases/tag/v0.60.474.0
+- timestamp: '2026-10-30T04:58:32Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 121.94, grade (none) -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 suiteComponents:
 - garrytan/brain-ops
 - garrytan/capture
@@ -77,6 +82,9 @@ upstream:
   sourceUrl: https://github.com/garrytan/gbrain/releases/tag/v0.60.474.0
   syncedAt: '2026-10-27T21:38:50Z'
   version: v0.60.474.0
+trustMagnitude: 121.94
+overallTrustGrade: A
+trustMagnitudeInputHash: c233fa8a1f4001c94e6bd0d933cb6ee0e0b1be881f6931bf2cde40d213fa5f99
 ---
 
 ## Installation

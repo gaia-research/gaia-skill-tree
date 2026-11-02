@@ -97,13 +97,13 @@ Every 4★ promotion requires Overall Trust Grade A (TM ≥ 100) and live verifi
 evidence pointing to a concrete implementation file (The Star Bar, `META.md` §2.4).
 
 However, **Origin requirements fork by branch**:
-- **Unique branch** (standalone skill, no `suiteComponents`): 4★ Unique requires
-  **bucket-level Origin** — being the most-renowned named implementation in the
-  generic bucket (`META.md` §4.1; exactly one Origin per bucket). Before proposing
-  4★ Unique, check the bucket: `grep -rl "genericSkillRef: <slug>$" registry/named/`.
-  If a stronger incumbent holds the bucket, the A-grade skill caps at 3★ unless you
-  move competitors to a different generic (`gaia dev update-named <other> --generic-ref <new-bucket>`)
-  and set `--origin true`.
+- **Unique branch** (standalone skill, no `suiteComponents`): 4★ Unique and 5★ Unique
+  Ultimate require only that the skill is its own bucket's **Origin**, which is automatic:
+  the highest-merit implementation (published level, then TM; ties all hold it; no star
+  floor; `META.md` §4.1). There is no fusion-prerequisite Origin requirement. Before
+  proposing 4★ Unique, check the bucket: `grep -rl "genericSkillRef: <slug>$" registry/named/`.
+  If a higher-merit skill holds the bucket, the A-grade skill caps at 3★; `gaia dev calibrate`
+  reports this. Origin cannot be set by hand.
 - **Suite branch** (suite capstone carrying `suiteComponents`): 4★ Extra does **NOT**
   require bucket-level Origin on its generic bucket. The capstone represents a multi-skill
   suite rather than a single bucket monopoly. Suite origin requirements apply at

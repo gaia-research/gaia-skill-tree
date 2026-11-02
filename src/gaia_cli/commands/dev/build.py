@@ -68,12 +68,12 @@ def meta_add_command(args):
         if title:
             meta["title"] = title
 
-        # Apply --extra-fields for named skills (links, tags, catalogRef, origin, etc.)
+        # Apply --extra-fields for named skills (links, tags, catalogRef, etc.; origin is automatic)
         if getattr(args, "extra_fields", None):
             try:
                 extra = json.loads(args.extra_fields)
                 if isinstance(extra, dict):
-                    meta.update({k: v for k, v in extra.items() if v is not None})
+                    meta.update({k: v for k, v in extra.items() if v is not None and k != "origin"})
                 else:
                     print("Warning: --extra-fields must be a JSON object. Skipping.")
             except json.JSONDecodeError:

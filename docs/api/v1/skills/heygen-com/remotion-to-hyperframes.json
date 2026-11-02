@@ -25,7 +25,7 @@
   },
   "title": "The Framework Migrator",
   "genericSkillRef": "framework-upgrade",
-  "origin": false,
+  "origin": true,
   "description": "Port an existing Remotion (React) composition's source to HyperFrames HTML. Use ONLY on an explicit ask to port/convert/migrate/translate a Remotion source — one-way, Remotion-only. A passing Remotion mention, reference-only code, or \"make something like my Remotion video\" is a fresh build (/general-video). Unclear → /hyperframes.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -123,6 +123,12 @@
       "action": "installation_updated",
       "contributor": "mbtiongson1",
       "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/remotion-to-hyperframes.md"
+    },
+    {
+      "timestamp": "2026-10-30T04:58:33Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

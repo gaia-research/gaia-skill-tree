@@ -459,7 +459,7 @@ def _field_origin_star(ns: dict) -> str:
     # SVG sprite-driven origin badge shown inline beside @handle
     return (
         '<span class="plaque__origin ns-origin"'
-        ' data-tooltip="Origin contributor: The creator of the first skill version"'
+        ' data-tooltip="Origin: Current highest-merit implementation (ties share Origin)"'
         ' aria-label="Origin contributor">'
         f'<svg class="ico" width="14" height="14" aria-hidden="true">'
         f'<use href="{ICON_SPRITE_REL}#origin-badge"></use></svg>'
@@ -1326,8 +1326,8 @@ def build_directory_page(by_contributor: dict) -> str:
         if origin_count > 0:
             origin_badge_html = (
                 f'<span class="plaque__origin ns-origin" '
-                f'data-tooltip="Origin contributor: The creator of the first skill version" '
-                f'aria-label="Origin contributor: The creator of the first skill version">'
+                f'data-tooltip="Origin: Current highest-merit implementation (ties share Origin)" '
+                f'aria-label="Origin: Current highest-merit implementation (ties share Origin)">'
                 f'<svg class="ico" width="16" height="16" aria-hidden="true">'
                 f'<use href="../assets/icons.svg#origin-badge"></use></svg>'
                 f'</span>'

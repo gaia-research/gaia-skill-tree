@@ -866,9 +866,15 @@ def _applySuiteComponentRepositoryCap(
 
     factor = SUITE_COMPONENT_REPOSITORY_CAP / sharedTotal
     out = list(rowsWithScores)
-    for index in cappedIndices:
+    running = 0.0
+    for index in cappedIndices[:-1]:
         row, score = rowsWithScores[index]
-        out[index] = (row, (score or 0.0) * factor)
+        scaled = (score or 0.0) * factor
+        out[index] = (row, scaled)
+        running += scaled
+    last_index = cappedIndices[-1]
+    last_row, _ = rowsWithScores[last_index]
+    out[last_index] = (last_row, max(0.0, SUITE_COMPONENT_REPOSITORY_CAP - running))
     return out
 
 
@@ -1188,6 +1194,29 @@ def computeOverallTrustGrade(
     if trustMagnitude >= GRADE_C_FLOOR:
         return "C"
     return "ungraded"
+
+
+# Ceiling on displayed stars imposed by the overall Trust grade (META 1.1 / 4.2).
+# Single source of truth: the named index, the trust ledger and the leaderboard
+# all project the displayed level through clampLevelToGrade.
+GRADE_MAX_STARS = {"S": 6, "A": 4, "B": 3, "C": 2, "ungraded": 1}
+
+
+def maxStarsForGrade(grade: Optional[str]) -> int:
+    return GRADE_MAX_STARS.get(grade or "ungraded", 1)
+
+
+def clampLevelToGrade(level: str, grade: Optional[str]) -> str:
+    """Return the displayed level: the stored level, capped at the grade ceiling.
+
+    Returns `level` unchanged when it is already within the ceiling. Never
+    mutates registry data; callers use the result for display/projection only.
+    """
+    from gaia_cli.redaction import level_num
+    ceiling = maxStarsForGrade(grade)
+    if level_num(level or "") > ceiling:
+        return f"{ceiling}\u2605"
+    return level
 
 
 def computeOverallTrustGradeFromSkill(

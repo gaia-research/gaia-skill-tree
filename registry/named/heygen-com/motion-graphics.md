@@ -59,6 +59,13 @@ timeline:
   action: installation_updated
   contributor: mbtiongson1
   details: 'Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/motion-graphics.md'
+- timestamp: '2026-10-29T16:33:22Z'
+  action: upstream_deprecated
+  contributor: mbtiongson1
+  previousValue: null
+  newValue: null
+  details: 'founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes
+    skills/ at upstream v0.8.209; links.github kept, installable false'
 links:
   github: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/motion-graphics/SKILL.md
 evidence:
@@ -88,6 +95,7 @@ suiteRef: heygen-com/hyperframes
 trustMagnitude: 50.0
 overallTrustGrade: B
 trustMagnitudeInputHash: a894b7d1e00852d8f9c6090e1b6ddbe8d1cdb1d4ecb178d8ebe836e512e77f9b
+installable: false
 ---
 
 ## Installation

@@ -25,7 +25,7 @@
   },
   "title": "The Environment Scaffolder",
   "genericSkillRef": "agent-environment-setup",
-  "origin": false,
+  "origin": true,
   "description": "Scaffolds per-repo configuration for other engineering skills (like triage, tdd, diagnose).",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

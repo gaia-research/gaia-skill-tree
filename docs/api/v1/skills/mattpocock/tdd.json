@@ -25,7 +25,7 @@
   },
   "title": "Test-Driven Development",
   "genericSkillRef": "test-driven-development",
-  "origin": true,
+  "origin": false,
   "description": "Test-driven development with red-green-refactor, verifying behavior through public interfaces.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

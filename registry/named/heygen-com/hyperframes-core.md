@@ -48,6 +48,13 @@ timeline:
   action: installation_updated
   contributor: mbtiongson1
   details: 'Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-core.md'
+- timestamp: '2026-10-29T16:33:20Z'
+  action: upstream_deprecated
+  contributor: mbtiongson1
+  previousValue: null
+  newValue: null
+  details: 'founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes
+    skills/ at upstream v0.8.209; links.github kept, installable false'
 evidence:
 - source: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-core/SKILL.md
   updatedAt: '2026-10-01'
@@ -73,6 +80,7 @@ suiteRef: heygen-com/hyperframes
 trustMagnitude: 50.0
 overallTrustGrade: B
 trustMagnitudeInputHash: cf9d1fb0358cdec1d7d8a8f242fada6426ac8c54f90e632634b9e3ceeea61ae4
+installable: false
 ---
 
 ## Installation
