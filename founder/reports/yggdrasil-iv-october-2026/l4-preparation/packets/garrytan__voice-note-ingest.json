@@ -4,9 +4,8 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "NEW_GENERIC",
-    "reasonCode": "FOUNDER_L4_APPROVED_NEW_GENERIC_PREP",
+    "reasonCode": "L4_RATIFIED_NEW_GENERIC",
     "proposal": {
-      "id": "voice-knowledge-ingestion",
       "name": "Voice Knowledge Ingestion",
       "description": "Turns spoken notes into accurately captured and organized knowledge, combining voice processing with knowledge ingestion.",
       "type": "fusion",
@@ -4349,5 +4348,40 @@
     },
     "hostRepository": "https://github.com/garrytan/gbrain",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "voice-knowledge-ingestion",
+      "name": "Voice Knowledge Ingestion",
+      "description": "Turns spoken notes into accurately captured and organized knowledge, combining voice processing with knowledge ingestion.",
+      "type": "fusion",
+      "prerequisites": [
+        "knowledge-harvest",
+        "voice-agent"
+      ]
+    },
+    "named": {
+      "contributor": "garrytan",
+      "skillName": "voice-note-ingest"
+    },
+    "skillFileUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/voice-note-ingest/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "fusion of voice-agent and something",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__voice-note-ingest.assessment.json",
+      "assessmentReceiptDigest": "679e1cd3adbf74efadfc04f3a495783351c996ffdf5920e818c707a84d6e409b",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "voice-agent",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

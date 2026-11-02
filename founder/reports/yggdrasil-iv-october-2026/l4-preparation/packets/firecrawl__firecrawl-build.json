@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "browser-automation"
   },
   "exactDedupe": {
@@ -4363,5 +4363,40 @@
     },
     "hostRepository": "https://github.com/firecrawl/skills",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "browser-automation",
+      "name": "Browser Automation",
+      "description": "Navigates web pages, fills forms, clicks elements, and extracts information by combining web search with screenshot-based GUI control to complete multi-step web tasks.",
+      "type": "fusion",
+      "prerequisites": [
+        "computer-use",
+        "web-search"
+      ]
+    },
+    "named": {
+      "contributor": "firecrawl",
+      "skillName": "firecrawl-build"
+    },
+    "skillFileUrl": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "Founder note explicitly maps to browser automation.",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/firecrawl__firecrawl-build.assessment.json",
+      "assessmentReceiptDigest": "f03cc91b3d05adbb21e3213d65916c5d430f66419ef3a8503605eca0ff7f4202",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "firecrawl",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

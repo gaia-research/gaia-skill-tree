@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "mcp-integration"
   },
   "exactDedupe": {
@@ -4329,5 +4329,37 @@
     },
     "hostRepository": "https://github.com/garrytan/gbrain",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "mcp-integration",
+      "name": "MCP Integration",
+      "description": "Connect to and invoke tools exposed by Model Context Protocol (MCP) servers — enumerate available tools, execute calls, and handle responses across any MCP-compatible backend.",
+      "type": "basic",
+      "prerequisites": []
+    },
+    "named": {
+      "contributor": "garrytan",
+      "skillName": "mcp-access"
+    },
+    "skillFileUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/mcp-access/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "owner dashboard + OAuth client admin; prefill 0.457 weak",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__mcp-access.assessment.json",
+      "assessmentReceiptDigest": "892351210db25ed15ee482a1d79c01266d2174b4d0c164b437417171a8e37ecc",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "mcp-integration",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

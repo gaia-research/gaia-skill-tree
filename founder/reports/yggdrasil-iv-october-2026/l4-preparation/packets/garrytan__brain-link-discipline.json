@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "knowledge-management"
   },
   "exactDedupe": {
@@ -4316,5 +4316,40 @@
     },
     "hostRepository": "https://github.com/garrytan/gbrain",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "knowledge-management",
+      "name": "Knowledge Management",
+      "description": "Organizes, relates, and retrieves information across structured pages, databases, and shared knowledge bases, maintaining semantic links between information nodes.",
+      "type": "fusion",
+      "prerequisites": [
+        "api-call",
+        "retrieve"
+      ]
+    },
+    "named": {
+      "contributor": "garrytan",
+      "skillName": "brain-link-discipline"
+    },
+    "skillFileUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-link-discipline/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "link discipline gate",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__brain-link-discipline.assessment.json",
+      "assessmentReceiptDigest": "0a4ab1c169c0e125c28787d0ffd3c4b9cf92c8f64ec3b5157a09db16f949de44",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "NO_RECALL_POSSIBLE_NEW_GENERIC",
+        "targetGenericId": null,
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

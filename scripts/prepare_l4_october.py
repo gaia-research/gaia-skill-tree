@@ -377,41 +377,9 @@ def generate_command_spine(inv: dict) -> Path:
         'REVIEWER="Marcus Rafael B. Tiongson"',
         'APPROVAL_REF="founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices"',
         "",
-        "echo \"=== Step 1: L4 Ratification of Packets (against unmodified catalog snapshot) ===\"",
+        "echo \"=== Step 1: Verify L4 Ratified Packets (against unmodified catalog snapshot) ===\"",
+        'RUN_CMD python3 -c "import json,pathlib; from gaia_cli.intakeAdapter import validateL4Resolution; from gaia_cli.prefill import buildGenericSnapshot, selfValidatePacket; g=buildGenericSnapshot(\".\")[\"generics\"]; ps=sorted(pathlib.Path(\"founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets\").glob(\"*.json\")); errs=[(p.name, validateL4Resolution(json.loads(p.read_text()), requireHumanReview=False, trustedGenerics=g), selfValidatePacket(json.loads(p.read_text()), trustedGenerics=g)) for p in ps]; bad=[x for x in errs if x[1] or x[2]]; assert not bad, bad; print(f\"Verified {len(ps)} L4 ratified packets with 0 errors.\")"',
     ]
-
-    # Generate ratify commands BEFORE mutating registry/nodes/ so live_catalog matches genericSnapshot
-    for item in inv["items"]:
-        if item.get("disposition") in ("decline-support", "skip-existing", "skip-frozen"):
-            continue
-
-        slug = item["skillId"].replace("/", "__")
-        packet_rel = f"founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/{slug}.json"
-        assess_rel = f"founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/{slug}.assessment.json"
-        contributor, skill_name = item["skillId"].split("/", 1)
-        reason = item.get("mappingReason") or item.get("founderNote") or "Founder choice: approve topology."
-        clean_reason = reason.replace("\n", " ").strip()
-
-        if item["disposition"] == "approved-new-generic":
-            p = item["proposal"]
-            prereq_arg = f'--prereqs {shlex.quote(",".join(p["prerequisites"]))} ' if p.get("prerequisites") else ""
-            lines.append(
-                f'GAIA dev ratify {shlex.quote(packet_rel)} --decision NEW_GENERIC --generic-id {shlex.quote(p["id"])} '
-                f'--generic-name {shlex.quote(p["name"])} --generic-description {shlex.quote(p["description"])} '
-                f'--generic-type {shlex.quote(p["type"])} {prereq_arg}'
-                f'--contributor {shlex.quote(contributor)} --skill-name {shlex.quote(skill_name)} --skill-file-url {shlex.quote(item["sourceUrl"])} '
-                f'--assessment {shlex.quote(assess_rel)} --reviewed-by "$REVIEWER" --approval-ref "$APPROVAL_REF" '
-                f'--reason {shlex.quote(clean_reason)} --acknowledge-human-review'
-            )
-        else:
-            # Before Step 2 renames grill-me -> interview-me, ratify against grill-me in live_catalog
-            gen_id = "grill-me" if item["skillId"] == "addy-osmani/interview-me" else item["proposedGeneric"]
-            lines.append(
-                f'GAIA dev ratify {shlex.quote(packet_rel)} --decision MAP --generic-id {shlex.quote(gen_id)} '
-                f'--contributor {shlex.quote(contributor)} --skill-name {shlex.quote(skill_name)} --skill-file-url {shlex.quote(item["sourceUrl"])} '
-                f'--assessment {shlex.quote(assess_rel)} --reviewed-by "$REVIEWER" --approval-ref "$APPROVAL_REF" '
-                f'--reason {shlex.quote(clean_reason)} --acknowledge-human-review'
-            )
 
     lines.extend([
         "",
@@ -449,7 +417,7 @@ def generate_command_spine(inv: dict) -> Path:
 
         contributor, skill_name = item["skillId"].split("/", 1)
         gen_id = item.get("proposedGeneric")
-        if item["skillId"] == "addy-osmani/interview-me":
+        if gen_id in ("grill-me", "interview-me") or item["skillId"] == "addy-osmani/interview-me":
             gen_id = "interview-me"
 
         raw_name = item.get("name") or skill_name
@@ -503,7 +471,7 @@ def generate_command_spine(inv: dict) -> Path:
     lines.extend([
         "",
         "echo \"=== Step 4b: Refresh Trust Magnitude Caches ===\"",
-        "GAIA dev calibrate-trust-magnitude --all --no-build",
+        "GAIA dev calibrate-trust-magnitude --all --yes --no-build",
         "",
         "echo \"=== Step 5: Declined Support Skills Issue Closure ===\"",
         "# 8 support skills declined per founder rulings in CAMPAIGN.md.",

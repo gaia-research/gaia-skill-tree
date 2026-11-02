@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "schema-design"
   },
   "exactDedupe": {
@@ -4315,5 +4315,37 @@
     },
     "hostRepository": "https://github.com/garrytan/gbrain",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "schema-design",
+      "name": "Schema Design",
+      "description": "Design database schemas across relational, NoSQL, graph, and time-series stores — entity modelling, normalization, indexing strategies, and migration planning.",
+      "type": "basic",
+      "prerequisites": []
+    },
+    "named": {
+      "contributor": "garrytan",
+      "skillName": "schema-unify"
+    },
+    "skillFileUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-unify/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "taxonomy migration",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__schema-unify.assessment.json",
+      "assessmentReceiptDigest": "2925b0ab55db3853287faa99c426e308a3432b6e85d5013d1c51d1498cc912dc",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "NO_RECALL_POSSIBLE_NEW_GENERIC",
+        "targetGenericId": null,
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

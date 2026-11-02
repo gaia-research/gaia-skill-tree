@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "knowledge-management"
   },
   "exactDedupe": {
@@ -4406,5 +4406,40 @@
     },
     "hostRepository": "https://github.com/garrytan/gbrain",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "knowledge-management",
+      "name": "Knowledge Management",
+      "description": "Organizes, relates, and retrieves information across structured pages, databases, and shared knowledge bases, maintaining semantic links between information nodes.",
+      "type": "fusion",
+      "prerequisites": [
+        "api-call",
+        "retrieve"
+      ]
+    },
+    "named": {
+      "contributor": "garrytan",
+      "skillName": "eiirp"
+    },
+    "skillFileUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/eiirp/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "post-work organizer; thin",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__eiirp.assessment.json",
+      "assessmentReceiptDigest": "0e9e0c0388c187d49f5f8d43b99c1446e3349d7c240d5ab1da29d875594371a3",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "registry-entry-audit",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

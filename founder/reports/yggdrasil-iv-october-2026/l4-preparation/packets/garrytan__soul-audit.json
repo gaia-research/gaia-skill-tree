@@ -4,8 +4,8 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
-    "genericId": "interview-me"
+    "reasonCode": "L4_RATIFIED_MAP",
+    "genericId": "grill-me"
   },
   "exactDedupe": {
     "candidateId": "garrytan/soul-audit",
@@ -4313,5 +4313,40 @@
     },
     "hostRepository": "https://github.com/garrytan/gbrain",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "grill-me",
+      "name": "Grill Me",
+      "description": "Conducts a relentless, one-question-at-a-time Socratic interview to stress-test designs and force the resolution of hidden assumptions before code is written.",
+      "type": "fusion",
+      "prerequisites": [
+        "design-review",
+        "self-critique"
+      ]
+    },
+    "named": {
+      "contributor": "garrytan",
+      "skillName": "soul-audit"
+    },
+    "skillFileUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/soul-audit/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "Founder choice: approve; agent identity interview.",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__soul-audit.assessment.json",
+      "assessmentReceiptDigest": "61abee9456ea4d04109ca73f849d8a8d9b3e7d237190d376b2251dfbf75870b5",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "NO_RECALL_POSSIBLE_NEW_GENERIC",
+        "targetGenericId": null,
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

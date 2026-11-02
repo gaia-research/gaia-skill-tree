@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "guardrails"
   },
   "exactDedupe": {
@@ -4328,5 +4328,41 @@
     },
     "hostRepository": "https://github.com/garrytan/gbrain",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "guardrails",
+      "name": "Guardrails",
+      "description": "Wraps LLM outputs with programmatic safety rules, content filters, and topical constraints that detect policy violations and enforce compliant, on-policy responses before they reach the user.",
+      "type": "fusion",
+      "prerequisites": [
+        "classify",
+        "evaluate-output",
+        "structured-output"
+      ]
+    },
+    "named": {
+      "contributor": "garrytan",
+      "skillName": "data-loss-gate"
+    },
+    "skillFileUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/data-loss-gate/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "confirmation gate before destructive ops",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__data-loss-gate.assessment.json",
+      "assessmentReceiptDigest": "9cbaf3e0c18f3af2e6eed2235345393be1374f6e827dd9c20b06f2f34ca3b960",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "NO_RECALL_POSSIBLE_NEW_GENERIC",
+        "targetGenericId": null,
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "workflow-automation"
   },
   "exactDedupe": {
@@ -4302,5 +4302,41 @@
     },
     "hostRepository": "https://github.com/garrytan/gbrain",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "workflow-automation",
+      "name": "Workflow Automation",
+      "description": "Designs, configures, and runs trigger-based multi-step automation pipelines that connect external services, schedule jobs, and orchestrate tool sequences without continuous human supervision.",
+      "type": "fusion",
+      "prerequisites": [
+        "api-call",
+        "plan-decompose",
+        "tool-use"
+      ]
+    },
+    "named": {
+      "contributor": "garrytan",
+      "skillName": "webhook-transforms"
+    },
+    "skillFileUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/webhook-transforms/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "Closest existing generic for event-triggered transforms; founder note preserved.",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__webhook-transforms.assessment.json",
+      "assessmentReceiptDigest": "92c98f60bc5c117f85a8657cbc011cdfde94d01b726be443419205a6a3710a58",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "NO_RECALL_POSSIBLE_NEW_GENERIC",
+        "targetGenericId": null,
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

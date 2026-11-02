@@ -4,9 +4,8 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "NEW_GENERIC",
-    "reasonCode": "FOUNDER_L4_APPROVED_NEW_GENERIC_PREP",
+    "reasonCode": "L4_RATIFIED_NEW_GENERIC",
     "proposal": {
-      "id": "knowledge-query",
       "name": "Knowledge Query",
       "description": "Performs focused lookup and retrieval over a knowledge base, returning directly relevant information without broader synthesis or authoring.",
       "type": "basic",
@@ -4354,5 +4353,37 @@
     },
     "hostRepository": "https://github.com/garrytan/gbrain",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "knowledge-query",
+      "name": "Knowledge Query",
+      "description": "Performs focused lookup and retrieval over a knowledge base, returning directly relevant information without broader synthesis or authoring.",
+      "type": "basic",
+      "prerequisites": []
+    },
+    "named": {
+      "contributor": "garrytan",
+      "skillName": "query"
+    },
+    "skillFileUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/query/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "hmm maybe a new search or query only lookup, prereq to the brain",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__query.assessment.json",
+      "assessmentReceiptDigest": "dafcdc87e2706f0e74b1e1f104835395112a81c767cde942850618cc1d423857",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "wiki-search",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

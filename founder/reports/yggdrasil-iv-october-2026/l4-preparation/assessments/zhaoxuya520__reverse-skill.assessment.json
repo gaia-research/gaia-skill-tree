@@ -1,7 +1,7 @@
 {
   "contractVersion": "curation-assessment-v1",
   "authority": "advisory",
-  "assessedAt": "2026-11-02T20:54:26.048024+00:00",
+  "assessedAt": "2026-11-02T21:29:16.231244+00:00",
   "candidateId": "zhaoxuya520/reverse-skill",
   "candidate": {
     "name": "reverse-skill-router",
@@ -13,7 +13,7 @@
     "commitSha": null
   },
   "candidateSourceDigest": "bdc1b4cf295089399ce007b03652ab2349c0b379d8be3edfc01dac16e027755e",
-  "semanticInputSha256": "110986558f59444cdb7f961f1ce005606f437c5836da6affe7c0554e66d93381",
+  "semanticInputSha256": "07b7251d4d79dd9e9004f4bc8619814bfa0c645923e64aab3cab62667c09dabb",
   "catalogSha256": "77991271cdf9d32370d92244389486b1e19a02a3a72326e0fe452816e6d4043c",
   "rubric": {
     "rubricId": "gaia-curation-principles",
@@ -47,18 +47,14 @@
     }
   ],
   "retrieval": {
+    "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
     "model": "all-MiniLM-L6-v2",
     "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
-    "fingerprint": "154b19def2e9b2d386d3a40e5b4728d7e4d713c0928969cf5756a3b2e73a2d31",
     "thresholds": {
       "strongMap": 0.72,
-      "weakMap": 0.45,
-      "topK": 3
-    },
-    "provenance": "stale/unverified",
-    "stale": true,
-    "status": "stale",
-    "allowStale": true
+      "topK": 3,
+      "weakMap": 0.45
+    }
   },
   "principles": {
     "identity": {

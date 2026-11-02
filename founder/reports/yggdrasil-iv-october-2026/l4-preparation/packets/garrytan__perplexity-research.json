@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "research"
   },
   "exactDedupe": {
@@ -4327,5 +4327,41 @@
     },
     "hostRepository": "https://github.com/garrytan/gbrain",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "research",
+      "name": "Research",
+      "description": "Conducts multi-source information gathering, synthesis, and citation for a given topic.",
+      "type": "fusion",
+      "prerequisites": [
+        "cite-sources",
+        "summarize",
+        "web-search"
+      ]
+    },
+    "named": {
+      "contributor": "garrytan",
+      "skillName": "perplexity-research"
+    },
+    "skillFileUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/perplexity-research/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "sibling data-research maps to research",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__perplexity-research.assessment.json",
+      "assessmentReceiptDigest": "f42c892c4b07d29a88233e473716cfe28705149498bff42d90e717a2ddb4d384",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "autonomous-web-research",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

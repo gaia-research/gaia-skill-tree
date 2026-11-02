@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "knowledge-harvest"
   },
   "exactDedupe": {
@@ -4342,5 +4342,41 @@
     },
     "hostRepository": "https://github.com/garrytan/gbrain",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "knowledge-harvest",
+      "name": "Knowledge Harvest",
+      "description": "Extracts, structures, and embeds knowledge from web sources into a searchable corpus.",
+      "type": "fusion",
+      "prerequisites": [
+        "embed-text",
+        "extract-entities",
+        "web-scrape"
+      ]
+    },
+    "named": {
+      "contributor": "garrytan",
+      "skillName": "cold-start"
+    },
+    "skillFileUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cold-start/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "day-one data bootstrapping",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__cold-start.assessment.json",
+      "assessmentReceiptDigest": "37970c190579c76f213576ef1b9ec25fb54de364610e70d6aed92b71546769de",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "NO_RECALL_POSSIBLE_NEW_GENERIC",
+        "targetGenericId": null,
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

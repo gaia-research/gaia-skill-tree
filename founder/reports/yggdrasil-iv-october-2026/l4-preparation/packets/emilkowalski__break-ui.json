@@ -4,9 +4,8 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "NEW_GENERIC",
-    "reasonCode": "FOUNDER_L4_APPROVED_NEW_GENERIC_PREP",
+    "reasonCode": "L4_RATIFIED_NEW_GENERIC",
     "proposal": {
-      "id": "ui-red-teaming",
       "name": "UI Red Teaming",
       "description": "Adversarially probes user interfaces for exploitable interaction, accessibility, and resilience failures, combining red-team testing with UI audit.",
       "type": "fusion",
@@ -4300,5 +4299,40 @@
     "hostRepository": "https://github.com/emilkowalski/skills",
     "revision": "2d228630ba1446365f614a108cb8252f1feda202",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "ui-red-teaming",
+      "name": "UI Red Teaming",
+      "description": "Adversarially probes user interfaces for exploitable interaction, accessibility, and resilience failures, combining red-team testing with UI audit.",
+      "type": "fusion",
+      "prerequisites": [
+        "adversarial-robustness-testing",
+        "ui-audit"
+      ]
+    },
+    "named": {
+      "contributor": "emilkowalski",
+      "skillName": "break-ui"
+    },
+    "skillFileUrl": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/break-ui/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "make a new generic, breaking ui should be different from auditing ui. Its like a fusion of red teaming and ui audit perhaps",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__break-ui.assessment.json",
+      "assessmentReceiptDigest": "7f7eae9c60a3702da5fdafb9b6293c3661fefbbfd1b8f0111f2238bcddb0884a",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "NO_RECALL_POSSIBLE_NEW_GENERIC",
+        "targetGenericId": null,
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

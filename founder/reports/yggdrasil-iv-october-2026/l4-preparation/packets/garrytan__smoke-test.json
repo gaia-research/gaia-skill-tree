@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "automated-testing"
   },
   "exactDedupe": {
@@ -4314,5 +4314,41 @@
     },
     "hostRepository": "https://github.com/garrytan/gbrain",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "automated-testing",
+      "name": "Automated Testing",
+      "description": "Generates test suites, executes them in a sandbox, interprets failures, and iterates until the target pass rate is reached.",
+      "type": "fusion",
+      "prerequisites": [
+        "code-execution",
+        "error-interpretation",
+        "generate-test"
+      ]
+    },
+    "named": {
+      "contributor": "garrytan",
+      "skillName": "smoke-test"
+    },
+    "skillFileUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/smoke-test/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "install health smoke tests + auto-fix; gbrain-specific",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__smoke-test.assessment.json",
+      "assessmentReceiptDigest": "eca012a7f6f5a39d26eeaa6469afa415dee82d985eace436b5d8d6d5a5a570fa",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "NO_RECALL_POSSIBLE_NEW_GENERIC",
+        "targetGenericId": null,
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

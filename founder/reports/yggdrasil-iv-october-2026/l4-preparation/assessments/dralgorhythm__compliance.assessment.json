@@ -1,7 +1,7 @@
 {
   "contractVersion": "curation-assessment-v1",
   "authority": "advisory",
-  "assessedAt": "2026-11-02T20:53:56.930316+00:00",
+  "assessedAt": "2026-11-02T21:29:15.483729+00:00",
   "candidateId": "dralgorhythm/compliance",
   "candidate": {
     "name": "compliance",
@@ -13,7 +13,7 @@
     "commitSha": null
   },
   "candidateSourceDigest": "b7673311a43fcd99479d225cc8b66cf678017b2b1e2a34988e01c1540c0a5fa8",
-  "semanticInputSha256": "d69c07cdb2e0e4c1d10fc51c32be6ade43bb59b8c1e739e1b8450d103d2cb9ff",
+  "semanticInputSha256": "1298d60ba7418257395bfd6b56ddfe950f8f5e110715250378d95e4c067c94b6",
   "catalogSha256": "77991271cdf9d32370d92244389486b1e19a02a3a72326e0fe452816e6d4043c",
   "rubric": {
     "rubricId": "gaia-curation-principles",
@@ -37,18 +37,14 @@
     }
   ],
   "retrieval": {
+    "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
     "model": "all-MiniLM-L6-v2",
     "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
-    "fingerprint": "154b19def2e9b2d386d3a40e5b4728d7e4d713c0928969cf5756a3b2e73a2d31",
     "thresholds": {
       "strongMap": 0.72,
-      "weakMap": 0.45,
-      "topK": 3
-    },
-    "provenance": "stale/unverified",
-    "stale": true,
-    "status": "stale",
-    "allowStale": true
+      "topK": 3,
+      "weakMap": 0.45
+    }
   },
   "principles": {
     "identity": {

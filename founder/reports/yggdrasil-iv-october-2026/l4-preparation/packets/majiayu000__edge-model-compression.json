@@ -62,23 +62,19 @@
   ],
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "edge-optimization"
   },
   "flags": [],
   "retrieval": {
+    "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
     "model": "all-MiniLM-L6-v2",
     "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
-    "fingerprint": "154b19def2e9b2d386d3a40e5b4728d7e4d713c0928969cf5756a3b2e73a2d31",
     "thresholds": {
       "strongMap": 0.72,
-      "weakMap": 0.45,
-      "topK": 3
-    },
-    "provenance": "stale/unverified",
-    "stale": true,
-    "status": "stale",
-    "allowStale": true
+      "topK": 3,
+      "weakMap": 0.45
+    }
   },
   "artifactGate": "valid-skill",
   "genericSnapshot": {
@@ -4320,5 +4316,41 @@
     },
     "semanticCatalogSha256": "77991271cdf9d32370d92244389486b1e19a02a3a72326e0fe452816e6d4043c",
     "mappingOptionsSha256": "807dbc926b2046a7ff0f1ffff09bcd237c9a72f970fa5981a84f90d309650426"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "edge-optimization",
+      "name": "Edge Optimization",
+      "description": "Compresses and tunes models for low-latency on-device inference via quantization, pruning, knowledge distillation, and federated learning under resource constraints.",
+      "type": "fusion",
+      "prerequisites": [
+        "evaluate-output",
+        "fine-tune",
+        "performance-tuning"
+      ]
+    },
+    "named": {
+      "contributor": "majiayu000",
+      "skillName": "edge-model-compression"
+    },
+    "skillFileUrl": "https://github.com/majiayu000/claude-skill-registry-data/blob/main/ai-ml/edge-model-compression/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "Founder choice: approve parked draft; established generic.",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/majiayu000__edge-model-compression.assessment.json",
+      "assessmentReceiptDigest": "13dfaecdcec5454671811625dd55ecbe548332be82071252db35d6c093e6242f",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "edge-optimization",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

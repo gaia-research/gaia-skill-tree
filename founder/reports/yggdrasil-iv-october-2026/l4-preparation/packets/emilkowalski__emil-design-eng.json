@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "design-generation"
   },
   "exactDedupe": {
@@ -4317,5 +4317,41 @@
     "hostRepository": "https://github.com/emilkowalski/skills",
     "revision": "2d228630ba1446365f614a108cb8252f1feda202",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "design-generation",
+      "name": "Design Generation",
+      "description": "Generates high-fidelity visual assets, prototypes, and UI components from design intent or discovery forms, adhering to brand and UX standards.",
+      "type": "fusion",
+      "prerequisites": [
+        "code-generation",
+        "ui-audit",
+        "vision-qa"
+      ]
+    },
+    "named": {
+      "contributor": "emilkowalski",
+      "skillName": "emil-design-eng"
+    },
+    "skillFileUrl": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/emil-design-eng/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "sibling addy-osmani/frontend-ui-engineering maps here",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__emil-design-eng.assessment.json",
+      "assessmentReceiptDigest": "901616d73792052c55dc372d104111e40455253255774341bba3df426755b2d4",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "design-generation",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

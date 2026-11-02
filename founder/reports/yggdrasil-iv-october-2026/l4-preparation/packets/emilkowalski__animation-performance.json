@@ -4,9 +4,8 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "NEW_GENERIC",
-    "reasonCode": "FOUNDER_L4_APPROVED_NEW_GENERIC_PREP",
+    "reasonCode": "L4_RATIFIED_NEW_GENERIC",
     "proposal": {
-      "id": "animation-performance",
       "name": "Animation Performance",
       "description": "Diagnoses and improves runtime and rendering performance in interactive animations while preserving intended motion behavior.",
       "type": "fusion",
@@ -4346,5 +4345,40 @@
     "hostRepository": "https://github.com/emilkowalski/skills",
     "revision": "2d228630ba1446365f614a108cb8252f1feda202",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "animation-performance",
+      "name": "Animation Performance",
+      "description": "Diagnoses and improves runtime and rendering performance in interactive animations while preserving intended motion behavior.",
+      "type": "fusion",
+      "prerequisites": [
+        "performance-tuning",
+        "timeline-animation"
+      ]
+    },
+    "named": {
+      "contributor": "emilkowalski",
+      "skillName": "animation-performance"
+    },
+    "skillFileUrl": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animation-performance/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "fuse performance-tuning and an animation skill",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__animation-performance.assessment.json",
+      "assessmentReceiptDigest": "7618aa7c5f3ab4363bd47250c6770b8f141cc3f60f1328a6cedd073b05121aa1",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "scroll-driven-web-design",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

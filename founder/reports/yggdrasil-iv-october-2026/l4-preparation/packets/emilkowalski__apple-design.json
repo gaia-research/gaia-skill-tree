@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "design-generation"
   },
   "exactDedupe": {
@@ -4331,5 +4331,41 @@
     "hostRepository": "https://github.com/emilkowalski/skills",
     "revision": "2d228630ba1446365f614a108cb8252f1feda202",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "design-generation",
+      "name": "Design Generation",
+      "description": "Generates high-fidelity visual assets, prototypes, and UI components from design intent or discovery forms, adhering to brand and UX standards.",
+      "type": "fusion",
+      "prerequisites": [
+        "code-generation",
+        "ui-audit",
+        "vision-qa"
+      ]
+    },
+    "named": {
+      "contributor": "emilkowalski",
+      "skillName": "apple-design"
+    },
+    "skillFileUrl": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/apple-design/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "Founder choice: approve as proposed.",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__apple-design.assessment.json",
+      "assessmentReceiptDigest": "80b738dc85c447cd2ee857f6de6c35d7563d3c016b8fe12409ee8d21e724dc0d",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "design-generation",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

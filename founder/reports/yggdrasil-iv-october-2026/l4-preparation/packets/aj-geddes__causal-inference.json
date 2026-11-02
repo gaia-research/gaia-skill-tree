@@ -43,23 +43,19 @@
   ],
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "causal-inference"
   },
   "flags": [],
   "retrieval": {
+    "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
     "model": "all-MiniLM-L6-v2",
     "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
-    "fingerprint": "154b19def2e9b2d386d3a40e5b4728d7e4d713c0928969cf5756a3b2e73a2d31",
     "thresholds": {
       "strongMap": 0.72,
-      "weakMap": 0.45,
-      "topK": 3
-    },
-    "provenance": "stale/unverified",
-    "stale": true,
-    "status": "stale",
-    "allowStale": true
+      "topK": 3,
+      "weakMap": 0.45
+    }
   },
   "artifactGate": "valid-skill",
   "genericSnapshot": {
@@ -4301,5 +4297,41 @@
     },
     "semanticCatalogSha256": "77991271cdf9d32370d92244389486b1e19a02a3a72326e0fe452816e6d4043c",
     "mappingOptionsSha256": "a606e5e9c976c47ad32b77b50d6f66803cd2428542dfa24be1db3153e18448c3"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "causal-inference",
+      "name": "Causal Inference",
+      "description": "Estimates treatment effects and identifies causal relationships from observational and experimental data using propensity scoring, instrumental variables, and causal graphs.",
+      "type": "fusion",
+      "prerequisites": [
+        "hypothesis-generate",
+        "logical-inference",
+        "statistical-analysis"
+      ]
+    },
+    "named": {
+      "contributor": "aj-geddes",
+      "skillName": "causal-inference"
+    },
+    "skillFileUrl": "https://github.com/aj-geddes/useful-ai-prompts/blob/main/skills/causal-inference/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "Founder choice: approve parked draft; established generic.",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/aj-geddes__causal-inference.assessment.json",
+      "assessmentReceiptDigest": "5b208359f50e56402d836c43ad917a48eb7167b9dc5a289632bf1d885548e612",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "causal-inference",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

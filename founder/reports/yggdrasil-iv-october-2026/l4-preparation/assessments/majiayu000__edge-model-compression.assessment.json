@@ -1,7 +1,7 @@
 {
   "contractVersion": "curation-assessment-v1",
   "authority": "advisory",
-  "assessedAt": "2026-11-02T20:54:07.553574+00:00",
+  "assessedAt": "2026-11-02T21:29:15.683558+00:00",
   "candidateId": "majiayu000/edge-model-compression",
   "candidate": {
     "name": "edge-model-compression",
@@ -13,7 +13,7 @@
     "commitSha": null
   },
   "candidateSourceDigest": "9f015aeed83c4754ae0924e0338fd687620aec7ade73acbdfd3debcaedc2b73a",
-  "semanticInputSha256": "dad11dfbdba9ea0f4b795576a371dbb393916d302bedfd917fb5a4f740d41647",
+  "semanticInputSha256": "40ea35e5e56503bf4ae1e69c7d6298fc368a33a21d9714128e7c6b7aa3bdf352",
   "catalogSha256": "77991271cdf9d32370d92244389486b1e19a02a3a72326e0fe452816e6d4043c",
   "rubric": {
     "rubricId": "gaia-curation-principles",
@@ -37,18 +37,14 @@
     }
   ],
   "retrieval": {
+    "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
     "model": "all-MiniLM-L6-v2",
     "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
-    "fingerprint": "154b19def2e9b2d386d3a40e5b4728d7e4d713c0928969cf5756a3b2e73a2d31",
     "thresholds": {
       "strongMap": 0.72,
-      "weakMap": 0.45,
-      "topK": 3
-    },
-    "provenance": "stale/unverified",
-    "stale": true,
-    "status": "stale",
-    "allowStale": true
+      "topK": 3,
+      "weakMap": 0.45
+    }
   },
   "principles": {
     "identity": {

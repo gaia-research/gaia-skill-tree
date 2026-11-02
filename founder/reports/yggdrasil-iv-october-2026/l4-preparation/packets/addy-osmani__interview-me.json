@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "grill-me"
   },
   "exactDedupe": {
@@ -4318,5 +4318,40 @@
     },
     "hostRepository": "https://github.com/addyosmani/agent-skills",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "grill-me",
+      "name": "Grill Me",
+      "description": "Conducts a relentless, one-question-at-a-time Socratic interview to stress-test designs and force the resolution of hidden assumptions before code is written.",
+      "type": "fusion",
+      "prerequisites": [
+        "design-review",
+        "self-critique"
+      ]
+    },
+    "named": {
+      "contributor": "addy-osmani",
+      "skillName": "interview-me"
+    },
+    "skillFileUrl": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/interview-me/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "Socratic elicitation; prefill 0.54 grill-me",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/addy-osmani__interview-me.assessment.json",
+      "assessmentReceiptDigest": "008f27705c66452952b02c2f8200d0079bb5e535bbd518bbfdbc93743c19e5ea",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "grill-me",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

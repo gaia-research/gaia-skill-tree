@@ -1,7 +1,7 @@
 {
   "contractVersion": "curation-assessment-v1",
   "authority": "advisory",
-  "assessedAt": "2026-11-02T20:53:36.886734+00:00",
+  "assessedAt": "2026-11-02T21:29:15.070169+00:00",
   "candidateId": "omer-metin/synthetic-data",
   "candidate": {
     "name": "synthetic-data",
@@ -13,7 +13,7 @@
     "commitSha": null
   },
   "candidateSourceDigest": "f4c4064815052c98eb8b662000f609fd91aec88ed700828a05ef4171b27be20f",
-  "semanticInputSha256": "ff15239e09662548812725c5f51390dffa765ef0808d672c9aee42f220bdbc71",
+  "semanticInputSha256": "e54aa73c2f38d0ea5295c3a27ce889b28cfef0614e40b0275d827446174f616b",
   "catalogSha256": "77991271cdf9d32370d92244389486b1e19a02a3a72326e0fe452816e6d4043c",
   "rubric": {
     "rubricId": "gaia-curation-principles",
@@ -33,18 +33,14 @@
     }
   ],
   "retrieval": {
+    "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
     "model": "all-MiniLM-L6-v2",
     "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
-    "fingerprint": "154b19def2e9b2d386d3a40e5b4728d7e4d713c0928969cf5756a3b2e73a2d31",
     "thresholds": {
       "strongMap": 0.72,
-      "weakMap": 0.45,
-      "topK": 3
-    },
-    "provenance": "stale/unverified",
-    "stale": true,
-    "status": "stale",
-    "allowStale": true
+      "topK": 3,
+      "weakMap": 0.45
+    }
   },
   "principles": {
     "identity": {

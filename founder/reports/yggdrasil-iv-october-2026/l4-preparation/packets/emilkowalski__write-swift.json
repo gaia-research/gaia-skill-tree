@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "code-generation"
   },
   "exactDedupe": {
@@ -4291,5 +4291,37 @@
     "hostRepository": "https://github.com/emilkowalski/skills",
     "revision": "2d228630ba1446365f614a108cb8252f1feda202",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "code-generation",
+      "name": "Code Generation",
+      "description": "Produces syntactically correct and functionally appropriate source code from specifications or prompts.",
+      "type": "basic",
+      "prerequisites": []
+    },
+    "named": {
+      "contributor": "emilkowalski",
+      "skillName": "write-swift"
+    },
+    "skillFileUrl": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/write-swift/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "Founder choice: approve as proposed.",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__write-swift.assessment.json",
+      "assessmentReceiptDigest": "2443cc49ff17db67def32002fb44e1803980bab67d8841213ae1c27880709636",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "NO_RECALL_POSSIBLE_NEW_GENERIC",
+        "targetGenericId": null,
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

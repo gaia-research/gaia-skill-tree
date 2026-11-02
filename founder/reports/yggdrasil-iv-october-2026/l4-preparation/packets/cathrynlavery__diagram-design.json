@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "architecture-diagram"
   },
   "exactDedupe": {
@@ -4313,5 +4313,41 @@
     },
     "hostRepository": "https://github.com/cathrynlavery/diagram-design",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "architecture-diagram",
+      "name": "Architecture Diagram",
+      "description": "Generates technical architecture, infrastructure, or cloud diagrams as structured visual artifacts from natural-language system descriptions.",
+      "type": "fusion",
+      "prerequisites": [
+        "data-visualize",
+        "format-output",
+        "write-report"
+      ]
+    },
+    "named": {
+      "contributor": "cathrynlavery",
+      "skillName": "diagram-design"
+    },
+    "skillFileUrl": "https://github.com/cathrynlavery/diagram-design/blob/main/skills/diagram-design/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "alt: collaborative-diagramming; submitter prefers dedup into an existing diagram generic",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/cathrynlavery__diagram-design.assessment.json",
+      "assessmentReceiptDigest": "e428a4c9371cbbcc1c4f15d2195672da049936f69266ca580b1265bda7f3e8a3",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "collaborative-diagramming",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

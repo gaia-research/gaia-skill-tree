@@ -4,9 +4,8 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "NEW_GENERIC",
-    "reasonCode": "FOUNDER_L4_APPROVED_NEW_GENERIC_PREP",
+    "reasonCode": "L4_RATIFIED_NEW_GENERIC",
     "proposal": {
-      "id": "company-knowledge-management",
       "name": "Company Knowledge Management",
       "description": "Builds and maintains an internal company knowledge system by combining knowledge management with organization-specific knowledge capture and retrieval.",
       "type": "fusion",
@@ -4346,5 +4345,40 @@
     },
     "hostRepository": "https://github.com/garrytan/gbrain",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "company-knowledge-management",
+      "name": "Company Knowledge Management",
+      "description": "Builds and maintains an internal company knowledge system by combining knowledge management with organization-specific knowledge capture and retrieval.",
+      "type": "fusion",
+      "prerequisites": [
+        "domain-modeling",
+        "knowledge-management"
+      ]
+    },
+    "named": {
+      "contributor": "garrytan",
+      "skillName": "company-brainify"
+    },
+    "skillFileUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/company-brainify/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "make a fusion of knowledge management and internal company knowledge generic or something",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__company-brainify.assessment.json",
+      "assessmentReceiptDigest": "d4e3f4a8f9395f26ba16bfea7f4365695716011a014ff4dd1ead5f9444148f3d",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "NO_RECALL_POSSIBLE_NEW_GENERIC",
+        "targetGenericId": null,
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

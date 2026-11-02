@@ -1,7 +1,7 @@
 {
   "contractVersion": "curation-assessment-v1",
   "authority": "advisory",
-  "assessedAt": "2026-11-02T20:53:13.290032+00:00",
+  "assessedAt": "2026-11-02T21:29:14.632437+00:00",
   "candidateId": "anthropics/creating-financial-models",
   "candidate": {
     "name": "creating-financial-models",
@@ -13,7 +13,7 @@
     "commitSha": null
   },
   "candidateSourceDigest": "c6fd5ad7cb6d3abe013187455c3406019c6694c17b1ee389ea1e4c0f23eba8cb",
-  "semanticInputSha256": "1dc9073018b665907d3d8d87bd758dd434d2b916b8124705962a470d5af27c2a",
+  "semanticInputSha256": "6425c251a42ce2b28413b9d6dd7d7b8b813d1ac29cedeb1d94d3dcf860ceb2b5",
   "catalogSha256": "77991271cdf9d32370d92244389486b1e19a02a3a72326e0fe452816e6d4043c",
   "rubric": {
     "rubricId": "gaia-curation-principles",
@@ -37,18 +37,14 @@
     }
   ],
   "retrieval": {
+    "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
     "model": "all-MiniLM-L6-v2",
     "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
-    "fingerprint": "154b19def2e9b2d386d3a40e5b4728d7e4d713c0928969cf5756a3b2e73a2d31",
     "thresholds": {
       "strongMap": 0.72,
-      "weakMap": 0.45,
-      "topK": 3
-    },
-    "provenance": "stale/unverified",
-    "stale": true,
-    "status": "stale",
-    "allowStale": true
+      "topK": 3,
+      "weakMap": 0.45
+    }
   },
   "principles": {
     "identity": {

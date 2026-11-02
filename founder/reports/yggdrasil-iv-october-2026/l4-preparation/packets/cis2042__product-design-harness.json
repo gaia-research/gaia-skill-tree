@@ -4,9 +4,8 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "NEW_GENERIC",
-    "reasonCode": "FOUNDER_L4_APPROVED_NEW_GENERIC_PREP",
+    "reasonCode": "L4_RATIFIED_NEW_GENERIC",
     "proposal": {
-      "id": "product-design-review",
       "name": "Product Design Review",
       "description": "Combines product-design work with structured design review to turn product goals into evaluated interface decisions.",
       "type": "fusion",
@@ -4329,5 +4328,40 @@
     "hostRepository": "https://github.com/cis2042/ux3-product-design-harness",
     "revision": "7f9f724c5e31813d1c35767f9f454fe9a1e96891",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "product-design-review",
+      "name": "Product Design Review",
+      "description": "Combines product-design work with structured design review to turn product goals into evaluated interface decisions.",
+      "type": "fusion",
+      "prerequisites": [
+        "design-generation",
+        "design-review"
+      ]
+    },
+    "named": {
+      "contributor": "cis2042",
+      "skillName": "product-design-harness"
+    },
+    "skillFileUrl": "https://github.com/cis2042/ux3-product-design-harness/blob/7f9f724c5e31813d1c35767f9f454fe9a1e96891/skills/product-design-harness/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "product design plus design review fusion",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/cis2042__product-design-harness.assessment.json",
+      "assessmentReceiptDigest": "1044cd12651f0de8357d7953f885e07889317ecad1fd3647babf7338d5c8ff14",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "plan-and-execute",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

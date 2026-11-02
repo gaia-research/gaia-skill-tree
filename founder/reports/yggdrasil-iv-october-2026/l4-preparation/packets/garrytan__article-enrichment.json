@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "document-analyst"
   },
   "exactDedupe": {
@@ -4351,5 +4351,44 @@
     },
     "hostRepository": "https://github.com/garrytan/gbrain",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "document-analyst",
+      "name": "Document Analyst",
+      "description": "Parses, extracts entities from, summarizes, and formats structured documents.",
+      "type": "fusion",
+      "prerequisites": [
+        "extract-entities",
+        "format-output",
+        "optical-character-recognition",
+        "parse-json",
+        "parse-pdf",
+        "summarize"
+      ]
+    },
+    "named": {
+      "contributor": "garrytan",
+      "skillName": "article-enrichment"
+    },
+    "skillFileUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/article-enrichment/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "structured page from article dump; sibling strategic-reading maps here",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__article-enrichment.assessment.json",
+      "assessmentReceiptDigest": "c06be16e9e81d23f2205211f53536ad82bbce3096002cffe8f9fbe5085dc2d48",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "write-report",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

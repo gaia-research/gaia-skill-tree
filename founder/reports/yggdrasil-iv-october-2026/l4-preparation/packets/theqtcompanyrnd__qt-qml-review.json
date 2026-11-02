@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "code-review-pipeline"
   },
   "exactDedupe": {
@@ -4317,5 +4317,41 @@
     },
     "hostRepository": "https://github.com/TheQtCompanyRnD/agent-skills",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "code-review-pipeline",
+      "name": "Code Review Pipeline",
+      "description": "Performs automated code review by generating, diffing, and evaluating code changes for correctness, style, security, and maintainability.",
+      "type": "fusion",
+      "prerequisites": [
+        "code-generation",
+        "diff-content",
+        "evaluate-output"
+      ]
+    },
+    "named": {
+      "contributor": "theqtcompanyrnd",
+      "skillName": "qt-qml-review"
+    },
+    "skillFileUrl": "https://github.com/TheQtCompanyRnD/agent-skills/blob/main/skills/qt-qml-review/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "Qt-specific named implementation of code review",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/theqtcompanyrnd__qt-qml-review.assessment.json",
+      "assessmentReceiptDigest": "e1d4d2fad63c4e8ad0fc5970c23b9926eb20d5536eee00d5e41a9e153434eaef",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "code-review-pipeline",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

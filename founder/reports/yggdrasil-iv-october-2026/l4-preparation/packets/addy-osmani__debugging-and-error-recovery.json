@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "systematic-debugging"
   },
   "exactDedupe": {
@@ -4336,5 +4336,40 @@
     },
     "hostRepository": "https://github.com/addyosmani/agent-skills",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "systematic-debugging",
+      "name": "Systematic Debugging",
+      "description": "Finds the root cause before attempting fixes when encountering bugs, test failures, or unexpected behavior.",
+      "type": "fusion",
+      "prerequisites": [
+        "error-interpretation",
+        "hypothesis-generate"
+      ]
+    },
+    "named": {
+      "contributor": "addy-osmani",
+      "skillName": "debugging-and-error-recovery"
+    },
+    "skillFileUrl": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/debugging-and-error-recovery/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "same generic as obra/systematic-debugging (named implementation)",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/addy-osmani__debugging-and-error-recovery.assessment.json",
+      "assessmentReceiptDigest": "5623bb2031b0649225fe83993aefe3e3ecb0f80313974d3ca6401b3575152be8",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "systematic-debugging",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }

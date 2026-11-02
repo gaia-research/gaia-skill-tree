@@ -4,7 +4,7 @@
   "contractVersion": "discovery-packet-v2",
   "decision": {
     "value": "MAP",
-    "reasonCode": "FOUNDER_L4_APPROVED_MAP_PREP",
+    "reasonCode": "L4_RATIFIED_MAP",
     "genericId": "git-integration"
   },
   "exactDedupe": {
@@ -4336,5 +4336,43 @@
     },
     "hostRepository": "https://github.com/addyosmani/agent-skills",
     "sourceLane": "source-repository"
+  },
+  "l4Resolution": {
+    "status": "approved",
+    "generic": {
+      "id": "git-integration",
+      "name": "GitHub Platform Mastery",
+      "description": "Full GitHub platform automation: code review pipelines, multi-repo coordination, project management, release management, and workflow automation.",
+      "type": "fusion",
+      "prerequisites": [
+        "code-review-pipeline",
+        "deployment-automation",
+        "multi-repo-coordination",
+        "project-management",
+        "workflow-automation"
+      ]
+    },
+    "named": {
+      "contributor": "addy-osmani",
+      "skillName": "git-workflow-and-versioning"
+    },
+    "skillFileUrl": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/git-workflow-and-versioning/SKILL.md",
+    "humanReview": {
+      "reviewedBy": "Marcus Rafael B. Tiongson",
+      "approvalRef": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md § L4 topology choices",
+      "rationale": "git workflow practice; git-integration is a GitHub-automation fusion, poor fit; likely NEW_GENERIC",
+      "reviewedAt": "2026-10-30T16:30:22Z",
+      "assessmentPath": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/addy-osmani__git-workflow-and-versioning.assessment.json",
+      "assessmentReceiptDigest": "2f70a437dae94e9a18d9d879656489ca0634a36ed8778df25b783a4f1edfed9b",
+      "operatorOverride": true,
+      "humanOverride": true,
+      "priorProposal": {
+        "value": "DEFER",
+        "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+        "targetGenericId": "using-git-worktrees",
+        "advisoryOnly": true
+      },
+      "attestation": "Local file attestation; does not cryptographically authenticate a human."
+    }
   }
 }
