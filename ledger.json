@@ -1,5 +1,5 @@
 {
- "generation": 252,
+ "generation": 253,
  "lane": {
   "entries": [
    {
@@ -15451,6 +15451,13 @@
      "debtId": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
      "emittedAt": "2026-11-02T02:49:52.200473Z",
      "idempotencyKey": "dispatch-8e3c16dd27af753dc068:1",
+     "outcome": {
+      "agentId": "a367b02c540933065",
+      "effort": "medium",
+      "model": "haiku",
+      "noChange": true,
+      "summary": "Reproduced: gsd-build/gsd-discuss-phase stored 3★, TM 50.00 grade C, G7 effective 2★. Proposed human-approved correction (not executed): gaia dev calibrate gsd-build/gsd-discuss-phase 2★. tests/steward/test_sensors.py: 131 passed under python3.13 (lead-run; builder env lacked pytest)."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -15471,13 +15478,27 @@
       },
       "promptPath": ".gaia/steward/full/run-20261102T024658Z-f5296156/build-caf93cdb7373.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-02T02:55:41.112905Z",
+     "status": "done",
      "stepId": "build:caf93cdb7373:1",
      "type": "agent.build"
     }
    ],
    "actor": "cli",
-   "agentAssignments": [],
+   "agentAssignments": [
+    {
+     "agentId": "a367b02c540933065",
+     "at": "2026-11-02T02:55:41.112953Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
+     "effort": "medium",
+     "model": "haiku",
+     "role": "builder",
+     "stepId": "build:caf93cdb7373:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
@@ -16068,8 +16089,10 @@
     }
    ],
    "mode": "full",
-   "modelIds": [],
-   "mutated": false,
+   "modelIds": [
+    "haiku"
+   ],
+   "mutated": true,
    "nextAction": "perform 1 pending action(s) (agent.build), record each with `gaia steward full record run-20261102T024658Z-f5296156 <stepId> --input FILE`, then `gaia steward full run --resume run-20261102T024658Z-f5296156`",
    "options": {
     "afk": true,
@@ -17236,23 +17259,26 @@
      "stepId": "phase:class_a"
     },
     {
-     "at": "2026-11-02T02:49:52.200473Z",
+     "at": "2026-11-02T02:55:41.112905Z",
      "debtId": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
      "idempotencyKey": "dispatch-8e3c16dd27af753dc068:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:caf93cdb7373:1"
     }
    ],
-   "thinkingEfforts": [],
+   "thinkingEfforts": [
+    "medium"
+   ],
    "tokensIn": 0,
    "tokensOut": 0,
    "trigger": "scheduled",
-   "unresolvedWork": []
+   "unresolvedWork": [],
+   "updatedAt": "2026-11-02T02:55:41.112905Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-02T02:51:57.023706Z",
+ "updatedAt": "2026-11-02T02:55:41.113316Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -17445,12 +17471,33 @@
    }
   },
   "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "a367b02c540933065",
+     "at": "2026-11-02T02:55:41.112953Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "haiku",
+     "role": "builder",
+     "stepId": "build:caf93cdb7373:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-integration",
    "branch": "steward/b/trust-calibration-drift-caf93cdb7373",
-   "build": null,
+   "build": {
+    "agentId": "a367b02c540933065",
+    "attempt": 1,
+    "diffPath": null,
+    "dispatchId": "dispatch-8e3c16dd27af753dc068",
+    "noChange": true,
+    "proofPath": null,
+    "recordedAt": "2026-11-02T02:55:41.112953Z",
+    "summary": "Reproduced: gsd-build/gsd-discuss-phase stored 3★, TM 50.00 grade C, G7 effective 2★. Proposed human-approved correction (not executed): gaia dev calibrate gsd-build/gsd-discuss-phase 2★. tests/steward/test_sensors.py: 131 passed under python3.13 (lead-run; builder env lacked pytest)."
+   },
    "createdAt": "2026-11-02T02:49:52.200473Z",
    "debtId": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
    "dispatchId": "dispatch-8e3c16dd27af753dc068",
@@ -17471,7 +17518,7 @@
    "runId": "run-20261102T024658Z-f5296156",
    "source": "trust-calibration-drift",
    "state": "building",
-   "updatedAt": "2026-11-02T02:49:52.200473Z",
+   "updatedAt": "2026-11-02T02:55:41.112953Z",
    "verification": null
   },
   "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6": {
