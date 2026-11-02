@@ -2,6 +2,53 @@
 
 ---
 
+## 2026-11-02 — Routine 066
+
+**Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
+Brought `origin/main` in with a merge commit (rebase was abandoned: the branch is already pushed to a
+draft PR, and the rebase conflicted on the DOCS.md and MEMORY.md Page Map and diary text).
+
+**Task chosen:** CONTINUE from "Planned next (Routine 066)" in 065: check `fusion.html` Type/Branch
+wording and the `dev fuse` flags against source.
+
+### What I did
+
+- **Fusion Score formula verified, no change needed.** The page's three-line formula matches
+  `computeFusionScore` / `fusionScalar` in `src/gaia_cli/fusionScore.py` (FS = 20·N for N ≤ 10;
+  200 + 20·√(N−10) for N > 10).
+- **Added a "Custom fusion from the command line" subsection** to `fusion.html`, under the
+  `gaia fuse` walkthrough. `gaia fuse <target> --skills a,b` and `gaia fuse <target> --delete` exist
+  in `impl.py` (`fuse_command`) but were undocumented. The new callout says the path is saved locally
+  to `.gaia/custom_state.json`, writes no rank or level, and reaches the registry only via `gaia push`.
+- **DOCS.md:** Page Map row 8 records the verification and the routine 066 pointer.
+
+### Design decisions
+
+- Kept to one subsection plus one callout. Uses existing `code-block`, `section-body` and
+  `callout-info` classes. No new classes, no hex, no layout change to the page outside that block.
+- Documented the programmatic form only. The interactive `questionary` menu is not described here.
+
+### Files
+
+- `docs/en/fusion.html`: one subsection and one callout added.
+- `docs/en/DOCS.md`: Page Map row 8.
+- `docs/en/MEMORY.md`: this entry.
+
+### Verification
+
+- `git status` shows only `docs/en/` paths (plus the merge of `origin/main`, which touches no
+  `docs/en/` file outside this change).
+- Hex grep on the diff: no new hex. Banned-term grep on the new lines: no hits.
+- Tag balance check on `fusion.html`: balanced. All three stylesheets still linked.
+
+### Planned next (Routine 067)
+
+- Verify the `gaia fuse` interactive-confirm claim in the walkthrough ("writes both the fused skill
+  entry and a timeline event") against the `pendingCombinations` branch of `fuse_command` in
+  `impl.py`. If the timeline write is not there, fix the sentence. Otherwise leave it.
+
+---
+
 ## 2026-10-30 — Routine 065
 
 **Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
