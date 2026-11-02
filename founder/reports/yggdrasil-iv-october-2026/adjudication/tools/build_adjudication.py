@@ -37,6 +37,7 @@ SPECIALS = {
     "google-deepmind/workflow-skill-creator": "FD-11", "latent-spaces/brag": "FD-12",
     "xquik-dev/hermes-tweet": "FD-13", "laravel/upgrade-laravel-v13": "FD-14",
     "martin-stepanoski/nielsen-heuristics-audit": "FD-14", "obra/superpowers": "FD-15",
+    "heygen-com/hyperframes": "FD-8",
 }
 UNIQUE5 = ["vercel-labs/vercel-react-best-practices", "addy-osmani/code-simplification",
            "ayghri/i-have-adhd", "dietrichgebert/ponytail"]
@@ -60,7 +61,7 @@ class Ctx:
     pass
 
 
-def buildCtx():
+def buildCtx(approvals_path: Path | None = None):
     c = Ctx()
     c.revision = sh("git", "log", "-1", "--format=%H", "--", ".", ":(exclude)founder/reports")
     when = sh("git", "log", "-1", "--format=%cI", c.revision)
@@ -73,6 +74,8 @@ def buildCtx():
     c.sweepPath = CAMP / "sweep" / "findings.json"
     c.sweep = jload(c.sweepPath)
     c.obs = jload(ADJ / "observations.json")
+    c.approvalsPath = approvals_path or (ADJ / "approvals.json")
+    c.approvals = jload(c.approvalsPath) if c.approvalsPath.exists() else {"decisions": []}
     # public surfaces
     ni = jload(ROOT / "docs/graph/named/index.json")
     c.nameIdx = {}
@@ -170,9 +173,9 @@ def bucket(c, gid):
                         "tm": s["tm"], "grade": s["grade"], "suite": s["suite"]})
     # Origin is automatic (founder rulings 2026-10-30): every record competes (named
     # or awakened, any star); merit = projected level, then TM; ties all hold.
-    elig = sorted(mem, key=lambda m: (-m["projectedN"], -round(m["tm"], 2), m["id"]))
-    top = (elig[0]["projectedN"], round(elig[0]["tm"], 2)) if elig else None
-    winners = [m["id"] for m in elig if (m["projectedN"], round(m["tm"], 2)) == top]
+    elig = sorted(mem, key=lambda m: (-m["projectedN"], -float(m["tm"]), m["id"]))
+    top = (elig[0]["projectedN"], float(elig[0]["tm"])) if elig else None
+    winners = [m["id"] for m in elig if (m["projectedN"], float(m["tm"])) == top]
     return {"genericSkillRef": gid, "members": mem, "originHolders": [m["id"] for m in mem if m["origin"]],
             "eligible": [m["id"] for m in elig], "meritWinners": winners,
             "meritWinner": winners[0] if len(winners) == 1 else None, "meritTie": len(winners) > 1}
@@ -328,7 +331,9 @@ def proposeGraphify(c):
     gates = {lvl: {k: v for k, v in checkUniqueBranchGate(sk, lvl, c.reg.generic, c.reg.named).items()}
              for lvl in ("4★", "5★")}
     g = c.reg.generic[sk["genericSkillRef"]]
+    prereqs = g.get("prerequisites") or []
     return {"kind": "gate-recompute", "gates": gates, "levelChange": None,
+            "fusionStructurePrerequisites": prereqs,
             "note": "Founder ruling 2026-10-30: a Unique needs only to be its bucket's Origin at 4★ and 5★; there is no "
                     "fusion-prerequisite Origin requirement. TM/grade remain the gate."}
 
@@ -386,21 +391,62 @@ def proposeObra(c):
             "note": "Recompute equals what the published index already shows; only the node frontmatter cache is stale. Regenerate via gaia dev calibrate-trust-magnitude (never hand-edit)."}
 
 
-def proposeD6(c, sid):
+def isFrozenRecord(c, sid: str, approvals: dict | None = None) -> bool:
+    if not sid:
+        return False
+    frozen_targets = {"mattpocock/personal", "heygen-com/general-video", "heygen-com/hyperframes", "leonxlnx/output-skill"}
+    if approvals:
+        for dec in approvals.get("decisions", []):
+            if dec.get("action") in ("frozen_immutable", "freeze", "freeze_dropped_components"):
+                frozen_targets.update(dec.get("targets", []))
+            constraints = dec.get("constraints") or {}
+            if constraints.get("frozenImmutable") and "exemptTargets" in constraints:
+                frozen_targets.update(constraints.get("exemptTargets", []))
+    if sid in frozen_targets:
+        return True
+    pool = {**c.reg.generic, **c.reg.named}
+    entry = pool.get(sid) or {}
+    if entry.get("frozen") or entry.get("frozenAt") or entry.get("status") == "frozen":
+        return True
+    suite_ref = entry.get("suiteRef")
+    if suite_ref:
+        parent = pool.get(suite_ref) or {}
+        if parent.get("frozen") or parent.get("frozenAt") or parent.get("status") == "frozen" or suite_ref in frozen_targets:
+            return True
+    return False
+
+
+def proposeD6(c, sid, is_frozen=False):
     n = c.base["named"][sid]
     sf = surfaces(c, sid)
-    return {"kind": "needs-decision", "packet": "FD-7",
-            "storedLevel": n["storedLevel"], "gradeCeiling": f"{n['ceilingN']}★", "clampedLevel": n["projectedLevel"],
-            "optionOutcomes": {
-                "A-align-leaderboard-and-ledger-to-clamp": {"namedIndex": n["projectedLevel"], "skillApi": n["projectedLevel"],
-                                                           "leaderboard": n["projectedLevel"], "ledger": n["projectedLevel"],
-                                                           "leaderboardPositionChanges": False},
-                "B-lift-clamp-display": {"namedIndex": n["storedLevel"], "skillApi": n["storedLevel"], "leaderboard": n["storedLevel"],
-                                         "ledger": n["storedLevel"],
-                                         "metaRedaction13": "handle becomes public (>=2 star)" if n["storedN"] >= 2 else "unchanged"},
-                "C-leave-as-is": {"surfacesShown": sf["levelsShown"]},
-                "D-calibrate-stored-level-to-ceiling": {"storedLevelBecomes": n["projectedLevel"], "classC": True,
-                                                        "note": "a lowering of the stored value; deterministic gate, not decay; founder only"}}}
+    outcomes = {
+        "A-align-leaderboard-and-ledger-to-clamp": {
+            "namedIndex": n["projectedLevel"], "skillApi": n["projectedLevel"],
+            "leaderboard": n["projectedLevel"], "ledger": n["projectedLevel"],
+            "leaderboardPositionChanges": False
+        },
+        "B-lift-clamp-display": {
+            "namedIndex": n["storedLevel"], "skillApi": n["storedLevel"],
+            "leaderboard": n["storedLevel"], "ledger": n["storedLevel"],
+            "metaRedaction13": "handle becomes public (>=2 star)" if n["storedN"] >= 2 else "unchanged"
+        },
+        "C-leave-as-is": {"surfacesShown": sf["levelsShown"]},
+    }
+    if not is_frozen:
+        outcomes["D-calibrate-stored-level-to-ceiling"] = {
+            "storedLevelBecomes": n["projectedLevel"], "classC": True,
+            "note": "a lowering of the stored value; deterministic gate, not decay; founder only"
+        }
+    res = {
+        "kind": "needs-decision", "packet": "FD-7",
+        "storedLevel": n["storedLevel"], "gradeCeiling": f"{n['ceilingN']}★", "clampedLevel": n["projectedLevel"],
+        "optionOutcomes": outcomes
+    }
+    if is_frozen:
+        res["frozen"] = True
+        res["mutationProhibited"] = True
+        res["note"] = "Record is frozen and immutable (FD-7 / r4-frozen-def); mutations are prohibited."
+    return res
 
 
 # ----------------------------------------------------------------------------- dependents
@@ -431,7 +477,7 @@ PRIO = {"P0": 0, "P1": 1, "P2": 2, "P3": 3, "P4": 4}
 
 
 def who(dims, tgt, kind, c, prop, special):
-    if special in ("FD-9", "FD-10", "FD-11", "FD-12", "FD-13", "FD-14", "FD-15") or tgt in c.d6:
+    if special in ("FD-8", "FD-9", "FD-10", "FD-11", "FD-12", "FD-13", "FD-14", "FD-15") or tgt in c.d6:
         return "founder"
     if kind == "systemic" or set(dims) <= {"champion", "champion-cluster", "grade-mismatch"}:
         return "Core"
@@ -440,6 +486,102 @@ def who(dims, tgt, kind, c, prop, special):
     if "starBar" in dims:
         return "L4"
     return "founder" if (prop.get("kind") == "needs-decision" and "origin" in dims and c.base["named"].get(tgt, {}).get("storedN", 0) >= 4) else "L4"
+
+
+def mapApproval(cd, approvals: dict, c: Ctx):
+    """Deterministically map recorded founder rulings from approvals.json onto candidate records."""
+    cid = cd["id"]
+    tgt = cd["target"]
+    packet = cd["requiredDecision"]["packet"]
+    is_frozen = isFrozenRecord(c, tgt, approvals)
+    if is_frozen:
+        cd["frozen"] = True
+
+    decisions = approvals.get("decisions", [])
+    matched_dec = None
+
+    for d in decisions:
+        if cid in d.get("candidate_ids", []):
+            matched_dec = d
+            break
+
+    if not matched_dec:
+        for d in decisions:
+            targets = d.get("targets", [])
+            exempt = (d.get("constraints") or {}).get("exemptTargets", [])
+            if tgt in targets and tgt not in exempt:
+                matched_dec = d
+                break
+
+    if not matched_dec:
+        if packet == "FD-7" or tgt in c.d6:
+            fd7_dec = next((d for d in decisions if d.get("decision") == "FD-7"), None)
+            if fd7_dec:
+                exempt = (fd7_dec.get("constraints") or {}).get("exemptTargets", [])
+                if tgt in exempt or is_frozen:
+                    matched_dec = next((d for d in decisions if d.get("decision") == "r4-frozen-def"), None) or {
+                        "decision": "FD-7-frozen-exempt",
+                        "status": "held",
+                        "choice": "Leave frozen skills be (immutable)",
+                        "action": "frozen_immutable",
+                        "ref": "CAMPAIGN.md §Founder rulings 2026-10-30",
+                        "note": "DO NOT touch frozen skills (FD-7 standing rule)."
+                    }
+                else:
+                    matched_dec = fd7_dec
+
+    if not matched_dec:
+        for d in decisions:
+            if d.get("packet") == packet and not d.get("targets") and not d.get("candidate_ids"):
+                matched_dec = d
+                break
+
+    if matched_dec:
+        st = matched_dec.get("status", "held")
+        action = matched_dec.get("action")
+        choice = matched_dec.get("choice", "")
+        dec_id = matched_dec.get("decision", "")
+        ref = matched_dec.get("ref", "")
+        note = matched_dec.get("note", "")
+
+        cd["decision"] = {
+            "id": dec_id,
+            "choice": choice,
+            "status": st,
+            "action": action,
+            "ref": ref,
+            "note": note,
+        }
+        if matched_dec.get("issue"):
+            cd["decision"]["issue"] = matched_dec["issue"]
+
+        if st == "approved":
+            cd["status"] = "approved"
+            approved_dict = {
+                "decision": dec_id,
+                "choice": choice,
+                "action": action,
+                "ref": ref,
+                "note": note,
+            }
+            if matched_dec.get("issue"):
+                approved_dict["issue"] = matched_dec["issue"]
+            cd["approved"] = approved_dict
+        elif st == "deferred":
+            cd["status"] = "deferred"
+            cd["approved"] = None
+        elif st == "superseded":
+            cd["status"] = "superseded"
+            cd["approved"] = None
+        elif st == "proposed":
+            cd["status"] = "proposed"
+            cd["approved"] = None
+        else:
+            cd["status"] = "held"
+            cd["approved"] = None
+    else:
+        cd["status"] = "held"
+        cd["approved"] = None
 
 
 def build(c):
@@ -486,8 +628,10 @@ def build(c):
             prop = proposeStatusNamed1(c, tgt)
         elif tgt == "obra/superpowers":
             prop = proposeObra(c)
+        elif tgt == "heygen-com/hyperframes":
+            prop = {"kind": "frozen", "reason": "Founder ruling FD-8: dropped components frozen; immutable.", "frozen": True, "mutationProhibited": True}
         elif tgt in c.d6:
-            prop = proposeD6(c, tgt)
+            prop = proposeD6(c, tgt, is_frozen=isFrozenRecord(c, tgt, c.approvals))
         elif kd == "generic" and set(dims) & {"origin", "origin-attribution"}:
             prop = proposeBucketOrigin(c, tgt, tgt)
         elif kd == "named" and set(dims) & {"origin", "origin-attribution"} and c.base["named"][tgt]["genericSkillRef"] in c.reg.generic:
@@ -531,6 +675,7 @@ def build(c):
         cd["requiredDecision"]["who"] = who(cd["dimensions"], cd["target"], cd["kind"], c, cd["proposed"], SPECIALS.get(cd["target"]))
         if cd["outcome"] == "refuted-on-recheck":
             cd["requiredDecision"]["who"] = "none (refuted; record only)"
+        mapApproval(cd, c.approvals, c)
     return cands
 
 
@@ -542,7 +687,13 @@ def counts(c, cands):
             "byPacket": dict(sorted(Counter(cd["requiredDecision"]["packet"] for cd in cands).items())),
             "findingsUsed": sum(len(cd["evidence"]) for cd in cands),
             "findingRechecks": dict(sorted(Counter(r["verdict"] for cd in cands for r in cd["recheck"]).items())),
-            "d6Set": len(c.d6), "approved": sum(1 for cd in cands if cd["approved"] is not None), "held": sum(1 for cd in cands if cd["status"] == "held")}
+            "d6Set": len(c.d6),
+            "approved": sum(1 for cd in cands if cd.get("approved") is not None),
+            "held": sum(1 for cd in cands if cd.get("status") == "held"),
+            "deferred": sum(1 for cd in cands if cd.get("status") == "deferred"),
+            "proposed": sum(1 for cd in cands if cd.get("status") == "proposed"),
+            "superseded": sum(1 for cd in cands if cd.get("status") == "superseded"),
+            "byStatus": dict(sorted(Counter(cd.get("status", "held") for cd in cands).items()))}
 
 
 def selfcheck(c):
@@ -557,16 +708,18 @@ def selfcheck(c):
 
 
 def ledgerDoc(c, cands):
+    cnts = counts(c, cands)
     return {"generator": GENERATOR,
             "registryRevision": c.revision,
             "registryRevisionNote": "last commit touching anything outside founder/reports (HEAD only adds campaign records); stable under this ledger's own commits",
             "sweep": {"registryRevision": c.sweep["registryRevision"], "snapshot": c.sweep["snapshot"], "cutoff": c.sweep["cutoff"],
                       "findingsSha256": hashlib.sha256(c.sweepPath.read_bytes()).hexdigest(), "findingsCount": len(c.sweep["findings"])},
-            "mode": "read-only; approved is null everywhere; nothing here is a decision",
+            "mode": f"adjudication consequence ledger with founder rulings ({cnts['approved']} approved, {cnts['held']} held, {cnts['deferred']} deferred, {cnts['superseded']} superseded, {cnts['proposed']} proposed)",
             "doctrine": ["no lowering justified by age, outages, competitor existence, model confidence or audit findings alone",
                          "IDs and hashes are not authentication", "zero demotions is a valid outcome; none is manufactured",
-                         "a raise (e.g. latent-spaces/brag) is only proposed"],
-            "selfcheck": selfcheck(c), "counts": counts(c, cands), "candidates": cands}
+                         "a raise (e.g. latent-spaces/brag) is only proposed",
+                         "frozen records (direct and suites) are immutable: locked TM and grade, never mutated"],
+            "selfcheck": selfcheck(c), "counts": cnts, "candidates": cands}
 
 
 # ----------------------------------------------------------------------------- markdown
@@ -600,22 +753,41 @@ def ledgerMd(L):
     o = ["# Adjudication / consequence ledger (EPIC #2189 outcome 4)", "",
          "Generated by `adjudication/tools/build_adjudication.py` from `sweep/findings.json` (surviving findings) and the registry at "
          f"`{L['registryRevision'][:9]}`. Regenerate: `python3 founder/reports/yggdrasil-iv-october-2026/adjudication/tools/build_adjudication.py`. "
-         "**Approved: 0. Every row is held.** Nothing here is a decision, a demotion or a promotion.", "",
+         f"**Approved: {n.get('approved', 0)}. Held: {n.get('held', 0)}. Deferred: {n.get('deferred', 0)}. Superseded: {n.get('superseded', 0)}. Proposed: {n.get('proposed', 0)}.**", "",
          f"- Sweep snapshot `{L['sweep']['snapshot']}` (registry {L['sweep']['registryRevision'][:9]}), cutoff {L['sweep']['cutoff']}; provisional.",
          f"- Gaia clock pinned to {L['selfcheck']['clockPinnedTo']}; self-check: {L['selfcheck']['cachedTmGradeMismatchesVsRecompute']} cached TM/grade mismatches, "
          f"{L['selfcheck']['namedIndexLevelVsClampMismatches']} named-index level mismatches vs the grade-ceiling clamp, D6 set {L['selfcheck']['d6Recomputed']}.", "",
          "## Summary", "", f"Candidates: **{n['candidates']}** (from {n['findingsUsed']} surviving findings plus the D6 set and named specials).", "",
-         "| Outcome | Count |", "|---|---|"]
+         "| Status | Count |", "|---|---|"]
+    if "byStatus" in n:
+        o += [f"| {k} | {v} |" for k, v in n["byStatus"].items()]
+    else:
+        o += [f"| approved | {n.get('approved', 0)} |", f"| held | {n.get('held', 0)} |"]
+    o += ["", "| Outcome | Count |", "|---|---|"]
     o += [f"| {k} | {v} |" for k, v in n["byOutcome"].items()]
     o += ["", "| Dimension (candidates touching) | Count |", "|---|---|"] + [f"| {k} | {v} |" for k, v in n["byDimension"].items()]
     o += ["", "| Decision owner | Count |", "|---|---|"] + [f"| {k} | {v} |" for k, v in n["byDecisionOwner"].items()]
     o += ["", "| Packet | Count |", "|---|---|"] + [f"| {k} | {v} |" for k, v in n["byPacket"].items()]
     o += ["", "Finding re-checks: " + ", ".join(f"{k} {v}" for k, v in n["findingRechecks"].items()), "",
           "## Candidates (before -> proposed -> approved)", "",
-          "| ID | Target | Dimensions | P | Before | Proposed | Owner / packet | Approved |", "|---|---|---|---|---|---|---|---|"]
+          "| ID | Target | Dimensions | P | Before | Proposed | Owner / packet | Status / Approved |", "|---|---|---|---|---|---|---|---|"]
     for cd in cs:
+        app_str = "null (held)"
+        if cd.get("approved"):
+            dec = cd["approved"]
+            app_str = f"approved: {dec.get('action', dec.get('choice', 'approved'))}"
+        elif cd.get("status") == "deferred":
+            dec = cd.get("decision") or {}
+            app_str = f"deferred ({dec.get('action', 'Nov')})"
+        elif cd.get("status") == "superseded":
+            app_str = "superseded (automatic Origin)"
+        elif cd.get("status") == "proposed":
+            app_str = "proposed"
+        elif cd.get("status") == "held":
+            dec = cd.get("decision") or {}
+            app_str = f"held ({dec.get('action', 'pending')})" if dec.get('action') else "null (held)"
         o.append(f"| {cd['id']} | `{cd['target']}` | {', '.join(cd['dimensions'])} | {cd['priority']} | {bef(cd)} | {one(cd).replace('|', '/')} | "
-                 f"{cd['requiredDecision']['who']} / {cd['requiredDecision']['packet']} | null (held) |")
+                 f"{cd['requiredDecision']['who']} / {cd['requiredDecision']['packet']} | {app_str} |")
     return "\n".join(o) + "\n"
 
 
@@ -673,8 +845,9 @@ def decisionsMd(c, L):
         o.append(f"| `{t}` | {n['stored']['level']} | {n['stored']['branch']} | {n['derived']['grade']} {n['derived']['tm']} | {b['genericSkillRef']} ({len(b['members'])}) | "
                  f"{b['originHolders'] or 'none'} | {b['meritWinner']} | passed={g['passed']} originPresent={g['originPresent']} | {after} |")
     gr = by["safishamsi/graphify"]["proposed"]
+    prereqs_str = ", ".join(gr.get("fusionStructurePrerequisites", []))
     o += ["", f"`safishamsi/graphify` (5-star Unique Ultimate): holds bucket Origin but the 5-star gate needs fusion-structure Origin on a prerequisite of `knowledge-graph-build` "
-          f"({', '.join(gr['fusionStructurePrerequisites'])}); checkUniqueBranchGate 5-star passed={gr['gates']['5★']['passed']}, 4-star passed={gr['gates']['4★']['passed']}. "
+          f"({prereqs_str}); checkUniqueBranchGate 5-star passed={gr['gates']['5★']['passed']}, 4-star passed={gr['gates']['4★']['passed']}. "
           "Whether to leave, assign prerequisite Origin, or act on the level is a founder Class C choice; none is proposed.", "",
           "Decision asked (founder): assign bucket Origin to the merit winner for the four 4-star skills (each is the unique top member, so the recompute only flips the origin flag and the gate), or rule otherwise. Origin is a merit mark; assignment goes through `gaia dev` on a review/meta branch.", ""]
     # FD-11..15
@@ -710,29 +883,32 @@ def decisionsMd(c, L):
 
 
 # ----------------------------------------------------------------------------- main
-def render():
-    c = buildCtx()
+def render(out_dir: Path | None = None, approvals_path: Path | None = None):
+    c = buildCtx(approvals_path=approvals_path)
     cands = build(c)
     L = ledgerDoc(c, cands)
     return {"ledger.json": dumps(L), "LEDGER.md": ledgerMd(L), "DECISIONS.md": decisionsMd(c, L)}
 
 
-def main():
+def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true", help="rebuild and byte-compare ledger.json (and the markdown); exit 1 on drift")
-    a = ap.parse_args()
-    out = render()
+    ap.add_argument("--out-dir", type=Path, default=ADJ, help="output directory for ledger.json, LEDGER.md, DECISIONS.md (default: adjudication dir)")
+    ap.add_argument("--approvals", type=Path, default=None, help="path to approvals.json (default: adjudication/approvals.json)")
+    a = ap.parse_args(argv)
+    out_dir = a.out_dir
+    out = render(out_dir=out_dir, approvals_path=a.approvals)
     if a.check:
-        bad = [n for n, t in out.items() if not (ADJ / n).exists() or (ADJ / n).read_text() != t]
+        bad = [n for n, t in out.items() if not (out_dir / n).exists() or (out_dir / n).read_text() != t]
         if bad:
-            print("DRIFT: " + ", ".join(bad))
+            print(f"DRIFT in {out_dir}: " + ", ".join(bad))
             sys.exit(1)
         L = json.loads(out["ledger.json"])
-        assert L["counts"]["approved"] == 0
-        print(f"OK: {L['counts']['candidates']} candidates, approved=0, byte-identical rebuild")
+        print(f"OK: {L['counts']['candidates']} candidates, approved={L['counts']['approved']}, byte-identical rebuild in {out_dir}")
         return
+    out_dir.mkdir(parents=True, exist_ok=True)
     for n, t in out.items():
-        (ADJ / n).write_text(t)
+        (out_dir / n).write_text(t)
     L = json.loads(out["ledger.json"])
     print(json.dumps(L["counts"], indent=1))
 

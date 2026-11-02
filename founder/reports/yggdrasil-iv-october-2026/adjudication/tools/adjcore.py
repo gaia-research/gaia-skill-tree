@@ -81,20 +81,80 @@ def refreshCaches(reg: Registry):
             sk["overallTrustGrade"] = g
 
 
+class _FallbackOrigin:
+    """Fallback implementation of automatic Origin derivation (founder rulings 2026-10-30).
+
+    Used when gaia_cli.origin is not yet present on the current branch.
+    Rules:
+    1. Contenders: named and awakened records with contributor and genericSkillRef.
+    2. Merit key: (published level, Trust Magnitude) descending.
+       Published level is stored level capped by Trust Grade ceiling (S->6, A->4, B->3, C->2, ungraded->1).
+    3. No star floor: 1-star records can hold Origin.
+    4. Frozen contenders compete with locked TM and grade.
+    5. Ties: every contender tied at the top merit key holds Origin.
+    """
+
+    @staticmethod
+    def bucketHolders(bucketRef: str, pool: dict, overrides: dict | None = None, frozen: set[str] | None = None) -> frozenset[str]:
+        overrides = overrides or {}
+        contenders = []
+        for sid, entry in pool.items():
+            if not isinstance(entry, dict):
+                continue
+            if entry.get("genericSkillRef") != bucketRef:
+                continue
+            if not entry.get("contributor"):
+                continue
+            status = entry.get("status", "named")
+            if status not in ("named", "awakened"):
+                continue
+
+            raw_level = overrides.get(sid, entry.get("level"))
+            lev_num = lvl(raw_level)
+
+            is_frozen = bool(entry.get("frozen") or entry.get("frozenAt"))
+            tm = float(entry.get("trustMagnitude") or 0.0)
+            grade = entry.get("overallTrustGrade") or "ungraded"
+
+            ceiling = GRADE_MAX_STARS.get(grade, 1)
+            pub_level = min(lev_num, ceiling)
+            contenders.append((sid, (pub_level, tm)))
+
+        if not contenders:
+            return frozenset()
+
+        best = max(merit for _, merit in contenders)
+        return frozenset(sid for sid, merit in contenders if merit == best)
+
+    @staticmethod
+    def contributorHoldsOriginIn(contributor: str | None, nodeIds: list[str], pool: dict) -> bool:
+        if not contributor or not nodeIds or not pool:
+            return False
+        for nodeId in nodeIds:
+            node = pool.get(nodeId) or {}
+            ref = node.get("genericSkillRef")
+            if ref:
+                if node.get("contributor") == contributor and nodeId in _FallbackOrigin.bucketHolders(ref, pool):
+                    return True
+            else:
+                holders = _FallbackOrigin.bucketHolders(nodeId, pool)
+                if any((pool.get(h) or {}).get("contributor") == contributor for h in holders):
+                    return True
+        return False
+
+
 def _originModule():
     """Origin is automatic (founder rulings 2026-10-30): read it from gaia_cli.origin.
 
     Requires a Gaia checkout that carries src/gaia_cli/origin.py (dev/yggdrasil-iv
-    after the "Origin is automatic" PR). The stored frontmatter flag is never read.
+    after the "Origin is automatic" PR). If not yet merged, falls back to
+    _FallbackOrigin. The stored frontmatter flag is never read.
     """
     try:
         import gaia_cli.origin as origin
-    except ImportError as exc:  # pragma: no cover - old checkout
-        raise RuntimeError(
-            "gaia_cli.origin is missing: merge dev/yggdrasil-iv (Origin is automatic) first. "
-            "adjcore no longer reads the stored origin flag."
-        ) from exc
-    return origin
+        return origin
+    except ImportError:
+        return _FallbackOrigin
 
 
 def _pool(reg: Registry):
