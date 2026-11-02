@@ -69,12 +69,13 @@ evidence:
   sourceStartedAt: '2026-10-08'
   grade: B
 - source: https://github.com/wheresryan22/anatomy/blob/main/SKILL.md
+  updatedAt: '2026-11-01'
   evaluator: unknown
   date: '2026-10-27'
   type: github-stars-own
   notes: Live GitHub stargazers for wheresryan22/anatomy verified via GitHub API (21,279
     stars).
-  stars: 21279
+  stars: 23569
   skillCountInRepo: 1
   sourceStartedAt: '2026-10-08'
   grade: A

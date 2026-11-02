@@ -138,11 +138,11 @@ timeline:
     Issue #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/stargazers
-  updatedAt: '2026-10-01'
+  updatedAt: '2026-11-01'
   evaluator: unknown
   date: '2026-07-03'
   type: github-stars-own
-  stars: 100245
+  stars: 112397
   skillCountInRepo: 7
 - source: https://github.com/addyosmani/agent-skills
   evaluator: unknown

@@ -72,13 +72,13 @@ evidence:
   skillCountInRepo: 1
   sourceStartedAt: '2026-08-22'
 - source: https://github.com/nateherkai/scroll-craft/blob/0b816225945e45380397d6a0487efa3c98916858/plugins/nateherk-design/skills/scroll-craft/SKILL.md
-  updatedAt: '2026-10-01'
+  updatedAt: '2026-11-01'
   evaluator: mbtiongson1
   date: '2026-09-07'
   type: github-stars-own
   notes: Live verified GitHub stargazer count for the pinned upstream repository and
     concrete SKILL.md implementation.
-  stars: 2890
+  stars: 4341
   skillCountInRepo: 1
   sourceStartedAt: '2026-08-22'
   grade: A

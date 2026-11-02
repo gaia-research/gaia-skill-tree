@@ -66,12 +66,12 @@ timeline:
     Issue #1600)'
 evidence:
 - source: https://github.com/ayghri/i-have-adhd
-  updatedAt: '2026-10-01'
+  updatedAt: '2026-11-01'
   evaluator: unknown
   date: '2026-07-29'
   type: github-stars-own
   notes: 13,300 stars, 699 forks as of 2026-07-29. SKILL.md at blob/main/ path.
-  stars: 52569
+  stars: 59641
   skillCountInRepo: 1
   sourceStartedAt: '2026-07-22'
 - source: https://github.com/ayghri/i-have-adhd/blob/main/skills/i-have-adhd/SKILL.md

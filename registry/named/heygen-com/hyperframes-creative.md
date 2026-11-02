@@ -56,12 +56,12 @@ links:
   github: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-creative/SKILL.md
 evidence:
 - source: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-creative/SKILL.md
-  updatedAt: '2026-10-01'
+  updatedAt: '2026-11-01'
   evaluator: mbtiongson1
   date: '2026-09-07'
   type: github-stars-own
   notes: Host repository stars for heygen-com/hyperframes
-  stars: 55019
+  stars: 76819
   skillCountInRepo: 20
   sourceStartedAt: '2025-06-16'
   grade: A
