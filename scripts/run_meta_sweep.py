@@ -4,14 +4,15 @@
 Runs 13 parallel/concurrent audit dimensions:
   1. star-bar           — 3★+ named skills missing/dead links.github or non-blob
   2. liveness           — concurrent URL checking for dead links (404/error)
-  3. origin-attribution — META §4.1 origin standing rules (renowned, <=1★ forbidden, single origin)
+  3. origin-attribution — public projection consistency with automatic Origin (gaia_cli.origin)
   4. unbacked-star      — level exceeds Trust Magnitude grade ceiling
   5. brand-coupled      — generic IDs containing brand/vendor names
   6. heavy-deps         — 3★+ named skills with heavyweight deps
   7. installability     — 3★+ non-suite skills with installable: false or missing install
   8. placeholder-bodies — named skills with stub ## Installation only
   9. testuser-timelines — testuser mock fixtures in timelines/evaluators
- 10. champion-cluster   — generics with >= 2 implementations and no Champion
+ 10. champion-cluster   — derived Champion (rank, Origin, id) has lower Trust Magnitude
+                           than another implementation of the same generic (META §6.1)
  11. unique-isolation   — unique branch validation
  12. grade-mismatch     — evidence row declared grade vs calculated score
  13. product-attribution — named skill body documents a specific third-party
@@ -120,24 +121,136 @@ def check_liveness(urls_to_check, max_workers=20, timeout=6):
         results = list(executor.map(probe, urls_to_check))
     return results
 
+_FROZEN_IDS = None
+
+
 def is_skill_frozen(data: dict) -> bool:
-    """Return True if the skill was frozen via upstream_deprecated or frontmatter."""
-    if data.get("frozen") is True or bool(data.get("frozenAt")):
-        return True
-    if data.get("suiteComponents") and data.get("installable") is not False:
-        return False
-    timeline = data.get("timeline", [])
-    if isinstance(timeline, list):
-        return any(
-            isinstance(e, dict) and e.get("action") == "upstream_deprecated"
-            for e in timeline
-        )
-    return False
+    """Frozen per the one definition in gaia_cli.frozen (self or through a frozen suite)."""
+    from gaia_cli.frozen import isSelfFrozen
+
+    if _FROZEN_IDS is not None:
+        return data.get("id") in _FROZEN_IDS
+    return isSelfFrozen(data)
+
+def championClusterFindings(named, tmById=None):
+    """Champion review findings for multi-implementation generics (META §6.1).
+
+    Champion is DERIVED, never stored: ``registry/nodes/**`` carries no
+    ``champion`` field and the old "no Champion designated" check flagged every
+    multi-child cluster (ADJ-180 / F73). The Champion of a generic is the first
+    entry of its named bucket under ``generateNamedIndex.championSortKey``
+    (rank descending, Origin first, id), over ``status: named`` skills.
+
+    A cluster is only flagged when that derived Champion's Trust Magnitude is
+    LOWER than another implementation's, i.e. the display ordering disagrees
+    with META §6.1's "highest trust" definition. The finding is a review item
+    (rank / Origin ordering), not a missing field: never write a champion
+    field into registry/nodes (programmatic-first policy).
+
+    ``tmById`` maps named skill id -> Trust Magnitude. When omitted it is
+    recomputed live with the Trust Magnitude engine over the merged registry
+    map; if the engine is unavailable no cluster is flagged.
+    """
+    from generateNamedIndex import championSortKey
+    from gaia_cli.origin import deriveBucketOrigins, publishedLevelNumber
+
+    clusters = collections.defaultdict(list)
+    for item in named.values():
+        meta = item["meta"]
+        gen = meta.get("genericSkillRef")
+        if gen and meta.get("status", "named") == "named":
+            clusters[gen].append((meta, item["path"]))
+    clusters = {g: v for g, v in clusters.items() if len(v) >= 2}
+    if not clusters:
+        return []
+
+    if tmById is None:
+        try:
+            from gaia_cli.registryMaps import buildMergedSkillMap
+            from gaia_cli.trustMagnitude import computeTrustMagnitude
+            merged = buildMergedSkillMap(REPO_ROOT)
+            tmById = {
+                meta["id"]: round(float(computeTrustMagnitude(merged.get(meta["id"], meta), merged)), 2)
+                for members in clusters.values() for meta, _ in members
+            }
+        except Exception as exc:  # engine unavailable -> never guess a champion
+            print(f"  champion-cluster skipped: Trust Magnitude unavailable ({exc})")
+            return []
+
+    out = []
+    for gen in sorted(clusters):
+        members = clusters[gen]
+
+        holders = deriveBucketOrigins([
+            {"id": meta["id"],
+             "levelNumber": publishedLevelNumber(meta.get("level"), meta.get("overallTrustGrade")),
+             "tm": tmById.get(meta["id"], 0.0)}
+            for meta, _path in members
+        ])
+
+        def sortKey(member):
+            entry = {**member[0], "origin": member[0]["id"] in holders}
+            return championSortKey(entry)
+
+        ordered = sorted(members, key=sortKey)
+        champ, champPath = ordered[0]
+        best = max(members, key=lambda m: (tmById.get(m[0]["id"], 0.0), m[0]["id"]))
+        champTm = tmById.get(champ["id"], 0.0)
+        bestTm = tmById.get(best[0]["id"], 0.0)
+        if champTm < bestTm:
+            out.append({
+                "target": gen,
+                "priority": "P3",
+                "reason": (
+                    f"Derived Champion '{champ['id']}' ({champ.get('level')}, TM {champTm:.2f}) has lower Trust "
+                    f"Magnitude than '{best[0]['id']}' ({best[0].get('level')}, TM {bestTm:.2f}) among "
+                    f"{len(members)} implementations of '{gen}'"
+                ),
+                "suggestedAction": (
+                    "Review rank / Origin ordering for this bucket (META §6.1). Champion is derived from "
+                    "rank, Origin and id; do not write a champion field into registry/nodes."
+                ),
+                "sources": [champPath, best[1]],
+            })
+    return out
+
+
+def originProjectionFindings(projection, holders):
+    """Compare public current Origin, never require legacy source-flag rewrites."""
+    from collections import defaultdict
+
+    published = defaultdict(set)
+    for ref, entries in projection.get("buckets", {}).items():
+        published[ref].update(entry["id"] for entry in entries if entry.get("origin"))
+    for entry in projection.get("awaitingClassification", []):
+        if entry.get("origin") and entry.get("genericSkillRef"):
+            published[entry["genericSkillRef"]].add(entry["id"])
+    return [
+        {"target": ref, "priority": "P1",
+         "reason": f"Public Origin holders {sorted(published[ref])} differ from automatic holders {sorted(holders.get(ref, []))}",
+         "suggestedAction": "Regenerate the derived public projection; preserve historical source attribution and frozen bytes.",
+         "sources": ["docs/graph/named/index.json"]}
+        for ref in sorted(set(published) | set(holders))
+        if published[ref] != set(holders.get(ref, []))
+    ]
+
+
+def filterFrozenMutationFindings(findings, protected):
+    """Keep observations, never recommend changing a frozen canonical record."""
+    return {
+        dimension: [item for item in items
+                    if dimension == "liveness" or item.get("target") not in protected]
+        for dimension, items in findings.items()
+    }
+
 
 def run_meta_sweep():
     print("=== Gaia Meta Sweep Audit ===")
     nodes, named = load_registry()
     print(f"Loaded {len(nodes)} generic nodes and {len(named)} named skills.")
+    global _FROZEN_IDS
+    from gaia_cli.frozen import frozenIds
+    _FROZEN_IDS = frozenIds(item["meta"] for item in named.values())
 
     findings = collections.defaultdict(list)
 
@@ -202,45 +315,24 @@ def run_meta_sweep():
 
     # 3. Origin Attribution (META §4.1)
     print("Dimension 3: Origin Attribution...")
-    by_generic = collections.defaultdict(list)
-    for skill_id, item in named.items():
-        gen = item["meta"].get("genericSkillRef")
-        if gen:
-            by_generic[gen].append(item["meta"])
-
-    for gen, skills in by_generic.items():
-        origins = [s for s in skills if s.get("origin") is True]
-        for o in origins:
-            if parse_star(o.get("level")) <= 1:
-                findings["origin-attribution"].append({
-                    "target": o.get("id"),
-                    "priority": "P1",
-                    "reason": f"Skill holds Origin standing despite being ≤1★ ({o.get('level')}) for generic '{gen}'",
-                    "suggestedAction": "Strip origin flag (origin: false) per META §4.1",
-                    "sources": [o.get("id")],
-                })
-        if len(origins) > 1:
-            findings["origin-attribution"].append({
-                "target": gen,
-                "priority": "P1",
-                "reason": f"Multiple implementations claim Origin standing in generic '{gen}': {[s.get('id') for s in origins]}",
-                "suggestedAction": "Retain Origin solely on highest-ranking / highest-TM implementation",
-                "sources": [s.get("id") for s in origins],
-            })
-        elif len(origins) == 1:
-            origin_skill = origins[0]
-            origin_stars = parse_star(origin_skill.get("level"))
-            for s in skills:
-                s_stars = parse_star(s.get("level"))
-                if s_stars > origin_stars:
-                    findings["origin-attribution"].append({
-                        "target": origin_skill.get("id"),
-                        "priority": "P2",
-                        "reason": f"Origin holder {origin_skill.get('id')} ({origin_stars}★) is outclassed by {s.get('id')} ({s_stars}★) in generic '{gen}'",
-                        "suggestedAction": f"Reassign Origin to {s.get('id')} per META §4.1 renowned rule",
-                        "sources": [origin_skill.get("id"), s.get("id")],
-                    })
-                    break
+    # Compare the public projection with the rule. Legacy source flags are
+    # historical attribution, not values to repair or manual assignments.
+    from gaia_cli.origin import contenderPool, registryOrigins
+    from gaia_cli.registryMaps import buildMergedSkillMap
+    holders = registryOrigins(contenderPool(REPO_ROOT, buildMergedSkillMap(REPO_ROOT)))
+    projection_path = os.path.join(REPO_ROOT, "docs/graph/named/index.json")
+    try:
+        with open(projection_path, encoding="utf-8") as source:
+            projection = json.load(source)
+    except (OSError, ValueError) as exc:
+        findings["origin-attribution"].append({
+            "target": "origin-projection", "priority": "P1",
+            "reason": f"Public Origin projection unavailable: {exc}",
+            "suggestedAction": "Regenerate and verify the public projection; no source attribution change.",
+            "sources": [projection_path],
+        })
+    else:
+        findings["origin-attribution"].extend(originProjectionFindings(projection, holders))
 
     # 4. Unbacked Star (Level > TM Grade)
     print("Dimension 4: Unbacked Star...")
@@ -342,18 +434,8 @@ def run_meta_sweep():
 
     # 10. Champion Clusters (META §6.1)
     print("Dimension 10: Champion Clusters...")
-    for gen, skills in by_generic.items():
-        if len(skills) >= 2:
-            node = nodes.get(gen, {})
-            champ = node.get("champion")
-            if not champ:
-                findings["champion-cluster"].append({
-                    "target": gen,
-                    "priority": "P3",
-                    "reason": f"Generic '{gen}' has {len(skills)} implementations ({[s.get('id') for s in skills]}) but no Champion designated",
-                    "suggestedAction": f"Designate top-ranked implementation as Champion in registry/nodes/generic/{gen}.json (META §6.1)",
-                    "sources": [s.get("id") for s in skills],
-                })
+    for finding in championClusterFindings(named):
+        findings["champion-cluster"].append(finding)
 
     # 11. Unique Isolation (META §1.2)
     print("Dimension 11: Unique Isolation...")
@@ -478,6 +560,9 @@ def run_meta_sweep():
             "reasoning": "Abstract capability superseding vendor-coupled 'react-performance-optimization' node."
         }
     ]
+
+    # Frozen records may be observed, but must never receive mutation proposals.
+    findings = filterFrozenMutationFindings(findings, _FROZEN_IDS)
 
     # Phase 4: Adversarial Verification (Skeptic Filter)
     print("Phase 4: Adversarial Skeptic Verification...")
@@ -721,7 +806,7 @@ def generate_html_report(report_data):
     <h2>1. Executive Summary &amp; Abstract</h2>
     <p>
       This audit presents a programmatic, 12-dimension sweep across the entire Gaia Skill Tree registry, evaluating <strong>{snap['totalGenerics']} generic capabilities</strong> and <strong>{snap['totalNamedSkills']} named skills</strong> against the canonical invariants of <code>META.md</code>.
-      Following the Yggdrasil III recalibration, this sweep enforces the logarithmic adoption curve, verifies active URL liveness across 250+ evidence endpoints, realigns Origin standing under the merit-based renowned rule (§4.1), and screens for brand coupling and unbacked ranks.
+      Following the Yggdrasil III recalibration, this sweep enforces the logarithmic adoption curve, verifies active URL liveness across 250+ evidence endpoints, checks the derived Origin projection (§4.1), and screens for brand coupling and unbacked ranks.
     </p>
 
     <div class="stats-grid">
@@ -769,7 +854,7 @@ def generate_html_report(report_data):
 
     <h2>6. Governance &amp; Next Actions</h2>
     <ol>
-      <li><strong>Remediate Outclassed Origins:</strong> Apply Origin merit realignments to promote active 4★/5★ implementations over dormant stubs.</li>
+      <li><strong>Origin is automatic:</strong> the build derives each bucket's Origin from merit; regenerate the public projection without rewriting historical source attribution.</li>
       <li><strong>Calibrate Unbacked Ranks:</strong> Bring historical pre-logarithmic 5★ stubs down to their certified Grade B ceilings (3★).</li>
       <li><strong>Refactor Brand Generics:</strong> Migrate vendor nodes (<code>firecrawl</code>, <code>supabase</code>) to capability nodes.</li>
     </ol>

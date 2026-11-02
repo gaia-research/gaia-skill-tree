@@ -160,9 +160,9 @@ def _preflight_star_gate(skill_id: str, skill_data: dict, level: str, registry_p
     unconditional.
     Unique branch (no ``suiteComponents``): 4★/5★ use
     ``promotion.checkUniqueBranchGate``. Suite branch: 4★ Extra needs Grade A
-    (TM >= 100), 5★+ Ultimate needs Grade S (TM >= 250) plus Origin on >=1
+    (TM >= 100), 5★+ Ultimate needs Grade S (TM >= 250) plus the derived Origin on >=1
     ``suiteComponents`` (META.md section 4.2), held by the proposing contributor; no bucket-level
-    Origin is required. Scope: 4★/5★ are fully gated; a 6★ target only
+    Origin is required. Unique 4★/5★ need only to be their bucket's derived Origin. Scope: 4★/5★ are fully gated; a 6★ target only
     enforces the Grade S floor -- `checkUniqueImpossibleGate` / `passesSuiteApexGate`
     are NOT enforced here.
     """
@@ -183,30 +183,29 @@ def _preflight_star_gate(skill_id: str, skill_data: dict, level: str, registry_p
     if _STAR_GRADE_ORDER.get(grade, 0) < _STAR_GRADE_ORDER[required]:
         problems.append(f"Overall Trust Grade {grade} (TM {tm}) is below the required Grade {required}")
 
+    from gaia_cli.origin import contenderPool
+    originPool = contenderPool(registry_path, mergedMap)
+
     components = skill_data.get("suiteComponents") or []
     if components:
         branch = "Suite"
         if target >= 5:
-            from gaia_cli.promotion import _contributor_holds_origin_in
-            contributor = skill_data.get("contributor")
-            # Generic-ref components resolve through the shared promotion helper;
-            # named-id components (contributor/slug) must carry origin: true AND
-            # belong to the proposing contributor.
-            holdsOrigin = _contributor_holds_origin_in(contributor, components, mergedMap) or any(
-                (mergedMap.get(c) or {}).get("origin") is True
-                and (mergedMap.get(c) or {}).get("contributor") == contributor
-                for c in components
-            )
+            from gaia_cli.origin import contributorHoldsOriginIn
+            # Origin is derived (highest merit per bucket, gaia_cli.origin): a
+            # named component counts when it belongs to the proposer and is its
+            # bucket's Origin; a generic component counts when the proposer's
+            # skill is that bucket's Origin.
+            holdsOrigin = contributorHoldsOriginIn(skill_data.get("contributor"), components, originPool)
             if not holdsOrigin:
                 problems.append("5★+ Suite Ultimate requires the proposing contributor to hold Origin on at least one suiteComponent (META.md 4.2)")
     else:
         branch = "Unique"
         if target in (4, 5):
-            result = checkUniqueBranchGate(skill_data, level, mergedMap, mergedMap)
+            result = checkUniqueBranchGate(skill_data, level, mergedMap, mergedMap, originPool=originPool)
             if not result.get("originPresent"):
                 problems.append(
-                    "4★ Unique requires bucket-level Origin on its generic" if target == 4
-                    else "5★ Unique Ultimate requires Origin on a node in the generic parent's prerequisites"
+                    f"{level} Unique requires being the Origin of its own generic bucket "
+                    "(the highest-merit implementation by level, then TM; Origin is automatic)"
                 )
             if result.get("branch") not in (None, "unique") and not problems:
                 problems.append(f"skill resolves to branch '{result.get('branch')}' at {level}, not Unique")
@@ -222,8 +221,8 @@ def _preflight_star_gate(skill_id: str, skill_data: dict, level: str, registry_p
         _fail_dev_preflight(
             f"Cannot set {skill_id} to {level} ({branch} branch): " + "; ".join(problems) + ".",
             fix=(
-                "Add the missing evidence/Origin through the matching `gaia dev` verb, or calibrate to a level "
-                "the gate allows. Lowering a level is always permitted."
+                "Add the missing evidence through the matching `gaia dev` verb (Origin follows merit "
+                "automatically), or calibrate to a level the gate allows. Lowering a level is always permitted."
             ),
         )
 
@@ -756,6 +755,31 @@ def _find_named_file(named_dir, skill_id):
     return None
 
 
+def preflightNamedSkillMutable(registry_path, skill_id: str) -> None:
+    """Refuse a named-record mutation when the target is frozen.
+
+    The lookup uses the one suite-aware frozen definition. Command handlers run
+    this before writing either a record or its timeline so frozen canonical
+    bytes remain exact historical bytes.
+    """
+    from gaia_cli.frozen import frozenIds
+
+    named_dir = Path(named_skills_dir(registry_path))
+    metas = []
+    for path in named_dir.rglob("*.md"):
+        try:
+            meta, _body = _parse_md(path)
+        except (OSError, ValueError):
+            continue
+        if isinstance(meta, dict) and meta.get("id"):
+            metas.append(meta)
+    if skill_id in frozenIds(metas):
+        _fail_dev_preflight(
+            f"Named skill '{skill_id}' is frozen (directly or through a frozen suite). Nothing was written.",
+            fix="Frozen records preserve their historical bytes and cannot be changed by this command.",
+        )
+
+
 def _replace_section(body: str, section_heading: str, new_content: str) -> str:
     """Replace (or append) a top-level markdown section in the body text.
 
@@ -1271,6 +1295,11 @@ def preflightAddCommand(args) -> None:
             try:
                 extra = json.loads(extraFieldsStr)
                 if isinstance(extra, dict):
+                    if "origin" in extra:
+                        _fail_dev_preflight(
+                            "--extra-fields cannot set 'origin' on a named skill: Origin is automatic.",
+                            fix="Omit origin; the required legacy initializer remains false and projections derive Origin from merit.",
+                        )
                     catalogRefVal = extra.get("catalogRef")
             except json.JSONDecodeError:
                 pass

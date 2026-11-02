@@ -39,8 +39,8 @@
  *   counterevidence under comparable conditions; no demotion on elapsed time alone.
  * - Verified challenges go public immediately after independent verification.
  * - Scoped capability challenges are strictly kept distinct from Origin contested.
- * - Current Origin is exactly one and merit-based; never infer Origin transfer
- *   or vacancy merely because an incumbent is contested.
+ * - Current Origin follows merit automatically; tied top contenders share it.
+ *   Challenge status alone does not transfer or vacate Origin.
  * - Technical resolutions (Class B) must be distinguished from numerical trust
  *   recalibrations (Class C).
  * - Upstream-superseded challenges remain permanently visible in history.
@@ -483,8 +483,8 @@
       isContested: isOriginContested,
       genericSkillRef: typeof rawOrig.genericSkillRef === 'string' ? rawOrig.genericSkillRef.trim() : (entry.genericSkillRef || ''),
       notice: isOriginContested
-        ? 'Current Origin is actively contested by a verified material challenge under adjudication. Under Yggdrasil IV doctrine, Origin remains held by the incumbent and does not transfer or vacate while contested.'
-        : (incumbentHandle ? 'Merit-based Origin is held by the qualified named implementation. Transfer requires an approved Class C determination.' : 'Origin ownership is unavailable from the consequence source.')
+        ? 'Current Origin is contested by a verified material challenge under adjudication. Origin remains held by the incumbent and does not transfer or vacate while contested; current Origin follows merit automatically and tied top contenders share it.'
+        : (incumbentHandle ? 'Current Origin is derived automatically from merit; tied top contenders share Origin.' : 'Origin ownership is unavailable from the consequence source.')
     };
 
     // 4. Approved Standing
@@ -1141,6 +1141,11 @@
       h.push('</ol>');
     }
 
+    // Entrypoint to the public challenge surface (only when the host supplies a safe relative href).
+    if (typeof opts.challengesHref === 'string' && /^(\.\.\/)*trust\/challenges\/#subject-[^\s"'<>]*$/.test(opts.challengesHref)) {
+      h.push('<p class="lc-more"><a class="lc-link" href="' + esc(opts.challengesHref) + '">All admitted challenges and held reviews</a></p>');
+    }
+
     h.push('</section>');
     return h.join('');
   }
@@ -1216,7 +1221,12 @@
       ? semantics.branchOf(entry)
       : (typeof entry.branch === 'string' ? entry.branch : '');
 
-    el.innerHTML = renderTrustLifecycleHtml(vm, {branch: branch});
+    // Host-relative route to /trust/challenges/ (the explorer is mounted at several depths).
+    var here = typeof window !== 'undefined' && window.location ? String(window.location.pathname || '') : '';
+    var depth = here.replace(/[^/]*$/, '').split('/').filter(Boolean).length;
+    var challengesHref = new Array(depth + 1).join('../') + 'trust/challenges/#subject-' + encodeURIComponent(String(entry.id || ''));
+
+    el.innerHTML = renderTrustLifecycleHtml(vm, {branch: branch, challengesHref: challengesHref});
     bindTips(el);
   }
 
@@ -1231,6 +1241,7 @@
     renderLifecycleSection: renderLifecycleSection,
     components: {
       challengeMark: challengeMark,
+      markSvg: markSvg,
       markStateOf: markStateOf,
       stateChip: stateChip,
       trustMeter: trustMeter,

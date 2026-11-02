@@ -1,21 +1,45 @@
 {
   "skills": [
     {
-      "id": "browser-use/browser-harness",
-      "name": "Browser Harness",
+      "id": "ruvnet/agentdb",
+      "name": "AgentDB",
       "level": "3★",
-      "trustMagnitude": 73.59,
+      "trustMagnitude": 81.0,
       "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "browser-use",
-      "type": "basic",
+      "fusionScore": 240.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb.json"
+      },
+      "genericSkillRef": "agent-memory-platform",
+      "suiteComponents": [
+        "ruvnet/agentdb-advanced",
+        "ruvnet/agentdb-learning",
+        "ruvnet/agentdb-memory-patterns",
+        "ruvnet/agentdb-optimization",
+        "ruvnet/agentdb-vector-search"
+      ]
+    },
+    {
+      "id": "addy-osmani/spec-driven-development",
+      "name": "Spec-Driven Development",
+      "level": "3★",
+      "trustMagnitude": 80.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
       "branch": "standard",
       "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/browser-use/browser-harness.json"
+        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
       },
-      "genericSkillRef": "browser-control"
+      "genericSkillRef": "prd-generation"
     },
     {
       "id": "firecrawl/firecrawl-skills",
@@ -195,6 +219,40 @@
       "genericSkillRef": "scroll-world"
     },
     {
+      "id": "google-deepmind/workflow-skill-creator",
+      "name": "Workflow-Skill-Creator",
+      "level": "3★",
+      "trustMagnitude": 59.65,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "google-deepmind",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/google-deepmind/workflow-skill-creator.json"
+      },
+      "genericSkillRef": "skill-authoring"
+    },
+    {
+      "id": "obra/test-driven-development",
+      "name": "test-driven-development",
+      "level": "2★",
+      "trustMagnitude": 59.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "obra",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/test-driven-development.json"
+      },
+      "genericSkillRef": "test-driven-development"
+    },
+    {
       "id": "mattpocock/setup-matt-pocock-skills",
       "name": "Setup Matt Pocock Skills",
       "level": "3★",
@@ -229,23 +287,6 @@
       "genericSkillRef": "issue-triage"
     },
     {
-      "id": "panniantong/agent-reach",
-      "name": "Agent Reach",
-      "level": "3★",
-      "trustMagnitude": 53.86,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "panniantong",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/panniantong/agent-reach.json"
-      },
-      "genericSkillRef": "agent-reach"
-    },
-    {
       "id": "gsd-build/gsd-verify-work",
       "name": "GSD Verify Work",
       "level": "3★",
@@ -261,6 +302,57 @@
         "self": "/api/v1/skills/gsd-build/gsd-verify-work.json"
       },
       "genericSkillRef": "verification-before-completion"
+    },
+    {
+      "id": "addy-osmani/api-and-interface-design",
+      "name": "api-and-interface-design",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/api-and-interface-design.json"
+      },
+      "genericSkillRef": "software-design"
+    },
+    {
+      "id": "addy-osmani/browser-testing-with-devtools",
+      "name": "browser-testing-with-devtools",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/browser-testing-with-devtools.json"
+      },
+      "genericSkillRef": "browser-control"
+    },
+    {
+      "id": "addy-osmani/ci-cd-and-automation",
+      "name": "ci-cd-and-automation",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 100.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/ci-cd-and-automation.json"
+      },
+      "genericSkillRef": "deployment-automation"
     },
     {
       "id": "addy-osmani/code-review-and-quality",
@@ -280,6 +372,125 @@
       "genericSkillRef": "code-review-pipeline"
     },
     {
+      "id": "addy-osmani/constraint-driven-development",
+      "name": "constraint-driven-development",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/constraint-driven-development.json"
+      },
+      "genericSkillRef": "guardrails"
+    },
+    {
+      "id": "addy-osmani/context-engineering",
+      "name": "context-engineering",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/context-engineering.json"
+      },
+      "genericSkillRef": "agent-environment-setup"
+    },
+    {
+      "id": "addy-osmani/deprecation-and-migration",
+      "name": "deprecation-and-migration",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/deprecation-and-migration.json"
+      },
+      "genericSkillRef": "deprecation-and-migration"
+    },
+    {
+      "id": "addy-osmani/documentation-and-adrs",
+      "name": "documentation-and-adrs",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/documentation-and-adrs.json"
+      },
+      "genericSkillRef": "write-report"
+    },
+    {
+      "id": "addy-osmani/doubt-driven-development",
+      "name": "doubt-driven-development",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/doubt-driven-development.json"
+      },
+      "genericSkillRef": "adversarial-review"
+    },
+    {
+      "id": "addy-osmani/frontend-ui-engineering",
+      "name": "frontend-ui-engineering",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/frontend-ui-engineering.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "addy-osmani/observability-and-instrumentation",
+      "name": "observability-and-instrumentation",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/observability-and-instrumentation.json"
+      },
+      "genericSkillRef": "observability-instrumentation"
+    },
+    {
       "id": "addy-osmani/performance-optimization",
       "name": "Performance Optimization",
       "level": "3★",
@@ -297,6 +508,23 @@
       "genericSkillRef": "performance-tuning"
     },
     {
+      "id": "addy-osmani/security-and-hardening",
+      "name": "security-and-hardening",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/security-and-hardening.json"
+      },
+      "genericSkillRef": "security-audit"
+    },
+    {
       "id": "addy-osmani/shipping-and-launch",
       "name": "Shipping and Launch",
       "level": "3★",
@@ -312,6 +540,23 @@
         "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
       },
       "genericSkillRef": "finishing-a-development-branch"
+    },
+    {
+      "id": "addy-osmani/source-driven-development",
+      "name": "source-driven-development",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/source-driven-development.json"
+      },
+      "genericSkillRef": "grounding"
     },
     {
       "id": "firecrawl/firecrawl-build-interact",
@@ -365,6 +610,40 @@
       "genericSkillRef": "literature-search"
     },
     {
+      "id": "garrytan/academic-verify",
+      "name": "academic-verify",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/academic-verify.json"
+      },
+      "genericSkillRef": "grounding"
+    },
+    {
+      "id": "garrytan/archive-crawler",
+      "name": "archive-crawler",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 100.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/archive-crawler.json"
+      },
+      "genericSkillRef": "knowledge-harvest"
+    },
+    {
       "id": "garrytan/benchmark",
       "name": "Benchmark",
       "level": "3★",
@@ -382,6 +661,40 @@
       "genericSkillRef": "evaluate-output"
     },
     {
+      "id": "garrytan/blog-ingest",
+      "name": "blog-ingest",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 100.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/blog-ingest.json"
+      },
+      "genericSkillRef": "knowledge-harvest"
+    },
+    {
+      "id": "garrytan/book-mirror",
+      "name": "book-mirror",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 120.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/book-mirror.json"
+      },
+      "genericSkillRef": "document-analyst"
+    },
+    {
       "id": "garrytan/brain-ops",
       "name": "Brain Ops",
       "level": "3★",
@@ -397,6 +710,23 @@
         "self": "/api/v1/skills/garrytan/brain-ops.json"
       },
       "genericSkillRef": "knowledge-management"
+    },
+    {
+      "id": "garrytan/bulk-ingestion",
+      "name": "bulk-ingestion",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 100.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/bulk-ingestion.json"
+      },
+      "genericSkillRef": "knowledge-harvest"
     },
     {
       "id": "garrytan/canary",
@@ -433,6 +763,23 @@
       "genericSkillRef": "personal-knowledge-management"
     },
     {
+      "id": "garrytan/citation-graph-ingest",
+      "name": "citation-graph-ingest",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/citation-graph-ingest.json"
+      },
+      "genericSkillRef": "knowledge-graph-build"
+    },
+    {
       "id": "garrytan/concept-synthesis",
       "name": "Concept Synthesis",
       "level": "3★",
@@ -448,6 +795,40 @@
         "self": "/api/v1/skills/garrytan/concept-synthesis.json"
       },
       "genericSkillRef": "concept-synthesis"
+    },
+    {
+      "id": "garrytan/context-audit",
+      "name": "context-audit",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/context-audit.json"
+      },
+      "genericSkillRef": "context-compression"
+    },
+    {
+      "id": "garrytan/conversation-archive",
+      "name": "conversation-archive",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/conversation-archive.json"
+      },
+      "genericSkillRef": "personal-knowledge-management"
     },
     {
       "id": "garrytan/cso",
@@ -467,400 +848,26 @@
       "genericSkillRef": "security-audit"
     },
     {
-      "id": "garrytan/design-consultation",
-      "name": "Design Consultation",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 80.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/design-consultation.json"
-      },
-      "genericSkillRef": "design-system-extraction"
-    },
-    {
-      "id": "garrytan/design-html",
-      "name": "Design HTML",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/design-html.json"
-      },
-      "genericSkillRef": "code-generation"
-    },
-    {
-      "id": "garrytan/design-shotgun",
-      "name": "Design Shotgun",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/design-shotgun.json"
-      },
-      "genericSkillRef": "design-review"
-    },
-    {
-      "id": "garrytan/document-generate",
-      "name": "Document Generate",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/document-generate.json"
-      },
-      "genericSkillRef": "document-editing"
-    },
-    {
-      "id": "garrytan/investigate",
-      "name": "Investigate",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/investigate.json"
-      },
-      "genericSkillRef": "systematic-debugging"
-    },
-    {
-      "id": "garrytan/land-and-deploy",
-      "name": "Land and Deploy",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 100.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/land-and-deploy.json"
-      },
-      "genericSkillRef": "deployment-automation"
-    },
-    {
-      "id": "garrytan/plan-ceo-review",
-      "name": "Plan CEO Review",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/plan-ceo-review.json"
-      },
-      "genericSkillRef": "evaluate-output"
-    },
-    {
-      "id": "garrytan/plan-design-review",
-      "name": "Plan Design Review",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/plan-design-review.json"
-      },
-      "genericSkillRef": "ux-audit"
-    },
-    {
-      "id": "garrytan/plan-devex-review",
-      "name": "Plan DevEx Review",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/plan-devex-review.json"
-      },
-      "genericSkillRef": "ux-audit"
-    },
-    {
-      "id": "garrytan/qa",
-      "name": "QA",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 140.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/qa.json"
-      },
-      "genericSkillRef": "e2e-testing"
-    },
-    {
-      "id": "garrytan/review",
-      "name": "Review",
-      "level": "3★",
+      "id": "garrytan/data-research",
+      "name": "data-research",
+      "level": "2★",
       "trustMagnitude": 50.0,
       "overallTrustGrade": "B",
       "fusionScore": 60.0,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/garrytan/review.json"
+        "self": "/api/v1/skills/garrytan/data-research.json"
       },
-      "genericSkillRef": "code-review-pipeline"
-    },
-    {
-      "id": "garrytan/ship",
-      "name": "Ship",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 80.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/ship.json"
-      },
-      "genericSkillRef": "finishing-a-development-branch"
-    },
-    {
-      "id": "garrytan/skillify",
-      "name": "Skillify",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 60.0,
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/skillify.json"
-      },
-      "genericSkillRef": "skill-authoring"
-    },
-    {
-      "id": "gsd-build/gsd-discuss-phase",
-      "name": "GSD Discuss Phase",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "gsd-build",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/gsd-discuss-phase.json"
-      },
-      "genericSkillRef": "brainstorming"
-    },
-    {
-      "id": "gsd-build/gsd-execute-phase",
-      "name": "GSD Execute Phase",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 220.0,
-      "contributor": "gsd-build",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/gsd-execute-phase.json"
-      },
-      "genericSkillRef": "subagent-driven-development"
-    },
-    {
-      "id": "gsd-build/gsd-plan-phase",
-      "name": "GSD Plan Phase",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "gsd-build",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/gsd-plan-phase.json"
-      },
-      "genericSkillRef": "writing-plans"
-    },
-    {
-      "id": "gsd-build/gsd-ship",
-      "name": "GSD Ship",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 80.0,
-      "contributor": "gsd-build",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/gsd-ship.json"
-      },
-      "genericSkillRef": "finishing-a-development-branch"
-    },
-    {
-      "id": "heygen-com/embedded-captions",
-      "name": "Embedded Captions",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/embedded-captions.json"
-      },
-      "genericSkillRef": "video-captions"
-    },
-    {
-      "id": "heygen-com/faceless-explainer",
-      "name": "Faceless Explainer",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 160.0,
-      "contributor": "heygen-com",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/faceless-explainer.json"
-      },
-      "genericSkillRef": "video-composition"
-    },
-    {
-      "id": "heygen-com/figma",
-      "name": "Figma",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/figma.json"
-      },
-      "genericSkillRef": "design-source-import"
-    },
-    {
-      "id": "heygen-com/hyperframes-animation",
-      "name": "HyperFrames Animation",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-animation.json"
-      },
-      "genericSkillRef": "timeline-animation"
-    },
-    {
-      "id": "heygen-com/hyperframes-audio",
-      "name": "Hyperframes Audio",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-audio.json"
-      },
-      "genericSkillRef": "audio-mixing"
-    },
-    {
-      "id": "heygen-com/hyperframes-cli",
-      "name": "HyperFrames CLI",
-      "level": "3★",
-      "trustMagnitude": 50.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "heygen-com",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes-cli.json"
-      },
-      "genericSkillRef": "video-scaffolding"
+      "genericSkillRef": "research"
     }
   ],
   "page": 2,
-  "totalPages": 5,
-  "totalSkills": 229,
+  "totalPages": 6,
+  "totalSkills": 267,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",

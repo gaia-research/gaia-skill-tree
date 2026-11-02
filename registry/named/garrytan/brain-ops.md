@@ -9,7 +9,7 @@ level: 3★
 description: Performs the brain-first read, enrich, write, attribution, and backlink
   cycle for a persistent knowledge base.
 createdAt: '2026-09-07'
-updatedAt: '2026-09-07'
+updatedAt: '2026-10-30'
 title: GBrain Brain Operations
 links:
   github: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md
@@ -40,6 +40,11 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 4★ to 3★
+- timestamp: '2026-10-30T04:58:32Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md
   updatedAt: '2026-10-01'
@@ -56,6 +61,9 @@ evidence:
 verification:
   firstEvidenceAt: '2026-09-06T16:54:25Z'
 suiteRef: garrytan/gbrain
+trustMagnitude: 50.0
+overallTrustGrade: B
+trustMagnitudeInputHash: 8c5228abc90147560d2f2620d59a9e2a000366ed4f7bd5caa4f6fb9041237eeb
 ---
 
 ## Installation

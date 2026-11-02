@@ -19,7 +19,7 @@ tags:
 - pr-automation
 - release
 createdAt: '2026-05-18'
-updatedAt: '2026-09-04'
+updatedAt: '2026-10-30'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T23:32:59Z'
@@ -78,6 +78,11 @@ timeline:
   contributor: unknown
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-10-30T04:58:32Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/ship/SKILL.md
@@ -117,7 +122,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:37Z'
-trustMagnitudeInputHash: 540311b653657f2f0a89fb6797524854420f9681599f1c3e91abb822408a29cd
+trustMagnitudeInputHash: c34155750b586237f2662705589bc0ed230113092f0b608b5387ffbbf1bedc94
 ---
 
 ## Overview

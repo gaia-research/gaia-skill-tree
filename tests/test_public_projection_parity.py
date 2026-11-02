@@ -228,6 +228,7 @@ def test_ledger_matches_named_index_on_tm_grade_origin(ledgerRows, namedEntries)
         assert row["origin"] == entry["origin"], skillId
 
 
+
 def test_ledger_level_equals_named_index_level(ledgerRows, namedEntries):
     """FD-7: the ledger publishes the grade-clamped level, like the named index."""
     drift = {
@@ -296,39 +297,42 @@ def test_api_detail_evidence_equals_named_index_evidence(apiDetails, bucketedEnt
         assert detail.get("evidence", []) == bucketedEntries[skillId].get("evidence", []), skillId
 
 
-# --- (f) Origin uniqueness ---------------------------------------------------
+# --- (f) Automatic Origin, including shared ties and redacted holders --------
 
 
-def test_each_claimed_bucket_has_exactly_one_origin(namedIndex):
-    # GOVERNANCE: exactly one current Origin per claimed generic node.
+def test_bucket_entries_reference_their_own_generic(namedIndex):
     for generic, entries in namedIndex["buckets"].items():
-        origins = [entry["id"] for entry in entries if entry.get("origin") is True]
-        assert len(origins) <= 1, (generic, origins)
         assert all(entry["genericSkillRef"] == generic for entry in entries), generic
 
 
-def test_origin_is_unique_across_all_named_entries(namedIndex):
-    claims: dict[str, list[str]] = defaultdict(list)
+def test_public_origin_holders_match_automatic_rule_including_all_ties(namedIndex):
+    from gaia_cli.origin import contenderPool, registryOrigins
+    from gaia_cli.registryMaps import buildMergedSkillMap
+
+    expected = registryOrigins(contenderPool(ROOT, buildMergedSkillMap(ROOT)))
+    claims: dict[str, set[str]] = defaultdict(set)
     for entries in list(namedIndex["buckets"].values()) + [namedIndex["awaitingClassification"]]:
         for entry in entries:
             if entry.get("origin") is True:
-                claims[entry["genericSkillRef"]].append(entry["id"])
-    assert all(len(ids) == 1 for ids in claims.values()), {
-        generic: ids for generic, ids in claims.items() if len(ids) != 1
+                claims[entry["genericSkillRef"]].add(entry["id"])
+    assert {ref: set(ids) for ref, ids in claims.items()} == {
+        ref: set(ids) for ref, ids in expected.items() if ids
     }
 
 
-@pytest.mark.xfail(
-    strict=True,
-    raises=AssertionError,
-    reason=(
-        "Finding: a named skill at 2-star or above sits in awaitingClassification "
-        "(status awakened) so it is absent from the ledger, leaderboard, skills "
-        "API and every bucket, yet carries origin true. At the time of writing: "
-        "google-deepmind/workflow-skill-creator (4-star, TM 100.82, grade A). "
-        "Registry data must not be edited here."
-    ),
-)
+def test_redacted_origin_standings_agree_across_public_indexes(namedIndex):
+    from gaia_cli.origin import publicOriginStandings
+
+    expected = publicOriginStandings(namedIndex["buckets"], namedIndex["awaitingClassification"])
+    assert namedIndex["originStandings"] == expected
+    assert load(DOCS / "graph/ledger/data.json")["originStandings"] == expected
+    assert load(API / "leaderboard.json")["originStandings"] == expected
+    assert load(API / "skills/index.json")["originStandings"] == expected
+
+
+# The data defect this test pinned (google-deepmind/workflow-skill-creator at 4-star
+# but status awakened) was fixed by founder ruling 2026-10-30 FD-11, which
+# promoted it to named. The strict xfail marker is therefore removed.
 def test_no_public_level_entry_is_hidden_in_awaiting_classification(namedIndex):
     hidden = [
         entry["id"]

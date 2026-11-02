@@ -149,7 +149,11 @@ def _append_skill_event(skill_id, action, contributor, details, registry_path=".
     
     if target_file:
         meta, body = _parse_md(target_file)
-        
+        from gaia_cli.commands.dev.helpers import _run_dev_preflights, preflightNamedSkillMutable
+        _run_dev_preflights([
+            lambda: preflightNamedSkillMutable(registry_path, skill_id),
+        ])
+
         if "timeline" not in meta:
             meta["timeline"] = []
             

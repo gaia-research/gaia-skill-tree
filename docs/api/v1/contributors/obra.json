@@ -151,6 +151,23 @@
       "genericSkillRef": "systematic-debugging"
     },
     {
+      "id": "obra/test-driven-development",
+      "name": "test-driven-development",
+      "level": "2★",
+      "trustMagnitude": 59.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "obra",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/test-driven-development.json"
+      },
+      "genericSkillRef": "test-driven-development"
+    },
+    {
       "id": "obra/dispatching-parallel-agents",
       "name": "Dispatching Parallel Agents",
       "level": "3★",
@@ -166,6 +183,23 @@
         "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"
       },
       "genericSkillRef": "dispatching-parallel-agents"
+    },
+    {
+      "id": "obra/writing-skills",
+      "name": "writing-skills",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 60.0,
+      "contributor": "obra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/writing-skills.json"
+      },
+      "genericSkillRef": "skill-authoring"
     },
     {
       "id": "obra/finishing-a-development-branch",
@@ -219,16 +253,16 @@
       "genericSkillRef": "requesting-code-review"
     }
   ],
-  "namedSkillsCount": 12,
+  "namedSkillsCount": 14,
   "topSkill": {
     "id": "obra/superpowers",
     "level": "4★",
     "trustMagnitude": 221.52
   },
-  "prestigeScore": 1093.23,
+  "prestigeScore": 1202.23,
   "gradeDistribution": {
     "A": 5,
-    "B": 4,
+    "B": 6,
     "C": 3
   },
   "_links": {

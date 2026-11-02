@@ -18,7 +18,7 @@ description: Build premium scroll-driven landing pages for service, product, foo
   like a template", or requests for a distinctive website that feels like an experience
   rather than a document.
 createdAt: '2026-09-07'
-updatedAt: '2026-09-07'
+updatedAt: '2026-10-30'
 title: Scroll Craft
 links:
   github: https://github.com/nateherkai/scroll-craft/blob/0b816225945e45380397d6a0487efa3c98916858/plugins/nateherk-design/skills/scroll-craft/SKILL.md
@@ -60,6 +60,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-10-30T13:02:39Z'
+  action: recalibrate_trust_magnitude
+  contributor: nova-gaia
+  details: 'TM (none) -> 92.38, grade (none) -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/nateherkai/scroll-craft
   evaluator: unknown
@@ -92,6 +97,9 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-09-06T16:52:54Z'
+trustMagnitude: 92.38
+overallTrustGrade: B
+trustMagnitudeInputHash: 35f7e8ab61e6954bacdee126937dc301412da161411c1aff29b3877a9c7a7b6b
 ---
 
 ## Installation

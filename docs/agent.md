@@ -96,22 +96,26 @@ Capabilities advance through evidence, not declaration. Ranks range from `0★` 
 ### Promotion Gates
 *   **2★ (Named):** TM ≥ 20 (Grade C).
 *   **3★ (Evolved):** TM ≥ 50 (Grade B).
-*   **4★ Extra (Suite branch)** or **4★ Unique (Unique branch):** Origin contribution + TM ≥ 100 (Grade A).
-*   **5★ Ultimate (Suite) / 5★ Unique Ultimate (Unique branch):** TM ≥ 250 (Grade S). Suite 5★ gate preserved per #935 (5 A-graded origins in `suiteComponents`).
+*   **4★ Extra (Suite branch):** TM ≥ 100 (Grade A); no bucket-Origin requirement.
+*   **4★ Unique (Unique branch):** Own-bucket automatic Origin + TM ≥ 100 (Grade A).
+*   **5★ Unique Ultimate:** Own-bucket automatic Origin + TM ≥ 250 (Grade S); no fusion-prerequisite Origin requirement.
+*   **5★ Ultimate (Suite branch):** TM ≥ 250 (Grade S), ≥5 suite components, and contributor holds automatic Origin on at least one component (META.md §4.2). The ≥5 A-graded-origins predicate belongs to 6★ Apex, not 5★.
 *   **6★ Apex (Suite branch):** Full 6-predicate Apex Gate (TM Index 2026 Q2). See `docs/codex/trust-methodology.html`.
 *   **6★ Unique Impossible (Unique branch):** Provisional 5-predicate gate (Apex minus `directNestedSuiteGte1`). Ratified as a branch distinction under Yggdrasil III; the 5-predicate gate itself remains provisional (META.md §4.4).
 
 ### Unique Branch Policy
 A named skill enters the Unique branch at 4★ when its generic parent has **no `suiteComponents`** and the skill holds:
-1.  At least 1 Origin contribution in the fusion structure (`prerequisites`).
-2.  TM ≥ 100 (Grade A).
+1.  Automatic Origin in its own generic bucket (highest merit; tied top contenders share it).
+2.  TM ≥ 100 (Grade A). At 5★, require Grade S with the same own-bucket Origin rule; no fusion-prerequisite Origin gate.
 
 Being graph-isolated is NOT a requirement — a skill may carry `suiteRef` membership and still be Unique-branch if its generic parent has no `suiteComponents`.
 
 ### Suite / Fusion Promotion Criteria
 A named skill enters the Suite branch at 4★ when its generic parent carries `suiteComponents` and the proposer satisfies:
-1. **Origin** — the proposer holds `role: 'origin'` on ≥1 component in `suiteComponents`.
-2. **TM ≥ 100** (Grade A).
+1. **TM ≥ 100** (Grade A); 4★ Extra does not require component Origin.
+2. At **5★ Ultimate**, require Grade S, ≥5 suite components and contributor-held automatic Origin on at least one component (META.md §4.2).
+
+Origin has no star floor. Frozen records and frozen-suite members retain their locked TM and grade and remain eligible; never mutate their canonical bytes. Historical source Origin flags do not control current standing.
 
 ---
 

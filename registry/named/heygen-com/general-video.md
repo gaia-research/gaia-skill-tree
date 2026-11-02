@@ -22,6 +22,18 @@ timeline:
   action: add
   contributor: unknown
   details: Added named skill heygen-com/general-video
+- timestamp: '2026-10-30T13:03:32Z'
+  action: upstream_deprecated
+  contributor: mbtiongson1
+  previousValue: null
+  newValue: null
+  details: 'founder ruling 2026-10-30 (r2-general-video, Freeze): general-video is
+    absent from heygen-com/hyperframes skills/ at upstream v0.8.209 and main (HTTP
+    404), same as FD-8; links.github kept, installable false'
+installable: false
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+trustMagnitudeInputHash: 9df0e8fa801f5053e1dc22c9a63795e062fb06ab5f0a34fa26067bd8657be677
 ---
 
 ## Installation

@@ -56,13 +56,12 @@ Decisions are made through Pull Requests. Most PRs require one Maintainer approv
 - Existing valid demerits use `META.md` §3.1's **0★** effective floor, not the stale 1★ floor. Neither age nor unverified link failure can automatically create a demerit.
 
 ### Named Skill Disputes
-- Competing current Origin claims are adjudicated according to **merit and qualification**, not earliest `createdAt`. Preserve historical attribution and the exactly-one-current-Origin invariant.
+- Origin is **automatic** (founder rulings 2026-10-30, `META.md` §4.1): the build assigns it to the highest-merit implementation in each bucket (published level, then Trust Magnitude), never by earliest `createdAt` and never by hand. Tied top contenders all hold Origin. A dispute about Origin is therefore a dispute about the merit inputs (evidence, level), handled through the normal evidence and calibration process.
 - Disputes follow the same 14-day resolution process as generic skill disputes (see § 3).
 
 ### Unclaimed Capstone Claiming
 - Unclaimed Fusion capstones appear as `◆ /skill-id [Unclaimed ✦]` in the registry — no named implementation exists yet.
-- The first contributor to run `gaia propose` against an awakened intake record whose `genericSkillRef` points to an unclaimed Fusion capstone automatically becomes the origin contributor and the seed title stored in `gaia.json` becomes visible in projections.
-- Simultaneous initial claims require a recorded maintainer decision establishing one current holder; earlier chronology cannot permanently override later merit-based selection.
+- The first contributor to run `gaia propose` against an awakened intake record whose `genericSkillRef` points to an unclaimed Fusion capstone claims the capstone, and the seed title stored in `gaia.json` becomes visible in projections. Origin in that bucket then follows merit automatically (`META.md` §4.1); chronology never decides it.
 - Once claimed, the display changes from `[Unclaimed ✦]` to `Ultimate Skill: contributor/skill-name`.
 
 ## 2.2 Fusion Capstone Promotion

@@ -14414,6 +14414,11 @@ body[data-overall-grade="S"] .report-card {
   border-radius: 2px;
 }
 
+/* Entrypoint from the Explorer panel to /trust/challenges/. */
+.lc-more {
+  margin: .25rem 0 0;
+}
+
 .lc-awards {
   display: flex;
   flex-direction: column;

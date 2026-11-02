@@ -25,7 +25,7 @@
   },
   "title": "Land and Deploy",
   "genericSkillRef": "deployment-automation",
-  "origin": false,
+  "origin": true,
   "description": "Automates the final production shipping stages — merging a PR, monitoring CI/deploy completion, and verifying live site health through canary checks — picking up where /ship leaves off with safety gates at each step to prevent broken deployments reaching users.",
   "tags": [
     "deployment",
@@ -142,6 +142,12 @@
       "timestamp": "2026-09-04T10:58:44Z",
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
+      "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-10-30T04:58:32Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
       "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
