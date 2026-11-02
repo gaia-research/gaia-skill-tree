@@ -123,6 +123,14 @@
       "action": "installation_updated",
       "contributor": "mbtiongson1",
       "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/pr-to-video.md"
+    },
+    {
+      "timestamp": "2026-10-29T16:33:24Z",
+      "action": "upstream_deprecated",
+      "contributor": "mbtiongson1",
+      "previousValue": null,
+      "newValue": null,
+      "details": "founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes skills/ at upstream v0.8.209; links.github kept, installable false"
     }
   ],
   "links": {

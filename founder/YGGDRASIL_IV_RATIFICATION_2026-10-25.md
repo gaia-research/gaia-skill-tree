@@ -46,6 +46,8 @@ When a Class B technical challenge clears while a previous approved score loss i
 
 A verified material challenge can mark Origin **contested**, but **does not remove/transfer Origin**. A Class B technical resolution can clear its derived contested marker if no other material challenges remain, without transferring Origin. Claims that no eligible owner remains or that two claims conflict escalate to Class C rather than rewriting the one-Origin invariant.
 
+> **Superseding note (founder rulings 2026-10-30, EPIC #2189).** Origin is now **automatic**: "No more manual. Automatic from now on." / "Remove manual work on origins, make them automatic--only exceptions would be frozen contenders. Frozen skills lock the TM and grade, and they can beat live ones. Highest merit only." / "origin ties mean two are origin. Very rare edge case since tm is a real number." The build derives each bucket's Origin as the highest-merit named implementation (published level, then Trust Magnitude), with no star floor, and every tied top contender holds Origin. An Origin change is therefore no longer a manual, approved Class C transfer, and "exactly one current Origin" no longer holds when contenders tie; it follows from changes to the merit inputs. A material challenge can still mark Origin contested without moving it. The text above is kept as ratified on 2026-10-25. Rulings recorded in `founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md` (launch branch); rule in `META.md` §4.1 and `src/gaia_cli/origin.py`.
+
 Preserve `META.md`'s currently documented 0★ effective demerit floor over contradictory 1★ legacy prose. **`broken-evidence` cannot be auto-applied merely from an unavailable URL** under Yggdrasil IV; demerit consequences require a substantiated, approved decision. Any broader demerit model change needs its own review.
 
 ## V. Steward: challenge-driven, two-sided upstream watching
@@ -61,7 +63,7 @@ Reuse existing Upstream Watcher, Steward debt, sensors, receipts, and skills. A 
 4. A durable, public, linked resolution receipt and contributor notification are produced. The original challenge stays in history.
 5. The closure changes **only public technical challenge status and its derived contested indicator** when no other material challenge remains. It does **not** change TM, Grade, stars, Origin, canonical evidence assertions, or meta/schema policy.
 
-**Class C:** ambiguous/evaluative superiority, semantic replacement, inconsistent benchmarks or provenance, Origin change, canonical evidence assertion change, score/grade/rank mutation, policy/schema change, and uncertain or urgent security/fraud judgments. A Class B runner may **propose** a separate recovery calculation; it may not authorize or publish it. Any future reopening uses a linked new challenge rather than silently rewriting a resolved event.
+**Class C:** ambiguous/evaluative superiority, semantic replacement, inconsistent benchmarks or provenance, Origin change *(superseded 2026-10-30: Origin is derived automatically from merit; see the note under §IV)*, canonical evidence assertion change, score/grade/rank mutation, policy/schema change, and uncertain or urgent security/fraud judgments. A Class B runner may **propose** a separate recovery calculation; it may not authorize or publish it. Any future reopening uses a linked new challenge rather than silently rewriting a resolved event.
 
 ## VI. Ratified decisions and implementation gates
 

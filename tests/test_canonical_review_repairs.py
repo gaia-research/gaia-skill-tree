@@ -18,7 +18,9 @@ from gaia_cli import canonicalTransaction as tx
 from gaia_cli import canonicalWorkflow as workflow
 
 sys.path.insert(0, str(Path(__file__).parent))
-from test_canonical_cli import REPO, cli, dump, fixtureRepo, makePlan, sources  # noqa: E402,F401
+from test_canonical_cli import (  # noqa: E402,F401
+    REPO, cli, dump, fixtureRepo, installUnadoptedSchemas, makePlan, sources,
+)
 
 
 class Issuer:
@@ -284,18 +286,18 @@ def cliPlan(root, tmp_path):
 
 def test_unadopted_schema_and_invalid_output_have_distinct_refusals(fixtureRepo):
     root = fixtureRepo
-    # (a) production schema: lifecycle fields undefined -> adoption held, NOT "invalid output".
-    for name in ("namedSkill.schema.json", "skillTree.schema.json"):
-        shutil.copyfile(REPO / "registry/schema" / name, root / "registry/schema" / name)
+    # (a) Synthetic missing-field schema -> adoption held, NOT "invalid output".
+    installUnadoptedSchemas(root)
     _, path, _ = makePlan(root)
     result = cli(root, "canonical", "validate", "--plan", str(path))
     assert result.returncode == 1
     assert "schema adoption held" in result.stderr and "invalid staged output" not in result.stderr
     assert "lacks" in result.stderr  # names the missing lifecycle fields
 
-    # (b) schema DOES define the lifecycle fields but the staged output violates it.
+    # (b) The adopted production schema defines lifecycle fields; a stricter local
+    # constraint then makes the staged output invalid.
     for name in ("namedSkill.schema.json", "skillTree.schema.json"):
-        shutil.copyfile(REPO / "tests/fixtures/canonical-proposed-schema" / name, root / "registry/schema" / name)
+        shutil.copyfile(REPO / "registry/schema" / name, root / "registry/schema" / name)
     schemaPath = root / "registry/schema/namedSkill.schema.json"
     schema = json.loads(schemaPath.read_bytes())
     schema["properties"]["description"] = dict(schema["properties"].get("description", {}), maxLength=3)
@@ -309,13 +311,23 @@ def test_unadopted_schema_and_invalid_output_have_distinct_refusals(fixtureRepo)
 
 
 def test_schema_adoption_gaps_names_the_missing_fields():
-    prod = {n: json.loads((REPO / "registry/schema" / n).read_bytes())
-            for n in ("namedSkill.schema.json", "skillTree.schema.json")}
-    held = {n: json.loads((REPO / "tests/fixtures/canonical-proposed-schema" / n).read_bytes())
-            for n in ("namedSkill.schema.json", "skillTree.schema.json")}
-    gaps = workflow.schemaAdoptionGaps(prod)
-    assert gaps and any("evidenceId" in g for g in gaps)
-    assert workflow.schemaAdoptionGaps(held) == []
+    adopted = {n: json.loads((REPO / "registry/schema" / n).read_bytes())
+               for n in ("namedSkill.schema.json", "skillTree.schema.json")}
+    unadopted = {n: json.loads((REPO / "tests/fixtures/canonical-unadopted-schema" / n).read_bytes())
+                 for n in ("namedSkill.schema.json", "skillTree.schema.json")}
+    adoptedEvidence = set(adopted["namedSkill.schema.json"]["definitions"]["evidenceEntry"]["properties"])
+    unadoptedEvidence = set(unadopted["namedSkill.schema.json"]["definitions"]["evidenceEntry"]["properties"])
+    assert workflow.LIFECYCLE_EVIDENCE_FIELDS <= adoptedEvidence
+    assert not workflow.LIFECYCLE_EVIDENCE_FIELDS & unadoptedEvidence
+    for name in adopted:
+        adoptedTimeline = set(adopted[name]["definitions"]["timelineEvent"]["properties"])
+        unadoptedTimeline = set(unadopted[name]["definitions"]["timelineEvent"]["properties"])
+        assert workflow.LIFECYCLE_TIMELINE_FIELDS <= adoptedTimeline
+        assert not workflow.LIFECYCLE_TIMELINE_FIELDS & unadoptedTimeline
+    assert workflow.schemaAdoptionGaps(adopted) == []
+    gaps = workflow.schemaAdoptionGaps(unadopted)
+    assert any("evidenceId" in gap for gap in gaps)
+    assert any("decisionRef" in gap and "eventId" in gap for gap in gaps)
 
 
 # --- finding 6 (P3): stray interrupted-write temp files are reported, never deleted ----

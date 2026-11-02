@@ -1,0 +1,80 @@
+{
+  "id": "addy-osmani/git-workflow-and-versioning",
+  "name": "git-workflow-and-versioning",
+  "contributor": "addy-osmani",
+  "level": "2★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 50.0,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/addy-osmani/git-workflow-and-versioning.json",
+    "contributor": "/api/v1/contributors/addy-osmani.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 234.64,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 5,
+    "transitiveCount": 13,
+    "maxDepth": 2,
+    "nestedSuiteCount": 0
+  },
+  "title": "Git Workflow And Versioning",
+  "genericSkillRef": "git-integration",
+  "origin": true,
+  "description": "Structures git workflow practices. Use when making any code change. Use when committing, branching, resolving conflicts, splitting uncommitted work in a messy working tree into clean atomic commits, opening or reviewing a pull request (PR), pushing to a remote, or when you need to organize work across multiple parallel streams. Use when cutting a release, choosing a semantic version bump, tagging,",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/git-workflow-and-versioning/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-03",
+      "type": "github-stars-own",
+      "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag (subject to 50.0 TM suite sibling cap per META §2.1a)",
+      "stars": 111110,
+      "grade": "A"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:53:42Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill addy-osmani/git-workflow-and-versioning"
+    },
+    {
+      "timestamp": "2026-11-02T21:55:38Z",
+      "action": "suite_ref_set",
+      "contributor": "mbtiongson1",
+      "details": "Set suiteRef to addy-osmani/agent-skills"
+    },
+    {
+      "timestamp": "2026-11-02T21:55:41Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/git-workflow-and-versioning/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-11-02T22:14:46Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/git-workflow-and-versioning/SKILL.md"
+  }
+}

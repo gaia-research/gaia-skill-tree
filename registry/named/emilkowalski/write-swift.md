@@ -1,0 +1,51 @@
+---
+id: emilkowalski/write-swift
+name: write-swift
+contributor: emilkowalski
+origin: false
+genericSkillRef: code-generation
+status: named
+level: 2★
+description: How to write modern Swift well — modeling with value types, Swift 6 data-race
+  safety and approachable concurrency (@concurrent, main-actor-by-default, actors,
+  task groups), protocols and generics (some vs any), API design, performance and
+  ARC, Swift Testing, macros, and the modern language features agents don't know about
+  yet. Use when writing, reviewing, or migrating Swift, or when a concurrency error,
+  a hang, a data race, a retain cycle, or a performance problem needs fixing.
+createdAt: '2026-11-03'
+updatedAt: '2026-11-03'
+title: Write Swift
+links:
+  github: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/write-swift/SKILL.md
+timeline:
+- timestamp: '2026-11-02T21:54:05Z'
+  action: add
+  contributor: mbtiongson1
+  details: Added named skill emilkowalski/write-swift
+- timestamp: '2026-11-02T21:56:38Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/write-swift/SKILL.md
+    (type: github-stars-own)'
+- timestamp: '2026-11-02T22:15:12Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 129.67, grade (none) -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+evidence:
+- source: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/write-swift/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-11-03'
+  type: github-stars-own
+  notes: 'Stage-1 github-stars-own evidence: verified repository stars at tag'
+  stars: 50673
+  grade: A
+verification:
+  firstEvidenceAt: '2026-11-02T21:56:36Z'
+trustMagnitude: 129.67
+overallTrustGrade: A
+trustMagnitudeInputHash: 1509e49c9605ab9eacbd442d1bc994be16eb480e7f856f41f67f08601f8ea8bd
+---
+
+## Installation
+Add installation instructions here.

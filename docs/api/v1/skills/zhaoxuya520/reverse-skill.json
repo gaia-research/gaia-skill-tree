@@ -1,0 +1,74 @@
+{
+  "id": "zhaoxuya520/reverse-skill",
+  "name": "reverse-skill-router",
+  "contributor": "zhaoxuya520",
+  "level": "2★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 127.37,
+  "overallTrustGrade": "A",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/zhaoxuya520/reverse-skill.json",
+    "contributor": "/api/v1/contributors/zhaoxuya520.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 80.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 4,
+    "maxDepth": 2,
+    "nestedSuiteCount": 0
+  },
+  "title": "Reverse Skill Router",
+  "genericSkillRef": "security-audit",
+  "origin": false,
+  "description": "Routes reverse engineering, exploitation, penetration testing, malware, mobile, firmware, browser automation, documentation, and security tasks to the appropriate specialist skill.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/zhaoxuya520/reverse-skill/blob/main/skills/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-03",
+      "type": "github-stars-own",
+      "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag",
+      "stars": 43567,
+      "grade": "A"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:55:12Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill zhaoxuya520/reverse-skill"
+    },
+    {
+      "timestamp": "2026-11-02T22:02:34Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/zhaoxuya520/reverse-skill/blob/main/skills/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-11-02T22:16:30Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 127.37, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/zhaoxuya520/reverse-skill/blob/main/skills/SKILL.md"
+  }
+}

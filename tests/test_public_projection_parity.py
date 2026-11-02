@@ -25,9 +25,12 @@ ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 API = DOCS / "api" / "v1"
 
-# Ceiling on stars imposed by the overall Trust grade (META 1.1 / 4.2), mirrored
-# from scripts/generateNamedIndex.py where the named index clamps `level`.
-GRADE_MAX_STARS = {"S": 6, "A": 4, "B": 3, "C": 2, "ungraded": 1}
+# Ceiling on stars imposed by the overall Trust grade (META 1.1 / 4.2): the one
+# shared definition used by the named index, ledger and leaderboard.
+import sys  # noqa: E402
+
+sys.path.insert(0, str(ROOT / "src"))
+from gaia_cli.trustMagnitude import GRADE_MAX_STARS, clampLevelToGrade  # noqa: E402
 
 # HTML pages allowed to carry a stale asset/version stamp, path -> reason.
 STALE_STAMP_ALLOWLIST: dict[str, str] = {}
@@ -188,9 +191,7 @@ def test_skills_api_is_ledger_minus_one_star_redaction(
 ):
     """totalSkills == ledger rows whose published level is not 1-star.
 
-    The ledger carries stored levels while the named index (and therefore the
-    API) publishes the grade-clamped level, so redaction is decided on the
-    named index level. See the strict xfail below for the divergence itself.
+    Redaction is decided on the displayed (grade-clamped) named index level.
     """
     redacted = {
         skillId for skillId in ledgerRows if stars(namedEntries[skillId]["level"]) <= 1
@@ -227,51 +228,43 @@ def test_ledger_matches_named_index_on_tm_grade_origin(ledgerRows, namedEntries)
         assert row["origin"] == entry["origin"], skillId
 
 
-def test_ledger_level_differs_from_named_index_only_by_grade_ceiling(
-    ledgerRows, namedEntries
-):
-    for skillId, row in ledgerRows.items():
-        published = namedEntries[skillId]["level"]
-        if row["currentStars"] == published:
-            continue
-        ceiling = GRADE_MAX_STARS[row["grade"]]
-        assert stars(published) == min(stars(row["currentStars"]), ceiling), (
-            skillId,
-            row["currentStars"],
-            published,
-            row["grade"],
-        )
 
-
-def test_ledger_level_drift_rows_are_all_ungraded(ledgerRows, namedEntries):
-    """Pin the shape of finding F1: only ungraded skills diverge on level."""
-    drift = [
-        skillId
-        for skillId, row in ledgerRows.items()
-        if row["currentStars"] != namedEntries[skillId]["level"]
-    ]
-    assert all(ledgerRows[skillId]["grade"] == "ungraded" for skillId in drift)
-    assert all(stars(namedEntries[skillId]["level"]) == 1 for skillId in drift)
-
-
-@pytest.mark.xfail(
-    strict=True,
-    raises=AssertionError,
-    reason=(
-        "Finding: docs/graph/ledger/data.json (and the leaderboard API built "
-        "from it) publish the stored frontmatter level, while the named index "
-        "and skills API publish the grade-clamped level. Ungraded skills show "
-        "2-star/3-star on /trust/ledger/ and /trust/leaderboard/ but 1-star "
-        "(redacted) everywhere else. Registry data must not be edited here."
-    ),
-)
 def test_ledger_level_equals_named_index_level(ledgerRows, namedEntries):
+    """FD-7: the ledger publishes the grade-clamped level, like the named index."""
     drift = {
         skillId: (row["currentStars"], namedEntries[skillId]["level"])
         for skillId, row in ledgerRows.items()
         if row["currentStars"] != namedEntries[skillId]["level"]
     }
     assert not drift, f"{len(drift)} ledger rows disagree on level: {sorted(drift)[:5]}"
+
+
+def test_ledger_stored_stars_is_clamped_to_displayed_level(ledgerRows):
+    """storedStars keeps the frontmatter level; currentStars is its grade clamp."""
+    for skillId, row in ledgerRows.items():
+        assert "storedStars" in row, skillId
+        assert row["currentStars"] == clampLevelToGrade(row["storedStars"], row["grade"]), skillId
+        assert stars(row["currentStars"]) <= GRADE_MAX_STARS[row["grade"]], skillId
+
+
+def test_all_surfaces_agree_on_displayed_level(
+    ledgerRows, leaderboard, apiSkills, apiDetails, namedEntries
+):
+    """Named index, ledger, leaderboard and skills API show one level per skill."""
+    board = {row["id"]: row for row in leaderboard["rows"]}
+    for skillId, row in ledgerRows.items():
+        shown = namedEntries[skillId]["level"]
+        assert row["currentStars"] == shown, (skillId, "ledger")
+        assert board[skillId]["level"] == shown, (skillId, "leaderboard")
+        assert board[skillId]["storedStars"] == row["storedStars"], (skillId, "leaderboard stored")
+        if skillId in apiSkills:
+            assert apiSkills[skillId]["level"] == shown, (skillId, "skills api list")
+            assert apiDetails[skillId]["level"] == shown, (skillId, "skills api detail")
+
+
+def test_leaderboard_order_is_tm_sorted_independent_of_level(leaderboard):
+    keys = [(-row["trustMagnitude"], row["id"]) for row in leaderboard["rows"]]
+    assert keys == sorted(keys)
 
 
 # --- (d) contributor prestige -----------------------------------------------
@@ -304,39 +297,42 @@ def test_api_detail_evidence_equals_named_index_evidence(apiDetails, bucketedEnt
         assert detail.get("evidence", []) == bucketedEntries[skillId].get("evidence", []), skillId
 
 
-# --- (f) Origin uniqueness ---------------------------------------------------
+# --- (f) Automatic Origin, including shared ties and redacted holders --------
 
 
-def test_each_claimed_bucket_has_exactly_one_origin(namedIndex):
-    # GOVERNANCE: exactly one current Origin per claimed generic node.
+def test_bucket_entries_reference_their_own_generic(namedIndex):
     for generic, entries in namedIndex["buckets"].items():
-        origins = [entry["id"] for entry in entries if entry.get("origin") is True]
-        assert len(origins) <= 1, (generic, origins)
         assert all(entry["genericSkillRef"] == generic for entry in entries), generic
 
 
-def test_origin_is_unique_across_all_named_entries(namedIndex):
-    claims: dict[str, list[str]] = defaultdict(list)
+def test_public_origin_holders_match_automatic_rule_including_all_ties(namedIndex):
+    from gaia_cli.origin import contenderPool, registryOrigins
+    from gaia_cli.registryMaps import buildMergedSkillMap
+
+    expected = registryOrigins(contenderPool(ROOT, buildMergedSkillMap(ROOT)))
+    claims: dict[str, set[str]] = defaultdict(set)
     for entries in list(namedIndex["buckets"].values()) + [namedIndex["awaitingClassification"]]:
         for entry in entries:
             if entry.get("origin") is True:
-                claims[entry["genericSkillRef"]].append(entry["id"])
-    assert all(len(ids) == 1 for ids in claims.values()), {
-        generic: ids for generic, ids in claims.items() if len(ids) != 1
+                claims[entry["genericSkillRef"]].add(entry["id"])
+    assert {ref: set(ids) for ref, ids in claims.items()} == {
+        ref: set(ids) for ref, ids in expected.items() if ids
     }
 
 
-@pytest.mark.xfail(
-    strict=True,
-    raises=AssertionError,
-    reason=(
-        "Finding: a named skill at 2-star or above sits in awaitingClassification "
-        "(status awakened) so it is absent from the ledger, leaderboard, skills "
-        "API and every bucket, yet carries origin true. At the time of writing: "
-        "google-deepmind/workflow-skill-creator (4-star, TM 100.82, grade A). "
-        "Registry data must not be edited here."
-    ),
-)
+def test_redacted_origin_standings_agree_across_public_indexes(namedIndex):
+    from gaia_cli.origin import publicOriginStandings
+
+    expected = publicOriginStandings(namedIndex["buckets"], namedIndex["awaitingClassification"])
+    assert namedIndex["originStandings"] == expected
+    assert load(DOCS / "graph/ledger/data.json")["originStandings"] == expected
+    assert load(API / "leaderboard.json")["originStandings"] == expected
+    assert load(API / "skills/index.json")["originStandings"] == expected
+
+
+# The data defect this test pinned (google-deepmind/workflow-skill-creator at 4-star
+# but status awakened) was fixed by founder ruling 2026-10-30 FD-11, which
+# promoted it to named. The strict xfail marker is therefore removed.
 def test_no_public_level_entry_is_hidden_in_awaiting_classification(namedIndex):
     hidden = [
         entry["id"]

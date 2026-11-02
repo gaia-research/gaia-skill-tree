@@ -175,7 +175,7 @@ def test_save_tree_keeps_missing_trailing_newline_and_4_indent(tmp_path):
     assert '\n    "a"' in text
 
 
-# --- update-named --origin --notes -----------------------------------------
+# --- update-named --origin (retired) / --notes -----------------------------
 
 
 def _update_args(root, **kw):
@@ -188,7 +188,27 @@ def _update_args(root, **kw):
     return SimpleNamespace(**base)
 
 
-def test_update_named_origin_logs_notes_and_fallback_actor(tmp_path, monkeypatch):
+def test_update_named_origin_is_refused_origin_is_automatic(tmp_path, monkeypatch, capsys):
+    """Founder ruling 2026-10-30: Origin is automatic; --origin refuses and writes nothing."""
+    import pytest
+    from gaia_cli.commands.dev import named
+
+    root = _registry(tmp_path, "alice/s", "level: 2★\ngenericSkillRef: g\ntitle: T\norigin: false\n")
+    skill_file = next((tmp_path / "registry" / "named").rglob("*.md"))
+    before = skill_file.read_text(encoding="utf-8")
+    events = []
+    monkeypatch.setattr(named, "append_skill_event", lambda *a, **kw: events.append(a))
+    monkeypatch.setattr(named, "_run_docs_build", lambda *a, **kw: None)
+
+    with pytest.raises(SystemExit):
+        named.meta_update_named_command(_update_args(root, notes="Most renowned in bucket"))
+
+    assert skill_file.read_text(encoding="utf-8") == before
+    assert events == []
+    assert "Origin is automatic" in capsys.readouterr().err
+
+
+def test_update_named_notes_reach_other_timeline_events(tmp_path, monkeypatch):
     from gaia_cli.commands.dev import named
 
     root = _registry(tmp_path, "alice/s", "level: 2★\ngenericSkillRef: g\ntitle: T\norigin: false\n")
@@ -198,10 +218,10 @@ def test_update_named_origin_logs_notes_and_fallback_actor(tmp_path, monkeypatch
     monkeypatch.setattr("gaia_cli.commands.dev.helpers.load_config", lambda: {})
     monkeypatch.setenv("GITHUB_ACTOR", "detected-op")
 
-    named.meta_update_named_command(_update_args(root, notes="Most renowned in bucket"))
+    named.meta_update_named_command(_update_args(root, origin=None, suite_ref="alice/suite", notes="why"))
 
     assert events[0][2] == "detected-op"
-    assert events[0][3] == "Origin status set to true. Most renowned in bucket"
+    assert events[0][3] == "Set suiteRef to alice/suite why"
 
 
 def _fake_git(email=None, remote="https://github.com/gaia-research/gaia-skill-tree.git"):

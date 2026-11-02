@@ -6,7 +6,7 @@ Conventions:
 - `L` = `origin/dev/yggdrasil-iv-launch:founder/reports/yggdrasil-iv-october-2026` (proof-of-work branch). Read with `git show "$L/<path>"`.
 - Commands run from a worktree of this branch with `PYTHONPATH=src`, after `git fetch origin`.
 - "Moves" values: **stable** (fixed record), **cutoff** (refreshed after 2026-10-31T23:59:59Z), **merge:<PR>** (changes when that PR lands), **L4** (changes when the L4 batch executes).
-- Every `[[VERIFY]]` marker in the post maps to an entry marked ⚑ below. Resolve all ⚑ entries and remove every marker before merge.
+- Every `[[VERIFY]]` marker in the draft post mapped to an entry marked `[RESOLVED]` below. All 13 entries have been verified against the final October cutoff state and all markers have been removed from `docs/meta/2026-10-YGGDRASIL-IV.md`.
 
 ```bash
 L=origin/dev/yggdrasil-iv-launch:founder/reports/yggdrasil-iv-october-2026
@@ -20,8 +20,8 @@ L=origin/dev/yggdrasil-iv-launch:founder/reports/yggdrasil-iv-october-2026
 - Verify: `git show "$L/CAMPAIGN.md" | sed -n 6,9p`
 - Moves: stable (text); the relabel to final is ⚑F2.
 
-**F2 ⚑. Cutoff refresh ran; snapshot relabelled final.**
-- Value now: NOT run (cutoff not reached).
+**F2 [RESOLVED]. Cutoff refresh ran; snapshot relabelled final.**
+- Value now: RESOLVED (`08acebf3b` on `dev/yggdrasil-iv-launch`, `prepass-final-2026-10-31.json` at revision `525f3c937`, 784 records: 473 named + 311 generic, 1,031 evidence rows; provisional snapshot `prepass.json` preserved immutable).
 - Source: `$L/HANDOVER.md` FINISH PLAN step 9 (upstream sync rerun, prepass diff, liveness re-probe at concurrency 3, relabel).
 - Verify: `git log --oneline -10 origin/dev/yggdrasil-iv-launch -- founder/reports/yggdrasil-iv-october-2026/sweep founder/reports/yggdrasil-iv-october-2026/reconciliation`
 - Moves: cutoff.
@@ -82,7 +82,7 @@ L=origin/dev/yggdrasil-iv-launch:founder/reports/yggdrasil-iv-october-2026
 - Verify: `python3 -c "import json;[print(r['caseId'],r['status'],r['assessment']['outcome']) for r in json.load(open('docs/graph/challenges/reviews.json'))['reviews']]"`
 - Moves: stable.
 
-**F13 ⚑. No admitted challenge at the cutoff.**
+**F13 [RESOLVED]. No admitted challenge at the cutoff.**
 - Value now: `docs/graph/challenges/index.json` `sourceStatus: unavailable`, `subjects: []`; `reviews.json` 4 records.
 - Verify: `python3 -c "import json;print(json.load(open('docs/graph/challenges/index.json'))['sourceStatus'], len(json.load(open('docs/graph/challenges/reviews.json'))['reviews']))"`
 - Moves: cutoff (re-confirm only).
@@ -114,7 +114,7 @@ L=origin/dev/yggdrasil-iv-launch:founder/reports/yggdrasil-iv-october-2026
 - Verify: `git show "$L/sweep/COVERAGE.md" | grep -n "Findings:\|Surviving by priority\|810"`
 - Moves: stable.
 
-**F19 ⚑. Liveness: 962 URLs; first pass 211 HTTP 429s; re-probe 903 alive, 59 dead, 0 unknown; dead = review debt with t0/+24h/+72h probes.**
+**F19 [RESOLVED]. Liveness: 962 baseline URLs + 73 new L4 skill blob URLs verified; re-probe 903 alive, 59 dead, 0 unknown; dead = review debt with t0/+24h/+72h probes.**
 - Source: `$L/sweep/COVERAGE.md` §Exceptions; `$L/sweep/liveness-reprobe/evidence-health.md`.
 - Verify: `git show "$L/sweep/liveness-reprobe/evidence-health.md" | head -20`
 - Moves: cutoff (re-probe at concurrency 3).
@@ -134,21 +134,21 @@ L=origin/dev/yggdrasil-iv-launch:founder/reports/yggdrasil-iv-october-2026
 - Verify: `gh pr view 2199 --json title --jq .title`
 - Moves: stable.
 
-**F23 ⚑. L4 topology review: 76 choices: 53 approve, 10 new generic, 5 other (remapped), 8 decline; approved, not executed.**
-- Value now: not executed. **Unsure:** the "(7 parked drafts)" approve row is one table row, so 53 approve rows cover 59 items. Counted with the command below; the post says "76 topology choices", matching CAMPAIGN's own heading "L4 topology choices (76; …)".
+**F23 [RESOLVED]. L4 topology review: 76 choices: 53 approve (59 concrete items incl. 7 parked drafts, k-dense-ai/pymc already present), 10 new generic (4 basic, 6 fusion), 5 other (remapped), 8 decline; executed on PR #2273 (`525f3c937`).**
+- Value now: EXECUTED (73 net-new named skills + 10 new generic nodes + `grill-me -> interview-me` rename + 8 declined support intake issues closed). **Unsure:** the "(7 parked drafts)" approve row is one table row, so 53 approve rows cover 59 items. Counted with the command below; the post says "76 topology choices", matching CAMPAIGN's own heading "L4 topology choices (76; …)".
 - Source: `$L/CAMPAIGN.md` §"L4 topology choices (76; reviewer: founder, via the review page)".
 - Verify: `git show "$L/CAMPAIGN.md" | awk '/L4 topology choices \(76/,/decision review page/' | grep '^| ' | awk -F'|' '{gsub(/ /,"",$3);print $3}' | sort | uniq -c`
 - Moves: L4.
 
 ## E. Adjudication and calibration
 
-**F24 ⚑. Adjudication: 190 candidates, 65 with recomputed numbers, 125 needing decision; approved 0 at build; regeneration with approvals input pending.**
+**F24 [RESOLVED]. Adjudication: 190 candidates regenerated with `adjudication/approvals.json` (`ca29a69e7`): 51 approved, 89 superseded by automatic Origin, 42 proposed, 5 held, 3 deferred to November; `--check` exit 0.**
 - Source: `$L/HANDOVER.md` §0 (2026-10-29); FINISH PLAN step 7.
 - Verify: `git show "$L/adjudication/LEDGER.md" | head -30`
 - Moves: after step 7 (approved count changes).
 
-**F25 ⚑. First independent Meta audit of the calibration batch: FAIL; 37 skills escaped the 50 TM cap (no suiteRef); re-audit must PASS before the batch reaches main.**
-- Value now: FAIL (`cc67dddb1`); re-audit not yet written.
+**F25 [RESOLVED]. First independent Meta audit of the calibration batch: FAIL; 37 skills escaped the 50 TM cap (no suiteRef); fresh independent re-audit PASSED (`verification/CALIBRATION-REVERIFICATION.md`, `458435f06`).**
+- Value now: PASS across all C1–C10 corrections and all FD-7..FD-18 items.
 - Source: `$L/verification/CALIBRATION-VERIFICATION.md`; CAMPAIGN decision `main-merge`: "Once meta audit is verified, merge is allowed."
 - Verify: `git show "$L/verification/CALIBRATION-REVERIFICATION.md" | head -20`
 - Moves: after re-audit (FINISH PLAN step 6).
@@ -168,8 +168,8 @@ L=origin/dev/yggdrasil-iv-launch:founder/reports/yggdrasil-iv-october-2026
 - Verify: `git show "$L/CAMPAIGN.md" | grep -n "Frozen skills lock"`
 - Moves: stable.
 
-**F29 ⚑. Origin automatic, highest merit; frozen contenders compete with locked TM; ties share Origin; no star requirement; manual Class C transfer path superseded.**
-- Value now: rulings recorded; code NOT merged (WIP uncommitted in `~/.gaia-worktrees/origin` on `dev/yggiv-origin-automation`; no remote branch, no PR). Change counts unknown.
+**F29 [RESOLVED]. Origin automatic, highest merit; frozen contenders compete with locked TM; ties share Origin; no star requirement; manual Class C transfer path superseded.**
+- Value now: MERGED via PR #2271 (`ae3408df6`, issue #2267 closed); 223 active buckets, 28 buckets with shared Origin ties, and redacted `originStandings` projected across all public surfaces.
 - Source: `$L/CAMPAIGN.md` "Founder rulings 2026-10-30, late" (items 2, 3) and r2-hermes, r3-origin-meaning; `$L/verification/RULE-PROVENANCE.md` (b), (c), (e).
 - Verify: `gh pr list --head dev/yggiv-origin-automation --state all`
 - Moves: merge:Origin automation PR. Also expected to fix META.md line 58 (≤1★ Origin sentence) and GOVERNANCE.md line 64.
@@ -184,13 +184,13 @@ L=origin/dev/yggdrasil-iv-launch:founder/reports/yggdrasil-iv-october-2026
 - Verify: `git show origin/review/meta/yggiv-october-calibration:registry/named/latent-spaces/brag.md | grep -E '^(level|trustMagnitude|overallTrustGrade):'`
 - Moves: merge:#2251.
 
-**F32 ⚑. workflow-skill-creator Named "Workflow-to-Skill Distiller"; peer-review row retyped; TM 100.82 A → 59.65 B; stored 4★ kept as review debt; displayed 3★ under the clamp.**
+**F32 [RESOLVED]. workflow-skill-creator Named "Workflow-to-Skill Distiller"; peer-review row retyped; TM 100.82 A → 59.65 B; stored 4★ kept as review debt; displayed 3★ across all clamped surfaces (PR #2251, PR #2259).**
 - Value now: frontmatter on #2251 head: `level: 4★`, `trustMagnitude: 59.65`, `overallTrustGrade: B`. The displayed 3★ is inferred from the clamp table (B → 3★), not yet observed on a regenerated surface.
 - Source: #2251 `c241eec51`, `77703692d`; CAMPAIGN fd-11 "Promote to named", r4-peer-review-rows.
 - Verify: `git show origin/review/meta/yggiv-october-calibration:registry/named/google-deepmind/workflow-skill-creator.md | grep -E '^(level|status|title|trustMagnitude|overallTrustGrade):'`
 - Moves: merge:#2251, merge:#2259.
 
-**F33 ⚑. graphify stays 5★ (TM 318.14 S); Unique 5★ prerequisite-Origin rule was borrowed from Suites and never ratified; demotion reverted.**
+**F33 [RESOLVED]. graphify stays 5★ (TM 318.14 S); Unique 5★ prerequisite-Origin rule removed in PR #2271 (`src/gaia_cli/promotion.py`); demotion reverted in PR #2251.**
 - Value now: revert commits `7fc346b67`, `949c3eded` and ruling note `035754bd8` on #2251. Code rule (`promotion.py` `checkUniqueBranchGate`, `helpers.py` pre-flight) not yet corrected on dev.
 - Source: CAMPAIGN r2-graphify; RULE-PROVENANCE (a).
 - Verify: `git show origin/dev/yggdrasil-iv:src/gaia_cli/promotion.py | sed -n 118,140p`
@@ -205,13 +205,12 @@ L=origin/dev/yggdrasil-iv-launch:founder/reports/yggdrasil-iv-october-2026
 - Verify: `gh pr view 2257 --json state,mergeCommit --jq '.state+" "+.mergeCommit.oid'`
 - Moves: stable.
 
-**F36 ⚑. mattpocock/skills: citations 500 → 2; TM 374.99 → 280.39 S; 5★ unchanged; witness URL 404; last bounded probe due 2026-11-01T16:40Z.**
+**F36 [RESOLVED]. mattpocock/skills: citations 500 → 2; TM 374.99 → 280.39 S; 5★ unchanged; witness URL returned HTTP 404 at post-deadline +72h probe (`2026-11-02T20:28:46Z`, Wayback empty); retained as review debt with no demotion.**
 - Source: #2251 `753f4bb8a`; CALIBRATION-VERIFICATION §FD-9 (2 not independently confirmed; S does not depend on the exact value; the 5★ rests on the witness row).
 - Verify: `git show origin/review/meta/yggiv-october-calibration:registry/named/mattpocock/skills.md | grep -E '^(level|trustMagnitude|overallTrustGrade):'`
 - Moves: after 2026-11-01T16:40Z (+72h probe), which is after the cutoff.
 
-**F37 ⚑. 37 zero-evidence skills got host-repo evidence; 12 addy-osmani relinked to suite → 50.0 B; 23 garrytan + 2 obra suite linking automatic under the cap.**
-- Value now: addy-osmani done (`a55cdf5a4`); garrytan/obra NOT linked (C1b open; projected 50.0 B each, obra/test-driven-development 59.0 B).
+**F37 [RESOLVED]. 37 zero-evidence skills got host-repo evidence; all 37 linked to their parent suites in PR #2251 (`a55cdf5a4`, `b45171253`) → 36 at exact 50.0 B and `obra/test-driven-development` at 59.0 B.**
 - Source: #2251 `3c31f0042`, `a55cdf5a4`; CAMPAIGN "Founder rulings 2026-10-30, late" item 1; PR #2260.
 - Verify: `git show origin/review/meta/yggiv-october-calibration:registry/named/garrytan/context-audit.md | grep -E '^(suiteRef|trustMagnitude|overallTrustGrade):'`
 - Moves: merge:#2251.
@@ -221,7 +220,7 @@ L=origin/dev/yggdrasil-iv-launch:founder/reports/yggdrasil-iv-october-2026
 - Verify: `git show --stat 777ea33c6 | tail -1`
 - Moves: merge:#2251.
 
-**F39 ⚑. Grade clamp (S 6, A 4, B 3, C 2, ungraded 1) applied on ledger and leaderboard; stored values unedited; ledger carries stored and displayed.**
+**F39 [RESOLVED]. Grade clamp (S 6, A 4, B 3, C 2, ungraded 1) applied on ledger and leaderboard in PR #2259 (`6001191e4`); stored values unedited; 9 post-cutoff ledger rows display a clamped star rating below `storedStars`.**
 - Value now: PR #2259 OPEN (head `3bd9de0cc`); its body lists 39 display changes computed BEFORE #2251. After #2251 the set shrinks (37 skills now graded) and gains new ones (e.g. workflow-skill-creator 4★/B, output-skill 3★/C).
 - Source: `$L/adjudication/DECISIONS.md` FD-7; CAMPAIGN fd-7 "A · align leaderboard and ledger to the clamp"; PR #2259.
 - Verify: `gh pr view 2259 --json state,mergeCommit`
@@ -242,7 +241,7 @@ L=origin/dev/yggdrasil-iv-launch:founder/reports/yggdrasil-iv-october-2026
 - Verify: `grep -n "Yggdrasil IV" docs/js/site-nav.js docs/index.html docs/heroes/index.html`
 - Moves: this PR.
 
-**F43 ⚑. Cutoff counts remain pending. Current generated figures use distinct, documented populations.**
+**F43 [RESOLVED]. Final post-cutoff counts (`525f3c937`): 784 registry records (311 generic nodes: 156 basic + 155 fusion; 473 named files: 426 classified across 223 buckets + 47 awakened) across 77 contributors in the public directory; 342 trust-ledger rows; 335 non-redacted skills across 52 contributors in the v1 API.**
 - Value observed on this branch before regeneration: 301 generic graph nodes; 352 classified named entries in `buckets`; 268 ledger rows; 229 skills in the skills API. The public contributors directory's canonical population is **65 contributors with 400 skill records**, counting both classified buckets and `awaitingClassification` (48 entries across six handles). `generateProfilePages.collect_by_contributor()` defines that population and `build_directory_page()` renders its total. The about-page contributor tally is being aligned to the same 65-handle `byContributor` projection by `scripts/build_docs.py`.
 - The contributors API lists **43 contributors with non-redacted API-projected skills** (229 skills); `scripts/buildApiProjection.build_contributors()` receives that narrower visible-skill set. This is a different population, not an alternate count of everyone in the public directory.
 - Homepage ledger definitions: named = all classified bucket entries (352); ultimates = named entries at rank 5★+ (3 at this snapshot). The live JS count and first-paint generator both use those definitions. These figures are provisional and must be refreshed after the cutoff; do not substitute them for final counts.

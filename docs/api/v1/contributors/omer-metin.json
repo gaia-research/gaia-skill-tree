@@ -1,0 +1,36 @@
+{
+  "handle": "omer-metin",
+  "namedSkills": [
+    {
+      "id": "omer-metin/synthetic-data",
+      "name": "synthetic-data",
+      "level": "2★",
+      "trustMagnitude": 33.06,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "omer-metin",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/omer-metin/synthetic-data.json"
+      },
+      "genericSkillRef": "synthetic-data-generation"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "omer-metin/synthetic-data",
+    "level": "2★",
+    "trustMagnitude": 33.06
+  },
+  "prestigeScore": 33.06,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/omer-metin.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

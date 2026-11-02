@@ -21,7 +21,9 @@ from run_meta_sweep import championClusterFindings  # noqa: E402
 
 
 def skill(skillId, level, generic="g", origin=False, status="named"):
-    meta = {"id": skillId, "level": level, "genericSkillRef": generic, "status": status}
+    grade = {"1★": "ungraded", "2★": "C", "3★": "B"}.get(level, "A")
+    meta = {"id": skillId, "level": level, "genericSkillRef": generic, "status": status,
+            "overallTrustGrade": grade}
     if origin:
         meta["origin"] = True
     return skillId, {"meta": meta, "body": "", "path": f"registry/named/{skillId}.md"}
@@ -58,21 +60,32 @@ def test_equal_tm_is_not_flagged():
     assert championClusterFindings(named, {"a/x": 50.0, "b/y": 50.0}) == []
 
 
-def test_origin_breaks_a_rank_tie_for_champion():
+def test_automatic_origin_ignores_stale_stored_flag():
     named = registry(skill("a/x", "3★"), skill("b/y", "3★", origin=True))
-    # b/y is the derived Champion (Origin first); it has the lower TM, so flag.
-    found = championClusterFindings(named, {"a/x": 80.0, "b/y": 40.0})
-    assert len(found) == 1 and "Derived Champion 'b/y'" in found[0]["reason"]
-    # ...and when the Origin holds the higher TM there is nothing to review.
+    # The stronger same-rank contender wins automatically, regardless of legacy flags.
+    assert championClusterFindings(named, {"a/x": 80.0, "b/y": 40.0}) == []
     assert championClusterFindings(named, {"a/x": 40.0, "b/y": 80.0}) == []
 
 
-def test_one_star_origin_flag_is_ignored_like_the_index_builder():
-    # META 4.1: a <=1 star entry cannot hold Origin, so it cannot win the tie.
+def test_one_star_origin_is_derived_without_a_star_floor():
     named = registry(skill("a/x", "1★"), skill("b/y", "1★", origin=True))
-    found = championClusterFindings(named, {"a/x": 10.0, "b/y": 90.0})
-    # a/x sorts first (id) because b/y's Origin is cleared; a/x TM < b/y TM.
-    assert len(found) == 1 and "Derived Champion 'a/x'" in found[0]["reason"]
+    assert championClusterFindings(named, {"a/x": 10.0, "b/y": 90.0}) == []
+
+
+def test_frozen_mutation_findings_are_filtered_but_observations_remain():
+    from run_meta_sweep import filterFrozenMutationFindings
+
+    findings = {
+        "unbacked-star": [{"target": "old/x"}, {"target": "live/y"}],
+        "grade-mismatch": [{"target": "old/x"}],
+        "placeholder-bodies": [{"target": "old/x"}],
+        "liveness": [{"target": "old/x"}],
+    }
+    result = filterFrozenMutationFindings(findings, {"old/x"})
+    assert result["unbacked-star"] == [{"target": "live/y"}]
+    assert result["grade-mismatch"] == []
+    assert result["placeholder-bodies"] == []
+    assert result["liveness"] == [{"target": "old/x"}]
 
 
 def test_non_named_status_is_excluded():

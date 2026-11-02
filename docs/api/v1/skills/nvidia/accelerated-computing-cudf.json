@@ -5,7 +5,7 @@
   "level": "4★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 126.12,
+  "trustMagnitude": 131.12,
   "overallTrustGrade": "A",
   "branch": "unique",
   "rankWord": "Unique",
@@ -111,6 +111,12 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 4★"
+    },
+    {
+      "timestamp": "2026-10-30T13:02:39Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "nova-gaia",
+      "details": "TM 126.12 -> 131.12, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

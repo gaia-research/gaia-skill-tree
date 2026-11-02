@@ -2,14 +2,14 @@
 id: addy-osmani/code-simplification
 name: Code Simplification
 contributor: addy-osmani
-origin: false
+origin: true
 genericSkillRef: refactor-code
 status: named
 level: 4★
 description: Code simplification workflow identifying opportunities to reduce cognitive
   complexity.
 createdAt: '2026-07-03'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-30'
 timeline:
 - timestamp: '2026-07-02T18:42:19Z'
   action: add
@@ -97,6 +97,21 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 5★ to 4★
+- timestamp: '2026-10-29T16:34:49Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Origin status set to true.
+- timestamp: '2026-10-29T16:34:50Z'
+  action: note
+  contributor: mbtiongson1
+  details: Bucket Origin assigned to the unique merit winner of its generic bucket
+    (sole top TM/level member); 4-star Unique gate (checkUniqueBranchGate, bucket-level
+    Origin + TM>=100) now satisfied. Founder ruling 2026-10-30 FD-10 (Assign the four).
+- timestamp: '2026-10-30T04:58:32Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 190.0 -> 190.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md
   updatedAt: '2026-10-01'
@@ -141,7 +156,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 3e4029d56e96324f4015a0d45dd557ccf414b342fe014e65326706a5dbcdbb81
+trustMagnitudeInputHash: 1dcf4afb400630b2f33418b5a888a2a62bb4b67397b0576978ee1cbed0c35461
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md
 ---

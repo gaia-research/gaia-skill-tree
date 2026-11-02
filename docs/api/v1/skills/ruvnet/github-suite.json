@@ -25,7 +25,7 @@
   },
   "title": "The GitHub Maestro",
   "genericSkillRef": "git-integration",
-  "origin": true,
+  "origin": false,
   "description": "Full GitHub platform automation fused from 5 skills — code review, multi-repo coordination, project management, release management, and workflow automation.",
   "tags": [
     "github",
@@ -126,6 +126,14 @@
       "previousValue": "v3.41.2",
       "newValue": "v3.63.5",
       "details": "synced from https://github.com/ruvnet/ruflo/releases/tag/v3.63.5"
+    },
+    {
+      "timestamp": "2026-11-02T22:17:26Z",
+      "action": "upstream_synced",
+      "contributor": "mbtiongson1",
+      "previousValue": "v3.63.5",
+      "newValue": "v3.67.0",
+      "details": "synced from https://github.com/ruvnet/ruflo/releases/tag/v3.67.0"
     }
   ],
   "links": {

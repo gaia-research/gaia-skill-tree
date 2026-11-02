@@ -1,0 +1,223 @@
+{
+  "handle": "emilkowalski",
+  "namedSkills": [
+    {
+      "id": "emilkowalski/animate",
+      "name": "animate",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/animate.json"
+      },
+      "genericSkillRef": "timeline-animation"
+    },
+    {
+      "id": "emilkowalski/animate-expo",
+      "name": "animate-expo",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/animate-expo.json"
+      },
+      "genericSkillRef": "timeline-animation"
+    },
+    {
+      "id": "emilkowalski/animation-performance",
+      "name": "animation-performance",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 40.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/animation-performance.json"
+      },
+      "genericSkillRef": "animation-performance"
+    },
+    {
+      "id": "emilkowalski/apple-design",
+      "name": "apple-design",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 60.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/apple-design.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "emilkowalski/break-ui",
+      "name": "break-ui",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 180.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/break-ui.json"
+      },
+      "genericSkillRef": "ui-red-teaming"
+    },
+    {
+      "id": "emilkowalski/emil-design-eng",
+      "name": "emil-design-eng",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 60.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/emil-design-eng.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "emilkowalski/find-animation-opportunities",
+      "name": "find-animation-opportunities",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/find-animation-opportunities.json"
+      },
+      "genericSkillRef": "ui-audit"
+    },
+    {
+      "id": "emilkowalski/improve-animations",
+      "name": "improve-animations",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/improve-animations.json"
+      },
+      "genericSkillRef": "ui-audit"
+    },
+    {
+      "id": "emilkowalski/mobile-native",
+      "name": "mobile-native",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 100.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/mobile-native.json"
+      },
+      "genericSkillRef": "web-best-practices"
+    },
+    {
+      "id": "emilkowalski/prototype",
+      "name": "prototype",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 40.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/prototype.json"
+      },
+      "genericSkillRef": "design-review"
+    },
+    {
+      "id": "emilkowalski/review-animations",
+      "name": "review-animations",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/review-animations.json"
+      },
+      "genericSkillRef": "ui-audit"
+    },
+    {
+      "id": "emilkowalski/write-swift",
+      "name": "write-swift",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/write-swift.json"
+      },
+      "genericSkillRef": "code-generation"
+    }
+  ],
+  "namedSkillsCount": 12,
+  "topSkill": {
+    "id": "emilkowalski/animate",
+    "level": "2★",
+    "trustMagnitude": 129.67
+  },
+  "prestigeScore": 1556.04,
+  "gradeDistribution": {
+    "A": 12
+  },
+  "_links": {
+    "self": "/api/v1/contributors/emilkowalski.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

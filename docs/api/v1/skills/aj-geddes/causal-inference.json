@@ -1,0 +1,74 @@
+{
+  "id": "aj-geddes/causal-inference",
+  "name": "causal-inference",
+  "contributor": "aj-geddes",
+  "level": "2★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 48.62,
+  "overallTrustGrade": "C",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/aj-geddes/causal-inference.json",
+    "contributor": "/api/v1/contributors/aj-geddes.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 60.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 3,
+    "transitiveCount": 3,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
+  },
+  "title": "Causal Inference",
+  "genericSkillRef": "causal-inference",
+  "origin": true,
+  "description": "Estimates causal effects from observational data using structural causal models, instrumental variables, and matching methods.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/aj-geddes/useful-ai-prompts/blob/main/skills/causal-inference/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-03",
+      "type": "github-stars-own",
+      "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag",
+      "stars": 245,
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:53:37Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill aj-geddes/causal-inference"
+    },
+    {
+      "timestamp": "2026-11-02T21:55:24Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/aj-geddes/useful-ai-prompts/blob/main/skills/causal-inference/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-11-02T22:14:50Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 48.62, grade (none) -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/aj-geddes/useful-ai-prompts/blob/main/skills/causal-inference/SKILL.md"
+  }
+}
