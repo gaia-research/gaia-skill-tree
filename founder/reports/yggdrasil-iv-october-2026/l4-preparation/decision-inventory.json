@@ -2,7 +2,7 @@
   "contract": "yggiv-l4-decision-inventory-v1",
   "sourceApproval": {
     "file": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md",
-    "sha256": "c864185fdc8bed26d8e694923c991f35fc3a46e875b5f41304423d040314908f",
+    "sha256": "d20c01d2e6c94789e182845ccc1d29e51993be8ecde38f76795c581c558a68d2",
     "approvalRef": "CAMPAIGN.md § L4 topology choices"
   },
   "sourceTriage": {
@@ -38,12 +38,7 @@
       "oldPacket": null,
       "oldAssessment": null,
       "disposition": "approved-source-preparation",
-      "sourceMetadataFrom": "#565 issue body; original evidence claims are not treated as current verification",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/anthropics__creating-financial-models.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/anthropics__creating-financial-models.assessment.json",
-      "preparedSourceSha256": "c6fd5ad7cb6d3abe013187455c3406019c6694c17b1ee389ea1e4c0f23eba8cb",
-      "preparedAt": "2026-11-02T20:53:10.362842+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "sourceMetadataFrom": "#565 issue body; original evidence claims are not treated as current verification"
     },
     {
       "choiceId": "(7 parked drafts)",
@@ -64,12 +59,7 @@
       "oldPacket": null,
       "oldAssessment": null,
       "disposition": "approved-source-preparation",
-      "sourceMetadataFrom": "#565 issue body; original evidence claims are not treated as current verification",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/kishorkukreja__inventory-optimization.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/kishorkukreja__inventory-optimization.assessment.json",
-      "preparedSourceSha256": "54ecbbd4d7505e4d6768c26b0591553ffba3a51a6c0c0509919e672276732197",
-      "preparedAt": "2026-11-02T20:53:23.919018+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "sourceMetadataFrom": "#565 issue body; original evidence claims are not treated as current verification"
     },
     {
       "choiceId": "(7 parked drafts)",
@@ -90,12 +80,7 @@
       "oldPacket": null,
       "oldAssessment": null,
       "disposition": "approved-source-preparation",
-      "sourceMetadataFrom": "#565 issue body; original evidence claims are not treated as current verification",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/omer-metin__synthetic-data.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/omer-metin__synthetic-data.assessment.json",
-      "preparedSourceSha256": "f4c4064815052c98eb8b662000f609fd91aec88ed700828a05ef4171b27be20f",
-      "preparedAt": "2026-11-02T20:53:34.260688+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "sourceMetadataFrom": "#565 issue body; original evidence claims are not treated as current verification"
     },
     {
       "choiceId": "(7 parked drafts)",
@@ -137,12 +122,7 @@
       "oldPacket": null,
       "oldAssessment": null,
       "disposition": "approved-source-preparation",
-      "sourceMetadataFrom": "#565 issue body; original evidence claims are not treated as current verification",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/aj-geddes__causal-inference.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/aj-geddes__causal-inference.assessment.json",
-      "preparedSourceSha256": "8624416b5876498879add9a28300e6af17dd87a45c88edaebccde1cae91a0d54",
-      "preparedAt": "2026-11-02T20:53:44.807140+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "sourceMetadataFrom": "#565 issue body; original evidence claims are not treated as current verification"
     },
     {
       "choiceId": "(7 parked drafts)",
@@ -163,12 +143,7 @@
       "oldPacket": null,
       "oldAssessment": null,
       "disposition": "approved-source-preparation",
-      "sourceMetadataFrom": "#565 issue body; original evidence claims are not treated as current verification",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/dralgorhythm__compliance.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/dralgorhythm__compliance.assessment.json",
-      "preparedSourceSha256": "b7673311a43fcd99479d225cc8b66cf678017b2b1e2a34988e01c1540c0a5fa8",
-      "preparedAt": "2026-11-02T20:53:54.578158+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "sourceMetadataFrom": "#565 issue body; original evidence claims are not treated as current verification"
     },
     {
       "choiceId": "(7 parked drafts)",
@@ -189,12 +164,7 @@
       "oldPacket": null,
       "oldAssessment": null,
       "disposition": "approved-source-preparation",
-      "sourceMetadataFrom": "#565 issue body; original evidence claims are not treated as current verification",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/majiayu000__edge-model-compression.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/majiayu000__edge-model-compression.assessment.json",
-      "preparedSourceSha256": "9f015aeed83c4754ae0924e0338fd687620aec7ade73acbdfd3debcaedc2b73a",
-      "preparedAt": "2026-11-02T20:54:05.553302+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "sourceMetadataFrom": "#565 issue body; original evidence claims are not treated as current verification"
     },
     {
       "choiceId": "addy-osmani/debugging-and-error-recovery",
@@ -218,12 +188,7 @@
       "intakeIdentity": "existing issue #2008",
       "proposedGeneric": "systematic-debugging",
       "mappingReason": "same generic as obra/systematic-debugging (named implementation)",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/addy-osmani__debugging-and-error-recovery.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/addy-osmani__debugging-and-error-recovery.assessment.json",
-      "preparedSourceSha256": "21f3960f5d7ae2cc95c40896545004dbbcbbd752ea65fc2d53962554d4174220",
-      "preparedAt": "2026-10-27T21:59:42.525017+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "addy-osmani/git-workflow-and-versioning",
@@ -247,12 +212,7 @@
       "intakeIdentity": "existing issue #2013",
       "proposedGeneric": "git-integration",
       "mappingReason": "git workflow practice; git-integration is a GitHub-automation fusion, poor fit; likely NEW_GENERIC",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/addy-osmani__git-workflow-and-versioning.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/addy-osmani__git-workflow-and-versioning.assessment.json",
-      "preparedSourceSha256": "b7465d187935c52546d39fdc7bd6ac36d94eda25a9500ef8c18b767d2eb116ea",
-      "preparedAt": "2026-10-27T21:59:27.642290+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "addy-osmani/idea-refine",
@@ -276,12 +236,7 @@
       "intakeIdentity": "existing issue #2014",
       "proposedGeneric": "brainstorming",
       "mappingReason": "divergent/convergent idea refinement",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/addy-osmani__idea-refine.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/addy-osmani__idea-refine.assessment.json",
-      "preparedSourceSha256": "21ef828e3a2144245b67f840cc3805f761e98c9acce9a96670b7cd7441353463",
-      "preparedAt": "2026-10-27T21:59:11.947160+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "addy-osmani/interview-me",
@@ -305,12 +260,7 @@
       "intakeIdentity": "existing issue #2015",
       "proposedGeneric": "grill-me",
       "mappingReason": "Socratic elicitation; prefill 0.54 grill-me",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/addy-osmani__interview-me.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/addy-osmani__interview-me.assessment.json",
-      "preparedSourceSha256": "ace4b675999bb504593d572e0f73f3d7e803ad6fddf318445598c82c11939db2",
-      "preparedAt": "2026-10-27T21:59:02.821988+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "addy-osmani/using-agent-skills",
@@ -357,12 +307,7 @@
       "intakeIdentity": "existing issue #2081",
       "proposedGeneric": "retrieve",
       "mappingReason": "issue notes adjacent web-search/research/speech-to-text/video-captions; this is retrieval + citation of existing transcripts",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/arcmira__find-quotes.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/arcmira__find-quotes.assessment.json",
-      "preparedSourceSha256": "9a5339bf18024fe2f5307a55172730114d8ac613c2f6bdc698971b63c051490b",
-      "preparedAt": "2026-10-27T22:09:28.836135+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "cathrynlavery/diagram-design",
@@ -386,12 +331,7 @@
       "intakeIdentity": "existing issue #2083",
       "proposedGeneric": "architecture-diagram",
       "mappingReason": "alt: collaborative-diagramming; submitter prefers dedup into an existing diagram generic",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/cathrynlavery__diagram-design.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/cathrynlavery__diagram-design.assessment.json",
-      "preparedSourceSha256": "83fd5aa46965ce2b14bd42ade80c065a4e17a9f83d2a9f4f275b47cd45d72666",
-      "preparedAt": "2026-10-27T22:09:44.787432+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "cis2042/product-design-harness",
@@ -424,12 +364,7 @@
           "design-review"
         ]
       },
-      "proposedGeneric": "product-design-review",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/cis2042__product-design-harness.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/cis2042__product-design-harness.assessment.json",
-      "preparedSourceSha256": "ebdb52ec57481aefa76033b6a6367eaa1155659cccad6c76135dc693c6adeb21",
-      "preparedAt": "2026-10-27T22:09:51.573927+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_NEW_GENERIC_PREP"
+      "proposedGeneric": "product-design-review"
     },
     {
       "choiceId": "emilkowalski/animate-expo",
@@ -453,12 +388,7 @@
       "intakeIdentity": "existing issue evidence-candidate",
       "proposedGeneric": "timeline-animation",
       "mappingReason": "React Native / Expo",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/emilkowalski__animate-expo.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__animate-expo.assessment.json",
-      "preparedSourceSha256": "9a01a91701e6563c67677dde6b66ab30f066a5341d42c21a90ba51d99679274a",
-      "preparedAt": "2026-10-27T22:10:36.388382+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "emilkowalski/animate",
@@ -482,12 +412,7 @@
       "intakeIdentity": "existing issue evidence-candidate",
       "proposedGeneric": "timeline-animation",
       "mappingReason": "Founder choice: approve as proposed.",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/emilkowalski__animate.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__animate.assessment.json",
-      "preparedSourceSha256": "b8ede161270458e6ae2e45e8a1985373515d4c63de5568ddb0f9012d7634356c",
-      "preparedAt": "2026-10-27T22:10:27.396250+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "emilkowalski/animation-performance",
@@ -520,12 +445,7 @@
           "timeline-animation"
         ]
       },
-      "proposedGeneric": "animation-performance",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/emilkowalski__animation-performance.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__animation-performance.assessment.json",
-      "preparedSourceSha256": "ceb9dd3fe912615830f725a0120ccf8d012d15a6218001a5cd6c15d38e39a957",
-      "preparedAt": "2026-10-27T22:10:45.135598+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_NEW_GENERIC_PREP"
+      "proposedGeneric": "animation-performance"
     },
     {
       "choiceId": "emilkowalski/apple-design",
@@ -549,12 +469,7 @@
       "intakeIdentity": "existing issue evidence-candidate",
       "proposedGeneric": "design-generation",
       "mappingReason": "Founder choice: approve as proposed.",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/emilkowalski__apple-design.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__apple-design.assessment.json",
-      "preparedSourceSha256": "77bb63b7043bb93aca2ff4ab040c249484eef35682bb6ff7163433c31d30adc7",
-      "preparedAt": "2026-10-27T22:10:53.868418+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "emilkowalski/break-ui",
@@ -587,12 +502,7 @@
           "ui-audit"
         ]
       },
-      "proposedGeneric": "ui-red-teaming",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/emilkowalski__break-ui.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__break-ui.assessment.json",
-      "preparedSourceSha256": "e7eec1d70ac56a04255e9c0dbe98084ea3d544cc04aaad34f32c95d6fa9dff5e",
-      "preparedAt": "2026-10-27T22:11:02.307827+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_NEW_GENERIC_PREP"
+      "proposedGeneric": "ui-red-teaming"
     },
     {
       "choiceId": "emilkowalski/emil-design-eng",
@@ -616,12 +526,7 @@
       "intakeIdentity": "existing issue evidence-candidate",
       "proposedGeneric": "design-generation",
       "mappingReason": "sibling addy-osmani/frontend-ui-engineering maps here",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/emilkowalski__emil-design-eng.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__emil-design-eng.assessment.json",
-      "preparedSourceSha256": "ffbe68e6007fb42cb8149f089b400a1ca007d59ba23e8948e2be4476f3175939",
-      "preparedAt": "2026-10-27T22:11:10.953091+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "emilkowalski/find-animation-opportunities",
@@ -645,12 +550,7 @@
       "intakeIdentity": "existing issue evidence-candidate",
       "proposedGeneric": "ui-audit",
       "mappingReason": "Founder choice: approve as proposed.",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/emilkowalski__find-animation-opportunities.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__find-animation-opportunities.assessment.json",
-      "preparedSourceSha256": "d52a377819b84a71930f0c822cfe2849f40301605a2d5c7eccbfa3b257700df2",
-      "preparedAt": "2026-10-27T22:11:19.125857+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "emilkowalski/improve-animations",
@@ -674,12 +574,7 @@
       "intakeIdentity": "existing issue evidence-candidate",
       "proposedGeneric": "ui-audit",
       "mappingReason": "prioritised motion audit",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/emilkowalski__improve-animations.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__improve-animations.assessment.json",
-      "preparedSourceSha256": "73962447464433476343e2c12cd08ab39cc99a9e5f3c118c5fb54ed897574ef6",
-      "preparedAt": "2026-10-27T22:11:27.337137+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "emilkowalski/mobile-native",
@@ -703,12 +598,7 @@
       "intakeIdentity": "existing issue evidence-candidate",
       "proposedGeneric": "web-best-practices",
       "mappingReason": "Founder choice: approve as proposed.",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/emilkowalski__mobile-native.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__mobile-native.assessment.json",
-      "preparedSourceSha256": "888b7651d66d66dbac4e72b7c554638eb19bd971d686d6cbdf030a5ef3788f55",
-      "preparedAt": "2026-10-27T22:11:35.884193+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "emilkowalski/prototype",
@@ -732,12 +622,7 @@
       "intakeIdentity": "existing issue evidence-candidate",
       "disposition": "approved-map",
       "proposedGeneric": "design-review",
-      "mappingReason": "Founder note: same with design shotgun; closest existing generic.",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/emilkowalski__prototype.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__prototype.assessment.json",
-      "preparedSourceSha256": "bba39c955eb1871c5a02733976ceec5d0324198e0812e667604756489c89f7b9",
-      "preparedAt": "2026-10-27T22:11:43.825026+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "mappingReason": "Founder note: same with design shotgun; closest existing generic."
     },
     {
       "choiceId": "emilkowalski/review-animations",
@@ -761,12 +646,7 @@
       "intakeIdentity": "existing issue evidence-candidate",
       "proposedGeneric": "ui-audit",
       "mappingReason": "Founder choice: approve as proposed.",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/emilkowalski__review-animations.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__review-animations.assessment.json",
-      "preparedSourceSha256": "6ff590d29e436766135aa3d137be1fac2a867165c7257fc315b189361f1873af",
-      "preparedAt": "2026-10-27T22:11:51.759094+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "emilkowalski/write-swift",
@@ -790,12 +670,7 @@
       "intakeIdentity": "existing issue evidence-candidate",
       "proposedGeneric": "code-generation",
       "mappingReason": "Founder choice: approve as proposed.",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/emilkowalski__write-swift.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/emilkowalski__write-swift.assessment.json",
-      "preparedSourceSha256": "16a4b6adb74e338e55e704ce5753ad54d825438b8a63930eeaede9f3c04c9447",
-      "preparedAt": "2026-10-27T22:12:00.187802+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "firecrawl/firecrawl-build",
@@ -819,12 +694,7 @@
       "intakeIdentity": "existing issue pre-october-batch",
       "disposition": "approved-map",
       "proposedGeneric": "browser-automation",
-      "mappingReason": "Founder note explicitly maps to browser automation.",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/firecrawl__firecrawl-build.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/firecrawl__firecrawl-build.assessment.json",
-      "preparedSourceSha256": "6c52fd79c4322ba9f0cf560fc28c9c9ee961d1cd0d930b7656b61449ff693d2b",
-      "preparedAt": "2026-10-27T22:10:18.244078+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "mappingReason": "Founder note explicitly maps to browser automation."
     },
     {
       "choiceId": "garrytan/article-enrichment",
@@ -848,12 +718,7 @@
       "intakeIdentity": "existing issue #1925",
       "proposedGeneric": "document-analyst",
       "mappingReason": "structured page from article dump; sibling strategic-reading maps here",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__article-enrichment.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__article-enrichment.assessment.json",
-      "preparedSourceSha256": "84b2a3792c5e7e2ccf8b6fd32b2c850a8514f5ed5459a5664ba0780720f5ce09",
-      "preparedAt": "2026-10-27T22:09:20.731104+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/ask-user",
@@ -877,12 +742,7 @@
       "intakeIdentity": "existing issue #1926",
       "proposedGeneric": "questionnaire-generation",
       "mappingReason": "present explicit choices and gate execution",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__ask-user.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__ask-user.assessment.json",
-      "preparedSourceSha256": "ffa15b80a286180d79642bf1d96be860ad2801ad8ba5c2923750a7adafd260ae",
-      "preparedAt": "2026-10-27T22:09:11.556600+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/brain-ingest-gate",
@@ -906,12 +766,7 @@
       "intakeIdentity": "existing issue #1929",
       "proposedGeneric": "knowledge-management",
       "mappingReason": "pre-write quality gate",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__brain-ingest-gate.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__brain-ingest-gate.assessment.json",
-      "preparedSourceSha256": "0c382dc55df9b7b991fd6b8ad367fc9b7ac17ebe5e8610c0740ff32234fdc82b",
-      "preparedAt": "2026-10-27T22:09:02.397717+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/brain-link-discipline",
@@ -935,12 +790,7 @@
       "intakeIdentity": "existing issue #1930",
       "proposedGeneric": "knowledge-management",
       "mappingReason": "link discipline gate",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__brain-link-discipline.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__brain-link-discipline.assessment.json",
-      "preparedSourceSha256": "db2a77319475dd8eb370e9a3bb0eafe81d3b19d2de126113b30df7454dd9a069",
-      "preparedAt": "2026-10-27T22:08:52.683647+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/brain-pdf",
@@ -964,12 +814,7 @@
       "intakeIdentity": "existing issue #1931",
       "proposedGeneric": "format-output",
       "mappingReason": "PDF render of a page; weak",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__brain-pdf.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__brain-pdf.assessment.json",
-      "preparedSourceSha256": "2dfffd2373f00b5f11c1e4b39a75be48e90870201b4c11979d520bd5975dcae4",
-      "preparedAt": "2026-10-27T22:08:43.214475+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/brain-taxonomist",
@@ -993,12 +838,7 @@
       "intakeIdentity": "existing issue #1932",
       "proposedGeneric": "knowledge-management",
       "mappingReason": "filing gate",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__brain-taxonomist.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__brain-taxonomist.assessment.json",
-      "preparedSourceSha256": "418fd4cdac3355551c42a70fea4d76e3d9255fe04698358b2c1e89dc666bf11d",
-      "preparedAt": "2026-10-27T22:08:33.806161+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/briefing",
@@ -1022,12 +862,7 @@
       "intakeIdentity": "existing issue #1933",
       "proposedGeneric": "write-report",
       "mappingReason": "daily briefing compile",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__briefing.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__briefing.assessment.json",
-      "preparedSourceSha256": "551c2f308c27b8a0823e2dfbbcdf7e8ace78ff6498afaa3ac21da852c7cf0d16",
-      "preparedAt": "2026-10-27T22:08:24.428295+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/chat-connectors",
@@ -1051,12 +886,7 @@
       "intakeIdentity": "existing issue #1935",
       "disposition": "approved-map",
       "proposedGeneric": "mcp-integration",
-      "mappingReason": "Closest existing generic for chat/MCP integrations; founder note preserved.",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__chat-connectors.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__chat-connectors.assessment.json",
-      "preparedSourceSha256": "44b63309c779b5394c0be8ec6cabff8381099cfb8c0944143a859c48594ddf01",
-      "preparedAt": "2026-10-27T22:08:14.477230+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "mappingReason": "Closest existing generic for chat/MCP integrations; founder note preserved."
     },
     {
       "choiceId": "garrytan/citation-fixer",
@@ -1080,12 +910,7 @@
       "intakeIdentity": "existing issue #1936",
       "proposedGeneric": "cite-sources",
       "mappingReason": "inline citation formatting audit",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__citation-fixer.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__citation-fixer.assessment.json",
-      "preparedSourceSha256": "22dde60db9d5df0a859e131e7e2d7347d5205a3d20ea1ed0d9c4eb373fb11cc9",
-      "preparedAt": "2026-10-27T22:08:02.448759+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/cold-start",
@@ -1109,12 +934,7 @@
       "intakeIdentity": "existing issue #1938",
       "proposedGeneric": "knowledge-harvest",
       "mappingReason": "day-one data bootstrapping",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__cold-start.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__cold-start.assessment.json",
-      "preparedSourceSha256": "eb10547b5f2fba3edffd47c5023cd3f28335e1ee3b599f98f298c1ccd07090eb",
-      "preparedAt": "2026-10-27T22:07:50.813355+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/company-brainify",
@@ -1147,12 +967,7 @@
           "knowledge-management"
         ]
       },
-      "proposedGeneric": "company-knowledge-management",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__company-brainify.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__company-brainify.assessment.json",
-      "preparedSourceSha256": "89e8cae702d468628d110119e325cece897cd15066c7cc7d27e990021904fc04",
-      "preparedAt": "2026-10-27T22:07:39.947006+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_NEW_GENERIC_PREP"
+      "proposedGeneric": "company-knowledge-management"
     },
     {
       "choiceId": "garrytan/correction-pipeline",
@@ -1176,12 +991,7 @@
       "intakeIdentity": "existing issue #1942",
       "proposedGeneric": "error-interpretation",
       "mappingReason": "Founder choice: approve; root cause and error interpretation.",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__correction-pipeline.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__correction-pipeline.assessment.json",
-      "preparedSourceSha256": "04b4aee06d7fcdd75db314da432ed7c08b5fbc20f117f18062c64aaf795bc564",
-      "preparedAt": "2026-10-27T22:07:29.657957+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/cron-scheduler",
@@ -1205,12 +1015,7 @@
       "intakeIdentity": "existing issue #1943",
       "proposedGeneric": "workflow-automation",
       "mappingReason": "schedule management",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__cron-scheduler.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__cron-scheduler.assessment.json",
-      "preparedSourceSha256": "a35d24206d7a309b3630f0492048676c75c6f3d6f8b58518cc9afe8dbcae533b",
-      "preparedAt": "2026-10-27T22:07:18.994065+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/cross-modal-review",
@@ -1234,12 +1039,7 @@
       "intakeIdentity": "existing issue #1944",
       "proposedGeneric": "adversarial-review",
       "mappingReason": "second-model quality gate",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__cross-modal-review.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__cross-modal-review.assessment.json",
-      "preparedSourceSha256": "fc00a04e2ff9f498bee9b0b636bceba9dcfdc869c35d9a983109f408170f0807",
-      "preparedAt": "2026-10-27T22:07:08.087969+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/daily-task-manager",
@@ -1263,12 +1063,7 @@
       "intakeIdentity": "existing issue #1945",
       "proposedGeneric": "project-management",
       "mappingReason": "task lifecycle with stable IDs",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__daily-task-manager.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__daily-task-manager.assessment.json",
-      "preparedSourceSha256": "e93264a83b5fd0a19b2f06a322b3a4ad92d418f6a968c1cd51f4bea79cbca4d9",
-      "preparedAt": "2026-10-27T22:06:56.647091+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/daily-task-prep",
@@ -1292,12 +1087,7 @@
       "intakeIdentity": "existing issue #1946",
       "proposedGeneric": "workspace-automation",
       "mappingReason": "calendar lookahead + meeting context",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__daily-task-prep.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__daily-task-prep.assessment.json",
-      "preparedSourceSha256": "5ea839012b48761ed8d7a9bab056a2566587d6f7fe044e3907d77b20f8eec5ac",
-      "preparedAt": "2026-10-27T22:06:43.318613+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/data-loss-gate",
@@ -1321,12 +1111,7 @@
       "intakeIdentity": "existing issue #1947",
       "proposedGeneric": "guardrails",
       "mappingReason": "confirmation gate before destructive ops",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__data-loss-gate.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__data-loss-gate.assessment.json",
-      "preparedSourceSha256": "c1736e0985121e60ffeba993b68b5c722c9285220057b5ef72059f111aabcb18",
-      "preparedAt": "2026-10-27T22:06:30.815300+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/db-repair",
@@ -1350,12 +1135,7 @@
       "intakeIdentity": "existing issue #1949",
       "proposedGeneric": "postgres-best-practices",
       "mappingReason": "auto-fix Postgres access",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__db-repair.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__db-repair.assessment.json",
-      "preparedSourceSha256": "87a34fe18812f3b6ec37381ae69c205e30747300098ebe3fe41f8460d0ba8346",
-      "preparedAt": "2026-10-27T22:06:16.822389+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/eiirp",
@@ -1379,12 +1159,7 @@
       "intakeIdentity": "existing issue #1951",
       "proposedGeneric": "knowledge-management",
       "mappingReason": "post-work organizer; thin",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__eiirp.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__eiirp.assessment.json",
-      "preparedSourceSha256": "507249ce40746c0f3d5ae2a374164797798c6ebbc6209b312e3404a2f4902e6c",
-      "preparedAt": "2026-10-27T22:06:02.024026+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/enrich",
@@ -1414,12 +1189,7 @@
         "type": "basic",
         "prerequisites": []
       },
-      "proposedGeneric": "knowledge-enrichment",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__enrich.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__enrich.assessment.json",
-      "preparedSourceSha256": "cbe6068373f4cd5006a6171a1795c3e619cfc82009ec4b3d86174b8ee2bcee2e",
-      "preparedAt": "2026-10-27T22:05:49.815068+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_NEW_GENERIC_PREP"
+      "proposedGeneric": "knowledge-enrichment"
     },
     {
       "choiceId": "garrytan/frontmatter-guard",
@@ -1452,12 +1222,7 @@
           "web-best-practices"
         ]
       },
-      "proposedGeneric": "knowledge-aware-frontend",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__frontmatter-guard.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__frontmatter-guard.assessment.json",
-      "preparedSourceSha256": "5d8dd7aac288063b10b586879d33cbc5ff7794f7841deac9c5bab25f7b4a10ce",
-      "preparedAt": "2026-10-27T22:12:14.137324+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_NEW_GENERIC_PREP"
+      "proposedGeneric": "knowledge-aware-frontend"
     },
     {
       "choiceId": "garrytan/gbrain-advisor",
@@ -1504,12 +1269,7 @@
       "intakeIdentity": "existing issue #1957",
       "proposedGeneric": "framework-upgrade",
       "mappingReason": "keep gbrain current",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__gbrain-upgrade.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__gbrain-upgrade.assessment.json",
-      "preparedSourceSha256": "c68187b205ed2f5d097c62cb05b0a80ec70a2cdbd9fe3ca09fc6bc3cc73d4d34",
-      "preparedAt": "2026-10-27T22:11:28.897361+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/google-loops",
@@ -1539,12 +1299,7 @@
         "type": "basic",
         "prerequisites": []
       },
-      "proposedGeneric": "google-workspace-automation",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__google-loops.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__google-loops.assessment.json",
-      "preparedSourceSha256": "20955fac0a94bbe9298a8aa7416e851cac86eb145bc551ed0fc556d2f583fa5e",
-      "preparedAt": "2026-10-27T22:11:05.423659+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_NEW_GENERIC_PREP"
+      "proposedGeneric": "google-workspace-automation"
     },
     {
       "choiceId": "garrytan/idea-ingest",
@@ -1568,12 +1323,7 @@
       "intakeIdentity": "existing issue #1959",
       "proposedGeneric": "knowledge-harvest",
       "mappingReason": "links/articles/ideas ingestion",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__idea-ingest.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__idea-ingest.assessment.json",
-      "preparedSourceSha256": "863be3660ead12a45d3b86309d73df0ffda6c5db6ca69873cce1810680df79b4",
-      "preparedAt": "2026-10-27T22:10:41.889802+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/ingest",
@@ -1597,12 +1347,7 @@
       "intakeIdentity": "existing issue #1961",
       "proposedGeneric": "route-intent",
       "mappingReason": "detects input type and delegates; sibling functional-area-resolver maps to route-intent",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__ingest.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__ingest.assessment.json",
-      "preparedSourceSha256": "1acc220ce6e9e65876fa2ccede6ce11f9c75457feb6695ef904955f8debecaae",
-      "preparedAt": "2026-10-27T22:10:17.504836+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/maintain",
@@ -1649,12 +1394,7 @@
       "intakeIdentity": "existing issue #1997",
       "proposedGeneric": "mcp-integration",
       "mappingReason": "owner dashboard + OAuth client admin; prefill 0.457 weak",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__mcp-access.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__mcp-access.assessment.json",
-      "preparedSourceSha256": "1bc16338b89f476aa8c24ffec79c989fa60716793998af264d357f7886d2bc96",
-      "preparedAt": "2026-10-27T21:59:52.368571+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/media-ingest",
@@ -1678,12 +1418,7 @@
       "intakeIdentity": "existing issue #1964",
       "proposedGeneric": "knowledge-harvest",
       "mappingReason": "multi-format ingestion",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__media-ingest.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__media-ingest.assessment.json",
-      "preparedSourceSha256": "d70374d3df21397380203f541ebdcc90c0bc6bc7207234349594a081e98f2719",
-      "preparedAt": "2026-10-27T22:09:31.856149+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/migrate",
@@ -1730,12 +1465,7 @@
       "intakeIdentity": "existing issue #1968",
       "proposedGeneric": "research",
       "mappingReason": "sibling data-research maps to research",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__perplexity-research.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__perplexity-research.assessment.json",
-      "preparedSourceSha256": "1d6cf9f752b4a1618a04789a2f24a7f18d6feaa4ada578515842860bd5869997",
-      "preparedAt": "2026-10-27T22:08:41.907164+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/postgres-adopt",
@@ -1759,12 +1489,7 @@
       "intakeIdentity": "existing issue #1969",
       "proposedGeneric": "postgres-best-practices",
       "mappingReason": "PGLite vs Postgres engine adoption",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__postgres-adopt.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__postgres-adopt.assessment.json",
-      "preparedSourceSha256": "8cf801e2e0d29da525a8c4ba275b91e6caffc8aae8e648cbcc8bceaab865c890",
-      "preparedAt": "2026-10-27T22:08:16.245035+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/publish",
@@ -1794,12 +1519,7 @@
         "type": "basic",
         "prerequisites": []
       },
-      "proposedGeneric": "brain-publishing",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__publish.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__publish.assessment.json",
-      "preparedSourceSha256": "271bd9ba87279429cd934509071dd032b859d59264038c38829c9af46f15c13b",
-      "preparedAt": "2026-10-27T22:07:47.080430+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_NEW_GENERIC_PREP"
+      "proposedGeneric": "brain-publishing"
     },
     {
       "choiceId": "garrytan/query",
@@ -1829,12 +1549,7 @@
         "type": "basic",
         "prerequisites": []
       },
-      "proposedGeneric": "knowledge-query",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__query.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__query.assessment.json",
-      "preparedSourceSha256": "afe2a88394bb78bb651ebd5434415dfa1a96cbc3c52848e134be16b3e8d36f08",
-      "preparedAt": "2026-10-27T22:07:19.046604+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_NEW_GENERIC_PREP"
+      "proposedGeneric": "knowledge-query"
     },
     {
       "choiceId": "garrytan/repo-architecture",
@@ -1858,12 +1573,7 @@
       "intakeIdentity": "existing issue #1973",
       "disposition": "approved-map",
       "proposedGeneric": "knowledge-management",
-      "mappingReason": "Closest existing generic for the source's brain filing/architecture protocol.",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__repo-architecture.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__repo-architecture.assessment.json",
-      "preparedSourceSha256": "c57c629d31676ef02f4f42f6dd55dd432e02e0d3a6397aacbbd1037138493763",
-      "preparedAt": "2026-10-27T22:06:46.861500+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "mappingReason": "Closest existing generic for the source's brain filing/architecture protocol."
     },
     {
       "choiceId": "garrytan/reports",
@@ -1887,12 +1597,7 @@
       "intakeIdentity": "existing issue #1974",
       "proposedGeneric": "write-report",
       "mappingReason": "save/load timestamped reports",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__reports.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__reports.assessment.json",
-      "preparedSourceSha256": "3d3ad45a4ebe82251244f74c98c29f633c1b4b98745ad88fdbc01bd6e43b6dec",
-      "preparedAt": "2026-10-27T22:06:12.759472+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/resolve-before-asking",
@@ -1916,12 +1621,7 @@
       "intakeIdentity": "existing issue #1976",
       "proposedGeneric": "guardrails",
       "mappingReason": "Founder choice: approve; identity gate and escalation boundary.",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__resolve-before-asking.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__resolve-before-asking.assessment.json",
-      "preparedSourceSha256": "ba5aa2ce7bf45116052625eb14fe90f0cc807b4b1490a4646b1cee11b888e897",
-      "preparedAt": "2026-10-27T22:05:37.942879+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/schema-author",
@@ -1945,12 +1645,7 @@
       "intakeIdentity": "existing issue #1977",
       "proposedGeneric": "schema-design",
       "mappingReason": "evolve a schema pack",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__schema-author.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__schema-author.assessment.json",
-      "preparedSourceSha256": "38efb8b48399a2dc526d7084579aa265b2ab232882605bc2f86f6ba2869619f5",
-      "preparedAt": "2026-10-27T22:05:05.406114+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/schema-unify",
@@ -1974,12 +1669,7 @@
       "intakeIdentity": "existing issue #1978",
       "proposedGeneric": "schema-design",
       "mappingReason": "taxonomy migration",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__schema-unify.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__schema-unify.assessment.json",
-      "preparedSourceSha256": "36259f1510fd693253535bd203e32db1bfa24aaae7278c7a2e8b7d6859022708",
-      "preparedAt": "2026-10-27T22:04:32.410469+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/setup",
@@ -2026,12 +1716,7 @@
       "intakeIdentity": "existing issue #1982",
       "proposedGeneric": "skill-authoring",
       "mappingReason": "creates SKILL.md under a conformance standard",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__skill-creator.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__skill-creator.assessment.json",
-      "preparedSourceSha256": "ae8119e6a28faacdc48b13a51c89ff752e9d1b698a4ed0b49f380eb1de16e322",
-      "preparedAt": "2026-10-27T22:03:35.635953+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/skillpack-check",
@@ -2078,12 +1763,7 @@
       "intakeIdentity": "existing issue #1986",
       "proposedGeneric": "skill-authoring",
       "mappingReason": "lift a skill into a bundle",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__skillpack-harvest.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__skillpack-harvest.assessment.json",
-      "preparedSourceSha256": "0f86314b58d25b5511809f567c04aedc3fba6fe35ed642ac52d8216ae365b6eb",
-      "preparedAt": "2026-10-27T22:02:34.635993+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/smoke-test",
@@ -2107,12 +1787,7 @@
       "intakeIdentity": "existing issue #1987",
       "proposedGeneric": "automated-testing",
       "mappingReason": "install health smoke tests + auto-fix; gbrain-specific",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__smoke-test.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__smoke-test.assessment.json",
-      "preparedSourceSha256": "f5099e1d2ab9dc6827096249e68414f7ae357c29b39fb069a54bb7fb74f414a5",
-      "preparedAt": "2026-10-27T22:02:01.211810+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/soul-audit",
@@ -2136,12 +1811,7 @@
       "intakeIdentity": "existing issue #1988",
       "proposedGeneric": "interview-me",
       "mappingReason": "Founder choice: approve; agent identity interview.",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__soul-audit.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__soul-audit.assessment.json",
-      "preparedSourceSha256": "7a48e180849f7502d332878c443397f90a3756f45caa94f76bcfcc7c997469c8",
-      "preparedAt": "2026-10-27T22:01:18.718064+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/testing",
@@ -2165,12 +1835,7 @@
       "intakeIdentity": "existing issue #1990",
       "proposedGeneric": "automated-testing",
       "mappingReason": "skill validation + test-suite health",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__testing.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__testing.assessment.json",
-      "preparedSourceSha256": "c69fe3456aa981bbcfe06c7633042eabf68617c69e9c26c00e47a0848fd90fb3",
-      "preparedAt": "2026-10-27T22:00:44.617138+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "garrytan/voice-note-ingest",
@@ -2203,12 +1868,7 @@
           "voice-agent"
         ]
       },
-      "proposedGeneric": "voice-knowledge-ingestion",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__voice-note-ingest.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__voice-note-ingest.assessment.json",
-      "preparedSourceSha256": "da09a82cdea92e8407a9dff946f2e25bb3ccbd433d767ea38f275e087457086d",
-      "preparedAt": "2026-10-27T22:00:27.687685+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_NEW_GENERIC_PREP"
+      "proposedGeneric": "voice-knowledge-ingestion"
     },
     {
       "choiceId": "garrytan/webhook-transforms",
@@ -2232,12 +1892,7 @@
       "intakeIdentity": "existing issue #1993",
       "disposition": "approved-map",
       "proposedGeneric": "workflow-automation",
-      "mappingReason": "Closest existing generic for event-triggered transforms; founder note preserved.",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/garrytan__webhook-transforms.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/garrytan__webhook-transforms.assessment.json",
-      "preparedSourceSha256": "39d3f4e21de6a899652a26fd051ae19d55cc70a8c868f251834f5fa6a8322a74",
-      "preparedAt": "2026-10-27T22:00:08.993669+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "mappingReason": "Closest existing generic for event-triggered transforms; founder note preserved."
     },
     {
       "choiceId": "jpoutrin/create-plugin",
@@ -2261,12 +1916,7 @@
       "intakeIdentity": "existing issue #1541",
       "proposedGeneric": "skill-authoring",
       "mappingReason": "plugin scaffolding; alt agent-environment-setup",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/jpoutrin__create-plugin.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/jpoutrin__create-plugin.assessment.json",
-      "preparedSourceSha256": "459eefd713003d81af15291e357cd8cadb2ba0cced63e9a674ca284cf27045bf",
-      "preparedAt": "2026-10-27T22:10:08.582123+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "obra/diagnosing-superpowers",
@@ -2336,12 +1986,7 @@
       "intakeIdentity": "existing issue #2082",
       "proposedGeneric": "code-review-pipeline",
       "mappingReason": "Qt-specific named implementation of code review",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/theqtcompanyrnd__qt-qml-review.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/theqtcompanyrnd__qt-qml-review.assessment.json",
-      "preparedSourceSha256": "c88ccaae48eff046582f582291ff420dde47b85bd4eeb52436c9b47aba96382c",
-      "preparedAt": "2026-10-27T22:09:36.723824+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "yylo-dev/plan-ledger-tasks-yylo",
@@ -2365,12 +2010,7 @@
       "intakeIdentity": "existing issue #1832",
       "proposedGeneric": "project-management",
       "mappingReason": "sibling yylo-dev/ledger-tasks-yylo is named on project-management; alt writing-plans",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/yylo-dev__plan-ledger-tasks-yylo.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/yylo-dev__plan-ledger-tasks-yylo.assessment.json",
-      "preparedSourceSha256": "9427da1d4859138077d2fad1ac2b3902e274e3646e767b0fd61800b0a35fe1a5",
-      "preparedAt": "2026-10-27T22:09:59.392258+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     },
     {
       "choiceId": "zhaoxuya520/reverse-skill",
@@ -2394,12 +2034,7 @@
       "intakeIdentity": "existing issue #814",
       "proposedGeneric": "security-audit",
       "mappingReason": "Founder choice: approve; security audit and reverse engineering workflow routing.",
-      "disposition": "approved-map",
-      "preparedPacket": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/packets/zhaoxuya520__reverse-skill.json",
-      "preparedAssessment": "founder/reports/yggdrasil-iv-october-2026/l4-preparation/assessments/zhaoxuya520__reverse-skill.assessment.json",
-      "preparedSourceSha256": "bdc1b4cf295089399ce007b03652ab2349c0b379d8be3edfc01dac16e027755e",
-      "preparedAt": "2026-11-02T20:54:24.123827+00:00",
-      "packetReasonCode": "FOUNDER_L4_APPROVED_MAP_PREP"
+      "disposition": "approved-map"
     }
   ]
 }

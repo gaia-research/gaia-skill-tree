@@ -483,14 +483,26 @@ def generate_command_spine(inv: dict) -> Path:
         # Note sibling cap for suite members
         is_suite_sibling = skill_id.startswith("garrytan/") or skill_id.startswith("addy-osmani/")
         cap_note = " (subject to 50.0 TM suite sibling cap per META §2.1a)" if is_suite_sibling else ""
-        note = f"Stage-1 repo-own evidence: verified repository at tag{cap_note}"
+        note = f"Stage-1 github-stars-own evidence: verified repository stars at tag{cap_note}"
+
+        if skill_id.startswith("addy-osmani/"):
+            lines.append(
+                f'GAIA dev update-named {shlex.quote(skill_id)} --suite-ref addy-osmani/agent-skills --no-build'
+            )
+        elif skill_id.startswith("garrytan/"):
+            lines.append(
+                f'GAIA dev update-named {shlex.quote(skill_id)} --suite-ref garrytan/gbrain --no-build'
+            )
 
         lines.append(
-            f'GAIA dev evidence {shlex.quote(skill_id)} {shlex.quote(url)} --type repo-own --stars {stars} '
+            f'GAIA dev evidence {shlex.quote(skill_id)} {shlex.quote(url)} --type github-stars-own --stars {stars} '
             f'--notes {shlex.quote(note)} --no-build'
         )
 
     lines.extend([
+        "",
+        "echo \"=== Step 4b: Refresh Trust Magnitude Caches ===\"",
+        "GAIA dev calibrate-trust-magnitude --all --no-build",
         "",
         "echo \"=== Step 5: Declined Support Skills Issue Closure ===\"",
         "# 8 support skills declined per founder rulings in CAMPAIGN.md.",
