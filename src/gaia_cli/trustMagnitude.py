@@ -866,9 +866,15 @@ def _applySuiteComponentRepositoryCap(
 
     factor = SUITE_COMPONENT_REPOSITORY_CAP / sharedTotal
     out = list(rowsWithScores)
-    for index in cappedIndices:
+    running = 0.0
+    for index in cappedIndices[:-1]:
         row, score = rowsWithScores[index]
-        out[index] = (row, (score or 0.0) * factor)
+        scaled = (score or 0.0) * factor
+        out[index] = (row, scaled)
+        running += scaled
+    last_index = cappedIndices[-1]
+    last_row, _ = rowsWithScores[last_index]
+    out[last_index] = (last_row, max(0.0, SUITE_COMPONENT_REPOSITORY_CAP - running))
     return out
 
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-02T21:18:38Z",
+  "generatedAt": "2026-11-02T21:24:00Z",
   "distribution": {
     "total": 269,
     "S": 3,
@@ -1085,7 +1085,7 @@
         "github-stars-own": 38.63,
         "repo-own": 11.37
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1322,7 +1322,7 @@
         "github-stars-own": 38.63,
         "repo-own": 11.37
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
