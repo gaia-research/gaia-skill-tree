@@ -15,6 +15,65 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-11-02, Yggdrasil IV Launch Campaign 100% Complete — All PRs Integrated, Preview Live, PR #2151 Converted to Draft)
+
+### TLDR
+- **Yggdrasil IV Launch Campaign reached 100% completion under EPIC #2189.** All remaining PRs and proof-of-work records integrated into `dev/yggdrasil-iv`.
+- **Founder directive strictly honored: NO merge to `main`.** Aggregate integration PR #2151 converted to draft (`gh pr ready 2151 --undo`) pending founder final review and formal release authorization.
+- **Cloudflare Worker Preview deployed and verified live:** Dispatched `cf-pr-preview.yml` (`41545419942`) on `dev/yggdrasil-iv`; deployed to `https://gaia-skill-tree.marco-tngsn.workers.dev`. Health endpoint returns `{"ok": true, "version": "8.29.1", "registryGeneratedAt": "2026-11-02", "namedSkillsCount": 335}`.
+- **Disposable rollback rehearsal executed:** Verified rollback runbook in `founder/reports/yggdrasil-iv-october-2026/verification/RELEASE-ROLLBACK.md` against test worktree.
+
+### What changed this session
+| Layer | State | Details |
+|---|---|---|
+| **Packet A (Origin)** | ✅ Merged (`ae3408df6`) | PR #2271 automated merit-based Origin calculation landed; closed #2267. |
+| **Packet B (Calibration)** | ✅ Merged (`878bd9b85`) | PR #2251 calibrations, C1–C10 issue hygiene, and float drift elimination landed; closed #2236–#2247, #2269. |
+| **Packet C (Schema)** | ✅ Merged (`5bccf8316`) | PR #2176 canonical evidence schema adoption landed with synthetic unadopted rejection tests. |
+| **Packet D (Clamp Alignment)** | ✅ Merged (`6001191e4`) | PR #2259 D6 clamp alignment, ledger + leaderboard regeneration landed. |
+| **Packet E (October Post)** | ✅ Merged (`a3bd1f9b4`) | PR #2266 October 2026 Meta Post report landed with all 13 `[[VERIFY]]` markers resolved and verified. |
+| **Packet F (Calibration Re-audit)** | ✅ Verified (`458435f06`) | Independent Argon High verification PASS recorded in `CALIBRATION-REVERIFICATION.md`. |
+| **Packet G (Adjudication)** | ✅ Rebuilt (`ca29a69e7`) | Rebuilt adjudication ledger with founder rulings (`approvals.json`: approved=51, superseded=89). |
+| **Packet H (October L4 Batch)** | ✅ Merged (`ea60ee59c`) | PR #2273 landed 73 ratified L4 skills, assessments, and updated live issue hygiene reconciliation tests. |
+| **Packet I (Cutoff & Refresh)** | ✅ Recorded (`08acebf3b`) | Final post-cutoff prepass snapshot (784 records, 1,031 evidence rows) and `mattpocock/skills` +72h probe recorded. |
+| **Packet J (Era Schema & Reports)** | ✅ Merged (`1499f1fbb`, `bbbbd6b55`)| PR #2268 era schema integrated; launch proof reports and verification dossiers merged from `dev/yggdrasil-iv-launch`. |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/yggdrasil-iv` | `bbbbd6b55` | 100% complete, all CI green, all 10 packets merged |
+| `dev/yggdrasil-iv-launch` | `c87cce141` | Fully synchronized with `dev/yggdrasil-iv` |
+| `main` | `d7352246f` | Untouched, production intact |
+| PR #2151 (`dev/yggdrasil-iv` → `main`) | `bbbbd6b55` | Converted to DRAFT for founder review; merge gate active |
+
+### Issues + PRs touched
+- **PRs Merged:** #2271 (Origin), #2251 (Calibrations), #2176 (Schema), #2259 (Clamp), #2266 (Meta Post), #2273 (L4 Batch), #2268 (Era Schema).
+- **PRs Converted to Draft:** #2151 (Aggregate Integration).
+- **Issues Closed / Resolved:** #2189 (Launch Campaign EPIC), #2267 (Automatic Origin), #2236–#2247 (Intake duplicates), #2269 (Calibration gaps).
+
+### Routing — where things live now
+- Launch Campaign Dossier: `founder/reports/yggdrasil-iv-october-2026/`
+- Campaign Handover: `founder/reports/yggdrasil-iv-october-2026/HANDOVER.md`
+- October Meta Post & Facts: `docs/meta/2026-10-YGGDRASIL-IV.md`, `docs/meta/2026-10-YGGDRASIL-IV.FACTS.md`
+- Adjudication Ledger: `founder/reports/yggdrasil-iv-october-2026/adjudication/`
+- Verification Receipts: `founder/reports/yggdrasil-iv-october-2026/verification/`
+- Cloudflare Preview: `https://gaia-skill-tree.marco-tngsn.workers.dev`
+
+### Lessons / hazards preserved
+- **Reconciliation Counts Gate:** Adding 73 net-new named skills in the L4 batch necessitated synchronizing the live fixture census in `tests/steward/issuehygiene/test_b_reconcile.py` (`LIVE_A1_CHILDREN` 18 → 64, classB 79 → 34, classC 7 → 6) to avoid breaking issue hygiene tests.
+- **Git Author Attestation:** Automated PR verification enforces exact committer identity (`Marcus Rafael B. Tiongson <153011150+mbtiongson1@users.noreply.github.com>`).
+- **Release Gate Invariant:** The founder gate on `main` is absolute. Feature branches merge into `dev/yggdrasil-iv` via `--no-ff`; `dev/yggdrasil-iv` merges into `main` only upon explicit founder instruction.
+
+### Token cost (this session)
+- Session ID: `2026-10-30T18-22-01-329Z_01a18e0c-1e71-768d-b559-f89a1277dfc3.jsonl`
+- Total Turns: 570
+- Input Tokens: 4,833,681
+- Output Tokens: 252,159
+- Cache Read Tokens: 136,358,060
+- Subagent Turns: 22 (across 3 subagents)
+- Total Session Cost: $25.7606
+
+---
+
 ## State Snapshot (2026-10-31, FOUNDER CORRECTION — optional workers are not a blocker)
 
 Founder rejected the lead's invented worker-availability gate. That stop was an execution mistake, not missing governance. Continue authorized engineering as lead; Luna/Terra remain optional and no other worker models are authorized. Preserve genuine independent verification, report visual/content approval and final founder merge/release authority.
