@@ -1,0 +1,36 @@
+{
+  "handle": "arcmira",
+  "namedSkills": [
+    {
+      "id": "arcmira/find-quotes",
+      "name": "find-quotes",
+      "level": "2★",
+      "trustMagnitude": 30.83,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "arcmira",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/arcmira/find-quotes.json"
+      },
+      "genericSkillRef": "retrieve"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "arcmira/find-quotes",
+    "level": "2★",
+    "trustMagnitude": 30.83
+  },
+  "prestigeScore": 30.83,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/arcmira.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

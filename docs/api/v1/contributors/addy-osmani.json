@@ -199,6 +199,23 @@
       "genericSkillRef": "agent-environment-setup"
     },
     {
+      "id": "addy-osmani/debugging-and-error-recovery",
+      "name": "debugging-and-error-recovery",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/debugging-and-error-recovery.json"
+      },
+      "genericSkillRef": "systematic-debugging"
+    },
+    {
       "id": "addy-osmani/deprecation-and-migration",
       "name": "deprecation-and-migration",
       "level": "2★",
@@ -265,6 +282,57 @@
         "self": "/api/v1/skills/addy-osmani/frontend-ui-engineering.json"
       },
       "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "addy-osmani/git-workflow-and-versioning",
+      "name": "git-workflow-and-versioning",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 234.64,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/git-workflow-and-versioning.json"
+      },
+      "genericSkillRef": "git-integration"
+    },
+    {
+      "id": "addy-osmani/idea-refine",
+      "name": "idea-refine",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 40.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/idea-refine.json"
+      },
+      "genericSkillRef": "brainstorming"
+    },
+    {
+      "id": "addy-osmani/interview-me",
+      "name": "interview-me",
+      "level": "2★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 80.0,
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/interview-me.json"
+      },
+      "genericSkillRef": "interview-me"
     },
     {
       "id": "addy-osmani/observability-and-instrumentation",
@@ -369,16 +437,16 @@
       "genericSkillRef": "test-driven-development"
     }
   ],
-  "namedSkillsCount": 21,
+  "namedSkillsCount": 25,
   "topSkill": {
     "id": "addy-osmani/code-simplification",
     "level": "4★",
     "trustMagnitude": 190.0
   },
-  "prestigeScore": 1431.04,
+  "prestigeScore": 1631.04,
   "gradeDistribution": {
     "A": 2,
-    "B": 18,
+    "B": 22,
     "C": 1
   },
   "_links": {

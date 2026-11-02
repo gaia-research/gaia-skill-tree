@@ -31,7 +31,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     ├─ ✓ · safishamsi/graphify  [5★]
     │  ├─ · ○ /extract-entities
     │  └─ · ○ /logical-inference
-    ├─ · ○ /retrieve
+    ├─ · ○ arcmira/find-quotes  [2★]
     └─ · ○ garrytan/context-audit  [2★]
 ```
 

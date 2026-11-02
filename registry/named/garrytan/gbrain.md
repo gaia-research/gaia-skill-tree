@@ -55,6 +55,12 @@ timeline:
   contributor: mbtiongson1
   details: 'TM (none) -> 121.94, grade (none) -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-02T22:17:05Z'
+  action: upstream_synced
+  contributor: mbtiongson1
+  previousValue: v0.60.474.0
+  newValue: v0.60.531.0
+  details: synced from https://github.com/garrytan/gbrain/releases/tag/v0.60.531.0
 suiteComponents:
 - garrytan/brain-ops
 - garrytan/capture
@@ -77,11 +83,11 @@ verification:
   firstEvidenceAt: '2026-09-06T17:52:41Z'
 upstream:
   mode: components
-  releasedAt: '2026-10-27T21:20:11Z'
+  releasedAt: '2026-10-31T22:21:48Z'
   repo: garrytan/gbrain
-  sourceUrl: https://github.com/garrytan/gbrain/releases/tag/v0.60.474.0
-  syncedAt: '2026-10-27T21:38:50Z'
-  version: v0.60.474.0
+  sourceUrl: https://github.com/garrytan/gbrain/releases/tag/v0.60.531.0
+  syncedAt: '2026-11-02T22:17:05Z'
+  version: v0.60.531.0
 trustMagnitude: 121.94
 overallTrustGrade: A
 trustMagnitudeInputHash: c233fa8a1f4001c94e6bd0d933cb6ee0e0b1be881f6931bf2cde40d213fa5f99

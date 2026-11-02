@@ -153,6 +153,11 @@ timeline:
   action: evidence_removed
   contributor: mbtiongson1
   details: 'Removed dead/invalid evidence: https://github.com/mastepanoski/claude-skills'
+- timestamp: '2026-11-02T22:16:23Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 31.93 -> 31.93, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 31.93
 overallTrustGrade: C
 apexGateStatus:
@@ -164,7 +169,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 98a5473bd9044433789360119208862553f35d7164e840d60a2b376dc961f9bd
+trustMagnitudeInputHash: a98811991dddbef6a18c1da541a36f2e1e310d4ec9802e2d85fa5193a323fb42
 verification:
   firstEvidenceAt: '2026-06-19T17:09:30Z'
 ---

@@ -1,5 +1,5 @@
 {
-  "id": "grill-me",
+  "id": "interview-me",
   "name": "Grill Me",
   "type": "fusion",
   "description": "Conducts a relentless, one-question-at-a-time Socratic interview to stress-test designs and force the resolution of hidden assumptions before code is written.",
@@ -15,7 +15,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-15",
-  "updatedAt": "2026-07-16",
+  "updatedAt": "2026-11-03",
   "version": "0.1.0",
   "timeline": [
     {
@@ -33,6 +33,12 @@
       "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-16"
+    },
+    {
+      "timestamp": "2026-11-02T21:53:30Z",
+      "action": "rename",
+      "contributor": "mbtiongson1",
+      "details": "Renamed from grill-me to interview-me"
     }
   ]
 }

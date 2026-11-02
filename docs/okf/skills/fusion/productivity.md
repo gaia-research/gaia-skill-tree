@@ -17,7 +17,7 @@ Productivity category suite for Matt Pocock's skills.
 
 - [agent-handoff](/skills/fusion/agent-handoff.md)
 - [Context Compression](/skills/basic/context-compression.md)
-- [Grill Me](/skills/fusion/grill-me.md)
+- [Grill Me](/skills/fusion/interview-me.md)
 - [Tool Creation](/skills/fusion/tool-creation.md)
 - [Knowledge Management](/skills/fusion/knowledge-management.md)
 - [Questionnaire Generation](/skills/basic/questionnaire-generation.md)

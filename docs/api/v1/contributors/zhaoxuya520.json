@@ -1,0 +1,36 @@
+{
+  "handle": "zhaoxuya520",
+  "namedSkills": [
+    {
+      "id": "zhaoxuya520/reverse-skill",
+      "name": "reverse-skill-router",
+      "level": "2★",
+      "trustMagnitude": 127.37,
+      "overallTrustGrade": "A",
+      "fusionScore": 80.0,
+      "contributor": "zhaoxuya520",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/zhaoxuya520/reverse-skill.json"
+      },
+      "genericSkillRef": "security-audit"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "zhaoxuya520/reverse-skill",
+    "level": "2★",
+    "trustMagnitude": 127.37
+  },
+  "prestigeScore": 127.37,
+  "gradeDistribution": {
+    "A": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/zhaoxuya520.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

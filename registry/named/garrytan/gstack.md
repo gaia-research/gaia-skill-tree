@@ -214,6 +214,12 @@ timeline:
   previousValue: null
   newValue: v1.91.242.0
   details: first-run baseline
+- timestamp: '2026-11-02T22:17:44Z'
+  action: upstream_synced
+  contributor: mbtiongson1
+  previousValue: v1.91.242.0
+  newValue: v1.91.318.0
+  details: synced from https://github.com/garrytan/gstack/releases/tag/v1.91.318.0
 trustMagnitude: 356.11
 overallTrustGrade: S
 trustMagnitudeInputHash: 1feb9c20dc9b63ce9c286b423de593b491dfdeb420baa79a33b37d7e920462c7
@@ -232,11 +238,11 @@ verification:
   firstEvidenceAt: '2026-06-19T09:18:27Z'
 upstream:
   mode: components
-  releasedAt: '2026-10-26T12:01:30Z'
+  releasedAt: '2026-10-29T14:06:50Z'
   repo: garrytan/gstack
-  sourceUrl: https://github.com/garrytan/gstack/releases/tag/v1.91.242.0
-  syncedAt: '2026-10-27T21:39:08Z'
-  version: v1.91.242.0
+  sourceUrl: https://github.com/garrytan/gstack/releases/tag/v1.91.318.0
+  syncedAt: '2026-11-02T22:17:44Z'
+  version: v1.91.318.0
 ---
 
 ## Overview

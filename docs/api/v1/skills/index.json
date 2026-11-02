@@ -568,6 +568,23 @@
       "genericSkillRef": "project-launch-video-production"
     },
     {
+      "id": "cathrynlavery/diagram-design",
+      "name": "diagram-design",
+      "level": "2★",
+      "trustMagnitude": 132.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 60.0,
+      "contributor": "cathrynlavery",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/cathrynlavery/diagram-design.json"
+      },
+      "genericSkillRef": "architecture-diagram"
+    },
+    {
       "id": "nvidia/accelerated-computing-cudf",
       "name": "accelerated-computing-cudf",
       "level": "4★",
@@ -602,12 +619,250 @@
       "genericSkillRef": "format-output"
     },
     {
+      "id": "emilkowalski/animate",
+      "name": "animate",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/animate.json"
+      },
+      "genericSkillRef": "timeline-animation"
+    },
+    {
+      "id": "emilkowalski/animate-expo",
+      "name": "animate-expo",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/animate-expo.json"
+      },
+      "genericSkillRef": "timeline-animation"
+    },
+    {
+      "id": "emilkowalski/animation-performance",
+      "name": "animation-performance",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 40.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/animation-performance.json"
+      },
+      "genericSkillRef": "animation-performance"
+    },
+    {
+      "id": "emilkowalski/apple-design",
+      "name": "apple-design",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 60.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/apple-design.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "emilkowalski/break-ui",
+      "name": "break-ui",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 180.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/break-ui.json"
+      },
+      "genericSkillRef": "ui-red-teaming"
+    },
+    {
+      "id": "emilkowalski/emil-design-eng",
+      "name": "emil-design-eng",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 60.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/emil-design-eng.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "emilkowalski/find-animation-opportunities",
+      "name": "find-animation-opportunities",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/find-animation-opportunities.json"
+      },
+      "genericSkillRef": "ui-audit"
+    },
+    {
+      "id": "emilkowalski/improve-animations",
+      "name": "improve-animations",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/improve-animations.json"
+      },
+      "genericSkillRef": "ui-audit"
+    },
+    {
+      "id": "emilkowalski/mobile-native",
+      "name": "mobile-native",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 100.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/mobile-native.json"
+      },
+      "genericSkillRef": "web-best-practices"
+    },
+    {
+      "id": "emilkowalski/prototype",
+      "name": "prototype",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 40.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/prototype.json"
+      },
+      "genericSkillRef": "design-review"
+    },
+    {
+      "id": "emilkowalski/review-animations",
+      "name": "review-animations",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/review-animations.json"
+      },
+      "genericSkillRef": "ui-audit"
+    },
+    {
+      "id": "emilkowalski/write-swift",
+      "name": "write-swift",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/write-swift.json"
+      },
+      "genericSkillRef": "code-generation"
+    },
+    {
+      "id": "anthropics/creating-financial-models",
+      "name": "creating-financial-models",
+      "level": "2★",
+      "trustMagnitude": 127.83,
+      "overallTrustGrade": "A",
+      "fusionScore": 100.0,
+      "contributor": "anthropics",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/anthropics/creating-financial-models.json"
+      },
+      "genericSkillRef": "financial-modeling"
+    },
+    {
+      "id": "zhaoxuya520/reverse-skill",
+      "name": "reverse-skill-router",
+      "level": "2★",
+      "trustMagnitude": 127.37,
+      "overallTrustGrade": "A",
+      "fusionScore": 80.0,
+      "contributor": "zhaoxuya520",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/zhaoxuya520/reverse-skill.json"
+      },
+      "genericSkillRef": "security-audit"
+    },
+    {
       "id": "garrytan/gbrain",
       "name": "GBrain",
       "level": "4★",
       "trustMagnitude": 121.94,
       "overallTrustGrade": "A",
-      "fusionScore": 200.0,
+      "fusionScore": 228.28,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "suite",
@@ -816,273 +1071,11 @@
         "self": "/api/v1/skills/obra/executing-plans.json"
       },
       "genericSkillRef": "executing-plans"
-    },
-    {
-      "id": "ruvnet/hive-mind",
-      "name": "Hive Mind",
-      "level": "3★",
-      "trustMagnitude": 95.02,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/hive-mind.json"
-      },
-      "genericSkillRef": "distributed-consensus-coordination"
-    },
-    {
-      "id": "addy-osmani/incremental-implementation",
-      "name": "Incremental Implementation",
-      "level": "3★",
-      "trustMagnitude": 95.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 80.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
-      },
-      "genericSkillRef": "executing-plans"
-    },
-    {
-      "id": "addy-osmani/planning-and-task-breakdown",
-      "name": "Planning and Task Breakdown",
-      "level": "3★",
-      "trustMagnitude": 95.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
-      },
-      "genericSkillRef": "vertical-slice-planning"
-    },
-    {
-      "id": "mattpocock/diagnose",
-      "name": "Diagnose",
-      "level": "3★",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "fusionScore": 60.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/diagnose.json"
-      },
-      "genericSkillRef": "autonomous-debug"
-    },
-    {
-      "id": "mattpocock/edit-article",
-      "name": "Edit Article",
-      "level": "3★",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/edit-article.json"
-      },
-      "genericSkillRef": "document-editing"
-    },
-    {
-      "id": "mattpocock/obsidian-vault",
-      "name": "Obsidian Vault Manager",
-      "level": "3★",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
-      },
-      "genericSkillRef": "personal-knowledge-management"
-    },
-    {
-      "id": "mattpocock/to-tickets",
-      "name": "To Tickets",
-      "level": "3★",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/to-tickets.json"
-      },
-      "genericSkillRef": "vertical-slice-planning"
-    },
-    {
-      "id": "mattpocock/ubiquitous-language",
-      "name": "Ubiquitous Language",
-      "level": "3★",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
-      },
-      "genericSkillRef": "ubiquitous-language"
-    },
-    {
-      "id": "nateherkai/scroll-craft",
-      "name": "Scroll Craft",
-      "level": "3★",
-      "trustMagnitude": 92.38,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "nateherkai",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
-      },
-      "genericSkillRef": "scroll-driven-web-design"
-    },
-    {
-      "id": "leonxlnx/unlazy",
-      "name": "unlazy",
-      "level": "3★",
-      "trustMagnitude": 91.46,
-      "overallTrustGrade": "B",
-      "fusionScore": 80.0,
-      "contributor": "leonxlnx",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/unlazy.json"
-      },
-      "genericSkillRef": "task-depth-enforcement"
-    },
-    {
-      "id": "hikari9/auto-office",
-      "name": "Auto Office",
-      "level": "3★",
-      "trustMagnitude": 88.97,
-      "overallTrustGrade": "B",
-      "fusionScore": 80.0,
-      "contributor": "hikari9",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/hikari9/auto-office.json"
-      },
-      "genericSkillRef": "autonomous-engineering-platform",
-      "suiteComponents": [
-        "hikari9/office-submit"
-      ]
-    },
-    {
-      "id": "garrytan/browse",
-      "name": "Browse",
-      "level": "3★",
-      "trustMagnitude": 88.5,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/browse.json"
-      },
-      "genericSkillRef": "browser-control"
-    },
-    {
-      "id": "ruvnet/reasoningbank",
-      "name": "ReasoningBank",
-      "level": "3★",
-      "trustMagnitude": 88.5,
-      "overallTrustGrade": "B",
-      "fusionScore": 140.0,
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/reasoningbank.json"
-      },
-      "genericSkillRef": "reasoning-pattern-bank",
-      "suiteComponents": [
-        "ruvnet/reasoningbank-agentdb",
-        "ruvnet/reasoningbank-intelligence"
-      ]
-    },
-    {
-      "id": "firecrawl/firecrawl-build-search",
-      "name": "Firecrawl Search",
-      "level": "3★",
-      "trustMagnitude": 83.62,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "firecrawl",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
-      },
-      "genericSkillRef": "web-search"
-    },
-    {
-      "id": "garrytan/retro",
-      "name": "Retro",
-      "level": "3★",
-      "trustMagnitude": 81.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/retro.json"
-      },
-      "genericSkillRef": "write-report"
     }
   ],
   "page": 1,
-  "totalPages": 6,
-  "totalSkills": 267,
+  "totalPages": 7,
+  "totalSkills": 335,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"
@@ -1116,6 +1109,14 @@
         "redacted": false,
         "id": "addy-osmani/doubt-driven-development",
         "contributor": "addy-osmani"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/cross-modal-review",
+        "contributor": "garrytan"
       }
     ],
     "agent-environment-setup": [
@@ -1190,12 +1191,32 @@
         "redacted": true
       }
     ],
+    "animation-performance": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "emilkowalski/animation-performance",
+        "contributor": "emilkowalski"
+      }
+    ],
     "api-call": [
       {
         "origin": true,
         "level": "1★",
         "status": "named",
         "redacted": true
+      }
+    ],
+    "architecture-diagram": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "cathrynlavery/diagram-design",
+        "contributor": "cathrynlavery"
       }
     ],
     "audio-mixing": [
@@ -1224,7 +1245,15 @@
         "level": "2★",
         "status": "named",
         "redacted": false,
-        "id": "garrytan/health",
+        "id": "garrytan/smoke-test",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/testing",
         "contributor": "garrytan"
       }
     ],
@@ -1266,6 +1295,16 @@
         "redacted": true
       }
     ],
+    "brain-publishing": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/publish",
+        "contributor": "garrytan"
+      }
+    ],
     "brainstorming": [
       {
         "origin": true,
@@ -1289,21 +1328,11 @@
     "browser-automation": [
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
-      },
-      {
-        "origin": true,
-        "level": "1★",
-        "status": "named",
-        "redacted": true
-      },
-      {
-        "origin": true,
-        "level": "1★",
-        "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "firecrawl/firecrawl-build",
+        "contributor": "firecrawl"
       }
     ],
     "browser-control": [
@@ -1326,6 +1355,16 @@
         "contributor": "santifer"
       }
     ],
+    "causal-inference": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "aj-geddes/causal-inference",
+        "contributor": "aj-geddes"
+      }
+    ],
     "cheminformatics-analysis": [
       {
         "origin": true,
@@ -1342,6 +1381,16 @@
         "redacted": false,
         "id": "gaia-research/ci-churn",
         "contributor": "gaia-research"
+      }
+    ],
+    "cite-sources": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/citation-fixer",
+        "contributor": "garrytan"
       }
     ],
     "cli-modernization": [
@@ -1426,6 +1475,16 @@
         "redacted": false,
         "id": "trailhq/graft",
         "contributor": "trailhq"
+      }
+    ],
+    "company-knowledge-management": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/company-brainify",
+        "contributor": "garrytan"
       }
     ],
     "computational-biology-workflows": [
@@ -1656,6 +1715,14 @@
         "level": "2★",
         "status": "named",
         "redacted": false,
+        "id": "garrytan/article-enrichment",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
         "id": "garrytan/book-mirror",
         "contributor": "garrytan"
       },
@@ -1708,6 +1775,14 @@
         "contributor": "garrytan"
       }
     ],
+    "edge-optimization": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
     "engineering-discipline": [
       {
         "origin": true,
@@ -1716,6 +1791,16 @@
         "redacted": false,
         "id": "mattpocock/engineering",
         "contributor": "mattpocock"
+      }
+    ],
+    "error-interpretation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/correction-pipeline",
+        "contributor": "garrytan"
       }
     ],
     "evaluate-output": [
@@ -1800,6 +1885,16 @@
         "redacted": false,
         "id": "nousresearch/feed-monitoring",
         "contributor": "nousresearch"
+      }
+    ],
+    "financial-modeling": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "anthropics/creating-financial-models",
+        "contributor": "anthropics"
       }
     ],
     "fine-tune": [
@@ -1986,8 +2081,8 @@
         "level": "2★",
         "status": "named",
         "redacted": false,
-        "id": "mattpocock/resolving-merge-conflicts",
-        "contributor": "mattpocock"
+        "id": "addy-osmani/git-workflow-and-versioning",
+        "contributor": "addy-osmani"
       }
     ],
     "git-ship-done-pipeline": [
@@ -1998,6 +2093,16 @@
         "redacted": false,
         "id": "addy-osmani/agent-skills",
         "contributor": "addy-osmani"
+      }
+    ],
+    "google-workspace-automation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/google-loops",
+        "contributor": "garrytan"
       }
     ],
     "gpu-dataframe-acceleration": [
@@ -2034,16 +2139,6 @@
         "level": "1★",
         "status": "named",
         "redacted": true
-      }
-    ],
-    "grill-me": [
-      {
-        "origin": true,
-        "level": "3★",
-        "status": "named",
-        "redacted": false,
-        "id": "mattpocock/grill-me",
-        "contributor": "mattpocock"
       }
     ],
     "grill-with-docs": [
@@ -2188,6 +2283,16 @@
         "contributor": "heygen-com"
       }
     ],
+    "interview-me": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/grill-me",
+        "contributor": "mattpocock"
+      }
+    ],
     "issue-triage": [
       {
         "origin": true,
@@ -2196,6 +2301,26 @@
         "redacted": false,
         "id": "mattpocock/triage",
         "contributor": "mattpocock"
+      }
+    ],
+    "knowledge-aware-frontend": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/frontmatter-guard",
+        "contributor": "garrytan"
+      }
+    ],
+    "knowledge-enrichment": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/enrich",
+        "contributor": "garrytan"
       }
     ],
     "knowledge-graph-build": [
@@ -2238,6 +2363,30 @@
         "level": "2★",
         "status": "named",
         "redacted": false,
+        "id": "garrytan/cold-start",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/idea-ingest",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/media-ingest",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
         "id": "garrytan/two-tier-extraction",
         "contributor": "garrytan"
       }
@@ -2249,6 +2398,16 @@
         "status": "named",
         "redacted": false,
         "id": "garrytan/brain-ops",
+        "contributor": "garrytan"
+      }
+    ],
+    "knowledge-query": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/query",
         "contributor": "garrytan"
       }
     ],
@@ -2294,7 +2453,15 @@
         "level": "2★",
         "status": "named",
         "redacted": false,
-        "id": "garrytan/pair-agent",
+        "id": "garrytan/chat-connectors",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/mcp-access",
         "contributor": "garrytan"
       }
     ],
@@ -2559,9 +2726,19 @@
     "postgres-best-practices": [
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "garrytan/db-repair",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/postgres-adopt",
+        "contributor": "garrytan"
       }
     ],
     "prd-generation": [
@@ -2575,6 +2752,14 @@
       }
     ],
     "probabilistic-programming": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "product-design-review": [
       {
         "origin": true,
         "level": "1★",
@@ -2608,8 +2793,8 @@
         "level": "2★",
         "status": "named",
         "redacted": false,
-        "id": "yylo-dev/ledger-tasks-yylo",
-        "contributor": "yylo-dev"
+        "id": "garrytan/daily-task-manager",
+        "contributor": "garrytan"
       }
     ],
     "prompt-optimization": [
@@ -2696,8 +2881,8 @@
         "level": "2★",
         "status": "named",
         "redacted": false,
-        "id": "mattpocock/to-questionnaire",
-        "contributor": "mattpocock"
+        "id": "garrytan/ask-user",
+        "contributor": "garrytan"
       }
     ],
     "rag-pipeline": [
@@ -2814,6 +2999,16 @@
         "contributor": "mbtiongson1"
       }
     ],
+    "regulatory-compliance-mapping": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "dralgorhythm/compliance",
+        "contributor": "dralgorhythm"
+      }
+    ],
     "reinforcement-learning-training": [
       {
         "origin": true,
@@ -2862,8 +3057,26 @@
         "level": "2★",
         "status": "named",
         "redacted": false,
+        "id": "garrytan/perplexity-research",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
         "id": "garrytan/research-compendium",
         "contributor": "garrytan"
+      }
+    ],
+    "retrieve": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "arcmira/find-quotes",
+        "contributor": "arcmira"
       }
     ],
     "route-intent": [
@@ -2874,14 +3087,32 @@
         "redacted": false,
         "id": "garrytan/functional-area-resolver",
         "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/ingest",
+        "contributor": "garrytan"
       }
     ],
     "schema-design": [
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "garrytan/schema-author",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/schema-unify",
+        "contributor": "garrytan"
       }
     ],
     "scientific-literature-retrieval": [
@@ -3088,6 +3319,14 @@
         "contributor": "obra"
       }
     ],
+    "supply-chain-optimization": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
     "swarm-topology-management": [
       {
         "origin": true,
@@ -3096,6 +3335,16 @@
         "redacted": false,
         "id": "ruvnet/swarm-orchestration",
         "contributor": "ruvnet"
+      }
+    ],
+    "synthetic-data-generation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "omer-metin/synthetic-data",
+        "contributor": "omer-metin"
       }
     ],
     "system-integration": [
@@ -3216,6 +3465,16 @@
         "redacted": false,
         "id": "leonxlnx/redesign-skill",
         "contributor": "leonxlnx"
+      }
+    ],
+    "ui-red-teaming": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "emilkowalski/break-ui",
+        "contributor": "emilkowalski"
       }
     ],
     "using-git-worktrees": [
@@ -3362,6 +3621,26 @@
         "contributor": "leonxlnx"
       }
     ],
+    "voice-knowledge-ingestion": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/voice-note-ingest",
+        "contributor": "garrytan"
+      }
+    ],
+    "web-best-practices": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "emilkowalski/mobile-native",
+        "contributor": "emilkowalski"
+      }
+    ],
     "web-scrape": [
       {
         "origin": true,
@@ -3403,15 +3682,19 @@
     "workflow-automation": [
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "garrytan/cron-scheduler",
+        "contributor": "garrytan"
       },
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "garrytan/webhook-transforms",
+        "contributor": "garrytan"
       }
     ],
     "workspace-automation": [
@@ -3420,7 +3703,7 @@
         "level": "2★",
         "status": "named",
         "redacted": false,
-        "id": "garrytan/gstack-upgrade",
+        "id": "garrytan/daily-task-prep",
         "contributor": "garrytan"
       }
     ],

@@ -37,7 +37,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ✓ · mattpocock/diagnose  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /code-execution
-  │  │  └─ · ○ /error-interpretation
+  │  │  └─ · ○ garrytan/correction-pipeline  [2★]
   │  ├─ · ○ ████████/zoom-out
   │  ├─ · ○ mattpocock/domain-modeling  [2★]  (↑ see above)
   │  ├─ · · mattpocock/grill-with-docs  [3★]
@@ -72,7 +72,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · · garrytan/data-research  [2★]
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  │  ├─ · ○ /summarize
-  │  │  └─ · ○ /cite-sources
+  │  │  └─ · ○ garrytan/citation-fixer  [2★]
   │  ├─ · ○ mattpocock/wayfinder  [2★]
   │  └─ · ○ mattpocock/wizard  [2★]
   ├─ · · mattpocock/misc  [4★]
@@ -97,8 +97,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  └─ · ○ /tool-use  (↑ see above)
   │  ├─ · · garrytan/brain-ops  [3★]
   │  │  ├─ · ○ ████████/hf-cli
-  │  │  └─ · ○ /retrieve
-  │  ├─ · ○ mattpocock/to-questionnaire  [2★]
+  │  │  └─ · ○ arcmira/find-quotes  [2★]
+  │  ├─ · ○ garrytan/ask-user  [2★]
   │  └─ · ○ mattpocock/wait-what  [2★]
   └─ · · mattpocock/write-a-skill  [2★]  (↑ see above)
 
@@ -122,29 +122,29 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · ○ ruvnet/agentdb-vector-search  [2★]
   │  │  └─ · · garrytan/learn  [2★]
   │  │     ├─ · ○ garrytan/context-audit  [2★]
-  │  │     └─ · ○ /retrieve
+  │  │     └─ · ○ arcmira/find-quotes  [2★]
   │  ├─ · · ████████/agentdb-learning
   │  │  ├─ · ○ ruvnet/reasoningbank-intelligence  [2★]
   │  │  └─ · · garrytan/learn  [2★]  (↑ see above)
   │  ├─ · ○ ruvnet/agentdb-memory-patterns  [2★]
   │  ├─ · ○ ruvnet/agentdb-optimization  [2★]
   │  └─ · ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
-  ├─ · · mattpocock/resolving-merge-conflicts  [2★]
+  ├─ · · addy-osmani/git-workflow-and-versioning  [2★]
   │  ├─ · · garrytan/plan-eng-review  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /diff-content
   │  │  └─ · ○ garrytan/benchmark  [3★]
   │  ├─ · ○ ruvnet/github-multi-repo  [2★]
   │  ├─ · · garrytan/land-and-deploy  [3★]
-  │  │  ├─ · · ████████/github-workflow-automation
+  │  │  ├─ · · garrytan/cron-scheduler  [2★]
   │  │  │  ├─ · ○ /plan-decompose  (↑ see above)
   │  │  │  ├─ · ○ /tool-use  (↑ see above)
   │  │  │  └─ · ○ ████████/hf-cli  (↑ see above)
   │  │  └─ · ○ /code-execution
-  │  ├─ · · yylo-dev/ledger-tasks-yylo  [2★]
+  │  ├─ · · garrytan/daily-task-manager  [2★]
   │  │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  │  └─ · ○ mattpocock/triage  [3★]
-  │  └─ · · ████████/github-workflow-automation  (↑ see above)
+  │  └─ · · garrytan/cron-scheduler  [2★]  (↑ see above)
   ├─ · · ruvnet/reasoningbank  [3★]
   │  ├─ · ○ ruvnet/reasoningbank-intelligence  [2★]  (↑ see above)
   │  └─ · · ████████/agentdb-learning  (↑ see above)
@@ -173,7 +173,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     │  ├─ · · garrytan/data-research  [2★]
     │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
     │  │  ├─ · ○ /summarize
-    │  │  └─ · ○ /cite-sources
+    │  │  └─ · ○ garrytan/citation-fixer  [2★]
     │  ├─ · ○ garrytan/retro  [3★]
     │  └─ · ○ /audience-model
     ├─ ✓ · garrytan/archive-crawler  [2★]

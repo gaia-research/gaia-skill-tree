@@ -1,0 +1,31 @@
+{
+  "id": "product-design-review",
+  "name": "Product Design Review",
+  "type": "fusion",
+  "description": "Combines product-design work with structured design review to turn product goals into evaluated interface decisions.",
+  "prerequisites": [
+    "design-generation",
+    "design-review"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-03",
+  "updatedAt": "2026-11-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:53:31Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Created generic fusion node 'product-design-review' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-11-02T21:53:31Z",
+      "action": "fuse",
+      "contributor": "mbtiongson1",
+      "details": "Set prerequisites via `gaia dev fuse`: design-generation, design-review."
+    }
+  ]
+}
