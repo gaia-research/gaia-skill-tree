@@ -25,7 +25,7 @@
   },
   "title": "functional-area-resolver",
   "genericSkillRef": "route-intent",
-  "origin": false,
+  "origin": true,
   "description": "Compress an agent's routing file (RESOLVER.md or AGENTS.md) by converting\ngranular skill-per-row tables into functional-area dispatchers. Each area\nlists sub-skills in a \"(dispatcher for: ...)\" clause. The LLM reads one\narea entry and routes to the correct sub-skill. Proven via held-out\nA/B eval: dispatcher pattern outperforms naive pipe-table compression.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

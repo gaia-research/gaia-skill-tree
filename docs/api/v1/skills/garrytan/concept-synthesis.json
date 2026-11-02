@@ -25,7 +25,7 @@
   },
   "title": "GBrain Concept Synthesis",
   "genericSkillRef": "concept-synthesis",
-  "origin": false,
+  "origin": true,
   "description": "Synthesizes and curates raw knowledge concepts into a grounded, tiered intellectual map.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

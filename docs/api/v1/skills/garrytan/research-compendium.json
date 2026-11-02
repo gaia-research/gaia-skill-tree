@@ -25,7 +25,7 @@
   },
   "title": "research-compendium",
   "genericSkillRef": "research",
-  "origin": false,
+  "origin": true,
   "description": "Deep-research a topic end to end and produce a permanent, reusable knowledge asset: archive every primary source verbatim (gated by the user's privacy/retention posture), write one 1:1 summary per source, then synthesize a single self-contained compendium page. Depth is a dial (base synthesis → grounded primaries → books + counter-canon → saturation), each level an idempotent superset of the one below. Distinct from data-research (structured trackers) and perplexity-research (web deltas): this produces prose knowledge synthesis backed by an archived source corpus.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

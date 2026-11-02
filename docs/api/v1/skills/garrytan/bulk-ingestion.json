@@ -25,7 +25,7 @@
   },
   "title": "bulk-ingestion",
   "genericSkillRef": "knowledge-harvest",
-  "origin": false,
+  "origin": true,
   "description": "End-to-end discipline for turning any large data source (audio libraries,\nemail takeouts, document corpora, chat exports, API dumps) into brain pages\nat scale. The lifecycle spine: SCHEMA → ACCESS → TRIAL → EVALUATE → IMPROVE\n→ CODIFY → TEST → SKILLIFY → BULK → MONITOR. State is tracked in a durable\nJSON manifest (see MANIFEST-PATTERN.md) so any crash, session boundary, or\nsubagent fan-out resumes from ground truth instead of memory.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

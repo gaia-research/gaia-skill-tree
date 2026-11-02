@@ -14,6 +14,7 @@ from gaia_cli.commands.dev.helpers import (
     _run_docs_build,
     _run_dev_preflights,
     preflightRenameCommand,
+    preflightNamedSkillMutable,
 )
 from gaia_cli.commands.dev.renameSurfaces import (
     rewriteProseRefs,
@@ -68,6 +69,16 @@ def _rename_named_skill(args, old_id: str, new_id: str) -> None:
     if old_file is None:
         print(f"Error: Named skill '{old_id}' not found.")
         sys.exit(1)
+
+    affected_ids = [old_id]
+    for path in named_dir.glob("**/*.md"):
+        meta, _body = _parse_md(path)
+        if old_id in (meta.get("suiteComponents") or []) or meta.get("suiteRef") == old_id:
+            affected_ids.append(meta.get("id"))
+    _run_dev_preflights([
+        lambda skill_id=skill_id: preflightNamedSkillMutable(registry_path, skill_id)
+        for skill_id in affected_ids if skill_id
+    ])
 
     new_contributor, new_slug = new_id.split("/", 1)
     new_dir = named_dir / new_contributor

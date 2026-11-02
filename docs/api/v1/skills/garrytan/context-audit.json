@@ -25,7 +25,7 @@
   },
   "title": "context-audit",
   "genericSkillRef": "context-compression",
-  "origin": false,
+  "origin": true,
   "description": "Token-hygiene audit of the always-loaded context stack — CLAUDE.md,\nAGENTS.md, auto-memory MEMORY.md, and the bootstrap-rendered identity files\n(SOUL.md, USER.md, ACCESS_POLICY.md, HEARTBEAT.md) or their harness\nequivalents. Finds redundancy, contradictions, stale content, compression\ncandidates, and skill-extraction candidates; produces a ranked action list\nsorted by token savings with a risk class per finding. REPORT-ONLY: this\nskill never edits any audited file. Recommendations for bootstrap-rendered\nfiles target the interview answer bank / templates, never the rendered\noutput. Judging routes through `gbrain eval cross-modal` (single cheap\nmodel by default; full multi-model panel is explicit opt-in).",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

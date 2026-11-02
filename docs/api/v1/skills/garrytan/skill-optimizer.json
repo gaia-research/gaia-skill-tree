@@ -25,7 +25,7 @@
   },
   "title": "skill-optimizer",
   "genericSkillRef": "prompt-optimization",
-  "origin": false,
+  "origin": true,
   "description": "Self-evolving skill optimization via SkillOpt-paper-grounded text-space optimizer.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

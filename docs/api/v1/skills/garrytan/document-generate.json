@@ -25,7 +25,7 @@
   },
   "title": "Diataxis Doc Generator",
   "genericSkillRef": "document-editing",
-  "origin": true,
+  "origin": false,
   "description": "Generates structured documentation using the Diataxis framework — tutorials, how-to guides, reference materials, and explanations — by thoroughly researching the codebase before writing, tailored to the needs of different reader types.",
   "tags": [
     "documentation",

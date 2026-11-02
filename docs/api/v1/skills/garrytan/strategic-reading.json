@@ -25,7 +25,7 @@
   },
   "title": "strategic-reading",
   "genericSkillRef": "document-analyst",
-  "origin": false,
+  "origin": true,
   "description": "Read a book, article, transcript, or case study through the lens of a specific strategic problem you're facing. Produces an applied playbook that maps the source onto the problem and gives short/medium/long-term recommendations. NOT for general book summaries.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

@@ -15,7 +15,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 
 
-@pytest.mark.parametrize("suite", ["test_trust_lifecycle.js", "test_trust_lifecycle_unavailable.js"])
+@pytest.mark.parametrize("suite", ["test_trust_lifecycle.js", "test_trust_lifecycle_unavailable.js", "test_challenge_surfaces.js"])
 def test_trust_lifecycle_node_suite(suite: str) -> None:
     node = shutil.which("node")
     if not node:

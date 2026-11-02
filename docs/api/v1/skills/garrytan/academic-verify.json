@@ -25,7 +25,7 @@
   },
   "title": "academic-verify",
   "genericSkillRef": "grounding",
-  "origin": false,
+  "origin": true,
   "description": "Verify a research claim or academic citation by tracing it through publication → methodology → raw data → independent replication. Routes through perplexity-research for the actual web lookup, then formats results as a citation-checked brain page. Use when a book/article/conversation cites a study and you want to confirm the claim is real, replicated, and accurately characterized.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

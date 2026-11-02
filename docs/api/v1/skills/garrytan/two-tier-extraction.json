@@ -25,7 +25,7 @@
   },
   "title": "two-tier-extraction",
   "genericSkillRef": "knowledge-harvest",
-  "origin": false,
+  "origin": true,
   "description": "Tiered LLM extraction pattern for large corpus processing (email archives,\ndocument dumps, transcript libraries). A utility-tier model triages and\nclassifies at speed; the reasoning tier does the default deep read; the\ndeep tier is the escalation for the highest-value content. Prevents\nspending deep-tier money on noise while ensuring the important content\ngets the best eyes. A deterministic privacy wall runs before any LLM call.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

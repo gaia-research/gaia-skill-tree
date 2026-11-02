@@ -60,10 +60,10 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
-- timestamp: '2026-10-30T04:58:33Z'
+- timestamp: '2026-10-30T13:02:39Z'
   action: recalibrate_trust_magnitude
-  contributor: mbtiongson1
-  details: 'TM (none) -> 87.38, grade (none) -> B (gaia dev calibrate-trust-magnitude;
+  contributor: nova-gaia
+  details: 'TM (none) -> 92.38, grade (none) -> B (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
 evidence:
 - source: https://github.com/nateherkai/scroll-craft
@@ -97,7 +97,7 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-09-06T16:52:54Z'
-trustMagnitude: 87.38
+trustMagnitude: 92.38
 overallTrustGrade: B
 trustMagnitudeInputHash: 35f7e8ab61e6954bacdee126937dc301412da161411c1aff29b3877a9c7a7b6b
 ---

@@ -20,7 +20,7 @@ tags:
 - heuristics
 - accessibility
 createdAt: '2026-04-30'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-03'
 evidence:
 - class: B
   source: https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md
@@ -43,15 +43,14 @@ evidence:
     Founder ruling 2026-10-30 FD-14.
   downloads: 57
   sourceStartedAt: '2026-02-05'
-- source: https://github.com/mastepanoski/claude-skills
+- source: https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md
   evaluator: mbtiongson1
-  date: '2026-10-29'
+  date: '2026-11-03'
   type: github-stars-own
-  notes: GitHub REST stargazers_count of mastepanoski/claude-skills at 2026-10-29
-    (13 skills in repo; skill-file blob URL for this skill verified HTTP 200). Recorded
-    at the repo root because the existing legacy repo row already occupies the skill
-    blob URL and the production evidence merge drops same-URL cross-type rows (src/gaia_cli/evidence.py
-    merge_evidence). Founder ruling 2026-10-30 FD-14.
+  notes: 'GitHub REST stargazers_count of mastepanoski/claude-skills at 2026-10-29
+    (13 skills in repo; skill-file blob URL verified HTTP 200). Restored to canonical
+    skill blob URL after PR #2257 fixed cross-type URL deduplication (CALIBRATION-VERIFICATION
+    C8). Founder ruling 2026-10-30 FD-14.'
   stars: 59
   skillCountInRepo: 13
   sourceStartedAt: '2026-02-05'
@@ -133,6 +132,27 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 4.9 -> 31.93, grade ungraded -> C (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-11-02T21:07:14Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md
+    (type: github-stars-own)'
+- timestamp: '2026-11-02T21:10:52Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Audit correction C8 (#2251): the 2026-10-29T16:59:36Z evidence_removed
+    event did not reflect a dead link (the skill blob URL is HTTP 200); it was a temporary
+    re-homing workaround prior to PR #2257. The github-stars-own row is now restored
+    to the canonical skill blob URL.'
+- timestamp: '2026-11-02T21:14:23Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 31.93 -> 31.93, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+- timestamp: '2026-11-02T21:18:03Z'
+  action: evidence_removed
+  contributor: mbtiongson1
+  details: 'Removed dead/invalid evidence: https://github.com/mastepanoski/claude-skills'
 trustMagnitude: 31.93
 overallTrustGrade: C
 apexGateStatus:
@@ -144,7 +164,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 56455d0946732a254ac5a96ba4f747f51deaaee4721ff276fd0a413c6d258756
+trustMagnitudeInputHash: 98a5473bd9044433789360119208862553f35d7164e840d60a2b376dc961f9bd
 verification:
   firstEvidenceAt: '2026-06-19T17:09:30Z'
 ---

@@ -165,6 +165,10 @@ def _ld_benchmark(title: str, url_path: str) -> list[dict]:
     ]
 
 
+# Pages whose file name ("index.html") says nothing: name them explicitly.
+PAGE_TITLES = {"trust/challenges/index.html": "Trust Challenges"}
+
+
 def _ld_webpage(title: str, url_path: str) -> list[dict]:
     """Generic WebPage fallback."""
     return [
@@ -213,7 +217,7 @@ def _classify(rel: Path) -> list[dict]:
         return _ld_benchmark(title, url_path)
 
     # Fallback
-    title = parts[-1].removesuffix(".html").replace("-", " ").title()
+    title = PAGE_TITLES.get(rel.as_posix()) or parts[-1].removesuffix(".html").replace("-", " ").title()
     url_path = "/" + "/".join(parts)
     if url_path.endswith("/index.html"):
         url_path = url_path[: -len("index.html")]

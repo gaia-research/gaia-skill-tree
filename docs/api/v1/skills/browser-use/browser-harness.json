@@ -216,6 +216,12 @@
       "action": "evidence_added",
       "contributor": "mbtiongson1",
       "details": "Added evidence from https://www.tensorlake.ai/blog/browser-harness-cdp-self-healing (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-11-02T21:14:22Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 73.59 -> 118.59, grade B -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

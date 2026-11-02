@@ -58,8 +58,8 @@ So that means, its the developers who make skills maintaining this. I have a tho
 ◆ mattpocock/skills  [5★]
   ├─ ○ mattpocock/domain-modeling  [2★]
   ├─ · mattpocock/engineering  [4★]
-  │  ├─ · firecrawl/firecrawl-build-onboarding  [3★]
-  │  │  ├─ ○ garrytan/document-generate  [3★]
+  │  ├─ · mattpocock/setup-matt-pocock-skills  [3★]
+  │  │  ├─ ○ mattpocock/edit-article  [3★]
   │  │  └─ ○ /tool-use
   │  ├─ · mattpocock/diagnose  [3★]
   │  │  ├─ ○ garrytan/design-html  [3★]
@@ -74,15 +74,15 @@ So that means, its the developers who make skills maintaining this. I have a tho
 ◆ garrytan/gstack  [5★]
   ├─ ○ garrytan/office-hours  [3★]
   ├─ ○ garrytan/benchmark  [3★]
-  ├─ · addy-osmani/code-review-and-quality  [3★]
+  ├─ · garrytan/plan-eng-review  [3★]
   │  ├─ ○ garrytan/design-html  [3★]
   │  ├─ ○ /diff-content
   │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ ○ nextlevelbuilder/ui-ux-pro-max  [4★]
-  ├─ · mattpocock/to-tickets  [3★]
+  ├─ · addy-osmani/planning-and-task-breakdown  [3★]
   │  ├─ ○ /plan-decompose
   │  └─ ○ garrytan/functional-area-resolver  [2★]
-  ├─ · leonxlnx/stitch-skill  [3★]
+  ├─ · garrytan/design-consultation  [3★]
   │  ├─ · ████████/browse
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]
   │  │  └─ ○ /computer-use

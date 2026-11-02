@@ -16,7 +16,7 @@ tags:
 - cdp
 - automation
 createdAt: '2026-05-14'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-03'
 evidence:
 - class: B
   source: https://github.com/browser-use/browser-harness
@@ -164,8 +164,13 @@ timeline:
   contributor: mbtiongson1
   details: 'Added evidence from https://www.tensorlake.ai/blog/browser-harness-cdp-self-healing
     (type: peer-review)'
-trustMagnitude: 73.59
-overallTrustGrade: B
+- timestamp: '2026-11-02T21:14:22Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 73.59 -> 118.59, grade B -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 118.59
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -177,7 +182,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T10:39:17Z'
-trustMagnitudeInputHash: 0ecb67a513e951f5b0729ec70bd4f8785bdee8f7e174e7eec2b111b32630d201
+trustMagnitudeInputHash: b08291592d16bc49fcc9ad9ffb6c013e71a187067c2b955f287e6118bf02f607
 provisional: true
 ---
 

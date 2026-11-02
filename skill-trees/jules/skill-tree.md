@@ -22,7 +22,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — jules  ·  generated 2026-10-30
+GAIA SKILL TREE — jules  ·  generated 2026-11-02
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -31,8 +31,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 · ◆ mattpocock/skills  [5★]
   ├─ · ○ mattpocock/domain-modeling  [2★]
   ├─ · · mattpocock/engineering  [4★]
-  │  ├─ · · firecrawl/firecrawl-build-onboarding  [3★]
-  │  │  ├─ · ○ garrytan/document-generate  [3★]
+  │  ├─ · · mattpocock/setup-matt-pocock-skills  [3★]
+  │  │  ├─ · ○ mattpocock/edit-article  [3★]
   │  │  └─ · ○ /tool-use
   │  ├─ ✓ · mattpocock/diagnose  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
@@ -49,27 +49,27 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · · mattpocock/ubiquitous-language  [3★]
   │  │  │  ├─ · ○ /extract-entities
   │  │  │  └─ · ○ ████████/requirements-engineer
-  │  │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
+  │  │  └─ · ○ mattpocock/edit-article  [3★]  (↑ see above)
   │  ├─ · ○ mattpocock/triage  [3★]
-  │  ├─ · · mattpocock/to-spec  [3★]
+  │  ├─ · · addy-osmani/spec-driven-development  [3★]
   │  │  ├─ · ○ garrytan/retro  [3★]
   │  │  └─ · ○ /plan-decompose  (↑ see above)
   │  ├─ · · mattpocock/prototype  [2★]
   │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ · ○ /code-execution  (↑ see above)
   │  ├─ · ○ addy-osmani/code-simplification  [4★]
-  │  ├─ · · mattpocock/to-tickets  [3★]
+  │  ├─ · · addy-osmani/planning-and-task-breakdown  [3★]
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
-  │  │  └─ · ○ ████████/functional-area-resolver  [2★]
+  │  │  └─ · ○ garrytan/functional-area-resolver  [2★]
   │  ├─ · · obra/requesting-code-review  [2★]
-  │  │  ├─ · · addy-osmani/code-review-and-quality  [3★]
+  │  │  ├─ · · garrytan/plan-eng-review  [3★]
   │  │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  │  ├─ · ○ /diff-content
   │  │  │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  │  └─ · · obra/dispatching-parallel-agents  [3★]
   │  │     ├─ · ○ /plan-decompose  (↑ see above)
   │  │     └─ · ○ ████████/parallel-execution
-  │  ├─ · · ████████/data-research  [2★]
+  │  ├─ · · garrytan/data-research  [2★]
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  │  ├─ · ○ /summarize
   │  │  └─ · ○ /cite-sources
@@ -81,16 +81,16 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · ○ /classify
   │  │  └─ · ○ /structured-output
   │  ├─ · ○ addy-osmani/code-simplification  [4★]  (↑ see above)
-  │  └─ · · garrytan/skillify  [3★]
+  │  └─ · · google-deepmind/workflow-skill-creator  [3★]
   │     ├─ · ○ /generate-text
   │     ├─ · ○ /structured-output  (↑ see above)
   │     └─ · ○ garrytan/design-html  [3★]  (↑ see above)
   ├─ · · mattpocock/productivity  [4★]
   │  ├─ · · mattpocock/handoff  [3★]
   │  │  ├─ · ○ /summarize  (↑ see above)
-  │  │  ├─ · ○ garrytan/document-generate  [3★]  (↑ see above)
-  │  │  └─ · ○ ████████/context-audit  [2★]
-  │  ├─ · ○ ████████/context-audit  [2★]  (↑ see above)
+  │  │  ├─ · ○ mattpocock/edit-article  [3★]  (↑ see above)
+  │  │  └─ · ○ garrytan/context-audit  [2★]
+  │  ├─ · ○ garrytan/context-audit  [2★]  (↑ see above)
   │  ├─ · · mattpocock/grill-me  [3★]  (↑ see above)
   │  ├─ · · mattpocock/write-a-skill  [2★]
   │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
@@ -104,12 +104,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 
 · ◆ ruvnet/ruflo  [4★]
   ├─ · · ruvnet/flow-nexus  [2★]
-  │  ├─ ✓ · ████████/minion-orchestrator
+  │  ├─ ✓ · garrytan/minion-orchestrator  [2★]
   │  │  ├─ ✓ · /plan-and-execute
-  │  │  │  ├─ · ○ ████████/functional-area-resolver  [2★]
+  │  │  │  ├─ · ○ garrytan/functional-area-resolver  [2★]
   │  │  │  ├─ · ○ /plan-decompose
   │  │  │  └─ · ○ /tool-select
-  │  │  ├─ · ○ ████████/functional-area-resolver  [2★]  (↑ see above)
+  │  │  ├─ · ○ garrytan/functional-area-resolver  [2★]  (↑ see above)
   │  │  └─ · ○ /tool-select  (↑ see above)
   │  ├─ · · ruvnet/flow-nexus-platform  [2★]
   │  │  ├─ · ○ ████████/hf-cli
@@ -121,7 +121,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · · ruvnet/agentdb-advanced  [2★]
   │  │  ├─ · ○ ruvnet/agentdb-vector-search  [2★]
   │  │  └─ · · garrytan/learn  [2★]
-  │  │     ├─ · ○ ████████/context-audit  [2★]
+  │  │     ├─ · ○ garrytan/context-audit  [2★]
   │  │     └─ · ○ /retrieve
   │  ├─ · · ████████/agentdb-learning
   │  │  ├─ · ○ ruvnet/reasoningbank-intelligence  [2★]
@@ -129,8 +129,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ ruvnet/agentdb-memory-patterns  [2★]
   │  ├─ · ○ ruvnet/agentdb-optimization  [2★]
   │  └─ · ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
-  ├─ · · ruvnet/github-suite  [2★]
-  │  ├─ · · addy-osmani/code-review-and-quality  [3★]
+  ├─ · · mattpocock/resolving-merge-conflicts  [2★]
+  │  ├─ · · garrytan/plan-eng-review  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /diff-content
   │  │  └─ · ○ garrytan/benchmark  [3★]
@@ -169,21 +169,21 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
 ══════════════════════════════════════════════════════════════════════
 
   · ◉ mvanhorn/last30days  [4★]
-    ├─ ✓ · ████████/draft-in-voice
-    │  ├─ · · ████████/data-research  [2★]
+    ├─ ✓ · garrytan/draft-in-voice  [2★]
+    │  ├─ · · garrytan/data-research  [2★]
     │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
     │  │  ├─ · ○ /summarize
     │  │  └─ · ○ /cite-sources
     │  ├─ · ○ garrytan/retro  [3★]
     │  └─ · ○ /audience-model
-    ├─ ✓ · ████████/archive-crawler
+    ├─ ✓ · garrytan/archive-crawler  [2★]
     │  ├─ · · firecrawl/firecrawl-build-scrape  [4★]
     │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
     │  │  ├─ · ○ /parse-html
     │  │  └─ · ○ /extract-entities
     │  ├─ · ○ /extract-entities  (↑ see above)
     │  └─ · ○ /embed-text
-    ├─ · · ████████/data-research  [2★]  (↑ see above)
+    ├─ · · garrytan/data-research  [2★]  (↑ see above)
     ├─ · · firecrawl/firecrawl-build-scrape  [4★]  (↑ see above)
     └─ · ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
 ```

@@ -718,6 +718,7 @@ def build_html_cache_busting(check: bool) -> bool:
         "trust/index.html",
         "trust/ledger/index.html",
         "trust/leaderboard/index.html",
+        "trust/challenges/index.html",
         "codex/trust-methodology.html",
         "u/index.html",
         "api/index.html",  # pre-registered for Issue #850 (docs page not yet created)
@@ -1013,7 +1014,7 @@ def build_named_index(check: bool) -> bool:
     committed = ROOT / "registry" / "named-skills.json"
     with tempfile.TemporaryDirectory() as tmp:
         out_path = Path(tmp) / "named-skills.json"
-        rc, output = _run_script(script, ["--out", str(out_path)])
+        rc, output = _run_script(script, ["--out", str(out_path)] + (["--no-frontmatter-sync"] if check else []))
         if rc != 0:
             if check:
                 print(f"diff registry/named-skills.json (regen failed: rc={rc})")
