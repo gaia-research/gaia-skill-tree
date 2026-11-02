@@ -31,6 +31,27 @@
 - Ratification §IV has an explicit superseding note; WIP META/GOVERNANCE describe automatic selection and shared ties.
 - Reviewer found no Origin-related change to the existing 50-TM sibling cap.
 
-## Status
+## Repaired-SHA Re-Review: SHIP (`016ae6005a6e6bddc7d6a78cb823efa99eddbe97`, PR #2271)
 
-**Not approved, not integrated, no PR opened.** A separate implementation session is repairing/reproducing the findings. Require an independent repaired-SHA re-review, real tests, source/frozen-byte checks and clean applicable CI before integration. This record does not claim the initial WIP or any subsequent repair passed.
+- **Target:** `dev/yggiv-origin-automation` @ `016ae6005a6e6bddc7d6a78cb823efa99eddbe97` (review verified at `087a7f42d1abf806a78a160f2a6925c758686336` + 1-line `tests/test_lifecycle.py` test fix `016ae6005`) ([PR #2271](https://github.com/gaia-research/gaia-skill-tree/pull/2271) → `dev/yggdrasil-iv`, base `5bccf831624ad7fc4c2fbd60557a4240d7ac8a45`).
+- **Independent reviewer:** separate Flash High review subagent (`c43da4f5-ddd7-4c1b-af5a-fee34420edba`, session `01a19dee`), read-only profile.
+- **Runtime & source proofs:**
+  - `PYTHONPATH=src python3 -m pytest -q tests/test_origin_rule.py tests/test_origin_projection_contract.py tests/test_meta_sweep_champion.py tests/test_suiteref_guard.py tests/test_promotion.py tests/test_named_skills.py tests/test_api_projection.py tests/test_public_projection_parity.py tests/test_origin_wreath.py tests/test_trust_lifecycle_node.py tests/test_build_docs_api_projection_write.py` → **135 passed, 2 xfailed** (existing #2251 and #2259 xfails).
+  - `python3 scripts/build_docs.py --check` → **Documentation is up to date.**
+  - `python3 -m gaia_cli.main dev validate`, `--intake`, `--meta-sync` → **All validation checks passed; all 352 Trust Magnitude surfaces agree.**
+  - `git diff --name-only origin/dev/yggdrasil-iv...087a7f42d -- registry/named registry/nodes` → **0 files changed** (all 400 canonical named-skill source files and all 9 frozen records byte-identical).
+  - `git diff origin/dev/yggdrasil-iv...087a7f42d -- src/gaia_cli/steward/sensors.py` → **0 lines changed**.
+
+| Severity | Finding | Repaired Status | Verification Evidence |
+|---|---|---|---|
+| P0 | Named mutation verbs can reach frozen writers without shared guard | **PASS** | `preflightNamedSkillMutable` (`helpers.py:758-781`) wired across `calibrate.py`, `evidence.py`, `named.py`, `rename.py`, `sync_upstream.py`, `timeline.py`; `freeze.py:120-155` preflights nested suite closure locks before any write. |
+| P1 | Origin comparison rounds TM to two decimals | **PASS** | `origin.py:42-58` uses exact `(int(levelNumber), float(tm or 0.0))` without `round()`; `deriveBucketOrigins` returns all tied top contenders (`test_origin_rule.py:44-48`). |
+| P1 | Missing frozen TM/grade cache falls back to live computation | **PASS** | `frozen.py:88-125`, `origin.py:151-183`, `freeze.py:134-155` fail closed when any frozen contender or suite member lacks a valid lock (`test_origin_projection_contract.py:129-164`). |
+| P1 | Normal docs generation rewrites ~200 canonical Origin fields | **PASS** | Source-rewrite path removed (`043befcdb`); `generateNamedIndex.py:226-227` forbids `"origin"` frontmatter rewrites; 0 canonical named files changed in PR #2271. |
+| P1 | Awakened holders can win Origin but disappear from ledger/leaderboard/API | **PASS** | `publicOriginStandings` (`origin.py:66-92`) projects redacted `originStandings` across `docs/graph/named/index.json`, `docs/graph/ledger/data.json`, `docs/api/v1/skills/index.json`, and `docs/api/v1/leaderboard.json` (`test_origin_projection_contract.py:24-78`). |
+| P1 | Meta sweep retains <=1-star Origin suppression and frozen mutation recommendations | **PASS** | `run_meta_sweep.py:155-245, 320-336, 565` derives Origin at any star and filters frozen records out of mutation recommendations (`test_meta_sweep_champion.py:69-83`). |
+| P1 | Agent context states invented Unique prerequisite-Origin and Suite4 gates | **PASS** | `docs/agent.md:99-125` updated to match ratified `META.md` and founder rulings (`test_origin_rule.py:208-216`). |
+| P1 scope | WIP changes Steward sensor behavior despite EPIC exclusion | **PASS** | `src/gaia_cli/steward/sensors.py` restored to zero diff against `origin/dev/yggdrasil-iv`. |
+| P2 | `dev add --extra-fields` can inject manual Origin | **PASS** | `helpers.py:1297-1302` and `build.py:76-78` reject manual `"origin"` injection (`test_origin_projection_contract.py:79-103`). |
+| P2 | Generator/UI copy retains chronological/manual-transfer meaning | **PASS** | Updated across `generateProfilePages.py`, `docs/js/page-ia.js`, `docs/js/trust-lifecycle.js`, `docs/en/faq.html`, `docs/index.html`, `docs/trust/leaderboard/index.html`. |
+| P2 | Validator comments and public parity tests encode one holder | **PASS** | `validate.py:653-656` and `test_public_projection_parity.py:317-334` updated for automatic Origin and shared ties. |
