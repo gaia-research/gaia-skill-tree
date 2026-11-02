@@ -81,10 +81,10 @@ Basis checked: the 4-star Unique Origin requirement is stated in CLAUDE.md and e
 
 | Skill | Level | Branch | TM/grade | Bucket | Holders | Merit winner | uniqueGate (as stored) | If Origin set |
 |---|---|---|---|---|---|---|---|---|
-| `vercel-labs/vercel-react-best-practices` | 4★ | unique | A 163.19 | react-performance-optimization (1) | none | vercel-labs/vercel-react-best-practices | passed=False originPresent=False | origin of vercel-labs/vercel-react-best-practices -> True; 1 record changes |
-| `addy-osmani/code-simplification` | 4★ | unique | A 190.0 | refactor-code (4) | none | addy-osmani/code-simplification | passed=False originPresent=False | origin of addy-osmani/code-simplification -> True; 1 record changes |
-| `ayghri/i-have-adhd` | 4★ | unique | A 130.23 | format-output (3) | none | ayghri/i-have-adhd | passed=False originPresent=False | origin of ayghri/i-have-adhd -> True; 1 record changes |
-| `dietrichgebert/ponytail` | 4★ | unique | A 225.42 | implement-with-discernment (2) | none | dietrichgebert/ponytail | passed=False originPresent=False | origin of dietrichgebert/ponytail -> True; 1 record changes |
+| `vercel-labs/vercel-react-best-practices` | 4★ | unique | A 163.19 | react-performance-optimization (1) | ['vercel-labs/vercel-react-best-practices'] | vercel-labs/vercel-react-best-practices | passed=False originPresent=False | needs-decision |
+| `addy-osmani/code-simplification` | 4★ | unique | A 190.0 | refactor-code (4) | ['addy-osmani/code-simplification'] | addy-osmani/code-simplification | passed=False originPresent=False | needs-decision |
+| `ayghri/i-have-adhd` | 4★ | unique | A 130.23 | format-output (3) | ['ayghri/i-have-adhd'] | ayghri/i-have-adhd | passed=False originPresent=False | needs-decision |
+| `dietrichgebert/ponytail` | 4★ | unique | A 225.42 | implement-with-discernment (2) | ['dietrichgebert/ponytail'] | dietrichgebert/ponytail | passed=False originPresent=False | needs-decision |
 
 `safishamsi/graphify` (5-star Unique Ultimate): holds bucket Origin but the 5-star gate needs fusion-structure Origin on a prerequisite of `knowledge-graph-build` (extract-entities, logical-inference); checkUniqueBranchGate 5-star passed=False, 4-star passed=True. Whether to leave, assign prerequisite Origin, or act on the level is a founder Class C choice; none is proposed.
 
@@ -113,7 +113,7 @@ Verified: node frontmatter apexGateStatus.overallGradeS=True signed=True; recomp
 
 ## FD-16 - bucket Origin invariant and merit inversions (systemic)
 
-90 candidates. Sweep claims 105 of 202 buckets have no Origin holder; META 4.1 says exactly one per bucket, but only 4-star Unique treats it as a gate (FD-10). Rows where Gaia's merit rule gives a unique winner carry a recomputed single-flag change; ties and inversions (holder differs from merit winner) are needs-decision because a transfer removes a mark. Recommend a bulk curation policy decision rather than 100+ individual rulings.
+89 candidates. Sweep claims 105 of 202 buckets have no Origin holder; META 4.1 says exactly one per bucket, but only 4-star Unique treats it as a gate (FD-10). Rows where Gaia's merit rule gives a unique winner carry a recomputed single-flag change; ties and inversions (holder differs from merit winner) are needs-decision because a transfer removes a mark. Recommend a bulk curation policy decision rather than 100+ individual rulings.
 
 ## FD-17 - Star Bar link findings
 
