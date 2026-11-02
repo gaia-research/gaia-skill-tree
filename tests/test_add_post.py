@@ -65,4 +65,6 @@ def test_report_html_has_no_trailing_whitespace_without_chart():
     assert ".report-table-scroll { max-width: 100%; overflow-x: auto;" in rendered
     assert ".report-table-scroll:focus-visible" in rendered
     assert "table { width: max-content; min-width: 100%;" in rendered
+    assert "overflow-wrap: break-word;" in rendered
+    assert "word-break: break-word;" in rendered
     assert all(line == line.rstrip() for line in rendered.splitlines())

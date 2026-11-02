@@ -442,6 +442,7 @@ _REPORT_CSS = """\
       margin: 0;
       padding: 6rem 1rem;
       -webkit-font-smoothing: antialiased;
+      overflow-wrap: break-word;
     }
     .paper {
       background: var(--paper-bg);
@@ -451,6 +452,7 @@ _REPORT_CSS = """\
       box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 10px 40px rgba(0,0,0,0.02);
       position: relative;
       counter-reset: section;
+      overflow-wrap: break-word;
     }
     header { text-align: center; margin-bottom: 5rem; }
     .paper-journal-header {
@@ -525,11 +527,11 @@ _REPORT_CSS = """\
     }
     h2::before { content: counter(section) ". "; }
     h3 { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 1rem; }
-    p { text-align: justify; margin-bottom: 1.5rem; hyphens: auto; }
+    p { text-align: justify; margin-bottom: 1.5rem; hyphens: auto; overflow-wrap: break-word; }
     .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin: 2.5rem 0; }
     ul { padding-left: 1.2rem; list-style-type: square; }
     li { margin-bottom: 0.6rem; }
-    code { font-family: var(--font-mono); background: #f7f7f7; padding: 0.15rem 0.35rem; font-size: 0.85em; border: 1px solid #eee; }
+    code { font-family: var(--font-mono); background: #f7f7f7; padding: 0.15rem 0.35rem; font-size: 0.85em; border: 1px solid #eee; word-break: break-word; }
     pre { background: #f7f7f7; border: 1px solid #eee; padding: 1.2rem 1.5rem; overflow-x: auto; margin: 2rem 0; }
     pre code { background: none; border: none; padding: 0; font-size: 0.85rem; }
     blockquote { border-left: 3px solid #c8a84b; margin: 2rem 0; padding: 1rem 1.5rem; background: #fafaf8; color: #444; font-style: italic; }
