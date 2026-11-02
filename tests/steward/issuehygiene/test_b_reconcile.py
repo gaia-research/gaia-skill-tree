@@ -810,7 +810,14 @@ def test_workflow_runnables_maps_md_to_lock_yml():
 # blocked only by a ref (registry pins a tag or commit, intake points at main). 1995 was already A
 # through upstream.repo. 1984 differs by repo and path. The other 22 differ only by path
 # (registry plugin/skills/<name>/SKILL.md, intake skills/<name>/SKILL.md) and stay B.
-LIVE_A1_CHILDREN = {1981, 1994, 1995, 2003, 2004, 2005, 2006, 2007, 2009, 2010, 2011, 2012, 2016, 2017, 2018, 2022, 2024}
+LIVE_A1_CHILDREN = {
+    1925, 1926, 1929, 1930, 1931, 1932, 1933, 1935, 1936, 1938, 1939, 1942,
+    1943, 1944, 1945, 1946, 1947, 1949, 1951, 1952, 1954, 1957, 1958, 1959,
+    1961, 1964, 1968, 1969, 1970, 1971, 1973, 1974, 1976, 1977, 1978, 1981,
+    1982, 1986, 1987, 1988, 1990, 1992, 1993, 1994, 1995, 1997, 2003, 2004,
+    2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016,
+    2017, 2018, 2022, 2024,
+}
 LIVE_PATH_ONLY_CHILDREN = {
     1923, 1924, 1927, 1928, 1934, 1937, 1940, 1941, 1948, 1950, 1953,
     1955, 1960, 1963, 1965, 1967, 1972, 1975, 1980, 1983, 1989, 1991,
@@ -827,11 +834,11 @@ def test_fixture_census_reconciles_to_known_counts():
     assert stats["upstreamChildOpen"] == 96
     assert stats["umbrellaOpen"] == 6
     assert stats["botOpen"] == 2
-    # dev/yggdrasil-iv synced mattpocock/skills to v1.3.1 (upstream_synced 2026-10-27), so umbrella #2040 now
-    # reconciles as A2-umbrella-synced against the live registry: classA 17 -> 18, classB 80 -> 79.
-    assert stats["classA"] == 18
-    assert stats["classB"] == 79
-    assert stats["classC"] == 7
+    # dev/yggdrasil-iv synced upstream suites through the October cutoff and curated the 76 October L4
+    # topology choices into registry/named/: classA 18 -> 64, classB 79 -> 34, classC 7 -> 6.
+    assert stats["classA"] == 64
+    assert stats["classB"] == 34
+    assert stats["classC"] == 6
     assert stats["notEvaluated"] == 0
     children = {entry["issue"]: entry for entry in manifest["items"] if entry["kind"] == "child"}
     assert {number for number, entry in children.items() if entry["authority"] == "A"} == LIVE_A1_CHILDREN
