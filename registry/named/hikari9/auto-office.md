@@ -15,7 +15,7 @@ description: Adaptive office engineering runtime for the complete lifecycle from
   human merge-to-main unless the user chose merge or end-to-end at intake, no-self-approval,
   private evidence, and version-pinned runs.
 createdAt: '2026-10-09'
-updatedAt: '2026-10-09'
+updatedAt: '2026-10-30'
 title: Auto Office
 links:
   github: https://github.com/Hikari9/auto-office/blob/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/SKILL.md
@@ -56,7 +56,13 @@ timeline:
 - timestamp: '2026-10-09T07:00:00Z'
   action: installation_updated
   contributor: unknown
-  details: Added structured custom installation instructions with multi-harness tabs and worktree configuration
+  details: Added structured custom installation instructions with multi-harness tabs
+    and worktree configuration
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 88.97, grade (none) -> B (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/Hikari9/auto-office/blob/da6aa9a93dbab98c03d2fbb3593f994acf85d7a7/SKILL.md
   evaluator: unknown
@@ -83,6 +89,9 @@ verification:
   firstEvidenceAt: '2026-10-08T21:36:14Z'
 suiteComponents:
 - hikari9/office-submit
+trustMagnitude: 88.97
+overallTrustGrade: B
+trustMagnitudeInputHash: c499edc416c206aaeb562c5c5dff7ae2e523bff4e4458d1d2927b730e04cd421
 ---
 
 ## Installation

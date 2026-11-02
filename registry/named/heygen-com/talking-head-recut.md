@@ -58,6 +58,13 @@ timeline:
   action: installation_updated
   contributor: mbtiongson1
   details: 'Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/talking-head-recut.md'
+- timestamp: '2026-10-29T16:33:26Z'
+  action: upstream_deprecated
+  contributor: mbtiongson1
+  previousValue: null
+  newValue: null
+  details: 'founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes
+    skills/ at upstream v0.8.209; links.github kept, installable false'
 links:
   github: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/talking-head-recut/SKILL.md
 evidence:
@@ -87,6 +94,7 @@ suiteRef: heygen-com/hyperframes
 trustMagnitude: 50.0
 overallTrustGrade: B
 trustMagnitudeInputHash: c9cb9c9b16b1d3b6ebb3b046622fdb3f13557d2097e1930b58b2426cbee13ee9
+installable: false
 ---
 
 ## Installation

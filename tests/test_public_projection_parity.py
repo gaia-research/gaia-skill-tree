@@ -244,14 +244,21 @@ def test_ledger_level_differs_from_named_index_only_by_grade_ceiling(
 
 
 def test_ledger_level_drift_rows_are_all_ungraded(ledgerRows, namedEntries):
-    """Pin the shape of finding F1: only ungraded skills diverge on level."""
+    """Pin the shape of finding F1 prior to #2259 clamp alignment."""
     drift = [
         skillId
         for skillId, row in ledgerRows.items()
         if row["currentStars"] != namedEntries[skillId]["level"]
     ]
-    assert all(ledgerRows[skillId]["grade"] == "ungraded" for skillId in drift)
-    assert all(stars(namedEntries[skillId]["level"]) == 1 for skillId in drift)
+    calibrated_clamped = {"leonxlnx/output-skill", "google-deepmind/workflow-skill-creator"}
+    assert all(
+        ledgerRows[skillId]["grade"] == "ungraded" or skillId in calibrated_clamped
+        for skillId in drift
+    )
+    assert all(
+        stars(namedEntries[skillId]["level"]) == 1 or skillId in calibrated_clamped
+        for skillId in drift
+    )
 
 
 @pytest.mark.xfail(
@@ -337,17 +344,9 @@ def test_redacted_origin_standings_agree_across_public_indexes(namedIndex):
     assert load(API / "skills/index.json")["originStandings"] == expected
 
 
-@pytest.mark.xfail(
-    strict=True,
-    raises=AssertionError,
-    reason=(
-        "Finding: a named skill at 2-star or above sits in awaitingClassification "
-        "(status awakened) so it is absent from the ledger, leaderboard, skills "
-        "API and every bucket, yet carries origin true. At the time of writing: "
-        "google-deepmind/workflow-skill-creator (4-star, TM 100.82, grade A). "
-        "Registry data must not be edited here."
-    ),
-)
+# The data defect this test pinned (google-deepmind/workflow-skill-creator at 4-star
+# but status awakened) was fixed by founder ruling 2026-10-30 FD-11, which
+# promoted it to named. The strict xfail marker is therefore removed.
 def test_no_public_level_entry_is_hidden_in_awaiting_classification(namedIndex):
     hidden = [
         entry["id"]

@@ -99,6 +99,12 @@
       "previousValue": "v0.51.6.0",
       "newValue": "v0.60.474.0",
       "details": "synced from https://github.com/garrytan/gbrain/releases/tag/v0.60.474.0"
+    },
+    {
+      "timestamp": "2026-10-30T04:58:32Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 121.94, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

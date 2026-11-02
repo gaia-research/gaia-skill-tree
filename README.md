@@ -81,7 +81,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   ├─ ○ nextlevelbuilder/ui-ux-pro-max  [4★]
   ├─ · addy-osmani/planning-and-task-breakdown  [3★]
   │  ├─ ○ /plan-decompose
-  │  └─ ○ mattpocock/ask-matt  [2★]
+  │  └─ ○ garrytan/functional-area-resolver  [2★]
   ├─ · garrytan/design-consultation  [3★]
   │  ├─ · ████████/browse
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]
@@ -89,8 +89,8 @@ So that means, its the developers who make skills maintaining this. I have a tho
 
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
   ◉ mvanhorn/last30days  [4★]
-    ├─ · ████████/draft-in-voice
-    │  ├─ · mattpocock/research  [2★]
+    ├─ · garrytan/draft-in-voice  [2★]
+    │  ├─ · garrytan/data-research  [2★]
     │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]
     │  │  ├─ ○ /summarize
 

@@ -11,7 +11,7 @@ description: This repo is indexed by graft/. For ANY task here, whether understa
   a change breaks, or scoping an edit, get your context from graft before grepping
   or reading source files.
 createdAt: '2026-09-10'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-30'
 title: Graft
 timeline:
 - timestamp: '2026-09-10T15:53:00Z'
@@ -49,6 +49,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 4★
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 145.16, grade (none) -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 links:
   github: https://github.com/trailhq/Graft/blob/main/.claude/skills/graft/SKILL.md
 evidence:
@@ -90,6 +95,9 @@ evidence:
   sourceStartedAt: '2026-09-07'
 verification:
   firstEvidenceAt: '2026-09-10T15:53:10Z'
+trustMagnitude: 145.16
+overallTrustGrade: A
+trustMagnitudeInputHash: feaa6e87a760dd603490203b4e1a5c20e28ad3abfadf84c331ed19387ea9c244
 ---
 
 ## Installation

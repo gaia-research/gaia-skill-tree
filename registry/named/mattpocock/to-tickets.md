@@ -22,7 +22,7 @@ tags:
 - afk
 - acceptance-criteria
 createdAt: '2026-04-30'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-30'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md
@@ -131,6 +131,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 4★ to 3★
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 94.92 -> 94.92, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 94.92
 overallTrustGrade: B
 apexGateStatus:
@@ -142,7 +147,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: f60ba86f4827a9866a6f332f4250bb2650c817fcc63b6cef5ce4854da59f5e22
+trustMagnitudeInputHash: d1e95e6d0b38d1a290cde25c9b14b5f8e3d5a860452ed8b23bbbc23f13efff60
 verification:
   firstEvidenceAt: '2026-06-19T17:07:36Z'
 suiteRef: mattpocock/skills

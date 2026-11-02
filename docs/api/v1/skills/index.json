@@ -1,50 +1,6 @@
 {
   "skills": [
     {
-      "id": "mattpocock/skills",
-      "name": "Matt Pocock Skills",
-      "level": "5★",
-      "trustMagnitude": 374.99,
-      "overallTrustGrade": "S",
-      "fusionScore": 364.92,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Ultimate",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/skills.json"
-      },
-      "genericSkillRef": "skill-mastery",
-      "suiteComponents": [
-        "mattpocock/code-review",
-        "mattpocock/diagnose",
-        "mattpocock/edit-article",
-        "mattpocock/engineering",
-        "mattpocock/grill-me",
-        "mattpocock/grill-with-docs",
-        "mattpocock/handoff",
-        "mattpocock/improve-codebase-architecture",
-        "mattpocock/obsidian-vault",
-        "mattpocock/personal",
-        "mattpocock/productivity",
-        "mattpocock/prototype",
-        "mattpocock/research",
-        "mattpocock/setup-matt-pocock-skills",
-        "mattpocock/teach",
-        "mattpocock/to-questionnaire",
-        "mattpocock/to-spec",
-        "mattpocock/to-tickets",
-        "mattpocock/triage",
-        "mattpocock/ubiquitous-language",
-        "mattpocock/wait-what",
-        "mattpocock/wayfinder",
-        "mattpocock/wizard",
-        "mattpocock/write-a-skill",
-        "mattpocock/zoom-out"
-      ]
-    },
-    {
       "id": "garrytan/gstack",
       "name": "Founder Mode",
       "level": "5★",
@@ -125,6 +81,67 @@
         "self": "/api/v1/skills/safishamsi/graphify.json"
       },
       "genericSkillRef": "knowledge-graph-build"
+    },
+    {
+      "id": "mattpocock/skills",
+      "name": "Matt Pocock Skills",
+      "level": "5★",
+      "trustMagnitude": 280.39,
+      "overallTrustGrade": "S",
+      "fusionScore": 364.92,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/skills.json"
+      },
+      "genericSkillRef": "skill-mastery",
+      "suiteComponents": [
+        "mattpocock/code-review",
+        "mattpocock/diagnose",
+        "mattpocock/edit-article",
+        "mattpocock/engineering",
+        "mattpocock/grill-me",
+        "mattpocock/grill-with-docs",
+        "mattpocock/handoff",
+        "mattpocock/improve-codebase-architecture",
+        "mattpocock/obsidian-vault",
+        "mattpocock/personal",
+        "mattpocock/productivity",
+        "mattpocock/prototype",
+        "mattpocock/research",
+        "mattpocock/setup-matt-pocock-skills",
+        "mattpocock/teach",
+        "mattpocock/to-questionnaire",
+        "mattpocock/to-spec",
+        "mattpocock/to-tickets",
+        "mattpocock/triage",
+        "mattpocock/ubiquitous-language",
+        "mattpocock/wait-what",
+        "mattpocock/wayfinder",
+        "mattpocock/wizard",
+        "mattpocock/write-a-skill",
+        "mattpocock/zoom-out"
+      ]
+    },
+    {
+      "id": "panniantong/agent-reach",
+      "name": "Agent Reach",
+      "level": "3★",
+      "trustMagnitude": 260.83,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "panniantong",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/panniantong/agent-reach.json"
+      },
+      "genericSkillRef": "agent-reach"
     },
     {
       "id": "nextlevelbuilder/ui-ux-pro-max",
@@ -536,15 +553,15 @@
     {
       "id": "latent-spaces/brag",
       "name": "brag",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 144.54,
       "overallTrustGrade": "A",
       "fusionScore": 200.0,
       "contributor": "latent-spaces",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/latent-spaces/brag.json"
       },
@@ -605,6 +622,23 @@
         "garrytan/capture",
         "garrytan/concept-synthesis"
       ]
+    },
+    {
+      "id": "browser-use/browser-harness",
+      "name": "Browser Harness",
+      "level": "3★",
+      "trustMagnitude": 118.59,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "browser-use",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/browser-use/browser-harness.json"
+      },
+      "genericSkillRef": "browser-control"
     },
     {
       "id": "obra/subagent-driven-development",
@@ -690,23 +724,6 @@
         "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
       },
       "genericSkillRef": "web-scrape"
-    },
-    {
-      "id": "browser-use/browser-harness",
-      "name": "Browser Harness",
-      "level": "3★",
-      "trustMagnitude": 103.59,
-      "overallTrustGrade": "A",
-      "fusionScore": 0.0,
-      "contributor": "browser-use",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/browser-use/browser-harness.json"
-      },
-      "genericSkillRef": "browser-control"
     },
     {
       "id": "mattpocock/engineering",
@@ -1061,35 +1078,11 @@
         "self": "/api/v1/skills/garrytan/retro.json"
       },
       "genericSkillRef": "write-report"
-    },
-    {
-      "id": "ruvnet/agentdb",
-      "name": "AgentDB",
-      "level": "3★",
-      "trustMagnitude": 81.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 240.0,
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentdb.json"
-      },
-      "genericSkillRef": "agent-memory-platform",
-      "suiteComponents": [
-        "ruvnet/agentdb-advanced",
-        "ruvnet/agentdb-learning",
-        "ruvnet/agentdb-memory-patterns",
-        "ruvnet/agentdb-optimization",
-        "ruvnet/agentdb-vector-search"
-      ]
     }
   ],
   "page": 1,
-  "totalPages": 5,
-  "totalSkills": 229,
+  "totalPages": 6,
+  "totalSkills": 267,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"
@@ -1118,9 +1111,11 @@
     "adversarial-review": [
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "addy-osmani/doubt-driven-development",
+        "contributor": "addy-osmani"
       }
     ],
     "agent-environment-setup": [
@@ -1477,15 +1472,7 @@
         "level": "2★",
         "status": "named",
         "redacted": false,
-        "id": "garrytan/context-restore",
-        "contributor": "garrytan"
-      },
-      {
-        "origin": true,
-        "level": "2★",
-        "status": "named",
-        "redacted": false,
-        "id": "garrytan/context-save",
+        "id": "garrytan/context-audit",
         "contributor": "garrytan"
       }
     ],
@@ -1558,9 +1545,11 @@
     "deprecation-and-migration": [
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "addy-osmani/deprecation-and-migration",
+        "contributor": "addy-osmani"
       }
     ],
     "design-generation": [
@@ -1664,15 +1653,19 @@
     "document-analyst": [
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "garrytan/book-mirror",
+        "contributor": "garrytan"
       },
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "garrytan/strategic-reading",
+        "contributor": "garrytan"
       }
     ],
     "document-editing": [
@@ -1970,9 +1963,11 @@
     "ghostwrite": [
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "garrytan/draft-in-voice",
+        "contributor": "garrytan"
       }
     ],
     "git-diff-risk-analysis": [
@@ -2064,21 +2059,27 @@
     "grounding": [
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "addy-osmani/source-driven-development",
+        "contributor": "addy-osmani"
       },
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "garrytan/academic-verify",
+        "contributor": "garrytan"
       },
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "garrytan/fact-check",
+        "contributor": "garrytan"
       }
     ],
     "guardrails": [
@@ -2210,27 +2211,35 @@
     "knowledge-harvest": [
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "garrytan/archive-crawler",
+        "contributor": "garrytan"
       },
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "garrytan/blog-ingest",
+        "contributor": "garrytan"
       },
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "garrytan/bulk-ingestion",
+        "contributor": "garrytan"
       },
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "garrytan/two-tier-extraction",
+        "contributor": "garrytan"
       }
     ],
     "knowledge-management": [
@@ -2300,9 +2309,11 @@
     "mcp-server-deployment": [
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "garrytan/remote-mcp",
+        "contributor": "garrytan"
       }
     ],
     "media-asset-orchestration": [
@@ -2378,21 +2389,11 @@
     "multi-agent-orchestration-v": [
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
-      },
-      {
-        "origin": true,
-        "level": "1★",
-        "status": "named",
-        "redacted": true
-      },
-      {
-        "origin": true,
-        "level": "1★",
-        "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "garrytan/minion-orchestrator",
+        "contributor": "garrytan"
       }
     ],
     "multi-node-orchestration": [
@@ -2452,9 +2453,11 @@
     "observability-instrumentation": [
       {
         "origin": true,
-        "level": "1★",
+        "level": "2★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "addy-osmani/observability-and-instrumentation",
+        "contributor": "addy-osmani"
       }
     ],
     "opinion": [
@@ -2592,7 +2595,7 @@
     "project-launch-video-production": [
       {
         "origin": true,
-        "level": "3★",
+        "level": "4★",
         "status": "named",
         "redacted": false,
         "id": "latent-spaces/brag",
@@ -2615,7 +2618,7 @@
         "level": "2★",
         "status": "named",
         "redacted": false,
-        "id": "garrytan/plan-tune",
+        "id": "garrytan/skill-optimizer",
         "contributor": "garrytan"
       }
     ],
@@ -2851,8 +2854,16 @@
         "level": "2★",
         "status": "named",
         "redacted": false,
-        "id": "mattpocock/research",
-        "contributor": "mattpocock"
+        "id": "garrytan/data-research",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/research-compendium",
+        "contributor": "garrytan"
       }
     ],
     "route-intent": [
@@ -2861,8 +2872,8 @@
         "level": "2★",
         "status": "named",
         "redacted": false,
-        "id": "mattpocock/ask-matt",
-        "contributor": "mattpocock"
+        "id": "garrytan/functional-area-resolver",
+        "contributor": "garrytan"
       }
     ],
     "schema-design": [
@@ -2982,9 +2993,11 @@
     "skill-authoring": [
       {
         "origin": true,
-        "level": "4★",
-        "status": "awakened",
-        "redacted": true
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "google-deepmind/workflow-skill-creator",
+        "contributor": "google-deepmind"
       }
     ],
     "skill-discovery": [
@@ -3023,7 +3036,7 @@
         "level": "2★",
         "status": "named",
         "redacted": false,
-        "id": "garrytan/benchmark-models",
+        "id": "garrytan/skill-autobench",
         "contributor": "garrytan"
       }
     ],
@@ -3033,8 +3046,8 @@
         "level": "2★",
         "status": "named",
         "redacted": false,
-        "id": "mattpocock/codebase-design",
-        "contributor": "mattpocock"
+        "id": "addy-osmani/api-and-interface-design",
+        "contributor": "addy-osmani"
       }
     ],
     "static-artwork-design": [
@@ -3121,8 +3134,8 @@
         "level": "2★",
         "status": "named",
         "redacted": false,
-        "id": "mattpocock/tdd",
-        "contributor": "mattpocock"
+        "id": "obra/test-driven-development",
+        "contributor": "obra"
       }
     ],
     "timeline-animation": [

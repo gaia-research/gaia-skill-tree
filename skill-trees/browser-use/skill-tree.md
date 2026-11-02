@@ -33,7 +33,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [4★]
   ├─ · · addy-osmani/planning-and-task-breakdown  [3★]
   │  ├─ · ○ /plan-decompose
-  │  └─ · ○ mattpocock/ask-matt  [2★]
+  │  └─ · ○ garrytan/functional-area-resolver  [2★]
   ├─ · · garrytan/design-consultation  [3★]
   │  ├─ · · ████████/browse
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
@@ -74,7 +74,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
   │  ├─ · ○ /parse-html  (↑ see above)
   │  └─ · ○ /extract-entities
-  ├─ · · garrytan/skillify  [3★]
+  ├─ · · google-deepmind/workflow-skill-creator  [3★]
   │  ├─ · ○ /generate-text
   │  ├─ · ○ /structured-output
   │  └─ · ○ garrytan/design-html  [3★]  (↑ see above)
@@ -83,7 +83,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /self-critique
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ · ○ /chain-of-thought
-  ├─ · · garrytan/benchmark-models  [2★]
+  ├─ · · garrytan/skill-autobench  [2★]
   │  ├─ · · /agent-eval
   │  │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  │  └─ · ○ /score-relevance
@@ -92,7 +92,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/health  [2★]  (↑ see above)
   ├─ · ○ garrytan/pair-agent  [2★]
   ├─ · · garrytan/learn  [2★]
-  │  ├─ · ○ garrytan/context-restore  [2★]
+  │  ├─ · ○ garrytan/context-audit  [2★]
   │  └─ · ○ /retrieve
   ├─ · · garrytan/careful  [3★]
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
@@ -108,7 +108,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · yylo-dev/ledger-tasks-yylo  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]
-  └─ · · garrytan/plan-tune  [2★]
+  └─ · · garrytan/skill-optimizer  [2★]
      ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
      └─ · ○ /generate-text  (↑ see above)
 

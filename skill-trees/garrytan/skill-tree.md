@@ -79,7 +79,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ ○ nextlevelbuilder/ui-ux-pro-max  [4★]
   ├─ ✓ · addy-osmani/planning-and-task-breakdown  [3★]
   │  ├─ · ○ /plan-decompose
-  │  └─ · ○ mattpocock/ask-matt  [2★]
+  │  └─ · ○ garrytan/functional-area-resolver  [2★]
   ├─ ✓ · garrytan/design-consultation  [3★]
   │  ├─ · · ████████/browse
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
@@ -120,7 +120,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
   │  ├─ · ○ /parse-html  (↑ see above)
   │  └─ · ○ /extract-entities
-  ├─ ✓ · garrytan/skillify  [3★]
+  ├─ ✓ · google-deepmind/workflow-skill-creator  [3★]
   │  ├─ · ○ /generate-text
   │  ├─ · ○ /structured-output
   │  └─ ✓ ○ garrytan/design-html  [3★]  (↑ see above)
@@ -129,7 +129,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /self-critique
   │  ├─ ✓ ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ · ○ /chain-of-thought
-  ├─ ✓ · garrytan/benchmark-models  [2★]
+  ├─ ✓ · garrytan/skill-autobench  [2★]
   │  ├─ · · /agent-eval
   │  │  ├─ ✓ ○ garrytan/benchmark  [3★]  (↑ see above)
   │  │  └─ · ○ /score-relevance
@@ -138,7 +138,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ · garrytan/health  [2★]  (↑ see above)
   ├─ ✓ ○ garrytan/pair-agent  [2★]
   ├─ ✓ · garrytan/learn  [2★]
-  │  ├─ ✓ ○ garrytan/context-restore  [2★]
+  │  ├─ ✓ ○ garrytan/context-audit  [2★]
   │  └─ · ○ /retrieve
   ├─ ✓ · garrytan/careful  [3★]
   │  ├─ ✓ ○ garrytan/benchmark  [3★]  (↑ see above)
@@ -154,7 +154,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ · yylo-dev/ledger-tasks-yylo  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]
-  └─ ✓ · garrytan/plan-tune  [2★]
+  └─ ✓ · garrytan/skill-optimizer  [2★]
      ├─ ✓ ○ garrytan/benchmark  [3★]  (↑ see above)
      └─ · ○ /generate-text  (↑ see above)
 
@@ -190,7 +190,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ addy-osmani/code-simplification  [4★]
   │  ├─ ✓ · addy-osmani/planning-and-task-breakdown  [3★]
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
-  │  │  └─ · ○ mattpocock/ask-matt  [2★]
+  │  │  └─ · ○ garrytan/functional-area-resolver  [2★]
   │  ├─ · · obra/requesting-code-review  [2★]
   │  │  ├─ ✓ · garrytan/plan-eng-review  [3★]
   │  │  │  ├─ ✓ ○ garrytan/design-html  [3★]  (↑ see above)
@@ -199,7 +199,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  └─ · · obra/dispatching-parallel-agents  [3★]
   │  │     ├─ · ○ /plan-decompose  (↑ see above)
   │  │     └─ · ○ ████████/parallel-execution
-  │  ├─ · · mattpocock/research  [2★]
+  │  ├─ · · garrytan/data-research  [2★]
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  │  ├─ · ○ /summarize
   │  │  └─ · ○ /cite-sources
@@ -211,7 +211,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · ○ /classify
   │  │  └─ · ○ /structured-output
   │  ├─ · ○ addy-osmani/code-simplification  [4★]  (↑ see above)
-  │  └─ ✓ · garrytan/skillify  [3★]
+  │  └─ ✓ · google-deepmind/workflow-skill-creator  [3★]
   │     ├─ · ○ /generate-text
   │     ├─ · ○ /structured-output  (↑ see above)
   │     └─ ✓ ○ garrytan/design-html  [3★]  (↑ see above)
@@ -219,8 +219,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · · mattpocock/handoff  [3★]
   │  │  ├─ · ○ /summarize  (↑ see above)
   │  │  ├─ ✓ ○ mattpocock/edit-article  [3★]  (↑ see above)
-  │  │  └─ ✓ ○ garrytan/context-restore  [2★]
-  │  ├─ ✓ ○ garrytan/context-restore  [2★]  (↑ see above)
+  │  │  └─ ✓ ○ garrytan/context-audit  [2★]
+  │  ├─ ✓ ○ garrytan/context-audit  [2★]  (↑ see above)
   │  ├─ · · mattpocock/grill-me  [3★]  (↑ see above)
   │  ├─ · · mattpocock/write-a-skill  [2★]
   │  │  ├─ ✓ ○ garrytan/design-html  [3★]  (↑ see above)
@@ -234,12 +234,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 
 · ◆ ruvnet/ruflo  [4★]
   ├─ · · ruvnet/flow-nexus  [2★]
-  │  ├─ · · ████████/minion-orchestrator
+  │  ├─ · · garrytan/minion-orchestrator  [2★]
   │  │  ├─ · · /plan-and-execute
-  │  │  │  ├─ · ○ mattpocock/ask-matt  [2★]
+  │  │  │  ├─ · ○ garrytan/functional-area-resolver  [2★]
   │  │  │  ├─ · ○ /plan-decompose
   │  │  │  └─ · ○ /tool-select
-  │  │  ├─ · ○ mattpocock/ask-matt  [2★]  (↑ see above)
+  │  │  ├─ · ○ garrytan/functional-area-resolver  [2★]  (↑ see above)
   │  │  └─ · ○ /tool-select  (↑ see above)
   │  ├─ · · ruvnet/flow-nexus-platform  [2★]
   │  │  ├─ · ○ ████████/hf-cli
@@ -251,7 +251,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · · ruvnet/agentdb-advanced  [2★]
   │  │  ├─ · ○ ruvnet/agentdb-vector-search  [2★]
   │  │  └─ ✓ · garrytan/learn  [2★]
-  │  │     ├─ ✓ ○ garrytan/context-restore  [2★]
+  │  │     ├─ ✓ ○ garrytan/context-audit  [2★]
   │  │     └─ · ○ /retrieve
   │  ├─ · · ████████/agentdb-learning
   │  │  ├─ · ○ ruvnet/reasoningbank-intelligence  [2★]
@@ -369,7 +369,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ /retrieve
   ├─ · · mattpocock/obsidian-vault  [3★]
   │  ├─ · ○ /retrieve  (↑ see above)
-  │  └─ ✓ ○ garrytan/context-restore  [2★]
+  │  └─ ✓ ○ garrytan/context-audit  [2★]
   └─ · · garrytan/concept-synthesis  [3★]
      ├─ ✓ · garrytan/brain-ops  [3★]  (↑ see above)
      └─ · ○ /logical-inference
@@ -390,28 +390,28 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ ○ mattpocock/edit-article  [3★]
   └─ · · mattpocock/obsidian-vault  [3★]
      ├─ · ○ /retrieve
-     └─ ✓ ○ garrytan/context-restore  [2★]
+     └─ ✓ ○ garrytan/context-audit  [2★]
 
 ══════════════════════════════════════════════════════════════════════
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
   · ◉ mvanhorn/last30days  [4★]
-    ├─ · · ████████/draft-in-voice
-    │  ├─ · · mattpocock/research  [2★]
+    ├─ · · garrytan/draft-in-voice  [2★]
+    │  ├─ · · garrytan/data-research  [2★]
     │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
     │  │  ├─ · ○ /summarize
     │  │  └─ · ○ /cite-sources
     │  ├─ ✓ ○ garrytan/retro  [3★]
     │  └─ · ○ /audience-model
-    ├─ · · ████████/archive-crawler
+    ├─ · · garrytan/archive-crawler  [2★]
     │  ├─ ✓ · firecrawl/firecrawl-build-scrape  [4★]
     │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
     │  │  ├─ · ○ /parse-html
     │  │  └─ · ○ /extract-entities
     │  ├─ · ○ /extract-entities  (↑ see above)
     │  └─ · ○ /embed-text
-    ├─ · · mattpocock/research  [2★]  (↑ see above)
+    ├─ · · garrytan/data-research  [2★]  (↑ see above)
     ├─ ✓ · firecrawl/firecrawl-build-scrape  [4★]  (↑ see above)
     └─ · ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
   · ◉ obra/brainstorming  [4★]
@@ -422,7 +422,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     │  ├─ · ○ /extract-entities
     │  └─ · ○ /logical-inference
     ├─ · ○ /retrieve
-    └─ ✓ ○ garrytan/context-restore  [2★]
+    └─ ✓ ○ garrytan/context-audit  [2★]
   ✓ ◉ ayghri/i-have-adhd  [4★]
   · ◉ obra/subagent-driven-development  [4★]
     ├─ · · obra/executing-plans  [3★]

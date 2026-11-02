@@ -109,6 +109,12 @@
       "action": "installation_updated",
       "contributor": "unknown",
       "details": "Added structured custom installation instructions with multi-harness tabs and worktree configuration"
+    },
+    {
+      "timestamp": "2026-10-30T04:58:33Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 88.97, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

@@ -4,15 +4,15 @@
     {
       "id": "latent-spaces/brag",
       "name": "brag",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 144.54,
       "overallTrustGrade": "A",
       "fusionScore": 200.0,
       "contributor": "latent-spaces",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/latent-spaces/brag.json"
       },
@@ -22,7 +22,7 @@
   "namedSkillsCount": 1,
   "topSkill": {
     "id": "latent-spaces/brag",
-    "level": "3★",
+    "level": "4★",
     "trustMagnitude": 144.54
   },
   "prestigeScore": 144.54,

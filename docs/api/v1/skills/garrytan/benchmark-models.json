@@ -25,7 +25,7 @@
   },
   "title": "Gstack Benchmark Models — LLM Performance Profiling",
   "genericSkillRef": "skill-performance-benchmarking",
-  "origin": true,
+  "origin": false,
   "description": "Runs a standardised prompt suite across multiple model versions, records latency and quality scores, and produces a ranked comparison table to guide model selection.",
   "tags": [
     "skill-performance-benchmarking",

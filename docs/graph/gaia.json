@@ -1,6 +1,6 @@
 {
   "$schema": "https://gaiaskilltree.com/schema/graph.schema.json",
-  "generatedAt": "2026-11-02T20:17:16Z",
+  "generatedAt": "2026-11-02T21:24:57Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -305,10 +305,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "1★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "adversarial-robustness-testing",
@@ -4867,10 +4867,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "1★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "design-generation",
@@ -5690,10 +5690,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "1★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "document-editing",
@@ -8561,10 +8561,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "1★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "git-diff-risk-analysis",
@@ -9305,10 +9305,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "1★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "guardrails",
@@ -10464,10 +10464,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "1★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "knowledge-management",
@@ -11372,10 +11372,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "1★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "media-asset-orchestration",
@@ -12175,10 +12175,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "1★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "multi-node-orchestration",
@@ -12687,10 +12687,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 1,
-      "rankWord": "Awakened",
+      "rank": 2,
+      "rankWord": "Named",
       "medallion": "◇",
-      "namedMaxLevel": "1★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "ontology-alignment",
@@ -14456,11 +14456,15 @@
           -0.0006404567786459075
         ]
       },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "project-management",
@@ -18685,7 +18689,12 @@
           0.23538548255586425,
           -0.3971034989134465
         ]
-      }
+      },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "namedMaxLevel": "3★"
     },
     {
       "id": "skill-discovery",
