@@ -81,7 +81,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ garrytan/functional-area-resolver  [2★]
   ├─ ✓ · garrytan/design-consultation  [3★]
-  │  ├─ · · ████████/browse
+  │  ├─ · · firecrawl/firecrawl-build  [2★]
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  │  └─ · ○ /computer-use
   │  └─ · ○ /parse-html
@@ -91,27 +91,27 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ ○ garrytan/design-html  [3★]  (↑ see above)
   ├─ ✓ · obra/systematic-debugging  [3★]
   │  ├─ · ○ /hypothesis-generate
-  │  └─ · ○ /error-interpretation
+  │  └─ · ○ garrytan/correction-pipeline  [2★]
   ├─ ✓ · garrytan/qa  [3★]
-  │  ├─ · · ████████/browse  (↑ see above)
-  │  └─ ✓ · garrytan/health  [2★]
+  │  ├─ · · firecrawl/firecrawl-build  [2★]  (↑ see above)
+  │  └─ ✓ · garrytan/smoke-test  [2★]
   │     ├─ · ○ upsonic/unittest-generator  [2★]
   │     ├─ · ○ /code-execution
-  │     └─ · ○ /error-interpretation  (↑ see above)
+  │     └─ · ○ garrytan/correction-pipeline  [2★]  (↑ see above)
   ├─ ✓ · addy-osmani/shipping-and-launch  [3★]
   │  ├─ ✓ · garrytan/plan-eng-review  [3★]  (↑ see above)
   │  └─ · ○ /diff-content  (↑ see above)
   ├─ ✓ · garrytan/land-and-deploy  [3★]
-  │  ├─ · · ████████/github-workflow-automation
+  │  ├─ · · garrytan/cron-scheduler  [2★]
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
   │  │  ├─ · ○ /tool-use
   │  │  └─ · ○ ████████/hf-cli
   │  └─ · ○ /code-execution  (↑ see above)
   ├─ ✓ · garrytan/canary  [3★]
   │  ├─ ✓ ○ garrytan/benchmark  [3★]  (↑ see above)
-  │  └─ · ○ /error-interpretation  (↑ see above)
+  │  └─ · ○ garrytan/correction-pipeline  [2★]  (↑ see above)
   ├─ ✓ ○ mattpocock/edit-article  [3★]
-  ├─ · · ████████/browse  (↑ see above)
+  ├─ · · firecrawl/firecrawl-build  [2★]  (↑ see above)
   ├─ ✓ · garrytan/cso  [3★]
   │  ├─ ✓ · garrytan/plan-eng-review  [3★]  (↑ see above)
   │  └─ ✓ ○ garrytan/benchmark  [3★]  (↑ see above)
@@ -135,23 +135,23 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  └─ · ○ /score-relevance
   │  ├─ · ○ heygen-com/hyperframes-registry  [3★]
   │  └─ · ○ /statistical-analysis
-  ├─ ✓ · garrytan/health  [2★]  (↑ see above)
-  ├─ ✓ ○ garrytan/pair-agent  [2★]
+  ├─ ✓ · garrytan/smoke-test  [2★]  (↑ see above)
+  ├─ ✓ ○ garrytan/chat-connectors  [2★]
   ├─ ✓ · garrytan/learn  [2★]
   │  ├─ ✓ ○ garrytan/context-audit  [2★]
-  │  └─ · ○ /retrieve
+  │  └─ · ○ arcmira/find-quotes  [2★]
   ├─ ✓ · garrytan/careful  [3★]
   │  ├─ ✓ ○ garrytan/benchmark  [3★]  (↑ see above)
   │  ├─ · ○ /classify
   │  └─ · ○ /structured-output  (↑ see above)
   ├─ ✓ · garrytan/brain-ops  [3★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
-  │  └─ · ○ /retrieve  (↑ see above)
+  │  └─ · ○ arcmira/find-quotes  [2★]  (↑ see above)
   ├─ ✓ ○ ayghri/i-have-adhd  [4★]
-  ├─ ✓ · garrytan/gstack-upgrade  [2★]
+  ├─ ✓ · garrytan/daily-task-prep  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ ✓ ○ mattpocock/edit-article  [3★]  (↑ see above)
-  ├─ ✓ · yylo-dev/ledger-tasks-yylo  [2★]
+  ├─ ✓ · garrytan/daily-task-manager  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]
   └─ ✓ · garrytan/skill-optimizer  [2★]
@@ -167,7 +167,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · · mattpocock/diagnose  [3★]
   │  │  ├─ ✓ ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /code-execution
-  │  │  └─ · ○ /error-interpretation
+  │  │  └─ · ○ garrytan/correction-pipeline  [2★]
   │  ├─ · ○ ████████/zoom-out
   │  ├─ · ○ mattpocock/domain-modeling  [2★]  (↑ see above)
   │  ├─ · · mattpocock/grill-with-docs  [3★]
@@ -202,7 +202,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · · garrytan/data-research  [2★]
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  │  ├─ · ○ /summarize
-  │  │  └─ · ○ /cite-sources
+  │  │  └─ · ○ garrytan/citation-fixer  [2★]
   │  ├─ · ○ mattpocock/wayfinder  [2★]
   │  └─ · ○ mattpocock/wizard  [2★]
   ├─ · · mattpocock/misc  [4★]
@@ -227,8 +227,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  └─ · ○ /tool-use  (↑ see above)
   │  ├─ ✓ · garrytan/brain-ops  [3★]
   │  │  ├─ · ○ ████████/hf-cli
-  │  │  └─ · ○ /retrieve
-  │  ├─ · ○ mattpocock/to-questionnaire  [2★]
+  │  │  └─ · ○ arcmira/find-quotes  [2★]
+  │  ├─ · ○ garrytan/ask-user  [2★]
   │  └─ · ○ mattpocock/wait-what  [2★]
   └─ · · mattpocock/write-a-skill  [2★]  (↑ see above)
 
@@ -252,29 +252,29 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · ○ ruvnet/agentdb-vector-search  [2★]
   │  │  └─ ✓ · garrytan/learn  [2★]
   │  │     ├─ ✓ ○ garrytan/context-audit  [2★]
-  │  │     └─ · ○ /retrieve
+  │  │     └─ · ○ arcmira/find-quotes  [2★]
   │  ├─ · · ████████/agentdb-learning
   │  │  ├─ · ○ ruvnet/reasoningbank-intelligence  [2★]
   │  │  └─ ✓ · garrytan/learn  [2★]  (↑ see above)
   │  ├─ · ○ ruvnet/agentdb-memory-patterns  [2★]
   │  ├─ · ○ ruvnet/agentdb-optimization  [2★]
   │  └─ · ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
-  ├─ · · mattpocock/resolving-merge-conflicts  [2★]
+  ├─ · · addy-osmani/git-workflow-and-versioning  [2★]
   │  ├─ ✓ · garrytan/plan-eng-review  [3★]
   │  │  ├─ ✓ ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /diff-content
   │  │  └─ ✓ ○ garrytan/benchmark  [3★]
   │  ├─ · ○ ruvnet/github-multi-repo  [2★]
   │  ├─ ✓ · garrytan/land-and-deploy  [3★]
-  │  │  ├─ · · ████████/github-workflow-automation
+  │  │  ├─ · · garrytan/cron-scheduler  [2★]
   │  │  │  ├─ · ○ /plan-decompose  (↑ see above)
   │  │  │  ├─ · ○ /tool-use  (↑ see above)
   │  │  │  └─ · ○ ████████/hf-cli  (↑ see above)
   │  │  └─ · ○ /code-execution
-  │  ├─ ✓ · yylo-dev/ledger-tasks-yylo  [2★]
+  │  ├─ ✓ · garrytan/daily-task-manager  [2★]
   │  │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  │  └─ · ○ mattpocock/triage  [3★]
-  │  └─ · · ████████/github-workflow-automation  (↑ see above)
+  │  └─ · · garrytan/cron-scheduler  [2★]  (↑ see above)
   ├─ · · ruvnet/reasoningbank  [3★]
   │  ├─ · ○ ruvnet/reasoningbank-intelligence  [2★]  (↑ see above)
   │  └─ · · ████████/agentdb-learning  (↑ see above)
@@ -331,7 +331,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ ✓ · garrytan/plan-eng-review  [3★]  (↑ see above)
   ├─ ✓ · obra/systematic-debugging  [3★]
   │  ├─ · ○ /hypothesis-generate
-  │  └─ · ○ /error-interpretation
+  │  └─ · ○ garrytan/correction-pipeline  [2★]
   ├─ · · obra/using-git-worktrees  [4★]
   │  ├─ · ○ /code-execution  (↑ see above)
   │  └─ · ○ /tool-use  (↑ see above)
@@ -364,15 +364,17 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      └─ · ○ /diff-content  (↑ see above)
 
 · ◆ garrytan/gbrain  [4★]
-  ├─ ✓ · garrytan/brain-ops  [3★]
-  │  ├─ · ○ ████████/hf-cli
-  │  └─ · ○ /retrieve
-  ├─ · · mattpocock/obsidian-vault  [3★]
-  │  ├─ · ○ /retrieve  (↑ see above)
-  │  └─ ✓ ○ garrytan/context-audit  [2★]
-  └─ · · garrytan/concept-synthesis  [3★]
-     ├─ ✓ · garrytan/brain-ops  [3★]  (↑ see above)
-     └─ · ○ /logical-inference
+  ├─ · ○ garrytan/publish  [2★]
+  ├─ · · garrytan/concept-synthesis  [3★]
+  │  ├─ ✓ · garrytan/brain-ops  [3★]
+  │  │  ├─ · ○ ████████/hf-cli
+  │  │  └─ · ○ arcmira/find-quotes  [2★]
+  │  └─ · ○ /logical-inference
+  ├─ ✓ · garrytan/brain-ops  [3★]  (↑ see above)
+  ├─ · ○ garrytan/query  [2★]
+  └─ · · mattpocock/obsidian-vault  [3★]
+     ├─ · ○ arcmira/find-quotes  [2★]  (↑ see above)
+     └─ ✓ ○ garrytan/context-audit  [2★]
 
 · ◆ firecrawl/firecrawl-skills  [3★]
   ├─ ✓ · firecrawl/firecrawl-build-scrape  [4★]
@@ -389,7 +391,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 · ◆ ████████/personal
   ├─ ✓ ○ mattpocock/edit-article  [3★]
   └─ · · mattpocock/obsidian-vault  [3★]
-     ├─ · ○ /retrieve
+     ├─ · ○ arcmira/find-quotes  [2★]
      └─ ✓ ○ garrytan/context-audit  [2★]
 
 ══════════════════════════════════════════════════════════════════════
@@ -401,7 +403,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     │  ├─ · · garrytan/data-research  [2★]
     │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
     │  │  ├─ · ○ /summarize
-    │  │  └─ · ○ /cite-sources
+    │  │  └─ · ○ garrytan/citation-fixer  [2★]
     │  ├─ ✓ ○ garrytan/retro  [3★]
     │  └─ · ○ /audience-model
     ├─ · · garrytan/archive-crawler  [2★]
@@ -421,7 +423,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     ├─ · · safishamsi/graphify  [5★]
     │  ├─ · ○ /extract-entities
     │  └─ · ○ /logical-inference
-    ├─ · ○ /retrieve
+    ├─ · ○ arcmira/find-quotes  [2★]
     └─ ✓ ○ garrytan/context-audit  [2★]
   ✓ ◉ ayghri/i-have-adhd  [4★]
   · ◉ obra/subagent-driven-development  [4★]

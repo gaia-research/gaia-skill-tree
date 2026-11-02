@@ -64,7 +64,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  ├─ · mattpocock/diagnose  [3★]
   │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /code-execution
-  │  │  └─ ○ /error-interpretation
+  │  │  └─ ○ garrytan/correction-pipeline  [2★]
   │  ├─ ○ ████████/zoom-out
   │  ├─ ○ mattpocock/domain-modeling  [2★]  (↑ see above)
   │  ├─ · mattpocock/grill-with-docs  [3★]
@@ -83,7 +83,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  ├─ ○ /plan-decompose
   │  └─ ○ garrytan/functional-area-resolver  [2★]
   ├─ · garrytan/design-consultation  [3★]
-  │  ├─ · ████████/browse
+  │  ├─ · firecrawl/firecrawl-build  [2★]
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]
   │  │  └─ ○ /computer-use
 
@@ -94,7 +94,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]
     │  │  ├─ ○ /summarize
 
-(301 skills total — see docs/tree.md)
+(311 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 

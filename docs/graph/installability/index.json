@@ -57,7 +57,7 @@
         "entrypoint": "README.md",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "f45fac585af018fa561526851de6fda398e0cf4377f1d8957c2051460b3a39f0",
+      "currentSkillContentSha256": "0d2eaabce49fa9e8d8ce940b2044022b867ef29144b488037d0f313c9821eb6d",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -203,6 +203,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "addy-osmani/debugging-and-error-recovery": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/debugging-and-error-recovery/SKILL.md",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "ref": "0.6.13",
+        "subpath": "skills/debugging-and-error-recovery",
+        "entrypoint": "skills/debugging-and-error-recovery/SKILL.md",
+        "installSubpath": "skills/debugging-and-error-recovery"
+      },
+      "currentSkillContentSha256": "fce31e4aad7e3b2d1a5df54a1e0e39fb8ab6333a17b11d944a951b98eb656ecf",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "addy-osmani/deprecation-and-migration": {
       "state": "unknown",
       "reason": "not-observed",
@@ -283,6 +303,46 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "addy-osmani/git-workflow-and-versioning": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/git-workflow-and-versioning/SKILL.md",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "ref": "0.6.13",
+        "subpath": "skills/git-workflow-and-versioning",
+        "entrypoint": "skills/git-workflow-and-versioning/SKILL.md",
+        "installSubpath": "skills/git-workflow-and-versioning"
+      },
+      "currentSkillContentSha256": "61f4bec17e113d8ad69198cf1ffd1356c4b0f0aaab85b238f73c64c78ef6422f",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "addy-osmani/idea-refine": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/idea-refine/SKILL.md",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "ref": "0.6.13",
+        "subpath": "skills/idea-refine",
+        "entrypoint": "skills/idea-refine/SKILL.md",
+        "installSubpath": "skills/idea-refine"
+      },
+      "currentSkillContentSha256": "dbf7b84ebade81d255c92132844b28a4684382bf92f16f3f206920344aec9427",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "addy-osmani/incremental-implementation": {
       "state": "unknown",
       "reason": "not-observed",
@@ -298,6 +358,26 @@
         "installSubpath": "skills/incremental-implementation"
       },
       "currentSkillContentSha256": "cda4756b570c191e7397c22c1155847336a8a1df0f461c160981f0b7c04d4f6b",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "addy-osmani/interview-me": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/interview-me/SKILL.md",
+        "owner": "addyosmani",
+        "repo": "agent-skills",
+        "ref": "0.6.13",
+        "subpath": "skills/interview-me",
+        "entrypoint": "skills/interview-me/SKILL.md",
+        "installSubpath": "skills/interview-me"
+      },
+      "currentSkillContentSha256": "b9f57d9bb5a10955d172d309e438dfc9b631c91f976910f50c93c9ab5ec87a55",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -463,6 +543,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "aj-geddes/causal-inference": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/aj-geddes/useful-ai-prompts/blob/main/skills/causal-inference/SKILL.md",
+        "owner": "aj-geddes",
+        "repo": "useful-ai-prompts",
+        "ref": "main",
+        "subpath": "skills/causal-inference",
+        "entrypoint": "skills/causal-inference/SKILL.md",
+        "installSubpath": "skills/causal-inference"
+      },
+      "currentSkillContentSha256": "c0e69f8d3049ad6f94a9fe077f56ad632347ee41432ec9581302843acfe19a05",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "anthropic/pptx": {
       "state": "unknown",
       "reason": "not-observed",
@@ -543,6 +643,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "anthropics/creating-financial-models": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/anthropics/claude-cookbooks/blob/main/skills/custom_skills/creating-financial-models/SKILL.md",
+        "owner": "anthropics",
+        "repo": "claude-cookbooks",
+        "ref": "main",
+        "subpath": "skills/custom_skills/creating-financial-models",
+        "entrypoint": "skills/custom_skills/creating-financial-models/SKILL.md",
+        "installSubpath": "skills/custom_skills/creating-financial-models"
+      },
+      "currentSkillContentSha256": "4eb1eadd0a54881925790f34af0b7a1fc7c47900b111ab43a2e7cfcc946a29e2",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "aplaceforallmystuff/log-to-daily": {
       "state": "unknown",
       "reason": "not-observed",
@@ -558,6 +678,26 @@
         "installSubpath": "skills/log-to-daily"
       },
       "currentSkillContentSha256": "a4efce008224d8a4197da2ba9ea75e4bacfa8082bf39acb0ccce78811dfa5c77",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "arcmira/find-quotes": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/arcmira/mcp/blob/v0.10.6/plugins/arcmira/skills/find-quotes/SKILL.md",
+        "owner": "arcmira",
+        "repo": "mcp",
+        "ref": "v0.10.6",
+        "subpath": "plugins/arcmira/skills/find-quotes",
+        "entrypoint": "plugins/arcmira/skills/find-quotes/SKILL.md",
+        "installSubpath": "plugins/arcmira/skills/find-quotes"
+      },
+      "currentSkillContentSha256": "382ce22e2d5f89e49a80f666d734e21cbdcbf19751ae5bfa1862ab4bd613e2ad",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -683,6 +823,46 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "cathrynlavery/diagram-design": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/cathrynlavery/diagram-design/blob/main/skills/diagram-design/SKILL.md",
+        "owner": "cathrynlavery",
+        "repo": "diagram-design",
+        "ref": "main",
+        "subpath": "skills/diagram-design",
+        "entrypoint": "skills/diagram-design/SKILL.md",
+        "installSubpath": "skills/diagram-design"
+      },
+      "currentSkillContentSha256": "1423ad936b377985bb9127140f304b00690a235cae19bf51eb1121daf6964ef0",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "cis2042/product-design-harness": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/cis2042/ux3-product-design-harness/blob/7f9f724c5e31813d1c35767f9f454fe9a1e96891/skills/product-design-harness/SKILL.md",
+        "owner": "cis2042",
+        "repo": "ux3-product-design-harness",
+        "ref": "7f9f724c5e31813d1c35767f9f454fe9a1e96891",
+        "subpath": "skills/product-design-harness",
+        "entrypoint": "skills/product-design-harness/SKILL.md",
+        "installSubpath": "skills/product-design-harness"
+      },
+      "currentSkillContentSha256": "a001727a3287f02ce6e3b37cba6ee00e72e74bd86c5dff06bac389b5097b06bb",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "citrolabs/ego-browser": {
       "state": "unknown",
       "reason": "not-observed",
@@ -798,6 +978,266 @@
         "installSubpath": "extensions/fusion-harness/prompts"
       },
       "currentSkillContentSha256": "3f618d4ed39edf290133b9f4cb01a4f1a8d64c76dc66cdb5a15841cfd7c7c754",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "dralgorhythm/compliance": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/dralgorhythm/claude-agentic-framework/blob/99eb2c635c67ed35b8613a5a069f027a4d9558f6/.claude/skills/security/compliance/SKILL.md",
+        "owner": "dralgorhythm",
+        "repo": "claude-agentic-framework",
+        "ref": "99eb2c635c67ed35b8613a5a069f027a4d9558f6",
+        "subpath": ".claude/skills/security/compliance",
+        "entrypoint": ".claude/skills/security/compliance/SKILL.md",
+        "installSubpath": ".claude/skills/security/compliance"
+      },
+      "currentSkillContentSha256": "ea31797029d1822552d89eef35106eff1b7c335ffdb849f397d027fd1e7ac1b0",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "emilkowalski/animate": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate/SKILL.md",
+        "owner": "emilkowalski",
+        "repo": "skills",
+        "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+        "subpath": "skills/animate",
+        "entrypoint": "skills/animate/SKILL.md",
+        "installSubpath": "skills/animate"
+      },
+      "currentSkillContentSha256": "b9973fe953fa36722b025a00ae624f43e5de3c67d4c2c7469aadeca8693192cc",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "emilkowalski/animate-expo": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate-expo/SKILL.md",
+        "owner": "emilkowalski",
+        "repo": "skills",
+        "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+        "subpath": "skills/animate-expo",
+        "entrypoint": "skills/animate-expo/SKILL.md",
+        "installSubpath": "skills/animate-expo"
+      },
+      "currentSkillContentSha256": "5c6715994d4ec0e9b67964435ad0028f83c6a947aa98694c2329c0bc7a01dc0f",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "emilkowalski/animation-performance": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animation-performance/SKILL.md",
+        "owner": "emilkowalski",
+        "repo": "skills",
+        "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+        "subpath": "skills/animation-performance",
+        "entrypoint": "skills/animation-performance/SKILL.md",
+        "installSubpath": "skills/animation-performance"
+      },
+      "currentSkillContentSha256": "decf7ad6faca869469122352faa765a235d80ef11c496582afa614d595ad254d",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "emilkowalski/apple-design": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/apple-design/SKILL.md",
+        "owner": "emilkowalski",
+        "repo": "skills",
+        "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+        "subpath": "skills/apple-design",
+        "entrypoint": "skills/apple-design/SKILL.md",
+        "installSubpath": "skills/apple-design"
+      },
+      "currentSkillContentSha256": "54f479d31e9db6fadde274aec3dd2a988b1200aa2ceba320c1c56ddbd7aa080c",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "emilkowalski/break-ui": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/break-ui/SKILL.md",
+        "owner": "emilkowalski",
+        "repo": "skills",
+        "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+        "subpath": "skills/break-ui",
+        "entrypoint": "skills/break-ui/SKILL.md",
+        "installSubpath": "skills/break-ui"
+      },
+      "currentSkillContentSha256": "00772fcf27ea48c927a76c81accc2cb538dd81cf08b62317bd9ce3b0a9406087",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "emilkowalski/emil-design-eng": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/emil-design-eng/SKILL.md",
+        "owner": "emilkowalski",
+        "repo": "skills",
+        "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+        "subpath": "skills/emil-design-eng",
+        "entrypoint": "skills/emil-design-eng/SKILL.md",
+        "installSubpath": "skills/emil-design-eng"
+      },
+      "currentSkillContentSha256": "46596c36b9eba995cc11b16c6d602a230c3853f1d1f0ce913e0ed48307eb079c",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "emilkowalski/find-animation-opportunities": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/find-animation-opportunities/SKILL.md",
+        "owner": "emilkowalski",
+        "repo": "skills",
+        "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+        "subpath": "skills/find-animation-opportunities",
+        "entrypoint": "skills/find-animation-opportunities/SKILL.md",
+        "installSubpath": "skills/find-animation-opportunities"
+      },
+      "currentSkillContentSha256": "da74cdc77765b0c80389f1b273d437505acaf7442b4aafa44f1898a44772f5e0",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "emilkowalski/improve-animations": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/improve-animations/SKILL.md",
+        "owner": "emilkowalski",
+        "repo": "skills",
+        "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+        "subpath": "skills/improve-animations",
+        "entrypoint": "skills/improve-animations/SKILL.md",
+        "installSubpath": "skills/improve-animations"
+      },
+      "currentSkillContentSha256": "5a2396b3a109704f0e599431e9c3266bdc312b2e8b0986634aa0630b06bb6049",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "emilkowalski/mobile-native": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/mobile-native/SKILL.md",
+        "owner": "emilkowalski",
+        "repo": "skills",
+        "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+        "subpath": "skills/mobile-native",
+        "entrypoint": "skills/mobile-native/SKILL.md",
+        "installSubpath": "skills/mobile-native"
+      },
+      "currentSkillContentSha256": "60c0cc66b646a679976fcc907ed7240c8fa81e55f566b920233e1970a5ab772c",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "emilkowalski/prototype": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/prototype/SKILL.md",
+        "owner": "emilkowalski",
+        "repo": "skills",
+        "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+        "subpath": "skills/prototype",
+        "entrypoint": "skills/prototype/SKILL.md",
+        "installSubpath": "skills/prototype"
+      },
+      "currentSkillContentSha256": "c0b79840dad549865d2713c1cf8b8926afe3a7afdf6924f20543aa6f43bd7ff3",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "emilkowalski/review-animations": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/review-animations/SKILL.md",
+        "owner": "emilkowalski",
+        "repo": "skills",
+        "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+        "subpath": "skills/review-animations",
+        "entrypoint": "skills/review-animations/SKILL.md",
+        "installSubpath": "skills/review-animations"
+      },
+      "currentSkillContentSha256": "e84676bb9293bf9b204fd783352bfbfbd6bb618aed58928af56cdb77540e6f99",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "emilkowalski/write-swift": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/write-swift/SKILL.md",
+        "owner": "emilkowalski",
+        "repo": "skills",
+        "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+        "subpath": "skills/write-swift",
+        "entrypoint": "skills/write-swift/SKILL.md",
+        "installSubpath": "skills/write-swift"
+      },
+      "currentSkillContentSha256": "ae97905a0e803697bdb2901e30fe1905fc4c7adaf647d28e75d0a42dff3e4781",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -978,6 +1418,26 @@
         "installSubpath": "CONFERENCE-2026/update-unique-churches"
       },
       "currentSkillContentSha256": "28380514302eba504778508f575bc56516302a12c1159ab1cde716e7d14483d1",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "firecrawl/firecrawl-build": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build/SKILL.md",
+        "owner": "firecrawl",
+        "repo": "skills",
+        "ref": "main",
+        "subpath": "skills/build/firecrawl-build",
+        "entrypoint": "skills/build/firecrawl-build/SKILL.md",
+        "installSubpath": "skills/build/firecrawl-build"
+      },
+      "currentSkillContentSha256": "7cba9031f3c7cef6d89fefc0c0b62e9fecd4c60f4c1628a5975f8e531d180d37",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1235,6 +1695,46 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/article-enrichment": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/article-enrichment/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/article-enrichment",
+        "entrypoint": "skills/article-enrichment/SKILL.md",
+        "installSubpath": "skills/article-enrichment"
+      },
+      "currentSkillContentSha256": "df8eda06a44fe5bd02b5f8dc1c68d27ebdea09f48d84749d997e1853a4b6d4a8",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/ask-user": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/ask-user/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/ask-user",
+        "entrypoint": "skills/ask-user/SKILL.md",
+        "installSubpath": "skills/ask-user"
+      },
+      "currentSkillContentSha256": "93923e26edf6599b2e8fda3fec8704a7b1cee54e5edfc2c9d71d2beaf905343b",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/benchmark": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1315,6 +1815,46 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/brain-ingest-gate": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-ingest-gate/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/brain-ingest-gate",
+        "entrypoint": "skills/brain-ingest-gate/SKILL.md",
+        "installSubpath": "skills/brain-ingest-gate"
+      },
+      "currentSkillContentSha256": "c5b35a3feed4980ea8191b5c7670e12b117da98c5f1cc38a3636d15cbaa4ac85",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/brain-link-discipline": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-link-discipline/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/brain-link-discipline",
+        "entrypoint": "skills/brain-link-discipline/SKILL.md",
+        "installSubpath": "skills/brain-link-discipline"
+      },
+      "currentSkillContentSha256": "20e334b3df8a2e7ca7c33bdb6b89e4809071b41514b891b6ac927a310b84a285",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/brain-ops": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1330,6 +1870,66 @@
         "installSubpath": "skills/brain-ops"
       },
       "currentSkillContentSha256": "c225972cd997e861b6f31f5659257c42accf68a4e7e3b2647394bbbae676faed",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/brain-pdf": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-pdf/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/brain-pdf",
+        "entrypoint": "skills/brain-pdf/SKILL.md",
+        "installSubpath": "skills/brain-pdf"
+      },
+      "currentSkillContentSha256": "64951660f32005f9905b9b8d759e8a9d1fd448d746f29c428e3998ec87138be1",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/brain-taxonomist": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-taxonomist/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/brain-taxonomist",
+        "entrypoint": "skills/brain-taxonomist/SKILL.md",
+        "installSubpath": "skills/brain-taxonomist"
+      },
+      "currentSkillContentSha256": "c6c888c3567ba2ab300699b818fcd01d3662b7517acdd5b59d2a782d6c8148ae",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/briefing": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/briefing/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/briefing",
+        "entrypoint": "skills/briefing/SKILL.md",
+        "installSubpath": "skills/briefing"
+      },
+      "currentSkillContentSha256": "34c56f7d9d5bf315a16630cb4638609bdec48de378efbb52c774fb7c968984ea",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1435,6 +2035,46 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/chat-connectors": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/chat-connectors/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/chat-connectors",
+        "entrypoint": "skills/chat-connectors/SKILL.md",
+        "installSubpath": "skills/chat-connectors"
+      },
+      "currentSkillContentSha256": "f14898d3ee50e5a995ba3941447005bb5f0a066692393ce3a7465622cda9cb55",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/citation-fixer": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/citation-fixer/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/citation-fixer",
+        "entrypoint": "skills/citation-fixer/SKILL.md",
+        "installSubpath": "skills/citation-fixer"
+      },
+      "currentSkillContentSha256": "1358a40cc0f6576b4042bf4c4a13934412fa777eaf4f9ebb07035ededd909c5a",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/citation-graph-ingest": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1470,6 +2110,46 @@
         "installSubpath": "codex"
       },
       "currentSkillContentSha256": "9e7b7934568005b39b6b1c027c21bd7981873d12d2e371417c04cef49846ba3c",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/cold-start": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cold-start/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/cold-start",
+        "entrypoint": "skills/cold-start/SKILL.md",
+        "installSubpath": "skills/cold-start"
+      },
+      "currentSkillContentSha256": "f62673946654beeeabcfb31ed148bd91ec707b913fd4d646a3bfec8151e9a387",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/company-brainify": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/company-brainify/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/company-brainify",
+        "entrypoint": "skills/company-brainify/SKILL.md",
+        "installSubpath": "skills/company-brainify"
+      },
+      "currentSkillContentSha256": "51b81dca793b7201437570257cdd399827eeeddb04eb7748d9008e1534054ac6",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1575,6 +2255,66 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/correction-pipeline": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/correction-pipeline/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/correction-pipeline",
+        "entrypoint": "skills/correction-pipeline/SKILL.md",
+        "installSubpath": "skills/correction-pipeline"
+      },
+      "currentSkillContentSha256": "79d611a4500851e11274f27b0c708aa73d3d74be1c91bc1310894d832d90c9a7",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/cron-scheduler": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cron-scheduler/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/cron-scheduler",
+        "entrypoint": "skills/cron-scheduler/SKILL.md",
+        "installSubpath": "skills/cron-scheduler"
+      },
+      "currentSkillContentSha256": "87cd93f1d5538a71c855e305cc8df042e608ce36b863e3be48fd2340e2b230ca",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/cross-modal-review": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cross-modal-review/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/cross-modal-review",
+        "entrypoint": "skills/cross-modal-review/SKILL.md",
+        "installSubpath": "skills/cross-modal-review"
+      },
+      "currentSkillContentSha256": "df1108b2d665bb2019461a1bd1ba565e562539235d0d78e81e10490d30180712",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/cso": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1595,6 +2335,66 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/daily-task-manager": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/daily-task-manager/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/daily-task-manager",
+        "entrypoint": "skills/daily-task-manager/SKILL.md",
+        "installSubpath": "skills/daily-task-manager"
+      },
+      "currentSkillContentSha256": "9267eb9d003edfeab831974dfa600345ce92d4db204b0d7ee2e6155523757342",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/daily-task-prep": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/daily-task-prep/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/daily-task-prep",
+        "entrypoint": "skills/daily-task-prep/SKILL.md",
+        "installSubpath": "skills/daily-task-prep"
+      },
+      "currentSkillContentSha256": "521439ef65262563f98015f3cae1c49112282360e59de9deb5b80c38546c3a11",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/data-loss-gate": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/data-loss-gate/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/data-loss-gate",
+        "entrypoint": "skills/data-loss-gate/SKILL.md",
+        "installSubpath": "skills/data-loss-gate"
+      },
+      "currentSkillContentSha256": "1150393ce3b5efd6051fc76fa61ba22e1f025fcc1aa02ace6bea5399bd30916a",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/data-research": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1610,6 +2410,26 @@
         "installSubpath": "plugin/skills/data-research"
       },
       "currentSkillContentSha256": "eeb00c4b62dd5b008b82c4844ebc8d0af195737c4adeffe44f38fd1e29cb674f",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/db-repair": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/db-repair/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/db-repair",
+        "entrypoint": "skills/db-repair/SKILL.md",
+        "installSubpath": "skills/db-repair"
+      },
+      "currentSkillContentSha256": "108b63274c0e3df8e19755913b9f6837b5fe6263a2cd5a56272b989aa1d852be",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1775,6 +2595,46 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/eiirp": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/eiirp/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/eiirp",
+        "entrypoint": "skills/eiirp/SKILL.md",
+        "installSubpath": "skills/eiirp"
+      },
+      "currentSkillContentSha256": "deca8f1f5112e3ff6be873f98b51ab87bf22da51280145b052f40f0765c6ce6b",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/enrich": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/enrich/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/enrich",
+        "entrypoint": "skills/enrich/SKILL.md",
+        "installSubpath": "skills/enrich"
+      },
+      "currentSkillContentSha256": "a3bbdaaa37c3f88cb2f271c627b761d5bf2faa9ea5aa9920f46cb45a00b53411",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/fact-check": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1815,6 +2675,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/frontmatter-guard": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/frontmatter-guard/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/frontmatter-guard",
+        "entrypoint": "skills/frontmatter-guard/SKILL.md",
+        "installSubpath": "skills/frontmatter-guard"
+      },
+      "currentSkillContentSha256": "90bbe39a1d5902838fe20e0c07d93c96d702cd6349192b24f4602e0c8ec5b096",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/functional-area-resolver": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1849,7 +2729,7 @@
         "entrypoint": "autoplan/SKILL.md",
         "installSubpath": "autoplan"
       },
-      "currentSkillContentSha256": "67c412e8f6a50c0a1d350defb81bbd688af3aaf26ad689704e928c7ba2c186e9",
+      "currentSkillContentSha256": "1f359bd06c6d29fec869ca53f0c959ac47c2c5d96c3886cc309ee149314fed53",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1869,7 +2749,47 @@
         "entrypoint": "README.md",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "dd59da9fa28f0b586bda4a60a87c7efe8ac7155fbcf4026d041e8a3401d483b4",
+      "currentSkillContentSha256": "75677ee2e69073ae0a97e43bdf312637776a274e399d5e0406164192075d21e5",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/gbrain-upgrade": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/gbrain-upgrade/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/gbrain-upgrade",
+        "entrypoint": "skills/gbrain-upgrade/SKILL.md",
+        "installSubpath": "skills/gbrain-upgrade"
+      },
+      "currentSkillContentSha256": "4ce4d2f37850b57904636198ff7b5995b9eced9bc11fdfb8f868ea1b904eab2b",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/google-loops": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/google-loops/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/google-loops",
+        "entrypoint": "skills/google-loops/SKILL.md",
+        "installSubpath": "skills/google-loops"
+      },
+      "currentSkillContentSha256": "735db61016d4413bd8f80716db79e5ab1f22e2b7323b76085f3b9a3ca48397ec",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1889,7 +2809,7 @@
         "entrypoint": "SKILL.md",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "0e692db8d9843a16182554181043d5d67dfc3352ec0282de88d7481e6b7d069c",
+      "currentSkillContentSha256": "defd78bb88fda1f14e66274aab7a86361550bee540a57337d025bc1990a88694",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -1955,6 +2875,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/idea-ingest": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/idea-ingest/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/idea-ingest",
+        "entrypoint": "skills/idea-ingest/SKILL.md",
+        "installSubpath": "skills/idea-ingest"
+      },
+      "currentSkillContentSha256": "a3ad4617df3fe1f7a19415aa1c7c4b2c2d59cd4823076bf9763676356985f3fc",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/idea-lineage": {
       "state": "unknown",
       "reason": "not-observed",
@@ -1970,6 +2910,26 @@
         "installSubpath": "plugin/skills/idea-lineage"
       },
       "currentSkillContentSha256": "0796d43bd75d1051a13e734f5db6e8f189db9d6b306bb5b76ef6c355010f82f3",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/ingest": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/ingest/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/ingest",
+        "entrypoint": "skills/ingest/SKILL.md",
+        "installSubpath": "skills/ingest"
+      },
+      "currentSkillContentSha256": "879cce5854bc7ee6a898cc75c9d5a445ffc34b837727fb274b213b1e5a4ff817",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2075,6 +3035,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/mcp-access": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/mcp-access/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/mcp-access",
+        "entrypoint": "skills/mcp-access/SKILL.md",
+        "installSubpath": "skills/mcp-access"
+      },
+      "currentSkillContentSha256": "91a6aa583c49a406cfdf494a5114978aed319addd87065cb1eb08ba1e390f612",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/measure-before-you-fix": {
       "state": "unknown",
       "reason": "not-observed",
@@ -2090,6 +3070,26 @@
         "installSubpath": "plugin/skills/measure-before-you-fix"
       },
       "currentSkillContentSha256": "051ea7946d3113ed04212287c5f987a1cd4cd30737ac8d7cdfdf3fcf80ff0b09",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/media-ingest": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/media-ingest/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/media-ingest",
+        "entrypoint": "skills/media-ingest/SKILL.md",
+        "installSubpath": "skills/media-ingest"
+      },
+      "currentSkillContentSha256": "8d1a176342a0179beb7f2b912365b7867f794b06ede090c62d244a6973da61d1",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2195,6 +3195,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/perplexity-research": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/perplexity-research/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/perplexity-research",
+        "entrypoint": "skills/perplexity-research/SKILL.md",
+        "installSubpath": "skills/perplexity-research"
+      },
+      "currentSkillContentSha256": "fda046e91a624b2bc63e8dc49a5cb4eadb2214d5d7a5a0e2939fc5692991ccef",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/plan-ceo-review": {
       "state": "unknown",
       "reason": "not-observed",
@@ -2295,6 +3315,46 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/postgres-adopt": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/postgres-adopt/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/postgres-adopt",
+        "entrypoint": "skills/postgres-adopt/SKILL.md",
+        "installSubpath": "skills/postgres-adopt"
+      },
+      "currentSkillContentSha256": "6affc06f844e77d0594125b81c9dba35507fe43d56f9b6172d36d67b7af2b0c1",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/publish": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/publish/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/publish",
+        "entrypoint": "skills/publish/SKILL.md",
+        "installSubpath": "skills/publish"
+      },
+      "currentSkillContentSha256": "7e94f4d87f7fd231c40e488931a26dd9292581be071a97d8616192d938fb178d",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/qa": {
       "state": "unknown",
       "reason": "not-observed",
@@ -2335,6 +3395,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/query": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/query/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/query",
+        "entrypoint": "skills/query/SKILL.md",
+        "installSubpath": "skills/query"
+      },
+      "currentSkillContentSha256": "30ae61bc108cc3f7903d59748a1101b7a1ae1e8d7639ec083bd70c8709d31f62",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/remote-mcp": {
       "state": "unknown",
       "reason": "not-observed",
@@ -2355,6 +3435,46 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/repo-architecture": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/repo-architecture/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/repo-architecture",
+        "entrypoint": "skills/repo-architecture/SKILL.md",
+        "installSubpath": "skills/repo-architecture"
+      },
+      "currentSkillContentSha256": "3a3beed0e38910b4feb98b0bea863c9667d3d6a7a675c5827d0eaf9204329cee",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/reports": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/reports/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/reports",
+        "entrypoint": "skills/reports/SKILL.md",
+        "installSubpath": "skills/reports"
+      },
+      "currentSkillContentSha256": "2b87b518304b95e9993a9a08acdcb99ab7aa0e373ab29c66fa608a6ea9661c14",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/research-compendium": {
       "state": "unknown",
       "reason": "not-observed",
@@ -2370,6 +3490,26 @@
         "installSubpath": "plugin/skills/research-compendium"
       },
       "currentSkillContentSha256": "26e657c974406b17896ebe374047c3d35ba33d699e91f7a4ced096383b0a4cfb",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/resolve-before-asking": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/resolve-before-asking/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/resolve-before-asking",
+        "entrypoint": "skills/resolve-before-asking/SKILL.md",
+        "installSubpath": "skills/resolve-before-asking"
+      },
+      "currentSkillContentSha256": "2ed080d2d622bf870e61bc71145bcc8cceff5a0bf89cf4919ba7539207e54dd7",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2410,6 +3550,46 @@
         "installSubpath": "review"
       },
       "currentSkillContentSha256": "bf31b6e135a6a783e9addac74d43c682b14fddb86b63242e1cdffae201284159",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/schema-author": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-author/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/schema-author",
+        "entrypoint": "skills/schema-author/SKILL.md",
+        "installSubpath": "skills/schema-author"
+      },
+      "currentSkillContentSha256": "4c9e35642e1074f1ce4e7863bed57116c02c3f9b905ad51d7ea3c73a5a30e8b7",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/schema-unify": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-unify/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/schema-unify",
+        "entrypoint": "skills/schema-unify/SKILL.md",
+        "installSubpath": "skills/schema-unify"
+      },
+      "currentSkillContentSha256": "e295e65bfad05644d3755140b7672dbf750a7c3fd28d5e6bd28f653be654e427",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2555,6 +3735,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/skill-creator": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/skill-creator/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/skill-creator",
+        "entrypoint": "skills/skill-creator/SKILL.md",
+        "installSubpath": "skills/skill-creator"
+      },
+      "currentSkillContentSha256": "e99a0568f22bbdb344b7d486f93620c7aea7659b1c437e5e82ddf45d033f5ee1",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/skill-optimizer": {
       "state": "unknown",
       "reason": "not-observed",
@@ -2590,6 +3790,66 @@
         "installSubpath": "skillify"
       },
       "currentSkillContentSha256": "751f0c8e8b2c178f19f46f27a573c6bfba9d5e1d2fe7ed1a15cd3c3aa0559708",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/skillpack-harvest": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/skillpack-harvest/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/skillpack-harvest",
+        "entrypoint": "skills/skillpack-harvest/SKILL.md",
+        "installSubpath": "skills/skillpack-harvest"
+      },
+      "currentSkillContentSha256": "4b7bbfabc2dca3ec7022894804550f0dca69972e85d143080544498066cc85fd",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/smoke-test": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/smoke-test/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/smoke-test",
+        "entrypoint": "skills/smoke-test/SKILL.md",
+        "installSubpath": "skills/smoke-test"
+      },
+      "currentSkillContentSha256": "d69700b676b9b4f7c9f576e9494322f85ff831eac3873d1439d6acf65afe680e",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/soul-audit": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/soul-audit/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/soul-audit",
+        "entrypoint": "skills/soul-audit/SKILL.md",
+        "installSubpath": "skills/soul-audit"
+      },
+      "currentSkillContentSha256": "9b816e77810a5c90f98636ea3db891f6c1f8242866b9c328fb36aeab9b3de774",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -2635,6 +3895,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "garrytan/testing": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/testing/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/testing",
+        "entrypoint": "skills/testing/SKILL.md",
+        "installSubpath": "skills/testing"
+      },
+      "currentSkillContentSha256": "2684cb7112304d5f53b747d5fc825009fabeb0966426cb8b0eb8d0e416714310",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "garrytan/two-tier-extraction": {
       "state": "unknown",
       "reason": "not-observed",
@@ -2670,6 +3950,46 @@
         "installSubpath": "unfreeze"
       },
       "currentSkillContentSha256": "99bf26dd44b0a3eecc11aaabf6c8f0d178e26c4d70487930a5793d3fd39b11a3",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/voice-note-ingest": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/voice-note-ingest/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/voice-note-ingest",
+        "entrypoint": "skills/voice-note-ingest/SKILL.md",
+        "installSubpath": "skills/voice-note-ingest"
+      },
+      "currentSkillContentSha256": "c8da1681c16a19a054255cd65b5868f39d0d1e3d6a2a6687614543d3e3c59ff2",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "garrytan/webhook-transforms": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/webhook-transforms/SKILL.md",
+        "owner": "garrytan",
+        "repo": "gbrain",
+        "ref": "v0.60.474.0",
+        "subpath": "skills/webhook-transforms",
+        "entrypoint": "skills/webhook-transforms/SKILL.md",
+        "installSubpath": "skills/webhook-transforms"
+      },
+      "currentSkillContentSha256": "e5d55d636cead67980b94e05ce31c1277252d657f545b1b5147f233daa5528ab",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -3641,7 +4961,7 @@
         "entrypoint": "skills/hyperframes/SKILL.md",
         "installSubpath": "skills/hyperframes"
       },
-      "currentSkillContentSha256": "a168a179f52cb98f734998d112282225026080ee2709092d227258b3545aa4b4",
+      "currentSkillContentSha256": "6158e2e728a2e0e3655894c639766e6b81310061620070e68ee705c8b78167f6",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -4267,6 +5587,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "jpoutrin/create-plugin": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/jpoutrin/product-forge/blob/main/plugins/claude-code-dev/skills/create-plugin/SKILL.md",
+        "owner": "jpoutrin",
+        "repo": "product-forge",
+        "ref": "main",
+        "subpath": "plugins/claude-code-dev/skills/create-plugin",
+        "entrypoint": "plugins/claude-code-dev/skills/create-plugin/SKILL.md",
+        "installSubpath": "plugins/claude-code-dev/skills/create-plugin"
+      },
+      "currentSkillContentSha256": "6232cfa33c2026d78e7a98321d85541d56c1b63521d98ccc8629547bdb998662",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "juliusbrussee/caveman": {
       "state": "unknown",
       "reason": "not-observed",
@@ -4482,6 +5822,26 @@
         "installSubpath": "skills/transformers"
       },
       "currentSkillContentSha256": "4fba767d14a9bb70d4d7fe64c70552fbf7b137a9730aafe691319f8bab976420",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "kishorkukreja/inventory-optimization": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/kishorkukreja/awesome-supply-chain/blob/main/skills/inventory-optimization/SKILL.md",
+        "owner": "kishorkukreja",
+        "repo": "awesome-supply-chain",
+        "ref": "main",
+        "subpath": "skills/inventory-optimization",
+        "entrypoint": "skills/inventory-optimization/SKILL.md",
+        "installSubpath": "skills/inventory-optimization"
+      },
+      "currentSkillContentSha256": "b8270c3f1d7d5b5e1c3782a6e8fe51035e0ba9efd892453dd9e1bd68f0f14b60",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -4879,6 +6239,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "majiayu000/edge-model-compression": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/majiayu000/claude-skill-registry-data/blob/main/ai-ml/edge-model-compression/SKILL.md",
+        "owner": "majiayu000",
+        "repo": "claude-skill-registry-data",
+        "ref": "main",
+        "subpath": "ai-ml/edge-model-compression",
+        "entrypoint": "ai-ml/edge-model-compression/SKILL.md",
+        "installSubpath": "ai-ml/edge-model-compression"
+      },
+      "currentSkillContentSha256": "c4de568339972dbf2cb2563c55118fabf26b542afa6760dc8fc4ff6a420db891",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "martin-stepanoski/nielsen-heuristics-audit": {
       "state": "unknown",
       "reason": "not-observed",
@@ -4893,7 +6273,7 @@
         "entrypoint": "skills/nielsen-heuristics-audit/SKILL.md",
         "installSubpath": "skills/nielsen-heuristics-audit"
       },
-      "currentSkillContentSha256": "3c378a6abf1a0ba970d38c6271d3f68e8c91ce82ef424f4e5507ac9aa6c833a3",
+      "currentSkillContentSha256": "521bf58fb4155cd0d86f8eb826a45d8ee7ba35372559ea35aa6528f13bd700aa",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5085,7 +6465,7 @@
         "entrypoint": "skills/productivity/grill-me/SKILL.md",
         "installSubpath": "skills/productivity/grill-me"
       },
-      "currentSkillContentSha256": "e063fb0a994f10801cc2548799ff46863f108ee9d7175aeca1927be25592b113",
+      "currentSkillContentSha256": "d87a7cb043cac2c8c47acddca394916f2a674e2f332e354ed4d36c4367c2c694",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -5401,7 +6781,7 @@
         "entrypoint": "",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "6f4a0286602b33c9b9cecf3b84ce9713b99b55efec026d40cd8cd75608090731",
+      "currentSkillContentSha256": "84f8fed0f1627ea9909e8cee7f7ac3ebab5d5d5220ac085e737a7c6b205a68d8",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6319,6 +7699,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "omer-metin/synthetic-data": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/omer-metin/skills-for-antigravity/blob/main/skills/synthetic-data/SKILL.md",
+        "owner": "omer-metin",
+        "repo": "skills-for-antigravity",
+        "ref": "main",
+        "subpath": "skills/synthetic-data",
+        "entrypoint": "skills/synthetic-data/SKILL.md",
+        "installSubpath": "skills/synthetic-data"
+      },
+      "currentSkillContentSha256": "01a50054a3b0c5eda820df946f534e3937b0a5e5c5f2a35fe104be79cc3a3363",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "oso95/scroll-world": {
       "state": "unknown",
       "reason": "not-observed",
@@ -6561,7 +7961,7 @@
         "entrypoint": "",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "121b15c2f734a3b8edc4b1bf63301a09ce723fa88f6adc81c2a3cda38bc605a7",
+      "currentSkillContentSha256": "aa668eb8b0e42bc3efe4fc3f38674c350aa07137a48d2a31436b2e043b434deb",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6761,7 +8161,7 @@
         "entrypoint": "",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "7631e8fb333f42fa0bbc6abd9938083afe2fb52f18039786e0b0fe43fada63f3",
+      "currentSkillContentSha256": "15ba16c3955181aa1c6523a541e16da676e2538876ef0f94fc2f0b5b3a66f1a5",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6801,7 +8201,7 @@
         "entrypoint": "",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "c645edc9c291741d951d566a03a0492d02fd665fbbff6ba5778ea6aa4c7ad8ed",
+      "currentSkillContentSha256": "ec637b576442a83f59041f0165989b2bc0f565ed9cffea32840b3fe1d8d149d5",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -6961,7 +8361,7 @@
         "entrypoint": "",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "ab8808926de945d6a655c02b892d9f3cfc2d1bb2e7a4e4d8811d4b5caf9b212a",
+      "currentSkillContentSha256": "0ca6d27c5f4a37b9dc2827fdefb90b27c6076598f80fb624a11f116b7573a334",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -7081,7 +8481,7 @@
         "entrypoint": "",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "0c3fa70f42ccba5cc6ce1c7dda8858126fc0ed89558d5a8e4287f9f1000bc51e",
+      "currentSkillContentSha256": "0b73f348ebd934f438eeb7ced13aac2193d38358081076b35d879a3a9dc4680c",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -7141,7 +8541,7 @@
         "entrypoint": "",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "17c903588def3887359a06a0b59a2b555269b3cc04e26317b8876f31a1801f65",
+      "currentSkillContentSha256": "1da7e7ea0bb23aae8c6814b812c13799e508208dcb1630f36874299480a50b1e",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -7161,7 +8561,7 @@
         "entrypoint": "",
         "installSubpath": ""
       },
-      "currentSkillContentSha256": "48a47fbfd10b41686503eb00a85b1c52e11c48dc6c7a379aded81e9369094d8b",
+      "currentSkillContentSha256": "0909d74ed43cb73eba593db8c902c58735c45e42115ca39a4f2cf3e3b3d17a7c",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
@@ -7627,6 +9027,26 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "theqtcompanyrnd/qt-qml-review": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/TheQtCompanyRnD/agent-skills/blob/main/skills/qt-qml-review/SKILL.md",
+        "owner": "TheQtCompanyRnD",
+        "repo": "agent-skills",
+        "ref": "main",
+        "subpath": "skills/qt-qml-review",
+        "entrypoint": "skills/qt-qml-review/SKILL.md",
+        "installSubpath": "skills/qt-qml-review"
+      },
+      "currentSkillContentSha256": "85ffe9571087a5efac5dba167e73162669882da051aea108ef89468207a40dd8",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "trailhq/graft": {
       "state": "unknown",
       "reason": "not-observed",
@@ -7774,6 +9194,46 @@
         "installSubpath": "skills/ledger-tasks-yylo"
       },
       "currentSkillContentSha256": "e02baeab33847ce5b91448ebce9458c5af9b8a20c4498e4ebda1ecd1c8e0ba96",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "yylo-dev/plan-ledger-tasks-yylo": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/yylo-dev/yylo-skills/blob/main/skills/plan-ledger-tasks-yylo/SKILL.md",
+        "owner": "yylo-dev",
+        "repo": "yylo-skills",
+        "ref": "main",
+        "subpath": "skills/plan-ledger-tasks-yylo",
+        "entrypoint": "skills/plan-ledger-tasks-yylo/SKILL.md",
+        "installSubpath": "skills/plan-ledger-tasks-yylo"
+      },
+      "currentSkillContentSha256": "fa0eec171da49a8aec8c1d4815137047f7c5adf2954bd0aa62afdceae398c9f4",
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "zhaoxuya520/reverse-skill": {
+      "state": "unknown",
+      "reason": "not-observed",
+      "observationDigest": null,
+      "observedAt": null,
+      "currentSourceRoute": {
+        "url": "https://github.com/zhaoxuya520/reverse-skill/blob/main/skills/SKILL.md",
+        "owner": "zhaoxuya520",
+        "repo": "reverse-skill",
+        "ref": "main",
+        "subpath": "skills",
+        "entrypoint": "skills/SKILL.md",
+        "installSubpath": "skills"
+      },
+      "currentSkillContentSha256": "906787cd30f9026cf999ff67739a65ac62f3bd507a6f0398938559940638e9ee",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,

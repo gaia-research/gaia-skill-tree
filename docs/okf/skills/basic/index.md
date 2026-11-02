@@ -8,6 +8,7 @@
 * [Audio Mixing](/audio-mixing.md) - Mixing and processing placed audio tracks with level automation, effects, ducking, crossfades, and submix routing.
 * [Auto-Review](/auto-review.md) - Automatically review and gate agent outputs by writing and executing a self-authored acceptance script, combining self-critique with pre-completion verification.
 * [Bioinformatic Sequence Analysis](/bioinformatic-sequence-analysis.md) - Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases.
+* [Brain Publishing](/brain-publishing.md) - Publishes selected knowledge-base content as controlled, shareable pages while preserving access and privacy boundaries.
 * [Brand Guideline Application](/brand-guideline-application.md) - Applies a supplied organization's colors, typography, and visual rules consistently to artifacts.
 * [Browser Control](/browser-control.md) - A foundational skill for interacting directly with the web browser using Chrome DevTools Protocol (CDP).
 * [CI Churn Analysis](/ci-churn-analysis.md) - Measures avoidable CI iteration cost for a pull request by classifying commits as feature work versus fix-the-CI rework, summing CI compute time burned on avoidable push rounds, and surfacing pre-push checks that would have prevented them.
@@ -53,6 +54,7 @@
 * [Generate Text](/generate-text.md) - Produces coherent natural language output given a prompt, instruction, or context window.
 * [Genomic Data Retrieval](/genomic-data-retrieval.md) - Queries and retrieves DNA sequence data, transcription factor binding models, cis-regulatory elements, and genetic annotations from genomic repositories (e.g. Ensembl, GTEx, JASPAR, UniBind, ENCODE, UCSC, dbSNP).
 * [Git Diff Risk Analysis](/git-diff-risk-analysis.md) - Analyzes git diffs for complexity, churn, and risk scores to prioritize review attention and flag dangerous changes.
+* [Google Workspace Automation](/google-workspace-automation.md) - Automates repeatable workflows across Google Workspace services using connected applications and their native data.
 * [Grant Application Processing](/grant-application-processing.md) - Process financial aid, grant, or assistance applications by calculating discounts, assigning discount codes, updating tracker logs, and sending status updates.
 * [Guided Setup Scripting](/guided-setup-scripting.md) - Generate an interactive script that walks a human through steps only they can perform, such as provisioning infrastructure, setting up credentials, or running a one-off migration.
 * [Headless Worker Collect](/headless-worker-collect.md) - Aggregates and formats results from distributed headless workers stored in shared memory with filtering and status reporting.
@@ -64,6 +66,8 @@
 * [Interactive Mechanism Illustration](/interactive-mechanism-illustration.md) - Explains a technical concept by constructing an interactive physical mechanism whose geometry, motion, controls and numeric readouts share a coherent model, and verifies that the rendered explanation behaves consistently across interaction states.
 * [Interactive Presentation Authoring](/interactive-presentation-authoring.md) - Design and implement presentations with structured slides, navigation, and interactive visual content.
 * [Issue Triage](/issue-triage.md) - Classifies incoming issue reports through a structured state machine, assigns triage roles (bug/enhancement, needs-info/ready-for-agent/wontfix), reproduces bugs, requests missing detail, and produces structured resolution briefs for agent or human handoff.
+* [Knowledge Enrichment](/knowledge-enrichment.md) - Enriches existing knowledge records with structured context, relationships, and useful metadata while preserving their source meaning.
+* [Knowledge Query](/knowledge-query.md) - Performs focused lookup and retrieval over a knowledge base, returning directly relevant information without broader synthesis or authoring.
 * [Literature Search](/literature-search.md) - Queries and searches academic literature databases (e.g. PubMed, arXiv, bioRxiv, OpenAlex) to locate papers, retrieve abstracts, resolve citations, and fetch full-text documents.
 * [Logical Inference](/logical-inference.md) - Applies deductive, inductive, or abductive reasoning to derive valid conclusions from premises and structured knowledge.
 * [MCP Integration](/mcp-integration.md) - Connect to and invoke tools exposed by Model Context Protocol (MCP) servers — enumerate available tools, execute calls, and handle responses across any MCP-compatible backend.

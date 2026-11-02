@@ -4,7 +4,7 @@
   "families": [
     {
       "id": "basic",
-      "count": 153,
+      "count": 157,
       "skills": [
         {
           "id": "adaptive-pattern-learning",
@@ -50,6 +50,11 @@
           "id": "bioinformatic-sequence-analysis",
           "name": "Bioinformatic Sequence Analysis",
           "summary": "Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases."
+        },
+        {
+          "id": "brain-publishing",
+          "name": "Brain Publishing",
+          "summary": "Publishes selected knowledge-base content as controlled, shareable pages while preserving access and privacy boundaries."
         },
         {
           "id": "brand-guideline-application",
@@ -277,6 +282,11 @@
           "summary": "Analyzes git diffs for complexity, churn, and risk scores to prioritize review attention and flag dangerous changes."
         },
         {
+          "id": "google-workspace-automation",
+          "name": "Google Workspace Automation",
+          "summary": "Automates repeatable workflows across Google Workspace services using connected applications and their native data."
+        },
+        {
           "id": "gpu-dataframe-acceleration",
           "name": "GPU DataFrame Acceleration",
           "summary": "Migrates and optimizes tabular data-processing workloads for GPU execution while checking supported operations, transfer overhead, hardware limits, numerical precision, and semantic parity with the original CPU workflow."
@@ -340,6 +350,16 @@
           "id": "issue-triage",
           "name": "Issue Triage",
           "summary": "Classifies incoming issue reports through a structured state machine, assigns triage roles (bug/enhancement, needs-info/ready-for-agent/wontfix), reproduces bugs, requests missing detail, and produces structured resolution briefs for agent or human handoff."
+        },
+        {
+          "id": "knowledge-enrichment",
+          "name": "Knowledge Enrichment",
+          "summary": "Enriches existing knowledge records with structured context, relationships, and useful metadata while preserving their source meaning."
+        },
+        {
+          "id": "knowledge-query",
+          "name": "Knowledge Query",
+          "summary": "Performs focused lookup and retrieval over a knowledge base, returning directly relevant information without broader synthesis or authoring."
         },
         {
           "id": "literature-search",

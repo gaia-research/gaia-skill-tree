@@ -292,6 +292,14 @@
       "action": "note",
       "contributor": "mbtiongson1",
       "details": "Founder ruling 2026-10-30 FD-9 (fix evidence, re-probe, no level action). (1) arXiv:2607.03238 citations corrected 500 -> 2 (Semantic Scholar Graph API citationCount=2, retrieved 2026-10-29T16:45:40Z; OpenAlex 0); TM 374.99 -> 280.39 (S), still above the 250 S floor. (2) Witness re-probe t0 2026-10-29T16:40:49Z: https://frontendmastery.com/posts/matt-pocock-claude-code-skills-architecture/ returned HTTP 404 (default and browser User-Agent, redirects followed). Under Yggdrasil IV a 404 is review debt with bounded probes (t0/+24h/+72h), not a demotion; next probes due 2026-10-30T16:40Z and 2026-11-01T16:40Z. Level unchanged at 5★."
+    },
+    {
+      "timestamp": "2026-11-02T22:17:11Z",
+      "action": "upstream_synced",
+      "contributor": "mbtiongson1",
+      "previousValue": "v1.3.1",
+      "newValue": "v1.3.2",
+      "details": "synced from https://github.com/mattpocock/skills/releases/tag/v1.3.2"
     }
   ],
   "links": {

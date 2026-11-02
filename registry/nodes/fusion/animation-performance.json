@@ -1,0 +1,31 @@
+{
+  "id": "animation-performance",
+  "name": "Animation Performance",
+  "type": "fusion",
+  "description": "Diagnoses and improves runtime and rendering performance in interactive animations while preserving intended motion behavior.",
+  "prerequisites": [
+    "performance-tuning",
+    "timeline-animation"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-03",
+  "updatedAt": "2026-11-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:53:31Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Created generic fusion node 'animation-performance' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-11-02T21:53:31Z",
+      "action": "fuse",
+      "contributor": "mbtiongson1",
+      "details": "Set prerequisites via `gaia dev fuse`: performance-tuning, timeline-animation."
+    }
+  ]
+}

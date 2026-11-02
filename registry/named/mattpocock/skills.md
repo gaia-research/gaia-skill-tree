@@ -186,6 +186,12 @@ timeline:
     returned HTTP 404 (default and browser User-Agent, redirects followed). Under
     Yggdrasil IV a 404 is review debt with bounded probes (t0/+24h/+72h), not a demotion;
     next probes due 2026-10-30T16:40Z and 2026-11-01T16:40Z. Level unchanged at 5★.'
+- timestamp: '2026-11-02T22:17:11Z'
+  action: upstream_synced
+  contributor: mbtiongson1
+  previousValue: v1.3.1
+  newValue: v1.3.2
+  details: synced from https://github.com/mattpocock/skills/releases/tag/v1.3.2
 evidence:
 - source: https://arxiv.org/abs/2607.03238
   evaluator: mbtiongson1
@@ -247,11 +253,11 @@ verification:
 trustMagnitudeInputHash: 1d88c4ba03a8b6f444deca6f668ce7e240cd09b0bdba3232d35440748e5ca699
 upstream:
   mode: components
-  releasedAt: '2026-10-04T12:48:18Z'
+  releasedAt: '2026-10-29T10:27:41Z'
   repo: mattpocock/skills
-  sourceUrl: https://github.com/mattpocock/skills/releases/tag/v1.3.1
-  syncedAt: '2026-10-27T21:38:53Z'
-  version: v1.3.1
+  sourceUrl: https://github.com/mattpocock/skills/releases/tag/v1.3.2
+  syncedAt: '2026-11-02T22:17:11Z'
+  version: v1.3.2
 suiteComponents:
 - mattpocock/code-review
 - mattpocock/diagnose
