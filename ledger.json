@@ -1,5 +1,5 @@
 {
- "generation": 269,
+ "generation": 270,
  "lane": {
   "entries": [
    {
@@ -1087,14 +1087,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-8e3c16dd27af753dc068",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-02T02:59:32.361566Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (independent verification by a8800b1c335a33aaf (sonnet, effort medium))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-11-02T02:49:52.200473Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-02T02:59:32.361566Z",
+    "lastVerdict": "reject",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 0,
@@ -15487,6 +15493,13 @@
      "debtId": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
      "emittedAt": "2026-11-02T02:58:04.728451Z",
      "idempotencyKey": "verify:dispatch-8e3c16dd27af753dc068:1",
+     "outcome": {
+      "agentId": "a8800b1c335a33aaf",
+      "effort": "medium",
+      "model": "sonnet",
+      "rationale": "Finding reproduces (not a no-change). Stored 3★/TM 50.0/grade B; engine recompute gives TM 49.99999999999999 -> grade C -> target 2★ because GRADE_B_FLOOR comparison is unrounded. Cause is float noise at the exact B/C boundary after the 2026-11 stargazer refresh; whether to round before grading is a founder/engine (Class C) question. Calibration remains human-gated.",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -15502,7 +15515,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261102T024658Z-f5296156/verify-caf93cdb7373.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-02T02:59:32.361503Z",
+     "status": "done",
      "stepId": "verify:caf93cdb7373:1",
      "type": "agent.verify"
     }
@@ -15518,6 +15532,18 @@
      "model": "haiku",
      "role": "builder",
      "stepId": "build:caf93cdb7373:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "a8800b1c335a33aaf",
+     "at": "2026-11-02T02:59:32.361566Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
+     "effort": "medium",
+     "model": "sonnet",
+     "role": "verifier",
+     "stepId": "verify:caf93cdb7373:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -16114,7 +16140,8 @@
    ],
    "mode": "full",
    "modelIds": [
-    "haiku"
+    "haiku",
+    "sonnet"
    ],
    "mutated": true,
    "nextAction": "perform 1 pending action(s) (agent.verify), record each with `gaia steward full record run-20261102T024658Z-f5296156 <stepId> --input FILE`, then `gaia steward full run --resume run-20261102T024658Z-f5296156`",
@@ -17302,11 +17329,11 @@
      "stepId": "phase:class_b"
     },
     {
-     "at": "2026-11-02T02:58:04.728451Z",
+     "at": "2026-11-02T02:59:32.361503Z",
      "debtId": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
      "idempotencyKey": "verify:dispatch-8e3c16dd27af753dc068:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:caf93cdb7373:1"
     }
    ],
@@ -17317,11 +17344,11 @@
    "tokensOut": 0,
    "trigger": "scheduled",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-02T02:55:41.112905Z"
+   "updatedAt": "2026-11-02T02:59:32.361503Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-02T02:58:33.970337Z",
+ "updatedAt": "2026-11-02T02:59:32.363826Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -17525,22 +17552,25 @@
      "stepId": "build:caf93cdb7373:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "a8800b1c335a33aaf",
+     "at": "2026-11-02T02:59:32.361566Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "sonnet",
+     "role": "verifier",
+     "stepId": "verify:caf93cdb7373:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-integration",
+   "blockedReason": "independent verification by a8800b1c335a33aaf (sonnet, effort medium): rejected - Finding reproduces (not a no-change). Stored 3★/TM 50.0/grade B; engine recompute gives TM 49.99999999999999 -> grade C -> target 2★ because GRADE_B_FLOOR compa",
    "branch": "steward/b/trust-calibration-drift-caf93cdb7373",
-   "build": {
-    "agentId": "a367b02c540933065",
-    "attempt": 1,
-    "diffPath": null,
-    "dispatchId": "dispatch-8e3c16dd27af753dc068",
-    "noChange": true,
-    "proofPath": null,
-    "recordedAt": "2026-11-02T02:55:41.112953Z",
-    "summary": "Reproduced: gsd-build/gsd-discuss-phase stored 3★, TM 50.00 grade C, G7 effective 2★. Proposed human-approved correction (not executed): gaia dev calibrate gsd-build/gsd-discuss-phase 2★. tests/steward/test_sensors.py: 131 passed under python3.13 (lead-run; builder env lacked pytest)."
-   },
+   "build": null,
    "createdAt": "2026-11-02T02:49:52.200473Z",
    "debtId": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
    "dispatchId": "dispatch-8e3c16dd27af753dc068",
@@ -17551,6 +17581,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-8e3c16dd27af753dc068 (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-02T02:59:32.361566Z",
+     "from": "building",
+     "reason": "independent verification by a8800b1c335a33aaf (sonnet, effort medium): rejected - Finding reproduces (not a no-change). Stored 3★/TM 50.0/grade B; engine recompute gives TM 49.99999999999999 -> grade C -> target 2★ because GRADE_B_FLOOR compa",
+     "to": "blocked"
     }
    ],
    "kind": "trust_calibration_drift",
@@ -17560,13 +17596,14 @@
    "routine": "gaia-trust-calibration-steward",
    "runId": "run-20261102T024658Z-f5296156",
    "source": "trust-calibration-drift",
-   "state": "building",
-   "updatedAt": "2026-11-02T02:55:41.112953Z",
+   "state": "blocked",
+   "updatedAt": "2026-11-02T02:59:32.361566Z",
    "verification": {
-    "mode": "no-change",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261102T024658Z-f5296156/verify-caf93cdb7373.prompt.md"
+    "agentId": "a8800b1c335a33aaf",
+    "rationale": "Finding reproduces (not a no-change). Stored 3★/TM 50.0/grade B; engine recompute gives TM 49.99999999999999 -> grade C -> target 2★ because GRADE_B_FLOOR comparison is unrounded. Cause is float noise at the exact B/C boundary after the 2026-11 stargazer refresh; whether to round before grading is a founder/engine (Class C) question. Calibration remains human-gated.",
+    "recordedAt": "2026-11-02T02:59:32.361566Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   },
   "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6": {
