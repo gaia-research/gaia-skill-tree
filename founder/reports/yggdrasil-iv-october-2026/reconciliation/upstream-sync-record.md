@@ -20,9 +20,20 @@ Resolved live via `gh api repos/<repo>/releases/latest` on 2026-10-27T21:3xZ. Ap
 | `ruvnet/ruflo-v3` | v3.41.2 | v3.63.5 | 2026-10-27T19:12:42Z | https://github.com/ruvnet/ruflo/releases/tag/v3.63.5 | components |
 | `ruvnet/ruflo` | v3.41.2 | v3.63.5 | 2026-10-27T19:12:42Z | https://github.com/ruvnet/ruflo/releases/tag/v3.63.5 | components |
 
-## Moved since this sync
+## Final October Cutoff Re-Run (`<= 2026-10-31T23:59:59Z`, PR #2273)
 
-- ruvnet/ruflo published `v3.63.6` (2026-10-27T21:53:35Z) after the sync recorded `v3.63.5`; all seven ruvnet skills therefore lag by one patch. Left for the 2026-10-31 cutoff re-run (not applied here).
+Re-ran `upstream-sync-commands.sh` with `GAIA_SYNC_CUTOFF=2026-10-31T23:59:59Z` on `review/meta/yggiv-l4-october` (`525f3c937`), updating all suites that published new October releases before the cutoff while excluding November releases:
+
+| skill | pre-cutoff tag | final Oct 31 cutoff tag | releasedAt | source URL |
+|---|---|---|---|---|
+| `addy-osmani/agent-skills` | 0.6.13 | **0.6.15** | 2026-10-31T06:40:31Z | https://github.com/addyosmani/agent-skills/releases/tag/0.6.15 |
+| `garrytan/gbrain` | v0.60.474.0 | **v0.60.531.0** | 2026-10-31T22:21:48Z | https://github.com/garrytan/gbrain/releases/tag/v0.60.531.0 |
+| `heygen-com/hyperframes` | v0.8.209 | **v0.8.225** | 2026-10-31T21:24:31Z | https://github.com/heygen-com/hyperframes/releases/tag/v0.8.225 |
+| `mattpocock/skills` | v1.3.1 | **v1.3.2** | 2026-10-29T10:27:41Z | https://github.com/mattpocock/skills/releases/tag/v1.3.2 |
+| `obra/superpowers` | v7.0.1 | **v7.0.1** (unchanged) | 2026-10-21T21:05:11Z | https://github.com/obra/superpowers/releases/tag/v7.0.1 |
+| `ruvnet/agentdb` .. `ruvnet/ruflo` (7 skills) | v3.63.5 | **v3.67.0** | 2026-10-31T22:06:47Z | https://github.com/ruvnet/ruflo/releases/tag/v3.67.0 |
+| `leonxlnx/taste-skill` | v2.1.5 | **v2.1.5** (unchanged) | 2026-10-24T23:44:17Z | https://github.com/Leonxlnx/taste-skill/releases/tag/v2.1.5 |
+| `garrytan/garrytan` & `garrytan/gstack` | v1.91.242.0 | **v1.91.318.0** | 2026-10-29T14:06:50Z | https://github.com/garrytan/gstack/releases/tag/v1.91.318.0 |
 
 ## Note on file diffs
 

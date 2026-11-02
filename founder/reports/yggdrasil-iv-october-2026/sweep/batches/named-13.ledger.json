@@ -1,0 +1,419 @@
+[
+  {
+    "id": "nateherkai/scroll-craft",
+    "kind": "named",
+    "path": "registry/named/nateherkai/scroll-craft.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "pass", "upstream": "n/a", "body": "fail", "classification": "pass"},
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "3★ at TM 87.38 (B); no 4★ gate in play. Blob link resolves (HTTP 200). Rows are typed plausibly: repo-own (B), github-stars-own snapshot (2,890 stars), self-attestation (C). Origin false: sole member of its bucket with no Origin holder, which matches a systemic registry pattern (105 buckets with members and no Origin), so not proposed individually. Body is the unedited template stub 'Add installation instructions here.'",
+    "evidenceRefs": [
+      "registry/named/nateherkai/scroll-craft.md",
+      "https://github.com/nateherkai/scroll-craft/blob/0b816225945e45380397d6a0487efa3c98916858/plugins/nateherk-design/skills/scroll-craft/SKILL.md"
+    ]
+  },
+  {
+    "id": "nextlevelbuilder/ui-ux-pro-max",
+    "kind": "named",
+    "path": "registry/named/nextlevelbuilder/ui-ux-pro-max.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "fail", "upstream": "n/a", "body": "fail", "classification": "pass"},
+    "evidenceRowsReviewed": 5,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "4★ Unique at TM 227.51 (A), gate met; origin true and sole Origin in ux-audit bucket. Row 2 (peer-review, arXiv 2605.03353, 30 TM) is an indirect citation of the skill as a test-corpus item in SkCC, not a review of the skill's quality, so its relevance is weak. Removing or re-typing it leaves TM 197.51 (4★ gate still holds). Body is the template stub. Blob link resolves (200).",
+    "evidenceRefs": [
+      "registry/named/nextlevelbuilder/ui-ux-pro-max.md",
+      "https://arxiv.org/abs/2605.03353",
+      "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/main/.claude/skills/ui-ux-pro-max/SKILL.md"
+    ]
+  },
+  {
+    "id": "nexu-io/open-design",
+    "kind": "named",
+    "path": "registry/named/nexu-io/open-design.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "n/a", "origin": "pass", "evidence": "pass", "upstream": "n/a", "body": "fail", "classification": "pass"},
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ at TM 36 (C); no gate in play. Single repo row is the implementation repo (relevant); legacy type 'repo' is normalized to repo-own by Gaia, so it scores correctly but should be migrated. Body Overview uses unsourced superlatives ('production-grade', 'ensuring ... meet professional aesthetic and accessibility standards'); wording should be reduced to verifiable claims.",
+    "evidenceRefs": [
+      "registry/named/nexu-io/open-design.md",
+      "https://github.com/nexu-io/open-design"
+    ]
+  },
+  {
+    "id": "nousresearch/feed-monitoring",
+    "kind": "named",
+    "path": "registry/named/nousresearch/feed-monitoring.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "n/a", "origin": "pass", "evidence": "fail", "upstream": "n/a", "body": "pass", "classification": "pass"},
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "2★ at TM 36 (C), which rests entirely on one repo row whose URL (hermes-agent research/blogwatcher/SKILL.md) now returns HTTP 404. The earlier liveness pass recorded it as dead. A dead link is review debt, not a demotion under Yggdrasil IV, so no rank action is proposed. Action: re-verify and replace with a live implementation URL, or record the review debt. installable false is consistent with having no links.github.",
+    "evidenceRefs": [
+      "registry/named/nousresearch/feed-monitoring.md",
+      "https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/liveness/evidence-health.json"
+    ]
+  },
+  {
+    "id": "nvidia/accelerated-computing-cudf",
+    "kind": "named",
+    "path": "registry/named/nvidia/accelerated-computing-cudf.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "fail", "upstream": "n/a", "body": "fail", "classification": "pass"},
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "4★ Unique at TM 126.12 (A). The gate passes only because the github-stars-own row (90.12 TM) scores the NVIDIA/skills monorepo's 3,757 stars, a repo of 418 skills (skillCountInRepo 418). Without that row TM is 36 (C) and the 4★ gate fails. Monorepo adoption is weak evidence for this one skill. This is a Class C relevance question, not a demotion from this review. The skill went 2★ to 4★ about two hours after creation. Body is the template stub. Blob link resolves (200).",
+    "evidenceRefs": [
+      "registry/named/nvidia/accelerated-computing-cudf.md",
+      "https://github.com/NVIDIA/skills",
+      "https://github.com/NVIDIA/skills/blob/main/skills/accelerated-computing-cudf/SKILL.md"
+    ]
+  },
+  {
+    "id": "obra/brainstorming",
+    "kind": "named",
+    "path": "registry/named/obra/brainstorming.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "fail", "upstream": "n/a", "body": "pass", "classification": "pass"},
+    "evidenceRowsReviewed": 6,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "4★ Unique at TM 110.15 (A). Gate passes with a 10.15 margin. Row #1773 (peer-review, 30 TM) is a GitHub issue whose row note describes a v6.0.0 regression, a defect report and not a peer review. The agentailor listicle row (peer-review, 15 TM) is also weak. Without #1773 TM is 80.15, below the 4★ gate. Class C re-adjudication required; no demotion from this review. A typeless duplicate YouTube row (same URL as the typed row) carries no type or grade and should be removed. Blob link resolves (200).",
+    "evidenceRefs": [
+      "registry/named/obra/brainstorming.md",
+      "https://github.com/obra/superpowers/issues/1773",
+      "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026"
+    ]
+  },
+  {
+    "id": "obra/dispatching-parallel-agents",
+    "kind": "named",
+    "path": "registry/named/obra/dispatching-parallel-agents.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "fail", "upstream": "n/a", "body": "pass", "classification": "pass"},
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "3★ at TM 50 (B). Component baseline cap of 50 from the superpowers suite applies (META 2.1a), so the figure is consistent. The github-stars-own row is internally inconsistent: the stars field is 293,671 but its notes say '233k', and the timeline says it was graded A at trustNumber 88 while the row grade is B (88 is below the A threshold). Correct the notes and grade via the CLI. No rank effect.",
+    "evidenceRefs": [
+      "registry/named/obra/dispatching-parallel-agents.md",
+      "https://github.com/obra/superpowers"
+    ]
+  },
+  {
+    "id": "obra/executing-plans",
+    "kind": "named",
+    "path": "registry/named/obra/executing-plans.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "fail", "upstream": "n/a", "body": "pass", "classification": "pass"},
+    "evidenceRowsReviewed": 5,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ at TM 95.15 (B), so no rank gate is affected. Row #1804 is typed peer-review, but the URL resolves to upstream pull request #1804 (an external contributor's self-reported micro-test). Its 30 TM should be re-typed or reclassified. The #1574 feature-request row scores 0. A typeless duplicate YouTube row needs removal. Without #1804, TM is 65.15 (B).",
+    "evidenceRefs": [
+      "registry/named/obra/executing-plans.md",
+      "https://github.com/obra/superpowers/issues/1804",
+      "https://github.com/obra/superpowers/pull/1804"
+    ]
+  },
+  {
+    "id": "obra/finishing-a-development-branch",
+    "kind": "named",
+    "path": "registry/named/obra/finishing-a-development-branch.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "pass", "upstream": "n/a", "body": "fail", "classification": "pass"},
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ at TM 36 (C). Origin false is consistent with the bucket, whose current Origin holder is addy-osmani/shipping-and-launch. The body states 'This is the origin implementation for the finishing-a-development-branch skill bucket', which contradicts origin false and must be removed. The timeline says Origin transferred to garrytan/ship, which is also non-Origin in the bucket index, so the transfer history needs reconciling. The two social-signal rows are zero-score discussions (a feature request and a defect report) with no TM effect. Blob link resolves (200).",
+    "evidenceRefs": [
+      "registry/named/obra/finishing-a-development-branch.md",
+      "registry/named-skills.json (bucket finishing-a-development-branch)"
+    ]
+  },
+  {
+    "id": "obra/receiving-code-review",
+    "kind": "named",
+    "path": "registry/named/obra/receiving-code-review.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "n/a", "origin": "pass", "evidence": "pass", "upstream": "n/a", "body": "pass", "classification": "pass"},
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ at TM 36 (C); origin true is the sole Origin in its single-member bucket and is plausible. The social-signal row (issue #701) is a zero-score discussion of a gap in Step 1, which is not supporting evidence but carries no TM weight; kept as context. Body consistent. Repo row is the implementation repo. No change proposed.",
+    "evidenceRefs": [
+      "registry/named/obra/receiving-code-review.md",
+      "https://github.com/obra/superpowers/issues/701"
+    ]
+  },
+  {
+    "id": "obra/requesting-code-review",
+    "kind": "named",
+    "path": "registry/named/obra/requesting-code-review.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "n/a", "origin": "pass", "evidence": "pass", "upstream": "n/a", "body": "pass", "classification": "pass"},
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ at TM 36 (C) after the 2026-06-20 demotion from 3★; no gate in play. Origin true is consistent with the bucket (mattpocock/code-review is 2★ non-Origin). Single repo row is the implementation repo and is relevant. Legacy 'repo' type is normalized by Gaia; systemic cleanup only. Blob link is present and 2★ needs no bar.",
+    "evidenceRefs": [
+      "registry/named/obra/requesting-code-review.md",
+      "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md"
+    ]
+  },
+  {
+    "id": "obra/subagent-driven-development",
+    "kind": "named",
+    "path": "registry/named/obra/subagent-driven-development.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "fail", "upstream": "n/a", "body": "pass", "classification": "pass"},
+    "evidenceRowsReviewed": 8,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "4★ Unique at TM 117.65 (A). Gate passes. Three peer-review rows are upstream pull requests, not peer reviews: #1809 (30 TM), #1804 (15 TM) and #1772 (0 TM). #1804 is an external contributor's self-reported micro-test (treatment 3/3 vs control 0/3), so the row presents a PR claim as a review result. Removing the PR rows gives TM 72.65, below the 4★ gate. Class C adjudication; no demotion from this review. A typeless duplicate YouTube row needs removal. Note: the #1804 URL carries a different claim in the executing-plans and using-git-worktrees rows.",
+    "evidenceRefs": [
+      "registry/named/obra/subagent-driven-development.md",
+      "https://github.com/obra/superpowers/pull/1804",
+      "https://github.com/obra/superpowers/pull/1809",
+      "https://github.com/obra/superpowers/pull/1772"
+    ]
+  },
+  {
+    "id": "obra/superpowers",
+    "kind": "named",
+    "path": "registry/named/obra/superpowers.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "fail", "upstream": "fail", "body": "fail", "classification": "pass"},
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "4★ Extra (suite, TM 221.52 A). 5★ is not claimed and TM is below 250. All 11 suiteComponents resolve and each component's blob link returns 200. Upstream block is stale: synced v6.4.1 on 2026-09-22, but obra/superpowers now has tags v6.4.2, v7.0.0 and v7.0.1 (git ls-remote, 2026-10-28). apexGateStatus caches overallGradeS true and apexPromotionPrSigned true while overallTrustGrade is A, so the cache is stale and needs CLI recalibration. Installation code fences are unbalanced (blocks close with a bash fence), which breaks rendering. Body and notes cite stale 196k+ and 230,818-star figures and the retired divisor concept. Root repo link is acceptable only if the suite exemption is confirmed.",
+    "evidenceRefs": [
+      "registry/named/obra/superpowers.md",
+      "https://github.com/obra/superpowers/releases/tag/v6.4.1",
+      "https://github.com/obra/superpowers"
+    ]
+  },
+  {
+    "id": "obra/systematic-debugging",
+    "kind": "named",
+    "path": "registry/named/obra/systematic-debugging.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "fail", "upstream": "n/a", "body": "fail", "classification": "pass"},
+    "evidenceRowsReviewed": 4,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "3★ at TM 65.15 (B); origin false is consistent with the bucket (garrytan/investigate holds Origin). Body says 'This is the origin implementation for the systematic-debugging skill bucket', which contradicts origin false and the 2026-06-02 timeline transfer. A typeless duplicate YouTube row needs removal. The #1795 social-signal row is a zero-score mention and is weak but harmless. Blob link resolves (200).",
+    "evidenceRefs": [
+      "registry/named/obra/systematic-debugging.md",
+      "registry/named-skills.json (bucket systematic-debugging)"
+    ]
+  },
+  {
+    "id": "obra/test-driven-development",
+    "kind": "named",
+    "path": "registry/named/obra/test-driven-development.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "fail", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "pass", "upstream": "n/a", "body": "fail", "classification": "pass"},
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ with no own evidence rows; TM 9.0 is inherited from the generic pool. No 2★ TM gate applies, though META 2.1a notes the per-named evidence-floor enforcement is still roadmap. Body is the template stub. Frontmatter: title equals the slug, not an RPG title, and the named-skills index records level 1★ while the file says 2★ (index drift to regenerate). Blob link is pinned to tag v6.4.1 and resolves (200).",
+    "evidenceRefs": [
+      "registry/named/obra/test-driven-development.md",
+      "registry/named-skills.json (bucket test-driven-development)",
+      "https://github.com/obra/superpowers/blob/v6.4.1/skills/test-driven-development/SKILL.md"
+    ]
+  },
+  {
+    "id": "obra/using-git-worktrees",
+    "kind": "named",
+    "path": "registry/named/obra/using-git-worktrees.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "fail", "upstream": "n/a", "body": "pass", "classification": "pass"},
+    "evidenceRowsReviewed": 7,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "4★ Unique at TM 117.65 (A). Gate passes, but three of four peer-review rows are upstream pull requests (#1804 30 TM, #1801 15 TM, #1782 0 TM) and #1797 (7.5 TM) is a defect report about undefined variables in Step 1. Removing the PR rows gives TM 72.65, below the 4★ gate. Class C adjudication; no demotion from this review. Timeline has a 2026-07-16 demotion for origin=False and a 2026-07-19 re-rank to 4★ with no origin event, so the approved basis for the current Origin flag is not recorded. A typeless duplicate YouTube row needs removal.",
+    "evidenceRefs": [
+      "registry/named/obra/using-git-worktrees.md",
+      "https://github.com/obra/superpowers/pull/1804",
+      "https://github.com/obra/superpowers/pull/1801",
+      "https://github.com/obra/superpowers/issues/1797"
+    ]
+  },
+  {
+    "id": "obra/verification-before-completion",
+    "kind": "named",
+    "path": "registry/named/obra/verification-before-completion.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "fail", "upstream": "n/a", "body": "pass", "classification": "pass"},
+    "evidenceRowsReviewed": 5,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ at TM 97.81 (B); no gate in play. Row #1755 is typed peer-review but the URL resolves to upstream pull request #1755 (it changes this skill), which is a contribution rather than a review (30 TM). Row #1783 is a feature idea scoring 0. A typeless duplicate YouTube row needs removal. Re-typing #1755 leaves TM at 67.81. Blob link resolves (200).",
+    "evidenceRefs": [
+      "registry/named/obra/verification-before-completion.md",
+      "https://github.com/obra/superpowers/pull/1755"
+    ]
+  },
+  {
+    "id": "obra/writing-plans",
+    "kind": "named",
+    "path": "registry/named/obra/writing-plans.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "fail", "upstream": "n/a", "body": "pass", "classification": "pass"},
+    "evidenceRowsReviewed": 8,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "4★ Unique at TM 110.15 (A). Gate passes with a 10.15 margin. Peer-review rows #1808 (30 TM) and #1746 (15 TM) are upstream pull requests, not peer reviews. Without #1808, TM is 80.15 and the 4★ gate fails. Without both, TM is 65.15. Class C adjudication; no demotion from this review. #1690 is described as a 'Security concern' yet recorded as positive social-signal (0 TM), so counter-signal is being used as support. Timeline: a 2026-07-16 origin=False demotion was followed by a 2026-07-19 re-rank with no origin event. A typeless duplicate YouTube row needs removal.",
+    "evidenceRefs": [
+      "registry/named/obra/writing-plans.md",
+      "https://github.com/obra/superpowers/pull/1808",
+      "https://github.com/obra/superpowers/pull/1746",
+      "https://github.com/obra/superpowers/issues/1690"
+    ]
+  },
+  {
+    "id": "obra/writing-skills",
+    "kind": "named",
+    "path": "registry/named/obra/writing-skills.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "fail", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "pass", "upstream": "n/a", "body": "fail", "classification": "pass"},
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ with no own evidence rows; TM 0.0 (ungraded) since inherited generic rows score 0. No 2★ TM gate applies. Body is the template stub. Frontmatter: title equals the slug, and the named-skills index records level 1★ while the file says 2★ (index drift). Blob link is pinned to tag v6.4.1 and resolves (200).",
+    "evidenceRefs": [
+      "registry/named/obra/writing-skills.md",
+      "registry/named-skills.json (bucket skill-authoring)",
+      "https://github.com/obra/superpowers/blob/v6.4.1/skills/writing-skills/SKILL.md"
+    ]
+  },
+  {
+    "id": "oso95/scroll-world",
+    "kind": "named",
+    "path": "registry/named/oso95/scroll-world.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "fail", "upstream": "n/a", "body": "fail", "classification": "pass"},
+    "evidenceRowsReviewed": 4,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ at TM 60.98 (B). The repo-own row carries stars 5,700 but is not a github-stars-own row, so it scores 0; the entire TM comes from three YouTube social-signal rows. Retyping the stars row would be a Class C change that could move TM, so no rank action is proposed. The 'International adoption' note overclaims from a single 1,463-view tutorial. Body is the template stub. Blob link resolves (200).",
+    "evidenceRefs": [
+      "registry/named/oso95/scroll-world.md",
+      "https://github.com/oso95/scroll-world/blob/main/skills/scroll-world/SKILL.md"
+    ]
+  },
+  {
+    "id": "panniantong/agent-reach",
+    "kind": "named",
+    "path": "registry/named/panniantong/agent-reach.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "fail", "upstream": "n/a", "body": "fail", "classification": "pass"},
+    "evidenceRowsReviewed": 5,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "3★ at TM 53.86 (B). Blob link resolves (200 on github and raw). The Installation body documents the third-party 'agent-reach' tool with no credit to its maker (Panniantong/Agent-Reach) and no upstream link. The self-attestation row (skillsllm) is a third-party directory listing, not a self-attestation; its 61,933-star figure conflicts with the upstream repo (about 104,862 stars live). Timeline: 3★ restored 2026-09-09 while the blob link was corrected only on 2026-10-08, and the restoration basis is not recorded.",
+    "evidenceRefs": [
+      "registry/named/panniantong/agent-reach.md",
+      "https://github.com/Panniantong/Agent-Reach/blob/main/agent_reach/skill/SKILL.md",
+      "https://skillsllm.com/skill/agent-reach"
+    ]
+  },
+  {
+    "id": "pbakaus/impeccable",
+    "kind": "named",
+    "path": "registry/named/pbakaus/impeccable.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "pass", "origin": "pass", "evidence": "fail", "upstream": "n/a", "body": "fail", "classification": "pass"},
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "4★ Unique at TM 171.27 (A); gate passes and 5★ is not met. Origin true is the sole Origin in the design-generation bucket. Timeline records five evidence adds (arXiv 2411.01606, peer-review issues #268 and #183, a YouTube row and a stars row) but the array holds three rows and there are no removal events, so rows appear to have vanished without an audit trail. Stars notes say 38,000 while the field says 73,273. Blob link resolves (200).",
+    "evidenceRefs": [
+      "registry/named/pbakaus/impeccable.md",
+      "https://github.com/pbakaus/impeccable/blob/main/.agents/skills/impeccable/SKILL.md",
+      "https://arxiv.org/abs/2411.01606"
+    ]
+  },
+  {
+    "id": "pexp13/sentiment-analysis",
+    "kind": "named",
+    "path": "registry/named/pexp13/sentiment-analysis.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "pass", "rank": "pass", "starBar": "n/a", "origin": "pass", "evidence": "fail", "upstream": "n/a", "body": "fail", "classification": "pass"},
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Awakened at 1★, so awakened-to-1★ holds. The TM 126.07 (A) is entirely inherited from the generic pool, and the named skill has no own evidence. Its four own rows were removed on 2026-07-04 as 'dead/invalid', yet all four URLs return HTTP 200 now, so the removal basis is not recorded. Timeline: 1★ to 4★ on 2026-07-30 and 4★ back to 1★ on 2026-08-01 with no recorded reason. Body names third-party tools (VADER, cardiffnlp/twitter-roberta, nlptown BERT, SentiWordNet, AFINN) without credit, and states SST-2 minimum macro-F1 values (0.88 and 0.72) with no citation.",
+    "evidenceRefs": [
+      "registry/named/pexp13/sentiment-analysis.md",
+      "https://aclanthology.org/S17-2088/",
+      "https://arxiv.org/abs/2202.03829"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-best-practices",
+    "kind": "named",
+    "path": "registry/named/remotion-dev/remotion-best-practices.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "fail", "rank": "pass", "starBar": "n/a", "origin": "pass", "evidence": "pass", "upstream": "n/a", "body": "fail", "classification": "pass"},
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "1★ suite capstone (TM 0, ungraded). status 'named' at level 1★ conflicts with META 1.1 and 1.3 (1★ is Awakened, not yet named). Description is an auto-generated placeholder ('remotion-dev named skill for remotion-best-practices'). Body is the template stub. All 11 suiteComponents resolve to named files. origin false is correct at 1★, but the timeline's 2026-08-11 'Origin status set to true' has no removal event. The capstone has no link, and its suite exemption assumes linked components, which remotion-captions is not.",
+    "evidenceRefs": [
+      "registry/named/remotion-dev/remotion-best-practices.md",
+      "https://github.com/remotion-dev/skills"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-captions",
+    "kind": "named",
+    "path": "registry/named/remotion-dev/remotion-captions.md",
+    "reviewer": "haiku:named-13",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {"frontmatter": "fail", "rank": "pass", "starBar": "fail", "origin": "pass", "evidence": "pass", "upstream": "n/a", "body": "fail", "classification": "pass"},
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "1★ suite component (TM 0, ungraded). It has no links.github, but the curation rule requires each suite component to carry its own blob link, and the suite exemption depends on it. Verified target: https://github.com/remotion-dev/skills/blob/main/skills/remotion-captions/SKILL.md returns HTTP 200. Frontmatter: status 'named' at 1★ conflicts with META 1.1 and 1.3, and the description is an auto-generated placeholder. Body is the template stub. Timeline shows origin set true on 2026-08-11 with no removal event.",
+    "evidenceRefs": [
+      "registry/named/remotion-dev/remotion-captions.md",
+      "https://github.com/remotion-dev/skills/blob/main/skills/remotion-captions/SKILL.md"
+    ]
+  }
+]

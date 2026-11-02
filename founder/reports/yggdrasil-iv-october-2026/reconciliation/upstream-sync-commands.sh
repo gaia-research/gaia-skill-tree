@@ -36,15 +36,16 @@ ruvnet/github-suite|ruvnet/ruflo|components|0
 ruvnet/reasoningbank|ruvnet/ruflo|components|0
 ruvnet/ruflo-v3|ruvnet/ruflo|components|0
 ruvnet/ruflo|ruvnet/ruflo|components|0
-leonxlnx/taste-skill|Leonxlnx/taste-skill|components|1
-garrytan/garrytan|garrytan/gstack|components|1
-garrytan/gstack|garrytan/gstack|components|1
+leonxlnx/taste-skill|Leonxlnx/taste-skill|components|0
+garrytan/garrytan|garrytan/gstack|components|0
+garrytan/gstack|garrytan/gstack|components|0
 '
 
+CUTOFF="${GAIA_SYNC_CUTOFF:-2026-10-31T23:59:59Z}"
 fail=0
 printf '%s\n' "$ROWS" | while IFS='|' read -r skill repo mode boot; do
   [ -z "$skill" ] && continue
-  info="$(gh api "repos/$repo/releases/latest" --jq '[.tag_name,.published_at,.html_url]|@tsv' 2>/dev/null)"
+  info="$(gh api "repos/$repo/releases?per_page=30" --jq "[.[] | select(.published_at <= \"$CUTOFF\")][0] | select(. != null) | [.tag_name,.published_at,.html_url]|@tsv" 2>/dev/null)"
   if [ -z "$info" ]; then echo "SKIP $skill: no latest release for $repo"; continue; fi
   tag="$(echo "$info" | cut -f1)"; rel="$(echo "$info" | cut -f2)"; url="$(echo "$info" | cut -f3)"
   args=(dev sync-upstream "$skill" --tag "$tag" --source-url "$url" --released-at "$rel" --mode "$mode" --user "$USER_HANDLE")
