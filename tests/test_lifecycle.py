@@ -87,7 +87,7 @@ class TestNamePromotion(unittest.TestCase):
             md_path = os.path.join(registry, "registry", "named", "alice", "new-skill.md")
             content = open(md_path).read()
             self.assertIn("contributor: alice", content)
-            self.assertIn("origin: true", content)
+            self.assertIn("origin: false", content)
             self.assertIn("status: named", content)
 
     def test_update_batch_lifecycle(self):
