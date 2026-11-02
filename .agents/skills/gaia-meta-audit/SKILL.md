@@ -56,7 +56,7 @@ Work through these checks in order. Stop when you have enough candidates to fill
 ### P2 — Attribution and sourcing issues
 - **Wrong `promotedNamedSkillId`**: the generic's promoted pointer doesn't match the best-evidenced named child.
 - **Stale catalog URL**: points at a directory, homepage, or path that has moved.
-- **Stale `origin` mirror**: frontmatter `origin` is a build-written mirror of the derived Origin (`META.md` §4.1); a non-frozen mismatch is fixed by `gaia dev docs`, never by hand.
+- **Derived Origin projection**: current Origin follows `META.md` §4.1 automatically. Historical frontmatter flags are not authoritative and must not be rewritten to match. Compare public projected holders against the rule; regenerate stale projections with `gaia dev docs`.
 
 ### P3 — Registry hygiene
 - **Broad `genericSkillRef` mapping**: implementation skill mapped to a much larger generic when a more specific one exists (e.g. mapped to a broad 0★ generic when a narrower generic is available).

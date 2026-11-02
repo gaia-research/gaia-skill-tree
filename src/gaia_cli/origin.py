@@ -27,9 +27,9 @@ The rule, computed at build time and never stored by hand:
    since tm is a real number."). There is no incumbent rule and no vacancy: a
    bucket with at least one contender always has at least one Origin.
 
-``origin`` in frontmatter is a build-maintained mirror of this result, never an
-input. The build rewrites it (except in frozen files). ``gaia dev update-named
---origin`` refuses: "No more manual. Automatic from now on." (2026-10-30).
+``origin`` in frontmatter is historical, non-authoritative attribution, never
+an input to current standing. Builds derive the public projection without
+rewriting it. ``gaia dev update-named --origin`` refuses manual assignment.
 """
 
 from __future__ import annotations
@@ -73,6 +73,33 @@ def deriveOrigins(buckets: dict[str, list[dict]]) -> dict[str, frozenset[str]]:
 # ---------------------------------------------------------------------------
 # Registry-level derivation (CLI gates, leaderboard, audits)
 # ---------------------------------------------------------------------------
+
+def publicOriginStandings(buckets: dict, awaiting: Iterable[dict] = ()) -> dict[str, list[dict]]:
+    """Publish every derived holder without exposing redacted/awakened identities.
+
+    This consumes a completed named-index projection, not legacy frontmatter.
+    Normal named lists remain classification/redaction-gated. Separate standings
+    make low-star and awakened Origin visible as a redacted fact, not an invented
+    named status, installable skill or rank award.
+    """
+    from gaia_cli.redaction import is_redacted
+
+    result: dict[str, list[dict]] = {}
+    entries = [(ref, entry) for ref, group in buckets.items() for entry in group]
+    entries.extend((entry.get("genericSkillRef"), entry) for entry in awaiting)
+    for ref, entry in sorted(entries, key=lambda pair: (pair[0] or "", pair[1].get("id", ""))):
+        if not ref or not entry.get("origin"):
+            continue
+        status = entry.get("status", "named")
+        redacted = is_redacted(entry.get("level", "")) or status == "awakened"
+        holder = {"origin": True, "level": entry.get("level", ""),
+                  "status": status, "redacted": redacted}
+        if not redacted:
+            holder["id"] = entry["id"]
+            holder["contributor"] = entry.get("contributor") or entry["id"].split("/", 1)[0]
+        result.setdefault(ref, []).append(holder)
+    return result
+
 
 CONTENDER_STATUSES = ("named", "awakened")
 

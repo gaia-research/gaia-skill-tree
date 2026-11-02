@@ -28,7 +28,7 @@ sys.path.insert(0, str(REPO_ROOT))
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
 # Reuse existing logic from inspectTrustMagnitude.
-# Note: inspectTrustMagnitude rewraps sys.stdout for UTF-8 on Windows; we inherit that.
+# Importing the inspector must not replace or close the caller\'s stdout.
 from scripts.inspectTrustMagnitude import (  # noqa: E402
     NAMED_DIR,
     NODES_DIR,
@@ -209,7 +209,13 @@ def main() -> int:
     rows = buildRows()
     summary = buildSummary(rows)
 
+    # Preserve the named-index snapshot\'s redacted standing for holders that
+    # cannot appear as named leaderboard rows (e.g. awakened 1★ Origins).
+    from gaia_cli.origin import publicOriginStandings
+    named_index = json.loads((REPO_ROOT / "registry" / "named-skills.json").read_text(encoding="utf-8"))
+    standings = publicOriginStandings(named_index.get("buckets", {}), named_index.get("awaitingClassification", []))
     payload = {
+        "originStandings": standings,
         "version":     readGaiaVersion(),
         "generatedAt": (evaluation_at_utc or dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")),
         "summary":     summary,
@@ -227,4 +233,6 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     sys.exit(main())

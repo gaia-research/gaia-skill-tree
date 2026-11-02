@@ -650,9 +650,9 @@ def validate_named_skills(graph, named_dir=None, catalog_path=None):
         if not missing and level in _NAMED_VALID_LEVELS:
             buckets[ref].append(fm)
 
-    # No Origin-uniqueness check on frontmatter: Origin is derived at build time
-    # (gaia_cli.origin, highest merit) and tied top contenders all hold it
-    # (founder ruling 2026-10-30). Frontmatter `origin` only mirrors the result.
+    # No Origin-uniqueness check on historical frontmatter: current Origin is
+    # derived at build time (gaia_cli.origin, highest merit), ties share it, and
+    # legacy source flags are not authoritative.
 
     return errors
 

@@ -596,12 +596,12 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
             # (founder ruling 2026-10-30; gaia_cli.frozen). Never recompute them.
             locked = frozenLock(entry) if entry.get("id") in frozen else None
             if locked is not None:
-                entry["trustMagnitude"] = round(locked[0], 2)
+                entry["trustMagnitude"] = locked[0]
                 entry["overallTrustGrade"] = locked[1]
             elif (rehearsal_context_from_env() is None
                     and fm_tm is not None and fm_grade is not None and fm_hash == currentHash):
                 # Trust the frontmatter — propagate to index unchanged.
-                entry["trustMagnitude"] = round(float(fm_tm), 2)
+                entry["trustMagnitude"] = float(fm_tm)
                 entry["overallTrustGrade"] = fm_grade
             else:
                 # Missing frontmatter values — recompute via G7 path, against
@@ -830,8 +830,10 @@ def write_index(buckets, awaiting_classification, by_contributor, output_path, t
         if reviews:
             entry["challengeReviews"] = reviews
 
+    from gaia_cli.origin import publicOriginStandings
     index = {
         "generatedAt": today,
+        "originStandings": publicOriginStandings(buckets, awaiting_classification),
         "buckets": buckets,
         "awaitingClassification": awaiting_classification,
         "byContributor": by_contributor,

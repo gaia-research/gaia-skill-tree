@@ -25,7 +25,7 @@
   },
   "title": "GSD Ship Phase",
   "genericSkillRef": "finishing-a-development-branch",
-  "origin": false,
+  "origin": true,
   "description": "Creates the pull request, runs review, archives the completed phase, and prepares the next iteration.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

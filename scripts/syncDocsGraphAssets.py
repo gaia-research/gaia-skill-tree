@@ -33,12 +33,12 @@ def _regenerate_css_tokens(root: Path) -> None:
 
 
 def _bucket_origins(root: Path) -> dict:
-    """Map generic skill id -> its bucket's single CLI-declared origin entry.
+    """Map generic skill id -> a deterministic representative of derived Origin holders.
 
-    Yggdrasil II ORIGIN RULE (the crux): each bucket in named-skills.json has AT
-    MOST ONE entry flagged ``origin: true`` (declared via the CLI before build).
-    The generic/starless node surfaces THAT entry's already-emitted taxonomy
-    fields (branch/rank/rankWord/medallion/level) — NOT the max-level entry.
+    Current Origin flags are derived upstream from merit, not declared manually.
+    Tied top contenders may share Origin. For the generic node\'s single set of
+    taxonomy display fields, use the first holder in stable champion order;
+    this representative never revokes the other holders\' Origin standing.
 
     Buckets with zero origins are simply absent from the returned map: the
     generic node then gets nothing stamped and stays a plain starless node.

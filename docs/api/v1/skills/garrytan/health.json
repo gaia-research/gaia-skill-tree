@@ -25,7 +25,7 @@
   },
   "title": "Gstack Health — Automated Test Suite Runner",
   "genericSkillRef": "automated-testing",
-  "origin": false,
+  "origin": true,
   "description": "Executes the full automated test suite, collects pass/fail counts and coverage deltas, and surfaces any newly introduced failures with concise root-cause notes.",
   "tags": [
     "automated-testing",

@@ -25,7 +25,7 @@
   },
   "title": "Gstack Upgrade — Workspace Dependency Upgrade",
   "genericSkillRef": "workspace-automation",
-  "origin": false,
+  "origin": true,
   "description": "Scans the workspace for outdated dependencies, runs upgrades within semver-compatible bounds, re-runs tests, and commits a clean dependency bump PR.",
   "tags": [
     "workspace-automation",
