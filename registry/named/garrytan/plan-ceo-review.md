@@ -20,7 +20,7 @@ tags:
 - ceo-review
 - pre-implementation
 createdAt: '2026-05-18'
-updatedAt: '2026-09-04'
+updatedAt: '2026-10-30'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -101,6 +101,11 @@ timeline:
   contributor: unknown
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-10-30T04:58:32Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
@@ -114,7 +119,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:29Z'
-trustMagnitudeInputHash: 4d17ead865582f075b12cb88be6d4e8b705eea042941c3b859d2c6df32e26e7c
+trustMagnitudeInputHash: db1ec0eb3302d8ed6380e59cf08ca18aeabe04ce1aabfbe4c45677bbc360d551
 ---
 
 ## Overview

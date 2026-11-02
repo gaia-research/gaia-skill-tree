@@ -116,69 +116,33 @@ def effectiveGrade(entry: dict) -> str | None:
     return _effective_grade(entry)
 
 
-# Unique-branch grade gates (Yggdrasil II Q3, amended 2026-07-19): 4★ Unique
-# needs A (TM >= 100), 5★ Unique Ultimate needs S (TM >= 250).
+# Unique-branch grade gates: 4★ Unique needs A (TM >= 100), 5★ Unique Ultimate
+# needs S (TM >= 250).
 #
-# Origin is evaluated DIFFERENTLY per gate (the two were conflated before the
-# 2026-07-19 amendment — see YGGDRASIL_II_RATIFICATION_2026-07-07.md Q3):
-#   - 4★ Unique          -> BUCKET-LEVEL origin (META.md §4.1): does the skill
-#                           hold Origin on the generic bucket it DIRECTLY
-#                           implements (`genericSkillRef`)?  No fusion/prereq
-#                           check — Origin is "the most renowned implementation
-#                           in a generic bucket", exactly one per bucket.
-#   - 5★+ Unique Ultimate -> FUSION-STRUCTURE origin: the creator must hold
-#                           Origin on >=1 of the generic parent's
-#                           `prerequisites` (the fusion recipe they built).
+# Origin on the Unique branch (founder ruling 2026-10-30, EPIC #2189): the skill
+# must be the Origin of its own generic bucket, derived automatically as the
+# highest-merit implementation (gaia_cli.origin). That is the ONLY Origin
+# requirement at 4★ and 5★. There is no fusion-prerequisite Origin requirement
+# for Uniques: "Uniques dont need a fusion prerequisite origin at all … thats
+# from suites." The Suite rule (Origin on >=1 suiteComponent at 5★, META §4.2)
+# is separate and unchanged.
 _UNIQUE_GATE_BY_LEVEL = {
     "4★": {"grade": "A", "tmFloor": 100.0},
     "5★": {"grade": "S", "tmFloor": 250.0},
 }
 
 
-def _contributor_holds_origin_in(
-    contributor: str | None,
-    node_ids,
-    named_skill_map: dict | None,
-) -> bool:
-    """True iff ``contributor`` holds Origin status on >=1 of ``node_ids``.
+def _holds_bucket_origin(named: dict, namedSkillMap: dict | None = None, level: str | None = None) -> bool:
+    """True iff ``named`` is (or at ``level`` would be) its bucket's derived Origin.
 
-    Mirrors the Suite-gate origin predicate ("proposer holds Origin on >=1
-    suiteComponent") but points at the fusion structure: a node in ``node_ids``
-    (generic skill ids drawn from the generic parent's ``prerequisites``) counts
-    when the contributor owns a named skill with ``origin: true`` whose
-    ``genericSkillRef`` (or ``targetSkillId``) resolves to that node.
+    Origin is the highest-merit named implementation of the generic bucket
+    (``genericSkillRef``), computed by :func:`gaia_cli.origin.holdsBucketOrigin`.
+    Never read from a stored flag. A skill with no ``genericSkillRef`` has no
+    bucket and cannot hold Origin.
     """
-    if not contributor or not node_ids or not named_skill_map:
-        return False
-    targets = set(node_ids)
-    for entry in named_skill_map.values():
-        if not isinstance(entry, dict):
-            continue
-        if entry.get("contributor") != contributor:
-            continue
-        if entry.get("origin") is not True:
-            continue
-        ref = entry.get("genericSkillRef") or entry.get("targetSkillId")
-        if ref in targets:
-            return True
-    return False
+    from gaia_cli.origin import holdsBucketOrigin
 
-
-def _holds_bucket_origin(named: dict) -> bool:
-    """True iff ``named`` holds BUCKET-LEVEL Origin on its own generic bucket.
-
-    META.md §4.1: "the most renowned implementation IN A GENERIC BUCKET earns
-    Origin … exactly one Origin per bucket." Origin is the curator-granted merit
-    mark stored on the named skill as ``origin: true``; it is authoritative
-    (singular per bucket by construction). This is the origin predicate for the
-    4★ **Unique** gate — it asks only whether THIS skill is the Origin on the
-    generic it directly implements (``genericSkillRef``), with NO reference to
-    the generic's fusion structure / prerequisites (that belongs to the 5★+
-    gate). A skill with no ``genericSkillRef`` cannot hold bucket origin.
-    """
-    if not named.get("genericSkillRef"):
-        return False
-    return named.get("origin") is True
+    return holdsBucketOrigin(named, namedSkillMap, level=level)
 
 
 def checkUniqueBranchGate(
@@ -186,6 +150,7 @@ def checkUniqueBranchGate(
     level: str,
     genericSkillMap: dict | None = None,
     namedSkillMap: dict | None = None,
+    originPool: dict | None = None,
 ) -> dict:
     """Evaluate the Unique-branch promotion gate for a named skill (Yggdrasil II).
 
@@ -198,17 +163,14 @@ def checkUniqueBranchGate(
       - 5★ **Ultimate**: requires Overall Trust Grade S (TM >= 250) and holding Origin
         on >=1 of the ``suiteComponents`` (META.md §4.2).
 
-    Gate for Unique branch (Q3 decision log, amended 2026-07-19):
-      - 4★ **Unique**          = Origin present + TM >= 100 (A-grade)
-      - 5★ **Unique Ultimate** = Origin present + TM >= 250 (S-grade)
+    Gate for the Unique branch (founder ruling 2026-10-30):
+      - 4★ **Unique**          = bucket Origin + TM >= 100 (A-grade)
+      - 5★ **Unique Ultimate** = bucket Origin + TM >= 250 (S-grade)
 
-    ``Origin present`` is evaluated per gate (they were conflated pre-amendment):
-      - **4★ Unique** — BUCKET-LEVEL origin (META.md §4.1): the skill holds
-        Origin on the generic bucket it DIRECTLY implements (``genericSkillRef``).
-        No prerequisite/fusion-structure check at 4★.
-      - **5★ Unique Ultimate** — FUSION-STRUCTURE origin: the contributor holds
-        Origin on >=1 node in the generic parent's ``prerequisites`` (the fusion
-        recipe), NOT in ``suiteComponents``.
+    ``Origin present`` means the skill would be the derived Origin of its own
+    generic bucket at the target level (highest merit: published level, then
+    TM; see :mod:`gaia_cli.origin`). There is no fusion-prerequisite Origin
+    requirement and no star floor on Origin.
 
     ``suiteRef`` membership does NOT disqualify — a world-renowned standalone
     skill that happens to live inside a suite is still Unique. Branch membership
@@ -271,20 +233,12 @@ def checkUniqueBranchGate(
     # Confirm the skill sits on the Unique branch AT the target level.
     branch = computeBranch({**named, "level": level})
 
-    # Origin predicate FORKS by rank (amended 2026-07-19):
-    #   4★  -> bucket-level origin on the skill's own genericSkillRef (§4.1).
-    #   5★+ -> fusion-structure origin on the generic parent's prerequisites.
-    if level == "4★":
-        origin_present = _holds_bucket_origin(named)
-    else:
-        prereqs: list[str] = []
-        if genericSkillMap is not None:
-            generic = genericSkillMap.get(named.get("genericSkillRef"))
-            if generic:
-                prereqs = list(generic.get("prerequisites") or [])
-        origin_present = _contributor_holds_origin_in(
-            named.get("contributor"), prereqs, namedSkillMap
-        )
+    # One Origin predicate at every Unique gate: the skill is its bucket's
+    # derived Origin when placed at the target level.
+    # ``originPool`` adds awakened records (gaia_cli.origin.contenderPool); they
+    # compete for Origin but stay out of the Trust Magnitude map.
+    pool = originPool if originPool is not None else (mergedMap if namedSkillMap else None)
+    origin_present = _holds_bucket_origin(named, pool, level=level)
 
     tm_threshold_met = bool(spec) and tm >= spec["tmFloor"]
     passed = bool(spec) and branch == "unique" and origin_present and tm_threshold_met

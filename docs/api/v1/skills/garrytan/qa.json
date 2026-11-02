@@ -25,7 +25,7 @@
   },
   "title": "Gstack QA",
   "genericSkillRef": "e2e-testing",
-  "origin": false,
+  "origin": true,
   "description": "Browser-driven web application testing that explores pages as a real user, documents bugs with annotated screenshots, fixes issues with atomic commits and re-verification, and produces structured reports with before/after evidence and health scores showing quality improvement.",
   "tags": [
     "qa",
@@ -142,6 +142,12 @@
       "timestamp": "2026-09-04T10:58:44Z",
       "action": "recalibrate_trust_magnitude",
       "contributor": "unknown",
+      "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    },
+    {
+      "timestamp": "2026-10-30T04:58:32Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
       "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],

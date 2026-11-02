@@ -1,0 +1,80 @@
+{
+  "id": "garrytan/schema-author",
+  "name": "schema-author",
+  "contributor": "garrytan",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 50.0,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/garrytan/schema-author.json",
+    "contributor": "/api/v1/contributors/garrytan.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 0.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 0,
+    "transitiveCount": 0,
+    "maxDepth": 0,
+    "nestedSuiteCount": 0
+  },
+  "title": "Schema Author",
+  "genericSkillRef": "schema-design",
+  "origin": true,
+  "description": "Evolve your brain's schema pack. Add page types, propose new ones from corpus scans, backfill page.type on existing pages, audit pack health. Triggers when an agent notices untyped pages, custom domains needing typed entities (researcher, contract, deposition), or wants to see what types the pack declares.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-author/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-03",
+      "type": "github-stars-own",
+      "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag (subject to 50.0 TM suite sibling cap per META §2.1a)",
+      "stars": 31276,
+      "grade": "A"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:54:55Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill garrytan/schema-author"
+    },
+    {
+      "timestamp": "2026-11-02T22:01:16Z",
+      "action": "suite_ref_set",
+      "contributor": "mbtiongson1",
+      "details": "Set suiteRef to garrytan/gbrain"
+    },
+    {
+      "timestamp": "2026-11-02T22:01:20Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-author/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-11-02T22:16:07Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-author/SKILL.md"
+  }
+}

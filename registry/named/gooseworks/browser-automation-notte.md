@@ -20,7 +20,7 @@ tags:
 - scraping
 - notte
 createdAt: '2026-04-30'
-updatedAt: '2026-10-09'
+updatedAt: '2026-10-30'
 timeline:
 - timestamp: '2026-06-02T23:48:17Z'
   action: demote
@@ -48,6 +48,11 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/gooseworks-ai/goose-skills/blob/main/skills/research-tools/capabilities/browser-automation-notte/SKILL.md
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 0.0 -> 0.0, grade ungraded -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -59,7 +64,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: d68400ca6e2dc215d17166caed152ae5c8c1aa922b2a0d105f4da3018d0c3340
+trustMagnitudeInputHash: 2a4de103a125897d09e882caed4ab8453d4a50dfb4d498fe342adccaccbb7ae7
 ---
 
 ## Overview

@@ -230,6 +230,14 @@
       "previousValue": "0.6.10",
       "newValue": "0.6.13",
       "details": "synced from https://github.com/addyosmani/agent-skills/releases/tag/0.6.13"
+    },
+    {
+      "timestamp": "2026-11-02T22:17:01Z",
+      "action": "upstream_synced",
+      "contributor": "mbtiongson1",
+      "previousValue": "0.6.13",
+      "newValue": "0.6.15",
+      "details": "synced from https://github.com/addyosmani/agent-skills/releases/tag/0.6.15"
     }
   ],
   "links": {

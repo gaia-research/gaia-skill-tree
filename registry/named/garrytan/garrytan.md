@@ -84,6 +84,12 @@ timeline:
   previousValue: null
   newValue: v1.91.242.0
   details: first-run baseline
+- timestamp: '2026-11-02T22:17:40Z'
+  action: upstream_synced
+  contributor: mbtiongson1
+  previousValue: v1.91.242.0
+  newValue: v1.91.318.0
+  details: synced from https://github.com/garrytan/gstack/releases/tag/v1.91.318.0
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md
@@ -114,11 +120,11 @@ verification:
 trustMagnitudeInputHash: 3a7efead9add3794494a2924ac358404fa1a174cd5aa4d8ac3b154cf77ff88ac
 upstream:
   mode: components
-  releasedAt: '2026-10-26T12:01:30Z'
+  releasedAt: '2026-10-29T14:06:50Z'
   repo: garrytan/gstack
-  sourceUrl: https://github.com/garrytan/gstack/releases/tag/v1.91.242.0
-  syncedAt: '2026-10-27T21:39:06Z'
-  version: v1.91.242.0
+  sourceUrl: https://github.com/garrytan/gstack/releases/tag/v1.91.318.0
+  syncedAt: '2026-11-02T22:17:40Z'
+  version: v1.91.318.0
 ---
 ## Overview
 

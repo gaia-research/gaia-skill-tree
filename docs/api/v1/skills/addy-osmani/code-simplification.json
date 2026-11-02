@@ -25,7 +25,7 @@
   },
   "title": "Code Simplification",
   "genericSkillRef": "refactor-code",
-  "origin": false,
+  "origin": true,
   "description": "Code simplification workflow identifying opportunities to reduce cognitive complexity.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -191,6 +191,24 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Calibrated level from 5★ to 4★"
+    },
+    {
+      "timestamp": "2026-10-29T16:34:49Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Origin status set to true."
+    },
+    {
+      "timestamp": "2026-10-29T16:34:50Z",
+      "action": "note",
+      "contributor": "mbtiongson1",
+      "details": "Bucket Origin assigned to the unique merit winner of its generic bucket (sole top TM/level member); 4-star Unique gate (checkUniqueBranchGate, bucket-level Origin + TM>=100) now satisfied. Founder ruling 2026-10-30 FD-10 (Assign the four)."
+    },
+    {
+      "timestamp": "2026-10-30T04:58:32Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 190.0 -> 190.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

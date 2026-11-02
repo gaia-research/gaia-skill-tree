@@ -1,0 +1,22 @@
+{
+  "id": "brain-publishing",
+  "name": "Brain Publishing",
+  "type": "basic",
+  "description": "Publishes selected knowledge-base content as controlled, shareable pages while preserving access and privacy boundaries.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-03",
+  "updatedAt": "2026-11-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:53:30Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill brain-publishing"
+    }
+  ]
+}
