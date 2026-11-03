@@ -1,5 +1,9 @@
 # Yggdrasil IV launch campaign — handover (paused 2026-10-28, quota)
 
+> **Closed out 2026-11-03 (EPIC #2189). This handover is now a historical record.** The campaign
+> completed after this pause; see `../../handovers/archive/EPIC2189_CLOSEOUT_2026-11-03.md`. The text
+> below is unchanged evidence of the state at the pause.
+
 **Entry point for the next orchestrator.** Read this, then `CAMPAIGN.md` (rulings, defects,
 landed table), then EPIC #2189. Mission and gates are in #2189; founder rulings in `CAMPAIGN.md`
 §Founder rulings are binding. Lead was Opus 5.5 in Claude Code (macOS); roster Opus/Sonnet/Haiku

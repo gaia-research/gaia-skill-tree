@@ -1,5 +1,12 @@
 # Yggdrasil IV — campaign handovers and receipts
 
+> **Archived 2026-11-03 — EPIC #2189 is closed out. Historical record, not live guidance.**
+> Everything marked "Live" below was live during the campaign and is now history. The live
+> source of truth is `META.md` and `CONTEXT.md`; the close-out record is
+> [`../EPIC2189_CLOSEOUT_2026-11-03.md`](../EPIC2189_CLOSEOUT_2026-11-03.md). The folder moved
+> from `founder/handovers/yggdrasil-iv/` with every basename unchanged, so older citations
+> still resolve by adding `archive/` to the path.
+
 Working documents for the Yggdrasil IV campaign (RFC #2148, aggregate draft PR #2151,
 integration branch `dev/yggdrasil-iv`). They were moved out of `founder/` root so that
 root keeps only durable, governing material; superseded checkpoints stay here as
@@ -9,15 +16,15 @@ history rather than cluttering the top level.
 
 | Order | Document | Role |
 |---|---|---|
-| 0 | [`../../reports/yggdrasil-iv-october-2026/HANDOVER.md`](../../reports/yggdrasil-iv-october-2026/HANDOVER.md) | **Current entry point (EPIC #2189 launch campaign, paused 2026-10-28 on weekly quota).** Ordered next steps, founder decisions, state. |
+| 0 | [`../../reports/yggdrasil-iv-october-2026/HANDOVER.md`](../../../reports/yggdrasil-iv-october-2026/HANDOVER.md) | **Current entry point (EPIC #2189 launch campaign, paused 2026-10-28 on weekly quota).** Ordered next steps, founder decisions, state. |
 | 1 | [`YGGDRASIL_IV_HANDOVER_2026-10-28.md`](YGGDRASIL_IV_HANDOVER_2026-10-28.md) | **Current entry point.** 2026-10-28 resume: integration state, landed PRs, open lanes, decisions pending. |
 | 1b | [`YGGDRASIL_IV_HANDOVER_2026-10-27.md`](YGGDRASIL_IV_HANDOVER_2026-10-27.md) | Binding mission (§1), doctrine (§2) and held gates (§4). Roster-agnostic resume brief: original scope, binding doctrine, verified lane SHAs, open review defects, held human gates, evidence map, ordered next steps. |
 | 2 | [`YGGDRASIL_IV_RESTART_CHECKPOINT_2026-10-27.md`](YGGDRASIL_IV_RESTART_CHECKPOINT_2026-10-27.md) | Live checkpoint/ledger. Its topmost section is authoritative over every older section below it. |
-| 3 | [`../YGGDRASIL_IV_EXECUTION.md`](../../YGGDRASIL_IV_EXECUTION.md) | Campaign charter and engineering execution receipt (kept in `founder/` root). |
-| 4 | [`../YGGDRASIL_IV_RATIFICATION_2026-10-25.md`](../../YGGDRASIL_IV_RATIFICATION_2026-10-25.md) | Governing ratification / authority (kept in `founder/` root). |
+| 3 | [`../YGGDRASIL_IV_EXECUTION.md`](../../../YGGDRASIL_IV_EXECUTION.md) | Campaign charter and engineering execution receipt (kept in `founder/` root). |
+| 4 | [`../YGGDRASIL_IV_RATIFICATION_2026-10-25.md`](../../../YGGDRASIL_IV_RATIFICATION_2026-10-25.md) | Governing ratification / authority (kept in `founder/` root). |
 
 Founder rulings that bind this campaign remain in `founder/` root:
-[`GAIA_FRONTIER_RULING_2026-10-26.md`](../../GAIA_FRONTIER_RULING_2026-10-26.md)
+[`GAIA_FRONTIER_RULING_2026-10-26.md`](../../../GAIA_FRONTIER_RULING_2026-10-26.md)
 (Frontier discovers; Meta evaluates; Steward maintains; Governance decides).
 
 ## Chronology (oldest first)
@@ -40,7 +47,7 @@ match current state.
 
 ## Where the evidence lives
 
-**Committed proof set:** [`founder/reports/yggdrasil-iv-evidence/`](../../reports/yggdrasil-iv-evidence/README.md) —
+**Committed proof set:** [`founder/reports/yggdrasil-iv-evidence/`](../../../reports/yggdrasil-iv-evidence/README.md) —
 byte-identical copies of the campaign's verification evidence (`SHA256SUMS`-manifested)
 with an explicit scope note per directory. Read evidence there first; it survives session
 archives and device loss.

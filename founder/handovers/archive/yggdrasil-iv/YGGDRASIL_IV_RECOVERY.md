@@ -10,7 +10,7 @@ CairoSVG installation and genuine PNG smoke passed in the isolated venv. Parent 
 
 ## Earlier resume pointer — explicit resume / Frontier (2026-10-26)
 
-The founder explicitly resumed the saved campaign and added the [locked Frontier ruling](../../GAIA_FRONTIER_RULING_2026-10-26.md). Read the newest `MEMORY.md` snapshot and refreshed `YGGDRASIL_IV_EXECUTION.md`; the capture below is historical, not a current stop instruction or the latest acceptance ledger. Preserve the pause bundle, original SHAs and interrupted evidence.
+The founder explicitly resumed the saved campaign and added the [locked Frontier ruling](../../../GAIA_FRONTIER_RULING_2026-10-26.md). Read the newest `MEMORY.md` snapshot and refreshed `YGGDRASIL_IV_EXECUTION.md`; the capture below is historical, not a current stop instruction or the latest acceptance ledger. Preserve the pause bundle, original SHAs and interrupted evidence.
 
 - Accepted integration remains `4b73e62814fca16a01bd1e71325e7abb97316c95` (#2156), including domain #2155. Root `dev/yggdrasil-iv-frontier-reconciliation` reconciles saved docs with that integration; no main or aggregate merge.
 - Frontier initial local `6b0b48b68` implements mirrored invocation, separate native lead contract/helper and read-only handoff. Provenance/binding completion is in progress; independent real experiment, fresh harness invocation and final review outstanding. This is not production challenge admission.

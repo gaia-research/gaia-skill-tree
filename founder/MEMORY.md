@@ -2,16 +2,42 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
-> **Resume pointer (campaign handovers live in a folder, not in `founder/` root).**
-> Yggdrasil IV resumed 2026-10-28. Its entry point is
-> [`founder/handovers/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-28.md`](handovers/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-28.md);
-> the folder index with reading order and the supersession chain is
-> [`founder/handovers/yggdrasil-iv/README.md`](handovers/yggdrasil-iv/README.md).
+> **Yggdrasil IV (EPIC #2189) was closed out on 2026-11-03.** Its campaign handovers are
+> archived, historical record only, under
+> [`founder/handovers/archive/yggdrasil-iv/`](handovers/archive/yggdrasil-iv/README.md)
+> (index, reading order and supersession chain). The standalone close-out record is
+> [`EPIC2189_CLOSEOUT_2026-11-03.md`](handovers/archive/EPIC2189_CLOSEOUT_2026-11-03.md).
+> Older snapshots below cite the pre-archive path `founder/handovers/yggdrasil-iv/`; they are
+> kept verbatim, so read that path as `founder/handovers/archive/yggdrasil-iv/`.
 > Root `founder/` keeps only durable governing material — this memory file, the
 > [ratification](YGGDRASIL_IV_RATIFICATION_2026-10-25.md), the
 > [campaign charter](YGGDRASIL_IV_EXECUTION.md), the
 > [Frontier ruling](GAIA_FRONTIER_RULING_2026-10-26.md), and the orchestrator rules.
 > **New pause/resume/recovery documents go in `founder/handovers/<initiative>/`.**
+
+---
+
+## State Snapshot (2026-11-03, EPIC #2189 close-out executed — founder go given, merge via `feat!:` merge commit)
+
+### TLDR
+- Founder go received ("Approved. Make it green, merge, then closeout the epic."). Close-out run with `/epic-close`: archive pass, CHANGELOG `[9.0.0]`, COST entry, release gate. Standalone record: `handovers/archive/EPIC2189_CLOSEOUT_2026-11-03.md`.
+- Campaign handovers moved `founder/handovers/yggdrasil-iv/` → `founder/handovers/archive/yggdrasil-iv/` (10 files, `git mv`, basenames kept). Live-doc links repaired; older snapshots below keep the old path verbatim, read it as `archive/yggdrasil-iv/`.
+- CI went red twice on the integration branch and was fixed, not waived: (1) `gaia dev validate` Transparency Gate, because `mattpocock/personal`'s owner tree still carried a synthetic "reconciled to 1★" demote from the clamp era; repaired with `scripts/trace_timeline.py` (one reconciled `rank_up`). (2) a fast-tier xdist worker crash: `TestFrozenRecordsImmutability` takes 9–20 s and `--timeout=30` hard-kills a worker under CI load; marked `slow` (still runs in `gaia dev test all`).
+- Sprint-own remainders closed in the PR rather than filed: tests for `add_post.py` `{{include}}`/`{{fig}}` (and `{{include}}` confined to its source directory), an Entrypoints section in the PR body. Filed: #2277 (no `gaia dev` verb can correct a frozen record).
+- Release: merge commit is a merge (never squash) with a `feat!:` subject; version expected 8.29.1 → 9.0.0, production channel. Post-merge verification is recorded in the closing comment on EPIC #2189.
+
+### Lessons
+- Run `gaia dev validate` before pushing any change to published levels: the Transparency Gate compares owner trees with the published level, and neither `build_docs.py --check` nor targeted tests exercise it.
+- `.github/workflows/sync-artifacts.yml` downgrades a `feat!:` merge to **minor** if any line of the merge message starts with `feat:` or `feat(scope):`. Keep the merge body free of such lines.
+- A test over ~2 s belongs in the slow tier; the fast tier's 30 s hard timeout turns slowness into a worker crash that reads like a logic failure.
+- `build_docs.py --check` regenerates warn-only noise; `add_post.py` renders without JSON-LD.
+
+### Open questions for the founder
+- Ratification header still says "implementation not yet complete"; update when you judge the lifecycle implemented.
+- `docs/meta/2026-10-YGGDRASIL-IV.FACTS.md` recommends its own removal before the integration merge; it was committed per the handover.
+
+### Token cost
+- This session (`46ee8f58`): $5.95 at 12:20Z (still open; a floor). Details in `handovers/archive/COST.md`.
 
 ---
 

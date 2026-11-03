@@ -7,7 +7,7 @@ hash-compared against them when committed and are listed in
 [`SHA256SUMS`](SHA256SUMS).
 
 Campaign context and resume instructions:
-[`founder/handovers/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-27.md`](../../handovers/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-27.md).
+[`founder/handovers/archive/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-27.md`](../../handovers/archive/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-27.md).
 
 > **These are engineering proofs, not approvals.** Passing tests, green CI, matching
 > hashes and reviewer model agreement do not constitute acceptance, schema adoption,
