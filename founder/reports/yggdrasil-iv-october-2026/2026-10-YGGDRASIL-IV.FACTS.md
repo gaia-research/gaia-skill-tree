@@ -249,6 +249,21 @@ L=origin/dev/yggdrasil-iv-launch:founder/reports/yggdrasil-iv-october-2026
 - Verify: `python3 -c "import json; n=json.load(open('registry/named-skills.json')); print(len(n['byContributor']), sum(map(len,n['byContributor'].values())), sum(map(len,n['buckets'].values())), len(n['awaitingClassification']))"`; then inspect API `totalContributors`, API `totalSkills`, ledger `summary.total`, generated homepage stat markers and about tally.
 - Moves: L4, merge:#2251, merge:#2259, cutoff. All values in this entry are provisional.
 
-## Keep or remove
+## Keep or remove (resolved 2026-11-03)
 
-This file is a pre-merge checklist. Recommendation: **remove it before the integration merge to main** (it duplicates proof-of-work that lives on `dev/yggdrasil-iv-launch` and contains internal commands). The PR body states this.
+This file is a pre-merge checklist that contains internal commands. It sat in `docs/meta/`, which GitHub Pages serves publicly, so merging would have published it. Founder ruling 2026-11-03: move it to `founder/reports/yggdrasil-iv-october-2026/` (proof-of-work, not served) and keep it as the fact-check record for the October report. It was moved from `docs/meta/2026-10-YGGDRASIL-IV.FACTS.md`, replacing the older copy that was already here; the moved file is a superset of that copy (it adds the cross-check addendum and its resolution).
+
+## Cross-check addendum (2026-11-03, baseline 959e6f5da)
+
+- Named skills added since ratification: **75** (73 L4 + `nvidia/accelerated-computing-cudf`, `wheresryan22/anatomy`, both 4★). Generic nodes: 299 -> 311 (12 new + `grill-me` -> `interview-me`).
+- Origin standings: 237 families = 223 with a classified named skill + 14 awakened-only; 28 shared.
+- **Frozen-skill claim in the old draft was wrong for `leonxlnx/output-skill` (TM 50 -> 36, B -> C, shown 3★ -> 2★) and `heygen-com/general-video` (shown 2★ -> 1★ via grade clamp).** Founder ruling 2026-11-03: frozen skills keep stars, evidence and calibration; only computed TM may move. Corrected the same day; see the resolution below. Guarded by `tests/test_frozen_skills.py`.
+- `mattpocock/personal` is also installable:false with no `links.github` and displays 1★ vs stored 3★; not in the October set. It is a suite capstone (`suiteComponents`), which needs no `links.github` of its own, so no link was added. Resolved below.
+
+## Resolution (2026-11-03, frozen-skill correction)
+
+- **Engine.** `clampLevelToGrade(..., frozen=True)` and `publishedLevelNumber(..., frozen=True)` exempt frozen skills from the grade ceiling on the named index, trust ledger, leaderboard, skills API and Origin merit. "Frozen" is `gaia_cli.frozen.frozenIds`, the one definition (23 skills today). Origin standings recomputed before and after: 237 families, 295 holders, no change.
+- **`leonxlnx/output-skill`.** Evidence row and lock restored from commit `777ea33c6`: score 36.0 -> 50.0, grade C -> B, input hash `cde644fe...`, recomputed with the engine. Hand-edited under the founder's explicit 2026-11-03 waiver of the Programmatic-First rule, because `preflightNamedSkillMutable` refuses every `gaia dev` write to a frozen record and no thaw verb exists. Both timeline events cite the waiver. The restored row's URL is dead upstream (skill deleted in v2.1.1); it stays because a frozen record keeps its evidence.
+- **Displayed stars now.** `output-skill` 3★, `general-video` 2★, `personal` 3★, each equal to its stored level. Ledger rows below stored stars: 9 -> 6 (five October additions and `google-deepmind/workflow-skill-creator`).
+- **Older freezes (retroactive strict rule).** The eight August freezes with post-freeze events (`Manavarya09/design-extract` and seven `mattpocock` skills) are net-zero on stars and have no evidence change, so only the computed score moved. Their events are itemized in `PRE_RULING` in `tests/test_frozen_skills.py`, which verifies both directions. No frozen data was changed for them.
+- **Regeneration scope.** Committed: Class S graph, `docs/api/v1` (excluding `trending/`), the three affected profile pages, `docs/tree.md`, `registry/registry.md`, and three skill trees where `personal` is no longer redacted. Not committed: `docs/og/`, `docs/badges/` (including new `general-video` and `personal` assets; badges go through human-reviewed `infra/badge-*` PRs), `docs/api/v1/trending/`, and 37 skill trees that changed only by their generated date.

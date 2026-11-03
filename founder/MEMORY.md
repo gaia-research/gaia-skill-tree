@@ -34,7 +34,7 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ### Open questions for the founder
 - Ratification header still says "implementation not yet complete"; update when you judge the lifecycle implemented.
-- `docs/meta/2026-10-YGGDRASIL-IV.FACTS.md` recommends its own removal before the integration merge; it was committed per the handover.
+- Resolved: `2026-10-YGGDRASIL-IV.FACTS.md` was a pre-merge checklist in the publicly served `docs/meta/`. Moved to `founder/reports/yggdrasil-iv-october-2026/` on founder direction so the merge does not publish it. Older snapshots below cite the old `docs/meta/` path; read it as the founder path.
 
 ### Token cost
 - This session (`46ee8f58`): $5.95 at 12:20Z (still open; a floor). Details in `handovers/archive/COST.md`.
