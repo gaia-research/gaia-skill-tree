@@ -206,6 +206,7 @@ class TestApprovalsSchemaAndRulings:
         assert h2263.get("issue") == 2263
 
 
+@pytest.mark.slow
 class TestCandidateApprovalsWiring:
     """Requirement 2 & 3: Candidates receive deterministic approval/status mapping."""
 
@@ -315,6 +316,7 @@ class TestFrozenRecordsImmutability:
                 break
 
 
+@pytest.mark.slow
 class TestTempdirBuildAndCheck:
     """Requirement 3: Verify build_adjudication.py runs and passes byte-check in a tempdir."""
 
