@@ -853,7 +853,7 @@
   ],
   "page": 3,
   "totalPages": 7,
-  "totalSkills": 335,
+  "totalSkills": 337,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

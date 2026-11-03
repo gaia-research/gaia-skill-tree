@@ -7425,6 +7425,34 @@
     ]
   },
   {
+    "id": "leonxlnx/output-skill",
+    "name": "output-skill",
+    "contributor": "leonxlnx",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 50.0,
+    "branch": "standard",
+    "tokens": [
+      "anti",
+      "blocks",
+      "code",
+      "comments",
+      "directive",
+      "execution",
+      "format",
+      "llms",
+      "omitting",
+      "output",
+      "placeholder",
+      "preventing",
+      "sections",
+      "skill",
+      "skipping",
+      "truncation",
+      "using"
+    ]
+  },
+  {
     "id": "leonxlnx/redesign-skill",
     "name": "redesign-skill",
     "contributor": "leonxlnx",
@@ -9339,34 +9367,6 @@
     ]
   },
   {
-    "id": "leonxlnx/output-skill",
-    "name": "output-skill",
-    "contributor": "leonxlnx",
-    "level": "2★",
-    "grade": "C",
-    "trustMagnitude": 36.0,
-    "branch": "standard",
-    "tokens": [
-      "anti",
-      "blocks",
-      "code",
-      "comments",
-      "directive",
-      "execution",
-      "format",
-      "llms",
-      "omitting",
-      "output",
-      "placeholder",
-      "preventing",
-      "sections",
-      "skill",
-      "skipping",
-      "truncation",
-      "using"
-    ]
-  },
-  {
     "id": "mbtiongson1/gaia-audit",
     "name": "Gaia Audit",
     "contributor": "mbtiongson1",
@@ -11002,6 +11002,66 @@
       "walks",
       "when",
       "wizard"
+    ]
+  },
+  {
+    "id": "heygen-com/general-video",
+    "name": "general-video",
+    "contributor": "heygen-com",
+    "level": "2★",
+    "grade": "ungraded",
+    "trustMagnitude": 0.0,
+    "branch": "standard",
+    "tokens": [
+      "author",
+      "brand",
+      "brief",
+      "companion",
+      "composition",
+      "custom",
+      "edit",
+      "fits",
+      "flow",
+      "general",
+      "hyperframes",
+      "longer",
+      "md",
+      "montages",
+      "multi",
+      "no",
+      "pieces",
+      "reels",
+      "scene",
+      "sets",
+      "sizzle",
+      "specialized",
+      "static",
+      "use",
+      "video",
+      "when",
+      "workflow"
+    ]
+  },
+  {
+    "id": "mattpocock/personal",
+    "name": "Personal",
+    "contributor": "mattpocock",
+    "level": "3★",
+    "grade": "ungraded",
+    "trustMagnitude": 0.0,
+    "branch": "suite",
+    "tokens": [
+      "0",
+      "1",
+      "category",
+      "matt",
+      "mattpocock",
+      "personal",
+      "pocock's",
+      "removed",
+      "skills",
+      "suite",
+      "v1"
     ]
   }
 ]

@@ -15,7 +15,7 @@
     },
     {
       "handle": "mattpocock",
-      "namedSkills": 38,
+      "namedSkills": 39,
       "topSkill": {
         "id": "mattpocock/skills",
         "level": "5★",
@@ -80,7 +80,7 @@
     },
     {
       "handle": "heygen-com",
-      "namedSkills": 19,
+      "namedSkills": 20,
       "topSkill": {
         "id": "heygen-com/hyperframes",
         "level": "4★",
@@ -99,7 +99,7 @@
         "level": "4★",
         "trustMagnitude": 174.68
       },
-      "prestigeScore": 802.14,
+      "prestigeScore": 816.14,
       "_links": {
         "self": "/api/v1/contributors/leonxlnx.json"
       }

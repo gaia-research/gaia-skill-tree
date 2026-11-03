@@ -1,6 +1,6 @@
 {
   "$schema": "https://gaiaskilltree.com/schema/graph.schema.json",
-  "generatedAt": "2026-11-02T22:36:10Z",
+  "generatedAt": "2026-11-03T11:53:53Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -76,12 +76,14 @@
       "order": [
         "yggdrasil-i",
         "yggdrasil-ii",
-        "yggdrasil-iii"
+        "yggdrasil-iii",
+        "yggdrasil-iv"
       ],
       "labels": {
         "yggdrasil-i": "Yggdrasil I",
         "yggdrasil-ii": "Yggdrasil II",
-        "yggdrasil-iii": "Yggdrasil III"
+        "yggdrasil-iii": "Yggdrasil III",
+        "yggdrasil-iv": "Yggdrasil IV"
       }
     },
     "clusterNames": {
@@ -13863,10 +13865,10 @@
         ]
       },
       "branch": "suite",
-      "rank": 1,
-      "rankWord": "Awakened",
+      "rank": 3,
+      "rankWord": "Evolved",
       "medallion": "◇",
-      "namedMaxLevel": "1★",
+      "namedMaxLevel": "3★",
       "ultimateGateStatus": {
         "passes": false,
         "reason": "only 0/3 graded evidence sources"

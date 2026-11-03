@@ -703,9 +703,30 @@
         "self": "/api/v1/skills/mattpocock/wizard.json"
       },
       "genericSkillRef": "guided-setup-scripting"
+    },
+    {
+      "id": "mattpocock/personal",
+      "name": "Personal",
+      "level": "3★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": "ungraded",
+      "fusionScore": 120.0,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/personal.json"
+      },
+      "genericSkillRef": "personal",
+      "suiteComponents": [
+        "mattpocock/edit-article",
+        "mattpocock/obsidian-vault"
+      ]
     }
   ],
-  "namedSkillsCount": 38,
+  "namedSkillsCount": 39,
   "topSkill": {
     "id": "mattpocock/skills",
     "level": "5★",
@@ -716,7 +737,8 @@
     "S": 1,
     "A": 3,
     "B": 12,
-    "C": 22
+    "C": 22,
+    "ungraded": 1
   },
   "_links": {
     "self": "/api/v1/contributors/mattpocock.json",

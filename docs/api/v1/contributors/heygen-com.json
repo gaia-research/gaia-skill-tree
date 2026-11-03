@@ -343,9 +343,26 @@
         "self": "/api/v1/skills/heygen-com/talking-head-recut.json"
       },
       "genericSkillRef": "video-composition"
+    },
+    {
+      "id": "heygen-com/general-video",
+      "name": "general-video",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": "ungraded",
+      "fusionScore": 160.0,
+      "contributor": "heygen-com",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/general-video.json"
+      },
+      "genericSkillRef": "video-composition"
     }
   ],
-  "namedSkillsCount": 19,
+  "namedSkillsCount": 20,
   "topSkill": {
     "id": "heygen-com/hyperframes",
     "level": "4★",
@@ -354,7 +371,8 @@
   "prestigeScore": 1071.92,
   "gradeDistribution": {
     "A": 1,
-    "B": 18
+    "B": 18,
+    "ungraded": 1
   },
   "_links": {
     "self": "/api/v1/contributors/heygen-com.json",

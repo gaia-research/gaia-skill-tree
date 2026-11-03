@@ -1,6 +1,23 @@
 {
   "skills": [
     {
+      "id": "bradautomates/watch",
+      "name": "Watch",
+      "level": "2★",
+      "trustMagnitude": 37.47,
+      "overallTrustGrade": "C",
+      "fusionScore": 100.0,
+      "contributor": "bradautomates",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/bradautomates/watch.json"
+      },
+      "genericSkillRef": "video-intelligence"
+    },
+    {
       "id": "yylo-dev/ledger-tasks-yylo",
       "name": "Ledger Tasks (yylo)",
       "level": "2★",
@@ -568,23 +585,6 @@
       "genericSkillRef": "guardrails"
     },
     {
-      "id": "leonxlnx/output-skill",
-      "name": "output-skill",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "fusionScore": 0.0,
-      "contributor": "leonxlnx",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/output-skill.json"
-      },
-      "genericSkillRef": "format-output"
-    },
-    {
       "id": "mbtiongson1/gaia-audit",
       "name": "Gaia Audit",
       "level": "2★",
@@ -859,7 +859,7 @@
   ],
   "page": 6,
   "totalPages": 7,
-  "totalSkills": 335,
+  "totalSkills": 337,
   "_links": {
     "self": "/api/v1/skills/page-6.json",
     "prev": "/api/v1/skills/page-5.json",

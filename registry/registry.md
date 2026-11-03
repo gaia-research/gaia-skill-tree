@@ -154,7 +154,7 @@
 | ○ /parse-json | Basic | — | `/parse-json` |
 | ○ /parse-pdf | Basic | — | `/parse-pdf` |
 | ○ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Basic | 3★ | `/performance-tuning` |
-| · ████████/personal | Fusion | — | `/personal` |
+| · [mattpocock](../docs/u/mattpocock/)/personal | Fusion | 3★ | `/personal` |
 | · [mattpocock](../docs/u/mattpocock/)/obsidian-vault | Fusion | 3★ | `/personal-knowledge-management` |
 | ○ [mattpocock](../docs/u/mattpocock/)/wait-what | Basic | 2★ | `/plain-language-restatement` |
 | · /plan-and-execute | Fusion | — | `/plan-and-execute` |

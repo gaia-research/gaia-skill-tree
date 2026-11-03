@@ -624,11 +624,49 @@
         "self": "/api/v1/skills/mattpocock/wizard.json"
       },
       "genericSkillRef": "guided-setup-scripting"
+    },
+    {
+      "id": "heygen-com/general-video",
+      "name": "general-video",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": "ungraded",
+      "fusionScore": 160.0,
+      "contributor": "heygen-com",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/general-video.json"
+      },
+      "genericSkillRef": "video-composition"
+    },
+    {
+      "id": "mattpocock/personal",
+      "name": "Personal",
+      "level": "3★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": "ungraded",
+      "fusionScore": 120.0,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/personal.json"
+      },
+      "genericSkillRef": "personal",
+      "suiteComponents": [
+        "mattpocock/edit-article",
+        "mattpocock/obsidian-vault"
+      ]
     }
   ],
   "page": 7,
   "totalPages": 7,
-  "totalSkills": 335,
+  "totalSkills": 337,
   "_links": {
     "self": "/api/v1/skills/page-7.json",
     "prev": "/api/v1/skills/page-6.json"

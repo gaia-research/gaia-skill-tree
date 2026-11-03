@@ -6133,7 +6133,7 @@
         "entrypoint": "skills/output-skill/SKILL.md",
         "installSubpath": "skills/output-skill"
       },
-      "currentSkillContentSha256": "6e21b3bbebacf55d2c2aa682a6c963850549bde208875351fc315dc4e1edf215",
+      "currentSkillContentSha256": "1e0124f00b2b316ef2e0f2a6fa196e4b6cdba723e2ad0b1963e8dc73082ac7e8",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,

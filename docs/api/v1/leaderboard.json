@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-11-02T22:18:42Z",
+  "generatedAt": "2026-11-03T11:34:45Z",
   "distribution": {
     "total": 342,
     "S": 3,
     "A": 45,
-    "B": 177,
-    "C": 110,
+    "B": 178,
+    "C": 109,
     "ungraded": 7,
     "floor": 0,
     "up": 103
@@ -2840,6 +2840,19 @@
       "branch": "standard"
     },
     {
+      "id": "leonxlnx/output-skill",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "storedStars": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 39.7,
+        "repo-own": 10.3
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "leonxlnx/redesign-skill",
       "trustMagnitude": 50.0,
       "grade": "B",
@@ -3636,18 +3649,6 @@
       "branch": "standard"
     },
     {
-      "id": "leonxlnx/output-skill",
-      "trustMagnitude": 36.0,
-      "grade": "C",
-      "level": "2★",
-      "storedStars": "3★",
-      "typeBreakdown": {
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "id": "mbtiongson1/gaia-audit",
       "trustMagnitude": 36.0,
       "grade": "C",
@@ -4301,7 +4302,7 @@
       "id": "heygen-com/general-video",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★",
+      "level": "2★",
       "storedStars": "2★",
       "typeBreakdown": {},
       "origin": false,
@@ -4321,7 +4322,7 @@
       "id": "mattpocock/personal",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★",
+      "level": "3★",
       "storedStars": "3★",
       "typeBreakdown": {},
       "origin": true,
@@ -5936,9 +5937,11 @@
     "personal": [
       {
         "origin": true,
-        "level": "1★",
+        "level": "3★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "mattpocock/personal",
+        "contributor": "mattpocock"
       }
     ],
     "personal-knowledge-management": [

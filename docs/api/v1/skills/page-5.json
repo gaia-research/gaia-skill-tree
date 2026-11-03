@@ -324,6 +324,23 @@
       "genericSkillRef": "design-generation"
     },
     {
+      "id": "leonxlnx/output-skill",
+      "name": "output-skill",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "fusionScore": 0.0,
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/output-skill.json"
+      },
+      "genericSkillRef": "format-output"
+    },
+    {
       "id": "leonxlnx/redesign-skill",
       "name": "redesign-skill",
       "level": "3★",
@@ -837,28 +854,11 @@
         "disler/opinion",
         "disler/plan-synthesis"
       ]
-    },
-    {
-      "id": "bradautomates/watch",
-      "name": "Watch",
-      "level": "2★",
-      "trustMagnitude": 37.47,
-      "overallTrustGrade": "C",
-      "fusionScore": 100.0,
-      "contributor": "bradautomates",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/bradautomates/watch.json"
-      },
-      "genericSkillRef": "video-intelligence"
     }
   ],
   "page": 5,
   "totalPages": 7,
-  "totalSkills": 335,
+  "totalSkills": 337,
   "_links": {
     "self": "/api/v1/skills/page-5.json",
     "prev": "/api/v1/skills/page-4.json",

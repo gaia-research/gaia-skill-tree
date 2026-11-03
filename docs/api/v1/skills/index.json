@@ -1075,7 +1075,7 @@
   ],
   "page": 1,
   "totalPages": 7,
-  "totalSkills": 335,
+  "totalSkills": 337,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"
@@ -2678,9 +2678,11 @@
     "personal": [
       {
         "origin": true,
-        "level": "1★",
+        "level": "3★",
         "status": "named",
-        "redacted": true
+        "redacted": false,
+        "id": "mattpocock/personal",
+        "contributor": "mattpocock"
       }
     ],
     "personal-knowledge-management": [
