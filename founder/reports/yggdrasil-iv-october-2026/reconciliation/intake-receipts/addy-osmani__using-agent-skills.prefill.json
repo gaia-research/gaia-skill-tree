@@ -1,0 +1,104 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "addy-osmani/using-agent-skills",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "addy-osmani/using-agent-skills",
+  "canonicalUrl": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/using-agent-skills/SKILL.md",
+  "checked": true,
+  "contentSha256": "30787ef2c77bf1a4729fffed0f6523ba6fcbe81bdc436b36371b78c21394d3c3",
+  "hostRepository": "https://github.com/addyosmani/agent-skills",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "google-deepmind/workflow-skill-creator",
+     "similarity": 0.63235
+    },
+    {
+     "id": "mattpocock/write-a-skill",
+     "similarity": 0.590097
+    },
+    {
+     "id": "mbtiongson1/gaia-curate",
+     "similarity": 0.528427
+    },
+    {
+     "id": "mattpocock/writing-for-agents",
+     "similarity": 0.518471
+    },
+    {
+     "id": "addy-osmani/agent-skills",
+     "similarity": 0.494688
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "skill-discovery",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.7059 to generic 'skill-discovery' (weak match).",
+   "similarity": 0.705893
+  },
+  {
+   "genericId": "skill-authoring",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.6215 to generic 'skill-authoring' (weak match).",
+   "similarity": 0.621528
+  },
+  {
+   "genericId": "skill-performance-benchmarking",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5132 to generic 'skill-performance-benchmarking' (weak match).",
+   "similarity": 0.513224
+  }
+ ],
+ "normalized": {
+  "description": "Discovers and invokes agent skills. Use when starting a session, or when you need to decide which skill or workflow applies to the piece of work at hand. This is the meta-skill that governs how all other skills are discovered and invoked.",
+  "name": "using-agent-skills"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/using-agent-skills/SKILL.md",
+  "contentSha256": "30787ef2c77bf1a4729fffed0f6523ba6fcbe81bdc436b36371b78c21394d3c3",
+  "fetchedAt": "2026-10-27T21:58:51.271957+00:00",
+  "frontmatter": {
+   "description": "Discovers and invokes agent skills. Use when starting a session, or when you need to decide which skill or workflow applies to the piece of work at hand. This is the meta-skill that governs how all other skills are discovered and invoked.",
+   "name": "using-agent-skills"
+  },
+  "hostRepository": "https://github.com/addyosmani/agent-skills",
+  "sourceLane": "source-repository"
+ }
+}

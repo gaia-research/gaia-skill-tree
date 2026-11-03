@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "graft",
+    "--dir",
+    "/data/data/com.termux/files/usr/tmp/frontier-e4-graft-index-u27oe2d_",
+    "ask",
+    "score function and its caller context",
+    "/data/data/com.termux/files/home/.gaia-worktrees/yggdrasil-iv-frontier-native-e4",
+    "--in",
+    "examples/frontier/fixtures/line-history",
+    "--json",
+    "--no-refresh"
+  ],
+  "exitCode": 0,
+  "stdout": "{\n  \"query\": \"score function and its caller context\",\n  \"mode\": \"lexical\",\n  \"hits\": [\n    {\n      \"kind\": \"symbol\",\n      \"title\": \"caller \u00b7 function\",\n      \"pointer\": \"examples/frontier/fixtures/line-history/sample-v1.py:L6-L7\",\n      \"snippet\": \"def caller(item)\",\n      \"score\": 1.5,\n      \"scope\": \"\"\n    },\n    {\n      \"kind\": \"symbol\",\n      \"title\": \"score \u00b7 function\",\n      \"pointer\": \"examples/frontier/fixtures/line-history/sample-v1.py:L1-L3\",\n      \"snippet\": \"def score(value): # Initial implementation.\",\n      \"score\": 1.1025151509580522,\n      \"scope\": \"\"\n    }\n  ],\n  \"coverage\": 0.27901323688603563,\n  \"coverageStrong\": 0.1588487763670415,\n  \"note\": \"structural index: no entries for 'caller' \u2014 showing lexical matches; for precise edges try graft callers 'caller', or graft grep 'caller' for every reference (loosen the pattern if it returns nothing)\"\n}\n",
+  "stderr": "",
+  "seconds": 1.927
+}

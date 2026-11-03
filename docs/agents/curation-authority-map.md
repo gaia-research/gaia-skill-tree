@@ -85,6 +85,7 @@ Worked examples (synthetic and offline; checked live):
 | ungraded | below 20.0 | — | 1 |
 
 - **4★ strictly requires grade A (TM ≥ 100).** B is not enough at 4★, even "in practice". It caps a skill at 3★ (META.md §1.1). 5★ requires S (TM ≥ 250). 6★ adds the Apex gate (Suite, §4.3) or the Unique Impossible gate (Unique, §4.4).
+- **Frozen skills are exempt from the clamp** (`gaia_cli.frozen.frozenIds`, passed as `frozen=True` to `clampLevelToGrade` and `publishedLevelNumber`). They publish their stored level on the named index, ledger, leaderboard and API, and compete for Origin at that level. Only their locked TM and grade show as recorded (founder ruling 2026-11-03). `tests/test_frozen_skills.py` guards this.
 - TM is the only numeric promotion gate; there is no per-star evidence-class floor. The Star Bar (verified `links.github` blob at 3★+, live non-seed evidence at 4★+) is checked separately in META.md §2.
 
 ## 4. Persistence: computed, not hand-written

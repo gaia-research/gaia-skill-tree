@@ -16,7 +16,7 @@ tags:
 - cdp
 - automation
 createdAt: '2026-05-14'
-updatedAt: '2026-08-30'
+updatedAt: '2026-11-03'
 evidence:
 - class: B
   source: https://github.com/browser-use/browser-harness
@@ -48,13 +48,29 @@ evidence:
   trustNumber: 80.0
   grade: B
   views: 50000
-- source: https://github.com/browser-use/browser-harness
+- source: https://scored.tools/blog/browser-harness-review-2026/
   evaluator: mbtiongson1
-  date: '2026-06-19'
+  date: '2026-10-30'
   type: peer-review
-  class: A
-  notes: 'AI Agent Developer Community: commended as lightweight CDP bridge, self-healing
-    via runtime agent_helpers.py, steeper learning curve than Playwright. Mid-2026.'
+  notes: 'Independent written review (scored.tools, 2026-05-31, ~1,300 words): assesses
+    the self-healing CDP loop, direct CDP integration, deployment modes, pricing and
+    fit; verdict ''core idea is good, implementation genuinely lean, project too young
+    to bet a production pipeline on''. Replaces the mislabelled repo-URL peer-review
+    row (a repository URL is not a peer review; repo metrics stay in the repo-own
+    row). Founder ruling 2026-10-30 (r4-peer-review-rows).'
+  reviewers: 1
+  sourceStartedAt: '2026-05-31'
+  grade: C
+- source: https://www.tensorlake.ai/blog/browser-harness-cdp-self-healing
+  evaluator: mbtiongson1
+  date: '2026-10-30'
+  type: peer-review
+  notes: 'Independent critical analysis (Tensorlake blog, published 2026-05-01): examines
+    the self-healing CDP design and contrasts the team-reported 97% Online-Mind2Web
+    score with the HAL Princeton leaderboard figure (about 40% for Browser-Use). Counted
+    as one reviewer. Founder ruling 2026-10-30 (r4-peer-review-rows).'
+  reviewers: 1
+  sourceStartedAt: '2026-05-01'
   grade: C
 timeline:
 - timestamp: '2026-06-02T23:32:59Z'
@@ -134,8 +150,27 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 73.59 -> 73.59, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
-trustMagnitude: 73.59
-overallTrustGrade: B
+- timestamp: '2026-10-30T13:13:56Z'
+  action: evidence_removed
+  contributor: mbtiongson1
+  details: 'Removed dead/invalid evidence: https://github.com/browser-use/browser-harness'
+- timestamp: '2026-10-30T13:13:57Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://scored.tools/blog/browser-harness-review-2026/
+    (type: peer-review)'
+- timestamp: '2026-10-30T13:13:58Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://www.tensorlake.ai/blog/browser-harness-cdp-self-healing
+    (type: peer-review)'
+- timestamp: '2026-11-02T21:14:22Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 73.59 -> 118.59, grade B -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 118.59
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -147,7 +182,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T10:39:17Z'
-trustMagnitudeInputHash: 0ecb67a513e951f5b0729ec70bd4f8785bdee8f7e174e7eec2b111b32630d201
+trustMagnitudeInputHash: b08291592d16bc49fcc9ad9ffb6c013e71a187067c2b955f287e6118bf02f607
 provisional: true
 ---
 

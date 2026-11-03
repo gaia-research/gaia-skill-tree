@@ -1,0 +1,151 @@
+{
+  "schemaVersion": "frontier-match-v1",
+  "advisory": true,
+  "authority": "advisory ranking only; never admission, approval, verification, rank or Trust Magnitude",
+  "leadId": "claude-deny-git-guardrails-001",
+  "method": "lexical-bm25-v1",
+  "query": [
+    "any",
+    "bash",
+    "before",
+    "block",
+    "claude",
+    "code",
+    "command",
+    "deny",
+    "destructive",
+    "execut",
+    "git",
+    "guardrail",
+    "hook",
+    "install",
+    "make",
+    "match",
+    "mattpocock",
+    "permission",
+    "pretooluse",
+    "push",
+    "refuse",
+    "regex",
+    "rule",
+    "skill",
+    "such",
+    "text",
+    "them",
+    "without"
+  ],
+  "registeredElsewhere": false,
+  "registeredAs": [],
+  "ambiguousRepository": null,
+  "declaredTarget": {
+    "skillId": "mattpocock/git-guardrails-claude-code",
+    "kind": "named",
+    "exists": true,
+    "contentRank": 1
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "kind": "named",
+      "skillId": "mattpocock/git-guardrails-claude-code",
+      "genericSkillId": "guardrails",
+      "score": 0.1611,
+      "signals": [
+        {
+          "signal": "lexical-overlap",
+          "terms": [
+            "hook",
+            "guardrail",
+            "command",
+            "block",
+            "git",
+            "claude",
+            "mattpocock",
+            "before"
+          ]
+        }
+      ],
+      "rationale": "lexical overlap on hook, guardrail, command, block, git; named implementation of generic guardrails."
+    },
+    {
+      "rank": 2,
+      "kind": "named",
+      "skillId": "mattpocock/write-a-skill",
+      "genericSkillId": "tool-creation",
+      "score": 0.0608,
+      "signals": [
+        {
+          "signal": "lexical-overlap",
+          "terms": [
+            "claude",
+            "any",
+            "mattpocock",
+            "code",
+            "skill"
+          ]
+        }
+      ],
+      "rationale": "lexical overlap on claude, any, mattpocock, code, skill; named implementation of generic tool-creation."
+    },
+    {
+      "rank": 3,
+      "kind": "generic",
+      "skillId": "guardrails",
+      "genericSkillId": "guardrails",
+      "score": 0.0575,
+      "signals": [
+        {
+          "signal": "lexical-overlap",
+          "terms": [
+            "rule",
+            "guardrail",
+            "before"
+          ]
+        }
+      ],
+      "rationale": "lexical overlap on rule, guardrail, before."
+    },
+    {
+      "rank": 4,
+      "kind": "named",
+      "skillId": "heygen-com/hyperframes-registry",
+      "genericSkillId": "skill-discovery",
+      "score": 0.055,
+      "signals": [
+        {
+          "signal": "lexical-overlap",
+          "terms": [
+            "install",
+            "block",
+            "match"
+          ]
+        }
+      ],
+      "rationale": "lexical overlap on install, block, match; named implementation of generic skill-discovery."
+    },
+    {
+      "rank": 5,
+      "kind": "named",
+      "skillId": "garrytan/careful",
+      "genericSkillId": "guardrails",
+      "score": 0.0485,
+      "signals": [
+        {
+          "signal": "lexical-overlap",
+          "terms": [
+            "destructive",
+            "guardrail",
+            "before"
+          ]
+        }
+      ],
+      "rationale": "lexical overlap on destructive, guardrail, before; named implementation of generic guardrails."
+    }
+  ],
+  "rationale": "Ranked by lexical overlap between the lead's claim and registry text; a human or Meta audit must still choose any target.",
+  "registry": {
+    "digest": "sha256:b65124ed7c41d1203a68dd826ce493b7398f897b2381e6a552686dc9a7f52eca",
+    "files": 702,
+    "readOnly": true
+  }
+}

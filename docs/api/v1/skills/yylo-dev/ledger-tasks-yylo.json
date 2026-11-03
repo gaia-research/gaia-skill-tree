@@ -25,7 +25,7 @@
   },
   "title": "Ledger Tasks (yylo)",
   "genericSkillRef": "project-management",
-  "origin": true,
+  "origin": false,
   "description": "Comprehensive guide for using YYLO Ledger task management — a Kanban board and task state stored as hash-chained Markdown inside the repository (no hosted tracker). Covers create/list/search/get/mark/update/archive, dependency management (deps/ready/order), history/receipts, cold archive, cross-project routing, and typed merge orchestration across agent worktrees. The underlying YYLO CLI orchestrates multiple coding-agent harnesses (Claude Code, Codex, Gemini CLI, Pi) over that same shared task state.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -109,6 +109,12 @@
       "action": "demote",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 2★"
+    },
+    {
+      "timestamp": "2026-11-02T21:14:25Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 36.6, grade (none) -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

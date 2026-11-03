@@ -1,0 +1,22 @@
+{
+  "id": "knowledge-query",
+  "name": "Knowledge Query",
+  "type": "basic",
+  "description": "Performs focused lookup and retrieval over a knowledge base, returning directly relevant information without broader synthesis or authoring.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-03",
+  "updatedAt": "2026-11-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:53:30Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill knowledge-query"
+    }
+  ]
+}

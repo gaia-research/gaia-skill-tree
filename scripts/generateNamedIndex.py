@@ -7,7 +7,7 @@ named skill, groups them by genericSkillRef, and writes registry/named-skills.js
 Validation rules:
   - Each named skill has all required fields.
   - genericSkillRef resolves to a skill ID in registry/gaia.json.
-  - At most one origin: true per genericSkillRef bucket.
+  - Origin is derived from merit; tied top contenders may share it.
   - level is a valid star rating (1★–6★; 1★ indicates a demoted/uninstallable skill).
 
 Usage:
@@ -26,8 +26,14 @@ import argparse
 import datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
+from gaia_cli.canonicalTransaction import guardCanonicalPath  # noqa: E402
+from gaia_cli.frozen import frozenIds  # noqa: E402
 from gaia_cli.redaction import is_redacted, level_num  # noqa: E402  single source of truth
 from gaia_cli.taxonomy import branchFor, rankWord, medallion, normalize  # noqa: E402
+from gaia_cli.lifecycleProjection import produce_lifecycle  # noqa: E402
+from gaia_cli.challengeAdmission import clean as admission_clean  # noqa: E402
+from gaia_cli.committedChallenges import collect as collect_challenges  # noqa: E402
+from gaia_cli.committedChallenges import lifecyclePorts, reviewsBySubject  # noqa: E402
 
 REQUIRED_FIELDS = [
     "id",
@@ -84,6 +90,21 @@ INDEX_SKILL_FIELDS = [
     "trustMagnitudeInputHash",
     "apexGateStatus",
 ]
+
+
+def championSortKey(entry):
+    """Order key that makes a bucket's first entry its (derived) Champion.
+
+    Champion is never a stored field: each bucket is ordered rank descending,
+    Origin first, then id, and every consumer takes the first entry. This is
+    the single definition; ``scripts/run_meta_sweep.py`` (champion-cluster)
+    imports it rather than restating the rule.
+    """
+    return (
+        -level_num(entry.get("level", "")),
+        0 if entry.get("origin") else 1,
+        entry.get("id", ""),
+    )
 
 
 def role_for_entry(entry):
@@ -189,6 +210,11 @@ def load_suite_mappings(suites_dir):
                 # Only map if not already mapped to a more specific sub-suite
                 if skill not in skill_to_suite:
                     skill_to_suite[skill] = suite_id
+                elif skill_to_suite[skill] != suite_id and skill not in suite_to_components:
+                    print(
+                        f"Warning: {skill} is listed by multiple suite manifests "
+                        f"({skill_to_suite[skill]}, {suite_id}); keeping {skill_to_suite[skill]}."
+                    )
         except Exception as exc:
             print(f"Warning: Failed to load suite file {fp}: {exc}")
 
@@ -196,7 +222,9 @@ def load_suite_mappings(suites_dir):
 
 
 def _write_frontmatter_updates(filepath, updates):
-    """Safely write updates back to the frontmatter of a markdown file, preserving custom layout/formatting."""
+    """Safely write suite metadata without changing the legacy Origin field."""
+    if "origin" in updates:
+        raise ValueError("Origin is derived; docs generation must not write Origin frontmatter.")
     with open(filepath, "r", encoding="utf-8") as f:
         content = f.read()
 
@@ -250,14 +278,16 @@ def _write_frontmatter_updates(filepath, updates):
     new_fm_block = "\n".join(new_lines) + "\n"
     new_content = f"---{new_fm_block}---{body}"
 
-    with open(filepath, "w", encoding="utf-8") as f:
-        f.write(new_content)
+    with guardCanonicalPath(filepath):
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(new_content)
 
 
 def update_markdown_files_with_suite_metadata(named_skills, skill_to_suite, suite_to_components):
-    """Automatically update the frontmatter of named skill markdown files to sync suiteRef and suiteComponents."""
+    """Sync suite metadata on live records, preserving every frozen source byte."""
+    protected = frozenIds(fm for _fp, fm in named_skills)
     for fp, fm in named_skills:
-        if "_parse_error" in fm:
+        if "_parse_error" in fm or fm.get("id") in protected:
             continue
 
         skill_id = fm.get("id")
@@ -273,7 +303,10 @@ def update_markdown_files_with_suite_metadata(named_skills, skill_to_suite, suit
         needs_update = False
         updates = {}
 
-        if expected_suite_ref != current_suite_ref:
+        # Only sync suiteRef when a suite manifest actually lists this skill.
+        # When expected_suite_ref is None no manifest has an opinion, so a value
+        # set directly via `gaia dev update-named --suite-ref` must be preserved.
+        if expected_suite_ref is not None and expected_suite_ref != current_suite_ref:
             needs_update = True
             updates["suiteRef"] = expected_suite_ref
 
@@ -305,6 +338,9 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
 
     valid_ids = {s["id"] for s in graph_data.get("skills", [])}
     id_to_type = {s["id"]: s.get("type", "basic") for s in graph_data.get("skills", [])}
+
+    known_suite_refs = set(skill_to_suite.values()) | set(suite_to_components) | valid_ids
+    known_suite_refs |= {m.get("id") for _fp, m in named_skills if m.get("id")}
 
     errors = []
     buckets = {}  # genericSkillRef -> list of dicts (named only)
@@ -348,6 +384,14 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
         if "type" not in entry and ref in id_to_type:
             entry["type"] = id_to_type[ref]
 
+        # A directly set suiteRef must point at a known suite or named skill.
+        direct_ref = fm.get("suiteRef")
+        if direct_ref and direct_ref not in known_suite_refs:
+            errors.append(
+                f"{rel}: 'suiteRef' value '{direct_ref}' does not match any suite "
+                f"manifest or named skill ID."
+            )
+
         # Dynamically inject suiteRef and suiteComponents based on loaded suite mappings
         skill_id = fm.get("id", "")
         if skill_id in skill_to_suite:
@@ -384,31 +428,16 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
                 by_contributor[contributor] = []
             by_contributor[contributor].append(skill_id_fm)
 
-    # Per META § 1/4.1: Origin standing belongs to a *Named* (2★+) skill. A
-    # pre-named/demoted (≤1★) entry cannot be Origin, so clear any author-
-    # declared origin flag on such entries (this also stops a 1★ from being
-    # picked as a bucket's champion and shown with the bucket's effective star).
-    # Then order each bucket champion-first (rank desc, origin first, id) so
-    # every consumer that takes the first/origin entry maps to a ranked skill.
+    # Order each bucket champion-first. Origin is not final here: it is derived
+    # from merit in write_index() once Trust Magnitude is known (gaia_cli.origin),
+    # and the bucket is re-sorted then. The frontmatter flag read here
+    # is ignored (it only mirrors the derived value). There is no star floor on Origin
+    # (founder ruling 2026-10-30); ≤1★ handles stay redacted by the display layer.
     for ref, entries in buckets.items():
-        for e in entries:
-            if e.get("origin") and is_redacted(e.get("level", "")):
-                e["origin"] = False
-                e["role"] = "variant"
-        entries.sort(key=lambda e: (
-            -level_num(e.get("level", "")),
-            0 if e.get("origin") else 1,
-            e.get("id", ""),
-        ))
+        entries.sort(key=championSortKey)
 
-    # Origin uniqueness per bucket (named only)
-    for ref, entries in buckets.items():
-        origins = [e for e in entries if e.get("origin") is True]
-        if len(origins) > 1:
-            origin_ids = [e.get("id", "?") for e in origins]
-            errors.append(
-                f"genericSkillRef '{ref}': more than one origin:true — {origin_ids}"
-            )
+    # No Origin-uniqueness check: Origin is derived later, and tied top
+    # contenders all hold it (founder ruling 2026-10-30).
 
     return errors, buckets, awaiting_classification, by_contributor
 
@@ -444,7 +473,7 @@ def _inject_fusion_scores(buckets, merged_map):
             entry.update(fusionScoreProjection(entry, merged_map, merged_map))
 
 
-def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=None):
+def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=None, frozen=None):
     """Annotate each named-skill bucket entry with overallTrustGrade, trustMagnitude,
     and apexGateStatus.
 
@@ -475,11 +504,15 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
     from gaia_cli.grading import overall_trust_grade, check_ultimate_gate
     from gaia_cli.evidence import inherited_evidence
     from gaia_cli.trustMagnitude import (
+        computeOverallTrustGrade,
         computeTrustMagnitude,
         computeTrustMagnitudeInputHash,
         passesSuiteApexGate,
     )
     from gaia_cli.registryMaps import buildMergedSkillMap
+    from gaia_cli.frozen import frozenLock
+
+    frozen = frozen or set()
 
     def _effective(entry):
         generic_node = generic_skills_map.get(entry.get("genericSkillRef"))
@@ -524,6 +557,12 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
     else:
         merged_map = {**generic_skills_map, **named_skill_map}
 
+    from publication_context import rehearsal_context_from_env, project_suite_metadata
+    if rehearsal_context_from_env() is not None and repo_root is not None:
+        # Production normally synchronizes these fields into Markdown before
+        # loading maps. A rehearsal must project them without source writes.
+        project_suite_metadata(merged_map, repo_root)
+
     # Handed back to write_index() so the Fusion Score projection resolves its
     # structural closure against the SAME registry context TM used. Two maps
     # would mean two different graphs and two different answers.
@@ -552,9 +591,17 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
             currentHash = computeTrustMagnitudeInputHash(entry)
 
             skill_with_effective = {**entry, "evidence": effective}
-            if fm_tm is not None and fm_grade is not None and fm_hash == currentHash:
+            from publication_context import rehearsal_context_from_env
+            # Frozen skills hold the TM and grade cached when they were frozen
+            # (founder ruling 2026-10-30; gaia_cli.frozen). Never recompute them.
+            locked = frozenLock(entry) if entry.get("id") in frozen else None
+            if locked is not None:
+                entry["trustMagnitude"] = locked[0]
+                entry["overallTrustGrade"] = locked[1]
+            elif (rehearsal_context_from_env() is None
+                    and fm_tm is not None and fm_grade is not None and fm_hash == currentHash):
                 # Trust the frontmatter — propagate to index unchanged.
-                entry["trustMagnitude"] = round(float(fm_tm), 2)
+                entry["trustMagnitude"] = float(fm_tm)
                 entry["overallTrustGrade"] = fm_grade
             else:
                 # Missing frontmatter values — recompute via G7 path, against
@@ -572,13 +619,20 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
                 # double-counting inherited rows and inflating (or, via grade
                 # diversity-gate side effects, sometimes deflating) the score
                 # relative to every other TM pipeline in the codebase.
-                tm = computeTrustMagnitude(entry, merged_map)
+                from publication_context import evaluation_datetime_from_env
+                evaluation_at_utc = evaluation_datetime_from_env()
+                tm = computeTrustMagnitude(entry, merged_map, evaluationAtUTC=evaluation_at_utc)
                 entry["trustMagnitude"] = round(tm, 2)
-                grade = overall_trust_grade(
-                    effective,
-                    skill=entry,
-                    generic_skill_map=merged_map,
-                )
+                if evaluation_at_utc is None:
+                    grade = overall_trust_grade(
+                        effective, skill=entry, generic_skill_map=merged_map,
+                    )
+                else:
+                    from gaia_cli.trustMagnitude import _countDistinctEvidenceTypes, _hasEligibleIndependentWitness
+                    grade = computeOverallTrustGrade(
+                        tm, _countDistinctEvidenceTypes(entry, merged_map, evaluationAtUTC=evaluation_at_utc),
+                        _hasEligibleIndependentWitness(entry, merged_map, evaluationAtUTC=evaluation_at_utc),
+                    )
                 if grade is not None:
                     entry["overallTrustGrade"] = grade
 
@@ -587,22 +641,31 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
                 "genericSkillMap": generic_skills_map,
                 "namedSkillMap": named_skill_map,
             }
-            apex_status = passesSuiteApexGate(skill_with_effective, registry_state)
+            from publication_context import evaluation_datetime_from_env
+            apex_status = passesSuiteApexGate(
+                skill_with_effective, registry_state,
+                evaluationAtUTC=evaluation_datetime_from_env(),
+            )
             entry["apexGateStatus"] = apex_status
 
-            # Automatically clamp effective level/rank to Trust Magnitude grade ceiling (META §1.1/§4.2)
-            GRADE_MAX_STARS = {
-                "S": 6,
-                "A": 4,
-                "B": 3,
-                "C": 2,
-                "ungraded": 1,
-            }
+            # Automatically clamp effective level/rank to Trust Magnitude grade ceiling (META §1.1/§4.2).
+            # Frozen skills are exempt: they publish the level they were frozen at.
             current_grade = entry.get("overallTrustGrade", "ungraded")
-            max_allowed_stars = GRADE_MAX_STARS.get(current_grade, 1)
+            from gaia_cli.trustMagnitude import clampLevelToGrade, maxStarsForGrade
+            is_frozen_entry = entry.get("id") in frozen
+            max_allowed_stars = maxStarsForGrade(current_grade)
             raw_stars = level_num(entry.get("level", ""))
-            if raw_stars > max_allowed_stars:
-                entry["level"] = f"{max_allowed_stars}★"
+            if raw_stars > max_allowed_stars and not is_frozen_entry:
+                from publication_context import rehearsal_context_from_env
+                if rehearsal_context_from_env() is not None:
+                    entry["eligibilityProposal"] = {
+                        "status": "shadow", "storedLevel": entry.get("level"),
+                        "basis": "TM-grade-ceiling-only", "otherPromotionGates": "not-authorized",
+                        "maximumEligibleLevel": f"{max_allowed_stars}★",
+                        "reason": "current stored standing preserved; rehearsal-only eligibility proposal",
+                    }
+                else:
+                    entry["level"] = clampLevelToGrade(entry.get("level", ""), current_grade)
 
             # Resolved taxonomy fields (Yggdrasil II authority — additive, PR2).
             # Derived purely from entry["level"] + entry.get("suiteComponents");
@@ -628,20 +691,145 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
     return injected_merged_map
 
 
+def frozen_ids_for(buckets, awaiting_classification):
+    """Frozen ids among every indexed skill (gaia_cli.frozen is the one definition)."""
+    from gaia_cli.frozen import frozenIds, requireFrozenLocks
+
+    entries = [e for group in buckets.values() for e in group] + list(awaiting_classification)
+    frozen = frozenIds(entries)
+    requireFrozenLocks(entries, frozen)
+    return frozen
+
+
+def awaiting_merit(awaiting_classification, frozen, generic_skills_map, repo_root):
+    """(published level, TM) for awakened records, which compete for Origin too.
+
+    Computed live against the same Trust Magnitude map the leaderboard and gates
+    use (frozen records keep their lock). Nothing here is published; the
+    awakened entries keep their stored fields.
+    """
+    from gaia_cli.frozen import frozenLock
+    from gaia_cli.origin import publishedLevelNumber
+
+    tm_map = None
+    if generic_skills_map is not None:
+        from gaia_cli.registryMaps import buildMergedSkillMap
+        tm_map = buildMergedSkillMap(repo_root) if repo_root is not None else dict(generic_skills_map)
+    out = {}
+    for e in awaiting_classification:
+        lock = frozenLock(e) if e.get("id") in frozen else None
+        if lock is not None:
+            tm, grade = lock
+        elif tm_map is not None:
+            from gaia_cli.trustMagnitude import computeOverallTrustGradeFromSkill, computeTrustMagnitude
+            tm = float(computeTrustMagnitude(e, tm_map))
+            grade = computeOverallTrustGradeFromSkill(e, tm_map) or "ungraded"
+        else:
+            tm, grade = float(e.get("trustMagnitude") or 0.0), e.get("overallTrustGrade")
+        out[e.get("id")] = (publishedLevelNumber(e.get("level"), grade, frozen=e.get("id") in frozen), tm)
+    return out
+
+
+def apply_derived_origins(buckets, awaiting_classification, awaiting_merits=None):
+    """Set ``origin``/``role`` on every entry from the automatic Origin rule.
+
+    The holder of each bucket is the highest-merit entry by (published level,
+    Trust Magnitude); every entry tied at the top holds Origin. See
+    ``gaia_cli.origin``. Frozen entries already carry their locked TM/grade here.
+    The incoming frontmatter ``origin`` value is ignored. Awakened records
+    (``awaiting_classification``) compete too, using ``awaiting_merits``
+    ({id: (published level, TM)}); founder: "It is still the origin, it is just
+    not 'named'." Returns {bucket: frozenset of holder ids}.
+    """
+    from gaia_cli.origin import deriveBucketOrigins, publishedLevelNumber
+
+    awaiting_merits = awaiting_merits or {}
+    contenders = {}
+    for ref, entries in buckets.items():
+        contenders[ref] = [
+            {
+                "id": e.get("id"),
+                "levelNumber": publishedLevelNumber(e.get("level"), e.get("overallTrustGrade")),
+                "tm": e.get("trustMagnitude") or 0.0,
+            }
+            for e in entries
+        ]
+    for e in awaiting_classification:
+        ref = e.get("genericSkillRef")
+        if not ref:
+            continue
+        level_number, tm = awaiting_merits.get(e.get("id"), (
+            publishedLevelNumber(e.get("level"), e.get("overallTrustGrade")),
+            float(e.get("trustMagnitude") or 0.0),
+        ))
+        contenders.setdefault(ref, []).append({"id": e.get("id"), "levelNumber": level_number, "tm": tm})
+
+    holders = {}
+    for ref, pool in contenders.items():
+        holders[ref] = frozenset() if ref == "__unknown__" else deriveBucketOrigins(pool)
+    for ref, entries in buckets.items():
+        for e in entries:
+            e["origin"] = e.get("id") in holders[ref]
+            e["role"] = role_for_entry(e)
+        entries.sort(key=championSortKey)
+    for e in awaiting_classification:
+        e["origin"] = e.get("id") in holders.get(e.get("genericSkillRef"), frozenset())
+    return holders
+
+
+def origin_frontmatter_drift(named_skills, buckets, awaiting_classification, frozen):
+    """List ``(id, derived)`` for non-frozen files whose frontmatter ``origin`` differs."""
+    derived = {e.get("id"): bool(e.get("origin")) for group in buckets.values() for e in group}
+    for e in awaiting_classification:
+        derived[e.get("id")] = bool(e.get("origin"))
+    drift = []
+    for _fp, fm in named_skills:
+        sid = fm.get("id")
+        if sid not in derived or sid in frozen or "_parse_error" in fm:
+            continue
+        if isinstance(fm.get("origin"), bool) and fm.get("origin") == derived[sid]:
+            continue
+        drift.append((sid, derived[sid]))
+    return drift
+
+
 def write_index(buckets, awaiting_classification, by_contributor, output_path, today,
-                generic_skills_map=None, gate_config=None, repo_root=None):
+                generic_skills_map=None, gate_config=None, repo_root=None, lifecycle_ports=None,
+                challenge_reviews=None):
     """Write the named skill index JSON file."""
+    frozen = frozen_ids_for(buckets, awaiting_classification)
     if generic_skills_map is not None:
         merged_map = _inject_trust_grades(
-            buckets, generic_skills_map, gate_config or {}, repo_root=repo_root
+            buckets, generic_skills_map, gate_config or {}, repo_root=repo_root, frozen=frozen
         )
         # Structural lane, computed after and independently of the trust lane.
         _inject_fusion_scores(buckets, merged_map)
+    # Origin is derived from merit now that TM, grade and level are final.
+    apply_derived_origins(
+        buckets, awaiting_classification,
+        awaiting_merit(awaiting_classification, frozen, generic_skills_map, repo_root),
+    )
     for entry in awaiting_classification:
         _inject_resolved_taxonomy(entry)
 
+    # Never publish contributor-supplied lifecycle metadata. The only optional
+    # source is the explicitly injected in-process producer boundary.
+    for entry in [item for group in buckets.values() for item in group] + list(awaiting_classification):
+        entry.pop("trustLifecycle", None)
+        entry.pop("challengeReviews", None)
+        lifecycle = produce_lifecycle(entry, lifecycle_ports)
+        if lifecycle is not None:
+            entry["trustLifecycle"] = lifecycle
+        # Held admissions travel ONLY on this separate channel (gaia-challenge-review/v1);
+        # they never feed trustLifecycle, and no numeric field depends on them.
+        reviews = (challenge_reviews or {}).get(entry.get("id"))
+        if reviews:
+            entry["challengeReviews"] = reviews
+
+    from gaia_cli.origin import publicOriginStandings
     index = {
         "generatedAt": today,
+        "originStandings": publicOriginStandings(buckets, awaiting_classification),
         "buckets": buckets,
         "awaitingClassification": awaiting_classification,
         "byContributor": by_contributor,
@@ -657,6 +845,10 @@ def main():
     parser.add_argument("--named-dir", default=None, help="Path to registry/named/")
     parser.add_argument("--graph", default=None, help="Path to gaia.json")
     parser.add_argument("--out", default=None, help="Output path for index.json")
+    parser.add_argument(
+        "--no-frontmatter-sync", action="store_true",
+        help="Deprecated compatibility flag; Origin source fields are never rewritten.",
+    )
     args = parser.parse_args()
 
     repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -673,11 +865,13 @@ def main():
         print(f"Graph file not found: {graph_path}")
         sys.exit(1)
 
-    today = datetime.date.today().isoformat()
+    from publication_context import evaluation_at_utc_from_env
+    pinned_evaluation = evaluation_at_utc_from_env()
+    today = pinned_evaluation[:10] if pinned_evaluation else datetime.date.today().isoformat()
     with open(graph_path, "r", encoding="utf-8") as f:
         graph_data = json.load(f)
     graph_timestamp = graph_data.get("generatedAt", "")
-    if graph_timestamp:
+    if graph_timestamp and not pinned_evaluation:
         today = graph_timestamp.split("T")[0] if "T" in graph_timestamp else graph_timestamp
 
     print(f"Scanning: {named_dir}")
@@ -693,7 +887,16 @@ def main():
     skill_to_suite, suite_to_components = load_suite_mappings(suites_dir)
 
     print("Syncing named skill frontmatters with suite definitions...")
-    update_markdown_files_with_suite_metadata(named_skills, skill_to_suite, suite_to_components)
+    from gaia_cli.frozen import frozenIds
+    frozen_files = frozenIds([fm for _fp, fm in named_skills if "_parse_error" not in fm])
+    if pinned_evaluation is None:
+        # Frozen files are never written (founder ruling 2026-10-30).
+        update_markdown_files_with_suite_metadata(
+            [(fp, fm) for fp, fm in named_skills if fm.get("id") not in frozen_files],
+            skill_to_suite, suite_to_components,
+        )
+    # Rehearsal uses validate_and_group's in-memory suite projection only;
+    # a docs producer must never rewrite copied canonical Markdown.
 
     # Reload named skills to ensure validation and index reflect the newly synced files
     named_skills = load_named_skills(named_dir)
@@ -722,8 +925,27 @@ def main():
     except Exception:
         gate_config = {}
 
+    # Committed Frontier case bundles are re-validated here, per item, fail closed. With no
+    # bundles (or none admitted) both ports are empty and the index is byte-identical.
+    from gaia_cli.challengeAdmission import BuildEnvironmentError
+    try:
+        collected = collect_challenges(repo_root)
+    except BuildEnvironmentError as exc:
+        print(f"\nFATAL: {exc}")
+        sys.exit(1)
+    for item in collected.rejected:
+        print(f"  warning: challenge bundle {admission_clean(item['caseId'])} rejected: {admission_clean(item['reason'])}")
     write_index(buckets, awaiting_classification, by_contributor, output_path, today,
-                generic_skills_map=generic_skills_map, gate_config=gate_config, repo_root=repo_root)
+                generic_skills_map=generic_skills_map, gate_config=gate_config, repo_root=repo_root,
+                lifecycle_ports=lifecyclePorts(collected), challenge_reviews=reviewsBySubject(collected))
+    # Source `origin` values are historical, non-authoritative mirrors. This
+    # generator never rewrites canonical named files; projections above carry
+    # the derived automatic result instead.
+    if pinned_evaluation is None:
+        frozen_now = frozen_ids_for(buckets, awaiting_classification)
+        drift = origin_frontmatter_drift(named_skills, buckets, awaiting_classification, frozen_now)
+        if drift:
+            print(f"  note: {len(drift)} historical origin source value(s) differ from the derived projection")
     total_named = sum(len(v) for v in buckets.values())
     total_awaiting = len(awaiting_classification)
     print(f"\nWrote {output_path}")

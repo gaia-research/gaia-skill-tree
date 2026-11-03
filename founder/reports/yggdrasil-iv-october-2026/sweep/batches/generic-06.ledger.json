@@ -1,0 +1,644 @@
+[
+  {
+    "id": "summarize",
+    "kind": "generic",
+    "path": "registry/nodes/basic/summarize.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid against registry/schema/skill.schema.json; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (no named children; no named-skills.json bucket; no Origin required)",
+      "evidence": "pass (0 evidence rows; nothing to grade)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise single-capability description; all 5 derivatives resolve)",
+      "classification": "pass (basic, 0 prerequisites, abstract vendor-neutral id)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Abstract capability with no evidence rows and no named children, so no rank, Origin or evidence basis exists to appraise. Historical timeline entries left as recorded.",
+    "evidenceRefs": [
+      "registry/nodes/basic/summarize.json"
+    ]
+  },
+  {
+    "id": "supabase",
+    "kind": "generic",
+    "path": "registry/nodes/basic/supabase.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless; sole child has no links.github and is 1★, so registry-only is allowed)",
+      "origin": "pass (sole child supabase/supabase is 1★; no eligible >=2★ child, so no Origin required)",
+      "evidence": "fail (one self-attestation row sits on the generic layer; meta.json allowedLayers for self-attestation is named-only; the row cites the vendor's own agent-skills repo, which is implementation evidence; prepass TM 5.0 ungraded; liveness alive 200)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail (trigger-phrase description spanning the whole vendor product line: Database, Auth, Edge Functions, Realtime, Storage, RLS, migrations, extensions; overly broad, cf. META 6 vendor bloat)",
+      "classification": "fail (id and name 'supabase' are a vendor brand; rule (1) requires an abstract, vendor-neutral id and name)"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "structural",
+    "findingSummary": "Vendor brand in id and name, with a vendor-wide scope. Founder decision needed on a vendor-neutral capability id; a rename must go through gaia dev rename, not a file edit. Separately, the self-attestation row (vendor's own repo) belongs on the named child supabase/supabase, which has 0 evidence rows. No rank or Origin change.",
+    "evidenceRefs": [
+      "registry/nodes/basic/supabase.json",
+      "https://github.com/supabase/agent-skills/blob/main/skills/supabase/SKILL.md",
+      "registry/named-skills.json (bucket supabase: supabase/supabase, 1★)",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/liveness/evidence-health.json"
+    ]
+  },
+  {
+    "id": "swarm-topology-management",
+    "kind": "generic",
+    "path": "registry/nodes/basic/swarm-topology-management.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless); child ruvnet/swarm-orchestration is 2★ with links.github as a bare repo root, a curation-guidelines link defect (see finding)",
+      "origin": "pass (sole child ruvnet/swarm-orchestration 2★ carries origin=true; sole eligible child; prepass TM 36.0 C)",
+      "evidence": "n/a (0 generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise description of topologies and load balancing/fault tolerance)",
+      "classification": "pass (basic, 0 prerequisites, abstract id, child bucket matches file)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Named child ruvnet/swarm-orchestration has links.github set to the bare repo root https://github.com/ruvnet/ruflo, which the blob/branch/subpath invariant forbids. Fix belongs on the named skill and needs the SKILL.md subpath verified against source; the generic node itself is correct and Origin is correct.",
+    "evidenceRefs": [
+      "registry/nodes/basic/swarm-topology-management.json",
+      "registry/named/ruvnet/swarm-orchestration.md",
+      "registry/named-skills.json (bucket swarm-topology-management)"
+    ]
+  },
+  {
+    "id": "synthetic-data-generation",
+    "kind": "generic",
+    "path": "registry/nodes/basic/synthetic-data-generation.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (no named children; no bucket; no Origin required)",
+      "evidence": "fail (two arXiv rows 2210.03205 and 2409.17315 are relevant capability-level Class A papers and alive; third row type 'repo' resolves to repo-own via TYPE_ALIASES, which is named-layer only, so it is implementation evidence on a starless node; prepass TM 0.0 ungraded; rows carry class and trustNumber but no grade field although timeline logs evidence_graded A/A/B)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise, falsifiable scope: privacy-preserving tabular and generative synthesis with schema/regulatory constraints)",
+      "classification": "pass (basic, 0 prerequisites, vendor-neutral abstract id)"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Remove or relocate the omer-metin repo row (skills-for-antigravity SKILL.md) to a named implementation; keep the two arXiv rows. Zero rank or TM impact: the generic is starless with no children, and the repo row already scores 0 at this layer. Evidence owner should also write grade fields on the arXiv rows so the timeline's evidence_graded events match the row data.",
+    "evidenceRefs": [
+      "registry/nodes/basic/synthetic-data-generation.json",
+      "https://arxiv.org/abs/2210.03205",
+      "https://arxiv.org/abs/2409.17315",
+      "https://github.com/omer-metin/skills-for-antigravity/blob/main/skills/synthetic-data/SKILL.md",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/liveness/evidence-health.json"
+    ]
+  },
+  {
+    "id": "system-integration",
+    "kind": "generic",
+    "path": "registry/nodes/basic/system-integration.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless); child ruvnet/v3-integration-deep is 2★ with a bare repo-root links.github (see finding)",
+      "origin": "pass (sole child ruvnet/v3-integration-deep 2★ carries origin=true; sole eligible child; prepass TM 36.0 C)",
+      "evidence": "n/a (0 generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise description of contracts, event buses, compatibility layers)",
+      "classification": "pass (basic, 0 prerequisites, abstract id, child bucket matches file)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Named child ruvnet/v3-integration-deep links.github is the bare repo root https://github.com/ruvnet/ruflo, violating the blob/branch/subpath invariant. Fix belongs on the named skill after verifying the SKILL.md subpath. Generic and Origin are correct.",
+    "evidenceRefs": [
+      "registry/nodes/basic/system-integration.json",
+      "registry/named/ruvnet/v3-integration-deep.md",
+      "registry/named-skills.json (bucket system-integration)"
+    ]
+  },
+  {
+    "id": "test-driven-development",
+    "kind": "generic",
+    "path": "registry/nodes/basic/test-driven-development.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (mattpocock/tdd 2★ origin=true, prepass TM 50.0 B; addy-osmani/test-driven-development 2★ TM 45.0 C; obra/test-driven-development 1★ ineligible; Origin sits on the higher-merit eligible child)",
+      "evidence": "fail (repo row type 'repo' resolves to repo-own, named-only at generic layer, and duplicates named child mattpocock/tdd which already has 4 rows; timeline logs an addyosmani/agent-skills Class A evidence_added event on 2026-05-31 whose row is absent from evidence[] with no matching removal event; agentailor peer-review row is relevant and alive, TM 30.0 C)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise red-green-refactor mechanism with vertical-slice constraint)",
+      "classification": "pass (basic, 0 prerequisites, abstract id; 3 children bucket matches file)"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Two items. (a) Remove or relocate the mattpocock repo row to named child mattpocock/tdd; it contributes 0 TM at this layer. (b) Reconcile the timeline's addyosmani evidence_added event (2026-05-31) with evidence[]: restore the row through the gaia dev evidence CLI or log the removal. Generic TM 30.0 C comes only from the peer-review row and is unaffected by (a). No Origin change.",
+    "evidenceRefs": [
+      "registry/nodes/basic/test-driven-development.json",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
+      "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+      "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md",
+      "registry/named-skills.json (bucket test-driven-development)"
+    ]
+  },
+  {
+    "id": "text-to-speech",
+    "kind": "generic",
+    "path": "registry/nodes/basic/text-to-speech.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (no named children; no bucket)",
+      "evidence": "fail (note text only: VALL-E note contains a double-encoded em dash mojibake; the row itself is relevant (arXiv 2301.02111, VALL-E, alive 200) and its URL is correct; row carries class A and trustNumber 85 but no grade field, prepass TM 0.0)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: synthesis from text with voice cloning and prosody control)",
+      "classification": "pass (basic, 0 prerequisites, vendor-neutral abstract id; derivative voice-agent resolves)"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Evidence note for the VALL-E row has mojibake in place of an em dash. Fix note text through the evidence CLI. No rank or TM effect; no generic children.",
+    "evidenceRefs": [
+      "registry/nodes/basic/text-to-speech.json",
+      "https://arxiv.org/abs/2301.02111",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/liveness/evidence-health.json"
+    ]
+  },
+  {
+    "id": "time-series-forecasting",
+    "kind": "generic",
+    "path": "registry/nodes/basic/time-series-forecasting.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (no named children; no bucket)",
+      "evidence": "fail (two arXiv rows 2412.12168 and 2602.18465 are relevant capability papers and alive; darts row type 'repo' resolves to repo-own, named-only at generic layer, and is an implementation library; its note cites an unverified '9400+ star' figure; row carries class C while timeline logs a re-grade to B, with no grade field; prepass TM 0.0)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (scope bundles seasonal forecasting with residual anomaly detection; broad but coherent, not changed)",
+      "classification": "pass (basic, 0 prerequisites, abstract id)"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Move the darts repo row to a named implementation and drop its unverified star-count note when re-written. Keep both arXiv rows. Zero rank or TM effect at the generic layer.",
+    "evidenceRefs": [
+      "registry/nodes/basic/time-series-forecasting.json",
+      "https://arxiv.org/abs/2412.12168",
+      "https://arxiv.org/abs/2602.18465",
+      "https://github.com/unit8co/darts",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/liveness/evidence-health.json"
+    ]
+  },
+  {
+    "id": "timeline-animation",
+    "kind": "generic",
+    "path": "registry/nodes/basic/timeline-animation.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless; eligible children heygen-com/hyperframes-animation, hyperframes-keyframes and motion-graphics are 3★ with blob links)",
+      "origin": "pass (exactly one Origin: heygen-com/hyperframes-animation 3★ origin=true; the three 3★ children tie at prepass TM 50.0 B, which deterministic basis does not break, so no change is proposed)",
+      "evidence": "n/a (0 generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: declarative timeline-based frame animation, easing and asset placement)",
+      "classification": "pass (basic, 0 prerequisites, abstract id; 4 children bucket matches file; lowercase name is cosmetic and not changed)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. One Origin in the bucket and Champion display order follows rank then Origin. The Origin tie at 3★/TM 50.0 among three children cannot be broken from deterministic basis; left as recorded. Child remotion-markup (1★) has a placeholder named description, a named-owner item.",
+    "evidenceRefs": [
+      "registry/nodes/basic/timeline-animation.json",
+      "registry/named-skills.json (bucket timeline-animation)"
+    ]
+  },
+  {
+    "id": "token-observability",
+    "kind": "generic",
+    "path": "registry/nodes/basic/token-observability.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; summary, useCase and directives are allowed schema fields)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (sole child gaia-research/cost is 1★; no eligible child, no Origin required)",
+      "evidence": "n/a (0 generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail (useCase names Cursor and Aider as log sources, but the child reads pi, Claude Code, Codex and opencode session logs; description and directives describe one implementation's CLI feature set rather than the capability)",
+      "classification": "pass (basic, 0 prerequisites, vendor-neutral abstract id)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Align useCase with the sources the capability actually covers (the child's own list is pi, Claude Code, Codex, opencode) and keep the implementation CLI feature set out of the capability description. No rank or Origin impact.",
+    "evidenceRefs": [
+      "registry/nodes/basic/token-observability.json",
+      "registry/named/gaia-research/cost.md",
+      "registry/named-skills.json (bucket token-observability)"
+    ]
+  },
+  {
+    "id": "tokenize",
+    "kind": "generic",
+    "path": "registry/nodes/basic/tokenize.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (no named children; no bucket)",
+      "evidence": "pass (0 evidence rows; nothing to grade)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: splits text into discrete tokens for downstream language-model processing)",
+      "classification": "pass (basic, 0 prerequisites, abstract id)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Precise single-capability description; no children and no evidence rows. Historical timeline entries left as recorded.",
+    "evidenceRefs": [
+      "registry/nodes/basic/tokenize.json"
+    ]
+  },
+  {
+    "id": "tool-select",
+    "kind": "generic",
+    "path": "registry/nodes/basic/tool-select.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (no named children; no bucket)",
+      "evidence": "pass (0 evidence rows; prior dead row was removed with a timeline event)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: chooses a tool or API from options given a task description; 3 derivatives resolve)",
+      "classification": "pass (basic, 0 prerequisites, abstract id)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Precise capability description, no children, no evidence rows to appraise.",
+    "evidenceRefs": [
+      "registry/nodes/basic/tool-select.json"
+    ]
+  },
+  {
+    "id": "tool-use",
+    "kind": "generic",
+    "path": "registry/nodes/basic/tool-use.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (no named children; no bucket)",
+      "evidence": "fail (Toolformer arXiv 2302.04761 is a relevant capability paper and alive; ToolBench row type 'repo' resolves to repo-own, named-only at generic layer, and is a benchmark/harness repo rather than capability evidence; both notes contain mojibake; prepass TM 0.0)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: generate call signatures, parse results, incorporate into reasoning)",
+      "classification": "pass (basic, 0 prerequisites, abstract id; 6 derivatives resolve)"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Relocate or remove the ToolBench repo row (named-only layer). If the benchmark is kept as a generic-layer row, it must be re-typed as benchmark-result and pass the benchmark catalog. Keep Toolformer. Mojibake in notes is logged separately. No rank or TM effect.",
+    "evidenceRefs": [
+      "registry/nodes/basic/tool-use.json",
+      "https://arxiv.org/abs/2302.04761",
+      "https://github.com/OpenBMB/ToolBench",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/liveness/evidence-health.json"
+    ]
+  },
+  {
+    "id": "transactional-email-resend",
+    "kind": "generic",
+    "path": "registry/nodes/basic/transactional-email-resend.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless; sole child is 1★)",
+      "origin": "pass (sole child favorchurch/resend-conference-emails-carefully-with-smtp is 1★; no eligible child, no Origin required)",
+      "evidence": "n/a (0 generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail (scope limited to 'ticket or confirmation emails' and its only child is one conference QR-ticket re-send workflow; narrower than a capability-level description)",
+      "classification": "fail (id and name carry the vendor brand 'Resend'; rule (1) requires vendor-neutral id and name)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "structural",
+    "findingSummary": "Vendor brand 'Resend' in id and name needs a founder decision on a vendor-neutral id (rename through gaia dev rename). Description should move to a capability level (transactional re-delivery with address verification and alternate relays) rather than ticket emails for one event. No rank or Origin impact.",
+    "evidenceRefs": [
+      "registry/nodes/basic/transactional-email-resend.json",
+      "registry/named-skills.json (bucket transactional-email-resend)"
+    ]
+  },
+  {
+    "id": "translate",
+    "kind": "generic",
+    "path": "registry/nodes/basic/translate.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (no named children; no bucket)",
+      "evidence": "fail (note text only: NLLB note contains mojibake in place of an em dash; the row is relevant (arXiv 2207.04672, NLLB, alive 200) and its URL is correct; prepass TM 0.0)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: converts text between natural languages preserving meaning, tone and formatting)",
+      "classification": "pass (basic, 0 prerequisites, abstract id; derivative translation-pipeline resolves)"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Fix the mojibake (double-encoded em dash) in the NLLB evidence note through the evidence CLI. No rank or TM effect.",
+    "evidenceRefs": [
+      "registry/nodes/basic/translate.json",
+      "https://arxiv.org/abs/2207.04672",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/liveness/evidence-health.json"
+    ]
+  },
+  {
+    "id": "ui-audit",
+    "kind": "generic",
+    "path": "registry/nodes/basic/ui-audit.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless); eligible children leonxlnx/redesign-skill 3★ and garrytan/design-review 2★ both have blob links",
+      "origin": "pass (leonxlnx/redesign-skill 3★ origin=true, prepass TM 50.0 B; garrytan/design-review 2★ TM 36.0 C; Origin on the higher-rank eligible child)",
+      "evidence": "n/a (0 generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: layout clarity, affordance, accessibility and visual polish)",
+      "classification": "pass (basic, 0 prerequisites, abstract id; child mapping matches the description's rubric terms)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Origin and mappings are correct. Overlap with ux-audit is a curation question for the founder, not a defect in this record.",
+    "evidenceRefs": [
+      "registry/nodes/basic/ui-audit.json",
+      "registry/named-skills.json (bucket ui-audit)"
+    ]
+  },
+  {
+    "id": "ux-audit",
+    "kind": "generic",
+    "path": "registry/nodes/basic/ux-audit.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent; derivative founder-mode-orchestration resolves)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless); eligible children are blob-linked",
+      "origin": "pass (nextlevelbuilder/ui-ux-pro-max 4★ origin=true, prepass TM 227.51 A, which meets the 4★ TM>=100 gate; highest-rank eligible child; 5 children, Champion is display-derived)",
+      "evidence": "n/a (0 generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail (description is limited to a 'user interface', but two of five children, garrytan/devex-review and garrytan/plan-devex-review, audit CLI and API developer experience rather than a UI)",
+      "classification": "pass (basic, 0 prerequisites, abstract id)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Either broaden the description to cover developer-facing interfaces (CLI, API) or reclassify the two developer-experience children to a developer-experience generic. Reviewer judgment call; low priority. Origin is correct.",
+    "evidenceRefs": [
+      "registry/nodes/basic/ux-audit.json",
+      "registry/named-skills.json (bucket ux-audit)"
+    ]
+  },
+  {
+    "id": "vector-db-optimization",
+    "kind": "generic",
+    "path": "registry/nodes/basic/vector-db-optimization.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless); child ruvnet/agentdb-optimization is 2★ with a bare repo-root links.github (see finding)",
+      "origin": "pass (sole child ruvnet/agentdb-optimization 2★ carries origin=true; sole eligible child; prepass TM 36.0 C)",
+      "evidence": "n/a (0 generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: index tuning, sharding and multi-database coordination for production retrieval)",
+      "classification": "pass (basic, 0 prerequisites, vendor-neutral abstract id; child bucket matches file)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Named child ruvnet/agentdb-optimization links.github is the bare repo root https://github.com/ruvnet/ruflo, violating the blob/branch/subpath invariant. Fix belongs on the named skill after verifying the SKILL.md subpath. Generic and Origin are correct.",
+    "evidenceRefs": [
+      "registry/nodes/basic/vector-db-optimization.json",
+      "registry/named/ruvnet/agentdb-optimization.md",
+      "registry/named-skills.json (bucket vector-db-optimization)"
+    ]
+  },
+  {
+    "id": "vector-search",
+    "kind": "generic",
+    "path": "registry/nodes/basic/vector-search.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless); child ruvnet/agentdb-vector-search is 2★ with a bare repo-root links.github (see finding)",
+      "origin": "pass (sole child ruvnet/agentdb-vector-search 2★ carries origin=true; sole eligible child; prepass TM 36.0 C)",
+      "evidence": "n/a (0 generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: similarity search over embeddings with named distance metrics)",
+      "classification": "pass (basic, 0 prerequisites, abstract id; child bucket matches file)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Named child ruvnet/agentdb-vector-search links.github is the bare repo root https://github.com/ruvnet/ruflo, violating the blob/branch/subpath invariant. Fix belongs on the named skill after verifying the SKILL.md subpath. Generic and Origin are correct.",
+    "evidenceRefs": [
+      "registry/nodes/basic/vector-search.json",
+      "registry/named/ruvnet/agentdb-vector-search.md",
+      "registry/named-skills.json (bucket vector-search)"
+    ]
+  },
+  {
+    "id": "video-captions",
+    "kind": "generic",
+    "path": "registry/nodes/basic/video-captions.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless); eligible child heygen-com/embedded-captions 3★ is blob-linked",
+      "origin": "pass (heygen-com/embedded-captions 3★ origin=true, prepass TM 50.0 B; sole eligible child; remotion-captions 1★ ineligible)",
+      "evidence": "n/a (0 generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: transcribing, displaying and animating caption tracks in code-defined media)",
+      "classification": "pass (basic, 0 prerequisites, vendor-neutral abstract id; lowercase name is cosmetic and not changed)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Origin and mapping are correct. Child remotion-captions (1★) has a placeholder named description, a named-owner item.",
+    "evidenceRefs": [
+      "registry/nodes/basic/video-captions.json",
+      "registry/named-skills.json (bucket video-captions)"
+    ]
+  },
+  {
+    "id": "video-interactivity",
+    "kind": "generic",
+    "path": "registry/nodes/basic/video-interactivity.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (sole child remotion-dev/remotion-interactivity is 1★; no eligible child, no Origin required)",
+      "evidence": "n/a (0 generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: visual manipulation, timeline interactivity and in-studio editing of code-defined templates)",
+      "classification": "pass (basic, 0 prerequisites, abstract id; lowercase name is cosmetic and not changed)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Only child is 1★ and has a placeholder named description (named-owner item).",
+    "evidenceRefs": [
+      "registry/nodes/basic/video-interactivity.json",
+      "registry/named-skills.json (bucket video-interactivity)"
+    ]
+  },
+  {
+    "id": "video-preview",
+    "kind": "generic",
+    "path": "registry/nodes/basic/video-preview.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (sole child remotion-dev/remotion-studio is 1★; no eligible child, no Origin required)",
+      "evidence": "n/a (0 generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: interactive local preview or studio environment for code-defined compositions)",
+      "classification": "pass (basic, 0 prerequisites, abstract id; lowercase name is cosmetic and not changed)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Only child is 1★ and has a placeholder named description (named-owner item).",
+    "evidenceRefs": [
+      "registry/nodes/basic/video-preview.json",
+      "registry/named-skills.json (bucket video-preview)"
+    ]
+  },
+  {
+    "id": "video-rendering",
+    "kind": "generic",
+    "path": "registry/nodes/basic/video-rendering.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless); eligible child heygen-com/hyperframes-core 3★ is blob-linked",
+      "origin": "pass (heygen-com/hyperframes-core 3★ origin=true, prepass TM 50.0 B; sole eligible child; remotion-render 1★ ineligible)",
+      "evidence": "n/a (0 generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: compilation, rendering and export of code-defined compositions to standard media formats)",
+      "classification": "pass (basic, 0 prerequisites, abstract id; lowercase name is cosmetic and not changed)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Origin and mapping are correct.",
+    "evidenceRefs": [
+      "registry/nodes/basic/video-rendering.json",
+      "registry/named-skills.json (bucket video-rendering)"
+    ]
+  },
+  {
+    "id": "video-saas",
+    "kind": "generic",
+    "path": "registry/nodes/basic/video-saas.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (sole child remotion-dev/remotion-saas is 1★; no eligible child, no Origin required)",
+      "evidence": "n/a (0 generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: web applications that embed, render and orchestrate code-driven video with cloud rendering)",
+      "classification": "pass (basic, 0 prerequisites, abstract id; lowercase name is cosmetic and not changed)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Only child is 1★.",
+    "evidenceRefs": [
+      "registry/nodes/basic/video-saas.json",
+      "registry/named-skills.json (bucket video-saas)"
+    ]
+  },
+  {
+    "id": "video-scaffolding",
+    "kind": "generic",
+    "path": "registry/nodes/basic/video-scaffolding.json",
+    "reviewer": "haiku:generic-06",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (schema-valid; id/type/prerequisites consistent)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless); eligible child heygen-com/hyperframes-cli 3★ is blob-linked",
+      "origin": "pass (heygen-com/hyperframes-cli 3★ origin=true, prepass TM 50.0 B; sole eligible child; remotion-create 1★ ineligible)",
+      "evidence": "n/a (0 generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass (precise: project boilerplate, dependency install and local preview setup for programmatic video)",
+      "classification": "pass (basic, 0 prerequisites, abstract id; lowercase name is cosmetic and not changed)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Origin and mapping are correct.",
+    "evidenceRefs": [
+      "registry/nodes/basic/video-scaffolding.json",
+      "registry/named-skills.json (bucket video-scaffolding)"
+    ]
+  }
+]

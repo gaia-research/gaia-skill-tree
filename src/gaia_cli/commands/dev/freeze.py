@@ -1,14 +1,21 @@
 """
 gaia dev freeze <skill-id> --reason <text>
 
-Sets ``installable: false`` in a named skill's frontmatter AND appends a
-``timeline.action: upstream_deprecated`` event.  Atomic — both writes land
-together or neither does.
+Freezes any named node, including a suite capstone. Sets ``installable: false``
+in its frontmatter AND appends a ``timeline.action: upstream_deprecated`` event.
+Atomic — both writes land together or neither does.
+
+Frozen semantics (founder rulings 2026-10-30; one definition in
+``gaia_cli.frozen``): the skill's Trust Magnitude and grade are locked by valid
+frontmatter cache values that already exist. Freezing fails closed before any
+write if the target or any suite-closure member lacks one; it never backfills
+historical locks. A frozen suite freezes every component it contains without
+writing those component files.
 
 CLI Pre-Flight checks (per CLAUDE.md CLI Pre-Flight Rule):
   1. Skill must exist in registry/named/**/*.md.
   2. --reason must be non-empty and ≤500 chars.
-  3. Refuses if installable: false is already set (no-op guard).
+  3. Refuses if the skill is already frozen, itself or through a frozen suite.
   4. Warns (does not refuse) if the skill is 3★+:
      META.md §2.4 Star Bar may fail for frozen 3★+ skills.
 """
@@ -96,12 +103,55 @@ def _pf_reason_non_empty(reason: str) -> None:
         )
 
 
-def _pf_not_already_frozen(skill_id: str, meta: dict) -> None:
-    if meta.get("installable") is False:
+def _all_named_metas(named_dir: Path) -> list[dict]:
+    metas = []
+    for path in named_dir.rglob("*.md"):
+        try:
+            _f, fm_text, _b = split_frontmatter(path.read_text(encoding="utf-8"))
+            meta = load_yaml_simple(fm_text)
+        except (OSError, ValueError):
+            continue
+        if isinstance(meta, dict) and meta.get("id"):
+            metas.append(meta)
+    return metas
+
+
+def _pf_not_already_frozen(skill_id: str, meta: dict, all_metas: list[dict]) -> None:
+    from gaia_cli.frozen import frozenIds, isSelfFrozen
+
+    if isSelfFrozen(meta):
         _fail_dev_preflight(
-            f"Skill '{skill_id}' is already frozen (installable: false). No change.",
+            f"Skill '{skill_id}' is already frozen. No change.",
             fix="Nothing was written. The skill is already frozen.",
         )
+    if skill_id in frozenIds(all_metas):
+        _fail_dev_preflight(
+            f"Skill '{skill_id}' is already frozen through a frozen suite. No change.",
+            fix="Nothing was written. Its suite is frozen, so it is frozen too.",
+        )
+
+
+def _pf_suite_closure_has_locks(skill_id: str, all_metas: list[dict], meta: dict) -> tuple[list[str], list[str]]:
+    """Require valid frozen locks for the target's complete post-freeze closure."""
+    from gaia_cli.frozen import frozenIds, missingFrozenLocks
+
+    before = frozenIds(all_metas)
+    after_metas = [m for m in all_metas if m.get("id") != skill_id] + [
+        {**meta, "installable": False, "frozen": True}
+    ]
+    after = frozenIds(after_metas)
+    inherited = sorted(after - before - {skill_id})
+    missing = missingFrozenLocks(after_metas, after)
+    if missing:
+        _fail_dev_preflight(
+            "Cannot freeze because the frozen suite closure lacks valid TM/grade locks: "
+            + ", ".join(missing) + ". Nothing was written.",
+            fix=(
+                "Preserve the affected historical bytes and use an explicitly authorized "
+                "historical-lock workflow; freeze never computes or backfills a lock."
+            ),
+        )
+    return inherited, missing
 
 
 # ---------------------------------------------------------------------------
@@ -132,9 +182,17 @@ def freeze_command(args) -> None:
     meta: dict = load_yaml_simple(fm_text)
 
     # --- Pre-flight validation ---
+    all_metas = _all_named_metas(named_dir)
+    inherited: list[str] = []
+
+    def _check_locks() -> None:
+        nonlocal inherited
+        inherited, _missing = _pf_suite_closure_has_locks(skill_id, all_metas, meta)
+
     _run_dev_preflights([
         lambda: _pf_reason_non_empty(reason),
-        lambda: _pf_not_already_frozen(skill_id, meta),
+        lambda: _pf_not_already_frozen(skill_id, meta, all_metas),
+        _check_locks,
     ])
 
     # --- Warn if 3★+ (not a refusal) ---
@@ -163,6 +221,8 @@ def freeze_command(args) -> None:
         import yaml  # pyyaml
         print("=== DRY RUN — no files written ===")
         print(f"\nWould set installable: false on {named_file}")
+        if inherited:
+            print(f"Components that would inherit frozen status ({len(inherited)}): {', '.join(inherited)}")
         print("timeline event that would be appended:")
         print(yaml.dump(timeline_event, sort_keys=False, allow_unicode=True))
         return
@@ -175,3 +235,5 @@ def freeze_command(args) -> None:
     named_file.write_text(new_text, encoding="utf-8")
 
     print(f"Frozen {skill_id}: {reason}")
+    if inherited:
+        print(f"Components now frozen through this suite ({len(inherited)}): {', '.join(inherited)}")

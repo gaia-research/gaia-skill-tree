@@ -1,0 +1,661 @@
+[
+  {
+    "id": "firecrawl/firecrawl-build-onboarding",
+    "kind": "named",
+    "path": "registry/named/firecrawl/firecrawl-build-onboarding.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "review",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ at TM 50.00 (B, at the suite component baseline cap) and blob link (HTTP 200) pass. Evidence: github-stars-own source is https://github.com/firecrawl/skills/stargazers, which returns 404; repointing the source to https://github.com/firecrawl/skills leaves TM at 50.00 (engine what-if). Body is the template stub. Origin: holds Origin in agent-environment-setup, but sibling mattpocock/setup-matt-pocock-skills (3★, TM 56.21, origin false) outranks it on TM at equal level; §4.1 tie-break review, Class C.",
+    "evidenceRefs": [
+      "https://github.com/firecrawl/skills/stargazers (404)",
+      "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-onboarding/SKILL.md",
+      "registry/named/firecrawl/firecrawl-build-onboarding.md"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-build-scrape",
+    "kind": "named",
+    "path": "registry/named/firecrawl/firecrawl-build-scrape.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "review",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "4★ needs TM≥100 (A). Engine TM 110.02 (A) passes numerically, but 60.24 of it comes from two YouTube social-signal rows (16.81 + 43.21). Without them TM is 50.00 (B), which the projection ceiling caps at 3★. META §2.4 requires live verifiable usage evidence at 4★+, and creator view counts are not implementation usage evidence, so the 4★ basis is contestable (Class C). No timeline rank event records the 3★→4★ change. Stargazers source is 404 (same as siblings). Body stub. Origin in web-scrape (sole Origin vs garrytan/scrape 2★) is unaffected by the rank question.",
+    "evidenceRefs": [
+      "https://www.youtube.com/watch?v=tBtPSV_gU6o (200)",
+      "https://www.youtube.com/watch?v=7GeFt8suV8E (200)",
+      "https://github.com/firecrawl/skills/stargazers (404)",
+      "registry/named/firecrawl/firecrawl-build-scrape.md"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-build-search",
+    "kind": "named",
+    "path": "registry/named/firecrawl/firecrawl-build-search.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ at TM 83.62 (B) with blob link (200) and sole Origin in web-search pass. Evidence: stargazers source is 404 (repoint to https://github.com/firecrawl/skills; TM unchanged). The social-signal row cites the same tutorial video (tBtPSV…) as build-scrape; its note says it covers search, so relevance holds, but one video is credited to two records. Body is the template stub.",
+    "evidenceRefs": [
+      "https://github.com/firecrawl/skills/stargazers (404)",
+      "https://www.youtube.com/watch?v=tBtPSV_gU6o (200)",
+      "registry/named/firecrawl/firecrawl-build-search.md"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-research-index",
+    "kind": "named",
+    "path": "registry/named/firecrawl/firecrawl-research-index.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "review",
+      "starBar": "pass",
+      "origin": "fail",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Origin: literature-search has exactly one named claimant (this record, 3★, TM 50.00 B) and origin false. That is a zero-holder bucket, which META §4.1 says must hold exactly one Origin. Proposed Class C award to the sole claimant on merit (not createdAt). Evidence: no row is specific to literature retrieval (repo-own is the firecrawl/firecrawl product repo, the stars row is the 6-skill collection), so the 3★ rests on adoption only (review). The 2026-09-04 demotion correctly stripped the unearned blog benchmark. Stargazers source 404. Body stub.",
+    "evidenceRefs": [
+      "https://github.com/firecrawl/skills/stargazers (404)",
+      "https://github.com/firecrawl/skills/blob/main/skills/core/firecrawl-research-index/SKILL.md (200)",
+      "registry/named/firecrawl/firecrawl-research-index.md",
+      "registry/named-skills.json (bucket literature-search)"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-skills",
+    "kind": "named",
+    "path": "registry/named/firecrawl/firecrawl-skills.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "links.github is a bare repo root (https://github.com/firecrawl/firecrawl), which CLAUDE.md prohibits for links.github. The 2026-07-13 timeline says the link was set to blob/main/README.md, and that change was lost with no event. https://github.com/firecrawl/firecrawl/blob/main/README.md returns 200. Evidence: the benchmark-result row (firecrawl/firecrawl repo root, scrape-content-dataset-v1) is absent from registry/benchmark-sources.json, so the engine drops it (catalog-gated, 0 TM) while the row still asserts grade A. The 'repo' type and class/trustNumber fields are legacy, and the stargazers source is 404. Components all exist with matching suiteRef; upstream v2.11.0 is the latest release. Origin in the firecrawl bucket is sole, but the 2026-06-02 removal event has no restoring event.",
+    "evidenceRefs": [
+      "https://github.com/firecrawl/firecrawl (200, repo root)",
+      "https://github.com/firecrawl/firecrawl/blob/main/README.md (200)",
+      "https://github.com/firecrawl/skills/stargazers (404)",
+      "https://github.com/firecrawl/firecrawl/releases/tag/v2.11.0",
+      "registry/named/firecrawl/firecrawl-skills.md"
+    ]
+  },
+  {
+    "id": "gaia-research/ci-churn",
+    "kind": "named",
+    "path": "registry/named/gaia-research/ci-churn.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "review",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Rank and link pass (2★, TM 41.00 C). SKILL.md present at .agents/skills/ci-churn/SKILL.md with the .claude mirror. Body is the template stub. The self-attestation row says 'called automatically by /fp-drift at every pipeline close', but .agents/skills/fp-drift/SKILL.md says 'When available, python scripts/ci_churn.py … can inform a cost receipt' (optional). Reword the note to match (flat 10 TM, unchanged). Origin: sole named claimant of ci-churn-analysis with origin false; 2★ Origin floor unspecified in META, escalate.",
+    "evidenceRefs": [
+      ".agents/skills/ci-churn/SKILL.md",
+      ".agents/skills/fp-drift/SKILL.md (line 43)",
+      "scripts/ci_churn.py",
+      "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/ci-churn/SKILL.md (200)",
+      "registry/named/gaia-research/ci-churn.md"
+    ]
+  },
+  {
+    "id": "gaia-research/cost",
+    "kind": "named",
+    "path": "registry/named/gaia-research/cost.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "fail",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ is the correct ceiling for TM 5.00 (ungraded), and the blob SKILL.md link (200) passes. Body is the template stub. Frontmatter: status 'named' with level 1★, while META §1.1 defines 1★ as Awakened and the 1★ records in this sweep (gaiabot/gaia-triage, repo-docs-before-pr) use status awakened. Status change is a curation decision (Class C), flagged not changed. Systemic: named-status 1★ records are common in named-skills.json; route to meta-sweep.",
+    "evidenceRefs": [
+      "https://github.com/gaia-research/skill-cost/blob/main/SKILL.md (200)",
+      "https://research.gaiaskilltree.com/ (200)",
+      "registry/named/gaia-research/cost.md"
+    ]
+  },
+  {
+    "id": "gaia-research/fuse",
+    "kind": "named",
+    "path": "registry/named/gaia-research/fuse.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "review",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "2★ at TM 41.62 (C) and blob link to the standalone skill-fuse SKILL.md (200) pass. Evidence: the self-attestation row cites gaia-research/gaia-skill-tree .agents/skills/gaia-fuse-full-suite/SKILL.md, a sibling skill, while claiming 'in production use'. Re-point it to this skill's own SKILL.md or annotate it (flat 10 TM, no change). Description says 'ultimate or suite skill node'; 'ultimate' is a retired type (META §1.2), so reword. Origin: sole claimant of skill-fusion at 2★ with origin false; escalate.",
+    "evidenceRefs": [
+      "https://github.com/gaia-research/skill-fuse/blob/main/SKILL.md (200)",
+      "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-fuse-full-suite/SKILL.md (200)",
+      "registry/named/gaia-research/fuse.md"
+    ]
+  },
+  {
+    "id": "gaiabot/gaia-triage",
+    "kind": "named",
+    "path": "registry/named/gaiabot/gaia-triage.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "n/a",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Awakened 1★ with TM 0 is consistent. Link file exists locally (.agents/skills/gaia-triage/SKILL.md) and blob returns 200. Scripts named in the body exist (scripts/build_docs.py, generateProjections.py, exportGexf.py). Body guardrail 'Always run the full test suite (uv run pytest) after these fixes' conflicts with CLAUDE.md Testing (run tests surgically; full suite only before a review pass). Change the guardrail.",
+    "evidenceRefs": [
+      ".agents/skills/gaia-triage/SKILL.md",
+      "scripts/build_docs.py",
+      "scripts/generateProjections.py",
+      "scripts/exportGexf.py",
+      "registry/named/gaiabot/gaia-triage.md"
+    ]
+  },
+  {
+    "id": "gaiabot/repo-docs-before-pr",
+    "kind": "named",
+    "path": "registry/named/gaiabot/repo-docs-before-pr.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Awakened 1★ is consistent (reconciled under #1699 per founder/MEMORY.md). The single evidence row uses non-schema type 'repo' (engine normalizes to repo-own, TM 36 unchanged), legacy class/trustNumber fields, commits 90 and contributors 10 that disagree with the same repo's 2884/24 on other rows, and notes citing the retired 'gaia docs build --check' (CLAUDE.md: removed in v7.0.0). The row evidences the repo's own CI drift gate, not this skill. No SKILL file for this skill is located in .agents/skills, and CONTRIBUTING.md:587 says it is self-hosted and not installable. Normalize the row and decide whether the record has a verifiable source.",
+    "evidenceRefs": [
+      "registry/named/gaiabot/repo-docs-before-pr.md",
+      "CONTRIBUTING.md (line 587)",
+      "founder/MEMORY.md (#1699 entry)",
+      "https://github.com/gaia-research/gaia-skill-tree (200)"
+    ]
+  },
+  {
+    "id": "garrytan/academic-verify",
+    "kind": "named",
+    "path": "registry/named/garrytan/academic-verify.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "review",
+      "evidence": "review",
+      "upstream": "review",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Source level 2★ with zero evidence rows and TM 0 (ungraded). scripts/generateNamedIndex.py clamps the level to the TM grade ceiling (ungraded→1★), so the generated projection shows 1★ while the source shows 2★. That silent clamp is a defect under Yggdrasil IV §III. Proposed: canonical 1★ (Class C), or attach evidence reaching grade C (TM≥20). Pinned to gbrain v0.51.6.0; the SKILL.md blob differs at latest release v0.60.474.0 and there is no upstream block (review debt, not demotion). Grounding bucket has three claimants and no Origin holder, all 1★ in projection, so no origin proposal. Body is the stub; the description routes through a third-party tool (perplexity-research) that the stub does not credit.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/academic-verify/SKILL.md (200)",
+      "gbrain contents API: plugin/skills/academic-verify/SKILL.md blob ba494172 (v0.51.6.0) vs 2bb1cbd3 (v0.60.474.0)",
+      "scripts/generateNamedIndex.py (lines 615-630)",
+      "registry/named/garrytan/academic-verify.md"
+    ]
+  },
+  {
+    "id": "garrytan/archive-crawler",
+    "kind": "named",
+    "path": "registry/named/garrytan/archive-crawler.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "review",
+      "evidence": "n/a",
+      "upstream": "review",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Same silent clamp as academic-verify: source 2★, TM 0 (ungraded), projection 1★. Proposed canonical 1★ (Class C) or evidence to grade C. Pinned to gbrain v0.51.6.0, whose SKILL.md blob differs at latest v0.60.474.0 (no upstream block). Body is the stub. Positive note for the body: the description requires an explicit gbrain.yml allow-list before any scan, which is a personal-data guard and should be kept when the stub is filled.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/archive-crawler/SKILL.md (200)",
+      "gbrain contents API: archive-crawler blob 3ba5709a (pinned) vs f1b1c38e (latest)",
+      "registry/named/garrytan/archive-crawler.md"
+    ]
+  },
+  {
+    "id": "garrytan/benchmark-models",
+    "kind": "named",
+    "path": "registry/named/garrytan/benchmark-models.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "review",
+      "evidence": "review",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "2★ at TM 36.00 (C), within the 2★ ceiling; blob link (200); suite membership confirmed (garrytan/gstack capstone lists benchmark-models). The single evidence row uses non-schema type 'repo' with legacy class B and trustNumber 70; normalize to repo-own (TM unchanged). Its 'verified live' note is an unverifiable assertion, and the row supports repo existence rather than model-benchmark performance. skill-performance-benchmarking has no Origin holder; benchmark-models is top by level (2★), but the 2★ Origin floor is unspecified (escalate).",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/benchmark-models/SKILL.md (200)",
+      "registry/named/garrytan/benchmark-models.md",
+      "registry/named/garrytan/gstack.md (suiteComponents)"
+    ]
+  },
+  {
+    "id": "garrytan/benchmark",
+    "kind": "named",
+    "path": "registry/named/garrytan/benchmark.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "review",
+      "evidence": "review",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "3★ at TM 50.00 (B, component baseline cap) and blob link (200) pass. The stars row is internally inconsistent: stars field 134645, note '110,930 (verified 2026-06-20)', row grade C, while the timeline says graded A at trustNumber 85; live garrytan/gstack stars are 137,930. The cap means TM does not move, so fix the metadata at the next stars refresh. evaluate-output has no Origin holder and a 3★ tie with plan-ceo-review (both TM 50.00), so there is no deterministic Origin basis; escalate (Class C).",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack (GitHub API stars 137930)",
+      "https://github.com/garrytan/gstack/blob/main/benchmark/SKILL.md (200)",
+      "registry/named/garrytan/benchmark.md"
+    ]
+  },
+  {
+    "id": "garrytan/blog-ingest",
+    "kind": "named",
+    "path": "registry/named/garrytan/blog-ingest.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "review",
+      "evidence": "n/a",
+      "upstream": "review",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Same silent clamp as academic-verify: source 2★, TM 0, projection 1★. Proposed canonical 1★ (Class C) or evidence to grade C. Pinned to v0.51.6.0; the SKILL.md blob differs at latest v0.60.474.0 (8bcd7225 vs 39d4a920), with no upstream block. Body is the stub.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/blog-ingest/SKILL.md (200)",
+      "registry/named/garrytan/blog-ingest.md"
+    ]
+  },
+  {
+    "id": "garrytan/book-mirror",
+    "kind": "named",
+    "path": "registry/named/garrytan/book-mirror.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "review",
+      "evidence": "n/a",
+      "upstream": "review",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Same silent clamp: source 2★, TM 0, projection 1★. Proposed canonical 1★ (Class C) or evidence to grade C. Pinned to v0.51.6.0; the SKILL.md blob differs at latest v0.60.474.0 (96fab994 vs a63fee72), with no upstream block. Body is the stub, and it depends on brain context and brain-pdf, which the body should declare. document-analyst holds no Origin and its other claimant is 1★ (no origin proposal).",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/book-mirror/SKILL.md (200)",
+      "registry/named/garrytan/book-mirror.md"
+    ]
+  },
+  {
+    "id": "garrytan/brain-ops",
+    "kind": "named",
+    "path": "registry/named/garrytan/brain-ops.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "review",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "fail",
+      "evidence": "review",
+      "upstream": "review",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Origin: knowledge-management has no Origin holder, and brain-ops is the top claimant on level and TM (3★, TM 50.00 vs 2★ siblings at 36.00, 36.00 and 44.48). Proposed Class C award. Also: the pin 8c70f62 is 13 commits behind v0.51.6.0, which the gbrain capstone was synced to on 2026-09-22; the SKILL.md changed in that range. Stars row: stars field 30471, note 29,650, live 31,276; row grade A vs computed B. No trustMagnitude cache. Body is the stub. TM 50.00 is the component baseline cap, so the star figures do not move TM.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/brain-ops/SKILL.md (200)",
+      "https://github.com/garrytan/gbrain/compare/8c70f62...v0.51.6.0 (ahead 13, behind 0; skills/brain-ops/SKILL.md changed)",
+      "https://github.com/garrytan/gbrain (GitHub API stars 31276)",
+      "registry/named/garrytan/brain-ops.md"
+    ]
+  },
+  {
+    "id": "garrytan/browse",
+    "kind": "named",
+    "path": "registry/named/garrytan/browse.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "review",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 6,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "All five 'peer-review' rows (gstack issues 1784, 1953, 1989, 2048, 2055) are closed bug reports for /browse, not 4★+ reviewer walkthroughs (META §2.1c). They carry 52.5 of the 88.5 TM. Without them TM is 36.00 (C), which the grade ceiling clamps to 2★. Route them to the public challenge history (Yggdrasil IV §III) rather than TM; the rank consequence is Class C. Origin: browser-harness holds Origin (3★, TM 73.59). Browse's TM lead depends on the contested rows, so no transfer should be proposed on current evidence. Timeline logs 'Origin status set to true' on 2026-06-02 with no removal event (metadata).",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/issues/2055 (closed 2026-08-15)",
+      "https://github.com/garrytan/gstack/issues/2048 (closed 2026-10-03)",
+      "https://github.com/garrytan/gstack/issues/1989 (closed 2026-08-17)",
+      "https://github.com/garrytan/gstack/issues/1953 (closed 2026-06-10)",
+      "https://github.com/garrytan/gstack/issues/1784 (closed 2026-10-03)",
+      "registry/named/garrytan/browse.md"
+    ]
+  },
+  {
+    "id": "garrytan/bulk-ingestion",
+    "kind": "named",
+    "path": "registry/named/garrytan/bulk-ingestion.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "review",
+      "evidence": "n/a",
+      "upstream": "review",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Same silent clamp: source 2★, TM 0, projection 1★. Proposed canonical 1★ (Class C) or evidence to grade C. Pinned to v0.51.6.0; the SKILL.md blob differs at latest v0.60.474.0 (b498ed8d vs 7ab7ebb0), with no upstream block. Body is the stub. knowledge-harvest bucket: all four claimants are 1★ in projection, so no origin proposal.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/bulk-ingestion/SKILL.md (200)",
+      "registry/named/garrytan/bulk-ingestion.md"
+    ]
+  },
+  {
+    "id": "garrytan/canary",
+    "kind": "named",
+    "path": "registry/named/garrytan/canary.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "fail",
+      "evidence": "review",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "3★ at TM 50.00 (B, component baseline cap) and blob link (200) pass. Origin: detect-anomaly has one claimant (this record) and no Origin holder, while META §4.1 requires exactly one. Proposed Class C award on merit (sole claimant; no createdAt basis). Stars row metadata is stale: field 134645, note 110,930, live 137,930 (TM unchanged under cap). Demotion 4→3 on 2026-06-20 has no TM change, so the history is consistent.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/canary/SKILL.md (200)",
+      "https://github.com/garrytan/gstack (GitHub API stars 137930)",
+      "registry/named/garrytan/canary.md"
+    ]
+  },
+  {
+    "id": "garrytan/capture",
+    "kind": "named",
+    "path": "registry/named/garrytan/capture.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "review",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "review",
+      "evidence": "review",
+      "upstream": "review",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "3★ at TM 50.00 (B, component cap) and blob link pinned at 8c70f62 (200) pass. Body is the stub. Origin: personal-knowledge-management has no Origin holder, but capture is not the top claimant: mattpocock/obsidian-vault (3★, TM 94.92, origin false, outside this batch) leads, so no Origin proposal for capture. Pin is behind the capstone's synced tag (as brain-ops). Stars metadata mismatch (30471 vs note 29,650). No trustMagnitude cache.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/capture/SKILL.md (200)",
+      "registry/named/garrytan/capture.md",
+      "registry/named-skills.json (bucket personal-knowledge-management)"
+    ]
+  },
+  {
+    "id": "garrytan/careful",
+    "kind": "named",
+    "path": "registry/named/garrytan/careful.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "review",
+      "starBar": "pass",
+      "origin": "review",
+      "evidence": "fail",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "The peer-review row for gstack issue 2039 is a closed bug report (fail-open on chained rm, closed 2026-08-08), not a reviewer walkthrough (META §2.1c). It carries 30 of 66 TM. Without it TM is 36.00 (C), clamped to 2★. Route to the challenge history (Yggdrasil IV §III); the defect bears directly on a safety-oriented skill, so the rank consequence is Class C. Origin: careful is top by level only through this row, so defer any Origin proposal until the evidence is corrected (after correction the 2★ TM leader would be mattpocock/git-guardrails-claude-code at 41.00).",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/issues/2039 (closed 2026-08-08)",
+      "https://github.com/garrytan/gstack/blob/main/careful/SKILL.md (200)",
+      "registry/named/garrytan/careful.md"
+    ]
+  },
+  {
+    "id": "garrytan/citation-graph-ingest",
+    "kind": "named",
+    "path": "registry/named/garrytan/citation-graph-ingest.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "review",
+      "evidence": "n/a",
+      "upstream": "review",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Same silent clamp: source 2★, TM 0, projection 1★. Proposed canonical 1★ (Class C) or evidence to grade C. Pinned to v0.51.6.0; the SKILL.md blob differs at latest v0.60.474.0 (bde04e8c vs 0bc5cb28), with no upstream block. Body is the stub; it depends on the gbrain CLI (gbrain link, gbrain graph-query), which the body should declare. knowledge-graph-build's other claimant is 1★, so no origin proposal.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/citation-graph-ingest/SKILL.md (200)",
+      "registry/named/garrytan/citation-graph-ingest.md"
+    ]
+  },
+  {
+    "id": "garrytan/codex",
+    "kind": "named",
+    "path": "registry/named/garrytan/codex.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "review",
+      "evidence": "review",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ at TM 36.00 (C) and blob link (200) pass. Body describes a 'Claude-versus-Codex' debate but does not credit Anthropic (Claude) or OpenAI (Codex) as the makers of the third-party tools (check 7). Add attribution. Evidence row uses non-schema type 'repo' plus legacy class/trustNumber fields (normalize; TM unchanged). Origin: sole claimant of multi-agent-debate at 2★ with origin false; escalate.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/codex/SKILL.md (200)",
+      "registry/named/garrytan/codex.md"
+    ]
+  },
+  {
+    "id": "garrytan/concept-synthesis",
+    "kind": "named",
+    "path": "registry/named/garrytan/concept-synthesis.md",
+    "reviewer": "haiku:named-03",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "review",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "fail",
+      "evidence": "review",
+      "upstream": "review",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Origin: the concept-synthesis bucket has no Origin holder, and this record is the top claimant (3★, TM 50.00 vs idea-lineage 1★, TM 0). Proposed Class C award. Also: pin 8c70f62 is behind the capstone's synced tag; the fuse timeline event names the pre-rename id garrytan/brain-operations and suiteRef=garrytan/concept-synthesis, while frontmatter correctly says garrytan/gbrain (the capstone lists it). Stars metadata mismatch (30471 vs 29,650 note). No trustMagnitude cache. Body is the stub.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md (200)",
+      "registry/named/garrytan/gbrain.md (suiteComponents)",
+      "registry/named/garrytan/concept-synthesis.md"
+    ]
+  }
+]

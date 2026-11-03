@@ -1,0 +1,95 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/perplexity-research",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/perplexity-research",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/perplexity-research/SKILL.md",
+  "checked": true,
+  "contentSha256": "1d6cf9f752b4a1618a04789a2f24a7f18d6feaa4ada578515842860bd5869997",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.502756
+    },
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.488189
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "autonomous-web-research",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5011 to generic 'autonomous-web-research' (weak match).",
+   "similarity": 0.501067
+  }
+ ],
+ "normalized": {
+  "description": "Brain-augmented web research. Sends brain context about a topic to Perplexity, which searches the web with citations and returns what is NEW vs what the brain already knows. Use for entity enrichment, current-state checks, deal monitoring, and freshness deltas. NOT for simple URL fetches (use web_fetch) or brain-only queries (use gbrain query).",
+  "name": "perplexity-research"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/perplexity-research/SKILL.md",
+  "contentSha256": "1d6cf9f752b4a1618a04789a2f24a7f18d6feaa4ada578515842860bd5869997",
+  "fetchedAt": "2026-10-27T22:08:41.907164+00:00",
+  "frontmatter": {
+   "description": "Brain-augmented web research. Sends brain context about a topic to Perplexity, which searches the web with citations and returns what is NEW vs what the brain already knows. Use for entity enrichment, current-state checks, deal monitoring, and freshness deltas. NOT for simple URL fetches (use web_fetch) or brain-only queries (use gbrain query).",
+   "mutating": true,
+   "name": "perplexity-research",
+   "triggers": [
+    "perplexity research",
+    "perplexity-research",
+    "what's new about",
+    "current state of",
+    "web research",
+    "what changed about",
+    "surface new developments"
+   ],
+   "version": "0.1.0",
+   "writes_pages": true,
+   "writes_to": [
+    "research/"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

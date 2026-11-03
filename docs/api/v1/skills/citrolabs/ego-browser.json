@@ -62,6 +62,12 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://github.com/citrolabs/ego-lite/blob/5ca3c36cba2240b8df2e22ba32127747029039d5/skills/ego-browser/SKILL.md (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-10-30T04:58:32Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 36.0, grade (none) -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

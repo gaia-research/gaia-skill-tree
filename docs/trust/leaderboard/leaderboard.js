@@ -36,7 +36,7 @@
   var VER = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
   var BAR_W = 28; // legacy — kept for any downstream readers; charts now use computeBarMetrics()
   var BAR_GAP = 4;
-  var CHART_H = 320;
+  var CHART_H = 340;
   var SUITE_CHART_H = 380;
   var PAD = { top: 24, right: 24, bottom: 110, left: 54 };
   var INITIAL_BARS = 40;
@@ -426,7 +426,7 @@
   // "Updated YYYY-MM-DD" tag in apex-gold, top-left interior of each chart SVG.
   function appendUpdatedBadge(svg, dateStr) {
     if (!dateStr) return;
-    var g = svgEl('g', { 'pointer-events': 'none', transform: 'translate(14, 22)' });
+    var g = svgEl('g', { 'pointer-events': 'none', transform: 'translate(14, 16)' });
     var t = svgEl('text', {
       x: 0, y: 0,
       'font-family': 'var(--font-data)',
@@ -495,8 +495,41 @@
     tmMethodologyOpen: false,
     updatedDate: '',
     contributorOptions: [],
-    skillById: {}
+    skillById: {},
+    contested: null   // subjectId -> admitted, unresolved challenge summary (see challenge-surfaces.js)
   };
+
+  // ── YGGDRASIL IV: CONTESTED MARKS (docs/js/challenge-surfaces.js) ──
+  // Additive only: marks are appended beside bars and rows; no bar, figure or
+  // row the page draws is touched. With no admitted-and-contested subject
+  // (the unavailable projection), none of this runs and the page is unchanged.
+  function hasContested() {
+    return !!(window.GaiaChallenges && state.contested && Object.keys(state.contested).length);
+  }
+
+  function contestFor(id) {
+    var ids = [id];
+    var groups = state.collapsedNamed || [];
+    for (var i = 0; i < groups.length; i++) {
+      if (groups[i].id === id) { ids = groups[i]._groupMembers || [id]; break; }
+    }
+    var entry = window.GaiaChallenges.combineEntries(ids.map(function(member) { return state.contested[member]; }));
+    if (!entry) return null;
+    var row = state.skillById[id];
+    return { entry: entry, isOrigin: !!(row && row.origin) };
+  }
+
+  function contestForRow(id) {
+    var entry = window.GaiaChallenges.combineEntries([state.contested[id]]);
+    if (!entry) return null;
+    var row = state.skillById[id];
+    return { entry: entry, isOrigin: !!(row && row.origin) };
+  }
+
+  function applyContestMarks() {
+    if (!hasContested()) return;
+    window.GaiaChallenges.decorateBars(document.getElementById('lbNamedChart'), contestFor, { root: ROOT_PREFIX });
+  }
 
   function fetchJson(url) {
     return fetch(url).then(function(r) {
@@ -523,8 +556,14 @@
   // ── DATA FETCH (parallel) ──
   Promise.all([
     fetchJson(BASE + 'leaderboard.json' + VER),
-    fetchSkillPages()
+    fetchSkillPages(),
+    // Yggdrasil IV challenge projection. load() never rejects: any failure is
+    // an unavailable projection and the page renders exactly as without it.
+    window.GaiaChallenges ? window.GaiaChallenges.load(BASE, window.GAIA_VERSION) : Promise.resolve(null)
   ]).then(function(results) {
+    if (results[2] && results[2].projection) {
+      state.contested = window.GaiaChallenges.contestedIndex(results[2].projection);
+    }
     boot(results[0], results[1]);
   }).catch(function(err) {
     var page = document.querySelector('.lb-page');
@@ -869,6 +908,7 @@
         '<td class="col-stars">' + esc(stars) + '</td>' +
       '</tr>';
     }).join('');
+    if (hasContested()) window.GaiaChallenges.decorateRows(body, contestForRow, { root: ROOT_PREFIX });
   }
 
   function wireLedgerToggle() {
@@ -891,7 +931,7 @@
     if (countEl) countEl.textContent = ultimates.length + ' of ' + ultimates.length + ' ultimates';
     var gs = (typeof window !== 'undefined' && window.GaiaSemantics);
 
-    var SPAD = { top: 24, right: 24, bottom: 0, left: 54 }; // bottom computed below
+    var SPAD = { top: 36, right: 24, bottom: 0, left: 54 }; // bottom computed below
     var maxTM = TM_CEILING;
 
     // Fix 1: dynamic bar metrics for ultimates — wide bars, generous gap.
@@ -926,7 +966,7 @@
     });
 
     // Y-axis gridlines
-    drawYAxis(svg, innerH, maxTM, totalW);
+    drawYAxis(svg, innerH, maxTM, totalW, SPAD);
 
     // Bars
     var barGroup = svgEl('g', { transform: 'translate(' + SPAD.left + ',' + SPAD.top + ')' });
@@ -1099,7 +1139,7 @@
       return;
     }
 
-    var SPAD = { top: 40, right: 24, bottom: 0, left: 54 }; // top: extra room for rank stars above bars
+    var SPAD = { top: 48, right: 24, bottom: 0, left: 54 }; // top: extra room for rank stars above bars
     var SCHART_H = 400;
     var maxTM = TM_CEILING;
 
@@ -1135,7 +1175,7 @@
     });
 
     // Y-axis
-    drawYAxis(svg, innerH, maxTM, totalW);
+    drawYAxis(svg, innerH, maxTM, totalW, SPAD);
 
     var barGroup = svgEl('g', { transform: 'translate(' + SPAD.left + ',' + SPAD.top + ')' });
 
@@ -1471,7 +1511,7 @@
     var countEl = document.getElementById('lbNamedCount');
     if (!container) return;
 
-    var NPAD = { top: 40, right: 24, bottom: 0, left: 54 }; // top: extra room for rank stars above bars
+    var NPAD = { top: 56, right: 24, bottom: 0, left: 54 }; // top: extra room for rank stars above bars and clearance
 
     var visible = applyFilter(skills);
     var collapsed = state.grouped ? collapseGroups(visible) : visible;
@@ -1587,7 +1627,7 @@
     });
 
     // Y-axis gridlines
-    drawYAxis(svg, innerH, maxTM, totalW);
+    drawYAxis(svg, innerH, maxTM, totalW, NPAD);
 
     // Fix 4: S/A/B/C background bands when grouped by grade
     if (state.grouped && state.sort === 'grade') {
@@ -1669,7 +1709,7 @@
       if (rankN > 0) {
         var starFontPx = Math.max(9, ls.fontPx);
         // Place just above bar top; clamp so it doesn't leave the SVG viewport.
-        var starY = Math.max(-NPAD.top + starFontPx + 5, y - 6);
+        var starY = Math.max(-NPAD.top + starFontPx + 6, y - 8);
         var rankPill = svgEl('text', {
           x: x + NB / 2,
           y: starY,
@@ -1745,6 +1785,7 @@
     container.insertAdjacentHTML('beforebegin', buildActionButtons('named'));
 
     renderNamedPaginationBtn(container, collapsed.length, needsPagination);
+    applyContestMarks();
   }
 
   function renderNamedPaginationBtn(container, total, needsPagination) {
@@ -1773,7 +1814,7 @@
     var countEl = document.getElementById('lbGenericCount');
     if (!container) return;
 
-    var GPAD = { top: 28, right: 24, bottom: 0, left: 54 }; // bottom computed below
+    var GPAD = { top: 36, right: 24, bottom: 0, left: 54 }; // bottom computed below
     var GCHART_H = 440;
 
     if (countEl) countEl.textContent = nodes.length + ' generic skills \u00B7 ' +
@@ -1840,7 +1881,7 @@
       defs.appendChild(grad);
     });
 
-    drawYAxis(svg, innerH, maxTM, totalW);
+    drawYAxis(svg, innerH, maxTM, totalW, GPAD);
     var barGroup = svgEl('g', { transform: 'translate(' + GPAD.left + ',' + GPAD.top + ')' });
 
     displayNodes.forEach(function(node, i) {
@@ -2602,8 +2643,9 @@
     grad.appendChild(stop);
   }
 
-  function drawYAxis(svg, innerH, maxTM, totalW) {
-    var g = svgEl('g', { transform: 'translate(' + PAD.left + ',' + PAD.top + ')' });
+  function drawYAxis(svg, innerH, maxTM, totalW, pad) {
+    var p = pad || PAD;
+    var g = svgEl('g', { transform: 'translate(' + p.left + ',' + p.top + ')' });
     var steps = [0, 0.25, 0.5, 0.75, 1];
     steps.forEach(function(pct) {
       var y = innerH - (innerH * pct);
@@ -2611,7 +2653,7 @@
 
       // Gridline
       var line = svgEl('line', {
-        x1: -8, y1: y, x2: totalW - PAD.left - PAD.right, y2: y,
+        x1: -8, y1: y, x2: totalW - p.left - p.right, y2: y,
         'class': 'lb-gridline'
       });
       g.appendChild(line);

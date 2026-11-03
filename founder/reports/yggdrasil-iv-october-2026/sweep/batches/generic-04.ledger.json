@@ -1,0 +1,654 @@
+[
+  {
+    "id": "memory-pattern-design",
+    "kind": "generic",
+    "path": "registry/nodes/basic/memory-pattern-design.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "fail",
+      "body": "flag",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Sole child ruvnet/agentdb-memory-patterns (2★, origin true) is the one Origin, so origin is satisfied. Its links.github is the bare repo root https://github.com/ruvnet/ruflo, which CLAUDE.md curation invariants reject (must be blob/branch/subpath). Generic description names implementation mechanisms (LRU caching, SQLite persistence), narrower than a capability-level statement. Zero generic evidence rows; not a defect.",
+    "evidenceRefs": [
+      "registry/nodes/basic/memory-pattern-design.json",
+      "registry/named/ruvnet/agentdb-memory-patterns.md",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "molecular-databases",
+    "kind": "generic",
+    "path": "registry/nodes/basic/molecular-databases.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "fail",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "One generic row cites the google-deepmind/science-skills repo: implementation-level, Evidence Type 'repo' (not in meta.json types), class-only with no grade, so Gaia TM is 0.0 (ungraded). Implementation evidence belongs on the named children (chembl-database, pubchem-database; both 1★ awakened). named-skills.json has no bucket for this id even though both named files declare genericSkillRef molecular-databases. Removing or retyping the row is a Class C canonical evidence change.",
+    "evidenceRefs": [
+      "registry/nodes/basic/molecular-databases.json",
+      "https://github.com/google-deepmind/science-skills",
+      "registry/named/google-deepmind/chembl-database.md",
+      "registry/named/google-deepmind/pubchem-database.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "multi-repo-coordination",
+    "kind": "generic",
+    "path": "registry/nodes/basic/multi-repo-coordination.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "fail",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Sole child ruvnet/github-multi-repo (2★, origin true) satisfies the single-Origin invariant. Its links.github is the bare repo root https://github.com/ruvnet/ruflo, which violates the blob/branch/subpath curation invariant. Generic has no evidence rows and no description defect.",
+    "evidenceRefs": [
+      "registry/nodes/basic/multi-repo-coordination.json",
+      "registry/named/ruvnet/github-multi-repo.md"
+    ]
+  },
+  {
+    "id": "object-detection",
+    "kind": "generic",
+    "path": "registry/nodes/basic/object-detection.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Two class-only rows with no grade and no typed magnitude, so Gaia TM is 0.0. The DETR arXiv row (2005.12872) is valid Class A capability evidence but lacks citation or magnitude inputs to be scored. The Ultralytics repo row is implementation-level, typed 'repo' (invalid), and belongs on a named child. Child huggingface-vision-trainer is 1★, so no Origin is required.",
+    "evidenceRefs": [
+      "registry/nodes/basic/object-detection.json",
+      "https://arxiv.org/abs/2005.12872",
+      "https://github.com/ultralytics/ultralytics",
+      "registry/named/huggingface/huggingface-vision-trainer.md"
+    ]
+  },
+  {
+    "id": "observability-instrumentation",
+    "kind": "generic",
+    "path": "registry/nodes/basic/observability-instrumentation.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail",
+      "evidence": "pass",
+      "upstream": "fail",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Sole child addy-osmani/observability-and-instrumentation is 2★ in its named file (origin false) and is eligible, so the single-Origin invariant has no holder. Gaia computes 0.0 TM (ungraded) and there is no competing child, so the only deterministic basis is sole eligibility. Granting Origin is a Class C approval. named-skills.json shows this child as 1★, which conflicts with the named file (2★), so the index is stale.",
+    "evidenceRefs": [
+      "registry/nodes/basic/observability-instrumentation.json",
+      "registry/named/addy-osmani/observability-and-instrumentation.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "opinion",
+    "kind": "generic",
+    "path": "registry/nodes/basic/opinion.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "flag",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Origin holder disler/opinion (2★, origin true) is correct. The description's trailing clause 'avoiding model selection bias and decision paralysis' states a motivation rather than a falsifiable capability boundary. Proposed trim to the capability statement. Zero evidence rows.",
+    "evidenceRefs": [
+      "registry/nodes/basic/opinion.json",
+      "registry/named/disler/opinion.md"
+    ]
+  },
+  {
+    "id": "optical-character-recognition",
+    "kind": "generic",
+    "path": "registry/nodes/basic/optical-character-recognition.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Two class-only rows, both with no grade, so Gaia TM is 0.0. TrOCR (2109.10282) is valid capability evidence, but its magnitude is unmeasured. The EasyOCR repo row (JaidedAI/EasyOCR) is implementation evidence typed 'repo' (invalid) and belongs on a named EasyOCR skill. No named children exist. The note's benchmark figures were not verified against the paper (no live fetch).",
+    "evidenceRefs": [
+      "registry/nodes/basic/optical-character-recognition.json",
+      "https://arxiv.org/abs/2109.10282",
+      "https://github.com/JaidedAI/EasyOCR"
+    ]
+  },
+  {
+    "id": "parallel-execution",
+    "kind": "generic",
+    "path": "registry/nodes/basic/parallel-execution.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "flag",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Sole child intelligentcode-ai/parallel-execution is 1★, so no Origin is required. The description bakes in implementation mechanisms ('configurable concurrency limits and queue-based state tracking'), which narrows a capability generic toward one implementation. Zero generic evidence rows.",
+    "evidenceRefs": [
+      "registry/nodes/basic/parallel-execution.json",
+      "registry/named/intelligentcode-ai/parallel-execution.md"
+    ]
+  },
+  {
+    "id": "parse-html",
+    "kind": "generic",
+    "path": "registry/nodes/basic/parse-html.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Name, description, and basic classification are fine. Derivative web-scrape resolves to an existing node. No generic evidence rows and no named children, so no Origin or Champion is required. Historical demote and evidence_removed events are preserved as history.",
+    "evidenceRefs": [
+      "registry/nodes/basic/parse-html.json"
+    ]
+  },
+  {
+    "id": "parse-json",
+    "kind": "generic",
+    "path": "registry/nodes/basic/parse-json.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Name, description, and basic classification are fine. Derivatives document-analyst and text-to-sql-pipeline both resolve. No generic evidence rows and no named children, so no Origin or Champion is required.",
+    "evidenceRefs": [
+      "registry/nodes/basic/parse-json.json"
+    ]
+  },
+  {
+    "id": "parse-pdf",
+    "kind": "generic",
+    "path": "registry/nodes/basic/parse-pdf.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "pass",
+      "body": "flag",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "The single row is Nougat (arXiv 2308.13418), valid Class A capability evidence, but it is class-only with no grade or magnitude inputs, so Gaia TM is 0.0 (ungraded). The notes field contains mojibake ('â€”' in place of an em dash). The 7.6% edit-distance figure was not verified (no live fetch). No named children.",
+    "evidenceRefs": [
+      "registry/nodes/basic/parse-pdf.json",
+      "https://arxiv.org/abs/2308.13418"
+    ]
+  },
+  {
+    "id": "pathway-ontology-retrieval",
+    "kind": "generic",
+    "path": "registry/nodes/basic/pathway-ontology-retrieval.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "fail",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "The single row cites the science-skills repo: implementation-level, typed 'repo' (invalid), class-only, so TM is 0.0. Three 1★ awakened children (embl-ebi-ols, quickgo-database, reactome-database) mean no Origin is required. Three children meet the Champion threshold, but all three tie at TM 10.82, so no deterministic Champion exists. named-skills.json has no bucket for this id.",
+    "evidenceRefs": [
+      "registry/nodes/basic/pathway-ontology-retrieval.json",
+      "https://github.com/google-deepmind/science-skills",
+      "registry/named/google-deepmind/reactome-database.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "performance-tuning",
+    "kind": "generic",
+    "path": "registry/nodes/basic/performance-tuning.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Origin is satisfied: addy-osmani/performance-optimization (3★, origin true, TM 50 B) is the only Origin, and its links.github is a blob link. The one generic row is a github-stars entry for the ruflo orchestration platform, which is typed 'github-stars' (invalid; the valid type is github-stars-own) and is not performance-tuning capability evidence. A starless generic should not hold star-adoption evidence. Gaia scores it 0.0. Three children meet the Champion threshold with no Champion set.",
+    "evidenceRefs": [
+      "registry/nodes/basic/performance-tuning.json",
+      "https://github.com/ruvnet/ruflo",
+      "registry/named/addy-osmani/performance-optimization.md",
+      "registry/schema/meta.json"
+    ]
+  },
+  {
+    "id": "plain-language-restatement",
+    "kind": "generic",
+    "path": "registry/nodes/basic/plain-language-restatement.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Sole child mattpocock/wait-what (2★, origin false, TM 20.77 C) is eligible, so the single-Origin invariant has no holder. The named file and the index agree on 2★. No competing child exists. Granting Origin is a Class C approval.",
+    "evidenceRefs": [
+      "registry/nodes/basic/plain-language-restatement.json",
+      "registry/named/mattpocock/wait-what.md"
+    ]
+  },
+  {
+    "id": "plan-decompose",
+    "kind": "generic",
+    "path": "registry/nodes/basic/plan-decompose.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Name, description, and basic classification are fine. All nine derivatives resolve to existing nodes. No generic evidence rows and no named children. Demote and evidence_removed history is preserved.",
+    "evidenceRefs": [
+      "registry/nodes/basic/plan-decompose.json"
+    ]
+  },
+  {
+    "id": "plan-synthesis",
+    "kind": "generic",
+    "path": "registry/nodes/basic/plan-synthesis.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Sole child disler/plan-synthesis (2★, origin true, blob link) satisfies the single-Origin invariant. Description is precise and falsifiable. No generic evidence rows.",
+    "evidenceRefs": [
+      "registry/nodes/basic/plan-synthesis.json",
+      "registry/named/disler/plan-synthesis.md"
+    ]
+  },
+  {
+    "id": "postgres-best-practices",
+    "kind": "generic",
+    "path": "registry/nodes/basic/postgres-best-practices.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "pass",
+      "body": "flag",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "The one row is a self-attestation (grade C) pointing at the supabase SKILL.md implementation. self-attestation is allowed only on named nodes (trustMagnitude.py allowedLayers), so this generic-layer row is invalid. Gaia still scores it 5.0 TM on the generic, so the layer validator has a gap. The row belongs on the named child supabase-postgres-best-practices (1★). Name is a slug, unlike the Title Case names used elsewhere, so it should read PostgreSQL Best Practices. Description is broad but coherent.",
+    "evidenceRefs": [
+      "registry/nodes/basic/postgres-best-practices.json",
+      "https://github.com/supabase/agent-skills/blob/main/skills/supabase-postgres-best-practices/SKILL.md",
+      "registry/named/supabase/supabase-postgres-best-practices.md"
+    ]
+  },
+  {
+    "id": "probabilistic-programming",
+    "kind": "generic",
+    "path": "registry/nodes/basic/probabilistic-programming.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 6,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Six rows. Keep: posteriordb (arXiv 2407.04967, benchmark reference models) and the NUTS/HMC paper (arXiv 1111.4246, S grade). Problems: repo-own pymc-devs/pymc is named-only (invalid on a generic); the K-Dense pymc SKILL.md row is implementation evidence for named child k-dense-ai/pymc; the PyMC PeerJ peer-review row is library-level implementation evidence; the UQ arXiv row (2509.05877) has weak relevance to probabilistic programming. Gaia TM is 166 (A) with all six rows; dropping the repo-own, peer-review and pymc-repo rows gives 100 (A, at threshold). Child k-dense-ai/pymc is 1★, so no Origin is required. Changing canonical evidence is a Class C action.",
+    "evidenceRefs": [
+      "registry/nodes/basic/probabilistic-programming.json",
+      "https://arxiv.org/abs/2407.04967",
+      "https://arxiv.org/abs/1111.4246",
+      "https://arxiv.org/abs/2509.05877",
+      "https://github.com/pymc-devs/pymc",
+      "https://doi.org/10.7717/peerj-cs.1516",
+      "registry/named/k-dense-ai/pymc.md"
+    ]
+  },
+  {
+    "id": "prompt-caching",
+    "kind": "generic",
+    "path": "registry/nodes/basic/prompt-caching.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Three arXiv rows (SGLang 2312.07104 RadixAttention, 2502.04677 prefix-reuse scheduling, 2607.22648 PTStore) are semantically on-capability: prefix/KV reuse in serving. They carry citation magnitudes, so Gaia scores them (TM 7.2, ungraded). Description is precise: it excludes response caching and prompt rewriting. No named children. PTStore is a recent preprint with 0 citations, which is acceptable for a capability row.",
+    "evidenceRefs": [
+      "registry/nodes/basic/prompt-caching.json",
+      "https://arxiv.org/abs/2312.07104",
+      "https://arxiv.org/abs/2502.04677",
+      "https://arxiv.org/abs/2607.22648"
+    ]
+  },
+  {
+    "id": "prompt-injection-defense",
+    "kind": "generic",
+    "path": "registry/nodes/basic/prompt-injection-defense.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Three rows. The PlanGuard arXiv row (2604.10134) is capability-level, but its headline 72.8%-to-0% ASR claim was not verified (no live fetch), and it is class-only, so Gaia scores it 0. The tldrsec/prompt-injection-defenses repo row is a curated catalog typed 'repo' (invalid) with class-only fields. The SkillsMP row is a search-API query URL (/api/v1/skills/search?q=...), not a durable source, and it points at a third-party implementation, so it should be removed. No named children.",
+    "evidenceRefs": [
+      "registry/nodes/basic/prompt-injection-defense.json",
+      "https://arxiv.org/abs/2604.10134",
+      "https://github.com/tldrsec/prompt-injection-defenses",
+      "https://skillsmp.com/api/v1/skills/search?q=prompt-injection-defense"
+    ]
+  },
+  {
+    "id": "protein-structure-analysis",
+    "kind": "generic",
+    "path": "registry/nodes/basic/protein-structure-analysis.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "fail",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Single row cites the science-skills repo: implementation-level, typed 'repo' (invalid), class-only, TM 0.0. The two 1★ awakened children (foldseek-structural-search, pdb-database) need no Origin. named-skills.json has no bucket for this id even though both named files declare it.",
+    "evidenceRefs": [
+      "registry/nodes/basic/protein-structure-analysis.json",
+      "https://github.com/google-deepmind/science-skills",
+      "registry/named/google-deepmind/foldseek-structural-search.md",
+      "registry/named/google-deepmind/pdb-database.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "proteomic-data-retrieval",
+    "kind": "generic",
+    "path": "registry/nodes/basic/proteomic-data-retrieval.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "fail",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Single row cites the science-skills repo: implementation-level, typed 'repo' (invalid), class-only, TM 0.0. Four 1★ awakened children (uniprot, interpro, human-protein-atlas, string) need no Origin. Four children meet the Champion threshold, but all four tie at TM 10.82, so no deterministic Champion exists. named-skills.json has no bucket for this id.",
+    "evidenceRefs": [
+      "registry/nodes/basic/proteomic-data-retrieval.json",
+      "https://github.com/google-deepmind/science-skills",
+      "registry/named/google-deepmind/uniprot-database.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "quantum-circuit-programming",
+    "kind": "generic",
+    "path": "registry/nodes/basic/quantum-circuit-programming.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "OpenQASM row (arXiv 1707.03429, grade B, 314 citations) is valid capability evidence for quantum circuit construction and transpilation. Gaia TM 62.8 B. Sole child k-dense-ai/qiskit is 1★, so no Origin is required. Description is accurate.",
+    "evidenceRefs": [
+      "registry/nodes/basic/quantum-circuit-programming.json",
+      "https://arxiv.org/abs/1707.03429",
+      "registry/named/k-dense-ai/qiskit.md"
+    ]
+  },
+  {
+    "id": "question-answer",
+    "kind": "generic",
+    "path": "registry/nodes/basic/question-answer.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Origin is satisfied: garrytan/office-hours (3★, origin true, TM 66 B, blob link). The repo row, however, points at this repo's own registry file (gaia-skill-tree/.../registry/named/garrytan/office-hours.md), which is self-referential and implementation-level, typed 'repo' (invalid), class-only. It belongs on the named child. The SQuAD 2.0 row (1806.03822) is valid capability evidence, but its note's human-performance F1 figure (90.9) was not verified and may not match the paper's baseline.",
+    "evidenceRefs": [
+      "registry/nodes/basic/question-answer.json",
+      "https://arxiv.org/abs/1806.03822",
+      "https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md",
+      "registry/named/garrytan/office-hours.md"
+    ]
+  },
+  {
+    "id": "questionnaire-generation",
+    "kind": "generic",
+    "path": "registry/nodes/basic/questionnaire-generation.json",
+    "reviewer": "haiku:generic-04",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Sole child mattpocock/to-questionnaire (2★, origin false, TM 20.77 C, blob link) is eligible, so the single-Origin invariant has no holder. No competing child exists. Granting Origin is a Class C approval. Description is precise.",
+    "evidenceRefs": [
+      "registry/nodes/basic/questionnaire-generation.json",
+      "registry/named/mattpocock/to-questionnaire.md"
+    ]
+  }
+]

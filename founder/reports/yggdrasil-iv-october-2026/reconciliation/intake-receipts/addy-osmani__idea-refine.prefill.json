@@ -1,0 +1,84 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "addy-osmani/idea-refine",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "addy-osmani/idea-refine",
+  "canonicalUrl": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/idea-refine/SKILL.md",
+  "checked": true,
+  "contentSha256": "21ef828e3a2144245b67f840cc3805f761e98c9acce9a96670b7cd7441353463",
+  "hostRepository": "https://github.com/addyosmani/agent-skills",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/idea-lineage",
+     "similarity": 0.513564
+    },
+    {
+     "id": "garrytan/concept-synthesis",
+     "similarity": 0.469396
+    },
+    {
+     "id": "obra/brainstorming",
+     "similarity": 0.450881
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "concept-synthesis",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4694 to generic 'concept-synthesis' (weak match).",
+   "similarity": 0.469396
+  }
+ ],
+ "normalized": {
+  "description": "Refines raw ideas into sharp, actionable concepts through structured divergent and convergent thinking. Use when an idea is still vague, when you need to stress-test assumptions before committing to a plan, or when you want to expand options before converging on one. Triggers on \"ideate\", \"refine this idea\", or \"stress-test my plan\".",
+  "name": "idea-refine"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/idea-refine/SKILL.md",
+  "contentSha256": "21ef828e3a2144245b67f840cc3805f761e98c9acce9a96670b7cd7441353463",
+  "fetchedAt": "2026-10-27T21:59:11.947160+00:00",
+  "frontmatter": {
+   "description": "Refines raw ideas into sharp, actionable concepts through structured divergent and convergent thinking. Use when an idea is still vague, when you need to stress-test assumptions before committing to a plan, or when you want to expand options before converging on one. Triggers on \"ideate\", \"refine this idea\", or \"stress-test my plan\".",
+   "name": "idea-refine"
+  },
+  "hostRepository": "https://github.com/addyosmani/agent-skills",
+  "sourceLane": "source-repository"
+ }
+}

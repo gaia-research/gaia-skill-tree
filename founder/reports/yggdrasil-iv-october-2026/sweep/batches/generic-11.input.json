@@ -1,0 +1,405 @@
+[
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/reasoning-pattern-bank.json",
+  "id": "reasoning-pattern-bank",
+  "type": "fusion",
+  "name": "Reasoning Pattern Bank",
+  "prerequisites": [
+   "adaptive-pattern-learning",
+   "agent-memory-learning"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/receiving-code-review.json",
+  "id": "receiving-code-review",
+  "type": "fusion",
+  "name": "Receiving Code Review",
+  "prerequisites": [
+   "requesting-code-review",
+   "verification-before-completion"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/recursive-self-improvement.json",
+  "id": "recursive-self-improvement",
+  "type": "fusion",
+  "name": "Recursive Self-Improvement",
+  "prerequisites": [
+   "autonomous-debug",
+   "evaluate-output",
+   "plan-and-execute"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/registry-curation.json",
+  "id": "registry-curation",
+  "type": "fusion",
+  "name": "Registry Curation",
+  "prerequisites": [
+   "research",
+   "code-generation",
+   "code-execution"
+  ],
+  "evidenceRows": 5,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/registry-entry-audit.json",
+  "id": "registry-entry-audit",
+  "type": "fusion",
+  "name": "Gaia Audit",
+  "prerequisites": [
+   "retrieve",
+   "cite-sources",
+   "evaluate-output"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/registry-health-scan.json",
+  "id": "registry-health-scan",
+  "type": "fusion",
+  "name": "Gaia Meta Audit",
+  "prerequisites": [
+   "registry-entry-audit",
+   "registry-curation",
+   "detect-anomaly"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/regulatory-compliance-mapping.json",
+  "id": "regulatory-compliance-mapping",
+  "type": "fusion",
+  "name": "Regulatory Compliance Mapping",
+  "prerequisites": [
+   "extract-entities",
+   "knowledge-graph-build",
+   "security-audit"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/reinforcement-learning-training.json",
+  "id": "reinforcement-learning-training",
+  "type": "fusion",
+  "name": "Reinforcement Learning Training",
+  "prerequisites": [
+   "reward-modeling",
+   "ml-pipeline",
+   "automated-testing"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 66.0,
+  "computedGrade": "B",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/release-automation.json",
+  "id": "release-automation",
+  "type": "fusion",
+  "name": "Release Automation",
+  "prerequisites": [
+   "workflow-automation",
+   "code-execution",
+   "generate-text"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/requesting-code-review.json",
+  "id": "requesting-code-review",
+  "type": "fusion",
+  "name": "Requesting Code Review",
+  "prerequisites": [
+   "code-review-pipeline",
+   "dispatching-parallel-agents"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/research.json",
+  "id": "research",
+  "type": "fusion",
+  "name": "Research",
+  "prerequisites": [
+   "web-search",
+   "summarize",
+   "cite-sources"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/scientific-discovery.json",
+  "id": "scientific-discovery",
+  "type": "fusion",
+  "name": "Autonomous Scientific Discovery",
+  "prerequisites": [
+   "computational-biology-workflows",
+   "hypothesis-generate",
+   "math-reason",
+   "research"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/scientific-literature-retrieval.json",
+  "id": "scientific-literature-retrieval",
+  "type": "fusion",
+  "name": "Scientific Literature Retrieval",
+  "prerequisites": [
+   "literature-search",
+   "retrieve"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/scientific-writing.json",
+  "id": "scientific-writing",
+  "type": "fusion",
+  "name": "Scientific Writing",
+  "prerequisites": [
+   "write-report",
+   "cite-sources",
+   "scientific-visualization"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/search-engine-optimization.json",
+  "id": "search-engine-optimization",
+  "type": "fusion",
+  "name": "search-engine-optimization",
+  "prerequisites": [
+   "parse-html",
+   "parse-json"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/security-audit.json",
+  "id": "security-audit",
+  "type": "fusion",
+  "name": "Security Audit",
+  "prerequisites": [
+   "code-review-pipeline",
+   "evaluate-output"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/single-cell-omics-modeling.json",
+  "id": "single-cell-omics-modeling",
+  "type": "fusion",
+  "name": "Single-Cell Omics Modeling",
+  "prerequisites": [
+   "computational-biology-workflows",
+   "probabilistic-programming",
+   "data-analysis"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/skill-authoring.json",
+  "id": "skill-authoring",
+  "type": "fusion",
+  "name": "Skill Authoring",
+  "prerequisites": [
+   "generate-text",
+   "structured-output",
+   "code-generation"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/skill-fusion.json",
+  "id": "skill-fusion",
+  "type": "fusion",
+  "name": "Skill Fusion",
+  "prerequisites": [
+   "registry-curation",
+   "skill-authoring"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/skill-mastery.json",
+  "id": "skill-mastery",
+  "type": "fusion",
+  "name": "mattpocock-skills",
+  "prerequisites": [
+   "domain-modeling",
+   "engineering-discipline",
+   "mattpocock-misc",
+   "productivity",
+   "tool-creation"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/skill-performance-benchmarking.json",
+  "id": "skill-performance-benchmarking",
+  "type": "fusion",
+  "name": "Skill Performance Benchmarking",
+  "prerequisites": [
+   "agent-eval",
+   "skill-discovery",
+   "statistical-analysis"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/skill-security-analysis.json",
+  "id": "skill-security-analysis",
+  "type": "fusion",
+  "name": "Skill Security Analysis",
+  "prerequisites": [
+   "security-audit",
+   "prompt-injection-defense",
+   "skill-discovery"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/stealth-browser-interaction.json",
+  "id": "stealth-browser-interaction",
+  "type": "fusion",
+  "name": "Stealth Browser Interaction",
+  "prerequisites": [
+   "browser-automation",
+   "computer-use"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/subagent-driven-development.json",
+  "id": "subagent-driven-development",
+  "type": "fusion",
+  "name": "Subagent-Driven Development",
+  "prerequisites": [
+   "executing-plans",
+   "dispatching-parallel-agents",
+   "code-review-pipeline"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/superpowers.json",
+  "id": "superpowers",
+  "type": "fusion",
+  "name": "Superpowers",
+  "prerequisites": [
+   "brainstorming",
+   "dispatching-parallel-agents",
+   "executing-plans",
+   "finishing-a-development-branch",
+   "receiving-code-review",
+   "requesting-code-review",
+   "subagent-driven-development",
+   "systematic-debugging",
+   "using-git-worktrees",
+   "verification-before-completion",
+   "writing-plans"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ }
+]

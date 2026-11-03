@@ -1,0 +1,640 @@
+[
+  {
+    "id": "adaptive-pattern-learning",
+    "kind": "generic",
+    "path": "registry/nodes/basic/adaptive-pattern-learning.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (sole eligible child ruvnet/reasoningbank-intelligence 2★ is origin=true)",
+      "evidence": "n/a (no generic evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail: description uses unfalsifiable evaluative wording (\"genuine self-improvement\"); mechanism text itself is precise",
+      "classification": "pass (one child, bucket matches file)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Strike the evaluative phrase \"genuine self-improvement\" and keep the mechanism (outcome log, scenario matching, strategy ranking). Low priority; no rank or Origin impact.",
+    "evidenceRefs": [
+      "registry/nodes/basic/adaptive-pattern-learning.json",
+      "registry/named-skills.json (bucket adaptive-pattern-learning)"
+    ]
+  },
+  {
+    "id": "adversarial-review",
+    "kind": "generic",
+    "path": "registry/nodes/basic/adversarial-review.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a: sole child addy-osmani/doubt-driven-development is file 2★ (eligible) but index bucket says 1★; computed TM 0.0, ungraded, 0 evidence rows, so Origin cannot be appraised on deterministic basis (not decided here)",
+      "evidence": "pass (0 generic rows; no capability evidence required by rule)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "fail: generated index (named-skills.json) lists the child at 1★; node file says 2★ (stale index mapping)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Regenerate named-skills.json via the generator so the bucket matches the node file. Origin and rank of the child stay unappraised until it has deterministic evidence (computed TM is 0.0). No direct edit.",
+    "evidenceRefs": [
+      "registry/named/addy-osmani/doubt-driven-development.md",
+      "registry/named-skills.json (bucket adversarial-review)"
+    ]
+  },
+  {
+    "id": "agent-fusion",
+    "kind": "generic",
+    "path": "registry/nodes/basic/agent-fusion.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "fail: missing Origin. Sole eligible child disler/agent-fusion is 2★ (TM 37.54, grade C, no gate violations) with origin=false",
+      "evidence": "n/a (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail: description claims the fused team will \"achieve frontier performance at reduced cost\", an unsupported performance claim with no evidence row",
+      "classification": "fail: stored under registry/nodes/basic/ although type=fusion (one of two folder/type mismatches in registry/nodes). Prerequisites opinion, plan-synthesis, auto-review all exist (3 >= 2)."
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Propose Origin for disler/agent-fusion (only eligible child, deterministic TM 37.54) through the approved Origin path (Class C). Also drop the performance claim from the description and confirm whether the loader keys on folder before moving the file to nodes/fusion/.",
+    "evidenceRefs": [
+      "registry/nodes/basic/agent-fusion.json",
+      "registry/named/disler/agent-fusion.md",
+      "registry/named-skills.json (bucket agent-fusion)"
+    ]
+  },
+  {
+    "id": "agent-reach",
+    "kind": "generic",
+    "path": "registry/nodes/basic/agent-reach.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "fail: missing Origin. Sole eligible child panniantong/agent-reach is 3★ (TM 53.86, grade B) with origin=false",
+      "evidence": "n/a (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "fail: id and name \"Agent Reach\" are the product name of panniantong/agent-reach, and the description is product-specific (\"16+ platforms\", \"harness-agnostic integration\"); fails the abstract, vendor-neutral id check"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Propose Origin for panniantong/agent-reach (only eligible child, TM 53.86) via the approved Origin path (Class C). Propose a founder-approved abstract capability id and rename through the CLI, remapping the child genericSkillRef.",
+    "evidenceRefs": [
+      "registry/nodes/basic/agent-reach.json",
+      "registry/named/panniantong/agent-reach.md"
+    ]
+  },
+  {
+    "id": "api-call",
+    "kind": "generic",
+    "path": "registry/nodes/basic/api-call.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (sole child huggingface/hf-cli is 1★, not eligible)",
+      "evidence": "pass (Gorilla arXiv 2305.15334 is semantically on-topic for generating API calls from docs; no grade field, class and trustNumber only)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Evidence note text has double-encoded em dashes (\"â€”\"); repair the text only.",
+    "evidenceRefs": [
+      "registry/nodes/basic/api-call.json",
+      "https://arxiv.org/abs/2305.15334"
+    ]
+  },
+  {
+    "id": "audience-model",
+    "kind": "generic",
+    "path": "registry/nodes/basic/audience-model.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (0 children in index)",
+      "evidence": "n/a (0 evidence rows; removal of a dead gaia-registry URL is logged)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Legacy 1★ to 0★ demote events on a starless node are historical audit entries and are not rewritten.",
+    "evidenceRefs": [
+      "registry/nodes/basic/audience-model.json"
+    ]
+  },
+  {
+    "id": "audio-mixing",
+    "kind": "generic",
+    "path": "registry/nodes/basic/audio-mixing.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (sole child heygen-com/hyperframes-audio is 3★ and origin=true)",
+      "evidence": "n/a (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (child mapped; bucket matches)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. One Origin, on the only eligible child.",
+    "evidenceRefs": [
+      "registry/nodes/basic/audio-mixing.json",
+      "registry/named/heygen-com/hyperframes-audio.md"
+    ]
+  },
+  {
+    "id": "auto-review",
+    "kind": "generic",
+    "path": "registry/nodes/basic/auto-review.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (sole child disler/auto-review is 2★ and origin=true, TM 36.34)",
+      "evidence": "n/a (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. One Origin, on the only eligible child.",
+    "evidenceRefs": [
+      "registry/nodes/basic/auto-review.json",
+      "registry/named/disler/auto-review.md"
+    ]
+  },
+  {
+    "id": "bioinformatic-sequence-analysis",
+    "kind": "generic",
+    "path": "registry/nodes/basic/bioinformatic-sequence-analysis.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (sole child protein-sequence-similarity-search is 1★)",
+      "evidence": "fail: timeline records two B evidence adds (2026-05-22: science-skills repo and protein_sequence_similarity_search/SKILL.md) that are absent from evidence[] with no removal event; both URLs return HTTP 200",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "fail: child registry/named/google-deepmind/protein-sequence-similarity-search.md maps here (1★) but is missing from the named-skills.json bucket (stale index)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Restore or formally record removal of the two timeline-recorded B evidence rows through the CLI, and regenerate the index so the 1★ child appears in its bucket.",
+    "evidenceRefs": [
+      "registry/nodes/basic/bioinformatic-sequence-analysis.json",
+      "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md",
+      "https://github.com/google-deepmind/science-skills"
+    ]
+  },
+  {
+    "id": "brand-guideline-application",
+    "kind": "generic",
+    "path": "registry/nodes/basic/brand-guideline-application.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (one Origin: anthropics/brand-guidelines 4★, TM 184.87, origin=true; leonxlnx/brandkit 3★ origin=false)",
+      "evidence": "n/a (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (2 children; below the >=3 Champion threshold used for this audit)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Exactly one Origin. Two children, below the Champion threshold of 3 (note: run_meta_sweep.py flags Champion at >=2; the threshold conflict is out of scope here).",
+    "evidenceRefs": [
+      "registry/nodes/basic/brand-guideline-application.json",
+      "registry/named/anthropics/brand-guidelines.md",
+      "registry/named/leonxlnx/brandkit.md"
+    ]
+  },
+  {
+    "id": "browser-control",
+    "kind": "generic",
+    "path": "registry/nodes/basic/browser-control.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (one Origin: browser-use/browser-harness 3★, TM 73.59, origin=true)",
+      "evidence": "n/a (0 generic rows; generic inherits no capability-level evidence)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail: directives name a vendor (\"Browser Use\") and a fixed local port (CDP on 9222); description names Playwright and Puppeteer as contrast",
+      "classification": "fail: addy-osmani/browser-testing-with-devtools is 2★ in its file but 1★ in the index bucket (stale index)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "champion",
+    "findingSummary": "Seven children (>=3) and no \"champion\" field on the generic node. Candidate by computed TM is garrytan/browse (88.5, 3★), but META §6.1 defines Champion by Trust Score, which is not in the inputs, and generateNamedIndex orders champion-first by rank then origin (which would select the Origin holder). Needs a founder decision. Also make the directives vendor-neutral and regenerate the index.",
+    "evidenceRefs": [
+      "registry/nodes/basic/browser-control.json",
+      "registry/named/garrytan/browse.md",
+      "registry/named/addy-osmani/browser-testing-with-devtools.md",
+      "registry/named-skills.json (bucket browser-control)"
+    ]
+  },
+  {
+    "id": "chain-of-thought",
+    "kind": "generic",
+    "path": "registry/nodes/basic/chain-of-thought.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (0 children)",
+      "evidence": "fail (minor): arXiv 2201.11903 row is a valid Class A capability source, but notes carry a \"+14% on MATH\" figure that I could not verify in this pass; notes also contain double-encoded em dashes",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Repair the double-encoded em dash in the evidence note and verify the numeric claims in the note against the cited paper before the next publication.",
+    "evidenceRefs": [
+      "registry/nodes/basic/chain-of-thought.json",
+      "https://arxiv.org/abs/2201.11903"
+    ]
+  },
+  {
+    "id": "chunk-document",
+    "kind": "generic",
+    "path": "registry/nodes/basic/chunk-document.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (0 children)",
+      "evidence": "n/a (0 evidence rows; dead gaia-registry URL removal is logged)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Description is precise; derivative rag-pipeline exists.",
+    "evidenceRefs": [
+      "registry/nodes/basic/chunk-document.json"
+    ]
+  },
+  {
+    "id": "ci-churn-analysis",
+    "kind": "generic",
+    "path": "registry/nodes/basic/ci-churn-analysis.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "fail: missing Origin. Sole eligible child gaia-research/ci-churn is 2★ (TM 41, grade C) with origin=false",
+      "evidence": "fail: evidence[] holds the same arXiv 2602.02307 row twice (identical source, date, notes); timeline 2026-07-08 records an add of arXiv 2509.14347 with no row and no removal event (URL returns HTTP 200)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Propose Origin for gaia-research/ci-churn (sole eligible child, TM 41) via the approved Origin path (Class C). Deduplicate the repeated 2602.02307 row and reconcile 2509.14347 through the CLI.",
+    "evidenceRefs": [
+      "registry/nodes/basic/ci-churn-analysis.json",
+      "registry/named/gaia-research/ci-churn.md",
+      "https://arxiv.org/abs/2602.02307",
+      "https://arxiv.org/abs/2509.14347"
+    ]
+  },
+  {
+    "id": "cite-sources",
+    "kind": "generic",
+    "path": "registry/nodes/basic/cite-sources.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (0 children)",
+      "evidence": "n/a (0 evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Description is precise and derivatives exist.",
+    "evidenceRefs": [
+      "registry/nodes/basic/cite-sources.json"
+    ]
+  },
+  {
+    "id": "classify",
+    "kind": "generic",
+    "path": "registry/nodes/basic/classify.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (0 children)",
+      "evidence": "n/a (0 evidence rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. Description is precise; derivatives exist.",
+    "evidenceRefs": [
+      "registry/nodes/basic/classify.json"
+    ]
+  },
+  {
+    "id": "cli-modernization",
+    "kind": "generic",
+    "path": "registry/nodes/basic/cli-modernization.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (sole child ruvnet/v3-cli-modernization 2★ is origin=true, TM 36)",
+      "evidence": "n/a (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. One Origin, on the only eligible child.",
+    "evidenceRefs": [
+      "registry/nodes/basic/cli-modernization.json",
+      "registry/named/ruvnet/v3-cli-modernization.md"
+    ]
+  },
+  {
+    "id": "clinical-data-retrieval",
+    "kind": "generic",
+    "path": "registry/nodes/basic/clinical-data-retrieval.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (no eligible child in the index; the five file-level children are all 1★)",
+      "evidence": "fail: timeline records four B evidence adds (clinical_trials_database, openfda_database, clinvar_database, opentargets_database SKILL.md, all HTTP 200) absent from evidence[] with no removal event; the current repo-root row is typed \"repo\" (alias to repo-own, named-only layer)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "fail: five named files map here (1★) but the index bucket lists 0 children (stale index)"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Confirm whether the four rows moved to the named children, then record that through the CLI or restore them. Propose a Champion decision (five children, >=3, all tied at TM 10.82, so no deterministic pick). Regenerate the index.",
+    "evidenceRefs": [
+      "registry/nodes/basic/clinical-data-retrieval.json",
+      "https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md",
+      "https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md",
+      "https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md",
+      "https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md"
+    ]
+  },
+  {
+    "id": "code-execution",
+    "kind": "generic",
+    "path": "registry/nodes/basic/code-execution.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (0 children)",
+      "evidence": "fail (minor): arXiv 2211.10435 (PAL) is a valid Class A row; reasoning-machines/pal is typed \"repo\", which the code aliases to repo-own (named-only layer)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Repair the double-encoded em dash in the PAL arXiv note. Decide how the \"repo\" row types on a generic (alias to named-only repo-own).",
+    "evidenceRefs": [
+      "registry/nodes/basic/code-execution.json",
+      "https://arxiv.org/abs/2211.10435",
+      "https://github.com/reasoning-machines/pal"
+    ]
+  },
+  {
+    "id": "code-explain",
+    "kind": "generic",
+    "path": "registry/nodes/basic/code-explain.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (sole child mattpocock/zoom-out is 1★)",
+      "evidence": "fail (minor): arXiv 2109.00859 (CodeT5) is on-topic; salesforce/CodeT5 is typed \"repo\", which aliases to repo-own (named-only layer)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (zoom-out maps plausibly to code explanation)"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Decide how the \"repo\" typed row on a generic should be typed (alias to named-only repo-own); no other change.",
+    "evidenceRefs": [
+      "registry/nodes/basic/code-explain.json",
+      "https://arxiv.org/abs/2109.00859",
+      "https://github.com/salesforce/CodeT5"
+    ]
+  },
+  {
+    "id": "code-generation",
+    "kind": "generic",
+    "path": "registry/nodes/basic/code-generation.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (sole child garrytan/design-html is 3★ and origin=true, TM 50)",
+      "evidence": "n/a (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (design-html generates HTML/CSS from mockups; fits code generation)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. One Origin, on the only eligible child.",
+    "evidenceRefs": [
+      "registry/nodes/basic/code-generation.json",
+      "registry/named/garrytan/design-html.md"
+    ]
+  },
+  {
+    "id": "computer-use",
+    "kind": "generic",
+    "path": "registry/nodes/basic/computer-use.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "n/a (0 children)",
+      "evidence": "fail (minor): arXiv 2307.13854 (WebArena) is on-topic for web agents; xlang-ai/OSWorld (369 desktop tasks) is typed \"repo\", which aliases to repo-own (named-only layer); the WebArena note has a double-encoded em dash",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass (boundary with browser-control is adjacent but not a duplicate)"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Repair the double-encoded em dash in the WebArena note. Decide the Evidence Type for the OSWorld row (a benchmark, so possibly benchmark-result).",
+    "evidenceRefs": [
+      "registry/nodes/basic/computer-use.json",
+      "https://arxiv.org/abs/2307.13854",
+      "https://github.com/xlang-ai/OSWorld"
+    ]
+  },
+  {
+    "id": "context-compression",
+    "kind": "generic",
+    "path": "registry/nodes/basic/context-compression.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "fail: missing Origin. Eligible children garrytan/context-restore and garrytan/context-save are both 2★ with TM 36.0 (tied); garrytan/context-audit is 2★ in its file but 1★ in the index. Tie cannot be broken on the deterministic basis here.",
+      "evidence": "fail: third row is a skillsmp.com search-API URL typed as class C, a search endpoint rather than a stable implementation or paper (not Class A capability evidence); its timeline entry says re-graded to B (trustNumber 70) while the row says class C",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "fail (minor): the repo row is typed \"repo\" (alias to named-only repo-own)",
+      "classification": "fail: four children (>=3) and no Champion field. Index lists context-audit at 1★ while its file says 2★ (stale index)."
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Origin must be given to one of the tied 2★ children through a founder/Class C decision (tie-break by Trust Score or attribution is not in the inputs). Also Champion for the four-child bucket, drop or replace the skillsmp search row, and regenerate the index.",
+    "evidenceRefs": [
+      "registry/nodes/basic/context-compression.json",
+      "https://arxiv.org/abs/2403.12968",
+      "https://github.com/microsoft/LLMLingua",
+      "https://skillsmp.com/api/v1/skills/search?q=context-compression",
+      "registry/named/garrytan/context-save.md",
+      "registry/named/garrytan/context-restore.md"
+    ]
+  },
+  {
+    "id": "context-safe-execution",
+    "kind": "generic",
+    "path": "registry/nodes/basic/context-safe-execution.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (sole child mksglu/context-mode 4★ is origin=true, TM 154.71)",
+      "evidence": "n/a (0 generic rows)",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No change. One Origin, on the only eligible child.",
+    "evidenceRefs": [
+      "registry/nodes/basic/context-safe-execution.json",
+      "registry/named/mksglu/context-mode.md"
+    ]
+  },
+  {
+    "id": "core-platform-implementation",
+    "kind": "generic",
+    "path": "registry/nodes/basic/core-platform-implementation.json",
+    "reviewer": "haiku:generic-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass (JSON schema-valid, id/type match input)",
+      "rank": "n/a (generic is starless)",
+      "starBar": "n/a (generic is starless)",
+      "origin": "pass (sole child ruvnet/v3-core-implementation 2★ is origin=true, TM 36)",
+      "evidence": "fail (audit trail): timeline records four B evidence adds (science-skills uv and science_skills_common) absent from evidence[] with no removal event; those rows were not about platform architecture, so they should be recorded as removed, not restored",
+      "upstream": "n/a (no upstream block on generic nodes)",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Record the removal of the four historical timeline-only rows (they were semantically unrelated) so the audit trail matches the current evidence array.",
+    "evidenceRefs": [
+      "registry/nodes/basic/core-platform-implementation.json",
+      "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md"
+    ]
+  }
+]

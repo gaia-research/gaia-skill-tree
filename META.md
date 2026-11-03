@@ -55,8 +55,8 @@ earns Named (2★+) standing:
 - **Paths / artifacts** — a pre-named skill owns no shareable public artifact
   (per-skill badge, OG card, registry-manifest entry), and an *entirely*
   pre-named contributor (no skill above 1★) gets no public badge directory.
-- **Origin** — a ≤1★ entry cannot hold Origin standing (§ 4.1); it is never a
-  bucket's champion/representative.
+- **Origin** — redaction is display-only. Origin has no star floor (§ 4.1): a
+  ≤1★ Origin holder is still the Origin; only its handle renders redacted.
 - **Exception — the contributor's own profile** (`docs/u/<handle>/`): pre-named
   and demoted skills stay *listed* with their real rank and timeline so the
   Hero's Journey (§ 5) and ownership remain visible — but the plaque is
@@ -128,7 +128,7 @@ Key mechanics (summary; see `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` for the
   `github-stars-own`, `repo-own`, `fusion-recipe`, `self-attestation`, `social-signal`, `arxiv`, and `proxy-containment` are not S witnesses.
 - **Rejected Alternative: Star Authority Multiplier (#1665, #1705):** A multiplicative scaling factor applied to total TM ($\text{TM} \times (1.0 + \sqrt{\text{stars} / 100\,000})$) was evaluated and rejected. Applying an adoption multiplier to the aggregate score violates the core Yggdrasil III invariant (*"structure is not corroboration, and adoption must not multiply unrelated evidence"*). Allowing a 100k-star repo to 2.0× or 2.5× a skill's other evidence rows recreates the exact artificial inflation that fixing `fusion-recipe` at 0 TM was designed to cure. Trust Magnitude remains strictly additive across independent evidence rows.
 - **Fusion/rank structure:** suite membership, origin counts, nested suites, graph traversal, and Apex predicates remain structural. `fusion-recipe` does not count toward Trust Grade diversity. Structural composition is reported by the **Fusion Score** (§2.1e), a second, independent scalar that contributes nothing to TM.
-- **Same-source dedup:** multiple evidence rows pointing at the same URL collapse to one.
+- **Same-source dedup (within type):** multiple evidence rows of the *same type* pointing at the same canonical URL collapse to one (highest magnitude wins). Rows of different types at one URL (e.g. `github-stars-own` and `repo-own`) are distinct evidence and all count; the key is `(type, canonical URL)` in both the inheritance merge and the scoring pass.
 - **Fork-network canonicalization:** forks of a repo share one star pool unless `links.canonicalRepo` is set explicitly.
 - **Null-on-derank verifier:** when a 4★+ Verifier loses rank, their attestations evaluate to null (not flagged, not zero — null); the skill's Trust Magnitude is recomputed without those rows.
 
@@ -216,10 +216,17 @@ The **Canonical Level** (e.g., 4★) is the claimed tier based on evidence. The 
 ### 4.1 Named Skill Promotion
 - **Awakened**: Initial intake state. Verified as a real skill.
 - **Named**: Promoted by a reviewer once a unique RPG `title` or `catalogRef` is assigned.
-- **Origin Status**: The **most renowned** implementation in a generic bucket earns "Origin" — the highest-rated named skill (ties broken by most-attributed / Trust Score), **not** necessarily the earliest. An early implementation may be **superseded** when a stronger one earns the rank. Origin is a mark of merit granted to the implementation that earned it, in keeping with the product motif. Exactly one Origin exists per bucket. *(Updated 2026-06-02: Origin is merit-based; this supersedes the earlier "first contributor / earliest" rule, since an early entry can be outclassed by a better one.)*
+- **Origin Status** *(automatic — founder rulings 2026-10-30)*: Origin is "the original" with the **highest merit** in a generic bucket. It is **derived at build time and never set by hand** (`gaia dev update-named --origin` refuses). The rule:
+  - **Contenders**: every named implementation (`status: named`) whose `genericSkillRef` is the bucket. Awakened intake records do not compete.
+  - **Merit**: the published level (stored level capped by the Trust Grade ceiling: S→6★, A→4★, B→3★, C→2★, ungraded→1★), then Trust Magnitude (two decimals). The highest wins.
+  - **No star requirement**: a 1★ skill can be Origin. It is still the Origin; it is just not yet "named" (2★+).
+  - **Frozen contenders** (frozen themselves or inside a frozen suite, `gaia dev freeze`) compete with the TM and grade locked when they were frozen, and can beat live ones. They are exempt from the Trust Grade ceiling and compete at their stored level (founder ruling 2026-11-03: frozen skills keep their stars, evidence and calibration; only the computed score may move).
+  - **Ties**: every contender tied at the top merit holds Origin. There is no incumbent rule and no vacancy; a bucket with a named implementation always has an Origin.
+  - Origin is not the earliest implementation; an earlier one is superseded as soon as another has higher merit. Code: `src/gaia_cli/origin.py` (rule) and `src/gaia_cli/frozen.py` (frozen). *(Updated 2026-06-02: merit-based, superseding "first contributor / earliest". Updated 2026-10-30: automatic, no star floor, frozen lock, ties all hold.)*
+- **Unique-branch Origin requirement**: at **4★ Unique** and **5★ Unique Ultimate**, the skill must be the Origin of its own generic bucket. That is the only Origin requirement on the Unique branch; there is **no** Origin requirement on fusion prerequisites (that predicate belongs to the Suite branch, §4.2). Trust Magnitude / grade remain the gate.
 
 ### 4.2 Suite-Branch 5★/6★ Pathways
-- **Suite 5★ Ultimate pathway**: Proposer must hold Origin status on at least 1 of the ≥ 5 `suiteComponents`. Trust Magnitude ≥ 250 (S-grade) required from scoring evidence; suite membership and origin status remain structural/rank metadata. The legacy "≥ 10k repository stars" hard-requirement is retired under Yggdrasil II.
+- **Suite 5★ Ultimate pathway**: Proposer must hold (derived, §4.1) Origin status on at least 1 of the ≥ 5 `suiteComponents`. Trust Magnitude ≥ 250 (S-grade) required from scoring evidence; suite membership and origin status remain structural/rank metadata. The legacy "≥ 10k repository stars" hard-requirement is retired under Yggdrasil II.
 - **The Ascension Cycle (6★ Apex, Suite branch)**: Reaching **Apex** requires TM ≥ 250 (S-grade) and the full 6-predicate gate (§4.3), including at least one direct component that is itself a suite. Any skill recorded at 6★ before the G7 cutover was subject to demotion review against the original 9-predicate gate at migration time; the active set is now 6 predicates (§4.3).
 
 ### 4.3 Apex (6★) Gate — 6-Predicate Requirements (active set, post-2026-06-17 delta)

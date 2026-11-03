@@ -2,6 +2,17 @@
 
 Completed handovers, specs, and roadmaps. **Historical record — not live guidance.**
 
+## EPIC 2189 (Yggdrasil IV) — sprint done: 2026-11-03
+
+Yggdrasil IV (challenge-driven, reversible trust governance) is **ratified and folded into the live source of truth** (`../../../META.md` + `../../../CONTEXT.md`). Standalone close-out record: [`EPIC2189_CLOSEOUT_2026-11-03.md`](EPIC2189_CLOSEOUT_2026-11-03.md).
+
+What this archive pass covered (2026-11-03, EPIC 2189 close-out):
+
+- **Campaign handovers and receipts** — the whole `yggdrasil-iv/` folder (10 files: index, crash recovery, delivery review, the 2026-10-27 and 2026-10-28 handovers, pause and resume records, recovery, restart checkpoint), moved with `git mv` from `founder/handovers/yggdrasil-iv/`. Basenames are unchanged, so older citations resolve by adding `archive/` to the path. Older `MEMORY.md` snapshots and `founder/reports/yggdrasil-iv-october-2026/reconciliation/` keep the pre-archive path verbatim as evidence.
+- **Token ledger** — `COST.md` has a new Yggdrasil IV close-out entry.
+
+**Kept live (not archived):** `../../YGGDRASIL_IV_RATIFICATION_2026-10-25.md`, `../../YGGDRASIL_IV_EXECUTION.md`, `../../GAIA_FRONTIER_RULING_2026-10-26.md`, `../../MEMORY.md`, `../../ORCHESTRATOR.md`; the proof-of-work trees `../../reports/yggdrasil-iv-october-2026/` and `../../reports/yggdrasil-iv-evidence/`; and `../2026-10-27-steward-evolution-post-yggdrasil-iv.md` (a separate forward-looking Steward program).
+
 ## EPIC 1002 (Yggdrasil II) — sprint done: 2026-07-26
 
 The Yggdrasil II meta shift is **ratified and folded into the live source of truth** (`../../../META.md` + `../../../CONTEXT.md`). The handovers that drove it are archived here; consult META.md, not these, for current taxonomy, trust, and branch semantics.

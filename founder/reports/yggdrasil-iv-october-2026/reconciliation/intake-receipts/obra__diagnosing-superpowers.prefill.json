@@ -1,0 +1,94 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "obra/diagnosing-superpowers",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "obra/diagnosing-superpowers",
+  "canonicalUrl": "https://github.com/obra/superpowers/blob/v7.0.1/skills/diagnosing-superpowers/SKILL.md",
+  "checked": true,
+  "contentSha256": "3143de8695c5a2d63e8b1675f33837578076f464deb127c2ebdd0b46fceef886",
+  "hostRepository": "https://github.com/obra/superpowers",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "mattpocock/diagnose",
+     "similarity": 0.480386
+    },
+    {
+     "id": "obra/superpowers",
+     "similarity": 0.47784
+    },
+    {
+     "id": "gsd-build/gsd-verify-work",
+     "similarity": 0.456977
+    },
+    {
+     "id": "obra/systematic-debugging",
+     "similarity": 0.45322
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "systematic-debugging",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4817 to generic 'systematic-debugging' (weak match).",
+   "similarity": 0.481682
+  },
+  {
+   "genericId": "superpowers",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4778 to generic 'superpowers' (weak match).",
+   "similarity": 0.477849
+  }
+ ],
+ "normalized": {
+  "description": "Use when a superpowers session went wrong and your human partner wants to know why \u2014 repeated work, ignored plans, stumbles, poor results, a skill that didn't fire, \"it took too long\", \"why is it so expensive\", \"what is it doing\" \u2014 or wants to build a bug report for the superpowers maintainers, for the current session or a past one identified by id or path, on any harness.",
+  "name": "diagnosing-superpowers"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/obra/superpowers/blob/v7.0.1/skills/diagnosing-superpowers/SKILL.md",
+  "contentSha256": "3143de8695c5a2d63e8b1675f33837578076f464deb127c2ebdd0b46fceef886",
+  "fetchedAt": "2026-10-27T21:58:39.456663+00:00",
+  "frontmatter": {
+   "description": "Use when a superpowers session went wrong and your human partner wants to know why \u2014 repeated work, ignored plans, stumbles, poor results, a skill that didn't fire, \"it took too long\", \"why is it so expensive\", \"what is it doing\" \u2014 or wants to build a bug report for the superpowers maintainers, for the current session or a past one identified by id or path, on any harness.",
+   "name": "diagnosing-superpowers"
+  },
+  "hostRepository": "https://github.com/obra/superpowers",
+  "sourceLane": "source-repository"
+ }
+}

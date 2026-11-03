@@ -1,0 +1,11 @@
+diff --git a/.gitignore b/.gitignore
+index 28b40f951..241ed6aba 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -119,3 +119,6 @@ founder/handovers/design-v6.1.1-assets/**/*.mp4
+ 
+ campaigns/badge-provisioning/.reservations/
+ campaigns/badge-provisioning/*.lock
++
++# graft's local repository settings — not committed.
++/.graft/

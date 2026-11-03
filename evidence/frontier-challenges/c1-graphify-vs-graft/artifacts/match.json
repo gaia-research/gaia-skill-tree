@@ -1,0 +1,166 @@
+{
+  "schemaVersion": "frontier-match-v1",
+  "advisory": true,
+  "authority": "advisory ranking only; never admission, approval, verification, rank or Trust Magnitude",
+  "leadId": "graphify-graft-callers-001",
+  "method": "lexical-bm25-v1",
+  "query": [
+    "25",
+    "ast",
+    "build",
+    "call",
+    "caller",
+    "cli",
+    "codebase",
+    "extraction",
+    "file",
+    "find",
+    "function",
+    "graft",
+    "graph",
+    "graphify",
+    "grepp",
+    "knowledge",
+    "local",
+    "lookup",
+    "package",
+    "prebuilt",
+    "preferr",
+    "python",
+    "queri",
+    "queryable",
+    "raw",
+    "scop",
+    "sitter",
+    "trailhq",
+    "tree",
+    "wiring"
+  ],
+  "registeredElsewhere": true,
+  "registeredAs": [
+    {
+      "kind": "named",
+      "skillId": "safishamsi/graphify",
+      "genericSkillId": "knowledge-graph-build",
+      "via": [
+        "name",
+        "repository"
+      ],
+      "path": "registry/named/safishamsi/graphify.md"
+    }
+  ],
+  "ambiguousRepository": null,
+  "declaredTarget": {
+    "skillId": "trailhq/graft",
+    "kind": "named",
+    "exists": true,
+    "contentRank": 1
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "kind": "named",
+      "skillId": "trailhq/graft",
+      "genericSkillId": "codebase-graph-retrieval",
+      "score": 0.1215,
+      "signals": [
+        {
+          "signal": "lexical-overlap",
+          "terms": [
+            "graft",
+            "grepp",
+            "trailhq",
+            "scop",
+            "call",
+            "find",
+            "file"
+          ]
+        }
+      ],
+      "rationale": "lexical overlap on graft, grepp, trailhq, scop, call; named implementation of generic codebase-graph-retrieval."
+    },
+    {
+      "rank": 2,
+      "kind": "generic",
+      "skillId": "codebase-graph-retrieval",
+      "genericSkillId": "codebase-graph-retrieval",
+      "score": 0.0821,
+      "signals": [
+        {
+          "signal": "lexical-overlap",
+          "terms": [
+            "caller",
+            "call",
+            "codebase",
+            "graph",
+            "raw",
+            "file"
+          ]
+        }
+      ],
+      "rationale": "lexical overlap on caller, call, codebase, graph, raw."
+    },
+    {
+      "rank": 3,
+      "kind": "generic",
+      "skillId": "knowledge-graph-build",
+      "genericSkillId": "knowledge-graph-build",
+      "score": 0.0685,
+      "signals": [
+        {
+          "signal": "lexical-overlap",
+          "terms": [
+            "queryable",
+            "graph",
+            "knowledge",
+            "build"
+          ]
+        },
+        {
+          "signal": "challenger-bucket"
+        }
+      ],
+      "rationale": "lexical overlap on queryable, graph, knowledge, build; same generic bucket as the registered challenger."
+    },
+    {
+      "rank": 4,
+      "kind": "named",
+      "skillId": "mbtiongson1/graphify-triage",
+      "genericSkillId": "graph-driven-issue-triage",
+      "score": 0.0524,
+      "signals": [
+        {
+          "signal": "lexical-overlap",
+          "terms": [
+            "graphify",
+            "graph"
+          ]
+        }
+      ],
+      "rationale": "lexical overlap on graphify, graph; named implementation of generic graph-driven-issue-triage."
+    },
+    {
+      "rank": 5,
+      "kind": "generic",
+      "skillId": "function-calling",
+      "genericSkillId": "function-calling",
+      "score": 0.0486,
+      "signals": [
+        {
+          "signal": "lexical-overlap",
+          "terms": [
+            "call",
+            "function"
+          ]
+        }
+      ],
+      "rationale": "lexical overlap on call, function."
+    }
+  ],
+  "rationale": "The challenger is already a registry skill; it is excluded from the ranked targets and its bucket is flagged.",
+  "registry": {
+    "digest": "sha256:b65124ed7c41d1203a68dd826ce493b7398f897b2381e6a552686dc9a7f52eca",
+    "files": 702,
+    "readOnly": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "worktree": "/data/data/com.termux/files/home/.gaia-worktrees/yggdrasil-iv-frontier-native-e4",
+  "sourceHead": "e4df38cfbb21f4b6fe999da3e94c5e4199cb94e7",
+  "recoveryRef": "refs/heads/recovery/yggdrasil-iv-pause-frontier-index-e4",
+  "recoveryCommit": "9dc1183d9bb678a9f0bf457a6f13f8eb7e7891e0",
+  "remoteVerified": true,
+  "originalHeadIndexAndWorkingTreeUnchanged": true,
+  "approval": "none",
+  "acceptance": "WIP only"
+}

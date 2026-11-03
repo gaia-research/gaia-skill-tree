@@ -1,0 +1,17 @@
+{
+  "syntheticFixture": "SYNTHETIC: derived from native-host-version.json by editing the version fields; unit data, not an execution of Git 2.56.0.",
+  "experiment": "git-log-L-vs-graft-v1",
+  "requestId": "sha256:bb2b9be667b6a4a94a8312b6bfcea192277d8412f3a0f818e4ff2a6d8f0eaa3d",
+  "fixtureDigest": "sha256:deb9f81d78e97c503f48028e4dafb5167ff3b6c966e282e9b1f1c5a77b62c388",
+  "protocolDigest": "sha256:40778442774ff85693e77e7ba0a80a81259bd939180e5de0cc35ba5efc07ef74",
+  "gitVersion": "git version 2.56.0",
+  "executedVersion": "2.56.0",
+  "fixtureBaselineCommit": "8c651d722dc3d7ef44843bf21911a5d54c6477f3",
+  "fixtureUpdatedCommit": "91fdd4e42f0d999c792e363503766fda2c8b6ca2",
+  "output": "91fdd4e42f0d999c792e363503766fda2c8b6ca2 fixture update\n\ndiff --git a/sample.py b/sample.py\n--- a/sample.py\n+++ b/sample.py\n@@ -1,5 +1,7 @@\n def score(value):\n-    # Initial implementation.\n-    return value + 1\n+    # Updated implementation with a bounded input guard.\n+    if value < 0:\n+        return 0\n+    return value + 2\n \n \n8c651d722dc3d7ef44843bf21911a5d54c6477f3 fixture baseline\n\ndiff --git a/sample.py b/sample.py\n--- /dev/null\n+++ b/sample.py\n@@ -0,0 +1,5 @@\n+def score(value):\n+    # Initial implementation.\n+    return value + 1\n+\n+\n",
+  "outputDigest": "sha256:f0d36d3e172446d4c3ba107c8c0eb5dd895cda01e3c7a2d06ef982585a2d9aec",
+  "executionCheck": "passed",
+  "result": "inconclusive",
+  "interpretation": "The bounded Git operation ran as expected; Graft comparison has not been executed by an independent verifier. No comparative conclusion or public challenge follows.",
+  "recordedAtUTC": "2026-10-28T00:00:00Z"
+}

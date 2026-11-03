@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "frontier-meta-verification-v1",
+  "verificationId": "meta-c1-graphify-vs-graft-2026-10-28",
+  "campaignId": "yggiv-challenger-cases-2026-10",
+  "requestId": "sha256:19a1c7ab29fd5e86a0e8c1aab7d446e16b9191f02c903eb923fa031eda507be1",
+  "receiptDigest": "sha256:45e4e51ad377396c8cc001971e5ab96c3bb18e19b125f44a5d0b1eccdacb4495",
+  "receiptRunId": "run-675a473c88ce446088216d11984c846d",
+  "verifierRunId": "meta-run-c835315e8b3945e5b0756625e9c3e426",
+  "outcome": "contradicted",
+  "recommend": {
+    "action": "reject-lead",
+    "rationale": "Verdict: upheld (contradicted, as a tie). recommendAdmission: false. Pre-registration holds: protocol, ground truth and runner were committed in d12cb7783 (18:22:20Z) before the receipt (18:22:39Z) and the results commit 65f28dbd2, and the digests still match. An independent ast pass at d237c0839 reproduces all 27 ground-truth callers and the mechanical selection rule yields the same 5 targets from a pool of 128, so the targets were not hand-picked. Re-running the fixed runner reproduced both tool outputs byte for byte. Graphify and Graft return identical caller sets (recall 0.727/1.0/0.75/1.0/0.667, precision 22/22), so the challenger shows no caller-lookup advantage. Under the pre-registered rule a tie is contradicted, but it does not show Graft is better. The parser smoke test on non-target functions did not taint the result. The comparison is cross-bucket (Graphify is registered as safishamsi/graphify under knowledge-graph-build) and says nothing about Graphify's primary capability."
+  },
+  "counterevidence": {
+    "searched": "Recomputed ground truth and target selection independently; re-ran runner/run-c1.py unchanged to check that the identical caller sets were not a runner duplication bug (separate graph.json vs graft CLI parse paths, per-target graft rawDigest present); looked for callers either tool found outside ground truth (none: both 22/22 precise).",
+    "items": [
+      {
+        "summary": "Both tools miss the same 5 of 27 callers (shadowEvaluation.py attribute/alias calls, the cardRenderer.py module-level comprehension, trustMagnitude._fusionAndSuiteOriginIds). This is a shared static-resolution limit, so the result is a tie rather than an incumbent advantage.",
+        "source": "evidence/frontier-challenges/c1-graphify-vs-graft/artifacts/scoring.json"
+      },
+      {
+        "summary": "Graphify is already registered under knowledge-graph-build. Caller lookup on one Python package is a narrow slice of its claim, so this result does not bear on that bucket.",
+        "source": "evidence/frontier-challenges/c1-graphify-vs-graft/artifacts/match.json"
+      }
+    ]
+  },
+  "reexecution": {
+    "performed": true,
+    "notes": "Re-ran runner/run-c1.py (sha256 96df20b5...) unchanged with graphify 0.8.13 and graft 0.25.0 at about 2026-10-28T18:35Z into a new path. native.json and graft.target.json came out byte-identical to the receipt outputs (sha256 942f1ec9fa9da6ac..., e556b0f8705c4186...) and the re-run scoring again reported contradicted with identical per-target recall. meta-verification-v1 rejects byte-identical artifacts as indistinguishable from copies, so those files are not listed and were not committed. Listed: the verifier's own ast ground-truth recomputation, which includes the script.",
+    "artifacts": [
+      {
+        "label": "ground-truth-recompute",
+        "contentDigest": "sha256:9b37e5eef11697ed842451f31d2e63c5a224d7b60ac4f734ecd357d9d12bd7c7",
+        "path": "evidence/frontier-challenges/c1-graphify-vs-graft/artifacts/meta-rerun/ground-truth-recompute.json"
+      }
+    ]
+  },
+  "independence": "declared-unauthenticated",
+  "declaredSession": {
+    "harness": "Claude Code 2.1.312 (agent session)",
+    "model": "claude-opus-5-5",
+    "note": "Separate session from the runner, dispatched by the same orchestrator, on the same host, account and Claude Code install. Declared, not authenticated; not environment-independent."
+  },
+  "limitations": [
+    "Five targets in one Python package at one revision; caller identity uses bare names.",
+    "C1 events.jsonl was edited after its results commit (commit reference corrected in 0c6cf9066, with the manifest updated). This is benign, but the log is not append-only.",
+    "Independence is declared and unauthenticated: the verifier was dispatched by the same orchestrator as the runner and ran on the same host, account and tool installs.",
+    "This record is an untrusted Meta assessment for human review. It is not an approval, an admission, a verification receipt or a Trust Magnitude, star, grade or Origin input.",
+    "Lead observedAtUTC/checkedAtUTC values in all four cases postdate the commits that contain them by roughly 8 to 10 hours (apparently local +08:00 times labelled Z, rounded). Git commit order, not those fields, was used to establish pre-registration.",
+    "events.jsonl entries were written in one batch at results-commit time (identical timestamps), so they are a summary, not a contemporaneous log."
+  ],
+  "recordedAtUTC": "2026-10-28T18:38:44Z"
+}

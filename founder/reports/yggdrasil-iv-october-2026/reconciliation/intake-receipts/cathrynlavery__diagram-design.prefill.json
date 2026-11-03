@@ -1,0 +1,81 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "cathrynlavery/diagram-design",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "cathrynlavery/diagram-design",
+  "canonicalUrl": "https://github.com/cathrynlavery/diagram-design/blob/main/skills/diagram-design/SKILL.md",
+  "checked": true,
+  "contentSha256": "83fd5aa46965ce2b14bd42ade80c065a4e17a9f83d2a9f4f275b47cd45d72666",
+  "hostRepository": "https://github.com/cathrynlavery/diagram-design",
+  "matched": false
+ },
+ "flags": [],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "collaborative-diagramming",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.6054 to generic 'collaborative-diagramming' (weak match).",
+   "similarity": 0.605368
+  },
+  {
+   "genericId": "architecture-diagram",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5972 to generic 'architecture-diagram' (weak match).",
+   "similarity": 0.597195
+  },
+  {
+   "genericId": "data-visualize",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5185 to generic 'data-visualize' (weak match).",
+   "similarity": 0.518535
+  }
+ ],
+ "normalized": {
+  "description": "Create branded architecture, architecture delta, IT current-state, flowchart, sequence, state machine, ER/data model, timeline, swimlane, quadrant, radar/spider, polar chart (polar/radial lollipop), loop/flywheel, nested, tree, org chart, layer stack, exploded axonometric, axonometric plan, Venn, pyramid/funnel, treemap and marimekko, heatmap, bar and dumbbell, waterfall, line (slopegraph, ridgeline, streamgraph, bump), Gantt and scatter charts (bubble, beeswarm, box plot), high-level, process, ",
+  "name": "diagram-design"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/cathrynlavery/diagram-design/blob/main/skills/diagram-design/SKILL.md",
+  "contentSha256": "83fd5aa46965ce2b14bd42ade80c065a4e17a9f83d2a9f4f275b47cd45d72666",
+  "fetchedAt": "2026-10-27T22:09:44.787432+00:00",
+  "frontmatter": {
+   "description": "Create branded architecture, architecture delta, IT current-state, flowchart, sequence, state machine, ER/data model, timeline, swimlane, quadrant, radar/spider, polar chart (polar/radial lollipop), loop/flywheel, nested, tree, org chart, layer stack, exploded axonometric, axonometric plan, Venn, pyramid/funnel, treemap and marimekko, heatmap, bar and dumbbell, waterfall, line (slopegraph, ridgeline, streamgraph, bump), Gantt and scatter charts (bubble, beeswarm, box plot), high-level, process, medallion, data flow, DP integration, DP security matrix, Sankey, fishbone, Wardley map, kanban, user journey, service blueprint, deployment, dependency graph, UML class, story map, or database schema diagrams as HTML/SVG/PNG, with .drawio, Mermaid, and .excalidraw import, plus lifecycle phase maps, block decomposition trees, and onboarding guidance.",
+   "license": "MIT",
+   "metadata": {
+    "version": "2.6"
+   },
+   "name": "diagram-design"
+  },
+  "hostRepository": "https://github.com/cathrynlavery/diagram-design",
+  "sourceLane": "source-repository"
+ }
+}

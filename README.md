@@ -58,13 +58,13 @@ So that means, its the developers who make skills maintaining this. I have a tho
 ◆ mattpocock/skills  [5★]
   ├─ ○ mattpocock/domain-modeling  [2★]
   ├─ · mattpocock/engineering  [4★]
-  │  ├─ · firecrawl/firecrawl-build-onboarding  [3★]
-  │  │  ├─ ○ garrytan/document-generate  [3★]
+  │  ├─ · mattpocock/setup-matt-pocock-skills  [3★]
+  │  │  ├─ ○ mattpocock/edit-article  [3★]
   │  │  └─ ○ /tool-use
   │  ├─ · mattpocock/diagnose  [3★]
   │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /code-execution
-  │  │  └─ ○ /error-interpretation
+  │  │  └─ ○ garrytan/correction-pipeline  [2★]
   │  ├─ ○ ████████/zoom-out
   │  ├─ ○ mattpocock/domain-modeling  [2★]  (↑ see above)
   │  ├─ · mattpocock/grill-with-docs  [3★]
@@ -74,27 +74,27 @@ So that means, its the developers who make skills maintaining this. I have a tho
 ◆ garrytan/gstack  [5★]
   ├─ ○ garrytan/office-hours  [3★]
   ├─ ○ garrytan/benchmark  [3★]
-  ├─ · addy-osmani/code-review-and-quality  [3★]
+  ├─ · garrytan/plan-eng-review  [3★]
   │  ├─ ○ garrytan/design-html  [3★]
   │  ├─ ○ /diff-content
   │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ ○ nextlevelbuilder/ui-ux-pro-max  [4★]
-  ├─ · mattpocock/to-tickets  [3★]
+  ├─ · addy-osmani/planning-and-task-breakdown  [3★]
   │  ├─ ○ /plan-decompose
-  │  └─ ○ ████████/functional-area-resolver  [2★]
-  ├─ · leonxlnx/stitch-skill  [3★]
-  │  ├─ · ████████/browse
+  │  └─ ○ garrytan/functional-area-resolver  [2★]
+  ├─ · garrytan/design-consultation  [3★]
+  │  ├─ · firecrawl/firecrawl-build  [2★]
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]
   │  │  └─ ○ /computer-use
 
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
   ◉ mvanhorn/last30days  [4★]
-    ├─ · ████████/draft-in-voice
-    │  ├─ · ████████/data-research  [2★]
+    ├─ · garrytan/draft-in-voice  [2★]
+    │  ├─ · garrytan/data-research  [2★]
     │  │  ├─ ○ firecrawl/firecrawl-build-search  [3★]
     │  │  ├─ ○ /summarize
 
-(301 skills total — see docs/tree.md)
+(311 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 
@@ -278,7 +278,7 @@ Navigate skills:
 <!-- gaia:cli-start -->
 ```text
 usage: gaia [-h] [--registry REGISTRY] [--global] [--version]
-            {help,init,scan,steward,fetch,pull,update,install,uninstall,share,tree,push,propose,version,whoami,login,logout,reset,graph,stats,appraise,fuse,lookup,path,dev,skills,curate,trust}
+            {help,init,scan,steward,fetch,pull,update,install,uninstall,share,tree,push,propose,version,whoami,login,logout,reset,graph,stats,appraise,fuse,lookup,path,dev,skills,curate,trust,shadow}
             ...
 
 Gaia CLI

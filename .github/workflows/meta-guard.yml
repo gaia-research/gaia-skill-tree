@@ -8,6 +8,7 @@ on:
       - 'registry/named/**'
       - 'registry/named-skills.json'
       - 'skill-trees/**'
+      - 'evidence/frontier-challenges/**'
 
 # A new push or label event cancels the run it supersedes (same PR head).
 concurrency:
@@ -110,7 +111,7 @@ jobs:
               [ -z "$sha" ] && continue
               git diff-tree --no-commit-id -r --name-only "$sha"
             done <<< "$HUMAN_COMMITS" \
-              | grep -E '^(registry/nodes/|registry/named/|registry/named-skills\.json|skill-trees/)' \
+              | grep -E '^(registry/nodes/|registry/named/|registry/named-skills\.json|skill-trees/|evidence/frontier-challenges/)' \
               | sort -u || true
           )
 

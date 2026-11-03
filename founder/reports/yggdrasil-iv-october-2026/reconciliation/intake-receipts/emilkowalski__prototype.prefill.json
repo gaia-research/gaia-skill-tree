@@ -1,0 +1,78 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "emilkowalski/prototype",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "emilkowalski/prototype",
+  "canonicalUrl": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/prototype/SKILL.md",
+  "checked": true,
+  "contentSha256": "bba39c955eb1871c5a02733976ceec5d0324198e0812e667604756489c89f7b9",
+  "hostRepository": "https://github.com/emilkowalski/skills",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/design-shotgun",
+     "similarity": 0.457216
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "prototype",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4532 to generic 'prototype' (weak match).",
+   "similarity": 0.453188
+  }
+ ],
+ "normalized": {
+  "description": "Build multiple genuinely different versions of a UI piece you describe, rendered behind a visual picker so you can flip through them live and promote the one that feels right. Only runs when explicitly invoked; it does not trigger on its own.",
+  "name": "prototype"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/prototype/SKILL.md",
+  "contentSha256": "bba39c955eb1871c5a02733976ceec5d0324198e0812e667604756489c89f7b9",
+  "fetchedAt": "2026-10-27T22:11:43.825026+00:00",
+  "frontmatter": {
+   "description": "Build multiple genuinely different versions of a UI piece you describe, rendered behind a visual picker so you can flip through them live and promote the one that feels right. Only runs when explicitly invoked; it does not trigger on its own.",
+   "disable-model-invocation": true,
+   "name": "prototype"
+  },
+  "hostRepository": "https://github.com/emilkowalski/skills",
+  "revision": "2d228630ba1446365f614a108cb8252f1feda202",
+  "sourceLane": "source-repository"
+ }
+}

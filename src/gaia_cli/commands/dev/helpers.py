@@ -142,6 +142,91 @@ def _preflight_calibrate_status(skill_id: str, skill_data: dict, level: str) -> 
         )
 
 
+_STAR_GRADE_ORDER = {"ungraded": 0, "C": 1, "B": 2, "A": 3, "S": 4}
+
+
+def _starNumber(level) -> int:
+    if isinstance(level, str) and level[:1].isdigit():
+        return int(level[0])
+    return 0
+
+
+def _preflight_star_gate(skill_id: str, skill_data: dict, level: str, registry_path) -> None:
+    """Refuse to set a level (4★+) whose Trust Magnitude / branch gate fails.
+
+    A strict raise to a gated level is checked against live Trust Magnitude (never
+    the cached frontmatter) and refused on failure. Re-asserting the current level
+    only warns (evidence-only re-calibration stays possible). Lowering is
+    unconditional.
+    Unique branch (no ``suiteComponents``): 4★/5★ use
+    ``promotion.checkUniqueBranchGate``. Suite branch: 4★ Extra needs Grade A
+    (TM >= 100), 5★+ Ultimate needs Grade S (TM >= 250) plus the derived Origin on >=1
+    ``suiteComponents`` (META.md section 4.2), held by the proposing contributor; no bucket-level
+    Origin is required. Unique 4★/5★ need only to be their bucket's derived Origin. Scope: 4★/5★ are fully gated; a 6★ target only
+    enforces the Grade S floor -- `checkUniqueImpossibleGate` / `passesSuiteApexGate`
+    are NOT enforced here.
+    """
+    target = _starNumber(level)
+    current = _starNumber(skill_data.get("level"))
+    if target < 4 or target < current:
+        return
+
+    from gaia_cli.promotion import checkUniqueBranchGate
+    from gaia_cli.registryMaps import buildMergedSkillMap
+    from gaia_cli.trustMagnitude import computeTrustMagnitude, computeOverallTrustGradeFromSkill
+
+    mergedMap = buildMergedSkillMap(registry_path)
+    tm = round(float(computeTrustMagnitude(skill_data, mergedMap)), 2)
+    grade = computeOverallTrustGradeFromSkill(skill_data, mergedMap) or "ungraded"
+    required = "A" if target == 4 else "S"
+    problems = []
+    if _STAR_GRADE_ORDER.get(grade, 0) < _STAR_GRADE_ORDER[required]:
+        problems.append(f"Overall Trust Grade {grade} (TM {tm}) is below the required Grade {required}")
+
+    from gaia_cli.origin import contenderPool
+    originPool = contenderPool(registry_path, mergedMap)
+
+    components = skill_data.get("suiteComponents") or []
+    if components:
+        branch = "Suite"
+        if target >= 5:
+            from gaia_cli.origin import contributorHoldsOriginIn
+            # Origin is derived (highest merit per bucket, gaia_cli.origin): a
+            # named component counts when it belongs to the proposer and is its
+            # bucket's Origin; a generic component counts when the proposer's
+            # skill is that bucket's Origin.
+            holdsOrigin = contributorHoldsOriginIn(skill_data.get("contributor"), components, originPool)
+            if not holdsOrigin:
+                problems.append("5★+ Suite Ultimate requires the proposing contributor to hold Origin on at least one suiteComponent (META.md 4.2)")
+    else:
+        branch = "Unique"
+        if target in (4, 5):
+            result = checkUniqueBranchGate(skill_data, level, mergedMap, mergedMap, originPool=originPool)
+            if not result.get("originPresent"):
+                problems.append(
+                    f"{level} Unique requires being the Origin of its own generic bucket "
+                    "(the highest-merit implementation by level, then TM; Origin is automatic)"
+                )
+            if result.get("branch") not in (None, "unique") and not problems:
+                problems.append(f"skill resolves to branch '{result.get('branch')}' at {level}, not Unique")
+
+    if problems and target == current:
+        print(
+            f"Warning: {skill_id} no longer satisfies the {level} gate ({branch} branch): "
+            + "; ".join(problems) + ". Re-calibrating at the same level anyway.",
+            file=sys.stderr,
+        )
+        return
+    if problems:
+        _fail_dev_preflight(
+            f"Cannot set {skill_id} to {level} ({branch} branch): " + "; ".join(problems) + ".",
+            fix=(
+                "Add the missing evidence through the matching `gaia dev` verb (Origin follows merit "
+                "automatically), or calibrate to a level the gate allows. Lowering a level is always permitted."
+            ),
+        )
+
+
 def _preflight_url(value: str | None, flag: str) -> None:
     if not value:
         return
@@ -578,8 +663,33 @@ def _add_build_flags(parser, verb: str) -> None:
 
 
 def _get_contributor():
+    """Resolve the acting operator for timeline events.
+
+    Order: `.gaia/config.json` (`gaiaUser` / `username`), then ``GITHUB_ACTOR``
+    (CI; ``*[bot]`` actors kept as-is), then the GitHub login in a noreply
+    ``git config user.email``, then ``"unknown"``. The git remote owner is never
+    used: it names the org, not the actor.
+    """
     config = load_config() or {}
-    return config.get("gaiaUser") or config.get("username") or "unknown"
+    configured = config.get("gaiaUser") or config.get("username")
+    if configured:
+        return configured
+    actor = (os.environ.get("GITHUB_ACTOR") or "").strip()
+    if actor:
+        return actor
+    try:
+        result = subprocess.run(
+            ["git", "config", "user.email"], capture_output=True, text=True, timeout=5
+        )
+        if result.returncode == 0:
+            match = re.match(
+                r"^(?:\d+\+)?([^@]+)@users\.noreply\.github\.com$", result.stdout.strip()
+            )
+            if match:
+                return match.group(1)
+    except Exception:
+        pass
+    return "unknown"
 
 
 def _is_verifier(username, registry_path=".") -> bool:
@@ -625,12 +735,16 @@ def _parse_md(path):
     return (yaml.safe_load(frontmatter) or {}), body
 
 
-def _write_md(path, meta, body) -> None:
+def serializeMarkdown(meta, body) -> str:
+    """Shared legacy/transaction serializer; no canonical write side effects."""
     import yaml
-    path.write_text(
-        "---\n" + yaml.dump(meta, sort_keys=False, allow_unicode=True) + "---" + body,
-        encoding="utf-8",
-    )
+    return "---\n" + yaml.dump(meta, sort_keys=False, allow_unicode=True) + "---" + body
+
+
+def _write_md(path, meta, body) -> None:
+    from gaia_cli.canonicalTransaction import guardCanonicalPath
+    with guardCanonicalPath(path):
+        path.write_text(serializeMarkdown(meta, body), encoding="utf-8")
 
 
 def _find_named_file(named_dir, skill_id):
@@ -639,6 +753,31 @@ def _find_named_file(named_dir, skill_id):
         if meta.get("id") == skill_id:
             return p
     return None
+
+
+def preflightNamedSkillMutable(registry_path, skill_id: str) -> None:
+    """Refuse a named-record mutation when the target is frozen.
+
+    The lookup uses the one suite-aware frozen definition. Command handlers run
+    this before writing either a record or its timeline so frozen canonical
+    bytes remain exact historical bytes.
+    """
+    from gaia_cli.frozen import frozenIds
+
+    named_dir = Path(named_skills_dir(registry_path))
+    metas = []
+    for path in named_dir.rglob("*.md"):
+        try:
+            meta, _body = _parse_md(path)
+        except (OSError, ValueError):
+            continue
+        if isinstance(meta, dict) and meta.get("id"):
+            metas.append(meta)
+    if skill_id in frozenIds(metas):
+        _fail_dev_preflight(
+            f"Named skill '{skill_id}' is frozen (directly or through a frozen suite). Nothing was written.",
+            fix="Frozen records preserve their historical bytes and cannot be changed by this command.",
+        )
 
 
 def _replace_section(body: str, section_heading: str, new_content: str) -> str:
@@ -1156,6 +1295,11 @@ def preflightAddCommand(args) -> None:
             try:
                 extra = json.loads(extraFieldsStr)
                 if isinstance(extra, dict):
+                    if "origin" in extra:
+                        _fail_dev_preflight(
+                            "--extra-fields cannot set 'origin' on a named skill: Origin is automatic.",
+                            fix="Omit origin; the required legacy initializer remains false and projections derive Origin from merit.",
+                        )
                     catalogRefVal = extra.get("catalogRef")
             except json.JSONDecodeError:
                 pass

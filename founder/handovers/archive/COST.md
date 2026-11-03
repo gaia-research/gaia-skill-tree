@@ -10,6 +10,18 @@ Cumulative token spend across the GAIA project, broken down by session and agent
 | Sonnet 4.6 | $3 | $15 |
 | Haiku 4.5 | $0.80 | $4 |
 
+## EPIC 2189 (Yggdrasil IV) — close-out session — 2026-11-03
+
+Orchestrator coding directly (no subagents) on `dev/yggdrasil-iv`: frozen-skill correction, report refresh, CI repair, archive pass, release gate. Figures are the `cost` skill's public-rate estimate for this one session, read from its Claude Code log at 12:20Z while the session was still open, so the total is a floor. Prices are offline LiteLLM catalog values fetched 2026-10-30; the table above is Anthropic's rate card and is not used here. The earlier campaign sessions are logged in the `MEMORY.md` snapshots (for example the 2026-11-02 snapshot: $25.76).
+
+| Component | Input | Output | Cache read | Cache write (1h) | Cost |
+|---|---|---|---|---|---|
+| Orchestrator session `46ee8f58` | 254 | 156,265 | 30,241,984 | 340,219 | $5.95 |
+
+**Notes:**
+- 98.9% of 30.6M prompt tokens were cache hits; the cache saved about $57 against uncached input.
+- Spend split: output $1.56, cache read $3.02, cache write $1.36, fresh input under $0.01.
+
 ## EPIC 1002 (Ygg II) — dead-`type` remainder + TUI resolver audit — 2026-07-27
 
 Superadmin mode (orchestrator coding directly; no coding subagents). Spend is overwhelmingly orchestrator-only, plus one adversarial-audit workflow.

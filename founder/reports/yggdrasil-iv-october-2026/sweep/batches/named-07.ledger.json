@@ -1,0 +1,637 @@
+[
+ {
+  "id": "google-deepmind/literature-search-arxiv",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/literature-search-arxiv.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: it is the implementation's own SKILL.md. Body is substantive (search, download, rate-limit rules) and depends on google-deepmind/uv, which is in this batch. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/literature-search-arxiv.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/literature-search-biorxiv",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/literature-search-biorxiv.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body states the narrow-date-range rule and points PDF retrieval to the europepmc skill, which is in the index. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/literature-search-biorxiv.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/literature-search-europepmc",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/literature-search-europepmc.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body is substantive; open-access-only rule and wrapper usage are stated. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/literature-search-europepmc.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/literature-search-openalex",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/literature-search-openalex.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body is substantive; credential handling rules are explicit and do not expose keys. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/literature-search-openalex.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/ncbi-sequence-fetch",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/ncbi-sequence-fetch.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body is substantive; NCBI terms and API-key handling are documented. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/ncbi-sequence-fetch.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/openfda-database",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/openfda-database.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body is substantive; openFDA terms link is present. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/openfda-database.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/opentargets-database",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/opentargets-database.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body is substantive; licence notice and wrapper rules are present. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/opentargets-database.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/pdb-database",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/pdb-database.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body is substantive. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/pdb-database.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/protein-sequence-msa",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/protein-sequence-msa.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body credits EBI Clustal Omega as the aligner, so the third-party maker is named. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/protein-sequence-msa.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/protein-sequence-similarity-search",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/protein-sequence-similarity-search.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "evidence",
+  "findingSummary": "Awakened 1★, standard branch, prepass TM 10.82 ungraded, no gates. Two evidence rows for the same repository: row 1 cites the repo root https://github.com/google-deepmind/science-skills (type repo, no grade, no commits or contributors, note calls it a 'foundational canonical generic skill'); row 2 is the implementation SKILL.md with commits 6 and contributors 3. Row 1 scores 0 TM (TM equals row 2 alone), so it is a duplicate, capability-level row sitting on a named record. Proposal: move the capability-level row to the generic node bioinformatic-sequence-analysis via the gaia dev CLI, or remove it from this record. No TM or rank change.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/protein-sequence-similarity-search.md",
+   "https://github.com/google-deepmind/science-skills",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md",
+   "registry/nodes (generic bioinformatic-sequence-analysis)"
+  ]
+ },
+ {
+  "id": "google-deepmind/pubchem-database",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/pubchem-database.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body is substantive. Description has a minor grammar slip ('Use when a user ask'); not gating. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/pubchem-database.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/pubmed-database",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/pubmed-database.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body is substantive. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/pubmed-database.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/pymol",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/pymol.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body documents PyMOL usage with a pymol.org licence link; it does not explicitly name Schrodinger as PyMOL's maker. Minor body-credit observation, not gating. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/pymol.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/quickgo-database",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/quickgo-database.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body is substantive. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/quickgo-database.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/reactome-database",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/reactome-database.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body is substantive. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/reactome-database.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/string-database",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/string-database.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body is substantive; mandatory species-first rule is explicit. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/string-database.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/ucsc-conservation-and-tfbs",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/ucsc-conservation-and-tfbs.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body is substantive. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/ucsc-conservation-and-tfbs.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/unibind-database",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/unibind-database.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body is substantive. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/unibind-database.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/uniprot-database",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/uniprot-database.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body is substantive. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/uniprot-database.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/uv",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/uv.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 1,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "Awakened 1★, origin false, standard branch, no suiteComponents. Prepass TM 10.82 ungraded, no gate violations; TM is the single repo row (type repo is a legacy alias of repo-own, class B vs grade C stale, grade governs). Source repo google-deepmind/science-skills is active (pushed 2026-10-23, not archived); SKILL.md link returns HTTP 200. Evidence fits: own implementation SKILL.md. Body is short (about 1 KB) but complete, not a stub; it is the install dependency most google-deepmind skills reference. Review debt only: repo volume counts (commits 6, contributors 3) predate live counts (about 13 commits, 4 contributors); a re-fetch would not change grade or any gate at 1★. No change proposed.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/uv.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md"
+  ]
+ },
+ {
+  "id": "google-deepmind/workflow-skill-creator",
+  "kind": "named",
+  "path": "registry/named/google-deepmind/workflow-skill-creator.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "fail",
+   "rank": "fail",
+   "starBar": "n/a",
+   "origin": "fail",
+   "evidence": "fail",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "change-proposed",
+  "proposalType": "rank",
+  "findingSummary": "Frontmatter has status: awakened with level: 4★ (and no title or catalogRef). The timeline shows a 2026-09-05 demotion to 1★ citing 'status is awakened; 2★+ requires status named', then a 2026-09-09 rank_up 1★->4★ with status left awakened. Computed TM 100.82 (A): the repo-own row contributes 10.82; the peer-review row (grade S, trustNumber 78, reviewers 3, source https://github.com/google-deepmind/science-skills, repo root, no critique link) contributes 90.00 (25 x 3 x 1.2). Without that row TM is 10.82 (ungraded), below the 4★ TM>=100 gate. Origin:true in bucket skill-authoring is therefore unsupported on the deterministic basis: skillify is 3★ with TM 50 and the other siblings are lower. Proposal: set level to 1★ Awakened (the only rank consistent with status awakened and the current verifiable TM), clear origin pending adjudication, and re-promote only after the peer-review row is verified (reviewer identities, written critique URL) and the status is set to named with a title or catalogRef through the CLI. Do not transfer Origin in this sweep.",
+  "evidenceRefs": [
+   "registry/named/google-deepmind/workflow-skill-creator.md",
+   "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
+   "https://github.com/google-deepmind/science-skills",
+   "registry/named-skills.json bucket skill-authoring"
+  ]
+ },
+ {
+  "id": "gooseworks/browser-automation-notte",
+  "kind": "named",
+  "path": "registry/named/gooseworks/browser-automation-notte.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "fail",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "n/a",
+   "upstream": "n/a",
+   "body": "fail",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 0,
+  "disposition": "change-proposed",
+  "proposalType": "link",
+  "findingSummary": "Link: links.github returns HTTP 404. The upstream repo gooseworks-ai/goose-skills lists browser-automation-notte in retired-skills.json (reason: single-provider utility removed from the catalog, replacement null). The same path exists at the immutable tag legacy-gtm-final (HTTP 200), which the upstream says keeps the old skills readable. Proposal: repoint links.github to the legacy-gtm-final blob and record the upstream retirement as a note; this is review debt, not a demotion. Also: status is named while level is 1★ (named requires 2★+ per META §1.1 and §4.1; the 2026-06-02 demotion to 1★ never reset status). 123 named-skills index rows share this pattern, so it needs a batch ruling rather than a per-record change. Body: claims 'This is the origin implementation for the browser-automation skill bucket' while origin is false and no Origin is granted; body also cites a 625-star marketplace figure (repo now shows 1271) and does not name Notte as the Notte Browser API's maker.",
+  "evidenceRefs": [
+   "registry/named/gooseworks/browser-automation-notte.md",
+   "https://github.com/gooseworks-ai/goose-skills/blob/main/skills/research-tools/capabilities/browser-automation-notte/SKILL.md (404)",
+   "https://github.com/gooseworks-ai/goose-skills/blob/legacy-gtm-final/skills/research-tools/capabilities/browser-automation-notte/SKILL.md (200)",
+   "https://github.com/gooseworks-ai/goose-skills/blob/main/retired-skills.json"
+  ]
+ },
+ {
+  "id": "gsd-build/get-shit-done",
+  "kind": "named",
+  "path": "registry/named/gsd-build/get-shit-done.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "fail",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 3,
+  "disposition": "change-proposed",
+  "proposalType": "metadata",
+  "findingSummary": "Suite-branch 4★ Extra. Prepass TM 169.31 (A, gates clear): stars row 133.3 (64,413 stars, now 64,205) plus repo-own 36.0 (60 x 0.6). Suite gate holds: all five suiteComponents resolve to registry/named files and the 3★ components carry blob links; no Origin needed on suite branch. Upstream block is frozen: tracks gsd-build/get-shit-done v1.42.3 with a single first-run baseline on 2026-07-08. gsd-build/get-shit-done was archived on 2026-10-27 and its README redirects to open-gsd/gsd-core (pushed 2026-10-27, latest release v1.19.0, different version scheme). The stargazers evidence URL returned 404 to unauthenticated curl (the open-gsd stargazers URL did too, so this may be a fetch artifact; verify manually). Archival is not counterevidence and does not justify demotion or TM decrease under Yggdrasil IV. Proposal: a founder ruling on the successor upstream (re-point the upstream block to open-gsd/gsd-core and re-baseline) and a provenance note on the stars row; no rank or TM change.",
+  "evidenceRefs": [
+   "registry/named/gsd-build/get-shit-done.md",
+   "https://github.com/gsd-build/get-shit-done (archived 2026-10-27; README redirect)",
+   "https://github.com/open-gsd/gsd-core",
+   "https://github.com/gsd-build/get-shit-done/stargazers"
+  ]
+ },
+ {
+  "id": "gsd-build/gsd-discuss-phase",
+  "kind": "named",
+  "path": "registry/named/gsd-build/gsd-discuss-phase.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "3★ standard branch (suiteRef gsd-build/get-shit-done, no suiteComponents). Prepass TM 50.0 B (capped at the 50-per-component suite baseline, §2.1a), no gate violations. Link https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-discuss-phase/SKILL.md returns HTTP 200 and satisfies the 3★ blob rule. Both evidence rows (github-stars-own and repo-own) are the parent repo's stars and volume, not component-specific implementation evidence. §2.1a says rank is gated by own implementation evidence, but the per-named evidence-floor thresholds are not yet enforced (roadmap), so no deterministic demotion basis exists. Observation for founder: the 3★ rests on suite-level baseline only; the evidence still attributes stars to gsd-build/get-shit-done, which is archived (see the suite record). No change proposed.",
+  "evidenceRefs": [
+   "registry/named/gsd-build/gsd-discuss-phase.md",
+   "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-discuss-phase/SKILL.md",
+   "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md"
+  ]
+ },
+ {
+  "id": "gsd-build/gsd-execute-phase",
+  "kind": "named",
+  "path": "registry/named/gsd-build/gsd-execute-phase.md",
+  "reviewer": "haiku:named-07",
+  "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+  "checks": {
+   "frontmatter": "pass",
+   "rank": "pass",
+   "starBar": "n/a",
+   "origin": "pass",
+   "evidence": "pass",
+   "upstream": "n/a",
+   "body": "pass",
+   "classification": "pass"
+  },
+  "evidenceRowsReviewed": 2,
+  "disposition": "reviewed-no-change",
+  "proposalType": null,
+  "findingSummary": "3★ standard branch (suiteRef gsd-build/get-shit-done, no suiteComponents). Prepass TM 50.0 B (capped at the 50-per-component suite baseline, §2.1a), no gate violations. Link https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-execute-phase/SKILL.md returns HTTP 200 and satisfies the 3★ blob rule. Both evidence rows (github-stars-own and repo-own) are the parent repo's stars and volume, not component-specific implementation evidence. §2.1a says rank is gated by own implementation evidence, but the per-named evidence-floor thresholds are not yet enforced (roadmap), so no deterministic demotion basis exists. Observation for founder: the 3★ rests on suite-level baseline only; the evidence still attributes stars to gsd-build/get-shit-done, which is archived (see the suite record). No change proposed.",
+  "evidenceRefs": [
+   "registry/named/gsd-build/gsd-execute-phase.md",
+   "https://github.com/open-gsd/gsd-core/blob/next/skills/gsd-execute-phase/SKILL.md",
+   "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md"
+  ]
+ }
+]

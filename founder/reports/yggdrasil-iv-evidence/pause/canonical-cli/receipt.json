@@ -1,0 +1,10 @@
+{
+  "worktree": "/data/data/com.termux/files/home/.gaia-worktrees/yggdrasil-iv-canonical-cli",
+  "sourceHead": "96d3299951a6dcd5969f11c78396f2a4d7983957",
+  "recoveryRef": "refs/heads/recovery/yggdrasil-iv-pause-canonical-fixtures-96d329995",
+  "recoveryCommit": "fbf9f203db86c4dad4e4389b965b018cadc592e1",
+  "remoteVerified": true,
+  "originalHeadIndexAndWorkingTreeUnchanged": true,
+  "approval": "none",
+  "acceptance": "WIP only"
+}

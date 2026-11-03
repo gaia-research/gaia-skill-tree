@@ -1,0 +1,645 @@
+[
+  {
+    "id": "garrytan/land-and-deploy",
+    "kind": "named",
+    "path": "registry/named/garrytan/land-and-deploy.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ at computedTm 50.0 (grade B) satisfies the 3★ grade ceiling. Blob link land-and-deploy/SKILL.md exists upstream and its Overview matches the SKILL (merge, CI/deploy monitoring, canary checks). Repo row (commits/contributors) and the gstack stars row are suite-repo baseline for a listed suite component (gstack.md lists it). No suiteComponents, so the branch is standard. Deployment-automation bucket has no Origin holder, a systemic vacancy and not a record defect. Schema drift is systemic.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/land-and-deploy/SKILL.md",
+      "registry/named/garrytan/gstack.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/landing-report",
+    "kind": "named",
+    "path": "registry/named/garrytan/landing-report.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Cited SKILL (landing-report/SKILL.md) is a read-only Version Queue Dashboard for workspace-aware ship (open PR versions and ship queue). The record's description and RPG title claim a project status summary built from open issues, commits and milestone progress, which the SKILL does not describe. Rank 2★ at TM 36 (C) is deterministic and not affected. Proposal: correct description and title to the verified capability, or re-point evidence if a different source is intended.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/landing-report/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/learn",
+    "kind": "named",
+    "path": "registry/named/garrytan/learn.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "concern",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Cited SKILL is a Project Learnings Manager with show, search, prune, export, manual-add and stats operations. The record's description claims automatic consolidation of new observations from the current session and deduplication of stale entries. Neither consolidation from the session nor dedup appears in the SKILL. Core capability (managing project learnings) is supported. Low-priority description correction to the documented operations.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/learn/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/make-pdf",
+    "kind": "named",
+    "path": "registry/named/garrytan/make-pdf.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ at TM 36 (C) is consistent with one repo-own row. SKILL description (\"Turn any markdown file into a publication-quality PDF\") matches the record. Link resolves. Format-output bucket has no Origin holder, which is a systemic vacancy. Timeline shows calibration demote and rank_up churn; no current inconsistency.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/measure-before-you-fix",
+    "kind": "named",
+    "path": "registry/named/garrytan/measure-before-you-fix.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Stored 2★ but computedTm 0.0 and computedGrade ungraded with zero evidence rows. The generated index clamps ungraded to 1★ (generateNamedIndex.py ~L617-641; named-skills.json lists it at 1★). The stored 2★ is above deterministic standing. Body is an unedited scaffold stub, tracked separately. Upstream link resolves (gbrain@v0.51.6.0); description matches upstream frontmatter. Generic ref systematic-debugging is a fusion node and resolves.",
+    "evidenceRefs": [
+      "registry/named/garrytan/measure-before-you-fix.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/measure-before-you-fix/SKILL.md",
+      "scripts/generateNamedIndex.py"
+    ]
+  },
+  {
+    "id": "garrytan/meeting-ingestion",
+    "kind": "named",
+    "path": "registry/named/garrytan/meeting-ingestion.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Stored 2★ but computedTm 0.0, ungraded, zero evidence rows. Index clamps to 1★ (named-skills.json lists it at 1★ TM 0). Body is an unedited stub. Upstream link resolves (gbrain@v0.51.6.0) and the description matches upstream frontmatter. Generic ref personal-knowledge-management is a fusion node and resolves.",
+    "evidenceRefs": [
+      "registry/named/garrytan/meeting-ingestion.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/meeting-ingestion/SKILL.md",
+      "scripts/generateNamedIndex.py"
+    ]
+  },
+  {
+    "id": "garrytan/minion-orchestrator",
+    "kind": "named",
+    "path": "registry/named/garrytan/minion-orchestrator.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Stored 2★ but computedTm 0.0, ungraded, zero evidence rows. Index clamps to 1★. Body is an unedited stub. Upstream link resolves (gbrain@v0.51.6.0) and the description matches upstream frontmatter. Generic ref multi-agent-orchestration-v resolves (fusion node, name Multi-Agent Orchestration; the -v suffix is part of the node id, not a truncation).",
+    "evidenceRefs": [
+      "registry/named/garrytan/minion-orchestrator.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/minion-orchestrator/SKILL.md",
+      "registry/nodes/fusion/multi-agent-orchestration-v.json",
+      "scripts/generateNamedIndex.py"
+    ]
+  },
+  {
+    "id": "garrytan/office-hours",
+    "kind": "named",
+    "path": "registry/named/garrytan/office-hours.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "concern",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ rests on computedTm 66 = repo row 36 + a peer-review row of 30 (25 x 1 reviewer x 1.2). That peer-review row cites GitHub issue #1958, an external bug report about /autoplan paper cuts with a side note about an office-hours offer. It is not a structured walkthrough by 4★+ reviewers, which is the peer-review definition in registry/schema/meta.json. Without it TM is 36 (C), which the grade ceiling caps at 2★ (deterministic consequence). Origin on the sole question-answer bucket member depends on the same TM. Proposal: retype or remove the row through the CLI (Class C), then recalibrate.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md",
+      "https://github.com/garrytan/gstack/issues/1958",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "registry/schema/meta.json"
+    ]
+  },
+  {
+    "id": "garrytan/open-gstack-browser",
+    "kind": "named",
+    "path": "registry/named/garrytan/open-gstack-browser.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ at TM 36 (C) is consistent with its single repo row. SKILL (\"Launch GStack Browser, AI-controlled Chromium with the sidebar extension\") matches the record's core claim. Minor: the record's headless-or-headed phrasing is not confirmed by the SKILL's headline, but this does not change rank or evidence.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/open-gstack-browser/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/pair-agent",
+    "kind": "named",
+    "path": "registry/named/garrytan/pair-agent.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "concern"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Cited SKILL is /pair-agent, \"Share Your Browser With Another AI Agent\" (pair a remote agent with your browser). The record's description, title and overview claim wiring a new MCP server into the agent environment, validating a tool manifest and round-trip invocation, which the SKILL does not describe. Rank 2★ at TM 36 (C) is deterministic and unaffected. genericSkillRef mcp-integration is also questionable against a browser-sharing skill; that is a reviewer decision and no target node is proposed here. Proposal: correct the description and title.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/pair-agent/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/plan-ceo-review",
+    "kind": "named",
+    "path": "registry/named/garrytan/plan-ceo-review.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ at TM 50 (B) is within the 3★ ceiling. SKILL confirms the four modes (SCOPE EXPANSION, SELECTIVE EXPANSION, HOLD SCOPE, SCOPE REDUCTION) and the founder-mode review framing. Link resolves. Listed suite component of gstack. Evaluate-output bucket has no Origin holder (systemic vacancy).",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/plan-ceo-review/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/plan-design-review",
+    "kind": "named",
+    "path": "registry/named/garrytan/plan-design-review.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ at TM 50 (B) is within the 3★ ceiling. SKILL describes seven design passes (\"Passes 1-7\") consistent with the seven dimensions in the description, and mentions AI slop and design system review. Link resolves. ux-audit bucket Origin is nextlevelbuilder/ui-ux-pro-max, consistent with this record's origin false.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/plan-devex-review",
+    "kind": "named",
+    "path": "registry/named/garrytan/plan-devex-review.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ at TM 50 (B) is within the 3★ ceiling. SKILL has eight-pass structure and TTHW (time to hello world) benchmarks with competitive comparison, consistent with the description. Link resolves. ux-audit origin status consistent.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/plan-eng-review",
+    "kind": "named",
+    "path": "registry/named/garrytan/plan-eng-review.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "concern",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ at computedTm 66 = repo row 36 + a peer-review row of 30 that cites GitHub issue #1791, an open external bug report (multiple unreconciled task files on re-run). It is not a structured peer review by 4★+ reviewers. Without it TM is 36 (C), capped at 2★ by the grade ceiling (deterministic consequence). The code-review-pipeline bucket has no Origin holder; its TM leader is this contested row (review and addy-osmani/code-review-and-quality sit at 50), so any Origin reading here depends on the evidence correction. Proposal: retype or remove the row (Class C), then recalibrate.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/plan-eng-review/SKILL.md",
+      "https://github.com/garrytan/gstack/issues/1791",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/plan-tune",
+    "kind": "named",
+    "path": "registry/named/garrytan/plan-tune.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "concern"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Cited SKILL is /plan-tune, a question-sensitivity and developer-profile tool (v1 observational), not a prompt rewriter for hallucination reduction. The record's description and title (\"Prompt Refinement Pass\") do not match what the SKILL does. Rank 2★ at TM 36 (C) is deterministic and unaffected. prompt-optimization bucket fit is questionable; this is a reviewer decision and no target node is proposed. Proposal: correct the description and title.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/plan-tune/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/qa-only",
+    "kind": "named",
+    "path": "registry/named/garrytan/qa-only.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Cited SKILL is /qa-only, a report-only bug finder (\"test but don't fix\"; \"just report bugs\"). The record's description and title (\"Focused E2E Test Run\") claim running a scoped end-to-end test suite for a single feature or route, which the SKILL does not describe. Rank 2★ at TM 36 (C) is deterministic and unaffected. e2e-testing bucket fit is acceptable. Proposal: correct the description and title.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/qa-only/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/qa",
+    "kind": "named",
+    "path": "registry/named/garrytan/qa.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ at TM 50 (B) is within the 3★ ceiling. SKILL covers browser-driven QA with severity tiers (Quick/Standard/Exhaustive), health-score rubric and fix-and-reverify, consistent with the description. Link resolves. The e2e-testing bucket has no Origin holder (systemic). Scope overlap with qa-only is intentional (fix versus report).",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/qa/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/remote-mcp",
+    "kind": "named",
+    "path": "registry/named/garrytan/remote-mcp.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Stored level 2★ but prepass computedTm 0.0 and computedGrade ungraded, with zero evidence rows. The generated index clamps ungraded to 1★ (scripts/generateNamedIndex.py ~L617-641; registry/named-skills.json lists it at 1★ TM 0). The stored 2★ is therefore above its deterministic standing. Body is the unedited scaffold stub (\"Add installation instructions here.\"), tracked separately. Upstream link resolves in garrytan/gbrain@v0.51.6.0 and the description matches the upstream frontmatter. Generic ref mcp-server-deployment resolves. Systemic schema drift noted (timeline action migrate_trust_magnitude, trustMagnitudeInputHash) is not a record defect.",
+    "evidenceRefs": [
+      "registry/named/garrytan/remote-mcp.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/remote-mcp/SKILL.md",
+      "scripts/generateNamedIndex.py"
+    ]
+  },
+  {
+    "id": "garrytan/research-compendium",
+    "kind": "named",
+    "path": "registry/named/garrytan/research-compendium.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Stored level 2★ but prepass computedTm 0.0 and computedGrade ungraded, with zero evidence rows. The generated index clamps ungraded to 1★ (scripts/generateNamedIndex.py ~L617-641; registry/named-skills.json lists it at 1★ TM 0). The stored 2★ is therefore above its deterministic standing. Body is the unedited scaffold stub (\"Add installation instructions here.\"), tracked separately. Upstream link resolves in garrytan/gbrain@v0.51.6.0 and the description matches the upstream frontmatter. Generic ref research resolves. Systemic schema drift noted (timeline action migrate_trust_magnitude, trustMagnitudeInputHash) is not a record defect.",
+    "evidenceRefs": [
+      "registry/named/garrytan/research-compendium.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "https://github.com/garrytan/gbrain/blob/v0.51.6.0/plugin/skills/research-compendium/SKILL.md",
+      "scripts/generateNamedIndex.py"
+    ]
+  },
+  {
+    "id": "garrytan/retro",
+    "kind": "named",
+    "path": "registry/named/garrytan/retro.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "concern",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ at computedTm 81 = repo row 36 + two peer-review rows (30 and 15 after plateau), both citing external GitHub issues: #1999 (closed /retro test-glob bug) and #1834 (closed feature request to persist recommendations). Neither is a structured peer review by 4★+ reviewers. Without them TM is 36 (C), capped at 2★ (deterministic consequence). Origin in the write-report bucket rests on this TM; if the rows are removed, retro ties at 36 with spring-ai/readme-generate, so the Origin decision is Class C. SKILL (weekly engineering retrospective) matches the description.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/retro/SKILL.md",
+      "https://github.com/garrytan/gstack/issues/1999",
+      "https://github.com/garrytan/gstack/issues/1834",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/review",
+    "kind": "named",
+    "path": "registry/named/garrytan/review.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ at TM 50 (B) is within the 3★ ceiling. SKILL (\"Pre-landing PR review\", with SQL safety, trust boundary and adversarial review) matches the description. Link resolves. code-review-pipeline bucket Origin vacancy is systemic and is noted under plan-eng-review.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/review/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/scrape",
+    "kind": "named",
+    "path": "registry/named/garrytan/scrape.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Cited SKILL pulls data through the Aside browser, using the user's already-signed-in sessions, with gstack's headless browser only as a documented fallback. The record's description says it fetches URLs with a headless browser, which misstates the primary mechanism (auth-relevant). Rank 2★ at TM 36 (C) is unaffected. Origin is false, consistent with firecrawl/firecrawl-build-scrape holding the web-scrape bucket Origin (4★, TM 110). Timeline shows an Origin-set event (2026-06-02) with no matching clearing event, flagged separately. Proposal: correct the description.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/scrape/SKILL.md",
+      "registry/named-skills.json",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/setup-browser-cookies",
+    "kind": "named",
+    "path": "registry/named/garrytan/setup-browser-cookies.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ at TM 36 (C) is consistent with its single repo row. SKILL (import cookies from a real Chromium browser into the headless browse session) matches the description's injection of authenticated session cookies. Link resolves.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/setup-browser-cookies/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/setup-deploy",
+    "kind": "named",
+    "path": "registry/named/garrytan/setup-deploy.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "concern",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Cited SKILL is /setup-deploy, which configures deploy platform settings for /land-and-deploy, writes configuration, supports custom deploy hooks and verifies. The description's claim of running infrastructure-as-code init steps does not appear in the SKILL (no IaC or terraform content found). Rank 2★ at TM 36 (C) is unaffected. Proposal: correct the IaC wording to the documented configuration and hooks.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/setup-deploy/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  },
+  {
+    "id": "garrytan/setup-gbrain",
+    "kind": "named",
+    "path": "registry/named/garrytan/setup-gbrain.md",
+    "reviewer": "haiku:named-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Cited SKILL is /setup-gbrain, a coding-agent onboarding flow: install the CLI, initialize a local PGLite or Supabase brain, verify with gbrain doctor, register the MCP server, capture a per-remote trust policy. The record's description frames it as creating an index for a new project and ingesting seed documents, and omits MCP registration and trust policy. Rank 2★ at TM 36 (C) is unaffected. Proposal: correct the description to the documented steps.",
+    "evidenceRefs": [
+      "https://github.com/garrytan/gstack/blob/main/setup-gbrain/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json"
+    ]
+  }
+]

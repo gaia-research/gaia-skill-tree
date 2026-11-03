@@ -33,6 +33,8 @@ status: named
 level: 2\u2605
 description: A test named skill used in upstream-verbs unit tests.
 installable: true
+trustMagnitude: 20.0
+overallTrustGrade: C
 links:
   github: https://github.com/testorg/my-skill/blob/main/skills/my-skill/SKILL.md
 createdAt: '2026-01-01'
@@ -51,6 +53,14 @@ _SKILL_MD_1STAR = _SKILL_MD_2STAR.replace("level: 2\u2605", "level: 1\u2605")
 
 _SKILL_MD_ALREADY_FROZEN = _SKILL_MD_2STAR.replace(
     "installable: true", "installable: false"
+).replace(
+    "timeline: []",
+    "timeline:\n- timestamp: '2026-02-01T00:00:00Z'\n  action: upstream_deprecated\n  details: removed upstream",
+)
+
+# installable: false alone (no public repo) is NOT frozen (gaia_cli.frozen).
+_SKILL_MD_NOT_INSTALLABLE = _SKILL_MD_2STAR.replace(
+    "installable: true", "installable: false"
 )
 
 _SKILL_MD_WITH_UPSTREAM = """\
@@ -65,6 +75,8 @@ status: named
 level: 2\u2605
 description: A test named skill used in upstream-verbs unit tests.
 installable: true
+trustMagnitude: 20.0
+overallTrustGrade: C
 links:
   github: https://github.com/testorg/my-skill/blob/main/skills/my-skill/SKILL.md
 upstream:
@@ -284,6 +296,70 @@ class TestSyncUpstreamHappyPath:
         captured = capsys.readouterr()
         assert "Warning" in captured.err
 
+    def test_upstream_repo_case_insensitive_match(self, tmp_path):
+        """Case mismatch between upstream.repo and source-url is accepted (e.g. TestOrg vs testorg)."""
+        content = _SKILL_MD_WITH_UPSTREAM.replace(
+            "repo: testorg/my-skill", "repo: TestOrg/My-Skill"
+        ).replace(
+            "testorg/my-skill/blob", "otherorg/other-skill/blob"
+        )
+        registry, skill_file = _make_registry(tmp_path, content)
+        args = _sync_args(
+            registry,
+            tag="v1.1.0",
+            source_url="https://github.com/testorg/my-skill/releases/tag/v1.1.0",
+            released_at="2026-07-08T00:00:00Z",
+        )
+
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+        sync_upstream_command(args)
+
+        text = skill_file.read_text(encoding="utf-8")
+        assert "version: v1.1.0" in text
+        # Existing upstream.repo casing is preserved in frontmatter
+        assert "repo: TestOrg/My-Skill" in text
+
+    def test_link_derived_case_insensitive_match(self, tmp_path):
+        """Case mismatch between links.github-derived repo and source-url is accepted."""
+        # Reproduces run 40184391633 where GitHub release preserved casing
+        content = _SKILL_MD_2STAR.replace(
+            "https://github.com/testorg/my-skill",
+            "https://github.com/TestOrg/My-Skill",
+        )
+        registry, skill_file = _make_registry(tmp_path, content)
+        args = _sync_args(
+            registry,
+            tag="v1.1.0",
+            source_url="https://github.com/testorg/my-skill/releases/tag/v1.1.0",
+            bootstrap=True,
+            released_at="2026-07-08T00:00:00Z",
+        )
+
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+        sync_upstream_command(args)
+
+        text = skill_file.read_text(encoding="utf-8")
+        assert "version: v1.1.0" in text
+        assert "upstream:" in text
+
+    def test_link_derived_lower_source_url_upper_match(self, tmp_path):
+        """Lowercase links.github with uppercase source-url (GitHub release html_url)."""
+        registry, skill_file = _make_registry(tmp_path, _SKILL_MD_2STAR)
+        args = _sync_args(
+            registry,
+            tag="v1.1.0",
+            source_url="https://github.com/TestOrg/My-Skill/releases/tag/v1.1.0",
+            bootstrap=True,
+            released_at="2026-07-08T00:00:00Z",
+        )
+
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+        sync_upstream_command(args)
+
+        text = skill_file.read_text(encoding="utf-8")
+        assert "version: v1.1.0" in text
+        assert "repo: TestOrg/My-Skill" in text
+
 
 # ---------------------------------------------------------------------------
 # sync-upstream pre-flight rejects
@@ -322,6 +398,55 @@ class TestSyncUpstreamPreflightRejects:
         args = _sync_args(
             registry,
             source_url="https://github.com/differentorg/other-repo/releases/tag/v1.1.0",
+        )
+
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+        with pytest.raises(SystemExit):
+            sync_upstream_command(args)
+
+    def test_whitespace_in_source_url_repo_rejected(self, tmp_path):
+        """Whitespace in source-url owner or repo is rejected."""
+        registry, _ = _make_registry(tmp_path)
+        args = _sync_args(
+            registry,
+            source_url="https://github.com/testorg /my-skill/releases/tag/v1.1.0",
+            bootstrap=True,
+        )
+
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+        with pytest.raises(SystemExit):
+            sync_upstream_command(args)
+
+    def test_whitespace_in_upstream_repo_rejected(self, tmp_path):
+        """Whitespace attack in existing upstream.repo cannot match clean source-url."""
+        content = _SKILL_MD_WITH_UPSTREAM.replace(
+            "repo: testorg/my-skill", 'repo: "testorg/my-skill "'
+        ).replace(
+            "testorg/my-skill/blob", "otherorg/other-skill/blob"
+        )
+        registry, _ = _make_registry(tmp_path, content)
+        args = _sync_args(
+            registry,
+            tag="v1.1.0",
+            source_url="https://github.com/testorg/my-skill/releases/tag/v1.1.0",
+        )
+
+        from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+        with pytest.raises(SystemExit):
+            sync_upstream_command(args)
+
+    def test_non_github_link_derived_repo_rejected(self, tmp_path):
+        """Non-GitHub link cannot derive a matching repo for bootstrap."""
+        content = _SKILL_MD_2STAR.replace(
+            "https://github.com/testorg/my-skill",
+            "https://gitlab.com/testorg/my-skill",
+        )
+        registry, _ = _make_registry(tmp_path, content)
+        args = _sync_args(
+            registry,
+            tag="v1.1.0",
+            source_url="https://github.com/testorg/my-skill/releases/tag/v1.1.0",
+            bootstrap=True,
         )
 
         from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
@@ -468,6 +593,15 @@ class TestFreezePreflightRejects:
         from gaia_cli.commands.dev.freeze import freeze_command
         with pytest.raises(SystemExit):
             freeze_command(args)
+
+
+    def test_not_installable_is_not_frozen_and_can_be_frozen(self, tmp_path):
+        registry, skill_file = _make_registry(tmp_path, _SKILL_MD_NOT_INSTALLABLE)
+        args = _freeze_args(registry)
+
+        from gaia_cli.commands.dev.freeze import freeze_command
+        freeze_command(args)
+        assert "upstream_deprecated" in skill_file.read_text(encoding="utf-8")
 
 
 # ---------------------------------------------------------------------------

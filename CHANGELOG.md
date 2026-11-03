@@ -2,6 +2,30 @@
 
 All notable changes to GAIA are documented in this file. Versions follow semver (MAJOR.MINOR.PATCH); the three manifests (`pyproject.toml`, `packages/cli-npm/package.json`, `registry/gaia.json`) move in lockstep.
 
+## [9.0.0] - 2026-11-03
+
+### Yggdrasil IV — EPIC #2189 — challenge-driven, reversible trust governance
+
+**This is a breaking meta shift.** Ratified 2026-10-25 (`founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md`). Who may question a skill's standing, and how a skill recovers, are rebuilt. **No Trust Magnitude weight, cap, threshold, grade boundary or Fusion Score rule changes.** Releases 7.0.1 to 8.29.1 are recorded on GitHub Releases, not in this file. The fact-checked announcement is the Meta Report "Yggdrasil IV: A Challenge Must Be Earned, and Standing Can Recover" (`docs/meta/reports/2026-10-31-yggdrasil-iv-a-challenge-must-be-earned-and-standing-can-recover.html`).
+
+#### What breaks
+
+- **Origin is derived, never assigned.** The highest-merit named implementation in each generic bucket holds Origin, computed at build time (`src/gaia_cli/origin.py`). `gaia dev update-named --origin` refuses manual assignment, and the frontmatter `origin` field is historical attribution only. Ties share Origin; a 1★ skill can hold it.
+- **One displayed level on every surface.** The Trust Grade ceiling (S 6★, A 4★, B 3★, C 2★, ungraded 1★) now applies on the trust ledger and the leaderboard, as it already did on the named index and the skills API. Stored levels are never edited; the ledger keeps `storedStars` beside `currentStars`. Consumers that read the old unclamped ledger stars will see lower numbers for skills above their grade.
+
+#### What is new
+
+- **Evidence-lifecycle schema.** Five evidence-lifecycle schema families are adopted, kept byte-identical across `registry/schema/`, `docs/schema/` and `src/gaia_cli/data/registry/schema/` (#2176). Evidence now counts once per type per source; this corrects how an existing rule was applied and is not a new rule.
+- **Challenge lifecycle.** A challenge must be tested, independently re-checked and admitted before it can affect a rating; elapsed time, a broken link or a newer competitor is a reason to look, never a penalty. Four real challenges ran in October and none was admitted. Public record: the Trust Challenges page, `docs/trust/challenges/`.
+- **Frozen skills keep their stars.** `gaia_cli.frozen.frozenIds` is the one definition of a frozen skill. A frozen skill keeps its locked Trust Magnitude and grade, competes for Origin, and is exempt from the grade ceiling: `clampLevelToGrade` and `publishedLevelNumber` take `frozen=True` (founder ruling 2026-11-03). `tests/test_frozen_skills.py` guards every frozen skill against un-freezing, recalibration or evidence changes after its freeze.
+- **Registry.** 75 named skills added since ratification and 12 new generic skills plus one rename (`grill-me` to `interview-me`). 784 records: 311 generic and 473 named (426 named, 47 awakened). 237 Origin families.
+- **Report tooling.** `scripts/add_post.py` supports `{{include: file}}` (confined to the source directory) and `{{fig: name}}` directives for interactive report figures.
+
+#### Corrections
+
+- `leonxlnx/output-skill`: the evidence row removed at its freeze is restored and its score is back at 50 (B). Hand-edited under an explicit founder waiver because no `gaia dev` verb can write a frozen record (#2277).
+- `mattpocock/personal`: its owner tree is reconciled to the stored 3★ with `scripts/trace_timeline.py`.
+
 ## [7.0.0] - 2026-07-26
 
 ### Yggdrasil II — EPIC #1002 — the second meta generation of the registry

@@ -1,0 +1,131 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/media-ingest",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/media-ingest",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/media-ingest/SKILL.md",
+  "checked": true,
+  "contentSha256": "d70374d3df21397380203f541ebdcc90c0bc6bc7207234349594a081e98f2719",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.603506
+    },
+    {
+     "id": "garrytan/meeting-ingestion",
+     "similarity": 0.567956
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.483082
+    },
+    {
+     "id": "garrytan/capture",
+     "similarity": 0.477279
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "generative-media",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4772 to generic 'generative-media' (weak match).",
+   "similarity": 0.477244
+  },
+  {
+   "genericId": "media-asset-orchestration",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4677 to generic 'media-asset-orchestration' (weak match).",
+   "similarity": 0.467651
+  },
+  {
+   "genericId": "chunk-document",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4553 to generic 'chunk-document' (weak match).",
+   "similarity": 0.45534
+  }
+ ],
+ "normalized": {
+  "description": "Ingest video, audio, PDF, book, screenshot, and GitHub repo content into the brain. Multi-format handling with entity extraction and backlink propagation. Covers video-ingest, youtube-ingest, and book-ingest subtypes.",
+  "name": "media-ingest"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/media-ingest/SKILL.md",
+  "contentSha256": "d70374d3df21397380203f541ebdcc90c0bc6bc7207234349594a081e98f2719",
+  "fetchedAt": "2026-10-27T22:09:31.856149+00:00",
+  "frontmatter": {
+   "description": "Ingest video, audio, PDF, book, screenshot, and GitHub repo content into the brain.\nMulti-format handling with entity extraction and backlink propagation. Covers\nvideo-ingest, youtube-ingest, and book-ingest subtypes.\n",
+   "mutating": true,
+   "name": "media-ingest",
+   "tools": [
+    "search",
+    "query",
+    "get_page",
+    "put_page",
+    "add_link",
+    "add_timeline_entry",
+    "file_upload"
+   ],
+   "triggers": [
+    "watch this video",
+    "process this YouTube link",
+    "ingest this PDF",
+    "save this podcast",
+    "process this book",
+    "PDF book",
+    "summarize this book",
+    "ingest it into my brain",
+    "what's in this screenshot",
+    "check out this repo"
+   ],
+   "upstream": "media-ingest@fc834ee",
+   "version": "1.1.0",
+   "writes_pages": true,
+   "writes_to": [
+    "concepts/",
+    "people/",
+    "companies/",
+    "sources/"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

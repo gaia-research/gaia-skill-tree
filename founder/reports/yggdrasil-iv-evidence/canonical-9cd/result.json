@@ -1,0 +1,11 @@
+{
+  "source": "9cdcd8553f62bb6f75961790a1acd431c04b08f5",
+  "testCount": 134,
+  "subtests": 5,
+  "testSeconds": 80.92,
+  "exitCode": 0,
+  "cleanHeadAndWorktreeGuardsBeforeAndAfter": true,
+  "remoteFeatureRef": "dev/yggdrasil-iv-canonical-cli",
+  "productionApproval": "unavailable",
+  "limits": "Positive fixture schema extensions remain synthetic pending strict held-schema contract; no adoption or full feature acceptance. Evidence archive local only; tested source pushed and remotely verified."
+}

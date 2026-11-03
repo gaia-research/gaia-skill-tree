@@ -1,0 +1,96 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "emilkowalski/review-animations",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "emilkowalski/review-animations",
+  "canonicalUrl": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/review-animations/SKILL.md",
+  "checked": true,
+  "contentSha256": "6ff590d29e436766135aa3d137be1fac2a867165c7257fc315b189361f1873af",
+  "hostRepository": "https://github.com/emilkowalski/skills",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "heygen-com/motion-graphics",
+     "similarity": 0.499673
+    },
+    {
+     "id": "heygen-com/hyperframes-creative",
+     "similarity": 0.484605
+    },
+    {
+     "id": "garrytan/design-review",
+     "similarity": 0.480302
+    },
+    {
+     "id": "obra/requesting-code-review",
+     "similarity": 0.450019
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "ui-audit",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4688 to generic 'ui-audit' (weak match).",
+   "similarity": 0.468759
+  },
+  {
+   "genericId": "video-interactivity",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4551 to generic 'video-interactivity' (weak match).",
+   "similarity": 0.455066
+  }
+ ],
+ "normalized": {
+  "description": "Reviews animation and motion code against a high craft bar derived from Emil Kowalski's design engineering philosophy. Default to flagging; approval is earned.",
+  "name": "review-animations"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/review-animations/SKILL.md",
+  "contentSha256": "6ff590d29e436766135aa3d137be1fac2a867165c7257fc315b189361f1873af",
+  "fetchedAt": "2026-10-27T22:11:51.759094+00:00",
+  "frontmatter": {
+   "description": "Reviews animation and motion code against a high craft bar derived from Emil Kowalski's design engineering philosophy. Default to flagging; approval is earned.",
+   "disable-model-invocation": true,
+   "name": "review-animations"
+  },
+  "hostRepository": "https://github.com/emilkowalski/skills",
+  "revision": "2d228630ba1446365f614a108cb8252f1feda202",
+  "sourceLane": "source-repository"
+ }
+}

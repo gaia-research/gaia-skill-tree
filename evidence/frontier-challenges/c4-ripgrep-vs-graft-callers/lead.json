@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "challenger-lead-v1",
+  "contractRevision": "challenger-lead-v1.1",
+  "campaignId": "yggiv-challenger-cases-2026-10",
+  "claimId": "text-search-vs-symbol-callers-v1",
+  "leadId": "ripgrep-graft-callers-001",
+  "identity": {
+    "name": "ripgrep",
+    "kind": "native-cli",
+    "installable": true,
+    "version": "15.1.0"
+  },
+  "source": {
+    "url": "https://raw.githubusercontent.com/BurntSushi/ripgrep/15.1.0/README.md",
+    "observedAtUTC": "2026-10-29T02:15:00Z",
+    "contentDigest": "sha256:a69c389a49ae653616c0cac76b803ddca9ca5df98fd77c62d5677d4c1bd5916f",
+    "provider": "BurntSushi/ripgrep at tag 15.1.0",
+    "capturedBytesPath": "evidence/frontier-challenges/c4-ripgrep-vs-graft-callers/sources/ripgrep-15.1.0-README.md"
+  },
+  "capability": {
+    "claim": "Recursively search a directory for a regex pattern, respecting gitignore rules, quickly.",
+    "task": "Find where a named symbol is referenced in a codebase.",
+    "conditions": "Requires a directory of source text; no language or symbol awareness."
+  },
+  "comparison": {
+    "comparator": "graft callers symbol-level caller lookup over a prebuilt wiring graph.",
+    "baseline": "Textual pattern hits versus structural who-calls-this answers."
+  },
+  "target": {
+    "skillId": "trailhq/graft",
+    "kind": "named",
+    "genericSkillId": "codebase-graph-retrieval",
+    "revision": "d237c0839c9c9197fc861ecec839ed323a9748a4",
+    "contentDigest": "sha256:3109c1b8a350cab9df3f039ac55f87406f18ae66ad56c79a6818e61c137f9438",
+    "scopeRationale": "Surface overlap only on locating references to a symbol; ripgrep does not model call structure."
+  },
+  "preliminaryEvidence": [
+    {
+      "polarity": "context-only",
+      "url": "https://github.com/BurntSushi/ripgrep/blob/15.1.0/README.md",
+      "summary": "README describes line-oriented regex search; it makes no symbol, call-graph or caller-resolution claim."
+    }
+  ],
+  "limitations": [
+    "Similarity is lexical (shared code-search vocabulary), not a like-for-like task.",
+    "No experiment is run for this lead; triage rejected it."
+  ],
+  "dedupe": {
+    "key": "49a64662b59c9b4b96dcd095d720a47685765c0d61ce5ee85d4d0ea4366cb140",
+    "checkedAtUTC": "2026-10-29T02:20:00Z",
+    "matches": []
+  },
+  "independentTest": {
+    "proposal": "None run: rejected at triage. If reopened, define a caller-recall protocol with reviewed ground truth before any run.",
+    "traceability": "No execution; triage record only."
+  },
+  "disposition": {
+    "status": "rejected",
+    "rationale": "Weak similarity: ripgrep is a general text search tool, not a symbol or call-graph retriever, so it is not a challenger to the codebase-graph-retrieval capability.",
+    "nextAction": "Record the triage rejection; no experiment, no admission."
+  }
+}

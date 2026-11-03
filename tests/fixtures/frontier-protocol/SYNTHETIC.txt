@@ -1,0 +1,1 @@
+Fixtures for tests/test_frontier_protocol.py. request.json and native-host-version.json come from a real git-log-L fixture run; native-documented-version.json, target-output.txt and the golden receipts are synthetic unit data (comparative results here are not experimental findings).

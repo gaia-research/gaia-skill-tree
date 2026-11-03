@@ -1,0 +1,22 @@
+{
+  "id": "knowledge-enrichment",
+  "name": "Knowledge Enrichment",
+  "type": "basic",
+  "description": "Enriches existing knowledge records with structured context, relationships, and useful metadata while preserving their source meaning.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-03",
+  "updatedAt": "2026-11-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:53:30Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill knowledge-enrichment"
+    }
+  ]
+}

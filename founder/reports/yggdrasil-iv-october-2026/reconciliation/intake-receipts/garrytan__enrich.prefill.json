@@ -1,0 +1,108 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/enrich",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/enrich",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/enrich/SKILL.md",
+  "checked": true,
+  "contentSha256": "cbe6068373f4cd5006a6171a1795c3e619cfc82009ec4b3d86174b8ee2bcee2e",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.577562
+    },
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.520948
+    },
+    {
+     "id": "garrytan/meeting-ingestion",
+     "similarity": 0.504968
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.481263
+    },
+    {
+     "id": "garrytan/book-mirror",
+     "similarity": 0.457398
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Enrich brain pages with tiered enrichment protocol. Creates and updates person/company pages with compiled truth, timeline, and cross-links. Use when a new entity is mentioned or an existing page needs updating.",
+  "name": "enrich"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/enrich/SKILL.md",
+  "contentSha256": "cbe6068373f4cd5006a6171a1795c3e619cfc82009ec4b3d86174b8ee2bcee2e",
+  "fetchedAt": "2026-10-27T22:05:49.815068+00:00",
+  "frontmatter": {
+   "description": "Enrich brain pages with tiered enrichment protocol. Creates and updates\nperson/company pages with compiled truth, timeline, and cross-links.\nUse when a new entity is mentioned or an existing page needs updating.\n",
+   "mutating": true,
+   "name": "enrich",
+   "tools": [
+    "get_page",
+    "put_page",
+    "search",
+    "query",
+    "add_link",
+    "add_timeline_entry",
+    "get_backlinks"
+   ],
+   "triggers": [
+    "enrich",
+    "create person page",
+    "update company page",
+    "who is this person",
+    "look up this company"
+   ],
+   "version": "1.0.0",
+   "writes_pages": true,
+   "writes_to": [
+    "people/",
+    "companies/"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

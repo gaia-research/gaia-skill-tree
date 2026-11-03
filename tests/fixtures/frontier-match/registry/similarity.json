@@ -1,0 +1,11 @@
+{
+  "generatedAt": "2026-01-01",
+  "threshold": 0.3,
+  "pairs": [
+    {
+      "a": "synthetic-owner/graft-like",
+      "b": "synthetic-owner/graph-tool",
+      "score": 0.5
+    }
+  ]
+}

@@ -25,7 +25,7 @@
   },
   "title": "The Component Curator",
   "genericSkillRef": "skill-discovery",
-  "origin": false,
+  "origin": true,
   "description": "Install, discover, and wire registry blocks and components into HyperFrames compositions. Use when running hyperframes add or hyperframes catalog, installing one item or every block matching a tag, wiring an installed item into index.html, or working with hyperframes.json. Covers discovery, install locations, block sub-composition wiring, component snippet merging, and authoring a new block or component to contribute upstream (idea → scaffold → validate → PR).",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -111,6 +111,12 @@
       "action": "installation_updated",
       "contributor": "mbtiongson1",
       "details": "Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-registry.md"
+    },
+    {
+      "timestamp": "2026-10-30T04:58:33Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

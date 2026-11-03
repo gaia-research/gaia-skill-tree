@@ -52,16 +52,23 @@ timeline:
   action: installation_updated
   contributor: mbtiongson1
   details: 'Replaced ## Installation section from /data/data/com.termux/files/usr/tmp/hyperframes-install.j4kT8q/hyperframes-creative.md'
+- timestamp: '2026-10-29T16:33:21Z'
+  action: upstream_deprecated
+  contributor: mbtiongson1
+  previousValue: null
+  newValue: null
+  details: 'founder ruling 2026-10-30 FD-8 (Freeze): removed from heygen-com/hyperframes
+    skills/ at upstream v0.8.209; links.github kept, installable false'
 links:
   github: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-creative/SKILL.md
 evidence:
 - source: https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-creative/SKILL.md
-  updatedAt: '2026-11-01'
+  updatedAt: '2026-10-01'
   evaluator: mbtiongson1
   date: '2026-09-07'
   type: github-stars-own
   notes: Host repository stars for heygen-com/hyperframes
-  stars: 76819
+  stars: 55019
   skillCountInRepo: 20
   sourceStartedAt: '2025-06-16'
   grade: A
@@ -81,6 +88,7 @@ suiteRef: heygen-com/hyperframes
 trustMagnitude: 50.0
 overallTrustGrade: B
 trustMagnitudeInputHash: e725359a39a5f5f74747f0751d786fbc78bf59c23b4c3514f0525b551bbe3cfe
+installable: false
 ---
 
 ## Installation

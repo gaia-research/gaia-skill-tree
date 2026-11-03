@@ -1,0 +1,332 @@
+{
+  "schema": "gaia.meta-verification/calibration@1",
+  "record": "October 2026 batch calibration (Yggdrasil IV, EPIC #2189)",
+  "target": {
+    "pr": 2251,
+    "branch": "review/meta/yggiv-october-calibration",
+    "head": "153d3bc1667fcad99e73156adb21df85e71276e6",
+    "base": "dev/yggdrasil-iv",
+    "mergeBase": "7b672a854c5e64361b5ba844bc9f302271d8a069",
+    "commits": 17
+  },
+  "authority": {
+    "rulings": "founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md#founder-rulings-2026-10-30",
+    "rulingsCommit": "13269af82",
+    "rulingsRecordedAt": "2026-10-29T16:30:22Z"
+  },
+  "probeWindow": {
+    "start": "2026-10-30T05:28:42Z",
+    "end": "2026-10-30T05:44:15Z"
+  },
+  "independence": {
+    "declared": true,
+    "authenticated": false,
+    "statement": "Separate auditor session that did not perform the calibration; independence is declared, not authenticated."
+  },
+  "branchModified": false,
+  "overallVerdict": "FAIL",
+  "overallReason": "FD-7 refuted: 37 TMs double-count host-repo evidence by escaping the 50-TM suite-component cap (missing suiteRef); PR CI red from FD-11; graphify demotion applied while founder confirmation pending.",
+  "items": [
+    {
+      "id": "FD-8",
+      "verdict": "verified",
+      "summary": "12 components absent at v0.8.209, v0.8.220 and main; pinned blobs 200; installable false + upstream_deprecated event; levels unchanged.",
+      "probes": [
+        {
+          "what": "gh api contents skills?ref=v0.8.209 / v0.8.220 / main",
+          "at": "2026-10-30T05:28:42Z",
+          "result": "7 dirs: figma hyperframes-cli hyperframes-registry hyperframes media-use remotion-to-hyperframes slideshow"
+        },
+        {
+          "what": "12 pinned blobs https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/<name>/SKILL.md",
+          "at": "2026-10-30T05:29:17Z",
+          "result": "all 200; all 12 404 at v0.8.209 contents API"
+        }
+      ],
+      "notes": [
+        "Capabilities consolidated into skills/hyperframes/references/*.",
+        "heygen-com/general-video also absent upstream; needs its own ruling."
+      ],
+      "corrections": []
+    },
+    {
+      "id": "FD-10-origins",
+      "verdict": "verified",
+      "summary": "Each of the four is the unique merit winner with no other holder; live checkUniqueBranchGate(4★) passed.",
+      "skills": {
+        "vercel-labs/vercel-react-best-practices": "sole member, TM 163.19 A",
+        "addy-osmani/code-simplification": "4★ 190.0 vs best rival 2★ 45.0",
+        "ayghri/i-have-adhd": "4★ 130.23 vs 3★ 50.0",
+        "dietrichgebert/ponytail": "4★ 225.42 vs 1★ 5.7"
+      },
+      "corrections": []
+    },
+    {
+      "id": "FD-10-graphify",
+      "verdict": "verified-with-notes",
+      "scope": "gate reasoning only",
+      "summary": "5★ Unique Ultimate needs fusion-structure Origin on extract-entities/logical-inference; both buckets empty; live 5★ gate fails, 4★ passes. Reasoning correct per Ygg II v4 amendment.",
+      "notes": [
+        "Demotion already applied on branch (601ac2241, 961f2226e) while founder confirmation is pending.",
+        "skill-trees/safishamsi/skill-tree.md mirror still shows 5★."
+      ],
+      "corrections": [
+        "C3",
+        "C7"
+      ]
+    },
+    {
+      "id": "FD-11",
+      "verdict": "verified-with-notes",
+      "summary": "awakened->named, title equals upstream H1, blob 200 (05:31:47Z); now on ledger/leaderboard consistently.",
+      "notes": [
+        "TM 100.82 depends on a peer-review grade-S row whose source is the bare repo URL (reviewers: 3); without it TM 10.82 ungraded; packet asked for re-verification first.",
+        "CI: 2 test failures caused by this change (strict xfail XPASS; shadow corpus awakened count 48->47), run 41006328960."
+      ],
+      "corrections": [
+        "C2",
+        "C4"
+      ]
+    },
+    {
+      "id": "FD-12",
+      "verdict": "verified",
+      "summary": "TM 144.54 A, SHA-pinned blob 200 (05:36:04Z), Unique branch, sole bucket Origin, live 4★ gate passed.",
+      "probes": [
+        {
+          "what": "https://github.com/latent-spaces/brag/blob/c893c5ed52aed84e3e2ee56787de869fccdae6b0/skills/brag/SKILL.md",
+          "at": "2026-10-30T05:36:04Z",
+          "result": "200; repo stars 19508 (recorded 12621)"
+        }
+      ],
+      "corrections": []
+    },
+    {
+      "id": "FD-9",
+      "verdict": "verified-with-notes",
+      "summary": "Citation 500 refuted; OpenAlex 0; Semantic Scholar 429 x4 so value 2 not independently confirmed; TM insensitive (0->280.19, 2->280.39, 5->280.69, all S). Witness 404 reconfirmed; no level change.",
+      "probes": [
+        {
+          "what": "https://api.openalex.org/works/W7167605459",
+          "at": "2026-10-30T05:41:34Z",
+          "result": "cited_by_count 0 (updated 2026-10-28)"
+        },
+        {
+          "what": "https://api.semanticscholar.org/graph/v1/paper/arXiv:2607.03238",
+          "at": [
+            "2026-10-30T05:36:13Z",
+            "2026-10-30T05:36:40Z",
+            "2026-10-30T05:41:34Z",
+            "2026-10-30T05:42:04Z (firecrawl)"
+          ],
+          "result": "HTTP 429"
+        },
+        {
+          "what": "https://frontendmastery.com/posts/matt-pocock-claude-code-skills-architecture/",
+          "at": "2026-10-30T05:36:55Z",
+          "result": "404; site root 200; Wayback: no snapshot"
+        }
+      ],
+      "notes": [
+        "5★ rests on the witness row (without it TM 235.39 A).",
+        "+24h probe due 2026-10-30T16:40Z, +72h due 2026-11-01T16:40Z."
+      ],
+      "corrections": []
+    },
+    {
+      "id": "FD-15",
+      "verdict": "verified-with-notes",
+      "summary": "overallGradeS true->false via --refresh-apex; matches published index; level 4★ unchanged.",
+      "notes": [
+        "apexPromotionPrSignedBy/At annotations deleted by the verb; preserved only in timeline detail."
+      ],
+      "corrections": [
+        "C9"
+      ]
+    },
+    {
+      "id": "FD-7",
+      "verdict": "refuted",
+      "scope": "TM basis",
+      "summary": "Rows correctly typed/shaped, live, accurate; levels unchanged. But the 37 skills lack suiteRef, so their host-repo rows bypass SUITE_COMPONENT_REPOSITORY_CAP (50 TM) that every sibling is held to; they now exceed their own capstones. With suiteRef: 36x 50.0 B, 1x 59.0 B. Founder choice A not implemented.",
+      "probes": [
+        {
+          "what": "10 skill blobs + star-row URLs (addy-osmani x3, garrytan x5, obra x2)",
+          "at": "2026-10-30T05:33:57Z-05:34:17Z",
+          "result": "all 200"
+        },
+        {
+          "what": "GitHub REST host repos",
+          "at": "2026-10-30T05:34Z",
+          "result": "addyosmani/agent-skills 111796 stars 772 commits 83 contributors; garrytan/gbrain 31343 / 11602 / 136; obra/superpowers 308774 / 686 / 37"
+        }
+      ],
+      "comparison": {
+        "garrytan/gbrain capstone": 121.94,
+        "garrytan FD-7 skills": 158.36,
+        "addy-osmani/agent-skills capstone": 176.04,
+        "addy-osmani FD-7 skills": 177.68,
+        "obra FD-7 skills": [
+          202.11,
+          193.11
+        ],
+        "capped siblings": "36-117 (gbrain components 50.0 B)"
+      },
+      "notes": [
+        "12 addy-osmani skills carry a suite_ref_set event (ae99d443c) but no suiteRef in frontmatter.",
+        "12 FD-16 winners depend on these grades.",
+        "mattpocock/personal and heygen-com/general-video still disagree across surfaces."
+      ],
+      "corrections": [
+        "C1",
+        "C5"
+      ]
+    },
+    {
+      "id": "FD-14",
+      "verdict": "verified-with-notes",
+      "summary": "laravel: boost prompt blob 200, 3671 stars, video 5096 views, guide links Boost. nielsen: blob 200, 59 stars, 54 commits, npm 57.",
+      "probes": [
+        {
+          "what": "laravel sources",
+          "at": "2026-10-30T05:37:33Z",
+          "result": "all live"
+        },
+        {
+          "what": "nielsen sources",
+          "at": "2026-10-30T05:37:37Z",
+          "result": "live (npm web 403 anti-bot; API 57)"
+        }
+      ],
+      "notes": [
+        "nielsen github-stars-own at repo root breaks guideline §5 (workaround for merge_evidence bug).",
+        "Timeline event 2026-10-29T16:59:36Z says 'Removed dead/invalid evidence' for a live URL.",
+        "laravel now grade A at 1★ named; FD-14 status question still open."
+      ],
+      "corrections": [
+        "C8"
+      ]
+    },
+    {
+      "id": "FD-17",
+      "verdict": "verified",
+      "summary": "8 new URLs 200; content identical to pre-move upstream versions; imagegen trio confirmed by upstream 'Moved to' stubs (825e30649); handoff dir -> SKILL.md.",
+      "probes": [
+        {
+          "what": "old vs new links.github",
+          "at": "2026-10-30T05:38:41Z",
+          "result": "old 404 (handoff 301), new 200"
+        }
+      ],
+      "notes": [
+        "9 leonxlnx evidence rows still cite old dead URLs."
+      ],
+      "corrections": []
+    },
+    {
+      "id": "FD-18",
+      "verdict": "verified",
+      "summary": "ADJ-119 grade A equals github-stars-own gradeCeiling (registry/schema/meta.json), TM 227.51 unchanged. ADJ-174: 70 files, all transitions equal or (none)->value; public index unchanged except rico-favor grade null->'ungraded'.",
+      "corrections": []
+    }
+  ],
+  "globalChecks": [
+    {
+      "id": "timeline-events",
+      "verdict": "verified",
+      "detail": "Changed level/origin/status/installable set = 4 Origins + graphify + brag + workflow-skill-creator + 12 freezes; each has a CLI event and a ruling-citing note."
+    },
+    {
+      "id": "no-hand-edits",
+      "verdict": "verified-with-notes",
+      "detail": "128 named diffs append-only timeline, no body or registry/nodes changes. Exception: safishamsi skill-tree.json re-encoded by hand (formatting only, disclosed)."
+    },
+    {
+      "id": "frozen-untouched",
+      "verdict": "verified-with-notes",
+      "detail": "9 strictly frozen skills at base, none touched. mattpocock/skills and productivity carry a component-removal upstream_deprecated event; Steward sensor would classify as frozen."
+    },
+    {
+      "id": "gaia-dev-validate",
+      "verdict": "verified",
+      "detail": "exit 0"
+    },
+    {
+      "id": "validate-timelines",
+      "verdict": "verified",
+      "detail": "exit 0"
+    },
+    {
+      "id": "build-docs-check",
+      "verdict": "verified",
+      "detail": "exit 0, warn-only drift only; lockstep OK"
+    },
+    {
+      "id": "pr-ci",
+      "verdict": "not-verified",
+      "detail": "Test, Build, and Smoke Test red: 2 failures from FD-11"
+    },
+    {
+      "id": "class-s-consistency",
+      "verdict": "verified-with-notes",
+      "detail": "Regenerated graph/ledger differ only in generatedAt; safishamsi skill-tree.md mirror stale"
+    },
+    {
+      "id": "leaderboard-ledger-index",
+      "verdict": "verified-with-notes",
+      "detail": "130 checked; only mattpocock/personal and heygen-com/general-video disagree (residual D6)"
+    }
+  ],
+  "corrections": [
+    {
+      "id": "C1",
+      "severity": "blocking",
+      "text": "FD-7: set suiteRef via gaia dev update-named --suite-ref (12 addy-osmani per own suite_ref_set event; 23 garrytan + 2 obra after curator confirms), recompute TM; or hold commit 3c31f0042. Re-derive FD-16 winners."
+    },
+    {
+      "id": "C2",
+      "severity": "blocking-main",
+      "text": "Fix the 2 FD-11 test failures (remove strict xfail; shadow corpus 48->47) in an infra PR this sprint."
+    },
+    {
+      "id": "C3",
+      "severity": "blocking-founder",
+      "text": "Founder confirms graphify 5★->4★ or revert 601ac2241 and 961f2226e."
+    },
+    {
+      "id": "C4",
+      "severity": "high",
+      "text": "FD-11: re-verify/retype the peer-review S row at a bare repo URL (90 of 100.82 TM) as IV review debt before 4★/Origin publish on main; same for browser-use/browser-harness."
+    },
+    {
+      "id": "C5",
+      "severity": "medium",
+      "text": "Implement FD-7 choice A or obtain a founder re-ruling; 2 skills still disagree publicly."
+    },
+    {
+      "id": "C6",
+      "severity": "medium",
+      "text": "Coordinate merge order with PR #2257; second to land regenerates Class S and caches."
+    },
+    {
+      "id": "C7",
+      "severity": "low",
+      "text": "Commit regenerated skill-trees/safishamsi/skill-tree.md if C3 confirmed."
+    },
+    {
+      "id": "C8",
+      "severity": "low",
+      "text": "nielsen: re-home github-stars-own row to the blob URL after #2257; append clarifying note for the misleading removal event."
+    },
+    {
+      "id": "C9",
+      "severity": "low",
+      "text": "File CLI tech-debt issues: --refresh-apex drops signature annotations; update-named --origin event shape; timeline --user ASCII escaping; gaia dev add default 2★ with no evidence."
+    },
+    {
+      "id": "C10",
+      "severity": "low-founder",
+      "text": "Define 'frozen' (strict vs any upstream_deprecated event) for the never-touch rule."
+    }
+  ]
+}

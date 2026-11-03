@@ -1,0 +1,80 @@
+{
+  "id": "garrytan/idea-ingest",
+  "name": "idea-ingest",
+  "contributor": "garrytan",
+  "level": "2★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 50.0,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/garrytan/idea-ingest.json",
+    "contributor": "/api/v1/contributors/garrytan.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 100.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 3,
+    "transitiveCount": 5,
+    "maxDepth": 2,
+    "nestedSuiteCount": 0
+  },
+  "title": "Idea Ingest",
+  "genericSkillRef": "knowledge-harvest",
+  "origin": true,
+  "description": "Ingest links, articles, tweets, and ideas into the brain. Fetch content, save to brain with analysis, credit the author (people page only when they pass the notability gate), and cross-link. Use when the user shares a link or says \"read this\", \"save this\", \"think about this\".",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/idea-ingest/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-03",
+      "type": "github-stars-own",
+      "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag (subject to 50.0 TM suite sibling cap per META §2.1a)",
+      "stars": 31276,
+      "grade": "A"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:54:40Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill garrytan/idea-ingest"
+    },
+    {
+      "timestamp": "2026-11-02T21:59:47Z",
+      "action": "suite_ref_set",
+      "contributor": "mbtiongson1",
+      "details": "Set suiteRef to garrytan/gbrain"
+    },
+    {
+      "timestamp": "2026-11-02T21:59:51Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/idea-ingest/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-11-02T22:15:49Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 50.0, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/idea-ingest/SKILL.md"
+  }
+}

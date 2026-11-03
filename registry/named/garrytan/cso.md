@@ -21,7 +21,7 @@ tags:
 - threat-modeling
 - cso
 createdAt: '2026-05-12'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-30'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/cso/SKILL.md
@@ -38,14 +38,14 @@ evidence:
   grade: B
 - source: https://github.com/garrytan/gstack
   evaluator: unknown
-  updatedAt: '2026-11-01'
+  updatedAt: '2026-10-01'
   date: '2026-06-20'
   type: github-stars-own
   trustNumber: 85.0
   grade: C
   notes: gstack suite repo — 110,930 GitHub stars; cso is 1 of 42 named skills (verified
     2026-06-20)
-  stars: 138527
+  stars: 134645
   skillCountInRepo: 42
   sourceStartedAt: '2024-01-01'
 timeline:
@@ -109,6 +109,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 4★ to 3★
+- timestamp: '2026-10-30T04:58:32Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
@@ -122,7 +127,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:31Z'
-trustMagnitudeInputHash: f6755c79a1f46126e06afccde7bc43746860afec4cd779be3df58b398581e6ed
+trustMagnitudeInputHash: 013c4e5c339b025ed9a231d74681222702be2cc28a9ef82d9b94335facb79ea7
 suiteRef: garrytan/gstack
 ---
 

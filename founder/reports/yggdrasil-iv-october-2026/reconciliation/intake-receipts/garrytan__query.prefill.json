@@ -1,0 +1,116 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/query",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/query",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/query/SKILL.md",
+  "checked": true,
+  "contentSha256": "afe2a88394bb78bb651ebd5434415dfa1a96cbc3c52848e134be16b3e8d36f08",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.646455
+    },
+    {
+     "id": "garrytan/capture",
+     "similarity": 0.496162
+    },
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.489673
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "wiki-search",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5038 to generic 'wiki-search' (weak match).",
+   "similarity": 0.503816
+  },
+  {
+   "genericId": "research",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4968 to generic 'research' (weak match).",
+   "similarity": 0.496762
+  }
+ ],
+ "normalized": {
+  "description": "Answer questions using the brain's knowledge with 3-layer search, synthesis, and citation propagation. Use when the user asks a question, wants a lookup, or needs information from the brain.",
+  "name": "query"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/query/SKILL.md",
+  "contentSha256": "afe2a88394bb78bb651ebd5434415dfa1a96cbc3c52848e134be16b3e8d36f08",
+  "fetchedAt": "2026-10-27T22:07:19.046604+00:00",
+  "frontmatter": {
+   "description": "Answer questions using the brain's knowledge with 3-layer search, synthesis,\nand citation propagation. Use when the user asks a question, wants a lookup,\nor needs information from the brain.\n",
+   "mutating": false,
+   "name": "query",
+   "tools": [
+    "recall",
+    "search",
+    "query",
+    "get_page",
+    "list_pages",
+    "get_backlinks",
+    "traverse_graph",
+    "get_timeline"
+   ],
+   "triggers": [
+    "what do we know about",
+    "tell me about",
+    "who is",
+    "what happened",
+    "search for",
+    "look up",
+    "background on",
+    "notes on",
+    "who knows who",
+    "relationship between",
+    "connections",
+    "graph query"
+   ],
+   "version": "1.0.0"
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

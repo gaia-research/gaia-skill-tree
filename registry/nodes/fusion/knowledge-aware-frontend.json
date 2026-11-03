@@ -1,0 +1,31 @@
+{
+  "id": "knowledge-aware-frontend",
+  "name": "Knowledge-Aware Frontend",
+  "type": "fusion",
+  "description": "Combines frontend implementation with knowledge-management practices so interface changes preserve and expose relevant product knowledge.",
+  "prerequisites": [
+    "knowledge-management",
+    "web-best-practices"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-03",
+  "updatedAt": "2026-11-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:53:31Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Created generic fusion node 'knowledge-aware-frontend' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-11-02T21:53:31Z",
+      "action": "fuse",
+      "contributor": "mbtiongson1",
+      "details": "Set prerequisites via `gaia dev fuse`: knowledge-management, web-best-practices."
+    }
+  ]
+}

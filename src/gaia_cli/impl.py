@@ -247,6 +247,7 @@ PUBLIC_COMMANDS = (
     "skills",
     "curate",
     "trust",
+    "shadow",
 )
 
 # dev subcommands that mutate the registry or user trees.
@@ -536,7 +537,14 @@ def reset_command(args):
     cleared = 0
     # 1. Delete the deprecated skill tree file
     if os.path.exists(tree_path):
-        os.remove(tree_path)
+        from gaia_cli.canonicalTransaction import TransactionError, guardCanonicalPath
+        try:
+            # Deleting a canonical user tree must not race or bypass a pending transaction.
+            with guardCanonicalPath(Path(tree_path)):
+                os.remove(tree_path)
+        except TransactionError as exc:
+            print(f"Canonical writer refused: {exc}", file=sys.stderr)
+            return 1
         cleared += 1
         print(f"✓ Removed skill tree: {tree_path}")
 
@@ -1460,19 +1468,27 @@ def propose_command(args):
         "proposedSkills": [proposed_skill],
         "similarity": [],
     }
-    batch_path = write_skill_batch(batch, args.registry)
-    promote_to_named(proposed_skill, contributor, skill_name, args.registry)
-    update_batch_lifecycle(batch_path, skill_id, "named")
-
+    from gaia_cli.canonicalTransaction import TransactionError, canonicalTransactionLock
     from gaia_cli.timeline import append_skill_tree_event
 
-    append_skill_tree_event(
-        config.get("gaiaUser", "unknown"),
-        skill_id,
-        "propose",
-        f"Proposed as named skill {target_named}",
-        registry_path=args.registry,
-    )
+    try:
+        # Canonical-namespace writer (named skill + owner tree): refuse before ANY
+        # write while a canonical transaction is pending. The lock is reentrant with
+        # the inner named/timeline/tree guards.
+        with canonicalTransactionLock(args.registry):
+            batch_path = write_skill_batch(batch, args.registry)
+            promote_to_named(proposed_skill, contributor, skill_name, args.registry)
+            update_batch_lifecycle(batch_path, skill_id, "named")
+            append_skill_tree_event(
+                config.get("gaiaUser", "unknown"),
+                skill_id,
+                "propose",
+                f"Proposed as named skill {target_named}",
+                registry_path=args.registry,
+            )
+    except TransactionError as exc:
+        print(f"Canonical writer refused: {exc}", file=sys.stderr)
+        return 1
     print(f"Proposed named skill: {target_named}")
     print(f"  saved {os.path.basename(batch_path)}")
 

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "frontier-meta-verification-v1.1",
+  "stage": "triage",
+  "verificationId": "meta-c4-ripgrep-vs-graft-callers-triage-2026-10-28",
+  "campaignId": "yggiv-challenger-cases-2026-10",
+  "leadDigest": "sha256:7e9a338113708a4dbe00085a9f82f3053fb87169008e6d75c5a4382558ac4dc3",
+  "matchDigest": "sha256:6d0cc000e73327cb5bfb2790032166cb2a21a19c44012bfbba4b4f02926d1cd2",
+  "dedupeDigest": "sha256:607172485efc2d0f01b32b2f4ae1cb35028b67bef81471bbea0b5ad2e0212252",
+  "verifierRunId": "meta-run-8aee73c0ab0a4483a133f734bb4342b6",
+  "outcome": "rejected_at_triage",
+  "recommend": {
+    "action": "reject-lead",
+    "rationale": "Verdict: upheld (rejected at triage). recommendAdmission: false. ripgrep 15.1.0 is regex text search. It makes no symbol, call-graph or caller-resolution claim, so it cannot substitute for trailhq/graft caller lookup. The match ranks graft first at only 0.0878, and that lexical score comes from the lead's own comparator wording (graft, symbol, where, find), not from any capability overlap. Dedupe found no prior lead. No experiment is warranted."
+  },
+  "counterevidence": {
+    "searched": "Re-read the captured ripgrep 15.1.0 README for any symbol-aware, AST or caller-resolution feature, and checked the match output for a non-lexical similarity signal.",
+    "items": []
+  },
+  "independence": "declared-unauthenticated",
+  "declaredSession": {
+    "harness": "Claude Code 2.1.312 (agent session)",
+    "model": "claude-opus-5-5",
+    "note": "Separate session from the runner, dispatched by the same orchestrator on the same host. Declared, not authenticated."
+  },
+  "limitations": [
+    "Independence is declared and unauthenticated; same orchestrator and host as the runner.",
+    "This record is an untrusted Meta assessment, not an approval, an admission or a TM, star, grade or Origin input.",
+    "The lead's observedAtUTC/checkedAtUTC are local +08:00 times labelled Z (see the erratum in events.jsonl); the lead bytes are unchanged because their digest is bound here."
+  ],
+  "recordedAtUTC": "2026-10-28T19:11:50Z"
+}

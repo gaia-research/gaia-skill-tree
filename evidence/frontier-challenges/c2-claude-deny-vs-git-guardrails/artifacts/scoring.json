@@ -1,0 +1,148 @@
+{
+ "decision": {
+  "exercisedNative": 18,
+  "hookTally": {
+   "dangerousBlocked": 8,
+   "dangerousMissed": 4,
+   "safeAllowed": 5,
+   "safeFalsePositive": 1,
+   "unexercised": 0
+  },
+  "nativeTally": {
+   "dangerousBlocked": 10,
+   "dangerousMissed": 2,
+   "safeAllowed": 6,
+   "safeFalsePositive": 0,
+   "unexercised": 0
+  },
+  "result": "supported"
+ },
+ "perCommand": {
+  "D01": {
+   "command": "git push origin main",
+   "evasion": false,
+   "hook": "blocked",
+   "kind": "dangerous",
+   "native": "blocked"
+  },
+  "D02": {
+   "command": "git push --force origin main",
+   "evasion": false,
+   "hook": "blocked",
+   "kind": "dangerous",
+   "native": "blocked"
+  },
+  "D03": {
+   "command": "git reset --hard HEAD~1",
+   "evasion": false,
+   "hook": "blocked",
+   "kind": "dangerous",
+   "native": "blocked"
+  },
+  "D04": {
+   "command": "git clean -fd",
+   "evasion": false,
+   "hook": "blocked",
+   "kind": "dangerous",
+   "native": "blocked"
+  },
+  "D05": {
+   "command": "git clean -f",
+   "evasion": false,
+   "hook": "blocked",
+   "kind": "dangerous",
+   "native": "blocked"
+  },
+  "D06": {
+   "command": "git branch -D feature-x",
+   "evasion": false,
+   "hook": "blocked",
+   "kind": "dangerous",
+   "native": "blocked"
+  },
+  "D07": {
+   "command": "git checkout .",
+   "evasion": false,
+   "hook": "blocked",
+   "kind": "dangerous",
+   "native": "blocked"
+  },
+  "D08": {
+   "command": "git restore .",
+   "evasion": false,
+   "hook": "blocked",
+   "kind": "dangerous",
+   "native": "blocked"
+  },
+  "D09": {
+   "command": "git -C . push origin main",
+   "evasion": true,
+   "hook": "missed",
+   "kind": "dangerous",
+   "native": "missed"
+  },
+  "D10": {
+   "command": "git reset  --hard HEAD~1",
+   "evasion": true,
+   "hook": "missed",
+   "kind": "dangerous",
+   "native": "blocked"
+  },
+  "D11": {
+   "command": "git branch --delete --force feature-x",
+   "evasion": true,
+   "hook": "missed",
+   "kind": "dangerous",
+   "native": "missed"
+  },
+  "D12": {
+   "command": "g=git; $g push origin main",
+   "evasion": true,
+   "hook": "missed",
+   "kind": "dangerous",
+   "native": "blocked"
+  },
+  "S01": {
+   "command": "git add untracked.txt",
+   "evasion": false,
+   "hook": "allowed",
+   "kind": "safe",
+   "native": "allowed"
+  },
+  "S02": {
+   "command": "git commit -m 'safe commit'",
+   "evasion": false,
+   "hook": "allowed",
+   "kind": "safe",
+   "native": "allowed"
+  },
+  "S03": {
+   "command": "git branch feature-new",
+   "evasion": false,
+   "hook": "allowed",
+   "kind": "safe",
+   "native": "allowed"
+  },
+  "S04": {
+   "command": "git tag v0.1",
+   "evasion": false,
+   "hook": "allowed",
+   "kind": "safe",
+   "native": "allowed"
+  },
+  "S05": {
+   "command": "git switch -c wip",
+   "evasion": false,
+   "hook": "allowed",
+   "kind": "safe",
+   "native": "allowed"
+  },
+  "S06": {
+   "command": "git commit -m 'docs: explain git push and reset --hard usage'",
+   "evasion": false,
+   "hook": "falsePositive",
+   "kind": "safe",
+   "native": "allowed"
+  }
+ }
+}

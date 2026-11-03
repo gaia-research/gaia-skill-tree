@@ -1,0 +1,640 @@
+[
+  {
+    "id": "ruvnet/v3-integration-deep",
+    "kind": "named",
+    "path": "registry/named/ruvnet/v3-integration-deep.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "flag",
+      "origin": "pass",
+      "evidence": "flag",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "2★ Unique, origin:true (sole named skill in system-integration), TM 36.0 C; prepass and recompute agree. Its only evidence row is the whole ruvnet/ruflo platform repo (6,899 commits, 32 contributors), which says little about the integration-contract/event-bus capability itself. links.github is a bare repo root, which META §2.4 disallows for named claims.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/v3-integration-deep.md",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "ruvnet/v3-mcp-optimization",
+    "kind": "named",
+    "path": "registry/named/ruvnet/v3-mcp-optimization.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "flag",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "1★ Unique, zero evidence rows, TM 0 (consistent). links.github is the bare repo root https://github.com/ruvnet/ruflo, which META §2.4 and CLAUDE.md (links.github must be blob/branch/subpath) disallow; installable is unset. Proposed: repoint to a concrete ruflo file for this capability, or set installable: false if none exists. No candidate file verified. Liveness 429 on the root is rate limiting, not a dead link.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/v3-mcp-optimization.md",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "ruvnet/v3-memory-unification",
+    "kind": "named",
+    "path": "registry/named/ruvnet/v3-memory-unification.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "flag",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "1★ Unique, zero evidence, TM 0. Bare repo-root links.github (META §2.4 / CLAUDE.md violation). Candidate concrete file to evaluate, not verified semantically: .agents/skills/agent-memory-coordinator/SKILL.md in ruvnet/ruflo (exists in tree listing). Curator to choose or set installable: false.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/v3-memory-unification.md",
+      "https://github.com/ruvnet/ruflo",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/agent-memory-coordinator/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/v3-performance-optimization",
+    "kind": "named",
+    "path": "registry/named/ruvnet/v3-performance-optimization.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "flag",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "1★ Unique, zero evidence, TM 0. Bare repo-root links.github (META §2.4 / CLAUDE.md violation). Candidate concrete file to evaluate, not verified semantically: .agents/skills/agent-performance-optimizer/SKILL.md in ruvnet/ruflo (exists in tree listing). Curator to choose or set installable: false.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/v3-performance-optimization.md",
+      "https://github.com/ruvnet/ruflo",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/agent-performance-optimizer/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/v3-security-overhaul",
+    "kind": "named",
+    "path": "registry/named/ruvnet/v3-security-overhaul.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "flag",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "1★ Unique, zero evidence, TM 0. Bare repo-root links.github (META §2.4 / CLAUDE.md violation). Candidate concrete file to evaluate, not verified semantically: .agents/skills/agent-security-manager/SKILL.md in ruvnet/ruflo (exists in tree listing). Body's '14-type PII detection' and 'CVE scanning' are unsourced capability claims; the record has no evidence for them.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/v3-security-overhaul.md",
+      "https://github.com/ruvnet/ruflo",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/agent-security-manager/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/v3-swarm-coordination",
+    "kind": "named",
+    "path": "registry/named/ruvnet/v3-swarm-coordination.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "flag",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ Unique, zero evidence, TM 0. Body states '89% consensus accuracy: verified consensus achievement rate' with no source in the record, no evidence row, and no linked file. Remove it or source it. Also bare repo-root links.github (META §2.4). Observation only: genericSkillRef multi-agent-orchestration-v resolves to a fusion node but ends in '-v', so confirm the slug is intended.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/v3-swarm-coordination.md",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "ruvnet/verification-quality",
+    "kind": "named",
+    "path": "registry/named/ruvnet/verification-quality.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "flag",
+      "origin": "pass",
+      "evidence": "flag",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "2★ Unique, origin:false, TM 38.66 C (prepass agrees; 36.0 from own row plus 2.66 from inherited arXiv 2407.01489). Only own row is the ruflo platform repo, which evidences the platform rather than the pre-completion checklist capability. Body's 'test coverage verification' and 'documentation checks' are not evidenced by any row. Link is a bare repo root.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/verification-quality.md",
+      "https://github.com/ruvnet/ruflo",
+      "https://arxiv.org/abs/2407.01489"
+    ]
+  },
+  {
+    "id": "ruvnet/worker-benchmarks",
+    "kind": "named",
+    "path": "registry/named/ruvnet/worker-benchmarks.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "flag",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "1★ Unique, zero evidence, TM 0. Bare repo-root links.github (META §2.4 / CLAUDE.md violation). Candidate concrete file to evaluate, not verified semantically: .agents/skills/agent-performance-benchmarker/SKILL.md in ruvnet/ruflo (exists in tree listing). Body is generic and not a placeholder.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/worker-benchmarks.md",
+      "https://github.com/ruvnet/ruflo",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/agent-performance-benchmarker/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/worker-integration",
+    "kind": "named",
+    "path": "registry/named/ruvnet/worker-integration.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "flag",
+      "origin": "pass",
+      "evidence": "flag",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "2★ Unique, origin:true (sole named skill in worker-agent-dispatch, so origin is plausible), TM 36.0 C. The only evidence row is the ruflo platform repo, and the Origin claim rests on it; platform-level evidence does not show the 8-trigger dispatch capability specifically. Link is a bare repo root.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/worker-integration.md",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "safishamsi/graphify",
+    "kind": "named",
+    "path": "registry/named/safishamsi/graphify.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "flag",
+      "evidence": "flag",
+      "upstream": "n/a",
+      "body": "flag",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 5,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "5★ Ultimate (Unique branch) fails the gate. checkUniqueBranchGate returns passed=false: TM 318.14 and grade S pass, but the 5★ origin predicate is fusion-structure origin, and safishamsi holds no Origin on knowledge-graph-build prerequisites (extract-entities, logical-inference; neither has a named holder). CONTEXT.md line 57 states 5★ = Origin + TM≥250. The 4★ Unique gate passes (bucket origin true, TM≥100). Proposed 5★→4★ (Class C). Separately, S-grade rests on two rows whose support is contested: the only eligible S witness is a peer-review row from tinix84/glassgraph, a competing 0-star graph builder whose self-authored comparison says it would shelve glassgraph if graphify won. Without the arXiv row (100 TM) TM falls to 218 (<250). The arXiv paper (2607.15516) is real and features graphify as a case study, but it is a prompt-caching cost model, not a KG-construction evaluation. Rank_up events 2026-09-02 and 2026-07-19 are attributed to 'unknown'.",
+    "evidenceRefs": [
+      "registry/named/safishamsi/graphify.md",
+      "https://github.com/tinix84/glassgraph/blob/main/docs/07-graphify-comparison.md",
+      "https://github.com/tinix84/glassgraph",
+      "https://arxiv.org/abs/2607.15516",
+      "https://github.com/Graphify-Labs/graphify",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "santifer/career-ops",
+    "kind": "named",
+    "path": "registry/named/santifer/career-ops.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ Unique, origin:true (sole in career-operations), TM 36.0 C; blob link resolves. Own repo row (360 commits, 103 contributors) is relevant to the skill. Observation only: the repo has moved to career-ops-hq (GitHub redirect from santifer/career-ops; same blob path exists under the new owner). Body is a single Overview paragraph, which is thin but not a placeholder.",
+    "evidenceRefs": [
+      "registry/named/santifer/career-ops.md",
+      "https://github.com/career-ops-hq/career-ops/blob/main/.agents/skills/career-ops/SKILL.md"
+    ]
+  },
+  {
+    "id": "sickn33/ai-dev-jobs-mcp",
+    "kind": "named",
+    "path": "registry/named/sickn33/ai-dev-jobs-mcp.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "flag",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "1★ Awakened, no link, no evidence, no installable field. CLAUDE.md requires installable: false for non-suite ≤2★ with no public repo. Body says it is 'tracked from its description only', so the Awakened basis ('verified as a real skill') is not evidenced. Proposed: set installable: false; curator to confirm the verification basis.",
+    "evidenceRefs": [
+      "registry/named/sickn33/ai-dev-jobs-mcp.md"
+    ]
+  },
+  {
+    "id": "sickn33/mcp-builder",
+    "kind": "named",
+    "path": "registry/named/sickn33/mcp-builder.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "1★ Awakened, installable: false (consistent with no public artifact). Body credits antigravity-awesome-skills and says the contributor is not the original author. Nothing to change.",
+    "evidenceRefs": [
+      "registry/named/sickn33/mcp-builder.md"
+    ]
+  },
+  {
+    "id": "sickn33/n8n-mcp-tools-expert",
+    "kind": "named",
+    "path": "registry/named/sickn33/n8n-mcp-tools-expert.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "flag",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "1★ Awakened, no link, no evidence, no installable field. Same case as sickn33/ai-dev-jobs-mcp: CLAUDE.md requires installable: false. Body says 'tracked from its description only'; the Awakened verification basis is not evidenced.",
+    "evidenceRefs": [
+      "registry/named/sickn33/n8n-mcp-tools-expert.md"
+    ]
+  },
+  {
+    "id": "spring-ai/readme-generate",
+    "kind": "named",
+    "path": "registry/named/spring-ai/readme-generate.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ Unique, origin:false, TM 36.0 C; blob link resolves; own row is the examples repo (relevant as publisher). Body says 'the origin implementation for this bucket is glincker/readme-generator', but the registry shows write-report origin on garrytan/retro (origin:true) and glincker/readme-generator origin:false. The body claim contradicts the registry. Proposed: correct or remove the origin claim. Minor: notes field has a stray double quote.",
+    "evidenceRefs": [
+      "registry/named/spring-ai/readme-generate.md",
+      "registry/named-skills.json",
+      "https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md"
+    ]
+  },
+  {
+    "id": "supabase/supabase-postgres-best-practices",
+    "kind": "named",
+    "path": "registry/named/supabase/supabase-postgres-best-practices.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ named, TM 5.0 ungraded, inherited from the generic postgres-best-practices node (no own rows). Body is placeholder text: '## Installation / Add installation instructions here.' Also no links.github and no installable field; CLAUDE.md requires installable: false here. Proposed: replace the placeholder with a factual statement that no installable artifact exists, and set installable: false.",
+    "evidenceRefs": [
+      "registry/named/supabase/supabase-postgres-best-practices.md"
+    ]
+  },
+  {
+    "id": "supabase/supabase",
+    "kind": "named",
+    "path": "registry/named/supabase/supabase.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ named, TM 5.0 ungraded, inherited from the generic supabase node (self-attestation on supabase/agent-skills). Body is the same placeholder ('Add installation instructions here.'). No links.github and no installable field. Proposed: replace the placeholder and set installable as appropriate. Candidate link target if the curator wants one: https://github.com/supabase/agent-skills/blob/main/skills/supabase/SKILL.md (exists; already cited by inherited generic evidence).",
+    "evidenceRefs": [
+      "registry/named/supabase/supabase.md",
+      "https://github.com/supabase/agent-skills/blob/main/skills/supabase/SKILL.md"
+    ]
+  },
+  {
+    "id": "trailhq/graft",
+    "kind": "named",
+    "path": "registry/named/trailhq/graft.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "flag",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "4★ Unique: origin:true (sole in codebase-graph-retrieval), TM 145.16 A, blob SKILL.md link resolves. Rank passes the gate. Body is the placeholder '## Installation / Add installation instructions here.' on a 4★ page. Secondary evidence issue: the github-stars-own row cites the SKILL.md blob, and its stars field (9,464) disagrees with its notes (6,927); live count was 10,822 at check time. TM stays ≥100 at any of these values. Origin and 4★ were set by 'unknown' in one session on 2026-09-10; provenance only.",
+    "evidenceRefs": [
+      "registry/named/trailhq/graft.md",
+      "https://github.com/trailhq/Graft/blob/main/.claude/skills/graft/SKILL.md",
+      "https://github.com/trailhq/Graft"
+    ]
+  },
+  {
+    "id": "upsonic/unittest-generator",
+    "kind": "named",
+    "path": "registry/named/upsonic/unittest-generator.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "flag",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "2★ Unique, origin:true (sole in generate-test), installable:false, TM 30.0 C. The only scored row is a peer-review C (30.0) that cites the framework repo root https://github.com/Upsonic/Upsonic, while its note describes a 'SkillsMP Community' review; the URL does not evidence the note. The social-signal row is a walkthrough of the Upsonic Tiger install (not this generator) and scores 0. The arXiv row is inherited, not own. Timeline last recorded TM 33.0 but the cached and computed value is 30.0 (cache drift). Proposed: replace the URL with the actual review source or regrade.",
+    "evidenceRefs": [
+      "registry/named/upsonic/unittest-generator.md",
+      "https://github.com/Upsonic/Upsonic",
+      "https://www.youtube.com/watch?v=fHNTpPpQQBo"
+    ]
+  },
+  {
+    "id": "vercel/find-skills",
+    "kind": "named",
+    "path": "registry/named/vercel/find-skills.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "flag",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "2★ Unique, origin:true in skill-discovery, TM 36.0 C. Sibling heygen-com/hyperframes-registry is 3★, TM 50.0 B, origin:false in the same bucket. META §4.1 selects Origin as the highest-rated named skill, and the sibling is higher on both level and TM. Origin plausibility therefore fails by deterministic comparison. Proposed: origin review (Class C; any transfer requires approval). Blob link and own repo row are otherwise fine.",
+    "evidenceRefs": [
+      "registry/named/vercel/find-skills.md",
+      "registry/named/heygen-com/hyperframes-registry.md",
+      "https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md"
+    ]
+  },
+  {
+    "id": "vercel-labs/vercel-react-best-practices",
+    "kind": "named",
+    "path": "registry/named/vercel-labs/vercel-react-best-practices.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "pass",
+      "origin": "fail",
+      "evidence": "flag",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 5,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "4★ Unique, origin:false, sole named skill in react-performance-optimization, TM 163.19 A. The 4★ Unique gate requires bucket-level Origin, and the Gaia gate returns passed=false (originPresent false). TM and grade pass; prepass did not check the origin predicate. Proposed: grant Origin (sole named child of a claimed bucket; META §4.1 exactly-one) as a Class C decision; if not granted, rank falls to 3★. Evidence: the arXiv 2602.12430 survey says 'no direct benchmark' (score 0.2); the BetterStack video covers Vercel agent skills generally (35.4 TM); the self-attestation is C. Without arXiv and social rows TM is 127.6, still A. Stars row notes (29,600) disagree with the field (31,787) and live count (33,110). Body is the placeholder 'Add installation instructions here.' on a 4★ page.",
+    "evidenceRefs": [
+      "registry/named/vercel-labs/vercel-react-best-practices.md",
+      "https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md",
+      "https://arxiv.org/abs/2602.12430",
+      "https://www.youtube.com/watch?v=PkeC2hNQ9Zw"
+    ]
+  },
+  {
+    "id": "wheresryan22/anatomy",
+    "kind": "named",
+    "path": "registry/named/wheresryan22/anatomy.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "flag",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "4★ Unique, origin:true (sole in interactive-mechanism-illustration), TM 152.48 A. Gate passes; blob SKILL.md link resolves; live stars 21,427 vs field 21,279. Body is the placeholder 'Add installation instructions here.' on a 4★ page. Secondary evidence issue: the self-attestation row reuses the github-stars-own URL (duplicate source; deduped in TM, so no score effect), and the stars row cites the SKILL.md blob rather than the repo.",
+    "evidenceRefs": [
+      "registry/named/wheresryan22/anatomy.md",
+      "https://github.com/wheresryan22/anatomy/blob/main/SKILL.md"
+    ]
+  },
+  {
+    "id": "xquik-dev/hermes-tweet",
+    "kind": "named",
+    "path": "registry/named/xquik-dev/hermes-tweet.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "flag",
+      "evidence": "flag",
+      "upstream": "n/a",
+      "body": "flag",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "1★ Awakened with origin:true (x-twitter-automation has zero named members in registry/named-skills.json). META §4.1 grants Origin to the highest-rated named skill, and this record is awakened (demoted 3★→1★ on 2026-09-05, Origin flag left in place). Proposed: origin review (Class C). Evidence: the social-signal video supplies 36.35 of TM 42.47, but its note describes a general 'hermes-tweet plugin pattern', so relevance to this skill is unverified. Body describes Hermes Agent workflows without crediting Nous Research. Demote timeline uses 'author' instead of 'contributor'.",
+    "evidenceRefs": [
+      "registry/named/xquik-dev/hermes-tweet.md",
+      "https://github.com/Xquik-dev/hermes-tweet/blob/master/skills/hermes-tweet/SKILL.md",
+      "https://www.youtube.com/watch?v=8VJKkftUY3M"
+    ]
+  },
+  {
+    "id": "yonatangross/rag-retrieval",
+    "kind": "named",
+    "path": "registry/named/yonatangross/rag-retrieval.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "flag",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ named, origin:false, zero evidence, TM 0; blob link resolves. Body says 'This is the origin implementation for the rag-pipeline skill bucket', which contradicts frontmatter origin:false. The bucket has no Origin holder, and with no evidence there is no merit basis to grant one. Proposed: remove or correct the body's origin claim. The 'SkillsMP (160 stars)' figure is unverified.",
+    "evidenceRefs": [
+      "registry/named/yonatangross/rag-retrieval.md",
+      "https://github.com/yonatangross/orchestkit/blob/main/plugins/ork/skills/rag-retrieval/SKILL.md"
+    ]
+  },
+  {
+    "id": "yylo-dev/ledger-tasks-yylo",
+    "kind": "named",
+    "path": "registry/named/yylo-dev/ledger-tasks-yylo.md",
+    "reviewer": "haiku:named-16",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "flag",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "2★ Unique, origin:true in project-management, TM 36.6 C, installable:true with a resolving blob link. Origin is plausible by the TM tie-break (36.6 vs garrytan/landing-report 36.0), but the margin is 0.6 and the 36.0 comes from the yylo CLI repo row, not the skill's own row. The skill's own row (#0) is 'ungraded' after an edit (timeline: B→ungraded), contributes 0.6 TM, and has evaluator 'claude' with a self-reported clone. Proposed: grade or drop row #0 so the record is consistent with its evidence policy. Body is detailed and not a placeholder.",
+    "evidenceRefs": [
+      "registry/named/yylo-dev/ledger-tasks-yylo.md",
+      "https://github.com/yylo-dev/yylo-skills/blob/main/skills/ledger-tasks-yylo/SKILL.md",
+      "https://github.com/yylo-dev/yylo"
+    ]
+  }
+]

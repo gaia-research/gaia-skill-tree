@@ -25,7 +25,7 @@
   },
   "title": "The Domain Linguist",
   "genericSkillRef": "ubiquitous-language",
-  "origin": false,
+  "origin": true,
   "description": "Extracts and formalises a project's domain terminology into a shared glossary, enforcing consistent naming across code and conversations to eliminate ambiguity. Removed from mattpocock/skills suite in v1.0.1.",
   "tags": [
     "domain-driven-design",

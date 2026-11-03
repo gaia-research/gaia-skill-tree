@@ -1,0 +1,54 @@
+.......................Timeout (0:01:00)!
+Thread 0x00000076ef539ce0 (most recent call first):
+  File "/data/data/com.termux/files/usr/lib/python3.14/threading.py", line 373 in wait
+  File "/data/data/com.termux/files/usr/lib/python3.14/threading.py", line 670 in wait
+  File "/data/data/com.termux/files/usr/lib/python3.14/threading.py", line 1383 in run
+  File "/data/data/com.termux/files/usr/lib/python3.14/threading.py", line 1082 in _bootstrap_inner
+  File "/data/data/com.termux/files/usr/lib/python3.14/threading.py", line 1044 in _bootstrap
+
+Thread 0x000000798d803d28 (most recent call first):
+  File "/data/data/com.termux/files/usr/lib/python3.14/selectors.py", line 398 in select
+  File "/data/data/com.termux/files/usr/lib/python3.14/subprocess.py", line 2151 in _communicate
+  File "/data/data/com.termux/files/usr/lib/python3.14/subprocess.py", line 1221 in communicate
+  File "/data/data/com.termux/files/usr/lib/python3.14/subprocess.py", line 557 in run
+  File "/data/data/com.termux/files/home/.gaia-worktrees/yggdrasil-iv-publication-last-mile/scripts/publication_parity.py", line 52 in check_semantic_parity
+  File "/data/data/com.termux/files/home/.gaia-worktrees/yggdrasil-iv-publication-last-mile/scripts/publication_context.py", line 476 in _check_semantic_parity
+  File "/data/data/com.termux/files/home/.gaia-worktrees/yggdrasil-iv-publication-last-mile/tests/test_publication_context.py", line 409 in test_real_bounded_builders_double_replay_and_surface_corruption
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/_pytest/python.py", line 167 in pytest_pyfunc_call
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/pluggy/_callers.py", line 121 in _multicall
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/pluggy/_manager.py", line 120 in _hookexec
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/pluggy/_hooks.py", line 512 in __call__
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/_pytest/python.py", line 1707 in runtest
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/_pytest/runner.py", line 184 in pytest_runtest_call
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/pluggy/_callers.py", line 121 in _multicall
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/pluggy/_manager.py", line 120 in _hookexec
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/pluggy/_hooks.py", line 512 in __call__
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/_pytest/runner.py", line 250 in <lambda>
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/_pytest/runner.py", line 361 in from_call
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/_pytest/runner.py", line 249 in call_and_report
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/_pytest/runner.py", line 139 in runtestprotocol
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/_pytest/runner.py", line 118 in pytest_runtest_protocol
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/pluggy/_callers.py", line 121 in _multicall
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/pluggy/_manager.py", line 120 in _hookexec
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/pluggy/_hooks.py", line 512 in __call__
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/_pytest/main.py", line 408 in pytest_runtestloop
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/pluggy/_callers.py", line 121 in _multicall
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/pluggy/_manager.py", line 120 in _hookexec
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/pluggy/_hooks.py", line 512 in __call__
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/_pytest/main.py", line 384 in _main
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/_pytest/main.py", line 330 in wrap_session
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/_pytest/main.py", line 377 in pytest_cmdline_main
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/pluggy/_callers.py", line 121 in _multicall
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/pluggy/_manager.py", line 120 in _hookexec
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/pluggy/_hooks.py", line 512 in __call__
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/_pytest/config/__init__.py", line 229 in _main
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/_pytest/config/__init__.py", line 253 in _console_main
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/pytest/__main__.py", line 9 in <module>
+  File "<frozen runpy>", line 88 in _run_code
+  File "<frozen runpy>", line 203 in _run_module_as_main
+................................................. [ 22%]
+........................................................................ [ 44%]
+........................................................................ [ 66%]
+........................................................................ [ 88%]
+......................................                                   [100%]
+326 passed in 177.59s (0:02:57)

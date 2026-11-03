@@ -15,6 +15,8 @@ from typing import Optional, List
 
 # Add project root to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
+from gaia_cli.canonicalTransaction import guardCanonicalPath  # noqa: E402  pending-transaction guard
 
 # Config for "Super Repos" or special suites
 UPSTREAM_CONFIG = {
@@ -304,8 +306,9 @@ def surgical_update(file_path: str, new_install_body: str):
         new_body = re.sub(dup_pattern, '', new_body, flags=re.IGNORECASE | re.DOTALL)
 
     final_text = header + new_body
-    with open(file_path, 'w', encoding='utf-8') as f:
-        f.write(final_text)
+    with guardCanonicalPath(file_path):
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(final_text)
     print(f"Surgically updated {file_path}")
 
 

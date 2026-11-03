@@ -1,0 +1,81 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/migrate",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/migrate",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/migrate/SKILL.md",
+  "checked": true,
+  "contentSha256": "ab7d7874bdd6cf1ef34538c2888b93b0a416f49bf04bd608dc5eccf9af9a5936",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "deprecation-and-migration",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5124 to generic 'deprecation-and-migration' (weak match).",
+   "similarity": 0.512357
+  }
+ ],
+ "normalized": {
+  "description": "Universal migration from Obsidian, Notion, Logseq, markdown, CSV, JSON, Roam",
+  "name": "migrate"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/migrate/SKILL.md",
+  "contentSha256": "ab7d7874bdd6cf1ef34538c2888b93b0a416f49bf04bd608dc5eccf9af9a5936",
+  "fetchedAt": "2026-10-27T22:09:06.580370+00:00",
+  "frontmatter": {
+   "description": "Universal migration from Obsidian, Notion, Logseq, markdown, CSV, JSON, Roam",
+   "mutating": true,
+   "name": "migrate",
+   "tools": [
+    "put_page",
+    "search",
+    "add_link",
+    "add_tag",
+    "sync_brain"
+   ],
+   "triggers": [
+    "migrate from",
+    "import from obsidian",
+    "import from notion",
+    "connect our company brain",
+    "connect our existing company brain",
+    "import an existing company brain"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

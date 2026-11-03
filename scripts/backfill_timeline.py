@@ -6,6 +6,9 @@ import subprocess
 from datetime import datetime, timezone
 import argparse
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
+from gaia_cli.canonicalTransaction import guardCanonicalPath  # noqa: E402  pending-transaction guard
+
 AUTHOR_MAP = {
     "Claude": "claude",
     "Juno": "juno",
@@ -239,9 +242,10 @@ def process_file(file_path):
     data["timeline"] = sorted_events
     
     # Save back
-    with open(file_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-        f.write("\n")
+    with guardCanonicalPath(file_path):
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+            f.write("\n")
 
 def main():
     parser = argparse.ArgumentParser(description="Backfill timeline logs from git history.")

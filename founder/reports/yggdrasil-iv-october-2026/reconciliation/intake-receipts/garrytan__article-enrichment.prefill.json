@@ -1,0 +1,119 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/article-enrichment",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/article-enrichment",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/article-enrichment/SKILL.md",
+  "checked": true,
+  "contentSha256": "84b2a3792c5e7e2ccf8b6fd32b2c850a8514f5ed5459a5664ba0780720f5ce09",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.634431
+    },
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.584008
+    },
+    {
+     "id": "garrytan/book-mirror",
+     "similarity": 0.558139
+    },
+    {
+     "id": "garrytan/research-compendium",
+     "similarity": 0.547312
+    },
+    {
+     "id": "garrytan/capture",
+     "similarity": 0.517151
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "write-report",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5308 to generic 'write-report' (weak match).",
+   "similarity": 0.530781
+  },
+  {
+   "genericId": "summarize",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4952 to generic 'summarize' (weak match).",
+   "similarity": 0.495201
+  },
+  {
+   "genericId": "rag-pipeline",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4878 to generic 'rag-pipeline' (weak match).",
+   "similarity": 0.487796
+  }
+ ],
+ "normalized": {
+  "description": "Transform raw article text dumps in the brain into structured pages with executive summary, verbatim quotes, key insights, why-it-matters, and cross-references. Replaces walls-of-text with quotable, actionable brain pages.",
+  "name": "article-enrichment"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/article-enrichment/SKILL.md",
+  "contentSha256": "84b2a3792c5e7e2ccf8b6fd32b2c850a8514f5ed5459a5664ba0780720f5ce09",
+  "fetchedAt": "2026-10-27T22:09:20.731104+00:00",
+  "frontmatter": {
+   "description": "Transform raw article text dumps in the brain into structured pages with executive summary, verbatim quotes, key insights, why-it-matters, and cross-references. Replaces walls-of-text with quotable, actionable brain pages.",
+   "mutating": true,
+   "name": "article-enrichment",
+   "triggers": [
+    "enrich this article",
+    "enrich the article",
+    "enriching the article",
+    "enrich brain pages",
+    "batch enrich",
+    "enrich pass",
+    "make brain pages useful"
+   ],
+   "version": "0.1.0",
+   "writes_pages": true,
+   "writes_to": [
+    "media/articles/"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}
