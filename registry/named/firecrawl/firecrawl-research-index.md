@@ -8,7 +8,7 @@ status: named
 level: 3★
 description: Retrieve and query academic literature through Firecrawl Research.
 createdAt: '2026-07-13'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-30'
 title: Firecrawl Research Index
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/core/firecrawl-research-index/SKILL.md
@@ -69,6 +69,11 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Calibrated level from 1★ to 3★
+- timestamp: '2026-10-30T04:58:32Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - type: repo-own
   source: https://github.com/firecrawl/firecrawl
@@ -79,11 +84,11 @@ evidence:
   date: '2026-07-13'
   sourceStartedAt: '2023-08-01'
 - source: https://github.com/firecrawl/skills/stargazers
-  updatedAt: '2026-11-01'
+  updatedAt: '2026-10-01'
   evaluator: mbtiongson1
   date: '2026-07-31'
   type: github-stars-own
-  stars: 142
+  stars: 113
   skillCountInRepo: 6
   grade: B
 catalogRef: firecrawl-firecrawl-research-index
@@ -92,7 +97,7 @@ verification:
   firstEvidenceAt: '2026-07-30T22:15:52Z'
 trustMagnitude: 50.0
 overallTrustGrade: B
-trustMagnitudeInputHash: 1c26fb59547aba9256933134b0f0f608a2f3dd38d084e7aff848768ac9107aff
+trustMagnitudeInputHash: 5e4d6dcc39d03ec5c4a0fae72294f60a9ff9bc7829eb34bc325cc0a59ceb90f4
 ---
 
 ## Installation

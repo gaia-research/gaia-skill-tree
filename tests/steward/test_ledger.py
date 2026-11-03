@@ -704,6 +704,41 @@ def test_ledger_leaves_no_refs_outside_refs_steward(machines):
     assert [n for n in afterA if n.startswith("refs/steward/")] == [storeA.trackingRef]
 
 
+def test_ledger_preserves_custom_fetch_mappings_and_sentinel_refs(tmp_path):
+    remote = tmp_path / "remote.git"
+    subprocess.run(["git", "init", "--bare", "--quiet", str(remote)], check=True)
+    clone = makeClone(tmp_path, remote, "machine-custom")
+
+    # Establish sentinel tracking refs and custom fetch mapping on origin.
+    head_sha = git(clone, "rev-parse", "HEAD")
+    git(clone, "update-ref", "refs/remotes/origin/main", head_sha)
+    git(clone, "update-ref", "refs/remotes/origin/sentinel", head_sha)
+    git(clone, "config", "--add", "remote.origin.fetch", "+refs/custom/*:refs/remotes/custom/*")
+    git(clone, "update-ref", "refs/remotes/custom/probe", head_sha)
+
+    before_refs = {name: git(clone, "rev-parse", name) for name in refNames(clone)}
+    assert "refs/remotes/origin/main" in before_refs
+    assert "refs/remotes/origin/sentinel" in before_refs
+    assert "refs/remotes/custom/probe" in before_refs
+
+    store = GitRefLedgerStore(clone)
+    update(store, appendMarker("entry-1"))
+    update(store, appendMarker("entry-2"))
+    store.load()
+
+    after_refs = {name: git(clone, "rev-parse", name) for name in refNames(clone)}
+
+    # Names and values of all non-steward refs are strictly preserved
+    assert outsideSteward(list(after_refs.keys())) == outsideSteward(list(before_refs.keys()))
+    for ref_name, original_sha in before_refs.items():
+        assert after_refs[ref_name] == original_sha, f"ref {ref_name} changed value"
+
+    # No opportunistic remote tracking ref was created under refs/remotes/
+    assert "refs/remotes/origin/steward/ledger" not in after_refs
+    assert [n for n in after_refs if n.startswith("refs/steward/")] == [store.trackingRef]
+
+
+
 def test_tracking_ref_is_per_store(machines):
     _, storeA, _ = machines
     other = GitRefLedgerStore(storeA.repo_root, ref="steward/other-ledger")

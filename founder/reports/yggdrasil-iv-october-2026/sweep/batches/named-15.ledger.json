@@ -1,0 +1,640 @@
+[
+  {
+    "id": "ruvnet/flow-nexus-swarm",
+    "kind": "named",
+    "path": "registry/named/ruvnet/flow-nexus-swarm.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ named record, TM 0, zero evidence rows; rank and origin gates pass (origin false is correct, and a 1★ entry cannot hold Origin per META §1.3/§4.1). Body says it is the origin implementation for multi-agent-orchestration-v, which is unsupported: the bucket has no Origin holder and the record is not eligible. Component links.github is the repo root; links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/flow-nexus-swarm/SKILL.md returns 200 and its SKILL.md name matches the record id (CLAUDE.md Curation Guidelines §4). Proposed: remove the origin claim from the body; upgrade the link through the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/flow-nexus-swarm.md",
+      "registry/named-skills.json (bucket multi-agent-orchestration-v)",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/flow-nexus-swarm/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/flow-nexus",
+    "kind": "named",
+    "path": "registry/named/ruvnet/flow-nexus.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ suite (3 components, all exist). Rank, TM (36, C), origin singleton and the single repo-own row (B ceiling) pass; upstream block is current (v3.41.2 synced 2026-09-12). Body calls it a '4★ fusion' (frontmatter 2★ after demotions 2026-06-20 and 2026-09-09) and names bucket flow-nexus-orchestration (genericSkillRef is multi-node-orchestration). Star figure in body (34k+) is stale against the evidence row (73,611). Proposed: correct the body rank, bucket name and star figure.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/flow-nexus.md",
+      "registry/named-skills.json (bucket multi-node-orchestration)"
+    ]
+  },
+  {
+    "id": "ruvnet/github-code-review",
+    "kind": "named",
+    "path": "registry/named/ruvnet/github-code-review.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "1★ component of ruflo and github-suite; TM 0, no evidence, origin false (code-review-pipeline has no Origin holder, and 1★ cannot hold Origin). Body is generic and acceptable at 1★. The 'role: variant' key is not declared in namedSkill.schema.json; it is a repo-wide pattern and is not actioned here. links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/github-code-review/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: upgrade links.github to the blob via the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/github-code-review.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/github-code-review/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/github-multi-repo",
+    "kind": "named",
+    "path": "registry/named/ruvnet/github-multi-repo.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "2★ suite component, origin true and singleton holder of multi-repo-coordination (consistent). TM 36 (C) from the single repo-own row (B ceiling, grade B) is acceptable. Body matches its bucket. links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/github-multi-repo/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: upgrade links.github to the blob via the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/github-multi-repo.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/github-multi-repo/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/github-project-management",
+    "kind": "named",
+    "path": "registry/named/ruvnet/github-project-management.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "1★ component, TM 0, no evidence. origin false is consistent: project-management holder is yylo-dev/ledger-tasks-yylo (origin true). links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/github-project-management/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: upgrade links.github to the blob via the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/github-project-management.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/github-project-management/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/github-release-management",
+    "kind": "named",
+    "path": "registry/named/ruvnet/github-release-management.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "1★ component, TM 0, no evidence; origin false and body are acceptable. release-automation bucket has no Origin holder (bucket-level gap for founder review, not a record defect). links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/github-release-management/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: upgrade links.github to the blob via the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/github-release-management.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/github-release-management/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/github-suite",
+    "kind": "named",
+    "path": "registry/named/ruvnet/github-suite.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ suite with 5 components (all exist). Origin singleton holder of git-integration is consistent. TM 36 (C) from the repo-own row; evidence is acceptable at 2★. Body calls it a '4★ fusion' (frontmatter 2★) and names bucket github-platform-mastery (genericSkillRef is git-integration). Body also overclaims ('At 4★, an agent can autonomously manage the complete software delivery lifecycle'). Proposed: correct rank, bucket name and overclaim.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/github-suite.md",
+      "registry/named-skills.json (bucket git-integration)"
+    ]
+  },
+  {
+    "id": "ruvnet/github-workflow-automation",
+    "kind": "named",
+    "path": "registry/named/ruvnet/github-workflow-automation.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "1★ component, TM 0, no evidence; origin false is consistent (workflow-automation bucket has no Origin holder). links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/github-workflow-automation/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: upgrade links.github to the blob via the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/github-workflow-automation.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/github-workflow-automation/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/hive-mind",
+    "kind": "named",
+    "path": "registry/named/ruvnet/hive-mind.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ standard record, star bar passes (links.github is a blob; live 200 today, SKILL.md name hive-mind). Recomputed TM 95.02 (B) matches the prepass. Evidence: the social-signal row (youtube watch?v=biRI-nZ0BDw) records views 424000, but the live page reports 22,743 views on 2026-10-28. The video is topically relevant (its page covers 'Hive Mind architecture'). With the live count the Gaia engine yields TM 84.85 (B), so no rank effect; correction needs verification before the row is changed. The stars row (field stars 73611) conflicts with its own note (60.3k) and could not be re-verified this run (API rate-limited). Body: title 'Hive Mind Coordination' and the 'hive-mind-coordination' bucket are pre-rename (renamed 2026-08-05); the bucket is distributed-consensus-coordination.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/hive-mind.md",
+      "https://www.youtube.com/watch?v=biRI-nZ0BDw",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hive-mind/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/hooks-automation",
+    "kind": "named",
+    "path": "registry/named/ruvnet/hooks-automation.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "1★ component, TM 0, no evidence; origin false is consistent with the workflow-automation bucket. links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hooks-automation/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: upgrade links.github to the blob via the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/hooks-automation.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hooks-automation/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/pair-programming",
+    "kind": "named",
+    "path": "registry/named/ruvnet/pair-programming.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "2★ component, TM 36 (C) from one repo-own row (ruflo, B ceiling). Its evidence is platform-level and this is acceptable at 2★. Body is narrower than the SKILL.md (which describes driver/navigator role switching with truth-score verification), but is not wrong. origin false is consistent (subagent-driven-development holder is obra/subagent-driven-development). links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/pair-programming/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: upgrade links.github to the blob via the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/pair-programming.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/pair-programming/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/performance-analysis",
+    "kind": "named",
+    "path": "registry/named/ruvnet/performance-analysis.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ component, TM 0. frontmatter origin false is correct: the timeline (2026-06-02) records Origin removed and transferred to addy-osmani/performance-optimization, which holds Origin on the performance-tuning bucket. The body still says 'This is the origin implementation for the performance-tuning skill bucket' (unsupported; a 1★ entry cannot hold Origin). links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/performance-analysis/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: remove the origin claim from the body; upgrade the link through the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/performance-analysis.md",
+      "registry/named-skills.json (bucket performance-tuning)",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/performance-analysis/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/reasoningbank-agentdb",
+    "kind": "named",
+    "path": "registry/named/ruvnet/reasoningbank-agentdb.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ component, TM 0. Body says 'origin implementation for the learned-memory-integration skill bucket', but genericSkillRef is agent-memory-learning and origin is false (and a 1★ entry cannot hold Origin). The body also credits no source for the ReasoningBank technique (arXiv:2509.25140, 'ReasoningBank: Scaling Agent Self-Evolving with Reasoning Memory', 2025-09-29). links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/reasoningbank-agentdb/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: fix the body (remove the origin claim, correct the bucket, credit the paper) and upgrade the link through the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/reasoningbank-agentdb.md",
+      "https://arxiv.org/abs/2509.25140",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/reasoningbank-agentdb/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/reasoningbank-intelligence",
+    "kind": "named",
+    "path": "registry/named/ruvnet/reasoningbank-intelligence.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ component, origin true and singleton holder of adaptive-pattern-learning (consistent); TM 36 (C) from the repo-own row. Body presents the ReasoningBank approach as 'First published by @ruvnet' without crediting the source paper (arXiv:2509.25140). Its one peer-review issue (#928) is attached to the parent reasoningbank record rather than here. links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/reasoningbank-intelligence/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: add the paper credit to the body and upgrade the link through the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/reasoningbank-intelligence.md",
+      "https://arxiv.org/abs/2509.25140",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/reasoningbank-intelligence/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/reasoningbank",
+    "kind": "named",
+    "path": "registry/named/ruvnet/reasoningbank.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 6,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ suite (2 components exist). Gate pass: the prepass has no violation, and a 3★ suite is exempt from the blob requirement. Evidence fails. The 5 peer-review rows do not meet the peer-review definition (a structured walkthrough by 4★+ reviewers): #2410 is a dream-cycle research note (engine 30.0 TM); #928 is feedback on reasoningbank-intelligence, a component issue (15.0); #914 is a backend-initialisation bug report, which is negative evidence (7.5); #812 is a bug report (0); #801 is subjective user praise (0). Removing them leaves only the repo-own row, so the recomputed TM is 36.0 (C), against 88.5 (B) recorded. META §1.1 3★ 'community-verified' support currently rests on these rows, so the rank consequence is a founder ruling, not a deterministic gate. Repo-own row is acceptable. Body omits the source paper for the ReasoningBank technique (arXiv:2509.25140). Proposed: remove or re-type the peer-review rows, then recalculate via the gaia dev CLI and refer the rank question to the founder.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/reasoningbank.md",
+      "https://github.com/ruvnet/ruflo/issues/2410",
+      "https://github.com/ruvnet/ruflo/issues/928",
+      "https://github.com/ruvnet/ruflo/issues/914",
+      "https://github.com/ruvnet/ruflo/issues/812",
+      "https://github.com/ruvnet/ruflo/issues/801",
+      "https://arxiv.org/abs/2509.25140"
+    ]
+  },
+  {
+    "id": "ruvnet/ruflo-v3",
+    "kind": "named",
+    "path": "registry/named/ruvnet/ruflo-v3.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ suite; all 11 suiteComponents exist; origin true singleton of platform-modernization-sprint (consistent); TM 36 (C) from the repo-own row. Body says 'This 4★ fusion' twice; the level is 2★ after demotions 4→3 (2026-09-02) and 3→2 (2026-09-09). Body component list matches suiteComponents. Proposed: correct the rank language in the body.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/ruflo-v3.md",
+      "registry/named-skills.json (bucket platform-modernization-sprint)"
+    ]
+  },
+  {
+    "id": "ruvnet/ruflo",
+    "kind": "named",
+    "path": "registry/named/ruvnet/ruflo.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 5,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "4★ suite capstone. Rank passes: TM 175.34 (A) is at least 100, and the prepass has no violation. Body and description repeatedly say '6★ Apex' (level 4★, demoted from 5★ on 2026-09-09). Body ranks are wrong for several components: flow-nexus, github-suite and ruflo-v3 are 2★ (body says 4★); dual-mode is 2★ (body says 3★); agentdb is 3★ (body says 5★ Ultimate). Bucket is named 'ruflo' but genericSkillRef is multi-topology-orchestration. Evidence has 3 issues (each a separate finding): arxiv 2602.06547 is a malicious-skills study and not orchestration evidence; benchmark-result is an uncatalogued vendor claim; social-signal is the maintainer's own channel. Metadata: apexGateStatus.overallGradeS is true while the grade is A. Open question for founder (not a proposal): CLAUDE.md says 4★ needs live verified blob evidence, but no capstone row points to a blob and the code gate does not enforce it. Proposed: rewrite the body rank claims; remove or re-type the three rows.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/ruflo.md",
+      "https://arxiv.org/abs/2602.06547",
+      "https://www.youtube.com/@ReuvenCohen",
+      "https://github.com/ruvnet/ruflo/stargazers",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "ruvnet/skill-builder",
+    "kind": "named",
+    "path": "registry/named/ruvnet/skill-builder.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "1★ component, TM 0, no evidence; origin false is consistent (skill-authoring bucket has no Origin holder). links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/skill-builder/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: upgrade links.github to the blob via the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/skill-builder.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/skill-builder/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/sparc-methodology",
+    "kind": "named",
+    "path": "registry/named/ruvnet/sparc-methodology.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ component, TM 0, no evidence. Body states quantitative claims as fact with no evidence row or source: '2.8–4.4x speed improvements' and '17 specialist agent modes'. links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/sparc-methodology/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: attribute or remove the unsourced figures in the body; upgrade the link through the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/sparc-methodology.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/sparc-methodology/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/stream-chain",
+    "kind": "named",
+    "path": "registry/named/ruvnet/stream-chain.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "2★ component, origin true singleton holder of sequential-agent-pipeline (consistent). TM 36 (C) from the repo-own row, acceptable at 2★. links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/stream-chain/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: upgrade links.github to the blob via the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/stream-chain.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/stream-chain/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/swarm-advanced",
+    "kind": "named",
+    "path": "registry/named/ruvnet/swarm-advanced.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ component, origin true singleton holder of advanced-swarm-coordination (consistent). TM 36 (C) from the repo-own row. Body lists '2–3x performance improvement: measured gains from domain-specific topology optimization' with no measurement source and no evidence row, so 'measured' is unsupported. links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/swarm-advanced/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: source or remove the performance figure in the body; upgrade the link through the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/swarm-advanced.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/swarm-advanced/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/swarm-orchestration",
+    "kind": "named",
+    "path": "registry/named/ruvnet/swarm-orchestration.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "2★ component, origin true singleton holder of swarm-topology-management (consistent). TM 36 (C) from the repo-own row, acceptable at 2★. links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/swarm-orchestration/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: upgrade links.github to the blob via the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/swarm-orchestration.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/swarm-orchestration/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/v3-cli-modernization",
+    "kind": "named",
+    "path": "registry/named/ruvnet/v3-cli-modernization.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "2★ component, origin true singleton holder of cli-modernization (consistent). TM 36 (C) from the repo-own row, acceptable at 2★. links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/v3-cli-modernization/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: upgrade links.github to the blob via the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/v3-cli-modernization.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/v3-cli-modernization/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/v3-core-implementation",
+    "kind": "named",
+    "path": "registry/named/ruvnet/v3-core-implementation.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "2★ component, origin true singleton holder of core-platform-implementation (consistent). TM 36 (C) from the repo-own row, acceptable at 2★. links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/v3-core-implementation/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: upgrade links.github to the blob via the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/v3-core-implementation.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/v3-core-implementation/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/v3-ddd-architecture",
+    "kind": "named",
+    "path": "registry/named/ruvnet/v3-ddd-architecture.md",
+    "reviewer": "haiku:named-15",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "2★ component, origin false with role variant; TM 36 (C) from the repo-own row. The row's note says the DDD restructuring is 'documented in the suite', which is not separately verified and is acceptable at 2★. The ubiquitous-language bucket has no Origin holder (bucket-level gap for founder review). links.github is the ruvnet/ruflo repo root; blob https://github.com/ruvnet/ruflo/blob/main/.agents/skills/v3-ddd-architecture/SKILL.md returns 200 and its SKILL.md name matches the record id. Proposed: upgrade links.github to the blob via the gaia dev CLI.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/v3-ddd-architecture.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/v3-ddd-architecture/SKILL.md"
+    ]
+  }
+]

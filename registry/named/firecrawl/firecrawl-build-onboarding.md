@@ -8,7 +8,7 @@ status: named
 level: 3★
 description: Configure Firecrawl credentials and client setup for agent tools.
 createdAt: '2026-07-13'
-updatedAt: '2026-09-10'
+updatedAt: '2026-10-30'
 title: Firecrawl Onboarding
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build-onboarding/SKILL.md
@@ -57,6 +57,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 4★ to 3★
+- timestamp: '2026-10-30T04:58:32Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - type: repo-own
   source: https://github.com/firecrawl/firecrawl
@@ -67,11 +72,11 @@ evidence:
   date: '2026-07-13'
   sourceStartedAt: '2023-08-01'
 - source: https://github.com/firecrawl/skills/stargazers
-  updatedAt: '2026-11-01'
+  updatedAt: '2026-10-01'
   evaluator: mbtiongson1
   date: '2026-07-31'
   type: github-stars-own
-  stars: 142
+  stars: 113
   skillCountInRepo: 6
   grade: B
 catalogRef: firecrawl-firecrawl-build-onboarding
@@ -80,7 +85,7 @@ verification:
   firstEvidenceAt: '2026-07-30T22:15:50Z'
 trustMagnitude: 50.0
 overallTrustGrade: B
-trustMagnitudeInputHash: a37771a66ec02cc6b5ce8cff2dc8a08a9f8daff3c711dee3e6f84ddc301263dc
+trustMagnitudeInputHash: a4f5d4271661c5eb60f210be685d854fdad496d044f4527145f592391c04b911
 ---
 
 ## Installation

@@ -75,11 +75,11 @@ timeline:
     Issue #1600)'
 evidence:
 - source: https://github.com/mvanhorn/last30days-skill/blob/main/skills/last30days/SKILL.md
-  updatedAt: '2026-11-01'
+  updatedAt: '2026-10-01'
   evaluator: mbtiongson1
   date: '2026-07-30'
   type: github-stars-own
-  stars: 66186
+  stars: 63314
   skillCountInRepo: 1
   notes: Verified upstream repository star count (55,151 stars).
   grade: B

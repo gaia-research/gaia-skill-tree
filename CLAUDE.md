@@ -23,7 +23,8 @@ Gaia's four major meta eras are Yggdrasil I (user self-promotion), Yggdrasil II 
 
 - **Be wary of stale tooling:** Verify numerical behavior against the Yggdrasil III engine and governance against the Yggdrasil IV ratification, `META.md` and `GOVERNANCE.md`. Live code may lag the new governance contract. Do not blindly trust legacy scripts or comments when they conflict with the active specification.
 - **Log tech debt issues aggressively:** Whenever you encounter tooling friction, misleading errors, or pre-Yggdrasil-III assumptions (e.g. scripts reading empty generic nodes, conflated Unique vs Suite branch origin gates, or deprecated CLI flags), file a GitHub issue immediately with clear repro and remediation steps.
-- **Suite-branch vs Unique-branch origin rules:** 4★ requires Overall Trust Grade A (TM ≥ 100) and live verified blob evidence. On the **Unique branch** (standalone), 4★ Unique requires bucket-level Origin. On the **Suite branch** (carrying `suiteComponents`), 4★ Extra does NOT require bucket-level Origin on its generic bucket; Suite origin requirements apply at 5★ Ultimate (holding Origin on ≥1 of the `suiteComponents` per `META.md` §4.2).
+- **Suite-branch vs Unique-branch origin rules:** 4★ requires Overall Trust Grade A (TM ≥ 100) and live verified blob evidence. On the **Unique branch** (standalone), 4★ Unique and 5★ Unique Ultimate require only that the skill is its own bucket's Origin; there is **no** fusion-prerequisite Origin requirement for Uniques (founder ruling 2026-10-30). On the **Suite branch** (carrying `suiteComponents`), 4★ Extra does NOT require bucket-level Origin on its generic bucket; Suite origin requirements apply at 5★ Ultimate (holding Origin on ≥1 of the `suiteComponents` per `META.md` §4.2).
+- **Origin is automatic, highest merit — never ask, never set it by hand.** The build derives each bucket's Origin (`src/gaia_cli/origin.py`): highest published level, then Trust Magnitude; tied top contenders all hold it; no star floor (a 1★ can be Origin); frozen skills (`src/gaia_cli/frozen.py`: frozen themselves or inside a frozen suite) compete with their locked TM/grade. `gaia dev update-named --origin` refuses; frontmatter `origin` is historical, non-authoritative attribution; builds never rewrite it to assign current Origin. To change who holds Origin, change merit (evidence, level), then run `gaia dev docs`. Never touch frozen skills in batch work. See `META.md` §4.1.
 
 
 ## Git Workflow
@@ -103,6 +104,20 @@ Use `--body-file` with real newlines for multiline PR text, then verify with `gh
 - Comments, and refactors with **no rendered diff**
 
 **Rule of thumb:** if the change alters *structure, styling, or which surfaces exist*, it is gated. If it only corrects *words or link targets inside a block whose layout is unchanged*, it is small — ship it. When genuinely unsure, gate it; a held PR costs a message, an unreviewed design change costs a revert.
+
+## Founder review packets — publish as an Artifact
+
+**Founder ruling, 2026-10-30.** When work needs the founder to decide several things at once (multiple L4 topology reviews, a closeout or adjudication packet, a batch of founder decisions), present it as a claude.ai Artifact page, not as terminal text or a markdown file to read.
+
+- One page per review round. Each decision is a card with its context, the agent's labelled recommendation and explicit options. L4 rows are grouped by proposed generic with the topology visible (generic type, prerequisites, existing named implementations, Origin holder).
+- State at the top why the review exists: which gate it is and what happens after each choice.
+- Declare the `db` capability with owner-only writes so choices save where the agent reads them back (`ArtifactData`); keep a "copy as JSON" fallback.
+- Never pre-select a choice. A choice on the page approves only what that card states.
+- Record the founder's choices verbatim in the campaign or report record (`founder/reports/...`) before acting on them. The repo stays the record; the Artifact is the review surface.
+- Screenshots and renders of site changes are not review packets: share them as throwaway local HTML or a `/gaia-preview` link, as before.
+- If the Artifact tool is unavailable, build the same page as local HTML, serve it on localhost and say so.
+
+Reference: the Yggdrasil IV October review, recorded in `founder/reports/yggdrasil-iv-october-2026/CAMPAIGN.md` §Founder rulings 2026-10-30.
 
 ## Design Entrypoints — plan before you ship
 

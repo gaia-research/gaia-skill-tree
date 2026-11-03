@@ -2,28 +2,54 @@
   "contributors": [
     {
       "handle": "garrytan",
-      "namedSkills": 51,
+      "namedSkills": 117,
       "topSkill": {
         "id": "garrytan/gstack",
         "level": "5★",
         "trustMagnitude": 356.11
       },
-      "prestigeScore": 2695.55,
+      "prestigeScore": 6005.55,
       "_links": {
         "self": "/api/v1/contributors/garrytan.json"
       }
     },
     {
       "handle": "mattpocock",
-      "namedSkills": 38,
+      "namedSkills": 39,
       "topSkill": {
         "id": "mattpocock/skills",
         "level": "5★",
-        "trustMagnitude": 374.99
+        "trustMagnitude": 280.39
       },
-      "prestigeScore": 2464.45,
+      "prestigeScore": 2390.43,
       "_links": {
         "self": "/api/v1/contributors/mattpocock.json"
+      }
+    },
+    {
+      "handle": "addy-osmani",
+      "namedSkills": 25,
+      "topSkill": {
+        "id": "addy-osmani/code-simplification",
+        "level": "4★",
+        "trustMagnitude": 190.0
+      },
+      "prestigeScore": 1631.04,
+      "_links": {
+        "self": "/api/v1/contributors/addy-osmani.json"
+      }
+    },
+    {
+      "handle": "emilkowalski",
+      "namedSkills": 12,
+      "topSkill": {
+        "id": "emilkowalski/animate",
+        "level": "2★",
+        "trustMagnitude": 129.67
+      },
+      "prestigeScore": 1556.04,
+      "_links": {
+        "self": "/api/v1/contributors/emilkowalski.json"
       }
     },
     {
@@ -41,41 +67,28 @@
     },
     {
       "handle": "obra",
-      "namedSkills": 12,
+      "namedSkills": 14,
       "topSkill": {
         "id": "obra/superpowers",
         "level": "4★",
         "trustMagnitude": 221.52
       },
-      "prestigeScore": 1093.23,
+      "prestigeScore": 1202.23,
       "_links": {
         "self": "/api/v1/contributors/obra.json"
       }
     },
     {
       "handle": "heygen-com",
-      "namedSkills": 19,
+      "namedSkills": 20,
       "topSkill": {
         "id": "heygen-com/hyperframes",
         "level": "4★",
-        "trustMagnitude": 166.92
+        "trustMagnitude": 171.92
       },
-      "prestigeScore": 1066.92,
+      "prestigeScore": 1071.92,
       "_links": {
         "self": "/api/v1/contributors/heygen-com.json"
-      }
-    },
-    {
-      "handle": "addy-osmani",
-      "namedSkills": 9,
-      "topSkill": {
-        "id": "addy-osmani/code-simplification",
-        "level": "4★",
-        "trustMagnitude": 190.0
-      },
-      "prestigeScore": 831.04,
-      "_links": {
-        "self": "/api/v1/contributors/addy-osmani.json"
       }
     },
     {
@@ -92,6 +105,19 @@
       }
     },
     {
+      "handle": "firecrawl",
+      "namedSkills": 7,
+      "topSkill": {
+        "id": "firecrawl/firecrawl-build-scrape",
+        "level": "4★",
+        "trustMagnitude": 110.02
+      },
+      "prestigeScore": 456.4,
+      "_links": {
+        "self": "/api/v1/contributors/firecrawl.json"
+      }
+    },
+    {
       "handle": "gsd-build",
       "namedSkills": 6,
       "topSkill": {
@@ -105,16 +131,16 @@
       }
     },
     {
-      "handle": "firecrawl",
-      "namedSkills": 6,
+      "handle": "anthropics",
+      "namedSkills": 3,
       "topSkill": {
-        "id": "firecrawl/firecrawl-build-scrape",
+        "id": "anthropics/brand-guidelines",
         "level": "4★",
-        "trustMagnitude": 110.02
+        "trustMagnitude": 184.87
       },
-      "prestigeScore": 416.5,
+      "prestigeScore": 356.22,
       "_links": {
-        "self": "/api/v1/contributors/firecrawl.json"
+        "self": "/api/v1/contributors/anthropics.json"
       }
     },
     {
@@ -131,16 +157,16 @@
       }
     },
     {
-      "handle": "anthropics",
-      "namedSkills": 2,
+      "handle": "panniantong",
+      "namedSkills": 1,
       "topSkill": {
-        "id": "anthropics/brand-guidelines",
-        "level": "4★",
-        "trustMagnitude": 184.87
+        "id": "panniantong/agent-reach",
+        "level": "3★",
+        "trustMagnitude": 260.83
       },
-      "prestigeScore": 228.39,
+      "prestigeScore": 260.83,
       "_links": {
-        "self": "/api/v1/contributors/anthropics.json"
+        "self": "/api/v1/contributors/panniantong.json"
       }
     },
     {
@@ -222,6 +248,19 @@
       }
     },
     {
+      "handle": "wheresryan22",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "wheresryan22/anatomy",
+        "level": "4★",
+        "trustMagnitude": 157.48
+      },
+      "prestigeScore": 157.48,
+      "_links": {
+        "self": "/api/v1/contributors/wheresryan22.json"
+      }
+    },
+    {
       "handle": "mksglu",
       "namedSkills": 1,
       "topSkill": {
@@ -232,19 +271,6 @@
       "prestigeScore": 154.71,
       "_links": {
         "self": "/api/v1/contributors/mksglu.json"
-      }
-    },
-    {
-      "handle": "wheresryan22",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "wheresryan22/anatomy",
-        "level": "4★",
-        "trustMagnitude": 152.48
-      },
-      "prestigeScore": 152.48,
-      "_links": {
-        "self": "/api/v1/contributors/wheresryan22.json"
       }
     },
     {
@@ -278,12 +304,38 @@
       "namedSkills": 1,
       "topSkill": {
         "id": "latent-spaces/brag",
-        "level": "3★",
+        "level": "4★",
         "trustMagnitude": 144.54
       },
       "prestigeScore": 144.54,
       "_links": {
         "self": "/api/v1/contributors/latent-spaces.json"
+      }
+    },
+    {
+      "handle": "cathrynlavery",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "cathrynlavery/diagram-design",
+        "level": "2★",
+        "trustMagnitude": 132.67
+      },
+      "prestigeScore": 132.67,
+      "_links": {
+        "self": "/api/v1/contributors/cathrynlavery.json"
+      }
+    },
+    {
+      "handle": "nvidia",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "nvidia/accelerated-computing-cudf",
+        "level": "4★",
+        "trustMagnitude": 131.12
+      },
+      "prestigeScore": 131.12,
+      "_links": {
+        "self": "/api/v1/contributors/nvidia.json"
       }
     },
     {
@@ -300,16 +352,29 @@
       }
     },
     {
-      "handle": "nvidia",
+      "handle": "zhaoxuya520",
       "namedSkills": 1,
       "topSkill": {
-        "id": "nvidia/accelerated-computing-cudf",
-        "level": "4★",
-        "trustMagnitude": 126.12
+        "id": "zhaoxuya520/reverse-skill",
+        "level": "2★",
+        "trustMagnitude": 127.37
       },
-      "prestigeScore": 126.12,
+      "prestigeScore": 127.37,
       "_links": {
-        "self": "/api/v1/contributors/nvidia.json"
+        "self": "/api/v1/contributors/zhaoxuya520.json"
+      }
+    },
+    {
+      "handle": "browser-use",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "browser-use/browser-harness",
+        "level": "3★",
+        "trustMagnitude": 118.59
+      },
+      "prestigeScore": 118.59,
+      "_links": {
+        "self": "/api/v1/contributors/browser-use.json"
       }
     },
     {
@@ -331,9 +396,9 @@
       "topSkill": {
         "id": "nateherkai/scroll-craft",
         "level": "3★",
-        "trustMagnitude": 87.38
+        "trustMagnitude": 92.38
       },
-      "prestigeScore": 87.38,
+      "prestigeScore": 92.38,
       "_links": {
         "self": "/api/v1/contributors/nateherkai.json"
       }
@@ -349,19 +414,6 @@
       "prestigeScore": 82.62,
       "_links": {
         "self": "/api/v1/contributors/gaia-research.json"
-      }
-    },
-    {
-      "handle": "browser-use",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "browser-use/browser-harness",
-        "level": "3★",
-        "trustMagnitude": 73.59
-      },
-      "prestigeScore": 73.59,
-      "_links": {
-        "self": "/api/v1/contributors/browser-use.json"
       }
     },
     {
@@ -391,16 +443,42 @@
       }
     },
     {
-      "handle": "panniantong",
+      "handle": "theqtcompanyrnd",
       "namedSkills": 1,
       "topSkill": {
-        "id": "panniantong/agent-reach",
-        "level": "3★",
-        "trustMagnitude": 53.86
+        "id": "theqtcompanyrnd/qt-qml-review",
+        "level": "2★",
+        "trustMagnitude": 59.74
       },
-      "prestigeScore": 53.86,
+      "prestigeScore": 59.74,
       "_links": {
-        "self": "/api/v1/contributors/panniantong.json"
+        "self": "/api/v1/contributors/theqtcompanyrnd.json"
+      }
+    },
+    {
+      "handle": "google-deepmind",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "google-deepmind/workflow-skill-creator",
+        "level": "3★",
+        "trustMagnitude": 59.65
+      },
+      "prestigeScore": 59.65,
+      "_links": {
+        "self": "/api/v1/contributors/google-deepmind.json"
+      }
+    },
+    {
+      "handle": "aj-geddes",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "aj-geddes/causal-inference",
+        "level": "2★",
+        "trustMagnitude": 48.62
+      },
+      "prestigeScore": 48.62,
+      "_links": {
+        "self": "/api/v1/contributors/aj-geddes.json"
       }
     },
     {
@@ -534,6 +612,45 @@
       }
     },
     {
+      "handle": "dralgorhythm",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "dralgorhythm/compliance",
+        "level": "2★",
+        "trustMagnitude": 34.38
+      },
+      "prestigeScore": 34.38,
+      "_links": {
+        "self": "/api/v1/contributors/dralgorhythm.json"
+      }
+    },
+    {
+      "handle": "omer-metin",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "omer-metin/synthetic-data",
+        "level": "2★",
+        "trustMagnitude": 33.06
+      },
+      "prestigeScore": 33.06,
+      "_links": {
+        "self": "/api/v1/contributors/omer-metin.json"
+      }
+    },
+    {
+      "handle": "arcmira",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "arcmira/find-quotes",
+        "level": "2★",
+        "trustMagnitude": 30.83
+      },
+      "prestigeScore": 30.83,
+      "_links": {
+        "self": "/api/v1/contributors/arcmira.json"
+      }
+    },
+    {
       "handle": "upsonic",
       "namedSkills": 1,
       "topSkill": {
@@ -560,7 +677,7 @@
       }
     }
   ],
-  "totalContributors": 43,
+  "totalContributors": 52,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

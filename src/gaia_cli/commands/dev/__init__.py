@@ -95,7 +95,14 @@ Read-only (no Verifier required):
   gaia dev diff [ref]
   gaia dev validate [--intake] [--meta-sync]
   gaia dev arbor check [record.json]
+  gaia dev frontier match --lead <lead.json> [--top N] [--repo-root <dir>]
+  gaia dev frontier dedupe --lead <lead.json> [--repo-root <dir>] [--fail-on-duplicate]
+  gaia dev frontier meta-validate --record <record.json> --receipt <receipt.json> [--request <request.json>] [--artifact-root <dir>]
   gaia dev test <suite>
+
+Challenge admission (mutating; Verifier authorization, checked by the verb):
+  gaia dev challenge build-request --case <id> --verifier <login> --builder <id> --notice-ref <https-url> [...]
+  gaia dev challenge admit --case <id>
 
 Evidence note: typed magnitude inputs drive per-row Evidence Grade. --trust is
 the backward-compatible fallback row trustNumber input when no typed
@@ -111,6 +118,14 @@ class DevCommand(Command):
 
     def configure(self, parser: argparse.ArgumentParser) -> None:
         dev_sub = parser.add_subparsers(dest="dev_command")
+        from gaia_cli.commands.dev.canonicalCmd import configureCanonical
+        configureCanonical(dev_sub.add_parser("canonical", help="Guarded canonical decision planning, validation and recovery"))
+
+        from gaia_cli.commands.dev.challengeCmd import configureChallenge
+        configureChallenge(dev_sub.add_parser("challenge", help="Bind a Frontier case bundle into an admission request; attempt admission (held unless the issuer receipt verifies)"))
+
+        from gaia_cli.commands.dev.frontierCmd import configureFrontier
+        configureFrontier(dev_sub.add_parser("frontier", help="Advisory registry match and ledger dedupe for challenger leads (read-only)"))
 
         dev_list = dev_sub.add_parser(
             "list", help="List skills in the registry with filtering"
@@ -559,6 +574,11 @@ class DevCommand(Command):
         dev_calibrate_tm.add_argument(
             "--dry-run", action="store_true", help="Show old -> new TM/grade without writing"
         )
+        dev_calibrate_tm.add_argument(
+            "--refresh-apex", action="store_true",
+            help="Also recompute and write the cached apexGateStatus frontmatter "
+                 "(same predicate logic as the named-index generator); logged to the timeline",
+        )
         _add_build_flags(dev_calibrate_tm, "recalibrating")
         dev_calibrate_tm.add_argument(
             "--yes", "-y", action="store_true", help="Skip confirmation prompt"
@@ -674,7 +694,11 @@ class DevCommand(Command):
         dev_update_named.add_argument(
             "--origin",
             choices=["true", "false"],
-            help="Set the origin flag to true or false",
+            help="Retired: Origin is automatic (highest merit per bucket, META.md §4.1). Refuses with a pointer.",
+        )
+        dev_update_named.add_argument(
+            "--notes",
+            help="Rationale appended to timeline events logged by this update",
         )
         dev_update_named.add_argument(
             "--github-link",
@@ -1092,11 +1116,11 @@ class DevCommand(Command):
 
         dev_freeze = dev_sub.add_parser(
             "freeze",
-            help="Set installable: false and append upstream_deprecated timeline event",
+            help="Freeze any named node (a suite freezes its components): lock TM/grade, set installable: false, log upstream_deprecated",
         )
         dev_freeze.add_argument(
             "skill_id",
-            help="Named skill ID to freeze (e.g. mattpocock/old-skill)",
+            help="Named skill or suite capstone ID to freeze (e.g. mattpocock/old-skill, mattpocock/personal)",
         )
         dev_freeze.add_argument(
             "--reason",
@@ -1154,7 +1178,26 @@ class DevCommand(Command):
                 f"dev arbor {args.arbor_command}" if dev_cmd == "arbor" else f"dev {dev_cmd}"
             )
             require_operator(operation, args.registry)
+            from gaia_cli.canonicalTransaction import canonicalTransactionLock, TransactionError
+            try:
+                with canonicalTransactionLock(args.registry):
+                    return self._dispatch(args)
+            except TransactionError as exc:
+                print(f"Canonical writer refused: {exc}", file=__import__("sys").stderr)
+                return 1
+        return self._dispatch(args)
 
+    def _dispatch(self, args):
+        dev_cmd = getattr(args, "dev_command", None)
+        if dev_cmd == "canonical":
+            from gaia_cli.commands.dev.canonicalCmd import canonicalCommand
+            return canonicalCommand(args)
+        if dev_cmd == "challenge":
+            from gaia_cli.commands.dev.challengeCmd import challengeCommand
+            return challengeCommand(args)
+        if dev_cmd == "frontier":
+            from gaia_cli.commands.dev.frontierCmd import frontierCommand
+            return frontierCommand(args)
         if dev_cmd == "list":
             from gaia_cli.commands.dev.list import meta_list_command
             meta_list_command(args)

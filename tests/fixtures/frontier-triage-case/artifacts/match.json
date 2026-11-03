@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "frontier-match-v1",
+  "advisory": true,
+  "authority": "advisory ranking only; never admission, approval, verification, rank or Trust Magnitude",
+  "leadId": "ripgrep-graft-callers-001",
+  "method": "lexical-bm25-v1",
+  "query": [
+    "caller",
+    "codebase",
+    "directory",
+    "find",
+    "gitignore",
+    "graft",
+    "graph",
+    "level",
+    "lookup",
+    "named",
+    "pattern",
+    "prebuilt",
+    "quickly",
+    "recursively",
+    "referenc",
+    "regex",
+    "respect",
+    "ripgrep",
+    "rule",
+    "search",
+    "symbol",
+    "where",
+    "wiring"
+  ],
+  "registeredElsewhere": false,
+  "registeredAs": [],
+  "ambiguousRepository": null,
+  "declaredTarget": {
+    "skillId": "trailhq/graft",
+    "kind": "named",
+    "exists": true,
+    "contentRank": 1
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "kind": "named",
+      "skillId": "trailhq/graft",
+      "genericSkillId": "codebase-graph-retrieval",
+      "score": 0.0878,
+      "signals": [
+        {
+          "signal": "lexical-overlap",
+          "terms": [
+            "graft",
+            "symbol",
+            "where",
+            "find"
+          ]
+        }
+      ],
+      "rationale": "lexical overlap on graft, symbol, where, find; named implementation of generic codebase-graph-retrieval."
+    },
+    {
+      "rank": 2,
+      "kind": "generic",
+      "skillId": "codebase-graph-retrieval",
+      "genericSkillId": "codebase-graph-retrieval",
+      "score": 0.067,
+      "signals": [
+        {
+          "signal": "lexical-overlap",
+          "terms": [
+            "caller",
+            "codebase",
+            "graph"
+          ]
+        }
+      ],
+      "rationale": "lexical overlap on caller, codebase, graph."
+    },
+    {
+      "rank": 3,
+      "kind": "generic",
+      "skillId": "graph-driven-issue-triage",
+      "genericSkillId": "graph-driven-issue-triage",
+      "score": 0.0484,
+      "signals": [
+        {
+          "signal": "lexical-overlap",
+          "terms": [
+            "codebase",
+            "graph",
+            "find"
+          ]
+        }
+      ],
+      "rationale": "lexical overlap on codebase, graph, find."
+    },
+    {
+      "rank": 4,
+      "kind": "named",
+      "skillId": "vercel/find-skills",
+      "genericSkillId": "skill-discovery",
+      "score": 0.0442,
+      "signals": [
+        {
+          "signal": "lexical-overlap",
+          "terms": [
+            "directory",
+            "find",
+            "search"
+          ]
+        }
+      ],
+      "rationale": "lexical overlap on directory, find, search; named implementation of generic skill-discovery."
+    },
+    {
+      "rank": 5,
+      "kind": "generic",
+      "skillId": "knowledge-graph-build",
+      "genericSkillId": "knowledge-graph-build",
+      "score": 0.0424,
+      "signals": [
+        {
+          "signal": "lexical-overlap",
+          "terms": [
+            "referenc",
+            "graph"
+          ]
+        }
+      ],
+      "rationale": "lexical overlap on referenc, graph."
+    }
+  ],
+  "rationale": "Ranked by lexical overlap between the lead's claim and registry text; a human or Meta audit must still choose any target.",
+  "registry": {
+    "digest": "sha256:b65124ed7c41d1203a68dd826ce493b7398f897b2381e6a552686dc9a7f52eca",
+    "files": 702,
+    "readOnly": true
+  }
+}

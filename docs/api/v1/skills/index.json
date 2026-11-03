@@ -1,50 +1,6 @@
 {
   "skills": [
     {
-      "id": "mattpocock/skills",
-      "name": "Matt Pocock Skills",
-      "level": "5★",
-      "trustMagnitude": 374.99,
-      "overallTrustGrade": "S",
-      "fusionScore": 364.92,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Ultimate",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/skills.json"
-      },
-      "genericSkillRef": "skill-mastery",
-      "suiteComponents": [
-        "mattpocock/code-review",
-        "mattpocock/diagnose",
-        "mattpocock/edit-article",
-        "mattpocock/engineering",
-        "mattpocock/grill-me",
-        "mattpocock/grill-with-docs",
-        "mattpocock/handoff",
-        "mattpocock/improve-codebase-architecture",
-        "mattpocock/obsidian-vault",
-        "mattpocock/personal",
-        "mattpocock/productivity",
-        "mattpocock/prototype",
-        "mattpocock/research",
-        "mattpocock/setup-matt-pocock-skills",
-        "mattpocock/teach",
-        "mattpocock/to-questionnaire",
-        "mattpocock/to-spec",
-        "mattpocock/to-tickets",
-        "mattpocock/triage",
-        "mattpocock/ubiquitous-language",
-        "mattpocock/wait-what",
-        "mattpocock/wayfinder",
-        "mattpocock/wizard",
-        "mattpocock/write-a-skill",
-        "mattpocock/zoom-out"
-      ]
-    },
-    {
       "id": "garrytan/gstack",
       "name": "Founder Mode",
       "level": "5★",
@@ -127,6 +83,67 @@
       "genericSkillRef": "knowledge-graph-build"
     },
     {
+      "id": "mattpocock/skills",
+      "name": "Matt Pocock Skills",
+      "level": "5★",
+      "trustMagnitude": 280.39,
+      "overallTrustGrade": "S",
+      "fusionScore": 364.92,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/skills.json"
+      },
+      "genericSkillRef": "skill-mastery",
+      "suiteComponents": [
+        "mattpocock/code-review",
+        "mattpocock/diagnose",
+        "mattpocock/edit-article",
+        "mattpocock/engineering",
+        "mattpocock/grill-me",
+        "mattpocock/grill-with-docs",
+        "mattpocock/handoff",
+        "mattpocock/improve-codebase-architecture",
+        "mattpocock/obsidian-vault",
+        "mattpocock/personal",
+        "mattpocock/productivity",
+        "mattpocock/prototype",
+        "mattpocock/research",
+        "mattpocock/setup-matt-pocock-skills",
+        "mattpocock/teach",
+        "mattpocock/to-questionnaire",
+        "mattpocock/to-spec",
+        "mattpocock/to-tickets",
+        "mattpocock/triage",
+        "mattpocock/ubiquitous-language",
+        "mattpocock/wait-what",
+        "mattpocock/wayfinder",
+        "mattpocock/wizard",
+        "mattpocock/write-a-skill",
+        "mattpocock/zoom-out"
+      ]
+    },
+    {
+      "id": "panniantong/agent-reach",
+      "name": "Agent Reach",
+      "level": "3★",
+      "trustMagnitude": 260.83,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "panniantong",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/panniantong/agent-reach.json"
+      },
+      "genericSkillRef": "agent-reach"
+    },
+    {
       "id": "nextlevelbuilder/ui-ux-pro-max",
       "name": "UI/UX Pro Max",
       "level": "4★",
@@ -191,27 +208,10 @@
       ]
     },
     {
-      "id": "mvanhorn/last30days",
-      "name": "Last 30 Days Web Research",
-      "level": "4★",
-      "trustMagnitude": 205.75,
-      "overallTrustGrade": "A",
-      "fusionScore": 228.28,
-      "contributor": "mvanhorn",
-      "type": "fusion",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "_links": {
-        "self": "/api/v1/skills/mvanhorn/last30days.json"
-      },
-      "genericSkillRef": "autonomous-web-research"
-    },
-    {
       "id": "mattpocock/misc",
       "name": "Misc",
       "level": "4★",
-      "trustMagnitude": 200.29,
+      "trustMagnitude": 220.87,
       "overallTrustGrade": "A",
       "fusionScore": 228.28,
       "contributor": "mattpocock",
@@ -229,6 +229,23 @@
         "mattpocock/scaffold-exercises",
         "mattpocock/setup-pre-commit"
       ]
+    },
+    {
+      "id": "mvanhorn/last30days",
+      "name": "Last 30 Days Web Research",
+      "level": "4★",
+      "trustMagnitude": 205.75,
+      "overallTrustGrade": "A",
+      "fusionScore": 228.28,
+      "contributor": "mvanhorn",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/mvanhorn/last30days.json"
+      },
+      "genericSkillRef": "autonomous-web-research"
     },
     {
       "id": "addy-osmani/code-simplification",
@@ -388,6 +405,43 @@
       ]
     },
     {
+      "id": "heygen-com/hyperframes",
+      "name": "HyperFrames",
+      "level": "4★",
+      "trustMagnitude": 171.92,
+      "overallTrustGrade": "A",
+      "fusionScore": 280.0,
+      "contributor": "heygen-com",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes.json"
+      },
+      "genericSkillRef": "video-composition",
+      "suiteComponents": [
+        "heygen-com/embedded-captions",
+        "heygen-com/faceless-explainer",
+        "heygen-com/figma",
+        "heygen-com/hyperframes-animation",
+        "heygen-com/hyperframes-audio",
+        "heygen-com/hyperframes-cli",
+        "heygen-com/hyperframes-core",
+        "heygen-com/hyperframes-creative",
+        "heygen-com/hyperframes-keyframes",
+        "heygen-com/hyperframes-registry",
+        "heygen-com/media-use",
+        "heygen-com/motion-graphics",
+        "heygen-com/music-to-video",
+        "heygen-com/pr-to-video",
+        "heygen-com/product-launch-video",
+        "heygen-com/remotion-to-hyperframes",
+        "heygen-com/slideshow",
+        "heygen-com/talking-head-recut"
+      ]
+    },
+    {
       "id": "pbakaus/impeccable",
       "name": "Impeccable",
       "level": "4★",
@@ -429,43 +483,6 @@
       ]
     },
     {
-      "id": "heygen-com/hyperframes",
-      "name": "HyperFrames",
-      "level": "4★",
-      "trustMagnitude": 166.92,
-      "overallTrustGrade": "A",
-      "fusionScore": 280.0,
-      "contributor": "heygen-com",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/heygen-com/hyperframes.json"
-      },
-      "genericSkillRef": "video-composition",
-      "suiteComponents": [
-        "heygen-com/embedded-captions",
-        "heygen-com/faceless-explainer",
-        "heygen-com/figma",
-        "heygen-com/hyperframes-animation",
-        "heygen-com/hyperframes-audio",
-        "heygen-com/hyperframes-cli",
-        "heygen-com/hyperframes-core",
-        "heygen-com/hyperframes-creative",
-        "heygen-com/hyperframes-keyframes",
-        "heygen-com/hyperframes-registry",
-        "heygen-com/media-use",
-        "heygen-com/motion-graphics",
-        "heygen-com/music-to-video",
-        "heygen-com/pr-to-video",
-        "heygen-com/product-launch-video",
-        "heygen-com/remotion-to-hyperframes",
-        "heygen-com/slideshow",
-        "heygen-com/talking-head-recut"
-      ]
-    },
-    {
       "id": "vercel-labs/vercel-react-best-practices",
       "name": "Vercel React Best Practices",
       "level": "4★",
@@ -483,6 +500,23 @@
       "genericSkillRef": "react-performance-optimization"
     },
     {
+      "id": "wheresryan22/anatomy",
+      "name": "anatomy",
+      "level": "4★",
+      "trustMagnitude": 157.48,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "wheresryan22",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/wheresryan22/anatomy.json"
+      },
+      "genericSkillRef": "interactive-mechanism-illustration"
+    },
+    {
       "id": "mksglu/context-mode",
       "name": "Context Mode",
       "level": "4★",
@@ -498,23 +532,6 @@
         "self": "/api/v1/skills/mksglu/context-mode.json"
       },
       "genericSkillRef": "context-safe-execution"
-    },
-    {
-      "id": "wheresryan22/anatomy",
-      "name": "anatomy",
-      "level": "4★",
-      "trustMagnitude": 152.48,
-      "overallTrustGrade": "A",
-      "fusionScore": 0.0,
-      "contributor": "wheresryan22",
-      "type": "basic",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "_links": {
-        "self": "/api/v1/skills/wheresryan22/anatomy.json"
-      },
-      "genericSkillRef": "interactive-mechanism-illustration"
     },
     {
       "id": "trailhq/graft",
@@ -536,19 +553,53 @@
     {
       "id": "latent-spaces/brag",
       "name": "brag",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 144.54,
       "overallTrustGrade": "A",
       "fusionScore": 200.0,
       "contributor": "latent-spaces",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/latent-spaces/brag.json"
       },
       "genericSkillRef": "project-launch-video-production"
+    },
+    {
+      "id": "cathrynlavery/diagram-design",
+      "name": "diagram-design",
+      "level": "2★",
+      "trustMagnitude": 132.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 60.0,
+      "contributor": "cathrynlavery",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/cathrynlavery/diagram-design.json"
+      },
+      "genericSkillRef": "architecture-diagram"
+    },
+    {
+      "id": "nvidia/accelerated-computing-cudf",
+      "name": "accelerated-computing-cudf",
+      "level": "4★",
+      "trustMagnitude": 131.12,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "nvidia",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/nvidia/accelerated-computing-cudf.json"
+      },
+      "genericSkillRef": "gpu-dataframe-acceleration"
     },
     {
       "id": "ayghri/i-have-adhd",
@@ -568,21 +619,242 @@
       "genericSkillRef": "format-output"
     },
     {
-      "id": "nvidia/accelerated-computing-cudf",
-      "name": "accelerated-computing-cudf",
-      "level": "4★",
-      "trustMagnitude": 126.12,
+      "id": "emilkowalski/animate",
+      "name": "animate",
+      "level": "2★",
+      "trustMagnitude": 129.67,
       "overallTrustGrade": "A",
       "fusionScore": 0.0,
-      "contributor": "nvidia",
+      "contributor": "emilkowalski",
       "type": "basic",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/nvidia/accelerated-computing-cudf.json"
+        "self": "/api/v1/skills/emilkowalski/animate.json"
       },
-      "genericSkillRef": "gpu-dataframe-acceleration"
+      "genericSkillRef": "timeline-animation"
+    },
+    {
+      "id": "emilkowalski/animate-expo",
+      "name": "animate-expo",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/animate-expo.json"
+      },
+      "genericSkillRef": "timeline-animation"
+    },
+    {
+      "id": "emilkowalski/animation-performance",
+      "name": "animation-performance",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 40.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/animation-performance.json"
+      },
+      "genericSkillRef": "animation-performance"
+    },
+    {
+      "id": "emilkowalski/apple-design",
+      "name": "apple-design",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 60.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/apple-design.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "emilkowalski/break-ui",
+      "name": "break-ui",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 180.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/break-ui.json"
+      },
+      "genericSkillRef": "ui-red-teaming"
+    },
+    {
+      "id": "emilkowalski/emil-design-eng",
+      "name": "emil-design-eng",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 60.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/emil-design-eng.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "emilkowalski/find-animation-opportunities",
+      "name": "find-animation-opportunities",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/find-animation-opportunities.json"
+      },
+      "genericSkillRef": "ui-audit"
+    },
+    {
+      "id": "emilkowalski/improve-animations",
+      "name": "improve-animations",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/improve-animations.json"
+      },
+      "genericSkillRef": "ui-audit"
+    },
+    {
+      "id": "emilkowalski/mobile-native",
+      "name": "mobile-native",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 100.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/mobile-native.json"
+      },
+      "genericSkillRef": "web-best-practices"
+    },
+    {
+      "id": "emilkowalski/prototype",
+      "name": "prototype",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 40.0,
+      "contributor": "emilkowalski",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/prototype.json"
+      },
+      "genericSkillRef": "design-review"
+    },
+    {
+      "id": "emilkowalski/review-animations",
+      "name": "review-animations",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/review-animations.json"
+      },
+      "genericSkillRef": "ui-audit"
+    },
+    {
+      "id": "emilkowalski/write-swift",
+      "name": "write-swift",
+      "level": "2★",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "emilkowalski",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/write-swift.json"
+      },
+      "genericSkillRef": "code-generation"
+    },
+    {
+      "id": "anthropics/creating-financial-models",
+      "name": "creating-financial-models",
+      "level": "2★",
+      "trustMagnitude": 127.83,
+      "overallTrustGrade": "A",
+      "fusionScore": 100.0,
+      "contributor": "anthropics",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/anthropics/creating-financial-models.json"
+      },
+      "genericSkillRef": "financial-modeling"
+    },
+    {
+      "id": "zhaoxuya520/reverse-skill",
+      "name": "reverse-skill-router",
+      "level": "2★",
+      "trustMagnitude": 127.37,
+      "overallTrustGrade": "A",
+      "fusionScore": 80.0,
+      "contributor": "zhaoxuya520",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/zhaoxuya520/reverse-skill.json"
+      },
+      "genericSkillRef": "security-audit"
     },
     {
       "id": "garrytan/gbrain",
@@ -590,7 +862,7 @@
       "level": "4★",
       "trustMagnitude": 121.94,
       "overallTrustGrade": "A",
-      "fusionScore": 200.0,
+      "fusionScore": 228.28,
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "suite",
@@ -605,6 +877,23 @@
         "garrytan/capture",
         "garrytan/concept-synthesis"
       ]
+    },
+    {
+      "id": "browser-use/browser-harness",
+      "name": "Browser Harness",
+      "level": "3★",
+      "trustMagnitude": 118.59,
+      "overallTrustGrade": "A",
+      "fusionScore": 0.0,
+      "contributor": "browser-use",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/browser-use/browser-harness.json"
+      },
+      "genericSkillRef": "browser-control"
     },
     {
       "id": "obra/subagent-driven-development",
@@ -782,316 +1071,2671 @@
         "self": "/api/v1/skills/obra/executing-plans.json"
       },
       "genericSkillRef": "executing-plans"
-    },
-    {
-      "id": "ruvnet/hive-mind",
-      "name": "Hive Mind",
-      "level": "3★",
-      "trustMagnitude": 95.02,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/hive-mind.json"
-      },
-      "genericSkillRef": "distributed-consensus-coordination"
-    },
-    {
-      "id": "addy-osmani/incremental-implementation",
-      "name": "Incremental Implementation",
-      "level": "3★",
-      "trustMagnitude": 95.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 80.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
-      },
-      "genericSkillRef": "executing-plans"
-    },
-    {
-      "id": "addy-osmani/planning-and-task-breakdown",
-      "name": "Planning and Task Breakdown",
-      "level": "3★",
-      "trustMagnitude": 95.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
-      },
-      "genericSkillRef": "vertical-slice-planning"
-    },
-    {
-      "id": "mattpocock/diagnose",
-      "name": "Diagnose",
-      "level": "3★",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "fusionScore": 60.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/diagnose.json"
-      },
-      "genericSkillRef": "autonomous-debug"
-    },
-    {
-      "id": "mattpocock/edit-article",
-      "name": "Edit Article",
-      "level": "3★",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/edit-article.json"
-      },
-      "genericSkillRef": "document-editing"
-    },
-    {
-      "id": "mattpocock/obsidian-vault",
-      "name": "Obsidian Vault Manager",
-      "level": "3★",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
-      },
-      "genericSkillRef": "personal-knowledge-management"
-    },
-    {
-      "id": "mattpocock/to-tickets",
-      "name": "To Tickets",
-      "level": "3★",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/to-tickets.json"
-      },
-      "genericSkillRef": "vertical-slice-planning"
-    },
-    {
-      "id": "mattpocock/ubiquitous-language",
-      "name": "Ubiquitous Language",
-      "level": "3★",
-      "trustMagnitude": 94.92,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
-      },
-      "genericSkillRef": "ubiquitous-language"
-    },
-    {
-      "id": "leonxlnx/unlazy",
-      "name": "unlazy",
-      "level": "3★",
-      "trustMagnitude": 91.46,
-      "overallTrustGrade": "B",
-      "fusionScore": 80.0,
-      "contributor": "leonxlnx",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/leonxlnx/unlazy.json"
-      },
-      "genericSkillRef": "task-depth-enforcement"
-    },
-    {
-      "id": "hikari9/auto-office",
-      "name": "Auto Office",
-      "level": "3★",
-      "trustMagnitude": 88.97,
-      "overallTrustGrade": "B",
-      "fusionScore": 80.0,
-      "contributor": "hikari9",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/hikari9/auto-office.json"
-      },
-      "genericSkillRef": "autonomous-engineering-platform",
-      "suiteComponents": [
-        "hikari9/office-submit"
-      ]
-    },
-    {
-      "id": "garrytan/browse",
-      "name": "Browse",
-      "level": "3★",
-      "trustMagnitude": 88.5,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/browse.json"
-      },
-      "genericSkillRef": "browser-control"
-    },
-    {
-      "id": "ruvnet/reasoningbank",
-      "name": "ReasoningBank",
-      "level": "3★",
-      "trustMagnitude": 88.5,
-      "overallTrustGrade": "B",
-      "fusionScore": 140.0,
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/reasoningbank.json"
-      },
-      "genericSkillRef": "reasoning-pattern-bank",
-      "suiteComponents": [
-        "ruvnet/reasoningbank-agentdb",
-        "ruvnet/reasoningbank-intelligence"
-      ]
-    },
-    {
-      "id": "nateherkai/scroll-craft",
-      "name": "Scroll Craft",
-      "level": "3★",
-      "trustMagnitude": 87.38,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "nateherkai",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
-      },
-      "genericSkillRef": "scroll-driven-web-design"
-    },
-    {
-      "id": "firecrawl/firecrawl-build-search",
-      "name": "Firecrawl Search",
-      "level": "3★",
-      "trustMagnitude": 83.62,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "firecrawl",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
-      },
-      "genericSkillRef": "web-search"
-    },
-    {
-      "id": "garrytan/retro",
-      "name": "Retro",
-      "level": "3★",
-      "trustMagnitude": 81.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 0.0,
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/retro.json"
-      },
-      "genericSkillRef": "write-report"
-    },
-    {
-      "id": "ruvnet/agentdb",
-      "name": "AgentDB",
-      "level": "3★",
-      "trustMagnitude": 81.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 240.0,
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentdb.json"
-      },
-      "genericSkillRef": "agent-memory-platform",
-      "suiteComponents": [
-        "ruvnet/agentdb-advanced",
-        "ruvnet/agentdb-learning",
-        "ruvnet/agentdb-memory-patterns",
-        "ruvnet/agentdb-optimization",
-        "ruvnet/agentdb-vector-search"
-      ]
-    },
-    {
-      "id": "addy-osmani/spec-driven-development",
-      "name": "Spec-Driven Development",
-      "level": "3★",
-      "trustMagnitude": 80.0,
-      "overallTrustGrade": "B",
-      "fusionScore": 40.0,
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
-      },
-      "genericSkillRef": "prd-generation"
     }
   ],
   "page": 1,
-  "totalPages": 5,
-  "totalSkills": 229,
+  "totalPages": 7,
+  "totalSkills": 337,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"
+  },
+  "originStandings": {
+    "adaptive-pattern-learning": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/reasoningbank-intelligence",
+        "contributor": "ruvnet"
+      }
+    ],
+    "advanced-swarm-coordination": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/swarm-advanced",
+        "contributor": "ruvnet"
+      }
+    ],
+    "adversarial-review": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/doubt-driven-development",
+        "contributor": "addy-osmani"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/cross-modal-review",
+        "contributor": "garrytan"
+      }
+    ],
+    "agent-environment-setup": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/setup-matt-pocock-skills",
+        "contributor": "mattpocock"
+      }
+    ],
+    "agent-fusion": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "disler/agent-fusion",
+        "contributor": "disler"
+      }
+    ],
+    "agent-handoff": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/handoff",
+        "contributor": "mattpocock"
+      }
+    ],
+    "agent-memory-learning": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "agent-memory-platform": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/agentdb",
+        "contributor": "ruvnet"
+      }
+    ],
+    "agent-reach": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "panniantong/agent-reach",
+        "contributor": "panniantong"
+      }
+    ],
+    "agentic-workflow-design": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "animation-performance": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "emilkowalski/animation-performance",
+        "contributor": "emilkowalski"
+      }
+    ],
+    "api-call": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "architecture-diagram": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "cathrynlavery/diagram-design",
+        "contributor": "cathrynlavery"
+      }
+    ],
+    "audio-mixing": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/hyperframes-audio",
+        "contributor": "heygen-com"
+      }
+    ],
+    "auto-review": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "disler/auto-review",
+        "contributor": "disler"
+      }
+    ],
+    "automated-testing": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/smoke-test",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/testing",
+        "contributor": "garrytan"
+      }
+    ],
+    "autonomous-debug": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/diagnose",
+        "contributor": "mattpocock"
+      }
+    ],
+    "autonomous-engineering-platform": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "hikari9/auto-office",
+        "contributor": "hikari9"
+      }
+    ],
+    "autonomous-web-research": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "mvanhorn/last30days",
+        "contributor": "mvanhorn"
+      }
+    ],
+    "bioinformatic-sequence-analysis": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "brain-publishing": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/publish",
+        "contributor": "garrytan"
+      }
+    ],
+    "brainstorming": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/brainstorming",
+        "contributor": "obra"
+      }
+    ],
+    "brand-guideline-application": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "anthropics/brand-guidelines",
+        "contributor": "anthropics"
+      }
+    ],
+    "browser-automation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "firecrawl/firecrawl-build",
+        "contributor": "firecrawl"
+      }
+    ],
+    "browser-control": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "browser-use/browser-harness",
+        "contributor": "browser-use"
+      }
+    ],
+    "career-operations": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "santifer/career-ops",
+        "contributor": "santifer"
+      }
+    ],
+    "causal-inference": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "aj-geddes/causal-inference",
+        "contributor": "aj-geddes"
+      }
+    ],
+    "cheminformatics-analysis": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "ci-churn-analysis": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "gaia-research/ci-churn",
+        "contributor": "gaia-research"
+      }
+    ],
+    "cite-sources": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/citation-fixer",
+        "contributor": "garrytan"
+      }
+    ],
+    "cli-modernization": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/v3-cli-modernization",
+        "contributor": "ruvnet"
+      }
+    ],
+    "clinical-data-retrieval": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "cloud-platform-management": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/flow-nexus-platform",
+        "contributor": "ruvnet"
+      }
+    ],
+    "code-explain": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "code-generation": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/design-html",
+        "contributor": "garrytan"
+      }
+    ],
+    "code-review-pipeline": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/plan-eng-review",
+        "contributor": "garrytan"
+      }
+    ],
+    "codebase-graph-retrieval": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "trailhq/graft",
+        "contributor": "trailhq"
+      }
+    ],
+    "company-knowledge-management": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/company-brainify",
+        "contributor": "garrytan"
+      }
+    ],
+    "computational-biology-workflows": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "computational-science-platform": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "concept-synthesis": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/concept-synthesis",
+        "contributor": "garrytan"
+      }
+    ],
+    "context-compression": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/context-audit",
+        "contributor": "garrytan"
+      }
+    ],
+    "context-safe-execution": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "mksglu/context-mode",
+        "contributor": "mksglu"
+      }
+    ],
+    "core-platform-implementation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/v3-core-implementation",
+        "contributor": "ruvnet"
+      }
+    ],
+    "creative-direction": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/hyperframes-creative",
+        "contributor": "heygen-com"
+      }
+    ],
+    "crm-data-cleanup": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "data-analysis": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "decision-ticket-planning": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/wayfinder",
+        "contributor": "mattpocock"
+      }
+    ],
+    "deployment-automation": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/land-and-deploy",
+        "contributor": "garrytan"
+      }
+    ],
+    "deprecation-and-migration": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/deprecation-and-migration",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "design-generation": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "leonxlnx/taste-skill",
+        "contributor": "leonxlnx"
+      }
+    ],
+    "design-review": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/design-shotgun",
+        "contributor": "garrytan"
+      }
+    ],
+    "design-source-import": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/figma",
+        "contributor": "heygen-com"
+      }
+    ],
+    "design-system-extraction": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/design-consultation",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "leonxlnx/stitch-skill",
+        "contributor": "leonxlnx"
+      }
+    ],
+    "detect-anomaly": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/canary",
+        "contributor": "garrytan"
+      }
+    ],
+    "dispatching-parallel-agents": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/dispatching-parallel-agents",
+        "contributor": "obra"
+      }
+    ],
+    "distributed-consensus-coordination": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/hive-mind",
+        "contributor": "ruvnet"
+      }
+    ],
+    "distributed-neural-training": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/flow-nexus-neural",
+        "contributor": "ruvnet"
+      }
+    ],
+    "distributed-vector-memory": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/agentdb-advanced",
+        "contributor": "ruvnet"
+      }
+    ],
+    "document-analyst": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/article-enrichment",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/book-mirror",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/strategic-reading",
+        "contributor": "garrytan"
+      }
+    ],
+    "document-editing": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/edit-article",
+        "contributor": "mattpocock"
+      }
+    ],
+    "domain-modeling": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/domain-modeling",
+        "contributor": "mattpocock"
+      }
+    ],
+    "dual-mode": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/dual-mode",
+        "contributor": "ruvnet"
+      }
+    ],
+    "e2e-testing": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/qa",
+        "contributor": "garrytan"
+      }
+    ],
+    "edge-optimization": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "engineering-discipline": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/engineering",
+        "contributor": "mattpocock"
+      }
+    ],
+    "error-interpretation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/correction-pipeline",
+        "contributor": "garrytan"
+      }
+    ],
+    "evaluate-output": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/benchmark",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/plan-ceo-review",
+        "contributor": "garrytan"
+      }
+    ],
+    "event-attendance-metrics": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "event-attendee-management": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "event-support-triage": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "event-ticket-transfer": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "evidence-attestation": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "executing-plans": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/executing-plans",
+        "contributor": "obra"
+      }
+    ],
+    "feed-monitoring": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "nousresearch/feed-monitoring",
+        "contributor": "nousresearch"
+      }
+    ],
+    "financial-modeling": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "anthropics/creating-financial-models",
+        "contributor": "anthropics"
+      }
+    ],
+    "fine-tune": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "finishing-a-development-branch": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/shipping-and-launch",
+        "contributor": "addy-osmani"
+      },
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/ship",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "gsd-build/gsd-ship",
+        "contributor": "gsd-build"
+      }
+    ],
+    "firecrawl": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "firecrawl/firecrawl-skills",
+        "contributor": "firecrawl"
+      }
+    ],
+    "format-output": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "ayghri/i-have-adhd",
+        "contributor": "ayghri"
+      }
+    ],
+    "founder-mode-orchestration": [
+      {
+        "origin": true,
+        "level": "5★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/gstack",
+        "contributor": "garrytan"
+      }
+    ],
+    "framework-upgrade": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/remotion-to-hyperframes",
+        "contributor": "heygen-com"
+      }
+    ],
+    "gbrain": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/gbrain",
+        "contributor": "garrytan"
+      }
+    ],
+    "generate-test": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "upsonic/unittest-generator",
+        "contributor": "upsonic"
+      }
+    ],
+    "generative-media": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "genomic-data-retrieval": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "ghostwrite": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/draft-in-voice",
+        "contributor": "garrytan"
+      }
+    ],
+    "git-diff-risk-analysis": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/agentic-jujutsu",
+        "contributor": "ruvnet"
+      }
+    ],
+    "git-integration": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/git-workflow-and-versioning",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "git-ship-done-pipeline": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/agent-skills",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "google-workspace-automation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/google-loops",
+        "contributor": "garrytan"
+      }
+    ],
+    "gpu-dataframe-acceleration": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "nvidia/accelerated-computing-cudf",
+        "contributor": "nvidia"
+      }
+    ],
+    "grant-application-processing": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "graph-driven-issue-triage": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mbtiongson1/graphify-triage",
+        "contributor": "mbtiongson1"
+      }
+    ],
+    "graph-neural-network-modeling": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "grill-with-docs": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/grill-with-docs",
+        "contributor": "mattpocock"
+      }
+    ],
+    "grounding": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/source-driven-development",
+        "contributor": "addy-osmani"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/academic-verify",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/fact-check",
+        "contributor": "garrytan"
+      }
+    ],
+    "guardrails": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/careful",
+        "contributor": "garrytan"
+      }
+    ],
+    "guided-setup-scripting": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/wizard",
+        "contributor": "mattpocock"
+      }
+    ],
+    "headless-worker-collect": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/dual-collect",
+        "contributor": "ruvnet"
+      }
+    ],
+    "headless-worker-spawn": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/dual-spawn",
+        "contributor": "ruvnet"
+      }
+    ],
+    "humanize-prose": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "hybrid-workflow-coordination": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/dual-coordinate",
+        "contributor": "ruvnet"
+      }
+    ],
+    "image-generate": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "leonxlnx/imagegen-frontend-mobile",
+        "contributor": "leonxlnx"
+      },
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "leonxlnx/imagegen-frontend-web",
+        "contributor": "leonxlnx"
+      }
+    ],
+    "implement-with-discernment": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "dietrichgebert/ponytail",
+        "contributor": "dietrichgebert"
+      }
+    ],
+    "interactive-mechanism-illustration": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "wheresryan22/anatomy",
+        "contributor": "wheresryan22"
+      }
+    ],
+    "interactive-presentation-authoring": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/slideshow",
+        "contributor": "heygen-com"
+      }
+    ],
+    "interview-me": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/grill-me",
+        "contributor": "mattpocock"
+      }
+    ],
+    "issue-triage": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/triage",
+        "contributor": "mattpocock"
+      }
+    ],
+    "knowledge-aware-frontend": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/frontmatter-guard",
+        "contributor": "garrytan"
+      }
+    ],
+    "knowledge-enrichment": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/enrich",
+        "contributor": "garrytan"
+      }
+    ],
+    "knowledge-graph-build": [
+      {
+        "origin": true,
+        "level": "5★",
+        "status": "named",
+        "redacted": false,
+        "id": "safishamsi/graphify",
+        "contributor": "safishamsi"
+      }
+    ],
+    "knowledge-harvest": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/archive-crawler",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/blog-ingest",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/bulk-ingestion",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/cold-start",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/idea-ingest",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/media-ingest",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/two-tier-extraction",
+        "contributor": "garrytan"
+      }
+    ],
+    "knowledge-management": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/brain-ops",
+        "contributor": "garrytan"
+      }
+    ],
+    "knowledge-query": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/query",
+        "contributor": "garrytan"
+      }
+    ],
+    "literature-review": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "literature-search": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "firecrawl/firecrawl-research-index",
+        "contributor": "firecrawl"
+      }
+    ],
+    "map-animation": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "mattpocock-misc": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/misc",
+        "contributor": "mattpocock"
+      }
+    ],
+    "mcp-integration": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/chat-connectors",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/mcp-access",
+        "contributor": "garrytan"
+      }
+    ],
+    "mcp-server-creation": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "mcp-server-deployment": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/remote-mcp",
+        "contributor": "garrytan"
+      }
+    ],
+    "media-asset-orchestration": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/media-use",
+        "contributor": "heygen-com"
+      }
+    ],
+    "memory-manage": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/learn",
+        "contributor": "garrytan"
+      }
+    ],
+    "memory-pattern-design": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/agentdb-memory-patterns",
+        "contributor": "ruvnet"
+      }
+    ],
+    "molecular-databases": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "molecular-machine-learning": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "molecular-visualization": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "multi-agent-debate": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/codex",
+        "contributor": "garrytan"
+      }
+    ],
+    "multi-agent-orchestration-v": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/minion-orchestrator",
+        "contributor": "garrytan"
+      }
+    ],
+    "multi-node-orchestration": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/flow-nexus",
+        "contributor": "ruvnet"
+      }
+    ],
+    "multi-repo-coordination": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/github-multi-repo",
+        "contributor": "ruvnet"
+      }
+    ],
+    "multi-topology-orchestration": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/ruflo",
+        "contributor": "ruvnet"
+      }
+    ],
+    "multimodal-reasoning": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "neural-training-orchestration": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "object-detection": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "observability-instrumentation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/observability-and-instrumentation",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "opinion": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "disler/opinion",
+        "contributor": "disler"
+      }
+    ],
+    "parallel-execution": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "pathway-ontology-retrieval": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "performance-tuning": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/performance-optimization",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "personal": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/personal",
+        "contributor": "mattpocock"
+      }
+    ],
+    "personal-knowledge-management": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/obsidian-vault",
+        "contributor": "mattpocock"
+      }
+    ],
+    "plain-language-restatement": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/wait-what",
+        "contributor": "mattpocock"
+      }
+    ],
+    "plan-synthesis": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "disler/plan-synthesis",
+        "contributor": "disler"
+      }
+    ],
+    "platform-modernization-sprint": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/ruflo-v3",
+        "contributor": "ruvnet"
+      }
+    ],
+    "postgres-best-practices": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/db-repair",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/postgres-adopt",
+        "contributor": "garrytan"
+      }
+    ],
+    "prd-generation": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/spec-driven-development",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "probabilistic-programming": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "product-design-review": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "productivity": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/productivity",
+        "contributor": "mattpocock"
+      }
+    ],
+    "project-launch-video-production": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "latent-spaces/brag",
+        "contributor": "latent-spaces"
+      }
+    ],
+    "project-management": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/daily-task-manager",
+        "contributor": "garrytan"
+      }
+    ],
+    "prompt-optimization": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/skill-optimizer",
+        "contributor": "garrytan"
+      }
+    ],
+    "protein-structure-analysis": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "proteomic-data-retrieval": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "prototype": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/prototype",
+        "contributor": "mattpocock"
+      }
+    ],
+    "quantum-circuit-programming": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "question-answer": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/office-hours",
+        "contributor": "garrytan"
+      }
+    ],
+    "questionnaire-generation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/ask-user",
+        "contributor": "garrytan"
+      }
+    ],
+    "rag-pipeline": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "react-performance-optimization": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "vercel-labs/vercel-react-best-practices",
+        "contributor": "vercel-labs"
+      }
+    ],
+    "reasoning-pattern-bank": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/reasoningbank",
+        "contributor": "ruvnet"
+      }
+    ],
+    "receiving-code-review": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/receiving-code-review",
+        "contributor": "obra"
+      }
+    ],
+    "refactor-code": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/code-simplification",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "registry-curation": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "registry-entry-audit": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mbtiongson1/gaia-audit",
+        "contributor": "mbtiongson1"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mbtiongson1/gaia-curation-review",
+        "contributor": "mbtiongson1"
+      }
+    ],
+    "registry-health-scan": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mbtiongson1/gaia-meta-audit",
+        "contributor": "mbtiongson1"
+      }
+    ],
+    "regulatory-compliance-mapping": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "dralgorhythm/compliance",
+        "contributor": "dralgorhythm"
+      }
+    ],
+    "reinforcement-learning-training": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "release-automation": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "requesting-code-review": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/requesting-code-review",
+        "contributor": "obra"
+      }
+    ],
+    "requirements-analysis": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "research": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/data-research",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/perplexity-research",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/research-compendium",
+        "contributor": "garrytan"
+      }
+    ],
+    "retrieve": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "arcmira/find-quotes",
+        "contributor": "arcmira"
+      }
+    ],
+    "route-intent": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/functional-area-resolver",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/ingest",
+        "contributor": "garrytan"
+      }
+    ],
+    "schema-design": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/schema-author",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/schema-unify",
+        "contributor": "garrytan"
+      }
+    ],
+    "scientific-literature-retrieval": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "scroll-driven-web-design": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "nateherkai/scroll-craft",
+        "contributor": "nateherkai"
+      }
+    ],
+    "scroll-world": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "oso95/scroll-world",
+        "contributor": "oso95"
+      }
+    ],
+    "security-audit": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/cso",
+        "contributor": "garrytan"
+      }
+    ],
+    "sentiment-analysis": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "sequential-agent-pipeline": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/stream-chain",
+        "contributor": "ruvnet"
+      }
+    ],
+    "session-journaling": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "aplaceforallmystuff/log-to-daily",
+        "contributor": "aplaceforallmystuff"
+      }
+    ],
+    "single-cell-analysis": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "single-cell-omics-modeling": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "skill-authoring": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "google-deepmind/workflow-skill-creator",
+        "contributor": "google-deepmind"
+      }
+    ],
+    "skill-discovery": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/hyperframes-registry",
+        "contributor": "heygen-com"
+      }
+    ],
+    "skill-fusion": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "gaia-research/fuse",
+        "contributor": "gaia-research"
+      }
+    ],
+    "skill-mastery": [
+      {
+        "origin": true,
+        "level": "5★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/skills",
+        "contributor": "mattpocock"
+      }
+    ],
+    "skill-performance-benchmarking": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/skill-autobench",
+        "contributor": "garrytan"
+      }
+    ],
+    "software-design": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/api-and-interface-design",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "static-artwork-design": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "anthropics/canvas-design",
+        "contributor": "anthropics"
+      }
+    ],
+    "subagent-driven-development": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/subagent-driven-development",
+        "contributor": "obra"
+      }
+    ],
+    "supabase": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "superpowers": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/superpowers",
+        "contributor": "obra"
+      }
+    ],
+    "supply-chain-optimization": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "swarm-topology-management": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/swarm-orchestration",
+        "contributor": "ruvnet"
+      }
+    ],
+    "synthetic-data-generation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "omer-metin/synthetic-data",
+        "contributor": "omer-metin"
+      }
+    ],
+    "system-integration": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/v3-integration-deep",
+        "contributor": "ruvnet"
+      }
+    ],
+    "systematic-debugging": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/systematic-debugging",
+        "contributor": "obra"
+      }
+    ],
+    "task-depth-enforcement": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "leonxlnx/unlazy",
+        "contributor": "leonxlnx"
+      }
+    ],
+    "test-driven-development": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/test-driven-development",
+        "contributor": "obra"
+      }
+    ],
+    "timeline-animation": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/hyperframes-animation",
+        "contributor": "heygen-com"
+      },
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/hyperframes-keyframes",
+        "contributor": "heygen-com"
+      },
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/motion-graphics",
+        "contributor": "heygen-com"
+      }
+    ],
+    "token-observability": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "tool-creation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/write-a-skill",
+        "contributor": "mattpocock"
+      }
+    ],
+    "transactional-email-resend": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "transformer-model-engineering": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "ubiquitous-language": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/ubiquitous-language",
+        "contributor": "mattpocock"
+      }
+    ],
+    "ui-audit": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "leonxlnx/redesign-skill",
+        "contributor": "leonxlnx"
+      }
+    ],
+    "ui-red-teaming": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "emilkowalski/break-ui",
+        "contributor": "emilkowalski"
+      }
+    ],
+    "using-git-worktrees": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/using-git-worktrees",
+        "contributor": "obra"
+      }
+    ],
+    "ux-audit": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "nextlevelbuilder/ui-ux-pro-max",
+        "contributor": "nextlevelbuilder"
+      }
+    ],
+    "vector-db-optimization": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/agentdb-optimization",
+        "contributor": "ruvnet"
+      }
+    ],
+    "vector-search": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/agentdb-vector-search",
+        "contributor": "ruvnet"
+      }
+    ],
+    "verification-before-completion": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/verification-before-completion",
+        "contributor": "obra"
+      }
+    ],
+    "vertical-slice-planning": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/planning-and-task-breakdown",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "video-captions": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/embedded-captions",
+        "contributor": "heygen-com"
+      }
+    ],
+    "video-composition": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/hyperframes",
+        "contributor": "heygen-com"
+      }
+    ],
+    "video-intelligence": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "bradautomates/watch",
+        "contributor": "bradautomates"
+      }
+    ],
+    "video-interactivity": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "video-preview": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "video-rendering": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/hyperframes-core",
+        "contributor": "heygen-com"
+      }
+    ],
+    "video-saas": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "video-scaffolding": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/hyperframes-cli",
+        "contributor": "heygen-com"
+      }
+    ],
+    "vision-qa": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "leonxlnx/image-to-code-skill",
+        "contributor": "leonxlnx"
+      }
+    ],
+    "voice-knowledge-ingestion": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/voice-note-ingest",
+        "contributor": "garrytan"
+      }
+    ],
+    "web-best-practices": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "emilkowalski/mobile-native",
+        "contributor": "emilkowalski"
+      }
+    ],
+    "web-scrape": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "firecrawl/firecrawl-build-scrape",
+        "contributor": "firecrawl"
+      }
+    ],
+    "web-search": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "firecrawl/firecrawl-build-search",
+        "contributor": "firecrawl"
+      }
+    ],
+    "wiki-search": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "worker-agent-dispatch": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/worker-integration",
+        "contributor": "ruvnet"
+      }
+    ],
+    "workflow-automation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/cron-scheduler",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/webhook-transforms",
+        "contributor": "garrytan"
+      }
+    ],
+    "workspace-automation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/daily-task-prep",
+        "contributor": "garrytan"
+      }
+    ],
+    "write-report": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/retro",
+        "contributor": "garrytan"
+      }
+    ],
+    "writing-plans": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/writing-plans",
+        "contributor": "obra"
+      }
+    ],
+    "x-twitter-automation": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ]
   }
 }

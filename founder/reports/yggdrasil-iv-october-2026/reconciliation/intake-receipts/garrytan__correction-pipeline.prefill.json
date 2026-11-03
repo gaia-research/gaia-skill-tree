@@ -1,0 +1,94 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/correction-pipeline",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/correction-pipeline",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/correction-pipeline/SKILL.md",
+  "checked": true,
+  "contentSha256": "04b4aee06d7fcdd75db314da432ed7c08b5fbc20f117f18062c64aaf795bc564",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "obra/systematic-debugging",
+     "similarity": 0.505935
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "error-interpretation",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5275 to generic 'error-interpretation' (weak match).",
+   "similarity": 0.527474
+  }
+ ],
+ "normalized": {
+  "description": "When the user corrects a factual error, root-cause it immediately. Don't just note the correction \u2014 trace the error to its source, fix the source, and prevent recurrence. Every factual error is either a data error (bad brain page, bad memory file, bad rendered SOUL/USER identity, bad facts row) or a hallucination (LLM confabulated from partial signals).",
+  "name": "correction-pipeline"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/correction-pipeline/SKILL.md",
+  "contentSha256": "04b4aee06d7fcdd75db314da432ed7c08b5fbc20f117f18062c64aaf795bc564",
+  "fetchedAt": "2026-10-27T22:07:29.657957+00:00",
+  "frontmatter": {
+   "description": "When the user corrects a factual error, root-cause it immediately.\nDon't just note the correction \u2014 trace the error to its source,\nfix the source, and prevent recurrence. Every factual error is\neither a data error (bad brain page, bad memory file, bad rendered\nSOUL/USER identity, bad facts row) or a hallucination (LLM\nconfabulated from partial signals).\n",
+   "mutating": true,
+   "name": "correction-pipeline",
+   "triggers": [
+    "that's wrong",
+    "that's not true",
+    "I never said that",
+    "where did you get that",
+    "you got that wrong",
+    "correct that fact",
+    "root-cause this error"
+   ],
+   "upstream": "correction-pipeline@fc834ee",
+   "version": "1.0.0",
+   "writes_pages": true,
+   "writes_to": [
+    "people/",
+    "companies/",
+    "concepts/"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

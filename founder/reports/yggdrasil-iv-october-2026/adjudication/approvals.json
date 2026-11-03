@@ -1,0 +1,293 @@
+{
+  "$schema": "adjudication-approvals-v1",
+  "metadata": {
+    "campaign": "Yggdrasil IV Launch (EPIC #2189)",
+    "date": "2026-10-31",
+    "authority": "Founder rulings (Marcus Tiongson)",
+    "doctrine": [
+      "Canonical score authority stays Gaia engine; no handwritten scores or registry mutations.",
+      "No lowering justified by age, outages, competitor existence, model confidence or audit findings alone.",
+      "Zero automatic demotions: demotions require explicit founder Class C rulings.",
+      "Frozen records (direct and suites) are immutable: locked TM and grade, never mutated.",
+      "Origin is automatic: highest merit (published level, then TM), ties all hold, no star floor.",
+      "Manual Origin transfers (FD-16) are superseded by automatic Origin derivation."
+    ]
+  },
+  "decisions": [
+    {
+      "decision": "FD-7",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30",
+      "choice": "A · align leaderboard and ledger to the clamp",
+      "status": "approved",
+      "packet": "FD-7",
+      "action": "align_clamp",
+      "note": "These skills should have trust magnitudes. Double-check what is causing this. Now for \"frozen\" skills leave them be. I know personal is a frozen skill. DO NOT touch frozen skills. Make sure any new closeout does not touch frozen.",
+      "constraints": {
+        "frozenImmutable": true,
+        "exemptTargets": [
+          "mattpocock/personal"
+        ]
+      }
+    },
+    {
+      "decision": "FD-8",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30",
+      "choice": "Freeze",
+      "status": "approved",
+      "packet": "FD-8",
+      "action": "freeze_dropped_components",
+      "targets": [
+        "heygen-com/hyperframes"
+      ],
+      "note": "Gaia dev freeze. 12 components dropped upstream (all 3★, SHA-pinned links still resolve) frozen."
+    },
+    {
+      "decision": "FD-9",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30",
+      "choice": "Recommended: fix evidence, re-probe, no level action yet",
+      "status": "held",
+      "packet": "FD-9",
+      "action": "evidence_reprobe_no_level_action",
+      "targets": [
+        "mattpocock/skills"
+      ],
+      "note": "No level action until recompute after bounded probe"
+    },
+    {
+      "decision": "FD-10",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30",
+      "choice": "Assign the four and review graphify",
+      "status": "approved",
+      "packet": "FD-10",
+      "action": "assign_bucket_origin",
+      "targets": [
+        "addy-osmani/code-simplification",
+        "ayghri/i-have-adhd",
+        "dietrichgebert/ponytail",
+        "vercel-labs/vercel-react-best-practices"
+      ],
+      "note": "Graphify can be demoted if it fails 5 star. Review thoughtfully."
+    },
+    {
+      "decision": "r2-graphify",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30, rounds 2-4 and L4",
+      "choice": "Keep 5★ and change the rule",
+      "status": "approved",
+      "packet": "FD-10",
+      "action": "rule_change_keep_5star",
+      "targets": [
+        "safishamsi/graphify"
+      ],
+      "note": "Uniques dont need a fusion prerequisite origin at all. Where did that come from? thats from suites. A lot of hallucinations lately, for uniques only it being the origin is required, tm is the usual gate. audit this and I dont want to see this issue again."
+    },
+    {
+      "decision": "FD-11",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30",
+      "choice": "Promote to named",
+      "status": "approved",
+      "packet": "FD-11",
+      "action": "promote_to_named",
+      "targets": [
+        "google-deepmind/workflow-skill-creator"
+      ],
+      "note": ""
+    },
+    {
+      "decision": "FD-12",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30",
+      "choice": "Raise to 4★",
+      "status": "approved",
+      "packet": "FD-12",
+      "action": "raise_to_4star",
+      "targets": [
+        "latent-spaces/brag"
+      ],
+      "note": ""
+    },
+    {
+      "decision": "FD-13",
+      "alias": "r2-hermes",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30, rounds 2-4 and L4",
+      "choice": "Keep Origin, gather evidence",
+      "status": "approved",
+      "packet": "FD-13",
+      "action": "keep_origin",
+      "targets": [
+        "xquik-dev/hermes-tweet"
+      ],
+      "note": "origin = \"the original\" with the highest merit. It is still the origin, it is just not \"named\". 2 star up is \"named\" and I have no rule about origins having a star requirement."
+    },
+    {
+      "decision": "FD-14",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30",
+      "choice": "Gather evidence first",
+      "status": "held",
+      "packet": "FD-14",
+      "action": "gather_evidence",
+      "targets": [
+        "laravel/upgrade-laravel-v13",
+        "martin-stepanoski/nielsen-heuristics-audit"
+      ],
+      "note": "evidence"
+    },
+    {
+      "decision": "FD-15",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30",
+      "choice": "Regenerate",
+      "status": "approved",
+      "packet": "FD-15",
+      "action": "regenerate_apex_cache",
+      "targets": [
+        "obra/superpowers"
+      ],
+      "note": ""
+    },
+    {
+      "decision": "FD-16",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30, late",
+      "choice": "3. No more manual. Automatic from now on",
+      "status": "superseded",
+      "packet": "FD-16",
+      "action": "automatic_origin",
+      "note": "Manual transfers superseded by automatic Origin (highest merit per bucket, ties all hold). Curation act of manual assignment is retired; Origin is derived at build time."
+    },
+    {
+      "decision": "FD-17",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30",
+      "choice": "Recommended",
+      "status": "proposed",
+      "packet": "FD-17",
+      "action": "bounded_reprobe_and_link_clean",
+      "note": "Bounded re-probe for 404s (t0/+24h/+72h) before consequence; link corrections are L4 curation."
+    },
+    {
+      "decision": "r3-fd17-leftovers",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30, rounds 2-4 and L4",
+      "choice": "Remove the dead evidence rows now",
+      "status": "approved",
+      "packet": "FD-17",
+      "action": "clean_dead_evidence_or_freeze",
+      "targets": [
+        "leonxlnx/output-skill",
+        "leonxlnx/redesign-skill"
+      ],
+      "note": "Dead evidence means either skill moved elsewhere or skill was superseded. If it was removed, freeze is the right option. If superseded or removed, renaming or editing the links is the better option."
+    },
+    {
+      "decision": "FD-18",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30",
+      "choice": "Review now",
+      "status": "proposed",
+      "packet": "FD-18",
+      "action": "curation_review",
+      "note": "Core/L4 items with no mechanically determined correction; evidence and re-check verdicts recorded in ledger."
+    },
+    {
+      "decision": "r2-general-video",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30, rounds 2-4 and L4",
+      "choice": "Freeze",
+      "status": "approved",
+      "packet": "FD-7",
+      "action": "freeze",
+      "targets": [
+        "heygen-com/general-video"
+      ],
+      "note": "heygen-com/general-video is frozen per founder ruling r2-general-video. Immutable: locked TM and grade, no mutation recommended.",
+      "constraints": {
+        "frozenImmutable": true
+      }
+    },
+    {
+      "decision": "ADJ-126",
+      "alias": "r3-adj-judgement",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30, rounds 2-4 and L4",
+      "choice": "Recommended",
+      "status": "approved",
+      "packet": "FD-18",
+      "action": "re_derive_evidence",
+      "candidate_ids": [
+        "ADJ-126"
+      ],
+      "targets": [
+        "panniantong/agent-reach"
+      ],
+      "note": "agent-reach is a really highly regarded skill. There is evjdence. Rederive"
+    },
+    {
+      "decision": "r4-peer-review-rows",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30, rounds 2-4 and L4",
+      "choice": "Discuss: research actual peer reviews / papers",
+      "status": "held",
+      "packet": "FD-18",
+      "action": "peer_review_research",
+      "candidate_ids": [
+        "ADJ-177"
+      ],
+      "targets": [
+        "systemic:peer-review-rows-declared-a-with-computed-grade-c"
+      ],
+      "note": "Check any articles related for actual peer reviews, or better since its google deepmind, actual papers (arxiv, etc) related."
+    },
+    {
+      "decision": "november-hold-2261",
+      "alias": "r3-structural",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30, rounds 2-4 and L4",
+      "choice": "Discuss / deferred to November (#2261)",
+      "status": "deferred",
+      "packet": "FD-18",
+      "action": "defer_meta_audit_november",
+      "issue": 2261,
+      "note": "Use recommended defaults first for L4, gather evidence, then meta audit deferred on november. Issue #2261."
+    },
+    {
+      "decision": "november-hold-2262",
+      "alias": "r3-adj-evidence",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30, rounds 2-4 and L4",
+      "choice": "Defer all three to November",
+      "status": "deferred",
+      "packet": "FD-18",
+      "action": "defer_november",
+      "candidate_ids": [
+        "ADJ-090",
+        "ADJ-152",
+        "ADJ-179"
+      ],
+      "targets": [
+        "knowledge-graph-build",
+        "ruvnet/ruflo",
+        "systemic:rows-missing-type-and-or-grade"
+      ],
+      "issue": 2262,
+      "note": "Deferred to November per founder ruling r3-adj-evidence and issue #2262; no automatic demotion."
+    },
+    {
+      "decision": "november-hold-2263",
+      "alias": "sibling-cap-deferral",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30, late",
+      "choice": "Lets change nothing, keep the cap but add a filed issue for audit",
+      "status": "deferred",
+      "action": "sibling_cap_unchanged",
+      "issue": 2263,
+      "note": "META §2.1a 50 TM per component cap unchanged for October launch; audit deferred with filed issue #2263."
+    },
+    {
+      "decision": "r4-frozen-def",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30, rounds 2-4 and L4",
+      "choice": "Also suites whose upstream is frozen: leave frozen skills be (immutable)",
+      "status": "held",
+      "action": "frozen_immutable",
+      "targets": [
+        "mattpocock/personal"
+      ],
+      "note": "gaia dev freeze any node. Frozen skills lock TM and grade, can beat live ones. Direct and suite frozen nodes are immutable; DO NOT touch frozen skills (FD-7 ruling)."
+    },
+    {
+      "decision": "origin-ties-share",
+      "ref": "CAMPAIGN.md §Founder rulings 2026-10-30, late",
+      "choice": "origin ties mean two are origin. Very rare edge case since tm is a real number",
+      "status": "approved",
+      "action": "origin_ties_all_hold",
+      "note": "Every contender sharing the top merit key holds Origin; no tie-breaking needed."
+    }
+  ]
+}

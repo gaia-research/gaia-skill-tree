@@ -1,0 +1,70 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "emilkowalski/find-animation-opportunities",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "emilkowalski/find-animation-opportunities",
+  "canonicalUrl": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/find-animation-opportunities/SKILL.md",
+  "checked": true,
+  "contentSha256": "d52a377819b84a71930f0c822cfe2849f40301605a2d5c7eccbfa3b257700df2",
+  "hostRepository": "https://github.com/emilkowalski/skills",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "heygen-com/motion-graphics",
+     "similarity": 0.453526
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Search a codebase or UI for places that don't animate but should, and reject everything that shouldn't. Read-only; it proposes motion with exact values, it does not implement it. Use when the user asks \"what could be animated here?\" or wants to \"make this feel more alive\". For fixing existing animations, use improve-animations or review-animations instead.",
+  "name": "find-animation-opportunities"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/find-animation-opportunities/SKILL.md",
+  "contentSha256": "d52a377819b84a71930f0c822cfe2849f40301605a2d5c7eccbfa3b257700df2",
+  "fetchedAt": "2026-10-27T22:11:19.125857+00:00",
+  "frontmatter": {
+   "description": "Search a codebase or UI for places that don't animate but should, and reject everything that shouldn't. Read-only; it proposes motion with exact values, it does not implement it. Use when the user asks \"what could be animated here?\" or wants to \"make this feel more alive\". For fixing existing animations, use improve-animations or review-animations instead.",
+   "name": "find-animation-opportunities"
+  },
+  "hostRepository": "https://github.com/emilkowalski/skills",
+  "revision": "2d228630ba1446365f614a108cb8252f1feda202",
+  "sourceLane": "source-repository"
+ }
+}

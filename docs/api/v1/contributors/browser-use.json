@@ -5,8 +5,8 @@
       "id": "browser-use/browser-harness",
       "name": "Browser Harness",
       "level": "3★",
-      "trustMagnitude": 73.59,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 118.59,
+      "overallTrustGrade": "A",
       "fusionScore": 0.0,
       "contributor": "browser-use",
       "type": "basic",
@@ -23,11 +23,11 @@
   "topSkill": {
     "id": "browser-use/browser-harness",
     "level": "3★",
-    "trustMagnitude": 73.59
+    "trustMagnitude": 118.59
   },
-  "prestigeScore": 73.59,
+  "prestigeScore": 118.59,
   "gradeDistribution": {
-    "B": 1
+    "A": 1
   },
   "_links": {
     "self": "/api/v1/contributors/browser-use.json",

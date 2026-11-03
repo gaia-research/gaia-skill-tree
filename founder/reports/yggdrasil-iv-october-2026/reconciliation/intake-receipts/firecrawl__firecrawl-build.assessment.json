@@ -1,0 +1,144 @@
+{
+  "contractVersion": "curation-assessment-v1",
+  "authority": "advisory",
+  "assessedAt": "2026-10-27T22:10:22.275386+00:00",
+  "candidateId": "firecrawl/firecrawl-build",
+  "candidate": {
+    "name": "firecrawl-build",
+    "description": "Integrate Firecrawl into application code whenever a product, agent, or workflow needs web data inside the app \u2014 web search, live search results, page scraping, structured extraction, or browser interaction. Use when building any feature that needs data from the web in code, even if the user does not mention Firecrawl explicitly and only describes wanting web data, website content, search, scraping, or interaction in an application. Trigger for Firecrawl requests, \"fire girl\" shorthand, and gene"
+  },
+  "source": {
+    "canonicalUrl": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build/SKILL.md",
+    "contentSha256": "6c52fd79c4322ba9f0cf560fc28c9c9ee961d1cd0d930b7656b61449ff693d2b",
+    "commitSha": null
+  },
+  "candidateSourceDigest": "6c52fd79c4322ba9f0cf560fc28c9c9ee961d1cd0d930b7656b61449ff693d2b",
+  "semanticInputSha256": "d967875c03585bace6c03539951cffc43f1182d483c85223bb70e4475b5ebf3a",
+  "catalogSha256": "77991271cdf9d32370d92244389486b1e19a02a3a72326e0fe452816e6d4043c",
+  "rubric": {
+    "rubricId": "gaia-curation-principles",
+    "rubricVersion": "1.0.0",
+    "rubricSha256": "1f14f6b09ee6a72570bba04617de1ee7bf92040afaf862f6059f4cb413879349"
+  },
+  "retrievedGenerics": [
+    {
+      "id": "firecrawl",
+      "name": "Firecrawl",
+      "description": "A suite for integrating Firecrawl search, scraping, browser interaction, environment setup, and academic literature retrieval into applications.",
+      "type": "fusion",
+      "prerequisites": [
+        "agent-environment-setup",
+        "browser-control",
+        "literature-search",
+        "web-scrape",
+        "web-search"
+      ],
+      "definitionAvailable": true,
+      "similarity": 0.609449,
+      "matchTier": "weak"
+    },
+    {
+      "id": "browser-automation",
+      "name": "Browser Automation",
+      "description": "Navigates web pages, fills forms, clicks elements, and extracts information by combining web search with screenshot-based GUI control to complete multi-step web tasks.",
+      "type": "fusion",
+      "prerequisites": [
+        "computer-use",
+        "web-search"
+      ],
+      "definitionAvailable": true,
+      "similarity": 0.465514,
+      "matchTier": "weak"
+    },
+    {
+      "id": "web-scrape",
+      "name": "Web Scrape",
+      "description": "Retrieves and structures data from web pages into usable entities.",
+      "type": "fusion",
+      "prerequisites": [
+        "extract-entities",
+        "parse-html",
+        "web-search"
+      ],
+      "definitionAvailable": true,
+      "similarity": 0.458717,
+      "matchTier": "weak"
+    }
+  ],
+  "retrieval": {
+    "model": "all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+    "thresholds": {
+      "strongMap": 0.72,
+      "weakMap": 0.45,
+      "topK": 3
+    }
+  },
+  "principles": {
+    "identity": {
+      "evaluation": "unknown",
+      "question": "After stripping vendor, product, repository, contributor and implementation details, identify the reusable capability. A named implementation is not automatically a narrower generic."
+    },
+    "transferability": {
+      "evaluation": "unknown",
+      "question": "Could another independent implementation reasonably implement this generic? Generic identity describes capability, not product vocabulary. Product dependence of a named implementation is not itself grounds for rejection or purging."
+    },
+    "relation": {
+      "evaluation": "unknown",
+      "question": "Relative to the strongest existing generic, is the reusable capability the same, narrower, broader, composite, orthogonal, or unknown? State the comparison target; similarity alone cannot answer.",
+      "relation": "unknown"
+    },
+    "material_distinction": {
+      "evaluation": "unknown",
+      "question": "A split needs an observable, falsifiable behavioral distinction from its strongest neighbor. Naming, vendor, CLI syntax, implementation technique or framework alone are weak justification for a new generic."
+    },
+    "atomicity": {
+      "evaluation": "unknown",
+      "question": "Does the capability stand alone, or compose independently useful prerequisites? Yggdrasil basic has zero prerequisites and fusion has at least one. Do not derive capability structure from mentions of required software or from packaging.",
+      "type": "unknown"
+    },
+    "artifact_packaging": {
+      "evaluation": "unknown",
+      "question": "Distinguish a capability from suite, package, router, wrapper, category or capstone packaging. A component is not its suite. suiteComponents belongs to named implementations; it is not a generic capability identity.",
+      "shape": "unknown",
+      "declaredSuite": {
+        "role": null,
+        "suiteId": null,
+        "componentCandidateIds": null
+      }
+    },
+    "overlap": {
+      "evaluation": "unknown",
+      "question": "Compare a proposed new generic to its strongest existing neighbor. If no falsifiable distinction can be written, question the split. Empty retrieval does not prove novelty; two high-scoring neighbors do not prove fusion.",
+      "notes": "Scores never imply identity or novelty; compare observable behavior with the strongest neighbor.",
+      "strongestNeighbor": "firecrawl"
+    },
+    "topology_independence": {
+      "evaluation": "independent",
+      "question": "Topology must not change merely because contributor fame, stars, Trust Magnitude, evidence abundance or popularity changes. These signals are excluded from semantic decision inputs. Advice answers SHOULD, human L4 decides MAY.",
+      "inputs": "Allowlisted semantic fields only; rank, popularity and evidence excluded."
+    }
+  },
+  "uncertainty": {
+    "level": "review-required",
+    "emptyRecall": false,
+    "reasons": [
+      "Only human L4 may resolve semantic identity and canonical topology."
+    ],
+    "jevDisagreement": null
+  },
+  "proposedDisposition": {
+    "value": "DEFER",
+    "reasonCode": "SEMANTIC_REVIEW_REQUIRED",
+    "targetGenericId": "firecrawl",
+    "advisoryOnly": true
+  },
+  "jevAdvice": {
+    "status": "skipped",
+    "reason": "jev_off",
+    "answers": {},
+    "calls": [],
+    "disagreement": null
+  }
+}

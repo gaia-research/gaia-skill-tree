@@ -1,0 +1,36 @@
+{
+  "handle": "aj-geddes",
+  "namedSkills": [
+    {
+      "id": "aj-geddes/causal-inference",
+      "name": "causal-inference",
+      "level": "2★",
+      "trustMagnitude": 48.62,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "aj-geddes",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/aj-geddes/causal-inference.json"
+      },
+      "genericSkillRef": "causal-inference"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "aj-geddes/causal-inference",
+    "level": "2★",
+    "trustMagnitude": 48.62
+  },
+  "prestigeScore": 48.62,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/aj-geddes.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

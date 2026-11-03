@@ -57,12 +57,12 @@ timeline:
     #1600)'
 evidence:
 - source: https://github.com/leonxlnx/unlazy/blob/main/SKILL.md
-  updatedAt: '2026-11-01'
+  updatedAt: '2026-10-01'
   evaluator: mbtiongson1
   date: '2026-08-22'
   type: github-stars-own
   notes: 700 stars on Leonxlnx/unlazy repository
-  stars: 4227
+  stars: 3785
   sourceStartedAt: '2026-08-09'
 - source: https://github.com/leonxlnx/unlazy
   evaluator: mbtiongson1

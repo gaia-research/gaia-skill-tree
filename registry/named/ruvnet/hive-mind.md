@@ -19,17 +19,17 @@ tags:
 - collective-intelligence
 - memory
 createdAt: '2026-05-19'
-updatedAt: '2026-09-04'
+updatedAt: '2026-10-30'
 evidence:
 - source: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hive-mind/SKILL.md
   evaluator: unknown
-  updatedAt: '2026-11-01'
+  updatedAt: '2026-10-01'
   date: '2026-06-20'
   type: github-stars-own
   trustNumber: 85.0
   notes: ruflo platform SKILL.md — 60.3k GitHub stars, 34 plugins; hive-mind specific
     file avoids same-source dedup (verified 2026-06-20)
-  stars: 80472
+  stars: 73611
   skillCountInRepo: 34
   sourceStartedAt: '2024-01-01'
 - source: https://github.com/ruvnet/ruflo
@@ -160,6 +160,11 @@ timeline:
   contributor: unknown
   details: 'TM 95.02 -> 95.02, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 95.02 -> 95.02, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: ruvnet/ruflo
 trustMagnitude: 95.02
 overallTrustGrade: B
@@ -172,7 +177,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: ebeedb5e6d5587082fe0b55e5f65c0c3100115762394dbe9383beecf438c9da1
+trustMagnitudeInputHash: 0a39bb30b907895c1e470f0fef2f29aed91f120eb3915ab25e2e8e6c158010d7
 verification:
   firstEvidenceAt: '2026-06-19T16:48:26Z'
 ---

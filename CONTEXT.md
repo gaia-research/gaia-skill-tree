@@ -4,6 +4,17 @@ Gaia Skill Tree is an open, evidence-backed skill registry for agents. Capabilit
 
 _See also: `PRODUCT.md` for audience, product purpose, and the design-principle / anti-reference / accessibility baseline. `DESIGN.md` for visual tokens and motion specs._
 
+> **Resuming Yggdrasil IV after the 2026-10-27 graceful pause?** Read
+> [`founder/handovers/archive/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-27.md`](founder/handovers/archive/yggdrasil-iv/YGGDRASIL_IV_HANDOVER_2026-10-27.md)
+> first. It is written for a fresh orchestrator on any roster: original scope,
+> binding doctrine, verified lane state with exact SHAs, open review findings,
+> held human gates, evidence map, and ordered next steps. Nothing was merged to
+> `main`, deployed, adopted or approved during the pause.
+
+## Ecosystem intelligence responsibilities
+
+Founder ruling (2026-10-26): **Gaia Frontier discovers. Gaia Meta evaluates. Gaia Steward maintains. Governance decides.** Frontier owns bounded external ecosystem discovery and challenger leads; Meta owns internal triage, appraisal and focused independent verification; Steward reacts to tree observations, independently verified challenges and authorized maintenance. Steward's targeted two-sided D8 monitoring remains valid, but it is not a general ecosystem crawler. Discovery and semantic matching never establish supersession or authorize canonical changes. Native capabilities without `SKILL.md` use a separate challenger-lead contract, not weakened skill intake. Authority: [locked founder ruling](founder/GAIA_FRONTIER_RULING_2026-10-26.md).
+
 ## Language
 
 ### Skill taxonomy (the categories)
@@ -50,7 +61,7 @@ _Avoid_: writing a `branch` field to a node; treating branch as user-editable.
 1★ Awakened → 2★ Named → 3★ Evolved. The branch for skills **without** `suiteComponents` below 4★. A skill *with* `suiteComponents` is **Suite-branch from 2★** (see below), even while it shows these shared words below 4★.
 
 **Unique branch**:
-4★ Unique → 5★ Unique Ultimate → 6★ Unique Impossible. For skills that reach 4★+ **without** being a suite (the Named Skill carries no `suiteComponents`). `suiteRef` membership does NOT disqualify — a "world-renowned handoff skill" that happens to live inside a suite is still Unique. Standalone-prestige track. Impeccable is the archetype. Gates: 4★ = Origin + TM ≥ 100 (A); 5★ = Origin + TM ≥ 250 (S); origins counted in **fusion structure** (`prerequisites`), not `suiteComponents`. 6★ Unique Impossible = provisional 5-predicate gate (Apex minus `directNestedSuiteGte1`).
+4★ Unique → 5★ Unique Ultimate → 6★ Unique Impossible. For skills that reach 4★+ **without** being a suite (the Named Skill carries no `suiteComponents`). `suiteRef` membership does NOT disqualify — a "world-renowned handoff skill" that happens to live inside a suite is still Unique. Standalone-prestige track. Impeccable is the archetype. Gates: 4★ = bucket Origin + TM ≥ 100 (A); 5★ = bucket Origin + TM ≥ 250 (S). "Bucket Origin" means the skill is the automatic, highest-merit Origin of its own generic bucket (META §4.1); there is no Origin requirement on fusion prerequisites (founder ruling 2026-10-30). 6★ Unique Impossible = provisional 5-predicate gate (Apex minus `directNestedSuiteGte1`).
 _Avoid_: treating suite membership as automatically disqualifying from Unique.
 
 **Suite branch**:
@@ -69,7 +80,7 @@ The rank name for a 6★ Unique-branch skill. Provisional 5-predicate gate; the 
 _Avoid_: using "Apex" for a Unique-branch 6★ (Apex is Suite-branch only, post-Yggdrasil II).
 
 **Fusion structure**:
-The `prerequisites` graph of a starless node — the fusion-recipe origin edges that produce a `type=fusion` skill. Distinct from `suiteComponents` (co-located sibling components of a Suite). Unique gates count origins in fusion structure; Suite gates count origins in `suiteComponents`.
+The `prerequisites` graph of a starless node — the fusion-recipe origin edges that produce a `type=fusion` skill. Distinct from `suiteComponents` (co-located sibling components of a Suite). Suite gates count origins in `suiteComponents`; Unique gates need only bucket Origin (no fusion-structure Origin).
 _Avoid_: conflating fusion structure with suite components.
 
 **`computeBranch(named)`**:
@@ -181,7 +192,7 @@ A canonical skill that has been claimed by a real contributor with Class C evide
 _Avoid_: claimed skill, owned skill.
 
 **Origin Contributor**:
-The first contributor to successfully promote a skill into the canonical graph — their name attaches permanently.
+The contributor whose qualified Named Skill holds current Origin in a generic bucket. Current Origin is merit-based and transferable by approved review, not permanently assigned by chronology (`META.md` §4.1). Exactly one current Origin remains in each claimed eligible bucket, including while contested. Earlier Origin attribution remains permanent as historical achievement; a challenge alone never transfers or vacates current Origin.
 _Avoid_: owner, author, creator.
 
 **Named Contributors**:
@@ -256,7 +267,7 @@ _Yggdrasil II (2026-07-07) updates these relationships. Legacy Yggdrasil I copy 
 > **Dev:** "Karpathy demonstrated `/autoresearch` — does that make it a Named Skill?"
 > **Maintainer:** "It does, but only after `gaia propose` lands with Class C evidence or stronger. Until then it sits in **Intake**. Once accepted, Karpathy becomes the **Origin Contributor** and the skill ranks up to **Named** (2★)."
 > **Dev:** "And if `/autoresearch` climbs to Ultimate rank, the same contributor stays attached as it climbs?"
-> **Maintainer:** "Yes — Origin sticks for the life of the skill, even at 6★."
+> **Maintainer:** "The historical attribution stays attached, even at 6★. Current Origin can transfer through approved merit-based review if another qualified implementation earns it; a challenge alone cannot remove it."
 > **Dev:** "Can two fusion skills fuse into a new fusion?"
 > **Maintainer:** "They can. Fusion isn't restricted to basics-only; a `fusion`-type skill can compose with another and the result is still `fusion` by **type**. Where it lands on the star axis — 4★ **Extra**, 5★ **Ultimate**, 6★ **Apex** (Suite branch) — is a **rank** question, decided by Trust Magnitude at curation, not by the type."
 

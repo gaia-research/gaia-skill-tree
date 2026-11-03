@@ -43,7 +43,7 @@ The Orchestrator: tracks high-level goals against the roadmap, audits GitHub sta
 | `MEMORY.md` | Orchestrator memory: goals, decisions, session log, open questions |
 | `BACKLOG_ERADICATION_TRACKER.md` | Post-#1185 clean-state / issue-tracking plan (the one operational tracker kept after EPIC 1002) |
 | `handovers/GAIA_BENCH_VISION.md` | Forward-looking gaia bench vision (kept live; exempt from the EPIC-1002 archive pass) |
-| `handovers/archive/` | All completed handovers (Ygg II ratification/authority, G7 specs, Sprint B/D, phase-1.5, roadmaps v1–v3). Ygg II is now ratified into `../../META.md` — treat that as the live source of truth, not these. |
+| `handovers/archive/` | All completed handovers (Ygg II ratification/authority, G7 specs, Sprint B/D, phase-1.5, roadmaps v1–v3, and the Yggdrasil IV campaign handovers under `archive/yggdrasil-iv/`, close-out in `archive/EPIC2189_CLOSEOUT_2026-11-03.md`). Ygg II and Ygg IV are now ratified into `../../META.md` — treat that as the live source of truth, not these. |
 | `handovers/done/` | Older archived handovers (Phase 1 pre-G7 plans, hygiene batch, G7 proposals) |
 | `sources/` | Pre-collected evidence data lake (tiers 1–6) — verify before ingesting into registry |
 

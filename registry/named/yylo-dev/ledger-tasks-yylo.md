@@ -14,7 +14,7 @@ description: Comprehensive guide for using YYLO Ledger task management — a Kan
   multiple coding-agent harnesses (Claude Code, Codex, Gemini CLI, Pi) over that same
   shared task state.
 createdAt: '2026-09-11'
-updatedAt: '2026-09-11'
+updatedAt: '2026-11-03'
 evidence:
 - source: https://github.com/yylo-dev/yylo-skills/blob/main/skills/ledger-tasks-yylo/SKILL.md
   evaluator: claude
@@ -82,7 +82,15 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 2★ to 2★
+- timestamp: '2026-11-02T21:14:25Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 36.6, grade (none) -> C (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 title: Ledger Tasks (yylo)
+trustMagnitude: 36.6
+overallTrustGrade: C
+trustMagnitudeInputHash: c5427d516bc4f1d89c5ce35df180ae4617bf5be304135cb907193ac0773f6e01
 ---
 
 ## Implementation

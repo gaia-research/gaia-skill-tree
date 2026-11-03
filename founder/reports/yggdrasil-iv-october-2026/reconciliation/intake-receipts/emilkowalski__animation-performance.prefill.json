@@ -1,0 +1,105 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "emilkowalski/animation-performance",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "emilkowalski/animation-performance",
+  "canonicalUrl": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animation-performance/SKILL.md",
+  "checked": true,
+  "contentSha256": "ceb9dd3fe912615830f725a0120ccf8d012d15a6218001a5cd6c15d38e39a957",
+  "hostRepository": "https://github.com/emilkowalski/skills",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "heygen-com/hyperframes-keyframes",
+     "similarity": 0.55184
+    },
+    {
+     "id": "heygen-com/hyperframes-creative",
+     "similarity": 0.533766
+    },
+    {
+     "id": "heygen-com/hyperframes-animation",
+     "similarity": 0.526804
+    },
+    {
+     "id": "heygen-com/motion-graphics",
+     "similarity": 0.51284
+    },
+    {
+     "id": "heygen-com/hyperframes-core",
+     "similarity": 0.50956
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "scroll-driven-web-design",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5073 to generic 'scroll-driven-web-design' (weak match).",
+   "similarity": 0.507306
+  },
+  {
+   "genericId": "timeline-animation",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5045 to generic 'timeline-animation' (weak match).",
+   "similarity": 0.504527
+  },
+  {
+   "genericId": "map-animation",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4791 to generic 'map-animation' (weak match).",
+   "similarity": 0.479087
+  }
+ ],
+ "normalized": {
+  "description": "Keep web animations inside the frame budget \u2014 animate composite-only properties, keep motion off the main thread when the page is busy, and find the cause when an animation drops frames. Covers the layout/paint/composite pipeline, cheaper property swaps, CSS vs WAAPI vs requestAnimationFrame, Framer Motion's hardware-accelerated path, React re-rendering per frame, inherited CSS variable recalculation, blur cost, and when `will-change` actually helps. Use when an animation is janky, choppy, stutt",
+  "name": "animation-performance"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animation-performance/SKILL.md",
+  "contentSha256": "ceb9dd3fe912615830f725a0120ccf8d012d15a6218001a5cd6c15d38e39a957",
+  "fetchedAt": "2026-10-27T22:10:45.135598+00:00",
+  "frontmatter": {
+   "description": "Keep web animations inside the frame budget \u2014 animate composite-only properties, keep motion off the main thread when the page is busy, and find the cause when an animation drops frames. Covers the layout/paint/composite pipeline, cheaper property swaps, CSS vs WAAPI vs requestAnimationFrame, Framer Motion's hardware-accelerated path, React re-rendering per frame, inherited CSS variable recalculation, blur cost, and when `will-change` actually helps. Use when an animation is janky, choppy, stutters, or drops frames; when choosing which property to animate; when deciding between CSS and JS animation on performance grounds; or when reaching for `will-change` or GPU layers. For choosing easing, duration, or whether to animate at all use animate; for reviewing motion as a whole use review-animations.",
+   "name": "animation-performance"
+  },
+  "hostRepository": "https://github.com/emilkowalski/skills",
+  "revision": "2d228630ba1446365f614a108cb8252f1feda202",
+  "sourceLane": "source-repository"
+ }
+}

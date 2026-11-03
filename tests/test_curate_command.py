@@ -169,6 +169,23 @@ def test_resume_resolved_blockers_do_not_cross_human_gates(tmp_path, monkeypatch
     assert CurationRun.load(run.run_dir) == run
 
 
+def test_resume_past_initialized_prints_clear_message_not_traceback(tmp_path, monkeypatch, capsys):
+    monkeypatch.chdir(tmp_path)
+    run = CurationRun(run_id="synthetic-fetching", current_state="FETCHING_SOURCE")
+    run.save(run.run_dir)
+    command = CurateCommand()
+    parser = argparse.ArgumentParser()
+    command.configure(parser)
+
+    assert command.execute(parser.parse_args(["--resume", run.run_id])) == 1
+    output = capsys.readouterr().out
+    assert "FETCHING_SOURCE" in output
+    assert "automatic transitions beyond INITIALIZED are not implemented" in output
+    assert "/gaia-full-pipeline" in output
+    assert "Traceback" not in output
+    assert CurationRun.load(run.run_dir) == run
+
+
 def test_resume_legacy_ledger_without_checkpoint(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     run = CurationRun(run_id="legacy")
@@ -182,3 +199,54 @@ def test_resume_legacy_ledger_without_checkpoint(tmp_path, monkeypatch):
     command.configure(parser)
     assert command.execute(parser.parse_args(["--resume", "legacy"])) == 0
     assert CurationRun.load(run.run_dir).checkpoint == {}
+
+
+def test_curation_orchestrator_transition_stubs_are_pruned():
+    from gaia_cli.curation.orchestrator import CurationOrchestrator
+
+    assert not hasattr(CurationOrchestrator, "transition_initialized")
+    assert not hasattr(CurationOrchestrator, "transition_resolving_url")
+    assert not hasattr(CurationOrchestrator, "transition_done")
+    transition_attrs = [attr for attr in dir(CurationOrchestrator) if attr.startswith("transition_")]
+    assert transition_attrs == []
+
+
+def test_curation_orchestrator_migration_notice_on_unimplemented_transition():
+    from gaia_cli.curation.orchestrator import CurationOrchestrator
+
+    run = CurationRun(run_id="notice-test", current_state="RESOLVING_URL")
+    orchestrator = CurationOrchestrator(run)
+    with pytest.raises(NotImplementedError) as exc_info:
+        orchestrator.run_to_next_gate()
+
+    message = str(exc_info.value)
+    assert "Gaia Frontier (/gaia-frontier)" in message
+    assert "/gaia-full-pipeline" in message
+
+
+def test_curate_status_inspection_and_read_old_ledger(tmp_path, monkeypatch, capsys):
+    monkeypatch.chdir(tmp_path)
+    run = CurationRun(run_id="old-archived-run", current_state="PREFILLING_MAPPING")
+    run.save(run.run_dir)
+
+    command = CurateCommand()
+    parser = argparse.ArgumentParser(prog="gaia curate")
+    command.configure(parser)
+    args = parser.parse_args(["--resume", "old-archived-run", "--status"])
+
+    assert command.execute(args) == 0
+    output = capsys.readouterr().out
+    assert "Run: old-archived-run" in output
+    assert "State: PREFILLING_MAPPING" in output
+
+
+def test_quick_curate_skill_mirrors_are_byte_identical_and_reference_migration():
+    agents_skill = (REPO_ROOT / ".agents" / "skills" / "gaia-quick-curate" / "SKILL.md").read_bytes()
+    claude_skill = (REPO_ROOT / ".claude" / "skills" / "gaia-quick-curate" / "SKILL.md").read_bytes()
+
+    assert agents_skill == claude_skill
+    text = agents_skill.decode("utf-8")
+    assert "## Migration notice" in text
+    assert "/gaia-frontier" in text
+    assert "/gaia-full-pipeline" in text
+

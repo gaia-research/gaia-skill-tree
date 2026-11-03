@@ -1,0 +1,428 @@
+[
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/finishing-a-development-branch.json",
+  "id": "finishing-a-development-branch",
+  "type": "fusion",
+  "name": "Finishing a Development Branch",
+  "prerequisites": [
+   "code-review-pipeline",
+   "diff-content"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/firecrawl.json",
+  "id": "firecrawl",
+  "type": "fusion",
+  "name": "Firecrawl",
+  "prerequisites": [
+   "web-scrape",
+   "web-search",
+   "browser-control",
+   "agent-environment-setup",
+   "literature-search"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/founder-mode-orchestration.json",
+  "id": "founder-mode-orchestration",
+  "type": "fusion",
+  "name": "Founder Mode",
+  "prerequisites": [
+   "question-answer",
+   "evaluate-output",
+   "code-review-pipeline",
+   "ux-audit",
+   "vertical-slice-planning",
+   "design-system-extraction",
+   "design-review",
+   "code-generation",
+   "systematic-debugging",
+   "e2e-testing",
+   "finishing-a-development-branch",
+   "deployment-automation",
+   "detect-anomaly",
+   "document-editing",
+   "browser-automation",
+   "security-audit",
+   "browser-control",
+   "web-scrape",
+   "skill-authoring",
+   "write-report",
+   "multi-agent-debate",
+   "skill-performance-benchmarking",
+   "automated-testing",
+   "mcp-integration",
+   "memory-manage",
+   "guardrails",
+   "knowledge-management",
+   "format-output",
+   "workspace-automation",
+   "project-management",
+   "prompt-optimization"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/full-stack-developer.json",
+  "id": "full-stack-developer",
+  "type": "fusion",
+  "name": "Full-Stack Developer",
+  "prerequisites": [
+   "code-review-pipeline",
+   "automated-testing",
+   "refactor-code"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/function-calling.json",
+  "id": "function-calling",
+  "type": "fusion",
+  "name": "Function Calling",
+  "prerequisites": [
+   "structured-output",
+   "api-call",
+   "tool-select"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/gbrain.json",
+  "id": "gbrain",
+  "type": "fusion",
+  "name": "GBrain",
+  "prerequisites": [
+   "knowledge-management",
+   "personal-knowledge-management",
+   "concept-synthesis"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/generative-media.json",
+  "id": "generative-media",
+  "type": "fusion",
+  "name": "Generative Media",
+  "prerequisites": [
+   "api-call",
+   "data-visualize"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/ghostwrite.json",
+  "id": "ghostwrite",
+  "type": "fusion",
+  "name": "Ghostwrite",
+  "prerequisites": [
+   "research",
+   "write-report",
+   "audience-model"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/git-integration.json",
+  "id": "git-integration",
+  "type": "fusion",
+  "name": "GitHub Platform Mastery",
+  "prerequisites": [
+   "code-review-pipeline",
+   "multi-repo-coordination",
+   "deployment-automation",
+   "project-management",
+   "workflow-automation"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/git-ship-done-pipeline.json",
+  "id": "git-ship-done-pipeline",
+  "type": "fusion",
+  "name": "Git Ship Done Pipeline",
+  "prerequisites": [
+   "brainstorming",
+   "writing-plans",
+   "subagent-driven-development",
+   "verification-before-completion",
+   "finishing-a-development-branch"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/graph-driven-issue-triage.json",
+  "id": "graph-driven-issue-triage",
+  "type": "fusion",
+  "name": "Graph-Driven Issue Triage",
+  "prerequisites": [
+   "issue-triage",
+   "knowledge-graph-build"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/graph-neural-network-modeling.json",
+  "id": "graph-neural-network-modeling",
+  "type": "fusion",
+  "name": "Graph Neural Network Modeling",
+  "prerequisites": [
+   "data-analysis",
+   "fine-tune",
+   "ml-pipeline"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 136.0,
+  "computedGrade": "A",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/grill-me.json",
+  "id": "grill-me",
+  "type": "fusion",
+  "name": "Grill Me",
+  "prerequisites": [
+   "design-review",
+   "self-critique"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/grill-with-docs.json",
+  "id": "grill-with-docs",
+  "type": "fusion",
+  "name": "Grill With Docs",
+  "prerequisites": [
+   "grill-me",
+   "ubiquitous-language",
+   "document-editing"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/grounding.json",
+  "id": "grounding",
+  "type": "fusion",
+  "name": "Grounding",
+  "prerequisites": [
+   "retrieve",
+   "cite-sources",
+   "evaluate-output"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/guardrails.json",
+  "id": "guardrails",
+  "type": "fusion",
+  "name": "Guardrails",
+  "prerequisites": [
+   "evaluate-output",
+   "classify",
+   "structured-output"
+  ],
+  "evidenceRows": 2,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/humanize-prose.json",
+  "id": "humanize-prose",
+  "type": "fusion",
+  "name": "Humanize Prose",
+  "prerequisites": [
+   "document-editing",
+   "audience-model",
+   "format-output"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/knowledge-graph-build.json",
+  "id": "knowledge-graph-build",
+  "type": "fusion",
+  "name": "Knowledge Graph Construction",
+  "prerequisites": [
+   "extract-entities",
+   "logical-inference"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/knowledge-harvest.json",
+  "id": "knowledge-harvest",
+  "type": "fusion",
+  "name": "Knowledge Harvest",
+  "prerequisites": [
+   "web-scrape",
+   "extract-entities",
+   "embed-text"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/knowledge-management.json",
+  "id": "knowledge-management",
+  "type": "fusion",
+  "name": "Knowledge Management",
+  "prerequisites": [
+   "api-call",
+   "retrieve"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/literature-review.json",
+  "id": "literature-review",
+  "type": "fusion",
+  "name": "Literature Review",
+  "prerequisites": [
+   "cite-sources",
+   "literature-search",
+   "research",
+   "summarize"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/mathematical-animation.json",
+  "id": "mathematical-animation",
+  "type": "fusion",
+  "name": "Mathematical Animation",
+  "prerequisites": [
+   "code-execution",
+   "data-visualize"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/mcp-debugger-control.json",
+  "id": "mcp-debugger-control",
+  "type": "fusion",
+  "name": "MCP Debugger Control",
+  "prerequisites": [
+   "mcp-integration",
+   "refactor-code"
+  ],
+  "evidenceRows": 0,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/mcp-server-creation.json",
+  "id": "mcp-server-creation",
+  "type": "fusion",
+  "name": "MCP Server Creation",
+  "prerequisites": [
+   "mcp-integration",
+   "tool-creation",
+   "api-call"
+  ],
+  "evidenceRows": 3,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ },
+ {
+  "kind": "generic",
+  "path": "registry/nodes/fusion/memory-manage.json",
+  "id": "memory-manage",
+  "type": "fusion",
+  "name": "Memory Manage",
+  "prerequisites": [
+   "context-compression",
+   "retrieve"
+  ],
+  "evidenceRows": 1,
+  "computedTm": 0.0,
+  "computedGrade": "ungraded",
+  "appraiseError": null
+ }
+]

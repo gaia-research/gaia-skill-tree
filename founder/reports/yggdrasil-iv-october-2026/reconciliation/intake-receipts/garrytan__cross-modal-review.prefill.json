@@ -1,0 +1,119 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/cross-modal-review",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/cross-modal-review",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cross-modal-review/SKILL.md",
+  "checked": true,
+  "contentSha256": "fc00a04e2ff9f498bee9b0b636bceba9dcfdc869c35d9a983109f408170f0807",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "disler/auto-review",
+     "similarity": 0.571518
+    },
+    {
+     "id": "mattpocock/code-review",
+     "similarity": 0.52448
+    },
+    {
+     "id": "obra/requesting-code-review",
+     "similarity": 0.51337
+    },
+    {
+     "id": "mbtiongson1/gaia-curation-review",
+     "similarity": 0.45552
+    },
+    {
+     "id": "garrytan/review",
+     "similarity": 0.45125
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "auto-review",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5715 to generic 'auto-review' (weak match).",
+   "similarity": 0.571518
+  },
+  {
+   "genericId": "requesting-code-review",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4992 to generic 'requesting-code-review' (weak match).",
+   "similarity": 0.499222
+  },
+  {
+   "genericId": "adversarial-review",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4986 to generic 'adversarial-review' (weak match).",
+   "similarity": 0.498633
+  }
+ ],
+ "normalized": {
+  "description": "Quality gate via second model. Spawn a different AI model to review work before committing. Includes refusal routing: if one model refuses, switch silently to the next. Extended in v0.25.1 with structured review-mode gating (when to invoke vs not) and a Codex code-review handoff for the diff-review case.",
+  "name": "cross-modal-review"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cross-modal-review/SKILL.md",
+  "contentSha256": "fc00a04e2ff9f498bee9b0b636bceba9dcfdc869c35d9a983109f408170f0807",
+  "fetchedAt": "2026-10-27T22:07:08.087969+00:00",
+  "frontmatter": {
+   "description": "Quality gate via second model. Spawn a different AI model to review work\nbefore committing. Includes refusal routing: if one model refuses, switch\nsilently to the next. Extended in v0.25.1 with structured review-mode\ngating (when to invoke vs not) and a Codex code-review handoff for the\ndiff-review case.\n",
+   "mutating": false,
+   "name": "cross-modal-review",
+   "tools": [
+    "search",
+    "query",
+    "get_page"
+   ],
+   "triggers": [
+    "second opinion",
+    "cross-modal review",
+    "double check this",
+    "get another perspective",
+    "challenge this code",
+    "adversarial review"
+   ],
+   "version": "1.1.0"
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

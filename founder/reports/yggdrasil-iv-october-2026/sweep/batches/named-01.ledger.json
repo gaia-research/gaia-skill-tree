@@ -1,0 +1,645 @@
+[
+  {
+    "id": "0xdarkmatter/pytest-patterns",
+    "kind": "named",
+    "path": "registry/named/0xdarkmatter/pytest-patterns.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ named, TM 0, no evidence; gates pass. Body says it is 'the origin implementation for the automated-testing skill bucket' but origin is false and the bucket has no Origin holder, so the claim is unsupported. Body also states 'security-audited' and '263 stars' without a source beyond the SkillsMP listing. Propose removing the origin claim and attributing or dropping the unsourced claims.",
+    "evidenceRefs": [
+      "registry/named/0xdarkmatter/pytest-patterns.md",
+      "registry/named-skills.json (bucket automated-testing)"
+    ]
+  },
+  {
+    "id": "Manavarya09/design-extract",
+    "kind": "named",
+    "path": "registry/named/Manavarya09/design-extract.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "warn",
+      "upstream": "warn",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "2★ registry-only, TM 36 C, gates pass. The single repo row uses type 'repo', a legacy alias normalized to repo-own by the engine but absent from registry/schema/meta.json evidence types; recomputing with repo-own leaves TM at 36.0 (checked in memory). Upstream note says the repo returned 404/401 on 2026-08-05 (issue #1447), but gh api now resolves Manavarya09/design-extract, so that review debt needs re-verification. The repo-root link is not a concrete implementation file (META 2.4 general URL rule), though no rank consequence applies at 2★.",
+    "evidenceRefs": [
+      "https://github.com/Manavarya09/design-extract",
+      "registry/named/Manavarya09/design-extract.md",
+      "issue #1447 (per record timeline)",
+      "registry/schema/meta.json"
+    ]
+  },
+  {
+    "id": "addy-osmani/agent-skills",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/agent-skills.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "warn",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "4★ suite, TM 176.04 A (>=100 gate), origin true on git-ship-done-pipeline; all 8 suiteComponents exist with suiteRef, and README blob link is concrete. Upstream is stale: synced to 0.6.10 (2026-09-22) while addyosmani/agent-skills has releases 0.6.11, 0.6.12 and 0.6.13 (latest 2026-10-13). Propose a sync-upstream run (CLI) to the current release, then re-check component pins. No rank change.",
+    "evidenceRefs": [
+      "https://github.com/addyosmani/agent-skills/releases/tag/0.6.10",
+      "gh release list addyosmani/agent-skills (0.6.13 latest, 2026-10-13)",
+      "https://github.com/addyosmani/agent-skills/blob/main/README.md"
+    ]
+  },
+  {
+    "id": "addy-osmani/api-and-interface-design",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/api-and-interface-design.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "warn",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "warn",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ named with TM 0 (ungraded) and no evidence rows; gates pass. Body is the installer placeholder 'Add installation instructions here.' with no capability overview, so it fails the body check. Frontmatter asserts suiteRef only in the timeline (no suiteRef key) and omits installable/trustMagnitude keys; named-skills.json lists this skill at 1★ while the record says 2★ with no rank_up event. Upstream pin is a 0.6.10 blob link (repo latest is 0.6.13). Propose: fill body from the upstream SKILL.md at the pinned path; reconcile suiteRef and level via CLI.",
+    "evidenceRefs": [
+      "registry/named/addy-osmani/api-and-interface-design.md",
+      "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/api-and-interface-design/SKILL.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "addy-osmani/browser-testing-with-devtools",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/browser-testing-with-devtools.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "warn",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "warn",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ named with TM 0 (ungraded) and no evidence rows; gates pass. Body is the installer placeholder 'Add installation instructions here.' with no capability overview, so it fails the body check. Frontmatter asserts suiteRef only in the timeline (no suiteRef key) and omits installable/trustMagnitude keys; named-skills.json lists this skill at 1★ while the record says 2★ with no rank_up event. Upstream pin is a 0.6.10 blob link (repo latest is 0.6.13). Propose: fill body from the upstream SKILL.md at the pinned path; reconcile suiteRef and level via CLI.",
+    "evidenceRefs": [
+      "registry/named/addy-osmani/browser-testing-with-devtools.md",
+      "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/browser-testing-with-devtools/SKILL.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "addy-osmani/ci-cd-and-automation",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/ci-cd-and-automation.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "warn",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "warn",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ named with TM 0 (ungraded) and no evidence rows; gates pass. Body is the installer placeholder 'Add installation instructions here.' with no capability overview, so it fails the body check. Frontmatter asserts suiteRef only in the timeline (no suiteRef key) and omits installable/trustMagnitude keys; named-skills.json lists this skill at 1★ while the record says 2★ with no rank_up event. Upstream pin is a 0.6.10 blob link (repo latest is 0.6.13). Propose: fill body from the upstream SKILL.md at the pinned path; reconcile suiteRef and level via CLI.",
+    "evidenceRefs": [
+      "registry/named/addy-osmani/ci-cd-and-automation.md",
+      "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/ci-cd-and-automation/SKILL.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "addy-osmani/code-review-and-quality",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/code-review-and-quality.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★, TM 50 B, blob SKILL.md link, suite member with suiteRef; components-owned upstream. Github-stars row points at the SKILL.md blob rather than the stargazers page, but the stars count is repo-level and shared across siblings, so no change proposed. Install-only body is thin but not a placeholder. Bucket code-review-pipeline has no Origin holder; this record is not the TM leader there (garrytan/plan-eng-review 66 B), so no origin proposal.",
+    "evidenceRefs": [
+      "https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md",
+      "https://github.com/addyosmani/agent-skills"
+    ]
+  },
+  {
+    "id": "addy-osmani/code-simplification",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/code-simplification.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "warn",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "4★ at TM 190 A. The benchmark-result row (humaneval@v1.0, pass@1 0.75, internal-ci reproduction) contributes 140 of the 190. HumanEval is a function-completion benchmark, which does not measure complexity reduction, so its relevance to this capability is weak. Without it, the deterministic TM is 50 B and the 4★ TM>=100 A gate fails. Propose the evidence owner re-validate or retract the row; the rank consequence follows from the recomputed TM. Origin not proposed: the refactor-code bucket leader depends on the same contested row.",
+    "evidenceRefs": [
+      "https://github.com/gaia-research/gaia-skill-tree/blob/84bd47aa0fa1ae8bfb6de81b12cf1bc0674880b1/scripts/benchmarks/humaneval/run.py",
+      "registry/benchmark-sources.json (humaneval@v1.0 mode internal-ci)",
+      "https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md"
+    ]
+  },
+  {
+    "id": "addy-osmani/constraint-driven-development",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/constraint-driven-development.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "warn",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "warn",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ named with TM 0 (ungraded) and no evidence rows; gates pass. Body is the installer placeholder 'Add installation instructions here.' with no capability overview, so it fails the body check. Frontmatter asserts suiteRef only in the timeline (no suiteRef key) and omits installable/trustMagnitude keys; named-skills.json lists this skill at 1★ while the record says 2★ with no rank_up event. Upstream pin is a 0.6.10 blob link (repo latest is 0.6.13). Propose: fill body from the upstream SKILL.md at the pinned path; reconcile suiteRef and level via CLI.",
+    "evidenceRefs": [
+      "registry/named/addy-osmani/constraint-driven-development.md",
+      "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/constraint-driven-development/SKILL.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "addy-osmani/context-engineering",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/context-engineering.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "warn",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "warn",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ named with TM 0 (ungraded) and no evidence rows; gates pass. Body is the installer placeholder 'Add installation instructions here.' with no capability overview, so it fails the body check. Frontmatter asserts suiteRef only in the timeline (no suiteRef key) and omits installable/trustMagnitude keys; named-skills.json lists this skill at 1★ while the record says 2★ with no rank_up event. Upstream pin is a 0.6.10 blob link (repo latest is 0.6.13). Propose: fill body from the upstream SKILL.md at the pinned path; reconcile suiteRef and level via CLI.",
+    "evidenceRefs": [
+      "registry/named/addy-osmani/context-engineering.md",
+      "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/context-engineering/SKILL.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "addy-osmani/deprecation-and-migration",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/deprecation-and-migration.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "warn",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "warn",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ named with TM 0 (ungraded) and no evidence rows; gates pass. Body is the installer placeholder 'Add installation instructions here.' with no capability overview, so it fails the body check. Frontmatter asserts suiteRef only in the timeline (no suiteRef key) and omits installable/trustMagnitude keys; named-skills.json lists this skill at 1★ while the record says 2★ with no rank_up event. Upstream pin is a 0.6.10 blob link (repo latest is 0.6.13). Propose: fill body from the upstream SKILL.md at the pinned path; reconcile suiteRef and level via CLI.",
+    "evidenceRefs": [
+      "registry/named/addy-osmani/deprecation-and-migration.md",
+      "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/deprecation-and-migration/SKILL.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "addy-osmani/documentation-and-adrs",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/documentation-and-adrs.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "warn",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "warn",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ named with TM 0 (ungraded) and no evidence rows; gates pass. Body is the installer placeholder 'Add installation instructions here.' with no capability overview, so it fails the body check. Frontmatter asserts suiteRef only in the timeline (no suiteRef key) and omits installable/trustMagnitude keys; named-skills.json lists this skill at 1★ while the record says 2★ with no rank_up event. Upstream pin is a 0.6.10 blob link (repo latest is 0.6.13). Propose: fill body from the upstream SKILL.md at the pinned path; reconcile suiteRef and level via CLI.",
+    "evidenceRefs": [
+      "registry/named/addy-osmani/documentation-and-adrs.md",
+      "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/documentation-and-adrs/SKILL.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "addy-osmani/doubt-driven-development",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/doubt-driven-development.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "warn",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "warn",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ named with TM 0 (ungraded) and no evidence rows; gates pass. Body is the installer placeholder 'Add installation instructions here.' with no capability overview, so it fails the body check. Frontmatter asserts suiteRef only in the timeline (no suiteRef key) and omits installable/trustMagnitude keys; named-skills.json lists this skill at 1★ while the record says 2★ with no rank_up event. Upstream pin is a 0.6.10 blob link (repo latest is 0.6.13). Propose: fill body from the upstream SKILL.md at the pinned path; reconcile suiteRef and level via CLI.",
+    "evidenceRefs": [
+      "registry/named/addy-osmani/doubt-driven-development.md",
+      "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/doubt-driven-development/SKILL.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "addy-osmani/frontend-ui-engineering",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/frontend-ui-engineering.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "warn",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "warn",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ named with TM 0 (ungraded) and no evidence rows; gates pass. Body is the installer placeholder 'Add installation instructions here.' with no capability overview, so it fails the body check. Frontmatter asserts suiteRef only in the timeline (no suiteRef key) and omits installable/trustMagnitude keys; named-skills.json lists this skill at 1★ while the record says 2★ with no rank_up event. Upstream pin is a 0.6.10 blob link (repo latest is 0.6.13). Propose: fill body from the upstream SKILL.md at the pinned path; reconcile suiteRef and level via CLI.",
+    "evidenceRefs": [
+      "registry/named/addy-osmani/frontend-ui-engineering.md",
+      "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/frontend-ui-engineering/SKILL.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "addy-osmani/incremental-implementation",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/incremental-implementation.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "warn",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ at TM 95 B. The rachel.fyi peer review supports the skill (implement-test-verify-commit loop, small commits). The Agentailor article does not mention incremental-implementation (checked by fetch), so that peer-review row is unsupported. Removing it gives TM 80 B, still 3★ B. Propose retracting the Agentailor row for this skill. Origin stays with obra/executing-plans (TM 95.15).",
+    "evidenceRefs": [
+      "https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills",
+      "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026"
+    ]
+  },
+  {
+    "id": "addy-osmani/observability-and-instrumentation",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/observability-and-instrumentation.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "warn",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "warn",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ named with TM 0 (ungraded) and no evidence rows; gates pass. Body is the installer placeholder 'Add installation instructions here.' with no capability overview, so it fails the body check. Frontmatter asserts suiteRef only in the timeline (no suiteRef key) and omits installable/trustMagnitude keys; named-skills.json lists this skill at 1★ while the record says 2★ with no rank_up event. Upstream pin is a 0.6.10 blob link (repo latest is 0.6.13). Propose: fill body from the upstream SKILL.md at the pinned path; reconcile suiteRef and level via CLI.",
+    "evidenceRefs": [
+      "registry/named/addy-osmani/observability-and-instrumentation.md",
+      "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/observability-and-instrumentation/SKILL.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "addy-osmani/performance-optimization",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/performance-optimization.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "warn",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "warn",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ TM 50 B; origin holder of performance-tuning with no competing member, so origin is consistent. Evidence rows need cleanup: the repo row uses legacy type 'repo' (normalized to repo-own, TM unchanged at 50.0 in memory); the stars row carries stars 100245 but its notes say 47,200 (stale); legacy class fields remain; installable key is absent from frontmatter. Propose normalizing the row type and correcting the notes and missing key.",
+    "evidenceRefs": [
+      "https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md",
+      "https://github.com/addyosmani/agent-skills/stargazers"
+    ]
+  },
+  {
+    "id": "addy-osmani/planning-and-task-breakdown",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/planning-and-task-breakdown.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "warn",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ at TM 95 B. The rachel.fyi review supports it (5-file task limit, checkpoint discipline). The Agentailor article does not mention planning-and-task-breakdown (checked by fetch), so that row is unsupported. Removing it gives TM 80 B, still 3★. Propose retracting it. No origin proposal: the 95.0 vs to-tickets 94.92 margin exists only while the unsupported row is counted.",
+    "evidenceRefs": [
+      "https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills",
+      "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026"
+    ]
+  },
+  {
+    "id": "addy-osmani/security-and-hardening",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/security-and-hardening.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "warn",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "warn",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ named with TM 0 (ungraded) and no evidence rows; gates pass. Body is the installer placeholder 'Add installation instructions here.' with no capability overview, so it fails the body check. Frontmatter asserts suiteRef only in the timeline (no suiteRef key) and omits installable/trustMagnitude keys; named-skills.json lists this skill at 1★ while the record says 2★ with no rank_up event. Upstream pin is a 0.6.10 blob link (repo latest is 0.6.13). Propose: fill body from the upstream SKILL.md at the pinned path; reconcile suiteRef and level via CLI.",
+    "evidenceRefs": [
+      "registry/named/addy-osmani/security-and-hardening.md",
+      "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/security-and-hardening/SKILL.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "addy-osmani/shipping-and-launch",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/shipping-and-launch.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "warn",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "3★ TM 50 B with blob link and origin holder of finishing-a-development-branch. Origin is tied at TM 50.0 with garrytan/ship and gsd-build/gsd-ship, which the prepass cannot break, so it is left as is. Install-only body is thin but not a placeholder.",
+    "evidenceRefs": [
+      "https://github.com/addyosmani/agent-skills/blob/main/skills/shipping-and-launch/SKILL.md",
+      "registry/named-skills.json (bucket finishing-a-development-branch)"
+    ]
+  },
+  {
+    "id": "addy-osmani/source-driven-development",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/source-driven-development.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "warn",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "warn",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ named with TM 0 (ungraded) and no evidence rows; gates pass. Body is the installer placeholder 'Add installation instructions here.' with no capability overview, so it fails the body check. Frontmatter asserts suiteRef only in the timeline (no suiteRef key) and omits installable/trustMagnitude keys; named-skills.json lists this skill at 1★ while the record says 2★ with no rank_up event. Upstream pin is a 0.6.10 blob link (repo latest is 0.6.13). Propose: fill body from the upstream SKILL.md at the pinned path; reconcile suiteRef and level via CLI.",
+    "evidenceRefs": [
+      "registry/named/addy-osmani/source-driven-development.md",
+      "https://github.com/addyosmani/agent-skills/blob/0.6.10/skills/source-driven-development/SKILL.md",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "addy-osmani/spec-driven-development",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/spec-driven-development.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "fail",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "3★ TM 80.0 B. Not Origin of prd-generation; the bucket holder mattpocock/to-spec has TM 63.71 B, so this record has the higher deterministic TM and no tie. The Agentailor row is substantive (fetched: it recommends spec-driven as the anchor skill). Propose transferring Origin to this record, which requires clearing to-spec's Origin in its own review. Basis is TM only, not age or competitor existence.",
+    "evidenceRefs": [
+      "registry/named-skills.json (bucket prd-generation)",
+      "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+      "prepass computedTm 80.0 vs mattpocock/to-spec 63.71"
+    ]
+  },
+  {
+    "id": "addy-osmani/test-driven-development",
+    "kind": "named",
+    "path": "registry/named/addy-osmani/test-driven-development.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "warn",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ TM 45 C, origin false (correct: mattpocock/tdd holds origin at TM 50 B). Body's Origin section says this is 'the origin implementation for the test-driven-development skill bucket', which contradicts the flag and the bucket. Propose removing that claim; the mattpocock credit is good. Evidence row uses legacy type 'repo' (alias, TM unchanged at 36.0 in memory).",
+    "evidenceRefs": [
+      "registry/named/addy-osmani/test-driven-development.md",
+      "registry/named-skills.json (bucket test-driven-development)"
+    ]
+  },
+  {
+    "id": "anthropic/pptx",
+    "kind": "named",
+    "path": "registry/named/anthropic/pptx.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "warn",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ TM 36 C, origin false (correct: garrytan/document-generate holds origin). Body says it is 'the origin implementation for the document-editing bucket', which is wrong. The timeline's 'transferred to mattpocock/edit-article' is also inconsistent, since edit-article's origin is false. Body names markitdown without crediting its maker (Microsoft). Propose removing the origin claim and crediting markitdown. Evidence row uses legacy type 'repo' (alias, TM unchanged).",
+    "evidenceRefs": [
+      "registry/named/anthropic/pptx.md",
+      "https://github.com/microsoft/markitdown",
+      "registry/named-skills.json (bucket document-editing)"
+    ]
+  },
+  {
+    "id": "anthropic/skill-creator",
+    "kind": "named",
+    "path": "registry/named/anthropic/skill-creator.md",
+    "reviewer": "haiku:named-01",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "2★ TM 30 C. The entire TM comes from one peer-review row whose source is the skill's own SKILL.md (self-citation); its notes assert community praise the URL does not evidence. Without it the engine yields TM 0 (ungraded), which the 2★ gate allows. Propose removing that row. Body's origin claim for tool-creation is also wrong (origin is mattpocock/write-a-skill) and should be removed. Social-signal row has no views and contributes 0.",
+    "evidenceRefs": [
+      "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md",
+      "https://dev.to/debs_obrien/i-used-skill-creator-v2-to-improve-one-of-my-agent-skills-in-vs-code-fhd"
+    ]
+  }
+]

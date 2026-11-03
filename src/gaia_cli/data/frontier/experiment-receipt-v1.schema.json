@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gaiaskilltree.com/schemas/frontier-experiment-receipt-v1.schema.json",
+  "title": "Untrusted bounded experimental result; not an admission receipt",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "experimentRunId", "campaignId", "nativeVersion", "requestId", "leadDigest", "claimDigest", "sourceDigest", "targetDigest", "targetRevision", "historyRef", "protocolDigest", "fixtureDigest", "result", "outputs", "limitations", "recordedAtUTC"],
+  "properties": {
+    "schemaVersion": {"const": "frontier-experiment-receipt-v1"}, "experimentRunId": {"type": "string", "minLength": 8, "maxLength": 200}, "campaignId": {"type": "string", "minLength": 8}, "nativeVersion": {"type": "string", "minLength": 1}, "requestId": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "leadDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}, "claimDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}, "sourceDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}, "targetDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}, "targetRevision": {"type": "string", "pattern": "^[a-f0-9]{40,64}$"}, "historyRef": {"type": "string", "minLength": 8}, "protocolDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}, "fixtureDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "result": {"enum": ["supported", "contradicted", "inconclusive", "execution_failed"]}, "outputs": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["label", "contentDigest", "path"], "properties": {"label": {"type": "string"}, "contentDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}, "path": {"type": "string"}}}}, "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 3}}, "recordedAtUTC": {"type": "string", "format": "date-time"}
+  }
+}

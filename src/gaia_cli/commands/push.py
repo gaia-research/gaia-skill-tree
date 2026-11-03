@@ -176,7 +176,6 @@ class ProposeCommand(Command):
 
     def execute(self, args: argparse.Namespace) -> int | None:
         from gaia_cli.main import propose_command
-        propose_command(args)
-        return 0
+        return propose_command(args) or 0
 
 COMMANDS = [PushCommand(), ProposeCommand()]

@@ -18,6 +18,9 @@ Flags
 --report FILE     Write the JSON run report (issuesCreated, issuesUpdated,
                   suppressedDuplicates, retainedCandidates, unknownEvidence, suites).
 --verbose         Extra logging to stderr.
+--challenge-only  Run ONLY the opt-in two-sided challenge watch (no suite poll, no issue writes). The workflow
+                  runs this in its own job, the only one granted ``contents: write``, because the shared CAS
+                  ledger pushes the ``steward/ledger`` ref. Implies --challenge-watch.
 
 Exit codes
 ----------
@@ -36,6 +39,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -53,6 +57,11 @@ from scripts.lib.github_api import (
     parse_owner_repo,
 )
 from scripts.lib.named_iterator import iter_named_skills
+from scripts.upstream_watcher.challenge_watch import (
+    ChallengeWatchResult,
+    WatchBudget,
+    run_challenge_watch,
+)
 from scripts.upstream_watcher.finder import compute_finding, detect_mode, iter_suite_skills
 from scripts.upstream_watcher.batch import batch_stopped, escalate_candidate, new_report, run_batch
 from scripts.upstream_watcher.issuer import IdempotencyLookupError, UmbrellaWriteError, create_issues
@@ -81,14 +90,43 @@ def _build_registry_map(root: Path | None = None) -> dict[str, dict]:
 # ---------------------------------------------------------------------------
 
 
-def _render_report(full_findings: list[dict]) -> str:
-    """Render full_findings as a markdown report for stdout."""
-    if not full_findings:
-        return "# Upstream Watcher — Dry-Run Report\n\n_No findings. All suites are up-to-date (or had no release data)._\n"
+def _render_report(
+    full_findings: list[dict],
+    challenge_result: ChallengeWatchResult | None = None,
+) -> str:
+    """Render full_findings and optional challenge_result as a markdown report for stdout."""
+    if not full_findings and not (challenge_result and challenge_result.packets):
+        base = "# Upstream Watcher — Dry-Run Report\n\n_No findings. All suites are up-to-date (or had no release data)._\n"
+        if challenge_result and challenge_result.summaries:
+            base += (
+                f"\n## Challenge Watch Summary\n"
+                f"- **Active monitored challenges:** {challenge_result.active_count}\n"
+                f"- **Resolved (returned to routine):** {challenge_result.resolved_count}\n"
+                f"- **Unverified inputs rejected:** {challenge_result.rejected_unverified_count}\n"
+                f"- **Trusted receipt resolver unavailable:** {challenge_result.unavailable_count}\n"
+                f"- **New verification packets emitted:** {len(challenge_result.packets)}\n"
+            )
+        return base
 
     lines = ["# Upstream Watcher — Dry-Run Report", ""]
     lines.append(f"**Total findings:** {len(full_findings)}")
     lines.append("")
+
+    if challenge_result:
+        lines.append(f"## Two-Sided Challenge Watch")
+        lines.append(f"- **Active challenges:** {challenge_result.active_count}")
+        lines.append(f"- **Resolved challenges (returned to routine):** {challenge_result.resolved_count}")
+        lines.append(f"- **Unverified inputs rejected:** {challenge_result.rejected_unverified_count}")
+        lines.append(f"- **Trusted receipt resolver unavailable:** {challenge_result.unavailable_count}")
+        lines.append(f"- **Verification packets emitted:** {len(challenge_result.packets)}")
+        lines.append("")
+        if challenge_result.packets:
+            lines.append("### Emitted Verification Packets")
+            for pkt in challenge_result.packets:
+                lines.append(f"- **`{pkt.packet_id[:12]}`** — `{pkt.subject_id}` vs `{pkt.comparator_id or 'none'}`")
+                lines.append(f"  - **Trigger:** `{pkt.trigger_side}` ({pkt.trigger_type})")
+                lines.append(f"  - **Notes:** {pkt.notes}")
+            lines.append("")
 
     bootstrap_findings = [f for f in full_findings if f["finding_type"] == "bootstrap"]
     update_findings = [f for f in full_findings if f["finding_type"] == "update"]
@@ -243,6 +281,30 @@ def _poll_suite(
     return finding
 
 
+def runChallengeWatchStep(args: argparse.Namespace, registry_map: dict[str, dict], verbose: bool) -> ChallengeWatchResult:
+    """Run the bounded two-sided challenge watch with the CLI's budget, ledger and packet options."""
+    if verbose:
+        print("[watcher] Executing two-sided challenge watch seam ...", file=sys.stderr)
+    c_budget = WatchBudget(
+        max_requests=args.challenge_budget_requests,
+        max_subjects=args.challenge_budget_subjects,
+    )
+    shared_store = None
+    if args.challenge_ledger is None:
+        from gaia_cli.steward.ledger import GitRefLedgerStore
+        shared_store = GitRefLedgerStore(Path.cwd(), "origin")
+    return run_challenge_watch(
+        challenges=args.challenge_input,
+        registry_map=registry_map,
+        budget=c_budget,
+        ledger_path=args.challenge_ledger,
+        packets_dir=args.challenge_output,
+        shared_store=shared_store,
+        allow_shadow=args.challenge_shadow,
+        verbose=verbose,
+    )
+
+
 # ---------------------------------------------------------------------------
 # main()
 # ---------------------------------------------------------------------------
@@ -301,6 +363,55 @@ def main(argv: list[str] | None = None) -> int:
         default=False,
         help="Extra logging to stderr.",
     )
+    # Challenge Watch (Yggdrasil IV P2)
+    parser.add_argument(
+        "--challenge-watch",
+        action="store_true",
+        default=False,
+        help="Enable bounded two-sided challenge watch.",
+    )
+    parser.add_argument(
+        "--challenge-input",
+        metavar="PATH",
+        default=None,
+        help="Optional path to active challenges input JSON file.",
+    )
+    parser.add_argument(
+        "--challenge-ledger",
+        metavar="PATH",
+        default=None,
+        help="Optional path to durable challenge watch ledger file.",
+    )
+    parser.add_argument(
+        "--challenge-output",
+        metavar="DIR",
+        default=None,
+        help="Optional directory to write emitted verification packets.",
+    )
+    parser.add_argument(
+        "--challenge-shadow",
+        action="store_true",
+        default=False,
+        help="Admit unverified challenges in shadow mode without public authority.",
+    )
+    parser.add_argument(
+        "--challenge-budget-requests",
+        type=int,
+        default=20,
+        help="Maximum HTTP requests allocated for challenge watch (default: 20).",
+    )
+    parser.add_argument(
+        "--challenge-budget-subjects",
+        type=int,
+        default=10,
+        help="Maximum subjects evaluated in challenge watch (default: 10).",
+    )
+    parser.add_argument(
+        "--challenge-only",
+        action="store_true",
+        default=False,
+        help="Run only the challenge watch: no suite poll and no issue writes (the workflow's contents:write job).",
+    )
     parser.add_argument(
         "--reset-records",
         metavar="SUITE",
@@ -313,6 +424,25 @@ def main(argv: list[str] | None = None) -> int:
     # --apply wins over --dry-run
     apply = args.apply
     verbose = args.verbose
+    challenge_watch_enabled = args.challenge_watch or args.challenge_only or (
+        os.environ.get("GAIA_CHALLENGE_WATCH_ENABLED", "").lower() in {"1", "true", "yes"}
+    )
+
+    if args.challenge_only:
+        if args.escalate or args.reset_records:
+            print("[watcher] --challenge-only cannot be combined with --escalate or --reset-records.", file=sys.stderr)
+            return 1
+        try:
+            registry_map = _build_registry_map()
+        except Exception as exc:  # noqa: BLE001
+            print(f"[error] Failed to build registry map: {exc}", file=sys.stderr)
+            return 1
+        result = runChallengeWatchStep(args, registry_map, verbose)
+        print(
+            f"[watcher] Challenge watch: {len(result.packets)} verification packet(s) written, "
+            f"{result.active_count} active challenge(s) monitored."
+        )
+        return 0
 
     if args.reset_records and not apply:
         print("[watcher] --reset-records requires --apply: a reset rewrites the umbrella's record comments.",
@@ -353,6 +483,7 @@ def main(argv: list[str] | None = None) -> int:
         if (args.skill is None or fm.get("id") == args.skill)
     )
 
+    # ── Routine Suite Watch ────────────────────────────────────────────────
     for _path, fm in suite_iter:
         skill_id = fm.get("id", "?")
         try:
@@ -390,6 +521,7 @@ def main(argv: list[str] | None = None) -> int:
     if unknown:
         # M1: one unreadable poll makes the whole run unknown. Nothing is written, not
         # even for suites that polled cleanly, so the next run starts from the same state.
+        # The challenge watch is skipped too: it persists a shared ledger, which is a write.
         report = new_report()
         report["childMode"] = args.child_mode
         report["dryRun"] = not apply
@@ -402,9 +534,17 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 3
 
+    # ── Optional Two-Sided Challenge Watch (Opt-In / Configured) ────────────
+    challenge_result = runChallengeWatchStep(args, registry_map, verbose) if challenge_watch_enabled else None
+
     if not apply:
         # Dry-run: render markdown report to stdout
-        print(_render_report(full_findings))
+        print(_render_report(full_findings, challenge_result))
+    elif challenge_result:
+        print(
+            f"[watcher] Challenge watch: {len(challenge_result.packets)} verification packet(s) written, "
+            f"{challenge_result.active_count} active challenge(s) monitored."
+        )
 
     if not batch_mode:
         report = new_report()

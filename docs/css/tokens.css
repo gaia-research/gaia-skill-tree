@@ -138,4 +138,14 @@
   --ev-type-self-attestation-rgb: 148, 163, 184;
   --ev-type-social-signal: #34d399; /* var(--ev-type-social-signal, #34d399) */
   --ev-type-social-signal-rgb: 52, 211, 153;
+
+  /* ── Challenge identity tokens (Yggdrasil IV — not rank/branch) ─── */
+  --challenge: #c4e23e; /* var(--challenge, #c4e23e) */
+  --challenge-rgb: 196, 226, 62;
+  --challenge-deep: #566e00; /* var(--challenge-deep, #566e00) */
+  --challenge-deep-rgb: 86, 110, 0;
+  --challenge-slate: #161210; /* var(--challenge-slate, #161210) */
+  --challenge-slate-rgb: 22, 18, 16;
+  --challenge-steel: #d6dee8; /* var(--challenge-steel, #d6dee8) */
+  --challenge-steel-rgb: 214, 222, 232;
 }

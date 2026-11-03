@@ -1,0 +1,127 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/maintain",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/maintain",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/maintain/SKILL.md",
+  "checked": true,
+  "contentSha256": "fd08497f175ede76befe530a6a56adeed39ac37f9ea0ee19f2b9757488e36731",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/health",
+     "similarity": 0.498984
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.484882
+    },
+    {
+     "id": "mbtiongson1/gaia-audit",
+     "similarity": 0.480577
+    },
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.476058
+    },
+    {
+     "id": "garrytan/academic-verify",
+     "similarity": 0.455587
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "registry-entry-audit",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4527 to generic 'registry-entry-audit' (weak match).",
+   "similarity": 0.452675
+  }
+ ],
+ "normalized": {
+  "description": "Brain health checks: back-link enforcement, citation audit, filing validation, stale info detection, orphan pages, and benchmarks. Use when asked to check brain health, run maintenance, or audit quality.",
+  "name": "maintain"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/maintain/SKILL.md",
+  "contentSha256": "fd08497f175ede76befe530a6a56adeed39ac37f9ea0ee19f2b9757488e36731",
+  "fetchedAt": "2026-10-27T22:09:53.152029+00:00",
+  "frontmatter": {
+   "description": "Brain health checks: back-link enforcement, citation audit, filing validation,\nstale info detection, orphan pages, and benchmarks. Use when asked to check\nbrain health, run maintenance, or audit quality.\n",
+   "mutating": true,
+   "name": "maintain",
+   "tools": [
+    "get_health",
+    "get_brain_health",
+    "get_page",
+    "put_page",
+    "list_pages",
+    "get_backlinks",
+    "add_link",
+    "search"
+   ],
+   "triggers": [
+    "brain health",
+    "check backlinks",
+    "maintenance",
+    "orphan pages",
+    "stale pages",
+    "extract links",
+    "build link graph",
+    "populate timeline",
+    "populate links",
+    "backfill graph",
+    "extract timeline entries",
+    "retriage the backlog",
+    "re-score the triage",
+    "run dream",
+    "process today's session",
+    "process yesterday's transcripts",
+    "synthesize my conversations",
+    "what patterns did you see",
+    "did the dream cycle run",
+    "consolidate yesterday's conversations"
+   ],
+   "upstream": "maintain@fc834ee",
+   "version": "1.1.0"
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

@@ -17,7 +17,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — 0xdarkmatter  ·  generated 2026-10-30
+GAIA SKILL TREE — 0xdarkmatter  ·  generated 2026-11-03
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -26,16 +26,16 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 · ◆ garrytan/gstack  [5★]
   ├─ · ○ garrytan/office-hours  [3★]
   ├─ · ○ garrytan/benchmark  [3★]
-  ├─ · · addy-osmani/code-review-and-quality  [3★]
+  ├─ · · garrytan/plan-eng-review  [3★]
   │  ├─ · ○ garrytan/design-html  [3★]
   │  ├─ · ○ /diff-content
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [4★]
-  ├─ · · mattpocock/to-tickets  [3★]
+  ├─ · · addy-osmani/planning-and-task-breakdown  [3★]
   │  ├─ · ○ /plan-decompose
-  │  └─ · ○ ████████/functional-area-resolver  [2★]
-  ├─ · · leonxlnx/stitch-skill  [3★]
-  │  ├─ · · ████████/browse
+  │  └─ · ○ garrytan/functional-area-resolver  [2★]
+  ├─ · · garrytan/design-consultation  [3★]
+  │  ├─ · · firecrawl/firecrawl-build  [2★]
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]
   │  │  └─ · ○ /computer-use
   │  └─ · ○ /parse-html
@@ -43,38 +43,38 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ · ○ /plan-decompose  (↑ see above)
   ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
-  ├─ · · garrytan/investigate  [3★]
+  ├─ · · obra/systematic-debugging  [3★]
   │  ├─ · ○ /hypothesis-generate
-  │  └─ · ○ /error-interpretation
+  │  └─ · ○ garrytan/correction-pipeline  [2★]
   ├─ · · garrytan/qa  [3★]
-  │  ├─ · · ████████/browse  (↑ see above)
-  │  └─ ✓ · garrytan/health  [2★]
+  │  ├─ · · firecrawl/firecrawl-build  [2★]  (↑ see above)
+  │  └─ ✓ · garrytan/smoke-test  [2★]
   │     ├─ · ○ upsonic/unittest-generator  [2★]
   │     ├─ · ○ /code-execution
-  │     └─ · ○ /error-interpretation  (↑ see above)
+  │     └─ · ○ garrytan/correction-pipeline  [2★]  (↑ see above)
   ├─ · · addy-osmani/shipping-and-launch  [3★]
-  │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
+  │  ├─ · · garrytan/plan-eng-review  [3★]  (↑ see above)
   │  └─ · ○ /diff-content  (↑ see above)
   ├─ · · garrytan/land-and-deploy  [3★]
-  │  ├─ · · ████████/github-workflow-automation
+  │  ├─ · · garrytan/cron-scheduler  [2★]
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
   │  │  ├─ · ○ /tool-use
   │  │  └─ · ○ ████████/hf-cli
   │  └─ · ○ /code-execution  (↑ see above)
   ├─ · · garrytan/canary  [3★]
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
-  │  └─ · ○ /error-interpretation  (↑ see above)
-  ├─ · ○ garrytan/document-generate  [3★]
-  ├─ · · ████████/browse  (↑ see above)
+  │  └─ · ○ garrytan/correction-pipeline  [2★]  (↑ see above)
+  ├─ · ○ mattpocock/edit-article  [3★]
+  ├─ · · firecrawl/firecrawl-build  [2★]  (↑ see above)
   ├─ · · garrytan/cso  [3★]
-  │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
+  │  ├─ · · garrytan/plan-eng-review  [3★]  (↑ see above)
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ · ○ browser-use/browser-harness  [3★]
   ├─ · · firecrawl/firecrawl-build-scrape  [4★]
   │  ├─ · ○ firecrawl/firecrawl-build-search  [3★]  (↑ see above)
   │  ├─ · ○ /parse-html  (↑ see above)
   │  └─ · ○ /extract-entities
-  ├─ · · garrytan/skillify  [3★]
+  ├─ · · google-deepmind/workflow-skill-creator  [3★]
   │  ├─ · ○ /generate-text
   │  ├─ · ○ /structured-output
   │  └─ · ○ garrytan/design-html  [3★]  (↑ see above)
@@ -83,32 +83,32 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /self-critique
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ · ○ /chain-of-thought
-  ├─ · · garrytan/benchmark-models  [2★]
+  ├─ · · garrytan/skill-autobench  [2★]
   │  ├─ · · /agent-eval
   │  │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  │  └─ · ○ /score-relevance
-  │  ├─ · ○ vercel/find-skills  [3★]
+  │  ├─ · ○ heygen-com/hyperframes-registry  [3★]
   │  └─ · ○ /statistical-analysis
-  ├─ ✓ · garrytan/health  [2★]  (↑ see above)
-  ├─ · ○ garrytan/pair-agent  [2★]
+  ├─ ✓ · garrytan/smoke-test  [2★]  (↑ see above)
+  ├─ · ○ garrytan/chat-connectors  [2★]
   ├─ · · garrytan/learn  [2★]
-  │  ├─ · ○ ████████/context-audit  [2★]
-  │  └─ · ○ /retrieve
+  │  ├─ · ○ garrytan/context-audit  [2★]
+  │  └─ · ○ arcmira/find-quotes  [2★]
   ├─ · · garrytan/careful  [3★]
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  ├─ · ○ /classify
   │  └─ · ○ /structured-output  (↑ see above)
   ├─ · · garrytan/brain-ops  [3★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
-  │  └─ · ○ /retrieve  (↑ see above)
+  │  └─ · ○ arcmira/find-quotes  [2★]  (↑ see above)
   ├─ · ○ ayghri/i-have-adhd  [4★]
-  ├─ · · garrytan/gstack-upgrade  [2★]
+  ├─ · · garrytan/daily-task-prep  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
-  │  └─ · ○ garrytan/document-generate  [3★]  (↑ see above)
-  ├─ · · yylo-dev/ledger-tasks-yylo  [2★]
+  │  └─ · ○ mattpocock/edit-article  [3★]  (↑ see above)
+  ├─ · · garrytan/daily-task-manager  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]
-  └─ · · garrytan/plan-tune  [2★]
+  └─ · · garrytan/skill-optimizer  [2★]
      ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
      └─ · ○ /generate-text  (↑ see above)
 ```

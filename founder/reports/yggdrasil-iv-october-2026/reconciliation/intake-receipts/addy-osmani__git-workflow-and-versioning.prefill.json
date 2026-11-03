@@ -1,0 +1,104 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "addy-osmani/git-workflow-and-versioning",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "addy-osmani/git-workflow-and-versioning",
+  "canonicalUrl": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/git-workflow-and-versioning/SKILL.md",
+  "checked": true,
+  "contentSha256": "b7465d187935c52546d39fdc7bd6ac36d94eda25a9500ef8c18b767d2eb116ea",
+  "hostRepository": "https://github.com/addyosmani/agent-skills",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "ruvnet/github-release-management",
+     "similarity": 0.61379
+    },
+    {
+     "id": "obra/using-git-worktrees",
+     "similarity": 0.600974
+    },
+    {
+     "id": "ruvnet/github-project-management",
+     "similarity": 0.574745
+    },
+    {
+     "id": "intelligentcode-ai/release",
+     "similarity": 0.572103
+    },
+    {
+     "id": "ruvnet/github-multi-repo",
+     "similarity": 0.519697
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "using-git-worktrees",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5564 to generic 'using-git-worktrees' (weak match).",
+   "similarity": 0.55635
+  },
+  {
+   "genericId": "release-automation",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5440 to generic 'release-automation' (weak match).",
+   "similarity": 0.544028
+  },
+  {
+   "genericId": "git-diff-risk-analysis",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4863 to generic 'git-diff-risk-analysis' (weak match).",
+   "similarity": 0.486275
+  }
+ ],
+ "normalized": {
+  "description": "Structures git workflow practices. Use when making any code change. Use when committing, branching, resolving conflicts, splitting uncommitted work in a messy working tree into clean atomic commits, opening or reviewing a pull request (PR), pushing to a remote, or when you need to organize work across multiple parallel streams. Use when cutting a release, choosing a semantic version bump, tagging,",
+  "name": "git-workflow-and-versioning"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/git-workflow-and-versioning/SKILL.md",
+  "contentSha256": "b7465d187935c52546d39fdc7bd6ac36d94eda25a9500ef8c18b767d2eb116ea",
+  "fetchedAt": "2026-10-27T21:59:27.642290+00:00",
+  "frontmatter": {
+   "description": "Structures git workflow practices. Use when making any code change. Use when committing, branching, resolving conflicts, splitting uncommitted work in a messy working tree into clean atomic commits, opening or reviewing a pull request (PR), pushing to a remote, or when you need to organize work across multiple parallel streams. Use when cutting a release, choosing a semantic version bump, tagging, or writing a changelog.",
+   "name": "git-workflow-and-versioning"
+  },
+  "hostRepository": "https://github.com/addyosmani/agent-skills",
+  "sourceLane": "source-repository"
+ }
+}

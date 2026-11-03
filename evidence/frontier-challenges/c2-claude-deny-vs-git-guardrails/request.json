@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "frontier-verification-request-v1",
+  "requestId": "sha256:294c769e208bfb615c0fb2e69cf01fbcd280b056ba75c9ba1b3efa66f6fae8bf",
+  "campaignId": "yggiv-challenger-cases-2026-10",
+  "leadId": "claude-deny-git-guardrails-001",
+  "leadDigest": "sha256:c92373aca088f38931216d7813f64f5368565b77077c1c83f01237ddc33568aa",
+  "claimId": "block-dangerous-git-v1",
+  "claimDigest": "sha256:603e992d59399cbe52322bd9bb87bbce12fed0523cde82d452897559eb1aa1a8",
+  "native": {
+    "name": "Claude Code permissions.deny",
+    "version": "2.1.312",
+    "provider": "Anthropic Claude Code documentation (live, unversioned page)"
+  },
+  "source": {
+    "url": "https://code.claude.com/docs/en/permissions.md",
+    "contentDigest": "sha256:a72bafb46a558dec5a641916b6f1482b101a8b4ca7602f0a2d3fb636b0b3c25c",
+    "capturedBytesPath": "evidence/frontier-challenges/c2-claude-deny-vs-git-guardrails/sources/claude-code-permissions-2026-10-29.md"
+  },
+  "target": {
+    "kind": "named",
+    "skillId": "mattpocock/git-guardrails-claude-code",
+    "genericSkillId": "guardrails",
+    "revision": "d237c0839c9c9197fc861ecec839ed323a9748a4",
+    "contentDigest": "sha256:f7009493bfd6a1b262b3177ce58383ac32f3b940c3e12e826803867ab231782d",
+    "path": "registry/named/mattpocock/git-guardrails-claude-code.md"
+  },
+  "historyRef": "git:d237c0839c9c9197fc861ecec839ed323a9748a4",
+  "protocol": {
+    "path": "evidence/frontier-challenges/c2-claude-deny-vs-git-guardrails/protocol.json",
+    "revision": "d9d7421690e6beaa31ab920772e25eb35db3580b",
+    "contentDigest": "sha256:9eec1ed0566464502ec5c2d2a3cc1073e18d387c2feed3248bc685ede4880c2a"
+  },
+  "fixture": {
+    "path": "evidence/frontier-challenges/c2-claude-deny-vs-git-guardrails/fixture/commands.json",
+    "contentDigest": "sha256:8923491e794b09ccb2fb19f68763a75756770a2684438608f1a7ec795051ae1c"
+  },
+  "conditions": "A settings file with permissions.deny rules; the documentation states a Bash rule matches the command text Claude writes and is not a security boundary around the program.",
+  "createdAtUTC": "2026-10-28T18:25:55.576687Z"
+}

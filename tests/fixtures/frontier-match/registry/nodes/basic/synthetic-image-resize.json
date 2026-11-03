@@ -1,0 +1,10 @@
+{
+  "id": "synthetic-image-resize",
+  "name": "Synthetic Image Resize",
+  "type": "basic",
+  "description": "SYNTHETIC FIXTURE. Resize and compress raster images for web delivery.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "status": "provisional"
+}

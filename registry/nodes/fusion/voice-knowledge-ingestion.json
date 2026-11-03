@@ -1,0 +1,31 @@
+{
+  "id": "voice-knowledge-ingestion",
+  "name": "Voice Knowledge Ingestion",
+  "type": "fusion",
+  "description": "Turns spoken notes into accurately captured and organized knowledge, combining voice processing with knowledge ingestion.",
+  "prerequisites": [
+    "knowledge-harvest",
+    "voice-agent"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-03",
+  "updatedAt": "2026-11-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:53:31Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Created generic fusion node 'voice-knowledge-ingestion' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-11-02T21:53:31Z",
+      "action": "fuse",
+      "contributor": "mbtiongson1",
+      "details": "Set prerequisites via `gaia dev fuse`: knowledge-harvest, voice-agent."
+    }
+  ]
+}

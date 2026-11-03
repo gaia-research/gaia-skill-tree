@@ -25,6 +25,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 EV_LIB_JS = (ROOT / "docs" / "js" / "evidence-library.js").read_text(encoding="utf-8")
 SE_JS = (ROOT / "docs" / "js" / "skill-explorer.js").read_text(encoding="utf-8")
+EP_JS = (ROOT / "docs" / "js" / "evidence-provenance.js").read_text(encoding="utf-8")
 TM_JS = (ROOT / "docs" / "js" / "tm-config.js").read_text(encoding="utf-8")
 EV_HTML = (ROOT / "docs" / "evidence" / "index.html").read_text(encoding="utf-8")
 STYLES_CSS = (ROOT / "docs" / "css" / "styles.css").read_text(encoding="utf-8")
@@ -127,10 +128,13 @@ class TestSkillExplorerJS:
         assert "trustNumber" in SE_JS
 
     def test_evaluator_rendered(self):
-        assert "se-ev-eval" in SE_JS
+        # Evaluator, date, source host and link come from the shared renderer.
+        assert "GaiaEvidenceProvenance" in SE_JS
+        assert "se-ev-eval" in EP_JS
 
     def test_date_rendered(self):
-        assert "se-ev-date" in SE_JS
+        assert "GaiaEvidenceProvenance" in SE_JS
+        assert "se-ev-date" in EP_JS
 
     def test_notes_rendered(self):
         assert "se-ev-notes" in SE_JS

@@ -24,6 +24,7 @@ Auth: set GH_TOKEN env var to raise rate limit to 5000 req/hr.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import sys
 from datetime import date
 from pathlib import Path
@@ -37,6 +38,14 @@ from pathlib import Path
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
+if str(_REPO_ROOT / "src") not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT / "src"))
+
+from gaia_cli.canonicalTransaction import (  # noqa: E402  pending-transaction guard
+    TransactionError,
+    canonicalTransactionLock,
+    guardCanonicalPath,
+)
 
 # ---------------------------------------------------------------------------
 # Shared library imports (scripts.lib — extracted in PR 2/7)
@@ -176,7 +185,8 @@ def process_file(path: Path, apply: bool) -> list[dict]:
             )
 
     if apply and any(r["updated"] for r in results):
-        path.write_text(text, encoding="utf-8")
+        with guardCanonicalPath(path):
+            path.write_text(text, encoding="utf-8")
 
     return results
 
@@ -209,6 +219,17 @@ def main() -> int:
     if not args.apply:
         args.dry_run = True
 
+    try:
+        # --apply rewrites registry/named frontmatter: hold the canonical lock for the whole
+        # run and refuse cleanly (nonzero) while a canonical transaction is pending.
+        with (canonicalTransactionLock(REPO_ROOT) if args.apply else contextlib.nullcontext()):
+            return _run(args)
+    except TransactionError as exc:
+        print(f"Canonical writer refused: {exc}", file=sys.stderr)
+        return 1
+
+
+def _run(args) -> int:
     mode_label = "APPLY" if args.apply else "DRY-RUN"
     print(f"stargazerHeartbeat — mode: {mode_label}")
     print(f"Scanning {NAMED_DIR} ...\n")

@@ -1,0 +1,105 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/brain-ingest-gate",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/brain-ingest-gate",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-ingest-gate/SKILL.md",
+  "checked": true,
+  "contentSha256": "0c382dc55df9b7b991fd6b8ad367fc9b7ac17ebe5e8610c0740ff32234fdc82b",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.607819
+    },
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.60188
+    },
+    {
+     "id": "garrytan/meeting-ingestion",
+     "similarity": 0.534517
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.499415
+    },
+    {
+     "id": "garrytan/capture",
+     "similarity": 0.47688
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Pre-write quality gate for content entering the brain. No raw copies: a bare cp/mv into the brain repo is a bug. Before any new page lands, resolve named entities registry-first (a vector score is a floor for prose, never a gate for named things), then run the read-the-top-hit dedup decision tree (clear-dup / plausible-dup / clear). Owns dedup; delegates enrichment to the shipped ingestion skills.",
+  "name": "brain-ingest-gate"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-ingest-gate/SKILL.md",
+  "contentSha256": "0c382dc55df9b7b991fd6b8ad367fc9b7ac17ebe5e8610c0740ff32234fdc82b",
+  "fetchedAt": "2026-10-27T22:09:02.397717+00:00",
+  "frontmatter": {
+   "brain_first": true,
+   "description": "Pre-write quality gate for content entering the brain. No raw copies: a bare cp/mv into the brain repo is a bug. Before any new page lands, resolve named entities registry-first (a vector score is a floor for prose, never a gate for named things), then run the read-the-top-hit dedup decision tree (clear-dup / plausible-dup / clear). Owns dedup; delegates enrichment to the shipped ingestion skills. Routing convention, not an operation-boundary enforcement.\n",
+   "mutating": true,
+   "name": "brain-ingest-gate",
+   "triggers": [
+    "move this to brain",
+    "migrate to brain",
+    "copy these files into the brain",
+    "is this already in the brain",
+    "check for duplicates before writing",
+    "dedup before saving",
+    "raw copy to brain"
+   ],
+   "upstream": "brain-ingest-gate@fc834ee",
+   "version": "1.0.0",
+   "writes_pages": true,
+   "writes_to": [
+    "people/",
+    "companies/",
+    "concepts/",
+    "projects/"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

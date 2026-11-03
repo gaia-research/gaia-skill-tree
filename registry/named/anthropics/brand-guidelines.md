@@ -61,13 +61,13 @@ evidence:
   sourceStartedAt: '2025-09-22'
   grade: B
 - source: https://github.com/anthropics/skills/stargazers
-  updatedAt: '2026-11-01'
+  updatedAt: '2026-10-01'
   evaluator: unknown
   date: '2026-07-31'
   type: github-stars-own
   notes: Live GitHub stars for anthropics/skills; skill-count divisor uses 17 SKILL.md
     files under skills/.
-  stars: 186099
+  stars: 179239
   skillCountInRepo: 17
   sourceStartedAt: '2025-09-22'
   grade: B

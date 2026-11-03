@@ -1,0 +1,4 @@
+ M docs/architecture/yggdrasil-iv-canonical-cli.md
+ M tests/fixtures/canonical_cli_bootstrap.py
+ M tests/test_canonical_cli.py
+?? tests/fixtures/canonical-proposed-schema/

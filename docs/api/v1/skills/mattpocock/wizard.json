@@ -25,7 +25,7 @@
   },
   "title": "The Guided Setup Wizard",
   "genericSkillRef": "guided-setup-scripting",
-  "origin": false,
+  "origin": true,
   "description": "Generate an interactive bash wizard that walks a human through steps only they can perform. Use when provisioning infrastructure, setting up credentials or CI secrets, walking an unfamiliar third-party dashboard, or running a one-off migration or cutover.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,

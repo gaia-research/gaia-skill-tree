@@ -106,6 +106,7 @@
             entries.push({
               ...ev,
               type: normType,
+              typeRecorded: ev.type,
               skillId: s.id,
               skillName: s.name,
               skillLevel: null,
@@ -128,6 +129,7 @@
                 entries.push({
                   ...ev,
                   type: normType,
+                  typeRecorded: ev.type,
                   skillId: ns.id,
                   skillName: ns.name,
                   skillLevel: ns.level,
@@ -141,7 +143,15 @@
       });
     }
 
-    allEntries = entries;
+    // Rows repeating an earlier (type + source) within the same skill and layer are
+    // shown as recorded but marked: only the first counts toward the score.
+    const seenKeys = new Set();
+    allEntries = entries.map(ev => {
+      const key = ev.layer + '|' + ev.skillId + '|' + (ev.typeRecorded || '') + '|' + (ev.source || '');
+      if (seenKeys.has(key)) return { ...ev, _duplicate: true };
+      seenKeys.add(key);
+      return ev;
+    });
     // Sort types by count descending
     allTypes = Object.entries(typeCounts)
       .sort((a, b) => b[1] - a[1])
@@ -410,6 +420,7 @@
           </div>
         </div>`;
     }).join('');
+    if (window.GaiaEvidenceProvenance) window.GaiaEvidenceProvenance.bindTips(evIndexEl);
   }
 
   // Derive weighted artifact score (mirrors _deriveWeightedScore in skill-explorer.js).
@@ -562,8 +573,6 @@
   function renderRow(ev, baselineContext) {
     const TM = window.TM_CONFIG;
     const normType = ev.type || 'repo-own';
-    const typeLbl = typeLabel(normType);
-    const shortSrc = formatUrl(ev.source || '');
     const gradeChar = TM && TM.isScoringEligible && !TM.isScoringEligible(ev)
       ? '' : (ev.grade || '').toUpperCase().charAt(0);
     const isUngraded = !gradeChar;
@@ -603,10 +612,6 @@
       originsHtml = '<div class="se-ev-origins"><span class="se-ev-origins-label">Origins (' + ev.origins.length + ')</span><div class="se-ev-origins-chips">' + chips2.join('') + '</div></div>';
     }
 
-    // Evaluator
-    const evalStr = ev.evaluator && ev.evaluator !== 'unknown' && ev.evaluator !== 'claude' && ev.evaluator !== 'system'
-      ? '<span class="se-ev-eval">@' + esc(ev.evaluator) + '</span>' : '';
-
     // Freshness
     const freshHtml = freshnessHtml(ev, normType);
 
@@ -617,20 +622,17 @@
     const cardClass = 'se-ev-card' + (isUngraded ? ' se-ev-card--ungraded' : '')
       + (metricsHtml2 || notesHtml2 || originsHtml ? ' se-ev-card--wide' : '');
 
+    // Type label, source host, evaluator, date and link: one shared renderer
+    // (evidence-provenance.js) so every surface says the same thing.
+    const EP = window.GaiaEvidenceProvenance;
+    const provenanceHtml = EP
+      ? EP.renderProvenance(Object.assign({}, ev, { type: ev.typeRecorded }), { pillTip: pillTip, topExtra: layerHtml, metaExtra: freshHtml })
+      : '<div class="se-ev-card-top"><span class="se-ev-eval ev-prov-none">provenance unavailable</span>' + layerHtml + '</div>' +
+        '<div class="se-ev-card-meta">' + freshHtml + '</div>';
+
     return `<div class="${cardClass}">` +
       '<div class="se-ev-card-body">' +
-        '<div class="se-ev-card-top">' +
-          '<span class="ev-type-pill type-' + normType + '">' + esc(typeLbl) +
-            '<button class="ev-type-pill-info" type="button" title="' + esc(pillTip) + '" aria-label="' + esc(normType) + ' info">i</button>' +
-          '</span>' +
-          '<a class="se-ev-link" href="' + esc(ev.source || '#') + '" target="_blank" rel="noopener" title="' + esc(ev.source || '') + '">' + esc(shortSrc) + '</a>' +
-          layerHtml +
-        '</div>' +
-        '<div class="se-ev-card-meta">' +
-          evalStr +
-          (ev.date ? '<span class="se-ev-date">' + esc(ev.date) + '</span>' : '') +
-          freshHtml +
-        '</div>' +
+        provenanceHtml +
         notesHtml2 +
         metricsHtml2 +
         originsHtml +
@@ -701,18 +703,5 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
-  }
-
-  function formatUrl(url) {
-    if (!url) return '';
-    try {
-      let clean = url.replace(/^(https?:\/\/)?(www\.)?/, '');
-      if (clean.length > 50) {
-        clean = clean.substring(0, 22) + '…' + clean.substring(clean.length - 22);
-      }
-      return clean;
-    } catch (e) {
-      return url;
-    }
   }
 })();

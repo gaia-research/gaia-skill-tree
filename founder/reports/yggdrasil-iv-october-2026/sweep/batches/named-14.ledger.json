@@ -1,0 +1,665 @@
+[
+  {
+    "id": "remotion-dev/remotion-create",
+    "kind": "named",
+    "path": "registry/named/remotion-dev/remotion-create.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ Awakened-tier, TM 0 (ungraded), no evidence rows; rank gates pass (no TM gate at 1★). genericSkillRef video-scaffolding resolves; bucket has an Origin holder or no ≥2★ member, so origin false is correct. Body is the unedited template ('## Installation' / 'Add installation instructions here.') and the description is an auto-stub ('remotion-dev named skill for ...'); there is no capability text to appraise, so the record's classification cannot be verified from its own content. No links.github and no installable flag; curation rule requires installable: false for a non-suite <=2★ skill without a verified public repo. Propose: rewrite body and description from a verified Remotion source; set installable: false unless a verified blob link is added.",
+    "evidenceRefs": [
+      "registry/named/remotion-dev/remotion-create.md",
+      "registry/nodes/basic/video-scaffolding.json",
+      "registry/named-skills.json (bucket video-scaffolding)",
+      "CONTRIBUTING.md §12 (installable rule)"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-docs",
+    "kind": "named",
+    "path": "registry/named/remotion-dev/remotion-docs.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ Awakened-tier, TM 0 (ungraded), no evidence rows; rank gates pass (no TM gate at 1★). genericSkillRef wiki-search resolves; bucket has an Origin holder or no ≥2★ member, so origin false is correct. Body is the unedited template ('## Installation' / 'Add installation instructions here.') and the description is an auto-stub ('remotion-dev named skill for ...'); there is no capability text to appraise, so the record's classification cannot be verified from its own content. No links.github and no installable flag; curation rule requires installable: false for a non-suite <=2★ skill without a verified public repo. Propose: rewrite body and description from a verified Remotion source; set installable: false unless a verified blob link is added.",
+    "evidenceRefs": [
+      "registry/named/remotion-dev/remotion-docs.md",
+      "registry/nodes/fusion/wiki-search.json",
+      "registry/named-skills.json (bucket wiki-search)",
+      "CONTRIBUTING.md §12 (installable rule)"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-interactivity",
+    "kind": "named",
+    "path": "registry/named/remotion-dev/remotion-interactivity.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ Awakened-tier, TM 0 (ungraded), no evidence rows; rank gates pass (no TM gate at 1★). genericSkillRef video-interactivity resolves; bucket has an Origin holder or no ≥2★ member, so origin false is correct. Body is the unedited template ('## Installation' / 'Add installation instructions here.') and the description is an auto-stub ('remotion-dev named skill for ...'); there is no capability text to appraise, so the record's classification cannot be verified from its own content. No links.github and no installable flag; curation rule requires installable: false for a non-suite <=2★ skill without a verified public repo. Propose: rewrite body and description from a verified Remotion source; set installable: false unless a verified blob link is added.",
+    "evidenceRefs": [
+      "registry/named/remotion-dev/remotion-interactivity.md",
+      "registry/nodes/basic/video-interactivity.json",
+      "registry/named-skills.json (bucket video-interactivity)",
+      "CONTRIBUTING.md §12 (installable rule)"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-maps",
+    "kind": "named",
+    "path": "registry/named/remotion-dev/remotion-maps.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ Awakened-tier, TM 0 (ungraded), no evidence rows; rank gates pass (no TM gate at 1★). genericSkillRef map-animation resolves; bucket has an Origin holder or no ≥2★ member, so origin false is correct. Body is the unedited template ('## Installation' / 'Add installation instructions here.') and the description is an auto-stub ('remotion-dev named skill for ...'); there is no capability text to appraise, so the record's classification cannot be verified from its own content. No links.github and no installable flag; curation rule requires installable: false for a non-suite <=2★ skill without a verified public repo. Propose: rewrite body and description from a verified Remotion source; set installable: false unless a verified blob link is added.",
+    "evidenceRefs": [
+      "registry/named/remotion-dev/remotion-maps.md",
+      "registry/nodes/basic/map-animation.json",
+      "registry/named-skills.json (bucket map-animation)",
+      "CONTRIBUTING.md §12 (installable rule)"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-markup",
+    "kind": "named",
+    "path": "registry/named/remotion-dev/remotion-markup.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ Awakened-tier, TM 0 (ungraded), no evidence rows; rank gates pass (no TM gate at 1★). genericSkillRef timeline-animation resolves; bucket has an Origin holder or no ≥2★ member, so origin false is correct. Body is the unedited template ('## Installation' / 'Add installation instructions here.') and the description is an auto-stub ('remotion-dev named skill for ...'); there is no capability text to appraise, so the record's classification cannot be verified from its own content. No links.github and no installable flag; curation rule requires installable: false for a non-suite <=2★ skill without a verified public repo. Propose: rewrite body and description from a verified Remotion source; set installable: false unless a verified blob link is added.",
+    "evidenceRefs": [
+      "registry/named/remotion-dev/remotion-markup.md",
+      "registry/nodes/basic/timeline-animation.json",
+      "registry/named-skills.json (bucket timeline-animation)",
+      "CONTRIBUTING.md §12 (installable rule)"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-multimedia",
+    "kind": "named",
+    "path": "registry/named/remotion-dev/remotion-multimedia.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ Awakened-tier, TM 0 (ungraded), no evidence rows; rank gates pass (no TM gate at 1★). genericSkillRef generative-media resolves; bucket has an Origin holder or no ≥2★ member, so origin false is correct. Body is the unedited template ('## Installation' / 'Add installation instructions here.') and the description is an auto-stub ('remotion-dev named skill for ...'); there is no capability text to appraise, so the record's classification cannot be verified from its own content. No links.github and no installable flag; curation rule requires installable: false for a non-suite <=2★ skill without a verified public repo. Additionally, filing under generative-media cannot be confirmed without capability text; the classification check is marked pass only on structural grounds (genericSkillRef resolves). Propose: rewrite body and description from a verified Remotion source; set installable: false unless a verified blob link is added.",
+    "evidenceRefs": [
+      "registry/named/remotion-dev/remotion-multimedia.md",
+      "registry/nodes/fusion/generative-media.json",
+      "registry/named-skills.json (bucket generative-media)",
+      "CONTRIBUTING.md §12 (installable rule)"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-render",
+    "kind": "named",
+    "path": "registry/named/remotion-dev/remotion-render.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ Awakened-tier, TM 0 (ungraded), no evidence rows; rank gates pass (no TM gate at 1★). genericSkillRef video-rendering resolves; bucket has an Origin holder or no ≥2★ member, so origin false is correct. Body is the unedited template ('## Installation' / 'Add installation instructions here.') and the description is an auto-stub ('remotion-dev named skill for ...'); there is no capability text to appraise, so the record's classification cannot be verified from its own content. No links.github and no installable flag; curation rule requires installable: false for a non-suite <=2★ skill without a verified public repo. Propose: rewrite body and description from a verified Remotion source; set installable: false unless a verified blob link is added.",
+    "evidenceRefs": [
+      "registry/named/remotion-dev/remotion-render.md",
+      "registry/nodes/basic/video-rendering.json",
+      "registry/named-skills.json (bucket video-rendering)",
+      "CONTRIBUTING.md §12 (installable rule)"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-saas",
+    "kind": "named",
+    "path": "registry/named/remotion-dev/remotion-saas.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ Awakened-tier, TM 0 (ungraded), no evidence rows; rank gates pass (no TM gate at 1★). genericSkillRef video-saas resolves; bucket has an Origin holder or no ≥2★ member, so origin false is correct. Body is the unedited template ('## Installation' / 'Add installation instructions here.') and the description is an auto-stub ('remotion-dev named skill for ...'); there is no capability text to appraise, so the record's classification cannot be verified from its own content. No links.github and no installable flag; curation rule requires installable: false for a non-suite <=2★ skill without a verified public repo. Propose: rewrite body and description from a verified Remotion source; set installable: false unless a verified blob link is added.",
+    "evidenceRefs": [
+      "registry/named/remotion-dev/remotion-saas.md",
+      "registry/nodes/basic/video-saas.json",
+      "registry/named-skills.json (bucket video-saas)",
+      "CONTRIBUTING.md §12 (installable rule)"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-studio",
+    "kind": "named",
+    "path": "registry/named/remotion-dev/remotion-studio.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ Awakened-tier, TM 0 (ungraded), no evidence rows; rank gates pass (no TM gate at 1★). genericSkillRef video-preview resolves; bucket has an Origin holder or no ≥2★ member, so origin false is correct. Body is the unedited template ('## Installation' / 'Add installation instructions here.') and the description is an auto-stub ('remotion-dev named skill for ...'); there is no capability text to appraise, so the record's classification cannot be verified from its own content. No links.github and no installable flag; curation rule requires installable: false for a non-suite <=2★ skill without a verified public repo. Propose: rewrite body and description from a verified Remotion source; set installable: false unless a verified blob link is added.",
+    "evidenceRefs": [
+      "registry/named/remotion-dev/remotion-studio.md",
+      "registry/nodes/basic/video-preview.json",
+      "registry/named-skills.json (bucket video-preview)",
+      "CONTRIBUTING.md §12 (installable rule)"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-upgrade",
+    "kind": "named",
+    "path": "registry/named/remotion-dev/remotion-upgrade.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★ Awakened-tier, TM 0 (ungraded), no evidence rows; rank gates pass (no TM gate at 1★). genericSkillRef framework-upgrade resolves; bucket has an Origin holder or no ≥2★ member, so origin false is correct. Body is the unedited template ('## Installation' / 'Add installation instructions here.') and the description is an auto-stub ('remotion-dev named skill for ...'); there is no capability text to appraise, so the record's classification cannot be verified from its own content. No links.github and no installable flag; curation rule requires installable: false for a non-suite <=2★ skill without a verified public repo. Cross-bucket note for the owning auditor: framework-upgrade's highest-rated member heygen-com/remotion-to-hyperframes (3★, TM 50) has origin false and the bucket has no Origin holder. Propose: rewrite body and description from a verified Remotion source; set installable: false unless a verified blob link is added.",
+    "evidenceRefs": [
+      "registry/named/remotion-dev/remotion-upgrade.md",
+      "registry/nodes/basic/framework-upgrade.json",
+      "registry/named-skills.json (bucket framework-upgrade)",
+      "CONTRIBUTING.md §12 (installable rule)"
+    ]
+  },
+  {
+    "id": "rico-favor/implement-with-discernment",
+    "kind": "named",
+    "path": "registry/named/rico-favor/implement-with-discernment.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "1★, TM 5.7 (prepass), installable: false consistent with no links; rank and classification pass. Single evidence row is type self-attestation (trustNumber 10, evaluator rico-favor = contributor), which is a valid type but only supports existence, not capability quality. Body is original substantive guidance; no third-party tool. Metadata defect: the timeline evidence_added event (2026-07-08) records the row as 'type: repo-own' while the row is self-attestation, and no timeline event records the re-type (META §5 transparency mandate). Propose reconciling via the CLI (gaia dev timeline), not by hand-editing timeline[]. Bucket note: implement-with-discernment's 4★ member dietrichgebert/ponytail (TM 225.42) has origin false, so the bucket has no Origin holder; this record at 1★ cannot hold Origin (META §1.3).",
+    "evidenceRefs": [
+      "registry/named/rico-favor/implement-with-discernment.md",
+      "https://github.com/rico-favor/gaia-skill-tree",
+      "registry/named-skills.json (bucket implement-with-discernment)"
+    ]
+  },
+  {
+    "id": "ruvnet/agentdb-advanced",
+    "kind": "named",
+    "path": "registry/named/ruvnet/agentdb-advanced.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "2★ origin implementation for distributed-vector-memory; sole bucket member so origin is plausible. Rank passes (TM 36, grade C; no TM gate below 4★). Upstream .claude/skills/agentdb-advanced/SKILL.md confirms QUIC sync, hybrid search, MMR and sharding claims in the body. Link: links.github points to repo root https://github.com/ruvnet/ruflo. Concrete implementation file exists on main at .claude/skills/agentdb-advanced/SKILL.md. Propose links.github = https://github.com/ruvnet/ruflo/blob/main/.claude/skills/agentdb-advanced/SKILL.md (META §2.4 Specific URL Requirement; curation rule: blob/branch/subpath, not bare repo roots). Evidence: Evidence row uses type 'repo', which is not listed in registry/schema/meta.json evidence.types; the scoring engine aliases it to repo-own (src/gaia_cli/trustMagnitude.py TYPE_ALIASES), so TM is unchanged by renaming. Propose type: repo-own. The row's repo-level volume (ruvnet/ruflo, 6,899 commits, 32 contributors) supports the platform, not this capability alone; the same row is replicated across the 14 ruvnet records.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/agentdb-advanced.md",
+      "https://github.com/ruvnet/ruflo",
+      "https://github.com/ruvnet/ruflo/blob/main/.claude/skills/agentdb-advanced/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/agentdb-learning",
+    "kind": "named",
+    "path": "registry/named/ruvnet/agentdb-learning.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★, TM 0, no evidence rows; rank passes. Body states 'This is the origin implementation for the agent-memory-learning skill bucket', contradicting origin: false; a ≤1★ entry cannot hold Origin (META §1.3) and the bucket's other member reasoningbank-agentdb is also 1★, so no Origin is possible there. Capability text (experience recording, strategy ranking, cross-domain transfer) does not match upstream .claude/skills/agentdb-learning/SKILL.md, which describes a plugin of nine RL algorithms (Decision Transformer, Q-Learning, SARSA, Actor-Critic). Propose body rewrite to upstream claims and removal of the Origin sentence. Link: links.github points to repo root https://github.com/ruvnet/ruflo. Concrete implementation file exists on main at .claude/skills/agentdb-learning/SKILL.md. Propose links.github = https://github.com/ruvnet/ruflo/blob/main/.claude/skills/agentdb-learning/SKILL.md (META §2.4 Specific URL Requirement; curation rule: blob/branch/subpath, not bare repo roots).",
+    "evidenceRefs": [
+      "registry/named/ruvnet/agentdb-learning.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.claude/skills/agentdb-learning/SKILL.md",
+      "registry/named-skills.json (bucket agent-memory-learning)"
+    ]
+  },
+  {
+    "id": "ruvnet/agentdb-memory-patterns",
+    "kind": "named",
+    "path": "registry/named/ruvnet/agentdb-memory-patterns.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ origin for memory-pattern-design (sole member); rank passes. Body claims an 8-type memory taxonomy, LRU caching and SQLite WAL persistence; none of LRU, WAL or that taxonomy appear in upstream .claude/skills/agentdb-memory-patterns/SKILL.md, which describes session memory, long-term storage, pattern learning and context management. The 150x-12,500x line is the upstream's self-reported performance claim, not a measurement here. Propose body rewrite to upstream-supported capabilities. Link: links.github points to repo root https://github.com/ruvnet/ruflo. Concrete implementation file exists on main at .claude/skills/agentdb-memory-patterns/SKILL.md. Propose links.github = https://github.com/ruvnet/ruflo/blob/main/.claude/skills/agentdb-memory-patterns/SKILL.md (META §2.4 Specific URL Requirement; curation rule: blob/branch/subpath, not bare repo roots). Evidence: Evidence row uses type 'repo', which is not listed in registry/schema/meta.json evidence.types; the scoring engine aliases it to repo-own (src/gaia_cli/trustMagnitude.py TYPE_ALIASES), so TM is unchanged by renaming. Propose type: repo-own. The row's repo-level volume (ruvnet/ruflo, 6,899 commits, 32 contributors) supports the platform, not this capability alone; the same row is replicated across the 14 ruvnet records.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/agentdb-memory-patterns.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.claude/skills/agentdb-memory-patterns/SKILL.md",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "ruvnet/agentdb-optimization",
+    "kind": "named",
+    "path": "registry/named/ruvnet/agentdb-optimization.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ origin for vector-db-optimization (sole member); rank passes. HNSW tuning, quantization and the 150x-12,500x claim are supported by upstream .claude/skills/agentdb-optimization/SKILL.md (self-reported). Body claims database sharding and singleton connection pooling; neither appears in that SKILL.md (sharding is documented in agentdb-advanced instead). Propose body rewrite removing unsupported items. Link: links.github points to repo root https://github.com/ruvnet/ruflo. Concrete implementation file exists on main at .claude/skills/agentdb-optimization/SKILL.md. Propose links.github = https://github.com/ruvnet/ruflo/blob/main/.claude/skills/agentdb-optimization/SKILL.md (META §2.4 Specific URL Requirement; curation rule: blob/branch/subpath, not bare repo roots). Evidence: Evidence row uses type 'repo', which is not listed in registry/schema/meta.json evidence.types; the scoring engine aliases it to repo-own (src/gaia_cli/trustMagnitude.py TYPE_ALIASES), so TM is unchanged by renaming. Propose type: repo-own. The row's repo-level volume (ruvnet/ruflo, 6,899 commits, 32 contributors) supports the platform, not this capability alone; the same row is replicated across the 14 ruvnet records.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/agentdb-optimization.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.claude/skills/agentdb-optimization/SKILL.md",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "ruvnet/agentdb-vector-search",
+    "kind": "named",
+    "path": "registry/named/ruvnet/agentdb-vector-search.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "2★ origin for vector-search (sole member); rank passes. Body (cosine, Euclidean, dot-product, custom metrics, HNSW, sub-linear search) matches upstream .claude/skills/agentdb-vector-search/SKILL.md. Link: links.github points to repo root https://github.com/ruvnet/ruflo. Concrete implementation file exists on main at .claude/skills/agentdb-vector-search/SKILL.md. Propose links.github = https://github.com/ruvnet/ruflo/blob/main/.claude/skills/agentdb-vector-search/SKILL.md (META §2.4 Specific URL Requirement; curation rule: blob/branch/subpath, not bare repo roots). Evidence: Evidence row uses type 'repo', which is not listed in registry/schema/meta.json evidence.types; the scoring engine aliases it to repo-own (src/gaia_cli/trustMagnitude.py TYPE_ALIASES), so TM is unchanged by renaming. Propose type: repo-own. The row's repo-level volume (ruvnet/ruflo, 6,899 commits, 32 contributors) supports the platform, not this capability alone; the same row is replicated across the 14 ruvnet records.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/agentdb-vector-search.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.claude/skills/agentdb-vector-search/SKILL.md",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "ruvnet/agentdb",
+    "kind": "named",
+    "path": "registry/named/ruvnet/agentdb.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "fail",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ Evolved suite (branch suite, TM 81 B, origin sole bucket member); suiteComponents (agentdb-advanced, -learning, -memory-patterns, -optimization, -vector-search) all exist in the batch. Rank passes (no TM gate at 3★). Star bar: suite exemption applies only if components are linked; they link to the repo root (see component records). EVIDENCE: rows 2 and 3 are typed peer-review but point to ruvnet/ruflo issues #1207 (open 'feat(memory)' issue, 2 comments) and #829 (open '[Feature]' issue labeled already-fixed, 14 comments). Neither is a structured walkthrough with written critique by 4★+ reviewers (meta.json peer-review definition); the 150x-12,500x figure originates in #829's title, not a measurement. Both rows are class A with grade C, an internal inconsistency. Those two rows account for the 45 TM difference between 81 and the 36 repo row. Propose retyping or removing via gaia dev evidence/rm-evidence; the TM change is a rule consequence, must be recalculated by the CLI, and carries no rank consequence at 3★. Founder adjudication needed. Also repo row uses non-canonical type 'repo' (alias, TM-neutral). BODY: says '5★ Ultimate fusion' and 'exceeding the 10k-star Grandmaster threshold'; frontmatter is 3★, META §4.2 retires the 10k-star requirement and 'Grandmaster' is not a META tier. 'Learned index structures' is not in upstream. UPSTREAM: block pins v3.42.4 (synced 2026-09-22); latest ruvnet/ruflo release is v3.63.5 (published 2026-10-27). Stale; propose sync on a review/meta branch. Staleness alone is not a demotion basis.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/agentdb.md",
+      "https://github.com/ruvnet/ruflo/issues/1207",
+      "https://github.com/ruvnet/ruflo/issues/829",
+      "https://github.com/ruvnet/ruflo/releases/tag/v3.63.5",
+      "founder/handovers/G7_TRUST_TAXONOMY_RFC.md"
+    ]
+  },
+  {
+    "id": "ruvnet/agentic-jujutsu",
+    "kind": "named",
+    "path": "registry/named/ruvnet/agentic-jujutsu.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "reclassification",
+    "findingSummary": "2★ origin for git-diff-risk-analysis (sole member). CLASSIFICATION: the record claims it 'analyzes git diffs for complexity, churn, and risk scores', but upstream .claude/skills/agentic-jujutsu/SKILL.md (645 lines) documents Jujutsu-based lock-free version control for concurrently working AI agents with automatic conflict resolution. It contains no churn, complexity or risk scoring; the only diff reference is a jj.diff() call in an example. The Origin standing in git-diff-risk-analysis is therefore not earned for the capability the upstream describes. No existing generic node matches multi-agent version control (closest candidates parallel-execution and using-git-worktrees); a curator must either reclassify to a new or existing node or create one. BODY: the Key Capabilities (complexity scoring, churn analysis, historical risk correlation, per-file risk reports) are not in upstream; rewrite to upstream claims. Link: links.github points to repo root https://github.com/ruvnet/ruflo. Concrete implementation file exists on main at .claude/skills/agentic-jujutsu/SKILL.md. Propose links.github = https://github.com/ruvnet/ruflo/blob/main/.claude/skills/agentic-jujutsu/SKILL.md (META §2.4 Specific URL Requirement; curation rule: blob/branch/subpath, not bare repo roots). Evidence: Evidence row uses type 'repo', which is not listed in registry/schema/meta.json evidence.types; the scoring engine aliases it to repo-own (src/gaia_cli/trustMagnitude.py TYPE_ALIASES), so TM is unchanged by renaming. Propose type: repo-own. The row's repo-level volume (ruvnet/ruflo, 6,899 commits, 32 contributors) supports the platform, not this capability alone; the same row is replicated across the 14 ruvnet records.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/agentic-jujutsu.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.claude/skills/agentic-jujutsu/SKILL.md",
+      "registry/nodes/basic/git-diff-risk-analysis.json",
+      "registry/nodes/basic/parallel-execution.json",
+      "registry/nodes/fusion/using-git-worktrees.json"
+    ]
+  },
+  {
+    "id": "ruvnet/browser",
+    "kind": "named",
+    "path": "registry/named/ruvnet/browser.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "n/a",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "1★, TM 0, no evidence rows; rank passes. origin false is correct (1★ cannot hold Origin; bucket members are all 1★). BODY: claims Playwright-based automation across Chromium/Firefox/WebKit and automatic persistence to the Ruflo memory subsystem. Upstream .claude/skills/browser/SKILL.md documents an agent-browser CLI (open, snapshot with element refs, click, fill, screenshot) and does not mention Playwright, Firefox, WebKit or memory persistence. Playwright is a third-party tool whose maker is not credited; either credit it with a verified engine relationship or remove it. Propose body rewrite. Link: links.github points to repo root https://github.com/ruvnet/ruflo. Concrete implementation file exists on main at .claude/skills/browser/SKILL.md. Propose links.github = https://github.com/ruvnet/ruflo/blob/main/.claude/skills/browser/SKILL.md (META §2.4 Specific URL Requirement; curation rule: blob/branch/subpath, not bare repo roots).",
+    "evidenceRefs": [
+      "registry/named/ruvnet/browser.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.claude/skills/browser/SKILL.md"
+    ]
+  },
+  {
+    "id": "ruvnet/dual-collect",
+    "kind": "named",
+    "path": "registry/named/ruvnet/dual-collect.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ origin for headless-worker-collect (sole member); rank passes. Namespace querying and summary/detailed/json output match upstream .claude/skills/dual-mode/dual-collect.md. BODY: 'worker health reporting' and health score claims do not appear in that file; propose removing them. There is no standalone SKILL.md for dual-collect; the concrete implementation file is the one above. Link: links.github points to repo root https://github.com/ruvnet/ruflo. Concrete implementation file exists on main at .claude/skills/dual-mode/dual-collect.md. Propose links.github = https://github.com/ruvnet/ruflo/blob/main/.claude/skills/dual-mode/dual-collect.md (META §2.4 Specific URL Requirement; curation rule: blob/branch/subpath, not bare repo roots). Evidence: Evidence row uses type 'repo', which is not listed in registry/schema/meta.json evidence.types; the scoring engine aliases it to repo-own (src/gaia_cli/trustMagnitude.py TYPE_ALIASES), so TM is unchanged by renaming. Propose type: repo-own. The row's repo-level volume (ruvnet/ruflo, 6,899 commits, 32 contributors) supports the platform, not this capability alone; the same row is replicated across the 14 ruvnet records.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/dual-collect.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.claude/skills/dual-mode/dual-collect.md",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "ruvnet/dual-coordinate",
+    "kind": "named",
+    "path": "registry/named/ruvnet/dual-coordinate.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "2★ origin for hybrid-workflow-coordination (sole member); rank passes. The three templates (hybrid_development, parallel_feature, design_and_execute) match upstream .claude/skills/dual-mode/dual-coordinate.md. Link: links.github points to repo root https://github.com/ruvnet/ruflo. Concrete implementation file exists on main at .claude/skills/dual-mode/dual-coordinate.md. Propose links.github = https://github.com/ruvnet/ruflo/blob/main/.claude/skills/dual-mode/dual-coordinate.md (META §2.4 Specific URL Requirement; curation rule: blob/branch/subpath, not bare repo roots). Evidence: Evidence row uses type 'repo', which is not listed in registry/schema/meta.json evidence.types; the scoring engine aliases it to repo-own (src/gaia_cli/trustMagnitude.py TYPE_ALIASES), so TM is unchanged by renaming. Propose type: repo-own. The row's repo-level volume (ruvnet/ruflo, 6,899 commits, 32 contributors) supports the platform, not this capability alone; the same row is replicated across the 14 ruvnet records.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/dual-coordinate.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.claude/skills/dual-mode/dual-coordinate.md",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "ruvnet/dual-mode",
+    "kind": "named",
+    "path": "registry/named/ruvnet/dual-mode.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "fail",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ suite (branch suite; components dual-spawn, dual-coordinate, dual-collect all exist; origin sole bucket member). Rank passes; suite exempt from own link. BODY: states 'Dual Mode is a 3★ fusion' twice while frontmatter is 2★ (demoted 2026-09-09); and claims '3-10x throughput gains', which is not in upstream .claude/skills/dual-mode/README.md. Propose body rewrite. UPSTREAM: block pins v3.41.2 (synced 2026-09-12) while sibling ruvnet/agentdb was synced to v3.42.4 on 2026-09-22 and latest ruvnet/ruflo release is v3.63.5 (2026-10-27). Stale; propose sync. Link: suite exempt, but its concrete implementation file is .claude/skills/dual-mode/README.md. Evidence: Evidence row uses type 'repo', which is not listed in registry/schema/meta.json evidence.types; the scoring engine aliases it to repo-own (src/gaia_cli/trustMagnitude.py TYPE_ALIASES), so TM is unchanged by renaming. Propose type: repo-own. The row's repo-level volume (ruvnet/ruflo, 6,899 commits, 32 contributors) supports the platform, not this capability alone; the same row is replicated across the 14 ruvnet records.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/dual-mode.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.claude/skills/dual-mode/README.md",
+      "https://github.com/ruvnet/ruflo/releases/tag/v3.63.5"
+    ]
+  },
+  {
+    "id": "ruvnet/dual-spawn",
+    "kind": "named",
+    "path": "registry/named/ruvnet/dual-spawn.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ origin for headless-worker-spawn (sole member); rank passes. BODY: lists worker types 'research, implementation, review, test'; upstream .claude/skills/dual-mode/dual-spawn.md defines --type as coder, tester, docs, reviewer. Propose body correction. Link: links.github points to repo root https://github.com/ruvnet/ruflo. Concrete implementation file exists on main at .claude/skills/dual-mode/dual-spawn.md. Propose links.github = https://github.com/ruvnet/ruflo/blob/main/.claude/skills/dual-mode/dual-spawn.md (META §2.4 Specific URL Requirement; curation rule: blob/branch/subpath, not bare repo roots). Evidence: Evidence row uses type 'repo', which is not listed in registry/schema/meta.json evidence.types; the scoring engine aliases it to repo-own (src/gaia_cli/trustMagnitude.py TYPE_ALIASES), so TM is unchanged by renaming. Propose type: repo-own. The row's repo-level volume (ruvnet/ruflo, 6,899 commits, 32 contributors) supports the platform, not this capability alone; the same row is replicated across the 14 ruvnet records.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/dual-spawn.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.claude/skills/dual-mode/dual-spawn.md",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "ruvnet/flow-nexus-neural",
+    "kind": "named",
+    "path": "registry/named/ruvnet/flow-nexus-neural.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "2★ origin for distributed-neural-training (sole member); rank passes. Architectures (feedforward, LSTM, GAN, autoencoder, transformer) match upstream .claude/skills/flow-nexus-neural/SKILL.md; mesh/ring/star topology and tier claims were not individually verified. Link: links.github points to repo root https://github.com/ruvnet/ruflo. Concrete implementation file exists on main at .claude/skills/flow-nexus-neural/SKILL.md. Propose links.github = https://github.com/ruvnet/ruflo/blob/main/.claude/skills/flow-nexus-neural/SKILL.md (META §2.4 Specific URL Requirement; curation rule: blob/branch/subpath, not bare repo roots). Evidence: Evidence row uses type 'repo', which is not listed in registry/schema/meta.json evidence.types; the scoring engine aliases it to repo-own (src/gaia_cli/trustMagnitude.py TYPE_ALIASES), so TM is unchanged by renaming. Propose type: repo-own. The row's repo-level volume (ruvnet/ruflo, 6,899 commits, 32 contributors) supports the platform, not this capability alone; the same row is replicated across the 14 ruvnet records.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/flow-nexus-neural.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.claude/skills/flow-nexus-neural/SKILL.md",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "ruvnet/flow-nexus-platform",
+    "kind": "named",
+    "path": "registry/named/ruvnet/flow-nexus-platform.md",
+    "reviewer": "haiku:named-14",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "2★ origin for cloud-platform-management (sole member); rank passes. Body (auth, sandboxes, app store, payments, challenges, Queen Seraphina assistant, subscriptions, storage buckets) matches upstream .claude/skills/flow-nexus-platform/SKILL.md. Membership in ruvnet/ruflo capstone suiteComponents confirmed (registry/named/ruvnet/ruflo.md). Link: links.github points to repo root https://github.com/ruvnet/ruflo. Concrete implementation file exists on main at .claude/skills/flow-nexus-platform/SKILL.md. Propose links.github = https://github.com/ruvnet/ruflo/blob/main/.claude/skills/flow-nexus-platform/SKILL.md (META §2.4 Specific URL Requirement; curation rule: blob/branch/subpath, not bare repo roots). Evidence: Evidence row uses type 'repo', which is not listed in registry/schema/meta.json evidence.types; the scoring engine aliases it to repo-own (src/gaia_cli/trustMagnitude.py TYPE_ALIASES), so TM is unchanged by renaming. Propose type: repo-own. The row's repo-level volume (ruvnet/ruflo, 6,899 commits, 32 contributors) supports the platform, not this capability alone; the same row is replicated across the 14 ruvnet records.",
+    "evidenceRefs": [
+      "registry/named/ruvnet/flow-nexus-platform.md",
+      "https://github.com/ruvnet/ruflo/blob/main/.claude/skills/flow-nexus-platform/SKILL.md",
+      "registry/named/ruvnet/ruflo.md"
+    ]
+  }
+]

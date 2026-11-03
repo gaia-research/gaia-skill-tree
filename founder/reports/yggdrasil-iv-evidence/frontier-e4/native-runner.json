@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "/data/data/com.termux/files/usr/bin/python",
+    "examples/frontier/run_git_log_L_fixture.py",
+    "--output",
+    "generated-output/frontier/git-log-L.execution.json"
+  ],
+  "exitCode": 0,
+  "stdout": "{\n  \"gitVersion\": \"git version 2.56.0\",\n  \"fixtureBaselineCommit\": \"b1927910d8f0c0cf9e6d1cb8db58a853462f4eb0\",\n  \"fixtureUpdatedCommit\": \"1aa343f904e918f3e89ad627dc11931a8b2f741a\",\n  \"outputDigest\": \"sha256:3952a1cf1aaeb3eb9afc185e499016848416e2f06332a118b4651def5dd14d97\",\n  \"result\": \"inconclusive\"\n}\n",
+  "stderr": "",
+  "seconds": 0.814
+}

@@ -105,13 +105,13 @@ evidence:
   grade: B
 - source: https://github.com/garrytan/gstack/stargazers
   evaluator: mbtiongson1
-  updatedAt: '2026-11-01'
+  updatedAt: '2026-10-01'
   date: '2026-06-19'
   type: github-stars-own
   class: A
   notes: 110,930 GitHub stars as of 2026-06-19 (verified via firecrawl validation
     report; mothership with 47 sub-skills, divisor=4)
-  stars: 138527
+  stars: 134645
   skillCountInRepo: 47
   grade: C
 - source: https://www.youtube.com/watch?v=wkv2ifxPpF8
@@ -208,6 +208,18 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 355.66 -> 356.11, grade S -> S (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-27T21:39:08Z'
+  action: upstream_synced
+  contributor: mbtiongson1
+  previousValue: null
+  newValue: v1.91.242.0
+  details: first-run baseline
+- timestamp: '2026-11-02T22:17:44Z'
+  action: upstream_synced
+  contributor: mbtiongson1
+  previousValue: v1.91.242.0
+  newValue: v1.91.318.0
+  details: synced from https://github.com/garrytan/gstack/releases/tag/v1.91.318.0
 trustMagnitude: 356.11
 overallTrustGrade: S
 trustMagnitudeInputHash: 1feb9c20dc9b63ce9c286b423de593b491dfdeb420baa79a33b37d7e920462c7
@@ -224,6 +236,13 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:18:27Z'
+upstream:
+  mode: components
+  releasedAt: '2026-10-29T14:06:50Z'
+  repo: garrytan/gstack
+  sourceUrl: https://github.com/garrytan/gstack/releases/tag/v1.91.318.0
+  syncedAt: '2026-11-02T22:17:44Z'
+  version: v1.91.318.0
 ---
 
 ## Overview
