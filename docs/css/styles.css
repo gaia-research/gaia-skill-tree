@@ -10536,52 +10536,47 @@ button.nav-graph-trigger:hover {
 
 /* ── Meta Shift Notification in HoH mini ── */
 .hoh-mini-shift-banner {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0.32rem 0.75rem;
-  margin: 0 0 1rem;
-  background: color-mix(in oklch, var(--bg-surface) 85%, var(--apex-gold) 15%);
+  row-gap: 0.45rem;
+  column-gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  margin: 0 0 1.25rem;
+  background: color-mix(in oklch, var(--bg-surface) 86%, var(--apex-gold) 14%);
   border: 1px solid rgba(var(--apex-gold-rgb), 0.32);
-  border-radius: 9999px;
+  border-radius: 10px;
   font-family: var(--font-body);
-  font-size: clamp(0.72rem, 1vw, 0.78rem);
-  line-height: 1.35;
   color: var(--text);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3), 0 0 16px rgba(var(--apex-gold-rgb), 0.08);
 }
 
 .hoh-mini-shift-pill {
+  grid-column: 1;
+  grid-row: 1;
   font-family: var(--font-mono);
   font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 0.12rem 0.42rem;
+  padding: 0.15rem 0.45rem;
   border-radius: 9999px;
   background: rgba(var(--apex-gold-rgb), 0.2);
   color: var(--apex-gold);
   border: 1px solid rgba(var(--apex-gold-rgb), 0.4);
-  flex-shrink: 0;
-}
-
-.hoh-mini-shift-text {
-  color: rgba(226, 232, 240, 0.85);
-}
-
-.hoh-mini-shift-text strong {
-  color: var(--apex-gold);
-  font-weight: 600;
+  justify-self: start;
 }
 
 .hoh-mini-shift-link {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
   font-family: var(--font-mono);
   font-size: 0.68rem;
   letter-spacing: 0.03em;
   color: var(--apex-gold);
   text-decoration: none;
   white-space: nowrap;
-  flex-shrink: 0;
   transition: opacity 0.15s;
 }
 
@@ -10590,18 +10585,37 @@ button.nav-graph-trigger:hover {
   text-decoration: underline;
 }
 
+.hoh-mini-shift-text {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  font-size: clamp(0.74rem, 1vw, 0.8rem);
+  line-height: 1.45;
+  color: rgba(226, 232, 240, 0.85);
+}
+
+.hoh-mini-shift-text strong {
+  color: var(--apex-gold);
+  font-weight: 600;
+}
+
 @media (max-width: 640px) {
   .hoh-mini-shift-banner {
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
-    border-radius: 12px;
-    padding: 0.55rem 0.75rem;
+    border-radius: 10px;
+    padding: 0.65rem 0.75rem;
     gap: 0.4rem;
   }
+  .hoh-mini-shift-pill {
+    order: 1;
+  }
   .hoh-mini-shift-text {
+    order: 2;
     width: 100%;
   }
   .hoh-mini-shift-link {
+    order: 3;
     align-self: flex-start;
     min-height: 44px;
     display: inline-flex;
