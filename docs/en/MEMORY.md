@@ -2,6 +2,15 @@
 
 ---
 
+## 2026-11-03 — Editor 065wk
+
+**Branch:** `docs/routines/064` (PR #2235). Drifted PR #2164 (`dev/epic-hawking-37xung`, editor 064wk) folded in and closed; one PR ships.
+
+- **Consolidated.** `cli-reference.html` now has cards for `dev prefill`, `assess`, `embed`, `evidence-seed`, `provenance`, `verify-tier`. The richer `dev ratify` card from routines 064/065 was kept over the duplicate. Nav and TOC entries merged.
+- **De-stale.** Page Map row 3 lists the discovery path in order. Version chips read v8.29.1 (matches `pyproject.toml`). No broken links or anchors; 51 cards render, no page errors; no new hex.
+- **Cut.** One duplicate `dev ratify` card. Nothing else.
+- **Open tech debt (not docs):** `gaia fuse` calls a mock `open_pr` that prints a fake success (see Routine 067).
+
 ## 2026-11-03 — Routine 067
 
 **Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
@@ -183,6 +192,21 @@ annotate the lowercase-contributor rule on `dev ratify`, `dev evidence --evaluat
   above). Only candidates are the `--evaluator` and `--user` help text, which should say
   "handle, not validated".
 - ROTATE to the least-recently-touched page in the Page Map (`faq.html` or `fusion.html`).
+## 2026-10-27 — Weekly Editor Pass (editor-064wk)
+
+**Branch:** `docs/routines/064`. No daily PR was open, so this was a health audit
+of `main`'s `docs/en/` (v8.26.10) plus one gap fix.
+
+- **Checked, clean:** version chips match 8.26.10; no broken links or anchors
+  across the 13 pages; Page Map matches the files on disk.
+- **Added:** `cli-reference.html` cards for seven `gaia dev` verbs that had none:
+  `prefill`, `assess`, `ratify`, `embed`, `evidence-seed`, `provenance`,
+  `verify-tier`. Sidebar and TOC entries added. Only `ratify` is verifier-gated
+  (`require_operator`); the rest are open. Flags checked against live `--help`.
+- **Cut / merged / deleted:** nothing.
+- **Users must adapt:** nothing changed in behavior. The discovery path
+  (`embed` → `prefill` → `assess` → `ratify` → `evidence-seed` → `provenance`)
+  is now documented in order.
 
 ---
 
