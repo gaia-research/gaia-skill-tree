@@ -14,7 +14,9 @@ The rule, computed at build time and never stored by hand:
 2. **Merit.** Contenders are ordered by ``(published level, Trust Magnitude)``,
    both descending. The published level is the stored level capped by the
    grade ceiling (S→6★, A→4★, B→3★, C→2★, ungraded→1★), exactly as the named
-   index publishes it. TM is compared at canonical computation precision; display
+   index publishes it. A frozen contender is exempt from the ceiling and
+   competes at its stored level (founder, 2026-11-03: frozen skills keep their
+   stars; only the computed score may move). TM is compared at canonical computation precision; display
    rounding never creates a tie. This is
    the merit order META §4.1 already used ("highest-rated named skill, ties
    broken by … Trust Score") and the one ``run_meta_sweep.py`` audited.
@@ -41,8 +43,14 @@ from gaia_cli.redaction import level_num
 GRADE_MAX_STARS = {"S": 6, "A": 4, "B": 3, "C": 2, "ungraded": 1}
 
 
-def publishedLevelNumber(level, grade: Optional[str]) -> int:
-    """Stored level capped by the Trust Grade ceiling (the level the index publishes)."""
+def publishedLevelNumber(level, grade: Optional[str], frozen: bool = False) -> int:
+    """Stored level capped by the Trust Grade ceiling (the level the index publishes).
+
+    A ``frozen`` skill is exempt from the ceiling and publishes its stored level,
+    exactly as ``clampLevelToGrade(..., frozen=True)`` does for display.
+    """
+    if frozen:
+        return level_num(level)
     return min(level_num(level), GRADE_MAX_STARS.get(grade or "ungraded", 1))
 
 
@@ -150,7 +158,8 @@ def contenderMerit(entry: dict, mergedMap: dict, frozen: set[str], level=None) -
     """Return ``(published level, TM)`` for one contender, honouring the frozen lock."""
     from gaia_cli.frozen import frozenLock
 
-    lock = frozenLock(entry) if entry.get("id") in frozen else None
+    isFrozen = entry.get("id") in frozen
+    lock = frozenLock(entry) if isFrozen else None
     if lock is not None:
         tm, grade = lock
     else:
@@ -158,7 +167,7 @@ def contenderMerit(entry: dict, mergedMap: dict, frozen: set[str], level=None) -
 
         tm = float(computeTrustMagnitude(entry, mergedMap))
         grade = computeOverallTrustGradeFromSkill(entry, mergedMap) or "ungraded"
-    return publishedLevelNumber(level if level is not None else entry.get("level"), grade), tm
+    return publishedLevelNumber(level if level is not None else entry.get("level"), grade, frozen=isFrozen), tm
 
 
 def _trustMap(pool: dict) -> dict:

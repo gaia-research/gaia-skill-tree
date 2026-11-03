@@ -144,11 +144,12 @@ def buildRows() -> list[dict]:
             )
         g7Stars, flag = effectiveRank(grade, currentStars)
         # FD-7 (Yggdrasil IV): publish the same grade-clamped level as the named
-        # index. The stored level stays in storedStars for transparency.
+        # index. The stored level stays in storedStars for transparency. A frozen
+        # skill is exempt from the clamp and publishes its stored level.
         storedStars = currentStars
         from publication_context import rehearsal_context_from_env
         if rehearsal_context_from_env() is None:
-            currentStars = clampLevelToGrade(storedStars, grade)
+            currentStars = clampLevelToGrade(storedStars, grade, frozen=skillId in frozen)
         # May meta = stars on the eve of G7 cutover (pre-ratification).
         # June meta = current stars after G7 ratification (which is what
         # `currentStars` already is).

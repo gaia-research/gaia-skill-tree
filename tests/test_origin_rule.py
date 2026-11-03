@@ -58,6 +58,27 @@ def test_published_level_is_capped_by_grade():
     assert publishedLevelNumber("2★", "S") == 2
 
 
+def test_frozen_published_level_is_exempt_from_the_grade_ceiling():
+    """Founder ruling 2026-11-03: a frozen skill publishes the level it was frozen at."""
+    assert publishedLevelNumber("3★", "ungraded", frozen=True) == 3
+    assert publishedLevelNumber("3★", "C", frozen=True) == 3
+    assert publishedLevelNumber("2★", "ungraded", frozen=True) == 2
+    # Live skills are still capped, and an explicit frozen=False changes nothing.
+    assert publishedLevelNumber("3★", "ungraded", frozen=False) == 1
+
+
+def test_clamp_level_to_grade_exempts_frozen_only():
+    from gaia_cli.trustMagnitude import clampLevelToGrade
+
+    assert clampLevelToGrade("3★", "C") == "2★"
+    assert clampLevelToGrade("2★", "ungraded") == "1★"
+    assert clampLevelToGrade("3★", "C", frozen=True) == "3★"
+    assert clampLevelToGrade("2★", "ungraded", frozen=True) == "2★"
+    # Within the ceiling nothing changes for either kind.
+    assert clampLevelToGrade("2★", "B") == "2★"
+    assert clampLevelToGrade("2★", "B", frozen=True) == "2★"
+
+
 def _named(sid, ref, level, tm, grade, **extra):
     owner = sid.split("/")[0]
     return {"id": sid, "contributor": owner, "genericSkillRef": ref, "status": "named",
@@ -75,6 +96,18 @@ def test_frozen_contender_competes_with_locked_values_and_can_win(monkeypatch):
     frozen = _named("old/x", "g", "3★", 94.92, "B", installable=False, timeline=_FROZEN_EVENT)
     merged = {live["id"]: live, frozen["id"]: frozen}
     # live recomputes to (C→2★, 40); frozen keeps its lock (B→3★, 94.92)
+    assert bucketHolders("g", merged) == {"old/x"}
+
+
+def test_frozen_contender_competes_at_its_stored_level_not_the_clamp(monkeypatch):
+    """An ungraded frozen 3★ merits 3★ (stored), so it beats a live 2★ rival."""
+    import gaia_cli.trustMagnitude as tmm
+    monkeypatch.setattr(tmm, "computeTrustMagnitude", lambda *a, **k: 60.0)
+    monkeypatch.setattr(tmm, "computeOverallTrustGradeFromSkill", lambda *a, **k: "B")
+    live = _named("live/x", "g", "2★", 0, "B")
+    frozen = _named("old/x", "g", "3★", 0.0, "ungraded", installable=False, timeline=_FROZEN_EVENT)
+    merged = {live["id"]: live, frozen["id"]: frozen}
+    # live: (2★, 60). frozen: published at its stored 3★ despite the ungraded lock.
     assert bucketHolders("g", merged) == {"old/x"}
 
 

@@ -648,12 +648,14 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=Non
             )
             entry["apexGateStatus"] = apex_status
 
-            # Automatically clamp effective level/rank to Trust Magnitude grade ceiling (META §1.1/§4.2)
+            # Automatically clamp effective level/rank to Trust Magnitude grade ceiling (META §1.1/§4.2).
+            # Frozen skills are exempt: they publish the level they were frozen at.
             current_grade = entry.get("overallTrustGrade", "ungraded")
             from gaia_cli.trustMagnitude import clampLevelToGrade, maxStarsForGrade
+            is_frozen_entry = entry.get("id") in frozen
             max_allowed_stars = maxStarsForGrade(current_grade)
             raw_stars = level_num(entry.get("level", ""))
-            if raw_stars > max_allowed_stars:
+            if raw_stars > max_allowed_stars and not is_frozen_entry:
                 from publication_context import rehearsal_context_from_env
                 if rehearsal_context_from_env() is not None:
                     entry["eligibilityProposal"] = {
@@ -724,7 +726,7 @@ def awaiting_merit(awaiting_classification, frozen, generic_skills_map, repo_roo
             grade = computeOverallTrustGradeFromSkill(e, tm_map) or "ungraded"
         else:
             tm, grade = float(e.get("trustMagnitude") or 0.0), e.get("overallTrustGrade")
-        out[e.get("id")] = (publishedLevelNumber(e.get("level"), grade), tm)
+        out[e.get("id")] = (publishedLevelNumber(e.get("level"), grade, frozen=e.get("id") in frozen), tm)
     return out
 
 

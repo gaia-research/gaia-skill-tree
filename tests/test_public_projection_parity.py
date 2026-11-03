@@ -68,6 +68,20 @@ def ledgerRows(ledger) -> dict[str, dict]:
 
 
 @pytest.fixture(scope="module")
+def frozenSkillIds() -> frozenset[str]:
+    """Ids of every frozen named skill, from the one definition (gaia_cli.frozen)."""
+    import yaml
+    from gaia_cli.frozen import frozenIds
+
+    metas = []
+    for path in sorted((ROOT / "registry" / "named").glob("*/*.md")):
+        match = re.match(r"---\n(.*?)\n---", path.read_text(encoding="utf-8"), re.S)
+        if match:
+            metas.append(yaml.safe_load(match.group(1)) or {})
+    return frozenset(frozenIds(metas))
+
+
+@pytest.fixture(scope="module")
 def leaderboard() -> dict:
     return load(API / "leaderboard.json")
 
@@ -239,12 +253,35 @@ def test_ledger_level_equals_named_index_level(ledgerRows, namedEntries):
     assert not drift, f"{len(drift)} ledger rows disagree on level: {sorted(drift)[:5]}"
 
 
-def test_ledger_stored_stars_is_clamped_to_displayed_level(ledgerRows):
-    """storedStars keeps the frontmatter level; currentStars is its grade clamp."""
+def test_ledger_stored_stars_is_clamped_to_displayed_level(ledgerRows, frozenSkillIds):
+    """storedStars keeps the frontmatter level; currentStars is its grade clamp.
+
+    Frozen skills are exempt from the clamp: they publish their stored level.
+    """
     for skillId, row in ledgerRows.items():
         assert "storedStars" in row, skillId
-        assert row["currentStars"] == clampLevelToGrade(row["storedStars"], row["grade"]), skillId
-        assert stars(row["currentStars"]) <= GRADE_MAX_STARS[row["grade"]], skillId
+        frozen = skillId in frozenSkillIds
+        assert row["currentStars"] == clampLevelToGrade(row["storedStars"], row["grade"], frozen=frozen), skillId
+        if not frozen:
+            assert stars(row["currentStars"]) <= GRADE_MAX_STARS[row["grade"]], skillId
+
+
+def test_frozen_skills_publish_their_stored_level_on_every_surface(
+    ledgerRows, leaderboard, apiSkills, apiDetails, namedEntries, frozenSkillIds
+):
+    """Founder ruling 2026-11-03: the grade ceiling never lowers a frozen skill's stars."""
+    board = {row["id"]: row for row in leaderboard["rows"]}
+    checked = 0
+    for skillId in sorted(frozenSkillIds & set(ledgerRows)):
+        stored = ledgerRows[skillId]["storedStars"]
+        assert ledgerRows[skillId]["currentStars"] == stored, (skillId, "ledger")
+        assert namedEntries[skillId]["level"] == stored, (skillId, "named index")
+        assert board[skillId]["level"] == stored, (skillId, "leaderboard")
+        if skillId in apiSkills:
+            assert apiSkills[skillId]["level"] == stored, (skillId, "skills api list")
+            assert apiDetails[skillId]["level"] == stored, (skillId, "skills api detail")
+        checked += 1
+    assert checked, "expected at least one frozen skill in the ledger"
 
 
 def test_all_surfaces_agree_on_displayed_level(

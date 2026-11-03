@@ -1206,12 +1206,18 @@ def maxStarsForGrade(grade: Optional[str]) -> int:
     return GRADE_MAX_STARS.get(grade or "ungraded", 1)
 
 
-def clampLevelToGrade(level: str, grade: Optional[str]) -> str:
+def clampLevelToGrade(level: str, grade: Optional[str], frozen: bool = False) -> str:
     """Return the displayed level: the stored level, capped at the grade ceiling.
 
     Returns `level` unchanged when it is already within the ceiling. Never
     mutates registry data; callers use the result for display/projection only.
+
+    A ``frozen`` skill (``gaia_cli.frozen``) is exempt: it publishes the level
+    it was frozen at. Only its locked Trust Magnitude and grade are shown as
+    recorded; the ceiling never lowers its stars (founder ruling 2026-11-03).
     """
+    if frozen:
+        return level
     from gaia_cli.redaction import level_num
     ceiling = maxStarsForGrade(grade)
     if level_num(level or "") > ceiling:
