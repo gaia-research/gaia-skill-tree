@@ -283,8 +283,14 @@ class TestCandidateApprovalsWiring:
             assert cd["decision"]["action"] == "automatic_origin"
 
 
+@pytest.mark.slow
 class TestFrozenRecordsImmutability:
-    """Requirement 2: Never recommend mutations on frozen records."""
+    """Requirement 2: Never recommend mutations on frozen records.
+
+    Marked slow: it rebuilds the whole adjudication context (9-20s locally), and
+    the fast tier's ``--timeout=30`` hard-kills an xdist worker under CI load
+    ("node down: Not properly terminated"). It still runs in ``gaia dev test all``.
+    """
 
     def test_frozen_records_do_not_recommend_option_d(self):
         c = ba.buildCtx()

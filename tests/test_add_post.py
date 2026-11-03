@@ -68,3 +68,42 @@ def test_report_html_has_no_trailing_whitespace_without_chart():
     assert "overflow-wrap: break-word;" in rendered
     assert "word-break: break-word;" in rendered
     assert all(line == line.rstrip() for line in rendered.splitlines())
+
+
+def test_include_directive_inlines_a_fragment_as_a_block(tmp_path):
+    (tmp_path / "figures.frag").write_text('<script id="fig-data">{"a":1}</script>\n', encoding="utf-8")
+    module = _load_add_post()
+    module.INCLUDE_BASE = tmp_path
+
+    rendered = module.md_to_html("Before.\n\n{{include: figures.frag}}\n\nAfter.")
+
+    assert '<script id="fig-data">{"a":1}</script>' in rendered
+    assert "<p><script" not in rendered
+    assert "<p>Before.</p>" in rendered
+    assert "<p>After.</p>" in rendered
+
+
+def test_include_directive_cannot_escape_the_source_directory(tmp_path):
+    source = tmp_path / "source"
+    source.mkdir()
+    (tmp_path / "secret.html").write_text("<p>outside</p>", encoding="utf-8")
+    module = _load_add_post()
+    module.INCLUDE_BASE = source
+
+    for target in ("../secret.html", str(tmp_path / "secret.html")):
+        try:
+            module.md_to_html("{{include: " + target + "}}")
+        except ValueError as error:
+            assert "escapes the source directory" in str(error)
+        else:
+            raise AssertionError(f"include of {target} should have been refused")
+
+
+def test_fig_directive_emits_a_mount_and_ignores_unsafe_names():
+    module = _load_add_post()
+
+    rendered = module.md_to_html("{{fig: grade-ceiling}}")
+    assert '<div class="ygg-fig" data-fig="grade-ceiling"></div>' in rendered
+
+    unsafe = module.md_to_html('{{fig: bad"name}}')
+    assert "ygg-fig" not in unsafe

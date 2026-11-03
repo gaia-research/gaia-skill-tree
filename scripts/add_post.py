@@ -247,12 +247,16 @@ def md_to_html(md: str) -> str:
             continue
 
         # Raw include: `{{include: path}}` inlines a trusted HTML fragment
-        # (interactive figures). Path is relative to the Markdown source.
+        # (interactive figures). Path is relative to the Markdown source and must
+        # stay inside its directory: an include can never read an outside file.
         m = re.match(r"^\{\{include:\s*(\S+?)\s*\}\}$", line.strip())
         if m:
             flush_list()
-            frag = (INCLUDE_BASE / m.group(1)).read_text(encoding="utf-8")
-            out.append(frag)
+            base = INCLUDE_BASE.resolve()
+            target = (base / m.group(1)).resolve()
+            if base not in target.parents:
+                raise ValueError("include path escapes the source directory: " + m.group(1))
+            out.append(target.read_text(encoding="utf-8"))
             i += 1
             continue
 
