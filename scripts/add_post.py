@@ -192,6 +192,9 @@ def patch_meta_html(posts: list) -> None:
 # Markdown → HTML (for academic report template)
 # ---------------------------------------------------------------------------
 
+INCLUDE_BASE = Path(".")
+
+
 def _esc(text: str) -> str:
     return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
@@ -241,6 +244,24 @@ def md_to_html(md: str) -> str:
                 i += 1
             i += 1  # consume closing ```
             out.append(f'<pre><code class="language-{lang}">' + "\n".join(code_lines) + "</code></pre>")
+            continue
+
+        # Raw include: `{{include: path}}` inlines a trusted HTML fragment
+        # (interactive figures). Path is relative to the Markdown source.
+        m = re.match(r"^\{\{include:\s*(\S+?)\s*\}\}$", line.strip())
+        if m:
+            flush_list()
+            frag = (INCLUDE_BASE / m.group(1)).read_text(encoding="utf-8")
+            out.append(frag)
+            i += 1
+            continue
+
+        # Figure mount: `{{fig: name}}` emits a container an included script fills.
+        m = re.match(r"^\{\{fig:\s*([\w-]+)\s*\}\}$", line.strip())
+        if m:
+            flush_list()
+            out.append(f'<div class="ygg-fig" data-fig="{m.group(1)}"></div>')
+            i += 1
             continue
 
         # H2 — section heading
@@ -858,6 +879,8 @@ def create_report(args) -> dict:
     out_path = REPORTS_DIR / filename
     rel_url = f"meta/reports/{filename}"
 
+    global INCLUDE_BASE
+    INCLUDE_BASE = source_path.parent
     body_html = md_to_html(body_md)
     html = render_report_html(
         title=title,
