@@ -1,20 +1,62 @@
 {
   "window": "30d",
-  "generatedAt": "2026-10-30T00:07:55Z",
+  "generatedAt": "2026-11-03T13:00:06Z",
   "firstRun": false,
   "skills": [
+    {
+      "id": "panniantong/agent-reach",
+      "name": "Agent Reach",
+      "level": "3★",
+      "contributor": "panniantong",
+      "trustMagnitude": 260.83,
+      "overallTrustGrade": "A",
+      "trendingScore": 313.82,
+      "tmDelta": 206.97,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/panniantong/agent-reach.json"
+      }
+    },
     {
       "id": "wheresryan22/anatomy",
       "name": "anatomy",
       "level": "4★",
       "contributor": "wheresryan22",
-      "trustMagnitude": 152.48,
+      "trustMagnitude": 157.48,
       "overallTrustGrade": "A",
-      "trendingScore": 76.24,
-      "tmDelta": 152.48,
+      "trendingScore": 78.74,
+      "tmDelta": 157.48,
       "new": true,
       "_links": {
         "self": "/api/v1/skills/wheresryan22/anatomy.json"
+      }
+    },
+    {
+      "id": "browser-use/browser-harness",
+      "name": "Browser Harness",
+      "level": "3★",
+      "contributor": "browser-use",
+      "trustMagnitude": 118.59,
+      "overallTrustGrade": "A",
+      "trendingScore": 77.23,
+      "tmDelta": 45.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/browser-use/browser-harness.json"
+      }
+    },
+    {
+      "id": "cathrynlavery/diagram-design",
+      "name": "diagram-design",
+      "level": "2★",
+      "contributor": "cathrynlavery",
+      "trustMagnitude": 132.67,
+      "overallTrustGrade": "A",
+      "trendingScore": 66.33,
+      "tmDelta": 132.67,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/cathrynlavery/diagram-design.json"
       }
     },
     {
@@ -22,13 +64,279 @@
       "name": "accelerated-computing-cudf",
       "level": "4★",
       "contributor": "nvidia",
-      "trustMagnitude": 126.12,
+      "trustMagnitude": 131.12,
       "overallTrustGrade": "A",
-      "trendingScore": 63.06,
-      "tmDelta": 126.12,
+      "trendingScore": 65.56,
+      "tmDelta": 131.12,
       "new": true,
       "_links": {
         "self": "/api/v1/skills/nvidia/accelerated-computing-cudf.json"
+      }
+    },
+    {
+      "id": "emilkowalski/animate",
+      "name": "animate",
+      "level": "2★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "trendingScore": 64.83,
+      "tmDelta": 129.67,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/animate.json"
+      }
+    },
+    {
+      "id": "emilkowalski/animate-expo",
+      "name": "animate-expo",
+      "level": "2★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "trendingScore": 64.83,
+      "tmDelta": 129.67,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/animate-expo.json"
+      }
+    },
+    {
+      "id": "emilkowalski/animation-performance",
+      "name": "animation-performance",
+      "level": "2★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "trendingScore": 64.83,
+      "tmDelta": 129.67,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/animation-performance.json"
+      }
+    },
+    {
+      "id": "emilkowalski/apple-design",
+      "name": "apple-design",
+      "level": "2★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "trendingScore": 64.83,
+      "tmDelta": 129.67,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/apple-design.json"
+      }
+    },
+    {
+      "id": "emilkowalski/break-ui",
+      "name": "break-ui",
+      "level": "2★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "trendingScore": 64.83,
+      "tmDelta": 129.67,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/break-ui.json"
+      }
+    },
+    {
+      "id": "emilkowalski/emil-design-eng",
+      "name": "emil-design-eng",
+      "level": "2★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "trendingScore": 64.83,
+      "tmDelta": 129.67,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/emil-design-eng.json"
+      }
+    },
+    {
+      "id": "emilkowalski/find-animation-opportunities",
+      "name": "find-animation-opportunities",
+      "level": "2★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "trendingScore": 64.83,
+      "tmDelta": 129.67,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/find-animation-opportunities.json"
+      }
+    },
+    {
+      "id": "emilkowalski/improve-animations",
+      "name": "improve-animations",
+      "level": "2★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "trendingScore": 64.83,
+      "tmDelta": 129.67,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/improve-animations.json"
+      }
+    },
+    {
+      "id": "emilkowalski/mobile-native",
+      "name": "mobile-native",
+      "level": "2★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "trendingScore": 64.83,
+      "tmDelta": 129.67,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/mobile-native.json"
+      }
+    },
+    {
+      "id": "emilkowalski/prototype",
+      "name": "prototype",
+      "level": "2★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "trendingScore": 64.83,
+      "tmDelta": 129.67,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/prototype.json"
+      }
+    },
+    {
+      "id": "emilkowalski/review-animations",
+      "name": "review-animations",
+      "level": "2★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "trendingScore": 64.83,
+      "tmDelta": 129.67,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/review-animations.json"
+      }
+    },
+    {
+      "id": "emilkowalski/write-swift",
+      "name": "write-swift",
+      "level": "2★",
+      "contributor": "emilkowalski",
+      "trustMagnitude": 129.67,
+      "overallTrustGrade": "A",
+      "trendingScore": 64.83,
+      "tmDelta": 129.67,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/emilkowalski/write-swift.json"
+      }
+    },
+    {
+      "id": "anthropics/creating-financial-models",
+      "name": "creating-financial-models",
+      "level": "2★",
+      "contributor": "anthropics",
+      "trustMagnitude": 127.83,
+      "overallTrustGrade": "A",
+      "trendingScore": 63.91,
+      "tmDelta": 127.83,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/anthropics/creating-financial-models.json"
+      }
+    },
+    {
+      "id": "zhaoxuya520/reverse-skill",
+      "name": "reverse-skill-router",
+      "level": "2★",
+      "contributor": "zhaoxuya520",
+      "trustMagnitude": 127.37,
+      "overallTrustGrade": "A",
+      "trendingScore": 63.69,
+      "tmDelta": 127.37,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/zhaoxuya520/reverse-skill.json"
+      }
+    },
+    {
+      "id": "dietrichgebert/ponytail",
+      "name": "Ponytail",
+      "level": "4★",
+      "contributor": "dietrichgebert",
+      "trustMagnitude": 225.42,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/dietrichgebert/ponytail.json"
+      }
+    },
+    {
+      "id": "addy-osmani/code-simplification",
+      "name": "Code Simplification",
+      "level": "4★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 190.0,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/code-simplification.json"
+      }
+    },
+    {
+      "id": "vercel-labs/vercel-react-best-practices",
+      "name": "Vercel React Best Practices",
+      "level": "4★",
+      "contributor": "vercel-labs",
+      "trustMagnitude": 163.19,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
+      }
+    },
+    {
+      "id": "latent-spaces/brag",
+      "name": "brag",
+      "level": "4★",
+      "contributor": "latent-spaces",
+      "trustMagnitude": 144.54,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/latent-spaces/brag.json"
+      }
+    },
+    {
+      "id": "ayghri/i-have-adhd",
+      "name": "I Have ADHD",
+      "level": "4★",
+      "contributor": "ayghri",
+      "trustMagnitude": 130.23,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/ayghri/i-have-adhd.json"
       }
     },
     {
@@ -46,6 +354,76 @@
       }
     },
     {
+      "id": "theqtcompanyrnd/qt-qml-review",
+      "name": "qt-qml-review",
+      "level": "2★",
+      "contributor": "theqtcompanyrnd",
+      "trustMagnitude": 59.74,
+      "overallTrustGrade": "B",
+      "trendingScore": 29.87,
+      "tmDelta": 59.74,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/theqtcompanyrnd/qt-qml-review.json"
+      }
+    },
+    {
+      "id": "google-deepmind/workflow-skill-creator",
+      "name": "Workflow-Skill-Creator",
+      "level": "3★",
+      "contributor": "google-deepmind",
+      "trustMagnitude": 59.65,
+      "overallTrustGrade": "B",
+      "trendingScore": 29.82,
+      "tmDelta": 59.65,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/google-deepmind/workflow-skill-creator.json"
+      }
+    },
+    {
+      "id": "obra/test-driven-development",
+      "name": "test-driven-development",
+      "level": "2★",
+      "contributor": "obra",
+      "trustMagnitude": 59.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 29.5,
+      "tmDelta": 59.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/obra/test-driven-development.json"
+      }
+    },
+    {
+      "id": "garrytan/db-repair",
+      "name": "db-repair",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 55.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 27.5,
+      "tmDelta": 55.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/db-repair.json"
+      }
+    },
+    {
+      "id": "garrytan/postgres-adopt",
+      "name": "postgres-adopt",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 55.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 27.5,
+      "tmDelta": 55.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/postgres-adopt.json"
+      }
+    },
+    {
       "id": "gsd-build/gsd-verify-work",
       "name": "GSD Verify Work",
       "level": "3★",
@@ -57,6 +435,1126 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/gsd-build/gsd-verify-work.json"
+      }
+    },
+    {
+      "id": "addy-osmani/api-and-interface-design",
+      "name": "api-and-interface-design",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/api-and-interface-design.json"
+      }
+    },
+    {
+      "id": "addy-osmani/browser-testing-with-devtools",
+      "name": "browser-testing-with-devtools",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/browser-testing-with-devtools.json"
+      }
+    },
+    {
+      "id": "addy-osmani/ci-cd-and-automation",
+      "name": "ci-cd-and-automation",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/ci-cd-and-automation.json"
+      }
+    },
+    {
+      "id": "addy-osmani/constraint-driven-development",
+      "name": "constraint-driven-development",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/constraint-driven-development.json"
+      }
+    },
+    {
+      "id": "addy-osmani/context-engineering",
+      "name": "context-engineering",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/context-engineering.json"
+      }
+    },
+    {
+      "id": "addy-osmani/debugging-and-error-recovery",
+      "name": "debugging-and-error-recovery",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/debugging-and-error-recovery.json"
+      }
+    },
+    {
+      "id": "addy-osmani/deprecation-and-migration",
+      "name": "deprecation-and-migration",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/deprecation-and-migration.json"
+      }
+    },
+    {
+      "id": "addy-osmani/documentation-and-adrs",
+      "name": "documentation-and-adrs",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/documentation-and-adrs.json"
+      }
+    },
+    {
+      "id": "addy-osmani/doubt-driven-development",
+      "name": "doubt-driven-development",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/doubt-driven-development.json"
+      }
+    },
+    {
+      "id": "addy-osmani/frontend-ui-engineering",
+      "name": "frontend-ui-engineering",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/frontend-ui-engineering.json"
+      }
+    },
+    {
+      "id": "addy-osmani/git-workflow-and-versioning",
+      "name": "git-workflow-and-versioning",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/git-workflow-and-versioning.json"
+      }
+    },
+    {
+      "id": "addy-osmani/idea-refine",
+      "name": "idea-refine",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/idea-refine.json"
+      }
+    },
+    {
+      "id": "addy-osmani/interview-me",
+      "name": "interview-me",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/interview-me.json"
+      }
+    },
+    {
+      "id": "addy-osmani/observability-and-instrumentation",
+      "name": "observability-and-instrumentation",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/observability-and-instrumentation.json"
+      }
+    },
+    {
+      "id": "addy-osmani/security-and-hardening",
+      "name": "security-and-hardening",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/security-and-hardening.json"
+      }
+    },
+    {
+      "id": "addy-osmani/source-driven-development",
+      "name": "source-driven-development",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/source-driven-development.json"
+      }
+    },
+    {
+      "id": "garrytan/academic-verify",
+      "name": "academic-verify",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/academic-verify.json"
+      }
+    },
+    {
+      "id": "garrytan/archive-crawler",
+      "name": "archive-crawler",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/archive-crawler.json"
+      }
+    },
+    {
+      "id": "garrytan/article-enrichment",
+      "name": "article-enrichment",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/article-enrichment.json"
+      }
+    },
+    {
+      "id": "garrytan/ask-user",
+      "name": "ask-user",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/ask-user.json"
+      }
+    },
+    {
+      "id": "garrytan/blog-ingest",
+      "name": "blog-ingest",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/blog-ingest.json"
+      }
+    },
+    {
+      "id": "garrytan/book-mirror",
+      "name": "book-mirror",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/book-mirror.json"
+      }
+    },
+    {
+      "id": "garrytan/brain-ingest-gate",
+      "name": "brain-ingest-gate",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/brain-ingest-gate.json"
+      }
+    },
+    {
+      "id": "garrytan/brain-link-discipline",
+      "name": "brain-link-discipline",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/brain-link-discipline.json"
+      }
+    },
+    {
+      "id": "garrytan/brain-pdf",
+      "name": "brain-pdf",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/brain-pdf.json"
+      }
+    },
+    {
+      "id": "garrytan/brain-taxonomist",
+      "name": "brain-taxonomist",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/brain-taxonomist.json"
+      }
+    },
+    {
+      "id": "garrytan/briefing",
+      "name": "briefing",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/briefing.json"
+      }
+    },
+    {
+      "id": "garrytan/bulk-ingestion",
+      "name": "bulk-ingestion",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/bulk-ingestion.json"
+      }
+    },
+    {
+      "id": "garrytan/chat-connectors",
+      "name": "chat-connectors",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/chat-connectors.json"
+      }
+    },
+    {
+      "id": "garrytan/citation-fixer",
+      "name": "citation-fixer",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/citation-fixer.json"
+      }
+    },
+    {
+      "id": "garrytan/citation-graph-ingest",
+      "name": "citation-graph-ingest",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/citation-graph-ingest.json"
+      }
+    },
+    {
+      "id": "garrytan/cold-start",
+      "name": "cold-start",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/cold-start.json"
+      }
+    },
+    {
+      "id": "garrytan/company-brainify",
+      "name": "company-brainify",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/company-brainify.json"
+      }
+    },
+    {
+      "id": "garrytan/context-audit",
+      "name": "context-audit",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/context-audit.json"
+      }
+    },
+    {
+      "id": "garrytan/conversation-archive",
+      "name": "conversation-archive",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/conversation-archive.json"
+      }
+    },
+    {
+      "id": "garrytan/correction-pipeline",
+      "name": "correction-pipeline",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/correction-pipeline.json"
+      }
+    },
+    {
+      "id": "garrytan/cron-scheduler",
+      "name": "cron-scheduler",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/cron-scheduler.json"
+      }
+    },
+    {
+      "id": "garrytan/cross-modal-review",
+      "name": "cross-modal-review",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/cross-modal-review.json"
+      }
+    },
+    {
+      "id": "garrytan/daily-task-manager",
+      "name": "daily-task-manager",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/daily-task-manager.json"
+      }
+    },
+    {
+      "id": "garrytan/daily-task-prep",
+      "name": "daily-task-prep",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/daily-task-prep.json"
+      }
+    },
+    {
+      "id": "garrytan/data-loss-gate",
+      "name": "data-loss-gate",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/data-loss-gate.json"
+      }
+    },
+    {
+      "id": "garrytan/data-research",
+      "name": "data-research",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/data-research.json"
+      }
+    },
+    {
+      "id": "garrytan/draft-in-voice",
+      "name": "draft-in-voice",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/draft-in-voice.json"
+      }
+    },
+    {
+      "id": "garrytan/eiirp",
+      "name": "eiirp",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/eiirp.json"
+      }
+    },
+    {
+      "id": "garrytan/enrich",
+      "name": "enrich",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/enrich.json"
+      }
+    },
+    {
+      "id": "garrytan/fact-check",
+      "name": "fact-check",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/fact-check.json"
+      }
+    },
+    {
+      "id": "garrytan/frontmatter-guard",
+      "name": "frontmatter-guard",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/frontmatter-guard.json"
+      }
+    },
+    {
+      "id": "garrytan/functional-area-resolver",
+      "name": "functional-area-resolver",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/functional-area-resolver.json"
+      }
+    },
+    {
+      "id": "garrytan/gbrain-upgrade",
+      "name": "gbrain-upgrade",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/gbrain-upgrade.json"
+      }
+    },
+    {
+      "id": "garrytan/google-loops",
+      "name": "google-loops",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/google-loops.json"
+      }
+    },
+    {
+      "id": "garrytan/idea-ingest",
+      "name": "idea-ingest",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/idea-ingest.json"
+      }
+    },
+    {
+      "id": "garrytan/idea-lineage",
+      "name": "idea-lineage",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/idea-lineage.json"
+      }
+    },
+    {
+      "id": "garrytan/ingest",
+      "name": "ingest",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/ingest.json"
+      }
+    },
+    {
+      "id": "garrytan/mcp-access",
+      "name": "mcp-access",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/mcp-access.json"
+      }
+    },
+    {
+      "id": "garrytan/measure-before-you-fix",
+      "name": "measure-before-you-fix",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/measure-before-you-fix.json"
+      }
+    },
+    {
+      "id": "garrytan/media-ingest",
+      "name": "media-ingest",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/media-ingest.json"
+      }
+    },
+    {
+      "id": "garrytan/meeting-ingestion",
+      "name": "meeting-ingestion",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/meeting-ingestion.json"
+      }
+    },
+    {
+      "id": "garrytan/minion-orchestrator",
+      "name": "minion-orchestrator",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/minion-orchestrator.json"
+      }
+    },
+    {
+      "id": "garrytan/perplexity-research",
+      "name": "perplexity-research",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/perplexity-research.json"
+      }
+    },
+    {
+      "id": "garrytan/publish",
+      "name": "publish",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/publish.json"
+      }
+    },
+    {
+      "id": "garrytan/query",
+      "name": "query",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/query.json"
+      }
+    },
+    {
+      "id": "garrytan/remote-mcp",
+      "name": "remote-mcp",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/remote-mcp.json"
+      }
+    },
+    {
+      "id": "garrytan/repo-architecture",
+      "name": "repo-architecture",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/repo-architecture.json"
+      }
+    },
+    {
+      "id": "garrytan/reports",
+      "name": "reports",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/reports.json"
+      }
+    },
+    {
+      "id": "garrytan/research-compendium",
+      "name": "research-compendium",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/research-compendium.json"
+      }
+    },
+    {
+      "id": "garrytan/resolve-before-asking",
+      "name": "resolve-before-asking",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/resolve-before-asking.json"
+      }
+    },
+    {
+      "id": "garrytan/schema-author",
+      "name": "schema-author",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/schema-author.json"
+      }
+    },
+    {
+      "id": "garrytan/schema-unify",
+      "name": "schema-unify",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/schema-unify.json"
+      }
+    },
+    {
+      "id": "garrytan/signal-detector",
+      "name": "signal-detector",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/signal-detector.json"
+      }
+    },
+    {
+      "id": "garrytan/skill-autobench",
+      "name": "skill-autobench",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/skill-autobench.json"
+      }
+    },
+    {
+      "id": "garrytan/skill-creator",
+      "name": "skill-creator",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/skill-creator.json"
+      }
+    },
+    {
+      "id": "garrytan/skill-optimizer",
+      "name": "skill-optimizer",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/skill-optimizer.json"
+      }
+    },
+    {
+      "id": "garrytan/skillpack-harvest",
+      "name": "skillpack-harvest",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/skillpack-harvest.json"
+      }
+    },
+    {
+      "id": "garrytan/smoke-test",
+      "name": "smoke-test",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/smoke-test.json"
+      }
+    },
+    {
+      "id": "garrytan/soul-audit",
+      "name": "soul-audit",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/soul-audit.json"
+      }
+    },
+    {
+      "id": "garrytan/strategic-reading",
+      "name": "strategic-reading",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/strategic-reading.json"
+      }
+    },
+    {
+      "id": "garrytan/testing",
+      "name": "testing",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/testing.json"
+      }
+    },
+    {
+      "id": "garrytan/two-tier-extraction",
+      "name": "two-tier-extraction",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/two-tier-extraction.json"
+      }
+    },
+    {
+      "id": "garrytan/voice-note-ingest",
+      "name": "voice-note-ingest",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/voice-note-ingest.json"
+      }
+    },
+    {
+      "id": "garrytan/webhook-transforms",
+      "name": "webhook-transforms",
+      "level": "2★",
+      "contributor": "garrytan",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/webhook-transforms.json"
       }
     },
     {
@@ -116,6 +1614,104 @@
       }
     },
     {
+      "id": "obra/writing-skills",
+      "name": "writing-skills",
+      "level": "2★",
+      "contributor": "obra",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/obra/writing-skills.json"
+      }
+    },
+    {
+      "id": "aj-geddes/causal-inference",
+      "name": "causal-inference",
+      "level": "2★",
+      "contributor": "aj-geddes",
+      "trustMagnitude": 48.62,
+      "overallTrustGrade": "C",
+      "trendingScore": 24.31,
+      "tmDelta": 48.62,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/aj-geddes/causal-inference.json"
+      }
+    },
+    {
+      "id": "mattpocock/misc",
+      "name": "Misc",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 220.87,
+      "overallTrustGrade": "A",
+      "trendingScore": 22.64,
+      "tmDelta": 20.58,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/misc.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build",
+      "name": "firecrawl-build",
+      "level": "2★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 39.9,
+      "overallTrustGrade": "C",
+      "trendingScore": 19.95,
+      "tmDelta": 39.9,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build.json"
+      }
+    },
+    {
+      "id": "dralgorhythm/compliance",
+      "name": "compliance",
+      "level": "2★",
+      "contributor": "dralgorhythm",
+      "trustMagnitude": 34.38,
+      "overallTrustGrade": "C",
+      "trendingScore": 17.19,
+      "tmDelta": 34.38,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/dralgorhythm/compliance.json"
+      }
+    },
+    {
+      "id": "omer-metin/synthetic-data",
+      "name": "synthetic-data",
+      "level": "2★",
+      "contributor": "omer-metin",
+      "trustMagnitude": 33.06,
+      "overallTrustGrade": "C",
+      "trendingScore": 16.53,
+      "tmDelta": 33.06,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/omer-metin/synthetic-data.json"
+      }
+    },
+    {
+      "id": "arcmira/find-quotes",
+      "name": "find-quotes",
+      "level": "2★",
+      "contributor": "arcmira",
+      "trustMagnitude": 30.83,
+      "overallTrustGrade": "C",
+      "trendingScore": 15.41,
+      "tmDelta": 30.83,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/arcmira/find-quotes.json"
+      }
+    },
+    {
       "id": "hikari9/office-submit",
       "name": "Office Submit",
       "level": "2★",
@@ -127,6 +1723,188 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/hikari9/office-submit.json"
+      }
+    },
+    {
+      "id": "leonxlnx/brandkit",
+      "name": "brandkit",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/brandkit.json"
+      }
+    },
+    {
+      "id": "leonxlnx/brutalist-skill",
+      "name": "brutalist-skill",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/brutalist-skill.json"
+      }
+    },
+    {
+      "id": "leonxlnx/gpt-tasteskill",
+      "name": "gpt-tasteskill",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/gpt-tasteskill.json"
+      }
+    },
+    {
+      "id": "leonxlnx/image-to-code-skill",
+      "name": "image-to-code-skill",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/image-to-code-skill.json"
+      }
+    },
+    {
+      "id": "leonxlnx/imagegen-frontend-mobile",
+      "name": "imagegen-frontend-mobile",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-mobile.json"
+      }
+    },
+    {
+      "id": "leonxlnx/imagegen-frontend-web",
+      "name": "imagegen-frontend-web",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-web.json"
+      }
+    },
+    {
+      "id": "leonxlnx/minimalist-skill",
+      "name": "minimalist-skill",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/minimalist-skill.json"
+      }
+    },
+    {
+      "id": "leonxlnx/output-skill",
+      "name": "output-skill",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/output-skill.json"
+      }
+    },
+    {
+      "id": "leonxlnx/redesign-skill",
+      "name": "redesign-skill",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/redesign-skill.json"
+      }
+    },
+    {
+      "id": "leonxlnx/soft-skill",
+      "name": "soft-skill",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/soft-skill.json"
+      }
+    },
+    {
+      "id": "leonxlnx/stitch-skill",
+      "name": "stitch-skill",
+      "level": "3★",
+      "contributor": "leonxlnx",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/stitch-skill.json"
+      }
+    },
+    {
+      "id": "nateherkai/scroll-craft",
+      "name": "Scroll Craft",
+      "level": "3★",
+      "contributor": "nateherkai",
+      "trustMagnitude": 92.38,
+      "overallTrustGrade": "B",
+      "trendingScore": 6.14,
+      "tmDelta": 5.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/nateherkai/scroll-craft.json"
+      }
+    },
+    {
+      "id": "heygen-com/hyperframes",
+      "name": "HyperFrames",
+      "level": "4★",
+      "contributor": "heygen-com",
+      "trustMagnitude": 171.92,
+      "overallTrustGrade": "A",
+      "trendingScore": 5.6,
+      "tmDelta": 5.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/hyperframes.json"
       }
     },
     {
@@ -158,7 +1936,7 @@
       }
     }
   ],
-  "totalTrending": 11,
+  "totalTrending": 138,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }
