@@ -1,5 +1,5 @@
 {
- "generation": 294,
+ "generation": 295,
  "lane": {
   "entries": [
    {
@@ -1072,7 +1072,7 @@
     "state": "closed"
    },
    {
-    "attempts": 1,
+    "attempts": 2,
     "debtId": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
     "firstQueuedAt": "2026-11-02T02:49:52.200473Z",
     "history": [
@@ -1093,14 +1093,20 @@
       "from": "dispatched",
       "reason": "rejected on attempt 1; returned to the queue (independent verification by a8800b1c335a33aaf (sonnet, effort medium))",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-03T02:49:33.549816Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-8e3c16dd27af753dc068",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-11-02T02:59:32.361566Z",
-    "lastVerdict": "reject",
+    "lastTransitionAt": "2026-11-03T02:49:33.549816Z",
+    "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 0,
@@ -2691,7 +2697,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-03T02:46:46.140530Z",
-   "expiresAt": "2026-11-03T03:19:30.850685Z",
+   "expiresAt": "2026-11-03T03:21:15.889629Z",
    "holder": "run-20261103T024646Z-8de0b6e9"
   }
  },
@@ -18263,7 +18269,36 @@
    "updatedAt": "2026-11-02T02:59:32.361503Z"
   },
   "run-20261103T024646Z-8de0b6e9": {
-   "actions": [],
+   "actions": [
+    {
+     "debtId": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
+     "emittedAt": "2026-11-03T02:49:33.549816Z",
+     "idempotencyKey": "dispatch-8e3c16dd27af753dc068:2",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 2,
+      "base": "dev/steward-integration",
+      "branch": "steward/b/trust-calibration-drift-caf93cdb7373",
+      "debtId": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
+      "dispatchId": "dispatch-8e3c16dd27af753dc068",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261103T024646Z-8de0b6e9/build-caf93cdb7373.diff",
+       "proofPath": ".gaia/steward/full/run-20261103T024646Z-8de0b6e9/build-caf93cdb7373.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261103T024646Z-8de0b6e9/build-caf93cdb7373.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:caf93cdb7373:2",
+     "type": "agent.build"
+    }
+   ],
    "actor": "cli",
    "agentAssignments": [],
    "branches": [],
@@ -18307,6 +18342,12 @@
      },
      "landings": [],
      "status": "ok"
+    },
+    "class_b": {
+     "dispatchId": "dispatch-8e3c16dd27af753dc068",
+     "dispatched": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
+     "status": "awaiting-build",
+     "stepId": "build:caf93cdb7373:2"
     },
     "observe": {
      "authorityCounts": {
@@ -19447,6 +19488,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-11-03T02:49:33.549816Z",
+     "debtId": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
+     "idempotencyKey": "dispatch-8e3c16dd27af753dc068:2",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:caf93cdb7373:2"
     }
    ],
    "thinkingEfforts": [],
@@ -19457,7 +19506,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-03T02:49:30.851420Z",
+ "updatedAt": "2026-11-03T02:51:15.893075Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -19674,16 +19723,15 @@
      "tokensOut": null
     }
    ],
-   "attempt": 1,
+   "attempt": 2,
    "authority": "B",
    "baseBranch": "dev/steward-integration",
-   "blockedReason": "independent verification by a8800b1c335a33aaf (sonnet, effort medium): rejected - Finding reproduces (not a no-change). Stored 3★/TM 50.0/grade B; engine recompute gives TM 49.99999999999999 -> grade C -> target 2★ because GRADE_B_FLOOR compa",
    "branch": "steward/b/trust-calibration-drift-caf93cdb7373",
    "build": null,
    "createdAt": "2026-11-02T02:49:52.200473Z",
    "debtId": "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0",
    "dispatchId": "dispatch-8e3c16dd27af753dc068",
-   "dispatchedAt": "2026-11-02T02:49:52.200473Z",
+   "dispatchedAt": "2026-11-03T02:49:33.549816Z",
    "history": [
     {
      "at": "2026-11-02T02:49:52.200473Z",
@@ -19696,24 +19744,24 @@
      "from": "building",
      "reason": "independent verification by a8800b1c335a33aaf (sonnet, effort medium): rejected - Finding reproduces (not a no-change). Stored 3★/TM 50.0/grade B; engine recompute gives TM 49.99999999999999 -> grade C -> target 2★ because GRADE_B_FLOOR compa",
      "to": "blocked"
+    },
+    {
+     "at": "2026-11-03T02:49:33.549816Z",
+     "from": "blocked",
+     "reason": "dispatched as dispatch-8e3c16dd27af753dc068 (attempt 2)",
+     "to": "building"
     }
    ],
    "kind": "trust_calibration_drift",
    "notes": [],
-   "promptPath": ".gaia/steward/full/run-20261102T024658Z-f5296156/build-caf93cdb7373.prompt.md",
+   "promptPath": ".gaia/steward/full/run-20261103T024646Z-8de0b6e9/build-caf93cdb7373.prompt.md",
    "pullRequest": null,
    "routine": "gaia-trust-calibration-steward",
-   "runId": "run-20261102T024658Z-f5296156",
+   "runId": "run-20261103T024646Z-8de0b6e9",
    "source": "trust-calibration-drift",
-   "state": "blocked",
-   "updatedAt": "2026-11-02T02:59:32.361566Z",
-   "verification": {
-    "agentId": "a8800b1c335a33aaf",
-    "rationale": "Finding reproduces (not a no-change). Stored 3★/TM 50.0/grade B; engine recompute gives TM 49.99999999999999 -> grade C -> target 2★ because GRADE_B_FLOOR comparison is unrounded. Cause is float noise at the exact B/C boundary after the 2026-11 stargazer refresh; whether to round before grading is a founder/engine (Class C) question. Calibration remains human-gated.",
-    "recordedAt": "2026-11-02T02:59:32.361566Z",
-    "stage": "judged",
-    "verdict": "reject"
-   }
+   "state": "building",
+   "updatedAt": "2026-11-03T02:49:33.549816Z",
+   "verification": null
   },
   "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6": {
    "assignments": [
