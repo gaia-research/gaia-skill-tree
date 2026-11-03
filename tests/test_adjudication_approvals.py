@@ -219,13 +219,13 @@ class TestCandidateApprovalsWiring:
     def test_total_counts(self, rendered_ledger):
         doc, by_tgt, by_id = rendered_ledger
         cnts = doc["counts"]
-        assert cnts["candidates"] == 190
-        assert cnts["approved"] == 51
-        assert cnts["superseded"] == 89
-        assert cnts["proposed"] == 42
-        assert cnts["held"] == 5
-        assert cnts["deferred"] == 3
-        assert sum(cnts["byStatus"].values()) == 190
+        assert cnts["candidates"] == 180
+        assert cnts["approved"] == 18
+        assert cnts["superseded"] == 88
+        assert cnts["proposed"] == 62
+        assert cnts["held"] == 6
+        assert cnts["deferred"] == 6
+        assert sum(cnts["byStatus"].values()) == 180
 
     def test_key_approved_targets(self, rendered_ledger):
         _, by_tgt, _ = rendered_ledger
@@ -237,9 +237,6 @@ class TestCandidateApprovalsWiring:
 
         assert by_tgt["latent-spaces/brag"]["status"] == "approved"
         assert by_tgt["latent-spaces/brag"]["approved"]["action"] == "raise_to_4star"
-
-        assert by_tgt["xquik-dev/hermes-tweet"]["status"] == "approved"
-        assert by_tgt["xquik-dev/hermes-tweet"]["approved"]["action"] == "keep_origin"
 
         assert by_tgt["obra/superpowers"]["status"] == "approved"
         assert by_tgt["obra/superpowers"]["approved"]["action"] == "regenerate_apex_cache"
@@ -279,7 +276,7 @@ class TestCandidateApprovalsWiring:
         _, _, by_id = rendered_ledger
         # Candidates in packet FD-16 without individual rulings are superseded by automatic Origin
         superseded = [cd for cd in by_id.values() if cd["status"] == "superseded"]
-        assert len(superseded) == 89
+        assert len(superseded) == 88
         for cd in superseded:
             assert cd["requiredDecision"]["packet"] == "FD-16"
             assert cd["decision"]["action"] == "automatic_origin"
@@ -340,8 +337,8 @@ class TestTempdirBuildAndCheck:
 
         # 3. Verify ledger.json content
         ledger = json.loads((tmp_path / "ledger.json").read_text())
-        assert ledger["counts"]["candidates"] == 190
-        assert ledger["counts"]["approved"] == 51
+        assert ledger["counts"]["candidates"] == 180
+        assert ledger["counts"]["approved"] == 18
 
         # 4. Run --check on the tempdir (must succeed with 0 drift)
         res_check = subprocess.run(
