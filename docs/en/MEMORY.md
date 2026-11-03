@@ -2,6 +2,53 @@
 
 ---
 
+## 2026-11-03 — Routine 067
+
+**Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
+Checked out from `origin/docs/routines/064`; no rebase needed for this run.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 067)" in 066: verify the `gaia fuse` interactive-confirm
+claim in `fusion.html` against the source.
+
+### What I did
+
+- **Confirm claim verified.** The sentence "the CLI writes both the fused skill entry and a timeline event"
+  matches the pending-combination branch of `fuse_command` in `src/gaia_cli/impl.py`. It appends to
+  `unlockedSkills`, clears the matched pending entry, and calls `append_skill_tree_event(..., "fuse", ...)`.
+- **One omission fixed.** The interactive menu lists "Confirm detected combination (from scan)" first when
+  `pendingCombinations` exists. The walkthrough did not mention it. Step 3 now says so.
+
+### Design decisions
+
+- Text only, inside the existing step 3 line. No new classes, no layout change.
+- Did not touch the step 4 timeline sentence. It is accurate.
+
+### Source finding (not documented, not fixed here)
+
+- `fuse_command` also calls `open_pr(...)` from `src/gaia_cli/prWriter.py`. That function is a mock: it prints
+  "Mock: Opening PR to gaia-registry/gaia" and "Success: PR #42 opened." and returns a fixed URL. No PR is
+  opened. A user who runs `gaia fuse` gets a misleading success message. This is CLI tooling debt. It is
+  outside the docs scope, so the page makes no claim about it.
+
+### Files
+
+- `docs/en/fusion.html`: step 3 sentence added.
+- `docs/en/DOCS.md`: Page Map row 8 now lists 067.
+- `docs/en/MEMORY.md`: this entry.
+
+### Verification
+
+- `git status` shows only `docs/en/` paths.
+- Added lines keep CRLF endings. No new hex. Banned-term grep on added lines: no hits.
+- `docs-en-shell.css` still linked on `fusion.html`.
+
+### Planned next (Routine 068)
+
+- Check the `gaia fuse` card in `cli-reference.html` against the `fuse_command` flags (`--skills`, `--delete`)
+  and the interactive menu options. Fix only if a flag or option is missing or wrong.
+
+---
+
 ## 2026-11-02 — Routine 066
 
 **Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).

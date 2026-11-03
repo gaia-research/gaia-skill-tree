@@ -832,7 +832,8 @@
             list (fusion recipes).<br>
             2. Cross-references that list against <code>skill-trees/&lt;you&gt;/skill-tree.json</code>
             to filter down to fusions where you own all inputs.<br>
-            3. Presents eligible fusions in an interactive selector.<br>
+            3. Presents eligible fusions in an interactive selector. If <code>gaia scan</code> already
+            detected a combination, the menu lists <em>Confirm detected combination (from scan)</em> first.<br>
             4. On confirmation: appends an entry to <code>unlockedSkills</code> and writes
             a <code>fuse</code> timeline event with current UTC timestamp.
           </p>
