@@ -9,7 +9,7 @@ level: 3★
 description: Anti-truncation execution directive preventing LLMs from skipping code
   blocks, omitting sections, or using placeholder comments.
 createdAt: '2026-08-22'
-updatedAt: '2026-10-30'
+updatedAt: '2026-11-03'
 title: Full Output Enforcement
 links:
   github: https://github.com/leonxlnx/taste-skill/blob/main/skills/output-skill/SKILL.md
@@ -63,7 +63,31 @@ timeline:
     deleted skills/output-skill in v2.1.1 (f6831c5df8) and the skill (full-output-enforcement)
     is listed as ''Removed'' in README and CHANGELOG; the only pointer is a different
     skill, Leonxlnx/unlazy. Dead evidence row removed; links kept, installable false'
+- timestamp: '2026-11-03T11:30:32Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Restored evidence https://github.com/leonxlnx/taste-skill/blob/main/skills/output-skill/SKILL.md
+    (type: github-stars-own), removed at the 2026-10-30 freeze. Founder ruling 2026-11-03:
+    frozen skills keep their stars, evidence and calibration. Hand-edited under the
+    founder''s explicit 2026-11-03 waiver of the Programmatic-First rule, because no
+    gaia dev verb can write a frozen record. Row restored byte-for-byte from commit
+    777ea33c6; the freeze event, links and installable:false are unchanged.'
+- timestamp: '2026-11-03T11:30:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 50.0, grade C -> B (restored pre-freeze lock; recomputed with
+    the engine, input hash cde644fe4d04...; hand-edited under the founder''s 2026-11-03
+    waiver)'
 evidence:
+- source: https://github.com/leonxlnx/taste-skill/blob/main/skills/output-skill/SKILL.md
+  updatedAt: '2026-10-01'
+  evaluator: mbtiongson1
+  date: '2026-08-22'
+  type: github-stars-own
+  notes: 79.0k stars on Leonxlnx/taste-skill suite component
+  stars: 91660
+  sourceStartedAt: '2026-02-19'
+  grade: A
 - source: https://github.com/leonxlnx/taste-skill
   evaluator: mbtiongson1
   date: '2026-08-22'
@@ -76,9 +100,9 @@ evidence:
 verification:
   firstEvidenceAt: '2026-08-22T08:08:26Z'
 suiteRef: leonxlnx/taste-skill
-trustMagnitude: 36.0
-overallTrustGrade: C
-trustMagnitudeInputHash: 07168b99df5e4f523ec5e1268a0f4eff2eeb98e2f41a9fd405c4e12b4183647c
+trustMagnitude: 50.0
+overallTrustGrade: B
+trustMagnitudeInputHash: cde644fe4d047e0ff1e8526631f36a84354f606551431654c6ddc18f03f13e64
 installable: false
 ---
 
