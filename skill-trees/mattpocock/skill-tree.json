@@ -211,7 +211,7 @@
     },
     {
       "skillId": "mattpocock/personal",
-      "level": "1★",
+      "level": "3★",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -230,6 +230,11 @@
           "level": "1★",
           "achievedAt": "2026-08-30T00:00:01Z",
           "source": "demote"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-08-30T00:00:02Z",
+          "source": "promotion"
         }
       ]
     },
@@ -1458,6 +1463,14 @@
       "newValue": "1★",
       "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "mattpocock/productivity"
+    },
+    {
+      "timestamp": "2026-08-30T00:00:02Z",
+      "action": "rank_up",
+      "previousValue": "1★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "mattpocock/personal"
     },
     {
       "timestamp": "2026-09-02T15:11:39Z",

@@ -18,7 +18,7 @@
 | ○ mattpocock/handoff | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/improve-codebase-architecture | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/obsidian-vault | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
-| ○ mattpocock/personal | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
+| ○ mattpocock/personal | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/productivity | Basic | 4★ | Extra | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/prototype | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/setup-matt-pocock-skills | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
