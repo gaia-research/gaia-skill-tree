@@ -131,6 +131,11 @@ def build() -> argparse.ArgumentParser:
     opened.add_argument("--branch", required=True)
     opened.add_argument("--run-id", required=True, dest="runId")
 
+    refresh = sub.add_parser("reconcile-refresh", help="bring an open, Steward-owned replacement up to a destination tip that moved (local only)")
+    refresh.add_argument("--number", type=int, required=True, help="the ORIGINAL pull request number")
+    refresh.add_argument("--run-id", required=True, dest="runId")
+    refresh.add_argument("--worktree", required=True, help="the replacement's existing worktree")
+
     retired = sub.add_parser("reconcile-retired", help="record that a replacement pull request was withdrawn so a new one may be built")
     retired.add_argument("--number", type=int, required=True, help="the ORIGINAL pull request number")
     retired.add_argument("--head", required=True, help="the original head SHA the replacement was built from")
@@ -327,6 +332,50 @@ def doReconcile(root: Path, args: argparse.Namespace) -> int:
     return 0
 
 
+def doReconcileRefresh(root: Path, args: argparse.Namespace) -> int:
+    from gaia_cli.steward.policy import StewardPolicy
+    from gaia_cli.steward.prmaintenance.census import loadPrCensus
+
+    policy = StewardPolicy.load(root)
+    reason = state.killSwitchActive(root, policy.pr_maintenance.killSwitch)
+    if reason or not policy.pr_maintenance.writesEnabled:
+        out({"refused": "kill-switch" if reason else "authority-unratified", "message": reason or "PR maintenance is not enabled"}, args.json, f"refused: {reason or 'not enabled'}")
+        return 2
+    census = loadPrCensus(root / CENSUS_INPUT, maxAgeSeconds=policy.pr_maintenance.maxCensusAgeSeconds)
+    if census.document is None or not census.status.complete:
+        out({"refused": "census-unusable", "reasons": list(census.status.reasons)}, args.json, f"refused: census {census.status.status}")
+        return 2
+    repo = census.document["repo"]
+    with state.lock(root):
+        lines = [line for line in state.readRecords(root, "outcomes")
+                 if line.get("action") == "reconcile" and line.get("repo") == repo and line.get("number") == args.number]
+        opened = [line for line in lines if line.get("state") == "opened"
+                  and line.get("replacement") not in {l.get("replacement") for l in lines if l.get("state") == "retired"}]
+        spent = sum(1 for line in lines if line.get("state") == "built" and line.get("runId") == args.runId)
+    if not opened:
+        out({"refused": "no-open-replacement", "message": "no open replacement is recorded for this original"}, args.json, "refused: no open replacement")
+        return 2
+    if spent >= policy.pr_maintenance.maxReplacementsPerRun:
+        out({"refused": "run-budget-exhausted", "message": "this run already built its replacements"}, args.json, "refused: replacement budget for this run is spent")
+        return 2
+    mine = opened[-1]
+    label = str(mine["branch"]).rsplit("-", 2)[-2] + "-" + str(mine["branch"]).rsplit("-", 2)[-1]
+    tip = census.document["baseTips"][census.document.get("defaultBranch", "main")]
+    try:
+        made = reconcile.refreshReplacement(root, label, Path(args.worktree).resolve(), tip, number=args.number,
+                                            originalHead=mine["originalHead"], repo=repo)
+    except reconcile.ReconcileError as exc:
+        out({"refused": "reconcile-failed", "message": str(exc)}, args.json, f"refused: {exc}")
+        return 2
+    with state.lock(root):
+        state.appendRecord(root, "outcomes", {"at": state.stamp(), "runId": args.runId, "repo": repo, "number": args.number, "action": "reconcile",
+                                              "state": "built", "headSha": made.commit, "originalHead": mine["originalHead"], "branch": made.branch,
+                                              "baseSha": tip, "worktree": str(made.worktree), "refreshOf": mine["headSha"],
+                                              "builders": ["reconciler:content-engine-cachebust", os.environ.get("GAIA_STEWARD_LEAD_ID", "lead-session")]})
+    out({**reconcile.asMapping(made), "baseSha": tip}, args.json, f"refreshed {made.branch} to {made.commit[:12]} on {tip[:12]}")
+    return 0
+
+
 def doReconcileRetired(root: Path, args: argparse.Namespace) -> int:
     import subprocess
 
@@ -405,6 +454,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             return doReconcileOpened(root, args)
         if args.action == "reconcile-retired":
             return doReconcileRetired(root, args)
+        if args.action == "reconcile-refresh":
+            return doReconcileRefresh(root, args)
         if args.action == "kill":
             flag = state.storeDir(root) / state.KILL_FILE
             if args.state == "on":

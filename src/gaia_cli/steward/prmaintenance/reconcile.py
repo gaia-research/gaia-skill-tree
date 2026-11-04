@@ -172,6 +172,67 @@ def buildReplacement(root: Path, repo: str, number: int, originalHead: str, labe
         raise
 
 
+def refreshReplacement(root: Path, label: str, worktree: Path, baseSha: str, *, number: int, originalHead: str,
+                       repo: str = "") -> Replacement:
+    """Bring a Steward-owned replacement up to a destination tip that moved, by merging the tip in and regenerating.
+
+    The auto-release restamps every page on each merge, so a replacement built a minute ago can already be behind. This never
+    rewrites history: it merges the new tip into the replacement's own branch (conflicts go to the destination, because the four
+    report files are regenerated afterwards anyway), regenerates them with the destination's own generator, and re-proves.
+    """
+
+    if not LABEL.match(label):
+        raise ReconcileError(f"{label!r} is not an ISO week label")
+    if not worktree.is_dir() or not proofs.hasCommit(root, baseSha):
+        raise ReconcileError("the replacement worktree or the destination tip is not available locally")
+    if need(git(worktree, "status", "--porcelain", "--untracked-files=all"), "git status"):
+        raise ReconcileError("the replacement worktree has uncommitted changes")
+    version = proofs.baseVersion(root, baseSha)
+    if version is None:
+        raise ReconcileError("the destination version could not be read")
+    import json
+
+    indexBytes = (worktree / "docs" / "api" / "v1" / "reports" / "index.json").read_bytes()
+    stamp = json.loads(indexBytes.decode("utf-8")).get("generatedAt") or ""
+    if not stamp:
+        raise ReconcileError("the replacement's index carries no generatedAt to reuse")
+    identity = ["-c", "user.name=Claude", "-c", "user.email=noreply@anthropic.com"]
+    merged = git(worktree, *identity, "merge", "--no-ff", "--no-edit", "-X", "theirs", "-m",
+                 f"Merge destination tip {baseSha[:12]} into the replacement for #{number}", baseSha)
+    if merged.returncode != 0:
+        git(worktree, "merge", "--abort")
+        raise ReconcileError(f"merging the destination tip failed: {merged.stderr.strip()[:200]}")
+    run = subprocess.run([sys.executable, "-c", BUILD, str(worktree), label, stamp, version], capture_output=True, text=True,
+                         timeout=180, cwd=worktree, check=False, env=NOBYTECODE)
+    if run.returncode != 0:
+        raise ReconcileError(f"regeneration failed: {(run.stderr.strip().splitlines() or ['no output'])[-1][:200]}")
+    if (worktree / "scripts" / "build_docs.py").exists():
+        run = subprocess.run([sys.executable, "-c", CACHEBUST, str(worktree)], capture_output=True, text=True,
+                             timeout=300, cwd=worktree, check=False, env=NOBYTECODE)
+        if run.returncode != 0:
+            raise ReconcileError(f"the destination's cache-busting step failed: {(run.stderr.strip().splitlines() or ['no output'])[-1][:200]}")
+    else:
+        for page in (worktree / "docs" / "reports" / label / "index.html", worktree / "docs" / "reports" / "index.html"):
+            page.write_text(stampAll(page.read_text(encoding="utf-8"), version), encoding="utf-8")
+    need(git(worktree, "add", "-A", "--", "docs/reports", "docs/api/v1/reports"), "git add")
+    if git(worktree, "diff", "--cached", "--quiet").returncode != 0:
+        need(git(worktree, *identity, "commit", "-q", "-m",
+                 f"feat(content-engine): regenerate report {label} stamps and indexes on destination tip {baseSha[:12]}\n\n"
+                 f"Co-Authored-By: {BOT}\n"), "git commit")
+    commit = need(git(worktree, "rev-parse", "HEAD"), "git rev-parse")
+    changed = need(git(root, "diff", "--name-only", baseSha, commit), "git diff").splitlines()
+    allowed = {f"docs/reports/{label}/index.html", "docs/reports/index.html", f"docs/api/v1/reports/{label}.json", "docs/api/v1/reports/index.json"}
+    if not changed or set(changed) - allowed:
+        raise ReconcileError(f"after the refresh the replacement differs from the tip outside the report scope: {sorted(set(changed) - allowed)}")
+    found = [proofs.reportJsonProof(root, commit, label), proofs.stampProof(root, baseSha, commit, sorted(changed))]
+    found += proofs.contentEngineProofs(root, baseSha, commit, label)
+    failed = [p for p in found if p.state != proofs.PASS]
+    if failed:
+        raise ReconcileError("the refreshed replacement does not pass its own proofs: " + "; ".join(f"{p.name}: {p.detail}" for p in failed))
+    return Replacement(git(worktree, "rev-parse", "--abbrev-ref", "HEAD").stdout.strip(), commit, worktree, label, number, originalHead,
+                       tuple(sorted(changed)), prBody(repo, number, originalHead, label, baseSha, [f"{p.name}: {p.detail}" for p in found]))
+
+
 def asMapping(replacement: Replacement) -> Mapping[str, Any]:
     return {"branch": replacement.branch, "commit": replacement.commit, "worktree": str(replacement.worktree),
             "label": replacement.label, "original": replacement.original, "originalHead": replacement.originalHead,

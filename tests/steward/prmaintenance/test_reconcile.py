@@ -113,3 +113,49 @@ def test_cli_reconcile_refuses_what_is_not_proven_reconcilable_or_is_revoked(tmp
     (state.storeDir(fx.root) / state.KILL_FILE).write_text("x")
     assert cli.main(["--root", root, "--json", "reconcile", "--number", "2270", "--run-id", "r1", "--worktree", str(tmp_path / "c")]) == 2
     assert json.loads(capsys.readouterr().out)["refused"] == "kill-switch"
+
+
+# --- the destination moves after a replacement was built (the auto-release restamps every page) ----------------------
+
+def release(fx, version="9.1.0"):
+    """What the repository's auto-release does on every merge: bump the version and restamp every page, on main."""
+
+    h.run(fx.root, "checkout", "-q", "main")
+    (fx.root / "pyproject.toml").write_text(f'[project]\nname = "x"\nversion = "{version}"\n', encoding="utf-8")
+    for page in sorted((fx.root / "docs/reports").glob("*/index.html")) + [fx.root / "docs/reports/index.html"]:
+        page.write_text(h.stamped(page.read_text(encoding="utf-8"), version), encoding="utf-8")
+    (fx.root / "docs/about.html").write_text("<html>about</html>\n", encoding="utf-8")
+    return fx.commit(f"chore: release v{version} [skip-gen]")
+
+
+def test_a_replacement_is_refreshed_onto_a_moved_tip_without_rewriting_history_and_passes_every_proof(tmp_path):
+    fx = h.makeRepo(tmp_path / "w")
+    original = fx.head("2026-44", version="8.26.10")
+    made = reconcile.buildReplacement(fx.root, h.REPO, 2157, original, "2026-44", fx.base, tmp_path / "wt")
+    tip = release(fx)
+    assert proofs.stampProof(fx.root, tip, made.commit, list(made.files)).state == "fail"  # stale against the new tip
+    refreshed = reconcile.refreshReplacement(fx.root, "2026-44", tmp_path / "wt", tip, number=2157, originalHead=original, repo=h.REPO)
+    assert refreshed.commit != made.commit and refreshed.branch == made.branch
+    ancestry = h.run(fx.root, "merge-base", "--is-ancestor", made.commit, refreshed.commit)  # raises if not an ancestor: history is kept
+    assert h.run(fx.root, "merge-base", "--is-ancestor", tip, refreshed.commit) == ancestry
+    assert set(h.run(fx.root, "diff", "--name-only", tip, refreshed.commit).splitlines()) == set(made.files)
+    for proof in [proofs.reportJsonProof(fx.root, refreshed.commit, "2026-44"), proofs.stampProof(fx.root, tip, refreshed.commit, list(made.files))] \
+            + proofs.contentEngineProofs(fx.root, tip, refreshed.commit, "2026-44"):
+        assert proof.state == "pass", proof
+    assert proofs.blob(fx.root, refreshed.commit, "docs/api/v1/reports/2026-44.json") == proofs.blob(fx.root, original, "docs/api/v1/reports/2026-44.json")
+
+
+def test_refresh_refuses_a_dirty_worktree_a_missing_tip_and_a_bad_label(tmp_path):
+    fx = h.makeRepo(tmp_path / "w")
+    original = fx.head("2026-44", version="8.26.10")
+    made = reconcile.buildReplacement(fx.root, h.REPO, 2157, original, "2026-44", fx.base, tmp_path / "wt")
+    tip = release(fx)
+    (tmp_path / "wt" / "docs/reports/stray.txt").write_text("x")
+    with pytest.raises(reconcile.ReconcileError, match="uncommitted"):
+        reconcile.refreshReplacement(fx.root, "2026-44", tmp_path / "wt", tip, number=2157, originalHead=original)
+    (tmp_path / "wt" / "docs/reports/stray.txt").unlink()
+    with pytest.raises(reconcile.ReconcileError, match="not available locally"):
+        reconcile.refreshReplacement(fx.root, "2026-44", tmp_path / "wt", "e" * 40, number=2157, originalHead=original)
+    with pytest.raises(reconcile.ReconcileError, match="ISO week"):
+        reconcile.refreshReplacement(fx.root, "../x", tmp_path / "wt", tip, number=2157, originalHead=original)
+    assert made.commit
