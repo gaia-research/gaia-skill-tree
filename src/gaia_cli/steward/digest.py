@@ -140,17 +140,20 @@ def _evidence_lines(evidence: Mapping[str, Any]) -> list[str]:
 
 
 ISSUE_FOUNDER_RULE = "issue-founder-decision"
+ROUTINE_PR_FOUNDER_RULE = "routine-pr-founder-decision"
 
 
 def issueQuestion(decision: FounderDecision) -> str | None:
     """The exact issue-hygiene question and its affected issues, when this decision is one."""
 
-    if decision.rule != ISSUE_FOUNDER_RULE or not decision.evidence:
+    if decision.rule not in (ISSUE_FOUNDER_RULE, ROUTINE_PR_FOUNDER_RULE) or not decision.evidence:
         return None
     observed = decision.evidence[0].get("observedState") or {}
     question = observed.get("question")
     if not isinstance(question, str) or not question:
         return None
+    if decision.rule == ROUTINE_PR_FOUNDER_RULE:
+        return f"{question} Pull request: {observed.get('repo')}#{observed.get('number')} at head {str(observed.get('headSha'))[:12]}."
     affected = observed.get("affected") or []
     numbers = ", ".join(f"#{number}" for number in affected if isinstance(number, int)) or "none listed"
     return f"{question} Affected issues: {numbers}."

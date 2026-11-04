@@ -31,6 +31,10 @@ accepted, rejected or deferred), listed once with its `Q-` id and the affected i
 numbers. A question is never answered by the desk. Only the founder's ruling, recorded
 as a decision record, releases the work it blocks.
 
+Routine 19 contributes Class C through `routine_pr_founder_decision`: one question per pull request, keyed by its
+`routine-pr/<repo>/<number>` decision target, with the exact head SHA, the failing gates, the options and a recommendation.
+The desk never merges, closes or releases the held pull request; the founder's ruling does.
+
 ## Output
 
 Under `NEEDS YOUR DECISION`, each item shows Decision / Why it matters /

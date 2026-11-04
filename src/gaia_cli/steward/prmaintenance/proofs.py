@@ -1,0 +1,206 @@
+"""Local, deterministic proofs about a PR head, read from git objects only (no network).
+
+The census collector fetches each PR head into the local object store. Everything here reads those
+objects with ``git cat-file`` / ``git archive``. A missing object is ``unknown``, never ``pass``.
+The content-engine proofs regenerate a report from its own canonical JSON using the templates of the
+*base* commit and compare the result to what the PR committed, so a PR can neither smuggle in a template
+change nor drop a historical report from the shared indexes.
+"""
+
+from __future__ import annotations
+
+import json
+import re
+import subprocess
+import sys
+import tarfile
+import tempfile
+import io
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Mapping
+
+PASS, FAIL, UNKNOWN = "pass", "fail", "unknown"
+STAMP = re.compile(r"\?v=[0-9]+\.[0-9]+\.[0-9]+")
+GAIAVERSION = re.compile(r'GAIA_VERSION = "[0-9.]+"')
+LABEL = re.compile(r"^[0-9]{4}-[0-9]{2}$")
+
+
+@dataclass(frozen=True)
+class Proof:
+    name: str
+    state: str
+    detail: str
+
+
+def git(root: Path, *args: str, timeout: float = 60.0) -> subprocess.CompletedProcess:
+    try:
+        return subprocess.run(["git", "-C", str(root), *args], capture_output=True, timeout=timeout, check=False)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return subprocess.CompletedProcess(args, 127, b"", str(exc).encode())
+
+
+def hasCommit(root: Path, sha: str) -> bool:
+    return git(root, "cat-file", "-e", f"{sha}^{{commit}}").returncode == 0
+
+
+def blob(root: Path, sha: str, path: str) -> bytes | None:
+    result = git(root, "cat-file", "blob", f"{sha}:{path}")
+    return result.stdout if result.returncode == 0 else None
+
+
+def normalizeStamps(text: str) -> str:
+    return GAIAVERSION.sub('GAIA_VERSION = "X"', STAMP.sub("?v=X", text))
+
+
+def baseVersion(root: Path, baseSha: str) -> str | None:
+    data = blob(root, baseSha, "pyproject.toml")
+    if data is None:
+        return None
+    for line in data.decode("utf-8", "replace").splitlines():
+        if line.startswith("version = "):
+            return line.split("=", 1)[1].strip().strip('"')
+    return None
+
+
+def stampProof(root: Path, baseSha: str, headSha: str, paths: list[str]) -> Proof:
+    """Every ``?v=`` stamp in the PR's HTML must equal the base version, or CI's cache-busting step fails."""
+
+    expected = baseVersion(root, baseSha)
+    if expected is None:
+        return Proof("cache-bust-current", UNKNOWN, "base version could not be read from git objects")
+    stale: list[str] = []
+    for path in paths:
+        if not path.endswith(".html"):
+            continue
+        data = blob(root, headSha, path)
+        if data is None:
+            return Proof("cache-bust-current", UNKNOWN, f"{path} is not readable at the head commit")
+        found = set(re.findall(r"\?v=([0-9]+\.[0-9]+\.[0-9]+)", data.decode("utf-8", "replace")))
+        found |= set(re.findall(r'GAIA_VERSION = "([0-9.]+)"', data.decode("utf-8", "replace")))
+        if found - {expected}:
+            stale.append(f"{path} carries {sorted(found - {expected})}")
+    if stale:
+        return Proof("cache-bust-current", FAIL, f"stale version stamps (base is {expected}): " + "; ".join(stale))
+    return Proof("cache-bust-current", PASS, f"every stamp equals base version {expected}")
+
+
+def reportJsonProof(root: Path, headSha: str, label: str) -> Proof:
+    data = blob(root, headSha, f"docs/api/v1/reports/{label}.json")
+    if data is None:
+        return Proof("report-json", UNKNOWN, "canonical JSON is not readable at the head commit")
+    try:
+        report = json.loads(data.decode("utf-8"))
+    except (UnicodeDecodeError, ValueError):
+        return Proof("report-json", FAIL, "canonical JSON does not parse")
+    problems = []
+    year, week = label.split("-")
+    if report.get("reportId", label) != label:
+        problems.append(f"reportId {report.get('reportId')!r} != {label!r}")
+    if report.get("isoYear") != int(year) or report.get("isoWeek") != int(week):
+        problems.append("isoYear/isoWeek do not match the label")
+    if not report.get("salvageLayer"):
+        problems.append("salvageLayer is absent")
+    if not isinstance(report.get("generatedAt"), str) or not report["generatedAt"]:
+        problems.append("generatedAt is absent")
+    return Proof("report-json", FAIL if problems else PASS, "; ".join(problems) or f"canonical JSON for {label} is well formed")
+
+
+def exportBase(root: Path, baseSha: str, paths: list[str], target: Path) -> bool:
+    result = git(root, "archive", baseSha, *paths, timeout=120.0)
+    if result.returncode != 0:
+        return False
+    with tarfile.open(fileobj=io.BytesIO(result.stdout)) as tar:
+        for member in tar.getmembers():
+            if member.islnk() or member.issym() or member.name.startswith(("/", "..")) or ".." in Path(member.name).parts:
+                return False
+        tar.extractall(target, filter="data")
+    return True
+
+
+RENDER = """
+import json, sys
+from pathlib import Path
+work = Path(sys.argv[1])
+sys.path.insert(0, str(work / "base" / "scripts"))
+from contentEngine import generate_weekly_report as gen
+templates = work / "base" / "scripts" / "contentEngine" / "templates"
+report = json.loads((work / "report.json").read_text(encoding="utf-8"))
+gen.renderHtml(report, templates, work / "rendered.html")
+docs = work / "docs"
+(docs / "reports" / report["reportId"]).mkdir(parents=True, exist_ok=True)
+(docs / "reports" / report["reportId"] / "index.html").write_text((work / "rendered.html").read_text(encoding="utf-8"), encoding="utf-8")
+(docs / "api" / "v1" / "reports").mkdir(parents=True, exist_ok=True)
+(docs / "api" / "v1" / "reports" / (report["reportId"] + ".json")).write_text((work / "report.json").read_text(encoding="utf-8"), encoding="utf-8")
+head = json.loads((work / "index.json").read_text(encoding="utf-8"))
+gen._rebuildArchive(docs, templates, work / "rebuilt-index.json", work / "rebuilt-index.html", head.get("generatedAt"), "0.0.0")
+"""
+
+
+def contentEngineProofs(root: Path, baseSha: str, headSha: str, label: str) -> list[Proof]:
+    """Regenerate the report and both shared indexes from base templates and base reports; compare to the head."""
+
+    if not LABEL.match(label):
+        return [Proof("rendered-html", FAIL, "label is not an ISO week")]
+    needed = {
+        "report": blob(root, headSha, f"docs/api/v1/reports/{label}.json"),
+        "html": blob(root, headSha, f"docs/reports/{label}/index.html"),
+        "indexJson": blob(root, headSha, "docs/api/v1/reports/index.json"),
+        "indexHtml": blob(root, headSha, "docs/reports/index.html"),
+    }
+    if any(value is None for value in needed.values()) or not hasCommit(root, baseSha):
+        return [Proof("rendered-html", UNKNOWN, "head or base objects are not available locally"),
+                Proof("index-rebuild", UNKNOWN, "head or base objects are not available locally")]
+    with tempfile.TemporaryDirectory(prefix="steward-ce-") as tmp:
+        work = Path(tmp)
+        (work / "base").mkdir()
+        if not exportBase(root, baseSha, ["scripts/contentEngine", "scripts/publication_context.py"], work / "base") \
+                or not exportBase(root, baseSha, ["docs/reports", "docs/api/v1/reports"], work / "docs-base"):
+            return [Proof("rendered-html", UNKNOWN, "base export failed"), Proof("index-rebuild", UNKNOWN, "base export failed")]
+        # The base's own reports are the history the rebuilt indexes must preserve.
+        (work / "docs").mkdir()
+        for sub in ("reports", "api/v1/reports"):
+            source = work / "docs-base" / "docs" / sub
+            if source.is_dir():
+                target = work / "docs" / sub
+                target.mkdir(parents=True, exist_ok=True)
+                for item in source.rglob("*"):
+                    if item.is_file() and item.name != "index.json" and not (item.parent == source and item.name == "index.html"):
+                        destination = target / item.relative_to(source)
+                        destination.parent.mkdir(parents=True, exist_ok=True)
+                        destination.write_bytes(item.read_bytes())
+        (work / "report.json").write_bytes(needed["report"])
+        (work / "index.json").write_bytes(needed["indexJson"])
+        try:
+            run = subprocess.run([sys.executable, "-c", RENDER, str(work)], capture_output=True, text=True,
+                                 timeout=120, cwd=work, check=False)
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            return [Proof("rendered-html", UNKNOWN, f"renderer did not run: {type(exc).__name__}")] * 1 + \
+                   [Proof("index-rebuild", UNKNOWN, "renderer did not run")]
+        if run.returncode != 0:
+            tail = (run.stderr.strip().splitlines() or ["no output"])[-1][:160]
+            return [Proof("rendered-html", UNKNOWN, f"renderer failed: {tail}"), Proof("index-rebuild", UNKNOWN, "renderer failed")]
+        proofs = []
+        rendered = normalizeStamps((work / "rendered.html").read_text(encoding="utf-8"))
+        committed = normalizeStamps(needed["html"].decode("utf-8", "replace"))
+        proofs.append(Proof("rendered-html", PASS if rendered == committed else FAIL,
+                            "HTML equals the base-template render of its canonical JSON" if rendered == committed
+                            else "HTML differs from the base-template render of its canonical JSON"))
+        rebuiltJson = json.loads((work / "rebuilt-index.json").read_text(encoding="utf-8"))
+        committedJson = json.loads(needed["indexJson"].decode("utf-8"))
+        sameRows = rebuiltJson.get("reports") == committedJson.get("reports")
+        rebuiltHtml = normalizeStamps((work / "rebuilt-index.html").read_text(encoding="utf-8"))
+        committedHtml = normalizeStamps(needed["indexHtml"].decode("utf-8", "replace"))
+        ids = [row.get("reportId") for row in committedJson.get("reports", [])]
+        ordered = ids == sorted(ids, reverse=True) and len(set(ids)) == len(ids)
+        good = sameRows and ordered and rebuiltHtml == committedHtml
+        detail = "both indexes equal a rebuild from base history plus this report; descending, no duplicates" if good else (
+            ("index.json rows differ from the rebuild (a historical report may be dropped or misplaced)" if not sameRows else "")
+            + ("; index not strictly descending or has duplicates" if not ordered else "")
+            + ("; index.html differs from the rebuild" if rebuiltHtml != committedHtml else "")).lstrip("; ")
+        proofs.append(Proof("index-rebuild", PASS if good else FAIL, detail))
+        return proofs
+
+
+def asMapping(proof: Proof) -> Mapping[str, Any]:
+    return {"name": proof.name, "state": proof.state, "detail": proof.detail}

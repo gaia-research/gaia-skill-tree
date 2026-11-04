@@ -1,0 +1,346 @@
+"""The merge/closure gate: every refusal is proven, and the absence of an unauthorized write is the point of the suite."""
+
+from __future__ import annotations
+
+import dataclasses
+import json
+from datetime import timedelta
+
+import pytest
+
+from gaia_cli.steward.policy import StewardPolicy
+from gaia_cli.steward.prmaintenance import gate, receipts, state
+from gaia_cli.steward.prmaintenance.evaluate import KIND_MERGE
+from gaia_cli.steward.prmaintenance.sensor import PrMaintenanceSensor  # noqa: F401  (the sensor this gate is the executor of)
+
+from tests.steward.prmaintenance import helpers as h
+
+RUN = "run-1"
+
+
+def comment(body, assoc="MEMBER", cid=1):
+    return {"id": cid, "user": "mbtiongson1", "body": body, "authorAssociation": assoc}
+
+
+def trail(number, head, run=RUN):
+    pick = receipts.pickup(number=number, head=head, runId=run, producer="weekly-content-engine", authority="B", baseRef="main",
+                           baseSha="a" * 40, action="merge")
+    ver = receipts.verification(number=number, head=head, runId=run, verifier="verifier-a", evidence=["proof"],
+                                gates={"provenance": "PASS", "scope": "PASS", "ci": "PASS", "policy": "PASS", "reviews": "PASS"},
+                                reconciliation="NOT REQUIRED")
+    return [comment(pick, cid=1), comment(ver, cid=2)]
+
+
+def verification(fx, head, number=2270, action="merge", **over):
+    record = {"repo": h.REPO, "number": number, "action": action, "headSha": head, "baseSha": fx.base, "verdict": "pass",
+              "verifier": {"agentId": "verifier-a", "effort": "high", "profileId": "p"}, "builders": ["builder-x"],
+              "proofs": [{"name": "provenance", "state": "pass", "detail": "ok"}], "runId": RUN}
+    record.update(over)
+    return gate.recordVerification(fx.root, record, h.utc())
+
+
+def snapshot(fx, head, label="2026-44", *, comments=None, number=2270, **over):
+    row = h.row(fx, head, label, number=number, comments=trail(number, head) if comments is None else comments)
+    row.update(over)
+    return gate.Snapshot(row=row, tips={"main": fx.base}, protection={"complete": True, "requiredChecks": h.REQUIRED}, siblings=[], closed=[])
+
+
+def request(head, number=2270, **over):
+    value = {"action": "merge", "repo": h.REPO, "number": number, "expectedHeadSha": head, "baseRef": "main", "producerId": "weekly-content-engine"}
+    value.update(over)
+    return value
+
+
+@pytest.fixture()
+def fx(tmp_path):
+    return h.makeRepo(tmp_path)
+
+
+def ready(fx, label="2026-44"):
+    head = fx.head(label)
+    verification(fx, head)
+    return head
+
+
+def refused(fx, snap, req, code, now=None, run=RUN, **kw):
+    with pytest.raises(gate.GateRefused) as caught:
+        gate.gateMerge(fx.root, req, snap, now or h.utc(), run, **kw)
+    assert caught.value.code == code, caught.value
+    assert not isinstance(caught.value, gate.AlreadyDone) or code.startswith("already")
+
+
+def outcomes(fx):
+    return state.readRecords(fx.root, "outcomes")
+
+
+def test_happy_path_authorizes_exactly_one_call_and_settles_from_observed_state(fx):
+    head = ready(fx)
+    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+    assert auth["headSha"] == head and auth["method"] == "merge" and auth["action"] == "merge"
+    assert [o["state"] for o in outcomes(fx)] == ["reserved"]
+    mergedRow = {**h.row(fx, head, "2026-44"), "merged": True, "state": "closed"}
+    after = gate.Snapshot(row=mergedRow, tips={"main": "9" * 40}, protection={"complete": True}, siblings=[], closed=[], merged=True,
+                          mergeCommitSha="9" * 40)
+    done = gate.finalize(fx.root, auth, after, h.utc(), parents=["a" * 40, head], postMerge="2 pending")
+    assert done["state"] == "merged" and done["mergeCommitSha"] == "9" * 40 and done["parentsVerified"] is True
+    # exactly once: a repeat is reported from the record, never performed again
+    with pytest.raises(gate.AlreadyDone) as again:
+        gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), "run-2")
+    assert again.value.code == "already-recorded"
+
+
+def test_no_independent_verification_means_no_merge(fx):
+    head = fx.head("2026-44")
+    refused(fx, snapshot(fx, head), request(head), "no-verification")
+    assert outcomes(fx) == []
+
+
+def test_interrupted_verification_a_failed_or_missing_verdict_never_authorizes(fx):
+    head = fx.head("2026-44")
+    verification(fx, head, verdict="fail", proofs=[{"name": "x", "state": "fail", "detail": "no"}])
+    refused(fx, snapshot(fx, head), request(head), "verification-failed")
+
+
+def test_verifier_must_not_be_a_builder_and_effort_must_be_explicit(fx):
+    head = fx.head("2026-44")
+    with pytest.raises(gate.GateRefused) as caught:
+        verification(fx, head, builders=["verifier-a"])
+    assert caught.value.code == "verification-not-independent"
+    for bad in ("default", "inherit", ""):
+        with pytest.raises(gate.GateRefused):
+            verification(fx, head, verifier={"agentId": "v", "effort": bad, "profileId": "p"})
+    with pytest.raises(gate.GateRefused):
+        verification(fx, head, proofs=[{"name": "a", "state": "unknown", "detail": ""}])
+
+
+def test_changed_head_after_verification_invalidates_it_and_the_action(fx):
+    head = ready(fx)
+    h.run(fx.root, "commit", "-q", "--allow-empty", "-m", "the bot pushed again")
+    newHead = h.run(fx.root, "rev-parse", "HEAD")
+    assert newHead != head
+    refused(fx, snapshot(fx, newHead), request(head), "head-moved")  # the action names the old head
+    refused(fx, snapshot(fx, newHead), request(newHead), "no-verification")  # the new head was never verified
+    assert outcomes(fx) == []
+
+
+def test_verification_expires_and_a_moved_destination_requires_reverification(fx):
+    head = ready(fx)
+    refused(fx, snapshot(fx, head), request(head), "verification-stale", now=h.utc() + timedelta(hours=7))
+    moved = snapshot(fx, head)
+    moved = dataclasses.replace(moved, tips={"main": "f" * 40})
+    refused(fx, moved, request(head), "not-eligible")
+
+
+def test_policy_or_registry_revision_change_invalidates_verification(fx):
+    head = ready(fx)
+    (fx.root / "founder/steward/pr-producers.json").write_text((fx.root / "founder/steward/pr-producers.json").read_text() + "\n")
+    refused(fx, snapshot(fx, head), request(head), "policy-revision-moved")
+
+
+def test_concurrent_merge_attempt_is_refused_while_a_live_reservation_exists(fx):
+    head = ready(fx)
+    gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+    refused(fx, snapshot(fx, head), request(head), "concurrent-attempt", run="run-2", now=h.utc() + timedelta(minutes=2))
+
+
+def test_crash_before_the_merge_is_recovered_from_github_state_not_repeated_blindly(fx):
+    head = ready(fx)
+    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+    later = h.utc() + timedelta(minutes=30)  # the first attempt died: its reservation is stale
+    again = gate.gateMerge(fx.root, request(head), snapshot(fx, head), later, "run-2")
+    assert again["digest"] != auth["digest"]
+    unmerged = gate.finalize(fx.root, again, snapshot(fx, head), later)
+    assert unmerged["state"] == "failed" and "does not show" in unmerged["reason"]
+    assert state.terminalFor(fx.root, h.REPO, 2270, "merge") is None  # failure is not a terminal success
+
+
+def test_crash_after_merge_before_receipt_resumes_by_posting_the_receipt_once(fx):
+    head = ready(fx)
+    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+    mergedRow = {**h.row(fx, head, "2026-44"), "merged": True, "state": "closed"}
+    after = gate.Snapshot(row=mergedRow, tips={"main": "9" * 40}, protection={"complete": True}, siblings=[], closed=[], merged=True, mergeCommitSha="9" * 40)
+    gate.finalize(fx.root, auth, after, h.utc())
+    # the process died before the MERGED receipt: the store says merged, no receipt is recorded or on the PR
+    assert state.terminalFor(fx.root, h.REPO, 2270, "merge")["state"] == "merged"
+    assert state.receiptPosted(fx.root, h.REPO, 2270, "merged", head[:12]) is None
+    assert receipts.findReceipt(trail(2270, head), "merged", 2270, head[:12]) is None
+    body = receipts.merged(number=2270, head=head, runId=RUN, url="u", destination="main", mergeCommit="9" * 40, method="merge", postMerge="pending")
+    posted = [*trail(2270, head), comment(body, cid=3)]
+    assert receipts.findReceipt(posted, "merged", 2270, head[:12]) is not None  # a resumed run sees it and does not post twice
+    with pytest.raises(gate.AlreadyDone):
+        gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), "run-2")
+
+
+def test_comment_write_failure_leaves_no_false_record_and_the_marker_is_the_idempotency_key(fx):
+    head = ready(fx)
+    assert state.receiptPosted(fx.root, h.REPO, 2270, "pickup", head[:12]) is None
+    state.recordReceipt(fx.root, {"at": state.stamp(), "repo": h.REPO, "number": 2270, "kind": "pickup", "head12": head[:12], "runId": RUN, "commentId": 1})
+    assert state.receiptPosted(fx.root, h.REPO, 2270, "pickup", head[:12])["commentId"] == 1
+    forged = [comment(receipts.pickup(number=2270, head=head, runId=RUN, producer="p", authority="B", baseRef="main", baseSha="a" * 40, action="merge"), assoc="NONE")]
+    assert receipts.findReceipt(forged, "pickup", 2270, head[:12]) is None  # a stranger cannot suppress a receipt
+
+
+def test_existing_merged_or_closed_state_is_reported_never_acted_on(fx):
+    head = ready(fx)
+    merged = snapshot(fx, head, merged=True, state="closed")
+    merged = dataclasses.replace(merged, merged=True, mergeCommitSha="9" * 40)
+    with pytest.raises(gate.AlreadyDone) as caught:
+        gate.gateMerge(fx.root, request(head), merged, h.utc(), RUN)
+    assert caught.value.code == "already-merged" and caught.value.detail["mergeCommitSha"] == "9" * 40
+    refused(fx, snapshot(fx, head, state="closed"), request(head), "closed-unmerged")
+    assert outcomes(fx) == []
+
+
+def test_kill_switch_revokes_every_route(fx, monkeypatch):
+    head = ready(fx)
+    assert state.killSwitchActive(fx.root) is None
+    (state.storeDir(fx.root) / state.KILL_FILE).write_text("x")
+    refused(fx, snapshot(fx, head), request(head), "kill-switch")
+    (state.storeDir(fx.root) / state.KILL_FILE).unlink()
+    monkeypatch.setenv("GAIA_STEWARD_PR_KILL", "1")
+    refused(fx, snapshot(fx, head), request(head), "kill-switch")
+    monkeypatch.delenv("GAIA_STEWARD_PR_KILL")
+    policy = StewardPolicy.load(fx.root)
+    killed = dataclasses.replace(policy, pr_maintenance=dataclasses.replace(policy.pr_maintenance, killSwitch=True))
+    refused(fx, snapshot(fx, head), request(head), "kill-switch", policy=killed)
+    assert outcomes(fx) == []
+
+
+def test_revoked_or_unratified_authority_blocks_even_with_writes_enabled_in_policy(fx):
+    head = ready(fx)
+    record = fx.root / "founder/steward/decisions/steward-pr-maintenance-authority.json"
+    data = json.loads(record.read_text())
+    data["resolution"] = "rejected"
+    record.write_text(json.dumps(data))
+    refused(fx, snapshot(fx, head), request(head), "authority-unratified")
+    assert StewardPolicy.load(fx.root).pr_maintenance.writesEnabled is False  # a switch edit alone grants nothing
+    record.unlink()
+    refused(fx, snapshot(fx, head), request(head), "authority-unratified")
+
+
+def test_disabled_action_malformed_policy_and_unknown_repositories_are_refused(fx):
+    head = ready(fx)
+    policy = StewardPolicy.load(fx.root)
+    noMerge = dataclasses.replace(policy, pr_maintenance=dataclasses.replace(policy.pr_maintenance, enabledActions=("comment",)))
+    refused(fx, snapshot(fx, head), request(head), "action-disabled", policy=noMerge)
+    bad = dataclasses.replace(policy, pr_maintenance_error="prMaintenance is malformed: x")
+    refused(fx, snapshot(fx, head), request(head), "policy-malformed", policy=bad)
+    refused(fx, snapshot(fx, head), request(head, repo="gaia-research/gaia-skill-heaven"), "repo-deferred")
+    refused(fx, snapshot(fx, head), request(head, repo="gaia-research/elsewhere"), "repo-not-enabled")
+
+
+def test_destination_and_method_outside_policy_are_refused(fx):
+    head = ready(fx)
+    refused(fx, snapshot(fx, head), request(head, method="squash"), "merge-method-not-allowed")
+    refused(fx, snapshot(fx, head), request(head, baseRef="release"), "destination-not-allowed")
+    other = snapshot(fx, head, baseRef="release")
+    refused(fx, other, request(head, baseRef="release"), "destination-not-allowed")
+
+
+def test_branch_protection_is_never_bypassed(fx):
+    head = ready(fx)
+    refused(fx, snapshot(fx, head, mergeableState="blocked"), request(head), "branch-protection")
+    unreadable = dataclasses.replace(snapshot(fx, head), protection={"complete": False, "requiredChecks": []})
+    refused(fx, unreadable, request(head), "branch-protection")
+    failing = h.passing()
+    failing[0] = {**failing[0], "conclusion": "failure"}
+    refused(fx, snapshot(fx, head, checkRuns=failing), request(head), "not-eligible")
+
+
+def test_ineligible_pull_requests_are_refused_with_their_disposition(fx):
+    head = ready(fx)
+    refused(fx, snapshot(fx, head, draft=True), request(head), "not-eligible")
+    refused(fx, snapshot(fx, head, labels=["content-engine", "needs-review"]), request(head), "not-eligible")
+    refused(fx, snapshot(fx, head, author={"login": "github-actions", "id": 1, "type": "User"}), request(head), "not-eligible")
+    refused(fx, snapshot(fx, head), request(head, producerId="scheduled-docs-routine"), "producer-mismatch")
+
+
+def test_github_trail_is_required_before_a_merge(fx):
+    head = ready(fx)
+    refused(fx, snapshot(fx, head, comments=[]), request(head), "trail-missing")
+    strangers = [comment(c["body"], assoc="NONE") for c in trail(2270, head)]
+    refused(fx, snapshot(fx, head, comments=strangers), request(head), "trail-missing")
+    other = trail(2270, "b" * 40)  # receipts for a different head do not vouch for this one
+    refused(fx, snapshot(fx, head, comments=other), request(head), "trail-missing")
+
+
+def test_exhausted_per_run_and_hourly_budgets_defer_rather_than_loop(fx):
+    first = ready(fx)
+    policy = StewardPolicy.load(fx.root)
+    one = dataclasses.replace(policy, pr_maintenance=dataclasses.replace(policy.pr_maintenance, maxMergesPerRun=1))
+    gate.gateMerge(fx.root, request(first), snapshot(fx, first), h.utc(), RUN, policy=one)
+    second = fx.head("2026-45")
+    verification(fx, second, number=2271)
+    refused(fx, snapshot(fx, second, "2026-45", number=2271), request(second, number=2271), "run-budget-exhausted", policy=one)
+    hourly = dataclasses.replace(policy, pr_maintenance=dataclasses.replace(policy.pr_maintenance, hourlyWriteCap=1))
+    refused(fx, snapshot(fx, second, "2026-45", number=2271), request(second, number=2271), "hourly-budget-exhausted", run="run-9", policy=hourly)
+
+
+def test_abort_releases_the_reservation_without_claiming_a_merge(fx):
+    head = ready(fx)
+    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+    gate.abort(fx.root, auth, "forge call not made", h.utc())
+    assert state.openReservation(fx.root, h.REPO, 2270, "merge", h.utc()) is None
+    assert state.terminalFor(fx.root, h.REPO, 2270, "merge") is None
+    assert gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), "run-2")["action"] == "merge"
+
+
+def test_finalize_trusts_observation_not_the_drivers_word(fx):
+    head = ready(fx)
+    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+    elsewhere = {**h.row(fx, head, "2026-44"), "headSha": "c" * 40, "merged": True, "state": "closed"}
+    wrongHead = gate.Snapshot(row=elsewhere, tips={"main": "9" * 40}, protection={"complete": True}, siblings=[], closed=[], merged=True, mergeCommitSha="9" * 40)
+    assert gate.finalize(fx.root, auth, wrongHead, h.utc())["state"] == "failed"
+
+
+# --- closure ------------------------------------------------------------------------------------------------------
+
+def closureWorld(tmp_path, *, replacement=True, justification=True, number=2270):
+    fx = h.makeRepo(tmp_path, labels=("2026-42", "2026-43", "2026-44"))
+    head = fx.head("2026-44")
+    closedRows = [{"number": 2400, "state": "closed", "mergedAt": "2026-11-04T17:59:00Z", "mergeCommitSha": "d" * 40, "headRef": "steward/b/x",
+                   "title": "replacement", "closedAt": "2026-11-04T18:00:00Z",
+                   "body": f"<!-- gaia-steward:replaces repo={h.REPO} pr={number} -->"}] if replacement else []
+    verification(fx, head, action="close", number=number)
+    note = receipts.closed(number=number, head=head, runId=RUN, url="u", reason="label-already-published", replacement="#2400", verifier="verifier-a")
+    snap = snapshot(fx, head, "2026-44", number=number, comments=[comment(note)] if justification else [])
+    snap = dataclasses.replace(snap, closed=closedRows)
+    req = {"action": "close", "repo": h.REPO, "number": number, "expectedHeadSha": head, "baseRef": "main", "producerId": "weekly-content-engine",
+           "reason": "label-already-published", "replacement": 2400}
+    return fx, head, snap, req
+
+
+def refusedClose(fx, snap, req, code):
+    with pytest.raises(gate.GateRefused) as caught:
+        gate.gateClose(fx.root, req, snap, h.utc(), RUN)
+    assert caught.value.code == code, caught.value
+
+
+def test_closure_happy_path_requires_justification_first_then_settles_from_observed_closed_state(tmp_path):
+    fx, head, snap, req = closureWorld(tmp_path)
+    auth = gate.gateClose(fx.root, req, snap, h.utc(), RUN)
+    closedRow = {**snap.row, "state": "closed", "merged": False}
+    done = gate.finalize(fx.root, auth, dataclasses.replace(snap, row=closedRow), h.utc())
+    assert done["state"] == "closed" and state.terminalFor(fx.root, h.REPO, 2270, "close")["state"] == "closed"
+    with pytest.raises(gate.AlreadyDone):
+        gate.gateClose(fx.root, req, snap, h.utc(), "run-2")
+
+
+def test_closure_without_adequate_evidence_is_refused(tmp_path):
+    fx, head, snap, req = closureWorld(tmp_path, replacement=False)
+    refusedClose(fx, snap, req, "closure-not-proven")  # label published but no merged, marker-linked replacement
+    fx, head, snap, req = closureWorld(tmp_path / "b", justification=False)
+    refusedClose(fx, snap, req, "justification-missing")  # the reason must be posted before the close
+    fx, head, snap, req = closureWorld(tmp_path / "c")
+    refusedClose(fx, snap, {**req, "reason": "duplicate-of-open-sibling"}, "closure-reason-not-eligible")
+    refusedClose(fx, snap, {**req, "replacement": 9999}, "replacement-missing")
+
+
+def test_a_pull_request_that_is_merely_old_or_conflicted_is_never_closable(fx):
+    head = fx.head("2026-44")
+    snap = snapshot(fx, head, mergeable=False, mergeableState="dirty")
+    verification(fx, head, action="close")
+    req = {"action": "close", "repo": h.REPO, "number": 2270, "expectedHeadSha": head, "baseRef": "main", "producerId": "weekly-content-engine",
+           "reason": "label-already-published", "replacement": 1}
+    refusedClose(fx, snap, req, "closure-not-proven")
+    assert KIND_MERGE and outcomes(fx) == []
