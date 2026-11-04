@@ -3,6 +3,7 @@
 The marker proof depends on both. A forge that cannot name its closer makes every marker unproven.
 """
 
+# Security provenance (#2283 D2): TOKEN is a local fake-transport sentinel.
 from __future__ import annotations
 
 import json

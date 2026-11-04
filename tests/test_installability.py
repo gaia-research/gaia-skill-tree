@@ -120,6 +120,7 @@ def test_gaia_health_is_independent_from_comparator_failure(tmp_path):
 
 
 def test_diagnostics_are_bounded_and_redacted():
+    # Synthetic URL/Bearer sentinels exercise positive redaction (#2283 D2).
     tail, digest = install_parity.sanitize_diagnostic(
         "fatal: https://alice:super-secret@example.com/x?token=abc "
         "Bearer ghp_verysecret\n" + "x" * 5000

@@ -772,6 +772,29 @@ class TestSecretScan:
         _, observations = _secrets(tmp_path, {"tests/test_a.py": f"t = '{_github_token('real')}'\n"})
         assert len(observations) == 1
 
+    @pytest.mark.parametrize("marker", ["dummy", "placeholder", "not-real", "canary"])
+    def test_neighbouring_fixture_marker_cannot_hide_a_different_match(
+        self, tmp_path: Path, marker: str
+    ) -> None:
+        # Construct the planted value locally; never put a credential literal
+        # in this module, even in a positive detector test.
+        token = _github_token("neighbour")
+        _, observations = _secrets(
+            tmp_path,
+            {"tests/test_a.py": f"t = '{token}'  # {marker}\n"},
+        )
+        assert len(observations) == 1
+        assert observations[0].observed_state["findings"][0]["pattern"] == "github-token"
+        assert token not in _dumps(observations)
+
+    def test_other_synthetic_value_on_the_line_cannot_hide_a_match(self, tmp_path: Path) -> None:
+        token = _github_token("beside")
+        _, observations = _secrets(
+            tmp_path,
+            {"tests/test_a.py": f"label = 'dummy'; t = '{token}'\n"},
+        )
+        assert len(observations) == 1
+
     def test_non_utf8_file_is_still_scanned_and_oversize_is_reported(
         self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
     ) -> None:

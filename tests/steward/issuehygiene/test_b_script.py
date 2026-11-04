@@ -1,3 +1,5 @@
+# Security provenance (#2283 D2): local transport sentinel, never issuer-provided.
+# Factory lambda parameters below are code, not embedded credential values.
 from __future__ import annotations
 
 import json

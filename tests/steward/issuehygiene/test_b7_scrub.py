@@ -23,6 +23,11 @@ from tests.steward.issuehygiene.test_b5_closure_guard import Forge, checkout
 from tests.steward.issuehygiene.test_b_closure import liveOf
 from tests.steward.issuehygiene.test_b_reconcile import NOW, policyFor
 
+# Security provenance (#2283 D2): synthetic positive redaction fixtures, not
+# issuer-provided credentials. The JWT combines a minimal HS256 header and
+# numeric subject with the public RFC 7515 Appendix A.1 signature (different
+# signing input). Preserve its three segments and all positive scrub assertions.
+# https://www.rfc-editor.org/rfc/rfc7515#appendix-A.1
 # (name, the raw value that must never be stored, text that contains it)
 SHAPES = [
     ("hf", "hf_" + "a" * 34, "token " + "hf_" + "a" * 34),

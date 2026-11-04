@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-security-fixtures-2283",
+  "status": "decided",
+  "decision": "How should the 14 test/fixture credential-shaped findings be triaged?",
+  "whyItMatters": "D2 is a locked group policy, not an adjudication that every original file is safe or resolved.",
+  "evidence": [
+    "Founder decision lock: https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640916880",
+    "Retain proven synthetic JWT/token fixtures and positive test coverage, mark provenance unmistakably, and document exact false positives. Individually investigate uncertainty; remediate/revoke/rotate any real credential with issuer evidence. No blanket test ignores or broad secret allowlists.",
+    "Original receipt steward-20261104T172307Z-5c244581790fe867; additive evidence matrix maps original matches without rewriting debt/history.",
+    "debt:credential_leak:tests-steward-issuehygiene-test-b-script-py:82d92c373e57e5b6",
+    "debt:credential_leak:tests-steward-issuehygiene-test-b5-identity-py:affc47d215e53abe",
+    "debt:credential_leak:tests-steward-issuehygiene-test-b6-census-live-p:ec37ccfcb574c2d1",
+    "debt:credential_leak:tests-steward-issuehygiene-test-b7-scrub-py:c82313badc903f74",
+    "debt:credential_leak:tests-steward-issuehygiene-test-b8-census-py:055f6db7f83bf7eb",
+    "debt:credential_leak:tests-steward-issuehygiene-test-b8-refusal-py:100e8e97ff9a51ef",
+    "debt:credential_leak:tests-steward-issuehygiene-test-e-steward-full-e:8dd6930a15057584",
+    "debt:credential_leak:tests-steward-test-desk-py:d1900b51970bdc61",
+    "debt:credential_leak:tests-test-auth-py:edc1563abdfa70e4",
+    "debt:credential_leak:tests-test-badge-reconcile-py:062a191c5b535bb7",
+    "debt:credential_leak:tests-test-curation-assessment-py:b8c7a3d24c6492cf",
+    "debt:credential_leak:tests-test-curation-error-contract-py:30a58d0ac04e28de",
+    "debt:credential_leak:tests-test-installability-py:50a878d42ae01243",
+    "debt:credential_leak:tests-test-jev-py:29db1b7469907462"
+  ],
+  "recommended": "Retain proven synthetic JWT/token fixtures and positive test coverage, mark provenance unmistakably, and document exact false positives. Individually investigate uncertainty; remediate/revoke/rotate any real credential with issuer evidence. No blanket test ignores or broad secret allowlists.",
+  "alternative": "Any different authority or unresolved semantic policy requires a new explicit founder ruling; preserve this locked decision and all underlying finding evidence.",
+  "unblocks": "Bounded evidence-backed local engineering and review only; does not authorize ledger mutation, issue closure, trust/rank mutation, main merge, release, or workflow activation.",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640916880",
+    "docs/agents/security/2283-dispositions.json",
+    "docs/agents/security/2283-reconciliation.md"
+  ]
+}
