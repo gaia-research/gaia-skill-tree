@@ -892,12 +892,27 @@ def _scope_check(tmp_path: Path, branch: str, files: dict[str, str], *, fork: bo
         ("infra/ci-fix", {".github/workflows/x.yml": "x"}, True),
         ("docs/page", {"src/app.py": "x"}, False),
         ("schema/rename", {"src/gaia_cli/data/registry/schema/a.json": "{}"}, True),
-        ("steward/b/unused-import-31cdbdb60a39", {"src/gaia_cli/x.py": "x"}, True),
-        ("steward/b/unused-import-31cdbdb60a39", {"scripts/x.py": "x", "tests/x.py": "x"}, True),
+        ("steward/b/unused-import-31cdbdb60a39", {"src/gaia_cli/steward/issuehygiene/reconcile.py": "x"}, True),
+        ("steward/b/unused-import-31cdbdb60a39", {"scripts/x.py": "x"}, True),
+        ("steward/b/unused-import-31cdbdb60a39", {"tests/x.py": "x"}, True),
         ("steward/b/unused-import-31cdbdb60a39", {"src/gaia_cli/x.py": "x", "registry/nodes/x.yml": "x"}, False),
         ("steward/b/unused-import-31cdbdb60a39", {".github/workflows/x.yml": "x"}, False),
         ("steward/b/unknown-31cdbdb60a39", {"tests/x.py": "x"}, False),
         ("steward/b/unused-import-31cdbdb60a3g", {"tests/x.py": "x"}, False),
+        ("steward/b/unused-import-31cdbdb60a3", {"tests/x.py": "x"}, False),
+        ("steward/b/unused-import-31cdbdb60a399", {"tests/x.py": "x"}, False),
+        ("steward/b/UNUSED-IMPORT-31cdbdb60a39", {"tests/x.py": "x"}, False),
+        ("steward/b/unused-import-31CDBDB60A39", {"tests/x.py": "x"}, False),
+        ("steward/b/unused-import-31cdbdb60a39", {"registry/schema/a.json": "{}"}, False),
+        ("steward/b/unused-import-31cdbdb60a39", {"registry/named/x.md": "x"}, False),
+        ("steward/b/unused-import-31cdbdb60a39", {"registry/nodes/x.yml": "x"}, False),
+        ("steward/b/unused-import-31cdbdb60a39", {"skill-trees/u/skill-tree.json": "{}"}, False),
+        ("steward/b/unused-import-31cdbdb60a39", {"founder/x.md": "x"}, False),
+        ("steward/b/unused-import-31cdbdb60a39", {"docs/x.md": "x"}, False),
+        ("steward/b/unused-import-31cdbdb60a39", {".agents/skills/x/SKILL.md": "x"}, False),
+        ("steward/b/unused-import-31cdbdb60a39", {".claude/skills/x/SKILL.md": "x"}, False),
+        ("steward/b/unused-import-31cdbdb60a39", {"packages/x": "x"}, False),
+        ("steward/b/unused-import-31cdbdb60a39", {"src/outside.py": "x"}, False),
     ],
 )
 def test_branch_scope_allows_only_steward_mirror_paths(
@@ -906,9 +921,9 @@ def test_branch_scope_allows_only_steward_mirror_paths(
     result = _scope_check(tmp_path, branch, files)
     assert (result.returncode == 0) is passes, result.stdout + result.stderr
     if passes and branch.startswith("steward/a/"):
-        assert ("prefix 'steward-a'" in result.stdout) == branch.startswith("steward/a/")
-        if branch.startswith("steward/b/"):
-            assert "prefix 'steward-b-unused-import'" in result.stdout
+        assert "prefix 'steward-a'" in result.stdout
+    if passes and branch.startswith("steward/b/"):
+        assert "prefix 'steward-b-unused-import'" in result.stdout
 
 
 def test_steward_b_unused_import_fork_and_existing_unrestricted_fork_boundaries(tmp_path: Path) -> None:
