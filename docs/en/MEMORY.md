@@ -2,6 +2,51 @@
 
 ---
 
+## 2026-11-04 — Routine 068
+
+**Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
+Checked out from `origin/docs/routines/064`; no rebase needed for this run.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 068)" in 067: check the `gaia fuse` card in
+`cli-reference.html` against the `fuse` parser and `fuse_command`.
+
+### What I did
+
+- **Flags verified.** `--name`, `--skills`, `--delete`, and the optional positional `skillId` match
+  `commands/progression.py` (FuseCommand). The `--skills` and `--delete` behavior in the card matches
+  `fuse_command` in `src/gaia_cli/impl.py`.
+- **One omission fixed.** The interactive menu also offers "Edit existing custom fusions". The card line
+  listed only confirm, create, and delete. The line now names the edit option too. Text only, same list item.
+
+### Design decisions
+
+- Kept the change to the existing bullet. No new markup, classes, or layout change.
+- Did not document the edit flow's internals. Only the menu option is named, and it is visible in the source.
+
+### Source finding (not documented, not fixed here)
+
+- Already logged in Routine 067: `fuse_command` calls the mock `open_pr` in `src/gaia_cli/prWriter.py`.
+  It is still unresolved. The page makes no claim about it.
+
+### Files
+
+- `docs/en/cli-reference.html`: the `gaia fuse` bullet (one line).
+- `docs/en/DOCS.md`: Page Map row 3 now lists 068.
+- `docs/en/MEMORY.md`: this entry.
+
+### Verification
+
+- `git status` shows only `docs/en/` paths.
+- CRLF endings preserved on every line of `cli-reference.html`. No new hex. Banned-term grep: no hits.
+- All three stylesheets still linked on `cli-reference.html`.
+
+### Planned next (Routine 069)
+
+- Check the `gaia push` card in `cli-reference.html` against the `push` parser. Confirm `--dry-run` and
+  the other flags. Fix only if a flag or option is missing or wrong.
+
+---
+
 ## 2026-11-03 — Editor 065wk
 
 **Branch:** `docs/routines/064` (PR #2235). Drifted PR #2164 (`dev/epic-hawking-37xung`, editor 064wk) folded in and closed; one PR ships.
