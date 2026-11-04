@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "issue-question-q-08ecd62d",
+  "status": "decided",
+  "resolution": "technical-reconciliation-only",
+  "decision": "C1 / Q-08ecd62d: Ruflo is the canonical capstone; AgentDB remains its distinct nested suite. Technical identity/version reconciliation is authorized, not release acceptance.",
+  "whyItMatters": "The founder lock settles the identity question, not the unfinished watcher repair or registry metadata reconciliation. A Ruflo release must not silently overwrite AgentDB's identity or version.",
+  "evidence": [
+    "issue-question/q-08ecd62d",
+    "debt:issue_founder_decision:q-08ecd62d:b46650ebeefbdb87",
+    "Affected family: #1833; ruvnet/ruflo (parent/capstone), ruvnet/agentdb (nested suite). Preserve distinct source identities, topology and origin provenance.",
+    "Observed #1833: title ruvnet/ruflo but payload skillId ruvnet/agentdb and Ruflo sourceUrl. Both named records currently point at Ruflo; this is not independent AgentDB version evidence.",
+    "Founder authority: #2283 comment 6640916880; hygiene receipt 6640982938 removed release-approval labels. Source changes remain subject to independent review."
+  ],
+  "recommended": "Implement only the locked bounded technical reconciliation; retain both suites and all history. Do not infer upstream release approval.",
+  "alternative": "Keep ambiguous source/version metadata held until a canonical CLI operation and independent evidence can reconcile it; do not hand-edit registry data.",
+  "unblocks": "Class B technical watcher identity routing and tests only; no trust, rank, intake, release acceptance or closure authority.",
+  "links": [
+    "issue-question/q-08ecd62d",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/1833",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640916880",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640982938"
+  ]
+}

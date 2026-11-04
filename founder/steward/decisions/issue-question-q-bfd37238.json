@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "issue-question-q-bfd37238",
+  "status": "decided",
+  "resolution": "curation-deferred",
+  "decision": "C3 / Q-bfd37238: GBrain is deferred for a dedicated founder curation-methodology session before intake.",
+  "whyItMatters": "The founder defer is final; the curation session and intake work are unfinished. Removing stale approval/skip labels must not make the same family mechanically actionable again.",
+  "evidence": [
+    "issue-question/q-bfd37238",
+    "debt:issue_founder_decision:q-bfd37238:ac2f25b1b6af9db6",
+    "Affected family: #1835; garrytan/gbrain umbrella and every existing child intake. Preserve payloads, comments, L4 gates, topology and history.",
+    "Founder authority: #2283 comment 6640916880 explicitly forbids skip-child-gate, upstream acceptance, automatic admission and bulk child closure.",
+    "Hygiene receipt 6640982938 removed upstream:approved, skip-child-gate and ready-for-agent and applied upstream:needs-info. Those labels represent a hold, not completed curation."
+  ],
+  "recommended": "Consume the explicit defer as a family-wide hold; preserve all children for the founder curation session.",
+  "alternative": "Wait without intake, closure, trust/rank mutation or bypassing any child/L4 gate. Do not re-ask the already locked defer decision.",
+  "unblocks": "Hold reconciliation and preservation proof only; no intake or release acceptance.",
+  "links": [
+    "issue-question/q-bfd37238",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/1835",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640916880",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640982938"
+  ]
+}
