@@ -88,8 +88,29 @@ class Fixture:
         run(self.root, "commit", "-q", "--allow-empty", "-m", message)
         return run(self.root, "rev-parse", "HEAD")
 
+    def heldElsewhere(self, name: str) -> str | None:
+        """The path of another worktree that has ``name`` checked out, or ``None``."""
+
+        path = None
+        for line in run(self.root, "worktree", "list", "--porcelain").splitlines():
+            if line.startswith("worktree "):
+                path = line[len("worktree "):]
+            elif line == f"branch refs/heads/{name}" and path is not None and Path(path).resolve() != self.root.resolve():
+                return path
+        return None
+
     def branch(self, name: str, start: str | None = None) -> None:
+        # git 2.43 lets `checkout -B` move a branch another worktree holds; newer git refuses with exit 128. Fail the same
+        # way on every version so a fixture that depends on the lenient behaviour is caught before it reaches CI.
+        held = self.heldElsewhere(name)
+        if held is not None:
+            raise AssertionError(f"branch {name!r} is checked out in the worktree {held}; use detach() to build on its commit")
         run(self.root, "checkout", "-q", "-B", name, start or self.base)
+
+    def detach(self, start: str) -> None:
+        """Move to ``start`` without naming a branch, for building on a commit whose branch a worktree owns."""
+
+        run(self.root, "checkout", "-q", "--detach", start)
 
     def head(self, label: str, *, version: str = VERSION, dropIndexRow: str | None = None, tamper: bool = False,
              extraFile: str | None = None, indexVersion: str | None = None, name: str | None = None, mutate=None) -> str:
