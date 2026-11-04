@@ -192,7 +192,7 @@ def checkTime(value: Any, where: str) -> None:
 
 
 def validate_ledger(document: Any) -> dict[str, Any]:
-    """Return `document` if it is a well-formed `steward-ledger-v1`.
+    """Return `document` if it is a well-formed V1 or archive-aware V2 ledger.
 
     Raises `LedgerUnavailable` otherwise. Unknown top-level keys are rejected
     rather than carried: a newer writer's fields are not ours to round-trip
@@ -256,6 +256,23 @@ def validate_ledger(document: Any) -> dict[str, Any]:
             raise malformed(f"work {debt_id!r} has unknown state {item.get('state')!r}")
         if not isinstance(item.get("history", []), list):
             raise malformed(f"work {debt_id!r} history must be a list")
+    if document["schemaVersion"] == ARCHIVE_LEDGER_SCHEMA:
+        # V2 is an explicit compatibility boundary even after all rollbacks.
+        # A missing memory field must not masquerade as complete V1 history.
+        from gaia_cli.steward.archive import memory, check_descriptor, SCHEMA, POINTER, MEMORY
+        if MEMORY not in operations:
+            raise malformed("archive-aware ledger requires retained memory metadata")
+        state = memory(document)
+        if state["head"] is None or state["pages"] < 1 or state["events"] < state["pages"]:
+            raise malformed("archive-aware ledger has inconsistent memory metadata")
+        for run in document["runs"].values():
+            if POINTER in run:
+                pointer = run[POINTER]
+                if not isinstance(pointer, dict) or pointer.get("schemaVersion") != SCHEMA:
+                    raise malformed("invalid archive run pointer")
+                check_descriptor(pointer.get("segment"), "run")
+                if not isinstance(pointer.get("references"), dict) or run.get("phases") != {}:
+                    raise malformed("invalid archive hot projection")
     return document
 
 
@@ -585,6 +602,21 @@ class GitRefLedgerStore:
                 raise LedgerUnavailable(
                     f"expected ledger version {expected} is not present locally; load() first"
                 )
+        if expected is not None:
+            # Read only the bounded expected local generation, not a second
+            # remote load (which could race the caller's compare-and-swap).
+            size = int(self.plumb(["cat-file", "-s", f"{expected}:{LEDGER_FILENAME}"]))
+            if size > ledgerByteLimit():
+                raise LedgerUnavailable("expected ledger exceeds configured byte bound")
+            prior = self.git(["cat-file", "-p", f"{expected}:{LEDGER_FILENAME}"], timeout=self.localTimeout)
+            if prior.returncode or len(prior.stdout) != size:
+                raise LedgerUnavailable("cannot verify expected ledger history")
+            previous = deserialize(prior.stdout)
+            if previous["schemaVersion"] == ARCHIVE_LEDGER_SCHEMA or document["schemaVersion"] == ARCHIVE_LEDGER_SCHEMA:
+                from gaia_cli.steward.archive import verify_transition
+                verify_transition(self, previous, document)
+        elif document["schemaVersion"] == ARCHIVE_LEDGER_SCHEMA:
+            raise LedgerUnavailable("archive-aware ledger requires an existing source generation")
         blob = self.plumb(["hash-object", "-w", "--stdin"], stdin=data)
         tree = self.plumb(
             ["mktree"], stdin=f"100644 blob {blob}\t{LEDGER_FILENAME}\n".encode("utf-8")
@@ -712,9 +744,17 @@ class FileLedgerStore:
             raise LedgerUnavailable(f"ledger lock failed: {exc}") from exc
         try:
             fcntl.flock(lockFd, fcntl.LOCK_EX)
-            _, current = self.readFile()
+            previous, current = self.readFile()
             if current != expected:
                 raise LedgerConflict(f"ledger is at {current}, expected {expected}")
+            if previous["schemaVersion"] == ARCHIVE_LEDGER_SCHEMA:
+                if (document["schemaVersion"] != ARCHIVE_LEDGER_SCHEMA or
+                        document.get("operations", {}).get("steward.archive.v1") != previous.get("operations", {}).get("steward.archive.v1") or
+                        any(document["runs"].get(key) != run for key, run in previous["runs"].items()
+                            if "_stewardArchive" in run)):
+                    raise LedgerUnavailable("local file cannot change shared archive history; use verified shared Git rollback")
+            elif document["schemaVersion"] == ARCHIVE_LEDGER_SCHEMA:
+                raise LedgerUnavailable("archive migration requires shared Git transport")
             tmpFd, tmpName = tempfile.mkstemp(
                 dir=self.path.parent, prefix=self.path.name + ".", suffix=".tmp"
             )

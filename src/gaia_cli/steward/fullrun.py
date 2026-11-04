@@ -53,6 +53,8 @@ from gaia_cli.steward.ledger import (
     acquire_lease,
     formatTime,
     leaseHolder,
+    ledgerByteLimit,
+    serialize,
     parseTime,
     release_lease,
     set_lane,
@@ -526,6 +528,17 @@ class FullRunner:
             raise FullRunError(f"unknown mode {mode!r}; choose from {', '.join(MODEPHASES)}")
         if routine is not None and not 1 <= int(routine) <= 18:
             raise FullRunError("routine must be between 1 and 18")
+        stop = os.environ.get("GAIA_STEWARD_FULL_STOP_NEW_RUNS", "0")
+        if stop not in {"0", "1"}:
+            raise FullRunError("GAIA_STEWARD_FULL_STOP_NEW_RUNS must be 0 or 1")
+        if stop == "1":
+            raise FullRunError("new runs stopped by GAIA_STEWARD_FULL_STOP_NEW_RUNS; resume/record/memory remain available")
+        try:
+            minimumHeadroom = int(os.environ.get("GAIA_STEWARD_FULL_MIN_HEADROOM_BYTES", "0"))
+        except ValueError:
+            raise FullRunError("GAIA_STEWARD_FULL_MIN_HEADROOM_BYTES must be a non-negative integer") from None
+        if not 0 <= minimumHeadroom <= ledgerByteLimit():
+            raise FullRunError("GAIA_STEWARD_FULL_MIN_HEADROOM_BYTES must be within the configured ledger limit")
         now = self._now()
         runId = f"run-{self.config.clock().astimezone(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}"
         phases = MODEPHASES[mode]
@@ -542,6 +555,12 @@ class FullRunner:
                     "existing": True, "holder": held, "phase": other.get("phase"),
                     "expiresAt": doc["leases"][RUNLEASE]["expiresAt"],
                 }
+            # Re-evaluate on every CAS retry, before adopting work or acquiring
+            # a lease. Stop new growth early; never block existing replay or
+            # verified memory/rollback operations on this advisory reserve.
+            hotBytes, limit = len(serialize(doc)), ledgerByteLimit()
+            if hotBytes * 10 >= limit * 9 or limit - hotBytes < minimumHeadroom:
+                raise FullRunError("new run refused: ledger at 90% or below configured minimum headroom; inspect `gaia steward full archive`")
             for other in doc["runs"].values():
                 if other.get("status") in OPENRUNSTATES:
                     other["status"] = "abandoned"
@@ -1296,7 +1315,7 @@ class FullRunner:
 
     @staticmethod
     def _compact(doc: dict[str, Any]) -> None:
-        """Preserve terminal proof until verified archival is implemented."""
+        """Preserve terminal proof; only explicit verified migration externalizes it."""
         # The former size-driven compaction discarded evidence and phase detail
         # before any durable archive transfer. Capacity is now bounded by the
         # ledger guard; retain history rather than silently losing provenance.

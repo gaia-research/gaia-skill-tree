@@ -247,7 +247,7 @@ def test_rollback_and_rearchive_keep_history_chain(hosts):
     assert [row["event"] for row in a.history(two, pages=3)["entries"]] == ["archive", "rollback", "archive"]
 
 
-@pytest.mark.parametrize("kind", ["run", "snapshot", "index"])
+@pytest.mark.parametrize("kind", ["run", "snapshot", "index", "anchor"])
 @pytest.mark.parametrize("damage", ["missing", "corrupt", "oversize"])
 def test_missing_corrupt_archives_fail_closed(hosts, kind, damage):
     remote, one, two = hosts
@@ -255,7 +255,8 @@ def test_missing_corrupt_archives_fail_closed(hosts, kind, damage):
     migration = a.migrate(one)
     hot, version = one.load()
     pointer = hot["runs"]["run-a"][a.POINTER]
-    ref = {"run": pointer["segment"], "snapshot": migration["source"], "index": migration["index"]}[kind]
+    ref = {"run": pointer["segment"], "snapshot": migration["source"], "index": migration["index"],
+           "anchor": migration["sourceAnchor"]}[kind]
     branch = f"refs/heads/{a.PREFIX}/{kind}/{ref['sha256']}"
     if damage == "missing":
         git(remote, "update-ref", "-d", branch)
@@ -294,10 +295,19 @@ def test_corruption_during_publish_cannot_commit_hot_pointer(hosts, monkeypatch)
 
 
 def test_mutated_hot_stub_refuses_hydration_and_rollback(hosts):
-    _, one, two = hosts
+    remote, one, two = hosts
     seed(one)
     a.migrate(one)
-    update(two, lambda doc: doc["runs"]["run-a"].update({"status": "active"}))
+    with pytest.raises(LedgerUnavailable, match="immutable"):
+        update(two, lambda doc: doc["runs"]["run-a"].update({"status": "active"}))
+    # Simulate out-of-band operator corruption only in the disposable remote;
+    # ordinary writes now refuse this mutation at the CAS boundary.
+    damaged, version = one.load()
+    damaged["runs"]["run-a"]["status"] = "active"
+    blob = git(remote, "hash-object", "-w", "--stdin", data=a.packed(damaged))
+    tree = git(remote, "mktree", data=f"100644 blob {blob}\tledger.json\n".encode())
+    commit = git(remote, "commit-tree", tree, "-p", version, "-m", "synthetic hot corruption")
+    git(remote, "update-ref", "refs/heads/steward/ledger", commit)
     before = one.load()
     with pytest.raises(LedgerUnavailable, match="identity"):
         a.show(two, "run-a")

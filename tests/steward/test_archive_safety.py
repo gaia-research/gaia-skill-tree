@@ -144,7 +144,8 @@ def test_rollback_forward_cas_retries_and_preserves_concurrent_work(hosts, monke
 def test_capacity_measures_parent_delta_contributors_and_read_only_stop_model(hosts, monkeypatch):
     remote, one, _ = hosts
     first, version = seed(one)
-    l.update(one, lambda d: None, clock=lambda: l.parseTime(START))
+    l.update(one, lambda d: d["operations"].update({"growth-baseline": True}),
+             clock=lambda: l.parseTime(START))
     initial, initial_version = one.load()
     def grow(d):
         d["updatedAt"] = END

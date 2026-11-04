@@ -21,7 +21,7 @@ from typing import Any, Callable
 
 from gaia_cli.steward.ledger import (
     GitRefLedgerStore, LedgerConflict, LedgerUnavailable, formatTime,
-    parseTime, serialize, utcNow, validate_ledger, ledgerByteLimit, ARCHIVE_LEDGER_SCHEMA,
+    parseTime, serialize, utcNow, validate_ledger, ledgerByteLimit, ARCHIVE_LEDGER_SCHEMA, nextGeneration,
 )
 
 SCHEMA = "steward-archive-v1"
@@ -214,13 +214,15 @@ def references(run: dict[str, Any]) -> dict[str, list[str]]:
                 visit(item, name)
         elif isinstance(value, list):
             for item in value:
-                visit(item, key)
+                visit(item, "routine" if lowered == "routines" else key)
         elif value is not None:
             text = str(value)
             if "debt" in lowered or lowered in {"classa", "classb", "classc", "reportonly", "held", "skippedactive", "issueclosure", "resolvedwork", "freshopendebt", "opendebtids", "resolved"}:
                 if isinstance(value, str):
                     debts.add(text)
-            if "routine" in lowered:
+            # Canonical retro.routines was once a COUNT, later a list of
+            # {routine, state, detectors}. Never index a count as a routine ID.
+            if lowered == "routine" or (lowered == "routines" and isinstance(value, str)):
                 routines.add(text)
             if "id" in lowered or "decision" in lowered or "idempotency" in lowered:
                 if isinstance(value, str):
@@ -246,7 +248,7 @@ def phase_hold(value: Any, key: str = "") -> str | None:
         return "phase contains unresolved debt lifecycle data"
     if lowered in {"status", "state"} and (not isinstance(value, str) or value not in {
         "done", "completed", "complete", "resolved", "closed", "accepted", "rejected",
-        "cancelled", "superseded", "skipped", "failed", "abandoned", "observed",
+        "cancelled", "superseded", "skipped", "failed", "abandoned", "observed", "ok",
     }):
         return "phase contains an unsettled or unknown lifecycle"
     if isinstance(value, dict):
@@ -287,10 +289,11 @@ def eligible(document: dict[str, Any], run: dict[str, Any]) -> bool:
     for decision in run.get("decisions", []):
         if decision.get("status") not in {"closed", "resolved", "accepted", "rejected"}:
             return False
-    if run.get("unresolvedWork"):
+    if run.get("unresolvedWork") or run.get("deferred"):
         return False
-    if any(item.get("runId") == run["runId"] and item.get("state") != "resolved"
-           for item in document["work"].values()):
+    debts = set(references(run)["debtIds"])
+    if any((item.get("runId") == run["runId"] or debt_id in debts) and item.get("state") != "resolved"
+           for debt_id, item in document["work"].items()):
         return False
     try:
         parseTime(run["startedAt"])
@@ -311,6 +314,59 @@ def memory(document: dict[str, Any]) -> dict[str, Any]:
     if any(type(value.get(key)) is not int or value[key] < 0 for key in ("pages", "events")):
         raise fail("invalid hot index counters")
     return value
+
+
+def verify_transition(store: GitRefLedgerStore, previous: dict[str, Any], candidate: dict[str, Any]) -> None:
+    """Protect archive history at the ordinary hot-write boundary.
+
+    Unchanged metadata/pointers need no transport reads. New transfers and
+    forward rollbacks must extend the verified index and round-trip the exact
+    old run. This is integrity checking, not authority to execute any work.
+    """
+    before, after = memory(previous), memory(candidate)
+    archived = {key: run for key, run in previous["runs"].items() if POINTER in run}
+    changed = {key for key in set(previous["runs"]) | set(candidate["runs"])
+               if previous["runs"].get(key, {}).get(POINTER) != candidate["runs"].get(key, {}).get(POINTER)}
+    if previous["schemaVersion"] == ARCHIVE_LEDGER_SCHEMA and candidate["schemaVersion"] != ARCHIVE_LEDGER_SCHEMA:
+        raise fail("archive-aware ledger schema cannot be downgraded")
+    for key, run in archived.items():
+        if key not in changed and candidate["runs"].get(key) != run:
+            raise fail("archived run is immutable until verified rollback")
+    if before == after:
+        if changed:
+            raise fail("archive pointer change requires an appended index event")
+        return
+    if (candidate["schemaVersion"] != ARCHIVE_LEDGER_SCHEMA or
+            after["pages"] != before["pages"] + 1 or
+            after["events"] <= before["events"] or after["head"] is None):
+        raise fail("archive metadata must append history, never discard it")
+    archive = GitArchive(store)
+    page = decoded(archive.read(after["head"]))
+    if (page["previous"] != before["head"] or
+            after["events"] != before["events"] + len(page["entries"]) or
+            {row["runId"] for row in page["entries"]} != changed or
+            len(page["entries"]) != len(changed)):
+        raise fail("index extension does not match hot pointer changes")
+    if before["head"] is not None:
+        archive.read(before["head"])
+    for row in page["entries"]:
+        key = row["runId"]
+        old, new = previous["runs"].get(key), candidate["runs"].get(key)
+        if old is None or new is None:
+            raise fail("archive transition cannot add/delete run identities")
+        if row["event"] == "archive":
+            if not eligible(previous, old) or POINTER not in new or hydrate(archive, new) != old:
+                raise fail("archive transition is not an eligible lossless transfer")
+            segment = new[POINTER]["segment"]
+        else:
+            if POINTER not in old or POINTER in new or hydrate(archive, old) != new:
+                raise fail("rollback must restore exactly the verified run")
+            segment = old[POINTER]["segment"]
+        refs = references(old if row["event"] == "archive" else new)
+        if (row["segment"] != segment or row["debtIds"] != refs["debtIds"] or
+                row["routines"] != refs["routines"] or row["startedAt"] != old["startedAt"] or
+                row["finishedAt"] != old["finishedAt"]):
+            raise fail("index transition identity mismatch")
 
 
 def source_bytes(store: GitRefLedgerStore, commit: str, document: dict[str, Any]) -> bytes:
@@ -427,6 +483,10 @@ def capacity(store: GitRefLedgerStore, document: dict[str, Any], version: str | 
             "generationsTo90AtSampledGrowth": max(0, (limit * .9 - current) / positive) if positive and positive > 0 else None,
             "growth": growth, "largestSections": sections, "largestRuns": runs[:10],
             "contributorUnits": "compact JSON bytes; non-additive, excludes enclosing indentation",
+            "newRunControls": {"stopEnvironment": "GAIA_STEWARD_FULL_STOP_NEW_RUNS=1",
+                               "minimumHeadroomEnvironment": "GAIA_STEWARD_FULL_MIN_HEADROOM_BYTES",
+                               "automaticStopPercent": 90,
+                               "resumeRecordRollbackAllowed": True},
             "retentionLimit": "phase-only transfer; runs/actions/steps/receipts/proofArtifacts/work/tombstones remain hot and grow; no automatic deletion"}
 
 
@@ -446,13 +506,14 @@ def plan(store: GitRefLedgerStore, *, run_ids: list[str] | None = None,
     candidates = sorted((r for r in document["runs"].values()
                          if r["runId"] in wanted and eligible(document, r)),
                         key=lambda r: (r["startedAt"], r["runId"]))
+    report = capacity(store, document, version)
     return {"eligible": [r["runId"] for r in candidates[:max_runs]],
             "ineligible": sorted(wanted - {r["runId"] for r in candidates}),
             "remainingEligible": max(0, len(candidates) - max_runs),
             "phaseHolds": {key: reason for key in sorted(wanted)
                            if (reason := phase_hold(document["runs"][key].get("phases", {})))},
-            "capacity": capacity(store, document, version),
-            "version": version, "hotBytes": len(serialize(document)),
+            "capacity": report,
+            "version": version, "hotBytes": report["bytes"],
             "indexPageLimitBytes": MAX_INDEX_BYTES, "indexPageLimitEntries": MAX_PAGE_ENTRIES,
             "applyRequired": True}
 
@@ -509,7 +570,8 @@ def migrate(store: GitRefLedgerStore, *, run_ids: list[str] | None = None,
                 hydrate(archive, run)
         if not candidates:
             return {"archived": [], "version": version, "reason": "no eligible terminal phase payloads"}
-        source = archive.publish("snapshot", source_bytes(store, version, document), parent=version)
+        rawSource = source_bytes(store, version, document)
+        source = archive.publish("snapshot", rawSource, parent=version)
         # Equal ledger bytes at different commits deliberately share a snapshot,
         # but must NOT share the provenance anchor: every source commit remains
         # fetchable from archive refs alone after hot-ledger ref loss/replacement.
@@ -536,7 +598,7 @@ def migrate(store: GitRefLedgerStore, *, run_ids: list[str] | None = None,
         checkpoint("index-verified")
         working["updatedAt"] = now
         # Exercise the authoritative configured hot bound before attempting CAS.
-        before, after = len(serialize(document)), len(serialize(working))
+        before, after = len(rawSource), len(serialize(nextGeneration(working)))
         if after >= before:
             return {"archived": [], "version": version, "reason": "no hot size saving", "beforeBytes": before, "afterBytes": after}
         checkpoint("before-cas")

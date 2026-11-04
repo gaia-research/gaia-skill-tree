@@ -15,7 +15,8 @@ def reader(store):
     return FullRunner(FullRunConfig(repo_root=store.repo_root, store=store))
 
 
-def test_ordinary_view_resume_and_repeat_record_keep_original_coverage(hosts, monkeypatch):
+@pytest.mark.parametrize("missing", ["run", "snapshot", "anchor"])
+def test_ordinary_view_resume_and_repeat_record_keep_original_coverage(hosts, monkeypatch, missing):
     remote, one, two = hosts
     record = run_record()
     # Explicit unknown coverage must never become a falsely healthy empty list.
@@ -33,7 +34,9 @@ def test_ordinary_view_resume_and_repeat_record_keep_original_coverage(hosts, mo
     monkeypatch.setattr(runner, "_recordPullRequest", lambda *args: lambda *args: None)
     assert runner.record("run-a", "forge:one", record["actions"][0]["outcome"]).to_dict() == original
     pointer = two.load()[0]["runs"]["run-a"][a.POINTER]
-    git(remote, "update-ref", "-d", f"refs/heads/{a.PREFIX}/run/{pointer['segment']['sha256']}")
+    envelope = a.resolve_segment(a.GitArchive(two), pointer["segment"])
+    damaged = {"run": pointer["segment"], "snapshot": envelope["source"], "anchor": envelope["sourceAnchor"]}[missing]
+    git(remote, "update-ref", "-d", f"refs/heads/{a.PREFIX}/{missing}/{damaged['sha256']}")
     frozen = two.load()
     for operation in (lambda: runner._view(frozen[0], "run-a"), lambda: runner.resume("run-a"),
                       lambda: runner.record("run-a", "forge:one", record["actions"][0]["outcome"]),
