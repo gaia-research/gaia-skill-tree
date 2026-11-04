@@ -37,6 +37,25 @@ Only deterministic reconcilers exist. `content-engine-cachebust` regenerates `?v
 the repository's own generator on a tracked replacement branch; the producer's branch is never rewritten. A conflict that is not
 mechanically reproducible is reported, not hand-resolved.
 
+## Unattended execution
+
+The pilot's outcome store is a file in one checkout (`.gaia/steward/pr-maintenance`). Inside that checkout it gives exactly-once
+reservation, the per-run caps and the hourly cap. It is **not** proof of cross-host exactly-once execution, and the write budgets
+are **not** globally enforced: another checkout or host has its own store and its own budget, so the effective ceiling is writers
+× cap. Every authorization records `coordination: "checkout-local"`. GitHub remains the backstop that holds across hosts (a merged
+or closed PR cannot be merged or closed again; `expectedHeadSha` refuses a moved head; receipt markers stop most duplicate
+comments, though a race can still post one twice). That limits damage; it is not a lock or a shared budget.
+
+Production use requires both: `GAIA_STEWARD_PR_AUTHORITY_REF=origin/main` (never the local-head override), and **either** a single
+controlled writer (one scheduled job, concurrency-limited to one run) **or** shared coordination (a lock and budget counter outside
+any one checkout). Until then, describe the caps as per-checkout.
+
+## Founder card
+
+A held pull request's card carries a **procedural recommendation** (retain the hold) and the **substantive decision** (whether the
+change should land, with Steward's explicit no-opinion), as two labelled paragraphs from `prmaintenance/advice.py`. The desk, the
+digest and the GitHub receipt all render that module, so they cannot disagree.
+
 ## Known limits
 
 The roster discovers its environment from process signals, so harness identifiers (for example `claude-code-remote`, `github-actions`) are *environment ids*, never model names; model names appear only in an operator's local, ignored profile. Receipts end with the repository's required Claude Code attribution footer. Authority files must be committed, and in production equal the destination tip (`GAIA_STEWARD_PR_AUTHORITY_REF`). The outcome store is per checkout. Report payloads must pass a strict structural safety proof (semantic version, relative or allow-listed URLs, no markup or script scheme) because the template renders some fields unescaped.

@@ -32,8 +32,11 @@ numbers. A question is never answered by the desk. Only the founder's ruling, re
 as a decision record, releases the work it blocks.
 
 Routine 19 contributes Class C through `routine_pr_founder_decision`: one question per pull request, keyed by its
-`routine-pr/<repo>/<number>` decision target, with the exact head SHA, the failing gates, the options and a recommendation.
-The desk never merges, closes or releases the held pull request; the founder's ruling does.
+`routine-pr/<repo>/<number>` decision target, with the exact head SHA, the failing gates and the options. Its recommendation
+field holds two labelled paragraphs, never one blurred sentence: a **procedural recommendation** (Steward retains the hold and
+takes no merge or closure action, which is derivable from policy) and the **substantive decision** (whether the change should
+land, which is yours, with an explicit no-opinion from Steward). The GitHub founder receipt renders the same two paragraphs
+from the same source (`prmaintenance/advice.py`). The desk never merges, closes or releases the held pull request; the founder's ruling does.
 
 ## Output
 

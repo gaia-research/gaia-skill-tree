@@ -41,6 +41,11 @@ python scripts/steward_pr.py observe                      # dispositions + every
 | `routine_pr_provenance_unknown` | B | report only; never act on a PR whose producer is not proven |
 | `routine_pr_founder_decision` | C | post the founder receipt; do not merge or close; the desk holds it |
 
+The founder receipt and the desk card say the same two things, kept apart, from one source (`prmaintenance/advice.py`): a
+**procedural recommendation** (Steward retains the hold; derivable from policy; no judgment of the content) and the **substantive
+decision** (whether the change should land, which is the founder's; Steward offers no opinion). `receipt founder` takes the
+PR's gate *names* and has no free-text recommendation argument, so the two surfaces cannot drift.
+
 1. **Pickup.** Check `receipt check --kind pickup`; if absent render with `receipt pickup`, post it as a PR comment, then
    `receipt record`. The hidden marker is the idempotency key, so a resumed run never posts twice.
 2. **Reconcile (only when `reconcile` is set).** Never rewrite the producer's branch. `reconcile --number N --run-id RUN --worktree DIR`
@@ -64,8 +69,8 @@ python scripts/steward_pr.py observe                      # dispositions + every
    check is "pending", never "healthy". A merge already recorded is reported, not repeated.
 
 The gate refuses: kill switch, malformed or unratified policy, disabled action, deferred repository, prior or concurrent
-execution, head moved, destination not allowed, producer not proven, branch protection unmet, no independent verification,
-missing GitHub trail, exhausted run or hourly budget. Closure additionally needs the justification posted first and a merged,
+execution *recorded in this checkout's store*, head moved, destination not allowed, producer not proven, branch protection unmet,
+no independent verification, missing GitHub trail, exhausted run or hourly budget *as counted in this checkout's store*. Closure additionally needs the justification posted first and a merged,
 marker-linked replacement with a byte-identical payload.
 
 ## Limits that hold for the whole route
@@ -77,14 +82,20 @@ marker-linked replacement with a byte-identical payload.
   Every authorization records which source it ran under.
 - **A verification stands on a dispatch.** `roster dispatch --subject REPO#N@HEAD` names exactly which head a verifier may judge;
   builders come from the dispatch and the store's reconcile record, never only from the verification file.
-- **The store is per checkout** (`.gaia/steward/pr-maintenance`). One driver at a time; a second checkout does not see this one's
-  reservations, so GitHub's merged state and the receipt markers are the cross-checkout backstop. Duplicate receipts are possible
-  across checkouts, a duplicate merge is not.
+- **Unattended execution: the pilot is checkout-local.** The outcome store (`.gaia/steward/pr-maintenance`) is a file in one checkout.
+  Within that checkout it gives exactly-once reservation, the per-run caps and the hourly cap. It is **not** proof of cross-host
+  exactly-once execution, and the budgets are **not** globally enforced: a second checkout or host has its own empty store and its own
+  budget, so the real ceiling is the number of writers times the policy cap. Every authorization records `coordination: "checkout-local"`.
+  What does hold across hosts is GitHub itself: a merged or closed PR cannot be merged or closed again, `expectedHeadSha` refuses a moved
+  head, and receipt markers stop most duplicate comments (a race can still post one twice). That backstop limits damage; it is not a
+  shared budget or a lock. **Production** must therefore (1) set `GAIA_STEWARD_PR_AUTHORITY_REF=origin/main`, never the local-head
+  override, and (2) run **either a single controlled writer** (one scheduled job, concurrency-limited to one run) **or shared
+  coordination** (a lock and a budget counter outside any one checkout) before the caps are described as global.
 - **Provenance rests on GitHub attribution**: commit authors and committers come from GitHub's account attribution, which a person
   with push access to the branch could influence. This adds no privilege (that person can merge directly under the same ruleset);
   the content proofs, the strict payload check and the independent verification are what bind the *content*.
 
-- One merge or closure action in flight; per-run and hourly budgets are in policy and capped in code. A deferred item keeps its place and resumes next run.
+- One merge or closure action in flight per checkout; per-run and hourly budgets are set in policy, capped in code and counted in this checkout's store (see Unattended execution). A deferred item keeps its place and resumes next run.
 - Model dispatch is separate and bounded by the lane (`maxInFlight`, `maxDispatchesPerRun`) and by the profile, whichever is lower.
 - The roster profile lives in ignored local state, belongs to one environment, and holds no credentials. No model name appears in canon.
 - Revoke instantly: `python scripts/steward_pr.py kill on` (or `GAIA_STEWARD_PR_KILL=1`, or `killSwitch: true`).

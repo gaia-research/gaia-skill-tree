@@ -435,6 +435,19 @@ def test_authority_source_must_be_named_and_the_default_fails_closed(fx, monkeyp
     assert auth["authority"]["mode"] == "local-head" and len(auth["authority"]["commit"]) == 40  # the source is on the record
 
 
+def test_every_authorization_records_that_its_exactly_once_and_budget_guarantees_are_checkout_local(fx, monkeypatch):
+    """The outcome store is a file in one checkout. It proves nothing about another host's writes or a global budget."""
+
+    head = ready(fx)
+    monkeypatch.setenv(gate.AUTHORITY_LOCAL, "1")
+    local = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+    assert local["authority"]["coordination"] == "checkout-local"
+    h.run(fx.root, "update-ref", "refs/remotes/origin/dest", fx.base)
+    monkeypatch.delenv(gate.AUTHORITY_LOCAL)
+    monkeypatch.setenv(gate.AUTHORITY_REF, "origin/dest")
+    assert gate.authorityInfo(fx.root)["coordination"] == "checkout-local"  # naming a remote ref does not make the store shared
+
+
 def test_authority_must_equal_the_destination_tip_when_one_is_named(fx, monkeypatch):
     head = ready(fx)
     h.run(fx.root, "update-ref", "refs/remotes/origin/dest", fx.base)

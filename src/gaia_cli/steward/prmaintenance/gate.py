@@ -76,6 +76,7 @@ class Snapshot:
 AUTHORITY_FILES = ("founder/steward/POLICY.yaml", "founder/steward/pr-producers.json",
                    "founder/steward/decisions/steward-pr-maintenance-authority.json")
 AUTHORITY_REF = "GAIA_STEWARD_PR_AUTHORITY_REF"
+COORDINATION = "checkout-local"
 
 
 AUTHORITY_LOCAL = "GAIA_STEWARD_PR_AUTHORITY_LOCAL"
@@ -119,7 +120,10 @@ def authorityInfo(root: Path) -> dict[str, str]:
 
     head = proofs.git(root, "rev-parse", "HEAD").stdout.decode().strip()
     ref = os.environ.get(AUTHORITY_REF, "").strip()
-    return {"mode": "ref" if ref else "local-head", "source": ref or "HEAD", "commit": head}
+    # ``coordination`` states what the exactly-once and budget guarantees rest on. The outcome store is a file in this
+    # checkout, so reservations, per-run counts and the hourly cap are not visible to another host or checkout. GitHub's own
+    # merged state and the receipt markers are the only cross-checkout backstop; every authorization says so on its record.
+    return {"mode": "ref" if ref else "local-head", "source": ref or "HEAD", "commit": head, "coordination": COORDINATION}
 
 
 def policyDigest(root: Path) -> str:
