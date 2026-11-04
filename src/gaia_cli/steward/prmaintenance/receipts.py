@@ -11,9 +11,11 @@ from __future__ import annotations
 import re
 from typing import Any, Mapping, Sequence
 
-# Parsed in two linear steps (find the bounded marker, then split and match each token) so a hostile comment cannot trigger
-# catastrophic backtracking: the body of a marker is at most 300 characters of non-markup, and every token is matched on its own.
-MARKER = re.compile(r"<!--[ \t]*gaia-steward:pr-receipt[ \t]+([^<>]{1,300}?)[ \t]*-->")
+# Markers are located with str.find and bounded slices, never a backtracking pattern, so a hostile comment costs linear time.
+OPEN = "<!--"
+NAME = "gaia-steward:pr-receipt"
+CLOSE = "-->"
+MAXMARKER = 300
 TOKEN = re.compile(r"([a-z]{1,16})=([A-Za-z0-9._:/-]{1,80})")
 KINDS = ("pickup", "verification", "merged", "closed", "founder")
 TRUSTED = {"OWNER", "MEMBER", "COLLABORATOR"}
@@ -31,10 +33,21 @@ def marker(kind: str, number: int, head: str, runId: str) -> str:
 
 
 def parseMarkers(body: str) -> list[dict[str, str]]:
-    found = []
-    for match in MARKER.finditer((body or "")[:65536]):
+    found: list[dict[str, str]] = []
+    text = (body or "")[:65536]
+    cursor = 0
+    while True:
+        at = text.find(NAME, cursor)
+        if at < 0:
+            break
+        cursor = at + len(NAME)
+        if text[max(0, at - 8):at].replace(" ", "").replace("\t", "") != OPEN:
+            continue
+        end = text.find(CLOSE, cursor, cursor + MAXMARKER + len(CLOSE))
+        if end < 0:
+            continue
         pairs: dict[str, str] = {}
-        for token in match.group(1).split():
+        for token in text[cursor:end].split():
             parsed = TOKEN.fullmatch(token)
             if parsed is None:
                 pairs = {}
@@ -42,6 +55,7 @@ def parseMarkers(body: str) -> list[dict[str, str]]:
             pairs[parsed.group(1)] = parsed.group(2)
         if pairs:
             found.append(pairs)
+        cursor = end + len(CLOSE)
     return found
 
 

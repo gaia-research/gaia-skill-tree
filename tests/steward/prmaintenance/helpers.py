@@ -54,9 +54,11 @@ class Fixture:
     base: str
     labels: tuple[str, ...]
 
-    def writeReport(self, label: str, *, version: str = VERSION, html: str | None = None) -> None:
+    def writeReport(self, label: str, *, version: str = VERSION, html: str | None = None, mutate=None) -> None:
         docs = self.root / "docs"
         report = reportJson(label)
+        if mutate is not None:
+            mutate(report)
         (docs / "api/v1/reports").mkdir(parents=True, exist_ok=True)
         (docs / "api/v1/reports" / f"{label}.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
         target = docs / "reports" / label / "index.html"
@@ -79,11 +81,11 @@ class Fixture:
         run(self.root, "checkout", "-q", "-B", name, start or self.base)
 
     def head(self, label: str, *, version: str = VERSION, dropIndexRow: str | None = None, tamper: bool = False,
-             extraFile: str | None = None, indexVersion: str | None = None, name: str | None = None) -> str:
+             extraFile: str | None = None, indexVersion: str | None = None, name: str | None = None, mutate=None) -> str:
         """A PR head: base plus report ``label`` with its rebuilt indexes, optionally broken in one specific way."""
 
         self.branch(name or f"docs/content-engine-{label}")
-        self.writeReport(label, version=version)
+        self.writeReport(label, version=version, mutate=mutate)
         self.rebuildIndexes(version=indexVersion or version)
         if dropIndexRow:
             path = self.root / "docs/api/v1/reports/index.json"
@@ -175,3 +177,18 @@ def writeCensus(fx: Fixture, doc: dict) -> Path:
 
 def utc(text: str = "2026-11-04T18:30:00Z") -> datetime:
     return datetime.strptime(text, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+
+
+def inject(report: Any, key: str, value: Any) -> bool:
+    """Set the first value stored under ``key`` anywhere in a report; True when one was found."""
+
+    if isinstance(report, dict):
+        for name, item in report.items():
+            if name == key:
+                report[name] = value
+                return True
+            if inject(item, key, value):
+                return True
+    elif isinstance(report, list):
+        return any(inject(item, key, value) for item in report)
+    return False

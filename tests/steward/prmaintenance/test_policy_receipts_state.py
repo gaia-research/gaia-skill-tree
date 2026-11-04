@@ -159,3 +159,14 @@ def test_marker_parsing_is_linear_on_hostile_input_and_ignores_malformed_markers
     assert receipts.parseMarkers("<!-- gaia-steward:pr-receipt kind=pickup pr=1 head=abc run=r -->") == [
         {"kind": "pickup", "pr": "1", "head": "abc", "run": "r"}]
     assert receipts.parseMarkers("<!-- gaia-steward:pr-receipt kind=pickup bad token pr=1 -->") == []
+
+
+def test_marker_search_stays_linear_on_the_padded_shapes_that_defeated_a_regex():
+    import time
+
+    shapes = ["<!-- gaia-steward:pr-receipt " * 2000 + " " * 300, ("<!-- gaia-steward:pr-receipt " + " \t" * 150) * 300,
+              "<!--" * 15000, "gaia-steward:pr-receipt " * 3000]
+    started = time.monotonic()
+    for shape in shapes:
+        assert receipts.parseMarkers(shape) == []
+    assert time.monotonic() - started < 1.0

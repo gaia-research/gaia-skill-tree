@@ -238,6 +238,12 @@ def replacementGates(root: Path, registry: Registry, repo: str, producer: Produc
     if originalProvenance.state != PASS:
         return [gateOf("replacement-link", FAIL, f"the original #{originalNumber} fails provenance: {originalProvenance.detail}"),
                 gateOf("payload-preserved", UNKNOWN, "the original's provenance is not proven")]
+    # A hold, draft, change request or unresolved thread on the ORIGINAL binds the replacement too, including one placed after it was built.
+    unready = [g for g in holdGates(original, originalMatch.producer) if g.name != "approvals" and g.state != PASS]
+    if original.get("draft") or unready:
+        why = "draft" if original.get("draft") else "; ".join(f"{g.name}: {g.detail}" for g in unready[:3])
+        return [gateOf("replacement-link", FAIL, f"the original #{originalNumber} is held or not ready ({why})"),
+                gateOf("payload-preserved", UNKNOWN, "the original is held")]
     if not str(original["headSha"]).startswith(marker.group("head")):
         return [gateOf("replacement-link", FAIL, "the original's head moved after this replacement was built; rebuild it"),
                 gateOf("payload-preserved", UNKNOWN, "the original's head changed")]
@@ -350,13 +356,14 @@ def evaluate(root: Path, registry: Registry, repo: str, row: Mapping[str, Any], 
     reason, replacement, preserved, detail = supersession(root, repo, producer, row, label, str(tip or row["baseSha"]), siblings, closed)
     reasons: list[str] = []
     by = {g.name: g for g in gates}
-    held = (draft and producer.draftPolicy == "hold") or by["holds"].state == FAIL or by["reviews"].state == FAIL \
+    heldOriginal = by.get("replacement-link") is not None and by["replacement-link"].state == FAIL and "is held or not ready" in by["replacement-link"].detail
+    held = heldOriginal or (draft and producer.draftPolicy == "hold") or by["holds"].state == FAIL or by["reviews"].state == FAIL \
         or by.get("hold-comment", Gate("", PASS, "")).state == FAIL or by["approvals"].state == FAIL \
         or by.get("review-threads", Gate("", PASS, "")).state == FAIL \
         or (by.get("rendered-surface") and by["rendered-surface"].state == FAIL)
     evidence = {"producerRevision": registry.revision, "registrySha256": registry.sha256, "supersession": detail}
     if held:
-        why = [g.detail for g in gates if g.state == FAIL and g.name in {"draft", "holds", "reviews", "hold-comment", "review-threads", "approvals", "rendered-surface"}]
+        why = [g.detail for g in gates if g.state == FAIL and g.name in {"draft", "holds", "reviews", "hold-comment", "review-threads", "approvals", "rendered-surface", "replacement-link"}]
         if draft and producer.draftPolicy == "hold":
             why.insert(0, "draft state is a founder hold and is never read as consent")
         return Evaluation(**base, producerId=producer.id, match=match.status, label=label, kind=KIND_FOUNDER, authority="C",

@@ -78,28 +78,45 @@ AUTHORITY_FILES = ("founder/steward/POLICY.yaml", "founder/steward/pr-producers.
 AUTHORITY_REF = "GAIA_STEWARD_PR_AUTHORITY_REF"
 
 
-def authorityDrift(root: Path) -> str | None:
-    """Why the authority files cannot be trusted right now, or ``None``.
+AUTHORITY_LOCAL = "GAIA_STEWARD_PR_AUTHORITY_LOCAL"
 
-    Authority must come from reviewed, committed bytes. An uncommitted edit is refused. In production the destination tip is
-    the only source: name it in GAIA_STEWARD_PR_AUTHORITY_REF (for example ``origin/main``) and the files must equal it.
+
+def authorityDrift(root: Path) -> tuple[str, str] | None:
+    """``(code, reason)`` when authority cannot be trusted right now, or ``None``.
+
+    Authority must come from reviewed, committed bytes AND the operator must name where they come from. Fail closed by default:
+    set GAIA_STEWARD_PR_AUTHORITY_REF to the destination tip (every unattended or post-merge run), or knowingly set
+    GAIA_STEWARD_PR_AUTHORITY_LOCAL=1 to run under the committed local head (a campaign staged from a not-yet-merged pull request).
+    Either way an uncommitted edit to an authority file is refused, and the authorization records which source it ran under.
     """
 
     from gaia_cli.steward.prmaintenance import proofs
 
     dirty = proofs.git(root, "status", "--porcelain", "--untracked-files=all", "--", *AUTHORITY_FILES)
     if dirty.returncode != 0:
-        return "git could not report the state of the authority files"
+        return "authority-drift", "git could not report the state of the authority files"
     if dirty.stdout.strip():
-        return "authority files have uncommitted changes: " + ", ".join(line[3:].decode() for line in dirty.stdout.splitlines()[:3])
+        return "authority-drift", "authority files have uncommitted changes: " + ", ".join(line[3:].decode() for line in dirty.stdout.splitlines()[:3])
     ref = os.environ.get(AUTHORITY_REF, "").strip()
     if ref:
         for relative in AUTHORITY_FILES:
             there = proofs.blob(root, ref, relative)
             here = (root / relative).read_bytes() if (root / relative).is_file() else None
             if there is None or here is None or there != here:
-                return f"{relative} differs from {ref}"
-    return None
+                return "authority-drift", f"{relative} differs from {ref}"
+        return None
+    if os.environ.get(AUTHORITY_LOCAL, "").strip() == "1":
+        return None
+    return "authority-source-unset", (f"no authority source is named: set {AUTHORITY_REF} to the destination tip, or knowingly set "
+                                      f"{AUTHORITY_LOCAL}=1 to run under the committed local head")
+
+
+def authorityInfo(root: Path) -> dict[str, str]:
+    from gaia_cli.steward.prmaintenance import proofs
+
+    head = proofs.git(root, "rev-parse", "HEAD").stdout.decode().strip()
+    ref = os.environ.get(AUTHORITY_REF, "").strip()
+    return {"mode": "ref" if ref else "local-head", "source": ref or "HEAD", "commit": head}
 
 
 def policyDigest(root: Path) -> str:
@@ -145,10 +162,18 @@ def recordVerification(root: Path, record: Mapping[str, Any], now: datetime | No
                   and d.get("runId") == record["runId"] and d.get("agentId") == verifier["agentId"]]
     if not dispatched:
         raise GateRefused("verification-not-dispatched", "no recorded verifier dispatch exists for this run and agent")
+    subject = {"repo": record["repo"], "number": record["number"], "headSha": record["headSha"]}
+    dispatched = [d for d in dispatched if subject in (d.get("envelope") or {}).get("subjects", [])]
+    if not dispatched:
+        raise GateRefused("verification-not-dispatched",
+                          "the verifier dispatch does not name this repository, pull request and head in its envelope subjects")
     dispatch = dispatched[-1]
     if str(dispatch.get("effort")) != str(verifier.get("effort")):
         raise GateRefused("verification-malformed", "the verifier's effort differs from its recorded dispatch")
-    builders = sorted({str(item) for item in record["builders"]} | {str(item) for item in dispatch.get("builders") or []})
+    built = {str(who) for line in state.readRecords(root, "outcomes")
+             if line.get("action") == "reconcile" and line.get("state") == "built" and line.get("headSha") == record["headSha"]
+             for who in line.get("builders") or []}  # who built the replacement comes from the store, not the caller
+    builders = sorted({str(item) for item in record["builders"]} | {str(item) for item in dispatch.get("builders") or []} | built)
     if not builders:
         raise GateRefused("verification-malformed", "builders must name who built the work; an empty list proves nothing")
     if str(verifier["agentId"]) in builders:
@@ -194,7 +219,7 @@ def commonChecks(root: Path, request: Mapping[str, Any], snap: Snapshot, now: da
         raise GateRefused("kill-switch", f"PR maintenance writes are revoked: {reason}")
     drift = authorityDrift(root)
     if drift:
-        raise GateRefused("authority-drift", drift)
+        raise GateRefused(drift[0], drift[1])
     if policy.pr_maintenance_error:
         raise GateRefused("policy-malformed", policy.pr_maintenance_error)
     if not prAuthorityApproved(root):
@@ -250,11 +275,11 @@ def reserveWrite(root: Path, request: Mapping[str, Any], runId: str, action: str
 
 
 def authorization(request: Mapping[str, Any], row: Mapping[str, Any], evaluationSha: str, verification: Mapping[str, Any],
-                  action: str, method: str, now: datetime, runId: str) -> dict[str, Any]:
+                  action: str, method: str, now: datetime, runId: str, authority: Mapping[str, str] | None = None) -> dict[str, Any]:
     body = {"action": action, "repo": request["repo"], "number": int(request["number"]), "headSha": row["headSha"],
             "baseRef": row["baseRef"], "baseSha": row["baseSha"], "method": method, "producerId": request["producerId"],
             "runId": runId, "evaluationSha256": evaluationSha, "verifier": verification["verifier"]["agentId"],
-            "reservedAt": isoNow(now), "expiresAt": isoNow(now + timedelta(seconds=AUTH_TTL_SECONDS))}
+            "authority": dict(authority or {}), "reservedAt": isoNow(now), "expiresAt": isoNow(now + timedelta(seconds=AUTH_TTL_SECONDS))}
     return {**body, "digest": hashlib.sha256(stable_json(body).encode("utf-8")).hexdigest()}
 
 
@@ -285,7 +310,7 @@ def gateMerge(root: Path, request: Mapping[str, Any], snap: Snapshot, now: datet
         for kind in ("pickup", "verification"):
             if receipts.findReceipt(comments, kind, int(request["number"]), head12) is None:
                 raise GateRefused("trail-missing", f"no trusted {kind} receipt for head {head12} is on the pull request")
-    auth = authorization(request, row, evaluation.digest(), found, "merge", method, now, runId)
+    auth = authorization(request, row, evaluation.digest(), found, "merge", method, now, runId, authorityInfo(root))
     reserveWrite(root, request, runId, "merge", row, now, policy, auth["digest"])
     return auth
 
@@ -312,7 +337,7 @@ def gateClose(root: Path, request: Mapping[str, Any], snap: Snapshot, now: datet
     found = verificationFor(root, request, row, snap.tips[row["baseRef"]], now, policy.pr_maintenance.verificationTtlSeconds, "close")
     if receipts.findReceipt(row.get("comments") or [], "closed", int(request["number"]), row["headSha"][:12]) is None:
         raise GateRefused("justification-missing", "the closure justification must be posted before the pull request is closed")
-    auth = authorization(request, row, evaluation.digest(), found, "close", "close", now, runId)
+    auth = authorization(request, row, evaluation.digest(), found, "close", "close", now, runId, authorityInfo(root))
     reserveWrite(root, request, runId, "close", row, now, policy, auth["digest"])
     return auth
 
@@ -327,11 +352,11 @@ def checkAuthorization(root: Path, auth: Mapping[str, Any]) -> None:
     for line in state.readRecords(root, "outcomes"):
         if (line.get("repo"), line.get("number"), line.get("action")) != (auth["repo"], auth["number"], auth["action"]):
             continue
-        if line.get("state") == "reserved" and line.get("authorizationSha256") == auth["digest"]:
-            match = line
-        elif line.get("state") in state.SETTLED and match is not None:
+        if line.get("state") == "reserved":
+            match = line  # the LATEST reservation for this pull request and action supersedes every earlier one
+        elif line.get("state") in state.SETTLED:
             match = None
-    if match is None or match.get("headSha") != auth["headSha"]:
+    if match is None or match.get("authorizationSha256") != auth["digest"] or match.get("headSha") != auth["headSha"]:
         raise GateRefused("unknown-authorization", "no open reservation matches this authorization (never issued, already settled or aborted)")
 
 

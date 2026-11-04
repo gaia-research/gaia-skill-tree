@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -74,6 +75,8 @@ def build() -> argparse.ArgumentParser:
     dis.add_argument("--escalation-reason", dest="escalation")
     dis.add_argument("--envelope", required=True, help="JSON object describing the permitted work envelope")
     dis.add_argument("--builder", action="append", default=[], help="agent id(s) that built the work being verified")
+    dis.add_argument("--subject", action="append", default=[], metavar="REPO#N@SHA",
+                     help="the exact pull request head(s) this dispatch may judge; a verification outside them is refused")
     fin = rsub.add_parser("finish", help="close a dispatch record")
     fin.add_argument("--dispatch-id", required=True, dest="dispatchId")
     fin.add_argument("--result", required=True)
@@ -197,8 +200,15 @@ def doRoster(root: Path, args: argparse.Namespace) -> int:
                 raise roster.RosterError("capability-unavailable", f"{args.agent!r} does not hold {args.capability!r}")
             selection = roster.Selection(args.agent, agent.get("modelBinding"), args.effort, args.capability, args.escalation,
                                          profile["profileId"], profile["environmentId"], profile["revision"])
+            envelope = json.loads(args.envelope)
+            subjects = []
+            for item in args.subject:
+                repoPart, _, rest = item.partition("#")
+                numberPart, _, headPart = rest.partition("@")
+                subjects.append({"repo": repoPart, "number": int(numberPart), "headSha": headPart})
+            envelope["subjects"] = subjects
             record = roster.recordDispatch(root, profile, selection, runId=args.runId, dispatchId=args.dispatchId,
-                                           envelope=json.loads(args.envelope), role=args.role,
+                                           envelope=envelope, role=args.role,
                                            laneMaxInFlight=policy.lane.max_in_flight, laneMaxPerRun=policy.max_dispatches_per_run,
                                            builders=args.builder)
             out(record, args.json, f"dispatch {args.dispatchId} recorded ({args.role}: {args.agent} @ {args.effort})")
@@ -300,7 +310,8 @@ def doReconcile(root: Path, args: argparse.Namespace) -> int:
     with state.lock(root):
         state.appendRecord(root, "outcomes", {"at": state.stamp(), "runId": args.runId, "repo": repo, "number": args.number, "action": "reconcile",
                                               "state": "built", "headSha": made.commit, "originalHead": found.headSha, "branch": made.branch,
-                                              "baseSha": tip})
+                                              "baseSha": tip,
+                                              "builders": ["reconciler:content-engine-cachebust", os.environ.get("GAIA_STEWARD_LEAD_ID", "lead-session")]})
     out({**reconcile.asMapping(made), "body": made.body, "baseSha": tip}, args.json,
         f"built {made.branch} @ {made.commit[:12]} on {tip[:12]} in {made.worktree}")
     return 0

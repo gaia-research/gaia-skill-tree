@@ -86,9 +86,9 @@ def stampProof(root: Path, baseSha: str, headSha: str, paths: list[str]) -> Proo
 
 
 SEMVER = re.compile(r"^[0-9]+\.[0-9]+\.[0-9]+(?:[-+][0-9A-Za-z.-]{1,40})?$")
-DANGEROUS = re.compile(r"[<>\x00-\x08\x0b\x0c\x0e-\x1f\u2028\u2029]|javascript:|vbscript:|data:", re.IGNORECASE)
+DANGEROUS = re.compile(r"[<>\"'`=&\\\x00-\x08\x0b\x0c\x0e-\x1f\u2028\u2029]|javascript:|vbscript:|data:", re.IGNORECASE)
 URLISH = re.compile(r"(?:^|[a-z])(?:url|urls|href|link|canonical)$|^(?:json|previous|archive|next)$", re.IGNORECASE)
-SAFEURL = re.compile(r"^(?:/[A-Za-z0-9._~/%?=&#-]*|https://(?:gaiaskilltree\.com|github\.com)/[A-Za-z0-9._~/%?=&#:@+-]*|)$")
+SAFEURL = re.compile(r"^(?:/(?!/)[A-Za-z0-9._~/%?#-]*|https://(?:gaiaskilltree\.com|github\.com)/[A-Za-z0-9._~/%?#:@+-]*|)$")
 
 
 def payloadProblems(value: Any, path: str = "report") -> list[str]:
@@ -137,6 +137,39 @@ def reportJsonProof(root: Path, headSha: str, label: str) -> Proof:
         problems.append("generatedAt is absent")
     problems += payloadProblems(report)[:4]
     return Proof("report-json", FAIL if problems else PASS, "; ".join(problems) or f"canonical JSON for {label} is well formed")
+
+
+ALLOWEDATTRS = frozenset({"aria-disabled", "aria-label", "aria-labelledby", "async", "charset", "class", "content", "crossorigin", "data-ga4",
+                          "data-grade", "data-icon-base", "data-injector", "href", "http-equiv", "id", "lang", "name", "property", "rel", "src", "type"})
+ALLOWEDHOSTS = frozenset({"gaiaskilltree.com", "fonts.googleapis.com", "fonts.gstatic.com", "github.com", "www.googletagmanager.com"})
+GRADE = re.compile(r"^[A-FS][+-]?$")
+
+
+def surfaceProblems(html: str) -> list[str]:
+    """Defense in depth on the RENDERED page: only the attribute names every published report uses, no inline event handler,
+    only allow-listed hosts in any URL, and a data-grade that is a grade. A render that reproduces an injected value still fails here."""
+
+    from html.parser import HTMLParser
+
+    problems: list[str] = []
+
+    class Scan(HTMLParser):
+        def handle_starttag(self, tag: str, attrs: list) -> None:
+            for name, value in attrs:
+                if name not in ALLOWEDATTRS:
+                    problems.append(f"<{tag}> carries the attribute {name!r}")
+                    continue
+                if name == "data-grade" and value is not None and not GRADE.match(value):
+                    problems.append(f"data-grade {value!r} is not a grade")
+                if name in ("href", "src", "content") and value:
+                    host = re.match(r"^(?:https?:)?//([^/\s]+)", value)
+                    if value.startswith("//") or (host and host.group(1).lower() not in ALLOWEDHOSTS):
+                        problems.append(f"{name} points outside the allow-listed hosts: {value[:60]!r}")
+                    if re.match(r"^\s*(javascript|vbscript|data):", value, re.IGNORECASE):
+                        problems.append(f"{name} uses a script scheme")
+
+    Scan(convert_charrefs=False).feed(html)
+    return problems[:6]
 
 
 def exportBase(root: Path, baseSha: str, paths: list[str], target: Path) -> bool:
@@ -216,9 +249,13 @@ def contentEngineProofs(root: Path, baseSha: str, headSha: str, label: str) -> l
         proofs = []
         rendered = normalizeStamps((work / "rendered.html").read_text(encoding="utf-8"))
         committed = normalizeStamps(needed["html"].decode("utf-8", "replace"))
-        proofs.append(Proof("rendered-html", PASS if rendered == committed else FAIL,
-                            "HTML equals the base-template render of its canonical JSON" if rendered == committed
-                            else "HTML differs from the base-template render of its canonical JSON"))
+        surface = surfaceProblems(committed)
+        same = rendered == committed
+        proofs.append(Proof("rendered-html", PASS if same and not surface else FAIL,
+                            ("HTML equals the base-template render of its canonical JSON and uses only the published attribute and host set"
+                             if same and not surface else
+                             "HTML differs from the base-template render of its canonical JSON" if not same
+                             else "rendered page breaks the attribute or host allow-list: " + "; ".join(surface))))
         rebuiltJson = json.loads((work / "rebuilt-index.json").read_text(encoding="utf-8"))
         committedJson = json.loads(needed["indexJson"].decode("utf-8"))
         sameRows = rebuiltJson.get("reports") == committedJson.get("reports")

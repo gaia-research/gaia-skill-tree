@@ -388,3 +388,74 @@ def test_a_superseded_marker_must_match_the_pull_request_number_exactly(tmp_path
     assert kind(fx, [h.row(fx, head, "2026-44", number=2270)], closed=[wrong]) == ev.KIND_SUPERSEDED  # pr=22700 is not pr=2270
     prefix = {**wrong, "body": f"<!-- gaia-steward:replaces repo={h.REPO} pr=227 head=abcdef123456 -->"}
     assert kind(fx, [h.row(fx, head, "2026-44", number=22700)], 22700, closed=[prefix]) == ev.KIND_SUPERSEDED
+
+
+# --- second independent verification: payload and rendered-surface injection, scope and check mutations ---------------
+
+def test_a_payload_that_injects_into_an_attribute_or_script_is_refused_even_though_the_render_reproduces_it(fx):
+    for field, value in (("trustGrade", 'A" onmouseover="fetch(1)" x="'), ("generatorVersion", '"; fetch(1); "'),
+                         ("canonical", "//evil.example/x"), ("canonical", "javascript:alert(1)")):
+        head = fx.head("2026-44", mutate=lambda report, f=field, v=value: h.inject(report, f, v))
+        seen = observe(fx, [h.row(fx, head, "2026-44")])[2270]
+        assert seen.kind != ev.KIND_MERGE, (field, value)
+        assert {g["name"]: g["state"] for g in seen.observed_state["gates"]}["report-json"] == "fail", (field, value)
+
+
+def test_the_rendered_page_must_use_only_the_published_attribute_and_host_set():
+    from gaia_cli.steward.prmaintenance import proofs
+
+    assert proofs.surfaceProblems('<a href="/reports/" class="x" data-grade="S">ok</a>') == []
+    assert proofs.surfaceProblems('<div onmouseover="x()">') and proofs.surfaceProblems('<a href="//evil.example/x">')
+    assert proofs.surfaceProblems('<a href="https://evil.example/">') and proofs.surfaceProblems('<span data-grade="A&quot; x">')
+    assert proofs.surfaceProblems('<a href="javascript:alert(1)">')
+    assert proofs.payloadProblems({"generatorVersion": "9.0.0", "urls": {"canonical": "/reports/2026-44/"}, "name": "plain text"}) == []
+    for bad in ('say "hi"', "it's", "a`b", "a=b", "a&b", "back\\slash", "<b>", "data:text/html,x"):
+        assert proofs.payloadProblems({"summary": bad}), bad
+
+
+def test_a_replacement_cannot_publish_a_report_whose_original_the_founder_holds(tmp_path):
+    from gaia_cli.steward.prmaintenance import reconcile
+
+    fx = h.makeRepo(tmp_path / "w")
+    original = fx.head("2026-44", version="8.26.10")
+    made = reconcile.buildReplacement(fx.root, h.REPO, 2157, original, "2026-44", fx.base, tmp_path / "wt")
+    claude = {"sha": made.commit, "authorLogin": "claude", "authorId": 81847, "authorType": "User", "committerLogin": "claude",
+              "committerName": "Claude", "parents": 1, "message": "replacement"}
+
+    def both(**originalOver):
+        first = h.row(fx, original, "2026-44", number=2157, **originalOver)
+        second = h.row(fx, made.commit, "2026-44", number=2290, author={"login": "mbtiongson1", "id": 153011150, "type": "User"}, labels=[],
+                       headRef=made.branch, body=made.body, commits=[claude])
+        return [first, second]
+
+    assert observe(fx, both())[2290].kind == ev.KIND_MERGE
+    for over in ({"labels": ["content-engine", "founder-hold"]}, {"draft": True}, {"reviewThreadsUnresolved": 1},
+                 {"comments": [{"id": 1, "user": "mbtiongson1", "body": "steward-hold: do not publish", "authorAssociation": "OWNER"}]},
+                 {"reviews": [{"user": "mbtiongson1", "state": "CHANGES_REQUESTED", "commitId": original, "authorAssociation": "MEMBER",
+                               "submittedAt": "2026-11-04T10:00:00Z"}]}):
+        seen = observe(fx, both(**over))
+        assert seen[2290].kind == ev.KIND_FOUNDER, over  # the hold binds the replacement, including one placed after it was built
+        assert seen[2157].kind in (ev.KIND_FOUNDER, ev.KIND_VERIFY)  # a draft content-engine PR is ineligible (B); every other hold is Class C
+    foreign = [{"sha": original, "authorLogin": "mallory", "authorId": 5, "authorType": "User", "committerLogin": "mallory", "committerName": "M",
+                "parents": 1, "message": "payload"}]
+    assert observe(fx, both(commits=foreign))[2290].kind != ev.KIND_MERGE  # an unproven original cannot launder a payload
+
+
+def test_a_removed_file_inside_the_allowed_paths_and_a_protected_overlap_are_each_refused_on_their_own():
+    import dataclasses
+
+    registry = loadRegistry(h.SOURCE)
+    producer = registry.producer("weekly-content-engine")
+    removed = {"files": [{"path": "docs/reports/index.html", "status": "removed", "additions": 0, "deletions": 3, "blobSha": "0" * 40}]}
+    assert ev.scopeGate(removed, producer, "2026-44").state == "fail" and "removed" in ev.scopeGate(removed, producer, "2026-44").detail
+    wide = dataclasses.replace(producer, allowedFiles=("docs/**",))  # an allow-list that overlaps a protected area
+    overlap = {"files": [{"path": "docs/graph/gaia.json", "status": "modified", "additions": 1, "deletions": 0, "blobSha": "0" * 40}]}
+    assert ev.scopeGate(overlap, wide, "2026-44").state == "fail"
+
+
+def test_a_same_named_check_still_running_is_unknown_even_beside_a_success(fx):
+    head = fx.head("2026-44")
+    mixed = [{**h.passing()[0], "status": "in_progress", "conclusion": None}, h.passing()[0], h.passing()[1]]
+    seen = observe(fx, [h.row(fx, head, "2026-44", checkRuns=mixed)])[2270]
+    assert {g["name"]: g["state"] for g in seen.observed_state["gates"]}["ci:Schema + DAG + Integrity Checks"] == "unknown"
+    assert seen.kind == ev.KIND_BLOCKED

@@ -70,10 +70,13 @@ marker-linked replacement with a byte-identical payload.
 
 ## Limits that hold for the whole route
 
-- **Authority comes from committed bytes.** The gate refuses with `authority-drift` if `POLICY.yaml`, `pr-producers.json` or the
-  decided authority record has an uncommitted change. Set `GAIA_STEWARD_PR_AUTHORITY_REF=origin/main` for any run that must honour
-  only the destination's reviewed authority (every unattended or post-merge run); until this route itself is merged, a campaign
-  runs under the pull request's committed head and says so in its report.
+- **Authority comes from committed bytes, and you must name the source.** The gate refuses `authority-drift` if `POLICY.yaml`,
+  `pr-producers.json` or the decided authority record has an uncommitted change, and `authority-source-unset` unless you set
+  `GAIA_STEWARD_PR_AUTHORITY_REF=origin/main` (the files must equal the destination tip; every unattended or post-merge run) or knowingly
+  set `GAIA_STEWARD_PR_AUTHORITY_LOCAL=1` (a campaign staged from a not-yet-merged pull request, running under the committed local head).
+  Every authorization records which source it ran under.
+- **A verification stands on a dispatch.** `roster dispatch --subject REPO#N@HEAD` names exactly which head a verifier may judge;
+  builders come from the dispatch and the store's reconcile record, never only from the verification file.
 - **The store is per checkout** (`.gaia/steward/pr-maintenance`). One driver at a time; a second checkout does not see this one's
   reservations, so GitHub's merged state and the receipt markers are the cross-checkout backstop. Duplicate receipts are possible
   across checkouts, a duplicate merge is not.

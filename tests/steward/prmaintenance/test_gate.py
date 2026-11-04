@@ -18,6 +18,14 @@ from tests.steward.prmaintenance import helpers as h
 RUN = "run-1"
 
 
+@pytest.fixture(autouse=True)
+def knowingLocalAuthority(monkeypatch):
+    """These tests run under a committed local head, which the operator must say out loud (the default is fail closed)."""
+
+    monkeypatch.delenv(gate.AUTHORITY_REF, raising=False)
+    monkeypatch.setenv(gate.AUTHORITY_LOCAL, "1")
+
+
 def comment(body, assoc="MEMBER", cid=1):
     return {"id": cid, "user": "mbtiongson1", "body": body, "authorAssociation": assoc}
 
@@ -31,13 +39,13 @@ def trail(number, head, run=RUN):
     return [comment(pick, cid=1), comment(ver, cid=2)]
 
 
-def dispatched(fx, verifier, builders, run=RUN):
+def dispatched(fx, verifier, builders, run=RUN, subject=None):
     """The recorded verifier dispatch a verification must stand on (independence is derived from it, never self-declared)."""
 
     state.appendRecord(fx.root, "dispatches", {"kind": "dispatch", "status": "started", "at": "2026-11-04T18:00:00Z", "runId": run,
                                                "dispatchId": f"d-{verifier['agentId']}-{len(state.readRecords(fx.root, 'dispatches'))}",
                                                "role": "verifier", "agentId": verifier["agentId"], "effort": verifier["effort"],
-                                               "builders": list(builders)})
+                                               "builders": list(builders), "envelope": {"subjects": [subject] if subject else []}})
 
 
 def verification(fx, head, number=2270, action="merge", dispatch=True, **over):
@@ -46,7 +54,8 @@ def verification(fx, head, number=2270, action="merge", dispatch=True, **over):
               "proofs": [{"name": "provenance", "state": "pass", "detail": "ok"}], "runId": RUN}
     record.update(over)
     if dispatch:
-        dispatched(fx, record["verifier"], record["builders"], record["runId"])
+        dispatched(fx, record["verifier"], record["builders"], record["runId"],
+                   {"repo": record["repo"], "number": record["number"], "headSha": record["headSha"]})
     return gate.recordVerification(fx.root, record, h.utc())
 
 
@@ -375,7 +384,7 @@ def test_a_verification_without_a_recorded_verifier_dispatch_or_with_empty_build
     with pytest.raises(gate.GateRefused) as empty:
         verification(fx, head, builders=[])
     assert empty.value.code == "verification-malformed" and "builders" in empty.value.message
-    dispatched(fx, {"agentId": "verifier-a", "effort": "low"}, ["builder-x"])
+    dispatched(fx, {"agentId": "verifier-a", "effort": "low"}, ["builder-x"], subject={"repo": h.REPO, "number": 2270, "headSha": head})
     with pytest.raises(gate.GateRefused) as mismatch:
         gate.recordVerification(fx.root, {"repo": h.REPO, "number": 2270, "action": "merge", "headSha": head, "baseSha": fx.base, "verdict": "pass",
                                           "verifier": {"agentId": "verifier-a", "effort": "xhigh", "profileId": "p"}, "builders": ["builder-x"],
@@ -385,7 +394,8 @@ def test_a_verification_without_a_recorded_verifier_dispatch_or_with_empty_build
 
 def test_the_builders_recorded_on_the_dispatch_count_even_if_the_caller_omits_them(fx):
     head = fx.head("2026-44")
-    dispatched(fx, {"agentId": "verifier-a", "effort": "high"}, ["verifier-a"])  # the dispatch itself says this agent built it
+    dispatched(fx, {"agentId": "verifier-a", "effort": "high"}, ["verifier-a"],
+               subject={"repo": h.REPO, "number": 2270, "headSha": head})  # the dispatch itself says this agent built it
     with pytest.raises(gate.GateRefused) as caught:
         gate.recordVerification(fx.root, {"repo": h.REPO, "number": 2270, "action": "merge", "headSha": head, "baseSha": fx.base, "verdict": "pass",
                                           "verifier": {"agentId": "verifier-a", "effort": "high", "profileId": "p"}, "builders": ["builder-x"],
@@ -412,6 +422,17 @@ def test_a_verification_for_a_different_destination_tip_is_stale(fx):
     head = fx.head("2026-44")
     verification(fx, head, baseSha="f" * 40)
     refused(fx, snapshot(fx, head), request(head), "verification-stale")
+
+
+def test_authority_source_must_be_named_and_the_default_fails_closed(fx, monkeypatch):
+    head = ready(fx)
+    monkeypatch.delenv(gate.AUTHORITY_LOCAL)
+    refused(fx, snapshot(fx, head), request(head), "authority-source-unset")
+    monkeypatch.setenv(gate.AUTHORITY_LOCAL, "yes")  # only the explicit value 1 counts
+    refused(fx, snapshot(fx, head), request(head), "authority-source-unset")
+    monkeypatch.setenv(gate.AUTHORITY_LOCAL, "1")
+    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+    assert auth["authority"]["mode"] == "local-head" and len(auth["authority"]["commit"]) == 40  # the source is on the record
 
 
 def test_authority_must_equal_the_destination_tip_when_one_is_named(fx, monkeypatch):
@@ -463,3 +484,54 @@ def test_closure_of_a_held_or_draft_original_is_refused_even_when_superseded(tmp
             gate.gateClose(fx.root, req, held, h.utc(), RUN)
         assert caught.value.code in ("closure-not-proven", "closure-held"), caught.value
         assert outcomes(fx) == []
+
+
+def test_the_latest_reservation_alone_validates_an_older_authorization_is_dead(fx):
+    head = ready(fx)
+    first = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+    later = h.utc() + timedelta(minutes=30)  # the first attempt's reservation is stale and is superseded
+    second = gate.gateMerge(fx.root, request(head), snapshot(fx, head), later, "run-2")
+    assert first["digest"] != second["digest"]
+    mergedRow = {**h.row(fx, head, "2026-44"), "merged": True, "state": "closed"}
+    after = gate.Snapshot(row=mergedRow, tips={"main": "9" * 40}, protection={"complete": True}, siblings=[], closed=[], merged=True, mergeCommitSha="9" * 40)
+    with pytest.raises(gate.GateRefused) as caught:
+        gate.finalize(fx.root, first, after, later)
+    assert caught.value.code == "unknown-authorization"
+    assert gate.finalize(fx.root, second, after, later)["state"] == "merged"
+
+
+def test_a_verifier_dispatch_that_does_not_name_this_head_cannot_back_a_verification(fx):
+    head = fx.head("2026-44")
+    other = fx.head("2026-45", name="docs/content-engine-2026-45")
+    dispatched(fx, {"agentId": "verifier-a", "effort": "high"}, ["builder-x"], subject={"repo": h.REPO, "number": 2271, "headSha": other})
+    with pytest.raises(gate.GateRefused) as caught:
+        gate.recordVerification(fx.root, {"repo": h.REPO, "number": 2270, "action": "merge", "headSha": head, "baseSha": fx.base, "verdict": "pass",
+                                          "verifier": {"agentId": "verifier-a", "effort": "high", "profileId": "p"}, "builders": ["builder-x"],
+                                          "proofs": [{"name": "a", "state": "pass", "detail": ""}], "runId": RUN}, h.utc())
+    assert caught.value.code == "verification-not-dispatched" and "envelope subjects" in caught.value.message
+
+
+def test_the_builder_of_a_replacement_comes_from_the_reconcile_record_not_the_caller(fx):
+    head = fx.head("2026-44")
+    state.appendRecord(fx.root, "outcomes", {"at": "2026-11-04T18:00:00Z", "runId": "r0", "repo": h.REPO, "number": 2157, "action": "reconcile",
+                                             "state": "built", "headSha": head, "originalHead": "a" * 40, "branch": "steward/b/x",
+                                             "builders": ["reconciler:content-engine-cachebust", "verifier-a"]})
+    with pytest.raises(gate.GateRefused) as caught:
+        verification(fx, head)  # the caller lists only builder-x, but the store says verifier-a did the building
+    assert caught.value.code == "verification-not-independent"
+
+
+def test_closure_gate_rechecks_every_hold_class_gate_itself(tmp_path, monkeypatch):
+    fx, head, snap, req = closureWorld(tmp_path)
+    real = gate.evaluate
+
+    def flipped(*args, **kwargs):
+        found = real(*args, **kwargs)
+        gates = tuple(dataclasses.replace(g, state="fail") if g.name == "holds" else g for g in found.gates)
+        return dataclasses.replace(found, gates=gates)
+
+    monkeypatch.setattr(gate, "evaluate", flipped)
+    with pytest.raises(gate.GateRefused) as caught:
+        gate.gateClose(fx.root, req, snap, h.utc(), RUN)
+    assert caught.value.code == "closure-held"
+    assert outcomes(fx) == []
