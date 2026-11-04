@@ -146,3 +146,16 @@ def test_the_store_refuses_symlinked_roots_and_unknown_files(tmp_path):
     (tmp_path / ".gaia").symlink_to(real)
     with pytest.raises(state.StoreError):
         state.storeDir(tmp_path)
+
+
+def test_marker_parsing_is_linear_on_hostile_input_and_ignores_malformed_markers():
+    import time
+
+    hostile = "<!-- gaia-steward:pr-receipt 0=" + "!0=" * 50000 + " -->"
+    started = time.monotonic()
+    assert receipts.parseMarkers(hostile) == []
+    assert receipts.parseMarkers("<!-- gaia-steward:pr-receipt " + "a=b " * 5000 + " -->") == []  # over the bounded marker size
+    assert time.monotonic() - started < 2.0
+    assert receipts.parseMarkers("<!-- gaia-steward:pr-receipt kind=pickup pr=1 head=abc run=r -->") == [
+        {"kind": "pickup", "pr": "1", "head": "abc", "run": "r"}]
+    assert receipts.parseMarkers("<!-- gaia-steward:pr-receipt kind=pickup bad token pr=1 -->") == []

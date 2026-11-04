@@ -236,7 +236,7 @@ def liveSnapshot(api: Api, repo: str, number: int, fetchHead: Callable[[int], No
                             "type": (item.get("user") or {}).get("type")}}
                 for item in listAll(api, f"repos/{repo}/pulls", {"state": "open"})]
     # A replacement is only as trustworthy as its original: bring the original's FULL row (commits, files) when the body names it.
-    named = re.search(r"gaia-steward:replaces repo=\S+ pr=([0-9]+) head=[0-9a-f]{12}", str(row.get("body") or ""))
+    named = re.search(r"gaia-steward:replaces repo=[A-Za-z0-9._/-]{1,100} pr=([0-9]{1,9}) head=[0-9a-f]{12}", str(row.get("body") or ""))
     if named is not None:
         try:
             full = pullRow(api, repo, int(named.group(1)))

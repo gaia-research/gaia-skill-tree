@@ -211,7 +211,7 @@ def holdGates(row: Mapping[str, Any], producer: Producer) -> list[Gate]:
     return gates
 
 
-REPLACES = re.compile(r"gaia-steward:replaces repo=(?P<repo>\S+) pr=(?P<pr>[0-9]+) head=(?P<head>[0-9a-f]{12})")
+REPLACES = re.compile(r"gaia-steward:replaces repo=(?P<repo>[A-Za-z0-9._/-]{1,100}) pr=(?P<pr>[0-9]{1,9}) head=(?P<head>[0-9a-f]{12})")
 
 
 def replacementGates(root: Path, registry: Registry, repo: str, producer: Producer, row: Mapping[str, Any], label: str | None,
