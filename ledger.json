@@ -1,5 +1,5 @@
 {
- "generation": 345,
+ "generation": 346,
  "lane": {
   "entries": [
    {
@@ -255,14 +255,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-29388367efc672472c1a",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-04T17:22:14.671378Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-terra-01a1a793-8bb8-7029-b125-f63b22e12981 (pi, effort high))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-04T17:22:14.671378Z",
+    "lastVerdict": "reject",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 0,
@@ -16973,6 +16979,16 @@
      "debtId": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b",
      "emittedAt": "2026-11-04T17:18:15.747885Z",
      "idempotencyKey": "verify:dispatch-29388367efc672472c1a:1",
+     "outcome": {
+      "agentId": "pi-terra-01a1a793-8bb8-7029-b125-f63b22e12981",
+      "effort": "high",
+      "model": "pi",
+      "provider": "openai-codex",
+      "providerModel": "gpt-6.1-terra",
+      "rationale": "Independent reproduction confirms stored level 2-star, effective TM 50.0, grade B, and sensor target 3-star. No-change is not non-reproduction; no correction was delivered. No canonical calibration is authorized by this verdict. Verifier independently computed using buildMergedSkillMap, computeTrustMagnitude and computeOverallTrustGradeFromSkill and inspected sensor logic and META Star Bar. No diff/proof precheck applicable to generated no-change packet.",
+      "subagentRunId": "8643fb21-9d76-42ef-abe9-0cad46f86919",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -16988,7 +17004,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261104T165527Z-2a808cf3/verify-9ee929732fd5.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-04T17:22:14.671221Z",
+     "status": "done",
      "stepId": "verify:9ee929732fd5:1",
      "type": "agent.verify"
     }
@@ -17004,6 +17021,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:9ee929732fd5:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-terra-01a1a793-8bb8-7029-b125-f63b22e12981",
+     "at": "2026-11-04T17:22:14.671378Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b",
+     "effort": "high",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:9ee929732fd5:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -18938,15 +18967,16 @@
      "stepId": "phase:class_b"
     },
     {
-     "at": "2026-11-04T17:18:15.747885Z",
+     "at": "2026-11-04T17:22:14.671221Z",
      "debtId": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b",
      "idempotencyKey": "verify:dispatch-29388367efc672472c1a:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:9ee929732fd5:1"
     }
    ],
    "thinkingEfforts": [
+    "high",
     "medium"
    ],
    "tokensIn": 0,
@@ -18959,11 +18989,11 @@
      "state": "building"
     }
    ],
-   "updatedAt": "2026-11-04T17:11:41.982056Z"
+   "updatedAt": "2026-11-04T17:22:14.671221Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-04T17:18:36.638753Z",
+ "updatedAt": "2026-11-04T17:22:14.680101Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -19094,22 +19124,25 @@
      "stepId": "build:9ee929732fd5:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-terra-01a1a793-8bb8-7029-b125-f63b22e12981",
+     "at": "2026-11-04T17:22:14.671378Z",
+     "costUsd": null,
+     "effort": "high",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:9ee929732fd5:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-integration",
+   "blockedReason": "independent verification by pi-terra-01a1a793-8bb8-7029-b125-f63b22e12981 (pi, effort high): rejected - Independent reproduction confirms stored level 2-star, effective TM 50.0, grade B, and sensor target 3-star. No-change is not non-reproduction; no correction wa",
    "branch": "steward/b/trust-calibration-drift-9ee929732fd5",
-   "build": {
-    "agentId": "pi-luna-01a1a786-20b4-701a-8354-2b6631cb6e24",
-    "attempt": 1,
-    "diffPath": null,
-    "dispatchId": "dispatch-29388367efc672472c1a",
-    "noChange": true,
-    "proofPath": "/data/data/com.termux/files/home/gaia-skill-tree/.gaia/steward/full/run-20261104T165527Z-2a808cf3/build-9ee929732fd5.proof.json",
-    "recordedAt": "2026-11-04T17:11:41.982104Z",
-    "summary": "Finding reproduces: stored 2-star vs computed TM 50, Grade B / target 3-star. No correction or registry mutation performed. Builder supplied human-gated calibration proposal only and reports envelope/command constraints; independent verifier must not accept as non-reproduction."
-   },
+   "build": null,
    "createdAt": "2026-11-04T02:54:14.093628Z",
    "debtId": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b",
    "dispatchId": "dispatch-29388367efc672472c1a",
@@ -19120,6 +19153,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-29388367efc672472c1a (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-04T17:22:14.671378Z",
+     "from": "building",
+     "reason": "independent verification by pi-terra-01a1a793-8bb8-7029-b125-f63b22e12981 (pi, effort high): rejected - Independent reproduction confirms stored level 2-star, effective TM 50.0, grade B, and sensor target 3-star. No-change is not non-reproduction; no correction wa",
+     "to": "blocked"
     }
    ],
    "kind": "trust_calibration_drift",
@@ -19129,13 +19168,14 @@
    "routine": "gaia-trust-calibration-steward",
    "runId": "run-20261104T165527Z-2a808cf3",
    "source": "trust-calibration-drift",
-   "state": "building",
-   "updatedAt": "2026-11-04T17:11:41.982104Z",
+   "state": "blocked",
+   "updatedAt": "2026-11-04T17:22:14.671378Z",
    "verification": {
-    "mode": "no-change",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261104T165527Z-2a808cf3/verify-9ee929732fd5.prompt.md"
+    "agentId": "pi-terra-01a1a793-8bb8-7029-b125-f63b22e12981",
+    "rationale": "Independent reproduction confirms stored level 2-star, effective TM 50.0, grade B, and sensor target 3-star. No-change is not non-reproduction; no correction was delivered. No canonical calibration is authorized by this verdict. Verifier independently computed using buildMergedSkillMap, computeTrustMagnitude and computeOverallTrustGradeFromSkill and inspected sensor logic and META Star Bar. No diff/proof precheck applicable to generated no-change packet.",
+    "recordedAt": "2026-11-04T17:22:14.671378Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   },
   "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9": {
