@@ -1,5 +1,5 @@
 {
- "generation": 389,
+ "generation": 390,
  "lane": {
   "entries": [
    {
@@ -4404,7 +4404,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-04T23:49:33.613371Z",
-   "expiresAt": "2026-11-05T00:25:00.422746Z",
+   "expiresAt": "2026-11-05T00:25:09.021253Z",
    "holder": "run-20261104T191141Z-c3a4df1e"
   }
  },
@@ -19754,7 +19754,7 @@
     "push": true,
     "routine": null
    },
-   "phase": "retro",
+   "phase": "report",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -21522,6 +21522,779 @@
      ],
      "scanReceiptId": "steward-20261104T235018Z-ca81d01b42dd6c46"
     },
+    "retro": {
+     "executed": 30,
+     "notEvaluated": [
+      {
+       "reason": "no browser-render.json supplied; a driver must collect it",
+       "sensor": "browser-render"
+      },
+      {
+       "reason": "no advisories.json supplied; a driver must collect it",
+       "sensor": "dependency-advisory"
+      }
+     ],
+     "partiallyCovered": [],
+     "registered": 32,
+     "routines": [
+      {
+       "detectors": [
+        {
+         "sensor": "dead-code",
+         "state": "executed"
+        }
+       ],
+       "routine": 1,
+       "state": "observed"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "code-structure",
+         "state": "executed"
+        }
+       ],
+       "routine": 2,
+       "state": "observed"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "error-handling",
+         "state": "executed"
+        }
+       ],
+       "routine": 3,
+       "state": "observed"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "test-portfolio",
+         "state": "executed"
+        }
+       ],
+       "routine": 4,
+       "state": "observed"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "test-history",
+         "state": "executed"
+        },
+        {
+         "sensor": "test-isolation",
+         "state": "executed"
+        }
+       ],
+       "routine": 5,
+       "state": "observed"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "cli-contract",
+         "state": "executed"
+        }
+       ],
+       "routine": 6,
+       "state": "observed"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "frozen-skill-integrity",
+         "state": "executed"
+        },
+        {
+         "sensor": "mutation-boundary",
+         "state": "executed"
+        },
+        {
+         "sensor": "registry-integrity",
+         "state": "executed"
+        }
+       ],
+       "routine": 7,
+       "state": "observed"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "bundled-schema-mirror",
+         "state": "executed"
+        },
+        {
+         "sensor": "schema-validity",
+         "state": "executed"
+        }
+       ],
+       "routine": 8,
+       "state": "observed"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "benchmark-freshness",
+         "state": "executed"
+        },
+        {
+         "sensor": "evidence-link-health",
+         "state": "executed"
+        },
+        {
+         "sensor": "taxonomy-script-drift",
+         "state": "executed"
+        },
+        {
+         "sensor": "trust-calibration-drift",
+         "state": "executed"
+        }
+       ],
+       "routine": 9,
+       "state": "observed"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "frozen-skill-integrity",
+         "state": "executed"
+        },
+        {
+         "sensor": "timeline-causality",
+         "state": "executed"
+        }
+       ],
+       "routine": 10,
+       "state": "observed"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "discovery-generic-mapping",
+         "state": "executed"
+        },
+        {
+         "sensor": "registry-integrity",
+         "state": "executed"
+        },
+        {
+         "sensor": "upstream-watcher",
+         "state": "executed"
+        }
+       ],
+       "routine": 11,
+       "state": "observed"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "agent-skill-mirror",
+         "state": "executed"
+        },
+        {
+         "sensor": "generated-projections",
+         "state": "executed"
+        },
+        {
+         "sensor": "repository-hygiene",
+         "state": "executed"
+        }
+       ],
+       "routine": 12,
+       "state": "observed"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "ci-health",
+         "state": "executed"
+        },
+        {
+         "sensor": "ci-workflow",
+         "state": "executed"
+        }
+       ],
+       "routine": 13,
+       "state": "observed"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "dependency-advisory",
+         "state": "not-evaluated"
+        },
+        {
+         "sensor": "secret-scan",
+         "state": "executed"
+        },
+        {
+         "sensor": "supply-chain",
+         "state": "executed"
+        },
+        {
+         "sensor": "upstream-watcher",
+         "state": "executed"
+        }
+       ],
+       "routine": 14,
+       "state": "partial"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "browser-render",
+         "state": "not-evaluated"
+        },
+        {
+         "sensor": "frontend-contract",
+         "state": "executed"
+        },
+        {
+         "sensor": "generated-projections",
+         "state": "executed"
+        }
+       ],
+       "routine": 15,
+       "state": "partial"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "browser-sink",
+         "state": "executed"
+        },
+        {
+         "sensor": "secret-scan",
+         "state": "executed"
+        }
+       ],
+       "routine": 16,
+       "state": "observed"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "agent-skill-mirror",
+         "state": "executed"
+        },
+        {
+         "sensor": "knowledge-contradiction",
+         "state": "executed"
+        },
+        {
+         "sensor": "taxonomy-script-drift",
+         "state": "executed"
+        }
+       ],
+       "routine": 17,
+       "state": "observed"
+      },
+      {
+       "detectors": [
+        {
+         "sensor": "issue-hygiene",
+         "state": "executed"
+        }
+       ],
+       "routine": 18,
+       "state": "observed"
+      }
+     ],
+     "sensors": [
+      {
+       "executed": true,
+       "id": "bundled-schema-mirror",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 1
+       },
+       "registered": true,
+       "routine_ids": [
+        8
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "agent-skill-mirror",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 1
+       },
+       "registered": true,
+       "routine_ids": [
+        12,
+        17
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "registry-integrity",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 1
+       },
+       "registered": true,
+       "routine_ids": [
+        7,
+        11
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "cli-contract",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 1
+       },
+       "registered": true,
+       "routine_ids": [
+        6
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "discovery-generic-mapping",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        11
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "taxonomy-script-drift",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 1
+       },
+       "registered": true,
+       "routine_ids": [
+        9,
+        17
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "upstream-watcher",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 1
+       },
+       "registered": true,
+       "routine_ids": [
+        11,
+        14
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "knowledge-contradiction",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 1
+       },
+       "registered": true,
+       "routine_ids": [
+        17
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "evidence-link-health",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 1
+       },
+       "registered": true,
+       "routine_ids": [
+        9
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "generated-projections",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 1
+       },
+       "registered": true,
+       "routine_ids": [
+        12,
+        15
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "benchmark-freshness",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 1,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        9
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "trust-calibration-drift",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 122,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        9
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "frozen-skill-integrity",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 4,
+        "healthy": 19
+       },
+       "registered": true,
+       "routine_ids": [
+        7,
+        10
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "repository-hygiene",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 1
+       },
+       "registered": true,
+       "routine_ids": [
+        12
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "dead-code",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 38,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        1
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "code-structure",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 5,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        2
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "error-handling",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 42,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        3
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "test-portfolio",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        4
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "test-isolation",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        5
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "test-history",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        5
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "mutation-boundary",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 3,
+        "healthy": 2
+       },
+       "registered": true,
+       "routine_ids": [
+        7
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "browser-sink",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 61,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        16
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "secret-scan",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 39,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        16,
+        14
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "ci-workflow",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 39,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        13
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "ci-health",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 2,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        13
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "supply-chain",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        14
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": false,
+       "id": "dependency-advisory",
+       "notEvaluated": true,
+       "observations": {
+        "drift": 0,
+        "healthy": 0
+       },
+       "reason": "no advisories.json supplied; a driver must collect it",
+       "registered": true,
+       "routine_ids": [
+        14
+       ],
+       "state": "not-evaluated",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "schema-validity",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        8
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "timeline-causality",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 0,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        10
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "frontend-contract",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 2,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        15
+       ],
+       "state": "executed",
+       "unknown": false
+      },
+      {
+       "executed": false,
+       "id": "browser-render",
+       "notEvaluated": true,
+       "observations": {
+        "drift": 0,
+        "healthy": 0
+       },
+       "reason": "no browser-render.json supplied; a driver must collect it",
+       "registered": true,
+       "routine_ids": [
+        15
+       ],
+       "state": "not-evaluated",
+       "unknown": false
+      },
+      {
+       "executed": true,
+       "id": "issue-hygiene",
+       "notEvaluated": false,
+       "observations": {
+        "drift": 10,
+        "healthy": 0
+       },
+       "registered": true,
+       "routine_ids": [
+        18
+       ],
+       "state": "executed",
+       "unknown": false
+      }
+     ],
+     "unknown": []
+    },
     "triage": {
      "carried": 0,
      "classA": [],
@@ -21647,6 +22420,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:reobserve"
+    },
+    {
+     "at": "2026-11-04T23:55:08.156258Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:retro"
     }
    ],
    "thinkingEfforts": [
@@ -21661,7 +22440,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-04T23:55:00.423065Z",
+ "updatedAt": "2026-11-04T23:55:09.021566Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
