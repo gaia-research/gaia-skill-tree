@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-11-03T13:00:06Z",
+  "generatedAt": "2026-11-04T19:15:54Z",
   "firstRun": false,
   "skills": [
     {
@@ -15,20 +15,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/panniantong/agent-reach.json"
-      }
-    },
-    {
-      "id": "nvidia/accelerated-computing-cudf",
-      "name": "accelerated-computing-cudf",
-      "level": "4★",
-      "contributor": "nvidia",
-      "trustMagnitude": 131.12,
-      "overallTrustGrade": "A",
-      "trendingScore": 85.79,
-      "tmDelta": 5.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/nvidia/accelerated-computing-cudf.json"
       }
     },
     {
@@ -253,20 +239,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/zhaoxuya520/reverse-skill.json"
-      }
-    },
-    {
-      "id": "wheresryan22/anatomy",
-      "name": "anatomy",
-      "level": "4★",
-      "contributor": "wheresryan22",
-      "trustMagnitude": 157.48,
-      "overallTrustGrade": "A",
-      "trendingScore": 55.66,
-      "tmDelta": 5.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/wheresryan22/anatomy.json"
       }
     },
     {
@@ -1793,6 +1765,34 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/nateherkai/scroll-craft.json"
+      }
+    },
+    {
+      "id": "nvidia/accelerated-computing-cudf",
+      "name": "accelerated-computing-cudf",
+      "level": "4★",
+      "contributor": "nvidia",
+      "trustMagnitude": 131.12,
+      "overallTrustGrade": "A",
+      "trendingScore": 5.79,
+      "tmDelta": 5.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/nvidia/accelerated-computing-cudf.json"
+      }
+    },
+    {
+      "id": "wheresryan22/anatomy",
+      "name": "anatomy",
+      "level": "4★",
+      "contributor": "wheresryan22",
+      "trustMagnitude": 157.48,
+      "overallTrustGrade": "A",
+      "trendingScore": 5.66,
+      "tmDelta": 5.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/wheresryan22/anatomy.json"
       }
     },
     {
