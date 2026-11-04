@@ -558,9 +558,9 @@ class StewardCommand(Command):
             try:
                 routine = int(args.routine)
             except ValueError:
-                raise _FullRefused(f"--routine must be a number between 1 and 18, not {args.routine!r}") from None
-            if not 1 <= routine <= 18:
-                raise _FullRefused("--routine must be between 1 and 18")
+                raise _FullRefused(f"--routine must be a number between 1 and 19, not {args.routine!r}") from None
+            if not 1 <= routine <= 19:
+                raise _FullRefused("--routine must be between 1 and 19")
         return runner.start(
             self._fullModeOf(args), routine=routine, debt=args.debt, afk=args.afk
         )
