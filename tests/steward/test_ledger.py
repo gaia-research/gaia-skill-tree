@@ -444,6 +444,51 @@ def test_oversized_remote_ledger_is_unavailable(machines, monkeypatch):
         storeB.load()
 
 
+def test_git_transport_round_trips_ledger_over_one_mib(machines):
+    _remote, writer, reader = machines
+    payload = "x" * (1024 * 1024 + 64 * 1024)
+    update(writer, lambda document: document["operations"].update({"large": payload}))
+    loaded, _version = reader.load()
+    assert loaded["operations"]["large"] == payload
+
+
+def test_eight_mib_boundary_on_serialized_ledger(monkeypatch):
+    monkeypatch.setenv("GAIA_STEWARD_LEDGER_MAX_BYTES", str(8 * 1024 * 1024))
+    document = empty_ledger()
+    document["operations"] = {"padding": "x" * (8 * 1024 * 1024)}
+    with pytest.raises(LedgerUnavailable, match="over the"):
+        ledgerModule.serialize(document)
+    document["operations"]["padding"] = "x" * (8 * 1024 * 1024 - 256)
+    data = ledgerModule.serialize(document)
+    assert len(data) <= 8 * 1024 * 1024
+    assert ledgerModule.deserialize(data) == document
+
+
+def test_configurable_ledger_capacity_and_invalid_settings(monkeypatch):
+    monkeypatch.setenv("GAIA_STEWARD_LEDGER_MAX_BYTES", "8388608")
+    assert ledgerModule.ledgerByteLimit() == 8 * 1024 * 1024
+    monkeypatch.setenv("GAIA_STEWARD_LEDGER_MAX_BYTES", "1MiB")
+    with pytest.raises(LedgerUnavailable, match="invalid GAIA_STEWARD_LEDGER_MAX_BYTES"):
+        ledgerModule.ledgerByteLimit()
+    monkeypatch.setenv("GAIA_STEWARD_LEDGER_MAX_BYTES", "67108865")
+    with pytest.raises(LedgerUnavailable, match="must be between"):
+        ledgerModule.ledgerByteLimit()
+
+
+def test_legacy_and_configured_capacity_boundaries(monkeypatch):
+    document = empty_ledger()
+    document["operations"] = {"padding": "x" * (1024 * 1024)}
+    monkeypatch.setattr(ledgerModule, "MAX_LEDGER_BYTES", 2 * 1024 * 1024)
+    data = ledgerModule.serialize(document)
+    assert len(data) > 1024 * 1024
+    assert ledgerModule.deserialize(data) == document
+    monkeypatch.setenv("GAIA_STEWARD_LEDGER_MAX_BYTES", str(len(data)))
+    assert len(ledgerModule.serialize(document)) == len(data)
+    monkeypatch.setenv("GAIA_STEWARD_LEDGER_MAX_BYTES", str(len(data) - 1))
+    with pytest.raises(LedgerUnavailable, match="over the"):
+        ledgerModule.serialize(document)
+
+
 def test_oversized_write_is_refused_not_pruned(machines, monkeypatch):
     remote, storeA, _ = machines
     _, tip = update(storeA, appendMarker("one"))

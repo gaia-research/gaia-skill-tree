@@ -57,6 +57,19 @@ def stewardRefs(bare: Path) -> list[str]:
     return [b for b in bareBranches(bare) if b.startswith("steward/a/")]
 
 
+def test_compaction_preserves_terminal_run_proof_and_phases():
+    prior = {
+        "status": "completed", "startedAt": "2026-11-01T00:00:00Z",
+        "phases": {"scan": {"status": "complete", "proof": {"receipt": "kept"}}},
+        "steps": [{"stepId": "proof-step"}], "actions": [],
+        "proofArtifacts": [{"path": "receipt.json"}], "ciResults": [{"status": "passed"}],
+        "desk": {"decisions": ["preserve"]},
+    }
+    doc = {"runs": {"old-run": json.loads(json.dumps(prior))}}
+    fullrun.FullRunner._compact(doc)
+    assert doc["runs"]["old-run"] == prior
+
+
 # --- A: clean repository ---------------------------------------------------------
 
 

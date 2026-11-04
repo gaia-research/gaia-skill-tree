@@ -1281,23 +1281,11 @@ class FullRunner:
 
     @staticmethod
     def _compact(doc: dict[str, Any]) -> None:
-        """Bound ledger growth: old terminal runs keep their summary, not their detail."""
-
-        terminal = sorted(
-            (r for r in doc["runs"].values() if r.get("status") in TERMINALRUNSTATES),
-            key=lambda value: value["startedAt"], reverse=True,
-        )
-        for run in terminal[DETAILEDRUNS:RETAINEDRUNS]:
-            if run.get("trimmed") or run.get("compacted"):
-                continue
-            run["phases"] = {name: _headline(value) for name, value in (run.get("phases") or {}).items()}
-            run.pop("desk", None)
-            run["trimmed"] = True
-        for run in terminal[RETAINEDRUNS:]:
-            for key in ("steps", "actions", "phases", "proofArtifacts", "ciResults", "agentAssignments"):
-                if run.get(key):
-                    run[key] = []
-            run["compacted"] = True
+        """Preserve terminal proof until verified archival is implemented."""
+        # The former size-driven compaction discarded evidence and phase detail
+        # before any durable archive transfer. Capacity is now bounded by the
+        # ledger guard; retain history rather than silently losing provenance.
+        return
 
     def _failRun(self, runId: str, reason: str) -> None:
         now = self._now()
