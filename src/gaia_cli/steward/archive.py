@@ -231,42 +231,161 @@ def references(run: dict[str, Any]) -> dict[str, list[str]]:
     return {"debtIds": sorted(debts), "routines": sorted(routines), "identities": sorted(ids)}
 
 
-def phase_hold(value: Any, key: str = "") -> str | None:
-    """Conservative gate: never cold-store pending data or unbundled files.
+# Eligibility schemas are deliberately narrower than the ledger's JSON schema.
+# No catch-all JSON/string walker: every field, map key, array element and scalar
+# has a declared meaning. New producer fields require review before migration.
+PhaseCheck = Callable[[Any], bool]
 
-    No local file is opened. References outside phases (proofArtifacts, action
-    outcomes, receipts, etc.) remain byte-for-byte hot. Unknown phase reference
-    shapes fail on reference-bearing keys or path/URI-looking strings instead
-    of pretending that storing JSON makes external bytes portable.
+
+def phaseObject(fields: dict[str, PhaseCheck], required: tuple[str, ...] = ()) -> PhaseCheck:
+    return lambda value: (
+        type(value) is dict and all(name in value for name in required)
+        and all(type(name) is str and name in fields and fields[name](item)
+                for name, item in value.items())
+    )
+
+
+def phaseList(check: PhaseCheck) -> PhaseCheck:
+    return lambda value: type(value) is list and all(check(item) for item in value)
+
+
+def phaseMap(check: PhaseCheck, keyCheck: PhaseCheck | None = None) -> PhaseCheck:
+    # Dynamic keys have a declared ID type, never unchecked filenames or URLs.
+    keyCheck = keyCheck or phaseIdentity
+    return lambda value: type(value) is dict and all(
+        keyCheck(name) and check(item) for name, item in value.items())
+
+
+def phaseEither(*checks: PhaseCheck) -> PhaseCheck:
+    return lambda value: any(check(value) for check in checks)
+
+
+def phaseEnum(*choices: str) -> PhaseCheck:
+    return lambda value: type(value) is str and value in choices
+
+
+def phaseIdentity(value: Any) -> bool:
+    return type(value) is str and re.fullmatch(r"[A-Za-z0-9_-]+", value) is not None
+
+
+def phaseDebtIdentity(value: Any) -> bool:
+    # Canonical Observation.debt_id, plus legacy simple IDs. Colons are safe
+    # only in this typed reference slot, never arbitrary text or unknown keys.
+    return phaseIdentity(value) or (type(value) is str and re.fullmatch(
+        r"debt:[A-Za-z0-9_-]+:[A-Za-z0-9_-]+:[0-9a-f]{16}", value) is not None)
+
+
+def phaseText(value: Any) -> bool:
+    # Only explicitly named INLINE prose fields can use this type. Unknown
+    # strings (including a bare extensionless filename) never reach it. Reject
+    # paths/URIs and filename-like tokens independent of their extension. False
+    # positives stay hot; absence of a slash alone never grants eligibility.
+    if type(value) is not str:
+        return False
+    # One pass with bounded neighbour checks. An unanchored greedy token
+    # followed by a required dot retries every suffix of a dot-free multi-MiB
+    # payload (quadratic work). Do not reintroduce a backtracking token scan.
+    for index, character in enumerate(value):
+        if character in "/\\~:":
+            return False
+        if character == "." and 0 < index < len(value) - 1:
+            if all(neighbour.isalnum() or neighbour in "_.-"
+                   for neighbour in (value[index - 1], value[index + 1])):
+                return False
+    return True
+
+
+def phaseCount(value: Any) -> bool:
+    return type(value) is int and value >= 0
+
+
+def phaseEmpty(value: Any) -> bool:
+    return type(value) is list and not value
+
+
+def phaseSchemas() -> dict[str, PhaseCheck]:
+    """Supported FullRunner summary fields and narrow legacy inline variants.
+
+    Historical sensor/coverage states are observations, NOT work settlement.
+    Nonempty Class C, decisions, results/landings and artifact-bearing detail
+    have no portable schema here and remain hot. No referenced file is opened.
     """
-    lowered = key.lower().replace("_", "").replace("-", "")
-    if value and any(token in lowered for token in ("artifact", "proof", "path", "file", "url", "uri")):
-        return "phase references an unbundled artifact; payload must stay hot"
-    if value and lowered in {"decisions", "pendingdecisions", "classc", "unresolvedwork", "pendingactions"}:
-        return "phase contains unsettled work or decision data"
-    if lowered == "debtstatus" and isinstance(value, dict) and any(state != "resolved" for state in value.values()):
-        return "phase contains unresolved debt lifecycle data"
-    if lowered in {"status", "state"} and (not isinstance(value, str) or value not in {
-        "done", "completed", "complete", "resolved", "closed", "accepted", "rejected",
-        "cancelled", "superseded", "skipped", "failed", "abandoned", "observed", "ok",
-    }):
-        return "phase contains an unsettled or unknown lifecycle"
-    if isinstance(value, dict):
-        for name, item in value.items():
-            reason = phase_hold(item, name)
-            if reason:
-                return reason
-    elif isinstance(value, list):
-        for item in value:
-            reason = phase_hold(item, key)
-            if reason:
-                return reason
-    elif isinstance(value, str) and (
-        re.search(r"(?:^|\s)(?:[/~]|\.\.?/|\.gaia/|[A-Za-z]:[\\\\/])", value)
-        or re.search(r"[A-Za-z][A-Za-z0-9+.-]{0,31}://|\bfile:", value)
-        or re.search(r"(?:^|[/\\\\\s])[\w.-]+\.(?:json|jsonl|diff|patch|zip|txt|md|log|png|pdf)(?:$|\s)", value)
-    ):
-        return "phase contains a path/URI; external bytes are not bundled"
+    identities = phaseList(phaseIdentity)
+    debts = phaseList(phaseDebtIdentity)
+    boolean = lambda value: type(value) is bool
+    nothing = lambda value: value is None
+    settled = phaseEnum("ok", "done", "completed", "complete", "resolved", "closed",
+                        "accepted", "rejected", "cancelled", "superseded", "skipped",
+                        "failed", "abandoned", "observed")
+    sensorState = phaseEnum("executed", "unknown", "not-evaluated", "partially-covered", "not-run")
+    counts = phaseObject({"drift": phaseCount, "healthy": phaseCount})
+    notEvaluated = phaseList(phaseObject({
+        "sensor": phaseIdentity, "reason": phaseText, "inputAbsent": boolean,
+    }, ("sensor", "reason")))
+    partial = phaseList(phaseObject({
+        "sensor": phaseIdentity, "skippedCount": phaseCount, "reasons": phaseList(phaseText),
+    }, ("sensor", "skippedCount", "reasons")))
+    observation = {
+        "status": settled, "scanReceiptId": phaseIdentity,
+        "observations": phaseCount, "openDebt": phaseCount, "created": phaseCount,
+        "debtStatus": phaseMap(phaseEnum("open", "resolved"), phaseDebtIdentity),
+        "openDebtIds": debts, "freshOpenDebt": debts, "resolved": debts,
+        "authorityCounts": phaseObject({key: phaseCount for key in ("A", "B", "C")}),
+        "coverageUnknown": identities, "coverageUnknownReasons": phaseMap(phaseText),
+        "notEvaluated": notEvaluated, "partialCoverage": partial,
+        "observationsBySensor": phaseMap(counts),
+        # Explicit legacy inline text, NOT an arbitrary JSON extension point.
+        "payload": phaseText,
+    }
+    detector = phaseObject({"sensor": phaseIdentity, "state": sensorState}, ("sensor", "state"))
+    routine = phaseObject({
+        "routine": lambda value: type(value) is int and 1 <= value <= 18,
+        "state": phaseEnum("observed", "partial", "unknown", "not-evaluated", "no-detector"),
+        "detectors": phaseList(phaseEither(detector, phaseIdentity)),
+    }, ("routine", "state", "detectors"))
+    sensor = phaseObject({
+        "id": phaseIdentity, "registered": boolean, "state": sensorState,
+        "executed": boolean, "unknown": boolean, "notEvaluated": boolean,
+        "observations": counts, "routine_ids": phaseList(lambda value: type(value) is int and 1 <= value <= 18),
+        "reason": phaseText, "partial": boolean, "skippedCount": phaseCount,
+    }, ("id", "state"))
+    return {
+        "observe": phaseObject(observation),
+        "reobserve": phaseObject({**observation, "reused": phaseText, "resolvedWork": debts,
+                                  "notes": phaseList(phaseObject({"debtId": phaseDebtIdentity, "note": phaseText}, ("debtId", "note")))}),
+        "retro": phaseObject({
+            "routines": phaseEither(phaseCount, phaseList(phaseEither(routine, lambda value: type(value) is int and 1 <= value <= 18))),
+            "sensors": phaseList(phaseEither(sensor, phaseIdentity)),
+            "registered": phaseCount, "executed": phaseCount, "unknown": identities,
+            "notEvaluated": notEvaluated, "partiallyCovered": partial, "detail": phaseText,
+        }),
+        "triage": phaseObject({
+            **{key: debts for key in ("classA", "classB", "reportOnly", "issueClosure", "held", "skippedActive")},
+            "classC": phaseEmpty,
+            "carried": phaseEither(phaseCount, debts), "filtered": phaseEither(phaseCount, debts),
+            "counts": phaseObject({key: phaseCount for key in ("A", "B", "B-report-only", "C")}),
+        }),
+        "reconcile": phaseObject({
+            "sourceHead": phaseEither(lambda value: type(value) is str and COMMIT.fullmatch(value) is not None, phaseEnum("unknown")),
+            "integrationHead": phaseEither(lambda value: type(value) is str and COMMIT.fullmatch(value) is not None, phaseEnum("unknown")),
+            # Non-null branch references are deliberately not portable here.
+            "integrationBranch": nothing, "integrationHeadUnknown": phaseText,
+            "unresolvedWork": lambda value: type(value) is int and value == 0,
+        }),
+        "class_a": phaseObject({"status": settled, "landings": phaseEmpty}),
+        "class_b": phaseObject({"status": settled, "dispatched": nothing, "reason": phaseText}),
+        "verify": phaseObject({"status": settled, "results": phaseEmpty, "deferred": phaseEmpty, "expired": identities}),
+    }
+
+
+def phase_hold(value: Any) -> str | None:
+    """Fail closed without inspecting files or echoing unknown keys/values.
+
+    Schemas validate the complete tree, including empty/false/null unknowns.
+    Unsupported shapes remain hot, not dropped or coerced into healthy data.
+    """
+    if not phaseObject(phaseSchemas())(value):
+        return "phase has unknown, nonportable or unsettled schema data; payload must stay hot"
     return None
 
 
@@ -291,6 +410,13 @@ def eligible(document: dict[str, Any], run: dict[str, Any]) -> bool:
             return False
     if run.get("unresolvedWork") or run.get("deferred"):
         return False
+    # A canonical historical 'open' observation is not a current lifecycle.
+    # It may be externalized only with explicit authoritative hot settlement;
+    # missing work is uncertainty, never evidence that the debt was resolved.
+    for phase in ("observe", "reobserve"):
+        for debt, state in run["phases"].get(phase, {}).get("debtStatus", {}).items():
+            if state != "resolved" and document["work"].get(debt, {}).get("state") != "resolved":
+                return False
     debts = set(references(run)["debtIds"])
     if any((item.get("runId") == run["runId"] or debt_id in debts) and item.get("state") != "resolved"
            for debt_id, item in document["work"].items()):

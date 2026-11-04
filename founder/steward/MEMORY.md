@@ -47,8 +47,12 @@ run. A terminal label or age alone never suffices. Active/queued/blocked/
 escalated/decision-pending runs, pending or unknown actions/steps/decisions,
 unresolved/deferred work, any current lease reference (even expired), and
 references to non-resolved work adopted by another run are ineligible. Unknown
-phase lifecycles fail closed. `ok` is the canonical completed phase status,
-not an override for a run's unresolved work.
+phase schemas and operational lifecycles fail closed. `ok` is the canonical
+completed phase status, not an override for a run's unresolved work. Historical
+sensor states (`executed`, `not-evaluated`, `partial`, unknown coverage) are
+immutable observations, not current work states. They are preserved exactly.
+A historical `debtStatus: open` requires explicit current `work.state: resolved`
+for that debt before the run can migrate; missing work is not settlement.
 
 Actions, outcomes, steps, idempotency/dedup IDs, leases, desks, decisions,
 receipts, proof-artifact records, all work and its history, lane state and
@@ -60,8 +64,16 @@ remain entirely hot. Existing silent terminal-run compaction is disabled.
 ### External artifacts: deliberate refusal, not invented portability
 
 This version archives ledger JSON bytes, **not local artifact files**. It never
-opens arbitrary referenced files. A phase containing a proof/artifact/path/
-file/URL reference, including path-looking strings under unknown keys, is
+opens arbitrary referenced files. A typed allowlist validates the complete
+phase tree: known objects, identifier maps, arrays, scalar types and enumerated
+states. Every unknown field or phase is held, including null, false, empty,
+nonstring, nested and bare extensionless reference values. Known inline prose
+slots additionally reject paths, URIs and filename-like tokens regardless of
+extension, using a bounded single-pass scan (not greedy regex backtracking).
+Only declared ID slots accept ID references, including canonical debt IDs;
+these are not file references or portable artifact bytes. Adding producer
+fields requires schema review rather than a suffix-list workaround.
+A phase containing a proof/receipt/evidence/path/file/URL reference is
 ineligible; the whole original run remains hot. A hash or local-path string
 is not the referenced bytes. Proof/receipt/diff records outside phases remain
 verbatim hot and are explicitly **not** promised portable. `show` discloses
@@ -75,6 +87,26 @@ assumed eligible: completed runs can still have escalated associated work or
 open founder decisions. An empty preview means preserve state, not permission
 to weaken the gates or a completed production migration. Safe file bundling is
 not implemented or claimed; artifact-bearing phase records stay ineligible.
+
+Read-only local Git-object measurements during the repair found **0 eligible
+of 13 terminal runs** at both original baseline
+`9b3e58abd5117cd7b8c607859ac8cb68525ba999` (1,005,272 bytes) and locally
+available shared snapshot `74d338e498afcc547a089b3379e1398a7ad78085`
+(1,124,502 bytes; 14 total runs, one awaiting action and one lease). All 13
+terminal runs still reference non-resolved authoritative work, independently
+of the phase parser. None of the baseline six work records is resolved; the
+later snapshot adds one verified, not resolved, item. These are exact old
+snapshots, not a claim about the current remote ref.
+
+Consequently, portable file bundling alone cannot make these records settled.
+A genuine transfer must await authorized settlement and a fresh preview, or a
+separately reviewed finer-grained immutable-detail design that leaves every
+pending record/reference and replay summary hot. The present whole-run phase
+projection does not implement that split. The founder's existing authority
+covers settled terminal detail and fully settled work history, not treating a
+pending/decision-linked run as settled or externalizing its protected detail.
+Do not infer broader authority from historical false positives. No-op previews
+and synthetic roundtrips do not complete the actual-data archival mission.
 
 ## Durable format and transfer protocol
 

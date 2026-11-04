@@ -391,7 +391,7 @@ def test_empty_ledger_and_small_runs_not_pruned(hosts):
     remote, one, _ = hosts
     assert a.migrate(one)["archived"] == []
     assert refs(remote) == ""
-    seed(one, {"run-a": run_record(phases={"one": {"tiny": 1}})})
+    seed(one, {"run-a": run_record(phases={"observe": {"observations": 1}})})
     before = one.load()
     result = a.migrate(one)
     assert result["archived"] == [] and result["reason"] == "no hot size saving"
