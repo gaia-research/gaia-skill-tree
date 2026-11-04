@@ -91,7 +91,7 @@ def test_receipts_follow_the_directive_formats_and_carry_the_idempotency_marker(
     assert "Final disposition: MERGED" in merged and f"Merge commit: {'9' * 40}" in merged
     closed = receipts.closed(number=2157, head=HEAD, runId="run-1", url="u", reason="superseded", replacement="#2400", verifier="agent-y")
     assert "Gaia Steward · CLOSED WITHOUT MERGE" in closed and "Independent verification: PASS (agent-y)" in closed and "Final disposition: CLOSED" in closed
-    founder = receipts.founder(number=2235, head=HEAD, runId="run-1", authority="C", state="HELD", evidence=["draft"], question="Promote?", recommended="hold")
+    founder = receipts.founder(number=2235, head=HEAD, runId="run-1", authority="C", state="HELD", evidence=["draft"], question="Promote?", gates=["docs-accuracy"])
     assert "Founder Decision Required" in founder and "Steward will not merge or close" in founder
     for body, kind in ((pick, "pickup"), (ver, "verification"), (merged, "merged"), (closed, "closed"), (founder, "founder")):
         assert receipts.parseMarkers(body)[0]["kind"] == kind and receipts.parseMarkers(body)[0]["head"] == HEAD[:12]

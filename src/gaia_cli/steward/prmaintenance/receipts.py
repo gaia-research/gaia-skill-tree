@@ -11,6 +11,8 @@ from __future__ import annotations
 import re
 from typing import Any, Mapping, Sequence
 
+from gaia_cli.steward.prmaintenance import advice
+
 # Markers are located with str.find and bounded slices, never a backtracking pattern, so a hostile comment costs linear time.
 OPEN = "<!--"
 NAME = "gaia-steward:pr-receipt"
@@ -107,8 +109,19 @@ def closed(*, number: int, head: str, runId: str, url: str, reason: str, replace
 
 
 def founder(*, number: int, head: str, runId: str, authority: str, state: str, evidence: Sequence[str], question: str,
-            recommended: str) -> str:
+            gates: Sequence[str] = ()) -> str:
+    """The founder card. Its two recommendation paragraphs come from ``advice``, the same source the desk renders.
+
+    ``gates`` is the list of gate names the pull request carries; only names in ``advice``'s fixed set shape the text, so
+    nothing a pull request controls reaches either paragraph. There is no free-text recommendation argument on purpose: a
+    hand-written one is how the receipt and the desk came to disagree.
+    """
+
+    procedural, substantive = advice.pair(gates)
     rows = [("Classification", f"Class {authority}"), ("Current state", state)]
     tail = ("\nEvidence:\n" + "\n".join(f"- {item}" for item in evidence)
-            + f"\n\nDecision required: {question}\n\nRecommended disposition: {recommended}\n\nSteward will not merge or close this pull request.")
+            + f"\n\nDecision required: {question}"
+            + f"\n\n{advice.PROCEDURAL_LABEL}: {procedural}"
+            + f"\n\n{advice.SUBSTANTIVE_LABEL}: {substantive}"
+            + "\n\nSteward will not merge or close this pull request.")
     return "\n".join([marker("founder", number, head, runId), lines(BOTTOMLINE["founder"], rows, tail)]) + FOOTER

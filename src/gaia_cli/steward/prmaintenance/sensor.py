@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from gaia_cli.steward.models import Observation, SensorScan, Subject
+from gaia_cli.steward.prmaintenance import advice
 from gaia_cli.steward.prmaintenance.census import CENSUS_INPUT, SCHEMA_VERSION, loadPrCensus
 from gaia_cli.steward.prmaintenance.evaluate import KIND_FOUNDER, KINDS, Evaluation, evaluateCensus
 from gaia_cli.steward.prmaintenance.producers import RegistryError, loadRegistry
@@ -34,11 +35,16 @@ def founderState(e: Evaluation) -> dict[str, Any]:
     """The Class C question shape the founder desk groups by ``decisionTarget``: one decision per pull request."""
 
     held = "; ".join(e.reasons)[:300] or "founder decision required"
+    procedural, substantive = advice.pair(g.name for g in e.gates)
     return {
         "decisionTarget": f"routine-pr/{e.repo}/{e.number}".lower(),
         "question": f"Steward will not merge or close this routine pull request ({held}). Merge, hold or close it?",
         "options": ["hold", "mark-ready-and-let-steward-verify", "close-without-merge"],
+        # "hold" is a procedural recommendation about Steward's own action. It says nothing about whether the change should land.
         "recommendation": "hold",
+        "recommendationKind": "procedural",
+        "procedural": procedural,
+        "substantive": substantive,
         "basis": f"producer {e.producerId}; head {e.headSha[:12]}; gates: "
                  + ", ".join(f"{g.name}={g.state}" for g in e.gates if g.state != "pass")[:300],
         "affected": [e.number],
