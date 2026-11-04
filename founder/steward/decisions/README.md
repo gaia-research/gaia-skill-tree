@@ -4,7 +4,8 @@ One JSON file per open founder decision that is **not** produced by a sensor:
 a product, ontology, or policy question someone has to answer. The Steward
 founder desk (`src/gaia_cli/steward/desk.py`) reads every `*.json` file in this
 directory; each record whose `status` is `open` appears under
-`NEEDS YOUR DECISION`. Nothing else in this directory is read.
+`NEEDS YOUR DECISION`. The scoped issue-family lock consumer also reads the four
+`issue-question-q-*.json` records described below; documentation files are not inputs.
 
 Records are for questions a person raises on purpose. Questions Steward
 discovers itself (Class C debt, escalated lane entries) reach the desk
@@ -34,6 +35,7 @@ File name `<id>.json`; the `id` inside must equal the file stem.
 | `schemaVersion` | string | exactly `steward-decision-v1` |
 | `id` | string | lowercase `[a-z0-9][a-z0-9._-]*`, equals the file stem, unique |
 | `status` | string | `open` appears on the desk; `decided` is kept as history and never shown |
+| `resolution` | string | optional, non-empty; interpreted only by an explicitly scoped consumer |
 | `decision` | string | the question, stated once, non-empty |
 | `whyItMatters` | string | non-empty |
 | `evidence` | list of strings | facts, not opinions; may be empty |
@@ -42,7 +44,8 @@ File name `<id>.json`; the `id` inside must equal the file stem.
 | `unblocks` | string | what moves once this is decided, non-empty |
 | `links` | list of strings | issue, PR, or repo-relative path; may be empty |
 
-Exactly these keys: an unknown or missing key makes the record malformed.
+Exactly the required keys above plus optional `resolution`: an unknown or missing
+required key makes the record malformed.
 
 ## Lifecycle
 
@@ -50,6 +53,28 @@ Exactly these keys: an unknown or missing key makes the record malformed.
 2. When the question is answered, set `"status": "decided"` (keep the file as
    the audit trail) and put the ruling where it belongs (RATIFICATION, issue,
    policy).
+
+## Locked issue families (#2283)
+
+C1–C4 are final founder rulings, not requests to re-adjudicate them. Their records
+use `id: issue-question-q-<hash>` and preserve the exact `issue-question/q-<hash>`
+target in both `links` and `evidence`, the source debt ID in `evidence`, affected
+issue links and the founder authority comment. No extra schema fields are used.
+
+`issuehygiene/questions.py` validates these mappings and recognizes only the four
+explicit resolutions. The sensor, dry-run CLI and closure executor's independent
+re-derivation all load them. Reconciliation removes only the answered question;
+unrelated new questions remain Class C. C1 permits a technical-only B proposal
+without closure or release acceptance. C2/C3/C4 and their held descendants are
+`held`/`none`, not actionable batches or closure proposals. A generic
+`upstream:needs-info` label also prevents a non-C item from becoming actionable.
+Malformed targeted records refuse reconciliation; absent/open records never
+claim a founder resolution. The manifest retains each source body digest and
+cites the decision record; it does not rewrite issue or registry payloads.
+
+These records do **not** decide `steward-issue-closure-authority.json`, change
+`writesEnabled`, activate workflows or update a live ledger. Old persisted debt
+requires a separate authorized re-observation before its queue state can change.
 
 ## Malformed records
 
