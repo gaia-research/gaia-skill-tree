@@ -1,0 +1,469 @@
+{
+  "schemaVersion": "steward-campaign-summary-v1",
+  "campaign": "2026-11-05 Termux attended campaign",
+  "status": "blocked-not-complete",
+  "environment": {
+    "repository": "gaia-research/gaia-skill-tree",
+    "baseSha": "1963a47f480251d79d98c6a13b8c272444996467",
+    "executionEndingSha": "1963a47f480251d79d98c6a13b8c272444996467",
+    "integrationBranch": "dev/steward-campaign-2026-11-05",
+    "python": "3.14.6",
+    "git": "2.56.0",
+    "gh": "2.93.0",
+    "authentication": "authenticated repository ADMIN; credentials excluded",
+    "globalCliLimitation": "Global Gaia 9.0.0 lacks steward full; checkout PYTHONPATH=src entrypoint used",
+    "scheduler": "No crond found; Termux job-scheduler available and reports no jobs; campaign attended only",
+    "dirtyWork": "Existing untracked .pi/delegate, .pi/probes and .pi/tasks preserved",
+    "constraints": {
+      "maxConcurrentSubagents": 4,
+      "maxDispatchesPerRun": 1,
+      "maxInFlight": 2,
+      "maxAttempts": 2,
+      "cooldownSeconds": 3600,
+      "ledgerByteLimit": 1048576
+    }
+  },
+  "canonical": {
+    "baselineRunId": "run-20261104T164940Z-0b88036f",
+    "executionRunId": "run-20261104T165527Z-2a808cf3",
+    "executionRunDisposition": "abandoned",
+    "ledgerCommit": "9b3e58abd5117cd7b8c607859ac8cb68525ba999",
+    "ledgerUrl": "https://github.com/gaia-research/gaia-skill-tree/blob/9b3e58abd5117cd7b8c607859ac8cb68525ba999/ledger.json",
+    "beforeScanReceipt": "steward-20261104T165008Z-8f0fa4560099b9e6",
+    "afterScanReceipt": "steward-20261104T172307Z-5c244581790fe867",
+    "reobservation": "Scan completed locally; phase result could not be persisted to full-run ledger due byte guard",
+    "activeRuns": [],
+    "holder": null,
+    "lane": {
+      "capacity": 2,
+      "counts": {
+        "closed": 26,
+        "dispatched": 0,
+        "escalated": 2,
+        "queued": 163
+      },
+      "escalated": [
+        "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9",
+        "debt:trust_calibration_drift:gsd-build-gsd-discuss-phase:528adb03b4e89fc0"
+      ],
+      "inFlight": [],
+      "policy": {
+        "cooldownSeconds": 3600,
+        "maxAttempts": 2,
+        "maxInFlight": 2
+      }
+    }
+  },
+  "coverage": {
+    "routines": 18,
+    "registeredSensors": 32,
+    "observedBefore": 28,
+    "observedAfter": 30,
+    "unknownRequired": [],
+    "notEvaluated": {
+      "dependency-advisory": "no advisories.json supplied; a driver must collect it",
+      "browser-render": "no browser-render.json supplied; a driver must collect it"
+    },
+    "routinesDetail": [
+      {
+        "routine": 1,
+        "title": "Dead-Code Gardener",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "dead-code": "actively-observed"
+        },
+        "openDebtByAuthority": {
+          "B": 38
+        },
+        "remainingGaps": [
+          "Findings are candidates: deletion still requires usage and external-contract evidence a static scan cannot see (docs, workflows, supported consumers)."
+        ]
+      },
+      {
+        "routine": 2,
+        "title": "Architecture and Abstraction Doctor",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "code-structure": "actively-observed"
+        },
+        "openDebtByAuthority": {
+          "B": 5
+        },
+        "remainingGaps": [
+          "Cycles and duplication are structural signals only; abstraction quality and ownership remain judgment work."
+        ]
+      },
+      {
+        "routine": 3,
+        "title": "Error, Diagnostics, and Incident Learner",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "error-handling": "actively-observed"
+        },
+        "openDebtByAuthority": {
+          "B": 42
+        },
+        "remainingGaps": [
+          "Incident learning (post-incident reproduction and diagnostics review) has no detector; only swallowed exceptions and sensor coverage failures are observed."
+        ]
+      },
+      {
+        "routine": 4,
+        "title": "Test Portfolio Gardener",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "test-portfolio": "actively-observed"
+        },
+        "openDebtByAuthority": {},
+        "remainingGaps": [
+          "Weak assertions and redundant coverage are not measured; only shadowed tests, unregistered markers and empty modules are."
+        ]
+      },
+      {
+        "routine": 5,
+        "title": "Flake and Isolation Hunter",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "test-isolation": "actively-observed",
+          "test-history": "actively-observed"
+        },
+        "openDebtByAuthority": {},
+        "remainingGaps": [
+          "Flake history depends on a driver-supplied test-history input; without it the sensor is not evaluated, never healthy."
+        ]
+      },
+      {
+        "routine": 6,
+        "title": "CLI and Runtime Contract Steward",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "cli-contract": "actively-observed"
+        },
+        "openDebtByAuthority": {},
+        "remainingGaps": [
+          "Runtime contract checks beyond the static command surface (exit codes, output formats) are not observed."
+        ]
+      },
+      {
+        "routine": 7,
+        "title": "Mutation, Authorization, and Abuse-Boundary Examiner",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "registry-integrity": "actively-observed",
+          "frozen-skill-integrity": "actively-observed",
+          "mutation-boundary": "actively-observed"
+        },
+        "openDebtByAuthority": {
+          "B": 7
+        },
+        "remainingGaps": [
+          "Authorization behaviour is checked statically; abuse paths needing runtime exercise remain manual."
+        ]
+      },
+      {
+        "routine": 8,
+        "title": "Schema Evolution Steward",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "bundled-schema-mirror": "actively-observed",
+          "schema-validity": "actively-observed"
+        },
+        "openDebtByAuthority": {},
+        "remainingGaps": [
+          "Schema compatibility across versions (breaking-change detection) is not observed; only validity and mirror parity are."
+        ]
+      },
+      {
+        "routine": 9,
+        "title": "Evidence and Trust Reconciler",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "taxonomy-script-drift": "actively-observed",
+          "evidence-link-health": "actively-observed",
+          "benchmark-freshness": "actively-observed",
+          "trust-calibration-drift": "actively-observed"
+        },
+        "openDebtByAuthority": {
+          "B": 123
+        },
+        "remainingGaps": [
+          "Hooks 1922, 1445 and 2063 remain unknown/not-evaluated until fresh independent verification.",
+          "Trust calibration findings are report-only until the Star Bar is applied in the sensor; calibration needs founder approval."
+        ]
+      },
+      {
+        "routine": 10,
+        "title": "Timeline Causality Keeper",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "frozen-skill-integrity": "actively-observed",
+          "timeline-causality": "actively-observed"
+        },
+        "openDebtByAuthority": {
+          "B": 4
+        },
+        "remainingGaps": [
+          "Out-of-order events are detected; their correction is a curated, human-gated timeline decision (see steward-timeline-order-1699)."
+        ]
+      },
+      {
+        "routine": 11,
+        "title": "Registry Structure and Installability Examiner",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "registry-integrity": "actively-observed",
+          "discovery-generic-mapping": "actively-observed",
+          "upstream-watcher": "actively-observed"
+        },
+        "openDebtByAuthority": {},
+        "remainingGaps": [
+          "Installability against live upstream repositories is not probed (no network)."
+        ]
+      },
+      {
+        "routine": 12,
+        "title": "Artifact, Branch, and Repository Hygiene Sentinel",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "agent-skill-mirror": "actively-observed",
+          "generated-projections": "actively-observed",
+          "repository-hygiene": "actively-observed"
+        },
+        "openDebtByAuthority": {},
+        "remainingGaps": [
+          "Stale remote branches and large-artifact growth are not observed."
+        ]
+      },
+      {
+        "routine": 13,
+        "title": "CI Architecture and Efficiency Steward",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "ci-workflow": "actively-observed",
+          "ci-health": "actively-observed"
+        },
+        "openDebtByAuthority": {
+          "B": 41
+        },
+        "remainingGaps": [
+          "CI health depends on a driver-supplied run history; without it ci-health is not evaluated, never healthy.",
+          "CI cost and cache efficiency are not measured."
+        ]
+      },
+      {
+        "routine": 14,
+        "title": "Release and Supply-Chain Examiner",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "upstream-watcher": "actively-observed",
+          "secret-scan": "actively-observed",
+          "supply-chain": "actively-observed",
+          "dependency-advisory": "not-evaluated"
+        },
+        "openDebtByAuthority": {
+          "C": 39
+        },
+        "remainingGaps": [
+          "Advisories depend on a driver-supplied pip-audit run; without it dependency-advisory is not evaluated.",
+          "Release artifact provenance (wheel contents, signatures) is not observed."
+        ]
+      },
+      {
+        "routine": 15,
+        "title": "Frontend Quality and Resilience Steward",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "generated-projections": "actively-observed",
+          "frontend-contract": "actively-observed",
+          "browser-render": "not-evaluated"
+        },
+        "openDebtByAuthority": {
+          "B": 2
+        },
+        "remainingGaps": [
+          "Accessibility and visual correctness are not observed: the render input records load, script-error and overflow facts only, so no accessibility or visual assurance is claimed; frontend fixes are human-gated by CLAUDE.md.",
+          "The browser render needs a driver (Chromium via scripts/steward_collect_browser_render.js); without a fresh input the detector is not evaluated, never healthy.",
+          "Browser findings come from a local static server with external requests aborted, so they may differ from the deployed site."
+        ]
+      },
+      {
+        "routine": 16,
+        "title": "Browser, Privacy, and External Trust Auditor",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "browser-sink": "actively-observed",
+          "secret-scan": "actively-observed"
+        },
+        "openDebtByAuthority": {
+          "B": 61,
+          "C": 39
+        },
+        "remainingGaps": [
+          "Third-party script and privacy-policy review remain manual; sinks are lexical findings."
+        ]
+      },
+      {
+        "routine": 17,
+        "title": "Knowledge, Nomenclature, and Agent-Surface Editor",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "agent-skill-mirror": "actively-observed",
+          "taxonomy-script-drift": "actively-observed",
+          "knowledge-contradiction": "actively-observed"
+        },
+        "openDebtByAuthority": {},
+        "remainingGaps": [
+          "Banned-vocabulary and nomenclature checks run in their own CI gates, not as Steward detectors."
+        ]
+      },
+      {
+        "routine": 18,
+        "title": "GitHub Issue Hygiene",
+        "staticStatus": "partially-covered",
+        "sensors": {
+          "issue-hygiene": "actively-observed"
+        },
+        "openDebtByAuthority": {
+          "C": 4,
+          "B": 6
+        },
+        "remainingGaps": [
+          "Human-authored issues outside the upstream and gh-aw bot families are not reconciled; hygiene never closes or classifies them.",
+          "Bot families other than gh-aw are reported as untracked; their reports are not dispositioned.",
+          "Pull-request linking uses merged-pull-request evidence from the census only; a referenced or open pull request is never closure proof.",
+          "Closure is limited to rules A1 to A5 as enabled in POLICY; any item outside them is batch review or a founder question."
+        ]
+      }
+    ]
+  },
+  "debt": {
+    "before": {
+      "B": 323,
+      "C": 43
+    },
+    "after": {
+      "B": 325,
+      "C": 43
+    },
+    "afterByKind": {
+      "benchmark_source_drift": 1,
+      "browser_sink_risk": 61,
+      "ci_failure": 2,
+      "code_duplication": 5,
+      "credential_leak": 39,
+      "frontend_contract_drift": 2,
+      "frozen_skill_drift": 4,
+      "issue_founder_decision": 4,
+      "issue_suite_review": 6,
+      "swallowed_exception": 42,
+      "trust_calibration_drift": 122,
+      "ungated_mutation": 1,
+      "unsafe_execution": 2,
+      "unused_import": 38,
+      "workflow_hygiene": 39
+    },
+    "increaseReason": "CI-history input made two existing CI failures visible; no repair-created regression demonstrated",
+    "unroutedClassB": 159,
+    "routeBoundClassB": 166,
+    "remainingNonTrustRouteCandidates": 44,
+    "classC": "43 untouched; references in canonical shared ledger and status-final.json only"
+  },
+  "classA": {
+    "detected": 0,
+    "repairs": 0,
+    "checks": [
+      "python scripts/sync_bundled_schemas.py --check: pass",
+      "python scripts/sync_agent_skill_mirror.py --check: pass"
+    ],
+    "stewardSkillPairsIdentical": 9
+  },
+  "classB": [
+    {
+      "routine": 9,
+      "debtId": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b",
+      "risk": "canonical trust/rank correction remains human-gated",
+      "builder": {
+        "engine": "pi",
+        "actualModel": "openai/gpt-6-luna",
+        "effort": "medium",
+        "sessionId": "01a1a786-20b4-701a-8354-2b6631cb6e24"
+      },
+      "verifier": {
+        "engine": "pi",
+        "actualModel": "openai-codex/gpt-6.1-terra",
+        "effort": "high",
+        "sessionId": "01a1a793-8bb8-7029-b125-f63b22e12981"
+      },
+      "rootCause": "Stored level 2-star differs from computed TM 50 / Grade B / sensor target 3-star; no causal registry mutation investigation authorized",
+      "fix": "None. Human-gated calibration proposal was not executed",
+      "tests": "131 sensor tests passed; independent direct merged-evidence computation reproduced finding",
+      "verdict": "reject",
+      "ledgerState": "blocked",
+      "attempt": 1,
+      "commit": null,
+      "pullRequest": null,
+      "escalation": "No stronger-model repair escalation; rejected no-change finding remains open"
+    }
+  ],
+  "quality": {
+    "tests": [
+      {
+        "command": "PYTHONPATH=src python -m pytest tests/steward -q",
+        "result": "2533 passed",
+        "seconds": 895.26
+      },
+      {
+        "command": "PYTHONPATH=src python -m pytest tests/steward/test_sensors.py",
+        "result": "131 passed (builder)"
+      },
+      {
+        "command": "python scripts/check_steward_coverage.py --check",
+        "result": "pass"
+      },
+      {
+        "command": "python scripts/check_steward_coverage.py --receipt <after-scan> --json",
+        "result": "pass"
+      }
+    ],
+    "repairCommits": 0,
+    "integratedRepairs": 0,
+    "resolvedByCampaign": 0,
+    "repairCI": "Not applicable: no repair commit or PR",
+    "issuesChanged": 0,
+    "protectedMetadataChanged": false,
+    "productionDeployment": false,
+    "receiptReview": {
+      "verdict": "accepted",
+      "actualModel": "openai-codex/gpt-6.1-terra",
+      "effort": "high",
+      "subagentRunId": "d5bd69b3-bcc4-4671-ae9e-f8e20bb088c2",
+      "limits": "Local documentary evidence review; tests and historical live operations not rerun. Exact size error subsequently retained separately as capturedError."
+    }
+  },
+  "blocker": {
+    "kind": "shared-ledger-byte-bound",
+    "attemptedBytes": 1068706,
+    "limitBytes": 1048576,
+    "message": "retention needs a decision, nothing was pruned",
+    "recordedVerdict": true,
+    "retentionChanged": false,
+    "manualPruning": false,
+    "privateLedgerBypass": false,
+    "recovery": "Canonical abandon recorded with explicit reason, pending action/lease cleanup checked; no new run started to force compaction",
+    "retro": "Canonical retro invoked while live blocked run held lease; exit 4 observing-existing. Direct final receipt coverage report supplied instead; no completed canonical retro claimed",
+    "capturedError": ".gaia/steward/campaigns/2026-11-05/guard-failure.txt",
+    "capturedErrorSha256": "ddff2efee0233baa5a1bec550a7b9e3176306b65375b432c60f3dbafa2bb4391"
+  },
+  "inference": {
+    "repairEscalations": 0,
+    "astraCalls": 0,
+    "externalAnalysis": "Luna canon/coverage/cleanup planning; Terra runtime/compatibility/retention reviews. Some read-only discovery tools failed; planning limits disclosed",
+    "compatibility": "Decided steward-agent-agnostic-execution plus implemented Pi engine token; exact runtime provider identities separately captured. No fallback used",
+    "cost": "User-requested pi-cost v1.10 to be run after receipt work; not estimated here",
+    "assignmentsByActualModel": {
+      "openai/gpt-6-luna:medium": 4,
+      "openai-codex/gpt-6.1-terra:high": 5
+    }
+  },
+  "evidenceDirectory": ".gaia/steward/campaigns/2026-11-05"
+}
