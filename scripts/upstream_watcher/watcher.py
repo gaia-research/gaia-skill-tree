@@ -206,6 +206,18 @@ def _poll_suite(
         return None
 
     owner, repo = parsed
+    # A stored version belongs to its declared source, never to a newly relinked
+    # repository by coincidence. Reconcile the baseline through the canonical CLI.
+    declared = (fm.get("upstream") or {}).get("repo")
+    if declared is not None and str(declared).lower() != f"{owner}/{repo}".lower():
+        raise UnknownEvidenceError(f"{skill_id}: links.github contradicts upstream.repo; source/version reconciliation required")
+    from scripts.upstream_watcher.releaseidentity import validateReleaseSource
+    from scripts.upstream_watcher.live import GhError
+
+    try:
+        validateReleaseSource({"skillId": skill_id, "sourceUrl": gh_url})
+    except GhError as exc:
+        raise UnknownEvidenceError(str(exc)) from exc
 
     if verbose:
         print(f"  Polling {owner}/{repo} for {skill_id} ...", file=sys.stderr)

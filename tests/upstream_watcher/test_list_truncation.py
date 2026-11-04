@@ -83,7 +83,7 @@ def test_a_full_page_without_a_link_is_accepted_only_when_the_count_confirms_the
 
 
 def test_a_labelled_open_list_is_taken_from_the_verified_open_listing():
-    rows = issues(30, label="upstream:release") + issues(120)
+    rows = issues(30, label="upstream:release") + [{**row, "number": row["number"] + 30} for row in issues(120)]
     labelled = reader(rows).list_issues("open", labels="upstream:release")
     assert len(labelled) == 30
 

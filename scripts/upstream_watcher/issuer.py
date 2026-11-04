@@ -683,7 +683,14 @@ def create_issues(
         An apply-mode umbrella create or update failed. No child intake is written
         for that suite, and the run stops (M10).
     """
+    from scripts.upstream_watcher.releaseidentity import validateReleaseSource, validateUmbrellaIdentity
+
     summaries: list[dict] = []
+    for finding in full_findings:
+        try:
+            validateReleaseSource(finding)
+        except GhError as exc:
+            raise IdempotencyLookupError(str(exc)) from exc
     if not full_findings:
         return summaries
     # Every duplicate check reads this one snapshot, taken before any write. A
@@ -816,6 +823,12 @@ def create_issues(
 
         if existing_suite:
             existing_num, existing_title = existing_suite
+            try:
+                existing = next((row for row in snapshot.get("upstream:release", []) if row["number"] == existing_num), None)
+                if existing is not None:
+                    validateUmbrellaIdentity(finding, existing)
+            except GhError as exc:
+                raise IdempotencyLookupError(str(exc)) from exc
             if existing_title == umbrella_title:
                 print(
                     f"  Umbrella for {owner_repo_str}@{new_version} already exists as #{existing_num}; skipping.",

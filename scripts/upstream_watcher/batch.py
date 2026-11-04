@@ -163,6 +163,9 @@ def label_names(issue: dict) -> list[str]:
 
 
 def owner_repo_of(finding: dict) -> str:
+    from scripts.upstream_watcher.releaseidentity import validateReleaseSource
+
+    validateReleaseSource(finding)
     parsed = parse_owner_repo(finding.get("sourceUrl", "")) if finding.get("sourceUrl") else None
     return f"{parsed[0]}/{parsed[1]}" if parsed else finding["skillId"]
 
@@ -632,6 +635,10 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
     if found.ambiguous:
         return inert_plan(owner_repo, title, "blocked-identity", new_version, found.ambiguous)
     umbrella = found.canonical
+    if umbrella is not None:
+        from scripts.upstream_watcher.releaseidentity import validateUmbrellaIdentity
+
+        validateUmbrellaIdentity(finding, umbrella)
     if umbrella is None:
         # Closed history is evidence of processed findings. A finding a closed issue already records is not
         # re-created. A finding the closed history cannot settle fails closed, with no write.
