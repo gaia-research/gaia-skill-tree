@@ -1,5 +1,5 @@
 {
- "generation": 334,
+ "generation": 335,
  "lane": {
   "entries": [
    {
@@ -16933,6 +16933,17 @@
      "debtId": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b",
      "emittedAt": "2026-11-04T17:00:50.107596Z",
      "idempotencyKey": "dispatch-29388367efc672472c1a:1",
+     "outcome": {
+      "agentId": "pi-luna-01a1a786-20b4-701a-8354-2b6631cb6e24",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": true,
+      "proofPath": ".gaia/steward/full/run-20261104T165527Z-2a808cf3/build-9ee929732fd5.proof.json",
+      "provider": "openai",
+      "providerModel": "gpt-6-luna",
+      "subagentRunId": "2db7fbdc-5d13-4ddb-b6ee-a4b14bbdbe4a",
+      "summary": "Finding reproduces: stored 2-star vs computed TM 50, Grade B / target 3-star. No correction or registry mutation performed. Builder supplied human-gated calibration proposal only and reports envelope/command constraints; independent verifier must not accept as non-reproduction."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -16953,13 +16964,27 @@
       },
       "promptPath": ".gaia/steward/full/run-20261104T165527Z-2a808cf3/build-9ee929732fd5.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-04T17:11:41.982056Z",
+     "status": "done",
      "stepId": "build:9ee929732fd5:1",
      "type": "agent.build"
     }
    ],
    "actor": "cli",
-   "agentAssignments": [],
+   "agentAssignments": [
+    {
+     "agentId": "pi-luna-01a1a786-20b4-701a-8354-2b6631cb6e24",
+     "at": "2026-11-04T17:11:41.982104Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:9ee929732fd5:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
@@ -17516,8 +17541,10 @@
     }
    ],
    "mode": "full",
-   "modelIds": [],
-   "mutated": false,
+   "modelIds": [
+    "pi"
+   ],
+   "mutated": true,
    "nextAction": "perform 1 pending action(s) (agent.build), record each with `gaia steward full record run-20261104T165527Z-2a808cf3 <stepId> --input FILE`, then `gaia steward full run --resume run-20261104T165527Z-2a808cf3`",
    "options": {
     "afk": true,
@@ -18808,7 +18835,14 @@
      ]
     }
    },
-   "proofArtifacts": [],
+   "proofArtifacts": [
+    {
+     "debtId": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b",
+     "diffPath": null,
+     "proofPath": "/data/data/com.termux/files/home/gaia-skill-tree/.gaia/steward/full/run-20261104T165527Z-2a808cf3/build-9ee929732fd5.proof.json",
+     "stepId": "build:9ee929732fd5:1"
+    }
+   ],
    "pullRequests": [],
    "receipts": [
     {
@@ -18853,15 +18887,17 @@
      "stepId": "phase:class_a"
     },
     {
-     "at": "2026-11-04T17:00:50.107596Z",
+     "at": "2026-11-04T17:11:41.982056Z",
      "debtId": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b",
      "idempotencyKey": "dispatch-29388367efc672472c1a:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:9ee929732fd5:1"
     }
    ],
-   "thinkingEfforts": [],
+   "thinkingEfforts": [
+    "medium"
+   ],
    "tokensIn": 0,
    "tokensOut": 0,
    "trigger": "manual",
@@ -18871,11 +18907,12 @@
      "previousRun": "run-20261104T024612Z-66c4dc8d",
      "state": "building"
     }
-   ]
+   ],
+   "updatedAt": "2026-11-04T17:11:41.982056Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-04T17:04:57.596657Z",
+ "updatedAt": "2026-11-04T17:11:41.982728Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -18995,12 +19032,33 @@
   },
   "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b": {
    "adoptedBy": "run-20261104T165527Z-2a808cf3",
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-luna-01a1a786-20b4-701a-8354-2b6631cb6e24",
+     "at": "2026-11-04T17:11:41.982104Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:9ee929732fd5:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-integration",
    "branch": "steward/b/trust-calibration-drift-9ee929732fd5",
-   "build": null,
+   "build": {
+    "agentId": "pi-luna-01a1a786-20b4-701a-8354-2b6631cb6e24",
+    "attempt": 1,
+    "diffPath": null,
+    "dispatchId": "dispatch-29388367efc672472c1a",
+    "noChange": true,
+    "proofPath": "/data/data/com.termux/files/home/gaia-skill-tree/.gaia/steward/full/run-20261104T165527Z-2a808cf3/build-9ee929732fd5.proof.json",
+    "recordedAt": "2026-11-04T17:11:41.982104Z",
+    "summary": "Finding reproduces: stored 2-star vs computed TM 50, Grade B / target 3-star. No correction or registry mutation performed. Builder supplied human-gated calibration proposal only and reports envelope/command constraints; independent verifier must not accept as non-reproduction."
+   },
    "createdAt": "2026-11-04T02:54:14.093628Z",
    "debtId": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b",
    "dispatchId": "dispatch-29388367efc672472c1a",
@@ -19021,7 +19079,7 @@
    "runId": "run-20261104T165527Z-2a808cf3",
    "source": "trust-calibration-drift",
    "state": "building",
-   "updatedAt": "2026-11-04T02:54:14.093628Z",
+   "updatedAt": "2026-11-04T17:11:41.982104Z",
    "verification": null
   },
   "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9": {
