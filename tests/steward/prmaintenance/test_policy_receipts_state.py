@@ -176,3 +176,14 @@ def test_a_marker_is_found_after_any_whitespace_including_newlines():
     body = receipts.pickup(number=7, head="a" * 40, runId="r", producer="p", authority="B", baseRef="main", baseSha="b" * 40, action="verify")
     assert receipts.parseMarkers("intro\n\n" + body)[0]["kind"] == "pickup"
     assert receipts.parseMarkers("\r\n\t  " + body)[0]["pr"] == "7"
+
+
+def test_the_live_snapshot_fetches_the_destination_tip_as_well_as_the_pull_request_head(tmp_path, monkeypatch):
+    from gaia_cli.steward.prmaintenance import cli, collect
+
+    calls: list[list[str]] = []
+    monkeypatch.setattr(cli.subprocess if hasattr(cli, "subprocess") else __import__("subprocess"), "run", lambda cmd, **kw: calls.append(list(cmd)))
+    monkeypatch.setattr(collect, "liveSnapshot", lambda api, repo, number, fetch: (fetch(number), "snapshot")[1])
+    assert cli.snapshotFor(tmp_path, "o/r", 7) == "snapshot"
+    refspecs = [call[-1] for call in calls]
+    assert "+refs/pull/7/head:refs/steward/pr/7" in refspecs and "+refs/heads/main:refs/remotes/origin/main" in refspecs

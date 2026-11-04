@@ -8,6 +8,7 @@ comments by itself: ``gate`` authorizes exactly one forge call and ``finalize`` 
 from __future__ import annotations
 
 import argparse
+import subprocess
 import json
 import os
 import sys
@@ -235,8 +236,10 @@ def snapshotFor(root: Path, repo: str, number: int) -> gate.Snapshot:
     import subprocess
 
     def fetch(n: int) -> None:
-        subprocess.run(["git", "-C", str(root), "fetch", "--quiet", "origin", f"+refs/pull/{n}/head:refs/steward/pr/{n}"],
-                       capture_output=True, timeout=180, check=False)
+        # The pull request head AND the destination tip: the gate proves "already published on the base" from git objects, so an
+        # unfetched tip must never be possible (it would read as "not published" and refuse, safely but wrongly).
+        for refspec in (f"+refs/pull/{n}/head:refs/steward/pr/{n}", "+refs/heads/main:refs/remotes/origin/main"):
+            subprocess.run(["git", "-C", str(root), "fetch", "--quiet", "origin", refspec], capture_output=True, timeout=180, check=False)
 
     return collect.liveSnapshot(collect.ghApi, repo, number, fetch)
 
