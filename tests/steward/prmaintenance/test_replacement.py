@@ -69,7 +69,7 @@ def test_a_replacement_for_an_original_that_moved_or_vanished_is_not_ready(world
 
 def test_a_payload_that_differs_from_the_originals_is_never_accepted(world):
     fx, original, made = world
-    fx.branch("steward/b/routine-pr-2157-2026-44", made.commit)
+    fx.branch("docs/steward-pr-2157-2026-44", made.commit)
     path = fx.root / "docs/api/v1/reports/2026-44.json"
     path.write_text(path.read_text().replace("2026-10-", "2026-09-"))
     forged = fx.commit("forged payload")

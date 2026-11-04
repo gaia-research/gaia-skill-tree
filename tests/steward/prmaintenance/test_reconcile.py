@@ -15,7 +15,7 @@ def test_a_stale_stamped_head_with_a_dropped_index_row_is_rebuilt_into_a_replace
     original = fx.head("2026-44", version="8.26.10", dropIndexRow="2026-43")
     assert proofs.stampProof(fx.root, fx.base, original, ["docs/reports/2026-44/index.html"]).state == "fail"
     made = reconcile.buildReplacement(fx.root, h.REPO, 2157, original, "2026-44", fx.base, tmp_path / "wt")
-    assert made.branch == "steward/b/routine-pr-2157-2026-44" and made.original == 2157
+    assert made.branch == "docs/steward-pr-2157-2026-44" and made.original == 2157
     assert set(made.files) == {"docs/reports/2026-44/index.html", "docs/reports/index.html", "docs/api/v1/reports/2026-44.json",
                                "docs/api/v1/reports/index.json"}
     for proof in [proofs.reportJsonProof(fx.root, made.commit, "2026-44"), proofs.stampProof(fx.root, fx.base, made.commit, list(made.files))] \
@@ -64,7 +64,7 @@ def test_it_never_reuses_a_worktree_and_cleans_up_a_failed_build(tmp_path):
     broken = fx.commit("broken payload")
     with pytest.raises(reconcile.ReconcileError):
         reconcile.buildReplacement(fx.root, h.REPO, 9, broken, "2026-45", fx.base, tmp_path / "wt-broken")
-    assert "steward/b/routine-pr-9-2026-45" not in h.run(fx.root, "branch", "--list")
+    assert "docs/steward-pr-9-2026-45" not in h.run(fx.root, "branch", "--list")
 
 
 # --- the operator surface -------------------------------------------------------------------------------------------
@@ -80,7 +80,7 @@ def test_cli_reconcile_builds_once_records_budget_and_reports_an_opened_replacem
     root = str(fx.root)
     assert cli.main(["--root", root, "--json", "reconcile", "--number", "2157", "--run-id", "r1", "--worktree", str(tmp_path / "wt")]) == 0
     built = json.loads(capsys.readouterr().out)
-    assert built["branch"] == "steward/b/routine-pr-2157-2026-44" and "gaia-steward:replaces" in built["body"]
+    assert built["branch"] == "docs/steward-pr-2157-2026-44" and "gaia-steward:replaces" in built["body"]
     assert state.readRecords(fx.root, "outcomes")[-1]["state"] == "built"
     # a second build in the same run is over the policy's replacement budget only when the cap is reached; a different run may build
     assert cli.main(["--root", root, "--json", "reconcile-opened", "--number", "2157", "--head", original, "--replacement", "2290",
@@ -88,6 +88,11 @@ def test_cli_reconcile_builds_once_records_budget_and_reports_an_opened_replacem
     capsys.readouterr()
     assert cli.main(["--root", root, "--json", "reconcile", "--number", "2157", "--run-id", "r2", "--worktree", str(tmp_path / "wt2")]) == 3
     assert json.loads(capsys.readouterr().out)["alreadyDone"] == "replacement-opened"
+    # a withdrawn replacement may be rebuilt; the retirement is on the record
+    assert cli.main(["--root", root, "--json", "reconcile-retired", "--number", "2157", "--head", original, "--replacement", "2290",
+                     "--reason", "branch renamed", "--run-id", "r2"]) == 0
+    capsys.readouterr()
+    assert cli.main(["--root", root, "--json", "reconcile", "--number", "2157", "--run-id", "r3", "--worktree", str(tmp_path / "wt3")]) == 0
 
 
 def test_cli_reconcile_refuses_what_is_not_proven_reconcilable_or_is_revoked(tmp_path, capsys):

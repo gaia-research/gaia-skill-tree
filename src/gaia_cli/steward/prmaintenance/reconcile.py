@@ -19,7 +19,8 @@ from typing import Any, Mapping
 
 from gaia_cli.steward.prmaintenance import proofs
 
-BRANCH = "steward/b/routine-pr-{number}-{label}"
+# Under docs/ so the repository's branch-scope guard accepts it on its merits (the files are docs/ files); never a bypass label.
+BRANCH = "docs/steward-pr-{number}-{label}"
 LABEL = re.compile(r"^[0-9]{4}-[0-9]{2}$")
 BOT = "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
 NOBYTECODE = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}

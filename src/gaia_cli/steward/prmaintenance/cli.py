@@ -131,6 +131,13 @@ def build() -> argparse.ArgumentParser:
     opened.add_argument("--branch", required=True)
     opened.add_argument("--run-id", required=True, dest="runId")
 
+    retired = sub.add_parser("reconcile-retired", help="record that a replacement pull request was withdrawn so a new one may be built")
+    retired.add_argument("--number", type=int, required=True, help="the ORIGINAL pull request number")
+    retired.add_argument("--head", required=True, help="the original head SHA the replacement was built from")
+    retired.add_argument("--replacement", type=int, required=True)
+    retired.add_argument("--reason", required=True)
+    retired.add_argument("--run-id", required=True, dest="runId")
+
     kill = sub.add_parser("kill", help="revoke or restore the route locally")
     kill.add_argument("state", choices=("on", "off", "status"))
     return parser
@@ -288,9 +295,12 @@ def doReconcile(root: Path, args: argparse.Namespace) -> int:
             "refused: not reconcilable")
         return 2
     with state.lock(root):
-        for line in state.readRecords(root, "outcomes"):
-            if line.get("action") == "reconcile" and line.get("repo") == repo and line.get("number") == args.number \
-                    and line.get("originalHead") == found.headSha and line.get("state") == "opened":
+        lines = [line for line in state.readRecords(root, "outcomes")
+                 if line.get("action") == "reconcile" and line.get("repo") == repo and line.get("number") == args.number
+                 and line.get("originalHead") == found.headSha]
+        retired = {line.get("replacement") for line in lines if line.get("state") == "retired"}
+        for line in lines:
+            if line.get("state") == "opened" and line.get("replacement") not in retired:
                 out({"alreadyDone": "replacement-opened", "detail": line}, args.json, f"already done: replacement #{line.get('replacement')} was opened")
                 return 3
         built = {line.get("runId") for line in state.readRecords(root, "outcomes")
@@ -310,10 +320,28 @@ def doReconcile(root: Path, args: argparse.Namespace) -> int:
     with state.lock(root):
         state.appendRecord(root, "outcomes", {"at": state.stamp(), "runId": args.runId, "repo": repo, "number": args.number, "action": "reconcile",
                                               "state": "built", "headSha": made.commit, "originalHead": found.headSha, "branch": made.branch,
-                                              "baseSha": tip,
+                                              "baseSha": tip, "worktree": str(made.worktree),
                                               "builders": ["reconciler:content-engine-cachebust", os.environ.get("GAIA_STEWARD_LEAD_ID", "lead-session")]})
     out({**reconcile.asMapping(made), "body": made.body, "baseSha": tip}, args.json,
         f"built {made.branch} @ {made.commit[:12]} on {tip[:12]} in {made.worktree}")
+    return 0
+
+
+def doReconcileRetired(root: Path, args: argparse.Namespace) -> int:
+    import subprocess
+
+    census = json.loads((root / CENSUS_INPUT).read_text(encoding="utf-8"))
+    with state.lock(root):
+        built = [line for line in state.readRecords(root, "outcomes")
+                 if line.get("action") == "reconcile" and line.get("state") == "built" and line.get("originalHead") == args.head
+                 and line.get("number") == args.number]
+        for line in built[-1:]:  # clean the local worktree and branch of the withdrawn replacement so its name can be reused
+            subprocess.run(["git", "-C", str(root), "worktree", "remove", "--force", str(line.get("worktree", ""))], capture_output=True, check=False)
+            subprocess.run(["git", "-C", str(root), "branch", "-D", str(line.get("branch", ""))], capture_output=True, check=False)
+        state.appendRecord(root, "outcomes", {"at": state.stamp(), "runId": args.runId, "repo": census["repo"], "number": args.number,
+                                              "action": "reconcile", "state": "retired", "headSha": args.head, "originalHead": args.head,
+                                              "replacement": args.replacement, "reason": args.reason[:300]})
+    out({"recorded": True}, args.json, f"retired replacement #{args.replacement} for #{args.number}")
     return 0
 
 
@@ -375,6 +403,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             return doReconcile(root, args)
         if args.action == "reconcile-opened":
             return doReconcileOpened(root, args)
+        if args.action == "reconcile-retired":
+            return doReconcileRetired(root, args)
         if args.action == "kill":
             flag = state.storeDir(root) / state.KILL_FILE
             if args.state == "on":

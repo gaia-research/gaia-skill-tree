@@ -110,7 +110,7 @@
           "accountType": "User"
         }
       ],
-      "branchPattern": "^steward/b/routine-pr-(?P<original>[0-9]+)-(?P<label>[0-9]{4}-[0-9]{2})$",
+      "branchPattern": "^docs/steward-pr-(?P<original>[0-9]+)-(?P<label>[0-9]{4}-[0-9]{2})$",
       "requiredLabels": [],
       "holdLabels": [
         "needs-review",

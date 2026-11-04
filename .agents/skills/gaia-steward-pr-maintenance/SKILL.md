@@ -44,7 +44,7 @@ python scripts/steward_pr.py observe                      # dispositions + every
 1. **Pickup.** Check `receipt check --kind pickup`; if absent render with `receipt pickup`, post it as a PR comment, then
    `receipt record`. The hidden marker is the idempotency key, so a resumed run never posts twice.
 2. **Reconcile (only when `reconcile` is set).** Never rewrite the producer's branch. `reconcile --number N --run-id RUN --worktree DIR`
-   builds a tracked replacement locally on a `steward/b/routine-pr-N-LABEL` branch cut from the destination tip: the producer's canonical
+   builds a tracked replacement locally on a `docs/steward-pr-N-LABEL` branch cut from the destination tip: the producer's canonical
    JSON byte for byte, everything else regenerated with the repository's own generator, then its own proofs must pass. Push the branch,
    open the pull request with the printed body (it carries `<!-- gaia-steward:replaces repo=R pr=N head=H -->`), and record it with
    `reconcile-opened`. The replacement is a new PR with its own head and its own verification; the original stays open until the
