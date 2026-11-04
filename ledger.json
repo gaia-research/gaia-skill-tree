@@ -1,5 +1,5 @@
 {
- "generation": 352,
+ "generation": 353,
  "lane": {
   "entries": [
    {
@@ -4389,13 +4389,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-04T16:55:27.397807Z",
-   "expiresAt": "2026-11-04T17:52:59.900315Z",
-   "holder": "run-20261104T165527Z-2a808cf3"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -16934,6 +16928,9 @@
    ]
   },
   "run-20261104T165527Z-2a808cf3": {
+   "abandonReason": "Re-observation persistence exceeded the shared ledger byte bound. Verifier rejection is recorded; no repair integrated. Campaign stopped without pruning or changing retention; evidence preserved under .gaia/steward/campaigns/2026-11-05.",
+   "abandonedAt": "2026-11-04T17:32:48.794209Z",
+   "abandonedBy": "operator:cli",
    "actions": [
     {
      "debtId": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b",
@@ -17578,7 +17575,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-11-04T17:32:48.794209Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -17598,7 +17595,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "abandoned by operator: Re-observation persistence exceeded the shared ledger byte bound. Verifier rejection is recorded; no repair integrated. Campaign stopped without pruning or changing retention; evidence preserved under .gaia/steward/campaigns/2026-11-05.",
    "options": {
     "afk": true,
     "agents": true,
@@ -18913,7 +18910,7 @@
    "sequence": 7,
    "sourceHead": "1963a47f480251d79d98c6a13b8c272444996467",
    "startedAt": "2026-11-04T16:55:27.397807Z",
-   "status": "active",
+   "status": "abandoned",
    "steps": [
     {
      "at": "2026-11-04T16:55:27.397807Z",
@@ -18992,7 +18989,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-04T17:22:59.900574Z",
+ "updatedAt": "2026-11-04T17:32:49.744111Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
