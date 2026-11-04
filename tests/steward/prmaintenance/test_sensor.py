@@ -459,3 +459,10 @@ def test_a_same_named_check_still_running_is_unknown_even_beside_a_success(fx):
     seen = observe(fx, [h.row(fx, head, "2026-44", checkRuns=mixed)])[2270]
     assert {g["name"]: g["state"] for g in seen.observed_state["gates"]}["ci:Schema + DAG + Integrity Checks"] == "unknown"
     assert seen.kind == ev.KIND_BLOCKED
+
+
+def test_a_url_key_that_holds_a_list_is_refused_not_ignored():
+    from gaia_cli.steward.prmaintenance import proofs
+
+    assert proofs.payloadProblems({"url": ["//evil.example/x"]}) and proofs.payloadProblems({"canonical": 7})
+    assert proofs.payloadProblems({"urls": {"canonical": "/reports/2026-44/"}}) == []

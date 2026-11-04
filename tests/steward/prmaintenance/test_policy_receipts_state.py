@@ -170,3 +170,9 @@ def test_marker_search_stays_linear_on_the_padded_shapes_that_defeated_a_regex()
     for shape in shapes:
         assert receipts.parseMarkers(shape) == []
     assert time.monotonic() - started < 1.0
+
+
+def test_a_marker_is_found_after_any_whitespace_including_newlines():
+    body = receipts.pickup(number=7, head="a" * 40, runId="r", producer="p", authority="B", baseRef="main", baseSha="b" * 40, action="verify")
+    assert receipts.parseMarkers("intro\n\n" + body)[0]["kind"] == "pickup"
+    assert receipts.parseMarkers("\r\n\t  " + body)[0]["pr"] == "7"

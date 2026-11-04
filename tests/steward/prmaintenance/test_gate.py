@@ -437,8 +437,8 @@ def test_authority_source_must_be_named_and_the_default_fails_closed(fx, monkeyp
 
 def test_authority_must_equal_the_destination_tip_when_one_is_named(fx, monkeypatch):
     head = ready(fx)
-    h.run(fx.root, "branch", "-f", "dest", fx.base)
-    monkeypatch.setenv(gate.AUTHORITY_REF, "dest")
+    h.run(fx.root, "update-ref", "refs/remotes/origin/dest", fx.base)
+    monkeypatch.setenv(gate.AUTHORITY_REF, "origin/dest")
     assert gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)["action"] == "merge"
     (fx.root / "founder/steward/pr-producers.json").write_text((fx.root / "founder/steward/pr-producers.json").read_text() + " ")
     h.run(fx.root, "add", "-A")
@@ -534,4 +534,12 @@ def test_closure_gate_rechecks_every_hold_class_gate_itself(tmp_path, monkeypatc
     with pytest.raises(gate.GateRefused) as caught:
         gate.gateClose(fx.root, req, snap, h.utc(), RUN)
     assert caught.value.code == "closure-held"
+    assert outcomes(fx) == []
+
+
+def test_the_authority_ref_must_be_a_remote_tracking_ref_never_head_or_a_local_branch(fx, monkeypatch):
+    head = ready(fx)
+    for bad in ("HEAD", "main", fx.base):
+        monkeypatch.setenv(gate.AUTHORITY_REF, bad)
+        refused(fx, snapshot(fx, head), request(head), "authority-ref-invalid")
     assert outcomes(fx) == []

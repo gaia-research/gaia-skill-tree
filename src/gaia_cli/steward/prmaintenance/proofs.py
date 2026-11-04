@@ -106,6 +106,8 @@ def payloadProblems(value: Any, path: str = "report") -> list[str]:
             where = f"{path}.{key}"
             if key == "generatorVersion" and not (isinstance(item, str) and SEMVER.match(item)):
                 found.append(f"{where} is not a semantic version")
+            if URLISH.search(str(key)) and key not in ("urls",) and not isinstance(item, (dict, str)):
+                found.append(f"{where} must be a string URL")
             if URLISH.search(str(key)) and isinstance(item, str) and not SAFEURL.match(item):
                 found.append(f"{where} is not a relative or allow-listed URL")
             found += payloadProblems(item, where)

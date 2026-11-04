@@ -41,7 +41,7 @@ def parseMarkers(body: str) -> list[dict[str, str]]:
         if at < 0:
             break
         cursor = at + len(NAME)
-        if text[max(0, at - 8):at].replace(" ", "").replace("\t", "") != OPEN:
+        if "".join(text[max(0, at - 16):at].split())[-len(OPEN):] != OPEN:
             continue
         end = text.find(CLOSE, cursor, cursor + MAXMARKER + len(CLOSE))
         if end < 0:

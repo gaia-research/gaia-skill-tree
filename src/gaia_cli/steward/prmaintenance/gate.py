@@ -99,6 +99,9 @@ def authorityDrift(root: Path) -> tuple[str, str] | None:
         return "authority-drift", "authority files have uncommitted changes: " + ", ".join(line[3:].decode() for line in dirty.stdout.splitlines()[:3])
     ref = os.environ.get(AUTHORITY_REF, "").strip()
     if ref:
+        named = proofs.git(root, "rev-parse", "--symbolic-full-name", ref)
+        if named.returncode != 0 or not named.stdout.decode().startswith("refs/remotes/"):
+            return "authority-ref-invalid", f"{AUTHORITY_REF}={ref!r} must name a remote-tracking ref such as origin/main (not HEAD or a local branch)"
         for relative in AUTHORITY_FILES:
             there = proofs.blob(root, ref, relative)
             here = (root / relative).read_bytes() if (root / relative).is_file() else None
