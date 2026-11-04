@@ -1,5 +1,5 @@
 {
- "generation": 373,
+ "generation": 374,
  "lane": {
   "entries": [
    {
@@ -4398,7 +4398,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-04T19:11:41.870921Z",
-   "expiresAt": "2026-11-04T20:22:46.052883Z",
+   "expiresAt": "2026-11-04T20:22:51.056929Z",
    "holder": "run-20261104T191141Z-c3a4df1e"
   }
  },
@@ -19633,7 +19633,7 @@
     "push": true,
     "routine": null
    },
-   "phase": "class_b",
+   "phase": "verify",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -19646,10 +19646,9 @@
      "status": "ok"
     },
     "class_b": {
-     "dispatchId": "dispatch-1fe491eede58c1225547",
-     "dispatched": "debt:unused_import:src-gaia-cli-steward-issuehygiene-reconcile-py:d91a57958d7d1622",
-     "status": "awaiting-build",
-     "stepId": "build:31cdbdb60a39:1"
+     "dispatched": null,
+     "reason": "this run already dispatched 1 (maxDispatchesPerRun 1)",
+     "status": "ok"
     },
     "observe": {
      "authorityCounts": {
@@ -20603,6 +20602,12 @@
      "kind": "agent.build",
      "status": "done",
      "stepId": "build:31cdbdb60a39:1"
+    },
+    {
+     "at": "2026-11-04T19:52:50.115800Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_b"
     }
    ],
    "thinkingEfforts": [
@@ -20616,7 +20621,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-04T19:52:46.055444Z",
+ "updatedAt": "2026-11-04T19:52:51.057297Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
