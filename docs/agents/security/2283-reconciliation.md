@@ -56,6 +56,8 @@ The existing sensor could suppress a different credential just because an unrela
 
 ## Verification limits and handoff
 
+Continuation evidence: [exact-source finish proof](2283-finish-proof.md) and [sanitized before/after scanner results](2283-scanner-proof.json). All 71 original individual matches remain detected; one additional provenance-comment match is explicitly disclosed, not suppressed. Fresh focused checks and the still-pending hardlink platform receipt are recorded separately there.
+
 Focused security/mirror/desk suite: **311 passed**. Focused D2/D3/scanner suite: **376 passed, one environment failure**: `tests/test_installability.py::test_observation_temp_creation_is_exclusive_and_cleans_only_its_temp` requires `os.link`, which this Termux Python does not provide. No test skip, platform emulation, or unrelated source fix was added. Record subsequent focused checks separately; do not turn this into an all-green/full-suite claim.
 
 Independent acceptance, integration, live re-observation and shared-ledger reconciliation belong to the lead. No rotation/revocation is claimed. If later evidence establishes an exposure: preserve only fingerprints/path/authority references, stop automatic repair/closure, privately notify the owner for issuer-side revocation/rotation and affected consumers, repair the minimum authorized source, and record issuer confirmation separately. Do not probe credential validity over the network.
