@@ -41,12 +41,12 @@ Scheduled runs add `--trigger scheduled`. Class A landing additionally needs
 `--integration-branch dev/<name> --push` (or `GAIA_STEWARD_INTEGRATION_BRANCH`);
 the runner refuses `main`, `master` and the remote default branch.
 
-`--routine` takes 1 to 18. Routine 18 is GitHub issue hygiene (`issue-hygiene`).
+`--routine` takes 1 to 19. Routine 18 is GitHub issue hygiene (`issue-hygiene`); routine 19 is routine pull-request maintenance (`pr-maintenance`, skill `gaia-steward-pr-maintenance`).
 Issue-write authority remains an OPEN Class C proposal: no live closure dry run,
 pilot or burn-down. The effective policy emits no closure actions until explicit
 ratification AND write opt-in; changing the kill switch alone grants no authority.
 
-## Step 0: refresh the issue census
+## Step 0: refresh the censuses
 
 Before the first `run` of any mode that observes or triages, refresh the GitHub issue
 census that routine 18 reads:
@@ -60,6 +60,8 @@ flags false, and routine 18 reports not evaluated. Any other exit: delete the fi
 the sensor reports its input missing. The unattended driver `python scripts/steward_drive.py`
 runs this step itself; `--no-census` skips it. A census older than the policy's
 `maxCensusAgeSeconds` is never used.
+
+Routine 19 reads its own census the same way: `python scripts/steward_pr_census.py` (read-only GETs; exit 3 means incomplete, so the sensor reports coverage unknown).
 
 ## The driver loop
 
@@ -75,6 +77,7 @@ as a pending action. Drive it like this, and nothing else:
    | `agent.verify` | a different, fresh agent following `gaia-steward-verify` |
    | `forge.open_pr` | `gaia-steward-land` (draft PR to the integration branch) |
    | `forge.close_issue` | `gaia-steward-issue-hygiene` (one proven closure, performed by `scripts/steward_issue_close.py`) |
+| `forge.merge_pr`, `forge.close_pr` | `gaia-steward-pr-maintenance` (one gated write, authorized by `scripts/steward_pr.py gate-merge` or `gate-close`) |
    | `lead.integrate` | the orchestrator, merging into the integration branch only |
 
 3. Record each outcome: `gaia steward full record RUN STEP --input outcome.json`.
@@ -89,7 +92,9 @@ second concurrent invocation loses the lease and refuses cleanly.
 ## Agents, models and effort
 
 - Builders: `params.allowedModels` (Haiku or Sonnet). Verifier: Sonnet only, and
-  never an agent listed in `params.forbiddenAgentIds`.
+  never an agent listed in `params.forbiddenAgentIds`. Routine 19 dispatches are different: the active environment's roster
+  profile (`python scripts/steward_pr.py roster …`) chooses agents by capability; no model name is canon, and the lane's
+  `maxInFlight` and `maxDispatchesPerRun` still cap them.
 - Every agent invocation names an explicit thinking effort. `default` and
   `inherit` are refused by `record`.
 - Subagents do not fan out without the orchestrator's approval.
@@ -97,7 +102,7 @@ second concurrent invocation loses the lease and refuses cleanly.
 
 ## Hard limits (enforced in code, repeated here)
 
-- Never merge into `main`, push to `main`, force-push, tag, release or publish.
+- Never merge into `main`, push to `main`, force-push, tag, release or publish. The one exception is the ratified, narrowly scoped route `forge.merge_pr` (routine 19): a registered producer's pull request, one exact head SHA, an independent verification, GitHub's own branch protection, a merge commit, never a squash. It is never a general permission and is revoked by the kill switch.
 - Class B: maxInFlight 2 (the policy value; the code accepts 1 to 4), maxAttempts 2, cooldown 3600 s, one dispatch per run.
 - Closures (`forge.close_issue`) need `GH_TOKEN` or `GITHUB_TOKEN`. Without one they are reported under the driver's
   `unperformed` list with the reason, and nothing is written. A closure the executor refuses (exit 2) is recorded as a
@@ -124,6 +129,7 @@ Steward finds and bounds the work; existing skills do the specialised parts.
 | `issue_closure_ready`, `issue_suite_review`, `issue_founder_decision` (routine 18) | `gaia-steward-issue-hygiene` (A closures), `gaia-steward-lane` (B suite review), `gaia-steward-desk` (C questions) |
 | `generated_projection_drift` | `gaia-docs-sync` |
 | `ci_failure`, CI churn | `ci-churn` |
+| `routine_pr_*` (routine 19) | `gaia-steward-pr-maintenance`; Class C items go to `gaia-steward-desk` |
 | escalated work too large for one dispatch | `gaia-triage`, then `gaia-issue-resolver` or `feature-pipeline` on its own PR |
 
 ## Stop conditions

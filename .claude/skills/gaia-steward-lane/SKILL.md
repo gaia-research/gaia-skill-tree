@@ -128,7 +128,7 @@ that before anything else.
 
 ## What you must never do here
 
-- Merge, push to `main`, tag, or release.
+- Merge, push to `main`, tag, or release. (A lane builder never merges. Routine 19's `forge.merge_pr` is performed only by the `gaia-steward-pr-maintenance` driver after its gate.)
 - Widen `founder/steward/POLICY.yaml`, or edit anything under `.gaia/steward/`.
   The policy defines your authority and the receipts are the audit trail; an
   agent editing either is the failure this whole system exists to prevent.

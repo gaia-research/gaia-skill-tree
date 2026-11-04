@@ -53,6 +53,14 @@ authority:
   issue_closure_ready: A
   issue_suite_review: B
   issue_founder_decision: C
+  routine_pr_merge_ready: B
+  routine_pr_blocked: B
+  routine_pr_superseded: B
+  routine_pr_conflict: B
+  routine_pr_verification_failed: B
+  routine_pr_provenance_unknown: B
+  routine_pr_closure_ready: B
+  routine_pr_founder_decision: C
 
 priority:
   bundled_schema_mirror_drift:
@@ -305,6 +313,54 @@ priority:
     importance: 0.5
     decisionImpact: 0.8
     exposure: 0.5
+    freshnessNeed: 0.5
+    expectedCost: 0.4
+  routine_pr_merge_ready:
+    importance: 0.7
+    decisionImpact: 0.7
+    exposure: 0.7
+    freshnessNeed: 0.9
+    expectedCost: 0.3
+  routine_pr_blocked:
+    importance: 0.5
+    decisionImpact: 0.5
+    exposure: 0.5
+    freshnessNeed: 0.7
+    expectedCost: 0.4
+  routine_pr_superseded:
+    importance: 0.4
+    decisionImpact: 0.5
+    exposure: 0.4
+    freshnessNeed: 0.6
+    expectedCost: 0.3
+  routine_pr_conflict:
+    importance: 0.6
+    decisionImpact: 0.6
+    exposure: 0.6
+    freshnessNeed: 0.8
+    expectedCost: 0.5
+  routine_pr_verification_failed:
+    importance: 0.7
+    decisionImpact: 0.7
+    exposure: 0.6
+    freshnessNeed: 0.9
+    expectedCost: 0.5
+  routine_pr_provenance_unknown:
+    importance: 0.9
+    decisionImpact: 0.9
+    exposure: 0.9
+    freshnessNeed: 0.9
+    expectedCost: 0.3
+  routine_pr_closure_ready:
+    importance: 0.4
+    decisionImpact: 0.5
+    exposure: 0.4
+    freshnessNeed: 0.7
+    expectedCost: 0.2
+  routine_pr_founder_decision:
+    importance: 0.6
+    decisionImpact: 0.9
+    exposure: 0.6
     freshnessNeed: 0.5
     expectedCost: 0.4
 
@@ -664,6 +720,13 @@ routing:
       objective: >-
         Decide one exact issue-hygiene question shared by the affected issues, such as
         whether a family of upstream candidates is accepted, rejected or deferred.
+    routine-pr-founder-decision:
+      debtKind: routine_pr_founder_decision
+      authority: C
+      decisionTargetField: decisionTarget
+      objective: >-
+        Decide one exact routine pull request that Steward cannot legitimately decide: an explicit founder hold, a
+        draft, a missing required approval, a design gate, or a destructive closure. Steward never merges or closes it.
     generic-mapping-decision:
       debtKind: generic_mapping
       authority: C
@@ -690,3 +753,27 @@ issueHygiene:
   # Workflow files whose disabled state proves a bot family is no longer running (A5).
   # Empty = A5 can never be proven, so it stays Class B/C.
   a5Disabled: []
+
+# Routine pull-request stewardship (routine 19). Producer registry: founder/steward/pr-producers.json.
+# UNLIKE issue hygiene this is a ratified route: founder/steward/decisions/steward-pr-maintenance-authority.json
+# is decided and approved. A switch edit alone never grants it, and the record alone never exceeds these ceilings.
+# Squash is not representable. Merges go through forge.merge_pr only: exact head SHA, independent verification,
+# GitHub's own branch protection. Steward never pushes to a protected branch.
+prMaintenance:
+  writesEnabled: true
+  killSwitch: false
+  maxCensusAgeSeconds: 3600
+  maxMergesPerRun: 2
+  maxClosuresPerRun: 2
+  maxCommentsPerRun: 30
+  hourlyWriteCap: 10
+  verificationTtlSeconds: 21600
+  maxReplacementsPerRun: 2
+  enabledActions:
+    - comment
+    - merge
+    - close
+  destinations:
+    - main
+  mergeMethods:
+    - merge
