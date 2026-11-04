@@ -1,5 +1,5 @@
 {
- "generation": 310,
+ "generation": 311,
  "lane": {
   "entries": [
    {
@@ -1099,14 +1099,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-8e3c16dd27af753dc068",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-04T02:54:10.609334Z",
+      "from": "dispatched",
+      "reason": "verification escalated (building for more than 24h without a verified outcome)",
+      "to": "escalated"
      }
     ],
-    "lastTransitionAt": "2026-11-03T02:49:33.549816Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-04T02:54:10.609334Z",
+    "lastVerdict": "escalate",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "escalated"
    },
    {
     "attempts": 0,
@@ -2697,7 +2703,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-04T02:46:12.171361Z",
-   "expiresAt": "2026-11-04T03:21:58.432399Z",
+   "expiresAt": "2026-11-04T03:24:11.031765Z",
    "holder": "run-20261104T024612Z-66c4dc8d"
   }
  },
@@ -18588,7 +18594,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-04T02:51:58.432508Z",
+ "updatedAt": "2026-11-04T02:54:11.034386Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -18833,6 +18839,12 @@
      "from": "blocked",
      "reason": "dispatched as dispatch-8e3c16dd27af753dc068 (attempt 2)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-04T02:54:10.609334Z",
+     "from": "building",
+     "reason": "building for more than 24h without a verified outcome",
+     "to": "escalated"
     }
    ],
    "kind": "trust_calibration_drift",
@@ -18842,8 +18854,8 @@
    "routine": "gaia-trust-calibration-steward",
    "runId": "run-20261103T024646Z-8de0b6e9",
    "source": "trust-calibration-drift",
-   "state": "building",
-   "updatedAt": "2026-11-03T02:49:33.549816Z",
+   "state": "escalated",
+   "updatedAt": "2026-11-04T02:54:10.609334Z",
    "verification": null
   },
   "debt:trust_calibration_drift:k-dense-ai-deepchem:5f3b27ef65c90dc6": {
