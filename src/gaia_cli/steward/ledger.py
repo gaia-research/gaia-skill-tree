@@ -56,6 +56,9 @@ from gaia_cli.steward.lane import LANE_SCHEMA
 
 
 LEDGER_SCHEMA = "steward-ledger-v1"
+# Archive migration is a protocol upgrade, not a silently ignorable extension.
+# Pre-archive clients reject this schema even when the hot document is <1 MiB.
+ARCHIVE_LEDGER_SCHEMA = "steward-ledger-archive-v1"
 LEDGER_FILENAME = "ledger.json"
 DEFAULT_REF = "steward/ledger"
 LOCAL_TRACKING_PREFIX = "refs/steward/remote-ledger"
@@ -201,8 +204,8 @@ def validate_ledger(document: Any) -> dict[str, Any]:
     unknown = sorted(set(document) - TOP_LEVEL_KEYS)
     if unknown:
         raise malformed(f"unknown top-level keys {unknown}")
-    if document.get("schemaVersion") != LEDGER_SCHEMA:
-        raise malformed(f"schemaVersion is not {LEDGER_SCHEMA}")
+    if not isinstance(document.get("schemaVersion"), str) or document["schemaVersion"] not in {LEDGER_SCHEMA, ARCHIVE_LEDGER_SCHEMA}:
+        raise malformed(f"unsupported schemaVersion {document.get('schemaVersion')!r}")
     generation = document.get("generation")
     if not isInt(generation) or generation < 0:
         raise malformed("generation must be a non-negative integer")
@@ -217,6 +220,12 @@ def validate_ledger(document: Any) -> dict[str, Any]:
     operations = document.get("operations", {})
     if not isinstance(operations, dict):
         raise malformed("operations must be an object")
+    if document["schemaVersion"] == LEDGER_SCHEMA and (
+        "steward.archive.v1" in operations
+        or any(isinstance(run, dict) and "_stewardArchive" in run
+               for run in document["runs"].values())
+    ):
+        raise malformed("archive pointers require the archive-aware ledger schema")
     lane = document.get("lane")
     if lane is not None:
         if not isinstance(lane, dict):

@@ -21,7 +21,7 @@ from typing import Any, Callable
 
 from gaia_cli.steward.ledger import (
     GitRefLedgerStore, LedgerConflict, LedgerUnavailable, formatTime,
-    parseTime, serialize, utcNow, validate_ledger,
+    parseTime, serialize, utcNow, validate_ledger, ledgerByteLimit, ARCHIVE_LEDGER_SCHEMA,
 )
 
 SCHEMA = "steward-archive-v1"
@@ -29,11 +29,14 @@ MEMORY = "steward.archive.v1"
 POINTER = "_stewardArchive"
 PREFIX = "steward/archive/v1"
 FILENAME = "payload"
-MAX_SEGMENT_BYTES = 2 * 1024 * 1024
-MAX_SNAPSHOT_BYTES = 16 * 1024 * 1024
+# Every run that fits the supported 64 MiB configured hot ceiling must fit a
+# bounded envelope. Pretty source JSON is larger than compact envelope JSON;
+# leave 1 MiB for provenance/descriptor overhead.
+MAX_SEGMENT_BYTES = 65 * 1024 * 1024
+MAX_SNAPSHOT_BYTES = 64 * 1024 * 1024
 MAX_INDEX_BYTES = 256 * 1024
 MAX_PAGE_ENTRIES = 32
-LIMITS = {"run": MAX_SEGMENT_BYTES, "snapshot": MAX_SNAPSHOT_BYTES, "index": MAX_INDEX_BYTES}
+LIMITS = {"run": MAX_SEGMENT_BYTES, "snapshot": MAX_SNAPSHOT_BYTES, "index": MAX_INDEX_BYTES, "anchor": 16 * 1024}
 HEX = re.compile(r"^[0-9a-f]{64}$")
 COMMIT = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
 
@@ -61,7 +64,7 @@ def descriptor(kind: str, data: bytes) -> dict[str, Any]:
 def check_descriptor(ref: Any, kind: str | None = None) -> dict[str, Any]:
     if not isinstance(ref, dict) or set(ref) != {"kind", "sha256", "size"}:
         raise fail("invalid object descriptor")
-    if ref["kind"] not in LIMITS or (kind is not None and ref["kind"] != kind):
+    if not isinstance(ref["kind"], str) or ref["kind"] not in LIMITS or (kind is not None and ref["kind"] != kind):
         raise fail("wrong object kind")
     if not isinstance(ref["sha256"], str) or not HEX.fullmatch(ref["sha256"]):
         raise fail("invalid checksum")
@@ -93,10 +96,15 @@ def validate_object(kind: str, data: bytes) -> dict[str, Any]:
         if value["run"].get("runId") != value["runId"] or POINTER in value["run"]:
             raise fail("run identity mismatch or nested archive")
         check_descriptor(value.get("source"), "snapshot")
+        check_descriptor(value.get("sourceAnchor"), "anchor")
         if not isinstance(value.get("sourceCommit"), str) or not COMMIT.fullmatch(value["sourceCommit"]):
             raise fail("invalid source commit")
         if not isinstance(value.get("ledgerRef"), str):
             raise fail("missing source ledger ref")
+    elif kind == "anchor":
+        check_descriptor(value.get("source"), "snapshot")
+        if not isinstance(value.get("sourceCommit"), str) or not COMMIT.fullmatch(value["sourceCommit"]):
+            raise fail("invalid anchor source commit")
     elif kind == "index":
         previous = value.get("previous")
         if previous is not None:
@@ -221,11 +229,52 @@ def references(run: dict[str, Any]) -> dict[str, list[str]]:
     return {"debtIds": sorted(debts), "routines": sorted(routines), "identities": sorted(ids)}
 
 
+def phase_hold(value: Any, key: str = "") -> str | None:
+    """Conservative gate: never cold-store pending data or unbundled files.
+
+    No local file is opened. References outside phases (proofArtifacts, action
+    outcomes, receipts, etc.) remain byte-for-byte hot. Unknown phase reference
+    shapes fail on reference-bearing keys or path/URI-looking strings instead
+    of pretending that storing JSON makes external bytes portable.
+    """
+    lowered = key.lower().replace("_", "").replace("-", "")
+    if value and any(token in lowered for token in ("artifact", "proof", "path", "file", "url", "uri")):
+        return "phase references an unbundled artifact; payload must stay hot"
+    if value and lowered in {"decisions", "pendingdecisions", "classc", "unresolvedwork", "pendingactions"}:
+        return "phase contains unsettled work or decision data"
+    if lowered == "debtstatus" and isinstance(value, dict) and any(state != "resolved" for state in value.values()):
+        return "phase contains unresolved debt lifecycle data"
+    if lowered in {"status", "state"} and (not isinstance(value, str) or value not in {
+        "done", "completed", "complete", "resolved", "closed", "accepted", "rejected",
+        "cancelled", "superseded", "skipped", "failed", "abandoned", "observed",
+    }):
+        return "phase contains an unsettled or unknown lifecycle"
+    if isinstance(value, dict):
+        for name, item in value.items():
+            reason = phase_hold(item, name)
+            if reason:
+                return reason
+    elif isinstance(value, list):
+        for item in value:
+            reason = phase_hold(item, key)
+            if reason:
+                return reason
+    elif isinstance(value, str) and (
+        re.search(r"(?:^|\s)(?:[/~]|\.\.?/|\.gaia/|[A-Za-z]:[\\\\/])", value)
+        or re.search(r"[A-Za-z][A-Za-z0-9+.-]{0,31}://|\bfile:", value)
+        or re.search(r"(?:^|[/\\\\\s])[\w.-]+\.(?:json|jsonl|diff|patch|zip|txt|md|log|png|pdf)(?:$|\s)", value)
+    ):
+        return "phase contains a path/URI; external bytes are not bundled"
+    return None
+
+
 def eligible(document: dict[str, Any], run: dict[str, Any]) -> bool:
     # 'blocked' is a terminal runner state, but not settled operational work.
     if run.get("status") not in {"completed", "abandoned", "failed"} or POINTER in run:
         return False
     if not isinstance(run.get("phases"), dict) or not run["phases"] or not run.get("finishedAt"):
+        return False
+    if phase_hold(run["phases"]):
         return False
     if any(lease.get("holder") == run["runId"] for lease in document["leases"].values()):
         return False  # even an expired lease remains hot until normal recovery
@@ -302,7 +351,13 @@ def resolve_segment(archive: GitArchive, ref: dict[str, Any]) -> dict[str, Any]:
     envelope = decoded(archive.read(check_descriptor(ref, "run")))
     raw = archive.read(envelope["source"])
     source = decoded(raw)
-    if (envelope["ledgerRef"] != archive.ledger.ref or
+    anchor = decoded(archive.read(envelope["sourceAnchor"]))
+    anchorStore = archive.store(envelope["sourceAnchor"])
+    anchorCommit = anchorStore.plumb(["rev-parse", "--verify", anchorStore.trackingRef])
+    ancestry = anchorStore.git(["merge-base", "--is-ancestor", envelope["sourceCommit"], anchorCommit],
+                               timeout=anchorStore.localTimeout)
+    if (ancestry.returncode or anchor["sourceCommit"] != envelope["sourceCommit"] or
+            anchor["source"] != envelope["source"] or envelope["ledgerRef"] != archive.ledger.ref or
             source["runs"].get(envelope["runId"]) != envelope["run"] or
             source_bytes(archive.ledger, envelope["sourceCommit"], source) != raw):
         raise fail("source bytes/commit/run provenance mismatch")
@@ -318,6 +373,61 @@ def snapshot(store: GitRefLedgerStore, run_id: str) -> bytes:
     hydrate(archive, run)
     envelope = resolve_segment(archive, run[POINTER]["segment"])
     return archive.read(envelope["source"])
+
+
+def capacity(store: GitRefLedgerStore, document: dict[str, Any], version: str | None) -> dict[str, Any]:
+    """Bounded read-only telemetry; exact hot size, non-additive contributors.
+
+    Sample only the immediate parent, never walk unbounded Git history. Growth
+    is an observation, not a forecast guarantee (an archive can make it negative).
+    Replay metadata is deliberately retained, so a hard cap still eventually
+    stops writes. These thresholds are an operator stop model, not auto-pruning.
+    """
+    current = len(source_bytes(store, version, document)) if version else len(serialize(document))
+    limit = ledgerByteLimit()
+    runs = sorted(({"runId": key, "compactJsonBytes": len(packed(run)),
+                    "phaseBytes": len(packed(run.get("phases", {})))}
+                   for key, run in document["runs"].items()),
+                  key=lambda item: (-item["compactJsonBytes"], item["runId"]))
+    sections = sorted(({"section": key, "compactJsonBytes": len(packed(value))}
+                       for key, value in document.items()), key=lambda item: -item["compactJsonBytes"])
+    growth: dict[str, Any] = {"sample": "immediate Git parent only", "previousVersion": None,
+                              "deltaBytes": None, "bytesPerGeneration": None, "bytesPerSecond": None}
+    if version:
+        parents = store.plumb(["rev-list", "--parents", "-n", "1", version]).split()[1:]
+        if parents:
+            parent = parents[0]
+            spec = f"{parent}:ledger.json"
+            size = int(store.plumb(["cat-file", "-s", spec]))
+            if not 0 < size <= MAX_SNAPSHOT_BYTES:
+                raise fail("growth sample exceeds bounded read limit")
+            result = store.git(["cat-file", "-p", spec], timeout=store.localTimeout)
+            if result.returncode or len(result.stdout) != size:
+                raise fail("growth sample read failed")
+            previous = validate_ledger(decoded(result.stdout))
+            delta = current - size
+            generations = document["generation"] - previous["generation"]
+            growth.update(previousVersion=parent, deltaBytes=delta,
+                          bytesPerGeneration=delta / generations if generations > 0 else None)
+            if document.get("updatedAt") and previous.get("updatedAt"):
+                seconds = (parseTime(document["updatedAt"]) - parseTime(previous["updatedAt"])).total_seconds()
+                if seconds > 0:
+                    growth["bytesPerSecond"] = delta / seconds
+    # Reserve one observed largest hot run (compact lower bound), one positive
+    # sampled write, plus 256 KiB margin. Not a promise that any next run fits.
+    reserve = max([256 * 1024, max(0, growth["deltaBytes"] or 0)] +
+                  [r["compactJsonBytes"] for r in runs]) + 256 * 1024
+    alert = "stop-new-runs" if current >= limit * .9 or limit - current < reserve else (
+        "plan-archive" if current >= limit * .7 else "normal")
+    positive = growth["bytesPerGeneration"]
+    return {"bytes": current, "limitBytes": limit, "headroomBytes": limit - current,
+            "percent": round(current * 100 / limit, 2), "alert": alert,
+            "thresholdBytes": {"plan70": (limit * 70 + 99) // 100, "stop90": (limit * 90 + 99) // 100},
+            "suggestedReserveBytes": reserve, "operatorStopNewRuns": alert == "stop-new-runs",
+            "generationsTo90AtSampledGrowth": max(0, (limit * .9 - current) / positive) if positive and positive > 0 else None,
+            "growth": growth, "largestSections": sections, "largestRuns": runs[:10],
+            "contributorUnits": "compact JSON bytes; non-additive, excludes enclosing indentation",
+            "retentionLimit": "phase-only transfer; runs/actions/steps/receipts/proofArtifacts/work/tombstones remain hot and grow; no automatic deletion"}
 
 
 def plan(store: GitRefLedgerStore, *, run_ids: list[str] | None = None,
@@ -339,6 +449,9 @@ def plan(store: GitRefLedgerStore, *, run_ids: list[str] | None = None,
     return {"eligible": [r["runId"] for r in candidates[:max_runs]],
             "ineligible": sorted(wanted - {r["runId"] for r in candidates}),
             "remainingEligible": max(0, len(candidates) - max_runs),
+            "phaseHolds": {key: reason for key in sorted(wanted)
+                           if (reason := phase_hold(document["runs"][key].get("phases", {})))},
+            "capacity": capacity(store, document, version),
             "version": version, "hotBytes": len(serialize(document)),
             "indexPageLimitBytes": MAX_INDEX_BYTES, "indexPageLimitEntries": MAX_PAGE_ENTRIES,
             "applyRequired": True}
@@ -351,6 +464,7 @@ def _index(archive: GitArchive, document: dict[str, Any], rows: list[dict[str, A
         archive.read(previous["head"])
     page = {"schemaVersion": SCHEMA, "kind": "index", "previous": previous["head"], "entries": rows}
     head = archive.publish("index", packed(page))
+    document["schemaVersion"] = ARCHIVE_LEDGER_SCHEMA
     document.setdefault("operations", {})[MEMORY] = {
         "schemaVersion": SCHEMA, "head": head,
         "pages": previous["pages"] + 1, "events": previous["events"] + len(rows),
@@ -396,13 +510,18 @@ def migrate(store: GitRefLedgerStore, *, run_ids: list[str] | None = None,
         if not candidates:
             return {"archived": [], "version": version, "reason": "no eligible terminal phase payloads"}
         source = archive.publish("snapshot", source_bytes(store, version, document), parent=version)
+        # Equal ledger bytes at different commits deliberately share a snapshot,
+        # but must NOT share the provenance anchor: every source commit remains
+        # fetchable from archive refs alone after hot-ledger ref loss/replacement.
+        anchor = archive.publish("anchor", packed({"schemaVersion": SCHEMA, "kind": "anchor",
+                                 "source": source, "sourceCommit": version}), parent=version)
         checkpoint("snapshot-published")
         working = copy.deepcopy(document)
         rows = []
         now = formatTime(utcNow())
         for run in candidates:
             envelope = {"schemaVersion": SCHEMA, "kind": "run", "runId": run["runId"],
-                        "source": source, "sourceCommit": version, "ledgerRef": store.ref, "run": run}
+                        "source": source, "sourceAnchor": anchor, "sourceCommit": version, "ledgerRef": store.ref, "run": run}
             segment = archive.publish("run", packed(envelope))
             pointer = {"schemaVersion": SCHEMA, "segment": segment, "references": references(run)}
             stub = projected(run, pointer)
@@ -425,7 +544,7 @@ def migrate(store: GitRefLedgerStore, *, run_ids: list[str] | None = None,
             result = store.compare_and_swap(version, working, "steward archive terminal phases (non-destructive)")
             checkpoint("after-cas")
             return {"archived": [r["runId"] for r in candidates], "version": result,
-                    "sourceCommit": version, "source": source, "index": memory(working)["head"],
+                    "sourceCommit": version, "source": source, "sourceAnchor": anchor, "index": memory(working)["head"],
                     "beforeBytes": before, "afterBytes": after}
         except LedgerConflict:
             if attempt == retries:
@@ -480,7 +599,8 @@ def show(store: GitRefLedgerStore, run_id: str) -> dict[str, Any]:
         raise fail("unknown run")
     return {"run": hydrate(GitArchive(store), run), "version": version,
             "archive": copy.deepcopy(run.get(POINTER)),
-            "completeness": "current-snapshot; earlier pruning may exist in source Git ancestry"}
+            "completeness": "current-snapshot; earlier pruning may exist in source Git ancestry",
+            "retrievalGuarantee": "ledger JSON bytes only; external proof/receipt/artifact files are not bundled; their references remain hot"}
 
 
 def history(store: GitRefLedgerStore, *, run_id: str | None = None, debt_id: str | None = None,

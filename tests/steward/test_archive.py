@@ -38,7 +38,9 @@ def run_record(name="run-a", **extra):
             "decisions": [], "unresolvedWork": [], "nextAction": "complete",
             "phases": {"observe": {"openDebtIds": ["debt-c"], "scanReceiptId": "scan-original",
                                    "payload": "π synthetic proof\n" * 3000},
-                       "retro": {"routines": [1, 18]}, "triage": {"classC": ["debt-c"]}},
+                       "retro": {"routines": [1, 18]}, "triage": {"classC": []}},
+            # Pending decision payloads are not migratable; the reference-only
+            # desk above stays hot and debt-c remains a searchable hot key.
             "proofArtifacts": ["synthetic://original"], "receipts": [{"id": "scan-original"}],
             **extra}
 
