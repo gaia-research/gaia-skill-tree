@@ -1,5 +1,5 @@
 {
- "generation": 380,
+ "generation": 381,
  "lane": {
   "entries": [
    {
@@ -4328,14 +4328,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-1fe491eede58c1225547",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-04T23:48:59.973466Z",
+      "from": "dispatched",
+      "reason": "accepted by independent verification (integration integrate by founder-orchestrator / operator-authorized independently verified integration; verified by pi-terra-01a1a824-e001-732d-90e2-12c363cc7ec6)",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T19:17:40.189178Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-04T23:48:59.973466Z",
+    "lastVerdict": "accept",
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -19117,6 +19123,15 @@
      "debtId": "debt:unused_import:src-gaia-cli-steward-issuehygiene-reconcile-py:d91a57958d7d1622",
      "emittedAt": "2026-11-04T20:05:07.425623Z",
      "idempotencyKey": "integrate:dispatch-1fe491eede58c1225547:1",
+     "outcome": {
+      "by": "founder-orchestrator / operator-authorized independently verified integration",
+      "decision": "integrate",
+      "mergedSha": "cc2522c293d15d9e01606dcee741f5e9b04136d9",
+      "pullRequest": {
+       "number": 2289,
+       "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2289"
+      }
+     },
      "params": {
       "attempt": 1,
       "base": "dev/steward-campaign-2026-11-05",
@@ -19124,7 +19139,8 @@
       "debtId": "debt:unused_import:src-gaia-cli-steward-issuehygiene-reconcile-py:d91a57958d7d1622",
       "diffPath": "/data/data/com.termux/files/home/gaia-skill-tree/.gaia/steward/full/run-20261104T191141Z-c3a4df1e/build-31cdbdb60a39.diff"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-04T23:48:59.973404Z",
+     "status": "done",
      "stepId": "integrate:31cdbdb60a39:1",
      "type": "lead.integrate"
     }
@@ -19159,7 +19175,15 @@
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
-   "decisions": [],
+   "decisions": [
+    {
+     "at": "2026-11-04T23:48:59.973466Z",
+     "by": "founder-orchestrator / operator-authorized independently verified integration",
+     "debtId": "debt:unused_import:src-gaia-cli-steward-issuehygiene-reconcile-py:d91a57958d7d1622",
+     "decision": "integrate",
+     "type": "integrate"
+    }
+   ],
    "deferred": [],
    "desk": {
     "asOf": "2026-11-04T19:57:36.260519Z",
@@ -20662,7 +20686,14 @@
      "stepId": "build:31cdbdb60a39:1"
     }
    ],
-   "pullRequests": [],
+   "pullRequests": [
+    {
+     "debtId": "debt:unused_import:src-gaia-cli-steward-issuehygiene-reconcile-py:d91a57958d7d1622",
+     "merged": true,
+     "number": 2289,
+     "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2289"
+    }
+   ],
    "receipts": [
     {
      "id": "steward-20261104T191211Z-4b1493f87cd26ee6",
@@ -20728,11 +20759,11 @@
      "stepId": "verify:31cdbdb60a39:1"
     },
     {
-     "at": "2026-11-04T20:05:07.425623Z",
+     "at": "2026-11-04T23:48:59.973404Z",
      "debtId": "debt:unused_import:src-gaia-cli-steward-issuehygiene-reconcile-py:d91a57958d7d1622",
      "idempotencyKey": "integrate:dispatch-1fe491eede58c1225547:1",
      "kind": "lead.integrate",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "integrate:31cdbdb60a39:1"
     }
    ],
@@ -20744,11 +20775,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-04T20:05:07.425400Z"
+   "updatedAt": "2026-11-04T23:48:59.973404Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-04T20:05:07.429427Z",
+ "updatedAt": "2026-11-04T23:48:59.981860Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -21242,17 +21273,27 @@
      "from": "building",
      "reason": "independent verification by pi-terra-01a1a824-e001-732d-90e2-12c363cc7ec6 (pi, effort high)",
      "to": "verified"
+    },
+    {
+     "at": "2026-11-04T23:48:59.973466Z",
+     "from": "verified",
+     "reason": "integrated by founder-orchestrator / operator-authorized independently verified integration",
+     "to": "landed"
     }
    ],
    "kind": "unused_import",
+   "mergedSha": "cc2522c293d15d9e01606dcee741f5e9b04136d9",
    "notes": [],
    "promptPath": ".gaia/steward/full/run-20261104T191141Z-c3a4df1e/build-31cdbdb60a39.prompt.md",
-   "pullRequest": null,
+   "pullRequest": {
+    "number": 2289,
+    "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2289"
+   },
    "routine": "dead-code-gardener",
    "runId": "run-20261104T191141Z-c3a4df1e",
    "source": "dead-code",
-   "state": "verified",
-   "updatedAt": "2026-11-04T20:05:07.425623Z",
+   "state": "landed",
+   "updatedAt": "2026-11-04T23:48:59.973466Z",
    "verification": {
     "agentId": "pi-terra-01a1a824-e001-732d-90e2-12c363cc7ec6",
     "rationale": "The bounded one-line removal resolves the reproduced in-module finding without changing the explicitly exported API or any observed repository consumer. Submitted test evidence is consistent with independent checkout tests and compilation. External or dynamically constructed consumers cannot be ruled out exhaustively.",
