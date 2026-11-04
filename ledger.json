@@ -1,5 +1,5 @@
 {
- "generation": 391,
+ "generation": 392,
  "lane": {
   "entries": [
    {
@@ -4401,13 +4401,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-04T23:49:33.613371Z",
-   "expiresAt": "2026-11-05T00:25:14.864990Z",
-   "holder": "run-20261104T191141Z-c3a4df1e"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -19186,7 +19180,7 @@
    ],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-04T19:57:36.260519Z",
+    "asOf": "2026-11-04T23:55:20.590300Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -19640,29 +19634,12 @@
      {
       "alternative": "Defer; the affected issues stay open exactly as they are, and Steward takes no action on them.",
       "debtIds": [
-       "debt:issue_founder_decision:q-bfd37238:ac2f25b1b6af9db6"
-      ],
-      "decision": "An umbrella for suite \"garrytan/gbrain\" was approved with skip-child-gate while child intakes remain open. Accept that approval as recorded, reject it, or defer? Affected issues: #1835.",
-      "decisionId": "decision-559722957f83a09b8d32",
-      "evidence": [
-       "Q-bfd37238 - affected: 1 item(s); affectedCount: 1; basis: no basis for an opinion; manifestDigest: cab424e9f5d98ee751e20be6ae6f23f7b49936850cf992c34065ae696683b130; options: 3 item(s)"
-      ],
-      "links": [],
-      "priority": 30,
-      "recommended": "None. This turns on product, ontology, or prestige judgment, which Steward has no basis to hold an opinion about.",
-      "source": "class-c-debt",
-      "unblocks": "1 open Class C debt item(s) under issue-question/q-bfd37238.",
-      "whyItMatters": "Steward can prove which upstream candidates are curated, but whether a family of them is accepted, rejected or deferred is a product decision. Nothing is closed or accepted until you rule."
-     },
-     {
-      "alternative": "Defer; the affected issues stay open exactly as they are, and Steward takes no action on them.",
-      "debtIds": [
        "debt:issue_founder_decision:q-08ecd62d:b46650ebeefbdb87"
       ],
       "decision": "The umbrella title names suite \"ruvnet/ruflo\" but its payload names suite \"ruvnet/agentdb\". Which suite key is canonical for this umbrella? Affected issues: #1833.",
       "decisionId": "decision-6b602653b3456c518b80",
       "evidence": [
-       "Q-08ecd62d - affected: 1 item(s); affectedCount: 1; basis: no basis for an opinion; manifestDigest: cab424e9f5d98ee751e20be6ae6f23f7b49936850cf992c34065ae696683b130; options: 3 item(s)"
+       "Q-08ecd62d - affected: 1 item(s); affectedCount: 1; basis: no basis for an opinion; manifestDigest: 557bffb242431d325fb2c11bbace394b98a6ab03c2745aabadfea79ee02a6f94; options: 3 item(s)"
       ],
       "links": [],
       "priority": 30,
@@ -19679,7 +19656,7 @@
       "decision": "The gh-aw bot reports are open while the workflows they report on are still enabled in the repository, so policy cannot close them. Disable or delete the gh-aw steward-build and steward-verify workflows, then close the reports? Affected issues: #2126, #2127.",
       "decisionId": "decision-95d3e7a9b67f5429da1a",
       "evidence": [
-       "Q-6720aecf - affected: 2 item(s); affectedCount: 2; basis: no basis for an opinion; manifestDigest: cab424e9f5d98ee751e20be6ae6f23f7b49936850cf992c34065ae696683b130; options: 3 item(s)"
+       "Q-6720aecf - affected: 2 item(s); affectedCount: 2; basis: no basis for an opinion; manifestDigest: 557bffb242431d325fb2c11bbace394b98a6ab03c2745aabadfea79ee02a6f94; options: 3 item(s)"
       ],
       "links": [],
       "priority": 30,
@@ -19696,7 +19673,7 @@
       "decision": "The umbrella title names suite \"addyosmani/agent-skills\" but its payload names suite \"addy-osmani/agent-skills\". Which suite key is canonical for this umbrella? Affected issues: #2002.",
       "decisionId": "decision-a7d4af04e3caac0f441d",
       "evidence": [
-       "Q-2568173e - affected: 1 item(s); affectedCount: 1; basis: no basis for an opinion; manifestDigest: cab424e9f5d98ee751e20be6ae6f23f7b49936850cf992c34065ae696683b130; options: 3 item(s)"
+       "Q-2568173e - affected: 1 item(s); affectedCount: 1; basis: no basis for an opinion; manifestDigest: 557bffb242431d325fb2c11bbace394b98a6ab03c2745aabadfea79ee02a6f94; options: 3 item(s)"
       ],
       "links": [],
       "priority": 30,
@@ -19713,7 +19690,7 @@
       "subject": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b"
      },
      {
-      "detail": "last scheduled run was 65h ago (limit 48h).",
+      "detail": "last scheduled run was 69h ago (limit 48h).",
       "kind": "stale_schedule",
       "subject": "scheduled run"
      },
@@ -19726,7 +19703,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-11-04T23:55:20.590300Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -19734,6 +19711,14 @@
    },
    "integrationBranch": "dev/steward-campaign-2026-11-05",
    "integrationHead": "d694986b865e158e21c613683021a9b7822f945c",
+   "issueBacklog": {
+    "botOpen": 2,
+    "closedThisRun": 0,
+    "closedTotal": 0,
+    "openIssues": 218,
+    "readyWritesDisabled": 0,
+    "upstreamChildOpen": 72
+   },
    "leases": [
     {
      "acquiredAt": "2026-11-04T19:11:41.870921Z",
@@ -19746,7 +19731,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": true,
     "agents": true,
@@ -19754,7 +19739,7 @@
     "push": true,
     "routine": null
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -22347,7 +22332,7 @@
    "sequence": 8,
    "sourceHead": "d694986b865e158e21c613683021a9b7822f945c",
    "startedAt": "2026-11-04T19:11:41.870921Z",
-   "status": "active",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-11-04T19:11:41.870921Z",
@@ -22426,6 +22411,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-11-04T23:55:20.590300Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -22440,7 +22431,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-04T23:55:14.865282Z",
+ "updatedAt": "2026-11-04T23:55:22.653027Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
