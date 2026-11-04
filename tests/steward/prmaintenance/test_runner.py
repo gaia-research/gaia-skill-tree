@@ -10,6 +10,7 @@ import pytest
 from gaia_cli.steward.fullrun import MERGEACTION, RecordRefused
 from gaia_cli.steward.models import Observation, Subject
 from gaia_cli.steward.prmaintenance import state
+from gaia_cli.steward.prmaintenance.sensor import PrMaintenanceSensor  # noqa: F401
 
 from tests.steward.prmaintenance import helpers as h
 from tests.steward.test_fullrun import REPO_ROOT, commitAll, fileStore, git, makeFixture, makeRunner

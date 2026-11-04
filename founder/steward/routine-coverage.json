@@ -976,17 +976,21 @@
       "predicate": "Registered-producer pull requests are merged only through forge.merge_pr and closed only through forge.close_pr, each after a gate that re-proves producer provenance, exact head, checks, scope, independent verification and branch protection; holds and drafts are founder questions; deferred repositories are unknown, never healthy.",
       "remainingGaps": [
         "Only gaia-research/gaia-skill-tree is enabled. gaia-research/gaia-skill-heaven (dependency maintenance) and organisation-wide producer discovery are deferred by founder ruling 2026-11-04 and are coverage-unknown.",
-        "Only two producers are registered: weekly-content-engine and scheduled-docs-routine. Any other automation account's pull request is reported as provenance-unknown, never merged.",
+        "Only three producers are registered: weekly-content-engine, its tracked replacement (content-engine-replacement) and scheduled-docs-routine. Any other automation account's pull request is reported as provenance-unknown, never merged.",
         "Documentation-routine accuracy against CLI behaviour has no mechanical proof; it needs an independent verifier receipt and the founder promotes the draft.",
         "Unresolved review threads are read from the CCR review-thread route; when it cannot answer the count is unknown and blocks the merge gate.",
         "Reconciliation is deterministic only for content-engine cache-bust and index regeneration; any other conflict is a blocked or founder item, never hand-resolved by Steward."
       ],
       "owners": [
-        2130
+        2281
       ],
       "tests": [
         "tests/steward/prmaintenance/test_sensor.py",
-        "tests/steward/prmaintenance/test_gate.py"
+        "tests/steward/prmaintenance/test_gate.py",
+        "tests/steward/prmaintenance/test_roster.py",
+        "tests/steward/prmaintenance/test_reconcile.py",
+        "tests/steward/prmaintenance/test_replacement.py",
+        "tests/steward/prmaintenance/test_runner.py"
       ]
     }
   ],

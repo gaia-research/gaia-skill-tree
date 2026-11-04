@@ -227,7 +227,11 @@ def liveSnapshot(api: Api, repo: str, number: int, fetchHead: Callable[[int], No
     if fetchHead is not None:
         fetchHead(number)
     tip = api(f"repos/{repo}/branches/{row['baseRef']}", None)[0]["commit"]["sha"]
-    siblings = [{"number": item["number"], "headRef": (item.get("head") or {}).get("ref")}
+    siblings = [{"number": item["number"], "state": item.get("state"), "headRef": (item.get("head") or {}).get("ref"),
+                 "headSha": (item.get("head") or {}).get("sha"), "headRepo": ((item.get("head") or {}).get("repo") or {}).get("full_name"),
+                 "baseRef": (item.get("base") or {}).get("ref"), "labels": sorted(x["name"] for x in item.get("labels") or []),
+                 "author": {"login": (item.get("user") or {}).get("login"), "id": (item.get("user") or {}).get("id"),
+                            "type": (item.get("user") or {}).get("type")}}
                 for item in listAll(api, f"repos/{repo}/pulls", {"state": "open"})]
     return Snapshot(row=row, tips={row["baseRef"]: tip}, protection=protectionOf(api, repo), siblings=siblings,
                     closed=closedRows(api, repo), merged=bool(row.get("merged")), mergeCommitSha=row.get("mergeCommitSha"))

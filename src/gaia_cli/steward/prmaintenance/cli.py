@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Sequence
 
-from gaia_cli.steward.prmaintenance import collect, gate, receipts, roster, state
+from gaia_cli.steward.prmaintenance import collect, gate, receipts, reconcile, roster, state
 from gaia_cli.steward.prmaintenance.census import CENSUS_INPUT
 from gaia_cli.steward.prmaintenance.producers import RegistryError, loadRegistry
 
@@ -116,6 +116,17 @@ def build() -> argparse.ArgumentParser:
     rec.add_argument("--head", required=True)
     rec.add_argument("--run-id", required=True, dest="runId")
     rec.add_argument("--comment-id", type=int, required=True, dest="commentId")
+
+    rec2 = sub.add_parser("reconcile", help="build a tracked replacement for a reconcilable content-engine pull request (local only)")
+    rec2.add_argument("--number", type=int, required=True)
+    rec2.add_argument("--run-id", required=True, dest="runId")
+    rec2.add_argument("--worktree", required=True, help="a new, empty path for the replacement worktree")
+    opened = sub.add_parser("reconcile-opened", help="record that the replacement branch was pushed and its pull request opened")
+    opened.add_argument("--number", type=int, required=True, help="the ORIGINAL pull request number")
+    opened.add_argument("--head", required=True, help="the original head SHA the replacement was built from")
+    opened.add_argument("--replacement", type=int, required=True)
+    opened.add_argument("--branch", required=True)
+    opened.add_argument("--run-id", required=True, dest="runId")
 
     kill = sub.add_parser("kill", help="revoke or restore the route locally")
     kill.add_argument("state", choices=("on", "off", "status"))
@@ -246,6 +257,65 @@ def doFinalize(root: Path, args: argparse.Namespace) -> int:
     return 0 if outcome["state"] in ("merged", "closed") else 2
 
 
+def doReconcile(root: Path, args: argparse.Namespace) -> int:
+    from gaia_cli.steward.policy import StewardPolicy
+    from gaia_cli.steward.prmaintenance.census import loadPrCensus
+    from gaia_cli.steward.prmaintenance.evaluate import evaluateCensus
+
+    policy = StewardPolicy.load(root)
+    reason = state.killSwitchActive(root, policy.pr_maintenance.killSwitch)
+    if reason or not policy.pr_maintenance.writesEnabled:
+        out({"refused": "kill-switch" if reason else "authority-unratified", "message": reason or "PR maintenance is not enabled"}, args.json, f"refused: {reason or 'not enabled'}")
+        return 2
+    census = loadPrCensus(root / CENSUS_INPUT, maxAgeSeconds=policy.pr_maintenance.maxCensusAgeSeconds)
+    if census.document is None or not census.status.complete:
+        out({"refused": "census-unusable", "reasons": list(census.status.reasons)}, args.json, f"refused: census {census.status.status}")
+        return 2
+    repo = census.document["repo"]
+    found = next((e for e in evaluateCensus(root, loadRegistry(root), census.document) if e.number == args.number), None)
+    if found is None or found.reconcile != "content-engine-cachebust" or not found.label:
+        out({"refused": "not-reconcilable", "message": "the pull request is not a proven, reconcilable content-engine report"}, args.json,
+            "refused: not reconcilable")
+        return 2
+    with state.lock(root):
+        for line in state.readRecords(root, "outcomes"):
+            if line.get("action") == "reconcile" and line.get("repo") == repo and line.get("number") == args.number \
+                    and line.get("originalHead") == found.headSha and line.get("state") == "opened":
+                out({"alreadyDone": "replacement-opened", "detail": line}, args.json, f"already done: replacement #{line.get('replacement')} was opened")
+                return 3
+        built = {line.get("runId") for line in state.readRecords(root, "outcomes")
+                 if line.get("action") == "reconcile" and line.get("state") == "built"}
+        spent = sum(1 for line in state.readRecords(root, "outcomes")
+                    if line.get("action") == "reconcile" and line.get("state") == "built" and line.get("runId") == args.runId)
+        if spent >= policy.pr_maintenance.maxReplacementsPerRun:
+            out({"refused": "run-budget-exhausted", "message": "this run already built its replacements; resume next run", "runs": sorted(map(str, built))},
+                args.json, "refused: replacement budget for this run is spent")
+            return 2
+    tip = census.document["baseTips"][found.baseRef]
+    try:
+        made = reconcile.buildReplacement(root, repo, args.number, found.headSha, found.label, tip, Path(args.worktree).resolve())
+    except reconcile.ReconcileError as exc:
+        out({"refused": "reconcile-failed", "message": str(exc)}, args.json, f"refused: {exc}")
+        return 2
+    with state.lock(root):
+        state.appendRecord(root, "outcomes", {"at": state.stamp(), "runId": args.runId, "repo": repo, "number": args.number, "action": "reconcile",
+                                              "state": "built", "headSha": made.commit, "originalHead": found.headSha, "branch": made.branch,
+                                              "baseSha": tip})
+    out({**reconcile.asMapping(made), "body": made.body, "baseSha": tip}, args.json,
+        f"built {made.branch} @ {made.commit[:12]} on {tip[:12]} in {made.worktree}")
+    return 0
+
+
+def doReconcileOpened(root: Path, args: argparse.Namespace) -> int:
+    census = json.loads((root / CENSUS_INPUT).read_text(encoding="utf-8"))
+    with state.lock(root):
+        state.appendRecord(root, "outcomes", {"at": state.stamp(), "runId": args.runId, "repo": census["repo"], "number": args.number,
+                                              "action": "reconcile", "state": "opened", "headSha": args.head, "originalHead": args.head,
+                                              "replacement": args.replacement, "branch": args.branch})
+    out({"recorded": True}, args.json, f"recorded replacement #{args.replacement} for #{args.number}")
+    return 0
+
+
 def doReceipt(root: Path, args: argparse.Namespace) -> int:
     action = args.receiptAction
     if action in receipts.KINDS:
@@ -290,6 +360,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 0
         if args.action == "receipt":
             return doReceipt(root, args)
+        if args.action == "reconcile":
+            return doReconcile(root, args)
+        if args.action == "reconcile-opened":
+            return doReconcileOpened(root, args)
         if args.action == "kill":
             flag = state.storeDir(root) / state.KILL_FILE
             if args.state == "on":

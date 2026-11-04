@@ -197,9 +197,56 @@ def holdGates(row: Mapping[str, Any], producer: Producer) -> list[Gate]:
     return gates
 
 
-def validatorGates(root: Path, producer: Producer, row: Mapping[str, Any], baseSha: str, label: str | None) -> list[Gate]:
+REPLACES = re.compile(r"gaia-steward:replaces repo=(?P<repo>\S+) pr=(?P<pr>[0-9]+) head=(?P<head>[0-9a-f]{12})")
+
+
+def replacementGates(root: Path, registry: Registry, repo: str, producer: Producer, row: Mapping[str, Any], label: str | None,
+                     siblings: Sequence[Mapping[str, Any]]) -> list[Gate]:
+    """A tracked replacement is routine only when it provably carries the original producer's payload, byte for byte."""
+
+    branch = str(row.get("headRef") or "")
+    found = producer.branchPattern.match(branch)
+    originalNumber = int(found.group("original")) if found and "original" in found.groupdict() else None
+    marker = REPLACES.search(str(row.get("body") or ""))
+    if marker is None or originalNumber is None or int(marker.group("pr")) != originalNumber or marker.group("repo") != repo:
+        return [gateOf("replacement-link", FAIL, "the body carries no replacement marker naming the original pull request on this branch"),
+                gateOf("payload-preserved", UNKNOWN, "the original is not identified")]
+    original = next((s for s in siblings if s.get("number") == originalNumber and s.get("headSha")), None)
+    if original is None or original.get("state", "open") != "open":
+        return [gateOf("replacement-link", UNKNOWN, f"the original #{originalNumber} is not an open pull request in the census"),
+                gateOf("payload-preserved", UNKNOWN, "the original's head is not available")]
+    originalMatch = matchProducer(registry, repo, original)
+    if not originalMatch.verified or originalMatch.producer is None or originalMatch.producer.validator != "content-engine-report":
+        return [gateOf("replacement-link", FAIL, f"the original #{originalNumber} is not a proven content-engine pull request: "
+                                                  + "; ".join(originalMatch.reasons or (originalMatch.status,))),
+                gateOf("payload-preserved", UNKNOWN, "the original's provenance is not proven")]
+    if not str(original["headSha"]).startswith(marker.group("head")):
+        return [gateOf("replacement-link", FAIL, "the original's head moved after this replacement was built; rebuild it"),
+                gateOf("payload-preserved", UNKNOWN, "the original's head changed")]
+    path = f"docs/api/v1/reports/{label}.json"
+    mine, theirs = proofs.blob(root, str(row["headSha"]), path), proofs.blob(root, str(original["headSha"]), path)
+    if mine is None or theirs is None:
+        return [gateOf("replacement-link", PASS, f"marker names original #{originalNumber} at {marker.group('head')}"),
+                gateOf("payload-preserved", UNKNOWN, "the payload objects are not available locally")]
+    return [gateOf("replacement-link", PASS, f"marker names original #{originalNumber} at {marker.group('head')}; original provenance verified"),
+            gateOf("payload-preserved", PASS if mine == theirs else FAIL,
+                   "canonical JSON is byte-identical to the original producer's" if mine == theirs
+                   else "canonical JSON differs from the original producer's payload")]
+
+
+def validatorGates(root: Path, producer: Producer, row: Mapping[str, Any], baseSha: str, label: str | None,
+                   registry: Registry | None = None, repo: str = "", siblings: Sequence[Mapping[str, Any]] = ()) -> list[Gate]:
     headSha = str(row["headSha"])
     files = [str(f.get("path")) for f in row.get("files") or []]
+    if producer.validator == "content-engine-replacement" and label and registry is not None:
+        found = [proofs.reportJsonProof(root, headSha, label), proofs.stampProof(root, baseSha, headSha, files)]
+        found += proofs.contentEngineProofs(root, baseSha, headSha, label)
+        gates = [gateOf(p.name, p.state, p.detail) for p in found] + replacementGates(root, registry, repo, producer, row, label, siblings)
+        rendered = next((g for g in gates if g.name == "rendered-html"), None)
+        gates.append(gateOf("rendered-surface", rendered.state if rendered else UNKNOWN,
+                            "template chrome is the base template's own render (not a design change)" if rendered and rendered.state == PASS
+                            else "rendered surface is not proven to be an instance of the base template"))
+        return gates
     if producer.validator == "content-engine-report" and label:
         found = [proofs.reportJsonProof(root, headSha, label), proofs.stampProof(root, baseSha, headSha, files)]
         found += proofs.contentEngineProofs(root, baseSha, headSha, label)
@@ -281,7 +328,7 @@ def evaluate(root: Path, registry: Registry, repo: str, row: Mapping[str, Any], 
     gates.append(gateOf("mergeable", FAIL if conflict else (PASS if row.get("mergeable") is True else UNKNOWN),
                         "merge conflicts with the destination" if conflict else
                         ("GitHub reports a clean merge" if row.get("mergeable") is True else "mergeability not yet computed")))
-    gates += validatorGates(root, producer, row, str(tip or row["baseSha"]), label)
+    gates += validatorGates(root, producer, row, str(tip or row["baseSha"]), label, registry, repo, siblings)
     reason, replacement, preserved, detail = supersession(root, repo, producer, row, label, str(tip or row["baseSha"]), siblings, closed)
     reasons: list[str] = []
     by = {g.name: g for g in gates}

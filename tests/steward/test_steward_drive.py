@@ -57,6 +57,7 @@ class FakeWorld:
         self.ghCalls: list[list[str]] = []
         self.closeCalls: list[list[str]] = []
         self.censusCalls: list[list[str]] = []
+        self.prCensusCalls: list[list[str]] = []
 
     def __call__(self, argv, *, cwd, timeout=None, env=None):
         argv = list(argv)
@@ -85,6 +86,9 @@ class FakeWorld:
         if len(argv) > 1 and str(argv[1]).endswith("steward_issue_close.py"):
             self.closeCalls.append(argv)
             return self.closeFn(argv)
+        if len(argv) > 1 and str(argv[1]).endswith("steward_pr_census.py"):
+            self.prCensusCalls.append(argv)
+            return ok("pull-request census complete")
         if len(argv) > 1 and str(argv[1]).endswith("steward_issue_census.py"):
             self.censusCalls.append(argv)
             return self.censusFn(argv)
@@ -677,3 +681,16 @@ def test_engine_adapter_argv_never_carries_a_turn_limit(tmp_path):
     for argv in calls:
         flags = [t for t in argv if t.startswith("--")]
         assert not any("turn" in f or "max" in f for f in flags), flags
+
+
+def test_unattended_driver_refreshes_the_pr_census_and_never_performs_a_routine_pr_write(tmp_path):
+    root = makeRoot(tmp_path)
+    action = {"stepId": "pr-merge:o/r#1:abc", "type": "forge.merge_pr", "debtId": "d9", "status": "pending",
+              "params": {"repo": "o/r", "number": 1, "headSha": "a" * 40}}
+    world = FakeWorld(root, [view("R1", [action], "awaiting-action"), view("R1", [], "completed")])
+    driver = makeDriver(tmp_path, world, census=True)
+    driver.drive()
+    assert world.prCensusCalls and driver.prCensusReport["state"] == "complete"
+    settled = [payload for stepId, payload in world.recorded if stepId == action["stepId"]]
+    assert settled and settled[0]["state"] == "aborted" and "gaia-steward-pr-maintenance" in settled[0]["reason"]
+    assert world.ghCalls == []  # no merge, no close, no comment: the unattended driver has no write path for routine PRs
