@@ -36,6 +36,7 @@ def test_existing_compiled_agents_remain_manual_only_and_paused(engine, role):
     ("true", "warning", "parse_error", False),
     ("true", "failure", "threat_detected", False),
     ("true", "success", "unknown", False),
+    ("true", "success", None, False),
     ("true", "unknown", "", False),
     ("true", "", "", False),
     ("false", "skipped", "", False),
@@ -46,7 +47,10 @@ def test_outcome_persistence_requires_complete_affirmative_clearance(tmp_path, r
     data.write_text(json.dumps({"items": [{"type": "steward_outcome", "outcome": '{"summary":"synthetic"}'}]}))
     step = source()["safe-outputs"]["jobs"]["steward-outcome"]["steps"][0]
     env = {**os.environ, "GH_AW_RUN_DETECTION": run, "GH_AW_DETECTION_CONCLUSION": conclusion,
-           "GH_AW_DETECTION_REASON": reason, "GH_AW_AGENT_OUTPUT": str(data)}
+           "GH_AW_AGENT_OUTPUT": str(data)}
+    env.pop("GH_AW_DETECTION_REASON", None)
+    if reason is not None:
+        env["GH_AW_DETECTION_REASON"] = reason
     result = subprocess.run(["bash", "-c", step["run"]], cwd=tmp_path, env=env, capture_output=True, text=True)
     assert (result.returncode == 0) == allowed, result.stderr
     assert (tmp_path / "steward-outcome/outcome.json").exists() == allowed
