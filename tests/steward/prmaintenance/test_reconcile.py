@@ -26,6 +26,7 @@ def test_a_stale_stamped_head_with_a_dropped_index_row_is_rebuilt_into_a_replace
     # the original is untouched, and the replacement links back to it
     assert proofs.hasCommit(fx.root, original)
     assert f"gaia-steward:replaces repo={h.REPO} pr=2157 head={original[:12]}" in made.body
+    assert "%s" not in made.body and "docs/reports/2026-44/index.html" in made.body  # no unformatted placeholder in the PR text
     message = h.run(fx.root, "log", "-1", "--format=%B", made.commit)
     assert "Replaces #2157" in message and "Co-Authored-By: github-actions[bot]" in message
 
