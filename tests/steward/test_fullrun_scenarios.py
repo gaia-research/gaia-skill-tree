@@ -57,6 +57,29 @@ def stewardRefs(bare: Path) -> list[str]:
     return [b for b in bareBranches(bare) if b.startswith("steward/a/")]
 
 
+@pytest.mark.parametrize("run_count", [6, 26])
+def test_compaction_preserves_every_terminal_run_proof_and_phases(run_count: int):
+    proof_fields = ("phases", "desk", "actions", "proofArtifacts", "ciResults", "agentAssignments")
+    doc = {"runs": {}}
+    for index in range(run_count):
+        run = {
+            "status": "completed", "startedAt": f"2026-11-{index + 1:02d}T00:00:00Z",
+            "phases": {"scan": {"status": "complete", "proof": {"receipt": f"kept-{index}"}}},
+            "steps": [{"stepId": f"proof-step-{index}"}],
+            "desk": {"decisions": [f"preserve-{index}"]},
+            "actions": [{"type": "verify", "id": f"action-{index}"}],
+            "proofArtifacts": [{"path": f"receipt-{index}.json"}],
+            "ciResults": [{"status": "passed", "sha": str(index)}],
+            "agentAssignments": [{"agentId": f"agent-{index}"}],
+        }
+        doc["runs"][f"run-{index}"] = json.loads(json.dumps(run))
+    before = json.loads(json.dumps(doc))
+    fullrun.FullRunner._compact(doc)
+    for run_id, prior in before["runs"].items():
+        assert doc["runs"][run_id] == prior
+        assert all(doc["runs"][run_id][field] == prior[field] for field in proof_fields)
+
+
 # --- A: clean repository ---------------------------------------------------------
 
 
