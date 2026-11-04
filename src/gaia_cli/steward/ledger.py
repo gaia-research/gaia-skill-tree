@@ -551,6 +551,7 @@ class GitRefLedgerStore:
             return self.plumb(["rev-parse", "--verify", f"{self.trackingRef}^{{commit}}"])
 
     def load(self) -> tuple[dict[str, Any], str | None]:
+        ledgerByteLimit()
         commit = self.fetchRemote()
         if commit is None:
             return empty_ledger(), None
@@ -694,6 +695,7 @@ class FileLedgerStore:
         return document, self.versionOf(document, data)
 
     def load(self) -> tuple[dict[str, Any], str | None]:
+        ledgerByteLimit()
         return self.readFile()
 
     def compare_and_swap(
