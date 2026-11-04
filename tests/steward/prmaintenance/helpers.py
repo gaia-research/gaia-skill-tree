@@ -23,8 +23,19 @@ SOURCE = Path(__file__).resolve().parents[3]
 VERSION = "9.0.0"
 BOT = {"login": "github-actions[bot]", "id": 41898282, "type": "Bot"}
 REQUIRED = ["Schema + DAG + Integrity Checks", "Verify branch scope matches changed files"]
+# Load the actual generator by file path: pytest also imports tests/contentEngine,
+# which can occupy the bare "contentEngine" name in sys.modules during a full suite.
+# A sys.path insertion alone cannot override an already-cached module.
+import importlib.util  # noqa: E402
+
 sys.path.insert(0, str(SOURCE / "scripts"))
-from contentEngine import generate_weekly_report as gen  # noqa: E402
+_spec = importlib.util.spec_from_file_location(
+    "gaia_steward_weekly_report_generator", SOURCE / "scripts/contentEngine/generate_weekly_report.py"
+)
+if _spec is None or _spec.loader is None:
+    raise RuntimeError("cannot load the canonical weekly report generator")
+gen = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(gen)
 
 STAMP = re.compile(r"\?v=[0-9]+\.[0-9]+\.[0-9]+")
 GAIAVERSION = re.compile(r'GAIA_VERSION = "[0-9.]+"')
