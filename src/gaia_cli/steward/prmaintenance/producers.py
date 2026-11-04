@@ -25,7 +25,7 @@ REVIEW_POLICIES = ("informational", "required")
 CLOSURE_REASONS = ("superseded-by-merged-replacement", "label-already-published", "duplicate-of-open-sibling")
 SURFACES = ("template-instance", "docs-edit")
 PRODUCER_KEYS = {
-    "id", "family", "repo", "workflow", "identity", "commitAuthors", "branchPattern", "requiredLabels", "holdLabels", "cadence",
+    "id", "family", "repo", "workflow", "commitMarker", "identity", "commitAuthors", "branchPattern", "requiredLabels", "holdLabels", "cadence",
     "allowedFiles", "protectedGlobs", "requiredChecks", "requiredApprovals", "reviewRequestPolicy", "approvalBasis",
     "allowedMergeCommitters", "draftPolicy", "destination", "mergeMethod", "closureEligibility", "validator",
     "reconciler", "renderedSurface", "renderedSurfaceBasis", "enabled",
@@ -50,6 +50,7 @@ class Producer:
     family: str
     repo: str
     workflow: str
+    commitMarker: str | None
     identity: Identity
     commitAuthors: tuple[Identity, ...]
     branchPattern: re.Pattern
@@ -182,6 +183,9 @@ def parseProducer(raw: Any, index: int) -> Producer:
     closure = _strings(raw, "closureEligibility", where)
     if set(closure) - set(CLOSURE_REASONS):
         raise RegistryError(f"{where}.closureEligibility names unknown reasons")
+    marker = raw["commitMarker"]
+    if marker is not None and (not isinstance(marker, str) or len(marker) < 8):
+        raise RegistryError(f"{where}.commitMarker must be null or a string of at least 8 characters")
     reconciler = raw["reconciler"]
     if reconciler is not None and not isinstance(reconciler, str):
         raise RegistryError(f"{where}.reconciler must be a string or null")
@@ -190,7 +194,7 @@ def parseProducer(raw: Any, index: int) -> Producer:
         raise RegistryError(f"{where}.destination is not a plain branch name")
     return Producer(
         id=_need(raw, "id", str, where), family=_need(raw, "family", str, where), repo=_need(raw, "repo", str, where),
-        workflow=_need(raw, "workflow", str, where),
+        workflow=_need(raw, "workflow", str, where), commitMarker=marker,
         identity=identity, commitAuthors=authors, branchPattern=pattern, requiredLabels=_strings(raw, "requiredLabels", where),
         holdLabels=_strings(raw, "holdLabels", where), cadence=_need(raw, "cadence", str, where),
         allowedFiles=_strings(raw, "allowedFiles", where), protectedGlobs=_strings(raw, "protectedGlobs", where),

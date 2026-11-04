@@ -21,6 +21,7 @@
       "family": "A",
       "repo": "gaia-research/gaia-skill-tree",
       "workflow": ".github/workflows/weekly-content-engine.yml",
+      "commitMarker": ".github/workflows/weekly-content-engine.yml",
       "identity": {
         "login": "github-actions[bot]",
         "accountId": 41898282,
@@ -91,6 +92,7 @@
       "family": "A-R",
       "repo": "gaia-research/gaia-skill-tree",
       "workflow": "Steward reconciliation (scripts/steward_pr.py reconcile): a tracked replacement of a weekly content-engine pull request",
+      "commitMarker": null,
       "identity": {
         "login": "mbtiongson1",
         "accountId": 153011150,
@@ -161,6 +163,7 @@
       "family": "B",
       "repo": "gaia-research/gaia-skill-tree",
       "workflow": "docs/en/ROUTINE_PROMPT.md (scheduled routine, runs under the founder account)",
+      "commitMarker": null,
       "identity": {
         "login": "mbtiongson1",
         "accountId": null,

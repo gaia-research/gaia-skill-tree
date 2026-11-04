@@ -85,6 +85,38 @@ def stampProof(root: Path, baseSha: str, headSha: str, paths: list[str]) -> Proo
     return Proof("cache-bust-current", PASS, f"every stamp equals base version {expected}")
 
 
+SEMVER = re.compile(r"^[0-9]+\.[0-9]+\.[0-9]+(?:[-+][0-9A-Za-z.-]{1,40})?$")
+DANGEROUS = re.compile(r"[<>\x00-\x08\x0b\x0c\x0e-\x1f\u2028\u2029]|javascript:|vbscript:|data:", re.IGNORECASE)
+URLISH = re.compile(r"(?:^|[a-z])(?:url|urls|href|link|canonical)$|^(?:json|previous|archive|next)$", re.IGNORECASE)
+SAFEURL = re.compile(r"^(?:/[A-Za-z0-9._~/%?=&#-]*|https://(?:gaiaskilltree\.com|github\.com)/[A-Za-z0-9._~/%?=&#:@+-]*|)$")
+
+
+def payloadProblems(value: Any, path: str = "report") -> list[str]:
+    """Strict, structural safety of a report payload.
+
+    The report template renders ``generatorVersion`` inside a ``<script>`` and several URLs into attributes without
+    autoescaping. A byte-for-byte regeneration proof cannot see an injected value because the render reproduces it, so the
+    payload itself must be proven inert: a semver where a version belongs, relative or allow-listed absolute URLs, and no
+    markup, control character or script scheme in any string.
+    """
+
+    found: list[str] = []
+    if isinstance(value, Mapping):
+        for key, item in value.items():
+            where = f"{path}.{key}"
+            if key == "generatorVersion" and not (isinstance(item, str) and SEMVER.match(item)):
+                found.append(f"{where} is not a semantic version")
+            if URLISH.search(str(key)) and isinstance(item, str) and not SAFEURL.match(item):
+                found.append(f"{where} is not a relative or allow-listed URL")
+            found += payloadProblems(item, where)
+    elif isinstance(value, list):
+        for index, item in enumerate(value):
+            found += payloadProblems(item, f"{path}[{index}]")
+    elif isinstance(value, str) and DANGEROUS.search(value):
+        found.append(f"{path} contains markup, a control character or a script scheme")
+    return found
+
+
 def reportJsonProof(root: Path, headSha: str, label: str) -> Proof:
     data = blob(root, headSha, f"docs/api/v1/reports/{label}.json")
     if data is None:
@@ -103,6 +135,7 @@ def reportJsonProof(root: Path, headSha: str, label: str) -> Proof:
         problems.append("salvageLayer is absent")
     if not isinstance(report.get("generatedAt"), str) or not report["generatedAt"]:
         problems.append("generatedAt is absent")
+    problems += payloadProblems(report)[:4]
     return Proof("report-json", FAIL if problems else PASS, "; ".join(problems) or f"canonical JSON for {label} is well formed")
 
 

@@ -32,6 +32,7 @@ KIND_FOUNDER = "routine_pr_founder_decision"
 KINDS = (KIND_MERGE, KIND_BLOCKED, KIND_SUPERSEDED, KIND_CONFLICT, KIND_VERIFY, KIND_PROVENANCE, KIND_CLOSURE, KIND_FOUNDER)
 CLASS_C_KINDS = (KIND_FOUNDER,)
 
+CHECKAPP = "github-actions"
 FAILED = {"failure", "cancelled", "timed_out", "action_required", "startup_failure", "stale"}
 HOLDWORD = re.compile(r"(?i)\bsteward[: -]hold\b")
 TRUSTED = {"OWNER", "MEMBER", "COLLABORATOR"}
@@ -114,7 +115,8 @@ def checkGates(row: Mapping[str, Any], producer: Producer, protection: Mapping[s
 
     required = sorted({*producer.requiredChecks, *[str(c) for c in protection.get("requiredChecks") or []]})
     gates = []
-    runs = [r for r in row.get("checkRuns") or [] if isinstance(r, dict)]
+    # Only the app a ruleset names (GitHub Actions) can satisfy a required context; a same-named check from another app is ignored.
+    runs = [r for r in row.get("checkRuns") or [] if isinstance(r, dict) and r.get("app") == CHECKAPP]
     for name in required:
         mine = [r for r in runs if r.get("name") == name]
         if not mine:
@@ -131,27 +133,33 @@ def checkGates(row: Mapping[str, Any], producer: Producer, protection: Mapping[s
 
 
 def provenanceGate(match: Match, row: Mapping[str, Any]) -> list[Gate]:
+    """Identity, branch, labels, same-repository head, and EVERY commit. No commit evidence is a failure, never a pass."""
+
     producer = match.producer
     if not match.verified or producer is None:
         return [gateOf("provenance", FAIL, "; ".join(match.reasons) or match.status)]
+    commits = [c for c in row.get("commits") or [] if isinstance(c, dict)]
+    if not commits:
+        return [gateOf("provenance", FAIL, "no commit evidence is available for this pull request")]
     foreign = []
-    for commit in row.get("commits") or []:
-        if not isinstance(commit, dict):
-            continue
-        merge = int(commit.get("parents") or 1) > 1
-        committer = commit.get("committerLogin") or commit.get("committerName")
-        if merge:
-            if committer not in producer.allowedMergeCommitters and commit.get("committerName") not in producer.allowedMergeCommitters \
-                    and committer not in {who.login for who in producer.commitAuthors}:
-                foreign.append(f"merge {str(commit.get('sha'))[:9]} committed by {committer!r}")
-        elif not any(commit.get("authorLogin") == who.login and commit.get("authorType") in (who.accountType, None)
-                     and (who.accountId is None or commit.get("authorId") in (who.accountId, None))
-                     for who in producer.commitAuthors):
-            foreign.append(f"commit {str(commit.get('sha'))[:9]} authored by {commit.get('authorLogin')!r}")
+    for commit in commits:
+        short = str(commit.get("sha"))[:9]
+        if int(commit.get("parents") or 1) > 1:
+            # A merge commit is either made through GitHub's web flow (committer login web-flow AND a verified GitHub signature)
+            # or by one of the producer's own verified identities. A free-text committer name proves nothing.
+            webFlow = commit.get("committerLogin") in producer.allowedMergeCommitters and commit.get("verified") is True
+            ownMerge = commit.get("committerLogin") in {who.login for who in producer.commitAuthors}
+            if not (webFlow or ownMerge):
+                foreign.append(f"merge {short} committed by {commit.get('committerLogin')!r} (verified={commit.get('verified')})")
+        elif not any(commit.get("authorLogin") == who.login and commit.get("authorType") == who.accountType
+                     and (who.accountId is None or commit.get("authorId") == who.accountId) for who in producer.commitAuthors):
+            foreign.append(f"commit {short} authored by {commit.get('authorLogin')!r} ({commit.get('authorType')!r})")
     if foreign:
         return [gateOf("provenance", FAIL, "commits not made by the producer or by GitHub: " + "; ".join(foreign[:4]))]
-    count = len(row.get("commits") or [])
-    return [gateOf("provenance", PASS, f"identity, branch convention, label, same-repository head and {count} commit(s) verified")]
+    if producer.commitMarker and not any(producer.commitMarker in str(c.get("message") or "") for c in commits
+                                         if int(c.get("parents") or 1) == 1):
+        return [gateOf("provenance", FAIL, f"no producer commit names its workflow ({producer.commitMarker})")]
+    return [gateOf("provenance", PASS, f"identity, branch convention, label, same-repository head and {len(commits)} commit(s) verified")]
 
 
 def scopeGate(row: Mapping[str, Any], producer: Producer, label: str | None) -> Gate:
@@ -172,9 +180,9 @@ def scopeGate(row: Mapping[str, Any], producer: Producer, label: str | None) -> 
 
 
 def holdGates(row: Mapping[str, Any], producer: Producer) -> list[Gate]:
-    labels = {str(item) for item in row.get("labels") or []}
+    labels = {str(item).strip().lower() for item in row.get("labels") or []}
     gates = []
-    held = sorted(labels & set(producer.holdLabels))
+    held = sorted(labels & {item.lower() for item in producer.holdLabels})
     gates.append(gateOf("holds", FAIL if held else PASS, f"hold label(s): {', '.join(held)}" if held else "no hold labels"))
     reviews = latestReviews(row)
     changes = [u for u, r in reviews.items() if r.get("state") == "CHANGES_REQUESTED"]
@@ -182,10 +190,16 @@ def holdGates(row: Mapping[str, Any], producer: Producer) -> list[Gate]:
         gates.append(gateOf("reviews", FAIL, f"changes requested by {', '.join(changes)}"))
     else:
         gates.append(gateOf("reviews", PASS, "no outstanding change request"))
-    if HOLDWORD.search(" ".join(str(c.get("body") or "") for c in row.get("comments") or [] if c.get("authorAssociation") in TRUSTED)):
-        gates.append(gateOf("hold-comment", FAIL, "a maintainer comment declares a Steward hold"))
-    if int(row.get("reviewThreadsUnresolved") or 0) > 0:
-        gates.append(gateOf("review-threads", FAIL, f"{row['reviewThreadsUnresolved']} unresolved review thread(s)"))
+    voices = [str(c.get("body") or "") for c in row.get("comments") or [] if c.get("authorAssociation") in TRUSTED]
+    voices += [str(r.get("body") or "") for r in row.get("reviews") or [] if isinstance(r, dict) and r.get("authorAssociation") in TRUSTED]
+    gates.append(gateOf("hold-comment", FAIL if HOLDWORD.search("\n".join(voices)) else PASS,
+                        "a maintainer comment or review declares a Steward hold" if HOLDWORD.search("\n".join(voices)) else "no maintainer hold"))
+    threads = row.get("reviewThreadsUnresolved")
+    if isinstance(threads, bool) or not isinstance(threads, int):
+        gates.append(gateOf("review-threads", UNKNOWN, "unresolved review threads could not be read; unknown is never zero"))
+    else:
+        gates.append(gateOf("review-threads", FAIL if threads > 0 else PASS,
+                            f"{threads} unresolved review thread(s)" if threads > 0 else "no unresolved review threads"))
     approvals = [u for u, r in reviews.items()
                  if r.get("state") == "APPROVED" and r.get("commitId") == row.get("headSha") and r.get("authorAssociation") in TRUSTED]
     if producer.requiredApprovals:
@@ -219,6 +233,10 @@ def replacementGates(root: Path, registry: Registry, repo: str, producer: Produc
     if not originalMatch.verified or originalMatch.producer is None or originalMatch.producer.validator != "content-engine-report":
         return [gateOf("replacement-link", FAIL, f"the original #{originalNumber} is not a proven content-engine pull request: "
                                                   + "; ".join(originalMatch.reasons or (originalMatch.status,))),
+                gateOf("payload-preserved", UNKNOWN, "the original's provenance is not proven")]
+    originalProvenance = provenanceGate(originalMatch, original)[0]
+    if originalProvenance.state != PASS:
+        return [gateOf("replacement-link", FAIL, f"the original #{originalNumber} fails provenance: {originalProvenance.detail}"),
                 gateOf("payload-preserved", UNKNOWN, "the original's provenance is not proven")]
     if not str(original["headSha"]).startswith(marker.group("head")):
         return [gateOf("replacement-link", FAIL, "the original's head moved after this replacement was built; rebuild it"),
@@ -272,8 +290,8 @@ def supersession(root: Path, repo: str, producer: Producer, row: Mapping[str, An
 
     if not label:
         return None, None, False, "no label"
-    marker = f"gaia-steward:replaces repo={repo} pr={row['number']}"
-    merged = next((c for c in closed if c.get("mergedAt") and marker in str(c.get("body") or "")), None)
+    exact = re.compile(rf"gaia-steward:replaces repo={re.escape(repo)} pr={int(row['number'])}(?![0-9])")
+    merged = next((c for c in closed if c.get("mergedAt") and exact.search(str(c.get("body") or ""))), None)
     if producer.validator == "content-engine-report":
         published = proofs.blob(root, baseSha, f"docs/api/v1/reports/{label}.json")
         mine = proofs.blob(root, str(row["headSha"]), f"docs/api/v1/reports/{label}.json")
@@ -334,23 +352,26 @@ def evaluate(root: Path, registry: Registry, repo: str, row: Mapping[str, Any], 
     by = {g.name: g for g in gates}
     held = (draft and producer.draftPolicy == "hold") or by["holds"].state == FAIL or by["reviews"].state == FAIL \
         or by.get("hold-comment", Gate("", PASS, "")).state == FAIL or by["approvals"].state == FAIL \
+        or by.get("review-threads", Gate("", PASS, "")).state == FAIL \
         or (by.get("rendered-surface") and by["rendered-surface"].state == FAIL)
     evidence = {"producerRevision": registry.revision, "registrySha256": registry.sha256, "supersession": detail}
-    if reason:
-        # Superseded is always reported. Closure additionally needs the reason to be registered as eligible AND proven:
-        # the label is published, a merged marker-linked replacement exists, and the payload is byte-identical.
-        eligible = reason in producer.closureEligibility
-        provable = eligible and bool(replacement) and preserved and reason == "label-already-published"
-        gates.append(gateOf("supersession", PASS if provable else UNKNOWN, detail))
-        return Evaluation(**base, producerId=producer.id, match=match.status, label=label,
-                          kind=KIND_CLOSURE if provable else KIND_SUPERSEDED, authority="B", gates=tuple(gates),
-                          reasons=(detail,), closureReason=reason, replacement=replacement, evidence=evidence)
     if held:
-        why = [g.detail for g in gates if g.state == FAIL and g.name in {"draft", "holds", "reviews", "hold-comment", "approvals", "rendered-surface"}]
+        why = [g.detail for g in gates if g.state == FAIL and g.name in {"draft", "holds", "reviews", "hold-comment", "review-threads", "approvals", "rendered-surface"}]
         if draft and producer.draftPolicy == "hold":
             why.insert(0, "draft state is a founder hold and is never read as consent")
         return Evaluation(**base, producerId=producer.id, match=match.status, label=label, kind=KIND_FOUNDER, authority="C",
                           gates=tuple(gates), reasons=tuple(dict.fromkeys(why)) or ("founder decision required",), evidence=evidence)
+    if reason:
+        # Superseded is always reported. Closure additionally needs the reason to be registered as eligible AND proven:
+        # the label is published, a merged marker-linked replacement exists, and the payload is byte-identical.
+        eligible = reason in producer.closureEligibility
+        # A hold, a draft, an unresolved thread or a change request is never overridden by supersession: those go to the founder above.
+        clean = all(by[name].state == PASS for name in ("draft", "holds", "reviews", "hold-comment", "review-threads") if name in by)
+        provable = eligible and clean and bool(replacement) and preserved and reason == "label-already-published"
+        gates.append(gateOf("supersession", PASS if provable else UNKNOWN, detail))
+        return Evaluation(**base, producerId=producer.id, match=match.status, label=label,
+                          kind=KIND_CLOSURE if provable else KIND_SUPERSEDED, authority="B", gates=tuple(gates),
+                          reasons=(detail,), closureReason=reason, replacement=replacement, evidence=evidence)
     failing = [g for g in gates if g.state == FAIL]
     unknown = [g for g in gates if g.state == UNKNOWN]
     reconciler = producer.reconciler

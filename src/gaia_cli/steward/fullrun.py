@@ -2153,10 +2153,13 @@ class FullRunner:
         if self._pending(run, "agent.build"):
             return False
         # Deterministic, zero-model PR stewardship comes first and is bounded by its own budget, never the dispatch lane's.
+        # A merge or closure waiting on its driver holds this phase. It cannot starve the lane: an awaiting run keeps the run lease only
+        # until its TTL, after which the next run adopts the work and marks the stale action superseded (the same rule as every action).
         if self._pending(run, MERGEACTION) or self._pending(run, CLOSEPRACTION):
             return False
         prScan = self._scanFor(runId)
-        if not self._blockedByCoverage(prScan):
+        # --no-agents means no model dispatch AND no merge or closure action: a run that promised no agents never writes a PR.
+        if run["options"]["agents"] and not self._blockedByCoverage(prScan):
             prSummary = self._emitPrMaintenance(runId, prScan, self._policyLoaded())
             if prSummary["emitted"] or prSummary["awaitingVerification"] or prSummary["deferred"]:
                 self._mutateRun(runId, lambda _d, record: record.__setitem__("prMaintenance", prSummary), message="steward full pr summary")

@@ -3,7 +3,9 @@
 A stored action is only a claim. ``gateMerge`` and ``gateClose`` re-derive eligibility from a *fresh* live snapshot
 and refuse unless every one of these holds, in this order:
 
- 1. the route is not revoked (kill switch: policy, a local file or an environment flag);
+ 1. the route is not revoked (kill switch: policy, a local file or an environment flag), and the authority files
+    (POLICY.yaml, the producer registry, the decided authority record) are committed, unmodified, and - when
+    GAIA_STEWARD_PR_AUTHORITY_REF names the destination tip - identical to it;
  2. the policy is well formed, the founder authority record is decided and approved, and the action is enabled;
  3. the repository is enabled (a deferred repository is refused by name);
  4. no terminal outcome is already recorded, and no live reservation exists (exactly once, never concurrent);
@@ -24,6 +26,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -70,6 +73,35 @@ class Snapshot:
     mergeCommitSha: str | None = None
 
 
+AUTHORITY_FILES = ("founder/steward/POLICY.yaml", "founder/steward/pr-producers.json",
+                   "founder/steward/decisions/steward-pr-maintenance-authority.json")
+AUTHORITY_REF = "GAIA_STEWARD_PR_AUTHORITY_REF"
+
+
+def authorityDrift(root: Path) -> str | None:
+    """Why the authority files cannot be trusted right now, or ``None``.
+
+    Authority must come from reviewed, committed bytes. An uncommitted edit is refused. In production the destination tip is
+    the only source: name it in GAIA_STEWARD_PR_AUTHORITY_REF (for example ``origin/main``) and the files must equal it.
+    """
+
+    from gaia_cli.steward.prmaintenance import proofs
+
+    dirty = proofs.git(root, "status", "--porcelain", "--untracked-files=all", "--", *AUTHORITY_FILES)
+    if dirty.returncode != 0:
+        return "git could not report the state of the authority files"
+    if dirty.stdout.strip():
+        return "authority files have uncommitted changes: " + ", ".join(line[3:].decode() for line in dirty.stdout.splitlines()[:3])
+    ref = os.environ.get(AUTHORITY_REF, "").strip()
+    if ref:
+        for relative in AUTHORITY_FILES:
+            there = proofs.blob(root, ref, relative)
+            here = (root / relative).read_bytes() if (root / relative).is_file() else None
+            if there is None or here is None or there != here:
+                return f"{relative} differs from {ref}"
+    return None
+
+
 def policyDigest(root: Path) -> str:
     data = (root / "founder/steward/POLICY.yaml").read_bytes() + (root / "founder/steward/pr-producers.json").read_bytes()
     return hashlib.sha256(data).hexdigest()
@@ -87,7 +119,12 @@ def context(root: Path, policy: StewardPolicy | None, registry: Registry | None)
 
 
 def recordVerification(root: Path, record: Mapping[str, Any], now: datetime | None = None) -> dict[str, Any]:
-    """Validate and store an independent verification receipt. The machine can store a PASS only from another agent."""
+    """Validate and store an independent verification receipt.
+
+    Independence is *derived*, never self-declared: a PASS is stored only against a recorded ``role=verifier`` dispatch for
+    this run and agent, the builders are the union of the dispatch's and the caller's and must be non-empty, the verifier is
+    never one of them, and the policy digest is computed here, not taken from the caller.
+    """
 
     need = ("repo", "number", "action", "headSha", "baseSha", "verdict", "verifier", "builders", "proofs", "runId")
     missing = [key for key in need if key not in record]
@@ -103,14 +140,25 @@ def recordVerification(root: Path, record: Mapping[str, Any], now: datetime | No
         raise GateRefused("verification-malformed", "verifier needs agentId and profileId")
     if str(verifier.get("effort", "")) in BADEFFORTS:
         raise GateRefused("verification-malformed", "verifier effort must be explicit")
-    builders = [str(item) for item in record["builders"]]
+    dispatched = [d for d in state.readRecords(root, "dispatches")
+                  if d.get("kind") == "dispatch" and d.get("status") == "started" and d.get("role") == "verifier"
+                  and d.get("runId") == record["runId"] and d.get("agentId") == verifier["agentId"]]
+    if not dispatched:
+        raise GateRefused("verification-not-dispatched", "no recorded verifier dispatch exists for this run and agent")
+    dispatch = dispatched[-1]
+    if str(dispatch.get("effort")) != str(verifier.get("effort")):
+        raise GateRefused("verification-malformed", "the verifier's effort differs from its recorded dispatch")
+    builders = sorted({str(item) for item in record["builders"]} | {str(item) for item in dispatch.get("builders") or []})
+    if not builders:
+        raise GateRefused("verification-malformed", "builders must name who built the work; an empty list proves nothing")
     if str(verifier["agentId"]) in builders:
         raise GateRefused("verification-not-independent", "the verifier is also a builder of this work")
     if record["verdict"] == "pass":
         proofs = [p for p in record["proofs"] if isinstance(p, Mapping)]
         if not proofs or any(p.get("state") != "pass" for p in proofs):
             raise GateRefused("verification-malformed", "a pass verdict needs at least one proof and none that is not pass")
-    stored = {**record, "at": isoNow(now or datetime.now(timezone.utc)), "policySha256": record.get("policySha256") or policyDigest(root)}
+    stored = {**record, "builders": builders, "dispatchId": dispatch.get("dispatchId"),
+              "at": isoNow(now or datetime.now(timezone.utc)), "policySha256": policyDigest(root)}
     with state.lock(root):
         state.appendRecord(root, "verifications", stored)
     return stored
@@ -144,6 +192,9 @@ def commonChecks(root: Path, request: Mapping[str, Any], snap: Snapshot, now: da
     reason = state.killSwitchActive(root, pol.killSwitch)
     if reason:
         raise GateRefused("kill-switch", f"PR maintenance writes are revoked: {reason}")
+    drift = authorityDrift(root)
+    if drift:
+        raise GateRefused("authority-drift", drift)
     if policy.pr_maintenance_error:
         raise GateRefused("policy-malformed", policy.pr_maintenance_error)
     if not prAuthorityApproved(root):
@@ -178,7 +229,7 @@ def commonChecks(root: Path, request: Mapping[str, Any], snap: Snapshot, now: da
 
 
 def reserveWrite(root: Path, request: Mapping[str, Any], runId: str, action: str, row: Mapping[str, Any], now: datetime,
-                 policy: StewardPolicy) -> None:
+                 policy: StewardPolicy, digest: str) -> None:
     pol = policy.pr_maintenance
     repo, number = str(request["repo"]), int(request["number"])
     ceiling = pol.maxMergesPerRun if action == "merge" else pol.maxClosuresPerRun
@@ -195,7 +246,7 @@ def reserveWrite(root: Path, request: Mapping[str, Any], runId: str, action: str
             raise GateRefused("hourly-budget-exhausted", f"{pol.hourlyWriteCap} merges and closures already spent in the last hour")
         state.appendRecord(root, "outcomes", {
             "at": isoNow(now), "runId": runId, "repo": repo, "number": number, "action": action,
-            "headSha": row["headSha"], "state": "reserved"})
+            "headSha": row["headSha"], "state": "reserved", "authorizationSha256": digest})
 
 
 def authorization(request: Mapping[str, Any], row: Mapping[str, Any], evaluationSha: str, verification: Mapping[str, Any],
@@ -234,8 +285,9 @@ def gateMerge(root: Path, request: Mapping[str, Any], snap: Snapshot, now: datet
         for kind in ("pickup", "verification"):
             if receipts.findReceipt(comments, kind, int(request["number"]), head12) is None:
                 raise GateRefused("trail-missing", f"no trusted {kind} receipt for head {head12} is on the pull request")
-    reserveWrite(root, request, runId, "merge", row, now, policy)
-    return authorization(request, row, evaluation.digest(), found, "merge", method, now, runId)
+    auth = authorization(request, row, evaluation.digest(), found, "merge", method, now, runId)
+    reserveWrite(root, request, runId, "merge", row, now, policy, auth["digest"])
+    return auth
 
 
 def gateClose(root: Path, request: Mapping[str, Any], snap: Snapshot, now: datetime, runId: str, *,
@@ -249,6 +301,10 @@ def gateClose(root: Path, request: Mapping[str, Any], snap: Snapshot, now: datet
                           else "not a registered producer pull request")
     producer = registry.producer(str(evaluation.producerId))
     assert producer is not None
+    by = {g.name: g.state for g in evaluation.gates}
+    blockers = [name for name in ("provenance", "draft", "holds", "reviews", "hold-comment", "review-threads") if by.get(name) != "pass"]
+    if blockers:  # defense in depth: a founder hold, draft or unresolved thread is never overridden by supersession
+        raise GateRefused("closure-held", f"gates not passing: {', '.join(blockers)}")
     if evaluation.closureReason not in producer.closureEligibility or evaluation.closureReason != request.get("reason"):
         raise GateRefused("closure-reason-not-eligible", f"{request.get('reason')!r} is not the proven, eligible reason")
     if not evaluation.replacement or int(request.get("replacement") or 0) != evaluation.replacement:
@@ -256,17 +312,38 @@ def gateClose(root: Path, request: Mapping[str, Any], snap: Snapshot, now: datet
     found = verificationFor(root, request, row, snap.tips[row["baseRef"]], now, policy.pr_maintenance.verificationTtlSeconds, "close")
     if receipts.findReceipt(row.get("comments") or [], "closed", int(request["number"]), row["headSha"][:12]) is None:
         raise GateRefused("justification-missing", "the closure justification must be posted before the pull request is closed")
-    reserveWrite(root, request, runId, "close", row, now, policy)
-    return authorization(request, row, evaluation.digest(), found, "close", "close", now, runId)
+    auth = authorization(request, row, evaluation.digest(), found, "close", "close", now, runId)
+    reserveWrite(root, request, runId, "close", row, now, policy, auth["digest"])
+    return auth
+
+
+def checkAuthorization(root: Path, auth: Mapping[str, Any]) -> None:
+    """The authorization must be intact and match a still-open reservation. A forged, replayed or aborted one is refused."""
+
+    body = {key: value for key, value in auth.items() if key != "digest"}
+    if hashlib.sha256(stable_json(body).encode("utf-8")).hexdigest() != auth.get("digest"):
+        raise GateRefused("authorization-forged", "the authorization's digest does not match its contents")
+    match = None
+    for line in state.readRecords(root, "outcomes"):
+        if (line.get("repo"), line.get("number"), line.get("action")) != (auth["repo"], auth["number"], auth["action"]):
+            continue
+        if line.get("state") == "reserved" and line.get("authorizationSha256") == auth["digest"]:
+            match = line
+        elif line.get("state") in state.SETTLED and match is not None:
+            match = None
+    if match is None or match.get("headSha") != auth["headSha"]:
+        raise GateRefused("unknown-authorization", "no open reservation matches this authorization (never issued, already settled or aborted)")
 
 
 def finalize(root: Path, auth: Mapping[str, Any], snap: Snapshot, now: datetime, *, parents: Sequence[str] = (),
              postMerge: str = "not observed") -> dict[str, Any]:
     """Settle a reservation from GitHub's *observed* state. The driver's word is never the proof."""
 
+    checkAuthorization(root, auth)
     row = snap.row
     base = {"at": isoNow(now), "runId": auth["runId"], "repo": auth["repo"], "number": auth["number"],
-            "action": auth["action"], "headSha": auth["headSha"], "authorizationSha256": auth["digest"]}
+            "action": auth["action"], "headSha": auth["headSha"], "authorizationSha256": auth["digest"],
+            **({"lateAuthorization": True} if isoNow(now) > str(auth.get("expiresAt")) else {})}
     if auth["action"] == "merge":
         merged = bool(snap.merged or row.get("merged"))
         headOk = row.get("headSha") == auth["headSha"]
@@ -289,6 +366,7 @@ def finalize(root: Path, auth: Mapping[str, Any], snap: Snapshot, now: datetime,
 def abort(root: Path, auth: Mapping[str, Any], reason: str, now: datetime) -> dict[str, Any]:
     """The driver did not perform the call (an error before it): release the reservation, recording why."""
 
+    checkAuthorization(root, auth)
     outcome = {"at": isoNow(now), "runId": auth["runId"], "repo": auth["repo"], "number": auth["number"], "action": auth["action"],
                "headSha": auth["headSha"], "state": "aborted", "reason": reason[:300]}
     with state.lock(root):

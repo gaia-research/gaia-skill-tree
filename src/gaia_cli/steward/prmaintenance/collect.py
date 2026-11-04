@@ -91,6 +91,7 @@ def commitRow(item: Mapping[str, Any]) -> dict:
         "authorId": (item.get("author") or {}).get("id"), "authorType": (item.get("author") or {}).get("type"),
         "committerLogin": (item.get("committer") or {}).get("login"),
         "committerName": (commit.get("committer") or {}).get("name"), "parents": len(item.get("parents") or []),
+        "verified": bool((commit.get("verification") or {}).get("verified")),
         "message": str(commit.get("message") or "")[:200],
     }
 
@@ -126,7 +127,8 @@ def pullRow(api: Api, repo: str, number: int) -> dict:
                    "deletions": f.get("deletions"), "blobSha": f.get("sha")}
                   for f in listAll(api, f"repos/{repo}/pulls/{number}/files")],
         "reviews": [{"user": (r.get("user") or {}).get("login"), "state": r.get("state"), "commitId": r.get("commit_id"),
-                     "authorAssociation": r.get("author_association"), "submittedAt": r.get("submitted_at")}
+                     "authorAssociation": r.get("author_association"), "submittedAt": r.get("submitted_at"),
+                     "body": str(r.get("body") or "")[:2000]}
                     for r in listAll(api, f"repos/{repo}/pulls/{number}/reviews")],
         "checkRuns": [{"name": c.get("name"), "status": c.get("status"), "conclusion": c.get("conclusion"),
                        "app": (c.get("app") or {}).get("slug")}
@@ -233,6 +235,16 @@ def liveSnapshot(api: Api, repo: str, number: int, fetchHead: Callable[[int], No
                  "author": {"login": (item.get("user") or {}).get("login"), "id": (item.get("user") or {}).get("id"),
                             "type": (item.get("user") or {}).get("type")}}
                 for item in listAll(api, f"repos/{repo}/pulls", {"state": "open"})]
+    # A replacement is only as trustworthy as its original: bring the original's FULL row (commits, files) when the body names it.
+    named = re.search(r"gaia-steward:replaces repo=\S+ pr=([0-9]+) head=[0-9a-f]{12}", str(row.get("body") or ""))
+    if named is not None:
+        try:
+            full = pullRow(api, repo, int(named.group(1)))
+            siblings = [full if sibling["number"] == full["number"] else sibling for sibling in siblings]
+            if fetchHead is not None:
+                fetchHead(full["number"])
+        except (CollectError, KeyError):
+            pass  # the original stays a thin row; the evaluator then reports the link as unproven
     return Snapshot(row=row, tips={row["baseRef"]: tip}, protection=protectionOf(api, repo), siblings=siblings,
                     closed=closedRows(api, repo), merged=bool(row.get("merged")), mergeCommitSha=row.get("mergeCommitSha"))
 

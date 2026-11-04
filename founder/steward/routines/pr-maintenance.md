@@ -37,6 +37,10 @@ Only deterministic reconcilers exist. `content-engine-cachebust` regenerates `?v
 the repository's own generator on a tracked replacement branch; the producer's branch is never rewritten. A conflict that is not
 mechanically reproducible is reported, not hand-resolved.
 
+## Known limits
+
+The roster discovers its environment from process signals, so harness identifiers (for example `claude-code-remote`, `github-actions`) are *environment ids*, never model names; model names appear only in an operator's local, ignored profile. Receipts end with the repository's required Claude Code attribution footer. Authority files must be committed, and in production equal the destination tip (`GAIA_STEWARD_PR_AUTHORITY_REF`). The outcome store is per checkout. Report payloads must pass a strict structural safety proof (semantic version, relative or allow-listed URLs, no markup or script scheme) because the template renders some fields unescaped.
+
 ## Roster profiles
 
 `python scripts/steward_pr.py roster …` manages environment-scoped profiles under `.gaia/steward/rosters/` (ignored state).

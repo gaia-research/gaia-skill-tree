@@ -125,3 +125,29 @@ def test_routine_filter_accepts_nineteen_and_refuses_twenty(tmp_path):
     assert runner.start("triage", routine=19).status in {"completed", "awaiting-action", "blocked"}
     with pytest.raises(Exception, match="between 1 and 19"):
         runner.start("triage", routine=20)
+
+
+def test_no_agents_means_no_pr_merge_or_closure_action_either(tmp_path):
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    sensor = PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])
+    view = makeRunner(repo, fileStore(tmp_path), [sensor], agents=False).start("full")
+    assert pending(view) == []
+
+
+def test_a_stuck_pr_action_cannot_starve_the_lane_the_lease_ttl_supersedes_it(tmp_path):
+    from tests.steward.test_fullrun import Clock
+
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    clock = Clock()
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])], clock=clock)
+    view = runner.start("full")
+    assert len(pending(view)) == 1
+    assert runner.start("full").status in {"observing-existing", "awaiting-action"}  # while the lease holds, a second run waits
+    clock.advance(hours=2)
+    nxt = runner.start("full")
+    doc = json.loads((tmp_path / "ledger" / "ledger.json").read_text())
+    old = [a for a in doc["runs"][view.runId]["actions"] if a["type"] == MERGEACTION]
+    assert old and old[0]["status"] == "superseded"  # the stale action is retired; it can never be recorded against newer work
+    assert len(pending(nxt)) == 1 and nxt.runId != view.runId  # and the next run offers it afresh, once

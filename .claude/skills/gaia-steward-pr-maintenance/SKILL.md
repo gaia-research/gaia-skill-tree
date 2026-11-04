@@ -55,8 +55,11 @@ python scripts/steward_pr.py observe                      # dispositions + every
    Escalate only for a stated unresolved need (`roster escalate`).
 4. **Verification receipt**, only after a stored PASS. A head change invalidates it; verify again.
 5. **Gate, then exactly one write.** `gate-merge` (or `gate-close`) re-proves everything from live GitHub and returns an
-   authorization or a refusal code. Only on authorization make the forge call with `expectedHeadSha`. If the call is not made,
-   `abort`. Then `finalize --auth FILE` records what GitHub *shows*; never report a merge GitHub does not show.
+   authorization or a refusal code. Only on authorization make the forge call, and make exactly this one: the GitHub merge API
+   with `merge_method` `merge` and `expectedHeadSha` set to the authorized head (`gh pr merge N --merge --match-head-commit SHA`
+   from a shell). Never `--admin`, never squash, never auto-merge, never a different head; for a closure set only `state: closed`.
+   If the call is not made, `abort`. Then `finalize --auth FILE` settles from what GitHub *shows*, and only against the still-open
+   reservation that authorization came from; never report a merge GitHub does not show.
 6. **Final receipt** (merged / closed) with the observed merge commit and the actual post-merge check summary. A pending
    check is "pending", never "healthy". A merge already recorded is reported, not repeated.
 
@@ -66,6 +69,17 @@ missing GitHub trail, exhausted run or hourly budget. Closure additionally needs
 marker-linked replacement with a byte-identical payload.
 
 ## Limits that hold for the whole route
+
+- **Authority comes from committed bytes.** The gate refuses with `authority-drift` if `POLICY.yaml`, `pr-producers.json` or the
+  decided authority record has an uncommitted change. Set `GAIA_STEWARD_PR_AUTHORITY_REF=origin/main` for any run that must honour
+  only the destination's reviewed authority (every unattended or post-merge run); until this route itself is merged, a campaign
+  runs under the pull request's committed head and says so in its report.
+- **The store is per checkout** (`.gaia/steward/pr-maintenance`). One driver at a time; a second checkout does not see this one's
+  reservations, so GitHub's merged state and the receipt markers are the cross-checkout backstop. Duplicate receipts are possible
+  across checkouts, a duplicate merge is not.
+- **Provenance rests on GitHub attribution**: commit authors and committers come from GitHub's account attribution, which a person
+  with push access to the branch could influence. This adds no privilege (that person can merge directly under the same ruleset);
+  the content proofs, the strict payload check and the independent verification are what bind the *content*.
 
 - One merge or closure action in flight; per-run and hourly budgets are in policy and capped in code. A deferred item keeps its place and resumes next run.
 - Model dispatch is separate and bounded by the lane (`maxInFlight`, `maxDispatchesPerRun`) and by the profile, whichever is lower.

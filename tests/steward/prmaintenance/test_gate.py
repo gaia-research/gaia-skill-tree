@@ -31,11 +31,22 @@ def trail(number, head, run=RUN):
     return [comment(pick, cid=1), comment(ver, cid=2)]
 
 
-def verification(fx, head, number=2270, action="merge", **over):
+def dispatched(fx, verifier, builders, run=RUN):
+    """The recorded verifier dispatch a verification must stand on (independence is derived from it, never self-declared)."""
+
+    state.appendRecord(fx.root, "dispatches", {"kind": "dispatch", "status": "started", "at": "2026-11-04T18:00:00Z", "runId": run,
+                                               "dispatchId": f"d-{verifier['agentId']}-{len(state.readRecords(fx.root, 'dispatches'))}",
+                                               "role": "verifier", "agentId": verifier["agentId"], "effort": verifier["effort"],
+                                               "builders": list(builders)})
+
+
+def verification(fx, head, number=2270, action="merge", dispatch=True, **over):
     record = {"repo": h.REPO, "number": number, "action": action, "headSha": head, "baseSha": fx.base, "verdict": "pass",
               "verifier": {"agentId": "verifier-a", "effort": "high", "profileId": "p"}, "builders": ["builder-x"],
               "proofs": [{"name": "provenance", "state": "pass", "detail": "ok"}], "runId": RUN}
     record.update(over)
+    if dispatch:
+        dispatched(fx, record["verifier"], record["builders"], record["runId"])
     return gate.recordVerification(fx.root, record, h.utc())
 
 
@@ -134,7 +145,10 @@ def test_verification_expires_and_a_moved_destination_requires_reverification(fx
 def test_policy_or_registry_revision_change_invalidates_verification(fx):
     head = ready(fx)
     (fx.root / "founder/steward/pr-producers.json").write_text((fx.root / "founder/steward/pr-producers.json").read_text() + "\n")
-    refused(fx, snapshot(fx, head), request(head), "policy-revision-moved")
+    refused(fx, snapshot(fx, head), request(head), "authority-drift")  # uncommitted authority is never trusted
+    h.run(fx.root, "add", "-A")
+    h.run(fx.root, "commit", "-q", "-m", "registry reformatted")
+    refused(fx, snapshot(fx, head), request(head), "policy-revision-moved")  # committed, but the verification vouched for other bytes
 
 
 def test_concurrent_merge_attempt_is_refused_while_a_live_reservation_exists(fx):
@@ -212,9 +226,14 @@ def test_revoked_or_unratified_authority_blocks_even_with_writes_enabled_in_poli
     data = json.loads(record.read_text())
     data["resolution"] = "rejected"
     record.write_text(json.dumps(data))
+    refused(fx, snapshot(fx, head), request(head), "authority-drift")
+    h.run(fx.root, "add", "-A")
+    h.run(fx.root, "commit", "-q", "-m", "authority rejected")
     refused(fx, snapshot(fx, head), request(head), "authority-unratified")
     assert StewardPolicy.load(fx.root).pr_maintenance.writesEnabled is False  # a switch edit alone grants nothing
     record.unlink()
+    h.run(fx.root, "add", "-A")
+    h.run(fx.root, "commit", "-q", "-m", "authority removed")
     refused(fx, snapshot(fx, head), request(head), "authority-unratified")
 
 
@@ -344,3 +363,103 @@ def test_a_pull_request_that_is_merely_old_or_conflicted_is_never_closable(fx):
            "reason": "label-already-published", "replacement": 1}
     refusedClose(fx, snap, req, "closure-not-proven")
     assert KIND_MERGE and outcomes(fx) == []
+
+
+# --- verifier findings: independence is derived, authority is committed, settlement needs a live reservation -------------
+
+def test_a_verification_without_a_recorded_verifier_dispatch_or_with_empty_builders_is_refused(fx):
+    head = fx.head("2026-44")
+    with pytest.raises(gate.GateRefused) as caught:
+        verification(fx, head, dispatch=False)
+    assert caught.value.code == "verification-not-dispatched"
+    with pytest.raises(gate.GateRefused) as empty:
+        verification(fx, head, builders=[])
+    assert empty.value.code == "verification-malformed" and "builders" in empty.value.message
+    dispatched(fx, {"agentId": "verifier-a", "effort": "low"}, ["builder-x"])
+    with pytest.raises(gate.GateRefused) as mismatch:
+        gate.recordVerification(fx.root, {"repo": h.REPO, "number": 2270, "action": "merge", "headSha": head, "baseSha": fx.base, "verdict": "pass",
+                                          "verifier": {"agentId": "verifier-a", "effort": "xhigh", "profileId": "p"}, "builders": ["builder-x"],
+                                          "proofs": [{"name": "a", "state": "pass", "detail": ""}], "runId": RUN}, h.utc())
+    assert mismatch.value.code == "verification-malformed" and "effort" in mismatch.value.message
+
+
+def test_the_builders_recorded_on_the_dispatch_count_even_if_the_caller_omits_them(fx):
+    head = fx.head("2026-44")
+    dispatched(fx, {"agentId": "verifier-a", "effort": "high"}, ["verifier-a"])  # the dispatch itself says this agent built it
+    with pytest.raises(gate.GateRefused) as caught:
+        gate.recordVerification(fx.root, {"repo": h.REPO, "number": 2270, "action": "merge", "headSha": head, "baseSha": fx.base, "verdict": "pass",
+                                          "verifier": {"agentId": "verifier-a", "effort": "high", "profileId": "p"}, "builders": ["builder-x"],
+                                          "proofs": [{"name": "a", "state": "pass", "detail": ""}], "runId": RUN}, h.utc())
+    assert caught.value.code == "verification-not-independent"
+
+
+def test_the_policy_digest_is_computed_by_the_gate_never_taken_from_the_caller(fx):
+    head = fx.head("2026-44")
+    stored = verification(fx, head, policySha256="0" * 64)
+    assert stored["policySha256"] == gate.policyDigest(fx.root) != "0" * 64
+    assert gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)["action"] == "merge"
+
+
+def test_a_verification_written_around_the_recorder_is_still_refused_at_the_gate(fx):
+    head = fx.head("2026-44")
+    state.appendRecord(fx.root, "verifications", {"repo": h.REPO, "number": 2270, "action": "merge", "headSha": head, "baseSha": fx.base,
+                                                  "verdict": "pass", "at": "2026-11-04T18:20:00Z", "policySha256": gate.policyDigest(fx.root),
+                                                  "verifier": {"agentId": "same", "effort": "high", "profileId": "p"}, "builders": ["same"]})
+    refused(fx, snapshot(fx, head), request(head), "verification-not-independent")
+
+
+def test_a_verification_for_a_different_destination_tip_is_stale(fx):
+    head = fx.head("2026-44")
+    verification(fx, head, baseSha="f" * 40)
+    refused(fx, snapshot(fx, head), request(head), "verification-stale")
+
+
+def test_authority_must_equal_the_destination_tip_when_one_is_named(fx, monkeypatch):
+    head = ready(fx)
+    h.run(fx.root, "branch", "-f", "dest", fx.base)
+    monkeypatch.setenv(gate.AUTHORITY_REF, "dest")
+    assert gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)["action"] == "merge"
+    (fx.root / "founder/steward/pr-producers.json").write_text((fx.root / "founder/steward/pr-producers.json").read_text() + " ")
+    h.run(fx.root, "add", "-A")
+    h.run(fx.root, "commit", "-q", "-m", "widened registry on a branch")
+    refused(fx, snapshot(fx, head), request(head), "authority-drift", run="run-2")  # committed here, but not what the destination holds
+
+
+def test_finalize_and_abort_refuse_forged_replayed_or_settled_authorizations(fx):
+    head = ready(fx)
+    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+    mergedRow = {**h.row(fx, head, "2026-44"), "merged": True, "state": "closed"}
+    after = gate.Snapshot(row=mergedRow, tips={"main": "9" * 40}, protection={"complete": True}, siblings=[], closed=[], merged=True, mergeCommitSha="9" * 40)
+    forged = {**auth, "runId": "someone-else"}
+    with pytest.raises(gate.GateRefused) as caught:
+        gate.finalize(fx.root, forged, after, h.utc())
+    assert caught.value.code == "authorization-forged"
+    invented = {k: v for k, v in auth.items() if k != "digest"} | {"number": 777}
+    invented["digest"] = gate.hashlib.sha256(gate.stable_json({k: v for k, v in invented.items() if k != "digest"}).encode()).hexdigest()
+    with pytest.raises(gate.GateRefused) as unknown:
+        gate.finalize(fx.root, invented, after, h.utc())  # a merge a human did, credited to Steward, is refused
+    assert unknown.value.code == "unknown-authorization"
+    gate.abort(fx.root, auth, "not made", h.utc())
+    with pytest.raises(gate.GateRefused) as replay:
+        gate.finalize(fx.root, auth, after, h.utc())  # an aborted authorization cannot be replayed
+    assert replay.value.code == "unknown-authorization"
+    assert state.terminalFor(fx.root, h.REPO, 2270, "merge") is None
+
+
+def test_a_late_authorization_is_recorded_as_late_not_silently_accepted(fx):
+    head = ready(fx)
+    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+    mergedRow = {**h.row(fx, head, "2026-44"), "merged": True, "state": "closed"}
+    after = gate.Snapshot(row=mergedRow, tips={"main": "9" * 40}, protection={"complete": True}, siblings=[], closed=[], merged=True, mergeCommitSha="9" * 40)
+    done = gate.finalize(fx.root, auth, after, h.utc() + timedelta(hours=1))
+    assert done["state"] == "merged" and done["lateAuthorization"] is True
+
+
+def test_closure_of_a_held_or_draft_original_is_refused_even_when_superseded(tmp_path):
+    for over in ({"labels": ["content-engine", "founder-hold"]}, {"draft": True}, {"reviewThreadsUnresolved": 1}, {"reviewThreadsUnresolved": None}):
+        fx, head, snap, req = closureWorld(tmp_path / f"c{abs(hash(str(over)))}")
+        held = dataclasses.replace(snap, row={**snap.row, **over})
+        with pytest.raises(gate.GateRefused) as caught:
+            gate.gateClose(fx.root, req, held, h.utc(), RUN)
+        assert caught.value.code in ("closure-not-proven", "closure-held"), caught.value
+        assert outcomes(fx) == []
