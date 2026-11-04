@@ -45,7 +45,7 @@ The existing sensor could suppress a different credential just because an unrela
 
 ## Narrow drift guard and governed routing amendment
 
-`python scripts/check_security_dispositions.py` is a **read-only evidence freshness guard**: exact reviewed bytes, 39 unique original IDs, D1/D2/D3 counts, canonical/mirror equality through shared digest, and per-match evidence. Any source drift requires re-review; an added credential is still detected. The matrix is **not read by the sensor, redactor, policy loader, ledger or closure executor**. It cannot authorize a repair, suppression, promotion or closure. Python regression tests run it and the Node compatibility checks without network access.
+`python scripts/check_security_dispositions.py` is a **read-only shape/count/source-byte guard**: it checks 39 unique ID strings, D1/D2/D3 counts, safe source paths, source hashes and finding metadata. It does **not** authenticate the ID strings against an independent original inventory (a plausible invented ID can pass), nor does it inspect or establish scanner/policy authority. Independent historical comparison of the actual inventory is a separate evidence claim; the matrix does not prove it. Any source drift requires re-review; an added credential is still detected by the scanner, not authorized or suppressed by this guard. The matrix is **not read by the sensor, redactor, policy loader, ledger or closure executor**. It cannot authorize a repair, suppression, promotion or closure. Python regression tests run it and the Node compatibility checks without network access.
 
 **Reviewable amendment proposal, not activated policy:**
 

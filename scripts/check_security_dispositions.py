@@ -21,10 +21,10 @@ def checkDispositions(root: Path, document: dict) -> list[str]:
     problems = []
     rows = document.get("rows", [])
     if len(rows) != 39 or len({row.get("debtId") for row in rows}) != 39:
-        problems.append("expected 39 unique original credential finding IDs")
+        problems.append("expected 39 unique credential finding ID strings")
     counts = {group: sum(row.get("group") == group for row in rows) for group in ("D1", "D2", "D3")}
     if counts != {"D1": 16, "D2": 14, "D3": 9}:
-        problems.append("original D1/D2/D3 inventory counts differ")
+        problems.append("D1/D2/D3 row counts differ")
     for row in rows:
         identifier = row.get("debtId", "")
         if not identifier.startswith("debt:credential_leak:"):
@@ -54,7 +54,7 @@ def checkDispositions(root: Path, document: dict) -> list[str]:
             or not finding.get("reason")
             for finding in findings
         ):
-            problems.append(f"invalid original finding evidence: {identifier}")
+            problems.append(f"invalid finding evidence: {identifier}")
     return problems
 
 
@@ -71,7 +71,7 @@ def main() -> int:
     if problems:
         print("\n".join(problems))
         return 1
-    print("39 original finding rows match reviewed source bytes; scanner authority unchanged")
+    print("39 matrix rows pass count, shape and reviewed-source-byte checks; identity and scanner authority are not authenticated here")
     return 0
 
 

@@ -71,7 +71,8 @@ node --test generated-output/security-reconciliation/upstream/local-*.test.mjs
 # 42 passed, 0 failed, 0 skipped (cached official test adaptations)
 
 python scripts/check_security_dispositions.py
-# 39 original finding rows match reviewed source bytes; scanner authority unchanged
+# At the historical implementation SHA above: 39 original finding rows match reviewed source bytes; scanner authority unchanged
+# This was an overbroad checker message, corrected by the bounded repair proof; not evidence of authority verification.
 python scripts/sync_agent_skill_mirror.py --check
 # agent skill mirror is in sync
 ```

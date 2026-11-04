@@ -74,9 +74,23 @@ def test_guard_rejects_incomplete_inventory_unsafe_paths_and_missing_evidence():
     document["rows"][0]["sourcePath"] = "../not-reviewed"
     document["rows"][1]["findings"] = []
     problems = checkDispositions(ROOT, document)
-    assert "expected 39 unique original credential finding IDs" in problems
+    assert "expected 39 unique credential finding ID strings" in problems
     assert "unsafe sourcePath" in problems
-    assert any("invalid original finding evidence" in item for item in problems)
+    assert any("invalid finding evidence" in item for item in problems)
+
+
+def test_guard_does_not_claim_authentic_identity_or_scanner_authority():
+    document = matrix()
+    document["rows"][0]["debtId"] = "debt:credential_leak:invented"
+    assert checkDispositions(ROOT, document) == []  # No independent inventory is supplied.
+    result = subprocess.run(
+        ["python", "scripts/check_security_dispositions.py"],
+        cwd=ROOT, capture_output=True, text=True,
+    )
+    assert result.returncode == 0, result.stderr
+    assert "count, shape and reviewed-source-byte checks" in result.stdout
+    assert "identity and scanner authority are not authenticated here" in result.stdout
+    assert "scanner authority unchanged" not in result.stdout
 
 
 def test_guard_refuses_symlinked_sources_before_reading(monkeypatch):
