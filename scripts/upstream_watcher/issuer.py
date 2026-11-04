@@ -685,12 +685,22 @@ def create_issues(
     """
     from scripts.upstream_watcher.releaseidentity import validateReleaseSource, validateUmbrellaIdentity
 
+    from scripts.lib.github_api import parse_owner_repo as _parse
+
     summaries: list[dict] = []
+    identities: dict[str, str] = {}
     for finding in full_findings:
         try:
             validateReleaseSource(finding)
         except GhError as exc:
             raise IdempotencyLookupError(str(exc)) from exc
+        if finding["finding_type"] != "bootstrap":
+            parsed = _parse(finding.get("sourceUrl", "")) if finding.get("sourceUrl") else None
+            key = ("/".join(parsed) if parsed else finding["skillId"]).lower()
+            identity = finding["skillId"].lower()
+            if key in identities and identities[key] != identity:
+                raise IdempotencyLookupError(f"same-run umbrella identity conflicts for {key}; no writes made")
+            identities[key] = identity
     if not full_findings:
         return summaries
     # Every duplicate check reads this one snapshot, taken before any write. A
@@ -700,7 +710,8 @@ def create_issues(
     # Issues created by *this* run, keyed (label, title-fragment).  GitHub's
     # search index lags creation by seconds, so this is the only reliable
     # dedup for findings that collapse onto one issue within a single run.
-    run_cache: dict[tuple[str, str], int] = {}
+    run_cache: dict[tuple[str, str], Any] = {}
+    run_payloads: dict[int, dict] = {}
 
     for finding in full_findings:
         skill_id = finding["skillId"]
@@ -804,7 +815,6 @@ def create_issues(
         # ── Update umbrella ────────────────────────────────────────────────
         owner_repo_str = skill_id  # fallback
         source_url = finding.get("sourceUrl", "")
-        from scripts.lib.github_api import parse_owner_repo as _parse
         parsed = _parse(source_url) if source_url else None
         if parsed:
             owner_repo_str = f"{parsed[0]}/{parsed[1]}"
@@ -824,9 +834,12 @@ def create_issues(
         if existing_suite:
             existing_num, existing_title = existing_suite
             try:
-                existing = next((row for row in snapshot.get("upstream:release", []) if row["number"] == existing_num), None)
-                if existing is not None:
-                    validateUmbrellaIdentity(finding, existing)
+                existing = run_payloads.get(existing_num)
+                if existing is None:
+                    existing = next((row for row in snapshot.get("upstream:release", []) if row["number"] == existing_num), None)
+                if existing is None:
+                    raise GhError(f"umbrella #{existing_num} identity unavailable")
+                validateUmbrellaIdentity(finding, existing)
             except GhError as exc:
                 raise IdempotencyLookupError(str(exc)) from exc
             if existing_title == umbrella_title:
@@ -874,6 +887,7 @@ def create_issues(
                 )
             umbrella_num = existing_num
             run_cache[("upstream:release", suite_prefix)] = (existing_num, umbrella_title)
+            run_payloads[existing_num] = {"number": existing_num, "body": umbrella_body}
             is_update = True
         else:
             umbrella_body = render_umbrella_body(
@@ -892,6 +906,7 @@ def create_issues(
                 )
             if umbrella_num:
                 run_cache[("upstream:release", suite_prefix)] = (umbrella_num, umbrella_title)
+                run_payloads[umbrella_num] = {"number": umbrella_num, "body": umbrella_body}
             is_update = False
 
         # ── Child intakes for added components ────────────────────────────

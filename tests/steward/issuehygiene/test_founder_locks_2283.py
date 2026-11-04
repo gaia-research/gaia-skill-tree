@@ -1,5 +1,7 @@
 """Founder rulings are consumed, not passive desk records or release approvals."""
 import copy
+import json
+import shutil
 from pathlib import Path
 
 import pytest
@@ -106,6 +108,52 @@ def test_unreadable_target_file_is_not_treated_as_absent(tmp_path):
     path.parent.mkdir(parents=True)
     path.write_text("{broken")
     with pytest.raises(ValueError):
+        loadIssueDecisions(tmp_path)
+
+
+@pytest.mark.parametrize("damage", ["missing", "renamed", "open"])
+def test_final_lock_loss_refuses_real_sensor_cli_and_closure_rederivation(tmp_path, damage):
+    from gaia_cli.steward.issuehygiene.sensor import reconcileCensus, SensorUnavailable
+    from gaia_cli.steward.issuehygiene.executor import gateClosure
+    from scripts.steward_issue_reconcile import main
+    from tests.steward.issuehygiene.test_b8_gate import scenario, emit, RECEIPT, REPO
+
+    root, document = scenario(tmp_path)
+    action, _ = emit(root, document)
+    lockdir = root / "founder/steward/decisions"
+    lockdir.mkdir(parents=True, exist_ok=True)
+    for path in (ROOT / "founder/steward/decisions").glob("issue-question-q-*.json"):
+        shutil.copy(path, lockdir / path.name)
+    shutil.copy(ROOT / "founder/steward/FOUNDER_LOCK_2283.md", root / "founder/steward/FOUNDER_LOCK_2283.md")
+    target = lockdir / "issue-question-q-bfd37238.json"
+    if damage == "missing":
+        target.unlink()
+    elif damage == "renamed":
+        target.rename(lockdir / "renamed.json")
+    else:
+        record = json.loads(target.read_text())
+        record["status"] = "open"
+        target.write_text(json.dumps(record))
+    stale = rows()
+    stale[2] = umbrellaRow(1835, "garrytan/gbrain", "v1")
+    with pytest.raises(SensorUnavailable, match="reconciliation failed"):
+        reconcileCensus(censusOf(stale), root, policyFor(), NOW)
+    with pytest.raises(ValueError):
+        main(["--root", str(root), "--now", NOW.isoformat(), "--out", str(root / "manifest.json")])
+    assert not (root / "manifest.json").exists()
+    with pytest.raises(ValueError):
+        gateClosure(root, action, root / RECEIPT, "R1", NOW, REPO)
+
+
+def test_fresh_unrelated_checkout_has_no_invented_locks(tmp_path):
+    assert loadIssueDecisions(tmp_path) == ()
+
+
+def test_lock_document_refuses_even_if_all_records_are_missing(tmp_path):
+    marker = tmp_path / "founder/steward/FOUNDER_LOCK_2283.md"
+    marker.parent.mkdir(parents=True)
+    marker.write_text("existing lock context")
+    with pytest.raises(ValueError, match="all four"):
         loadIssueDecisions(tmp_path)
 
 

@@ -3,8 +3,9 @@
 The existing decision schema has no structured family fields. Exact question and
 source-debt mappings therefore live in its allowed links/evidence fields. These
 bindings interpret only the four explicit resolutions; arbitrary decided records
-never authorize work. Missing records retain the ordinary reconciliation rules;
-malformed or contradictory locks fail closed instead of silently losing a hold.
+never authorize work. The #2283 implementation document or any expected record
+enables the complete lock set; missing, open or malformed locks then fail closed.
+Unrelated checkouts with neither retain ordinary reconciliation rules.
 """
 from __future__ import annotations
 
@@ -29,7 +30,10 @@ def loadIssueDecisions(root: Path) -> tuple[dict, ...]:
     if any(record.get("_source") == "founder/steward/decisions" and "_error" in record for record in records):
         raise ValueError("issue decision directory unreadable")
     selected = tuple(record for record in records if Path(record.get("_source", "")).name in names)
-    decidedBindings(selected)  # validate on every read, including closure re-derivation
+    bindings = decidedBindings(selected)  # validate on every read, including closure re-derivation
+    enabled = (root / "founder/steward/FOUNDER_LOCK_2283.md").exists() or bool(selected)
+    if enabled and set(bindings) != set(BINDINGS):
+        raise ValueError("founder lock #2283 requires all four finalized decision records")
     return selected
 
 

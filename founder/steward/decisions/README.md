@@ -68,8 +68,12 @@ unrelated new questions remain Class C. C1 permits a technical-only B proposal
 without closure or release acceptance. C2/C3/C4 and their held descendants are
 `held`/`none`, not actionable batches or closure proposals. A generic
 `upstream:needs-info` label also prevents a non-C item from becoming actionable.
-Malformed targeted records refuse reconciliation; absent/open records never
-claim a founder resolution. The manifest retains each source body digest and
+The existing `founder/steward/FOUNDER_LOCK_2283.md` implementation boundary or
+any canonical lock record enables the complete four-record set. In that context,
+missing, renamed, open, malformed or mismapped records refuse reconciliation;
+they cannot silently remove final authority. Unrelated fresh checkouts without
+that document or any canonical lock record retain ordinary reconciliation and
+do not acquire these rulings. The manifest retains each source body digest and
 cites the decision record; it does not rewrite issue or registry payloads.
 
 These records do **not** decide `steward-issue-closure-authority.json`, change

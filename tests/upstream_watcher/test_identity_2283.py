@@ -76,6 +76,51 @@ def test_fanout_refuses_conflicting_umbrella_before_same_version_noop_or_write()
         create.assert_not_called()
 
 
+@pytest.mark.parametrize("version", ["v1", "v2"])
+def test_same_run_shared_source_conflict_is_preflighted_before_any_write(version):
+    first = finding("ruvnet/ruflo")
+    first["newVersion"] = "v1"
+    second = finding("ruvnet/flow-nexus", "ruvnet/ruflo")
+    second["newVersion"] = version
+    with patch.object(issuer, "_open_snapshot", return_value={"upstream:release": []}), \
+            patch.object(issuer, "_create_issue", return_value=123) as create, \
+            patch.object(issuer, "_update_issue", return_value=True) as update, \
+            patch.object(issuer, "_edit_umbrella_body") as edit:
+        with pytest.raises(issuer.IdempotencyLookupError, match="identity conflicts"):
+            issuer.create_issues([first, second], apply=True)
+        create.assert_not_called()
+        update.assert_not_called()
+        edit.assert_not_called()
+
+
+def test_same_identity_same_run_is_idempotent():
+    first = finding("ruvnet/ruflo")
+    with patch.object(issuer, "_open_snapshot", return_value={"upstream:release": []}), \
+            patch.object(issuer, "_create_issue", return_value=123) as create, \
+            patch.object(issuer, "_update_issue") as update, \
+            patch.object(issuer, "_edit_umbrella_body"):
+        result = issuer.create_issues([first, copy.deepcopy(first)], apply=True)
+    assert create.call_count == 1
+    update.assert_not_called()
+    assert result[1]["skipped"] is True
+
+
+def test_cached_payload_is_checked_even_after_preflight():
+    first = finding("ruvnet/ruflo")
+    original = issuer.render_umbrella_body
+    def conflicting_body(*args):
+        text = original(*args)
+        return text.replace('"skillId": "ruvnet/ruflo"', '"skillId": "ruvnet/flow-nexus"')
+    with patch.object(issuer, "_open_snapshot", return_value={"upstream:release": []}), \
+            patch.object(issuer, "render_umbrella_body", side_effect=conflicting_body), \
+            patch.object(issuer, "_create_issue", return_value=123), \
+            patch.object(issuer, "_edit_umbrella_body"), \
+            patch.object(issuer, "_update_issue") as update:
+        with pytest.raises(issuer.IdempotencyLookupError, match="payload identity conflicts"):
+            issuer.create_issues([first, copy.deepcopy(first)], apply=True)
+        update.assert_not_called()
+
+
 def test_two_distinct_correct_repository_sources_do_not_claim_each_others_umbrellas():
     gh = FakeGh([umbrella("ruvnet/ruflo"), {**umbrella("ruvnet/agentdb"), "number": 1834}])
     for identifier, expected in [("ruvnet/ruflo", 1833), ("ruvnet/agentdb", 1834)]:
