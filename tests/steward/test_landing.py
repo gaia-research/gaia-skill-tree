@@ -843,17 +843,18 @@ def test_the_hook_stub_tripwire(fixture, content: str, refused: bool) -> None:
 # --- D7: branch-scope.yml knows steward/a/* ----------------------------------------
 
 
-def _scope_script() -> str:
+def _scope_script(*, fork: bool = False) -> str:
     workflow = yaml.safe_load((REPO_ROOT / ".github/workflows/branch-scope.yml").read_text(encoding="utf-8"))
     steps = workflow["jobs"]["scope-check"]["steps"]
     run = next(step["run"] for step in steps if step.get("name") == "Check branch scope")
     return (
-        run.replace("${{ github.event.pull_request.head.repo.full_name }}", "o/r")
+        run.replace("${{ github.event.pull_request.head.repo.full_name }}", "fork/r" if fork else "o/r")
         .replace("${{ github.repository }}", "o/r")
     )
 
 
-def _scope_check(tmp_path: Path, branch: str, files: dict[str, str]) -> subprocess.CompletedProcess:
+def _scope_check(tmp_path: Path, branch: str, files: dict[str, str], *, fork: bool = False) -> subprocess.CompletedProcess:
+    tmp_path.mkdir(parents=True, exist_ok=True)
     bare = tmp_path / "scope-remote.git"
     work = tmp_path / "scope-work"
     subprocess.run(["git", "init", "-q", "--bare", "-b", "main", str(bare)], check=True)
@@ -874,7 +875,7 @@ def _scope_check(tmp_path: Path, branch: str, files: dict[str, str]) -> subproce
         **os.environ, "BRANCH": branch, "BASE_REF": "main", "PR_NUMBER": "1", "GH_TOKEN": "unused",
     }
     return subprocess.run(
-        ["bash", "-c", _scope_script()], cwd=work, env=env, capture_output=True, text=True
+        ["bash", "-c", _scope_script(fork=fork)], cwd=work, env=env, capture_output=True, text=True
     )
 
 
@@ -891,6 +892,12 @@ def _scope_check(tmp_path: Path, branch: str, files: dict[str, str]) -> subproce
         ("infra/ci-fix", {".github/workflows/x.yml": "x"}, True),
         ("docs/page", {"src/app.py": "x"}, False),
         ("schema/rename", {"src/gaia_cli/data/registry/schema/a.json": "{}"}, True),
+        ("steward/b/unused-import-31cdbdb60a39", {"src/gaia_cli/x.py": "x"}, True),
+        ("steward/b/unused-import-31cdbdb60a39", {"scripts/x.py": "x", "tests/x.py": "x"}, True),
+        ("steward/b/unused-import-31cdbdb60a39", {"src/gaia_cli/x.py": "x", "registry/nodes/x.yml": "x"}, False),
+        ("steward/b/unused-import-31cdbdb60a39", {".github/workflows/x.yml": "x"}, False),
+        ("steward/b/unknown-31cdbdb60a39", {"tests/x.py": "x"}, False),
+        ("steward/b/unused-import-31cdbdb60a3g", {"tests/x.py": "x"}, False),
     ],
 )
 def test_branch_scope_allows_only_steward_mirror_paths(
@@ -899,7 +906,16 @@ def test_branch_scope_allows_only_steward_mirror_paths(
     result = _scope_check(tmp_path, branch, files)
     assert (result.returncode == 0) is passes, result.stdout + result.stderr
     if passes and branch.startswith("steward/a/"):
-        assert "prefix 'steward-a'" in result.stdout
+        assert ("prefix 'steward-a'" in result.stdout) == branch.startswith("steward/a/")
+        if branch.startswith("steward/b/"):
+            assert "prefix 'steward-b-unused-import'" in result.stdout
+
+
+def test_steward_b_unused_import_fork_and_existing_unrestricted_fork_boundaries(tmp_path: Path) -> None:
+    b = _scope_check(tmp_path / "b", "steward/b/unused-import-31cdbdb60a39", {"tests/x.py": "x"}, fork=True)
+    assert b.returncode != 0 and "unrecognized branch prefix" in b.stdout
+    unrestricted = _scope_check(tmp_path / "u", "dev/anything", {"registry/nodes/x.yml": "x"}, fork=True)
+    assert unrestricted.returncode != 0 and "unrecognized branch prefix" in unrestricted.stdout
 
 
 # --- D10: race classification on both paths ---------------------------------------------

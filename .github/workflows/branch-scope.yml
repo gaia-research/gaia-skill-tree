@@ -68,6 +68,8 @@ jobs:
             # Gaia Steward Class A landings (src/gaia_cli/steward/landing.py):
             # mechanical mirror repairs, scoped to the mirror surfaces only.
             steward/a/*)        PREFIX="steward-a" ;;
+            steward/b/unused-import-????????????)
+              if [[ "$BRANCH" =~ ^steward/b/unused-import-[0-9a-f]{12}$ ]]; then PREFIX="steward-b-unused-import"; else PREFIX="other"; fi ;;
             *)                  PREFIX="other" ;;
           esac
 
@@ -101,6 +103,9 @@ jobs:
 
           if [ "$IS_FORK" = "true" ] && [ "$PREFIX" = "unrestricted" ]; then
             echo "::warning::Fork PR with unrestricted branch prefix '$BRANCH'; downgrading classification to 'other' per fork-origin policy (issue #986). Fork contributors must use scope-appropriate prefixes (docs/, schema/, design/, etc.) or a maintainer must apply the 'skip-scope-check' label."
+            PREFIX="other"
+          elif [ "$IS_FORK" = "true" ] && [ "$PREFIX" = "steward-b-unused-import" ]; then
+            echo "::warning::Fork PR with automation-specific branch prefix '$BRANCH'; downgrading classification to 'other'."
             PREFIX="other"
           fi
 
@@ -218,6 +223,12 @@ jobs:
                   # this arm — the pairing is deliberate, not scope creep.
                   .github/*|scripts/*|tests/*|.claude/skills/*|.agents/skills/*|*.md|docs/*.html|docs/badges/*) ;; # allowed
                   *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (infra/ branches may only touch .github/, scripts/, tests/, .claude/skills/, .agents/skills/, *.md, docs/*.html, or docs/badges/ files)" ;;
+                esac
+                ;;
+              steward-b-unused-import)
+                case "$file" in
+                  src/gaia_cli/*|scripts/*|tests/*) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (steward/b unused-import branches may only touch src/gaia_cli/, scripts/, or tests/)" ;;
                 esac
                 ;;
               steward-a)
