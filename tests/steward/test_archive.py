@@ -54,7 +54,7 @@ def observation_phases(sensorCount=512):
     scan = ScanResult(observations=observations, debts=(), receipt=receipt,
                       debt_state_path=Path("unused-debts"), receipt_path=Path("unused-receipt"),
                       fresh_open_debt_ids=frozenset())
-    runner = FullRunner(FullRunConfig(repo_root=Path(".")))
+    runner = FullRunner(FullRunConfig(repo_root=Path("."), store=FileLedgerStore(Path("unused-ledger"))))
     return {"observe": runner._observationSummary(scan)}
 
 
