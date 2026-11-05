@@ -31,6 +31,8 @@ from gaia_cli.steward.models import (
 from gaia_cli.steward.routing import LANE_ESCALATION_OBJECTIVE, LANE_ESCALATION_RULE
 
 
+# Security provenance (#2283 D2): planted desk-redaction sentinels below are
+# synthetic positive fixtures. No value was obtained from a credential issuer.
 NOW = "2026-10-20T12:00:00Z"
 RECENT = "2026-10-20T06:00:00Z"
 LANE_POLICY = LanePolicy(max_in_flight=1, max_attempts=2, cooldown_seconds=3600)

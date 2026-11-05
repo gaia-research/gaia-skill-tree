@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-security-source-triage-2283",
+  "status": "decided",
+  "decision": "How should the nine code/workflow/documentation credential-shaped findings be triaged?",
+  "whyItMatters": "D3 is a locked group policy, not an adjudication that every original file is safe or resolved.",
+  "evidence": [
+    "Founder decision lock: https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640916880",
+    "Individually inspect original flagged lines and callers, especially auth.py, securityScanner.py and jev.py. Distinguish environment/runtime authorization logic, detector patterns, source fixtures and embedded credentials. Fix verified exposures and provide sanitized urgent rotation/revocation handoff; preserve exact false-positive evidence. No blanket dismissals.",
+    "Original receipt steward-20261104T172307Z-5c244581790fe867; additive evidence matrix maps original matches without rewriting debt/history.",
+    "debt:credential_leak:docs-samples-registry-3d-fonts-html:412fc74a40db779e",
+    "debt:credential_leak:founder-handovers-2026-10-21-steward-issue-hygie:e8be47c2eebc4b65",
+    "debt:credential_leak:founder-issues-json:b132c45b86c3ebcb",
+    "debt:credential_leak:github-workflows-sync-artifacts-yml:b526f075e4ecd1e6",
+    "debt:credential_leak:scripts-jev-ci-budget-py:86888e095876410e",
+    "debt:credential_leak:scripts-upstream-watcher-live-py:2393fe51171e5834",
+    "debt:credential_leak:src-gaia-cli-auth-py:2ed435a394e19f87",
+    "debt:credential_leak:src-gaia-cli-jev-py:74fbb7100ac456ad",
+    "debt:credential_leak:src-gaia-cli-securityscanner-py:ba7fcb08fe3ef5c9"
+  ],
+  "recommended": "Individually inspect original flagged lines and callers, especially auth.py, securityScanner.py and jev.py. Distinguish environment/runtime authorization logic, detector patterns, source fixtures and embedded credentials. Fix verified exposures and provide sanitized urgent rotation/revocation handoff; preserve exact false-positive evidence. No blanket dismissals.",
+  "alternative": "Any different authority or unresolved semantic policy requires a new explicit founder ruling; preserve this locked decision and all underlying finding evidence.",
+  "unblocks": "Bounded evidence-backed local engineering and review only; does not authorize ledger mutation, issue closure, trust/rank mutation, main merge, release, or workflow activation.",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640916880",
+    "docs/agents/security/2283-dispositions.json",
+    "docs/agents/security/2283-reconciliation.md"
+  ]
+}
