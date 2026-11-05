@@ -1,5 +1,5 @@
 {
- "generation": 441,
+ "generation": 442,
  "lane": {
   "entries": [
    {
@@ -4479,7 +4479,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-05T20:26:04.901154Z",
-   "expiresAt": "2026-11-05T20:56:28.601210Z",
+   "expiresAt": "2026-11-05T21:00:20.791124Z",
    "holder": "run-20261105T202604Z-8df5b6bd"
   }
  },
@@ -28701,7 +28701,31 @@
    "updatedAt": "2026-11-05T19:35:59.124670Z"
   },
   "run-20261105T202604Z-8df5b6bd": {
-   "actions": [],
+   "actions": [
+    {
+     "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-roster-py:0d3bca3f7369f4af",
+     "emittedAt": "2026-11-05T20:30:18.998896Z",
+     "idempotencyKey": "verify:dispatch-2beea7af972331dae185:1",
+     "params": {
+      "allowedModels": [
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-roster-py:0d3bca3f7369f4af",
+      "effortRequired": true,
+      "forbiddenAgentIds": [
+       "pi-native-terra-01a1ad33-280e-7393-ae87-c9a497379cee"
+      ],
+      "verifierPromptPath": ".gaia/steward/full/run-20261105T202604Z-8df5b6bd/verify-638fb01c8655.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "verify:638fb01c8655:1",
+     "type": "agent.verify"
+    }
+   ],
    "actor": "cli",
    "agentAssignments": [],
    "branches": [],
@@ -28750,6 +28774,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:recover"
+    },
+    {
+     "at": "2026-11-05T20:30:18.998896Z",
+     "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-roster-py:0d3bca3f7369f4af",
+     "idempotencyKey": "verify:dispatch-2beea7af972331dae185:1",
+     "kind": "agent.verify",
+     "status": "awaiting",
+     "stepId": "verify:638fb01c8655:1"
     }
    ],
    "thinkingEfforts": [],
@@ -28766,7 +28798,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-05T20:26:28.603936Z",
+ "updatedAt": "2026-11-05T20:30:20.791426Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -29354,7 +29386,12 @@
    "source": "dead-code",
    "state": "building",
    "updatedAt": "2026-11-05T19:35:59.124743Z",
-   "verification": null
+   "verification": {
+    "receipt": "steward-20261105T202633Z-2fef7c003aa465d1",
+    "stage": "awaiting-verifier",
+    "verdict": "pending",
+    "verifierPromptPath": ".gaia/steward/full/run-20261105T202604Z-8df5b6bd/verify-638fb01c8655.prompt.md"
+   }
   }
  }
 }
