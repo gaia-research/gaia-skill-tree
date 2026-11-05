@@ -2,7 +2,7 @@
 
 ## Scope and checkpoint
 
-**Current combined-source binding:** [founder/watcher composition proof](2283-founder-composition-proof.md), source checkpoint `afe8644bd841473ef3ad5711bed5cc0cd1343667`, supersedes the current-byte bindings below without rewriting the historical 72/71 replays. The regenerated machine proof covers 39 paths / 71 original occurrences and 23 controls on committed combined-source bytes. Fresh independent combined review remains required; the older platform/review statements below describe their original checkpoints.
+**Current source binding:** [`2283-scanner-proof.json`](2283-scanner-proof.json) binds prose-only matrix checkpoint `3f4c46fe140f0e3d4a26733baba23f229c30ab94` (tree `0ae617ccf0f9a6c9768c88972fd386591ac4287a`). A fresh offline Git-blob replay preserves the exact original 71 occurrence multiset across 39 paths: D1=30, D2=24, D3=17. The matrix clarification removed one separate document match (1 to 0), outside that inventory. The 23 controls are retained from the prior composition replay, not rerun. The [founder/watcher composition proof](2283-founder-composition-proof.md) at `afe8644bd841473ef3ad5711bed5cc0cd1343667` and the earlier 72/71 replays are historical. Fresh independent delta review remains required; this is not a canonical scan or issuer claim.
 
 ### Corrective replay (2026-11-05)
 
@@ -20,7 +20,7 @@ These are **per-original-match evidence**, not whole-file safety certificates, i
 
 The three `steward-security-*-2283` decision records remain valid `steward-decision-v1` **locked group policies**, not 39 per-finding clearances. All **23 canonical decisions** validate and have unique IDs. No decision, shared ledger, history, issue, label, registry/trust/rank/intake, workflow, policy, allowlist or operating campaign was changed in this continuation. No fleet scan/run/record/abandon, push, merge, installation or global configuration change was performed.
 
-## Actual before/after scanner evidence
+## Historical 72-result before/after scanner evidence
 
 Executed offline on the 39 selected paths only: baseline `SecretScanSensor._findings` on baseline Git bytes, versus the committed implementation on reviewed working-tree bytes. Both modules use the same unchanged credential patterns/redactor. Baseline and reviewed source SHA-256 values were asserted against every matrix row. This is **not** a canonical Steward scan or fresh inventory of the whole repository.
 
@@ -33,7 +33,7 @@ Executed offline on the 39 selected paths only: baseline `SecretScanSensor._find
 
 Every original `(pattern, fingerprint)` multiplicity survives. Line numbers may move after additive fixture-provenance comments; original line numbers in the matrix were not rewritten.
 
-**The extra D2 match is disclosed, not suppressed:** `tests/test_installability.py:123`, `bearer-token`, fingerprint `e77a4a61964d`. It is ordinary prose after the word “Bearer” in the new synthetic-provenance comment. This exact comment match is harmless; it is outside the original 39-row inventory. No debt ID was invented for it, and the original diagnostic/redaction fixture remains intact.
+**The historical extra D2 match is disclosed, not suppressed:** `tests/test_installability.py:123`, `bearer-token`, fingerprint `e77a4a61964d`. It is ordinary prose after the word “Bearer” in the new synthetic-provenance comment. This exact comment match is harmless; it is outside the original 39-row inventory. No debt ID was invented for it, and the original diagnostic/redaction fixture remains intact.
 
 **23 generated offline control comparisons:**
 
