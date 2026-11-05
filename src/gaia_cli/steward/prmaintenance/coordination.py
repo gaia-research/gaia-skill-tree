@@ -474,7 +474,7 @@ class PrWriteCoordinator:
         self.services = services
         self.lastTip: str | None = None
         self.historyGuard = threading.Lock()  # protects cache only; Git CAS is cross-host authority
-        self.verified: set[str] = set()
+        self.verified: dict[str, str] = {}  # commit -> immutable event-prefix digest
         self.pid = os.getpid()
         self.grantGuard = threading.Lock()
         self.grants: dict[int, _Grant] = {}
@@ -514,17 +514,22 @@ class PrWriteCoordinator:
             state = fold(tipEvents, self.binding.namespace)
             if document["generation"] != len(chain) or len(tipEvents) != len(chain) - 1:
                 raise CoordinationError("inconsistent generation or missing transition history")
+            prefixes = [digest([])]
+            for event in tipEvents:
+                prefixes.append(digest([prefixes[-1], event]))
             previous = None
             for index, row in enumerate(chain):
                 commit = row[0]
                 if row[1:] != ([] if previous is None else [previous]):
                     raise CoordinationError("coordination history must be an unbroken single-parent chain")
+                if commit in self.verified and self.verified[commit] != prefixes[index]:
+                    raise CoordinationError("cached commit disagrees with canonical transition history")
                 if commit not in self.verified or commit == tip:
                     current = document if commit == tip else self._readCommit(commit)
                     payload = self._payload(current)
                     if current["generation"] != index + 1 or payload["events"] != tipEvents[:index]:
                         raise CoordinationError("inconsistent generation or rewritten transition history")
-                    self.verified.add(commit)
+                    self.verified[commit] = prefixes[index]
                 previous = commit
             if len(ledger.serialize(document)) > MAX_BYTES:
                 raise CoordinationError("coordination document over byte bound")

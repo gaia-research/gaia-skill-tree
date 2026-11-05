@@ -77,6 +77,22 @@ def test_malformed_nested_state_or_history_fails_closed(fixture, corruption):
         coordinator(second, binding).inspect()
 
 
+def test_cached_history_cannot_hide_valid_looking_rewritten_prior_events(fixture):
+    _, binding, first, second = fixture
+    coord = coordinator(first, binding)
+    token = prepared(coord)
+    document, tip, _ = coord._load()  # warm cache includes the real old prefix
+    payload = document["operations"][core.KEY]
+    payload["events"][0]["args"]["proof"]["justification"] = "valid-looking but rewritten proof"
+    payload["events"].append({"id": "forged-cancel", "kind": "cancel", "operationId": token.operationId,
+                              "args": {"token": core.asdict(token), "reason": "cancel"},
+                              "time": core.asdict(coord.services.now), "limits": None})
+    coord.store.compare_and_swap(tip, document, "malicious fixture rewrites prior prefix while appending valid event")
+    for client in (coord, coordinator(second, binding)):
+        with pytest.raises(core.CoordinationError, match="history|transition"):
+            client.inspect()
+
+
 def test_reset_non_descendant_and_rewind_seen_history_fail_closed(fixture):
     remote, binding, first, second = fixture
     coord = coordinator(first, binding)
