@@ -1,9 +1,9 @@
 {
   "purpose": "Scoped offline before/after evidence, not a canonical scan or closure receipt.",
   "baselineCommit": "d694986b865e158e21c613683021a9b7822f945c",
-  "implementationCommit": "72bf2be0da18a6f410d9936b75762e05c1736508",
-  "scope": "39 original source paths only; baseline scanner on baseline bytes versus current scanner on reviewed bytes; generated positive controls in memory.",
-  "matrixSha256": "c6260d48ab2d89cf7e59bdd84f10a6629b5195ba7cb45c15bca0ed411d738917",
+  "implementationCommit": "a25703a7f",
+  "scope": "Exact offline replay at source commit a25703a7f; 39 original source paths only; baseline scanner on baseline bytes versus reviewed source bytes; generated positive controls in memory. Current reviewed selected findings total 71.",
+  "matrixSha256": "77f08f010d4cf6d6696f094fed0349c21ca5f1156a58e023ff8071826a9e7a60",
   "unchangedAuthorityPatternsAndPublicScanner": {
     "founder/steward/POLICY.yaml": "58af7eb1d4915970e2b8ffa8b55f4c96f5f79b7cd330b316c1d05ff534a28278",
     "src/gaia_cli/steward/primitives/redact.py": "cf70bcfc7dfb6b586896e77e53956856b719ac7eb0b21b7ff89e5894649b3961",
@@ -311,7 +311,7 @@
       "group": "D2",
       "originalMatches": 1,
       "beforeMatches": 1,
-      "afterMatches": 2,
+      "afterMatches": 1,
       "allOriginalFingerprintsPreserved": true
     },
     {
@@ -334,7 +334,7 @@
       "rows": 14,
       "originalMatches": 24,
       "beforeMatches": 24,
-      "afterMatches": 25
+      "afterMatches": 24
     },
     "D3": {
       "rows": 9,
@@ -499,16 +499,7 @@
       "afterMatches": 1
     }
   ],
-  "newlyVisibleMatchesOutsideOriginalInventory": [
-    {
-      "sourcePath": "tests/test_installability.py",
-      "line": 123,
-      "pattern": "bearer-token",
-      "fingerprint": "e77a4a61964d",
-      "status": "harmless",
-      "reason": "New provenance comment's Bearer-plus-ordinary-prose wording triggers the unchanged lexical pattern; not a credential or part of the original inventory. No suppression added."
-    }
-  ],
+  "newlyVisibleMatchesOutsideOriginalInventory": [],
   "cachedOfficialCompatibilityTests": {
     "provenance": "Prior-session read-only retrieval from pbakaus/impeccable extraction commit 325aeaf239808a0a8a763fe328e1dc1c3e2351df; not a fresh network provenance verification.",
     "tests": [
@@ -553,5 +544,12 @@
     "changed": 0,
     "mirrorOnly": 0
   },
-  "limits": "No full fleet scan, ledger change, validity probe, issuer attestation, rotation, browser/live-server session, Node 18 or Windows run, independent review, integration, or campaign completion."
+  "limits": "No full fleet scan, ledger change, validity probe, issuer attestation, rotation, browser/live-server session, Node 18 or Windows run, independent review, integration, or campaign completion.",
+  "historicalPriorReplay": {
+    "implementationCommit": "72bf2be0da18a6f410d9936b75762e05c1736508",
+    "selectedFindings": 72,
+    "status": "historical; one avoidable new comment match, not rewritten or erased"
+  },
+  "currentSelectedFindings": 71,
+  "currentSourceCommit": "a25703a7f"
 }

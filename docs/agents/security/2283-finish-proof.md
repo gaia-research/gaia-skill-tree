@@ -2,6 +2,10 @@
 
 ## Scope and checkpoint
 
+### Corrective replay (2026-11-05)
+
+At source commit `a25703a7f` (full SHA recorded in Git), the sole benign prose match described below was removed by rewording only the comment above `test_diagnostics_are_bounded_and_redacted`. Fixture literals, test code/assertions, scanner, policy and redactor are unchanged. The updated dispositions matrix changes only the reviewed source SHA-256 for `tests/test_installability.py`. An actual offline replay on those exact source bytes reports **71 current findings**, D1=30, D2=24, D3=17; every original `(pattern, fingerprint)` multiplicity remains. The former 72-result at `72bf2be0da18a6f410d9936b75762e05c1736508` remains historical and is not recast as though it did not occur. Machine proof: [`2283-scanner-proof.json`](2283-scanner-proof.json). This is scoped source-bound evidence, not a canonical scan, independent acceptance, or authority/credential identity claim.
+
 Implementation under test: **`72bf2be0da18a6f410d9936b75762e05c1736508`**, on `dev/steward-security-triage-2283`. Baseline: `d694986b865e158e21c613683021a9b7822f945c`. This continuation found no verified source defect requiring another functional edit; its changes are evidence only.
 
 Read-only GitHub reads confirmed the [founder lock](https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640916880) and [hygiene receipt](https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640982938). The original receipt remains `steward-20261104T172307Z-5c244581790fe867`.
