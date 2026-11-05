@@ -465,7 +465,8 @@ def _find_existing_suite_issue(
     such issue", which would create a duplicate.
     """
     if run_cache is not None:
-        cached = run_cache.get((label, prefix))
+        # Only the suite-bearing prefix is case-insensitive; release tags are not part of this key.
+        cached = run_cache.get((label, prefix.lower()))
         if cached is not None:
             if isinstance(cached, tuple):
                 return cached
@@ -728,7 +729,7 @@ def create_issues(
             )
             if existing_suite:
                 existing_num, existing_title = existing_suite
-                if existing_title == title:
+                if existing_title[len(suite_prefix):] == new_version:
                     print(
                         f"  Bootstrap for {skill_id}@{new_version} already exists as #{existing_num}; skipping.",
                         file=sys.stderr,
@@ -736,12 +737,12 @@ def create_issues(
                     summaries.append(
                         {"type": "bootstrap", "skillId": skill_id, "skipped": True, "issue": existing_num}
                     )
-                    run_cache[("upstream:bootstrap", suite_prefix)] = (existing_num, title)
+                    run_cache[("upstream:bootstrap", suite_prefix.lower())] = (existing_num, existing_title)
                     continue
 
                 # Existing issue was for an older version -> update it in place!
                 body = render_bootstrap_body(finding)
-                prev_v = existing_title.removeprefix(suite_prefix)
+                prev_v = existing_title[len(suite_prefix):]
                 comment = f"Updated baseline version to: **`{new_version}`** (previously `{prev_v}`)."
                 # Approval never survives a version change (H1): a baseline a human approved for the old
                 # version loses the approval, so the new version is reviewed before it can sync. D8: the
@@ -769,7 +770,7 @@ def create_issues(
                     raise UmbrellaWriteError(
                         f"could not update bootstrap #{existing_num} for {skill_id}@{new_version}; the run stops"
                     )
-                run_cache[("upstream:bootstrap", suite_prefix)] = (existing_num, title)
+                run_cache[("upstream:bootstrap", suite_prefix.lower())] = (existing_num, title)
                 summaries.append(
                     {"type": "bootstrap", "skillId": skill_id, "skipped": False, "updated": True, "issue": existing_num}
                 )
@@ -806,7 +807,7 @@ def create_issues(
                 verbose=verbose,
             )
             if issue_num:
-                run_cache[("upstream:bootstrap", suite_prefix)] = (issue_num, title)
+                run_cache[("upstream:bootstrap", suite_prefix.lower())] = (issue_num, title)
             summaries.append(
                 {"type": "bootstrap", "skillId": skill_id, "skipped": False, "issue": issue_num}
             )
@@ -842,7 +843,7 @@ def create_issues(
                 validateUmbrellaIdentity(finding, existing, generated=existing_num in run_payloads)
             except GhError as exc:
                 raise IdempotencyLookupError(str(exc)) from exc
-            if existing_title == umbrella_title:
+            if existing_title[len(suite_prefix):] == new_version:
                 print(
                     f"  Umbrella for {owner_repo_str}@{new_version} already exists as #{existing_num}; skipping.",
                     file=sys.stderr,
@@ -855,7 +856,7 @@ def create_issues(
                         "issue": existing_num,
                     }
                 )
-                run_cache[("upstream:release", suite_prefix)] = (existing_num, umbrella_title)
+                run_cache[("upstream:release", suite_prefix.lower())] = (existing_num, existing_title)
                 continue
 
             # Older release umbrella exists for the same suite -> update in place!
@@ -872,7 +873,7 @@ def create_issues(
                     existing_num,
                     fanout_payload(finding, mode, component_adds, component_removes, link_liveness, name_drift),
                 )
-            prev_v = existing_title.removeprefix(suite_prefix)
+            prev_v = existing_title[len(suite_prefix):]
             comment = (
                 f"Updated umbrella for new upstream release: **`{new_version}`** (previously `{prev_v}`). "
                 "Payload, component diff, and link-liveness refreshed."
@@ -890,7 +891,7 @@ def create_issues(
                     f"could not update umbrella #{existing_num} for {skill_id}; no child intakes were written"
                 )
             umbrella_num = existing_num
-            run_cache[("upstream:release", suite_prefix)] = (existing_num, umbrella_title)
+            run_cache[("upstream:release", suite_prefix.lower())] = (existing_num, umbrella_title)
             run_payloads[existing_num] = {"number": existing_num, "body": umbrella_body}
             is_update = True
         else:
@@ -913,7 +914,7 @@ def create_issues(
                     f"could not create umbrella {umbrella_title!r}; no child intakes were written for {skill_id}"
                 )
             if umbrella_num:
-                run_cache[("upstream:release", suite_prefix)] = (umbrella_num, umbrella_title)
+                run_cache[("upstream:release", suite_prefix.lower())] = (umbrella_num, umbrella_title)
                 run_payloads[umbrella_num] = {"number": umbrella_num, "body": umbrella_body}
             is_update = False
 

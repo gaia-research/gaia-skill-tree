@@ -76,11 +76,12 @@ def test_fanout_refuses_conflicting_umbrella_before_same_version_noop_or_write()
         create.assert_not_called()
 
 
+@pytest.mark.parametrize("source", ["ruvnet/ruflo", "RuvNet/Ruflo"])
 @pytest.mark.parametrize("version", ["v1", "v2"])
-def test_same_run_shared_source_conflict_is_preflighted_before_any_write(version):
+def test_same_run_shared_source_conflict_is_preflighted_before_any_write(version, source):
     first = finding("ruvnet/ruflo")
     first["newVersion"] = "v1"
-    second = finding("ruvnet/flow-nexus", "ruvnet/ruflo")
+    second = finding("ruvnet/flow-nexus", source)
     second["newVersion"] = version
     with patch.object(issuer, "_open_snapshot", return_value={"upstream:release": []}), \
             patch.object(issuer, "_create_issue", return_value=123) as create, \
@@ -129,6 +130,82 @@ def test_generated_cache_is_strictly_validated_before_each_skip_or_update(existi
     assert [call.kwargs["generated"] for call in validate.call_args_list] == (
         ([False] if existing else []) + [True] * (4 if nextVersion == "v3" else 3)
     )
+
+
+@pytest.mark.parametrize("existingVersion", [None, "v1", "v2"], ids=["empty", "older", "current"])
+@pytest.mark.parametrize("nextVersion", ["v2", "v3", "V2"], ids=["same", "new", "case-distinct-tag"])
+@pytest.mark.parametrize("firstSkill,secondSkill", [("ruvnet/ruflo", "RuvNet/Ruflo"), ("RuvNet/Ruflo", "ruvnet/ruflo")])
+def test_mixed_case_fanout_uses_one_canonical_cache_without_display_rewrites(existingVersion, nextVersion, firstSkill, secondSkill):
+    from scripts.upstream_watcher import releaseidentity
+
+    first = finding(firstSkill)
+    second = finding(secondSkill)
+    second["newVersion"] = nextVersion
+    second["sourceUrl"] = f"https://github.com/{secondSkill}/releases/tag/{nextVersion}"
+    before = copy.deepcopy([first, second])
+    row = umbrella(secondSkill)
+    row["title"] = f"[upstream] {secondSkill} → {existingVersion}"
+    snapshot = {"upstream:release": [row] if existingVersion else []}
+    originalSnapshot = copy.deepcopy(snapshot)
+    with patch.object(issuer, "_open_snapshot", return_value=snapshot), \
+            patch.object(issuer, "_create_issue", return_value=123) as create, \
+            patch.object(issuer, "_update_issue", return_value=True) as update, \
+            patch.object(issuer, "_fanout_approval_reset") as reset, \
+            patch.object(issuer, "_edit_umbrella_body"), \
+            patch.object(releaseidentity, "validateUmbrellaIdentity", wraps=releaseidentity.validateUmbrellaIdentity) as validate:
+        result = issuer.create_issues([first, second, copy.deepcopy(second)], apply=True)
+    assert create.call_count == int(existingVersion is None)
+    assert update.call_count == int(existingVersion == "v1") + int(nextVersion != "v2")
+    assert reset.call_count == update.call_count
+    assert result[0]["skipped"] is (existingVersion == "v2")
+    assert result[1]["skipped"] is (nextVersion == "v2")
+    assert result[2]["skipped"] is True
+    assert {item.get("umbrella", item.get("issue")) for item in result} == {1833 if existingVersion else 123}
+    for operation in [*create.call_args_list, *update.call_args_list]:
+        title, body = (operation.args[1], operation.args[2]) if isinstance(operation.args[0], int) else (operation.args[0], operation.args[2])
+        payload = issuer._payload_of_body(body)
+        assert title == f"[upstream] {payload['skillId']} → {payload['newVersion']}"
+        assert payload["sourceUrl"] == f"https://github.com/{payload['skillId']}/releases/tag/{payload['newVersion']}"
+    # Original snapshot reads may use explicit historical repair; generated cache reads stay strict.
+    strictness = [call.kwargs["generated"] for call in validate.call_args_list]
+    expected = ([False] if existingVersion else []) + ([True] if existingVersion != "v2" else [])
+    expected += [existingVersion != "v2"]
+    if nextVersion != "v2":
+        expected += [True, True]  # New render, then the final generated-cache read.
+    else:
+        expected += [existingVersion != "v2"]
+    assert strictness == expected
+    assert [first, second] == before and snapshot == originalSnapshot
+
+
+@pytest.mark.parametrize("existing", [False, True])
+@pytest.mark.parametrize("nextVersion", ["v2", "v3", "V2"])
+def test_bootstrap_suite_cache_shares_identity_but_not_tag_case(existing, nextVersion):
+    first = {**finding("ruvnet/ruflo"), "finding_type": "bootstrap"}
+    second = {**finding("RuvNet/Ruflo"), "finding_type": "bootstrap", "newVersion": nextVersion}
+    row = {"number": 1833, "title": "[upstream:bootstrap] RuvNet/Ruflo → baseline at v2"}
+    with patch.object(issuer, "_open_snapshot", return_value={"upstream:bootstrap": [row] if existing else []}), \
+            patch.object(issuer, "_create_issue", return_value=123) as create, \
+            patch.object(issuer, "_update_issue", return_value=True) as update, \
+            patch.object(issuer, "_live_issue", return_value={"labels": []}):
+        result = issuer.create_issues([first, second, copy.deepcopy(second)], apply=True)
+    assert create.call_count == int(not existing)
+    assert update.call_count == int(nextVersion != "v2")
+    assert result[1]["skipped"] is (nextVersion == "v2") and result[2]["skipped"] is True
+    if nextVersion != "v2":
+        assert "previously `v2`" in update.call_args.kwargs["comment"]
+
+
+def test_case_sensitive_source_suffix_is_preserved_in_generated_body():
+    first = finding("RuvNet/Ruflo")
+    first["newVersion"] = "Release/V2"
+    first["sourceUrl"] = "https://github.com/RuvNet/Ruflo/releases/tag/Release/V2"
+    with patch.object(issuer, "_open_snapshot", return_value={"upstream:release": []}), \
+            patch.object(issuer, "_create_issue", return_value=123) as create, \
+            patch.object(issuer, "_edit_umbrella_body"):
+        issuer.create_issues([first], apply=True)
+    assert create.call_args.args[0] == "[upstream] RuvNet/Ruflo → Release/V2"
+    assert issuer._payload_of_body(create.call_args.args[2])["sourceUrl"] == first["sourceUrl"]
 
 
 def test_generated_identity_matching_remains_case_insensitive():
