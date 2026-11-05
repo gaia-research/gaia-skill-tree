@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 
 from scripts.lib.github_api import parse_owner_repo
 from scripts.upstream_watcher.live import GhError
@@ -21,21 +22,28 @@ def validateReleaseSource(finding: dict) -> None:
         raise GhError(f"release source for {identifier} must be {expected}; reconcile registry source/version metadata via canonical CLI before polling (unknown evidence)")
 
 
-def validateUmbrellaIdentity(finding: dict, issue: dict) -> None:
+def validateUmbrellaIdentity(finding: dict, issue: dict, *, generated: bool = False) -> None:
     """A source URL selects a repo umbrella; it does not authorize changing its skillId.
 
-    A headless payload keeps the existing repair path. A readable payload naming
-    a different suite is affirmative conflicting evidence, not a headless issue.
+    Historical headless payloads keep the existing repair path, but newly generated
+    bodies (including the run cache) must have a valid matching owner/skill identity.
+    A readable historical payload naming a different suite is conflicting evidence.
     """
     validateReleaseSource(finding)
-    match = PAYLOAD_RE.search(issue.get("body") or "")
-    if not match:
-        return
-    try:
-        payload = json.loads(match.group(1))
-    except (ValueError, TypeError):
-        return
+    body = issue.get("body")
+    match = PAYLOAD_RE.search(body if isinstance(body, str) else "")
+    payload = None
+    if match:
+        try:
+            payload = json.loads(match.group(1))
+        except (ValueError, TypeError):
+            pass
     prior = payload.get("skillId") if isinstance(payload, dict) else None
     incoming = finding.get("skillId")
+    if generated and not all(
+        isinstance(identifier, str) and re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*/[A-Za-z0-9][A-Za-z0-9._-]*", identifier)
+        for identifier in (prior, incoming)
+    ):
+        raise GhError(f"generated umbrella payload identity missing or malformed for {incoming!r}; no overwrite authorized")
     if isinstance(prior, str) and isinstance(incoming, str) and prior.lower() != incoming.lower():
         raise GhError(f"umbrella #{issue['number']} payload identity conflicts with incoming suite; technical reconciliation required before any overwrite")

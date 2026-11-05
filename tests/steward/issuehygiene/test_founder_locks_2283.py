@@ -111,7 +111,7 @@ def test_unreadable_target_file_is_not_treated_as_absent(tmp_path):
         loadIssueDecisions(tmp_path)
 
 
-@pytest.mark.parametrize("damage", ["missing", "renamed", "open"])
+@pytest.mark.parametrize("damage", ["missing", "renamed", "open", "missing-marker", "renamed-marker", "marker-directory"])
 def test_final_lock_loss_refuses_real_sensor_cli_and_closure_rederivation(tmp_path, damage):
     from gaia_cli.steward.issuehygiene.sensor import reconcileCensus, SensorUnavailable
     from gaia_cli.steward.issuehygiene.executor import gateClosure
@@ -130,10 +130,20 @@ def test_final_lock_loss_refuses_real_sensor_cli_and_closure_rederivation(tmp_pa
         target.unlink()
     elif damage == "renamed":
         target.rename(lockdir / "renamed.json")
-    else:
+    elif damage == "open":
         record = json.loads(target.read_text())
         record["status"] = "open"
         target.write_text(json.dumps(record))
+    else:
+        marker = root / "founder/steward/FOUNDER_LOCK_2283.md"
+        if damage == "renamed-marker":
+            marker.rename(marker.with_name("renamed.md"))
+        else:
+            marker.unlink()
+            if damage == "marker-directory":
+                marker.mkdir()
+        # All records still validate: the old behavior consumed the holds.
+        assert set(decidedBindings([json.loads(path.read_text()) for path in lockdir.glob("issue-question-q-*.json")])) == set(BINDINGS)
     stale = rows()
     stale[2] = umbrellaRow(1835, "garrytan/gbrain", "v1")
     with pytest.raises(SensorUnavailable, match="reconciliation failed"):
@@ -147,6 +157,16 @@ def test_final_lock_loss_refuses_real_sensor_cli_and_closure_rederivation(tmp_pa
 
 def test_fresh_unrelated_checkout_has_no_invented_locks(tmp_path):
     assert loadIssueDecisions(tmp_path) == ()
+
+
+@pytest.mark.parametrize("qid", BINDINGS)
+def test_any_expected_record_requires_the_marker_document(tmp_path, qid):
+    path = ROOT / f"founder/steward/decisions/issue-question-{qid}.json"
+    lockdir = tmp_path / "founder/steward/decisions"
+    lockdir.mkdir(parents=True)
+    shutil.copy(path, lockdir / path.name)
+    with pytest.raises(ValueError, match="FOUNDER_LOCK_2283.md"):
+        loadIssueDecisions(tmp_path)
 
 
 def test_lock_document_refuses_even_if_all_records_are_missing(tmp_path):

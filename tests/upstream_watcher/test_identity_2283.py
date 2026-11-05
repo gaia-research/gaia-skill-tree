@@ -105,6 +105,38 @@ def test_same_identity_same_run_is_idempotent():
     assert result[1]["skipped"] is True
 
 
+@pytest.mark.parametrize("existing", [False, True], ids=["created-cache", "updated-cache"])
+@pytest.mark.parametrize("nextVersion", ["v2", "v3"], ids=["skip", "update"])
+def test_generated_cache_is_strictly_validated_before_each_skip_or_update(existing, nextVersion):
+    from scripts.upstream_watcher import releaseidentity
+
+    first = finding("ruvnet/ruflo")
+    second = copy.deepcopy(first)
+    second["newVersion"] = nextVersion
+    snapshot = {"upstream:release": [umbrella("ruvnet/ruflo")] if existing else []}
+    with patch.object(issuer, "_open_snapshot", return_value=snapshot), \
+            patch.object(issuer, "_create_issue", return_value=123) as create, \
+            patch.object(issuer, "_update_issue", return_value=True) as update, \
+            patch.object(issuer, "_fanout_approval_reset"), \
+            patch.object(issuer, "_edit_umbrella_body"), \
+            patch.object(releaseidentity, "validateUmbrellaIdentity", wraps=releaseidentity.validateUmbrellaIdentity) as validate:
+        result = issuer.create_issues([first, second, copy.deepcopy(second)], apply=True)
+    assert create.call_count == (0 if existing else 1)
+    assert update.call_count == int(existing) + int(nextVersion == "v3")
+    assert result[1]["skipped"] is (nextVersion == "v2")
+    assert result[2]["skipped"] is True
+    # A historical snapshot read alone may use recovery; every generated body read is strict.
+    assert [call.kwargs["generated"] for call in validate.call_args_list] == (
+        ([False] if existing else []) + [True] * (4 if nextVersion == "v3" else 3)
+    )
+
+
+def test_generated_identity_matching_remains_case_insensitive():
+    from scripts.upstream_watcher.releaseidentity import validateUmbrellaIdentity
+
+    validateUmbrellaIdentity(finding("RuvNet/Ruflo"), umbrella("ruvnet/ruflo"), generated=True)
+
+
 def test_cached_payload_is_checked_even_after_preflight():
     first = finding("ruvnet/ruflo")
     original = issuer.render_umbrella_body
@@ -119,6 +151,51 @@ def test_cached_payload_is_checked_even_after_preflight():
         with pytest.raises(issuer.IdempotencyLookupError, match="payload identity conflicts"):
             issuer.create_issues([first, copy.deepcopy(first)], apply=True)
         update.assert_not_called()
+
+
+GENERATED_BAD_BODIES = [
+    "no payload",
+    "<!-- gaia-upstream-payload\n{broken\n-->",
+    *["<!-- gaia-upstream-payload\n" + json.dumps(payload) + "\n-->" for payload in (
+        None, True, [], {}, {"skillId": None}, {"skillId": True}, {"skillId": 123},
+        {"skillId": []}, {"skillId": {}}, {"skillId": ""}, {"skillId": "ruvnet"},
+        {"skillId": "ruvnet/ruflo/extra"}, {"skillId": " ruvnet/ruflo"},
+        {"skillId": "ruvnet/ruflo\n"}, {"skillId": "ruvnet/flow-nexus"},
+    )],
+]
+
+
+@pytest.mark.parametrize("body", GENERATED_BAD_BODIES)
+@pytest.mark.parametrize("existing", [False, True], ids=["create", "update"])
+def test_generated_invalid_identity_refuses_before_any_write(body, existing):
+    first = finding("ruvnet/ruflo")
+    snapshot = {"upstream:release": [umbrella("ruvnet/ruflo")] if existing else []}
+    with patch.object(issuer, "_open_snapshot", return_value=snapshot), \
+            patch.object(issuer, "render_umbrella_body", return_value=body), \
+            patch.object(issuer, "_create_issue", return_value=123) as create, \
+            patch.object(issuer, "_update_issue", return_value=True) as update, \
+            patch.object(issuer, "_fanout_approval_reset") as reset, \
+            patch.object(issuer, "_edit_umbrella_body") as edit:
+        with pytest.raises(issuer.IdempotencyLookupError, match="payload identity"):
+            issuer.create_issues([first, copy.deepcopy(first)], apply=True)
+        create.assert_not_called()
+        update.assert_not_called()
+        reset.assert_not_called()
+        edit.assert_not_called()
+
+
+@pytest.mark.parametrize("body", GENERATED_BAD_BODIES[:11])
+def test_historical_headless_or_unidentified_payload_can_still_be_repaired(body):
+    row = {**umbrella("ruvnet/ruflo"), "body": body}
+    with patch.object(issuer, "_open_snapshot", return_value={"upstream:release": [row]}), \
+            patch.object(issuer, "_create_issue") as create, \
+            patch.object(issuer, "_update_issue", return_value=True) as update, \
+            patch.object(issuer, "_fanout_approval_reset"), \
+            patch.object(issuer, "_edit_umbrella_body"):
+        result = issuer.create_issues([finding("ruvnet/ruflo")], apply=True)
+        assert result[0]["updated"] is True
+        update.assert_called_once()
+        create.assert_not_called()
 
 
 def test_two_distinct_correct_repository_sources_do_not_claim_each_others_umbrellas():

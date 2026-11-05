@@ -839,7 +839,7 @@ def create_issues(
                     existing = next((row for row in snapshot.get("upstream:release", []) if row["number"] == existing_num), None)
                 if existing is None:
                     raise GhError(f"umbrella #{existing_num} identity unavailable")
-                validateUmbrellaIdentity(finding, existing)
+                validateUmbrellaIdentity(finding, existing, generated=existing_num in run_payloads)
             except GhError as exc:
                 raise IdempotencyLookupError(str(exc)) from exc
             if existing_title == umbrella_title:
@@ -862,6 +862,10 @@ def create_issues(
             umbrella_body = render_umbrella_body(
                 finding, mode, component_adds, component_removes, link_liveness, name_drift
             )
+            try:
+                validateUmbrellaIdentity(finding, {"number": existing_num, "body": umbrella_body}, generated=True)
+            except GhError as exc:
+                raise IdempotencyLookupError(str(exc)) from exc
             if apply:
                 # D10: the same approval reset as the batch path (H1). It lands before the body write.
                 _fanout_approval_reset(
@@ -893,6 +897,10 @@ def create_issues(
             umbrella_body = render_umbrella_body(
                 finding, mode, component_adds, component_removes, link_liveness, name_drift
             )
+            try:
+                validateUmbrellaIdentity(finding, {"number": "new", "body": umbrella_body}, generated=True)
+            except GhError as exc:
+                raise IdempotencyLookupError(str(exc)) from exc
             umbrella_num = _create_issue(
                 umbrella_title,
                 ["upstream:release", "needs-triage"],

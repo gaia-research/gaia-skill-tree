@@ -5,7 +5,8 @@ a product, ontology, or policy question someone has to answer. The Steward
 founder desk (`src/gaia_cli/steward/desk.py`) reads every `*.json` file in this
 directory; each record whose `status` is `open` appears under
 `NEEDS YOUR DECISION`. The scoped issue-family lock consumer also reads the four
-`issue-question-q-*.json` records described below; documentation files are not inputs.
+`issue-question-q-*.json` records described below; the existing #2283 marker document
+is an explicit prerequisite, not a decision record.
 
 Records are for questions a person raises on purpose. Questions Steward
 discovers itself (Class C debt, escalated lane entries) reach the desk
@@ -69,9 +70,11 @@ without closure or release acceptance. C2/C3/C4 and their held descendants are
 `held`/`none`, not actionable batches or closure proposals. A generic
 `upstream:needs-info` label also prevents a non-C item from becoming actionable.
 The existing `founder/steward/FOUNDER_LOCK_2283.md` implementation boundary or
-any canonical lock record enables the complete four-record set. In that context,
-missing, renamed, open, malformed or mismapped records refuse reconciliation;
-they cannot silently remove final authority. Unrelated fresh checkouts without
+any canonical lock record enables the complete lock contract: that marker document
+must be a file and all four mapped records must be finalized and valid. Missing or
+renamed marker documents and missing, renamed, open, malformed or mismapped records
+refuse reconciliation; they cannot silently remove final authority.
+Unrelated fresh checkouts without
 that document or any canonical lock record retain ordinary reconciliation and
 do not acquire these rulings. The manifest retains each source body digest and
 cites the decision record; it does not rewrite issue or registry payloads.
