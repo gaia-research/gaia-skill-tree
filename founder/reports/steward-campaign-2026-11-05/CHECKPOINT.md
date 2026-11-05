@@ -21,9 +21,9 @@ No competing shared-ledger writers. Lead alone performs real canonical mutations
 | Milestone | Required exit | Current state |
 |---|---|---|
 | **M0 Recovery** | Verified live baseline, fresh A/B/C census, executable queue, ownership and gates | **COMPLETE**: fresh receipt, inventory and safe one-debt queue verified below; first canonical repair run launched |
-| **M1 First main promotion** | Accepted package reaches main through protected PR, or concrete evidenced blocker | Frozen candidate `2d9599c11…`; independent promotion review active; no campaign main promotion yet |
+| **M1 First main promotion** | Accepted package reaches main through protected PR, or concrete evidenced blocker | **BLOCKED, source eligible**: frozen `2d9599c11…`, exact-head CI 17 success /2 skipped; effective main protection absent and shown CLI-warning approval pending. No main merge. |
 | **M2 Routine 19 readiness** | Complete operational source integration, end-to-end/process/failure tests, independent acceptance and normal promotion; activation only within authority | Core independently accepted, #2296 draft; separate wiring writer active; NOT operationally ready |
-| **M3 Batched elimination** | Several individually verified/canonically resolved debts delivered by proven repeatable compatible batching | Feasibility investigation active; no batch-size/cap amendment inferred |
+| **M3 Batched elimination** | Several individually verified/canonically resolved debts delivered by proven repeatable compatible batching | Feasibility reconnaissance complete: singular packets/one dispatch; compatible delivery waves only. No batch-size/cap amendment inferred |
 | **M4 Sustained delivery** | Repeating discover → classify → batch → dispatch → verify → integrate → promote → re-observe, with accurate blockers | Not established; only one B debt canonically resolved so far |
 
 ## Authoritative observations and accounting
@@ -64,14 +64,26 @@ M1 promotion must freeze the accepted head on a dedicated branch, not use a muta
 
 ## Active ownership — no duplicate writers
 
+Last assigned ownership (terminal notifications must still be collected before claiming completion):
+
 | Lane | Owner / task | Source and authority |
 |---|---|---|
-| A recovery / first repair | Lead Sol High; recovery `b490fa93d` completed; canonical launch `bdec4e1bc` | Real canonical mutations only by lead. New restricted full run targets roster unused-import debt below; waiting for emitted action, no builder dispatched yet. |
-| A executable queue + M3 | shared Luna medium; `b13b588a8` | Read-only queue/envelope/batching investigation. Not a canonical dispatch; cannot alter ledger or manufacture repairs. |
-| B Routine19 wiring | shared Sol MAX; `bdc4219e2` | Existing writer, do not restart. Worktree `steward-r19-shared-write-2283`; unpublished integration of core/provider/executor/gate/CLI/runner/local defaults/contracts. |
-| C promotion review | shared Sol high; `bc5df0b73` | Independent read-only frozen accepted-head/main eligibility review. No merge authority delegated. |
+| A canonical repair | shared Luna medium; `b13c9cb2d` | Run `run-20261105T172246Z-e34944e8`, build `build:638fb01c8655:1`, dispatch `dispatch-2beea7af972331dae185`. Separate worktree `steward-roster-burn-638fb01c8655`, exact branch `steward/b/unused-import-638fb01c8655`; only roster.py. No ledger, push, integration or self-verification. Lead records outcomes. |
+| A queue + M3 | shared Luna medium; `b13b588a8` completed | Read-only feasibility delivered; no multi-debt envelope/cap amendment. |
+| B Routine19 wiring | shared Sol MAX; `be87430e0` | SAME session/sole writer resumed after `bdc4219e2` ended PARTIAL. Preserved provider checkpoint `2614c9d20e9ab94d3539bf56882e34f81de62546` and nine WIP files; no final wiring proof existed. First slice's 22 builder tests are NOT whole-feature acceptance. No competing writer, reset or restart. |
+| C promotion review | shared Sol high; `bc5df0b73` completed | Frozen source eligible; positive evidence of ineffective main protection plus CLI human gate. Main-PR CI subsequently completed successfully. No merge authority delegated. |
+| Non-Steward review-page helper | Flash low; `b5dcb87b3` | Only isolated ignored `.pi/probes/steward-main-gates-2283/index.html`; two unselected founder decision cards, no network/state execution. Parent serves only that directory, never raw campaign evidence. |
 
-Maximum four concurrent agents; use remaining slot for an actual canonical builder/verifier when its packet is available. Different branches/worktrees for independent code ownership. Review-only work never mutates a builder's files. All new agent routes explicit `openai-codex` shared personas; no fallback. Parent lead observed `openai/gpt-6.1-sol`, high.
+Maximum four concurrent agents. Canonical Steward builders/verifiers use explicit `openai-codex` shared routes, no fallback. Latest founder instruction permits Flash for non-Steward work, including bounded Routine19 engineering; that does not require changing or duplicating an existing writer. Current wiring owner remains shared Sol MAX; the local HTML helper uses `antigravity/gemini-3.8-flash` LOW. Different worktrees/files for independent ownership; reviews do not mutate candidate source.
+
+## M1 concrete founder gates
+
+Independent review found no new source correctness/security defect. Exact frozen-head #2297 checks: **17 SUCCESS /2 irrelevant SKIPPED**, all completed. This clears the earlier missing-CI item, not the two remaining gates:
+
+1. Fresh accessible GitHub reads show main `protected:false`, effective branch rules HTTP-success `[]`, and active Main Ruleset **18124772** with empty `conditions.ref_name.include` and `exclude`. Configured checks are therefore not effective main protection. No admin/settings mutation is authorized merely by conditional promotion authority. Proposed narrow founder decision: include only `refs/heads/main`, retain existing rules, strict checks, active enforcement and no bypass actors; then verify effective protection.
+2. Founder CLI-output review is pending for additive ledger warning. Synthetic message-level comparison: before, no telemetry warning; after, `Steward ledger size telemetry: direction=read bytes=6291456 limit_bytes=8388608 percent=75.0 threshold=70%`. This is not a successful old-main 6 MiB read or terminal screenshot. Old cap was 1 MiB.
+
+Two decisions are being prepared as one local HTML review-page fallback (no Artifact tool); no options preselected and choices do not execute anything. Record founder choices verbatim before acting. Neither decision authorizes archive/Routine19 activation, registry/trust/L4 changes, release or deployment. Existing `[skip-gen]` generation guard can keep source-only delivery from unapproved auto-regeneration/release/deploy without bypassing required CI. Re-read current main/head/checks/protection before any normal merge; no override/unprotected merge.
 
 ## Locked founder decisions
 
@@ -90,7 +102,7 @@ D1–D3 cover **39 original paths /71 occurrences**, not 39 established leaks. E
 ## Parked and blocked work
 
 - **#2287 stays parked/unmerged.** Actual archival DoD open; no broad archive implementation, migration, new profile or manufactured settlement. Remaining local guard history-consistency rejection preserved. Archive is not a dependency of safe A/B repairs.
-- **#2296 / Routine19:** core accepted at `6b914723…`, tests373 and fresh independent boundary tests11; exact-head CI completed, not yet integrated/promoted. It remains a dormant module with no production Services. Prototype 512 KiB fits roughly 11 real full-proof records; ongoing minimal wiring must address bounded capacity honestly without pruning proof/reviving archive. No namespace provisioning, time-trust/append-only protection verification, old-writer draining or live operation is claimed.
+- **#2296 / Routine19:** core accepted at `6b914723…`, tests373 and fresh independent boundary tests11; exact-head CI 11 SUCCESS /2 irrelevant SKIPPED, not yet integrated/promoted. Core remains dormant; separate unpublished wiring is partial at provider checkpoint `2614c9d20…` plus WIP. No whole-feature/provider/rollout acceptance follows from the core's acceptance. Prototype 512 KiB fits roughly 11 real full-proof records; ongoing minimal wiring must address bounded capacity honestly without pruning proof/reviving archive. No namespace provisioning, time-trust/append-only protection verification, old-writer draining or live operation is claimed.
 - Existing trust/rank dispatches blocked/escalated stay blocked; no reset/retry to evade attempt ceilings or L4/data authority.
 - Browser-render/advisory absence is not health. Coverage unknown blocks A; optional not-evaluated is reported.
 - Main promotion requires actual eligible diff, protected checks and any genuine human gate; record concrete blockers, do not wait for unrelated infrastructure.
@@ -99,8 +111,8 @@ D1–D3 cover **39 original paths /71 occurrences**, not 39 established leaks. E
 ## Exact next actions
 
 1. M0 completed: retain fresh inventory and receipt above. Do not merge PR/dispatch counters with debt closure counters.
-2. Drive the launched canonical run for `debt:unused_import:src-gaia-cli-steward-prmaintenance-roster-py:0d3bca3f7369f4af` (unused timezone; all observed findings sideEffectPossible=false). Read its emitted packet, assign one shared Luna builder, then a distinct verifier, record canonical outcomes and integrate only accepted work. No raw state edits, self-verification, rank/curation or forbidden-path expansion. Many other unused-import rows contain sideEffectPossible=true or intentional public re-exports and are not interchangeable safe targets.
-3. Complete frozen accepted-head main promotion review and main-target PR CI; perform normal eligible promotion or document the exact blocker. Verify resulting main source. Keep incomplete R19/archive off the promotion head.
+2. Drive the launched canonical run for `debt:unused_import:src-gaia-cli-steward-prmaintenance-roster-py:0d3bca3f7369f4af` (unused timezone; all observed findings sideEffectPossible=false). The emitted packet has been read and shared Luna builder assigned. Collect its exact diff/proof/head and runtime identity, record the canonical build through the CLI, then dispatch a distinct verifier using the emitted verifier prompt. Integrate only accepted work. No raw state edits, self-verification, rank/curation or forbidden-path expansion. Many other unused-import rows contain sideEffectPossible=true or intentional public re-exports and are not interchangeable safe targets.
+3. Main review and exact-head CI are collected; M1 is blocked on effective main protection and the warning presentation approval above. Present the two-card founder page, retain normal protected-PR gates, and continue lane A while waiting. Verify resulting main source. Keep incomplete R19/archive off the promotion head.
 4. Finish the existing Routine19 writer's minimal complete source; independent end-to-end, process/crash/recovery, clock/authority/storage/kill/comment tests before promotion/activation claims. Do not let this suspend lane A.
 5. Initial M3 finding: packets are singular-debt and unused-import envelopes require one subject file; maxDispatchesPerRun=1 remains. Do not invent a multi-file diff/aggregate packet or loop starts to evade the cap. Existing legal delivery batching may group separately completed and individually verified canonical repairs into a frozen main-promotion wave. A true multi-dispatch/multi-debt repair pilot needs an explicit bounded amendment; prepare that decision only after first measured safe delivery, without suspending current legal repairs.
 6. Repeat canonical repair → verification → integration → protected main promotion → re-observation. Record per-debt IDs/run/batch/PR, acceptance/rejection, timestamps and blockers. Refresh this checkpoint at each meaningful milestone and before handover/compaction.
@@ -113,6 +125,6 @@ Maintain a simple append-only delivery table here: run/batch, debt IDs, exact bu
 |---|---|---|
 | `run-20261104T191141Z-c3a4df1e` | One unused-import debt resolved, exact ID/receipt above | #2289 integration; main pending M1 |
 | Recovery `run-20261105T170320Z-d6eaa3cb` | Completed: A0/B325/C40; one explanatory-document signal naturally resolved; 3 created | Not a repair batch; no new B closure |
-| Roster targeted canonical launch | Pending emitted action; debt `...roster-py:0d3bca3f7369f4af` | No repair or delivery claim yet |
+| Roster `run-20261105T172246Z-e34944e8` | Awaiting build outcome; Luna `b13c9cb2d`; debt `...roster-py:0d3bca3f7369f4af` | No new closure/integration/main claim yet |
 
 Detailed temporary evidence remains in ignored `.gaia/steward/campaigns/2026-11-05/`; durable decisions and milestone receipts belong in this versioned checkpoint and #2283. Keep sensitive raw snapshots and process/session logs out of public reports.
