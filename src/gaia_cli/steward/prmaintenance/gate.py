@@ -76,7 +76,7 @@ class Snapshot:
 AUTHORITY_FILES = ("founder/steward/POLICY.yaml", "founder/steward/pr-producers.json",
                    "founder/steward/decisions/steward-pr-maintenance-authority.json")
 AUTHORITY_REF = "GAIA_STEWARD_PR_AUTHORITY_REF"
-COORDINATION = "checkout-local"
+COORDINATION = "canonical-git-ref-v1"
 
 
 AUTHORITY_LOCAL = "GAIA_STEWARD_PR_AUTHORITY_LOCAL"
@@ -219,14 +219,15 @@ def verificationFor(root: Path, request: Mapping[str, Any], row: Mapping[str, An
 
 
 def commonChecks(root: Path, request: Mapping[str, Any], snap: Snapshot, now: datetime, action: str,
-                 policy: StewardPolicy, registry: Registry) -> None:
+                 policy: StewardPolicy, registry: Registry, *, currentAuthority: bool = False) -> None:
     pol = policy.pr_maintenance
     reason = state.killSwitchActive(root, pol.killSwitch)
     if reason:
         raise GateRefused("kill-switch", f"PR maintenance writes are revoked: {reason}")
-    drift = authorityDrift(root)
-    if drift:
-        raise GateRefused(drift[0], drift[1])
+    if not currentAuthority and pol.writeCoordination is None:
+        drift = authorityDrift(root)
+        if drift:
+            raise GateRefused(drift[0], drift[1])
     if policy.pr_maintenance_error:
         raise GateRefused("policy-malformed", policy.pr_maintenance_error)
     if not prAuthorityApproved(root):
@@ -240,9 +241,6 @@ def commonChecks(root: Path, request: Mapping[str, Any], snap: Snapshot, now: da
     if repo not in registry.enabledRepos:
         raise GateRefused("repo-not-enabled", f"{repo} is not an enabled repository")
     number = int(request["number"])
-    prior = state.terminalFor(root, repo, number, action)
-    if prior is not None:
-        raise AlreadyDone("already-recorded", f"outcome already recorded: {prior['state']}", prior)
     live = snap.row
     if int(live["number"]) != number:
         raise GateRefused("snapshot-mismatch", "the live snapshot is for a different pull request")
@@ -262,38 +260,23 @@ def commonChecks(root: Path, request: Mapping[str, Any], snap: Snapshot, now: da
 
 def reserveWrite(root: Path, request: Mapping[str, Any], runId: str, action: str, row: Mapping[str, Any], now: datetime,
                  policy: StewardPolicy, digest: str) -> None:
-    pol = policy.pr_maintenance
-    repo, number = str(request["repo"]), int(request["number"])
-    ceiling = pol.maxMergesPerRun if action == "merge" else pol.maxClosuresPerRun
-    with state.lock(root):
-        prior = state.terminalFor(root, repo, number, action)
-        if prior is not None:
-            raise AlreadyDone("already-recorded", f"outcome already recorded: {prior['state']}", prior)
-        held = state.openReservation(root, repo, number, action, now)
-        if held is not None and not held["stale"]:
-            raise GateRefused("concurrent-attempt", f"run {held.get('runId')} holds a live reservation for this pull request")
-        if state.writesInRun(root, runId, action) >= ceiling:
-            raise GateRefused("run-budget-exhausted", f"this run already spent its {ceiling} {action} budget; the queue resumes next run")
-        if state.writesWithin(root, now) >= pol.hourlyWriteCap:
-            raise GateRefused("hourly-budget-exhausted", f"{pol.hourlyWriteCap} merges and closures already spent in the last hour")
-        state.appendRecord(root, "outcomes", {
-            "at": isoNow(now), "runId": runId, "repo": repo, "number": number, "action": action,
-            "headSha": row["headSha"], "state": "reserved", "authorizationSha256": digest})
+    raise GateRefused("legacy-route-disabled", "local reservations cannot authorize a critical write; use shared preparation")
 
 
 def authorization(request: Mapping[str, Any], row: Mapping[str, Any], evaluationSha: str, verification: Mapping[str, Any],
                   action: str, method: str, now: datetime, runId: str, authority: Mapping[str, str] | None = None) -> dict[str, Any]:
-    body = {"action": action, "repo": request["repo"], "number": int(request["number"]), "headSha": row["headSha"],
-            "baseRef": row["baseRef"], "baseSha": row["baseSha"], "method": method, "producerId": request["producerId"],
-            "runId": runId, "evaluationSha256": evaluationSha, "verifier": verification["verifier"]["agentId"],
-            "authority": dict(authority or {}), "reservedAt": isoNow(now), "expiresAt": isoNow(now + timedelta(seconds=AUTH_TTL_SECONDS))}
-    return {**body, "digest": hashlib.sha256(stable_json(body).encode("utf-8")).hexdigest()}
+    raise GateRefused("legacy-route-disabled", "authorization JSON is not a send grant")
 
 
-def gateMerge(root: Path, request: Mapping[str, Any], snap: Snapshot, now: datetime, runId: str, *,
-              policy: StewardPolicy | None = None, registry: Registry | None = None, requireTrail: bool = True) -> dict[str, Any]:
+def validateWrite(root: Path, request: Mapping[str, Any], snap: Snapshot, now: datetime, action: str, *,
+                  policy: StewardPolicy | None = None, registry: Registry | None = None,
+                  verification: Mapping[str, Any] | None = None, currentAuthority: bool = False) -> Mapping[str, Any]:
+    """Eligibility only. No reservation, send permission, receipt or local outcome authority."""
+    if action == "close":
+        return validateClose(root, request, snap, now, policy=policy, registry=registry,
+                             verification=verification, currentAuthority=currentAuthority)
     policy, registry = context(root, policy, registry)
-    commonChecks(root, request, snap, now, "merge", policy, registry)
+    commonChecks(root, request, snap, now, "merge", policy, registry, currentAuthority=currentAuthority)
     row = snap.row
     evaluation = evaluate(root, registry, str(request["repo"]), row, snap.tips, snap.protection, snap.siblings, snap.closed)
     if evaluation is None or evaluation.kind != KIND_MERGE:
@@ -310,22 +293,14 @@ def gateMerge(root: Path, request: Mapping[str, Any], snap: Snapshot, now: datet
         raise GateRefused("branch-protection", f"GitHub reports mergeable state {row.get('mergeableState')!r}, not clean")
     if not snap.protection.get("complete"):
         raise GateRefused("branch-protection", "branch protection could not be read; refusing rather than assuming")
-    found = verificationFor(root, request, row, snap.tips[row["baseRef"]], now, policy.pr_maintenance.verificationTtlSeconds, "merge")
-    if requireTrail:
-        head12 = row["headSha"][:12]
-        comments = row.get("comments") or []
-        for kind in ("pickup", "verification"):
-            if receipts.findReceipt(comments, kind, int(request["number"]), head12) is None:
-                raise GateRefused("trail-missing", f"no trusted {kind} receipt for head {head12} is on the pull request")
-    auth = authorization(request, row, evaluation.digest(), found, "merge", method, now, runId, authorityInfo(root))
-    reserveWrite(root, request, runId, "merge", row, now, policy, auth["digest"])
-    return auth
+    return verification or verificationFor(root, request, row, snap.tips[row["baseRef"]], now, policy.pr_maintenance.verificationTtlSeconds, "merge")
 
 
-def gateClose(root: Path, request: Mapping[str, Any], snap: Snapshot, now: datetime, runId: str, *,
-              policy: StewardPolicy | None = None, registry: Registry | None = None) -> dict[str, Any]:
+def validateClose(root: Path, request: Mapping[str, Any], snap: Snapshot, now: datetime, *,
+                  policy: StewardPolicy | None = None, registry: Registry | None = None,
+                  verification: Mapping[str, Any] | None = None, currentAuthority: bool = False) -> Mapping[str, Any]:
     policy, registry = context(root, policy, registry)
-    commonChecks(root, request, snap, now, "close", policy, registry)
+    commonChecks(root, request, snap, now, "close", policy, registry, currentAuthority=currentAuthority)
     row = snap.row
     evaluation = evaluate(root, registry, str(request["repo"]), row, snap.tips, snap.protection, snap.siblings, snap.closed)
     if evaluation is None or evaluation.kind != KIND_CLOSURE:
@@ -341,30 +316,32 @@ def gateClose(root: Path, request: Mapping[str, Any], snap: Snapshot, now: datet
         raise GateRefused("closure-reason-not-eligible", f"{request.get('reason')!r} is not the proven, eligible reason")
     if not evaluation.replacement or int(request.get("replacement") or 0) != evaluation.replacement:
         raise GateRefused("replacement-missing", "the named replacement is not a merged pull request that carries this PR's marker")
-    found = verificationFor(root, request, row, snap.tips[row["baseRef"]], now, policy.pr_maintenance.verificationTtlSeconds, "close")
-    if receipts.findReceipt(row.get("comments") or [], "closed", int(request["number"]), row["headSha"][:12]) is None:
-        raise GateRefused("justification-missing", "the closure justification must be posted before the pull request is closed")
-    auth = authorization(request, row, evaluation.digest(), found, "close", "close", now, runId, authorityInfo(root))
-    reserveWrite(root, request, runId, "close", row, now, policy, auth["digest"])
-    return auth
+    return verification or verificationFor(root, request, row, snap.tips[row["baseRef"]], now, policy.pr_maintenance.verificationTtlSeconds, "close")
+
+
+def makeExecutor(root: Path):
+    from gaia_cli.steward.prmaintenance.executor import makeExecutor as factory
+    return factory(root)
+
+
+def gateMerge(root: Path, request: Mapping[str, Any], snap: Snapshot, now: datetime, runId: str, *,
+              policy: StewardPolicy | None = None, registry: Registry | None = None, requireTrail: bool = True) -> dict[str, Any]:
+    # requireTrail is compatibility-only; receipt publication is never authority.
+    found = validateWrite(root, request, snap, now, "merge", policy=policy, registry=registry)
+    return makeExecutor(root).prepare({**request, "action": "merge"}, snap, found, runId)
+
+
+def gateClose(root: Path, request: Mapping[str, Any], snap: Snapshot, now: datetime, runId: str, *,
+              policy: StewardPolicy | None = None, registry: Registry | None = None) -> dict[str, Any]:
+    found = validateWrite(root, request, snap, now, "close", policy=policy, registry=registry)
+    return makeExecutor(root).prepare({**request, "action": "close"}, snap, found, runId)
 
 
 def checkAuthorization(root: Path, auth: Mapping[str, Any]) -> None:
     """The authorization must be intact and match a still-open reservation. A forged, replayed or aborted one is refused."""
 
-    body = {key: value for key, value in auth.items() if key != "digest"}
-    if hashlib.sha256(stable_json(body).encode("utf-8")).hexdigest() != auth.get("digest"):
-        raise GateRefused("authorization-forged", "the authorization's digest does not match its contents")
-    match = None
-    for line in state.readRecords(root, "outcomes"):
-        if (line.get("repo"), line.get("number"), line.get("action")) != (auth["repo"], auth["number"], auth["action"]):
-            continue
-        if line.get("state") == "reserved":
-            match = line  # the LATEST reservation for this pull request and action supersedes every earlier one
-        elif line.get("state") in state.SETTLED:
-            match = None
-    if match is None or match.get("authorizationSha256") != auth["digest"] or match.get("headSha") != auth["headSha"]:
-        raise GateRefused("unknown-authorization", "no open reservation matches this authorization (never issued, already settled or aborted)")
+    if not isinstance(auth.get("operationId"), str):
+        raise GateRefused("legacy-route-disabled", "raw authorization/local terminal JSON cannot settle or authorize writes")
 
 
 def finalize(root: Path, auth: Mapping[str, Any], snap: Snapshot, now: datetime, *, parents: Sequence[str] = (),
@@ -372,38 +349,15 @@ def finalize(root: Path, auth: Mapping[str, Any], snap: Snapshot, now: datetime,
     """Settle a reservation from GitHub's *observed* state. The driver's word is never the proof."""
 
     checkAuthorization(root, auth)
-    row = snap.row
-    base = {"at": isoNow(now), "runId": auth["runId"], "repo": auth["repo"], "number": auth["number"],
-            "action": auth["action"], "headSha": auth["headSha"], "authorizationSha256": auth["digest"],
-            **({"lateAuthorization": True} if isoNow(now) > str(auth.get("expiresAt")) else {})}
-    if auth["action"] == "merge":
-        merged = bool(snap.merged or row.get("merged"))
-        headOk = row.get("headSha") == auth["headSha"]
-        if merged and headOk and snap.mergeCommitSha:
-            outcome = {**base, "state": "merged", "mergeCommitSha": snap.mergeCommitSha, "method": auth["method"],
-                       "parentsVerified": auth["headSha"] in list(parents), "postMerge": postMerge}
-        elif merged and not headOk:
-            outcome = {**base, "state": "failed", "reason": "merged at a different head than the one authorized"}
-        else:
-            outcome = {**base, "state": "failed", "reason": "GitHub does not show the pull request merged"}
-    else:
-        closed = row.get("state") == "closed" and not (snap.merged or row.get("merged"))
-        outcome = {**base, "state": "closed" if closed else "failed",
-                   **({} if closed else {"reason": "GitHub does not show the pull request closed without merge"})}
-    with state.lock(root):
-        state.appendRecord(root, "outcomes", outcome)
-    return outcome
+    # Supplied snapshots/parents and caller success/failure claims are not settlement authority.
+    return makeExecutor(root).recover(auth["operationId"])
 
 
 def abort(root: Path, auth: Mapping[str, Any], reason: str, now: datetime) -> dict[str, Any]:
     """The driver did not perform the call (an error before it): release the reservation, recording why."""
 
     checkAuthorization(root, auth)
-    outcome = {"at": isoNow(now), "runId": auth["runId"], "repo": auth["repo"], "number": auth["number"], "action": auth["action"],
-               "headSha": auth["headSha"], "state": "aborted", "reason": reason[:300]}
-    with state.lock(root):
-        state.appendRecord(root, "outcomes", outcome)
-    return outcome
+    return makeExecutor(root).abort(auth["operationId"], reason)
 
 
 def asJson(value: Any) -> str:

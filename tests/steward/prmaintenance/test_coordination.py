@@ -429,14 +429,14 @@ def test_finite_storage_admission_keeps_outcome_headroom_and_tombstones(fixture,
     coord = coordinator(first, binding)
     token = prepared(coord)
     size = len(ledger.serialize(coord._load()[0]))
-    monkeypatch.setattr(core, "MAX_BYTES", size + core.OUTCOME_HEADROOM)
+    monkeypatch.setattr(coord, "resources", core.ResourceProfile(size + core.OUTCOME_HEADROOM))
     # Existing active operation can always record its bounded outcome.
     coord.invoke(token, "claim")
     tip = coord.store.remoteTip()
     with pytest.raises(core.Refused, match="headroom"):
         prepared(coord, 2, run="other-run")
     assert coord.store.remoteTip() == tip
-    monkeypatch.setattr(core, "MAX_BYTES", 512 * 1024)
+    monkeypatch.setattr(coord, "resources", core.ResourceProfile(512 * 1024))
     monkeypatch.setattr(core, "MAX_OPERATIONS", 1)
     with pytest.raises(core.Refused, match="anti-replay"):
         prepared(coord, 3, run="third-run")
@@ -529,7 +529,7 @@ def test_worst_bounded_remaining_transitions_fit_reserved_headroom(fixture, monk
     bindingProof["verification"]["source"] = "s" * 256
     token = coord.reserve(candidate, bindingProof, "r" * 128, "o" * 128, "reserve").token
     reserveSize = len(ledger.serialize(coord._load()[0]))
-    monkeypatch.setattr(core, "MAX_BYTES", reserveSize + core.OUTCOME_HEADROOM)
+    monkeypatch.setattr(coord, "resources", core.ResourceProfile(reserveSize + core.OUTCOME_HEADROOM))
     coord.recordIntent(token, core.exactRequest(NAMESPACE, candidate), "i" * 128)
     for number in range(3):
         now = 10000 + 121 * (number + 1)

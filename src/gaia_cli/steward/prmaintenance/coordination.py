@@ -39,6 +39,23 @@ MAX_BYTES = 512 * 1024
 # per-source bound. JSON escaping still counts against the unchanged MAX_BYTES.
 MAX_SOURCE_BYTES = 64 * 1024
 OUTCOME_HEADROOM = 16 * 1024
+
+
+@dataclass(frozen=True)
+class ResourceProfile:
+    """Finite retained-full-record budget, never a quota or authority setting.
+
+    Production uses 8 MiB (128 current full proofs fit); focused historical
+    boundary fixtures explicitly select 512 KiB. A smaller transport limit wins.
+    No pruning or widening past the accepted transport default is permitted.
+    """
+
+    byteLimit: int = 8 * 1024 * 1024
+
+    def validate(self) -> None:
+        integer(self.byteLimit, 1024, 8 * 1024 * 1024)
+
+
 PREPARATION_SECONDS = 120
 HOUR_SECONDS = 3600
 MAX_CLOCK_WIDTH = 30
@@ -463,7 +480,8 @@ class _Grant:
 
 
 class PrWriteCoordinator:
-    def __init__(self, store: ledger.GitRefLedgerStore, binding: Binding, services: Services):
+    def __init__(self, store: ledger.GitRefLedgerStore, binding: Binding, services: Services,
+                 resources: ResourceProfile = ResourceProfile()):
         if not isinstance(store, ledger.GitRefLedgerStore) or store.ref != REF or store.remote != "origin":
             raise CoordinationError("canonical origin Git ref required; no local fallback")
         binding.namespace.validate()
@@ -472,6 +490,8 @@ class PrWriteCoordinator:
         text(binding.canonicalUrl, 2048)
         if store.resolveUrls() != (binding.canonicalUrl, binding.canonicalUrl):
             raise CoordinationError("fetch/push destinations differ from trusted canonical binding")
+        resources.validate()
+        self.resources = resources
         self.store = store
         self.binding = binding
         self.services = services
@@ -481,6 +501,9 @@ class PrWriteCoordinator:
         self.pid = os.getpid()
         self.grantGuard = threading.Lock()
         self.grants: dict[int, _Grant] = {}
+
+    def byteLimit(self) -> int:
+        return min(self.resources.byteLimit, ledger.ledgerByteLimit())
 
     def _payload(self, document: dict) -> dict:
         exact(document, {"schemaVersion", "generation", "runs", "leases", "work", "lane", "operations"})
@@ -496,7 +519,7 @@ class PrWriteCoordinator:
 
     def _readCommit(self, commit: str) -> dict:
         spec = f"{commit}:{ledger.LEDGER_FILENAME}"
-        if int(self.store.plumb(["cat-file", "-s", spec])) > MAX_BYTES:
+        if int(self.store.plumb(["cat-file", "-s", spec])) > self.byteLimit():
             raise CoordinationError("coordination payload over byte bound")
         raw = self.store.plumb(["cat-file", "-p", spec]).encode("utf-8")
         return ledger.deserialize(raw)
@@ -534,7 +557,7 @@ class PrWriteCoordinator:
                         raise CoordinationError("inconsistent generation or rewritten transition history")
                     self.verified[commit] = prefixes[index]
                 previous = commit
-            if len(ledger.serialize(document)) > MAX_BYTES:
+            if len(ledger.serialize(document)) > self.byteLimit():
                 raise CoordinationError("coordination document over byte bound")
             self.lastTip = tip
             return document, tip, state
@@ -580,7 +603,8 @@ class PrWriteCoordinator:
             # growth up to the bounded history generation. Source JSON escaping
             # is already included in size; no raw-text size approximation.
             generationHeadroom = max(0, len(str(MAX_HISTORY)) - len(str(persisted["generation"])))
-            if size > MAX_BYTES or (kind == "reserve" and size + OUTCOME_HEADROOM + generationHeadroom > MAX_BYTES):
+            limit = self.byteLimit()
+            if size > limit or (kind == "reserve" and size + OUTCOME_HEADROOM + generationHeadroom > limit):
                 raise Refused("critical record capacity exhausted; settlement headroom retained")
             try:
                 self.store.compare_and_swap(tip, candidate, f"critical {kind} {transitionId}")

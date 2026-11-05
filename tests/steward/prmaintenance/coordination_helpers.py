@@ -150,7 +150,9 @@ def assertIndependent(first: Path, second: Path) -> None:
 
 
 def coordinator(path: Path, binding: Binding, services: FakeServices | None = None) -> PrWriteCoordinator:
-    return PrWriteCoordinator(ledger.GitRefLedgerStore(path, ref=REF), binding, services or FakeServices())
+    # Explicit historical resource-test profile, not the production default.
+    from gaia_cli.steward.prmaintenance.coordination import ResourceProfile
+    return PrWriteCoordinator(ledger.GitRefLedgerStore(path, ref=REF), binding, services or FakeServices(), ResourceProfile(512 * 1024))
 
 
 def prepared(coord: PrWriteCoordinator, number: int = 1, action: str = "merge", run: str = "stable-run"):
