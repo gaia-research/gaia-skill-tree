@@ -1,0 +1,58 @@
+{
+  "purpose": "Scoped joined-source policy and selected-source reconciliation; not a security clearance or operational authorization.",
+  "sourceCommit": "9dca3c6574701f57473e0cc3f52606600b1466ee",
+  "sourceTree": "4d24241bd375324aecbba51e3fbd1cf47f1583ab",
+  "integrationParent": "ae0598f0aaedc7505a8d2f96d95d585a6ee47ec0",
+  "mainParent": "31b407db65c4e138896780a7319e4a4ce76884eb",
+  "historicalCheckpoint": "3f4c46fe140f0e3d4a26733baba23f229c30ab94",
+  "historicalMatrixSha256": "da5b7a39f3a261cc82fcf74e88038c122c9d5b035da5dab7957b8aea66d940e6",
+  "historicalProofSha256": "e10b20d2657ed511ff9e6ab8585784510e26bacccd1bc631d42557ab5e9a7867",
+  "policy": {
+    "path": "founder/steward/POLICY.yaml",
+    "historicalSha256": "58af7eb1d4915970e2b8ffa8b55f4c96f5f79b7cd330b316c1d05ff534a28278",
+    "joinedAndMainSha256": "db34e81bb502dc5a5097b41e7e8c69cc7d288905fbad7b3be491e5324b235246",
+    "fullPolicyHashChanged": true,
+    "oldValuesDeleted": false,
+    "oldValuesModified": false,
+    "addedPaths": [
+      "authority.routine_pr_blocked",
+      "authority.routine_pr_closure_ready",
+      "authority.routine_pr_conflict",
+      "authority.routine_pr_founder_decision",
+      "authority.routine_pr_merge_ready",
+      "authority.routine_pr_provenance_unknown",
+      "authority.routine_pr_superseded",
+      "authority.routine_pr_verification_failed",
+      "priority.routine_pr_blocked",
+      "priority.routine_pr_closure_ready",
+      "priority.routine_pr_conflict",
+      "priority.routine_pr_founder_decision",
+      "priority.routine_pr_merge_ready",
+      "priority.routine_pr_provenance_unknown",
+      "priority.routine_pr_superseded",
+      "priority.routine_pr_verification_failed",
+      "routing.founderRules.routine-pr-founder-decision",
+      "prMaintenance"
+    ],
+    "unchangedSubset": {
+      "credentialLeakAuthority": "C",
+      "credentialLeakPriority": {"importance": 1.0, "decisionImpact": 1.0, "exposure": 1.0, "freshnessNeed": 1.0, "expectedCost": 0.3},
+      "issueHygieneWritesEnabled": false,
+      "existingBudgetsRoutingAndHolds": "unchanged by recursive structured comparison"
+    }
+  },
+  "unchangedSourceSha256": {
+    "src/gaia_cli/steward/sensors_security.py": "21350bf4afdab3473f3fba8f563e46d26fc2f91d1429c73c3e676accd3a6ba14",
+    "src/gaia_cli/steward/primitives/redact.py": "cf70bcfc7dfb6b586896e77e53956856b719ac7eb0b21b7ff89e5894649b3961",
+    "src/gaia_cli/securityScanner.py": "e71a33f79637c0b845300e6437857f5865bd75a1dd09275f40746a2854219b8f"
+  },
+  "selectedSourceComparison": {
+    "paths": 39,
+    "allBytesMatchHistoricalCheckpointAndReviewedHashes": true,
+    "currentMatcherTriplesMatchPriorProofByRowAndMultiplicity": true,
+    "findings": 71,
+    "findingsByGroup": {"D1": 30, "D2": 24, "D3": 17},
+    "newControlTestsRun": false
+  },
+  "limits": "Historical proof remains bound to its checkpoint; its unchanged-full-policy claim does not extend to the joined tree. The 39 paths do not cover all main changes. Previous classifications and controls are historical, not freshly rerun. Independent review and CI remain required."
+}
