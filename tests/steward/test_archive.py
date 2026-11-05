@@ -28,6 +28,36 @@ def git(root, *args, data=None):
     return p.stdout.decode().strip()
 
 
+def observation_phases(sensorCount=512):
+    """Actual canonical producer output, not an invented padding/text field.
+
+    Synthetic distinct sensor observations exercise the existing unbounded
+    sensor-count map. Only typed identities and numeric counts enter phases;
+    no observation subjects, artifact references or prose are copied by the
+    producer. The large variant tests scale, not today's production fleet size.
+    """
+    from gaia_cli.steward.controller import ScanResult
+    from gaia_cli.steward.fullrun import FullRunConfig, FullRunner
+    from gaia_cli.steward.models import Observation, Receipt, Subject
+
+    observations = tuple(Observation(
+        kind="synthetic", subject=Subject(type="synthetic", id=f"subject-{number}"),
+        observed_at=START, source=f"sensor-{number:06d}", status="healthy",
+        current_state={}, observed_state={},
+    ) for number in range(sensorCount))
+    receipt = Receipt(
+        run_id="scan-original", started_at=START, finished_at=END,
+        observations_collected=len(observations), coverage_unknown=(),
+        debt_created=(), debt_updated=(), debt_resolved=(), open_debt=(),
+        authority_counts={"A": 0, "B": 0, "C": 0}, result_status="no_change",
+    )
+    scan = ScanResult(observations=observations, debts=(), receipt=receipt,
+                      debt_state_path=Path("unused-debts"), receipt_path=Path("unused-receipt"),
+                      fresh_open_debt_ids=frozenset())
+    runner = FullRunner(FullRunConfig(repo_root=Path(".")))
+    return {"observe": runner._observationSummary(scan)}
+
+
 def run_record(name="run-a", **extra):
     return {"runId": name, "status": "completed", "mode": "full", "phase": "done",
             "startedAt": START, "finishedAt": END, "trigger": "scheduled",
@@ -36,9 +66,8 @@ def run_record(name="run-a", **extra):
                          "idempotencyKey": "do-not-repeat", "outcome": {"url": "synthetic://proof"}}],
             "desk": {"decisions": [{"decisionId": "class-c-reference", "debtIds": ["debt-c"]}]},
             "decisions": [], "unresolvedWork": [], "nextAction": "complete",
-            "phases": {"observe": {"openDebtIds": ["debt-c"], "scanReceiptId": "scan-original",
-                                   "payload": "π synthetic proof\n" * 3000},
-                       "retro": {"routines": [1, 18]}, "triage": {"classC": []}},
+            "phases": {**observation_phases(), "retro": {"routines": [1, 18]},
+                       "triage": {"classC": []}},
             # Pending decision payloads are not migratable; the reference-only
             # desk above stays hot and debt-c remains a searchable hot key.
             "proofArtifacts": ["synthetic://original"], "receipts": [{"id": "scan-original"}],

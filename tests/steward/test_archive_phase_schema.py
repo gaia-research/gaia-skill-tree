@@ -45,6 +45,47 @@ def test_known_inline_slot_does_not_make_paths_portable(value):
     assert a.phase_hold({"observe": {"payload": value}}) is not None
 
 
+@pytest.mark.parametrize("artifactExists", [False, True])
+def test_independent_extensionless_payload_counterexample_stays_hot(hosts, monkeypatch, artifactExists):
+    import builtins
+    from pathlib import Path
+
+    remote, one, two = hosts
+    phases = {"observe": {"payload": "proof"}, "retro": {"detail": "x" * 10000}}
+    artifact = one.repo_root / "proof"
+    if artifactExists:
+        artifact.write_bytes(b"synthetic artifact bytes are not ledger JSON")
+    monkeypatch.chdir(one.repo_root)
+    before = seed(one, {"run-a": run_record(phases=phases)})
+    branches = refs(remote)
+    originalOpen, originalPathOpen = builtins.open, Path.open
+
+    def guardedOpen(path, *args, **kwargs):
+        if isinstance(path, (str, Path)):
+            assert Path(path).resolve() != artifact, "must not open an ambiguous artifact"
+        return originalOpen(path, *args, **kwargs)
+
+    def guardedPathOpen(path, *args, **kwargs):
+        assert path.resolve() != artifact, "must not open an ambiguous artifact"
+        return originalPathOpen(path, *args, **kwargs)
+
+    def noCas(*args, **kwargs):
+        pytest.fail("held phases must not attempt canonical CAS")
+
+    with monkeypatch.context() as patch:
+        patch.setattr(builtins, "open", guardedOpen)
+        patch.setattr(Path, "open", guardedPathOpen)
+        patch.setattr(one, "compare_and_swap", noCas)
+        assert a.phase_hold(phases) is not None
+        assert a.plan(one)["eligible"] == []
+        assert a.migrate(one)["archived"] == []
+        assert two.load() == before
+        assert refs(remote) == branches
+        assert a.show(two, "run-a")["run"]["phases"] == phases
+    if artifactExists:
+        assert artifact.read_bytes() == b"synthetic artifact bytes are not ledger JSON"
+
+
 DEBT = "debt:synthetic:subject:0123456789abcdef"
 
 

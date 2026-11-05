@@ -67,9 +67,14 @@ This version archives ledger JSON bytes, **not local artifact files**. It never
 opens arbitrary referenced files. A typed allowlist validates the complete
 phase tree: known objects, identifier maps, arrays, scalar types and enumerated
 states. Every unknown field or phase is held, including null, false, empty,
-nonstring, nested and bare extensionless reference values. Known inline prose
-slots additionally reject paths, URIs and filename-like tokens regardless of
-extension, using a bounded single-pass scan (not greedy regex backtracking).
+nonstring, nested and bare extensionless reference values. Producer-unconstrained
+legacy `payload`/`detail` and generic reason/note/prose values are held even
+when empty or spelled `proof`: text grammar cannot establish file absence.
+This also holds coverage records carrying unconstrained reason strings; their
+uncertainty stays exact and hot, never normalized to healthy for archival.
+The only accepted prose literal is FullRunner's exact no-mutation `reused`
+message, constrained by its existing producer. The bounded single-pass lexical
+scanner remains regression-tested but grants **no** archival eligibility.
 Only declared ID slots accept ID references, including canonical debt IDs;
 these are not file references or portable artifact bytes. Adding producer
 fields requires schema review rather than a suffix-list workaround.

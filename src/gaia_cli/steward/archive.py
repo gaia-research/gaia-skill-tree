@@ -276,10 +276,10 @@ def phaseDebtIdentity(value: Any) -> bool:
 
 
 def phaseText(value: Any) -> bool:
-    # Only explicitly named INLINE prose fields can use this type. Unknown
-    # strings (including a bare extensionless filename) never reach it. Reject
-    # paths/URIs and filename-like tokens independent of their extension. False
-    # positives stay hot; absence of a slash alone never grants eligibility.
+    # Lexical diagnostic only, NOT a portability or file-absence proof. Even
+    # "proof" passes this scan and can denote an extensionless artifact. No
+    # producer-unconstrained phase field may use it as an eligibility check.
+    # Keep the bounded scanner and its exhaustive/large-input regressions.
     if type(value) is not str:
         return False
     # One pass with bounded neighbour checks. An unanchored greedy token
@@ -304,7 +304,7 @@ def phaseEmpty(value: Any) -> bool:
 
 
 def phaseSchemas() -> dict[str, PhaseCheck]:
-    """Supported FullRunner summary fields and narrow legacy inline variants.
+    """Supported FullRunner typed summaries; ambiguous legacy text stays hot.
 
     Historical sensor/coverage states are observations, NOT work settlement.
     Nonempty Class C, decisions, results/landings and artifact-bearing detail
@@ -312,6 +312,11 @@ def phaseSchemas() -> dict[str, PhaseCheck]:
     """
     identities = phaseList(phaseIdentity)
     debts = phaseList(phaseDebtIdentity)
+    # FullRunner copies sensor/exception/optional-input prose into these slots;
+    # it does not constrain it to non-reference text. Reject every value, even
+    # empty text/null, rather than infer meaning from filename spelling. Empty
+    # collections remain supported; no unknown/uncertain text is normalized.
+    ambiguous = lambda value: False
     boolean = lambda value: type(value) is bool
     nothing = lambda value: value is None
     settled = phaseEnum("ok", "done", "completed", "complete", "resolved", "closed",
@@ -320,10 +325,10 @@ def phaseSchemas() -> dict[str, PhaseCheck]:
     sensorState = phaseEnum("executed", "unknown", "not-evaluated", "partially-covered", "not-run")
     counts = phaseObject({"drift": phaseCount, "healthy": phaseCount})
     notEvaluated = phaseList(phaseObject({
-        "sensor": phaseIdentity, "reason": phaseText, "inputAbsent": boolean,
+        "sensor": phaseIdentity, "reason": ambiguous, "inputAbsent": boolean,
     }, ("sensor", "reason")))
     partial = phaseList(phaseObject({
-        "sensor": phaseIdentity, "skippedCount": phaseCount, "reasons": phaseList(phaseText),
+        "sensor": phaseIdentity, "skippedCount": phaseCount, "reasons": phaseList(ambiguous),
     }, ("sensor", "skippedCount", "reasons")))
     observation = {
         "status": settled, "scanReceiptId": phaseIdentity,
@@ -331,11 +336,9 @@ def phaseSchemas() -> dict[str, PhaseCheck]:
         "debtStatus": phaseMap(phaseEnum("open", "resolved"), phaseDebtIdentity),
         "openDebtIds": debts, "freshOpenDebt": debts, "resolved": debts,
         "authorityCounts": phaseObject({key: phaseCount for key in ("A", "B", "C")}),
-        "coverageUnknown": identities, "coverageUnknownReasons": phaseMap(phaseText),
+        "coverageUnknown": identities, "coverageUnknownReasons": phaseMap(ambiguous),
         "notEvaluated": notEvaluated, "partialCoverage": partial,
         "observationsBySensor": phaseMap(counts),
-        # Explicit legacy inline text, NOT an arbitrary JSON extension point.
-        "payload": phaseText,
     }
     detector = phaseObject({"sensor": phaseIdentity, "state": sensorState}, ("sensor", "state"))
     routine = phaseObject({
@@ -347,17 +350,21 @@ def phaseSchemas() -> dict[str, PhaseCheck]:
         "id": phaseIdentity, "registered": boolean, "state": sensorState,
         "executed": boolean, "unknown": boolean, "notEvaluated": boolean,
         "observations": counts, "routine_ids": phaseList(lambda value: type(value) is int and 1 <= value <= 18),
-        "reason": phaseText, "partial": boolean, "skippedCount": phaseCount,
+        "reason": ambiguous, "partial": boolean, "skippedCount": phaseCount,
     }, ("id", "state"))
     return {
         "observe": phaseObject(observation),
-        "reobserve": phaseObject({**observation, "reused": phaseText, "resolvedWork": debts,
-                                  "notes": phaseList(phaseObject({"debtId": phaseDebtIdentity, "note": phaseText}, ("debtId", "note")))}),
+        "reobserve": phaseObject({**observation,
+                                  # Exact non-reference literal emitted only by
+                                  # FullRunner._phaseReobserve's no-mutation path.
+                                  "reused": phaseEnum("no state-changing step ran this run; the observe scan is the re-observation"),
+                                  "resolvedWork": debts,
+                                  "notes": phaseList(phaseObject({"debtId": phaseDebtIdentity, "note": ambiguous}, ("debtId", "note")))}),
         "retro": phaseObject({
             "routines": phaseEither(phaseCount, phaseList(phaseEither(routine, lambda value: type(value) is int and 1 <= value <= 18))),
             "sensors": phaseList(phaseEither(sensor, phaseIdentity)),
             "registered": phaseCount, "executed": phaseCount, "unknown": identities,
-            "notEvaluated": notEvaluated, "partiallyCovered": partial, "detail": phaseText,
+            "notEvaluated": notEvaluated, "partiallyCovered": partial,
         }),
         "triage": phaseObject({
             **{key: debts for key in ("classA", "classB", "reportOnly", "issueClosure", "held", "skippedActive")},
@@ -369,11 +376,11 @@ def phaseSchemas() -> dict[str, PhaseCheck]:
             "sourceHead": phaseEither(lambda value: type(value) is str and COMMIT.fullmatch(value) is not None, phaseEnum("unknown")),
             "integrationHead": phaseEither(lambda value: type(value) is str and COMMIT.fullmatch(value) is not None, phaseEnum("unknown")),
             # Non-null branch references are deliberately not portable here.
-            "integrationBranch": nothing, "integrationHeadUnknown": phaseText,
+            "integrationBranch": nothing, "integrationHeadUnknown": ambiguous,
             "unresolvedWork": lambda value: type(value) is int and value == 0,
         }),
         "class_a": phaseObject({"status": settled, "landings": phaseEmpty}),
-        "class_b": phaseObject({"status": settled, "dispatched": nothing, "reason": phaseText}),
+        "class_b": phaseObject({"status": settled, "dispatched": nothing, "reason": ambiguous}),
         "verify": phaseObject({"status": settled, "results": phaseEmpty, "deferred": phaseEmpty, "expired": identities}),
     }
 
