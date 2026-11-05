@@ -3,17 +3,16 @@
 from __future__ import annotations
 
 import copy
-import os
 import pickle
 import threading
-from dataclasses import asdict, replace
+from dataclasses import replace
 
 import pytest
 
 from gaia_cli.steward import ledger
 from gaia_cli.steward.prmaintenance import coordination as core
 from .coordination_helpers import (
-    FakeServices, NAMESPACE, clone, coordinator, evidence, git, prepared, proof, seed, subject,
+    FakeServices, NAMESPACE, coordinator, evidence, git, prepared, proof, seed, subject,
 )
 
 
@@ -426,3 +425,107 @@ def test_finite_storage_admission_keeps_outcome_headroom_and_tombstones(fixture,
     with pytest.raises(core.Refused, match="anti-replay"):
         prepared(coord, 3, run="third-run")
     assert token.operationId in coord.inspect()["operations"]
+
+
+def test_default_ten_per_hour_counts_sent_attempts_across_actions_and_runs(fixture):
+    _, binding, first, second = fixture
+    services = FakeServices()
+    services.response = "reject"
+    coord = coordinator(first, binding, services)
+    for number in range(1, 11):
+        action = "merge" if number % 2 else "close"
+        coord.invoke(prepared(coord, number, action, run=f"stable-run-{number}"), f"claim-{number}")
+    assert len(services.invocations) == 10 and services.effects == []
+    assert core.usage(coord.inspect(), services.now, "new-run", "close") == (0, 10)
+    with pytest.raises(core.Refused, match="ceiling"):
+        prepared(coord, 11, run="new-run")
+
+
+def test_completion_upper_not_reservation_time_controls_expiry(fixture):
+    _, binding, first, second = fixture
+    services = FakeServices()
+    services.caps = core.Limits(writesPerHour=1)
+    coord = coordinator(first, binding, services)
+    token = prepared(coord)
+    original = services.invoke
+    def delayedCompletion(request, invocationId):
+        services.now = core.TimeBounds(20000, 20020, "fixture-authoritative-clock")
+        return original(request, invocationId)
+    services.invoke = delayedCompletion
+    coord.invoke(token, "claim")
+    services.now = core.TimeBounds(23620, 23620, "fixture-authoritative-clock")
+    with pytest.raises(core.Refused, match="ceiling"):
+        prepared(coord, 2, run="another-run")
+    services.now = core.TimeBounds(23621, 23621, "fixture-authoritative-clock")
+    assert prepared(coord, 2, run="another-run").operationId != token.operationId
+
+
+def test_invalid_or_untrusted_completion_never_retires_or_refunds_sender(fixture):
+    _, binding, first, second = fixture
+    services = FakeServices()
+    coord = coordinator(first, binding, services)
+    token = prepared(coord)
+    original = services.completion
+    def invalidCompletion(operation, invocationId, response):
+        result = original(operation, invocationId, response)
+        result["attemptId"] = "0" * 64
+        return result
+    services.completion = invalidCompletion
+    with pytest.raises(core.CoordinationError, match="exact invocation"):
+        coord.invoke(token, "claim")
+    assert len(services.invocations) == len(services.effects) == 1
+    assert coord.inspect()["operations"][token.operationId]["state"] == "possibly-sent"
+    assert coord.inspect()["activeOperationId"] == token.operationId
+    assert core.usage(coord.inspect(), services.now, "stable-run", "merge") == (1, 1)
+    assert coord.invoke(token, "claim").status == core.CommitStatus.ALREADY
+    assert len(services.invocations) == 1
+
+
+def test_closed_then_reopened_cannot_retire_a_lost_close_sender(fixture):
+    _, binding, first, second = fixture
+    services = FakeServices()
+    services.response = "lost"
+    coord = coordinator(first, binding, services)
+    token = prepared(coord, action="close")
+    coord.invoke(token, "claim")
+    for observedState in ("closed", "reopened"):
+        services.observation = lambda operation: evidence(operation, "observed-terminal", observedState)
+        with pytest.raises(core.CoordinationError, match="absorbing"):
+            coord.recover(token.operationId)
+        assert coord.inspect()["activeOperationId"] == token.operationId
+    assert len(services.invocations) == len(services.effects) == 1
+
+
+def test_worst_bounded_remaining_transitions_fit_reserved_headroom(fixture, monkeypatch):
+    _, binding, first, second = fixture
+    services = FakeServices()
+    services.authorize = lambda namespace, candidate, binding: None  # explicit trusted fixture verifier
+    coord = coordinator(first, binding, services)
+    candidate = subject(action="close")
+    candidate["reason"] = "r" * 2048
+    for key in ("prId", "baseRef", "producerId"):
+        candidate[key] = "s" * 256
+    bindingProof = proof(candidate)
+    for key in ("policy", "producerRegistry", "authority"):
+        bindingProof[key] = "p" * 4096
+    bindingProof["justification"] = "j" * 2048
+    bindingProof["verification"]["detail"] = "v" * 2048
+    bindingProof["verification"]["source"] = "s" * 256
+    token = coord.reserve(candidate, bindingProof, "r" * 128, "o" * 128, "reserve").token
+    reserveSize = len(ledger.serialize(coord._load()[0]))
+    monkeypatch.setattr(core, "MAX_BYTES", reserveSize + core.OUTCOME_HEADROOM)
+    coord.recordIntent(token, core.exactRequest(NAMESPACE, candidate), "i" * 128)
+    for number in range(3):
+        now = 10000 + 121 * (number + 1)
+        services.now = core.TimeBounds(now, now, "c" * 128)
+        token = coord.takeover(token, str(number) * 128, str(number) * 128).token
+    services.response = "lost"
+    coord.invoke(token, "s" * 128)
+    coord.recover(token.operationId)
+    operation = coord.inspect()["operations"][token.operationId]
+    completed = evidence(operation, "completed-effect", "closed")
+    completed.update(source="e" * 256, detail="d" * 2048)
+    # Model the original live invocation's eventual authenticated completion.
+    coord._transition("complete", token.operationId, {"token": core.asdict(token), "evidence": completed}, "c" * 128)
+    assert len(ledger.serialize(coord._load()[0])) < reserveSize + core.OUTCOME_HEADROOM
+    assert coord.inspect()["activeOperationId"] is None
