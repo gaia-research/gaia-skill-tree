@@ -1,5 +1,5 @@
 {
- "generation": 428,
+ "generation": 429,
  "lane": {
   "entries": [
    {
@@ -4479,7 +4479,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-05T19:36:06.100018Z",
-   "expiresAt": "2026-11-05T20:10:34.214798Z",
+   "expiresAt": "2026-11-05T20:14:54.872206Z",
    "holder": "run-20261105T172246Z-e34944e8"
   }
  },
@@ -25457,6 +25457,12 @@
    "costUsd": 0.0,
    "coverageBlocked": true,
    "decisions": [],
+   "deferred": [
+    {
+     "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-roster-py:0d3bca3f7369f4af",
+     "reason": "sensor coverage is unknown; refusing routing: pr-maintenance"
+    }
+   ],
    "desk": {
     "asOf": "2026-11-05T17:32:56.324329Z",
     "decisions": [
@@ -25975,7 +25981,7 @@
     "push": true,
     "routine": null
    },
-   "phase": "verify",
+   "phase": "reobserve",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -26885,6 +26891,22 @@
      "issueClosure": [],
      "reportOnly": [],
      "skippedActive": []
+    },
+    "verify": {
+     "deferred": [
+      {
+       "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-roster-py:0d3bca3f7369f4af",
+       "reason": "sensor coverage is unknown; refusing routing: pr-maintenance"
+      }
+     ],
+     "expired": [],
+     "results": [
+      {
+       "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-roster-py:0d3bca3f7369f4af",
+       "result": "deferred"
+      }
+     ],
+     "status": "deferred"
     }
    },
    "proofArtifacts": [
@@ -26951,6 +26973,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_b"
+    },
+    {
+     "at": "2026-11-05T19:44:53.674194Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:verify"
     }
    ],
    "thinkingEfforts": [
@@ -26964,7 +26992,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-05T19:40:34.218125Z",
+ "updatedAt": "2026-11-05T19:44:54.872501Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
