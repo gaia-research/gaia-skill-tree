@@ -124,7 +124,14 @@ def test_canonical_shapes_search_and_ordinary_view_equivalence(hosts):
     _, one, two = hosts
     phases = canonical_phases()
     record = run_record(phases=phases, desk={}, proofArtifacts=[], receipts=[{"kind": "scan", "id": "scan-synthetic"}])
-    before, _ = seed(one, {"run-a": record})
+    seed(one, {"run-a": record})
+    # Historical 'resolved' alone was not settlement. This positive synthetic
+    # transfer now supplies an explicit current authoritative work record.
+    l.update(one, lambda doc: doc["work"].update({"settled": {
+        "debtId": "settled", "authority": "B", "state": "resolved", "runId": "other",
+        "history": [{"at": END, "reason": "synthetic settlement"}],
+    }}))
+    before, _ = one.load()
     baseline = reader(one)._view(before, "run-a").to_dict()
     assert a.migrate(one)["archived"] == ["run-a"]
     assert reader(two)._view(two.load()[0], "run-a").to_dict() == baseline

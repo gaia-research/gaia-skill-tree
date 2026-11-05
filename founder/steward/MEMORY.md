@@ -51,8 +51,18 @@ phase schemas and operational lifecycles fail closed. `ok` is the canonical
 completed phase status, not an override for a run's unresolved work. Historical
 sensor states (`executed`, `not-evaluated`, `partial`, unknown coverage) are
 immutable observations, not current work states. They are preserved exactly.
-A historical `debtStatus: open` requires explicit current `work.state: resolved`
-for that debt before the run can migrate; missing work is not settlement.
+Every typed debt reference in supported observation/triage/verification phases
+or canonical action/step/decision/desk/proof/receipt/branch/assignment records
+requires explicit **current** hot work with matching `debtId`, valid A/B/C
+`authority`, and `state: resolved`. This includes debts absent from the tracked
+`debtStatus` map and historically labelled resolved. Missing/deleted/mismatched
+work or authority is uncertainty, not settlement; verified/landed/no_change
+never suffice. Positive open/Class C counts without complete consistent IDs
+hold the whole run. Sensor, scan-receipt and decision identities alone are not
+debt references. The same eligibility predicate gates preview, selection and
+the authoritative ledger transition (both source and candidate hot state),
+and is recomputed on each fresh CAS retry. No current work is fabricated or
+changed to make a run eligible.
 
 Actions, outcomes, steps, idempotency/dedup IDs, leases, desks, decisions,
 receipts, proof-artifact records, all work and its history, lane state and

@@ -72,8 +72,8 @@ def run_record(name="run-a", **extra):
             "decisions": [], "unresolvedWork": [], "nextAction": "complete",
             "phases": {**observation_phases(), "retro": {"routines": [1, 18]},
                        "triage": {"classC": []}},
-            # Pending decision payloads are not migratable; the reference-only
-            # desk above stays hot and debt-c remains a searchable hot key.
+            # The desk stays hot; its debt reference still requires explicit
+            # CURRENT settlement (supplied by seed for this synthetic fixture).
             "proofArtifacts": ["synthetic://original"], "receipts": [{"id": "scan-original"}],
             **extra}
 
@@ -101,6 +101,10 @@ def seed(store, runs=None):
         for state in ("resolved", "queued", "building", "proposed", "verified", "blocked", "escalated", "no_change", "landed"):
             doc["work"][state] = {"debtId": state, "state": state, "runId": "other",
                                    "history": [{"reason": "original", "at": START}]}
+        # Explicit synthetic settlement for the default desk reference. The
+        # original absent-work shape remains a separate negative regression.
+        doc["work"]["debt-c"] = {"debtId": "debt-c", "authority": "C", "state": "resolved",
+                                  "runId": "other", "history": [{"at": END, "reason": "synthetic settlement"}]}
         doc["operations"]["existing-dedup-key"] = {"status": "pending", "nonce": "preserve"}
     update(store, mutate)
     return store.load()

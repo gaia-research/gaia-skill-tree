@@ -158,7 +158,7 @@ def canonical_phases():
     phases = observation_phases(coverageUnknown=("unknown-sensor",))
     phases["observe"].update(
         openDebt=1, openDebtIds=[DEBT], freshOpenDebt=[DEBT],
-        debtStatus={DEBT: "open"},
+        debtStatus={DEBT: "open"}, authorityCounts={"A": 0, "B": 1, "C": 0},
         partialCoverage=[{"sensor": "partial", "skippedCount": 1, "reasons": []}],
     )
     phases["retro"] = {
@@ -194,7 +194,10 @@ def test_historical_observation_is_not_current_settlement():
     phases = canonical_phases()
     original = deepcopy(phases)
     run = run_record(phases=phases)
-    document = {"leases": {}, "work": {DEBT: {"state": "resolved", "runId": "other"}}}
+    document = {"leases": {}, "work": {
+        DEBT: {"debtId": DEBT, "authority": "B", "state": "resolved", "runId": "other"},
+        "debt-c": {"debtId": "debt-c", "authority": "C", "state": "resolved", "runId": "other"},
+    }}
     assert a.phase_hold(phases) is None
     assert a.eligible(document, run)
     assert phases == original  # unknown/partial coverage is preserved, not normalized
@@ -296,6 +299,7 @@ def test_canonical_historical_shapes_roundtrip_without_losing_uncertainty(hosts)
     update(one, lambda doc: doc["work"].update({DEBT: {
         "debtId": DEBT, "state": "resolved", "runId": "other",
     }}))
+    update(one, lambda doc: doc["work"][DEBT].update(authority="B"))
     before, _ = one.load()
     assert a.migrate(one)["archived"] == ["run-a"]
     assert a.show(two, "run-a")["run"] == before["runs"]["run-a"]
@@ -311,6 +315,7 @@ def test_historical_debt_settlement_is_rechecked_after_cas_conflict(hosts):
     update(one, lambda doc: doc["work"].update({DEBT: {
         "debtId": DEBT, "state": "resolved", "runId": "other",
     }}))
+    update(one, lambda doc: doc["work"][DEBT].update(authority="B"))
     raced = False
 
     def race(stage):

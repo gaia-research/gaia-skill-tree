@@ -396,6 +396,95 @@ def phase_hold(value: Any) -> str | None:
     return None
 
 
+def settled_references(document: dict[str, Any], run: dict[str, Any]) -> bool:
+    """Require CURRENT hot settlement for typed debt roles, not search keys.
+
+    FullRunner's debtStatus covers tracked work only. Receipt open lists and
+    triage/record debt references can name undispatched debts (especially C).
+    Historical resolved labels, absence and pointer retention prove nothing.
+    Sensor/receipt/decision identities are not debt IDs and need no work item.
+    Called only after the complete phase schema check; no file reads or writes.
+    """
+    debts: set[str] = set()
+    observations = [run["phases"][name] for name in ("observe", "reobserve") if name in run["phases"]]
+    for summary in observations:
+        openIds = summary.get("openDebtIds", [])
+        if len(openIds) != len(set(openIds)):
+            return False
+        if "openDebt" in summary and summary["openDebt"] != len(openIds):
+            return False  # count without a complete identity list is uncertainty
+        if "openDebtIds" in summary and not set(summary.get("freshOpenDebt", [])).issubset(openIds):
+            return False
+        counts = summary.get("authorityCounts")
+        if counts is not None and sum(counts.values()) != len(openIds):
+            return False
+        debts.update(summary.get("debtStatus", {}))
+        for name in ("openDebtIds", "freshOpenDebt", "resolved", "resolvedWork"):
+            debts.update(summary.get(name, []))
+    triage = run["phases"].get("triage", {})
+    for name in ("classA", "classB", "classC", "reportOnly", "issueClosure", "held", "skippedActive", "carried", "filtered"):
+        value = triage.get(name, [])
+        if type(value) is list:
+            debts.update(value)
+        elif value:
+            return False  # unidentified historical carried/filtered debt
+    for authority, name in (("A", "classA"), ("B", "classB"), ("B-report-only", "reportOnly"), ("C", "classC")):
+        # Producer counts each named set separately (not issueClosure).
+        ids = triage.get(name, [])
+        if triage.get("counts", {}).get(authority, len(ids)) != len(set(ids)):
+            return False
+    debts.update(run["phases"].get("verify", {}).get("expired", []))
+
+    def record(value: Any) -> bool:
+        # Explicit canonical record roles, not references()' search heuristic
+        # (which intentionally indexes unknown future keys as well).
+        if type(value) is list:
+            return all(record(item) for item in value)
+        if type(value) is dict:
+            for name, item in value.items():
+                if name == "debtId":
+                    if not phaseDebtIdentity(item):
+                        return False
+                    debts.add(item)
+                elif name == "debtIds":
+                    if not phaseList(phaseDebtIdentity)(item):
+                        return False
+                    debts.update(item)
+                elif not record(item):
+                    return False
+        return True
+
+    for name in ("actions", "steps", "decisions", "desk", "proofArtifacts", "receipts",
+                 "branches", "pullRequests", "agentAssignments"):
+        if not record(run.get(name, [])):
+            return False
+    work = document.get("work")
+    if type(work) is not dict:
+        return False
+    searchDebts = set(references(run)["debtIds"])
+    for debt, item in work.items():
+        if type(item) is not dict:
+            return False
+        if item.get("runId") == run["runId"] or item.get("adoptedBy") == run["runId"] or debt in searchDebts:
+            debts.add(debt)
+    for debt in debts:
+        item = work.get(debt)
+        if (type(item) is not dict or item.get("debtId") != debt or item.get("state") != "resolved"
+                or item.get("authority") not in ("A", "B", "C") or type(item.get("history", [])) is not list):
+            return False
+    for summary in observations:
+        if "authorityCounts" in summary:
+            actual = {key: 0 for key in ("A", "B", "C")}
+            for debt in summary.get("openDebtIds", []):
+                actual[work[debt]["authority"]] += 1
+            if any(summary["authorityCounts"].get(key, 0) != count for key, count in actual.items()):
+                return False
+    for authority, names in (("A", ("classA", "issueClosure")), ("B", ("classB",)), ("C", ("classC",))):
+        if any(work[debt]["authority"] != authority for name in names for debt in triage.get(name, [])):
+            return False
+    return True
+
+
 def eligible(document: dict[str, Any], run: dict[str, Any]) -> bool:
     # 'blocked' is a terminal runner state, but not settled operational work.
     if run.get("status") not in {"completed", "abandoned", "failed"} or POINTER in run:
@@ -417,16 +506,7 @@ def eligible(document: dict[str, Any], run: dict[str, Any]) -> bool:
             return False
     if run.get("unresolvedWork") or run.get("deferred"):
         return False
-    # A canonical historical 'open' observation is not a current lifecycle.
-    # It may be externalized only with explicit authoritative hot settlement;
-    # missing work is uncertainty, never evidence that the debt was resolved.
-    for phase in ("observe", "reobserve"):
-        for debt, state in run["phases"].get(phase, {}).get("debtStatus", {}).items():
-            if state != "resolved" and document["work"].get(debt, {}).get("state") != "resolved":
-                return False
-    debts = set(references(run)["debtIds"])
-    if any((item.get("runId") == run["runId"] or debt_id in debts) and item.get("state") != "resolved"
-           for debt_id, item in document["work"].items()):
+    if not settled_references(document, run):
         return False
     try:
         parseTime(run["startedAt"])
@@ -488,7 +568,8 @@ def verify_transition(store: GitRefLedgerStore, previous: dict[str, Any], candid
         if old is None or new is None:
             raise fail("archive transition cannot add/delete run identities")
         if row["event"] == "archive":
-            if not eligible(previous, old) or POINTER not in new or hydrate(archive, new) != old:
+            if (not eligible(previous, old) or not eligible(candidate, old)
+                    or POINTER not in new or hydrate(archive, new) != old):
                 raise fail("archive transition is not an eligible lossless transfer")
             segment = new[POINTER]["segment"]
         else:
