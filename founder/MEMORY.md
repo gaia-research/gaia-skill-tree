@@ -17,6 +17,23 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-11-05, Steward M1 founder gate — canonical burn-down continues)
+
+### TLDR
+- Governing mission remains systematic authorized debt elimination and incremental protected-main delivery, not an infrastructure project. Canonical baseline **A0/B325/C40=365 at17:03:50Z**; only ONE B repair is canonically resolved so far. Seven accepted engineering packages are not seven debt closures. The old 1 MiB blocker below is historical: accepted default is8MiB; actual recovery ledger1,307,094B, no current capacity blocker.
+- Durable resumption anchor: [campaign CHECKPOINT](reports/steward-campaign-2026-11-05/CHECKPOINT.md), #2283, draft #2298. Read it after compaction; preserve all older history.
+- Frozen main-promotion #2297 at `2d9599c11ea91f303b5067c39fb8ea272f119072` is independently SOURCE ELIGIBLE; exact-head checks17success/2irrelevant skipped. **NO MAIN MERGE:** positive GitHub evidence shows protected:false/effective rules=[]/active Main Ruleset18124772 has empty includes. Narrow target repair needs founder authorization. The additive ledger telemetry warning also needs the shown before/after CLI approval. One two-card local HTML fallback review packet is being prepared; no choice or approval inferred. Required protection/checks remain mandatory; no override/direct main push. No release/deploy permission.
+- Lane A: canonical run `run-20261105T172246Z-e34944e8`, action `build:638fb01c8655:1`, exact roster.py timezone debt. Shared Codex Luna medium task `b13c9cb2d` owns its isolated branch/worktree. Collect actual outcome, record via canonical CLI, distinct verifier next. No new closure claimed; lead alone writes shared ledger. Keep caps1dispatch/2inflight/2attempts/3600s cooldown.
+- Lane B: prior wiring process ended PARTIAL, not accepted: provider checkpoint `2614c9d20e9ab94d3539bf56882e34f81de62546`, nine WIP files, first22 slice tests, no final proof. SAME Sol MAX session/sole owner resumed as `be87430e0`; preserve all work. No new writer, activation/provisioning or legacy-state migration. Core #2296 separate acceptance/CI does not accept wiring.
+- Latest routing reminder: canonical Steward uses established openai-codex shared roster. Flash is permitted for non-Steward engineering; Flash LOW `b5dcb87b3` only makes the isolated local decision page, no canonical/source/GitHub authority. Maximum four concurrent agents.
+- Archive #2287 remains PARKED/unmerged, actual DoD OPEN. Preserve C1–C4/D1–D3, issueHygiene writes=false, all L4/rank/security/activation holds. Do not resume archive or mistake source fixes for live recovery.
+
+### Costs / evidence limits
+Installed canonical pi-cost1.10 offline tool was executed; selected session reports lead logged cost **$30.8180**,577usage turns. This is NOT a recomputed whole-campaign cost: custom direct worker sessions and historical aggregation must be reconciled before a campaign total. Cached pricing/offline limit retained; no invoice claim. Current raw report stays ignored under campaign reorientation/continuation-cost.json.
+
+### Next owner actions
+Collect pending terminals, finish actual roster build→independent verification→canonical reconciliation, keep source/protected main gates distinct, present founder page and record choices verbatim before acting. Refresh CHECKPOINT at the next real delivery; no percent-complete claim. This snapshot is prepared on the checkpoint branch for normal integration without disturbing the active canonical source branch.
+
 ## State Snapshot (2026-11-05, Termux Steward campaign blocked — shared ledger byte guard, no repairs delivered)
 
 ### TLDR
