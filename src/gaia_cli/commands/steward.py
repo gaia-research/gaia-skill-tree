@@ -159,7 +159,7 @@ class StewardCommand(Command):
                 "outcome back. Never merges and never pushes to main."
             ),
         )
-        actions = full.add_subparsers(dest="fullAction", metavar="{run,record,status}")
+        actions = full.add_subparsers(dest="fullAction", metavar="{run,record,abandon,status,show,history,archive,rollback}")
 
         def ledgerOptions(target: argparse.ArgumentParser) -> None:
             target.add_argument(
@@ -205,6 +205,37 @@ class StewardCommand(Command):
 
         status = actions.add_parser("status", help="Read-only view of the ledger and the active run")
         ledgerOptions(status)
+
+        # Historical memory never selects a private/local fallback transport.
+        def memoryOptions(target: argparse.ArgumentParser) -> None:
+            target.add_argument("--ledger", choices=("git",), default="git")
+            target.add_argument("--json", action="store_true", help="Output JSON")
+
+        show = actions.add_parser("show", help="Read a run, verifying and hydrating archived phases")
+        show.add_argument("runId", metavar="RUN_ID")
+        show.add_argument("--snapshot", action="store_true", help="Emit exact original source-ledger bytes (not just this run)")
+        memoryOptions(show)
+
+        history = actions.add_parser("history", help="Read/search bounded immutable archive index pages")
+        history.add_argument("--run", dest="runId")
+        history.add_argument("--debt", dest="debtId")
+        history.add_argument("--routine")
+        history.add_argument("--since", help="ISO-8601 interval start")
+        history.add_argument("--until", help="ISO-8601 interval end")
+        history.add_argument("--pages", type=int, default=1, help="Read at most 1..10 index pages (default 1)")
+        history.add_argument("--cursor", help="JSON nextCursor descriptor from the previous response")
+        memoryOptions(history)
+
+        archive = actions.add_parser("archive", help="Preview terminal phase migration; --apply publishes durable archives then CAS")
+        archive.add_argument("runIds", nargs="*", metavar="RUN_ID")
+        archive.add_argument("--max-runs", type=int, default=32, help="At most 1..32 runs in this migration")
+        archive.add_argument("--apply", action="store_true", help="Publish/verify archives and CAS the shared hot ledger")
+        memoryOptions(archive)
+
+        rollback = actions.add_parser("rollback", help="Preview verified run restoration; --apply restores without deleting archives")
+        rollback.add_argument("runId", metavar="RUN_ID")
+        rollback.add_argument("--apply", action="store_true")
+        memoryOptions(rollback)
 
     def execute(self, args: argparse.Namespace) -> int | None:
         if args.steward_command not in {"scan", "run", "dispatch", "lane", "verify", "founder", "full"}:
@@ -488,6 +519,8 @@ class StewardCommand(Command):
         from gaia_cli.steward.receipts import StateError
 
         action = getattr(args, "fullAction", None)
+        if action in {"show", "history", "archive", "rollback"}:
+            return self._executeMemory(args)
         if action not in {"run", "record", "abandon", "status"}:
             print("usage: gaia steward full {run,record,abandon,status} [--json]", file=sys.stderr)
             return 2
@@ -536,6 +569,43 @@ class StewardCommand(Command):
         else:
             self._printFullRun(result)
         return 0 if action == "status" else result.exitCode
+
+    @staticmethod
+    def _executeMemory(args: argparse.Namespace) -> int:
+        from gaia_cli.steward import archive as memory
+        from gaia_cli.steward.ledger import GitRefLedgerStore, LedgerConflict, LedgerUnavailable
+
+        store = GitRefLedgerStore(Path(args.registry).resolve(), "origin")
+        action = args.fullAction
+        try:
+            if action == "show":
+                if args.snapshot:
+                    sys.stdout.buffer.write(memory.snapshot(store, args.runId))
+                    return 0
+                result = memory.show(store, args.runId)
+            elif action == "history":
+                cursor = json.loads(args.cursor) if args.cursor is not None else None
+                result = memory.history(store, run_id=args.runId, debt_id=args.debtId,
+                                        routine=args.routine, since=args.since, until=args.until,
+                                        pages=args.pages, cursor=cursor)
+            elif action == "archive":
+                options = {"run_ids": args.runIds or None, "max_runs": args.max_runs}
+                result = memory.migrate(store, **options) if args.apply else memory.plan(store, **options)
+            elif args.apply:
+                result = memory.rollback(store, args.runId)
+            else:
+                result = memory.show(store, args.runId)
+                result = {"restore": args.runId, "archive": result["archive"], "applyRequired": True}
+        except ValueError as exc:
+            print(f"Steward memory refused: {exc}", file=sys.stderr)
+            return 2
+        except (LedgerUnavailable, LedgerConflict, OSError) as exc:
+            print(f"Steward memory failed: {exc}", file=sys.stderr)
+            return 1
+        # Descriptors/cursors need an unambiguous portable representation, also
+        # in interactive use. No scans, campaigns or local receipt writes occur.
+        print(json.dumps(result, indent=2, sort_keys=True, ensure_ascii=False))
+        return 0
 
     @staticmethod
     def _readOutcome(path: str) -> dict:

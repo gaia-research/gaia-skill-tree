@@ -53,6 +53,8 @@ from gaia_cli.steward.ledger import (
     acquire_lease,
     formatTime,
     leaseHolder,
+    ledgerByteLimit,
+    serialize,
     parseTime,
     release_lease,
     set_lane,
@@ -490,15 +492,30 @@ class FullRunner:
                 if run["status"] == "abandoned" or (held is not None and held != runId):
                     raise LeaseLost(f"run {runId} no longer holds the run lease")
                 acquire_lease(doc, RUNLEASE, runId, now, self.config.lease_ttl_seconds)
+            if "_stewardArchive" in run:
+                # Terminal archived runs are immutable until explicit rollback.
+                # Verify even repeated/no-op driver outcomes before any hot CAS.
+                self._verifiedRun(run)
+                before = copy.deepcopy(run)
+                result = apply(doc, run)
+                if run != before:
+                    raise FullRunError("archived run mutation requires verified rollback first")
+                return result
             return apply(doc, run)
 
         return self._update(mutate, message)
+
+    def _verifiedRun(self, run: dict[str, Any]) -> dict[str, Any]:
+        if "_stewardArchive" not in run:
+            return run
+        from gaia_cli.steward.archive import GitArchive, hydrate
+        return hydrate(GitArchive(self.config.store), run)
 
     def _loadRun(self, runId: str) -> dict[str, Any]:
         run = self._load()["runs"].get(runId)
         if run is None:
             raise UnknownRun(f"unknown run {runId}")
-        return run
+        return self._verifiedRun(run)
 
     # ------------------------------------------------------------------
     # public API
@@ -511,6 +528,17 @@ class FullRunner:
             raise FullRunError(f"unknown mode {mode!r}; choose from {', '.join(MODEPHASES)}")
         if routine is not None and not 1 <= int(routine) <= 18:
             raise FullRunError("routine must be between 1 and 18")
+        stop = os.environ.get("GAIA_STEWARD_FULL_STOP_NEW_RUNS", "0")
+        if stop not in {"0", "1"}:
+            raise FullRunError("GAIA_STEWARD_FULL_STOP_NEW_RUNS must be 0 or 1")
+        if stop == "1":
+            raise FullRunError("new runs stopped by GAIA_STEWARD_FULL_STOP_NEW_RUNS; resume/record/memory remain available")
+        try:
+            minimumHeadroom = int(os.environ.get("GAIA_STEWARD_FULL_MIN_HEADROOM_BYTES", "0"))
+        except ValueError:
+            raise FullRunError("GAIA_STEWARD_FULL_MIN_HEADROOM_BYTES must be a non-negative integer") from None
+        if not 0 <= minimumHeadroom <= ledgerByteLimit():
+            raise FullRunError("GAIA_STEWARD_FULL_MIN_HEADROOM_BYTES must be within the configured ledger limit")
         now = self._now()
         runId = f"run-{self.config.clock().astimezone(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}"
         phases = MODEPHASES[mode]
@@ -527,6 +555,12 @@ class FullRunner:
                     "existing": True, "holder": held, "phase": other.get("phase"),
                     "expiresAt": doc["leases"][RUNLEASE]["expiresAt"],
                 }
+            # Re-evaluate on every CAS retry, before adopting work or acquiring
+            # a lease. Stop new growth early; never block existing replay or
+            # verified memory/rollback operations on this advisory reserve.
+            hotBytes, limit = len(serialize(doc)), ledgerByteLimit()
+            if hotBytes * 10 >= limit * 9 or limit - hotBytes < minimumHeadroom:
+                raise FullRunError("new run refused: ledger at 90% or below configured minimum headroom; inspect `gaia steward full archive`")
             for other in doc["runs"].values():
                 if other.get("status") in OPENRUNSTATES:
                     other["status"] = "abandoned"
@@ -584,6 +618,7 @@ class FullRunner:
         return self.advance(runId)
 
     def resume(self, runId: str) -> RunView:
+        self._loadRun(runId)  # archive availability before even a no-op resume CAS
         now = self._now()
 
         def mutate(doc: dict[str, Any]) -> dict[str, Any]:
@@ -591,6 +626,7 @@ class FullRunner:
             if run is None:
                 raise UnknownRun(f"unknown run {runId}")
             if run["status"] not in OPENRUNSTATES:
+                self._verifiedRun(run)
                 return {"state": run["status"]}
             requested = self.config.integration_branch
             if requested is not None and requested != run["integrationBranch"]:
@@ -931,9 +967,7 @@ class FullRunner:
         if not isinstance(outcome, Mapping):
             raise RecordRefused("outcome must be a JSON object")
         outcome = copy.deepcopy(dict(outcome))
-        run = self._load()["runs"].get(runId)
-        if run is None:
-            raise UnknownRun(f"unknown run {runId}")
+        run = self._loadRun(runId)
         action = next((a for a in run["actions"] if a["stepId"] == stepId), None)
         if action is None:
             raise RecordRefused(f"run {runId} has no action with step id {stepId!r}")
@@ -1281,7 +1315,7 @@ class FullRunner:
 
     @staticmethod
     def _compact(doc: dict[str, Any]) -> None:
-        """Preserve terminal proof until verified archival is implemented."""
+        """Preserve terminal proof; only explicit verified migration externalizes it."""
         # The former size-driven compaction discarded evidence and phase detail
         # before any durable archive transfer. Capacity is now bounded by the
         # ledger guard; retain history rather than silently losing provenance.
@@ -1310,6 +1344,7 @@ class FullRunner:
         run = doc["runs"].get(runId)
         if run is None:
             raise UnknownRun(f"unknown run {runId}")
+        run = self._verifiedRun(run)
         observe = self._observationOf(run)
         return RunView(
             runId=runId, mode=run["mode"], status=run["status"], phase=run["phase"],

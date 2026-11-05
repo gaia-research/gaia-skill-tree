@@ -1,5 +1,10 @@
 # Gaia Steward policy
 
+Shared FullRunner ledger capacity, historical-memory commands, eligibility,
+compatibility and non-destructive rollback/repair contract:
+[`MEMORY.md`](./MEMORY.md). The memory commands use shared Git; the local
+scan/repair authority described below is unchanged.
+
 `POLICY.yaml` is the machine-enforced authority and priority policy for Gaia
 Steward. `gaia steward scan` remains report-only. `gaia steward run` is the
 explicit local closed loop for one policy-authorized Class A repair; it refuses
