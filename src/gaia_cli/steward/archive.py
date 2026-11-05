@@ -409,12 +409,18 @@ def settled_references(document: dict[str, Any], run: dict[str, Any]) -> bool:
     observations = [run["phases"][name] for name in ("observe", "reobserve") if name in run["phases"]]
     for summary in observations:
         openIds = summary.get("openDebtIds", [])
-        if len(openIds) != len(set(openIds)):
+        openSet = set(openIds)
+        if len(openIds) != len(openSet):
             return False
         if "openDebt" in summary and summary["openDebt"] != len(openIds):
             return False  # count without a complete identity list is uncertainty
-        if "openDebtIds" in summary and not set(summary.get("freshOpenDebt", [])).issubset(openIds):
-            return False
+        if "openDebtIds" in summary:
+            if not set(summary.get("freshOpenDebt", [])).issubset(openSet):
+                return False
+            if any((state == "open") != (debt in openSet) for debt, state in summary.get("debtStatus", {}).items()):
+                return False
+            if set(summary.get("resolved", []) + summary.get("resolvedWork", [])).intersection(openSet):
+                return False
         counts = summary.get("authorityCounts")
         if counts is not None and sum(counts.values()) != len(openIds):
             return False
@@ -455,9 +461,28 @@ def settled_references(document: dict[str, Any], run: dict[str, Any]) -> bool:
         return True
 
     for name in ("actions", "steps", "decisions", "desk", "proofArtifacts", "receipts",
-                 "branches", "pullRequests", "agentAssignments"):
+                 "branches", "pullRequests", "agentAssignments", "ciResults"):
         if not record(run.get(name, [])):
             return False
+    desk = run.get("desk", {})
+    if type(desk) is not dict or type(desk.get("operations", [])) is not list:
+        return False
+    for operation in desk.get("operations", []):
+        if type(operation) is not dict:
+            return False
+        # Desk._operations uses these subjects as debt IDs; coverage/staleness
+        # operation subjects, in contrast, are sensor/schedule identities.
+        if operation.get("kind") in ("exhausted_attempts", "failed_dispatch"):
+            if not phaseDebtIdentity(operation.get("subject")):
+                return False
+            debts.add(operation["subject"])
+    options = run.get("options", {})
+    if type(options) is not dict:
+        return False
+    if options.get("debt") is not None:
+        if not phaseDebtIdentity(options["debt"]):
+            return False
+        debts.add(options["debt"])
     work = document.get("work")
     if type(work) is not dict:
         return False

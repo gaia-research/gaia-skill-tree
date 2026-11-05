@@ -52,13 +52,14 @@ completed phase status, not an override for a run's unresolved work. Historical
 sensor states (`executed`, `not-evaluated`, `partial`, unknown coverage) are
 immutable observations, not current work states. They are preserved exactly.
 Every typed debt reference in supported observation/triage/verification phases
-or canonical action/step/decision/desk/proof/receipt/branch/assignment records
+or canonical action/step/decision/desk/proof/receipt/branch/assignment/CI records
 requires explicit **current** hot work with matching `debtId`, valid A/B/C
 `authority`, and `state: resolved`. This includes debts absent from the tracked
 `debtStatus` map and historically labelled resolved. Missing/deleted/mismatched
 work or authority is uncertainty, not settlement; verified/landed/no_change
 never suffice. Positive open/Class C counts without complete consistent IDs
-hold the whole run. Sensor, scan-receipt and decision identities alone are not
+hold the whole run. The selected `options.debt` and debt-typed desk operation
+subjects also require settlement. Sensor, scan-receipt and decision identities alone are not
 debt references. The same eligibility predicate gates preview, selection and
 the authoritative ledger transition (both source and candidate hot state),
 and is recomputed on each fresh CAS retry. No current work is fabricated or

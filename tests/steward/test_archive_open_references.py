@@ -142,7 +142,7 @@ def test_all_supported_phase_debt_roles_need_current_work(phase, field):
     assert a.eligible(document, run)
 
 
-@pytest.mark.parametrize("role", ["actions", "steps", "decisions", "desk", "proofArtifacts", "receipts", "branches", "pullRequests", "agentAssignments"])
+@pytest.mark.parametrize("role", ["actions", "steps", "decisions", "desk", "proofArtifacts", "receipts", "branches", "pullRequests", "agentAssignments", "ciResults"])
 def test_record_debt_references_need_current_work_without_confusing_other_ids(role):
     document = empty_ledger()
     run = run_record(desk={}, phases=observation_phases(1))
@@ -154,6 +154,50 @@ def test_record_debt_references_need_current_work_without_confusing_other_ids(ro
     document["work"]["c"] = settled("c")
     assert a.eligible(document, run)
     assert "scan-original" not in document["work"]  # receipt/sensor identities need no fake work
+
+
+@pytest.mark.parametrize("kind", ["exhausted_attempts", "failed_dispatch", "coverage_unknown", "not_evaluated", "stale_schedule", "ledger_local_only"])
+def test_desk_operation_subjects_have_typed_debt_or_nondebt_roles(kind):
+    document = empty_ledger()
+    run = run_record(phases=observation_phases(1), desk={"operations": [
+        {"kind": kind, "subject": "synthetic-subject", "detail": "synthetic original"},
+    ]})
+    debtRole = kind in ("exhausted_attempts", "failed_dispatch")
+    assert a.eligible(document, run) is not debtRole
+    if debtRole:
+        document["work"]["synthetic-subject"] = settled("synthetic-subject", "B")
+        assert a.eligible(document, run)
+
+
+@pytest.mark.parametrize("phase", [
+    {"triage": {"counts": {"C": 1}}},
+    {"triage": {"counts": {"B": 1}, "classB": []}},
+    {"triage": {"carried": 1}}, {"triage": {"filtered": 1}},
+])
+def test_unidentified_triage_counts_hold(phase):
+    assert not a.eligible(empty_ledger(), run_record(desk={}, phases=phase))
+
+
+def test_selected_debt_option_needs_current_settlement_but_other_ids_do_not():
+    document = empty_ledger()
+    run = run_record(desk={}, phases=observation_phases(1), options={"debt": None, "routine": 18})
+    assert a.eligible(document, run)
+    run["options"]["debt"] = "selected"
+    assert not a.eligible(document, run)
+    document["work"]["selected"] = settled("selected", "B")
+    assert a.eligible(document, run)
+
+
+@pytest.mark.parametrize("summary", [
+    {"openDebtIds": [], "debtStatus": {"c": "open"}},
+    {"openDebtIds": ["c"], "debtStatus": {"c": "resolved"}},
+    {"openDebtIds": ["c"], "resolved": ["c"]},
+    {"openDebtIds": ["c"], "authorityCounts": {"A": 0, "B": 1, "C": 0}},
+])
+def test_inconsistent_observations_hold_even_with_resolved_work(summary):
+    document = empty_ledger()
+    document["work"]["c"] = settled("c")
+    assert not a.eligible(document, historical_record(summary))
 
 
 def test_open_reference_cas_retry_holds_newest_valid_document(hosts):
