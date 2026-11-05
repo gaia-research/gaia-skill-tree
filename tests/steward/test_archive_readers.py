@@ -60,13 +60,16 @@ def test_valid_run_above_two_mib_roundtrips_bounded_envelope(hosts):
     _, one, two = hosts
     from gaia_cli.steward.ledger import update
 
-    phases = observation_phases(60000)
+    # Preserve/increase actual bytes while avoiding a 60,000-object incidental
+    # deepcopy benchmark: namespaced sensor identities are already supported by
+    # Observation.source and the unchanged canonical summary producer.
+    phases = observation_phases(16000, identityParts=12)
     record = run_record(phases=phases)
-    assert 2 * 1024 * 1024 < len(a.packed(phases)) < 8 * 1024 * 1024
+    assert 2400309 <= len(a.packed(phases)) < 8 * 1024 * 1024
     assert a.phase_hold(phases) is None
     before, version = seed(one, {"run-a": record})
     raw = raw_source(one, version)
-    assert 2 * 1024 * 1024 < len(raw) < 8 * 1024 * 1024
+    assert 4381488 <= len(raw) < 8 * 1024 * 1024
     baseline = reader(one)._view(before, "run-a").to_dict()
     result = a.migrate(one)
     assert result["archived"] == ["run-a"]
@@ -102,9 +105,9 @@ def test_old_large_ambiguous_text_shape_is_held_not_shrunk(hosts, phase, key):
 
 def test_equal_snapshots_at_distinct_commits_keep_each_source_reachable_from_archive_only(hosts, tmp_path):
     remote, one, _ = hosts
-    before, first = seed(one, {"run-a": run_record(phases=observation_phases(60000))})
+    before, first = seed(one, {"run-a": run_record(phases=observation_phases(16000, identityParts=12))})
     raw = raw_source(one, first)
-    assert 2 * 1024 * 1024 < len(raw) < 8 * 1024 * 1024
+    assert 4381488 <= len(raw) < 8 * 1024 * 1024
     # Same JSON, different source identity; no live data or historical ref rewrite.
     blob = git(remote, "hash-object", "-w", "--stdin", data=raw)
     tree = git(remote, "mktree", data=f"100644 blob {blob}\tledger.json\n".encode())

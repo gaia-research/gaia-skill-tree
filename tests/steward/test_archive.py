@@ -28,13 +28,15 @@ def git(root, *args, data=None):
     return p.stdout.decode().strip()
 
 
-def observation_phases(sensorCount=2048, coverageUnknown=()):
+def observation_phases(sensorCount=2048, coverageUnknown=(), identityParts=0):
     """Actual canonical producer output, not an invented padding/text field.
 
     Synthetic distinct sensor observations exercise the existing unbounded
     sensor-count map. Only typed identities and numeric counts enter phases;
     no observation subjects, artifact references or prose are copied by the
     producer. The large variant tests scale, not today's production fleet size.
+    Identity components are synthetic sensor namespaces, within the existing
+    source/ID contract, not a new field or serialized reference/prose format.
     """
     from gaia_cli.steward.controller import ScanResult
     from gaia_cli.steward.fullrun import FullRunConfig, FullRunner
@@ -42,7 +44,9 @@ def observation_phases(sensorCount=2048, coverageUnknown=()):
 
     observations = tuple(Observation(
         kind="synthetic", subject=Subject(type="synthetic", id=f"subject-{number}"),
-        observed_at=START, source=f"sensor-{number:06d}", status="healthy",
+        observed_at=START, source=(f"sensor-{number:06d}" + "".join(
+            f"-component-{part:02d}-{number:06d}" for part in range(identityParts))),
+        status="healthy",
         current_state={}, observed_state={},
     ) for number in range(sensorCount))
     receipt = Receipt(

@@ -291,8 +291,8 @@ def test_cas_conflict_rechecks_lease_and_adopted_work(hosts, protection):
 
 def test_large_supported_phase_cas_retry_rechecks_new_ambiguous_text(hosts):
     _, one, two = hosts
-    phases = observation_phases(60000)
-    assert len(a.packed(phases)) > 2 * 1024 * 1024
+    phases = observation_phases(16000, identityParts=12)
+    assert len(a.packed(phases)) >= 2400309
     before, _ = seed(one, {"run-a": run_record(phases=phases)})
     raced = False
 
