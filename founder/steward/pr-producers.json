@@ -1,0 +1,240 @@
+{
+  "schemaVersion": "steward-pr-producers-v1",
+  "revision": 1,
+  "provenance": "Founder directive 2026-11-04 (Gaia Steward PR Stewardship). Scope narrowed the same day: Steward observes gaia-skill-tree first; gaia-skill-heaven and organisation-wide discovery are deferred.",
+  "scope": {
+    "enabledRepos": [
+      "gaia-research/gaia-skill-tree"
+    ],
+    "deferredRepos": [
+      {
+        "repo": "gaia-research/gaia-skill-heaven",
+        "reason": "Founder deferral 2026-11-04: Steward observes gaia-skill-tree first; Skill Heaven dependency maintenance (Family C) is deferred.",
+        "coverage": "unknown"
+      }
+    ],
+    "organisationWideDiscovery": "deferred"
+  },
+  "producers": [
+    {
+      "id": "weekly-content-engine",
+      "family": "A",
+      "repo": "gaia-research/gaia-skill-tree",
+      "workflow": ".github/workflows/weekly-content-engine.yml",
+      "commitMarker": ".github/workflows/weekly-content-engine.yml",
+      "identity": {
+        "login": "github-actions[bot]",
+        "accountId": 41898282,
+        "accountType": "Bot"
+      },
+      "commitAuthors": [
+        {
+          "login": "github-actions[bot]",
+          "accountId": 41898282,
+          "accountType": "Bot"
+        }
+      ],
+      "branchPattern": "^docs/content-engine-(?P<label>[0-9]{4}-[0-9]{2})$",
+      "requiredLabels": [
+        "content-engine"
+      ],
+      "holdLabels": [
+        "needs-review",
+        "human-proposal",
+        "hold",
+        "do-not-merge",
+        "founder-hold"
+      ],
+      "cadence": "weekly, Monday 08:00 UTC (cron 0 8 * * 1)",
+      "allowedFiles": [
+        "docs/reports/{label}/index.html",
+        "docs/reports/index.html",
+        "docs/api/v1/reports/{label}.json",
+        "docs/api/v1/reports/index.json"
+      ],
+      "protectedGlobs": [
+        ".github/**",
+        "registry/**",
+        "skill-trees/**",
+        "src/**",
+        "scripts/**",
+        "founder/**",
+        "docs/css/**",
+        "docs/js/**",
+        "docs/graph/**"
+      ],
+      "requiredChecks": [
+        "Schema + DAG + Integrity Checks",
+        "Verify branch scope matches changed files"
+      ],
+      "requiredApprovals": 0,
+      "reviewRequestPolicy": "informational",
+      "approvalBasis": "The main ruleset has no pull_request rule, so GitHub requires no review. The workflow names a reviewer for information only; an APPROVED review is recorded as evidence and a CHANGES_REQUESTED review at the head is a hold.",
+      "allowedMergeCommitters": [
+        "web-flow",
+        "GitHub"
+      ],
+      "draftPolicy": "ineligible",
+      "destination": "main",
+      "mergeMethod": "merge",
+      "closureEligibility": [
+        "superseded-by-merged-replacement",
+        "label-already-published"
+      ],
+      "validator": "content-engine-report",
+      "reconciler": "content-engine-cachebust",
+      "renderedSurface": "template-instance",
+      "renderedSurfaceBasis": "Weekly reports are instances of a frozen template at a frozen URL shape (/reports/YYYY-WW/). The gate proves the template chrome is unchanged against the newest published report; any chrome difference makes the PR a founder-gated design change.",
+      "enabled": true
+    },
+    {
+      "id": "content-engine-replacement",
+      "family": "A-R",
+      "repo": "gaia-research/gaia-skill-tree",
+      "workflow": "Steward reconciliation (scripts/steward_pr.py reconcile): a tracked replacement of a weekly content-engine pull request",
+      "commitMarker": null,
+      "identity": {
+        "login": "mbtiongson1",
+        "accountId": 153011150,
+        "accountType": "User"
+      },
+      "commitAuthors": [
+        {
+          "login": "claude",
+          "accountId": 81847,
+          "accountType": "User"
+        },
+        {
+          "login": "mbtiongson1",
+          "accountId": 153011150,
+          "accountType": "User"
+        }
+      ],
+      "branchPattern": "^docs/steward-pr-(?P<original>[0-9]+)-(?P<label>[0-9]{4}-[0-9]{2})$",
+      "requiredLabels": [],
+      "holdLabels": [
+        "needs-review",
+        "human-proposal",
+        "hold",
+        "do-not-merge",
+        "founder-hold"
+      ],
+      "cadence": "on demand, only for a content-engine pull request that cannot merge as produced",
+      "allowedFiles": [
+        "docs/reports/{label}/index.html",
+        "docs/reports/index.html",
+        "docs/api/v1/reports/{label}.json",
+        "docs/api/v1/reports/index.json"
+      ],
+      "protectedGlobs": [
+        ".github/**",
+        "registry/**",
+        "skill-trees/**",
+        "src/**",
+        "scripts/**",
+        "founder/**",
+        "docs/css/**",
+        "docs/js/**",
+        "docs/graph/**"
+      ],
+      "requiredChecks": [
+        "Schema + DAG + Integrity Checks",
+        "Verify branch scope matches changed files"
+      ],
+      "requiredApprovals": 0,
+      "reviewRequestPolicy": "informational",
+      "approvalBasis": "The main ruleset requires no review. A replacement is proven by its marker, the original producer's verified provenance, a byte-identical canonical payload and the regenerate-and-compare content proofs; it is merged only after independent verification.",
+      "allowedMergeCommitters": [
+        "web-flow",
+        "GitHub"
+      ],
+      "draftPolicy": "ineligible",
+      "destination": "main",
+      "mergeMethod": "merge",
+      "closureEligibility": [],
+      "validator": "content-engine-replacement",
+      "reconciler": null,
+      "renderedSurface": "template-instance",
+      "renderedSurfaceBasis": "Same frozen template and URL shape as the original; the regenerate-and-compare proof must pass against the destination's own templates.",
+      "enabled": true
+    },
+    {
+      "id": "scheduled-docs-routine",
+      "family": "B",
+      "repo": "gaia-research/gaia-skill-tree",
+      "workflow": "docs/en/ROUTINE_PROMPT.md (scheduled routine, runs under the founder account)",
+      "commitMarker": null,
+      "identity": {
+        "login": "mbtiongson1",
+        "accountId": null,
+        "accountType": "User"
+      },
+      "commitAuthors": [
+        {
+          "login": "claude",
+          "accountId": 81847,
+          "accountType": "User"
+        },
+        {
+          "login": "mbtiongson1",
+          "accountId": 153011150,
+          "accountType": "User"
+        }
+      ],
+      "branchPattern": "^docs/routines/(?P<label>[0-9]{3})$",
+      "requiredLabels": [
+        "human-proposal"
+      ],
+      "holdLabels": [
+        "needs-review",
+        "hold",
+        "do-not-merge",
+        "founder-hold"
+      ],
+      "cadence": "daily scheduled routine appends commits to one rolling draft branch",
+      "allowedFiles": [
+        "docs/en/**"
+      ],
+      "protectedGlobs": [
+        ".github/**",
+        "registry/**",
+        "skill-trees/**",
+        "src/**",
+        "scripts/**",
+        "founder/**",
+        "docs/css/**",
+        "docs/js/**",
+        "docs/graph/**",
+        "docs/api/**"
+      ],
+      "requiredChecks": [
+        "Schema + DAG + Integrity Checks",
+        "Verify branch scope matches changed files"
+      ],
+      "requiredApprovals": 1,
+      "reviewRequestPolicy": "required",
+      "approvalBasis": "Documentation routines are drafts that the founder promotes. A draft state, a needs-review label or a human-proposal label is an explicit founder hold. It is never read as consent.",
+      "allowedMergeCommitters": [
+        "web-flow",
+        "GitHub"
+      ],
+      "draftPolicy": "hold",
+      "destination": "main",
+      "mergeMethod": "merge",
+      "closureEligibility": [],
+      "validator": "docs-routine",
+      "reconciler": null,
+      "renderedSurface": "docs-edit",
+      "renderedSurfaceBasis": "Edits to docs/en pages change visible copy. Accuracy against CLI behaviour needs an independent verifier receipt.",
+      "enabled": true
+    }
+  ],
+  "holds": [
+    {
+      "id": "skill-heaven-deferred",
+      "repo": "gaia-research/gaia-skill-heaven",
+      "kind": "repo-deferred",
+      "reason": "Founder deferral 2026-11-04. Never reported healthy; coverage is unknown."
+    }
+  ]
+}

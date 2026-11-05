@@ -10,6 +10,7 @@ from typing import Any, Mapping
 import yaml
 
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy, HygienePolicyError, loadHygienePolicy
+from gaia_cli.steward.prmaintenance.policy import PrMaintenancePolicy, PrPolicyError, loadPrMaintenancePolicy, prAuthorityApproved
 from gaia_cli.steward.lane import LanePolicy
 from gaia_cli.steward.mirrors import spec_by_id
 from gaia_cli.steward.models import AuthorityClass, Priority, RoutingBudget
@@ -28,7 +29,7 @@ _TOP_LEVEL_KEYS = {
     "routing",
 }
 # Optional: an absent issueHygiene section means no closure authority at all.
-_OPTIONAL_TOP_LEVEL_KEYS = {"issueHygiene"}
+_OPTIONAL_TOP_LEVEL_KEYS = {"issueHygiene", "prMaintenance"}
 _PRIORITY_KEYS = {
     "importance",
     "decisionImpact",
@@ -112,6 +113,7 @@ _PROTECTED_DISPATCH_PATHS = (
 _FOUNDER_RULE_DEBT = {
     "generic-mapping-decision": "generic_mapping",
     "issue-founder-decision": "issue_founder_decision",
+    "routine-pr-founder-decision": "routine_pr_founder_decision",
 }
 _FOUNDER_RULE_KEYS = {
     "debtKind",
@@ -119,6 +121,14 @@ _FOUNDER_RULE_KEYS = {
     "decisionTargetField",
     "objective",
 }
+
+
+def _prMaintenanceOf(data: Mapping[str, Any]) -> tuple[PrMaintenancePolicy, str | None]:
+    """The prMaintenance block, or the disabled default and the reason when that block is malformed."""
+    try:
+        return loadPrMaintenancePolicy(data.get("prMaintenance")), None
+    except PrPolicyError as exc:
+        return PrMaintenancePolicy(), f"prMaintenance is malformed: {exc}"
 
 
 def _issueHygieneOf(data: Mapping[str, Any]) -> tuple[HygienePolicy, str | None]:
@@ -222,6 +232,9 @@ class StewardPolicy:
     issue_hygiene: HygienePolicy = HygienePolicy(writesEnabled=False, enabledRules=())
     # A malformed issueHygiene block disables only the issue-hygiene surface (B7 D8). The rest of the policy still loads.
     issue_hygiene_error: str | None = None
+    # Routine-PR stewardship (routine 19). Absent or malformed => no write authority at all.
+    pr_maintenance: PrMaintenancePolicy = PrMaintenancePolicy()
+    pr_maintenance_error: str | None = None
 
     @classmethod
     def load(cls, repo_root: Path) -> "StewardPolicy":
@@ -243,6 +256,9 @@ class StewardPolicy:
         # A switch or rule-list edit cannot ratify a new external-write authority.
         if not closureAuthorityApproved(repo_root):
             loaded = replace(loaded, issue_hygiene=replace(loaded.issue_hygiene, writesEnabled=False, enabledRules=()))
+        # Same rule for PR stewardship: a switch edit alone never grants merge or closure authority.
+        if not prAuthorityApproved(repo_root):
+            loaded = replace(loaded, pr_maintenance=replace(loaded.pr_maintenance, writesEnabled=False, enabledActions=()))
         return loaded
 
     @classmethod
@@ -547,6 +563,7 @@ class StewardPolicy:
             )
 
         hygiene, hygieneError = _issueHygieneOf(data)
+        prPolicy, prError = _prMaintenanceOf(data)
         return cls(
             version=1,
             state_directory=state_directory,
@@ -564,6 +581,8 @@ class StewardPolicy:
             founder_rules=founder_rules,
             issue_hygiene=hygiene,
             issue_hygiene_error=hygieneError,
+            pr_maintenance=prPolicy,
+            pr_maintenance_error=prError,
         )
 
     def authority_for(self, kind: str) -> AuthorityClass:

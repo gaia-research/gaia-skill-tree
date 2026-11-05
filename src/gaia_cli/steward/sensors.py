@@ -2558,6 +2558,7 @@ def default_sensors() -> tuple[Sensor, ...]:
         SecretScanSensor,
     )
     from gaia_cli.steward.issuehygiene.sensor import IssueHygieneSensor
+    from gaia_cli.steward.prmaintenance.sensor import PrMaintenanceSensor
     from gaia_cli.steward.sensors_tests import (
         TestHistorySensor,
         TestIsolationSensor,
@@ -2597,6 +2598,7 @@ def default_sensors() -> tuple[Sensor, ...]:
         FrontendContractSensor(),
         BrowserRenderSensor(),
         IssueHygieneSensor(),
+        PrMaintenanceSensor(),
     )
 
 
