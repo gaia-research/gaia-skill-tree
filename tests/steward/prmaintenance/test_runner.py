@@ -9,7 +9,8 @@ import pytest
 
 from gaia_cli.steward.fullrun import MERGEACTION, RecordRefused
 from gaia_cli.steward.models import Observation, Subject
-from gaia_cli.steward.prmaintenance import state
+from gaia_cli.steward.prmaintenance import coordination as core, state
+from .coordination_helpers import FakeServices, seed, subject, proof, evidence
 from gaia_cli.steward.prmaintenance.sensor import PrMaintenanceSensor  # noqa: F401
 
 from tests.steward.prmaintenance import helpers as h
@@ -87,24 +88,25 @@ def test_a_driver_cannot_claim_a_merge_the_store_does_not_hold(tmp_path):
     view = runner.start("full")
     step = pending(view)[0]["stepId"]
     claim = {"state": "merged", "repo": h.REPO, "number": 2270, "mergeCommitSha": "9" * 40}
-    with pytest.raises(RecordRefused, match="no recorded merged outcome"):
+    with pytest.raises(RecordRefused, match="no recorded shared"):
         runner.record(view.runId, step, claim)
     state.appendRecord(repo, "outcomes", {"at": "2026-11-04T18:31:00Z", "runId": view.runId, "repo": h.REPO, "number": 2270, "action": "merge",
                                           "headSha": HEAD, "state": "merged", "mergeCommitSha": "9" * 40})
-    with pytest.raises(RecordRefused, match="no recorded merged outcome"):
-        runner.record(view.runId, step, {**claim, "mergeCommitSha": "8" * 40})
-    runner.record(view.runId, step, claim)
+    for reportedState in ("merged", "closed", "already-merged", "already-closed"):
+        with pytest.raises(RecordRefused, match="no recorded shared"):
+            runner.record(view.runId, step, {**claim, "state": reportedState})
+    # Local JSONL forgery cannot become shared terminal evidence, even for already-*.
     with pytest.raises(RecordRefused):
-        runner.record(view.runId, step, {**claim, "mergeCommitSha": "8" * 40})  # a different outcome never replaces a recorded one
+        runner.record(view.runId, step, {**claim, "mergeCommitSha": "8" * 40})
 
 
-def test_a_recorded_terminal_outcome_is_never_emitted_again(tmp_path):
+def test_a_local_terminal_claim_cannot_suppress_a_fresh_local_proposal(tmp_path):
     repo = fixture(tmp_path)
     verify(repo, 2270)
     state.appendRecord(repo, "outcomes", {"at": "2026-11-04T18:00:00Z", "runId": "r0", "repo": h.REPO, "number": 2270, "action": "merge",
                                           "headSha": HEAD, "state": "merged", "mergeCommitSha": "9" * 40})
     view = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])]).start("full")
-    assert pending(view) == []
+    assert len(pending(view)) == 1  # a proposal, not admission/send permission
 
 
 def test_revoked_authority_or_kill_switch_emits_nothing(tmp_path):
@@ -151,3 +153,80 @@ def test_a_stuck_pr_action_cannot_starve_the_lane_the_lease_ttl_supersedes_it(tm
     old = [a for a in doc["runs"][view.runId]["actions"] if a["type"] == MERGEACTION]
     assert old and old[0]["status"] == "superseded"  # the stale action is retired; it can never be recorded against newer work
     assert len(pending(nxt)) == 1 and nxt.runId != view.runId  # and the next run offers it afresh, once
+
+
+def coordinated(tmp_path, monkeypatch, *, lost=False):
+    from gaia_cli.steward import ledger
+    namespace = core.Namespace("forge.invalid", "42", h.REPO, "a" * 32)
+    root = tmp_path / "critical"
+    root.mkdir()
+    _, binding, first, _ = seed(root, monkeypatch, namespace)
+    services = FakeServices()
+    candidate = subject(2270)
+    candidate.update(headSha=HEAD, baseSha=BASE, producerId="weekly-content-engine")
+    expected = proof(candidate)
+    def authorize(ns, sub, bindingProof):
+        if ns != namespace or sub != candidate or bindingProof != expected:
+            raise core.CoordinationError("exact test binding mismatch")
+    services.authorize = authorize
+    original = services.completion
+    def completed(operation, invocationId, response):
+        result = original(operation, invocationId, response)
+        result["detail"] = json.dumps({"mergeCommitSha": "9" * 40, "parentsVerified": True})
+        return result
+    services.completion = completed
+    services.response = "lost" if lost else "effect"
+    coord = core.PrWriteCoordinator(ledger.GitRefLedgerStore(first, ref=core.REF), binding, services)
+    token = coord.reserve(candidate, expected, "stable-run", "owner", "reserve").token
+    coord.recordIntent(token, core.exactRequest(namespace, candidate), "intent")
+    coord.invoke(token, "claim")
+    operation = coord.inspect()["operations"][token.operationId]
+    return coord, operation, services
+
+
+@pytest.mark.parametrize("reportedState", ["merged", "already-merged", "closed", "already-closed"])
+def test_all_success_shaped_reports_bind_shared_subject_and_exact_evidence(tmp_path, monkeypatch, reportedState):
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = pending(view)[0]["stepId"]
+    coord, operation, services = coordinated(tmp_path, monkeypatch)
+    runner.config.prCoordinatorFactory = lambda: coord
+    claim = {"state": reportedState, "repo": h.REPO, "number": 2270, "operationId": operation["operationId"],
+             "evidenceSha256": core.digest(operation["evidence"]), "mergeCommitSha": "9" * 40}
+    with pytest.raises(RecordRefused, match="no recorded shared"):
+        runner.record(view.runId, step, {**claim, "evidenceSha256": "0" * 64})
+    if reportedState in ("closed", "already-closed"):
+        with pytest.raises(RecordRefused, match="no recorded shared"):
+            runner.record(view.runId, step, claim)
+        unchanged = runner._load()["runs"][view.runId]["actions"]
+        stored = next(item for item in unchanged if item["stepId"] == step)
+        assert stored["status"] == "pending" and "outcome" not in stored
+    else:
+        recorded = runner.record(view.runId, step, claim)
+        assert pending(recorded) == []
+        assert runner.record(view.runId, step, claim).runId == view.runId
+        with pytest.raises(RecordRefused):
+            runner.record(view.runId, step, {**claim, "mergeCommitSha": "8" * 40})
+    assert len(services.invocations) == len(services.effects) == 1
+
+
+def test_unknown_shared_sender_stays_pending_and_local_supersession_does_not_refund(tmp_path, monkeypatch):
+    from tests.steward.test_fullrun import Clock
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    clock = Clock()
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])], clock=clock)
+    view = runner.start("full")
+    action = pending(view)[0]
+    coord, operation, services = coordinated(tmp_path, monkeypatch, lost=True)
+    runner.config.prCoordinatorFactory = lambda: coord
+    outcome = {"state": "unknown", "repo": h.REPO, "number": 2270, "operationId": operation["operationId"]}
+    recorded = runner.record(view.runId, action["stepId"], outcome)
+    assert pending(recorded)[0]["params"]["operationId"] == operation["operationId"]
+    clock.advance(hours=2)
+    runner.start("full")
+    assert coord.inspect()["activeOperationId"] == operation["operationId"]
+    assert core.usage(coord.inspect(), core.TimeBounds(999999, 999999, "authority"), "stable-run", "merge") == (1, 1)
+    assert len(services.invocations) == len(services.effects) == 1

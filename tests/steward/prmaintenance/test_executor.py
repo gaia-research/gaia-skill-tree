@@ -99,7 +99,8 @@ def world(tmp_path, monkeypatch, action="merge"):
     snap = gate.Snapshot(row, {"main": fx.base}, {"complete": True, "requiredChecks": h.REQUIRED}, [], closed)
     forge, clock = Forge(fx, snap), Clock()
     def make(root=fx.root, storeRoot=first):
-        service = ex.ProductionServices(root, configured, forge, clock, lambda n: forge.snap)
+        service = ex.ProductionServices(root, configured, forge, clock, lambda n: forge.snap,
+                                        lambda: h.run(root, "rev-parse", "refs/heads/main"))
         return ex.Executor(core.PrWriteCoordinator(ledger.GitRefLedgerStore(storeRoot, ref=core.REF), transportBinding, service))
     executor = make()
     monkeypatch.setattr(gate, "makeExecutor", lambda root: executor)
@@ -231,7 +232,7 @@ class ClockHttp:
         return ex.HttpReply(200, headers, data)
 
 
-@pytest.mark.parametrize("mode", ["cache", "nonce", "bad", "missing", "no-store", "regression", "delay", "monotonic"])
+@pytest.mark.parametrize("mode", ["cache", "nonce", "bad", "missing", "no-store", "regression", "future", "delay", "monotonic"])
 def test_concrete_clock_missing_stale_skew_network_and_regression_fail_closed(mode):
     http = ClockHttp()
     instants = iter([1.0, 1.1, 2.0, 2.1])
@@ -239,6 +240,7 @@ def test_concrete_clock_missing_stale_skew_network_and_regression_fail_closed(mo
                              "precisionSeconds": 1, "maxRoundTripSeconds": 2}, http, lambda: next(instants))
     assert clock.sample() == core.TimeBounds(9998, 10003, "nonce-bound-https-clock-v1")
     if mode == "regression": http.instant -= 5
+    elif mode == "future": http.instant += 10000
     elif mode == "delay": clock.monotonic = iter([2.0, 8.0]).__next__
     elif mode == "monotonic": clock.monotonic = iter([0.0, 0.1]).__next__
     else: http.mode = mode

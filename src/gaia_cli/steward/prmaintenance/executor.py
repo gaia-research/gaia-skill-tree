@@ -122,7 +122,8 @@ class BoundedClock:
             sample.validate()
         except (KeyError, TypeError, ValueError, core.CoordinationError):
             raise core.CoordinationError("clock source response failed its provisioned contract") from None
-        if self.last is not None and (sample.lower < self.last.lower or sample.upper < self.last.upper):
+        if self.last is not None and (sample.lower < self.last.lower or sample.upper < self.last.upper
+                or sample.lower > self.last.upper + math.ceil(end - self.lastEnd)):
             raise core.CoordinationError("authoritative clock regressed/future-inconsistent")
         self.last, self.lastEnd = sample, end
         return sample
@@ -145,10 +146,11 @@ def reported(operation: dict) -> dict:
 
 
 class ProductionServices:
-    def __init__(self, root: Path, binding: WriteCoordination, http, clock: BoundedClock, snapshot=None):
+    def __init__(self, root: Path, binding: WriteCoordination, http, clock: BoundedClock, snapshot=None, currentTip=None):
         self.root, self.binding, self.http, self.time = root, binding, http, clock
         self.namespace = core.Namespace(binding.forgeHost, binding.repositoryId, binding.repositoryName, binding.epoch, binding.protocol)
         self.snapshot = snapshot or self.liveSnapshot
+        self.currentTip = currentTip or self.canonicalTip
         self.coordinator = None
         self.responses: dict[str, HttpReply] = {}
         self.authorized = None
@@ -157,11 +159,25 @@ class ProductionServices:
         return self.time.sample()
 
     def api(self, path, params=None):
-        route = "/" + path.lstrip("/") + (("?" + urlencode(params)) if params else "")
+        query = {**(params or {}), "steward_nonce": secrets.token_hex(16)}
+        route = "/" + path.lstrip("/") + "?" + urlencode(query)
         response = self.http.request("GET", route)
-        if not 200 <= response.status < 300:
+        if (not 200 <= response.status < 300 or response.headers.get("age", "0") != "0"
+                or response.headers.get("warning", "").startswith(("110", "111", "113"))):
             raise collect.CollectError("required live GET failed")
         return response.body, ""  # consumers use explicit paging; no mutation/header receipt authority
+
+    def canonicalTip(self):
+        result = proofs.git(self.root, "-c", f"remote.origin.url={self.binding.canonicalUrl}",
+                            "ls-remote", "origin", f"refs/heads/{self.binding.authorityBranch}")
+        if result.returncode:
+            raise core.CoordinationError("canonical current authority ref unavailable")
+        rows = [line.split() for line in result.stdout.decode().splitlines()]
+        matches = [row[0] for row in rows if len(row) == 2 and row[1] == f"refs/heads/{self.binding.authorityBranch}"]
+        if len(matches) != 1:
+            raise core.CoordinationError("canonical current authority ref missing/ambiguous")
+        core.sha(matches[0], git=True)
+        return matches[0]
 
     def sourceTexts(self):
         repo = self.binding.repositoryName
@@ -172,6 +188,8 @@ class ProductionServices:
         ref, _ = self.api(branch)
         commit = ref.get("object", {}).get("sha")
         core.sha(commit, git=True)
+        if self.currentTip() != commit:
+            raise core.CoordinationError("API authority ref is not the current canonical Git ref")
         texts = {}
         for key, path in zip(("policy", "producerRegistry", "authority"), gate.AUTHORITY_FILES):
             content, _ = self.api(f"repos/{repo}/contents/{path}", {"ref": commit})
@@ -188,7 +206,7 @@ class ProductionServices:
             except (KeyError, TypeError, ValueError, OSError):
                 raise core.CoordinationError("current committed authority source unavailable or different") from None
         again, _ = self.api(branch)
-        if again.get("object", {}).get("sha") != commit:
+        if again.get("object", {}).get("sha") != commit or self.currentTip() != commit:
             raise core.CoordinationError("canonical authority changed during read")
         dirty = proofs.git(self.root, "status", "--porcelain", "--untracked-files=all", "--", *gate.AUTHORITY_FILES)
         policy = StewardPolicy.load(self.root)
@@ -386,6 +404,8 @@ class Executor:
         operation = self.coordinator.inspect()["operations"].get(operationId)
         if operation is None:
             raise core.Refused("unknown operation")
+        if operation["state"] not in core.PREPARED:
+            return reported(operation)  # persisted claim/terminal is inspection, NEVER a send grant
         result = self.coordinator.invoke(tokenFrom(operation), core.digest([operation["attemptId"], "sole-send"]))
         if result.status == core.CommitStatus.UNRESOLVED:
             return {**reported(self.coordinator.inspect()["operations"][operationId]), "commitStatus": result.status.value}

@@ -263,6 +263,7 @@ class FullRunConfig:
     lease_ttl_seconds: int = 1800
     clock: Callable[[], datetime] = _utcNow
     controller_factory: Callable[[], StewardController] | None = None
+    prCoordinatorFactory: Callable[[], Any] | None = None
 
     def __post_init__(self) -> None:
         self.repo_root = Path(self.repo_root).resolve()
@@ -433,7 +434,12 @@ class FullRunner:
             self._controller = factory()
         return self._controller
 
+    def _requireLocal(self) -> None:
+        if getattr(self.config.store, "shared", False):
+            raise FullRunError("general shared ledger is read-only legacy status; ordinary mutations require checkout-local state")
+
     def _update(self, mutate: Callable[[dict[str, Any]], Any], message: str = "steward full") -> Any:
+        self._requireLocal()  # BEFORE any load/update, including direct library callers
         result, _version = update(
             self.config.store, mutate, retries=CONTENDEDRETRIES,
             clock=self.config.clock, message=message,
@@ -449,8 +455,7 @@ class FullRunner:
             "transport": self.config.store.transport,
             "shared": bool(self.config.store.shared),
         }
-        if not info["shared"]:
-            info["warning"] = "ledger_local_only"
+        info["scope"] = "legacy-read-only" if info["shared"] else "ordinary-local"
         return info
 
     def _runDirectory(self, runId: str) -> Path:
@@ -587,6 +592,7 @@ class FullRunner:
         return self.advance(runId)
 
     def resume(self, runId: str) -> RunView:
+        self._requireLocal()
         now = self._now()
 
         def mutate(doc: dict[str, Any]) -> dict[str, Any]:
@@ -624,6 +630,7 @@ class FullRunner:
     def advance(self, runId: str) -> RunView:
         """Run phases from the recorded phase until done or a driver is needed."""
 
+        self._requireLocal()
         try:
             while True:
                 run = self._loadRun(runId)
@@ -718,6 +725,7 @@ class FullRunner:
         run adopts it from the ledger instead of waiting out the lease.
         """
 
+        self._requireLocal()
         if not str(reason).strip():
             raise FullRunError("abandon needs a reason; the ledger keeps it as the audit record")
         now = self._now()
@@ -931,6 +939,7 @@ class FullRunner:
     # ------------------------------------------------------------------
 
     def record(self, runId: str, stepId: str, outcome: Mapping[str, Any]) -> RunView:
+        self._requireLocal()
         if not isinstance(outcome, Mapping):
             raise RecordRefused("outcome must be a JSON object")
         outcome = copy.deepcopy(dict(outcome))
@@ -973,12 +982,13 @@ class FullRunner:
                 )
             now = self._now()
             prepared(doc, run, live)
-            live["status"] = "done" if live.get("heldOnly") is not True else "held"
+            keepPending = live.pop("keepPending", False)
+            live["status"] = "pending" if keepPending else ("done" if live.get("heldOnly") is not True else "held")
             live["outcome"] = outcome
             live["recordedAt"] = now
             for step in run["steps"]:
                 if step["stepId"] == stepId:
-                    step["status"] = "done"
+                    step["status"] = "pending" if keepPending else "done"
                     step["at"] = now
             run["mutated"] = True
             run["updatedAt"] = now
@@ -1881,12 +1891,7 @@ class FullRunner:
             if not pol.actionEnabled(action):
                 continue
             repo, number, head = st["repo"], int(st["number"]), str(st["headSha"])
-            if prstate.terminalFor(self.root, repo, number, action) is not None:
-                continue
-            ceiling = pol.maxMergesPerRun if action == "merge" else pol.maxClosuresPerRun
-            if prstate.writesInRun(self.root, runId, action) >= ceiling:
-                summary["deferred"].append({"number": number, "reason": f"run {action} budget ({ceiling}) is spent; resumes next run"})
-                continue
+            # Local outcomes/counters are diagnostics, never shared admission or settlement.
             verified = any(v.get("repo") == repo and v.get("number") == number and v.get("action") == action
                            and v.get("headSha") == head and v.get("baseSha") == st["baseSha"] and v.get("verdict") == "pass"
                            for v in prstate.readRecords(self.root, "verifications"))
@@ -1921,23 +1926,49 @@ class FullRunner:
 
         params = action["params"]
         result = outcome.get("state")
-        if result not in ("merged", "closed", "already-merged", "already-closed", "failed", "refused", "aborted"):
+        if result not in ("merged", "closed", "already-merged", "already-closed", "failed", "refused", "aborted", "unknown", "quarantined", "possibly-sent"):
             raise RecordRefused(f"{action['type']} outcome state must be merged, closed, already-*, failed, refused or aborted")
         if outcome.get("repo") != params["repo"] or outcome.get("number") != params["number"]:
             raise RecordRefused(f"{action['type']} outcome names a different pull request than its action")
         if result in ("failed", "refused", "aborted") and not (isinstance(outcome.get("reason"), str) and outcome["reason"].strip()):
             raise RecordRefused(f"a {result} outcome needs a reason")
-        if result in ("merged", "closed"):
+        operation = None
+        success = result in ("merged", "closed", "already-merged", "already-closed")
+        if success or outcome.get("operationId") or result in ("unknown", "quarantined", "possibly-sent"):
+            from gaia_cli.steward.prmaintenance import coordination as critical
+            from gaia_cli.steward.prmaintenance.executor import makeExecutor
             try:
-                stored = prstate.terminalFor(self.root, params["repo"], params["number"], params["action"])
-            except prstate.StoreError as exc:
-                raise RecordRefused(f"the PR-maintenance outcome store is unreadable: {exc}") from exc
-            if stored is None or stored.get("state") != result or stored.get("headSha") != params["headSha"] \
-                    or (result == "merged" and stored.get("mergeCommitSha") != outcome.get("mergeCommitSha")):
-                raise RecordRefused(f"no recorded {result} outcome in the store matches this report; the action stays pending")
+                critical.sha(outcome.get("operationId"))
+                coordinator = (self.config.prCoordinatorFactory() if self.config.prCoordinatorFactory
+                               else makeExecutor(self.root).coordinator)
+                operation = coordinator.inspect()["operations"].get(outcome["operationId"])
+                if operation is None or coordinator.binding.namespace.repositoryName != params["repo"]:
+                    raise ValueError("unknown shared operation")
+                subject = operation["subject"]
+                if (subject["number"], subject["headSha"], subject["action"]) != (params["number"], params["headSha"], params["action"]):
+                    raise ValueError("operation subject mismatch")
+                if success:
+                    expected = "merge" if result in ("merged", "already-merged") else "close"
+                    if (subject["action"] != expected or operation["state"] not in ("completed-effect", "observed-terminal")
+                            or outcome.get("evidenceSha256") != critical.digest(operation["evidence"])):
+                        raise ValueError("terminal evidence mismatch")
+                    if expected == "merge":
+                        evidence = json.loads(operation["evidence"]["detail"])
+                        if not evidence.get("parentsVerified") or not evidence.get("mergeCommitSha"):
+                            raise ValueError("matching merge parent proof missing")
+                        if outcome.get("mergeCommitSha", evidence["mergeCommitSha"]) != evidence["mergeCommitSha"]:
+                            raise ValueError("merge commit mismatch")
+                elif result in ("unknown", "quarantined", "possibly-sent") and operation["state"] not in critical.PENDING:
+                    raise ValueError("not an outstanding sender")
+            except (critical.CoordinationError, ValueError, KeyError, OSError) as exc:
+                raise RecordRefused("no recorded shared terminal/outstanding operation matches this report; action stays pending") from exc
 
         def prepared(doc: dict[str, Any], run: dict[str, Any], live: dict[str, Any]) -> None:
-            return None
+            if operation is not None:
+                live["params"]["operationId"] = operation["operationId"]
+                live["sharedState"] = operation["state"]
+                if operation["state"] in ("possibly-sent", "unknown", "quarantined"):
+                    live["keepPending"] = True
 
         return prepared
 
@@ -2817,6 +2848,7 @@ class FullRunner:
             ],
             decision_records=records,
             ledger_shared=bool(self.config.store.shared),
+            ordinary_local=not bool(self.config.store.shared),
             last_scheduled_run_at=max(scheduled) if scheduled else None,
             now=now,
             failed_dispatches=failed,

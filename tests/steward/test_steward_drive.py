@@ -497,7 +497,7 @@ def test_no_push_flag_removes_push_from_runner_call(tmp_path):
     makeDriver(tmp_path, world, push=False).drive()
     runArgs = next(c for c in world.calls if isRun(c))
     assert "--push" not in runArgs
-    assert runArgs[runArgs.index("--ledger") + 1] == "git"
+    assert runArgs[runArgs.index("--ledger") + 1] == "local"
     assert runArgs[runArgs.index("--integration-branch") + 1] == BASE
 
 

@@ -224,7 +224,7 @@ def scanPendingAgentActions(node: Any, found: list[dict[str, Any]]) -> None:
 class DriveOptions:
     root: Path
     integrationBranch: str | None = None
-    ledger: str = "git"
+    ledger: str = "local"
     push: bool = True
     trigger: str = "scheduled"
     afk: bool = False
@@ -919,7 +919,7 @@ def buildParser() -> argparse.ArgumentParser:
     parser.add_argument("--root", default=".", help="Repository checkout to drive (default: current directory)")
     parser.add_argument("--integration-branch", default=os.environ.get("GAIA_STEWARD_INTEGRATION_BRANCH"),
                         metavar="B", help="dev/* integration branch (default: $GAIA_STEWARD_INTEGRATION_BRANCH)")
-    parser.add_argument("--ledger", choices=("auto", "git", "local"), default="git")
+    parser.add_argument("--ledger", choices=("auto", "git", "local"), default="local")
     parser.add_argument("--no-push", action="store_true", help="Do not push Class A landing branches")
     parser.add_argument("--trigger", choices=("manual", "scheduled"), default="scheduled")
     parser.add_argument("--afk", action="store_true", help="Queue founder decisions instead of prompting")
