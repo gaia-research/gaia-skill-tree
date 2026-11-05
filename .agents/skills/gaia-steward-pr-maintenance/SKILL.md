@@ -5,7 +5,7 @@ description: >-
   bounded shared preparation and an explicit one-shot executor. Use for routine
   19, weekly report PRs, or forge.merge_pr/forge.close_pr proposals. Never a
   general merge permission; missing deployment configuration refuses execution.
-version: 1.1.0
+version: 1.0.0
 ---
 
 # gaia-steward-pr-maintenance
