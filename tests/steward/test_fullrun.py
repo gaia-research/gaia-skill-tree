@@ -521,7 +521,7 @@ def test_retro_never_counts_an_unexecuted_sensor_as_healthy(tmp_path: Path) -> N
     assert view.coverageUnknown == ["broken"]
 
 
-def test_old_terminal_runs_are_compacted_but_keep_their_summary() -> None:
+def test_old_terminal_runs_are_preserved_with_their_full_evidence() -> None:
     document = {"runs": {}}
     for index in range(fullrun.RETAINEDRUNS + 3):
         document["runs"][f"run-{index:03d}"] = {
@@ -530,10 +530,9 @@ def test_old_terminal_runs_are_compacted_but_keep_their_summary() -> None:
         }
     document["runs"]["run-live"] = {"runId": "run-live", "status": "active", "startedAt": "2026-01-01T00:00:00Z",
                                     "steps": [{"stepId": "x"}], "phases": {}}
+    before = json.loads(json.dumps(document))
     FullRunner._compact(document)
-    compacted = [r for r in document["runs"].values() if r.get("compacted")]
-    assert len(compacted) == 3 and all(r["steps"] == [] and r["mode"] == "full" for r in compacted)
-    assert document["runs"]["run-live"]["steps"] == [{"stepId": "x"}]
+    assert document == before
 
 
 def test_status_reports_lease_work_and_last_scheduled_run(tmp_path: Path) -> None:
@@ -636,7 +635,7 @@ def test_handoff_is_replaced_not_stacked_when_a_build_is_re_emitted() -> None:
     assert second.startswith("# packet\n")
 
 
-def test_retained_runs_beyond_the_newest_keep_headlines_not_payloads() -> None:
+def test_retained_runs_beyond_the_newest_preserve_their_full_evidence() -> None:
     document = {"runs": {}}
     for index in range(fullrun.DETAILEDRUNS + 2):
         document["runs"][f"run-{index:03d}"] = {
@@ -644,12 +643,9 @@ def test_retained_runs_beyond_the_newest_keep_headlines_not_payloads() -> None:
             "steps": [{"stepId": "x"}], "actions": [], "mode": "full", "desk": {"quiet": True},
             "phases": {"observe": {"status": "ok", "openDebt": 3, "openDebtIds": ["a", "b", "c"]}},
         }
+    before = json.loads(json.dumps(document))
     FullRunner._compact(document)
-    oldest = document["runs"]["run-000"]
-    assert oldest["trimmed"] and "desk" not in oldest and not oldest.get("compacted")
-    assert oldest["phases"]["observe"] == {"status": "ok", "openDebt": 3, "openDebtIds": 3}
-    newest = document["runs"][f"run-{fullrun.DETAILEDRUNS + 1:03d}"]
-    assert newest["phases"]["observe"]["openDebtIds"] == ["a", "b", "c"] and newest["desk"] == {"quiet": True}
+    assert document == before
 
 
 # --- lost task packets, operator disposition, and stale desk reporting ------------------------

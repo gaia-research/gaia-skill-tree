@@ -60,9 +60,14 @@ LEDGER_FILENAME = "ledger.json"
 DEFAULT_REF = "steward/ledger"
 LOCAL_TRACKING_PREFIX = "refs/steward/remote-ledger"
 
-# A ledger larger than this is refused on load and write. Nothing is pruned
-# silently: hitting the bound is a signal that retention needs a decision.
-MAX_LEDGER_BYTES = 1024 * 1024
+# Uniform ledger load/write ceiling. Override with GAIA_STEWARD_LEDGER_MAX_BYTES
+# (1 KiB–64 MiB); invalid configuration fails closed. MAX_LEDGER_BYTES remains
+# the compatibility override for tests/callers that monkeypatch this constant.
+DEFAULT_MAX_LEDGER_BYTES = 8 * 1024 * 1024
+MAX_LEDGER_BYTES = DEFAULT_MAX_LEDGER_BYTES
+MIN_CONFIGURED_LEDGER_BYTES = 1024
+MAX_CONFIGURED_LEDGER_BYTES = 64 * 1024 * 1024
+
 
 WORK_STATES = (
     "queued",
@@ -245,6 +250,29 @@ def validate_ledger(document: Any) -> dict[str, Any]:
     return document
 
 
+def ledgerByteLimit() -> int:
+    configured = os.environ.get("GAIA_STEWARD_LEDGER_MAX_BYTES")
+    if configured is None:
+        return MAX_LEDGER_BYTES
+    try:
+        value = int(configured, 10)
+    except (TypeError, ValueError):
+        raise LedgerUnavailable("invalid GAIA_STEWARD_LEDGER_MAX_BYTES configuration") from None
+    if not MIN_CONFIGURED_LEDGER_BYTES <= value <= MAX_CONFIGURED_LEDGER_BYTES:
+        raise LedgerUnavailable("GAIA_STEWARD_LEDGER_MAX_BYTES must be between 1024 and 67108864")
+    return value
+
+
+def reportLedgerSize(size: int, limit: int, direction: str) -> None:
+    percent = size * 100 / limit
+    if percent >= 70:
+        import logging
+        logging.getLogger(__name__).warning(
+            "Steward ledger size telemetry: direction=%s bytes=%d limit_bytes=%d percent=%.1f threshold=%s",
+            direction, size, limit, percent, "90%" if percent >= 90 else "70%",
+        )
+
+
 def serialize(document: Mapping[str, Any]) -> bytes:
     """Deterministic, diffable bytes. Raises LedgerUnavailable if oversized."""
 
@@ -256,18 +284,22 @@ def serialize(document: Mapping[str, Any]) -> bytes:
     except (TypeError, ValueError, RecursionError) as exc:
         raise LedgerUnavailable(f"ledger is not JSON-serializable: {exc}") from exc
     data = text.encode("utf-8")
-    if len(data) > MAX_LEDGER_BYTES:
+    limit = ledgerByteLimit()
+    reportLedgerSize(len(data), limit, "write")
+    if len(data) > limit:
         raise LedgerUnavailable(
-            f"ledger would be {len(data)} bytes, over the {MAX_LEDGER_BYTES} byte bound; "
+            f"ledger would be {len(data)} bytes, over the {limit} byte bound; "
             "retention needs a decision, nothing was pruned"
         )
     return data
 
 
 def deserialize(data: bytes) -> dict[str, Any]:
-    if len(data) > MAX_LEDGER_BYTES:
+    limit = ledgerByteLimit()
+    reportLedgerSize(len(data), limit, "read")
+    if len(data) > limit:
         raise LedgerUnavailable(
-            f"ledger is {len(data)} bytes, over the {MAX_LEDGER_BYTES} byte bound"
+            f"ledger is {len(data)} bytes, over the {limit} byte bound"
         )
     try:
         document = json.loads(data.decode("utf-8"), parse_constant=rejectConstant)
@@ -510,15 +542,18 @@ class GitRefLedgerStore:
             return self.plumb(["rev-parse", "--verify", f"{self.trackingRef}^{{commit}}"])
 
     def load(self) -> tuple[dict[str, Any], str | None]:
+        ledgerByteLimit()
         commit = self.fetchRemote()
         if commit is None:
             return empty_ledger(), None
         spec = f"{commit}:{LEDGER_FILENAME}"
         size = self.plumb(["cat-file", "-s", spec])
         try:
-            if int(size) > MAX_LEDGER_BYTES:
+            limit = ledgerByteLimit()
+            reportLedgerSize(int(size), limit, "read")
+            if int(size) > limit:
                 raise LedgerUnavailable(
-                    f"ledger is {size} bytes, over the {MAX_LEDGER_BYTES} byte bound"
+                    f"ledger is {size} bytes, over the {limit} byte bound"
                 )
         except ValueError as exc:
             raise LedgerUnavailable(f"unreadable ledger size: {size!r}") from exc
@@ -651,6 +686,7 @@ class FileLedgerStore:
         return document, self.versionOf(document, data)
 
     def load(self) -> tuple[dict[str, Any], str | None]:
+        ledgerByteLimit()
         return self.readFile()
 
     def compare_and_swap(

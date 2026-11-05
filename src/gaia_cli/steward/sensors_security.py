@@ -1026,10 +1026,12 @@ _ASCENDING_RUN = re.compile(r"abcdef|ABCDEF|012345|123456|234567|345678|456789",
 _SECRET_PATTERNS = CREDENTIAL_PATTERNS
 
 
-def _synthetic_match(rel: str, matched: str, line_text: str) -> bool:
+def _synthetic_match(rel: str, matched: str) -> bool:
     if not rel.startswith("tests/"):
         return False
-    if _SYNTHETIC_MARKERS.search(matched) or _SYNTHETIC_MARKERS.search(line_text):
+    # An unrelated comment or neighbouring fixture must not bless a different
+    # credential on the same line. Only the matched value can prove a marker.
+    if _SYNTHETIC_MARKERS.search(matched):
         return True
     if _ASCENDING_RUN.search(matched):
         return True
@@ -1130,12 +1132,9 @@ class SecretScanSensor:
         for name, pattern in _SECRET_PATTERNS:
             for match in pattern.finditer(text):
                 matched = match.group(0)
-                line_start = text.rfind("\n", 0, match.start()) + 1
-                line_end = text.find("\n", match.end())
-                line_text = text[line_start: len(text) if line_end < 0 else line_end]
                 if name == "openai-api-key" and not any(char.isdigit() for char in matched):
                     continue
-                if _synthetic_match(rel, matched, line_text):
+                if _synthetic_match(rel, matched):
                     tally.synthetic += 1
                     continue
                 results.append(

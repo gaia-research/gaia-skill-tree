@@ -541,15 +541,14 @@ class TestIdempotency:
     def test_same_repo_findings_create_one_umbrella_per_run(self):
         """Regression for the duplicate [upstream] storm (issues #1574-#1578).
 
-        Five skills from one upstream repo yield five findings that collapse
-        onto the same umbrella title.  GitHub's search index cannot see an
-        issue created moments earlier in the same run, so without the run
-        cache every finding created its own duplicate umbrella.
+        Repeated findings for the same skill collapse onto one umbrella.
+        Distinct skill identities sharing a source are now refused before writes;
+        the run cache still prevents duplicate creates for the same identity.
         """
         findings = [
             {
                 "finding_type": "update",
-                "skillId": f"ruvnet/skill-{n}",
+                "skillId": "ruvnet/ruflo",
                 "newVersion": "v3.38.9",
                 "sourceUrl": "https://github.com/ruvnet/ruflo/blob/main/skills/x/SKILL.md",
                 "componentAdds": [],
@@ -557,7 +556,7 @@ class TestIdempotency:
                 "linkLiveness": [],
                 "mode": "version-only",
             }
-            for n in range(5)
+            for _ in range(5)
         ]
 
         # gh never finds anything — exactly the index-lag condition.

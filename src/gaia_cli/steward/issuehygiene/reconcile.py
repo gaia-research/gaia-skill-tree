@@ -16,11 +16,11 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-from pathlib import Path
 from typing import Any, Mapping
 
 from gaia_cli.steward.issuehygiene.census import COMPLETE, Census, validateCensus
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy
+from gaia_cli.steward.issuehygiene.questions import BINDINGS, decidedBindings
 from gaia_cli.steward.primitives.redact import scrub
 from gaia_cli.steward.issuehygiene.identity import Graph, Identity, buildGraph, classify, compareVersions, labelNames
 from gaia_cli.steward.issuehygiene.registryindex import (
@@ -60,6 +60,7 @@ STATE_DUPLICATE = "duplicate"
 STATE_ACTIONABLE = "actionable"
 STATE_AMBIGUOUS = "ambiguous"
 STATE_AWAITING = "awaiting-founder"
+STATE_HELD = "held"
 STATE_NOT_EVALUATED = "not-evaluated"
 CLOSABLE_STATES = (STATE_RESOLVED, STATE_SUPERSEDED, STATE_DUPLICATE)
 RULE_STATE = {RULE_A1: STATE_RESOLVED, RULE_A2: STATE_RESOLVED, RULE_A3: STATE_SUPERSEDED, RULE_A4: STATE_DUPLICATE, RULE_A5: STATE_RESOLVED}
@@ -658,11 +659,67 @@ def evaluateBot(ctx: Context, draft: Draft) -> None:
 
 # ----------------------------------------------------------------- finalize
 
+def applyFounderLocks(ctx: Context, records: tuple[Mapping[str, Any], ...]) -> None:
+    """Apply only the locked family dispositions, preserving bytes and unrelated questions."""
+    for qid, record in decidedBindings(records).items():
+        resolution, _, numbers, suites = BINDINGS[qid]
+        affected = set(numbers)
+        for draft in ctx.drafts.values():
+            repo = suiteRepo(draft.suite)
+            candidate = draft.identity.candidateId or ""
+            # C2 covers the published contributor namespace, not unrelated similar handles.
+            contributorHeld = qid == "q-2568173e" and candidate.split("/", 1)[0] in ("addy-osmani", "addyosmani")
+            if draft.number in affected or repo in suites or contributorHeld:
+                affected.add(draft.number)
+        # Include descendants even when their suite cannot be derived from the payload.
+        changed = True
+        while changed:
+            previous = len(affected)
+            affected.update(draft.number for draft in ctx.drafts.values() if draft.parent in affected)
+            changed = len(affected) != previous
+        for number in sorted(affected & ctx.drafts.keys()):
+            draft = ctx.drafts[number]
+            if draft.state == STATE_NOT_EVALUATED:
+                continue
+            locked = [text for text in draft.questions if questionId(text).lower() == qid]
+            for text in locked:
+                ctx.questions[text]["affected"].discard(number)
+            draft.questions = [text for text in draft.questions if text not in locked]
+            draft.evidence.append(ev("founder-decision", f"founder/steward/decisions/{record['id']}.json", None,
+                                     f"Q-{qid[2:]}: {resolution}; founder authority linked in record"))
+            draft.notProven.append(f"founder-lock:{qid}:{resolution}")
+            # No lock grants closure, intake or release acceptance, even if an A proof existed.
+            draft.proofRule = None
+            draft.ruleId = None
+            draft.pendingEvidence = []
+            draft.canonical = None
+            draft.duplicateOf = None
+            if draft.questions:
+                draft.forcedC = True  # a genuinely different question is not answered by this ruling
+                draft.authority = AUTH_C
+                draft.state = STATE_AWAITING
+            elif resolution == "technical-reconciliation-only" and number in numbers:
+                draft.forcedC = True  # preserve this bounded B classification through finalize
+                draft.authority = AUTH_B
+                draft.state = STATE_ACTIONABLE
+            else:
+                draft.forcedC = True
+                draft.authority = AUTH_NONE
+                draft.state = STATE_HELD
+    ctx.questions = {text: meta for text, meta in ctx.questions.items() if meta["affected"]}
+
+
 def finalize(ctx: Context, draft: Draft) -> None:
     if draft.state == STATE_NOT_EVALUATED:
         draft.authority = AUTH_NONE
         return
     if draft.forcedC:
+        return
+    if "upstream:needs-info" in labelNames(draft.row):
+        draft.state = STATE_HELD
+        draft.authority = AUTH_NONE
+        draft.proofRule = None
+        draft.notProven.append("upstream-needs-info-hold")
         return
     if draft.proofRule == RULE_A3 and not draft.unknowns:
         superseder = ctx.drafts[draft.canonical]
@@ -789,6 +846,7 @@ def reconcile(
     policy: HygienePolicy,
     now: Any,
     workflowDisabled: Mapping[str, dict] | None = None,
+    decisionRecords: tuple[Mapping[str, Any], ...] = (),
 ) -> dict:
     """Build the reconciliation manifest. Deterministic: same inputs give the same bytes."""
     document = census.document if isinstance(census.document, dict) else None
@@ -834,6 +892,7 @@ def reconcile(
             draft = ctx.drafts[number]
             if draft.kind == "umbrella":
                 evaluateUmbrella(ctx, draft)
+        applyFounderLocks(ctx, decisionRecords)
         # A3 reads its superseder's final authority, so superseded umbrellas are finalized after all others.
         for number in sorted(ctx.drafts):
             if ctx.drafts[number].proofRule != RULE_A3:

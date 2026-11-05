@@ -418,7 +418,11 @@ class TestNativeJevIntegration:
     """Native JevClient transport tests with realistic distributions and failure modes."""
 
     def test_native_jev_transport_success_two_calls_map_candidate(self, tmp_path, monkeypatch):
-        """Native JevClient evaluates 2 calls max, inspects payload, returns MAP_CANDIDATE."""
+        """Native JevClient evaluates 2 calls max, inspects payload, returns MAP_CANDIDATE.
+
+        Security provenance (#2283 D2): the env/header sentinel is synthetic and
+        consumed only by the injected transport, never a live credential.
+        """
         reg = _make_test_registry(tmp_path)
         state_dir = tmp_path / "jev_state"
         monkeypatch.setenv("TYPESAFE_API_KEY", "synthetic-test-token-123")
