@@ -6,7 +6,7 @@ import pytest
 from gaia_cli.steward import archive as a
 from gaia_cli.steward import ledger as l
 from gaia_cli.steward.fullrun import FullRunError
-from tests.steward.test_archive import hosts, seed, run_record, refs, git, START, END
+from tests.steward.test_archive import hosts, seed, run_record, refs, git, START, END, observation_phases
 from tests.steward.test_archive_readers import reader
 
 
@@ -66,7 +66,8 @@ def test_references_to_work_adopted_by_another_run_are_not_terminal(hosts):
     assert refs(remote) == branches
 
 
-def canonical_phases():
+def ambiguous_canonical_phases():
+    # Retained exact old fixture: unconstrained reasons/detail now stay hot.
     # Actual FullRunner._observationSummary / triage / retro SHAPES, using only
     # synthetic identifiers. Routine 'state' is coverage, never a work verdict.
     return {
@@ -88,6 +89,35 @@ def canonical_phases():
                   "unknown": ["offline-sensor"], "notEvaluated": [], "partiallyCovered": [],
                   "detail": "historical observation " * 3000},
     }
+
+
+def canonical_phases():
+    # Supported typed producer shapes, not sanitized copies of legacy payloads.
+    phases = observation_phases(coverageUnknown=("offline-sensor",))
+    phases["observe"].update(debtStatus={"settled": "resolved"}, resolved=["settled"])
+    phases["retro"] = {
+        "routines": [{"routine": 18, "state": "unknown", "detectors": [
+            {"sensor": "offline-sensor", "state": "unknown"}]}],
+        "sensors": [{"id": "offline-sensor", "registered": True, "state": "unknown",
+                     "executed": False, "unknown": True, "notEvaluated": False,
+                     "observations": {"drift": 0, "healthy": 0}, "routine_ids": [18]}],
+        "registered": 1, "executed": 0, "unknown": ["offline-sensor"],
+        "notEvaluated": [], "partiallyCovered": [],
+    }
+    return phases
+
+
+def test_old_canonical_prose_fixture_stays_hot_without_normalizing_coverage(hosts):
+    remote, one, two = hosts
+    phases = ambiguous_canonical_phases()
+    before = seed(one, {"run-a": run_record(phases=phases)})
+    branches = refs(remote)
+    baseline = reader(one)._view(before[0], "run-a").to_dict()
+    assert a.phase_hold(phases) is not None
+    assert a.migrate(one)["archived"] == []
+    assert two.load() == before
+    assert refs(remote) == branches
+    assert reader(two)._view(two.load()[0], "run-a").to_dict() == baseline
 
 
 def test_canonical_shapes_search_and_ordinary_view_equivalence(hosts):
@@ -235,7 +265,7 @@ def test_unsafe_cursor_refused_before_transport(hosts, cursor):
 @pytest.mark.parametrize("protection", ["lease", "adopted-work"])
 def test_cas_conflict_rechecks_lease_and_adopted_work(hosts, protection):
     _, one, two = hosts
-    seed(one)
+    original, _ = seed(one)
     raced = False
     def checkpoint(stage):
         nonlocal raced
@@ -251,12 +281,36 @@ def test_cas_conflict_rechecks_lease_and_adopted_work(hosts, protection):
     assert a.migrate(one, checkpoint=checkpoint)["archived"] == []
     hot = two.load()[0]
     assert a.POINTER not in hot["runs"]["run-a"]
-    assert hot["runs"]["run-a"]["phases"]["observe"]["payload"]
+    assert hot["runs"]["run-a"]["phases"] == original["runs"]["run-a"]["phases"]
     assert not a.history(two)["entries"]
     if protection == "lease":
         assert hot["leases"]["current"]["holder"] == "run-a"
     else:
         assert hot["work"]["debt-c"]["state"] == "blocked"
+
+
+def test_large_supported_phase_cas_retry_rechecks_new_ambiguous_text(hosts):
+    _, one, two = hosts
+    phases = observation_phases(60000)
+    assert len(a.packed(phases)) > 2 * 1024 * 1024
+    before, _ = seed(one, {"run-a": run_record(phases=phases)})
+    raced = False
+
+    def checkpoint(stage):
+        nonlocal raced
+        if stage == "before-cas" and not raced:
+            raced = True
+            l.update(two, lambda doc: doc["runs"]["run-a"]["phases"]["observe"].update(payload="proof"))
+
+    assert a.migrate(one, checkpoint=checkpoint)["archived"] == []
+    assert raced
+    hot, _ = two.load()
+    expected = {**phases["observe"], "payload": "proof"}
+    assert hot["runs"]["run-a"]["phases"] == {"observe": expected}
+    assert a.POINTER not in hot["runs"]["run-a"]
+    for key in ("work", "leases", "lane"):
+        assert hot[key] == before[key]
+    assert a.history(two)["entries"] == []
 
 
 def test_migration_size_telemetry_includes_generation_digit_growth(hosts):

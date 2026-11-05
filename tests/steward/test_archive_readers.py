@@ -8,7 +8,7 @@ import pytest
 from gaia_cli.steward import archive as a
 from gaia_cli.steward.fullrun import FullRunConfig, FullRunner
 from gaia_cli.steward.ledger import GitRefLedgerStore, LedgerUnavailable
-from tests.steward.test_archive import hosts, seed, run_record, git, raw_source
+from tests.steward.test_archive import hosts, seed, run_record, git, raw_source, observation_phases, refs
 
 
 def reader(store):
@@ -24,7 +24,17 @@ def test_ordinary_view_resume_and_repeat_record_keep_original_coverage(hosts, mo
                                        notEvaluated=[{"sensor": "optional", "reason": "off"}])
     before, _ = seed(one, {"run-a": record})
     original = reader(one)._view(before, "run-a").to_dict()
-    a.migrate(one)
+    # A new migration must hold unconstrained reason text. Also preserve the
+    # original reader regression for historical V2 archives produced by the
+    # formerly permissive gate: reading them must not erase uncertainty. This
+    # exact-fixture-only override constructs legacy state, NOT supported data
+    # or a portability/eligibility assertion under the repaired predicate.
+    assert a.phase_hold(record["phases"]) is not None
+    assert a.migrate(one)["archived"] == []
+    with monkeypatch.context() as legacy:
+        legacy.setattr(a, "phase_hold", lambda value: None if value == record["phases"] else "not legacy fixture")
+        assert a.migrate(one)["archived"] == ["run-a"]
+    assert a.phase_hold(record["phases"]) is not None
     runner = reader(two)
     hot, _ = two.load()
     view = runner._view(hot, "run-a").to_dict()
@@ -48,21 +58,53 @@ def test_ordinary_view_resume_and_repeat_record_keep_original_coverage(hosts, mo
 
 def test_valid_run_above_two_mib_roundtrips_bounded_envelope(hosts):
     _, one, two = hosts
-    record = run_record(phases={"observe": {"payload": "x" * (2 * 1024 * 1024 + 4096)}})
+    from gaia_cli.steward.ledger import update
+
+    phases = observation_phases(60000)
+    record = run_record(phases=phases)
+    assert 2 * 1024 * 1024 < len(a.packed(phases)) < 8 * 1024 * 1024
+    assert a.phase_hold(phases) is None
     before, version = seed(one, {"run-a": record})
     raw = raw_source(one, version)
+    assert 2 * 1024 * 1024 < len(raw) < 8 * 1024 * 1024
+    baseline = reader(one)._view(before, "run-a").to_dict()
     result = a.migrate(one)
     assert result["archived"] == ["run-a"]
+    assert result["afterBytes"] < result["beforeBytes"]
     assert a.show(two, "run-a")["run"] == before["runs"]["run-a"]
+    assert reader(two)._loadRun("run-a") == record
+    assert reader(two)._view(two.load()[0], "run-a").to_dict() == baseline
+    assert reader(two).resume("run-a").to_dict() == baseline
     assert a.snapshot(two, "run-a") == raw
-    a.rollback(two, "run-a")
-    assert one.load()[0]["runs"] == before["runs"]
+    update(two, lambda doc: doc["operations"].update({"intervening": {"status": "pending"}}))
+    assert a.rollback(two, "run-a")["restored"] == ["run-a"]
+    restored = one.load()[0]
+    assert restored["runs"] == before["runs"]
+    assert restored["work"] == before["work"]
+    assert restored["operations"]["intervening"] == {"status": "pending"}
+    assert [event["event"] for event in a.history(two, pages=2)["entries"]] == ["rollback", "archive"]
+
+
+@pytest.mark.parametrize("phase,key", [("observe", "payload"), ("retro", "detail")])
+def test_old_large_ambiguous_text_shape_is_held_not_shrunk(hosts, phase, key):
+    remote, one, two = hosts
+    phases = {phase: {key: "x" * (2 * 1024 * 1024 + 4096)}}
+    before = seed(one, {"run-a": run_record(phases=phases)})
+    branches = refs(remote)
+    assert len(raw_source(one, before[1])) > 2 * 1024 * 1024
+    assert a.phase_hold(phases) is not None
+    assert a.plan(one)["eligible"] == []
+    assert a.migrate(one)["archived"] == []
+    assert two.load() == before
+    assert refs(remote) == branches
+    assert a.show(two, "run-a")["run"]["phases"] == phases
 
 
 def test_equal_snapshots_at_distinct_commits_keep_each_source_reachable_from_archive_only(hosts, tmp_path):
     remote, one, _ = hosts
-    before, first = seed(one)
+    before, first = seed(one, {"run-a": run_record(phases=observation_phases(60000))})
     raw = raw_source(one, first)
+    assert 2 * 1024 * 1024 < len(raw) < 8 * 1024 * 1024
     # Same JSON, different source identity; no live data or historical ref rewrite.
     blob = git(remote, "hash-object", "-w", "--stdin", data=raw)
     tree = git(remote, "mktree", data=f"100644 blob {blob}\tledger.json\n".encode())
@@ -87,7 +129,9 @@ def test_equal_snapshots_at_distinct_commits_keep_each_source_reachable_from_arc
     git(root, "init", "--quiet")
     git(root, "remote", "add", "origin", str(remote))
     fresh = a.GitArchive(GitRefLedgerStore(root))
-    assert a.resolve_segment(fresh, segment)["sourceCommit"] == second
+    restored = a.resolve_segment(fresh, segment)
+    assert restored["sourceCommit"] == second
+    assert restored["run"] == before["runs"]["run-a"]
     assert fresh.read(snapshot) == raw
     assert git(root, "cat-file", "-p", f"{second}:ledger.json").encode() + b"\n" == raw
 

@@ -7,7 +7,7 @@ import pytest
 
 from gaia_cli.steward import archive as a
 from gaia_cli.steward.ledger import update
-from tests.steward.test_archive import hosts, seed, run_record, refs
+from tests.steward.test_archive import hosts, seed, run_record, refs, observation_phases
 
 
 def test_independent_receipt_evidence_counterexample_stays_hot(hosts):
@@ -86,11 +86,40 @@ def test_independent_extensionless_payload_counterexample_stays_hot(hosts, monke
         assert artifact.read_bytes() == b"synthetic artifact bytes are not ledger JSON"
 
 
+@pytest.mark.parametrize("value", ["proof", "README", "arbitrary bare words", "", None, False, 0,
+                                    "receipts/proof.bin", "evidence/build-output", "π", [], {}])
+@pytest.mark.parametrize("slot", ["payload", "detail", "unknownReason", "notEvaluated", "partial",
+                                   "sensorReason", "note", "integrationReason", "classBReason", "reused"])
+def test_all_unconstrained_prose_slots_hold_even_extensionless_values(slot, value):
+    phases = {
+        "payload": {"observe": {"payload": value}},
+        "detail": {"retro": {"detail": value}},
+        "unknownReason": {"observe": {"coverageUnknownReasons": {"sensor": value}}},
+        "notEvaluated": {"observe": {"notEvaluated": [{"sensor": "sensor", "reason": value}]}},
+        "partial": {"observe": {"partialCoverage": [{"sensor": "sensor", "skippedCount": 1, "reasons": [value]}]}},
+        "sensorReason": {"retro": {"sensors": [{"id": "sensor", "state": "unknown", "reason": value}]}},
+        "note": {"reobserve": {"notes": [{"debtId": "debt", "note": value}]}},
+        "integrationReason": {"reconcile": {"integrationHeadUnknown": value}},
+        "classBReason": {"class_b": {"reason": value}},
+        "reused": {"reobserve": {"reused": value}},
+    }[slot]
+    assert a.phase_hold(phases) is not None
+
+
+def test_reused_text_accepts_only_existing_producer_constrained_literal():
+    from gaia_cli.steward.fullrun import FullRunner
+
+    literal = "no state-changing step ran this run; the observe scan is the re-observation"
+    assert literal in FullRunner._phaseReobserve.__code__.co_consts
+    assert a.phase_hold({"reobserve": {"reused": literal, "notes": []}}) is None
+    assert a.phase_hold({"reobserve": {"reused": literal + " proof"}}) is not None
+
+
 DEBT = "debt:synthetic:subject:0123456789abcdef"
 
 
-def canonical_phases():
-    """Shapes emitted by FullRunner observation/retro, without artifact detail."""
+def ambiguous_canonical_phases():
+    """Exact old fixture, retained as a hot-only uncertainty regression."""
     return {
         "observe": {
             "scanReceiptId": "scan-original", "observations": 2, "openDebt": 1,
@@ -119,6 +148,48 @@ def canonical_phases():
     }
 
 
+def canonical_phases():
+    """Typed historical summary with no unconstrained prose.
+
+    Unknown sensor states are not work settlement. A partial summary can have
+    an empty reasons collection (the existing producer iterates supplied skipped
+    records); the original reason-bearing fixture above must instead stay hot.
+    """
+    phases = observation_phases(coverageUnknown=("unknown-sensor",))
+    phases["observe"].update(
+        openDebt=1, openDebtIds=[DEBT], freshOpenDebt=[DEBT],
+        debtStatus={DEBT: "open"},
+        partialCoverage=[{"sensor": "partial", "skippedCount": 1, "reasons": []}],
+    )
+    phases["retro"] = {
+        "sensors": [{"id": "unknown-sensor", "state": "unknown", "registered": True,
+                     "executed": False, "unknown": True, "notEvaluated": False,
+                     "observations": {"drift": 0, "healthy": 0}, "routine_ids": [1]}],
+        "routines": [{"routine": 1, "state": "unknown",
+                      "detectors": [{"sensor": "unknown-sensor", "state": "unknown"}]}],
+        "registered": 1, "executed": 0, "unknown": ["unknown-sensor"],
+        "notEvaluated": [], "partiallyCovered": [],
+    }
+    phases["triage"] = {"classA": [], "classB": [DEBT], "classC": [], "held": [],
+                        "counts": {"A": 0, "B": 1, "B-report-only": 0, "C": 0}}
+    return phases
+
+
+def test_original_reason_bearing_uncertainty_stays_hot_exactly(hosts):
+    remote, one, two = hosts
+    phases = ambiguous_canonical_phases()
+    before = seed(one, {"run-a": run_record(phases=phases)})
+    update(one, lambda doc: doc["work"].update({DEBT: {"debtId": DEBT, "state": "resolved", "runId": "other"}}))
+    before = one.load()
+    branches = refs(remote)
+    assert a.phase_hold(phases) is not None
+    assert a.plan(one)["eligible"] == []
+    assert a.migrate(one)["archived"] == []
+    assert two.load() == before
+    assert refs(remote) == branches
+    assert a.show(two, "run-a")["run"]["phases"] == phases
+
+
 def test_historical_observation_is_not_current_settlement():
     phases = canonical_phases()
     original = deepcopy(phases)
@@ -140,13 +211,19 @@ def test_unknown_fields_fail_closed_at_each_supported_nesting(location, value):
     phases = canonical_phases()
     target = {
         "phase": phases, "observation": phases["observe"],
-        "map": phases["observe"]["observationsBySensor"]["partial"],
+        "map": phases["observe"]["observationsBySensor"]["sensor-000000"],
         "sensor": phases["retro"]["sensors"][0],
         "routine": phases["retro"]["routines"][0],
         "detector": phases["retro"]["routines"][0]["detectors"][0],
         "partial": phases["observe"]["partialCoverage"][0],
-        "notEvaluated": phases["observe"]["notEvaluated"][0],
+        # Every reason-bearing notEvaluated entry is now held, not just its
+        # unknown sibling. Preserve that original nested refusal regression.
+        "notEvaluated": {},
     }[location]
+    assert a.phase_hold(phases) is None
+    if location == "notEvaluated":
+        target.update(sensor="optional", reason="input absent")
+        phases["observe"]["notEvaluated"] = [target]
     target["futureReference"] = value
     assert a.phase_hold(phases) is not None
 
@@ -208,13 +285,13 @@ def test_large_inline_validation_has_bounded_single_pass_work(monkeypatch):
         assert visits <= len(payload) + 4
         assert not a.phaseText(payload + "/proof")
         assert not a.phaseText("." * len(payload))
-    assert a.phase_hold({"observe": {"payload": payload}}) is None
+    # The bounded lexical diagnostic is NOT a semantic portability gate.
+    assert a.phase_hold({"observe": {"payload": payload}}) is not None
 
 
 def test_canonical_historical_shapes_roundtrip_without_losing_uncertainty(hosts):
     _, one, two = hosts
     phases = canonical_phases()
-    phases["observe"]["payload"] = "inline historical observation " * 1000
     seed(one, {"run-a": run_record(phases=phases)})
     update(one, lambda doc: doc["work"].update({DEBT: {
         "debtId": DEBT, "state": "resolved", "runId": "other",
@@ -230,7 +307,6 @@ def test_canonical_historical_shapes_roundtrip_without_losing_uncertainty(hosts)
 def test_historical_debt_settlement_is_rechecked_after_cas_conflict(hosts):
     _, one, two = hosts
     phases = canonical_phases()
-    phases["observe"]["payload"] = "inline observation " * 1000
     seed(one, {"run-a": run_record(phases=phases)})
     update(one, lambda doc: doc["work"].update({DEBT: {
         "debtId": DEBT, "state": "resolved", "runId": "other",

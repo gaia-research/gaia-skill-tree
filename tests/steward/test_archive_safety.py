@@ -11,7 +11,7 @@ import pytest
 
 from gaia_cli.steward import archive as a
 from gaia_cli.steward import ledger as l
-from tests.steward.test_archive import hosts, seed, run_record, refs, raw_source, START, END
+from tests.steward.test_archive import hosts, seed, run_record, refs, raw_source, START, END, observation_phases
 
 
 def legacy_read(data):
@@ -52,7 +52,7 @@ def test_upgrade_refuses_old_reader_even_below_one_mib_and_rollback_stays_upgrad
 
 def test_legacy_limit_refuses_large_v1_without_touching_shared_state(hosts, monkeypatch):
     _, one, two = hosts
-    original, version = seed(one, {"run-a": run_record(phases={"observe": {"payload": "x" * 1100000}})})
+    original, version = seed(one, {"run-a": run_record(phases=observation_phases(18000))})
     with pytest.raises(l.LedgerUnavailable, match="legacy byte bound"):
         legacy_read(raw_source(one, version))
     monkeypatch.setenv("GAIA_STEWARD_LEDGER_MAX_BYTES", str(1024 * 1024))

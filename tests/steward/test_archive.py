@@ -28,7 +28,7 @@ def git(root, *args, data=None):
     return p.stdout.decode().strip()
 
 
-def observation_phases(sensorCount=512):
+def observation_phases(sensorCount=2048, coverageUnknown=()):
     """Actual canonical producer output, not an invented padding/text field.
 
     Synthetic distinct sensor observations exercise the existing unbounded
@@ -47,7 +47,7 @@ def observation_phases(sensorCount=512):
     ) for number in range(sensorCount))
     receipt = Receipt(
         run_id="scan-original", started_at=START, finished_at=END,
-        observations_collected=len(observations), coverage_unknown=(),
+        observations_collected=len(observations), coverage_unknown=tuple(coverageUnknown),
         debt_created=(), debt_updated=(), debt_resolved=(), open_debt=(),
         authority_counts={"A": 0, "B": 0, "C": 0}, result_status="no_change",
     )

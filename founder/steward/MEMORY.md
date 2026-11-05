@@ -85,9 +85,16 @@ verbatim hot and are explicitly **not** promised portable. `show` discloses
 that limitation in `retrievalGuarantee`. No canonical evidence, receipt,
 provenance or verdict is invented or rewritten.
 
-Settled observation/retro phase JSON without external file references can
-actually migrate, including >2 MiB payloads, and is independently retrieved
-from a second clone in tests. The recorded production checkpoint is **not**
+Settled supported typed observation/retro phase JSON can migrate, including
+>2 MiB payloads retrieved from a second clone in tests. The large fixture is
+actual `FullRunner._observationSummary` output from synthetic `Observation` /
+`Receipt` / `ScanResult` inputs: a sensor-ID map of integer drift/healthy counts,
+not arbitrary prose padding or a new wire format. Its deliberately large fleet
+is a supported-producer scale test, not a claim about the production fleet or
+current eligibility. Old large `payload`/`detail` fixtures are now held intact.
+Historical V2 archives remain readable exactly, including old uncertainty text;
+that backward-read guarantee does not authorize creating such archives now.
+The recorded production checkpoint is **not**
 assumed eligible: completed runs can still have escalated associated work or
 open founder decisions. An empty preview means preserve state, not permission
 to weaken the gates or a completed production migration. Safe file bundling is
