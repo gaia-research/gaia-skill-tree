@@ -17,6 +17,19 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-11-05, Steward M1 delivered — protected main and native cost cadence)
+
+### TLDR
+- **M1 COMPLETE:** #2297 normally merged at20:05:51Z as `3cd5504e00ac00e4708503f484a05e04e5775dcc`; exact independently accepted tree9b29681b44be112306f8502961f4e67787492d97 and both parents verified. Seven principal engineering packages are now on main, not seven debt closures; canonical B closures remain ONE. Post-merge CI awaits next batch.
+- Founder approved both review cards at19:59:06.755Z. Verbatim JSON and execution directives were pushed in324e0ab97 before action. Only ruleset18124772 include-target changed[]→[refs/heads/main]; other rules/checks/strictness/active enforcement/zero bypass actors preserved. Effective main protected:true/three rules verified. Shown ledger warning approved. Normal exact-head merge, no admin/check bypass; existing[skip-gen] guard avoids unapproved generation/release/deploy. Archive/Routine19 activation/data/L4 holds unchanged.
+- GitHub's pre-existing PR closing link auto-closed#2283 at20:05:54Z. Lead corrected that side effect by reopening; explanation/comment6668137081 preserves whole-campaign incompleteness. No routine18 closure or new debt resolution claimed.
+- #2298 durable checkpoint independently ACCEPTED at813ce938b and normally integrated as1148c4747. Read [CHECKPOINT](reports/steward-campaign-2026-11-05/CHECKPOINT.md) after compaction; all older memory bytes remain intact.
+- Roster build97cc78632cdb271827f4818e0c9112faf4779eb5 is canonically recorded;165package tests and compileall passed under unchanged safeguards. Same run ended BLOCKED on unknown PR-maintenance coverage, NO verifier emitted. Diagnose/refresh census and inspect preserved work/attempt state via supported CLI; no hand-created packet, coverage bypass or attempt reset. No second closure yet.
+- **Cost/routing directive:** new LLM workers use native subagent, not bg_run. Batch non-urgent results at28-minute cache/cost guards. Native schema is capped at5retries/24h per call, not unlimited; canonical debt caps unchanged. Future NON-Steward engineering uses **openai/gpt-6.1-terra**, explicitly NOT openai-codex. Canonical Steward keeps established shared Codex roster. Do not stop/restart existing owners to change route. Existing Routine19 Sol worker remains untouched; archive stays parked. Ordinary non-LLM tests/CLI/server/timers can use bg_run.
+
+### Next batch / evidence limits
+Collect post-main CI and existing wiring result; recover coverage before actual canonical verifier emission; continue authorized per-debt burn-down and protected delivery. No current campaign-total cost is asserted; prefer live native worker visibility. Older cost snapshots below remain historical/partial. No campaign-complete percentage.
+
 ## State Snapshot (2026-11-05, Steward M1 founder gate — canonical burn-down continues)
 
 ### TLDR
