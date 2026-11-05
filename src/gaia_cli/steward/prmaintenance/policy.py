@@ -70,16 +70,22 @@ def coordinationBinding(value: Any) -> WriteCoordination | None:
             raise ValueError("canonical HTTPS repository URL required")
         if binding.protectionsVerified is not True or binding.bypassingWritersDrained is not True:
             raise ValueError("separate namespace protection/drain verification required")
-        if not isinstance(binding.authorityBranch, str) or not binding.authorityBranch or any(
-                part in binding.authorityBranch for part in ("..", "~", "^", ":", " ", "?", "#")):
-            raise ValueError("plain designated authority branch required")
+        # Current ratified scope is the GitHub tree repository's canonical main,
+        # never a branch a stale/staged checkout can nominate to approve itself.
+        if binding.authorityBranch != "main":
+            raise ValueError("canonical main authority branch required")
         if not isinstance(binding.clock, dict) or set(binding.clock) != {"url", "maxSkewSeconds", "precisionSeconds", "maxRoundTripSeconds"}:
             raise ValueError("complete trusted clock contract required")
+        core.text(binding.clock["url"], 2048)
+        if any(char.isspace() for char in binding.clock["url"]):
+            raise ValueError("clock endpoint must be a plain HTTPS URL")
         url = urlsplit(binding.clock["url"])
         if url.scheme != "https" or not url.hostname or url.username or url.password or url.query or url.fragment:
             raise ValueError("trusted clock requires an HTTPS endpoint without credentials/query/fragment")
+        if url.port is not None:
+            core.integer(url.port, 1, 65535)
         integer(binding.clock["maxSkewSeconds"], "clock.maxSkewSeconds", 0, 5)
-        integer(binding.clock["precisionSeconds"], "clock.precisionSeconds", 0, 1)
+        integer(binding.clock["precisionSeconds"], "clock.precisionSeconds", 1, 1)
         integer(binding.clock["maxRoundTripSeconds"], "clock.maxRoundTripSeconds", 1, 5)
         return binding
     except (ValueError, TypeError, KeyError, core.CoordinationError) as exc:

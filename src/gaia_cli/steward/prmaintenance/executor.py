@@ -24,7 +24,7 @@ from typing import Any
 from urllib.parse import quote, urlencode, urlsplit
 
 from gaia_cli.steward import ledger
-from gaia_cli.steward.policy import StewardPolicy
+from gaia_cli.steward.policy import PolicyError, StewardPolicy
 from gaia_cli.steward.prmaintenance import collect, coordination as core, gate, proofs, state
 from gaia_cli.steward.prmaintenance.policy import WriteCoordination, prAuthorityApproved
 from gaia_cli.steward.prmaintenance.producers import loadRegistry
@@ -91,8 +91,19 @@ class BoundedClock:
     """
 
     def __init__(self, contract: dict, transport=None, monotonic=time.monotonic):
+        core.exact(contract, {"url", "maxSkewSeconds", "precisionSeconds", "maxRoundTripSeconds"})
+        core.integer(contract["maxSkewSeconds"], 0, 5)
+        core.integer(contract["precisionSeconds"], 1, 1)  # integer Unix seconds require quantization allowance
+        core.integer(contract["maxRoundTripSeconds"], 1, 5)
+        core.text(contract["url"], 2048)
+        if any(char.isspace() for char in contract["url"]):
+            raise core.CoordinationError("invalid provisioned clock endpoint")
         self.contract = dict(contract)
         url = urlsplit(contract["url"])
+        if url.scheme != "https" or not url.hostname or url.username or url.password or url.query or url.fragment:
+            raise core.CoordinationError("invalid provisioned clock endpoint")
+        if url.port is not None:
+            core.integer(url.port, 1, 65535)
         self.transport = transport or HttpsTransport(f"https://{url.netloc}")
         self.path = url.path or "/"
         self.monotonic = monotonic
@@ -114,7 +125,7 @@ class BoundedClock:
             core.integer(instant)
             core.integer(uncertainty, 0, self.contract["maxSkewSeconds"] + self.contract["precisionSeconds"])
             if (response.status != 200 or response.body["nonce"] != nonce
-                    or "no-store" not in response.headers.get("cache-control", "").lower()
+                    or "no-store" not in {part.strip().lower() for part in response.headers.get("cache-control", "").split(",")}
                     or response.headers.get("age", "0") != "0"):
                 raise ValueError("stale/cache response")
             error = self.contract["maxSkewSeconds"] + self.contract["precisionSeconds"]
@@ -123,7 +134,8 @@ class BoundedClock:
         except (KeyError, TypeError, ValueError, core.CoordinationError):
             raise core.CoordinationError("clock source response failed its provisioned contract") from None
         if self.last is not None and (sample.lower < self.last.lower or sample.upper < self.last.upper
-                or sample.lower > self.last.upper + math.ceil(end - self.lastEnd)):
+                or sample.lower > self.last.upper + math.ceil(end - self.lastEnd)
+                or sample.upper < self.last.lower + math.floor(start - self.lastEnd)):
             raise core.CoordinationError("authoritative clock regressed/future-inconsistent")
         self.last, self.lastEnd = sample, end
         return sample
@@ -140,13 +152,46 @@ def reported(operation: dict) -> dict:
     status = {"completed-effect": "merged" if action == "merge" else "closed",
               "observed-terminal": "already-merged", "completed-no-effect": "failed",
               "canceled-unsent": "aborted"}.get(stateName, stateName)
-    return {"operationId": operation["operationId"], "state": status, "coordinationState": stateName,
-            "number": operation["subject"]["number"], "headSha": operation["subject"]["headSha"],
-            "action": action, "evidenceSha256": core.digest(operation["evidence"]) if operation["evidence"] else None}
+    result = {"operationId": operation["operationId"], "state": status, "coordinationState": stateName,
+              "number": operation["subject"]["number"], "headSha": operation["subject"]["headSha"],
+              "action": action, "evidenceSha256": core.digest(operation["evidence"]) if operation["evidence"] else None}
+    if operation["evidence"]:
+        result["observedState"] = operation["evidence"]["observedState"]
+        try:
+            detail = json.loads(operation["evidence"]["detail"])
+            if detail.get("mergeCommitSha"):
+                core.sha(detail["mergeCommitSha"], git=True)
+                result["mergeCommitSha"] = detail["mergeCommitSha"]
+            for key in ("conditionalHead", "responseHeadChanged", "observedHeadChanged", "responseBaseChanged", "observedBaseChanged", "laterMerged"):
+                if type(detail.get(key)) is bool:
+                    result[key] = detail[key]
+            summary = detail.get("postMergeChecks")
+            if isinstance(summary, dict) and summary.get("observed") is False:
+                result["postMergeChecks"] = {"observed": False}
+            elif isinstance(summary, dict) and summary.get("observed") is True:
+                core.exact(summary, {"observed", "total", "counts"})
+                core.integer(summary["total"], 0, 1000000)
+                allowed = {"queued", "in_progress", "success", "failure", "neutral", "cancelled", "skipped", "timed_out", "action_required", "stale", "unknown"}
+                if not isinstance(summary["counts"], dict) or set(summary["counts"]) - allowed:
+                    raise ValueError("invalid check summary")
+                for count in summary["counts"].values():
+                    core.integer(count, 0, 1000000)
+                if sum(summary["counts"].values()) != summary["total"]:
+                    raise ValueError("invalid check total")
+                result["postMergeChecks"] = copy.deepcopy(summary)
+        except (ValueError, AttributeError, core.CoordinationError):
+            pass  # never export free-form response/candidate values
+    if stateName == "completed-no-effect":
+        result["reason"] = "sole invocation completed without effect; sent attempt remains charged"
+    elif stateName == "canceled-unsent":
+        result["reason"] = "unsent preparation canceled; anti-replay record retained"
+    return result
 
 
 class ProductionServices:
     def __init__(self, root: Path, binding: WriteCoordination, http, clock: BoundedClock, snapshot=None, currentTip=None):
+        if any(os.environ.get(key) for key in ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY", "GIT_ALTERNATE_OBJECT_DIRECTORIES")):
+            raise core.CoordinationError("inherited Git object/worktree overrides are not critical authority")
         self.root, self.binding, self.http, self.time = root, binding, http, clock
         self.namespace = core.Namespace(binding.forgeHost, binding.repositoryId, binding.repositoryName, binding.epoch, binding.protocol)
         self.snapshot = snapshot or self.liveSnapshot
@@ -167,9 +212,15 @@ class ProductionServices:
             raise collect.CollectError("required live GET failed")
         return response.body, ""  # consumers use explicit paging; no mutation/header receipt authority
 
+    def remoteGit(self, *args):
+        if self.coordinator is None or self.coordinator.store.repo_root.resolve() != self.root.resolve():
+            raise core.CoordinationError("canonical source transport is unavailable")
+        # Reuse the tested transport's noninteractive, sanitized subprocess
+        # plumbing. This reads source refs/objects, never the general ledger.
+        return self.coordinator.store.git(["-c", f"remote.origin.url={self.binding.canonicalUrl}", *args], timeout=60)
+
     def canonicalTip(self):
-        result = proofs.git(self.root, "-c", f"remote.origin.url={self.binding.canonicalUrl}",
-                            "ls-remote", "origin", f"refs/heads/{self.binding.authorityBranch}")
+        result = self.remoteGit("ls-remote", "origin", f"refs/heads/{self.binding.authorityBranch}")
         if result.returncode:
             raise core.CoordinationError("canonical current authority ref unavailable")
         rows = [line.split() for line in result.stdout.decode().splitlines()]
@@ -190,6 +241,11 @@ class ProductionServices:
         core.sha(commit, git=True)
         if self.currentTip() != commit:
             raise core.CoordinationError("API authority ref is not the current canonical Git ref")
+        if proofs.git(self.root, "cat-file", "-e", f"{commit}^{{commit}}").returncode:
+            fetched = self.remoteGit("fetch", "--quiet", "--no-tags", "origin",
+                                     f"+refs/heads/{self.binding.authorityBranch}:refs/steward/pr-authority-current")
+            if fetched.returncode:
+                raise core.CoordinationError("canonical authority commit objects unavailable")
         texts = {}
         for key, path in zip(("policy", "producerRegistry", "authority"), gate.AUTHORITY_FILES):
             content, _ = self.api(f"repos/{repo}/contents/{path}", {"ref": commit})
@@ -200,7 +256,7 @@ class ProductionServices:
                 core.text(raw.decode("utf-8"), core.MAX_SOURCE_BYTES)
                 local = (self.root / path).read_bytes()
                 head = proofs.blob(self.root, "HEAD", path)
-                if raw != local or raw != head:
+                if raw != local or raw != head or raw != proofs.blob(self.root, commit, path):
                     raise ValueError("stale/dirty local source")
                 texts[key] = raw.decode("utf-8")
             except (KeyError, TypeError, ValueError, OSError):
@@ -226,7 +282,7 @@ class ProductionServices:
             # alternate authority ref or a credential-bearing argv URL.
             for refspec in (f"+refs/pull/{n}/head:refs/steward/pr/{n}",
                             f"+refs/heads/{self.binding.authorityBranch}:refs/steward/pr-authority-current"):
-                result = proofs.git(self.root, "-c", f"remote.origin.url={self.binding.canonicalUrl}", "fetch", "--quiet", "--no-tags", "origin", refspec)
+                result = self.remoteGit("fetch", "--quiet", "--no-tags", "origin", refspec)
                 if result.returncode:
                     raise core.CoordinationError("required canonical git objects unavailable")
         return collect.liveSnapshot(self.api, self.binding.repositoryName, number, fetch)
@@ -237,6 +293,8 @@ class ProductionServices:
             core.exact(detail, {"record", "dispatch"})
             record, dispatch = detail["record"], detail["dispatch"]
             at = datetime.strptime(record["at"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).timestamp()
+            core.integer(record["proofCount"], 1, 1024)
+            core.sha(record["proofsSha256"])
             if (at > now.lower or now.upper - at > policy.pr_maintenance.verificationTtlSeconds
                     or record["headSha"] != subject["headSha"] or record["baseSha"] != subject["baseSha"]
                     or record["verdict"] != "pass" or record["action"] != subject["action"]
@@ -279,6 +337,12 @@ class ProductionServices:
                    "reason": subject["reason"], "replacement": (subject["replacement"] or {}).get("number")}
         if snap.tips.get(subject["baseRef"]) != subject["baseSha"]:
             raise core.CoordinationError("destination moved since independent verification")
+        if subject["replacement"] is not None:
+            replacement, _ = self.api(f"repos/{namespace.repositoryName}/pulls/{subject['replacement']['number']}")
+            if (not replacement.get("merged") or str(replacement.get("id")) != subject["replacement"]["prId"]
+                    or (replacement.get("head") or {}).get("sha") != subject["replacement"]["headSha"]
+                    or subject["replacement"]["repositoryId"] != namespace.repositoryId):
+                raise core.CoordinationError("exact replacement identity/head changed")
         gate.validateWrite(self.root, request, snap, datetime.fromtimestamp(now.upper, timezone.utc), subject["action"],
                            policy=policy, registry=loadRegistry(self.root), verification=record, currentAuthority=True)
         self.authorized = (copy.deepcopy(subject), copy.deepcopy(bindingProof))
@@ -286,6 +350,7 @@ class ProductionServices:
     def invoke(self, request, invocationId):
         if self.coordinator is None or self.authorized is None:
             raise core.CoordinationError("no live executor control flow")
+        self.coordinator._consumeAdapter(self, request, invocationId)
         current = self.coordinator.inspect()
         operation = next((op for op in current["operations"].values() if op["invocationId"] == invocationId), None)
         if operation is None or operation["request"] != request or operation["state"] not in core.PENDING:
@@ -309,11 +374,25 @@ class ProductionServices:
 
     def mergeFact(self, operation, pull):
         commit = pull.get("merge_commit_sha")
-        if not pull.get("merged") or (pull.get("head") or {}).get("sha") != operation["subject"]["headSha"] or not commit:
+        if (not pull.get("merged") or (pull.get("head") or {}).get("sha") != operation["subject"]["headSha"]
+                or (pull.get("base") or {}).get("ref") != operation["subject"]["baseRef"] or not commit):
             return False
         core.sha(commit, git=True)
         parents = collect.mergeParents(self.api, self.binding.repositoryName, commit)
         return operation["subject"]["headSha"] in parents and len(parents) == 2
+
+    def postChecks(self, mergeCommit):
+        try:
+            runs = collect.listAll(self.api, f"repos/{self.binding.repositoryName}/commits/{mergeCommit}/check-runs", key="check_runs")
+            counts = {}
+            allowed = {"queued", "in_progress", "success", "failure", "neutral", "cancelled", "skipped", "timed_out", "action_required", "stale"}
+            for run in runs:
+                status = run.get("conclusion") if run.get("status") == "completed" else run.get("status")
+                key = status if isinstance(status, str) and status in allowed else "unknown"
+                counts[key] = counts.get(key, 0) + 1
+            return {"observed": True, "total": len(runs), "counts": counts}
+        except (collect.CollectError, core.CoordinationError):
+            return {"observed": False}  # post-merge diagnostics are not a pre-write gate or undo
 
     def evidence(self, operation, kind, observedState, detail):
         return {"kind": kind, **{key: operation[key] for key in ("operationId", "attemptId", "requestDigest", "invocationId")},
@@ -333,7 +412,8 @@ class ProductionServices:
                     or response.body.get("sha") != pull.get("merge_commit_sha")):
                 raise core.CoordinationError("matching independently verified merge/parent proof unavailable")
             return self.evidence(operation, "completed-effect", "merged", {"responseStatus": 200, "senderFinished": True,
-                                 "mergeCommitSha": pull["merge_commit_sha"], "parentsVerified": True})
+                                 "mergeCommitSha": pull["merge_commit_sha"], "parentsVerified": True,
+                                 "postMergeChecks": self.postChecks(pull["merge_commit_sha"])})
         if (str(response.body.get("id")) != operation["subject"]["prId"] or response.body.get("state") != "closed"
                 or response.body.get("merged") is True or not response.body.get("closed_at")):
             raise core.CoordinationError("close response does not prove sole invocation completion")
@@ -341,13 +421,15 @@ class ProductionServices:
                              {"responseStatus": 200, "senderFinished": True, "conditionalHead": False,
                               "responseHeadChanged": (response.body.get("head") or {}).get("sha") != operation["subject"]["headSha"],
                               "observedHeadChanged": (pull.get("head") or {}).get("sha") != operation["subject"]["headSha"],
+                              "responseBaseChanged": (response.body.get("base") or {}).get("ref") != operation["subject"]["baseRef"],
+                              "observedBaseChanged": (pull.get("base") or {}).get("ref") != operation["subject"]["baseRef"],
                               "laterMerged": bool(pull.get("merged"))})
 
     def observation(self, operation):
         pull = self.pullFact(operation)
         if operation["subject"]["action"] == "merge" and self.mergeFact(operation, pull):
             return self.evidence(operation, "observed-terminal", "merged", {"causation": "unknown", "parentsVerified": True,
-                                 "mergeCommitSha": pull["merge_commit_sha"]})
+                                 "mergeCommitSha": pull["merge_commit_sha"], "postMergeChecks": self.postChecks(pull["merge_commit_sha"])})
         return None  # closed/open/reopened is never proof a delayed PATCH is dead
 
 
@@ -357,6 +439,9 @@ class Executor:
         self.services = coordinator.services
         if isinstance(self.services, ProductionServices):
             self.services.coordinator = coordinator
+
+    def report(self, operation):
+        return {**reported(operation), "repo": self.coordinator.binding.namespace.repositoryName, "runId": operation["runId"]}
 
     def prepare(self, request, snap, found, runId):
         service = self.services
@@ -379,8 +464,17 @@ class Executor:
         selected = {key: found[key] for key in ("at", "runId", "dispatchId", "builders", "verifier", "policySha256", "action", "repo", "number", "headSha", "baseSha", "verdict")}
         # Do not persist candidate snippets/free-form verifier notes. Keep the
         # genuine verifier verdict, named checks and bounded content commitments.
-        selected["proofs"] = [{"name": core.digest(str(p.get("name"))), "state": p.get("state"),
-                               "evidenceSha256": core.digest(p.get("detail"))} for p in found["proofs"]]
+        safeNames = {"provenance", "scope", "holds", "reviews", "draft", "ci", "currency", "conflicts", "content", "policy",
+                     "independent-review", "hold-comment", "review-threads", "approvals", "branch-protection"}
+        if not found["proofs"] or any(p.get("state") != "pass" for p in found["proofs"]):
+            raise core.CoordinationError("genuine complete PASS proof required")
+        # Named structured checks remain readable. Free-form notes/candidate
+        # snippets are committed by checksum, never copied into shared payload.
+        names = sorted({str(p.get("name", "")).lower() if str(p.get("name", "")).lower() in safeNames
+                        else "additional-independent-proof" for p in found["proofs"]})
+        selected["proofs"] = [{"name": name, "state": "pass"} for name in names]
+        selected["proofCount"] = len(found["proofs"])
+        selected["proofsSha256"] = core.digest(found["proofs"])
         named = {"repo": found["repo"], "number": found["number"], "headSha": found["headSha"]}
         if named not in (dispatch.get("envelope") or {}).get("subjects", []):
             raise core.CoordinationError("independent dispatch does not name the exact subject")
@@ -397,7 +491,7 @@ class Executor:
         if result.status == core.CommitStatus.UNRESOLVED or result.token is None:
             raise core.CoordinationError("shared reservation unresolved; no invocation authorized")
         self.coordinator.recordIntent(result.token, core.exactRequest(service.namespace, subject), core.digest([transition, "intent"]))
-        return {**reported(self.coordinator.inspect()["operations"][operationId]), "repo": service.namespace.repositoryName,
+        return {**self.report(self.coordinator.inspect()["operations"][operationId]), "repo": service.namespace.repositoryName,
                 "runId": runId, "method": "merge" if action == "merge" else "close"}
 
     def execute(self, operationId):
@@ -405,11 +499,11 @@ class Executor:
         if operation is None:
             raise core.Refused("unknown operation")
         if operation["state"] not in core.PREPARED:
-            return reported(operation)  # persisted claim/terminal is inspection, NEVER a send grant
+            return self.report(operation)  # persisted claim/terminal is inspection, NEVER a send grant
         result = self.coordinator.invoke(tokenFrom(operation), core.digest([operation["attemptId"], "sole-send"]))
         if result.status == core.CommitStatus.UNRESOLVED:
-            return {**reported(self.coordinator.inspect()["operations"][operationId]), "commitStatus": result.status.value}
-        return reported(self.coordinator.inspect()["operations"][operationId])
+            return {**self.report(self.coordinator.inspect()["operations"][operationId]), "commitStatus": result.status.value}
+        return self.report(self.coordinator.inspect()["operations"][operationId])
 
     def recover(self, operationId):
         operation = self.coordinator.inspect()["operations"].get(operationId)
@@ -417,14 +511,14 @@ class Executor:
             raise core.Refused("unknown operation")
         if operation["state"] in core.PENDING:
             self.coordinator.recover(operationId)
-        return reported(self.coordinator.inspect()["operations"][operationId])
+        return self.report(self.coordinator.inspect()["operations"][operationId])
 
     def abort(self, operationId, reason):
         operation = self.coordinator.inspect()["operations"].get(operationId)
         if operation is None:
             raise core.Refused("unknown operation")
         self.coordinator.cancelPrepared(tokenFrom(operation), "operator canceled unsent preparation", core.digest([operation["attemptId"], "cancel"]))
-        return reported(self.coordinator.inspect()["operations"][operationId])
+        return self.report(self.coordinator.inspect()["operations"][operationId])
 
 
 def makeExecutor(root: Path, *, http=None, clock=None, store=None, snapshot=None) -> Executor:
@@ -433,17 +527,35 @@ def makeExecutor(root: Path, *, http=None, clock=None, store=None, snapshot=None
     Injection parameters are trusted test/application seams, not CLI flags or
     receipts. Normal construction always uses the canonical GitRef transport.
     """
-    policy = StewardPolicy.load(root)
+    try:
+        policy = StewardPolicy.load(root)
+    except (PolicyError, OSError):
+        raise core.CoordinationError("committed authority/configuration source unavailable") from None
     binding = policy.pr_maintenance.writeCoordination
     if policy.pr_maintenance_error or binding is None:
         raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+    # Current rollout scope is GitHub only. Never send a GitHub credential to
+    # a host chosen by an unverified local config (including enterprise aliases).
+    if binding.forgeHost != "github.com":
+        raise core.CoordinationError("unsupported credential origin/repository scope")
+    try:
+        for relative in gate.AUTHORITY_FILES:
+            if proofs.blob(root, "HEAD", relative) != (root / relative).read_bytes():
+                raise core.CoordinationError("uncommitted authority cannot select a credential route")
+    except OSError:
+        raise core.CoordinationError("committed authority files unavailable") from None
     if http is None:
         token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
         if not token:
-            result = subprocess.run(["gh", "auth", "token", "--hostname", binding.forgeHost], capture_output=True, timeout=20, check=False)
+            try:
+                result = subprocess.run(["gh", "auth", "token", "--hostname", binding.forgeHost], capture_output=True, timeout=20, check=False)
+            except (OSError, subprocess.TimeoutExpired):
+                raise core.CoordinationError("in-memory forge authentication unavailable") from None
             if result.returncode:
                 raise core.CoordinationError("in-memory forge authentication unavailable")
             token = result.stdout.decode().strip()
+            if not token:
+                raise core.CoordinationError("in-memory forge authentication unavailable")
         apiHost = "api.github.com" if binding.forgeHost == "github.com" else binding.forgeHost
         http = HttpsTransport(f"https://{apiHost}" + ("" if binding.forgeHost == "github.com" else "/api/v3"), token)
     services = ProductionServices(root, binding, http, clock or BoundedClock(dict(binding.clock)), snapshot)

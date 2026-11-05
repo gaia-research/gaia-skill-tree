@@ -1,8 +1,8 @@
 """``gaia steward pr``: the operator and driver surface for routine PR maintenance.
 
-Exit codes: 0 done / authorized; 2 refused or bad input (nothing was written to GitHub); 3 already done (the recorded or
-observed end state is reported); 5 not evaluated (a required input is missing). The command never merges, closes or
-comments by itself: ``gate`` authorizes exactly one forge call and ``finalize`` records what GitHub then shows.
+Exit codes: 0 prepared / terminal; 2 refused, unknown or bad input; 3 already-observed diagnostic (not shared settlement);
+5 not evaluated. Only explicit ``execute --operation-id`` may invoke the one-shot adapter. Gate output is preparation,
+recover/finalize never resend, and abort cancels only unsent preparation. Unknown may include an already-sent effect.
 """
 
 from __future__ import annotations
@@ -88,7 +88,7 @@ def build() -> argparse.ArgumentParser:
     ver.add_argument("--input", required=True)
 
     for name in ("merge", "close"):
-        g = sub.add_parser(f"gate-{name}", help=f"re-prove eligibility and authorize exactly one forge {name}")
+        g = sub.add_parser(f"gate-{name}", help=f"re-prove eligibility and prepare shared {name} intent (not a send grant)")
         g.add_argument("--repo", required=True)
         g.add_argument("--number", type=int, required=True)
         g.add_argument("--head", required=True, help="the exact head SHA the action names")
@@ -97,7 +97,7 @@ def build() -> argparse.ArgumentParser:
         if name == "close":
             g.add_argument("--reason", required=True)
             g.add_argument("--replacement", type=int, required=True)
-    fz = sub.add_parser("finalize", help="settle an authorization from GitHub's observed state")
+    fz = sub.add_parser("finalize", help="reconcile a shared operation using independent evidence; never resend")
     fz.add_argument("--operation-id")
     fz.add_argument("--auth", help="deprecated operation-identity file; raw authorization JSON is refused")
     ab = sub.add_parser("abort", help="cancel unsent shared preparation only; never cancel a claimed sender")
@@ -253,12 +253,14 @@ def doGate(root: Path, args: argparse.Namespace, action: str) -> int:
     request = {"action": action, "repo": args.repo, "number": args.number, "expectedHeadSha": args.head,
                "producerId": args.producer, "runId": args.runId}
     try:
+        execution = gate.makeExecutor(root)  # unconfigured route refuses before live collection
+        instant = datetime.fromtimestamp(execution.services.clock().upper, timezone.utc)
         snap = snapshotFor(root, args.repo, args.number)
         request["baseRef"] = snap.row["baseRef"]
         if action == "close":
             request.update(reason=args.reason, replacement=args.replacement)
-        authorize = gate.gateMerge if action == "merge" else gate.gateClose
-        auth = authorize(root, request, snap, utc(), args.runId)
+        found = gate.validateWrite(root, request, snap, instant, action)
+        auth = execution.prepare(request, snap, found, args.runId)
     except gate.AlreadyDone as exc:
         out({"alreadyDone": exc.code, "message": exc.message, "detail": exc.detail}, args.json, f"already done: {exc}")
         return 3
@@ -268,8 +270,8 @@ def doGate(root: Path, args: argparse.Namespace, action: str) -> int:
     except (collect.CollectError, KeyError, state.StoreError) as exc:
         out({"refused": "live-read-failed", "message": str(exc)}, args.json, f"refused: live state could not be read ({exc})")
         return 2
-    out(auth, args.json, f"prepared {action} #{args.number}: operation {auth['operationId']} (not a send grant)")
-    return 0
+    out(auth, args.json, f"{auth['state']} {action} #{args.number}: operation {auth['operationId']} (not a send grant)")
+    return 0 if auth["state"] in {"intent", "reserved", "merged", "closed", "already-merged"} else 2
 
 
 def doFinalize(root: Path, args: argparse.Namespace) -> int:

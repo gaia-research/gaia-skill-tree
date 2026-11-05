@@ -1920,9 +1920,7 @@ class FullRunner:
         return summary
 
     def _recordPrWrite(self, runId: str, action: dict[str, Any], outcome: dict[str, Any]) -> Callable:
-        """A merge or closure outcome is trusted only when the durable outcome store holds the same terminal line."""
-
-        from gaia_cli.steward.prmaintenance import state as prstate
+        """Bind every success/already-* to validated shared subject/evidence, never local JSONL."""
 
         params = action["params"]
         result = outcome.get("state")
@@ -1945,8 +1943,12 @@ class FullRunner:
                 if operation is None or coordinator.binding.namespace.repositoryName != params["repo"]:
                     raise ValueError("unknown shared operation")
                 subject = operation["subject"]
-                if (subject["number"], subject["headSha"], subject["action"]) != (params["number"], params["headSha"], params["action"]):
+                if (subject["number"], subject["headSha"], subject["action"], subject["baseRef"], subject["baseSha"], subject["producerId"]) != (
+                        params["number"], params["headSha"], params["action"], params["baseRef"], params["baseSha"], params["producerId"]):
                     raise ValueError("operation subject mismatch")
+                if subject["action"] == "close" and (subject["reason"] != params.get("reason")
+                        or (subject["replacement"] or {}).get("number") != params.get("replacement")):
+                    raise ValueError("closure proof/request mismatch")
                 if success:
                     expected = "merge" if result in ("merged", "already-merged") else "close"
                     if (subject["action"] != expected or operation["state"] not in ("completed-effect", "observed-terminal")

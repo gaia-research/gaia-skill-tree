@@ -5,7 +5,6 @@ import base64
 import copy
 import dataclasses
 import json
-import subprocess
 from dataclasses import asdict
 from urllib.parse import parse_qs, urlsplit
 
@@ -33,7 +32,8 @@ class Forge:
         self.sources = {path: (fx.root / path).read_bytes() for path in gate.AUTHORITY_FILES}
         self.invocations, self.effects = [], []
         self.lost, self.reopen, self.reject = False, False, False
-        self.fact = {"id": snap.row["number"], "state": "open", "merged": False, "head": {"sha": snap.row["headSha"]}}
+        self.fact = {"id": snap.row["number"], "state": "open", "merged": False, "head": {"sha": snap.row["headSha"]}, "base": {"ref": snap.row["baseRef"], "repo": {"id": 42}}}
+        self.parentShas = None
         self.before = None
     def request(self, method, path, body=None):
         parsed = urlsplit(path)
@@ -72,7 +72,9 @@ class Forge:
         elif route == prefix + f"/pulls/{self.snap.row['number']}":
             value = copy.deepcopy(self.fact)
         elif route == prefix + "/commits/" + "d" * 40:
-            value = {"parents": [{"sha": self.fx.base}, {"sha": self.snap.row["headSha"]}]}
+            value = {"parents": [{"sha": sha} for sha in (self.parentShas or [self.fx.base, self.snap.row["headSha"]])]}
+        elif route == prefix + "/commits/" + "d" * 40 + "/check-runs":
+            value = {"check_runs": []}
         else:
             raise AssertionError("unexpected fixture-only route")
         return ex.HttpReply(200, {}, value)
@@ -229,10 +231,12 @@ class ClockHttp:
         if self.mode == "bad": data["unixSeconds"] = True
         if self.mode == "missing": data.pop("unixSeconds")
         if self.mode == "no-store": headers.clear()
+        if self.mode == "fake-no-store": headers["cache-control"] = "x-no-store=false"
+        if self.mode == "date-only": data = {}; headers["date"] = "Wed, 04 Nov 2026 18:30:00 GMT"
         return ex.HttpReply(200, headers, data)
 
 
-@pytest.mark.parametrize("mode", ["cache", "nonce", "bad", "missing", "no-store", "regression", "future", "delay", "monotonic"])
+@pytest.mark.parametrize("mode", ["cache", "nonce", "bad", "missing", "no-store", "fake-no-store", "regression", "future", "delay", "monotonic", "stalled", "date-only"])
 def test_concrete_clock_missing_stale_skew_network_and_regression_fail_closed(mode):
     http = ClockHttp()
     instants = iter([1.0, 1.1, 2.0, 2.1])
@@ -243,6 +247,257 @@ def test_concrete_clock_missing_stale_skew_network_and_regression_fail_closed(mo
     elif mode == "future": http.instant += 10000
     elif mode == "delay": clock.monotonic = iter([2.0, 8.0]).__next__
     elif mode == "monotonic": clock.monotonic = iter([0.0, 0.1]).__next__
+    elif mode == "stalled": clock.monotonic = iter([100.0, 100.1]).__next__
     else: http.mode = mode
     with pytest.raises(core.CoordinationError):
         clock.sample()
+
+
+def test_post_claim_last_boundary_failure_pins_without_http_or_refund(tmp_path, monkeypatch):
+    fixture = world(tmp_path, monkeypatch)
+    _, forge, _, executor, _, _ = fixture
+    operation = prepare(fixture)
+    consume = executor.coordinator._consume
+    def changed(grant, op):
+        consume(grant, op)
+        forge.sources[gate.AUTHORITY_FILES[0]] += b"\n"
+    monkeypatch.setattr(executor.coordinator, "_consume", changed)
+    assert executor.execute(operation["operationId"])["state"] == "unknown"
+    assert executor.coordinator.inspect()["activeOperationId"] == operation["operationId"]
+    assert executor.execute(operation["operationId"])["state"] == "unknown"
+    assert forge.invocations == forge.effects == []
+
+
+def test_stale_api_authority_cannot_override_current_canonical_git_tip(tmp_path, monkeypatch):
+    fixture = world(tmp_path, monkeypatch)
+    fx, forge, _, executor, _, _ = fixture
+    operation = prepare(fixture)
+    current = fx.commit("fixture canonical tip advanced without source-text edits")
+    h.run(fx.root, "update-ref", "refs/heads/main", current)
+    with pytest.raises(core.CoordinationError, match="current canonical Git"):
+        executor.execute(operation["operationId"])
+    assert forge.invocations == forge.effects == []
+
+
+def test_explicit_cli_carries_operation_identity_and_shared_terminal_proof(tmp_path, monkeypatch, capsys):
+    from gaia_cli.steward.prmaintenance import cli
+    fixture = world(tmp_path, monkeypatch)
+    fx, forge, _, executor, request, _ = fixture
+    monkeypatch.setattr(cli, "snapshotFor", lambda *a: forge.snap)
+    monkeypatch.setattr(ex, "makeExecutor", lambda root: executor)
+    base = ["--root", str(fx.root), "--json"]
+    assert cli.main(base + ["gate-merge", "--repo", h.REPO, "--number", "2270", "--head", request["expectedHeadSha"],
+                            "--producer", "weekly-content-engine", "--run-id", "stable-run"]) == 0
+    prepared = json.loads(capsys.readouterr().out)
+    assert prepared["state"] == "intent" and forge.invocations == []
+    assert cli.main(base + ["execute", "--operation-id", prepared["operationId"]]) == 0
+    result = json.loads(capsys.readouterr().out)
+    assert result["repo"] == h.REPO and result["state"] == "merged" and result["evidenceSha256"]
+    assert result["mergeCommitSha"] == "d" * 40
+    assert cli.main(base + ["recover", "--operation-id", prepared["operationId"]]) == 0
+    assert json.loads(capsys.readouterr().out)["evidenceSha256"] == result["evidenceSha256"]
+    assert len(forge.invocations) == len(forge.effects) == 1
+
+
+def test_https_mutation_transport_never_retries_or_follows_redirects(monkeypatch):
+    calls = []
+    class Response:
+        status = 302
+        def read(self, maximum): return b"{}"
+        def getheaders(self): return [("Location", "https://elsewhere.invalid/")]
+    class Connection:
+        def request(self, method, path, body, headers): calls.append((method, path))
+        def getresponse(self): return Response()
+        def close(self): pass
+    monkeypatch.setattr(ex.http.client, "HTTPSConnection", lambda *a, **kw: Connection())
+    transport = ex.HttpsTransport("https://forge.invalid", "synthetic-test-only")
+    response = transport.request("PATCH", "/exact-route", {"state": "closed"})
+    assert response.status == 302 and calls == [("PATCH", "/exact-route")]
+    assert "synthetic-test-only" not in repr(response)
+
+
+def test_definite_rejection_releases_sender_but_keeps_counted_attempt(tmp_path, monkeypatch):
+    fixture = world(tmp_path, monkeypatch)
+    _, forge, clock, executor, _, _ = fixture
+    operation = prepare(fixture)
+    forge.reject = True
+    result = executor.execute(operation["operationId"])
+    assert result["state"] == "failed" and result["reason"]
+    durable = executor.coordinator.inspect()
+    assert durable["activeOperationId"] is None
+    assert core.usage(durable, clock.sample(), "stable-run", "merge") == (1, 1)
+    assert len(forge.invocations) == 1 and forge.effects == []
+
+
+def test_caller_response_or_replayed_capture_cannot_settle(tmp_path, monkeypatch):
+    fixture = world(tmp_path, monkeypatch)
+    _, forge, _, executor, _, _ = fixture
+    operation = prepare(fixture)
+    durable = executor.coordinator.inspect()["operations"][operation["operationId"]]
+    forged = ex.HttpReply(200, {}, {"merged": True, "sha": "d" * 40})
+    with pytest.raises(core.CoordinationError, match="authentic completion"):
+        executor.services.completion(durable, "0" * 64, forged)
+    assert executor.coordinator.inspect()["operations"][operation["operationId"]]["state"] == "intent"
+    executor.execute(operation["operationId"])
+    durable = executor.coordinator.inspect()["operations"][operation["operationId"]]
+    with pytest.raises(core.CoordinationError, match="authentic completion"):
+        executor.services.completion(durable, durable["invocationId"], forged)
+    assert len(forge.invocations) == len(forge.effects) == 1
+
+
+def test_required_comment_read_failure_and_stale_clock_cannot_send(tmp_path, monkeypatch):
+    from gaia_cli.steward.prmaintenance import collect
+    fixture = world(tmp_path, monkeypatch)
+    _, forge, _, executor, _, _ = fixture
+    operation = prepare(fixture)
+    def unavailable(number):
+        raise collect.CollectError("required hold-comment read failed")
+    executor.services.snapshot = unavailable
+    with pytest.raises(collect.CollectError):
+        executor.execute(operation["operationId"])
+    assert forge.invocations == forge.effects == []
+    executor.services.snapshot = lambda number: forge.snap
+    def badClock(): raise core.CoordinationError("trusted clock unavailable")
+    executor.services.time.sample = badClock
+    with pytest.raises(core.CoordinationError, match="clock unavailable"):
+        executor.execute(operation["operationId"])
+    assert executor.coordinator.inspect()["operations"][operation["operationId"]]["state"] == "intent"
+    assert forge.invocations == forge.effects == []
+
+
+def test_strict_optional_binding_rejects_namespace_clock_and_protection_spoofs(tmp_path, monkeypatch):
+    from gaia_cli.steward.prmaintenance.policy import coordinationBinding, PrPolicyError
+    fixture = world(tmp_path, monkeypatch)
+    configured = asdict(fixture[3].services.binding)
+    assert coordinationBinding(configured) == fixture[3].services.binding
+    changes = {"remote": "other", "ref": "refs/heads/main", "protocol": "unknown", "epoch": "bad",
+               "genesis": "short", "historyPin": "short", "protectionsVerified": False,
+               "bypassingWritersDrained": False, "authorityBranch": "main\nother"}
+    for key, value in changes.items():
+        with pytest.raises(PrPolicyError):
+            coordinationBinding({**configured, key: value})
+    with pytest.raises(PrPolicyError):
+        coordinationBinding({**configured, "authorityBranch": "dev/self-nominated"})
+    for clock in ({}, {**configured["clock"], "precisionSeconds": 0},
+                  {**configured["clock"], "url": "https://user:secret@clock.invalid/v1"},
+                  {**configured["clock"], "url": "https://clock.invalid:invalid/v1"},
+                  {**configured["clock"], "url": {}}):
+        with pytest.raises(PrPolicyError):
+            coordinationBinding({**configured, "clock": clock})
+
+
+def test_unverified_config_cannot_send_github_credentials_to_another_host(tmp_path, monkeypatch):
+    fixture = world(tmp_path, monkeypatch)
+    fx = fixture[0]
+    path = fx.root / "founder/steward/POLICY.yaml"
+    document = yaml.safe_load(path.read_text())
+    configured = document["prMaintenance"]["writeCoordination"]
+    configured.update(forgeHost="elsewhere.invalid", canonicalUrl=f"https://elsewhere.invalid/{h.REPO}.git")
+    path.write_text(yaml.safe_dump(document, sort_keys=False))
+    monkeypatch.setattr(ex.subprocess, "run", lambda *a, **kw: pytest.fail("must refuse before auth/Git subprocess"))
+    monkeypatch.setattr(ex, "HttpsTransport", lambda *a, **kw: pytest.fail("must not select a credential origin"))
+    with pytest.raises(core.CoordinationError, match="credential origin"):
+        ex.makeExecutor(fx.root)
+
+
+def test_revocation_stops_sends_but_not_truthful_outcome_recovery(tmp_path, monkeypatch):
+    fixture = world(tmp_path, monkeypatch)
+    fx, forge, _, executor, _, cold = fixture
+    operation = prepare(fixture)
+    forge.lost = True
+    assert executor.execute(operation["operationId"])["state"] == "unknown"
+    (state.storeDir(fx.root) / state.KILL_FILE).write_text("fixture local stop")
+    assert cold().recover(operation["operationId"])["state"] == "already-merged"
+    assert executor.execute(operation["operationId"])["state"] == "already-merged"
+    assert len(forge.invocations) == len(forge.effects) == 1
+
+
+def test_persisted_claim_cannot_directly_reenter_production_adapter(tmp_path, monkeypatch):
+    fixture = world(tmp_path, monkeypatch, "close")
+    _, forge, _, executor, _, _ = fixture
+    prepared = prepare(fixture)
+    forge.lost = forge.reopen = True
+    assert executor.execute(prepared["operationId"])["state"] == "unknown"
+    operation = executor.coordinator.inspect()["operations"][prepared["operationId"]]
+    failure = None
+    try:
+        executor.services.invoke(operation["request"], operation["invocationId"])
+    except Exception as exc:
+        failure = exc
+    print(f"direct-adapter-reentry invocations={len(forge.invocations)} effects={len(forge.effects)} refusal={type(failure).__name__}")
+    assert isinstance(failure, core.Refused)
+    assert len(forge.invocations) == len(forge.effects) == 1
+
+
+def test_concrete_adapter_entry_rejects_copy_other_thread_and_reentry(tmp_path, monkeypatch):
+    import threading
+    fixture = world(tmp_path, monkeypatch)
+    _, forge, _, executor, _, _ = fixture
+    prepared = prepare(fixture)
+    original = executor.coordinator._consumeAdapter
+    checked = []
+    def check(service, request, invocationId):
+        with pytest.raises(core.Refused):
+            original(copy.copy(service), request, invocationId)
+        failures = []
+        def attempt():
+            try: original(service, request, invocationId)
+            except core.Refused: failures.append(True)
+        thread = threading.Thread(target=attempt, daemon=True)
+        thread.start(); thread.join(5)
+        assert not thread.is_alive() and failures == [True]
+        original(service, request, invocationId)
+        with pytest.raises(core.Refused):
+            original(service, request, invocationId)
+        checked.append(True)
+    monkeypatch.setattr(executor.coordinator, "_consumeAdapter", check)
+    assert executor.execute(prepared["operationId"])["state"] == "merged"
+    assert checked == [True]
+    assert executor.coordinator.adapterEntries == {}
+    assert len(forge.invocations) == len(forge.effects) == 1
+
+
+@pytest.mark.parametrize("mismatch", ["head", "base", "parents"])
+def test_post_effect_mismatch_cannot_invent_matching_merge_settlement(tmp_path, monkeypatch, mismatch):
+    fixture = world(tmp_path, monkeypatch)
+    _, forge, clock, executor, _, _ = fixture
+    operation = prepare(fixture)
+    def race():
+        if mismatch == "head": forge.fact["head"]["sha"] = "e" * 40
+        elif mismatch == "base": forge.fact["base"]["ref"] = "other"
+        else: forge.parentShas = [forge.fx.base, "e" * 40]
+    forge.before = race
+    with pytest.raises(core.CoordinationError, match="^matching independently verified merge/parent proof unavailable$"):
+        executor.execute(operation["operationId"])
+    assert executor.recover(operation["operationId"])["state"] == "quarantined"
+    assert executor.execute(operation["operationId"])["state"] == "quarantined"
+    assert core.usage(executor.coordinator.inspect(), clock.sample(), "stable-run", "merge") == (1, 1)
+    assert len(forge.invocations) == len(forge.effects) == 1
+
+
+def test_close_reports_nonatomic_destination_race_without_refund_or_retry(tmp_path, monkeypatch):
+    fixture = world(tmp_path, monkeypatch, "close")
+    _, forge, _, executor, _, _ = fixture
+    operation = prepare(fixture)
+    forge.before = lambda: forge.fact["base"].update(ref="other")
+    result = executor.execute(operation["operationId"])
+    assert result["state"] == "closed" and result["conditionalHead"] is False
+    assert result["responseBaseChanged"] is result["observedBaseChanged"] is True
+    assert executor.coordinator.inspect()["activeOperationId"] is None
+    assert len(forge.invocations) == len(forge.effects) == 1
+
+
+def test_post_merge_diagnostic_read_failure_is_unknown_not_fake_health_or_undo(tmp_path, monkeypatch):
+    from gaia_cli.steward.prmaintenance import collect
+    fixture = world(tmp_path, monkeypatch)
+    _, forge, _, executor, _, _ = fixture
+    operation = prepare(fixture)
+    request = forge.request
+    def unavailable(method, path, body=None):
+        if urlsplit(path).path.endswith("/check-runs"):
+            raise collect.CollectError("synthetic post-merge diagnostic unavailable")
+        return request(method, path, body)
+    monkeypatch.setattr(forge, "request", unavailable)
+    result = executor.execute(operation["operationId"])
+    assert result["state"] == "merged" and result["postMergeChecks"] == {"observed": False}
+    assert len(forge.invocations) == len(forge.effects) == 1

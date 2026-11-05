@@ -10,7 +10,7 @@ import pytest
 from gaia_cli.steward.fullrun import MERGEACTION, RecordRefused
 from gaia_cli.steward.models import Observation, Subject
 from gaia_cli.steward.prmaintenance import coordination as core, state
-from .coordination_helpers import FakeServices, seed, subject, proof, evidence
+from .coordination_helpers import FakeServices, seed, subject, proof
 from gaia_cli.steward.prmaintenance.sensor import PrMaintenanceSensor  # noqa: F401
 
 from tests.steward.prmaintenance import helpers as h
@@ -25,7 +25,7 @@ class PrStub:
     id = "pr-maintenance"
     resolution_scope = "exhaustive"
     routine_ids = (19,)
-    debt_kinds = ("routine_pr_merge_ready",)
+    debt_kinds = ("routine_pr_merge_ready", "routine_pr_closure_ready")
 
     def __init__(self, rows):
         self.rows = rows
@@ -34,7 +34,8 @@ class PrStub:
         return [Observation(kind=kind, subject=Subject("pull-request", f"{h.REPO}#{n}"), observed_at=observed_at, source=self.id,
                             status="drift", current_state={"count": 0},
                             observed_state={"repo": h.REPO, "number": n, "headSha": head, "baseSha": BASE, "baseRef": "main",
-                                            "producerId": "weekly-content-engine", "label": label, "evaluationSha256": "e" * 64})
+                                            "producerId": "weekly-content-engine", "label": label, "evaluationSha256": "e" * 64,
+                                            **({"closureReason": "label-already-published", "replacement": 2400} if kind == "routine_pr_closure_ready" else {})})
                 for kind, n, head, label in self.rows]
 
 
@@ -155,15 +156,17 @@ def test_a_stuck_pr_action_cannot_starve_the_lane_the_lease_ttl_supersedes_it(tm
     assert len(pending(nxt)) == 1 and nxt.runId != view.runId  # and the next run offers it afresh, once
 
 
-def coordinated(tmp_path, monkeypatch, *, lost=False):
+def coordinated(tmp_path, monkeypatch, *, lost=False, action="merge"):
     from gaia_cli.steward import ledger
     namespace = core.Namespace("forge.invalid", "42", h.REPO, "a" * 32)
     root = tmp_path / "critical"
     root.mkdir()
     _, binding, first, _ = seed(root, monkeypatch, namespace)
     services = FakeServices()
-    candidate = subject(2270)
+    candidate = subject(2270, action)
     candidate.update(headSha=HEAD, baseSha=BASE, producerId="weekly-content-engine")
+    if action == "close":
+        candidate.update(reason="label-already-published", replacement={"repositoryId": "42", "prId": "replacement", "number": 2400, "headSha": "c" * 40})
     expected = proof(candidate)
     def authorize(ns, sub, bindingProof):
         if ns != namespace or sub != candidate or bindingProof != expected:
@@ -209,6 +212,24 @@ def test_all_success_shaped_reports_bind_shared_subject_and_exact_evidence(tmp_p
         assert runner.record(view.runId, step, claim).runId == view.runId
         with pytest.raises(RecordRefused):
             runner.record(view.runId, step, {**claim, "mergeCommitSha": "8" * 40})
+    assert len(services.invocations) == len(services.effects) == 1
+
+
+@pytest.mark.parametrize("reportedState", ["closed", "already-closed"])
+def test_completed_closure_reports_also_require_matching_shared_proof(tmp_path, monkeypatch, reportedState):
+    from gaia_cli.steward.fullrun import CLOSEPRACTION
+    repo = fixture(tmp_path)
+    state.appendRecord(repo, "verifications", {"repo": h.REPO, "number": 2270, "action": "close", "headSha": HEAD, "baseSha": BASE, "verdict": "pass"})
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_closure_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = next(a["stepId"] for a in view.actions if a["type"] == CLOSEPRACTION)
+    coord, operation, services = coordinated(tmp_path, monkeypatch, action="close")
+    runner.config.prCoordinatorFactory = lambda: coord
+    outcome = {"state": reportedState, "repo": h.REPO, "number": 2270, "operationId": operation["operationId"], "evidenceSha256": core.digest(operation["evidence"])}
+    with pytest.raises(RecordRefused, match="no recorded shared"):
+        runner.record(view.runId, step, {**outcome, "evidenceSha256": "0" * 64})
+    recorded = runner.record(view.runId, step, outcome)
+    assert not [a for a in recorded.actions if a["type"] == CLOSEPRACTION and a["status"] == "pending"]
     assert len(services.invocations) == len(services.effects) == 1
 
 

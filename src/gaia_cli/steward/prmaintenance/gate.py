@@ -1,25 +1,12 @@
-"""The one gate for PR-maintenance writes (``forge.merge_pr`` and ``forge.close_pr``).
+"""Routine 19 eligibility and shared preparation, never a bearer send grant.
 
-A stored action is only a claim. ``gateMerge`` and ``gateClose`` re-derive eligibility from a *fresh* live snapshot
-and refuse unless every one of these holds, in this order:
-
- 1. the route is not revoked (kill switch: policy, a local file or an environment flag), and the authority files
-    (POLICY.yaml, the producer registry, the decided authority record) are committed, unmodified, and - when
-    GAIA_STEWARD_PR_AUTHORITY_REF names the destination tip - identical to it;
- 2. the policy is well formed, the founder authority record is decided and approved, and the action is enabled;
- 3. the repository is enabled (a deferred repository is refused by name);
- 4. no terminal outcome is already recorded, and no live reservation exists (exactly once, never concurrent);
- 5. the pull request is open and not already merged (an already-merged PR is reported, not re-merged);
- 6. the head SHA is exactly the one the action names and the one that was verified;
- 7. the destination is allowed by policy and equals the producer's destination;
- 8. the registered producer re-proves provenance, scope, holds, approvals, CI at the head, currency, conflicts, content;
- 9. GitHub's own protection is satisfied (required checks passed, mergeable state clean) - Steward never bypasses it;
-10. an independent verification receipt exists for this head, base, policy and registry revision, from an agent other
-    than the builder, within its time to live;
-11. the GitHub trail exists (pickup and verification receipts for this head; for a closure, the justification itself);
-12. the per-run and hourly budgets allow it. The reservation is written before the forge is called.
-
-Passing the gate produces an ``Authorization`` for exactly one forge call. It never performs the call.
+All existing producer, content/scope, independent verification, head/base,
+approval, hold, protection and kill requirements remain. Receipt POSTs are best
+effort, while failed required reads refuse. Production services additionally
+prove full CURRENT canonical authority and repeat these gates at adapter entry.
+The coordinator alone owns global slot/fences/attempt accounting and outcomes.
+Legacy local authorization/reservation APIs explicitly refuse; their old JSON
+and caller-supplied snapshots cannot authorize an effect or settlement.
 """
 
 from __future__ import annotations
@@ -32,9 +19,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
-from gaia_cli.steward.models import stable_json
 from gaia_cli.steward.policy import PolicyError, StewardPolicy
-from gaia_cli.steward.prmaintenance import receipts, state
+from gaia_cli.steward.prmaintenance import state
 from gaia_cli.steward.prmaintenance.evaluate import KIND_CLOSURE, KIND_MERGE, evaluate
 from gaia_cli.steward.prmaintenance.policy import prAuthorityApproved
 from gaia_cli.steward.prmaintenance.producers import Registry, RegistryError, loadRegistry
@@ -120,10 +106,8 @@ def authorityInfo(root: Path) -> dict[str, str]:
 
     head = proofs.git(root, "rev-parse", "HEAD").stdout.decode().strip()
     ref = os.environ.get(AUTHORITY_REF, "").strip()
-    # ``coordination`` states what the exactly-once and budget guarantees rest on. The outcome store is a file in this
-    # checkout, so reservations, per-run counts and the hourly cap are not visible to another host or checkout. GitHub's own
-    # merged state and the receipt markers are the only cross-checkout backstop; every authorization says so on its record.
-    return {"mode": "ref" if ref else "local-head", "source": ref or "HEAD", "commit": head, "coordination": COORDINATION}
+    # Legacy eligibility diagnostics only; this helper is never execution authority.
+    return {"mode": "ref" if ref else "local-head", "source": ref or "HEAD", "commit": head, "coordination": "none-legacy-diagnostic"}
 
 
 def policyDigest(root: Path) -> str:
@@ -306,6 +290,8 @@ def validateClose(root: Path, request: Mapping[str, Any], snap: Snapshot, now: d
     if evaluation is None or evaluation.kind != KIND_CLOSURE:
         raise GateRefused("closure-not-proven", (evaluation.kind + ": " + "; ".join(evaluation.reasons[:2])) if evaluation
                           else "not a registered producer pull request")
+    if evaluation.producerId != request.get("producerId"):
+        raise GateRefused("producer-mismatch", "the action names a different producer than the one proven")
     producer = registry.producer(str(evaluation.producerId))
     assert producer is not None
     by = {g.name: g.state for g in evaluation.gates}
@@ -338,7 +324,7 @@ def gateClose(root: Path, request: Mapping[str, Any], snap: Snapshot, now: datet
 
 
 def checkAuthorization(root: Path, auth: Mapping[str, Any]) -> None:
-    """The authorization must be intact and match a still-open reservation. A forged, replayed or aborted one is refused."""
+    """Compatibility identity check only; legacy bearer JSON is refused, never a grant."""
 
     if not isinstance(auth.get("operationId"), str):
         raise GateRefused("legacy-route-disabled", "raw authorization/local terminal JSON cannot settle or authorize writes")
@@ -354,7 +340,7 @@ def finalize(root: Path, auth: Mapping[str, Any], snap: Snapshot, now: datetime,
 
 
 def abort(root: Path, auth: Mapping[str, Any], reason: str, now: datetime) -> dict[str, Any]:
-    """The driver did not perform the call (an error before it): release the reservation, recording why."""
+    """Cancel only durable unsent preparation; the caller's reason is not settlement proof."""
 
     checkAuthorization(root, auth)
     return makeExecutor(root).abort(auth["operationId"], reason)

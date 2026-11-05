@@ -505,6 +505,59 @@ def test_scenario_f_expired_lease_is_abandoned_and_its_work_adopted_not_duplicat
 # --- G: two runners, one lease -------------------------------------------------------------------
 
 
+def test_scenario_g_concurrent_runners_exactly_one_holds_the_run_lease(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # Retain the original real concurrent lease scenario and every 60/30-second
+    # safeguard, now for two ordinary actors in the SAME checkout-local store.
+    repo, _bare = makeFixture(tmp_path)
+    sensors = {"a": StubSensor(HYGIENE, "repository_hygiene"), "b": StubSensor(HYGIENE, "repository_hygiene")}
+    runners = {
+        "a": makeRunner(repo, fileStore(tmp_path), [sensors["a"]], trigger="manual"),
+        "b": makeRunner(repo, fileStore(tmp_path), [sensors["b"]], trigger="manual"),
+    }
+    barrier = threading.Barrier(2)
+    release, results, errors = threading.Event(), {}, []
+
+    def hook(name: str) -> None:  # the winner parks here, still holding the lease
+        if name == "phase:reconcile":
+            assert release.wait(60)
+
+    monkeypatch.setattr(fullrun, "_checkpoint", hook)
+
+    def go(name: str) -> None:
+        try:
+            barrier.wait(30)
+            results[name] = runners[name].start("observe")
+        except BaseException as exc:  # noqa: BLE001 - surface thread failures in the test
+            errors.append(exc)
+            results.setdefault(name, None)
+
+    threads = [threading.Thread(target=go, args=(n,)) for n in runners]
+    for thread in threads:
+        thread.start()
+    deadline = 60.0
+    while len(results) < 1 and deadline > 0:  # the loser returns while the winner is parked
+        threading.Event().wait(0.05)
+        deadline -= 0.05
+    loserName = next(iter(results))
+    release.set()
+    for thread in threads:
+        thread.join(60)
+    assert not errors, errors
+    winnerName = "a" if loserName == "b" else "b"
+    loser, winner = results[loserName], results[winnerName]
+
+    assert loser.status == "observing-existing" and winner.status == "completed"
+    assert loser.holder == winner.runId and loser.runId is None
+    assert loser.holderPhase in {"reconcile", "observe"}
+    document, _ = fileStore(tmp_path).load()
+    assert list(document["runs"]) == [winner.runId], "the loser created no run"
+    assert document["work"] == {} and document["leases"] == {}
+    assert sensors[loserName].scans == 0, "the loser did no scanning"
+    assert sensors[winnerName].scans == 1
+
+
 def test_scenario_g_legacy_shared_runners_both_refuse_before_loading_or_scanning(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

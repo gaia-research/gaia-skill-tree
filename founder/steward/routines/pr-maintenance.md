@@ -37,18 +37,44 @@ Only deterministic reconcilers exist. `content-engine-cachebust` regenerates `?v
 the repository's own generator on a tracked replacement branch; the producer's branch is never rewritten. A conflict that is not
 mechanically reproducible is reported, not hand-resolved.
 
-## Unattended execution
+## Explicit execution and local/shared split
 
-The pilot's outcome store is a file in one checkout (`.gaia/steward/pr-maintenance`). Inside that checkout it gives exactly-once
-reservation, the per-run caps and the hourly cap. It is **not** proof of cross-host exactly-once execution, and the write budgets
-are **not** globally enforced: another checkout or host has its own store and its own budget, so the effective ceiling is writers
-× cap. Every authorization records `coordination: "checkout-local"`. GitHub remains the backstop that holds across hosts (a merged
-or closed PR cannot be merged or closed again; `expectedHeadSha` refuses a moved head; receipt markers stop most duplicate
-comments, though a race can still post one twice). That limits damage; it is not a lock or a shared budget.
+Observation, census, profiles, dispatches and ordinary full-run state remain checkout-local. The unattended driver still refuses
+PR writes. `gate-merge` / `gate-close` create shared preparation and an exact intent, not a send authorization. Only explicit
+`execute --operation-id ID` enters the one-shot core. `recover` / `finalize --operation-id` reconcile without resend;
+`abort --operation-id` cancels only unsent preparation. Unsafe legacy authorization JSON/local outcomes are not authority.
 
-Production use requires both: `GAIA_STEWARD_PR_AUTHORITY_REF=origin/main` (never the local-head override), and **either** a single
-controlled writer (one scheduled job, concurrency-limited to one run) **or** shared coordination (a lock and budget counter outside
-any one checkout). Until then, describe the caps as per-checkout.
+An optional strict `prMaintenance.writeCoordination` binding must be separately provisioned: immutable forge/repository identity,
+canonical origin/ref, protocol/epoch, reachable genesis/minimum history pins, canonical current `main` authority branch, verified
+append-only/no-delete/no-reset protection, drained bypassing writers and trusted clock contract. Missing configuration fails
+closed, with no FileStore fallback or initialization CLI. This source change provisions or activates NONE of those conditions.
+
+Critical state lives only on `refs/heads/steward/pr-write-coordination-v1`: one global merge/close slot, stable logical identity,
+immutable full policy/producer/ratified-authority and independent-verifier/justification bindings, fence/attempt, counted sends
+and truthful evidence. Sources must equal the designated CURRENT canonical Git commit and its authenticated API content; stale
+checkout, local-head override, caller hash or local JSONL cannot settle or issue a send. All existing B/C, human approvals,
+producer/content proofs, protection, live head/base/holds/checks and kills are rechecked at the last adapter boundary.
+
+Merge is one synchronous PUT with REST `sha` and `merge_method: merge`; close is one PATCH containing only `state: closed`.
+Closure is not atomically bound to the checked head/holds. There is no invented conditional-close block or exactly-once delivery
+claim. Unknown/lost response never expires into another send. A matching absorbing merge can retire an unknown sender with
+causation unknown; closed GET cannot prove a delayed PATCH dead after reopen. Authentic sole-invocation completion can retire
+the sender even after a reopen; report the observed state and head-race flags truthfully.
+
+Global accounting retains 2 merges/run, 2 closes/run and 10 critical attempts/hour. Rejected sends remain charged; only
+canceled-unsent frees admission. Unknown charges never age out. Completed charges expire only when trustworthy current LOWER
+time is strictly beyond completion UPPER + one hour. The concrete HTTPS clock requires a fresh echoed nonce, no-store/zero-age,
+provisioned UTC skew/precision, bounded network delay and monotonic consistency; HTTP Date/host UTC alone is insufficient.
+A real trustworthy endpoint remains a rollout gate, not an observed deployment fact.
+
+Retained full records are bounded by 128 logical operations, finite event history and an 8 MiB production profile (a smaller
+configured transport bound wins), with exact persisted-byte and outcome/generation headroom guards. The 512 KiB boundary-test
+profile is explicit, not production capacity. No archive, pruning, compactor or unlimited-service claim; exhaustion refuses.
+One unresolved sender can pin the slot indefinitely. Local kills cannot revoke another host's already claimed invocation.
+
+Ordinary `full --ledger auto/local` is local without an origin probe; explicit general `git` supports only read-only legacy
+status. No historical canonical campaign run is migrated, completed or settled. Existing campaign operation and rollout
+compatibility must be handled separately before adopting this source.
 
 ## Founder card
 
@@ -58,7 +84,7 @@ digest and the GitHub receipt all render that module, so they cannot disagree.
 
 ## Known limits
 
-The roster discovers its environment from process signals, so harness identifiers (for example `claude-code-remote`, `github-actions`) are *environment ids*, never model names; model names appear only in an operator's local, ignored profile. Receipts end with the repository's required Claude Code attribution footer. Authority files must be committed, and in production equal the destination tip (`GAIA_STEWARD_PR_AUTHORITY_REF`). The outcome store is per checkout. Report payloads must pass a strict structural safety proof (semantic version, relative or allow-listed URLs, no markup or script scheme) because the template renders some fields unescaped.
+The roster discovers its environment from process signals, so harness identifiers (for example `claude-code-remote`, `github-actions`) are *environment ids*, never model names; model names appear only in an operator's local, ignored profile. Receipts end with the repository's required Claude Code attribution footer. Authority files must be committed and equal the designated current canonical source. Local diagnostic outcome files are not critical-write authority. Report payloads must pass a strict structural safety proof (semantic version, relative or allow-listed URLs, no markup or script scheme) because the template renders some fields unescaped.
 
 ## Roster profiles
 
@@ -69,4 +95,6 @@ limitation; escalation needs a stated need; a verifier is never a builder. Profi
 ## Receipts
 
 Pickup, Verification PASS, MERGED, CLOSED WITHOUT MERGE and Founder Decision Required. Each begins with
-`<!-- gaia-steward:pr-receipt kind=… pr=N head=SHA12 run=ID -->`; that marker is the idempotency key.
+`<!-- gaia-steward:pr-receipt kind=… pr=N head=SHA12 run=ID -->`; that marker reduces duplicate publication, not critical-write correctness.
+All receipt POSTs are best effort; independent verification and durable justification remain mandatory. Failed hold/comment READs
+still refuse eligibility; failed publication never causes resend/refund or invalidates genuine verification.

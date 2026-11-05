@@ -34,9 +34,9 @@ SCHEMA = "steward-pr-writes-v1"
 MAX_OPERATIONS = 128
 MAX_EVENTS_PER_OPERATION = 12
 MAX_HISTORY = MAX_OPERATIONS * MAX_EVENTS_PER_OPERATION + 1
-MAX_BYTES = 512 * 1024
+MAX_BYTES = 512 * 1024  # historical boundary-test profile; runtime uses ResourceProfile
 # Full exact source bindings (not fragments/digests); this is a raw UTF-8
-# per-source bound. JSON escaping still counts against the unchanged MAX_BYTES.
+# per-source bound. JSON escaping counts against the selected resource ceiling.
 MAX_SOURCE_BYTES = 64 * 1024
 OUTCOME_HEADROOM = 16 * 1024
 
@@ -196,8 +196,10 @@ class Services(Protocol):
     proof, policy and authority bytes; caller digests are insufficient. Future
     executor additionally owns final live checks and all existing kill switches.
 
-    invoke is the configured, non-retrying sole mutation adapter. completion is
-    called ONLY with its actual returned value, after that single invocation has
+    invoke is the configured, non-retrying sole mutation adapter. Concrete
+    adapters must consume _consumeAdapter at entry: persisted claims must not
+    make their publicly callable Services methods into bearer authorizations.
+    completion is called ONLY with its actual returned value, after that single invocation has
     finished. It must authenticate that response and independently check exact
     outcome bindings. observation independently checks fresh forge evidence;
     only a matching irreversible merge can retire an unknown sender. These
@@ -501,8 +503,10 @@ class PrWriteCoordinator:
         self.pid = os.getpid()
         self.grantGuard = threading.Lock()
         self.grants: dict[int, _Grant] = {}
+        self.adapterEntries: dict[str, _Grant] = {}  # live control flow only, never persisted
 
     def byteLimit(self) -> int:
+        self.resources.validate()
         return min(self.resources.byteLimit, ledger.ledgerByteLimit())
 
     def _payload(self, document: dict) -> dict:
@@ -653,6 +657,23 @@ class PrWriteCoordinator:
                     or grant.invocationId != operation["invocationId"]):
                 raise Refused("grant is not authentic, bound, live and unconsumed")
 
+    def _consumeAdapter(self, service: Services, request: dict, invocationId: str) -> None:
+        """Private one-shot entry check for concrete mutation adapters.
+
+        A persisted claim plus a public Services method is NOT authorization.
+        Only the still-live core call can register this exact consumed grant;
+        copied services, other threads, fork/restart and reentry cannot reuse it.
+        """
+        if os.getpid() != self.pid:
+            raise Refused("forked process has no adapter entry")
+        with self.grantGuard:
+            grant = self.adapterEntries.get(invocationId)
+            if (type(grant) is not _Grant or service is not self.services or grant.pid != self.pid
+                    or grant.thread != threading.get_ident() or grant.invocationId != invocationId
+                    or grant.requestDigest != digest(request)):
+                raise Refused("no authentic live one-shot adapter entry")
+            del self.adapterEntries[invocationId]  # burn BEFORE live checks/network/callbacks
+
     def invoke(self, token: Token, transitionId: str) -> Result:
         """Claim and consume a non-exported one-shot grant BEFORE adapter entry.
 
@@ -677,12 +698,17 @@ class PrWriteCoordinator:
         with self.grantGuard:
             self.grants[id(grant)] = grant
         self._consume(grant, operation)
+        with self.grantGuard:
+            self.adapterEntries[operation["invocationId"]] = grant
         try:
             response = self.services.invoke(copy.deepcopy(operation["request"]), operation["invocationId"])
         except Exception:
             return self._transition("unknown", token.operationId,
                                     {"token": asdict(token), "detail": "sole adapter invocation lost/unknown response"},
                                     digest([transitionId, "unknown"]))
+        finally:
+            with self.grantGuard:
+                self.adapterEntries.pop(operation["invocationId"], None)
         evidence = self.services.completion(copy.deepcopy(operation), operation["invocationId"], response)
         validateEvidence(evidence, operation, observed=False)
         return self._transition("complete", token.operationId, {"token": asdict(token), "evidence": evidence},
