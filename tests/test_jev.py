@@ -408,6 +408,7 @@ def test_evaluate_success_and_ledger_update(
     sample_response_payload: dict,
     monkeypatch,
 ):
+    # Synthetic sentinel for mock_transport below, never a live key (#2283 D2).
     monkeypatch.setenv("TYPESAFE_API_KEY", "secret-test-key")
     received_headers = {}
 

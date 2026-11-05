@@ -17,6 +17,32 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-11-05, Termux Steward campaign blocked — shared ledger byte guard, no repairs delivered)
+
+### TLDR
+- Maintenance mission is **not complete**. All 18 routines considered; 32 sensors registered, observed coverage 28 → 30; two optional inputs still absent. Steward regression baseline: **2,533 passed in 895.26 s**.
+- Adopted inherited trust dispatch `debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b`. Luna medium reproduced it without changing canonical data; independent Terra high rejected no-change. Rejection recorded; work remains blocked.
+- Full-run re-observation persistence refused a 1,068,706-byte ledger against its 1,048,576-byte cap. No cap change, manual prune, private-ledger bypass or compaction-forcing new cycle. Run `run-20261104T165527Z-2a808cf3` explicitly abandoned through canonical bookkeeping; final shared status has no active run, holder or in-flight work.
+- **Zero repairs integrated, zero issues changed, zero Class C decisions made.** Final open debt A=0/B=325/C=43 (B increased by two CI findings after supplying real run history, not from a demonstrated repair regression).
+
+### Branches and routing
+- Fresh execution base / unchanged integration tip: `1963a47f480251d79d98c6a13b8c272444996467`, `dev/steward-campaign-2026-11-05`.
+- Documentation-only receipt branch: `dev/steward-campaign-receipt-2026-11-05`; report and machine summary in `founder/reports/steward-campaign-2026-11-05/`.
+- Shared ledger checkpoint: `9b3e58abd5117cd7b8c607859ac8cb68525ba999` (`ledger.json` on the shared ledger history). Local detailed evidence under ignored `.gaia/steward/campaigns/2026-11-05/`.
+- Canonical retro invocation returned observing-existing while failed run held the lease; direct final coverage report exists. Do not claim a completed full-run retro or completed repair cycle.
+
+### Hazards / next session
+- Global Gaia 9.0.0 lacks `steward full`: use checkout `PYTHONPATH=src python -m gaia_cli.main`.
+- Existing decided agent-agnostic authority plus actual runtime permits Pi engine receipts; preserve the true provider model/effort separately. Runtime verified Luna medium and Terra high; no substitutions.
+- Auto-managed worktree reclamation removed an ignored handoff; recovered exact proof from recorded child write, not memory. Use durable handoff slots.
+- Do **not** start runs merely to force retention compaction. A separately authorized retention disposition/engineering scope is needed before reliable campaign continuation. Class C remains excluded, issue closure disabled, paused workflows unchanged.
+- Existing untracked Pi files were preserved. No main merge, release or deployment.
+
+### Token cost
+- User requested `/pi-cost` at final close; use installed v1.10 `~/.pi/agent/skills/pi-cost/scripts/pi_cost.py`. Public-rate worker estimate and unavailable prices must be distinguished from provider billing; no guessed cost is recorded here.
+
+---
+
 ## State Snapshot (2026-11-03, EPIC #2189 close-out executed — founder go given, merge via `feat!:` merge commit)
 
 ### TLDR

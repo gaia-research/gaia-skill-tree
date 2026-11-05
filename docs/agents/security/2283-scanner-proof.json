@@ -1,0 +1,1036 @@
+{
+  "purpose": "Scoped offline before/after evidence, not a canonical scan or closure receipt.",
+  "baselineCommit": "d694986b865e158e21c613683021a9b7822f945c",
+  "implementationCommit": "afe8644bd841473ef3ad5711bed5cc0cd1343667",
+  "sourceCheckpointCommit": "afe8644bd841473ef3ad5711bed5cc0cd1343667",
+  "sourceCheckpointTree": "7706581a705c0f874e20fd4f317e4dfe41289190",
+  "currentSourceCommit": "afe8644bd841473ef3ad5711bed5cc0cd1343667",
+  "currentSelectedFindings": 71,
+  "historicalPriorReplay": {
+    "implementationCommit": "72bf2be0da18a6f410d9936b75762e05c1736508",
+    "selectedFindings": 72,
+    "status": "historical; one avoidable new comment match, not rewritten or erased"
+  },
+  "priorStandaloneReplay": {
+    "sourceCommit": "a25703a7f",
+    "matrixSha256": "77f08f010d4cf6d6696f094fed0349c21ca5f1156a58e023ff8071826a9e7a60",
+    "selectedFindings": 71
+  },
+  "scannerSourceSha256": "21350bf4afdab3473f3fba8f563e46d26fc2f91d1429c73c3e676accd3a6ba14",
+  "sourceCheckpointNote": "All matrix-bound source bytes equal this committed checkpoint. Later proof-only commits are not represented as the source checkpoint.",
+  "scope": "39 original source paths only; baseline scanner on baseline bytes versus current scanner on reviewed bytes; generated positive controls in memory.",
+  "matrixSha256": "ef616f78c39ea79eb12a499db7c2777cb1c3553efcc8c6b14229fc1c5381dda5",
+  "unchangedAuthorityPatternsAndPublicScanner": {
+    "founder/steward/POLICY.yaml": "58af7eb1d4915970e2b8ffa8b55f4c96f5f79b7cd330b316c1d05ff534a28278",
+    "src/gaia_cli/steward/primitives/redact.py": "cf70bcfc7dfb6b586896e77e53956856b719ac7eb0b21b7ff89e5894649b3961",
+    "src/gaia_cli/securityScanner.py": "e71a33f79637c0b845300e6437857f5865bd75a1dd09275f40746a2854219b8f"
+  },
+  "originalRows": [
+    {
+      "debtId": "debt:credential_leak:agents-skills-firecrawl-skill-md:dd0fc386f410185b",
+      "group": "D1",
+      "originalMatches": 2,
+      "beforeMatches": 2,
+      "afterMatches": 2,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "0ded5ee529c371f77d9a1c7d37740c17f7fc1b070192aa6f0f17c693a3f766f7",
+      "currentFindings": [
+        {
+          "line": 256,
+          "pattern": "credential-assignment",
+          "fingerprint": "764a6efd41a6"
+        },
+        {
+          "line": 286,
+          "pattern": "bearer-token",
+          "fingerprint": "7786f66c14fb"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-detector-engine:7c8824c086679135",
+      "group": "D1",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "b4520b3f001079bd175bf20d46c5197b1b8ec5fb98fdf72c50a24c0b6598ee99",
+      "currentFindings": [
+        {
+          "line": 117,
+          "pattern": "credential-assignment",
+          "fingerprint": "799f18baed47"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-browser-js:5f45d00d7f30b9c6",
+      "group": "D1",
+      "originalMatches": 3,
+      "beforeMatches": 3,
+      "afterMatches": 3,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "1e444b4e74ba2644899aa52dc8d73c29898ca6e9b5e3340835075447fa61d13f",
+      "currentFindings": [
+        {
+          "line": 22,
+          "pattern": "credential-assignment",
+          "fingerprint": "a75f704f9b05"
+        },
+        {
+          "line": 9584,
+          "pattern": "credential-assignment",
+          "fingerprint": "0f5b4a4bcda5"
+        },
+        {
+          "line": 9585,
+          "pattern": "credential-assignment",
+          "fingerprint": "0f5b4a4bcda5"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-complete-m:0b64558129c498be",
+      "group": "D1",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "ada702f177432c9645bf2675b8f69ac5f6be5b63f4540eb161159a247eddd697",
+      "currentFindings": [
+        {
+          "line": 63,
+          "pattern": "credential-assignment",
+          "fingerprint": "db2e24d57724"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-manual-edi:a972d25ee1973c95",
+      "group": "D1",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "5517c40db7c91a5b24b134f79cb0f87c90e307b2f7831b1de670d60e529557c0",
+      "currentFindings": [
+        {
+          "line": 261,
+          "pattern": "credential-assignment",
+          "fingerprint": "ef9ae85da1c4"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-poll-mjs:bd8dca1fcdf7945b",
+      "group": "D1",
+      "originalMatches": 2,
+      "beforeMatches": 2,
+      "afterMatches": 2,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "d99745348b5aef842cbf0a5c46522b95df3635d0baa31f36246251808e5bc1af",
+      "currentFindings": [
+        {
+          "line": 121,
+          "pattern": "credential-assignment",
+          "fingerprint": "7b132df01592"
+        },
+        {
+          "line": 160,
+          "pattern": "credential-assignment",
+          "fingerprint": "0fdcab4106d5"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-server-mjs:a671be5f79c2a3ff",
+      "group": "D1",
+      "originalMatches": 4,
+      "beforeMatches": 4,
+      "afterMatches": 4,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "2acf0fa98523c51cd81934f79d8536e5daccb2aaa415e45581832280e41e1e5f",
+      "currentFindings": [
+        {
+          "line": 1758,
+          "pattern": "credential-assignment",
+          "fingerprint": "ef9ae85da1c4"
+        },
+        {
+          "line": 2213,
+          "pattern": "credential-assignment",
+          "fingerprint": "e24e481c36cb"
+        },
+        {
+          "line": 2312,
+          "pattern": "credential-assignment",
+          "fingerprint": "e91023eb493e"
+        },
+        {
+          "line": 2315,
+          "pattern": "credential-assignment",
+          "fingerprint": "d82b1fd22cbe"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-status-mjs:f32377b5380cfa3e",
+      "group": "D1",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "e873af24df51f32885d32df260a9a58bbc30f41e30891a26883e846371d8b7d0",
+      "currentFindings": [
+        {
+          "line": 17,
+          "pattern": "credential-assignment",
+          "fingerprint": "e24e481c36cb"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-firecrawl-skill-md:54ae5604e12e2a9b",
+      "group": "D1",
+      "originalMatches": 2,
+      "beforeMatches": 2,
+      "afterMatches": 2,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "0ded5ee529c371f77d9a1c7d37740c17f7fc1b070192aa6f0f17c693a3f766f7",
+      "currentFindings": [
+        {
+          "line": 256,
+          "pattern": "credential-assignment",
+          "fingerprint": "764a6efd41a6"
+        },
+        {
+          "line": 286,
+          "pattern": "bearer-token",
+          "fingerprint": "7786f66c14fb"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-detector-engine:1deecfb89c8de90c",
+      "group": "D1",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "b4520b3f001079bd175bf20d46c5197b1b8ec5fb98fdf72c50a24c0b6598ee99",
+      "currentFindings": [
+        {
+          "line": 117,
+          "pattern": "credential-assignment",
+          "fingerprint": "799f18baed47"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-browser-js:4560dad03a613faa",
+      "group": "D1",
+      "originalMatches": 3,
+      "beforeMatches": 3,
+      "afterMatches": 3,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "1e444b4e74ba2644899aa52dc8d73c29898ca6e9b5e3340835075447fa61d13f",
+      "currentFindings": [
+        {
+          "line": 22,
+          "pattern": "credential-assignment",
+          "fingerprint": "a75f704f9b05"
+        },
+        {
+          "line": 9584,
+          "pattern": "credential-assignment",
+          "fingerprint": "0f5b4a4bcda5"
+        },
+        {
+          "line": 9585,
+          "pattern": "credential-assignment",
+          "fingerprint": "0f5b4a4bcda5"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-complete-m:d8222ce8d9bd957f",
+      "group": "D1",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "ada702f177432c9645bf2675b8f69ac5f6be5b63f4540eb161159a247eddd697",
+      "currentFindings": [
+        {
+          "line": 63,
+          "pattern": "credential-assignment",
+          "fingerprint": "db2e24d57724"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-manual-edi:0801364f7f0e77a3",
+      "group": "D1",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "5517c40db7c91a5b24b134f79cb0f87c90e307b2f7831b1de670d60e529557c0",
+      "currentFindings": [
+        {
+          "line": 261,
+          "pattern": "credential-assignment",
+          "fingerprint": "ef9ae85da1c4"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-poll-mjs:f8f331ec1404ea92",
+      "group": "D1",
+      "originalMatches": 2,
+      "beforeMatches": 2,
+      "afterMatches": 2,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "d99745348b5aef842cbf0a5c46522b95df3635d0baa31f36246251808e5bc1af",
+      "currentFindings": [
+        {
+          "line": 121,
+          "pattern": "credential-assignment",
+          "fingerprint": "7b132df01592"
+        },
+        {
+          "line": 160,
+          "pattern": "credential-assignment",
+          "fingerprint": "0fdcab4106d5"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-server-mjs:4df9c2b6ff80b3e6",
+      "group": "D1",
+      "originalMatches": 4,
+      "beforeMatches": 4,
+      "afterMatches": 4,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "2acf0fa98523c51cd81934f79d8536e5daccb2aaa415e45581832280e41e1e5f",
+      "currentFindings": [
+        {
+          "line": 1758,
+          "pattern": "credential-assignment",
+          "fingerprint": "ef9ae85da1c4"
+        },
+        {
+          "line": 2213,
+          "pattern": "credential-assignment",
+          "fingerprint": "e24e481c36cb"
+        },
+        {
+          "line": 2312,
+          "pattern": "credential-assignment",
+          "fingerprint": "e91023eb493e"
+        },
+        {
+          "line": 2315,
+          "pattern": "credential-assignment",
+          "fingerprint": "d82b1fd22cbe"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-status-mjs:04765e48ffb67e0b",
+      "group": "D1",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "e873af24df51f32885d32df260a9a58bbc30f41e30891a26883e846371d8b7d0",
+      "currentFindings": [
+        {
+          "line": 17,
+          "pattern": "credential-assignment",
+          "fingerprint": "e24e481c36cb"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:docs-samples-registry-3d-fonts-html:412fc74a40db779e",
+      "group": "D3",
+      "originalMatches": 3,
+      "beforeMatches": 3,
+      "afterMatches": 3,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "df6e6680aea54d08f874b28eb5be46e45fed88f0d563db12ecf7b61121262ecc",
+      "currentFindings": [
+        {
+          "line": 160,
+          "pattern": "credential-assignment",
+          "fingerprint": "3751653efd6c"
+        },
+        {
+          "line": 161,
+          "pattern": "credential-assignment",
+          "fingerprint": "13e1b3d950fb"
+        },
+        {
+          "line": 162,
+          "pattern": "credential-assignment",
+          "fingerprint": "493df6923d8a"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:founder-handovers-2026-10-21-steward-issue-hygie:e8be47c2eebc4b65",
+      "group": "D3",
+      "originalMatches": 3,
+      "beforeMatches": 3,
+      "afterMatches": 3,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "fb8d58db679daacf99a8ef6df5548dc1eee9cda00ac527ba273220438877af3b",
+      "currentFindings": [
+        {
+          "line": 392,
+          "pattern": "credential-assignment",
+          "fingerprint": "fbb4c62d3ac3"
+        },
+        {
+          "line": 517,
+          "pattern": "credential-assignment",
+          "fingerprint": "684ec27b63dc"
+        },
+        {
+          "line": 518,
+          "pattern": "credential-assignment",
+          "fingerprint": "a261e68349db"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:founder-issues-json:b132c45b86c3ebcb",
+      "group": "D3",
+      "originalMatches": 2,
+      "beforeMatches": 2,
+      "afterMatches": 2,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "7fbdafbe68a6454560bd76679e3ac8548cb0927b1eadf3efaa7f5b16785bc61f",
+      "currentFindings": [
+        {
+          "line": 1,
+          "pattern": "credential-assignment",
+          "fingerprint": "821389db4920"
+        },
+        {
+          "line": 1,
+          "pattern": "credential-assignment",
+          "fingerprint": "b668ec33907d"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:github-workflows-sync-artifacts-yml:b526f075e4ecd1e6",
+      "group": "D3",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "aa80e0dc4013644598634ad8e02be12d147ce8b7c5ba1ad1bb576f74cd044527",
+      "currentFindings": [
+        {
+          "line": 177,
+          "pattern": "credential-assignment",
+          "fingerprint": "41e3de627921"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:scripts-jev-ci-budget-py:86888e095876410e",
+      "group": "D3",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "4c94eefdab1a6fe402333a6059c2bf563e621c1171252d29635cd4348cc80c02",
+      "currentFindings": [
+        {
+          "line": 387,
+          "pattern": "credential-assignment",
+          "fingerprint": "98d5d12ef43f"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:scripts-upstream-watcher-live-py:2393fe51171e5834",
+      "group": "D3",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "ed81ff83b6ea246aada1dee23bbbdbe053f50f506b171c5c816b9e97174a8d12",
+      "currentFindings": [
+        {
+          "line": 511,
+          "pattern": "credential-assignment",
+          "fingerprint": "39be36177943"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:src-gaia-cli-auth-py:2ed435a394e19f87",
+      "group": "D3",
+      "originalMatches": 4,
+      "beforeMatches": 4,
+      "afterMatches": 4,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "acb14372a8a47fc31d2657fbda04ddd93cf2cc3ba3cadb5cadba9345469c46c2",
+      "currentFindings": [
+        {
+          "line": 241,
+          "pattern": "credential-assignment",
+          "fingerprint": "caf47aa7ff21"
+        },
+        {
+          "line": 405,
+          "pattern": "credential-assignment",
+          "fingerprint": "be3a74739ccb"
+        },
+        {
+          "line": 420,
+          "pattern": "credential-assignment",
+          "fingerprint": "114fc3873c35"
+        },
+        {
+          "line": 436,
+          "pattern": "credential-assignment",
+          "fingerprint": "caf47aa7ff21"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:src-gaia-cli-jev-py:74fbb7100ac456ad",
+      "group": "D3",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "08f8f6661918abd99e262781e593715d2e93f13ce57a19e07f9b692dbf4c9e3a",
+      "currentFindings": [
+        {
+          "line": 634,
+          "pattern": "credential-assignment",
+          "fingerprint": "b17e86ead565"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:src-gaia-cli-securityscanner-py:ba7fcb08fe3ef5c9",
+      "group": "D3",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "e71a33f79637c0b845300e6437857f5865bd75a1dd09275f40746a2854219b8f",
+      "currentFindings": [
+        {
+          "line": 513,
+          "pattern": "credential-assignment",
+          "fingerprint": "fc84c742aab2"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b-script-py:82d92c373e57e5b6",
+      "group": "D2",
+      "originalMatches": 2,
+      "beforeMatches": 2,
+      "afterMatches": 2,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "b71f0b76db5279eece61ebedbb3d8d7522a2837c588dfdc0f53a7d0b6946e75c",
+      "currentFindings": [
+        {
+          "line": 17,
+          "pattern": "credential-assignment",
+          "fingerprint": "7eb3777115fa"
+        },
+        {
+          "line": 250,
+          "pattern": "credential-assignment",
+          "fingerprint": "7c6791c527dc"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b5-identity-py:affc47d215e53abe",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "985e5e0dc7495aef0a9fb3a085179d03f4f474a3eaf30c81d1f3c023f16077a1",
+      "currentFindings": [
+        {
+          "line": 16,
+          "pattern": "credential-assignment",
+          "fingerprint": "9210a2236f68"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b6-census-live-p:ec37ccfcb574c2d1",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "d97fcaab66a6f77071c1248b6f8d1f425c9e7358f27ae2975b454aca911f894a",
+      "currentFindings": [
+        {
+          "line": 220,
+          "pattern": "bearer-token",
+          "fingerprint": "70901d36b258"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b7-scrub-py:c82313badc903f74",
+      "group": "D2",
+      "originalMatches": 5,
+      "beforeMatches": 5,
+      "afterMatches": 5,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "3277d9106df505ee4e92e7a03e53e832574566d7bbac409f8949ef30470f6cb4",
+      "currentFindings": [
+        {
+          "line": 36,
+          "pattern": "jwt",
+          "fingerprint": "59b647a4197a"
+        },
+        {
+          "line": 37,
+          "pattern": "jwt",
+          "fingerprint": "59b647a4197a"
+        },
+        {
+          "line": 39,
+          "pattern": "credential-assignment",
+          "fingerprint": "100512181d07"
+        },
+        {
+          "line": 40,
+          "pattern": "credential-assignment",
+          "fingerprint": "5b349ee29dd2"
+        },
+        {
+          "line": 42,
+          "pattern": "credential-assignment",
+          "fingerprint": "4c46513008e3"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b8-census-py:055f6db7f83bf7eb",
+      "group": "D2",
+      "originalMatches": 3,
+      "beforeMatches": 3,
+      "afterMatches": 3,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "bcd08769a9eb2fbd1eb1804cb574079b11c921e541ae039001aa8dc56bd01750",
+      "currentFindings": [
+        {
+          "line": 96,
+          "pattern": "credential-assignment",
+          "fingerprint": "88b11cd7d986"
+        },
+        {
+          "line": 97,
+          "pattern": "credential-assignment",
+          "fingerprint": "817d1450133f"
+        },
+        {
+          "line": 98,
+          "pattern": "credential-assignment",
+          "fingerprint": "529e66593269"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b8-refusal-py:100e8e97ff9a51ef",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "b1b64f4270d18b0b7ea65d0977c8a3fc3739916f1be2c3395cf07dd13b5fedf0",
+      "currentFindings": [
+        {
+          "line": 82,
+          "pattern": "credential-assignment",
+          "fingerprint": "2198f003c5b0"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-e-steward-full-e:8dd6930a15057584",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "4ee1add26f4bf005ee3cada61a056883592df59e46be7d34d3fdbc7d23236bae",
+      "currentFindings": [
+        {
+          "line": 135,
+          "pattern": "credential-assignment",
+          "fingerprint": "e8ea09ffe951"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-test-desk-py:d1900b51970bdc61",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "203060f726dd45e06fbc7098600a0ba2605f25c0f511a21c4546f529756342b6",
+      "currentFindings": [
+        {
+          "line": 189,
+          "pattern": "credential-assignment",
+          "fingerprint": "08109091b0eb"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-auth-py:edc1563abdfa70e4",
+      "group": "D2",
+      "originalMatches": 4,
+      "beforeMatches": 4,
+      "afterMatches": 4,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "0ac1d1fc8a76830372545f4385ee9a77a0bb9de7acbefe9515a0f09a03515bee",
+      "currentFindings": [
+        {
+          "line": 353,
+          "pattern": "credential-assignment",
+          "fingerprint": "7105abe1b034"
+        },
+        {
+          "line": 368,
+          "pattern": "credential-assignment",
+          "fingerprint": "4c7ad6353034"
+        },
+        {
+          "line": 406,
+          "pattern": "credential-assignment",
+          "fingerprint": "0095a8f1708e"
+        },
+        {
+          "line": 420,
+          "pattern": "credential-assignment",
+          "fingerprint": "0095a8f1708e"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-badge-reconcile-py:062a191c5b535bb7",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "5351a46e17b53cf9f29041d8ad61b67e68691062100998e544e7f0bc1e496276",
+      "currentFindings": [
+        {
+          "line": 861,
+          "pattern": "credential-assignment",
+          "fingerprint": "a3522810e912"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-curation-assessment-py:b8c7a3d24c6492cf",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "8a4477dfe35bda8995f3b382e3ea63c99e61bedbc306ea980584e12a247d6d90",
+      "currentFindings": [
+        {
+          "line": 437,
+          "pattern": "bearer-token",
+          "fingerprint": "5a3ec2abc81e"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-curation-error-contract-py:30a58d0ac04e28de",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "b5b00b71cafe2d23e5f9bc4a7a0a2b88c8105f23ada659c5793322dc937526be",
+      "currentFindings": [
+        {
+          "line": 176,
+          "pattern": "credential-assignment",
+          "fingerprint": "5d47666b7611"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-installability-py:50a878d42ae01243",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "e52dbe05b5e7fa1b89c51a227d369f263d44fe37b4e6d4ef45b126ed58d964df",
+      "currentFindings": [
+        {
+          "line": 126,
+          "pattern": "bearer-token",
+          "fingerprint": "4d631a121aac"
+        }
+      ]
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-jev-py:29db1b7469907462",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true,
+      "reviewedSourceSha256": "af7e194bb7777f7fe1120884eb6b2b14ed6a196ba539f62c3b71a07d46e281f5",
+      "currentFindings": [
+        {
+          "line": 439,
+          "pattern": "bearer-token",
+          "fingerprint": "be6e8e2fecc9"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "D1": {
+      "rows": 16,
+      "originalMatches": 30,
+      "beforeMatches": 30,
+      "afterMatches": 30
+    },
+    "D2": {
+      "rows": 14,
+      "originalMatches": 24,
+      "beforeMatches": 24,
+      "afterMatches": 24
+    },
+    "D3": {
+      "rows": 9,
+      "originalMatches": 17,
+      "beforeMatches": 17,
+      "afterMatches": 17
+    }
+  },
+  "controls": [
+    {
+      "case": "aws-access-key-id",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "aws-access-key-id",
+      "path": "tests/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "github-token",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "github-token",
+      "path": "tests/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "github-fine-grained-token",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "github-fine-grained-token",
+      "path": "tests/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "anthropic-api-key",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "anthropic-api-key",
+      "path": "tests/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "openai-api-key",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "openai-api-key",
+      "path": "tests/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "slack-token",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "slack-token",
+      "path": "tests/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "private-key-block",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "private-key-block",
+      "path": "tests/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "google-api-key",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "google-api-key",
+      "path": "tests/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "unrelated-dummy",
+      "beforeMatches": 0,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "unrelated-placeholder",
+      "beforeMatches": 0,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "unrelated-not-real",
+      "beforeMatches": 0,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "unrelated-canary",
+      "beforeMatches": 0,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "unrelated-other-value",
+      "beforeMatches": 0,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "existing-in-match-placeholder",
+      "path": "tests/control.py",
+      "beforeMatches": 0,
+      "afterMatches": 0
+    },
+    {
+      "case": "existing-in-match-placeholder",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1
+    }
+  ],
+  "newlyVisibleMatchesOutsideOriginalInventory": [],
+  "cachedOfficialCompatibilityTests": {
+    "provenance": "Prior-session read-only retrieval from pbakaus/impeccable extraction commit 325aeaf239808a0a8a763fe328e1dc1c3e2351df; not a fresh network provenance verification.",
+    "tests": [
+      {
+        "path": "design-parser.test.mjs",
+        "originalTestSha256": "77ad72cdf2c93308cd0859e4f51c960345ee0b60a7904c581cd2bf094ac1dbf8",
+        "onlyImportPathsAdapted": true
+      },
+      {
+        "path": "live-completion.test.mjs",
+        "originalTestSha256": "4fc9cb059d18f0a3841ad015102b43f2bb744056471b5bd6105b84983da03ac4",
+        "onlyImportPathsAdapted": true
+      },
+      {
+        "path": "live-event-validation.test.mjs",
+        "originalTestSha256": "e10415961405041c9e2bd07f52b07763ff4ec959465385a34785b555ca7092fe",
+        "onlyImportPathsAdapted": true
+      },
+      {
+        "path": "live-poll.test.mjs",
+        "originalTestSha256": "527cf5032aff972b1eff57e347168a4dc78c9888eadaa870e82f15e86d4625e5",
+        "onlyImportPathsAdapted": true
+      },
+      {
+        "path": "live-session-store.test.mjs",
+        "originalTestSha256": "67fc4970fec0c0e3eaf6e58747908ebb6ddd34a59bd6d20c190c19e218468960",
+        "onlyImportPathsAdapted": true
+      }
+    ],
+    "observedTests": 42
+  },
+  "fullSupportedMirrorParity": {
+    "filesPerTree": 224,
+    "manifestSha256": "8d2debc9dd3b57fb40822744e1bb5df95835dee3ce277c50805dadc25cb8b6dc",
+    "manifestFormat": "sorted JSON [[relative-path, sha256], ...], compact separators, UTF-8",
+    "ignoredLocallyOwnedPaths": [
+      "skill-creator/**",
+      "**/__pycache__/**",
+      "**/*.pyc"
+    ],
+    "missing": 0,
+    "changed": 0,
+    "mirrorOnly": 0
+  },
+  "limits": "Feature-only dependency merge performed. No full fleet scan, ledger change, validity probe, issuer attestation, rotation, browser/live-server session, Node 18 or Windows run, independent combined review, main/campaign integration merge, or campaign completion."
+}

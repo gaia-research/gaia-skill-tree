@@ -26,6 +26,8 @@ from typing import Iterator
 
 from scripts.lib.github_api import parse_owner_repo
 from scripts.lib.named_iterator import iter_named_skills
+from scripts.upstream_watcher.live import GhError, UnknownEvidenceError
+from scripts.upstream_watcher.releaseidentity import validateReleaseSource
 
 # ---------------------------------------------------------------------------
 # Level parsing
@@ -147,6 +149,10 @@ def compute_finding(fm: dict, release_data: dict) -> dict | None:
     source_url = release_data.get("html_url", "")
 
     upstream_block = fm.get("upstream") or {}
+    try:
+        validateReleaseSource({"skillId": skill_id, "sourceUrl": source_url})
+    except GhError as exc:
+        raise UnknownEvidenceError(str(exc)) from exc
     stored_version = upstream_block.get("version")
 
     if not stored_version:

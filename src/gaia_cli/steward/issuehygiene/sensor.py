@@ -111,7 +111,10 @@ def reconcileCensus(census: Census, root: Path, hygiene: HygienePolicy, now: Any
     try:
         index = buildRegistryIndex(root)
         probes = workflowProbesFor(census, hygiene)
-        manifest = reconcile(census, index, hygiene, now, workflowDisabled=probes)
+        from gaia_cli.steward.issuehygiene.questions import loadIssueDecisions
+
+        manifest = reconcile(census, index, hygiene, now, workflowDisabled=probes,
+                             decisionRecords=loadIssueDecisions(root))
     except Exception as exc:  # noqa: BLE001 - any reconciliation failure is coverage unknown
         raise SensorUnavailable(f"issue reconciliation failed: {type(exc).__name__}") from exc
     if not isinstance(manifest, Mapping):

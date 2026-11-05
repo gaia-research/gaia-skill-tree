@@ -590,13 +590,39 @@ The watcher explicitly does not:
 
 Recorded in the round-5 remediation (C9, 2026-10-22). None of these is coded in that change.
 
-- **List reads are complete or refused (PR #2133).** `LiveGh.list_issues` uses the census walk (`scripts/steward_issue_census.py: listAll`): it follows `rel="next"`, refuses a short page before the last, and refuses an empty linked page unless a count confirms it. The open listing is confirmed exactly against the repository's `open_issues_count`, with retries for a create or close between the reads, and a labelled open list is taken from that verified listing (no search index). A closed listing has no count, so a listing that ends on a full page is refused. Residuals: an empty first closed page is accepted as an empty history, because nothing on the listing can tell it from a false one; a partial last page with its link dropped cannot be detected without a count. `tests/upstream_watcher/test_list_truncation.py` covers the boundary cases.
+- **List reads are complete or refused (PR #2133).** `LiveGh.list_issues` uses the census walk (`scripts/steward_issue_census.py: listAll`): it follows `rel="next"`, refuses a short page before the last, and refuses an empty linked page unless a count confirms it. The open listing first requires an exact repository `open_issues_count` match before and after the walk. On disagreement (#2278), it requires non-search GraphQL `issues(states: OPEN).totalCount` and `pullRequests(states: OPEN).totalCount` bracketing a second complete REST walk: both typed counts must remain unchanged and match the respective issue/PR row counts, and both walks must return the same ordered unique issue numbers. No offset tolerance is used. A missing/partial/error count or inconsistent walk stays unknown and is retried, then refused. Duplicate/malformed row identities are refused even if the total length matches. A labelled open list is taken from that verified listing (no search index). A closed listing has no count, so a listing that ends on a full page is refused. Residuals: an empty first closed page is accepted as an empty history, because nothing on the listing can tell it from a false one; a partial last page with its link dropped cannot be detected without a count. `tests/upstream_watcher/test_list_truncation.py` covers the boundary cases.
 
 - **L-1. The child gate counts only open children that carry `upstream:child`.** `upstream-approve.yml` step 3 lists open `upstream:child` issues and checks the candidate children that rows link to. An intake child without that label does not hold the umbrella's approval. The watcher and `--escalate` always apply the label, so this matters only for a child a human created by hand.
 - **L-2. A name-drift check skips a component it cannot read, and does so silently.** `check_name_drift` skips a component whose SKILL.md cannot be fetched, or whose frontmatter has no `name`, because absence of a signal is not evidence of drift. Drift in that component is then missed for this release. The check runs only on an update finding, so it is not revisited until the next release.
 - **L-3. A tag that moves backwards is proposed as an update.** `compute_finding` reports any stored version that differs from the live tag as an update, so a re-pointed or older tag opens an umbrella for a version below the one recorded. The approval is human-gated, so nothing is applied automatically.
 - **L-4. A rate-limited link check is recorded as a broken link.** `check_component_liveness` records every non-2xx HEAD status, so a 429 or a 403 from `raw.githubusercontent.com` becomes a hashed `linkLiveness` row. Only a network error is excluded (L2). The umbrella then changes, and an approval resets, until the row clears. The status is visible in the row.
 - **L-5. A child closed without a disposition leaves its row unresolved.** M6 keeps such a row unresolved and carried forward, with the note `child closed without a disposition`. The umbrella therefore stays open, and its approval PR says `Refs`, not `Fixes`, until a human labels the child `upstream:rejected` or the candidate becomes registry-present.
+
+## Founder lock reconciliation (#2283 C1–C4)
+
+The four canonical decision records under `founder/steward/decisions/issue-question-q-*.json`
+are consumed by issue hygiene; they are not release approvals. GBrain and Addy
+migration remain held, preserving all existing children and L4 gates. C1 permits
+only technical reconciliation. Ruflo is the capstone and AgentDB its distinct
+nested suite, not a release alias. The watcher refuses a release whose source
+contradicts either locked repository, and refuses to replace an existing readable
+umbrella payload with a different `skillId`, including a same-version fanout noop.
+`links.github` contradicting stored `upstream.repo` is unknown before polling.
+
+At this patch's base, `registry/named/ruvnet/agentdb.md` points at Ruflo and carries
+Ruflo version history. That is an explicit registry/source reconciliation gate,
+not permission to copy a Ruflo version to AgentDB. Repair must use reviewed
+canonical CLI operations and independently verified AgentDB source/version
+metadata; retain the nested topology and all historical provenance. No registry
+change or live #1833 body/title edit is included here.
+
+The #2278 historical log proves a 215/218 mismatch, not which three records were
+missing or whether the aggregate was stale. Current read-only REST and GraphQL
+comparisons agree; the historical runner-token discrepancy is not reproduced.
+The stronger confirmation path is a tested engineering repair, **not proof that
+#2278 can be closed**. A fresh independently reviewed read-only comparison in the
+actual runner's visibility context remains necessary; never activate live writes
+as a diagnostic shortcut.
 
 ## References
 
