@@ -1,5 +1,5 @@
 {
- "generation": 425,
+ "generation": 426,
  "lane": {
   "entries": [
    {
@@ -4479,7 +4479,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-05T19:36:06.100018Z",
-   "expiresAt": "2026-11-05T20:06:23.220598Z",
+   "expiresAt": "2026-11-05T20:10:20.488062Z",
    "holder": "run-20261105T172246Z-e34944e8"
   }
  },
@@ -25455,6 +25455,7 @@
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
+   "coverageBlocked": true,
    "decisions": [],
    "desk": {
     "asOf": "2026-11-05T17:32:56.324329Z",
@@ -25974,7 +25975,7 @@
     "push": true,
     "routine": null
    },
-   "phase": "class_b",
+   "phase": "verify",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -25987,10 +25988,11 @@
      "status": "ok"
     },
     "class_b": {
-     "dispatchId": "dispatch-2beea7af972331dae185",
-     "dispatched": "debt:unused_import:src-gaia-cli-steward-prmaintenance-roster-py:0d3bca3f7369f4af",
-     "status": "awaiting-build",
-     "stepId": "build:638fb01c8655:1"
+     "coverageUnknown": [
+      "pr-maintenance"
+     ],
+     "reason": "sensor coverage is unknown; refusing Class B dispatch",
+     "status": "blocked"
     },
     "observe": {
      "authorityCounts": {
@@ -26943,6 +26945,12 @@
      "kind": "agent.build",
      "status": "done",
      "stepId": "build:638fb01c8655:1"
+    },
+    {
+     "at": "2026-11-05T19:40:19.466649Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_b"
     }
    ],
    "thinkingEfforts": [
@@ -26956,7 +26964,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-05T19:36:23.220874Z",
+ "updatedAt": "2026-11-05T19:40:20.488481Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
