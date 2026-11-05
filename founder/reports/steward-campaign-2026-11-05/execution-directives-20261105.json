@@ -1,0 +1,12 @@
+{
+  "scope": "campaign-2283 future execution; no current-worker cancellation or restart",
+  "operator_roster_directive_verbatim": "Update on roster: flash -> terra (openai, not openai-codex). For non steward engineering work. Do this moving forward, dont stop current subagents.",
+  "future_non_steward_engineering": {"provider": "openai", "model": "gpt-6.1-terra", "dispatch": "native subagent; explicit route overrides any Codex persona default"},
+  "canonical_steward": "retain established openai-codex shared roster and canonical authority/attempt limits",
+  "cost_visibility": "new LLM workers use native subagent; no new LLM workers via bg_run",
+  "cadence": "28-minute cost/cache guard; collect non-urgent completions together; user decisions and safety events may be handled sooner",
+  "requested_worker_limits": "unlimited retries and timeout",
+  "native_tool_schema_bounds": {"max_retries_per_call": 5, "max_timeout_ms_per_call": 86400000},
+  "current_workers": "leave ongoing owners untouched; do not restart merely to change route",
+  "non_llm_background": "ordinary tests, canonical CLI, localhost server and wake timers may use bg_run"
+}
