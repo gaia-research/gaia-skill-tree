@@ -1369,7 +1369,7 @@
           "line": 125,
           "pattern": "bearer-token",
           "status": "fixture",
-          "reason": "Hand-written short Bearer sentinel in a synthetic failing diagnostic, not an issued credential."
+          "reason": "Short, locally defined authorization-header specimen used by the positive redaction test; this fixture does not attest to any issuer or live credential."
         }
       ],
       "callerAndProvenanceEvidence": [
