@@ -1,5 +1,5 @@
 {
- "generation": 462,
+ "generation": 463,
  "lane": {
   "entries": [
    {
@@ -4482,7 +4482,13 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {},
+ "leases": {
+  "run": {
+   "acquiredAt": "2026-11-05T23:29:43.480418Z",
+   "expiresAt": "2026-11-05T23:59:43.480418Z",
+   "holder": "run-20261105T232943Z-77ad62ba"
+  }
+ },
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -30284,10 +30290,63 @@
     }
    ],
    "updatedAt": "2026-11-05T21:41:45.195436Z"
+  },
+  "run-20261105T232943Z-77ad62ba": {
+   "actions": [],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [],
+   "finishedAt": null,
+   "integrationBranch": "dev/steward-campaign-2026-11-05",
+   "integrationHead": null,
+   "leases": [
+    {
+     "acquiredAt": "2026-11-05T23:29:43.480418Z",
+     "holder": "run-20261105T232943Z-77ad62ba",
+     "key": "run"
+    }
+   ],
+   "mode": "verify",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "",
+   "options": {
+    "afk": true,
+    "agents": true,
+    "debt": "debt:unused_import:src-gaia-cli-steward-prmaintenance-roster-py:0d3bca3f7369f4af",
+    "push": true,
+    "routine": null
+   },
+   "phase": "verify",
+   "phases": {},
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [],
+   "runId": "run-20261105T232943Z-77ad62ba",
+   "sequence": 13,
+   "sourceHead": null,
+   "startedAt": "2026-11-05T23:29:43.480418Z",
+   "status": "active",
+   "steps": [
+    {
+     "at": "2026-11-05T23:29:43.480418Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:recover"
+    }
+   ],
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "manual",
+   "unresolvedWork": []
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-05T21:49:26.858576Z",
+ "updatedAt": "2026-11-05T23:29:44.463339Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
