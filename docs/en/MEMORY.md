@@ -1,3 +1,49 @@
+## 2026-11-05 — Routine 069
+
+**Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
+Pushed to this branch only, per the owner's instruction.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 069)" in 068: check the `gaia push` card against the
+`push` parser. Result: the card is accurate (`--dry-run`, `--no-issue`, `--update`, `--yes`/`-y`, the
+Workspace Mode limit). No change to `cli-reference.html`.
+
+Then ROTATE to `fusion.html` (Page Map row 8), the page 066 planned and never reached.
+
+### What I did
+
+- **One factual fix.** The sample `skill-tree.json` after `gaia fuse` showed `"unlockedIn": "you/your-repo"`.
+  The fuse write path (`impl.py`, the combo branch) sets `"local-repo"`. The sample value now matches.
+- `fusion.html` line 852 only. The file keeps CRLF line endings.
+
+### Design decisions
+
+- Changed only the sample value, not the walkthrough prose. The prose already matches the flow.
+
+### Source finding (not documented, not fixed here)
+
+- The same sample shows `"level": "2★"`. The fuse write path copies `levelFloor` from a scan-detected
+  combination. Under Yggdrasil II (`No self-promote`), whether `gaia fuse` should write a level at all is a
+  policy question for curation, not a docs edit. Filing it is a candidate for a `CLI` + `tech-debt` issue.
+
+### Files
+
+- `docs/en/fusion.html`: one sample value.
+- `docs/en/DOCS.md`: Page Map row 8 gains the 069 pointer.
+- `docs/en/MEMORY.md`: this entry.
+
+### Verification
+
+- `git status` shows only `docs/en/` paths.
+- `git diff` shows one changed line, no new hex, no banned-term hits.
+- CRLF count unchanged on `fusion.html`.
+
+### Planned next (Routine 070)
+
+- Check the `gaia fuse` prose on `fusion.html` lines 600–610 ("does not add a new node to the public registry")
+  against `fuse_command`'s custom-fusion path, which writes `.gaia/custom_state.json`.
+
+---
+
 # MEMORY.md — Documentation Agent Diary
 
 ---
