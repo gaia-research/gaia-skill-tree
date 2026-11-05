@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "issue-question-q-2568173e",
+  "status": "decided",
+  "resolution": "migration-deferred",
+  "decision": "C2 / Q-2568173e: the canonical GitHub handle is addyosmani; migration of published addy-osmani/* identities is deferred pending an independently audited plan.",
+  "whyItMatters": "The founder canon lock is final, but implementation and compatibility approval are unfinished. Renaming published identifiers or accepting updates now would bypass the migration gate.",
+  "evidence": [
+    "issue-question/q-2568173e",
+    "debt:issue_founder_decision:q-2568173e:749fb275800fe372",
+    "Affected family: #2002; addyosmani/agent-skills and published addy-osmani/* suite/named identities and children.",
+    "Migration plan must inventory registry/named paths and IDs, suiteRef/suiteComponents and generic references, child issue suggested IDs and source URLs, user-tree unlockedSkills and timeline history, projections, install/share clients and compatibility aliases or redirects.",
+    "Published surfaces include docs/graph and named indexes, docs/api/v1 contributor/skill URLs, docs/u profiles, badges and external links. Prove old/new ID resolution, redirects and no duplicate skills before migration approval.",
+    "Founder authority: #2283 comment 6640916880; hygiene receipt 6640982938 preserves #2002 open with upstream:needs-info. No migration has been implemented by this record."
+  ],
+  "recommended": "Enforce the hold and prepare an independently reviewed migration/compatibility plan; do not re-adjudicate the handle.",
+  "alternative": "Retain published addy-osmani/* identities unchanged until that plan is approved; no bulk rename, duplicate intake, update acceptance or child closure.",
+  "unblocks": "Planning and compatibility audit only, not registry, suite, user-tree, API, badge or client migration.",
+  "links": [
+    "issue-question/q-2568173e",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2002",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640916880",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640982938"
+  ]
+}

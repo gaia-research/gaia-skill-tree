@@ -171,6 +171,7 @@ def test_ratify_still_publishes_the_fail_closed_refusal(tmp_path, capsys, monkey
 def test_ratify_does_not_echo_an_invalid_authorization_envelope(tmp_path, capsys, monkeypatch):
     """An unparseable envelope is reported without echoing the document."""
     packetPath, args = _ratify_args(tmp_path)
+    # Synthetic malformed-envelope sentinel, not an issuer credential (#2283 D2).
     envelope = tmp_path / "envelope.json"
     envelope.write_text(f'{{"token": "{SECRET}"', encoding="utf-8")
     args.authorization_envelope = str(envelope)

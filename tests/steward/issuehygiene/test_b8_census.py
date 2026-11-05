@@ -88,6 +88,8 @@ def test_an_open_unique_listing_is_still_complete() -> None:
     assert validateCensus(census([mkRow(12, "[intake] fine")]), NOW, 21600).status == "complete"
 
 
+# Security provenance (#2283 D2): hand-written dotted examples exercise scrub;
+# these are synthetic positive fixtures, not issuer-provided credentials.
 # --- LOW: short token assignments are scrubbed ------------------------------------------------------
 
 def test_a_short_dotted_token_assignment_is_scrubbed() -> None:

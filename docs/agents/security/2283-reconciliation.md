@@ -1,0 +1,67 @@
+# #2283 D1–D3 security reconciliation
+
+Authority: [founder lock](https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640916880), with [hygiene receipt](https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640982938). Original receipt: `steward-20261104T172307Z-5c244581790fe867`.
+
+## Evidence, not blanket clearance
+
+**Current source checkpoint:** [`2283-scanner-proof.json`](2283-scanner-proof.json) binds `3f4c46fe140f0e3d4a26733baba23f229c30ab94`, a prose-only matrix clarification after the prior composition. A fresh offline Git-blob replay found the exact original 71-occurrence multiset across 39 paths (D1=30, D2=24, D3=17), with no added or lost selected matches. A separate matrix document match went from one to zero, outside that inventory. The 23 controls are historical, not freshly rerun. The [founder/watcher composition proof](2283-founder-composition-proof.md) at `afe8644bd841473ef3ad5711bed5cc0cd1343667` remains historical. Independent delta review is required; this is not a canonical scan or issuer claim.
+
+**Historical corrective replay:** the previously reported 72 selected findings included one avoidable match in the new explanatory comment at `tests/test_installability.py:123`; that historical result is retained in [`2283-finish-proof.md`](2283-finish-proof.md) and the machine proof. At source commit `a25703a7f`, only that comment wording was corrected. That checkpoint's exact-source offline replay was **71 findings (D1=30, D2=24, D3=17)**, with every original fingerprint multiplicity preserved. The dispositions file changes only the reviewed source hash for that test file; fixture literals and assertions are unchanged. See [`2283-scanner-proof.json`](2283-scanner-proof.json). This proof carries no authority, authentic-ID, live credential, or independent-review claim.
+
+[`2283-dispositions.json`](2283-dispositions.json) preserves all **39 original debt IDs** and each original line/pattern/fingerprint: D1=16, D2=14, D3=9. It records canonical sources, duplicate grouping, source hashes, caller/provenance evidence, individual reasons, verification and limits. File-level dispositions are **28 harmless source-pattern matches and 11 fixture-bearing files**. Several D2 files contain only code/prose false positives; their individual findings remain `harmless`, not invented synthetic credentials.
+
+No inspected original match is a verified embedded live credential. This is not a whole-file security certification, issuer validation, rotation receipt, or dismissal of new/unknown alerts. Production credential authority remains **Class C**. No ledger/history, issue labels, issue closures, workflow activation, registry/trust data, or shared campaign state was changed.
+
+The final inventory's reported debt-file SHA is preserved separately from the actual `debt-before.json` metadata snapshot used here. They are **different snapshots**. All 39 IDs, paths and original line locations were crosschecked against the published final inventory; every original fingerprint still reproduces against the corresponding source. We do not claim to possess the final snapshot's exact bytes.
+
+The three `steward-security-*-2283` records under `founder/steward/decisions/` record **locked group policy**, with every affected original debt ID in `evidence`. `decided` does not mean each finding was resolved. Existing decision history is retained; no new decision schema fields were introduced.
+
+## D1: select compatible sources, not newer-looking paths
+
+Both entire checked-in skill trees were already in sync. The 16 alert rows are **eight canonical/mirror pairs**, not 16 independent leaks or evidence of mirror drift. Firecrawl's examples use response truncation and an explicit API-key instruction placeholder. Impeccable's matches are a DOM annotation identifier, runtime session variables, request fields, template interpolations and local startup output. The server session value is generated at runtime, not embedded in source. Startup output/query strings/server-info files remain runtime security surfaces; this review does not certify them safe.
+
+### Provenance and selection
+
+- Local bundle introduction: `3e9e33820c833fb2cf10a9ad31024c63590b83b7`. `skills-lock.json` identifies `pbakaus/impeccable`, `skill/SKILL.md`, content hash `ada9c434d56c794352ccd5c7a6901e5ebb4b7f3b7fe42e8c17c2c4b96c3735c8`; this is **not** an upstream commit/version attestation.
+- Official extraction commit: [`325aeaf239808a0a8a763fe328e1dc1c3e2351df`](https://github.com/pbakaus/impeccable/commit/325aeaf239808a0a8a763fe328e1dc1c3e2351df), parent `972f5b18bea2b1b024d08dfc2ad9f378cc237fd3`, “Organize skill script support modules”. The checked-in `live/event-validation.mjs` is byte-identical to that official version (SHA-256 `c0ee57b8306f8b1f31b00961017c849b7f352887bd8c889981805e14b8d2e63c`). Root entrypoints were removed upstream by extraction, not evidence that their callers can be deleted here.
+- Current official main observed at `5af4319c4e7a7ee3e5e2b9fe899bcfb21c6190cb`, package `4.8.0`, Node engine `>=18.19.0`. Upstream commit `e2ff625b6371c3f05a31e576fe9e7d063bcb112b` replaced scripts with a Rust engine. That is **not a verified compatible drop-in** for this checked-in script bundle/Termux setup. No binary, package, global configuration or installation was added. Firecrawl official main was observed at `458d9d0331fb31121fd38e0e09ae5036f952784b`; no upstream update is implied.
+- Compare actual local candidates: `lib/design-parser.mjs` differs from the root parser only by quoted-YAML-key support (one call and its helper). Its exports are exactly the root API. Root `design-parser.mjs` now re-exports the extracted implementation. This is an additive compatibility repair, **not a claim that timestamps prove which source is latest**.
+- Root/extracted event validators differ only by their equivalent insert-module import path and shared vocabulary import. Root now re-exports the extracted validator, retaining both public exports and every existing action/refusal. No functionality or import entrypoint is removed.
+- **Do not copy all extracted UI files over root files.** `live/ui-core.mjs` names selection-pill/tooltip elements, while the retained browser uses configure-input-wrap. Root metadata still matches its actual browser consumer. Duplicate session-store/completion/path helpers are otherwise identical or differ only by relative import paths. Inline and extracted manual-edit handlers are separate cohorts; no untested server refactor is attempted.
+
+Compatibility proof: official parser, validator, poll, completion and session-store tests from the pinned extraction commit passed against local modules, adapting **only import paths** (42 tests). Local regression checks cover quoted YAML keys, exact exports, all actions, invalid event rejection, unauthorized polling/manual rollback and screenshot clipping (6 tests). Original/new differential checks cover six parser/coverage inputs and 156 event inputs. All bundled scripts pass Node syntax checking on Termux Node `v24.17.0`. No browser render, full live-server session, Windows run or Node-18 runtime test is claimed.
+
+Canonical edits were propagated solely with `python scripts/sync_agent_skill_mirror.py`; `--check` is the existing deterministic mirror guard. Upstream-owned `SKILL.md` and historical founder prose were not rewritten to hide alerts. This document and the matrix provide one canonical audit reference per pair without deleting historical rows.
+
+## D2: preserve the positive tests
+
+Synthetic fixture values and assertions remain unchanged. Inline provenance notes identify local fake-transport, loopback, environment, file-store, keyring and redaction sentinels. The JWT's decoded header is minimal HS256 and its payload is a numeric subject; its signature is the public RFC 7515 Appendix A.1 example **from a different signing input**. Public RFC signature membership was checked against the official RFC, not against an issuer. Both JWT occurrences and every positive redaction assertion remain intact.
+
+The existing sensor could suppress a different credential just because an unrelated `dummy`/`placeholder` comment or another fixture occurred on the same line. This is now tightened: marker evidence must occur **inside the matched span**, not anywhere on its line. Added regressions plant generated values next to comments/other values and require detection plus sanitized output. Existing marker-in-match handling remains; no broad suppression was added. `CREDENTIAL_PATTERNS`, `scrub()`, and `securityScanner.py` are unchanged. All original matrix fingerprints still trigger the sensor after provenance comments shift line numbers.
+
+## D3: inspected sources, not guessed validity
+
+- `auth.py`: OAuth response, `creds.token`, environment/keyring/file values and control-flow colons; no embedded literal credential in the original matches. Device/store/public-output tests are offline.
+- `jev.py`: environment read and missing-key branch; `securityScanner.py`: interpolated finding rule label. No endpoint/model call was made.
+- Workflow: `secrets.RELEASE_PAT` → environment → shell variable expansion, with missing-value guard. No PAT bytes are in that source match, and no workflow was run.
+- Jev budget: function parameter/control-flow branch, not assignment. Watcher: whole-suite-boundary docstring, inspected read-only; no security patch is required for that original match. The watcher owner may alter its file and invalidate this evidence hash.
+- Font sample: CSS custom-property names in font-role metadata; **no HTML/visual change**. Founder handover: detector grammar and historical positive scrub examples. `founder/issues.json`: issue **#494**'s badge-authentication proposal and conceptual JWT query placeholder, not a minted JWT. Historical documents/snapshots remain untouched.
+
+## Narrow drift guard and governed routing amendment
+
+`python scripts/check_security_dispositions.py` is a **read-only shape/count/source-byte guard**: it checks 39 unique ID strings, D1/D2/D3 counts, safe source paths, source hashes and finding metadata. It does **not** authenticate the ID strings against an independent original inventory (a plausible invented ID can pass), nor does it inspect or establish scanner/policy authority. Independent historical comparison of the actual inventory is a separate evidence claim; the matrix does not prove it. Any source drift requires re-review; an added credential is still detected by the scanner, not authorized or suppressed by this guard. The matrix is **not read by the sensor, redactor, policy loader, ledger or closure executor**. It cannot authorize a repair, suppression, promotion or closure. Python regression tests run it and the Node compatibility checks without network access.
+
+**Reviewable amendment proposal, not activated policy:**
+
+1. Keep `agent_skill_mirror_drift: A` and its existing canonical→mirror executor/check command unchanged. Parity debt is separate from credential debt; never convert all skill-directory findings to parity.
+2. Introduce a distinct `agent_skill_source_conflict: B` kind/routine only if recurring internal-source conflicts warrant automation. Require explicit canonical provenance, API/runtime compatibility, complete consumer analysis, focused tests, no functionality loss, independent review, and human approval for upstream source ownership/visual changes. Uncertain provenance blocks repair. This would require coordinated policy, sensor/catalog, routing and tests; **none is silently activated here**.
+3. Keep `credential_leak: C` regardless of directory, mirror equality or a benign fixture nearby. Exact reviewed false-positive evidence may accompany the desk finding, but a new/changed match or real exposure remains C. A future classifier change needs its own reviewed tests and authority; this matrix does not grant it.
+4. Group mirrored references in a new review projection without rewriting historical IDs/receipts. Keep originals reachable and scanner coverage explicit. No shared-ledger dedup mutation is authorized here.
+
+## Verification limits and handoff
+
+Continuation evidence: [exact-source finish proof](2283-finish-proof.md) and [sanitized before/after scanner results](2283-scanner-proof.json). All 71 original individual matches remain detected; the historical additional provenance-comment match is disclosed above and was subsequently removed by prose correction. Fresh focused checks and the still-pending hardlink platform receipt are recorded separately there.
+
+Focused security/mirror/desk suite: **311 passed**. Focused D2/D3/scanner suite: **376 passed, one environment failure**: `tests/test_installability.py::test_observation_temp_creation_is_exclusive_and_cleans_only_its_temp` requires `os.link`, which this Termux Python does not provide. No test skip, platform emulation, or unrelated source fix was added. Record subsequent focused checks separately; do not turn this into an all-green/full-suite claim.
+
+Independent acceptance, integration, live re-observation and shared-ledger reconciliation belong to the lead. No rotation/revocation is claimed. If later evidence establishes an exposure: preserve only fingerprints/path/authority references, stop automatic repair/closure, privately notify the owner for issuer-side revocation/rotation and affected consumers, repair the minimum authorized source, and record issuer confirmation separately. Do not probe credential validity over the network.
