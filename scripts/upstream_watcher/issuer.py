@@ -465,7 +465,8 @@ def _find_existing_suite_issue(
     such issue", which would create a duplicate.
     """
     if run_cache is not None:
-        cached = run_cache.get((label, prefix))
+        # Only the suite-bearing prefix is case-insensitive; release tags are not part of this key.
+        cached = run_cache.get((label, prefix.lower()))
         if cached is not None:
             if isinstance(cached, tuple):
                 return cached
@@ -683,7 +684,24 @@ def create_issues(
         An apply-mode umbrella create or update failed. No child intake is written
         for that suite, and the run stops (M10).
     """
+    from scripts.upstream_watcher.releaseidentity import validateReleaseSource, validateUmbrellaIdentity
+
+    from scripts.lib.github_api import parse_owner_repo as _parse
+
     summaries: list[dict] = []
+    identities: dict[str, str] = {}
+    for finding in full_findings:
+        try:
+            validateReleaseSource(finding)
+        except GhError as exc:
+            raise IdempotencyLookupError(str(exc)) from exc
+        if finding["finding_type"] != "bootstrap":
+            parsed = _parse(finding.get("sourceUrl", "")) if finding.get("sourceUrl") else None
+            key = ("/".join(parsed) if parsed else finding["skillId"]).lower()
+            identity = finding["skillId"].lower()
+            if key in identities and identities[key] != identity:
+                raise IdempotencyLookupError(f"same-run umbrella identity conflicts for {key}; no writes made")
+            identities[key] = identity
     if not full_findings:
         return summaries
     # Every duplicate check reads this one snapshot, taken before any write. A
@@ -693,7 +711,8 @@ def create_issues(
     # Issues created by *this* run, keyed (label, title-fragment).  GitHub's
     # search index lags creation by seconds, so this is the only reliable
     # dedup for findings that collapse onto one issue within a single run.
-    run_cache: dict[tuple[str, str], int] = {}
+    run_cache: dict[tuple[str, str], Any] = {}
+    run_payloads: dict[int, dict] = {}
 
     for finding in full_findings:
         skill_id = finding["skillId"]
@@ -710,7 +729,7 @@ def create_issues(
             )
             if existing_suite:
                 existing_num, existing_title = existing_suite
-                if existing_title == title:
+                if existing_title[len(suite_prefix):] == new_version:
                     print(
                         f"  Bootstrap for {skill_id}@{new_version} already exists as #{existing_num}; skipping.",
                         file=sys.stderr,
@@ -718,12 +737,12 @@ def create_issues(
                     summaries.append(
                         {"type": "bootstrap", "skillId": skill_id, "skipped": True, "issue": existing_num}
                     )
-                    run_cache[("upstream:bootstrap", suite_prefix)] = (existing_num, title)
+                    run_cache[("upstream:bootstrap", suite_prefix.lower())] = (existing_num, existing_title)
                     continue
 
                 # Existing issue was for an older version -> update it in place!
                 body = render_bootstrap_body(finding)
-                prev_v = existing_title.removeprefix(suite_prefix)
+                prev_v = existing_title[len(suite_prefix):]
                 comment = f"Updated baseline version to: **`{new_version}`** (previously `{prev_v}`)."
                 # Approval never survives a version change (H1): a baseline a human approved for the old
                 # version loses the approval, so the new version is reviewed before it can sync. D8: the
@@ -751,7 +770,7 @@ def create_issues(
                     raise UmbrellaWriteError(
                         f"could not update bootstrap #{existing_num} for {skill_id}@{new_version}; the run stops"
                     )
-                run_cache[("upstream:bootstrap", suite_prefix)] = (existing_num, title)
+                run_cache[("upstream:bootstrap", suite_prefix.lower())] = (existing_num, title)
                 summaries.append(
                     {"type": "bootstrap", "skillId": skill_id, "skipped": False, "updated": True, "issue": existing_num}
                 )
@@ -788,7 +807,7 @@ def create_issues(
                 verbose=verbose,
             )
             if issue_num:
-                run_cache[("upstream:bootstrap", suite_prefix)] = (issue_num, title)
+                run_cache[("upstream:bootstrap", suite_prefix.lower())] = (issue_num, title)
             summaries.append(
                 {"type": "bootstrap", "skillId": skill_id, "skipped": False, "issue": issue_num}
             )
@@ -797,7 +816,6 @@ def create_issues(
         # ── Update umbrella ────────────────────────────────────────────────
         owner_repo_str = skill_id  # fallback
         source_url = finding.get("sourceUrl", "")
-        from scripts.lib.github_api import parse_owner_repo as _parse
         parsed = _parse(source_url) if source_url else None
         if parsed:
             owner_repo_str = f"{parsed[0]}/{parsed[1]}"
@@ -816,7 +834,16 @@ def create_issues(
 
         if existing_suite:
             existing_num, existing_title = existing_suite
-            if existing_title == umbrella_title:
+            try:
+                existing = run_payloads.get(existing_num)
+                if existing is None:
+                    existing = next((row for row in snapshot.get("upstream:release", []) if row["number"] == existing_num), None)
+                if existing is None:
+                    raise GhError(f"umbrella #{existing_num} identity unavailable")
+                validateUmbrellaIdentity(finding, existing, generated=existing_num in run_payloads)
+            except GhError as exc:
+                raise IdempotencyLookupError(str(exc)) from exc
+            if existing_title[len(suite_prefix):] == new_version:
                 print(
                     f"  Umbrella for {owner_repo_str}@{new_version} already exists as #{existing_num}; skipping.",
                     file=sys.stderr,
@@ -829,20 +856,24 @@ def create_issues(
                         "issue": existing_num,
                     }
                 )
-                run_cache[("upstream:release", suite_prefix)] = (existing_num, umbrella_title)
+                run_cache[("upstream:release", suite_prefix.lower())] = (existing_num, existing_title)
                 continue
 
             # Older release umbrella exists for the same suite -> update in place!
             umbrella_body = render_umbrella_body(
                 finding, mode, component_adds, component_removes, link_liveness, name_drift
             )
+            try:
+                validateUmbrellaIdentity(finding, {"number": existing_num, "body": umbrella_body}, generated=True)
+            except GhError as exc:
+                raise IdempotencyLookupError(str(exc)) from exc
             if apply:
                 # D10: the same approval reset as the batch path (H1). It lands before the body write.
                 _fanout_approval_reset(
                     existing_num,
                     fanout_payload(finding, mode, component_adds, component_removes, link_liveness, name_drift),
                 )
-            prev_v = existing_title.removeprefix(suite_prefix)
+            prev_v = existing_title[len(suite_prefix):]
             comment = (
                 f"Updated umbrella for new upstream release: **`{new_version}`** (previously `{prev_v}`). "
                 "Payload, component diff, and link-liveness refreshed."
@@ -860,12 +891,17 @@ def create_issues(
                     f"could not update umbrella #{existing_num} for {skill_id}; no child intakes were written"
                 )
             umbrella_num = existing_num
-            run_cache[("upstream:release", suite_prefix)] = (existing_num, umbrella_title)
+            run_cache[("upstream:release", suite_prefix.lower())] = (existing_num, umbrella_title)
+            run_payloads[existing_num] = {"number": existing_num, "body": umbrella_body}
             is_update = True
         else:
             umbrella_body = render_umbrella_body(
                 finding, mode, component_adds, component_removes, link_liveness, name_drift
             )
+            try:
+                validateUmbrellaIdentity(finding, {"number": "new", "body": umbrella_body}, generated=True)
+            except GhError as exc:
+                raise IdempotencyLookupError(str(exc)) from exc
             umbrella_num = _create_issue(
                 umbrella_title,
                 ["upstream:release", "needs-triage"],
@@ -878,7 +914,8 @@ def create_issues(
                     f"could not create umbrella {umbrella_title!r}; no child intakes were written for {skill_id}"
                 )
             if umbrella_num:
-                run_cache[("upstream:release", suite_prefix)] = (umbrella_num, umbrella_title)
+                run_cache[("upstream:release", suite_prefix.lower())] = (umbrella_num, umbrella_title)
+                run_payloads[umbrella_num] = {"number": umbrella_num, "body": umbrella_body}
             is_update = False
 
         # ── Child intakes for added components ────────────────────────────

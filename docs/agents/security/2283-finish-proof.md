@@ -2,6 +2,8 @@
 
 ## Scope and checkpoint
 
+**Current combined-source binding:** [founder/watcher composition proof](2283-founder-composition-proof.md), source checkpoint `afe8644bd841473ef3ad5711bed5cc0cd1343667`, supersedes the current-byte bindings below without rewriting the historical 72/71 replays. The regenerated machine proof covers 39 paths / 71 original occurrences and 23 controls on committed combined-source bytes. Fresh independent combined review remains required; the older platform/review statements below describe their original checkpoints.
+
 ### Corrective replay (2026-11-05)
 
 At source commit `a25703a7f` (full SHA recorded in Git), the sole benign prose match described below was removed by rewording only the comment above `test_diagnostics_are_bounded_and_redacted`. Fixture literals, test code/assertions, scanner, policy and redactor are unchanged. The updated dispositions matrix changes only the reviewed source SHA-256 for `tests/test_installability.py`. An actual offline replay on those exact source bytes reports **71 current findings**, D1=30, D2=24, D3=17; every original `(pattern, fingerprint)` multiplicity remains. The former 72-result at `72bf2be0da18a6f410d9936b75762e05c1736508` remains historical and is not recast as though it did not occur. Machine proof: [`2283-scanner-proof.json`](2283-scanner-proof.json). This is scoped source-bound evidence, not a canonical scan, independent acceptance, or authority/credential identity claim.

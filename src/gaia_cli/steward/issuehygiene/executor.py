@@ -308,7 +308,10 @@ def gateClosure(root: Path, action: Mapping[str, Any], receipt: Path, runId: str
     censusRepo = (census.document or {}).get("repo")
     if not sameRepo(censusRepo, action["repo"]) or (repo is not None and not sameRepo(censusRepo, repo)):
         raise ActionRefused("the census, the action and the target repository do not name the same repository", code="repo-mismatch")
-    manifest = reconcile(census, buildRegistryIndex(root), policy, now, workflowDisabled=workflowProbesFor(census, policy))
+    from gaia_cli.steward.issuehygiene.questions import loadIssueDecisions
+
+    manifest = reconcile(census, buildRegistryIndex(root), policy, now, workflowDisabled=workflowProbesFor(census, policy),
+                         decisionRecords=loadIssueDecisions(root))
     everything = replace(policy, writesEnabled=True, maxClosuresPerRun=PLAN_CEILING)
     matching = [plan for plan in planClosures(manifest, everything, done=recorded)
                 if plan["key"] == action["key"] and plan["issue"] == action["issue"] and plan["ruleId"] == action["ruleId"]]

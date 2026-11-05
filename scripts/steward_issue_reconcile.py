@@ -55,6 +55,7 @@ from gaia_cli.steward.issuehygiene.executor import (
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy, loadHygienePolicy
 from gaia_cli.steward.issuehygiene.outcomes import OutcomeStoreError, donePairs
 from gaia_cli.steward.issuehygiene.reconcile import reconcile, workflowProbesFor
+from gaia_cli.steward.issuehygiene.questions import loadIssueDecisions
 from gaia_cli.steward.issuehygiene.registryindex import buildRegistryIndex
 from gaia_cli.steward.issuehygiene.sensor import CENSUS_INPUT, observedDigest
 from gaia_cli.steward.policy import PolicyError, StewardPolicy
@@ -380,7 +381,8 @@ def applyClosures(args: argparse.Namespace, root: Path, forgeFactory: Callable[[
         return refuse(f"census is {census.status.status}; nothing is proven")
     if not sameRepo((census.document or {}).get("repo"), args.repo):
         return refuse("--repo does not name the census repository")
-    manifest = reconcile(census, buildRegistryIndex(root), policy, now, workflowDisabled=workflowProbesFor(census, policy))
+    manifest = reconcile(census, buildRegistryIndex(root), policy, now, workflowDisabled=workflowProbesFor(census, policy),
+                         decisionRecords=loadIssueDecisions(root))
     cap = policy.maxClosuresPerRun if args.max_closures is None else max(1, min(args.max_closures, policy.maxClosuresPerRun))
     try:
         recorded = donePairs(root)
@@ -443,7 +445,8 @@ def main(argv: list[str] | None = None, forgeFactory: Callable[[str, str | None]
     census = loadCensus(censusPath, now=now, maxAgeSeconds=policy.maxCensusAgeSeconds)
     registry = buildRegistryIndex(root)
     probes = workflowProbesFor(census, policy)
-    manifest = reconcile(census, registry, policy, now, workflowDisabled=probes)
+    manifest = reconcile(census, registry, policy, now, workflowDisabled=probes,
+                         decisionRecords=loadIssueDecisions(root))
 
     if args.out is not None:
         args.out.parent.mkdir(parents=True, exist_ok=True)
