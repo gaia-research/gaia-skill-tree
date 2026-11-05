@@ -107,7 +107,7 @@ class FakeServices:
         return evidence(operation, self.observed[0], self.observed[1])
 
 
-def seed(root: Path, monkeypatch):
+def seed(root: Path, monkeypatch, namespace: Namespace = NAMESPACE):
     isolate(monkeypatch, root)
     remote = root / "remote.git"
     bootstrap = root / "administrative-fixture"
@@ -116,11 +116,11 @@ def seed(root: Path, monkeypatch):
     git(bootstrap, "remote", "add", "origin", str(remote))
     store = ledger.GitRefLedgerStore(bootstrap, ref=REF)
     document = ledger.empty_ledger()
-    document["operations"] = {KEY: {"schemaVersion": SCHEMA, "namespace": asdict(NAMESPACE), "events": []}}
+    document["operations"] = {KEY: {"schemaVersion": SCHEMA, "namespace": asdict(namespace), "events": []}}
     # Administrative fixture provisioning, never a production coordinator path.
     genesis = store.compare_and_swap(None, document, "disposable administrative genesis")
     git(remote, "symbolic-ref", "HEAD", f"refs/heads/{REF}")
-    binding = Binding(NAMESPACE, genesis, genesis, str(remote))
+    binding = Binding(namespace, genesis, genesis, str(remote))
     first = clone(root, remote, "first")
     second = clone(root, remote, "second")
     assertIndependent(first, second)

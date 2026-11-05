@@ -35,6 +35,9 @@ MAX_OPERATIONS = 128
 MAX_EVENTS_PER_OPERATION = 12
 MAX_HISTORY = MAX_OPERATIONS * MAX_EVENTS_PER_OPERATION + 1
 MAX_BYTES = 512 * 1024
+# Full exact source bindings (not fragments/digests); this is a raw UTF-8
+# per-source bound. JSON escaping still counts against the unchanged MAX_BYTES.
+MAX_SOURCE_BYTES = 64 * 1024
 OUTCOME_HEADROOM = 16 * 1024
 PREPARATION_SECONDS = 120
 HOUR_SECONDS = 3600
@@ -217,7 +220,7 @@ def validateSubject(subject: dict) -> None:
 def validateProof(subject: dict, proof: dict) -> None:
     exact(proof, {"policy", "producerRegistry", "authority", "verification", "justification"})
     for key in ("policy", "producerRegistry", "authority"):
-        text(proof[key], 4096)
+        text(proof[key], MAX_SOURCE_BYTES)
     text(proof["justification"], 2048)
     verification = proof["verification"]
     exact(verification, {"builder", "verifier", "result", "headSha", "baseSha", "source", "detail"})
@@ -569,8 +572,15 @@ class PrWriteCoordinator:
             candidate = copy.deepcopy(document)
             self._payload(candidate)["events"].append(event)
             nextState = fold(self._payload(candidate)["events"], self.binding.namespace)
-            size = len(ledger.serialize(candidate))
-            if size > MAX_BYTES or (kind == "reserve" and size > MAX_BYTES - OUTCOME_HEADROOM):
+            # CAS persists nextGeneration(candidate), not candidate. Measure the
+            # exact same bytes without incrementing the document passed to CAS.
+            persisted = ledger.nextGeneration(candidate)
+            size = len(ledger.serialize(persisted))
+            # Reserve event/outcome space AND all possible future decimal-width
+            # growth up to the bounded history generation. Source JSON escaping
+            # is already included in size; no raw-text size approximation.
+            generationHeadroom = max(0, len(str(MAX_HISTORY)) - len(str(persisted["generation"])))
+            if size > MAX_BYTES or (kind == "reserve" and size + OUTCOME_HEADROOM + generationHeadroom > MAX_BYTES):
                 raise Refused("critical record capacity exhausted; settlement headroom retained")
             try:
                 self.store.compare_and_swap(tip, candidate, f"critical {kind} {transitionId}")
