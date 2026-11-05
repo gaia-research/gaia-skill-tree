@@ -20,7 +20,7 @@ No competing shared-ledger writers. Lead alone performs real canonical mutations
 
 | Milestone | Required exit | Current state |
 |---|---|---|
-| **M0 Recovery** | Verified live baseline, fresh A/B/C census, executable queue, ownership and gates | **IN PROGRESS**: precheck and ledger inventory captured; fresh censuses/observation active below |
+| **M0 Recovery** | Verified live baseline, fresh A/B/C census, executable queue, ownership and gates | **COMPLETE**: fresh receipt, inventory and safe one-debt queue verified below; first canonical repair run launched |
 | **M1 First main promotion** | Accepted package reaches main through protected PR, or concrete evidenced blocker | Frozen candidate `2d9599c11…`; independent promotion review active; no campaign main promotion yet |
 | **M2 Routine 19 readiness** | Complete operational source integration, end-to-end/process/failure tests, independent acceptance and normal promotion; activation only within authority | Core independently accepted, #2296 draft; separate wiring writer active; NOT operationally ready |
 | **M3 Batched elimination** | Several individually verified/canonically resolved debts delivered by proven repeatable compatible batching | Feasibility investigation active; no batch-size/cap amendment inferred |
@@ -28,11 +28,13 @@ No competing shared-ledger writers. Lead alone performs real canonical mutations
 
 ## Authoritative observations and accounting
 
-**Fresh recovery census is pending. Do not treat historical 363 as current.**
+**M0 fresh census: A=0, B=325, C=40, total=365, observed 2026-11-05 17:03:50Z.** Run `run-20261105T170320Z-d6eaa3cb` completed with receipt `steward-20261105T170350Z-4f8f0d6cc2fed42c`; coverage checker passed, zero unknown coverage, two optional inputs not evaluated. Three findings were created and the one explanatory-document self-match naturally resolved. This is **not net debt reduction** and does not add a B repair or authorize security-alert dismissal.
+
+Fresh kinds: trust-calibration122; browser-sink61; swallowed-exception42; unused-import39; workflow-hygiene39; credential-pattern39; code-duplication5; issue-suite-review5; frozen-skill-drift4; unsafe-execution2; CI-failure2; frontend-contract2; benchmark-source1; ungated-mutation1; routine-PR-founder-decision1. B classification alone does not waive rank/L4/frozen/frontend or envelope gates. Original 39 credential-shaped paths remain positive and are not 39 established leaks.
 
 Last completed canonical observation before recovery: run `run-20261105T071754Z-c2446531`, receipt `steward-20261105T071830Z-0b811d0cd0eade41`, recorded 2026-11-05 07:18:30Z: **A=0, B=323, C=40, total=363**. It observed 424 observations; absent optional browser/advisory inputs were not healthy.
 
-Current recovery observation: **`run-20261105T170320Z-d6eaa3cb`**, mode observe, active at inventory time **2026-11-05T17:08:11.866800Z**. Real issue/PR censuses were refreshed before it; exit/completeness and final receipt must be checked before M0 is marked complete.
+Recovery observation **`run-20261105T170320Z-d6eaa3cb`** was active at the inventory snapshot **2026-11-05T17:08:11.866800Z**, and subsequently completed. Both real census collectors exited 0. The final result has no unresolved run work or actions. Snapshot activity below is historical, not a claim that the observation is still active.
 
 Live shared ledger inventory at that instant: version `eff543ba69819f0075a3f9789fefa6209a8ffff1`, **1,307,094 bytes**, 16 runs = 9 completed /6 abandoned /1 active. This is comfortably below the accepted **8 MiB** ceiling; no measured capacity blocker justifies archive resumption. Before starting recovery: no active run, holder or dispatched item. Historical lane counters queued162/escalated2/closed27 are **not debt closure totals**. Seven canonical work records: resolved1/escalated4/blocked1/no_change1.
 
@@ -64,7 +66,7 @@ M1 promotion must freeze the accepted head on a dedicated branch, not use a muta
 
 | Lane | Owner / task | Source and authority |
 |---|---|---|
-| A recovery | Lead Sol High; `b490fa93d` | Real canonical census/observe only. Lead owns global ledger mutations. |
+| A recovery / first repair | Lead Sol High; recovery `b490fa93d` completed; canonical launch `bdec4e1bc` | Real canonical mutations only by lead. New restricted full run targets roster unused-import debt below; waiting for emitted action, no builder dispatched yet. |
 | A executable queue + M3 | shared Luna medium; `b13b588a8` | Read-only queue/envelope/batching investigation. Not a canonical dispatch; cannot alter ledger or manufacture repairs. |
 | B Routine19 wiring | shared Sol MAX; `bdc4219e2` | Existing writer, do not restart. Worktree `steward-r19-shared-write-2283`; unpublished integration of core/provider/executor/gate/CLI/runner/local defaults/contracts. |
 | C promotion review | shared Sol high; `bc5df0b73` | Independent read-only frozen accepted-head/main eligibility review. No merge authority delegated. |
@@ -96,11 +98,11 @@ D1–D3 cover **39 original paths /71 occurrences**, not 39 established leaks. E
 
 ## Exact next actions
 
-1. Collect the recovery observation, verify census completeness and coverage, save authoritative debt inventory/receipt/version, update this checkpoint with fresh A/B/C by kind and timestamp. Do not call M0 complete from a successful process exit alone.
-2. Select an executable A/B target from the fresh queue and canonical envelope. Start immediately under existing limits, assign one builder, then a distinct verifier; record actual outcomes through canonical CLI. No raw state edits, self-verification, rank/curation or forbidden-path expansion.
+1. M0 completed: retain fresh inventory and receipt above. Do not merge PR/dispatch counters with debt closure counters.
+2. Drive the launched canonical run for `debt:unused_import:src-gaia-cli-steward-prmaintenance-roster-py:0d3bca3f7369f4af` (unused timezone; all observed findings sideEffectPossible=false). Read its emitted packet, assign one shared Luna builder, then a distinct verifier, record canonical outcomes and integrate only accepted work. No raw state edits, self-verification, rank/curation or forbidden-path expansion. Many other unused-import rows contain sideEffectPossible=true or intentional public re-exports and are not interchangeable safe targets.
 3. Complete frozen accepted-head main promotion review and main-target PR CI; perform normal eligible promotion or document the exact blocker. Verify resulting main source. Keep incomplete R19/archive off the promotion head.
 4. Finish the existing Routine19 writer's minimal complete source; independent end-to-end, process/crash/recovery, clock/authority/storage/kill/comment tests before promotion/activation claims. Do not let this suspend lane A.
-5. Pilot compatible batching only when envelope and per-debt receipts permit it. If dispatch batching needs a founder-reviewable amendment, report the concrete constraint and continue legal repairs; no cap circumvention/new orchestration framework.
+5. Initial M3 finding: packets are singular-debt and unused-import envelopes require one subject file; maxDispatchesPerRun=1 remains. Do not invent a multi-file diff/aggregate packet or loop starts to evade the cap. Existing legal delivery batching may group separately completed and individually verified canonical repairs into a frozen main-promotion wave. A true multi-dispatch/multi-debt repair pilot needs an explicit bounded amendment; prepare that decision only after first measured safe delivery, without suspending current legal repairs.
 6. Repeat canonical repair → verification → integration → protected main promotion → re-observation. Record per-debt IDs/run/batch/PR, acceptance/rejection, timestamps and blockers. Refresh this checkpoint at each meaningful milestone and before handover/compaction.
 
 ## Required metrics
@@ -110,6 +112,7 @@ Maintain a simple append-only delivery table here: run/batch, debt IDs, exact bu
 | Run / batch | Canonical result | Integration / main delivery |
 |---|---|---|
 | `run-20261104T191141Z-c3a4df1e` | One unused-import debt resolved, exact ID/receipt above | #2289 integration; main pending M1 |
-| Recovery `run-20261105T170320Z-d6eaa3cb` | Observation pending at this checkpoint revision | Not a repair batch |
+| Recovery `run-20261105T170320Z-d6eaa3cb` | Completed: A0/B325/C40; one explanatory-document signal naturally resolved; 3 created | Not a repair batch; no new B closure |
+| Roster targeted canonical launch | Pending emitted action; debt `...roster-py:0d3bca3f7369f4af` | No repair or delivery claim yet |
 
 Detailed temporary evidence remains in ignored `.gaia/steward/campaigns/2026-11-05/`; durable decisions and milestone receipts belong in this versioned checkpoint and #2283. Keep sensitive raw snapshots and process/session logs out of public reports.
