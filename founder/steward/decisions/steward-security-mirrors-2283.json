@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-security-mirrors-2283",
+  "status": "decided",
+  "decision": "How should the 16 mirrored Firecrawl/Impeccable credential-shaped findings be reconciled?",
+  "whyItMatters": "D1 is a locked group policy, not an adjudication that every original file is safe or resolved.",
+  "evidence": [
+    "Founder decision lock: https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640916880",
+    "Latest verified compatible implementation wins by provenance/version and tests, never timestamps. Reconcile scripts, deduplicate references without deleting audit history, sync supported canonical/mirrored copies, and guard drift. Deterministic parity/dedup is Class A; nontrivial source conflict is Class B through a governed reviewable amendment where required. Actual live exposure remains a Class C security escalation.",
+    "Original receipt steward-20261104T172307Z-5c244581790fe867; additive evidence matrix maps original matches without rewriting debt/history.",
+    "debt:credential_leak:agents-skills-firecrawl-skill-md:dd0fc386f410185b",
+    "debt:credential_leak:agents-skills-impeccable-scripts-detector-engine:7c8824c086679135",
+    "debt:credential_leak:agents-skills-impeccable-scripts-live-browser-js:5f45d00d7f30b9c6",
+    "debt:credential_leak:agents-skills-impeccable-scripts-live-complete-m:0b64558129c498be",
+    "debt:credential_leak:agents-skills-impeccable-scripts-live-manual-edi:a972d25ee1973c95",
+    "debt:credential_leak:agents-skills-impeccable-scripts-live-poll-mjs:bd8dca1fcdf7945b",
+    "debt:credential_leak:agents-skills-impeccable-scripts-live-server-mjs:a671be5f79c2a3ff",
+    "debt:credential_leak:agents-skills-impeccable-scripts-live-status-mjs:f32377b5380cfa3e",
+    "debt:credential_leak:claude-skills-firecrawl-skill-md:54ae5604e12e2a9b",
+    "debt:credential_leak:claude-skills-impeccable-scripts-detector-engine:1deecfb89c8de90c",
+    "debt:credential_leak:claude-skills-impeccable-scripts-live-browser-js:4560dad03a613faa",
+    "debt:credential_leak:claude-skills-impeccable-scripts-live-complete-m:d8222ce8d9bd957f",
+    "debt:credential_leak:claude-skills-impeccable-scripts-live-manual-edi:0801364f7f0e77a3",
+    "debt:credential_leak:claude-skills-impeccable-scripts-live-poll-mjs:f8f331ec1404ea92",
+    "debt:credential_leak:claude-skills-impeccable-scripts-live-server-mjs:4df9c2b6ff80b3e6",
+    "debt:credential_leak:claude-skills-impeccable-scripts-live-status-mjs:04765e48ffb67e0b"
+  ],
+  "recommended": "Latest verified compatible implementation wins by provenance/version and tests, never timestamps. Reconcile scripts, deduplicate references without deleting audit history, sync supported canonical/mirrored copies, and guard drift. Deterministic parity/dedup is Class A; nontrivial source conflict is Class B through a governed reviewable amendment where required. Actual live exposure remains a Class C security escalation.",
+  "alternative": "Any different authority or unresolved semantic policy requires a new explicit founder ruling; preserve this locked decision and all underlying finding evidence.",
+  "unblocks": "Bounded evidence-backed local engineering and review only; does not authorize ledger mutation, issue closure, trust/rank mutation, main merge, release, or workflow activation.",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640916880",
+    "docs/agents/security/2283-dispositions.json",
+    "docs/agents/security/2283-reconciliation.md"
+  ]
+}

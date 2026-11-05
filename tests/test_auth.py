@@ -7,6 +7,8 @@ command surface in `main.py`, with zero network and zero real sleeping:
   * `http_request` parsing (fake urlopen, incl. the HTTPError/4xx path)
   * the device flow: request_device_code, poll_for_token (pending/slow_down/
     expired/denied/timeout/max_attempts), fetch_user, verify_repo_ownership
+  * Security provenance (#2283 D2): short token strings are synthetic local
+    store/keyring sentinels, not issuer-provided credentials; keep roundtrips.
   * TokenStore: file roundtrip + chmod, env override precedence, keyring backend
     (fake), delete semantics
   * command integration: login happy-path / unconfigured / denied / timed-out /

@@ -1,0 +1,555 @@
+{
+  "purpose": "Scoped offline before/after evidence, not a canonical scan or closure receipt.",
+  "baselineCommit": "d694986b865e158e21c613683021a9b7822f945c",
+  "implementationCommit": "a25703a7f",
+  "scope": "Exact offline replay at source commit a25703a7f; 39 original source paths only; baseline scanner on baseline bytes versus reviewed source bytes; generated positive controls in memory. Current reviewed selected findings total 71.",
+  "matrixSha256": "77f08f010d4cf6d6696f094fed0349c21ca5f1156a58e023ff8071826a9e7a60",
+  "unchangedAuthorityPatternsAndPublicScanner": {
+    "founder/steward/POLICY.yaml": "58af7eb1d4915970e2b8ffa8b55f4c96f5f79b7cd330b316c1d05ff534a28278",
+    "src/gaia_cli/steward/primitives/redact.py": "cf70bcfc7dfb6b586896e77e53956856b719ac7eb0b21b7ff89e5894649b3961",
+    "src/gaia_cli/securityScanner.py": "e71a33f79637c0b845300e6437857f5865bd75a1dd09275f40746a2854219b8f"
+  },
+  "originalRows": [
+    {
+      "debtId": "debt:credential_leak:agents-skills-firecrawl-skill-md:dd0fc386f410185b",
+      "group": "D1",
+      "originalMatches": 2,
+      "beforeMatches": 2,
+      "afterMatches": 2,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-detector-engine:7c8824c086679135",
+      "group": "D1",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-browser-js:5f45d00d7f30b9c6",
+      "group": "D1",
+      "originalMatches": 3,
+      "beforeMatches": 3,
+      "afterMatches": 3,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-complete-m:0b64558129c498be",
+      "group": "D1",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-manual-edi:a972d25ee1973c95",
+      "group": "D1",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-poll-mjs:bd8dca1fcdf7945b",
+      "group": "D1",
+      "originalMatches": 2,
+      "beforeMatches": 2,
+      "afterMatches": 2,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-server-mjs:a671be5f79c2a3ff",
+      "group": "D1",
+      "originalMatches": 4,
+      "beforeMatches": 4,
+      "afterMatches": 4,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-status-mjs:f32377b5380cfa3e",
+      "group": "D1",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-firecrawl-skill-md:54ae5604e12e2a9b",
+      "group": "D1",
+      "originalMatches": 2,
+      "beforeMatches": 2,
+      "afterMatches": 2,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-detector-engine:1deecfb89c8de90c",
+      "group": "D1",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-browser-js:4560dad03a613faa",
+      "group": "D1",
+      "originalMatches": 3,
+      "beforeMatches": 3,
+      "afterMatches": 3,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-complete-m:d8222ce8d9bd957f",
+      "group": "D1",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-manual-edi:0801364f7f0e77a3",
+      "group": "D1",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-poll-mjs:f8f331ec1404ea92",
+      "group": "D1",
+      "originalMatches": 2,
+      "beforeMatches": 2,
+      "afterMatches": 2,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-server-mjs:4df9c2b6ff80b3e6",
+      "group": "D1",
+      "originalMatches": 4,
+      "beforeMatches": 4,
+      "afterMatches": 4,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-status-mjs:04765e48ffb67e0b",
+      "group": "D1",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:docs-samples-registry-3d-fonts-html:412fc74a40db779e",
+      "group": "D3",
+      "originalMatches": 3,
+      "beforeMatches": 3,
+      "afterMatches": 3,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:founder-handovers-2026-10-21-steward-issue-hygie:e8be47c2eebc4b65",
+      "group": "D3",
+      "originalMatches": 3,
+      "beforeMatches": 3,
+      "afterMatches": 3,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:founder-issues-json:b132c45b86c3ebcb",
+      "group": "D3",
+      "originalMatches": 2,
+      "beforeMatches": 2,
+      "afterMatches": 2,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:github-workflows-sync-artifacts-yml:b526f075e4ecd1e6",
+      "group": "D3",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:scripts-jev-ci-budget-py:86888e095876410e",
+      "group": "D3",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:scripts-upstream-watcher-live-py:2393fe51171e5834",
+      "group": "D3",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:src-gaia-cli-auth-py:2ed435a394e19f87",
+      "group": "D3",
+      "originalMatches": 4,
+      "beforeMatches": 4,
+      "afterMatches": 4,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:src-gaia-cli-jev-py:74fbb7100ac456ad",
+      "group": "D3",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:src-gaia-cli-securityscanner-py:ba7fcb08fe3ef5c9",
+      "group": "D3",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b-script-py:82d92c373e57e5b6",
+      "group": "D2",
+      "originalMatches": 2,
+      "beforeMatches": 2,
+      "afterMatches": 2,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b5-identity-py:affc47d215e53abe",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b6-census-live-p:ec37ccfcb574c2d1",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b7-scrub-py:c82313badc903f74",
+      "group": "D2",
+      "originalMatches": 5,
+      "beforeMatches": 5,
+      "afterMatches": 5,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b8-census-py:055f6db7f83bf7eb",
+      "group": "D2",
+      "originalMatches": 3,
+      "beforeMatches": 3,
+      "afterMatches": 3,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b8-refusal-py:100e8e97ff9a51ef",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-e-steward-full-e:8dd6930a15057584",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-test-desk-py:d1900b51970bdc61",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-auth-py:edc1563abdfa70e4",
+      "group": "D2",
+      "originalMatches": 4,
+      "beforeMatches": 4,
+      "afterMatches": 4,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-badge-reconcile-py:062a191c5b535bb7",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-curation-assessment-py:b8c7a3d24c6492cf",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-curation-error-contract-py:30a58d0ac04e28de",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-installability-py:50a878d42ae01243",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-jev-py:29db1b7469907462",
+      "group": "D2",
+      "originalMatches": 1,
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "allOriginalFingerprintsPreserved": true
+    }
+  ],
+  "summary": {
+    "D1": {
+      "rows": 16,
+      "originalMatches": 30,
+      "beforeMatches": 30,
+      "afterMatches": 30
+    },
+    "D2": {
+      "rows": 14,
+      "originalMatches": 24,
+      "beforeMatches": 24,
+      "afterMatches": 24
+    },
+    "D3": {
+      "rows": 9,
+      "originalMatches": 17,
+      "beforeMatches": 17,
+      "afterMatches": 17
+    }
+  },
+  "controls": [
+    {
+      "case": "aws-access-key-id",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "aws-access-key-id",
+      "path": "tests/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "github-token",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "github-token",
+      "path": "tests/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "github-fine-grained-token",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "github-fine-grained-token",
+      "path": "tests/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "anthropic-api-key",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "anthropic-api-key",
+      "path": "tests/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "openai-api-key",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "openai-api-key",
+      "path": "tests/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "slack-token",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "slack-token",
+      "path": "tests/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "private-key-block",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "private-key-block",
+      "path": "tests/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "google-api-key",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "google-api-key",
+      "path": "tests/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "unrelated-dummy",
+      "beforeMatches": 0,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "unrelated-placeholder",
+      "beforeMatches": 0,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "unrelated-not-real",
+      "beforeMatches": 0,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "unrelated-canary",
+      "beforeMatches": 0,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "unrelated-other-value",
+      "beforeMatches": 0,
+      "afterMatches": 1,
+      "sanitized": true
+    },
+    {
+      "case": "existing-in-match-placeholder",
+      "path": "tests/control.py",
+      "beforeMatches": 0,
+      "afterMatches": 0
+    },
+    {
+      "case": "existing-in-match-placeholder",
+      "path": "src/control.py",
+      "beforeMatches": 1,
+      "afterMatches": 1
+    }
+  ],
+  "newlyVisibleMatchesOutsideOriginalInventory": [],
+  "cachedOfficialCompatibilityTests": {
+    "provenance": "Prior-session read-only retrieval from pbakaus/impeccable extraction commit 325aeaf239808a0a8a763fe328e1dc1c3e2351df; not a fresh network provenance verification.",
+    "tests": [
+      {
+        "path": "design-parser.test.mjs",
+        "originalTestSha256": "77ad72cdf2c93308cd0859e4f51c960345ee0b60a7904c581cd2bf094ac1dbf8",
+        "onlyImportPathsAdapted": true
+      },
+      {
+        "path": "live-completion.test.mjs",
+        "originalTestSha256": "4fc9cb059d18f0a3841ad015102b43f2bb744056471b5bd6105b84983da03ac4",
+        "onlyImportPathsAdapted": true
+      },
+      {
+        "path": "live-event-validation.test.mjs",
+        "originalTestSha256": "e10415961405041c9e2bd07f52b07763ff4ec959465385a34785b555ca7092fe",
+        "onlyImportPathsAdapted": true
+      },
+      {
+        "path": "live-poll.test.mjs",
+        "originalTestSha256": "527cf5032aff972b1eff57e347168a4dc78c9888eadaa870e82f15e86d4625e5",
+        "onlyImportPathsAdapted": true
+      },
+      {
+        "path": "live-session-store.test.mjs",
+        "originalTestSha256": "67fc4970fec0c0e3eaf6e58747908ebb6ddd34a59bd6d20c190c19e218468960",
+        "onlyImportPathsAdapted": true
+      }
+    ],
+    "observedTests": 42
+  },
+  "fullSupportedMirrorParity": {
+    "filesPerTree": 224,
+    "manifestSha256": "8d2debc9dd3b57fb40822744e1bb5df95835dee3ce277c50805dadc25cb8b6dc",
+    "manifestFormat": "sorted JSON [[relative-path, sha256], ...], compact separators, UTF-8",
+    "ignoredLocallyOwnedPaths": [
+      "skill-creator/**",
+      "**/__pycache__/**",
+      "**/*.pyc"
+    ],
+    "missing": 0,
+    "changed": 0,
+    "mirrorOnly": 0
+  },
+  "limits": "No full fleet scan, ledger change, validity probe, issuer attestation, rotation, browser/live-server session, Node 18 or Windows run, independent review, integration, or campaign completion.",
+  "historicalPriorReplay": {
+    "implementationCommit": "72bf2be0da18a6f410d9936b75762e05c1736508",
+    "selectedFindings": 72,
+    "status": "historical; one avoidable new comment match, not rewritten or erased"
+  },
+  "currentSelectedFindings": 71,
+  "currentSourceCommit": "a25703a7f"
+}
