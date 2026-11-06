@@ -39,6 +39,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterable
 
+from gaia_cli.steward import credentialDispositions
 from gaia_cli.steward.models import Observation, SensorScan, Subject
 from gaia_cli.steward.primitives import (
     SensorUnavailable,
@@ -1073,7 +1074,8 @@ class SecretScanSensor:
         paths = tracked_files(root, ["."], max_files=_SECRET_MAX_FILES)
         tally = _SecretTally()
         skips = SkipLog()
-        per_file: list[tuple[str, list[dict[str, Any]]]] = []
+        per_file: list[tuple[str, list[dict[str, Any]], str]] = []
+        registry = credentialDispositions.loadRegistry(root)
         for rel in paths:
             full = root / rel
             try:
@@ -1093,7 +1095,7 @@ class SecretScanSensor:
             tally.scanned += 1
             findings = self._findings(rel, text, tally)
             if findings:
-                per_file.append((rel, findings))
+                per_file.append((rel, findings, credentialDispositions.fileSha256(data)))
 
         summary = {
             "filesScanned": tally.scanned,
@@ -1101,28 +1103,76 @@ class SecretScanSensor:
             "skippedOversize": tally.oversize,
             "skippedSyntheticTestFixture": tally.synthetic,
         }
+        if registry.rejected:
+            summary["rejectedDispositionRecords"] = len(registry.rejected)
         observations: list[Observation] = []
-        for rel, findings in per_file:
+        for rel, findings, sha in per_file:
             private = any(item["pattern"] == "private-key-block" for item in findings)
-            observations.append(
-                Observation(
-                    kind="credential_leak",
-                    subject=Subject(type="source-file", id=rel),
-                    observed_at=observed_at,
-                    source=self.id,
-                    status="drift",
-                    current_state={"credentialMatches": 0},
-                    observed_state={
-                        **finding_payload(findings),
-                        "patternCounts": dict(sorted(Counter(item["pattern"] for item in findings).items())),
-                    },
-                    confidence=1.0 if private else 0.9,
-                    provenance={
-                        "check": "credential-shaped regular expressions; matches are fingerprinted, never stored",
-                        **summary,
-                    },
-                )
+            confidence = 1.0 if private else 0.9
+            drift = Observation(
+                kind="credential_leak",
+                subject=Subject(type="source-file", id=rel),
+                observed_at=observed_at,
+                source=self.id,
+                status="drift",
+                current_state={"credentialMatches": 0},
+                observed_state={
+                    **finding_payload(findings),
+                    "patternCounts": dict(sorted(Counter(item["pattern"] for item in findings).items())),
+                },
+                confidence=confidence,
+                provenance={
+                    "check": "credential-shaped regular expressions; matches are fingerprinted, never stored",
+                    **summary,
+                },
             )
+            # A finding is decided only by one independently verified record that
+            # matches debt id, path, line, pattern, fingerprint and these exact
+            # file bytes. One undecided finding keeps the whole file Class C.
+            matches = [registry.match(drift.debt_id, rel, item, sha) for item in findings]
+            decided = [match for match in matches if match is not None]
+            if decided and len(decided) == len(findings):
+                observations.append(
+                    Observation(
+                        kind="credential_leak",
+                        subject=drift.subject,
+                        observed_at=observed_at,
+                        source=self.id,
+                        status="healthy",
+                        current_state=drift.current_state,
+                        observed_state={
+                            "decidedDisposition": True,
+                            "decisionRecord": f"{credentialDispositions.DECISIONSDIR}/{credentialDispositions.RULINGID}.json",
+                            "findingCount": len(findings),
+                            "fileSha256": sha,
+                            "dispositions": [match.summary() for match in decided],
+                        },
+                        confidence=confidence,
+                        provenance={
+                            "check": "founder-decided per-finding credential dispositions, exact debt/path/pattern/fingerprint/file-bytes match",
+                            "decision": credentialDispositions.RULINGID,
+                            **summary,
+                        },
+                    )
+                )
+                continue
+            if decided:
+                drift = Observation(
+                    kind=drift.kind,
+                    subject=drift.subject,
+                    observed_at=drift.observed_at,
+                    source=drift.source,
+                    status=drift.status,
+                    current_state=drift.current_state,
+                    observed_state={
+                        **drift.observed_state,
+                        "decidedFindings": [match.summary() for match in decided],
+                        "undecidedFindingCount": len(findings) - len(decided),
+                    },
+                    confidence=drift.confidence,
+                    provenance=drift.provenance,
+                )
+            observations.append(drift)
         skips.require_coverage(len(paths), "tracked files")
         return SensorScan(tuple(observations), skips.entries())
 

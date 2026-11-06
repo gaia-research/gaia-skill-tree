@@ -99,7 +99,14 @@ def reconcile_debt(
                 first_observed_at=previous.first_observed_at,
                 last_observed_at=observation.observed_at,
                 observation_count=previous.observation_count + 1,
-                resolution="condition_recovered",
+                # A sensor-verified founder disposition is not a recovery: the
+                # condition still exists and an independently verified record
+                # decided it. Keep the two distinguishable in the ledger.
+                resolution=(
+                    "decided_disposition"
+                    if observation.observed_state.get("decidedDisposition") is True
+                    else "condition_recovered"
+                ),
             )
             resolved.append(debt_id)
             continue
