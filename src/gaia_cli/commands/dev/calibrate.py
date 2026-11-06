@@ -318,6 +318,12 @@ def calibrate_trust_magnitude_command(args):
     refresh_apex = getattr(args, "refresh_apex", False)
     skill_ids = list(getattr(args, "skill", None) or [])
     refresh_all = getattr(args, "all", False)
+    # Founder ruling 2026-11-06 (#1642, 8A): a restamp that is gated on
+    # recomputationOnly refreshes only a stamp that already exists and only when
+    # the computed grade still agrees with the stored star level. Anything else
+    # is held (never written) so it keeps its governed authority.
+    recomputation_only = getattr(args, "recomputation_only", False)
+    restamp_trigger = getattr(args, "restamp_trigger", None)
 
     if not skill_ids and not refresh_all:
         print("Error: pass --skill CONTRIBUTOR/ID (repeatable) or --all.", file=sys.stderr)
@@ -388,9 +394,21 @@ def calibrate_trust_magnitude_command(args):
 
     changed = 0
     unchanged = 0
+    changed_ids: list[str] = []
+    unchanged_ids: list[str] = []
+    held: list[dict] = []
     for skill_id in skill_ids:
         node_file = resolved[skill_id]
         skill_data, body = _parse_md(node_file)
+
+        if recomputation_only and not any(
+            skill_data.get(name) is not None
+            for name in ("trustMagnitude", "overallTrustGrade", "trustMagnitudeInputHash")
+        ):
+            print(f"  {skill_id}: skipped (no stamp to refresh; --recomputation-only never creates one)")
+            unchanged += 1
+            unchanged_ids.append(skill_id)
+            continue
 
         if not skill_data.get("evidence") and not skill_data.get("suiteComponents"):
             print(f"  {skill_id}: warning -- no evidence[] and no suiteComponents, TM is trivially 0")
@@ -398,6 +416,22 @@ def calibrate_trust_magnitude_command(args):
         new_tm = round(computeTrustMagnitude(skill_data, merged_map), 2)
         new_grade = computeOverallTrustGradeFromSkill(skill_data, merged_map)
         new_hash = computeTrustMagnitudeInputHash(skill_data)
+
+        if recomputation_only:
+            from gaia_cli.trustRestamp import isRecomputationOnly
+
+            if not isRecomputationOnly(skill_data.get("level"), new_grade):
+                print(
+                    f"  {skill_id}: HELD (computed grade {new_grade} disagrees with stored level "
+                    f"{skill_data.get('level')}; not a recomputation, stamp left unchanged)"
+                )
+                held.append({
+                    "skillId": skill_id,
+                    "storedLevel": skill_data.get("level"),
+                    "computedGrade": new_grade,
+                    "reason": "computed grade disagrees with the stored level: a governed trust question, not a recomputation",
+                })
+                continue
 
         old_tm = skill_data.get("trustMagnitude")
         old_grade = skill_data.get("overallTrustGrade")
@@ -430,6 +464,7 @@ def calibrate_trust_magnitude_command(args):
             suffix = ", apex status current" if refresh_apex else ""
             print(f"  {skill_id}: no change (TM already {new_tm}, hash valid{suffix})")
             unchanged += 1
+            unchanged_ids.append(skill_id)
             continue
 
         old_tm_str = old_tm if old_tm is not None else "(none)"
@@ -439,6 +474,7 @@ def calibrate_trust_magnitude_command(args):
             apex_note = f", apexGateStatus {old_apex if old_apex is not None else '(none)'} -> {new_apex}"
         print(f"  {skill_id}: TM {old_tm_str} -> {new_tm}, grade {old_grade_str} -> {new_grade}{apex_note}")
         changed += 1
+        changed_ids.append(skill_id)
 
         if dry_run:
             continue
@@ -456,15 +492,19 @@ def calibrate_trust_magnitude_command(args):
             "recalibrate_trust_magnitude",
             _get_contributor(),
             f"TM {old_tm_str} -> {new_tm}, grade {old_grade_str} -> {new_grade}{apex_note} "
-            f"(gaia dev calibrate-trust-magnitude; Issue #1600)",
+            f"(gaia dev calibrate-trust-magnitude; Issue #1600"
+            + (f"; event-driven restamp after {restamp_trigger}, recomputation only, star level unchanged; Issue #1642" if restamp_trigger else "")
+            + ")",
             registry_path=registry_path,
         )
 
     mode = "[DRY RUN] " if dry_run else ""
-    print(f"\n{mode}calibrate-trust-magnitude complete: {changed} updated, {unchanged} unchanged")
+    held_note = f", {len(held)} held for a governed decision" if held else ""
+    print(f"\n{mode}calibrate-trust-magnitude complete: {changed} updated, {unchanged} unchanged{held_note}")
 
     if not dry_run and not getattr(args, "no_build", False):
         print("Regenerating registry and documentation...")
         _run_docs_build(registry_path)
     elif getattr(args, "no_build", False):
         print("Skipping documentation rebuild as requested (--no-build).")
+    return {"changed": changed_ids, "unchanged": unchanged_ids, "held": held}

@@ -30,6 +30,7 @@ from gaia_cli.trustMagnitude import (
     computeRowArtifactScores,
     computeTrustMagnitude,
 )
+from gaia_cli.trustRestamp import isRecomputationOnly, sensorStampTolerance, targetLevelByGrade
 
 
 
@@ -1657,12 +1658,17 @@ class TrustCalibrationDriftSensor:
     sensor is unavailable rather than guessing.
 
     It also measures (never repairs) stale frontmatter ``trustMagnitude``
-    stamps as ``trust_stamp_stale`` (#1642); how to refresh stamps is an open
-    founder decision, so this only reports.
+    stamps as ``trust_stamp_stale`` (#1642). Founder ruling 2026-11-06 (8A): a
+    recomputation-only stamp is refreshed inside the PR that changes the
+    evidence (``gaia dev evidence`` / ``rm-evidence``) and this sensor is the
+    periodic backstop that reports whatever escaped it; anything that is not a
+    pure recomputation keeps its governed authority. A would-be demotion whose
+    effective evidence pool is empty is reported as its own Class C
+    ``trust_evidence_gap`` (#2201, ruling 2026-11-06, 11A), never as drift.
     """
 
     id = "trust-calibration-drift"
-    debt_kinds = ("trust_calibration_drift", "trust_stamp_stale")
+    debt_kinds = ("trust_calibration_drift", "trust_stamp_stale", "trust_evidence_gap")
     routine_ids = (9,)
     # The scan enumerates every named skill each run and emits drift for every
     # one whose level disagrees with its computed grade; an unparseable record
@@ -1671,14 +1677,14 @@ class TrustCalibrationDriftSensor:
     # skipped subject (partial coverage), never silently passed over.
     resolution_scope = "exhaustive"
     _NAMED_ROOT = "registry/named"
-    _TARGET_LEVEL = {"S": "5★", "A": "4★", "B": "3★", "C": "2★", "ungraded": "1★"}
+    _TARGET_LEVEL = targetLevelByGrade
     _LEVEL_ORDER = {"1★": 1, "2★": 2, "3★": 3, "4★": 4, "5★": 5}
     # Stamps are written as round(computeTrustMagnitude(...), 2) (calibrate.py,
     # generateNamedIndex.py), so a fresh stamp is within 0.005 of the computed
     # value; the repo's own scripts/check_trust_magnitude_consistency.py allows
     # 0.02. On the live tree 325 of 347 stamps sit inside 0.005 and the next
     # step is 0.046, so 0.02 separates rounding noise from real movement.
-    _STAMP_TOLERANCE = 0.02
+    _STAMP_TOLERANCE = sensorStampTolerance
 
     @staticmethod
     def _evidenceGap(skill: dict, context: dict) -> dict[str, Any] | None:
@@ -1782,7 +1788,7 @@ class TrustCalibrationDriftSensor:
                         # policy or evidence assertion is a governed change. A
                         # stamp is recomputation-only when the computed grade
                         # still agrees with the stored star level.
-                        "recomputationOnly": skill.get("level") == self._TARGET_LEVEL[grade],
+                        "recomputationOnly": isRecomputationOnly(skill.get("level"), grade),
                         "restampCommand": f"gaia dev calibrate-trust-magnitude --skill {skill_id}",
                     },
                     confidence=1.0,
@@ -1807,13 +1813,15 @@ class TrustCalibrationDriftSensor:
                 continue
             gap = self._evidenceGap(skill, context)
             if gap is not None and self._LEVEL_ORDER[target_level] < self._LEVEL_ORDER[current_level]:
-                # Founder ruling 2026-10-28 (#2201): missing evidence is not
-                # evidence of degradation. An empty effective pool carries no
-                # demotion target and no calibration command; the stored level
-                # is preserved and the finding waits for evidence discovery or
-                # a governed decision.
+                # Founder rulings 2026-10-28 and 2026-11-06 (#2201, 11A): missing
+                # evidence is not evidence of degradation. An empty effective
+                # pool carries no demotion target and no calibration command;
+                # the stored level is preserved and the finding is its own Class C
+                # kind, which waits for read-only evidence discovery or a governed
+                # decision. It is never lane-eligible because Class C is never
+                # dispatched, so no ``laneEligible`` marker is needed.
                 observations.append(Observation(
-                    kind="trust_calibration_drift",
+                    kind="trust_evidence_gap",
                     subject=Subject(type="named-skill", id=skill_id),
                     observed_at=observed_at,
                     source=self.id,
@@ -1823,7 +1831,6 @@ class TrustCalibrationDriftSensor:
                         "trustMagnitude": round(tm, 2),
                         "trustGrade": grade,
                         "evidenceGap": True,
-                        "laneEligible": False,
                         "preservedLevel": current_level,
                         **gap,
                     },

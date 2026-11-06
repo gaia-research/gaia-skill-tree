@@ -334,13 +334,14 @@ def test_zero_evidence_rows_never_recommend_a_demotion(tmp_path: Path) -> None:
     (observation,) = TrustCalibrationDriftSensor().scan(repo, NOW)
 
     state = observation.observed_state
-    assert observation.kind == "trust_calibration_drift"
+    assert observation.kind == "trust_evidence_gap"
     assert observation.current_state == {"level": "2★"}
     assert state["evidenceGap"] is True
     assert state["evidenceBasis"] == "no-effective-evidence-rows"
     assert state["effectiveRowCount"] == 0
     assert state["preservedLevel"] == "2★"
-    assert state["laneEligible"] is False
+    # The dedicated Class C kind replaces the interim laneEligible marker.
+    assert "laneEligible" not in state
     assert "targetLevel" not in state
     assert "calibrationCommand" not in state
 
@@ -351,6 +352,7 @@ def test_rows_that_score_nothing_are_a_gap_not_counter_evidence(tmp_path: Path) 
 
     (observation,) = TrustCalibrationDriftSensor().scan(repo, NOW)
 
+    assert observation.kind == "trust_evidence_gap"
     assert observation.observed_state["evidenceBasis"] == "no-scoring-evidence-rows"
     assert observation.observed_state["effectiveRowCount"] == 1
     assert "calibrationCommand" not in observation.observed_state

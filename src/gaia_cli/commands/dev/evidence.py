@@ -28,6 +28,51 @@ def _preflight_benchmark_percentile(args) -> None:
     ])
 
 
+def _restampSnapshot(args):
+    """Computed Trust Magnitude before an evidence write, or None when opted out (#1642)."""
+    if getattr(args, "no_restamp", False):
+        return None
+    from gaia_cli.trustRestamp import namedTrustSnapshot
+
+    return namedTrustSnapshot(args.registry)
+
+
+def _restampAfter(args, before, trigger, targetId) -> None:
+    """Restamp the derived trust stamp of only the skills this evidence write affected.
+
+    Founder ruling 2026-11-06 (#1642, option 8A). Runs in the same invocation as
+    the evidence change so the stamp refresh lands in the same reviewed PR. It
+    is gated on recomputationOnly (the computed grade still agrees with the
+    stored star level), skips frozen skills, never writes a star level, and is
+    re-verified from disk. A refresh that is not a pure recomputation is held
+    and reported; the stale stamp keeps its governed authority.
+    """
+    if before is None:
+        return
+    from gaia_cli.trustRestamp import RestampVerificationError, restampAfterEvidenceChange
+
+    try:
+        report = restampAfterEvidenceChange(
+            args.registry, before, trigger=trigger, targetId=targetId
+        )
+    except RestampVerificationError as exc:
+        print(f"Error: event-driven restamp failed independent verification: {exc}", file=sys.stderr)
+        sys.exit(1)
+    if not (report.affected or report.held):
+        return
+    print(
+        f"Trust stamp restamp (event-driven, #1642): {len(report.affected)} affected, "
+        f"{len(report.restamped)} restamped, {len(report.held)} held, "
+        f"{len(report.frozen)} frozen skipped; no star level written."
+    )
+    for item in report.held:
+        print(
+            f"  HELD {item['skillId']}: {item['reason']} "
+            f"(level {item['storedLevel']}, computed grade {item['computedGrade']}). "
+            "Stamp left stale; it stays a Class C trust_stamp_stale finding."
+        )
+
+
 def meta_evidence_command(args):
     """Attach evidence to a generic ref (capability, inherited) or a named skill.
 
@@ -280,6 +325,7 @@ def meta_evidence_command(args):
             lambda: _preflight_evidence_index_bounds(skill_id, meta.get("evidence") or [], index),
             lambda: _preflight_duplicate_evidence_source(skill_id, meta.get("evidence") or [], args.source, evidence_type),
         ])
+        restampBefore = _restampSnapshot(args)
         result_entry, before_entry, evidence_changed, changed_fields = _apply(meta.setdefault("evidence", []))
         if not evidence_changed:
             print(f"No evidence changes for {skill_id} entry #{index}.")
@@ -314,6 +360,7 @@ def meta_evidence_command(args):
             lambda: _preflight_evidence_index_bounds(skill_id, data.get("evidence") or [], index),
             lambda: _preflight_duplicate_evidence_source(skill_id, data.get("evidence") or [], args.source, evidence_type),
         ])
+        restampBefore = _restampSnapshot(args)
         result_entry, before_entry, evidence_changed, changed_fields = _apply(data.setdefault("evidence", []))
         if not evidence_changed:
             print(f"No evidence changes for {skill_id} entry #{index}.")
@@ -377,6 +424,8 @@ def meta_evidence_command(args):
                 registry_path=registry_path,
             )
 
+    _restampAfter(args, restampBefore, "gaia dev evidence", skill_id)
+
     if not getattr(args, "no_build", False):
         print("Regenerating registry and documentation...")
         _run_docs_build(args.registry)
@@ -429,6 +478,7 @@ def meta_rm_evidence_command(args):
         _run_dev_preflights([
             lambda: preflightNamedSkillMutable(registry_path, skill_id),
         ])
+        restampBefore = _restampSnapshot(args)
         kept, removed = _filter(meta.get("evidence", []))
         if not removed:
             print(f"No matching evidence on '{skill_id}'.")
@@ -453,6 +503,7 @@ def meta_rm_evidence_command(args):
             sys.exit(1)
         with open(node_file, "r", encoding="utf-8") as f:
             data = json.load(f)
+        restampBefore = _restampSnapshot(args)
         kept, removed = _filter(data.get("evidence", []))
         if not removed:
             print(f"No matching evidence on '{skill_id}'.")
@@ -473,6 +524,8 @@ def meta_rm_evidence_command(args):
         f"Removed dead/invalid evidence: {srcs}",
         registry_path=registry_path,
     )
+
+    _restampAfter(args, restampBefore, "gaia dev rm-evidence", skill_id)
 
     if not getattr(args, "no_build", False):
         print("Regenerating registry and documentation...")
