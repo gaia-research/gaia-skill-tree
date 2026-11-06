@@ -6,14 +6,17 @@
   "originalUserMessageSha256": "7d65230c4760b2699d2492c498bebf6f3aac0fe25591eff7bb4ce4b21e93d5d5",
   "cloudReportedWholeStewardPasses": 2967,
   "cloudCountsRelabeledAsParentRuns": false,
-  "technicalRepairScope": ["F1 unbound local failure vs outstanding shared sender", "F2 post-effect CLI refusal without correlated operation identity"],
+  "technicalRepairScope": [
+    "F1 unbound local failure vs outstanding shared sender",
+    "F2 post-effect CLI refusal without correlated operation identity"
+  ],
   "independentReproductionRequired": true,
   "cloudP3P4ArtifactsRequested": true,
   "cloudP3P4ArtifactsReceived": false,
   "governanceHold": "F3 receipts interpretation remains unapproved; no authority or receipt-gate change in technical repair",
   "carriedOutOfScope": "F4 lower-cap ratchet and non-defect liveness observations",
   "worker": {
-    "nativeRun": "070b3ae2-fe6e-4520-83c0-0120ecf87df9",
+    "nativeRun": "7f71fcf8-22c9-4203-96c6-30acfe9934be",
     "branch": "dev/steward-r19-cloud-repair-2283",
     "base": "314fdf655edb7a6cb9bd131461bc11952366979d",
     "requestedProvider": "openai",
@@ -31,7 +34,17 @@
     "benignProbeActualModel": "gpt-6.1-terra",
     "benignProbeAssistantResponses": 1,
     "implementationRuntimeCollectionPending": true,
-    "implementationOutcomePending": true
+    "implementationOutcomePending": true,
+    "initialNativeRun": "070b3ae2-fe6e-4520-83c0-0120ecf87df9",
+    "sessionId": "01a1b04c-34a8-7698-8bf5-f1eb80300330",
+    "initialOutcome": "partial: independent reconstructed F1/F2 expected-invariant RED,2failed16.34s; no fix/commit/green",
+    "initialRuntimeProviderVerified": "openai",
+    "initialProviderError": "terminated",
+    "initialAccessRefusal": false,
+    "dirtyFilesPreserved": [
+      "tests/steward/prmaintenance/test_runner.py",
+      "tests/steward/prmaintenance/test_executor.py"
+    ]
   },
   "frozenSourceAndHandoffBranchesModified": false,
   "sourceAccepted": false,
