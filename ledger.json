@@ -1,5 +1,5 @@
 {
- "generation": 918,
+ "generation": 919,
  "lane": {
   "entries": [
    {
@@ -4629,7 +4629,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-06T22:09:46.046523Z",
-   "expiresAt": "2026-11-06T22:45:39.335508Z",
+   "expiresAt": "2026-11-06T22:47:08.660031Z",
    "holder": "run-20261106T205057Z-dc2f240c"
   }
  },
@@ -72304,6 +72304,29 @@
      "status": "pending",
      "stepId": "verify:d03344b33622:1",
      "type": "agent.verify"
+    },
+    {
+     "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+     "emittedAt": "2026-11-06T22:17:07.568760Z",
+     "idempotencyKey": "verify:dispatch-460979a6df78fdd0d323:1",
+     "params": {
+      "allowedModels": [
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+      "effortRequired": true,
+      "forbiddenAgentIds": [
+       "pi-herdr-batch1-builder-3d53086a6d83"
+      ],
+      "verifierPromptPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/verify-3d53086a6d83.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "verify:3d53086a6d83:1",
+     "type": "agent.verify"
     }
    ],
    "actor": "cli",
@@ -74042,6 +74065,14 @@
      "kind": "agent.verify",
      "status": "awaiting",
      "stepId": "verify:d03344b33622:1"
+    },
+    {
+     "at": "2026-11-06T22:17:07.568760Z",
+     "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+     "idempotencyKey": "verify:dispatch-460979a6df78fdd0d323:1",
+     "kind": "agent.verify",
+     "status": "awaiting",
+     "stepId": "verify:3d53086a6d83:1"
     }
    ],
    "thinkingEfforts": [
@@ -74055,7 +74086,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T22:15:39.335659Z",
+ "updatedAt": "2026-11-06T22:17:08.660196Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -74628,7 +74659,12 @@
    "source": "dead-code",
    "state": "building",
    "updatedAt": "2026-11-06T22:07:45.211695Z",
-   "verification": null
+   "verification": {
+    "receipt": "steward-20261106T221543Z-e3dbd0b91430fac4",
+    "stage": "awaiting-verifier",
+    "verdict": "pending",
+    "verifierPromptPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/verify-3d53086a6d83.prompt.md"
+   }
   },
   "debt:unused_import:scripts-archive-fetch-ruflo-skills-py:f5adc0673c6d1436": {
    "assignments": [
