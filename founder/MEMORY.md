@@ -17,6 +17,18 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-11-06, 00:54Z event — both canonical B repairs on protected main)
+
+### TLDR
+- #2300 normally merged at00:54:50Z as **329b2f04779168d96a619f4efeac2bc23585d896**, exact frozen-fd53 tree7dc65604b6119b2b7313999ea839798630e7a424; both parents verified. **Two canonical B repairs are now on main**, not whole-campaign completion. Fresh canonical census remains A0/B324/C40 at23:30 receipt233031-dbd4cf87175ef566; no later count implied.
+- Before merge: all applicable exact-head CI green, independent SOURCE ACCEPT, requested HIGH independently confirmed in reviewer session01a1ae36, currentmain/protection/strict rules/zero bypass/tracker revalidated. No source defect found. Draft and earlier pending-CI/effort observations were cleared by actual evidence, not overridden. #2283 remainsOPEN; closing references empty. No admin/check bypass. [skip-gen] is Auto-Sync-only; built-in Pages separate. Post-merge CI/deployment collection pending; no manual release/deploy authorized.
+- R19 bounded repair finished **9d78106dcf95b146c1e5fd0b0b8687f9776e3463**, tree3f75207d4c239dc13731c7931cc9f130b21cb60f. Original17ad stays independently REJECTED. New same-context independent whole review79415d80 uses openai/gpt-6.1-terra HIGH and frozen isolated9d snapshot; no whole-source acceptance yet. Builder74/78/86groups are separate/carry caveats, not a self-certification. No namespace/clock/protection/activation, writer drain or historicalGit transition performed.
+- Scout's old-lead rejection did not supply a next safe nominee. Technical read-only diagnosis a113ea71 (openai/Terra MEDIUM) checks actual binding/attribute/source evidence and focused tests; it cannot dispatch or mutate state. Do not invent work or count unsupported fixes.
+- Continue native subagent cost visibility,28-minute batched guards, canonical sharedCodex vs non-Steward openai/Terra routing. Shared reminder fired and one actual shared request answeredAVAILABLE, not a guarantee everyquota reset. No current-owner restart. Archive and all C/data/L4/activation holds unchanged.
+
+### Routing
+Current campaign CHECKPOINT and versioned delivery receipts are the resumption anchor. Main parent329b was adopted on integration by normal fast-forward with unchanged tree. No new campaign-wide cost total asserted; preserve historical/partial costs and all earlier memory bytes.
+
 ## State Snapshot (2026-11-05, 23:30Z event — second canonical B repair confirmed)
 
 ### TLDR
