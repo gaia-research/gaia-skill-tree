@@ -212,11 +212,11 @@ def test_output_directory_report_written(tmp_path):
 
 
 def test_verify_exempt_skills_detected_when_missing():
-    # Only supply gaiabot, omit rico-favor
+    # Supply only an unrelated skill: the remaining exempt skill must be reported missing
     mock_results = [
         cad.DisentanglementResult(
-            skill_id="gaiabot/repo-docs-before-pr",
-            contributor="gaiabot",
+            skill_id="alice/demo",
+            contributor="alice",
             level="1★",
             stars=1,
             installable=False,
