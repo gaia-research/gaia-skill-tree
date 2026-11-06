@@ -1,5 +1,5 @@
 {
- "generation": 956,
+ "generation": 957,
  "lane": {
   "entries": [
    {
@@ -4674,13 +4674,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-06T22:09:46.046523Z",
-   "expiresAt": "2026-11-06T23:59:49.683689Z",
-   "holder": "run-20261106T205057Z-dc2f240c"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -72917,7 +72911,7 @@
    ],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-06T23:25:40.869535Z",
+    "asOf": "2026-11-06T23:29:48.623231Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -73135,248 +73129,14 @@
       "whyItMatters": "Bounded repair stopped: the attempt ceiling was reached or a verifier escalated. The envelope, not the attempt, is the likelier defect, and nothing retries until you rule."
      },
      {
-      "alternative": "Keep it an operator-run collector until a quarter of local runs shows low noise.",
-      "debtIds": [],
-      "decision": "Wire scripts/steward_collect_browser_render.js into the scheduled steward workflow (installing Chromium for it) so the browser-render sensor is evaluated on every run?",
-      "decisionId": "steward-browser-render-driver",
-      "evidence": [
-       "Run locally on 2026-10-28 it rendered 95 pages x 2 viewports in about 4 minutes and found 29 pages with rendered defects the static sensor cannot see.",
-       "The collector serves docs/ from a local static server and aborts every external request unsent.",
-       "Frontend fixes remain human-gated (CLAUDE.md); this only observes."
-      ],
-      "links": [
-       ".github/workflows/steward.yml",
-       "scripts/steward_collect_browser_render.js",
-       "src/gaia_cli/steward/sensors_render.py"
-      ],
-      "priority": 20,
-      "recommended": "Approve an optional workflow step (npx playwright install chromium; node scripts/steward_collect_browser_render.js --repository $GITHUB_REPOSITORY) that records ok/failed in the existing inputs report.",
-      "source": "decision-record",
-      "unblocks": "Scheduled rendered-frontend observation (routine 15).",
-      "whyItMatters": "The sensor reports not-evaluated without a fresh browser-render input, so rendered frontend facts stay unobserved on scheduled runs. Adding the step changes the workflow's dependencies and runtime."
-     },
-     {
-      "alternative": "Retain the current conservative boundaries and explicitly accept their residual false-empty risk and stalls.",
-      "debtIds": [],
-      "decision": "Ratify or strengthen the completeness policy for persistent empty closed-history responses and repository-count drift?",
-      "decisionId": "steward-census-empty-page-crosschecks",
-      "evidence": [
-       "The inherited census cross-checks open_issues_count, refuses false-empty and unverified-empty open listings, and confirms open walks. LiveGh verifies open totals exactly.",
-       "Closed listings have no independent total: the inherited watcher accepts a history that is empty on every attempt, and refuses a full-page terminal boundary without a count. Those limits are preserved, not claimed fixed.",
-       "The current mission runs mocked tests only, including false-empty, linked-empty, missing-link and exact-multiple cases. No live census or closure dry run has been used to resolve the question."
-      ],
-      "links": [
-       "https://github.com/gaia-research/gaia-skill-tree/pull/2133#issuecomment-6345851647",
-       "scripts/steward_issue_census.py",
-       "scripts/upstream_watcher/live.py"
-      ],
-      "priority": 20,
-      "recommended": "Review a trustworthy independent closed-count source and its completeness contract before relaxing any refusal. Keep unknown coverage visible.",
-      "source": "decision-record",
-      "unblocks": "Completeness-policy ruling; never authorization to close issues.",
-      "whyItMatters": "Repeated empty 200 responses are not independently verified closed-history absence. Conservative full-page refusal can also stall a closed-history walk."
-     },
-     {
-      "alternative": "Require a formal receipt or explicit rejection; unresolved human-closed findings then remain actionable and may be recreated.",
-      "debtIds": [],
-      "decision": "Does any matching closed umbrella count as processed, or only one with an explicit accepted/rejected or Steward-receipt disposition?",
-      "decisionId": "steward-closed-umbrella-disposition",
-      "evidence": [
-       "PR #2133 comments 6344218194 and 6344758147 describe competing recreation/suppression behavior and explicitly request a founder ruling.",
-       "The staged evidence classifier preserves payload identity, treats contradictory history as unknown, and suppresses a finding when closed history records the same suite, version and candidate ids.",
-       "Tests prove that behavior, not its governance validity. The new batch path is not the default scheduled path."
-      ],
-      "links": [
-       "https://github.com/gaia-research/gaia-skill-tree/pull/2133#issuecomment-6344758147",
-       "scripts/upstream_watcher/evidence.py",
-       "tests/upstream_watcher/test_processed_findings.py"
-      ],
-      "priority": 20,
-      "recommended": "Decide the disposition semantics before batch rollout; keep historical payloads and existing issues untouched.",
-      "source": "decision-record",
-      "unblocks": "Closed-history semantics independently of canonical open-issue identity or Class A authority.",
-      "whyItMatters": "The staged implementation suppresses a matching finding even if a human closed it with unresolved rows; the opposite rule can recreate daily issue noise."
-     },
-     {
-      "alternative": "Document that only steward full shows the desk and remove the second wording ('Nothing requires a decision') from steward founder.",
-      "debtIds": [],
-      "decision": "Should `gaia steward founder` also list the open decision records in founder/steward/decisions/, as `gaia steward full` already does?",
-      "decisionId": "steward-founder-command-records",
-      "evidence": [
-       "src/gaia_cli/steward/digest.py renders only the Class C debt queue; build_desk() in desk.py is the only reader of decision records and is reached through steward full.",
-       "Observed output: 'Decisions for you 0' with steward-trust-stamp-refresh-policy-1642 and steward-workflow-skill-creator-demote-1699 open."
-      ],
-      "links": [
-       "src/gaia_cli/steward/digest.py",
-       "src/gaia_cli/steward/desk.py"
-      ],
-      "priority": 20,
-      "recommended": "Yes: append the open records to the digest, with before/after CLI output in the PR for review.",
-      "source": "decision-record",
-      "unblocks": "A single trustworthy founder queue.",
-      "whyItMatters": "On 2026-10-28 `gaia steward founder` printed 'Decisions for you 0 / Nothing requires a decision' while two records in that directory were open, so a founder using the dedicated command is told nothing is waiting. It changes visible CLI output, so it is human-gated."
-     },
-     {
-      "alternative": "Explicitly authorize and audit a reversal, separately from the general closure-authority ruling.",
-      "debtIds": [],
-      "decision": "Keep or reverse the accidental live closure of #1981 documented on Oct 22?",
-      "decisionId": "steward-issue-1981-incident",
-      "evidence": [
-       "The Oct 22 issue-hygiene handover records an accidental verifier closure at 2026-10-22T04:57:42Z, comment 6333084478, while a token was present.",
-       "The current mission authorizes mocks only. Neither closure nor reopening nor comment deletion has been performed here."
-      ],
-      "links": [
-       "https://github.com/gaia-research/gaia-skill-tree/issues/1981",
-       "founder/handovers/2026-10-22-steward-issue-hygiene-handover.md"
-      ],
-      "priority": 20,
-      "recommended": "Founder disposition after reviewing the preserved closing proof; keep the issue untouched meanwhile.",
-      "source": "decision-record",
-      "unblocks": "Incident disposition, not automatic issue-write authority.",
-      "whyItMatters": "Reversing it is another external write; engineering proof of an A1 match does not decide the incident."
-     },
-     {
-      "alternative": "Keep closures human-reviewed; retain deterministic reconciliation as read-only context and batch review proposals.",
-      "debtIds": [],
-      "decision": "Ratify the proposed Class A GitHub issue-closure allowlist A1–A5 and its rollout, or retain human-reviewed closure authority (#2130)?",
-      "decisionId": "steward-issue-closure-authority",
-      "evidence": [
-       "The Oct 21 architecture brief and earlier version of this record claimed founder authorization without a separately verified ruling. That inference is superseded by the current mission: the allowlist remains an unratified proposal. No historical approval is asserted here.",
-       "POLICY.yaml retains the disabled implementation: writesEnabled is false, the proposed rules are enumerated, maxClosuresPerRun is 10, and a5Disabled is empty. Editing the switch alone cannot activate it: runtime also requires this record to be explicitly decided with resolution approved. Decided-but-rejected is not authority.",
-       "Both script entrypoints and the public library executor re-derive proof from the checkout, require a complete fresh census and unchanged item digest, reserve bounded budget, and compare live issue and complete comment history before closing.",
-       "Mock tests cover comment-then-close crash recovery, foreign or unknown marker authors, maintainer objections, multipart preservation, receipt replay, reopened pairs and unrelated issue protection. No live closure pilot or burn-down is authorized by those tests.",
-       "Issue #1981 was accidentally closed during the prior verifier session (Oct 22 handover). Keeping or reversing that incident is a separate founder disposition, not resolved here."
-      ],
-      "links": [
-       "https://github.com/gaia-research/gaia-skill-tree/issues/2130",
-       "https://github.com/gaia-research/gaia-skill-tree/pull/2133",
-       "founder/steward/POLICY.yaml",
-       "founder/handovers/2026-10-22-steward-issue-hygiene-handover.md",
-       "src/gaia_cli/steward/issuehygiene/authority.py"
-      ],
-      "priority": 20,
-      "recommended": "Review the exact A1–A5 proof boundaries and mocked evidence. Keep writes disabled and do not run a live closure dry run or pilot in this mission. Any later rollout requires an explicit ruling and a separately authorized operational plan.",
-      "source": "decision-record",
-      "unblocks": "Only a future decided record with the exact affirmative resolution approved plus an explicitly enabled policy can emit and execute Class A closure actions. Neither a green test nor a writesEnabled edit grants that authority.",
-      "whyItMatters": "This is new external-write authority, not an extension inferred from local mirror repairs. Engineering proof does not ratify it. The current mission explicitly keeps this Class C decision open."
-     },
-     {
-      "alternative": "Keep the interim marker and run evidence discovery as an ad hoc /ev-discovery pass per skill.",
-      "debtIds": [],
-      "decision": "Give an empty-evidence trust finding its own Class C debt kind (trust_evidence_gap) and a bounded evidence-discovery routine, replacing the interim laneEligible:false marker on trust_calibration_drift?",
-      "decisionId": "steward-trust-evidence-gap-kind",
-      "evidence": [
-       "37 of 51 open trust_calibration_drift debts proposed 2-star to 1-star solely from an empty or non-scoring effective pool (13 have inherited rows that score nothing, 24 have no effective rows at all).",
-       "The 2026-10-28 run's builder reproduced addy-osmani/browser-testing-with-devtools but changed nothing and the Sonnet verifier escalated it; two lane entries had escalated.",
-       "A new kind needs authority and priority entries in founder/steward/POLICY.yaml and a founder rule; Steward may not add them itself."
-      ],
-      "links": [
-       "https://github.com/gaia-research/gaia-skill-tree/issues/2201",
-       "https://github.com/gaia-research/gaia-skill-tree/issues/2114",
-       "https://github.com/gaia-research/gaia-skill-tree/issues/2148",
-       "founder/steward/POLICY.yaml"
-      ],
-      "priority": 20,
-      "recommended": "Approve trust_evidence_gap as Class C with a founder rule, and a read-only evidence-discovery routine (authoritative upstream, releases, benchmarks, peer review; record URLs, dates, attribution, freshness, duplicates, admissibility) that never writes evidence or ratings; keep the interim marker until then.",
-      "source": "decision-record",
-      "unblocks": "One grouped desk decision for all evidence-gap skills instead of 37 Class B items, and a reusable discovery workflow.",
-      "whyItMatters": "Founder ruling 2026-10-28 (#2201): missing evidence is not evidence of degradation. The interim fix keeps these findings as Class B trust_calibration_drift debt that the lane never dispatches, so their authority label (B) misdescribes a governed question and no routine searches for the missing evidence."
-     },
-     {
-      "alternative": "Keep restamping manual, run by a Verifier from the recomputationOnly findings.",
-      "debtIds": [],
-      "decision": "Founder ruled 2026-10-28 for event-driven trust recalculation with periodic reconciliation as a backup. Approve the implementation: which events trigger a restamp, who runs it, and the policy amendment it needs?",
-      "decisionId": "steward-trust-stamp-refresh-policy-1642",
-      "evidence": [
-       "The 22 stale stamps were corrected on main by PR #2147 using gaia dev calibrate-trust-magnitude, with no grade or star-level change.",
-       "Issue #1642 remains open for the recurring policy, not for those corrections.",
-       "Founder ruling 2026-10-28: event-driven recalculation with periodic reconciliation as backup; recomputing derived information is distinct from canonical trust, grade, star, evidence-assertion or policy mutation, which stay Class C.",
-       "Built (this PR): trust_stamp_stale observations now carry recomputationOnly (computed grade still agrees with the stored star level) and the exact gaia dev calibrate-trust-magnitude command. Periodic reconciliation already exists: the sensor re-measures every scan. Not built: the event trigger.",
-       "Proposed trigger: the same reviewed PR that changes evidence (gaia dev evidence, star refresh, ingest) runs calibrate-trust-magnitude for only the affected skills; a restamp that would move a star level is not a restamp and goes to the desk."
-      ],
-      "links": [
-       "https://github.com/gaia-research/gaia-skill-tree/issues/1642"
-      ],
-      "priority": 20,
-      "recommended": "Approve: restamp only affected skills inside the PR that changes their evidence, with recomputationOnly as the gate; periodic reconciliation stays the backstop; any star, grade or policy movement stays Class C.",
-      "source": "decision-record",
-      "unblocks": "Retiring trust_stamp_stale debt without per-event founder work; the Class C debt kind stays for anything not recomputation-only.",
-      "whyItMatters": "The ruling is made but only its detection half is built. Restamping writes registry/named frontmatter and a timeline event, a Verifier-gated gaia dev mutation outside any Steward envelope, so the trigger and its authority need your approval before anything runs unattended."
-     },
-     {
-      "alternative": "Retain the legacy deployed issue contract and use batch dry-run reports only.",
-      "debtIds": [],
-      "decision": "Approve the staged F3 batch emission and hardened approve/reject/close-children workflow rollout, or keep legacy fanout?",
-      "decisionId": "steward-upstream-batch-rollout",
-      "evidence": [
-       "Issue #2131 explicitly requests founder-compatible F3 amendment review. Earlier campaign prose inferred approval from a brief; this mission does not ratify that inference.",
-       "The daily cron remains 0 6 * * *; CLI and workflow defaults are fanout. New event jobs and manual batch writes are staged behind STEWARD_ISSUE_HYGIENE_V2, which this work does not set.",
-       "PR #2133 comment 6344218194 records the canonical open-issue-per-suite correction. It is retained as evidence, not a ruling on rollout or closed-history suppression."
-      ],
-      "links": [
-       "https://github.com/gaia-research/gaia-skill-tree/issues/2131",
-       "https://github.com/gaia-research/gaia-skill-tree/pull/2133#issuecomment-6344218194",
-       "docs/agents/upstream-watcher.md"
-      ],
-      "priority": 20,
-      "recommended": "Review mocked behavior and explicitly decide rollout. Leave the variable unset and existing default jobs active until then.",
-      "source": "decision-record",
-      "unblocks": "Batch rollout only; Steward closure authority remains a separate OPEN decision.",
-      "whyItMatters": "Merging engineering must not silently change the daily issue queue or activate new event-driven write semantics."
-     },
-     {
-      "alternative": "Accept 4-star as an exception and record why, leaving the invariant unenforced.",
-      "debtIds": [],
-      "decision": "Rule on google-deepmind/workflow-skill-creator: it is status awakened at 4-star, which #1699 closed as fixed by demoting it to 1-star. Keep it at 4-star, restore the 1-star the issue ordered, or promote its status to named?",
-      "decisionId": "steward-workflow-skill-creator-demote-1699",
-      "evidence": [
-       "Timeline: 2026-09-05T00:00:00Z demote 4-star to 1-star citing #1699; 2026-09-05T03:50:03Z 'Calibrated 1-star to 1-star'; 2026-09-09T20:31:06Z rank_up 'Calibrated level from 1-star to 4-star'. Current file: status awakened, level 4-star, trustMagnitude 100.82.",
-       "The 2026-09-05 demote event records previousValue 4-star while the preceding log level was 3-star (2026-07-30 demote, then a rename): the historical discrepancy this record originally asked about.",
-       "A scan of registry/named finds exactly one awakened skill above 1-star (this one); 47 awakened skills sit at 1-star. scripts/validate.py passes on this state.",
-       "#1699's closing comment says the CLI preflight (_preflight_calibrate_status) now rejects level >= 2-star on awakened skills; the preflight is present, so the 2026-09-09 change took another path (not diagnosed: canonical data, out of Steward authority).",
-       "The three #1699 decision records previously cited #1699 for timeline ordering; #1699 is about calibrate and awakened skills, not ordering."
-      ],
-      "links": [
-       "https://github.com/gaia-research/gaia-skill-tree/issues/1699",
-       "https://github.com/gaia-research/gaia-skill-tree/pull/2147",
-       "registry/named/google-deepmind/workflow-skill-creator.md",
-       "founder/steward/decisions/LEDGER.md"
-      ],
-      "priority": 20,
-      "recommended": "Decide the skill's level and status as a canonical ruling (restore 1-star per #1699 and CONTEXT.md unless you promote its status to named), and have a Verifier run the gaia dev calibrate or update-named verb. Then approve adding the awakened-rank invariant to the registry integrity check so it cannot recur silently.",
-      "source": "decision-record",
-      "unblocks": "Closing the #1699 regression and the historical-provenance question; adding the invariant guard to scripts/validate.py without turning main red.",
-      "whyItMatters": "CONTEXT.md allows 2-star and above only for status named. #1699 (closed 2026-09-05) demoted this skill to 1-star for that reason, then a later calibration (2026-09-09) raised it back to 4-star while it is still awakened; it is the only awakened skill above 1-star, and no validator rejects the state. Timeline events are canonical provenance, so Steward may not edit them or the level."
-     },
-     {
-      "alternative": "Leave workflow timeouts to ordinary reviewed PRs and downgrade the sensor to report-only.",
-      "debtIds": [],
-      "decision": "Add a Class B dispatch route for workflow_hygiene (missing job timeout-minutes) limited to .github/workflows/*.yml and excluding compiled gh-aw lock files?",
-      "decisionId": "steward-workflow-timeout-route",
-      "evidence": [
-       "Every open workflow_hygiene finding is rule missing-timeout.",
-       "The fix is mechanical but a timeout is a per-job judgement: too low kills legitimate long jobs (the unit gate already takes about 2 minutes, full tests more).",
-       "Workflow files are a security-relevant surface; this PR did not edit any."
-      ],
-      "links": [
-       "founder/steward/POLICY.yaml",
-       "src/gaia_cli/steward/sensors_ci.py"
-      ],
-      "priority": 20,
-      "recommended": "Approve a route that proposes a timeout from the job's observed durations (ci-runs input) and requires independent verification; keep .github/** forbidden for every other rule.",
-      "source": "decision-record",
-      "unblocks": "Closure of up to 38 debts and a reusable path for workflow hygiene repairs.",
-      "whyItMatters": "38 open workflow_hygiene debts (64 missing-timeout findings) have no dispatch rule, and every existing rule forbids .github/**, so the lane cannot touch them. A job without timeout-minutes can run for the 6-hour default."
-     },
-     {
       "alternative": "Defer; the pull request stays open exactly as it is, and Steward takes no merge or closure action on it.",
       "debtIds": [
        "debt:routine_pr_founder_decision:gaia-research-gaia-skill-tree-2235:fb647ee4fb7bfedb"
       ],
-      "decision": "Steward will not merge or close this routine pull request (hold label(s): needs-review; 0/1 trusted approval(s) at this head). Merge, hold or close it? Pull request: gaia-research/gaia-skill-tree#2235 at head e2b06f7cfa48.",
+      "decision": "Steward will not merge or close this routine pull request (hold label(s): needs-review; 0/1 trusted approval(s) at this head). Merge, hold or close it? Pull request: gaia-research/gaia-skill-tree#2235 at head 9018cd0c5014.",
       "decisionId": "decision-1fde053ffffef5198094",
       "evidence": [
-       "gaia-research/gaia-skill-tree#2235 - affected: 1 item(s); authority: C; baseRef: main; baseSha: 956b684fe179098c96eb2c00c38235e78f42499a; basis: producer scheduled-docs-routine; head e2b06f7cfa48; gates: holds=fail, review-threads=unknown, …"
+       "gaia-research/gaia-skill-tree#2235 - affected: 1 item(s); authority: C; baseRef: main; baseSha: 956b684fe179098c96eb2c00c38235e78f42499a; basis: producer scheduled-docs-routine; head 9018cd0c5014; gates: holds=fail, review-threads=unknown, …"
       ],
       "links": [],
       "priority": 30,
@@ -73428,7 +73188,7 @@
       "subject": "scheduled run"
      },
      {
-      "detail": "open issues 221 (bot 2, upstream children 72); closed this run 0 of 0 total; net change +0 since the previous run",
+      "detail": "open issues 221 (bot 2, upstream children 72); closed this run 0 of 0 total; net change +0 since the previous run; ready (writes disabled): 2 proven closures",
       "kind": "issue_backlog",
       "subject": "issue backlog"
      }
@@ -73436,7 +73196,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": "2026-11-06T23:25:40.869535Z",
+   "finishedAt": "2026-11-06T23:29:48.623231Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -73464,7 +73224,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "perform 4 pending action(s) (lead.integrate), record each with `gaia steward full record run-20261106T205057Z-dc2f240c <stepId> --input FILE`, then `gaia steward full run --resume run-20261106T205057Z-dc2f240c`",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": false,
     "agents": true,
@@ -76191,7 +75951,7 @@
    "sequence": 31,
    "sourceHead": "bb3617b665026c6b11451ff158418edec6342414",
    "startedAt": "2026-11-06T20:50:57.041116Z",
-   "status": "awaiting-action",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-11-06T20:50:57.041116Z",
@@ -76425,7 +76185,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T23:29:49.683891Z",
+ "updatedAt": "2026-11-06T23:35:55.435209Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
