@@ -73,8 +73,35 @@ class Refused(CoordinationError):
     """A valid protocol state does not permit the requested transition."""
 
 
+class CapacityRefused(Refused):
+    """A valid transition cannot be persisted within the bounded record size."""
+
+
+class CompletionInvalid(CoordinationError):
+    """The sole response or its evidence did not match the invocation/proof."""
+
+
+class CompletionUnavailable(CoordinationError):
+    """The sole response could not be authenticated as a definite outcome."""
+
+
 class InvocationUncertain(CoordinationError):
-    """The sole adapter was entered; no definite outcome can be reported."""
+    """The sole adapter was entered; no definite outcome can be reported.
+
+    ``cause`` is a bounded, sanitized classification of what failed after
+    adapter entry. It records why the protocol cannot settle; it never asserts
+    whether the forge acted, never retires or refunds the sender and never
+    authorizes a replay or a synthetic settlement. The underlying exception is
+    retained as ``__cause__`` for in-process diagnosis and is never published.
+    """
+
+    CAUSES = ("capacity", "completion-failed", "persistence", "transport")
+
+    def __init__(self, cause: str):
+        if cause not in self.CAUSES:
+            raise CoordinationError("invalid post-entry uncertainty cause")
+        self.cause = cause
+        super().__init__("sole invocation outcome unavailable")
 
 
 class CommitStatus(str, Enum):
@@ -613,7 +640,7 @@ class PrWriteCoordinator:
             generationHeadroom = max(0, len(str(MAX_HISTORY)) - len(str(persisted["generation"])))
             limit = self.byteLimit()
             if size > limit or (kind == "reserve" and size + OUTCOME_HEADROOM + generationHeadroom > limit):
-                raise Refused("critical record capacity exhausted; settlement headroom retained")
+                raise CapacityRefused("critical record capacity exhausted; settlement headroom retained")
             try:
                 self.store.compare_and_swap(tip, candidate, f"critical {kind} {transitionId}")
             except ledger.LedgerConflict:
@@ -705,23 +732,43 @@ class PrWriteCoordinator:
         with self.grantGuard:
             self.adapterEntries[operation["invocationId"]] = grant
         try:
+            response = self.services.invoke(copy.deepcopy(operation["request"]), operation["invocationId"])
+        except Exception:
+            # Once adapter entry was attempted, no definite outcome can be
+            # reported. A failure to even record the unknown transition is also
+            # post-entry uncertainty, never a pre-send refusal.
             try:
-                response = self.services.invoke(copy.deepcopy(operation["request"]), operation["invocationId"])
-            except Exception:
                 return self._transition("unknown", token.operationId,
                                         {"token": asdict(token), "detail": "sole adapter invocation lost/unknown response"},
                                         digest([transitionId, "unknown"]))
-            finally:
-                with self.grantGuard:
-                    self.adapterEntries.pop(operation["invocationId"], None)
+            except CapacityRefused as exc:
+                raise InvocationUncertain("capacity") from exc
+            except Exception as exc:
+                raise InvocationUncertain("persistence") from exc
+        finally:
+            with self.grantGuard:
+                self.adapterEntries.pop(operation["invocationId"], None)
+        # Completion authentication, independent-evidence validation and shared
+        # settlement each run only AFTER the sole adapter was entered. Any of
+        # them failing proves no safe settlement, never that the forge had no
+        # effect, so the cause is retained as a bounded classification.
+        try:
             evidence = self.services.completion(copy.deepcopy(operation), operation["invocationId"], response)
+        except CompletionUnavailable as exc:
+            raise InvocationUncertain("transport") from exc
+        except Exception as exc:
+            raise InvocationUncertain("completion-failed") from exc
+        try:
             validateEvidence(evidence, operation, observed=False)
+        except Exception as exc:
+            raise InvocationUncertain("completion-failed") from exc
+        try:
             return self._transition("complete", token.operationId, {"token": asdict(token), "evidence": evidence},
                                     digest([transitionId, "complete"]))
+        except CapacityRefused as exc:
+            raise InvocationUncertain("capacity") from exc
         except Exception as exc:
-            # Once adapter entry was attempted, neither completion authentication nor
-            # shared settlement failure proves that the forge had no effect.
-            raise InvocationUncertain("sole invocation outcome unavailable") from exc
+            raise InvocationUncertain("persistence") from exc
 
     def recover(self, operationId: str) -> Result:
         """One bounded observation; repeated inconclusive recovery adds no events.

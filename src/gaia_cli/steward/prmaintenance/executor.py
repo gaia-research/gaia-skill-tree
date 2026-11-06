@@ -29,6 +29,11 @@ from gaia_cli.steward.prmaintenance import collect, coordination as core, gate, 
 from gaia_cli.steward.prmaintenance.policy import WriteCoordination, prAuthorityApproved
 from gaia_cli.steward.prmaintenance.producers import loadRegistry
 
+# Sanitized post-entry uncertainty causes reported by ``execute``. The first four
+# are protocol causes; "inspection" means the shared report could not be read
+# after a possible effect. None of them claims the invocation had no effect.
+UNCERTAINTY_CAUSES = core.InvocationUncertain.CAUSES + ("inspection",)
+
 
 @dataclass(frozen=True, repr=False)
 class HttpReply:
@@ -405,22 +410,24 @@ class ProductionServices:
 
     def completion(self, operation, invocationId, response):
         if self.responses.pop(invocationId, None) is not response or not isinstance(response, HttpReply):
-            raise core.CoordinationError("not an authentic completion of this sole invocation")
+            raise core.CompletionInvalid("not an authentic completion of this sole invocation")
         if response.status in {401, 403, 404, 405, 409, 422}:
             return self.evidence(operation, "completed-no-effect", "rejected", {"responseStatus": response.status, "senderFinished": True})
         if response.status != 200 or not isinstance(response.body, dict):
-            raise core.CoordinationError("response does not prove a completed effect or definite rejection")
+            # A non-200/opaque response cannot prove either an effect or a
+            # definite rejection; only the transport outcome is unknown.
+            raise core.CompletionUnavailable("response does not prove a completed effect or definite rejection")
         pull = self.pullFact(operation)
         if operation["subject"]["action"] == "merge":
             if (response.body.get("merged") is not True or not self.mergeFact(operation, pull)
                     or response.body.get("sha") != pull.get("merge_commit_sha")):
-                raise core.CoordinationError("matching independently verified merge/parent proof unavailable")
+                raise core.CompletionInvalid("matching independently verified merge/parent proof unavailable")
             return self.evidence(operation, "completed-effect", "merged", {"responseStatus": 200, "senderFinished": True,
                                  "mergeCommitSha": pull["merge_commit_sha"], "parentsVerified": True,
                                  "postMergeChecks": self.postChecks(pull["merge_commit_sha"])})
         if (str(response.body.get("id")) != operation["subject"]["prId"] or response.body.get("state") != "closed"
                 or response.body.get("merged") is True or not response.body.get("closed_at")):
-            raise core.CoordinationError("close response does not prove sole invocation completion")
+            raise core.CompletionInvalid("close response does not prove sole invocation completion")
         return self.evidence(operation, "completed-effect", "reopened" if pull.get("state") == "open" else "closed",
                              {"responseStatus": 200, "senderFinished": True, "conditionalHead": False,
                               "responseHeadChanged": (response.body.get("head") or {}).get("sha") != operation["subject"]["headSha"],
@@ -504,20 +511,27 @@ class Executor:
             raise core.Refused("unknown operation")
         if operation["state"] not in core.PREPARED:
             return self.report(operation)  # persisted claim/terminal is inspection, NEVER a send grant
-        def uncertain():
+        def uncertain(cause):
+            # Bounded sanitized classification of the failed post-entry step. The
+            # raw exception/message is never published. When shared state could not
+            # be observed, ``state`` is a knowledge classification (possibly-sent),
+            # not an observed store state; it grants no retry, refund or replay.
+            if cause not in UNCERTAINTY_CAUSES:
+                raise core.CoordinationError("invalid uncertainty cause")
             return {"operationId": operationId, "state": "possibly-sent", "coordinationState": "unavailable",
+                    "uncertaintyCause": cause, "evidenceSha256": None,
                     "repo": self.coordinator.binding.namespace.repositoryName, "runId": operation["runId"],
                     "number": operation["subject"]["number"], "headSha": operation["subject"]["headSha"],
                     "action": operation["subject"]["action"],
                     "reason": "sole invocation or its settlement is uncertain; inspect shared state before any action"}
         try:
             result = self.coordinator.invoke(tokenFrom(operation), core.digest([operation["attemptId"], "sole-send"]))
-        except core.InvocationUncertain:
-            return uncertain()
+        except core.InvocationUncertain as exc:
+            return uncertain(exc.cause)
         try:
             current = self.report(self.coordinator.inspect()["operations"][operationId])
         except (ledger.LedgerUnavailable, KeyError, OSError):
-            return uncertain()
+            return uncertain("inspection")
         if result.status == core.CommitStatus.UNRESOLVED:
             return {**current, "commitStatus": result.status.value}
         return current

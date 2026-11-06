@@ -487,8 +487,13 @@ def test_invalid_or_untrusted_completion_never_retires_or_refunds_sender(fixture
         result["attemptId"] = "0" * 64
         return result
     services.completion = invalidCompletion
-    with pytest.raises(core.CoordinationError, match="exact invocation"):
+    # The post-entry contract now reports uncertainty and retains the authentic
+    # cause: the evidence did not bind the exact invocation.
+    with pytest.raises(core.InvocationUncertain) as uncertain:
         coord.invoke(token, "claim")
+    assert uncertain.value.cause == "completion-failed"
+    assert isinstance(uncertain.value.__cause__, core.CoordinationError)
+    assert str(uncertain.value.__cause__) == "evidence does not bind the exact invocation"
     assert len(services.invocations) == len(services.effects) == 1
     assert coord.inspect()["operations"][token.operationId]["state"] == "possibly-sent"
     assert coord.inspect()["activeOperationId"] == token.operationId

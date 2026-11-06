@@ -195,14 +195,24 @@ def test_real_store_completion_generation_9_to_10_byte_boundary(tmp_path, monkey
 
     monkeypatch.setattr(coord.store, "compare_and_swap", observedCas)
     services.completion = capturedCompletion
-    result, refusal = None, None
+    result, uncertain = None, None
     try:
         result = coord.invoke(token, "claim-active")
-    except core.Refused as exc:
-        refusal = exc
+    except core.InvocationUncertain as exc:
+        uncertain = exc
+    assert (result is None) != (uncertain is None)  # exactly one post-entry outcome
+    if uncertain is not None:
+        # Settlement failure is still only uncertainty; the authentic typed
+        # capacity refusal is retained as the sanitized cause and __cause__.
+        assert uncertain.cause == "capacity"
+        assert isinstance(uncertain.__cause__, core.CapacityRefused)
+        assert isinstance(uncertain.__cause__, core.Refused)
+        assert str(uncertain.__cause__) == "critical record capacity exhausted; settlement headroom retained"
+    refusal = uncertain.__cause__ if uncertain is not None else None
     rawDocument, _ = coord.store.load()  # ordinary store read, including a failing old-guard probe
     print(f"completion-probe overflow={overflow} returned-state={None if result is None else result.state} "
-          f"refused={refusal is not None} persisted-bytes={len(ledger.serialize(rawDocument))} "
+          f"refused={refusal is not None} cause={None if uncertain is None else uncertain.cause} "
+          f"persisted-bytes={len(ledger.serialize(rawDocument))} "
           f"generation={rawDocument['generation']} invocations={len(services.invocations)}")
     if overflow:
         assert refusal is not None and "capacity" in str(refusal)

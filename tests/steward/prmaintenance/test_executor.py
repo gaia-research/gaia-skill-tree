@@ -183,6 +183,7 @@ def test_cli_close_502_reports_correlated_uncertainty(tmp_path, monkeypatch, cap
     assert len(forge.invocations) == len(forge.effects) == 1
     assert output.get("operationId") == operation["operationId"]
     assert output.get("state") in {"possibly-sent", "unknown", "quarantined"}
+    assert output.get("uncertaintyCause") == "transport"  # the 502 could not authenticate an effect
     assert "refused" not in output
     shared = executor.coordinator.inspect()
     assert shared["operations"][operation["operationId"]]["state"] in core.PENDING
@@ -217,6 +218,8 @@ def test_post_effect_errors_remain_correlated_even_when_shared_write_fails(tmp_p
     result = executor.execute(operation["operationId"])
     assert result["operationId"] == operation["operationId"] and result["state"] == "possibly-sent"
     assert result["coordinationState"] == "unavailable"
+    assert result["uncertaintyCause"] == {"completion": "completion-failed", "settlement": "persistence",
+                                          "unknown-transition": "persistence"}[failure]
     shared = executor.coordinator.inspect()
     assert shared["operations"][operation["operationId"]]["state"] == "possibly-sent"
     assert shared["activeOperationId"] == operation["operationId"]
@@ -238,6 +241,108 @@ def test_cli_presend_refusal_remains_distinct(tmp_path, monkeypatch, capsys):
     assert result["refused"] == "kill-switch" and "state" not in result
     assert forge.invocations == forge.effects == []
     assert executor.coordinator.inspect()["operations"][operation["operationId"]]["state"] == "intent"
+
+
+def test_cli_capacity_settlement_refusal_stays_sanitized_uncertainty(tmp_path, monkeypatch, capsys):
+    from gaia_cli.steward.prmaintenance import cli
+    fixture = world(tmp_path, monkeypatch, "close")
+    fx, forge, clock, executor, _, cold = fixture
+    operation = prepare(fixture)
+    original = executor.coordinator._transition
+    def capacity(kind, *args):
+        if kind == "complete":
+            raise core.CapacityRefused("critical record capacity exhausted; settlement headroom retained")
+        return original(kind, *args)
+    monkeypatch.setattr(executor.coordinator, "_transition", capacity)
+    monkeypatch.setattr(ex, "makeExecutor", lambda root: executor)
+    assert cli.main(["--root", str(fx.root), "--json", "execute", "--operation-id", operation["operationId"]]) == 2
+    output = json.loads(capsys.readouterr().out)
+    assert output["operationId"] == operation["operationId"] and output["state"] == "possibly-sent"
+    assert output["coordinationState"] == "unavailable" and output["uncertaintyCause"] == "capacity"
+    assert output["evidenceSha256"] is None and "refused" not in output
+    assert "critical record" not in json.dumps(output)  # raw cause text is never published
+    shared = executor.coordinator.inspect()
+    assert shared["operations"][operation["operationId"]]["state"] == "possibly-sent"
+    assert shared["activeOperationId"] == operation["operationId"]
+    assert core.usage(shared, clock.sample(), "stable-run", "close") == (1, 1)
+    assert forge.fact["state"] == "closed"
+    assert len(forge.invocations) == len(forge.effects) == 1
+    assert cold().execute(operation["operationId"])["state"] == "possibly-sent"  # no replay
+    assert len(forge.invocations) == len(forge.effects) == 1
+
+
+def test_completion_evidence_mismatch_is_sanitized_uncertainty(tmp_path, monkeypatch):
+    fixture = world(tmp_path, monkeypatch, "close")
+    _, forge, clock, executor, _, cold = fixture
+    operation = prepare(fixture)
+    original = executor.services.completion
+    def invalidEvidence(operationArg, invocationId, response):
+        result = original(operationArg, invocationId, response)
+        result["attemptId"] = "0" * 64
+        return result
+    monkeypatch.setattr(executor.services, "completion", invalidEvidence)
+    result = executor.execute(operation["operationId"])
+    assert result["operationId"] == operation["operationId"] and result["state"] == "possibly-sent"
+    assert result["coordinationState"] == "unavailable" and result["uncertaintyCause"] == "completion-failed"
+    assert "0" * 64 not in json.dumps(result)  # the rejected evidence is not echoed
+    shared = executor.coordinator.inspect()
+    assert shared["operations"][operation["operationId"]]["state"] == "possibly-sent"
+    assert shared["activeOperationId"] == operation["operationId"]
+    assert core.usage(shared, clock.sample(), "stable-run", "close") == (1, 1)
+    assert len(forge.invocations) == len(forge.effects) == 1
+    assert cold().execute(operation["operationId"])["state"] == "possibly-sent"  # no replay
+    assert len(forge.invocations) == len(forge.effects) == 1
+
+
+def test_untrusted_completion_binding_is_sanitized_uncertainty(tmp_path, monkeypatch):
+    fixture = world(tmp_path, monkeypatch, "close")
+    _, forge, clock, executor, _, cold = fixture
+    operation = prepare(fixture)
+    def untrusted(*args):
+        raise core.CompletionInvalid("not an authentic completion of this sole invocation")
+    monkeypatch.setattr(executor.services, "completion", untrusted)
+    result = executor.execute(operation["operationId"])
+    assert result["operationId"] == operation["operationId"] and result["state"] == "possibly-sent"
+    assert result["coordinationState"] == "unavailable" and result["uncertaintyCause"] == "completion-failed"
+    shared = executor.coordinator.inspect()
+    assert shared["operations"][operation["operationId"]]["state"] == "possibly-sent"
+    assert shared["activeOperationId"] == operation["operationId"]
+    assert core.usage(shared, clock.sample(), "stable-run", "close") == (1, 1)
+    assert forge.fact["state"] == "closed"
+    assert len(forge.invocations) == len(forge.effects) == 1
+    assert cold().execute(operation["operationId"])["state"] == "possibly-sent"  # no replay
+    assert len(forge.invocations) == len(forge.effects) == 1
+
+
+def test_post_settlement_inspect_failure_is_correlated_uncertainty(tmp_path, monkeypatch):
+    fixture = world(tmp_path, monkeypatch, "close")
+    _, forge, clock, executor, _, cold = fixture
+    operation = prepare(fixture)
+    originalInvoke, originalInspect = executor.coordinator.invoke, executor.coordinator.inspect
+    sent = {"done": False}
+    def invoke(*args, **kwargs):
+        try:
+            return originalInvoke(*args, **kwargs)
+        finally:
+            sent["done"] = True
+    def inspect():
+        if sent["done"]:
+            raise ledger.LedgerUnavailable("synthetic post-settlement report unavailable")
+        return originalInspect()
+    monkeypatch.setattr(executor.coordinator, "invoke", invoke)
+    monkeypatch.setattr(executor.coordinator, "inspect", inspect)
+    result = executor.execute(operation["operationId"])
+    assert result["operationId"] == operation["operationId"] and result["state"] == "possibly-sent"
+    assert result["coordinationState"] == "unavailable" and result["uncertaintyCause"] == "inspection"
+    assert "synthetic post-settlement" not in json.dumps(result)  # raw cause text is never published
+    shared = originalInspect()  # actual shared truth, observed outside the failure
+    assert shared["operations"][operation["operationId"]]["state"] == "completed-effect"
+    assert shared["activeOperationId"] is None
+    assert core.usage(shared, clock.sample(), "stable-run", "close") == (1, 1)
+    assert forge.fact["state"] == "closed"
+    assert len(forge.invocations) == len(forge.effects) == 1
+    assert cold().execute(operation["operationId"])["state"] == "closed"  # terminal report, no replay
+    assert len(forge.invocations) == len(forge.effects) == 1
 
 
 def test_authenticated_close_response_can_retire_after_reopen(tmp_path, monkeypatch):
@@ -545,8 +650,20 @@ def test_post_effect_mismatch_cannot_invent_matching_merge_settlement(tmp_path, 
         elif mismatch == "base": forge.fact["base"]["ref"] = "other"
         else: forge.parentShas = [forge.fx.base, "e" * 40]
     forge.before = race
-    with pytest.raises(core.CoordinationError, match="^matching independently verified merge/parent proof unavailable$"):
-        executor.execute(operation["operationId"])
+    # Deliberate contract change: a post-entry settlement failure is reported as
+    # operation-correlated uncertainty. It is never a pre-send refusal and never
+    # a synthesized matching merge settlement.
+    result = executor.execute(operation["operationId"])
+    shared = executor.coordinator.inspect()
+    stored = shared["operations"][operation["operationId"]]
+    assert result["operationId"] == operation["operationId"]
+    assert result["state"] == "possibly-sent" and result["coordinationState"] == "unavailable"
+    assert result["uncertaintyCause"] == "completion-failed"  # completion could not authenticate the merge fact
+    assert stored["state"] == "possibly-sent" and stored["evidence"] is None
+    assert result["evidenceSha256"] is None
+    assert "mergeCommitSha" not in result and "observedState" not in result
+    assert shared["activeOperationId"] == operation["operationId"]
+    assert core.usage(shared, clock.sample(), "stable-run", "merge") == (1, 1)
     assert executor.recover(operation["operationId"])["state"] == "quarantined"
     assert executor.execute(operation["operationId"])["state"] == "quarantined"
     assert core.usage(executor.coordinator.inspect(), clock.sample(), "stable-run", "merge") == (1, 1)
