@@ -1,0 +1,4 @@
+Steward coverage check: FAILED
+- detector 'pr-maintenance': proof test tests/steward/prmaintenance/test_executor.py does not import PrMaintenanceSensor
+- detector 'pr-maintenance': proof test tests/steward/prmaintenance/test_executor_processes.py does not import PrMaintenanceSensor
+- detector 'pr-maintenance': proof test tests/steward/prmaintenance/test_resources.py does not import PrMaintenanceSensor

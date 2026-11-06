@@ -1,0 +1,17 @@
+source: 17ad597ad3478b7caae182b1581a965a8fcfa252 scratch: $TMPDIR/routine19-offline-package-1b1oo1j_
+available tool: pip 26.2.1
+available tool: setuptools 81.0.0
+available tool: wheel not installed
+available tool: build not installed
+command: /data/data/com.termux/files/usr/bin/python -m pip wheel --no-index --no-deps --no-build-isolation --no-cache-dir --wheel-dir $TMPDIR/routine19-offline-package-1b1oo1j_/wheels $TMPDIR/routine19-offline-package-1b1oo1j_/export
+Processing ./export
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: gaia-cli
+  Building wheel for gaia-cli (pyproject.toml): started
+  Building wheel for gaia-cli (pyproject.toml): finished with status 'done'
+  Created wheel for gaia-cli: filename=gaia_cli-9.3.0-py3-none-any.whl size=1106310 sha256=e45d876ac1d0dcd3b647b8c5457c08bf6397a25708640b585c24976aee5fe651
+  Stored in directory: $TMPDIR/pip-ephem-wheel-cache-fn1h07tp/wheels/e0/9f/af/fea4c5463696dd318865e45ad9681aba5a153701f48825e91f
+Successfully built gaia-cli
+wheel import + missing-authority fail-closed probe: passed
+OFFLINE PACKAGING PASSED: $TMPDIR/routine19-offline-package-1b1oo1j_/wheels/gaia_cli-9.3.0-py3-none-any.whl

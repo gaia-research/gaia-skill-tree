@@ -1,0 +1,16 @@
+...........................F.......................                      [100%]
+=================================== FAILURES ===================================
+____ test_explicit_cli_carries_operation_identity_and_shared_terminal_proof ____
+tests/steward/prmaintenance/test_executor.py:286: in test_explicit_cli_carries_operation_identity_and_shared_terminal_proof
+    assert cli.main(base + ["gate-merge", "--repo", h.REPO, "--number", "2270", "--head", request["expectedHeadSha"],
+E   AssertionError: assert 2 == 0
+E    +  where 2 = <function main at 0x7695f21f30>((['--root', '$TMPDIR/pytest-of-u0_a574/pytest-153/test_explicit_cli_carries_oper0/content/repo', '--json'] + ['gate-merge', '--repo', 'gaia-research/gaia-skill-tree', '--number', '2270', '--head', ...]))
+E    +    where <function main at 0x7695f21f30> = <module 'gaia_cli.steward.prmaintenance.cli' from '$HOME/.gaia-worktrees/steward-r19-shared-write-2283/src/gaia_cli/steward/prmaintenance/cli.py'>.main
+----------------------------- Captured stdout call -----------------------------
+{
+  "message": "the verification for this head is older than 21600s",
+  "refused": "verification-stale"
+}
+=========================== short test summary info ============================
+FAILED tests/steward/prmaintenance/test_executor.py::test_explicit_cli_carries_operation_identity_and_shared_terminal_proof
+1 failed, 50 passed in 281.82s (0:04:41)

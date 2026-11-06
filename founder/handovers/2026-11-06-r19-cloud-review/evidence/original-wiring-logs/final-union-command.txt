@@ -1,0 +1,31 @@
+Source commit: 3245fec8b1868135fce5089e292c161caa969508
+Source tree: b127552e8fa333c8eca702812b97467ddcb8234e
+Working tree clean before execution.
+
+PYTHONPATH=src python -m pytest \
+  tests/steward/prmaintenance \
+  tests/steward/test_ledger.py \
+  tests/steward/test_fullrun.py \
+  tests/steward/test_fullrun_cli.py \
+  tests/steward/test_fullrun_scenarios.py \
+  tests/steward/test_steward_drive.py \
+  tests/steward/test_local_full_state.py \
+  tests/steward/test_cli.py \
+  tests/steward/test_cli_contract.py \
+  tests/steward/test_controller.py \
+  tests/steward/test_controller_resolution.py \
+  tests/steward/test_desk.py \
+  tests/steward/test_steward_skills.py \
+  tests/steward/test_routine_coverage.py \
+  tests/steward/test_coverage_regressions.py \
+  tests/steward/test_contracts_sweep_safety.py \
+  tests/steward/test_security_reconciliation.py \
+  tests/steward/test_sensors_security.py \
+  tests/steward/test_founder_workflow_lock_2283.py \
+  tests/upstream_watcher/test_identity_2283.py \
+  tests/upstream_watcher/test_count_2278.py \
+  tests/upstream_watcher/test_legacy_evidence_identity.py \
+  tests/test_pr_guards.py \
+  -q --tb=short \
+  --junitxml=$HOME/gaia-skill-tree/.gaia/steward/campaigns/2026-11-05/routine19-shared/wiring-logs/final-union.xml \
+  -o junit_logging=all

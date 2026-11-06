@@ -1,0 +1,871 @@
+{
+  "candidate": "314fdf655edb7a6cb9bd131461bc11952366979d",
+  "candidateTree": "e53b5920571b1458a6b6d0bde1fe454f57c7b411",
+  "comparisonBase": "3cd5504e00ac00e4708503f484a05e04e5775dcc",
+  "changedSourcePaths": 36,
+  "artifacts": [
+    {
+      "publishedPath": "evidence/reports/wiring-whole-review-assignment.md",
+      "originalFile": "wiring-whole-review-assignment.md",
+      "originalSha256": "1dc8ad01abca9c5fee317d0cc37b1ee481be6a84116d6f114d4ff8d2f428bf1b",
+      "publishedSha256": "870338c4959c849979f6d910937f4059ecb73900fbf2e392e44854676b85c312",
+      "originalBytes": 7742,
+      "publishedBytes": 7661,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/reports/wiring-implementation-proof.md",
+      "originalFile": "wiring-implementation-proof.md",
+      "originalSha256": "3cef27a8742296308fa50e0ff7e0624e256c2524fd6c90f84645d3085cbfea40",
+      "publishedSha256": "c373ca356524071373e6793b1c78deba8bcde803a13f08389fd22b4406fda1c7",
+      "originalBytes": 22764,
+      "publishedBytes": 22682,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/reports/core-boundary-independent-review.md",
+      "originalFile": "core-boundary-independent-review.md",
+      "originalSha256": "b3636bb9c4bf2d97fc956b68dbb4df41aa65a0c22e5de622259597a88991aa03",
+      "publishedSha256": "c47a02ffa4ee8dd5acc609b53721444d8b7331bfc35058e5f571db4a55eb9bce",
+      "originalBytes": 11515,
+      "publishedBytes": 11488,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/reports/wiring-whole-independent-review.md",
+      "originalFile": "wiring-whole-independent-review.md",
+      "originalSha256": "439f060bda69931691241cd874a3ace1995b8bd7180e94b4db35d590e4cf42cd",
+      "publishedSha256": "439f060bda69931691241cd874a3ace1995b8bd7180e94b4db35d590e4cf42cd",
+      "originalBytes": 7081,
+      "publishedBytes": 7081,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/reports/wiring-whole-independent-review-completion.md",
+      "originalFile": "wiring-whole-independent-review-completion.md",
+      "originalSha256": "9b62de9c460dabff0164fd5d3f3492f0cc437d62f2c0c90f87adac57a5a3c2d0",
+      "publishedSha256": "9b62de9c460dabff0164fd5d3f3492f0cc437d62f2c0c90f87adac57a5a3c2d0",
+      "originalBytes": 8546,
+      "publishedBytes": 8546,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/reports/unknown-binding-repair-proof.md",
+      "originalFile": "unknown-binding-repair-proof.md",
+      "originalSha256": "ff6bc0706b2d534618b8755c00ffd22305d0556543a1d176710085ed78252f2b",
+      "publishedSha256": "672915d1f9c32deeb3da7bd754853305c5caf4a11624e14b0e202f4f4c6423b2",
+      "originalBytes": 6604,
+      "publishedBytes": 6577,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/reports/wiring-whole-repaired-independent-review.md",
+      "originalFile": "wiring-whole-repaired-independent-review.md",
+      "originalSha256": "c2bb2ca5f2cea8abf41b63e1b439b1d101a4c62ffbbaee71aa741d8e29046766",
+      "publishedSha256": "c2bb2ca5f2cea8abf41b63e1b439b1d101a4c62ffbbaee71aa741d8e29046766",
+      "originalBytes": 9626,
+      "publishedBytes": 9626,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/reports/git-object-boundary-repair-proof.md",
+      "originalFile": "git-object-boundary-repair-proof.md",
+      "originalSha256": "586b1ad004e560608336dfea63280ebaa571dcc25fb07d2b4cd67ec0003a9b76",
+      "publishedSha256": "ba6e21b1b5b1ba9b263c5ebd592c9d6c8253d162bcdc4cb7b60fda0eb3f407d1",
+      "originalBytes": 8702,
+      "publishedBytes": 8675,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/reports/wiring-whole-git-hardened-independent-review.md",
+      "originalFile": "wiring-whole-git-hardened-independent-review.md",
+      "originalSha256": "81c472f35c827360a2e1f9085da9cdb8f60ac990b90a1f19215b746a4ebdff73",
+      "publishedSha256": "81c472f35c827360a2e1f9085da9cdb8f60ac990b90a1f19215b746a4ebdff73",
+      "originalBytes": 9042,
+      "publishedBytes": 9042,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/reports/exact-tree-export-repair-proof.md",
+      "originalFile": "exact-tree-export-repair-proof.md",
+      "originalSha256": "9144df1edef3c11b4800d429a5bff1c01a35ec1964df1363fa033d5aca8c0860",
+      "publishedSha256": "9144df1edef3c11b4800d429a5bff1c01a35ec1964df1363fa033d5aca8c0860",
+      "originalBytes": 8372,
+      "publishedBytes": 8372,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/reports/wiring-whole-exact-tree-independent-review.md",
+      "originalFile": "wiring-whole-exact-tree-independent-review.md",
+      "originalSha256": "2a8e7e9f3412291ab745a374b899b12b1a7411e3f637b1d7eaed079fc7038b75",
+      "publishedSha256": "2a8e7e9f3412291ab745a374b899b12b1a7411e3f637b1d7eaed079fc7038b75",
+      "originalBytes": 2482,
+      "publishedBytes": 2482,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/adapter-entry-green.log",
+      "originalFile": "adapter-entry-green.log",
+      "originalSha256": "a3f21bce5a362f0d85c88f915a8f687748a7b449df5cbae809505e33ba043d07",
+      "publishedSha256": "a3f21bce5a362f0d85c88f915a8f687748a7b449df5cbae809505e33ba043d07",
+      "originalBytes": 89,
+      "publishedBytes": 89,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/adapter-entry-red.log",
+      "originalFile": "adapter-entry-red.log",
+      "originalSha256": "3209e58dd1fae9d182b5429807f3d093d3507d319aa74b02d9300a2fb08b89c3",
+      "publishedSha256": "3209e58dd1fae9d182b5429807f3d093d3507d319aa74b02d9300a2fb08b89c3",
+      "originalBytes": 863,
+      "publishedBytes": 863,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/contract-ready-attempt-1.log",
+      "originalFile": "contract-ready-attempt-1.log",
+      "originalSha256": "5d5aab3e8bd11c4a1ab0036850d90d8d027650e9fe9938df153e7e301770ddd1",
+      "publishedSha256": "5d5aab3e8bd11c4a1ab0036850d90d8d027650e9fe9938df153e7e301770ddd1",
+      "originalBytes": 272,
+      "publishedBytes": 272,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/coverage-preflight.log",
+      "originalFile": "coverage-preflight.log",
+      "originalSha256": "4ded82a16a66b7294dd48c0693b35357706d7de916ef16aa65f3b6a161c871fd",
+      "publishedSha256": "4ded82a16a66b7294dd48c0693b35357706d7de916ef16aa65f3b6a161c871fd",
+      "originalBytes": 405,
+      "publishedBytes": 405,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/coverage-ready.log",
+      "originalFile": "coverage-ready.log",
+      "originalSha256": "fce68901275540fe781559c9e32279912fe7eb1c283bb02233f75667c1dfe503",
+      "publishedSha256": "fce68901275540fe781559c9e32279912fe7eb1c283bb02233f75667c1dfe503",
+      "originalBytes": 27,
+      "publishedBytes": 27,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/final-acceptance-command.txt",
+      "originalFile": "final-acceptance-command.txt",
+      "originalSha256": "cdb1c002a13c9dedf780267c78ff65a68c1396e05c3e31615227dc29ee89d540",
+      "publishedSha256": "de6a1bd436a24691ee62d1a02b9b7ff9fdd5e2c305c372d26339f6f0b71fd3c6",
+      "originalBytes": 1540,
+      "publishedBytes": 1513,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/final-coverage.log",
+      "originalFile": "final-coverage.log",
+      "originalSha256": "fce68901275540fe781559c9e32279912fe7eb1c283bb02233f75667c1dfe503",
+      "publishedSha256": "fce68901275540fe781559c9e32279912fe7eb1c283bb02233f75667c1dfe503",
+      "originalBytes": 27,
+      "publishedBytes": 27,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/final-full-skill.log",
+      "originalFile": "final-full-skill.log",
+      "originalSha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0",
+      "publishedSha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0",
+      "originalBytes": 16,
+      "publishedBytes": 16,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/final-handoff-checks.log",
+      "originalFile": "final-handoff-checks.log",
+      "originalSha256": "6238133d9976c6e6e9d4161b9ee4433608627000a1a773d01d66ceeb04b77cd2",
+      "publishedSha256": "7258e735f885f953af82a360941b199cbe4994543d99cb81ca54f04709a1acdf",
+      "originalBytes": 555,
+      "publishedBytes": 528,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/final-mirror.log",
+      "originalFile": "final-mirror.log",
+      "originalSha256": "c1e51cccd139884ffb45cb533bd481eebb99509a192d0ebd05d3616a2887f6f1",
+      "publishedSha256": "c1e51cccd139884ffb45cb533bd481eebb99509a192d0ebd05d3616a2887f6f1",
+      "originalBytes": 30,
+      "publishedBytes": 30,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/final-node-mirror.log",
+      "originalFile": "final-node-mirror.log",
+      "originalSha256": "fab43e261ad490e505546bd14a5f0d3b1e8e3eec2cec4b0ad4206abecf652c7c",
+      "publishedSha256": "fab43e261ad490e505546bd14a5f0d3b1e8e3eec2cec4b0ad4206abecf652c7c",
+      "originalBytes": 709,
+      "publishedBytes": 709,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/final-pr-skill.log",
+      "originalFile": "final-pr-skill.log",
+      "originalSha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0",
+      "publishedSha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0",
+      "originalBytes": 16,
+      "publishedBytes": 16,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/final-preservation.log",
+      "originalFile": "final-preservation.log",
+      "originalSha256": "da6e0e31de44dee52268066ae4282e8909d049f37aa298a0331c54fef1929ad9",
+      "publishedSha256": "da6e0e31de44dee52268066ae4282e8909d049f37aa298a0331c54fef1929ad9",
+      "originalBytes": 2892,
+      "publishedBytes": 2892,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/final-seams-ready-attempt-2.log",
+      "originalFile": "final-seams-ready-attempt-2.log",
+      "originalSha256": "9e7ab0d7ce4a91a6d47bc47f4939962199b27108cd818ac2c32904e277e13840",
+      "publishedSha256": "9e7ab0d7ce4a91a6d47bc47f4939962199b27108cd818ac2c32904e277e13840",
+      "originalBytes": 2231,
+      "publishedBytes": 2231,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/final-seams-ready.log",
+      "originalFile": "final-seams-ready.log",
+      "originalSha256": "34105ea50cf3ae47dd40018a16e061982d411525500888584dce3be2712c0d92",
+      "publishedSha256": "c923acb77ea88f390462d4e7459bb0079982f6e2324fce6c48eb219221d194b3",
+      "originalBytes": 2935,
+      "publishedBytes": 2773,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/final-skills.log",
+      "originalFile": "final-skills.log",
+      "originalSha256": "822f6e704f353daeb1fe09fd4310dd7d4976f496beabaa05991901cfefa8b00d",
+      "publishedSha256": "822f6e704f353daeb1fe09fd4310dd7d4976f496beabaa05991901cfefa8b00d",
+      "originalBytes": 9388,
+      "publishedBytes": 9388,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/final-union-17ad597ad.log",
+      "originalFile": "final-union-17ad597ad.log",
+      "originalSha256": "f548172c591a0ee2be63f0c171d5f7f4f7e2aa90558592fcce21b538b2ff19f4",
+      "publishedSha256": "f548172c591a0ee2be63f0c171d5f7f4f7e2aa90558592fcce21b538b2ff19f4",
+      "originalBytes": 1394,
+      "publishedBytes": 1394,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/final-union-17ad597ad.xml",
+      "originalFile": "final-union-17ad597ad.xml",
+      "originalSha256": "1a8ce1f06e933dc97f76b6bc535b60660458a57ca5f8c2d293c4b41c086f36c0",
+      "publishedSha256": "f3cf5de19cfc098d4def7f427a32217cb5d8db53836ee54ba52489c7efab8c08",
+      "originalBytes": 558179,
+      "publishedBytes": 558046,
+      "redactions": {
+        "credentialPrefix": 7,
+        "bearerValue": 0,
+        "nonPublicEndpoint": 6,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/final-union-command.txt",
+      "originalFile": "final-union-command.txt",
+      "originalSha256": "eb90fc9624c015e061d145d79004bcd96b005949f1ca7ce317727d4c8d11dae0",
+      "publishedSha256": "74dbc58b41d88d2d57bf2647ecd87534bfc74b484d729d1852bb30b7152f3ea6",
+      "originalBytes": 1325,
+      "publishedBytes": 1298,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/final-union.log",
+      "originalFile": "final-union.log",
+      "originalSha256": "67cb5b66fa4da2ff4b81e875814b9871552cdad0ff3a5a0f153ff9bce0bd6421",
+      "publishedSha256": "67cb5b66fa4da2ff4b81e875814b9871552cdad0ff3a5a0f153ff9bce0bd6421",
+      "originalBytes": 1394,
+      "publishedBytes": 1394,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/final-union.xml",
+      "originalFile": "final-union.xml",
+      "originalSha256": "7e7a2a33db1cef4bfaef32470dd00e161e46d3dd71531e495fea75b1b5ba702c",
+      "publishedSha256": "544be75a5871c6bf609a1865cb33b10a421088ebf049258ea628e047c08b3451",
+      "originalBytes": 558175,
+      "publishedBytes": 558042,
+      "redactions": {
+        "credentialPrefix": 7,
+        "bearerValue": 0,
+        "nonPublicEndpoint": 6,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/full-skill-ready.log",
+      "originalFile": "full-skill-ready.log",
+      "originalSha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0",
+      "publishedSha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0",
+      "originalBytes": 16,
+      "publishedBytes": 16,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/integrated-seams-attempt-1.log",
+      "originalFile": "integrated-seams-attempt-1.log",
+      "originalSha256": "5838a5e44923ef2be6c5c891e4948ef2d40c7022de6d66b382ac373722c89cc3",
+      "publishedSha256": "5838a5e44923ef2be6c5c891e4948ef2d40c7022de6d66b382ac373722c89cc3",
+      "originalBytes": 111,
+      "publishedBytes": 111,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/mirror-ready.log",
+      "originalFile": "mirror-ready.log",
+      "originalSha256": "c1e51cccd139884ffb45cb533bd481eebb99509a192d0ebd05d3616a2887f6f1",
+      "publishedSha256": "c1e51cccd139884ffb45cb533bd481eebb99509a192d0ebd05d3616a2887f6f1",
+      "originalBytes": 30,
+      "publishedBytes": 30,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/node-mirror-ready.log",
+      "originalFile": "node-mirror-ready.log",
+      "originalSha256": "2ac0267da8f1295551a3fd14203ebbd8d76dbe24be887a4d9021b86652b45115",
+      "publishedSha256": "2ac0267da8f1295551a3fd14203ebbd8d76dbe24be887a4d9021b86652b45115",
+      "originalBytes": 711,
+      "publishedBytes": 711,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/offline-packaging.log",
+      "originalFile": "offline-packaging.log",
+      "originalSha256": "3cc1286c7cc6922b5e9b40cf0d1e5993a343998d7b68c84a819bdba936c9f203",
+      "publishedSha256": "4e6ec8ca6d56be2680db07a5862ed76d3a7b0ebc018d2ddfa0001f4b61a850a9",
+      "originalBytes": 1403,
+      "publishedBytes": 1263,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/offline_package_check.py.txt",
+      "originalFile": "offline_package_check.py",
+      "originalSha256": "74812573c4e86c407ca0ff5d85d325ca1bccdcbeca6c2fef2255c1992b480184",
+      "publishedSha256": "4b0a429761e1c1443ba00a9f4071deafd3bcfc0f24d792af75ec997d2f7a0f9d",
+      "originalBytes": 3305,
+      "publishedBytes": 3278,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/ordinary-core-ready.log",
+      "originalFile": "ordinary-core-ready.log",
+      "originalSha256": "a69ef1d38a4f9ad48642e29822d4cc77d23cb716ba0016b74697f4c3193bbaf1",
+      "publishedSha256": "a69ef1d38a4f9ad48642e29822d4cc77d23cb716ba0016b74697f4c3193bbaf1",
+      "originalBytes": 352,
+      "publishedBytes": 352,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/pr-skill-ready.log",
+      "originalFile": "pr-skill-ready.log",
+      "originalSha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0",
+      "publishedSha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0",
+      "originalBytes": 16,
+      "publishedBytes": 16,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/provider-attempt-1.log",
+      "originalFile": "provider-attempt-1.log",
+      "originalSha256": "7920ded19ed185aa2051466561af648e06b247bb60f51d602a37096e0d040d1a",
+      "publishedSha256": "7920ded19ed185aa2051466561af648e06b247bb60f51d602a37096e0d040d1a",
+      "originalBytes": 110,
+      "publishedBytes": 110,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/provider-process-resource-attempt-1.log",
+      "originalFile": "provider-process-resource-attempt-1.log",
+      "originalSha256": "2db98fa463515a264eb0d49d5c6b275bfd02497e7dee338a60cc831c000b69cc",
+      "publishedSha256": "1ef723e9e7fd0d6964e27c3b94acb97e05cb1694975f69ed0150f8f998a0acdb",
+      "originalBytes": 1462,
+      "publishedBytes": 1407,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/skills-ready.log",
+      "originalFile": "skills-ready.log",
+      "originalSha256": "822f6e704f353daeb1fe09fd4310dd7d4976f496beabaa05991901cfefa8b00d",
+      "publishedSha256": "822f6e704f353daeb1fe09fd4310dd7d4976f496beabaa05991901cfefa8b00d",
+      "originalBytes": 9388,
+      "publishedBytes": 9388,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/wiring-checkpoint-2-attempt-1.log",
+      "originalFile": "wiring-checkpoint-2-attempt-1.log",
+      "originalSha256": "2e249bc59e75f4b086e4c4e84815f3064fbf3e9c5c22215145c0a07ab8bd5037",
+      "publishedSha256": "2e249bc59e75f4b086e4c4e84815f3064fbf3e9c5c22215145c0a07ab8bd5037",
+      "originalBytes": 3382,
+      "publishedBytes": 3382,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/wiring-compat-attempt-1.log",
+      "originalFile": "wiring-compat-attempt-1.log",
+      "originalSha256": "c53b51bee2bafc54f3c891f883a16c7ad44da32f8806ebf71cd97e2e33e4ef48",
+      "publishedSha256": "c53b51bee2bafc54f3c891f883a16c7ad44da32f8806ebf71cd97e2e33e4ef48",
+      "originalBytes": 22566,
+      "publishedBytes": 22566,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/original-wiring-logs/wiring-compat-attempt-2.log",
+      "originalFile": "wiring-compat-attempt-2.log",
+      "originalSha256": "f92ed83f66346e88f783bd4d67eed022764be94206f8bf148e49af603b801801",
+      "publishedSha256": "f92ed83f66346e88f783bd4d67eed022764be94206f8bf148e49af603b801801",
+      "originalBytes": 1690,
+      "publishedBytes": 1690,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/parent-314f/parent-314f-binding.json",
+      "originalFile": "parent-314f-binding.json",
+      "originalSha256": "80784d26ce53824a6569f9fd1573c01b9975bf6ef0d62b995e9e43149a65c3cc",
+      "publishedSha256": "d3b0c07608bdecc2e9c82f03db2fcc765f2a917d2abecca765a29d30f2f8fbbd",
+      "originalBytes": 431,
+      "publishedBytes": 404,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/parent-314f/parent-314f-coordination.command.json",
+      "originalFile": "parent-314f-coordination.command.json",
+      "originalSha256": "2b493411492703e8ec4b51269f6e3a990017a75655a2d1cbcd0f287479915bec",
+      "publishedSha256": "58f630266cb3242c622b1081e9b2720ddbc2161a201180dedd0082ed55394de9",
+      "originalBytes": 390,
+      "publishedBytes": 363,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/parent-314f/parent-314f-coordination.exit",
+      "originalFile": "parent-314f-coordination.exit",
+      "originalSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publishedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalBytes": 2,
+      "publishedBytes": 2,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/parent-314f/parent-314f-coordination.log",
+      "originalFile": "parent-314f-coordination.log",
+      "originalSha256": "a5de4c8cb0a9444cceae0a6e04e2780d3cb8a2d1d237afddeb90818e675152d8",
+      "publishedSha256": "a5de4c8cb0a9444cceae0a6e04e2780d3cb8a2d1d237afddeb90818e675152d8",
+      "originalBytes": 191,
+      "publishedBytes": 191,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/parent-314f/parent-314f-executor.command.json",
+      "originalFile": "parent-314f-executor.command.json",
+      "originalSha256": "b7621dbe6d85033ab7e1e3ce9343c3b08816ef42c34ecafaabc3cbefd39161ca",
+      "publishedSha256": "0a66e31f31601c47e5ef1a8f85e25ad1e48bd0cc1be39407a129ab42ad92686c",
+      "originalBytes": 319,
+      "publishedBytes": 292,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/parent-314f/parent-314f-executor.exit",
+      "originalFile": "parent-314f-executor.exit",
+      "originalSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publishedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalBytes": 2,
+      "publishedBytes": 2,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/parent-314f/parent-314f-executor.log",
+      "originalFile": "parent-314f-executor.log",
+      "originalSha256": "ce2bdf4b5772a95f333f28a7323279b07e5f385c279619ebbd7b122e3ea9b031",
+      "publishedSha256": "ce2bdf4b5772a95f333f28a7323279b07e5f385c279619ebbd7b122e3ea9b031",
+      "originalBytes": 111,
+      "publishedBytes": 111,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/parent-314f/parent-314f-proof-gate.command.json",
+      "originalFile": "parent-314f-proof-gate.command.json",
+      "originalSha256": "c5531aa59ff2d11c1c8e3c7f902eca9f55b3b9250007010feed16e32d036a699",
+      "publishedSha256": "da67e53613d35554975d68940ef75ea651ce3f340621d07074c0fe4162adfc2b",
+      "originalBytes": 356,
+      "publishedBytes": 329,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/parent-314f/parent-314f-proof-gate.exit",
+      "originalFile": "parent-314f-proof-gate.exit",
+      "originalSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publishedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalBytes": 2,
+      "publishedBytes": 2,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/parent-314f/parent-314f-proof-gate.log",
+      "originalFile": "parent-314f-proof-gate.log",
+      "originalSha256": "0f5c69f2ad0d54d6caad18f914ef0d1ebcbe0f5267817e10c2a3654bb0ca10de",
+      "publishedSha256": "0f5c69f2ad0d54d6caad18f914ef0d1ebcbe0f5267817e10c2a3654bb0ca10de",
+      "originalBytes": 111,
+      "publishedBytes": 111,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/parent-314f/parent-314f-runner.command.json",
+      "originalFile": "parent-314f-runner.command.json",
+      "originalSha256": "14c51f3e78714016a46f42f3c1031de88bc779158042ab36cced5bb75ba6d0c6",
+      "publishedSha256": "5eb33bddf6f2db930a3062880b69812a7cce5d49e808538d1d993cd351318058",
+      "originalBytes": 292,
+      "publishedBytes": 265,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": true
+    },
+    {
+      "publishedPath": "evidence/parent-314f/parent-314f-runner.exit",
+      "originalFile": "parent-314f-runner.exit",
+      "originalSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publishedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalBytes": 2,
+      "publishedBytes": 2,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/parent-314f/parent-314f-runner.log",
+      "originalFile": "parent-314f-runner.log",
+      "originalSha256": "840374e8ff98c35c48ef97b111519bff03c7e499cd9f994c29a648f3d1a5e0cb",
+      "publishedSha256": "840374e8ff98c35c48ef97b111519bff03c7e499cd9f994c29a648f3d1a5e0cb",
+      "originalBytes": 191,
+      "publishedBytes": 191,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/parent-314f/parent-314f-summary.json",
+      "originalFile": "parent-314f-summary.json",
+      "originalSha256": "bb2b9bc5f440b61460a076bdd4bfc25d2c912c9ed74e8f952a2aa43b2596c723",
+      "publishedSha256": "bb2b9bc5f440b61460a076bdd4bfc25d2c912c9ed74e8f952a2aa43b2596c723",
+      "originalBytes": 465,
+      "publishedBytes": 465,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    },
+    {
+      "publishedPath": "evidence/R19_REVIEW_ROUTE_ACCESS_BLOCK.json",
+      "originalFile": "R19_REVIEW_ROUTE_ACCESS_BLOCK.json",
+      "originalSha256": "b042dbb22850bbf7c2f7c1473450ab3ee4b5ae2397f8005222674312dd378add",
+      "publishedSha256": "b042dbb22850bbf7c2f7c1473450ab3ee4b5ae2397f8005222674312dd378add",
+      "originalBytes": 2019,
+      "publishedBytes": 2019,
+      "redactions": {
+        "credentialPrefix": 0,
+        "bearerValue": 0,
+        "issuerValue": 0
+      },
+      "publicCopyChanged": false
+    }
+  ],
+  "notes": [
+    "Evidence copies only; original private session artifacts preserved.",
+    "Non-public endpoints, recognizable credential forms and quoted issuers redacted; local paths normalized.",
+    "Original and published hashes intentionally differ for redacted copies.",
+    "Old reports are historical, not current acceptance; executable packaging reproducer is text-only.",
+    "Untracked independent scratch probes are not bundled; reproduce fresh controls using versioned fixtures."
+  ]
+}

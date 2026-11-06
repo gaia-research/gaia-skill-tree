@@ -1,0 +1,12 @@
+........................................................................ [ 59%]
+............F.....................................                       [100%]
+=================================== FAILURES ===================================
+_ test_a_clean_scheduled_run_prints_the_quiet_line_and_status_carries_the_desk _
+tests/steward/test_fullrun_cli.py:426: in test_a_clean_scheduled_run_prints_the_quiet_line_and_status_carries_the_desk
+    assert QUIET_LINE in out.splitlines()
+E   AssertionError: assert 'Gaia Steward: nothing needs you.' in ['Gaia Steward full', 'Run                  run-20261105T183038Z-f6cd990e  (mode full)', 'Status               complet... coverage unknown 0, not evaluated 1, partially covered 0', 'Triage               A 0  B 0  B-report-only 0  C 0', ...]
+E    +  where ['Gaia Steward full', 'Run                  run-20261105T183038Z-f6cd990e  (mode full)', 'Status               complet... coverage unknown 0, not evaluated 1, partially covered 0', 'Triage               A 0  B 0  B-report-only 0  C 0', ...] = <built-in method splitlines of str object at 0xb4000075c152b550>()
+E    +    where <built-in method splitlines of str object at 0xb4000075c152b550> = 'Gaia Steward full\nRun                  run-20261105T183038Z-f6cd990e  (mode full)\nStatus               completed  (...), 1 operation(s)\n  operation [ledger_local_only] steward ledger\nNext                 nothing further for this run\n'.splitlines
+=========================== short test summary info ============================
+FAILED tests/steward/test_fullrun_cli.py::test_a_clean_scheduled_run_prints_the_quiet_line_and_status_carries_the_desk
+1 failed, 121 passed in 200.05s (0:03:20)

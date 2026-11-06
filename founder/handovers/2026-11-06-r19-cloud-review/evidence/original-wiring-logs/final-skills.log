@@ -1,0 +1,86 @@
+Validating 83 skills under .agents/skills...
+
+[evidence-verification-pipeline] (.agents/skills/evidence-verification-pipeline)
+  ⚠️  WARNING: Orphaned asset detected: 'agents/openai.yaml' is not referenced in any markdown file in the skill folder
+
+[gaia-curate] (.agents/skills/gaia-curate)
+  ⚠️  WARNING: Orphaned asset detected: 'schemas/discovery-packet.schema.json' is not referenced in any markdown file in the skill folder
+
+[graphify-triage] (.agents/skills/graphify-triage)
+  ⚠️  WARNING: Orphaned asset detected: 'resources/templates/gaia_node.json' is not referenced in any markdown file in the skill folder
+
+[grill-me] (.agents/skills/grill-me)
+  ⚠️  WARNING: Orphaned asset detected: 'agents/openai.yaml' is not referenced in any markdown file in the skill folder
+
+[impeccable] (.agents/skills/impeccable)
+  ⚠️  WARNING: Orphaned asset detected: 'agents/impeccable_asset_producer.toml' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'agents/impeccable_manual_edit_applier.toml' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'agents/openai.yaml' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/cleanup-deprecated.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/command-metadata.json' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/design-parser.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/impeccable-paths.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/is-generated.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live-browser-dom.js' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live-browser-session.js' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live-browser.js' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live-commit-manual-edits.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live-completion.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live-copy-edit-agent.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live-discard-manual-edits.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live-event-validation.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live-insert-ui.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live-manual-edit-evidence.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live-manual-edits-buffer.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live-session-store.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live-svelte-component.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live-sveltekit-adapter.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live-ui-core.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/modern-screenshot.umd.js' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/design-system.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/detect-antipatterns-browser.js' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/detect-antipatterns.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/findings.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/browser/injected/index.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/cli/main.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/engines/browser/detect-url.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/engines/regex/detect-text.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/engines/static-html/css-cascade.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/engines/static-html/detect-html.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/engines/visual/screenshot-contrast.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/node/file-system.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/profile/profiler.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/registry/antipatterns.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/rules/checks.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/shared/color.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/shared/constants.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/detector/shared/page.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/lib/design-parser.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/lib/impeccable-config.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/lib/impeccable-paths.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/lib/is-generated.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live/browser-script-parts.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live/completion.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live/event-validation.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live/insert-ui.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live/manual-apply.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live/manual-edit-routes.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live/manual-edits-buffer.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live/session-store.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live/svelte-component.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live/sveltekit-adapter.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live/ui-core.mjs' is not referenced in any markdown file in the skill folder
+  ⚠️  WARNING: Orphaned asset detected: 'scripts/live/vocabulary.mjs' is not referenced in any markdown file in the skill folder
+
+[trust-appraise-all] (.agents/skills/trust-appraise-all)
+  ⚠️  WARNING: Orphaned asset detected: 'agents/openai.yaml' is not referenced in any markdown file in the skill folder
+
+[wayfinder] (.agents/skills/wayfinder)
+  ⚠️  WARNING: Orphaned asset detected: 'agents/openai.yaml' is not referenced in any markdown file in the skill folder
+
+--- Validation Summary ---
+Skills scanned: 83
+Total Errors: 0
+Total Warnings: 64
+
+✅ Skill validation PASSED.

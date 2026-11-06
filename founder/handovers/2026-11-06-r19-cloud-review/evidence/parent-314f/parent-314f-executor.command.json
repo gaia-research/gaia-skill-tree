@@ -1,0 +1,1 @@
+{"command": ["python", "-m", "pytest", "-q", "-p", "no:cacheprovider", "tests/steward/prmaintenance/test_executor.py", "tests/steward/prmaintenance/test_executor_processes.py"], "cwd": "$HOME/.gaia-worktrees/steward-r19-shared-write-2283", "head": "314fdf655edb7a6cb9bd131461bc11952366979d"}

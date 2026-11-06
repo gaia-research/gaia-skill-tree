@@ -1,0 +1,28 @@
+FFF......................                                                [100%]
+=================================== FAILURES ===================================
+___ test_post_effect_mismatch_cannot_invent_matching_merge_settlement[head] ____
+tests/steward/prmaintenance/test_executor.py:470: in test_post_effect_mismatch_cannot_invent_matching_merge_settlement
+    with pytest.raises(core.CoordinationError, match="merge/head/parent"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'merge/head/parent'
+E     Actual message: 'matching independently verified merge/parent proof unavailable'
+___ test_post_effect_mismatch_cannot_invent_matching_merge_settlement[base] ____
+tests/steward/prmaintenance/test_executor.py:470: in test_post_effect_mismatch_cannot_invent_matching_merge_settlement
+    with pytest.raises(core.CoordinationError, match="merge/head/parent"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'merge/head/parent'
+E     Actual message: 'matching independently verified merge/parent proof unavailable'
+__ test_post_effect_mismatch_cannot_invent_matching_merge_settlement[parents] __
+tests/steward/prmaintenance/test_executor.py:470: in test_post_effect_mismatch_cannot_invent_matching_merge_settlement
+    with pytest.raises(core.CoordinationError, match="merge/head/parent"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'merge/head/parent'
+E     Actual message: 'matching independently verified merge/parent proof unavailable'
+=========================== short test summary info ============================
+FAILED tests/steward/prmaintenance/test_executor.py::test_post_effect_mismatch_cannot_invent_matching_merge_settlement[head]
+FAILED tests/steward/prmaintenance/test_executor.py::test_post_effect_mismatch_cannot_invent_matching_merge_settlement[base]
+FAILED tests/steward/prmaintenance/test_executor.py::test_post_effect_mismatch_cannot_invent_matching_merge_settlement[parents]
+3 failed, 22 passed in 47.60s

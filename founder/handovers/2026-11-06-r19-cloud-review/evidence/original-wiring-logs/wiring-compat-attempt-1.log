@@ -1,0 +1,298 @@
+F......FFF........FFFFFF...F..FFFFF.F......FF........................... [ 59%]
+.....F......F........................F............                       [100%]
+=================================== FAILURES ===================================
+_ test_happy_path_authorizes_exactly_one_call_and_settles_from_observed_state __
+tests/steward/prmaintenance/test_gate.py:98: in test_happy_path_authorizes_exactly_one_call_and_settles_from_observed_state
+    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:331: in gateMerge
+    return makeExecutor(root).prepare({**request, "action": "merge"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+___ test_concurrent_merge_attempt_is_refused_while_a_live_reservation_exists ___
+tests/steward/prmaintenance/test_gate.py:165: in test_concurrent_merge_attempt_is_refused_while_a_live_reservation_exists
+    gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+src/gaia_cli/steward/prmaintenance/gate.py:331: in gateMerge
+    return makeExecutor(root).prepare({**request, "action": "merge"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+_ test_crash_before_the_merge_is_recovered_from_github_state_not_repeated_blindly _
+tests/steward/prmaintenance/test_gate.py:171: in test_crash_before_the_merge_is_recovered_from_github_state_not_repeated_blindly
+    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:331: in gateMerge
+    return makeExecutor(root).prepare({**request, "action": "merge"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+__ test_crash_after_merge_before_receipt_resumes_by_posting_the_receipt_once ___
+tests/steward/prmaintenance/test_gate.py:182: in test_crash_after_merge_before_receipt_resumes_by_posting_the_receipt_once
+    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:331: in gateMerge
+    return makeExecutor(root).prepare({**request, "action": "merge"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+_________________ test_github_trail_is_required_before_a_merge _________________
+tests/steward/prmaintenance/test_gate.py:288: in test_github_trail_is_required_before_a_merge
+    refused(fx, snapshot(fx, head, comments=[]), request(head), "trail-missing")
+tests/steward/prmaintenance/test_gate.py:87: in refused
+    gate.gateMerge(fx.root, req, snap, now or h.utc(), run, **kw)
+src/gaia_cli/steward/prmaintenance/gate.py:331: in gateMerge
+    return makeExecutor(root).prepare({**request, "action": "merge"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+_______ test_exhausted_per_run_and_hourly_budgets_defer_rather_than_loop _______
+tests/steward/prmaintenance/test_gate.py:299: in test_exhausted_per_run_and_hourly_budgets_defer_rather_than_loop
+    gate.gateMerge(fx.root, request(first), snapshot(fx, first), h.utc(), RUN, policy=one)
+src/gaia_cli/steward/prmaintenance/gate.py:331: in gateMerge
+    return makeExecutor(root).prepare({**request, "action": "merge"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+_________ test_abort_releases_the_reservation_without_claiming_a_merge _________
+tests/steward/prmaintenance/test_gate.py:309: in test_abort_releases_the_reservation_without_claiming_a_merge
+    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:331: in gateMerge
+    return makeExecutor(root).prepare({**request, "action": "merge"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+____________ test_finalize_trusts_observation_not_the_drivers_word _____________
+tests/steward/prmaintenance/test_gate.py:318: in test_finalize_trusts_observation_not_the_drivers_word
+    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:331: in gateMerge
+    return makeExecutor(root).prepare({**request, "action": "merge"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+_ test_closure_happy_path_requires_justification_first_then_settles_from_observed_closed_state _
+tests/steward/prmaintenance/test_gate.py:349: in test_closure_happy_path_requires_justification_first_then_settles_from_observed_closed_state
+    auth = gate.gateClose(fx.root, req, snap, h.utc(), RUN)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:337: in gateClose
+    return makeExecutor(root).prepare({**request, "action": "close"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+______________ test_closure_without_adequate_evidence_is_refused _______________
+tests/steward/prmaintenance/test_gate.py:361: in test_closure_without_adequate_evidence_is_refused
+    refusedClose(fx, snap, req, "justification-missing")  # the reason must be posted before the close
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/steward/prmaintenance/test_gate.py:343: in refusedClose
+    gate.gateClose(fx.root, req, snap, h.utc(), RUN)
+src/gaia_cli/steward/prmaintenance/gate.py:337: in gateClose
+    return makeExecutor(root).prepare({**request, "action": "close"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+__ test_the_policy_digest_is_computed_by_the_gate_never_taken_from_the_caller __
+tests/steward/prmaintenance/test_gate.py:410: in test_the_policy_digest_is_computed_by_the_gate_never_taken_from_the_caller
+    assert gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)["action"] == "merge"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:331: in gateMerge
+    return makeExecutor(root).prepare({**request, "action": "merge"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+_______ test_authority_source_must_be_named_and_the_default_fails_closed _______
+tests/steward/prmaintenance/test_gate.py:434: in test_authority_source_must_be_named_and_the_default_fails_closed
+    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:331: in gateMerge
+    return makeExecutor(root).prepare({**request, "action": "merge"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+_ test_every_authorization_records_that_its_exactly_once_and_budget_guarantees_are_checkout_local _
+tests/steward/prmaintenance/test_gate.py:443: in test_every_authorization_records_that_its_exactly_once_and_budget_guarantees_are_checkout_local
+    local = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:331: in gateMerge
+    return makeExecutor(root).prepare({**request, "action": "merge"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+_______ test_authority_must_equal_the_destination_tip_when_one_is_named ________
+tests/steward/prmaintenance/test_gate.py:455: in test_authority_must_equal_the_destination_tip_when_one_is_named
+    assert gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)["action"] == "merge"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:331: in gateMerge
+    return makeExecutor(root).prepare({**request, "action": "merge"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+___ test_finalize_and_abort_refuse_forged_replayed_or_settled_authorizations ___
+tests/steward/prmaintenance/test_gate.py:464: in test_finalize_and_abort_refuse_forged_replayed_or_settled_authorizations
+    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:331: in gateMerge
+    return makeExecutor(root).prepare({**request, "action": "merge"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+_____ test_a_late_authorization_is_recorded_as_late_not_silently_accepted ______
+tests/steward/prmaintenance/test_gate.py:485: in test_a_late_authorization_is_recorded_as_late_not_silently_accepted
+    auth = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:331: in gateMerge
+    return makeExecutor(root).prepare({**request, "action": "merge"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+__ test_the_latest_reservation_alone_validates_an_older_authorization_is_dead __
+tests/steward/prmaintenance/test_gate.py:504: in test_the_latest_reservation_alone_validates_an_older_authorization_is_dead
+    first = gate.gateMerge(fx.root, request(head), snapshot(fx, head), h.utc(), RUN)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:331: in gateMerge
+    return makeExecutor(root).prepare({**request, "action": "merge"}, snap, found, runId)
+           ^^^^^^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/gate.py:324: in makeExecutor
+    return factory(root)
+           ^^^^^^^^^^^^^
+src/gaia_cli/steward/prmaintenance/executor.py:419: in makeExecutor
+    raise core.CoordinationError("writeCoordination unconfigured; separately verified provisioning/clock contract required")
+E   gaia_cli.steward.prmaintenance.coordination.CoordinationError: writeCoordination unconfigured; separately verified provisioning/clock contract required
+__________ test_a_driver_cannot_claim_a_merge_the_store_does_not_hold __________
+tests/steward/prmaintenance/test_runner.py:90: in test_a_driver_cannot_claim_a_merge_the_store_does_not_hold
+    with pytest.raises(RecordRefused, match="no recorded merged outcome"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'no recorded merged outcome'
+E     Actual message: 'no recorded shared terminal/outstanding operation matches this report; action stays pending'
+___________ test_a_recorded_terminal_outcome_is_never_emitted_again ____________
+tests/steward/prmaintenance/test_runner.py:107: in test_a_recorded_terminal_outcome_is_never_emitted_again
+    assert pending(view) == []
+E   AssertionError: assert [{'debtId': '...', ...}, ...}] == []
+E     
+E     Left contains one more item: {'debtId': 'debt:routine_pr_merge_ready:gaia-research-gaia-skill-tree-2270:a513b4db727d7103', 'emittedAt': '2026-11-04...bbbbbbbbbbbbbbbbbb', 'evaluationSha256': 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', ...}, ...}
+E     Use -v to get more diff
+_______ test_ledger_auto_prefers_the_shared_ref_when_the_remote_answers ________
+tests/steward/test_fullrun_cli.py:323: in test_ledger_auto_prefers_the_shared_ref_when_the_remote_answers
+    assert StewardCommand._fullStore(repo, "auto", "origin").transport == "git-ref"
+E   AssertionError: assert 'local-file' == 'git-ref'
+E     
+E     - git-ref
+E     + local-file
+_ test_a_clean_scheduled_run_prints_the_quiet_line_and_status_carries_the_desk _
+tests/steward/test_fullrun_cli.py:425: in test_a_clean_scheduled_run_prints_the_quiet_line_and_status_carries_the_desk
+    assert code == 0, out
+E   AssertionError: 
+E   assert 2 == 0
+_______________ test_no_push_flag_removes_push_from_runner_call ________________
+tests/steward/test_steward_drive.py:500: in test_no_push_flag_removes_push_from_runner_call
+    assert runArgs[runArgs.index("--ledger") + 1] == "git"
+E   AssertionError: assert 'local' == 'git'
+E     
+E     - git
+E     + local
+----------------------------- Captured stdout call -----------------------------
+## Steward drive
+
+- Exit code: 0
+- Final run status: completed
+- Runs: R1
+- agents: ready
+- Issue census: skipped (census refresh disabled for this run)
+- Pull-request census: skipped (census refresh disabled for this run)
+
+### Handled
+
+None.
+
+Tokens: in 0, out 0
+
+=========================== short test summary info ============================
+FAILED tests/steward/prmaintenance/test_gate.py::test_happy_path_authorizes_exactly_one_call_and_settles_from_observed_state
+FAILED tests/steward/prmaintenance/test_gate.py::test_concurrent_merge_attempt_is_refused_while_a_live_reservation_exists
+FAILED tests/steward/prmaintenance/test_gate.py::test_crash_before_the_merge_is_recovered_from_github_state_not_repeated_blindly
+FAILED tests/steward/prmaintenance/test_gate.py::test_crash_after_merge_before_receipt_resumes_by_posting_the_receipt_once
+FAILED tests/steward/prmaintenance/test_gate.py::test_github_trail_is_required_before_a_merge
+FAILED tests/steward/prmaintenance/test_gate.py::test_exhausted_per_run_and_hourly_budgets_defer_rather_than_loop
+FAILED tests/steward/prmaintenance/test_gate.py::test_abort_releases_the_reservation_without_claiming_a_merge
+FAILED tests/steward/prmaintenance/test_gate.py::test_finalize_trusts_observation_not_the_drivers_word
+FAILED tests/steward/prmaintenance/test_gate.py::test_closure_happy_path_requires_justification_first_then_settles_from_observed_closed_state
+FAILED tests/steward/prmaintenance/test_gate.py::test_closure_without_adequate_evidence_is_refused
+FAILED tests/steward/prmaintenance/test_gate.py::test_the_policy_digest_is_computed_by_the_gate_never_taken_from_the_caller
+FAILED tests/steward/prmaintenance/test_gate.py::test_authority_source_must_be_named_and_the_default_fails_closed
+FAILED tests/steward/prmaintenance/test_gate.py::test_every_authorization_records_that_its_exactly_once_and_budget_guarantees_are_checkout_local
+FAILED tests/steward/prmaintenance/test_gate.py::test_authority_must_equal_the_destination_tip_when_one_is_named
+FAILED tests/steward/prmaintenance/test_gate.py::test_finalize_and_abort_refuse_forged_replayed_or_settled_authorizations
+FAILED tests/steward/prmaintenance/test_gate.py::test_a_late_authorization_is_recorded_as_late_not_silently_accepted
+FAILED tests/steward/prmaintenance/test_gate.py::test_the_latest_reservation_alone_validates_an_older_authorization_is_dead
+FAILED tests/steward/prmaintenance/test_runner.py::test_a_driver_cannot_claim_a_merge_the_store_does_not_hold
+FAILED tests/steward/prmaintenance/test_runner.py::test_a_recorded_terminal_outcome_is_never_emitted_again
+FAILED tests/steward/test_fullrun_cli.py::test_ledger_auto_prefers_the_shared_ref_when_the_remote_answers
+FAILED tests/steward/test_fullrun_cli.py::test_a_clean_scheduled_run_prints_the_quiet_line_and_status_carries_the_desk
+FAILED tests/steward/test_steward_drive.py::test_no_push_flag_removes_push_from_runner_call
+22 failed, 100 passed in 114.41s (0:01:54)

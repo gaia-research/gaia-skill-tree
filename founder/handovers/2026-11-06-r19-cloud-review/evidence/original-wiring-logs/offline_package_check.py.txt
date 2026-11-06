@@ -1,0 +1,62 @@
+"""Offline source-export packaging check. No install, downloads, registry staging or activation."""
+import importlib.metadata as metadata
+import os
+from pathlib import Path
+import subprocess
+import sys
+import tarfile
+import tempfile
+import zipfile
+
+SHA = "17ad597ad3478b7caae182b1581a965a8fcfa252"
+REPO = Path("$HOME/.gaia-worktrees/steward-r19-shared-write-2283")
+base = Path(tempfile.mkdtemp(prefix="routine19-offline-package-"))
+export, wheels, home, empty = [base / name for name in ("export", "wheels", "home", "empty-checkout")]
+for path in (export, wheels, home, empty):
+    path.mkdir()
+print("source:", SHA, "scratch:", base, flush=True)
+for name in ("pip", "setuptools", "wheel", "build"):
+    try: version = metadata.version(name)
+    except metadata.PackageNotFoundError: version = "not installed"
+    print("available tool:", name, version, flush=True)
+archive = base / "exact-source.tar"
+subprocess.run(["git", "-C", str(REPO), "archive", "--format=tar", "--output", str(archive), SHA], check=True)
+with tarfile.open(archive) as source:
+    source.extractall(export, filter="data")
+env = {key: value for key, value in os.environ.items()
+       if not key.startswith(("PIP_", "GIT_")) and key not in {"GH_TOKEN", "GITHUB_TOKEN", "PYTHONPATH"}}
+env.update(HOME=str(home), PIP_CONFIG_FILE=os.devnull, PIP_NO_INDEX="1", PIP_DISABLE_PIP_VERSION_CHECK="1",
+           PYTHONDONTWRITEBYTECODE="1", GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull)
+command = [sys.executable, "-m", "pip", "wheel", "--no-index", "--no-deps", "--no-build-isolation",
+           "--no-cache-dir", "--wheel-dir", str(wheels), str(export)]
+print("command:", " ".join(command), flush=True)
+result = subprocess.run(command, cwd=base, env=env, check=False)
+if result.returncode:
+    print("PACKAGING BLOCKED: available offline frontend/backend could not build; no tools installed or assertions skipped.", flush=True)
+    raise SystemExit(result.returncode)
+artifacts = list(wheels.glob("*.whl"))
+assert len(artifacts) == 1, "one source wheel expected"
+wheel = artifacts[0]
+with zipfile.ZipFile(wheel) as artifact:
+    for relative in ("executor.py", "coordination.py", "policy.py", "cli.py", "gate.py"):
+        packagePath = f"gaia_cli/steward/prmaintenance/{relative}"
+        expected = subprocess.check_output(["git", "-C", str(REPO), "show", f"{SHA}:src/{packagePath}"])
+        assert artifact.read(packagePath) == expected, "wheel must carry exact committed source"
+probe = '''
+from pathlib import Path
+import sys
+sys.path.insert(0, sys.argv[1])
+from gaia_cli.steward.prmaintenance import executor as ex, coordination as core
+assert ex.__file__.startswith(sys.argv[1]), "must import wheel, not checkout/global package"
+def forbidden(*args, **kwargs): raise AssertionError("missing authority must fail before auth/transport/store")
+ex.HttpsTransport = forbidden
+ex.GitRefLedgerStore = forbidden
+try:
+    ex.makeExecutor(Path(sys.argv[2]))
+except core.CoordinationError:
+    print("wheel import + missing-authority fail-closed probe: passed")
+else:
+    raise AssertionError("missing authority/configuration must refuse")
+'''
+subprocess.run([sys.executable, "-I", "-c", probe, str(wheel), str(empty)], cwd=base, env=env, check=True)
+print("OFFLINE PACKAGING PASSED:", wheel, flush=True)

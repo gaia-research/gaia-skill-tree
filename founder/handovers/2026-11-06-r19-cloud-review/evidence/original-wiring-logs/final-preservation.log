@@ -1,0 +1,52 @@
+final source 17ad597ad3478b7caae182b1581a965a8fcfa252 tree fa46a693d3ad3a26f19474851197e97c56f77769
+preserved ancestor 6b914723004852a5f515f78ed6d536cccbe3a9bc
+preserved ancestor 2d9599c11ea91f303b5067c39fb8ea272f119072
+preserved ancestor 31b407db65c4e138896780a7319e4a4ce76884eb
+preserved ancestor 8ad344a49926821d2c1b6d4e021b8de6f653649c
+preserved ancestor ae0598f0aaedc7505a8d2f96d95d585a6ee47ec0
+parked archive excluded ceb38582008a07002239ec65aa77aa22725e80ab
+byte-identical accepted source pyproject.toml 27351a9310e27d98232a68493e8085b1691394733517c18a5dd496ad6b1f2100
+byte-identical accepted source src/gaia_cli/steward/ledger.py b95e1b5ec3a306dd282279b64611d50e6491301bfecd436c8cc8956dd3ff54ff
+byte-identical accepted source src/gaia_cli/steward/prmaintenance/roster.py 730ffcfe0ccac11b2ea0f4e972bb16f62ba8c39ba48dc997d6e53961029ee4f7
+byte-identical accepted source founder/steward/POLICY.yaml db34e81bb502dc5a5097b41e7e8c69cc7d288905fbad7b3be491e5324b235246
+byte-identical accepted source founder/steward/decisions/steward-pr-maintenance-authority.json 5e30179fc1e06c7804af8af1016846a1f3a3eece77883373319beb34d68374df
+unchanged protected tree .github
+unchanged protected tree registry
+unchanged protected tree founder/steward/decisions
+unchanged protected tree .agents/skills/impeccable
+unchanged protected tree .claude/skills/impeccable
+byte-identical _compact function; no pruning/compactor introduced
+original concurrent scenario assertions and wait/join safeguards unchanged; now checkout-local store
+skill version preserved; project version and 60/thread pytest configuration byte-identical
+wiring files changed:
+.agents/skills/gaia-steward-full/SKILL.md
+.agents/skills/gaia-steward-pr-maintenance/SKILL.md
+.claude/skills/gaia-steward-full/SKILL.md
+.claude/skills/gaia-steward-pr-maintenance/SKILL.md
+docs/en/cli-reference.html
+founder/steward/README.md
+founder/steward/routine-coverage.json
+founder/steward/routines/pr-maintenance.md
+scripts/steward_drive.py
+src/gaia_cli/commands/steward.py
+src/gaia_cli/steward/desk.py
+src/gaia_cli/steward/fullrun.py
+src/gaia_cli/steward/prmaintenance/cli.py
+src/gaia_cli/steward/prmaintenance/collect.py
+src/gaia_cli/steward/prmaintenance/coordination.py
+src/gaia_cli/steward/prmaintenance/executor.py
+src/gaia_cli/steward/prmaintenance/gate.py
+src/gaia_cli/steward/prmaintenance/policy.py
+src/gaia_cli/steward/prmaintenance/state.py
+tests/steward/prmaintenance/coordination_helpers.py
+tests/steward/prmaintenance/test_coordination.py
+tests/steward/prmaintenance/test_executor.py
+tests/steward/prmaintenance/test_executor_processes.py
+tests/steward/prmaintenance/test_gate.py
+tests/steward/prmaintenance/test_resources.py
+tests/steward/prmaintenance/test_runner.py
+tests/steward/test_fullrun_cli.py
+tests/steward/test_fullrun_scenarios.py
+tests/steward/test_local_full_state.py
+tests/steward/test_steward_drive.py
+working tree clean: True

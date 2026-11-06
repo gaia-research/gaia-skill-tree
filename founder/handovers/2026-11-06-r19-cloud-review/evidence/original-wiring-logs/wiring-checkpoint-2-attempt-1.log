@@ -1,0 +1,27 @@
+...................................................FF................... [ 32%]
+........................................................................ [ 65%]
+........................................................................ [ 98%]
+...                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_all_success_shaped_reports_bind_shared_subject_and_exact_evidence[closed] _
+tests/steward/prmaintenance/test_runner.py:203: in test_all_success_shaped_reports_bind_shared_subject_and_exact_evidence
+    assert len(pending(runner.resume(view.runId))) == 1
+E   AssertionError: assert 0 == 1
+E    +  where 0 = len([])
+E    +    where [] = pending(RunView(runId='run-20261104T183000Z-e9a0b456', mode='full', status='completed', phase='done', nextAction='nothing furt...rsion': 'steward-desk-v1'}, ledger={'transport': 'local-file', 'shared': False, 'scope': 'ordinary-local'}, error=None))
+E    +      where RunView(runId='run-20261104T183000Z-e9a0b456', mode='full', status='completed', phase='done', nextAction='nothing furt...rsion': 'steward-desk-v1'}, ledger={'transport': 'local-file', 'shared': False, 'scope': 'ordinary-local'}, error=None) = resume('run-20261104T183000Z-e9a0b456')
+E    +        where resume = <gaia_cli.steward.fullrun.FullRunner object at 0x6eb32c5a90>.resume
+E    +        and   'run-20261104T183000Z-e9a0b456' = RunView(runId='run-20261104T183000Z-e9a0b456', mode='full', status='awaiting-action', phase='class_b', nextAction='per...rsion': 'steward-desk-v1'}, ledger={'transport': 'local-file', 'shared': False, 'scope': 'ordinary-local'}, error=None).runId
+_ test_all_success_shaped_reports_bind_shared_subject_and_exact_evidence[already-closed] _
+tests/steward/prmaintenance/test_runner.py:203: in test_all_success_shaped_reports_bind_shared_subject_and_exact_evidence
+    assert len(pending(runner.resume(view.runId))) == 1
+E   AssertionError: assert 0 == 1
+E    +  where 0 = len([])
+E    +    where [] = pending(RunView(runId='run-20261104T183000Z-7af8c03c', mode='full', status='completed', phase='done', nextAction='nothing furt...rsion': 'steward-desk-v1'}, ledger={'transport': 'local-file', 'shared': False, 'scope': 'ordinary-local'}, error=None))
+E    +      where RunView(runId='run-20261104T183000Z-7af8c03c', mode='full', status='completed', phase='done', nextAction='nothing furt...rsion': 'steward-desk-v1'}, ledger={'transport': 'local-file', 'shared': False, 'scope': 'ordinary-local'}, error=None) = resume('run-20261104T183000Z-7af8c03c')
+E    +        where resume = <gaia_cli.steward.fullrun.FullRunner object at 0x6eb48dea50>.resume
+E    +        and   'run-20261104T183000Z-7af8c03c' = RunView(runId='run-20261104T183000Z-7af8c03c', mode='full', status='awaiting-action', phase='class_b', nextAction='per...rsion': 'steward-desk-v1'}, ledger={'transport': 'local-file', 'shared': False, 'scope': 'ordinary-local'}, error=None).runId
+=========================== short test summary info ============================
+FAILED tests/steward/prmaintenance/test_runner.py::test_all_success_shaped_reports_bind_shared_subject_and_exact_evidence[closed]
+FAILED tests/steward/prmaintenance/test_runner.py::test_all_success_shaped_reports_bind_shared_subject_and_exact_evidence[already-closed]
+2 failed, 217 passed in 430.49s (0:07:10)

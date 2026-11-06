@@ -1,0 +1,14 @@
+✔ legacy entrypoints preserve their exact public exports and use one implementation (5.907692ms)
+✔ quoted YAML keys work through the live-server compatibility entrypoint (3.381846ms)
+✔ every existing action and invalid-event refusal survives validator reconciliation (1.192307ms)
+✔ polling forwards a generated local session value and fails closed on unauthorized status (2.792538ms)
+✔ manual repair route rejects a supplied value before rollback or filesystem use (1.592538ms)
+✔ screenshot clipping remains bounded and the retained UI metadata matches its actual browser (2.777307ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 356.164

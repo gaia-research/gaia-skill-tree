@@ -1,0 +1,12 @@
+direct-adapter-reentry invocations=2 effects=2 refusal=OSError
+F
+=================================== FAILURES ===================================
+_______ test_persisted_claim_cannot_directly_reenter_production_adapter ________
+tests/steward/prmaintenance/test_executor.py:424: in test_persisted_claim_cannot_directly_reenter_production_adapter
+    assert isinstance(failure, core.Refused)
+E   AssertionError: assert False
+E    +  where False = isinstance(OSError('synthetic lost response'), <class 'gaia_cli.steward.prmaintenance.coordination.Refused'>)
+E    +    where <class 'gaia_cli.steward.prmaintenance.coordination.Refused'> = core.Refused
+=========================== short test summary info ============================
+FAILED tests/steward/prmaintenance/test_executor.py::test_persisted_claim_cannot_directly_reenter_production_adapter
+1 failed in 9.44s
