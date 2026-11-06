@@ -397,14 +397,19 @@ repairs:
         - staged copy, atomic replacement, recursive parity, or sync validation cannot be proven
 
 routing:
-  maxDispatchesPerRun: 1
+  # Builds one run may hand out in parallel. Code requires 1 <= this <= lane.maxInFlight.
+  # Raised from 1 to 8 by founder decision steward-class-b-throughput-2026-11-06: the run
+  # lease serializes runs, so a lane maxInFlight of 2 alone never produced parallel dispatch.
+  maxDispatchesPerRun: 8
   # The bounded Class B rolling lane. These three numbers are the whole of what
   # makes it a lane rather than a loop, and code caps each of them independently
   # so editing this file can never grant unbounded autonomy.
   lane:
     # Never more outstanding work than a human can actually review. Raised from
-    # 1 to 2 by founder authorization 2026-10-21 (steward-class-b-throughput).
-    maxInFlight: 2
+    # 1 to 2 by founder authorization 2026-10-21 (steward-class-b-throughput), then
+    # from 2 to 8 (the finite code ceiling: the most one pi subagent call takes) by
+    # founder decision steward-class-b-throughput-2026-11-06.
+    maxInFlight: 8
     # A debt that fails bounded repair this many times is not asking for another
     # attempt; it is evidence the envelope is wrong, which is a founder question.
     maxAttempts: 2

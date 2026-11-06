@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-class-b-throughput-2026-11-06",
+  "status": "decided",
+  "decision": "Raise Steward Full's Class B lane throughput so one run can dispatch several bounded builds in parallel: routing.maxDispatchesPerRun 1 -> 8 and routing.lane.maxInFlight 2 -> 8, with the code cap on maxInFlight raised from 4 to a still-finite 8.",
+  "whyItMatters": "The run lease serializes runs, so maxInFlight 2 alone never produced parallel dispatch: each run still handed out exactly one build because maxDispatchesPerRun was pinned to 1 in code. Throughput was bounded by wall time per run, not by review capacity.",
+  "evidence": [
+    "Founder ruling, 2026-11-06 (verbatim): \"Also increase and speedup. 2 to 5 is honestly fine.\"",
+    "Founder ruling, 2026-11-06 (verbatim, newer): \"honestly multiple at a time is perfect, no concurrency limit ... batch passes in one pi harness ... builders can go in the subagent tool.\"",
+    "Old values: maxDispatchesPerRun 1 (code-pinned to exactly 1), lane maxInFlight 2 (code cap 4). New values: maxDispatchesPerRun 8, lane maxInFlight 8 (code cap 8).",
+    "The code cap stays finite at 8, the most tasks pi's subagent tool takes in one parallel call; \"no concurrency limit\" is honoured up to that call size, not as unbounded autonomy. maxDispatchesPerRun is validated as an integer in 1..maxInFlight, so it can only narrow the lane ceiling.",
+    "Unchanged: maxAttempts 2, cooldownSeconds 3600, per-debt attempt counting, the independent verifier, and the rule that a verifier may never be the builder of the same work. Verified-but-unintegrated work still holds its maxInFlight slot until the lead integrates it."
+  ],
+  "recommended": "Ship the policy and code change together: maxDispatchesPerRun 8 and lane maxInFlight 8 in founder/steward/POLICY.yaml, the maxInFlight code ceiling at 8, and one run emitting up to min(maxDispatchesPerRun, free lane slots) agent.build actions over distinct debts.",
+  "alternative": "Keep one dispatch per run and rely on maxInFlight 2 across runs; rejected by the founder because the run lease serializes runs and the lane never ran in parallel.",
+  "unblocks": "Several bounded Class B builds per run (each still verified independently and integrated only by the lead onto the integration branch). Does not authorize main merges, releases, workflow activation, or any change to attempts, cooldown, budgets or verifier independence.",
+  "links": [
+    "founder/steward/POLICY.yaml",
+    "src/gaia_cli/steward/policy.py",
+    "src/gaia_cli/steward/fullrun.py",
+    "founder/steward/decisions/steward-class-b-throughput.json"
+  ]
+}
