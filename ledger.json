@@ -1,5 +1,5 @@
 {
- "generation": 730,
+ "generation": 731,
  "lane": {
   "entries": [
    {
@@ -3700,14 +3700,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-96ae9b08ab4e70204f0c",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-06T19:21:27.483278Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (mechanical verification (steward-20261106T192006Z-f720601bb08f319f))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-11-06T19:05:34.894065Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-06T19:21:27.483278Z",
+    "lastVerdict": "reject",
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 0,
@@ -4539,7 +4545,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-06T19:02:48.532271Z",
-   "expiresAt": "2026-11-06T19:50:01.715893Z",
+   "expiresAt": "2026-11-06T19:51:28.619934Z",
    "holder": "run-20261106T190248Z-d9db82ac"
   }
  },
@@ -57105,7 +57111,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T19:20:01.716707Z",
+ "updatedAt": "2026-11-06T19:21:28.622536Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -57672,17 +57678,9 @@
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
+   "blockedReason": "mechanical verification (steward-20261106T192006Z-f720601bb08f319f): rejected - proof commands exited non-zero: python3 -c \"import sys; assert 'os' in sys.stdlib_module_names\" && python3 - <<'PY'\nimport ast\nfrom pathlib import Path\np=Path('scripts/quick_validate_skill.py')\nt=ast.",
    "branch": "steward/b/unused-import-568e4a413656",
-   "build": {
-    "agentId": "pi-herdr-b4-builder",
-    "attempt": 1,
-    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T190248Z-d9db82ac/build-568e4a413656.diff",
-    "dispatchId": "dispatch-96ae9b08ab4e70204f0c",
-    "noChange": false,
-    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T190248Z-d9db82ac/build-568e4a413656.proof.json",
-    "recordedAt": "2026-11-06T19:17:06.348840Z",
-    "summary": "Removed unused stdlib import os from scripts/quick_validate_skill.py; commit d47f6ec10. Side-effect absence proven (stdlib, AST, no consumer). tests/test_quick_validate_skill.py 20 passed; compileall ok. Actual: openai-codex/gpt-6-luna medium."
-   },
+   "build": null,
    "createdAt": "2026-11-06T19:05:34.894065Z",
    "debtId": "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0",
    "dispatchId": "dispatch-96ae9b08ab4e70204f0c",
@@ -57693,6 +57691,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-96ae9b08ab4e70204f0c (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-06T19:21:27.483278Z",
+     "from": "building",
+     "reason": "mechanical verification (steward-20261106T192006Z-f720601bb08f319f): rejected - proof commands exited non-zero: python3 -c \"import sys; assert 'os' in sys.stdlib_module_names\" && python3 - <<'PY'\nimport ast\nfrom pathlib import Path\np=Path('scripts/quick_validate_skill.py')\nt=ast.",
+     "to": "blocked"
     }
    ],
    "kind": "unused_import",
@@ -57702,9 +57706,16 @@
    "routine": "dead-code-gardener",
    "runId": "run-20261106T190248Z-d9db82ac",
    "source": "dead-code",
-   "state": "building",
-   "updatedAt": "2026-11-06T19:17:06.348840Z",
-   "verification": null
+   "state": "blocked",
+   "updatedAt": "2026-11-06T19:21:27.483278Z",
+   "verification": {
+    "reasons": [
+     "proof commands exited non-zero: python3 -c \"import sys; assert 'os' in sys.stdlib_module_names\" && python3 - <<'PY'\nimport ast\nfrom pathlib import Path\np=Path('scripts/quick_validate_skill.py')\nt=ast.parse(p.read_text())\nfor n in ast.walk(t):\n    if isinstance(n, ast.Import) and any(a.name == 'os' for a in n.names):\n        print(f'import os line {n.lineno}; parent/module scope; guarded=False')\n    if isinstance(n, ast.Name) and n.id == 'os': print(f'READ Name line {n.lineno}')\n    if isinstance(n, ast.Attribute) and isinstance(n.value, ast.Name) and n.value.id == 'os': print(f'READ Attribute line {n.lineno}')\nprint(f'__all__={any(isinstance(n, ast.Assign) and any(isinstance(t, ast.Name) and t.id == \"__all__\" for t in n.targets) for n in t.body)}; is_init={p.name == \"__init__.py\"}')\nPY\n! grep -rnE \"[.]os\\b|from [A-Za-z0-9_.]+ import[^\\n]*\\bos\\b\" src tests scripts → 1"
+    ],
+    "recordedAt": "2026-11-06T19:21:27.483278Z",
+    "stage": "mechanical",
+    "verdict": "reject"
+   }
   },
   "debt:unused_import:src-gaia-cli-curation-evaluation-py:3fab90bae90c2a93": {
    "adoptedBy": "run-20261106T175105Z-e5c2fe3b",
