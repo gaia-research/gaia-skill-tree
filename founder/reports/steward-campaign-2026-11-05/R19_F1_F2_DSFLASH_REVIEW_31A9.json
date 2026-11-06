@@ -1,0 +1,79 @@
+{
+  "reviewRun": "8f321497-375a-4577-b461-de1a019c9e11",
+  "head": "31a9a59b9c978db19fd9a451ca310844d1dc401e",
+  "tree": "02ce5633db8c56d20110af15f658f1653f1f9088",
+  "scope": "bounded F1/F2/F3 only",
+  "verdict": "REJECT",
+  "F1": "PASS",
+  "F2": "FAIL: reporting contract/diagnostic regression and five existing red tests",
+  "F3": "PASS documentation-only ratification",
+  "noDuplicateEffectRefundOrSyntheticSettlementDemonstrated": true,
+  "privateReportSha256": "59060fab89e30ab0d92b4b2b9b564ce2a7b089e0608c6719dc4a63a6935bd933",
+  "publicReport": "R19_F1_F2_DSFLASH_REVIEW_31A9.md",
+  "publicReportSha256": "c98347b4dc6a0b9af1aab04446da11e6120e3df89c10241b405835d63c4ed712",
+  "publicNormalization": "local HOME path only",
+  "actualSession": "01a1b082-f926-7609-824f-0f725828d6e1",
+  "actualAssistantRoutes": [
+    {
+      "provider": "deepseek",
+      "model": "deepseek-flash",
+      "api": "openai-completions"
+    }
+  ],
+  "actualThinkingJournal": [
+    "high"
+  ],
+  "requestedThinking": "medium",
+  "assistantErrorMessages": [],
+  "independentEvidenceArtifacts": [
+    {
+      "filename": "candidate-tests-on-old-runtime-314f.log",
+      "sha256": "8d73cfb1fa0676eecde22c63b5aaa6872d4b7cc68cbedbed81d7063bdb6493e3",
+      "bytes": 19971
+    },
+    {
+      "filename": "f1-cas-and-attached-controls-new.log",
+      "sha256": "be2ea80d43d4f7ff5e7ecff396f4f0d83d7a7709363e2545c45f995b4568850c",
+      "bytes": 99
+    },
+    {
+      "filename": "preexisting-contract-tests-new-31a9.log",
+      "sha256": "9b537f94fdb7bcc734d550f4d41a00d2d3bc1877d1d4ce4e5f14f4d5e293937b",
+      "bytes": 17118
+    },
+    {
+      "filename": "preexisting-contract-tests-old-314f.log",
+      "sha256": "a83ce167833550a2268733e6d12b0593ec0b406edaac48d1b8712e226ed3758e",
+      "bytes": 99
+    },
+    {
+      "filename": "probe-contract-classification-new.log",
+      "sha256": "9e394e997b62aa735e291e062783ed3147d37bff99a937bd30285a5ca1f709a9",
+      "bytes": 2727
+    },
+    {
+      "filename": "probe-new-tree.log",
+      "sha256": "9579c8a2643cf807185181561974859d9ff01696b58880011d0425cb34652db1",
+      "bytes": 6252
+    },
+    {
+      "filename": "probe-old-tree-314f.log",
+      "sha256": "a212ac6f9c712dd0d3d9e66aca0ac71035e04f1692ea10a001a4de8aa1a5f897",
+      "bytes": 7794
+    },
+    {
+      "filename": "probe-post-settlement-inspect.log",
+      "sha256": "bcc4d1686387bc12ef899b127a5d597fc35fd840211014b470be72c71f9cb49e",
+      "bytes": 543
+    },
+    {
+      "filename": "probe-real-capacity-boundary.log",
+      "sha256": "457e4c706f65a8229ba10d8cf03fc2dcd665e8251178eccc1ad21c20a3147f81",
+      "bytes": 438
+    }
+  ],
+  "newRepairWriter": "b743bf80-30c2-49fd-80a0-4bc1e7710d67",
+  "wholeSourceAccepted": false,
+  "activationAuthorized": false,
+  "observedAt": "2026-11-06T11:34:54.143096+00:00"
+}

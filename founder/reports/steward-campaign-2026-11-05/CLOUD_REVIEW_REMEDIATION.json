@@ -91,7 +91,15 @@
       "actualInitialModel": "deepseek-flash",
       "requestedThinking": "medium",
       "initialThinkingJournal": "high",
-      "status": "active"
+      "status": "completed_REJECT",
+      "F1": "PASS",
+      "F2": "FAIL reporting-contract regression",
+      "F3": "PASS",
+      "actualFinalProvider": "deepseek",
+      "actualFinalModel": "deepseek-flash",
+      "actualThinkingJournal": "high",
+      "providerErrors": [],
+      "receipt": "R19_F1_F2_DSFLASH_REVIEW_31A9.json"
     },
     "wholeSourceAccepted": false
   },
