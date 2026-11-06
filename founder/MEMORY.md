@@ -17,6 +17,14 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-11-06, same-run recovery and frozen exact-tree candidate)
+
+### TLDR
+- Actual Git HTTP2 failure did persist **run-20261106T045029Z-92c5e38b**, active at reconcile, holdernull/no builder. Scoped HTTP1.1 status succeeded; fresh issue/PR/CI inputs and SAME-run resume recovered it, no reset/newrun/localfallback/globalconfig. Actual07:08:58 action: dispatch7930613ee061481cf023, build549e1d59b78e attempt1, scripts/ci_churn.py. Fresh native shared Codex Terra MEDIUM builder781eeaae owns ONLY renderedpacket in isolated steward-cichurn-burn-549e1d59b78e. No output/acceptance/closure yet; Lead alone records. Latest observed counts stayA0/B324/C40 at receipt070128-4e3c9ccc366be4a8, created0/resolved0/unknown0, two optional missing inputs.
+- Missing baseline tests were independently ACCEPTED at11de8c847… and normally merged to integration **786a24408eeb9c8e7f4fab83d6c6e70f2df281a6**. Test-only prerequisite, not debt closure. Parent14passes with normal autoload/pytest_timeout registration cleared the review's disabled-plugin execution limitation; runtime script56f075d2… stayed unchanged before canonical work.
+- R19 e7f1933b independently REJECTED on Git archive attribute/history omission, after replacement-ref repair red/green passed. Partial/lost97e4a22a/91f2a93b WIP and dot-only interrupted logs survived cutoff; they are NOT test passes. Same-source recovery8da52f50 froze **314fdf655edb7a6cb9bd131461bc11952366979d/tree e53b5920571b1458a6b6d0bde1fe454f57c7b411**, only proofs.py + newtest_exact_tree.py; oldRED/newGREEN/10briefpasses are bounded evidence only. No source writer active. Parent long-test taskb7083f7d5 owns4affectedgroups against immutable314f with source/test hashes, preserved guards, raw logs/commands and per-group exit files, ordinary surviveReload. Fresh independent WHOLE audit remains pending afterward; all3rejects and externals/CLI/transition/activation holds stay.
+- Two earlier canonical B repairs remain on protected main329b; no extra closure from tests, infrastructure or automatic Pages success. Continue native/provider-specific routing and28-minute batches. Unknown background handles after interruption require durable exit/state inspection, not blind retries or new writers. Never delete harness/probe artifacts.
+
 ## State Snapshot (2026-11-06, continued campaign — second R19 reject repaired; proof-first burn-down)
 
 ### TLDR
