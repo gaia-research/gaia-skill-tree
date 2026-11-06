@@ -1,7 +1,9 @@
 {
-  "status": "proposed_not_approved",
-  "approved": false,
+  "status": "approved_exact_dispatch_only",
+  "approved": true,
   "machineEffective": false,
+  "effectLimit": "Verbatim founder approval is recorded before resumption; live state/source/packet revalidation still required. No automatic ledger transition or new attempt.",
+  "decision": "CICHURN_EDIT_FOUNDER_DECISION_20261106.json",
   "runId": "run-20261106T045029Z-92c5e38b",
   "dispatchId": "dispatch-7930613ee061481cf023",
   "stepId": "build:549e1d59b78e:1",
@@ -30,6 +32,6 @@
     "real ledger scans or mutations by builder",
     "release, deployment, activation or main bypass"
   ],
-  "operatorReply": null,
+  "operatorReply": "ci churn edit authorized",
   "beforeActing": "Record actual founder reply verbatim in Git and preserve the original packet plus this exact-scope decision. Do not treat this proposal as approval."
 }

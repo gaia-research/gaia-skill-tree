@@ -10,7 +10,15 @@
     "observedInitialReviewThinkingJournal": "high",
     "effortLimit": "Record executed journal effort separately from requested effort; do not stop existing worker to change it."
   },
-  "canonical_steward": "retain established openai-codex shared roster and canonical authority/attempt limits",
+  "canonical_steward": {
+    "provider": "openai",
+    "shared": false,
+    "forbiddenSubstitution": "openai-codex",
+    "dispatch": "native subagent; explicit operator route overrides old shared persona defaults; pin actual provider; no fallback",
+    "suggestedExistingModel": "gpt-6.1-terra",
+    "authorityLimitsUnchanged": true,
+    "pendingImportEditGrantUnchanged": false
+  },
   "cost_visibility": "new LLM workers use native subagent; no new LLM workers via bg_run",
   "cadence": "28-minute cost/cache guard; collect non-urgent completions together; user decisions and safety events may be handled sooner",
   "requested_worker_limits": "unlimited retries and timeout",
@@ -25,5 +33,7 @@
     "model": "gpt-6.1-terra",
     "dispatch": "native subagent; explicit route overrides any Codex persona default"
   },
-  "operator_roster_directive_20261106_verbatim": "Continue, worker-dsflash replaces terra for non-steward engineering."
+  "operator_roster_directive_20261106_verbatim": "Continue, worker-dsflash replaces terra for non-steward engineering.",
+  "superseded_canonical_steward": "retain established openai-codex shared roster and canonical authority/attempt limits",
+  "operator_steward_provider_directive_20261106_verbatim": "Continue. this time only use openai provider (non shared) for steward, retain dsflash for non steward engineering."
 }
