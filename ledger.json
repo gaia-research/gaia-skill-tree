@@ -1,5 +1,5 @@
 {
- "generation": 494,
+ "generation": 495,
  "lane": {
   "entries": [
    {
@@ -33208,6 +33208,19 @@
      "debtId": "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208",
      "emittedAt": "2026-11-06T07:08:58.069037Z",
      "idempotencyKey": "dispatch-7930613ee061481cf023:1",
+     "outcome": {
+      "agentId": "pi-openai-terra-01a1b139-6ca2-73f3-8398-b7c5261edaaa",
+      "commit": "953b9d36d498d8309a8b45c890f9698b09df9c6a",
+      "diffPath": ".gaia/steward/full/run-20261106T045029Z-92c5e38b/build-549e1d59b78e.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": ".gaia/steward/full/run-20261106T045029Z-92c5e38b/build-549e1d59b78e.proof.json",
+      "provider": "openai",
+      "providerModel": "gpt-6.1-terra",
+      "sessionId": "01a1b139-6ca2-73f3-8398-b7c5261edaaa",
+      "summary": "Authorized exact same attempt1; only os/timezone bindings removed. Founder hosteditgrant committedaf0e818f5 before implementation. ActualOpenAInonsharedTerraMEDIUMverified. Builder14passed1.18s/compileall0 and completeonefilediff. Sideeffectsourceinspection and operatorpure-sensor provenance honestly distinguished. Logical pi is policy harness slot, not runtime model. Independentverification stillrequired; not canonicalresolution."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -33228,13 +33241,27 @@
       },
       "promptPath": ".gaia/steward/full/run-20261106T045029Z-92c5e38b/build-549e1d59b78e.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-06T14:30:19.206574Z",
+     "status": "done",
      "stepId": "build:549e1d59b78e:1",
      "type": "agent.build"
     }
    ],
    "actor": "cli",
-   "agentAssignments": [],
+   "agentAssignments": [
+    {
+     "agentId": "pi-openai-terra-01a1b139-6ca2-73f3-8398-b7c5261edaaa",
+     "at": "2026-11-06T14:30:19.206653Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:549e1d59b78e:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
@@ -33745,8 +33772,10 @@
     }
    ],
    "mode": "full",
-   "modelIds": [],
-   "mutated": false,
+   "modelIds": [
+    "pi"
+   ],
+   "mutated": true,
    "nextAction": "perform 1 pending action(s) (agent.build), record each with `gaia steward full record run-20261106T045029Z-92c5e38b <stepId> --input FILE`, then `gaia steward full run --resume run-20261106T045029Z-92c5e38b`",
    "options": {
     "afk": false,
@@ -34665,7 +34694,14 @@
      "skippedActive": []
     }
    },
-   "proofArtifacts": [],
+   "proofArtifacts": [
+    {
+     "debtId": "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208",
+     "diffPath": "/data/data/com.termux/files/home/gaia-skill-tree/.gaia/steward/full/run-20261106T045029Z-92c5e38b/build-549e1d59b78e.diff",
+     "proofPath": "/data/data/com.termux/files/home/gaia-skill-tree/.gaia/steward/full/run-20261106T045029Z-92c5e38b/build-549e1d59b78e.proof.json",
+     "stepId": "build:549e1d59b78e:1"
+    }
+   ],
    "pullRequests": [],
    "receipts": [
     {
@@ -34710,23 +34746,26 @@
      "stepId": "phase:class_a"
     },
     {
-     "at": "2026-11-06T07:08:58.069037Z",
+     "at": "2026-11-06T14:30:19.206574Z",
      "debtId": "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208",
      "idempotencyKey": "dispatch-7930613ee061481cf023:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:549e1d59b78e:1"
     }
    ],
-   "thinkingEfforts": [],
+   "thinkingEfforts": [
+    "medium"
+   ],
    "tokensIn": 0,
    "tokensOut": 0,
    "trigger": "manual",
-   "unresolvedWork": []
+   "unresolvedWork": [],
+   "updatedAt": "2026-11-06T14:30:19.206574Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T07:13:20.937165Z",
+ "updatedAt": "2026-11-06T14:30:19.208146Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -35179,12 +35218,33 @@
    }
   },
   "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-openai-terra-01a1b139-6ca2-73f3-8398-b7c5261edaaa",
+     "at": "2026-11-06T14:30:19.206653Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:549e1d59b78e:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/unused-import-549e1d59b78e",
-   "build": null,
+   "build": {
+    "agentId": "pi-openai-terra-01a1b139-6ca2-73f3-8398-b7c5261edaaa",
+    "attempt": 1,
+    "diffPath": "/data/data/com.termux/files/home/gaia-skill-tree/.gaia/steward/full/run-20261106T045029Z-92c5e38b/build-549e1d59b78e.diff",
+    "dispatchId": "dispatch-7930613ee061481cf023",
+    "noChange": false,
+    "proofPath": "/data/data/com.termux/files/home/gaia-skill-tree/.gaia/steward/full/run-20261106T045029Z-92c5e38b/build-549e1d59b78e.proof.json",
+    "recordedAt": "2026-11-06T14:30:19.206653Z",
+    "summary": "Authorized exact same attempt1; only os/timezone bindings removed. Founder hosteditgrant committedaf0e818f5 before implementation. ActualOpenAInonsharedTerraMEDIUMverified. Builder14passed1.18s/compileall0 and completeonefilediff. Sideeffectsourceinspection and operatorpure-sensor provenance honestly distinguished. Logical pi is policy harness slot, not runtime model. Independentverification stillrequired; not canonicalresolution."
+   },
    "createdAt": "2026-11-06T07:08:58.069037Z",
    "debtId": "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208",
    "dispatchId": "dispatch-7930613ee061481cf023",
@@ -35205,7 +35265,7 @@
    "runId": "run-20261106T045029Z-92c5e38b",
    "source": "dead-code",
    "state": "building",
-   "updatedAt": "2026-11-06T07:08:58.069037Z",
+   "updatedAt": "2026-11-06T14:30:19.206653Z",
    "verification": null
   },
   "debt:unused_import:src-gaia-cli-steward-issuehygiene-reconcile-py:d91a57958d7d1622": {
