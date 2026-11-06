@@ -1,5 +1,5 @@
 {
- "generation": 928,
+ "generation": 929,
  "lane": {
   "entries": [
    {
@@ -3171,14 +3171,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-460979a6df78fdd0d323",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-06T22:51:00.182873Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch1-verifier-3d53086a6d83 (pi, effort medium))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-11-06T20:54:31.248700Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-06T22:51:00.182873Z",
+    "lastVerdict": "reject",
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 0,
@@ -72317,6 +72323,13 @@
      "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
      "emittedAt": "2026-11-06T22:17:07.568760Z",
      "idempotencyKey": "verify:dispatch-460979a6df78fdd0d323:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch1-verifier-3d53086a6d83",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - \"The base file contains both imports without references, and the candidate removes only those imports.\" - \"The supplied reproduction does not demonstrate the os finding, although independent inspection confirms it.\" - \"The proof explicitly says pytest was not run; compile and import smoke checks do not satisfy the stated pytest requirement. The subject is an archived standalone script with no identified importing package or dedicated test coverage.\" - \"This independent verification discharges the independent-review item.\"",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -72332,7 +72345,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/verify-3d53086a6d83.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-06T22:51:00.177384Z",
+     "status": "done",
      "stepId": "verify:3d53086a6d83:1",
      "type": "agent.verify"
     },
@@ -72597,6 +72611,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:d03344b33622:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch1-verifier-3d53086a6d83",
+     "at": "2026-11-06T22:51:00.182873Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:3d53086a6d83:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -74296,11 +74322,11 @@
      "stepId": "verify:d03344b33622:1"
     },
     {
-     "at": "2026-11-06T22:17:07.568760Z",
+     "at": "2026-11-06T22:51:00.177384Z",
      "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
      "idempotencyKey": "verify:dispatch-460979a6df78fdd0d323:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:3d53086a6d83:1"
     },
     {
@@ -74367,11 +74393,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-06T22:50:49.960175Z"
+   "updatedAt": "2026-11-06T22:51:00.177384Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T22:50:49.962684Z",
+ "updatedAt": "2026-11-06T22:51:00.244142Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -74925,22 +74951,25 @@
      "stepId": "build:3d53086a6d83:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch1-verifier-3d53086a6d83",
+     "at": "2026-11-06T22:51:00.182873Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:3d53086a6d83:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
+   "blockedReason": "independent verification by pi-herdr-batch1-verifier-3d53086a6d83 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
    "branch": "steward/b/unused-import-3d53086a6d83",
-   "build": {
-    "agentId": "pi-herdr-batch1-builder-3d53086a6d83",
-    "attempt": 1,
-    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-3d53086a6d83.diff",
-    "dispatchId": "dispatch-460979a6df78fdd0d323",
-    "noChange": false,
-    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-3d53086a6d83.proof.json",
-    "recordedAt": "2026-11-06T22:07:45.211695Z",
-    "summary": "Batch batch1 builder (openai/gpt-6-luna medium, pi subagent/pane) removed the flagged unused import(s) from the subject file; commit de8b3dd20; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
-   },
+   "build": null,
    "createdAt": "2026-11-06T20:54:31.248700Z",
    "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
    "dispatchId": "dispatch-460979a6df78fdd0d323",
@@ -74951,6 +74980,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-460979a6df78fdd0d323 (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-06T22:51:00.182873Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch1-verifier-3d53086a6d83 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
+     "to": "blocked"
     }
    ],
    "kind": "unused_import",
@@ -74960,13 +74995,14 @@
    "routine": "dead-code-gardener",
    "runId": "run-20261106T205057Z-dc2f240c",
    "source": "dead-code",
-   "state": "building",
-   "updatedAt": "2026-11-06T22:07:45.211695Z",
+   "state": "blocked",
+   "updatedAt": "2026-11-06T22:51:00.182873Z",
    "verification": {
-    "receipt": "steward-20261106T221543Z-e3dbd0b91430fac4",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/verify-3d53086a6d83.prompt.md"
+    "agentId": "pi-herdr-batch1-verifier-3d53086a6d83",
+    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - \"The base file contains both imports without references, and the candidate removes only those imports.\" - \"The supplied reproduction does not demonstrate the os finding, although independent inspection confirms it.\" - \"The proof explicitly says pytest was not run; compile and import smoke checks do not satisfy the stated pytest requirement. The subject is an archived standalone script with no identified importing package or dedicated test coverage.\" - \"This independent verification discharges the independent-review item.\"",
+    "recordedAt": "2026-11-06T22:51:00.182873Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   },
   "debt:unused_import:scripts-archive-fetch-ruflo-skills-py:f5adc0673c6d1436": {
