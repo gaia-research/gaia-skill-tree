@@ -109,6 +109,15 @@ _PROTECTED_DISPATCH_PATHS = (
     "registry/schema/**",
     "skill-trees/**",
 )
+# The only carve-outs from the protected set above: a subtree a rule may WRITE
+# although it sits under a protected path, each tied to the one debt kind that
+# may hold it. The rule must still list the protected parent as forbidden; the
+# verifier lets the more specific allowed subtree win over that broader ban.
+_DISPATCH_EXEMPT_SUBTREES = {
+    # Credential disposition records are drafted by a builder and signed by an
+    # independent verifier; the policy, decisions and receipts beside them stay protected.
+    "founder/steward/security-dispositions/**": "credential_review",
+}
 # Founder desk rules: each names the one Class C debt kind it decides.
 _FOUNDER_RULE_DEBT = {
     "generic-mapping-decision": "generic_mapping",
@@ -512,6 +521,18 @@ class StewardPolicy:
                     f"paths {missing_guards}"
                 )
             for allowed in allowed_paths:
+                if allowed in _DISPATCH_EXEMPT_SUBTREES:
+                    # One named subtree of founder/**, for one named debt kind,
+                    # and nothing broader. Every other protected path still applies.
+                    if _DISPATCH_EXEMPT_SUBTREES[allowed] != debt_kind:
+                        raise PolicyError(
+                            f"routing.dispatchRules.{rule_id}.allowedPaths: {allowed} is reserved for "
+                            f"{_DISPATCH_EXEMPT_SUBTREES[allowed]} rules"
+                        )
+                    others = tuple(item for item in _PROTECTED_DISPATCH_PATHS if item != "founder/**")
+                    if any(_globs_overlap(allowed, item) for item in others):
+                        raise PolicyError(f"routing.dispatchRules.{rule_id}.allowedPaths: {allowed} reaches a protected path")
+                    continue
                 conflict = next(
                     (item for item in _PROTECTED_DISPATCH_PATHS if _globs_overlap(allowed, item)),
                     None,

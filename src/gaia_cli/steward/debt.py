@@ -86,11 +86,13 @@ def reconcile_debt(
             if previous is None or previous.status == "resolved":
                 continue
             decided = observation.observed_state.get("decidedDisposition") is True
-            # Resolving as a decided disposition must not erase what was found:
-            # the open debt's observed state (findings included) is kept whole.
+            reclassified = observation.observed_state.get("reclassifiedTo") is not None
+            # Resolving as a decided disposition or a reclassification must not
+            # erase what was found: the open debt's observed state (findings
+            # included) is kept whole.
             resolvedState = (
                 {**observation.observed_state, "priorObservedState": dict(previous.observed_state)}
-                if decided
+                if decided or reclassified
                 else observation.observed_state
             )
             debts[debt_id] = Debt(
@@ -107,10 +109,12 @@ def reconcile_debt(
                 first_observed_at=previous.first_observed_at,
                 last_observed_at=observation.observed_at,
                 observation_count=previous.observation_count + 1,
-                # A sensor-verified founder disposition is not a recovery: the
-                # condition still exists and an independently verified record
-                # decided it. Keep the two distinguishable in the ledger.
-                resolution="decided_disposition" if decided else "condition_recovered",
+                # A sensor-verified founder disposition or a reclassification is
+                # not a recovery: the condition still exists. Keep them
+                # distinguishable in the ledger.
+                resolution=(
+                    "decided_disposition" if decided else "reclassified" if reclassified else "condition_recovered"
+                ),
             )
             resolved.append(debt_id)
             continue

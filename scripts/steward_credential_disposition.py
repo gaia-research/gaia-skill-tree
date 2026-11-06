@@ -2,11 +2,14 @@
 """Prefill credential disposition records for humans and verifiers (#2283).
 
 ``draft <debtId>`` rescans the checkout and emits one record skeleton per live
-finding of that debt, with path, line, pattern, fingerprint and the file sha256
-filled in. It never sets policy, disposition, evidence, author, verifiedBy or
-verifiedAt: those are a human's judgement and an independent verifier's
-attestation. A skeleton is inert, because the Steward consumer rejects any record
-with an empty field, so drafting cannot resolve or exempt anything.
+finding of that debt, with path, line (informational), pattern, fingerprint,
+occurrence and the sha256 of the normalized line prefilled. The debt id may be
+the file's ``credential_leak`` or ``credential_review`` debt; records always
+carry the stable ``credential_leak`` id. It never sets policy, disposition,
+evidence, author, verifiedBy or verifiedAt: those are a human's judgement and
+an independent verifier's attestation. A skeleton is inert, because the Steward
+consumer rejects any record with an empty field, so drafting cannot resolve or
+exempt anything.
 
     python scripts/steward_credential_disposition.py draft <debtId>
     python scripts/steward_credential_disposition.py draft <debtId> --write
@@ -33,34 +36,36 @@ def draftRecords(root: Path, debtId: str, observedAt: str = "1970-01-01T00:00:00
     """Return skeletons for every current finding of ``debtId``; raise LookupError if none."""
 
     scan = SecretScanSensor().scan_detailed(root, observedAt)
-    for observation in scan.observations:
-        if observation.debt_id != debtId:
-            continue
-        rel = observation.subject.id
-        data = (root / rel).read_bytes()
-        findings = SecretScanSensor._findings(rel, data.decode("utf-8", errors="replace"), _SecretTally())
-        sha = records.fileSha256(data)
-        return [
-            {
-                "schemaVersion": records.RECORDSCHEMA,
-                "debtId": debtId,
-                "path": rel,
-                "line": item["line"],
-                "pattern": item["pattern"],
-                "fingerprint": item["fingerprint"],
-                "occurrence": index,
-                "fileSha256": sha,
-                "policy": "",
-                "disposition": "",
-                "evidence": "",
-                "author": "",
-                "verifiedBy": "",
-                "verifiedAt": "",
-                "founderRuling": records.RULINGID,
-            }
-            for item, index in zip(findings, records.occurrences(findings))
-        ]
-    raise LookupError(f"no credential finding currently produces {debtId}")
+    subject = next((item.subject.id for item in scan.observations if item.debt_id == debtId), None)
+    leak = next(
+        (item for item in scan.observations if item.subject.id == subject and item.kind == "credential_leak"),
+        None,
+    )
+    if subject is None or leak is None:
+        raise LookupError(f"no credential finding currently produces {debtId}")
+    data = (root / subject).read_bytes()
+    located = SecretScanSensor._locate(subject, data.decode("utf-8", errors="replace"), _SecretTally())
+    findings = [item.finding for item in located]
+    return [
+        {
+            "schemaVersion": records.RECORDSCHEMA,
+            "debtId": leak.debt_id,
+            "path": subject,
+            "line": item.finding["line"],
+            "pattern": item.finding["pattern"],
+            "fingerprint": item.finding["fingerprint"],
+            "occurrence": index,
+            "lineSha256": item.lineHash,
+            "policy": "",
+            "disposition": "",
+            "evidence": "",
+            "author": "",
+            "verifiedBy": "",
+            "verifiedAt": "",
+            "founderRuling": records.RULINGID,
+        }
+        for item, index in zip(located, records.occurrences(findings))
+    ]
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -83,9 +88,7 @@ def main(argv: list[str] | None = None) -> int:
     target = root / records.RECORDDIR
     target.mkdir(parents=True, exist_ok=True)
     for skeleton in skeletons:
-        out = target / records.recordName(
-            skeleton["debtId"], skeleton["line"], skeleton["fingerprint"], skeleton["occurrence"]
-        )
+        out = target / records.recordName(skeleton["debtId"], skeleton["fingerprint"], skeleton["occurrence"])
         if out.exists():
             print(f"refusing to overwrite {out.relative_to(root)}", file=sys.stderr)
             return 1

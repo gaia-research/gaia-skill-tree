@@ -30,12 +30,15 @@ Limitations (stated here because the findings are heuristics):
 from __future__ import annotations
 
 import ast
+import base64
+import binascii
 import hashlib
 import json
+import math
 import re
 import tomllib
 from collections import Counter
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -1040,6 +1043,103 @@ def _synthetic_match(rel: str, matched: str) -> bool:
     return len(set(body)) <= 4
 
 
+# Issuer-specific formats: the regular expression already enforces the issuer
+# prefix and the length and alphabet that issuer uses, so a match IS a valid
+# structure. These are high-confidence live-credential shapes.
+_ISSUER_PATTERNS = frozenset(
+    {
+        "aws-access-key-id",
+        "github-token",
+        "github-fine-grained-token",
+        "anthropic-api-key",
+        "openai-api-key",
+        "slack-token",
+        "google-api-key",
+        "huggingface-token",
+        "npm-token",
+        "gitlab-token",
+    }
+)
+# Generic shapes (a keyword next to a value) say nothing about the value. They
+# are live-shaped only when the VALUE looks like an opaque secret; otherwise a
+# person with the evidence must disposition them.
+_GENERIC_PATTERNS = frozenset({"bearer-token", "credential-assignment", "aws-secret-access-key"})
+_OPAQUE_MIN_LENGTH = 20
+_OPAQUE_MIN_ENTROPY = 4.0
+# Evidence that the "value" is a reference, template or documentation stand-in
+# rather than a literal: shell/template interpolation, environment lookups,
+# ellipses, angle-bracket slots, call syntax and explicit placeholder words.
+_REFERENCE_VALUE = re.compile(
+    r"\$\{|\$\(|\{\{|<[A-Za-z_]|process\.env|os\.environ|getenv|\.\.\.|\*\*\*|[()\[\]]"
+    r"|YOUR[-_]|your[-_ ]|EXAMPLE|placeholder|xxxx|redacted|dummy|not[-_ ]?real",
+    re.IGNORECASE,
+)
+_PRIVATE_KEY_BODY = re.compile(r"[\s\\n]*(?:[A-Za-z0-9+/=]{16,}[\s\\n]*){2,}")
+
+# Classes that stay Class C. Everything else is "review": a credential-shaped
+# string with no evidence of being live, decided only by a verified record.
+LIVE_CLASSES = frozenset({"issuer", "structured", "ambiguous"})
+
+
+def _entropy(value: str) -> float:
+    counts = Counter(value)
+    total = len(value)
+    return -sum(count / total * math.log2(count / total) for count in counts.values())
+
+
+def _genericValue(name: str, matched: str) -> str:
+    if name.startswith("bearer"):
+        return matched.split(None, 1)[-1]
+    if name == "aws-secret-access-key":
+        run = re.search(r"[A-Za-z0-9/+=]{40}", matched)
+        return run.group(0) if run else matched
+    return re.split(r"[=:]\s*[\\\"']*", matched, maxsplit=1)[-1]
+
+
+def _validJwt(matched: str) -> bool:
+    parts = matched.split(".")
+    if len(parts) != 3:
+        return False
+    decoded: list[Any] = []
+    for part in parts[:2]:
+        try:
+            decoded.append(json.loads(base64.urlsafe_b64decode(part + "=" * (-len(part) % 4))))
+        except (ValueError, binascii.Error):
+            return False
+    return isinstance(decoded[0], dict) and "alg" in decoded[0] and isinstance(decoded[1], dict)
+
+
+def credentialClass(name: str, matched: str, text: str, end: int) -> str:
+    """Classify one credential-shaped match by its own evidence, never by its path.
+
+    ``issuer`` / ``structured`` are known live formats with valid structure;
+    ``ambiguous`` cannot be told apart from a live secret; ``review`` has no
+    evidence of being live (reference, template, placeholder or ordinary word).
+    """
+
+    if name in _ISSUER_PATTERNS:
+        return "issuer"
+    if name == "private-key-block":
+        # A header with key material after it is a key. A bare header cannot be
+        # told apart from the start of one split across strings, so it is ambiguous.
+        return "issuer" if _PRIVATE_KEY_BODY.match(text, end, end + 4096) else "ambiguous"
+    if name == "jwt":
+        return "structured" if _validJwt(matched) else "review"
+    if name in _GENERIC_PATTERNS:
+        value = _genericValue(name, matched)
+        if _REFERENCE_VALUE.search(value) or any(char.isspace() for char in value):
+            return "review"
+        opaque = (
+            len(value) >= _OPAQUE_MIN_LENGTH
+            and _entropy(value) >= _OPAQUE_MIN_ENTROPY
+            and any(char.isalpha() for char in value)
+            and any(char.isdigit() for char in value)
+        )
+        return "ambiguous" if opaque else "review"
+    # An unknown pattern name is never assumed benign.
+    return "ambiguous"
+
+
 @dataclass
 class _SecretTally:
     scanned: int = 0
@@ -1051,11 +1151,27 @@ class _SecretTally:
     reasons: dict[str, int] = field(default_factory=dict)
 
 
+@dataclass(frozen=True)
+class _Located:
+    finding: dict[str, Any]
+    lineHash: str
+    cls: str
+
+
 class SecretScanSensor:
-    """Find credential-shaped strings; store only a fingerprint, never the value."""
+    """Find credential-shaped strings; store only a fingerprint, never the value.
+
+    Routing is by evidence. A file is Class C (``credential_leak``) while any
+    undecided finding in it is a high-confidence live-credential shape or is
+    ambiguous. When every undecided finding is merely credential-shaped, the
+    file is a Class B ``credential_review``: a builder may draft a disposition
+    record, an independent verifier must sign it, and no source edit is allowed.
+    A finding decided by a verified record (see ``credentialDispositions``) is
+    resolved with provenance in either case.
+    """
 
     id = "secret-scan"
-    debt_kinds = ("credential_leak",)
+    debt_kinds = ("credential_leak", "credential_review")
     routine_ids = (16, 14)
     resolution_scope = "exhaustive"
 
@@ -1074,7 +1190,7 @@ class SecretScanSensor:
         paths = tracked_files(root, ["."], max_files=_SECRET_MAX_FILES)
         tally = _SecretTally()
         skips = SkipLog()
-        per_file: list[tuple[str, list[dict[str, Any]], str]] = []
+        per_file: list[tuple[str, list[_Located]]] = []
         registry = credentialDispositions.loadRegistry(root)
         for rel in paths:
             full = root / rel
@@ -1093,9 +1209,9 @@ class SecretScanSensor:
                 tally.nonUtf8 += 1
                 text = data.decode("utf-8", errors="replace")
             tally.scanned += 1
-            findings = self._findings(rel, text, tally)
-            if findings:
-                per_file.append((rel, findings, credentialDispositions.fileSha256(data)))
+            located = self._locate(rel, text, tally)
+            if located:
+                per_file.append((rel, located))
 
         summary = {
             "filesScanned": tally.scanned,
@@ -1106,83 +1222,122 @@ class SecretScanSensor:
         if registry.rejected:
             summary["rejectedDispositionRecords"] = len(registry.rejected)
         observations: list[Observation] = []
-        for rel, findings, sha in per_file:
-            private = any(item["pattern"] == "private-key-block" for item in findings)
-            confidence = 1.0 if private else 0.9
-            drift = Observation(
-                kind="credential_leak",
-                subject=Subject(type="source-file", id=rel),
-                observed_at=observed_at,
-                source=self.id,
-                status="drift",
-                current_state={"credentialMatches": 0},
-                observed_state={
-                    **finding_payload(findings),
-                    "patternCounts": dict(sorted(Counter(item["pattern"] for item in findings).items())),
-                },
-                confidence=confidence,
-                provenance={
-                    "check": "credential-shaped regular expressions; matches are fingerprinted, never stored",
-                    **summary,
-                },
-            )
-            # A finding is decided only by one independently verified record that
-            # matches debt id, path, line, pattern, fingerprint and these exact
-            # file bytes. One undecided finding keeps the whole file Class C.
-            indexes = credentialDispositions.occurrences(findings)
-            matches = [
-                registry.match(drift.debt_id, rel, item, index, sha)
-                for item, index in zip(findings, indexes)
-            ]
-            decided = [match for match in matches if match is not None]
-            if decided and len(decided) == len(findings):
-                observations.append(
-                    Observation(
-                        kind="credential_leak",
-                        subject=drift.subject,
-                        observed_at=observed_at,
-                        source=self.id,
-                        status="healthy",
-                        current_state=drift.current_state,
-                        observed_state={
-                            "decidedDisposition": True,
-                            "decisionRecord": f"{credentialDispositions.DECISIONSDIR}/{credentialDispositions.RULINGID}.json",
-                            "findingCount": len(findings),
-                            "fileSha256": sha,
-                            "dispositions": [match.summary() for match in decided],
-                        },
-                        confidence=confidence,
-                        provenance={
-                            "check": "founder-decided per-finding credential dispositions, exact debt/path/pattern/fingerprint/file-bytes match",
-                            "decision": credentialDispositions.RULINGID,
-                            **summary,
-                        },
-                    )
-                )
-                continue
-            if decided:
-                drift = Observation(
-                    kind=drift.kind,
-                    subject=drift.subject,
-                    observed_at=drift.observed_at,
-                    source=drift.source,
-                    status=drift.status,
-                    current_state=drift.current_state,
-                    observed_state={
-                        **drift.observed_state,
-                        "decidedFindings": [match.summary() for match in decided],
-                        "undecidedFindingCount": len(findings) - len(decided),
-                    },
-                    confidence=drift.confidence,
-                    provenance=drift.provenance,
-                )
-            observations.append(drift)
+        for rel, located in per_file:
+            observations.extend(self._observe(rel, located, registry, summary, observed_at))
         skips.require_coverage(len(paths), "tracked files")
         return SensorScan(tuple(observations), skips.entries())
 
+    def _observe(
+        self,
+        rel: str,
+        located: list[_Located],
+        registry: credentialDispositions.Registry,
+        summary: dict[str, Any],
+        observed_at: str,
+    ) -> list[Observation]:
+        findings = [item.finding for item in located]
+        private = any(item["pattern"] == "private-key-block" for item in findings)
+        confidence = 1.0 if private else 0.9
+        subject = Subject(type="source-file", id=rel)
+        current = {"credentialMatches": 0}
+        leak = Observation(
+            kind="credential_leak",
+            subject=subject,
+            observed_at=observed_at,
+            source=self.id,
+            status="drift",
+            current_state=current,
+            observed_state={
+                **finding_payload(findings),
+                "patternCounts": dict(sorted(Counter(item["pattern"] for item in findings).items())),
+            },
+            confidence=confidence,
+            provenance={
+                "check": "credential-shaped regular expressions; matches are fingerprinted, never stored",
+                **summary,
+            },
+        )
+        review = Observation(
+            kind="credential_review", subject=subject, observed_at=observed_at, source=self.id,
+            status="drift", current_state=current, observed_state={}, confidence=0.6,
+        )
+        # A finding is decided only by one independently verified record that
+        # matches debt id, path, pattern, fingerprint, occurrence and the
+        # normalized line it sits on. Unrelated edits elsewhere in the file do
+        # not matter; a changed token or line does.
+        indexes = credentialDispositions.occurrences(findings)
+        matches = [
+            registry.match(leak.debt_id, rel, item.finding, index, item.lineHash)
+            for item, index in zip(located, indexes)
+        ]
+        decided = [(item, match) for item, match in zip(located, matches) if match is not None]
+        undecided = [item for item, match in zip(located, matches) if match is None]
+        if not undecided:
+            state = {
+                "decidedDisposition": True,
+                "decisionRecord": f"{credentialDispositions.DECISIONSDIR}/{credentialDispositions.RULINGID}.json",
+                "findingCount": len(findings),
+                "dispositions": [match.summary(item.finding["line"]) for item, match in decided],
+            }
+            provenance = {
+                "check": "founder-decided per-finding credential dispositions, exact debt/path/pattern/fingerprint/occurrence/line match",
+                "decision": credentialDispositions.RULINGID,
+                **summary,
+            }
+            return [
+                Observation(
+                    kind=kind, subject=subject, observed_at=observed_at, source=self.id, status="healthy",
+                    current_state=current, observed_state=state, confidence=confidence, provenance=provenance,
+                )
+                for kind in ("credential_leak", "credential_review")
+            ]
+        annotations: dict[str, Any] = {}
+        if decided:
+            annotations = {
+                "decidedFindings": [match.summary(item.finding["line"]) for item, match in decided],
+                "undecidedFindingCount": len(undecided),
+            }
+        classes = Counter(item.cls for item in undecided)
+        if any(item.cls in LIVE_CLASSES for item in undecided):
+            if not annotations:
+                return [leak]
+            return [replace(leak, observed_state={**leak.observed_state, **annotations})]
+        # Every undecided finding is credential-shaped without evidence of being
+        # live: Class B. The Class C debt for this file is retired as reclassified
+        # (not as recovered or decided) and the evidence travels with it.
+        reviewState = {
+            **leak.observed_state,
+            **annotations,
+            "classification": dict(sorted(classes.items())),
+            "reviewReason": (
+                "no undecided finding is an issuer-format token, a structurally valid JWT, a private-key body "
+                "or an opaque high-entropy value; each needs an independently verified disposition record"
+            ),
+            "reclassifiedFrom": leak.debt_id,
+        }
+        return [
+            replace(
+                review,
+                observed_state=reviewState,
+                provenance={"check": "credential classification by matched-value evidence, never by path", **summary},
+            ),
+            Observation(
+                kind="credential_leak", subject=subject, observed_at=observed_at, source=self.id,
+                status="healthy", current_state=current,
+                observed_state={
+                    "reclassifiedTo": "credential_review",
+                    "reviewDebtId": review.debt_id,
+                    "findingCount": len(findings),
+                    "classification": dict(sorted(classes.items())),
+                },
+                confidence=confidence,
+                provenance={"check": "credential classification by matched-value evidence, never by path", **summary},
+            ),
+        ]
+
     @staticmethod
-    def _findings(rel: str, text: str, tally: _SecretTally) -> list[dict[str, Any]]:
-        results: list[dict[str, Any]] = []
+    def _locate(rel: str, text: str, tally: _SecretTally) -> list[_Located]:
+        results: list[_Located] = []
         for name, pattern in _SECRET_PATTERNS:
             for match in pattern.finditer(text):
                 matched = match.group(0)
@@ -1191,11 +1346,23 @@ class SecretScanSensor:
                 if _synthetic_match(rel, matched):
                     tally.synthetic += 1
                     continue
+                start = text.rfind("\n", 0, match.start()) + 1
+                stop = text.find("\n", match.start())
                 results.append(
-                    {
-                        "line": text.count("\n", 0, match.start()) + 1,
-                        "pattern": name,
-                        "fingerprint": hashlib.sha256(matched.encode("utf-8")).hexdigest()[:12],
-                    }
+                    _Located(
+                        finding={
+                            "line": text.count("\n", 0, match.start()) + 1,
+                            "pattern": name,
+                            "fingerprint": hashlib.sha256(matched.encode("utf-8")).hexdigest()[:12],
+                        },
+                        lineHash=credentialDispositions.lineSha256(text[start : stop if stop >= 0 else None]),
+                        cls=credentialClass(name, matched, text, match.end()),
+                    )
                 )
-        return sorted(results, key=lambda item: (item["line"], item["pattern"], item["fingerprint"]))
+        return sorted(
+            results, key=lambda item: (item.finding["line"], item.finding["pattern"], item.finding["fingerprint"])
+        )
+
+    @staticmethod
+    def _findings(rel: str, text: str, tally: _SecretTally) -> list[dict[str, Any]]:
+        return [item.finding for item in SecretScanSensor._locate(rel, text, tally)]
