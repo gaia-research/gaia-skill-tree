@@ -10,8 +10,10 @@ files. The manifest is folded into three debt kinds:
   turns these into ``forge.close_issue`` actions under its own gates.
 - ``issue_suite_review`` (Class B): one debt per suite batch (or ``unbatched``).
 - ``issue_founder_decision`` (Class C): one debt per founder question, plus two steward notes (B8):
-  ``reopened-after-closure`` (a pair the steward closed is open again, so a person reopened it: never closed again)
-  and ``closure-refused`` (a pair the gate refused ``RETRYLIMIT`` times: one question for all of them).
+  ``reopened-after-closure`` (a pair the steward closed is open again, so a person reopened it: never closed again),
+  ``closure-refused`` (a pair the gate refused ``RETRYLIMIT`` times: one question for all of them) and
+  ``closeout-discrepancy`` (founder ruling #6: a closed umbrella is a completed epic, so a closed umbrella with
+  unfinished children or contradicting registry evidence is a HIGH-PRIORITY note; the closure is preserved).
 
 Anything the census or manifest cannot prove fails closed: a missing census is
 ``SensorNotEvaluated``; an incomplete, stale or unreconcilable census is
@@ -31,6 +33,12 @@ from gaia_cli.steward.issuehygiene.census import Census, loadCensus, parseTimest
 from gaia_cli.steward.issuehygiene.closure import compactPlan, planClosures
 from gaia_cli.steward.issuehygiene.hygienepolicy import KNOWN_RULE_IDS, HygienePolicy
 from gaia_cli.steward.issuehygiene.outcomes import RETRYLIMIT, OutcomeStoreError, doneClosures, loadOutcomes
+from gaia_cli.steward.issuehygiene.reconcile import (
+    CLOSEOUT_BASIS,
+    CLOSEOUT_OPTIONS,
+    CLOSEOUT_RECOMMENDATION,
+    PRIORITY_HIGH,
+)
 from gaia_cli.steward.issuehygiene.reconcile import SCHEMA_VERSION as MANIFEST_SCHEMA
 from gaia_cli.steward.issuehygiene.reconcile import reconcile, workflowProbesFor
 from gaia_cli.steward.issuehygiene.registryindex import buildRegistryIndex
@@ -45,6 +53,7 @@ UNBATCHED = "unbatched"
 UNQUESTIONED = "unquestioned"
 REOPENED = "reopened-after-closure"
 REFUSED = "closure-refused"
+CLOSEOUT = "closeout-discrepancy"
 AUTHORITIES = ("A", "B", "C", "none")
 # Bounded so one large suite cannot blow the observation budget or the ledger.
 MAX_ITEMS_PER_DEBT = 200
@@ -332,6 +341,7 @@ class IssueHygieneSensor:
         observations.extend(self._founder(manifest, founder_items, observed_at, provenance, digest))
         observations.extend(self._stewardNotes(reopened, sorted(number for _key, number in (escalated or [])),
                                                observed_at, provenance, digest))
+        observations.extend(self._closeoutNotes(manifest, observed_at, provenance, digest))
         skipped = self._notEvaluated(manifest)
         return SensorScan(observations=tuple(observations), skipped=skipped)
 
@@ -349,6 +359,44 @@ class IssueHygieneSensor:
             "subjectId": "unevaluated-issues",
             "reason": f"{len(numbers)} issue(s) not evaluated by issue reconciliation: {named}",
         },)
+
+    @staticmethod
+    def _closeoutNotes(manifest: Mapping[str, Any], observed_at: str, provenance: Mapping[str, Any],
+                       digest: str) -> list[Observation]:
+        """Founder ruling #6: closed umbrellas that leave unfinished work or contradictory evidence.
+
+        One HIGH-PRIORITY Class C note names every such umbrella and its open children. The closure is
+        preserved: the note asks for explicit reconciliation and never proposes reopening or declaring completion.
+        """
+        rows = [row for row in manifest.get("closeoutDiscrepancies") or [] if isinstance(row, Mapping)]
+        numbers: set[int] = set()
+        summary: list[dict[str, Any]] = []
+        for row in sorted(rows, key=lambda item: item.get("umbrella") if isinstance(item.get("umbrella"), int) else 0):
+            umbrella = row.get("umbrella")
+            if isinstance(umbrella, bool) or not isinstance(umbrella, int):
+                continue
+            numbers.add(umbrella)
+            children = [n for n in row.get("openChildren") or [] if isinstance(n, int) and not isinstance(n, bool)]
+            numbers.update(children)
+            summary.append({
+                "umbrella": umbrella, "suite": _text(row.get("suite"), 120), "version": _text(row.get("version"), 60),
+                "reasons": [_text(reason, 160) for reason in (row.get("reasons") or [])[:5] if isinstance(reason, str)],
+                "openChildren": children[:MAX_ITEMS_PER_DEBT],
+            })
+        if not summary:
+            return []
+        observed = decisionState(
+            CLOSEOUT,
+            "HIGH PRIORITY closeout discrepancy: these umbrellas are closed, which makes each a completed epic, yet unfinished "
+            "children or contradicting registry evidence remain. The closure is preserved. Investigate and reconcile "
+            "explicitly: finish the missed work, or record each leftover as an intentional disposition.",
+            sorted(numbers), list(CLOSEOUT_OPTIONS), CLOSEOUT_RECOMMENDATION, CLOSEOUT_BASIS, digest)
+        observed["priority"] = PRIORITY_HIGH
+        observed["discrepancies"] = summary[:MAX_ITEMS_PER_DEBT]
+        return [_observation(
+            kind="issue_founder_decision", subject=Subject(type="issue-question", id=CLOSEOUT),
+            observed_at=observed_at, provenance=provenance, status="drift", observed=observed,
+        )]
 
     @staticmethod
     def _stewardNotes(reopened: list[int], refused: list[int], observed_at: str,

@@ -16,6 +16,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from dataclasses import dataclass
 from typing import Any, Mapping
 
 from gaia_cli.steward.issuehygiene.census import COMPLETE, Census, validateCensus
@@ -64,6 +65,16 @@ STATE_HELD = "held"
 STATE_NOT_EVALUATED = "not-evaluated"
 CLOSABLE_STATES = (STATE_RESOLVED, STATE_SUPERSEDED, STATE_DUPLICATE)
 RULE_STATE = {RULE_A1: STATE_RESOLVED, RULE_A2: STATE_RESOLVED, RULE_A3: STATE_SUPERSEDED, RULE_A4: STATE_DUPLICATE, RULE_A5: STATE_RESOLVED}
+
+# Founder ruling #6 (steward-closed-umbrella-disposition): a closed upstream umbrella is a completed epic.
+PRIORITY_HIGH = "high"
+CLOSEOUT_OPTIONS = ("reconcile-missed-work", "record-intentional-disposition", "defer")
+CLOSEOUT_DISPOSITION = "preserve-closure-investigate-reconcile"
+CLOSEOUT_RECOMMENDATION = "reconcile-missed-work"
+CLOSEOUT_BASIS = (
+    "a closed umbrella is a completed epic; a follow-up or a contradiction is a signal that something was missed, "
+    "so the closure is preserved and the gap is reconciled explicitly, never papered over"
+)
 
 ORPHAN_REASONS = frozenset({"no-parent-reference", "parent-closed", "parent-not-open", "parent-not-umbrella"})
 SUITE_PREFIX = "upstream-suite:"
@@ -210,6 +221,9 @@ class Context:
         self.closedSuite: dict[int, str] = {}
         self.mergedSyncs: list[dict] = []
         self.closedNumbers: set[int] = set()
+        self.closedUmbrellas: dict[int, "ClosedUmbrella"] = {}
+        # open umbrella number -> closed umbrella number whose batch it repeats
+        self.closedBatchOf: dict[int, int] = {}
 
 
 def snapshot(row: dict) -> dict:
@@ -657,6 +671,147 @@ def evaluateBot(ctx: Context, draft: Draft) -> None:
     addQuestion(ctx, draft, QUESTION_GH_AW, QUESTION_GH_AW_OPTIONS)
 
 
+# ----------------------------------------------------------------- closed umbrellas (founder ruling #6)
+
+@dataclass(frozen=True)
+class ClosedUmbrella:
+    """A recently closed upstream umbrella: a completed epic, with the facts needed to detect a missed follow-up."""
+
+    number: int
+    kind: str
+    key: str
+    suite: str | None
+    version: str | None
+    stateReason: str | None
+    closedAt: str | None
+    candidateIds: frozenset | None
+    childRefs: tuple[int, ...]
+    identityReasons: tuple[str, ...]
+
+
+def candidateIdsOf(identity: Identity) -> frozenset | None:
+    """Every candidate id an umbrella payload names (v2 candidate rows and component adds), or None when unreadable.
+
+    None means the batch cannot be compared: it is then never treated as a repeat of a closed batch.
+    """
+    payload = identity.payload
+    if not isinstance(payload, dict):
+        return None
+    found: set[str] = set()
+    known = False
+    rows = payload.get("candidates")
+    if rows is not None:
+        if not isinstance(rows, list) or not all(isinstance(row, dict) and isinstance(row.get("id"), str) for row in rows):
+            return None
+        known = True
+        found.update(row["id"] for row in rows)
+    adds = payload.get("componentAdds")
+    if adds is not None:
+        if not isinstance(adds, list) or not all(isinstance(item, str) for item in adds):
+            return None
+        known = True
+        found.update(adds)
+    return frozenset(found) if known else None
+
+
+def closedUmbrellaOf(identity: Identity, row: dict) -> ClosedUmbrella:
+    reason = row.get("stateReason")
+    closedAt = row.get("closedAt")
+    return ClosedUmbrella(
+        number=identity.number, kind=identity.kind, key=identity.key, suite=identity.suite, version=identity.version,
+        stateReason=reason if isinstance(reason, str) else None,
+        closedAt=closedAt if isinstance(closedAt, str) else None,
+        candidateIds=candidateIdsOf(identity), childRefs=identity.childRefs, identityReasons=identity.reasons,
+    )
+
+
+def closedBatchRepeatOf(ctx: Context, draft: Draft) -> int | None:
+    """The closed umbrella whose batch this open umbrella repeats, or None when it is (or might be) new work.
+
+    Same suite, same version and no candidate the closed batch did not already carry. A new version, a new
+    candidate, or any unreadable payload on either side is new work: suppression needs positive proof.
+    """
+    identity = draft.identity
+    if identity.kind != "umbrella" or identity.suite is None or identity.version is None or identity.reasons:
+        return None
+    openIds = candidateIdsOf(identity)
+    if openIds is None:
+        return None
+    repeats = [
+        closed for closed in ctx.closedUmbrellas.values()
+        if closed.kind == "umbrella" and closed.suite == identity.suite and closed.version is not None
+        and closed.candidateIds is not None and not closed.identityReasons
+        and compareVersions(closed.version, identity.version) == 0 and openIds <= closed.candidateIds
+    ]
+    return max(closed.number for closed in repeats) if repeats else None
+
+
+def evaluateClosedUmbrellas(ctx: Context) -> list[dict]:
+    """Founder ruling #6. A closed umbrella is a completed epic: the closure is preserved and never reversed here.
+
+    Two consequences. A repeat of that exact batch (same suite and version, no new candidate) is duplicate
+    processing, so it is suppressed. A closure that leaves unfinished children, or that the registry contradicts, is a
+    HIGH-PRIORITY closeout discrepancy: the manifest raises it, it is never repaired or declared complete here.
+    Only umbrellas in the census's recently-closed window are visible; older closures are not evaluated.
+    """
+    for draft in ctx.drafts.values():
+        if draft.kind == "umbrella":
+            repeatOf = closedBatchRepeatOf(ctx, draft)
+            if repeatOf is not None:
+                ctx.closedBatchOf[draft.number] = repeatOf
+    found: list[dict] = []
+    openChildren = [draft for draft in ctx.drafts.values() if draft.kind == "child"]
+    for number in sorted(ctx.closedUmbrellas):
+        closed = ctx.closedUmbrellas[number]
+        reasons: list[str] = []
+        evidence: list[dict] = []
+        children = sorted(
+            draft.number for draft in openChildren
+            if draft.identity.parent == number or draft.number in closed.childRefs
+        )
+        if children:
+            reasons.append(f"unfinished-children:{len(children)}")
+            evidence.append(ev("issue", f"#{number}", None, "closed umbrella still has open child intakes: "
+                               + ", ".join(f"#{child}" for child in children[:20])))
+        repoId = suiteRepo(closed.suite)
+        if closed.kind == "umbrella" and closed.stateReason in (None, "completed") and closed.version and repoId \
+                and not ctx.registry.unreadableNear(repoId):
+            record = ctx.registry.byId(repoId)
+            if record is not None and record.upstreamVersion is not None \
+                    and compareVersions(closed.version, record.upstreamVersion) > 0 \
+                    and mergedSyncFor(ctx, repoId, closed.version) is None:
+                reasons.append(f"registry-behind-closure:registry={record.upstreamVersion},umbrella={closed.version}")
+                evidence.append(ev("registry", record.path, record.sha256,
+                                   f"suite record carries upstream version {record.upstreamVersion}; the closed umbrella claims {closed.version} and no merged sync pull request names it"))
+        if not reasons:
+            continue
+        for child in children:
+            ctx.drafts[child].notProven.append(f"closeout-discrepancy:#{number}")
+        found.append({
+            "key": closed.key,
+            "umbrella": number,
+            "suite": repoId,
+            "version": closed.version,
+            "closedAt": closed.closedAt,
+            "stateReason": closed.stateReason,
+            "priority": PRIORITY_HIGH,
+            "reasons": sorted(reasons),
+            "openChildren": children,
+            "evidence": sorted(evidence, key=lambda item: (item["type"], item["ref"], item["detail"])),
+            "disposition": CLOSEOUT_DISPOSITION,
+        })
+    return found
+
+
+def suppressedBy(ctx: Context, draft: Draft) -> int | None:
+    """The closed umbrella whose batch this item repeats: an open repeat umbrella itself, or one of its children."""
+    if draft.kind == "umbrella":
+        return ctx.closedBatchOf.get(draft.number)
+    if draft.kind == "child" and draft.parent is not None:
+        return ctx.closedBatchOf.get(draft.parent)
+    return None
+
+
 # ----------------------------------------------------------------- finalize
 
 def applyFounderLocks(ctx: Context, records: tuple[Mapping[str, Any], ...]) -> None:
@@ -748,6 +903,13 @@ def finalize(ctx: Context, draft: Draft) -> None:
             draft.confidence = "high"
         if rule == RULE_A4:
             draft.duplicateOf = draft.canonical
+        return
+    repeatOf = suppressedBy(ctx, draft)
+    if repeatOf is not None and draft.authority == AUTH_NONE:
+        # Founder ruling #6: a closed umbrella is a completed epic, so a repeat of its batch is not processed again.
+        draft.state = STATE_HELD
+        draft.notProven.append(f"closed-umbrella-duplicate:#{repeatOf}")
+        draft.evidence.append(ev("issue", f"#{repeatOf}", None, "closed umbrella of the same suite and version already covers this batch"))
         return
     if draft.kind == "child" and draft.authority == AUTH_NONE:
         draft.authority = AUTH_B
@@ -869,8 +1031,11 @@ def reconcile(
             closed = classify(row)
             if closed.kind == "umbrella" and closed.suite and closed.suite != SUITE_PREFIX + "unknown":
                 ctx.closedSuite[closed.number] = closed.suite
+            if closed.kind in ("umbrella", "bootstrap"):
+                ctx.closedUmbrellas[closed.number] = closedUmbrellaOf(closed, row)
 
     rowByNumber = {row["number"]: row for row in rowsOpen}
+    discrepancies: list[dict] = []
     if not complete:
         reasons = [f"census:{status.status}"] + list(status.reasons)
         ctx.drafts = {
@@ -892,6 +1057,7 @@ def reconcile(
             draft = ctx.drafts[number]
             if draft.kind == "umbrella":
                 evaluateUmbrella(ctx, draft)
+        discrepancies = evaluateClosedUmbrellas(ctx)
         applyFounderLocks(ctx, decisionRecords)
         # A3 reads its superseder's final authority, so superseded umbrellas are finalized after all others.
         for number in sorted(ctx.drafts):
@@ -920,6 +1086,7 @@ def reconcile(
         "classC": counts["C"],
         "untracked": kinds.count("untracked"),
         "notEvaluated": sum(1 for item in items if item["state"] == STATE_NOT_EVALUATED),
+        "closeoutDiscrepancies": len(discrepancies),
     }
     manifest: dict[str, Any] = {
         "schemaVersion": SCHEMA_VERSION,
@@ -940,6 +1107,7 @@ def reconcile(
         "items": items,
         "batches": batches(ctx) if complete else [],
         "founderQuestions": questionList(ctx) if complete else [],
+        "closeoutDiscrepancies": discrepancies,
     }
     manifest["manifestSha256"] = manifestDigest(manifest)
     return manifest
@@ -950,6 +1118,10 @@ __all__ = [
     "AUTH_B",
     "AUTH_C",
     "CLOSABLE_STATES",
+    "CLOSEOUT_BASIS",
+    "CLOSEOUT_OPTIONS",
+    "CLOSEOUT_RECOMMENDATION",
+    "PRIORITY_HIGH",
     "RULE_A1",
     "RULE_A2",
     "RULE_A3",
