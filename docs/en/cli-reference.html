@@ -3235,9 +3235,9 @@
             <div class="example-block">
               <div class="example-label">example</div>
               <pre><span class="c"># Map a candidate to an existing generic skill, after human review</span>
-<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev ratify</span> <span class="arg">registry-for-review/discovery-packets/owner--skill-name.json \
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev ratify</span> <span class="arg">registry-for-review/discovery-packets/marco-web-search-&lt;digest&gt;.json \
   --decision MAP --generic-id web-search --contributor marco --skill-name web-search \
-  --assessment &lt;receipt.json&gt; --reviewed-by marco --approval-ref &lt;issue-or-PR-URL&gt; \
+  --assessment generated-output/curation/marco-web-search-&lt;digest&gt;.assessment.json --reviewed-by marco --approval-ref &lt;issue-or-PR-URL&gt; \
   --reason "Matches the generic web-search node" --acknowledge-human-review</span></pre>
             </div>
           </div>
