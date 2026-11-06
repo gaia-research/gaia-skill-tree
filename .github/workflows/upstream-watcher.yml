@@ -33,6 +33,10 @@ on:
         type: choice
         options: [inherit, "off", weekly]
         default: inherit
+      staging_bootstrap:
+        description: "First staged run only: allow a missing pending-observation journal (never a corrupt one). Dispatch only; the schedule never bootstraps."
+        type: boolean
+        default: false
       escalate_candidate:
         description: "Optional: create ONE intake child for this batch row, e.g. garrytan/gbrain:foo (uses the apply flag). Skips polling."
         required: false
@@ -75,7 +79,8 @@ jobs:
 
       # Staged batching switch (#2283). Present only when staging resolves to weekly; with the repository variable
       # UPSTREAM_BATCH_STAGING unset (the default) these two steps are skipped and the job is exactly as before.
-      # The journal is advisory provenance: a cache miss or eviction costs only that provenance, never a write.
+      # The journal is required state, not a convenience: a cache miss or eviction FAILS CLOSED (every suite held,
+      # nothing written, job red) until a human re-dispatches with staging_bootstrap=true. Nothing resets silently.
       - name: Restore staging journal
         if: ${{ (inputs.staging == 'weekly' || (vars.UPSTREAM_BATCH_STAGING == 'weekly' && (inputs.staging == '' || inputs.staging == 'inherit'))) && inputs.escalate_candidate == '' }}
         uses: actions/cache/restore@v4
@@ -93,6 +98,8 @@ jobs:
           INPUT_APPLY: ${{ inputs.apply }}
           INPUT_CHILD_MODE: ${{ inputs.child_mode }}
           INPUT_STAGING: ${{ inputs.staging }}
+          INPUT_STAGING_BOOTSTRAP: ${{ inputs.staging_bootstrap }}
+          STEWARD_ISSUE_HYGIENE_V2: ${{ vars.STEWARD_ISSUE_HYGIENE_V2 }}
           STAGING_VAR: ${{ vars.UPSTREAM_BATCH_STAGING }}
           V2_ENABLED: ${{ vars.STEWARD_ISSUE_HYGIENE_V2 }}
           EVENT_NAME: ${{ github.event_name }}
@@ -152,6 +159,9 @@ jobs:
           ARGS=(--child-mode "$MODE" "${APPLY[@]}" --report generated-output/upstream-watcher-report.json)
           if [ "$STAGING" = weekly ]; then
             ARGS+=(--staging weekly --staging-journal generated-output/staging-journal.json)
+            if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ "${INPUT_STAGING_BOOTSTRAP:-}" = "true" ]; then
+              ARGS+=(--staging-bootstrap)
+            fi
           fi
           if [ -n "$INPUT_SKILL_ID" ]; then
             ARGS+=(--skill "$INPUT_SKILL_ID")

@@ -39,17 +39,22 @@ def test_live_families_noise_goes_down_at_each_step(live):
     assert live["legacy"]["issuesCreated"] == 8 and live["batch"]["issuesCreated"] == 0
 
 
-def test_a_week_of_daily_releases_loses_no_current_candidate(week):
+def test_a_week_of_daily_releases_loses_no_candidate_legacy_filed(week):
     assert week["parity"]["candidatesAtFlushMissingFromRows"] == []
-    assert week["parity"]["rowsNotInFlushedFinding"] == []
+    assert week["parity"]["legacyFiledMissingFromStagedRows"] == []
+    assert week["parity"]["rowsNotInLegacyOrFlushedFinding"] == []
 
 
 def test_a_week_of_daily_releases_is_one_write_against_the_legacy_stream(week):
     assert week["staged"]["writesPerDay"] == [0, 0, 0, 0, 0, 0, 1]
     assert week["staged"]["umbrellas"] == 1 and week["staged"]["children"] == 0
     assert week["legacy"]["totalWrites"] > 50 and week["legacy"]["childIssuesFiled"] == 5
+    assert week["batch"]["totalWrites"] > week["staged"]["totalWrites"]
 
 
-def test_the_only_legacy_candidate_not_filed_is_the_transient_one_and_it_is_reported(week):
-    assert week["parity"]["legacyFiledButAbsentAtFlush"] == ["garrytan/transient"]
-    assert week["parity"]["transientReportedNotFiled"] == ["garrytan/gbrain:transient"]
+def test_staged_flush_rows_equal_the_rows_daily_unstaged_batch_runs_accumulate_field_for_field(week):
+    assert week["parity"]["stagedRowsEqualDailyUnstagedRows"] is True
+
+
+def test_the_vanished_candidate_is_retained_as_a_row_and_reported(week):
+    assert week["parity"]["transientRetainedAsRow"] == ["garrytan/gbrain:transient"]

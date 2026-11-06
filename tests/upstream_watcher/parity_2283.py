@@ -271,6 +271,12 @@ def scenarioDailyWeek() -> dict:
         legacyWrites.append(result["writes"])
         legacyFiled |= set(result["children"])
 
+    unstaged, unstagedWrites = FakeGh(), []
+    for _day, _version, _slugs, findings in week():
+        before = unstaged.write_count()
+        bt.run_batch(findings, unstaged, apply=True, index_loader=lambda: index_from_entries([]))
+        unstagedWrites.append(unstaged.write_count() - before)
+
     gh, journal, perDay = FakeGh(), staging.Journal(), []
     flushReport = None
     for day, _version, _slugs, findings in week():
@@ -280,22 +286,25 @@ def scenarioDailyWeek() -> dict:
         assert code == 0
         perDay.append(gh.write_count() - before)
         flushReport = report
-    rows = batchRows(gh)
+    rows, unstagedRows = batchRows(gh), batchRows(unstaged)
     lastAdds = {f"garrytan/gbrain:{slug}" for slug in week()[-1][2]}
+    legacyIds = {f"garrytan/gbrain:{c.split('/')[1]}" for c in legacyFiled}
     transient = [row["id"] for row in flushReport["staging"]["flushed"][0]["transientCandidates"]]
+    strip = lambda table: {k: {f: v for f, v in row.items() if f != "umbrella"} for k, row in table.items()}
     return {
         "scenario": "daily-releases-over-one-window",
         "days": [day.strftime("%a %Y-%m-%d") for day, *_ in week()],
         "legacy": {"writesPerDay": legacyWrites, "totalWrites": sum(legacyWrites),
                    "childIssuesFiled": len(legacyFiled)},
+        "batch": {"writesPerDay": unstagedWrites, "totalWrites": sum(unstagedWrites)},
         "staged": {"writesPerDay": perDay, "totalWrites": sum(perDay), "umbrellas": len(gh.by_title("[upstream]")),
                    "children": len(gh.by_title("[intake]"))},
         "parity": {
             "candidatesAtFlushMissingFromRows": sorted(lastAdds - set(rows)),
-            "rowsNotInFlushedFinding": sorted(set(rows) - lastAdds),
-            "legacyFiledButAbsentAtFlush": sorted(f"garrytan/{c.split('/')[1]}" for c in legacyFiled
-                                                  if f"garrytan/gbrain:{c.split('/')[1]}" not in lastAdds),
-            "transientReportedNotFiled": transient,
+            "legacyFiledMissingFromStagedRows": sorted(legacyIds - set(rows)),
+            "rowsNotInLegacyOrFlushedFinding": sorted(set(rows) - lastAdds - legacyIds),
+            "stagedRowsEqualDailyUnstagedRows": strip(rows) == strip(unstagedRows),
+            "transientRetainedAsRow": transient,
         },
     }
 

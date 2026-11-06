@@ -185,6 +185,8 @@ def candidate_rows(finding: dict, component_root: str = "skills") -> list[dict]:
     owner, repo = owner_repo.split("/", 1) if "/" in owner_repo else (owner_repo, "")
     contributor = finding["skillId"].split("/")[0] if "/" in finding["skillId"] else finding["skillId"]
     version = finding["newVersion"]
+    # #2283 staged batching: a candidate the journal saw earlier keeps the version it was FIRST seen at.
+    firstSeen = finding.get("pendingFirstSeen") or {}
     rows = []
     for slug in finding.get("componentAdds", []):
         rows.append(
@@ -193,7 +195,7 @@ def candidate_rows(finding: dict, component_root: str = "skills") -> list[dict]:
                 "slug": slug,
                 "suggestedId": f"{contributor}/{slug}",
                 "evidenceUrl": f"https://github.com/{owner}/{repo}/blob/main/{component_root}/{slug}/SKILL.md",
-                "firstSeenVersion": version,
+                "firstSeenVersion": firstSeen.get(f"{owner_repo}:{slug}", version),
                 "lastSeenVersion": version,
                 "child": None,
             }
@@ -337,8 +339,12 @@ def merge_rows(
     incoming: list[dict],
     version: str,
     dead: frozenset[int] | set[int] = frozenset(),
+    touchLastSeen: bool = True,
 ) -> tuple[list[dict], list[str]]:
     """Merge incoming candidate rows into existing ones, keyed by candidate id.
+
+    *touchLastSeen* False (staged batching, replaying journaled candidates that are gone from the fresh poll)
+    leaves an existing row's ``lastSeenVersion`` alone and a new row keeps the one the journal recorded.
 
     Existing rows are never dropped. Escalated status and child links survive
     version churn. A child link in *dead* (definitively 301/404/410) is cleared and
@@ -359,7 +365,8 @@ def merge_rows(
         row = dict(fresh)
         if fresh["id"] in by_id:
             current = by_id[fresh["id"]]
-            current["lastSeenVersion"] = version
+            if touchLastSeen:
+                current["lastSeenVersion"] = version
             current["precheck"] = fresh["precheck"]
             current["status"] = merged_status(current.get("status"), fresh["status"])
             child = adopted_child(fresh["precheck"])
@@ -655,6 +662,12 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
     for row in candidate_rows(finding, finding.get("upstreamComponentRoot") or "skills"):
         checked = prechecks.precheck_row(row, index, open_children, rejected)
         incoming.append({**row, **checked})
+    # #2283: journaled candidates that vanished from the fresh poll are replayed as ordinary rows, exactly as
+    # daily unstaged runs would have kept them (rows are never dropped).
+    replay = []
+    for row in finding.get("pendingRows") or []:
+        checked = prechecks.precheck_row(row, index, open_children, rejected)
+        replay.append({**row, **checked})
 
     previous_payload = parse_payload(umbrella.get("body")) if umbrella else None
     # D1a: the stored digest is recomputed on every read. A mismatch means the body was edited, so the
@@ -680,6 +693,9 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
         carried = carry_forward(live, owner_repo, state_of, gh)
         prior_rows = carried
     rows, added = merge_rows(prior_rows, incoming, new_version, dead=dead_children(prior_rows, state_of))
+    if replay:
+        rows, replayed = merge_rows(rows, replay, new_version, touchLastSeen=False)
+        added = sorted(set(added) | set(replayed))
     rows = annotate_rows(rows, state_of)
     payload, body, record_rows = layout(finding, rows, previous_version=None)
 
@@ -832,6 +848,11 @@ def _run_cleanup(gh, number: int, writes: list[tuple[str, int, str]]) -> None:
     for _kind, comment_id, _text in writes:
         try:
             _retry(lambda comment_id=comment_id: gh.delete_comment(comment_id))
+        except UmbrellaClosed as exc:
+            # Staged runs only (ClosureGuard): the body already names a complete generation, so a human closing the
+            # umbrella now must not receive more mutations. The leftover superseded comments are ignored by readers.
+            print(f"::warning::{exc}; superseded record comments left in place.", file=sys.stderr)
+            return
         except GhError as exc:
             print(f"::warning::could not delete superseded record comment {comment_id} on #{number}: {exc}",
                   file=sys.stderr)
@@ -895,17 +916,67 @@ def write_umbrella(plan: dict, gh: LiveGh) -> str:
     return "updated"
 
 
+class UmbrellaClosed(RuntimeError):
+    """The umbrella was closed between the plan read and a mutation (#2283, B4). Never a GhError: it is not unknown
+    evidence, it is a definite answer, and the suite is re-planned as a new batch."""
+
+    def __init__(self, number: int):
+        super().__init__(f"umbrella #{number} was closed before a write; the write is aborted and the suite re-planned")
+        self.number = number
+
+
+class ClosureGuard:
+    """Re-read an umbrella's state immediately before EACH mutation of it, and abort if it is closed (#2283, B4).
+
+    GitHub offers no atomic "write only if still open", so this narrows the race to the gap between the guard's
+    read and the mutation that follows it. That sub-second residual is documented in the runbook. Reads and every
+    other attribute pass straight through to the wrapped client.
+    """
+
+    MUTATORS = frozenset({"comment", "edit_issue", "edit_labels", "edit_comment", "delete_comment"})
+
+    def __init__(self, gh, number: int):
+        self._gh = gh
+        self._number = number
+
+    def __getattr__(self, name):
+        target = getattr(self._gh, name)
+        if name not in self.MUTATORS:
+            return target
+
+        def guarded(*args, **kwargs):
+            if self._gh.get_issue(self._number).get("state") == "closed":
+                raise UmbrellaClosed(self._number)
+            return target(*args, **kwargs)
+
+        return guarded
+
+
 def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: bool,
-                  reset_records: bool = False, gate=None) -> tuple[dict, dict]:
+                  reset_records: bool = False, stager=None) -> tuple[dict, dict]:
     """Plan and (when apply) write one suite. Returns (suite report row, live snapshot).
 
-    *gate* (#2283 staged batching) is consulted only for a plan that would write (create or update). It returns a
-    staging row whose ``decision`` is ``hold`` when the review window is not due: the suite is then planned, reported
-    as ``held`` and not written. ``None`` (the default) keeps the unstaged behaviour exactly.
+    *stager* (#2283 staged batching) annotates the finding from the pending-observation journal before planning and
+    is consulted only for a plan that would write (create or update). Its row's ``decision`` is ``hold`` when the
+    review window is not due: the suite is then planned, reported as ``held`` and not written. A staged update also
+    re-reads the umbrella before each mutation and re-plans as a new batch if it was closed (``ClosureGuard``).
+    ``None`` (the default) keeps the unstaged behaviour exactly.
     """
+    if stager is not None:
+        root = finding.get("upstreamComponentRoot") or "skills"
+        finding = stager.prepare(finding, owner_repo_of(finding), candidate_rows(finding, root))
     plan = plan_suite(finding, live, index, probe=gh.child_state, gh=gh, reset_records=reset_records)
     outcome = "planned"
-    staged = gate(finding, plan) if gate is not None and plan["action"] in ("create", "update") else None
+    staged = stager.gate(finding, plan) if stager is not None and plan["action"] in ("create", "update") else None
+    closed: list[int] = []
+
+    def replanAfterClosure(number: int):
+        closed.append(number)
+        print(f"::warning::{plan['suite']}: umbrella #{number} was closed before the write; aborted and re-planned "
+              "as a new batch.", file=sys.stderr)
+        fresh = read_live(gh)
+        return fresh, plan_suite(finding, fresh, index, probe=gh.child_state, gh=gh, reset_records=reset_records)
+
     if plan["action"] == "noop":
         outcome = "noop"
     elif plan["action"] == "blocked-identity":
@@ -919,7 +990,11 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
         outcome = "held"
     elif apply:
         outcome = "raced-skip"
-        for _attempt in range(2):
+        for _attempt in range(3 if stager is not None else 2):
+            if plan["action"] in ("suppressed-processed", "blocked-identity"):
+                # Only reachable after a closure re-plan: the new plan may find the change already processed.
+                outcome = plan["action"]
+                break
             if plan["action"] == "noop":
                 # L1: a racing run already wrote this exact umbrella. Nothing to write.
                 outcome = "noop"
@@ -936,6 +1011,9 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
                 outcome = write_umbrella(plan, gh)
                 break
             current = gh.get_issue(plan["umbrella"])
+            if stager is not None and current.get("state") == "closed":
+                live, plan = replanAfterClosure(plan["umbrella"])
+                continue
             if snapshot_of(current) != plan["snapshot"]:
                 live = read_live(gh)
                 plan = plan_suite(finding, live, index, probe=gh.child_state, gh=gh, reset_records=reset_records)
@@ -943,7 +1021,11 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
                     outcome = "noop"
                     break
                 continue
-            outcome = write_umbrella(plan, gh)
+            try:
+                outcome = write_umbrella(plan, ClosureGuard(gh, plan["umbrella"]) if stager is not None else gh)
+            except UmbrellaClosed as exc:
+                live, plan = replanAfterClosure(exc.number)
+                continue
             break
     row = {
         "suite": plan["suite"],
@@ -959,6 +1041,8 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
         "covering": plan["covering"],
         "version": plan["version"],
     }
+    if closed:
+        row["closedDuringWrite"] = closed
     return row, live
 
 
@@ -1061,14 +1145,19 @@ def _run_batch(report, updates, gh, apply, index_loader, reset_records, stager) 
         report["unknownEvidence"].append({"source": "github-list", "detail": str(exc), "stopped": True})
         return report, UNKNOWN_EXIT_CODE
 
-    gate = stager.gate if stager is not None else None
+    if stager is not None and stager.blocked:
+        # Fail closed (#2283): without the pending-observation journal every suite is held and nothing is written.
+        report["unknownEvidence"].append(
+            {"source": "staging-journal", "detail": stager.blockedDetail(), "stopped": False}
+        )
+        print(f"::error::{stager.blockedDetail()}", file=sys.stderr)
     for finding in updates:
         suite = finding["skillId"]
         resetting = bool(reset_records) and reset_records in (suite, owner_repo_of(finding))
         if resetting:
             report["recordsReset"].append(suite)
         try:
-            suite_row, live = process_suite(finding, gh, index, live, apply, reset_records=resetting, gate=gate)
+            suite_row, live = process_suite(finding, gh, index, live, apply, reset_records=resetting, stager=stager)
         except RecordError as exc:
             # One suite's record comments cannot be verified. That suite gets zero writes, and the
             # other suites are still processed. The run still exits 3 at the end (H2). M4: the message names

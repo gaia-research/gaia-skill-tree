@@ -17,7 +17,11 @@ Flags
                   weekly: staged batching (#2283, founder ruling #12). Requires --child-mode batch. Every run still
                   observes; the one umbrella per upstream repository is written only on the flush weekday, once the
                   release is a window old, or at once for an urgent finding (a tracked component's link is 404/410).
---staging-journal FILE        Advisory observation journal (JSON) read at start, written on --apply.
+--staging-journal FILE        REQUIRED with --staging weekly: the durable pending-observation journal (JSON, self-digested).
+                              Missing or corrupt = fail closed (every suite held, nothing written, exit 3). Written on
+                              --apply or --staging-bootstrap; a corrupt journal is never overwritten.
+--staging-bootstrap           Explicitly allow a first run with no journal yet. Never papers over a corrupt journal.
+Note: a staged --apply additionally requires env STEWARD_ISSUE_HYGIENE_V2=true, checked before any write.
 --staging-flush-day DAY       Flush weekday for --staging weekly (default monday, UTC).
 --staging-as-of ISO           Treat this instant as now (dry-run replays and tests).
 --escalate ID     Create (or adopt) ONE intake child for the batch row ``ID``
@@ -342,6 +346,8 @@ def resolveStaging(args: argparse.Namespace) -> staging.StagingConfig:
         return staging.StagingConfig()
     if args.child_mode != "batch":
         raise ValueError("--staging weekly requires --child-mode batch; fanout cannot be staged.")
+    if not args.staging_journal:
+        raise ValueError("--staging weekly requires --staging-journal: pending observations are durable state.")
     now = None
     if args.staging_as_of:
         now = staging.parseTime(args.staging_as_of)
@@ -352,6 +358,7 @@ def resolveStaging(args: argparse.Namespace) -> staging.StagingConfig:
         flushWeekday=staging.parseWeekday(args.staging_flush_day),
         now=now,
         journalPath=args.staging_journal,
+        bootstrap=args.staging_bootstrap,
     )
 
 
@@ -469,7 +476,14 @@ def main(argv: list[str] | None = None) -> int:
         "--staging-journal",
         metavar="FILE",
         default=None,
-        help="Advisory observation journal for --staging weekly (JSON). Written only with --apply.",
+        help="Required with --staging weekly: durable pending-observation journal (JSON). Written with --apply or "
+        "--staging-bootstrap. Missing or corrupt fails closed.",
+    )
+    parser.add_argument(
+        "--staging-bootstrap",
+        action="store_true",
+        default=False,
+        help="Explicitly allow a first staged run when the journal does not exist yet (never for a corrupt one).",
     )
     parser.add_argument(
         "--staging-flush-day",
@@ -516,6 +530,13 @@ def main(argv: list[str] | None = None) -> int:
     if args.reset_records and not apply:
         print("[watcher] --reset-records requires --apply: a reset rewrites the umbrella's record comments.",
               file=sys.stderr)
+        return 1
+
+    if stagingConfig.active and apply and os.environ.get("STEWARD_ISSUE_HYGIENE_V2", "") != "true":
+        # Staged writes ride the hardened v2 jobs. The workflow checks the same variable, but a direct CLI apply must
+        # not be able to skip it: refuse before the poll, so there is no write at all.
+        print("[watcher] --staging weekly --apply requires STEWARD_ISSUE_HYGIENE_V2=true in the environment "
+              "(founder rollout gate); refusing before any write.", file=sys.stderr)
         return 1
 
     if args.reset_records and stagingConfig.active:

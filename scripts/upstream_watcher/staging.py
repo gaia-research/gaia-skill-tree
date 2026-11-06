@@ -6,49 +6,57 @@ daily, the founder reviews one Class B pass a day or one batch a week, so the wa
 updates. The watcher still OBSERVES every day. It WRITES (creates or updates the one umbrella per upstream repository)
 only when the review window is due, or when a finding is urgent.
 
-This module is pure planning plus one small observation journal. It performs no GitHub write. ``batch.run_batch``
-consults it through ``Stager.gate``; with staging ``off`` (the default) nothing here runs and behaviour is unchanged.
+This module is pure planning plus a durable pending-observation journal. It performs no GitHub write. ``batch.run_batch``
+consults it through ``Stager``; with staging ``off`` (the default) nothing here runs and behaviour is unchanged.
 
 Window
 ------
 A window is one week, flushed on ``flushWeekday`` (Monday by default, UTC). A finding is written when ANY of:
 
-* ``urgent``         — the narrow urgent rule below holds (bypasses the delay);
-* ``flush-day``      — today is the flush weekday;
-* ``window-elapsed`` — the release is already ``windowDays`` old, so a missed flush day never stretches a hold past
-                       one window.
+* ``urgent``         - the narrow urgent rule below holds (bypasses the delay);
+* ``flush-day``      - today is the flush weekday;
+* ``window-elapsed`` - the FIRST pending observation of the change is already ``windowDays`` old. The clock starts when
+                       the watcher first observed the pending change (``pendingSince`` in the journal), never at the
+                       release date, so an old release plus a new non-urgent change on a Tuesday still holds until
+                       Monday, and the deadline does not slide when later releases arrive.
 
-Otherwise it is ``hold``: planned against live GitHub (reads only), observed, and not written. A held finding is not
-lost: the next run recomputes it from the same release and registry, and the journal keeps the provenance of every
-version and candidate seen in the meantime.
+Otherwise it is ``hold``: planned against live GitHub (reads only), observed, and not written.
+
+Pending observations are durable and feed the flush
+----------------------------------------------------
+The journal is required state, not a convenience. Per upstream repository it keeps ``pendingSince``, every version
+seen, and every candidate row seen (the full unchecked row, with first and last seen version). At the flush the
+journal's candidates that are no longer in the fresh finding are replayed into the planner as ordinary rows, so the
+umbrella ends up with exactly the rows that daily unstaged runs would have accumulated (rows are never dropped),
+and a candidate keeps the version it was FIRST seen at, not the flush version. Dispositions and child links live on
+the umbrella rows and are merged by the planner exactly as before; a hold writes nothing, so they cannot be disturbed.
+
+A journal that is missing or corrupt FAILS CLOSED: every suite is held, nothing is written (urgent findings included,
+they are reported under ``urgentBlocked``), the run exits 3 and the report says why. Nothing silently resets. A first
+run with no journal yet is allowed only when explicitly marked ``bootstrap``. A corrupt journal is never overwritten
+and is not cured by ``bootstrap``: a human removes it first.
 
 Urgent (deliberately narrow)
 ----------------------------
 A finding is urgent only when it carries a ``linkLiveness`` row for a registry-tracked component whose HTTP status is
-exactly 404 or 410: an installed skill's source link is dead, so it cannot be installed. Nothing else is urgent: not a
-new version, a component add or remove, name drift, a 403/429/5xx (rate limit or transient, known limit L-4) or a
-network error (never hashed). Urgent bypasses the delay only; the write is still the one umbrella update, and an
-unchanged payload is still a no-op, so an unchanged dead link never re-bypasses into a second write.
+exactly 404 or 410 in a check that actually ran: an installed skill's source link is dead, so it cannot be installed.
+Nothing else is urgent: not a new version, a component add or remove, name drift, a 403/429/5xx (rate limit or
+transient, known limit L-4) or a network error (never hashed). Liveness is only checked when a release finding is
+computed (deployed behaviour, unchanged here), so "urgent" never means "a link died that nothing checked". Urgent
+bypasses the delay only; an unchanged payload is still a no-op, so an unchanged dead link never re-bypasses.
 
 Closed umbrellas
 ----------------
-A closed umbrella is a completed epic (ruling #6). Staging never reads one as a hold target, edits it, or reopens it:
-new changes wait for the window and then start a new batch (or update the open canonical umbrella) exactly as the
-batch planner already does.
-
-Journal
--------
-``Journal`` is an advisory JSON record of daily observations per repository: the versions seen and the candidate ids
-seen, each deduplicated (a re-observation on the same UTC day changes nothing, a later day bumps ``observationDays``
-and ``lastObserved``) with first/last observed and first/last seen version kept. It is never an input to a write
-decision and never stands in for the umbrella's own rows or dispositions. A candidate seen in the window but absent at
-flush is reported as ``transient`` (not filed: it no longer exists upstream) so it is visible, not silently dropped.
-A lost or corrupt journal costs only that provenance.
+A closed umbrella is a completed epic (ruling #6). Staging never reads one as a hold target, edits it, or reopens it.
+New changes wait for the window and then start a new batch (or update the open canonical umbrella) as the planner
+already does. ``batch.ClosureGuard`` re-reads the umbrella immediately before each mutation of a staged run and aborts
+and re-plans if it was closed in the meantime.
 """
 
 from __future__ import annotations
 
 import datetime as dt
+import hashlib
 import json
 import os
 import sys
@@ -61,15 +69,25 @@ WEEKDAYS = ("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", 
 DEFAULTWINDOWDAYS = 7
 # The only statuses that make a finding urgent: the tracked component's source is gone.
 URGENTSTATUSES = frozenset({404, 410})
-JOURNALVERSION = 1
+JOURNALVERSION = 2
 MAXVERSIONS = 50
+# A pending entry whose suite produced no finding for this many windows is expired (reported, then dropped).
+EXPIRYWINDOWS = 4
 
 DECISIONHOLD = "hold"
 DECISIONFLUSH = "flush"
 DECISIONURGENT = "urgent"
 
+STATUSOK = "ok"
+STATUSBOOTSTRAP = "bootstrap"
+STATUSMISSING = "missing"
+STATUSCORRUPT = "corrupt"
+BLOCKED = frozenset({STATUSMISSING, STATUSCORRUPT})
+
 # Outcomes (batch.process_suite) after which a repository's journaled observations are settled.
 SETTLEDOUTCOMES = frozenset({"created", "updated", "noop", "suppressed-processed"})
+# The fields of a candidate row (batch.candidate_rows) that the journal replays into the planner.
+ROWFIELDS = ("id", "slug", "suggestedId", "evidenceUrl", "firstSeenVersion", "lastSeenVersion", "child")
 
 
 @dataclass(frozen=True)
@@ -81,6 +99,7 @@ class StagingConfig:
     windowDays: int = DEFAULTWINDOWDAYS
     now: dt.datetime | None = None
     journalPath: str | None = None
+    bootstrap: bool = False
 
     @property
     def active(self) -> bool:
@@ -137,30 +156,35 @@ def urgentReasons(finding: dict) -> list[str]:
     return sorted(set(reasons))
 
 
-def decide(finding: dict, config: StagingConfig) -> dict:
-    """Pure write-or-hold decision for one update finding. Returns ``{decision, reasons, ...}``."""
+def decide(finding: dict, config: StagingConfig, pendingSince: dt.datetime | None = None) -> dict:
+    """Pure write-or-hold decision for one update finding.
+
+    *pendingSince* is when the watcher FIRST observed the pending change (None = this very run is the first
+    observation). The release date plays no part: only observation age can elapse the window.
+    """
     now = config.asOf()
+    first = pendingSince or now
+    deadline = first + dt.timedelta(days=config.windowDays)
     urgent = urgentReasons(finding)
-    released = parseTime(finding.get("releasedAt"))
-    maxHold = isoTime(released + dt.timedelta(days=config.windowDays)) if released else None
     if urgent:
         decision, reasons = DECISIONURGENT, urgent
     elif isFlushDay(now, config):
         decision, reasons = DECISIONFLUSH, ["flush-day"]
-    elif released is not None and now - released >= dt.timedelta(days=config.windowDays):
+    elif now >= deadline:
         decision, reasons = DECISIONFLUSH, ["window-elapsed"]
     else:
         decision, reasons = DECISIONHOLD, ["within-review-window"]
     return {
         "decision": decision,
         "reasons": reasons,
+        "pendingSince": isoTime(first),
         "nextFlush": nextFlushDate(now, config),
-        "maxHoldUntil": maxHold,
+        "maxHoldUntil": isoTime(deadline),
     }
 
 
 # ---------------------------------------------------------------------------
-# Observation journal
+# Durable pending-observation journal
 # ---------------------------------------------------------------------------
 
 
@@ -168,36 +192,60 @@ def emptyJournal() -> dict:
     return {"schemaVersion": JOURNALVERSION, "repos": {}}
 
 
-class Journal:
-    """Deduplicated daily observations per upstream repository. Advisory provenance, never a write input."""
+def digestOf(data: dict) -> str:
+    body = {key: value for key, value in data.items() if key != "digest"}
+    return hashlib.sha256(json.dumps(body, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")).hexdigest()
 
-    def __init__(self, data: dict | None = None):
+
+class Journal:
+    """Pending observations per upstream repository. Required state: a missing or corrupt journal blocks writes."""
+
+    def __init__(self, data: dict | None = None, status: str = STATUSOK, detail: str = ""):
         self.data = data if data is not None else emptyJournal()
+        self.status = status
+        self.detail = detail
+
+    @property
+    def blocked(self) -> bool:
+        return self.status in BLOCKED
 
     # -- persistence -------------------------------------------------------
     @classmethod
-    def load(cls, path: str | os.PathLike | None) -> "Journal":
-        """Read *path*. A missing, empty, corrupt or foreign-version file is an empty journal (with a warning)."""
-        if not path or not Path(path).is_file():
-            return cls()
+    def load(cls, path: str | os.PathLike | None, bootstrap: bool = False) -> "Journal":
+        """Read *path*. Missing is ``bootstrap`` only when explicitly allowed, else ``missing`` (blocked).
+
+        Unreadable, tampered (digest mismatch) or foreign-shaped content is ``corrupt`` (blocked) even with
+        *bootstrap*: nothing is silently reset, and ``bootstrap`` never papers over damage.
+        """
+        if not path:
+            return cls(status=STATUSMISSING, detail="no journal path configured")
+        target = Path(path)
+        if not target.is_file():
+            if bootstrap:
+                return cls(status=STATUSBOOTSTRAP, detail=f"no journal at {path}; explicit bootstrap")
+            return cls(status=STATUSMISSING, detail=f"no journal at {path}")
         try:
-            data = json.loads(Path(path).read_text(encoding="utf-8"))
+            data = json.loads(target.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError) as exc:
-            print(f"::warning::staging journal {path} unreadable ({exc}); starting an empty journal.", file=sys.stderr)
-            return cls()
+            return cls(status=STATUSCORRUPT, detail=f"journal {path} unreadable: {exc}")
         if not isinstance(data, dict) or data.get("schemaVersion") != JOURNALVERSION or not isinstance(data.get("repos"), dict):
-            print(f"::warning::staging journal {path} has an unknown shape; starting an empty journal.", file=sys.stderr)
-            return cls()
+            return cls(status=STATUSCORRUPT, detail=f"journal {path} has an unknown shape")
+        if data.get("digest") != digestOf(data):
+            return cls(status=STATUSCORRUPT, detail=f"journal {path} fails its digest check")
         return cls(data)
 
     def save(self, path: str | os.PathLike) -> None:
-        """Atomic write: a crash leaves the previous journal intact."""
+        """Atomic write with a self-digest. Refuses while blocked, so a corrupt journal is never overwritten."""
+        if self.blocked:
+            raise RuntimeError(f"refusing to write a {self.status} journal: {self.detail}")
         target = Path(path)
         target.parent.mkdir(parents=True, exist_ok=True)
+        payload = {key: value for key, value in self.data.items() if key != "digest"}
+        payload["digest"] = digestOf(payload)
         handle, temp = tempfile.mkstemp(dir=str(target.parent), prefix=target.name + ".", suffix=".tmp")
         try:
             with os.fdopen(handle, "w", encoding="utf-8") as stream:
-                stream.write(json.dumps(self.data, indent=2, sort_keys=True, ensure_ascii=False) + "\n")
+                stream.write(json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False) + "\n")
             os.replace(temp, target)
         except BaseException:
             try:
@@ -207,8 +255,12 @@ class Journal:
             raise
 
     # -- observation -------------------------------------------------------
-    def repo(self, repo: str) -> dict:
-        return self.data["repos"].setdefault(repo.lower(), {"versions": [], "candidates": {}})
+    def bucket(self, repo: str) -> dict | None:
+        return self.data["repos"].get(repo.lower())
+
+    def pendingSince(self, repo: str) -> dt.datetime | None:
+        bucket = self.bucket(repo)
+        return parseTime(bucket.get("pendingSince")) if bucket else None
 
     @staticmethod
     def touch(entry: dict, day: str, stamp: str) -> None:
@@ -218,11 +270,15 @@ class Journal:
             entry["lastObservedDay"] = day
         entry["lastObserved"] = stamp
 
-    def observe(self, repo: str, finding: dict, now: dt.datetime) -> None:
-        """Fold today's finding for *repo* into the journal, deduplicating versions and candidate ids."""
+    def observe(self, repo: str, finding: dict, rows: list[dict], now: dt.datetime) -> None:
+        """Fold today's finding for *repo* into the journal. *rows* are its unchecked candidate rows.
+
+        The first observation since the last settle starts ``pendingSince``; it is never moved by later ones.
+        Versions and candidates are deduplicated; a candidate keeps the version it was first seen at.
+        """
         day = now.astimezone(dt.timezone.utc).date().isoformat()
         stamp = isoTime(now)
-        bucket = self.repo(repo)
+        bucket = self.data["repos"].setdefault(repo.lower(), {"pendingSince": stamp, "versions": [], "candidates": {}})
         version = finding.get("newVersion", "")
         known = next((row for row in bucket["versions"] if row["version"] == version), None)
         if known is None:
@@ -230,53 +286,98 @@ class Journal:
             bucket["versions"].append(known)
             del bucket["versions"][:-MAXVERSIONS]
         self.touch(known, day, stamp)
-        contributor = finding["skillId"].split("/")[0] if "/" in finding["skillId"] else finding["skillId"]
-        for slug in finding.get("componentAdds") or []:
-            ident = f"{repo}:{slug}"
-            row = bucket["candidates"].get(ident)
-            if row is None:
-                row = {
-                    "suggestedId": f"{contributor}/{slug}",
-                    "firstSeenVersion": version,
-                    "firstObserved": stamp,
-                }
-                bucket["candidates"][ident] = row
-            row["lastSeenVersion"] = version
-            self.touch(row, day, stamp)
+        for row in rows:
+            entry = bucket["candidates"].get(row["id"])
+            if entry is None:
+                entry = {**{key: row.get(key) for key in ROWFIELDS}, "firstSeenVersion": version, "firstObserved": stamp}
+                bucket["candidates"][row["id"]] = entry
+            entry["lastSeenVersion"] = version
+            self.touch(entry, day, stamp)
 
     def clear(self, repo: str) -> None:
         self.data["repos"].pop(repo.lower(), None)
 
     def window(self, repo: str, currentIds: set[str]) -> dict:
-        """The window's observation summary for *repo*: versions seen and candidates seen but absent now."""
-        bucket = self.data["repos"].get(repo.lower())
+        """The pending summary for *repo*: versions seen, and candidates seen but absent from *currentIds*."""
+        bucket = self.bucket(repo)
         if not bucket:
-            return {"versionsObserved": [], "transientCandidates": []}
-        transient = [
-            {"id": ident, **row} for ident, row in sorted(bucket["candidates"].items()) if ident not in currentIds
+            return {"pendingSince": None, "versionsObserved": [], "transientCandidates": []}
+        transient = [{**row} for ident, row in sorted(bucket["candidates"].items()) if ident not in currentIds]
+        return {"pendingSince": bucket.get("pendingSince"), "versionsObserved": [dict(r) for r in bucket["versions"]],
+                "transientCandidates": transient}
+
+    def pendingRows(self, repo: str, currentIds: set[str]) -> list[dict]:
+        """Journaled candidate rows absent from *currentIds*, as clean planner rows (observation metadata dropped)."""
+        bucket = self.bucket(repo)
+        if not bucket:
+            return []
+        return [
+            {key: row.get(key) for key in ROWFIELDS}
+            for ident, row in sorted(bucket["candidates"].items()) if ident not in currentIds
         ]
-        return {"versionsObserved": [dict(row) for row in bucket["versions"]], "transientCandidates": transient}
+
+    def firstSeen(self, repo: str, ids: set[str]) -> dict[str, str]:
+        """The first-seen version the journal holds for each of *ids* it knows."""
+        bucket = self.bucket(repo)
+        if not bucket:
+            return {}
+        return {ident: row["firstSeenVersion"] for ident, row in bucket["candidates"].items() if ident in ids}
 
 
 # ---------------------------------------------------------------------------
-# Stager — the seam batch.run_batch uses
+# Stager - the seam batch.run_batch uses
 # ---------------------------------------------------------------------------
 
 
 class Stager:
-    """Per-run staging state: decides hold/flush/urgent per planned suite and builds the report section."""
+    """Per-run staging state: annotates findings from the journal, decides hold/flush/urgent, builds the report."""
 
     def __init__(self, config: StagingConfig, journal: Journal | None = None):
         self.config = config
-        self.journal = journal if journal is not None else Journal.load(config.journalPath)
+        if journal is None:
+            if not config.journalPath:
+                raise ValueError("staging requires a journal: pass --staging-journal (pending observations are durable state)")
+            journal = Journal.load(config.journalPath, config.bootstrap)
+        self.journal = journal
         self.rows: dict[str, dict] = {}
+        self.prior: dict[str, dict] = {}
+        self.current: dict[str, list[dict]] = {}
+        self.seen: set[str] = set()
+        self.closedDuringWrite: list[dict] = []
+
+    @property
+    def blocked(self) -> bool:
+        return self.journal.blocked
+
+    def blockedDetail(self) -> str:
+        return (f"staging journal is {self.journal.status}: {self.journal.detail}. Every suite is held and nothing is "
+                "written (no silent reset). Restore the journal, or for a first run re-dispatch with the explicit bootstrap.")
+
+    def prepare(self, finding: dict, repo: str, rows: list[dict]) -> dict:
+        """Annotate *finding* from the journal, before planning, so the flush is fed by pending observations."""
+        self.seen.add(repo.lower())
+        ids = {row["id"] for row in rows}
+        self.current[repo] = rows
+        if self.blocked or self.journal.bucket(repo) is None:
+            return finding
+        self.prior[repo] = self.journal.window(repo, ids)
+        return {**finding, "pendingFirstSeen": self.journal.firstSeen(repo, ids),
+                "pendingRows": self.journal.pendingRows(repo, ids)}
 
     def gate(self, finding: dict, plan: dict) -> dict:
         """Called for a suite whose plan would write (create/update). Returns the staging row (with ``decision``)."""
         repo = plan["suite"]
-        verdict = decide(finding, self.config)
-        self.journal.observe(repo, finding, self.config.asOf())
-        ids = {f"{repo}:{slug}" for slug in finding.get("componentAdds") or []}
+        now = self.config.asOf()
+        ids = {row["id"] for row in self.current.get(repo, [])}
+        if self.blocked:
+            urgent = urgentReasons(finding)
+            verdict = {"decision": DECISIONHOLD, "reasons": [f"journal-unavailable:{self.journal.status}"],
+                       "pendingSince": None, "nextFlush": nextFlushDate(now, self.config), "maxHoldUntil": None}
+            if urgent:
+                verdict["urgentBlocked"] = urgent
+        else:
+            verdict = decide(finding, self.config, self.journal.pendingSince(repo))
+            self.journal.observe(repo, finding, self.current.get(repo, []), now)
         row = {
             "suite": repo,
             "skillId": finding["skillId"],
@@ -287,29 +388,59 @@ class Stager:
             "newRows": list(plan["newRows"]),
             "outcome": None,
             **verdict,
-            **self.journal.window(repo, ids),
+            **(self.journal.window(repo, ids) if not self.blocked else {}),
         }
         self.rows[repo] = row
         return row
 
     def settle(self, suiteRow: dict) -> None:
-        """Record the final outcome for a suite and settle its journaled observations once it was surfaced."""
+        """Record the final outcome for a suite; settle its pending observations once it was surfaced.
+
+        A suite that settles without a write (noop, already processed) still reports what was pending, so a
+        transient candidate is never dropped silently.
+        """
         repo = suiteRow["suite"]
         row = self.rows.get(repo)
+        prior = self.prior.get(repo)
+        if row is None and prior is not None and suiteRow["outcome"] in SETTLEDOUTCOMES:
+            row = self.rows[repo] = {
+                "suite": repo, "planAction": suiteRow["action"], "version": suiteRow["version"], "decision": "settled",
+                "reasons": [suiteRow["outcome"]], "outcome": None,
+                "candidateIds": sorted(row["id"] for row in self.current.get(repo, [])), **prior,
+            }
         if row is not None:
             row["outcome"] = suiteRow["outcome"]
+            if suiteRow.get("closedDuringWrite"):
+                row["closedDuringWrite"] = list(suiteRow["closedDuringWrite"])
+                self.closedDuringWrite.append({"suite": repo, "closed": list(suiteRow["closedDuringWrite"]),
+                                               "outcome": suiteRow["outcome"]})
             if suiteRow["outcome"] == "held":
                 print(
-                    f"::notice::{repo} {row['version']}: staged, not written (review window). Next flush "
-                    f"{row['nextFlush']}; at the latest {row['maxHoldUntil'] or 'next flush'}.",
+                    f"::notice::{repo} {row['version']}: staged, not written ({','.join(row['reasons'])}). Next flush "
+                    f"{row['nextFlush']}; deadline {row['maxHoldUntil'] or 'unknown'}.",
                     file=sys.stderr,
                 )
-        if suiteRow["outcome"] in SETTLEDOUTCOMES:
+        if suiteRow["outcome"] in SETTLEDOUTCOMES and not self.blocked:
             self.journal.clear(repo)
 
     def finish(self, report: dict, apply: bool) -> None:
-        """Attach the staging section to *report*; persist the journal only on an apply run."""
+        """Attach the staging section to *report*; persist the journal on an apply or explicit-bootstrap run."""
         now = self.config.asOf()
+        absent, expired = [], []
+        if not self.blocked:
+            for repo, bucket in sorted(self.journal.data["repos"].items()):
+                if repo in self.seen:
+                    continue
+                since = parseTime(bucket.get("pendingSince"))
+                row = {"suite": repo, "pendingSince": bucket.get("pendingSince"),
+                       "versionsObserved": [dict(r) for r in bucket["versions"]],
+                       "transientCandidates": [dict(r) for _id, r in sorted(bucket["candidates"].items())]}
+                if since is not None and now - since >= dt.timedelta(days=self.config.windowDays * EXPIRYWINDOWS):
+                    expired.append(row)
+                else:
+                    absent.append(row)
+            for row in expired:
+                self.journal.clear(row["suite"])
         rows = [self.rows[key] for key in sorted(self.rows)]
         report["staging"] = {
             "mode": self.config.mode,
@@ -317,10 +448,15 @@ class Stager:
             "flushWeekday": WEEKDAYS[self.config.flushWeekday],
             "windowDays": self.config.windowDays,
             "flushDay": isFlushDay(now, self.config),
+            "journal": {"status": self.journal.status, "detail": self.journal.detail},
             "held": [row for row in rows if row["outcome"] == "held"],
             "flushed": [row for row in rows if row["decision"] == DECISIONFLUSH and row["outcome"] != "held"],
             "urgent": [row for row in rows if row["decision"] == DECISIONURGENT],
+            "urgentBlocked": [row for row in rows if row.get("urgentBlocked")],
+            "settled": [row for row in rows if row["decision"] == "settled"],
+            "absent": absent,
+            "expired": expired,
+            "closedDuringWrite": list(self.closedDuringWrite),
         }
-        if apply and self.config.journalPath:
+        if not self.blocked and (apply or self.config.bootstrap) and self.config.journalPath:
             self.journal.save(self.config.journalPath)
-
