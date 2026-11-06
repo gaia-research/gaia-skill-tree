@@ -22,6 +22,7 @@ Suggested checkout from an existing clone:
 
 ```bash
 git fetch origin dev/steward-r19-shared-write-2283 handoff/steward-r19-review-2283
+git fetch origin 3cd5504e00ac00e4708503f484a05e04e5775dcc
 git switch --detach origin/handoff/steward-r19-review-2283
 git --no-replace-objects rev-parse 314fdf655edb7a6cb9bd131461bc11952366979d^{tree}
 git --no-replace-objects diff --name-only 314fdf655edb7a6cb9bd131461bc11952366979d HEAD
@@ -34,7 +35,7 @@ The first diff must contain only this handoff directory. Stay on the handoff che
 
 ## Evidence map and chronology
 
-All paths below are relative to this directory. `MANIFEST.json` records original and published SHA-256 hashes, sizes and redactions. Public evidence copies normalize local paths and redact recognizable credentials, non-public endpoints and quoted issuers. Originals remain preserved in the lead's session. Redacted copies are not executable or byte-identical originals; request an appropriately redacted clarification rather than reconstructing secrets.
+Paths below are relative to this directory; bare report filenames in items 2–9 and 11 are under `evidence/reports/`. `MANIFEST.json` records original and published SHA-256 hashes, sizes and redactions. Public evidence copies normalize local paths and redact recognizable credentials, non-public endpoints and quoted issuers. Originals remain preserved in the lead's session. Redacted copies are not executable or byte-identical originals; request an appropriately redacted clarification rather than reconstructing secrets.
 
 1. `evidence/reports/wiring-implementation-proof.md`: original builder claims at **17ad**. Includes 1,165 affected tests, resource/process/adapter measurements and packaging claims. These are historical claims requiring audit, **not current independent passes**. For example its generic-ledger byte-identity claim predates later Git hardening.
 2. `core-boundary-independent-review.md`: bounded core acceptance at **6b9147**, not whole-feature acceptance or acceptance of subsequently changed core/callers.

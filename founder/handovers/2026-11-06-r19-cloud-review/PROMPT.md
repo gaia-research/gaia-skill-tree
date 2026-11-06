@@ -1,7 +1,7 @@
 You are an independent reviewer of Gaia Steward Routine 19. Review only; return findings to me. Do not implement fixes, open/merge PRs, activate services or mutate live state.
 
 Repository: gaia-research/gaia-skill-tree
-Checkout: origin/handoff/steward-r19-review-2283
+Checkout: origin/handoff/steward-r19-review-2283 (fetch this branch, the source branch, and exact baseline 3cd5504e00ac00e4708503f484a05e04e5775dcc explicitly if your clone is shallow).
 Read first: founder/handovers/2026-11-06-r19-cloud-review/HANDOFF.md
 
 The frozen runtime/test candidate is 314fdf655edb7a6cb9bd131461bc11952366979d, tree e53b5920571b1458a6b6d0bde1fe454f57c7b411. Compare directly against fixed baseline 3cd5504e00ac00e4708503f484a05e04e5775dcc, not mutable main or a triple-dot merge-base diff. The handoff branch adds only documentation/evidence; verify that runtime/test blobs match the frozen candidate. There are 36 feature paths in SOURCE_DIFF.txt.
