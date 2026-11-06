@@ -13,6 +13,13 @@ Flags
 --skill <id>      Scope to a single suite skill-id (e.g. mattpocock/skills).
 --child-mode M    fanout (default): preserve the deployed emission contract.
                   batch: opt-in payloadVersion 2 record, no per-candidate children.
+--staging MODE    off (default): write whenever a finding exists, exactly as before.
+                  weekly: staged batching (#2283, founder ruling #12). Requires --child-mode batch. Every run still
+                  observes; the one umbrella per upstream repository is written only on the flush weekday, once the
+                  release is a window old, or at once for an urgent finding (a tracked component's link is 404/410).
+--staging-journal FILE        Advisory observation journal (JSON) read at start, written on --apply.
+--staging-flush-day DAY       Flush weekday for --staging weekly (default monday, UTC).
+--staging-as-of ISO           Treat this instant as now (dry-run replays and tests).
 --escalate ID     Create (or adopt) ONE intake child for the batch row ``ID``
                   (for example ``garrytan/gbrain:foo``) and exit.
 --report FILE     Write the JSON run report (issuesCreated, issuesUpdated,
@@ -63,6 +70,7 @@ from scripts.upstream_watcher.challenge_watch import (
     run_challenge_watch,
 )
 from scripts.upstream_watcher.finder import compute_finding, detect_mode, iter_suite_skills
+from scripts.upstream_watcher import staging
 from scripts.upstream_watcher.batch import batch_stopped, escalate_candidate, new_report, run_batch
 from scripts.upstream_watcher.issuer import IdempotencyLookupError, UmbrellaWriteError, create_issues
 from scripts.upstream_watcher.live import (
@@ -328,6 +336,25 @@ def _write_report(report: dict, path: str | None) -> None:
     Path(path).write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
+def resolveStaging(args: argparse.Namespace) -> staging.StagingConfig:
+    """Validate the staging switch. ``--staging off`` (the default) is inert and ignores the other staging flags."""
+    if args.staging == "off":
+        return staging.StagingConfig()
+    if args.child_mode != "batch":
+        raise ValueError("--staging weekly requires --child-mode batch; fanout cannot be staged.")
+    now = None
+    if args.staging_as_of:
+        now = staging.parseTime(args.staging_as_of)
+        if now is None:
+            raise ValueError(f"--staging-as-of {args.staging_as_of!r} is not an ISO-8601 instant.")
+    return staging.StagingConfig(
+        mode=args.staging,
+        flushWeekday=staging.parseWeekday(args.staging_flush_day),
+        now=now,
+        journalPath=args.staging_journal,
+    )
+
+
 def main(argv: list[str] | None = None) -> int:
     """Return exit code. 0 on success; 1 on hard failure; 2 escalation target missing; 3 unknown evidence."""
     parser = argparse.ArgumentParser(
@@ -431,7 +458,37 @@ def main(argv: list[str] | None = None) -> int:
         help="Rebuild SUITE's record state from the fresh poll (M4). Requires --apply --child-mode batch. Per-row status and child "
         "links stored only in the lost record comments are not recovered.",
     )
+    parser.add_argument(
+        "--staging",
+        choices=staging.MODES,
+        default="off",
+        help="off (default): unstaged. weekly: hold writes to the weekly review window; urgent findings bypass it. "
+        "Requires --child-mode batch.",
+    )
+    parser.add_argument(
+        "--staging-journal",
+        metavar="FILE",
+        default=None,
+        help="Advisory observation journal for --staging weekly (JSON). Written only with --apply.",
+    )
+    parser.add_argument(
+        "--staging-flush-day",
+        metavar="DAY",
+        default="monday",
+        help="Weekday the weekly window flushes (UTC, default monday).",
+    )
+    parser.add_argument(
+        "--staging-as-of",
+        metavar="ISO",
+        default=None,
+        help="Treat this ISO-8601 instant as now (replays and tests).",
+    )
     args = parser.parse_args(argv)
+    try:
+        stagingConfig = resolveStaging(args)
+    except ValueError as exc:
+        print(f"[watcher] {exc}", file=sys.stderr)
+        return 1
 
     # --apply wins over --dry-run
     apply = args.apply
@@ -458,6 +515,11 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.reset_records and not apply:
         print("[watcher] --reset-records requires --apply: a reset rewrites the umbrella's record comments.",
+              file=sys.stderr)
+        return 1
+
+    if args.reset_records and stagingConfig.active:
+        print("[watcher] --reset-records cannot be combined with --staging: a reset is an explicit manual repair.",
               file=sys.stderr)
         return 1
 
@@ -586,7 +648,11 @@ def main(argv: list[str] | None = None) -> int:
             print(f"[watcher] Issue creation complete. {len(summaries)} finding(s) processed.")
         return 0
 
-    report, code = run_batch(full_findings, LiveGh(), apply=apply, reset_records=args.reset_records)
+    # The staging kwarg is passed only when staging is on, so the default call is exactly the deployed one.
+    stagingKwargs = {"staging": stagingConfig} if stagingConfig.active else {}
+    report, code = run_batch(
+        full_findings, LiveGh(), apply=apply, reset_records=args.reset_records, **stagingKwargs
+    )
     report["unavailable"] = unavailable
     # The bootstrap pass runs unless a GitHub read or write stopped the batch. A record-level failure on one
     # suite does not stop it (H2), and the exit code is still 3 at the end.

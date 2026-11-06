@@ -896,10 +896,16 @@ def write_umbrella(plan: dict, gh: LiveGh) -> str:
 
 
 def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: bool,
-                  reset_records: bool = False) -> tuple[dict, dict]:
-    """Plan and (when apply) write one suite. Returns (suite report row, live snapshot)."""
+                  reset_records: bool = False, gate=None) -> tuple[dict, dict]:
+    """Plan and (when apply) write one suite. Returns (suite report row, live snapshot).
+
+    *gate* (#2283 staged batching) is consulted only for a plan that would write (create or update). It returns a
+    staging row whose ``decision`` is ``hold`` when the review window is not due: the suite is then planned, reported
+    as ``held`` and not written. ``None`` (the default) keeps the unstaged behaviour exactly.
+    """
     plan = plan_suite(finding, live, index, probe=gh.child_state, gh=gh, reset_records=reset_records)
     outcome = "planned"
+    staged = gate(finding, plan) if gate is not None and plan["action"] in ("create", "update") else None
     if plan["action"] == "noop":
         outcome = "noop"
     elif plan["action"] == "blocked-identity":
@@ -908,6 +914,9 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
     elif plan["action"] == "suppressed-processed":
         # The finding is already recorded by a closed issue. Nothing is created in dry-run or apply.
         outcome = "suppressed-processed"
+    elif staged is not None and staged["decision"] == "hold":
+        # Staged (#2283): observed and planned, not written. Zero writes for this suite until the window is due.
+        outcome = "held"
     elif apply:
         outcome = "raced-skip"
         for _attempt in range(2):
@@ -1004,6 +1013,8 @@ def run_batch(
     apply: bool,
     index_loader=prechecks.load_registry_index,
     reset_records: str | None = None,
+    staging=None,
+    journal=None,
 ) -> tuple[dict, int]:
     """Plan (and when *apply*, write) umbrella batch records for update findings.
 
@@ -1011,13 +1022,33 @@ def run_batch(
     made and the report lists the failing source.
 
     *reset_records* (M4) names one suite whose record state is rebuilt from the fresh poll. It is apply-only.
+
+    *staging* (#2283, founder ruling #12) is a ``staging.StagingConfig``. ``None`` or mode ``off`` is the default and
+    leaves every code path below exactly as it was. When active, a suite whose review window is not due is planned
+    and reported but not written (see ``scripts/upstream_watcher/staging.py``). *journal* is an optional in-memory
+    ``staging.Journal`` (tests, parity); by default one is loaded from ``staging.journalPath``. A records reset is an
+    explicit manual repair and is never staged.
     """
     if reset_records and not apply:
         raise ValueError("--reset-records requires --apply: a reset rewrites the umbrella's record comments")
+    if reset_records and staging is not None and staging.active:
+        raise ValueError("--reset-records cannot be combined with staging: a reset is an explicit manual repair")
     report = new_report()
     report["dryRun"] = not apply
     updates = [finding for finding in findings if finding.get("finding_type") == "update"]
+    stager = None
+    if staging is not None and staging.active:
+        from scripts.upstream_watcher import staging as staging_mod
 
+        stager = staging_mod.Stager(staging, journal)
+    try:
+        return _run_batch(report, updates, gh, apply, index_loader, reset_records, stager)
+    finally:
+        if stager is not None:
+            stager.finish(report, apply)
+
+
+def _run_batch(report, updates, gh, apply, index_loader, reset_records, stager) -> tuple[dict, int]:
     try:
         index = index_loader()
     except prechecks.RegistryUnreadable as exc:
@@ -1030,13 +1061,14 @@ def run_batch(
         report["unknownEvidence"].append({"source": "github-list", "detail": str(exc), "stopped": True})
         return report, UNKNOWN_EXIT_CODE
 
+    gate = stager.gate if stager is not None else None
     for finding in updates:
         suite = finding["skillId"]
         resetting = bool(reset_records) and reset_records in (suite, owner_repo_of(finding))
         if resetting:
             report["recordsReset"].append(suite)
         try:
-            suite_row, live = process_suite(finding, gh, index, live, apply, reset_records=resetting)
+            suite_row, live = process_suite(finding, gh, index, live, apply, reset_records=resetting, gate=gate)
         except RecordError as exc:
             # One suite's record comments cannot be verified. That suite gets zero writes, and the
             # other suites are still processed. The run still exits 3 at the end (H2). M4: the message names
@@ -1057,6 +1089,8 @@ def run_batch(
             )
             return report, UNKNOWN_EXIT_CODE
         fill_report(report, suite_row)
+        if stager is not None:
+            stager.settle(suite_row)
     return report, (UNKNOWN_EXIT_CODE if report["unknownEvidence"] else 0)
 
 
