@@ -1,0 +1,31 @@
+{
+  "id": "company-knowledge-management",
+  "name": "Company Knowledge Management",
+  "type": "fusion",
+  "description": "Builds and maintains an internal company knowledge system by combining knowledge management with organization-specific knowledge capture and retrieval.",
+  "prerequisites": [
+    "domain-modeling",
+    "knowledge-management"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-03",
+  "updatedAt": "2026-11-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:53:31Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Created generic fusion node 'company-knowledge-management' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-11-02T21:53:31Z",
+      "action": "fuse",
+      "contributor": "mbtiongson1",
+      "details": "Set prerequisites via `gaia dev fuse`: domain-modeling, knowledge-management."
+    }
+  ]
+}

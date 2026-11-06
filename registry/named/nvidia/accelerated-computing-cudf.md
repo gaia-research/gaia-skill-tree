@@ -10,7 +10,7 @@ description: Official NVIDIA-authored guidance for NVIDIA cuDF GPU DataFrames, p
   acceleration, dask-cuDF, ETL, joins, groupby, CSV/Parquet I/O, nullable semantics,
   and multi-GPU DataFrame workloads.
 createdAt: '2026-10-27'
-updatedAt: '2026-10-27'
+updatedAt: '2026-10-30'
 title: Accelerated Computing cuDF
 links:
   github: https://github.com/NVIDIA/skills/blob/main/skills/accelerated-computing-cudf/SKILL.md
@@ -46,6 +46,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 4★
+- timestamp: '2026-10-30T13:02:39Z'
+  action: recalibrate_trust_magnitude
+  contributor: nova-gaia
+  details: 'TM 126.12 -> 131.12, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/NVIDIA/skills
   evaluator: unknown
@@ -74,7 +79,7 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-10-27T13:14:59Z'
-trustMagnitude: 126.12
+trustMagnitude: 131.12
 overallTrustGrade: A
 trustMagnitudeInputHash: efbcb14106671455b8db3d4b1ac94eac607e75b2763c732ca9617ca80ad6a127
 ---

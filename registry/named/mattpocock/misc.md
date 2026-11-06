@@ -9,7 +9,7 @@ level: 4★
 description: 'Utility and setup skills that do not fit the engineering/productivity
   split: guardrails, migration, exercise scaffolding, and pre-commit setup.'
 createdAt: '2026-08-19'
-updatedAt: '2026-10-24'
+updatedAt: '2026-10-30'
 title: The Matt Pocock Utility Belt
 timeline:
 - timestamp: '2026-08-19T11:50:18Z'
@@ -77,24 +77,29 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 199.13 -> 200.29, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-30T13:02:39Z'
+  action: recalibrate_trust_magnitude
+  contributor: nova-gaia
+  details: 'TM 200.29 -> 220.87, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 suiteComponents:
 - mattpocock/git-guardrails-claude-code
 - mattpocock/migrate-to-shoehorn
 - mattpocock/scaffold-exercises
 - mattpocock/setup-pre-commit
-trustMagnitude: 200.29
+trustMagnitude: 220.87
 overallTrustGrade: A
 trustMagnitudeInputHash: 9f2cb4be19d4d3723768d88e8ebf0f59b22b0e3aaf016adfbfead7f389227447
 evidence:
 - source: https://github.com/mattpocock/skills
-  updatedAt: '2026-11-01'
+  updatedAt: '2026-10-01'
   evaluator: mbtiongson1
   date: '2026-09-06'
   type: github-stars-own
   notes: '253k GitHub stars on mattpocock/skills — upstream repository hosting the
     misc/utility skills: git-guardrails-claude-code, migrate-to-shoehorn, scaffold-exercises,
     setup-pre-commit.'
-  stars: 308868
+  stars: 273408
   sourceStartedAt: '2026-02-03'
   grade: A
 - source: https://github.com/mattpocock/skills

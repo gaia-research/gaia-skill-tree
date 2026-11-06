@@ -5,7 +5,7 @@
   "level": "3★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 87.38,
+  "trustMagnitude": 92.38,
   "overallTrustGrade": "B",
   "branch": "standard",
   "rankWord": "Evolved",
@@ -25,7 +25,7 @@
   },
   "title": "Scroll Craft",
   "genericSkillRef": "scroll-driven-web-design",
-  "origin": false,
+  "origin": true,
   "description": "Build premium scroll-driven landing pages for service, product, food, and drink brands. Plan the visitor journey, page grammar, emotional peak, and bespoke signature move. Create dimensional heroes with independent visual planes, restrained motion, and separate mobile composition. Use supplied photos and footage or generate photoreal assets through kie.ai, write semantic HTML, and verify desktop, mobile, and reduced-motion scroll states visually. Use for \"scrollcraft\", \"scroll craft\", \"layered hero\", \"premium hero\", \"cinematic hero\", \"scrollytelling\", \"scroll animation site\", \"a site where scrolling plays a video\", \"Apple-style landing page\", \"3D scroll world\", \"interactive landing page\", \"make my brand a scroll experience\", \"this looks like a template\", or requests for a distinctive website that feels like an experience rather than a document.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -119,6 +119,12 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-10-30T13:02:39Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "nova-gaia",
+      "details": "TM (none) -> 92.38, grade (none) -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {

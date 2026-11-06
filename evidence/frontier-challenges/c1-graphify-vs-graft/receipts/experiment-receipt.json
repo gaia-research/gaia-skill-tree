@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "frontier-experiment-receipt-v1.1",
+  "experimentRunId": "run-675a473c88ce446088216d11984c846d",
+  "campaignId": "yggiv-challenger-cases-2026-10",
+  "nativeVersion": "0.8.13",
+  "documentedVersion": "0.8.13",
+  "executedVersion": "0.8.13",
+  "requestId": "sha256:19a1c7ab29fd5e86a0e8c1aab7d446e16b9191f02c903eb923fa031eda507be1",
+  "leadDigest": "sha256:a0afa02f8ae92c2a84942bdb96b48bc2b00d4aa557c93990cac402dd2ff415a7",
+  "claimDigest": "sha256:ecaad5582958fd90b7a07482e504542800ebcdd14c6cbc861dafcb06071d2b5e",
+  "sourceDigest": "sha256:750f9925311960fdcde429b00de466c296ceea030691540efef0c86c484276f3",
+  "targetDigest": "sha256:12519de9523bb54f8129ec3142260db580ca0b3ca8998e09fa6571bb24dfbc68",
+  "targetRevision": "d237c0839c9c9197fc861ecec839ed323a9748a4",
+  "historyRef": "git:d237c0839c9c9197fc861ecec839ed323a9748a4",
+  "protocolDigest": "sha256:80a9ceccc85ebe221cb4b1a7d833aa505de565fe97e867c55664fafd2750d651",
+  "fixtureDigest": "sha256:a6dd433f1daf9273ae0c79f1094a644a1de6728e78b0b0355474c33c1c7f1235",
+  "result": "contradicted",
+  "outputs": [
+    {
+      "label": "native",
+      "contentDigest": "sha256:942f1ec9fa9da6ac6559ac1af3a22806b4c4045f8c98b07be70df3ce2d0b64d8",
+      "path": "evidence/frontier-challenges/c1-graphify-vs-graft/artifacts/native.json"
+    },
+    {
+      "label": "target",
+      "contentDigest": "sha256:e556b0f8705c4186f53abd4ec4ca8f1a6f76bd1a9397627574e6cee976f2f9fb",
+      "path": "evidence/frontier-challenges/c1-graphify-vs-graft/artifacts/graft.target.json"
+    }
+  ],
+  "limitations": [
+    "This is an untrusted experiment record, not verifier authentication or public challenge admission.",
+    "Paired artifacts alone establish neither comparable performance, superiority nor independent verification; Meta must assess protocol execution and counterevidence."
+  ],
+  "recordedAtUTC": "2026-10-28T18:22:39.737601Z",
+  "experimentId": "c1-graphify-vs-graft-callers-v1"
+}

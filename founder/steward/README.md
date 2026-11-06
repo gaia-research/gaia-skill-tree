@@ -140,6 +140,11 @@ Three rules shape it, and each is easy to lose by "improving" it:
   obvious shape — bounded repair reached its ceiling, so the envelope is the
   likelier defect — and gets a recommendation. A generic-mapping question turns
   on ontology, and gets an explicit *"Steward has no basis for an opinion here."*
+  A held routine pull request gets both, kept apart: a *procedural* recommendation
+  (retain the hold; it describes Steward's own action and is derivable from policy)
+  and an explicit no-opinion on the *substantive* decision (whether the change
+  should land). The desk, the digest and the GitHub receipt render them from one
+  source, so they cannot disagree.
   A recommendation nobody can trace is worse than none.
 - **Blindness is louder than debt.** Open debt is information. A sensor that
   could not run means Steward does not know what is true, and routing refuses

@@ -1,0 +1,3860 @@
+{
+ "generatedAt": "2026-10-27T22:12:20Z",
+ "devBaseline": "7d8f2d5f380617ebe05dd04963a2f7c8318213d3",
+ "cutoff": "2026-10-31",
+ "provisional": true,
+ "method": "gh API + raw SKILL.md fetch at upstream tags, gaia dev prefill (--json, embeddings refreshed, model all-MiniLM-L6-v2) and gaia dev assess --jev off per candidate; proposed generics are reviewer judgment because retrieval is weak (principles stay unknown with jev off). Nothing ratified, admitted, or ranked.",
+ "counts": {
+  "needs-info": 17,
+  "ready-for-L4": 59,
+  "reject": 1,
+  "resolved-by-sync": 6,
+  "duplicate": 7
+ },
+ "countsByGroup": {
+  "upstream-child:obra": {
+   "needs-info": 2
+  },
+  "upstream-child:addy-osmani": {
+   "ready-for-L4": 4,
+   "needs-info": 1
+  },
+  "upstream-child:garrytan": {
+   "needs-info": 10,
+   "ready-for-L4": 38
+  },
+  "upstream-child:heygen-com": {
+   "reject": 1
+  },
+  "direct-intake": {
+   "ready-for-L4": 5,
+   "needs-info": 3
+  },
+  "emilkowalski": {
+   "ready-for-L4": 12
+  },
+  "ruvnet-siblings": {
+   "resolved-by-sync": 6
+  },
+  "pre-october-batch-ids": {
+   "duplicate": 7,
+   "needs-info": 1
+  }
+ },
+ "total": 90,
+ "items": [
+  {
+   "skill": "obra/using-superpowers",
+   "ref": "#2023",
+   "kind": "intake-issue",
+   "group": "upstream-child:obra",
+   "disposition": "needs-info",
+   "reason": "Source verified live and licensed (MIT), prefill+assessment receipts produced, but no defensible generic mapping (session-start skill invocation discipline; may be a NEW_GENERIC (skill-invocation) rather than skill-discovery). L4 must choose topology: NEW_GENERIC, confirm a weak parent, or decline.",
+   "source": "https://github.com/obra/superpowers/blob/v7.0.1/skills/using-superpowers/SKILL.md",
+   "name": "using-superpowers",
+   "description": "Use when starting any conversation - establishes how to find and use skills, requiring skill invocation before ANY response including clarifying questions",
+   "proposedGeneric": "skill-discovery",
+   "proposedGenericConfidence": "low",
+   "proposedGenericNote": "session-start skill invocation discipline; may be a NEW_GENERIC (skill-invocation) rather than skill-discovery",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [
+    {
+     "id": "remotion-dev/remotion-interactivity",
+     "similarity": 0.457401,
+     "genericSkillRef": "video-interactivity"
+    },
+    {
+     "id": "obra/writing-skills",
+     "similarity": 0.453568,
+     "genericSkillRef": "skill-authoring"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/obra__using-superpowers.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/obra__using-superpowers.assessment.json"
+   },
+   "upstreamPaths": [
+    "skills/using-superpowers/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 306358,
+   "umbrellaTag": "v7.0.1"
+  },
+  {
+   "skill": "obra/diagnosing-superpowers",
+   "ref": "#2021",
+   "kind": "intake-issue",
+   "group": "upstream-child:obra",
+   "disposition": "needs-info",
+   "reason": "Source verified live and licensed (MIT), prefill+assessment receipts produced, but no defensible generic mapping (post-mortem of a mis-behaving agent session; nearest generics are weak). L4 must choose topology: NEW_GENERIC, confirm a weak parent, or decline.",
+   "source": "https://github.com/obra/superpowers/blob/v7.0.1/skills/diagnosing-superpowers/SKILL.md",
+   "name": "diagnosing-superpowers",
+   "description": "Use when a superpowers session went wrong and your human partner wants to know why \u2014 repeated work, ignored plans, stumbles, poor results, a skill that didn't fire, \"it took too long\", \"why is it so expensive\", \"what is it doing\" \u2014 or wants to build a bug report for the superpowers maintainers, for the current session or a past one identified by id or path, on any harness.",
+   "proposedGeneric": "agent-eval",
+   "proposedGenericConfidence": "low",
+   "proposedGenericNote": "post-mortem of a mis-behaving agent session; nearest generics are weak",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "systematic-debugging",
+     "similarity": 0.481682,
+     "tier": "weak"
+    },
+    {
+     "genericId": "superpowers",
+     "similarity": 0.477849,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "mattpocock/diagnose",
+     "similarity": 0.480386,
+     "genericSkillRef": "autonomous-debug"
+    },
+    {
+     "id": "obra/superpowers",
+     "similarity": 0.47784,
+     "genericSkillRef": "superpowers"
+    },
+    {
+     "id": "gsd-build/gsd-verify-work",
+     "similarity": 0.456977,
+     "genericSkillRef": "verification-before-completion"
+    },
+    {
+     "id": "obra/systematic-debugging",
+     "similarity": 0.45322,
+     "genericSkillRef": "systematic-debugging"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/obra__diagnosing-superpowers.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/obra__diagnosing-superpowers.assessment.json"
+   },
+   "upstreamPaths": [
+    "skills/diagnosing-superpowers/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 306358,
+   "umbrellaTag": "v7.0.1"
+  },
+  {
+   "skill": "addy-osmani/using-agent-skills",
+   "ref": "#2019",
+   "kind": "intake-issue",
+   "group": "upstream-child:addy-osmani",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (0.6.13); license MIT; exact-dedupe clear; proposed generic skill-discovery (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/using-agent-skills/SKILL.md",
+   "name": "using-agent-skills",
+   "description": "Discovers and invokes agent skills. Use when starting a session, or when you need to decide which skill or workflow applies to the piece of work at hand. This is the meta-skill that governs how all other skills are discovered and invoked.",
+   "proposedGeneric": "skill-discovery",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "discovers and invokes skills",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "skill-discovery",
+     "similarity": 0.705893,
+     "tier": "weak"
+    },
+    {
+     "genericId": "skill-authoring",
+     "similarity": 0.621528,
+     "tier": "weak"
+    },
+    {
+     "genericId": "skill-performance-benchmarking",
+     "similarity": 0.513224,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "google-deepmind/workflow-skill-creator",
+     "similarity": 0.63235,
+     "genericSkillRef": "skill-authoring"
+    },
+    {
+     "id": "mattpocock/write-a-skill",
+     "similarity": 0.590097,
+     "genericSkillRef": "tool-creation"
+    },
+    {
+     "id": "mbtiongson1/gaia-curate",
+     "similarity": 0.528427,
+     "genericSkillRef": "registry-curation"
+    },
+    {
+     "id": "mattpocock/writing-for-agents",
+     "similarity": 0.518471,
+     "genericSkillRef": "skill-authoring"
+    },
+    {
+     "id": "addy-osmani/agent-skills",
+     "similarity": 0.494688,
+     "genericSkillRef": "git-ship-done-pipeline"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/addy-osmani__using-agent-skills.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/addy-osmani__using-agent-skills.assessment.json"
+   },
+   "upstreamPaths": [
+    "skills/using-agent-skills/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 111110,
+   "umbrellaTag": "0.6.13"
+  },
+  {
+   "skill": "addy-osmani/interview-me",
+   "ref": "#2015",
+   "kind": "intake-issue",
+   "group": "upstream-child:addy-osmani",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (0.6.13); license MIT; exact-dedupe clear; proposed generic grill-me (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/interview-me/SKILL.md",
+   "name": "interview-me",
+   "description": "Extracts what the user actually wants instead of what they think they should want. Achieves this through one-question-at-a-time interview until ~95% confidence about the underlying intent. Use when an ask is underspecified (\"build me X\" without \"for whom\" or \"why now\"), when the user explicitly invokes (\"interview me\", \"grill me\", \"are we sure?\", \"stress-test my thinking\"), or when you catch yours",
+   "proposedGeneric": "grill-me",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "Socratic elicitation; prefill 0.54 grill-me",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "grill-me",
+     "similarity": 0.544499,
+     "tier": "weak"
+    },
+    {
+     "genericId": "questionnaire-generation",
+     "similarity": 0.455462,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "mattpocock/grill-me",
+     "similarity": 0.531485,
+     "genericSkillRef": "grill-me"
+    },
+    {
+     "id": "mattpocock/grilling",
+     "similarity": 0.517969,
+     "genericSkillRef": "design-review"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/addy-osmani__interview-me.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/addy-osmani__interview-me.assessment.json"
+   },
+   "upstreamPaths": [
+    "skills/interview-me/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 111110,
+   "umbrellaTag": "0.6.13"
+  },
+  {
+   "skill": "addy-osmani/idea-refine",
+   "ref": "#2014",
+   "kind": "intake-issue",
+   "group": "upstream-child:addy-osmani",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (0.6.13); license MIT; exact-dedupe clear; proposed generic brainstorming (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/idea-refine/SKILL.md",
+   "name": "idea-refine",
+   "description": "Refines raw ideas into sharp, actionable concepts through structured divergent and convergent thinking. Use when an idea is still vague, when you need to stress-test assumptions before committing to a plan, or when you want to expand options before converging on one. Triggers on \"ideate\", \"refine this idea\", or \"stress-test my plan\".",
+   "proposedGeneric": "brainstorming",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "divergent/convergent idea refinement",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "concept-synthesis",
+     "similarity": 0.469396,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/idea-lineage",
+     "similarity": 0.513564,
+     "genericSkillRef": "concept-synthesis"
+    },
+    {
+     "id": "garrytan/concept-synthesis",
+     "similarity": 0.469396,
+     "genericSkillRef": "concept-synthesis"
+    },
+    {
+     "id": "obra/brainstorming",
+     "similarity": 0.450881,
+     "genericSkillRef": "brainstorming"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/addy-osmani__idea-refine.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/addy-osmani__idea-refine.assessment.json"
+   },
+   "upstreamPaths": [
+    "skills/idea-refine/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 111110,
+   "umbrellaTag": "0.6.13"
+  },
+  {
+   "skill": "addy-osmani/git-workflow-and-versioning",
+   "ref": "#2013",
+   "kind": "intake-issue",
+   "group": "upstream-child:addy-osmani",
+   "disposition": "needs-info",
+   "reason": "Source verified live and licensed (MIT), prefill+assessment receipts produced, but no defensible generic mapping (git workflow practice; git-integration is a GitHub-automation fusion, poor fit; likely NEW_GENERIC). L4 must choose topology: NEW_GENERIC, confirm a weak parent, or decline.",
+   "source": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/git-workflow-and-versioning/SKILL.md",
+   "name": "git-workflow-and-versioning",
+   "description": "Structures git workflow practices. Use when making any code change. Use when committing, branching, resolving conflicts, splitting uncommitted work in a messy working tree into clean atomic commits, opening or reviewing a pull request (PR), pushing to a remote, or when you need to organize work across multiple parallel streams. Use when cutting a release, choosing a semantic version bump, tagging,",
+   "proposedGeneric": "git-integration",
+   "proposedGenericConfidence": "low",
+   "proposedGenericNote": "git workflow practice; git-integration is a GitHub-automation fusion, poor fit; likely NEW_GENERIC",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "using-git-worktrees",
+     "similarity": 0.55635,
+     "tier": "weak"
+    },
+    {
+     "genericId": "release-automation",
+     "similarity": 0.544028,
+     "tier": "weak"
+    },
+    {
+     "genericId": "git-diff-risk-analysis",
+     "similarity": 0.486275,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "ruvnet/github-release-management",
+     "similarity": 0.61379,
+     "genericSkillRef": "release-automation"
+    },
+    {
+     "id": "obra/using-git-worktrees",
+     "similarity": 0.600974,
+     "genericSkillRef": "using-git-worktrees"
+    },
+    {
+     "id": "ruvnet/github-project-management",
+     "similarity": 0.574745,
+     "genericSkillRef": "project-management"
+    },
+    {
+     "id": "intelligentcode-ai/release",
+     "similarity": 0.572103,
+     "genericSkillRef": "release-automation"
+    },
+    {
+     "id": "ruvnet/github-multi-repo",
+     "similarity": 0.519697,
+     "genericSkillRef": "multi-repo-coordination"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/addy-osmani__git-workflow-and-versioning.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/addy-osmani__git-workflow-and-versioning.assessment.json"
+   },
+   "upstreamPaths": [
+    "skills/git-workflow-and-versioning/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 111110,
+   "umbrellaTag": "0.6.13"
+  },
+  {
+   "skill": "addy-osmani/debugging-and-error-recovery",
+   "ref": "#2008",
+   "kind": "intake-issue",
+   "group": "upstream-child:addy-osmani",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (0.6.13); license MIT; exact-dedupe clear; proposed generic systematic-debugging (high confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/addyosmani/agent-skills/blob/0.6.13/skills/debugging-and-error-recovery/SKILL.md",
+   "name": "debugging-and-error-recovery",
+   "description": "Guides systematic root-cause debugging. Use when tests fail, builds break, something that worked yesterday broke, behavior doesn't match expectations, or you encounter any unexpected error. Use when you need to figure out what broke and why \u2014 a systematic approach to finding and fixing the root cause rather than guessing.",
+   "proposedGeneric": "systematic-debugging",
+   "proposedGenericConfidence": "high",
+   "proposedGenericNote": "same generic as obra/systematic-debugging (named implementation)",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "systematic-debugging",
+     "similarity": 0.786806,
+     "tier": "strong"
+    },
+    {
+     "genericId": "error-interpretation",
+     "similarity": 0.67908,
+     "tier": "weak"
+    },
+    {
+     "genericId": "autonomous-debug",
+     "similarity": 0.519652,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "obra/systematic-debugging",
+     "similarity": 0.669662,
+     "genericSkillRef": "systematic-debugging"
+    },
+    {
+     "id": "mattpocock/diagnose",
+     "similarity": 0.587762,
+     "genericSkillRef": "autonomous-debug"
+    },
+    {
+     "id": "garrytan/investigate",
+     "similarity": 0.55514,
+     "genericSkillRef": "systematic-debugging"
+    },
+    {
+     "id": "garrytan/health",
+     "similarity": 0.505072,
+     "genericSkillRef": "automated-testing"
+    },
+    {
+     "id": "addy-osmani/observability-and-instrumentation",
+     "similarity": 0.477471,
+     "genericSkillRef": "observability-instrumentation"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/addy-osmani__debugging-and-error-recovery.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/addy-osmani__debugging-and-error-recovery.assessment.json"
+   },
+   "upstreamPaths": [
+    "skills/debugging-and-error-recovery/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 111110,
+   "umbrellaTag": "0.6.13"
+  },
+  {
+   "skill": "garrytan/mcp-access",
+   "ref": "#1997",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "needs-info",
+   "reason": "Source verified live and licensed (MIT), prefill+assessment receipts produced, but no defensible generic mapping (owner dashboard + OAuth client admin; prefill 0.457 weak). L4 must choose topology: NEW_GENERIC, confirm a weak parent, or decline.",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/mcp-access/SKILL.md",
+   "name": "mcp-access",
+   "description": "Open the GBrain owner dashboard, manage MCP clients and permissions, or connect a native OAuth harness. Distinguishes owner administration from ordinary MCP access.",
+   "proposedGeneric": "mcp-integration",
+   "proposedGenericConfidence": "low",
+   "proposedGenericNote": "owner dashboard + OAuth client admin; prefill 0.457 weak",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "mcp-integration",
+     "similarity": 0.457093,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/remote-mcp",
+     "similarity": 0.579946,
+     "genericSkillRef": "mcp-server-deployment"
+    },
+    {
+     "id": "intelligentcode-ai/mcp-client",
+     "similarity": 0.502048,
+     "genericSkillRef": "mcp-integration"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__mcp-access.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__mcp-access.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-coding/skills/mcp-access/SKILL.md",
+    "plugin-variants/gbrain-daily/skills/mcp-access/SKILL.md",
+    "plugin/skills/mcp-access/SKILL.md",
+    "skills/mcp-access/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "heygen-com/hyperframes-studio",
+   "ref": "#1996",
+   "kind": "intake-issue",
+   "group": "upstream-child:heygen-com",
+   "disposition": "reject",
+   "reason": "Component retired upstream: no skills/hyperframes-studio in heygen-com/hyperframes at v0.8.209; last touching commit 68822931 (2026-10-21) \"publish seven knowledge skills aligned with Studio and retire the ...\"; the issue evidence URL (blob/main/skills/hyperframes-studio/SKILL.md) no longer resolves. Umbrella #1823 payload no longer lists it as an add.",
+   "receipts": {
+    "prefill": null,
+    "assessment": null
+   }
+  },
+  {
+   "skill": "garrytan/webhook-transforms",
+   "ref": "#1993",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic workflow-automation (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/webhook-transforms/SKILL.md",
+   "name": "webhook-transforms",
+   "description": "Generic framework for converting external events (SMS, meetings, social mentions) into brain-ingestible signals. Define a transform function, register a webhook URL, and incoming events get processed through the brain pipeline.",
+   "proposedGeneric": "workflow-automation",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "event-to-brain transforms",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__webhook-transforms.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__webhook-transforms.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/webhook-transforms/SKILL.md",
+    "skills/webhook-transforms/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/voice-note-ingest",
+   "ref": "#1992",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic knowledge-harvest (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/voice-note-ingest/SKILL.md",
+   "name": "voice-note-ingest",
+   "description": "Ingest a voice note with exact-phrasing preservation (never paraphrased). Routes content to originals/, concepts/, people/, companies/, ideas/, personal/, or voice-notes/ based on a decision tree. The user's exact words are the signal.",
+   "proposedGeneric": "knowledge-harvest",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "sibling ingestion skills map to knowledge-harvest",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "voice-agent",
+     "similarity": 0.473525,
+     "tier": "weak"
+    },
+    {
+     "genericId": "text-to-speech",
+     "similarity": 0.465016,
+     "tier": "weak"
+    },
+    {
+     "genericId": "speech-to-text",
+     "similarity": 0.456302,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/meeting-ingestion",
+     "similarity": 0.525615,
+     "genericSkillRef": "personal-knowledge-management"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__voice-note-ingest.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__voice-note-ingest.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-daily/skills/voice-note-ingest/SKILL.md",
+    "plugin/skills/voice-note-ingest/SKILL.md",
+    "skills/voice-note-ingest/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/testing",
+   "ref": "#1990",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic automated-testing (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/testing/SKILL.md",
+   "name": "testing",
+   "description": "Skill validation framework PLUS daily test-suite health and regression intelligence. Validates skill conformance (frontmatter, manifest coverage, resolver coverage). Runs the project test suite in tiered phases (unit / evals / integration / system health), classifies failures, and produces a regression-aware report.",
+   "proposedGeneric": "automated-testing",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "skill validation + test-suite health",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "automated-testing",
+     "similarity": 0.631558,
+     "tier": "weak"
+    },
+    {
+     "genericId": "generate-test",
+     "similarity": 0.583896,
+     "tier": "weak"
+    },
+    {
+     "genericId": "test-driven-development",
+     "similarity": 0.573166,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/health",
+     "similarity": 0.652561,
+     "genericSkillRef": "automated-testing"
+    },
+    {
+     "id": "upsonic/unittest-generator",
+     "similarity": 0.565861,
+     "genericSkillRef": "generate-test"
+    },
+    {
+     "id": "mattpocock/diagnose",
+     "similarity": 0.503405,
+     "genericSkillRef": "autonomous-debug"
+    },
+    {
+     "id": "garrytan/skill-autobench",
+     "similarity": 0.500244,
+     "genericSkillRef": "skill-performance-benchmarking"
+    },
+    {
+     "id": "addy-osmani/test-driven-development",
+     "similarity": 0.494579,
+     "genericSkillRef": "test-driven-development"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__testing.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__testing.assessment.json"
+   },
+   "upstreamPaths": [
+    "skills/testing/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/soul-audit",
+   "ref": "#1988",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "needs-info",
+   "reason": "Source verified live and licensed (MIT), prefill+assessment receipts produced, but no defensible generic mapping (agent identity interview; no defensible generic). L4 must choose topology: NEW_GENERIC, confirm a weak parent, or decline.",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/soul-audit/SKILL.md",
+   "name": "soul-audit",
+   "description": "Re-run or deepen the agent's identity interview. Drives the SHARED bootstrap answer bank (state/interview.json) via `gbrain bootstrap interview --set/--show/--confirm`, then re-renders the identity files with `gbrain bootstrap render --only <FILE> --force`. One answer store, two surfaces: first-boot bootstrap and this re-run skill write the same bank, so an updated answer flows into SOUL.md, USER.",
+   "proposedGeneric": null,
+   "proposedGenericConfidence": "low",
+   "proposedGenericNote": "agent identity interview; no defensible generic",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/context-audit",
+     "similarity": 0.66583,
+     "genericSkillRef": "context-compression"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__soul-audit.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__soul-audit.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/soul-audit/SKILL.md",
+    "skills/soul-audit/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/smoke-test",
+   "ref": "#1987",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "needs-info",
+   "reason": "Source verified live and licensed (MIT), prefill+assessment receipts produced, but no defensible generic mapping (install health smoke tests + auto-fix; gbrain-specific). L4 must choose topology: NEW_GENERIC, confirm a weak parent, or decline.",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/smoke-test/SKILL.md",
+   "name": "smoke-test",
+   "description": "Health smoke tests + auto-fix for gbrain installs (and OpenClaw services when present). Run after machine/container restarts or whenever something seems broken. Tests critical services, auto-fixes bounded local issues, and reports worker topology without starting daemons. Extensible via user-defined test scripts in ~/.gbrain/smoke-tests.d/*.sh.",
+   "proposedGeneric": "automated-testing",
+   "proposedGenericConfidence": "low",
+   "proposedGenericNote": "install health smoke tests + auto-fix; gbrain-specific",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/health",
+     "similarity": 0.514179,
+     "genericSkillRef": "automated-testing"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__smoke-test.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__smoke-test.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/smoke-test/SKILL.md",
+    "skills/smoke-test/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/skillpack-harvest",
+   "ref": "#1986",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic skill-authoring (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/skillpack-harvest/SKILL.md",
+   "name": "skillpack-harvest",
+   "description": "Lift a proven skill from a host repo (e.g. your OpenClaw fork) back into gbrain's bundle so other clients can scaffold it. Editorial workflow: the CLI does the file copy + privacy lint; this skill drives the judgment-heavy genericization (scrub real names, generalize triggers, lift fork-specific conventions to references).",
+   "proposedGeneric": "skill-authoring",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "lift a skill into a bundle",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "registry-curation",
+     "similarity": 0.489107,
+     "tier": "weak"
+    },
+    {
+     "genericId": "gbrain",
+     "similarity": 0.487644,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "gaia-research/fuse",
+     "similarity": 0.461577,
+     "genericSkillRef": "skill-fusion"
+    },
+    {
+     "id": "garrytan/gbrain",
+     "similarity": 0.461165,
+     "genericSkillRef": "gbrain"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__skillpack-harvest.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__skillpack-harvest.assessment.json"
+   },
+   "upstreamPaths": [
+    "skills/skillpack-harvest/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/skillpack-check",
+   "ref": "#1985",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "needs-info",
+   "reason": "Source verified live and licensed (MIT), prefill+assessment receipts produced, but no defensible generic mapping (gbrain install health JSON; no defensible generic). L4 must choose topology: NEW_GENERIC, confirm a weak parent, or decline.",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/skillpack-check/SKILL.md",
+   "name": "skillpack-check",
+   "description": "Run `gbrain skillpack-check` to produce an agent-readable JSON health report for the gbrain install. Wraps `gbrain doctor` + `gbrain apply-migrations --list` so a host agent (your OpenClaw's morning-briefing, any OpenClaw cron) can see at a glance whether the skillpack needs attention. Use when the user asks \"is gbrain healthy?\", when a cron fires a morning check, or proactively when something see",
+   "proposedGeneric": null,
+   "proposedGenericConfidence": "low",
+   "proposedGenericNote": "gbrain install health JSON; no defensible generic",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__skillpack-check.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__skillpack-check.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/skillpack-check/SKILL.md",
+    "skills/skillpack-check/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/skill-creator",
+   "ref": "#1982",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic skill-authoring (high confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/skill-creator/SKILL.md",
+   "name": "skill-creator",
+   "description": "Create new skills following the GBrain conformance standard. Generates SKILL.md with frontmatter, Contract, Phases, Output Format, and Anti-Patterns. Checks MECE against existing skills. Updates manifest and resolver.",
+   "proposedGeneric": "skill-authoring",
+   "proposedGenericConfidence": "high",
+   "proposedGenericNote": "creates SKILL.md under a conformance standard",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "skill-authoring",
+     "similarity": 0.606449,
+     "tier": "weak"
+    },
+    {
+     "genericId": "registry-curation",
+     "similarity": 0.594286,
+     "tier": "weak"
+    },
+    {
+     "genericId": "skill-fusion",
+     "similarity": 0.58473,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "anthropic/skill-creator",
+     "similarity": 0.755852,
+     "genericSkillRef": "tool-creation"
+    },
+    {
+     "id": "google-deepmind/workflow-skill-creator",
+     "similarity": 0.732792,
+     "genericSkillRef": "skill-authoring"
+    },
+    {
+     "id": "ruvnet/skill-builder",
+     "similarity": 0.668196,
+     "genericSkillRef": "skill-authoring"
+    },
+    {
+     "id": "garrytan/skillify",
+     "similarity": 0.63346,
+     "genericSkillRef": "skill-authoring"
+    },
+    {
+     "id": "mattpocock/write-a-skill",
+     "similarity": 0.623719,
+     "genericSkillRef": "tool-creation"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__skill-creator.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__skill-creator.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/skill-creator/SKILL.md",
+    "skills/skill-creator/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0",
+   "basenameOverlap": "anthropic/skill-creator",
+   "l4Flags": [
+    "basename overlap with anthropic/skill-creator (distinct id/source; confirm not a duplicate capability)"
+   ]
+  },
+  {
+   "skill": "garrytan/setup",
+   "ref": "#1979",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic knowledge-management (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/setup/SKILL.md",
+   "name": "setup",
+   "description": "Add keyless GBrain memory to an existing agent, or connect a hosted brain while preserving identity and configuration",
+   "proposedGeneric": "knowledge-management",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "setup-gbrain sibling (gstack source, distinct skill) maps here",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [
+    {
+     "id": "ruvnet/reasoningbank-agentdb",
+     "similarity": 0.506847,
+     "genericSkillRef": "agent-memory-learning"
+    },
+    {
+     "id": "ruvnet/agentdb",
+     "similarity": 0.461408,
+     "genericSkillRef": "agent-memory-platform"
+    },
+    {
+     "id": "ruvnet/agentdb-memory-patterns",
+     "similarity": 0.450333,
+     "genericSkillRef": "memory-pattern-design"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__setup.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__setup.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/setup/SKILL.md",
+    "skills/setup/SKILL.md",
+    "test/fixtures/openclaw-mixed-merge/skills/setup/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/schema-unify",
+   "ref": "#1978",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic schema-design (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-unify/SKILL.md",
+   "name": "schema-unify",
+   "description": "Migrate a brain from gbrain-base (or any pack) to gbrain-base-v2's 14-canonical-type taxonomy via gbrain onboard --check + the unify-types Minion handler. Collapses 94 noisy types to 15 canonical with subtypes, alias rows, and link rows. Triggers when an agent notices pack_upgrade_available, type_proliferation, or asks \"what is the canonical taxonomy / how do I clean up my page types\".",
+   "proposedGeneric": "schema-design",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "taxonomy migration",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__schema-unify.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__schema-unify.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/schema-unify/SKILL.md",
+    "skills/schema-unify/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/schema-author",
+   "ref": "#1977",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic schema-design (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/schema-author/SKILL.md",
+   "name": "schema-author",
+   "description": "Evolve your brain's schema pack. Add page types, propose new ones from corpus scans, backfill page.type on existing pages, audit pack health. Triggers when an agent notices untyped pages, custom domains needing typed entities (researcher, contract, deposition), or wants to see what types the pack declares.",
+   "proposedGeneric": "schema-design",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "evolve a schema pack",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "wiki-search",
+     "similarity": 0.456785,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.515574,
+     "genericSkillRef": "knowledge-management"
+    },
+    {
+     "id": "huggingface/huggingface-papers",
+     "similarity": 0.471736,
+     "genericSkillRef": "literature-review"
+    },
+    {
+     "id": "garrytan/idea-lineage",
+     "similarity": 0.467564,
+     "genericSkillRef": "concept-synthesis"
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.463501,
+     "genericSkillRef": "knowledge-harvest"
+    },
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.457196,
+     "genericSkillRef": "knowledge-harvest"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__schema-author.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__schema-author.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/schema-author/SKILL.md",
+    "skills/schema-author/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/resolve-before-asking",
+   "ref": "#1976",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "needs-info",
+   "reason": "Source verified live and licensed (MIT), prefill+assessment receipts produced, but no defensible generic mapping (identity-question gate; no defensible generic). L4 must choose topology: NEW_GENERIC, confirm a weak parent, or decline.",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/resolve-before-asking/SKILL.md",
+   "name": "resolve-before-asking",
+   "description": "Gate on identity questions to the user. Before any \"who is X?\" (or role / relationship question) reaches the user, exhaust the brain's lookup chain: think \u2192 search + page read \u2192 mounted sources \u2192 timeline/graph \u2192 web. If escalation survives the chain, ask WITH a hypothesis, never a bare unknown. Also owns the no-placeholders-at-ingest rule: pages created during bulk ingestion get their relationshi",
+   "proposedGeneric": null,
+   "proposedGenericConfidence": "low",
+   "proposedGenericNote": "identity-question gate; no defensible generic",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__resolve-before-asking.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__resolve-before-asking.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-coding/skills/resolve-before-asking/SKILL.md",
+    "plugin/skills/resolve-before-asking/SKILL.md",
+    "skills/resolve-before-asking/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/reports",
+   "ref": "#1974",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic write-report (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/reports/SKILL.md",
+   "name": "reports",
+   "description": "Save and load timestamped reports. Keyword routing for fast lookup. Cron jobs save output as reports; the agent or user queries them by keyword. Includes the Actionability Gate: delivery-time link checks (Broken/Dead/Indirect/ Missing) for briefings, meeting digests, and research reports.",
+   "proposedGeneric": "write-report",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "save/load timestamped reports",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "feed-monitoring",
+     "similarity": 0.48032,
+     "tier": "weak"
+    },
+    {
+     "genericId": "crm-data-cleanup",
+     "similarity": 0.475965,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__reports.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__reports.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-daily/skills/reports/SKILL.md",
+    "plugin/skills/reports/SKILL.md",
+    "skills/reports/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/repo-architecture",
+   "ref": "#1973",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic knowledge-management (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/repo-architecture/SKILL.md",
+   "name": "repo-architecture",
+   "description": "Where new brain files go. Decision protocol for filing brain pages by primary subject, not by format or source. Reference for all brain-writing skills.",
+   "proposedGeneric": "knowledge-management",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "filing protocol",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.621083,
+     "genericSkillRef": "knowledge-management"
+    },
+    {
+     "id": "mattpocock/research",
+     "similarity": 0.454351,
+     "genericSkillRef": "research"
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.452827,
+     "genericSkillRef": "knowledge-harvest"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__repo-architecture.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__repo-architecture.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-coding/skills/repo-architecture/SKILL.md",
+    "plugin/skills/repo-architecture/SKILL.md",
+    "skills/repo-architecture/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/query",
+   "ref": "#1971",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic rag-pipeline (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/query/SKILL.md",
+   "name": "query",
+   "description": "Answer questions using the brain's knowledge with 3-layer search, synthesis, and citation propagation. Use when the user asks a question, wants a lookup, or needs information from the brain.",
+   "proposedGeneric": "rag-pipeline",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "brain search + synthesis + citation",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "wiki-search",
+     "similarity": 0.503816,
+     "tier": "weak"
+    },
+    {
+     "genericId": "research",
+     "similarity": 0.496762,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.646455,
+     "genericSkillRef": "knowledge-management"
+    },
+    {
+     "id": "garrytan/capture",
+     "similarity": 0.496162,
+     "genericSkillRef": "personal-knowledge-management"
+    },
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.489673,
+     "genericSkillRef": "knowledge-harvest"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__query.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__query.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-coding/skills/query/SKILL.md",
+    "plugin-variants/gbrain-daily/skills/query/SKILL.md",
+    "plugin/skills/query/SKILL.md",
+    "skills/query/SKILL.md",
+    "test/fixtures/generic-agents-workspace/skills/query/SKILL.md",
+    "test/fixtures/openclaw-mixed-merge/skills/query/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/publish",
+   "ref": "#1970",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "needs-info",
+   "reason": "Source verified live and licensed (MIT), prefill+assessment receipts produced, but no defensible generic mapping (share pages as password-protected HTML; no defensible generic). L4 must choose topology: NEW_GENERIC, confirm a weak parent, or decline.",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/publish/SKILL.md",
+   "name": "publish",
+   "description": "Share brain pages as beautiful password-protected HTML with zero LLM calls",
+   "proposedGeneric": null,
+   "proposedGenericConfidence": "low",
+   "proposedGenericNote": "share pages as password-protected HTML; no defensible generic",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__publish.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__publish.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/publish/SKILL.md",
+    "skills/publish/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/postgres-adopt",
+   "ref": "#1969",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic postgres-best-practices (high confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/postgres-adopt/SKILL.md",
+   "name": "postgres-adopt",
+   "description": "Detect which gbrain engine is in use (PGLite vs Postgres), prefer Postgres for agent-harness installs, install/provision Postgres (Supabase discovery via SUPABASE_ACCESS_TOKEN, local Postgres, opt-in Docker), and move an existing PGLite brain to Postgres with its history (plan, ask, run). Detection is one engine-free command; the install ladder is one flag.",
+   "proposedGeneric": "postgres-best-practices",
+   "proposedGenericConfidence": "high",
+   "proposedGenericNote": "PGLite vs Postgres engine adoption",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "supabase",
+     "similarity": 0.542677,
+     "tier": "weak"
+    },
+    {
+     "genericId": "postgres-best-practices",
+     "similarity": 0.477574,
+     "tier": "weak"
+    },
+    {
+     "genericId": "gbrain",
+     "similarity": 0.468547,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__postgres-adopt.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__postgres-adopt.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-coding/skills/postgres-adopt/SKILL.md",
+    "plugin-variants/gbrain-daily/skills/postgres-adopt/SKILL.md",
+    "plugin/skills/postgres-adopt/SKILL.md",
+    "skills/postgres-adopt/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/perplexity-research",
+   "ref": "#1968",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic research (high confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/perplexity-research/SKILL.md",
+   "name": "perplexity-research",
+   "description": "Brain-augmented web research. Sends brain context about a topic to Perplexity, which searches the web with citations and returns what is NEW vs what the brain already knows. Use for entity enrichment, current-state checks, deal monitoring, and freshness deltas. NOT for simple URL fetches (use web_fetch) or brain-only queries (use gbrain query).",
+   "proposedGeneric": "research",
+   "proposedGenericConfidence": "high",
+   "proposedGenericNote": "sibling data-research maps to research",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "autonomous-web-research",
+     "similarity": 0.501067,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.502756,
+     "genericSkillRef": "knowledge-management"
+    },
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.488189,
+     "genericSkillRef": "knowledge-harvest"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__perplexity-research.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__perplexity-research.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-daily/skills/perplexity-research/SKILL.md",
+    "plugin/skills/perplexity-research/SKILL.md",
+    "skills/perplexity-research/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/migrate",
+   "ref": "#1966",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic knowledge-management (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/migrate/SKILL.md",
+   "name": "migrate",
+   "description": "Universal migration from Obsidian, Notion, Logseq, markdown, CSV, JSON, Roam",
+   "proposedGeneric": "knowledge-management",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "import from Obsidian/Notion/etc.",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "deprecation-and-migration",
+     "similarity": 0.512357,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__migrate.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__migrate.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/migrate/SKILL.md",
+    "skills/migrate/SKILL.md",
+    "test/fixtures/openclaw-mixed-merge/skills/migrate/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/media-ingest",
+   "ref": "#1964",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic knowledge-harvest (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/media-ingest/SKILL.md",
+   "name": "media-ingest",
+   "description": "Ingest video, audio, PDF, book, screenshot, and GitHub repo content into the brain. Multi-format handling with entity extraction and backlink propagation. Covers video-ingest, youtube-ingest, and book-ingest subtypes.",
+   "proposedGeneric": "knowledge-harvest",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "multi-format ingestion",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "generative-media",
+     "similarity": 0.477244,
+     "tier": "weak"
+    },
+    {
+     "genericId": "media-asset-orchestration",
+     "similarity": 0.467651,
+     "tier": "weak"
+    },
+    {
+     "genericId": "chunk-document",
+     "similarity": 0.45534,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.603506,
+     "genericSkillRef": "knowledge-harvest"
+    },
+    {
+     "id": "garrytan/meeting-ingestion",
+     "similarity": 0.567956,
+     "genericSkillRef": "personal-knowledge-management"
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.483082,
+     "genericSkillRef": "knowledge-harvest"
+    },
+    {
+     "id": "garrytan/capture",
+     "similarity": 0.477279,
+     "genericSkillRef": "personal-knowledge-management"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__media-ingest.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__media-ingest.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-daily/skills/media-ingest/SKILL.md",
+    "plugin/skills/media-ingest/SKILL.md",
+    "skills/media-ingest/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/maintain",
+   "ref": "#1962",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic knowledge-management (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/maintain/SKILL.md",
+   "name": "maintain",
+   "description": "Brain health checks: back-link enforcement, citation audit, filing validation, stale info detection, orphan pages, and benchmarks. Use when asked to check brain health, run maintenance, or audit quality.",
+   "proposedGeneric": "knowledge-management",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "brain health checks",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "registry-entry-audit",
+     "similarity": 0.452675,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/health",
+     "similarity": 0.498984,
+     "genericSkillRef": "automated-testing"
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.484882,
+     "genericSkillRef": "knowledge-harvest"
+    },
+    {
+     "id": "mbtiongson1/gaia-audit",
+     "similarity": 0.480577,
+     "genericSkillRef": "registry-entry-audit"
+    },
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.476058,
+     "genericSkillRef": "knowledge-management"
+    },
+    {
+     "id": "garrytan/academic-verify",
+     "similarity": 0.455587,
+     "genericSkillRef": "grounding"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__maintain.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__maintain.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-coding/skills/maintain/SKILL.md",
+    "plugin/skills/maintain/SKILL.md",
+    "skills/maintain/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/ingest",
+   "ref": "#1961",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic route-intent (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/ingest/SKILL.md",
+   "name": "ingest",
+   "description": "Route content to specialized ingestion skills. Detects input type and delegates.",
+   "proposedGeneric": "route-intent",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "detects input type and delegates; sibling functional-area-resolver maps to route-intent",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "registry-curation",
+     "similarity": 0.459083,
+     "tier": "weak"
+    },
+    {
+     "genericId": "skill-authoring",
+     "similarity": 0.450562,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/meeting-ingestion",
+     "similarity": 0.542112,
+     "genericSkillRef": "personal-knowledge-management"
+    },
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.483086,
+     "genericSkillRef": "knowledge-harvest"
+    },
+    {
+     "id": "garrytan/capture",
+     "similarity": 0.460443,
+     "genericSkillRef": "personal-knowledge-management"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__ingest.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__ingest.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-coding/skills/ingest/SKILL.md",
+    "plugin-variants/gbrain-daily/skills/ingest/SKILL.md",
+    "plugin/skills/ingest/SKILL.md",
+    "skills/ingest/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/idea-ingest",
+   "ref": "#1959",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic knowledge-harvest (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/idea-ingest/SKILL.md",
+   "name": "idea-ingest",
+   "description": "Ingest links, articles, tweets, and ideas into the brain. Fetch content, save to brain with analysis, credit the author (people page only when they pass the notability gate), and cross-link. Use when the user shares a link or says \"read this\", \"save this\", \"think about this\".",
+   "proposedGeneric": "knowledge-harvest",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "links/articles/ideas ingestion",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "brainstorming",
+     "similarity": 0.479394,
+     "tier": "weak"
+    },
+    {
+     "genericId": "ghostwrite",
+     "similarity": 0.467406,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.699473,
+     "genericSkillRef": "knowledge-harvest"
+    },
+    {
+     "id": "garrytan/capture",
+     "similarity": 0.617332,
+     "genericSkillRef": "personal-knowledge-management"
+    },
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.578754,
+     "genericSkillRef": "knowledge-management"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__idea-ingest.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__idea-ingest.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-coding/skills/idea-ingest/SKILL.md",
+    "plugin/skills/idea-ingest/SKILL.md",
+    "skills/idea-ingest/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/google-loops",
+   "ref": "#1958",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic workspace-automation (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/google-loops/SKILL.md",
+   "name": "google-loops",
+   "description": "Set up and operate the Gmail/Calendar/Contacts connector and the open-loop engine: who is waiting on the user, what they promised, and the context needed to respond. Covers painless BYO OAuth setup (exactly two user interactions), the daily `gbrain waiting` digest, loop closing/muting, and troubleshooting via the typed error catalog.",
+   "proposedGeneric": "workspace-automation",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "Gmail/Calendar/Contacts connector",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__google-loops.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__google-loops.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/google-loops/SKILL.md",
+    "skills/google-loops/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/gbrain-upgrade",
+   "ref": "#1957",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic framework-upgrade (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/gbrain-upgrade/SKILL.md",
+   "name": "gbrain-upgrade",
+   "description": "Keep gbrain current. When a `gbrain` invocation prints an `UPGRADE_AVAILABLE <old> <new>` marker (or `gbrain self-upgrade --check-only` reports an update), apply it per the configured self_upgrade.mode: notify (prompt the operator with a 4-option question + snooze) or auto (apply silently). The action is always the hardcoded `gbrain self-upgrade` \u2014 never a command read from the marker.",
+   "proposedGeneric": "framework-upgrade",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "keep gbrain current",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/sync-gbrain",
+     "similarity": 0.467781,
+     "genericSkillRef": "knowledge-management"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__gbrain-upgrade.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__gbrain-upgrade.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/gbrain-upgrade/SKILL.md",
+    "skills/gbrain-upgrade/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/gbrain-advisor",
+   "ref": "#1956",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "needs-info",
+   "reason": "Source verified live and licensed (MIT), prefill+assessment receipts produced, but no defensible generic mapping (proactive product coaching; no defensible generic). L4 must choose topology: NEW_GENERIC, confirm a weak parent, or decline.",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/gbrain-advisor/SKILL.md",
+   "name": "gbrain-advisor",
+   "description": "Proactive \"make the most of gbrain\" coaching. Runs `gbrain advisor` on a cadence and pings the user with the top high-leverage actions for their brain: version drift, pending migrations, stalled jobs, low embed coverage, setup smells, and uninstalled brain skills. Read-only; always asks before fixing.",
+   "proposedGeneric": null,
+   "proposedGenericConfidence": "low",
+   "proposedGenericNote": "proactive product coaching; no defensible generic",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "gbrain",
+     "similarity": 0.545627,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/gbrain",
+     "similarity": 0.549776,
+     "genericSkillRef": "gbrain"
+    },
+    {
+     "id": "garrytan/sync-gbrain",
+     "similarity": 0.505264,
+     "genericSkillRef": "knowledge-management"
+    },
+    {
+     "id": "k-dense-ai/pytorch-lightning",
+     "similarity": 0.461551,
+     "genericSkillRef": "neural-training-orchestration"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__gbrain-advisor.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__gbrain-advisor.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-daily/skills/gbrain-advisor/SKILL.md",
+    "plugin/skills/gbrain-advisor/SKILL.md",
+    "skills/gbrain-advisor/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/frontmatter-guard",
+   "ref": "#1954",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic knowledge-management (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/frontmatter-guard/SKILL.md",
+   "name": "frontmatter-guard",
+   "description": "Validate and auto-repair YAML frontmatter on brain pages. Catches malformed pages before they enter the brain (missing closing ---, nested quotes, slug mismatches, null bytes, empty frontmatter, YAML parse failures), explains files sync holds instead of importing, and drives the previewed `gbrain repair frontmatter` fix. Wraps the `gbrain frontmatter` CLI for agent-driven workflows.",
+   "proposedGeneric": "knowledge-management",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "page-quality gate; sibling gates map here",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [
+    {
+     "id": "mattpocock/triage",
+     "similarity": 0.477149,
+     "genericSkillRef": "issue-triage"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__frontmatter-guard.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__frontmatter-guard.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/frontmatter-guard/SKILL.md",
+    "skills/frontmatter-guard/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/enrich",
+   "ref": "#1952",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic knowledge-graph-build (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/enrich/SKILL.md",
+   "name": "enrich",
+   "description": "Enrich brain pages with tiered enrichment protocol. Creates and updates person/company pages with compiled truth, timeline, and cross-links. Use when a new entity is mentioned or an existing page needs updating.",
+   "proposedGeneric": "knowledge-graph-build",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "person/company page enrichment; sibling citation-graph-ingest maps here",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.577562,
+     "genericSkillRef": "knowledge-management"
+    },
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.520948,
+     "genericSkillRef": "knowledge-harvest"
+    },
+    {
+     "id": "garrytan/meeting-ingestion",
+     "similarity": 0.504968,
+     "genericSkillRef": "personal-knowledge-management"
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.481263,
+     "genericSkillRef": "knowledge-harvest"
+    },
+    {
+     "id": "garrytan/book-mirror",
+     "similarity": 0.457398,
+     "genericSkillRef": "document-analyst"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__enrich.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__enrich.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-coding/skills/enrich/SKILL.md",
+    "plugin/skills/enrich/SKILL.md",
+    "skills/enrich/SKILL.md",
+    "test/fixtures/openclaw-mixed-merge/skills/enrich/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/eiirp",
+   "ref": "#1951",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "needs-info",
+   "reason": "Source verified live and licensed (MIT), prefill+assessment receipts produced, but no defensible generic mapping (post-work organizer; thin). L4 must choose topology: NEW_GENERIC, confirm a weak parent, or decline.",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/eiirp/SKILL.md",
+   "name": "eiirp",
+   "description": "Everything In Its Right Place. The universal post-work organizer. After any significant work session, EIIRP runs a 7-phase audit: (1) inventory every output, (2) walk taxonomy to decide where each lands, (3) check schema-pack consistency against the brain's actual shape, (4) file enriched brain pages, (5) audit the skill graph for DRY+MECE, (6) verify resolvability, (7) report. Named after the Rad",
+   "proposedGeneric": "knowledge-management",
+   "proposedGenericConfidence": "low",
+   "proposedGenericNote": "post-work organizer; thin",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "registry-entry-audit",
+     "similarity": 0.484967,
+     "tier": "weak"
+    },
+    {
+     "genericId": "session-journaling",
+     "similarity": 0.475571,
+     "tier": "weak"
+    },
+    {
+     "genericId": "skill-authoring",
+     "similarity": 0.46244,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "martin-stepanoski/nielsen-heuristics-audit",
+     "similarity": 0.506217,
+     "genericSkillRef": "ux-audit"
+    },
+    {
+     "id": "garrytan/skill-autobench",
+     "similarity": 0.504068,
+     "genericSkillRef": "skill-performance-benchmarking"
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.490564,
+     "genericSkillRef": "knowledge-harvest"
+    },
+    {
+     "id": "mbtiongson1/gaia-triage",
+     "similarity": 0.479661,
+     "genericSkillRef": "issue-triage"
+    },
+    {
+     "id": "garrytan/meeting-ingestion",
+     "similarity": 0.478581,
+     "genericSkillRef": "personal-knowledge-management"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__eiirp.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__eiirp.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/eiirp/SKILL.md",
+    "skills/eiirp/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/db-repair",
+   "ref": "#1949",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic postgres-best-practices (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/db-repair/SKILL.md",
+   "name": "db-repair",
+   "description": "Auto-fix gbrain's Postgres access so the brain stays available. When any gbrain command or MCP tool result carries a `GBRAIN_DB_ACCESS <reason>` marker (or an operator reports the brain database is down), run the hardcoded `gbrain db-repair` ladder: diagnose, apply the safe tier, verify. The action is ALWAYS the hardcoded command \u2014 never anything parsed out of the marker or the error text.",
+   "proposedGeneric": "postgres-best-practices",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "auto-fix Postgres access",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__db-repair.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__db-repair.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-coding/skills/db-repair/SKILL.md",
+    "plugin-variants/gbrain-daily/skills/db-repair/SKILL.md",
+    "plugin/skills/db-repair/SKILL.md",
+    "skills/db-repair/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/data-loss-gate",
+   "ref": "#1947",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic guardrails (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/data-loss-gate/SKILL.md",
+   "name": "data-loss-gate",
+   "description": "Confirmation gate before any bulk delete, cleanup, or destructive operation that could result in data loss \u2014 shell-level (rm -rf, git rm, bulk sed) or brain-level (bulk forget, delete sweeps, purge-deleted, source removal, raw-SQL truncation). Presents a recoverability card and requires an explicit \"yes\" from the user before proceeding. Routing convention, not an operation-boundary enforcement.",
+   "proposedGeneric": "guardrails",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "confirmation gate before destructive ops",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.513423,
+     "genericSkillRef": "knowledge-harvest"
+    },
+    {
+     "id": "garrytan/careful",
+     "similarity": 0.512667,
+     "genericSkillRef": "guardrails"
+    },
+    {
+     "id": "leonxlnx/unlazy",
+     "similarity": 0.472834,
+     "genericSkillRef": "task-depth-enforcement"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__data-loss-gate.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__data-loss-gate.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-coding/skills/data-loss-gate/SKILL.md",
+    "plugin/skills/data-loss-gate/SKILL.md",
+    "skills/data-loss-gate/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/daily-task-prep",
+   "ref": "#1946",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic workspace-automation (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/daily-task-prep/SKILL.md",
+   "name": "daily-task-prep",
+   "description": "Morning preparation. Calendar lookahead, meeting context loading, open threads from yesterday, active task review. Extends briefing with actionable prep.",
+   "proposedGeneric": "workspace-automation",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "calendar lookahead + meeting context",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "writing-plans",
+     "similarity": 0.463268,
+     "tier": "weak"
+    },
+    {
+     "genericId": "executing-plans",
+     "similarity": 0.452666,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "aplaceforallmystuff/log-to-daily",
+     "similarity": 0.561948,
+     "genericSkillRef": "session-journaling"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__daily-task-prep.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__daily-task-prep.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-daily/skills/daily-task-prep/SKILL.md",
+    "plugin/skills/daily-task-prep/SKILL.md",
+    "skills/daily-task-prep/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/daily-task-manager",
+   "ref": "#1945",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic project-management (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/daily-task-manager/SKILL.md",
+   "name": "daily-task-manager",
+   "description": "Task lifecycle management with stable task IDs. Add, complete, defer, remove, and review tasks with deterministic action routing and fail-closed ambiguity handling. Maintains a running task list as a brain page.",
+   "proposedGeneric": "project-management",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "task lifecycle with stable IDs",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "parallel-execution",
+     "similarity": 0.498407,
+     "tier": "weak"
+    },
+    {
+     "genericId": "plan-and-execute",
+     "similarity": 0.47956,
+     "tier": "weak"
+    },
+    {
+     "genericId": "memory-manage",
+     "similarity": 0.479236,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "hikari9/auto-office",
+     "similarity": 0.493203,
+     "genericSkillRef": "autonomous-engineering-platform"
+    },
+    {
+     "id": "aplaceforallmystuff/log-to-daily",
+     "similarity": 0.487153,
+     "genericSkillRef": "session-journaling"
+    },
+    {
+     "id": "yylo-dev/ledger-tasks-yylo",
+     "similarity": 0.463449,
+     "genericSkillRef": "project-management"
+    },
+    {
+     "id": "addy-osmani/planning-and-task-breakdown",
+     "similarity": 0.462831,
+     "genericSkillRef": "vertical-slice-planning"
+    },
+    {
+     "id": "intelligentcode-ai/parallel-execution",
+     "similarity": 0.459414,
+     "genericSkillRef": "parallel-execution"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__daily-task-manager.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__daily-task-manager.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-daily/skills/daily-task-manager/SKILL.md",
+    "plugin/skills/daily-task-manager/SKILL.md",
+    "skills/daily-task-manager/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/cross-modal-review",
+   "ref": "#1944",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic adversarial-review (high confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cross-modal-review/SKILL.md",
+   "name": "cross-modal-review",
+   "description": "Quality gate via second model. Spawn a different AI model to review work before committing. Includes refusal routing: if one model refuses, switch silently to the next. Extended in v0.25.1 with structured review-mode gating (when to invoke vs not) and a Codex code-review handoff for the diff-review case.",
+   "proposedGeneric": "adversarial-review",
+   "proposedGenericConfidence": "high",
+   "proposedGenericNote": "second-model quality gate",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "auto-review",
+     "similarity": 0.571518,
+     "tier": "weak"
+    },
+    {
+     "genericId": "requesting-code-review",
+     "similarity": 0.499222,
+     "tier": "weak"
+    },
+    {
+     "genericId": "adversarial-review",
+     "similarity": 0.498633,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "disler/auto-review",
+     "similarity": 0.571518,
+     "genericSkillRef": "auto-review"
+    },
+    {
+     "id": "mattpocock/code-review",
+     "similarity": 0.52448,
+     "genericSkillRef": "requesting-code-review"
+    },
+    {
+     "id": "obra/requesting-code-review",
+     "similarity": 0.51337,
+     "genericSkillRef": "requesting-code-review"
+    },
+    {
+     "id": "mbtiongson1/gaia-curation-review",
+     "similarity": 0.45552,
+     "genericSkillRef": "registry-entry-audit"
+    },
+    {
+     "id": "garrytan/review",
+     "similarity": 0.45125,
+     "genericSkillRef": "code-review-pipeline"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__cross-modal-review.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__cross-modal-review.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/cross-modal-review/SKILL.md",
+    "skills/cross-modal-review/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/cron-scheduler",
+   "ref": "#1943",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic workflow-automation (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cron-scheduler/SKILL.md",
+   "name": "cron-scheduler",
+   "description": "Schedule management with staggering, quiet hours, and wake-up override. Validates schedules, prevents collisions, and gates delivery during quiet hours.",
+   "proposedGeneric": "workflow-automation",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "schedule management",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [
+    {
+     "id": "ruvnet/hooks-automation",
+     "similarity": 0.456232,
+     "genericSkillRef": "workflow-automation"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__cron-scheduler.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__cron-scheduler.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/cron-scheduler/SKILL.md",
+    "skills/cron-scheduler/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/correction-pipeline",
+   "ref": "#1942",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "needs-info",
+   "reason": "Source verified live and licensed (MIT), prefill+assessment receipts produced, but no defensible generic mapping (root-cause of user corrections; no defensible generic). L4 must choose topology: NEW_GENERIC, confirm a weak parent, or decline.",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/correction-pipeline/SKILL.md",
+   "name": "correction-pipeline",
+   "description": "When the user corrects a factual error, root-cause it immediately. Don't just note the correction \u2014 trace the error to its source, fix the source, and prevent recurrence. Every factual error is either a data error (bad brain page, bad memory file, bad rendered SOUL/USER identity, bad facts row) or a hallucination (LLM confabulated from partial signals).",
+   "proposedGeneric": null,
+   "proposedGenericConfidence": "low",
+   "proposedGenericNote": "root-cause of user corrections; no defensible generic",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "error-interpretation",
+     "similarity": 0.527474,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "obra/systematic-debugging",
+     "similarity": 0.505935,
+     "genericSkillRef": "systematic-debugging"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__correction-pipeline.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__correction-pipeline.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-coding/skills/correction-pipeline/SKILL.md",
+    "plugin/skills/correction-pipeline/SKILL.md",
+    "skills/correction-pipeline/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/company-brainify",
+   "ref": "#1939",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic knowledge-management (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/company-brainify/SKILL.md",
+   "name": "company-brainify",
+   "description": "Extract a sanitized shared team/company brain from a personal brain. Strips internal ratings, compensation, performance assessments, retention and political dynamics from pages, takes, and facts across the full scan scope (people, companies, meetings, dailies, cross-references \u2014 not just people/), verifies with grep + retrieval passes, and purges sensitive git history behind the data-loss-gate con",
+   "proposedGeneric": "knowledge-management",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "sanitized shared brain extraction",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.587282,
+     "genericSkillRef": "knowledge-management"
+    },
+    {
+     "id": "garrytan/capture",
+     "similarity": 0.498857,
+     "genericSkillRef": "personal-knowledge-management"
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.486431,
+     "genericSkillRef": "knowledge-harvest"
+    },
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.459749,
+     "genericSkillRef": "knowledge-harvest"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__company-brainify.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__company-brainify.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/company-brainify/SKILL.md",
+    "skills/company-brainify/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/cold-start",
+   "ref": "#1938",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic knowledge-harvest (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/cold-start/SKILL.md",
+   "name": "cold-start",
+   "description": "Day-one data bootstrapping for a new brain. Sequences the highest-leverage data sources to go from empty brain to useful brain in one session. Uses ClawVisor for safe credential handling \u2014 the agent never holds raw API keys. Covers Gmail import, calendar sync, contacts seeding, X/Twitter archive, conversation imports, and file archives. Use when a user has just finished gbrain setup and asks \"now ",
+   "proposedGeneric": "knowledge-harvest",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "day-one data bootstrapping",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/sync-gbrain",
+     "similarity": 0.516142,
+     "genericSkillRef": "knowledge-management"
+    },
+    {
+     "id": "garrytan/setup-gbrain",
+     "similarity": 0.514607,
+     "genericSkillRef": "knowledge-management"
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.492127,
+     "genericSkillRef": "knowledge-harvest"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__cold-start.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__cold-start.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/cold-start/SKILL.md",
+    "skills/cold-start/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/citation-fixer",
+   "ref": "#1936",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic cite-sources (high confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/citation-fixer/SKILL.md",
+   "name": "citation-fixer",
+   "description": "Audit and fix citation formatting across brain pages. Ensures every fact has an inline [Source: ...] citation matching the standard format. Extended in v0.25.1: scans for broken tweet/post references that lack actual URLs and resolves them via the host's X / Twitter API integration.",
+   "proposedGeneric": "cite-sources",
+   "proposedGenericConfidence": "high",
+   "proposedGenericNote": "inline citation formatting audit",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "cite-sources",
+     "similarity": 0.566994,
+     "tier": "weak"
+    },
+    {
+     "genericId": "x-twitter-automation",
+     "similarity": 0.484507,
+     "tier": "weak"
+    },
+    {
+     "genericId": "research",
+     "similarity": 0.482286,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/academic-verify",
+     "similarity": 0.494825,
+     "genericSkillRef": "grounding"
+    },
+    {
+     "id": "garrytan/citation-graph-ingest",
+     "similarity": 0.483232,
+     "genericSkillRef": "knowledge-graph-build"
+    },
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.481281,
+     "genericSkillRef": "knowledge-harvest"
+    },
+    {
+     "id": "xquik-dev/hermes-tweet",
+     "similarity": 0.455393,
+     "genericSkillRef": "x-twitter-automation"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__citation-fixer.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__citation-fixer.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/citation-fixer/SKILL.md",
+    "skills/citation-fixer/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/chat-connectors",
+   "ref": "#1935",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic personal-knowledge-management (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/chat-connectors/SKILL.md",
+   "name": "chat-connectors",
+   "description": "Connect a ChatGPT or Claude account and sync its conversation history into the brain automatically. Cookie paste-in is the primary lane; sync is incremental (watermark + trailing-window gap-heal), and can run on a schedule via autopilot or host cron. Distinct from the export-file lane (that lives in conversation-archive) \u2014 this is the LIVE, account-connected, auto-scraping path.",
+   "proposedGeneric": "personal-knowledge-management",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "sibling conversation-archive maps here",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "session-journaling",
+     "similarity": 0.460194,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/conversation-archive",
+     "similarity": 0.608491,
+     "genericSkillRef": "personal-knowledge-management"
+    },
+    {
+     "id": "aplaceforallmystuff/log-to-daily",
+     "similarity": 0.528958,
+     "genericSkillRef": "session-journaling"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__chat-connectors.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__chat-connectors.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/chat-connectors/SKILL.md",
+    "skills/chat-connectors/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/briefing",
+   "ref": "#1933",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic write-report (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/briefing/SKILL.md",
+   "name": "briefing",
+   "description": "Compile daily briefing with meeting context, active deals, and citation tracking",
+   "proposedGeneric": "write-report",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "daily briefing compile",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "research",
+     "similarity": 0.522093,
+     "tier": "weak"
+    },
+    {
+     "genericId": "document-analyst",
+     "similarity": 0.487277,
+     "tier": "weak"
+    },
+    {
+     "genericId": "write-report",
+     "similarity": 0.465193,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "aplaceforallmystuff/log-to-daily",
+     "similarity": 0.567163,
+     "genericSkillRef": "session-journaling"
+    },
+    {
+     "id": "mattpocock/grill-with-docs",
+     "similarity": 0.480218,
+     "genericSkillRef": "grill-with-docs"
+    },
+    {
+     "id": "garrytan/meeting-ingestion",
+     "similarity": 0.475561,
+     "genericSkillRef": "personal-knowledge-management"
+    },
+    {
+     "id": "garrytan/retro",
+     "similarity": 0.475135,
+     "genericSkillRef": "write-report"
+    },
+    {
+     "id": "garrytan/research-compendium",
+     "similarity": 0.452638,
+     "genericSkillRef": "research"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__briefing.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__briefing.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-daily/skills/briefing/SKILL.md",
+    "plugin/skills/briefing/SKILL.md",
+    "skills/briefing/SKILL.md",
+    "test/fixtures/openclaw-mixed-merge/skills/briefing/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/brain-taxonomist",
+   "ref": "#1932",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic knowledge-management (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-taxonomist/SKILL.md",
+   "name": "brain-taxonomist",
+   "description": "Filing gate for ALL brain writes. Consulted before creating any new brain page to determine the correct path. Reads the ACTIVE schema pack via `gbrain schema show --json` \u2014 no hardcoded directory table. Also runs periodic taxonomy drift detection via `gbrain schema review-orphans`.",
+   "proposedGeneric": "knowledge-management",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "filing gate",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.584272,
+     "genericSkillRef": "knowledge-management"
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.471313,
+     "genericSkillRef": "knowledge-harvest"
+    },
+    {
+     "id": "garrytan/idea-lineage",
+     "similarity": 0.469117,
+     "genericSkillRef": "concept-synthesis"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__brain-taxonomist.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__brain-taxonomist.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/brain-taxonomist/SKILL.md",
+    "skills/brain-taxonomist/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/brain-pdf",
+   "ref": "#1931",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "needs-info",
+   "reason": "Source verified live and licensed (MIT), prefill+assessment receipts produced, but no defensible generic mapping (PDF render of a page; weak). L4 must choose topology: NEW_GENERIC, confirm a weak parent, or decline.",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-pdf/SKILL.md",
+   "name": "brain-pdf",
+   "description": "Generate a publication-quality PDF from any brain page via the gstack make-pdf binary. Strips YAML frontmatter, sanitizes emoji, applies running headers and page numbers. Brain page is always the source of truth; PDF is a rendering.",
+   "proposedGeneric": "format-output",
+   "proposedGenericConfidence": "low",
+   "proposedGenericNote": "PDF render of a page; weak",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "parse-pdf",
+     "similarity": 0.460764,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/make-pdf",
+     "similarity": 0.534898,
+     "genericSkillRef": "format-output"
+    },
+    {
+     "id": "garrytan/book-mirror",
+     "similarity": 0.491202,
+     "genericSkillRef": "document-analyst"
+    },
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.476731,
+     "genericSkillRef": "knowledge-management"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__brain-pdf.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__brain-pdf.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/brain-pdf/SKILL.md",
+    "skills/brain-pdf/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/brain-link-discipline",
+   "ref": "#1930",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic knowledge-management (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-link-discipline/SKILL.md",
+   "name": "brain-link-discipline",
+   "description": "When you report a brain page to the user \u2014 created, edited, committed, or relayed from a subagent \u2014 a working link is part of the deliverable, in the SAME message. Derive the path mechanically (git ls-files --full-name), push BEFORE linking, verify the link resolves when a hosted remote exists, and degrade through a defined fallback chain when it doesn't. Inside brain pages the rule inverts: relat",
+   "proposedGeneric": "knowledge-management",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "link discipline gate",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.503472,
+     "genericSkillRef": "knowledge-management"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__brain-link-discipline.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__brain-link-discipline.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-coding/skills/brain-link-discipline/SKILL.md",
+    "plugin/skills/brain-link-discipline/SKILL.md",
+    "skills/brain-link-discipline/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/brain-ingest-gate",
+   "ref": "#1929",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic knowledge-management (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-ingest-gate/SKILL.md",
+   "name": "brain-ingest-gate",
+   "description": "Pre-write quality gate for content entering the brain. No raw copies: a bare cp/mv into the brain repo is a bug. Before any new page lands, resolve named entities registry-first (a vector score is a floor for prose, never a gate for named things), then run the read-the-top-hit dedup decision tree (clear-dup / plausible-dup / clear). Owns dedup; delegates enrichment to the shipped ingestion skills.",
+   "proposedGeneric": "knowledge-management",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "pre-write quality gate",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.607819,
+     "genericSkillRef": "knowledge-management"
+    },
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.60188,
+     "genericSkillRef": "knowledge-harvest"
+    },
+    {
+     "id": "garrytan/meeting-ingestion",
+     "similarity": 0.534517,
+     "genericSkillRef": "personal-knowledge-management"
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.499415,
+     "genericSkillRef": "knowledge-harvest"
+    },
+    {
+     "id": "garrytan/capture",
+     "similarity": 0.47688,
+     "genericSkillRef": "personal-knowledge-management"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__brain-ingest-gate.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__brain-ingest-gate.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin-variants/gbrain-coding/skills/brain-ingest-gate/SKILL.md",
+    "plugin/skills/brain-ingest-gate/SKILL.md",
+    "skills/brain-ingest-gate/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/ask-user",
+   "ref": "#1926",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic questionnaire-generation (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/ask-user/SKILL.md",
+   "name": "ask-user",
+   "description": "Reusable pattern for presenting the user with explicit choices and gating execution until they respond. Used by other skills when a decision point requires human input before proceeding. Platform-agnostic \u2014 works on Telegram (inline buttons), Discord, CLI, or any agent with a message tool.",
+   "proposedGeneric": "questionnaire-generation",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "present explicit choices and gate execution",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__ask-user.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__ask-user.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/ask-user/SKILL.md",
+    "skills/ask-user/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "garrytan/article-enrichment",
+   "ref": "#1925",
+   "kind": "intake-issue",
+   "group": "upstream-child:garrytan",
+   "disposition": "ready-for-L4",
+   "reason": "Source SKILL.md verified live at tag-pinned blob (v0.60.474.0); license MIT; exact-dedupe clear; proposed generic document-analyst (medium confidence, reviewer judgment; prefill top: see prefillMapping).",
+   "source": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/article-enrichment/SKILL.md",
+   "name": "article-enrichment",
+   "description": "Transform raw article text dumps in the brain into structured pages with executive summary, verbatim quotes, key insights, why-it-matters, and cross-references. Replaces walls-of-text with quotable, actionable brain pages.",
+   "proposedGeneric": "document-analyst",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "structured page from article dump; sibling strategic-reading maps here",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "write-report",
+     "similarity": 0.530781,
+     "tier": "weak"
+    },
+    {
+     "genericId": "summarize",
+     "similarity": 0.495201,
+     "tier": "weak"
+    },
+    {
+     "genericId": "rag-pipeline",
+     "similarity": 0.487796,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.634431,
+     "genericSkillRef": "knowledge-harvest"
+    },
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.584008,
+     "genericSkillRef": "knowledge-management"
+    },
+    {
+     "id": "garrytan/book-mirror",
+     "similarity": 0.558139,
+     "genericSkillRef": "document-analyst"
+    },
+    {
+     "id": "garrytan/research-compendium",
+     "similarity": 0.547312,
+     "genericSkillRef": "research"
+    },
+    {
+     "id": "garrytan/capture",
+     "similarity": 0.517151,
+     "genericSkillRef": "personal-knowledge-management"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__article-enrichment.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/garrytan__article-enrichment.assessment.json"
+   },
+   "upstreamPaths": [
+    "plugin/skills/article-enrichment/SKILL.md",
+    "skills/article-enrichment/SKILL.md"
+   ],
+   "license": "MIT",
+   "repoStars": 31276,
+   "umbrellaTag": "v0.60.474.0"
+  },
+  {
+   "skill": "arcmira/find-quotes",
+   "ref": "#2081",
+   "kind": "intake-issue",
+   "group": "direct-intake",
+   "disposition": "ready-for-L4",
+   "reason": "Source resolves at v0.10.6; Apache-2.0 plugin LICENSE verified; adjacent-node distinction stated by submitter. Caveat for L4: execution needs an authenticated paid Arcmira service (hosted service not covered by plugin license); no accuracy benchmark; repo has 76 stars. Issue says evidence grade B proposed; grade is the appraiser's call.",
+   "source": "https://github.com/arcmira/mcp/blob/v0.10.6/plugins/arcmira/skills/find-quotes/SKILL.md",
+   "name": "find-quotes",
+   "description": "Finds exact spoken quotes and clip-ready moments on podcasts and YouTube: verbatim words, speaker, date, a timestamped link, clip start and end. Uses arcmira.",
+   "proposedGeneric": "retrieve",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "issue notes adjacent web-search/research/speech-to-text/video-captions; this is retrieval + citation of existing transcripts",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "speech-to-text",
+     "similarity": 0.458119,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "heygen-com/talking-head-recut",
+     "similarity": 0.567139,
+     "genericSkillRef": "video-composition"
+    },
+    {
+     "id": "heygen-com/embedded-captions",
+     "similarity": 0.485128,
+     "genericSkillRef": "video-captions"
+    },
+    {
+     "id": "garrytan/conversation-archive",
+     "similarity": 0.467781,
+     "genericSkillRef": "personal-knowledge-management"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/arcmira__find-quotes.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/arcmira__find-quotes.assessment.json"
+   },
+   "license": "Apache-2.0 (plugin-scoped LICENSE at plugins/arcmira/LICENSE; repo root NOASSERTION)",
+   "repoStars": 76
+  },
+  {
+   "skill": "theqtcompanyrnd/qt-qml-review",
+   "ref": "#2082",
+   "kind": "intake-issue",
+   "group": "direct-intake",
+   "disposition": "ready-for-L4",
+   "reason": "Official Qt skill; SKILL.md live on main; dual license LicenseRef-Qt-Commercial OR BSD-3-Clause; mapping to code-review-pipeline as a Qt-specific named implementation. Issue cites 648 installs / 423 stars on 2026-10-13 (repo now 509 stars); adoption only, no independent efficacy evidence.",
+   "source": "https://github.com/TheQtCompanyRnD/agent-skills/blob/main/skills/qt-qml-review/SKILL.md",
+   "name": "qt-qml-review",
+   "description": "Invoke when the user asks to review, check, audit, or look over Qt6 QML code -- or suggest before committing. Runs deterministic linting (48+ rules) then deep-analysis agents (scaled to the size of the change) covering bindings, layout, loaders, delegates, states, and performance. Optionally invokes system qmllint for type-level checks. Reports only high-confidence issues (>80/100) with structured mitigations. Read-only -- never modifies code.",
+   "proposedGeneric": "code-review-pipeline",
+   "proposedGenericConfidence": "high",
+   "proposedGenericNote": "Qt-specific named implementation of code review",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "code-review-pipeline",
+     "similarity": 0.461871,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "ruvnet/agentic-jujutsu",
+     "similarity": 0.461061,
+     "genericSkillRef": "git-diff-risk-analysis"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/theqtcompanyrnd__qt-qml-review.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/theqtcompanyrnd__qt-qml-review.assessment.json"
+   },
+   "license": "SKILL.md: LicenseRef-Qt-Commercial OR BSD-3-Clause (repo NOASSERTION)",
+   "repoStars": 509,
+   "l4Flags": [
+    "license: GitHub repo NOASSERTION; SKILL.md declares LicenseRef-Qt-Commercial OR BSD-3-Clause; L4 to confirm the BSD-3-Clause option is acceptable for registry/installer use"
+   ]
+  },
+  {
+   "skill": "cathrynlavery/diagram-design",
+   "ref": "#2083",
+   "kind": "intake-issue",
+   "group": "direct-intake",
+   "disposition": "ready-for-L4",
+   "reason": "MIT; SKILL.md live on main; strongest adoption signal of the direct intakes (repo 61.7k stars now, issue said 51.8k on 2026-10-13; installs 10.7k per skills.sh, not re-verified). Submitter prefers dedup into an existing diagram generic: propose architecture-diagram (alt collaborative-diagramming) rather than a new generic.",
+   "source": "https://github.com/cathrynlavery/diagram-design/blob/main/skills/diagram-design/SKILL.md",
+   "name": "diagram-design",
+   "description": "Create branded architecture, architecture delta, IT current-state, flowchart, sequence, state machine, ER/data model, timeline, swimlane, quadrant, radar/spider, polar chart (polar/radial lollipop), loop/flywheel, nested, tree, org chart, layer stack, exploded axonometric, axonometric plan, Venn, pyramid/funnel, treemap and marimekko, heatmap, bar and dumbbell, waterfall, line (slopegraph, ridgeline, streamgraph, bump), Gantt and scatter charts (bubble, beeswarm, box plot), high-level, process, ",
+   "proposedGeneric": "architecture-diagram",
+   "proposedGenericConfidence": "high",
+   "proposedGenericNote": "alt: collaborative-diagramming; submitter prefers dedup into an existing diagram generic",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "collaborative-diagramming",
+     "similarity": 0.605368,
+     "tier": "weak"
+    },
+    {
+     "genericId": "architecture-diagram",
+     "similarity": 0.597195,
+     "tier": "weak"
+    },
+    {
+     "genericId": "data-visualize",
+     "similarity": 0.518535,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/cathrynlavery__diagram-design.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/cathrynlavery__diagram-design.assessment.json"
+   },
+   "license": "MIT",
+   "repoStars": 61758
+  },
+  {
+   "skill": "cis2042/product-design-harness",
+   "ref": "#2137",
+   "kind": "intake-issue",
+   "group": "direct-intake",
+   "disposition": "needs-info",
+   "reason": "MIT, immutable commit 7f9f724 resolves, 91 files. Repo has 19 stars and no independent adoption evidence; submitter explicitly defers placement and says it may overlap design-review. Needs a topology decision (map to design-review, or NEW_GENERIC with a falsifiable distinction) before L4. Note the named links_github uses blob/main while evidence pins the commit.",
+   "source": "https://github.com/cis2042/ux3-product-design-harness/blob/7f9f724c5e31813d1c35767f9f454fe9a1e96891/skills/product-design-harness/SKILL.md",
+   "name": "product-design-harness",
+   "description": "Use when a product direction, feature, workflow, experiment, launch, feedback signal, automation, or scale decision needs judgment before execution or the next iteration.",
+   "proposedGeneric": "design-review",
+   "proposedGenericConfidence": "low",
+   "proposedGenericNote": "submitter defers placement; claims distinct from design-review; topology unresolved",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "plan-and-execute",
+     "similarity": 0.475841,
+     "tier": "weak"
+    },
+    {
+     "genericId": "design-generation",
+     "similarity": 0.467955,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/design-review",
+     "similarity": 0.489813,
+     "genericSkillRef": "ui-audit"
+    },
+    {
+     "id": "garrytan/design-shotgun",
+     "similarity": 0.459846,
+     "genericSkillRef": "design-review"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/cis2042__product-design-harness.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/cis2042__product-design-harness.assessment.json"
+   },
+   "license": "MIT",
+   "repoStars": 19
+  },
+  {
+   "skill": "yylo-dev/plan-ledger-tasks-yylo",
+   "ref": "#1832",
+   "kind": "intake-issue",
+   "group": "direct-intake",
+   "disposition": "ready-for-L4",
+   "reason": "MIT; SKILL.md live; same pack as accepted ledger-tasks-yylo (project-management, 2 star); target generic exists, no new generic. Evidence thin (yylo-skills repo 1 star); issue itself accepts the appraiser verdict at the 2-star floor.",
+   "source": "https://github.com/yylo-dev/yylo-skills/blob/main/skills/plan-ledger-tasks-yylo/SKILL.md",
+   "name": "plan-ledger-tasks-yylo",
+   "description": "Create a concise Product Development Requirement and one or more implementation-sized YYLO Ledger tasks when the user explicitly asks to plan or register work.",
+   "proposedGeneric": "project-management",
+   "proposedGenericConfidence": "high",
+   "proposedGenericNote": "sibling yylo-dev/ledger-tasks-yylo is named on project-management; alt writing-plans",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "writing-plans",
+     "similarity": 0.527198,
+     "tier": "weak"
+    },
+    {
+     "genericId": "executing-plans",
+     "similarity": 0.496384,
+     "tier": "weak"
+    },
+    {
+     "genericId": "plan-and-execute",
+     "similarity": 0.472918,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "yylo-dev/ledger-tasks-yylo",
+     "similarity": 0.77363,
+     "genericSkillRef": "project-management"
+    },
+    {
+     "id": "obra/writing-plans",
+     "similarity": 0.512211,
+     "genericSkillRef": "writing-plans"
+    },
+    {
+     "id": "obra/executing-plans",
+     "similarity": 0.473995,
+     "genericSkillRef": "executing-plans"
+    },
+    {
+     "id": "addy-osmani/planning-and-task-breakdown",
+     "similarity": 0.465668,
+     "genericSkillRef": "vertical-slice-planning"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/yylo-dev__plan-ledger-tasks-yylo.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/yylo-dev__plan-ledger-tasks-yylo.assessment.json"
+   },
+   "license": "MIT",
+   "repoStars": 1
+  },
+  {
+   "skill": "jpoutrin/create-plugin",
+   "ref": "#1541",
+   "kind": "intake-issue",
+   "group": "direct-intake",
+   "disposition": "ready-for-L4",
+   "reason": "Parked 2026-08-13 pending prefill; prefill now run (embeddings refreshed). MIT, SKILL.md live on main; nearest generic skill-authoring (plugin scaffolding), medium confidence. Repo has 16 stars; last push 2026-03-01.",
+   "source": "https://github.com/jpoutrin/product-forge/blob/main/plugins/claude-code-dev/skills/create-plugin/SKILL.md",
+   "name": "create-plugin",
+   "description": "Create a new Claude Code plugin with proper directory structure and manifest. Use when the user wants to create a new plugin from scratch. Sets up plugin.json, directory structure, and optional components.",
+   "proposedGeneric": "skill-authoring",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "plugin scaffolding; alt agent-environment-setup",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/jpoutrin__create-plugin.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/jpoutrin__create-plugin.assessment.json"
+   },
+   "license": "MIT",
+   "repoStars": 16
+  },
+  {
+   "skill": "zhaoxuya520/reverse-skill",
+   "ref": "#814",
+   "kind": "intake-issue",
+   "group": "direct-intake",
+   "disposition": "needs-info",
+   "reason": "Suite-level intake (router + ~15 sub-skills) with no component-level evidence after 4 months (maintainer comment 2026-06-24: cannot find individual skill evidence; 2026-07-08: needs new grading under TM Q2). Repo is MIT, 43.5k stars now vs 4.6k on 2026-06-24 (anomalous growth; star counts need verification before use). Content includes offensive-security chains (edr-bypass-re, pwn-chain, patch-diff-exploit): L4 needs a dual-use/content policy view before any admission. Next: gaia-suite-intake component evidence, then decide.",
+   "receipts": {
+    "prefill": null,
+    "assessment": null
+   },
+   "license": "MIT",
+   "repoStars": 43567
+  },
+  {
+   "skill": "(7 parked drafts)",
+   "ref": "#565",
+   "kind": "intake-issue",
+   "group": "direct-intake",
+   "disposition": "needs-info",
+   "reason": "Parking-lot issue (not a single skill). Of the 7 proposed named ids, k-dense-ai/pymc already exists in the registry (named); the other 6 (anthropics/creating-financial-models, kishorkukreja/inventory-optimization, omer-metin/synthetic-data, aj-geddes/causal-inference, dralgorhythm/compliance, majiayu000/edge-model-compression) have no named file. Issue itself says re-grade under the current TM engine before any promotion; star ranges there are origin basis only. No admission is proposed from this lane.",
+   "receipts": {
+    "prefill": null,
+    "assessment": null
+   }
+  },
+  {
+   "skill": "emilkowalski/animate",
+   "ref": "evidence-candidate",
+   "kind": "evidence-candidate",
+   "group": "emilkowalski",
+   "disposition": "ready-for-L4",
+   "reason": "Source blob (commit 2d22863, 12/12 URLs 200 per candidate_source_validation_2026_10_14) re-verified live; repo MIT, 50.7k stars; exact-dedupe clear; proposed generic timeline-animation (medium confidence, reviewer judgment). Existing evidence: 1 social-signal row (AISeeKing video, 8,026 views; exposure/invocation only, not efficacy).",
+   "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate/SKILL.md",
+   "name": "animate",
+   "description": "Build an animation from scratch, making the decisions in the order that determines whether it feels right \u2014 should it animate at all, what purpose, which tool, which properties, which curve and duration, how it interrupts, how it exits. Writes the implementation. Use when asked to animate something, add motion, make a component feel alive, or build a transition. For critiquing existing motion use review-animations; for auditing a whole codebase use improve-animations.",
+   "proposedGeneric": "timeline-animation",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "map-animation",
+     "similarity": 0.517686,
+     "tier": "weak"
+    },
+    {
+     "genericId": "timeline-animation",
+     "similarity": 0.494805,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "heygen-com/hyperframes-creative",
+     "similarity": 0.504035,
+     "genericSkillRef": "creative-direction"
+    },
+    {
+     "id": "heygen-com/hyperframes-animation",
+     "similarity": 0.498873,
+     "genericSkillRef": "timeline-animation"
+    },
+    {
+     "id": "heygen-com/motion-graphics",
+     "similarity": 0.487938,
+     "genericSkillRef": "timeline-animation"
+    },
+    {
+     "id": "heygen-com/hyperframes-keyframes",
+     "similarity": 0.459426,
+     "genericSkillRef": "timeline-animation"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__animate.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__animate.assessment.json"
+   },
+   "license": "MIT",
+   "repoStars": 50673,
+   "existingEvidence": [
+    {
+     "type": "social-signal",
+     "source": "https://www.youtube.com/watch?v=huWl2J4A6FE",
+     "date": "2026-09-02",
+     "views": 8026
+    }
+   ]
+  },
+  {
+   "skill": "emilkowalski/animate-expo",
+   "ref": "evidence-candidate",
+   "kind": "evidence-candidate",
+   "group": "emilkowalski",
+   "disposition": "ready-for-L4",
+   "reason": "Source blob (commit 2d22863, 12/12 URLs 200 per candidate_source_validation_2026_10_14) re-verified live; repo MIT, 50.7k stars; exact-dedupe clear; proposed generic timeline-animation (medium confidence, reviewer judgment). Existing evidence: none; ev-scout needed for evidence beyond repo-own.",
+   "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate-expo/SKILL.md",
+   "name": "animate-expo",
+   "description": "Build animations in React Native and Expo, making the decisions in the order that determines whether they feel right \u2014 should it animate, which thread it runs on, which properties, spring or timing, how the gesture hands off, how it degrades. Writes the implementation with Reanimated, Gesture Handler, Expo Router and expo-haptics. Use when animating anything in an Expo app, adding gestures, sheets, screen transitions, press feedback or haptics, or fixing motion that stutters on device. For web a",
+   "proposedGeneric": "timeline-animation",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "React Native / Expo",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__animate-expo.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__animate-expo.assessment.json"
+   },
+   "license": "MIT",
+   "repoStars": 50673,
+   "existingEvidence": []
+  },
+  {
+   "skill": "emilkowalski/animation-performance",
+   "ref": "evidence-candidate",
+   "kind": "evidence-candidate",
+   "group": "emilkowalski",
+   "disposition": "ready-for-L4",
+   "reason": "Source blob (commit 2d22863, 12/12 URLs 200 per candidate_source_validation_2026_10_14) re-verified live; repo MIT, 50.7k stars; exact-dedupe clear; proposed generic performance-tuning (medium confidence, reviewer judgment). Existing evidence: none; ev-scout needed for evidence beyond repo-own.",
+   "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animation-performance/SKILL.md",
+   "name": "animation-performance",
+   "description": "Keep web animations inside the frame budget \u2014 animate composite-only properties, keep motion off the main thread when the page is busy, and find the cause when an animation drops frames. Covers the layout/paint/composite pipeline, cheaper property swaps, CSS vs WAAPI vs requestAnimationFrame, Framer Motion's hardware-accelerated path, React re-rendering per frame, inherited CSS variable recalculation, blur cost, and when `will-change` actually helps. Use when an animation is janky, choppy, stutt",
+   "proposedGeneric": "performance-tuning",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "scroll-driven-web-design",
+     "similarity": 0.507306,
+     "tier": "weak"
+    },
+    {
+     "genericId": "timeline-animation",
+     "similarity": 0.504527,
+     "tier": "weak"
+    },
+    {
+     "genericId": "map-animation",
+     "similarity": 0.479087,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "heygen-com/hyperframes-keyframes",
+     "similarity": 0.55184,
+     "genericSkillRef": "timeline-animation"
+    },
+    {
+     "id": "heygen-com/hyperframes-creative",
+     "similarity": 0.533766,
+     "genericSkillRef": "creative-direction"
+    },
+    {
+     "id": "heygen-com/hyperframes-animation",
+     "similarity": 0.526804,
+     "genericSkillRef": "timeline-animation"
+    },
+    {
+     "id": "heygen-com/motion-graphics",
+     "similarity": 0.51284,
+     "genericSkillRef": "timeline-animation"
+    },
+    {
+     "id": "heygen-com/hyperframes-core",
+     "similarity": 0.50956,
+     "genericSkillRef": "video-rendering"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__animation-performance.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__animation-performance.assessment.json"
+   },
+   "license": "MIT",
+   "repoStars": 50673,
+   "existingEvidence": []
+  },
+  {
+   "skill": "emilkowalski/apple-design",
+   "ref": "evidence-candidate",
+   "kind": "evidence-candidate",
+   "group": "emilkowalski",
+   "disposition": "ready-for-L4",
+   "reason": "Source blob (commit 2d22863, 12/12 URLs 200 per candidate_source_validation_2026_10_14) re-verified live; repo MIT, 50.7k stars; exact-dedupe clear; proposed generic design-generation (medium confidence, reviewer judgment). Existing evidence: none; ev-scout needed for evidence beyond repo-own.",
+   "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/apple-design/SKILL.md",
+   "name": "apple-design",
+   "description": "Apple's approach to interface design and fluid, physical motion, translated for the web. Use when building or reviewing gesture-driven UI, spring animations, drag/swipe/sheet interactions, momentum and interruptible transitions, translucent materials and depth, typography (optical sizing, tracking, leading), reduced-motion, or the design foundations (feedback, spatial consistency, restraint) behind Apple-style interfaces.",
+   "proposedGeneric": "design-generation",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "design-generation",
+     "similarity": 0.536636,
+     "tier": "weak"
+    },
+    {
+     "genericId": "ui-audit",
+     "similarity": 0.465997,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "nexu-io/open-design",
+     "similarity": 0.534449,
+     "genericSkillRef": "design-generation"
+    },
+    {
+     "id": "garrytan/design-review",
+     "similarity": 0.52937,
+     "genericSkillRef": "ui-audit"
+    },
+    {
+     "id": "nextlevelbuilder/ui-ux-pro-max",
+     "similarity": 0.512954,
+     "genericSkillRef": "ux-audit"
+    },
+    {
+     "id": "leonxlnx/imagegen-frontend-mobile",
+     "similarity": 0.50522,
+     "genericSkillRef": "image-generate"
+    },
+    {
+     "id": "garrytan/plan-design-review",
+     "similarity": 0.47535,
+     "genericSkillRef": "ux-audit"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__apple-design.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__apple-design.assessment.json"
+   },
+   "license": "MIT",
+   "repoStars": 50673,
+   "existingEvidence": []
+  },
+  {
+   "skill": "emilkowalski/break-ui",
+   "ref": "evidence-candidate",
+   "kind": "evidence-candidate",
+   "group": "emilkowalski",
+   "disposition": "ready-for-L4",
+   "reason": "Source blob (commit 2d22863, 12/12 URLs 200 per candidate_source_validation_2026_10_14) re-verified live; repo MIT, 50.7k stars; exact-dedupe clear; proposed generic ui-audit (medium confidence, reviewer judgment). Existing evidence: none; ev-scout needed for evidence beyond repo-own.",
+   "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/break-ui/SKILL.md",
+   "name": "break-ui",
+   "description": "Try to break a piece of UI by feeding it worst-case data \u2014 long names, unbreakable emails, one-letter names, missing fields, huge counts, zero items, long labels, non-Latin text, emoji, extreme numbers \u2014 then render it behind a \"Demo data / Worst case\" toggle and report everything that broke, with the fix for each. Use when the user asks to stress-test, break, or find edge cases in a component or screen, or to \"try the worst case\". For visual design critique use emil-design-eng; for motion use r",
+   "proposedGeneric": "ui-audit",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "worst-case data stress of UI",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__break-ui.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__break-ui.assessment.json"
+   },
+   "license": "MIT",
+   "repoStars": 50673,
+   "existingEvidence": []
+  },
+  {
+   "skill": "emilkowalski/emil-design-eng",
+   "ref": "evidence-candidate",
+   "kind": "evidence-candidate",
+   "group": "emilkowalski",
+   "disposition": "ready-for-L4",
+   "reason": "Source blob (commit 2d22863, 12/12 URLs 200 per candidate_source_validation_2026_10_14) re-verified live; repo MIT, 50.7k stars; exact-dedupe clear; proposed generic design-generation (medium confidence, reviewer judgment). Existing evidence: none; ev-scout needed for evidence beyond repo-own.",
+   "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/emil-design-eng/SKILL.md",
+   "name": "emil-design-eng",
+   "description": "This skill encodes Emil Kowalski's philosophy on UI polish, component design, animation decisions, and the invisible details that make software feel great.",
+   "proposedGeneric": "design-generation",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "sibling addy-osmani/frontend-ui-engineering maps here",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "design-generation",
+     "similarity": 0.462377,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/codex",
+     "similarity": 0.473535,
+     "genericSkillRef": "multi-agent-debate"
+    },
+    {
+     "id": "leonxlnx/minimalist-skill",
+     "similarity": 0.465599,
+     "genericSkillRef": "design-generation"
+    },
+    {
+     "id": "nexu-io/open-design",
+     "similarity": 0.458341,
+     "genericSkillRef": "design-generation"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__emil-design-eng.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__emil-design-eng.assessment.json"
+   },
+   "license": "MIT",
+   "repoStars": 50673,
+   "existingEvidence": []
+  },
+  {
+   "skill": "emilkowalski/find-animation-opportunities",
+   "ref": "evidence-candidate",
+   "kind": "evidence-candidate",
+   "group": "emilkowalski",
+   "disposition": "ready-for-L4",
+   "reason": "Source blob (commit 2d22863, 12/12 URLs 200 per candidate_source_validation_2026_10_14) re-verified live; repo MIT, 50.7k stars; exact-dedupe clear; proposed generic ui-audit (medium confidence, reviewer judgment). Existing evidence: none; ev-scout needed for evidence beyond repo-own.",
+   "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/find-animation-opportunities/SKILL.md",
+   "name": "find-animation-opportunities",
+   "description": "Search a codebase or UI for places that don't animate but should, and reject everything that shouldn't. Read-only; it proposes motion with exact values, it does not implement it. Use when the user asks \"what could be animated here?\" or wants to \"make this feel more alive\". For fixing existing animations, use improve-animations or review-animations instead.",
+   "proposedGeneric": "ui-audit",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [
+    {
+     "id": "heygen-com/motion-graphics",
+     "similarity": 0.453526,
+     "genericSkillRef": "timeline-animation"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__find-animation-opportunities.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__find-animation-opportunities.assessment.json"
+   },
+   "license": "MIT",
+   "repoStars": 50673,
+   "existingEvidence": []
+  },
+  {
+   "skill": "emilkowalski/improve-animations",
+   "ref": "evidence-candidate",
+   "kind": "evidence-candidate",
+   "group": "emilkowalski",
+   "disposition": "ready-for-L4",
+   "reason": "Source blob (commit 2d22863, 12/12 URLs 200 per candidate_source_validation_2026_10_14) re-verified live; repo MIT, 50.7k stars; exact-dedupe clear; proposed generic ui-audit (medium confidence, reviewer judgment). Existing evidence: none; ev-scout needed for evidence beyond repo-own.",
+   "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/improve-animations/SKILL.md",
+   "name": "improve-animations",
+   "description": "Survey a codebase's animation and motion code as a senior motion advisor, then produce a prioritized audit and self-contained implementation plans for other agents (or cheaper models) to execute. Read-only on source code \u2014 it plans improvements, it does not apply them. Use when the user asks to \"improve the animations\", \"audit the motion\", \"make this app feel better\", or wants a roadmap of animation fixes rather than a review of a single diff.",
+   "proposedGeneric": "ui-audit",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "prioritised motion audit",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "timeline-animation",
+     "similarity": 0.51956,
+     "tier": "weak"
+    },
+    {
+     "genericId": "video-interactivity",
+     "similarity": 0.486869,
+     "tier": "weak"
+    },
+    {
+     "genericId": "video-captions",
+     "similarity": 0.451606,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "heygen-com/motion-graphics",
+     "similarity": 0.511136,
+     "genericSkillRef": "timeline-animation"
+    },
+    {
+     "id": "heygen-com/pr-to-video",
+     "similarity": 0.491086,
+     "genericSkillRef": "video-composition"
+    },
+    {
+     "id": "heygen-com/hyperframes-animation",
+     "similarity": 0.481899,
+     "genericSkillRef": "timeline-animation"
+    },
+    {
+     "id": "heygen-com/hyperframes-creative",
+     "similarity": 0.471116,
+     "genericSkillRef": "creative-direction"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__improve-animations.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__improve-animations.assessment.json"
+   },
+   "license": "MIT",
+   "repoStars": 50673,
+   "existingEvidence": []
+  },
+  {
+   "skill": "emilkowalski/mobile-native",
+   "ref": "evidence-candidate",
+   "kind": "evidence-candidate",
+   "group": "emilkowalski",
+   "disposition": "ready-for-L4",
+   "reason": "Source blob (commit 2d22863, 12/12 URLs 200 per candidate_source_validation_2026_10_14) re-verified live; repo MIT, 50.7k stars; exact-dedupe clear; proposed generic web-best-practices (medium confidence, reviewer judgment). Existing evidence: none; ev-scout needed for evidence beyond repo-own.",
+   "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/mobile-native/SKILL.md",
+   "name": "mobile-native",
+   "description": "Make a web app feel native on a phone \u2014 the small CSS and meta-tag fixes that separate \"a website in a browser\" from something that feels installed. Covers sticky hover states, tap highlight flashes, the 100vh bug, inputs that zoom the page, laggy taps, pull-to-refresh hijacking scroll, content under the notch, long-press selecting button text, carousels that scroll the wrong way, mismatched status bars, and the rule that you test on real hardware. Use when a web app is being built for or review",
+   "proposedGeneric": "web-best-practices",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__mobile-native.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__mobile-native.assessment.json"
+   },
+   "license": "MIT",
+   "repoStars": 50673,
+   "existingEvidence": []
+  },
+  {
+   "skill": "emilkowalski/prototype",
+   "ref": "evidence-candidate",
+   "kind": "evidence-candidate",
+   "group": "emilkowalski",
+   "disposition": "ready-for-L4",
+   "reason": "Source blob (commit 2d22863, 12/12 URLs 200 per candidate_source_validation_2026_10_14) re-verified live; repo MIT, 50.7k stars; exact-dedupe clear; proposed generic prototype (high confidence, reviewer judgment). Existing evidence: 1 social-signal row (AISeeKing video, 8,026 views; exposure/invocation only, not efficacy).",
+   "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/prototype/SKILL.md",
+   "name": "prototype",
+   "description": "Build multiple genuinely different versions of a UI piece you describe, rendered behind a visual picker so you can flip through them live and promote the one that feels right. Only runs when explicitly invoked; it does not trigger on its own.",
+   "proposedGeneric": "prototype",
+   "proposedGenericConfidence": "high",
+   "proposedGenericNote": "generic prototype (throwaway prototypes) exists; multi-variant visual picker",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "prototype",
+     "similarity": 0.453188,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "garrytan/design-shotgun",
+     "similarity": 0.457216,
+     "genericSkillRef": "design-review"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__prototype.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__prototype.assessment.json"
+   },
+   "license": "MIT",
+   "repoStars": 50673,
+   "existingEvidence": [
+    {
+     "type": "social-signal",
+     "source": "https://www.youtube.com/watch?v=huWl2J4A6FE",
+     "date": "2026-09-02",
+     "views": 8026
+    }
+   ],
+   "basenameOverlap": "mattpocock/prototype",
+   "l4Flags": [
+    "basename overlap with mattpocock/prototype (distinct id/source; confirm not a duplicate capability)"
+   ]
+  },
+  {
+   "skill": "emilkowalski/review-animations",
+   "ref": "evidence-candidate",
+   "kind": "evidence-candidate",
+   "group": "emilkowalski",
+   "disposition": "ready-for-L4",
+   "reason": "Source blob (commit 2d22863, 12/12 URLs 200 per candidate_source_validation_2026_10_14) re-verified live; repo MIT, 50.7k stars; exact-dedupe clear; proposed generic ui-audit (medium confidence, reviewer judgment). Existing evidence: 1 social-signal row (AISeeKing video, 8,026 views; exposure/invocation only, not efficacy).",
+   "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/review-animations/SKILL.md",
+   "name": "review-animations",
+   "description": "Reviews animation and motion code against a high craft bar derived from Emil Kowalski's design engineering philosophy. Default to flagging; approval is earned.",
+   "proposedGeneric": "ui-audit",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "ui-audit",
+     "similarity": 0.468759,
+     "tier": "weak"
+    },
+    {
+     "genericId": "video-interactivity",
+     "similarity": 0.455066,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "heygen-com/motion-graphics",
+     "similarity": 0.499673,
+     "genericSkillRef": "timeline-animation"
+    },
+    {
+     "id": "heygen-com/hyperframes-creative",
+     "similarity": 0.484605,
+     "genericSkillRef": "creative-direction"
+    },
+    {
+     "id": "garrytan/design-review",
+     "similarity": 0.480302,
+     "genericSkillRef": "ui-audit"
+    },
+    {
+     "id": "obra/requesting-code-review",
+     "similarity": 0.450019,
+     "genericSkillRef": "requesting-code-review"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__review-animations.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__review-animations.assessment.json"
+   },
+   "license": "MIT",
+   "repoStars": 50673,
+   "existingEvidence": [
+    {
+     "type": "social-signal",
+     "source": "https://www.youtube.com/watch?v=huWl2J4A6FE",
+     "date": "2026-09-02",
+     "views": 8026
+    }
+   ]
+  },
+  {
+   "skill": "emilkowalski/write-swift",
+   "ref": "evidence-candidate",
+   "kind": "evidence-candidate",
+   "group": "emilkowalski",
+   "disposition": "ready-for-L4",
+   "reason": "Source blob (commit 2d22863, 12/12 URLs 200 per candidate_source_validation_2026_10_14) re-verified live; repo MIT, 50.7k stars; exact-dedupe clear; proposed generic code-generation (medium confidence, reviewer judgment). Existing evidence: none; ev-scout needed for evidence beyond repo-own.",
+   "source": "https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/write-swift/SKILL.md",
+   "name": "write-swift",
+   "description": "How to write modern Swift well \u2014 modeling with value types, Swift 6 data-race safety and approachable concurrency (@concurrent, main-actor-by-default, actors, task groups), protocols and generics (some vs any), API design, performance and ARC, Swift Testing, macros, and the modern language features agents don't know about yet. Use when writing, reviewing, or migrating Swift, or when a concurrency error, a hang, a data race, a retain cycle, or a performance problem needs fixing.",
+   "proposedGeneric": "code-generation",
+   "proposedGenericConfidence": "medium",
+   "proposedGenericNote": "",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [],
+   "nearestNamedNeighbors": [],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__write-swift.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/emilkowalski__write-swift.assessment.json"
+   },
+   "license": "MIT",
+   "repoStars": 50673,
+   "existingEvidence": []
+  },
+  {
+   "skill": "ruvnet/dual-mode",
+   "ref": "upstream-skill",
+   "kind": "upstream-skill",
+   "group": "ruvnet-siblings",
+   "disposition": "resolved-by-sync",
+   "reason": "Tracked at ruvnet/ruflo v3.41.2 with no umbrella of its own; synced to v3.63.5 in PR #2197. No intake needed.",
+   "receipts": {
+    "prefill": null,
+    "assessment": null
+   }
+  },
+  {
+   "skill": "ruvnet/flow-nexus",
+   "ref": "upstream-skill",
+   "kind": "upstream-skill",
+   "group": "ruvnet-siblings",
+   "disposition": "resolved-by-sync",
+   "reason": "Tracked at ruvnet/ruflo v3.41.2 with no umbrella of its own; synced to v3.63.5 in PR #2197. No intake needed.",
+   "receipts": {
+    "prefill": null,
+    "assessment": null
+   }
+  },
+  {
+   "skill": "ruvnet/github-suite",
+   "ref": "upstream-skill",
+   "kind": "upstream-skill",
+   "group": "ruvnet-siblings",
+   "disposition": "resolved-by-sync",
+   "reason": "Tracked at ruvnet/ruflo v3.41.2 with no umbrella of its own; synced to v3.63.5 in PR #2197. No intake needed.",
+   "receipts": {
+    "prefill": null,
+    "assessment": null
+   }
+  },
+  {
+   "skill": "ruvnet/reasoningbank",
+   "ref": "upstream-skill",
+   "kind": "upstream-skill",
+   "group": "ruvnet-siblings",
+   "disposition": "resolved-by-sync",
+   "reason": "Tracked at ruvnet/ruflo v3.41.2 with no umbrella of its own; synced to v3.63.5 in PR #2197. No intake needed.",
+   "receipts": {
+    "prefill": null,
+    "assessment": null
+   }
+  },
+  {
+   "skill": "ruvnet/ruflo-v3",
+   "ref": "upstream-skill",
+   "kind": "upstream-skill",
+   "group": "ruvnet-siblings",
+   "disposition": "resolved-by-sync",
+   "reason": "Tracked at ruvnet/ruflo v3.41.2 with no umbrella of its own; synced to v3.63.5 in PR #2197. No intake needed.",
+   "receipts": {
+    "prefill": null,
+    "assessment": null
+   }
+  },
+  {
+   "skill": "ruvnet/ruflo",
+   "ref": "upstream-skill",
+   "kind": "upstream-skill",
+   "group": "ruvnet-siblings",
+   "disposition": "resolved-by-sync",
+   "reason": "Tracked at ruvnet/ruflo v3.41.2 with no umbrella of its own; synced to v3.63.5 in PR #2197. No intake needed.",
+   "receipts": {
+    "prefill": null,
+    "assessment": null
+   }
+  },
+  {
+   "skill": "web-scrape-integration",
+   "ref": "pre-october-batch",
+   "kind": "intake-batch",
+   "group": "pre-october-batch-ids",
+   "disposition": "duplicate",
+   "duplicateOf": "firecrawl/firecrawl-build-scrape",
+   "reason": "Proposed id has no node because it was realised as named skill firecrawl/firecrawl-build-scrape (generic web-scrape) whose links.github is the same source as the batch entry. Verified: registry/named/firecrawl/firecrawl-build-scrape.md exists on dev.",
+   "receipts": {
+    "prefill": null,
+    "assessment": null
+   }
+  },
+  {
+   "skill": "web-search-integration",
+   "ref": "pre-october-batch",
+   "kind": "intake-batch",
+   "group": "pre-october-batch-ids",
+   "disposition": "duplicate",
+   "duplicateOf": "firecrawl/firecrawl-build-search",
+   "reason": "Proposed id has no node because it was realised as named skill firecrawl/firecrawl-build-search (generic web-search) whose links.github is the same source as the batch entry. Verified: registry/named/firecrawl/firecrawl-build-search.md exists on dev.",
+   "receipts": {
+    "prefill": null,
+    "assessment": null
+   }
+  },
+  {
+   "skill": "browser-interaction-integration",
+   "ref": "pre-october-batch",
+   "kind": "intake-batch",
+   "group": "pre-october-batch-ids",
+   "disposition": "duplicate",
+   "duplicateOf": "firecrawl/firecrawl-build-interact",
+   "reason": "Proposed id has no node because it was realised as named skill firecrawl/firecrawl-build-interact (generic browser-control) whose links.github is the same source as the batch entry. Verified: registry/named/firecrawl/firecrawl-build-interact.md exists on dev.",
+   "receipts": {
+    "prefill": null,
+    "assessment": null
+   }
+  },
+  {
+   "skill": "agent-environment-auth",
+   "ref": "pre-october-batch",
+   "kind": "intake-batch",
+   "group": "pre-october-batch-ids",
+   "disposition": "duplicate",
+   "duplicateOf": "firecrawl/firecrawl-build-onboarding",
+   "reason": "Proposed id has no node because it was realised as named skill firecrawl/firecrawl-build-onboarding (generic agent-environment-setup) whose links.github is the same source as the batch entry. Verified: registry/named/firecrawl/firecrawl-build-onboarding.md exists on dev.",
+   "receipts": {
+    "prefill": null,
+    "assessment": null
+   }
+  },
+  {
+   "skill": "academic-literature-retrieval",
+   "ref": "pre-october-batch",
+   "kind": "intake-batch",
+   "group": "pre-october-batch-ids",
+   "disposition": "duplicate",
+   "duplicateOf": "firecrawl/firecrawl-research-index",
+   "reason": "Proposed id has no node because it was realised as named skill firecrawl/firecrawl-research-index (generic literature-search) whose links.github is the same source as the batch entry. Verified: registry/named/firecrawl/firecrawl-research-index.md exists on dev.",
+   "receipts": {
+    "prefill": null,
+    "assessment": null
+   }
+  },
+  {
+   "skill": "frontend-design-judgment",
+   "ref": "pre-october-batch",
+   "kind": "intake-batch",
+   "group": "pre-october-batch-ids",
+   "disposition": "duplicate",
+   "duplicateOf": "leonxlnx/taste-skill",
+   "reason": "Proposed id has no node because it was realised as named skill leonxlnx/taste-skill (generic design-generation) whose links.github is the same source as the batch entry. Verified: registry/named/leonxlnx/taste-skill.md exists on dev.",
+   "receipts": {
+    "prefill": null,
+    "assessment": null
+   }
+  },
+  {
+   "skill": "html-video-composition",
+   "ref": "pre-october-batch",
+   "kind": "intake-batch",
+   "group": "pre-october-batch-ids",
+   "disposition": "duplicate",
+   "duplicateOf": "heygen-com/hyperframes",
+   "reason": "Proposed id has no node because it was realised as named skill heygen-com/hyperframes (generic video-composition) whose links.github is the same source as the batch entry. Verified: registry/named/heygen-com/hyperframes.md exists on dev.",
+   "receipts": {
+    "prefill": null,
+    "assessment": null
+   }
+  },
+  {
+   "skill": "firecrawl/firecrawl-build",
+   "ref": "pre-october-batch",
+   "kind": "intake-batch",
+   "group": "pre-october-batch-ids",
+   "disposition": "needs-info",
+   "reason": "Batch id api-call-orchestration (source skills/build/firecrawl-build/SKILL.md, ISC) has no node/named. It is a router/umbrella over the four firecrawl-build-* skills already named and listed as suiteComponents of firecrawl/firecrawl-skills; principle \"artifact packaging\" says a router is not a capability. L4 decision: admit as a 6th suite component (needs a suite edit), map to an existing generic, or decline.",
+   "source": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build/SKILL.md",
+   "name": "firecrawl-build",
+   "description": "Integrate Firecrawl into application code whenever a product, agent, or workflow needs web data inside the app \u2014 web search, live search results, page scraping, structured extraction, or browser interaction. Use when building any feature that needs data from the web in code, even if the user does not mention Firecrawl explicitly and only describes wanting web data, website content, search, scraping, or interaction in an application. Trigger for Firecrawl requests, \"fire girl\" shorthand, and gene",
+   "proposedGeneric": null,
+   "proposedGenericConfidence": "low",
+   "proposedGenericNote": "router/umbrella skill over the four firecrawl-build-* components",
+   "proposedGenericBasis": "reviewer judgment over the generic catalog; unverified, L4 must approve mapping",
+   "prefillMapping": [
+    {
+     "genericId": "firecrawl",
+     "similarity": 0.609449,
+     "tier": "weak"
+    },
+    {
+     "genericId": "browser-automation",
+     "similarity": 0.465514,
+     "tier": "weak"
+    },
+    {
+     "genericId": "web-scrape",
+     "similarity": 0.458717,
+     "tier": "weak"
+    }
+   ],
+   "nearestNamedNeighbors": [
+    {
+     "id": "firecrawl/firecrawl-build-search",
+     "similarity": 0.75809,
+     "genericSkillRef": "web-search"
+    },
+    {
+     "id": "firecrawl/firecrawl-build-interact",
+     "similarity": 0.718209,
+     "genericSkillRef": "browser-control"
+    },
+    {
+     "id": "firecrawl/firecrawl-skills",
+     "similarity": 0.655643,
+     "genericSkillRef": "firecrawl"
+    },
+    {
+     "id": "firecrawl/firecrawl-build-scrape",
+     "similarity": 0.634825,
+     "genericSkillRef": "web-scrape"
+    },
+    {
+     "id": "firecrawl/firecrawl-build-onboarding",
+     "similarity": 0.578222,
+     "genericSkillRef": "agent-environment-setup"
+    }
+   ],
+   "exactDedupeMatched": false,
+   "receipts": {
+    "prefill": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/firecrawl__firecrawl-build.prefill.json",
+    "assessment": "founder/reports/yggdrasil-iv-october-2026/reconciliation/intake-receipts/firecrawl__firecrawl-build.assessment.json"
+   },
+   "license": "ISC",
+   "repoStars": 138
+  }
+ ],
+ "baselineRecheck": {
+  "from": "43797a441e99b34cdf7e19be3af863a2e3bdbed0",
+  "to": "7d8f2d5f380617ebe05dd04963a2f7c8318213d3",
+  "date": "2026-10-28",
+  "result": "No registry/ changes between the two (git diff --name-status over registry/ is empty). Re-ran against the rebased tree: no ready/needs-info candidate id exists in registry/named, none shares a repo+subpath with an existing named links.github, every proposed generic still exists. Receipts bind catalogSha256, which is unchanged because the registry is unchanged; prefill packets were not regenerated."
+ }
+}

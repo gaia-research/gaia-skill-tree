@@ -1,0 +1,80 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/google-loops",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/google-loops",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/google-loops/SKILL.md",
+  "checked": true,
+  "contentSha256": "20955fac0a94bbe9298a8aa7416e851cac86eb145bc551ed0fc556d2f583fa5e",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Set up and operate the Gmail/Calendar/Contacts connector and the open-loop engine: who is waiting on the user, what they promised, and the context needed to respond. Covers painless BYO OAuth setup (exactly two user interactions), the daily `gbrain waiting` digest, loop closing/muting, and troubleshooting via the typed error catalog.",
+  "name": "google-loops"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/google-loops/SKILL.md",
+  "contentSha256": "20955fac0a94bbe9298a8aa7416e851cac86eb145bc551ed0fc556d2f583fa5e",
+  "fetchedAt": "2026-10-27T22:11:05.423659+00:00",
+  "frontmatter": {
+   "description": "Set up and operate the Gmail/Calendar/Contacts connector and the open-loop\nengine: who is waiting on the user, what they promised, and the context\nneeded to respond. Covers painless BYO OAuth setup (exactly two user\ninteractions), the daily `gbrain waiting` digest, loop closing/muting, and\ntroubleshooting via the typed error catalog.\n",
+   "mutating": true,
+   "name": "google-loops",
+   "tools": [
+    "open_loops",
+    "loops_close",
+    "loops_mute",
+    "entity",
+    "context_pack"
+   ],
+   "triggers": [
+    "connect gmail",
+    "connect google",
+    "connect calendar",
+    "connect contacts",
+    "who is waiting on me",
+    "what do I owe people",
+    "open loops",
+    "unanswered email",
+    "set up email ingestion",
+    "gbrain waiting"
+   ],
+   "version": "1.0.0",
+   "writes_pages": false
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

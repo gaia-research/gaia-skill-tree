@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "frontier-dedupe-v1",
+  "advisory": true,
+  "authority": "advisory duplicate check; a prior ledger record is not verification and does not block Meta review",
+  "leadId": "git-log-L-graft-002",
+  "dedupeKey": "655a39b16d0a369c75280d15d0496f8f15166dfb1fa1792945d4c2c099038cb3",
+  "keyBasis": "full",
+  "isDuplicate": false,
+  "duplicates": [],
+  "related": [],
+  "ledger": {
+    "glob": "evidence/frontier-challenges/*/lead.json",
+    "present": true,
+    "scanned": 1,
+    "skipped": []
+  }
+}

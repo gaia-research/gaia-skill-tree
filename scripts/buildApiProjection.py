@@ -219,7 +219,7 @@ def build_health(out_dir: Path, version: str, generated_at: str, skill_count: in
     })
 
 
-def build_skills_pages(out_dir: Path, skills: list[dict]) -> None:
+def build_skills_pages(out_dir: Path, skills: list[dict], origin_standings: dict | None = None) -> None:
     """Write skills/index.json and skills/page-{N}.json for paginated list."""
     total = len(skills)
     total_pages = max(1, -(-total // PAGE_SIZE))  # ceiling division
@@ -248,6 +248,8 @@ def build_skills_pages(out_dir: Path, skills: list[dict]) -> None:
             "totalSkills": total,
             "_links": links,
         }
+        if page_num == 1 and origin_standings is not None:
+            payload["originStandings"] = origin_standings
         _write_json(skills_dir / self_path, payload)
 
 
@@ -339,6 +341,7 @@ def build_leaderboard(out_dir: Path, ledger_path: Path) -> None:
     """Write leaderboard.json by reshaping docs/graph/ledger/data.json."""
     if not ledger_path.exists():
         _write_json(out_dir / "leaderboard.json", {
+            "generatedAt": "",
             "distribution": {},
             "rows": [],
             "_links": {"self": "/api/v1/leaderboard.json"},
@@ -347,8 +350,6 @@ def build_leaderboard(out_dir: Path, ledger_path: Path) -> None:
 
     ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
 
-    # Strip internal top-level fields
-    _STRIP_TOP = {"version", "generatedAt"}
     distribution = ledger.get("summary", {})
 
     # Reshape rows
@@ -369,9 +370,16 @@ def build_leaderboard(out_dir: Path, ledger_path: Path) -> None:
                 reshaped[k] = v
         rows.append(reshaped)
 
+    # `generatedAt` is the ledger's own stamp (not wall-clock), so it only moves
+    # when the committed ledger does. The /trust/leaderboard/ page reads it for
+    # its "Updated" tag, and build_docs --check masks every `generatedAt`, so
+    # carrying it adds no timestamp churn. `version` stays out: the leaderboard
+    # is data, not an API contract with a version meaning.
     _write_json(out_dir / "leaderboard.json", {
+        "generatedAt": ledger.get("generatedAt", ""),
         "distribution": distribution,
         "rows": rows,
+        "originStandings": ledger.get("originStandings", {}),
         "_links": {"self": "/api/v1/leaderboard.json"},
     })
 
@@ -459,7 +467,9 @@ def run(out_dir: Path) -> int:
 
     # Build all endpoints
     build_health(out_dir, version, generated_at, len(visible_skills))
-    build_skills_pages(out_dir, visible_skills)
+    from gaia_cli.origin import publicOriginStandings
+    standings = publicOriginStandings(data["buckets"], data.get("awaitingClassification", []))
+    build_skills_pages(out_dir, visible_skills, standings)
     build_skill_detail_files(out_dir, visible_skills)
     build_contributors(out_dir, visible_skills)
     build_leaderboard(

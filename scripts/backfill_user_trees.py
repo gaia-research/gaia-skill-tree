@@ -4,6 +4,9 @@ import os
 import sys
 from pathlib import Path
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
+from gaia_cli.canonicalTransaction import guardCanonicalPath  # noqa: E402  pending-transaction guard
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 GAIA_JSON = REPO_ROOT / "registry" / "gaia.json"
 NAMED_JSON = REPO_ROOT / "registry" / "named-skills.json"
@@ -171,9 +174,10 @@ def main():
             
         tree["pendingCombinations"] = tree.get("pendingCombinations", [])
 
-        with open(tree_path, "w", encoding="utf-8") as f:
-            json.dump(tree, f, indent=2, ensure_ascii=False)
-            f.write("\n")
+        with guardCanonicalPath(tree_path):
+            with open(tree_path, "w", encoding="utf-8") as f:
+                json.dump(tree, f, indent=2, ensure_ascii=False)
+                f.write("\n")
             
     print(f"Backfilled skill trees for {len(by_contributor)} contributors.")
 

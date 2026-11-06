@@ -41,7 +41,7 @@ from datetime import timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
-from gaia_cli.steward.digest import ISSUE_FOUNDER_RULE, _evidence_lines, _parse, _recommendation, issueQuestion
+from gaia_cli.steward.digest import ISSUE_FOUNDER_RULE, ROUTINE_PR_FOUNDER_RULE, _evidence_lines, _parse, _recommendation, issueQuestion
 from gaia_cli.steward.lane import Lane
 from gaia_cli.steward.models import (
     AuthorityClass,
@@ -491,6 +491,15 @@ _RULE_WHY[ISSUE_FOUNDER_RULE] = (
 )
 _RULE_ALTERNATIVE[ISSUE_FOUNDER_RULE] = (
     "Defer; the affected issues stay open exactly as they are, and Steward takes no action on them."
+)
+
+
+_RULE_WHY[ROUTINE_PR_FOUNDER_RULE] = (
+    "Steward found this routine pull request ineligible for its own disposition: a founder hold, a draft, a missing "
+    "required approval or a design gate. It is neither merged nor closed until you rule."
+)
+_RULE_ALTERNATIVE[ROUTINE_PR_FOUNDER_RULE] = (
+    "Defer; the pull request stays open exactly as it is, and Steward takes no merge or closure action on it."
 )
 
 

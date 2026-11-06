@@ -8,6 +8,7 @@ import datetime
 import json
 import os
 import re
+from pathlib import Path
 
 from gaia_cli.registry import named_skills_dir
 
@@ -76,7 +77,6 @@ def promote_to_named(skill_data, contributor, skill_name, registry_path):
         raise ValueError(f"Invalid skill_name: {skill_name!r}")
     named_id = f"{contributor}/{skill_name}"
     dest_dir = os.path.join(named_skills_dir(registry_path), contributor)
-    os.makedirs(dest_dir, exist_ok=True)
     dest_path = os.path.join(dest_dir, f"{skill_name}.md")
 
     content = (
@@ -84,7 +84,8 @@ def promote_to_named(skill_data, contributor, skill_name, registry_path):
         f"id: {named_id}\n"
         f"name: {skill_data['name']}\n"
         f"contributor: {contributor}\n"
-        "origin: true\n"
+        # Mirror only; the build derives Origin (highest merit, gaia_cli.origin).
+        "origin: false\n"
         f"genericSkillRef: {skill_data['id']}\n"
         "status: named\n"
         "level: 2★\n"
@@ -102,21 +103,26 @@ def promote_to_named(skill_data, contributor, skill_name, registry_path):
         "\n"
         "## Origin\n"
         "\n"
-        f"First published by @{contributor}. This is the origin implementation "
-        f"for the \"{skill_data['id']}\" skill bucket.\n"
+        f"Implementation by @{contributor} for the \"{skill_data['id']}\" skill bucket. "
+        "Origin is assigned automatically to the bucket's highest-merit implementation.\n"
     )
 
-    with open(dest_path, "w", encoding="utf-8") as f:
-        f.write(content)
+    # Canonical-namespace write: serialize with, and refuse during, a pending
+    # canonical transaction (the same cooperative guard the dev writers use).
+    from gaia_cli.canonicalTransaction import guardCanonicalPath
+    with guardCanonicalPath(Path(dest_path)):
+        os.makedirs(dest_dir, exist_ok=True)
+        with open(dest_path, "w", encoding="utf-8") as f:
+            f.write(content)
 
-    from gaia_cli.timeline import append_skill_event
-    append_skill_event(
-        skill_data['id'],
-        "name",
-        contributor,
-        f"Named by @{contributor} as {contributor}/{skill_name}",
-        registry_path
-    )
+        from gaia_cli.timeline import append_skill_event
+        append_skill_event(
+            skill_data['id'],
+            "name",
+            contributor,
+            f"Named by @{contributor} as {contributor}/{skill_name}",
+            registry_path
+        )
 
     return dest_path
 

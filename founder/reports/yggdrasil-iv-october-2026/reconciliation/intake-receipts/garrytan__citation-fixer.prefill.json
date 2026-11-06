@@ -1,0 +1,115 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/citation-fixer",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/citation-fixer",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/citation-fixer/SKILL.md",
+  "checked": true,
+  "contentSha256": "22dde60db9d5df0a859e131e7e2d7347d5205a3d20ea1ed0d9c4eb373fb11cc9",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/academic-verify",
+     "similarity": 0.494825
+    },
+    {
+     "id": "garrytan/citation-graph-ingest",
+     "similarity": 0.483232
+    },
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.481281
+    },
+    {
+     "id": "xquik-dev/hermes-tweet",
+     "similarity": 0.455393
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "cite-sources",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5670 to generic 'cite-sources' (weak match).",
+   "similarity": 0.566994
+  },
+  {
+   "genericId": "x-twitter-automation",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4845 to generic 'x-twitter-automation' (weak match).",
+   "similarity": 0.484507
+  },
+  {
+   "genericId": "research",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4823 to generic 'research' (weak match).",
+   "similarity": 0.482286
+  }
+ ],
+ "normalized": {
+  "description": "Audit and fix citation formatting across brain pages. Ensures every fact has an inline [Source: ...] citation matching the standard format. Extended in v0.25.1: scans for broken tweet/post references that lack actual URLs and resolves them via the host's X / Twitter API integration.",
+  "name": "citation-fixer"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/citation-fixer/SKILL.md",
+  "contentSha256": "22dde60db9d5df0a859e131e7e2d7347d5205a3d20ea1ed0d9c4eb373fb11cc9",
+  "fetchedAt": "2026-10-27T22:08:02.448759+00:00",
+  "frontmatter": {
+   "description": "Audit and fix citation formatting across brain pages. Ensures every fact has\nan inline [Source: ...] citation matching the standard format. Extended in\nv0.25.1: scans for broken tweet/post references that lack actual URLs and\nresolves them via the host's X / Twitter API integration.\n",
+   "mutating": true,
+   "name": "citation-fixer",
+   "tools": [
+    "search",
+    "get_page",
+    "put_page",
+    "list_pages"
+   ],
+   "triggers": [
+    "fix citations",
+    "fix broken citations",
+    "citation audit",
+    "check citations",
+    "citation fixer"
+   ],
+   "version": "1.1.0"
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

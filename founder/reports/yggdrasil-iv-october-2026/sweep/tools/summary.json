@@ -1,0 +1,140 @@
+{
+ "counts": {
+  "records": 701,
+  "named": 400,
+  "generic": 301,
+  "missingFromShards": 0,
+  "finalDisposition": {
+   "change-proposed": 469,
+   "reviewed-no-change": 232
+  },
+  "auditorDisposition": {
+   "change-proposed": 491,
+   "reviewed-no-change": 210
+  },
+  "findingsRaw": 930,
+  "findingsDeduped": 930,
+  "findingsSurviving": 817,
+  "survivingByPriority": {
+   "P0": 2,
+   "P1": 90,
+   "P2": 312,
+   "P3": 354,
+   "P4": 59
+  },
+  "survivingByDimension": {
+   "evidence": 253,
+   "body": 169,
+   "origin": 91,
+   "link": 59,
+   "starBar": 34,
+   "rank": 33,
+   "metadata": 24,
+   "classification": 22,
+   "origin-attribution": 17,
+   "upstream": 14,
+   "frontmatter": 14,
+   "grade-mismatch": 12,
+   "liveness": 10,
+   "structural": 9,
+   "new-generic": 9,
+   "unbacked-star": 7,
+   "semantic-fusion": 6,
+   "brand-coupled": 5,
+   "installability": 5,
+   "placeholder-bodies": 5,
+   "heavy-deps": 4,
+   "unique-isolation": 4,
+   "product-attribution": 4,
+   "champion": 4,
+   "champion-cluster": 2,
+   "reclassification": 1
+  },
+  "verifyGroups": 199,
+  "verifyVotesMissing": 0,
+  "unattachedSurvivingFindings": 54,
+  "evidenceRowsReviewed": 874
+ },
+ "survey": [
+  {
+   "dimension": "star-bar",
+   "checkedCount": 125,
+   "method": "Loaded registry/named-skills.json (400 records, matching the 400 .md files under registry/named/**). Selected the 125 records at 3\u2605 or higher: 94 at 3\u2605, 28 at 4\u2605, 3 at 5\u2605. Of those, the suite capstones carrying suiteComponents are exempt per META \u00a72.4, so non-suite records got the URL check. Each links.github had to match https://github.com/<owner>/<repo>/blob/<branch>/<subpath> with a non-empty subpath. Any /tree/ URL, bare repo root, trailing slash, raw.githubusercontent URL, or URL with a query string or fragment would have been flagged. Zero non-suite records failed. A second scan of 3\u2605+ records for malformed github values found only four suite capstones with empty links.github (gsd-build/get-shit-done, mattpocock/engineering, mattpocock/misc, mattpocock/productivity), which is allowed for suites. I did not run curl, since nothing was flagged. Generic nodes in registry/nodes/** were not checked, because generics are starless and have no installer URL.",
+   "findings": 0
+  },
+  {
+   "dimension": "liveness",
+   "checkedCount": 962,
+   "method": "Ran scripts/verify_evidence.py --scope all (concurrency 16, timeout 15s) over 962 unique evidence URLs. Result: 713 alive, 249 not alive (211 HTTP 429, 34 HTTP 404, 4 HTTP 403). Reports are in sweep/liveness/evidence-health.{json,md}. I did not re-probe the 429 rows; all 211 are github.com rate limits that hit late in the run. I did not mutate the registry. Every finding is review debt under Yggdrasil IV and none justifies a demotion, TM decrease or Origin transfer.",
+   "findings": 11
+  },
+  {
+   "dimension": "origin-attribution",
+   "checkedCount": 701,
+   "method": "Used the deterministic prepass (701 records: 400 named, 301 generic; 216 generic buckets with at least one named implementation, 85 generics with none). I grouped named records by genericSkillRef and checked the following per META \u00a74.1 and \u00a71.1 rules. 1) Origin count per bucket. 2) Origin held by a skill at 1\u2605 or below, or one not at status named. 3) Origin held by an implementation at a lower star tier, or same tier with lower prepass computedTm, than a sibling. 4) Buckets with no Origin where a named skill at 2\u2605 or higher exists. 5) 4\u2605 skills on the Unique branch (no suiteComponents) whose bucket has no Origin. Origin was never inferred from createdAt, and no files were mutated. Results: no bucket has multiple Origins; 117 buckets have no Origin, of which 59 have an eligible 2\u2605+ named holder. Every finding is proposal-only, and a demotion, TM decrease or Origin transfer is not recommended on any finding. For the OUTRANKED cases, TM was compared only within the same star tier, and the comparison covers Origin holders only. A transfer is a merit judgement, so none is recommended automatically.",
+   "findings": 17
+  },
+  {
+   "dimension": "unbacked-star",
+   "checkedCount": 701,
+   "method": "Loaded prepass.json (701 records: 400 named, 301 generic). Re-checked every named record independently of the prepass gateViolations field, which was empty for all 400. Checks run:\n- 4\u2605 needs computedTm >= 100 and grade A. All 28 4\u2605 records pass (lowest 100.82).\n- 5\u2605 needs TM >= 250 and grade S. All 3 pass (318.14, 356.11, 374.99).\n- No 6\u2605 records exist.\n- Awakened-status records above 1\u2605 (1 found).\n- 3\u2605+ records with no evidence or TM (1 found).\n- Unique-branch 4\u2605 records (no suiteComponents) without bucket-level Origin.\n- Suite 5\u2605 Origin on at least one component, and 5 or more components (both satisfied for gstack and mattpocock/skills).\n- Origin held by a 1\u2605 entry (1 found).\n- Generics are starless, so no generic carries a star.\nAll findings are review items. None is a demotion or TM decrease.",
+   "findings": 7
+  },
+  {
+   "dimension": "brand-coupled",
+   "checkedCount": 301,
+   "method": "Enumerated all 301 generic nodes in registry/nodes/** (matches the 301 skills in registry/gaia.json) and the 68 contributor dirs / 404 files in registry/named/**. Matched each generic id and name against contributor handles and a list of known brand, vendor and platform terms. Manually read descriptions and named children (via genericSkillRef) of every hit and of look-alikes. Ruled out false positives: brand-guideline-application ('brand' is a common noun), transactional-email-resend ('resend' is a verb here), re-act-reasoning (ReAct is a technique), mcp-* (protocol), computer-use and function-calling (generic capability terms), video-saas. Not proposed: postgres-best-practices and react-performance-optimization name a technology rather than a brand or person (P4 at most, left out). Findings are proposals only; nothing was mutated. Caveats for every rename: `gaia dev rename old new` changes the ID only, and it has no name-only flag, so renaming only the display name (Ruflo, Flow Nexus, GitHub, Gaia) is a CLI gap that needs a tech-debt issue per CLAUDE.md rather than a frontmatter hand-edit. ID renames must also repoint the named children's genericSkillRef. 'superpowers' also appears in the prerequisites or origin lists of about 9 sibling nodes (brainstorming, writing-plans, and others), so the rename must be verified there. Run `gaia dev docs` afterwards.",
+   "findings": 19
+  },
+  {
+   "dimension": "heavy-deps",
+   "checkedCount": 126,
+   "method": "Filtered prepass.json (701 records: 301 generic starless, 400 named) to 126 named skills at 3-5 stars. Read each file in registry/named/ and keyword-scanned for heavyweight or niche dependencies (GPU/CUDA, Docker/K8s, headless browsers, databases/queues, cloud SDKs, ffmpeg, MCP servers, API keys/OAuth). Read the descriptions and Installation sections of the hits and of the large suite capstones. No URLs were fetched. Named files are mostly metadata with short bodies, so heavy-dependency signal comes from descriptions and links, not full SKILL bodies. Generics were not scanned because they carry no body or deps. Apart from the cases below, nothing stood out.",
+   "findings": 6
+  },
+  {
+   "dimension": "installability",
+   "checkedCount": 352,
+   "method": "Scanned registry/named-skills.json (352 bucketed named records across 68 contributor dirs; 94 at 3\u2605, 27 at 4\u2605, 3 at 5\u2605) and expanded every suiteComponents list (about 20 suites, 200+ component references). For each 3\u2605+ record I checked installable and links.github against the blob/branch/subpath pattern. For each suite component I resolved the record and checked for its own blob link. Generic nodes are starless, so they are out of scope. Links were validated by pattern only; no live URL checks, since a dead link is review debt (Yggdrasil IV). Nothing was mutated.",
+   "findings": 6
+  },
+  {
+   "dimension": "placeholder-bodies",
+   "checkedCount": 701,
+   "method": "Scripted scan of all 400 named markdown files (registry/named/**/*.md) and all 301 generic nodes (registry/nodes/**/*.json). For each named file I stripped frontmatter and classified the body by headings and length. 167 files have only an Installation or Runtime-prerequisite heading and no Overview. Of those, 112 carry the literal 51-char placeholder \"## Installation / Add installation instructions here.\" (4 files are 51-char with no other content beyond it; the other 55 have real install text). A further 67 files have only a short Overview (<200 chars) and are thin but not stubs. Generic nodes are JSON, not markdown, and carry no body, so the placeholder pattern does not apply; 3 fusion generics have a title-only description (\"Web Best Practices\" and similar), reported separately as P4. Prepass TM was not needed, since this is a presentation-content check with no rank effect. Under Yggdrasil IV no finding implies a demotion or TM change.",
+   "findings": 6
+  },
+  {
+   "dimension": "testuser-timelines",
+   "checkedCount": 864,
+   "method": "Case-insensitive recursive grep for \"testuser\", \"test-user\", \"test_user\" across registry/named (68 contributor dirs), registry/nodes, and skill-trees (about 705 named/node files plus about 159 skill-tree entries). Also grepped user/username/contributor fields and contributor frontmatter for test, demo, example and dummy values. The only \"testuser\" hit is prose in registry/named/mbtiongson1/gaia-meta-audit.md line 99, which names \"testuser timelines\" as an intake-automation artifact. It is not a record. The \"fixture\" and \"test\" hits (pytest-patterns, unittest-generator, generate-test, skill-builder) are legitimate skills about testing. No testuser contributor, skill-tree directory or timeline event exists.",
+   "findings": 0
+  },
+  {
+   "dimension": "champion-cluster",
+   "checkedCount": 701,
+   "method": "Read the prepass.json records (400 named and 301 generic). Grouped named skills by genericSkillRef, which gave 47 clusters with 3 or more children. Grepped the nodes, named files, schema and gaia.json for a stored champion field and found none. Read the champion logic in the sweep script and generateNamedIndex. Compared the derived champion (stars, then origin, then id) with the computed-TM leader per cluster, using the prepass numbers only.",
+   "findings": 2
+  },
+  {
+   "dimension": "unique-isolation",
+   "checkedCount": 701,
+   "method": "Used prepass.json (701 records: 400 named, 301 generic). Filtered named skills at rank 4\u2605 or higher with no suiteComponents (19 Unique-branch: 18 at 4\u2605, graphify at 5\u2605) and checked each for origin, TM at least 100, grade, verified blob links and gate violations. For the origin:false ones I listed every skill in the same genericSkillRef bucket to confirm no Origin holder exists and to compare TM. Also checked that no suiteComponents skill is below 4\u2605 in a way that conflicts with the Unique label (12 Suite-branch skills are below 4\u2605, which is allowed, and none is labelled Unique), that no prepass record has gateViolations, and that generics are starless. Results: 15 of the 19 pass. safishamsi/graphify at 5\u2605 has Origin and TM 318 / S. Four fail the 4\u2605 Unique bucket-Origin gate. All four are the top-TM implementation in their bucket, so the remedy is an Origin grant, not a demotion. No Unique-labelled skill carries suiteComponents.",
+   "findings": 4
+  },
+  {
+   "dimension": "grade-mismatch",
+   "checkedCount": 874,
+   "method": "Parsed all 701 records (400 named .md in registry/named/**, 301 generic nodes in registry/nodes/**) and checked 874 evidence rows. Each row was run through the repo's own gaia_cli.trustMagnitude.computeArtifactScoreOrNone, grading.derive_row_grade with meta.json perRowGradeThresholds and gradeCeiling, and benchmarkCatalog.isBenchmarkScoringEligible against registry/benchmark-sources.json. I compared the declared grade (or legacy class) with the derived grade, checked that each Evidence Type is in meta.json, and checked each benchmark-result benchmarkId against the catalog. For the 349 named files with a cached trustMagnitude/overallTrustGrade, I compared the cache with prepass.json computedTm/computedGrade and recomputed trustMagnitudeInputHash. No generic node carries a cached TM. Results: cached TM and grade agree with computed in all 349 cases (84 stale input hashes, no effect on value). One declared grade is over its Evidence Type ceiling. 4 benchmark-result rows lack a catalog entry. About 140 declared grades are higher than their derived grade. Under Yggdrasil IV, none of these justify a demotion or TM decrease. Every suggested action is a review or metadata correction made through gaia dev verbs. I did not fetch any URLs.",
+   "findings": 13
+  },
+  {
+   "dimension": "product-attribution",
+   "checkedCount": 10,
+   "method": "Ran scripts/check_product_attribution.py. It checks a curated map of 10 known third-party-product named skills, not the whole registry; ids outside the map are never flagged. All 10 were flagged as missing maker attribution. I spot-checked 6 of the 10 files (pymol, uniprot-database, rdkit, pymc, scanpy, stable-baselines3) for links, evidence sources and timeline notes. I did not open torch-geometric, deepchem, pytorch-lightning or scvi-tools; they are in the report on the checker's output alone. The checker is a curated lookup, so it cannot see skills that are not in its map. No registry files were mutated.",
+   "findings": 7
+  }
+ ],
+ "fusionCandidates": 6,
+ "newGenericProposals": 11
+}

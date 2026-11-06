@@ -23,8 +23,10 @@ from _tree_renderer import render_tree  # noqa: E402
 from build_layouts_3d import generate_layouts # noqa: E402
 
 
-def _run_generate_named_index():
-    """Invoke generateNamedIndex as a module to produce registry/named-skills.json."""
+def _run_generate_named_index(repo_root=None):
+    """Invoke generateNamedIndex as a module to produce registry/named-skills.json.
+
+    ``repo_root`` defaults to this checkout; tests pass a scratch tree."""
     scripts_dir = os.path.dirname(os.path.abspath(__file__))
     module_path = os.path.join(scripts_dir, "generateNamedIndex.py")
     if not os.path.isfile(module_path):
@@ -34,7 +36,7 @@ def _run_generate_named_index():
     mod = importlib.util.module_from_spec(spec)
     try:
         spec.loader.exec_module(mod)
-        repo_root = os.path.dirname(scripts_dir)
+        repo_root = repo_root or os.path.dirname(scripts_dir)
         named_dir = os.path.join(repo_root, "registry", "named")
         graph_path = os.path.join(repo_root, "registry", "gaia.json")
         output_path = os.path.join(repo_root, "registry", "named-skills.json")
@@ -44,7 +46,14 @@ def _run_generate_named_index():
             ts = gdata.get("generatedAt", "")
             today = (ts.split("T")[0] if "T" in ts else ts) if ts else datetime.date.today().isoformat()
             named_skills = mod.load_named_skills(named_dir)
-            errors, buckets, awaiting_classification, by_contributor = mod.validate_and_group(named_skills, gdata)
+            from publication_context import evaluation_at_utc_from_env
+            if evaluation_at_utc_from_env() is not None:
+                references, components = mod.load_suite_mappings(os.path.join(repo_root, "registry", "suites"))
+                errors, buckets, awaiting_classification, by_contributor = mod.validate_and_group(
+                    named_skills, gdata, references, components,
+                )
+            else:
+                errors, buckets, awaiting_classification, by_contributor = mod.validate_and_group(named_skills, gdata)
             if errors:
                 print(f"Warning: named skill validation errors ({len(errors)}):")
                 for err in errors:
@@ -61,10 +70,12 @@ def _run_generate_named_index():
                         gate_config = json.load(mf).get("evidence", {}).get("ultimateGate", {})
                 except Exception:
                     gate_config = {}
+                collected = mod.collect_challenges(repo_root)
                 mod.write_index(
                     buckets, awaiting_classification, by_contributor, output_path, today,
                     generic_skills_map=generic_skills_map, gate_config=gate_config,
-                    repo_root=repo_root,
+                    repo_root=repo_root, lifecycle_ports=mod.lifecyclePorts(collected),
+                    challenge_reviews=mod.reviewsBySubject(collected),
                 )
                 total = sum(len(v) for v in buckets.values())
                 print(f"Generated named index: {total} skill(s) across "

@@ -1,0 +1,120 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/daily-task-manager",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/daily-task-manager",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/daily-task-manager/SKILL.md",
+  "checked": true,
+  "contentSha256": "e93264a83b5fd0a19b2f06a322b3a4ad92d418f6a968c1cd51f4bea79cbca4d9",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "hikari9/auto-office",
+     "similarity": 0.493203
+    },
+    {
+     "id": "aplaceforallmystuff/log-to-daily",
+     "similarity": 0.487153
+    },
+    {
+     "id": "yylo-dev/ledger-tasks-yylo",
+     "similarity": 0.463449
+    },
+    {
+     "id": "addy-osmani/planning-and-task-breakdown",
+     "similarity": 0.462831
+    },
+    {
+     "id": "intelligentcode-ai/parallel-execution",
+     "similarity": 0.459414
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "parallel-execution",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4984 to generic 'parallel-execution' (weak match).",
+   "similarity": 0.498407
+  },
+  {
+   "genericId": "plan-and-execute",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4796 to generic 'plan-and-execute' (weak match).",
+   "similarity": 0.47956
+  },
+  {
+   "genericId": "memory-manage",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4792 to generic 'memory-manage' (weak match).",
+   "similarity": 0.479236
+  }
+ ],
+ "normalized": {
+  "description": "Task lifecycle management with stable task IDs. Add, complete, defer, remove, and review tasks with deterministic action routing and fail-closed ambiguity handling. Maintains a running task list as a brain page.",
+  "name": "daily-task-manager"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/daily-task-manager/SKILL.md",
+  "contentSha256": "e93264a83b5fd0a19b2f06a322b3a4ad92d418f6a968c1cd51f4bea79cbca4d9",
+  "fetchedAt": "2026-10-27T22:06:56.647091+00:00",
+  "frontmatter": {
+   "description": "Task lifecycle management with stable task IDs. Add, complete, defer, remove,\nand review tasks with deterministic action routing and fail-closed ambiguity\nhandling. Maintains a running task list as a brain page.\n",
+   "mutating": true,
+   "name": "daily-task-manager",
+   "tools": [
+    "search",
+    "get_page",
+    "put_page",
+    "add_timeline_entry"
+   ],
+   "triggers": [
+    "add task",
+    "complete task",
+    "what are my tasks",
+    "task list",
+    "defer task"
+   ],
+   "upstream": "daily-task-manager@fc834ee",
+   "version": "2.0.0"
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

@@ -6,7 +6,7 @@
   "prerequisites": [
     "agent-handoff",
     "context-compression",
-    "grill-me",
+    "interview-me",
     "tool-creation",
     "knowledge-management",
     "questionnaire-generation",

@@ -207,6 +207,7 @@ def test_any_3xx_on_a_listing_page_fails_closed_as_redirected() -> None:
 
 def test_the_token_reaches_the_api_but_never_the_census(monkeypatch, local_github, tmp_path) -> None:
     monkeypatch.setattr(census, "API", local_github.base)
+    # Synthetic local-loopback sentinel; never an issuer-provided credential (#2283 D2).
     monkeypatch.setenv("GH_TOKEN", "ghp_b6sentinel")
     monkeypatch.delenv("GITHUB_TOKEN", raising=False)
     local_github.respond = redirectingIssues

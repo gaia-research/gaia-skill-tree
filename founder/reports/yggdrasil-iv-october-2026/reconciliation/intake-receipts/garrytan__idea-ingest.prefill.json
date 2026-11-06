@@ -1,0 +1,115 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/idea-ingest",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/idea-ingest",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/idea-ingest/SKILL.md",
+  "checked": true,
+  "contentSha256": "863be3660ead12a45d3b86309d73df0ffda6c5db6ca69873cce1810680df79b4",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/blog-ingest",
+     "similarity": 0.699473
+    },
+    {
+     "id": "garrytan/capture",
+     "similarity": 0.617332
+    },
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.578754
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "brainstorming",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4794 to generic 'brainstorming' (weak match).",
+   "similarity": 0.479394
+  },
+  {
+   "genericId": "ghostwrite",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4674 to generic 'ghostwrite' (weak match).",
+   "similarity": 0.467406
+  }
+ ],
+ "normalized": {
+  "description": "Ingest links, articles, tweets, and ideas into the brain. Fetch content, save to brain with analysis, credit the author (people page only when they pass the notability gate), and cross-link. Use when the user shares a link or says \"read this\", \"save this\", \"think about this\".",
+  "name": "idea-ingest"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/idea-ingest/SKILL.md",
+  "contentSha256": "863be3660ead12a45d3b86309d73df0ffda6c5db6ca69873cce1810680df79b4",
+  "fetchedAt": "2026-10-27T22:10:41.889802+00:00",
+  "frontmatter": {
+   "description": "Ingest links, articles, tweets, and ideas into the brain. Fetch content, save\nto brain with analysis, credit the author (people page only when they pass the\nnotability gate), and cross-link. Use when the user shares a link or says\n\"read this\", \"save this\", \"think about this\".\n",
+   "mutating": true,
+   "name": "idea-ingest",
+   "tools": [
+    "search",
+    "query",
+    "get_page",
+    "put_page",
+    "add_link",
+    "add_timeline_entry",
+    "file_upload"
+   ],
+   "triggers": [
+    "shares a link or URL",
+    "read this",
+    "save this",
+    "think about this",
+    "put this in brain"
+   ],
+   "upstream": "idea-ingest@fc834ee",
+   "version": "1.2.0",
+   "writes_pages": true,
+   "writes_to": [
+    "people/",
+    "concepts/",
+    "sources/"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

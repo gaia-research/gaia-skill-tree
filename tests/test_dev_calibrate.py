@@ -168,6 +168,9 @@ def test_starbar_passes_with_blob_url(tmp_path, monkeypatch):
     monkeypatch.setattr("gaia_cli.commands.dev.calibrate._get_contributor", lambda: "alice")
     monkeypatch.setattr("gaia_cli.commands.dev.calibrate._run_docs_build", lambda *a, **kw: None)
     monkeypatch.setattr("gaia_cli.commands.dev.calibrate.append_skill_event", lambda *a, **kw: None)
+    # The star gate is covered in test_dev_cli_calibration_gaps.py; satisfy it here.
+    monkeypatch.setattr("gaia_cli.trustMagnitude.computeTrustMagnitude", lambda *a, **kw: 150.0)
+    monkeypatch.setattr("gaia_cli.trustMagnitude.computeOverallTrustGradeFromSkill", lambda *a, **kw: "A")
 
     meta_calibrate_command(_args(root, level="4★"))
 

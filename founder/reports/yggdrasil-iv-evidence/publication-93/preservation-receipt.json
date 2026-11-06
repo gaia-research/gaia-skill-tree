@@ -1,0 +1,63 @@
+{
+  "adoption": "not merged; founder requested pause",
+  "approval": "unavailable",
+  "archives": [
+    {
+      "bytes": 94102633,
+      "files": 2558,
+      "path": ".gaia/yggdrasil-iv/recovery/publication-93-parent-evidence/replay-one-declared-artifacts.tar.gz",
+      "scope": "all declared artifact bytes plus context/stages/manifest; source reconstructible from pinned Git SHA, not a full working-tree copy",
+      "sha256": "cb4ff118c256e96eb423e3fec2a31e75e3d30e7d90beec6791f6793e14b019e4"
+    },
+    {
+      "bytes": 94102350,
+      "files": 2558,
+      "path": ".gaia/yggdrasil-iv/recovery/publication-93-parent-evidence/replay-two-declared-artifacts.tar.gz",
+      "scope": "all declared artifact bytes plus context/stages/manifest; source reconstructible from pinned Git SHA, not a full working-tree copy",
+      "sha256": "85e3738fd7b0146965633f445a05cff484059d7196c7572778800a179bc05f4c"
+    }
+  ],
+  "backup_scope": "local only; no off-device backup claimed",
+  "original_roots_retained": "/data/data/com.termux/files/usr/tmp/yggiv-publication-93.ueb33698",
+  "proof": {
+    "evaluation_at": "2026-10-25T12:00:00Z",
+    "head_after": "93fb731ea8842ef07fd703bb0b58dea944a83a0d",
+    "interpreter": "/data/data/com.termux/files/home/gaia-skill-tree/.gaia/yggdrasil-iv/runtime/publication-venv/bin/python",
+    "runs": [
+      {
+        "artifact_count": 2555,
+        "build_seconds": 780.37,
+        "exit": 0,
+        "independent_verify": true,
+        "name": "replay-one",
+        "root": "/data/data/com.termux/files/usr/tmp/yggiv-publication-93.ueb33698/replay-one",
+        "snapshotId": "862c3537babee14e27ad8c19afd8e30d0a07cf1b8d319ff6465757465d788c3f",
+        "verify_seconds": 252.1
+      },
+      {
+        "artifact_count": 2555,
+        "build_seconds": 881.86,
+        "exit": 0,
+        "independent_verify": true,
+        "name": "replay-two",
+        "root": "/data/data/com.termux/files/usr/tmp/yggiv-publication-93.ueb33698/replay-two",
+        "snapshotId": "862c3537babee14e27ad8c19afd8e30d0a07cf1b8d319ff6465757465d788c3f",
+        "verify_seconds": 219.13
+      }
+    ],
+    "seconds": 2324.65,
+    "sha": "93fb731ea8842ef07fd703bb0b58dea944a83a0d",
+    "source_changed": [],
+    "state": "completed",
+    "success": true,
+    "tests_exit": 0,
+    "two_root_byte_equal": true
+  },
+  "regressions": {
+    "bounded_replay_timeout_relaxed": false,
+    "excluded": [],
+    "passed": 326,
+    "seconds": 177.59
+  },
+  "source_sha": "93fb731ea8842ef07fd703bb0b58dea944a83a0d"
+}

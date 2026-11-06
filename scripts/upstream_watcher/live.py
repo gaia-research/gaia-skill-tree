@@ -185,8 +185,8 @@ class LiveGh:
 
         Pagination is the census contract (``scripts.steward_issue_census.listAll``): follow ``rel="next"``, refuse a
         short page before the last, and refuse an empty linked page unless the repository's count confirms it. The
-        open listing is confirmed exactly against the repository's ``open_issues_count``, and a labelled open list is
-        taken from that verified listing, so no search index is involved. A closed listing has no count to confirm its
+        open listing needs exact, stable counts (repository metadata or independently typed connection counts), and a
+        labelled open list is taken from that verified listing, so no search index is involved. A closed listing has no count to confirm its
         end, so each walk ending on a full page is refused, and the closed read keeps the largest complete walk of up to
         LIST_ATTEMPTS. Only a history every attempt returns empty is accepted as an empty history.
         """
@@ -229,10 +229,11 @@ class LiveGh:
         return best
 
     def _verified_open(self) -> list[dict]:
-        """The open listing, confirmed exactly against the repository's own open count, read again on a mismatch.
+        """Confirm an open REST listing against exact counts, never an offset tolerance.
 
-        A mismatch can be a create or close landing between the two reads, so the read is retried a few times. A
-        persistent mismatch is unknown evidence, not an empty backlog.
+        Metadata agrees before/after, or typed connection counts bracket a second
+        identical complete walk. Churn, partial/duplicate pages and unknown counts
+        are retried, then remain unknown evidence, never an empty backlog.
         """
         path = f"repos/{self.repo}/issues?state=open&per_page={PER_PAGE}"
         detail = "no attempt"
@@ -246,9 +247,24 @@ class LiveGh:
                 # An intermittent empty or short page is retried like a mismatch; a persistent one is refused below.
                 detail = str(exc)
                 continue
-            if count is not None and count == len(listing.rows):
+            if count is not None and count == len(listing.rows) and self._open_count() == count:
                 return listing.rows
             detail = f"listed {len(listing.rows)} open items, repository reports {count}"
+            # Repository metadata is an aggregate, not a transactionally consistent
+            # connection count (#2278). Never tolerate an offset or trust search.
+            # A disagreement needs independent, typed connection counts bracketing
+            # a second complete REST walk, with the same issue identities.
+            try:
+                totals = self._open_totals()
+                confirmed = self._walk(path, expected=sum(totals))
+                after = self._open_totals()
+                observed = (sum("pull_request" not in row for row in confirmed.rows),
+                            sum("pull_request" in row for row in confirmed.rows))
+                if totals == after == observed and [row["number"] for row in listing.rows] == [row["number"] for row in confirmed.rows]:
+                    return confirmed.rows
+                detail += f"; connection counts changed or listing disagrees ({totals}, {after}, {observed})"
+            except GhError as exc:
+                detail += f"; independent confirmation failed: {exc}"
         raise GhError(f"open issue listing not confirmed after {LIST_ATTEMPTS} attempts: {detail} (refusing)")
 
     def _walk(self, path: str, expected: int | None = None) -> Any:
@@ -258,6 +274,12 @@ class LiveGh:
             raise GhError(f"issue listing incomplete: {listing.reason} at {listing.failingRequest}")
         if any(size != PER_PAGE for size in listing.pageSizes[:-1]):
             raise GhError("issue listing has a short page before its last page; refusing a truncated list")
+        numbers: set[int] = set()
+        for row in listing.rows:
+            number = row.get("number") if isinstance(row, dict) else None
+            if isinstance(number, bool) or not isinstance(number, int) or number <= 0 or number in numbers:
+                raise GhError("issue listing contains malformed or duplicate identities (refusing)")
+            numbers.add(number)
         return listing
 
     def _fetch(self, url: str):
@@ -267,13 +289,37 @@ class LiveGh:
         return _parse_include(out)
 
     def _open_count(self) -> int | None:
-        """The repository's ``open_issues_count`` (issues and pull requests alike), or None when it cannot be read."""
+        """Repository metadata aggregate (issues + PRs), not an atomic listing snapshot; None if unreadable."""
         try:
             data = self._json(["gh", "api", f"repos/{self.repo}"])
         except GhError:
             return None
         count = data.get("open_issues_count") if isinstance(data, dict) else None
         return count if isinstance(count, int) and not isinstance(count, bool) and count >= 0 else None
+
+    def _open_totals(self) -> tuple[int, int]:
+        """Non-search GraphQL connection counts: open issues and open PRs separately.
+
+        Unknown/partial GraphQL responses never authorize a listing. Both counts
+        must match the REST row types exactly, not just their combined length.
+        """
+        owner, sep, name = self.repo.partition("/")
+        if not sep or not owner or not name:
+            raise GhError("invalid repository for connection count")
+        query = ("query($owner:String!,$name:String!){repository(owner:$owner,name:$name){"
+                 "issues(states:OPEN){totalCount} pullRequests(states:OPEN){totalCount}}}")
+        data = self._json(["gh", "api", "graphql", "-f", f"query={query}",
+                           "-f", f"owner={owner}", "-f", f"name={name}"])
+        try:
+            if not isinstance(data, dict) or data.get("errors"):
+                raise ValueError("GraphQL errors")
+            repository = data["data"]["repository"]
+            totals = tuple(repository[key]["totalCount"] for key in ("issues", "pullRequests"))
+            if any(isinstance(n, bool) or not isinstance(n, int) or n < 0 for n in totals):
+                raise ValueError("invalid counts")
+        except (KeyError, TypeError, ValueError) as exc:
+            raise GhError("open connection counts unavailable (refusing)") from exc
+        return totals
 
     def get_issue(self, number: int) -> dict:
         data = self._json(["gh", "api", f"repos/{self.repo}/issues/{number}"])

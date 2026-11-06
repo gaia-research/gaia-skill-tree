@@ -35,6 +35,7 @@ from typing import Any, Mapping, Sequence
 from gaia_cli.steward.controller import ScanResult
 from gaia_cli.steward.lane import Lane
 from gaia_cli.steward.models import AuthorityClass, Debt, FounderDecision, FounderQueue
+from gaia_cli.steward.prmaintenance import advice
 
 
 DIGEST_SCHEMA = "steward-founder-digest-v1"
@@ -102,6 +103,8 @@ def _recommendation(decision: FounderDecision) -> str | None:
     confident-sounding filler that makes a digest stop being worth reading.
     """
 
+    if decision.rule == ROUTINE_PR_FOUNDER_RULE:
+        return _routinePrAdvice(decision)
     if decision.rule != "lane-escalation":
         return None
     routine = decision.decision_target.split("/", 1)[-1]
@@ -113,6 +116,20 @@ def _recommendation(decision: FounderDecision) -> str | None:
         "accept that this finding is a Class C question in disguise and rule "
         "on it directly, or retire the routine."
     )
+
+
+def _routinePrAdvice(decision: FounderDecision) -> str:
+    """A held routine pull request gets a derivable procedural recommendation and an explicit no-opinion on the content.
+
+    The wording comes from ``prmaintenance.advice``, the same module the GitHub receipt uses, so the two surfaces cannot
+    disagree. State recorded by an older sensor, or hand-edited, is never trusted for the text: the observed gate names
+    are matched against a fixed set and everything else is fixed text.
+    """
+
+    observed = (decision.evidence[0].get("observedState") if decision.evidence else None) or {}
+    gates = observed.get("gates") if isinstance(observed, Mapping) else None
+    names = [g.get("name") for g in gates if isinstance(g, Mapping)] if isinstance(gates, list) else []
+    return advice.combined(*advice.pair(names))
 
 
 def _evidence_lines(evidence: Mapping[str, Any]) -> list[str]:
@@ -140,17 +157,20 @@ def _evidence_lines(evidence: Mapping[str, Any]) -> list[str]:
 
 
 ISSUE_FOUNDER_RULE = "issue-founder-decision"
+ROUTINE_PR_FOUNDER_RULE = "routine-pr-founder-decision"
 
 
 def issueQuestion(decision: FounderDecision) -> str | None:
     """The exact issue-hygiene question and its affected issues, when this decision is one."""
 
-    if decision.rule != ISSUE_FOUNDER_RULE or not decision.evidence:
+    if decision.rule not in (ISSUE_FOUNDER_RULE, ROUTINE_PR_FOUNDER_RULE) or not decision.evidence:
         return None
     observed = decision.evidence[0].get("observedState") or {}
     question = observed.get("question")
     if not isinstance(question, str) or not question:
         return None
+    if decision.rule == ROUTINE_PR_FOUNDER_RULE:
+        return f"{question} Pull request: {observed.get('repo')}#{observed.get('number')} at head {str(observed.get('headSha'))[:12]}."
     affected = observed.get("affected") or []
     numbers = ", ".join(f"#{number}" for number in affected if isinstance(number, int)) or "none listed"
     return f"{question} Affected issues: {numbers}."
@@ -264,7 +284,9 @@ def render_founder_digest(scan: ScanResult, queue: FounderQueue, lane: Lane) -> 
                 "  grouped the evidence and stopped there deliberately.",
             ])
         else:
-            sections.extend(["Steward recommendation", *_wrap(recommendation)])
+            sections.append("Steward recommendation")
+            for index, paragraph in enumerate(recommendation.split("\n\n")):
+                sections.extend(["", *_wrap(paragraph)] if index else _wrap(paragraph))
         sections.extend(["", f"Identity  {decision.decision_id}", ""])
 
     sections.extend([

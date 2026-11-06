@@ -60,9 +60,14 @@ LEDGER_FILENAME = "ledger.json"
 DEFAULT_REF = "steward/ledger"
 LOCAL_TRACKING_PREFIX = "refs/steward/remote-ledger"
 
-# A ledger larger than this is refused on load and write. Nothing is pruned
-# silently: hitting the bound is a signal that retention needs a decision.
-MAX_LEDGER_BYTES = 1024 * 1024
+# Uniform ledger load/write ceiling. Override with GAIA_STEWARD_LEDGER_MAX_BYTES
+# (1 KiB–64 MiB); invalid configuration fails closed. MAX_LEDGER_BYTES remains
+# the compatibility override for tests/callers that monkeypatch this constant.
+DEFAULT_MAX_LEDGER_BYTES = 8 * 1024 * 1024
+MAX_LEDGER_BYTES = DEFAULT_MAX_LEDGER_BYTES
+MIN_CONFIGURED_LEDGER_BYTES = 1024
+MAX_CONFIGURED_LEDGER_BYTES = 64 * 1024 * 1024
+
 
 WORK_STATES = (
     "queued",
@@ -77,7 +82,7 @@ WORK_STATES = (
 )
 
 TOP_LEVEL_KEYS = frozenset(
-    {"schemaVersion", "generation", "updatedAt", "runs", "leases", "work", "lane"}
+    {"schemaVersion", "generation", "updatedAt", "runs", "leases", "work", "lane", "operations"}
 )
 
 LOCAL_GIT_TIMEOUT = 30.0
@@ -139,6 +144,7 @@ def empty_ledger() -> dict[str, Any]:
         "leases": {},
         "work": {},
         "lane": None,
+        "operations": {},
     }
 
 
@@ -208,6 +214,9 @@ def validate_ledger(document: Any) -> dict[str, Any]:
     for key in ("runs", "leases", "work"):
         if not isinstance(document.get(key), dict):
             raise malformed(f"{key} must be an object")
+    operations = document.get("operations", {})
+    if not isinstance(operations, dict):
+        raise malformed("operations must be an object")
     lane = document.get("lane")
     if lane is not None:
         if not isinstance(lane, dict):
@@ -241,6 +250,29 @@ def validate_ledger(document: Any) -> dict[str, Any]:
     return document
 
 
+def ledgerByteLimit() -> int:
+    configured = os.environ.get("GAIA_STEWARD_LEDGER_MAX_BYTES")
+    if configured is None:
+        return MAX_LEDGER_BYTES
+    try:
+        value = int(configured, 10)
+    except (TypeError, ValueError):
+        raise LedgerUnavailable("invalid GAIA_STEWARD_LEDGER_MAX_BYTES configuration") from None
+    if not MIN_CONFIGURED_LEDGER_BYTES <= value <= MAX_CONFIGURED_LEDGER_BYTES:
+        raise LedgerUnavailable("GAIA_STEWARD_LEDGER_MAX_BYTES must be between 1024 and 67108864")
+    return value
+
+
+def reportLedgerSize(size: int, limit: int, direction: str) -> None:
+    percent = size * 100 / limit
+    if percent >= 70:
+        import logging
+        logging.getLogger(__name__).warning(
+            "Steward ledger size telemetry: direction=%s bytes=%d limit_bytes=%d percent=%.1f threshold=%s",
+            direction, size, limit, percent, "90%" if percent >= 90 else "70%",
+        )
+
+
 def serialize(document: Mapping[str, Any]) -> bytes:
     """Deterministic, diffable bytes. Raises LedgerUnavailable if oversized."""
 
@@ -252,18 +284,22 @@ def serialize(document: Mapping[str, Any]) -> bytes:
     except (TypeError, ValueError, RecursionError) as exc:
         raise LedgerUnavailable(f"ledger is not JSON-serializable: {exc}") from exc
     data = text.encode("utf-8")
-    if len(data) > MAX_LEDGER_BYTES:
+    limit = ledgerByteLimit()
+    reportLedgerSize(len(data), limit, "write")
+    if len(data) > limit:
         raise LedgerUnavailable(
-            f"ledger would be {len(data)} bytes, over the {MAX_LEDGER_BYTES} byte bound; "
+            f"ledger would be {len(data)} bytes, over the {limit} byte bound; "
             "retention needs a decision, nothing was pruned"
         )
     return data
 
 
 def deserialize(data: bytes) -> dict[str, Any]:
-    if len(data) > MAX_LEDGER_BYTES:
+    limit = ledgerByteLimit()
+    reportLedgerSize(len(data), limit, "read")
+    if len(data) > limit:
         raise LedgerUnavailable(
-            f"ledger is {len(data)} bytes, over the {MAX_LEDGER_BYTES} byte bound"
+            f"ledger is {len(data)} bytes, over the {limit} byte bound"
         )
     try:
         document = json.loads(data.decode("utf-8"), parse_constant=rejectConstant)
@@ -357,6 +393,7 @@ class GitRefLedgerStore:
         # read each other's fetch results.
         digest = hashlib.sha256(f"{self.remote}\0{self.ref}".encode("utf-8")).hexdigest()[:12]
         self.trackingRef = f"{LOCAL_TRACKING_PREFIX}-{digest}"
+        self.ephemeralRemote = f"steward-remote-{digest}"
         self.urls: tuple[str, str] | None = None
 
     # -- subprocess plumbing ------------------------------------------------
@@ -368,13 +405,14 @@ class GitRefLedgerStore:
         stdin: bytes | None = None,
         timeout: float,
         identity: bool = False,
+        env: Mapping[str, str] | None = None,
     ) -> subprocess.CompletedProcess:
-        env = {
+        sub_env = {
             key: value
             for key, value in os.environ.items()
             if key not in {"GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY"}
         }
-        env.update(
+        sub_env.update(
             {
                 "LC_ALL": "C",
                 "GIT_TERMINAL_PROMPT": "0",
@@ -384,9 +422,11 @@ class GitRefLedgerStore:
             }
         )
         # An unattended run must fail, never wait on a credential or host-key prompt.
-        env.setdefault("GIT_SSH_COMMAND", "ssh -o BatchMode=yes")
+        sub_env.setdefault("GIT_SSH_COMMAND", "ssh -o BatchMode=yes")
         if identity:
-            env.update(COMMIT_IDENTITY)
+            sub_env.update(COMMIT_IDENTITY)
+        if env:
+            sub_env.update(env)
         feed: dict[str, Any] = (
             {"stdin": subprocess.DEVNULL} if stdin is None else {"input": stdin}
         )
@@ -400,7 +440,7 @@ class GitRefLedgerStore:
                 **feed,
                 capture_output=True,
                 timeout=timeout,
-                env=env,
+                env=sub_env,
                 check=False,
             )
         except subprocess.TimeoutExpired as exc:
@@ -422,14 +462,33 @@ class GitRefLedgerStore:
             raise LedgerUnavailable(f"git {args[0]} failed: {self.outputText(result).strip()[:400]}")
         return result.stdout.decode("utf-8", "replace").strip()
 
+    def _remoteEnv(self, url: str) -> dict[str, str]:
+        """Subprocess environment mapping an ephemeral remote name to `url`.
+
+        Configuring the remote dynamically via environment variables keeps git
+        from:
+        1. Updating `refs/remotes/<remote>/<ref>` on push: git's push mechanism
+           maps pushed branches against the target remote's fetch refspecs.
+           An ephemeral remote has no fetch refspecs, so git leaves no trace
+           outside `refs/steward/`.
+        2. Leaking raw credential-bearing URLs into process argv or error logs.
+        3. Mutating repository or global configuration files.
+        """
+        return {
+            "GIT_CONFIG_COUNT": "1",
+            "GIT_CONFIG_KEY_0": f"remote.{self.ephemeralRemote}.url",
+            "GIT_CONFIG_VALUE_0": url,
+        }
+
     # -- load ---------------------------------------------------------------
 
     def resolveUrls(self) -> tuple[str, str]:
         """Fetch and push URLs of the configured remote.
 
-        Fetching and pushing by URL instead of by remote name keeps git from
-        opportunistically creating `refs/remotes/<remote>/<ref>` in the
-        caller's clone: the ledger must leave no trace outside `refs/steward/`.
+        Resolving URLs and binding them to an ephemeral remote via environment
+        variables prevents git from matching the caller's configured remote
+        fetch refspecs (e.g. `refs/remotes/<remote>/*`) and ensures no raw
+        credential-bearing URLs are passed on argv.
         """
 
         if self.urls is None:
@@ -445,7 +504,9 @@ class GitRefLedgerStore:
 
         _, pushUrl = self.resolveUrls()
         result = self.git(
-            ["ls-remote", pushUrl, f"refs/heads/{self.ref}"], timeout=self.remoteTimeout
+            ["ls-remote", self.ephemeralRemote, f"refs/heads/{self.ref}"],
+            timeout=self.remoteTimeout,
+            env=self._remoteEnv(pushUrl),
         )
         if result.returncode != 0:
             raise LedgerUnavailable(f"ledger ls-remote failed: {self.outputText(result).strip()[:400]}")
@@ -464,8 +525,9 @@ class GitRefLedgerStore:
             result = None
             for attempt in range(6):
                 result = self.git(
-                    ["fetch", "--no-tags", "--quiet", "--refmap=", fetchUrl, refspec],
+                    ["fetch", "--no-tags", "--quiet", "--refmap=", self.ephemeralRemote, refspec],
                     timeout=self.remoteTimeout,
+                    env=self._remoteEnv(fetchUrl),
                 )
                 if result.returncode == 0:
                     break
@@ -480,15 +542,18 @@ class GitRefLedgerStore:
             return self.plumb(["rev-parse", "--verify", f"{self.trackingRef}^{{commit}}"])
 
     def load(self) -> tuple[dict[str, Any], str | None]:
+        ledgerByteLimit()
         commit = self.fetchRemote()
         if commit is None:
             return empty_ledger(), None
         spec = f"{commit}:{LEDGER_FILENAME}"
         size = self.plumb(["cat-file", "-s", spec])
         try:
-            if int(size) > MAX_LEDGER_BYTES:
+            limit = ledgerByteLimit()
+            reportLedgerSize(int(size), limit, "read")
+            if int(size) > limit:
                 raise LedgerUnavailable(
-                    f"ledger is {size} bytes, over the {MAX_LEDGER_BYTES} byte bound"
+                    f"ledger is {size} bytes, over the {limit} byte bound"
                 )
         except ValueError as exc:
             raise LedgerUnavailable(f"unreadable ledger size: {size!r}") from exc
@@ -544,17 +609,17 @@ class GitRefLedgerStore:
         # i.e. is `expected`. A root commit (expected None) is a descendant of
         # nothing, so it cannot replace an existing ref.
         result = self.git(
-            ["push", "--no-verify", "--porcelain", pushUrl, f"{commit}:refs/heads/{self.ref}"],
+            [
+                "push",
+                "--no-verify",
+                "--porcelain",
+                self.ephemeralRemote,
+                f"{commit}:refs/heads/{self.ref}",
+            ],
             timeout=self.remoteTimeout,
+            env=self._remoteEnv(pushUrl),
         )
         if result.returncode == 0:
-            # Git may opportunistically update refs/remotes/<remote>/<ref>
-            # when pushUrl matches a configured remote. Remove it so the
-            # ledger leaves no trace outside refs/steward/.
-            self.git(
-                ["update-ref", "-d", f"refs/remotes/{self.remote}/{self.ref}"],
-                timeout=self.localTimeout,
-            )
             return commit
         self.classifyPushFailure(result, expected)
         raise AssertionError("classifyPushFailure always raises")  # pragma: no cover
@@ -621,6 +686,7 @@ class FileLedgerStore:
         return document, self.versionOf(document, data)
 
     def load(self) -> tuple[dict[str, Any], str | None]:
+        ledgerByteLimit()
         return self.readFile()
 
     def compare_and_swap(

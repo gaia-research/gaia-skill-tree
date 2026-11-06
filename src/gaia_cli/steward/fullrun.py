@@ -95,6 +95,9 @@ from gaia_cli.steward.clock import utcNow
 ISSUECLOSUREKIND = "issue_closure_ready"
 ISSUEROUTINE = "issue-hygiene"
 CLOSEACTION = "forge.close_issue"
+# Routine PR maintenance (routine 19): merge and closure are forge actions the runner emits and a driver performs.
+MERGEACTION = "forge.merge_pr"
+CLOSEPRACTION = "forge.close_pr"
 RECEIPTDIRECTORY = Path(".gaia/steward/issue-hygiene/receipts")
 REASONCODE = re.compile(r"[a-z][a-z0-9-]{0,39}")
 
@@ -509,8 +512,8 @@ class FullRunner:
     ) -> RunView:
         if mode not in MODEPHASES:
             raise FullRunError(f"unknown mode {mode!r}; choose from {', '.join(MODEPHASES)}")
-        if routine is not None and not 1 <= int(routine) <= 18:
-            raise FullRunError("routine must be between 1 and 18")
+        if routine is not None and not 1 <= int(routine) <= 19:
+            raise FullRunError("routine must be between 1 and 19")
         now = self._now()
         runId = f"run-{self.config.clock().astimezone(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}"
         phases = MODEPHASES[mode]
@@ -942,6 +945,8 @@ class FullRunner:
             "agent.verify": self._recordVerify,
             "forge.open_pr": self._recordPullRequest,
             "forge.close_issue": self._recordCloseIssue,
+            MERGEACTION: self._recordPrWrite,
+            CLOSEPRACTION: self._recordPrWrite,
             "lead.integrate": self._recordIntegrate,
         }
         handler = handlers.get(action["type"])
@@ -1281,23 +1286,11 @@ class FullRunner:
 
     @staticmethod
     def _compact(doc: dict[str, Any]) -> None:
-        """Bound ledger growth: old terminal runs keep their summary, not their detail."""
-
-        terminal = sorted(
-            (r for r in doc["runs"].values() if r.get("status") in TERMINALRUNSTATES),
-            key=lambda value: value["startedAt"], reverse=True,
-        )
-        for run in terminal[DETAILEDRUNS:RETAINEDRUNS]:
-            if run.get("trimmed") or run.get("compacted"):
-                continue
-            run["phases"] = {name: _headline(value) for name, value in (run.get("phases") or {}).items()}
-            run.pop("desk", None)
-            run["trimmed"] = True
-        for run in terminal[RETAINEDRUNS:]:
-            for key in ("steps", "actions", "phases", "proofArtifacts", "ciResults", "agentAssignments"):
-                if run.get(key):
-                    run[key] = []
-            run["compacted"] = True
+        """Preserve terminal proof until verified archival is implemented."""
+        # The former size-driven compaction discarded evidence and phase detail
+        # before any durable archive transfer. Capacity is now bounded by the
+        # ledger guard; retain history rather than silently losing provenance.
+        return
 
     def _failRun(self, runId: str, reason: str) -> None:
         now = self._now()
@@ -1858,6 +1851,96 @@ class FullRunner:
 
         return prepared
 
+    # -- forge.merge_pr / forge.close_pr (routine PR maintenance) ----------
+
+    def _emitPrMaintenance(self, runId: str, scan: ScanResult, policy: StewardPolicy) -> dict[str, Any]:
+        """Emit at most ONE merge or closure action: integration is sequential because every merge moves the base.
+
+        An action needs a debt whose sensor gates all passed AND an independent verification receipt for that exact head
+        and base. Verification is never emitted or assumed here; a debt without one is listed as awaiting it. The action
+        carries identifiers only: ``scripts/steward_pr.py gate-*`` re-derives every fact from live GitHub before any write.
+        """
+
+        from gaia_cli.steward.prmaintenance import state as prstate
+        from gaia_cli.steward.prmaintenance.evaluate import KIND_CLOSURE, KIND_MERGE
+
+        summary: dict[str, Any] = {"emitted": 0, "awaitingVerification": [], "deferred": [], "reason": None}
+        pol = policy.pr_maintenance
+        if policy.pr_maintenance_error or not pol.writesEnabled or pol.killSwitch or prstate.killSwitchActive(self.root, pol.killSwitch):
+            summary["reason"] = "PR maintenance writes are disabled or revoked; nothing is emitted"
+            return summary
+        doc = self._load()
+        run = doc["runs"][runId]
+        fresh = scan.fresh_open_debt_ids
+        ready = sorted((d for d in scan.open_debts if d.id in fresh and d.kind in (KIND_MERGE, KIND_CLOSURE)),
+                       key=lambda d: (str(d.observed_state.get("label") or ""), int(d.observed_state.get("number") or 0)))
+        now = self._now()
+        for debt in ready:
+            st = debt.observed_state
+            action = "merge" if debt.kind == KIND_MERGE else "close"
+            if not pol.actionEnabled(action):
+                continue
+            repo, number, head = st["repo"], int(st["number"]), str(st["headSha"])
+            if prstate.terminalFor(self.root, repo, number, action) is not None:
+                continue
+            ceiling = pol.maxMergesPerRun if action == "merge" else pol.maxClosuresPerRun
+            if prstate.writesInRun(self.root, runId, action) >= ceiling:
+                summary["deferred"].append({"number": number, "reason": f"run {action} budget ({ceiling}) is spent; resumes next run"})
+                continue
+            verified = any(v.get("repo") == repo and v.get("number") == number and v.get("action") == action
+                           and v.get("headSha") == head and v.get("baseSha") == st["baseSha"] and v.get("verdict") == "pass"
+                           for v in prstate.readRecords(self.root, "verifications"))
+            if not verified:
+                summary["awaitingVerification"].append({"number": number, "headSha": head[:12], "disposition": debt.kind})
+                continue
+            stepId = f"pr-{action}:{repo}#{number}:{head[:12]}"
+            if any(a["stepId"] == stepId for a in run["actions"]):
+                continue
+            params = {"repo": repo, "number": number, "headSha": head, "baseRef": st["baseRef"], "baseSha": st["baseSha"],
+                      "producerId": st["producerId"], "action": action, "evaluationSha256": st.get("evaluationSha256"),
+                      **({"reason": st["closureReason"], "replacement": st["replacement"]} if action == "close" else {})}
+
+            def apply(d: dict[str, Any], record: dict[str, Any], stepId=stepId, params=params, debtId=debt.id,
+                      key=f"{repo}#{number}@{head[:12]}", merging=(action == "merge")) -> None:
+                if merging:
+                    self._addAction(record, stepId, MERGEACTION, debtId, key, params, now)
+                else:
+                    self._addAction(record, stepId, CLOSEPRACTION, debtId, key, params, now)
+
+            self._mutateRun(runId, apply, message="steward full pr maintenance")
+            summary["emitted"] = 1
+            break
+        summary["awaitingVerification"] = summary["awaitingVerification"][:20]
+        summary["deferred"] = summary["deferred"][:20]
+        return summary
+
+    def _recordPrWrite(self, runId: str, action: dict[str, Any], outcome: dict[str, Any]) -> Callable:
+        """A merge or closure outcome is trusted only when the durable outcome store holds the same terminal line."""
+
+        from gaia_cli.steward.prmaintenance import state as prstate
+
+        params = action["params"]
+        result = outcome.get("state")
+        if result not in ("merged", "closed", "already-merged", "already-closed", "failed", "refused", "aborted"):
+            raise RecordRefused(f"{action['type']} outcome state must be merged, closed, already-*, failed, refused or aborted")
+        if outcome.get("repo") != params["repo"] or outcome.get("number") != params["number"]:
+            raise RecordRefused(f"{action['type']} outcome names a different pull request than its action")
+        if result in ("failed", "refused", "aborted") and not (isinstance(outcome.get("reason"), str) and outcome["reason"].strip()):
+            raise RecordRefused(f"a {result} outcome needs a reason")
+        if result in ("merged", "closed"):
+            try:
+                stored = prstate.terminalFor(self.root, params["repo"], params["number"], params["action"])
+            except prstate.StoreError as exc:
+                raise RecordRefused(f"the PR-maintenance outcome store is unreadable: {exc}") from exc
+            if stored is None or stored.get("state") != result or stored.get("headSha") != params["headSha"] \
+                    or (result == "merged" and stored.get("mergeCommitSha") != outcome.get("mergeCommitSha")):
+                raise RecordRefused(f"no recorded {result} outcome in the store matches this report; the action stays pending")
+
+        def prepared(doc: dict[str, Any], run: dict[str, Any], live: dict[str, Any]) -> None:
+            return None
+
+        return prepared
+
     def _floorStatus(self, runId: str) -> dict[str, Any]:
         """Does this run's integration branch pass the same floor as a landing?
 
@@ -2057,6 +2140,19 @@ class FullRunner:
         run = self._loadRun(runId)
         if self._pending(run, "agent.build"):
             return False
+        # Deterministic, zero-model PR stewardship comes first and is bounded by its own budget, never the dispatch lane's.
+        # A merge or closure waiting on its driver holds this phase. It cannot starve the lane: an awaiting run keeps the run lease only
+        # until its TTL, after which the next run adopts the work and marks the stale action superseded (the same rule as every action).
+        if self._pending(run, MERGEACTION) or self._pending(run, CLOSEPRACTION):
+            return False
+        prScan = self._scanFor(runId)
+        # --no-agents means no model dispatch AND no merge or closure action: a run that promised no agents never writes a PR.
+        if run["options"]["agents"] and not self._blockedByCoverage(prScan):
+            prSummary = self._emitPrMaintenance(runId, prScan, self._policyLoaded())
+            if prSummary["emitted"] or prSummary["awaitingVerification"] or prSummary["deferred"]:
+                self._mutateRun(runId, lambda _d, record: record.__setitem__("prMaintenance", prSummary), message="steward full pr summary")
+            if prSummary["emitted"]:
+                return False
         if not run["options"]["agents"]:
             return self._finish(runId, "class_b", {"status": "skipped", "reason": "agents disabled (--no-agents)"})
         scan = self._scanFor(runId)
@@ -2522,7 +2618,7 @@ class FullRunner:
         byId = {entry["id"]: entry for entry in sensors}
         routines = []
         bindings = self._routineBindings()
-        for number in range(1, 19):
+        for number in range(1, 20):
             ids = {e["id"] for e in sensors if number in e["routine_ids"]} | {
                 s for s in bindings.get(number, {"sensors": set()})["sensors"] if s in byId}
             detectors = [{"sensor": s, "state": byId[s]["state"]} for s in sorted(ids)]

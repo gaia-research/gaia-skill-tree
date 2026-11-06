@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/data/data/com.termux/files/usr/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "tests/test_frontier.py"
+  ],
+  "exitCode": 0,
+  "stdout": "...........................                                              [100%]\n27 passed in 7.36s\n",
+  "stderr": "",
+  "seconds": 9.582
+}

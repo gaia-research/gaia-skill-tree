@@ -6,11 +6,11 @@ origin: false
 genericSkillRef: implement-with-discernment
 status: named
 level: 1★
-description: Applies deliberate judgment before writing code, evaluating whether
-  to implement at all, scoping to the minimum needed, deferring or rejecting features
+description: Applies deliberate judgment before writing code, evaluating whether to
+  implement at all, scoping to the minimum needed, deferring or rejecting features
   that add complexity without proportionate value, and stopping when the task is done.
 createdAt: '2026-07-09'
-updatedAt: '2026-09-11'
+updatedAt: '2026-10-30'
 title: Implement With Discernment
 installable: false
 timeline:
@@ -21,7 +21,8 @@ timeline:
 - timestamp: '2026-07-08T21:02:30Z'
   action: evidence_added
   contributor: unknown
-  details: "Added evidence from https://github.com/rico-favor/gaia-skill-tree (type: repo-own)"
+  details: 'Added evidence from https://github.com/rico-favor/gaia-skill-tree (type:
+    repo-own)'
 - timestamp: '2026-07-08T21:48:31Z'
   action: demote
   contributor: unknown
@@ -29,16 +30,26 @@ timeline:
 - timestamp: '2026-09-11T16:00:00Z'
   action: note
   contributor: mbtiongson1
-  details: Restored from git history and recalibrated at 1★ baseline with substantive skill guidance
+  details: Restored from git history and recalibrated at 1★ baseline with substantive
+    skill guidance
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM (none) -> 5.7, grade (none) -> ungraded (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/rico-favor/gaia-skill-tree
   evaluator: rico-favor
   date: '2026-07-09'
   type: self-attestation
   trustNumber: 10.0
-  notes: Co-founder self-attestation of deliberate minimal implementation and anti-complexity workflows across Gaia engineering
+  notes: Co-founder self-attestation of deliberate minimal implementation and anti-complexity
+    workflows across Gaia engineering
 verification:
   firstEvidenceAt: '2026-07-08T21:02:30Z'
+trustMagnitude: 5.7
+overallTrustGrade: ungraded
+trustMagnitudeInputHash: 06064a6c06c90773a03f75a834cc2748ce4e9f3bcb90c7735ae6b6236695a8b8
 ---
 
 # Implement With Discernment

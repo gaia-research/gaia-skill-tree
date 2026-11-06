@@ -1,0 +1,669 @@
+[
+  {
+    "id": "mattpocock/diagnosing-bugs",
+    "kind": "named",
+    "path": "registry/named/mattpocock/diagnosing-bugs.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ named, TM 41.0 (C), gates pass. links.github blob SKILL.md resolves (200) and matches upstream tree. Origin false is plausible: bucket systematic-debugging origin holder is garrytan/investigate (TM 50) and obra/systematic-debugging (3★, TM 65.15) is not origin. Evidence: legacy class-only row (migration residue, allowed by META §2.1) duplicates the repo-own skill-file URL; self-attestation row is curator-entered directory evidence; repo-level row alive. No defect found.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/diagnosing-bugs.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md",
+      "registry/named-skills.json (bucket systematic-debugging)"
+    ]
+  },
+  {
+    "id": "mattpocock/domain-modeling",
+    "kind": "named",
+    "path": "registry/named/mattpocock/domain-modeling.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ named, TM 41.0 (C), gates pass. links.github blob SKILL.md resolves upstream (tree lists engineering/domain-modeling/SKILL.md). Sole member of its generic bucket with origin false: consistent with the unclaimed-bucket convention used by the other singleton buckets (not proposed). Evidence residue is migration-window legacy only. Body is the standard install block. No defect found.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/domain-modeling.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md"
+    ]
+  },
+  {
+    "id": "mattpocock/edit-article",
+    "kind": "named",
+    "path": "registry/named/mattpocock/edit-article.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "fail",
+      "body": "fail",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "3★ named, TM 94.92 (B). links.github https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md returns HTTP 404 on direct probe, and upstream tree has no skills/personal/ path; timeline records upstream_deprecated 2026-08-19 ('personal/ bucket deleted upstream; no successor'). The 2026-09-11 rank_up 1★→3★ post-dates the 2026-09-04 dead-link demotion and is contradicted by current upstream. Per Yggdrasil IV a dead link is review debt, not a demotion, so no demotion is proposed here; a canonical reviewer must repoint or retire it and decide the META §2.4 star-bar action. Also: Origin body section says '(origin: anthropic/pptx)' while frontmatter origin is false and the bucket holder is garrytan/document-generate; evidence row 1 has type 'repo' (not a schema type) with class B vs grade C; stars row grade C vs trustNumber 88 and timeline A; no upstream block despite the deletion event; suiteRef mattpocock/skills still lists it.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/edit-article.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md",
+      "registry/schema/meta.json (evidence.types)",
+      "registry/named-skills.json (bucket document-editing)"
+    ]
+  },
+  {
+    "id": "mattpocock/engineering",
+    "kind": "named",
+    "path": "registry/named/mattpocock/engineering.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 5,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "4★ suite, TM 102.5 (A), origin true, 14 components all present as named records. Rank holds on recorded data: the github-stars-own row alone computes to about 155 TM (META formula min(175, 35*log10(stars/10)) on 273,408 stars), so the 4★ TM≥100 gate does not depend on the peer rows. Evidence defect: two peer-review rows cite aihero.dev pages whose byline is Matt Pocock (the contributor), so they are first-party, not 'independent'; peer-review also needs 4★+ reviewers, which is not evidenced; the plainenglish row returned 403 (availability, bounded probe, not a basis). Metadata: description says 'Removed from mattpocock/skills suite in v1.0.1' while suiteRef and the 5★ capstone list it; body says 'ten complementary skills' and names To PRD/To Issues while 14 components are listed. Structural: components mattpocock/zoom-out and mattpocock/ubiquitous-language have upstream links that 404 (paths absent from upstream tree); mattpocock/diagnose points to a path that 404s (live skill is diagnosing-bugs).",
+    "evidenceRefs": [
+      "registry/named/mattpocock/engineering.md",
+      "https://www.aihero.dev/skills-to-spec",
+      "https://www.aihero.dev/things-people-get-wrong-with-grill-me-and-grill-with-docs",
+      "https://ai.plainenglish.io/i-tested-matt-pococks-claude-code-skills-and-the-lesson-was-not-what-i-expected-9f2aceca59c6",
+      "https://github.com/mattpocock/skills"
+    ]
+  },
+  {
+    "id": "mattpocock/git-guardrails-claude-code",
+    "kind": "named",
+    "path": "registry/named/mattpocock/git-guardrails-claude-code.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ named, TM 41.0 (C), gates pass. links.github blob SKILL.md resolves upstream (misc/git-guardrails-claude-code/SKILL.md present). suiteRef mattpocock/misc and misc suite lists it (consistent). Body says it is part of the mattpocock/skills repo suite, which is true at repo level. Evidence residue (legacy class row, curator-entered self-attestation) is migration-window only. guardrails bucket has no origin holder; no merit contest. No defect found.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/git-guardrails-claude-code.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code/SKILL.md"
+    ]
+  },
+  {
+    "id": "mattpocock/grill-me",
+    "kind": "named",
+    "path": "registry/named/mattpocock/grill-me.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 5,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ named, TM 63.71 (B). links.github blob SKILL.md resolves (200) and exists upstream; META §2.4 star bar met; 3★ has no TM gate, so the rank is not at risk from evidence cleanup. Evidence defects: type 'repo' is not in registry/schema/meta.json evidence.types; three peer-review rows are GitHub Discussions and issues #240/#311 on the contributor's own repo (community threads, not 4★+ reviewer walkthroughs); the youtube @mattpocockuk row is the contributor's own channel, not an external creator (social-signal definition); three rows carry class A with grade C. Body Origin section says 'second named implementation of the design-review bucket (origin: grill-with-docs)', which contradicts frontmatter genericSkillRef grill-me (a singleton bucket). Evidence note 'viral engineering pattern' is subjective wording.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/grill-me.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md",
+      "https://github.com/mattpocock/skills/issues/240",
+      "https://github.com/mattpocock/skills/issues/311",
+      "https://github.com/mattpocock/skills/discussions",
+      "https://www.youtube.com/@mattpocockuk",
+      "registry/schema/meta.json"
+    ]
+  },
+  {
+    "id": "mattpocock/grill-with-docs",
+    "kind": "named",
+    "path": "registry/named/mattpocock/grill-with-docs.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 5,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "3★ named, TM 63.71 (B), origin true as sole member of bucket grill-with-docs. links.github blob SKILL.md resolves (200), star bar met. Evidence defects: type 'repo' invalid; three peer-review rows are upstream Discussions and issues #299/#341 (community threads, not 4★+ reviewer walkthroughs); youtube @mattpocockuk row is the contributor's own channel; class A vs grade C on three rows. Body Origin section says it is origin for the design-review bucket, which contradicts frontmatter genericSkillRef grill-with-docs. Description 'The ultimate evolution of the grill pattern' is subjective marketing wording and should be neutral.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/grill-with-docs.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md",
+      "https://github.com/mattpocock/skills/issues/299",
+      "https://github.com/mattpocock/skills/issues/341",
+      "https://github.com/mattpocock/skills/discussions"
+    ]
+  },
+  {
+    "id": "mattpocock/grilling",
+    "kind": "named",
+    "path": "registry/named/mattpocock/grilling.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ named, TM 41.0 (C), gates pass. links.github blob SKILL.md resolves (200) and exists upstream (productivity/grilling/SKILL.md). design-review bucket has no origin holder, so origin false is consistent. Observation only, not a defect: the upstream repo ships grilling and grill-me as separate productivity skills with near-identical intent; the curator may confirm the distinction in the capability description. Evidence residue is migration-window only.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/grilling.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md",
+      "registry/named/mattpocock/grill-me.md"
+    ]
+  },
+  {
+    "id": "mattpocock/handoff",
+    "kind": "named",
+    "path": "registry/named/mattpocock/handoff.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 7,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "3★ named, TM 63.71 (B). Star bar fails the literal META §2.4 rule: links.github is a directory blob (skills/productivity/handoff) rather than a concrete file. The concrete file exists upstream (productivity/handoff/SKILL.md, alive 200 in liveness check) and is already cited by the repo-own evidence row, so repoint is straightforward. Evidence defects: six peer-review rows are upstream GitHub issues #171, #172, #175, #186, #235, #349 (community feature/bug threads, not 4★+ reviewer walkthroughs); type 'repo' invalid; three rows class A vs grade C. 3★ has no TM gate, so the rank is unaffected by the evidence cleanup.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/handoff.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md",
+      "https://github.com/mattpocock/skills/issues/171",
+      "https://github.com/mattpocock/skills/issues/349"
+    ]
+  },
+  {
+    "id": "mattpocock/implement",
+    "kind": "named",
+    "path": "registry/named/mattpocock/implement.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ named, TM 41.0 (C), gates pass. links.github blob SKILL.md resolves (200) and exists upstream (engineering/implement/SKILL.md). executing-plans bucket origin is obra/executing-plans (3★, TM 95.15), so mattpocock/implement origin false is plausible. Description (implement at pre-agreed TDD seams from a PRD or issues) fits the executing-plans generic. Evidence residue is migration-window only. No defect found.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/implement.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md",
+      "registry/named-skills.json (bucket executing-plans)"
+    ]
+  },
+  {
+    "id": "mattpocock/improve-codebase-architecture",
+    "kind": "named",
+    "path": "registry/named/mattpocock/improve-codebase-architecture.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "2★ named, TM 45.0 (C). links.github blob SKILL.md present upstream (engineering/improve-codebase-architecture/SKILL.md). Evidence defect: both rows are typed peer-review but are upstream GitHub issue #180 and discussion #287 (community threads, reviewer rank undocumented); no row cites the skill file itself, so the TM of 45 rests entirely on threads. Semantic topic relevance is fine. Suggest re-typing these rows and, if the curator agrees, adding a repo-own row for the SKILL.md. 2★ has no TM gate, so rank is not at risk. Origin: refactor-code bucket has no holder; the 4★ addy-osmani/code-simplification (TM 190) is a bucket observation for its own auditor, not proposed here.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/improve-codebase-architecture.md",
+      "https://github.com/mattpocock/skills/issues/180",
+      "https://github.com/mattpocock/skills/discussions/287",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/improve-codebase-architecture/SKILL.md"
+    ]
+  },
+  {
+    "id": "mattpocock/migrate-to-shoehorn",
+    "kind": "named",
+    "path": "registry/named/mattpocock/migrate-to-shoehorn.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ named, TM 41.0 (C), gates pass. links.github blob SKILL.md resolves (200) and exists upstream (misc/migrate-to-shoehorn/SKILL.md). suiteRef mattpocock/misc and the misc suite list it (consistent). refactor-code is a broad generic but a reasonable home for a test-migration skill. Evidence residue is migration-window only. No defect found.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/migrate-to-shoehorn.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/misc/migrate-to-shoehorn/SKILL.md"
+    ]
+  },
+  {
+    "id": "mattpocock/misc",
+    "kind": "named",
+    "path": "registry/named/mattpocock/misc.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "4★ suite, TM 200.29 (A), origin true as sole member of mattpocock-misc. All four suite components exist and their links resolve upstream. Rank holds on recorded data: the github-stars-own row alone computes to about 155 TM, above the 4★ gate of 100. Evidence defect: the two peer-review rows do not support this capability. The joaoqueiros review has no substantive coverage of guardrails, shoehorn, scaffold or pre-commit (0 matches each); the buzzrag page covers grill-me and improve-codebase-architecture, and its footer reads 'Written by AI. Edited by humans.' Notes claim coverage of writing-for-agents and improve-codebase-architecture, which are not misc components. Reviewer rank is undocumented. Body is a placeholder: 'Add installation instructions here.' with no overview, on a 4★ record.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/misc.md",
+      "https://buzzrag.com/article/matt-pocock-modular-claude-code-skills-explained",
+      "https://www.ai.joaoqueiros.com/blog/matt-pocock-ai-coding-skills-grill-spec-ticket-review",
+      "https://github.com/mattpocock/skills/blob/main/skills/misc/scaffold-exercises/SKILL.md"
+    ]
+  },
+  {
+    "id": "mattpocock/obsidian-vault",
+    "kind": "named",
+    "path": "registry/named/mattpocock/obsidian-vault.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "fail",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "fail",
+      "body": "fail",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "3★ named, TM 94.92 (B). links.github points to a directory blob (skills/personal/obsidian-vault); the SKILL.md probe returns HTTP 404 and the upstream tree has no skills/personal/ path. Timeline upstream_deprecated 2026-08-19: 'deleted upstream for security: hardcoded personal vault path, was model-invocable'. Star bar (META §2.4) is unmet on live evidence. Per Yggdrasil IV a dead link is review debt, not a demotion, and a security-motivated removal is a Class C adjudication: no demotion or rank action is proposed here; the security question must be routed to founder/security review first. Evidence: type 'repo' invalid; class B vs grade C; stars row grade C vs trustNumber 88 and timeline A; youtube EJyuu6zlQCg is not shown to cover this skill (the video is described as '5 Claude Code skills', and the same URL is also used for edit-article). Body Installation tells users to install mattpocock/skills, which no longer ships this skill; no overview; no upstream block records the deletion.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/obsidian-vault.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault",
+      "https://www.youtube.com/watch?v=EJyuu6zlQCg"
+    ]
+  },
+  {
+    "id": "mattpocock/personal",
+    "kind": "named",
+    "path": "registry/named/mattpocock/personal.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "fail",
+      "rank": "fail",
+      "starBar": "fail",
+      "origin": "fail",
+      "evidence": "fail",
+      "upstream": "fail",
+      "body": "fail",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "rank",
+    "findingSummary": "Suite recorded at 3★ with zero evidence rows, TM 0.0, ungraded. The generated registry/named-skills.json index shows 1★ for the same skill, so frontmatter and index disagree. META §1.1 places 3★ at community-verified/benchmark-verified tiers, and there is no evidence to support it, so there is no deterministic basis for 3★. origin true is held with no evidence and no merit basis. Starred-suite exemption (META §2.4) needs linked components; both components are unlinked live (edit-article and obsidian-vault SKILL.md probes return 404). Timeline records upstream_deprecated 2026-08-19 ('personal/ bucket removed entirely upstream; no successor'), but there is no upstream block, suiteRef still says mattpocock/skills, and the description says removed from that suite in v1.0.1. Body installs mattpocock/skills, which no longer contains personal/. Any rank or Origin change is a Class C canonical action; this is not a demotion on URL or time grounds.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/personal.md",
+      "registry/named-skills.json (bucket personal)",
+      "https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md",
+      "founder/YGGDRASIL_IV_RATIFICATION_2026-10-25.md"
+    ]
+  },
+  {
+    "id": "mattpocock/productivity",
+    "kind": "named",
+    "path": "registry/named/mattpocock/productivity.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 5,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "4★ suite, TM 102.5 (A), origin true as sole member. Rank holds on recorded data: the github-stars-own row alone computes to about 155 TM, above the 4★ gate of 100. Evidence defect: the aihero.dev peer-review row is first-party (Matt Pocock byline on the AI Hero platform), so it is not independent; the joaoqueiros review is relevant (grill-me, teach, handoff) but its reviewer rank is undocumented; the plainenglish row returned 403 and cannot be verified. Body Overview says the suite 'bundles three skills' while suiteComponents lists six (teach, to-questionnaire, wait-what are not described). Description says 'Removed from mattpocock/skills suite in v1.0.1' while suiteRef and the capstone list it. Component write-a-skill has a links.github path that is absent upstream (productivity/write-a-skill missing from the upstream tree).",
+    "evidenceRefs": [
+      "registry/named/mattpocock/productivity.md",
+      "https://www.aihero.dev/things-people-get-wrong-with-grill-me-and-grill-with-docs",
+      "https://www.ai.joaoqueiros.com/blog/matt-pocock-ai-coding-skills-grill-spec-ticket-review",
+      "https://ai.plainenglish.io/i-tested-matt-pococks-claude-code-skills-and-the-lesson-was-not-what-i-expected-9f2aceca59c6"
+    ]
+  },
+  {
+    "id": "mattpocock/prototype",
+    "kind": "named",
+    "path": "registry/named/mattpocock/prototype.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "2★ named, TM 41.21 (C). links.github is a directory blob (engineering/prototype) rather than a file; the concrete SKILL.md resolves (200 on direct probe), and the repo-own evidence row already cites it. 2★ is not star-barred, so this is hygiene only. Evidence defects: type 'repo' is not a schema evidence type; two rows are class A vs grade C; issue #145 ('GitHub issue proposing prototype skill variant') is typed peer-review, which is a feature proposal not a 4★+ reviewer walkthrough. 2★ has no TM gate, so rank is not at risk.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/prototype.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md",
+      "https://github.com/mattpocock/skills/issues/145"
+    ]
+  },
+  {
+    "id": "mattpocock/research",
+    "kind": "named",
+    "path": "registry/named/mattpocock/research.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "2★ named, TM 20.77 (C); recomputes correctly from its single repo-own row (523 commits, 4 contributors gives min(60, 523/200 + 4^2*2)*0.6 = 20.77), and 2★ clears the grade-C floor. links.github blob SKILL.md resolves (200 on direct probe). Evidence row type repo-own is valid. Defect: the body is a placeholder ('Add installation instructions here.') with no overview on a published record. The evidence note 'Confirmed-promoted' is an internal label, not a source claim; no change proposed for it.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/research.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md"
+    ]
+  },
+  {
+    "id": "mattpocock/resolving-merge-conflicts",
+    "kind": "named",
+    "path": "registry/named/mattpocock/resolving-merge-conflicts.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "fail",
+      "evidence": "fail",
+      "upstream": "fail",
+      "body": "fail",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "2★ named, TM 41.0 (C). links.github and the repo-own evidence row both cite skills/engineering/resolving-merge-conflicts/SKILL.md, which returns HTTP 404; the upstream git tree has no such path and holds only docs/engineering/resolving-merge-conflicts.md. Dead link on a 2★ record: review debt, not a demotion. Canonical reviewer should decide repoint (the docs file is not an installable SKILL.md) or retire. Body says it is included in the Matt Pocock skills suite, but it is not listed in mattpocock/skills, engineering or misc suite components, and upstream no longer ships it under skills/. No upstream block. Origin plausibility: git-integration origin holder ruvnet/github-suite is 2★ with TM 36.0, below this record's 41.0 on the same level, so a merit-based Origin would deterministically favor this record; a transfer is Class C and must be coupled to the ruvnet record. Evidence: class-only legacy row duplicates the 404 URL; self-attestation directory row.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/resolving-merge-conflicts.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts/SKILL.md",
+      "https://github.com/mattpocock/skills/blob/main/docs/engineering/resolving-merge-conflicts.md",
+      "registry/named-skills.json (bucket git-integration)"
+    ]
+  },
+  {
+    "id": "mattpocock/scaffold-exercises",
+    "kind": "named",
+    "path": "registry/named/mattpocock/scaffold-exercises.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "change-proposed",
+    "proposalType": "reclassification",
+    "findingSummary": "2★ named, TM 41.0 (C); links.github resolves upstream (misc/scaffold-exercises/SKILL.md, 200 on direct probe); suiteRef mattpocock/misc is consistent with the misc suite. Classification defect: genericSkillRef skill-authoring is the generic for designing and packaging agent skill directories, but scaffold-exercises creates course exercise directory structures with problems, solutions and explainers. No existing generic node covers exercise or course scaffolding (checked registry/nodes). Curator should reassign through canonical action or create a generic node (a new node is a structural change). Evidence residue is migration-window only.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/scaffold-exercises.md",
+      "registry/nodes/fusion/skill-authoring.json",
+      "https://github.com/mattpocock/skills/blob/main/skills/misc/scaffold-exercises/SKILL.md"
+    ]
+  },
+  {
+    "id": "mattpocock/setup-matt-pocock-skills",
+    "kind": "named",
+    "path": "registry/named/mattpocock/setup-matt-pocock-skills.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "fail",
+      "origin": "fail",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "3★ named, TM 56.21 (B). links.github is a directory blob (engineering/setup-matt-pocock-skills), not a concrete file, so the META §2.4 star bar fails literally; the concrete SKILL.md resolves (200 on direct probe) and is cited by the repo row, so repoint is straightforward. Evidence defects: type 'repo' invalid; peer-review rows are feature-request issues #177 and #220 (not reviewer walkthroughs); class A vs grade C on three rows. Origin: agent-environment-setup origin holder firecrawl/firecrawl-build-onboarding is 3★ with TM 50.0; this record is 3★ with TM 56.21, so a merit-based Origin would favor it. That is a Class C transfer and must be coupled to the firecrawl record (outside this batch). 3★ has no TM gate, so the evidence cleanup does not threaten rank.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/setup-matt-pocock-skills.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md",
+      "https://github.com/mattpocock/skills/issues/177",
+      "https://github.com/mattpocock/skills/issues/220",
+      "registry/named-skills.json (bucket agent-environment-setup)"
+    ]
+  },
+  {
+    "id": "mattpocock/setup-pre-commit",
+    "kind": "named",
+    "path": "registry/named/mattpocock/setup-pre-commit.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ named, TM 41.0 (C), gates pass. links.github blob SKILL.md resolves upstream (misc/setup-pre-commit/SKILL.md). suiteRef mattpocock/misc and the misc suite list it. guardrails is a reasonable generic for pre-commit hook setup. Evidence residue is migration-window only. No defect found.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/setup-pre-commit.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md"
+    ]
+  },
+  {
+    "id": "mattpocock/skills",
+    "kind": "named",
+    "path": "registry/named/mattpocock/skills.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "fail",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "fail",
+      "body": "pass",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 6,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "5★ capstone, recorded TM 374.99 (S). Origin satisfied: origin holders among components include engineering, productivity, personal and grill-with-docs. The S grade and the 5★ TM gate (≥250) rest on rows added 2026-09-04 and labelled 'verified' (timeline: TM 233.42 → 373.22, 'verified independent witness'). Pre-witness TM 233.42 is below 250. (1) arXiv 2607.03238 is recorded with citations 500 and grade S; Semantic Scholar shows citationCount 2 (published 2026-07-03), and the arXiv HTML names mattpocock/skills only as a corpus member with 2 of 1,126 adaptation instances (0.2%), so it is an adaptation study, not a quality witness; its arXiv magnitude would fall from the 100 cap to about 0.4. (2) The only eligible S witness, frontendmastery peer-review (A, reviewers 2), returns HTTP 404; reviewer 4★+ status is undocumented. Per Yggdrasil IV the 404 is review debt, with bounded probes at t0/+24h/+72h, and cannot itself demote. Rank change is proposed only after a deterministic recalculation under Class C. (3) Other rows: the G7 Trust Taxonomy Audit note is internal governance typed peer-review; youtube s5T5oQJcJ6U is the contributor's own channel; stars note 152,357 and 'divisor=4' conflict with the stars field 273,408; arXiv 2602.20867 is a general agentic-skills survey with no recorded coverage of mattpocock/skills. Structural: suiteComponents still include edit-article, obsidian-vault and personal (upstream removed; obsidian removed for security), and ubiquitous-language, write-a-skill and zoom-out have links that 404 upstream. Description 'The ultimate capstone suite' is subjective wording.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/skills.md",
+      "https://arxiv.org/abs/2607.03238",
+      "https://api.semanticscholar.org/graph/v1/paper/arXiv:2607.03238?fields=citationCount",
+      "https://frontendmastery.com/posts/matt-pocock-claude-code-skills-architecture/",
+      "https://arxiv.org/abs/2602.20867",
+      "https://www.youtube.com/watch?v=s5T5oQJcJ6U",
+      "https://github.com/mattpocock/skills"
+    ]
+  },
+  {
+    "id": "mattpocock/tdd",
+    "kind": "named",
+    "path": "registry/named/mattpocock/tdd.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "2★ named, TM 50.0 (B), origin true. links.github blob SKILL.md resolves upstream (engineering/tdd/SKILL.md). Origin plausibility holds: test-driven-development bucket has addy-osmani/test-driven-development (2★, TM 45.0) and obra/test-driven-development (1★, TM 9.0). Timeline records a 3★→2★ calibrate on 2026-09-09 that matches frontmatter. Evidence residue is migration-window only. No defect found.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/tdd.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
+      "registry/named-skills.json (bucket test-driven-development)"
+    ]
+  },
+  {
+    "id": "mattpocock/teach",
+    "kind": "named",
+    "path": "registry/named/mattpocock/teach.md",
+    "reviewer": "haiku:named-11",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 4,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "2★ named, TM 44.48 (C). links.github blob SKILL.md resolves upstream (productivity/teach/SKILL.md). Evidence defect: the social-signal row (youtube s5T5oQJcJ6U) is, by its own note, the contributor's own channel. social-signal is defined over external creators, so this row is mis-typed (re-type or remove). Migration-window class residue also present. 2★ has no TM gate, so rank is not at risk. Suite membership under productivity is consistent.",
+    "evidenceRefs": [
+      "registry/named/mattpocock/teach.md",
+      "https://www.youtube.com/watch?v=s5T5oQJcJ6U",
+      "https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md"
+    ]
+  }
+]

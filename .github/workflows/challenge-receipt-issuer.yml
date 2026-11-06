@@ -1,0 +1,291 @@
+name: Challenge receipt issuer
+
+# Single-operator issuer for Yggdrasil IV challenge receipts (EPIC #2189).
+#
+# FOUNDER, FIRST: create the repository environment `challenge-receipt-issuer` (required reviewer,
+# no admin bypass, tag rule `challenge-receipt/*`) BEFORE any tag is pushed. GitHub silently
+# auto-creates a missing environment WITHOUT protection; the approvals check then fails closed
+# (empty approvals), but the environment must exist and be protected for the click to mean anything.
+#
+# Push a tag `challenge-receipt/<case>-r<n>` that points at a commit containing
+# evidence/frontier-challenges/<case>/admission-request.json.
+#   prepare: repository code builds artifact.zip. UNTRUSTED runner (repository code can poison it);
+#            it only builds and uploads, and shows nothing the founder should rely on.
+#   show:    clean runner (no checkout, `python3 -I`): downloads the uploaded archive, derives the facts
+#            from its bytes, writes the ONLY founder-facing summary and the digest output.
+#   issue:   after the founder approves the `challenge-receipt-issuer` environment, ONLY pinned inline
+#            code runs (no checkout, no repository code, `python3 -I`): it re-derives the facts, checks
+#            the digest from `show` and the approvals, seals them, and the attest action signs
+#            artifact.zip + issuer-approval.json.
+# Verifiers pin THIS file by git blob SHA (src/gaia_cli/data/trust/challenge-receipt-issuer.json);
+# any edit here must be followed by re-pinning (tests/steward/test_challenge_receipt_issuer.py
+# prints the value). Keep the two `facts begin/end` blocks byte-identical (a test enforces it).
+# Design: founder/reports/yggdrasil-iv-october-2026/plans/issuer.md
+
+on:
+  push:
+    tags:
+      - "challenge-receipt/**"
+
+permissions: {}
+
+concurrency:
+  group: challenge-receipt-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    name: Build receipt (untrusted runner)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out the tagged commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Build receipt archive (repository code, unprivileged)
+        run: |
+          set -euo pipefail
+          [ "$GITHUB_REF_TYPE" = "tag" ] || { echo "not a tag push" >&2; exit 1; }
+          PYTHONPATH=src python3 scripts/buildChallengeReceipt.py build --tag "$GITHUB_REF_NAME" --out out
+          echo "Built by repository code on an untrusted runner. Review the facts in the 'show' job summary, not here." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload build output
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: receipt-build
+          path: out/artifact.zip
+          if-no-files-found: error
+          retention-days: 35
+
+  show:
+    name: Show facts (clean runner)
+    needs: prepare
+    runs-on: ubuntu-latest
+    permissions: {}
+    env:
+      TRIGGERING_ACTOR: ${{ github.triggering_actor }}
+    outputs:
+      receipt: ${{ steps.derive.outputs.receipt }}
+      digest: ${{ steps.derive.outputs.digest }}
+    steps:
+      - name: Download prepared receipt
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: receipt-build
+          path: out
+
+      - name: Derive and show the facts (pinned code)
+        id: derive
+        run: |
+          set -euo pipefail
+          python3 -I - <<'PY'
+          # --- facts begin
+          import hashlib, io, json, re, zipfile
+          def clean(value, pattern=r"[A-Za-z0-9._:/@+-]{1,200}"):
+              if not isinstance(value, str) or not re.fullmatch(pattern, value):
+                  raise SystemExit("unsafe or malformed receipt field: " + repr(value)[:80])
+              return value
+          def facts(path):
+              raw = open(path, "rb").read()
+              if len(raw) > 8 * 1024 * 1024:
+                  raise SystemExit("archive too large")
+              with zipfile.ZipFile(io.BytesIO(raw)) as z:
+                  infos = z.infolist()
+                  if len(infos) != 1 or infos[0].filename != "verification-receipt.json":
+                      raise SystemExit("archive must hold exactly verification-receipt.json")
+                  with z.open(infos[0]) as f:
+                      content = f.read(4 * 1024 * 1024 + 1)
+              if len(content) > 4 * 1024 * 1024:
+                  raise SystemExit("payload too large")
+              payload = json.loads(content)
+              r = payload["receipt"]
+              if payload["schemaVersion"] != 1:
+                  raise SystemExit("unsupported payload schema")
+              transcript = payload["transcript"].encode()
+              if hashlib.sha256(transcript).hexdigest() != r["transcript_digest"].removeprefix("sha256:"):
+                  raise SystemExit("transcript digest mismatch")
+              if hashlib.sha256(r["actual_output"].encode()).hexdigest() != r["output_digest"].removeprefix("sha256:"):
+                  raise SystemExit("output digest mismatch")
+              return {
+                  "receiptId": clean(r["receipt_id"], r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}"),
+                  "challengeId": clean(payload["challengeId"]),
+                  "verifier": clean(r["verifier_id"], r"[A-Za-z0-9-]{1,39}"),
+                  "builder": clean(r["builder_id"]),
+                  "contributor": clean(r["contributor_id"]),
+                  "result": clean(r["result"]),
+                  "contextDigest": clean(payload["contextDigest"], r"[0-9a-f]{64}"),
+                  "proofSourceSha": clean(payload["proofSourceSha"], r"[0-9a-f]{40}|[0-9a-f]{64}"),
+                  "transcriptSha256": hashlib.sha256(transcript).hexdigest(),
+                  "payloadDigest": hashlib.sha256(content).hexdigest(),
+                  "archiveSha256": hashlib.sha256(raw).hexdigest(),
+              }
+          # --- facts end
+          import os
+          TAG_RE = r"challenge-receipt/[a-z0-9][a-z0-9-]{0,62}-r[1-9][0-9]{0,2}"
+          f = facts("out/artifact.zip")
+          f["tag"] = clean(os.environ["GITHUB_REF_NAME"], TAG_RE)
+          f["triggeringActor"] = clean(os.environ["TRIGGERING_ACTOR"], r"[A-Za-z0-9\[\]-]{1,60}")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as out:
+              out.write("receipt=" + f["receiptId"] + "\ndigest=" + f["archiveSha256"] + "\n")
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as summary:
+              summary.write("\n".join([
+                  "### Challenge receipt ready for review (NOT yet issued)", "",
+                  "Derived in a clean runner (no checkout, python -I) from the exact artifact.zip that will be signed.",
+                  "Approve the environment only if every fact below is right.", "",
+                  "```json", json.dumps(f, indent=2, sort_keys=True), "```", "",
+                  "builder and contributor independence is declared by the request; it is not authenticated.",
+                  "The approver (you) is recorded as the verifier.", ""]))
+          PY
+
+  issue:
+    name: Issue receipt (founder approval)
+    needs: [prepare, show]
+    runs-on: ubuntu-latest
+    environment: challenge-receipt-issuer
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+      attestations: write
+    env:
+      REVIEWER_ID: "153011150"
+      ENVIRONMENT_NAME: challenge-receipt-issuer
+      RECEIPT_ID: ${{ needs.show.outputs.receipt }}
+      EXPECTED_DIGEST: ${{ needs.show.outputs.digest }}
+      REPOSITORY_ID: ${{ github.repository_id }}
+      OWNER_ID: ${{ github.repository_owner_id }}
+      TRIGGERING_ACTOR: ${{ github.triggering_actor }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Download prepared receipt
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: receipt-build
+          path: out
+
+      - name: Read the environment approvals
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/approvals" > approvals.json
+
+      - name: Verify the facts and seal the approval (pinned code)
+        run: |
+          set -euo pipefail
+          python3 -I - <<'PY'
+          # --- facts begin
+          import hashlib, io, json, re, zipfile
+          def clean(value, pattern=r"[A-Za-z0-9._:/@+-]{1,200}"):
+              if not isinstance(value, str) or not re.fullmatch(pattern, value):
+                  raise SystemExit("unsafe or malformed receipt field: " + repr(value)[:80])
+              return value
+          def facts(path):
+              raw = open(path, "rb").read()
+              if len(raw) > 8 * 1024 * 1024:
+                  raise SystemExit("archive too large")
+              with zipfile.ZipFile(io.BytesIO(raw)) as z:
+                  infos = z.infolist()
+                  if len(infos) != 1 or infos[0].filename != "verification-receipt.json":
+                      raise SystemExit("archive must hold exactly verification-receipt.json")
+                  with z.open(infos[0]) as f:
+                      content = f.read(4 * 1024 * 1024 + 1)
+              if len(content) > 4 * 1024 * 1024:
+                  raise SystemExit("payload too large")
+              payload = json.loads(content)
+              r = payload["receipt"]
+              if payload["schemaVersion"] != 1:
+                  raise SystemExit("unsupported payload schema")
+              transcript = payload["transcript"].encode()
+              if hashlib.sha256(transcript).hexdigest() != r["transcript_digest"].removeprefix("sha256:"):
+                  raise SystemExit("transcript digest mismatch")
+              if hashlib.sha256(r["actual_output"].encode()).hexdigest() != r["output_digest"].removeprefix("sha256:"):
+                  raise SystemExit("output digest mismatch")
+              return {
+                  "receiptId": clean(r["receipt_id"], r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}"),
+                  "challengeId": clean(payload["challengeId"]),
+                  "verifier": clean(r["verifier_id"], r"[A-Za-z0-9-]{1,39}"),
+                  "builder": clean(r["builder_id"]),
+                  "contributor": clean(r["contributor_id"]),
+                  "result": clean(r["result"]),
+                  "contextDigest": clean(payload["contextDigest"], r"[0-9a-f]{64}"),
+                  "proofSourceSha": clean(payload["proofSourceSha"], r"[0-9a-f]{40}|[0-9a-f]{64}"),
+                  "transcriptSha256": hashlib.sha256(transcript).hexdigest(),
+                  "payloadDigest": hashlib.sha256(content).hexdigest(),
+                  "archiveSha256": hashlib.sha256(raw).hexdigest(),
+              }
+          # --- facts end
+          import datetime, os
+          e = os.environ
+          tag = e["GITHUB_REF_NAME"]
+          m = re.fullmatch(r"challenge-receipt/([a-z0-9][a-z0-9-]{0,62})-r[1-9][0-9]{0,2}", tag)
+          if (e["GITHUB_REF_TYPE"] != "tag" or not m or e["GITHUB_REF"] != "refs/tags/" + tag
+                  or e["GITHUB_RUN_ATTEMPT"] != "1"):
+              raise SystemExit("not a first-attempt challenge-receipt tag run")
+          f = facts("out/artifact.zip")
+          if f["archiveSha256"] != e["EXPECTED_DIGEST"] or f["receiptId"] != e["RECEIPT_ID"]:
+              raise SystemExit("archive changed between prepare and issue")
+          items = json.load(open("approvals.json"))
+          if not isinstance(items, list) or len(items) != 1 or items[0]["state"] != "approved":
+              raise SystemExit("exactly one approved review and nothing else is required")
+          user, envs = items[0]["user"], [x["name"] for x in items[0]["environments"]]
+          if user["id"] != int(e["REVIEWER_ID"]) or e["ENVIRONMENT_NAME"] not in envs:
+              raise SystemExit("approval is not the founder's, or not for this environment")
+          if f["verifier"] != user["login"]:
+              raise SystemExit("receipt verifier_id must be the approver's GitHub login")
+          sealed = {
+              "schemaVersion": 1, "kind": "challenge-receipt-issuer-approval",
+              "repository": e["GITHUB_REPOSITORY"], "repositoryId": int(e["REPOSITORY_ID"]),
+              "ownerId": int(e["OWNER_ID"]), "environment": e["ENVIRONMENT_NAME"],
+              "workflowPath": ".github/workflows/challenge-receipt-issuer.yml", "tag": tag,
+              "ref": e["GITHUB_REF"], "sourceSha": e["GITHUB_SHA"], "runId": int(e["GITHUB_RUN_ID"]),
+              "runAttempt": 1, "caseId": m.group(1), "receiptId": f["receiptId"], "challengeId": f["challengeId"],
+              "artifactSha256": f["archiveSha256"], "payloadDigest": f["payloadDigest"],
+              "builder": f["builder"], "contributor": f["contributor"],
+              "triggeringActor": clean(e["TRIGGERING_ACTOR"], r"[A-Za-z0-9\[\]-]{1,60}"),
+              "approvals": [{"state": "approved",
+                             "user": {"id": user["id"], "login": clean(user["login"], r"[A-Za-z0-9-]{1,39}")},
+                             "environments": [{"name": clean(n)} for n in envs]}],
+              "sealedAtUtc": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+          }
+          with open("out/issuer-approval.json", "w") as out:
+              json.dump(sealed, out, indent=2, sort_keys=True)
+              out.write("\n")
+          with open(e["GITHUB_STEP_SUMMARY"], "a") as summary:
+              summary.write("\n".join(["### Challenge receipt sealed", "", "```json",
+                                       json.dumps(sealed, indent=2, sort_keys=True), "```", ""]))
+          PY
+
+      - name: Attest receipt archive and sealed approval
+        id: attest
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          create-storage-record: false
+          subject-path: |
+            out/artifact.zip
+            out/issuer-approval.json
+
+      - name: Collect the offline verification bundle
+        env:
+          BUNDLE_PATH: ${{ steps.attest.outputs.bundle-path }}
+        run: |
+          set -euo pipefail
+          cp "$BUNDLE_PATH" out/attestation.jsonl
+          {
+            echo "### Challenge receipt issued: \`${RECEIPT_ID}\`"
+            echo
+            echo "Download the \`challenge-receipt-${RECEIPT_ID}\` artifact into"
+            echo "\`evidence/frontier-challenges/<case>/receipt/\` and commit it."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the issuer bundle
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: challenge-receipt-${{ needs.show.outputs.receipt }}
+          path: |
+            out/artifact.zip
+            out/issuer-approval.json
+            out/attestation.jsonl
+          if-no-files-found: error
+          retention-days: 90

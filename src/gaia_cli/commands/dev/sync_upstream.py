@@ -30,6 +30,7 @@ from gaia_cli.commands.dev.helpers import (
     _get_contributor,
     _run_dev_preflights,
     _fail_dev_preflight,
+    preflightNamedSkillMutable,
 )
 from gaia_cli.registry import named_skills_dir
 from gaia_cli.frontmatter import (
@@ -94,21 +95,40 @@ def _pf_source_url_format(source_url: str) -> None:
         )
 
 
+def _normalize_repo_for_comparison(repo: Any) -> str | None:
+    """Normalize owner/repo for case-insensitive comparison.
+
+    Rejects non-strings, whitespace, and malformed owner/repo specifications.
+    """
+    if not isinstance(repo, str):
+        return None
+    if any(c.isspace() for c in repo):
+        return None
+    parts = repo.split("/")
+    if len(parts) != 2 or not parts[0] or not parts[1]:
+        return None
+    return repo.lower()
+
+
 def _pf_source_url_matches_skill(source_url: str, meta: dict, skill_id: str) -> None:
     """Ensure source-url owner/repo matches upstream.repo or links.github."""
     url_repo = _parse_owner_repo_from_url(source_url)
     if not url_repo:
         return  # already rejected by format check above
 
+    norm_url_repo = _normalize_repo_for_comparison(url_repo)
+
     # Acceptable: existing upstream.repo block
     existing_upstream_repo = (meta.get("upstream") or {}).get("repo")
-    if existing_upstream_repo and existing_upstream_repo == url_repo:
+    norm_existing = _normalize_repo_for_comparison(existing_upstream_repo)
+    if norm_url_repo and norm_existing and norm_existing == norm_url_repo:
         return
 
     # Acceptable: derived from links.github
     links_github = (meta.get("links") or {}).get("github", "")
     derived_repo = _parse_owner_repo_from_url(links_github)
-    if derived_repo and derived_repo == url_repo:
+    norm_derived = _normalize_repo_for_comparison(derived_repo)
+    if norm_url_repo and norm_derived and norm_derived == norm_url_repo:
         return
 
     _fail_dev_preflight(
@@ -206,6 +226,7 @@ def sync_upstream_command(args) -> None:
 
     # --- Pre-flight validation ---
     _run_dev_preflights([
+        lambda: preflightNamedSkillMutable(registry_path, skill_id),
         lambda: _pf_version_format(version),
         lambda: _pf_source_url_format(source_url),
         lambda: _pf_source_url_matches_skill(source_url, meta, skill_id),

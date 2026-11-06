@@ -1,0 +1,22 @@
+{
+  "recordedAt": "2026-11-06T00:13:33.790345+00:00",
+  "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-roster-py:0d3bca3f7369f4af",
+  "buildCommit": "97cc78632cdb271827f4818e0c9112faf4779eb5",
+  "independentVerdict": "accept",
+  "integrationPR": 2299,
+  "integrationMerge": "78bf592d439e0666afe0c4cef1e89d20cb7fe0a7",
+  "resolutionRun": "run-20261105T232943Z-77ad62ba",
+  "resolutionReceipt": "steward-20261105T233031Z-dbd4cf87175ef566",
+  "debtStatus": "resolved",
+  "resolvedWorkContainsTarget": true,
+  "authorityCounts": {
+    "A": 0,
+    "B": 324,
+    "C": 40
+  },
+  "unknownCoverage": [],
+  "canonicalBRepairsResolved": 2,
+  "rosterMainDelivered": false,
+  "historicalPreMergeScanNotPostMergeEvidence": "steward-20261105T204643Z-bb07723e281c9659",
+  "noAttemptsOrPhasesReset": true
+}

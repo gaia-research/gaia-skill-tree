@@ -1,0 +1,674 @@
+{
+  "skills": [
+    {
+      "id": "ruvnet/dual-coordinate",
+      "name": "Dual Coordinate",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-coordinate.json"
+      },
+      "genericSkillRef": "hybrid-workflow-coordination"
+    },
+    {
+      "id": "ruvnet/dual-mode",
+      "name": "Dual Mode",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 120.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-mode.json"
+      },
+      "genericSkillRef": "dual-mode",
+      "suiteComponents": [
+        "ruvnet/dual-collect",
+        "ruvnet/dual-coordinate",
+        "ruvnet/dual-spawn"
+      ]
+    },
+    {
+      "id": "ruvnet/dual-spawn",
+      "name": "Dual Spawn",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-spawn.json"
+      },
+      "genericSkillRef": "headless-worker-spawn"
+    },
+    {
+      "id": "ruvnet/flow-nexus",
+      "name": "Flow Nexus",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 240.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/flow-nexus.json"
+      },
+      "genericSkillRef": "multi-node-orchestration",
+      "suiteComponents": [
+        "ruvnet/flow-nexus-neural",
+        "ruvnet/flow-nexus-platform",
+        "ruvnet/flow-nexus-swarm"
+      ]
+    },
+    {
+      "id": "ruvnet/flow-nexus-neural",
+      "name": "Flow Nexus Neural",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/flow-nexus-neural.json"
+      },
+      "genericSkillRef": "distributed-neural-training"
+    },
+    {
+      "id": "ruvnet/flow-nexus-platform",
+      "name": "Flow Nexus Platform",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/flow-nexus-platform.json"
+      },
+      "genericSkillRef": "cloud-platform-management"
+    },
+    {
+      "id": "ruvnet/github-multi-repo",
+      "name": "GitHub Multi-Repo",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/github-multi-repo.json"
+      },
+      "genericSkillRef": "multi-repo-coordination"
+    },
+    {
+      "id": "ruvnet/github-suite",
+      "name": "GitHub Suite",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 240.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/github-suite.json"
+      },
+      "genericSkillRef": "git-integration",
+      "suiteComponents": [
+        "ruvnet/github-code-review",
+        "ruvnet/github-multi-repo",
+        "ruvnet/github-project-management",
+        "ruvnet/github-release-management",
+        "ruvnet/github-workflow-automation"
+      ]
+    },
+    {
+      "id": "ruvnet/pair-programming",
+      "name": "Pair Programming",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 220.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/pair-programming.json"
+      },
+      "genericSkillRef": "subagent-driven-development"
+    },
+    {
+      "id": "ruvnet/reasoningbank-intelligence",
+      "name": "ReasoningBank Intelligence",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/reasoningbank-intelligence.json"
+      },
+      "genericSkillRef": "adaptive-pattern-learning"
+    },
+    {
+      "id": "ruvnet/ruflo-v3",
+      "name": "Ruflo V3",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 274.83,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
+      },
+      "genericSkillRef": "platform-modernization-sprint",
+      "suiteComponents": [
+        "ruvnet/swarm-advanced",
+        "ruvnet/swarm-orchestration",
+        "ruvnet/v3-cli-modernization",
+        "ruvnet/v3-core-implementation",
+        "ruvnet/v3-ddd-architecture",
+        "ruvnet/v3-integration-deep",
+        "ruvnet/v3-mcp-optimization",
+        "ruvnet/v3-memory-unification",
+        "ruvnet/v3-performance-optimization",
+        "ruvnet/v3-security-overhaul",
+        "ruvnet/v3-swarm-coordination"
+      ]
+    },
+    {
+      "id": "ruvnet/stream-chain",
+      "name": "Stream Chain",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/stream-chain.json"
+      },
+      "genericSkillRef": "sequential-agent-pipeline"
+    },
+    {
+      "id": "ruvnet/swarm-advanced",
+      "name": "Swarm Advanced",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 100.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/swarm-advanced.json"
+      },
+      "genericSkillRef": "advanced-swarm-coordination"
+    },
+    {
+      "id": "ruvnet/swarm-orchestration",
+      "name": "Swarm Orchestration",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/swarm-orchestration.json"
+      },
+      "genericSkillRef": "swarm-topology-management"
+    },
+    {
+      "id": "ruvnet/v3-cli-modernization",
+      "name": "V3 CLI Modernization",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/v3-cli-modernization.json"
+      },
+      "genericSkillRef": "cli-modernization"
+    },
+    {
+      "id": "ruvnet/v3-core-implementation",
+      "name": "V3 Core Implementation",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/v3-core-implementation.json"
+      },
+      "genericSkillRef": "core-platform-implementation"
+    },
+    {
+      "id": "ruvnet/v3-ddd-architecture",
+      "name": "V3 DDD Architecture",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/v3-ddd-architecture.json"
+      },
+      "genericSkillRef": "ubiquitous-language"
+    },
+    {
+      "id": "ruvnet/v3-integration-deep",
+      "name": "V3 Integration Deep",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/v3-integration-deep.json"
+      },
+      "genericSkillRef": "system-integration"
+    },
+    {
+      "id": "ruvnet/worker-integration",
+      "name": "Worker Integration",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/worker-integration.json"
+      },
+      "genericSkillRef": "worker-agent-dispatch"
+    },
+    {
+      "id": "santifer/career-ops",
+      "name": "Career-Ops",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 240.0,
+      "contributor": "santifer",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/santifer/career-ops.json"
+      },
+      "genericSkillRef": "career-operations"
+    },
+    {
+      "id": "spring-ai/readme-generate",
+      "name": "REST API README Generator",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "spring-ai",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/spring-ai/readme-generate.json"
+      },
+      "genericSkillRef": "write-report"
+    },
+    {
+      "id": "vercel/find-skills",
+      "name": "Find Skills",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "vercel",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/vercel/find-skills.json"
+      },
+      "genericSkillRef": "skill-discovery"
+    },
+    {
+      "id": "dralgorhythm/compliance",
+      "name": "compliance",
+      "level": "2★",
+      "trustMagnitude": 34.38,
+      "overallTrustGrade": "C",
+      "fusionScore": 160.0,
+      "contributor": "dralgorhythm",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/dralgorhythm/compliance.json"
+      },
+      "genericSkillRef": "regulatory-compliance-mapping"
+    },
+    {
+      "id": "omer-metin/synthetic-data",
+      "name": "synthetic-data",
+      "level": "2★",
+      "trustMagnitude": 33.06,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "omer-metin",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/omer-metin/synthetic-data.json"
+      },
+      "genericSkillRef": "synthetic-data-generation"
+    },
+    {
+      "id": "arcmira/find-quotes",
+      "name": "find-quotes",
+      "level": "2★",
+      "trustMagnitude": 30.83,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "arcmira",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/arcmira/find-quotes.json"
+      },
+      "genericSkillRef": "retrieve"
+    },
+    {
+      "id": "anthropic/skill-creator",
+      "name": "Skill Creator",
+      "level": "2★",
+      "trustMagnitude": 30.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "anthropic",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/anthropic/skill-creator.json"
+      },
+      "genericSkillRef": "tool-creation"
+    },
+    {
+      "id": "upsonic/unittest-generator",
+      "name": "Unittest Generator",
+      "level": "2★",
+      "trustMagnitude": 30.0,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "upsonic",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/upsonic/unittest-generator.json"
+      },
+      "genericSkillRef": "generate-test"
+    },
+    {
+      "id": "hikari9/office-submit",
+      "name": "Office Submit",
+      "level": "2★",
+      "trustMagnitude": 24.34,
+      "overallTrustGrade": "C",
+      "fusionScore": 40.0,
+      "contributor": "hikari9",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/hikari9/office-submit.json"
+      },
+      "genericSkillRef": "verification-before-completion"
+    },
+    {
+      "id": "aplaceforallmystuff/log-to-daily",
+      "name": "Log To Daily",
+      "level": "2★",
+      "trustMagnitude": 22.67,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "aplaceforallmystuff",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/aplaceforallmystuff/log-to-daily.json"
+      },
+      "genericSkillRef": "session-journaling"
+    },
+    {
+      "id": "mattpocock/code-review",
+      "name": "Code Review",
+      "level": "2★",
+      "trustMagnitude": 20.77,
+      "overallTrustGrade": "C",
+      "fusionScore": 140.0,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/code-review.json"
+      },
+      "genericSkillRef": "requesting-code-review"
+    },
+    {
+      "id": "mattpocock/research",
+      "name": "Research",
+      "level": "2★",
+      "trustMagnitude": 20.77,
+      "overallTrustGrade": "C",
+      "fusionScore": 60.0,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/research.json"
+      },
+      "genericSkillRef": "research"
+    },
+    {
+      "id": "mattpocock/to-questionnaire",
+      "name": "To Questionnaire",
+      "level": "2★",
+      "trustMagnitude": 20.77,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/to-questionnaire.json"
+      },
+      "genericSkillRef": "questionnaire-generation"
+    },
+    {
+      "id": "mattpocock/wait-what",
+      "name": "Wait What",
+      "level": "2★",
+      "trustMagnitude": 20.77,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/wait-what.json"
+      },
+      "genericSkillRef": "plain-language-restatement"
+    },
+    {
+      "id": "mattpocock/wayfinder",
+      "name": "Wayfinder",
+      "level": "2★",
+      "trustMagnitude": 20.77,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/wayfinder.json"
+      },
+      "genericSkillRef": "decision-ticket-planning"
+    },
+    {
+      "id": "mattpocock/wizard",
+      "name": "Wizard",
+      "level": "2★",
+      "trustMagnitude": 20.77,
+      "overallTrustGrade": "C",
+      "fusionScore": 0.0,
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/wizard.json"
+      },
+      "genericSkillRef": "guided-setup-scripting"
+    },
+    {
+      "id": "heygen-com/general-video",
+      "name": "general-video",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": "ungraded",
+      "fusionScore": 160.0,
+      "contributor": "heygen-com",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/heygen-com/general-video.json"
+      },
+      "genericSkillRef": "video-composition"
+    },
+    {
+      "id": "mattpocock/personal",
+      "name": "Personal",
+      "level": "3★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": "ungraded",
+      "fusionScore": 120.0,
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/personal.json"
+      },
+      "genericSkillRef": "personal",
+      "suiteComponents": [
+        "mattpocock/edit-article",
+        "mattpocock/obsidian-vault"
+      ]
+    }
+  ],
+  "page": 7,
+  "totalPages": 7,
+  "totalSkills": 337,
+  "_links": {
+    "self": "/api/v1/skills/page-7.json",
+    "prev": "/api/v1/skills/page-6.json"
+  }
+}

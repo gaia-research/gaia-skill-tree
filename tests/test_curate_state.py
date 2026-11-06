@@ -41,3 +41,14 @@ def test_curation_run_ledger_append_persists(tmp_path):
 
     loaded = CurationRun.load(tmp_path / run.run_id)
     assert loaded.ledger == [entry]
+
+
+def test_curation_run_loads_historical_25_states(tmp_path):
+    for idx, state in enumerate(STATE_NAMES):
+        run = CurationRun(run_id=f"run-{idx}", current_state=state)
+        run_dir = tmp_path / f"run-{idx}"
+        run.save(run_dir)
+        loaded = CurationRun.load(run_dir)
+        assert loaded.current_state == state
+        assert loaded.run_id == f"run-{idx}"
+

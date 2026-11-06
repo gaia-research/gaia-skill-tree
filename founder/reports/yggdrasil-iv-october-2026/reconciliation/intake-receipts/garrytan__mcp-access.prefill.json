@@ -1,0 +1,97 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/mcp-access",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/mcp-access",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/mcp-access/SKILL.md",
+  "checked": true,
+  "contentSha256": "1bc16338b89f476aa8c24ffec79c989fa60716793998af264d357f7886d2bc96",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/remote-mcp",
+     "similarity": 0.579946
+    },
+    {
+     "id": "intelligentcode-ai/mcp-client",
+     "similarity": 0.502048
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "mcp-integration",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4571 to generic 'mcp-integration' (weak match).",
+   "similarity": 0.457093
+  }
+ ],
+ "normalized": {
+  "description": "Open the GBrain owner dashboard, manage MCP clients and permissions, or connect a native OAuth harness. Distinguishes owner administration from ordinary MCP access.",
+  "name": "mcp-access"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/mcp-access/SKILL.md",
+  "contentSha256": "1bc16338b89f476aa8c24ffec79c989fa60716793998af264d357f7886d2bc96",
+  "fetchedAt": "2026-10-27T21:59:52.368571+00:00",
+  "frontmatter": {
+   "brain_first": "exempt",
+   "description": "Open the GBrain owner dashboard, manage MCP clients and permissions, or connect a native OAuth harness. Distinguishes owner administration from ordinary MCP access.",
+   "mutating": true,
+   "name": "mcp-access",
+   "tools": [
+    "exec"
+   ],
+   "triggers": [
+    "GBrain admin login link",
+    "open the MCP admin panel",
+    "manage MCP clients",
+    "register an MCP client",
+    "set up MCP OAuth",
+    "connect this harness to my hosted brain",
+    "invalidate MCP tokens",
+    "revoke an MCP client",
+    "delete an MCP client",
+    "edit MCP access levels"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

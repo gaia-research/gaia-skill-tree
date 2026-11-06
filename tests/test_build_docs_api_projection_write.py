@@ -73,3 +73,28 @@ def test_api_projection_check_mode_does_not_write(tmp_path: Path, monkeypatch):
     assert changed is True
     data = json.loads((committed / "skills" / "c" / "a.json").read_text(encoding="utf-8"))
     assert data["trustMagnitude"] == 80.0
+
+
+def test_version_only_drift_is_refreshed_in_write_mode_not_flagged_in_check(tmp_path: Path, monkeypatch):
+    """health.json froze at an old release because `_diff_tree` masks `"version"`.
+
+    Write mode must heal a file whose ONLY difference is the version stamp;
+    --check keeps ignoring it (so a release does not red every open PR).
+    """
+    bd, committed = _setup(tmp_path, monkeypatch)
+    scripts = tmp_path / "scripts"
+    scripts.joinpath("buildApiProjection.py").write_text(
+        STUB.replace('"namedSkillsCount": 2}', '"namedSkillsCount": 2, "version": "9.9.9"}')
+        .replace('"trustMagnitude": 90.0', '"trustMagnitude": 80.0'),
+        encoding="utf-8",
+    )
+    (committed / "health.json").write_text(
+        json.dumps({"ok": True, "namedSkillsCount": 2, "version": "1.0.0"}), encoding="utf-8"
+    )
+    (committed / "skills" / "c" / "a.json").write_text(
+        json.dumps({"id": "c/a", "trustMagnitude": 80.0}), encoding="utf-8"
+    )
+    assert bd.build_api_projection(check=True) is False
+    assert json.loads((committed / "health.json").read_text())["version"] == "1.0.0"
+    assert bd.build_api_projection(check=False) is False
+    assert json.loads((committed / "health.json").read_text())["version"] == "9.9.9"

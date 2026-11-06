@@ -20,7 +20,7 @@ tags:
 - api-ux
 - onboarding
 createdAt: '2026-05-18'
-updatedAt: '2026-09-04'
+updatedAt: '2026-10-30'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -38,14 +38,14 @@ evidence:
   grade: B
 - source: https://github.com/garrytan/gstack
   evaluator: unknown
-  updatedAt: '2026-11-01'
+  updatedAt: '2026-10-01'
   date: '2026-06-20'
   type: github-stars-own
   trustNumber: 85.0
   grade: C
   notes: gstack suite repo — 110,930 GitHub stars; plan-devex-review is 1 of 42 named
     skills (verified 2026-06-20)
-  stars: 138527
+  stars: 134645
   skillCountInRepo: 42
   sourceStartedAt: '2024-01-01'
 timeline:
@@ -101,6 +101,11 @@ timeline:
   contributor: unknown
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-10-30T04:58:32Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
@@ -114,7 +119,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:32Z'
-trustMagnitudeInputHash: 3a39ffd119ecfbcdb9af8aa98c4897cf7b2857ebba9978ced132ac07c1205340
+trustMagnitudeInputHash: 56df74aca463136c5d12fa93a7ef501eb9f62a53fa500a0eb2fa110bd42edfab
 ---
 
 ## Overview

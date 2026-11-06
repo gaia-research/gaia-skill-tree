@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "frontier-protocol-v1",
+  "protocolId": "c1-graphify-vs-graft-callers-v1",
+  "revision": "1.0.0",
+  "purpose": "Pre-registered bounded comparison of Graphify 0.8.13 (challenger) and Graft 0.25.0 (incumbent, trailhq/graft) on caller lookup for 5 pinned functions in src/gaia_cli at d237c0839c9c9197fc861ecec839ed323a9748a4, scored against reviewed Python ast ground truth (fixture). Fixed runner: evidence/frontier-challenges/c1-graphify-vs-graft/runner/run-c1.py sha256 96df20b503314043d5634dea3d9ed8c9d8c7c68a8d9410c447e30eaa56a67e2a.",
+  "question": "On caller recall and precision for 5 pinned targets, does Graphify's code graph outperform Graft's wiring graph at answering who calls this function?",
+  "experiment": {
+    "id": "c1-graphify-vs-graft-callers-v1",
+    "toolName": "Graphify",
+    "runnerLabel": "Fixed Graphify/Graft caller-lookup runner",
+    "expectedArtifactKeys": ["experiment", "executionCheck", "requestId", "fixtureDigest", "protocolDigest", "pinnedRevision", "graphifyVersion", "executedVersion", "output", "outputDigest", "result"],
+    "outputField": "output",
+    "outputDigestField": "outputDigest",
+    "versionProbe": {"field": "graphifyVersion", "pattern": "graphify (\\S+)", "label": "graphify --version", "crossCheckField": "executedVersion"},
+    "resultRule": {
+      "statement": "Per target: recall = true-positive callers / ground-truth callers; caller identity = (path relative to src/gaia_cli, bare enclosing function name or <module>). Aggregate precision = micro-average over all 5 targets (true positives / total predicted; 0.0 if nothing predicted). Challenger = Graphify, incumbent = Graft. SUPPORTED iff Graphify recall >= Graft recall + 0.2 on at least 3 of the 5 targets AND Graphify micro precision >= Graft micro precision - 0.05. CONTRADICTED iff Graft recall >= Graphify recall on every one of the 5 targets AND Graft micro precision >= Graphify micro precision. Otherwise INCONCLUSIVE. A tool that cannot be installed or run at its pinned version yields execution_failed (recorded as blocked) with the error; no substitution. Graphify callers are the sources of 'calls' edges in graphify-out/graph.json into the target's node; Graft callers are the 'calls <-' lines of 'graft callers <name>'.",
+      "allowedResults": ["supported", "contradicted", "inconclusive", "execution_failed"]
+    }
+  }
+}

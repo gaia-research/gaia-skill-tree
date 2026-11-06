@@ -1,0 +1,1412 @@
+{
+  "purpose": "Evidence-only #2283 D1-D3 disposition matrix; never a detector allowlist or closure instruction.",
+  "originalReceipt": "steward-20261104T172307Z-5c244581790fe867",
+  "authorityLink": "https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6640916880",
+  "sourceCheckout": "d694986b865e158e21c613683021a9b7822f945c",
+  "originalInventoryLink": "https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6638770345",
+  "canonicalFinalDebtSha256ReportedByInventory": "c7ea88b223ece4f10084dded2219ce03ba55d1c92b49d4cd7d4f9af1cdb3a222",
+  "findingsMetadataSource": "campaigns/2026-11-05/debt-before.json; exact 39 IDs/paths/lines independently crosschecked against canonical published final inventory; metadata snapshot is not the final debt-file bytes.",
+  "findingsMetadataSourceSha256": "5729f76d9bb265cf06541acaf797eea6c1c129b3c378da7138ba4ee5eda23972",
+  "counts": {
+    "D1": 16,
+    "D2": 14,
+    "D3": 9
+  },
+  "securityLimit": "No verified embedded live credential in these original matches. No network validity tests, revocations, rotations, ledger mutations, independent acceptance, or integration claimed.",
+  "rows": [
+    {
+      "debtId": "debt:credential_leak:agents-skills-firecrawl-skill-md:dd0fc386f410185b",
+      "sourcePath": ".agents/skills/firecrawl/SKILL.md",
+      "canonicalSource": ".agents/skills/firecrawl/SKILL.md",
+      "duplicateGroup": ".agents/skills/firecrawl/SKILL.md",
+      "group": "D1",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "0ded5ee529c371f77d9a1c7d37740c17f7fc1b070192aa6f0f17c693a3f766f7",
+      "reviewedSourceSha256": "0ded5ee529c371f77d9a1c7d37740c17f7fc1b070192aa6f0f17c693a3f766f7",
+      "findings": [
+        {
+          "fingerprint": "764a6efd41a6",
+          "line": 256,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Truncated API response documentation placeholder, not an issued API key."
+        },
+        {
+          "fingerprint": "7786f66c14fb",
+          "line": 286,
+          "pattern": "bearer-token",
+          "status": "harmless",
+          "reason": "Explicit YOUR_API_KEY instruction placeholder in the REST authorization example."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "SKILL.md Path D polling response and Path E REST example; upstream source URL is firecrawl/skills. Source-owned documentation retained verbatim."
+      ],
+      "repairAndVerification": "Mirror parity and source-placeholder inspection; no Firecrawl requests or installs.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-detector-engine:7c8824c086679135",
+      "sourcePath": ".agents/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs",
+      "canonicalSource": ".agents/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs",
+      "duplicateGroup": ".agents/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs",
+      "group": "D1",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "b4520b3f001079bd175bf20d46c5197b1b8ec5fb98fdf72c50a24c0b6598ee99",
+      "reviewedSourceSha256": "b4520b3f001079bd175bf20d46c5197b1b8ec5fb98fdf72c50a24c0b6598ee99",
+      "findings": [
+        {
+          "fingerprint": "799f18baed47",
+          "line": 117,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Date/random-derived DOM annotation identifier for before/after screenshot capture, not an authorization credential."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "captureVisualContrastCandidate assigns/removes a data attribute through page.evaluate; caller supplies a page/selector."
+      ],
+      "repairAndVerification": "Node syntax and local screenshot clip compatibility smoke test.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-browser-js:5f45d00d7f30b9c6",
+      "sourcePath": ".agents/skills/impeccable/scripts/live-browser.js",
+      "canonicalSource": ".agents/skills/impeccable/scripts/live-browser.js",
+      "duplicateGroup": ".agents/skills/impeccable/scripts/live-browser.js",
+      "group": "D1",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "1e444b4e74ba2644899aa52dc8d73c29898ca6e9b5e3340835075447fa61d13f",
+      "reviewedSourceSha256": "1e444b4e74ba2644899aa52dc8d73c29898ca6e9b5e3340835075447fa61d13f",
+      "findings": [
+        {
+          "fingerprint": "a75f704f9b05",
+          "line": 22,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Reads the runtime-injected window session value; the source contains no embedded credential."
+        },
+        {
+          "fingerprint": "0f5b4a4bcda5",
+          "line": 9584,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Template interpolation of the runtime session variable in a local design-system fetch URL."
+        },
+        {
+          "fingerprint": "0f5b4a4bcda5",
+          "line": 9585,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Template interpolation of the runtime session variable in a local raw design-system fetch URL."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "live-server.mjs constructs browser prelude from state.token; state.token is created by randomUUID at line 2290; browser client consumes it."
+      ],
+      "repairAndVerification": "Node syntax; retained root UI metadata targets this browser DOM cohort. No live browser execution.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-complete-m:0b64558129c498be",
+      "sourcePath": ".agents/skills/impeccable/scripts/live-complete.mjs",
+      "canonicalSource": ".agents/skills/impeccable/scripts/live-complete.mjs",
+      "duplicateGroup": ".agents/skills/impeccable/scripts/live-complete.mjs",
+      "group": "D1",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "ada702f177432c9645bf2675b8f69ac5f6be5b63f4540eb161159a247eddd697",
+      "reviewedSourceSha256": "ada702f177432c9645bf2675b8f69ac5f6be5b63f4540eb161159a247eddd697",
+      "findings": [
+        {
+          "fingerprint": "db2e24d57724",
+          "line": 63,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Copies a runtime token field from readLiveServerInfo into a completion request; no static secret."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "completeCli -> completeThroughServer -> readLiveServerInfo; local session journal fallback preserved."
+      ],
+      "repairAndVerification": "Upstream completion tests and module syntax; no completion sent to a server.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-manual-edi:a972d25ee1973c95",
+      "sourcePath": ".agents/skills/impeccable/scripts/live/manual-edit-routes.mjs",
+      "canonicalSource": ".agents/skills/impeccable/scripts/live/manual-edit-routes.mjs",
+      "duplicateGroup": ".agents/skills/impeccable/scripts/live/manual-edit-routes.mjs",
+      "group": "D1",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "5517c40db7c91a5b24b134f79cb0f87c90e307b2f7831b1de670d60e529557c0",
+      "reviewedSourceSha256": "5517c40db7c91a5b24b134f79cb0f87c90e307b2f7831b1de670d60e529557c0",
+      "findings": [
+        {
+          "fingerprint": "ef9ae85da1c4",
+          "line": 261,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Selects request payload/query session input and compares it with getToken before rollback; not a literal credential."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "createManualEditRoutes is the extracted route cohort. Legacy live-server.mjs also retains an inline handler; they are not blind-swapped."
+      ],
+      "repairAndVerification": "Local EventEmitter route smoke verifies unauthorized input returns 401 before rollback/filesystem calls.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-poll-mjs:bd8dca1fcdf7945b",
+      "sourcePath": ".agents/skills/impeccable/scripts/live-poll.mjs",
+      "canonicalSource": ".agents/skills/impeccable/scripts/live-poll.mjs",
+      "duplicateGroup": ".agents/skills/impeccable/scripts/live-poll.mjs",
+      "group": "D1",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "d99745348b5aef842cbf0a5c46522b95df3635d0baa31f36246251808e5bc1af",
+      "reviewedSourceSha256": "d99745348b5aef842cbf0a5c46522b95df3635d0baa31f36246251808e5bc1af",
+      "findings": [
+        {
+          "fingerprint": "7b132df01592",
+          "line": 121,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Interpolates the function token parameter in a status URL, not a hardcoded secret."
+        },
+        {
+          "fingerprint": "0fdcab4106d5",
+          "line": 160,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Interpolates the function token parameter in a long-poll URL with timeout/lease parameters."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "fetchServerStatus and fetchNextEvent receive readLiveServerInfo session values; 401 throws AUTH_FAILED; Node fetch required."
+      ],
+      "repairAndVerification": "Upstream poll tests and injected-fetch unauthorized status smoke, no network.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-server-mjs:a671be5f79c2a3ff",
+      "sourcePath": ".agents/skills/impeccable/scripts/live-server.mjs",
+      "canonicalSource": ".agents/skills/impeccable/scripts/live-server.mjs",
+      "duplicateGroup": ".agents/skills/impeccable/scripts/live-server.mjs",
+      "group": "D1",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "2acf0fa98523c51cd81934f79d8536e5daccb2aaa415e45581832280e41e1e5f",
+      "reviewedSourceSha256": "2acf0fa98523c51cd81934f79d8536e5daccb2aaa415e45581832280e41e1e5f",
+      "findings": [
+        {
+          "fingerprint": "ef9ae85da1c4",
+          "line": 1758,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Reads request payload/query input and compares it to the runtime state before accepting rollback."
+        },
+        {
+          "fingerprint": "e24e481c36cb",
+          "line": 2213,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Reads current server-info record and interpolates its session field in a stop request."
+        },
+        {
+          "fingerprint": "e91023eb493e",
+          "line": 2312,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Persists runtime-generated session state with writeLiveServerInfo; not a literal secret."
+        },
+        {
+          "fingerprint": "d82b1fd22cbe",
+          "line": 2315,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Interpolates the runtime session value in local startup output; no static credential in repository bytes."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "state.token = randomUUID() at line 2290; listener binds 127.0.0.1 at line 2311. Runtime output/query/state-file exposure is outside this static-literal finding, not certified safe. Root parser and validator imports now delegate to tested extracted implementations."
+      ],
+      "repairAndVerification": "All bundled script syntax; parser/validator upstream tests and local compatibility tests. Full server/browser interaction not exercised.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:agents-skills-impeccable-scripts-live-status-mjs:f32377b5380cfa3e",
+      "sourcePath": ".agents/skills/impeccable/scripts/live-status.mjs",
+      "canonicalSource": ".agents/skills/impeccable/scripts/live-status.mjs",
+      "duplicateGroup": ".agents/skills/impeccable/scripts/live-status.mjs",
+      "group": "D1",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "e873af24df51f32885d32df260a9a58bbc30f41e30891a26883e846371d8b7d0",
+      "reviewedSourceSha256": "e873af24df51f32885d32df260a9a58bbc30f41e30891a26883e846371d8b7d0",
+      "findings": [
+        {
+          "fingerprint": "e24e481c36cb",
+          "line": 17,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Reads server-info runtime value and interpolates a local status query; no static credential."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "fetchServerStatus consumes readLiveServerInfo; statusCli also reads durable session store."
+      ],
+      "repairAndVerification": "Upstream session-store tests, Node syntax; no existing session inspected.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-firecrawl-skill-md:54ae5604e12e2a9b",
+      "sourcePath": ".claude/skills/firecrawl/SKILL.md",
+      "canonicalSource": ".agents/skills/firecrawl/SKILL.md",
+      "duplicateGroup": ".agents/skills/firecrawl/SKILL.md",
+      "group": "D1",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "0ded5ee529c371f77d9a1c7d37740c17f7fc1b070192aa6f0f17c693a3f766f7",
+      "reviewedSourceSha256": "0ded5ee529c371f77d9a1c7d37740c17f7fc1b070192aa6f0f17c693a3f766f7",
+      "findings": [
+        {
+          "fingerprint": "764a6efd41a6",
+          "line": 256,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Truncated API response documentation placeholder, not an issued API key."
+        },
+        {
+          "fingerprint": "7786f66c14fb",
+          "line": 286,
+          "pattern": "bearer-token",
+          "status": "harmless",
+          "reason": "Explicit YOUR_API_KEY instruction placeholder in the REST authorization example."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "SKILL.md Path D polling response and Path E REST example; upstream source URL is firecrawl/skills. Source-owned documentation retained verbatim."
+      ],
+      "repairAndVerification": "Mirror parity and source-placeholder inspection; no Firecrawl requests or installs.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-detector-engine:1deecfb89c8de90c",
+      "sourcePath": ".claude/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs",
+      "canonicalSource": ".agents/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs",
+      "duplicateGroup": ".agents/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs",
+      "group": "D1",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "b4520b3f001079bd175bf20d46c5197b1b8ec5fb98fdf72c50a24c0b6598ee99",
+      "reviewedSourceSha256": "b4520b3f001079bd175bf20d46c5197b1b8ec5fb98fdf72c50a24c0b6598ee99",
+      "findings": [
+        {
+          "fingerprint": "799f18baed47",
+          "line": 117,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Date/random-derived DOM annotation identifier for before/after screenshot capture, not an authorization credential."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "captureVisualContrastCandidate assigns/removes a data attribute through page.evaluate; caller supplies a page/selector."
+      ],
+      "repairAndVerification": "Node syntax and local screenshot clip compatibility smoke test.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-browser-js:4560dad03a613faa",
+      "sourcePath": ".claude/skills/impeccable/scripts/live-browser.js",
+      "canonicalSource": ".agents/skills/impeccable/scripts/live-browser.js",
+      "duplicateGroup": ".agents/skills/impeccable/scripts/live-browser.js",
+      "group": "D1",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "1e444b4e74ba2644899aa52dc8d73c29898ca6e9b5e3340835075447fa61d13f",
+      "reviewedSourceSha256": "1e444b4e74ba2644899aa52dc8d73c29898ca6e9b5e3340835075447fa61d13f",
+      "findings": [
+        {
+          "fingerprint": "a75f704f9b05",
+          "line": 22,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Reads the runtime-injected window session value; the source contains no embedded credential."
+        },
+        {
+          "fingerprint": "0f5b4a4bcda5",
+          "line": 9584,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Template interpolation of the runtime session variable in a local design-system fetch URL."
+        },
+        {
+          "fingerprint": "0f5b4a4bcda5",
+          "line": 9585,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Template interpolation of the runtime session variable in a local raw design-system fetch URL."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "live-server.mjs constructs browser prelude from state.token; state.token is created by randomUUID at line 2290; browser client consumes it."
+      ],
+      "repairAndVerification": "Node syntax; retained root UI metadata targets this browser DOM cohort. No live browser execution.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-complete-m:d8222ce8d9bd957f",
+      "sourcePath": ".claude/skills/impeccable/scripts/live-complete.mjs",
+      "canonicalSource": ".agents/skills/impeccable/scripts/live-complete.mjs",
+      "duplicateGroup": ".agents/skills/impeccable/scripts/live-complete.mjs",
+      "group": "D1",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "ada702f177432c9645bf2675b8f69ac5f6be5b63f4540eb161159a247eddd697",
+      "reviewedSourceSha256": "ada702f177432c9645bf2675b8f69ac5f6be5b63f4540eb161159a247eddd697",
+      "findings": [
+        {
+          "fingerprint": "db2e24d57724",
+          "line": 63,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Copies a runtime token field from readLiveServerInfo into a completion request; no static secret."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "completeCli -> completeThroughServer -> readLiveServerInfo; local session journal fallback preserved."
+      ],
+      "repairAndVerification": "Upstream completion tests and module syntax; no completion sent to a server.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-manual-edi:0801364f7f0e77a3",
+      "sourcePath": ".claude/skills/impeccable/scripts/live/manual-edit-routes.mjs",
+      "canonicalSource": ".agents/skills/impeccable/scripts/live/manual-edit-routes.mjs",
+      "duplicateGroup": ".agents/skills/impeccable/scripts/live/manual-edit-routes.mjs",
+      "group": "D1",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "5517c40db7c91a5b24b134f79cb0f87c90e307b2f7831b1de670d60e529557c0",
+      "reviewedSourceSha256": "5517c40db7c91a5b24b134f79cb0f87c90e307b2f7831b1de670d60e529557c0",
+      "findings": [
+        {
+          "fingerprint": "ef9ae85da1c4",
+          "line": 261,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Selects request payload/query session input and compares it with getToken before rollback; not a literal credential."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "createManualEditRoutes is the extracted route cohort. Legacy live-server.mjs also retains an inline handler; they are not blind-swapped."
+      ],
+      "repairAndVerification": "Local EventEmitter route smoke verifies unauthorized input returns 401 before rollback/filesystem calls.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-poll-mjs:f8f331ec1404ea92",
+      "sourcePath": ".claude/skills/impeccable/scripts/live-poll.mjs",
+      "canonicalSource": ".agents/skills/impeccable/scripts/live-poll.mjs",
+      "duplicateGroup": ".agents/skills/impeccable/scripts/live-poll.mjs",
+      "group": "D1",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "d99745348b5aef842cbf0a5c46522b95df3635d0baa31f36246251808e5bc1af",
+      "reviewedSourceSha256": "d99745348b5aef842cbf0a5c46522b95df3635d0baa31f36246251808e5bc1af",
+      "findings": [
+        {
+          "fingerprint": "7b132df01592",
+          "line": 121,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Interpolates the function token parameter in a status URL, not a hardcoded secret."
+        },
+        {
+          "fingerprint": "0fdcab4106d5",
+          "line": 160,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Interpolates the function token parameter in a long-poll URL with timeout/lease parameters."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "fetchServerStatus and fetchNextEvent receive readLiveServerInfo session values; 401 throws AUTH_FAILED; Node fetch required."
+      ],
+      "repairAndVerification": "Upstream poll tests and injected-fetch unauthorized status smoke, no network.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-server-mjs:4df9c2b6ff80b3e6",
+      "sourcePath": ".claude/skills/impeccable/scripts/live-server.mjs",
+      "canonicalSource": ".agents/skills/impeccable/scripts/live-server.mjs",
+      "duplicateGroup": ".agents/skills/impeccable/scripts/live-server.mjs",
+      "group": "D1",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "2acf0fa98523c51cd81934f79d8536e5daccb2aaa415e45581832280e41e1e5f",
+      "reviewedSourceSha256": "2acf0fa98523c51cd81934f79d8536e5daccb2aaa415e45581832280e41e1e5f",
+      "findings": [
+        {
+          "fingerprint": "ef9ae85da1c4",
+          "line": 1758,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Reads request payload/query input and compares it to the runtime state before accepting rollback."
+        },
+        {
+          "fingerprint": "e24e481c36cb",
+          "line": 2213,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Reads current server-info record and interpolates its session field in a stop request."
+        },
+        {
+          "fingerprint": "e91023eb493e",
+          "line": 2312,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Persists runtime-generated session state with writeLiveServerInfo; not a literal secret."
+        },
+        {
+          "fingerprint": "d82b1fd22cbe",
+          "line": 2315,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Interpolates the runtime session value in local startup output; no static credential in repository bytes."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "state.token = randomUUID() at line 2290; listener binds 127.0.0.1 at line 2311. Runtime output/query/state-file exposure is outside this static-literal finding, not certified safe. Root parser and validator imports now delegate to tested extracted implementations."
+      ],
+      "repairAndVerification": "All bundled script syntax; parser/validator upstream tests and local compatibility tests. Full server/browser interaction not exercised.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:claude-skills-impeccable-scripts-live-status-mjs:04765e48ffb67e0b",
+      "sourcePath": ".claude/skills/impeccable/scripts/live-status.mjs",
+      "canonicalSource": ".agents/skills/impeccable/scripts/live-status.mjs",
+      "duplicateGroup": ".agents/skills/impeccable/scripts/live-status.mjs",
+      "group": "D1",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "e873af24df51f32885d32df260a9a58bbc30f41e30891a26883e846371d8b7d0",
+      "reviewedSourceSha256": "e873af24df51f32885d32df260a9a58bbc30f41e30891a26883e846371d8b7d0",
+      "findings": [
+        {
+          "fingerprint": "e24e481c36cb",
+          "line": 17,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Reads server-info runtime value and interpolates a local status query; no static credential."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "fetchServerStatus consumes readLiveServerInfo; statusCli also reads durable session store."
+      ],
+      "repairAndVerification": "Upstream session-store tests, Node syntax; no existing session inspected.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:docs-samples-registry-3d-fonts-html:412fc74a40db779e",
+      "sourcePath": "docs/samples/registry-3d-fonts.html",
+      "canonicalSource": "docs/samples/registry-3d-fonts.html",
+      "duplicateGroup": null,
+      "group": "D3",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "df6e6680aea54d08f874b28eb5be46e45fed88f0d563db12ecf7b61121262ecc",
+      "reviewedSourceSha256": "df6e6680aea54d08f874b28eb5be46e45fed88f0d563db12ecf7b61121262ecc",
+      "findings": [
+        {
+          "fingerprint": "3751653efd6c",
+          "line": 160,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "ROLE_DESC body token field contains a CSS custom-property name, not an auth value."
+        },
+        {
+          "fingerprint": "13e1b3d950fb",
+          "line": 161,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "ROLE_DESC handle token field contains a CSS custom-property name, not an auth value."
+        },
+        {
+          "fingerprint": "493df6923d8a",
+          "line": 162,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "ROLE_DESC display token field contains a CSS custom-property name, not an auth value."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "ROLE_DESC labels font-role examples; renderCell consumes face for labels. No auth caller."
+      ],
+      "repairAndVerification": "Read-only sample inspection; no visual/source changes.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:founder-handovers-2026-10-21-steward-issue-hygie:e8be47c2eebc4b65",
+      "sourcePath": "founder/handovers/2026-10-21-steward-issue-hygiene-architecture.md",
+      "canonicalSource": "founder/handovers/2026-10-21-steward-issue-hygiene-architecture.md",
+      "duplicateGroup": null,
+      "group": "D3",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "fb8d58db679daacf99a8ef6df5548dc1eee9cda00ac527ba273220438877af3b",
+      "reviewedSourceSha256": "fb8d58db679daacf99a8ef6df5548dc1eee9cda00ac527ba273220438877af3b",
+      "findings": [
+        {
+          "fingerprint": "fbb4c62d3ac3",
+          "line": 392,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Historical explanation of credential-assignment detector grammar, not a credential."
+        },
+        {
+          "fingerprint": "684ec27b63dc",
+          "line": 517,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Historical synthetic dotted-token scrub example."
+        },
+        {
+          "fingerprint": "a261e68349db",
+          "line": 518,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Historical synthetic ellipsis-token scrub example."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "Sections 9.9 and scrub contract describe positive redaction fixtures/code-access exclusions; retained as audit history."
+      ],
+      "repairAndVerification": "Compared to primitives/redact.py and test_b8_census.py; no historical edits.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:founder-issues-json:b132c45b86c3ebcb",
+      "sourcePath": "founder/issues.json",
+      "canonicalSource": "founder/issues.json",
+      "duplicateGroup": null,
+      "group": "D3",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "7fbdafbe68a6454560bd76679e3ac8548cb0927b1eadf3efaa7f5b16785bc61f",
+      "reviewedSourceSha256": "7fbdafbe68a6454560bd76679e3ac8548cb0927b1eadf3efaa7f5b16785bc61f",
+      "findings": [
+        {
+          "fingerprint": "821389db4920",
+          "line": 1,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Issue #494 badge-authentication proposal prose and a conceptual JWT query placeholder; neither match is a minted JWT or a hardcoded credential."
+        },
+        {
+          "fingerprint": "b668ec33907d",
+          "line": 1,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Issue #494 badge-authentication proposal prose and a conceptual JWT query placeholder; neither match is a minted JWT or a hardcoded credential."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "Parsed snapshot issue #494 body describes future signer/renderer design. Generic assignment regex matches prose and a placeholder in the one-line JSON snapshot; no executable auth caller."
+      ],
+      "repairAndVerification": "JSON parse and issue body provenance inspected; snapshot retained byte-for-byte.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:github-workflows-sync-artifacts-yml:b526f075e4ecd1e6",
+      "sourcePath": ".github/workflows/sync-artifacts.yml",
+      "canonicalSource": ".github/workflows/sync-artifacts.yml",
+      "duplicateGroup": null,
+      "group": "D3",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "aa80e0dc4013644598634ad8e02be12d147ce8b7c5ba1ad1bb576f74cd044527",
+      "reviewedSourceSha256": "aa80e0dc4013644598634ad8e02be12d147ce8b7c5ba1ad1bb576f74cd044527",
+      "findings": [
+        {
+          "fingerprint": "41e3de627921",
+          "line": 177,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Shell expansion of RELEASE_PAT from GitHub secrets in a push URL; repository contains a variable reference, not a PAT."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "Tag Release step env RELEASE_PAT uses secrets.RELEASE_PAT; explicit empty-variable guard precedes git push."
+      ],
+      "repairAndVerification": "Read-only YAML/source provenance; workflow not run, activated, or edited. Runtime URL/log/credential handling not comprehensively audited.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:scripts-jev-ci-budget-py:86888e095876410e",
+      "sourcePath": "scripts/jev_ci_budget.py",
+      "canonicalSource": "scripts/jev_ci_budget.py",
+      "duplicateGroup": null,
+      "group": "D3",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "4c94eefdab1a6fe402333a6059c2bf563e621c1171252d29635cd4348cc80c02",
+      "reviewedSourceSha256": "4c94eefdab1a6fe402333a6059c2bf563e621c1171252d29635cd4348cc80c02",
+      "findings": [
+        {
+          "fingerprint": "98d5d12ef43f",
+          "line": 387,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Generic assignment regex crosses the if-token colon/newline into return; this is a branch, not a literal assignment."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "main -> fetch_runs(args.token) -> fetch_workflow_runs_http; function parameter reaches Authorization only after gh fallback."
+      ],
+      "repairAndVerification": "Focused Jev budget tests; no GitHub workflow request made.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:scripts-upstream-watcher-live-py:2393fe51171e5834",
+      "sourcePath": "scripts/upstream_watcher/live.py",
+      "canonicalSource": "scripts/upstream_watcher/live.py",
+      "duplicateGroup": null,
+      "group": "D3",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "6bc60cf787a1a18b5b31629f1bb6c368d03422fff94ee644bdade8c466edf5ad",
+      "reviewedSourceSha256": "ed81ff83b6ea246aada1dee23bbbdbe053f50f506b171c5c816b9e97174a8d12",
+      "findings": [
+        {
+          "fingerprint": "39be36177943",
+          "line": 465,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Docstring uses the ordinary word token followed by a suite-key example, not an authorization value."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "mentions_suite is a whole-title boundary predicate implemented with re.escape/re.search. This file belongs to the watcher worker and was inspected read-only."
+      ],
+      "repairAndVerification": "Exact original line and predicate inspected; no patch needed for this finding; owner may change source and require matrix re-review.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:src-gaia-cli-auth-py:2ed435a394e19f87",
+      "sourcePath": "src/gaia_cli/auth.py",
+      "canonicalSource": "src/gaia_cli/auth.py",
+      "duplicateGroup": null,
+      "group": "D3",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "acb14372a8a47fc31d2657fbda04ddd93cf2cc3ba3cadb5cadba9345469c46c2",
+      "reviewedSourceSha256": "acb14372a8a47fc31d2657fbda04ddd93cf2cc3ba3cadb5cadba9345469c46c2",
+      "findings": [
+        {
+          "fingerprint": "caf47aa7ff21",
+          "line": 241,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Generic assignment regex crosses an if-token branch colon/newline into return; value comes from OAuth payload.get."
+        },
+        {
+          "fingerprint": "be3a74739ccb",
+          "line": 405,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Copies creds.token runtime field into the file-backend dictionary, not an embedded credential."
+        },
+        {
+          "fingerprint": "114fc3873c35",
+          "line": 420,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Constructs Credentials from env_token, obtained from configured environment variables."
+        },
+        {
+          "fingerprint": "caf47aa7ff21",
+          "line": 436,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Generic regex crosses the missing-token branch colon/newline into return; not an assignment."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "poll_for_token receives OAuth response through injected http_request; TokenStore.save/load use env, keyring, or the user-local file; impl login/whoami are consumers. public_dict excludes token."
+      ],
+      "repairAndVerification": "test_auth.py offline store, keyring, environment precedence and device-flow tests; no issuer contacted.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:src-gaia-cli-jev-py:74fbb7100ac456ad",
+      "sourcePath": "src/gaia_cli/jev.py",
+      "canonicalSource": "src/gaia_cli/jev.py",
+      "duplicateGroup": null,
+      "group": "D3",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "08f8f6661918abd99e262781e593715d2e93f13ce57a19e07f9b692dbf4c9e3a",
+      "reviewedSourceSha256": "08f8f6661918abd99e262781e593715d2e93f13ce57a19e07f9b692dbf4c9e3a",
+      "findings": [
+        {
+          "fingerprint": "b17e86ead565",
+          "line": 634,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Generic regex crosses an if-not-api_key branch colon/newline into return; key is read from TYPESAFE_API_KEY, not source bytes."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "JevClient.evaluate reads env only in live mode after validation/cache/offline checks, then budget reservation; curation.assessment and jev_advisory are callers."
+      ],
+      "repairAndVerification": "test_jev.py and test_curation_assessment.py use injected transports; no advice/model calls.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:src-gaia-cli-securityscanner-py:ba7fcb08fe3ef5c9",
+      "sourcePath": "src/gaia_cli/securityScanner.py",
+      "canonicalSource": "src/gaia_cli/securityScanner.py",
+      "duplicateGroup": null,
+      "group": "D3",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "e71a33f79637c0b845300e6437857f5865bd75a1dd09275f40746a2854219b8f",
+      "reviewedSourceSha256": "e71a33f79637c0b845300e6437857f5865bd75a1dd09275f40746a2854219b8f",
+      "findings": [
+        {
+          "fingerprint": "fc84c742aab2",
+          "line": 513,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Detector finding rule label is an f-string interpolating a rule name, not a credential."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "detectCredentialHarvesting iterates _TOKEN_PATTERNS; scanNamedSkillFiles and push.scanBatchForSecurity consume these findings."
+      ],
+      "repairAndVerification": "test_security_scanner.py positive credential harvesting tests retained; no scanner patterns altered.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b-script-py:82d92c373e57e5b6",
+      "sourcePath": "tests/steward/issuehygiene/test_b_script.py",
+      "canonicalSource": "tests/steward/issuehygiene/test_b_script.py",
+      "duplicateGroup": null,
+      "group": "D2",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "fixture",
+      "originalSourceSha256": "ab69dcad83db264ea303a50dc0074c97861320ab475771a997b86a394a8df3fd",
+      "reviewedSourceSha256": "b71f0b76db5279eece61ebedbb3d8d7522a2837c588dfdc0f53a7d0b6946e75c",
+      "findings": [
+        {
+          "fingerprint": "7eb3777115fa",
+          "line": 15,
+          "pattern": "credential-assignment",
+          "status": "fixture",
+          "reason": "Local short fake-transport sentinel, not a provider token."
+        },
+        {
+          "fingerprint": "7c6791c527dc",
+          "line": 248,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Lambda parameter/return expression supplying LiveForge, not a credential literal."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "FakeTransport/LiveForge replace REST and forge writes; test replay checks local receipts."
+      ],
+      "repairAndVerification": "Focused original module tests; positive assertions and literal fixture bytes preserved. Code-only findings remain harmless.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b5-identity-py:affc47d215e53abe",
+      "sourcePath": "tests/steward/issuehygiene/test_b5_identity.py",
+      "canonicalSource": "tests/steward/issuehygiene/test_b5_identity.py",
+      "duplicateGroup": null,
+      "group": "D2",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "fixture",
+      "originalSourceSha256": "565e884cd79a3d49555ef14e7bbc3d26e122bc3657fe43734167e884d55a3867",
+      "reviewedSourceSha256": "985e5e0dc7495aef0a9fb3a085179d03f4f474a3eaf30c81d1f3c023f16077a1",
+      "findings": [
+        {
+          "fingerprint": "9210a2236f68",
+          "line": 15,
+          "pattern": "credential-assignment",
+          "status": "fixture",
+          "reason": "Short local sentinel consumed by injected Transport; no issuer-derived value."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "Transport returns canned /user/comments responses to GhForge; no network."
+      ],
+      "repairAndVerification": "Focused original module tests; positive assertions and literal fixture bytes preserved. Code-only findings remain harmless.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b6-census-live-p:ec37ccfcb574c2d1",
+      "sourcePath": "tests/steward/issuehygiene/test_b6_census_live.py",
+      "canonicalSource": "tests/steward/issuehygiene/test_b6_census_live.py",
+      "duplicateGroup": null,
+      "group": "D2",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "fixture",
+      "originalSourceSha256": "d8f5c5c230bfd74a65ae66c2a1832ef0db713091a895d4584585f154ff31f188",
+      "reviewedSourceSha256": "d97fcaab66a6f77071c1248b6f8d1f425c9e7358f27ae2975b454aca911f894a",
+      "findings": [
+        {
+          "fingerprint": "70901d36b258",
+          "line": 219,
+          "pattern": "bearer-token",
+          "status": "fixture",
+          "reason": "Authorization assertion matches monkeypatch.setenv sentinel passed only to the loopback fixture."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "test_the_token_reaches_the_api_but_never_the_census redirects census.API to local_github.base and asserts sentinel absent from output."
+      ],
+      "repairAndVerification": "Focused original module tests; positive assertions and literal fixture bytes preserved. Code-only findings remain harmless.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b7-scrub-py:c82313badc903f74",
+      "sourcePath": "tests/steward/issuehygiene/test_b7_scrub.py",
+      "canonicalSource": "tests/steward/issuehygiene/test_b7_scrub.py",
+      "duplicateGroup": null,
+      "group": "D2",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "fixture",
+      "originalSourceSha256": "919e95fcb34de5d2f1804bf890c414d52997342be02a68547ae49c6b4a3d03ae",
+      "reviewedSourceSha256": "3277d9106df505ee4e92e7a03e53e832574566d7bbac409f8949ef30470f6cb4",
+      "findings": [
+        {
+          "fingerprint": "59b647a4197a",
+          "line": 31,
+          "pattern": "jwt",
+          "status": "fixture",
+          "reason": "Synthetic JWT combines decoded minimal HS256 header/numeric subject with the public RFC 7515 Appendix A.1 signature from a different signing input."
+        },
+        {
+          "fingerprint": "59b647a4197a",
+          "line": 32,
+          "pattern": "jwt",
+          "status": "fixture",
+          "reason": "Second occurrence of the same synthetic JWT is the text-to-redact positive test input."
+        },
+        {
+          "fingerprint": "100512181d07",
+          "line": 34,
+          "pattern": "credential-assignment",
+          "status": "fixture",
+          "reason": "Hand-written repeated password example for positive scrub coverage."
+        },
+        {
+          "fingerprint": "5b349ee29dd2",
+          "line": 35,
+          "pattern": "credential-assignment",
+          "status": "fixture",
+          "reason": "Hand-written secret placeholder for positive scrub coverage."
+        },
+        {
+          "fingerprint": "4c46513008e3",
+          "line": 37,
+          "pattern": "credential-assignment",
+          "status": "fixture",
+          "reason": "Hand-written short API-key example for positive scrub coverage."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "SHAPES drives both fingerprint replacement and absence from comments, original payload, snapshots, ledger parameters and receipts. RFC signature membership checked read-only against rfc-editor.org/rfc/rfc7515.txt; no token probe."
+      ],
+      "repairAndVerification": "Focused original module tests; positive assertions and literal fixture bytes preserved. Code-only findings remain harmless.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b8-census-py:055f6db7f83bf7eb",
+      "sourcePath": "tests/steward/issuehygiene/test_b8_census.py",
+      "canonicalSource": "tests/steward/issuehygiene/test_b8_census.py",
+      "duplicateGroup": null,
+      "group": "D2",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "fixture",
+      "originalSourceSha256": "39776ba859259c8776525f57fc307b9d0d84197dca3f1fabd7f9ac5d3e32a6fc",
+      "reviewedSourceSha256": "bcd08769a9eb2fbd1eb1804cb574079b11c921e541ae039001aa8dc56bd01750",
+      "findings": [
+        {
+          "fingerprint": "88b11cd7d986",
+          "line": 94,
+          "pattern": "credential-assignment",
+          "status": "fixture",
+          "reason": "Constructed alphabet/digit dotted-token positive scrub fixture."
+        },
+        {
+          "fingerprint": "817d1450133f",
+          "line": 95,
+          "pattern": "credential-assignment",
+          "status": "fixture",
+          "reason": "Constructed ellipsis-token positive scrub fixture."
+        },
+        {
+          "fingerprint": "529e66593269",
+          "line": 96,
+          "pattern": "credential-assignment",
+          "status": "fixture",
+          "reason": "Constructed dotted-token positive scrub fixture; lexical censor must remain conservative."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "test_a_short_dotted_token_assignment_is_scrubbed asserts each raw example absent after scrub."
+      ],
+      "repairAndVerification": "Focused original module tests; positive assertions and literal fixture bytes preserved. Code-only findings remain harmless.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-b8-refusal-py:100e8e97ff9a51ef",
+      "sourcePath": "tests/steward/issuehygiene/test_b8_refusal.py",
+      "canonicalSource": "tests/steward/issuehygiene/test_b8_refusal.py",
+      "duplicateGroup": null,
+      "group": "D2",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "b1b64f4270d18b0b7ea65d0977c8a3fc3739916f1be2c3395cf07dd13b5fedf0",
+      "reviewedSourceSha256": "b1b64f4270d18b0b7ea65d0977c8a3fc3739916f1be2c3395cf07dd13b5fedf0",
+      "findings": [
+        {
+          "fingerprint": "2198f003c5b0",
+          "line": 82,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Factory lambda parameter and fake GitHub method reference, not a literal secret."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "Offline refusal e2e test supplies FakeGitHub.makeForge; no live credentials."
+      ],
+      "repairAndVerification": "Focused original module tests; positive assertions and literal fixture bytes preserved. Code-only findings remain harmless.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-issuehygiene-test-e-steward-full-e:8dd6930a15057584",
+      "sourcePath": "tests/steward/issuehygiene/test_e_steward_full_e2e.py",
+      "canonicalSource": "tests/steward/issuehygiene/test_e_steward_full_e2e.py",
+      "duplicateGroup": null,
+      "group": "D2",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "4ee1add26f4bf005ee3cada61a056883592df59e46be7d34d3fdbc7d23236bae",
+      "reviewedSourceSha256": "4ee1add26f4bf005ee3cada61a056883592df59e46be7d34d3fdbc7d23236bae",
+      "findings": [
+        {
+          "fingerprint": "e8ea09ffe951",
+          "line": 135,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Factory lambda parameter and fake GitHub method reference, not a literal secret."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "FakeGitHub/FakeForge replace GitHub, and sockets/urlopen are refused by the offline fixture."
+      ],
+      "repairAndVerification": "Focused original module tests; positive assertions and literal fixture bytes preserved. Code-only findings remain harmless.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:tests-steward-test-desk-py:d1900b51970bdc61",
+      "sourcePath": "tests/steward/test_desk.py",
+      "canonicalSource": "tests/steward/test_desk.py",
+      "duplicateGroup": null,
+      "group": "D2",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "fixture",
+      "originalSourceSha256": "a5e1f04ab6883d6c39987f914652245b7b81ac57ecda7567eb4fe7eabf1ed61e",
+      "reviewedSourceSha256": "203060f726dd45e06fbc7098600a0ba2605f25c0f511a21c4546f529756342b6",
+      "findings": [
+        {
+          "fingerprint": "08109091b0eb",
+          "line": 187,
+          "pattern": "credential-assignment",
+          "status": "fixture",
+          "reason": "Reference to the module synthetic SECRET sentinel inside a planted untrusted finding; not an embedded live credential."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "test_credential_decision_shows_location_and_fingerprint_but_never_the_secret plants rawMatch/snippet/value fields and requires desk output to redact them."
+      ],
+      "repairAndVerification": "Focused original module tests; positive assertions and literal fixture bytes preserved. Code-only findings remain harmless.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-auth-py:edc1563abdfa70e4",
+      "sourcePath": "tests/test_auth.py",
+      "canonicalSource": "tests/test_auth.py",
+      "duplicateGroup": null,
+      "group": "D2",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "fixture",
+      "originalSourceSha256": "042ede008ee96c0baffa73dbfe85cc1c7d52ff453e869ba203eb7d73fec775a6",
+      "reviewedSourceSha256": "0ac1d1fc8a76830372545f4385ee9a77a0bb9de7acbefe9515a0f09a03515bee",
+      "findings": [
+        {
+          "fingerprint": "7105abe1b034",
+          "line": 351,
+          "pattern": "credential-assignment",
+          "status": "fixture",
+          "reason": "Hand-written store/env precedence sentinel used only in isolated TokenStore tests."
+        },
+        {
+          "fingerprint": "4c7ad6353034",
+          "line": 366,
+          "pattern": "credential-assignment",
+          "status": "fixture",
+          "reason": "Ordinary short sentinel to verify public_dict never contains the token."
+        },
+        {
+          "fingerprint": "0095a8f1708e",
+          "line": 404,
+          "pattern": "credential-assignment",
+          "status": "fixture",
+          "reason": "Hand-written fake-keyring sentinel for file/metadata separation."
+        },
+        {
+          "fingerprint": "0095a8f1708e",
+          "line": 418,
+          "pattern": "credential-assignment",
+          "status": "fixture",
+          "reason": "Same fake-keyring sentinel for delete/load coverage."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "TokenStore fixtures isolate GAIA_HOME and inject keyring; no issuer validation or network."
+      ],
+      "repairAndVerification": "Focused original module tests; positive assertions and literal fixture bytes preserved. Code-only findings remain harmless.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-badge-reconcile-py:062a191c5b535bb7",
+      "sourcePath": "tests/test_badge_reconcile.py",
+      "canonicalSource": "tests/test_badge_reconcile.py",
+      "duplicateGroup": null,
+      "group": "D2",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "harmless",
+      "originalSourceSha256": "5351a46e17b53cf9f29041d8ad61b67e68691062100998e544e7f0bc1e496276",
+      "reviewedSourceSha256": "5351a46e17b53cf9f29041d8ad61b67e68691062100998e544e7f0bc1e496276",
+      "findings": [
+        {
+          "fingerprint": "a3522810e912",
+          "line": 861,
+          "pattern": "credential-assignment",
+          "status": "harmless",
+          "reason": "Comment prose about a reservation token; generic regex consumes the following word, not a credential."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "Reservation is generated/returned inside the temporary manifest concurrency test; not issuer-provided."
+      ],
+      "repairAndVerification": "Focused original module tests; positive assertions and literal fixture bytes preserved. Code-only findings remain harmless.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-curation-assessment-py:b8c7a3d24c6492cf",
+      "sourcePath": "tests/test_curation_assessment.py",
+      "canonicalSource": "tests/test_curation_assessment.py",
+      "duplicateGroup": null,
+      "group": "D2",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "fixture",
+      "originalSourceSha256": "c638be0dae76277bd2b35c5c0e7a36856c9ffdf1eb1da494bb81061af2f3b19c",
+      "reviewedSourceSha256": "8a4477dfe35bda8995f3b382e3ea63c99e61bedbc306ea980584e12a247d6d90",
+      "findings": [
+        {
+          "fingerprint": "5a3ec2abc81e",
+          "line": 433,
+          "pattern": "bearer-token",
+          "status": "fixture",
+          "reason": "Injected transport asserts the explicitly monkeypatched synthetic TYPESAFE_API_KEY sentinel."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "test_native_jev_transport_success_two_calls_map_candidate uses local transport, not Jev network."
+      ],
+      "repairAndVerification": "Focused original module tests; positive assertions and literal fixture bytes preserved. Code-only findings remain harmless.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-curation-error-contract-py:30a58d0ac04e28de",
+      "sourcePath": "tests/test_curation_error_contract.py",
+      "canonicalSource": "tests/test_curation_error_contract.py",
+      "duplicateGroup": null,
+      "group": "D2",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "fixture",
+      "originalSourceSha256": "93ae13783360e2a827f1c72c23c24db40ca5e83bb95c572014f38dcd70119f21",
+      "reviewedSourceSha256": "b5b00b71cafe2d23e5f9bc4a7a0a2b88c8105f23ada659c5793322dc937526be",
+      "findings": [
+        {
+          "fingerprint": "5d47666b7611",
+          "line": 175,
+          "pattern": "credential-assignment",
+          "status": "fixture",
+          "reason": "Malformed-envelope JSON contains an f-string reference to a module synthetic SECRET sentinel, not a live credential."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "test_ratify_does_not_echo_an_invalid_authorization_envelope uses a temporary file and captured stderr; refusal must remain sanitized."
+      ],
+      "repairAndVerification": "Focused original module tests; positive assertions and literal fixture bytes preserved. Code-only findings remain harmless.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-installability-py:50a878d42ae01243",
+      "sourcePath": "tests/test_installability.py",
+      "canonicalSource": "tests/test_installability.py",
+      "duplicateGroup": null,
+      "group": "D2",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "fixture",
+      "originalSourceSha256": "52dd8761216c38cf38cf02d6a5a94a2b3d2d0ec1f35e5eb997fcc87b0264db98",
+      "reviewedSourceSha256": "e52dbe05b5e7fa1b89c51a227d369f263d44fe37b4e6d4ef45b126ed58d964df",
+      "findings": [
+        {
+          "fingerprint": "4d631a121aac",
+          "line": 125,
+          "pattern": "bearer-token",
+          "status": "fixture",
+          "reason": "Short, locally defined authorization-header specimen used by the positive redaction test; this fixture does not attest to any issuer or live credential."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "test_diagnostics_are_bounded_and_redacted requires URL password/query/Bearer removal and bounded diagnostic output."
+      ],
+      "repairAndVerification": "Focused original module tests; positive assertions and literal fixture bytes preserved. Code-only findings remain harmless.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    },
+    {
+      "debtId": "debt:credential_leak:tests-test-jev-py:29db1b7469907462",
+      "sourcePath": "tests/test_jev.py",
+      "canonicalSource": "tests/test_jev.py",
+      "duplicateGroup": null,
+      "group": "D2",
+      "routineIds": [
+        14,
+        16
+      ],
+      "originalAuthority": "C",
+      "ledgerDisposition": "unchanged; parent-owned",
+      "status": "fixture",
+      "originalSourceSha256": "dd7d454cf39f5beae4959cef751e44123d19bf1c0c6d8cfc0bb0f9c45d72ac5a",
+      "reviewedSourceSha256": "af7e194bb7777f7fe1120884eb6b2b14ed6a196ba539f62c3b71a07d46e281f5",
+      "findings": [
+        {
+          "fingerprint": "be6e8e2fecc9",
+          "line": 438,
+          "pattern": "bearer-token",
+          "status": "fixture",
+          "reason": "Mock transport header assertion matches monkeypatch.setenv synthetic TYPESAFE_API_KEY."
+        }
+      ],
+      "callerAndProvenanceEvidence": [
+        "test_evaluate_success_and_ledger_update injects mock_transport and verifies local budget usage; no live endpoint called."
+      ],
+      "repairAndVerification": "Focused original module tests; positive assertions and literal fixture bytes preserved. Code-only findings remain harmless.",
+      "remainingRisk": "Classification applies only to exact original matches, not whole-file or runtime safety. Any changed source requires re-review; no rotation asserted."
+    }
+  ]
+}

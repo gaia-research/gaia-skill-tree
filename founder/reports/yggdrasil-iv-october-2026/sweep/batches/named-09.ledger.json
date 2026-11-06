@@ -1,0 +1,638 @@
+[
+  {
+    "id": "huggingface/hf-cli",
+    "kind": "named",
+    "path": "registry/named/huggingface/hf-cli.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Reviewed: 1★ awakened-level record, blob link HTTP 200 (evidence-health 2026-10-27), zero evidence rows (no evidence floor at 1★, META §1.1), TM 0 ungraded matches prepass, origin false correct at ≤1★ (§1.3), body has Overview and Origin crediting Hugging Face's official repo. Observation only: a CLI tool filed under the api-call bucket is a generic-bucket fit question, not a record defect. status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/huggingface/skills/blob/main/skills/hf-cli/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/basic/api-call.json"
+    ]
+  },
+  {
+    "id": "huggingface/huggingface-datasets",
+    "kind": "named",
+    "path": "registry/named/huggingface/huggingface-datasets.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Reviewed: 1★ record, blob link HTTP 200, zero evidence rows (acceptable at 1★), origin false correct at ≤1★, body Overview and Origin credit HF's official repo, classification standard branch. status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/huggingface/skills/blob/main/skills/huggingface-datasets/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/fusion/data-analysis.json"
+    ]
+  },
+  {
+    "id": "huggingface/huggingface-llm-trainer",
+    "kind": "named",
+    "path": "registry/named/huggingface/huggingface-llm-trainer.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Reviewed: 1★ record, blob link HTTP 200, zero evidence rows (acceptable at 1★), origin false correct, body credits HF official repo with bucket mapping. Capability claims (Jobs, TRL SFT/DPO/GRPO) are descriptive and have no evidence row to test at 1★. status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/huggingface/skills/blob/main/skills/huggingface-llm-trainer/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/basic/fine-tune.json"
+    ]
+  },
+  {
+    "id": "huggingface/huggingface-papers",
+    "kind": "named",
+    "path": "registry/named/huggingface/huggingface-papers.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Reviewed: 1★ record, blob link HTTP 200, zero evidence rows (acceptable at 1★), origin false correct, body credits HF official repo. status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/huggingface/skills/blob/main/skills/huggingface-papers/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/fusion/literature-review.json"
+    ]
+  },
+  {
+    "id": "huggingface/huggingface-vision-trainer",
+    "kind": "named",
+    "path": "registry/named/huggingface/huggingface-vision-trainer.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Reviewed: 1★ record, blob link HTTP 200, zero evidence rows (acceptable at 1★), origin false correct, body credits HF official repo. status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/huggingface/skills/blob/main/skills/huggingface-vision-trainer/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/basic/object-detection.json"
+    ]
+  },
+  {
+    "id": "huggingface/transformers-js",
+    "kind": "named",
+    "path": "registry/named/huggingface/transformers-js.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Reviewed: 1★ record, blob link HTTP 200, zero evidence rows (acceptable at 1★), origin false correct, body credits HF official repo. Observation only: multimodal-reasoning is a loose bucket fit for a JavaScript inference runtime; generic-bucket review item, not a record defect. status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/huggingface/skills/blob/main/skills/transformers-js/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/fusion/multimodal-reasoning.json"
+    ]
+  },
+  {
+    "id": "intelligentcode-ai/database-engineer",
+    "kind": "named",
+    "path": "registry/named/intelligentcode-ai/database-engineer.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Change-proposed (evidence): row 1 uses legacy type 'repo' (TYPE_ALIASES maps it to repo-own; write the canonical type and drop legacy class C / trustNumber 65 through the CLI) and its note says 'production-ready implementation' (subjective). Row 2 is a self-attestation citing the repo root https://github.com/intelligentcode-ai/skills, which breaks the §2.4 specific-URL rule; its note calls the repo a 'suite' although suiteComponents is null, and evaluator is 'unknown'. Live check 2026-10-28: the repo has 34 commits and 1 contributor, matching the recorded counts. TM 6.3 (5 self-attestation + 1.3 repo-own) is unchanged by the retype; rank 1★ is correct (no gate at 1★). Body is sound. The same repo volume is credited to all 8 sibling records, a policy question for the founder, not a record defect. Description claims 'sub-second response targets' with no supporting evidence row. status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md",
+      "https://github.com/intelligentcode-ai/skills",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/basic/schema-design.json"
+    ]
+  },
+  {
+    "id": "intelligentcode-ai/devops-engineer",
+    "kind": "named",
+    "path": "registry/named/intelligentcode-ai/devops-engineer.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Change-proposed (evidence): row 1 uses legacy type 'repo' (TYPE_ALIASES maps it to repo-own; write the canonical type and drop legacy class C / trustNumber 65 through the CLI) and its note says 'production-ready implementation' (subjective). Row 2 is a self-attestation citing the repo root https://github.com/intelligentcode-ai/skills, which breaks the §2.4 specific-URL rule; its note calls the repo a 'suite' although suiteComponents is null, and evaluator is 'unknown'. Live check 2026-10-28: the repo has 34 commits and 1 contributor, matching the recorded counts. TM 6.3 (5 self-attestation + 1.3 repo-own) is unchanged by the retype; rank 1★ is correct (no gate at 1★). Body is sound. The same repo volume is credited to all 8 sibling records, a policy question for the founder, not a record defect. status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md",
+      "https://github.com/intelligentcode-ai/skills",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/fusion/deployment-automation.json"
+    ]
+  },
+  {
+    "id": "intelligentcode-ai/mcp-client",
+    "kind": "named",
+    "path": "registry/named/intelligentcode-ai/mcp-client.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Change-proposed (evidence): row 1 uses legacy type 'repo' (TYPE_ALIASES maps it to repo-own; write the canonical type and drop legacy class C / trustNumber 65 through the CLI) and its note says 'production-ready implementation' (subjective). Row 2 is a self-attestation citing the repo root https://github.com/intelligentcode-ai/skills, which breaks the §2.4 specific-URL rule; its note calls the repo a 'suite' although suiteComponents is null, and evaluator is 'unknown'. Live check 2026-10-28: the repo has 34 commits and 1 contributor, matching the recorded counts. TM 6.3 (5 self-attestation + 1.3 repo-own) is unchanged by the retype; rank 1★ is correct (no gate at 1★). Body is sound. The same repo volume is credited to all 8 sibling records, a policy question for the founder, not a record defect. status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md",
+      "https://github.com/intelligentcode-ai/skills",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/basic/mcp-integration.json"
+    ]
+  },
+  {
+    "id": "intelligentcode-ai/parallel-execution",
+    "kind": "named",
+    "path": "registry/named/intelligentcode-ai/parallel-execution.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Change-proposed (evidence): row 1 uses legacy type 'repo' (TYPE_ALIASES maps it to repo-own; write the canonical type and drop legacy class C / trustNumber 65 through the CLI) and its note says 'production-ready implementation' (subjective). Row 2 is a self-attestation citing the repo root https://github.com/intelligentcode-ai/skills, which breaks the §2.4 specific-URL rule; its note calls the repo a 'suite' although suiteComponents is null, and evaluator is 'unknown'. Live check 2026-10-28: the repo has 34 commits and 1 contributor, matching the recorded counts. TM 6.3 (5 self-attestation + 1.3 repo-own) is unchanged by the retype; rank 1★ is correct (no gate at 1★). Body is sound. The same repo volume is credited to all 8 sibling records, a policy question for the founder, not a record defect. status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md",
+      "https://github.com/intelligentcode-ai/skills",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/basic/parallel-execution.json"
+    ]
+  },
+  {
+    "id": "intelligentcode-ai/release",
+    "kind": "named",
+    "path": "registry/named/intelligentcode-ai/release.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Change-proposed (evidence): row 1 uses legacy type 'repo' (TYPE_ALIASES maps it to repo-own; write the canonical type and drop legacy class C / trustNumber 65 through the CLI) and its note says 'production-ready implementation' (subjective). Row 2 is a self-attestation citing the repo root https://github.com/intelligentcode-ai/skills, which breaks the §2.4 specific-URL rule; its note calls the repo a 'suite' although suiteComponents is null, and evaluator is 'unknown'. Live check 2026-10-28: the repo has 34 commits and 1 contributor, matching the recorded counts. TM 6.3 (5 self-attestation + 1.3 repo-own) is unchanged by the retype; rank 1★ is correct (no gate at 1★). Body is sound. The same repo volume is credited to all 8 sibling records, a policy question for the founder, not a record defect. status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md",
+      "https://github.com/intelligentcode-ai/skills",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/fusion/release-automation.json"
+    ]
+  },
+  {
+    "id": "intelligentcode-ai/requirements-engineer",
+    "kind": "named",
+    "path": "registry/named/intelligentcode-ai/requirements-engineer.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Change-proposed (evidence): row 1 uses legacy type 'repo' (TYPE_ALIASES maps it to repo-own; write the canonical type and drop legacy class C / trustNumber 65 through the CLI) and its note says 'production-ready implementation' (subjective). Row 2 is a self-attestation citing the repo root https://github.com/intelligentcode-ai/skills, which breaks the §2.4 specific-URL rule; its note calls the repo a 'suite' although suiteComponents is null, and evaluator is 'unknown'. Live check 2026-10-28: the repo has 34 commits and 1 contributor, matching the recorded counts. TM 6.3 (5 self-attestation + 1.3 repo-own) is unchanged by the retype; rank 1★ is correct (no gate at 1★). Body is sound. The same repo volume is credited to all 8 sibling records, a policy question for the founder, not a record defect. status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md",
+      "https://github.com/intelligentcode-ai/skills",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/basic/requirements-analysis.json"
+    ]
+  },
+  {
+    "id": "intelligentcode-ai/security-engineer",
+    "kind": "named",
+    "path": "registry/named/intelligentcode-ai/security-engineer.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Change-proposed (evidence): row 1 uses legacy type 'repo' (TYPE_ALIASES maps it to repo-own; write the canonical type and drop legacy class C / trustNumber 65 through the CLI) and its note says 'production-ready implementation' (subjective). Row 2 is a self-attestation citing the repo root https://github.com/intelligentcode-ai/skills, which breaks the §2.4 specific-URL rule; its note calls the repo a 'suite' although suiteComponents is null, and evaluator is 'unknown'. Live check 2026-10-28: the repo has 34 commits and 1 contributor, matching the recorded counts. TM 6.3 (5 self-attestation + 1.3 repo-own) is unchanged by the retype; rank 1★ is correct (no gate at 1★). Body is sound. The same repo volume is credited to all 8 sibling records, a policy question for the founder, not a record defect. Bucket security-audit has an Origin holder at 3★ (garrytan/cso); this 1★ record correctly does not hold Origin. status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md",
+      "https://github.com/intelligentcode-ai/skills",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/fusion/security-audit.json"
+    ]
+  },
+  {
+    "id": "intelligentcode-ai/user-tester",
+    "kind": "named",
+    "path": "registry/named/intelligentcode-ai/user-tester.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Change-proposed (evidence): row 1 uses legacy type 'repo' (TYPE_ALIASES maps it to repo-own; write the canonical type and drop legacy class C / trustNumber 65 through the CLI) and its note says 'production-ready implementation' (subjective). Row 2 is a self-attestation citing the repo root https://github.com/intelligentcode-ai/skills, which breaks the §2.4 specific-URL rule; its note calls the repo a 'suite' although suiteComponents is null, and evaluator is 'unknown'. Live check 2026-10-28: the repo has 34 commits and 1 contributor, matching the recorded counts. TM 6.3 (5 self-attestation + 1.3 repo-own) is unchanged by the retype; rank 1★ is correct (no gate at 1★). Body is sound. The same repo volume is credited to all 8 sibling records, a policy question for the founder, not a record defect. status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md",
+      "https://github.com/intelligentcode-ai/skills",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/fusion/e2e-testing.json"
+    ]
+  },
+  {
+    "id": "juliusbrussee/caveman",
+    "kind": "named",
+    "path": "registry/named/juliusbrussee/caveman.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 6,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Change-proposed (evidence, primary): (a) repo-own row records 263 commits; live count 2026-10-28 is 1886 (GitHub API pagination) and the row has no contributors count, so repo-own yields 0.79 TM where the formula gives about 5.7 at current commits; refresh through gaia dev evidence. (b) No github-stars-own row exists although the repo has 115,518 stars (live 2026-10-28, the 96.2k in the repo-own note is stale). Stars are adoption evidence under §2.1c: min(175, 35·log10(stars/10)) ≈ 142 at this count. Add it at a URL distinct from the repo-own row (e.g. ?tab=stars; _canonicalUrl keeps query strings so it will not collapse into the repo-own row). Rank stays 1★ as a reviewer decision; no deterministic rank gate is met. (c) social-signal row openagentskills.dev/...mattpocock-skills-skills-productivity-caveman returns HTTP 404 and the slug names the wrong owner: this is review debt, not a demotion (Yggdrasil IV); replace with a live listing or retire the row. (d) The 8labs.id row is a how-to guide with no view metric, not creator/audience evidence, so it contributes 0; reclassify or remove. Proxy-containment rows are self-reported forks and a commercial extension, 0 TM, acceptable. Body is the scaffold placeholder ('Add installation instructions here.') with no Overview and no credit to the maker (see body finding). status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/JuliusBrussee/caveman/blob/main/skills/caveman/SKILL.md",
+      "https://github.com/JuliusBrussee/caveman",
+      "https://openagentskills.dev/skills/mattpocock-skills-skills-productivity-caveman",
+      "https://8labs.id/guides/opencode/caveman/",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/founder/reports/yggdrasil-iv-october-2026/sweep/liveness/evidence-health.json"
+    ]
+  },
+  {
+    "id": "k-dense-ai/deepchem",
+    "kind": "named",
+    "path": "registry/named/k-dense-ai/deepchem.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Change-proposed (body, primary): body is the scaffold placeholder 'Add installation instructions here.' with no Overview, no Origin and no credit to DeepChem (the maker of the wrapped tool). Metadata finding: stored TM 111 (A) = 5 self-attestation + 36 generic repo-own (deepchem/deepchem, 10,671 commits, 194 contributors, inherited at face value) + 70 MoleculeNet arxiv (inherited ×0.7, legitimate). Without the defect TM is 75 (B). Generic-layer repo-own rows are pooled at face value by the inherited-evidence path (src/gaia_cli/trustMagnitude.py _inheritMultiplierFor / inherited_evidence), although repo-own is named-only (EVIDENCE_TYPE_LAYER_CONTRACT, META §2.1c). Do not hand-edit the TM cache; recalibrate after the code defect is fixed. No rank proposal: the 2026-09-04 founder demotion to 1★ stands and the TM gate would not be met on a corrected computation. Frontmatter, 1★ level, blob link (HTTP 200), origin false (correct at ≤1★) and standard-branch classification are consistent; own evidence row is a self-attestation citing its own SKILL.md URL (acceptable, grade C). status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/fusion/molecular-machine-learning.json"
+    ]
+  },
+  {
+    "id": "k-dense-ai/pymc",
+    "kind": "named",
+    "path": "registry/named/k-dense-ai/pymc.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Change-proposed (body, primary): body is the scaffold placeholder 'Add installation instructions here.' with no Overview, no Origin and no credit to PyMC (the maker of the wrapped tool). Metadata finding: stored TM 120 (A) = 5 self-attestation + 36 generic repo-own (pymc-devs/pymc, upstream, inherited at face value) + 70 arxiv 1111.4246 (legitimate ×0.7) + 9 peer-review PeerJ (legitimate ×0.3). Without the defect TM is 84 (B). Generic-layer repo-own rows are pooled at face value by the inherited-evidence path (src/gaia_cli/trustMagnitude.py _inheritMultiplierFor / inherited_evidence), although repo-own is named-only (EVIDENCE_TYPE_LAYER_CONTRACT, META §2.1c). Do not hand-edit the TM cache; recalibrate after the code defect is fixed. No rank proposal: the 2026-09-04 founder demotion to 1★ stands and the TM gate would not be met on a corrected computation. Frontmatter, 1★ level, blob link (HTTP 200), origin false (correct at ≤1★) and standard-branch classification are consistent; own evidence row is a self-attestation citing its own SKILL.md URL (acceptable, grade C). status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/basic/probabilistic-programming.json"
+    ]
+  },
+  {
+    "id": "k-dense-ai/pytorch-lightning",
+    "kind": "named",
+    "path": "registry/named/k-dense-ai/pytorch-lightning.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Change-proposed (body, primary): body is the scaffold placeholder 'Add installation instructions here.' with no Overview, no Origin and no credit to PyTorch Lightning (the maker of the wrapped tool). Metadata finding: stored TM 41 (C) = 5 self-attestation + 36 generic repo-own (Lightning-AI/pytorch-lightning upstream, inherited at face value). Without the defect TM is 5 (ungraded). Generic-layer repo-own rows are pooled at face value by the inherited-evidence path (src/gaia_cli/trustMagnitude.py _inheritMultiplierFor / inherited_evidence), although repo-own is named-only (EVIDENCE_TYPE_LAYER_CONTRACT, META §2.1c). Do not hand-edit the TM cache; recalibrate after the code defect is fixed. No rank proposal: the 2026-09-04 founder demotion to 1★ stands and the TM gate would not be met on a corrected computation. Frontmatter, 1★ level, blob link (HTTP 200), origin false (correct at ≤1★) and standard-branch classification are consistent; own evidence row is a self-attestation citing its own SKILL.md URL (acceptable, grade C). status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytorch-lightning/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/fusion/neural-training-orchestration.json"
+    ]
+  },
+  {
+    "id": "k-dense-ai/qiskit",
+    "kind": "named",
+    "path": "registry/named/k-dense-ai/qiskit.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Change-proposed (body): body is the scaffold placeholder 'Add installation instructions here.' with no Origin and no credit to Qiskit. stored TM 48.96 (C) = 5 self-attestation + 43.96 inherited OpenQASM arxiv (314 citations ×0.7); no defect involved, and the OpenQASM paper is a relevant, if indirect, support for quantum circuit programming. Frontmatter, 1★ level, blob link (HTTP 200), origin false (correct at ≤1★) and standard-branch classification are consistent; own evidence row is a self-attestation citing its own SKILL.md URL (acceptable, grade C). status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/qiskit/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/basic/quantum-circuit-programming.json"
+    ]
+  },
+  {
+    "id": "k-dense-ai/rdkit",
+    "kind": "named",
+    "path": "registry/named/k-dense-ai/rdkit.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Change-proposed (body): body is the scaffold placeholder 'Add installation instructions here.' with no Origin and no credit to RDKit. stored TM 5.0 (ungraded) = self-attestation only; generic cheminformatics-analysis has no evidence, so nothing is inherited. Frontmatter, 1★ level, blob link (HTTP 200), origin false (correct at ≤1★) and standard-branch classification are consistent; own evidence row is a self-attestation citing its own SKILL.md URL (acceptable, grade C). status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/rdkit/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/fusion/cheminformatics-analysis.json"
+    ]
+  },
+  {
+    "id": "k-dense-ai/scanpy",
+    "kind": "named",
+    "path": "registry/named/k-dense-ai/scanpy.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Change-proposed (body, primary): body is the scaffold placeholder 'Add installation instructions here.' with no Overview, no Origin and no credit to Scanpy (the maker of the wrapped tool). Metadata finding: stored TM 50 (B) = 5 self-attestation + 36 generic repo-own (scverse/scanpy upstream, inherited at face value) + 9 peer-review SCANPY paper (legitimate ×0.3). Without the defect TM is 14 (ungraded). Generic-layer repo-own rows are pooled at face value by the inherited-evidence path (src/gaia_cli/trustMagnitude.py _inheritMultiplierFor / inherited_evidence), although repo-own is named-only (EVIDENCE_TYPE_LAYER_CONTRACT, META §2.1c). Do not hand-edit the TM cache; recalibrate after the code defect is fixed. No rank proposal: the 2026-09-04 founder demotion to 1★ stands and the TM gate would not be met on a corrected computation. Frontmatter, 1★ level, blob link (HTTP 200), origin false (correct at ≤1★) and standard-branch classification are consistent; own evidence row is a self-attestation citing its own SKILL.md URL (acceptable, grade C). status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scanpy/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/basic/single-cell-analysis.json"
+    ]
+  },
+  {
+    "id": "k-dense-ai/scvi-tools",
+    "kind": "named",
+    "path": "registry/named/k-dense-ai/scvi-tools.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Change-proposed (body): body is the scaffold placeholder 'Add installation instructions here.' with no Origin and no credit to scvi-tools. stored TM 5.0 (ungraded) = self-attestation only; generic single-cell-omics-modeling has no evidence, so nothing is inherited. Frontmatter, 1★ level, blob link (HTTP 200), origin false (correct at ≤1★) and standard-branch classification are consistent; own evidence row is a self-attestation citing its own SKILL.md URL (acceptable, grade C). status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvi-tools/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/fusion/single-cell-omics-modeling.json"
+    ]
+  },
+  {
+    "id": "k-dense-ai/stable-baselines3",
+    "kind": "named",
+    "path": "registry/named/k-dense-ai/stable-baselines3.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Change-proposed (body, primary): body is the scaffold placeholder 'Add installation instructions here.' with no Overview, no Origin and no credit to Stable-Baselines3 (the maker of the wrapped tool). Metadata finding: stored TM 50 (B) = 5 self-attestation + 36 generic repo-own (DLR-RM/stable-baselines3 upstream, inherited at face value) + 9 peer-review JMLR (legitimate ×0.3). Without the defect TM is 14 (ungraded). Generic-layer repo-own rows are pooled at face value by the inherited-evidence path (src/gaia_cli/trustMagnitude.py _inheritMultiplierFor / inherited_evidence), although repo-own is named-only (EVIDENCE_TYPE_LAYER_CONTRACT, META §2.1c). Do not hand-edit the TM cache; recalibrate after the code defect is fixed. No rank proposal: the 2026-09-04 founder demotion to 1★ stands and the TM gate would not be met on a corrected computation. Frontmatter, 1★ level, blob link (HTTP 200), origin false (correct at ≤1★) and standard-branch classification are consistent; own evidence row is a self-attestation citing its own SKILL.md URL (acceptable, grade C). status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/fusion/reinforcement-learning-training.json"
+    ]
+  },
+  {
+    "id": "k-dense-ai/torch-geometric",
+    "kind": "named",
+    "path": "registry/named/k-dense-ai/torch-geometric.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Change-proposed (body, primary): body is the scaffold placeholder 'Add installation instructions here.' with no Overview, no Origin and no credit to PyTorch Geometric (the maker of the wrapped tool). Metadata finding: stored TM 111 (A) = 5 self-attestation + 36 generic repo-own (pyg-team/pytorch_geometric upstream, inherited at face value) + 70 PyG arxiv 1903.02428 (legitimate ×0.7). Without the defect TM is 75 (B). Generic-layer repo-own rows are pooled at face value by the inherited-evidence path (src/gaia_cli/trustMagnitude.py _inheritMultiplierFor / inherited_evidence), although repo-own is named-only (EVIDENCE_TYPE_LAYER_CONTRACT, META §2.1c). Do not hand-edit the TM cache; recalibrate after the code defect is fixed. No rank proposal: the 2026-09-04 founder demotion to 1★ stands and the TM gate would not be met on a corrected computation. Frontmatter, 1★ level, blob link (HTTP 200), origin false (correct at ≤1★) and standard-branch classification are consistent; own evidence row is a self-attestation citing its own SKILL.md URL (acceptable, grade C). status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/torch-geometric/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/fusion/graph-neural-network-modeling.json"
+    ]
+  },
+  {
+    "id": "k-dense-ai/transformers",
+    "kind": "named",
+    "path": "registry/named/k-dense-ai/transformers.md",
+    "reviewer": "haiku:named-09",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass",
+      "starBar": "pass",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Change-proposed (body, primary): body is the scaffold placeholder 'Add installation instructions here.' with no Overview, no Origin and no credit to Hugging Face Transformers (the maker of the wrapped tool). Metadata finding: stored TM 50 (B) = 5 self-attestation + 36 generic repo-own (huggingface/transformers upstream, inherited at face value) + 9 peer-review EMNLP demo (legitimate ×0.3). Without the defect TM is 14 (ungraded). Generic-layer repo-own rows are pooled at face value by the inherited-evidence path (src/gaia_cli/trustMagnitude.py _inheritMultiplierFor / inherited_evidence), although repo-own is named-only (EVIDENCE_TYPE_LAYER_CONTRACT, META §2.1c). Do not hand-edit the TM cache; recalibrate after the code defect is fixed. No rank proposal: the 2026-09-04 founder demotion to 1★ stands and the TM gate would not be met on a corrected computation. Frontmatter, 1★ level, blob link (HTTP 200), origin false (correct at ≤1★) and standard-branch classification are consistent; own evidence row is a self-attestation citing its own SKILL.md URL (acceptable, grade C). status 'named' at 1★ conflicts with META §1.1 (2★ floor for named); registry-wide (84 records), not individually proposed.",
+    "evidenceRefs": [
+      "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/transformers/SKILL.md",
+      "/Users/marcotiongson/.gaia-worktrees/yggiv-launch/registry/nodes/fusion/transformer-model-engineering.json"
+    ]
+  }
+]

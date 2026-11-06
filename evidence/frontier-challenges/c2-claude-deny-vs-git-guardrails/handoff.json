@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "frontier-meta-handoff-v1",
+  "leadId": "claude-deny-git-guardrails-001",
+  "packetPath": "evidence/frontier-challenges/c2-claude-deny-vs-git-guardrails/lead.json",
+  "leadDisposition": "candidate",
+  "targetSkillId": "mattpocock/git-guardrails-claude-code",
+  "verificationRequestId": "sha256:294c769e208bfb615c0fb2e69cf01fbcd280b056ba75c9ba1b3efa66f6fae8bf",
+  "advisoryMatch": "matched-actionable-request",
+  "requestedWork": [
+    "gaia-meta-audit triage",
+    "gaia-audit focused independent verification"
+  ],
+  "verification": "unverified-lead",
+  "experimentalResult": "not-executed",
+  "publicChallengeAdmission": "not-requested-until-independent-verification",
+  "trustedReceiptIssuer": "unavailable-in-this-lane; fail closed",
+  "canonicalMutation": "prohibited",
+  "createdAtUTC": "2026-10-28T18:25:55.577812Z"
+}

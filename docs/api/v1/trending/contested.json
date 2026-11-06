@@ -1,6 +1,27 @@
 {
-  "generatedAt": "2026-10-30T00:07:55Z",
+  "generatedAt": "2026-11-04T19:15:54Z",
   "buckets": [
+    {
+      "genericSkillRef": "knowledge-graph-build",
+      "implementations": 2,
+      "topTM": 318.14,
+      "skills": [
+        {
+          "id": "safishamsi/graphify",
+          "trustMagnitude": 318.14,
+          "level": "5★",
+          "overallTrustGrade": "S",
+          "origin": true
+        },
+        {
+          "id": "garrytan/citation-graph-ingest",
+          "trustMagnitude": 50.0,
+          "level": "2★",
+          "overallTrustGrade": "B",
+          "origin": false
+        }
+      ]
+    },
     {
       "genericSkillRef": "ux-audit",
       "implementations": 4,
@@ -129,7 +150,7 @@
     },
     {
       "genericSkillRef": "design-generation",
-      "implementations": 7,
+      "implementations": 10,
       "topTM": 174.68,
       "skills": [
         {
@@ -144,6 +165,27 @@
           "trustMagnitude": 171.27,
           "level": "4★",
           "overallTrustGrade": "A",
+          "origin": false
+        },
+        {
+          "id": "emilkowalski/apple-design",
+          "trustMagnitude": 129.67,
+          "level": "2★",
+          "overallTrustGrade": "A",
+          "origin": false
+        },
+        {
+          "id": "emilkowalski/emil-design-eng",
+          "trustMagnitude": 129.67,
+          "level": "2★",
+          "overallTrustGrade": "A",
+          "origin": false
+        },
+        {
+          "id": "addy-osmani/frontend-ui-engineering",
+          "trustMagnitude": 50.0,
+          "level": "2★",
+          "overallTrustGrade": "B",
           "origin": false
         },
         {
@@ -185,12 +227,12 @@
     },
     {
       "genericSkillRef": "video-composition",
-      "implementations": 6,
-      "topTM": 166.92,
+      "implementations": 7,
+      "topTM": 171.92,
       "skills": [
         {
           "id": "heygen-com/hyperframes",
-          "trustMagnitude": 166.92,
+          "trustMagnitude": 171.92,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
@@ -229,12 +271,19 @@
           "level": "3★",
           "overallTrustGrade": "B",
           "origin": false
+        },
+        {
+          "id": "heygen-com/general-video",
+          "trustMagnitude": 0.0,
+          "level": "2★",
+          "overallTrustGrade": "ungraded",
+          "origin": false
         }
       ]
     },
     {
       "genericSkillRef": "format-output",
-      "implementations": 3,
+      "implementations": 4,
       "topTM": 130.23,
       "skills": [
         {
@@ -245,6 +294,13 @@
           "origin": true
         },
         {
+          "id": "garrytan/brain-pdf",
+          "trustMagnitude": 50.0,
+          "level": "2★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
           "id": "leonxlnx/output-skill",
           "trustMagnitude": 50.0,
           "level": "3★",
@@ -253,6 +309,62 @@
         },
         {
           "id": "garrytan/make-pdf",
+          "trustMagnitude": 36.0,
+          "level": "2★",
+          "overallTrustGrade": "C",
+          "origin": false
+        }
+      ]
+    },
+    {
+      "genericSkillRef": "browser-control",
+      "implementations": 7,
+      "topTM": 118.59,
+      "skills": [
+        {
+          "id": "browser-use/browser-harness",
+          "trustMagnitude": 118.59,
+          "level": "3★",
+          "overallTrustGrade": "A",
+          "origin": true
+        },
+        {
+          "id": "garrytan/browse",
+          "trustMagnitude": 88.5,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "addy-osmani/browser-testing-with-devtools",
+          "trustMagnitude": 50.0,
+          "level": "2★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "firecrawl/firecrawl-build-interact",
+          "trustMagnitude": 50.0,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "citrolabs/ego-browser",
+          "trustMagnitude": 36.0,
+          "level": "2★",
+          "overallTrustGrade": "C",
+          "origin": false
+        },
+        {
+          "id": "garrytan/open-gstack-browser",
+          "trustMagnitude": 36.0,
+          "level": "2★",
+          "overallTrustGrade": "C",
+          "origin": false
+        },
+        {
+          "id": "garrytan/setup-browser-cookies",
           "trustMagnitude": 36.0,
           "level": "2★",
           "overallTrustGrade": "C",
@@ -290,7 +402,7 @@
     },
     {
       "genericSkillRef": "brainstorming",
-      "implementations": 2,
+      "implementations": 3,
       "topTM": 110.15,
       "skills": [
         {
@@ -299,6 +411,13 @@
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
+        },
+        {
+          "id": "addy-osmani/idea-refine",
+          "trustMagnitude": 50.0,
+          "level": "2★",
+          "overallTrustGrade": "B",
+          "origin": false
         },
         {
           "id": "gsd-build/gsd-discuss-phase",
@@ -479,7 +598,7 @@
     },
     {
       "genericSkillRef": "personal-knowledge-management",
-      "implementations": 2,
+      "implementations": 5,
       "topTM": 94.92,
       "skills": [
         {
@@ -493,6 +612,27 @@
           "id": "garrytan/capture",
           "trustMagnitude": 50.0,
           "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "garrytan/conversation-archive",
+          "trustMagnitude": 50.0,
+          "level": "2★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "garrytan/meeting-ingestion",
+          "trustMagnitude": 50.0,
+          "level": "2★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "garrytan/signal-detector",
+          "trustMagnitude": 50.0,
+          "level": "2★",
           "overallTrustGrade": "B",
           "origin": false
         }
@@ -512,76 +652,6 @@
         },
         {
           "id": "ruvnet/v3-ddd-architecture",
-          "trustMagnitude": 36.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "browser-control",
-      "implementations": 6,
-      "topTM": 88.5,
-      "skills": [
-        {
-          "id": "garrytan/browse",
-          "trustMagnitude": 88.5,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": true
-        },
-        {
-          "id": "browser-use/browser-harness",
-          "trustMagnitude": 73.59,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": false
-        },
-        {
-          "id": "firecrawl/firecrawl-build-interact",
-          "trustMagnitude": 50.0,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": false
-        },
-        {
-          "id": "citrolabs/ego-browser",
-          "trustMagnitude": 36.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": false
-        },
-        {
-          "id": "garrytan/open-gstack-browser",
-          "trustMagnitude": 36.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": false
-        },
-        {
-          "id": "garrytan/setup-browser-cookies",
-          "trustMagnitude": 36.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "write-report",
-      "implementations": 2,
-      "topTM": 81.0,
-      "skills": [
-        {
-          "id": "garrytan/retro",
-          "trustMagnitude": 81.0,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": true
-        },
-        {
-          "id": "spring-ai/readme-generate",
           "trustMagnitude": 36.0,
           "level": "2★",
           "overallTrustGrade": "C",

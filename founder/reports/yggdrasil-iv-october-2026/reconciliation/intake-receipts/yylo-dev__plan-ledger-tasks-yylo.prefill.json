@@ -1,0 +1,102 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "yylo-dev/plan-ledger-tasks-yylo",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "yylo-dev/plan-ledger-tasks-yylo",
+  "canonicalUrl": "https://github.com/yylo-dev/yylo-skills/blob/main/skills/plan-ledger-tasks-yylo/SKILL.md",
+  "checked": true,
+  "contentSha256": "9427da1d4859138077d2fad1ac2b3902e274e3646e767b0fd61800b0a35fe1a5",
+  "hostRepository": "https://github.com/yylo-dev/yylo-skills",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "yylo-dev/ledger-tasks-yylo",
+     "similarity": 0.77363
+    },
+    {
+     "id": "obra/writing-plans",
+     "similarity": 0.512211
+    },
+    {
+     "id": "obra/executing-plans",
+     "similarity": 0.473995
+    },
+    {
+     "id": "addy-osmani/planning-and-task-breakdown",
+     "similarity": 0.465668
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [
+  {
+   "genericId": "writing-plans",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.5272 to generic 'writing-plans' (weak match).",
+   "similarity": 0.527198
+  },
+  {
+   "genericId": "executing-plans",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4964 to generic 'executing-plans' (weak match).",
+   "similarity": 0.496384
+  },
+  {
+   "genericId": "plan-and-execute",
+   "matchTier": "weak",
+   "rationale": "Cosine similarity 0.4729 to generic 'plan-and-execute' (weak match).",
+   "similarity": 0.472918
+  }
+ ],
+ "normalized": {
+  "description": "Create a concise Product Development Requirement and one or more implementation-sized YYLO Ledger tasks when the user explicitly asks to plan or register work.",
+  "name": "plan-ledger-tasks-yylo"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/yylo-dev/yylo-skills/blob/main/skills/plan-ledger-tasks-yylo/SKILL.md",
+  "contentSha256": "9427da1d4859138077d2fad1ac2b3902e274e3646e767b0fd61800b0a35fe1a5",
+  "fetchedAt": "2026-10-27T22:09:59.392258+00:00",
+  "frontmatter": {
+   "argument-hint": "[Required Features] [Constraints] [Acceptance Criteria]",
+   "description": "Create a concise Product Development Requirement and one or more implementation-sized YYLO Ledger tasks when the user explicitly asks to plan or register work.",
+   "enable-shell-directives": true,
+   "name": "plan-ledger-tasks-yylo"
+  },
+  "hostRepository": "https://github.com/yylo-dev/yylo-skills",
+  "sourceLane": "source-repository"
+ }
+}

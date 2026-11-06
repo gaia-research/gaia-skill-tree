@@ -11,6 +11,18 @@ on:
         description: "Actually create issues (default: dry-run)"
         type: boolean
         default: false
+      challenge_watch:
+        description: "Enable two-sided challenge watch (opt-in / configured)"
+        type: boolean
+        default: false
+      challenge_input:
+        description: "Optional path to active challenges input file"
+        required: false
+        default: ""
+      challenge_shadow:
+        description: "Allow unverified challenges in shadow mode"
+        type: boolean
+        default: false
       child_mode:
         description: "Emission contract (batch is staged; scheduled runs stay fanout)"
         type: choice
@@ -26,8 +38,8 @@ on:
 # Prevent overlap between manual runs
 concurrency: upstream-watcher
 
-# L5: the watcher only reads the repo and writes issues. It never pushes, opens PRs or dispatches
-# workflows (batch mode creates no approved bootstrap, M3), so the other write scopes were dropped.
+# L5: the watcher only reads the repo and writes issues; it never opens PRs or dispatches workflows (batch mode
+# creates no approved bootstrap, M3), so the workflow-level token stays issues: write, contents: read.
 permissions:
   issues: write
   contents: read
@@ -114,4 +126,75 @@ jobs:
         with:
           name: upstream-watcher-report
           path: generated-output/upstream-watcher-report.json
+          if-no-files-found: ignore
+
+  # Opt-in challenge watch, kept out of the job above so the poll/issue job stays at contents: read. This is the only
+  # job with contents: write, because the shared CAS ledger (GitRefLedgerStore) pushes the dedicated steward/ledger ref.
+  # It receives nothing from the watcher job beyond ordering: it needs it to succeed (exit 3 unknown evidence therefore
+  # skips it, preserving "zero writes"), rebuilds its own inputs from the checkout, and hands its packets on as an artifact.
+  # It writes nothing but that ref and runs only default-branch code, so no untrusted ref sees the write token.
+  challenge-watch:
+    name: Challenge watch (opt-in, writes the steward/ledger ref)
+    needs: watcher
+    # Default-off: a reviewed repository variable or the dispatch input opts in. Never on a single-row escalation, and
+    # never from a non-default branch (a dispatch from another ref would run that ref's code with the write token).
+    if: >-
+      ${{ ((github.event_name == 'workflow_dispatch' && inputs.apply == true && inputs.challenge_watch == true)
+      || (github.event_name != 'workflow_dispatch' && (vars.GAIA_CHALLENGE_WATCH_ENABLED == 'true' || vars.GAIA_CHALLENGE_WATCH_ENABLED == '1')))
+      && inputs.escalate_candidate == ''
+      && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Run challenge watch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GAIA_OPERATOR_OVERRIDE: "1"
+          INPUT_CHALLENGE_INPUT: ${{ inputs.challenge_input }}
+          INPUT_CHALLENGE_SHADOW: ${{ inputs.challenge_shadow }}
+        run: |
+          set -euo pipefail
+          mkdir -p generated-output/challenge-packets
+          # Arguments are a bash array (no word splitting); the input path is passed as one exact argv element.
+          ARGS=(--challenge-only --challenge-output generated-output/challenge-packets)
+          if [ -n "${INPUT_CHALLENGE_INPUT:-}" ]; then
+            # Repo-relative path only: no absolute paths, no "..", no shell/option metacharacters.
+            if ! [[ "$INPUT_CHALLENGE_INPUT" =~ ^[A-Za-z0-9._/-]+$ ]] || [[ "$INPUT_CHALLENGE_INPUT" == /* || "$INPUT_CHALLENGE_INPUT" == -* || "$INPUT_CHALLENGE_INPUT" == *..* ]]; then
+              echo "::error::challenge_input must be a repo-relative path matching ^[A-Za-z0-9._/-]+\$ with no '..'"
+              exit 1
+            fi
+            ARGS+=(--challenge-input "$INPUT_CHALLENGE_INPUT")
+          fi
+          if [ "${INPUT_CHALLENGE_SHADOW:-}" = "true" ]; then
+            ARGS+=(--challenge-shadow)
+          fi
+          python scripts/upstream_watcher/watcher.py "${ARGS[@]}"
+
+      - name: Upload challenge packets
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: challenge-watch-packets
+          path: generated-output/challenge-packets
           if-no-files-found: ignore

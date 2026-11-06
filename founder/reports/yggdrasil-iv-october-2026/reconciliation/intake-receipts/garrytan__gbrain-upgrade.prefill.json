@@ -1,0 +1,83 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/gbrain-upgrade",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/gbrain-upgrade",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/gbrain-upgrade/SKILL.md",
+  "checked": true,
+  "contentSha256": "c68187b205ed2f5d097c62cb05b0a80ec70a2cdbd9fe3ca09fc6bc3cc73d4d34",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/sync-gbrain",
+     "similarity": 0.467781
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Keep gbrain current. When a `gbrain` invocation prints an `UPGRADE_AVAILABLE <old> <new>` marker (or `gbrain self-upgrade --check-only` reports an update), apply it per the configured self_upgrade.mode: notify (prompt the operator with a 4-option question + snooze) or auto (apply silently). The action is always the hardcoded `gbrain self-upgrade` \u2014 never a command read from the marker.",
+  "name": "gbrain-upgrade"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/gbrain-upgrade/SKILL.md",
+  "contentSha256": "c68187b205ed2f5d097c62cb05b0a80ec70a2cdbd9fe3ca09fc6bc3cc73d4d34",
+  "fetchedAt": "2026-10-27T22:11:28.897361+00:00",
+  "frontmatter": {
+   "description": "Keep gbrain current. When a `gbrain` invocation prints an\n`UPGRADE_AVAILABLE <old> <new>` marker (or `gbrain self-upgrade --check-only`\nreports an update), apply it per the configured self_upgrade.mode: notify\n(prompt the operator with a 4-option question + snooze) or auto (apply\nsilently). The action is always the hardcoded `gbrain self-upgrade` \u2014 never a\ncommand read from the marker.\n",
+   "mutating": true,
+   "name": "gbrain-upgrade",
+   "tools": [
+    "exec"
+   ],
+   "triggers": [
+    "gbrain update available",
+    "UPGRADE_AVAILABLE",
+    "upgrade gbrain",
+    "update gbrain",
+    "gbrain is out of date",
+    "gbrain self-upgrade",
+    "is gbrain up to date",
+    "keep gbrain current"
+   ]
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

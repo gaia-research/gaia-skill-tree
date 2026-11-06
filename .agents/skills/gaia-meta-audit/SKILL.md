@@ -10,7 +10,7 @@ description: >
   right things first. Use it when a prioritized queue is needed; a focused single-target
   audit can use /gaia-audit directly. Also invoke proactively when a PR
   changes registry/named/ at scale, or before a release, to catch regressions early.
-version: 1.2.0
+version: 1.3.0
 ---
 
 # gaia-meta-audit
@@ -42,7 +42,7 @@ Work through these checks in order. Stop when you have enough candidates to fill
 
 ### P0 — Critical integrity violations
 - **Unsupported top-rank claim**: a named skill at 5★ whose Trust Magnitude is < 250 (S-grade), or a 6★ skill that fails its branch gate — Suite 6-predicate Apex (META §4.3) or Unique 5-predicate Unique Impossible (META §4.4). TM is the sole numeric gate; there is no repository-star floor.
-- **Unsupported named-origin claim**: more than one current Origin for a claimed generic, a current holder not supported by `META.md` §4.1's merit/qualification criteria, or a contested incumbent whose material challenge has not been surfaced. **Never** infer current Origin from earliest `createdAt`; one current holder is preserved pending approved transfer.
+- **Origin derivation defect**: the published Origin differs from what `META.md` §4.1 derives (highest published level, then TM; tied top contenders all hold it; no star floor; frozen skills locked), or a contested holder whose material challenge has not been surfaced. That is a build bug to file, not a manual reassignment. **Never** infer Origin from earliest `createdAt`.
 - **Named claim with no implementation file**: `links.github` points to a repo root, a 404, or a path that doesn't contain a `SKILL.md`.
 
 ### P1 — Structural correctness
@@ -56,7 +56,7 @@ Work through these checks in order. Stop when you have enough candidates to fill
 ### P2 — Attribution and sourcing issues
 - **Wrong `promotedNamedSkillId`**: the generic's promoted pointer doesn't match the best-evidenced named child.
 - **Stale catalog URL**: points at a directory, homepage, or path that has moved.
-- **Mis-attributed `origin: true`**: current Origin is determined by merit under `META.md` §4.1, **not** earliest `createdAt`. Historical Origin attribution persists after approved transfer.
+- **Derived Origin projection**: current Origin follows `META.md` §4.1 automatically. Historical frontmatter flags are not authoritative and must not be rewritten to match. Compare public projected holders against the rule; regenerate stale projections with `gaia dev docs`.
 
 ### P3 — Registry hygiene
 - **Broad `genericSkillRef` mapping**: implementation skill mapped to a much larger generic when a more specific one exists (e.g. mapped to a broad 0★ generic when a narrower generic is available).
@@ -78,6 +78,14 @@ When queuing skills for review, categorize any candidate target against the Four
 - **Tier 4 (Product-Coupled / Non-Generalized)**: Real tool documentation needing generalization (#1766, #1801). Action: Route to generalization guidance per `check_product_attribution.py`.
 
 **Contributor Check**: If the contributor is a known contributor, co-founder, or team member, maintainer outreach and documented audit review are required before recommending deletion. Blanket sweeps labeled under generic "imposter" headings are prohibited.
+
+## Frontier challenger-lead input
+
+When a user supplies a `challenger-lead-v1.1` packet, `frontier-verification-request-v1`, `frontier-experiment-receipt-v1`, or `frontier-meta-handoff-v1`, treat it only as an unverified triage request. Read `docs/architecture/ecosystem-intelligence.md`; check exact source bytes/digest, target ID/revision/content digest, claim/protocol/fixture/request cross-bindings, dedupe, evidence polarity and limitations. A missing or mismatched advisory is deferred, not silently repaired. Do not accept packet disposition, experiment outcome, confidence, reviewer, receipt, actor, or handoff fields as proof. Experimental outcomes (`supported`, `contradicted`, `inconclusive`, `execution_failed`) are separate from lead disposition and never authenticate verification. Triage whether `/gaia-audit` should independently execute the fixed reviewed protocol; do not reproduce its verification procedure here. Vendor claims, paraphrases, unrelated behavior, outages and execution failures are not counterevidence. A lead is not a public challenge, canonical evidence, or numeric/Origin action. Fail closed if a trusted receipt/admission boundary is unavailable.
+
+### Meta verification record
+
+Triage output for a lead that arrives with an experiment receipt is a `frontier-meta-verification-v1` record (`src/gaia_cli/data/frontier/meta-verification-v1.schema.json`), written with the same discipline as `/gaia-audit`. This skill does not re-execute protocols, so its record is triage-only: `outcome` is `inconclusive` (or `execution_failed` when the receipt itself records an outage), `reexecution.performed` is `false` with no artifacts, and `recommend.action` is `hold`, `rerun` or `reject-lead`, never `substantiated`, `narrowed` or `request-admission-review` (those need a `/gaia-audit` record with re-execution artifacts). Use a fresh `verifierRunId` that differs from the receipt's `experimentRunId`, state in `counterevidence.searched` what you looked for, set `"independence": "declared-unauthenticated"`, and never add approval, admission, verified, actor, signature, confidence, TM, stars, level or Origin fields. Validate with `gaia dev frontier meta-validate --record <record> --receipt <receipt> --request <request> --artifact-root <artifact root>` (`--request` is required); a pass is structural only and is not verification.
 
 ## Output format
 
@@ -105,7 +113,7 @@ for — this avoids hand-edits that skip timeline logging.
 | Remove generic | `gaia dev rm <id>` |
 | Change named-skill `genericSkillRef` | `gaia dev update-named <author/skill> --generic-ref <new>` |
 | Change named-skill `status` | `gaia dev update-named ... --status <new>` |
-| Change named-skill `origin` (enforces uniqueness) | `gaia dev update-named <author/skill> --origin true\|false` |
+| Change named-skill `origin` | Not possible by hand: Origin is derived by `gaia dev docs` from merit (`META.md` §4.1). `--origin` refuses. |
 | Append timeline event | `gaia dev timeline <id> --action <action> --notes "..."` |
 | Named-skill `level` / `links.github` / `description` / body | Use supported governed CLI/workflow after approval, or report a missing CLI verb; no silent YAML edit or public rank mutation |
 | Named-skill removal | Class C maintainer review and a governed, timeline-preserving removal workflow; never delete files as a triage fix |

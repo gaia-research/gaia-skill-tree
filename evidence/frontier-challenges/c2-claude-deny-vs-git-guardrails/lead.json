@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "challenger-lead-v1",
+  "contractRevision": "challenger-lead-v1.1",
+  "campaignId": "yggiv-challenger-cases-2026-10",
+  "claimId": "block-dangerous-git-v1",
+  "leadId": "claude-deny-git-guardrails-001",
+  "identity": {
+    "name": "Claude Code permissions.deny",
+    "kind": "native-platform",
+    "installable": false,
+    "version": "2.1.312"
+  },
+  "source": {
+    "url": "https://code.claude.com/docs/en/permissions.md",
+    "observedAtUTC": "2026-10-29T03:30:00Z",
+    "contentDigest": "sha256:a72bafb46a558dec5a641916b6f1482b101a8b4ca7602f0a2d3fb636b0b3c25c",
+    "provider": "Anthropic Claude Code documentation (live, unversioned page)",
+    "capturedBytesPath": "evidence/frontier-challenges/c2-claude-deny-vs-git-guardrails/sources/claude-code-permissions-2026-10-29.md"
+  },
+  "capability": {
+    "claim": "Deny rules such as Bash(git push *) make Claude Code refuse matching Bash commands without any installed skill.",
+    "task": "Block destructive git commands before Claude executes them.",
+    "conditions": "A settings file with permissions.deny rules; the documentation states a Bash rule matches the command text Claude writes and is not a security boundary around the program."
+  },
+  "comparison": {
+    "comparator": "mattpocock/git-guardrails-claude-code PreToolUse hook (regex over the command text).",
+    "baseline": "Blocked dangerous git commands and allowed safe git commands judged by observed repo state change."
+  },
+  "target": {
+    "skillId": "mattpocock/git-guardrails-claude-code",
+    "kind": "named",
+    "genericSkillId": "guardrails",
+    "revision": "d237c0839c9c9197fc861ecec839ed323a9748a4",
+    "contentDigest": "sha256:df1c82b3c540de85d9d8fcd79dd4047692878f7036a7fbbe8a4d2f2b7cedd4ba",
+    "scopeRationale": "Both stop destructive git commands in Claude Code; the native feature needs no skill, which is the substitution question."
+  },
+  "preliminaryEvidence": [
+    {
+      "polarity": "supports-investigation",
+      "url": "https://code.claude.com/docs/en/permissions.md",
+      "summary": "Documents Bash(git push *) deny rules refusing commands that begin with git push."
+    },
+    {
+      "polarity": "counterevidence",
+      "url": "https://code.claude.com/docs/en/permissions.md",
+      "summary": "Same page states a git push written another way, such as git -C . push, is not matched by that rule."
+    }
+  ],
+  "limitations": [
+    "Native side is model-mediated (haiku), so exercised-command sets and outputs may vary between runs.",
+    "18 commands, one git version, macOS only; not a security audit.",
+    "Runner session authored the protocol; independence is declared, not authenticated.",
+    "Hook side was self-tested on all 18 commands before protocol commit."
+  ],
+  "dedupe": {
+    "key": "14af56869a33930dc3db9a996418cce8b331ab722d0970ea9a252ab8d2b3f0b4",
+    "checkedAtUTC": "2026-10-29T03:30:00Z",
+    "matches": []
+  },
+  "independentTest": {
+    "proposal": "Run runner/run-c2.py: 18 git commands in fresh disposable repos through native deny rules (claude -p haiku) and the hook script fed PreToolUse JSON; judge by observed repo state under the decision rule in protocol.json.",
+    "traceability": "Request binds protocol, command fixture and target bytes; artifacts retain per-command classes, condensed tool traces and raw-stream digests."
+  },
+  "disposition": {
+    "status": "candidate",
+    "rationale": "A native-platform capability plausibly substitutes for an installable guardrail skill, and the comparison is cheap and reproducible.",
+    "nextAction": "Run the pre-registered protocol; Meta verification by a separate session; no admission."
+  }
+}

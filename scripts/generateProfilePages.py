@@ -459,7 +459,7 @@ def _field_origin_star(ns: dict) -> str:
     # SVG sprite-driven origin badge shown inline beside @handle
     return (
         '<span class="plaque__origin ns-origin"'
-        ' data-tooltip="Origin contributor: The creator of the first skill version"'
+        ' data-tooltip="Origin: Current highest-merit implementation (ties share Origin)"'
         ' aria-label="Origin contributor">'
         f'<svg class="ico" width="14" height="14" aria-hidden="true">'
         f'<use href="{ICON_SPRITE_REL}#origin-badge"></use></svg>'
@@ -1224,7 +1224,9 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
   <script src="../../js/plaque-reveal.js" defer></script>
   <script src="../../js/profile-timeline.js" defer></script>
   <script src="../../js/profile-filter.js" defer></script>
+  <script src="../../js/evidence-provenance.js" defer></script>
   <script src="../../js/named-skills.js" defer></script>
+  <script src="../../js/trust-lifecycle.js" defer></script>
   <script src="../../js/skill-explorer.js" defer></script>
   <script src="../../js/hoh-modal.js" defer></script>
 
@@ -1324,8 +1326,8 @@ def build_directory_page(by_contributor: dict) -> str:
         if origin_count > 0:
             origin_badge_html = (
                 f'<span class="plaque__origin ns-origin" '
-                f'data-tooltip="Origin contributor: The creator of the first skill version" '
-                f'aria-label="Origin contributor: The creator of the first skill version">'
+                f'data-tooltip="Origin: Current highest-merit implementation (ties share Origin)" '
+                f'aria-label="Origin: Current highest-merit implementation (ties share Origin)">'
                 f'<svg class="ico" width="16" height="16" aria-hidden="true">'
                 f'<use href="../assets/icons.svg#origin-badge"></use></svg>'
                 f'</span>'
@@ -1384,7 +1386,7 @@ def build_directory_page(by_contributor: dict) -> str:
       <div class="contributor-card-stats">
         <span class="contributor-stat-item">
           <svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#view-tile"/></svg>
-          {skill_count} named skill{s_suffix}
+          {skill_count} skill record{s_suffix}
         </span>
         <span class="contributor-stat-item contributor-stat-level">
           Highest rank: {html.escape(highest_level)}
@@ -1433,7 +1435,7 @@ def build_directory_page(by_contributor: dict) -> str:
     page_title = "Contributors Directory — Gaia Skill Tree"
     og_description = (
         f"Browse the contributors of Gaia Skill Tree. "
-        f"{total_contributors} active builders with {total_skills} named skills claimed."
+        f"{total_contributors} contributors with {total_skills} skill records."
     )
 
     html_content = f"""<!DOCTYPE html>
@@ -1477,7 +1479,7 @@ def build_directory_page(by_contributor: dict) -> str:
   <div class="profile-hero">
     <h1 class="profile-directory-title" style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 600; color: var(--text); margin-bottom: 0.5rem;">Named Contributors</h1>
     <div class="profile-meta">
-      {total_contributors} active builders · {total_skills} named skills claimed
+      {total_contributors} contributors · {total_skills} skill records
     </div>
   </div>
 

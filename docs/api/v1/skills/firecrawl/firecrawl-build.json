@@ -1,0 +1,74 @@
+{
+  "id": "firecrawl/firecrawl-build",
+  "name": "firecrawl-build",
+  "contributor": "firecrawl",
+  "level": "2★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 39.9,
+  "overallTrustGrade": "C",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/firecrawl/firecrawl-build.json",
+    "contributor": "/api/v1/contributors/firecrawl.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "fusionScore": 40.0,
+  "fusionScoreVersion": "yggdrasil-iii-v1",
+  "fusionBreakdown": {
+    "directCount": 2,
+    "transitiveCount": 2,
+    "maxDepth": 1,
+    "nestedSuiteCount": 0
+  },
+  "title": "Firecrawl Build",
+  "genericSkillRef": "browser-automation",
+  "origin": true,
+  "description": "Integrate Firecrawl into application code whenever a product, agent, or workflow needs web data inside the app — web search, live search results, page scraping, structured extraction, or browser interaction. Use when building any feature that needs data from the web in code, even if the user does not mention Firecrawl explicitly and only describes wanting web data, website content, search, scraping, or interaction in an application. Trigger for Firecrawl requests, \"fire girl\" shorthand, and gene",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-11-03",
+      "type": "github-stars-own",
+      "notes": "Stage-1 github-stars-own evidence: verified repository stars at tag",
+      "stars": 138,
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:54:06Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill firecrawl/firecrawl-build"
+    },
+    {
+      "timestamp": "2026-11-02T21:56:40Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build/SKILL.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-11-02T22:15:13Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM (none) -> 39.9, grade (none) -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/firecrawl/skills/blob/main/skills/build/firecrawl-build/SKILL.md"
+  }
+}

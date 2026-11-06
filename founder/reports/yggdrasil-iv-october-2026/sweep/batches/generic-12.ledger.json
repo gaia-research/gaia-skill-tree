@@ -1,0 +1,618 @@
+[
+  {
+    "id": "supply-chain-optimization",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/supply-chain-optimization.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Unclaimed generic (no named children). Two arXiv Class A rows (2509.03673, 2503.14556) are plausible capability-level anchors. The repo row (kishorkukreja/awesome-supply-chain inventory-optimization SKILL.md) is a concrete implementation file at generic level; the evidence rule places implementation evidence on named children. Rows carry no grade or magnitude inputs, so generic TM computes to 0. Propose relocating the SKILL.md row to a named implementation.",
+    "evidenceRefs": [
+      "https://arxiv.org/abs/2509.03673",
+      "https://arxiv.org/abs/2503.14556",
+      "https://github.com/kishorkukreja/awesome-supply-chain/blob/main/skills/inventory-optimization/SKILL.md"
+    ]
+  },
+  {
+    "id": "systematic-debugging",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/systematic-debugging.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Four named children; exactly one Origin (garrytan/investigate, 3★, TM 50 B), which is also the displayed champion for this 4-child bucket. obra/systematic-debugging is also 3★ with higher TM (65.15 B). META 4.1 breaks rank ties by attribution/Trust Score, which the prepass does not compute, so no deterministic transfer is supported. Flagged for optional Class C look, not proposed. Prerequisites exist.",
+    "evidenceRefs": [
+      "registry/named-skills.json#systematic-debugging"
+    ]
+  },
+  {
+    "id": "task-depth-enforcement",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/task-depth-enforcement.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "One eligible child: leonxlnx/unlazy, 3★, TM 91.46 B, gates clean, so it is the only candidate. Frontmatter origin is false, violating the exactly-one-Origin invariant (META 4.1, Yggdrasil IV IV). The unlazy timeline records 'Origin status set to true' on 2026-08-22 with no recorded revocation, so the current false value is undocumented. Propose Origin to leonxlnx/unlazy via approved Class C action; historical attribution unchanged. Prerequisites exist (plan-decompose basic, verification-before-completion fusion).",
+    "evidenceRefs": [
+      "registry/named/leonxlnx/unlazy.md",
+      "registry/nodes/fusion/task-depth-enforcement.json"
+    ]
+  },
+  {
+    "id": "text-to-sql-pipeline",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/text-to-sql-pipeline.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Unclaimed. Single arXiv Class A row (DIN-SQL 2304.11015) is a relevant capability anchor for SQL generation. It covers generation rather than the validation and result-formatting parts the description also claims, a scope note rather than a defect. Prerequisites generate-sql, parse-json, format-output exist. Row not live-fetched in this pass.",
+    "evidenceRefs": [
+      "https://arxiv.org/abs/2304.11015"
+    ]
+  },
+  {
+    "id": "threat-intelligence-synthesis",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/threat-intelligence-synthesis.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Unclaimed. Two arXiv Class A rows (2504.00428, 2410.20287) are relevant capability anchors. The Class C skillsmp.com row is a third-party skill index page for an implementation, not a capability source, and does not belong at generic level. Propose removing it. Prerequisites exist.",
+    "evidenceRefs": [
+      "https://arxiv.org/abs/2504.00428",
+      "https://arxiv.org/abs/2410.20287",
+      "https://skillsmp.com/skills/j4flmao-agent-skills-skills-security-threat-intelligence-skill-md"
+    ]
+  },
+  {
+    "id": "tool-chaining",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/tool-chaining.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Unclaimed. The arXiv TraceSafe row (2604.07223) is a relevant anchor for sequential multi-step tool-calling. The skillsmp.com API search-query URL (?q=tool-chaining) is a search endpoint, not a stable source, and the 'emerging community consensus' note is unsupported. Propose removing that row. Prerequisites exist.",
+    "evidenceRefs": [
+      "https://arxiv.org/abs/2604.07223",
+      "https://skillsmp.com/api/v1/skills/search?q=tool-chaining"
+    ]
+  },
+  {
+    "id": "tool-creation",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/tool-creation.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Two 2★ children; exactly one Origin (mattpocock/write-a-skill, TM 45 C) with higher TM than anthropic/skill-creator (TM 30 C). Evidence: arXiv LATM 2305.17126 is a relevant capability anchor, and the ctlllll/LLM-ToolMaker repo exists and is the reference implementation of that technique. Champion not required (2 children).",
+    "evidenceRefs": [
+      "https://arxiv.org/abs/2305.17126",
+      "https://github.com/ctlllll/LLM-ToolMaker"
+    ]
+  },
+  {
+    "id": "transformer-model-engineering",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/transformer-model-engineering.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "One 1★ child (not eligible, no Origin needed). Generic TM 66 B rests entirely on huggingface/transformers rows typed repo-own (commits 24456, contributors 499) plus an EMNLP demo peer-review row. repo-own is defined as the contributor's own repository, and Hugging Face is a third-party upstream, so the type is misapplied. Its magnitude is inherited by a third-party child (k-dense-ai/transformers). Propose re-typing or relocating the upstream row. allowedLayers for repo-own not verified in this pass.",
+    "evidenceRefs": [
+      "https://github.com/huggingface/transformers",
+      "https://aclanthology.org/2020.emnlp-demos.6/"
+    ]
+  },
+  {
+    "id": "translation-pipeline",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/translation-pipeline.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Unclaimed. The SeamlessM4T row (2308.11596) notes claim 'tone and register control' and 'BLEU +3.3 over NLLB on FLORES-200'. Fetching the abstract shows no mention of tone, register, sentiment or NLLB; the only BLEU claim is 20% over an unnamed prior SOTA in speech-to-text. The row supports speech/text translation at best, not the sentiment-preservation or audience-adaptation claims in the description. Propose correcting the notes and narrowing relevance.",
+    "evidenceRefs": [
+      "https://arxiv.org/abs/2308.11596"
+    ]
+  },
+  {
+    "id": "tree-of-thought",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/tree-of-thought.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Unclaimed. Row 2305.10601 notes state '+74% on Game of 24 and +4% on Creative Writing vs chain-of-thought'. The abstract gives GPT-4 chain-of-thought 4% vs ToT 74% success on Game of 24 and gives no Creative Writing result, so the note misstates the figures. Propose correcting the notes. The Princeton repo exists and the arXiv row remains a relevant anchor. Prerequisites exist.",
+    "evidenceRefs": [
+      "https://arxiv.org/abs/2305.10601",
+      "https://github.com/princeton-nlp/tree-of-thought-llm"
+    ]
+  },
+  {
+    "id": "ubiquitous-language",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/ubiquitous-language.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Two eligible children and no Origin on either: mattpocock/ubiquitous-language (3★, TM 94.92 B, highest level and TM) and ruvnet/v3-ddd-architecture (2★, TM 36 C). Violates the exactly-one-Origin invariant. Propose Origin to mattpocock/ubiquitous-language via approved Class C action. Prerequisites exist.",
+    "evidenceRefs": [
+      "registry/named-skills.json#ubiquitous-language"
+    ]
+  },
+  {
+    "id": "using-git-worktrees",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/using-git-worktrees.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Single child obra/using-git-worktrees (4★, TM 117.65 A) holds the one Origin, as required. No generic evidence rows. Prerequisites exist.",
+    "evidenceRefs": [
+      "registry/named-skills.json#using-git-worktrees"
+    ]
+  },
+  {
+    "id": "verification-before-completion",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/verification-before-completion.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Four children; exactly one Origin (obra/verification-before-completion, 3★, TM 97.81 B), the highest TM in the bucket. The arXiv Agentless row (2407.01489) is relevant and self-scoped to test-based patch validation; the description is broader, but the row discloses that limit, so no change is proposed. Prerequisites exist.",
+    "evidenceRefs": [
+      "https://arxiv.org/abs/2407.01489"
+    ]
+  },
+  {
+    "id": "vertical-slice-planning",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/vertical-slice-planning.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Three children; exactly one Origin (mattpocock/to-tickets, 3★, TM 94.92). addy-osmani/planning-and-task-breakdown is also 3★ at TM 95.0, a 0.08 gap with no deterministic tie-break in the prepass, so no transfer is proposed. The 2★ suite child garrytan/garrytan is outside the Origin rule. Prerequisites exist.",
+    "evidenceRefs": [
+      "registry/named-skills.json#vertical-slice-planning"
+    ]
+  },
+  {
+    "id": "video-composition",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/video-composition.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Seven eligible children (≥2★) and no Origin. Highest is heygen-com/hyperframes (4★, TM 166.92 A, suite). Propose Origin to heygen-com/hyperframes via approved Class C action. CLAUDE.md says a 4★ suite Extra need not hold bucket-level Origin for its own rank gate; that does not remove the bucket-level invariant, so the choice is flagged for Class C confirmation. Also noted for the named audit: remotion-dev/remotion-best-practices is 1★ with suiteComponents, below the 2★ suite floor. Eight prerequisites exist.",
+    "evidenceRefs": [
+      "registry/named-skills.json#video-composition",
+      "registry/named/heygen-com/hyperframes.md"
+    ]
+  },
+  {
+    "id": "video-intelligence",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/video-intelligence.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Single child bradautomates/watch (2★, origin true) holds the one Origin. No generic evidence rows. Prerequisites multimodal-reasoning (fusion) and speech-to-text exist.",
+    "evidenceRefs": [
+      "registry/named-skills.json#video-intelligence"
+    ]
+  },
+  {
+    "id": "voice-agent",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/voice-agent.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Unclaimed. Single repo row rasa/rasa (exists, pushed 2026-10-27). Rasa describes itself as a text-and-voice conversational framework, so the row is a plausible but implementation-level anchor with no named children. Handled as part of the batch-level systemic note on repo-type rows, not a per-record change.",
+    "evidenceRefs": [
+      "https://github.com/rasa/rasa"
+    ]
+  },
+  {
+    "id": "web-accessibility",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/web-accessibility.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Unclaimed. Description is the single word 'Accessibility', which is not a precise or falsifiable statement. Propose a precise description. The cited repo addyosmani/web-quality-skills exists (created 2026-01-18) and contains skills/accessibility, so the evidence row is relevant and kept.",
+    "evidenceRefs": [
+      "https://github.com/addyosmani/web-quality-skills"
+    ]
+  },
+  {
+    "id": "web-best-practices",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/web-best-practices.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "fail",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Unclaimed. Description 'Web Best Practices' only restates the name and is not precise or falsifiable. Propose a precise description. The cited repo exists and contains skills/best-practices, so the evidence row is relevant and kept.",
+    "evidenceRefs": [
+      "https://github.com/addyosmani/web-quality-skills"
+    ]
+  },
+  {
+    "id": "web-quality-audit",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/web-quality-audit.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "fail",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "structural",
+    "findingSummary": "Unclaimed. Prerequisite registry-health-scan is the Gaia meta-audit fusion (it scans Gaia registry entries) and has no semantic link to a web quality audit. Propose removing it; the remaining four prerequisites exist and the fusion keeps ≥2. Secondary: the timeline says addyosmani/web-quality-skills is non-existent, which gh API refutes (created 2026-01-18, about 3k stars, skills/web-quality-audit present). The current row points to agent-skills, a weaker anchor. Propose re-anchoring the evidence.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/registry-health-scan.json",
+      "https://github.com/addyosmani/web-quality-skills",
+      "https://github.com/addyosmani/agent-skills"
+    ]
+  },
+  {
+    "id": "web-scrape",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/web-scrape.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Two children; exactly one Origin (firecrawl/firecrawl-build-scrape, 4★, TM 110.02 A). garrytan/scrape is 2★. Prerequisites web-search, parse-html, extract-entities exist. No generic rows.",
+    "evidenceRefs": [
+      "registry/named-skills.json#web-scrape"
+    ]
+  },
+  {
+    "id": "wiki-search",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/wiki-search.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "The only child, remotion-dev/remotion-docs (1★), is mapped here but is a placeholder (description 'remotion-dev named skill for remotion-docs', body 'Add installation instructions here.') and documents Remotion, not a local wiki pattern. Propose re-mapping or unlinking the child. Secondary: the single B row is a hermes-agent llm-wiki SKILL.md implementation file at generic level, which the evidence rule places on named children.",
+    "evidenceRefs": [
+      "registry/named/remotion-dev/remotion-docs.md",
+      "https://github.com/NousResearch/hermes-agent/blob/main/skills/research/llm-wiki/SKILL.md"
+    ]
+  },
+  {
+    "id": "workflow-automation",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/workflow-automation.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a",
+      "evidence": "pass",
+      "upstream": "pass",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Two 1★ children, not eligible, so no Origin needed. Three repo rows (n8n, activepieces, Flowise) exist and are relevant as category platforms. They are product-level rather than capability-level, which is a batch-level policy question, not a per-record change.",
+    "evidenceRefs": [
+      "https://github.com/n8n-io/n8n",
+      "https://github.com/activepieces/activepieces",
+      "https://github.com/FlowiseAI/Flowise"
+    ]
+  },
+  {
+    "id": "workspace-automation",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/workspace-automation.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail",
+      "evidence": "fail",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "fail"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "The only child, garrytan/gstack-upgrade (2★, eligible), describes a code dependency upgrader ('Scans the workspace for outdated dependencies ... commits a dependency bump PR'), not email, calendar, drive or office automation. The mapping is stale. Propose re-mapping or unlinking the child before any Origin decision; do not transfer Origin onto a misfiled child. The generic's single C row is a hermes-agent docs root, which is weak.",
+    "evidenceRefs": [
+      "registry/named/garrytan/gstack-upgrade.md",
+      "https://hermes-agent.nousresearch.com/docs/skills"
+    ]
+  },
+  {
+    "id": "writing-plans",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/writing-plans.json",
+    "reviewer": "haiku:generic-12",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass",
+      "evidence": "pass",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Two children; exactly one Origin (obra/writing-plans, 4★, TM 110.15 A). gsd-build/gsd-plan-phase is 3★. Prerequisites plan-decompose and requirements-analysis exist. No generic rows.",
+    "evidenceRefs": [
+      "registry/named-skills.json#writing-plans"
+    ]
+  }
+]

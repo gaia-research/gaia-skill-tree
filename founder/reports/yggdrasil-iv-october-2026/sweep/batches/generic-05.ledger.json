@@ -1,0 +1,654 @@
+[
+  {
+    "id": "rank",
+    "kind": "generic",
+    "path": "registry/nodes/basic/rank.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a (no named children)",
+      "evidence": "pass (0 rows)",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Starless basic node with zero named children and zero evidence rows. Description is abstract and falsifiable (orders candidate items by a stated objective). Derivative rag-pipeline resolves. Legacy timeline carries 1 star to 0 star demote events on a starless node and a dead-link removal; these are historical receipts and are left untouched. No change proposed.",
+    "evidenceRefs": [
+      "registry/nodes/basic/rank.json"
+    ]
+  },
+  {
+    "id": "react-performance-optimization",
+    "kind": "generic",
+    "path": "registry/nodes/basic/react-performance-optimization.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail: no Origin on the only eligible child",
+      "evidence": "pass (0 rows)",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Single eligible child vercel-labs/vercel-react-best-practices is 4 star, TM 163.19 grade A, gateViolations empty, blob link, and origin false. Exactly one Origin is required, and the child sits on the Unique branch (no suiteComponents) where CLAUDE.md requires bucket-level Origin for 4 star. Propose origin true on that child. Gap for steward: the prepass gateViolations is empty even though the 4 star Unique child lacks bucket Origin, so the gate does not enforce this rule.",
+    "evidenceRefs": [
+      "registry/nodes/basic/react-performance-optimization.json",
+      "registry/named-skills.json",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md"
+    ]
+  },
+  {
+    "id": "refactor-code",
+    "kind": "generic",
+    "path": "registry/nodes/basic/refactor-code.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail: no Origin across 3 eligible children",
+      "evidence": "fail: ungraded legacy row, weak relevance",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Three eligible named children and none holds Origin. Merit basis (level, then TM) selects addy-osmani/code-simplification (4 star, TM 190.0 grade A, blob link, gateViolations empty). Propose origin true on it. Champion condition (3 or more children) is met; Champion is a display role derived from origin, so the same holder satisfies it. Other children: mattpocock/improve-codebase-architecture (2 star, TM 45, C) and mattpocock/migrate-to-shoehorn (2 star, TM 41, C). langgenius/component-refactoring is 1 star and ineligible. Evidence finding is recorded separately.",
+    "evidenceRefs": [
+      "registry/nodes/basic/refactor-code.json",
+      "registry/named-skills.json",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md"
+    ]
+  },
+  {
+    "id": "requirements-analysis",
+    "kind": "generic",
+    "path": "registry/nodes/basic/requirements-analysis.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a (only child is 1 star, ineligible)",
+      "evidence": "pass (0 rows)",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Only named child intelligentcode-ai/requirements-engineer is 1 star (awakened, ineligible for Origin), so no Origin is required. Description is specific and falsifiable. Derivatives writing-plans and brainstorming are not required to be verified here. No change proposed.",
+    "evidenceRefs": [
+      "registry/nodes/basic/requirements-analysis.json",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "retrieve",
+    "kind": "generic",
+    "path": "registry/nodes/basic/retrieve.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a (no named children)",
+      "evidence": "pass (0 rows)",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No named children and no evidence rows. Description is precise (fetch passages from an indexed corpus given a query). All five derivatives resolve to existing nodes. Legacy demote and dead-link events are historical. No change proposed.",
+    "evidenceRefs": [
+      "registry/nodes/basic/retrieve.json"
+    ]
+  },
+  {
+    "id": "reward-modeling",
+    "kind": "generic",
+    "path": "registry/nodes/basic/reward-modeling.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a (no named children)",
+      "evidence": "fail: layer-invalid repo row; ungraded arxiv row",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Row 2 (github.com/huggingface/trl, stored type repo) is implementation evidence for a training library. The canonical meta.json types do not include repo; the alias resolves to repo-own, which is named-layer only, so it is invalid at the generic layer. Row 1 (InstructGPT, arxiv 2203.02155) is strongly relevant but has no grade field. Its timeline says regraded A, but stored trustNumber 85 maps to B under the meta.json fallback thresholds (A needs 100 or more). Prepass shows computedTm 0 and ungraded. Proposed: regrade row 1 via the CLI and relocate or remove the TRL row to a named implementation. No named children exist, so there is no TM effect on named skills today.",
+    "evidenceRefs": [
+      "registry/nodes/basic/reward-modeling.json",
+      "https://arxiv.org/abs/2203.02155",
+      "https://github.com/huggingface/trl",
+      "registry/schema/meta.json"
+    ]
+  },
+  {
+    "id": "route-intent",
+    "kind": "generic",
+    "path": "registry/nodes/basic/route-intent.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail: no Origin on the only eligible child",
+      "evidence": "pass (0 rows)",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Two named children. garrytan/functional-area-resolver is 1 star and ineligible. mattpocock/ask-matt is the only eligible child (2 star, TM 41.0 grade C, blob link, gateViolations empty) and origin is false. Propose origin true on mattpocock/ask-matt. Champion is not triggered (2 children).",
+    "evidenceRefs": [
+      "registry/nodes/basic/route-intent.json",
+      "registry/named-skills.json",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/ask-matt/SKILL.md"
+    ]
+  },
+  {
+    "id": "schema-design",
+    "kind": "generic",
+    "path": "registry/nodes/basic/schema-design.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a (only child is 1 star, ineligible)",
+      "evidence": "pass (0 rows)",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Only named child intelligentcode-ai/database-engineer is 1 star and ineligible. Description covers relational, NoSQL, graph, and time-series modelling. It is broad but reads as one capability (schema design across stores). No change proposed.",
+    "evidenceRefs": [
+      "registry/nodes/basic/schema-design.json",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "scientific-visualization",
+    "kind": "generic",
+    "path": "registry/nodes/basic/scientific-visualization.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a (no named children)",
+      "evidence": "pass (0 rows; timeline disagrees with array)",
+      "upstream": "n/a",
+      "body": "fail: tool-specific directives and two bundled capabilities",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Description bundles two capabilities (publication-ready multi-panel figures, and molecular structure rendering), which is overly broad. The directives and useCase fields hold PyMOL and OSMesa operational rules (environment variables, cmd.quit, .pse sessions). That is implementation guidance for a named skill, not a capability description. The schema accepts these fields, so no schema failure. Evidence array is empty, but the timeline records two evidence_added B rows for a google-deepmind pymol SKILL.md (implementation-level, not generic-eligible) and a later evidence_removed. Array and timeline disagree and no receipt explains the gap. Proposed: narrow the description to one capability (or split via structural review) and move directives and useCase to a named implementation.",
+    "evidenceRefs": [
+      "registry/nodes/basic/scientific-visualization.json"
+    ]
+  },
+  {
+    "id": "score-relevance",
+    "kind": "generic",
+    "path": "registry/nodes/basic/score-relevance.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a (no named children)",
+      "evidence": "pass (0 rows)",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "No named children and no evidence rows. Description is precise (numerical relevance score for candidates relative to a query). It is distinct from rank (scoring versus ordering). Derivatives rag-pipeline and agent-eval resolve. No change proposed.",
+    "evidenceRefs": [
+      "registry/nodes/basic/score-relevance.json"
+    ]
+  },
+  {
+    "id": "scroll-driven-web-design",
+    "kind": "generic",
+    "path": "registry/nodes/basic/scroll-driven-web-design.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail: no Origin on the only eligible child",
+      "evidence": "pass (0 rows)",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Only eligible child nateherkai/scroll-craft is 3 star, TM 87.38 grade B, blob link, gateViolations empty, origin false. Propose origin true on it. Structural note: the description overlaps scroll-world (both describe scroll-scrubbed landing pages), so the steward should review whether the two generics are duplicates. Overlap review only; no merge is proposed here.",
+    "evidenceRefs": [
+      "registry/nodes/basic/scroll-driven-web-design.json",
+      "registry/named-skills.json",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "https://github.com/nateherkai/scroll-craft/blob/0b816225945e45380397d6a0487efa3c98916858/plugins/nateherk-design/skills/scroll-craft/SKILL.md"
+    ]
+  },
+  {
+    "id": "scroll-world",
+    "kind": "generic",
+    "path": "registry/nodes/basic/scroll-world.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail: no Origin on the only eligible child",
+      "evidence": "pass (0 rows)",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Only eligible child oso95/scroll-world is 3 star, TM 60.98 grade B, blob link, gateViolations empty, origin false. Propose origin true on it. Overlap with scroll-driven-web-design is flagged for steward review (see that record). No change to the generic itself.",
+    "evidenceRefs": [
+      "registry/nodes/basic/scroll-world.json",
+      "registry/named-skills.json",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "https://github.com/oso95/scroll-world/blob/main/skills/scroll-world/SKILL.md"
+    ]
+  },
+  {
+    "id": "self-consistency",
+    "kind": "generic",
+    "path": "registry/nodes/basic/self-consistency.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a (no named children)",
+      "evidence": "fail: ungraded legacy row; mojibake in notes",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Single row (Wang et al. 2022, arxiv 2203.11171) is exactly on-capability and class-A academic provenance. It lacks a grade field. The timeline says regraded A, but stored trustNumber 85 maps to B under the meta.json fallback thresholds (A needs 100 or more). Prepass shows computedTm 0 and ungraded. Notes contain UTF-8 mojibake (a dash rendered as a garbled sequence). Proposed: regrade via CLI and repair the notes text. Historical 4 star propose and type_change events are left as receipts.",
+    "evidenceRefs": [
+      "registry/nodes/basic/self-consistency.json",
+      "https://arxiv.org/abs/2203.11171"
+    ]
+  },
+  {
+    "id": "self-critique",
+    "kind": "generic",
+    "path": "registry/nodes/basic/self-critique.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a (no named children)",
+      "evidence": "fail: layer-invalid repo row; ungraded arxiv row",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Row 1 (Self-Refine, arxiv 2303.17651) is strongly relevant but has no grade field; timeline claims A while trustNumber 85 maps to B under fallback thresholds. Row 2 (github.com/madaan/self-refine, stored type repo) is implementation evidence, is not a canonical type, and resolves via alias to repo-own, which is named-layer only. Proposed: regrade row 1 via CLI, relocate or remove the repo row to a named implementation, and repair mojibake in notes. No named children, so no current TM effect on named skills.",
+    "evidenceRefs": [
+      "registry/nodes/basic/self-critique.json",
+      "https://arxiv.org/abs/2303.17651",
+      "https://github.com/madaan/self-refine"
+    ]
+  },
+  {
+    "id": "semantic-cache",
+    "kind": "generic",
+    "path": "registry/nodes/basic/semantic-cache.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a (no named children)",
+      "evidence": "fail: layer-invalid repo row; ungraded arxiv row",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Row 1 (arxiv 2604.20021, semantic caching for LLM serving) is on-capability but has no grade field; timeline says A, trustNumber 85 maps to B under fallback. The notes self-describe it as the first rigorous framework; that claim is not verified in this pass. Row 2 (github.com/vcache-project/vCache, stored type repo) is a prototype implementation and is layer-invalid at generic. Proposed: regrade row 1 via CLI and relocate the vCache row to a named implementation. No named children today.",
+    "evidenceRefs": [
+      "registry/nodes/basic/semantic-cache.json",
+      "https://arxiv.org/abs/2604.20021",
+      "https://github.com/vcache-project/vCache"
+    ]
+  },
+  {
+    "id": "sentiment-analysis",
+    "kind": "generic",
+    "path": "registry/nodes/basic/sentiment-analysis.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a (no Named child in bucket; 1 star awakened child cannot hold Origin)",
+      "evidence": "fail: 3 layer-invalid repo-own rows; ungraded SST-2 row; weak curated-list row",
+      "upstream": "n/a",
+      "body": "fail: benchmark threshold in conditions field",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 9,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Prepass TM 180.1 grade A over 9 rows. Layer finding: three repo-own rows (NLPTown HF model card, declare-lab/conv-emotion, declare-lab/awesome-sentiment-analysis reading list) are named-layer-only under Gaia's allowedLayers, so they are invalid at the generic layer. The awesome list is a curated reading list and is weak capability evidence. The SST-2 row (gluebenchmark.com, typed arxiv, class C, no grade) has the same trustNumber 85 versus A mismatch. Several arxiv rows point to ACL or AAAI URLs, which is acceptable because the arxiv type is citation-count based. Proposed: recompute TM after relocating repo-own rows and regrade the SST-2 row via CLI. TM movement is not a demotion. The awakened pexp13/sentiment-analysis child (1 star, TM 126.07 A) inherits this pool and will move. Secondary body finding: conditions holds a Macro-F1 acceptance threshold (0.88 or 0.72) that is named-skill content.",
+    "evidenceRefs": [
+      "registry/nodes/basic/sentiment-analysis.json",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment",
+      "https://github.com/declare-lab/conv-emotion",
+      "https://github.com/declare-lab/awesome-sentiment-analysis",
+      "https://gluebenchmark.com/tasks"
+    ]
+  },
+  {
+    "id": "sequential-agent-pipeline",
+    "kind": "generic",
+    "path": "registry/nodes/basic/sequential-agent-pipeline.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "pass (exactly one Origin: ruvnet/stream-chain, sole child)",
+      "evidence": "pass (0 rows)",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Origin is correctly held by the only child ruvnet/stream-chain (2 star, TM 36.0 grade C). Link defect on that child: links.github is https://github.com/ruvnet/ruflo, a bare repo root. Curation guidelines require blob/branch/subpath, and the installer reads only links.github. Proposed: point links.github at a concrete SKILL.md blob (for example registry/named/ruvnet/stream-chain.md source). Origin itself does not change.",
+    "evidenceRefs": [
+      "registry/nodes/basic/sequential-agent-pipeline.json",
+      "registry/named/ruvnet/stream-chain.md",
+      "https://github.com/ruvnet/ruflo"
+    ]
+  },
+  {
+    "id": "session-journaling",
+    "kind": "generic",
+    "path": "registry/nodes/basic/session-journaling.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail: no Origin on the only eligible child",
+      "evidence": "pass (0 rows)",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Only eligible child aplaceforallmystuff/log-to-daily is 2 star, TM 22.67 grade C, blob link, gateViolations empty, origin false. Propose origin true on it. Description is a capability statement (summarise and append a timestamped entry at session end) and is acceptable.",
+    "evidenceRefs": [
+      "registry/nodes/basic/session-journaling.json",
+      "registry/named-skills.json",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "https://github.com/aplaceforallmystuff/daily-patterns-pack/blob/main/skills/log-to-daily/SKILL.md"
+    ]
+  },
+  {
+    "id": "single-cell-analysis",
+    "kind": "generic",
+    "path": "registry/nodes/basic/single-cell-analysis.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a (only child is 1 star, ineligible)",
+      "evidence": "fail: layer-invalid repo-own row; unsourced reviewer count",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Both generic rows are implementation evidence for one toolkit (Scanpy). Row 1 (github.com/scverse/scanpy, repo-own) is named-layer only and therefore invalid at generic. Row 2 (Scanpy paper, peer-review, grade C) states that reviewer count is not disclosed and uses 1 as a conservative minimum. The 1 is an unsourced payload value feeding the peer-review magnitude, so it cannot be relied on. Scope finding: the generic capability is evidenced only by one tool, with no capability-level Class A source. Proposed: relocate the Scanpy rows to the named k-dense-ai/scanpy implementation, remove the unverified reviewer value, and source a capability-level academic reference. TM 66 grade B at generic will move; this is a layer correction, not a demotion.",
+    "evidenceRefs": [
+      "registry/nodes/basic/single-cell-analysis.json",
+      "https://github.com/scverse/scanpy",
+      "https://doi.org/10.1186/s13059-017-1382-0",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "skill-discovery",
+    "kind": "generic",
+    "path": "registry/nodes/basic/skill-discovery.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail: Origin held by lower-rated child (merit basis favours another)",
+      "evidence": "pass (0 rows)",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Two eligible children. Current Origin holder vercel/find-skills is 2 star, TM 36.0 grade C. heygen-com/hyperframes-registry is 3 star, TM 50.0 grade B, blob link, gateViolations empty, and holds higher level and TM on the Section 4.1 merit basis. Proposed Origin transfer to heygen-com/hyperframes-registry, with vercel/find-skills superseded but not demoted. Basis is deterministic (level then TM), not createdAt. Transfer needs steward review before action. Champion is not triggered (2 children).",
+    "evidenceRefs": [
+      "registry/nodes/basic/skill-discovery.json",
+      "registry/named-skills.json",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "https://github.com/heygen-com/hyperframes/blob/7a2a6917367e6dd7ce22f4c321c4a852dcf58dfd/skills/hyperframes-registry/SKILL.md",
+      "https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md"
+    ]
+  },
+  {
+    "id": "software-design",
+    "kind": "generic",
+    "path": "registry/nodes/basic/software-design.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail: no Origin on the only eligible child",
+      "evidence": "pass (0 rows)",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Only eligible child mattpocock/codebase-design is 2 star, TM 41.0 grade C, blob link, origin false. addy-osmani/api-and-interface-design is 1 star and ineligible. Propose origin true on mattpocock/codebase-design. Description uses design jargon (deep implementations, seams) that is established vocabulary, not a brand.",
+    "evidenceRefs": [
+      "registry/nodes/basic/software-design.json",
+      "registry/named-skills.json",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design/SKILL.md"
+    ]
+  },
+  {
+    "id": "speech-to-text",
+    "kind": "generic",
+    "path": "registry/nodes/basic/speech-to-text.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a (no named children)",
+      "evidence": "fail: ungraded legacy row; mojibake in notes",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Single row (Whisper, arxiv 2212.04356) is strongly on-capability. It has no grade field. Timeline says regraded A, but trustNumber 85 maps to B under fallback thresholds. Prepass shows ungraded and 0 TM. Notes contain mojibake. Proposed: regrade via CLI and repair notes text.",
+    "evidenceRefs": [
+      "registry/nodes/basic/speech-to-text.json",
+      "https://arxiv.org/abs/2212.04356"
+    ]
+  },
+  {
+    "id": "static-artwork-design",
+    "kind": "generic",
+    "path": "registry/nodes/basic/static-artwork-design.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "fail: no Origin on the only eligible child",
+      "evidence": "pass (0 rows)",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Only eligible child anthropics/canvas-design is 2 star, TM 43.52 grade C, blob link, gateViolations empty, origin false. Propose origin true on it. No generic-level evidence is needed for this capability.",
+    "evidenceRefs": [
+      "registry/nodes/basic/static-artwork-design.json",
+      "registry/named-skills.json",
+      "founder/reports/yggdrasil-iv-october-2026/sweep/prepass.json",
+      "https://github.com/anthropics/skills/blob/main/skills/canvas-design/SKILL.md"
+    ]
+  },
+  {
+    "id": "statistical-analysis",
+    "kind": "generic",
+    "path": "registry/nodes/basic/statistical-analysis.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a (no named children)",
+      "evidence": "fail: ungraded legacy row; weak relevance",
+      "upstream": "n/a",
+      "body": "fail: tool-specific library names in description",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Single row (Sargsyan 2025, arxiv 2511.06701) is on the topic of statistical rigor in AI-driven hypothesis testing, which is a narrower frame than the general statistical-analysis capability. Its quoted figures (1.1 percent versus 41 percent FDR) were not verified in this pass. Row has no grade field; timeline says A while trustNumber 85 maps to B under fallback. Description names scipy, statsmodels, and PyMC, which is implementation wording at the generic layer. Proposed: regrade via CLI, source a broader capability-level reference if available, and move library names to named implementations.",
+    "evidenceRefs": [
+      "registry/nodes/basic/statistical-analysis.json",
+      "https://arxiv.org/abs/2511.06701"
+    ]
+  },
+  {
+    "id": "structured-output",
+    "kind": "generic",
+    "path": "registry/nodes/basic/structured-output.json",
+    "reviewer": "haiku:generic-05",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a",
+      "starBar": "n/a",
+      "origin": "n/a (no named children)",
+      "evidence": "fail: layer-invalid repo row; ungraded arxiv row; mojibake",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass (basic, 0 prerequisites)"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Row 1 (Willard and Louf 2023, arxiv 2307.09702) is strongly on-capability but has no grade field; timeline says A while trustNumber 85 maps to B under fallback. Row 2 (github.com/outlines-dev/outlines, stored type repo) is implementation evidence and is layer-invalid at generic. Notes assert 2k plus GitHub stars, which is unverified self-description. Notes contain mojibake. Proposed: regrade row 1 via CLI, relocate the Outlines row to a named implementation, and repair notes. No named children today.",
+    "evidenceRefs": [
+      "registry/nodes/basic/structured-output.json",
+      "https://arxiv.org/abs/2307.09702",
+      "https://github.com/outlines-dev/outlines"
+    ]
+  }
+]

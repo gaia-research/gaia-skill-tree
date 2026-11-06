@@ -1,50 +1,2681 @@
 {
-  "version": "8.29.1",
-  "generatedAt": "2026-10-30T00:07:52Z",
+  "originStandings": {
+    "adaptive-pattern-learning": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/reasoningbank-intelligence",
+        "contributor": "ruvnet"
+      }
+    ],
+    "advanced-swarm-coordination": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/swarm-advanced",
+        "contributor": "ruvnet"
+      }
+    ],
+    "adversarial-review": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/doubt-driven-development",
+        "contributor": "addy-osmani"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/cross-modal-review",
+        "contributor": "garrytan"
+      }
+    ],
+    "agent-environment-setup": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/setup-matt-pocock-skills",
+        "contributor": "mattpocock"
+      }
+    ],
+    "agent-fusion": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "disler/agent-fusion",
+        "contributor": "disler"
+      }
+    ],
+    "agent-handoff": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/handoff",
+        "contributor": "mattpocock"
+      }
+    ],
+    "agent-memory-learning": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "agent-memory-platform": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/agentdb",
+        "contributor": "ruvnet"
+      }
+    ],
+    "agent-reach": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "panniantong/agent-reach",
+        "contributor": "panniantong"
+      }
+    ],
+    "agentic-workflow-design": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "animation-performance": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "emilkowalski/animation-performance",
+        "contributor": "emilkowalski"
+      }
+    ],
+    "api-call": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "architecture-diagram": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "cathrynlavery/diagram-design",
+        "contributor": "cathrynlavery"
+      }
+    ],
+    "audio-mixing": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/hyperframes-audio",
+        "contributor": "heygen-com"
+      }
+    ],
+    "auto-review": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "disler/auto-review",
+        "contributor": "disler"
+      }
+    ],
+    "automated-testing": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/smoke-test",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/testing",
+        "contributor": "garrytan"
+      }
+    ],
+    "autonomous-debug": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/diagnose",
+        "contributor": "mattpocock"
+      }
+    ],
+    "autonomous-engineering-platform": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "hikari9/auto-office",
+        "contributor": "hikari9"
+      }
+    ],
+    "autonomous-web-research": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "mvanhorn/last30days",
+        "contributor": "mvanhorn"
+      }
+    ],
+    "bioinformatic-sequence-analysis": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "brain-publishing": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/publish",
+        "contributor": "garrytan"
+      }
+    ],
+    "brainstorming": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/brainstorming",
+        "contributor": "obra"
+      }
+    ],
+    "brand-guideline-application": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "anthropics/brand-guidelines",
+        "contributor": "anthropics"
+      }
+    ],
+    "browser-automation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "firecrawl/firecrawl-build",
+        "contributor": "firecrawl"
+      }
+    ],
+    "browser-control": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "browser-use/browser-harness",
+        "contributor": "browser-use"
+      }
+    ],
+    "career-operations": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "santifer/career-ops",
+        "contributor": "santifer"
+      }
+    ],
+    "causal-inference": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "aj-geddes/causal-inference",
+        "contributor": "aj-geddes"
+      }
+    ],
+    "cheminformatics-analysis": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "ci-churn-analysis": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "gaia-research/ci-churn",
+        "contributor": "gaia-research"
+      }
+    ],
+    "cite-sources": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/citation-fixer",
+        "contributor": "garrytan"
+      }
+    ],
+    "cli-modernization": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/v3-cli-modernization",
+        "contributor": "ruvnet"
+      }
+    ],
+    "clinical-data-retrieval": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "cloud-platform-management": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/flow-nexus-platform",
+        "contributor": "ruvnet"
+      }
+    ],
+    "code-explain": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "code-generation": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/design-html",
+        "contributor": "garrytan"
+      }
+    ],
+    "code-review-pipeline": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/plan-eng-review",
+        "contributor": "garrytan"
+      }
+    ],
+    "codebase-graph-retrieval": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "trailhq/graft",
+        "contributor": "trailhq"
+      }
+    ],
+    "company-knowledge-management": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/company-brainify",
+        "contributor": "garrytan"
+      }
+    ],
+    "computational-biology-workflows": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "computational-science-platform": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "concept-synthesis": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/concept-synthesis",
+        "contributor": "garrytan"
+      }
+    ],
+    "context-compression": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/context-audit",
+        "contributor": "garrytan"
+      }
+    ],
+    "context-safe-execution": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "mksglu/context-mode",
+        "contributor": "mksglu"
+      }
+    ],
+    "core-platform-implementation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/v3-core-implementation",
+        "contributor": "ruvnet"
+      }
+    ],
+    "creative-direction": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/hyperframes-creative",
+        "contributor": "heygen-com"
+      }
+    ],
+    "crm-data-cleanup": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "data-analysis": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "decision-ticket-planning": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/wayfinder",
+        "contributor": "mattpocock"
+      }
+    ],
+    "deployment-automation": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/land-and-deploy",
+        "contributor": "garrytan"
+      }
+    ],
+    "deprecation-and-migration": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/deprecation-and-migration",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "design-generation": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "leonxlnx/taste-skill",
+        "contributor": "leonxlnx"
+      }
+    ],
+    "design-review": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/design-shotgun",
+        "contributor": "garrytan"
+      }
+    ],
+    "design-source-import": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/figma",
+        "contributor": "heygen-com"
+      }
+    ],
+    "design-system-extraction": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/design-consultation",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "leonxlnx/stitch-skill",
+        "contributor": "leonxlnx"
+      }
+    ],
+    "detect-anomaly": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/canary",
+        "contributor": "garrytan"
+      }
+    ],
+    "dispatching-parallel-agents": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/dispatching-parallel-agents",
+        "contributor": "obra"
+      }
+    ],
+    "distributed-consensus-coordination": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/hive-mind",
+        "contributor": "ruvnet"
+      }
+    ],
+    "distributed-neural-training": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/flow-nexus-neural",
+        "contributor": "ruvnet"
+      }
+    ],
+    "distributed-vector-memory": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/agentdb-advanced",
+        "contributor": "ruvnet"
+      }
+    ],
+    "document-analyst": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/article-enrichment",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/book-mirror",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/strategic-reading",
+        "contributor": "garrytan"
+      }
+    ],
+    "document-editing": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/edit-article",
+        "contributor": "mattpocock"
+      }
+    ],
+    "domain-modeling": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/domain-modeling",
+        "contributor": "mattpocock"
+      }
+    ],
+    "dual-mode": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/dual-mode",
+        "contributor": "ruvnet"
+      }
+    ],
+    "e2e-testing": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/qa",
+        "contributor": "garrytan"
+      }
+    ],
+    "edge-optimization": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "engineering-discipline": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/engineering",
+        "contributor": "mattpocock"
+      }
+    ],
+    "error-interpretation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/correction-pipeline",
+        "contributor": "garrytan"
+      }
+    ],
+    "evaluate-output": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/benchmark",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/plan-ceo-review",
+        "contributor": "garrytan"
+      }
+    ],
+    "event-attendance-metrics": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "event-attendee-management": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "event-support-triage": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "event-ticket-transfer": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "evidence-attestation": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "executing-plans": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/executing-plans",
+        "contributor": "obra"
+      }
+    ],
+    "feed-monitoring": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "nousresearch/feed-monitoring",
+        "contributor": "nousresearch"
+      }
+    ],
+    "financial-modeling": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "anthropics/creating-financial-models",
+        "contributor": "anthropics"
+      }
+    ],
+    "fine-tune": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "finishing-a-development-branch": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/shipping-and-launch",
+        "contributor": "addy-osmani"
+      },
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/ship",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "gsd-build/gsd-ship",
+        "contributor": "gsd-build"
+      }
+    ],
+    "firecrawl": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "firecrawl/firecrawl-skills",
+        "contributor": "firecrawl"
+      }
+    ],
+    "format-output": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "ayghri/i-have-adhd",
+        "contributor": "ayghri"
+      }
+    ],
+    "founder-mode-orchestration": [
+      {
+        "origin": true,
+        "level": "5★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/gstack",
+        "contributor": "garrytan"
+      }
+    ],
+    "framework-upgrade": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/remotion-to-hyperframes",
+        "contributor": "heygen-com"
+      }
+    ],
+    "gbrain": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/gbrain",
+        "contributor": "garrytan"
+      }
+    ],
+    "generate-test": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "upsonic/unittest-generator",
+        "contributor": "upsonic"
+      }
+    ],
+    "generative-media": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "genomic-data-retrieval": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "ghostwrite": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/draft-in-voice",
+        "contributor": "garrytan"
+      }
+    ],
+    "git-diff-risk-analysis": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/agentic-jujutsu",
+        "contributor": "ruvnet"
+      }
+    ],
+    "git-integration": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/git-workflow-and-versioning",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "git-ship-done-pipeline": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/agent-skills",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "google-workspace-automation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/google-loops",
+        "contributor": "garrytan"
+      }
+    ],
+    "gpu-dataframe-acceleration": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "nvidia/accelerated-computing-cudf",
+        "contributor": "nvidia"
+      }
+    ],
+    "grant-application-processing": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "graph-driven-issue-triage": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mbtiongson1/graphify-triage",
+        "contributor": "mbtiongson1"
+      }
+    ],
+    "graph-neural-network-modeling": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "grill-with-docs": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/grill-with-docs",
+        "contributor": "mattpocock"
+      }
+    ],
+    "grounding": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/source-driven-development",
+        "contributor": "addy-osmani"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/academic-verify",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/fact-check",
+        "contributor": "garrytan"
+      }
+    ],
+    "guardrails": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/careful",
+        "contributor": "garrytan"
+      }
+    ],
+    "guided-setup-scripting": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/wizard",
+        "contributor": "mattpocock"
+      }
+    ],
+    "headless-worker-collect": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/dual-collect",
+        "contributor": "ruvnet"
+      }
+    ],
+    "headless-worker-spawn": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/dual-spawn",
+        "contributor": "ruvnet"
+      }
+    ],
+    "humanize-prose": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "hybrid-workflow-coordination": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/dual-coordinate",
+        "contributor": "ruvnet"
+      }
+    ],
+    "image-generate": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "leonxlnx/imagegen-frontend-mobile",
+        "contributor": "leonxlnx"
+      },
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "leonxlnx/imagegen-frontend-web",
+        "contributor": "leonxlnx"
+      }
+    ],
+    "implement-with-discernment": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "dietrichgebert/ponytail",
+        "contributor": "dietrichgebert"
+      }
+    ],
+    "interactive-mechanism-illustration": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "wheresryan22/anatomy",
+        "contributor": "wheresryan22"
+      }
+    ],
+    "interactive-presentation-authoring": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/slideshow",
+        "contributor": "heygen-com"
+      }
+    ],
+    "interview-me": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/grill-me",
+        "contributor": "mattpocock"
+      }
+    ],
+    "issue-triage": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/triage",
+        "contributor": "mattpocock"
+      }
+    ],
+    "knowledge-aware-frontend": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/frontmatter-guard",
+        "contributor": "garrytan"
+      }
+    ],
+    "knowledge-enrichment": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/enrich",
+        "contributor": "garrytan"
+      }
+    ],
+    "knowledge-graph-build": [
+      {
+        "origin": true,
+        "level": "5★",
+        "status": "named",
+        "redacted": false,
+        "id": "safishamsi/graphify",
+        "contributor": "safishamsi"
+      }
+    ],
+    "knowledge-harvest": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/archive-crawler",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/blog-ingest",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/bulk-ingestion",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/cold-start",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/idea-ingest",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/media-ingest",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/two-tier-extraction",
+        "contributor": "garrytan"
+      }
+    ],
+    "knowledge-management": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/brain-ops",
+        "contributor": "garrytan"
+      }
+    ],
+    "knowledge-query": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/query",
+        "contributor": "garrytan"
+      }
+    ],
+    "literature-review": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "literature-search": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "firecrawl/firecrawl-research-index",
+        "contributor": "firecrawl"
+      }
+    ],
+    "map-animation": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "mattpocock-misc": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/misc",
+        "contributor": "mattpocock"
+      }
+    ],
+    "mcp-integration": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/chat-connectors",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/mcp-access",
+        "contributor": "garrytan"
+      }
+    ],
+    "mcp-server-creation": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "mcp-server-deployment": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/remote-mcp",
+        "contributor": "garrytan"
+      }
+    ],
+    "media-asset-orchestration": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/media-use",
+        "contributor": "heygen-com"
+      }
+    ],
+    "memory-manage": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/learn",
+        "contributor": "garrytan"
+      }
+    ],
+    "memory-pattern-design": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/agentdb-memory-patterns",
+        "contributor": "ruvnet"
+      }
+    ],
+    "molecular-databases": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "molecular-machine-learning": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "molecular-visualization": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "multi-agent-debate": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/codex",
+        "contributor": "garrytan"
+      }
+    ],
+    "multi-agent-orchestration-v": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/minion-orchestrator",
+        "contributor": "garrytan"
+      }
+    ],
+    "multi-node-orchestration": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/flow-nexus",
+        "contributor": "ruvnet"
+      }
+    ],
+    "multi-repo-coordination": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/github-multi-repo",
+        "contributor": "ruvnet"
+      }
+    ],
+    "multi-topology-orchestration": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/ruflo",
+        "contributor": "ruvnet"
+      }
+    ],
+    "multimodal-reasoning": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "neural-training-orchestration": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "object-detection": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "observability-instrumentation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/observability-and-instrumentation",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "opinion": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "disler/opinion",
+        "contributor": "disler"
+      }
+    ],
+    "parallel-execution": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "pathway-ontology-retrieval": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "performance-tuning": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/performance-optimization",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "personal": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/personal",
+        "contributor": "mattpocock"
+      }
+    ],
+    "personal-knowledge-management": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/obsidian-vault",
+        "contributor": "mattpocock"
+      }
+    ],
+    "plain-language-restatement": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/wait-what",
+        "contributor": "mattpocock"
+      }
+    ],
+    "plan-synthesis": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "disler/plan-synthesis",
+        "contributor": "disler"
+      }
+    ],
+    "platform-modernization-sprint": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/ruflo-v3",
+        "contributor": "ruvnet"
+      }
+    ],
+    "postgres-best-practices": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/db-repair",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/postgres-adopt",
+        "contributor": "garrytan"
+      }
+    ],
+    "prd-generation": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/spec-driven-development",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "probabilistic-programming": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "product-design-review": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "productivity": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/productivity",
+        "contributor": "mattpocock"
+      }
+    ],
+    "project-launch-video-production": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "latent-spaces/brag",
+        "contributor": "latent-spaces"
+      }
+    ],
+    "project-management": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/daily-task-manager",
+        "contributor": "garrytan"
+      }
+    ],
+    "prompt-optimization": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/skill-optimizer",
+        "contributor": "garrytan"
+      }
+    ],
+    "protein-structure-analysis": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "proteomic-data-retrieval": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "prototype": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/prototype",
+        "contributor": "mattpocock"
+      }
+    ],
+    "quantum-circuit-programming": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "question-answer": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/office-hours",
+        "contributor": "garrytan"
+      }
+    ],
+    "questionnaire-generation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/ask-user",
+        "contributor": "garrytan"
+      }
+    ],
+    "rag-pipeline": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "react-performance-optimization": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "vercel-labs/vercel-react-best-practices",
+        "contributor": "vercel-labs"
+      }
+    ],
+    "reasoning-pattern-bank": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/reasoningbank",
+        "contributor": "ruvnet"
+      }
+    ],
+    "receiving-code-review": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/receiving-code-review",
+        "contributor": "obra"
+      }
+    ],
+    "refactor-code": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/code-simplification",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "registry-curation": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "registry-entry-audit": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mbtiongson1/gaia-audit",
+        "contributor": "mbtiongson1"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mbtiongson1/gaia-curation-review",
+        "contributor": "mbtiongson1"
+      }
+    ],
+    "registry-health-scan": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mbtiongson1/gaia-meta-audit",
+        "contributor": "mbtiongson1"
+      }
+    ],
+    "regulatory-compliance-mapping": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "dralgorhythm/compliance",
+        "contributor": "dralgorhythm"
+      }
+    ],
+    "reinforcement-learning-training": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "release-automation": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "requesting-code-review": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/requesting-code-review",
+        "contributor": "obra"
+      }
+    ],
+    "requirements-analysis": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "research": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/data-research",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/perplexity-research",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/research-compendium",
+        "contributor": "garrytan"
+      }
+    ],
+    "retrieve": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "arcmira/find-quotes",
+        "contributor": "arcmira"
+      }
+    ],
+    "route-intent": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/functional-area-resolver",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/ingest",
+        "contributor": "garrytan"
+      }
+    ],
+    "schema-design": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/schema-author",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/schema-unify",
+        "contributor": "garrytan"
+      }
+    ],
+    "scientific-literature-retrieval": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      },
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "scroll-driven-web-design": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "nateherkai/scroll-craft",
+        "contributor": "nateherkai"
+      }
+    ],
+    "scroll-world": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "oso95/scroll-world",
+        "contributor": "oso95"
+      }
+    ],
+    "security-audit": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/cso",
+        "contributor": "garrytan"
+      }
+    ],
+    "sentiment-analysis": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ],
+    "sequential-agent-pipeline": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/stream-chain",
+        "contributor": "ruvnet"
+      }
+    ],
+    "session-journaling": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "aplaceforallmystuff/log-to-daily",
+        "contributor": "aplaceforallmystuff"
+      }
+    ],
+    "single-cell-analysis": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "single-cell-omics-modeling": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "skill-authoring": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "google-deepmind/workflow-skill-creator",
+        "contributor": "google-deepmind"
+      }
+    ],
+    "skill-discovery": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/hyperframes-registry",
+        "contributor": "heygen-com"
+      }
+    ],
+    "skill-fusion": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "gaia-research/fuse",
+        "contributor": "gaia-research"
+      }
+    ],
+    "skill-mastery": [
+      {
+        "origin": true,
+        "level": "5★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/skills",
+        "contributor": "mattpocock"
+      }
+    ],
+    "skill-performance-benchmarking": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/skill-autobench",
+        "contributor": "garrytan"
+      }
+    ],
+    "software-design": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/api-and-interface-design",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "static-artwork-design": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "anthropics/canvas-design",
+        "contributor": "anthropics"
+      }
+    ],
+    "subagent-driven-development": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/subagent-driven-development",
+        "contributor": "obra"
+      }
+    ],
+    "supabase": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "superpowers": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/superpowers",
+        "contributor": "obra"
+      }
+    ],
+    "supply-chain-optimization": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "swarm-topology-management": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/swarm-orchestration",
+        "contributor": "ruvnet"
+      }
+    ],
+    "synthetic-data-generation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "omer-metin/synthetic-data",
+        "contributor": "omer-metin"
+      }
+    ],
+    "system-integration": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/v3-integration-deep",
+        "contributor": "ruvnet"
+      }
+    ],
+    "systematic-debugging": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/systematic-debugging",
+        "contributor": "obra"
+      }
+    ],
+    "task-depth-enforcement": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "leonxlnx/unlazy",
+        "contributor": "leonxlnx"
+      }
+    ],
+    "test-driven-development": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/test-driven-development",
+        "contributor": "obra"
+      }
+    ],
+    "timeline-animation": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/hyperframes-animation",
+        "contributor": "heygen-com"
+      },
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/hyperframes-keyframes",
+        "contributor": "heygen-com"
+      },
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/motion-graphics",
+        "contributor": "heygen-com"
+      }
+    ],
+    "token-observability": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "tool-creation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/write-a-skill",
+        "contributor": "mattpocock"
+      }
+    ],
+    "transactional-email-resend": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "transformer-model-engineering": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "ubiquitous-language": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "mattpocock/ubiquitous-language",
+        "contributor": "mattpocock"
+      }
+    ],
+    "ui-audit": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "leonxlnx/redesign-skill",
+        "contributor": "leonxlnx"
+      }
+    ],
+    "ui-red-teaming": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "emilkowalski/break-ui",
+        "contributor": "emilkowalski"
+      }
+    ],
+    "using-git-worktrees": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/using-git-worktrees",
+        "contributor": "obra"
+      }
+    ],
+    "ux-audit": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "nextlevelbuilder/ui-ux-pro-max",
+        "contributor": "nextlevelbuilder"
+      }
+    ],
+    "vector-db-optimization": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/agentdb-optimization",
+        "contributor": "ruvnet"
+      }
+    ],
+    "vector-search": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/agentdb-vector-search",
+        "contributor": "ruvnet"
+      }
+    ],
+    "verification-before-completion": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/verification-before-completion",
+        "contributor": "obra"
+      }
+    ],
+    "vertical-slice-planning": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "addy-osmani/planning-and-task-breakdown",
+        "contributor": "addy-osmani"
+      }
+    ],
+    "video-captions": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/embedded-captions",
+        "contributor": "heygen-com"
+      }
+    ],
+    "video-composition": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/hyperframes",
+        "contributor": "heygen-com"
+      }
+    ],
+    "video-intelligence": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "bradautomates/watch",
+        "contributor": "bradautomates"
+      }
+    ],
+    "video-interactivity": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "video-preview": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "video-rendering": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/hyperframes-core",
+        "contributor": "heygen-com"
+      }
+    ],
+    "video-saas": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "video-scaffolding": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "heygen-com/hyperframes-cli",
+        "contributor": "heygen-com"
+      }
+    ],
+    "vision-qa": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "leonxlnx/image-to-code-skill",
+        "contributor": "leonxlnx"
+      }
+    ],
+    "voice-knowledge-ingestion": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/voice-note-ingest",
+        "contributor": "garrytan"
+      }
+    ],
+    "web-best-practices": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "emilkowalski/mobile-native",
+        "contributor": "emilkowalski"
+      }
+    ],
+    "web-scrape": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "firecrawl/firecrawl-build-scrape",
+        "contributor": "firecrawl"
+      }
+    ],
+    "web-search": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "firecrawl/firecrawl-build-search",
+        "contributor": "firecrawl"
+      }
+    ],
+    "wiki-search": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "named",
+        "redacted": true
+      }
+    ],
+    "worker-agent-dispatch": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "ruvnet/worker-integration",
+        "contributor": "ruvnet"
+      }
+    ],
+    "workflow-automation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/cron-scheduler",
+        "contributor": "garrytan"
+      },
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/webhook-transforms",
+        "contributor": "garrytan"
+      }
+    ],
+    "workspace-automation": [
+      {
+        "origin": true,
+        "level": "2★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/daily-task-prep",
+        "contributor": "garrytan"
+      }
+    ],
+    "write-report": [
+      {
+        "origin": true,
+        "level": "3★",
+        "status": "named",
+        "redacted": false,
+        "id": "garrytan/retro",
+        "contributor": "garrytan"
+      }
+    ],
+    "writing-plans": [
+      {
+        "origin": true,
+        "level": "4★",
+        "status": "named",
+        "redacted": false,
+        "id": "obra/writing-plans",
+        "contributor": "obra"
+      }
+    ],
+    "x-twitter-automation": [
+      {
+        "origin": true,
+        "level": "1★",
+        "status": "awakened",
+        "redacted": true
+      }
+    ]
+  },
+  "version": "9.3.0",
+  "generatedAt": "2026-11-04T21:12:26Z",
   "summary": {
-    "total": 268,
+    "total": 342,
     "S": 3,
-    "A": 28,
-    "B": 94,
-    "C": 104,
-    "ungraded": 39,
+    "A": 45,
+    "B": 178,
+    "C": 109,
+    "ungraded": 7,
     "floor": 0,
-    "up": 2
+    "up": 103
   },
   "rows": [
-    {
-      "skillId": "mattpocock/skills",
-      "tm": 374.99,
-      "grade": "S",
-      "currentStars": "5★",
-      "mayStars": "6★",
-      "juneStars": "5★",
-      "g7Stars": "5★",
-      "flag": "",
-      "apexResults": {
-        "aGradedOriginsGte5": false,
-        "sourceTenureDaysGte180AorS": true,
-        "directNestedSuiteGte1": true,
-        "depth2OnlyReachableGte1": true,
-        "overallGradeS": true,
-        "apexPromotionPrSigned": true,
-        "crossOrgVerifier": null,
-        "systemWideCap": null
-      },
-      "typeBreakdown": {
-        "arxiv": 105.2,
-        "peer-review": 75.0,
-        "github-stars-own": 155.29,
-        "social-signal": 39.5
-      },
-      "origin": true,
-      "branch": "suite"
-    },
     {
       "skillId": "garrytan/gstack",
       "tm": 356.11,
       "grade": "S",
       "currentStars": "5★",
+      "storedStars": "5★",
       "mayStars": "5★",
       "juneStars": "5★",
       "g7Stars": "5★",
@@ -74,6 +2705,7 @@
       "tm": 318.14,
       "grade": "S",
       "currentStars": "5★",
+      "storedStars": "5★",
       "mayStars": "1★",
       "juneStars": "5★",
       "g7Stars": "5★",
@@ -97,10 +2729,61 @@
       "branch": "unique"
     },
     {
+      "skillId": "mattpocock/skills",
+      "tm": 280.39,
+      "grade": "S",
+      "currentStars": "5★",
+      "storedStars": "5★",
+      "mayStars": "6★",
+      "juneStars": "5★",
+      "g7Stars": "5★",
+      "flag": "",
+      "apexResults": {
+        "aGradedOriginsGte5": false,
+        "sourceTenureDaysGte180AorS": true,
+        "directNestedSuiteGte1": true,
+        "depth2OnlyReachableGte1": true,
+        "overallGradeS": true,
+        "apexPromotionPrSigned": true,
+        "crossOrgVerifier": null,
+        "systemWideCap": null
+      },
+      "typeBreakdown": {
+        "arxiv": 10.6,
+        "peer-review": 75.0,
+        "github-stars-own": 155.29,
+        "social-signal": 39.5
+      },
+      "origin": true,
+      "branch": "suite"
+    },
+    {
+      "skillId": "panniantong/agent-reach",
+      "tm": 260.83,
+      "grade": "A",
+      "currentStars": "3★",
+      "storedStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "social-signal": 48.86,
+        "self-attestation": 5.0,
+        "github-stars-own": 140.97,
+        "repo-own": 36.0,
+        "peer-review": 30.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
       "skillId": "nextlevelbuilder/ui-ux-pro-max",
       "tm": 227.51,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -119,6 +2802,7 @@
       "tm": 225.42,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -130,7 +2814,7 @@
         "social-signal": 42.58,
         "arxiv": 0.7
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -138,6 +2822,7 @@
       "tm": 221.52,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "5★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -152,10 +2837,30 @@
       "branch": "suite"
     },
     {
+      "skillId": "mattpocock/misc",
+      "tm": 220.87,
+      "grade": "A",
+      "currentStars": "4★",
+      "storedStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 155.29,
+        "repo-own": 20.58,
+        "peer-review": 45.0
+      },
+      "origin": true,
+      "branch": "suite"
+    },
+    {
       "skillId": "mvanhorn/last30days",
       "tm": 205.75,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -170,27 +2875,11 @@
       "branch": "unique"
     },
     {
-      "skillId": "mattpocock/misc",
-      "tm": 200.29,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 155.29,
-        "peer-review": 45.0
-      },
-      "origin": true,
-      "branch": "suite"
-    },
-    {
       "skillId": "addy-osmani/code-simplification",
       "tm": 190.0,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -201,7 +2890,7 @@
         "repo-own": 10.23,
         "benchmark-result": 140.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -209,6 +2898,7 @@
       "tm": 184.87,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -226,6 +2916,7 @@
       "tm": 176.04,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -243,6 +2934,7 @@
       "tm": 175.34,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "6★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -261,6 +2953,7 @@
       "tm": 174.68,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -270,7 +2963,26 @@
         "github-stars-own": 138.68,
         "repo-own": 36.0
       },
-      "origin": false,
+      "origin": true,
+      "branch": "suite"
+    },
+    {
+      "skillId": "heygen-com/hyperframes",
+      "tm": 171.92,
+      "grade": "A",
+      "currentStars": "4★",
+      "storedStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 130.92,
+        "repo-own": 36.0,
+        "self-attestation": 5.0
+      },
+      "origin": true,
       "branch": "suite"
     },
     {
@@ -278,6 +2990,7 @@
       "tm": 171.27,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -287,7 +3000,7 @@
         "repo-own": 36.0,
         "github-stars-own": 135.27
       },
-      "origin": true,
+      "origin": false,
       "branch": "unique"
     },
     {
@@ -295,6 +3008,7 @@
       "tm": 169.31,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -308,27 +3022,11 @@
       "branch": "suite"
     },
     {
-      "skillId": "heygen-com/hyperframes",
-      "tm": 166.92,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 130.92,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "suite"
-    },
-    {
       "skillId": "vercel-labs/vercel-react-best-practices",
       "tm": 163.19,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -340,7 +3038,26 @@
         "social-signal": 35.41,
         "self-attestation": 5.0
       },
-      "origin": false,
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "skillId": "wheresryan22/anatomy",
+      "tm": 157.48,
+      "grade": "A",
+      "currentStars": "4★",
+      "storedStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 116.48,
+        "self-attestation": 5.0
+      },
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -348,6 +3065,7 @@
       "tm": 154.71,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -361,27 +3079,11 @@
       "branch": "unique"
     },
     {
-      "skillId": "wheresryan22/anatomy",
-      "tm": 152.48,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 116.48
-      },
-      "origin": true,
-      "branch": "unique"
-    },
-    {
       "skillId": "trailhq/graft",
       "tm": 145.16,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -399,24 +3101,62 @@
       "skillId": "latent-spaces/brag",
       "tm": 144.54,
       "grade": "A",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
+      "currentStars": "4★",
+      "storedStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "github-stars-own": 108.54,
         "repo-own": 36.0
       },
       "origin": true,
+      "branch": "unique"
+    },
+    {
+      "skillId": "cathrynlavery/diagram-design",
+      "tm": 132.67,
+      "grade": "A",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 132.67
+      },
+      "origin": true,
       "branch": "standard"
+    },
+    {
+      "skillId": "nvidia/accelerated-computing-cudf",
+      "tm": 131.12,
+      "grade": "A",
+      "currentStars": "4★",
+      "storedStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 90.12,
+        "self-attestation": 5.0
+      },
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "ayghri/i-have-adhd",
       "tm": 130.23,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -425,31 +3165,253 @@
       "typeBreakdown": {
         "github-stars-own": 130.23
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
-      "skillId": "nvidia/accelerated-computing-cudf",
-      "tm": 126.12,
+      "skillId": "emilkowalski/animate",
+      "tm": 129.67,
       "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 90.12
+        "github-stars-own": 129.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "emilkowalski/animate-expo",
+      "tm": 129.67,
+      "grade": "A",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 129.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "emilkowalski/animation-performance",
+      "tm": 129.67,
+      "grade": "A",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 129.67
       },
       "origin": true,
-      "branch": "unique"
+      "branch": "standard"
+    },
+    {
+      "skillId": "emilkowalski/apple-design",
+      "tm": 129.67,
+      "grade": "A",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 129.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "emilkowalski/break-ui",
+      "tm": 129.67,
+      "grade": "A",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 129.67
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "emilkowalski/emil-design-eng",
+      "tm": 129.67,
+      "grade": "A",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 129.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "emilkowalski/find-animation-opportunities",
+      "tm": 129.67,
+      "grade": "A",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 129.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "emilkowalski/improve-animations",
+      "tm": 129.67,
+      "grade": "A",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 129.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "emilkowalski/mobile-native",
+      "tm": 129.67,
+      "grade": "A",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 129.67
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "emilkowalski/prototype",
+      "tm": 129.67,
+      "grade": "A",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 129.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "emilkowalski/review-animations",
+      "tm": 129.67,
+      "grade": "A",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 129.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "emilkowalski/write-swift",
+      "tm": 129.67,
+      "grade": "A",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 129.67
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "anthropics/creating-financial-models",
+      "tm": 127.83,
+      "grade": "A",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 127.83
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "zhaoxuya520/reverse-skill",
+      "tm": 127.37,
+      "grade": "A",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 127.37
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "skillId": "garrytan/gbrain",
       "tm": 121.94,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -458,14 +3420,34 @@
       "typeBreakdown": {
         "github-stars-own": 121.94
       },
-      "origin": false,
+      "origin": true,
       "branch": "suite"
+    },
+    {
+      "skillId": "browser-use/browser-harness",
+      "tm": 118.59,
+      "grade": "A",
+      "currentStars": "3★",
+      "storedStars": "3★",
+      "mayStars": "2★",
+      "juneStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "social-signal": 37.59,
+        "peer-review": 45.0
+      },
+      "origin": true,
+      "branch": "standard"
     },
     {
       "skillId": "obra/subagent-driven-development",
       "tm": 117.65,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -484,6 +3466,7 @@
       "tm": 117.65,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "2★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -502,6 +3485,7 @@
       "tm": 110.15,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "2★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -520,6 +3504,7 @@
       "tm": 110.15,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "2★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -538,6 +3523,7 @@
       "tm": 110.02,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
@@ -556,13 +3542,15 @@
       "tm": 102.5,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "5★",
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 50.0,
+        "github-stars-own": 44.15,
+        "repo-own": 5.85,
         "peer-review": 52.5
       },
       "origin": true,
@@ -573,13 +3561,15 @@
       "tm": 102.5,
       "grade": "A",
       "currentStars": "4★",
+      "storedStars": "4★",
       "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 50.0,
+        "github-stars-own": 44.15,
+        "repo-own": 5.85,
         "peer-review": 52.5
       },
       "origin": true,
@@ -590,6 +3580,7 @@
       "tm": 97.81,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "2★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -609,6 +3600,7 @@
       "tm": 95.15,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "2★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -627,6 +3619,7 @@
       "tm": 95.02,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -645,6 +3638,7 @@
       "tm": 95.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -663,6 +3657,7 @@
       "tm": 95.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -673,7 +3668,7 @@
         "repo-own": 10.23,
         "peer-review": 45.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -681,6 +3676,7 @@
       "tm": 94.92,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "2★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -691,7 +3687,7 @@
         "github-stars-own": 46.63,
         "social-signal": 44.92
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -699,6 +3695,7 @@
       "tm": 94.92,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "2★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -709,7 +3706,7 @@
         "github-stars-own": 46.63,
         "social-signal": 44.92
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -717,24 +3714,7 @@
       "tm": 94.92,
       "grade": "B",
       "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 3.37,
-        "github-stars-own": 46.63,
-        "social-signal": 44.92
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "mattpocock/to-tickets",
-      "tm": 94.92,
-      "grade": "B",
-      "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -749,11 +3729,12 @@
       "branch": "standard"
     },
     {
-      "skillId": "mattpocock/ubiquitous-language",
+      "skillId": "mattpocock/to-tickets",
       "tm": 94.92,
       "grade": "B",
       "currentStars": "3★",
-      "mayStars": "4★",
+      "storedStars": "3★",
+      "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
@@ -767,10 +3748,49 @@
       "branch": "standard"
     },
     {
+      "skillId": "mattpocock/ubiquitous-language",
+      "tm": 94.92,
+      "grade": "B",
+      "currentStars": "3★",
+      "storedStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 3.37,
+        "github-stars-own": 46.63,
+        "social-signal": 44.92
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "nateherkai/scroll-craft",
+      "tm": 92.38,
+      "grade": "B",
+      "currentStars": "3★",
+      "storedStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.25,
+        "github-stars-own": 86.13,
+        "self-attestation": 5.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
       "skillId": "leonxlnx/unlazy",
       "tm": 91.46,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -780,7 +3800,7 @@
         "github-stars-own": 90.23,
         "repo-own": 1.23
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -788,6 +3808,7 @@
       "tm": 88.97,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -797,7 +3818,7 @@
         "repo-own": 21.68,
         "arxiv": 67.29
       },
-      "origin": false,
+      "origin": true,
       "branch": "suite"
     },
     {
@@ -805,6 +3826,7 @@
       "tm": 88.5,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -822,6 +3844,7 @@
       "tm": 88.5,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -835,27 +3858,11 @@
       "branch": "suite"
     },
     {
-      "skillId": "nateherkai/scroll-craft",
-      "tm": 87.38,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 1.25,
-        "github-stars-own": 86.13
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "skillId": "firecrawl/firecrawl-build-search",
       "tm": 83.62,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -874,6 +3881,7 @@
       "tm": 81.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -891,6 +3899,7 @@
       "tm": 81.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "5★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -908,6 +3917,7 @@
       "tm": 80.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -918,23 +3928,6 @@
         "repo-own": 10.23,
         "peer-review": 30.0
       },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "browser-use/browser-harness",
-      "tm": 73.59,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "2★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "social-signal": 37.59
-      },
       "origin": true,
       "branch": "standard"
     },
@@ -943,6 +3936,7 @@
       "tm": 72.86,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -960,6 +3954,7 @@
       "tm": 66.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "2★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -969,7 +3964,7 @@
         "repo-own": 36.0,
         "peer-review": 30.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -977,6 +3972,7 @@
       "tm": 66.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -994,6 +3990,7 @@
       "tm": 66.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1003,7 +4000,7 @@
         "repo-own": 36.0,
         "peer-review": 30.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1011,6 +4008,7 @@
       "tm": 65.15,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1020,7 +4018,7 @@
         "repo-own": 36.0,
         "social-signal": 29.15
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1028,6 +4026,7 @@
       "tm": 63.71,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1037,7 +4036,7 @@
         "repo-own": 11.21,
         "peer-review": 52.5
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1045,6 +4044,7 @@
       "tm": 63.71,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1062,6 +4062,7 @@
       "tm": 63.71,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1071,7 +4072,7 @@
         "repo-own": 11.21,
         "peer-review": 52.5
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1079,6 +4080,7 @@
       "tm": 63.71,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "2★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1088,7 +4090,7 @@
         "repo-own": 11.21,
         "peer-review": 52.5
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -1096,6 +4098,7 @@
       "tm": 60.98,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1104,7 +4107,62 @@
       "typeBreakdown": {
         "social-signal": 60.98
       },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "theqtcompanyrnd/qt-qml-review",
+      "tm": 59.74,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 59.74
+      },
       "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "google-deepmind/workflow-skill-creator",
+      "tm": 59.65,
+      "grade": "B",
+      "currentStars": "3★",
+      "storedStars": "4★",
+      "mayStars": "2★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 24.65,
+        "self-attestation": 5.0,
+        "peer-review": 30.0
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "skillId": "obra/test-driven-development",
+      "tm": 59.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 40.68,
+        "repo-own": 9.32,
+        "peer-review": 9.0
+      },
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1112,23 +4170,7 @@
       "tm": 56.21,
       "grade": "B",
       "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 11.21,
-        "peer-review": 45.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "mattpocock/triage",
-      "tm": 56.21,
-      "grade": "B",
-      "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1142,20 +4184,57 @@
       "branch": "standard"
     },
     {
-      "skillId": "panniantong/agent-reach",
-      "tm": 53.86,
+      "skillId": "mattpocock/triage",
+      "tm": 56.21,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "social-signal": 48.86,
+        "repo-own": 11.21,
+        "peer-review": 45.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/db-repair",
+      "tm": 55.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0,
         "self-attestation": 5.0
       },
-      "origin": false,
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/postgres-adopt",
+      "tm": 55.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0,
+        "self-attestation": 5.0
+      },
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1163,6 +4242,7 @@
       "tm": 52.66,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1177,10 +4257,65 @@
       "branch": "standard"
     },
     {
+      "skillId": "addy-osmani/api-and-interface-design",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "addy-osmani/browser-testing-with-devtools",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "addy-osmani/ci-cd-and-automation",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "addy-osmani/code-review-and-quality",
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1194,10 +4329,205 @@
       "branch": "standard"
     },
     {
+      "skillId": "addy-osmani/constraint-driven-development",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "addy-osmani/context-engineering",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "addy-osmani/debugging-and-error-recovery",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "addy-osmani/deprecation-and-migration",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "addy-osmani/documentation-and-adrs",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "addy-osmani/doubt-driven-development",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "addy-osmani/frontend-ui-engineering",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "addy-osmani/git-workflow-and-versioning",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "addy-osmani/idea-refine",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "addy-osmani/interview-me",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "addy-osmani/observability-and-instrumentation",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
       "skillId": "addy-osmani/performance-optimization",
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1211,10 +4541,29 @@
       "branch": "standard"
     },
     {
+      "skillId": "addy-osmani/security-and-hardening",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "addy-osmani/shipping-and-launch",
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1228,10 +4577,29 @@
       "branch": "standard"
     },
     {
+      "skillId": "addy-osmani/source-driven-development",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.87,
+        "repo-own": 10.13
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
       "skillId": "firecrawl/firecrawl-build-interact",
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1249,23 +4617,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 24.71,
-        "github-stars-own": 25.29
-      },
-      "origin": true,
-      "branch": "standard"
-    },
-    {
-      "skillId": "firecrawl/firecrawl-research-index",
-      "tm": 50.0,
-      "grade": "B",
-      "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1279,10 +4631,99 @@
       "branch": "standard"
     },
     {
+      "skillId": "firecrawl/firecrawl-research-index",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "storedStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 24.71,
+        "github-stars-own": 25.29
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/academic-verify",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/archive-crawler",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/article-enrichment",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/ask-user",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
       "skillId": "garrytan/benchmark",
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1291,6 +4732,76 @@
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/blog-ingest",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/book-mirror",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/brain-ingest-gate",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/brain-link-discipline",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
       },
       "origin": false,
       "branch": "standard"
@@ -1300,6 +4811,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1308,7 +4820,76 @@
       "typeBreakdown": {
         "github-stars-own": 50.0
       },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/brain-pdf",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
       "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/brain-taxonomist",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/briefing",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/bulk-ingestion",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1316,55 +4897,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/capture",
-      "tm": 50.0,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 50.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/concept-synthesis",
-      "tm": 50.0,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 50.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/cso",
-      "tm": 50.0,
-      "grade": "B",
-      "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1378,10 +4911,218 @@
       "branch": "standard"
     },
     {
-      "skillId": "garrytan/design-consultation",
+      "skillId": "garrytan/capture",
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/chat-connectors",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/citation-fixer",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/citation-graph-ingest",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/cold-start",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/company-brainify",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/concept-synthesis",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "storedStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/context-audit",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/conversation-archive",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/correction-pipeline",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/cron-scheduler",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/cross-modal-review",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/cso",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1391,7 +5132,94 @@
         "repo-own": 9.97,
         "github-stars-own": 40.03
       },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/daily-task-manager",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/daily-task-prep",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/data-loss-gate",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
       "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/data-research",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/design-consultation",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "storedStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 9.97,
+        "github-stars-own": 40.03
+      },
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1399,6 +5227,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1416,6 +5245,25 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 9.97,
+        "github-stars-own": 40.03
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/document-generate",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1429,18 +5277,192 @@
       "branch": "standard"
     },
     {
-      "skillId": "garrytan/document-generate",
+      "skillId": "garrytan/draft-in-voice",
       "tm": 50.0,
       "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
       "g7Stars": "3★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/eiirp",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/enrich",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/fact-check",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/frontmatter-guard",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/functional-area-resolver",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/gbrain-upgrade",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/google-loops",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/idea-ingest",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/idea-lineage",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/ingest",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
       },
       "origin": true,
       "branch": "standard"
@@ -1450,6 +5472,25 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 9.97,
+        "github-stars-own": 40.03
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/land-and-deploy",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1463,20 +5504,108 @@
       "branch": "standard"
     },
     {
-      "skillId": "garrytan/land-and-deploy",
+      "skillId": "garrytan/mcp-access",
       "tm": 50.0,
       "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
       "g7Stars": "3★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
-        "repo-own": 9.97,
-        "github-stars-own": 40.03
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/measure-before-you-fix",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
       },
       "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/media-ingest",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/meeting-ingestion",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/minion-orchestrator",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/perplexity-research",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1484,6 +5613,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1493,7 +5623,7 @@
         "repo-own": 9.97,
         "github-stars-own": 40.03
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1501,6 +5631,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1518,6 +5649,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1531,10 +5663,28 @@
       "branch": "standard"
     },
     {
+      "skillId": "garrytan/publish",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
       "skillId": "garrytan/qa",
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1543,6 +5693,110 @@
       "typeBreakdown": {
         "repo-own": 9.97,
         "github-stars-own": 40.03
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/query",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/remote-mcp",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/repo-architecture",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/reports",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/research-compendium",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/resolve-before-asking",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
       },
       "origin": false,
       "branch": "standard"
@@ -1552,6 +5806,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1562,6 +5817,40 @@
         "github-stars-own": 40.03
       },
       "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/schema-author",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/schema-unify",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1569,6 +5858,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1578,7 +5868,78 @@
         "repo-own": 9.97,
         "github-stars-own": 40.03
       },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/signal-detector",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
       "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/skill-autobench",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/skill-creator",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/skill-optimizer",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1586,6 +5947,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1599,10 +5961,149 @@
       "branch": "standard"
     },
     {
+      "skillId": "garrytan/skillpack-harvest",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/smoke-test",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/soul-audit",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/strategic-reading",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/testing",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/two-tier-extraction",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 38.63,
+        "repo-own": 11.37
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/voice-note-ingest",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "garrytan/webhook-transforms",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 50.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
       "skillId": "gsd-build/gsd-discuss-phase",
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1620,6 +6121,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1637,6 +6139,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1654,6 +6157,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1663,7 +6167,7 @@
         "github-stars-own": 39.37,
         "repo-own": 10.63
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1671,6 +6175,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1688,6 +6193,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1705,6 +6211,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1722,6 +6229,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1739,6 +6247,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1756,6 +6265,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1773,6 +6283,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1790,6 +6301,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1807,6 +6319,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1816,7 +6329,7 @@
         "github-stars-own": 39.22,
         "repo-own": 10.78
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1824,6 +6337,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1833,7 +6347,7 @@
         "github-stars-own": 39.22,
         "repo-own": 10.78
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1841,6 +6355,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1858,6 +6373,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1867,7 +6383,7 @@
         "github-stars-own": 39.22,
         "repo-own": 10.78
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1875,6 +6391,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1892,6 +6409,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1909,6 +6427,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1926,6 +6445,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1935,7 +6455,7 @@
         "github-stars-own": 39.22,
         "repo-own": 10.78
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1943,6 +6463,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1960,6 +6481,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -1977,14 +6499,15 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "repo-own": 10.18,
+        "github-stars-own": 39.82
       },
       "origin": false,
       "branch": "standard"
@@ -1994,14 +6517,15 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "repo-own": 10.18,
+        "github-stars-own": 39.82
       },
       "origin": false,
       "branch": "standard"
@@ -2011,14 +6535,15 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "repo-own": 10.18,
+        "github-stars-own": 39.82
       },
       "origin": false,
       "branch": "standard"
@@ -2028,16 +6553,17 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "repo-own": 10.18,
+        "github-stars-own": 39.82
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2045,16 +6571,17 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "repo-own": 10.18,
+        "github-stars-own": 39.82
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2062,14 +6589,15 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "repo-own": 10.18,
+        "github-stars-own": 39.82
       },
       "origin": true,
       "branch": "standard"
@@ -2079,14 +6607,15 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "repo-own": 10.18,
+        "github-stars-own": 39.82
       },
       "origin": false,
       "branch": "standard"
@@ -2096,6 +6625,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -2113,14 +6643,15 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "repo-own": 10.18,
+        "github-stars-own": 39.82
       },
       "origin": true,
       "branch": "standard"
@@ -2130,14 +6661,15 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "repo-own": 10.18,
+        "github-stars-own": 39.82
       },
       "origin": false,
       "branch": "standard"
@@ -2147,14 +6679,15 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "github-stars-own": 39.7,
-        "repo-own": 10.3
+        "repo-own": 10.18,
+        "github-stars-own": 39.82
       },
       "origin": true,
       "branch": "standard"
@@ -2164,17 +6697,18 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "3★",
       "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
         "repo-own": 36.0,
+        "self-attestation": 5.0,
         "peer-review": 9.0
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -2182,6 +6716,7 @@
       "tm": 50.0,
       "grade": "B",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -2195,10 +6730,46 @@
       "branch": "standard"
     },
     {
+      "skillId": "obra/writing-skills",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 40.68,
+        "repo-own": 9.32
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "aj-geddes/causal-inference",
+      "tm": 48.62,
+      "grade": "C",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 48.62
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
       "skillId": "addy-osmani/test-driven-development",
       "tm": 45.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2216,6 +6787,7 @@
       "tm": 45.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2232,6 +6804,7 @@
       "tm": 45.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2248,6 +6821,7 @@
       "tm": 44.48,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2265,6 +6839,7 @@
       "tm": 43.52,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2274,7 +6849,7 @@
         "arxiv": 0.4,
         "social-signal": 43.12
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2282,6 +6857,7 @@
       "tm": 41.62,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2291,7 +6867,7 @@
         "repo-own": 36.62,
         "self-attestation": 5.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2299,6 +6875,7 @@
       "tm": 41.21,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2308,7 +6885,7 @@
         "repo-own": 11.21,
         "peer-review": 30.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2316,6 +6893,25 @@
       "tm": 41.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "self-attestation": 5.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "mattpocock/ask-matt",
+      "tm": 41.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2329,35 +6925,19 @@
       "branch": "standard"
     },
     {
-      "skillId": "mattpocock/ask-matt",
-      "tm": 41.0,
-      "grade": "C",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "skillId": "mattpocock/codebase-design",
       "tm": 41.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2367,14 +6947,15 @@
       "tm": 41.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2384,16 +6965,17 @@
       "tm": 41.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2401,14 +6983,15 @@
       "tm": 41.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2418,14 +7001,15 @@
       "tm": 41.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2435,14 +7019,15 @@
       "tm": 41.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2452,14 +7037,15 @@
       "tm": 41.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2469,14 +7055,15 @@
       "tm": 41.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2486,14 +7073,15 @@
       "tm": 41.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2503,14 +7091,15 @@
       "tm": 41.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"
@@ -2520,16 +7109,34 @@
       "tm": 41.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "firecrawl/firecrawl-build",
+      "tm": 39.9,
+      "grade": "C",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 39.9
+      },
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2537,6 +7144,7 @@
       "tm": 38.66,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2554,6 +7162,7 @@
       "tm": 37.54,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2563,7 +7172,7 @@
         "repo-own": 1.2,
         "social-signal": 36.34
       },
-      "origin": false,
+      "origin": true,
       "branch": "suite"
     },
     {
@@ -2571,6 +7180,7 @@
       "tm": 37.47,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2588,6 +7198,7 @@
       "tm": 36.6,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2596,7 +7207,7 @@
       "typeBreakdown": {
         "repo-own": 36.6
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -2604,6 +7215,7 @@
       "tm": 36.34,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2620,6 +7232,7 @@
       "tm": 36.34,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2636,6 +7249,7 @@
       "tm": 36.34,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2652,6 +7266,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2668,6 +7283,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2684,6 +7300,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2700,6 +7317,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2716,6 +7334,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2732,6 +7351,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2740,7 +7360,7 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2748,6 +7368,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2764,6 +7385,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2780,6 +7402,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2796,6 +7419,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2812,6 +7436,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2828,6 +7453,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2844,6 +7470,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "4★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2860,6 +7487,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2876,6 +7504,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2892,6 +7521,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2908,6 +7538,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2924,6 +7555,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2932,7 +7564,7 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2940,6 +7572,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2956,6 +7589,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2972,6 +7606,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -2988,6 +7623,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3004,6 +7640,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3020,6 +7657,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3036,6 +7674,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3052,6 +7691,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3068,6 +7708,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3084,6 +7725,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3100,6 +7742,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3116,6 +7759,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3132,6 +7776,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3140,7 +7785,7 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -3148,6 +7793,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3164,6 +7810,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3180,6 +7827,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3196,6 +7844,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "1★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3212,6 +7861,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "1★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3228,6 +7878,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3244,6 +7895,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3260,6 +7912,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3276,6 +7929,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "1★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3292,6 +7946,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3308,6 +7963,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3324,6 +7980,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3340,6 +7997,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3356,6 +8014,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3372,6 +8031,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3388,6 +8048,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3404,6 +8065,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3420,6 +8082,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "4★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3436,6 +8099,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "1★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3452,6 +8116,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "1★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3468,6 +8133,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3484,6 +8150,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "4★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3492,7 +8159,7 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true,
+      "origin": false,
       "branch": "suite"
     },
     {
@@ -3500,6 +8167,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3516,6 +8184,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "1★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3532,6 +8201,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "4★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3548,6 +8218,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3564,6 +8235,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "1★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3580,6 +8252,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "1★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3596,6 +8269,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3612,6 +8286,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3628,6 +8303,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3644,6 +8320,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3660,6 +8337,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3676,6 +8354,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "3★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3692,6 +8371,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3708,6 +8388,7 @@
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3715,6 +8396,57 @@
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "dralgorhythm/compliance",
+      "tm": 34.38,
+      "grade": "C",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 34.38
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "omer-metin/synthetic-data",
+      "tm": 33.06,
+      "grade": "C",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 33.06
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "arcmira/find-quotes",
+      "tm": 30.83,
+      "grade": "C",
+      "currentStars": "2★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 30.83
       },
       "origin": true,
       "branch": "standard"
@@ -3724,6 +8456,7 @@
       "tm": 30.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3740,6 +8473,7 @@
       "tm": 30.0,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3756,6 +8490,7 @@
       "tm": 24.34,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3773,6 +8508,7 @@
       "tm": 22.67,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3782,7 +8518,7 @@
         "repo-own": 1.22,
         "github-stars-own": 21.45
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -3790,6 +8526,7 @@
       "tm": 20.77,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3806,6 +8543,7 @@
       "tm": 20.77,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3822,6 +8560,7 @@
       "tm": 20.77,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3838,6 +8577,7 @@
       "tm": 20.77,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3846,7 +8586,7 @@
       "typeBreakdown": {
         "repo-own": 20.77
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -3854,6 +8594,7 @@
       "tm": 20.77,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3862,7 +8603,7 @@
       "typeBreakdown": {
         "repo-own": 20.77
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -3870,6 +8611,7 @@
       "tm": 20.77,
       "grade": "C",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "2★",
@@ -3878,512 +8620,57 @@
       "typeBreakdown": {
         "repo-own": 20.77
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
-      "skillId": "obra/test-driven-development",
-      "tm": 9.0,
+      "skillId": "kishorkukreja/inventory-optimization",
+      "tm": 13.31,
       "grade": "ungraded",
-      "currentStars": "2★",
+      "currentStars": "1★",
+      "storedStars": "2★",
       "mayStars": "2★",
-      "juneStars": "2★",
+      "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "peer-review": 9.0
+        "github-stars-own": 13.31
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
-      "skillId": "addy-osmani/api-and-interface-design",
-      "tm": 0.0,
+      "skillId": "cis2042/product-design-harness",
+      "tm": 9.76,
       "grade": "ungraded",
-      "currentStars": "2★",
+      "currentStars": "1★",
+      "storedStars": "2★",
       "mayStars": "2★",
-      "juneStars": "2★",
+      "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
       "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
+      "typeBreakdown": {
+        "github-stars-own": 9.76
+      },
+      "origin": true,
       "branch": "standard"
     },
     {
-      "skillId": "addy-osmani/browser-testing-with-devtools",
-      "tm": 0.0,
+      "skillId": "jpoutrin/create-plugin",
+      "tm": 7.14,
       "grade": "ungraded",
-      "currentStars": "2★",
+      "currentStars": "1★",
+      "storedStars": "2★",
       "mayStars": "2★",
-      "juneStars": "2★",
+      "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
       "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "addy-osmani/ci-cd-and-automation",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "addy-osmani/constraint-driven-development",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "addy-osmani/context-engineering",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "addy-osmani/deprecation-and-migration",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "addy-osmani/documentation-and-adrs",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "addy-osmani/doubt-driven-development",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "addy-osmani/frontend-ui-engineering",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "addy-osmani/observability-and-instrumentation",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "addy-osmani/security-and-hardening",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "addy-osmani/source-driven-development",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/academic-verify",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/archive-crawler",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/blog-ingest",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/book-mirror",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/bulk-ingestion",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/citation-graph-ingest",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/context-audit",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/conversation-archive",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/data-research",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/draft-in-voice",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/fact-check",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/functional-area-resolver",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/idea-lineage",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/measure-before-you-fix",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/meeting-ingestion",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/minion-orchestrator",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/remote-mcp",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/research-compendium",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/signal-detector",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/skill-autobench",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/skill-optimizer",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/strategic-reading",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "garrytan/two-tier-extraction",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
+      "typeBreakdown": {
+        "github-stars-own": 7.14
+      },
       "origin": false,
       "branch": "standard"
     },
@@ -4392,6 +8679,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "2★",
+      "storedStars": "2★",
       "mayStars": "2★",
       "juneStars": "2★",
       "g7Stars": "1★",
@@ -4402,10 +8690,26 @@
       "branch": "standard"
     },
     {
+      "skillId": "majiayu000/edge-model-compression",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "storedStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": true,
+      "branch": "standard"
+    },
+    {
       "skillId": "mattpocock/personal",
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "3★",
+      "storedStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "1★",
@@ -4416,12 +8720,13 @@
       "branch": "suite"
     },
     {
-      "skillId": "obra/writing-skills",
+      "skillId": "yylo-dev/plan-ledger-tasks-yylo",
       "tm": 0.0,
       "grade": "ungraded",
-      "currentStars": "2★",
+      "currentStars": "1★",
+      "storedStars": "2★",
       "mayStars": "2★",
-      "juneStars": "2★",
+      "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
       "apexResults": null,

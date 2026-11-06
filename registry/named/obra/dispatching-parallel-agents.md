@@ -18,7 +18,7 @@ tags:
 - multi-agent
 - subagent
 createdAt: '2026-05-18'
-updatedAt: '2026-09-04'
+updatedAt: '2026-10-30'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -35,14 +35,14 @@ evidence:
   grade: B
 - source: https://github.com/obra/superpowers
   evaluator: unknown
-  updatedAt: '2026-11-01'
+  updatedAt: '2026-10-01'
   date: '2026-06-20'
   type: github-stars-own
   trustNumber: 88.0
   grade: B
   notes: obra/superpowers — 233k GitHub stars, complete AI coding methodology adopted
     across Claude Code, Codex CLI, Gemini CLI (verified 2026-06-20)
-  stars: 310342
+  stars: 293671
   skillCountInRepo: 13
   sourceStartedAt: '2023-01-01'
 timeline:
@@ -89,6 +89,11 @@ timeline:
   contributor: unknown
   details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
     #1600)'
+- timestamp: '2026-10-30T04:58:33Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 50.0 -> 50.0, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
@@ -100,7 +105,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 18606e187f25bb5cd9850e7fd59a1e7420c59f7119246519ce83a6a9b2e9b538
+trustMagnitudeInputHash: 9c3cd7dd9f9a767f3cac87779935a2677110cb274584b19851ae67c054298657
 verification:
   firstEvidenceAt: '2026-06-19T16:48:24Z'
 ---

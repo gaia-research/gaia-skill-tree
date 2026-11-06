@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "frontier-meta-handoff-v1",
+  "leadId": "git-log-L-graft-002",
+  "packetPath": "evidence/frontier-challenges/c3-git-log-L-vs-graft/lead.json",
+  "leadDisposition": "candidate",
+  "targetSkillId": "trailhq/graft",
+  "verificationRequestId": "sha256:50a864e709d674403353090556d9342ce9e63a040cd782ebde7c228aae999929",
+  "advisoryMatch": "matched-actionable-request",
+  "requestedWork": [
+    "gaia-meta-audit triage",
+    "gaia-audit focused independent verification"
+  ],
+  "verification": "unverified-lead",
+  "experimentalResult": "not-executed",
+  "publicChallengeAdmission": "not-requested-until-independent-verification",
+  "trustedReceiptIssuer": "unavailable-in-this-lane; fail closed",
+  "canonicalMutation": "prohibited",
+  "createdAtUTC": "2026-10-28T18:18:40.653570Z"
+}

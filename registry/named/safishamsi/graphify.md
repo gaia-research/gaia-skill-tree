@@ -118,6 +118,13 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 316.88 -> 318.14, grade S -> S (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-30T13:02:07Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Founder ruling 2026-10-30 (r2-graphify): graphify keeps 5-star. Uniques
+    don''t need a fusion prerequisite origin; for uniques only bucket-level Origin
+    is required and TM is the usual gate. The earlier 4-star calibration of this skill
+    on the same date was reverted; the gate code is corrected in a separate PR.'
 trustMagnitude: 318.14
 overallTrustGrade: S
 trustMagnitudeInputHash: 69748e24fa83b90d211e1aeb09bc0d1bd69985016489931669ff2c55b5be0266
@@ -149,13 +156,13 @@ evidence:
     across 5 axes on 25-file multi-domain corpus.
 - source: https://github.com/safishamsi/graphify/stargazers
   evaluator: mbtiongson1
-  updatedAt: '2026-11-01'
+  updatedAt: '2026-10-01'
   date: '2026-06-19'
   type: github-stars-own
   class: A
   notes: 68,766 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
     standalone skill)
-  stars: 140282
+  stars: 122926
   grade: A
 - source: https://www.youtube.com/watch?v=q6t8xTjV5rM
   evaluator: mbtiongson1

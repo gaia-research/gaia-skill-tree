@@ -1,0 +1,22 @@
+{
+  "id": "google-workspace-automation",
+  "name": "Google Workspace Automation",
+  "type": "basic",
+  "description": "Automates repeatable workflows across Google Workspace services using connected applications and their native data.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-11-03",
+  "updatedAt": "2026-11-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-11-02T21:53:30Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill google-workspace-automation"
+    }
+  ]
+}

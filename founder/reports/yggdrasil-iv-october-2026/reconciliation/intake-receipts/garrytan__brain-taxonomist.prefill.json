@@ -1,0 +1,90 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "garrytan/brain-taxonomist",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "garrytan/brain-taxonomist",
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-taxonomist/SKILL.md",
+  "checked": true,
+  "contentSha256": "418fd4cdac3355551c42a70fea4d76e3d9255fe04698358b2c1e89dc666bf11d",
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "matched": false
+ },
+ "flags": [
+  {
+   "code": "SUITE_COMPONENT_CANDIDATES",
+   "namedNeighbors": [
+    {
+     "id": "garrytan/brain-ops",
+     "similarity": 0.584272
+    },
+    {
+     "id": "garrytan/bulk-ingestion",
+     "similarity": 0.471313
+    },
+    {
+     "id": "garrytan/idea-lineage",
+     "similarity": 0.469117
+    }
+   ],
+   "note": "Nearby named skills by semantic similarity; advisory context only, not a suite declaration or appointing decision."
+  }
+ ],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Filing gate for ALL brain writes. Consulted before creating any new brain page to determine the correct path. Reads the ACTIVE schema pack via `gbrain schema show --json` \u2014 no hardcoded directory table. Also runs periodic taxonomy drift detection via `gbrain schema review-orphans`.",
+  "name": "brain-taxonomist"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/garrytan/gbrain/blob/v0.60.474.0/skills/brain-taxonomist/SKILL.md",
+  "contentSha256": "418fd4cdac3355551c42a70fea4d76e3d9255fe04698358b2c1e89dc666bf11d",
+  "fetchedAt": "2026-10-27T22:08:33.806161+00:00",
+  "frontmatter": {
+   "description": "Filing gate for ALL brain writes. Consulted before creating any new\nbrain page to determine the correct path. Reads the ACTIVE schema pack\nvia `gbrain schema show --json` \u2014 no hardcoded directory table. Also\nruns periodic taxonomy drift detection via `gbrain schema review-orphans`.\n",
+   "mutating": false,
+   "name": "brain-taxonomist",
+   "prompt_version": 1,
+   "triggers": [
+    "where does this brain page go",
+    "file this in the brain",
+    "brain taxonomist",
+    "taxonomy check",
+    "refile brain page",
+    "create brain page",
+    "which directory does this go",
+    "which directory does this page go"
+   ],
+   "version": "1.0.0"
+  },
+  "hostRepository": "https://github.com/garrytan/gbrain",
+  "sourceLane": "source-repository"
+ }
+}

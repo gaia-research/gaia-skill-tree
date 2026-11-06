@@ -1,0 +1,646 @@
+[
+  {
+    "id": "codebase-graph-retrieval",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/codebase-graph-retrieval.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: starless; effective rank 4 via trailhq/graft (TM 145.16 A, gates clear)",
+      "starBar": "pass: 3+ star child is A-grade with no gate violation",
+      "origin": "pass: single eligible child trailhq/graft holds Origin",
+      "evidence": "n/a: no generic-level rows (capability-level source not required here)",
+      "upstream": "n/a: generic carries no upstream block",
+      "body": "pass: description is a falsifiable capability statement",
+      "classification": "pass: fusion with 3 existing prerequisites"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Clean. Single eligible child trailhq/graft (4 star, Origin). Prerequisites knowledge-graph-build, retrieve, context-compression all exist. No change proposed.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/codebase-graph-retrieval.json"
+    ]
+  },
+  {
+    "id": "collaborative-diagramming",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/collaborative-diagramming.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: starless; no named children",
+      "starBar": "n/a: no 3+ star child",
+      "origin": "n/a: no eligible child",
+      "evidence": "fail: sole row is a Class B repo-root implementation (excalidraw) at generic level",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass: fusion, 2 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Single Class B repo-root row (github.com/excalidraw/excalidraw) is implementation evidence sitting on a starless capability node. Propose relocating it to a named implementation (Class C evidence assertion change). No named children, so no inherited TM impact.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/collaborative-diagramming.json",
+      "https://github.com/excalidraw/excalidraw"
+    ]
+  },
+  {
+    "id": "computational-biology-workflows",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/computational-biology-workflows.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a: no bucket children (3 awakened 1-star candidates sit in awaitingClassification)",
+      "starBar": "n/a: no 2+ star child",
+      "origin": "n/a: no eligible child",
+      "evidence": "fail: (a) sole row is a Class B repo-root (science-skills) implementation; (b) timeline logs three evidence_added rows (alphafold_database_fetch_and_analyze, alphagenome_single_variant_analysis, protein_sequence_msa SKILL.md blob links) that no longer exist and have no evidence_removed event",
+      "upstream": "n/a",
+      "body": "pass: description is a specific capability",
+      "classification": "pass: fusion, 5 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Two evidence problems. First, the surviving repo-root row is implementation-level. Second, three evidence_added timeline events for SKILL.md blob rows have no matching current rows and no removal event, so the audit trail is incomplete. The three rows correspond to 1-star awakened children google-deepmind/alphafold-database-fetch-and-analyze, google-deepmind/alphagenome-single-variant-analysis and google-deepmind/protein-sequence-msa, which should carry implementation evidence. Reconcile via CLI (Class C). The 3 named files referencing this ref are awakened 1-star entries indexed in awaitingClassification, which is expected and not a stale mapping.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/computational-biology-workflows.json",
+      "registry/named-skills.json",
+      "https://github.com/google-deepmind/science-skills",
+      "https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md",
+      "https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md",
+      "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md"
+    ]
+  },
+  {
+    "id": "computational-science-platform",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/computational-science-platform.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a: no bucket children",
+      "starBar": "n/a: no child",
+      "origin": "n/a: no child",
+      "evidence": "n/a: zero rows, no capability source on record",
+      "upstream": "n/a",
+      "body": "fail: description ('Prepares reusable computational-science tooling and shared platform components') is too broad to falsify",
+      "classification": "pass: fusion, 2 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Description is vague and not falsifiable. Propose a precise body rewrite. The only mapped candidate, google-deepmind/uv (1-star awakened, awaitingClassification), is a Python environment tool and fits loosely; a reviewer should confirm that mapping. Zero evidence and zero bucket children. No rank or Origin implication.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/computational-science-platform.json",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "concept-synthesis",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/concept-synthesis.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: 3-star garrytan/concept-synthesis is the only eligible child (garrytan/idea-lineage is 1-star, ineligible)",
+      "starBar": "pass: 3-star child has SHA-pinned SKILL.md blob link (liveness alive)",
+      "origin": "fail: zero Origin on a claimed bucket with one eligible child",
+      "evidence": "n/a: zero generic rows",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass: fusion, 2 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Invariant gap: one eligible child (garrytan/concept-synthesis, 3 star, TM 50 B, blob link alive) and no current Origin. META 4.1 and Yggdrasil IV require exactly one Origin per claimed bucket. Propose garrytan/concept-synthesis as Origin. Class C, because Origin change is reserved for canonical review. Timeline has a duplicate fuse event (benign).",
+    "evidenceRefs": [
+      "registry/nodes/fusion/concept-synthesis.json",
+      "registry/named-skills.json",
+      "https://github.com/garrytan/gbrain/blob/8c70f6255047a7647adb30b1d6333a48068d9fa5/skills/concept-synthesis/SKILL.md"
+    ]
+  },
+  {
+    "id": "content-moderation",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/content-moderation.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a: no bucket children",
+      "starBar": "n/a: no child",
+      "origin": "n/a: no eligible child",
+      "evidence": "fail (low): sole Class B row is a vendor product's API documentation (OpenAI Moderation), an implementation rather than a capability-level source",
+      "upstream": "n/a",
+      "body": "pass: vendor-neutral name and description",
+      "classification": "pass: fusion, 3 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Sole evidence row cites a single vendor's product API documentation. That is implementation-level, so under the Class A capability-only rule it should move to a named implementation, or the reviewer should justify it as a capability source. Zero children, so no inherited TM impact. Low priority.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/content-moderation.json",
+      "https://platform.openai.com/docs/guides/moderation"
+    ]
+  },
+  {
+    "id": "conversational-agent",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/conversational-agent.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a: no bucket children",
+      "starBar": "n/a: no child",
+      "origin": "n/a: no child",
+      "evidence": "n/a: zero rows (capability source absent, not required)",
+      "upstream": "n/a",
+      "body": "pass: abstract, falsifiable description; conditions field is advisory",
+      "classification": "pass: fusion, 3 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Structurally clean. Zero evidence and zero bucket children are recorded as-is; the 2026-06-02 timeline shows dead tree/ evidence was already removed. No change proposed.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/conversational-agent.json"
+    ]
+  },
+  {
+    "id": "data-analysis",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/data-analysis.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: only child huggingface/huggingface-datasets is 1-star, ineligible",
+      "starBar": "n/a: no 2+ star child",
+      "origin": "n/a: no eligible child",
+      "evidence": "fail: sole Class B row is a repo-root implementation (pandas-ai) at generic level",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass: fusion, 3 prerequisites exist; 3 derivatives exist"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Sole evidence row is an implementation repo root (pandas-ai). Propose relocating it to a named implementation (Class C). The only child is 1-star, so no Origin requirement applies.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/data-analysis.json",
+      "https://github.com/Sinaptik-AI/pandas-ai"
+    ]
+  },
+  {
+    "id": "deployment-automation",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/deployment-automation.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: merit leader garrytan/land-and-deploy 3 star (TM 50 B) over setup-deploy 2 star (TM 36 C) and gaia-preview 2 star (TM 36 C)",
+      "starBar": "pass: land-and-deploy has blob link (liveness alive); no prepass gate violation",
+      "origin": "fail: zero Origin on a claimed bucket with three eligible children",
+      "evidence": "n/a: zero generic rows",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass: fusion, 2 prerequisites exist; derivative exists"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Invariant gap: three eligible children and no Origin. Deterministic merit leader is garrytan/land-and-deploy (3 star, TM 50 B, sole 3-star child, blob link alive). Propose it as Origin (Class C). Champion is display-derived (registryMaps.py), not stored; 5 children, nothing to change in the registry.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/deployment-automation.json",
+      "registry/named-skills.json",
+      "https://github.com/garrytan/gstack/blob/main/land-and-deploy/SKILL.md"
+    ]
+  },
+  {
+    "id": "design-generation",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/design-generation.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: 4 star Origin pbakaus/impeccable (TM 171.27 A, Unique) and leonxlnx/taste-skill (TM 174.68 A, Suite) both clear 4-star TM gate",
+      "starBar": "pass: both 4-star children meet A-grade TM; Unique 4-star holds bucket Origin",
+      "origin": "fail (review): exactly one Origin is held, but merit tie-break between two 4-star children is unresolved; leonxlnx/taste-skill has higher TM",
+      "evidence": "fail (low): n/a for generic rows; no generic evidence rows",
+      "upstream": "n/a",
+      "body": "pass: abstract and vendor-neutral",
+      "classification": "pass: fusion, 3 prerequisites exist; derivative exists"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Origin tie-review, not a determined transfer. Both are 4 star. TM ordering favours leonxlnx/taste-skill by 3.41 TM, but META 4.1 names Trust Score as the tie-break, which is not computed in the prepass. A transfer would also drop pbakaus/impeccable's Unique 4-star bucket-origin basis, so this is a rank-affecting Class C decision. Suite components of taste-skill show 404s on per-skill blob paths while the repo root is alive. That is review debt, not demotion.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/design-generation.json",
+      "registry/named-skills.json",
+      "https://github.com/leonxlnx/taste-skill",
+      "https://github.com/pbakaus/impeccable"
+    ]
+  },
+  {
+    "id": "design-review",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/design-review.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: children 3 star (design-shotgun) and 2 star (grilling); no 4-star claim",
+      "starBar": "pass: design-shotgun blob link alive; mattpocock/grilling blob alive",
+      "origin": "fail: zero Origin with two eligible children; merit leader garrytan/design-shotgun (3 star, TM 50 B)",
+      "evidence": "fail: two Class B SKILL.md rows (grill-me, grill-with-docs) are implementation evidence at generic level",
+      "upstream": "n/a",
+      "body": "fail: description specifies one implementation's behaviour (CONTEXT.md/ADR persistence) and the name 'Design Review' does not match the grilling concept",
+      "classification": "pass: fusion, 2 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "link",
+    "findingSummary": "Three issues. (1) Primary: garrytan/design-shotgun (multi-variant visual design exploration) is bucketed under a generic described as plan stress-testing by questioning. design-generation fits it better. Propose a link change (Class C). If it is remapped, mattpocock/grilling (2 star) becomes the sole eligible child and Origin would follow, so decide the Origin after the link. (2) Origin is absent. (3) Two implementation rows sit at generic level, and the description is implementation-specific.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/design-review.json",
+      "registry/named-skills.json",
+      "https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md",
+      "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md",
+      "https://github.com/garrytan/gstack/blob/main/design-shotgun/SKILL.md"
+    ]
+  },
+  {
+    "id": "design-system-extraction",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/design-system-extraction.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: no 4-star child; effective 3 star via stitch-skill (TM 50 B)",
+      "starBar": "pass: 3-star children have blob links",
+      "origin": "pass: exactly one Origin (leonxlnx/stitch-skill); garrytan/design-consultation ties at TM 50 B, incumbent holds, no basis to transfer",
+      "evidence": "n/a: zero generic rows",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass: fusion, 2 prerequisites exist; derivatives exist"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Exactly one Origin holds. Tie at TM 50 B with garrytan/design-consultation is resolved by the incumbent (no deterministic basis for transfer). No change proposed. Champion is display-only (3 children).",
+    "evidenceRefs": [
+      "registry/nodes/fusion/design-system-extraction.json",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "detect-anomaly",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/detect-anomaly.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: sole eligible child garrytan/canary 3 star (TM 50 B)",
+      "starBar": "pass: canary blob link alive",
+      "origin": "fail: zero Origin on a claimed bucket with one eligible child",
+      "evidence": "pass: Class A arXiv 2007.02500 title verified as 'Deep Learning for Anomaly Detection: A Review', relevant to the capability",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass: fusion, 2 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Invariant gap: sole eligible child garrytan/canary (3 star, TM 50 B, blob link alive) with no Origin. Propose it (Class C). Note: canary is post-deploy baseline-deviation monitoring, which plausibly maps to anomaly detection; a reviewer should confirm that mapping before the Origin is confirmed. Generic evidence is correctly Class A.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/detect-anomaly.json",
+      "registry/named-skills.json",
+      "https://arxiv.org/abs/2007.02500",
+      "https://github.com/garrytan/gstack/blob/main/canary/SKILL.md"
+    ]
+  },
+  {
+    "id": "dispatching-parallel-agents",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/dispatching-parallel-agents.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: 3-star Origin child obra/dispatching-parallel-agents (TM 50 B)",
+      "starBar": "pass: blob link; no gate violation",
+      "origin": "pass: exactly one Origin (sole child)",
+      "evidence": "n/a: zero generic rows",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass: fusion, 2 prerequisites exist; 3 derivatives exist"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Clean. Sole child holds Origin. No change proposed.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/dispatching-parallel-agents.json",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "distributed-consensus-coordination",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/distributed-consensus-coordination.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: 3-star Origin child ruvnet/hive-mind (TM 95.02 B)",
+      "starBar": "pass: no gate violation",
+      "origin": "pass: exactly one Origin",
+      "evidence": "n/a: zero generic rows",
+      "upstream": "n/a",
+      "body": "fail: name is stale and brand-derived and body/conditions specify one product's features (queen-led, eight worker specialisations, SQLite LRU memory, 3-worker-type condition)",
+      "classification": "pass: fusion, 2 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Name 'Hive Mind Coordination' is stale (renamed to distributed-consensus-coordination on 2026-06-01 but the name field was not updated) and derived from the ruvnet product name 'Hive Mind'. Propose a neutral name such as 'Distributed Consensus Coordination' (metadata). Body and conditions carry ruvnet/hive-mind implementation detail and should be generalised (body). Origin is correct.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/distributed-consensus-coordination.json",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "distributed-neural-training",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/distributed-neural-training.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: sole child ruvnet/flow-nexus-neural 2 star (TM 36 C)",
+      "starBar": "n/a: no 3+ star child",
+      "origin": "pass: exactly one Origin (sole eligible child)",
+      "evidence": "n/a: zero generic rows",
+      "upstream": "n/a",
+      "body": "fail: description names a specific sandbox vendor (E2B) and an implementation-specific capability (model marketplace publishing)",
+      "classification": "pass: fusion, 2 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Description is vendor- and implementation-specific (E2B sandbox clusters, marketplace publishing). Propose a neutral capability description (body). Origin holder is consistent with the one-Origin rule.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/distributed-neural-training.json",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "distributed-vector-memory",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/distributed-vector-memory.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: sole child ruvnet/agentdb-advanced 2 star (TM 36 C)",
+      "starBar": "n/a: no 3+ star child",
+      "origin": "pass: exactly one Origin (sole child)",
+      "evidence": "n/a: zero generic rows",
+      "upstream": "n/a",
+      "body": "fail: 'Sub-millisecond' performance claim has no source, and the QUIC protocol is an implementation choice that narrows the capability's scope",
+      "classification": "pass: fusion, 2 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Description states an unsourced performance figure and an implementation-specific transport (QUIC). Propose a falsifiable capability-level rewrite (body). Origin is correct.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/distributed-vector-memory.json",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "document-analyst",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/document-analyst.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: children 1 star only (ineligible)",
+      "starBar": "n/a: no 2+ star child",
+      "origin": "n/a: no eligible child",
+      "evidence": "fail: sole Class B row is a repo-root implementation (marker) at generic level; its benchmark claim is unverified in the row",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass: fusion, 6 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Sole row is an implementation repo root (VikParuchuri/marker). Propose relocating it to a named implementation (Class C). Both children are 1 star, so no Origin requirement applies.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/document-analyst.json",
+      "https://github.com/VikParuchuri/marker"
+    ]
+  },
+  {
+    "id": "dual-mode",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/dual-mode.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: sole child ruvnet/dual-mode 2 star (TM 36 C)",
+      "starBar": "n/a: no 3+ star child",
+      "origin": "pass: exactly one Origin (sole eligible child)",
+      "evidence": "n/a: zero generic rows",
+      "upstream": "n/a",
+      "body": "fail: description names two specific products (Claude and Codex) and fails the vendor-neutral requirement",
+      "classification": "pass: fusion, 3 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "change-proposed",
+    "proposalType": "body",
+    "findingSummary": "Description names specific vendor products (Claude+Codex). Propose a vendor-neutral body (for example 'heterogeneous agent backends'). Origin holder is correct. Suite components of ruvnet/dual-mode (dual-collect, dual-coordinate, dual-spawn) are outside this generic's scope.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/dual-mode.json",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "e2e-testing",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/e2e-testing.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: merit leader garrytan/qa 3 star (TM 50 B) over qa-only 2 star (TM 36 C); awakened 1-star langgenius/e2e-cucumber-playwright is ineligible",
+      "starBar": "pass: qa blob link alive; no gate violation",
+      "origin": "fail: zero Origin on a claimed bucket with two eligible children",
+      "evidence": "fail (secondary): sole Class B row is a repo-root implementation (autospec) at generic level",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass: fusion, 2 prerequisites exist; derivative exists"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "origin",
+    "findingSummary": "Primary: invariant gap. Propose garrytan/qa as Origin (3 star, TM 50 B, blob link alive) (Class C). Secondary: the repo-root row (zachblume/autospec) is implementation evidence and should move to a named implementation.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/e2e-testing.json",
+      "registry/named-skills.json",
+      "https://github.com/garrytan/gstack/blob/main/qa/SKILL.md",
+      "https://github.com/zachblume/autospec"
+    ]
+  },
+  {
+    "id": "edge-optimization",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/edge-optimization.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a: no bucket children",
+      "starBar": "n/a: no child",
+      "origin": "n/a: no eligible child",
+      "evidence": "fail (partial): arXiv 2505.01821 is a relevant Class A edge-cloud survey; the Class B row is a third-party data-mirror copy of a SKILL.md (majiayu000/claude-skill-registry-data), an implementation rather than a capability source",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass: fusion, 3 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 2,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Class A survey row is relevant and kept. The Class B mirror row (third-party data mirror of a SKILL.md) is implementation evidence and should be relocated or removed under Class C. Zero children.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/edge-optimization.json",
+      "https://arxiv.org/abs/2505.01821",
+      "https://github.com/majiayu000/claude-skill-registry-data/blob/main/ai-ml/edge-model-compression/SKILL.md"
+    ]
+  },
+  {
+    "id": "engineering-discipline",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/engineering-discipline.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: 4-star Origin mattpocock/engineering (TM 102.5 A, Suite; 4-star Extra needs no bucket Origin)",
+      "starBar": "pass: suite capstone 4-star A-grade; repo blob/root link alive",
+      "origin": "pass: exactly one Origin",
+      "evidence": "fail: sole Class B row is a repo-root implementation (mattpocock/skills) at generic level",
+      "upstream": "n/a",
+      "body": "fail: name 'mattpocock-engineering' and description 'for Matt Pocock's skills' are person-derived (fails vendor/person-neutral name rule); name also stale after 2026-06-01 rename",
+      "classification": "pass: fusion, 14 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 1,
+    "disposition": "change-proposed",
+    "proposalType": "metadata",
+    "findingSummary": "Primary: person-derived name and description (metadata). Propose a neutral name such as 'Engineering Discipline' and a neutral description. Secondary: the repo-root row (mattpocock/skills) is implementation evidence and should move to a named implementation. Origin and the 4-star TM gate are correct.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/engineering-discipline.json",
+      "registry/named-skills.json",
+      "https://github.com/mattpocock/skills"
+    ]
+  },
+  {
+    "id": "executing-plans",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/executing-plans.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "pass: 3-star Origin child obra/executing-plans (TM 95.15 B)",
+      "starBar": "pass: 3-star children have blob links; no gate violation",
+      "origin": "pass: exactly one Origin; addy-osmani/incremental-implementation (TM 95.0 B) is 0.15 behind, so no transfer basis",
+      "evidence": "n/a: zero generic rows",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass: fusion, 2 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 0,
+    "disposition": "reviewed-no-change",
+    "proposalType": null,
+    "findingSummary": "Origin holder has the higher TM, so the merit ordering is consistent. Champion is display-only (3 children). No change proposed.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/executing-plans.json",
+      "registry/named-skills.json"
+    ]
+  },
+  {
+    "id": "explainability-audit",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/explainability-audit.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a: no bucket children",
+      "starBar": "n/a: no child",
+      "origin": "n/a: no eligible child",
+      "evidence": "fail (partial): two Class A arXiv rows are relevant (2502.04695 'Bridging the Gap in XAI', 2405.20794 'Model Interpretation and Explainability', titles verified); the Class C skillsmp.com row is a single-skill aggregator listing (implementation level)",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass: fusion, 3 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Class A rows verified as relevant and kept. The C-grade skillsmp.com aggregator row is implementation-level and should be removed or relocated (Class C). Zero children.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/explainability-audit.json",
+      "https://arxiv.org/abs/2502.04695",
+      "https://arxiv.org/abs/2405.20794",
+      "https://skillsmp.com/skills/paulpas-agent-skill-router-skills-coding-ds-explainability-skill-md"
+    ]
+  },
+  {
+    "id": "financial-modeling",
+    "kind": "generic",
+    "path": "registry/nodes/fusion/financial-modeling.json",
+    "reviewer": "haiku:generic-08",
+    "method": "individual file read + prepass TM/gate + rule checks + semantic evidence relevance",
+    "checks": {
+      "frontmatter": "pass",
+      "rank": "n/a: no bucket children",
+      "starBar": "n/a: no child",
+      "origin": "n/a: no eligible child",
+      "evidence": "fail (partial): two Class A arXiv rows (2412.18563, 2511.18076; titles verified) address RL portfolio optimization only, which covers part of the description; DCF/LBO and Monte Carlo claims have no capability-level source; the Class B cookbook row is an implementation",
+      "upstream": "n/a",
+      "body": "pass",
+      "classification": "pass: fusion, 3 prerequisites exist"
+    },
+    "evidenceRowsReviewed": 3,
+    "disposition": "change-proposed",
+    "proposalType": "evidence",
+    "findingSummary": "Evidence scope is narrower than the description. The two A rows cover portfolio optimization only. Propose either a capability-level source for valuation/Monte Carlo or a narrower description (evidence/body). The Class B Anthropic cookbook SKILL.md row is implementation and should move to a named child (Class C). Zero children, so no inherited TM impact.",
+    "evidenceRefs": [
+      "registry/nodes/fusion/financial-modeling.json",
+      "https://arxiv.org/abs/2412.18563",
+      "https://arxiv.org/abs/2511.18076",
+      "https://github.com/anthropics/claude-cookbooks/blob/main/skills/custom_skills/creating-financial-models/SKILL.md"
+    ]
+  }
+]

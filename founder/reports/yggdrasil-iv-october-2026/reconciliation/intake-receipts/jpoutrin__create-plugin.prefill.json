@@ -1,0 +1,58 @@
+{
+ "artifactGate": "valid-skill",
+ "candidateId": "jpoutrin/create-plugin",
+ "contractVersion": "discovery-packet-v2",
+ "decision": {
+  "reasonCode": "PREFILL_AWAITING_WORKER",
+  "value": "DEFER"
+ },
+ "exactDedupe": {
+  "candidateId": "jpoutrin/create-plugin",
+  "canonicalUrl": "https://github.com/jpoutrin/product-forge/blob/main/plugins/claude-code-dev/skills/create-plugin/SKILL.md",
+  "checked": true,
+  "contentSha256": "459eefd713003d81af15291e357cd8cadb2ba0cced63e9a674ca284cf27045bf",
+  "hostRepository": "https://github.com/jpoutrin/product-forge",
+  "matched": false
+ },
+ "flags": [],
+ "genericSnapshot": {
+  "bytes": 121534,
+  "note": "regenerate with gaia dev prefill; assessment receipt binds catalogSha256",
+  "omitted": "size"
+ },
+ "lifecycle": [
+  "discovered",
+  "fetched",
+  "parsed",
+  "normalized",
+  "deduped",
+  "mapped",
+  "deferred"
+ ],
+ "mappingOptions": [],
+ "normalized": {
+  "description": "Create a new Claude Code plugin with proper directory structure and manifest. Use when the user wants to create a new plugin from scratch. Sets up plugin.json, directory structure, and optional components.",
+  "name": "create-plugin"
+ },
+ "retrieval": {
+  "fingerprint": "9a577525133cfab2731b44cf6ab72214bc14fca69c7bfb57aed716ca628f4dbe",
+  "model": "all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "thresholds": {
+   "strongMap": 0.72,
+   "topK": 3,
+   "weakMap": 0.45
+  }
+ },
+ "source": {
+  "canonicalUrl": "https://github.com/jpoutrin/product-forge/blob/main/plugins/claude-code-dev/skills/create-plugin/SKILL.md",
+  "contentSha256": "459eefd713003d81af15291e357cd8cadb2ba0cced63e9a674ca284cf27045bf",
+  "fetchedAt": "2026-10-27T22:10:08.582123+00:00",
+  "frontmatter": {
+   "description": "Create a new Claude Code plugin with proper directory structure and manifest. Use when the user wants to create a new plugin from scratch. Sets up plugin.json, directory structure, and optional components.",
+   "name": "create-plugin"
+  },
+  "hostRepository": "https://github.com/jpoutrin/product-forge",
+  "sourceLane": "source-repository"
+ }
+}

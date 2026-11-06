@@ -19,7 +19,7 @@ tags:
 - discipline
 - multi-skill
 createdAt: '2026-05-18'
-updatedAt: '2026-10-24'
+updatedAt: '2026-10-30'
 suiteComponents:
 - obra/brainstorming
 - obra/dispatching-parallel-agents
@@ -50,13 +50,13 @@ evidence:
   grade: B
 - source: https://github.com/obra/superpowers/stargazers
   evaluator: mbtiongson1
-  updatedAt: '2026-11-01'
+  updatedAt: '2026-10-01'
   date: '2026-06-19'
   type: github-stars-own
   class: A
   notes: 230,818 GitHub stars as of 2026-06-19 (verified via firecrawl validation
     report; mothership with 11+ sub-skills, divisor=4)
-  stars: 310342
+  stars: 293671
   skillCountInRepo: 11
   grade: B
 - source: https://www.youtube.com/watch?v=6YltXh12W-g
@@ -181,6 +181,32 @@ timeline:
   contributor: mbtiongson1
   details: 'TM 220.81 -> 221.52, grade A -> A (gaia dev calibrate-trust-magnitude;
     Issue #1600)'
+- timestamp: '2026-10-27T21:38:54Z'
+  action: upstream_synced
+  contributor: mbtiongson1
+  previousValue: v6.4.1
+  newValue: v7.0.1
+  details: synced from https://github.com/obra/superpowers/releases/tag/v7.0.1
+- timestamp: '2026-10-30T04:52:18Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 221.52 -> 221.52, grade A -> A, apexGateStatus {''aGradedOriginsGte5'':
+    False, ''sourceTenureDaysGte180AorS'': False, ''directNestedSuiteGte1'': False,
+    ''depth2OnlyReachableGte1'': False, ''overallGradeS'': True, ''apexPromotionPrSigned'':
+    True, ''apexPromotionPrSignedBy'': ''mbtiongson1'', ''apexPromotionPrSignedAt'':
+    ''2026-06-20'', ''crossOrgVerifier'': None, ''systemWideCap'': None} -> {''aGradedOriginsGte5'':
+    False, ''sourceTenureDaysGte180AorS'': False, ''directNestedSuiteGte1'': False,
+    ''depth2OnlyReachableGte1'': False, ''overallGradeS'': False, ''apexPromotionPrSigned'':
+    True, ''crossOrgVerifier'': None, ''systemWideCap'': None} (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+- timestamp: '2026-10-30T04:52:18Z'
+  action: note
+  contributor: mbtiongson1
+  details: 'Founder ruling 2026-10-30 FD-15 (Regenerate): stale apexGateStatus cache
+    refreshed via calibrate-trust-magnitude --refresh-apex (overallGradeS true ->
+    false; recomputed grade A, TM 221.52 < 250). apexPromotionPrSigned stays true;
+    the refresh does not retain the apexPromotionPrSignedBy/At annotations. No rank
+    effect, level unchanged.'
 trustMagnitude: 221.52
 overallTrustGrade: A
 apexGateStatus:
@@ -188,10 +214,8 @@ apexGateStatus:
   sourceTenureDaysGte180AorS: false
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
-  overallGradeS: true
+  overallGradeS: false
   apexPromotionPrSigned: true
-  apexPromotionPrSignedBy: mbtiongson1
-  apexPromotionPrSignedAt: '2026-06-20'
   crossOrgVerifier: null
   systemWideCap: null
 verification:
@@ -199,11 +223,11 @@ verification:
 trustMagnitudeInputHash: 90efcc86186878db6c43cce49093fe7d52f13c4441b15ddc36baeb469d16e784
 upstream:
   mode: components
-  releasedAt: '2026-09-19T00:32:44Z'
+  releasedAt: '2026-10-21T21:05:11Z'
   repo: obra/superpowers
-  sourceUrl: https://github.com/obra/superpowers/releases/tag/v6.4.1
-  syncedAt: '2026-09-22T19:48:02Z'
-  version: v6.4.1
+  sourceUrl: https://github.com/obra/superpowers/releases/tag/v7.0.1
+  syncedAt: '2026-10-27T21:38:54Z'
+  version: v7.0.1
 ---
 
 ## Overview

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "challenger-lead-v1",
+  "contractRevision": "challenger-lead-v1.1",
+  "campaignId": "yggiv-challenger-cases-2026-10",
+  "claimId": "code-graph-callers-v1",
+  "leadId": "graphify-graft-callers-001",
+  "identity": {
+    "name": "Graphify",
+    "kind": "installable-agent-capability",
+    "installable": true,
+    "version": "0.8.13"
+  },
+  "source": {
+    "url": "https://raw.githubusercontent.com/Graphify-Labs/graphify/v0.8.13/README.md",
+    "observedAtUTC": "2026-10-29T03:00:00Z",
+    "contentDigest": "sha256:750f9925311960fdcde429b00de466c296ceea030691540efef0c86c484276f3",
+    "provider": "Graphify-Labs/graphify at tag v0.8.13",
+    "capturedBytesPath": "evidence/frontier-challenges/c1-graphify-vs-graft/sources/graphify-v0.8.13-README.md"
+  },
+  "capability": {
+    "claim": "Builds a queryable knowledge graph of a codebase from local tree-sitter AST extraction, with scoped queries preferred over grepping raw files.",
+    "task": "Find which functions call a given function in a Python package.",
+    "conditions": "Local run on a Python source tree; no LLM needed for code extraction (graphify update)."
+  },
+  "comparison": {
+    "comparator": "Graft callers lookup over its prebuilt wiring graph (trailhq/graft, graft CLI 0.25.0).",
+    "baseline": "Caller recall and precision against reviewed Python ast ground truth on identical source bytes."
+  },
+  "target": {
+    "skillId": "trailhq/graft",
+    "kind": "named",
+    "genericSkillId": "codebase-graph-retrieval",
+    "revision": "d237c0839c9c9197fc861ecec839ed323a9748a4",
+    "contentDigest": "sha256:3109c1b8a350cab9df3f039ac55f87406f18ae66ad56c79a6818e61c137f9438",
+    "scopeRationale": "Both build a code graph and answer who-calls-this; Graphify is separately registered as safishamsi/graphify under knowledge-graph-build, so this is a cross-bucket comparison on one narrow task."
+  },
+  "preliminaryEvidence": [
+    {
+      "polarity": "supports-investigation",
+      "url": "https://github.com/Graphify-Labs/graphify/blob/v0.8.13/README.md",
+      "summary": "README documents local AST extraction into a queryable graph and query-first guidance for coding assistants."
+    },
+    {
+      "polarity": "counterevidence",
+      "url": "https://github.com/Graphify-Labs/graphify/blob/v0.8.13/README.md",
+      "summary": "README makes no explicit claim of caller-resolution accuracy; Graphify is already registered as safishamsi/graphify under a different generic."
+    }
+  ],
+  "limitations": [
+    "Five targets in one repository; not a general accuracy benchmark.",
+    "Caller sets compared at (file, bare function name) granularity; the README does not claim caller recall.",
+    "Runner session also authored the protocol; independence is declared, not authenticated.",
+    "Graphify is already registered as safishamsi/graphify under knowledge-graph-build."
+  ],
+  "dedupe": {
+    "key": "7e660a8120146d8598cdf3bc6437a97335fb2f9c4dc60b247c746ecf3508fcf4",
+    "checkedAtUTC": "2026-10-29T03:00:00Z",
+    "matches": []
+  },
+  "independentTest": {
+    "proposal": "Run the fixed runner evidence/frontier-challenges/c1-graphify-vs-graft/runner/run-c1.py on the pinned revision and compare caller sets of both tools to the reviewed ast ground truth under the pre-registered decision rule in protocol.json.",
+    "traceability": "Request binds protocol, ground-truth fixture and target bytes; artifacts retain raw per-target caller sets and digests."
+  },
+  "disposition": {
+    "status": "candidate",
+    "rationale": "A narrow reproducible comparison exists and both tools are runnable locally at the pinned versions.",
+    "nextAction": "Run the pre-registered protocol; Meta verification by a separate session; no admission."
+  }
+}
