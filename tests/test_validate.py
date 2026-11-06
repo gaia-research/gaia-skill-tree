@@ -311,43 +311,36 @@ class TestNamedSkillValidation(unittest.TestCase):
                 "---\n"
             )
 
-    def test_non_named_status_above_one_star_fails_validation(self):
-        """An awakened or provisional skill above 1★ is rejected (#1699)."""
+    def _statusLevelErrors(self, status, level, extra=""):
         import tempfile
         import shutil
         from scripts.validate import validate_named_skills
 
-        graph = {"skills": [{"id": "web-search"}]}
-        for status in ("awakened", "provisional"):
-            namedDir = tempfile.mkdtemp()
-            try:
-                self._writeNamedSkill(namedDir, status, "4★")
-                errors = validate_named_skills(graph, named_dir=namedDir)
-                self.assertTrue(
-                    any("fake_author/status_skill" in e and "gaia dev calibrate" in e for e in errors),
-                    f"Expected status/level error for {status}, got: {errors}",
-                )
-            finally:
-                shutil.rmtree(namedDir)
+        namedDir = tempfile.mkdtemp()
+        try:
+            self._writeNamedSkill(namedDir, status, level, extra)
+            errors = validate_named_skills({"skills": [{"id": "web-search"}]}, named_dir=namedDir)
+        finally:
+            shutil.rmtree(namedDir)
+        return [e for e in errors if "must have level 1" in e]
 
-    def test_non_named_status_at_one_star_and_named_above_one_star_pass(self):
-        """The cap bites only non-named skills above 1★."""
-        import tempfile
-        import shutil
-        from scripts.validate import validate_named_skills
+    def test_awakened_above_one_star_fails_validation(self):
+        """An awakened skill above 1★ is rejected, naming the skill and the fix (#1699)."""
+        for level in ("2★", "4★"):
+            errors = self._statusLevelErrors("awakened", level)
+            self.assertEqual(len(errors), 1, f"awakened {level}: {errors}")
+            self.assertIn("fake_author/status_skill", errors[0])
+            self.assertIn("gaia dev calibrate", errors[0])
 
-        graph = {"skills": [{"id": "web-search"}]}
-        for status, level, extra in (("awakened", "1★", ""), ("named", "4★", "title: Status Skill\n")):
-            namedDir = tempfile.mkdtemp()
-            try:
-                self._writeNamedSkill(namedDir, status, level, extra)
-                errors = validate_named_skills(graph, named_dir=namedDir)
-                self.assertFalse(
-                    any("must have level 1" in e for e in errors),
-                    f"Unexpected status/level error for {status} {level}: {errors}",
-                )
-            finally:
-                shutil.rmtree(namedDir)
+    def test_awakened_one_star_and_named_four_star_pass(self):
+        """The rule bites only awakened skills above 1★."""
+        self.assertEqual(self._statusLevelErrors("awakened", "1★"), [])
+        self.assertEqual(self._statusLevelErrors("named", "4★", "title: Status Skill\n"), [])
+
+    def test_other_statuses_are_not_flagged_by_awakened_rule(self):
+        """Other statuses' meanings are not settled here; this rule leaves them alone."""
+        for status in ("provisional", "deprecated"):
+            self.assertEqual(self._statusLevelErrors(status, "4★"), [], status)
 
 
 class TestMetaEpochsMetaSync(unittest.TestCase):

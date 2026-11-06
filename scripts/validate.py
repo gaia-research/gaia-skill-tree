@@ -538,7 +538,7 @@ def validate_named_skills(graph, named_dir=None, catalog_path=None):
     Checks:
       - All required fields are present.
       - level is 1★ or above.
-      - status other than 'named' (awakened/provisional) has level <= 1★.
+      - status 'awakened' has level 1★ (matches the calibrate preflight).
       - genericSkillRef resolves to a skill ID in graph (gaia.json).
       - At most one origin: true per genericSkillRef bucket.
       - status 'named' requires title OR catalogRef (reviewer gate).
@@ -613,17 +613,13 @@ def validate_named_skills(graph, named_dir=None, catalog_path=None):
                 f"does not match any skill ID in gaia.json."
             )
 
-        # Status/level coupling (CONTEXT.md; #1699): 2★+ is only valid for
-        # status 'named'. Awakened/provisional skills are capped at 1★.
+        # Status/level coupling (CONTEXT.md; #1699): an awakened skill is capped
+        # at 1★ -- the same semantics as the `gaia dev calibrate` preflight
+        # (`_preflight_calibrate_status`). Other statuses are not constrained here.
         status = fm.get("status", "")
-        if (
-            status
-            and status != "named"
-            and level in _NAMED_VALID_LEVELS
-            and int(level[0]) >= 2
-        ):
+        if status == "awakened" and level in _NAMED_VALID_LEVELS and level != "1★":
             errors.append(
-                f"Named skill {rel}: status '{status}' must have level 1★ "
+                f"Named skill {rel}: status 'awakened' must have level 1★ "
                 f"(got '{level}'); 2★+ requires status 'named'. "
                 f"Fix with `gaia dev calibrate {fm.get('id', rel)} 1★`, or promote it "
                 f"through `gaia dev update-named --status named` first."
