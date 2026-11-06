@@ -1990,6 +1990,8 @@ class FullRunner:
                             raise ValueError("merge commit mismatch")
                 elif result in ("unknown", "quarantined", "possibly-sent") and operation["state"] not in critical.PENDING:
                     raise ValueError("not an outstanding sender")
+                elif result in ("failed", "refused", "aborted") and operation["state"] in ("completed-effect", "observed-terminal"):
+                    raise ValueError("a failure report cannot contradict a shared effect")
             except (critical.CoordinationError, ValueError, KeyError, OSError) as exc:
                 raise RecordRefused("no recorded shared terminal/outstanding operation matches this report; action stays pending") from exc
 
@@ -2001,7 +2003,7 @@ class FullRunner:
             if operation is not None:
                 live["params"]["operationId"] = operation["operationId"]
                 live["sharedState"] = operation["state"]
-                if operation["state"] in ("possibly-sent", "unknown", "quarantined"):
+                if operation["state"] in ("reserved", "intent", "possibly-sent", "unknown", "quarantined"):
                     live["keepPending"] = True
 
         return prepared
