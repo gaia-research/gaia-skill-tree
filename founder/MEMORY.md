@@ -17,6 +17,16 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-11-06, THIRD canonical repair resolved; main delivery pending)
+
+CI-churn debt `debt:unused_import:scripts-ci-churn-py:51b6876e863ec208` is now **canonicallyRESOLVED**, sameoriginalrun045029/dispatch7930613ee061/attempt1. Foundergrantaf0 precededactualedit. OpenAInonsharedTerraMEDIUM build953b9d36d498d8309a8b45c890f9698b09df9c6a removedONLYos/timezone,14tests/compileallpassed. IndependentOpenAInonsharedLunaMEDIUM session01a1b15b initialREJECT preserved; sameverifierwithdrewincorrectbuilderitem4objectionandperformedfreshpuresensorbase2/candidate0/AST/consumer/stdlibchecks, finalclarifiedACCEPTrecorded. Noalternate-modelshopping, sourcepatch orattemptreset.
+
+NormalPR **#2307** mergedtodev/steward-campaign-2026-11-05 as **571ddeda6e0120e1b898a40b56c6c1112eb7a826**, integrationrecorded. Freshissue/PR/CIcollections andsame-runresume completed; receipt **steward-20261106T151913Z-bed5b794cc8bf6b5** explicitlylistsCI-churninresolvedWork andstatusresolved, unknown0/partial0/noactions, optionalbrowser/advisoryabsent. LatestcensusA0/B322/C40=362, created0; censusdeltaisNOTrepaircount. Campaigntotal **3canonicalrepairsresolved,2main-delivered**; CI-churnmainpending. DurableCICHURN_CANONICAL_RESOLUTION.json.
+
+Mainpreflight15:18: main329bprotected/rulesetactive/zeroBypass/3effectiverules/tracker2283OPEN. DiffscopeCI-churn/testbaseline/foundermetadataonly; R19runtime314/31a9/3bf andparkedarchive5432 ancestryexcluded. Nextfreezeexacteligiblepromotion, independentLuna-firstreviewandallapplicableexactheadCI, normalprotectedmainmergeonly, noclosing2283/release/deploy/activationbypass.
+
+Read-onlynext-debtLuna8ef91bca active, atmost5existingunusedsubjects/wholefinding/sideeffect+consumer+existingtestsproof; no dispatch/writes. R19all5targetedParent3bfgroupspassed; wholetests/stewardstillpending, boundedDSFlashrepairACCEPTnotwholeapproval. Leavecurrentworkersintact; latestLuna-first/500turn24h/inlinebrief/28min/providerdynamicremindersapply. Allotherholdsremain.
+
 ## State Snapshot (2026-11-06, CI-churn edit authorized; new Steward provider; 3bf verification)
 
 - Founderlatestrosterverbatim **"Continue. this time only use openai provider (non shared) for steward, retain dsflash for non steward engineering."** FuturecanonicalStewardONLYopenai/nonshared, NOTopenai-codex. DSFlashengineeringunchanged. Historicalshared-Codexevidenceretained, notcurrentroutinginstruction. Noactiveworkerwasstoppedsolelytoreroute.

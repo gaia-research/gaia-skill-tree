@@ -83,7 +83,7 @@
     "requestedThinking": "medium",
     "role": "different agent/session from builder",
     "capabilityFloor": "simple one-subject two-import patch, Luna-first per operator",
-    "status": "same_independent_reviewer_clarifying_pending",
+    "status": "completed_clarified_accept_recorded",
     "accepted": false,
     "initialActualProvider": "openai",
     "initialActualModel": "gpt-6-luna",
@@ -99,6 +99,10 @@
       "incorrectly demands builder-supplied independent-review item4"
     ],
     "clarificationRun": "0c649d70-a7cb-447a-a120-aaaf62251625",
-    "clarificationReason": "Correct explicit builderpacket/skill contradiction foritem4 and complete already-authorized pure-readonly analysis; no desired verdict, source edit or attempt reset"
-  }
+    "clarificationReason": "Correct explicit builderpacket/skill contradiction foritem4 and complete already-authorized pure-readonly analysis; no desired verdict, source edit or attempt reset",
+    "finalVerdict": "accept",
+    "initialProtocolItem4ErrorWithdrawn": true,
+    "freshRegisteredSensorBase2Candidate0": true
+  },
+  "canonicalResolution": "CICHURN_CANONICAL_RESOLUTION.json"
 }

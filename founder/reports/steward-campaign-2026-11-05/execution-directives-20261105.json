@@ -11,13 +11,18 @@
     "effortLimit": "Record executed journal effort separately from requested effort; do not stop existing worker to change it."
   },
   "canonical_steward": {
-    "provider": "openai",
-    "shared": false,
-    "forbiddenSubstitution": "openai-codex",
-    "dispatch": "native subagent; explicit operator route overrides old shared persona defaults; pin actual provider; no fallback",
-    "suggestedExistingModel": "gpt-6.1-terra",
-    "authorityLimitsUnchanged": true,
-    "rosterDirectiveAloneGrantedNoEditException": true
+    "provider": "openai-codex",
+    "shared": true,
+    "dispatch": "NEW Steward lane dispatches only; native subagent, explicit pinned route, no silent fallback",
+    "currentWorkers": "leave all ongoing subagents on launched routes",
+    "escalation": [
+      "Luna",
+      "Terra",
+      "Sol",
+      "Astra"
+    ],
+    "default": "Luna unless deliberate capability-floor escalation",
+    "authorityLimitsUnchanged": true
   },
   "cost_visibility": "new LLM workers use native subagent; no new LLM workers via bg_run",
   "cadence": "28-minute cost/cache guard; collect non-urgent completions together; user decisions and safety events may be handled sooner",
@@ -59,5 +64,15 @@
     "futureTimeoutMs": 86400000,
     "futureMaxTurns": 500,
     "limitDisclosure": "Native schema supports at most500 turns and24h per call, not literal infinity; do not stop/restart current workers to change budgets."
-  }
+  },
+  "previous_canonical_steward_20261106": {
+    "provider": "openai",
+    "shared": false,
+    "forbiddenSubstitution": "openai-codex",
+    "dispatch": "native subagent; explicit operator route overrides old shared persona defaults; pin actual provider; no fallback",
+    "suggestedExistingModel": "gpt-6.1-terra",
+    "authorityLimitsUnchanged": true,
+    "rosterDirectiveAloneGrantedNoEditException": true
+  },
+  "operator_steward_provider_latest_verbatim": "Switch roster to openai-codex shared for steward lanes. Do not stop any ongoing subagents."
 }
