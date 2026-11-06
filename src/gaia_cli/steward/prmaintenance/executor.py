@@ -13,9 +13,12 @@ import http.client
 import json
 import math
 import os
+import re
 import secrets
+import socket
 import ssl
 import subprocess
+import threading
 import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
@@ -42,24 +45,61 @@ class HttpReply:
     body: Any = field(repr=False)
 
 
+TRUST_OVERRIDES = ("SSL_CERT_FILE", "SSL_CERT_DIR")
+REQUEST_DEADLINE_SECONDS = 30.0
+CONNECT_TIMEOUT_SECONDS = 20
+
+
+def refuseTrustOverrides() -> None:
+    """An environment CA override would silently choose who the credential is trusted to reach."""
+    if any(os.environ.get(key) for key in TRUST_OVERRIDES):
+        raise core.CoordinationError("inherited TLS trust overrides (SSL_CERT_FILE/SSL_CERT_DIR) are not critical authority")
+
+
 class HttpsTransport:
     """One HTTPS request per call, no retry/redirect, bounded response, no logs.
 
     The credential is in memory only and is sent only to this pinned origin.
     New connections avoid library pool retry behavior. Errors never include
     request/response values or credentials. 3xx is returned, never followed.
+
+    Trust is the system default store only: SSL_CERT_FILE/SSL_CERT_DIR overrides are refused (the ``context``
+    parameter is a trusted test/application seam, never an environment or CLI input). Failure to connect (DNS, TCP or
+    TLS handshake) is raised as ``core.NotSent`` because no request byte has been written yet; every later failure is a
+    plain CoordinationError, since a byte may have reached the peer. After connect, ``deadline`` seconds bound the
+    whole request/response exchange in total (a watchdog shuts the socket), not merely each socket operation. Connect is
+    bounded per address attempt by CONNECT_TIMEOUT_SECONDS plus the system resolver.
     """
 
-    def __init__(self, origin: str, token: str | None = None):
+    def __init__(self, origin: str, token: str | None = None, *, context: ssl.SSLContext | None = None,
+                 deadline: float = REQUEST_DEADLINE_SECONDS):
         url = urlsplit(origin)
         if url.scheme != "https" or not url.hostname or url.username or url.password or url.query or url.fragment:
             raise core.CoordinationError("invalid pinned HTTPS origin")
+        if context is None:
+            refuseTrustOverrides()
+        if not isinstance(deadline, (int, float)) or isinstance(deadline, bool) or not 0 < deadline <= 120:
+            raise core.CoordinationError("invalid HTTPS request deadline")
         self.host, self.port, self.prefix = url.hostname, url.port, url.path.rstrip("/")
         self.token = token
+        self.context = context
+        self.deadline = float(deadline)
+
+    @staticmethod
+    def abort(connection) -> None:
+        # Wake the blocked reader with a raw socket shutdown only. The owning thread closes the connection itself:
+        # closing a descriptor from another thread would race with descriptor reuse, and SSLSocket.shutdown would
+        # also discard the TLS object under a read in progress, so the base-class method is called directly.
+        sock = getattr(connection, "sock", None)
+        if sock is not None:
+            try:
+                socket.socket.shutdown(sock, socket.SHUT_RDWR)
+            except (OSError, TypeError):
+                pass
 
     def request(self, method: str, path: str, body: dict | None = None) -> HttpReply:
         if not path.startswith("/") or path.startswith("//") or ".." in path or "\r" in path or "\n" in path:
-            raise core.CoordinationError("invalid bounded HTTP route")
+            raise core.NotSent("invalid bounded HTTP route")
         headers = {"Accept": "application/vnd.github+json", "User-Agent": "gaia-steward-r19",
                    "Cache-Control": "no-cache, no-store", "X-GitHub-Api-Version": "2022-11-28"}
         if self.token:
@@ -67,8 +107,22 @@ class HttpsTransport:
         data = None if body is None else core.canonical(body)
         if data is not None:
             headers["Content-Type"] = "application/json"
-        connection = http.client.HTTPSConnection(self.host, self.port, timeout=20, context=ssl.create_default_context())
+        if self.context is None:
+            refuseTrustOverrides()
         try:
+            context = self.context or ssl.create_default_context()
+            connection = http.client.HTTPSConnection(self.host, self.port, timeout=CONNECT_TIMEOUT_SECONDS, context=context)
+        except Exception:
+            raise core.NotSent("HTTPS invocation failed or response unavailable") from None
+        watchdog = None
+        try:
+            try:
+                connection.connect()  # DNS + TCP + TLS handshake; no request byte exists yet
+            except Exception:
+                raise core.NotSent("HTTPS invocation failed or response unavailable") from None
+            watchdog = threading.Timer(self.deadline, self.abort, args=(connection,))
+            watchdog.daemon = True
+            watchdog.start()
             connection.request(method, self.prefix + path, body=data, headers=headers)
             response = connection.getresponse()
             raw = response.read(2 * 1024 * 1024 + 1)
@@ -76,9 +130,13 @@ class HttpsTransport:
                 raise ValueError("oversized response")
             payload = json.loads(raw) if raw else None
             return HttpReply(response.status, {k.lower(): v for k, v in response.getheaders()}, payload)
+        except core.NotSent:
+            raise
         except Exception:
             raise core.CoordinationError("HTTPS invocation failed or response unavailable") from None
         finally:
+            if watchdog is not None:
+                watchdog.cancel()
             connection.close()
 
 
@@ -156,7 +214,7 @@ def reported(operation: dict) -> dict:
     stateName = operation["state"]
     status = {"completed-effect": "merged" if action == "merge" else "closed",
               "observed-terminal": "already-merged", "completed-no-effect": "failed",
-              "canceled-unsent": "aborted"}.get(stateName, stateName)
+              "canceled-after-claim": "failed", "canceled-unsent": "aborted"}.get(stateName, stateName)
     result = {"operationId": operation["operationId"], "state": status, "coordinationState": stateName,
               "number": operation["subject"]["number"], "headSha": operation["subject"]["headSha"],
               "action": action, "evidenceSha256": core.digest(operation["evidence"]) if operation["evidence"] else None}
@@ -188,6 +246,9 @@ def reported(operation: dict) -> dict:
             pass  # never export free-form response/candidate values
     if stateName == "completed-no-effect":
         result["reason"] = "sole invocation completed without effect; sent attempt remains charged"
+    elif stateName == "canceled-after-claim":
+        result["reason"] = ("adapter proved no request byte was sent; slot released, attempt and charge remain counted, "
+                            "no retry or refund")
     elif stateName == "canceled-unsent":
         result["reason"] = "unsent preparation canceled; anti-replay record retained"
     return result
@@ -357,17 +418,23 @@ class ProductionServices:
         self.authorized = (copy.deepcopy(subject), copy.deepcopy(bindingProof))
 
     def invoke(self, request, invocationId):
+        # Everything before the HTTP request is a provable no-send: the committed claim handed over by the coordinator
+        # (no ledger read) and the live re-check. A refusal there is NotSent, which releases the slot as
+        # canceled-after-claim while keeping the attempt and its charge counted; it never refunds or resends. An entry
+        # refusal (copy, other thread, fork, re-entry) stays a plain Refused: it is not the coordinator's own flow.
         if self.coordinator is None or self.authorized is None:
             raise core.CoordinationError("no live executor control flow")
-        self.coordinator._consumeAdapter(self, request, invocationId)
-        current = self.coordinator.inspect()
-        operation = next((op for op in current["operations"].values() if op["invocationId"] == invocationId), None)
-        if operation is None or operation["request"] != request or operation["state"] not in core.PENDING:
-            raise core.CoordinationError("exact claimed invocation unavailable")
-        # Re-read every authority, policy, independent proof, live gate and kill
-        # after claim and immediately before the sole HTTP mutation. A refusal
-        # here conservatively pins the claim; it never refunds/resends.
-        self.authorize(self.namespace, operation["subject"], operation["proof"])
+        operation = self.coordinator._consumeAdapter(self, request, invocationId)
+        try:
+            if (operation["request"] != request or operation["invocationId"] != invocationId
+                    or operation["state"] != "possibly-sent"):
+                raise core.CoordinationError("exact claimed invocation unavailable")
+            # Re-read every authority, policy, independent proof, live gate and kill after claim and immediately
+            # before the sole HTTP mutation.
+            self.authorize(self.namespace, operation["subject"], operation["proof"])
+        except Exception as exc:
+            raise core.NotSent("no request byte was sent: live re-check refused") from exc
+        # NotSent from the transport itself means the connection failed before the first request byte.
         response = self.http.request(request["method"], request["path"], copy.deepcopy(request["body"]))
         self.responses[invocationId] = response
         return response
@@ -528,6 +595,16 @@ class Executor:
             result = self.coordinator.invoke(tokenFrom(operation), core.digest([operation["attemptId"], "sole-send"]))
         except core.InvocationUncertain as exc:
             return uncertain(exc.cause)
+        except ledger.LedgerUnavailable:
+            # Not a post-entry classification from the core. If the claim nevertheless committed, the sender is
+            # outstanding: report uncertainty, never a refusal. A refusal before any claim leaves it prepared.
+            try:
+                after = self.coordinator.inspect()["operations"].get(operationId)
+            except (ledger.LedgerUnavailable, KeyError, OSError):
+                after = None
+            if after is not None and after["state"] in core.PENDING:
+                return uncertain("persistence")
+            raise
         try:
             current = self.report(self.coordinator.inspect()["operations"][operationId])
         except (ledger.LedgerUnavailable, KeyError, OSError):
@@ -545,10 +622,27 @@ class Executor:
         return self.report(self.coordinator.inspect()["operations"][operationId])
 
     def abort(self, operationId, reason):
+        """Cancel UNSENT preparation. The operator reason is recorded verbatim in the shared cancel event."""
+        if not isinstance(reason, str) or not re.fullmatch(r"[\x20-\x7e]{1,256}", reason) or not reason.strip():
+            raise core.Refused("abort reason must be 1-256 printable ASCII characters")
         operation = self.coordinator.inspect()["operations"].get(operationId)
         if operation is None:
             raise core.Refused("unknown operation")
-        self.coordinator.cancelPrepared(tokenFrom(operation), "operator canceled unsent preparation", core.digest([operation["attemptId"], "cancel"]))
+        self.coordinator.cancelPrepared(tokenFrom(operation), f"operator abort: {reason.strip()}", core.digest([operation["attemptId"], "cancel"]))
+        return self.report(self.coordinator.inspect()["operations"][operationId])
+
+    def takeover(self, operationId):
+        """Move an EXPIRED unsent preparation to a new owner and a newer fence (CAS-ordered against claim).
+
+        Allowed only after the 120 s preparation lease has expired by the trusted clock, at most 3 times, and never for a
+        claimed sender. The previous token can no longer claim; the new fence is derived deterministically so a retry of
+        the same takeover is idempotent.
+        """
+        operation = self.coordinator.inspect()["operations"].get(operationId)
+        if operation is None:
+            raise core.Refused("unknown operation")
+        newOwner = core.digest([operationId, "takeover-owner", operation["fence"] + 1])
+        self.coordinator.takeover(tokenFrom(operation), newOwner, core.digest([operation["attemptId"], "takeover", operation["fence"]]))
         return self.report(self.coordinator.inspect()["operations"][operationId])
 
 

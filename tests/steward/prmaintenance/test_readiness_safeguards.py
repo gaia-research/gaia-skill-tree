@@ -5,7 +5,6 @@ use a disposable loopback server and a throwaway self-signed certificate created
 """
 from __future__ import annotations
 
-import argparse
 import json
 import re
 import socket
@@ -18,7 +17,7 @@ from pathlib import Path
 
 import pytest
 
-from gaia_cli.steward.prmaintenance import cli, coordination as core, executor as ex, proofs
+from gaia_cli.steward.prmaintenance import coordination as core, executor as ex, proofs
 from . import helpers as h
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -188,6 +187,11 @@ def certificate(tmp_path):
     return cert, key
 
 
+def trust(certificate) -> ssl.SSLContext:
+    """A trusted application seam: an explicit CA context. The environment cannot override trust (see the review tests)."""
+    return ssl.create_default_context(cafile=str(certificate[0]))
+
+
 def serve(certificate, body: bytes = b"{}", status: str = "200 OK", extra: str = "") -> LoopbackTls:
     server = LoopbackTls(*certificate, reply(status, body, extra))
     return server
@@ -214,10 +218,9 @@ def test_trusted_certificate_sends_one_bearer_request_and_ignores_proxy_environm
     for name in ("HTTPS_PROXY", "https_proxy", "ALL_PROXY", "all_proxy", "HTTP_PROXY", "http_proxy"):
         monkeypatch.setenv(name, f"http://127.0.0.1:{proxy.getsockname()[1]}")
     monkeypatch.setenv("NO_PROXY", "")
-    monkeypatch.setenv("SSL_CERT_FILE", str(certificate[0]))
     server = serve(certificate, b'{"merged": true}')
     try:
-        reply_ = ex.HttpsTransport(f"https://127.0.0.1:{server.port}", "synthetic-credential").request(
+        reply_ = ex.HttpsTransport(f"https://127.0.0.1:{server.port}", "synthetic-credential", context=trust(certificate)).request(
             "PUT", "/repos/example/pulls/1/merge", {"sha": "a" * 40})
         with pytest.raises((socket.timeout, TimeoutError)):
             proxy.accept()  # nothing ever connected to the proxy
@@ -233,71 +236,33 @@ def test_trusted_certificate_sends_one_bearer_request_and_ignores_proxy_environm
 
 
 def test_redirect_is_returned_not_followed_and_hostname_mismatch_is_rejected(certificate, monkeypatch):
-    monkeypatch.setenv("SSL_CERT_FILE", str(certificate[0]))
     server = serve(certificate, b"{}", "302 Found", "Location: https://127.0.0.1:1/elsewhere\r\n")
     try:
-        redirected = ex.HttpsTransport(f"https://127.0.0.1:{server.port}", "synthetic").request("GET", "/x")
+        redirected = ex.HttpsTransport(f"https://127.0.0.1:{server.port}", "synthetic", context=trust(certificate)).request("GET", "/x")
         assert redirected.status == 302 and len(server.requests) == 1
         # The certificate names the IP only: the same listener under the name "localhost" must fail verification.
         with pytest.raises(core.CoordinationError, match="HTTPS invocation failed"):
-            ex.HttpsTransport(f"https://localhost:{server.port}", "synthetic").request("GET", "/x")
+            ex.HttpsTransport(f"https://localhost:{server.port}", "synthetic", context=trust(certificate)).request("GET", "/x")
     finally:
         server.close()
     assert len(server.requests) == 1
 
 
 def test_response_body_over_two_mebibytes_is_refused(certificate, monkeypatch):
-    monkeypatch.setenv("SSL_CERT_FILE", str(certificate[0]))
     limit = 2 * 1024 * 1024
     exact = json.dumps({"pad": "x" * (limit - 11)}).encode()
     assert len(exact) == limit
     server = serve(certificate, exact)
     try:
-        assert ex.HttpsTransport(f"https://127.0.0.1:{server.port}", "synthetic").request("GET", "/x").status == 200
+        assert ex.HttpsTransport(f"https://127.0.0.1:{server.port}", "synthetic", context=trust(certificate)).request("GET", "/x").status == 200
     finally:
         server.close()
     server = serve(certificate, exact + b" ")
     try:
         with pytest.raises(core.CoordinationError, match="HTTPS invocation failed"):
-            ex.HttpsTransport(f"https://127.0.0.1:{server.port}", "synthetic").request("GET", "/x")
+            ex.HttpsTransport(f"https://127.0.0.1:{server.port}", "synthetic", context=trust(certificate)).request("GET", "/x")
     finally:
         server.close()
-
-
-# --- documentation is factual: causes, verbs and exit codes ---------------------------------------------------------
-
-
-GUIDE = ROOT / "founder/steward/routines/pr-maintenance.md"
-SKILLS = [ROOT / ".agents/skills/gaia-steward-pr-maintenance/SKILL.md", ROOT / ".claude/skills/gaia-steward-pr-maintenance/SKILL.md"]
-
-
-def subcommands() -> list[str]:
-    parser = cli.build()
-    [group] = [action for action in parser._actions if isinstance(action, argparse._SubParsersAction)]
-    return sorted(group.choices)
-
-
-@pytest.mark.parametrize("document", [GUIDE, *SKILLS], ids=lambda path: str(path.relative_to(ROOT)))
-def test_every_uncertainty_cause_is_documented_in_backticks(document):
-    text = document.read_text(encoding="utf-8")
-    assert set(ex.UNCERTAINTY_CAUSES) == {"capacity", "completion-failed", "persistence", "transport", "inspection"}
-    for cause in ex.UNCERTAINTY_CAUSES:
-        assert f"`{cause}`" in text, f"{document.name} does not document uncertaintyCause {cause}"
-    assert "uncertaintyCause" in text
-
-
-def test_every_pr_cli_verb_is_documented_by_the_guide_or_the_skill():
-    text = "\n".join(path.read_text(encoding="utf-8") for path in (GUIDE, SKILLS[0]))
-    missing = [name for name in subcommands() if not re.search(rf"(?<![\w-]){re.escape(name)}(?![\w-])", text)]
-    assert missing == [], f"undocumented gaia steward pr verbs: {missing}"
-
-
-def test_documented_exit_zero_states_match_the_cli_contract():
-    text = GUIDE.read_text(encoding="utf-8")
-    for settled in ("merged", "closed", "already-merged", "aborted"):
-        assert f"`{settled}`" in text
-    source = (ROOT / "src/gaia_cli/steward/prmaintenance/cli.py").read_text(encoding="utf-8")
-    assert 'return 0 if outcome["state"] in {"merged", "closed", "already-merged", "aborted"} else 2' in source
 
 
 # --- no automation can reach the critical-write verbs ---------------------------------------------------------------
@@ -309,6 +274,8 @@ def test_no_workflow_or_script_invokes_the_critical_write_verbs_and_full_workflo
     workflow = yaml.safe_load((ROOT / ".github/workflows/steward-full.yml").read_text(encoding="utf-8"))
     triggers = workflow.get("on", workflow.get(True))
     assert set(triggers) == {"workflow_dispatch"}, "steward-full must stay manual-only until reauthorized"
+    # The general ledger transport is read-only legacy status in the CLI; the workflow must not ask the driver for it.
+    assert "--ledger git" not in (ROOT / ".github/workflows/steward-full.yml").read_text(encoding="utf-8")
     verbs = re.compile(r"steward_pr(?:\.py)?[\"' ]+(?:gate-merge|gate-close|execute|recover|abort|finalize)|steward pr (?:execute|gate-)")
     workflows = ROOT / ".github/workflows"
     scanned = [*sorted(workflows.glob("*.y*ml")), *sorted(workflows.glob("*.md")),

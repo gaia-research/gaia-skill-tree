@@ -62,7 +62,7 @@ MAX_CLOCK_WIDTH = 30
 MAX_INTEGER = 2**53 - 1
 PREPARED = {"reserved", "intent"}
 PENDING = {"possibly-sent", "unknown", "quarantined"}
-TERMINAL = {"completed-effect", "completed-no-effect", "observed-terminal", "canceled-unsent"}
+TERMINAL = {"completed-effect", "completed-no-effect", "observed-terminal", "canceled-unsent", "canceled-after-claim"}
 
 
 class CoordinationError(ledger.LedgerUnavailable):
@@ -75,6 +75,16 @@ class Refused(CoordinationError):
 
 class CapacityRefused(Refused):
     """A valid transition cannot be persisted within the bounded record size."""
+
+
+class NotSent(CoordinationError):
+    """Raised ONLY by the trusted mutation adapter when it can PROVE nothing was sent.
+
+    Qualifying proof: the adapter's request was never written to any socket (entry refused, live re-check refused,
+    or the connection failed before the first request byte). It is never raised once a byte may have been written.
+    The coordinator answers it with ``canceled-after-claim``: the slot is released but the attempt and its charge
+    stay counted and the logical operation stays spent. It is never a refund and never a replay right.
+    """
 
 
 class CompletionInvalid(CoordinationError):
@@ -211,6 +221,7 @@ class Result:
     operationId: str
     token: Token | None = None
     state: str | None = None
+    operation: dict | None = None  # copy of the operation exactly as folded from the committed events
 
 
 class Services(Protocol):
@@ -228,8 +239,11 @@ class Services(Protocol):
     executor additionally owns final live checks and all existing kill switches.
 
     invoke is the configured, non-retrying sole mutation adapter. Concrete
-    adapters must consume _consumeAdapter at entry: persisted claims must not
-    make their publicly callable Services methods into bearer authorizations.
+    adapters must consume _consumeAdapter at entry (it returns the committed
+    claim, so no ledger read sits between claim and send): persisted claims must
+    not make their publicly callable Services methods into bearer authorizations.
+    An adapter that can prove no request byte reached a socket raises NotSent;
+    any other failure is post-entry uncertainty and is never cancelled.
     completion is called ONLY with its actual returned value, after that single invocation has
     finished. It must authenticate that response and independently check exact
     outcome bindings. observation independently checks fresh forge evidence;
@@ -343,6 +357,18 @@ def initialState() -> dict:
             "limits": asdict(Limits()), "clock": None}
 
 
+def actionHourly(state: dict, now: TimeBounds, action: str) -> int:
+    """Charges of one action inside the trailing hour, across ALL run identifiers."""
+    count = 0
+    for operation in state["operations"].values():
+        if operation["state"] == "canceled-unsent" or operation["subject"]["action"] != action:
+            continue
+        upper = operation["completionUpper"]
+        if upper is None or now.lower <= upper + HOUR_SECONDS:
+            count += 1
+    return count
+
+
 def usage(state: dict, now: TimeBounds, runId: str, action: str) -> tuple[int, int]:
     hourly = 0
     inRun = 0
@@ -361,7 +387,9 @@ def checkCapacity(state: dict, now: TimeBounds, runId: str, action: str, *, clai
     inRun, hourly = usage(state, now, runId, action)
     cap = state["limits"]["mergesPerRun" if action == "merge" else "closuresPerRun"]
     increment = 0 if claiming else 1
-    if inRun + increment > cap or hourly + increment > state["limits"]["writesPerHour"]:
+    # The per-run ceiling is also a per-action trailing-hour ceiling, so a fresh run identifier cannot evade it.
+    if (inRun + increment > cap or hourly + increment > state["limits"]["writesPerHour"]
+            or actionHourly(state, now, action) + increment > cap):
         raise Refused("critical write run/hour ceiling exhausted or lowered")
 
 
@@ -414,7 +442,7 @@ def applyEvent(state: dict, event: dict, namespace: Namespace) -> None:
     if operationId not in operations:
         raise Refused("unknown operation")
     operation = operations[operationId]
-    if kind in {"intent", "takeover", "cancel", "claim", "unknown", "complete"}:
+    if kind in {"intent", "takeover", "cancel", "claim", "unknown", "cancel-claimed", "complete"}:
         if type(args) is not dict or "token" not in args or validateToken(args["token"]) != tokenFor(operation):
             raise Refused("stale ownership/fence/attempt")
     if kind == "intent":
@@ -451,6 +479,14 @@ def applyEvent(state: dict, event: dict, namespace: Namespace) -> None:
         if operation["state"] != "possibly-sent":
             raise Refused("unknown transition requires outstanding claim")
         operation["state"] = "unknown"
+    elif kind == "cancel-claimed":
+        exact(args, {"token", "detail"})
+        text(args["detail"], 1024)
+        if operation["state"] != "possibly-sent":
+            raise Refused("claim cancellation requires the just-committed, unsettled claim")
+        # Slot released; the attempt, run charge and hour charge are KEPT (completionUpper starts the hour window).
+        operation.update(state="canceled-after-claim", completionUpper=now.upper)
+        state["activeOperationId"] = None
     elif kind == "quarantine":
         exact(args, {"reason"})
         if args["reason"] != "inconclusive-reconciliation" or operation["state"] not in {"possibly-sent", "unknown"}:
@@ -493,9 +529,10 @@ def fold(events: list, namespace: Namespace) -> dict:
 class _Grant:
     """Never returned/persisted; instance registry, thread and PID guarded."""
 
-    __slots__ = ("pid", "thread", "token", "requestDigest", "invocationId")
+    __slots__ = ("pid", "thread", "token", "requestDigest", "invocationId", "operation")
 
     def __init__(self, operation: dict):
+        self.operation = copy.deepcopy(operation)
         self.pid = os.getpid()
         self.thread = threading.get_ident()
         self.token = tokenFor(operation)
@@ -604,7 +641,7 @@ class PrWriteCoordinator:
     def _result(self, status: CommitStatus, operationId: str, state: dict | None) -> Result:
         operation = None if state is None else state["operations"].get(operationId)
         return Result(status, operationId, tokenFor(operation) if operation else None,
-                      operation["state"] if operation else None)
+                      operation["state"] if operation else None, copy.deepcopy(operation) if operation else None)
 
     def _transition(self, kind: str, operationId: str, args: dict, transitionId: str) -> Result:
         text(transitionId, 128)
@@ -688,7 +725,7 @@ class PrWriteCoordinator:
                     or grant.invocationId != operation["invocationId"]):
                 raise Refused("grant is not authentic, bound, live and unconsumed")
 
-    def _consumeAdapter(self, service: Services, request: dict, invocationId: str) -> None:
+    def _consumeAdapter(self, service: Services, request: dict, invocationId: str) -> dict:
         """Private one-shot entry check for concrete mutation adapters.
 
         A persisted claim plus a public Services method is NOT authorization.
@@ -704,6 +741,17 @@ class PrWriteCoordinator:
                     or grant.requestDigest != digest(request)):
                 raise Refused("no authentic live one-shot adapter entry")
             del self.adapterEntries[invocationId]  # burn BEFORE live checks/network/callbacks
+            return copy.deepcopy(grant.operation)  # the committed claim: no ledger read between claim and send
+
+    def _cancelClaimed(self, token: Token, transitionId: str, detail: str) -> Result:
+        """Record a PROVEN-unsent claim as canceled-after-claim: slot released, attempt and charge kept."""
+        try:
+            return self._transition("cancel-claimed", token.operationId, {"token": asdict(token), "detail": detail},
+                                    digest([transitionId, "cancel-claimed"]))
+        except CapacityRefused as exc:
+            raise InvocationUncertain("capacity") from exc
+        except Exception as exc:
+            raise InvocationUncertain("persistence") from exc
 
     def invoke(self, token: Token, transitionId: str) -> Result:
         """Claim and consume a non-exported one-shot grant BEFORE adapter entry.
@@ -711,6 +759,13 @@ class PrWriteCoordinator:
         A replay/restart/copy can inspect a persisted claim but cannot obtain a
         grant. Ambiguous claim acknowledgements are deliberately quarantinable,
         not recoverable send rights. No arbitrary caller response can settle.
+
+        The claim result is built from the committed CAS itself, so no ledger
+        read sits between the claim and the adapter. A failure that PROVES
+        nothing was sent (the adapter was never entered, or it raised NotSent)
+        settles as canceled-after-claim: the slot is released but the attempt
+        and its charge stay counted. Everything after possible adapter entry
+        stays unknown/uncertain and is never cancelled, refunded or replayed.
         """
         if os.getpid() != self.pid:
             raise Refused("forked coordinator cannot invoke")
@@ -721,19 +776,27 @@ class PrWriteCoordinator:
         result = self._transition("claim", token.operationId, {"token": asdict(token)}, transitionId)
         if result.status != CommitStatus.NEW:
             return result
-        # Reconstruct from the committed claim, not any failed CAS computation.
-        operation = self.inspect()["operations"][token.operationId]
-        if operation["claimId"] != transitionId or tokenFor(operation) != token:
-            raise Refused("claim/control-flow binding changed")
-        grant = _Grant(operation)
-        with self.grantGuard:
-            self.grants[id(grant)] = grant
-        self._consume(grant, operation)
-        with self.grantGuard:
-            self.adapterEntries[operation["invocationId"]] = grant
+        operation = result.operation
+        invocationId = None
+        entered = False
         try:
-            response = self.services.invoke(copy.deepcopy(operation["request"]), operation["invocationId"])
+            if (operation is None or operation["claimId"] != transitionId or tokenFor(operation) != token
+                    or operation["state"] != "possibly-sent"):
+                raise Refused("claim/control-flow binding changed")
+            invocationId = operation["invocationId"]
+            grant = _Grant(operation)
+            with self.grantGuard:
+                self.grants[id(grant)] = grant
+            self._consume(grant, operation)
+            with self.grantGuard:
+                self.adapterEntries[invocationId] = grant
+            entered = True  # from here the adapter may have written; only NotSent can prove otherwise
+            response = self.services.invoke(copy.deepcopy(operation["request"]), invocationId)
+        except NotSent:
+            return self._cancelClaimed(token, transitionId, "adapter proved no request byte was sent")
         except Exception:
+            if not entered:
+                return self._cancelClaimed(token, transitionId, "adapter was never entered")
             # Once adapter entry was attempted, no definite outcome can be
             # reported. A failure to even record the unknown transition is also
             # post-entry uncertainty, never a pre-send refusal.
@@ -747,13 +810,14 @@ class PrWriteCoordinator:
                 raise InvocationUncertain("persistence") from exc
         finally:
             with self.grantGuard:
-                self.adapterEntries.pop(operation["invocationId"], None)
+                if invocationId is not None:
+                    self.adapterEntries.pop(invocationId, None)
         # Completion authentication, independent-evidence validation and shared
         # settlement each run only AFTER the sole adapter was entered. Any of
         # them failing proves no safe settlement, never that the forge had no
         # effect, so the cause is retained as a bounded classification.
         try:
-            evidence = self.services.completion(copy.deepcopy(operation), operation["invocationId"], response)
+            evidence = self.services.completion(copy.deepcopy(operation), invocationId, response)
         except CompletionUnavailable as exc:
             raise InvocationUncertain("transport") from exc
         except Exception as exc:

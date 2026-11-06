@@ -443,18 +443,23 @@ def test_finite_storage_admission_keeps_outcome_headroom_and_tombstones(fixture,
     assert token.operationId in coord.inspect()["operations"]
 
 
-def test_default_ten_per_hour_counts_sent_attempts_across_actions_and_runs(fixture):
+def test_hourly_ceiling_counts_sent_attempts_across_actions_and_runs(fixture):
+    # The overall hour bound counts every sent attempt across actions and run ids. Since the per-run ceilings are also
+    # enforced per action over the trailing hour (a fresh run id cannot evade them), reaching an overall bound of 10 is
+    # no longer possible under the pinned ceilings (2 merges + 2 closes), so the bound is exercised at its lowered value.
     _, binding, first, second = fixture
     services = FakeServices()
     services.response = "reject"
+    services.caps = core.Limits(writesPerHour=3)
     coord = coordinator(first, binding, services)
-    for number in range(1, 11):
+    for number in range(1, 4):
         action = "merge" if number % 2 else "close"
         coord.invoke(prepared(coord, number, action, run=f"stable-run-{number}"), f"claim-{number}")
-    assert len(services.invocations) == 10 and services.effects == []
-    assert core.usage(coord.inspect(), services.now, "new-run", "close") == (0, 10)
+    assert len(services.invocations) == 3 and services.effects == []
+    assert core.usage(coord.inspect(), services.now, "new-run", "close") == (0, 3)
+    # Only one close has been spent, so the per-action ceiling is not what refuses this: the hour bound is.
     with pytest.raises(core.Refused, match="ceiling"):
-        prepared(coord, 11, run="new-run")
+        prepared(coord, 4, "close", run="new-run")
 
 
 def test_completion_upper_not_reservation_time_controls_expiry(fixture):

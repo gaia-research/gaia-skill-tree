@@ -74,7 +74,7 @@ def actor(root, storeRoot, binding, configured, port, operationId, barrier, outp
             os._exit(31)
         waited, status = os.waitpid(child, 0)
         assert waited == child and os.waitstatus_to_exitcode(status) == 0
-        enter(service, request, invocationId)
+        return enter(service, request, invocationId)
     executor.coordinator._consumeAdapter = forkEntry
     result = executor.execute(operationId)
     output.put(("result", result["state"]))

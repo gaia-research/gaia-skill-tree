@@ -436,18 +436,25 @@ def test_concrete_clock_missing_stale_skew_network_and_regression_fail_closed(mo
         clock.sample()
 
 
-def test_post_claim_last_boundary_failure_pins_without_http_or_refund(tmp_path, monkeypatch):
+def test_post_claim_last_boundary_failure_is_proven_unsent_without_http_or_refund(tmp_path, monkeypatch):
+    # Deliberate contract change (lead decision 1, review of #2317): a live re-check refusal after the claim and before
+    # any socket write is a PROVEN no-send. It no longer pins the global slot forever, but it is never a refund: the
+    # attempt and its charge stay counted, the operation stays spent, and nothing was ever sent.
     fixture = world(tmp_path, monkeypatch)
-    _, forge, _, executor, _, _ = fixture
+    _, forge, clock, executor, _, _ = fixture
     operation = prepare(fixture)
     consume = executor.coordinator._consume
     def changed(grant, op):
         consume(grant, op)
         forge.sources[gate.AUTHORITY_FILES[0]] += b"\n"
     monkeypatch.setattr(executor.coordinator, "_consume", changed)
-    assert executor.execute(operation["operationId"])["state"] == "unknown"
-    assert executor.coordinator.inspect()["activeOperationId"] == operation["operationId"]
-    assert executor.execute(operation["operationId"])["state"] == "unknown"
+    first = executor.execute(operation["operationId"])
+    assert (first["state"], first["coordinationState"]) == ("failed", "canceled-after-claim")
+    shared = executor.coordinator.inspect()
+    assert shared["activeOperationId"] is None
+    assert core.usage(shared, clock.sample(), "stable-run", "merge") == (1, 1)
+    again = executor.execute(operation["operationId"])  # a terminal record is inspection, never a send grant
+    assert (again["state"], again["coordinationState"]) == ("failed", "canceled-after-claim")
     assert forge.invocations == forge.effects == []
 
 
@@ -489,13 +496,14 @@ def test_https_mutation_transport_never_retries_or_follows_redirects(monkeypatch
         def read(self, maximum): return b"{}"
         def getheaders(self): return [("Location", "https://elsewhere.invalid/")]
     class Connection:
+        def connect(self): calls.append(("connect",))  # the transport now connects explicitly, before any request byte
         def request(self, method, path, body, headers): calls.append((method, path))
         def getresponse(self): return Response()
         def close(self): pass
     monkeypatch.setattr(ex.http.client, "HTTPSConnection", lambda *a, **kw: Connection())
     transport = ex.HttpsTransport("https://forge.invalid", "synthetic-test-only")
     response = transport.request("PATCH", "/exact-route", {"state": "closed"})
-    assert response.status == 302 and calls == [("PATCH", "/exact-route")]
+    assert response.status == 302 and calls == [("connect",), ("PATCH", "/exact-route")]
     assert "synthetic-test-only" not in repr(response)
 
 
@@ -629,10 +637,11 @@ def test_concrete_adapter_entry_rejects_copy_other_thread_and_reentry(tmp_path, 
         thread = threading.Thread(target=attempt, daemon=True)
         thread.start(); thread.join(5)
         assert not thread.is_alive() and failures == [True]
-        original(service, request, invocationId)
+        entered = original(service, request, invocationId)
         with pytest.raises(core.Refused):
             original(service, request, invocationId)
         checked.append(True)
+        return entered  # the committed claim, which the production adapter uses instead of re-reading the ledger
     monkeypatch.setattr(executor.coordinator, "_consumeAdapter", check)
     assert executor.execute(prepared["operationId"])["state"] == "merged"
     assert checked == [True]
