@@ -1,5 +1,5 @@
 {
- "generation": 775,
+ "generation": 776,
  "lane": {
   "entries": [
    {
@@ -4554,13 +4554,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-06T19:25:00.415156Z",
-   "expiresAt": "2026-11-06T20:26:40.835059Z",
-   "holder": "run-20261106T192500Z-8565c895"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -58957,7 +58951,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-06T19:43:41.931915Z",
+    "asOf": "2026-11-06T19:56:46.327830Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -59433,12 +59427,17 @@
       "subject": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b"
      },
      {
+      "detail": "independent verification by pi-herdr-v5-verifier (pi, effort medium): rejected - findingConfirmed true; scopeValid true; proofValid false; authorityStillValid true; guardsWeakened false. Packet marks `import os` sideEffectPossible; builder e",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:scripts-jev-advisory-py:2e2799e7eedfcd5a"
+     },
+     {
       "detail": "mechanical verification (steward-20261106T192006Z-f720601bb08f319f): rejected - proof commands exited non-zero: python3 -c \"import sys; assert 'os' in sys.stdlib_module_names\" && python3 - <<'PY'\nimport ast\nfrom pathlib import Path\np=Path('scripts/quick_validate_skill.py')\nt=ast.",
       "kind": "failed_dispatch",
       "subject": "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0"
      },
      {
-      "detail": "last scheduled run was 112h ago (limit 48h).",
+      "detail": "last scheduled run was 113h ago (limit 48h).",
       "kind": "stale_schedule",
       "subject": "scheduled run"
      },
@@ -59451,7 +59450,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-11-06T19:56:46.327830Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -59459,6 +59458,14 @@
    },
    "integrationBranch": "dev/steward-campaign-2026-11-05",
    "integrationHead": "865911892bb4d103f45b1cef48d2fea701bb0d11",
+   "issueBacklog": {
+    "botOpen": 2,
+    "closedThisRun": 0,
+    "closedTotal": 0,
+    "openIssues": 221,
+    "readyWritesDisabled": 0,
+    "upstreamChildOpen": 72
+   },
    "leases": [
     {
      "acquiredAt": "2026-11-06T19:25:00.415156Z",
@@ -59471,7 +59478,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": false,
     "agents": true,
@@ -59479,7 +59486,7 @@
     "push": false,
     "routine": null
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -62087,7 +62094,7 @@
    "sequence": 26,
    "sourceHead": "865911892bb4d103f45b1cef48d2fea701bb0d11",
    "startedAt": "2026-11-06T19:25:00.415156Z",
-   "status": "active",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-11-06T19:25:00.415156Z",
@@ -62158,6 +62165,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-11-06T19:56:46.327830Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -62171,7 +62184,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T19:56:40.835160Z",
+ "updatedAt": "2026-11-06T19:56:47.970814Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
