@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-03T11:34:45Z",
+  "generatedAt": "2026-11-06T22:42:54Z",
   "distribution": {
     "total": 342,
     "S": 3,
@@ -1056,14 +1056,14 @@
       "trustMagnitude": 59.65,
       "grade": "B",
       "level": "3★",
-      "storedStars": "4★",
+      "storedStars": "3★",
       "typeBreakdown": {
         "repo-own": 24.65,
         "self-attestation": 5.0,
         "peer-review": 30.0
       },
       "origin": true,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "obra/test-driven-development",
