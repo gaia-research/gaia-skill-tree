@@ -1,5 +1,5 @@
 {
- "generation": 630,
+ "generation": 631,
  "lane": {
   "entries": [
    {
@@ -4515,7 +4515,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-06T17:51:05.853887Z",
-   "expiresAt": "2026-11-06T18:34:20.460602Z",
+   "expiresAt": "2026-11-06T18:34:26.707356Z",
    "holder": "run-20261106T175105Z-e5c2fe3b"
   }
  },
@@ -47764,20 +47764,13 @@
     "push": false,
     "routine": null
    },
-   "phase": "verify",
+   "phase": "reobserve",
    "phases": {
     "verify": {
      "deferred": [],
      "expired": [],
-     "results": [
-      {
-       "debtId": "debt:unused_import:src-gaia-cli-curation-evaluation-py:3fab90bae90c2a93",
-       "receipt": "steward-20261106T175129Z-e07142e5cf7df740",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      }
-     ],
-     "status": "awaiting-verifier"
+     "results": [],
+     "status": "ok"
     }
    },
    "proofArtifacts": [],
@@ -47810,6 +47803,12 @@
      "kind": "lead.integrate",
      "status": "awaiting",
      "stepId": "integrate:bd01f6c7c9c5:1"
+    },
+    {
+     "at": "2026-11-06T18:04:25.864777Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:verify"
     }
    ],
    "thinkingEfforts": [
@@ -47829,7 +47828,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T18:04:20.461433Z",
+ "updatedAt": "2026-11-06T18:04:26.707467Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
