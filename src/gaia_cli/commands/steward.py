@@ -279,6 +279,9 @@ class StewardCommand(Command):
                     )
             elif args.json:
                 result = render_founder_queue(root)
+                from gaia_cli.steward.desk import classify_decision_records, load_decision_records
+
+                founderRecords = classify_decision_records(load_decision_records(root)).to_dict()
             else:
                 # The digest *is* the human surface. A terse list of decision
                 # ids is machine output wearing a person's clothes.
@@ -297,6 +300,8 @@ class StewardCommand(Command):
 
         if args.json:
             payload = result.to_dict()
+            if args.steward_command == "founder":
+                payload["decisionRecords"] = founderRecords
             if prompt is not None:
                 payload["prompt"] = prompt
             print(json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False))
