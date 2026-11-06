@@ -1,5 +1,5 @@
 {
- "generation": 868,
+ "generation": 869,
  "lane": {
   "entries": [
    {
@@ -4572,13 +4572,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-06T20:25:48.395926Z",
-   "expiresAt": "2026-11-06T21:15:50.844236Z",
-   "holder": "run-20261106T202548Z-dacc6ecf"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -67183,7 +67177,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-06T20:41:09.919984Z",
+    "asOf": "2026-11-06T20:45:56.313195Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -67654,6 +67648,11 @@
     ],
     "operations": [
      {
+      "detail": "Steward could not observe this surface, so it refuses Class A repair and dispatch until it can. Cause: SensorUnavailable: pull-request census is incomplete: pull-row-not-open:#2313",
+      "kind": "coverage_unknown",
+      "subject": "pr-maintenance"
+     },
+     {
       "detail": "independent verification by pi-terra-01a1a793-8bb8-7029-b125-f63b22e12981 (pi, effort high): rejected - Independent reproduction confirms stored level 2-star, effective TM 50.0, grade B, and sensor target 3-star. No-change is not non-reproduction; no correction wa",
       "kind": "failed_dispatch",
       "subject": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b"
@@ -67682,7 +67681,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-11-06T20:45:56.313195Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -67690,6 +67689,14 @@
    },
    "integrationBranch": "dev/steward-campaign-2026-11-05",
    "integrationHead": "eb1199931b697e46a1cbc2f8f1e27486965ec959",
+   "issueBacklog": {
+    "botOpen": 2,
+    "closedThisRun": 0,
+    "closedTotal": 0,
+    "openIssues": 221,
+    "readyWritesDisabled": 0,
+    "upstreamChildOpen": 72
+   },
    "leases": [
     {
      "acquiredAt": "2026-11-06T20:25:48.395926Z",
@@ -67702,7 +67709,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "sensor coverage is unknown (pr-maintenance); fix the failing sensor(s) and start a new run",
    "options": {
     "afk": false,
     "agents": true,
@@ -67710,7 +67717,7 @@
     "push": false,
     "routine": null
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -70319,7 +70326,7 @@
    "sequence": 29,
    "sourceHead": "eb1199931b697e46a1cbc2f8f1e27486965ec959",
    "startedAt": "2026-11-06T20:25:48.395926Z",
-   "status": "active",
+   "status": "blocked",
    "steps": [
     {
      "at": "2026-11-06T20:25:48.395926Z",
@@ -70398,6 +70405,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-11-06T20:45:56.313195Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -70411,7 +70424,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T20:45:50.844351Z",
+ "updatedAt": "2026-11-06T20:45:57.995816Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
