@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Sequence
 
-from gaia_cli.steward.prmaintenance import collect, coordination, gate, receipts, reconcile, roster, state
+from gaia_cli.steward.prmaintenance import collect, coordination, gate, proofs, receipts, reconcile, roster, state
 from gaia_cli.steward.prmaintenance.census import CENSUS_INPUT
 from gaia_cli.steward.prmaintenance.producers import RegistryError, loadRegistry
 
@@ -238,13 +238,11 @@ def doRoster(root: Path, args: argparse.Namespace) -> int:
 
 
 def snapshotFor(root: Path, repo: str, number: int) -> gate.Snapshot:
-    import subprocess
-
     def fetch(n: int) -> None:
         # The pull request head AND the destination tip: the gate proves "already published on the base" from git objects, so an
         # unfetched tip must never be possible (it would read as "not published" and refuse, safely but wrongly).
         for refspec in (f"+refs/pull/{n}/head:refs/steward/pr/{n}", "+refs/heads/main:refs/remotes/origin/main"):
-            subprocess.run(["git", "-C", str(root), "fetch", "--quiet", "origin", refspec], capture_output=True, timeout=180, check=False)
+            proofs.git(root, "fetch", "--quiet", "origin", refspec, timeout=180)
 
     return collect.liveSnapshot(collect.ghApi, repo, number, fetch)
 
@@ -391,16 +389,14 @@ def doReconcileRefresh(root: Path, args: argparse.Namespace) -> int:
 
 
 def doReconcileRetired(root: Path, args: argparse.Namespace) -> int:
-    import subprocess
-
     census = json.loads((root / CENSUS_INPUT).read_text(encoding="utf-8"))
     with state.lock(root):
         built = [line for line in state.readRecords(root, "outcomes")
                  if line.get("action") == "reconcile" and line.get("state") == "built" and line.get("originalHead") == args.head
                  and line.get("number") == args.number]
         for line in built[-1:]:  # clean the local worktree and branch of the withdrawn replacement so its name can be reused
-            subprocess.run(["git", "-C", str(root), "worktree", "remove", "--force", str(line.get("worktree", ""))], capture_output=True, check=False)
-            subprocess.run(["git", "-C", str(root), "branch", "-D", str(line.get("branch", ""))], capture_output=True, check=False)
+            proofs.git(root, "worktree", "remove", "--force", str(line.get("worktree", "")))
+            proofs.git(root, "branch", "-D", str(line.get("branch", "")))
         state.appendRecord(root, "outcomes", {"at": state.stamp(), "runId": args.runId, "repo": census["repo"], "number": args.number,
                                               "action": "reconcile", "state": "retired", "headSha": args.head, "originalHead": args.head,
                                               "replacement": args.replacement, "reason": args.reason[:300]})

@@ -190,7 +190,11 @@ def reported(operation: dict) -> dict:
 
 class ProductionServices:
     def __init__(self, root: Path, binding: WriteCoordination, http, clock: BoundedClock, snapshot=None, currentTip=None):
-        if any(os.environ.get(key) for key in ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY", "GIT_ALTERNATE_OBJECT_DIRECTORIES")):
+        if any(os.environ.get(key) for key in (
+            "GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",
+            "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_REPLACE_REF_BASE",
+            "GIT_GRAFT_FILE", "GIT_COMMON_DIR",
+        )):
             raise core.CoordinationError("inherited Git object/worktree overrides are not critical authority")
         self.root, self.binding, self.http, self.time = root, binding, http, clock
         self.namespace = core.Namespace(binding.forgeHost, binding.repositoryId, binding.repositoryName, binding.epoch, binding.protocol)

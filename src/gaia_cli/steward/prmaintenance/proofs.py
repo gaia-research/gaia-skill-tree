@@ -10,6 +10,7 @@ change nor drop a historical report from the shared indexes.
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 import sys
@@ -33,9 +34,42 @@ class Proof:
     detail: str
 
 
-def git(root: Path, *args: str, timeout: float = 60.0) -> subprocess.CompletedProcess:
+SAFE_GIT_ENV_EXCLUDE = frozenset({
+    "GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",
+    "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_REPLACE_REF_BASE",
+    "GIT_GRAFT_FILE", "GIT_COMMON_DIR",
+})
+
+
+def safeGitEnv(env: Mapping[str, str] | None = None) -> dict[str, str]:
+    sub_env = {
+        key: value
+        for key, value in os.environ.items()
+        if key not in SAFE_GIT_ENV_EXCLUDE
+    }
+    sub_env.update(
+        {
+            "LC_ALL": "C",
+            "GIT_TERMINAL_PROMPT": "0",
+            "GIT_OPTIONAL_LOCKS": "0",
+            "GIT_NO_REPLACE_OBJECTS": "1",
+            "GIT_GRAFT_FILE": os.devnull,
+        }
+    )
+    if env:
+        sub_env.update(env)
+    return sub_env
+
+
+def git(root: Path, *args: str, timeout: float = 60.0, env: Mapping[str, str] | None = None) -> subprocess.CompletedProcess:
     try:
-        return subprocess.run(["git", "-C", str(root), *args], capture_output=True, timeout=timeout, check=False)
+        return subprocess.run(
+            ["git", "--no-replace-objects", "-c", "core.useReplaceRefs=false", "-C", str(root), *args],
+            capture_output=True,
+            timeout=timeout,
+            env=safeGitEnv(env),
+            check=False,
+        )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return subprocess.CompletedProcess(args, 127, b"", str(exc).encode())
 
