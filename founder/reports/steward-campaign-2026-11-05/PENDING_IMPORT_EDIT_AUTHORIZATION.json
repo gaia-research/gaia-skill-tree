@@ -2,7 +2,7 @@
   "status": "approved_exact_dispatch_only",
   "approved": true,
   "machineEffective": false,
-  "effectLimit": "Verbatim founder approval is recorded before resumption; live state/source/packet revalidation still required. No automatic ledger transition or new attempt.",
+  "effectLimit": "Explicit host edit extension active for exact dispatch only after read-only revalidation; generated machine packet/policy unchanged, no ledger transition or new attempt.",
   "decision": "CICHURN_EDIT_FOUNDER_DECISION_20261106.json",
   "runId": "run-20261106T045029Z-92c5e38b",
   "dispatchId": "dispatch-7930613ee061481cf023",
@@ -33,5 +33,8 @@
     "release, deployment, activation or main bypass"
   ],
   "operatorReply": "ci churn edit authorized",
-  "beforeActing": "Record actual founder reply verbatim in Git and preserve the original packet plus this exact-scope decision. Do not treat this proposal as approval."
+  "beforeActing": "Fulfilled: exact founder reply committed/pushed af0e818f5 before any new implementation; immutable originalpacket retained, exact live attempt/source/caps revalidated14:17Z.",
+  "hostInterfaceGrantEffective": true,
+  "approvalBeforeImplementationCommit": "af0e818f5",
+  "livePrebuildBinding": "cichurn-approved-prebuild-binding.json"
 }
