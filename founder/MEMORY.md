@@ -17,6 +17,15 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-11-06, cloud REJECT received — bounded F1/F2 remediation)
+
+### TLDR
+- User returned independent cloud **REJECT314f/tree e53b5920**. Public CLOUD_REVIEW_20261106.md fingerprints the cloud session ID; original17,043-byte message retained locally, SHA2567d65230c4760b2699d2492c498bebf6f3aac0fe25591eff7bb4ce4b21e93d5d5. Reported2967Steward passes overlap subgroup runs and are not Parent passes or acceptance. F1: no-ID local failure can finish with matching shared sender outstanding. F2: post-effect completion/auth failure prints refused/no ID. No duplicate effect/refund established. P3/P4 exact probe sources/logs requested.
+- New sole worker **070b3ae2-fe6e-4520-83c0-0120ecf87df9** handles only defensive F1/F2 reproduction/repair on separate dev/steward-r19-cloud-repair-2283 from314f, preserving originalsource/handoff refs. No F3authority/F4quota/liveness changes, no live operations. Existing CLI/transition/activation holds unchanged; Parent owns longtests after frozen newcandidate.
+- Pin incident diagnosed in installed pi-subagent0.8: request[] inherits fallback defaults; maxAttempts also uses fallbacklength, so retries0alone insufficient. No installed/globalconfig edits. Disclosed temporary project-local campaign-terra-pinned persona has parsed literalemptyfallbacks/0retries/spawnsfalse. Offline actualparser/policy test gives1managedattempt; one benign routing-only probe confirmedactualOpenAITerraHIGH/one response/no fallback. New task fullydisclosespriorproviderrefusal, does notrerun refusedWHOLEreview; any primary refusal stops. SeePINNED_ROUTING_DIAGNOSIS.md. No route guarantees beyond testedimplementation; collectactualnewworker runtime beforetrusting.
+- F3 remains separate owner ruling: mandatory posted GitHub receipt/comment preconditions versus ratified best-effort commentwrites with durableverification/justification/authenticeffectevidence stillmandatory. PENDING_R19_RECEIPT_RULING.json is notapproved. F4 lowered-cap ratchet carriedfail-safe, notnewdefectscope. Original CI-churn oneoff edit grant also remainsfalse; canonicalattempt1 notreset.
+- Read-only releasev9.3 verification b608d50ea started (GitHub tag/main/manifests,PyPI/npmmetadata only); no tag/release/workflow/install/config mutation. Resume28-minutebatchedcollection for actualjobs. Earlier canonicalrepaircount2/main2 unchanged.
+
 ## State Snapshot (2026-11-06, founder-requested remote R19 review handoff)
 
 ### TLDR
