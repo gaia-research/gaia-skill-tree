@@ -127,7 +127,8 @@ def test_landed_in_must_be_a_non_empty_string() -> None:
 
 def test_the_repository_decisions_directory_never_reads_as_empty() -> None:
     records = classify_decision_records(load_decision_records(REPO_ROOT))
+    # Whether any record is still pending changes as the founder rules; approved-but-unlanded records
+    # are tracked until stamped with landedIn, so the desk is never reported empty while one remains.
     assert records.actionable()
     assert not records.invalid
-    assert {item.decision_id for item in records.pending} >= {"steward-workflow-timeout-route"}
     assert "steward-founder-command-records" in {item.record_id for item in records.awaiting}
