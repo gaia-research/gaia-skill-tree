@@ -1,5 +1,26 @@
 # Gaia Steward Full — governing campaign checkpoint
 
+## RESTART STATE — Herdr/macOS, Lead Claude Opus 5.5 (read this block first after any compaction)
+
+Restart directive: founder prompt 2026-11-06 + `handoff/steward-campaign-restart-2283` (4d69206e6) HANDOFF.md. Mission unchanged: make the backlog smaller via canonical repairs delivered to protected main. R19, archive #2287, release, issue-write and activation remain PARKED. Lead alone writes the shared Git ledger (`refs/heads/steward/ledger`).
+
+**Roster (live, verified 2026-11-06):** herdr panes, one pi harness per lane, provider `openai-codex`: builder + independent verifier = `gpt-6-luna:medium` (separate agents, separate worktrees); demanding review = `gpt-6.1-terra`; complex = `gpt-6.1-sol`; escalation = `gpt-6-astra`. Packet `allowedModels` includes `pi`; outcomes record `model: pi` with the actual provider/model in summary. Non-Steward engineering: Claude inline. Founder switches `openai-codex`/`openai` on quota exhaustion; on no quota, pause.
+
+**Operating lessons:** (1) refresh `scripts/steward_pr_census.py` before every run/resume (own PRs make pr-maintenance coverage unknown -> exit 3); a blocked run's built work is adopted by `run --verify`. (2) Builder briefs carry the stdlib side-effect-absence proof recipe (else Luna stops on `sideEffectPossible`). (3) Verifier briefs quote the packet rule that item 4 is discharged by the verifier (else circular reject). (4) Canonical resolution = post-merge `run --verify` receipt with the debt in `resolvedWork`.
+
+| Measure | State |
+|---|---|
+| Canonical B repairs resolved | 5: issuehygiene/reconcile.py, prmaintenance/roster.py, scripts/ci_churn.py, prmaintenance/evaluate.py (`json`; #2309 merge 366bcdb89; receipt steward-20261106T171835Z-0c7e5334ebdae63a), curation/evaluation.py (`copy`; #2310 merge a8beebce8; receipt steward-20261106T181100Z-2ff3fda83819f564) |
+| Delivered to protected main | 2 (#2297, #2300). #2308 (ci_churn wave, head e7c5f6d56) open: independent Luna ACCEPT, all checks green, CLEAN; AWAITING FOUNDER MERGE GO. Repairs 4-5 ride the next wave. |
+| Census | A0/B319/C40 at steward-20261106T181100Z-2ff3fda83819f564 (optional browser/ci/advisory/test-history inputs absent, not healthy) |
+| Class C (M2) | pi Terra read-only pass: all 39 credential findings map to existing D1/D2/D3 disposition rows (docs/agents/security/2283-dispositions.json) with evidence matching current source; no suspected live credential. Blocker: the sensor has no mechanism to consume a per-finding decided disposition. Narrow fix proposed (exact debt id+path+pattern+fingerprint+source-hash match; anything else stays C) — AWAITING FOUNDER AUTHORIZATION. #2235 routine-PR finding = held draft, existing hold. 0 canonical C dispositions recorded so far. |
+| Next B queue | shadowCorpus.py copy (dispatch 3 in flight), quick_validate_skill.py os, jev_advisory.py os, then remaining stdlib unused imports. Excluded: embeddings.py/semantic_search.py re-exports, main.py Command, weekly-report imports, crawler/watcher package imports. |
+| Cost (observable) | pi workers ~$0.20 total so far (pane status lines, subscription-metered); Lead Opus spend not separately metered here. |
+
+---
+
+## Prior checkpoint (Termux/Pi era, historical)
+
 Tracking: [#2283](https://github.com/gaia-research/gaia-skill-tree/issues/2283). Lead: **Sol High**. Environment: **Pi / Termux**.
 
 **After compaction, read this checkpoint before reprioritizing.** Then refresh the live ledger, this issue and active ownership. Do not restart an existing writer or infer a debt closure from a merged PR.
