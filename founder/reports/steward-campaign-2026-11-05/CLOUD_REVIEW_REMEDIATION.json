@@ -65,7 +65,7 @@
   "frozenSourceAndHandoffBranchesModified": false,
   "sourceAccepted": false,
   "activationOrLiveMutationAuthorized": false,
-  "canonicalImportEditGrantApproved": false,
+  "canonicalImportEditGrantApproved": true,
   "canonicalRepairsResolvedAndMainDelivered": 2,
   "composition": {
     "head": "31a9a59b9c978db19fd9a451ca310844d1dc401e",
