@@ -111,9 +111,10 @@ _PROTECTED_DISPATCH_PATHS = (
 )
 # The only carve-outs from the protected set above: a subtree a rule may WRITE
 # although it sits under a protected path, each tied to the one debt kind that
-# may hold it. The rule must still list the protected parent as forbidden; the
-# verifier lets the more specific allowed subtree win over that broader ban.
-_DISPATCH_EXEMPT_SUBTREES = {
+# may hold it. The rule must still list the protected parent as forbidden.
+# Verification applies the carve-out to exactly this (kind, subtree) pair and
+# to the ``founder/**`` ban only; for every other rule, forbidden always wins.
+DISPATCH_EXEMPT_SUBTREES = {
     # Credential disposition records are drafted by a builder and signed by an
     # independent verifier; the policy, decisions and receipts beside them stay protected.
     "founder/steward/security-dispositions/**": "credential_review",
@@ -521,13 +522,13 @@ class StewardPolicy:
                     f"paths {missing_guards}"
                 )
             for allowed in allowed_paths:
-                if allowed in _DISPATCH_EXEMPT_SUBTREES:
+                if allowed in DISPATCH_EXEMPT_SUBTREES:
                     # One named subtree of founder/**, for one named debt kind,
                     # and nothing broader. Every other protected path still applies.
-                    if _DISPATCH_EXEMPT_SUBTREES[allowed] != debt_kind:
+                    if DISPATCH_EXEMPT_SUBTREES[allowed] != debt_kind:
                         raise PolicyError(
                             f"routing.dispatchRules.{rule_id}.allowedPaths: {allowed} is reserved for "
-                            f"{_DISPATCH_EXEMPT_SUBTREES[allowed]} rules"
+                            f"{DISPATCH_EXEMPT_SUBTREES[allowed]} rules"
                         )
                     others = tuple(item for item in _PROTECTED_DISPATCH_PATHS if item != "founder/**")
                     if any(_globs_overlap(allowed, item) for item in others):

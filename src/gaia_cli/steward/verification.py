@@ -34,6 +34,7 @@ from gaia_cli.steward.models import (
     content_hash,
     stable_json,
 )
+from gaia_cli.steward.policy import DISPATCH_EXEMPT_SUBTREES
 
 
 VERDICT_SCHEMA = "steward-verification-verdict-v1"
@@ -213,19 +214,22 @@ def _matches(path: str, pattern: str) -> bool:
     return path == pattern or PurePosixPath(path).match(pattern)
 
 
-def _strictlyInside(inner: str, outer: str) -> bool:
-    """Whether ``inner`` is a ``dir/**`` scope strictly nested in the ``outer`` one.
+def _carveOut(path: str, denied: str, packet: DispatchPacket) -> bool:
+    """Whether the one policy carve-out lifts the ``founder/**`` ban for ``path``.
 
-    A broad ban with one narrower, explicitly allowed subtree (policy permits
-    this only for named exemptions) lets the specific allowance win; a path
-    that is allowed and forbidden by the SAME scope is still forbidden.
+    Exact pair only: a packet for the carve-out's own debt kind that allows that
+    exact subtree, a path inside it, and the ``founder/**`` ban. No other ban is
+    ever lifted, and no other rule or kind ever qualifies; for everything else a
+    forbidden path stays forbidden even when a narrower path is allowed.
     """
 
-    if not (inner.endswith("/**") and outer.endswith("/**")) or inner == outer:
+    if denied != "founder/**":
         return False
-    inner_parts = PurePosixPath(inner[:-3]).parts
-    outer_parts = PurePosixPath(outer[:-3]).parts
-    return len(inner_parts) > len(outer_parts) and inner_parts[: len(outer_parts)] == outer_parts
+    kind = packet.debt.get("kind") if isinstance(packet.debt, Mapping) else None
+    return any(
+        exempt_kind == kind and glob in packet.allowed_paths and _matches(path, glob)
+        for glob, exempt_kind in DISPATCH_EXEMPT_SUBTREES.items()
+    )
 
 
 def _is_guard(path: str) -> bool:
@@ -555,11 +559,7 @@ def evaluate(
         path
         for path in change_set.paths
         if any(
-            _matches(path, denied)
-            and not any(
-                _matches(path, allowed) and _strictlyInside(allowed, denied)
-                for allowed in packet.allowed_paths
-            )
+            _matches(path, denied) and not _carveOut(path, denied, packet)
             for denied in packet.forbidden_paths
         )
     ]

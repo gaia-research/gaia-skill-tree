@@ -6,13 +6,18 @@ finding of that debt, with path, line (informational), pattern, fingerprint,
 occurrence and the sha256 of the normalized line prefilled. The debt id may be
 the file's ``credential_leak`` or ``credential_review`` debt; records always
 carry the stable ``credential_leak`` id. It never sets policy, disposition,
-evidence, author, verifiedBy or verifiedAt: those are a human's judgement and
-an independent verifier's attestation. A skeleton is inert, because the Steward
+evidence or author (a builder's judgement), nor verifiedBy, verifiedAt or
+verificationReceipt (an independent verifier's attestation, stamped by the
+lead's integrate step from a recorded agent.verify outcome). A skeleton is inert, because the Steward
 consumer rejects any record with an empty field, so drafting cannot resolve or
 exempt anything.
 
     python scripts/steward_credential_disposition.py draft <debtId>
     python scripts/steward_credential_disposition.py draft <debtId> --write
+    python scripts/steward_credential_disposition.py hash <record.json>
+
+``hash`` prints the reviewed-content sha256 a verification receipt must list for
+a record (the record without verifiedBy, verifiedAt and verificationReceipt).
 
 Default output is a JSON array on stdout. ``--write`` creates one file per
 finding under founder/steward/security-dispositions/ and refuses to overwrite.
@@ -62,6 +67,7 @@ def draftRecords(root: Path, debtId: str, observedAt: str = "1970-01-01T00:00:00
             "author": "",
             "verifiedBy": "",
             "verifiedAt": "",
+            "verificationReceipt": "",
             "founderRuling": records.RULINGID,
         }
         for item, index in zip(located, records.occurrences(findings))
@@ -75,7 +81,16 @@ def main(argv: list[str] | None = None) -> int:
     draft.add_argument("debtId")
     draft.add_argument("--root", type=Path, default=REPOROOT)
     draft.add_argument("--write", action="store_true", help="write one file per finding instead of printing")
+    digest = commands.add_parser("hash", help="print the reviewed-content sha256 of one record file")
+    digest.add_argument("record", type=Path)
     args = parser.parse_args(argv)
+    if args.command == "hash":
+        try:
+            print(records.contentSha256(json.loads(args.record.read_text(encoding="utf-8"))))
+        except (OSError, ValueError, AttributeError) as exc:
+            print(f"cannot hash {args.record}: {exc}", file=sys.stderr)
+            return 1
+        return 0
     root = args.root.resolve()
     try:
         skeletons = draftRecords(root, args.debtId)

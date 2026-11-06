@@ -13,12 +13,15 @@
 
 ## What it is for
 
-A file lands here, not on the founder desk, only when no undecided finding in it
-is evidence of a live credential: no issuer-format token (`ghp_`, `AKIA`,
-`sk-ant-`, `xox[bp]-` and the like), no structurally valid JWT, no private-key
-body, no opaque high-entropy value. The sensor decides this from the matched
-value, never from the path. A mirrored or `tests/` file with a live-shaped value
-stays Class C; a `src/` file with a variable reference lands here.
+Routing defaults to the founder desk (Class C). A file lands here only when
+EVERY undecided finding's matched value is positively benign: a variable or
+environment reference, a template placeholder, a code expression or call, a
+documented placeholder marker standing alone (`EXAMPLE`, `FAKE`, `xxxx`,
+`<...>`, `${...}`), or a short common placeholder word. Opaque values,
+passphrases, truncated tokens, anything issuer-format, a valid JWT, a private
+key, or a value that merely contains a redaction-like substring stays Class C,
+whatever its entropy. The sensor decides from the matched value, never from the
+path: a mirrored or `tests/` file with a live-shaped value stays Class C.
 
 The work is a disposition record per finding, nothing else.
 
@@ -39,20 +42,33 @@ The `POLICY.yaml` rule is authoritative; this guide cannot widen it.
 2. Read the flagged line and its callers. Pick the locked policy: D1 mirrored
    Firecrawl/Impeccable source, D2 test/fixture value, D3 code/workflow/docs.
 3. Fill in `policy`, `disposition`, `evidence` (specific, reproducible) and
-   `author`. Leave `verifiedBy` and `verifiedAt` empty.
+   `author` (your agent id). Leave `verifiedBy`, `verifiedAt` and
+   `verificationReceipt` empty.
 4. Stop and escalate rather than guess if the value could be live.
 
 ## Stop conditions
 
 1. The value looks live, or its provenance is ambiguous.
 2. The diff would touch anything outside `founder/steward/security-dispositions/`.
-3. A record would need `verifiedBy`, or the author equals the verifier.
+3. A record would need `verifiedBy` or a receipt, or any receipt would be written.
 4. The line or token changed since the debt was observed.
 
 ## Independent verification
 
-A different verifier reproduces the evidence for each record, then sets
-`verifiedBy` (not the author) and `verifiedAt`. Until then the consumer ignores
-the record and the debt stays open. A record binds to the finding's token, its
-occurrence and its normalized line, not to the whole file: an unrelated edit does
-not reopen it, a changed token or line does.
+`verifiedBy` is never self-asserted. A different verifier agent reproduces the
+evidence through the dispatch's `agent.verify` step. The lead's integrate step
+then records that outcome as a receipt in
+`founder/steward/security-dispositions/receipts/<id>.json` (schema:
+`founder/steward/credential-verification-receipt.schema.json`) listing each
+covered record's reviewed-content hash (`scripts/steward_credential_disposition.py
+hash <record>`), and stamps `verifiedBy`, `verifiedAt` and `verificationReceipt`
+into the records. The builder's envelope forbids the receipts directory, so it
+cannot write one. The consumer accepts a record only when its receipt exists and
+is committed, is for this file's `credential_review` debt, names the same
+verifier, a different builder equal to `author`, and covers the record's content.
+
+A record binds to the finding's token, its occurrence and its exact line (only
+leading/trailing whitespace and CR/LF are ignored; a space or non-breaking
+space inside the line counts), not to the whole file: an unrelated edit does not
+reopen it, a changed token or line does. A record that omits `occurrence` is
+malformed and blocks every occurrence of that token.

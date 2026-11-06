@@ -656,7 +656,8 @@ routing:
       objective: >-
         For the one subject file, draft one disposition record per undecided finding with
         scripts/steward_credential_disposition.py, fill in the policy, disposition, evidence and author, and
-        leave verifiedBy and verifiedAt empty. An independent verifier reproduces the evidence and signs.
+        leave verifiedBy, verifiedAt and verificationReceipt empty. An independent verifier reproduces the
+        evidence; the lead's integrate step records that verification as a receipt and stamps the record.
         Edit no source file, rotate nothing, and do not touch the policy, decisions or receipts.
       allowedPaths:
         - founder/steward/security-dispositions/**
@@ -671,6 +672,9 @@ routing:
         - .gaia/steward/**
         - .github/**
         - founder/**
+        # Verification receipts are written only by the lead's integrate step. This
+        # nested ban overrides the allowed parent, so a builder cannot self-verify.
+        - founder/steward/security-dispositions/receipts/**
         - registry/**
         - skill-trees/**
         - docs/**
@@ -681,14 +685,14 @@ routing:
         - the finding looks like a live credential, or its provenance is ambiguous or unknown
         - the diff touches any path outside founder/steward/security-dispositions/
         - any source, test, workflow, policy or decision file would need to change
-        - a record would carry verifiedBy or verifiedAt, or an author equal to the verifier
+        - a record would carry verifiedBy, verifiedAt or verificationReceipt, or any receipt would be written
         - the matched line or token changed since the debt was observed
         - the finding does not reproduce on the current head
       proof:
         - reproduce every undecided finding for the subject file from the current head
         - show a diff confined to founder/steward/security-dispositions/
         - cite specific evidence for each record (the line, the callers, the source of the value)
-        - show that verifiedBy and verifiedAt are empty so an independent verifier must sign
+        - show that verifiedBy, verifiedAt and verificationReceipt are empty so an independent verifier must sign
         - obtain independent review before integration
     knowledge-contradiction:
       debtKind: knowledge_contradiction

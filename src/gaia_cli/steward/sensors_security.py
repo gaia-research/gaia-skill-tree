@@ -34,7 +34,6 @@ import base64
 import binascii
 import hashlib
 import json
-import math
 import re
 import tomllib
 from collections import Counter
@@ -1060,34 +1059,50 @@ _ISSUER_PATTERNS = frozenset(
         "gitlab-token",
     }
 )
-# Generic shapes (a keyword next to a value) say nothing about the value. They
-# are live-shaped only when the VALUE looks like an opaque secret; otherwise a
-# person with the evidence must disposition them.
+# Routing defaults to Class C. A generic finding (a keyword next to a value, or a
+# JWT-shaped string) is Class B only when its matched value is POSITIVELY benign:
+#   - a variable or environment reference,
+#   - a template placeholder,
+#   - a code expression or call,
+#   - a documented placeholder marker standing on its own,
+#   - a short common placeholder word.
+# Everything else stays Class C whatever its entropy, length or look: opaque
+# values, passphrases, truncated tokens and anything merely containing a
+# redaction-like substring. Absence of evidence of danger is not evidence of
+# safety.
 _GENERIC_PATTERNS = frozenset({"bearer-token", "credential-assignment", "aws-secret-access-key"})
-_OPAQUE_MIN_LENGTH = 20
-_OPAQUE_MIN_ENTROPY = 4.0
-# Evidence that the "value" is a reference, template or documentation stand-in
-# rather than a literal: shell/template interpolation, environment lookups,
-# ellipses, angle-bracket slots, call syntax and explicit placeholder words.
 _REFERENCE_VALUE = re.compile(
-    r"\$\{|\$\(|\{\{|<[A-Za-z_]|process\.env|os\.environ|getenv|\.\.\.|\*\*\*|[()\[\]]"
-    r"|YOUR[-_]|your[-_ ]|EXAMPLE|placeholder|xxxx|redacted|dummy|not[-_ ]?real",
-    re.IGNORECASE,
+    r"^\$[A-Za-z_]"  # $TOKEN
+    r"|\$\{[^}\s]*\}"  # ${TOKEN}, shell or template interpolation
+    r"|\$\([^)\s]*\)"  # $(cmd)
+    r"|%[A-Za-z_][A-Za-z0-9_]*%"  # %TOKEN%
+    r"|\{\{[^}]*\}\}"  # {{ template }}
+    r"|<[^<>\s]+>"  # <placeholder> slot, including <...>
+    r"|process\.env\b|\bos\.environ\b|\bgetenv\b|\bENV\[|\bsecrets\.[A-Za-z_]|\benv\.[A-Za-z_]"
+)
+# A marker counts only as its own token (not inside a longer alphanumeric run),
+# so an issuer-looking value that merely ends in EXAMPLE is not downgraded.
+_PLACEHOLDER_MARKER = re.compile(
+    r"(?<![A-Za-z0-9])(?:EXAMPLE|FAKE|DUMMY|PLACEHOLDER|YOUR[_-][A-Z][A-Z0-9_]*|x{4,}|X{4,})(?![A-Za-z0-9])"
+)
+_MARKER_RESIDUE_LIMIT = 16
+_COMMON_WORDS = frozenset(
+    {
+        "token", "secret", "password", "passwd", "pass", "value", "string", "none", "null", "nil",
+        "true", "false", "undefined", "default", "test", "testing", "sample", "changeme", "key",
+        "apikey", "foo", "bar", "baz", "example", "fake", "dummy", "placeholder", "mytoken",
+        "mysecret", "mypassword",
+    }
 )
 _PRIVATE_KEY_BODY = re.compile(r"[\s\\n]*(?:[A-Za-z0-9+/=]{16,}[\s\\n]*){2,}")
 
-# Classes that stay Class C. Everything else is "review": a credential-shaped
-# string with no evidence of being live, decided only by a verified record.
+# Classes that stay Class C. Only "review" routes to Class B.
 LIVE_CLASSES = frozenset({"issuer", "structured", "ambiguous"})
 
 
-def _entropy(value: str) -> float:
-    counts = Counter(value)
-    total = len(value)
-    return -sum(count / total * math.log2(count / total) for count in counts.values())
-
-
 def _genericValue(name: str, matched: str) -> str:
+    if name == "jwt":
+        return matched
     if name.startswith("bearer"):
         return matched.split(None, 1)[-1]
     if name == "aws-secret-access-key":
@@ -1109,12 +1124,27 @@ def _validJwt(matched: str) -> bool:
     return isinstance(decoded[0], dict) and "alg" in decoded[0] and isinstance(decoded[1], dict)
 
 
+def _positivelyBenign(value: str, text: str, end: int) -> bool:
+    if _REFERENCE_VALUE.search(value):
+        return True
+    # The pattern stops before ``(`` or ``[``: a value followed by one is a call or an index.
+    if text[end : end + 1] in ("(", "["):
+        return True
+    markers = list(_PLACEHOLDER_MARKER.finditer(value))
+    if markers:
+        residue = _PLACEHOLDER_MARKER.sub("", value)
+        if sum(char.isalnum() for char in residue) <= _MARKER_RESIDUE_LIMIT:
+            return True
+    return value.strip("\"'`").lower() in _COMMON_WORDS
+
+
 def credentialClass(name: str, matched: str, text: str, end: int) -> str:
     """Classify one credential-shaped match by its own evidence, never by its path.
 
     ``issuer`` / ``structured`` are known live formats with valid structure;
-    ``ambiguous`` cannot be told apart from a live secret; ``review`` has no
-    evidence of being live (reference, template, placeholder or ordinary word).
+    ``ambiguous`` is anything not positively benign; ``review`` is a match whose
+    value is positively benign (reference, template, expression, documented
+    placeholder or a common placeholder word) and is the only class routed to B.
     """
 
     if name in _ISSUER_PATTERNS:
@@ -1123,21 +1153,12 @@ def credentialClass(name: str, matched: str, text: str, end: int) -> str:
         # A header with key material after it is a key. A bare header cannot be
         # told apart from the start of one split across strings, so it is ambiguous.
         return "issuer" if _PRIVATE_KEY_BODY.match(text, end, end + 4096) else "ambiguous"
-    if name == "jwt":
-        return "structured" if _validJwt(matched) else "review"
-    if name in _GENERIC_PATTERNS:
-        value = _genericValue(name, matched)
-        if _REFERENCE_VALUE.search(value) or any(char.isspace() for char in value):
-            return "review"
-        opaque = (
-            len(value) >= _OPAQUE_MIN_LENGTH
-            and _entropy(value) >= _OPAQUE_MIN_ENTROPY
-            and any(char.isalpha() for char in value)
-            and any(char.isdigit() for char in value)
-        )
-        return "ambiguous" if opaque else "review"
-    # An unknown pattern name is never assumed benign.
-    return "ambiguous"
+    if name not in _GENERIC_PATTERNS and name != "jwt":
+        # An unknown pattern name is never assumed benign.
+        return "ambiguous"
+    if name == "jwt" and _validJwt(matched):
+        return "structured"
+    return "review" if _positivelyBenign(_genericValue(name, matched), text, end) else "ambiguous"
 
 
 @dataclass
@@ -1161,11 +1182,12 @@ class _Located:
 class SecretScanSensor:
     """Find credential-shaped strings; store only a fingerprint, never the value.
 
-    Routing is by evidence. A file is Class C (``credential_leak``) while any
-    undecided finding in it is a high-confidence live-credential shape or is
-    ambiguous. When every undecided finding is merely credential-shaped, the
-    file is a Class B ``credential_review``: a builder may draft a disposition
-    record, an independent verifier must sign it, and no source edit is allowed.
+    Routing is by evidence and defaults to Class C (``credential_leak``): a file
+    is Class B only when EVERY undecided finding's matched value is positively
+    benign (a reference, template, expression, documented placeholder or common
+    placeholder word). Then it is a ``credential_review``: a builder may draft a
+    disposition record, an independent verifier must sign it, and no source edit
+    is allowed. Opaque values, passphrases and truncated tokens stay Class C.
     A finding decided by a verified record (see ``credentialDispositions``) is
     resolved with provenance in either case.
     """
@@ -1310,8 +1332,9 @@ class SecretScanSensor:
             **annotations,
             "classification": dict(sorted(classes.items())),
             "reviewReason": (
-                "no undecided finding is an issuer-format token, a structurally valid JWT, a private-key body "
-                "or an opaque high-entropy value; each needs an independently verified disposition record"
+                "every undecided finding's matched value is positively benign (a variable or environment "
+                "reference, template placeholder, code expression, documented placeholder marker or common "
+                "placeholder word); each still needs an independently verified disposition record"
             ),
             "reclassifiedFrom": leak.debt_id,
         }

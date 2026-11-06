@@ -25,7 +25,6 @@ from gaia_cli.steward.sensors_security import (
     SecretScanSensor,
     _SECRET_PATTERNS,
     _SecretTally,
-    _entropy,
     credentialClass,
 )
 from gaia_cli.steward.verification import evaluate, parse_proof_transcript, parse_unified_diff
@@ -129,15 +128,46 @@ def _record(item, index: int, liveDebt: str, rel: str = SOURCE, **overrides) -> 
         "author": "author-agent",
         "verifiedBy": "verifier-agent",
         "verifiedAt": "2026-11-07T01:00:00Z",
+        "verificationReceipt": f"rcpt-{item.finding['fingerprint']}-{index}",
         "founderRuling": records.RULINGID,
     }
     body.update(overrides)
     return body
 
 
-def _put(root: Path, body: dict, name: str | None = None) -> None:
-    default = records.recordName(body["debtId"], body["fingerprint"], body["occurrence"])
-    write_files(root, {f"{records.RECORDDIR}/{name or default}": json.dumps(body)})
+def _receipt(body: dict, **overrides) -> dict:
+    """The receipt the lead's integrate step would record for ``body``'s verification."""
+
+    receipt = {
+        "schemaVersion": records.RECEIPTSCHEMA,
+        "receiptId": body["verificationReceipt"],
+        "action": "agent.verify",
+        "outcome": "verified",
+        "dispatchRule": records.DISPATCHRULE,
+        "reviewDebtId": records.reviewDebtId(body["path"]),
+        "builderAgentId": body["author"],
+        "verifierAgentId": body["verifiedBy"],
+        "recordedAt": "2026-11-07T01:00:00Z",
+        "records": [records.contentSha256(body)],
+    }
+    receipt.update(overrides)
+    return receipt
+
+
+def _put(root: Path, body: dict, name: str | None = None, receipt: bool | dict = True) -> None:
+    """Commit a record. ``receipt``: True writes the default receipt once, a dict overrides
+    it, False writes none."""
+
+    default = records.recordName(body["debtId"], body["fingerprint"], body.get("occurrence", 0))
+    files = {f"{records.RECORDDIR}/{name or default}": json.dumps(body)}
+    receiptPath = f"{records.RECEIPTDIR}/{body.get('verificationReceipt')}.json"
+    if isinstance(receipt, dict):
+        files[receiptPath] = json.dumps(_receipt(body, **receipt))
+    elif receipt and not (root / receiptPath).exists():
+        who = (body.get("author"), body.get("verifiedBy"))
+        if all(isinstance(item, str) and item for item in who) and who[0].casefold() != who[1].casefold():
+            files[receiptPath] = json.dumps(_receipt(body))
+    write_files(root, files)
     commit_all(root)
 
 
@@ -446,8 +476,169 @@ class TestFailClosed:
         assert "decidedFindings" not in item.observed_state
 
 
+class TestBindingStrictness:
+    """Only edge whitespace and CR/LF are ignored; anything inside the line reopens."""
+
+    def test_non_breaking_space_inside_the_line_reopens_the_finding(self, tmp_path: Path) -> None:
+        root = _repo(tmp_path, f"k = '{_github_token()}'\n")
+        _decide(root)
+        assert _live(root).status == "healthy"
+        _edit(root, SOURCE, lambda text: text.replace("k = ", "k = ", 1))
+        assert _live(root).status == "drift"
+
+    def test_extra_internal_space_reopens_the_finding(self, tmp_path: Path) -> None:
+        root = _repo(tmp_path, f"k = '{_github_token()}'\n")
+        _decide(root)
+        _edit(root, SOURCE, lambda text: text.replace("k = ", "k  = ", 1))
+        assert _live(root).status == "drift"
+
+    def test_unicode_change_next_to_the_token_reopens_the_finding(self, tmp_path: Path) -> None:
+        root = _repo(tmp_path, f"k = '{_github_token()}'\n")
+        _decide(root)
+        _edit(root, SOURCE, lambda text: text.replace("k = ", "k​ = ", 1))
+        assert _live(root).status == "drift"
+
+    def test_edge_whitespace_and_line_endings_are_ignored(self) -> None:
+        assert records.lineSha256("  a b\t\r\n") == records.lineSha256("a b")
+        assert records.lineSha256("a b") != records.lineSha256("a  b")
+        assert records.lineSha256("a b") != records.lineSha256("a b")
+        # A leading non-breaking space is unicode, not ignorable whitespace.
+        assert records.lineSha256(" a") != records.lineSha256("a")
+
+    def test_claimant_missing_occurrence_blocks_every_occurrence(self, tmp_path: Path) -> None:
+        token = _github_token()
+        root = _repo(tmp_path, f"a = '{token}'; b = '{token}'\n")
+        debt = _live(root).debt_id
+        (first, _), (second, _) = _targets(root)
+        _put(root, _record(second, 1, debt))  # a valid record for the LATER repeat
+        _put(root, _record(first, 0, debt, verificationReceipt="rcpt-x"), "orphan.json", receipt=False)
+        assert _live(root).status == "drift"
+        # Strip occurrence from that orphan: it now claims every occurrence, never just 0.
+        orphan = json.loads((root / records.RECORDDIR / "orphan.json").read_text(encoding="utf-8"))
+        del orphan["occurrence"]
+        _put(root, orphan, "orphan.json", receipt=False)
+        item = _live(root)
+        assert item.status == "drift"
+        assert item.observed_state.get("decidedFindings", []) == []
+
+    def test_a_single_record_missing_occurrence_decides_nothing(self, tmp_path: Path) -> None:
+        root = _repo(tmp_path, f"k = '{_github_token()}'\n")
+        debt = _live(root).debt_id
+        (item, index), = _targets(root)
+        body = _record(item, index, debt)
+        del body["occurrence"]
+        _put(root, body, "no-occurrence.json", receipt=False)
+        assert _live(root).status == "drift"
+
+    def test_missing_occurrence_claimant_beside_a_valid_record_blocks_it(self, tmp_path: Path) -> None:
+        root = _repo(tmp_path, f"k = '{_github_token()}'\n")
+        debt = _live(root).debt_id
+        (item, index), = _targets(root)
+        body = _record(item, index, debt)
+        _put(root, body, "valid.json")
+        assert _live(root).status == "healthy"
+        loose = dict(body)
+        del loose["occurrence"]
+        _put(root, loose, "loose.json", receipt=False)
+        assert _live(root).status == "drift"
+
+
+class TestVerifierIdentity:
+    """verifiedBy is never self-asserted: a committed receipt must back it."""
+
+    def _one(self, tmp_path: Path):
+        root = _repo(tmp_path, f"k = '{_github_token()}'\n")
+        debt = _live(root).debt_id
+        (item, index), = _targets(root)
+        return root, _record(item, index, debt)
+
+    def test_a_self_asserted_verifier_with_no_receipt_decides_nothing(self, tmp_path: Path) -> None:
+        root, body = self._one(tmp_path)
+        _put(root, body, receipt=False)
+        assert _live(root).status == "drift"
+
+    def test_a_backed_verifier_decides(self, tmp_path: Path) -> None:
+        root, body = self._one(tmp_path)
+        _put(root, body)
+        item = _live(root)
+        assert item.status == "healthy"
+        assert item.observed_state["dispositions"][0]["verificationReceipt"] == body["verificationReceipt"]
+
+    @pytest.mark.parametrize(
+        "override",
+        [
+            {"verifierAgentId": "someone-else"},
+            {"builderAgentId": "someone-else"},
+            {"builderAgentId": "verifier-agent"},
+            {"outcome": "pending"},
+            {"action": "agent.dispatch"},
+            {"dispatchRule": "another-rule"},
+            {"reviewDebtId": "debt:credential_review:src-other-py:0000000000000000"},
+            {"records": ["0" * 64]},
+            {"records": []},
+            {"recordedAt": "yesterday"},
+            {"receiptId": "different"},
+            {"schemaVersion": "v0"},
+        ],
+    )
+    def test_a_receipt_that_does_not_back_the_record_decides_nothing(self, tmp_path: Path, override: dict) -> None:
+        root, body = self._one(tmp_path)
+        _put(root, body, receipt=override)
+        assert _live(root).status == "drift"
+
+    def test_builder_and_verifier_must_be_different_agents(self, tmp_path: Path) -> None:
+        root, body = self._one(tmp_path)
+        _put(root, body, receipt={"builderAgentId": "Verifier-Agent ", "verifierAgentId": "verifier-agent"})
+        assert _live(root).status == "drift"
+
+    def test_an_untracked_receipt_decides_nothing(self, tmp_path: Path) -> None:
+        root, body = self._one(tmp_path)
+        _put(root, body, receipt=False)
+        target = root / records.RECEIPTDIR / f"{body['verificationReceipt']}.json"
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(json.dumps(_receipt(body)), encoding="utf-8")
+        assert _live(root).status == "drift"
+
+    def test_reviewed_content_changed_after_verification_decides_nothing(self, tmp_path: Path) -> None:
+        root, body = self._one(tmp_path)
+        _put(root, body)
+        assert _live(root).status == "healthy"
+        _put(root, {**body, "evidence": "Different evidence the verifier never saw, far longer."}, receipt=False)
+        assert _live(root).status == "drift"
+
+    def test_the_stamp_itself_is_not_part_of_the_reviewed_content(self, tmp_path: Path) -> None:
+        root, body = self._one(tmp_path)
+        _put(root, body)
+        _put(root, {**body, "verifiedAt": "2026-11-08T09:00:00Z"}, receipt=False)
+        assert _live(root).status == "healthy"
+
+    def test_a_receipt_for_another_files_dispatch_is_refused(self, tmp_path: Path) -> None:
+        root, body = self._one(tmp_path)
+        _put(root, body, receipt={"reviewDebtId": records.reviewDebtId("src/another.py")})
+        assert _live(root).status == "drift"
+
+    def test_receipts_are_not_mistaken_for_records(self, tmp_path: Path) -> None:
+        root, body = self._one(tmp_path)
+        _put(root, body)
+        assert "rejectedDispositionRecords" not in _live(root).provenance
+
+    def test_the_builder_envelope_cannot_write_receipts(self) -> None:
+        rule = StewardPolicy.load(ROOT).dispatch_rules[RULE]
+        assert "founder/steward/security-dispositions/receipts/**" in rule.forbidden_paths
+        packet = TestPolicyAndEnvelope()._packet()
+        assert not TestPolicyAndEnvelope()._scope("founder/steward/security-dispositions/receipts/rcpt-1.json", packet)
+
+    def test_hash_command_matches_the_consumer(self, tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
+        root, body = self._one(tmp_path)
+        path = tmp_path / "record.json"
+        path.write_text(json.dumps(body), encoding="utf-8")
+        assert helper.main(["hash", str(path)]) == 0
+        assert capsys.readouterr().out.strip() == records.contentSha256(body)
+        assert helper.main(["hash", str(tmp_path / "missing.json")]) == 1
+
+
 class TestEvidenceRouting:
-    """Class C only for live-shaped or ambiguous findings; the rest is Class B, by value not path."""
+    """Routing defaults to Class C; Class B needs a positively benign value, by value not path."""
 
     def test_issuer_token_stays_class_c(self, tmp_path: Path) -> None:
         root = _repo(tmp_path, f"k = '{_github_token()}'\n")
@@ -494,16 +685,47 @@ class TestEvidenceRouting:
         assert (resolved.status, resolved.resolution) == ("resolved", "decided_disposition")
         assert resolved.observed_state["priorObservedState"] == dict(review_debt.observed_state)
 
-    def test_opaque_high_entropy_value_is_ambiguous_and_stays_class_c(self, tmp_path: Path) -> None:
+    @pytest.mark.parametrize(
+        "value",
+        [
+            "$" + "{GITHUB" + "_REF}",  # template interpolation
+            "$TOKEN" + "_VAR",  # variable reference
+            "process.env." + "API_VALUE",  # environment lookup
+            "<your-" + "value>",  # angle-bracket slot
+            "<token-" + "here>",
+            "YOUR_API" + "_KEY",  # documented placeholder marker
+            "x" * 8,  # xxxx marker
+            "EXAM" + "PLE",  # documented marker standing alone
+            "FAKE-" + "TOKEN",
+            "change" + "me",  # common placeholder word
+        ],
+    )
+    def test_positively_benign_values_route_to_class_b(self, tmp_path: Path, value: str) -> None:
+        root = _repo(tmp_path, _assign(value))
+        assert _kinds(root) == {"credential_review": "drift", "credential_leak": "healthy"}, value
+
+    @pytest.mark.parametrize(
+        "value",
+        [
+            "correct-horse-battery-staple",  # a passphrase
+            "Xk9Re" + "dactedQ2mZ7vLp4",  # mixed case, digits, redaction-like substring
+            "re" + "dacted-looking-but-real-1",  # redaction-like substring only
+            "plainvalue",  # short but not a known placeholder word
+            "abc123def456" + "...",  # truncated token
+            "EXAM" + "PLE" + "abcdefghijklmnopqrstuvwxyz0123456789",  # marker fused into a longer value
+            "YOUR_KEY-" + "abcdefghijklmnop0123456789qrstuv",  # marker with a large residue
+            "Tr0ub4dor" + "3Horse",  # human-chosen password
+        ],
+    )
+    def test_anything_not_positively_benign_stays_class_c(self, tmp_path: Path, value: str) -> None:
+        root = _repo(tmp_path, _assign(f'"{value}"'))
+        assert _kinds(root) == {"credential_leak": "drift"}, value
+
+    def test_opaque_high_entropy_value_stays_class_c(self, tmp_path: Path) -> None:
         value = _opaque()
-        assert len(value) >= 20 and _entropy(value) >= 4.0
-        assert any(c.isdigit() for c in value) and any(c.isalpha() for c in value)
+        assert len(value) >= 20 and any(c.isdigit() for c in value)
         root = _repo(tmp_path, _assign(f'"{value}"'))
         assert _kinds(root) == {"credential_leak": "drift"}
-
-    def test_plain_word_value_is_class_b(self, tmp_path: Path) -> None:
-        root = _repo(tmp_path, _assign('"plainvalue"'))
-        assert _kinds(root)["credential_review"] == "drift"
 
     @pytest.mark.parametrize(
         "rel", ["src/a.py", "tests/steward/a.py", ".claude/skills/x/SKILL.md", ".agents/skills/x/SKILL.md", "docs/a.md"]
@@ -512,6 +734,8 @@ class TestEvidenceRouting:
         # No downgrading because a file is mirrored or under tests/: only the value counts.
         live = _repo(tmp_path / "live", f"k = '{_github_token()}'\n", **{rel: f"k = '{_github_token()}'\n"})
         assert _kinds(live, rel)["credential_leak"] == "drift" and "credential_review" not in _kinds(live, rel)
+        opaque = _repo(tmp_path / "opaque", "x = 1\n", **{rel: _assign(f'"{_opaque()}"')})
+        assert "credential_review" not in _kinds(opaque, rel)
         quiet = _repo(tmp_path / "quiet", "x = 1\n", **{rel: _reference()})
         assert _kinds(quiet, rel) == {"credential_review": "drift", "credential_leak": "healthy"}
 
@@ -519,22 +743,23 @@ class TestEvidenceRouting:
         root = _repo(tmp_path, _reference() + f"k = '{_aws_key()}'\n")
         assert _kinds(root) == {"credential_leak": "drift"}
 
-    def test_class_c_findings_still_need_an_exact_record_even_when_decided_ones_are_b(self, tmp_path: Path) -> None:
+    def test_one_unproven_finding_keeps_a_file_of_benign_ones_class_c(self, tmp_path: Path) -> None:
+        root = _repo(tmp_path, _reference() + _assign('"correct-horse-battery-staple"'))
+        assert _kinds(root) == {"credential_leak": "drift"}
+
+    def test_class_b_findings_still_need_an_exact_record_even_when_some_are_decided(self, tmp_path: Path) -> None:
         root = _repo(tmp_path, _reference() + _reference().replace("GITHUB", "OTHER"))
         debt = _live(root).debt_id
-        (first, occurrence), _second = _targets(root)
-        _put(root, _record(first, occurrence, debt))
+        (first, index), _second = _targets(root)
+        _put(root, _record(first, index, debt))
         review = _live(root, kind="credential_review")
         assert review.observed_state["undecidedFindingCount"] == 1
         assert review.observed_state["classification"] == {"review": 1}
 
-    @pytest.mark.parametrize(
-        "valid, expected", [(True, "structured"), (False, "review")]
-    )
-    def test_jwt_is_live_shaped_only_with_a_valid_structure(self, valid: bool, expected: str) -> None:
+    @pytest.mark.parametrize("valid, expected", [(True, "structured"), (False, "ambiguous")])
+    def test_jwt_is_never_benign_by_shape(self, valid: bool, expected: str) -> None:
         token = _jwt(valid)
-        pattern = dict(_SECRET_PATTERNS)["jwt"]
-        match = pattern.search(f"v = '{token}'")
+        match = dict(_SECRET_PATTERNS)["jwt"].search(f"v = '{token}'")
         assert match is not None
         assert credentialClass("jwt", match.group(0), "", 0) == expected
 
@@ -547,8 +772,14 @@ class TestEvidenceRouting:
         assert credentialClass("private-key-block", header, full, full.index(header) + len(header)) == "issuer"
 
     @pytest.mark.parametrize("name", ["credential-assignment", "bearer-token", "aws-secret-access-key"])
-    def test_generic_patterns_are_never_issuer_classified(self, name: str) -> None:
-        assert credentialClass(name, "x" * 5, "", 0) == "review"
+    def test_generic_patterns_default_to_class_c(self, name: str) -> None:
+        assert credentialClass(name, "plainvalue", "", 0) == "ambiguous"
+
+    def test_a_value_followed_by_a_call_or_index_is_an_expression(self) -> None:
+        text = "tok" + "en = lookup(1)"
+        end = text.index("(")
+        assert credentialClass("credential-assignment", text[:end], text, end) == "review"
+        assert credentialClass("credential-assignment", text[:end], text, end - 1) == "ambiguous"
 
     def test_unknown_pattern_is_never_assumed_benign(self) -> None:
         assert credentialClass("brand-new-pattern", "whatever", "", 0) == "ambiguous"
@@ -648,6 +879,53 @@ class TestPolicyAndEnvelope:
         )
         assert not self._scope("a/b.json", packet)
 
+    def _custom(self, kind: str, allowed: tuple[str, ...], forbidden: tuple[str, ...]) -> DispatchPacket:
+        return DispatchPacket.create(
+            debt={"id": "debt:x", "kind": kind, "source": "secret-scan"},
+            evidence={"debtId": "debt:x"}, authority=AuthorityClass.B, rule=RULE, routine="r", objective="o",
+            allowed_paths=allowed, allowed_commands=("x",), forbidden_paths=forbidden,
+            stop_conditions=("s",), proof=("p",),
+            budget=RoutingBudget(model_calls=0, max_tokens=0, max_minutes=0), capability="c",
+        )
+
+    @pytest.mark.parametrize("kind", ["registry_integrity_failed", "credential_review"])
+    @pytest.mark.parametrize(
+        "allowed, forbidden, path",
+        [
+            # The reviewer's escape: a narrower allowed subtree under another rule's forbidden parent.
+            (("registry/nodes/**",), ("registry/**",), "registry/nodes/a.json"),
+            ((".github/workflows/**",), (".github/**",), ".github/workflows/ci.yml"),
+            (("founder/steward/x/**",), ("founder/**",), "founder/steward/x/a.json"),
+            ((".agents/skills/x/**",), (".agents/skills/**",), ".agents/skills/x/SKILL.md"),
+        ],
+    )
+    def test_a_narrower_allowed_path_never_overrides_a_forbidden_parent(
+        self, kind: str, allowed: tuple[str, ...], forbidden: tuple[str, ...], path: str
+    ) -> None:
+        assert not self._scope(path, self._custom(kind, allowed, forbidden))
+
+    def test_the_carve_out_belongs_to_credential_review_alone(self) -> None:
+        exempt = "founder/steward/security-dispositions/**"
+        path = "founder/steward/security-dispositions/a.json"
+        assert self._scope(path, self._custom("credential_review", (exempt,), ("founder/**",)))
+        for other in ("registry_integrity_failed", "unused_import", "credential_leak", "cli_contract_drift"):
+            assert not self._scope(path, self._custom(other, (exempt,), ("founder/**",)))
+
+    def test_the_carve_out_lifts_only_the_founder_wide_ban(self) -> None:
+        exempt = "founder/steward/security-dispositions/**"
+        path = "founder/steward/security-dispositions/a.json"
+        assert not self._scope(path, self._custom("credential_review", (exempt,), ("founder/steward/**",)))
+        assert not self._scope(path, self._custom("credential_review", (exempt,), ("founder/**", exempt)))
+        assert not self._scope(
+            path, self._custom("credential_review", (exempt,), ("founder/**", "founder/steward/security-dispositions/**"))
+        )
+
+    def test_the_carve_out_does_not_reach_a_sibling_of_the_exempt_subtree(self) -> None:
+        exempt = "founder/steward/security-dispositions/**"
+        packet = self._custom("credential_review", (exempt,), ("founder/**",))
+        assert not self._scope("founder/steward/POLICY.yaml", packet)
+        assert not self._scope("founder/steward/security-dispositions-evil/a.json", packet)
+
     def _policy_text(self, tmp_path: Path, transform) -> Path:
         root = tmp_path / "policyroot"
         target = root / POLICY_RELATIVE_PATH
@@ -743,7 +1021,7 @@ class TestSchemaAndHelper:
         (draft,) = helper.draftRecords(root, _live(root).debt_id)
         draft.update(
             policy="D3", disposition="runtime-header-construction", author="author-agent",
-            verifiedBy="verifier-agent", verifiedAt="2026-11-07T01:00:00Z",
+            verifiedBy="verifier-agent", verifiedAt="2026-11-07T01:00:00Z", verificationReceipt="rcpt-draft",
             evidence="Environment reference interpolated at runtime, no literal value in the source.",
         )
         _put(root, draft)
