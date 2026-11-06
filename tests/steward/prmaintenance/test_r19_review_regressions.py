@@ -9,8 +9,7 @@ import json
 import socket
 import ssl
 import subprocess
-import threading
-import time
+import sys
 from pathlib import Path
 
 import pytest
@@ -179,9 +178,9 @@ def test_live_recheck_refusal_after_claim_is_provably_unsent(tmp_path, monkeypat
     assert core.usage(shared, clock.sample(), "stable-run", "merge") == (1, 1)
 
 
-def test_connect_failure_before_the_first_request_byte_is_provably_unsent(tmp_path, monkeypatch):
+def test_connect_failure_before_the_first_request_byte_is_provably_unsent(tmp_path, monkeypatch, capsys):
     fixture = world(tmp_path, monkeypatch)
-    _, forge, clock, executor, _, _ = fixture
+    fx, forge, clock, executor, _, _ = fixture
     operation = prepare(fixture)
     original = forge.request
 
@@ -191,8 +190,10 @@ def test_connect_failure_before_the_first_request_byte_is_provably_unsent(tmp_pa
         return original(method, path, body)
 
     forge.request = dnsFailure
-    result = executor.execute(operation["operationId"])
-    assert result["coordinationState"] == "canceled-after-claim" and forge.invocations == []
+    monkeypatch.setattr(ex, "makeExecutor", lambda root: executor)
+    code, output = run(executor, fx, ["execute", "--operation-id", operation["operationId"]], capsys)
+    assert code == 2 and (output["state"], output["coordinationState"]) == ("failed", "canceled-after-claim")
+    assert forge.invocations == []
     assert executor.coordinator.inspect()["activeOperationId"] is None
 
 
@@ -268,12 +269,20 @@ def test_gate_maps_a_raw_ledger_failure_to_a_refusal_report(monkeypatch, tmp_pat
     assert json.loads(capsys.readouterr().out)["refused"] == "shared-route-unavailable"
 
 
-def test_execute_reports_a_post_claim_ledger_failure_as_persistence_uncertainty(tmp_path, monkeypatch):
+def test_ledger_failure_maps_to_refusal_before_the_claim_and_to_persistence_uncertainty_after_it(tmp_path, monkeypatch):
     fixture = world(tmp_path, monkeypatch)
     _, forge, _, executor, _, _ = fixture
     operation = prepare(fixture)
     coordinator = executor.coordinator
     real = coordinator.invoke
+
+    def refused(token, transitionId):
+        raise ledger.LedgerUnavailable("fixture: refused before the claim")
+
+    coordinator.invoke = refused
+    with pytest.raises(ledger.LedgerUnavailable):
+        executor.execute(operation["operationId"])
+    assert coordinator.inspect()["operations"][operation["operationId"]]["state"] == "intent"
 
     def claimThenFail(token, transitionId):
         coordinator._transition("claim", token.operationId, {"token": core.asdict(token)}, transitionId)
@@ -284,20 +293,6 @@ def test_execute_reports_a_post_claim_ledger_failure_as_persistence_uncertainty(
     assert result["state"] == "possibly-sent" and result["uncertaintyCause"] == "persistence"
     assert forge.invocations == []
     coordinator.invoke = real
-
-
-def test_a_failure_before_any_claim_is_a_refusal_not_uncertainty(tmp_path, monkeypatch):
-    fixture = world(tmp_path, monkeypatch)
-    _, forge, _, executor, _, _ = fixture
-    operation = prepare(fixture)
-
-    def refused(token, transitionId):
-        raise ledger.LedgerUnavailable("fixture: refused before the claim")
-
-    executor.coordinator.invoke = refused
-    with pytest.raises(ledger.LedgerUnavailable):
-        executor.execute(operation["operationId"])
-    assert executor.coordinator.inspect()["operations"][operation["operationId"]]["state"] == "intent"
 
 
 # --- documented report shapes and exit codes, asserted from behavior -------------------------------------------------
@@ -337,32 +332,15 @@ def test_unauthenticated_reply_report_is_the_possibly_sent_shape_with_a_cause(tm
     assert output["uncertaintyCause"] in ex.UNCERTAINTY_CAUSES and output["evidenceSha256"] is None
 
 
-@pytest.mark.parametrize("scenario,code,state", [("merge", 0, "merged"), ("reject", 2, "failed"), ("unsent", 2, "failed")])
-def test_execute_exit_codes_follow_the_settled_states(tmp_path, monkeypatch, capsys, scenario, code, state):
-    fixture = world(tmp_path, monkeypatch)
-    fx, forge, _, executor, _, _ = fixture
-    operation = prepare(fixture)
-    if scenario == "reject":
-        forge.reject = True
-    if scenario == "unsent":
-        original = forge.request
-
-        def refuse(method, path, body=None):
-            if method in {"PUT", "PATCH"}:
-                raise core.NotSent("HTTPS invocation failed or response unavailable")
-            return original(method, path, body)
-
-        forge.request = refuse
-    monkeypatch.setattr(ex, "makeExecutor", lambda root: executor)
-    exit_, output = run(executor, fx, ["execute", "--operation-id", operation["operationId"]], capsys)
-    assert (exit_, output["state"]) == (code, state)
-
-
-def test_abort_records_the_operator_reason_in_the_shared_cancel_event(tmp_path, monkeypatch, capsys):
+def test_abort_refuses_unrecordable_reasons_then_records_the_operator_reason(tmp_path, monkeypatch, capsys):
     fixture = world(tmp_path, monkeypatch)
     fx, forge, _, executor, _, _ = fixture
     operation = prepare(fixture)
     monkeypatch.setattr(ex, "makeExecutor", lambda root: executor)
+    for reason in ("", "   ", "x" * 257, "bad\nnewline", "caf\u00e9"):
+        code, _ = run(executor, fx, ["abort", "--operation-id", operation["operationId"], "--reason", reason], capsys)
+        assert code == 2
+        assert executor.coordinator.inspect()["operations"][operation["operationId"]]["state"] == "intent"
     code, output = run(executor, fx, ["abort", "--operation-id", operation["operationId"], "--reason", "drain test, run 7"], capsys)
     assert code == 0 and output["state"] == "aborted"
     events = executor.coordinator._payload(executor.coordinator._load()[0])["events"]
@@ -371,38 +349,23 @@ def test_abort_records_the_operator_reason_in_the_shared_cancel_event(tmp_path, 
     assert forge.invocations == []
 
 
-@pytest.mark.parametrize("reason", ["", "   ", "x" * 257, "bad\nnewline", "café"])
-def test_abort_refuses_unrecordable_reasons_and_changes_nothing(tmp_path, monkeypatch, capsys, reason):
-    fixture = world(tmp_path, monkeypatch)
-    fx, _, _, executor, _, _ = fixture
-    operation = prepare(fixture)
-    monkeypatch.setattr(ex, "makeExecutor", lambda root: executor)
-    code, _ = run(executor, fx, ["abort", "--operation-id", operation["operationId"], "--reason", reason], capsys)
-    assert code == 2
-    assert executor.coordinator.inspect()["operations"][operation["operationId"]]["state"] == "intent"
-
-
 # --- lease: 120 s window, takeover verb and its anti-replay consequence -----------------------------------------------
 
 
-def test_takeover_verb_refuses_live_lease_then_moves_an_expired_one_and_the_old_token_is_dead(tmp_path, monkeypatch, capsys):
+def test_takeover_verb_refuses_a_live_lease_then_moves_an_expired_one_and_the_send_proceeds(tmp_path, monkeypatch, capsys):
     fixture = world(tmp_path, monkeypatch)
     fx, forge, clock, executor, _, _ = fixture
     operation = prepare(fixture)
     monkeypatch.setattr(ex, "makeExecutor", lambda root: executor)
-    stale = ex.tokenFrom(executor.coordinator.inspect()["operations"][operation["operationId"]])
+    before = executor.coordinator.inspect()["operations"][operation["operationId"]]
     code, _ = run(executor, fx, ["takeover", "--operation-id", operation["operationId"]], capsys)
     assert code == 2  # lease (120 s) still live: nothing to take over
     clock.instant += 200
-    with pytest.raises(core.Refused, match="preparation"):
-        executor.execute(operation["operationId"])  # expired lease cannot claim; slot stays held, nothing was sent
-    assert forge.invocations == []
     code, output = run(executor, fx, ["takeover", "--operation-id", operation["operationId"]], capsys)
     assert code == 0 and output["state"] == "intent"
     current = executor.coordinator.inspect()["operations"][operation["operationId"]]
-    assert current["fence"] > stale.fence and current["takeovers"] == 1
-    with pytest.raises(core.Refused, match="stale"):
-        executor.coordinator.invoke(stale, "stale-claim")  # the previous owner can no longer claim
+    assert current["fence"] > before["fence"] and current["takeovers"] == 1 and current["ownerId"] != before["ownerId"]
+    assert forge.invocations == []
     assert executor.execute(operation["operationId"])["state"] == "merged"
     assert len(forge.invocations) == len(forge.effects) == 1
     code, _ = run(executor, fx, ["takeover", "--operation-id", operation["operationId"]], capsys)
@@ -423,6 +386,23 @@ def test_expired_unsent_preparation_can_be_aborted_but_the_subject_is_never_resu
     with pytest.raises(core.Refused):
         coord.reserve(candidate, proof(candidate), "run-new", "o", "reserve-new")
     assert coord.inspect()["activeOperationId"] is None  # the slot is free; only this exact subject is spent
+
+
+def test_expired_lease_cannot_claim_and_a_takeover_kills_the_previous_token(tmp_path, monkeypatch):
+    _, binding, first, _ = seed(tmp_path, monkeypatch)
+    services = FakeServices()
+    coord = coordinator(first, binding, services)
+    stale = prepared(coord)
+    services.now = core.TimeBounds(services.now.upper + 200, services.now.upper + 200, "fixture-authoritative-clock")
+    with pytest.raises(core.Refused, match="preparation"):
+        coord.invoke(stale, "expired-claim")  # an expired lease cannot claim: nothing was sent, the slot stays held
+    assert services.invocations == [] and coord.inspect()["activeOperationId"] == stale.operationId
+    fresh = coord.takeover(stale, "owner-new", "takeover-1").token
+    assert fresh.fence > stale.fence and fresh.ownerId == "owner-new"
+    with pytest.raises(core.Refused, match="stale"):
+        coord.invoke(stale, "stale-claim")  # the previous owner can no longer claim
+    assert coord.invoke(fresh, "fresh-claim").state == "completed-effect"
+    assert len(services.invocations) == len(services.effects) == 1
 
 
 def test_takeover_is_bounded_to_three_per_preparation(tmp_path, monkeypatch):
@@ -514,50 +494,68 @@ def test_invalid_route_is_reported_as_not_sent(monkeypatch):
         ex.HttpsTransport("https://forge.invalid", "synthetic").request("PUT", "//escape", {})
 
 
-def test_total_deadline_aborts_a_slow_drip_response_and_is_not_not_sent(tmp_path, monkeypatch):
-    cert, key = tmp_path / "slow.pem", tmp_path / "slow.key"
-    subprocess.run(["openssl", "req", "-x509", "-newkey", "ec", "-pkeyopt", "ec_paramgen_curve:prime256v1", "-nodes",
-                    "-keyout", str(key), "-out", str(cert), "-days", "1", "-subj", "/CN=127.0.0.1",
-                    "-addext", "subjectAltName=IP:127.0.0.1"], check=True, capture_output=True, timeout=60)
-    server = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-    server.load_cert_chain(str(cert), str(key))
-    listener = socket.socket()
-    listener.bind(("127.0.0.1", 0))
-    listener.listen(1)
-    stop = threading.Event()
-    wrote = []
+DRIP_PROBE = r"""
+import socket, ssl, subprocess, sys, tempfile, threading, time
+from pathlib import Path
+sys.path.insert(0, sys.argv[1])
+from gaia_cli.steward.prmaintenance import coordination as core, executor as ex
+work = Path(tempfile.mkdtemp())
+cert, key = work / "c.pem", work / "c.key"
+subprocess.run(["openssl", "req", "-x509", "-newkey", "ec", "-pkeyopt", "ec_paramgen_curve:prime256v1", "-nodes",
+                "-keyout", str(key), "-out", str(cert), "-days", "1", "-subj", "/CN=127.0.0.1",
+                "-addext", "subjectAltName=IP:127.0.0.1"], check=True, capture_output=True, timeout=60)
+server = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+server.load_cert_chain(str(cert), str(key))
+listener = socket.socket()
+listener.bind(("127.0.0.1", 0))
+listener.listen(1)
+stop = threading.Event()
+wrote = []
+def drip():
+    listener.settimeout(10)
+    try:
+        raw, _ = listener.accept()
+        with server.wrap_socket(raw, server_side=True) as tls:
+            tls.settimeout(10)
+            tls.recv(65536)
+            tls.sendall(b"HTTP/1.1 200 OK\r\nContent-Length: 50\r\n\r\n")
+            for _ in range(50):  # each byte well inside the per-operation socket timeout, total far beyond the deadline
+                if stop.is_set():
+                    return
+                tls.sendall(b"x")
+                wrote.append(1)
+                time.sleep(0.4)
+    except (OSError, ssl.SSLError):
+        pass
+thread = threading.Thread(target=drip, daemon=True)
+thread.start()
+context = ssl.create_default_context(cafile=str(cert))
+transport = ex.HttpsTransport(f"https://127.0.0.1:{listener.getsockname()[1]}", "synthetic", context=context, deadline=1.0)
+started = time.monotonic()
+kind = "returned"
+try:
+    transport.request("GET", "/slow")
+except core.NotSent:
+    kind = "NotSent"
+except core.CoordinationError:
+    kind = "CoordinationError"
+elapsed = time.monotonic() - started
+stop.set()
+thread.join(10)
+print(kind, round(elapsed, 2), len(wrote))
+"""
 
-    def drip():
-        listener.settimeout(5)
-        try:
-            raw, _ = listener.accept()
-            with server.wrap_socket(raw, server_side=True) as tls:
-                tls.settimeout(5)
-                tls.recv(65536)
-                tls.sendall(b"HTTP/1.1 200 OK\r\nContent-Length: 50\r\n\r\n")
-                for _ in range(50):  # each byte well inside the per-operation socket timeout, total far beyond the deadline
-                    if stop.is_set():
-                        return
-                    tls.sendall(b"x")
-                    wrote.append(1)
-                    time.sleep(0.4)
-        except (OSError, ssl.SSLError):
-            pass
 
-    thread = threading.Thread(target=drip, daemon=True)
-    thread.start()
-    context = ssl.create_default_context(cafile=str(cert))
-    transport = ex.HttpsTransport(f"https://127.0.0.1:{listener.getsockname()[1]}", "synthetic", context=context, deadline=1.0)
-    started = time.monotonic()
-    with pytest.raises(core.CoordinationError) as failure:
-        transport.request("GET", "/slow")
-    elapsed = time.monotonic() - started
-    stop.set()
-    thread.join(10)
-    listener.close()
-    assert not isinstance(failure.value, core.NotSent)  # bytes were written: never a provable no-send
-    assert elapsed < 6, f"deadline did not bound the exchange ({elapsed:.1f}s)"
-    assert len(wrote) < 50
+def test_total_deadline_aborts_a_slow_drip_response_and_is_not_not_sent(tmp_path):
+    script = tmp_path / "drip_probe.py"
+    script.write_text(DRIP_PROBE)
+    src = Path(__file__).resolve().parents[3] / "src"
+    done = subprocess.run([sys.executable, "-I", str(script), str(src)], capture_output=True, text=True, timeout=45)
+    assert done.returncode == 0, f"probe exit {done.returncode}: {done.stderr[-400:]}"
+    kind, elapsed, wrote = done.stdout.split()
+    assert kind == "CoordinationError"  # bytes were written: never a provable no-send, and the exchange did fail
+    assert float(elapsed) < 6, f"deadline did not bound the exchange ({elapsed}s)"
+    assert int(wrote) < 50
 
 
 @pytest.mark.parametrize("deadline", [0, -1, 121, True, "5"])
