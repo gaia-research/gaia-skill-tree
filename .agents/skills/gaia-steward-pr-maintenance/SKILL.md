@@ -80,6 +80,17 @@ completion blocks replay. No invented If-Match or exactly-once delivery claim.
 A real completed close response can retire the sender after a later reopen;
 report `observedState` and head/base-race flags honestly, not a still-closed assertion.
 
+## Unknown outcomes
+
+`execute` exits 0 only for `merged`, `closed`, `already-merged` or `aborted`; anything else exits 2. If the sole adapter was
+entered but cannot be settled, the report has `state: possibly-sent`, `coordinationState: unavailable`, `evidenceSha256: null`
+and a sanitized `uncertaintyCause`: `transport` (opaque/missing response), `completion-failed` (authentication or independent
+evidence failed), `persistence` (shared Git/CAS could not record it), `capacity` (no record capacity left) or `inspection`
+(shared report unreadable afterwards). None of them says the forge did or did not act, and none permits retry, refund or
+replay: reconcile only with `recover --operation-id ID` / `finalize --operation-id ID`. Local replacement bookkeeping
+(`reconcile`, `reconcile-opened`, `reconcile-refresh`, `reconcile-retired`) never writes shared critical state.
+Details: `founder/steward/routines/pr-maintenance.md`.
+
 ## Best-effort receipts
 
 Pickup, verification, justification and final comments are best effort, never a

@@ -76,6 +76,35 @@ Ordinary `full --ledger auto/local` is local without an origin probe; explicit g
 status. No historical canonical campaign run is migrated, completed or settled. Existing campaign operation and rollout
 compatibility must be handled separately before adopting this source.
 
+## Unknown outcomes and `uncertaintyCause`
+
+`execute` exits 0 only for a settled `merged`, `closed`, `already-merged` or `aborted` report; every other outcome exits 2. When
+the sole adapter was entered but its result cannot be settled in shared state, the report is a bounded classification, not a
+settlement, and carries exactly these fields: `operationId`, `state` (always `possibly-sent`), `coordinationState`
+(`unavailable`), `uncertaintyCause`, `evidenceSha256` (`null`), `repo`, `runId`, `number`, `headSha`, `action` and a fixed
+`reason`. No raw exception, response, header or token text is ever published. `possibly-sent` here is a knowledge
+classification, never an observed store state, and it never grants a retry, refund or replay.
+
+| `uncertaintyCause` | What could not be completed after adapter entry |
+|---|---|
+| `transport` | The response was missing or opaque (for example a non-200 reply that neither proves an effect nor a definite rejection), so completion evidence was unavailable. |
+| `completion-failed` | Completion authentication or independent outcome evidence failed validation (forged/replayed response, identity or merge-parent mismatch, or an evidence read failure). |
+| `persistence` | The shared Git/CAS transition recording the unknown or completed outcome could not be committed or confirmed. |
+| `capacity` | The critical record had no remaining capacity to record the outcome transition. |
+| `inspection` | The outcome may have been recorded, but the shared report could not be re-read afterwards. |
+
+Handling is the same for every cause: do not resend, do not start a new run to clear the claim, and do not treat the cause as
+proof the forge did or did not act. Reconcile with `recover --operation-id ID` (or `finalize --operation-id ID`), which makes one
+bounded independent observation and never resends. An inconclusive observation quarantines the sender; it never expires.
+
+## Replacement bookkeeping verbs (local only)
+
+`reconcile --number N --run-id RUN --worktree PATH` builds a tracked replacement locally. After the replacement branch is pushed
+and its pull request opened, `reconcile-opened --number N --head SHA --replacement M --branch NAME --run-id RUN` records it.
+`reconcile-refresh --number N --run-id RUN --worktree PATH` brings an open Steward-owned replacement up to a moved destination tip.
+`reconcile-retired --number N --head SHA --replacement M --reason TEXT --run-id RUN` records a withdrawn replacement so a new
+one may be built. None of these verbs merges, closes or writes shared critical state.
+
 ## Founder card
 
 A held pull request's card carries a **procedural recommendation** (retain the hold) and the **substantive decision** (whether the
