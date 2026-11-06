@@ -913,6 +913,32 @@ def _scope_check(tmp_path: Path, branch: str, files: dict[str, str], *, fork: bo
         ("steward/b/unused-import-31cdbdb60a39", {".claude/skills/x/SKILL.md": "x"}, False),
         ("steward/b/unused-import-31cdbdb60a39", {"packages/x": "x"}, False),
         ("steward/b/unused-import-31cdbdb60a39", {"src/outside.py": "x"}, False),
+        # Founder ruling #14: the workflow-timeout route may touch only direct-child workflow files.
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/ci.yml": "x"}, True),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/a.yml": "x", ".github/workflows/b.yml": "y"}, True),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/steward-build-pi.lock.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/ci.yml": "x", ".github/workflows/steward-verify-pi.lock.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/shared/x.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/_disabled/x.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/ci.yaml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/ci.md": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/actions/x/action.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/CODEOWNERS": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/ISSUE_TEMPLATE/x.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/ci.yml": "x", "src/gaia_cli/x.py": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {"tests/x.py": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {"scripts/x.py": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {"founder/x.md": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {"README.md": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {"docs/.github/workflows/x.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a3g", {".github/workflows/ci.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a3", {".github/workflows/ci.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a399", {".github/workflows/ci.yml": "x"}, False),
+        ("steward/b/WORKFLOW-HYGIENE-31cdbdb60a39", {".github/workflows/ci.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31CDBDB60A39", {".github/workflows/ci.yml": "x"}, False),
+        ("steward/a/agent-skill-mirror-drift-0123456789ab", {".github/workflows/ci.yml": "x"}, False),
+        ("infra/ci-fix", {".github/workflows/steward-build-pi.lock.yml": "x"}, True),
+        ("steward/b/unused-import-31cdbdb60a39", {".github/workflows/ci.yml": "x"}, False),
     ],
 )
 def test_branch_scope_allows_only_steward_mirror_paths(
@@ -922,13 +948,17 @@ def test_branch_scope_allows_only_steward_mirror_paths(
     assert (result.returncode == 0) is passes, result.stdout + result.stderr
     if passes and branch.startswith("steward/a/"):
         assert "prefix 'steward-a'" in result.stdout
-    if passes and branch.startswith("steward/b/"):
+    if passes and branch.startswith("steward/b/unused-import-"):
         assert "prefix 'steward-b-unused-import'" in result.stdout
+    if passes and branch.startswith("steward/b/workflow-hygiene-"):
+        assert "prefix 'steward-b-workflow-hygiene'" in result.stdout
 
 
 def test_steward_b_unused_import_fork_and_existing_unrestricted_fork_boundaries(tmp_path: Path) -> None:
     b = _scope_check(tmp_path / "b", "steward/b/unused-import-31cdbdb60a39", {"tests/x.py": "x"}, fork=True)
     assert b.returncode != 0 and "unrecognized branch prefix" in b.stdout
+    w = _scope_check(tmp_path / "w", "steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/ci.yml": "x"}, fork=True)
+    assert w.returncode != 0 and "unrecognized branch prefix" in w.stdout
     unrestricted = _scope_check(tmp_path / "u", "dev/anything", {"registry/nodes/x.yml": "x"}, fork=True)
     assert unrestricted.returncode != 0 and "unrecognized branch prefix" in unrestricted.stdout
 
