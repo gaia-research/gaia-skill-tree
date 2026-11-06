@@ -1,0 +1,70 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+___ test_post_effect_mismatch_cannot_invent_matching_merge_settlement[head] ____
+
+tmp_path = PosixPath('/data/data/com.termux/files/usr/tmp/pytest-of-u0_a574/pytest-256/test_post_effect_mismatch_cann0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x71f4319cd0>
+mismatch = 'head'
+
+    @pytest.mark.parametrize("mismatch", ["head", "base", "parents"])
+    def test_post_effect_mismatch_cannot_invent_matching_merge_settlement(tmp_path, monkeypatch, mismatch):
+        fixture = world(tmp_path, monkeypatch)
+        _, forge, clock, executor, _, _ = fixture
+        operation = prepare(fixture)
+        def race():
+            if mismatch == "head": forge.fact["head"]["sha"] = "e" * 40
+            elif mismatch == "base": forge.fact["base"]["ref"] = "other"
+            else: forge.parentShas = [forge.fx.base, "e" * 40]
+        forge.before = race
+>       with pytest.raises(core.CoordinationError, match="^matching independently verified merge/parent proof unavailable$"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE CoordinationError
+
+tests/steward/prmaintenance/test_executor.py:548: Failed
+___ test_post_effect_mismatch_cannot_invent_matching_merge_settlement[base] ____
+
+tmp_path = PosixPath('/data/data/com.termux/files/usr/tmp/pytest-of-u0_a574/pytest-256/test_post_effect_mismatch_cann1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x71f43196e0>
+mismatch = 'base'
+
+    @pytest.mark.parametrize("mismatch", ["head", "base", "parents"])
+    def test_post_effect_mismatch_cannot_invent_matching_merge_settlement(tmp_path, monkeypatch, mismatch):
+        fixture = world(tmp_path, monkeypatch)
+        _, forge, clock, executor, _, _ = fixture
+        operation = prepare(fixture)
+        def race():
+            if mismatch == "head": forge.fact["head"]["sha"] = "e" * 40
+            elif mismatch == "base": forge.fact["base"]["ref"] = "other"
+            else: forge.parentShas = [forge.fx.base, "e" * 40]
+        forge.before = race
+>       with pytest.raises(core.CoordinationError, match="^matching independently verified merge/parent proof unavailable$"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE CoordinationError
+
+tests/steward/prmaintenance/test_executor.py:548: Failed
+__ test_post_effect_mismatch_cannot_invent_matching_merge_settlement[parents] __
+
+tmp_path = PosixPath('/data/data/com.termux/files/usr/tmp/pytest-of-u0_a574/pytest-256/test_post_effect_mismatch_cann2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x71f4701eb0>
+mismatch = 'parents'
+
+    @pytest.mark.parametrize("mismatch", ["head", "base", "parents"])
+    def test_post_effect_mismatch_cannot_invent_matching_merge_settlement(tmp_path, monkeypatch, mismatch):
+        fixture = world(tmp_path, monkeypatch)
+        _, forge, clock, executor, _, _ = fixture
+        operation = prepare(fixture)
+        def race():
+            if mismatch == "head": forge.fact["head"]["sha"] = "e" * 40
+            elif mismatch == "base": forge.fact["base"]["ref"] = "other"
+            else: forge.parentShas = [forge.fx.base, "e" * 40]
+        forge.before = race
+>       with pytest.raises(core.CoordinationError, match="^matching independently verified merge/parent proof unavailable$"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE CoordinationError
+
+tests/steward/prmaintenance/test_executor.py:548: Failed
+=========================== short test summary info ============================
+FAILED tests/steward/prmaintenance/test_executor.py::test_post_effect_mismatch_cannot_invent_matching_merge_settlement[head]
+FAILED tests/steward/prmaintenance/test_executor.py::test_post_effect_mismatch_cannot_invent_matching_merge_settlement[base]
+FAILED tests/steward/prmaintenance/test_executor.py::test_post_effect_mismatch_cannot_invent_matching_merge_settlement[parents]
+3 failed in 27.79s

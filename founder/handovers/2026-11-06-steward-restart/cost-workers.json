@@ -1,0 +1,1462 @@
+[
+  {
+    "origin": "line 123",
+    "agent": null,
+    "model": "gpt-6-luna",
+    "turns": 7,
+    "failed": false,
+    "logged_cost": 0.0098484,
+    "model_key": "gpt-6-luna",
+    "tokens": {
+      "input": 63837,
+      "output": 1707,
+      "cacheRead": 261120,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.0063837,
+      "output": 0.0008535,
+      "cacheRead": 0.0026112,
+      "cacheWrite": 0
+    },
+    "total": 0.0098484,
+    "unpriced": []
+  },
+  {
+    "origin": "line 123",
+    "agent": null,
+    "model": "gpt-6.1-terra",
+    "turns": 7,
+    "failed": false,
+    "logged_cost": 0.131815,
+    "model_key": "gpt-6.1-terra",
+    "tokens": {
+      "input": 104525,
+      "output": 2418,
+      "cacheRead": 304000,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.10452499999999999,
+      "output": 0.012090000000000002,
+      "cacheRead": 0.0152,
+      "cacheWrite": 0
+    },
+    "total": 0.131815,
+    "unpriced": []
+  },
+  {
+    "origin": "line 123",
+    "agent": null,
+    "model": "gpt-6-luna",
+    "turns": 18,
+    "failed": false,
+    "logged_cost": 0.01460636,
+    "model_key": "gpt-6-luna",
+    "tokens": {
+      "input": 76636,
+      "output": 2514,
+      "cacheRead": 568576,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.0076636,
+      "output": 0.0012569999999999999,
+      "cacheRead": 0.00568576,
+      "cacheWrite": 0
+    },
+    "total": 0.014606359999999999,
+    "unpriced": []
+  },
+  {
+    "origin": "line 183",
+    "agent": null,
+    "model": "gpt-6-luna",
+    "turns": 7,
+    "failed": false,
+    "logged_cost": 0.0060252000000000005,
+    "model_key": "gpt-6-luna",
+    "tokens": {
+      "input": 33900,
+      "output": 1584,
+      "cacheRead": 184320,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.00339,
+      "output": 0.000792,
+      "cacheRead": 0.0018432000000000001,
+      "cacheWrite": 0
+    },
+    "total": 0.0060252,
+    "unpriced": []
+  },
+  {
+    "origin": "line 219",
+    "agent": null,
+    "model": "gpt-6-luna",
+    "turns": 6,
+    "failed": false,
+    "logged_cost": 0.00548416,
+    "model_key": "gpt-6-luna",
+    "tokens": {
+      "input": 35734,
+      "output": 1346,
+      "cacheRead": 123776,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.0035734,
+      "output": 0.000673,
+      "cacheRead": 0.00123776,
+      "cacheWrite": 0
+    },
+    "total": 0.00548416,
+    "unpriced": []
+  },
+  {
+    "origin": "line 265",
+    "agent": null,
+    "model": "gpt-6.1-terra",
+    "turns": 10,
+    "failed": false,
+    "logged_cost": 0.073863,
+    "model_key": "gpt-6.1-terra",
+    "tokens": {
+      "input": 56298,
+      "output": 1433,
+      "cacheRead": 208000,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.056298,
+      "output": 0.007165,
+      "cacheRead": 0.0104,
+      "cacheWrite": 0
+    },
+    "total": 0.073863,
+    "unpriced": []
+  },
+  {
+    "origin": "line 411",
+    "agent": null,
+    "model": null,
+    "turns": 8,
+    "failed": true,
+    "logged_cost": 0.007177160000000001,
+    "model_key": null,
+    "tokens": {
+      "input": 44876,
+      "output": 382,
+      "cacheRead": 249856,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 411",
+    "agent": null,
+    "model": null,
+    "turns": 4,
+    "failed": true,
+    "logged_cost": 0.1022488,
+    "model_key": null,
+    "tokens": {
+      "input": 43744,
+      "output": 598,
+      "cacheRead": 87808,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 411",
+    "agent": null,
+    "model": null,
+    "turns": 7,
+    "failed": true,
+    "logged_cost": 0.0615434,
+    "model_key": null,
+    "tokens": {
+      "input": 48495,
+      "output": 1162,
+      "cacheRead": 144768,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 416",
+    "agent": null,
+    "model": null,
+    "turns": 8,
+    "failed": true,
+    "logged_cost": 0.007177160000000001,
+    "model_key": null,
+    "tokens": {
+      "input": 44876,
+      "output": 382,
+      "cacheRead": 249856,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 416",
+    "agent": null,
+    "model": null,
+    "turns": 5,
+    "failed": true,
+    "logged_cost": 0.1111076,
+    "model_key": null,
+    "tokens": {
+      "input": 44886,
+      "output": 819,
+      "cacheRead": 131456,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 416",
+    "agent": null,
+    "model": null,
+    "turns": 8,
+    "failed": true,
+    "logged_cost": 0.068103,
+    "model_key": null,
+    "tokens": {
+      "input": 52094,
+      "output": 1269,
+      "cacheRead": 193280,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 446",
+    "agent": null,
+    "model": null,
+    "turns": 16,
+    "failed": true,
+    "logged_cost": 0.012325660000000004,
+    "model_key": null,
+    "tokens": {
+      "input": 49888,
+      "output": 2355,
+      "cacheRead": 615936,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 446",
+    "agent": null,
+    "model": null,
+    "turns": 8,
+    "failed": true,
+    "logged_cost": 0.17799120000000002,
+    "model_key": null,
+    "tokens": {
+      "input": 62877,
+      "output": 2281,
+      "cacheRead": 294272,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 446",
+    "agent": null,
+    "model": null,
+    "turns": 10,
+    "failed": true,
+    "logged_cost": 0.0849872,
+    "model_key": null,
+    "tokens": {
+      "input": 55863,
+      "output": 2845,
+      "cacheRead": 297984,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 448",
+    "agent": null,
+    "model": null,
+    "turns": 16,
+    "failed": true,
+    "logged_cost": 0.012325660000000004,
+    "model_key": null,
+    "tokens": {
+      "input": 49888,
+      "output": 2355,
+      "cacheRead": 615936,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 448",
+    "agent": null,
+    "model": null,
+    "turns": 8,
+    "failed": true,
+    "logged_cost": 0.17799120000000002,
+    "model_key": null,
+    "tokens": {
+      "input": 62877,
+      "output": 2281,
+      "cacheRead": 294272,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 448",
+    "agent": null,
+    "model": null,
+    "turns": 10,
+    "failed": true,
+    "logged_cost": 0.0849872,
+    "model_key": null,
+    "tokens": {
+      "input": 55863,
+      "output": 2845,
+      "cacheRead": 297984,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 453",
+    "agent": null,
+    "model": null,
+    "turns": 16,
+    "failed": true,
+    "logged_cost": 0.012325660000000004,
+    "model_key": null,
+    "tokens": {
+      "input": 49888,
+      "output": 2355,
+      "cacheRead": 615936,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 453",
+    "agent": null,
+    "model": null,
+    "turns": 8,
+    "failed": true,
+    "logged_cost": 0.17799120000000002,
+    "model_key": null,
+    "tokens": {
+      "input": 62877,
+      "output": 2281,
+      "cacheRead": 294272,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 453",
+    "agent": null,
+    "model": null,
+    "turns": 10,
+    "failed": true,
+    "logged_cost": 0.0849872,
+    "model_key": null,
+    "tokens": {
+      "input": 55863,
+      "output": 2845,
+      "cacheRead": 297984,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 475",
+    "agent": null,
+    "model": null,
+    "turns": 22,
+    "failed": true,
+    "logged_cost": 0.016069720000000003,
+    "model_key": null,
+    "tokens": {
+      "input": 53911,
+      "output": 3171,
+      "cacheRead": 909312,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 475",
+    "agent": null,
+    "model": null,
+    "turns": 9,
+    "failed": true,
+    "logged_cost": 0.2622492,
+    "model_key": null,
+    "tokens": {
+      "input": 63506,
+      "output": 9941,
+      "cacheRead": 358272,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 475",
+    "agent": null,
+    "model": null,
+    "turns": 10,
+    "failed": true,
+    "logged_cost": 0.0849872,
+    "model_key": null,
+    "tokens": {
+      "input": 55863,
+      "output": 2845,
+      "cacheRead": 297984,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 486",
+    "agent": null,
+    "model": null,
+    "turns": 22,
+    "failed": true,
+    "logged_cost": 0.016069720000000003,
+    "model_key": null,
+    "tokens": {
+      "input": 53911,
+      "output": 3171,
+      "cacheRead": 909312,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 486",
+    "agent": null,
+    "model": null,
+    "turns": 11,
+    "failed": true,
+    "logged_cost": 0.3187896,
+    "model_key": null,
+    "tokens": {
+      "input": 63914,
+      "output": 14044,
+      "cacheRead": 505216,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 486",
+    "agent": null,
+    "model": null,
+    "turns": 10,
+    "failed": true,
+    "logged_cost": 0.0849872,
+    "model_key": null,
+    "tokens": {
+      "input": 55863,
+      "output": 2845,
+      "cacheRead": 297984,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 492",
+    "agent": null,
+    "model": null,
+    "turns": 22,
+    "failed": true,
+    "logged_cost": 0.016069720000000003,
+    "model_key": null,
+    "tokens": {
+      "input": 53911,
+      "output": 3171,
+      "cacheRead": 909312,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 492",
+    "agent": null,
+    "model": null,
+    "turns": 11,
+    "failed": true,
+    "logged_cost": 0.3187896,
+    "model_key": null,
+    "tokens": {
+      "input": 63914,
+      "output": 14044,
+      "cacheRead": 505216,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 492",
+    "agent": null,
+    "model": null,
+    "turns": 10,
+    "failed": true,
+    "logged_cost": 0.0849872,
+    "model_key": null,
+    "tokens": {
+      "input": 55863,
+      "output": 2845,
+      "cacheRead": 297984,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 524",
+    "agent": null,
+    "model": null,
+    "turns": 26,
+    "failed": true,
+    "logged_cost": 0.018787420000000003,
+    "model_key": null,
+    "tokens": {
+      "input": 55562,
+      "output": 4193,
+      "cacheRead": 1113472,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 524",
+    "agent": null,
+    "model": null,
+    "turns": 13,
+    "failed": true,
+    "logged_cost": 0.3926564,
+    "model_key": null,
+    "tokens": {
+      "input": 64582,
+      "output": 19715,
+      "cacheRead": 663424,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 524",
+    "agent": null,
+    "model": null,
+    "turns": 10,
+    "failed": true,
+    "logged_cost": 0.0849872,
+    "model_key": null,
+    "tokens": {
+      "input": 55863,
+      "output": 2845,
+      "cacheRead": 297984,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 533",
+    "agent": null,
+    "model": null,
+    "turns": 4,
+    "failed": true,
+    "logged_cost": 0.05166779999999999,
+    "model_key": null,
+    "tokens": {
+      "input": 43623,
+      "output": 672,
+      "cacheRead": 93696,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 628",
+    "agent": null,
+    "model": "gpt-6-luna",
+    "turns": 26,
+    "failed": false,
+    "logged_cost": 0.018787420000000003,
+    "model_key": "gpt-6-luna",
+    "tokens": {
+      "input": 55562,
+      "output": 4193,
+      "cacheRead": 1113472,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.0055562,
+      "output": 0.0020965,
+      "cacheRead": 0.01113472,
+      "cacheWrite": 0
+    },
+    "total": 0.01878742,
+    "unpriced": []
+  },
+  {
+    "origin": "line 628",
+    "agent": null,
+    "model": "gemini-3.8-flash",
+    "turns": 24,
+    "failed": true,
+    "logged_cost": 0.4312672,
+    "model_key": "gemini-3.8-flash",
+    "tokens": {
+      "input": 68576,
+      "output": 20280,
+      "cacheRead": 913152,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.051432,
+      "output": 0.07605,
+      "cacheRead": 0.0684864,
+      "cacheWrite": 0
+    },
+    "total": 0.19596840000000001,
+    "unpriced": []
+  },
+  {
+    "origin": "line 628",
+    "agent": null,
+    "model": "gpt-6.1-terra",
+    "turns": 10,
+    "failed": false,
+    "logged_cost": 0.0849872,
+    "model_key": "gpt-6.1-terra",
+    "tokens": {
+      "input": 55863,
+      "output": 2845,
+      "cacheRead": 297984,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.055862999999999996,
+      "output": 0.014225000000000002,
+      "cacheRead": 0.0148992,
+      "cacheWrite": 0
+    },
+    "total": 0.0849872,
+    "unpriced": []
+  },
+  {
+    "origin": "line 639",
+    "agent": null,
+    "model": "gpt-6.1-terra",
+    "turns": 1,
+    "failed": false,
+    "logged_cost": 0.018275,
+    "model_key": "gpt-6.1-terra",
+    "tokens": {
+      "input": 18180,
+      "output": 19,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.018179999999999998,
+      "output": 9.5e-05,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "total": 0.018275,
+    "unpriced": []
+  },
+  {
+    "origin": "line 702",
+    "agent": null,
+    "model": null,
+    "turns": 9,
+    "failed": true,
+    "logged_cost": 0.20570000000000002,
+    "model_key": null,
+    "tokens": {
+      "input": 72606,
+      "output": 2676,
+      "cacheRead": 337280,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 744",
+    "agent": null,
+    "model": "gpt-6-luna",
+    "turns": 27,
+    "failed": false,
+    "logged_cost": 0.02037268,
+    "model_key": "gpt-6-luna",
+    "tokens": {
+      "input": 61846,
+      "output": 4220,
+      "cacheRead": 1207808,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.006184599999999999,
+      "output": 0.00211,
+      "cacheRead": 0.01207808,
+      "cacheWrite": 0
+    },
+    "total": 0.020372679999999997,
+    "unpriced": []
+  },
+  {
+    "origin": "line 778",
+    "agent": null,
+    "model": null,
+    "turns": 19,
+    "failed": true,
+    "logged_cost": 0.3720776,
+    "model_key": null,
+    "tokens": {
+      "input": 76875,
+      "output": 10547,
+      "cacheRead": 1128576,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 803",
+    "agent": null,
+    "model": null,
+    "turns": 11,
+    "failed": true,
+    "logged_cost": 0.0609504,
+    "model_key": null,
+    "tokens": {
+      "input": 36073,
+      "output": 2011,
+      "cacheRead": 296448,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 828",
+    "agent": null,
+    "model": null,
+    "turns": 19,
+    "failed": true,
+    "logged_cost": 0.3720776,
+    "model_key": null,
+    "tokens": {
+      "input": 76875,
+      "output": 10547,
+      "cacheRead": 1128576,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 862",
+    "agent": null,
+    "model": "gpt-6.1-terra",
+    "turns": 18,
+    "failed": false,
+    "logged_cost": 0.091905,
+    "model_key": "gpt-6.1-terra",
+    "tokens": {
+      "input": 40568,
+      "output": 4533,
+      "cacheRead": 573440,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.040568,
+      "output": 0.022665,
+      "cacheRead": 0.028672,
+      "cacheWrite": 0
+    },
+    "total": 0.091905,
+    "unpriced": []
+  },
+  {
+    "origin": "line 872",
+    "agent": null,
+    "model": null,
+    "turns": 25,
+    "failed": true,
+    "logged_cost": 0.45632559999999994,
+    "model_key": null,
+    "tokens": {
+      "input": 82103,
+      "output": 12723,
+      "cacheRead": 1648896,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 905",
+    "agent": null,
+    "model": null,
+    "turns": 0,
+    "failed": true,
+    "logged_cost": 0,
+    "model_key": null,
+    "tokens": {},
+    "parts": {},
+    "total": 0.0,
+    "unpriced": []
+  },
+  {
+    "origin": "line 947",
+    "agent": null,
+    "model": "gpt-6.1-sol",
+    "turns": 32,
+    "failed": true,
+    "logged_cost": 0.5537032,
+    "model_key": "gpt-6.1-sol",
+    "tokens": {
+      "input": 83629,
+      "output": 15657,
+      "cacheRead": 2298752,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.167258,
+      "output": 0.15657000000000001,
+      "cacheRead": 0.2298752,
+      "cacheWrite": 0
+    },
+    "total": 0.5537032,
+    "unpriced": []
+  },
+  {
+    "origin": "line 2388",
+    "agent": null,
+    "model": "gpt-6.1-terra",
+    "turns": 7,
+    "failed": false,
+    "logged_cost": 0.061860799999999994,
+    "model_key": "gpt-6.1-terra",
+    "tokens": {
+      "input": 42564,
+      "output": 1796,
+      "cacheRead": 206336,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.042564,
+      "output": 0.00898,
+      "cacheRead": 0.0103168,
+      "cacheWrite": 0
+    },
+    "total": 0.061860799999999994,
+    "unpriced": []
+  },
+  {
+    "origin": "line 2510",
+    "agent": null,
+    "model": "gpt-6.1-terra",
+    "turns": 6,
+    "failed": false,
+    "logged_cost": 0.0380258,
+    "model_key": "gpt-6.1-terra",
+    "tokens": {
+      "input": 28201,
+      "output": 740,
+      "cacheRead": 122496,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.028201,
+      "output": 0.0037,
+      "cacheRead": 0.0061248,
+      "cacheWrite": 0
+    },
+    "total": 0.0380258,
+    "unpriced": []
+  },
+  {
+    "origin": "line 2612",
+    "agent": null,
+    "model": "gpt-6.1-terra",
+    "turns": 1,
+    "failed": false,
+    "logged_cost": 0.001919,
+    "model_key": "gpt-6.1-terra",
+    "tokens": {
+      "input": 1894,
+      "output": 5,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.0018939999999999999,
+      "output": 2.5e-05,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "total": 0.001919,
+    "unpriced": []
+  },
+  {
+    "origin": "line 2851",
+    "agent": null,
+    "model": "gpt-6.1-terra",
+    "turns": 14,
+    "failed": false,
+    "logged_cost": 0.09911879999999999,
+    "model_key": "gpt-6.1-terra",
+    "tokens": {
+      "input": 55006,
+      "output": 3284,
+      "cacheRead": 553856,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.055006,
+      "output": 0.01642,
+      "cacheRead": 0.0276928,
+      "cacheWrite": 0
+    },
+    "total": 0.0991188,
+    "unpriced": []
+  },
+  {
+    "origin": "line 2935",
+    "agent": null,
+    "model": "gemini-3.8-flash",
+    "turns": 26,
+    "failed": false,
+    "logged_cost": 0.769907,
+    "model_key": "gemini-3.8-flash",
+    "tokens": {
+      "input": 218892,
+      "output": 16238,
+      "cacheRead": 1867298,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.164169,
+      "output": 0.0608925,
+      "cacheRead": 0.14004735,
+      "cacheWrite": 0
+    },
+    "total": 0.36510885,
+    "unpriced": []
+  },
+  {
+    "origin": "line 3154",
+    "agent": null,
+    "model": "gpt-6.1-terra",
+    "turns": 6,
+    "failed": false,
+    "logged_cost": 0.0628698,
+    "model_key": "gpt-6.1-terra",
+    "tokens": {
+      "input": 42479,
+      "output": 2258,
+      "cacheRead": 182016,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.042478999999999996,
+      "output": 0.011290000000000001,
+      "cacheRead": 0.0091008,
+      "cacheWrite": 0
+    },
+    "total": 0.0628698,
+    "unpriced": []
+  },
+  {
+    "origin": "line 3218",
+    "agent": null,
+    "model": null,
+    "turns": 7,
+    "failed": true,
+    "logged_cost": 0.21895199999999998,
+    "model_key": null,
+    "tokens": {
+      "input": 160730,
+      "output": 2070,
+      "cacheRead": 957440,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 3418",
+    "agent": null,
+    "model": "gpt-6.1-terra",
+    "turns": 1,
+    "failed": false,
+    "logged_cost": 0.001889,
+    "model_key": "gpt-6.1-terra",
+    "tokens": {
+      "input": 1854,
+      "output": 7,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.001854,
+      "output": 3.5000000000000004e-05,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "total": 0.001889,
+    "unpriced": []
+  },
+  {
+    "origin": "line 3490",
+    "agent": null,
+    "model": "gpt-6.1-terra",
+    "turns": 23,
+    "failed": false,
+    "logged_cost": 0.162075,
+    "model_key": "gpt-6.1-terra",
+    "tokens": {
+      "input": 70431,
+      "output": 6124,
+      "cacheRead": 1220480,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.070431,
+      "output": 0.03062,
+      "cacheRead": 0.061023999999999995,
+      "cacheWrite": 0
+    },
+    "total": 0.162075,
+    "unpriced": []
+  },
+  {
+    "origin": "line 3589",
+    "agent": null,
+    "model": "gpt-6.1-terra",
+    "turns": 34,
+    "failed": false,
+    "logged_cost": 0.25471540000000004,
+    "model_key": "gpt-6.1-terra",
+    "tokens": {
+      "input": 24351,
+      "output": 15358,
+      "cacheRead": 3071488,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.024350999999999998,
+      "output": 0.07679000000000001,
+      "cacheRead": 0.1535744,
+      "cacheWrite": 0
+    },
+    "total": 0.25471540000000004,
+    "unpriced": []
+  },
+  {
+    "origin": "line 3639",
+    "agent": null,
+    "model": null,
+    "turns": 6,
+    "failed": true,
+    "logged_cost": 0.014658936,
+    "model_key": null,
+    "tokens": {
+      "input": 36014,
+      "output": 2523,
+      "cacheRead": 137856,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 3690",
+    "agent": null,
+    "model": null,
+    "turns": 26,
+    "failed": true,
+    "logged_cost": 0.053336964000000014,
+    "model_key": null,
+    "tokens": {
+      "input": 73831,
+      "output": 18359,
+      "cacheRead": 1526144,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 3735",
+    "agent": null,
+    "model": null,
+    "turns": 51,
+    "failed": true,
+    "logged_cost": 0.09795045600000003,
+    "model_key": null,
+    "tokens": {
+      "input": 91542,
+      "output": 37497,
+      "cacheRead": 4248576,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 3853",
+    "agent": null,
+    "model": "deepseek-flash",
+    "turns": 80,
+    "failed": false,
+    "logged_cost": 0.169259148,
+    "model_key": "deepseek-flash",
+    "tokens": {
+      "input": 106121,
+      "output": 72064,
+      "cacheRead": 8491008,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.0318363,
+      "output": 0.08647679999999999,
+      "cacheRead": 0.050946048,
+      "cacheWrite": 0
+    },
+    "total": 0.169259148,
+    "unpriced": []
+  },
+  {
+    "origin": "line 3861",
+    "agent": null,
+    "model": null,
+    "turns": 45,
+    "failed": true,
+    "logged_cost": 0.08839075199999999,
+    "model_key": null,
+    "tokens": {
+      "input": 87944,
+      "output": 34304,
+      "cacheRead": 3473792,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 3895",
+    "agent": null,
+    "model": null,
+    "turns": 64,
+    "failed": true,
+    "logged_cost": 0.13647070800000002,
+    "model_key": null,
+    "tokens": {
+      "input": 100155,
+      "output": 58123,
+      "cacheRead": 6112768,
+      "cacheWrite": 0
+    },
+    "parts": {},
+    "total": null,
+    "unpriced": [
+      "model"
+    ]
+  },
+  {
+    "origin": "line 3939",
+    "agent": null,
+    "model": "deepseek-flash",
+    "turns": 87,
+    "failed": false,
+    "logged_cost": 0.18711148799999996,
+    "model_key": "deepseek-flash",
+    "tokens": {
+      "input": 110760,
+      "output": 78770,
+      "cacheRead": 9893248,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.033228,
+      "output": 0.094524,
+      "cacheRead": 0.059359488,
+      "cacheWrite": 0
+    },
+    "total": 0.187111488,
+    "unpriced": []
+  },
+  {
+    "origin": "line 4071",
+    "agent": null,
+    "model": "gpt-6.1-terra",
+    "turns": 10,
+    "failed": false,
+    "logged_cost": 0.07605579999999998,
+    "model_key": "gpt-6.1-terra",
+    "tokens": {
+      "input": 46363,
+      "output": 2256,
+      "cacheRead": 368256,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.046362999999999994,
+      "output": 0.01128,
+      "cacheRead": 0.0184128,
+      "cacheWrite": 0
+    },
+    "total": 0.07605579999999999,
+    "unpriced": []
+  },
+  {
+    "origin": "line 4096",
+    "agent": null,
+    "model": "deepseek-flash",
+    "turns": 24,
+    "failed": false,
+    "logged_cost": 0.074024256,
+    "model_key": "deepseek-flash",
+    "tokens": {
+      "input": 22644,
+      "output": 31951,
+      "cacheRead": 4814976,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.0067932,
+      "output": 0.0383412,
+      "cacheRead": 0.028889856,
+      "cacheWrite": 0
+    },
+    "total": 0.074024256,
+    "unpriced": []
+  },
+  {
+    "origin": "line 4143",
+    "agent": null,
+    "model": "gpt-6-luna",
+    "turns": 9,
+    "failed": false,
+    "logged_cost": 0.008316760000000001,
+    "model_key": "gpt-6-luna",
+    "tokens": {
+      "input": 52580,
+      "output": 2874,
+      "cacheRead": 162176,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.005258,
+      "output": 0.001437,
+      "cacheRead": 0.00162176,
+      "cacheWrite": 0
+    },
+    "total": 0.00831676,
+    "unpriced": []
+  },
+  {
+    "origin": "line 4181",
+    "agent": null,
+    "model": "gpt-6-luna",
+    "turns": 14,
+    "failed": false,
+    "logged_cost": 0.011960360000000003,
+    "model_key": "gpt-6-luna",
+    "tokens": {
+      "input": 40326,
+      "output": 6020,
+      "cacheRead": 491776,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.0040326,
+      "output": 0.0030099999999999997,
+      "cacheRead": 0.00491776,
+      "cacheWrite": 0
+    },
+    "total": 0.01196036,
+    "unpriced": []
+  },
+  {
+    "origin": "line 4260",
+    "agent": null,
+    "model": "gpt-6-luna",
+    "turns": 11,
+    "failed": false,
+    "logged_cost": 0.007761420000000001,
+    "model_key": "gpt-6-luna",
+    "tokens": {
+      "input": 40091,
+      "output": 1632,
+      "cacheRead": 293632,
+      "cacheWrite": 0
+    },
+    "parts": {
+      "input": 0.0040091,
+      "output": 0.000816,
+      "cacheRead": 0.00293632,
+      "cacheWrite": 0
+    },
+    "total": 0.00776142,
+    "unpriced": []
+  }
+]

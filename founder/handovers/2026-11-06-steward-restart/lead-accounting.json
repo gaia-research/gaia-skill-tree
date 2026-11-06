@@ -1,0 +1,181 @@
+{
+  "firstEvent": "2026-11-04T16:44:41.581Z",
+  "lastEvent": "2026-11-06T15:57:08.914Z",
+  "assistantMessages": 1365,
+  "loggedMainCost": 58.14808959999997,
+  "tokenComponents": {
+    "input": 2763652,
+    "output": 1282156,
+    "cacheRead": 274705750,
+    "cacheWrite": 0
+  },
+  "toolCallsDirectVisible": {
+    "read": 107,
+    "codemode": 213,
+    "bash": 321,
+    "subagent": 180,
+    "bg_run": 115,
+    "subagent_wait": 18,
+    "bg_logs": 16,
+    "bg_status": 7,
+    "write": 102,
+    "edit": 70,
+    "bg_kill": 1,
+    "google_search": 1
+  },
+  "daily": {
+    "2026-11-04": {
+      "turns": 540,
+      "cost": 13.748744200000006,
+      "tokens": 89564501
+    },
+    "2026-11-05": {
+      "turns": 455,
+      "cost": 23.584224600000024,
+      "tokens": 98884912
+    },
+    "2026-11-06": {
+      "turns": 370,
+      "cost": 20.815120800000006,
+      "tokens": 90302145
+    }
+  },
+  "largestCostTurns": [
+    {
+      "timestamp": "2026-11-06T06:54:53.552Z",
+      "cost": 0.384792,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "input": 190136,
+      "output": 452,
+      "cacheRead": 0
+    },
+    {
+      "timestamp": "2026-11-06T14:04:27.240Z",
+      "cost": 0.335238,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "input": 166459,
+      "output": 232,
+      "cacheRead": 0
+    },
+    {
+      "timestamp": "2026-11-05T19:00:31.664Z",
+      "cost": 0.33105599999999996,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "input": 164068,
+      "output": 292,
+      "cacheRead": 0
+    },
+    {
+      "timestamp": "2026-11-06T01:46:24.411Z",
+      "cost": 0.255248,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "input": 105174,
+      "output": 4490,
+      "cacheRead": 0
+    },
+    {
+      "timestamp": "2026-11-05T21:51:26.255Z",
+      "cost": 0.2374564,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "input": 268,
+      "output": 11622,
+      "cacheRead": 310272
+    },
+    {
+      "timestamp": "2026-11-04T20:14:35.503Z",
+      "cost": 0.23607399999999998,
+      "provider": "openai-codex",
+      "model": "gpt-6.1-sol",
+      "input": 116912,
+      "output": 225,
+      "cacheRead": 0
+    },
+    {
+      "timestamp": "2026-11-05T16:25:28.178Z",
+      "cost": 0.2335202,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "input": 2551,
+      "output": 10959,
+      "cacheRead": 294656
+    },
+    {
+      "timestamp": "2026-11-05T08:23:28.079Z",
+      "cost": 0.2156316,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "input": 2177,
+      "output": 9518,
+      "cacheRead": 320768
+    },
+    {
+      "timestamp": "2026-11-05T13:11:50.026Z",
+      "cost": 0.21149199999999999,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "input": 105081,
+      "output": 133,
+      "cacheRead": 0
+    },
+    {
+      "timestamp": "2026-11-05T09:21:22.151Z",
+      "cost": 0.20904540000000002,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "input": 142,
+      "output": 8729,
+      "cacheRead": 387712
+    },
+    {
+      "timestamp": "2026-11-05T21:37:27.575Z",
+      "cost": 0.208856,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "input": 5488,
+      "output": 8680,
+      "cacheRead": 283520
+    },
+    {
+      "timestamp": "2026-11-06T09:43:19.205Z",
+      "cost": 0.2007372,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "input": 11914,
+      "output": 5978,
+      "cacheRead": 317056
+    },
+    {
+      "timestamp": "2026-11-06T01:38:53.329Z",
+      "cost": 0.194585,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "input": 3927,
+      "output": 6259,
+      "cacheRead": 424960
+    },
+    {
+      "timestamp": "2026-11-05T18:16:45.239Z",
+      "cost": 0.19397340000000002,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "input": 3721,
+      "output": 6309,
+      "cacheRead": 422272
+    },
+    {
+      "timestamp": "2026-11-05T08:10:58.945Z",
+      "cost": 0.19334679999999999,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "input": 372,
+      "output": 8698,
+      "cacheRead": 306944
+    }
+  ],
+  "limits": "Tool calls nested inside codemode are not counted here; assistant messages are not user turns; no private reasoning exported."
+}

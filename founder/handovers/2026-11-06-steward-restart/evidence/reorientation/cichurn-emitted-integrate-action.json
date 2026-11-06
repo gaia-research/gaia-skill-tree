@@ -1,0 +1,15 @@
+{
+  "debtId": "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208",
+  "emittedAt": "2026-11-06T15:14:04.243205Z",
+  "idempotencyKey": "integrate:dispatch-7930613ee061481cf023:1",
+  "params": {
+    "attempt": 1,
+    "base": "dev/steward-campaign-2026-11-05",
+    "branch": "steward/b/unused-import-549e1d59b78e",
+    "debtId": "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208",
+    "diffPath": "$HOME/gaia-skill-tree/.gaia/steward/full/run-20261106T045029Z-92c5e38b/build-549e1d59b78e.diff"
+  },
+  "status": "pending",
+  "stepId": "integrate:549e1d59b78e:1",
+  "type": "lead.integrate"
+}

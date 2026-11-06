@@ -1,0 +1,5 @@
+PROBE OLD-502 exit=2 keys=['action', 'coordinationState', 'headSha', 'number', 'operationId', 'reason', 'repo', 'runId', 'state'] cause=None state='possibly-sent' refused=None
+.PROBE OLD-CAPACITY exit=2 keys=['action', 'coordinationState', 'headSha', 'number', 'operationId', 'reason', 'repo', 'runId', 'state'] cause=None state='possibly-sent' refused=None
+.PROBE OLD-POST-SETTLEMENT-INSPECT exit=2 keys=['action', 'coordinationState', 'headSha', 'number', 'operationId', 'reason', 'repo', 'runId', 'state'] cause=None state='possibly-sent'
+.
+3 passed in 26.39s

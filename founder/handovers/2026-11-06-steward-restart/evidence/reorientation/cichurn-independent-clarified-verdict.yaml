@@ -1,0 +1,12 @@
+findingConfirmed: true
+scopeValid: true
+proofValid: true
+authorityStillValid: true
+guardsWeakened: false
+newDebt: []
+verdict: accept
+reasons:
+  - "Pure DeadCodeSensor.analyze on base 786a24408eeb9c8e7f4fab83d6c6e70f2df281a6 reproduced exactly os (sideEffectPossible=true) and timezone (false) in scripts/ci_churn.py; on candidate 953b9d36d498d8309a8b45c890f9698b09df9c6a neither remains flagged."
+  - "The registered analyzer's external-use/re-export checks found no consumer of these names; AST inspection found no explicit export or dynamic attribute API, and repository searches found no ci_churn import or attribute use. No unsupported universal claim about external clients is needed under this routine."
+  - "The os import's module initialization remains: retained subprocess imports os unconditionally in the active Python 3.14 standard library; timezone was a plain from-import binding with no initialization side effect."
+  - "The candidate diff is only scripts/ci_churn.py, pytest tests/test_ci_churn.py passed (14 tests), compileall succeeded, and this independent verifier review discharges the review-before-integration contract item."

@@ -1,0 +1,30 @@
+# Independent joined-source preservation review
+
+## Findings and verdict
+
+**BLOCKED — exact candidate `b04a6c34974e0ce25a8a6ff43bc676dd864c3264`.** No concrete merge-introduced defect was established in the checks below. This is not an acceptance: I did not complete the assigned whole-source semantic audit, including a direct independent examination of all six campaign units and the C1/C3 decision/identity and watcher interfaces, nor independently establish all current version, CLI, producer and ratified-policy resource invariants. Parent should complete those checks before treating the preservation gate as accepted. This verdict is not based on the known inherited shared-general-ledger behavior or the separately targeted coordination races.
+
+## Identity and structural preservation
+
+- Harness exports: `PI_PROVIDER=openai-codex`, `PI_MODEL=gpt-6.1-terra`, `PI_REASONING_LEVEL=high`; provider-side routing not independently attested. No fallback or nested agent.
+- Candidate tree `9b29681b44be112306f8502961f4e67787492d97`, sole parent `9dca3c6574701f57473e0cc3f52606600b1466ee`. Source merge tree `4d24241bd375324aecbba51e3fbd1cf47f1583ab`, parents `ae0598f0aaedc7505a8d2f96d95d585a6ee47ec0` and `31b407db65c4e138896780a7319e4a4ce76884eb`. `git merge-tree --write-tree` on those parents independently returned that exact tree. Candidate adds only `docs/agents/security/2283-main-preservation-proof.{json,md}` after the merge.
+- Merge base `1963a47f480251d79d98c6a13b8c272444996467`: integration changed 64 paths, main 266; intersection exactly `src/gaia_cli/steward/fullrun.py` and `tests/steward/test_fullrun.py`. Compared Git blob identities for every non-overlapping changed path against its respective parent, including deletions: no mismatches.
+- `8ad344a49926821d2c1b6d4e021b8de6f653649c`, `c67d90950b0aa37491f5061e76f6cda3319da568`, `bb9abb0f30988ad35d4e3ed6ccb6a43dda506c08`, and `3f4c46fe140f0e3d4a26733baba23f229c30ab94` are ancestors. `5432b273c` and `ceb38582008a07002239ec65aa77aa22725e80ab` are not ancestors. No tracked `archive.py` appeared in the candidate tree; I did not complete an independent audit for every possible archive feature/profile/transfer artifact.
+- Examined both parent diffs for the overlapping files: main's compact-and-trim implementation is replaced by the campaign's no-op preserving complete history, with matching unchanged-document tests; integration's source gains main's 19-routine bounds and reporting, PR action emission/recording and class-B phase changes, and count test updated to 19. This is a textual/targeted semantic join review, not a full independent validation of every surrounding workflow. Graft exposed the unattended driver's explicit abort rather than forge-write behavior, and the PR sensor's local census input.
+
+## Scoped policy and source evidence
+
+- Parsed actual Git YAML at `3f4c46fe` and `9dca3c65`, recursively comparing prior keys and values. Exactly 18 additions matched the sidecar's list; no previous values modified or deleted. The additions are eight authority entries, eight priorities, the new founder route and `prMaintenance` block. Joined policy bytes equal main. SHA-256 values: historical `58af7eb1d4915970e2b8ffa8b55f4c96f5f79b7cd330b316c1d05ff534a28278`; joined `db34e81bb502dc5a5097b41e7e8c69cc7d288905fbad7b3be491e5324b235246`. This checks structured preservation, not independent approval of each main value.
+- All four historical files changed by `c67d90950..ae0598f0` are byte-identical between `ae0598f0` and the candidate. Historical proof is not rebound to the joined policy. Checked all 39 matrix row source bytes against checkpoint `3f4c46fe` and reviewed SHA-256: zero differences. Independently compared scanner output with `2283-scanner-proof.json`'s **currentFindings**, using exact per-row line/pattern/fingerprint multisets: zero differences; 71 findings (D1 30, D2 24, D3 17). Scanner, redactor and public scanner source hashes and checkpoint bytes match sidecar. Both sidecars yield zero direct scanner matches.
+- Probe disclosure: an initial comparison mistakenly used the matrix's historical finding line numbers rather than the proof's current finding numbers, producing 12 row mismatches. The corrected comparison against the explicitly current proof findings produced zero; the old matrix line positions are not evidence of current line identity.
+- Security reconciliation tests passed, including the explicit caveat that the checker does not authenticate finding identity or scanner authority. Historical classifications/controls are not new control runs, and the selected files are not all new main source.
+
+## Fresh runtime checks
+
+All commands used checkout code with `PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src`, `pytest -p no:cacheprovider`; no timeout override or forced skip. Fixtures use test-provided disposable paths.
+
+1. Targeted retained-history/no-op compaction, all full-run mode phase variants, unattended-driver no-PR-write, founder workflow lock, policy parse, and security reconciliation: **41 passed in 17.87s**.
+2. `tests/steward/prmaintenance/test_runner.py tests/steward/issuehygiene tests/steward/test_ledger.py -k 'capacity or limit or full or founder or class_c or disabled or writes'`: **109 passed, 761 deselected in 78.85s**. This is a selected subset, not the entire issue-hygiene suite.
+3. Complete PR-maintenance runner tests plus explicit ledger size telemetry, legacy/configured capacity boundaries, oversized refusal and invalid-capacity parameter cases: **19 passed in 21.14s**. These cover merge proposal verification/record behavior and bounds in fixtures, not live coordination safety.
+
+The lead's reported 650-test merge-source run and 14-test sidecar run were contextual evidence, not rerun wholesale or independently reverified from their logs here. No full Steward/repository/archive pipeline, live forge, actual ledger/store, issuer probe, deployment or activation was run. Tracked worktree status was clean on final check. Remote CI remains the parent's responsibility. No operational approval is implied.

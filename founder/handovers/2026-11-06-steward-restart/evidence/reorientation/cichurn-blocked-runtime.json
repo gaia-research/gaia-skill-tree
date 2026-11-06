@@ -1,0 +1,10 @@
+{
+  "session": "01a1afc7-8f84-7184-adc3-d54f138ce7de",
+  "provider": "openai-codex",
+  "providerModel": "gpt-6.1-terra",
+  "effort": "medium",
+  "verdict": "blocked",
+  "sourceChanged": false,
+  "canonicalCompletionRecorded": false,
+  "founderApprovalPending": true
+}

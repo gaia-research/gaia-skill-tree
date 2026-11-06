@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="26.050" timestamp="2026-11-06T19:25:57.850418+08:00" hostname="localhost"><testcase classname="tests.steward.prmaintenance.test_executor" name="test_post_effect_mismatch_cannot_invent_matching_merge_settlement[head]" time="8.649"><failure message="Failed: DID NOT RAISE CoordinationError">tmp_path = PosixPath('/data/data/com.termux/files/usr/tmp/pytest-of-u0_a574/pytest-256/test_post_effect_mismatch_cann0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x71f4319cd0&gt;
+mismatch = 'head'
+
+    @pytest.mark.parametrize("mismatch", ["head", "base", "parents"])
+    def test_post_effect_mismatch_cannot_invent_matching_merge_settlement(tmp_path, monkeypatch, mismatch):
+        fixture = world(tmp_path, monkeypatch)
+        _, forge, clock, executor, _, _ = fixture
+        operation = prepare(fixture)
+        def race():
+            if mismatch == "head": forge.fact["head"]["sha"] = "e" * 40
+            elif mismatch == "base": forge.fact["base"]["ref"] = "other"
+            else: forge.parentShas = [forge.fx.base, "e" * 40]
+        forge.before = race
+&gt;       with pytest.raises(core.CoordinationError, match="^matching independently verified merge/parent proof unavailable$"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE CoordinationError
+
+tests/steward/prmaintenance/test_executor.py:548: Failed</failure></testcase><testcase classname="tests.steward.prmaintenance.test_executor" name="test_post_effect_mismatch_cannot_invent_matching_merge_settlement[base]" time="8.436"><failure message="Failed: DID NOT RAISE CoordinationError">tmp_path = PosixPath('/data/data/com.termux/files/usr/tmp/pytest-of-u0_a574/pytest-256/test_post_effect_mismatch_cann1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x71f43196e0&gt;
+mismatch = 'base'
+
+    @pytest.mark.parametrize("mismatch", ["head", "base", "parents"])
+    def test_post_effect_mismatch_cannot_invent_matching_merge_settlement(tmp_path, monkeypatch, mismatch):
+        fixture = world(tmp_path, monkeypatch)
+        _, forge, clock, executor, _, _ = fixture
+        operation = prepare(fixture)
+        def race():
+            if mismatch == "head": forge.fact["head"]["sha"] = "e" * 40
+            elif mismatch == "base": forge.fact["base"]["ref"] = "other"
+            else: forge.parentShas = [forge.fx.base, "e" * 40]
+        forge.before = race
+&gt;       with pytest.raises(core.CoordinationError, match="^matching independently verified merge/parent proof unavailable$"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE CoordinationError
+
+tests/steward/prmaintenance/test_executor.py:548: Failed</failure></testcase><testcase classname="tests.steward.prmaintenance.test_executor" name="test_post_effect_mismatch_cannot_invent_matching_merge_settlement[parents]" time="7.987"><failure message="Failed: DID NOT RAISE CoordinationError">tmp_path = PosixPath('/data/data/com.termux/files/usr/tmp/pytest-of-u0_a574/pytest-256/test_post_effect_mismatch_cann2')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x71f4701eb0&gt;
+mismatch = 'parents'
+
+    @pytest.mark.parametrize("mismatch", ["head", "base", "parents"])
+    def test_post_effect_mismatch_cannot_invent_matching_merge_settlement(tmp_path, monkeypatch, mismatch):
+        fixture = world(tmp_path, monkeypatch)
+        _, forge, clock, executor, _, _ = fixture
+        operation = prepare(fixture)
+        def race():
+            if mismatch == "head": forge.fact["head"]["sha"] = "e" * 40
+            elif mismatch == "base": forge.fact["base"]["ref"] = "other"
+            else: forge.parentShas = [forge.fx.base, "e" * 40]
+        forge.before = race
+&gt;       with pytest.raises(core.CoordinationError, match="^matching independently verified merge/parent proof unavailable$"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE CoordinationError
+
+tests/steward/prmaintenance/test_executor.py:548: Failed</failure></testcase></testsuite></testsuites>

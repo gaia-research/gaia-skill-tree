@@ -1,0 +1,27 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_invalid_or_untrusted_completion_never_retires_or_refunds_sender _____
+
+fixture = (PosixPath('/data/data/com.termux/files/usr/tmp/pytest-of-u0_a574/pytest-258/test_invalid_or_untrusted_comp0/remote.gi..., PosixPath('/data/data/com.termux/files/usr/tmp/pytest-of-u0_a574/pytest-258/test_invalid_or_untrusted_comp0/second'))
+
+    def test_invalid_or_untrusted_completion_never_retires_or_refunds_sender(fixture):
+        _, binding, first, second = fixture
+        services = FakeServices()
+        coord = coordinator(first, binding, services)
+        token = prepared(coord)
+        original = services.completion
+        def invalidCompletion(operation, invocationId, response):
+            result = original(operation, invocationId, response)
+            result["attemptId"] = "0" * 64
+            return result
+        services.completion = invalidCompletion
+>       with pytest.raises(core.CoordinationError, match="exact invocation"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'exact invocation'
+E         Actual message: 'sole invocation outcome unavailable'
+
+tests/steward/prmaintenance/test_coordination.py:490: AssertionError
+=========================== short test summary info ============================
+FAILED tests/steward/prmaintenance/test_coordination.py::test_invalid_or_untrusted_completion_never_retires_or_refunds_sender
+1 failed in 2.69s

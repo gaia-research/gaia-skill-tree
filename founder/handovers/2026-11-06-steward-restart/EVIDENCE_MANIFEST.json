@@ -1,0 +1,1773 @@
+{
+  "purpose": "Public restart evidence, no automatic source acceptance or live-state restoration",
+  "artifacts": [
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/coordination-comment.md",
+      "published": "evidence/ledger-recovery/coordination-comment.md",
+      "originalSha256": "67a56ab9c8abf30b4a4cbc45d6014fb0bd47b45a05c88736484768bd42051bd0",
+      "publishedSha256": "67a56ab9c8abf30b4a4cbc45d6014fb0bd47b45a05c88736484768bd42051bd0",
+      "originalBytes": 1746,
+      "publishedBytes": 1746,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/lane-c-assurance-design.md",
+      "published": "evidence/ledger-recovery/lane-c-assurance-design.md",
+      "originalSha256": "8c4f05c682a6b46e31a00a675bbc39f30a0092e7db6a378c3be6670e1283f34b",
+      "publishedSha256": "8c4f05c682a6b46e31a00a675bbc39f30a0092e7db6a378c3be6670e1283f34b",
+      "originalBytes": 6661,
+      "publishedBytes": 6661,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/founder-queue-inventory.md",
+      "published": "evidence/ledger-recovery/founder-queue-inventory.md",
+      "originalSha256": "9a815775468786192312ac968025989273ef7ba08cfb9ffb7c762b86f40599af",
+      "publishedSha256": "9a815775468786192312ac968025989273ef7ba08cfb9ffb7c762b86f40599af",
+      "originalBytes": 12204,
+      "publishedBytes": 12204,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/founder-queue-comment.md",
+      "published": "evidence/ledger-recovery/founder-queue-comment.md",
+      "originalSha256": "f04de1cfe9c74735427ac4b0cb8a97e4a1e0c05e23c906fde439add437f4405d",
+      "publishedSha256": "f04de1cfe9c74735427ac4b0cb8a97e4a1e0c05e23c906fde439add437f4405d",
+      "originalBytes": 11193,
+      "publishedBytes": 11193,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/unbounded-b-worker.md",
+      "published": "evidence/ledger-recovery/unbounded-b-worker.md",
+      "originalSha256": "dc954faf9d511861e85ec3ce1a668d0e995ac0e917bbd92b7c42fe6b22d8e8b8",
+      "publishedSha256": "68e16733da9e1dd09d6eeac6fd0190c532e9539f60018e96c25069d0c91990a8",
+      "originalBytes": 7838,
+      "publishedBytes": 7811,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/lane-a-integration-comment.md",
+      "published": "evidence/ledger-recovery/lane-a-integration-comment.md",
+      "originalSha256": "3512e919d3b4dd943ce878ca345427463f31776eb337264aa9b72e74c412361f",
+      "publishedSha256": "3512e919d3b4dd943ce878ca345427463f31776eb337264aa9b72e74c412361f",
+      "originalBytes": 2256,
+      "publishedBytes": 2256,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/lane-a-live-comment.md",
+      "published": "evidence/ledger-recovery/lane-a-live-comment.md",
+      "originalSha256": "681ca04744dfb2b91154746146bb7ffc26388b4381dbaa81208dfa52d5362e30",
+      "publishedSha256": "681ca04744dfb2b91154746146bb7ffc26388b4381dbaa81208dfa52d5362e30",
+      "originalBytes": 2921,
+      "publishedBytes": 2921,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/lane-b-preserved-comment.md",
+      "published": "evidence/ledger-recovery/lane-b-preserved-comment.md",
+      "originalSha256": "51c10f678fdf41812c563c81433ddf9da8411335ddffa0d7e7c2a3b623b5ad9b",
+      "publishedSha256": "51c10f678fdf41812c563c81433ddf9da8411335ddffa0d7e7c2a3b623b5ad9b",
+      "originalBytes": 2615,
+      "publishedBytes": 2615,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/lane-b-independent-final-review.md",
+      "published": "evidence/ledger-recovery/lane-b-independent-final-review.md",
+      "originalSha256": "3197ba64d44de0d0c5e6e568b41dcdf8220e0602030e26c02ece6e395fca3164",
+      "publishedSha256": "3197ba64d44de0d0c5e6e568b41dcdf8220e0602030e26c02ece6e395fca3164",
+      "originalBytes": 5900,
+      "publishedBytes": 5900,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/lane-b-rejection-comment.md",
+      "published": "evidence/ledger-recovery/lane-b-rejection-comment.md",
+      "originalSha256": "c175ac479a8bb58230ea83f65f0aba736429eb399ca99da967da7e914320e94e",
+      "publishedSha256": "c175ac479a8bb58230ea83f65f0aba736429eb399ca99da967da7e914320e94e",
+      "originalBytes": 3262,
+      "publishedBytes": 3262,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/ci-scope-worker-proof.md",
+      "published": "evidence/ledger-recovery/ci-scope-worker-proof.md",
+      "originalSha256": "202c814acf410a679876423d22b8300c08686880919ae9a37f1a35d1942f065a",
+      "publishedSha256": "202c814acf410a679876423d22b8300c08686880919ae9a37f1a35d1942f065a",
+      "originalBytes": 1678,
+      "publishedBytes": 1678,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/ci-scope-complete-proof.md",
+      "published": "evidence/ledger-recovery/ci-scope-complete-proof.md",
+      "originalSha256": "27003b814d7eb2dbc51bd4c3d3d14cdc57cdd6fee5148fb9bed12cb703e2dfc7",
+      "publishedSha256": "27003b814d7eb2dbc51bd4c3d3d14cdc57cdd6fee5148fb9bed12cb703e2dfc7",
+      "originalBytes": 1715,
+      "publishedBytes": 1715,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/ci-scope-independent-review.md",
+      "published": "evidence/ledger-recovery/ci-scope-independent-review.md",
+      "originalSha256": "5a5fdfb995bc7ee104108bc5ac16a855554c75548472fce0c47eacc8beeddad1",
+      "publishedSha256": "5a5fdfb995bc7ee104108bc5ac16a855554c75548472fce0c47eacc8beeddad1",
+      "originalBytes": 4690,
+      "publishedBytes": 4690,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/unused-import-composition-independent-review.md",
+      "published": "evidence/ledger-recovery/unused-import-composition-independent-review.md",
+      "originalSha256": "f91bb51a8dbba9c6378c1153e082bf042d509e7f69ddb233b9b7406125493d01",
+      "publishedSha256": "f91bb51a8dbba9c6378c1153e082bf042d509e7f69ddb233b9b7406125493d01",
+      "originalBytes": 3827,
+      "publishedBytes": 3827,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/lane-b-actual-data-plan.md",
+      "published": "evidence/ledger-recovery/lane-b-actual-data-plan.md",
+      "originalSha256": "dd06676041d7c274d98673479d3443ca4db89c667c139eac6886382f8a559c7d",
+      "publishedSha256": "dd06676041d7c274d98673479d3443ca4db89c667c139eac6886382f8a559c7d",
+      "originalBytes": 26195,
+      "publishedBytes": 26195,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/archive-integrated-independent-review.md",
+      "published": "evidence/ledger-recovery/archive-integrated-independent-review.md",
+      "originalSha256": "2053a924604940c3530d5835fffa161ee27af842275e477e4c47db776f4cc712",
+      "publishedSha256": "2053a924604940c3530d5835fffa161ee27af842275e477e4c47db776f4cc712",
+      "originalBytes": 11565,
+      "publishedBytes": 11565,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/archive-open-reference-independent-review.md",
+      "published": "evidence/ledger-recovery/archive-open-reference-independent-review.md",
+      "originalSha256": "8395dda4942a2249b6b8df5ba6285e3b717a37b78a2b46c0b797fe399fe8be37",
+      "publishedSha256": "8395dda4942a2249b6b8df5ba6285e3b717a37b78a2b46c0b797fe399fe8be37",
+      "originalBytes": 8565,
+      "publishedBytes": 8565,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/cycle-02-public-resolution.md",
+      "published": "evidence/ledger-recovery/cycle-02-public-resolution.md",
+      "originalSha256": "20e2ead8e7ce2837d6106dcd52e67c17162fed953f90c15582b079827040fdf3",
+      "publishedSha256": "20e2ead8e7ce2837d6106dcd52e67c17162fed953f90c15582b079827040fdf3",
+      "originalBytes": 2277,
+      "publishedBytes": 2277,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/lane-b-shared-complete-proof.md",
+      "published": "evidence/ledger-recovery/lane-b-shared-complete-proof.md",
+      "originalSha256": "3bf193d0fe9046d659745b910a3ebcce3a0299b38c7775286a7900bd4433b682",
+      "publishedSha256": "8d9a248fa98795fb9d6467b46dd510626687815adf99907ab57be5c4d95393a3",
+      "originalBytes": 12819,
+      "publishedBytes": 12792,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/lane-b-repaired-independent-review.md",
+      "published": "evidence/ledger-recovery/lane-b-repaired-independent-review.md",
+      "originalSha256": "4fec168ec8ac2067e882e37068c0c9d0874bdece40bed4651a42ab7dce048efa",
+      "publishedSha256": "4fec168ec8ac2067e882e37068c0c9d0874bdece40bed4651a42ab7dce048efa",
+      "originalBytes": 6224,
+      "publishedBytes": 6224,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/lane-b-ambiguity-repair-proof.md",
+      "published": "evidence/ledger-recovery/lane-b-ambiguity-repair-proof.md",
+      "originalSha256": "fa211c7502d6d39a0d98bc60e16e31f96337206759550a544a3d1e12b42619b2",
+      "publishedSha256": "0cb031a913a8eff8dcc0794b888b06619e49bbe2bb4bd9fe2eade5ef90d64ff4",
+      "originalBytes": 13273,
+      "publishedBytes": 13219,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/lane-b-canonical-independent-review.md",
+      "published": "evidence/ledger-recovery/lane-b-canonical-independent-review.md",
+      "originalSha256": "8027cb9ae4f744d6f6f1f8f9257589caee50426c365e8a74eb9a890ed58867bb",
+      "publishedSha256": "8027cb9ae4f744d6f6f1f8f9257589caee50426c365e8a74eb9a890ed58867bb",
+      "originalBytes": 9689,
+      "publishedBytes": 9689,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/ledger-recovery/archive-open-reference-repair-proof.md",
+      "published": "evidence/ledger-recovery/archive-open-reference-repair-proof.md",
+      "originalSha256": "9965d4bcd203945771a8ad2e6c5d3508f2a733c34a3d528766c9c5ba9bdd3366",
+      "publishedSha256": "9e21b9d8b777059de466794d06d819950f5dd3b5fd0c54cf997b89a449c3bcec",
+      "originalBytes": 14849,
+      "publishedBytes": 14822,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/coordination-comment.md",
+      "published": "evidence/founder-reconciliation/coordination-comment.md",
+      "originalSha256": "74151d6735666c1176c6b0855543b896d5e73956bc68e47faeb18cfed87b9b03",
+      "publishedSha256": "74151d6735666c1176c6b0855543b896d5e73956bc68e47faeb18cfed87b9b03",
+      "originalBytes": 4441,
+      "publishedBytes": 4441,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/census-comment.md",
+      "published": "evidence/founder-reconciliation/census-comment.md",
+      "originalSha256": "f0d5d0c3dafa357cc951269643b6909b1a7ce17162a103100d7a61ea9ef6a5f0",
+      "publishedSha256": "f0d5d0c3dafa357cc951269643b6909b1a7ce17162a103100d7a61ea9ef6a5f0",
+      "originalBytes": 1945,
+      "publishedBytes": 1945,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/quota-blocker-comment.md",
+      "published": "evidence/founder-reconciliation/quota-blocker-comment.md",
+      "originalSha256": "fcc7d6ba02eeebca5f0956502cb3e7df0774e3b99e8b2161e44c8304e7556342",
+      "publishedSha256": "fcc7d6ba02eeebca5f0956502cb3e7df0774e3b99e8b2161e44c8304e7556342",
+      "originalBytes": 2243,
+      "publishedBytes": 2243,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/dry-run-comment.md",
+      "published": "evidence/founder-reconciliation/dry-run-comment.md",
+      "originalSha256": "922ba88b8ac565daf505f2ba7d02d9e727f621fe2017b9446c46a33174dfe2fb",
+      "publishedSha256": "922ba88b8ac565daf505f2ba7d02d9e727f621fe2017b9446c46a33174dfe2fb",
+      "originalBytes": 3862,
+      "publishedBytes": 3862,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/shared-write-followup.md",
+      "published": "evidence/founder-reconciliation/shared-write-followup.md",
+      "originalSha256": "97647a1b11d949cfabf508e62084dcaa396248281aefd2f58a0f0afa61e298d1",
+      "publishedSha256": "97647a1b11d949cfabf508e62084dcaa396248281aefd2f58a0f0afa61e298d1",
+      "originalBytes": 3334,
+      "publishedBytes": 3334,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/release-v9.3.0-followup.md",
+      "published": "evidence/founder-reconciliation/release-v9.3.0-followup.md",
+      "originalSha256": "75736af47234d445dc343b4ddd8f6926a0df244cb3af27d81a4f229ab5ad1d35",
+      "publishedSha256": "75736af47234d445dc343b4ddd8f6926a0df244cb3af27d81a4f229ab5ad1d35",
+      "originalBytes": 4458,
+      "publishedBytes": 4458,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/founder-watcher-proof.md",
+      "published": "evidence/founder-reconciliation/founder-watcher-proof.md",
+      "originalSha256": "51e50526b5ba8cc6e7305ade9467202781f9c90afaef939b4d1ac859f0ee1865",
+      "publishedSha256": "51e50526b5ba8cc6e7305ade9467202781f9c90afaef939b4d1ac859f0ee1865",
+      "originalBytes": 15999,
+      "publishedBytes": 15999,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/founder-watcher-independent-review.md",
+      "published": "evidence/founder-reconciliation/founder-watcher-independent-review.md",
+      "originalSha256": "be203dfc96c8de9ebfc9173df40d7b12c433a557d820393117767d48d1f018bb",
+      "publishedSha256": "be203dfc96c8de9ebfc9173df40d7b12c433a557d820393117767d48d1f018bb",
+      "originalBytes": 6696,
+      "publishedBytes": 6696,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/security-mirror-proof.md",
+      "published": "evidence/founder-reconciliation/security-mirror-proof.md",
+      "originalSha256": "b64e33ac672495a04bab554c292a361513cf4980300b6c36f58317a111e4265a",
+      "publishedSha256": "b64e33ac672495a04bab554c292a361513cf4980300b6c36f58317a111e4265a",
+      "originalBytes": 13104,
+      "publishedBytes": 13104,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/security-mirror-independent-review.md",
+      "published": "evidence/founder-reconciliation/security-mirror-independent-review.md",
+      "originalSha256": "cc1e3529235ae97fd7d077bb36b26998f018245c87622cbe47896d880a1bc953",
+      "publishedSha256": "cc1e3529235ae97fd7d077bb36b26998f018245c87622cbe47896d880a1bc953",
+      "originalBytes": 5139,
+      "publishedBytes": 5139,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/security-mirror-final-independent-review.md",
+      "published": "evidence/founder-reconciliation/security-mirror-final-independent-review.md",
+      "originalSha256": "b1a254d247539c369014b67b2ecb7b5d922ec25c63a75db3029aeba819c345c9",
+      "publishedSha256": "b1a254d247539c369014b67b2ecb7b5d922ec25c63a75db3029aeba819c345c9",
+      "originalBytes": 5713,
+      "publishedBytes": 5713,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/security-control-independent-audit.md",
+      "published": "evidence/founder-reconciliation/security-control-independent-audit.md",
+      "originalSha256": "ec8f8b2b2b1e268f1922d9ed52891ea53cc9dc3081c0cf5d9c92869e462449b9",
+      "publishedSha256": "ec8f8b2b2b1e268f1922d9ed52891ea53cc9dc3081c0cf5d9c92869e462449b9",
+      "originalBytes": 7292,
+      "publishedBytes": 7292,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/security-comment-repair-proof.md",
+      "published": "evidence/founder-reconciliation/security-comment-repair-proof.md",
+      "originalSha256": "00d127078e0ea30105d0ae4dd891cd80196ceaf52b7ae3e98a3a18ba8e5f95df",
+      "publishedSha256": "00d127078e0ea30105d0ae4dd891cd80196ceaf52b7ae3e98a3a18ba8e5f95df",
+      "originalBytes": 3748,
+      "publishedBytes": 3748,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/security-semantic-independent-audit.md",
+      "published": "evidence/founder-reconciliation/security-semantic-independent-audit.md",
+      "originalSha256": "b8130cdb099af9d6b4a1ff71fc0f5f2546f5567cc7cdb8129b53d52acd55b151",
+      "publishedSha256": "754e01121c2651fc18a6123442f690af3d8a50a348296522aed0f92299df50a9",
+      "originalBytes": 33813,
+      "publishedBytes": 33843,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/security-aggregate-independent-review.md",
+      "published": "evidence/founder-reconciliation/security-aggregate-independent-review.md",
+      "originalSha256": "f75babdf5319272911b3c88ea9b8825169d13def73653b77c53195d9ec47394f",
+      "publishedSha256": "4868108323888dcc7fd40dc6954606550e9d540806e9010c74518a3ea628f48b",
+      "originalBytes": 19349,
+      "publishedBytes": 19268,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/founder-watcher-strict-independent-review.md",
+      "published": "evidence/founder-reconciliation/founder-watcher-strict-independent-review.md",
+      "originalSha256": "515f348274de35a05834752582d8d2128a7a092090046cea8a6194615debf2ae",
+      "publishedSha256": "515f348274de35a05834752582d8d2128a7a092090046cea8a6194615debf2ae",
+      "originalBytes": 8903,
+      "publishedBytes": 8903,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/memory-archival-founder-question.md",
+      "published": "evidence/founder-reconciliation/memory-archival-founder-question.md",
+      "originalSha256": "039d3d21eef8bea64dc859e674cbb15caed7fae81c370d1fe63d1a906e68dabf",
+      "publishedSha256": "039d3d21eef8bea64dc859e674cbb15caed7fae81c370d1fe63d1a906e68dabf",
+      "originalBytes": 2925,
+      "publishedBytes": 2925,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/founder-cache-composition-proof.md",
+      "published": "evidence/founder-reconciliation/founder-cache-composition-proof.md",
+      "originalSha256": "0c723ffcba41b8413e7e71327502ba53da659fb64758ff8bdfc8657c22e962cc",
+      "publishedSha256": "8665d472aeac7d2e8dea26e6f75eb22880c61bea9b9e721f88b0017cd1d05518",
+      "originalBytes": 17583,
+      "publishedBytes": 17556,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/founder-merged-public-receipt.md",
+      "published": "evidence/founder-reconciliation/founder-merged-public-receipt.md",
+      "originalSha256": "418cb24b095c21940046876c9ca6abed68033eca114e2ad82ae290531e284d74",
+      "publishedSha256": "418cb24b095c21940046876c9ca6abed68033eca114e2ad82ae290531e284d74",
+      "originalBytes": 1985,
+      "publishedBytes": 1985,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/post-founder-observation-public.md",
+      "published": "evidence/founder-reconciliation/post-founder-observation-public.md",
+      "originalSha256": "009b89c12b3451e78d1ff542aa3423cdeff8769546f4972173770bf3dc4dd63b",
+      "publishedSha256": "009b89c12b3451e78d1ff542aa3423cdeff8769546f4972173770bf3dc4dd63b",
+      "originalBytes": 1809,
+      "publishedBytes": 1809,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/routines-priority-directive.md",
+      "published": "evidence/founder-reconciliation/routines-priority-directive.md",
+      "originalSha256": "e5fd46da79e7328e0164c1d39e42fe2a6a477a8d7f0009ebf4af4606e54b49e7",
+      "publishedSha256": "e5fd46da79e7328e0164c1d39e42fe2a6a477a8d7f0009ebf4af4606e54b49e7",
+      "originalBytes": 1499,
+      "publishedBytes": 1499,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/security-checker-repair-proof.md",
+      "published": "evidence/founder-reconciliation/security-checker-repair-proof.md",
+      "originalSha256": "f66d039c433a0396c204518cbda74465915e2eaf59e92d8b2c793e14ecc2b598",
+      "publishedSha256": "f66d039c433a0396c204518cbda74465915e2eaf59e92d8b2c793e14ecc2b598",
+      "originalBytes": 3409,
+      "publishedBytes": 3409,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/founder-watcher-repair-proof.md",
+      "published": "evidence/founder-reconciliation/founder-watcher-repair-proof.md",
+      "originalSha256": "58b4b42e914e2d3d1722d74ca6bb171d3b366fed977e59cff7a26c3d99554092",
+      "publishedSha256": "58b4b42e914e2d3d1722d74ca6bb171d3b366fed977e59cff7a26c3d99554092",
+      "originalBytes": 5443,
+      "publishedBytes": 5443,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/security-row-independent-audit.md",
+      "published": "evidence/founder-reconciliation/security-row-independent-audit.md",
+      "originalSha256": "fa2e3a2c2cb96956bd5ff8c6f9cc32d7c444d5a32812e74e963c4f9702ed47e1",
+      "publishedSha256": "fa2e3a2c2cb96956bd5ff8c6f9cc32d7c444d5a32812e74e963c4f9702ed47e1",
+      "originalBytes": 4860,
+      "publishedBytes": 4860,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/founder-watcher-final-independent-review.md",
+      "published": "evidence/founder-reconciliation/founder-watcher-final-independent-review.md",
+      "originalSha256": "1a944ee2d4839283ce8adcd83af505bc78f50e90acf07baa444b457259e51a37",
+      "publishedSha256": "1a944ee2d4839283ce8adcd83af505bc78f50e90acf07baa444b457259e51a37",
+      "originalBytes": 2190,
+      "publishedBytes": 2190,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/security-comment-independent-review.md",
+      "published": "evidence/founder-reconciliation/security-comment-independent-review.md",
+      "originalSha256": "14b2c94c5b2d4a0dd5dee809f7a94d7c0ac2c8e16cd928bd8f231e4b4477c19c",
+      "publishedSha256": "14b2c94c5b2d4a0dd5dee809f7a94d7c0ac2c8e16cd928bd8f231e4b4477c19c",
+      "originalBytes": 5827,
+      "publishedBytes": 5827,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/founder-watcher-strict-repair-proof.md",
+      "published": "evidence/founder-reconciliation/founder-watcher-strict-repair-proof.md",
+      "originalSha256": "467e89a425bbd54eeb776d1b85b5a92e03be944c10a5a5d7ce5d19c5c6a89d15",
+      "publishedSha256": "467e89a425bbd54eeb776d1b85b5a92e03be944c10a5a5d7ce5d19c5c6a89d15",
+      "originalBytes": 10877,
+      "publishedBytes": 10877,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/security-merged-public-receipt.md",
+      "published": "evidence/founder-reconciliation/security-merged-public-receipt.md",
+      "originalSha256": "bcb22ecb8e740ae2f246a9b99304de73048972acb0bc8e03ccc2d16203d9a529",
+      "publishedSha256": "bcb22ecb8e740ae2f246a9b99304de73048972acb0bc8e03ccc2d16203d9a529",
+      "originalBytes": 1831,
+      "publishedBytes": 1831,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/memory-archival-founder-A-receipt.md",
+      "published": "evidence/founder-reconciliation/memory-archival-founder-A-receipt.md",
+      "originalSha256": "797c832457545ace03066600903c100ab35ff338264209d1e58e29f5c1ba321f",
+      "publishedSha256": "797c832457545ace03066600903c100ab35ff338264209d1e58e29f5c1ba321f",
+      "originalBytes": 1254,
+      "publishedBytes": 1254,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/founder-composition-independent-review.md",
+      "published": "evidence/founder-reconciliation/founder-composition-independent-review.md",
+      "originalSha256": "176bab3bcf99a65e80f56b15dc14afc81d8bc4dd3fe8d70098f88443551c482d",
+      "publishedSha256": "176bab3bcf99a65e80f56b15dc14afc81d8bc4dd3fe8d70098f88443551c482d",
+      "originalBytes": 7514,
+      "publishedBytes": 7514,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/founder-verification-completion-review.md",
+      "published": "evidence/founder-reconciliation/founder-verification-completion-review.md",
+      "originalSha256": "547b82ecf377ea8f96dbc5871c009d1145be949f38847cb244172f0ac0ecc59d",
+      "publishedSha256": "9fd812c0243517a424f058083aad6e277ab3a917c624cb7c7d29b7516998558e",
+      "originalBytes": 22177,
+      "publishedBytes": 22150,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/evidence-prose-repair-proof.md",
+      "published": "evidence/founder-reconciliation/evidence-prose-repair-proof.md",
+      "originalSha256": "aa57f611126637278f1ae18acdf46e58501e4c6206670970b80af0330886b12d",
+      "publishedSha256": "aa57f611126637278f1ae18acdf46e58501e4c6206670970b80af0330886b12d",
+      "originalBytes": 4456,
+      "publishedBytes": 4456,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/evidence-prose-independent-review.md",
+      "published": "evidence/founder-reconciliation/evidence-prose-independent-review.md",
+      "originalSha256": "4a8085e944c1a0e2af3295addaf688ccb03255cff2f4a2ee48ca40efc63b3cb7",
+      "publishedSha256": "4a8085e944c1a0e2af3295addaf688ccb03255cff2f4a2ee48ca40efc63b3cb7",
+      "originalBytes": 10239,
+      "publishedBytes": 10239,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/founder-reconciliation/evidence-prose-merged-public-receipt.md",
+      "published": "evidence/founder-reconciliation/evidence-prose-merged-public-receipt.md",
+      "originalSha256": "fc4c27078244441e34d23f19dbdf49d3f22bab0e0eb6065a419d6effa16c2604",
+      "publishedSha256": "fc4c27078244441e34d23f19dbdf49d3f22bab0e0eb6065a419d6effa16c2604",
+      "originalBytes": 1000,
+      "publishedBytes": 1000,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/implementation-plan.md",
+      "published": "evidence/routine19-shared/implementation-plan.md",
+      "originalSha256": "6afcd3cf71d01a5c96f23f529b8ade205ca882fe7efbeb58c2d6d66c4c2bf128",
+      "publishedSha256": "47c80b103680b54ef65817c018869b04d060383cf94ebe04e2367a767f9ef35c",
+      "originalBytes": 64095,
+      "publishedBytes": 64075,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/critical-write-advisor.md",
+      "published": "evidence/routine19-shared/critical-write-advisor.md",
+      "originalSha256": "18eda73ab8f047fca0e1de7c6b55993bb917485b7a5cd174cf6ea710aa9eb848",
+      "publishedSha256": "18eda73ab8f047fca0e1de7c6b55993bb917485b7a5cd174cf6ea710aa9eb848",
+      "originalBytes": 6669,
+      "publishedBytes": 6669,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/preserve-main-proof.md",
+      "published": "evidence/routine19-shared/preserve-main-proof.md",
+      "originalSha256": "919ca006eb0e481d1b8de2992c3b9fc309eda3b957acd6f349a18a2588d6d5f4",
+      "publishedSha256": "919ca006eb0e481d1b8de2992c3b9fc309eda3b957acd6f349a18a2588d6d5f4",
+      "originalBytes": 5933,
+      "publishedBytes": 5933,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/preserve-main-independent-review.md",
+      "published": "evidence/routine19-shared/preserve-main-independent-review.md",
+      "originalSha256": "e86037cc236efec1d1dac29bbb950f3e67ce9ca70ad3872ea627db14c6c4a451",
+      "publishedSha256": "e86037cc236efec1d1dac29bbb950f3e67ce9ca70ad3872ea627db14c6c4a451",
+      "originalBytes": 6071,
+      "publishedBytes": 6071,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/preserve-main-verification-completion-review.md",
+      "published": "evidence/routine19-shared/preserve-main-verification-completion-review.md",
+      "originalSha256": "aaae8d9a648d1fa073721144ca3c484205c7a32d3f0fb413c3f0d8904826719c",
+      "publishedSha256": "658f34be6cd8242f5ff4107dca241a8dbfa3ce89769ff4e7bad78dd584b2d561",
+      "originalBytes": 20099,
+      "publishedBytes": 20045,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/preserve-main-merged-public-receipt.md",
+      "published": "evidence/routine19-shared/preserve-main-merged-public-receipt.md",
+      "originalSha256": "703e3181f0b680df0cd0e211c22dcd49dde6d375b21deaeb28e66b39773d0b17",
+      "publishedSha256": "703e3181f0b680df0cd0e211c22dcd49dde6d375b21deaeb28e66b39773d0b17",
+      "originalBytes": 1467,
+      "publishedBytes": 1467,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/core-implementation-proof.md",
+      "published": "evidence/routine19-shared/core-implementation-proof.md",
+      "originalSha256": "70740dd5bd0195db42d119aa6efec908fd626f0b29a1472418a09880fe165408",
+      "publishedSha256": "773b6a566550582212ba3f35a94c5400899ea9303d2ec9f108c6499ff47caaf8",
+      "originalBytes": 18117,
+      "publishedBytes": 18063,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/core-independent-review.md",
+      "published": "evidence/routine19-shared/core-independent-review.md",
+      "originalSha256": "7aa6d1bee4816d9a815fd176ad013b1f61aa3fd88ce35a42a536ea1c938f6605",
+      "publishedSha256": "7aa6d1bee4816d9a815fd176ad013b1f61aa3fd88ce35a42a536ea1c938f6605",
+      "originalBytes": 9507,
+      "publishedBytes": 9507,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/core-boundary-repair-proof.md",
+      "published": "evidence/routine19-shared/core-boundary-repair-proof.md",
+      "originalSha256": "a5b0f4fd7166c211e7e3b7390c01b7b08cdcd734c2beff134a64c690b6d71154",
+      "publishedSha256": "82da40f701933d8a6ea5beae29d4a3cd91e1b075085e26c6ff4ff27cf4c494b7",
+      "originalBytes": 15125,
+      "publishedBytes": 15071,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/core-boundary-independent-review.md",
+      "published": "evidence/routine19-shared/core-boundary-independent-review.md",
+      "originalSha256": "b3636bb9c4bf2d97fc956b68dbb4df41aa65a0c22e5de622259597a88991aa03",
+      "publishedSha256": "c47a02ffa4ee8dd5acc609b53721444d8b7331bfc35058e5f571db4a55eb9bce",
+      "originalBytes": 11515,
+      "publishedBytes": 11488,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/wiring-implementation-proof.md",
+      "published": "evidence/routine19-shared/wiring-implementation-proof.md",
+      "originalSha256": "3cef27a8742296308fa50e0ff7e0624e256c2524fd6c90f84645d3085cbfea40",
+      "publishedSha256": "1a158b505f1575bd189a0569c9fc1cf7b8d795c3328de635e2a759c49fa5926b",
+      "originalBytes": 22764,
+      "publishedBytes": 22710,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/wiring-whole-independent-review.md",
+      "published": "evidence/routine19-shared/wiring-whole-independent-review.md",
+      "originalSha256": "439f060bda69931691241cd874a3ace1995b8bd7180e94b4db35d590e4cf42cd",
+      "publishedSha256": "439f060bda69931691241cd874a3ace1995b8bd7180e94b4db35d590e4cf42cd",
+      "originalBytes": 7081,
+      "publishedBytes": 7081,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/wiring-whole-independent-review-completion.md",
+      "published": "evidence/routine19-shared/wiring-whole-independent-review-completion.md",
+      "originalSha256": "9b62de9c460dabff0164fd5d3f3492f0cc437d62f2c0c90f87adac57a5a3c2d0",
+      "publishedSha256": "9b62de9c460dabff0164fd5d3f3492f0cc437d62f2c0c90f87adac57a5a3c2d0",
+      "originalBytes": 8546,
+      "publishedBytes": 8546,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/unknown-binding-repair-proof.md",
+      "published": "evidence/routine19-shared/unknown-binding-repair-proof.md",
+      "originalSha256": "ff6bc0706b2d534618b8755c00ffd22305d0556543a1d176710085ed78252f2b",
+      "publishedSha256": "672915d1f9c32deeb3da7bd754853305c5caf4a11624e14b0e202f4f4c6423b2",
+      "originalBytes": 6604,
+      "publishedBytes": 6577,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/wiring-whole-repaired-independent-review.md",
+      "published": "evidence/routine19-shared/wiring-whole-repaired-independent-review.md",
+      "originalSha256": "c2bb2ca5f2cea8abf41b63e1b439b1d101a4c62ffbbaee71aa741d8e29046766",
+      "publishedSha256": "c2bb2ca5f2cea8abf41b63e1b439b1d101a4c62ffbbaee71aa741d8e29046766",
+      "originalBytes": 9626,
+      "publishedBytes": 9626,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/git-object-boundary-repair-proof.md",
+      "published": "evidence/routine19-shared/git-object-boundary-repair-proof.md",
+      "originalSha256": "586b1ad004e560608336dfea63280ebaa571dcc25fb07d2b4cd67ec0003a9b76",
+      "publishedSha256": "ba6e21b1b5b1ba9b263c5ebd592c9d6c8253d162bcdc4cb7b60fda0eb3f407d1",
+      "originalBytes": 8702,
+      "publishedBytes": 8675,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/wiring-whole-git-hardened-independent-review.md",
+      "published": "evidence/routine19-shared/wiring-whole-git-hardened-independent-review.md",
+      "originalSha256": "81c472f35c827360a2e1f9085da9cdb8f60ac990b90a1f19215b746a4ebdff73",
+      "publishedSha256": "81c472f35c827360a2e1f9085da9cdb8f60ac990b90a1f19215b746a4ebdff73",
+      "originalBytes": 9042,
+      "publishedBytes": 9042,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/wiring-whole-exact-tree-independent-review.md",
+      "published": "evidence/routine19-shared/wiring-whole-exact-tree-independent-review.md",
+      "originalSha256": "2a8e7e9f3412291ab745a374b899b12b1a7411e3f637b1d7eaed079fc7038b75",
+      "publishedSha256": "2a8e7e9f3412291ab745a374b899b12b1a7411e3f637b1d7eaed079fc7038b75",
+      "originalBytes": 2482,
+      "publishedBytes": 2482,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/cloud-f1-f2-repair-proof.md",
+      "published": "evidence/routine19-shared/cloud-f1-f2-repair-proof.md",
+      "originalSha256": "90a00daa9d66c5fc855cdec69f7e157361957fb4e52a17e85f9c396b5c680603",
+      "publishedSha256": "efacb40bac949e9cd65b4293b6bccba42c259543a4ab29566380d70a1f5723c3",
+      "originalBytes": 11764,
+      "publishedBytes": 11710,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/f1-f2-dsflash-independent-review.md",
+      "published": "evidence/routine19-shared/f1-f2-dsflash-independent-review.md",
+      "originalSha256": "59060fab89e30ab0d92b4b2b9b564ce2a7b089e0608c6719dc4a63a6935bd933",
+      "publishedSha256": "6d6a250403cbde546539b42f6f5c1076c92aa3d7635e454175b5be138b047b18",
+      "originalBytes": 28758,
+      "publishedBytes": 28704,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-repair-proof.md",
+      "published": "evidence/routine19-shared/uncertainty-contract-repair-proof.md",
+      "originalSha256": "7d36e0456562e6fc36ccb8b7d53919e079fdae27c3450ea845076521363e8528",
+      "publishedSha256": "d782262f1e3c31bc6430bb9a8f56de8197932516bb1cec7d74dfa55816d09e31",
+      "originalBytes": 21813,
+      "publishedBytes": 21759,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-proof-gate.command.json",
+      "published": "evidence/routine19-shared/parent-3bf-proof-gate.command.json",
+      "originalSha256": "d7a176a24ff38dd6c497548bcd4d09331e75c972552e9b1b707d79506b14f3a2",
+      "publishedSha256": "3b0e25a8be1c947cab9c65e2f0964dd2565d0c8a7bdbc388c39da4ea8fccad3f",
+      "originalBytes": 725,
+      "publishedBytes": 671,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-proof-gate.log",
+      "published": "evidence/routine19-shared/parent-3bf-proof-gate.log",
+      "originalSha256": "f53ff3b50ff534ee6ccf353024817e96ccaf582a6523ac12b888b9bdd3c6dde6",
+      "publishedSha256": "f53ff3b50ff534ee6ccf353024817e96ccaf582a6523ac12b888b9bdd3c6dde6",
+      "originalBytes": 111,
+      "publishedBytes": 111,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-proof-gate.exit",
+      "published": "evidence/routine19-shared/parent-3bf-proof-gate.exit",
+      "originalSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publishedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalBytes": 2,
+      "publishedBytes": 2,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-progress.json",
+      "published": "evidence/routine19-shared/parent-3bf-progress.json",
+      "originalSha256": "f3b0af7877ba0c707cb98813d99a714361283b115f38ff8ea33d525233207d91",
+      "publishedSha256": "f3b0af7877ba0c707cb98813d99a714361283b115f38ff8ea33d525233207d91",
+      "originalBytes": 1064,
+      "publishedBytes": 1064,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-executor.log",
+      "published": "evidence/routine19-shared/parent-3bf-executor.log",
+      "originalSha256": "010b6a1e2eb2b3265e53699de655ffe209a0fe6a2b72a5ce9cbcb5f84dcc8857",
+      "publishedSha256": "010b6a1e2eb2b3265e53699de655ffe209a0fe6a2b72a5ce9cbcb5f84dcc8857",
+      "originalBytes": 111,
+      "publishedBytes": 111,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-coordination.command.json",
+      "published": "evidence/routine19-shared/parent-3bf-coordination.command.json",
+      "originalSha256": "81ad7e193b3a314a8828deea9db323651918790daac94a3fc139a54fd8913143",
+      "publishedSha256": "fa7e0d7d3cd54c4c4c377c2ea734e2a3fd71ca9217b325074e6d20bcb6ccfaa1",
+      "originalBytes": 761,
+      "publishedBytes": 707,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-coordination.junit.xml",
+      "published": "evidence/routine19-shared/parent-3bf-coordination.junit.xml",
+      "originalSha256": "914dae4db2d8060571ab2127ab081563a464596f9392bf12ca43e47db8fd764a",
+      "publishedSha256": "914dae4db2d8060571ab2127ab081563a464596f9392bf12ca43e47db8fd764a",
+      "originalBytes": 12770,
+      "publishedBytes": 12770,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-ledger-driver.log",
+      "published": "evidence/routine19-shared/parent-3bf-ledger-driver.log",
+      "originalSha256": "c0db37a87def7030cff9758a9fbf1605a9c5af4ab5d63171f3b11d61bb4b7555",
+      "publishedSha256": "c0db37a87def7030cff9758a9fbf1605a9c5af4ab5d63171f3b11d61bb4b7555",
+      "originalBytes": 261,
+      "publishedBytes": 261,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-ledger-driver.junit.xml",
+      "published": "evidence/routine19-shared/parent-3bf-ledger-driver.junit.xml",
+      "originalSha256": "947396f75493dd06a370aef4f2b93cbcfedcb3b035d1cec451b1e7d6c8ad28e2",
+      "publishedSha256": "947396f75493dd06a370aef4f2b93cbcfedcb3b035d1cec451b1e7d6c8ad28e2",
+      "originalBytes": 22001,
+      "publishedBytes": 22001,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-whole-steward.log",
+      "published": "evidence/routine19-shared/parent-3bf-whole-steward.log",
+      "originalSha256": "2b722c129df2bc4d284b44fa42d65da4646dc45e69ca94e2ba8cba9a5e1700de",
+      "publishedSha256": "2b722c129df2bc4d284b44fa42d65da4646dc45e69ca94e2ba8cba9a5e1700de",
+      "originalBytes": 3394,
+      "publishedBytes": 3394,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-whole-steward.exit",
+      "published": "evidence/routine19-shared/parent-3bf-whole-steward.exit",
+      "originalSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publishedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalBytes": 2,
+      "publishedBytes": 2,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/exact-tree-export-repair-proof.md",
+      "published": "evidence/routine19-shared/exact-tree-export-repair-proof.md",
+      "originalSha256": "9144df1edef3c11b4800d429a5bff1c01a35ec1964df1363fa033d5aca8c0860",
+      "publishedSha256": "9144df1edef3c11b4800d429a5bff1c01a35ec1964df1363fa033d5aca8c0860",
+      "originalBytes": 8372,
+      "publishedBytes": 8372,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/cloud-findings-20261106.md",
+      "published": "evidence/routine19-shared/cloud-findings-20261106.md",
+      "originalSha256": "57e787513e37868a89734ac3f3b44e2241b90b1f3893206b9b3cf96190ad7aad",
+      "publishedSha256": "57e787513e37868a89734ac3f3b44e2241b90b1f3893206b9b3cf96190ad7aad",
+      "originalBytes": 4912,
+      "publishedBytes": 4912,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-proof-gate.junit.xml",
+      "published": "evidence/routine19-shared/parent-3bf-proof-gate.junit.xml",
+      "originalSha256": "966056511e29683ba023c02dd903b63dbf8f3f7210aa02f19169eff8944f0c82",
+      "publishedSha256": "966056511e29683ba023c02dd903b63dbf8f3f7210aa02f19169eff8944f0c82",
+      "originalBytes": 9140,
+      "publishedBytes": 9140,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-executor.command.json",
+      "published": "evidence/routine19-shared/parent-3bf-executor.command.json",
+      "originalSha256": "d9c958c1e1a56e2f84046a7dfdbe66aa39b98f1880804399742bf2efe456adff",
+      "publishedSha256": "fab76b5eead9520ca0441d37b4dc4449b499847a930eb1c4f2ea030c18d4089e",
+      "originalBytes": 620,
+      "publishedBytes": 566,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-executor.junit.xml",
+      "published": "evidence/routine19-shared/parent-3bf-executor.junit.xml",
+      "originalSha256": "e88208a10fd88e523d59349543945134fce31f9b473dec4bc3bcf63e55ecd317",
+      "publishedSha256": "e88208a10fd88e523d59349543945134fce31f9b473dec4bc3bcf63e55ecd317",
+      "originalBytes": 10493,
+      "publishedBytes": 10493,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-executor.exit",
+      "published": "evidence/routine19-shared/parent-3bf-executor.exit",
+      "originalSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publishedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalBytes": 2,
+      "publishedBytes": 2,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-runner.command.json",
+      "published": "evidence/routine19-shared/parent-3bf-runner.command.json",
+      "originalSha256": "b9e5770b89a86944cbc11002e97841559114febaf11dfdbafef40a8ca3ef39b3",
+      "publishedSha256": "fa776bfdfaacc319b20bd0af3946ac5722dfb93d16de31d6c6192a4bbe23a5e4",
+      "originalBytes": 653,
+      "publishedBytes": 599,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-runner.log",
+      "published": "evidence/routine19-shared/parent-3bf-runner.log",
+      "originalSha256": "be7dc6dad061269592ea312d309c366bf767ab1db7c513b5efc2bc4429694a78",
+      "publishedSha256": "be7dc6dad061269592ea312d309c366bf767ab1db7c513b5efc2bc4429694a78",
+      "originalBytes": 191,
+      "publishedBytes": 191,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-independent-review.md",
+      "published": "evidence/routine19-shared/uncertainty-contract-independent-review.md",
+      "originalSha256": "c65a409e561702739306c6aac931be76ec254954ceb5237096a8c47e91cf3cfd",
+      "publishedSha256": "aa9aef407e9f96788908b086162ef02d31c6c4179bd0c41c018e6c02ffa7104d",
+      "originalBytes": 24356,
+      "publishedBytes": 24302,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-runner.junit.xml",
+      "published": "evidence/routine19-shared/parent-3bf-runner.junit.xml",
+      "originalSha256": "35cc36c67fda5f1c490470ec125396dc866948b72690ade6d984501b3a4aa133",
+      "publishedSha256": "c71558d2d2053769d5857b3f382072314a9bf67b08e585e91f404db003f39421",
+      "originalBytes": 12397,
+      "publishedBytes": 12418,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-runner.exit",
+      "published": "evidence/routine19-shared/parent-3bf-runner.exit",
+      "originalSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publishedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalBytes": 2,
+      "publishedBytes": 2,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-coordination.log",
+      "published": "evidence/routine19-shared/parent-3bf-coordination.log",
+      "originalSha256": "c434700d608b68142c2d5c140010e072a870ac488446e796d2b6d32c04539df0",
+      "publishedSha256": "c434700d608b68142c2d5c140010e072a870ac488446e796d2b6d32c04539df0",
+      "originalBytes": 191,
+      "publishedBytes": 191,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-coordination.exit",
+      "published": "evidence/routine19-shared/parent-3bf-coordination.exit",
+      "originalSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publishedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalBytes": 2,
+      "publishedBytes": 2,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-ledger-driver.command.json",
+      "published": "evidence/routine19-shared/parent-3bf-ledger-driver.command.json",
+      "originalSha256": "f44cf9dc7801b3782c22419bb55aecc7a04905e10ad44660afacfd1a035d7c59",
+      "publishedSha256": "62df6ba6412e07dcb44b135fe4b0c8d9670491278d0c5dd300a3fe1f02065745",
+      "originalBytes": 701,
+      "publishedBytes": 647,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-ledger-driver.exit",
+      "published": "evidence/routine19-shared/parent-3bf-ledger-driver.exit",
+      "originalSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "publishedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "originalBytes": 2,
+      "publishedBytes": 2,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-whole-steward.command.json",
+      "published": "evidence/routine19-shared/parent-3bf-whole-steward.command.json",
+      "originalSha256": "ad398012fc4d6968bba15d829c6b63c32d49f26b6b4d0cb1ab9fd62cbdf850d3",
+      "publishedSha256": "1fb587e0b22cc5483894e00365655ebc1720796ccecfb2194eaaae8d0c611564",
+      "originalBytes": 594,
+      "publishedBytes": 540,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-whole-steward.junit.xml",
+      "published": "evidence/routine19-shared/parent-3bf-whole-steward.junit.xml",
+      "originalSha256": "08ffe606f49922bba059d85edb77c478770ae249570edef361d04493a6355ce6",
+      "publishedSha256": "88ecbbc980b187a68c99cfa3a9b26e8f29c1ed626b8b81f8110cef7c3856aaab",
+      "originalBytes": 475039,
+      "publishedBytes": 472926,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/parent-3bf-summary.json",
+      "published": "evidence/routine19-shared/parent-3bf-summary.json",
+      "originalSha256": "c27993ed9e295621a902131ca234569d06eaa3fa85e150637fe78815a309fac6",
+      "publishedSha256": "c27993ed9e295621a902131ca234569d06eaa3fa85e150637fe78815a309fac6",
+      "originalBytes": 1174,
+      "publishedBytes": 1174,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/executable-queue-and-batching.md",
+      "published": "evidence/reorientation/executable-queue-and-batching.md",
+      "originalSha256": "edfc6561c07069928f719f932a78821c07c0360ec2a97bb451b2d8bd5bdf4f9f",
+      "publishedSha256": "edfc6561c07069928f719f932a78821c07c0360ec2a97bb451b2d8bd5bdf4f9f",
+      "originalBytes": 8014,
+      "publishedBytes": 8014,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/main-promotion-independent-review.md",
+      "published": "evidence/reorientation/main-promotion-independent-review.md",
+      "originalSha256": "bd0661da947737b28eef76f0eda37eddfe54a72261ffe84bac21348660ff6bc5",
+      "publishedSha256": "19e756518bd1d1e57f22a3c8d18e573ddaaea8750fbee29837f6ac9d95693606",
+      "originalBytes": 18245,
+      "publishedBytes": 18191,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/checkpoint-public-link.md",
+      "published": "evidence/reorientation/checkpoint-public-link.md",
+      "originalSha256": "ddcc2483c021c1a862acacdb5a1d559378bd91e44548ce8f768bc419e6376d00",
+      "publishedSha256": "ddcc2483c021c1a862acacdb5a1d559378bd91e44548ce8f768bc419e6376d00",
+      "originalBytes": 923,
+      "publishedBytes": 923,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/roster-build-clarification.md",
+      "published": "evidence/reorientation/roster-build-clarification.md",
+      "originalSha256": "8b3280dcd3822fade67607d759a4df5ea08711ef63cb89d7a4caaa9eb90b5125",
+      "publishedSha256": "cc2d1bea8007db075de86e9593596097d2fffa475c15d3190857ff13b02b0492",
+      "originalBytes": 2053,
+      "publishedBytes": 2026,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/roster-terra-handoff.md",
+      "published": "evidence/reorientation/roster-terra-handoff.md",
+      "originalSha256": "7a59c2e6f5fa3e7627cb51367687a6e0cd1c58b650df0d371675a85180335a04",
+      "publishedSha256": "7534ff7b25e4f017de1709ac1d11a2e3bd340a519d386a38e9354d0d02cd1f4c",
+      "originalBytes": 2407,
+      "publishedBytes": 2353,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/checkpoint-813-independent-review.md",
+      "published": "evidence/reorientation/checkpoint-813-independent-review.md",
+      "originalSha256": "2d977aaec3a21ca7a1fbaeeeb37b98ea7a15790e37f02b193dc78c3094c5b212",
+      "publishedSha256": "2d977aaec3a21ca7a1fbaeeeb37b98ea7a15790e37f02b193dc78c3094c5b212",
+      "originalBytes": 2482,
+      "publishedBytes": 2482,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/gate-page-correction.md",
+      "published": "evidence/reorientation/gate-page-correction.md",
+      "originalSha256": "2e9fd932f274f68b1b678458bb477eef306138ba2e7fce41629ca3ecf1ce46fd",
+      "publishedSha256": "2e9fd932f274f68b1b678458bb477eef306138ba2e7fce41629ca3ecf1ce46fd",
+      "originalBytes": 1344,
+      "publishedBytes": 1344,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/m1-public-milestone.md",
+      "published": "evidence/reorientation/m1-public-milestone.md",
+      "originalSha256": "c25cd853861396c386caf52afdfcf713777c78d2be5ae8fe0404aa44e95f96ae",
+      "publishedSha256": "c25cd853861396c386caf52afdfcf713777c78d2be5ae8fe0404aa44e95f96ae",
+      "originalBytes": 2013,
+      "publishedBytes": 2013,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/main-postmerge-deploy-triage.md",
+      "published": "evidence/reorientation/main-postmerge-deploy-triage.md",
+      "originalSha256": "d0ad4358a956d9670aa85eb416471f054a48199ba6102f49d928b6634caada88",
+      "publishedSha256": "d0ad4358a956d9670aa85eb416471f054a48199ba6102f49d928b6634caada88",
+      "originalBytes": 3677,
+      "publishedBytes": 3677,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/roster-main-promotion-independent-review.md",
+      "published": "evidence/reorientation/roster-main-promotion-independent-review.md",
+      "originalSha256": "cb3dd2ccacdcbb07d921d0383ccd90bef6bb07bea0d36a952d8b9eee4030130b",
+      "publishedSha256": "cb3dd2ccacdcbb07d921d0383ccd90bef6bb07bea0d36a952d8b9eee4030130b",
+      "originalBytes": 2480,
+      "publishedBytes": 2480,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/next-code-debt-confirmation.md",
+      "published": "evidence/reorientation/next-code-debt-confirmation.md",
+      "originalSha256": "7f334d0dd906f586b5ddd37758fe55642d19c9cd6a606f1f3e266cdd5adeb957",
+      "publishedSha256": "7f334d0dd906f586b5ddd37758fe55642d19c9cd6a606f1f3e266cdd5adeb957",
+      "originalBytes": 5655,
+      "publishedBytes": 5655,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-approved-prebuild-binding.json",
+      "published": "evidence/reorientation/cichurn-approved-prebuild-binding.json",
+      "originalSha256": "0ff2728a2868867091ccb6bed277684fdba3255c17581eca91bdff566452ec9d",
+      "publishedSha256": "0ff2728a2868867091ccb6bed277684fdba3255c17581eca91bdff566452ec9d",
+      "originalBytes": 1300,
+      "publishedBytes": 1300,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-authorized-runtime-start.json",
+      "published": "evidence/reorientation/cichurn-authorized-runtime-start.json",
+      "originalSha256": "beec455a8d4968848ac58cf1c543c1c4d65cbd9076b90cb2aa99d2856107f2fe",
+      "publishedSha256": "beec455a8d4968848ac58cf1c543c1c4d65cbd9076b90cb2aa99d2856107f2fe",
+      "originalBytes": 416,
+      "publishedBytes": 416,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-authorized-runtime-final.json",
+      "published": "evidence/reorientation/cichurn-authorized-runtime-final.json",
+      "originalSha256": "76ba2660e3bad721d725693eca7042b0cda4079149603e4d59665a4b282f2aac",
+      "publishedSha256": "76ba2660e3bad721d725693eca7042b0cda4079149603e4d59665a4b282f2aac",
+      "originalBytes": 222,
+      "publishedBytes": 222,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-independent-runtime-start.json",
+      "published": "evidence/reorientation/cichurn-independent-runtime-start.json",
+      "originalSha256": "2d9599b5ee0e505cad72769c2941a1f3b6c5f7610c89181b37d77edf56bf7d1c",
+      "publishedSha256": "2d9599b5ee0e505cad72769c2941a1f3b6c5f7610c89181b37d77edf56bf7d1c",
+      "originalBytes": 405,
+      "publishedBytes": 405,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-independent-review.md",
+      "published": "evidence/reorientation/cichurn-independent-review.md",
+      "originalSha256": "64e10781c5b8ada52d77ac04147bbb02fb87a0b62b72fed4e226edf7f85898cd",
+      "publishedSha256": "60d87288691b6d30d3779ccd8b89f81e94d3229281199f93761b371ac73e48ee",
+      "originalBytes": 4356,
+      "publishedBytes": 4248,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-initial-independent-verdict.yaml",
+      "published": "evidence/reorientation/cichurn-initial-independent-verdict.yaml",
+      "originalSha256": "6fdb478323c3c513b81e0fc705816c327432da378e2275e6dce9308adf832ee5",
+      "publishedSha256": "6fdb478323c3c513b81e0fc705816c327432da378e2275e6dce9308adf832ee5",
+      "originalBytes": 647,
+      "publishedBytes": 647,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-independent-clarified-verdict.yaml",
+      "published": "evidence/reorientation/cichurn-independent-clarified-verdict.yaml",
+      "originalSha256": "6f36f965a82cf6fb66082c1866db74295325b4f35757eb6748c46ef3c0f54b28",
+      "publishedSha256": "6f36f965a82cf6fb66082c1866db74295325b4f35757eb6748c46ef3c0f54b28",
+      "originalBytes": 1149,
+      "publishedBytes": 1149,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-independent-clarified-review.md",
+      "published": "evidence/reorientation/cichurn-independent-clarified-review.md",
+      "originalSha256": "ef7c1b5cc6a49475a812b4ecc04b7cfd0a85ec74d4685abfd54cc8c1f4b4e0e5",
+      "publishedSha256": "af289c8290a59e7b03ec8ed04a7824b97353dd51bc002bf381cfee6b57c6bcc9",
+      "originalBytes": 5615,
+      "publishedBytes": 5588,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-emitted-integrate-action.json",
+      "published": "evidence/reorientation/cichurn-emitted-integrate-action.json",
+      "originalSha256": "532e32b052eb3efea445e66d66a796dcffb556f40879e1bf5dda76f4710542b8",
+      "publishedSha256": "aa3b786697c9b2363fa5a9eae33bdcba839e8bd0f36b1f83a9ca63367d8ded53",
+      "originalBytes": 627,
+      "publishedBytes": 600,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/next-safe-import-nominations.md",
+      "published": "evidence/reorientation/next-safe-import-nominations.md",
+      "originalSha256": "7ad914749c9111378ef1e974b07dfe146b34b1ea7f998abc0d13b70b10a915e9",
+      "publishedSha256": "7ad914749c9111378ef1e974b07dfe146b34b1ea7f998abc0d13b70b10a915e9",
+      "originalBytes": 1456,
+      "publishedBytes": 1456,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/roster-main-public-milestone.md",
+      "published": "evidence/reorientation/roster-main-public-milestone.md",
+      "originalSha256": "2dab331ca2d475f01eb71b8df9924abb4058607e84e856f14a1d6387f7ccbf2c",
+      "publishedSha256": "2dab331ca2d475f01eb71b8df9924abb4058607e84e856f14a1d6387f7ccbf2c",
+      "originalBytes": 1703,
+      "publishedBytes": 1703,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/complete-import-subjects.md",
+      "published": "evidence/reorientation/complete-import-subjects.md",
+      "originalSha256": "45e3b185667ba57fe8c6d042570a7201d7e1a3bf189f6b392583e150caf213f9",
+      "publishedSha256": "45e3b185667ba57fe8c6d042570a7201d7e1a3bf189f6b392583e150caf213f9",
+      "originalBytes": 6874,
+      "publishedBytes": 6874,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-baseline-tests-proof.md",
+      "published": "evidence/reorientation/cichurn-baseline-tests-proof.md",
+      "originalSha256": "60a8e7f088f874cc1beb978499e054c6e59933b83d1d6b95da0d07c0857d63a3",
+      "publishedSha256": "bac817dd68efd6fa1c9090562a7c4fbfe6c430083961f4e5412382f228c65f7d",
+      "originalBytes": 1722,
+      "publishedBytes": 1668,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-baseline-tests-independent-review.md",
+      "published": "evidence/reorientation/cichurn-baseline-tests-independent-review.md",
+      "originalSha256": "b8ee7e6e89ef5bcd1b641b83ef71e7c47390e6eaf1faf319d30ea09b347602cb",
+      "publishedSha256": "b8ee7e6e89ef5bcd1b641b83ef71e7c47390e6eaf1faf319d30ea09b347602cb",
+      "originalBytes": 2966,
+      "publishedBytes": 2966,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-blocked-runtime.json",
+      "published": "evidence/reorientation/cichurn-blocked-runtime.json",
+      "originalSha256": "133ef4dc35b4d5888ee8415f1cd3d0a3a42b97c7dadff598ad242e44e740c7de",
+      "publishedSha256": "133ef4dc35b4d5888ee8415f1cd3d0a3a42b97c7dadff598ad242e44e740c7de",
+      "originalBytes": 268,
+      "publishedBytes": 268,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-authorized-build-outcome.json",
+      "published": "evidence/reorientation/cichurn-authorized-build-outcome.json",
+      "originalSha256": "4b65cac17d039d3aeb2b7b4d0d947fe7c8f87d2d4b4fc19a83c5a12bb98c19b6",
+      "publishedSha256": "4b65cac17d039d3aeb2b7b4d0d947fe7c8f87d2d4b4fc19a83c5a12bb98c19b6",
+      "originalBytes": 941,
+      "publishedBytes": 941,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-independent-verdict.yaml",
+      "published": "evidence/reorientation/cichurn-independent-verdict.yaml",
+      "originalSha256": "6fdb478323c3c513b81e0fc705816c327432da378e2275e6dce9308adf832ee5",
+      "publishedSha256": "6fdb478323c3c513b81e0fc705816c327432da378e2275e6dce9308adf832ee5",
+      "originalBytes": 647,
+      "publishedBytes": 647,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-initial-independent-review.md",
+      "published": "evidence/reorientation/cichurn-initial-independent-review.md",
+      "originalSha256": "64e10781c5b8ada52d77ac04147bbb02fb87a0b62b72fed4e226edf7f85898cd",
+      "publishedSha256": "60d87288691b6d30d3779ccd8b89f81e94d3229281199f93761b371ac73e48ee",
+      "originalBytes": 4356,
+      "publishedBytes": 4248,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-independent-accepted-outcome.json",
+      "published": "evidence/reorientation/cichurn-independent-accepted-outcome.json",
+      "originalSha256": "11ea3e9057e986bcc4c9487604712f16c93df176a04e8a2883ee2477e333d15c",
+      "publishedSha256": "11ea3e9057e986bcc4c9487604712f16c93df176a04e8a2883ee2477e333d15c",
+      "originalBytes": 875,
+      "publishedBytes": 875,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/next-canonical-repair-nomination.md",
+      "published": "evidence/reorientation/next-canonical-repair-nomination.md",
+      "originalSha256": "238c4c1d6d608b0031c4af5c9b0529357d37e3fdae7075261285ca4237075e65",
+      "publishedSha256": "238c4c1d6d608b0031c4af5c9b0529357d37e3fdae7075261285ca4237075e65",
+      "originalBytes": 2023,
+      "publishedBytes": 2023,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-integrate-outcome.json",
+      "published": "evidence/reorientation/cichurn-integrate-outcome.json",
+      "originalSha256": "8a36fae1984a5a9e259fe2747c76f67a177e4cc22c45591c0281c57efa342660",
+      "publishedSha256": "8a36fae1984a5a9e259fe2747c76f67a177e4cc22c45591c0281c57efa342660",
+      "originalBytes": 304,
+      "publishedBytes": 304,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/reorientation/cichurn-canonical-resolution-confirmed.json",
+      "published": "evidence/reorientation/cichurn-canonical-resolution-confirmed.json",
+      "originalSha256": "96558c6d19f1606f664282c74232bccaaf88d0d32c47a340d6c4f187aa76b7e4",
+      "publishedSha256": "96558c6d19f1606f664282c74232bccaaf88d0d32c47a340d6c4f187aa76b7e4",
+      "originalBytes": 886,
+      "publishedBytes": 886,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-dsflash-evidence/oldred-contract-nodes-31a9.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-dsflash-evidence/oldred-contract-nodes-31a9.log",
+      "originalSha256": "438c49ba349f7c0f3925246963f2b82c6cca56e311d6a1958b78bba0a415b556",
+      "publishedSha256": "438c49ba349f7c0f3925246963f2b82c6cca56e311d6a1958b78bba0a415b556",
+      "originalBytes": 17118,
+      "publishedBytes": 17118,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-dsflash-evidence/newgreen-contract-and-coverage-3bf.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-dsflash-evidence/newgreen-contract-and-coverage-3bf.log",
+      "originalSha256": "a8bcedda4fb3eebf9054c4d242f1f3e9080a3ebd1e2fdff43935cbd73c7eb723",
+      "publishedSha256": "a8bcedda4fb3eebf9054c4d242f1f3e9080a3ebd1e2fdff43935cbd73c7eb723",
+      "originalBytes": 111,
+      "publishedBytes": 111,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-dsflash-evidence/probe-uncertainty-new-3bf.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-dsflash-evidence/probe-uncertainty-new-3bf.log",
+      "originalSha256": "acf8741ece98ceee1e97018cc76981d34323896cd3ec911868d9af5050780048",
+      "publishedSha256": "acf8741ece98ceee1e97018cc76981d34323896cd3ec911868d9af5050780048",
+      "originalBytes": 2503,
+      "publishedBytes": 2503,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-dsflash-evidence/probe-contrast-old-31a9.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-dsflash-evidence/probe-contrast-old-31a9.log",
+      "originalSha256": "8368c7c0ece0662a28ca16b5f7edf8601103dbc223f244a178b432edf2f7e6e1",
+      "publishedSha256": "8368c7c0ece0662a28ca16b5f7edf8601103dbc223f244a178b432edf2f7e6e1",
+      "originalBytes": 563,
+      "publishedBytes": 563,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-dsflash-evidence/boundary-facts-new-3bf.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-dsflash-evidence/boundary-facts-new-3bf.log",
+      "originalSha256": "77c046b97f229d57b62d66a01fa86d0b1b2814a6aa97a2ecb3e93b7c1733ad60",
+      "publishedSha256": "77c046b97f229d57b62d66a01fa86d0b1b2814a6aa97a2ecb3e93b7c1733ad60",
+      "originalBytes": 525,
+      "publishedBytes": 525,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-dsflash-evidence/adjacent-guards-and-f1-new-3bf.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-dsflash-evidence/adjacent-guards-and-f1-new-3bf.log",
+      "originalSha256": "0259064c78da2dd7f665bcab849d854e4d6ec279c775b65f1c0a407dcefd3426",
+      "publishedSha256": "0259064c78da2dd7f665bcab849d854e4d6ec279c775b65f1c0a407dcefd3426",
+      "originalBytes": 110,
+      "publishedBytes": 110,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/base-head.txt",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/base-head.txt",
+      "originalSha256": "71eebc607bc27cdf1e3efef1d2586645da9a2dcf43dca4fcc263c8629dde8a50",
+      "publishedSha256": "71eebc607bc27cdf1e3efef1d2586645da9a2dcf43dca4fcc263c8629dde8a50",
+      "originalBytes": 41,
+      "publishedBytes": 41,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/oldred-executor.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/oldred-executor.log",
+      "originalSha256": "5667d560892de52a5f86183e066e90981b98efdb06f416f3c2414242b48659a5",
+      "publishedSha256": "5667d560892de52a5f86183e066e90981b98efdb06f416f3c2414242b48659a5",
+      "originalBytes": 4296,
+      "publishedBytes": 4296,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/oldred-executor.junit.xml",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/oldred-executor.junit.xml",
+      "originalSha256": "2fe5663f53af8710d7fa7bfc78289b349bf384853bdfecff4b3072789a70440f",
+      "publishedSha256": "2fe5663f53af8710d7fa7bfc78289b349bf384853bdfecff4b3072789a70440f",
+      "originalBytes": 4392,
+      "publishedBytes": 4392,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/oldred-executor.exit",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/oldred-executor.exit",
+      "originalSha256": "4bf4fca02e6eeaf7f1c510b82c756e7f8a3c567a230bae1094b254adc774f38b",
+      "publishedSha256": "4bf4fca02e6eeaf7f1c510b82c756e7f8a3c567a230bae1094b254adc774f38b",
+      "originalBytes": 7,
+      "publishedBytes": 7,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/oldred-coordination.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/oldred-coordination.log",
+      "originalSha256": "3a9f30ce315e2150a62aa6b6815a94c1bd2c73f4b2634f3815cb169645ac24d8",
+      "publishedSha256": "3a9f30ce315e2150a62aa6b6815a94c1bd2c73f4b2634f3815cb169645ac24d8",
+      "originalBytes": 1645,
+      "publishedBytes": 1645,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/oldred-coordination.junit.xml",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/oldred-coordination.junit.xml",
+      "originalSha256": "aa2c7ae3ba4827789f8877d6c6b99a7441fa74a24b47e7fe5d43e3b3975b0ca2",
+      "publishedSha256": "aa2c7ae3ba4827789f8877d6c6b99a7441fa74a24b47e7fe5d43e3b3975b0ca2",
+      "originalBytes": 1767,
+      "publishedBytes": 1767,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/oldred-coordination.exit",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/oldred-coordination.exit",
+      "originalSha256": "4bf4fca02e6eeaf7f1c510b82c756e7f8a3c567a230bae1094b254adc774f38b",
+      "publishedSha256": "4bf4fca02e6eeaf7f1c510b82c756e7f8a3c567a230bae1094b254adc774f38b",
+      "originalBytes": 7,
+      "publishedBytes": 7,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/oldred-boundary.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/oldred-boundary.log",
+      "originalSha256": "b7ca5cd36e869ba7d5f0cefa289799bc6abfbdcdd95d4466734010b72ca02a5e",
+      "publishedSha256": "b7ca5cd36e869ba7d5f0cefa289799bc6abfbdcdd95d4466734010b72ca02a5e",
+      "originalBytes": 11698,
+      "publishedBytes": 11698,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/oldred-boundary.junit.xml",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/oldred-boundary.junit.xml",
+      "originalSha256": "1d2a870ed5ab804f4273e84140160f535828399ed4f4779f5de7dd3ddaef71be",
+      "publishedSha256": "1d2a870ed5ab804f4273e84140160f535828399ed4f4779f5de7dd3ddaef71be",
+      "originalBytes": 11983,
+      "publishedBytes": 11983,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/oldred-boundary.exit",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/oldred-boundary.exit",
+      "originalSha256": "4bf4fca02e6eeaf7f1c510b82c756e7f8a3c567a230bae1094b254adc774f38b",
+      "publishedSha256": "4bf4fca02e6eeaf7f1c510b82c756e7f8a3c567a230bae1094b254adc774f38b",
+      "originalBytes": 7,
+      "publishedBytes": 7,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/newgreen-executor.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/newgreen-executor.log",
+      "originalSha256": "552d4024484814df3ca08e8bd0ca9d7a1b2cdfc54b73ffe01b4791b9dcf047a7",
+      "publishedSha256": "552d4024484814df3ca08e8bd0ca9d7a1b2cdfc54b73ffe01b4791b9dcf047a7",
+      "originalBytes": 109,
+      "publishedBytes": 109,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/newgreen-executor.junit.xml",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/newgreen-executor.junit.xml",
+      "originalSha256": "242887641fc63f247b790e5386771c3329049e8cb2bb9cde2f2e959eef0fb79f",
+      "publishedSha256": "242887641fc63f247b790e5386771c3329049e8cb2bb9cde2f2e959eef0fb79f",
+      "originalBytes": 1509,
+      "publishedBytes": 1509,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/newgreen-executor.exit",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/newgreen-executor.exit",
+      "originalSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "publishedSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "originalBytes": 7,
+      "publishedBytes": 7,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/newgreen-coordination.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/newgreen-coordination.log",
+      "originalSha256": "124b4f46ad5c3d337b21a3f2b4dc57a0ab3e0876e968a5187a48c6a4ff26f151",
+      "publishedSha256": "124b4f46ad5c3d337b21a3f2b4dc57a0ab3e0876e968a5187a48c6a4ff26f151",
+      "originalBytes": 99,
+      "publishedBytes": 99,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/newgreen-coordination.junit.xml",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/newgreen-coordination.junit.xml",
+      "originalSha256": "2dd624fef8677120cd7cb5d0a825d8baeeaa309d800902b56c4a1b4040527b5e",
+      "publishedSha256": "2dd624fef8677120cd7cb5d0a825d8baeeaa309d800902b56c4a1b4040527b5e",
+      "originalBytes": 757,
+      "publishedBytes": 757,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/newgreen-coordination.exit",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/newgreen-coordination.exit",
+      "originalSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "publishedSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "originalBytes": 7,
+      "publishedBytes": 7,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/newgreen-f1-attachment.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/newgreen-f1-attachment.log",
+      "originalSha256": "6327048037a471b6807cd77a7f204eb272f7e3a655b31033a425524162564697",
+      "publishedSha256": "6327048037a471b6807cd77a7f204eb272f7e3a655b31033a425524162564697",
+      "originalBytes": 111,
+      "publishedBytes": 111,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/newgreen-f1-attachment.junit.xml",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/newgreen-f1-attachment.junit.xml",
+      "originalSha256": "50cd0b10dd9bcad006c9b6a84cc3053c0bba3aea12b939f87e662c4bb7d3d81e",
+      "publishedSha256": "4c2f8dc43bdfc9ea057769d1515681e0489e40f28bac50d8ae348d2207554a8c",
+      "originalBytes": 4937,
+      "publishedBytes": 4958,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/newgreen-f1-attachment.exit",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/newgreen-f1-attachment.exit",
+      "originalSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "publishedSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "originalBytes": 7,
+      "publishedBytes": 7,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/newgreen-boundary-positives.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/newgreen-boundary-positives.log",
+      "originalSha256": "b19e67cd4a5c7e3d6e4bb87685238aa50ccf0c5c02e272257428c25ab4aa958b",
+      "publishedSha256": "b19e67cd4a5c7e3d6e4bb87685238aa50ccf0c5c02e272257428c25ab4aa958b",
+      "originalBytes": 99,
+      "publishedBytes": 99,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/newgreen-boundary-positives.junit.xml",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/newgreen-boundary-positives.junit.xml",
+      "originalSha256": "9433804a4952721a25053105129cf7fd7b1e15336a9fab0dec214dd67e5060ed",
+      "publishedSha256": "9433804a4952721a25053105129cf7fd7b1e15336a9fab0dec214dd67e5060ed",
+      "originalBytes": 1093,
+      "publishedBytes": 1093,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/newgreen-boundary-positives.exit",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/newgreen-boundary-positives.exit",
+      "originalSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "publishedSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "originalBytes": 7,
+      "publishedBytes": 7,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/newgreen-boundary-verbose.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/newgreen-boundary-verbose.log",
+      "originalSha256": "16897a69f500f03e3ad3f83eef7a9f71f921ef29b84ea5dca69599611c2f9a6d",
+      "publishedSha256": "16897a69f500f03e3ad3f83eef7a9f71f921ef29b84ea5dca69599611c2f9a6d",
+      "originalBytes": 527,
+      "publishedBytes": 527,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/newgreen-boundary-verbose.junit.xml",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/newgreen-boundary-verbose.junit.xml",
+      "originalSha256": "5c8584339d5fca3ec3d4ceb7a1ba0dde0cba6684b84f410c7948caf7c002540d",
+      "publishedSha256": "5c8584339d5fca3ec3d4ceb7a1ba0dde0cba6684b84f410c7948caf7c002540d",
+      "originalBytes": 598,
+      "publishedBytes": 598,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/newgreen-boundary-verbose.exit",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/newgreen-boundary-verbose.exit",
+      "originalSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "publishedSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "originalBytes": 7,
+      "publishedBytes": 7,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/green2-executor.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/green2-executor.log",
+      "originalSha256": "97090b02a0aab6e8d6c989beda3fbd4be1754f2c8dbba0618f5d0cfe96391ade",
+      "publishedSha256": "97090b02a0aab6e8d6c989beda3fbd4be1754f2c8dbba0618f5d0cfe96391ade",
+      "originalBytes": 111,
+      "publishedBytes": 111,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/green2-executor.junit.xml",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/green2-executor.junit.xml",
+      "originalSha256": "acb4f14377bc1d37fad42c1c220bec2660011c17592471f304a09b9545c6b1b6",
+      "publishedSha256": "acb4f14377bc1d37fad42c1c220bec2660011c17592471f304a09b9545c6b1b6",
+      "originalBytes": 2104,
+      "publishedBytes": 2104,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/green2-executor.exit",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/green2-executor.exit",
+      "originalSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "publishedSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "originalBytes": 7,
+      "publishedBytes": 7,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/green2-coordination.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/green2-coordination.log",
+      "originalSha256": "0a98ab1bf1600bf4879c7b48c42af6ebf869bc92453f15afab0639fb7d656087",
+      "publishedSha256": "0a98ab1bf1600bf4879c7b48c42af6ebf869bc92453f15afab0639fb7d656087",
+      "originalBytes": 526,
+      "publishedBytes": 526,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/green2-coordination.junit.xml",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/green2-coordination.junit.xml",
+      "originalSha256": "3127bb55861d332e9299e99581ff44fa3186c3473946e9e3cc32a02b0fe5fdee",
+      "publishedSha256": "3127bb55861d332e9299e99581ff44fa3186c3473946e9e3cc32a02b0fe5fdee",
+      "originalBytes": 757,
+      "publishedBytes": 757,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/green2-coordination.exit",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/green2-coordination.exit",
+      "originalSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "publishedSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "originalBytes": 7,
+      "publishedBytes": 7,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/green2-executor-completion-surface.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/green2-executor-completion-surface.log",
+      "originalSha256": "8006303f79ebf7a4fe5942430dc3d187825c5b1f2597ad5f87ca12036bd78424",
+      "publishedSha256": "8006303f79ebf7a4fe5942430dc3d187825c5b1f2597ad5f87ca12036bd78424",
+      "originalBytes": 109,
+      "publishedBytes": 109,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/green2-executor-completion-surface.junit.xml",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/green2-executor-completion-surface.junit.xml",
+      "originalSha256": "6bd5bc70723c25e0f922c8da0f2f9ef8d099c87148c9c51898a2fe49f45ae77e",
+      "publishedSha256": "6bd5bc70723c25e0f922c8da0f2f9ef8d099c87148c9c51898a2fe49f45ae77e",
+      "originalBytes": 1491,
+      "publishedBytes": 1491,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/green2-executor-completion-surface.exit",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/green2-executor-completion-surface.exit",
+      "originalSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "publishedSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "originalBytes": 7,
+      "publishedBytes": 7,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/green2-f1-attachment.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/green2-f1-attachment.log",
+      "originalSha256": "7f025dbe40e153431fb77e83619cebedbf6ff51f5b746355e7109a0afcf29804",
+      "publishedSha256": "7f025dbe40e153431fb77e83619cebedbf6ff51f5b746355e7109a0afcf29804",
+      "originalBytes": 111,
+      "publishedBytes": 111,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/green2-f1-attachment.junit.xml",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/green2-f1-attachment.junit.xml",
+      "originalSha256": "e9cfc1b9bba5e8475321eb6e8b99619c47b5bcdfddcc911fbd4bd8176559d9d1",
+      "publishedSha256": "08cbd032f8109663d3da49fdaec6f87d6388b45ed8cde4394c0c227b82db3d45",
+      "originalBytes": 4937,
+      "publishedBytes": 4958,
+      "changedBySanitization": true
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/green2-f1-attachment.exit",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/green2-f1-attachment.exit",
+      "originalSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "publishedSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "originalBytes": 7,
+      "publishedBytes": 7,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/green2-boundary-positives.log",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/green2-boundary-positives.log",
+      "originalSha256": "9c0b054c1466f75931b65991673465beec19a6c7a5fd5976f35faa4e4475f3a1",
+      "publishedSha256": "9c0b054c1466f75931b65991673465beec19a6c7a5fd5976f35faa4e4475f3a1",
+      "originalBytes": 99,
+      "publishedBytes": 99,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/green2-boundary-positives.junit.xml",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/green2-boundary-positives.junit.xml",
+      "originalSha256": "c457b1d4ab01a7c33c86b0c39fdb61fd7d298af1ef693654c2228f0968e10954",
+      "publishedSha256": "c457b1d4ab01a7c33c86b0c39fdb61fd7d298af1ef693654c2228f0968e10954",
+      "originalBytes": 1574,
+      "publishedBytes": 1574,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/campaigns/2026-11-05/routine19-shared/uncertainty-contract-logs/green2-boundary-positives.exit",
+      "published": "evidence/routine19-shared/uncertainty-contract-logs/green2-boundary-positives.exit",
+      "originalSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "publishedSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+      "originalBytes": 7,
+      "publishedBytes": 7,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/full/run-20261106T045029Z-92c5e38b/build-549e1d59b78e.prompt.md",
+      "published": "evidence/canonical-ci-churn/build-549e1d59b78e.prompt.md",
+      "originalSha256": "38383392ede369b72cf151d0505a405d46a141835cb3304f183fe1beced93426",
+      "publishedSha256": "38383392ede369b72cf151d0505a405d46a141835cb3304f183fe1beced93426",
+      "originalBytes": 7288,
+      "publishedBytes": 7288,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/full/run-20261106T045029Z-92c5e38b/verify-549e1d59b78e.prompt.md",
+      "published": "evidence/canonical-ci-churn/verify-549e1d59b78e.prompt.md",
+      "originalSha256": "f775e2893934948d52f7322ff9232a352f2bfb3065961c38564e489b7346640e",
+      "publishedSha256": "f775e2893934948d52f7322ff9232a352f2bfb3065961c38564e489b7346640e",
+      "originalBytes": 6589,
+      "publishedBytes": 6589,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/full/run-20261106T045029Z-92c5e38b/build-549e1d59b78e.diff",
+      "published": "evidence/canonical-ci-churn/build-549e1d59b78e.diff",
+      "originalSha256": "b48ad6cacba42df27c8aac5cdd78a1efe0acf319456cb625410953e86823e713",
+      "publishedSha256": "b48ad6cacba42df27c8aac5cdd78a1efe0acf319456cb625410953e86823e713",
+      "originalBytes": 463,
+      "publishedBytes": 463,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".gaia/steward/full/run-20261106T045029Z-92c5e38b/build-549e1d59b78e.proof.json",
+      "published": "evidence/canonical-ci-churn/build-549e1d59b78e.proof.json",
+      "originalSha256": "f8f8e0ac7454fd9c276e1d9ca5197255c265162a0b04d3a41c280cfe03baa9e5",
+      "publishedSha256": "f8f8e0ac7454fd9c276e1d9ca5197255c265162a0b04d3a41c280cfe03baa9e5",
+      "originalBytes": 1935,
+      "publishedBytes": 1935,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".pi/agents/campaign-terra-pinned.md",
+      "published": "environment/historical-local-agent-templates/campaign-terra-pinned.md",
+      "originalSha256": "415cc6ca78c5683c9271f8a42e00418b14d62c0c4574c13fb88f0c3652ed251f",
+      "publishedSha256": "415cc6ca78c5683c9271f8a42e00418b14d62c0c4574c13fb88f0c3652ed251f",
+      "originalBytes": 816,
+      "publishedBytes": 816,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".pi/agents/worker-dsflash.md",
+      "published": "environment/historical-local-agent-templates/worker-dsflash.md",
+      "originalSha256": "a337b1f732f45a2b83bde278de8a6778e062d374135f8e6eee341bd9d3a8d82b",
+      "publishedSha256": "a337b1f732f45a2b83bde278de8a6778e062d374135f8e6eee341bd9d3a8d82b",
+      "originalBytes": 729,
+      "publishedBytes": 729,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".pi/agents/campaign-luna-pinned.md",
+      "published": "environment/historical-local-agent-templates/campaign-luna-pinned.md",
+      "originalSha256": "b941062486b5d99695928edb47367dafebdb1e1fe473f5fcf735c91d5d49ae88",
+      "publishedSha256": "b941062486b5d99695928edb47367dafebdb1e1fe473f5fcf735c91d5d49ae88",
+      "originalBytes": 756,
+      "publishedBytes": 756,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".pi/probes/steward-main-gates-2283/index.html",
+      "published": "environment/historical-local-probes/steward-main-gates-2283/index.html.txt",
+      "originalSha256": "b25bce98a369c30345a10f837109ead0f7a8c38b86da8945ec303dd439aafdb8",
+      "publishedSha256": "b25bce98a369c30345a10f837109ead0f7a8c38b86da8945ec303dd439aafdb8",
+      "originalBytes": 17814,
+      "publishedBytes": 17814,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".pi/probes/steward-main-gates-2283/test_inline_js.js",
+      "published": "environment/historical-local-probes/steward-main-gates-2283/test_inline_js.js.txt",
+      "originalSha256": "7f1de5e431da049db441ef4edeb3c0993893ea15b0dfd013faa349ca52dbe452",
+      "publishedSha256": "7f1de5e431da049db441ef4edeb3c0993893ea15b0dfd013faa349ca52dbe452",
+      "originalBytes": 5885,
+      "publishedBytes": 5885,
+      "changedBySanitization": false
+    },
+    {
+      "source": ".pi/probes/steward-main-gates-2283-public/index.html",
+      "published": "environment/historical-local-probes/steward-main-gates-2283-public/index.html.txt",
+      "originalSha256": "b25bce98a369c30345a10f837109ead0f7a8c38b86da8945ec303dd439aafdb8",
+      "publishedSha256": "b25bce98a369c30345a10f837109ead0f7a8c38b86da8945ec303dd439aafdb8",
+      "originalBytes": 17814,
+      "publishedBytes": 17814,
+      "changedBySanitization": false
+    }
+  ],
+  "redactionMatches": 77,
+  "normalization": "HOME paths; recognized token forms; non-allowlisted endpoints; cloud-session fingerprints. Originals remain local; published hashes identify exact sanitized bytes.",
+  "fullRawSessionsUploaded": false,
+  "privateLedgerSnapshotsUploaded": false
+}

@@ -1,0 +1,17 @@
+{
+  "run": "52020067-05d2-4e98-be5d-1dd46ba4eb91",
+  "sessionId": "01a1b15b-ad83-7134-b050-a2ee84bba371",
+  "actualInitialAssistantRoutes": [
+    {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "api": "openai-responses"
+    }
+  ],
+  "thinkingJournal": [
+    "medium"
+  ],
+  "sampledAt": "2026-11-06T14:57:02.134593+00:00",
+  "sampledMessages": 4,
+  "notFinalAttestationOrVerdict": true
+}

@@ -1,0 +1,30 @@
+{
+  "snapshotTool": "installed pi-costv1.10 offline exact-session",
+  "main": {
+    "turns": 921,
+    "input": 2763367,
+    "output": 1279841,
+    "cacheRead": 274386518,
+    "cacheWrite": 0,
+    "logged_cost": 58.04837819999997,
+    "cost_missing": false,
+    "models": [
+      "antigravity/gemini-3.8-flash",
+      "openai-codex/gpt-6.1-sol",
+      "openai/gpt-6.1-sol"
+    ]
+  },
+  "workerRecords": 69,
+  "pricedWorkerRecords": 30,
+  "pricedWorkerSubtotal": 2.807712702,
+  "unpricedWorkerRecords": 39,
+  "workerLoggedSumNotBilling": 8.459067948,
+  "completePricedWorkerTotal": null,
+  "completeMixedMethodTotal": null,
+  "catalog": {
+    "source": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+    "fetched_at": "2026-11-04T17:39:58Z",
+    "stale": false
+  },
+  "privateRawTaskPromptsOmitted": true
+}

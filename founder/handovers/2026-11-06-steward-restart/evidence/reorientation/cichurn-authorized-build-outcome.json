@@ -1,0 +1,13 @@
+{
+  "agentId": "pi-openai-terra-01a1b139-6ca2-73f3-8398-b7c5261edaaa",
+  "model": "pi",
+  "effort": "medium",
+  "provider": "openai",
+  "providerModel": "gpt-6.1-terra",
+  "sessionId": "01a1b139-6ca2-73f3-8398-b7c5261edaaa",
+  "commit": "953b9d36d498d8309a8b45c890f9698b09df9c6a",
+  "noChange": false,
+  "summary": "Authorized exact same attempt1; only os/timezone bindings removed. Founder hosteditgrant committedaf0e818f5 before implementation. ActualOpenAInonsharedTerraMEDIUMverified. Builder14passed1.18s/compileall0 and completeonefilediff. Sideeffectsourceinspection and operatorpure-sensor provenance honestly distinguished. Logical pi is policy harness slot, not runtime model. Independentverification stillrequired; not canonicalresolution.",
+  "diffPath": ".gaia/steward/full/run-20261106T045029Z-92c5e38b/build-549e1d59b78e.diff",
+  "proofPath": ".gaia/steward/full/run-20261106T045029Z-92c5e38b/build-549e1d59b78e.proof.json"
+}

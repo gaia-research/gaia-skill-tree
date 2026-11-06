@@ -1,0 +1,277 @@
+FFFF.F                                                                   [100%]
+=================================== FAILURES ===================================
+___ test_post_effect_mismatch_cannot_invent_matching_merge_settlement[head] ____
+
+tmp_path = PosixPath('/data/data/com.termux/files/usr/tmp/pytest-of-u0_a574/pytest-279/test_post_effect_mismatch_cann0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7bc7a9f6f0>
+mismatch = 'head'
+
+    @pytest.mark.parametrize("mismatch", ["head", "base", "parents"])
+    def test_post_effect_mismatch_cannot_invent_matching_merge_settlement(tmp_path, monkeypatch, mismatch):
+        fixture = world(tmp_path, monkeypatch)
+        _, forge, clock, executor, _, _ = fixture
+        operation = prepare(fixture)
+        def race():
+            if mismatch == "head": forge.fact["head"]["sha"] = "e" * 40
+            elif mismatch == "base": forge.fact["base"]["ref"] = "other"
+            else: forge.parentShas = [forge.fx.base, "e" * 40]
+        forge.before = race
+>       with pytest.raises(core.CoordinationError, match="^matching independently verified merge/parent proof unavailable$"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE CoordinationError
+
+tests/steward/prmaintenance/test_executor.py:548: Failed
+___ test_post_effect_mismatch_cannot_invent_matching_merge_settlement[base] ____
+
+tmp_path = PosixPath('/data/data/com.termux/files/usr/tmp/pytest-of-u0_a574/pytest-279/test_post_effect_mismatch_cann1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7bc789f5c0>
+mismatch = 'base'
+
+    @pytest.mark.parametrize("mismatch", ["head", "base", "parents"])
+    def test_post_effect_mismatch_cannot_invent_matching_merge_settlement(tmp_path, monkeypatch, mismatch):
+        fixture = world(tmp_path, monkeypatch)
+        _, forge, clock, executor, _, _ = fixture
+        operation = prepare(fixture)
+        def race():
+            if mismatch == "head": forge.fact["head"]["sha"] = "e" * 40
+            elif mismatch == "base": forge.fact["base"]["ref"] = "other"
+            else: forge.parentShas = [forge.fx.base, "e" * 40]
+        forge.before = race
+>       with pytest.raises(core.CoordinationError, match="^matching independently verified merge/parent proof unavailable$"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE CoordinationError
+
+tests/steward/prmaintenance/test_executor.py:548: Failed
+__ test_post_effect_mismatch_cannot_invent_matching_merge_settlement[parents] __
+
+tmp_path = PosixPath('/data/data/com.termux/files/usr/tmp/pytest-of-u0_a574/pytest-279/test_post_effect_mismatch_cann2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7bc7d59eb0>
+mismatch = 'parents'
+
+    @pytest.mark.parametrize("mismatch", ["head", "base", "parents"])
+    def test_post_effect_mismatch_cannot_invent_matching_merge_settlement(tmp_path, monkeypatch, mismatch):
+        fixture = world(tmp_path, monkeypatch)
+        _, forge, clock, executor, _, _ = fixture
+        operation = prepare(fixture)
+        def race():
+            if mismatch == "head": forge.fact["head"]["sha"] = "e" * 40
+            elif mismatch == "base": forge.fact["base"]["ref"] = "other"
+            else: forge.parentShas = [forge.fx.base, "e" * 40]
+        forge.before = race
+>       with pytest.raises(core.CoordinationError, match="^matching independently verified merge/parent proof unavailable$"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE CoordinationError
+
+tests/steward/prmaintenance/test_executor.py:548: Failed
+_____ test_invalid_or_untrusted_completion_never_retires_or_refunds_sender _____
+
+fixture = (PosixPath('/data/data/com.termux/files/usr/tmp/pytest-of-u0_a574/pytest-279/test_invalid_or_untrusted_comp0/remote.gi..., PosixPath('/data/data/com.termux/files/usr/tmp/pytest-of-u0_a574/pytest-279/test_invalid_or_untrusted_comp0/second'))
+
+    def test_invalid_or_untrusted_completion_never_retires_or_refunds_sender(fixture):
+        _, binding, first, second = fixture
+        services = FakeServices()
+        coord = coordinator(first, binding, services)
+        token = prepared(coord)
+        original = services.completion
+        def invalidCompletion(operation, invocationId, response):
+            result = original(operation, invocationId, response)
+            result["attemptId"] = "0" * 64
+            return result
+        services.completion = invalidCompletion
+>       with pytest.raises(core.CoordinationError, match="exact invocation"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'exact invocation'
+E         Actual message: 'sole invocation outcome unavailable'
+
+tests/steward/prmaintenance/test_coordination.py:490: AssertionError
+_ test_real_store_completion_generation_9_to_10_byte_boundary[one-byte-overflow] _
+
+self = <gaia_cli.steward.prmaintenance.coordination.PrWriteCoordinator object at 0x7bc7d7d6a0>
+token = Token(operationId='22f09cfec9ac855b4aaaa77fc9683c4601dd10170c71a10adbb4cd5ed848589d', attemptId='06ae2cd99c4f0b618fdfb31bcbaa1cd23ea4a34e7433cc6a70e454b4f9fe8b3d', ownerId='adopted-owner', fence=4)
+transitionId = 'claim-active'
+
+    def invoke(self, token: Token, transitionId: str) -> Result:
+        """Claim and consume a non-exported one-shot grant BEFORE adapter entry.
+    
+        A replay/restart/copy can inspect a persisted claim but cannot obtain a
+        grant. Ambiguous claim acknowledgements are deliberately quarantinable,
+        not recoverable send rights. No arbitrary caller response can settle.
+        """
+        if os.getpid() != self.pid:
+            raise Refused("forked coordinator cannot invoke")
+        operation = self.inspect()["operations"].get(token.operationId)
+        if operation is None:
+            raise Refused("unknown operation")
+        self.services.authorize(self.binding.namespace, copy.deepcopy(operation["subject"]), copy.deepcopy(operation["proof"]))
+        result = self._transition("claim", token.operationId, {"token": asdict(token)}, transitionId)
+        if result.status != CommitStatus.NEW:
+            return result
+        # Reconstruct from the committed claim, not any failed CAS computation.
+        operation = self.inspect()["operations"][token.operationId]
+        if operation["claimId"] != transitionId or tokenFor(operation) != token:
+            raise Refused("claim/control-flow binding changed")
+        grant = _Grant(operation)
+        with self.grantGuard:
+            self.grants[id(grant)] = grant
+        self._consume(grant, operation)
+        with self.grantGuard:
+            self.adapterEntries[operation["invocationId"]] = grant
+        try:
+            try:
+                response = self.services.invoke(copy.deepcopy(operation["request"]), operation["invocationId"])
+            except Exception:
+                return self._transition("unknown", token.operationId,
+                                        {"token": asdict(token), "detail": "sole adapter invocation lost/unknown response"},
+                                        digest([transitionId, "unknown"]))
+            finally:
+                with self.grantGuard:
+                    self.adapterEntries.pop(operation["invocationId"], None)
+            evidence = self.services.completion(copy.deepcopy(operation), operation["invocationId"], response)
+            validateEvidence(evidence, operation, observed=False)
+>           return self._transition("complete", token.operationId, {"token": asdict(token), "evidence": evidence},
+                                    digest([transitionId, "complete"]))
+
+src/gaia_cli/steward/prmaintenance/coordination.py:719: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <gaia_cli.steward.prmaintenance.coordination.PrWriteCoordinator object at 0x7bc7d7d6a0>
+kind = 'complete'
+operationId = '22f09cfec9ac855b4aaaa77fc9683c4601dd10170c71a10adbb4cd5ed848589d'
+args = {'token': {'operationId': '22f09cfec9ac855b4aaaa77fc9683c4601dd10170c71a10adbb4cd5ed848589d', 'attemptId': '06ae2cd99c...4e7433cc6a70e454b4f9fe8b3d', 'requestDigest': '1794082349dfc04df412768edb6c6460dc264c8250464a709266b9d07232d08b', ...}}
+transitionId = 'e1a5616141aa7ecb7d4c8718c6ff4af403d46845df304e7f4312ee327f89c7db'
+
+    def _transition(self, kind: str, operationId: str, args: dict, transitionId: str) -> Result:
+        text(transitionId, 128)
+        command = {"id": transitionId, "kind": kind, "operationId": operationId, "args": copy.deepcopy(args)}
+        for _ in range(8):
+            document, tip, state = self._load()
+            events = self._payload(document)["events"]
+            existing = next((event for event in events if event["id"] == transitionId), None)
+            if existing is not None:
+                if {key: existing[key] for key in command} != command:
+                    raise Refused("transition id reused for a different immutable command")
+                return self._result(CommitStatus.ALREADY, operationId, state)
+            now = self.services.clock()
+            if type(now) is not TimeBounds:
+                raise CoordinationError("trusted clock provider unavailable/malformed")
+            now.validate()
+            limits = self.services.limits() if kind in {"reserve", "claim"} else None
+            if limits is not None:
+                if type(limits) is not Limits:
+                    raise CoordinationError("trusted policy limits unavailable/malformed")
+                limits.validate()
+            event = {**command, "time": asdict(now), "limits": asdict(limits) if limits is not None else None}
+            candidate = copy.deepcopy(document)
+            self._payload(candidate)["events"].append(event)
+            nextState = fold(self._payload(candidate)["events"], self.binding.namespace)
+            # CAS persists nextGeneration(candidate), not candidate. Measure the
+            # exact same bytes without incrementing the document passed to CAS.
+            persisted = ledger.nextGeneration(candidate)
+            size = len(ledger.serialize(persisted))
+            # Reserve event/outcome space AND all possible future decimal-width
+            # growth up to the bounded history generation. Source JSON escaping
+            # is already included in size; no raw-text size approximation.
+            generationHeadroom = max(0, len(str(MAX_HISTORY)) - len(str(persisted["generation"])))
+            limit = self.byteLimit()
+            if size > limit or (kind == "reserve" and size + OUTCOME_HEADROOM + generationHeadroom > limit):
+>               raise Refused("critical record capacity exhausted; settlement headroom retained")
+E               gaia_cli.steward.prmaintenance.coordination.Refused: critical record capacity exhausted; settlement headroom retained
+
+src/gaia_cli/steward/prmaintenance/coordination.py:616: Refused
+
+The above exception was the direct cause of the following exception:
+
+tmp_path = PosixPath('/data/data/com.termux/files/usr/tmp/pytest-of-u0_a574/pytest-279/test_real_store_completion_gen1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7bc7ef4d50>
+overflow = 1
+
+    @pytest.mark.parametrize("overflow", [0, 1], ids=["exact-fit", "one-byte-overflow"])
+    def test_real_store_completion_generation_9_to_10_byte_boundary(tmp_path, monkeypatch, overflow):
+        _, binding, first, second = seed(tmp_path, monkeypatch)
+        modeled, token = boundaryDocument(524288 + overflow)
+        services = FakeServices(now=10121)
+        coord = coordinator(first, binding, services)
+        seedAdministrativePrefix(coord, modeled, 7)  # generation 8; public claim=9, completion=10
+        assert coordinator(second, binding).inspect()["operations"][token.operationId]["state"] == "intent"
+        calls, beforeCompletion = [], []
+        originalCas, originalCompletion = coord.store.compare_and_swap, services.completion
+    
+        def observedCas(expected, document, message):
+            calls.append(document["generation"])
+            return originalCas(expected, document, message)
+    
+        def capturedCompletion(operation, invocationId, response):
+            actual, tip = coord.store.load()
+            beforeCompletion.append((tip, len(ledger.serialize(actual))))
+            assert actual["generation"] == 9
+            return originalCompletion(operation, invocationId, response)
+    
+        monkeypatch.setattr(coord.store, "compare_and_swap", observedCas)
+        services.completion = capturedCompletion
+        result, refusal = None, None
+        try:
+>           result = coord.invoke(token, "claim-active")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/steward/prmaintenance/test_coordination_boundaries.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <gaia_cli.steward.prmaintenance.coordination.PrWriteCoordinator object at 0x7bc7d7d6a0>
+token = Token(operationId='22f09cfec9ac855b4aaaa77fc9683c4601dd10170c71a10adbb4cd5ed848589d', attemptId='06ae2cd99c4f0b618fdfb31bcbaa1cd23ea4a34e7433cc6a70e454b4f9fe8b3d', ownerId='adopted-owner', fence=4)
+transitionId = 'claim-active'
+
+    def invoke(self, token: Token, transitionId: str) -> Result:
+        """Claim and consume a non-exported one-shot grant BEFORE adapter entry.
+    
+        A replay/restart/copy can inspect a persisted claim but cannot obtain a
+        grant. Ambiguous claim acknowledgements are deliberately quarantinable,
+        not recoverable send rights. No arbitrary caller response can settle.
+        """
+        if os.getpid() != self.pid:
+            raise Refused("forked coordinator cannot invoke")
+        operation = self.inspect()["operations"].get(token.operationId)
+        if operation is None:
+            raise Refused("unknown operation")
+        self.services.authorize(self.binding.namespace, copy.deepcopy(operation["subject"]), copy.deepcopy(operation["proof"]))
+        result = self._transition("claim", token.operationId, {"token": asdict(token)}, transitionId)
+        if result.status != CommitStatus.NEW:
+            return result
+        # Reconstruct from the committed claim, not any failed CAS computation.
+        operation = self.inspect()["operations"][token.operationId]
+        if operation["claimId"] != transitionId or tokenFor(operation) != token:
+            raise Refused("claim/control-flow binding changed")
+        grant = _Grant(operation)
+        with self.grantGuard:
+            self.grants[id(grant)] = grant
+        self._consume(grant, operation)
+        with self.grantGuard:
+            self.adapterEntries[operation["invocationId"]] = grant
+        try:
+            try:
+                response = self.services.invoke(copy.deepcopy(operation["request"]), operation["invocationId"])
+            except Exception:
+                return self._transition("unknown", token.operationId,
+                                        {"token": asdict(token), "detail": "sole adapter invocation lost/unknown response"},
+                                        digest([transitionId, "unknown"]))
+            finally:
+                with self.grantGuard:
+                    self.adapterEntries.pop(operation["invocationId"], None)
+            evidence = self.services.completion(copy.deepcopy(operation), operation["invocationId"], response)
+            validateEvidence(evidence, operation, observed=False)
+            return self._transition("complete", token.operationId, {"token": asdict(token), "evidence": evidence},
+                                    digest([transitionId, "complete"]))
+        except Exception as exc:
+            # Once adapter entry was attempted, neither completion authentication nor
+            # shared settlement failure proves that the forge had no effect.
+>           raise InvocationUncertain("sole invocation outcome unavailable") from exc
+E           gaia_cli.steward.prmaintenance.coordination.InvocationUncertain: sole invocation outcome unavailable
+
+src/gaia_cli/steward/prmaintenance/coordination.py:724: InvocationUncertain
+=========================== short test summary info ============================
+FAILED tests/steward/prmaintenance/test_executor.py::test_post_effect_mismatch_cannot_invent_matching_merge_settlement[head]
+FAILED tests/steward/prmaintenance/test_executor.py::test_post_effect_mismatch_cannot_invent_matching_merge_settlement[base]
+FAILED tests/steward/prmaintenance/test_executor.py::test_post_effect_mismatch_cannot_invent_matching_merge_settlement[parents]
+FAILED tests/steward/prmaintenance/test_coordination.py::test_invalid_or_untrusted_completion_never_retires_or_refunds_sender
+FAILED tests/steward/prmaintenance/test_coordination_boundaries.py::test_real_store_completion_generation_9_to_10_byte_boundary[one-byte-overflow]
+5 failed, 1 passed in 48.02s

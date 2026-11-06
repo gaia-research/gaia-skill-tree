@@ -1,0 +1,6 @@
+completion-probe overflow=0 returned-state=completed-effect refused=False cause=None persisted-bytes=524288 generation=10 invocations=1
+completion-boundary overflow=0 target=524288 preincrement=524287 canonical-bytes=524288 generation=10 invocation-count=1
+.completion-probe overflow=1 returned-state=None refused=True cause=capacity persisted-bytes=522994 generation=9 invocations=1
+completion-boundary overflow=1 target=524289 preincrement=524288 canonical-bytes=522994 generation=9 invocation-count=1
+.
+2 passed in 13.40s

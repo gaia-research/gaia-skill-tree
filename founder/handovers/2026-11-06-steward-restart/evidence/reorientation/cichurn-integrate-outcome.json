@@ -1,0 +1,9 @@
+{
+  "decision": "integrate",
+  "by": "founder-orchestrator / host-authorized independently verified canonical CI-churn repair",
+  "pullRequest": {
+    "number": 2307,
+    "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2307"
+  },
+  "mergedSha": "571ddeda6e0120e1b898a40b56c6c1112eb7a826"
+}

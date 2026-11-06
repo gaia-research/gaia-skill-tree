@@ -1,0 +1,25 @@
+# Independent security/mirror review #2283
+
+## Status
+
+**REJECT** exact HEAD `8ea130838c466a16d390c6b3ef3f723b8e728e6b` against `d694986b865e158e21c613683021a9b7822f945c`: the new evidence checker reports an authority conclusion it does not check. This is an evidence-integrity finding, not evidence that current scanner authority has actually changed. This review is not a production-debt settlement or authorization to integrate, close, or run a live campaign.
+
+## Findings
+
+- `scripts/check_security_dispositions.py:75` — **warning; acceptance blocker**: The success message asserts “scanner authority unchanged,” but `checkDispositions` checks only matrix row counts, path safety, row-provided hashes and minimal finding metadata. It does not examine `POLICY.yaml`, the scanner, redactor, or closure runtime. Consequently it would still print the authority claim after a scanner/policy change, provided the 39 reviewed source paths were unchanged. Remove the authority assertion from the checker output, or explicitly verify the relevant authority inputs against a properly bound reviewed baseline and narrowly describe what that verification proves. Do not turn the matrix into an authority or allowlist.
+- `scripts/check_security_dispositions.py:22` — **warning**: The guard calls these “original” IDs but only checks 39 unique strings with the credential-debt prefix and group counts; it does not bind them to the original inventory. In a disposable in-memory document I replaced one ID with `debt:credential_leak:invented`, and `checkDispositions` returned no problems. The current data may still be correct; the checker cannot establish that claim. Either bind IDs to an independently authenticated original inventory or describe the guard as checking shape/counts rather than original identity. Do not use this check alone as evidence of inventory preservation.
+
+## Checks performed
+
+- `git rev-parse HEAD`, `git status --short`, and `git diff --stat d694986b865e158e21c613683021a9b7822f945c HEAD`: expected SHA, clean tracked checkout, 27 changed paths. Reviewed the implementation and evidence diff scope, sensor change, compatibility wrappers and their extracted validator/insert dependency, new tests and checker, and reconciliation/proof claims. This was not an exhaustive semantic review of every original match or all consumers.
+- `python scripts/check_security_dispositions.py`: passed, with the overbroad success assertion described above.
+- `python scripts/sync_agent_skill_mirror.py --check`: passed.
+- `PYTHONPATH=src python -m pytest -q tests/steward/test_security_reconciliation.py tests/steward/test_sensors_security.py::TestSecretScan tests/steward/issuehygiene/test_b7_scrub.py tests/steward/issuehygiene/test_b8_census.py tests/test_security_scanner.py tests/test_installability.py::test_diagnostics_are_bounded_and_redacted`: **99 passed**. These tests include local Node compatibility/refusal checks and fingerprint preservation checks.
+- `node --test tests/steward/impeccable_compatibility.test.mjs`: **6 passed** independently.
+- Independently replayed baseline and current `SecretScanSensor._findings` on the 39 matrix paths in memory, asserting each matrix `(pattern, fingerprint)` multiplicity was present in both. Counts D1 30/30, D2 24/25, D3 17/17, before/after respectively. This verifies preservation of the matrix-listed matches, not independently that the matrix exhausts the original receipt. No raw matches printed.
+- `git diff --quiet d694986b865e158e21c613683021a9b7822f945c HEAD -- founder/steward/POLICY.yaml src/gaia_cli/steward/primitives/redact.py src/gaia_cli/securityScanner.py`: unchanged at this SHA. The scanner sensor itself changed narrowly to require the synthetic marker inside the match instead of anywhere on the line. No evidence found in the examined implementation of policy activation or a broad directory/fixture exemption.
+- `PYTHONPATH=src python -m pytest -q tests/test_installability.py::test_observation_temp_creation_is_exclusive_and_cleans_only_its_temp`: **failed** at `tests/test_installability.py:390` because this Termux Python has no `os.link`. The test's real hardlink setup and affected implementation were not introduced by this diff. No skip or emulation used. A Linux CI runner with working `os.link` must run that exact pytest selection and retain the real result; no external CI success is inferred.
+
+## Verification limits
+
+The original external inventory ID set, all 39 line-level classifications, the reported 23 generated control comparisons, upstream cached test provenance, full 224-file manifest digest, Node 18 and full live-server/browser behavior were not independently verified in this pass. Mirror script success and local tests do not substitute for these checks. The proposed policy amendment remains unactivated; credential alerts remain Class C. No token validity probes, tracked edits, network writes, ledger operations, pushes, or workflow activations were performed. Another lane's change to `scripts/upstream_watcher/live.py` requires source-bound matrix/checker evidence refresh and independent re-review, not a bypass.

@@ -1,0 +1,11 @@
+findingConfirmed: true
+scopeValid: true
+proofValid: false
+authorityStillValid: true
+guardsWeakened: false
+newDebt: []
+verdict: reject
+reasons:
+  - "The sensor evidence identifies both unreferenced imports, but the proof does not independently reproduce the registered dead-code analysis; its own transcript says the analysis/hash were not executed independently."
+  - "The routine requires preserving anything another module imports from this module; no consumer check or evidence is supplied, and the proof explicitly makes no arbitrary-consumer claim."
+  - "Proof contract item 4 (independent review before integration) has no output/evidence."

@@ -1,0 +1,11 @@
+{
+  "sessionId": "01a1b139-6ca2-73f3-8398-b7c5261edaaa",
+  "provider": "openai",
+  "model": "gpt-6.1-terra",
+  "api": [
+    "openai-responses"
+  ],
+  "effort": "medium",
+  "assistantMessages": 10,
+  "providerErrors": []
+}

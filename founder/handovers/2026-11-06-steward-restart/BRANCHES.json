@@ -1,0 +1,250 @@
+{
+  "handoffBranch": "handoff/steward-campaign-restart-2283",
+  "sourceCampaignBranch": "dev/steward-campaign-2026-11-05",
+  "branches": {
+    "handoff/steward-preserved/0d766d041dd1": "0d766d041dd127b7dbdcff859be22a51facb278a",
+    "handoff/steward-preserved/11de8c847c2f": "11de8c847c2f836a6cf5d36a673fbfdef5d58317",
+    "handoff/steward-preserved/166e85514e3c": "166e85514e3cd35d1c4e9cba506b1bb0560661f4",
+    "handoff/steward-preserved/2d9599c11ea9": "2d9599c11ea91f303b5067c39fb8ea272f119072",
+    "handoff/steward-preserved/314fdf655edb": "314fdf655edb7a6cb9bd131461bc11952366979d",
+    "handoff/steward-preserved/31a9a59b9c97": "31a9a59b9c978db19fd9a451ca310844d1dc401e",
+    "handoff/steward-preserved/31b407db65c4": "31b407db65c4e138896780a7319e4a4ce76884eb",
+    "handoff/steward-preserved/3bf9093b994f": "3bf9093b994fa0fa7700bbd0d4642fa26b7bc87a",
+    "handoff/steward-preserved/452a050c54ab": "452a050c54ab20b3afd9dfaf2e9c578a4451ac79",
+    "handoff/steward-preserved/5432b273c115": "5432b273c1156b4e31b4170be398410d57897340",
+    "handoff/steward-preserved/598e45b01a84": "598e45b01a848f45be100b06b094e99b5a9f4938",
+    "handoff/steward-preserved/5cbe7e80af20": "5cbe7e80af20589da4c125289b263c70d869ea55",
+    "handoff/steward-preserved/72aba66351dd": "72aba66351dd0395073220131fad8e80878643b2",
+    "handoff/steward-preserved/813ce938b433": "813ce938b43330380c4f7886b3ace00ae2c0e781",
+    "handoff/steward-preserved/8298c459a2fc": "8298c459a2fc2dd8a5e7d36e9e6e16a910454d6d",
+    "handoff/steward-preserved/953b9d36d498": "953b9d36d498d8309a8b45c890f9698b09df9c6a",
+    "handoff/steward-preserved/9aa9db35f85d": "9aa9db35f85da35636130eaf2cad6f4b0311b615",
+    "handoff/steward-preserved/b04a6c34974e": "b04a6c34974e0ce25a8a6ff43bc676dd864c3264",
+    "handoff/steward-preserved/b69df2e55e9c": "b69df2e55e9c74ff0702209c4f80a3aaa45a51de",
+    "handoff/steward-preserved/bb9abb0f3098": "bb9abb0f30988ad35d4e3ed6ccb6a43dda506c08",
+    "handoff/steward-preserved/c5de985cb185": "c5de985cb18515ceb245fb91ebc3053b94c18ece",
+    "handoff/steward-preserved/ceb38582008a": "ceb38582008a07002239ec65aa77aa22725e80ab",
+    "handoff/steward-preserved/fd53b4556472": "fd53b4556472647e53f2b9bca6a2b20260041ac3",
+    "dev/steward-campaign-2026-11-05": "e7c5f6d569d5852450a697792224b90fffb06880",
+    "dev/steward-main-delivery-3-2283": "452a050c54ab20b3afd9dfaf2e9c578a4451ac79",
+    "dev/steward-r19-cloud-repair-2283": "31a9a59b9c978db19fd9a451ca310844d1dc401e",
+    "dev/steward-r19-uncertainty-contract-2283": "3bf9093b994fa0fa7700bbd0d4642fa26b7bc87a",
+    "dev/steward-r19-receipt-ruling-2283": "72aba66351dd0395073220131fad8e80878643b2",
+    "dev/steward-r19-shared-write-2283": "314fdf655edb7a6cb9bd131461bc11952366979d",
+    "handoff/steward-r19-review-2283": "b69df2e55e9c74ff0702209c4f80a3aaa45a51de",
+    "dev/steward-cichurn-tests-2283": "11de8c847c2f836a6cf5d36a673fbfdef5d58317",
+    "handoff/steward-preserved/archive-rejected-ceb385820": "ceb38582008a07002239ec65aa77aa22725e80ab",
+    "handoff/steward-preserved/ci-churn-953b9d36": "953b9d36d498d8309a8b45c890f9698b09df9c6a"
+  },
+  "meaning": "preservation refs are NOT acceptance or merge targets; archive and R19 remain gated",
+  "scopedWorktrees": [
+    {
+      "path": "$HOME/gaia-skill-tree",
+      "branch": "refs/heads/dev/steward-campaign-2026-11-05",
+      "head": "452a050c54ab20b3afd9dfaf2e9c578a4451ac79",
+      "trackedEditsAtInitialInventory": [
+        " M founder/reports/steward-campaign-2026-11-05/CLOUD_REVIEW_REMEDIATION.json"
+      ]
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-archive-open-reference-review-2283",
+      "branch": "",
+      "head": "ceb38582008a07002239ec65aa77aa22725e80ab",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-burndown-recon-2283",
+      "branch": "",
+      "head": "2d9599c11ea91f303b5067c39fb8ea272f119072",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-checkpoint-2283",
+      "branch": "refs/heads/dev/steward-checkpoint-2283",
+      "head": "813ce938b43330380c4f7886b3ace00ae2c0e781",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-checkpoint-review-2283",
+      "branch": "",
+      "head": "813ce938b43330380c4f7886b3ace00ae2c0e781",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-cichurn-burn-549e1d59b78e",
+      "branch": "refs/heads/steward/b/unused-import-549e1d59b78e",
+      "head": "953b9d36d498d8309a8b45c890f9698b09df9c6a",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-cichurn-tests-2283",
+      "branch": "refs/heads/dev/steward-cichurn-tests-2283",
+      "head": "11de8c847c2f836a6cf5d36a673fbfdef5d58317",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-cichurn-verify-549e1d59b78e",
+      "branch": "",
+      "head": "953b9d36d498d8309a8b45c890f9698b09df9c6a",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-classb-scope-2283",
+      "branch": "refs/heads/infra/steward-classb-scope-2283",
+      "head": "c5de985cb18515ceb245fb91ebc3053b94c18ece",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-classb-scope-2283-review",
+      "branch": "",
+      "head": "c5de985cb18515ceb245fb91ebc3053b94c18ece",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-evidence-prose-2283",
+      "branch": "refs/heads/dev/steward-evidence-prose-2283",
+      "head": "bb9abb0f30988ad35d4e3ed6ccb6a43dda506c08",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-evidence-prose-2283-review",
+      "branch": "",
+      "head": "bb9abb0f30988ad35d4e3ed6ccb6a43dda506c08",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-founder-lock-2283",
+      "branch": "refs/heads/dev/steward-founder-lock-2283",
+      "head": "5cbe7e80af20589da4c125289b263c70d869ea55",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-founder-lock-2283-review",
+      "branch": "",
+      "head": "5cbe7e80af20589da4c125289b263c70d869ea55",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-memory-2283-final-review",
+      "branch": "",
+      "head": "598e45b01a848f45be100b06b094e99b5a9f4938",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-memory-2283-integration-review",
+      "branch": "",
+      "head": "0d766d041dd127b7dbdcff859be22a51facb278a",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-memory-2283-plan",
+      "branch": "",
+      "head": "9aa9db35f85da35636130eaf2cad6f4b0311b615",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-memory-2283-review-final",
+      "branch": "",
+      "head": "5432b273c1156b4e31b4170be398410d57897340",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-memory-2283-unbounded",
+      "branch": "refs/heads/dev/steward-memory-complete-2283",
+      "head": "ceb38582008a07002239ec65aa77aa22725e80ab",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-preserve-main-2283",
+      "branch": "refs/heads/dev/steward-preserve-main-2283",
+      "head": "b04a6c34974e0ce25a8a6ff43bc676dd864c3264",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-preserve-main-review-2283",
+      "branch": "",
+      "head": "b04a6c34974e0ce25a8a6ff43bc676dd864c3264",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-promote-review-2283",
+      "branch": "",
+      "head": "2d9599c11ea91f303b5067c39fb8ea272f119072",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-r19-cloud-handoff-2283",
+      "branch": "refs/heads/handoff/steward-r19-review-2283",
+      "head": "b69df2e55e9c74ff0702209c4f80a3aaa45a51de",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-r19-cloud-repair-2283",
+      "branch": "refs/heads/dev/steward-r19-cloud-repair-2283",
+      "head": "31a9a59b9c978db19fd9a451ca310844d1dc401e",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-r19-f1f2-review-dsflash-2283",
+      "branch": "",
+      "head": "3bf9093b994fa0fa7700bbd0d4642fa26b7bc87a",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-r19-receipt-ruling-2283",
+      "branch": "refs/heads/dev/steward-r19-receipt-ruling-2283",
+      "head": "72aba66351dd0395073220131fad8e80878643b2",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-r19-shared-write-2283",
+      "branch": "refs/heads/dev/steward-r19-shared-write-2283",
+      "head": "314fdf655edb7a6cb9bd131461bc11952366979d",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-r19-uncertainty-contract-2283",
+      "branch": "refs/heads/dev/steward-r19-uncertainty-contract-2283",
+      "head": "3bf9093b994fa0fa7700bbd0d4642fa26b7bc87a",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-roster-main-review-2283",
+      "branch": "",
+      "head": "fd53b4556472647e53f2b9bca6a2b20260041ac3",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-routine19-shared-plan-2283",
+      "branch": "",
+      "head": "31b407db65c4e138896780a7319e4a4ce76884eb",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-security-comment-2283-review",
+      "branch": "",
+      "head": "8298c459a2fc2dd8a5e7d36e9e6e16a910454d6d",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-security-controls-2283-review",
+      "branch": "",
+      "head": "166e85514e3cd35d1c4e9cba506b1bb0560661f4",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-security-triage-2283",
+      "branch": "refs/heads/dev/steward-security-triage-2283",
+      "head": "8298c459a2fc2dd8a5e7d36e9e6e16a910454d6d",
+      "trackedEditsAtInitialInventory": []
+    },
+    {
+      "path": "$HOME/.gaia-worktrees/steward-security-triage-2283-review",
+      "branch": "",
+      "head": "166e85514e3cd35d1c4e9cba506b1bb0560661f4",
+      "trackedEditsAtInitialInventory": []
+    }
+  ],
+  "outstandingTrackedEdit": "Only root CLOUD_REVIEW_REMEDIATION.json flag corrected in e7c5f6d56 and pushed before handoff; other scoped worktrees clean.",
+  "unrelatedHistoricalBranchesIntentionallyNotPushed": true
+}

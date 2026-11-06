@@ -1,0 +1,17 @@
+{
+  "run": "1ec60be6-fb2b-4ac1-b9a3-541354b8d119",
+  "sessionId": "01a1b139-6ca2-73f3-8398-b7c5261edaaa",
+  "initialActualAssistantRoutes": [
+    {
+      "provider": "openai",
+      "model": "gpt-6.1-terra",
+      "api": "openai-responses"
+    }
+  ],
+  "sampledAssistantMessages": 10,
+  "thinkingJournal": [
+    "medium"
+  ],
+  "sampledAt": "2026-11-06T14:21:11.153339+00:00",
+  "notFinalRuntimeAttestation": true
+}

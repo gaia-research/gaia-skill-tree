@@ -1,0 +1,133 @@
+const fs = require('fs');
+const path = require('path');
+const vm = require('vm');
+
+const html = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf-8');
+const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
+if (!scriptMatch) {
+  console.error("FAIL: Could not extract <script> tag");
+  process.exit(1);
+}
+
+const scriptCode = scriptMatch[1];
+
+// Create a DOM-like environment in VM to test the actual inline script code
+class ElementMock {
+  constructor(name, value = "", checked = false) {
+    this.name = name;
+    this.value = value;
+    this.checked = checked;
+    this.listeners = {};
+  }
+  addEventListener(event, fn) {
+    this.listeners[event] = this.listeners[event] || [];
+    this.listeners[event].push(fn);
+  }
+  trigger(event) {
+    if (this.listeners[event]) {
+      this.listeners[event].forEach(fn => fn());
+    }
+  }
+}
+
+const p1Radios = [
+  new ElementMock("p1_decision", "authorize_narrow_repair", false),
+  new ElementMock("p1_decision", "configure_myself", false),
+  new ElementMock("p1_decision", "defer", false)
+];
+
+const p2Radios = [
+  new ElementMock("p2_decision", "approve_shown_warning", false),
+  new ElementMock("p2_decision", "request_changes", false),
+  new ElementMock("p2_decision", "defer", false)
+];
+
+const p2ChangesText = new ElementMock("", "", false);
+const jsonDisplay = new ElementMock("", "", false);
+const copyBtn = new ElementMock("", "", false);
+const downloadBtn = new ElementMock("", "", false);
+const statusMessage = new ElementMock("", "", false);
+
+const documentMock = {
+  querySelectorAll: (selector) => {
+    if (selector === 'input[name="p1_decision"]') return p1Radios;
+    if (selector === 'input[name="p2_decision"]') return p2Radios;
+    return [];
+  },
+  getElementById: (id) => {
+    if (id === 'p2_changes_text') return p2ChangesText;
+    if (id === 'jsonDisplay') return jsonDisplay;
+    if (id === 'copyBtn') return copyBtn;
+    if (id === 'downloadBtn') return downloadBtn;
+    if (id === 'statusMessage') return statusMessage;
+    return null;
+  }
+};
+
+const sandbox = {
+  document: documentMock,
+  window: {},
+  navigator: {},
+  Blob: function() {},
+  URL: { createObjectURL: () => '', revokeObjectURL: () => '' },
+  setTimeout: () => {},
+  console: console
+};
+
+vm.createContext(sandbox);
+vm.runInContext(scriptCode, sandbox);
+
+function setSelection(p1Val, p2Val, p2Text = "") {
+  p1Radios.forEach(r => r.checked = (r.value === p1Val));
+  p2Radios.forEach(r => r.checked = (r.value === p2Val));
+  p2ChangesText.value = p2Text;
+  p1Radios[0].trigger('change');
+}
+
+function parsePayload() {
+  return JSON.parse(jsonDisplay.value);
+}
+
+// 1. Test initial null state
+console.log("Checking initial unselected state...");
+const initial = parsePayload();
+if (initial.decisions_complete !== false) throw new Error("initial decisions_complete should be false");
+if (initial.selections_approve_requested_actions !== false) throw new Error("initial selections_approve_requested_actions should be false");
+if (initial.requires_lead_revalidation !== true) throw new Error("requires_lead_revalidation should be true");
+if (initial.decisions.card_p1_main_protection.authorized_action !== null) throw new Error("p1 choice should be null");
+if (initial.decisions.card_p2_ledger_warning.approved_action !== null) throw new Error("p2 choice should be null");
+
+// 2. Test defer/defer state
+console.log("Checking defer/defer state...");
+setSelection("defer", "defer");
+const deferDefer = parsePayload();
+if (deferDefer.decisions_complete !== true) throw new Error("defer/defer decisions_complete should be true");
+if (deferDefer.selections_approve_requested_actions !== false) throw new Error("defer/defer selections_approve_requested_actions should be false");
+if (deferDefer.requires_lead_revalidation !== true) throw new Error("requires_lead_revalidation should be true");
+
+// 3. Test approve/approve state
+console.log("Checking authorize_narrow_repair / approve_shown_warning state...");
+setSelection("authorize_narrow_repair", "approve_shown_warning");
+const approveApprove = parsePayload();
+if (approveApprove.decisions_complete !== true) throw new Error("approve/approve decisions_complete should be true");
+if (approveApprove.selections_approve_requested_actions !== true) throw new Error("approve/approve selections_approve_requested_actions should be true");
+if (approveApprove.requires_lead_revalidation !== true) throw new Error("requires_lead_revalidation should be true");
+
+// 4. Test configure_myself / approve_shown_warning state
+console.log("Checking configure_myself / approve_shown_warning state...");
+setSelection("configure_myself", "approve_shown_warning");
+const configApprove = parsePayload();
+if (configApprove.decisions_complete !== true) throw new Error("config/approve decisions_complete should be true");
+if (configApprove.selections_approve_requested_actions !== false) throw new Error("config/approve selections_approve_requested_actions should be false");
+if (configApprove.requires_lead_revalidation !== true) throw new Error("requires_lead_revalidation should be true");
+
+// 5. Test request_changes state
+console.log("Checking authorize_narrow_repair / request_changes state...");
+setSelection("authorize_narrow_repair", "request_changes", "Change prefix formatting");
+const reqChanges = parsePayload();
+if (reqChanges.decisions_complete !== true) throw new Error("req_changes decisions_complete should be true");
+if (reqChanges.selections_approve_requested_actions !== false) throw new Error("req_changes selections_approve_requested_actions should be false");
+if (reqChanges.decisions.card_p2_ledger_warning.presentation_change_request !== "Change prefix formatting") throw new Error("req_changes presentation note missing");
+if (reqChanges.requires_lead_revalidation !== true) throw new Error("requires_lead_revalidation should be true");
+
+console.log("ALL 5 JS STATES PASSED VERIFICATION.");

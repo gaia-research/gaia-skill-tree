@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="2.606" timestamp="2026-11-06T19:26:28.844164+08:00" hostname="localhost"><testcase classname="tests.steward.prmaintenance.test_coordination" name="test_invalid_or_untrusted_completion_never_retires_or_refunds_sender" time="2.152"><failure message="AssertionError: Regex pattern did not match.&#10;  Expected regex: 'exact invocation'&#10;  Actual message: 'sole invocation outcome unavailable'">fixture = (PosixPath('/data/data/com.termux/files/usr/tmp/pytest-of-u0_a574/pytest-258/test_invalid_or_untrusted_comp0/remote.gi..., PosixPath('/data/data/com.termux/files/usr/tmp/pytest-of-u0_a574/pytest-258/test_invalid_or_untrusted_comp0/second'))
+
+    def test_invalid_or_untrusted_completion_never_retires_or_refunds_sender(fixture):
+        _, binding, first, second = fixture
+        services = FakeServices()
+        coord = coordinator(first, binding, services)
+        token = prepared(coord)
+        original = services.completion
+        def invalidCompletion(operation, invocationId, response):
+            result = original(operation, invocationId, response)
+            result["attemptId"] = "0" * 64
+            return result
+        services.completion = invalidCompletion
+&gt;       with pytest.raises(core.CoordinationError, match="exact invocation"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'exact invocation'
+E         Actual message: 'sole invocation outcome unavailable'
+
+tests/steward/prmaintenance/test_coordination.py:490: AssertionError</failure></testcase></testsuite></testsuites>

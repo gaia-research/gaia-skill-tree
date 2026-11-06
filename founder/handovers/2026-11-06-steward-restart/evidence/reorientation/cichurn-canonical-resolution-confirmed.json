@@ -1,0 +1,36 @@
+{
+  "runId": "run-20261106T045029Z-92c5e38b",
+  "status": "completed",
+  "phase": "done",
+  "coverageUnknown": [],
+  "notEvaluated": [
+    {
+      "inputAbsent": true,
+      "reason": "no browser-render.json supplied; a driver must collect it",
+      "sensor": "browser-render"
+    },
+    {
+      "inputAbsent": true,
+      "reason": "no advisories.json supplied; a driver must collect it",
+      "sensor": "dependency-advisory"
+    }
+  ],
+  "reobserve": {
+    "authorityCounts": {
+      "A": 0,
+      "B": 322,
+      "C": 40
+    },
+    "created": 0,
+    "resolved": [
+      "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208"
+    ],
+    "resolvedWork": [
+      "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208"
+    ],
+    "scanReceiptId": "steward-20261106T151913Z-bed5b794cc8bf6b5",
+    "coverageUnknown": [],
+    "partialCoverage": []
+  },
+  "debtStatus": "resolved"
+}

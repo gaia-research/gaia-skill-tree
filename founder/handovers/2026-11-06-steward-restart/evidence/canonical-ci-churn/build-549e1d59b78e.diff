@@ -1,0 +1,17 @@
+diff --git a/scripts/ci_churn.py b/scripts/ci_churn.py
+index 56f075d20..cb53169b8 100644
+--- a/scripts/ci_churn.py
++++ b/scripts/ci_churn.py
+@@ -34,11 +34,10 @@ from __future__ import annotations
+ 
+ import argparse
+ import json
+-import os
+ import re
+ import subprocess
+ import sys
+-from datetime import datetime, timezone
++from datetime import datetime
+ from typing import Optional
+ 
+ # ---------------------------------------------------------------------------

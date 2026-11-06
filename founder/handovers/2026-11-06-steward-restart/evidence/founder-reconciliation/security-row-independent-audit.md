@@ -1,0 +1,24 @@
+# Independent security-row audit #2283
+
+## Status
+
+**BLOCKED** for the row-review slice at `166e85514e3cd35d1c4e9cba506b1bb0560661f4` versus `d694986b865e158e21c613683021a9b7822f945c`. Identity, byte hashes and fingerprint multiplicities were independently checked as described below. I did **not** independently complete source/caller/provenance semantic review of all 39 rows and 71 matches, and cannot accept their dispositions from metadata or scanner replay alone. This is incomplete review, not a finding that any disposition is wrong.
+
+Runtime environment identified provider `openai-codex`, model `gpt-6.1-terra`, reasoning `high`. No nested agents. This report grants no issue closure, alert dismissal, ledger, or integration authority. The matrix is not an allowlist or clearance.
+
+## Authenticated inventory and replay
+
+- `git rev-parse HEAD` returned the candidate SHA above; `git status --short` returned no tracked changes.
+- An offline Python check parsed backtick-delimited fields on **every** credential-debt table line in the saved issue comment whose URL contains `6638770345`. It compared the full untruncated ID-to-path mapping to the matrix: **39 inventory lines, 39 distinct IDs, exact ID/path mapping equality**, no extras or missing IDs. The comment contains the named original receipt `steward-20261104T172307Z-5c244581790fe867` and reports canonical final debt SHA-256 `c7ea88b223ece4f10084dded2219ce03ba55d1c92b49d4cd7d4f9af1cdb3a222`.
+- `debt-before.json` SHA-256 is `5729f76d9bb265cf06541acaf797eea6c1c129b3c378da7138ba4ee5eda23972`, matching the matrix's metadata source digest. Of its 374 debts, 39 have kind `credential_leak`; their exact ID/path set equals the matrix. These saved metadata bytes are **not** the canonical final debt bytes reported by the inventory; the latter were not supplied or independently hashed. The receipt link is established by the saved published comment, not by claiming this snapshot is that historical final file.
+- For each row, an offline `PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python` check obtained baseline bytes using `git show d694986b865e158e21c613683021a9b7822f945c:<sourcePath>` and current bytes from the checkout. All **39/39** baseline SHA-256 hashes match `originalSourceSha256`; all **39/39** current hashes match `reviewedSourceSha256`. All 16 D1 source/canonical mirror pairs are byte-identical at the candidate.
+- The same check compared multisets of `(pattern, fingerprint, line)` between each saved debt's `observedState.findings` and the matching matrix row: **39/39 exact**. It independently called `SecretScanSensor._findings` in memory on baseline and current source bytes, comparing multisets of `(pattern, fingerprint)`: **39/39 baseline exact equality**, **39/39 current retain every original match**. Original multiplicity coverage is D1 **30**, D2 **24**, D3 **17**, total **71/71**. These numbers authenticate metadata and detector behavior, not the semantic dispositions. Current source replay adds one match at `tests/test_installability.py`, for **72** total.
+- The one added match is in the new synthetic-sentinel provenance comment immediately above the existing diagnostic-redaction test. It appears avoidable: reword the comment so it does not resemble a credential assignment, while preserving the test and its positive redaction assertions. Do not suppress it through a scanner exception or matrix allowlist. This recommendation does not establish any live credential exposure.
+
+## Missing semantic coverage
+
+**0/39 rows and 0/71 matches are claimed as independently semantically assessed in this pass.** Matrix descriptions were inspected for orientation, but they are not independent proof. In particular, mirror equality does not prove upstream provenance; a test location does not itself prove a value synthetic; and references to runtime credentials do not prove their handling safe. Complete a per-finding source/caller/provenance examination, individually addressing all IDs and both source versions, before accepting this slice. No claim of live validation, rotation, or exposure clearance is made.
+
+## Verification limits and operations
+
+The checks used the saved issue snapshot, not a fresh external fetch. They used the candidate scanner for both source-byte replays, not a historical scanner replay; the exact baseline finding equality and saved metadata comparison are what were tested. The baseline source is authenticated against the specified Git commit and matrix hashes, but no separate historical raw source archive was supplied. No token validity probes, network credential contact, live ledger operation, canonical run/scan/record, GitHub write, workflow activation, tracked edit, push, merge, or policy/rank/data mutation was performed. The separate 23-control and mirror-runtime review is outside this slice and was not repeated.
