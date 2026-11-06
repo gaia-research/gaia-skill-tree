@@ -3207,7 +3207,7 @@
             </ul>
             <div class="example-block">
               <div class="example-label">example</div>
-              <pre><span class="cmd">gaia dev assess</span> <span class="arg">registry-for-review/discovery-packets/alice-web-search-&lt;digest&gt;.json</span></pre>
+              <pre><span class="cmd">gaia dev assess</span> <span class="arg">registry-for-review/discovery-packets/alice-web-search-*.json</span></pre>
             </div>
           </div>
         </div>
@@ -3235,9 +3235,9 @@
             <div class="example-block">
               <div class="example-label">example</div>
               <pre><span class="c"># Map a candidate to an existing generic skill, after human review</span>
-<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev ratify</span> <span class="arg">registry-for-review/discovery-packets/marco-web-search-&lt;digest&gt;.json \
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev ratify</span> <span class="arg">registry-for-review/discovery-packets/marco-web-search-*.json \
   --decision MAP --generic-id web-search --contributor marco --skill-name web-search \
-  --assessment generated-output/curation/marco-web-search-&lt;digest&gt;.assessment.json --reviewed-by marco --approval-ref &lt;issue-or-PR-URL&gt; \
+  --assessment generated-output/curation/marco-web-search-*.assessment.json --reviewed-by marco --approval-ref "https://github.com/gaia-research/gaia-skill-tree/issues/1234" \
   --reason "Matches the generic web-search node" --acknowledge-human-review</span></pre>
             </div>
           </div>
