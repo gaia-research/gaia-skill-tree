@@ -96,7 +96,8 @@ can never grant unbounded autonomy:
 
 | Bound | Shipped | Why it exists |
 |---|---:|---|
-| `maxInFlight` | 2 | Autonomy that outruns review is not autonomy, it is backlog. Raised from 1 by founder authorization 2026-10-21 (steward-class-b-throughput) |
+| `maxInFlight` | 8 | Autonomy that outruns review is not autonomy, it is backlog. Raised from 1 to 2 by founder authorization 2026-10-21 (steward-class-b-throughput), then to 8, the finite code cap, by founder decision steward-class-b-throughput-2026-11-06 |
+| `maxDispatchesPerRun` | 8 | Builds one run may hand out in parallel; code requires 1 up to `maxInFlight`. Raised from 1 by steward-class-b-throughput-2026-11-06 |
 | `maxAttempts` | 2 | A debt that keeps failing bounded repair is telling you the envelope is wrong |
 | `cooldownSeconds` | 3600 | A broken loop cannot spend an afternoon rediscovering one rejection |
 

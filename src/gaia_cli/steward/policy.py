@@ -58,7 +58,7 @@ _LANE_KEYS = {"maxInFlight", "maxAttempts", "cooldownSeconds"}
 # lane's bounds are the only thing standing between "bounded autonomous repair"
 # and an unattended loop. Policy may narrow these; it may not widen them.
 _LANE_LIMITS = {
-    "maxInFlight": (1, 4),
+    "maxInFlight": (1, 8),
     "maxAttempts": (1, 5),
     "cooldownSeconds": (0, 86_400),
 }
@@ -409,8 +409,6 @@ class StewardPolicy:
         if set(routing) != _ROUTING_KEYS:
             raise PolicyError(f"routing must contain exactly {sorted(_ROUTING_KEYS)}")
         max_dispatches = routing["maxDispatchesPerRun"]
-        if max_dispatches != 1 or isinstance(max_dispatches, bool):
-            raise PolicyError("routing.maxDispatchesPerRun must be exactly 1")
         lane_raw = _mapping(routing["lane"], "routing.lane")
         if set(lane_raw) != _LANE_KEYS:
             raise PolicyError(f"routing.lane must contain exactly {sorted(_LANE_KEYS)}")
@@ -422,6 +420,14 @@ class StewardPolicy:
                     f"routing.lane.{key} must be an integer between {floor} and {ceiling}"
                 )
             lane_values[key] = value
+        # A run may hand out several builds at once, but never more than the lane
+        # can hold in flight, so the per-run number can only narrow the lane ceiling.
+        if (
+            isinstance(max_dispatches, bool)
+            or not isinstance(max_dispatches, int)
+            or not 1 <= max_dispatches <= lane_values["maxInFlight"]
+        ):
+            raise PolicyError("routing.maxDispatchesPerRun must be between 1 and routing.lane.maxInFlight")
         lane_policy = LanePolicy(
             max_in_flight=lane_values["maxInFlight"],
             max_attempts=lane_values["maxAttempts"],
