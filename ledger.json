@@ -1,5 +1,5 @@
 {
- "generation": 925,
+ "generation": 926,
  "lane": {
   "entries": [
    {
@@ -4629,7 +4629,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-06T22:09:46.046523Z",
-   "expiresAt": "2026-11-06T23:13:42.146651Z",
+   "expiresAt": "2026-11-06T23:13:48.512639Z",
    "holder": "run-20261106T205057Z-dc2f240c"
   }
  },
@@ -72570,6 +72570,7 @@
    "ciResults": [],
    "costUsd": 0.0,
    "decisions": [],
+   "deferred": [],
    "desk": {
     "asOf": "2026-11-06T21:17:28.083356Z",
     "decisions": [
@@ -74031,6 +74032,61 @@
      "issueClosure": [],
      "reportOnly": [],
      "skippedActive": []
+    },
+    "verify": {
+     "deferred": [],
+     "expired": [],
+     "results": [
+      {
+       "debtId": "debt:unused_import:scripts-add-post-py:812514abccebcebf",
+       "receipt": "steward-20261106T221342Z-b6431368133ad69f",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+       "receipt": "steward-20261106T221543Z-e3dbd0b91430fac4",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-archive-fetch-ruflo-skills-py:f5adc0673c6d1436",
+       "receipt": "steward-20261106T221712Z-98cc2945619a368b",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-assemble-gaia-py:3ceaff92911c2506",
+       "receipt": "steward-20261106T221856Z-bf2dc86a09ccd3be",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-build-layouts-3d-py:860bb5f62bfae456",
+       "receipt": "steward-20261106T222116Z-1ed5a2a483fc37f7",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
+       "receipt": "steward-20261106T222411Z-fc0700ede071d2e0",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-contentengine-generate-weekly-report-py:68cf95ea87816616",
+       "receipt": "steward-20261106T223012Z-efb39ed80268c823",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-crawlers-huggingface-crawler-py:63744d81bcaf52ea",
+       "receipt": "steward-20261106T223701Z-cd01fbcf7ea1abba",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      }
+     ],
+     "status": "awaiting-verifier"
     }
    },
    "proofArtifacts": [
@@ -74272,7 +74328,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T22:43:42.146877Z",
+ "updatedAt": "2026-11-06T22:43:48.512830Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
