@@ -1,5 +1,5 @@
 {
- "generation": 604,
+ "generation": 605,
  "lane": {
   "entries": [
    {
@@ -44365,6 +44365,16 @@
      "debtId": "debt:unused_import:src-gaia-cli-curation-evaluation-py:3fab90bae90c2a93",
      "emittedAt": "2026-11-06T17:23:21.985391Z",
      "idempotencyKey": "dispatch-df47e63f6e7f3886bffd:1",
+     "outcome": {
+      "agentId": "pi-herdr-b2-builder-w2H-p7",
+      "costUsd": 0.012,
+      "diffPath": ".gaia/steward/full/run-20261106T172037Z-51ab140a/build-bd01f6c7c9c5.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": ".gaia/steward/full/run-20261106T172037Z-51ab140a/build-bd01f6c7c9c5.proof.json",
+      "summary": "Removed unused stdlib import copy from src/gaia_cli/curation/evaluation.py; commit f95e0f347 on steward/b/unused-import-bd01f6c7c9c5. Side-effect absence proven (stdlib, no AST read/export, no consumer). Focused tests 14 passed; compileall ok. Optional 'gaia steward scan' via installed CLI failed on unknown policy keys (stale installed binary, not part of proof). Actual: openai-codex/gpt-6-luna medium."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -44385,16 +44395,30 @@
       },
       "promptPath": ".gaia/steward/full/run-20261106T172037Z-51ab140a/build-bd01f6c7c9c5.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-06T17:44:17.815307Z",
+     "status": "done",
      "stepId": "build:bd01f6c7c9c5:1",
      "type": "agent.build"
     }
    ],
    "actor": "cli",
-   "agentAssignments": [],
+   "agentAssignments": [
+    {
+     "agentId": "pi-herdr-b2-builder-w2H-p7",
+     "at": "2026-11-06T17:44:17.815547Z",
+     "costUsd": 0.012,
+     "debtId": "debt:unused_import:src-gaia-cli-curation-evaluation-py:3fab90bae90c2a93",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:bd01f6c7c9c5:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "branches": [],
    "ciResults": [],
-   "costUsd": 0.0,
+   "costUsd": 0.012,
    "decisions": [],
    "desk": {
     "asOf": "2026-11-06T17:24:50.621250Z",
@@ -44902,8 +44926,10 @@
     }
    ],
    "mode": "full",
-   "modelIds": [],
-   "mutated": false,
+   "modelIds": [
+    "pi"
+   ],
+   "mutated": true,
    "nextAction": "perform 1 pending action(s) (agent.build), record each with `gaia steward full record run-20261106T172037Z-51ab140a <stepId> --input FILE`, then `gaia steward full run --resume run-20261106T172037Z-51ab140a`",
    "options": {
     "afk": false,
@@ -45819,7 +45845,14 @@
      "skippedActive": []
     }
    },
-   "proofArtifacts": [],
+   "proofArtifacts": [
+    {
+     "debtId": "debt:unused_import:src-gaia-cli-curation-evaluation-py:3fab90bae90c2a93",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T172037Z-51ab140a/build-bd01f6c7c9c5.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T172037Z-51ab140a/build-bd01f6c7c9c5.proof.json",
+     "stepId": "build:bd01f6c7c9c5:1"
+    }
+   ],
    "pullRequests": [],
    "receipts": [
     {
@@ -45864,23 +45897,26 @@
      "stepId": "phase:class_a"
     },
     {
-     "at": "2026-11-06T17:23:21.985391Z",
+     "at": "2026-11-06T17:44:17.815307Z",
      "debtId": "debt:unused_import:src-gaia-cli-curation-evaluation-py:3fab90bae90c2a93",
      "idempotencyKey": "dispatch-df47e63f6e7f3886bffd:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:bd01f6c7c9c5:1"
     }
    ],
-   "thinkingEfforts": [],
+   "thinkingEfforts": [
+    "medium"
+   ],
    "tokensIn": 0,
    "tokensOut": 0,
    "trigger": "manual",
-   "unresolvedWork": []
+   "unresolvedWork": [],
+   "updatedAt": "2026-11-06T17:44:17.815307Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T17:24:51.447763Z",
+ "updatedAt": "2026-11-06T17:44:17.815878Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -46423,12 +46459,33 @@
    }
   },
   "debt:unused_import:src-gaia-cli-curation-evaluation-py:3fab90bae90c2a93": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-b2-builder-w2H-p7",
+     "at": "2026-11-06T17:44:17.815547Z",
+     "costUsd": 0.012,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:bd01f6c7c9c5:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/unused-import-bd01f6c7c9c5",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-b2-builder-w2H-p7",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T172037Z-51ab140a/build-bd01f6c7c9c5.diff",
+    "dispatchId": "dispatch-df47e63f6e7f3886bffd",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T172037Z-51ab140a/build-bd01f6c7c9c5.proof.json",
+    "recordedAt": "2026-11-06T17:44:17.815547Z",
+    "summary": "Removed unused stdlib import copy from src/gaia_cli/curation/evaluation.py; commit f95e0f347 on steward/b/unused-import-bd01f6c7c9c5. Side-effect absence proven (stdlib, no AST read/export, no consumer). Focused tests 14 passed; compileall ok. Optional 'gaia steward scan' via installed CLI failed on unknown policy keys (stale installed binary, not part of proof). Actual: openai-codex/gpt-6-luna medium."
+   },
    "createdAt": "2026-11-06T17:23:21.985391Z",
    "debtId": "debt:unused_import:src-gaia-cli-curation-evaluation-py:3fab90bae90c2a93",
    "dispatchId": "dispatch-df47e63f6e7f3886bffd",
@@ -46449,7 +46506,7 @@
    "runId": "run-20261106T172037Z-51ab140a",
    "source": "dead-code",
    "state": "building",
-   "updatedAt": "2026-11-06T17:23:21.985391Z",
+   "updatedAt": "2026-11-06T17:44:17.815547Z",
    "verification": null
   },
   "debt:unused_import:src-gaia-cli-steward-issuehygiene-reconcile-py:d91a57958d7d1622": {
