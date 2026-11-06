@@ -1,5 +1,5 @@
 {
- "generation": 907,
+ "generation": 908,
  "lane": {
   "entries": [
    {
@@ -72172,6 +72172,15 @@
      "debtId": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
      "emittedAt": "2026-11-06T20:54:31.248700Z",
      "idempotencyKey": "dispatch-e5fc16cfa2decbbd9c74:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch1-builder-1a73ca728b11",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-1a73ca728b11.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-1a73ca728b11.proof.json",
+      "summary": "Batch batch1 builder (openai/gpt-6-luna medium, pi subagent/pane) removed the flagged unused import(s) from the subject file; commit 6536a4074; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -72192,7 +72201,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/build-1a73ca728b11.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-06T22:08:22.513781Z",
+     "status": "done",
      "stepId": "build:1a73ca728b11:1",
      "type": "agent.build"
     },
@@ -72312,6 +72322,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:eb3f6b6cc1f5:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch1-builder-1a73ca728b11",
+     "at": "2026-11-06T22:08:22.514216Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:1a73ca728b11:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -73856,6 +73878,12 @@
      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-eb3f6b6cc1f5.diff",
      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-eb3f6b6cc1f5.proof.json",
      "stepId": "build:eb3f6b6cc1f5:1"
+    },
+    {
+     "debtId": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-1a73ca728b11.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-1a73ca728b11.proof.json",
+     "stepId": "build:1a73ca728b11:1"
     }
    ],
    "pullRequests": [],
@@ -73942,11 +73970,11 @@
      "stepId": "build:eb3f6b6cc1f5:1"
     },
     {
-     "at": "2026-11-06T20:54:31.248700Z",
+     "at": "2026-11-06T22:08:22.513781Z",
      "debtId": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
      "idempotencyKey": "dispatch-e5fc16cfa2decbbd9c74:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:1a73ca728b11:1"
     },
     {
@@ -73973,11 +74001,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-06T22:08:12.600966Z"
+   "updatedAt": "2026-11-06T22:08:22.513781Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T22:08:12.603007Z",
+ "updatedAt": "2026-11-06T22:08:22.516133Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -74701,12 +74729,33 @@
    "verification": null
   },
   "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch1-builder-1a73ca728b11",
+     "at": "2026-11-06T22:08:22.514216Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:1a73ca728b11:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/unused-import-1a73ca728b11",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch1-builder-1a73ca728b11",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-1a73ca728b11.diff",
+    "dispatchId": "dispatch-e5fc16cfa2decbbd9c74",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-1a73ca728b11.proof.json",
+    "recordedAt": "2026-11-06T22:08:22.514216Z",
+    "summary": "Batch batch1 builder (openai/gpt-6-luna medium, pi subagent/pane) removed the flagged unused import(s) from the subject file; commit 6536a4074; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+   },
    "createdAt": "2026-11-06T20:54:31.248700Z",
    "debtId": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
    "dispatchId": "dispatch-e5fc16cfa2decbbd9c74",
@@ -74727,7 +74776,7 @@
    "runId": "run-20261106T205057Z-dc2f240c",
    "source": "dead-code",
    "state": "building",
-   "updatedAt": "2026-11-06T20:54:31.248700Z",
+   "updatedAt": "2026-11-06T22:08:22.514216Z",
    "verification": null
   },
   "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208": {
