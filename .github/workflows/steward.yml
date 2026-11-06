@@ -190,6 +190,22 @@ jobs:
             echo "test-history=failed:artifact from run $rid could not be downloaded; history starts empty" > "$RUNNER_TEMP/inputs-hist.txt"
           fi
 
+      # The last verified closed-issue count (founder ruling steward-census-empty-page-crosschecks) must survive
+      # between runs, so it is restored from the previous run's artifact and persisted again below. It is a
+      # diagnostic baseline: if it cannot be restored the census still runs and simply starts a new baseline.
+      - name: Restore the closed-issue baseline
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p .gaia/steward/inputs prev-baseline
+          rid=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=steward-closed-baseline&per_page=1" --jq '.artifacts[0].workflow_run.id // empty' 2>/dev/null || true)
+          if [ -n "$rid" ] && gh run download "$rid" --repo "$GITHUB_REPOSITORY" --name steward-closed-baseline --dir prev-baseline \
+             && [ -f prev-baseline/closed-issue-baseline.json ]; then
+            cp prev-baseline/closed-issue-baseline.json .gaia/steward/inputs/closed-issue-baseline.json
+          else
+            echo "::notice title=steward closed-issue baseline::no earlier baseline restored; a new one starts from the first verified count"
+          fi
+
       # The GitHub issue census for the issue-hygiene sensor (routine 18). Read-only REST. A partial
       # or failed census is written or left absent, so the sensor reports not evaluated, never healthy.
       - name: Collect the GitHub issue census for the issue-hygiene sensor
@@ -281,6 +297,15 @@ jobs:
           if-no-files-found: ignore
           retention-days: 90
           path: .gaia/steward/inputs/test-history.json
+
+      - name: Persist the closed-issue baseline for the next run
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: steward-closed-baseline
+          if-no-files-found: ignore
+          retention-days: 90
+          path: .gaia/steward/inputs/closed-issue-baseline.json
 
       - name: Publish the full-run receipt
         if: always()

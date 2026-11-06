@@ -29,6 +29,16 @@ never written for a partial fetch. The workflow listing is a separate section: i
 `workflows.complete` is false, and closures that depend on it stay Class B or C. The token is never
 printed and never written to the census.
 
+Closed-history completeness (founder ruling steward-census-empty-page-crosschecks). Closed listings have no
+independent total, so the census also reads GitHub's closed-issue count (`search/issues`, `total_count`) and keeps
+the last VERIFIED count in `.gaia/steward/inputs/closed-issue-baseline.json` (count, observedAt, source, scope; see
+`gaia_cli.steward.issuehygiene.closedbaseline`). It is a diagnostic baseline, not proof, and nothing is gated on
+it. A decrease is explained by issues reopened since the baseline, or held pending until a second run agrees. A
+failed, refused or unverified scan never overwrites the baseline. An incomplete closed read is retried within a
+bound, and every attempt is recorded under `closedHistory` (provider, pagination, auth, count, refusal reason).
+`completeness.open` and `completeness.closed` say which inventory is incomplete, so only operations that need that
+inventory fail closed.
+
 This collector writes only the census. Removing a stale census is the driver's job
 (`scripts/steward_drive.py` deletes the file after an exit 1 failure, and leaves an exit 3 file
 for the sensor to report as incomplete).
@@ -43,6 +53,7 @@ import os
 import re
 import sys
 import tempfile
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -61,6 +72,10 @@ PER_PAGE = 100
 MAX_PAGES = 200
 TIMEOUT_SECONDS = 30
 API = "https://api.github.com"
+# One closed-history read is attempted this many times in all before it is reported incomplete.
+CLOSED_ATTEMPTS = 3
+RETRY_BACKOFF_SECONDS = 1.0
+MAX_EVENT_PAGES = 5
 EXIT_COMPLETE = 0
 EXIT_USAGE = 2
 EXIT_INCOMPLETE = 3
@@ -463,6 +478,214 @@ def toRow(raw: dict) -> dict:
     }
 
 
+def baselineModule():
+    """The closed-baseline rules, imported the way the policy loader is: from this checkout's ``src``."""
+
+    sourcePath = str(REPO_ROOT / "src")
+    if sourcePath not in sys.path:
+        sys.path.insert(0, sourcePath)
+    from gaia_cli.steward.issuehygiene import closedbaseline
+
+    return closedbaseline
+
+
+def isRetryable(reason: str | None) -> bool:
+    """Whether another attempt could plausibly read what this one could not.
+
+    Transport faults, server errors and the empty or truncated pages a busy API sometimes serves are transient.
+    A rejected credential, a rate limit, a redirect or a link to another listing will not change on a second try.
+    """
+
+    if not reason:
+        return False
+    if reason.startswith(("transport-", "pagination-short")):
+        return True
+    if reason.startswith("http-"):
+        return reason[5:].isdigit() and 500 <= int(reason[5:]) <= 599
+    return reason in {"empty-linked-page", "unparsable-page", "unexpected-page-shape", "unlinked-continuation",
+                      "false-empty-suspect"}
+
+
+def isAuthRefusal(reason: str | None) -> bool:
+    return reason in {"http-401", "http-403"}
+
+
+class CountRead(NamedTuple):
+    count: int | None
+    reason: str | None
+
+
+def closedCountOf(repo: str, fetch: Callable[[str], Response]) -> CountRead:
+    """GitHub's total of closed issues (pull requests excluded), from the search API. One request.
+
+    ``incomplete_results`` or a non-integer total is a refusal, never a number.
+    """
+
+    query = urllib.parse.quote(f"repo:{repo} is:issue is:closed")
+    url = f"{API}/search/issues?q={query}&per_page=1"
+    try:
+        response = fetch(url)
+    except FetchError as error:
+        return CountRead(None, error.reason)
+    except Exception as error:  # noqa: BLE001 - a diagnostic read must never break the census
+        return CountRead(None, f"read-error-{type(error).__name__}")
+    if response.status != 200:
+        return CountRead(None, "redirected" if 300 <= response.status < 400 else f"http-{response.status}")
+    try:
+        data = json.loads(response.body)
+    except ValueError:
+        return CountRead(None, "unparsable-page")
+    if not isinstance(data, dict) or data.get("incomplete_results") is True:
+        return CountRead(None, "count-unreadable")
+    total = data.get("total_count")
+    if not isinstance(total, int) or isinstance(total, bool) or total < 0:
+        return CountRead(None, "count-unreadable")
+    return CountRead(total, None)
+
+
+def reopenedSince(repo: str, fetch: Callable[[str], Response], since: str) -> tuple[int | None, str | None]:
+    """Distinct issues reopened after ``since``, from the repository event feed (newest first), or why that is unknown.
+
+    The walk stops once an event older than ``since`` is seen, or after ``MAX_EVENT_PAGES`` pages. The count is then a
+    lower bound, which can still explain a decrease but never invent one.
+    """
+
+    try:
+        cutoff = datetime.fromisoformat(since.replace("Z", "+00:00"))
+    except ValueError:
+        return None, "baseline-time-unparsable"
+    url = f"{API}/repos/{repo}/issues/events?per_page={PER_PAGE}"
+    seen: set[int] = set()
+    for _ in range(MAX_EVENT_PAGES):
+        try:
+            got = getPage(fetch, url, extract=None)
+        except Exception as error:  # noqa: BLE001 - a diagnostic read must never break the census
+            return None, f"read-error-{type(error).__name__}"
+        if got.reason is not None:
+            return None, got.reason
+        reachedBaseline = False
+        for event in got.page:
+            if not isinstance(event, dict):
+                continue
+            try:
+                happened = datetime.fromisoformat(str(event.get("created_at", "")).replace("Z", "+00:00"))
+            except ValueError:
+                continue
+            if happened <= cutoff:
+                reachedBaseline = True
+                continue
+            issue = event.get("issue") if isinstance(event.get("issue"), dict) else {}
+            if event.get("event") == "reopened" and "pull_request" not in issue and isinstance(issue.get("number"), int):
+                seen.add(issue["number"])
+        nextUrl = parseLinks(headerValue(got.response.headers, "link")).get("next")
+        if reachedBaseline or not got.page or not nextUrl or not sameOrigin(nextUrl):
+            return len(seen), None
+        url = nextUrl
+    return len(seen), None
+
+
+def readClosedWithRetry(
+    start: str, fetch: Callable[[str], Response], sleep: Callable[[float], None], attempts: list[dict],
+) -> Listing:
+    """Walk the closed window, retrying within ``CLOSED_ATTEMPTS`` only while the failure could be transient."""
+
+    listing = Listing()
+    for number in range(1, CLOSED_ATTEMPTS + 1):
+        listing = listAll(start, fetch)
+        attempts.append({"read": "closed-window", "attempt": number, "reason": listing.reason, "pagesFetched": listing.pagesFetched})
+        if listing.reason is None or not isRetryable(listing.reason) or number == CLOSED_ATTEMPTS:
+            return listing
+        if listing.reason.startswith(("transport-", "http-")):
+            sleep(RETRY_BACKOFF_SECONDS * number)
+    return listing
+
+
+def readCountWithRetry(
+    repo: str, fetch: Callable[[str], Response], sleep: Callable[[float], None], attempts: list[dict],
+    baselineCount: int | None,
+) -> CountRead:
+    """Read the closed count, retrying while it fails transiently or reads 0 against a non-zero baseline."""
+
+    read = CountRead(None, "not-read")
+    for number in range(1, CLOSED_ATTEMPTS + 1):
+        read = closedCountOf(repo, fetch)
+        if read.reason is None and read.count == 0 and baselineCount:
+            read = CountRead(None, "false-empty-suspect")  # an empty total against a known non-empty history
+        attempts.append({"read": "closed-count", "attempt": number, "reason": read.reason})
+        if read.reason is None or not isRetryable(read.reason) or number == CLOSED_ATTEMPTS:
+            return read
+        if read.reason.startswith(("transport-", "http-")):
+            sleep(RETRY_BACKOFF_SECONDS * number)
+    return read
+
+
+def collectClosedHistory(
+    repo: str, now: datetime, fetch: Callable[[str], Response], closedListing: Listing, attempts: list[dict],
+    baseline: Any, baselineProblem: str | None, authenticated: bool | None,
+    sleep: Callable[[float], None], source: str,
+) -> dict:
+    """Verify the closed count, judge it against the baseline and say what to store. Never raises, never gates.
+
+    ``baseline.after`` is the exact file to write, or None when the baseline must stay as it is.
+    """
+
+    rules = baselineModule()
+    observedAt = isoZ(now)
+    windowRows = [row for row in closedListing.rows if isinstance(row, dict) and "pull_request" not in row]
+    section: dict[str, Any] = {
+        "provider": "gh-api",
+        "scope": rules.SCOPE,
+        "observedAt": observedAt,
+        "auth": "unknown" if authenticated is None else ("token" if authenticated else "anonymous"),
+        "attempts": attempts,
+        "pagination": {
+            "pagesFetched": closedListing.pagesFetched,
+            "pageSizes": list(closedListing.pageSizes),
+            "windowRows": len(windowRows),
+            "reason": None if closedListing.reason == "skipped" else closedListing.reason,
+        },
+        "count": {"value": None, "verified": False},
+        "refusal": None,
+        "baseline": {"before": baseline.summary() if baseline is not None else None, "problem": baselineProblem,
+                     "after": None, "update": "preserved"},
+        "change": None,
+    }
+    if closedListing.reason == "skipped":
+        section["refusal"] = "open-inventory-incomplete"
+        return section
+    section["pagination"]["reason"] = closedListing.reason
+    if closedListing.reason is not None:
+        # An incomplete window cannot verify anything, so no count is read and the baseline stays as it is.
+        section["refusal"] = closedListing.reason
+        if any(isAuthRefusal(item["reason"]) for item in attempts):
+            section["auth"] = "rejected"
+        return section
+    countRead = readCountWithRetry(repo, fetch, sleep, attempts, baseline.count if baseline is not None else None)
+    if any(isAuthRefusal(item["reason"]) for item in attempts):
+        section["auth"] = "rejected"
+    if countRead.reason is not None:
+        section["refusal"] = countRead.reason
+        return section
+    count = int(countRead.count)  # type: ignore[arg-type]
+    section["count"] = {"value": count, "verified": False}
+    if len(windowRows) > count:
+        # The window is a subset of all closed history, so it cannot hold more issues than the total.
+        section["refusal"] = "window-exceeds-count"
+        return section
+    section["count"]["verified"] = True
+    reopened, reopenedReason = (None, None)
+    if baseline is not None and count < baseline.count:
+        reopened, reopenedReason = reopenedSince(repo, fetch, baseline.observedAt)
+    judgement = rules.judge(baseline, count, observedAt, source, reopened, reopenedReason)
+    section["change"] = {
+        "direction": judgement.direction, "delta": judgement.delta, "reopenedSince": reopened,
+        "explained": judgement.explained, "explanation": judgement.explanation,
+    }
+    section["baseline"]["update"] = judgement.update
+    section["baseline"]["after"] = judgement.next.to_dict(repo) if judgement.next is not None else None
+    return section
+
+
 def isoZ(moment: datetime) -> str:
     return moment.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -544,8 +767,13 @@ def collectCensus(
     now: datetime,
     fetch: Callable[[str], Response],
     closedWindowDays: int = DEFAULT_CLOSED_WINDOW_DAYS,
+    baseline: Any = None,
+    baselineProblem: str | None = None,
+    authenticated: bool | None = None,
+    sleep: Callable[[float], None] = time.sleep,
+    baselineSource: str = "gh-api",
 ) -> dict:
-    """Build the census document. Pure apart from ``fetch``; never raises on fetch failure."""
+    """Build the census document. Pure apart from ``fetch`` and ``sleep``; never raises on fetch failure."""
     openStart = f"{API}/repos/{repo}/issues?state=open&per_page={PER_PAGE}"
     cutoff = now - timedelta(days=closedWindowDays)
     closedStart = (
@@ -572,7 +800,14 @@ def collectCensus(
         sanity = metadataSanity(len(openListing.rows), openCount)
         if sanity is not None:
             openListing.reason = sanity
-    closedListing = listAll(closedStart, fetch) if openListing.reason is None else Listing(reason="skipped")
+    closedAttempts: list[dict] = []
+    closedListing = (
+        readClosedWithRetry(closedStart, fetch, sleep, closedAttempts)
+        if openListing.reason is None else Listing(reason="skipped")
+    )
+    closedHistory = collectClosedHistory(
+        repo, now, fetch, closedListing, closedAttempts, baseline, baselineProblem, authenticated, sleep, baselineSource,
+    )
     workflows = collectWorkflows(repo, fetch)
 
     reasons = [item.reason for item in (openListing, closedListing) if item.reason and item.reason != "skipped"]
@@ -620,6 +855,17 @@ def collectCensus(
             "itemCount": len(pulls), "lastLink": openListing.lastLink,
         },
     }
+    # Which inventory is incomplete, so a consumer that needs only the other one is not blocked by it. The
+    # `issues` and `pulls` sections above stay conservative: either failing marks them incomplete.
+    completeness["open"] = {"complete": openListing.reason is None}
+    completeness["closed"] = {"complete": closedListing.reason is None}
+    if openListing.reason is not None:
+        completeness["open"]["reason"] = openListing.reason
+    if closedListing.reason not in (None, "skipped"):
+        completeness["closed"]["reason"] = closedListing.reason
+        completeness["closed"]["diagnostics"] = diagnosticsOf(closedListing)
+    elif closedListing.reason == "skipped":
+        completeness["closed"]["reason"] = "skipped"
     if reason:
         completeness["issues"]["reason"] = reason
         completeness["pulls"]["reason"] = reason
@@ -636,6 +882,7 @@ def collectCensus(
         "closedWindowDays": closedWindowDays,
         "completeness": completeness,
         "workflows": workflows,
+        "closedHistory": closedHistory,
         "issues": rows,
         "recentlyClosed": recent,
     }
@@ -677,6 +924,8 @@ def parseArgs(argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="census file to write")
     parser.add_argument("--closed-window-days", type=int, default=None,
                         help="override issueHygiene.closedWindowDays from the policy")
+    parser.add_argument("--baseline", type=Path, default=None,
+                        help="closed-issue baseline file (default: closed-issue-baseline.json beside --out)")
     parser.add_argument("--now", default=None, help="RFC 3339 fetchedAt override (tests and replays)")
     return parser.parse_args(argv)
 
@@ -694,8 +943,18 @@ def main(argv: list[str] | None = None, fetch: Callable[[str], Response] | None 
     now = datetime.fromisoformat(args.now.replace("Z", "+00:00")) if args.now else datetime.now(timezone.utc)
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or None
     transport = fetch or (lambda url: httpFetch(url, token))
-    document = collectCensus(args.repo, now, transport, closedWindow)
+    rules = baselineModule()
+    baselinePath = args.baseline if args.baseline is not None else args.out.parent / rules.DEFAULT_PATH.name
+    baseline, baselineProblem = rules.loadBaseline(baselinePath, args.repo)
+    document = collectCensus(
+        args.repo, now, transport, closedWindow,
+        baseline=baseline, baselineProblem=baselineProblem, authenticated=bool(token),
+    )
     writeAtomic(args.out, document)
+    # Only a verified read ever produces a baseline to store; any other scan leaves the file untouched.
+    after = document["closedHistory"]["baseline"]["after"]
+    if after is not None:
+        writeAtomic(baselinePath, after)
     complete = document["completeness"]["issues"]["complete"]
     counts = f"issues={len(document['issues'])} closed={len(document['recentlyClosed'])}"
     if complete:

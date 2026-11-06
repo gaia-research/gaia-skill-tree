@@ -27,7 +27,7 @@ from dataclasses import replace
 from pathlib import Path
 from typing import Any, Mapping
 
-from gaia_cli.steward.issuehygiene.census import Census, loadCensus, parseTimestamp
+from gaia_cli.steward.issuehygiene.census import Census, closedOnlyIncomplete, closedTelemetry, loadCensus, parseTimestamp
 from gaia_cli.steward.issuehygiene.closure import compactPlan, planClosures
 from gaia_cli.steward.issuehygiene.hygienepolicy import KNOWN_RULE_IDS, HygienePolicy
 from gaia_cli.steward.issuehygiene.outcomes import RETRYLIMIT, OutcomeStoreError, doneClosures, loadOutcomes
@@ -246,6 +246,14 @@ class IssueHygieneSensor:
         now = parse_instant(observed_at, "observed_at")
         hygiene = _hygienePolicy(root)
         census = loadCensus(path, now=now, maxAgeSeconds=hygiene.maxCensusAgeSeconds)
+        if not census.status.complete and closedOnlyIncomplete(census):
+            # Only closed history is missing. Closure operations need it and so refuse; the rest of Steward is not
+            # blinded, which is why this is "not evaluated" and not "coverage unknown".
+            raise SensorNotEvaluated(
+                "issue census closed history is incomplete "
+                f"({_text(str(census.document['completeness']['closed'].get('reason', 'unknown')), 80)}); "
+                f"issue closure operations are NOT EVALUATED. Telemetry: {closedTelemetry(census)}"
+            )
         if not census.status.complete:
             reasons = ", ".join(_text(reason, 80) for reason in census.status.reasons[:3]) or "no reason recorded"
             raise SensorUnavailable(f"issue census is {census.status.status}: {reasons}")
