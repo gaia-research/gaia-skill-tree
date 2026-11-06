@@ -17,6 +17,48 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-11-05, 23:30Z event — second canonical B repair confirmed)
+
+### TLDR
+- Actual B closures now **TWO**, not principal engineering-PR count. Fresh post-merge run `run-20261105T232943Z-77ad62ba` completed; receipt `steward-20261105T233031Z-dbd4cf87175ef566` explicitly marks roster debt resolved and includes it in resolvedWork. Census **A0/B324/C40=364**, zero unknown coverage, two optional inputs not evaluated.
+- Roster build97cc78632cdb271827f4818e0c9112faf4779eb5, independent native shared Terra HIGH ACCEPT,165package and15independent focused tests reported separately; #2299 green then normal integration78bf592d439e0666afe0c4cef1e89d20cb7fe0a7. The old completed recovery retained a20:46 PRE-integration scan; it was not proof of post-merge resolution. A supported fresh verify-only run reconciled the landed work without resetting attempts/phases. Roster is still **integration-only**, pending frozen protected-main promotion.
+- M1 main3cd5504e00ac… remains delivered/verified. Source/package CI passed. Built-in GitHub Pages deployment timed out; cause unknown, prior main's Pages run succeeded. [skip-gen] skips Auto-Sync, NOT independent built-in Pages. No manual deployment/rerun authorized. Tracker#2283 remains open.
+- R19 original writer finished clean17ad597ad…/fa46a693… with1165builder tests, but independent OpenAI Terra review **REJECTED** a real consumer defect: missing attached operation ID on local failure can finish local action while shared unknown slot stays held. Probe1invocation1effect; no duplicate-send/refund exploit shown. Whole audit still incomplete. New sole repair writer native openai/gpt-6.1-terra HIGH, run9f1ff851-615f-4077-8a18-e36ef3269d94, original feature worktree. Preserve old candidate/rejections; no self-acceptance, publication/activation/migration or limit relaxation.
+- Shared reset reminder fired; one actual shared Codex Terra request answered AVAILABLE, not proof every quota/model reset. Continue native subagents and28-minute batched cost/cache guards. Canonical Steward retains shared Codex; non-Steward engineering uses Terra viaopenai. Existing owners are not restarted merely to change routing. Scoutb765bac8 only nominates next safe import candidates, no dispatch/state authority.
+
+### Next
+Freeze/review/CI/protected-main delivery of accepted roster+documentation; revalidate currentmain and prevent campaign-closing links. Recover the actual R19 defect, then finish the complete independent audit and separate CLI/legacy-transition/external clock/protection/activation holds. No archive resumption or trust/L4 mutation. Read campaignCHECKPOINT after compaction; all prior memory preserved. No new campaign-total cost estimate asserted.
+
+## State Snapshot (2026-11-05, Steward M1 delivered — protected main and native cost cadence)
+
+### TLDR
+- **M1 COMPLETE:** #2297 normally merged at20:05:51Z as `3cd5504e00ac00e4708503f484a05e04e5775dcc`; exact independently accepted tree9b29681b44be112306f8502961f4e67787492d97 and both parents verified. Seven principal engineering packages are now on main, not seven debt closures; canonical B closures remain ONE. Post-merge CI awaits next batch.
+- Founder approved both review cards at19:59:06.755Z. Verbatim JSON and execution directives were pushed in324e0ab97 before action. Only ruleset18124772 include-target changed[]→[refs/heads/main]; other rules/checks/strictness/active enforcement/zero bypass actors preserved. Effective main protected:true/three rules verified. Shown ledger warning approved. Normal exact-head merge, no admin/check bypass; existing[skip-gen] guard avoids unapproved generation/release/deploy. Archive/Routine19 activation/data/L4 holds unchanged.
+- GitHub's pre-existing PR closing link auto-closed#2283 at20:05:54Z. Lead corrected that side effect by reopening; explanation/comment6668137081 preserves whole-campaign incompleteness. No routine18 closure or new debt resolution claimed.
+- #2298 durable checkpoint independently ACCEPTED at813ce938b and normally integrated as1148c4747. Read [CHECKPOINT](reports/steward-campaign-2026-11-05/CHECKPOINT.md) after compaction; all older memory bytes remain intact.
+- Roster build97cc78632cdb271827f4818e0c9112faf4779eb5 is canonically recorded;165package tests and compileall passed under unchanged safeguards. Same run ended BLOCKED on unknown PR-maintenance coverage, NO verifier emitted. Diagnose/refresh census and inspect preserved work/attempt state via supported CLI; no hand-created packet, coverage bypass or attempt reset. No second closure yet.
+- **Cost/routing directive:** new LLM workers use native subagent, not bg_run. Batch non-urgent results at28-minute cache/cost guards. Native schema is capped at5retries/24h per call, not unlimited; canonical debt caps unchanged. Future NON-Steward engineering uses **openai/gpt-6.1-terra**, explicitly NOT openai-codex. Canonical Steward keeps established shared Codex roster. Do not stop/restart existing owners to change route. Existing Routine19 Sol worker remains untouched; archive stays parked. Ordinary non-LLM tests/CLI/server/timers can use bg_run.
+
+### Next batch / evidence limits
+Collect post-main CI and existing wiring result; recover coverage before actual canonical verifier emission; continue authorized per-debt burn-down and protected delivery. No current campaign-total cost is asserted; prefer live native worker visibility. Older cost snapshots below remain historical/partial. No campaign-complete percentage.
+
+## State Snapshot (2026-11-05, Steward M1 founder gate — canonical burn-down continues)
+
+### TLDR
+- Governing mission remains systematic authorized debt elimination and incremental protected-main delivery, not an infrastructure project. Canonical baseline **A0/B325/C40=365 at17:03:50Z**; only ONE B repair is canonically resolved so far. Seven accepted engineering packages are not seven debt closures. The old 1 MiB blocker below is historical: accepted default is8MiB; actual recovery ledger1,307,094B, no current capacity blocker.
+- Durable resumption anchor: [campaign CHECKPOINT](reports/steward-campaign-2026-11-05/CHECKPOINT.md), #2283, draft #2298. Read it after compaction; preserve all older history.
+- Frozen main-promotion #2297 at `2d9599c11ea91f303b5067c39fb8ea272f119072` is independently SOURCE ELIGIBLE; exact-head checks17success/2irrelevant skipped. **NO MAIN MERGE:** positive GitHub evidence shows protected:false/effective rules=[]/active Main Ruleset18124772 has empty includes. Narrow target repair needs founder authorization. The additive ledger telemetry warning also needs the shown before/after CLI approval. One two-card local HTML fallback review packet is being prepared; no choice or approval inferred. Required protection/checks remain mandatory; no override/direct main push. No release/deploy permission.
+- Lane A: canonical run `run-20261105T172246Z-e34944e8`, action `build:638fb01c8655:1`, exact roster.py timezone debt. Shared Codex Luna medium task `b13c9cb2d` owns its isolated branch/worktree. Collect actual outcome, record via canonical CLI, distinct verifier next. No new closure claimed; lead alone writes shared ledger. Keep caps1dispatch/2inflight/2attempts/3600s cooldown.
+- Lane B: prior wiring process ended PARTIAL, not accepted: provider checkpoint `2614c9d20e9ab94d3539bf56882e34f81de62546`, nine WIP files, first22 slice tests, no final proof. SAME Sol MAX session/sole owner resumed as `be87430e0`; preserve all work. No new writer, activation/provisioning or legacy-state migration. Core #2296 separate acceptance/CI does not accept wiring.
+- Latest routing reminder: canonical Steward uses established openai-codex shared roster. Flash is permitted for non-Steward engineering; Flash LOW `b5dcb87b3` only makes the isolated local decision page, no canonical/source/GitHub authority. Maximum four concurrent agents.
+- Archive #2287 remains PARKED/unmerged, actual DoD OPEN. Preserve C1–C4/D1–D3, issueHygiene writes=false, all L4/rank/security/activation holds. Do not resume archive or mistake source fixes for live recovery.
+
+### Costs / evidence limits
+Installed canonical pi-cost1.10 offline tool was executed; selected session reports lead logged cost **$30.8180**,577usage turns. This is NOT a recomputed whole-campaign cost: custom direct worker sessions and historical aggregation must be reconciled before a campaign total. Cached pricing/offline limit retained; no invoice claim. Current raw report stays ignored under campaign reorientation/continuation-cost.json.
+
+### Next owner actions
+Collect pending terminals, finish actual roster build→independent verification→canonical reconciliation, keep source/protected main gates distinct, present founder page and record choices verbatim before acting. Refresh CHECKPOINT at the next real delivery; no percent-complete claim. This snapshot is prepared on the checkpoint branch for normal integration without disturbing the active canonical source branch.
+
 ## State Snapshot (2026-11-05, Termux Steward campaign blocked — shared ledger byte guard, no repairs delivered)
 
 ### TLDR
