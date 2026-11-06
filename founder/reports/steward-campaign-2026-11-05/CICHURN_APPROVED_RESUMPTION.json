@@ -83,13 +83,22 @@
     "requestedThinking": "medium",
     "role": "different agent/session from builder",
     "capabilityFloor": "simple one-subject two-import patch, Luna-first per operator",
-    "status": "launched_pending_collection",
+    "status": "same_independent_reviewer_clarifying_pending",
     "accepted": false,
     "initialActualProvider": "openai",
     "initialActualModel": "gpt-6-luna",
     "initialThinkingJournal": [
       "medium"
     ],
-    "sessionId": "01a1b15b-ad83-7134-b050-a2ee84bba371"
+    "sessionId": "01a1b15b-ad83-7134-b050-a2ee84bba371",
+    "initialVerdict": "reject",
+    "initialCanonicalVerdictRecorded": false,
+    "initialConcerns": [
+      "independent sensor reproduction not performed",
+      "consumer assurance insufficient",
+      "incorrectly demands builder-supplied independent-review item4"
+    ],
+    "clarificationRun": "0c649d70-a7cb-447a-a120-aaaf62251625",
+    "clarificationReason": "Correct explicit builderpacket/skill contradiction foritem4 and complete already-authorized pure-readonly analysis; no desired verdict, source edit or attempt reset"
   }
 }
