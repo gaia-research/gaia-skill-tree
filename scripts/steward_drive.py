@@ -234,6 +234,8 @@ class DriveOptions:
     agentTimeout: float = DEFAULTAGENTTIMEOUT
     census: bool = False
     repo: str = DEFAULTREPO
+    # Founder ruling #10: closures name the accountable Steward owner; the driver itself is the worker.
+    stewardOwner: str | None = None
 
 
 @dataclass
@@ -652,7 +654,9 @@ class Driver:
         path.write_text(json.dumps(dict(params), indent=2, sort_keys=True) + "\n", encoding="utf-8")
         o = self.options
         argv = [o.python, str(o.root / CLOSESCRIPT), "--root", str(o.root), "--action", str(path),
-                "--repo", o.repo, "--run-id", runId]
+                "--repo", o.repo, "--run-id", runId, "--worker", DRIVERACTOR]
+        if o.stewardOwner:
+            argv += ["--steward-owner", o.stewardOwner]
         result = self.runner(argv, cwd=o.root, timeout=CLOSETIMEOUT, env=self.env)
         if result.returncode == CLOSEREFUSED:
             # The executor's gate refused: the checkout no longer proves the action, or a gate is closed. That is a fact
@@ -928,6 +932,9 @@ def buildParser() -> argparse.ArgumentParser:
                         help=f"Machine-readable summary (default: {DEFAULTREPORT})")
     parser.add_argument("--no-census", action="store_true",
                         help="Do not refresh the GitHub issue census before the run (issue hygiene then reports not evaluated)")
+    parser.add_argument("--steward-owner", default=os.environ.get("GAIA_STEWARD_OWNER"), metavar="NAME",
+                        help="accountable Steward owner recorded in issue-closure receipts (default: $GAIA_STEWARD_OWNER); "
+                             "without one every closure is refused")
     parser.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY") or DEFAULTREPO, metavar="OWNER/NAME",
                         help="repository whose issue census is collected (default: $GITHUB_REPOSITORY)")
     return parser
@@ -947,6 +954,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(f"steward drive refused: {refusal}", file=sys.stderr)
             return EXITREFUSEDINPUT
     options.census = not args.no_census
+    options.stewardOwner = args.steward_owner
     options.repo = args.repo
     options.agents = not args.no_agents
     try:

@@ -70,7 +70,8 @@ def settle(runner, runId: str, action: dict, outcome: dict):
         entry = {"schemaVersion": "steward-issue-closure-receipt-v1", "runId": runId, "key": params["key"],
                  "issue": params["issue"], "ruleId": params["ruleId"], "outcome": outcome["outcome"],
                  "commentUrl": outcome.get("commentUrl"), "commentId": outcome.get("commentId"),
-                 "markerVerified": outcome.get("markerVerified", False), "closedAt": "2026-10-21T19:30:00Z"}
+                 "markerVerified": outcome.get("markerVerified", False), "closedAt": "2026-10-21T19:30:00Z",
+                 "stewardOwner": "steward-owner-test", "worker": "steward-worker-test"}
         with receipt.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps(entry, sort_keys=True) + "\n")
     return runner.record(runId, action["stepId"], outcome)

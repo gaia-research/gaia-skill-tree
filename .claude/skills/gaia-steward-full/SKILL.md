@@ -42,9 +42,10 @@ Scheduled runs add `--trigger scheduled`. Class A landing additionally needs
 the runner refuses `main`, `master` and the remote default branch.
 
 `--routine` takes 1 to 19. Routine 18 is GitHub issue hygiene (`issue-hygiene`); routine 19 is routine pull-request maintenance (`pr-maintenance`, skill `gaia-steward-pr-maintenance`).
-Issue-write authority remains an OPEN Class C proposal: no live closure dry run,
-pilot or burn-down. The effective policy emits no closure actions until explicit
-ratification AND write opt-in; changing the kill switch alone grants no authority.
+Issue-write authority is founder-ratified policy (ruling #10, A1-A5) but not rolled out:
+`issueHygiene.writesEnabled` is false, so no closure actions are emitted, and there is no live closure
+dry run, pilot or burn-down. Closures need ratification AND write opt-in AND an attributable Steward
+owner and worker on every receipt; changing the kill switch alone grants no authority.
 
 ## Step 0: refresh the censuses
 

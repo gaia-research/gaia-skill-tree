@@ -221,14 +221,30 @@ item needs at least one entry; every entry must have exited zero.
 
 ## Routine 18 — GitHub issue hygiene (#2130)
 
-**Unratified Class C proposal.** The implementation allowlist is not a grant of
-issue-write authority. `steward-issue-closure-authority.json` is OPEN; the effective
-policy disables all closure rules until that exact record is explicitly `decided`
-with `resolution: "approved"`. A rejected or merely decided question grants no authority.
-Changing `writesEnabled` alone cannot emit plans or actions, or authorize either
-script or public library executor. No live closure dry run, pilot or burn-down is
-authorized in this mission. The Oct 21–22 handovers describe historical procedures,
-not present permission; the current mission supersedes their inferred approval.
+**Ratified policy, not yet rolled out.** The founder ratified the A1-A5 closure allowlist on
+2026-11-06 (ruling #10): `steward-issue-closure-authority.json` is `decided` with
+`resolution: "approved"`. The effective policy honors that record only: a rejected or merely
+decided question grants no authority, and changing `writesEnabled` alone cannot emit plans or
+actions, or authorize either script or public library executor. The ratification is not a
+rollout: `issueHygiene.writesEnabled` stays `false` and the kill switch is unchanged until the
+lead has independently verified the path with the existing write switches and gates explicitly
+satisfied. No live closure dry run, pilot or burn-down is authorized by the ratification itself.
+The Oct 21–22 handovers describe historical procedures, not present permission.
+
+Closure receipts are attributable. Each receipt in `.gaia/steward/issue-hygiene/receipts/` names the
+Steward owner (`stewardOwner`) and the worker (`worker`), the ratified authority record
+(`authority`), the exact proof (`closureProof`: rule, digests, evidence references and closing comment),
+and the issue's state before (`before`) and after (`after`) the closure. Pass them with
+`--steward-owner` and `--worker` (or `GAIA_STEWARD_OWNER` and `GAIA_STEWARD_WORKER`); without both,
+nothing is written. `gaia steward full record` accepts a closed outcome only when its receipt names
+both. A closed issue that a person reopens is respected: the pair is never closed again, and the sensor
+raises `reopened-after-closure`. Ambiguous, contested or unsupported cases are excluded.
+
+A closed upstream umbrella is a completed epic (ruling #6): the reconciliation suppresses a repeat of
+that exact batch (same suite and version, no new candidate), treats a new version or candidate as new
+work, and raises one HIGH-PRIORITY `closeout-discrepancy` founder note when a closed umbrella still has
+open children or the registry contradicts its closure. The closure is preserved, never reopened or declared
+complete by the Steward; the founder reconciles the gap explicitly.
 
 Routine 18 reconciles the open GitHub issues that upstream intake and gh-aw
 generate against the registry, and closes only what the registry proves preserved.

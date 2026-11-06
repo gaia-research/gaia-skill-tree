@@ -432,7 +432,8 @@ def closeRound(gh: FakeGitHub, root: Path, receipts: Path, runId: str, forge: Fa
     doc = dict(document) if document is not None else gh.census(now)
     manifest = reconcile(censusOf(doc, now, policy.maxCensusAgeSeconds), buildRegistryIndex(root), policy, now)
     plans = planClosures(manifest, policy)
-    results = executeClosures(plans, forge, receipts, now, runId)
+    results = executeClosures(plans, forge, receipts, now, runId,
+                              attribution={"stewardOwner": "steward-owner-test", "worker": "steward-worker-test"})
     return manifest, plans, results
 
 

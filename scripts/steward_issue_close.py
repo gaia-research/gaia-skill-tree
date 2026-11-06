@@ -55,6 +55,7 @@ from gaia_cli.steward.issuehygiene.closure import (  # noqa: E402
     ForgeBlockedError,
     closureProven,
     executeClosure,
+    resolveAttribution,
 )
 from gaia_cli.steward.issuehygiene.executor import (  # noqa: E402
     AlreadyRecorded,
@@ -90,6 +91,9 @@ def outcomeFrom(receipt: dict[str, Any]) -> dict[str, Any]:
         outcome["commentId"] = receipt["commentId"]
     elif receipt.get("markerVerified") is True:
         outcome["markerVerified"] = True
+    for field in ("stewardOwner", "worker"):
+        if isinstance(receipt.get(field), str):
+            outcome[field] = receipt[field]
     return outcome
 
 
@@ -111,6 +115,10 @@ def parseArgs(argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument("--root", type=Path, default=REPO_ROOT, help="repository checkout (default: this repo)")
     parser.add_argument("--repo", default=None, help=f"owner/name (default: $GITHUB_REPOSITORY or {DEFAULT_REPO})")
     parser.add_argument("--run-id", default=None, help="receipt run id (default: the receipt file stem)")
+    parser.add_argument("--steward-owner", default=None,
+                        help="the accountable Steward owner recorded in the receipt (default: $GAIA_STEWARD_OWNER)")
+    parser.add_argument("--worker", default=None,
+                        help="the worker performing the closure, recorded in the receipt (default: $GAIA_STEWARD_WORKER)")
     parser.add_argument("--now", default=None,
                         help="accepted for compatibility and IGNORED: freshness uses the real clock")
     return parser.parse_args(argv)
@@ -139,12 +147,17 @@ def main(argv: list[str] | None = None, forgeFactory: Callable[[str, str | None]
         return printRecorded(done, action["issue"], repo)
     except ActionRefused as exc:
         return refusal(exc, action)
+    try:
+        # Founder ruling #10: no attributable owner and worker, no closure. Checked before any forge is built.
+        attribution = resolveAttribution({"stewardOwner": args.steward_owner, "worker": args.worker})
+    except ActionRefused as exc:
+        return refusal(exc, action)
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
     try:
         forge = (forgeFactory or GhForge)(repo, token)
         executed = executeClosure(
             plan, forge, receipt, now, runId, repo,
-            root=root,
+            root=root, attribution=attribution,
         )
     except ActionRefused as exc:  # the budget reservation, or the policy, refused: nothing was written
         return refusal(exc, action)
