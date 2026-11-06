@@ -1,5 +1,5 @@
 {
- "generation": 821,
+ "generation": 822,
  "lane": {
   "entries": [
    {
@@ -4566,13 +4566,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-06T19:57:51.761225Z",
-   "expiresAt": "2026-11-06T20:50:08.837724Z",
-   "holder": "run-20261106T195751Z-ff7af507"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -62342,7 +62336,7 @@
    ],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-06T20:18:32.493960Z",
+    "asOf": "2026-11-06T20:20:08.038983Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -62841,7 +62835,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": "2026-11-06T20:18:32.493960Z",
+   "finishedAt": "2026-11-06T20:20:08.038983Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -62869,7 +62863,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "perform 1 pending action(s) (lead.integrate), record each with `gaia steward full record run-20261106T195751Z-ff7af507 <stepId> --input FILE`, then `gaia steward full run --resume run-20261106T195751Z-ff7af507`",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": false,
     "agents": true,
@@ -65496,7 +65490,7 @@
    "sequence": 27,
    "sourceHead": "865911892bb4d103f45b1cef48d2fea701bb0d11",
    "startedAt": "2026-11-06T19:57:51.761225Z",
-   "status": "awaiting-action",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-11-06T19:57:51.761225Z",
@@ -65594,7 +65588,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T20:20:08.837842Z",
+ "updatedAt": "2026-11-06T20:21:45.179374Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
