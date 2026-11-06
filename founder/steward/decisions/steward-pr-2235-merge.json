@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-pr-2235-merge",
+  "status": "decided",
+  "decision": "Merge, hold or close routine docs PR #2235?",
+  "whyItMatters": "Answers desk item decision-1fde053ffffef5198094.",
+  "evidence": [
+    "Founder rulings batch 1, 2026-11-06, relayed to the Steward owner (Opus) for #2283 (verbatim): \"There are two ways this merges. 1. Tuesdays, a routine happens when a weekly sonnet merges. 2. A steward pass. Today is a steward pass. merge.\"",
+    "Ruling as applied: Merge during this Steward pass through normal independent review, exact-head CI and protected-main gates, using the documented weekly-docs routine workflow (docs/en/ROUTINE_PROMPT.md, founder/steward/pr-producers.json, gaia-steward-pr-maintenance skill, founder/steward/routines/pr-maintenance.md). Prior assistant action disclosed by the founder: #2235 was set Draft->Ready at 4569163f9f64299084c863e4e6d37a5699da22c0; a direct merge attempt was rejected for four expected required checks; nothing merged."
+  ],
+  "recommended": "Merge during this Steward pass through normal independent review, exact-head CI and protected-main gates, using the documented weekly-docs routine workflow (docs/en/ROUTINE_PROMPT.md, founder/steward/pr-producers.json, gaia-steward-pr-maintenance skill, founder/steward/routines/pr-maintenance.md). Prior assistant action disclosed by the founder: #2235 was set Draft->Ready at 4569163f9f64299084c863e4e6d37a5699da22c0; a direct merge attempt was rejected for four expected required checks; nothing merged.",
+  "alternative": "n/a (decided)",
+  "unblocks": "decision-1fde053ffffef5198094",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283"
+  ],
+  "resolution": "approved"
+}
