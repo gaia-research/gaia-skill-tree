@@ -1,5 +1,5 @@
 {
- "generation": 611,
+ "generation": 612,
  "lane": {
   "entries": [
    {
@@ -4515,7 +4515,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-06T17:20:37.097107Z",
-   "expiresAt": "2026-11-06T18:16:13.507887Z",
+   "expiresAt": "2026-11-06T18:17:40.476020Z",
    "holder": "run-20261106T172037Z-51ab140a"
   }
  },
@@ -44421,6 +44421,12 @@
    "costUsd": 0.012,
    "coverageBlocked": true,
    "decisions": [],
+   "deferred": [
+    {
+     "debtId": "debt:unused_import:src-gaia-cli-curation-evaluation-py:3fab90bae90c2a93",
+     "reason": "sensor coverage is unknown; refusing routing: pr-maintenance"
+    }
+   ],
    "desk": {
     "asOf": "2026-11-06T17:24:50.621250Z",
     "decisions": [
@@ -44939,7 +44945,7 @@
     "push": false,
     "routine": null
    },
-   "phase": "verify",
+   "phase": "reobserve",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -45845,6 +45851,22 @@
      "issueClosure": [],
      "reportOnly": [],
      "skippedActive": []
+    },
+    "verify": {
+     "deferred": [
+      {
+       "debtId": "debt:unused_import:src-gaia-cli-curation-evaluation-py:3fab90bae90c2a93",
+       "reason": "sensor coverage is unknown; refusing routing: pr-maintenance"
+      }
+     ],
+     "expired": [],
+     "results": [
+      {
+       "debtId": "debt:unused_import:src-gaia-cli-curation-evaluation-py:3fab90bae90c2a93",
+       "result": "deferred"
+      }
+     ],
+     "status": "deferred"
     }
    },
    "proofArtifacts": [
@@ -45911,6 +45933,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_b"
+    },
+    {
+     "at": "2026-11-06T17:47:39.570824Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:verify"
     }
    ],
    "thinkingEfforts": [
@@ -45924,7 +45952,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T17:46:13.508718Z",
+ "updatedAt": "2026-11-06T17:47:40.476130Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
