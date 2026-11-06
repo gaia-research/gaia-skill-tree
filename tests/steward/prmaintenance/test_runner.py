@@ -251,3 +251,125 @@ def test_unknown_shared_sender_stays_pending_and_local_supersession_does_not_ref
     assert coord.inspect()["activeOperationId"] == operation["operationId"]
     assert core.usage(coord.inspect(), core.TimeBounds(999999, 999999, "authority"), "stable-run", "merge") == (1, 1)
     assert len(services.invocations) == len(services.effects) == 1
+
+
+@pytest.mark.parametrize("reportedState", ["failed", "refused", "aborted"])
+def test_attached_unknown_failure_reports_bind_and_preserve_shared_sender(tmp_path, monkeypatch, reportedState):
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = pending(view)[0]["stepId"]
+    coord, operation, services = coordinated(tmp_path, monkeypatch, lost=True)
+    runner.config.prCoordinatorFactory = lambda: coord
+    opid = operation["operationId"]
+    runner.record(view.runId, step, {"state": "unknown", "repo": h.REPO, "number": 2270, "operationId": opid})
+    failure = {"state": reportedState, "repo": h.REPO, "number": 2270, "reason": "fixture"}
+    for report in ({**failure, "operationId": opid}, failure):
+        assert pending(runner.record(view.runId, step, report))[0]["params"]["operationId"] == opid
+    with pytest.raises(RecordRefused, match="conflicts"):
+        runner.record(view.runId, step, {**failure, "operationId": "0" * 64})
+    doc = runner._load()["runs"][view.runId]
+    assert next(a for a in doc["actions"] if a["stepId"] == step)["status"] == "pending"
+    assert next(s for s in doc["steps"] if s["stepId"] == step)["status"] == "pending"
+    shared = coord.inspect()
+    assert shared["operations"][opid]["state"] == "unknown" and shared["activeOperationId"] == opid
+    assert core.usage(shared, core.TimeBounds(999999, 999999, "authority"), "stable-run", "merge") == (1, 1)
+    assert len(services.invocations) == len(services.effects) == 1
+
+
+def test_attached_operation_reconciles_independently_observed_terminal(tmp_path, monkeypatch):
+    from .coordination_helpers import evidence
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = pending(view)[0]["stepId"]
+    coord, operation, services = coordinated(tmp_path, monkeypatch, lost=True)
+    runner.config.prCoordinatorFactory = lambda: coord
+    opid = operation["operationId"]
+    runner.record(view.runId, step, {"state": "unknown", "repo": h.REPO, "number": 2270, "operationId": opid})
+    def observed(item):
+        result = evidence(item, "observed-terminal", "merged")
+        result["detail"] = json.dumps({"mergeCommitSha": "9" * 40, "parentsVerified": True})
+        return result
+    services.observation = observed
+    assert coord.recover(opid).state == "observed-terminal"
+    shared = coord.inspect()
+    claim = {"state": "already-merged", "repo": h.REPO, "number": 2270,
+             "evidenceSha256": core.digest(shared["operations"][opid]["evidence"])}
+    assert not pending(runner.record(view.runId, step, claim))
+    assert shared["activeOperationId"] is None
+    assert core.usage(shared, services.now, "stable-run", "merge") == (1, 1)
+    assert len(services.invocations) == len(services.effects) == 1
+
+
+def test_cas_retry_refuses_concurrent_attachment_without_replaying_shared_inspection(tmp_path, monkeypatch):
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = pending(view)[0]["stepId"]
+    coord, operation, services = coordinated(tmp_path, monkeypatch, lost=True)
+    runner.config.prCoordinatorFactory = lambda: coord
+    opid = operation["operationId"]
+    store = runner.config.store
+    original = store.compare_and_swap
+    calls = []
+    def concurrent(version, document, message):
+        if not calls:
+            calls.append("raced")
+            runner.record(view.runId, step, {"state": "unknown", "repo": h.REPO, "number": 2270, "operationId": opid})
+        return original(version, document, message)
+    monkeypatch.setattr(store, "compare_and_swap", concurrent)
+    with pytest.raises(RecordRefused, match="action changed"):
+        runner.record(view.runId, step, {"state": "failed", "repo": h.REPO, "number": 2270, "reason": "fixture"})
+    doc = runner._load()["runs"][view.runId]
+    action = next(a for a in doc["actions"] if a["stepId"] == step)
+    assert action["status"] == "pending" and action["params"]["operationId"] == opid
+    assert next(s for s in doc["steps"] if s["stepId"] == step)["status"] == "pending"
+    shared = coord.inspect()
+    assert shared["operations"][opid]["state"] == "unknown" and shared["activeOperationId"] == opid
+    assert core.usage(shared, core.TimeBounds(999999, 999999, "authority"), "stable-run", "merge") == (1, 1)
+    assert len(services.invocations) == len(services.effects) == 1
+
+
+def test_inspected_attachment_changed_on_cas_is_refused(tmp_path, monkeypatch):
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = pending(view)[0]["stepId"]
+    coord, operation, services = coordinated(tmp_path, monkeypatch, lost=True)
+    runner.config.prCoordinatorFactory = lambda: coord
+    opid = operation["operationId"]
+    runner.record(view.runId, step, {"state": "unknown", "repo": h.REPO, "number": 2270, "operationId": opid})
+    assert coord.recover(opid).state == "quarantined"
+    store = runner.config.store
+    original = store.compare_and_swap
+    calls = []
+    def concurrent(version, document, message):
+        if not calls:
+            calls.append(True)
+            def change(doc, run):
+                next(a for a in run["actions"] if a["stepId"] == step)["params"]["operationId"] = "0" * 64
+            runner._mutateRun(view.runId, change, holdsLease=False)
+        return original(version, document, message)
+    monkeypatch.setattr(store, "compare_and_swap", concurrent)
+    with pytest.raises(RecordRefused, match="action changed"):
+        runner.record(view.runId, step, {"state": "refused", "repo": h.REPO, "number": 2270, "reason": "fixture"})
+    action = next(a for a in runner._load()["runs"][view.runId]["actions"] if a["stepId"] == step)
+    assert action["status"] == "pending" and action["params"]["operationId"] == "0" * 64
+    shared = coord.inspect()
+    assert shared["operations"][opid]["state"] == "quarantined" and shared["activeOperationId"] == opid
+    assert core.usage(shared, core.TimeBounds(999999, 999999, "authority"), "stable-run", "merge") == (1, 1)
+    assert len(services.invocations) == len(services.effects) == 1
+
+
+def test_never_attached_local_failure_remains_terminal(tmp_path):
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = pending(view)[0]["stepId"]
+    assert not pending(runner.record(view.runId, step, {"state": "failed", "repo": h.REPO, "number": 2270, "reason": "not sent"}))

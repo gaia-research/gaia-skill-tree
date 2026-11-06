@@ -1931,15 +1931,21 @@ class FullRunner:
         if result in ("failed", "refused", "aborted") and not (isinstance(outcome.get("reason"), str) and outcome["reason"].strip()):
             raise RecordRefused(f"a {result} outcome needs a reason")
         operation = None
+        attachedId = params.get("operationId")
+        reportedId = outcome.get("operationId")
+        if attachedId is not None and "operationId" in outcome and reportedId != attachedId:
+            raise RecordRefused("operation id conflicts with the attached shared operation")
+        operationId = attachedId if attachedId is not None else reportedId
+        expectedParams = copy.deepcopy(params)
         success = result in ("merged", "closed", "already-merged", "already-closed")
-        if success or outcome.get("operationId") or result in ("unknown", "quarantined", "possibly-sent"):
+        if success or operationId or result in ("unknown", "quarantined", "possibly-sent"):
             from gaia_cli.steward.prmaintenance import coordination as critical
             from gaia_cli.steward.prmaintenance.executor import makeExecutor
             try:
-                critical.sha(outcome.get("operationId"))
+                critical.sha(operationId)
                 coordinator = (self.config.prCoordinatorFactory() if self.config.prCoordinatorFactory
                                else makeExecutor(self.root).coordinator)
-                operation = coordinator.inspect()["operations"].get(outcome["operationId"])
+                operation = coordinator.inspect()["operations"].get(operationId)
                 if operation is None or coordinator.binding.namespace.repositoryName != params["repo"]:
                     raise ValueError("unknown shared operation")
                 subject = operation["subject"]
@@ -1966,6 +1972,10 @@ class FullRunner:
                 raise RecordRefused("no recorded shared terminal/outstanding operation matches this report; action stays pending") from exc
 
         def prepared(doc: dict[str, Any], run: dict[str, Any], live: dict[str, Any]) -> None:
+            # Revalidate the snapshot on every CAS attempt; shared inspection stays
+            # outside this pure mutator. A concurrent attachment must be retried.
+            if live["params"] != expectedParams:
+                raise RecordRefused("pull request action changed while recording; retry the report")
             if operation is not None:
                 live["params"]["operationId"] = operation["operationId"]
                 live["sharedState"] = operation["state"]
