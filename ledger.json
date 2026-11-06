@@ -1,5 +1,5 @@
 {
- "generation": 642,
+ "generation": 643,
  "lane": {
   "entries": [
    {
@@ -4518,13 +4518,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-06T17:51:05.853887Z",
-   "expiresAt": "2026-11-06T18:38:00.414943Z",
-   "holder": "run-20261106T175105Z-e5c2fe3b"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -47763,7 +47757,7 @@
    ],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-06T18:06:10.915503Z",
+    "asOf": "2026-11-06T18:07:59.499401Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -48252,7 +48246,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": "2026-11-06T18:06:10.915503Z",
+   "finishedAt": "2026-11-06T18:07:59.499401Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -48280,7 +48274,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "perform 1 pending action(s) (lead.integrate), record each with `gaia steward full record run-20261106T175105Z-e5c2fe3b <stepId> --input FILE`, then `gaia steward full run --resume run-20261106T175105Z-e5c2fe3b`",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": false,
     "agents": true,
@@ -49184,7 +49178,7 @@
    "sequence": 21,
    "sourceHead": null,
    "startedAt": "2026-11-06T17:51:05.853887Z",
-   "status": "awaiting-action",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-11-06T17:51:05.853887Z",
@@ -49244,7 +49238,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T18:08:00.415023Z",
+ "updatedAt": "2026-11-06T18:09:27.503488Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
