@@ -1,5 +1,5 @@
 {
- "generation": 932,
+ "generation": 933,
  "lane": {
   "entries": [
    {
@@ -3333,14 +3333,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-e5fc16cfa2decbbd9c74",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-06T22:58:59.400125Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch1-verifier-1a73ca728b11 (pi, effort medium))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-11-06T20:54:31.248700Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-06T22:58:59.400125Z",
+    "lastVerdict": "reject",
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 1,
@@ -72453,6 +72459,13 @@
      "debtId": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
      "emittedAt": "2026-11-06T22:30:05.276545Z",
      "idempotencyKey": "verify:dispatch-e5fc16cfa2decbbd9c74:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch1-verifier-1a73ca728b11",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - \"The base file imports os without any other os reference; the candidate removes only that import.\" - \"The offered proof does not identify the pytest command or its target, so the reported 51 passing tests cannot be assessed against the importing-package requirement; item 3 supplies no exact pytest or compileall results. Zero exit status alone does not establish the required proof.\" - \"Independent review is fulfilled by this verification, as specified in the builder contract; it is not a missing builder obligation.\" - \"A verifier rerun of tests/test_pr_guards.py passed 5 tests, but does not establish what the builder ran or supply the missing compileall evidence.\"",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -72468,7 +72481,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/verify-1a73ca728b11.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-06T22:58:59.390570Z",
+     "status": "done",
      "stepId": "verify:1a73ca728b11:1",
      "type": "agent.verify"
     },
@@ -72719,6 +72733,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:eb3f6b6cc1f5:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch1-verifier-1a73ca728b11",
+     "at": "2026-11-06T22:58:59.400125Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:1a73ca728b11:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -74450,11 +74476,11 @@
      "stepId": "verify:eb3f6b6cc1f5:1"
     },
     {
-     "at": "2026-11-06T22:30:05.276545Z",
+     "at": "2026-11-06T22:58:59.390570Z",
      "debtId": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
      "idempotencyKey": "verify:dispatch-e5fc16cfa2decbbd9c74:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:1a73ca728b11:1"
     },
     {
@@ -74505,11 +74531,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-06T22:58:42.700787Z"
+   "updatedAt": "2026-11-06T22:58:59.390570Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T22:58:42.707465Z",
+ "updatedAt": "2026-11-06T22:58:59.501001Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -75343,22 +75369,25 @@
      "stepId": "build:1a73ca728b11:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch1-verifier-1a73ca728b11",
+     "at": "2026-11-06T22:58:59.400125Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:1a73ca728b11:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
+   "blockedReason": "independent verification by pi-herdr-batch1-verifier-1a73ca728b11 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
    "branch": "steward/b/unused-import-1a73ca728b11",
-   "build": {
-    "agentId": "pi-herdr-batch1-builder-1a73ca728b11",
-    "attempt": 1,
-    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-1a73ca728b11.diff",
-    "dispatchId": "dispatch-e5fc16cfa2decbbd9c74",
-    "noChange": false,
-    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-1a73ca728b11.proof.json",
-    "recordedAt": "2026-11-06T22:08:22.514216Z",
-    "summary": "Batch batch1 builder (openai/gpt-6-luna medium, pi subagent/pane) removed the flagged unused import(s) from the subject file; commit 6536a4074; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
-   },
+   "build": null,
    "createdAt": "2026-11-06T20:54:31.248700Z",
    "debtId": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
    "dispatchId": "dispatch-e5fc16cfa2decbbd9c74",
@@ -75369,6 +75398,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-e5fc16cfa2decbbd9c74 (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-06T22:58:59.400125Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch1-verifier-1a73ca728b11 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
+     "to": "blocked"
     }
    ],
    "kind": "unused_import",
@@ -75378,13 +75413,14 @@
    "routine": "dead-code-gardener",
    "runId": "run-20261106T205057Z-dc2f240c",
    "source": "dead-code",
-   "state": "building",
-   "updatedAt": "2026-11-06T22:08:22.514216Z",
+   "state": "blocked",
+   "updatedAt": "2026-11-06T22:58:59.400125Z",
    "verification": {
-    "receipt": "steward-20261106T222411Z-fc0700ede071d2e0",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/verify-1a73ca728b11.prompt.md"
+    "agentId": "pi-herdr-batch1-verifier-1a73ca728b11",
+    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - \"The base file imports os without any other os reference; the candidate removes only that import.\" - \"The offered proof does not identify the pytest command or its target, so the reported 51 passing tests cannot be assessed against the importing-package requirement; item 3 supplies no exact pytest or compileall results. Zero exit status alone does not establish the required proof.\" - \"Independent review is fulfilled by this verification, as specified in the builder contract; it is not a missing builder obligation.\" - \"A verifier rerun of tests/test_pr_guards.py passed 5 tests, but does not establish what the builder ran or supply the missing compileall evidence.\"",
+    "recordedAt": "2026-11-06T22:58:59.400125Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   },
   "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208": {
