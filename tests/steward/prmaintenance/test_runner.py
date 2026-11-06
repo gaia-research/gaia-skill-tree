@@ -156,9 +156,9 @@ def test_a_stuck_pr_action_cannot_starve_the_lane_the_lease_ttl_supersedes_it(tm
     assert len(pending(nxt)) == 1 and nxt.runId != view.runId  # and the next run offers it afresh, once
 
 
-def coordinated(tmp_path, monkeypatch, *, lost=False, action="merge"):
+def coordinated(tmp_path, monkeypatch, *, lost=False, action="merge", runId="stable-run", changes=None, repository=h.REPO):
     from gaia_cli.steward import ledger
-    namespace = core.Namespace("forge.invalid", "42", h.REPO, "a" * 32)
+    namespace = core.Namespace("forge.invalid", "42", repository, "a" * 32)
     root = tmp_path / "critical"
     root.mkdir()
     _, binding, first, _ = seed(root, monkeypatch, namespace)
@@ -167,6 +167,8 @@ def coordinated(tmp_path, monkeypatch, *, lost=False, action="merge"):
     candidate.update(headSha=HEAD, baseSha=BASE, producerId="weekly-content-engine")
     if action == "close":
         candidate.update(reason="label-already-published", replacement={"repositoryId": "42", "prId": "replacement", "number": 2400, "headSha": "c" * 40})
+    if changes:
+        candidate.update(changes)
     expected = proof(candidate)
     def authorize(ns, sub, bindingProof):
         if ns != namespace or sub != candidate or bindingProof != expected:
@@ -180,7 +182,7 @@ def coordinated(tmp_path, monkeypatch, *, lost=False, action="merge"):
     services.completion = completed
     services.response = "lost" if lost else "effect"
     coord = core.PrWriteCoordinator(ledger.GitRefLedgerStore(first, ref=core.REF), binding, services)
-    token = coord.reserve(candidate, expected, "stable-run", "owner", "reserve").token
+    token = coord.reserve(candidate, expected, runId, "owner", "reserve").token
     coord.recordIntent(token, core.exactRequest(namespace, candidate), "intent")
     coord.invoke(token, "claim")
     operation = coord.inspect()["operations"][token.operationId]
@@ -407,10 +409,168 @@ def test_inspected_attachment_changed_on_cas_is_refused(tmp_path, monkeypatch):
     assert len(services.invocations) == len(services.effects) == 1
 
 
-def test_never_attached_local_failure_remains_terminal(tmp_path):
+def test_no_id_failure_does_not_finish_matching_outstanding_sender(tmp_path, monkeypatch):
     repo = fixture(tmp_path)
     verify(repo, 2270)
     runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
     view = runner.start("full")
     step = pending(view)[0]["stepId"]
+    coord, operation, services = coordinated(tmp_path, monkeypatch, lost=True, runId=view.runId)
+    runner.config.prCoordinatorFactory = lambda: coord
+    shared = coord.inspect()
+    assert shared["operations"][operation["operationId"]]["runId"] == view.runId
+    assert shared["operations"][operation["operationId"]]["state"] == "unknown"
+    assert shared["activeOperationId"] == operation["operationId"]
+    assert core.usage(shared, core.TimeBounds(999999, 999999, "authority"), view.runId, "merge") == (1, 1)
+    assert len(services.invocations) == len(services.effects) == 1
+    from scripts.steward_drive import Driver
+    driverReport = Driver.handlePrWrite(None, pending(view)[0]).outcome
+    reports = [{"state": stateName, "repo": h.REPO, "number": 2270, "reason": "fixture"}
+               for stateName in ("failed", "refused", "aborted")] + [driverReport]
+    assert driverReport["state"] == "aborted" and "operationId" not in driverReport
+    for report in reports:
+        with pytest.raises(RecordRefused, match="shared operation"):
+            runner.record(view.runId, step, report)
+    with pytest.raises(RecordRefused, match="no recorded shared"):
+        runner.record(view.runId, step, {**reports[0], "operationId": ""})
+    run = runner._load()["runs"][view.runId]
+    assert next(a for a in run["actions"] if a["stepId"] == step)["status"] == "pending"
+    assert next(s for s in run["steps"] if s["stepId"] == step)["status"] == "awaiting"
+    shared = coord.inspect()
+    assert shared["operations"][operation["operationId"]]["state"] == "unknown"
+    assert shared["activeOperationId"] == operation["operationId"]
+    assert core.usage(shared, core.TimeBounds(999999, 999999, "authority"), view.runId, "merge") == (1, 1)
+    assert len(services.invocations) == len(services.effects) == 1
+
+
+def test_never_attached_local_failure_remains_terminal(tmp_path, monkeypatch):
+    from gaia_cli.steward import ledger
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = pending(view)[0]["stepId"]
+    root = tmp_path / "critical"
+    root.mkdir()
+    namespace = core.Namespace("forge.invalid", "42", h.REPO, "a" * 32)
+    _, binding, first, _ = seed(root, monkeypatch, namespace)
+    coord = core.PrWriteCoordinator(ledger.GitRefLedgerStore(first, ref=core.REF), binding, FakeServices())
+    runner.config.prCoordinatorFactory = lambda: coord
+    assert coord.inspect()["operations"] == {}
     assert not pending(runner.record(view.runId, step, {"state": "failed", "repo": h.REPO, "number": 2270, "reason": "not sent"}))
+
+
+@pytest.mark.parametrize("field,value", [("run", "other-run"), ("number", 2271), ("headSha", "c" * 40),
+                                         ("baseRef", "other"), ("baseSha", "c" * 40),
+                                         ("producerId", "other-producer"), ("action", "close")])
+def test_no_id_failure_ignores_foreign_shared_subject(tmp_path, monkeypatch, field, value):
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = pending(view)[0]["stepId"]
+    coord, operation, services = coordinated(tmp_path, monkeypatch, lost=True,
+        action=value if field == "action" else "merge", runId=value if field == "run" else view.runId,
+        changes={} if field in ("run", "action") else {field: value})
+    runner.config.prCoordinatorFactory = lambda: coord
+    assert not pending(runner.record(view.runId, step, {"state": "failed", "repo": h.REPO, "number": 2270, "reason": "not sent"}))
+    shared = coord.inspect()
+    assert shared["operations"][operation["operationId"]]["state"] == "unknown"
+    assert shared["activeOperationId"] == operation["operationId"]
+    assert len(services.invocations) == len(services.effects) == 1
+
+
+@pytest.mark.parametrize("variant", ["matching", "reason", "replacement"])
+def test_no_id_close_subject_includes_reason_and_replacement(tmp_path, monkeypatch, variant):
+    from gaia_cli.steward.fullrun import CLOSEPRACTION
+    repo = fixture(tmp_path)
+    state.appendRecord(repo, "verifications", {"repo": h.REPO, "number": 2270, "action": "close",
+        "headSha": HEAD, "baseSha": BASE, "verdict": "pass"})
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_closure_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = next(a["stepId"] for a in view.actions if a["type"] == CLOSEPRACTION)
+    changes = ({"reason": "other reason"} if variant == "reason" else
+               {"replacement": {"repositoryId": "42", "prId": "other", "number": 2401, "headSha": "c" * 40}}
+               if variant == "replacement" else {})
+    coord, operation, services = coordinated(tmp_path, monkeypatch, action="close", lost=True,
+                                               runId=view.runId, changes=changes)
+    runner.config.prCoordinatorFactory = lambda: coord
+    report = {"state": "aborted", "repo": h.REPO, "number": 2270, "reason": "fixture"}
+    if variant == "matching":
+        with pytest.raises(RecordRefused, match="shared operation"):
+            runner.record(view.runId, step, report)
+    else:
+        runner.record(view.runId, step, report)
+    stored = next(a for a in runner._load()["runs"][view.runId]["actions"] if a["stepId"] == step)
+    assert stored["status"] == ("pending" if variant == "matching" else "done")
+    shared = coord.inspect()
+    assert shared["activeOperationId"] == operation["operationId"]
+    assert shared["operations"][operation["operationId"]]["state"] == "unknown"
+    assert len(services.invocations) == len(services.effects) == 1
+
+
+def test_foreign_repository_binding_cannot_prove_absence(tmp_path, monkeypatch):
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = pending(view)[0]["stepId"]
+    coord, operation, services = coordinated(tmp_path, monkeypatch, lost=True, runId=view.runId,
+                                               repository="other/project")
+    runner.config.prCoordinatorFactory = lambda: coord
+    with pytest.raises(RecordRefused, match="shared operation"):
+        runner.record(view.runId, step, {"state": "failed", "repo": h.REPO, "number": 2270, "reason": "fixture"})
+    assert coord.inspect()["activeOperationId"] == operation["operationId"]
+    assert len(services.invocations) == len(services.effects) == 1
+
+
+def test_unavailable_physical_pr_identity_cannot_prove_foreign_subject(tmp_path, monkeypatch):
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = pending(view)[0]["stepId"]
+    coord, operation, services = coordinated(tmp_path, monkeypatch, lost=True, runId=view.runId,
+                                               changes={"prId": "different-physical-id"})
+    runner.config.prCoordinatorFactory = lambda: coord
+    with pytest.raises(RecordRefused, match="shared operation"):
+        runner.record(view.runId, step, {"state": "failed", "repo": h.REPO, "number": 2270, "reason": "fixture"})
+    assert coord.inspect()["activeOperationId"] == operation["operationId"]
+    assert len(services.invocations) == len(services.effects) == 1
+
+
+def test_missing_binding_and_shared_read_failure_do_not_imply_absence(tmp_path, monkeypatch):
+    from gaia_cli.steward import ledger
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = pending(view)[0]["stepId"]
+    report = {"state": "aborted", "repo": h.REPO, "number": 2270, "reason": "fixture"}
+    with pytest.raises(RecordRefused, match="shared operation"):
+        runner.record(view.runId, step, report)
+    coord, operation, services = coordinated(tmp_path, monkeypatch, lost=True, runId=view.runId)
+    runner.config.prCoordinatorFactory = lambda: coord
+    with monkeypatch.context() as patch:
+        def unavailable():
+            raise ledger.LedgerUnavailable("synthetic read failure")
+        patch.setattr(coord, "inspect", unavailable)
+        with pytest.raises(RecordRefused, match="shared operation"):
+            runner.record(view.runId, step, report)
+    assert next(a for a in runner._load()["runs"][view.runId]["actions"] if a["stepId"] == step)["status"] == "pending"
+    assert coord.inspect()["activeOperationId"] == operation["operationId"]
+    assert len(services.invocations) == len(services.effects) == 1
+
+
+def test_no_id_failure_after_matching_terminal_does_not_change_shared_truth(tmp_path, monkeypatch):
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = pending(view)[0]["stepId"]
+    coord, operation, services = coordinated(tmp_path, monkeypatch, runId=view.runId)
+    runner.config.prCoordinatorFactory = lambda: coord
+    assert operation["state"] == "completed-effect"
+    assert not pending(runner.record(view.runId, step, {"state": "failed", "repo": h.REPO, "number": 2270, "reason": "fixture"}))
+    assert coord.inspect()["operations"][operation["operationId"]]["state"] == "completed-effect"
+    assert len(services.invocations) == len(services.effects) == 1

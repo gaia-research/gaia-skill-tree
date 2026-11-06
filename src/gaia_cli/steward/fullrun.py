@@ -1938,7 +1938,29 @@ class FullRunner:
         operationId = attachedId if attachedId is not None else reportedId
         expectedParams = copy.deepcopy(params)
         success = result in ("merged", "closed", "already-merged", "already-closed")
-        if success or operationId or result in ("unknown", "quarantined", "possibly-sent"):
+        if not success and operationId is None and result in ("failed", "refused", "aborted"):
+            from gaia_cli.steward import ledger
+            from gaia_cli.steward.prmaintenance.executor import makeExecutor
+            try:
+                coordinator = (self.config.prCoordinatorFactory() if self.config.prCoordinatorFactory
+                               else makeExecutor(self.root).coordinator)
+                if coordinator.binding.namespace.repositoryName != params["repo"]:
+                    raise ValueError("shared repository mismatch")
+                # This is a snapshot, not an atomic transaction with the local
+                # run CAS. Actions do not contain immutable PR/replacement IDs;
+                # a possible match must therefore block rather than guess them.
+                shared = coordinator.inspect()
+                for item in shared["operations"].values():
+                    subject = item["subject"]
+                    if (item["runId"] == runId and item["state"] in ("reserved", "intent", "possibly-sent", "unknown", "quarantined")
+                            and (subject["number"], subject["headSha"], subject["action"], subject["baseRef"], subject["baseSha"], subject["producerId"]) ==
+                            (params["number"], params["headSha"], params["action"], params["baseRef"], params["baseSha"], params["producerId"])
+                            and (subject["action"] != "close" or (subject["reason"] == params.get("reason")
+                                 and (subject["replacement"] or {}).get("number") == params.get("replacement")))):
+                        raise ValueError("matching shared operation is outstanding")
+            except (ledger.LedgerUnavailable, ValueError, KeyError, OSError) as exc:
+                raise RecordRefused("shared operation status unavailable or outstanding; action stays pending") from exc
+        if success or operationId is not None or result in ("unknown", "quarantined", "possibly-sent"):
             from gaia_cli.steward.prmaintenance import coordination as critical
             from gaia_cli.steward.prmaintenance.executor import makeExecutor
             try:

@@ -504,10 +504,23 @@ class Executor:
             raise core.Refused("unknown operation")
         if operation["state"] not in core.PREPARED:
             return self.report(operation)  # persisted claim/terminal is inspection, NEVER a send grant
-        result = self.coordinator.invoke(tokenFrom(operation), core.digest([operation["attemptId"], "sole-send"]))
+        def uncertain():
+            return {"operationId": operationId, "state": "possibly-sent", "coordinationState": "unavailable",
+                    "repo": self.coordinator.binding.namespace.repositoryName, "runId": operation["runId"],
+                    "number": operation["subject"]["number"], "headSha": operation["subject"]["headSha"],
+                    "action": operation["subject"]["action"],
+                    "reason": "sole invocation or its settlement is uncertain; inspect shared state before any action"}
+        try:
+            result = self.coordinator.invoke(tokenFrom(operation), core.digest([operation["attemptId"], "sole-send"]))
+        except core.InvocationUncertain:
+            return uncertain()
+        try:
+            current = self.report(self.coordinator.inspect()["operations"][operationId])
+        except (ledger.LedgerUnavailable, KeyError, OSError):
+            return uncertain()
         if result.status == core.CommitStatus.UNRESOLVED:
-            return {**self.report(self.coordinator.inspect()["operations"][operationId]), "commitStatus": result.status.value}
-        return self.report(self.coordinator.inspect()["operations"][operationId])
+            return {**current, "commitStatus": result.status.value}
+        return current
 
     def recover(self, operationId):
         operation = self.coordinator.inspect()["operations"].get(operationId)

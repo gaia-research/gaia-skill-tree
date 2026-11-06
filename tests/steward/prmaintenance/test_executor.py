@@ -162,6 +162,84 @@ def test_lost_response_recovery_no_resend_closed_is_not_absorbing(tmp_path, monk
     assert len(forge.invocations) == len(forge.effects) == 1
 
 
+def test_cli_close_502_reports_correlated_uncertainty(tmp_path, monkeypatch, capsys):
+    from gaia_cli.steward.prmaintenance import cli
+    fixture = world(tmp_path, monkeypatch, "close")
+    fx, forge, clock, executor, _, cold = fixture
+    operation = prepare(fixture)
+    original = forge.request
+    def response502(method, path, body=None):
+        response = original(method, path, body)
+        return ex.HttpReply(502, {}, {}) if method == "PATCH" else response
+    forge.request = response502
+    monkeypatch.setattr(ex, "makeExecutor", lambda root: executor)
+    assert cli.main(["--root", str(fx.root), "--json", "execute", "--operation-id", operation["operationId"]]) == 2
+    output = json.loads(capsys.readouterr().out)
+    shared = executor.coordinator.inspect()
+    assert shared["operations"][operation["operationId"]]["state"] == "possibly-sent"
+    assert shared["activeOperationId"] == operation["operationId"]
+    assert core.usage(shared, clock.sample(), "stable-run", "close") == (1, 1)
+    assert forge.fact["state"] == "closed"
+    assert len(forge.invocations) == len(forge.effects) == 1
+    assert output.get("operationId") == operation["operationId"]
+    assert output.get("state") in {"possibly-sent", "unknown", "quarantined"}
+    assert "refused" not in output
+    shared = executor.coordinator.inspect()
+    assert shared["operations"][operation["operationId"]]["state"] in core.PENDING
+    assert shared["activeOperationId"] == operation["operationId"]
+    assert core.usage(shared, clock.sample(), "stable-run", "close") == (1, 1)
+    assert forge.fact["state"] == "closed"
+    assert len(forge.invocations) == len(forge.effects) == 1
+    assert cold().recover(operation["operationId"])["state"] == "quarantined"
+    clock.instant += 10 * 86400
+    assert cold().recover(operation["operationId"])["state"] == "quarantined"
+    assert len(forge.invocations) == len(forge.effects) == 1
+
+
+@pytest.mark.parametrize("failure", ["completion", "settlement", "unknown-transition"])
+def test_post_effect_errors_remain_correlated_even_when_shared_write_fails(tmp_path, monkeypatch, failure):
+    fixture = world(tmp_path, monkeypatch, "close")
+    _, forge, clock, executor, _, cold = fixture
+    operation = prepare(fixture)
+    if failure == "completion":
+        def fail(*args):
+            raise core.CoordinationError("synthetic completion authentication failure")
+        monkeypatch.setattr(executor.services, "completion", fail)
+    else:
+        original = executor.coordinator._transition
+        if failure == "unknown-transition":
+            forge.lost = True
+        def transition(kind, *args):
+            if kind == ("unknown" if failure == "unknown-transition" else "complete"):
+                raise ledger.LedgerUnavailable("synthetic settlement failure")
+            return original(kind, *args)
+        monkeypatch.setattr(executor.coordinator, "_transition", transition)
+    result = executor.execute(operation["operationId"])
+    assert result["operationId"] == operation["operationId"] and result["state"] == "possibly-sent"
+    assert result["coordinationState"] == "unavailable"
+    shared = executor.coordinator.inspect()
+    assert shared["operations"][operation["operationId"]]["state"] == "possibly-sent"
+    assert shared["activeOperationId"] == operation["operationId"]
+    assert core.usage(shared, clock.sample(), "stable-run", "close") == (1, 1)
+    assert len(forge.invocations) == len(forge.effects) == 1
+    assert cold().execute(operation["operationId"])["state"] == "possibly-sent"
+    assert len(forge.invocations) == len(forge.effects) == 1
+
+
+def test_cli_presend_refusal_remains_distinct(tmp_path, monkeypatch, capsys):
+    from gaia_cli.steward.prmaintenance import cli
+    fixture = world(tmp_path, monkeypatch, "close")
+    fx, forge, _, executor, _, _ = fixture
+    operation = prepare(fixture)
+    monkeypatch.setattr(ex, "makeExecutor", lambda root: executor)
+    monkeypatch.setenv("GAIA_STEWARD_PR_KILL", "1")
+    assert cli.main(["--root", str(fx.root), "--json", "execute", "--operation-id", operation["operationId"]]) == 2
+    result = json.loads(capsys.readouterr().out)
+    assert result["refused"] == "kill-switch" and "state" not in result
+    assert forge.invocations == forge.effects == []
+    assert executor.coordinator.inspect()["operations"][operation["operationId"]]["state"] == "intent"
+
+
 def test_authenticated_close_response_can_retire_after_reopen(tmp_path, monkeypatch):
     fixture = world(tmp_path, monkeypatch, "close")
     _, forge, _, executor, _, _ = fixture

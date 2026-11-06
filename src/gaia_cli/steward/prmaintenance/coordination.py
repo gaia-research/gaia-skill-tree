@@ -73,6 +73,10 @@ class Refused(CoordinationError):
     """A valid protocol state does not permit the requested transition."""
 
 
+class InvocationUncertain(CoordinationError):
+    """The sole adapter was entered; no definite outcome can be reported."""
+
+
 class CommitStatus(str, Enum):
     NEW = "newly-committed"
     ALREADY = "already-applied"
@@ -701,18 +705,23 @@ class PrWriteCoordinator:
         with self.grantGuard:
             self.adapterEntries[operation["invocationId"]] = grant
         try:
-            response = self.services.invoke(copy.deepcopy(operation["request"]), operation["invocationId"])
-        except Exception:
-            return self._transition("unknown", token.operationId,
-                                    {"token": asdict(token), "detail": "sole adapter invocation lost/unknown response"},
-                                    digest([transitionId, "unknown"]))
-        finally:
-            with self.grantGuard:
-                self.adapterEntries.pop(operation["invocationId"], None)
-        evidence = self.services.completion(copy.deepcopy(operation), operation["invocationId"], response)
-        validateEvidence(evidence, operation, observed=False)
-        return self._transition("complete", token.operationId, {"token": asdict(token), "evidence": evidence},
-                                digest([transitionId, "complete"]))
+            try:
+                response = self.services.invoke(copy.deepcopy(operation["request"]), operation["invocationId"])
+            except Exception:
+                return self._transition("unknown", token.operationId,
+                                        {"token": asdict(token), "detail": "sole adapter invocation lost/unknown response"},
+                                        digest([transitionId, "unknown"]))
+            finally:
+                with self.grantGuard:
+                    self.adapterEntries.pop(operation["invocationId"], None)
+            evidence = self.services.completion(copy.deepcopy(operation), operation["invocationId"], response)
+            validateEvidence(evidence, operation, observed=False)
+            return self._transition("complete", token.operationId, {"token": asdict(token), "evidence": evidence},
+                                    digest([transitionId, "complete"]))
+        except Exception as exc:
+            # Once adapter entry was attempted, neither completion authentication nor
+            # shared settlement failure proves that the forge had no effect.
+            raise InvocationUncertain("sole invocation outcome unavailable") from exc
 
     def recover(self, operationId: str) -> Result:
         """One bounded observation; repeated inconclusive recovery adds no events.
