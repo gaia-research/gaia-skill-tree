@@ -1,5 +1,5 @@
 {
- "generation": 549,
+ "generation": 550,
  "lane": {
   "entries": [
    {
@@ -39515,6 +39515,16 @@
      "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-evaluate-py:69f3893c3a4ff4b4",
      "emittedAt": "2026-11-06T16:49:49.618003Z",
      "idempotencyKey": "dispatch-2f7ae951846d74ac2fc3:1",
+     "outcome": {
+      "agentId": "pi-herdr-b1-builder-w2H-p3",
+      "costUsd": 0.018,
+      "diffPath": ".gaia/steward/full/run-20261106T164702Z-bbe7671a/build-2af660e83f4d.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": ".gaia/steward/full/run-20261106T164702Z-bbe7671a/build-2af660e83f4d.proof.json",
+      "summary": "Removed unused stdlib import json (line 12) from src/gaia_cli/steward/prmaintenance/evaluate.py; commit 653d4760d on steward/b/unused-import-2af660e83f4d. Side-effect absence proven (stdlib, preloaded, no consumers). 165 prmaintenance tests passed; compileall ok. Actual provider/model: openai-codex/gpt-6-luna, medium. Lead follow-up asked for side-effect proof after an initial conservative stop; same attempt, nothing recorded before."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -39535,16 +39545,30 @@
       },
       "promptPath": ".gaia/steward/full/run-20261106T164702Z-bbe7671a/build-2af660e83f4d.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-06T16:57:25.080344Z",
+     "status": "done",
      "stepId": "build:2af660e83f4d:1",
      "type": "agent.build"
     }
    ],
    "actor": "cli",
-   "agentAssignments": [],
+   "agentAssignments": [
+    {
+     "agentId": "pi-herdr-b1-builder-w2H-p3",
+     "at": "2026-11-06T16:57:25.080575Z",
+     "costUsd": 0.018,
+     "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-evaluate-py:69f3893c3a4ff4b4",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:2af660e83f4d:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "branches": [],
    "ciResults": [],
-   "costUsd": 0.0,
+   "costUsd": 0.018,
    "decisions": [],
    "desk": {
     "asOf": "2026-11-06T16:51:18.450022Z",
@@ -40052,8 +40076,10 @@
     }
    ],
    "mode": "full",
-   "modelIds": [],
-   "mutated": false,
+   "modelIds": [
+    "pi"
+   ],
+   "mutated": true,
    "nextAction": "perform 1 pending action(s) (agent.build), record each with `gaia steward full record run-20261106T164702Z-bbe7671a <stepId> --input FILE`, then `gaia steward full run --resume run-20261106T164702Z-bbe7671a`",
    "options": {
     "afk": false,
@@ -40970,7 +40996,14 @@
      "skippedActive": []
     }
    },
-   "proofArtifacts": [],
+   "proofArtifacts": [
+    {
+     "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-evaluate-py:69f3893c3a4ff4b4",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T164702Z-bbe7671a/build-2af660e83f4d.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T164702Z-bbe7671a/build-2af660e83f4d.proof.json",
+     "stepId": "build:2af660e83f4d:1"
+    }
+   ],
    "pullRequests": [],
    "receipts": [
     {
@@ -41015,23 +41048,26 @@
      "stepId": "phase:class_a"
     },
     {
-     "at": "2026-11-06T16:49:49.618003Z",
+     "at": "2026-11-06T16:57:25.080344Z",
      "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-evaluate-py:69f3893c3a4ff4b4",
      "idempotencyKey": "dispatch-2f7ae951846d74ac2fc3:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:2af660e83f4d:1"
     }
    ],
-   "thinkingEfforts": [],
+   "thinkingEfforts": [
+    "medium"
+   ],
    "tokensIn": 0,
    "tokensOut": 0,
    "trigger": "manual",
-   "unresolvedWork": []
+   "unresolvedWork": [],
+   "updatedAt": "2026-11-06T16:57:25.080344Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T16:51:19.280690Z",
+ "updatedAt": "2026-11-06T16:57:25.080863Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -41664,12 +41700,33 @@
    }
   },
   "debt:unused_import:src-gaia-cli-steward-prmaintenance-evaluate-py:69f3893c3a4ff4b4": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-b1-builder-w2H-p3",
+     "at": "2026-11-06T16:57:25.080575Z",
+     "costUsd": 0.018,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:2af660e83f4d:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/unused-import-2af660e83f4d",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-b1-builder-w2H-p3",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T164702Z-bbe7671a/build-2af660e83f4d.diff",
+    "dispatchId": "dispatch-2f7ae951846d74ac2fc3",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T164702Z-bbe7671a/build-2af660e83f4d.proof.json",
+    "recordedAt": "2026-11-06T16:57:25.080575Z",
+    "summary": "Removed unused stdlib import json (line 12) from src/gaia_cli/steward/prmaintenance/evaluate.py; commit 653d4760d on steward/b/unused-import-2af660e83f4d. Side-effect absence proven (stdlib, preloaded, no consumers). 165 prmaintenance tests passed; compileall ok. Actual provider/model: openai-codex/gpt-6-luna, medium. Lead follow-up asked for side-effect proof after an initial conservative stop; same attempt, nothing recorded before."
+   },
    "createdAt": "2026-11-06T16:49:49.618003Z",
    "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-evaluate-py:69f3893c3a4ff4b4",
    "dispatchId": "dispatch-2f7ae951846d74ac2fc3",
@@ -41690,7 +41747,7 @@
    "runId": "run-20261106T164702Z-bbe7671a",
    "source": "dead-code",
    "state": "building",
-   "updatedAt": "2026-11-06T16:49:49.618003Z",
+   "updatedAt": "2026-11-06T16:57:25.080575Z",
    "verification": null
   },
   "debt:unused_import:src-gaia-cli-steward-prmaintenance-roster-py:0d3bca3f7369f4af": {
