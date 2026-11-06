@@ -1,5 +1,5 @@
 {
- "generation": 919,
+ "generation": 920,
  "lane": {
   "entries": [
    {
@@ -4629,7 +4629,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-06T22:09:46.046523Z",
-   "expiresAt": "2026-11-06T22:47:08.660031Z",
+   "expiresAt": "2026-11-06T22:48:52.657838Z",
    "holder": "run-20261106T205057Z-dc2f240c"
   }
  },
@@ -72327,6 +72327,29 @@
      "status": "pending",
      "stepId": "verify:3d53086a6d83:1",
      "type": "agent.verify"
+    },
+    {
+     "debtId": "debt:unused_import:scripts-archive-fetch-ruflo-skills-py:f5adc0673c6d1436",
+     "emittedAt": "2026-11-06T22:18:51.508638Z",
+     "idempotencyKey": "verify:dispatch-b263c30736e6517f6e1e:1",
+     "params": {
+      "allowedModels": [
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "debtId": "debt:unused_import:scripts-archive-fetch-ruflo-skills-py:f5adc0673c6d1436",
+      "effortRequired": true,
+      "forbiddenAgentIds": [
+       "pi-herdr-batch1-builder-943faedbd922"
+      ],
+      "verifierPromptPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/verify-943faedbd922.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "verify:943faedbd922:1",
+     "type": "agent.verify"
     }
    ],
    "actor": "cli",
@@ -74073,6 +74096,14 @@
      "kind": "agent.verify",
      "status": "awaiting",
      "stepId": "verify:3d53086a6d83:1"
+    },
+    {
+     "at": "2026-11-06T22:18:51.508638Z",
+     "debtId": "debt:unused_import:scripts-archive-fetch-ruflo-skills-py:f5adc0673c6d1436",
+     "idempotencyKey": "verify:dispatch-b263c30736e6517f6e1e:1",
+     "kind": "agent.verify",
+     "status": "awaiting",
+     "stepId": "verify:943faedbd922:1"
     }
    ],
    "thinkingEfforts": [
@@ -74086,7 +74117,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T22:17:08.660196Z",
+ "updatedAt": "2026-11-06T22:18:52.658003Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -74715,7 +74746,12 @@
    "source": "dead-code",
    "state": "building",
    "updatedAt": "2026-11-06T22:07:54.303812Z",
-   "verification": null
+   "verification": {
+    "receipt": "steward-20261106T221712Z-98cc2945619a368b",
+    "stage": "awaiting-verifier",
+    "verdict": "pending",
+    "verifierPromptPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/verify-943faedbd922.prompt.md"
+   }
   },
   "debt:unused_import:scripts-assemble-gaia-py:3ceaff92911c2506": {
    "assignments": [
