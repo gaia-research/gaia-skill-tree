@@ -74,6 +74,22 @@ names a model, a provider, or a harness (founder ruling 2026-08-13,
 work knows whether they are handing over a chore or a judgment call, and so a
 stronger reasoner is never mistaken for a wider envelope.
 
+### The one `.github/` exception — workflow timeouts (founder ruling #14)
+
+Every dispatch rule must forbid `.github/**`, and `policy.py` refuses a policy
+that lets any other debt kind write there. `workflow-timeout-repair`
+(`workflow_hygiene`, a job with no `timeout-minutes`) is the single exception,
+pinned in code rather than in `POLICY.yaml`: its allowed path is exactly
+`.github/workflows/*.yml` (direct children only), it must forbid
+`.github/workflows/*.lock.yml` (gh-aw compiled output), `shared/`, `_disabled/`
+and `.github/actions/`, and verification rejects any workflow diff line that is
+not an added `timeout-minutes` value in 1..360. The sensor marks lock-file
+findings `laneEligible: false` so they stay visible but never take a lane slot.
+The value is chosen from job semantics and sampled run durations; see
+`routines/workflow-timeout.md`. A missing timeout is a configuration finding,
+not proof that any job ever timed out
+(`founder/reports/steward-campaign-2026-11-05/WORKFLOW_TIMEOUT_ATTRIBUTION.md`).
+
 ## Class B — the rolling lane
 
 `gaia steward dispatch <debt-id>` answers *render this one*. The lane answers the
