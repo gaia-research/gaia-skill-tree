@@ -537,7 +537,8 @@ def validate_named_skills(graph, named_dir=None, catalog_path=None):
 
     Checks:
       - All required fields are present.
-      - level is 2★ or above.
+      - level is 1★ or above.
+      - status other than 'named' (awakened/provisional) has level <= 1★.
       - genericSkillRef resolves to a skill ID in graph (gaia.json).
       - At most one origin: true per genericSkillRef bucket.
       - status 'named' requires title OR catalogRef (reviewer gate).
@@ -612,8 +613,23 @@ def validate_named_skills(graph, named_dir=None, catalog_path=None):
                 f"does not match any skill ID in gaia.json."
             )
 
-        # Reviewer gate: status 'named' requires title OR catalogRef
+        # Status/level coupling (CONTEXT.md; #1699): 2★+ is only valid for
+        # status 'named'. Awakened/provisional skills are capped at 1★.
         status = fm.get("status", "")
+        if (
+            status
+            and status != "named"
+            and level in _NAMED_VALID_LEVELS
+            and int(level[0]) >= 2
+        ):
+            errors.append(
+                f"Named skill {rel}: status '{status}' must have level 1★ "
+                f"(got '{level}'); 2★+ requires status 'named'. "
+                f"Fix with `gaia dev calibrate {fm.get('id', rel)} 1★`, or promote it "
+                f"through `gaia dev update-named --status named` first."
+            )
+
+        # Reviewer gate: status 'named' requires title OR catalogRef
         has_title = bool(fm.get("title", "").strip() if isinstance(fm.get("title"), str) else fm.get("title"))
         has_catalog_ref = bool(fm.get("catalogRef", "").strip() if isinstance(fm.get("catalogRef"), str) else fm.get("catalogRef"))
         if status == "named" and not has_title and not has_catalog_ref:

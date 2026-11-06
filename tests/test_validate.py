@@ -291,6 +291,64 @@ class TestNamedSkillValidation(unittest.TestCase):
         finally:
             shutil.rmtree(temp_named_dir)
 
+    def _writeNamedSkill(self, namedDir, status, level, extra=""):
+        authorDir = os.path.join(namedDir, "fake_author")
+        os.makedirs(authorDir, exist_ok=True)
+        with open(os.path.join(authorDir, "status_skill.md"), "w", encoding="utf-8") as f:
+            f.write(
+                "---\n"
+                "id: fake_author/status_skill\n"
+                "name: Status Skill\n"
+                "contributor: fake_author\n"
+                "origin: true\n"
+                "genericSkillRef: web-search\n"
+                f"status: {status}\n"
+                f"level: {level}\n"
+                "description: Synthetic fixture for the status/level cap.\n"
+                f"{extra}"
+                "createdAt: '2026-06-07'\n"
+                "updatedAt: '2026-06-07'\n"
+                "---\n"
+            )
+
+    def test_non_named_status_above_one_star_fails_validation(self):
+        """An awakened or provisional skill above 1★ is rejected (#1699)."""
+        import tempfile
+        import shutil
+        from scripts.validate import validate_named_skills
+
+        graph = {"skills": [{"id": "web-search"}]}
+        for status in ("awakened", "provisional"):
+            namedDir = tempfile.mkdtemp()
+            try:
+                self._writeNamedSkill(namedDir, status, "4★")
+                errors = validate_named_skills(graph, named_dir=namedDir)
+                self.assertTrue(
+                    any("fake_author/status_skill" in e and "gaia dev calibrate" in e for e in errors),
+                    f"Expected status/level error for {status}, got: {errors}",
+                )
+            finally:
+                shutil.rmtree(namedDir)
+
+    def test_non_named_status_at_one_star_and_named_above_one_star_pass(self):
+        """The cap bites only non-named skills above 1★."""
+        import tempfile
+        import shutil
+        from scripts.validate import validate_named_skills
+
+        graph = {"skills": [{"id": "web-search"}]}
+        for status, level, extra in (("awakened", "1★", ""), ("named", "4★", "title: Status Skill\n")):
+            namedDir = tempfile.mkdtemp()
+            try:
+                self._writeNamedSkill(namedDir, status, level, extra)
+                errors = validate_named_skills(graph, named_dir=namedDir)
+                self.assertFalse(
+                    any("must have level 1" in e for e in errors),
+                    f"Unexpected status/level error for {status} {level}: {errors}",
+                )
+            finally:
+                shutil.rmtree(namedDir)
+
 
 class TestMetaEpochsMetaSync(unittest.TestCase):
     """Regression guard for the Yggdrasil II structured-provenance schema (#1189).
