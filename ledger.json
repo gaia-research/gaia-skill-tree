@@ -1,5 +1,5 @@
 {
- "generation": 737,
+ "generation": 738,
  "lane": {
   "entries": [
    {
@@ -4542,13 +4542,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-06T19:02:48.532271Z",
-   "expiresAt": "2026-11-06T19:53:26.578055Z",
-   "holder": "run-20261106T190248Z-d9db82ac"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -55614,7 +55608,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-06T19:07:02.993847Z",
+    "asOf": "2026-11-06T19:23:31.858402Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -56090,6 +56084,11 @@
       "subject": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b"
      },
      {
+      "detail": "mechanical verification (steward-20261106T192006Z-f720601bb08f319f): rejected - proof commands exited non-zero: python3 -c \"import sys; assert 'os' in sys.stdlib_module_names\" && python3 - <<'PY'\nimport ast\nfrom pathlib import Path\np=Path('scripts/quick_validate_skill.py')\nt=ast.",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0"
+     },
+     {
       "detail": "last scheduled run was 112h ago (limit 48h).",
       "kind": "stale_schedule",
       "subject": "scheduled run"
@@ -56103,7 +56102,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-11-06T19:23:31.858402Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -56111,6 +56110,14 @@
    },
    "integrationBranch": "dev/steward-campaign-2026-11-05",
    "integrationHead": "865911892bb4d103f45b1cef48d2fea701bb0d11",
+   "issueBacklog": {
+    "botOpen": 2,
+    "closedThisRun": 0,
+    "closedTotal": 0,
+    "openIssues": 221,
+    "readyWritesDisabled": 0,
+    "upstreamChildOpen": 72
+   },
    "leases": [
     {
      "acquiredAt": "2026-11-06T19:02:48.532271Z",
@@ -56123,7 +56130,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": false,
     "agents": true,
@@ -56131,7 +56138,7 @@
     "push": false,
     "routine": null
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -58745,7 +58752,7 @@
    "sequence": 25,
    "sourceHead": "865911892bb4d103f45b1cef48d2fea701bb0d11",
    "startedAt": "2026-11-06T19:02:48.532271Z",
-   "status": "active",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-11-06T19:02:48.532271Z",
@@ -58808,6 +58815,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-11-06T19:23:31.858402Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -58821,7 +58834,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T19:23:26.578162Z",
+ "updatedAt": "2026-11-06T19:23:33.480191Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
