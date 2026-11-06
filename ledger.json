@@ -1,5 +1,5 @@
 {
- "generation": 534,
+ "generation": 535,
  "lane": {
   "entries": [
    {
@@ -4494,7 +4494,13 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {},
+ "leases": {
+  "run": {
+   "acquiredAt": "2026-11-06T16:47:02.543549Z",
+   "expiresAt": "2026-11-06T17:17:02.543549Z",
+   "holder": "run-20261106T164702Z-bbe7671a"
+  }
+ },
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -39496,10 +39502,63 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": []
+  },
+  "run-20261106T164702Z-bbe7671a": {
+   "actions": [],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [],
+   "finishedAt": null,
+   "integrationBranch": "dev/steward-campaign-2026-11-05",
+   "integrationHead": null,
+   "leases": [
+    {
+     "acquiredAt": "2026-11-06T16:47:02.543549Z",
+     "holder": "run-20261106T164702Z-bbe7671a",
+     "key": "run"
+    }
+   ],
+   "mode": "full",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "",
+   "options": {
+    "afk": false,
+    "agents": true,
+    "debt": "debt:unused_import:src-gaia-cli-steward-prmaintenance-evaluate-py:69f3893c3a4ff4b4",
+    "push": false,
+    "routine": null
+   },
+   "phase": "reconcile",
+   "phases": {},
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [],
+   "runId": "run-20261106T164702Z-bbe7671a",
+   "sequence": 18,
+   "sourceHead": null,
+   "startedAt": "2026-11-06T16:47:02.543549Z",
+   "status": "active",
+   "steps": [
+    {
+     "at": "2026-11-06T16:47:02.543549Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:recover"
+    }
+   ],
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "manual",
+   "unresolvedWork": []
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T16:46:44.300843Z",
+ "updatedAt": "2026-11-06T16:47:03.382902Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
