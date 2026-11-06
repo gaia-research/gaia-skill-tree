@@ -42,5 +42,22 @@
     "decision": "CICHURN_EDIT_FOUNDER_DECISION_20261106.json",
     "scope": "currentdispatchonly",
     "attemptReset": false
+  },
+  "latest_execution_reminder": {
+    "leaveCurrentSubagentsUntouched": true,
+    "campaignEscalation": [
+      "Luna",
+      "Terra",
+      "Sol",
+      "Astra"
+    ],
+    "default": "Luna unless task capability floor deliberately warrants escalation",
+    "providerPolicy": "Dynamic operator directives; current Steward=openai non-shared, non-Steward engineering=DSFlash until changed",
+    "briefs": "Prefer concise inline native subagent task briefs for caching; files optional",
+    "cadence": "28-minute guards, no micromanagement",
+    "priority": "Actual canonical Steward repair/verification/integration/delivery, not orchestration infrastructure",
+    "futureTimeoutMs": 86400000,
+    "futureMaxTurns": 500,
+    "limitDisclosure": "Native schema supports at most500 turns and24h per call, not literal infinity; do not stop/restart current workers to change budgets."
   }
 }
