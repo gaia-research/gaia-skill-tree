@@ -1,5 +1,5 @@
 {
- "generation": 791,
+ "generation": 792,
  "lane": {
   "entries": [
    {
@@ -62200,6 +62200,16 @@
      "debtId": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
      "emittedAt": "2026-11-06T20:00:37.530113Z",
      "idempotencyKey": "dispatch-b6a154ad9e95269cca58:1",
+     "outcome": {
+      "agentId": "pi-herdr-b6-builder",
+      "costUsd": 0.017,
+      "diffPath": ".gaia/steward/full/run-20261106T195751Z-ff7af507/build-461dd9030655.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": ".gaia/steward/full/run-20261106T195751Z-ff7af507/build-461dd9030655.proof.json",
+      "summary": "Removed unused stdlib import os from src/gaia_cli/commands/dev/audit.py; commit a750b028b. Side-effect absence proven (stdlib, preloaded in sys.modules, AST, module-literal consumer grep). tests/test_dev_audit.py 4 passed; compileall ok. First pass stopped on a wrong test path (pytest exit 4); lead supplied the correct path within the same unrecorded attempt. Actual: openai/gpt-6-luna medium."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -62220,16 +62230,30 @@
       },
       "promptPath": ".gaia/steward/full/run-20261106T195751Z-ff7af507/build-461dd9030655.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-06T20:09:20.504320Z",
+     "status": "done",
      "stepId": "build:461dd9030655:1",
      "type": "agent.build"
     }
    ],
    "actor": "cli",
-   "agentAssignments": [],
+   "agentAssignments": [
+    {
+     "agentId": "pi-herdr-b6-builder",
+     "at": "2026-11-06T20:09:20.504548Z",
+     "costUsd": 0.017,
+     "debtId": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:461dd9030655:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "branches": [],
    "ciResults": [],
-   "costUsd": 0.0,
+   "costUsd": 0.017,
    "decisions": [],
    "desk": {
     "asOf": "2026-11-06T20:02:05.736506Z",
@@ -62747,8 +62771,10 @@
     }
    ],
    "mode": "full",
-   "modelIds": [],
-   "mutated": false,
+   "modelIds": [
+    "pi"
+   ],
+   "mutated": true,
    "nextAction": "perform 1 pending action(s) (agent.build), record each with `gaia steward full record run-20261106T195751Z-ff7af507 <stepId> --input FILE`, then `gaia steward full run --resume run-20261106T195751Z-ff7af507`",
    "options": {
     "afk": false,
@@ -63664,7 +63690,14 @@
      "skippedActive": []
     }
    },
-   "proofArtifacts": [],
+   "proofArtifacts": [
+    {
+     "debtId": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T195751Z-ff7af507/build-461dd9030655.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T195751Z-ff7af507/build-461dd9030655.proof.json",
+     "stepId": "build:461dd9030655:1"
+    }
+   ],
    "pullRequests": [],
    "receipts": [
     {
@@ -63709,23 +63742,26 @@
      "stepId": "phase:class_a"
     },
     {
-     "at": "2026-11-06T20:00:37.530113Z",
+     "at": "2026-11-06T20:09:20.504320Z",
      "debtId": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
      "idempotencyKey": "dispatch-b6a154ad9e95269cca58:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:461dd9030655:1"
     }
    ],
-   "thinkingEfforts": [],
+   "thinkingEfforts": [
+    "medium"
+   ],
    "tokensIn": 0,
    "tokensOut": 0,
    "trigger": "manual",
-   "unresolvedWork": []
+   "unresolvedWork": [],
+   "updatedAt": "2026-11-06T20:09:20.504320Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T20:02:07.106546Z",
+ "updatedAt": "2026-11-06T20:09:20.505113Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -64398,12 +64434,33 @@
    }
   },
   "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-b6-builder",
+     "at": "2026-11-06T20:09:20.504548Z",
+     "costUsd": 0.017,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:461dd9030655:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/unused-import-461dd9030655",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-b6-builder",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T195751Z-ff7af507/build-461dd9030655.diff",
+    "dispatchId": "dispatch-b6a154ad9e95269cca58",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T195751Z-ff7af507/build-461dd9030655.proof.json",
+    "recordedAt": "2026-11-06T20:09:20.504548Z",
+    "summary": "Removed unused stdlib import os from src/gaia_cli/commands/dev/audit.py; commit a750b028b. Side-effect absence proven (stdlib, preloaded in sys.modules, AST, module-literal consumer grep). tests/test_dev_audit.py 4 passed; compileall ok. First pass stopped on a wrong test path (pytest exit 4); lead supplied the correct path within the same unrecorded attempt. Actual: openai/gpt-6-luna medium."
+   },
    "createdAt": "2026-11-06T20:00:37.530113Z",
    "debtId": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
    "dispatchId": "dispatch-b6a154ad9e95269cca58",
@@ -64424,7 +64481,7 @@
    "runId": "run-20261106T195751Z-ff7af507",
    "source": "dead-code",
    "state": "building",
-   "updatedAt": "2026-11-06T20:00:37.530113Z",
+   "updatedAt": "2026-11-06T20:09:20.504548Z",
    "verification": null
   },
   "debt:unused_import:src-gaia-cli-curation-evaluation-py:3fab90bae90c2a93": {
