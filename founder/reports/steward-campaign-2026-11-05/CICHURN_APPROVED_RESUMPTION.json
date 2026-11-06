@@ -49,5 +49,22 @@
   "priorSharedBuilderWasTerminalBlockedNotRestarted": true,
   "newCanonicalAttemptCreated": false,
   "canonicalStateMutatedByRevalidation": false,
-  "wholeSourceOrDebtClosureClaimed": false
+  "wholeSourceOrDebtClosureClaimed": false,
+  "builderOutcome": {
+    "candidate": "953b9d36d498d8309a8b45c890f9698b09df9c6a",
+    "tree": "ba96f3cb5b31bf509a231ef0d448a39607f77a2e",
+    "subjectBlob": "cb53169b8e718f48564c95ea858d864d54e13bc7",
+    "scope": "only authorized os/timezone bindings removed",
+    "reportedTests": {
+      "passed": 14,
+      "seconds": 1.18,
+      "compileallExit": 0
+    },
+    "actualFullSessionProvider": "openai",
+    "actualFullSessionModel": "gpt-6.1-terra",
+    "actualFullSessionThinking": "medium",
+    "policyModelClassification": "pi (harness slot, not runtime model)",
+    "independentReviewPending": true,
+    "leadCanonicalRecordAndFreshInputsResumeJob": "bd9d48845"
+  }
 }
