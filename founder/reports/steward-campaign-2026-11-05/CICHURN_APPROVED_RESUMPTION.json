@@ -65,6 +65,31 @@
     "actualFullSessionThinking": "medium",
     "policyModelClassification": "pi (harness slot, not runtime model)",
     "independentReviewPending": true,
-    "leadCanonicalRecordAndFreshInputsResumeJob": "bd9d48845"
+    "leadCanonicalRecordAndFreshInputsResumeJob": "bd9d48845",
+    "leadCanonicalRecordAndFreshInputsResumeExit": 0
+  },
+  "independentVerification": {
+    "runId": "run-20261106T045029Z-92c5e38b",
+    "stepId": "verify:549e1d59b78e:1",
+    "attempt": 1,
+    "emittedAt": "2026-11-06T14:53:57.917796Z",
+    "mechanicalPrecheckNonObjection": true,
+    "coverageUnknown": [],
+    "freshIssuePrCiInputsCollected": true,
+    "nativeRun": "52020067-05d2-4e98-be5d-1dd46ba4eb91",
+    "agent": "campaign-luna-pinned",
+    "requestedProvider": "openai",
+    "requestedModel": "gpt-6-luna",
+    "requestedThinking": "medium",
+    "role": "different agent/session from builder",
+    "capabilityFloor": "simple one-subject two-import patch, Luna-first per operator",
+    "status": "launched_pending_collection",
+    "accepted": false,
+    "initialActualProvider": "openai",
+    "initialActualModel": "gpt-6-luna",
+    "initialThinkingJournal": [
+      "medium"
+    ],
+    "sessionId": "01a1b15b-ad83-7134-b050-a2ee84bba371"
   }
 }
