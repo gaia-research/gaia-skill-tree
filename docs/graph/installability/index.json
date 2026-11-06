@@ -1643,18 +1643,6 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
-    "gaiabot/repo-docs-before-pr": {
-      "state": "unknown",
-      "reason": "not-observed",
-      "observationDigest": null,
-      "observedAt": null,
-      "currentSourceRoute": null,
-      "currentSkillContentSha256": "6be9968fb44c8f1a2f80ece7f7233fa88bad68c426dd5f473a241fd20e9e4500",
-      "observedSourceRoute": null,
-      "observedSkillContentSha256": null,
-      "resolvedRevision": null,
-      "deliveredContentSha256": null
-    },
     "garrytan/academic-verify": {
       "state": "unknown",
       "reason": "not-observed",
