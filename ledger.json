@@ -1,5 +1,5 @@
 {
- "generation": 817,
+ "generation": 818,
  "lane": {
   "entries": [
    {
@@ -4043,14 +4043,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-b6a154ad9e95269cca58",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-06T20:19:07.442855Z",
+      "from": "dispatched",
+      "reason": "accepted by independent verification (integration integrate by lead-claude-opus-5-5 (herdr w2H:p1); verified by pi-herdr-v6-verifier)",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-06T20:00:37.530113Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-06T20:19:07.442855Z",
+    "lastVerdict": "accept",
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -62271,6 +62277,17 @@
      "debtId": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
      "emittedAt": "2026-11-06T20:15:18.568145Z",
      "idempotencyKey": "integrate:dispatch-b6a154ad9e95269cca58:1",
+     "outcome": {
+      "by": "lead-claude-opus-5-5 (herdr w2H:p1)",
+      "decision": "integrate",
+      "mergedSha": "eb1199931b697e46a1cbc2f8f1e27486965ec959",
+      "pullRequest": {
+       "base": "dev/steward-campaign-2026-11-05",
+       "head": "steward/b/unused-import-461dd9030655",
+       "number": 2312,
+       "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2312"
+      }
+     },
      "params": {
       "attempt": 1,
       "base": "dev/steward-campaign-2026-11-05",
@@ -62278,7 +62295,8 @@
       "debtId": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
       "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T195751Z-ff7af507/build-461dd9030655.diff"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-06T20:19:07.442577Z",
+     "status": "done",
      "stepId": "integrate:461dd9030655:1",
      "type": "lead.integrate"
     }
@@ -62313,7 +62331,15 @@
    "branches": [],
    "ciResults": [],
    "costUsd": 0.025,
-   "decisions": [],
+   "decisions": [
+    {
+     "at": "2026-11-06T20:19:07.442855Z",
+     "by": "lead-claude-opus-5-5 (herdr w2H:p1)",
+     "debtId": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
+     "decision": "integrate",
+     "type": "integrate"
+    }
+   ],
    "deferred": [],
    "desk": {
     "asOf": "2026-11-06T20:18:32.493960Z",
@@ -65450,7 +65476,16 @@
      "stepId": "build:461dd9030655:1"
     }
    ],
-   "pullRequests": [],
+   "pullRequests": [
+    {
+     "base": "dev/steward-campaign-2026-11-05",
+     "debtId": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
+     "head": "steward/b/unused-import-461dd9030655",
+     "merged": true,
+     "number": 2312,
+     "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2312"
+    }
+   ],
    "receipts": [
     {
      "id": "steward-20261106T195817Z-531d8d918e20cadc",
@@ -65516,11 +65551,11 @@
      "stepId": "verify:461dd9030655:1"
     },
     {
-     "at": "2026-11-06T20:15:18.568145Z",
+     "at": "2026-11-06T20:19:07.442577Z",
      "debtId": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
      "idempotencyKey": "integrate:dispatch-b6a154ad9e95269cca58:1",
      "kind": "lead.integrate",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "integrate:461dd9030655:1"
     },
     {
@@ -65555,11 +65590,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-06T20:15:18.567930Z"
+   "updatedAt": "2026-11-06T20:19:07.442577Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T20:18:50.792249Z",
+ "updatedAt": "2026-11-06T20:19:07.445380Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -66286,17 +66321,29 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-v6-verifier (pi, effort medium)",
      "to": "verified"
+    },
+    {
+     "at": "2026-11-06T20:19:07.442855Z",
+     "from": "verified",
+     "reason": "integrated by lead-claude-opus-5-5 (herdr w2H:p1)",
+     "to": "landed"
     }
    ],
    "kind": "unused_import",
+   "mergedSha": "eb1199931b697e46a1cbc2f8f1e27486965ec959",
    "notes": [],
    "promptPath": ".gaia/steward/full/run-20261106T195751Z-ff7af507/build-461dd9030655.prompt.md",
-   "pullRequest": null,
+   "pullRequest": {
+    "base": "dev/steward-campaign-2026-11-05",
+    "head": "steward/b/unused-import-461dd9030655",
+    "number": 2312,
+    "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2312"
+   },
    "routine": "dead-code-gardener",
    "runId": "run-20261106T195751Z-ff7af507",
    "source": "dead-code",
-   "state": "verified",
-   "updatedAt": "2026-11-06T20:15:18.568145Z",
+   "state": "landed",
+   "updatedAt": "2026-11-06T20:19:07.442855Z",
    "verification": {
     "agentId": "pi-herdr-v6-verifier",
     "rationale": "finding confirmed, scope valid, proof valid (verifier re-ran 15 focused tests + compileall), Class B appropriate, no guards weakened, no new debt. Actual: openai/gpt-6-luna medium, separate pane/worktree.",
