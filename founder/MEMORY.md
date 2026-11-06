@@ -17,6 +17,14 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-11-06, continued campaign — second R19 reject repaired; proof-first burn-down)
+
+### TLDR
+- Both canonical B repairs remain on protected main329b2f047791…; #2283 remains open. Exact329b post-merge Python Package, CodeQL, graph/docs/PR guards and automatic Pages workflow42140223608 passed; Auto-Sync skipped. This does NOT explain the older3cd Pages timeout or constitute live-content inspection/manual deployment. No new canonical repair count from operational success.
+- R19 candidate9d78106d was independently REJECTED after its runner repair passed fresh old/new probes: local Git replace refs redirected exact-head content proof and produced1fixture effect. Sole repair29d6f6f5 finished **e7f1933b5f931d93196fd0146f47f3aecf248b2d/tree d4309487fef8046dd901b94b8151e0c4d5f7a109**. Builder reports oldRED/newGREEN and56/74/78/136 test groups, not independent acceptance or universal compatibility proof. New independent whole audit492da6f0 (OpenAI Terra HIGH) is active at frozen e7; both prior rejects/partial logs survive. Generic ledger Git hardening now requires explicit independent legacy compatibility coverage. No source writer active and no delivery/activation/migration/draining/provisioning permission.
+- Complete-subject analysis disproved the date-only embeddings nomination:8 compatibility re-exports would remain; don't delete them or claim closure. ci_churn has2 real unused bindings (os/timezone), retained-subprocess initialization proof, but lacked focused importing tests. Non-Steward isolated baseline-test writer03eec562 (OpenAI Terra MEDIUM) adds ONLY tests/test_ci_churn.py against unchanged runtime. This is a small prerequisite, not a debt closure or cap relaxation. Independent acceptance/integration precedes fresh canonical cleanup. Weekly report initialization uncertainty remains unproven, no speculative deletion.
+- Lead-only fresh issue/PR/CI inputs plus supported observe-only run bb763c2fc launched. Await terminal result before asserting a newer A/B/C count; previous confirmedA0/B324/C40 at23:30 stays historical baseline. Native roles, four-agent cap, no fallback,28-minute batched collection and all C/data/L4/archive/defaultlocal-transition/CLI holds unchanged.
+
 ## State Snapshot (2026-11-06, 00:54Z event — both canonical B repairs on protected main)
 
 ### TLDR
