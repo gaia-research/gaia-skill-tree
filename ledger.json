@@ -1,5 +1,5 @@
 {
- "generation": 789,
+ "generation": 790,
  "lane": {
   "entries": [
    {
@@ -4028,7 +4028,7 @@
     "state": "queued"
    },
    {
-    "attempts": 0,
+    "attempts": 1,
     "debtId": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
     "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
     "history": [
@@ -4037,14 +4037,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-06T20:00:37.530113Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-b6a154ad9e95269cca58",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-11-06T20:00:37.530113Z",
     "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 0,
@@ -4557,7 +4563,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-06T19:57:51.761225Z",
-   "expiresAt": "2026-11-06T20:30:33.025071Z",
+   "expiresAt": "2026-11-06T20:32:00.114789Z",
    "holder": "run-20261106T195751Z-ff7af507"
   }
  },
@@ -62189,7 +62195,36 @@
    "updatedAt": "2026-11-06T19:53:29.588409Z"
   },
   "run-20261106T195751Z-ff7af507": {
-   "actions": [],
+   "actions": [
+    {
+     "debtId": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
+     "emittedAt": "2026-11-06T20:00:37.530113Z",
+     "idempotencyKey": "dispatch-b6a154ad9e95269cca58:1",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/unused-import-461dd9030655",
+      "debtId": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
+      "dispatchId": "dispatch-b6a154ad9e95269cca58",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261106T195751Z-ff7af507/build-461dd9030655.diff",
+       "proofPath": ".gaia/steward/full/run-20261106T195751Z-ff7af507/build-461dd9030655.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261106T195751Z-ff7af507/build-461dd9030655.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:461dd9030655:1",
+     "type": "agent.build"
+    }
+   ],
    "actor": "cli",
    "agentAssignments": [],
    "branches": [],
@@ -62233,6 +62268,12 @@
      },
      "landings": [],
      "status": "ok"
+    },
+    "class_b": {
+     "dispatchId": "dispatch-b6a154ad9e95269cca58",
+     "dispatched": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
+     "status": "awaiting-build",
+     "stepId": "build:461dd9030655:1"
     },
     "observe": {
      "authorityCounts": {
@@ -63166,6 +63207,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-11-06T20:00:37.530113Z",
+     "debtId": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
+     "idempotencyKey": "dispatch-b6a154ad9e95269cca58:1",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:461dd9030655:1"
     }
    ],
    "thinkingEfforts": [],
@@ -63176,7 +63225,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T20:00:33.025853Z",
+ "updatedAt": "2026-11-06T20:02:00.118337Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -63847,6 +63896,36 @@
     "stage": "mechanical",
     "verdict": "reject"
    }
+  },
+  "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5": {
+   "assignments": [],
+   "attempt": 1,
+   "authority": "B",
+   "baseBranch": "dev/steward-campaign-2026-11-05",
+   "branch": "steward/b/unused-import-461dd9030655",
+   "build": null,
+   "createdAt": "2026-11-06T20:00:37.530113Z",
+   "debtId": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
+   "dispatchId": "dispatch-b6a154ad9e95269cca58",
+   "dispatchedAt": "2026-11-06T20:00:37.530113Z",
+   "history": [
+    {
+     "at": "2026-11-06T20:00:37.530113Z",
+     "from": "queued",
+     "reason": "dispatched as dispatch-b6a154ad9e95269cca58 (attempt 1)",
+     "to": "building"
+    }
+   ],
+   "kind": "unused_import",
+   "notes": [],
+   "promptPath": ".gaia/steward/full/run-20261106T195751Z-ff7af507/build-461dd9030655.prompt.md",
+   "pullRequest": null,
+   "routine": "dead-code-gardener",
+   "runId": "run-20261106T195751Z-ff7af507",
+   "source": "dead-code",
+   "state": "building",
+   "updatedAt": "2026-11-06T20:00:37.530113Z",
+   "verification": null
   },
   "debt:unused_import:src-gaia-cli-curation-evaluation-py:3fab90bae90c2a93": {
    "adoptedBy": "run-20261106T175105Z-e5c2fe3b",
