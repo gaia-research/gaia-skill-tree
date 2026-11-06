@@ -24,8 +24,23 @@ SOURCE = "src/fixture.py"
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def _decision(identifier: str, status: str = "decided") -> str:
-    return json.dumps({"schemaVersion": "steward-decision-v1", "id": identifier, "status": status})
+def _decision(identifier: str, status: str = "decided", **overrides) -> str:
+    """A decision record the desk's own validator accepts (unless overridden)."""
+
+    body = {
+        "schemaVersion": "steward-decision-v1",
+        "id": identifier,
+        "status": status,
+        "decision": "Fixture decision?",
+        "whyItMatters": "Fixture record.",
+        "evidence": ["fixture"],
+        "recommended": "fixture",
+        "alternative": "fixture",
+        "unblocks": "fixture",
+        "links": ["https://example.invalid/fixture"],
+    }
+    body.update(overrides)
+    return json.dumps(body)
 
 
 def _decisions() -> dict[str, str]:
@@ -66,7 +81,8 @@ def _record(root: Path, finding: dict, liveDebt: str, **overrides) -> dict:
 
 
 def _put(root: Path, body: dict, name: str | None = None) -> None:
-    rel = f"{records.RECORDDIR}/{name or records.recordName(body['debtId'], body['line'], body['fingerprint'])}"
+    default = records.recordName(body["debtId"], body["line"], body["fingerprint"], body.get("occurrence", 0))
+    rel = f"{records.RECORDDIR}/{name or default}"
     write_files(root, {rel: json.dumps(body)})
     commit_all(root)
 
@@ -109,6 +125,12 @@ class TestExactMatch:
         assert marked.first_observed_at == debt.first_observed_at
         assert marked.observation_count == debt.observation_count + 1
         assert marked.observed_state["dispositions"][0]["verifiedBy"] == "verifier-agent"
+        # The findings the debt was opened with survive resolution, verbatim.
+        assert marked.observed_state["priorObservedState"] == dict(debt.observed_state)
+        assert marked.observed_state["priorObservedState"]["findings"]
+        # A later run that still sees the decided state keeps the preserved evidence.
+        again = reconcile_debt([_live(root)], {marked.id: marked}, policy)
+        assert again.debts[0].observed_state["priorObservedState"] == dict(debt.observed_state)
 
     def test_changed_file_reopens_as_drift(self, tmp_path: Path) -> None:
         root = _repo(tmp_path, f"k = '{_github_token()}'\n")
@@ -199,6 +221,91 @@ class TestFailClosed:
         _put(root, {**body, "verifiedBy": "other-verifier"}, "second.json")
         assert _live(root).status == "drift"
 
+    @pytest.mark.parametrize(
+        "invalid",
+        [
+            {"verifiedBy": ""},
+            {"author": "verifier-agent"},
+            {"policy": "D9"},
+            {"evidence": "thin"},
+            {"occurrence": "later"},
+            {"founderRuling": "something-else"},
+        ],
+    )
+    def test_an_invalid_second_claimant_still_keeps_the_finding_class_c(self, tmp_path: Path, invalid: dict) -> None:
+        root = _repo(tmp_path, f"k = '{_github_token()}'\n")
+        drift = _live(root)
+        body = _record(root, drift.observed_state["findings"][0], drift.debt_id)
+        _put(root, body, "valid.json")
+        assert _live(root).status == "healthy"
+        _put(root, {**body, **invalid}, "invalid-claimant.json")
+        after = _live(root)
+        assert after.status == "drift"
+        assert after.provenance["rejectedDispositionRecords"] == 1
+
+    def test_an_unusable_record_naming_another_occurrence_does_not_block_this_one(self, tmp_path: Path) -> None:
+        root = _repo(tmp_path, f"k = '{_github_token()}'\n")
+        drift = _live(root)
+        body = _record(root, drift.observed_state["findings"][0], drift.debt_id)
+        _put(root, body, "valid.json")
+        _put(root, {**body, "occurrence": 5, "verifiedBy": ""}, "other-occurrence.json")
+        assert _live(root).status == "healthy"
+
+    def test_one_record_cannot_resolve_two_same_line_occurrences(self, tmp_path: Path) -> None:
+        # The reviewer's probe: one token twice on one line shares line, pattern and fingerprint.
+        token = _github_token()
+        root = _repo(tmp_path, f"a = '{token}'; b = '{token}'\n")
+        drift = _live(root)
+        first, second = drift.observed_state["findings"]
+        assert first == second
+        _put(root, _record(root, first, drift.debt_id))
+        one = _live(root)
+        assert one.status == "drift"
+        assert one.observed_state["findingCount"] == 2
+        assert one.observed_state["undecidedFindingCount"] == 1
+        assert [item["occurrence"] for item in one.observed_state["decidedFindings"]] == [0]
+
+    def test_each_same_line_occurrence_needs_its_own_record(self, tmp_path: Path) -> None:
+        token = _github_token()
+        root = _repo(tmp_path, f"a = '{token}'; b = '{token}'\n")
+        drift = _live(root)
+        finding = drift.observed_state["findings"][0]
+        _put(root, _record(root, finding, drift.debt_id, occurrence=0))
+        _put(root, _record(root, finding, drift.debt_id, occurrence=1))
+        done = _live(root)
+        assert done.status == "healthy"
+        assert [item["occurrence"] for item in done.observed_state["dispositions"]] == [0, 1]
+        assert len({item["record"] for item in done.observed_state["dispositions"]}) == 2
+
+    def test_a_record_for_a_missing_occurrence_decides_nothing(self, tmp_path: Path) -> None:
+        root = _repo(tmp_path, f"k = '{_github_token()}'\n")
+        drift = _live(root)
+        _put(root, _record(root, drift.observed_state["findings"][0], drift.debt_id, occurrence=1))
+        assert _live(root).status == "drift"
+
+    def test_ruling_record_the_desk_rejects_does_not_authorise_dispositions(self, tmp_path: Path) -> None:
+        root = _repo(tmp_path, f"k = '{_github_token()}'\n")
+        # id and status say decided, but the desk validator rejects the list-valued unblocks.
+        write_files(root, {f"{records.DECISIONSDIR}/{records.RULINGID}.json": _decision(records.RULINGID, unblocks=["x"])})
+        commit_all(root)
+        _decide(root)
+        assert _live(root).status == "drift"
+
+    def test_policy_record_the_desk_rejects_does_not_authorise_dispositions(self, tmp_path: Path) -> None:
+        root = _repo(tmp_path, f"k = '{_github_token()}'\n")
+        policy = records.POLICYDECISIONS["D2"]
+        write_files(root, {f"{records.DECISIONSDIR}/{policy}.json": json.dumps({"id": policy, "status": "decided"})})
+        commit_all(root)
+        _decide(root)
+        assert _live(root).status == "drift"
+
+    def test_ruling_record_whose_id_does_not_match_its_file_is_rejected(self, tmp_path: Path) -> None:
+        root = _repo(tmp_path, f"k = '{_github_token()}'\n")
+        write_files(root, {f"{records.DECISIONSDIR}/{records.RULINGID}.json": _decision("another-id")})
+        commit_all(root)
+        _decide(root)
+        assert _live(root).status == "drift"
+
     @pytest.mark.parametrize("missing", [records.RULINGID, *records.POLICYDECISIONS.values()])
     def test_undecided_ruling_or_policy_record_stays_class_c(self, tmp_path: Path, missing: str) -> None:
         root = _repo(tmp_path, f"k = '{_github_token()}'\n")
@@ -248,6 +355,12 @@ class TestSchemaAndHelper:
             assert item["verifiedBy"] == "" and item["author"] == ""
             assert item["policy"] == "" and item["disposition"] == "" and item["evidence"] == ""
             assert records.validateRecord(item) is not None  # inert until a human completes it
+
+    def test_draft_numbers_same_line_occurrences(self, tmp_path: Path) -> None:
+        token = _github_token()
+        root = _repo(tmp_path, f"a = '{token}'; b = '{token}'\n")
+        drafts = helper.draftRecords(root, _live(root).debt_id)
+        assert [item["occurrence"] for item in drafts] == [0, 1]
 
     def test_draft_unknown_debt_fails(self, tmp_path: Path) -> None:
         root = _repo(tmp_path, f"k = '{_github_token()}'\n")

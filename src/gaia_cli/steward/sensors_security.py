@@ -1129,7 +1129,11 @@ class SecretScanSensor:
             # A finding is decided only by one independently verified record that
             # matches debt id, path, line, pattern, fingerprint and these exact
             # file bytes. One undecided finding keeps the whole file Class C.
-            matches = [registry.match(drift.debt_id, rel, item, sha) for item in findings]
+            indexes = credentialDispositions.occurrences(findings)
+            matches = [
+                registry.match(drift.debt_id, rel, item, index, sha)
+                for item, index in zip(findings, indexes)
+            ]
             decided = [match for match in matches if match is not None]
             if decided and len(decided) == len(findings):
                 observations.append(

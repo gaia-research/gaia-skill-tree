@@ -48,6 +48,7 @@ def draftRecords(root: Path, debtId: str, observedAt: str = "1970-01-01T00:00:00
                 "line": item["line"],
                 "pattern": item["pattern"],
                 "fingerprint": item["fingerprint"],
+                "occurrence": index,
                 "fileSha256": sha,
                 "policy": "",
                 "disposition": "",
@@ -57,7 +58,7 @@ def draftRecords(root: Path, debtId: str, observedAt: str = "1970-01-01T00:00:00
                 "verifiedAt": "",
                 "founderRuling": records.RULINGID,
             }
-            for item in findings
+            for item, index in zip(findings, records.occurrences(findings))
         ]
     raise LookupError(f"no credential finding currently produces {debtId}")
 
@@ -82,7 +83,9 @@ def main(argv: list[str] | None = None) -> int:
     target = root / records.RECORDDIR
     target.mkdir(parents=True, exist_ok=True)
     for skeleton in skeletons:
-        out = target / records.recordName(skeleton["debtId"], skeleton["line"], skeleton["fingerprint"])
+        out = target / records.recordName(
+            skeleton["debtId"], skeleton["line"], skeleton["fingerprint"], skeleton["occurrence"]
+        )
         if out.exists():
             print(f"refusing to overwrite {out.relative_to(root)}", file=sys.stderr)
             return 1
