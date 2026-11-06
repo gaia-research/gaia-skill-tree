@@ -1,0 +1,62 @@
+{
+  "batchId": "content-2f79d53f0c3459290085511633f0e5680a1e4fe1d9a395912338c017aa59aa0b-from-file",
+  "userId": "mbtiongson1",
+  "sourceRepo": "gaia-research/gaia-skill-tree",
+  "generatedAt": "2026-11-06T11:45:53Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "mutation-based-test-adequacy",
+      "name": "Mutation-Based Test Adequacy",
+      "type": "fusion",
+      "prerequisites": [
+        "automated-testing",
+        "verification-before-completion"
+      ],
+      "description": "Determines whether a change is actually covered by its tests by injecting controlled faults into the changed lines of a disposable copy, running the suite against each mutant, and iterating until surviving mutants are killed or reported as reproducible gaps.",
+      "attribution": {
+        "upstream_author": "timini",
+        "skill_file_url": "https://github.com/timini/agentic-verification/blob/main/plugin/skills/verify/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/timini/agentic-verification/blob/main/plugin/skills/verify/SKILL.md",
+          "notes": "MIT-licensed Python/pytest skill backed by a mutation-testing CLI, replay commands, isolated copies, tests, pre-registrations and published experiment artifacts. Benchmarks are first-party and not independently replicated."
+        },
+        {
+          "grade": "C",
+          "type": "registry-curation",
+          "url": "https://antigravityskills.directory/skills/verify-a-change",
+          "notes": "Third-party directory identifies and distributes a repackaged 'verify a change' skill attributed to the timini upstream. This is a downstream reference, not verified active usage."
+        },
+        {
+          "grade": "C",
+          "type": "social-signal",
+          "url": "https://www.reddit.com/r/ClaudeCode/comments/1x7bxxl/i_benchmarked_my_claude_code_verification_plugin/",
+          "notes": "Original author disclosed and discussed the benchmark publicly on 2026-10-16, including a negative primary result and tradeoffs. Author-originated discussion is not independent validation."
+        }
+      ],
+      "named": {
+        "contributor": "timini",
+        "skill_name": "verify",
+        "links_github": "https://github.com/timini/agentic-verification/blob/main/plugin/skills/verify/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "mutation-based-test-adequacy",
+      "targetSkillId": "automated-testing",
+      "score": 0.489,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ],
+  "submissionKey": "2f79d53f0c3459290085511633f0e5680a1e4fe1d9a395912338c017aa59aa0b"
+}

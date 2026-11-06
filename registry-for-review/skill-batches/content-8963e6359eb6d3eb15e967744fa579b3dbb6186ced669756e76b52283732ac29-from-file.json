@@ -1,0 +1,74 @@
+{
+  "batchId": "content-8963e6359eb6d3eb15e967744fa579b3dbb6186ced669756e76b52283732ac29-from-file",
+  "userId": "mbtiongson1",
+  "sourceRepo": "gaia-research/gaia-skill-tree",
+  "generatedAt": "2026-11-06T11:45:53Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "verified-adaptive-explanation",
+      "name": "Verified Adaptive Explanation",
+      "type": "fusion",
+      "prerequisites": [
+        "audience-model",
+        "code-explain"
+      ],
+      "description": "Explains technical material at the depth a specific reader needs by modelling that reader's prior knowledge and reading mode, then verifying every cited output, diagram and quotation against the source artifact before delivery.",
+      "attribution": {
+        "upstream_author": "mizchi",
+        "skill_file_url": "https://github.com/mizchi/explainer/blob/main/skills/explainer/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/mizchi/explainer/blob/main/skills/explainer/SKILL.md",
+          "notes": "MIT-licensed skill with a documented persona-to-question-to-artifact workflow, runnable output checks, diagram fact sheets, HTML verification scripts, examples and regression tests. Technical procedure is inspectable; no independent effectiveness result is asserted."
+        },
+        {
+          "grade": "C",
+          "type": "social-signal",
+          "url": "https://www.skills.sh/mizchi/explainer",
+          "notes": "Third-party skills.sh listing observed 2026-11-03: 393 installs for the explainer skill and about 1.6K installs across the repository's listed skills. Marketplace counters are not unique active users."
+        },
+        {
+          "grade": "C",
+          "type": "registry-curation",
+          "url": "https://skillsmp.com/creators/mizchi",
+          "notes": "Separate public marketplace indexes the creator's explainer skills; discovery evidence only, not independent efficacy validation."
+        }
+      ],
+      "named": {
+        "contributor": "mizchi",
+        "skill_name": "explainer",
+        "links_github": "https://github.com/mizchi/explainer/blob/main/skills/explainer/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "verified-adaptive-explanation",
+      "targetSkillId": "decision-ticket-planning",
+      "score": 0.528,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "verified-adaptive-explanation",
+      "targetSkillId": "adaptive-pattern-learning",
+      "score": 0.519,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "verified-adaptive-explanation",
+      "targetSkillId": "creative-direction",
+      "score": 0.511,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ],
+  "submissionKey": "8963e6359eb6d3eb15e967744fa579b3dbb6186ced669756e76b52283732ac29"
+}
