@@ -1,5 +1,5 @@
 {
- "generation": 744,
+ "generation": 745,
  "lane": {
   "entries": [
    {
@@ -4545,7 +4545,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-06T19:25:00.415156Z",
-   "expiresAt": "2026-11-06T19:56:54.817208Z",
+   "expiresAt": "2026-11-06T19:57:02.719379Z",
    "holder": "run-20261106T192500Z-8565c895"
   }
  },
@@ -58867,7 +58867,7 @@
     "push": false,
     "routine": null
    },
-   "phase": "triage",
+   "phase": "class_a",
    "phases": {
     "observe": {
      "authorityCounts": {
@@ -59736,6 +59736,25 @@
      "integrationHead": "865911892bb4d103f45b1cef48d2fea701bb0d11",
      "sourceHead": "865911892bb4d103f45b1cef48d2fea701bb0d11",
      "unresolvedWork": 0
+    },
+    "triage": {
+     "carried": 0,
+     "classA": [],
+     "classB": [
+      "debt:unused_import:scripts-jev-advisory-py:2e2799e7eedfcd5a"
+     ],
+     "classC": [],
+     "counts": {
+      "A": 0,
+      "B": 1,
+      "B-report-only": 0,
+      "C": 0
+     },
+     "filtered": 357,
+     "held": [],
+     "issueClosure": [],
+     "reportOnly": [],
+     "skippedActive": []
     }
    },
    "proofArtifacts": [],
@@ -59769,6 +59788,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:observe"
+    },
+    {
+     "at": "2026-11-06T19:27:01.047989Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:triage"
     }
    ],
    "thinkingEfforts": [],
@@ -59779,7 +59804,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T19:26:54.817321Z",
+ "updatedAt": "2026-11-06T19:27:02.719492Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
