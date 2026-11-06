@@ -184,6 +184,13 @@ class StewardCommand(Command):
         run.add_argument("--resume", metavar="RUN", help="Continue an existing run from its recorded phase")
         run.add_argument("--afk", action="store_true", help="Founder decisions queue silently; never prompt")
         run.add_argument("--trigger", choices=("manual", "scheduled"), default="manual", help="What started this run")
+        run.add_argument(
+            "--interactive-browser", dest="interactiveBrowser", action="store_true",
+            help=(
+                "Allow a real, interactive browser for this run only (default off). Headless Chromium is "
+                "on by default; a person-visible browser needs this flag or POLICY.yaml browser.interactive."
+            ),
+        )
         run.add_argument("--no-agents", dest="noAgents", action="store_true", help="Never dispatch Class B work")
         run.add_argument(
             "--integration-branch", dest="integrationBranch", metavar="B",
@@ -512,6 +519,7 @@ class StewardCommand(Command):
                 push=bool(getattr(args, "push", False)),
                 trigger=getattr(args, "trigger", "manual"),
                 agents=not getattr(args, "noAgents", False),
+                interactive_browser=bool(getattr(args, "interactiveBrowser", False)),
                 holder=os.environ.get("GAIA_STEWARD_ACTOR", "cli"),
             )
             runner = FullRunner(config)
@@ -583,6 +591,13 @@ class StewardCommand(Command):
         print(f"Run                  {view.runId}  (mode {view.mode})")
         print(f"Status               {view.status}  (phase {view.phase})")
         print(f"Ledger               {ledger.get('transport')}  {shared}")
+        if view.browser is not None:
+            print(
+                "Browser              headless "
+                + ("on" if view.browser.get("headless") else "off")
+                + ", interactive "
+                + ("ON" if view.browser.get("interactive") else "off")
+            )
         summary = view.summary
         observe = summary.get("reobserve") or summary.get("observe")
         if observe:

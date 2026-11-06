@@ -260,6 +260,8 @@ class FullRunConfig:
     trigger: str = "manual"
     agents: bool = True
     holder: str = "steward"
+    # Run-scoped switch for real/interactive browser access; off unless the run asks (policy browser.interactive can also enable it).
+    interactive_browser: bool = False
     lease_ttl_seconds: int = 1800
     clock: Callable[[], datetime] = _utcNow
     controller_factory: Callable[[], StewardController] | None = None
@@ -291,6 +293,7 @@ class RunView:
     desk: dict[str, Any] | None = None
     ledger: dict[str, Any] = field(default_factory=dict)
     error: str | None = None
+    browser: dict[str, bool] | None = None
 
     @property
     def exitCode(self) -> int:
@@ -317,6 +320,8 @@ class RunView:
             "notEvaluated": self.notEvaluated,
             "ledger": self.ledger,
         }
+        if self.browser is not None:
+            data["browser"] = self.browser
         if self.holder is not None:
             data["holder"] = self.holder
             data["holderPhase"] = self.holderPhase
@@ -520,6 +525,7 @@ class FullRunner:
         options = {
             "routine": routine, "debt": debt, "afk": bool(afk),
             "push": bool(self.config.push), "agents": bool(self.config.agents),
+            "browser": self._browserSetting(),
         }
 
         def mutate(doc: dict[str, Any]) -> dict[str, Any]:
@@ -1311,6 +1317,12 @@ class FullRunner:
     # view
     # ------------------------------------------------------------------
 
+    def _browserSetting(self) -> dict[str, bool]:
+        """The browser access this run was started with: policy, then the run flag (which can only switch real access on)."""
+
+        policy = self._policyLoaded().browser
+        return policy.effective(interactiveRequested=self.config.interactive_browser).to_dict()
+
     def _view(self, doc: dict[str, Any], runId: str) -> RunView:
         run = doc["runs"].get(runId)
         if run is None:
@@ -1327,6 +1339,7 @@ class FullRunner:
             desk=copy.deepcopy(run.get("desk")),
             ledger=self._ledgerInfo(),
             error=run.get("error"),
+            browser=copy.deepcopy(run.get("options", {}).get("browser")),
         )
 
     # ------------------------------------------------------------------

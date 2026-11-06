@@ -29,7 +29,8 @@ _TOP_LEVEL_KEYS = {
     "routing",
 }
 # Optional: an absent issueHygiene section means no closure authority at all.
-_OPTIONAL_TOP_LEVEL_KEYS = {"issueHygiene", "prMaintenance"}
+_OPTIONAL_TOP_LEVEL_KEYS = {"issueHygiene", "prMaintenance", "browser"}
+_BROWSER_KEYS = {"headless", "interactive"}
 _PRIORITY_KEYS = {
     "importance",
     "decisionImpact",
@@ -144,6 +145,43 @@ class PolicyError(ValueError):
 
 
 @dataclass(frozen=True)
+class BrowserPolicy:
+    """Browser access for the rendered-frontend collector (founder ruling steward-browser-render-driver).
+
+    ``headless`` is the default: scheduled and founder runs collect rendered facts in headless Chromium, which is
+    free to use at any time. ``interactive`` is a real browser a person can see and drive; it stays off unless
+    the policy turns it on or one run asks for it with ``gaia steward full run --interactive-browser``.
+    """
+
+    headless: bool = True
+    interactive: bool = False
+
+    def effective(self, *, interactiveRequested: bool = False) -> "BrowserPolicy":
+        """The setting for one run: the run flag can switch real-browser access on, never off."""
+
+        return BrowserPolicy(headless=self.headless, interactive=self.interactive or interactiveRequested)
+
+    def to_dict(self) -> dict[str, bool]:
+        return {"headless": self.headless, "interactive": self.interactive}
+
+
+def _browserOf(data: Mapping[str, Any]) -> BrowserPolicy:
+    raw = data.get("browser")
+    if raw is None:
+        return BrowserPolicy()
+    block = _mapping(raw, "browser")
+    unknown = set(block) - _BROWSER_KEYS
+    if unknown:
+        raise PolicyError(f"browser keys invalid; unknown={sorted(unknown)}")
+    values: dict[str, bool] = {}
+    for key in _BROWSER_KEYS & set(block):
+        if not isinstance(block[key], bool):
+            raise PolicyError(f"browser.{key} must be true or false")
+        values[key] = block[key]
+    return BrowserPolicy(**values)
+
+
+@dataclass(frozen=True)
 class PriorityWeights:
     importance: float
     decision_impact: float
@@ -235,6 +273,8 @@ class StewardPolicy:
     # Routine-PR stewardship (routine 19). Absent or malformed => no write authority at all.
     pr_maintenance: PrMaintenancePolicy = PrMaintenancePolicy()
     pr_maintenance_error: str | None = None
+    # Browser access for rendered-frontend observation: headless on, real browser off, unless the policy says otherwise.
+    browser: BrowserPolicy = BrowserPolicy()
 
     @classmethod
     def load(cls, repo_root: Path) -> "StewardPolicy":
@@ -589,6 +629,7 @@ class StewardPolicy:
             issue_hygiene_error=hygieneError,
             pr_maintenance=prPolicy,
             pr_maintenance_error=prError,
+            browser=_browserOf(data),
         )
 
     def authority_for(self, kind: str) -> AuthorityClass:

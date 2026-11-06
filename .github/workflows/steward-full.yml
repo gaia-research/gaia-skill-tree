@@ -79,6 +79,36 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+      # Headless Chromium is free and on by default for scheduled and founder runs (founder ruling
+      # steward-browser-render-driver). It is optional: a failed install or collection is recorded as
+      # failed in the inputs report and in .gaia/steward/inputs/browser-render-status.json, so the
+      # browser-render sensor reports NOT EVALUATED, never healthy. A real/interactive browser is never
+      # used here; it needs `gaia steward full run --interactive-browser` on a machine with a display.
+      # POLICY.yaml `browser.headless: false` turns this step into a recorded "missing".
+      - name: Collect rendered-frontend facts for the browser-render detector (headless Chromium)
+        run: |
+          mkdir -p .gaia/steward/inputs
+          headless=$(python -c "import yaml; print(str((yaml.safe_load(open('founder/steward/POLICY.yaml')).get('browser') or {}).get('headless', True)).lower())")
+          if [ "$headless" != "true" ]; then
+            echo "browser-render=missing:headless collection is off in POLICY.yaml browser.headless; rendered frontend facts are NOT EVALUATED" > "$RUNNER_TEMP/inputs-browser.txt"
+            exit 0
+          fi
+          if ! { npm install --no-save --no-package-lock --silent playwright@1.49.1 && npx playwright install --with-deps chromium; }; then
+            node scripts/steward_collect_browser_render.js --record-failure chromium-install-failed
+            echo "browser-render=failed:Chromium could not be installed; rendered frontend facts are NOT EVALUATED" > "$RUNNER_TEMP/inputs-browser.txt"
+          elif node scripts/steward_collect_browser_render.js --repository "$GITHUB_REPOSITORY"; then
+            echo "browser-render=ok" > "$RUNNER_TEMP/inputs-browser.txt"
+          else
+            echo "browser-render=failed:the collector exited non-zero; rendered frontend facts are NOT EVALUATED" > "$RUNNER_TEMP/inputs-browser.txt"
+          fi
+
+      - name: Report driver inputs
+        if: always()
+        run: |
+          args=()
+          for f in "$RUNNER_TEMP"/inputs-*.txt; do [ -f "$f" ] && args+=(--item "$(cat "$f")"); done
+          [ "${#args[@]}" -eq 0 ] || python scripts/steward_report_inputs.py "${args[@]}"
+
       # Prove what this run can actually do instead of assuming it.
       - name: Preflight (branch, ref writes, agent workflows, credentials)
         run: |
