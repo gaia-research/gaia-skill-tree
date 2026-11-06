@@ -13,7 +13,7 @@
   "independentReproductionRequired": true,
   "cloudP3P4ArtifactsRequested": true,
   "cloudP3P4ArtifactsReceived": false,
-  "governanceHold": "F3 receipts interpretation remains unapproved; no authority or receipt-gate change in technical repair",
+  "governanceHold": "F3 explicitly decided best-effort GitHub comment WRITES; durable verification, justification, authentic effect evidence and required reads/checks and shared Git/CAS remain mandatory. No activation or other gates waived.",
   "carriedOutOfScope": "F4 lower-cap ratchet and non-defect liveness observations",
   "worker": {
     "nativeRun": "7f71fcf8-22c9-4203-96c6-30acfe9934be",
@@ -33,8 +33,8 @@
     "benignProbeActualProvider": "openai",
     "benignProbeActualModel": "gpt-6.1-terra",
     "benignProbeAssistantResponses": 1,
-    "implementationRuntimeCollectionPending": true,
-    "implementationOutcomePending": true,
+    "implementationRuntimeCollectionPending": false,
+    "implementationOutcomePending": false,
     "initialNativeRun": "070b3ae2-fe6e-4520-83c0-0120ecf87df9",
     "sessionId": "01a1b04c-34a8-7698-8bf5-f1eb80300330",
     "initialOutcome": "partial: independent reconstructed F1/F2 expected-invariant RED,2failed16.34s; no fix/commit/green",
@@ -44,11 +44,56 @@
     "dirtyFilesPreserved": [
       "tests/steward/prmaintenance/test_runner.py",
       "tests/steward/prmaintenance/test_executor.py"
-    ]
+    ],
+    "implementationCandidate": "3fad32497990b5d620295afb9399262ed08c15c3",
+    "implementationTree": "e969c65e99797fd25eca06af572921da893b8773",
+    "actualAssistantRoutes": [
+      {
+        "provider": "openai",
+        "model": "gpt-6.1-terra",
+        "api": "openai-responses"
+      }
+    ],
+    "reportedFinalFocusedTests": {
+      "passed": 12,
+      "seconds": 83.61
+    },
+    "cleanTrackedTreeAtFreeze": true,
+    "productPathsChanged": 5,
+    "accepted": false
   },
   "frozenSourceAndHandoffBranchesModified": false,
   "sourceAccepted": false,
   "activationOrLiveMutationAuthorized": false,
   "canonicalImportEditGrantApproved": false,
-  "canonicalRepairsResolvedAndMainDelivered": 2
+  "canonicalRepairsResolvedAndMainDelivered": 2,
+  "composition": {
+    "head": "31a9a59b9c978db19fd9a451ca310844d1dc401e",
+    "tree": "02ce5633db8c56d20110af15f658f1653f1f9088",
+    "parents": [
+      "3fad32497990b5d620295afb9399262ed08c15c3",
+      "72aba66351dd0395073220131fad8e80878643b2"
+    ],
+    "technicalRuntimeUnchanged": true,
+    "longTests": {
+      "task": "b9d8ee9c3",
+      "status": "launched_pending_collection"
+    },
+    "boundedIndependentReview": {
+      "run": "8f321497-375a-4577-b461-de1a019c9e11",
+      "agent": "worker-dsflash",
+      "scope": "F1/F2/F3 only, not whole R19",
+      "actualInitialProvider": "deepseek",
+      "actualInitialModel": "deepseek-flash",
+      "requestedThinking": "medium",
+      "initialThinkingJournal": "high",
+      "status": "active"
+    },
+    "wholeSourceAccepted": false
+  },
+  "founderF3Decision": {
+    "verbatim": "git is best effort, not preconditions",
+    "decisionBeforeActionCommit": "41f79697a",
+    "clarificationCommit": "72aba66351dd0395073220131fad8e80878643b2"
+  }
 }
