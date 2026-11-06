@@ -113,6 +113,20 @@ def test_oversized_real_listing_is_refused_before_any_blob_is_read(tmp_path, mon
     assert not (tmp_path / "out").exists()
 
 
+def test_content_proofs_pass_when_the_temp_root_is_a_symlink_like_macos_var(tmp_path, monkeypatch):
+    import tempfile
+
+    real = tmp_path / "real-tmp"
+    real.mkdir()
+    alias = tmp_path / "var-alias"
+    alias.symlink_to(real, target_is_directory=True)
+    monkeypatch.setattr(tempfile, "tempdir", str(alias))
+    fx = h.makeRepo(tmp_path / "content")
+    head = fx.head("2026-44")
+    results = proofs.contentEngineProofs(fx.root, fx.base, head, "2026-44")
+    assert [p.state for p in results if p.name in {"rendered-html", "index-rebuild"}] == [proofs.PASS, proofs.PASS]
+
+
 # --- HTTPS transport: real TLS verification, no proxy, no redirects, bounded body -----------------------------------
 
 

@@ -339,7 +339,9 @@ def contentEngineProofs(root: Path, baseSha: str, headSha: str, label: str) -> l
         return [Proof("rendered-html", UNKNOWN, "head or base objects are not available locally"),
                 Proof("index-rebuild", UNKNOWN, "head or base objects are not available locally")]
     with tempfile.TemporaryDirectory(prefix="steward-ce-") as tmp:
-        work = Path(tmp)
+        # Resolve the private directory once: exportBase refuses any target whose resolved path differs from its
+        # literal path, and macOS temp roots (/var -> /private/var) are symlinked. The check itself is unchanged.
+        work = Path(tmp).resolve()
         (work / "base").mkdir()
         if not exportBase(root, baseSha, ["scripts/contentEngine", "scripts/publication_context.py"], work / "base") \
                 or not exportBase(root, baseSha, ["docs/reports", "docs/api/v1/reports"], work / "docs-base"):
