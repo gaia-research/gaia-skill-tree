@@ -1,19 +1,22 @@
 {
   "schemaVersion": "steward-decision-v1",
   "id": "steward-workflow-timeout-route",
-  "status": "open",
+  "status": "decided",
   "decision": "Add a Class B dispatch route for workflow_hygiene (missing job timeout-minutes) limited to .github/workflows/*.yml and excluding compiled gh-aw lock files?",
   "whyItMatters": "38 open workflow_hygiene debts (64 missing-timeout findings) have no dispatch rule, and every existing rule forbids .github/**, so the lane cannot touch them. A job without timeout-minutes can run for the 6-hour default.",
   "evidence": [
     "Every open workflow_hygiene finding is rule missing-timeout.",
     "The fix is mechanical but a timeout is a per-job judgement: too low kills legitimate long jobs (the unit gate already takes about 2 minutes, full tests more).",
-    "Workflow files are a security-relevant surface; this PR did not edit any."
+    "Workflow files are a security-relevant surface; this PR did not edit any.",
+    "Founder final rulings, 2026-11-06, relayed to the Steward owner (Opus) for #2283 (verbatim): \"Yep its A. I do think most timeouts are related to cloudflare. Please research and check if its the culprit.\"",
+    "Ruling as applied: Option A: narrow Class B route for missing job timeout-minutes limited to .github/workflows/*.yml, excluding generated gh-aw lock files; values chosen from job semantics and historical durations; .github/** stays forbidden for every other repair kind; independent verification and normal CI. The 38 debts / 64 findings are configuration findings, not proof of runtime timeouts. Separately investigate whether Cloudflare deploys cause actual timeout failures (cf-pr-preview.yml Wrangler deploy; sync-artifacts.yml reference to a cloudflare-deploy.yml not found at the expected path); attribute to Cloudflare only on actual run evidence."
   ],
-  "recommended": "Approve a route that proposes a timeout from the job's observed durations (ci-runs input) and requires independent verification; keep .github/** forbidden for every other rule.",
+  "recommended": "Option A: narrow Class B route for missing job timeout-minutes limited to .github/workflows/*.yml, excluding generated gh-aw lock files; values chosen from job semantics and historical durations; .github/** stays forbidden for every other repair kind; independent verification and normal CI. The 38 debts / 64 findings are configuration findings, not proof of runtime timeouts. Separately investigate whether Cloudflare deploys cause actual timeout failures (cf-pr-preview.yml Wrangler deploy; sync-artifacts.yml reference to a cloudflare-deploy.yml not found at the expected path); attribute to Cloudflare only on actual run evidence.",
   "alternative": "Leave workflow timeouts to ordinary reviewed PRs and downgrade the sensor to report-only.",
   "unblocks": "Closure of up to 38 debts and a reusable path for workflow hygiene repairs.",
   "links": [
     "founder/steward/POLICY.yaml",
     "src/gaia_cli/steward/sensors_ci.py"
-  ]
+  ],
+  "resolution": "approved"
 }
