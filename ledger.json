@@ -1,5 +1,5 @@
 {
- "generation": 917,
+ "generation": 918,
  "lane": {
   "entries": [
    {
@@ -4629,7 +4629,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-06T22:09:46.046523Z",
-   "expiresAt": "2026-11-06T22:43:37.573207Z",
+   "expiresAt": "2026-11-06T22:45:39.335508Z",
    "holder": "run-20261106T205057Z-dc2f240c"
   }
  },
@@ -72281,6 +72281,29 @@
      "status": "done",
      "stepId": "build:5dee2c1f6cb9:1",
      "type": "agent.build"
+    },
+    {
+     "debtId": "debt:unused_import:scripts-add-post-py:812514abccebcebf",
+     "emittedAt": "2026-11-06T22:15:38.254209Z",
+     "idempotencyKey": "verify:dispatch-46c8983b2378c458cbe8:1",
+     "params": {
+      "allowedModels": [
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "debtId": "debt:unused_import:scripts-add-post-py:812514abccebcebf",
+      "effortRequired": true,
+      "forbiddenAgentIds": [
+       "pi-herdr-batch1-builder-d03344b33622"
+      ],
+      "verifierPromptPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/verify-d03344b33622.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "verify:d03344b33622:1",
+     "type": "agent.verify"
     }
    ],
    "actor": "cli",
@@ -74011,6 +74034,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_b"
+    },
+    {
+     "at": "2026-11-06T22:15:38.254209Z",
+     "debtId": "debt:unused_import:scripts-add-post-py:812514abccebcebf",
+     "idempotencyKey": "verify:dispatch-46c8983b2378c458cbe8:1",
+     "kind": "agent.verify",
+     "status": "awaiting",
+     "stepId": "verify:d03344b33622:1"
     }
    ],
    "thinkingEfforts": [
@@ -74024,7 +74055,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T22:13:37.575152Z",
+ "updatedAt": "2026-11-06T22:15:39.335659Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -74541,7 +74572,12 @@
    "source": "dead-code",
    "state": "building",
    "updatedAt": "2026-11-06T22:07:36.399033Z",
-   "verification": null
+   "verification": {
+    "receipt": "steward-20261106T221342Z-b6431368133ad69f",
+    "stage": "awaiting-verifier",
+    "verdict": "pending",
+    "verifierPromptPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/verify-d03344b33622.prompt.md"
+   }
   },
   "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a": {
    "assignments": [
