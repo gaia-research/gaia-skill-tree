@@ -1,0 +1,17 @@
+{
+  "verifiedAt": "2026-11-06T00:54:59.799594+00:00",
+  "pullRequest": 2300,
+  "mainMergeCommit": "329b2f04779168d96a619f4efeac2bc23585d896",
+  "mergedAt": "2026-11-06T00:54:50Z",
+  "tree": "7dc65604b6119b2b7313999ea839798630e7a424",
+  "parents": [
+    "3cd5504e00ac00e4708503f484a05e04e5775dcc",
+    "fd53b4556472647e53f2b9bca6a2b20260041ac3"
+  ],
+  "mainProtected": true,
+  "trackerOpen": true,
+  "canonicalBRepairsResolved": 2,
+  "canonicalBRepairsMainDelivered": 2,
+  "postMergeCIPendingCollection": true,
+  "campaignComplete": false
+}

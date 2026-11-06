@@ -1,0 +1,25 @@
+{
+  "status": "approved",
+  "operatorReplyVerbatim": "ci churn edit authorized",
+  "context": "Answer to the pending one-off exact-dispatch harness file-edit permission request, not a general command/interface amendment",
+  "runId": "run-20261106T045029Z-92c5e38b",
+  "dispatchId": "dispatch-7930613ee061481cf023",
+  "stepId": "build:549e1d59b78e:1",
+  "attempt": 1,
+  "debtId": "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208",
+  "subject": "scripts/ci_churn.py",
+  "branch": "steward/b/unused-import-549e1d59b78e",
+  "grant": "Harness file-edit tools may remove ONLY the packet-named os and timezone import bindings from this subject after proving side-effect absence. Original packet remains unchanged; this higher-priority one-off founder grant extends only its missing file-edit interface.",
+  "unchanged": [
+    "same real dispatch and attempt1 after live revalidation; no counter or lease reset",
+    "one-subject source diff only",
+    "sideEffectPossible proof and all original stop conditions",
+    "original tests/compileall and timeout/thread/plugin/concurrency guards",
+    "genuine independent verification before integration",
+    "Lead alone performs canonical state mutations",
+    "builder must not push, open PR, merge or perform real-state scan"
+  ],
+  "newStewardProvider": "openai non-shared only; no openai-codex fallback",
+  "notGranted": ["other subject or test edits", "general future packet-interface change", "schema/policy/registry writes", "activation/release/deploy/protection bypass"],
+  "beforeActing": "This exact operator reply is committed before implementation resumes. Revalidate live canonical state and immutable packet first."
+}
