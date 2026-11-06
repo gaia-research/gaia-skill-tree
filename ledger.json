@@ -1,5 +1,5 @@
 {
- "generation": 945,
+ "generation": 946,
  "lane": {
   "entries": [
    {
@@ -4653,7 +4653,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-06T22:09:46.046523Z",
-   "expiresAt": "2026-11-06T23:55:32.246300Z",
+   "expiresAt": "2026-11-06T23:55:43.525136Z",
    "holder": "run-20261106T205057Z-dc2f240c"
   }
  },
@@ -72816,7 +72816,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-06T22:43:54.636708Z",
+    "asOf": "2026-11-06T23:25:40.869535Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -73272,10 +73272,10 @@
       "debtIds": [
        "debt:routine_pr_founder_decision:gaia-research-gaia-skill-tree-2235:fb647ee4fb7bfedb"
       ],
-      "decision": "Steward will not merge or close this routine pull request (draft state is a founder hold and is never read as consent; draft pull request; hold label(s): needs-review; 0/1 trusted approval(s) at this head). Merge, hold or close it? Pull request: gaia-research/gaia-skill-tree#2235 at head 4569163f9f64.",
+      "decision": "Steward will not merge or close this routine pull request (hold label(s): needs-review; 0/1 trusted approval(s) at this head). Merge, hold or close it? Pull request: gaia-research/gaia-skill-tree#2235 at head e2b06f7cfa48.",
       "decisionId": "decision-1fde053ffffef5198094",
       "evidence": [
-       "gaia-research/gaia-skill-tree#2235 - affected: 1 item(s); authority: C; baseRef: main; baseSha: 329b2f04779168d96a619f4efeac2bc23585d896; basis: producer scheduled-docs-routine; head 4569163f9f64; gates: draft=fail, holds=fail, review-threa…"
+       "gaia-research/gaia-skill-tree#2235 - affected: 1 item(s); authority: C; baseRef: main; baseSha: 956b684fe179098c96eb2c00c38235e78f42499a; basis: producer scheduled-docs-routine; head e2b06f7cfa48; gates: holds=fail, review-threads=unknown, …"
       ],
       "links": [],
       "priority": 30,
@@ -73292,6 +73292,26 @@
       "subject": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b"
      },
      {
+      "detail": "independent verification by pi-herdr-batch1-verifier-3d53086a6d83 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a"
+     },
+     {
+      "detail": "independent verification by pi-herdr-batch1-verifier-943faedbd922 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:scripts-archive-fetch-ruflo-skills-py:f5adc0673c6d1436"
+     },
+     {
+      "detail": "independent verification by pi-herdr-batch1-verifier-1a73ca728b11 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9"
+     },
+     {
+      "detail": "independent verification by pi-herdr-batch1-verifier-5dee2c1f6cb9 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:scripts-crawlers-huggingface-crawler-py:63744d81bcaf52ea"
+     },
+     {
       "detail": "independent verification by pi-herdr-v5-verifier (pi, effort medium): rejected - findingConfirmed true; scopeValid true; proofValid false; authorityStillValid true; guardsWeakened false. Packet marks `import os` sideEffectPossible; builder e",
       "kind": "failed_dispatch",
       "subject": "debt:unused_import:scripts-jev-advisory-py:2e2799e7eedfcd5a"
@@ -73302,7 +73322,7 @@
       "subject": "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0"
      },
      {
-      "detail": "last scheduled run was 115h ago (limit 48h).",
+      "detail": "last scheduled run was 116h ago (limit 48h).",
       "kind": "stale_schedule",
       "subject": "scheduled run"
      },
@@ -73315,7 +73335,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-11-06T23:25:40.869535Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -73323,6 +73343,14 @@
    },
    "integrationBranch": "dev/steward-campaign-2026-11-05",
    "integrationHead": "ed99a8a294cbe24f1000cf0eed3ef89a4cb7fc60",
+   "issueBacklog": {
+    "botOpen": 2,
+    "closedThisRun": 0,
+    "closedTotal": 0,
+    "openIssues": 221,
+    "readyWritesDisabled": 0,
+    "upstreamChildOpen": 72
+   },
    "leases": [
     {
      "acquiredAt": "2026-11-06T20:50:57.041116Z",
@@ -73335,7 +73363,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "perform 4 pending action(s) (lead.integrate), record each with `gaia steward full record run-20261106T205057Z-dc2f240c <stepId> --input FILE`, then `gaia steward full run --resume run-20261106T205057Z-dc2f240c`",
    "options": {
     "afk": false,
     "agents": true,
@@ -73343,7 +73371,7 @@
     "push": false,
     "routine": 1
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -76029,7 +76057,7 @@
    "sequence": 31,
    "sourceHead": "bb3617b665026c6b11451ff158418edec6342414",
    "startedAt": "2026-11-06T20:50:57.041116Z",
-   "status": "active",
+   "status": "awaiting-action",
    "steps": [
     {
      "at": "2026-11-06T20:50:57.041116Z",
@@ -76244,6 +76272,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-11-06T23:25:40.869535Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -76257,7 +76291,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T23:25:32.252451Z",
+ "updatedAt": "2026-11-06T23:25:43.529996Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
