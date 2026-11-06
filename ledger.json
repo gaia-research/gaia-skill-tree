@@ -1,5 +1,5 @@
 {
- "generation": 652,
+ "generation": 653,
  "lane": {
   "entries": [
    {
@@ -4518,7 +4518,13 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {},
+ "leases": {
+  "run": {
+   "acquiredAt": "2026-11-06T18:13:50.957650Z",
+   "expiresAt": "2026-11-06T18:43:50.957650Z",
+   "holder": "run-20261106T181350Z-17f3486d"
+  }
+ },
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -50688,10 +50694,63 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": []
+  },
+  "run-20261106T181350Z-17f3486d": {
+   "actions": [],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [],
+   "finishedAt": null,
+   "integrationBranch": "dev/steward-campaign-2026-11-05",
+   "integrationHead": null,
+   "leases": [
+    {
+     "acquiredAt": "2026-11-06T18:13:50.957650Z",
+     "holder": "run-20261106T181350Z-17f3486d",
+     "key": "run"
+    }
+   ],
+   "mode": "full",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "",
+   "options": {
+    "afk": false,
+    "agents": true,
+    "debt": "debt:unused_import:src-gaia-cli-shadowcorpus-py:0ef3d1c38966cf1d",
+    "push": false,
+    "routine": null
+   },
+   "phase": "reconcile",
+   "phases": {},
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [],
+   "runId": "run-20261106T181350Z-17f3486d",
+   "sequence": 23,
+   "sourceHead": null,
+   "startedAt": "2026-11-06T18:13:50.957650Z",
+   "status": "active",
+   "steps": [
+    {
+     "at": "2026-11-06T18:13:50.957650Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:recover"
+    }
+   ],
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "manual",
+   "unresolvedWork": []
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T18:12:34.676978Z",
+ "updatedAt": "2026-11-06T18:13:51.779092Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
