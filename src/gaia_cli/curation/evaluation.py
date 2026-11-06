@@ -1,7 +1,6 @@
 """Offline, provenance-aware evaluation for curation semantic retrieval."""
 from __future__ import annotations
 
-import copy
 import hashlib
 import json
 import os
