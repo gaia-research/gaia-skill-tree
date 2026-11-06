@@ -284,3 +284,21 @@ def test_documented_exit_zero_states_match_the_cli_contract():
         assert f"`{settled}`" in text
     source = (ROOT / "src/gaia_cli/steward/prmaintenance/cli.py").read_text(encoding="utf-8")
     assert 'return 0 if outcome["state"] in {"merged", "closed", "already-merged", "aborted"} else 2' in source
+
+
+# --- no automation can reach the critical-write verbs ---------------------------------------------------------------
+
+
+def test_no_workflow_or_script_invokes_the_critical_write_verbs_and_full_workflow_stays_manual():
+    import yaml
+
+    workflow = yaml.safe_load((ROOT / ".github/workflows/steward-full.yml").read_text(encoding="utf-8"))
+    triggers = workflow.get("on", workflow.get(True))
+    assert set(triggers) == {"workflow_dispatch"}, "steward-full must stay manual-only until reauthorized"
+    verbs = re.compile(r"steward_pr(?:\.py)?[\"' ]+(?:gate-merge|gate-close|execute|recover|abort|finalize)|steward pr (?:execute|gate-)")
+    workflows = ROOT / ".github/workflows"
+    scanned = [*sorted(workflows.glob("*.y*ml")), *sorted(workflows.glob("*.md")),
+               *sorted(path for path in (ROOT / "scripts").glob("*.py") if path.name != "steward_pr.py")]
+    offenders = [str(path.relative_to(ROOT)) for path in scanned
+                 if verbs.search(path.read_text(encoding="utf-8", errors="replace"))]
+    assert offenders == []
