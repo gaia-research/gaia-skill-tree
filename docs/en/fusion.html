@@ -604,9 +604,11 @@
             <li><strong style="color:var(--text);">Registry-level fusion</strong> — <code>gaia dev merge</code> (Verifier-gated) proposes that two canonical nodes should become one.</li>
           </ul>
           <p>
-            Running <code>gaia fuse</code> does not add a new node to the public registry — it
-            records the fusion in your <code>skill-trees/&lt;username&gt;/skill-tree.json</code>
-            and writes a timeline event. Registry merges are separate, PR-driven operations.
+            Running <code>gaia fuse</code> does not add a new node to the public registry. Confirming
+            a detected combination records the fusion in your
+            <code>skill-trees/&lt;username&gt;/skill-tree.json</code> and writes a timeline event.
+            Defining a custom fusion saves it only to <code>.gaia/custom_state.json</code> in your
+            project. Registry merges are separate, PR-driven operations.
           </p>
         </div>
 

@@ -1,3 +1,40 @@
+## 2026-11-06 — Routine 070
+
+**Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
+Merged `origin/main` into the branch (merge commit, no history rewrite) because a rebase conflicted in
+`DOCS.md` and `MEMORY.md` on an already-pushed branch.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 070)" in 069: check the `gaia fuse` prose on
+`fusion.html` against the source.
+
+### What I did
+
+- Source check (`src/gaia_cli/impl.py` `fuse_command`, `commands/progression.py`):
+  - Confirming a detected combination appends to `skill-trees/<user>/skill-tree.json` and writes a
+    `fuse` timeline event (`append_skill_tree_event`).
+  - Defining a custom fusion (`--skills` or the interactive "new" path) writes only
+    `.gaia/custom_state.json`. It does not touch `skill-tree.json` and writes no timeline event.
+- The page said every `gaia fuse` run records the fusion in `skill-tree.json` and writes a timeline
+  event. That was true only for the confirm path. Corrected the paragraph in
+  `fusion.html` to name both paths. No markup or layout change.
+
+### Design decisions
+
+- Words-only fix inside an existing paragraph. Layout unchanged.
+
+### Files
+
+- `docs/en/fusion.html` (paragraph under "Player-level fusion")
+- `docs/en/DOCS.md` (Page Map row 8)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 071)
+
+- ROTATE to the least-recently-touched Page Map page after `fusion.html`: `faq.html`. Check its
+  fusion and custom-fusion answers against the same `fuse_command` paths.
+
+---
+
 ## 2026-11-05 — Routine 069
 
 **Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
