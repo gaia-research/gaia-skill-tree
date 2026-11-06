@@ -1,0 +1,40 @@
+{
+  "status": "approved_exact_dispatch_only",
+  "approved": true,
+  "machineEffective": false,
+  "effectLimit": "Explicit host edit extension active for exact dispatch only after read-only revalidation; generated machine packet/policy unchanged, no ledger transition or new attempt.",
+  "decision": "CICHURN_EDIT_FOUNDER_DECISION_20261106.json",
+  "runId": "run-20261106T045029Z-92c5e38b",
+  "dispatchId": "dispatch-7930613ee061481cf023",
+  "stepId": "build:549e1d59b78e:1",
+  "attempt": 1,
+  "debtId": "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208",
+  "subject": "scripts/ci_churn.py",
+  "branch": "steward/b/unused-import-549e1d59b78e",
+  "observedBlock": "Objective requires removing imports, but packet declares only pytest/compileall/scan as mutation interfaces; no file-edit interface is granted. Builder made no source change, commit or diff. Empty proof is not a completed build.",
+  "requestedOneOffGrant": "For this exact current dispatch only, permit harness file-edit tools solely to remove the packet-named os and timezone import bindings from scripts/ci_churn.py. All other original bounds and stop conditions remain mandatory.",
+  "preserve": [
+    "prove absence of side effects before removal",
+    "one-subject source diff only",
+    "existing focused tests and compileall",
+    "original pytest timeout/thread/concurrency guards",
+    "fresh independent verifier before integration",
+    "same dispatch and attempt1, no budget reset",
+    "Lead alone owns real canonical writes",
+    "no builder push, PR or merge"
+  ],
+  "notRequested": [
+    "general permission for future dispatches",
+    "broader shell-command allowlist",
+    "policy or schema changes",
+    "manual generated-packet edits",
+    "other source or test edits",
+    "real ledger scans or mutations by builder",
+    "release, deployment, activation or main bypass"
+  ],
+  "operatorReply": "ci churn edit authorized",
+  "beforeActing": "Fulfilled: exact founder reply committed/pushed af0e818f5 before any new implementation; immutable originalpacket retained, exact live attempt/source/caps revalidated14:17Z.",
+  "hostInterfaceGrantEffective": true,
+  "approvalBeforeImplementationCommit": "af0e818f5",
+  "livePrebuildBinding": "cichurn-approved-prebuild-binding.json"
+}

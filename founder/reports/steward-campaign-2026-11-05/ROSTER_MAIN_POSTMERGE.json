@@ -1,0 +1,77 @@
+{
+  "recordedAt": "2026-11-06T04:14:34.181375+00:00",
+  "mainCommit": "329b2f04779168d96a619f4efeac2bc23585d896",
+  "rawEvidenceSha256": "1945c2c83d697397744140170a38a2311dfd8f763334ada03d21a857528f0bf7",
+  "workflows": [
+    {
+      "conclusion": "success",
+      "databaseId": 42141047046,
+      "headSha": "329b2f04779168d96a619f4efeac2bc23585d896",
+      "status": "completed",
+      "url": "https://github.com/gaia-research/gaia-skill-tree/actions/runs/42141047046",
+      "workflowName": "Docs Cohesion Guards"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 42140226838,
+      "headSha": "329b2f04779168d96a619f4efeac2bc23585d896",
+      "status": "completed",
+      "url": "https://github.com/gaia-research/gaia-skill-tree/actions/runs/42140226838",
+      "workflowName": "Python Package"
+    },
+    {
+      "conclusion": "skipped",
+      "databaseId": 42140226947,
+      "headSha": "329b2f04779168d96a619f4efeac2bc23585d896",
+      "status": "completed",
+      "url": "https://github.com/gaia-research/gaia-skill-tree/actions/runs/42140226947",
+      "workflowName": "Auto-Sync Registry Artifacts"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 42140226776,
+      "headSha": "329b2f04779168d96a619f4efeac2bc23585d896",
+      "status": "completed",
+      "url": "https://github.com/gaia-research/gaia-skill-tree/actions/runs/42140226776",
+      "workflowName": "PR Guards"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 42140226546,
+      "headSha": "329b2f04779168d96a619f4efeac2bc23585d896",
+      "status": "completed",
+      "url": "https://github.com/gaia-research/gaia-skill-tree/actions/runs/42140226546",
+      "workflowName": "Docs Cohesion Guards"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 42140226780,
+      "headSha": "329b2f04779168d96a619f4efeac2bc23585d896",
+      "status": "completed",
+      "url": "https://github.com/gaia-research/gaia-skill-tree/actions/runs/42140226780",
+      "workflowName": "Validate Gaia Graph"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 42140223608,
+      "headSha": "329b2f04779168d96a619f4efeac2bc23585d896",
+      "status": "completed",
+      "url": "https://github.com/gaia-research/gaia-skill-tree/actions/runs/42140223608",
+      "workflowName": "pages-build-deployment"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 42140224228,
+      "headSha": "329b2f04779168d96a619f4efeac2bc23585d896",
+      "status": "completed",
+      "url": "https://github.com/gaia-research/gaia-skill-tree/actions/runs/42140224228",
+      "workflowName": "CodeQL"
+    }
+  ],
+  "automaticPagesWorkflowPassed": true,
+  "liveContentInspected": false,
+  "prior3cdPagesTimeoutCauseKnown": false,
+  "manualRerunOrDeploymentPerformed": false,
+  "canonicalBRepairCount": 2,
+  "newCanonicalClosureFromWorkflowSuccess": false
+}
