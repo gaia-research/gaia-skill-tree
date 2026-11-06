@@ -28,25 +28,12 @@ on:
       - '.github/workflows/validate.yml'
       - 'docs/badges/_assets/**'
       - 'docs/badges/registry.json'
+  # Unfiltered on purpose: "Schema + DAG + Integrity Checks" is a required
+  # status check, and a workflow skipped by a `paths:` filter never reports it,
+  # so a docs-only PR could never merge. The `changes` job below applies the
+  # push path list to the PR diff instead, so heavy validation still only runs
+  # on PRs that touch those paths.
   pull_request:
-    paths:
-      - 'registry/**'
-      - 'registry/schema/**'
-      - 'skill-trees/**'
-      - 'src/gaia_cli/**'
-      - '.agents/skills/**'
-      - '.claude/skills/**'
-      - 'founder/steward/PLAYBOOKS.md'
-      - 'founder/steward/playbook.schema.json'
-      # - 'registry-for-review/**'
-      - 'scripts/**'
-      - 'packages/cli-npm/**'
-      - 'tests/**'
-      - 'docs/api/v1/reports/**'
-      - 'docs/reports/**'
-      - '.github/workflows/validate.yml'
-      - 'docs/badges/_assets/**'
-      - 'docs/badges/registry.json'
   workflow_dispatch: {}
 
 permissions:
@@ -58,30 +45,104 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  changes:
+    # Cheap scope gate. The single source of truth for "which paths need heavy
+    # validation" is the `on.push.paths` list at the top of this file; this job
+    # parses it and matches it against the PR diff. Push and workflow_dispatch
+    # runs are always relevant (push is already filtered by GitHub).
+    name: Detect validation-relevant changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      relevant: ${{ steps.scope.outputs.relevant }}
+    steps:
+      # Reads commit metadata and tree paths only, never file contents.
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: .github/workflows/validate.yml
+          sparse-checkout-cone-mode: false
+
+      - name: Compute relevance
+        id: scope
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          if [ "$EVENT_NAME" != "pull_request" ]; then
+            echo "Event $EVENT_NAME always runs full validation."
+            echo "relevant=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git diff --name-only --no-renames "origin/${BASE_REF}...HEAD" > changed.txt
+          echo "Changed files:"; cat changed.txt
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import re, sys
+          try:
+              import yaml
+          except ImportError:
+              import subprocess
+              subprocess.check_call([sys.executable, "-m", "pip", "install", "--quiet", "pyyaml"])
+              import yaml
+          doc = yaml.safe_load(open(".github/workflows/validate.yml"))
+          triggers = doc.get("on", doc.get(True))
+          patterns = triggers["push"]["paths"]
+          def rx(pat):
+              out, i = "", 0
+              while i < len(pat):
+                  if pat.startswith("**", i):
+                      out += ".*"; i += 2
+                  elif pat[i] == "*":
+                      out += "[^/]*"; i += 1
+                  else:
+                      out += re.escape(pat[i]); i += 1
+              return re.compile("^" + out + "$")
+          rxs = [rx(p) for p in patterns]
+          files = [l.strip() for l in open("changed.txt") if l.strip()]
+          hits = [f for f in files if any(r.match(f) for r in rxs)]
+          print(f"matched {len(hits)} of {len(files)} changed files: {hits[:10]}", file=sys.stderr)
+          print("relevant=" + ("true" if hits else "false"))
+          PY
+
   validate:
     name: Schema + DAG + Integrity Checks
+    needs: changes
     runs-on: ubuntu-latest
     steps:
+      # Always-reporting required check: when `changes` found nothing relevant,
+      # this job still starts and ends SUCCESS, with every step below skipped.
+      - name: Skip notice
+        if: needs.changes.outputs.relevant != 'true'
+        run: echo "No validation-relevant paths changed; skipping heavy validation."
+
       - name: Checkout
+        if: needs.changes.outputs.relevant == 'true'
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up Python
+        if: needs.changes.outputs.relevant == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
       - name: Set up uv
+        if: needs.changes.outputs.relevant == 'true'
         uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
         with:
           enable-cache: true
           cache-dependency-glob: pyproject.toml
 
       - name: Install dependencies
+        if: needs.changes.outputs.relevant == 'true'
         run: uv pip install --system -e ".[dev]"
 
       - name: Build intermediate registry artifacts
+        if: needs.changes.outputs.relevant == 'true'
         run: |
           python scripts/assemble_gaia.py
           python scripts/generateNamedIndex.py
@@ -89,15 +150,19 @@ jobs:
           cp registry/named-skills.json docs/graph/named/index.json
 
       - name: Verify Version Lockstep
+        if: needs.changes.outputs.relevant == 'true'
         run: python scripts/verify_lockstep.py
 
       - name: Run validation
+        if: needs.changes.outputs.relevant == 'true'
         run: gaia dev validate
 
       - name: Run intake validation
+        if: needs.changes.outputs.relevant == 'true'
         run: gaia dev validate --intake
 
       - name: Check generated docs
+        if: needs.changes.outputs.relevant == 'true'
         # NOTE: `gaia dev docs --check` is NOT read-only. It regenerates the
         # Class P (gitignored) + Class S (tracked docs/graph/*) artifacts, then
         # fails (exit 1) if the tracked Class S output drifts from what's
@@ -119,17 +184,21 @@ jobs:
         #   review/gaia-push/ — intake layer only; committed registry is unchanged
         # All other prefixes (cli/, review/meta/, schema/, dev/, cross-cutting) still run.
         if: |
-          github.event_name == 'push' ||
-          (
-            !startsWith(github.head_ref, 'docs/') &&
-            !startsWith(github.head_ref, 'design/') &&
-            !startsWith(github.head_ref, 'infra/') &&
-            !startsWith(github.head_ref, 'review/gaia-push/')
+          needs.changes.outputs.relevant == 'true' && (
+            github.event_name == 'push' ||
+            (
+              !startsWith(github.head_ref, 'docs/') &&
+              !startsWith(github.head_ref, 'design/') &&
+              !startsWith(github.head_ref, 'infra/') &&
+              !startsWith(github.head_ref, 'review/gaia-push/')
+            )
           )
         run: gaia dev validate --meta-sync
 
   skill-quality:
     name: Agent Skill Quality Gates
+    needs: changes
+    if: needs.changes.outputs.relevant == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
