@@ -1,5 +1,5 @@
 {
- "generation": 517,
+ "generation": 518,
  "lane": {
   "entries": [
    {
@@ -4494,13 +4494,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-06T14:31:58.146684Z",
-   "expiresAt": "2026-11-06T16:16:09.693276Z",
-   "holder": "run-20261106T045029Z-92c5e38b"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -33353,7 +33347,7 @@
    ],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-06T14:54:14.539347Z",
+    "asOf": "2026-11-06T15:46:16.232548Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -33842,7 +33836,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-11-06T15:46:16.232548Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -33850,6 +33844,14 @@
    },
    "integrationBranch": "dev/steward-campaign-2026-11-05",
    "integrationHead": "786a24408eeb9c8e7f4fab83d6c6e70f2df281a6",
+   "issueBacklog": {
+    "botOpen": 2,
+    "closedThisRun": 0,
+    "closedTotal": 0,
+    "openIssues": 221,
+    "readyWritesDisabled": 0,
+    "upstreamChildOpen": 72
+   },
    "leases": [
     {
      "acquiredAt": "2026-11-06T04:50:29.626105Z",
@@ -33862,7 +33864,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": false,
     "agents": true,
@@ -33870,7 +33872,7 @@
     "push": false,
     "routine": null
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -36483,7 +36485,7 @@
    "sequence": 15,
    "sourceHead": "786a24408eeb9c8e7f4fab83d6c6e70f2df281a6",
    "startedAt": "2026-11-06T04:50:29.626105Z",
-   "status": "active",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-11-06T04:50:29.626105Z",
@@ -36562,6 +36564,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-11-06T15:46:16.232548Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -36575,7 +36583,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T15:46:09.693633Z",
+ "updatedAt": "2026-11-06T15:46:18.312960Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
