@@ -25,6 +25,7 @@ from __future__ import annotations
 import json
 import re
 from dataclasses import dataclass
+from fnmatch import fnmatchcase
 from pathlib import Path, PurePosixPath
 from typing import Any, Mapping, Sequence
 
@@ -66,6 +67,28 @@ _GUARD_SIGNAL = re.compile(
 )
 
 
+# A direct-child workflow file. The only edit a Class B dispatch may make to one
+# is adding a job-level `timeout-minutes: <1..360>` line (GitHub's hard ceiling is
+# 360 minutes); anything else in the diff is outside the founder-ruled route.
+_WORKFLOW_FILE = ".github/workflows/*.yml"
+_TIMEOUT_LINE = re.compile(r"^\s+timeout-minutes:\s*(\d{1,3})\s*(?:#.*)?$")
+_MAX_TIMEOUT_MINUTES = 360
+_MAX_WORKFLOW_VIOLATIONS = 20
+
+
+def _workflow_line_violation(path: str, marker: str, text: str) -> str | None:
+    """Why one added (`+`) or removed (`-`) workflow line is not a pure timeout addition."""
+
+    if marker == "-":
+        return f"{path}: removes a line ({text.strip()[:60]!r}); only additions are allowed"
+    found = _TIMEOUT_LINE.match(text)
+    if found is None:
+        return f"{path}: adds a line that is not a timeout-minutes entry ({text.strip()[:60]!r})"
+    if not 1 <= int(found.group(1)) <= _MAX_TIMEOUT_MINUTES:
+        return f"{path}: timeout-minutes {found.group(1)} is outside 1..{_MAX_TIMEOUT_MINUTES}"
+    return None
+
+
 class VerificationError(RuntimeError):
     """A verification precondition was not proven; no verdict is rendered."""
 
@@ -97,13 +120,16 @@ class ChangeSet:
     guard_signal_added: int
     guard_signal_removed: int
     deleted_guard_files: tuple[str, ...]
+    # Workflow-file edits that are not the pure addition of a `timeout-minutes`
+    # line (founder ruling #14). Empty for every diff that touches no workflow.
+    workflow_edit_violations: tuple[str, ...] = ()
 
     @property
     def paths(self) -> tuple[str, ...]:
         return tuple(change.path for change in self.changes)
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        data: dict[str, Any] = {
             "diffHash": self.diff_hash,
             "fileCount": len(self.changes),
             "files": [change.to_dict() for change in self.changes],
@@ -111,6 +137,9 @@ class ChangeSet:
             "guardSignalRemoved": self.guard_signal_removed,
             "deletedGuardFiles": list(self.deleted_guard_files),
         }
+        if self.workflow_edit_violations:
+            data["workflowEditViolations"] = list(self.workflow_edit_violations)
+        return data
 
 
 @dataclass(frozen=True)
@@ -213,6 +242,24 @@ def _matches(path: str, pattern: str) -> bool:
     return path == pattern or PurePosixPath(path).match(pattern)
 
 
+def _in_scope(path: str, pattern: str) -> bool:
+    """Whether ``path`` is inside an envelope scope: a ``dir/**`` subtree or an exact path.
+
+    A file glob such as ``.github/workflows/*.yml`` matches a direct child of that
+    one directory, anchored at the repository root. ``_matches`` is right-anchored
+    (``PurePosixPath.match``), which would also accept ``docs/.github/workflows/x.yml``;
+    an envelope must never be wider than it reads.
+    """
+
+    if pattern.endswith("/**") or "*" not in pattern:
+        return _matches(path, pattern)
+    pattern_parts = PurePosixPath(pattern).parts
+    path_parts = PurePosixPath(path).parts
+    return len(pattern_parts) == len(path_parts) and all(
+        fnmatchcase(part, glob) for part, glob in zip(path_parts, pattern_parts)
+    )
+
+
 def _is_guard(path: str) -> bool:
     return any(_matches(path, pattern) for pattern in _GUARD_PATTERNS)
 
@@ -261,6 +308,7 @@ def parse_unified_diff(text: str) -> ChangeSet:
     changes: list[FileChange] = []
     deleted_guards: list[str] = []
     guard_added = guard_removed = 0
+    workflow_violations: list[str] = []
 
     current: str | None = None
     added = removed = 0
@@ -277,6 +325,8 @@ def parse_unified_diff(text: str) -> ChangeSet:
         changes.append(
             FileChange(path=current, added=added, removed=removed, deleted_file=deleted_file)
         )
+        if deleted_file and _in_scope(current, _WORKFLOW_FILE):
+            workflow_violations.append(f"{current}: deletes the workflow file")
         if deleted_file and _is_guard(current):
             deleted_guards.append(current)
         current, added, removed, deleted_file = None, 0, 0, False
@@ -288,6 +338,10 @@ def parse_unified_diff(text: str) -> ChangeSet:
             assert current is not None
             if line.startswith("\\"):
                 continue  # "\ No newline at end of file" belongs to neither side
+            if line[:1] in ("+", "-") and _in_scope(current, _WORKFLOW_FILE):
+                reason = _workflow_line_violation(current, line[0], line[1:])
+                if reason is not None and len(workflow_violations) < _MAX_WORKFLOW_VIOLATIONS:
+                    workflow_violations.append(reason)
             if line.startswith("+"):
                 new_remaining -= 1
                 added += 1
@@ -374,6 +428,7 @@ def parse_unified_diff(text: str) -> ChangeSet:
         guard_signal_added=guard_added,
         guard_signal_removed=guard_removed,
         deleted_guard_files=tuple(sorted(deleted_guards)),
+        workflow_edit_violations=tuple(workflow_violations),
     )
 
 
@@ -534,18 +589,23 @@ def evaluate(
     outside = [
         path
         for path in change_set.paths
-        if not any(_matches(path, allowed) for allowed in packet.allowed_paths)
+        if not any(_in_scope(path, allowed) for allowed in packet.allowed_paths)
     ]
     forbidden = [
         path
         for path in change_set.paths
-        if any(_matches(path, denied) for denied in packet.forbidden_paths)
+        if any(_in_scope(path, denied) for denied in packet.forbidden_paths)
     ]
-    scope_valid = not outside and not forbidden
+    scope_valid = not outside and not forbidden and not change_set.workflow_edit_violations
     if outside:
         reasons.append("diff writes outside allowedPaths: " + ", ".join(sorted(outside)))
     if forbidden:
         reasons.append("diff writes inside forbiddenPaths: " + ", ".join(sorted(forbidden)))
+    if change_set.workflow_edit_violations:
+        reasons.append(
+            "a workflow diff must only add timeout-minutes lines: "
+            + "; ".join(change_set.workflow_edit_violations)
+        )
 
     # 3. Is the proof complete and passing? Coverage and exit codes are exact;
     #    whether the output is genuine is not, and is asked of the verifier.

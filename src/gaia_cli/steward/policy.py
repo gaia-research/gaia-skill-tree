@@ -109,6 +109,23 @@ _PROTECTED_DISPATCH_PATHS = (
     "registry/schema/**",
     "skill-trees/**",
 )
+# Founder ruling #14 (steward-workflow-timeout-route, #2283) carves exactly one
+# narrow exception out of the `.github/**` floor above: the Class B route for
+# `workflow_hygiene` (a job with no `timeout-minutes`) may write the direct-child
+# workflow files `.github/workflows/*.yml` and nothing else under `.github/`.
+# gh-aw generated lock files are compiled output; a hand edit is overwritten by
+# the next compile, and recompiling is founder-gated (FOUNDER_LOCK_2283.md C4).
+# The exception is pinned here, not in policy, so editing POLICY.yaml can
+# neither widen it nor hand it to another debt kind.
+_WORKFLOW_ROUTE_DEBT_KIND = "workflow_hygiene"
+_WORKFLOW_ROUTE_ALLOWED = (".github/workflows/*.yml",)
+_WORKFLOW_ROUTE_REQUIRED_FORBIDDEN = (
+    ".github/workflows/*.lock.yml",
+    ".github/workflows/shared/**",
+    ".github/workflows/_disabled/**",
+    ".github/actions/**",
+)
+_FILE_GLOB = re.compile(r"[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*/\*(?:\.[A-Za-z0-9_-]+)+")
 # Founder desk rules: each names the one Class C debt kind it decides.
 _FOUNDER_RULE_DEBT = {
     "generic-mapping-decision": "generic_mapping",
@@ -492,18 +509,45 @@ class StewardPolicy:
                     f"{named}"
                 )
             allowed_paths = tuple(
-                _safe_glob(item, f"routing.dispatchRules.{rule_id}.allowedPaths")
+                _safe_dispatch_glob(item, f"routing.dispatchRules.{rule_id}.allowedPaths")
                 for item in _string_list(rule["allowedPaths"], f"routing.dispatchRules.{rule_id}.allowedPaths")
             )
             forbidden_paths = tuple(
-                _safe_glob(item, f"routing.dispatchRules.{rule_id}.forbiddenPaths")
+                _safe_dispatch_glob(item, f"routing.dispatchRules.{rule_id}.forbiddenPaths")
                 for item in _string_list(rule["forbiddenPaths"], f"routing.dispatchRules.{rule_id}.forbiddenPaths")
             )
+            workflow_route = debt_kind == _WORKFLOW_ROUTE_DEBT_KIND
+            if workflow_route:
+                # The one exception to the `.github/**` floor. Allowed paths are
+                # pinned exactly, and `.github/**` may not stay forbidden: it would
+                # forbid the very files the route exists to repair.
+                if allowed_paths != _WORKFLOW_ROUTE_ALLOWED:
+                    raise PolicyError(
+                        f"routing.dispatchRules.{rule_id}.allowedPaths must be exactly "
+                        f"{list(_WORKFLOW_ROUTE_ALLOWED)} for {debt_kind}"
+                    )
+                if ".github/**" in forbidden_paths:
+                    raise PolicyError(
+                        f"routing.dispatchRules.{rule_id}.forbiddenPaths may not forbid .github/** "
+                        f"for {debt_kind}; list the exclusions {list(_WORKFLOW_ROUTE_REQUIRED_FORBIDDEN)}"
+                    )
+                floor = tuple(
+                    item for item in _PROTECTED_DISPATCH_PATHS if item != ".github/**"
+                ) + _WORKFLOW_ROUTE_REQUIRED_FORBIDDEN
+            else:
+                # File globs under .github/ are reachable only through the exception.
+                stray = [item for item in allowed_paths + forbidden_paths if _FILE_GLOB.fullmatch(item)]
+                if stray:
+                    raise PolicyError(
+                        f"routing.dispatchRules.{rule_id} may not use file globs {stray}; "
+                        f"they are reserved for the {_WORKFLOW_ROUTE_DEBT_KIND} route"
+                    )
+                floor = _PROTECTED_DISPATCH_PATHS
             # A broader forbidden scope already guards a protected subtree:
             # forbidding registry/** covers registry/schema/**.
             missing_guards = [
                 item
-                for item in _PROTECTED_DISPATCH_PATHS
+                for item in floor
                 if not any(_glob_covers(declared, item) for declared in forbidden_paths)
             ]
             if missing_guards:
@@ -513,7 +557,12 @@ class StewardPolicy:
                 )
             for allowed in allowed_paths:
                 conflict = next(
-                    (item for item in _PROTECTED_DISPATCH_PATHS if _globs_overlap(allowed, item)),
+                    (
+                        item
+                        for item in _PROTECTED_DISPATCH_PATHS
+                        if not (workflow_route and item == ".github/**")
+                        if _globs_overlap(allowed, item)
+                    ),
                     None,
                 )
                 if conflict is not None:
@@ -658,12 +707,38 @@ def _safe_glob(value: Any, name: str) -> str:
     return value
 
 
-def _glob_covers(outer: str, inner: str) -> bool:
-    """Return whether the ``outer`` subtree contains the whole ``inner`` one."""
+def _safe_dispatch_glob(value: Any, name: str) -> str:
+    """A dispatch path scope: a ``<dir>/**`` subtree, or one ``<dir>/*.<ext>`` file glob.
 
+    File globs match direct children of one directory only. Which rule may carry
+    one is decided by the caller, not here.
+    """
+
+    if isinstance(value, str) and _FILE_GLOB.fullmatch(value):
+        _safe_relative_path(value, name)
+        return value
+    return _safe_glob(value, name)
+
+
+def _glob_directory(glob: str) -> tuple[str, ...]:
+    """The directory components a scope is rooted at (a file glob's parent)."""
+
+    if glob.endswith("/**"):
+        return PurePosixPath(glob[:-3]).parts
+    return PurePosixPath(glob).parent.parts
+
+
+def _glob_covers(outer: str, inner: str) -> bool:
+    """Return whether the ``outer`` scope contains the whole ``inner`` one.
+
+    A file glob contains only itself; a subtree contains everything rooted at or
+    below its directory.
+    """
+
+    if not outer.endswith("/**"):
+        return outer == inner
     outer_parts = PurePosixPath(outer[:-3]).parts
-    inner_parts = PurePosixPath(inner[:-3]).parts
-    return inner_parts[: len(outer_parts)] == outer_parts
+    return _glob_directory(inner)[: len(outer_parts)] == outer_parts
 
 
 def _globs_overlap(first: str, second: str) -> bool:
@@ -674,8 +749,8 @@ def _globs_overlap(first: str, second: str) -> bool:
     ``founders/**`` does not read as living under ``founder/**``.
     """
 
-    left = PurePosixPath(first[:-3]).parts
-    right = PurePosixPath(second[:-3]).parts
+    left = _glob_directory(first)
+    right = _glob_directory(second)
     shared = min(len(left), len(right))
     return left[:shared] == right[:shared]
 
