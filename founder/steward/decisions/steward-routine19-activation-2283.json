@@ -14,9 +14,7 @@
   ],
   "recommended": "Bounded readiness audit of 3bf9093b against the list, then finish only missing safeguards with independent acceptance, normal protected PRs, and a controlled, observable switchover.",
   "alternative": "n/a (decided)",
-  "unblocks": [
-    "R19 candidate dev/steward-r19-uncertainty-contract-2283"
-  ],
+  "unblocks": "R19 candidate dev/steward-r19-uncertainty-contract-2283",
   "links": [
     "https://github.com/gaia-research/gaia-skill-tree/issues/2283"
   ]
