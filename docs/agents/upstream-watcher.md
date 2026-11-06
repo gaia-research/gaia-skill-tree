@@ -158,6 +158,40 @@ Identity comes from the payload, not from a title or an issue number. A title on
 - `--child-mode fanout` keeps the legacy one-child-per-component path for emergencies.
 - `--escalate <candidate-id>` (CLI, or the `escalate_candidate` input of `upstream-watcher.yml`) creates one `[intake]` child from a row on the standard template, or adopts the open child that already exists.
 
+### F3a. Staged batching by review window (founder ruling #12, #2283)
+
+**Status: built, dry-run parity proven, NOT activated.** Founder ruling #12 (`founder/steward/decisions/steward-upstream-batch-rollout.json`) approves staged batching: upstream skills now change almost daily, the founder runs about one Class B pass a day or one batch a week, and the issue noise must drop. Activation is a separate step the lead takes after independent verification; this change adds the switch and leaves it off. Default behaviour is unchanged: the daily schedule stays `fanout` and every code path below is inert while staging is `off`.
+
+What it does (`scripts/upstream_watcher/staging.py`, wired through `batch.run_batch(staging=...)`):
+
+- **Observe daily, write weekly.** Every run still polls every suite and plans against live GitHub (reads only). A finding whose plan would write (create or update) is **held** unless one of three conditions releases it: `flush-day` (today, UTC, is the flush weekday, Monday by default), `window-elapsed` (the release is already 7 days old, so a missed flush day never stretches a hold past one window), or `urgent`. A hold makes zero GitHub writes: no umbrella edit, no approval reset, no comment, no label. Held findings are not lost; the next run recomputes them from the same release and registry.
+- **By upstream repository.** The unit is the existing one canonical open umbrella per `{owner}/{repo}`. A flush updates that umbrella in place (never a new issue per commit or per update). A held suite is reported with `suite`, `version`, `releasedAt`, `candidateIds`, `nextFlush` and `maxHoldUntil` under `report.staging.held`.
+- **Closed umbrella = completed epic (ruling #6).** Staging never edits, comments on, labels or reopens a closed umbrella and never treats one as a hold target. A finding it already processed stays `suppressed-processed`. New changes wait for the window, then start a new batch, carrying the unresolved rows forward exactly as before.
+- **Dedupe without losing provenance or dispositions.** Candidate rows stay keyed by id with `firstSeenVersion` and `lastSeenVersion`; escalated, tracked and rejected dispositions and child links survive held days and the flush because the flush is the ordinary planner. The advisory observation journal (`--staging-journal`) deduplicates what the daily runs saw: one entry per version and per candidate id, a same-day rerun changes nothing, a later day bumps `observationDays` and `lastObserved`. A candidate seen during the window but gone at the flush is reported as `transientCandidates` (not filed, because it no longer exists upstream) so it is visible rather than silently dropped. The journal is never an input to a write decision; losing it costs only that provenance.
+- **Urgent is narrow.** Only a `linkLiveness` row with HTTP status **404 or 410** on a registry-tracked component: its installed source is gone, so it cannot be installed. Not urgent: a new version, a component add or remove, name drift, 403/429/5xx (rate limit or transient, see L-4), a network error (never hashed), or any non-integer status. Urgent bypasses only the delay. The write is still the one umbrella update, and an unchanged payload is still a no-op, so an unchanged dead link never causes a second write the next day.
+- **Bootstrap findings and `--escalate` are not staged.** A bootstrap is a one-time baseline per suite; an escalation is an explicit human action. `--reset-records` is refused with staging on.
+
+Switch (all default off):
+
+| Control | Meaning |
+|---|---|
+| CLI `--staging off\|weekly` | Default `off`. `weekly` requires `--child-mode batch`. Also `--staging-flush-day`, `--staging-journal FILE`, `--staging-as-of ISO` (replays). |
+| Repo variable `UPSTREAM_BATCH_STAGING` | Unset or `off`: deployed behaviour. `weekly`: the **scheduled** run moves to `--child-mode batch --staging weekly`. Still needs `STEWARD_ISSUE_HYGIENE_V2=true` for apply, and fails closed without it. |
+| Dispatch input `staging` | `inherit` (default, follow the variable), `off`, or `weekly` (requires `child_mode=batch`). Use `weekly` with `apply=false` for a dry run on the runner. |
+
+Journal persistence: only when staging is on, two gated steps restore and save `generated-output/staging-journal.json` through `actions/cache` (a new key per run, newest prefix match restored). The journal is written only on `--apply`.
+
+**Activation runbook (lead, after independent verification of the parity report):**
+
+1. Dry run on the runner: dispatch `Upstream Watcher` with `child_mode=batch`, `staging=weekly`, `apply=false`. Read `upstream-watcher-report` and check `staging.held` / `staging.flushed` / `staging.urgent` against the live umbrellas; expect zero writes.
+2. Confirm `STEWARD_ISSUE_HYGIENE_V2=true` (the hardened approve/reject/close-children jobs) is the intended state.
+3. Activate: set repository variable `UPSTREAM_BATCH_STAGING=weekly`. The next 06:00 UTC run observes and holds; the first flush day writes one umbrella update per upstream repository.
+4. Monitor for two windows: issue creates and edits per week (expect at most one per repository per flush plus urgent), `report.staging.urgent` entries (each should name a real 404/410), and that no suite is held past `maxHoldUntil`.
+
+**Rollback (instant, no code change):** delete or set `UPSTREAM_BATCH_STAGING` to `off`. The schedule returns to deployed `fanout` on its next run. Held observations need no cleanup: nothing was written for them. Umbrellas already written stay valid under either contract (the batch umbrella is the same one that `--child-mode batch` writes today). To also leave the batch contract, unset `STEWARD_ISSUE_HYGIENE_V2`, which restores the exact legacy job bodies. A stale journal cache is harmless and expires on its own.
+
+**Dry-run parity.** `tests/upstream_watcher/parity_2283.py` replays recorded findings through legacy fanout, unstaged batch and staged batch (hold day, then flush day) against the 2026-10-21 live-family census (`tests/upstream_watcher/fixtures/live_families.json`) and a synthetic daily-release week; `test_staging_parity_2283.py` pins the results. Run `python tests/upstream_watcher/parity_2283.py` for the JSON report. Parity means every candidate the legacy fanout would file or adopt is a retained row in the batch record with its disposition intact; the only legacy-filed candidate absent after a flush is one that appeared and vanished within the window, and it is reported as transient.
+
 ### F4. State storage — where does `upstream.version` live
 
 **Decision: frontmatter `upstream:` block AND timeline events. Both. Same pattern as `level` today.**
@@ -365,6 +399,7 @@ Also handles the reject cascade: if an umbrella is closed as `upstream:rejected`
 - `skill_id` — poll one suite only.
 - `apply` — create or update issues (default dry-run).
 - `escalate_candidate` — create or adopt one intake child for a batch row (for example `garrytan/gbrain:foo`), then exit. Uses the `apply` flag.
+- `staging` — `inherit` (default), `off` or `weekly`: staged weekly batching (see [F3a](#f3a-staged-batching-by-review-window-founder-ruling-12-2283)). Not activated; the repository variable `UPSTREAM_BATCH_STAGING` is unset.
 
 The workflow writes `generated-output/upstream-watcher-report.json`, uploaded as the `upstream-watcher-report` artifact. Its default manual dispatch and daily scheduled run use `fanout`; `--child-mode batch` is opt-in and requires the staged v2 rollout controls described above. The workflow builds its arguments as a bash array, so nothing is word-split (L1). Before any run, `skill_id` must match `^[A-Za-z0-9._/-]+$` and `escalate_candidate` must match `^[A-Za-z0-9._/:-]+$`. A value with other characters fails the job without running the watcher.
 
