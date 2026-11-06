@@ -334,6 +334,47 @@ def test_cas_retry_refuses_concurrent_attachment_without_replaying_shared_inspec
     assert len(services.invocations) == len(services.effects) == 1
 
 
+def test_failure_report_while_shared_sender_is_possibly_sent(tmp_path, monkeypatch):
+    from gaia_cli.steward import ledger
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = pending(view)[0]["stepId"]
+    namespace = core.Namespace("forge.invalid", "42", h.REPO, "a" * 32)
+    root = tmp_path / "critical"
+    root.mkdir()
+    _, binding, first, _ = seed(root, monkeypatch, namespace)
+    services = FakeServices()
+    candidate = subject(2270, "merge")
+    candidate.update(headSha=HEAD, baseSha=BASE, producerId="weekly-content-engine")
+    expected = proof(candidate)
+    def authorize(ns, sub, bindingProof):
+        if (ns, sub, bindingProof) != (namespace, candidate, expected):
+            raise core.CoordinationError("exact test binding mismatch")
+    services.authorize = authorize
+    services.response = "lost"
+    coord = core.PrWriteCoordinator(ledger.GitRefLedgerStore(first, ref=core.REF), binding, services)
+    runner.config.prCoordinatorFactory = lambda: coord
+    token = coord.reserve(candidate, expected, "stable-run", "owner", "reserve").token
+    coord.recordIntent(token, core.exactRequest(namespace, candidate), "intent")
+    original = services.invoke
+    def duringInvoke(request, invocationId):
+        opid = token.operationId
+        shared = coord.inspect()
+        assert shared["operations"][opid]["state"] == "possibly-sent" and shared["activeOperationId"] == opid
+        runner.record(view.runId, step, {"state": "possibly-sent", "repo": h.REPO, "number": 2270, "operationId": opid})
+        result = runner.record(view.runId, step, {"state": "aborted", "repo": h.REPO, "number": 2270, "reason": "fixture"})
+        assert pending(result)[0]["params"]["operationId"] == opid
+        assert core.usage(shared, core.TimeBounds(999999, 999999, "authority"), "stable-run", "merge") == (1, 1)
+        return original(request, invocationId)
+    services.invoke = duringInvoke
+    coord.invoke(token, "claim")
+    shared = coord.inspect()
+    assert shared["operations"][token.operationId]["state"] == "unknown" and shared["activeOperationId"] == token.operationId
+    assert len(services.invocations) == len(services.effects) == 1
+
+
 def test_inspected_attachment_changed_on_cas_is_refused(tmp_path, monkeypatch):
     repo = fixture(tmp_path)
     verify(repo, 2270)
