@@ -1,5 +1,5 @@
 {
- "generation": 903,
+ "generation": 904,
  "lane": {
   "entries": [
    {
@@ -72020,6 +72020,15 @@
      "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
      "emittedAt": "2026-11-06T20:54:31.248700Z",
      "idempotencyKey": "dispatch-460979a6df78fdd0d323:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch1-builder-3d53086a6d83",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-3d53086a6d83.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-3d53086a6d83.proof.json",
+      "summary": "Batch batch1 builder (openai/gpt-6-luna medium, pi subagent/pane) removed the flagged unused import(s) from the subject file; commit de8b3dd20; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -72040,7 +72049,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/build-3d53086a6d83.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-06T22:07:45.211155Z",
+     "status": "done",
      "stepId": "build:3d53086a6d83:1",
      "type": "agent.build"
     },
@@ -72224,6 +72234,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:d03344b33622:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch1-builder-3d53086a6d83",
+     "at": "2026-11-06T22:07:45.211695Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:3d53086a6d83:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -73744,6 +73766,12 @@
      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-d03344b33622.diff",
      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-d03344b33622.proof.json",
      "stepId": "build:d03344b33622:1"
+    },
+    {
+     "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-3d53086a6d83.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-3d53086a6d83.proof.json",
+     "stepId": "build:3d53086a6d83:1"
     }
    ],
    "pullRequests": [],
@@ -73798,11 +73826,11 @@
      "stepId": "build:d03344b33622:1"
     },
     {
-     "at": "2026-11-06T20:54:31.248700Z",
+     "at": "2026-11-06T22:07:45.211155Z",
      "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
      "idempotencyKey": "dispatch-460979a6df78fdd0d323:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:3d53086a6d83:1"
     },
     {
@@ -73861,11 +73889,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-06T22:07:36.398670Z"
+   "updatedAt": "2026-11-06T22:07:45.211155Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T22:07:36.400137Z",
+ "updatedAt": "2026-11-06T22:07:45.213744Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -74385,12 +74413,33 @@
    "verification": null
   },
   "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch1-builder-3d53086a6d83",
+     "at": "2026-11-06T22:07:45.211695Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:3d53086a6d83:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/unused-import-3d53086a6d83",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch1-builder-3d53086a6d83",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-3d53086a6d83.diff",
+    "dispatchId": "dispatch-460979a6df78fdd0d323",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T205057Z-dc2f240c/build-3d53086a6d83.proof.json",
+    "recordedAt": "2026-11-06T22:07:45.211695Z",
+    "summary": "Batch batch1 builder (openai/gpt-6-luna medium, pi subagent/pane) removed the flagged unused import(s) from the subject file; commit de8b3dd20; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+   },
    "createdAt": "2026-11-06T20:54:31.248700Z",
    "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
    "dispatchId": "dispatch-460979a6df78fdd0d323",
@@ -74411,7 +74460,7 @@
    "runId": "run-20261106T205057Z-dc2f240c",
    "source": "dead-code",
    "state": "building",
-   "updatedAt": "2026-11-06T20:54:31.248700Z",
+   "updatedAt": "2026-11-06T22:07:45.211695Z",
    "verification": null
   },
   "debt:unused_import:scripts-archive-fetch-ruflo-skills-py:f5adc0673c6d1436": {
