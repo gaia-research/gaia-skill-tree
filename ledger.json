@@ -1,5 +1,5 @@
 {
- "generation": 511,
+ "generation": 512,
  "lane": {
   "entries": [
    {
@@ -4497,7 +4497,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-06T14:31:58.146684Z",
-   "expiresAt": "2026-11-06T15:48:30.362997Z",
+   "expiresAt": "2026-11-06T15:48:38.114169Z",
    "holder": "run-20261106T045029Z-92c5e38b"
   }
  },
@@ -33870,7 +33870,7 @@
     "push": false,
     "routine": null
    },
-   "phase": "verify",
+   "phase": "reobserve",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -34781,15 +34781,8 @@
     "verify": {
      "deferred": [],
      "expired": [],
-     "results": [
-      {
-       "debtId": "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208",
-       "receipt": "steward-20261106T144117Z-ce4f0700b9904ede",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      }
-     ],
-     "status": "awaiting-verifier"
+     "results": [],
+     "status": "ok"
     }
    },
    "proofArtifacts": [
@@ -34879,6 +34872,12 @@
      "kind": "lead.integrate",
      "status": "done",
      "stepId": "integrate:549e1d59b78e:1"
+    },
+    {
+     "at": "2026-11-06T15:18:37.038537Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:verify"
     }
    ],
    "thinkingEfforts": [
@@ -34892,7 +34891,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T15:18:30.366051Z",
+ "updatedAt": "2026-11-06T15:18:38.114408Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
