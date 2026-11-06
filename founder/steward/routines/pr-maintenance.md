@@ -42,7 +42,7 @@ mechanically reproducible is reported, not hand-resolved.
 Observation, census, profiles, dispatches and ordinary full-run state remain checkout-local. The unattended driver still refuses
 PR writes. `gate-merge` / `gate-close` create shared preparation and an exact intent, not a send authorization. Only explicit
 `execute --operation-id ID` enters the one-shot core. `recover` / `finalize --operation-id` reconcile without resend;
-`abort --operation-id` cancels only unsent preparation. Unsafe legacy authorization JSON/local outcomes are not authority.
+`abort --operation-id ID --reason TEXT` cancels only unsent preparation (the reason is recorded); `takeover --operation-id ID` re-owns an expired unsent preparation. Unsafe legacy authorization JSON/local outcomes are not authority.
 
 An optional strict `prMaintenance.writeCoordination` binding must be separately provisioned: immutable forge/repository identity,
 canonical origin/ref, protocol/epoch, reachable genesis/minimum history pins, canonical current `main` authority branch, verified
@@ -76,26 +76,105 @@ Ordinary `full --ledger auto/local` is local without an origin probe; explicit g
 status. No historical canonical campaign run is migrated, completed or settled. Existing campaign operation and rollout
 compatibility must be handled separately before adopting this source.
 
-## Unknown outcomes and `uncertaintyCause`
+## Execute outcomes, unknown outcomes and `uncertaintyCause`
 
-`execute` exits 0 only for a settled `merged`, `closed`, `already-merged` or `aborted` report; every other outcome exits 2. When
-the sole adapter was entered but its result cannot be settled in shared state, the report is a bounded classification, not a
-settlement, and carries exactly these fields: `operationId`, `state` (always `possibly-sent`), `coordinationState`
-(`unavailable`), `uncertaintyCause`, `evidenceSha256` (`null`), `repo`, `runId`, `number`, `headSha`, `action` and a fixed
-`reason`. No raw exception, response, header or token text is ever published. `possibly-sent` here is a knowledge
-classification, never an observed store state, and it never grants a retry, refund or replay.
+`execute` exits 0 only for a settled `merged`, `closed`, `already-merged` or `aborted` report; every other outcome exits 2
+(`takeover` exits 0 only when it re-owned the preparation). A raw coordination/ledger failure never escapes as a traceback: `gate-*`, `execute`,
+`recover`, `finalize`, `abort` and `takeover` report `{"refused": "shared-route-unavailable", ...}` and exit 2. Four report
+shapes exist, and which one appears depends on how far the sole invocation got:
+
+| Shape | When | Fields |
+|---|---|---|
+| Settled | The completion was authenticated and recorded (`merged`, `closed`, `failed` for a definite rejection, `already-merged`, `aborted`). | `operationId`, `state`, `coordinationState`, `repo`, `runId`, `number`, `headSha`, `action`, `evidenceSha256`, plus `observedState`/`mergeCommitSha`/flags when evidence exists, and `reason` for `failed`/`aborted`. |
+| Store `unknown`, **no cause** | The adapter was entered, then failed or lost its response, and the `unknown` transition **committed**. | `operationId`, `state: unknown`, `coordinationState: unknown`, `repo`, `runId`, `number`, `headSha`, `action`, `evidenceSha256: null`. No `uncertaintyCause`. |
+| `possibly-sent`, **with** `uncertaintyCause` | The adapter was entered, but the step after it (authentication, evidence validation, recording, re-reading) could not be completed. `possibly-sent` is a knowledge classification, never an observed store state. | `operationId`, `state: possibly-sent`, `coordinationState: unavailable`, `uncertaintyCause`, `evidenceSha256: null`, `repo`, `runId`, `number`, `headSha`, `action`, `reason`. |
+| `canceled-after-claim` | The claim committed, then the adapter **proved** no request byte was sent (see below). Reported as `state: failed`, `coordinationState: canceled-after-claim`. | As Settled, with a fixed `reason`. Nothing was performed. |
+
+No raw exception, response, header or token text is ever published. Neither `unknown` nor `possibly-sent` grants a retry,
+refund or replay.
 
 | `uncertaintyCause` | What could not be completed after adapter entry |
 |---|---|
 | `transport` | The response was missing or opaque (for example a non-200 reply that neither proves an effect nor a definite rejection), so completion evidence was unavailable. |
 | `completion-failed` | Completion authentication or independent outcome evidence failed validation (forged/replayed response, identity or merge-parent mismatch, or an evidence read failure). |
-| `persistence` | The shared Git/CAS transition recording the unknown or completed outcome could not be committed or confirmed. |
+| `persistence` | The shared Git/CAS transition recording the unknown or completed outcome could not be committed or confirmed, or a ledger failure occurred after the claim committed. |
 | `capacity` | The critical record had no remaining capacity to record the outcome transition. |
 | `inspection` | The outcome may have been recorded, but the shared report could not be re-read afterwards. |
 
-Handling is the same for every cause: do not resend, do not start a new run to clear the claim, and do not treat the cause as
-proof the forge did or did not act. Reconcile with `recover --operation-id ID` (or `finalize --operation-id ID`), which makes one
-bounded independent observation and never resends. An inconclusive observation quarantines the sender; it never expires.
+Handling is the same for every unsettled shape: do not resend, do not start a new run to clear the claim, and do not treat
+the cause as proof the forge did or did not act. Reconcile with `recover --operation-id ID` (or `finalize --operation-id ID`),
+which makes one bounded independent observation and never resends. An inconclusive observation quarantines the sender; it
+never expires.
+
+### Provably unsent claims (`canceled-after-claim`)
+
+A claim used to pin the single global slot forever even when nothing could have been sent (a ledger read failing after the
+claim, the live re-check refusing, or DNS/TCP/TLS failing before the first request byte). The claim result is now built from
+the committed CAS itself, so no ledger read sits between claim and send. The adapter raises `NotSent` **only** when it can
+prove no request byte was written: entry refused, the live re-check immediately before the send refused, an invalid route,
+or the HTTPS connection (DNS, TCP, TLS handshake) failed before the request was written. The coordinator then records
+`canceled-after-claim`: the slot is released, but the attempt, its run charge and its hour charge stay counted, the logical
+operation stays spent (the same subject can never be resubmitted) and there is no refund or replay. Any failure after a
+possible socket write, and any failure of the cancellation itself, stays `unknown`/`possibly-sent` exactly as before. A
+post-write exchange is also bounded in total by a 30 s watchdog (connect is bounded separately by the 20 s connect timeout
+and the system resolver); an aborted exchange is never `NotSent`.
+
+TLS trust is the system default store only. `SSL_CERT_FILE` and `SSL_CERT_DIR` overrides are refused at construction and at
+request time, in the same way inherited `GIT_*` overrides are refused.
+
+## Preparation lease, `takeover` and `abort`
+
+A prepared operation (`reserved`/`intent`) holds the single slot under a 120 s lease measured on the trusted clock. A claim
+requires the lease still live. An expired, unsent preparation can only be moved, not sent: `takeover --operation-id ID`
+re-owns it under a newer fence (at most 3 times, and only after the lease expired); the previous token can no longer claim
+(the CAS orders takeover against claim, so a race has one winner), and the new lease is another 120 s. A claimed, settled or
+cancelled operation can never be taken over. `abort --operation-id ID --reason TEXT` cancels only unsent preparation and
+records `operator abort: TEXT` (1-256 printable ASCII characters) in the shared cancel event.
+
+Anti-replay consequence: cancelling a preparation (or `canceled-after-claim`) frees the slot but not the subject. The logical
+identity (namespace, PR, head, base, action, producer, reason, replacement) is spent; the same subject cannot be reserved
+again, even by a new run. A changed head or base is a new subject.
+
+## Ceilings: a fresh run id cannot evade them
+
+The per-run ceilings (2 merges, 2 closes) are also enforced per action over the trailing hour across **all** run
+identifiers, so a new `runId` cannot reset them. Together with the 10 critical attempts/hour overall bound, an hour admits
+at most 2 merges and 2 closes under the pinned ceilings, so the overall hour bound only binds first when limits are lowered.
+A completed, rejected or `canceled-after-claim` attempt counts for one hour after its completion upper bound; unknown and
+quarantined charges never age out. Only `canceled-unsent` is refunded.
+
+## Epoch rotation runbook (administrator, audited; no agent performs it)
+
+Use only when (a) the 128-operation anti-replay cap or the byte budget is exhausted (the coordinator refuses new
+reservations rather than pruning), or (b) the single slot is genuinely wedged: an operation stays `possibly-sent`, `unknown`
+or `quarantined` and independent forge truth shows `recover` can never settle it. Records are never pruned, edited, refunded
+or retired by a timer. Nothing here is automated, no command in this repository performs it, and it has not been exercised.
+
+1. Record the decision in a founder report under `founder/reports/`: old epoch, ref tip SHA, why, and for a wedged slot the
+   independently verified forge truth of every outstanding operation (PR state, merge commit or its absence, timestamps).
+2. Stop writers. Commit `prMaintenance.killSwitch: true` through a normal protected PR and run `kill on` on every host that
+   ever ran the executor. A local kill cannot cancel another host's already-claimed sender, so confirm each host has no
+   `execute` process before continuing.
+3. Run `recover --operation-id ID` once per outstanding operation. If it settles (`observed-terminal`), that operation needs
+   no rotation. Only continue for operations the forge evidence cannot settle.
+4. Archive. Fetch the complete history of `refs/heads/steward/pr-write-coordination-v1`, store a bundle and its SHA-256 with
+   the report. History is never deleted.
+5. Rotate as the repository administrator who alone holds the protection exemption: rename the old ref on the server to
+   `refs/heads/steward/archive/pr-write-coordination-v1-<first 8 of old epoch>` (rename, never delete or force-reset) and keep
+   protection on it. Create the new single-parent genesis commit at the original ref name, whose document is the empty ledger
+   with `operations.routine19CriticalWritesV1 = {schemaVersion: "steward-pr-writes-v1", namespace: {..., epoch: <fresh
+   32 lowercase hex>}, events: []}` (the shape used by the `seed` fixture in
+   `tests/steward/prmaintenance/coordination_helpers.py`). Re-apply and verify no-delete/no-reset protection on it.
+6. Commit the new `writeCoordination.epoch`, `genesis` and `historyPin` in `POLICY.yaml` via a protected PR with independent
+   review. `ref` stays the same name.
+7. Accounting carry-over: a new epoch starts with zero charges and an empty anti-replay set, so wait at least one hour after
+   the last old-epoch charge (and after the verified forge truth for any never-aging old charge) before re-enabling, and
+   list every old-epoch subject (number, head SHA, action) in the report as spent: nobody resubmits a subject whose old
+   operation was possibly sent unless its forge truth was verified unchanged.
+8. Verify from a fresh clone: `makeExecutor(root).coordinator.inspect()` reports no operations and no active operation, the
+   `tests/steward/prmaintenance` suite passes, then `kill off` through a protected PR.
+9. Rollback: only before any new-epoch operation exists, revert the POLICY PR and rename the archive ref back. After the first
+   new-epoch record, rolling back would discard anti-replay history and must not be done.
 
 ## Replacement bookkeeping verbs (local only)
 

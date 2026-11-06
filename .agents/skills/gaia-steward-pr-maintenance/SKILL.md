@@ -82,14 +82,20 @@ report `observedState` and head/base-race flags honestly, not a still-closed ass
 
 ## Unknown outcomes
 
-`execute` exits 0 only for `merged`, `closed`, `already-merged` or `aborted`; anything else exits 2. If the sole adapter was
-entered but cannot be settled, the report has `state: possibly-sent`, `coordinationState: unavailable`, `evidenceSha256: null`
-and a sanitized `uncertaintyCause`: `transport` (opaque/missing response), `completion-failed` (authentication or independent
-evidence failed), `persistence` (shared Git/CAS could not record it), `capacity` (no record capacity left) or `inspection`
-(shared report unreadable afterwards). None of them says the forge did or did not act, and none permits retry, refund or
-replay: reconcile only with `recover --operation-id ID` / `finalize --operation-id ID`. Local replacement bookkeeping
+`execute` exits 0 only for `merged`, `closed`, `already-merged` or `aborted`; anything else exits 2, and a raw ledger failure
+is reported as `shared-route-unavailable`, never a traceback. Report shapes: store `unknown` (adapter entered, `unknown`
+committed; no `uncertaintyCause`), `possibly-sent` with a sanitized `uncertaintyCause` and `coordinationState: unavailable`
+(`transport`, `completion-failed`, `persistence`, `capacity` or `inspection`), and `failed` with
+`coordinationState: canceled-after-claim` (the adapter proved no request byte was sent: slot released, attempt and charge
+stay counted, subject stays spent). None of the unsettled shapes says the forge did or did not act, and none permits retry,
+refund or replay: reconcile only with `recover --operation-id ID` / `finalize --operation-id ID`.
+
+A preparation holds the slot under a 120 s lease. After it expires, `takeover --operation-id ID` re-owns it (at most 3 times,
+newer fence) or `abort --operation-id ID --reason TEXT` cancels it (the reason is recorded). A cancelled subject can never be
+resubmitted. A fresh run id cannot evade the per-run ceilings: they also bind per action over the trailing hour. TLS trust is
+the system store only (`SSL_CERT_FILE`/`SSL_CERT_DIR` are refused). The audited epoch-rotation runbook for a full or wedged
+record is in `founder/steward/routines/pr-maintenance.md`; an agent never performs it. Local replacement bookkeeping
 (`reconcile`, `reconcile-opened`, `reconcile-refresh`, `reconcile-retired`) never writes shared critical state.
-Details: `founder/steward/routines/pr-maintenance.md`.
 
 ## Best-effort receipts
 
