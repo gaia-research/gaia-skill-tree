@@ -2,7 +2,8 @@
 
 Exit codes: 0 prepared / terminal; 2 refused, unknown or bad input; 3 already-observed diagnostic (not shared settlement);
 5 not evaluated. Only explicit ``execute --operation-id`` may invoke the one-shot adapter. Gate output is preparation,
-recover/finalize never resend, and abort cancels only unsent preparation. Unknown may include an already-sent effect.
+recover/finalize never resend, and abort cancels only unsent preparation (its reason is recorded in the shared cancel
+event). ``takeover`` re-owns an EXPIRED unsent preparation only. Unknown may include an already-sent effect.
 """
 
 from __future__ import annotations
@@ -16,6 +17,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Sequence
 
+from gaia_cli.steward import ledger
 from gaia_cli.steward.prmaintenance import collect, coordination, gate, proofs, receipts, reconcile, roster, state
 from gaia_cli.steward.prmaintenance.census import CENSUS_INPUT
 from gaia_cli.steward.prmaintenance.producers import RegistryError, loadRegistry
@@ -103,7 +105,9 @@ def build() -> argparse.ArgumentParser:
     ab = sub.add_parser("abort", help="cancel unsent shared preparation only; never cancel a claimed sender")
     ab.add_argument("--operation-id")
     ab.add_argument("--auth", help="deprecated operation-identity file")
-    ab.add_argument("--reason", required=True)
+    ab.add_argument("--reason", required=True, help="1-256 printable ASCII characters; recorded in the shared cancel event")
+    tk = sub.add_parser("takeover", help="re-own an EXPIRED (lease 120 s) unsent preparation under a newer fence; never a claimed sender")
+    tk.add_argument("--operation-id", required=True)
     for command in ("execute", "recover"):
         execution = sub.add_parser(command, help="invoke once explicitly" if command == "execute" else "reconcile without resend")
         execution.add_argument("--operation-id", required=True)
@@ -247,6 +251,10 @@ def snapshotFor(root: Path, repo: str, number: int) -> gate.Snapshot:
     return collect.liveSnapshot(collect.ghApi, repo, number, fetch)
 
 
+SHARED_UNAVAILABLE = {"refused": "shared-route-unavailable",
+                      "message": "coordination/current authority/clock/evidence unavailable; no replay or refund"}
+
+
 def doGate(root: Path, args: argparse.Namespace, action: str) -> int:
     request = {"action": action, "repo": args.repo, "number": args.number, "expectedHeadSha": args.head,
                "producerId": args.producer, "runId": args.runId}
@@ -264,6 +272,9 @@ def doGate(root: Path, args: argparse.Namespace, action: str) -> int:
         return 3
     except gate.GateRefused as exc:
         out({"refused": exc.code, "message": exc.message}, args.json, f"refused: {exc}")
+        return 2
+    except ledger.LedgerUnavailable:
+        out(SHARED_UNAVAILABLE, args.json, f"refused: {SHARED_UNAVAILABLE['message']}")
         return 2
     except (collect.CollectError, KeyError, state.StoreError) as exc:
         out({"refused": "live-read-failed", "message": str(exc)}, args.json, f"refused: live state could not be read ({exc})")
@@ -452,10 +463,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             return doGate(root, args, "close")
         if args.action == "finalize":
             return doFinalize(root, args)
-        if args.action in {"execute", "recover", "abort"}:
+        if args.action in {"execute", "recover", "abort", "takeover"}:
             from gaia_cli.steward.prmaintenance.executor import makeExecutor
             executor = makeExecutor(root)
             operationId = operationIdentity(args)
+            if args.action == "takeover":
+                outcome = executor.takeover(operationId)
+                out(outcome, args.json)
+                return 0 if outcome["state"] in {"reserved", "intent"} else 2
             outcome = (executor.abort(operationId, args.reason) if args.action == "abort"
                        else executor.execute(operationId) if args.action == "execute" else executor.recover(operationId))
             out(outcome, args.json)
@@ -479,8 +494,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             active = state.killSwitchActive(root)
             out({"killSwitch": active}, args.json, f"kill switch: {active or 'inactive'}")
             return 0
-    except (coordination.CoordinationError, collect.CollectError) as exc:
-        out({"refused": "shared-route-unavailable", "message": "coordination/current authority/clock/evidence unavailable; no replay or refund"}, args.json)
+    except (ledger.LedgerUnavailable, collect.CollectError):
+        # CoordinationError is a LedgerUnavailable; a raw ledger fetch/CAS failure must never escape as a traceback.
+        out(SHARED_UNAVAILABLE, args.json)
         return 2
     except gate.GateRefused as exc:
         out({"refused": exc.code, "message": exc.message}, args.json, f"refused: {exc}")
