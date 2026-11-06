@@ -1,5 +1,5 @@
 {
- "generation": 776,
+ "generation": 777,
  "lane": {
   "entries": [
    {
@@ -4554,7 +4554,13 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {},
+ "leases": {
+  "run": {
+   "acquiredAt": "2026-11-06T19:57:51.761225Z",
+   "expiresAt": "2026-11-06T20:27:51.761225Z",
+   "holder": "run-20261106T195751Z-ff7af507"
+  }
+ },
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -62181,10 +62187,63 @@
    "trigger": "manual",
    "unresolvedWork": [],
    "updatedAt": "2026-11-06T19:53:29.588409Z"
+  },
+  "run-20261106T195751Z-ff7af507": {
+   "actions": [],
+   "actor": "cli",
+   "agentAssignments": [],
+   "branches": [],
+   "ciResults": [],
+   "costUsd": 0.0,
+   "decisions": [],
+   "finishedAt": null,
+   "integrationBranch": "dev/steward-campaign-2026-11-05",
+   "integrationHead": null,
+   "leases": [
+    {
+     "acquiredAt": "2026-11-06T19:57:51.761225Z",
+     "holder": "run-20261106T195751Z-ff7af507",
+     "key": "run"
+    }
+   ],
+   "mode": "full",
+   "modelIds": [],
+   "mutated": false,
+   "nextAction": "",
+   "options": {
+    "afk": false,
+    "agents": true,
+    "debt": "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5",
+    "push": false,
+    "routine": null
+   },
+   "phase": "reconcile",
+   "phases": {},
+   "proofArtifacts": [],
+   "pullRequests": [],
+   "receipts": [],
+   "runId": "run-20261106T195751Z-ff7af507",
+   "sequence": 27,
+   "sourceHead": null,
+   "startedAt": "2026-11-06T19:57:51.761225Z",
+   "status": "active",
+   "steps": [
+    {
+     "at": "2026-11-06T19:57:51.761225Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:recover"
+    }
+   ],
+   "thinkingEfforts": [],
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "trigger": "manual",
+   "unresolvedWork": []
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T19:56:47.970814Z",
+ "updatedAt": "2026-11-06T19:57:52.689385Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
