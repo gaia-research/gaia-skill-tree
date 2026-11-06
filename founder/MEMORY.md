@@ -17,6 +17,18 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-11-05, 23:30Z event — second canonical B repair confirmed)
+
+### TLDR
+- Actual B closures now **TWO**, not principal engineering-PR count. Fresh post-merge run `run-20261105T232943Z-77ad62ba` completed; receipt `steward-20261105T233031Z-dbd4cf87175ef566` explicitly marks roster debt resolved and includes it in resolvedWork. Census **A0/B324/C40=364**, zero unknown coverage, two optional inputs not evaluated.
+- Roster build97cc78632cdb271827f4818e0c9112faf4779eb5, independent native shared Terra HIGH ACCEPT,165package and15independent focused tests reported separately; #2299 green then normal integration78bf592d439e0666afe0c4cef1e89d20cb7fe0a7. The old completed recovery retained a20:46 PRE-integration scan; it was not proof of post-merge resolution. A supported fresh verify-only run reconciled the landed work without resetting attempts/phases. Roster is still **integration-only**, pending frozen protected-main promotion.
+- M1 main3cd5504e00ac… remains delivered/verified. Source/package CI passed. Built-in GitHub Pages deployment timed out; cause unknown, prior main's Pages run succeeded. [skip-gen] skips Auto-Sync, NOT independent built-in Pages. No manual deployment/rerun authorized. Tracker#2283 remains open.
+- R19 original writer finished clean17ad597ad…/fa46a693… with1165builder tests, but independent OpenAI Terra review **REJECTED** a real consumer defect: missing attached operation ID on local failure can finish local action while shared unknown slot stays held. Probe1invocation1effect; no duplicate-send/refund exploit shown. Whole audit still incomplete. New sole repair writer native openai/gpt-6.1-terra HIGH, run9f1ff851-615f-4077-8a18-e36ef3269d94, original feature worktree. Preserve old candidate/rejections; no self-acceptance, publication/activation/migration or limit relaxation.
+- Shared reset reminder fired; one actual shared Codex Terra request answered AVAILABLE, not proof every quota/model reset. Continue native subagents and28-minute batched cost/cache guards. Canonical Steward retains shared Codex; non-Steward engineering uses Terra viaopenai. Existing owners are not restarted merely to change routing. Scoutb765bac8 only nominates next safe import candidates, no dispatch/state authority.
+
+### Next
+Freeze/review/CI/protected-main delivery of accepted roster+documentation; revalidate currentmain and prevent campaign-closing links. Recover the actual R19 defect, then finish the complete independent audit and separate CLI/legacy-transition/external clock/protection/activation holds. No archive resumption or trust/L4 mutation. Read campaignCHECKPOINT after compaction; all prior memory preserved. No new campaign-total cost estimate asserted.
+
 ## State Snapshot (2026-11-05, Steward M1 delivered — protected main and native cost cadence)
 
 ### TLDR
