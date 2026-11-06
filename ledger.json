@@ -1,5 +1,5 @@
 {
- "generation": 892,
+ "generation": 893,
  "lane": {
   "entries": [
    {
@@ -3131,7 +3131,7 @@
     "state": "queued"
    },
    {
-    "attempts": 0,
+    "attempts": 1,
     "debtId": "debt:unused_import:scripts-add-post-py:812514abccebcebf",
     "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
     "history": [
@@ -3140,14 +3140,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-06T20:54:31.248700Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-46c8983b2378c458cbe8",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-11-06T20:54:31.248700Z",
     "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 0,
@@ -4581,7 +4587,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-06T20:50:57.041116Z",
-   "expiresAt": "2026-11-06T21:24:26.075194Z",
+   "expiresAt": "2026-11-06T21:26:58.198298Z",
    "holder": "run-20261106T205057Z-dc2f240c"
   }
  },
@@ -71929,7 +71935,36 @@
    "unresolvedWork": []
   },
   "run-20261106T205057Z-dc2f240c": {
-   "actions": [],
+   "actions": [
+    {
+     "debtId": "debt:unused_import:scripts-add-post-py:812514abccebcebf",
+     "emittedAt": "2026-11-06T20:54:31.248700Z",
+     "idempotencyKey": "dispatch-46c8983b2378c458cbe8:1",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/unused-import-d03344b33622",
+      "debtId": "debt:unused_import:scripts-add-post-py:812514abccebcebf",
+      "dispatchId": "dispatch-46c8983b2378c458cbe8",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/build-d03344b33622.diff",
+       "proofPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/build-d03344b33622.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/build-d03344b33622.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:d03344b33622:1",
+     "type": "agent.build"
+    }
+   ],
    "actor": "cli",
    "agentAssignments": [],
    "branches": [],
@@ -72935,6 +72970,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-11-06T20:54:31.248700Z",
+     "debtId": "debt:unused_import:scripts-add-post-py:812514abccebcebf",
+     "idempotencyKey": "dispatch-46c8983b2378c458cbe8:1",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:d03344b33622:1"
     }
    ],
    "thinkingEfforts": [],
@@ -72945,7 +72988,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-06T20:54:26.076831Z",
+ "updatedAt": "2026-11-06T20:56:58.204049Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -73412,6 +73455,36 @@
     "stage": "judged",
     "verdict": "accept"
    }
+  },
+  "debt:unused_import:scripts-add-post-py:812514abccebcebf": {
+   "assignments": [],
+   "attempt": 1,
+   "authority": "B",
+   "baseBranch": "dev/steward-campaign-2026-11-05",
+   "branch": "steward/b/unused-import-d03344b33622",
+   "build": null,
+   "createdAt": "2026-11-06T20:54:31.248700Z",
+   "debtId": "debt:unused_import:scripts-add-post-py:812514abccebcebf",
+   "dispatchId": "dispatch-46c8983b2378c458cbe8",
+   "dispatchedAt": "2026-11-06T20:54:31.248700Z",
+   "history": [
+    {
+     "at": "2026-11-06T20:54:31.248700Z",
+     "from": "queued",
+     "reason": "dispatched as dispatch-46c8983b2378c458cbe8 (attempt 1)",
+     "to": "building"
+    }
+   ],
+   "kind": "unused_import",
+   "notes": [],
+   "promptPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/build-d03344b33622.prompt.md",
+   "pullRequest": null,
+   "routine": "dead-code-gardener",
+   "runId": "run-20261106T205057Z-dc2f240c",
+   "source": "dead-code",
+   "state": "building",
+   "updatedAt": "2026-11-06T20:54:31.248700Z",
+   "verification": null
   },
   "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208": {
    "assignments": [
