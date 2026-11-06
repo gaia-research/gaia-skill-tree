@@ -501,3 +501,143 @@ def test_post_merge_diagnostic_read_failure_is_unknown_not_fake_health_or_undo(t
     result = executor.execute(operation["operationId"])
     assert result["state"] == "merged" and result["postMergeChecks"] == {"observed": False}
     assert len(forge.invocations) == len(forge.effects) == 1
+
+
+def test_git_replace_ref_cannot_turn_tampered_report_into_accepted_send(tmp_path, monkeypatch):
+    fixture = world(tmp_path, monkeypatch)
+    fx, forge, clock, executor, request, cold = fixture
+    good = request["expectedHeadSha"]
+    bad = fx.head("2026-44", tamper=True, name="adversarial-report")
+    badrow = h.row(fx, bad, "2026-44", prId="2270", repositoryId="42")
+    forge.snap = dataclasses.replace(forge.snap, row=badrow)
+    forge.fact["head"]["sha"] = bad
+    request["expectedHeadSha"] = bad
+
+    # Before replacement: bad head fails write validation
+    with pytest.raises(gate.GateRefused, match="rendered surface is not proven"):
+        gate.validateWrite(fx.root, request, forge.snap, h.utc(), "merge")
+
+    # Record fake verification for the bad head and add replacement ref bad -> good
+    state.appendRecord(fx.root, "dispatches", {"kind": "dispatch", "status": "started", "role": "verifier", "runId": "stable-run",
+        "dispatchId": "new-dispatch", "agentId": "verifier", "effort": "xhigh", "builders": ["builder"],
+        "envelope": {"subjects": [{"repo": h.REPO, "number": 2270, "headSha": bad}]}})
+    gate.recordVerification(fx.root, {"runId": "stable-run", "repo": h.REPO, "number": 2270, "action": "merge",
+        "headSha": bad, "baseSha": fx.base, "verdict": "pass", "verifier": {"agentId": "verifier", "profileId": "fixture", "effort": "xhigh"},
+        "builders": ["builder"], "proofs": [{"name": "actual fixture validation", "state": "pass"}]}, h.utc())
+    h.run(fx.root, "replace", bad, good)
+
+    # After replacement: bad head is STILL refused because proofs.git ignores replace refs
+    with pytest.raises(gate.GateRefused, match="rendered surface is not proven"):
+        gate.validateWrite(fx.root, request, forge.snap, h.utc(), "merge")
+    with pytest.raises(gate.GateRefused, match="rendered surface is not proven"):
+        prepare(fixture)
+
+    assert len(forge.invocations) == len(forge.effects) == 0
+
+
+def test_clean_head_succeeds_even_when_replacement_refs_exist(tmp_path, monkeypatch):
+    fixture = world(tmp_path, monkeypatch)
+    fx, forge, clock, executor, request, cold = fixture
+    good = request["expectedHeadSha"]
+    bad = fx.head("2026-44", tamper=True, name="adversarial-dummy")
+    h.run(fx.root, "replace", bad, good)
+
+    operation = prepare(fixture)
+    result = executor.execute(operation["operationId"])
+    assert result["state"] == "merged"
+    assert len(forge.invocations) == len(forge.effects) == 1
+
+
+@pytest.mark.parametrize("override_var", [
+    "GIT_REPLACE_REF_BASE", "GIT_GRAFT_FILE", "GIT_COMMON_DIR",
+    "GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",
+    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+])
+def test_inherited_git_overrides_refuse_at_service_boundary(tmp_path, monkeypatch, override_var):
+    fixture = world(tmp_path, monkeypatch)
+    fx, forge, clock, _, request, _ = fixture
+    monkeypatch.setenv(override_var, "/nonexistent/override")
+    with pytest.raises(core.CoordinationError, match="inherited Git object/worktree overrides"):
+        ex.ProductionServices(fx.root, request, forge, clock)
+
+
+def test_env_selected_replacement_namespace_cannot_bypass_object_reads(tmp_path, monkeypatch):
+    fixture = world(tmp_path, monkeypatch)
+    fx, forge, clock, executor, request, cold = fixture
+    good = request["expectedHeadSha"]
+    bad = fx.head("2026-44", tamper=True, name="adversarial-report-custom-ns")
+    badrow = h.row(fx, bad, "2026-44", prId="2270", repositoryId="42")
+    forge.snap = dataclasses.replace(forge.snap, row=badrow)
+    forge.fact["head"]["sha"] = bad
+    request["expectedHeadSha"] = bad
+
+    # Set up custom replacement ref under refs/custom/
+    h.run(fx.root, "update-ref", f"refs/custom/{bad}", good)
+    monkeypatch.setenv("GIT_REPLACE_REF_BASE", "refs/custom/")
+
+    # Service refuses to initialize with inherited override
+    with pytest.raises(core.CoordinationError, match="inherited Git object/worktree overrides"):
+        ex.ProductionServices(fx.root, request, forge, clock)
+
+    # proofs.git sanitizes GIT_REPLACE_REF_BASE and uses --no-replace-objects, refusing bad head
+    with pytest.raises(gate.GateRefused, match="rendered surface is not proven"):
+        gate.validateWrite(fx.root, request, forge.snap, h.utc(), "merge")
+    assert len(forge.invocations) == len(forge.effects) == 0
+
+
+def test_coordination_store_and_history_immune_to_replacement_refs(tmp_path, monkeypatch):
+    from gaia_cli.steward.ledger import GitRefLedgerStore, empty_ledger, serialize
+    root = tmp_path / "ledger_replace"
+    root.mkdir()
+    h.run(root, "init")
+    h.run(root, "config", "user.name", "Test")
+    h.run(root, "config", "user.email", "test@test.com")
+    bare = tmp_path / "ledger_bare.git"
+    h.run(tmp_path, "init", "--bare", str(bare))
+    h.run(root, "remote", "add", "origin", str(bare))
+
+    store = GitRefLedgerStore(root, ref=core.REF)
+    doc1 = empty_ledger()
+    doc1["runs"] = {"r1": {"runId": "r1", "status": "authentic"}}
+    c1 = store.compare_and_swap(None, doc1, "genesis")
+    assert store.load()[0]["runs"]["r1"]["status"] == "authentic"
+
+    # Create a tampered commit replacing c1 in refs/replace
+    doc_bad = empty_ledger()
+    doc_bad["runs"] = {"r1": {"runId": "r1", "status": "tampered"}}
+    doc_bad["generation"] = 1
+    blob = store.plumb(["hash-object", "-w", "--stdin"], stdin=serialize(doc_bad))
+    tree = store.plumb(["mktree"], stdin=f"100644 blob {blob}\tledger.json\n".encode())
+    c_bad = store.plumb(["commit-tree", tree, "-m", "bad"], identity=True)
+    h.run(root, "replace", c1, c_bad)
+
+    # store.load() uses --no-replace-objects and safeGitEnv; loads authentic commit
+    loaded, loaded_sha = store.load()
+    assert loaded["runs"]["r1"]["status"] == "authentic"
+    assert loaded_sha == c1
+
+
+def test_canonical_source_authority_immune_to_replacement_refs(tmp_path, monkeypatch):
+    import subprocess, os
+    fixture = world(tmp_path, monkeypatch)
+    fx, forge, clock, executor, request, cold = fixture
+    service = executor.coordinator.services
+
+    # Create a replaced commit for fx.base in refs/replace with a modified POLICY.yaml
+    tampered_policy = (fx.root / "founder/steward/POLICY.yaml").read_text() + "\n# tampered\n"
+    blob = subprocess.run(["git", "-C", str(fx.root), "hash-object", "-w", "--stdin"],
+                          input=tampered_policy, text=True, capture_output=True, check=True).stdout.strip()
+    idx = str(tmp_path / "temp_idx")
+    temp_env = dict(os.environ, GIT_INDEX_FILE=idx)
+    subprocess.run(["git", "-C", str(fx.root), "read-tree", fx.base], env=temp_env, check=True)
+    subprocess.run(["git", "-C", str(fx.root), "update-index", "--add", "--cacheinfo", "100644", blob, "founder/steward/POLICY.yaml"], env=temp_env, check=True)
+    tree = subprocess.run(["git", "-C", str(fx.root), "write-tree"], env=temp_env, capture_output=True, text=True, check=True).stdout.strip()
+    c_bad = subprocess.run(["git", "-C", str(fx.root), "commit-tree", tree, "-p", fx.base, "-m", "bad base"],
+                           capture_output=True, text=True, check=True,
+                           env={"GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@e.com", "GIT_COMMITTER_NAME": "t", "GIT_COMMITTER_EMAIL": "t@e.com"}).stdout.strip()
+    h.run(fx.root, "replace", fx.base, c_bad)
+
+    # sourceTexts verifies committed blobs at fx.base; because proofs.blob uses --no-replace-objects,
+    # it reads the authentic blob matching the local file, not the tampered replacement
+    texts, policy, commit = service.sourceTexts()
+    assert core.digest(texts["policy"]) == core.digest((fx.root / "founder/steward/POLICY.yaml").read_text())
