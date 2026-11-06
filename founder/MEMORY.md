@@ -17,6 +17,13 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-11-06, composed regression failure preserved; DSFlash completion)
+
+- Parentjob b9d8ee9c3 finishedFAIL2026-11-06T11:22:44Z onimmutable **31a9a59b9c978db19fd9a451ca310844d1dc401e/tree02ce5633db8c56d20110af15f658f1653f1f9088**. Alltrackedhashbefore/afterbindings preserved, normalplugins/60s-threadguard, rawcommands/logs/JUnit/explicitexits retained. Per-groupresults ONLY: proofgate58pass; executor58pass/3fail; runnerfullrun89pass; coordination76pass/2fail; ledgerdriver177pass; no skips. Notacceptance, noaggregateclaim.
+- Fivefailures arechangeduncertainty/errorcontracts: executor head/base/parents mismatchprobes expectedCoordinationError nowreturneduncertainty; invalidcompletion expected'exact invocation'diagnostic nowgenericInvocationUncertain; onebyteoverflowboundary expectedRefusedcapacity nowInvocationUncertain. These doNOTestablishduplicateeffects, butcandidateisnotgreen. Noautomaticregexweakening orassertionremoval allowed. DurableR19_COMPOSED_REGRESSIONS_31A9.json recordsexactfailures.
+- IndependentDSFlash8f321497 continuesread-onlyon31a9 andreceivedrawfailuresteer. Newsolewriter **b743bf80-30c2-49fd-80a0-4bc1e7710d67**, branchdev/steward-r19-uncertainty-contract-2283 at31a9 in separateworktree, handlesonlycoherentcontractcompletion andstrictbeforeaftercontrols; Parentownsnewlonggroupsafterfreeze. Actualinitialassistantdeepseek/deepseek-flash/apiopenai-completionsverified, session01a1b09a-976a-70d9-bea7-2ea5f669e069; requestedmedium/journalhigh disclosed. Nootherwriteractive. Anyproviderrefusalstops, no fallback/nesting/liveeffects. Original314/b69andreviewed31a9unchanged.
+- F3best-effortcomment-WRITES ruling remainsratifiedonly; durableverification/justification/effectevidence/reads/sharedGitCAS stillmandatory. F4 andCLI/transition/provisioning/drain/activation holds unchanged. CanonicalCI-churneditexceptionfalse/attempt1pending; canonicalrepairs2/main2. Timerb610761c0 armedforbatchedcollection, notwaitingpolls.
+
 ## State Snapshot (2026-11-06, F3 ratified; F1/F2 composition under test; DSFlash roster)
 
 - Founder F3 reply verbatim: **"git is best effort, not preconditions"**, answering postedGitHubreceipt/comment-WRITES question. Committed/pushed41f79697a BEFORELeadupdated authorityevidence/recommended/unblocks only onisolatedbranch72aba66351dd0395073220131fad8e80878643b2. Allpriorratificationpreserved. Durableindependentverification/preclosejustification/authenticeffectevidence/requiredholdreads/checks and sharedGitCAS/history staymandatory. Noactivation/CLI/CI-churneditgrant. PENDING_R19_RECEIPT_RULING.json nowdecided, developmentnotliveeffective.

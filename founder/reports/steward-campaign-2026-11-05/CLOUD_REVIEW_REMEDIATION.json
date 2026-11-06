@@ -77,7 +77,11 @@
     "technicalRuntimeUnchanged": true,
     "longTests": {
       "task": "b9d8ee9c3",
-      "status": "launched_pending_collection"
+      "status": "completed_failed",
+      "exit": 1,
+      "failureCount": 5,
+      "sourceBindingsPreserved": true,
+      "receipt": "R19_COMPOSED_REGRESSIONS_31A9.json"
     },
     "boundedIndependentReview": {
       "run": "8f321497-375a-4577-b461-de1a019c9e11",
@@ -95,5 +99,16 @@
     "verbatim": "git is best effort, not preconditions",
     "decisionBeforeActionCommit": "41f79697a",
     "clarificationCommit": "72aba66351dd0395073220131fad8e80878643b2"
+  },
+  "regressionCompletion": {
+    "run": "b743bf80-30c2-49fd-80a0-4bc1e7710d67",
+    "agent": "worker-dsflash",
+    "branch": "dev/steward-r19-uncertainty-contract-2283",
+    "base": "31a9a59b9c978db19fd9a451ca310844d1dc401e",
+    "actualInitialProvider": "deepseek",
+    "actualInitialModel": "deepseek-flash",
+    "requestedThinking": "medium",
+    "initialThinkingJournal": "high",
+    "status": "active_noAcceptance"
   }
 }
