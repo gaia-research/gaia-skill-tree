@@ -1,5 +1,5 @@
 {
- "generation": 1275,
+ "generation": 1276,
  "lane": {
   "entries": [
    {
@@ -5592,7 +5592,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T09:25:26.530962Z",
-   "expiresAt": "2026-11-07T10:48:35.651888Z",
+   "expiresAt": "2026-11-07T10:48:42.836178Z",
    "holder": "run-20261107T092526Z-c6c6c44d"
   }
  },
@@ -99071,7 +99071,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-07T10:09:18.294158Z",
+    "asOf": "2026-11-07T10:18:41.142782Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -99474,6 +99474,26 @@
       "subject": "debt:unused_import:scripts-prepare-l4-october-py:bd894a0b5a6223f2"
      },
      {
+      "detail": "independent verification by pi-herdr-batch5-verifier-d179e1da2ecc (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:scripts-steward-issue-reconcile-py:8ed5a1f9ac67ba3f"
+     },
+     {
+      "detail": "independent verification by pi-herdr-batch5-verifier-01bdcf8a1d9c (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe"
+     },
+     {
+      "detail": "independent verification by pi-herdr-batch5-verifier-6daedf9b733f (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e"
+     },
+     {
+      "detail": "independent verification by pi-herdr-batch5-verifier-e32db45574f4 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:scripts-upstream-watcher-transport-py:f9f55b2634428ef3"
+     },
+     {
       "detail": "last scheduled run was 127h ago (limit 48h).",
       "kind": "stale_schedule",
       "subject": "scheduled run"
@@ -99487,7 +99507,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-11-07T10:18:41.142782Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -99495,6 +99515,14 @@
    },
    "integrationBranch": "dev/steward-campaign-2026-11-05",
    "integrationHead": "2c3f37b8292769e0e3f71313518c8071259c3aa4",
+   "issueBacklog": {
+    "botOpen": 2,
+    "closedThisRun": 0,
+    "closedTotal": 0,
+    "openIssues": 224,
+    "readyWritesDisabled": 2,
+    "upstreamChildOpen": 72
+   },
    "leases": [
     {
      "acquiredAt": "2026-11-07T09:25:26.530962Z",
@@ -99507,7 +99535,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "perform 4 pending action(s) (lead.integrate), record each with `gaia steward full record run-20261107T092526Z-c6c6c44d <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T092526Z-c6c6c44d`",
    "options": {
     "afk": false,
     "agents": true,
@@ -99519,7 +99547,7 @@
     "push": false,
     "routine": 1
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -102340,7 +102368,7 @@
    "sequence": 40,
    "sourceHead": "2c3f37b8292769e0e3f71313518c8071259c3aa4",
    "startedAt": "2026-11-07T09:25:26.530962Z",
-   "status": "active",
+   "status": "awaiting-action",
    "steps": [
     {
      "at": "2026-11-07T09:25:26.530962Z",
@@ -102555,6 +102583,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-11-07T10:18:41.142782Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -102568,7 +102602,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T10:18:35.652021Z",
+ "updatedAt": "2026-11-07T10:18:42.836336Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
