@@ -1,5 +1,5 @@
 {
- "generation": 1413,
+ "generation": 1414,
  "lane": {
   "entries": [
    {
@@ -5742,7 +5742,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T14:20:56.103570Z",
-   "expiresAt": "2026-11-07T14:52:45.894508Z",
+   "expiresAt": "2026-11-07T14:52:50.814376Z",
    "holder": "run-20261107T115111Z-802da939"
   }
  },
@@ -111039,7 +111039,7 @@
     "push": false,
     "routine": 1
    },
-   "phase": "class_b",
+   "phase": "verify",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -111052,38 +111052,9 @@
      "status": "ok"
     },
     "class_b": {
-     "dispatchId": "dispatch-ff0ed71b61bad114dc87",
-     "dispatched": "debt:unused_import:scripts-steward-issue-reconcile-py:8ed5a1f9ac67ba3f",
-     "dispatchedAll": [
-      {
-       "dispatchId": "dispatch-ff0ed71b61bad114dc87",
-       "dispatched": "debt:unused_import:scripts-steward-issue-reconcile-py:8ed5a1f9ac67ba3f",
-       "stepId": "build:d179e1da2ecc:2"
-      },
-      {
-       "dispatchId": "dispatch-6847593639a1b68774d5",
-       "dispatched": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
-       "stepId": "build:01bdcf8a1d9c:2"
-      },
-      {
-       "dispatchId": "dispatch-c014cb105fdf43f2f948",
-       "dispatched": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
-       "stepId": "build:6daedf9b733f:2"
-      },
-      {
-       "dispatchId": "dispatch-c475fcc30286619c27c0",
-       "dispatched": "debt:unused_import:scripts-upstream-watcher-transport-py:f9f55b2634428ef3",
-       "stepId": "build:e32db45574f4:2"
-      },
-      {
-       "dispatchId": "dispatch-230073e704ad73648da5",
-       "dispatched": "debt:unused_import:src-gaia-cli-steward-workflowproof-py:ce3a82469342146f",
-       "stepId": "build:e1ea235755db:1"
-      }
-     ],
-     "status": "awaiting-build",
-     "stepId": "build:d179e1da2ecc:2",
-     "stopReason": "3 queued debt(s) are still inside the 3600s cooldown after a rejected attempt"
+     "dispatched": null,
+     "reason": "this run already dispatched 5 (maxDispatchesPerRun 8)",
+     "status": "ok"
     },
     "observe": {
      "authorityCounts": {
@@ -112171,6 +112142,12 @@
      "kind": "agent.build",
      "status": "done",
      "stepId": "build:e1ea235755db:1"
+    },
+    {
+     "at": "2026-11-07T14:22:49.937965Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_b"
     }
    ],
    "thinkingEfforts": [
@@ -112184,7 +112161,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T14:22:45.895562Z",
+ "updatedAt": "2026-11-07T14:22:50.814545Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
