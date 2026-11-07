@@ -80,8 +80,9 @@ compatibility must be handled separately before adopting this source.
 
 `execute` exits 0 only for a settled `merged`, `closed`, `already-merged` or `aborted` report; every other outcome exits 2
 (`takeover` exits 0 only when it re-owned the preparation). A raw coordination/ledger failure never escapes as a traceback: `gate-*`, `execute`,
-`recover`, `finalize`, `abort` and `takeover` report `{"refused": "shared-route-unavailable", ...}` and exit 2. Four report
-shapes exist, and which one appears depends on how far the sole invocation got:
+`recover`, `finalize`, `abort` and `takeover` report `{"refused": "shared-route-unavailable", ...}` and exit 2. A freshly
+entered invocation produces one of four shapes, depending on how far it got; the inspection, prepared and unresolved reports
+listed after the table are separate and are never a send grant:
 
 | Shape | When | Fields |
 |---|---|---|
@@ -89,6 +90,14 @@ shapes exist, and which one appears depends on how far the sole invocation got:
 | Store `unknown`, **no cause** | The adapter was entered, then failed or lost its response, and the `unknown` transition **committed**. | `operationId`, `state: unknown`, `coordinationState: unknown`, `repo`, `runId`, `number`, `headSha`, `action`, `evidenceSha256: null`. No `uncertaintyCause`. |
 | `possibly-sent`, **with** `uncertaintyCause` | The adapter was entered, but the step after it (authentication, evidence validation, recording, re-reading) could not be completed. `possibly-sent` is a knowledge classification, never an observed store state. | `operationId`, `state: possibly-sent`, `coordinationState: unavailable`, `uncertaintyCause`, `evidenceSha256: null`, `repo`, `runId`, `number`, `headSha`, `action`, `reason`. |
 | `canceled-after-claim` | The claim committed, then the adapter **proved** no request byte was sent (see below). Reported as `state: failed`, `coordinationState: canceled-after-claim`. | As Settled, with a fixed `reason`. Nothing was performed. |
+
+Other reports `execute` and `takeover` can return, all produced without entering the adapter:
+
+| Report | When | Notes |
+|---|---|---|
+| Inspection of a persisted sender | `execute` finds the operation already `possibly-sent`, `unknown`, `quarantined` or terminal (for example after a restart). | The raw store state is reported (`state` equals `coordinationState` for the unsettled ones) and there is **no** `uncertaintyCause`: the cause is only known to the process that entered the adapter. Terminal states use the Settled shape. |
+| Prepared | `execute` could not commit a claim (unresolved acknowledgement), or `gate-*` returns the prepared operation. | `state: reserved`/`intent`; after an unresolved claim `commitStatus: unresolved` is added. Not a send grant and not success. |
+| `takeover` | The preparation lease was re-owned, or not. | Success is only a `reserved`/`intent` report whose owner is the new owner under a newer fence, with exit 0. An unresolved acknowledgement adds `commitStatus: unresolved`; a transition that changed nothing adds `commitStatus: not-taken-over`; both exit 2. |
 
 No raw exception, response, header or token text is ever published. Neither `unknown` nor `possibly-sent` grants a retry,
 refund or replay.
@@ -116,8 +125,9 @@ or the HTTPS connection (DNS, TCP, TLS handshake) failed before the request was 
 `canceled-after-claim`: the slot is released, but the attempt, its run charge and its hour charge stay counted, the logical
 operation stays spent (the same subject can never be resubmitted) and there is no refund or replay. Any failure after a
 possible socket write, and any failure of the cancellation itself, stays `unknown`/`possibly-sent` exactly as before. A
-post-write exchange is also bounded in total by a 30 s watchdog (connect is bounded separately by the 20 s connect timeout
-and the system resolver); an aborted exchange is never `NotSent`.
+post-connect exchange is also bounded in total by a 30 s watchdog that shuts down the retained connected socket, including
+for `Connection: close` and HTTP/1.0 responses whose body outlives the connection object (connect is bounded separately by
+the 20 s connect timeout and the system resolver, which the watchdog does not cover); an aborted exchange is never `NotSent`.
 
 TLS trust is the system default store only. `SSL_CERT_FILE` and `SSL_CERT_DIR` overrides are refused at construction and at
 request time, in the same way inherited `GIT_*` overrides are refused.
@@ -167,10 +177,17 @@ or retired by a timer. Nothing here is automated, no command in this repository 
    `tests/steward/prmaintenance/coordination_helpers.py`). Re-apply and verify no-delete/no-reset protection on it.
 6. Commit the new `writeCoordination.epoch`, `genesis` and `historyPin` in `POLICY.yaml` via a protected PR with independent
    review. `ref` stays the same name.
-7. Accounting carry-over: a new epoch starts with zero charges and an empty anti-replay set, so wait at least one hour after
-   the last old-epoch charge (and after the verified forge truth for any never-aging old charge) before re-enabling, and
-   list every old-epoch subject (number, head SHA, action) in the report as spent: nobody resubmits a subject whose old
-   operation was possibly sent unless its forge truth was verified unchanged.
+7. Accounting carry-over and old senders. A new epoch starts with zero charges and an EMPTY anti-replay set, and nothing in
+   code carries the old subjects forward: listing them in the report does not enforce anything. Therefore:
+   - An old operation still `possibly-sent`, `unknown` or `quarantined` is never retired by waiting, by an unchanged or
+     negative forge observation, or by stopping local processes. No platform bound exists on an already accepted or queued
+     GitHub PATCH/PUT, which is exactly why `recover` refuses to retire a close sender from an open/closed GET. Rotation with
+     such an operation outstanding requires EITHER authentic completion or absorbing proof (a matching merge) retiring it
+     first, OR a separately ratified founder risk decision that cites an actual server-side drain guarantee. Without one of
+     these, rotation is not authorized and the slot stays held.
+   - When every old operation is terminal (the cap-exhaustion case), wait at least one hour after the last old charge
+     before re-enabling, because the new epoch forgets the hourly accounting. List the old subjects as spent in the report;
+     the gate still re-proves live head, state and eligibility, but the coordinator will not block their resubmission.
 8. Verify from a fresh clone: `makeExecutor(root).coordinator.inspect()` reports no operations and no active operation, the
    `tests/steward/prmaintenance` suite passes, then `kill off` through a protected PR.
 9. Rollback: only before any new-epoch operation exists, revert the POLICY PR and rename the archive ref back. After the first
