@@ -1,5 +1,50 @@
 # Gaia Steward Full — governing campaign checkpoint
 
+## RESTART STATE — Herdr/macOS, Lead Claude Opus 5.5 (read this block first after any compaction)
+
+Restart directive: founder prompt 2026-11-06 + `handoff/steward-campaign-restart-2283` (4d69206e6) HANDOFF.md. Mission unchanged: make the backlog smaller via canonical repairs delivered to protected main. R19, archive #2287, release, issue-write and activation remain PARKED. Lead alone writes the shared Git ledger (`refs/heads/steward/ledger`).
+
+**Roster (live, verified 2026-11-06):** herdr panes, one pi harness per lane, provider `openai-codex`: builder + independent verifier = `gpt-6-luna:medium` (separate agents, separate worktrees); demanding review = `gpt-6.1-terra`; complex = `gpt-6.1-sol`; escalation = `gpt-6-astra`. Packet `allowedModels` includes `pi`; outcomes record `model: pi` with the actual provider/model in summary. Non-Steward engineering: Claude inline. Founder switches `openai-codex`/`openai` on quota exhaustion; on no quota, pause.
+
+**Founder rulings 2026-11-06 (later, binding; full verbatim in founder/steward/decisions/):** (a) `steward-class-b-throughput-2026-11-06` — lane caps 8/8 (code cap finite at 8), batched pi lane leads with builder/verifier subagents; landed via #2313. (b) Standing go: deliver verified PRs to main with a GitHub receipt (used for #2308). (c) `steward-credential-reconciliation-2283` — 39 credential findings become individually verified canonical dispositions under D1–D3; no per-finding founder question; real/ambiguous/changed stays C. (d) `steward-routine19-activation-2283` — R19 activation authorized once readiness is independently green; separate native-Claude lane; does not outrank debt burn-down; no new merge/close/trust authority. Priority unchanged: Steward debt burn-down first.
+
+**FOUNDER RULINGS 2026-11-08 (recorded verbatim in FOUNDER_RULINGS_2026-11-08.md; decided records steward-founder-authorization-2026-11-08, steward-verification-reverify-2283, steward-upstream-batch-activation-2283, steward-ledger-capacity-64mib-2283, steward-class-b-route-authority-2283):** two lanes (Steward on openai/openai-codex owns the burn; Flash leads non-Steward engineering with a terra reviewer). R1 reverify six batch-4 escalations + batch.py `re` against an attributable baseline (no blanket bypass). R2 controlled upstream batching activation (gstack 404 reconcile, no-write bootstrap, restore/rollback validation, V2 -> INITIALIZED -> weekly, monitor two weekly windows). R3 GAIA_STEWARD_LEDGER_MAX_BYTES=67108864 for every authorized reader/writer; monitor latency/CAS/bytes per batch; #2287 stays parked. R4 standing Class B route authority after independent acceptance, with per-kind safeguards. State at recording: 30 canonical B repairs resolved, all on protected main (waves 5-8: #2349 #2354 #2360 #2365); census A1/B293/C77 (receipt steward-20261107T144637Z-11ae229e4efba8e4).
+
+**PAUSED SNAPSHOT (2026-11-07 ~04:45Z) — founder paused all dispatch; awaiting a NEW ROSTER. Resume here:**
+- **Debt:** 17 canonical Class B repairs resolved, all 17 on protected main (#2297, #2300, #2308, wave 4 #2346 merge 6c540705a). Census A1/B305/C39 (receipt steward-20261107T032145Z-48b5289f616cb9a5).
+- **Batch 4 run run-20261107T032809Z-31f4a5be (lease may still be held/awaiting-action):** 6/8 builds RECORDED (jev_advisory a2, quick_validate_skill a2, test_heartbeat_regression, scripts/lib/tests/test_lib, merge_gate_check, run_meta_sweep). NOT recorded: migrate_taxonomy_v6 (e0d433df12da), prepare_l4_october (a25b268aaa3e) — blocked on no focused test; smoke tests now in PR #2348 (UNREVIEWED). Next: review+merge #2348 into campaign, reset those two worktrees to the new tip, re-dispatch same attempt, record, then resume -> 8 verifiers -> integrate accepts -> post-merge --verify. Worktrees: scratchpad/wt-batch4-<id>; rows scratchpad/batch4-rows.json.
+- **Exhausted (2 attempts):** add_hermes_batch, check_rank_vocabulary. Cooldown attempt-1 rejects: skillsmp crawler, generateProfilePages.
+- **Lane-2 PR states (all authors paused, work pushed):**
+  - #2320 upstream staging: **pi ACCEPT round 5 at 7348798710** -> integrate to campaign, ship to main, then dry run (apply=false staging=weekly staging_bootstrap=true, zero writes) and set repo vars UPSTREAM_BATCH_STAGING=weekly + UPSTREAM_STAGING_INITIALIZED=true (founder: "aim is to turn it on").
+  - #2340 embeddings/render refresh (main): pi PASS; branch updated; merge after CI.
+  - #2336 drop dead CF dispatch (main): pi PASS; branch updated; merge after CI (fixes #2322).
+  - #2348 smoke tests 2 (campaign): unreviewed.
+  - #2323 trust restamp: head d22472c5 (round-5 fix: guard inside writer body); needs suite run + PR body (lead ruled B2 accepted) + re-review.
+  - #2329 browser/census/desk: head da383e1ad (exit 3/4/5 + workflow reads completeness); needs suite + re-review.
+  - #2330 issue hygiene: head 62c19fb1f (closed-batch verdict before proofs); needs suite + re-review; author asks to confirm registry-proven closure of a matched duplicate may proceed.
+  - #2315 Class C consumer: head 439d86e8d (language-evaluated routing; full post-diff JSON stamp check); 65 commits behind campaign; needs suite, B/C recount (expect sync-artifacts B, test_jev C), re-review.
+  - #2332 workflow-timeout route: Sol round-3 review never wrote a verdict (provider churn) -> re-run review at 320adc41.
+  - R19: #2347 integrated (shared ledger preserved); NOT activated (readiness row 8 provisioning missing).
+- **pi:** all steward session jsonl archived to ~/.pi/agent/backups/steward-2026-11-07/archive/{builders,verifiers,reviews,misc}.tar.gz (+MANIFEST.json, 73 jsonl verified) and originals removed; all herdr lane panes/tabs closed (only w2H:p1 MAIN remains). Pools at pause: openai-codex exhausted (~02:26Z), openai working.
+- **Tooling (scratchpad, keep):** census.sh (GH_TOKEN from gh auth token, both censuses), lane-batch-nolead.sh, make_rows.py, row-build.sh (MODEL env), row-verify.sh (VMODEL env), record_ids.py (NORESUME), batch_verify_record.py (attempt-aware), batch_integrate.py (attempt-aware), qa_rows2.py (skips packet-sanctioned `statement` entries), brief-b2.md (strict proof recipe).
+
+**Founder rulings batch 1 + final (2026-11-06):** #2–#14 all decided and recorded verbatim in founder/steward/decisions/ (#2 remove gaiabot/repo-docs-before-pr; #3 merge #2235 this pass; #4 headless default, real browser run-scoped OFF; #5 closed-count baseline + telemetry; #6 closed umbrella = done epic, follow-ups HIGH-PRIORITY; #7 founder desk lists all open records; #8 event-driven restamp; #9 keep #1981 closed, audit; #10 A1–A5 ratified, rollout after verification with switches satisfied; #11 trust_evidence_gap; #12 upstream batching; #13 calibrate workflow-skill-creator to actual rank, stays named; #14 workflow timeout Class B route + Cloudflare attribution research). Approved ≠ implemented ≠ landed: implementation runs as native-Claude Lane 2 PRs, each independently verified. Credential findings: v2 finding-level binding + B/C routing in #2315 (38 B / 1 C).
+
+**Operating lessons:** (1) refresh `scripts/steward_pr_census.py` before every run/resume (own PRs make pr-maintenance coverage unknown -> exit 3); a blocked run's built work is adopted by `run --verify`. (2) Builder briefs carry the stdlib side-effect-absence proof recipe (else Luna stops on `sideEffectPossible`). (3) Verifier briefs quote the packet rule that item 4 is discharged by the verifier (else circular reject). (4) Canonical resolution = post-merge `run --verify` receipt with the debt in `resolvedWork`.
+
+| Measure | State |
+|---|---|
+| Canonical B repairs resolved | 5: issuehygiene/reconcile.py, prmaintenance/roster.py, scripts/ci_churn.py, prmaintenance/evaluate.py (`json`; #2309 merge 366bcdb89; receipt steward-20261106T171835Z-0c7e5334ebdae63a), curation/evaluation.py (`copy`; #2310 merge a8beebce8; receipt steward-20261106T181100Z-2ff3fda83819f564) |
+| Delivered to protected main | 2 (#2297, #2300). #2308 (ci_churn wave, head e7c5f6d56) open: independent Luna ACCEPT, all checks green, CLEAN; AWAITING FOUNDER MERGE GO. Repairs 4-5 ride the next wave. |
+| Census | A0/B319/C40 at steward-20261106T181100Z-2ff3fda83819f564 (optional browser/ci/advisory/test-history inputs absent, not healthy) |
+| Class C (M2) | pi Terra read-only pass: all 39 credential findings map to existing D1/D2/D3 disposition rows (docs/agents/security/2283-dispositions.json) with evidence matching current source; no suspected live credential. Blocker: the sensor has no mechanism to consume a per-finding decided disposition. Narrow fix proposed (exact debt id+path+pattern+fingerprint+source-hash match; anything else stays C) — AWAITING FOUNDER AUTHORIZATION. #2235 routine-PR finding = held draft, existing hold. 0 canonical C dispositions recorded so far. |
+| Next B queue | shadowCorpus.py copy (dispatch 3 in flight), quick_validate_skill.py os, jev_advisory.py os, then remaining stdlib unused imports. Excluded: embeddings.py/semantic_search.py re-exports, main.py Command, weekly-report imports, crawler/watcher package imports. |
+| Cost (observable) | pi workers ~$0.20 total so far (pane status lines, subscription-metered); Lead Opus spend not separately metered here. |
+
+---
+
+## Prior checkpoint (Termux/Pi era, historical)
+
 Tracking: [#2283](https://github.com/gaia-research/gaia-skill-tree/issues/2283). Lead: **Sol High**. Environment: **Pi / Termux**.
 
 **After compaction, read this checkpoint before reprioritizing.** Then refresh the live ledger, this issue and active ownership. Do not restart an existing writer or infer a debt closure from a merged PR.

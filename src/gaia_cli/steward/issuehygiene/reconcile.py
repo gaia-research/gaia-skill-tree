@@ -16,6 +16,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from dataclasses import dataclass
 from typing import Any, Mapping
 
 from gaia_cli.steward.issuehygiene.census import closedOnlyIncomplete, COMPLETE, Census, validateCensus
@@ -64,6 +65,16 @@ STATE_HELD = "held"
 STATE_NOT_EVALUATED = "not-evaluated"
 CLOSABLE_STATES = (STATE_RESOLVED, STATE_SUPERSEDED, STATE_DUPLICATE)
 RULE_STATE = {RULE_A1: STATE_RESOLVED, RULE_A2: STATE_RESOLVED, RULE_A3: STATE_SUPERSEDED, RULE_A4: STATE_DUPLICATE, RULE_A5: STATE_RESOLVED}
+
+# Founder ruling #6 (steward-closed-umbrella-disposition): a closed upstream umbrella is a completed epic.
+PRIORITY_HIGH = "high"
+CLOSEOUT_OPTIONS = ("reconcile-missed-work", "record-intentional-disposition", "defer")
+CLOSEOUT_DISPOSITION = "preserve-closure-investigate-reconcile"
+CLOSEOUT_RECOMMENDATION = "reconcile-missed-work"
+CLOSEOUT_BASIS = (
+    "a closed umbrella is a completed epic; a follow-up or a contradiction is a signal that something was missed, "
+    "so the closure is preserved and the gap is reconciled explicitly, never papered over"
+)
 
 ORPHAN_REASONS = frozenset({"no-parent-reference", "parent-closed", "parent-not-open", "parent-not-umbrella"})
 SUITE_PREFIX = "upstream-suite:"
@@ -210,6 +221,13 @@ class Context:
         self.closedSuite: dict[int, str] = {}
         self.mergedSyncs: list[dict] = []
         self.closedNumbers: set[int] = set()
+        self.closedUmbrellas: dict[int, "ClosedUmbrella"] = {}
+        # open umbrella number -> closed umbrella number whose batch it repeats
+        self.closedBatchOf: dict[int, int] = {}
+        # closed umbrella number -> (candidate id, evidence repo, slug) of its closed child intakes, lower-cased. This is
+        # the authoritative full identity a legacy slug-only batch row lacks, when the census still holds that child.
+        self.closedChildren: dict[int, list[tuple[str, str, str]]] = {}
+        self.closeoutEvaluation: dict[str, Any] = {"status": "evaluated", "reasons": []}
         # True when closed history is unavailable: nothing may be proven closable, everything else still reconciles.
         self.closedUnavailable = False
 
@@ -659,6 +677,282 @@ def evaluateBot(ctx: Context, draft: Draft) -> None:
     addQuestion(ctx, draft, QUESTION_GH_AW, QUESTION_GH_AW_OPTIONS)
 
 
+# ----------------------------------------------------------------- closed umbrellas (founder ruling #6)
+
+@dataclass(frozen=True)
+class ClosedUmbrella:
+    """A recently closed upstream umbrella: a completed epic, with the facts needed to detect a missed follow-up."""
+
+    number: int
+    kind: str
+    key: str
+    suite: str | None
+    version: str | None
+    stateReason: str | None
+    closedAt: str | None
+    candidateIds: frozenset | None
+    childRefs: tuple[int, ...]
+    identityReasons: tuple[str, ...]
+    # Normalized identities of the candidates this closed batch carried, and the child issues its rows name.
+    candidateForms: frozenset = frozenset()
+    rowChildren: frozenset = frozenset()
+
+
+def candidateIdsOf(identity: Identity) -> frozenset | None:
+    """Every candidate id an umbrella payload names (v2 candidate rows and component adds), or None when unreadable.
+
+    None means the batch cannot be compared: it is then never treated as a repeat of a closed batch.
+    """
+    payload = identity.payload
+    if not isinstance(payload, dict):
+        return None
+    found: set[str] = set()
+    known = False
+    rows = payload.get("candidates")
+    if rows is not None:
+        if not isinstance(rows, list) or not all(isinstance(row, dict) and isinstance(row.get("id"), str) for row in rows):
+            return None
+        known = True
+        found.update(row["id"] for row in rows)
+    adds = payload.get("componentAdds")
+    if adds is not None:
+        if not isinstance(adds, list) or not all(isinstance(item, str) for item in adds):
+            return None
+        known = True
+        found.update(adds)
+    return frozenset(found) if known else None
+
+
+def candidateForms(identity: Identity) -> tuple[frozenset, frozenset]:
+    """Canonical candidate identities of an umbrella payload, plus the child issue numbers its v2 rows name.
+
+    Every entry is a tuple and none is a bare slug that could belong to anyone:
+
+    - ``("full", suggestedId, repo)``: a v2 row's contributor/slug id with the repository its row id names;
+    - ``("repo-slug", repo, slug)``: a v2 row whose suggested id is unknown, still bound to its repository;
+    - ``("suite-slug", slug)``: a legacy component add, which is only meaningful inside the umbrella's own suite
+      repository, so it matches only a child whose evidence repository is that suite.
+    """
+    payload = identity.payload if isinstance(identity.payload, dict) else {}
+    entries: set[tuple] = set()
+    children: set[int] = set()
+    for row in payload.get("candidates") or []:
+        if not isinstance(row, dict):
+            continue
+        rowId = row.get("id").strip().lower() if isinstance(row.get("id"), str) else ""
+        repo = rowId.rsplit(":", 1)[0] if ":" in rowId else None
+        slug = (row.get("slug").strip().lower() if isinstance(row.get("slug"), str) and row["slug"].strip()
+                else (rowId.rsplit(":", 1)[-1] if rowId else ""))
+        suggested = row.get("suggestedId").strip().lower() if isinstance(row.get("suggestedId"), str) else ""
+        if repo and suggested:
+            entries.add(("full", suggested, repo))
+        if repo and slug:
+            entries.add(("repo-slug", repo, slug))
+        child = row.get("child")
+        if isinstance(child, int) and not isinstance(child, bool):
+            children.add(child)
+    for slug in payload.get("componentAdds") or []:
+        if isinstance(slug, str) and slug.strip():
+            entries.add(("suite-slug", slug.strip().lower()))
+    return frozenset(entries), frozenset(children)
+
+
+MATCH = "match"
+NEW = "new"
+AMBIGUOUS = "ambiguous"
+
+
+def childVerdict(ctx: Context, draft: Draft, closed: ClosedUmbrella) -> str:
+    """Whether this child is a candidate of the closed batch: ``match``, ``new`` or ``ambiguous``.
+
+    ``match`` needs a full candidate identity: the child number a closed row names, or the child's candidate id and
+    evidence repository equal to a v2 row's suggested id and repository. A legacy component add carries only a slug,
+    so its full identity is taken from the closed batch's own closed child intake when the census still holds it and
+    names exactly this child. Where the identity cannot be established, including when only a differently named
+    closed child is known, the child is ``ambiguous`` and the caller fails closed (not-evaluated); it is never
+    matched on a slug, and never silently treated as new. ``new`` is a candidate whose slug or repository the closed
+    batch does not carry at all.
+    """
+    if draft.number in closed.rowChildren:
+        return MATCH
+    identity = draft.identity
+    repo = identity.evidenceRepo.strip().lower() if identity.evidenceRepo else None
+    slug = identity.slug.strip().lower() if identity.slug else None
+    candidate = identity.candidateId.strip().lower() if identity.candidateId else None
+    if repo is None or slug is None or candidate is None:
+        return AMBIGUOUS
+    if ("full", candidate, repo) in closed.candidateForms:
+        return MATCH
+    if ("repo-slug", repo, slug) in closed.candidateForms:
+        return AMBIGUOUS  # a v2 row whose suggested id is unknown: same repository and slug, identity unproven
+    suite = suiteRepo(closed.suite)
+    if ("suite-slug", slug) in closed.candidateForms and suite is not None and repo == suite.strip().lower():
+        known = [entry for entry in ctx.closedChildren.get(closed.number, ()) if entry[2] == slug]
+        if any(entry[0] == candidate and entry[1] == repo for entry in known):
+            return MATCH
+        # Finding a closed child with another identity does not exclude older or additional closed children for the
+        # same slug (the census only holds a window of closed issues), so it never proves this child is new.
+        return AMBIGUOUS
+    return NEW
+
+
+def closedUmbrellaOf(identity: Identity, row: dict) -> ClosedUmbrella:
+    reason = row.get("stateReason")
+    closedAt = row.get("closedAt")
+    forms, rowChildren = candidateForms(identity)
+    return ClosedUmbrella(
+        number=identity.number, kind=identity.kind, key=identity.key, suite=identity.suite, version=identity.version,
+        stateReason=reason if isinstance(reason, str) else None,
+        closedAt=closedAt if isinstance(closedAt, str) else None,
+        candidateIds=candidateIdsOf(identity), childRefs=identity.childRefs, identityReasons=identity.reasons,
+        candidateForms=forms, rowChildren=rowChildren,
+    )
+
+
+def closedBatchRepeatOf(ctx: Context, draft: Draft) -> int | None:
+    """The closed umbrella whose batch this open umbrella repeats, or None when it is (or might be) new work.
+
+    Same suite, same version and no candidate the closed batch did not already carry. A new version, a new
+    candidate, or any unreadable payload on either side is new work: suppression needs positive proof.
+    """
+    identity = draft.identity
+    if identity.kind != "umbrella" or identity.suite is None or identity.version is None or identity.reasons:
+        return None
+    openIds = candidateIdsOf(identity)
+    if openIds is None:
+        return None
+    repeats = [
+        closed for closed in ctx.closedUmbrellas.values()
+        if closed.kind == "umbrella" and closed.suite == identity.suite and closed.version is not None
+        and closed.candidateIds is not None and not closed.identityReasons
+        and compareVersions(closed.version, identity.version) == 0 and openIds <= closed.candidateIds
+    ]
+    return max(closed.number for closed in repeats) if repeats else None
+
+
+def evaluateClosedUmbrellas(ctx: Context) -> list[dict]:
+    """Founder ruling #6. A closed umbrella is a completed epic: the closure is preserved and never reversed here.
+
+    Two consequences. A repeat of that exact batch (same suite and version, no new candidate) is duplicate
+    processing, so it is suppressed. A closure that leaves unfinished children, or that the registry contradicts, is a
+    HIGH-PRIORITY closeout discrepancy: the manifest raises it, it is never repaired or declared complete here.
+    The closed umbrella history has no age window (the census's label-scoped ``closedUmbrellas`` section). When it
+    cannot be read in full, ``reconcile`` never calls this: the umbrella-dependent decisions are not evaluated.
+    """
+    for draft in ctx.drafts.values():
+        if draft.kind == "umbrella":
+            repeatOf = closedBatchRepeatOf(ctx, draft)
+            if repeatOf is not None:
+                ctx.closedBatchOf[draft.number] = repeatOf
+    found: list[dict] = []
+    openChildren = [draft for draft in ctx.drafts.values() if draft.kind == "child"]
+    for number in sorted(ctx.closedUmbrellas):
+        closed = ctx.closedUmbrellas[number]
+        reasons: list[str] = []
+        evidence: list[dict] = []
+        children = sorted(
+            draft.number for draft in openChildren
+            if draft.identity.parent == number or draft.number in closed.childRefs
+        )
+        if children:
+            reasons.append(f"unfinished-children:{len(children)}")
+            evidence.append(ev("issue", f"#{number}", None, "closed umbrella still has open child intakes: "
+                               + ", ".join(f"#{child}" for child in children[:20])))
+        repoId = suiteRepo(closed.suite)
+        if closed.kind == "umbrella" and closed.stateReason in (None, "completed") and closed.version and repoId \
+                and not ctx.registry.unreadableNear(repoId):
+            record = ctx.registry.byId(repoId)
+            if record is not None and record.upstreamVersion is not None \
+                    and compareVersions(closed.version, record.upstreamVersion) > 0 \
+                    and mergedSyncFor(ctx, repoId, closed.version) is None:
+                reasons.append(f"registry-behind-closure:registry={record.upstreamVersion},umbrella={closed.version}")
+                evidence.append(ev("registry", record.path, record.sha256,
+                                   f"suite record carries upstream version {record.upstreamVersion}; the closed umbrella claims {closed.version} and no merged sync pull request names it"))
+        if not reasons:
+            continue
+        for child in children:
+            ctx.drafts[child].notProven.append(f"closeout-discrepancy:#{number}")
+        found.append({
+            "key": closed.key,
+            "umbrella": number,
+            "suite": repoId,
+            "version": closed.version,
+            "closedAt": closed.closedAt,
+            "stateReason": closed.stateReason,
+            "priority": PRIORITY_HIGH,
+            "reasons": sorted(reasons),
+            "openChildren": children,
+            "evidence": sorted(evidence, key=lambda item: (item["type"], item["ref"], item["detail"])),
+            "disposition": CLOSEOUT_DISPOSITION,
+        })
+    return found
+
+
+def dependsOnClosedHistory(draft: Draft) -> bool:
+    """Whether this item's disposition depends on closed umbrellas: an umbrella (it may repeat a closed batch) or a
+    child that names an umbrella parent (it may belong to a repeated, or to a closed, batch)."""
+    return draft.kind == "umbrella" or (draft.kind == "child" and draft.parent is not None)
+
+
+def closedBatchVerdict(ctx: Context, draft: Draft) -> tuple[str | None, int | None]:
+    """How this item relates to a closed batch it may repeat: ``(None, None)`` when it does not.
+
+    An open repeat umbrella is a ``match`` itself. A child of a repeat umbrella is a ``match`` only on a full
+    candidate identity, ``ambiguous`` when that identity cannot be established, and ``new`` otherwise.
+    """
+    if draft.kind == "umbrella":
+        closedNumber = ctx.closedBatchOf.get(draft.number)
+        return (MATCH, closedNumber) if closedNumber is not None else (None, None)
+    if draft.kind == "child" and draft.parent is not None:
+        closedNumber = ctx.closedBatchOf.get(draft.parent)
+        if closedNumber is not None:
+            return childVerdict(ctx, draft, ctx.closedUmbrellas[closedNumber]), closedNumber
+    return None, None
+
+
+def dropDisposition(ctx: Context, draft: Draft) -> None:
+    """Withdraw every actionable disposition of an item: proof, rule, lock, question and transition."""
+    for text in draft.questions:
+        if text in ctx.questions:
+            ctx.questions[text]["affected"].discard(draft.number)
+    draft.questions = []
+    draft.authority = AUTH_NONE
+    draft.proofRule = None
+    draft.ruleId = None
+    draft.canonical = None
+    draft.duplicateOf = None
+    draft.pendingEvidence = []
+    draft.forcedC = False
+
+
+def holdForMissingHistory(ctx: Context, draft: Draft) -> None:
+    """Fail closed: without the closed umbrella history this item could repeat a completed epic.
+
+    It is neither dispatched, closed, accepted nor asked about: every proof, lock, question and transition is dropped,
+    and it is reported not-evaluated. Runs before every other disposition so no early return can bypass it.
+    """
+    dropDisposition(ctx, draft)
+    draft.state = STATE_NOT_EVALUATED
+    draft.confidence = "low"
+    draft.unknowns.append("closed-umbrella-history-not-evaluated")
+
+
+def holdClosedDuplicate(ctx: Context, draft: Draft, repeatOf: int) -> None:
+    """Founder ruling #6: a closed umbrella is a completed epic, so a repeat of its batch is not processed again.
+
+    Only a closure the registry already proves under an enabled rule is left to proceed.
+    """
+    dropDisposition(ctx, draft)
+    draft.state = STATE_HELD
+    draft.notProven.append(f"closed-umbrella-duplicate:#{repeatOf}")
+    draft.evidence.append(ev("issue", f"#{repeatOf}", None, "closed umbrella of the same suite and version already covers this batch"))
+
+
+def provenClosable(ctx: Context, draft: Draft) -> bool:
+    """An item the registry already proves closable under an enabled rule: closing it is cleanup, not reprocessing."""
+    return draft.proofRule is not None and not draft.unknowns and not draft.forcedC and not ctx.closedUnavailable and ctx.policy.ruleEnabled(draft.proofRule)
+
+
 # ----------------------------------------------------------------- finalize
 
 def applyFounderLocks(ctx: Context, records: tuple[Mapping[str, Any], ...]) -> None:
@@ -715,6 +1009,26 @@ def finalize(ctx: Context, draft: Draft) -> None:
     if draft.state == STATE_NOT_EVALUATED:
         draft.authority = AUTH_NONE
         return
+    inert = draft.state == STATE_HELD and draft.authority == AUTH_NONE
+    if ctx.closeoutEvaluation["status"] == "not-evaluated" and dependsOnClosedHistory(draft) and not inert:
+        holdForMissingHistory(ctx, draft)
+        return
+    # The closed-batch verdict also precedes proofs, locks and questions (founder ruling #6): an item that may repeat a
+    # completed epic is not dispatched, asked about or closed on a proof until its identity against that batch is known.
+    verdict, repeatOf = closedBatchVerdict(ctx, draft)
+    if verdict == AMBIGUOUS and not inert:
+        # The child may repeat the closed batch but its full identity cannot be established from the closed batch:
+        # fail closed (not-evaluated) rather than match loosely, dispatch it or close it on a proof.
+        dropDisposition(ctx, draft)
+        draft.state = STATE_NOT_EVALUATED
+        draft.unknowns.append(f"closed-batch-candidate-identity-ambiguous:#{repeatOf}")
+        draft.confidence = "low"
+        return
+    if verdict == MATCH and not inert and not provenClosable(ctx, draft):
+        # Founder ruling #6: a closed umbrella is a completed epic, so a repeat of its batch is not processed again.
+        # Only a closure the registry already proves under an enabled rule is left to proceed.
+        holdClosedDuplicate(ctx, draft, repeatOf)
+        return
     if draft.forcedC:
         return
     if "upstream:needs-info" in labelNames(draft.row):
@@ -756,6 +1070,11 @@ def finalize(ctx: Context, draft: Draft) -> None:
             draft.confidence = "high"
         if rule == RULE_A4:
             draft.duplicateOf = draft.canonical
+        return
+    if verdict == MATCH and not inert and not provenClosable(ctx, draft):
+        # When an initially eligible proof is cleared during finalization, re-apply the duplicate hold so the item is
+        # held rather than routed to Class B review.
+        holdClosedDuplicate(ctx, draft, repeatOf)
         return
     if draft.kind == "child" and draft.authority == AUTH_NONE:
         draft.authority = AUTH_B
@@ -878,17 +1197,36 @@ def reconcile(
     ctx.closedUnavailable = degraded
     ctx.closedNumbers = {row["number"] for row in rowsClosed if isinstance(row.get("number"), int) and not row.get("isPullRequest")}
     openPulls = census.openPulls() if document is not None else []
-    ctx.graph = buildGraph(rowsOpen, rowsClosed, openPulls)
     ctx.mergedSyncs = (
         [row for row in census.mergedPulls() if isinstance(row.get("number"), int)] if document is not None and not degraded else []
     )
+    # Closed umbrella history has no age window (founder ruling #6). When that history cannot be trusted, only the
+    # umbrella-dependent decisions are not evaluated; every other decision proceeds on the windowed rows as before.
+    historyRows, historyReasons = census.closedUmbrellaHistory() if document is not None else (None, ())
+    if document is not None and historyRows is None:
+        ctx.closeoutEvaluation = {"status": "not-evaluated", "reasons": sorted(historyReasons)}
+    historyClosed = list(historyRows or [])
+    ctx.graph = buildGraph(rowsOpen, rowsClosed + historyClosed, openPulls)
     for row in rowsClosed:
         if isinstance(row.get("number"), int) and not row.get("isPullRequest"):
             closed = classify(row)
             if closed.kind == "umbrella" and closed.suite and closed.suite != SUITE_PREFIX + "unknown":
                 ctx.closedSuite[closed.number] = closed.suite
+    if historyRows is not None:
+        for row in historyClosed + [row for row in rowsClosed if isinstance(row.get("number"), int) and not row.get("isPullRequest")]:
+            closed = classify(row)
+            if closed.kind in ("umbrella", "bootstrap") and closed.number not in ctx.closedUmbrellas:
+                ctx.closedUmbrellas[closed.number] = closedUmbrellaOf(closed, row)
+        for row in rowsClosed:
+            if isinstance(row.get("number"), int) and not row.get("isPullRequest"):
+                child = classify(row)
+                if child.kind == "child" and child.parent in ctx.closedUmbrellas and child.candidateId \
+                        and child.evidenceRepo and child.slug:
+                    ctx.closedChildren.setdefault(child.parent, []).append(
+                        (child.candidateId.strip().lower(), child.evidenceRepo.strip().lower(), child.slug.strip().lower()))
 
     rowByNumber = {row["number"]: row for row in rowsOpen}
+    discrepancies: list[dict] = []
     if not complete:
         reasons = [f"census:{status.status}"] + list(status.reasons)
         ctx.drafts = {
@@ -910,6 +1248,7 @@ def reconcile(
             draft = ctx.drafts[number]
             if draft.kind == "umbrella":
                 evaluateUmbrella(ctx, draft)
+        discrepancies = evaluateClosedUmbrellas(ctx)
         applyFounderLocks(ctx, decisionRecords)
         # A3 reads its superseder's final authority, so superseded umbrellas are finalized after all others.
         for number in sorted(ctx.drafts):
@@ -919,6 +1258,7 @@ def reconcile(
             if ctx.drafts[number].proofRule == RULE_A3:
                 finalize(ctx, ctx.drafts[number])
 
+    ctx.questions = {text: meta for text, meta in ctx.questions.items() if meta["affected"]}
     items = [itemOut(ctx, ctx.drafts[number]) for number in sorted(ctx.drafts)]
     unknownCoverage = [f"census:{status.status}"] + list(status.reasons) if not complete else []
     unknownCoverage += [f"registry-unreadable:{entry.path}:{entry.reason}" for entry in registryIndex.unreadable]
@@ -938,6 +1278,7 @@ def reconcile(
         "classC": counts["C"],
         "untracked": kinds.count("untracked"),
         "notEvaluated": sum(1 for item in items if item["state"] == STATE_NOT_EVALUATED),
+        "closeoutDiscrepancies": len(discrepancies),
     }
     manifest: dict[str, Any] = {
         "schemaVersion": SCHEMA_VERSION,
@@ -958,6 +1299,8 @@ def reconcile(
         "items": items,
         "batches": batches(ctx) if complete else [],
         "founderQuestions": questionList(ctx) if complete else [],
+        "closeoutDiscrepancies": discrepancies,
+        "closeoutEvaluation": dict(ctx.closeoutEvaluation) if complete else {"status": "not-evaluated", "reasons": [f"census:{status.status}"]},
     }
     if degraded:
         manifest["closedHistory"] = "unavailable"  # only present when true, so a normal manifest is byte-identical
@@ -970,6 +1313,10 @@ __all__ = [
     "AUTH_B",
     "AUTH_C",
     "CLOSABLE_STATES",
+    "CLOSEOUT_BASIS",
+    "CLOSEOUT_OPTIONS",
+    "CLOSEOUT_RECOMMENDATION",
+    "PRIORITY_HIGH",
     "RULE_A1",
     "RULE_A2",
     "RULE_A3",

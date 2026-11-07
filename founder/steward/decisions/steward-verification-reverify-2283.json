@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-verification-reverify-2283",
+  "status": "decided",
+  "decision": "Reverify the six batch-4 escalations and the scripts/upstream_watcher/batch.py import case against an attributable, stable baseline?",
+  "whyItMatters": "Six independently built repairs were escalated by the repo-wide new-debt check after unrelated concurrent merges; batch.py was escalated on module-attribute compatibility.",
+  "evidence": [
+    "Founder rulings 2026-11-08, relayed to the Steward lead (Opus) for #2283 (verbatim): \"**APPROVED** for six batch-4 escalations and the `batch.py` import case.\n\n- Reverify the six repairs against an attributable, stable baseline.\n- Distinguish patch-introduced debt from unrelated debt created by concurrent merges.\n- Preserve global debt detection and all original attempts, verdicts, and receipts.\n- Do not reject an otherwise valid repair solely because another agent changed unrelated files.\n- For `scripts/upstream_watcher/batch.py`, independently verify whether removing `re` breaks a genuine module API or consumer contract. Retain it if compatibility requires it; otherwise permit the bounded repair.\n- No blanket bypass of new-debt or compatibility checks.\""
+  ],
+  "recommended": "Approved as stated in the verbatim ruling.",
+  "alternative": "Not adopted.",
+  "unblocks": "Reverification of 6 escalated repairs and the batch.py case.",
+  "links": [
+    "founder/reports/steward-campaign-2026-11-05/FOUNDER_RULINGS_2026-11-08.md"
+  ],
+  "resolution": "approved"
+}

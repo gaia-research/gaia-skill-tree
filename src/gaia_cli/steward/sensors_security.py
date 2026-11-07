@@ -35,10 +35,11 @@ import json
 import re
 import tomllib
 from collections import Counter
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any, Iterable
 
+from gaia_cli.steward import credentialDispositions
 from gaia_cli.steward.models import Observation, SensorScan, Subject
 from gaia_cli.steward.primitives import (
     SensorUnavailable,
@@ -1019,24 +1020,13 @@ class BrowserSinkSensor:
 # subject. Large generated text (embeddings, graph dumps) is well inside it.
 _SECRET_MAX_BYTES = 32 * 1024 * 1024
 _SECRET_MAX_FILES = 50000
-_SYNTHETIC_MARKERS = re.compile(r"EXAMPLE|FAKE|dummy|xxxx|canary|placeholder|not[-_ ]?real", re.IGNORECASE)
-# Hand-typed placeholders climb the alphabet or digits; a real secret does not.
-_ASCENDING_RUN = re.compile(r"abcdef|ABCDEF|012345|123456|234567|345678|456789", re.IGNORECASE)
+# There is deliberately NO path-based skip. A credential-shaped match under
+# tests/ (or any other directory) is judged on its own evidence like every
+# other match: an issuer-shaped token stays Class C there until a per-finding
+# record decides it, and a generic match is Class B only when its whole value is
+# positively benign. Founder ruling: no downgrade solely because of where a file lives.
 
 _SECRET_PATTERNS = CREDENTIAL_PATTERNS
-
-
-def _synthetic_match(rel: str, matched: str) -> bool:
-    if not rel.startswith("tests/"):
-        return False
-    # An unrelated comment or neighbouring fixture must not bless a different
-    # credential on the same line. Only the matched value can prove a marker.
-    if _SYNTHETIC_MARKERS.search(matched):
-        return True
-    if _ASCENDING_RUN.search(matched):
-        return True
-    body = re.sub(r"^[A-Za-z_-]+[_-]", "", matched)
-    return len(set(body)) <= 4
 
 
 @dataclass
@@ -1046,15 +1036,27 @@ class _SecretTally:
     # ASCII), so a stray byte cannot hide a secret; this only counts them.
     nonUtf8: int = 0
     oversize: int = 0
-    synthetic: int = 0
     reasons: dict[str, int] = field(default_factory=dict)
 
 
+@dataclass(frozen=True)
+class _Located:
+    finding: dict[str, Any]
+    contextHash: str
+
+
 class SecretScanSensor:
-    """Find credential-shaped strings; store only a fingerprint, never the value."""
+    """Find credential-shaped strings; store only a fingerprint, never the value.
+
+    Routing defaults to Class C (``credential_leak``). The scanner never classifies
+    a credential finding as B (``credential_review``) from source text alone.
+    A credential finding leaves Class C ONLY through an independently verified
+    per-finding disposition record (see ``credentialDispositions``).
+    Everything else, including every reference-looking value, stays C (``credential_leak``).
+    """
 
     id = "secret-scan"
-    debt_kinds = ("credential_leak",)
+    debt_kinds = ("credential_leak", "credential_review")
     routine_ids = (16, 14)
     resolution_scope = "exhaustive"
 
@@ -1073,7 +1075,8 @@ class SecretScanSensor:
         paths = tracked_files(root, ["."], max_files=_SECRET_MAX_FILES)
         tally = _SecretTally()
         skips = SkipLog()
-        per_file: list[tuple[str, list[dict[str, Any]]]] = []
+        per_file: list[tuple[str, list[_Located]]] = []
+        registry = credentialDispositions.loadRegistry(root)
         for rel in paths:
             full = root / rel
             try:
@@ -1091,57 +1094,125 @@ class SecretScanSensor:
                 tally.nonUtf8 += 1
                 text = data.decode("utf-8", errors="replace")
             tally.scanned += 1
-            findings = self._findings(rel, text, tally)
-            if findings:
-                per_file.append((rel, findings))
+            located = self._locate(rel, text, tally)
+            if located:
+                per_file.append((rel, located))
 
         summary = {
             "filesScanned": tally.scanned,
             "scannedNonUtf8": tally.nonUtf8,
             "skippedOversize": tally.oversize,
-            "skippedSyntheticTestFixture": tally.synthetic,
         }
+        if registry.rejected:
+            summary["rejectedDispositionRecords"] = len(registry.rejected)
         observations: list[Observation] = []
-        for rel, findings in per_file:
-            private = any(item["pattern"] == "private-key-block" for item in findings)
-            observations.append(
-                Observation(
-                    kind="credential_leak",
-                    subject=Subject(type="source-file", id=rel),
-                    observed_at=observed_at,
-                    source=self.id,
-                    status="drift",
-                    current_state={"credentialMatches": 0},
-                    observed_state={
-                        **finding_payload(findings),
-                        "patternCounts": dict(sorted(Counter(item["pattern"] for item in findings).items())),
-                    },
-                    confidence=1.0 if private else 0.9,
-                    provenance={
-                        "check": "credential-shaped regular expressions; matches are fingerprinted, never stored",
-                        **summary,
-                    },
-                )
-            )
+        for rel, located in per_file:
+            observations.extend(self._observe(rel, located, registry, summary, observed_at))
         skips.require_coverage(len(paths), "tracked files")
         return SensorScan(tuple(observations), skips.entries())
 
+    def _observe(
+        self,
+        rel: str,
+        located: list[_Located],
+        registry: credentialDispositions.Registry,
+        summary: dict[str, Any],
+        observed_at: str,
+    ) -> list[Observation]:
+        findings = [item.finding for item in located]
+        private = any(item["pattern"] == "private-key-block" for item in findings)
+        confidence = 1.0 if private else 0.9
+        subject = Subject(type="source-file", id=rel)
+        current = {"credentialMatches": 0}
+        leak = Observation(
+            kind="credential_leak",
+            subject=subject,
+            observed_at=observed_at,
+            source=self.id,
+            status="drift",
+            current_state=current,
+            observed_state={
+                **finding_payload(findings),
+                "patternCounts": dict(sorted(Counter(item["pattern"] for item in findings).items())),
+            },
+            confidence=confidence,
+            provenance={
+                "check": "credential-shaped regular expressions; matches are fingerprinted, never stored",
+                **summary,
+            },
+        )
+        # A finding is decided only by one independently verified record that
+        # matches debt id, path, pattern, fingerprint, occurrence and its stable
+        # source context (line, surrounding window, enclosing scope chain).
+        # Unrelated edits elsewhere in the file do not matter; a changed token,
+        # line, window or scope does.
+        indexes = credentialDispositions.occurrences(findings)
+        # Identical occurrences (same pattern, fingerprint AND context) cannot be
+        # told apart after any edit, so neither is rebound: fail closed.
+        shared = Counter((item.finding["pattern"], item.finding["fingerprint"], item.contextHash) for item in located)
+        matches = [
+            None
+            if shared[(item.finding["pattern"], item.finding["fingerprint"], item.contextHash)] > 1
+            else registry.match(leak.debt_id, rel, item.finding, index, item.contextHash)
+            for item, index in zip(located, indexes)
+        ]
+        decided = [(item, match) for item, match in zip(located, matches) if match is not None]
+        undecided = [item for item, match in zip(located, matches) if match is None]
+        if not undecided:
+            state = {
+                "decidedDisposition": True,
+                "decisionRecord": f"{credentialDispositions.DECISIONSDIR}/{credentialDispositions.RULINGID}.json",
+                "findingCount": len(findings),
+                "dispositions": [match.summary(item.finding["line"]) for item, match in decided],
+            }
+            provenance = {
+                "check": "founder-decided per-finding credential dispositions, exact debt/path/pattern/fingerprint/occurrence/line match",
+                "decision": credentialDispositions.RULINGID,
+                **summary,
+            }
+            return [
+                Observation(
+                    kind=kind, subject=subject, observed_at=observed_at, source=self.id, status="healthy",
+                    current_state=current, observed_state=state, confidence=confidence, provenance=provenance,
+                )
+                for kind in ("credential_leak", "credential_review")
+            ]
+        annotations: dict[str, Any] = {}
+        if decided:
+            annotations = {
+                "decidedFindings": [match.summary(item.finding["line"]) for item, match in decided],
+                "undecidedFindingCount": len(undecided),
+            }
+        if not annotations:
+            return [leak]
+        return [replace(leak, observed_state={**leak.observed_state, **annotations})]
+
     @staticmethod
-    def _findings(rel: str, text: str, tally: _SecretTally) -> list[dict[str, Any]]:
-        results: list[dict[str, Any]] = []
+    def _locate(rel: str, text: str, tally: _SecretTally) -> list[_Located]:
+        results: list[_Located] = []
+        lines: list[str] | None = None
         for name, pattern in _SECRET_PATTERNS:
             for match in pattern.finditer(text):
                 matched = match.group(0)
                 if name == "openai-api-key" and not any(char.isdigit() for char in matched):
                     continue
-                if _synthetic_match(rel, matched):
-                    tally.synthetic += 1
-                    continue
+                if lines is None:
+                    lines = text.split("\n")
+                number = text.count("\n", 0, match.start()) + 1
                 results.append(
-                    {
-                        "line": text.count("\n", 0, match.start()) + 1,
-                        "pattern": name,
-                        "fingerprint": hashlib.sha256(matched.encode("utf-8")).hexdigest()[:12],
-                    }
+                    _Located(
+                        finding={
+                            "line": number,
+                            "pattern": name,
+                            "fingerprint": hashlib.sha256(matched.encode("utf-8")).hexdigest()[:12],
+                        },
+                        contextHash=credentialDispositions.contextHash(lines, number - 1),
+                    )
                 )
-        return sorted(results, key=lambda item: (item["line"], item["pattern"], item["fingerprint"]))
+        return sorted(
+            results, key=lambda item: (item.finding["line"], item.finding["pattern"], item.finding["fingerprint"])
+        )
+
+    @staticmethod
+    def _findings(rel: str, text: str, tally: _SecretTally) -> list[dict[str, Any]]:
+        return [item.finding for item in SecretScanSensor._locate(rel, text, tally)]

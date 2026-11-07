@@ -10,6 +10,10 @@ closer re-reads the receipts and the live issue, so two closers cannot both comm
 close. Closing comments preserve the full original candidate information, and a long payload
 is split across marker-linked comments. The receipt records the sha256 of what was preserved.
 
+Founder ruling #10 (steward-issue-closure-authority): every receipt names both the Steward owner and the worker
+(``stewardOwner``, ``worker``), the ratified authority record, the exact closure proof, and the live state before
+and after the closure. The public executor refuses to write anything without an attributable owner and worker.
+
 Forge calls go through the small ``IssueForge`` protocol so the executor can be tested
 with a fake. The GitHub REST implementation lives in ``scripts/steward_issue_reconcile.py``.
 Lock files need POSIX ``fcntl``; the Steward runs on Linux.
@@ -53,6 +57,10 @@ DONE_OUTCOMES = ("closed", "already-closed")
 COMMENT_URL = re.compile(r"https://github\.com/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)/issues/(\d+)#issuecomment-(\d+)")
 COMMENT_ID = re.compile(r"issuecomment-(\d+)")
 EVIDENCE_DETAIL_LIMIT = 300
+# Attribution names (founder ruling #10): short, printable identifiers, never free text.
+ATTRIBUTION_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9 ._:@/+-]{0,119}")
+OWNER_ENV = "GAIA_STEWARD_OWNER"
+WORKER_ENV = "GAIA_STEWARD_WORKER"
 
 REASONS = {
     RULE_A1: "The exact suggested-id registry record links to the same repo and file as the evidence URL (git ref may differ), so the candidate is already curated.",
@@ -72,6 +80,39 @@ class ActionRefused(Exception):
     def __init__(self, message: str, code: str = "refused") -> None:
         super().__init__(message)
         self.code = code
+
+
+def resolveAttribution(attribution: Mapping[str, Any] | None = None, environ: Mapping[str, str] | None = None) -> dict[str, str]:
+    """The attributable Steward owner and worker for a closure, or an ``ActionRefused`` before anything is written.
+
+    Founder ruling #10: closures carry receipts that hold the Steward owner accountable, so a closure with no named
+    owner or no named worker is not performed. ``attribution`` (``stewardOwner`` and ``worker``) wins over the
+    ``GAIA_STEWARD_OWNER`` and ``GAIA_STEWARD_WORKER`` environment variables.
+    """
+    environ = os.environ if environ is None else environ
+    given = dict(attribution or {})
+    found: dict[str, str] = {}
+    for field, variable in (("stewardOwner", OWNER_ENV), ("worker", WORKER_ENV)):
+        value = given.get(field)
+        if value is None:
+            value = environ.get(variable)
+        if not isinstance(value, str) or not value.strip():
+            raise ActionRefused(f"a closure needs an attributable {field}: pass it or set {variable}", code="attribution-missing")
+        value = value.strip()
+        if ATTRIBUTION_RE.fullmatch(value) is None or scrub(value) != value:
+            raise ActionRefused(f"{field} must be a short printable identifier (letters, digits, space and . _ : @ / + -)",
+                                code="attribution-invalid")
+        found[field] = value
+    return found
+
+
+def attributionProblem(entry: Mapping[str, Any]) -> str | None:
+    """Why a receipt entry is not attributable, or None when it names a valid Steward owner and worker."""
+    for field in ("stewardOwner", "worker"):
+        value = entry.get(field)
+        if not isinstance(value, str) or ATTRIBUTION_RE.fullmatch(value) is None:
+            return f"the receipt does not name a valid {field}"
+    return None
 
 
 class ForgeBlockedError(Exception):
@@ -534,10 +575,11 @@ def repoIssueLock(repo: str | None, issue: int):
 def buildReceipt(
     plan: dict, runId: str, outcome: str, now: Any, commentUrl: str | None, failure: str | None,
     commentId: int | None = None, markerVerified: bool = False, closer: str | None = None,
-    preservedParts: int | None = None,
+    preservedParts: int | None = None, attribution: Mapping[str, str] | None = None,
+    authorityRecord: Mapping[str, Any] | None = None, after: Mapping[str, Any] | None = None,
 ) -> dict:
     assert outcome in OUTCOMES, outcome
-    return {
+    receipt = {
         "schemaVersion": RECEIPT_SCHEMA,
         "runId": runId,
         "key": plan["key"],
@@ -562,6 +604,73 @@ def buildReceipt(
         "outcome": outcome,
         "failure": failure,
     }
+    if attribution is not None:
+        # Founder ruling #10: who is accountable, under which ratified authority, and the exact proof that was acted on.
+        receipt["stewardOwner"] = attribution["stewardOwner"]
+        receipt["worker"] = attribution["worker"]
+        receipt["authority"] = dict(authorityRecord) if authorityRecord is not None else None
+        receipt["closureProof"] = {
+            "ruleId": plan["ruleId"], "closureSha8": plan.get("closureSha8"), "itemSha256": itemDigest(plan),
+            "preservedSha256": plan.get("preservedSha256"),
+            "evidenceRefs": [[entry.get("type"), entry.get("ref"), entry.get("sha256")] for entry in plan.get("evidence") or []],
+            "commentUrl": commentUrl, "commentId": commentId, "markerVerified": markerVerified,
+        }
+    if after is not None:
+        receipt["after"] = dict(after)
+    return receipt
+
+
+def afterState(forge: Any, issue: int) -> dict[str, Any]:
+    """The live issue right after our close, re-read for the receipt. A failed re-read is recorded, never fatal:
+    the issue is already closed and the receipt must still be written."""
+    try:
+        live = forge.getIssue(issue)
+        return {"state": live.get("state"), "stateReason": live.get("stateReason"), "updatedAt": live.get("updatedAt"),
+                "verified": live.get("state") == "closed"}
+    except Exception as exc:  # noqa: BLE001 - the receipt records the failure; it never undoes the closure
+        # The state was not observed, so it is unknown (null), never asserted as closed.
+        return {"state": None, "stateReason": None, "updatedAt": None, "verified": False,
+                "note": f"post-close re-read failed: {type(exc).__name__}"}
+
+
+def observedAfter(live: Mapping[str, Any]) -> dict[str, Any]:
+    """The after state of an issue we found already closed: exactly what the live read returned."""
+    return {"state": live.get("state"), "stateReason": live.get("stateReason"), "updatedAt": live.get("updatedAt"),
+            "verified": live.get("state") == "closed", "source": "live-read"}
+
+
+def receiptProblem(entry: Mapping[str, Any], params: Mapping[str, Any]) -> str | None:
+    """Why a terminal (closed or already-closed) receipt does not prove its closure, or None when it does.
+
+    Founder ruling #10: a closure is trusted only with its attribution, the ratified authority, the exact proof that
+    matches the action, the issue's state before, and the state observed after. An unobserved after state is
+    ``null`` and ``verified: false``; a claimed ``closed`` must be a verified live observation.
+    """
+    problem = attributionProblem(entry)
+    if problem is not None:
+        return problem
+    authority = entry.get("authority")
+    if not isinstance(authority, Mapping) or authority.get("decision") != "steward-issue-closure-authority" \
+            or authority.get("resolution") != "approved":
+        return "the receipt does not name the approved closure authority record"
+    proof = entry.get("closureProof")
+    if not isinstance(proof, Mapping):
+        return "the receipt carries no closureProof"
+    for field in ("ruleId", "closureSha8", "itemSha256", "preservedSha256"):
+        if proof.get(field) is None or proof.get(field) != params.get(field):
+            return f"the receipt closureProof {field} does not match the action"
+    before = entry.get("before")
+    snapshot = before.get("snapshot") if isinstance(before, Mapping) else None
+    if not isinstance(snapshot, Mapping) or snapshot.get("state") != "open":
+        return "the receipt records no open before state"
+    after = entry.get("after")
+    if not isinstance(after, Mapping) or "state" not in after or not isinstance(after.get("verified"), bool):
+        return "the receipt records no after state"
+    if after["verified"] is True and after["state"] != "closed":
+        return "the receipt's verified after state is not closed"
+    if after["verified"] is False and after["state"] is not None:
+        return "the receipt's unverified after state must be null, not an asserted state"
+    return None
 
 
 def diffFields(plan: dict, live: dict, ownMarker: bool = False) -> list[str]:
@@ -737,7 +846,8 @@ def closerIdentity(forge: Any) -> str | None:
 
 def _executeProvenClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now: Any, runId: str = "",
                           repo: str | None = None, reserve: Any = None, beforeClose: Any = None,
-                          closedClock: Any = None) -> dict:
+                          closedClock: Any = None, attribution: Mapping[str, str] | None = None,
+                          authorityRecord: Mapping[str, Any] | None = None) -> dict:
     """Close one planned issue after a live re-read, under a per-pair lock. Returns the receipt it appended.
 
     A pair that ANY receipts file in the store records as done is returned as ``resumed-done`` with no forge call and
@@ -755,12 +865,15 @@ def _executeProvenClosure(plan: dict, forge: IssueForge, receiptsPath: Path | st
     sha8 = plan["closureSha8"]
     total = len(comments)
     preservedParts = total
+    afterBox: list[dict[str, Any] | None] = [None]
 
     def finish(outcome: str, commentUrl: str | None = None, failure: str | None = None,
                commentId: int | None = None, markerVerified: bool = False, closer: str | None = None) -> dict:
         recordedAt = closedClock() if closedClock is not None and outcome == "closed" else now
         receipt = buildReceipt(plan, runId, outcome, recordedAt, commentUrl, failure, commentId=commentId,
-                               markerVerified=markerVerified, closer=closer, preservedParts=preservedParts)
+                               markerVerified=markerVerified, closer=closer, preservedParts=preservedParts,
+                               attribution=attribution, authorityRecord=authorityRecord,
+                               after=afterBox[0] if outcome in DONE_OUTCOMES else None)
         appendReceipt(receiptsPath, receipt)
         return receipt
 
@@ -782,6 +895,7 @@ def _executeProvenClosure(plan: dict, forge: IssueForge, receiptsPath: Path | st
         if problem is not None:
             return finish("blocked-identity", failure=problem)
         if live.get("state") == "closed":
+            afterBox[0] = observedAfter(live)
             return finish("already-closed")
 
         try:
@@ -929,6 +1043,7 @@ def _executeProvenClosure(plan: dict, forge: IssueForge, receiptsPath: Path | st
             if beforeClose is not None:
                 beforeClose()
             forge.closeIssue(issue, plan["stateReason"], plan["duplicateOf"])
+            afterBox[0] = afterState(forge, issue)
         except ForgeIdentityError as exc:
             return finish("blocked-identity", commentUrl, f"write: {exc}", commentId, markerVerified, closer)
         except ForgeBlockedError as exc:
@@ -939,7 +1054,7 @@ def _executeProvenClosure(plan: dict, forge: IssueForge, receiptsPath: Path | st
 
 
 def _executeProvenClosures(plans: list[dict], forge: IssueForge, receiptsPath: Path | str, now: Any, runId: str = "",
-                           repo: str | None = None) -> list[dict]:
+                           repo: str | None = None, attribution: Mapping[str, str] | None = None) -> list[dict]:
     """Run plans in order. Done pairs in the receipts file are skipped without any forge call.
 
     Stops after the first ``blocked`` receipt: auth or rate failures stop the batch. A ``blocked-identity``
@@ -951,7 +1066,7 @@ def _executeProvenClosures(plans: list[dict], forge: IssueForge, receiptsPath: P
         if state.isDone(plan["key"], plan["issue"]):
             results.append({"key": plan["key"], "issue": plan["issue"], "outcome": "resumed-done"})
             continue
-        receipt = _executeProvenClosure(plan, forge, receiptsPath, now, runId, repo)
+        receipt = _executeProvenClosure(plan, forge, receiptsPath, now, runId, repo, attribution=attribution)
         results.append(receipt)
         if receipt["outcome"] == "blocked":
             break
@@ -959,13 +1074,19 @@ def _executeProvenClosures(plans: list[dict], forge: IssueForge, receiptsPath: P
 
 
 def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now: Any, runId: str = "",
-                   repo: str | None = None, *, root: Path | None = None) -> dict:
+                   repo: str | None = None, *, root: Path | None = None,
+                   attribution: Mapping[str, str] | None = None) -> dict:
     """Public executor: re-derive authority and proof even for direct library calls.
 
     No checkout means no authority. A supplied plan or clock cannot bypass the
     policy, decided record, census freshness, receipt confinement or budgets.
+
+    Founder ruling #10: the closure also needs an attributable Steward owner and worker (``attribution`` or the
+    ``GAIA_STEWARD_OWNER`` and ``GAIA_STEWARD_WORKER`` environment). Without both, nothing is written. Every receipt
+    then names them, the ratified authority record, the exact proof, and the issue's state before and after.
     """
     from gaia_cli.steward.clock import utcNow
+    from .authority import authorityReceipt
     from .executor import AlreadyRecorded, gateClosure, receiptFor, reserveClosure, loadHygienePolicyOrRefuse
 
     if root is None or not repo:
@@ -982,6 +1103,8 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
         proven = gateClosure(root, action, receipt, runId, instant, repo)
     except AlreadyRecorded:
         return {"key": plan["key"], "issue": plan["issue"], "outcome": "resumed-done"}
+    named = resolveAttribution(attribution)
+    authorityRecord = authorityReceipt(root)
 
     def stillAuthorized() -> HygienePolicy:
         from .authority import closureAuthorityApproved
@@ -993,18 +1116,19 @@ def executeClosure(plan: dict, forge: IssueForge, receiptsPath: Path | str, now:
     return _executeProvenClosure(
         proven, forge, receipt, instant, runId, repo,
         reserve=lambda: reserveClosure(root, receipt, stillAuthorized(), utcNow(), proven["key"], proven["issue"], runId, repo),
-        beforeClose=stillAuthorized, closedClock=utcNow,
+        beforeClose=stillAuthorized, closedClock=utcNow, attribution=named, authorityRecord=authorityRecord,
     )
 
 
 def executeClosures(plans: list[dict], forge: IssueForge, receiptsPath: Path | str, now: Any, runId: str = "",
-                    repo: str | None = None, *, root: Path | None = None) -> list[dict]:
+                    repo: str | None = None, *, root: Path | None = None,
+                    attribution: Mapping[str, str] | None = None) -> list[dict]:
     """Batch facade; each item goes through the same public policy/proof gate."""
     if root is None:
         raise ActionRefused("a checkout is required", code="authority")
     results = []
     for plan in plans:
-        receipt = executeClosure(plan, forge, receiptsPath, now, runId, repo, root=root)
+        receipt = executeClosure(plan, forge, receiptsPath, now, runId, repo, root=root, attribution=attribution)
         results.append(receipt)
         if receipt["outcome"] == "blocked":
             break
@@ -1012,7 +1136,15 @@ def executeClosures(plans: list[dict], forge: IssueForge, receiptsPath: Path | s
 
 
 __all__ = [
+    "ATTRIBUTION_RE",
     "ActionRefused",
+    "OWNER_ENV",
+    "WORKER_ENV",
+    "afterState",
+    "attributionProblem",
+    "observedAfter",
+    "receiptProblem",
+    "resolveAttribution",
     "COMMENT_LIMIT",
     "DONE_OUTCOMES",
     "ForgeBlockedError",

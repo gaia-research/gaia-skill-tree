@@ -48,6 +48,7 @@ from gaia_cli.steward.verification import (
     evaluate,
     is_workflow_path,
     parse_proof_transcript,
+    checkoutBase,
     parse_unified_diff,
     read_text_input,
 )
@@ -714,7 +715,7 @@ def render_verification(
     transcript_text = read_text_input(
         proof_path, label="proof transcript", limit=MAX_TRANSCRIPT_BYTES
     )
-    change_set = parse_unified_diff(diff_text)
+    change_set = parse_unified_diff(diff_text, base=checkoutBase(root))
     workflow_baseline = _workflow_baseline(root, change_set.paths)
     transcript = parse_proof_transcript(
         transcript_text, proof_contract_length=len(packet.proof)

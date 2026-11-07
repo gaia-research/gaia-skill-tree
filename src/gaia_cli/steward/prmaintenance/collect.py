@@ -113,7 +113,8 @@ def pullRow(api: Api, repo: str, number: int) -> dict:
     head, base = pull["head"], pull["base"]
     headSha = head["sha"]
     return {
-        "number": number, "title": pull.get("title") or "", "state": pull.get("state"), "draft": bool(pull.get("draft")),
+        "number": number, "prId": str(pull.get("id") or ""), "repositoryId": str((base.get("repo") or {}).get("id") or ""),
+        "title": pull.get("title") or "", "state": pull.get("state"), "draft": bool(pull.get("draft")),
         "merged": bool(pull.get("merged")),
         "author": {"login": (pull.get("user") or {}).get("login"), "id": (pull.get("user") or {}).get("id"),
                    "type": (pull.get("user") or {}).get("type")},

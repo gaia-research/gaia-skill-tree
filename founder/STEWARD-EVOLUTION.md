@@ -365,7 +365,7 @@ Transition invariants:
   - dollars, measured by skill-cost;
   - wall-clock minutes;
   - items in flight.
-- **Code caps stay the ceiling.** Today they are `maxDispatchesPerRun` 1, `maxInFlight` 2, `maxAttempts` 2 and `cooldownSeconds` 3600 (**VERIFIED**, `POLICY.yaml` `routing`).
+- **Code caps stay the ceiling.** Today they are `maxDispatchesPerRun` 8 (1 up to `maxInFlight`), `maxInFlight` 8 (code cap 8; founder decision `steward-class-b-throughput-2026-11-06`), `maxAttempts` 2 and `cooldownSeconds` 3600 (**VERIFIED**, `POLICY.yaml` `routing`).
 - **Unknown is not unlimited.** When remaining quota or budget is unknown, nothing is admitted.
 - **A subscription window shared with interactive use keeps a reserve** for the founder. Admission stops at the reserve.
 - **Packets stay model-free.** (**RATIFIED**, STEWARD.md §9, amendment of 2026-08-13: a packet names no model and no harness.)

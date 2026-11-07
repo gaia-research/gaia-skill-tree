@@ -24,8 +24,9 @@ name: Gaia Steward Full
 # reports what it can see; a missing credential makes the agent run fail and the
 # step is reported failed. Class B is only ever claimed when an agent ran.
 #
-# If the workflow is separately reauthorized, maxDispatchesPerRun remains pinned
-# to 1 in code; an empty STEWARD_AGENT selection must still run without agents.
+# If the workflow is separately reauthorized, maxDispatchesPerRun stays bounded in
+# code to 1..maxInFlight (founder decision steward-class-b-throughput-2026-11-06);
+# an empty STEWARD_AGENT selection must still run without agents.
 
 # Paused by founder: subscription-driven Claude routine replaces gh-aw GitHub inference.
 # No scheduled or manual dispatch here until explicitly reauthorized.

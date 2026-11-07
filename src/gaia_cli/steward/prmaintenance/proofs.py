@@ -1,7 +1,7 @@
 """Local, deterministic proofs about a PR head, read from git objects only (no network).
 
 The census collector fetches each PR head into the local object store. Everything here reads those
-objects with ``git cat-file`` / ``git archive``. A missing object is ``unknown``, never ``pass``.
+objects with ``git ls-tree`` / ``git cat-file``. A missing object is ``unknown``, never ``pass``.
 The content-engine proofs regenerate a report from its own canonical JSON using the templates of the
 *base* commit and compare the result to what the PR committed, so a PR can neither smuggle in a template
 change nor drop a historical report from the shared indexes.
@@ -9,13 +9,15 @@ change nor drop a historical report from the shared indexes.
 
 from __future__ import annotations
 
+import hashlib
 import json
+import os
 import re
+import selectors
 import subprocess
 import sys
-import tarfile
 import tempfile
-import io
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping
@@ -33,9 +35,42 @@ class Proof:
     detail: str
 
 
-def git(root: Path, *args: str, timeout: float = 60.0) -> subprocess.CompletedProcess:
+SAFE_GIT_ENV_EXCLUDE = frozenset({
+    "GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",
+    "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_REPLACE_REF_BASE",
+    "GIT_GRAFT_FILE", "GIT_COMMON_DIR",
+})
+
+
+def safeGitEnv(env: Mapping[str, str] | None = None) -> dict[str, str]:
+    sub_env = {
+        key: value
+        for key, value in os.environ.items()
+        if key not in SAFE_GIT_ENV_EXCLUDE
+    }
+    sub_env.update(
+        {
+            "LC_ALL": "C",
+            "GIT_TERMINAL_PROMPT": "0",
+            "GIT_OPTIONAL_LOCKS": "0",
+            "GIT_NO_REPLACE_OBJECTS": "1",
+            "GIT_GRAFT_FILE": os.devnull,
+        }
+    )
+    if env:
+        sub_env.update(env)
+    return sub_env
+
+
+def git(root: Path, *args: str, timeout: float = 60.0, env: Mapping[str, str] | None = None) -> subprocess.CompletedProcess:
     try:
-        return subprocess.run(["git", "-C", str(root), *args], capture_output=True, timeout=timeout, check=False)
+        return subprocess.run(
+            ["git", "--no-replace-objects", "-c", "core.useReplaceRefs=false", "-C", str(root), *args],
+            capture_output=True,
+            timeout=timeout,
+            env=safeGitEnv(env),
+            check=False,
+        )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return subprocess.CompletedProcess(args, 127, b"", str(exc).encode())
 
@@ -174,16 +209,100 @@ def surfaceProblems(html: str) -> list[str]:
     return problems[:6]
 
 
+def boundedObjectRead(root: Path, args: list[str], limit: int, deadline: float) -> bytes | None:
+    """Read bounded raw Git output without archive, checkout, or attribute filters."""
+    command = ["git", "--no-replace-objects", "-c", "core.useReplaceRefs=false",
+               "--literal-pathspecs", "-C", str(root), *args]
+    process = None
+    try:
+        process = subprocess.Popen(command, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                                   stderr=subprocess.DEVNULL, env=safeGitEnv())
+        data = bytearray()
+        with selectors.DefaultSelector() as selector:
+            selector.register(process.stdout, selectors.EVENT_READ)
+            while True:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0 or not selector.select(remaining):
+                    return None
+                chunk = os.read(process.stdout.fileno(), min(65536, limit + 1 - len(data)))
+                if not chunk:
+                    break
+                data.extend(chunk)
+                if len(data) > limit:
+                    return None
+        if process.wait(timeout=max(0.001, deadline - time.monotonic())) != 0:
+            return None
+        return bytes(data)
+    except (OSError, ValueError, subprocess.TimeoutExpired):
+        return None
+    finally:
+        if process is not None:
+            if process.poll() is None:
+                try:
+                    process.kill()
+                except ProcessLookupError:
+                    pass
+            process.wait()
+            if process.stdout is not None:
+                process.stdout.close()
+
+
 def exportBase(root: Path, baseSha: str, paths: list[str], target: Path) -> bool:
-    result = git(root, "archive", baseSha, *paths, timeout=120.0)
-    if result.returncode != 0:
+    """Materialize exact committed regular blobs; attributes cannot omit or rewrite them."""
+    if not re.fullmatch(r"[0-9a-f]{40}", baseSha) or not paths:
         return False
-    with tarfile.open(fileobj=io.BytesIO(result.stdout)) as tar:
-        for member in tar.getmembers():
-            if member.islnk() or member.issym() or member.name.startswith(("/", "..")) or ".." in Path(member.name).parts:
+    def safePath(value: str) -> bool:
+        parts = value.split("/")
+        return bool(value) and all(part not in ("", ".", "..") and "\\" not in part for part in parts)
+    if not all(safePath(path) for path in paths):
+        return False
+    deadline = time.monotonic() + 120.0
+    listing = boundedObjectRead(root, ["ls-tree", "-r", "-l", "-z", "--full-tree", baseSha, "--", *paths], 4 * 1024 * 1024, deadline)
+    if listing is None or not listing.endswith(b"\0"):
+        return False
+    entries = []
+    total = 0
+    try:
+        for row in listing[:-1].split(b"\0"):
+            header, rawPath = row.split(b"\t", 1)
+            mode, kind, oid, rawSize = header.split()
+            path = rawPath.decode("utf-8", "strict")
+            if (mode not in (b"100644", b"100755") or kind != b"blob"
+                    or not re.fullmatch(rb"[0-9a-f]{40}", oid) or not safePath(path)
+                    or not any(path == selected or path.startswith(selected + "/") for selected in paths)):
                 return False
-        tar.extractall(target, filter="data")
-    return True
+            size = int(rawSize)
+            total += size
+            if size < 0 or size > 16 * 1024 * 1024 or total > 64 * 1024 * 1024 or len(entries) >= 16384:
+                return False
+            entries.append((path, mode, oid, size))
+        if len({entry[0] for entry in entries}) != len(entries) or any(
+                not any(path == selected or path.startswith(selected + "/") for path, *_ in entries) for selected in paths):
+            return False
+        # Even a pre-existing symlink above the target would escape the intended
+        # output path. Production uses a fresh private temporary directory.
+        if target.resolve() != Path(os.path.abspath(target)):
+            return False
+        target.mkdir(parents=True, exist_ok=True)
+        for path, mode, oid, size in entries:
+            data = boundedObjectRead(root, ["cat-file", "blob", oid.decode("ascii")], size, deadline)
+            if data is None or len(data) != size or hashlib.sha1(b"blob " + str(size).encode() + b"\0" + data).hexdigest().encode() != oid:
+                return False
+            dest = target
+            for part in path.split("/")[:-1]:
+                dest = dest / part
+                if dest.is_symlink():
+                    return False
+                dest.mkdir(exist_ok=True)
+            dest = dest / path.split("/")[-1]
+            if dest.exists() or dest.is_symlink():
+                return False
+            with dest.open("xb") as output:
+                output.write(data)
+            dest.chmod(0o755 if mode == b"100755" else 0o644)
+        return True
+    except (OSError, ValueError, UnicodeError):
+        return False
 
 
 RENDER = """
@@ -220,7 +339,9 @@ def contentEngineProofs(root: Path, baseSha: str, headSha: str, label: str) -> l
         return [Proof("rendered-html", UNKNOWN, "head or base objects are not available locally"),
                 Proof("index-rebuild", UNKNOWN, "head or base objects are not available locally")]
     with tempfile.TemporaryDirectory(prefix="steward-ce-") as tmp:
-        work = Path(tmp)
+        # Resolve the private directory once: exportBase refuses any target whose resolved path differs from its
+        # literal path, and macOS temp roots (/var -> /private/var) are symlinked. The check itself is unchanged.
+        work = Path(tmp).resolve()
         (work / "base").mkdir()
         if not exportBase(root, baseSha, ["scripts/contentEngine", "scripts/publication_context.py"], work / "base") \
                 or not exportBase(root, baseSha, ["docs/reports", "docs/api/v1/reports"], work / "docs-base"):

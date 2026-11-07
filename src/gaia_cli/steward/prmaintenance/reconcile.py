@@ -65,8 +65,15 @@ class Replacement:
     body: str
 
 
-def git(root: Path, *args: str, timeout: float = 120.0) -> subprocess.CompletedProcess:
-    return subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, timeout=timeout, check=False)
+def git(root: Path, *args: str, timeout: float = 120.0, env: Mapping[str, str] | None = None) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        ["git", "--no-replace-objects", "-c", "core.useReplaceRefs=false", "-C", str(root), *args],
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+        env=proofs.safeGitEnv(env),
+        check=False,
+    )
 
 
 def need(result: subprocess.CompletedProcess, what: str) -> str:

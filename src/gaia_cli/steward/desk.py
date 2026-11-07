@@ -91,9 +91,11 @@ _WIDTH = 78
 # Lower sorts first. Security exposure outranks governance, which outranks
 # explicit records, which outrank routine Class C questions.
 _PRIORITY_CREDENTIAL = 0
+_PRIORITY_CLOSEOUT = 5  # founder ruling #6: a closeout discrepancy signals that something was missed
 _PRIORITY_ESCALATED = 10
 _PRIORITY_RECORD = 20
 _PRIORITY_CLASS_C = 30
+CLOSEOUT_TARGET = "issue-question/closeout-discrepancy"
 
 
 # --- data --------------------------------------------------------------------
@@ -691,7 +693,8 @@ def _from_founder_decision(decision: FounderDecision, source: str) -> DeskDecisi
         links=links,
         debt_ids=decision.debt_ids,
         source=source,
-        priority=_PRIORITY_ESCALATED if source == "escalated-lane" else _PRIORITY_CLASS_C,
+        priority=(_PRIORITY_ESCALATED if source == "escalated-lane"
+                  else _PRIORITY_CLOSEOUT if decision.decision_target == CLOSEOUT_TARGET else _PRIORITY_CLASS_C),
     )
 
 

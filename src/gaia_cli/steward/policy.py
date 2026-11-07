@@ -59,7 +59,7 @@ _LANE_KEYS = {"maxInFlight", "maxAttempts", "cooldownSeconds"}
 # lane's bounds are the only thing standing between "bounded autonomous repair"
 # and an unattended loop. Policy may narrow these; it may not widen them.
 _LANE_LIMITS = {
-    "maxInFlight": (1, 4),
+    "maxInFlight": (1, 8),
     "maxAttempts": (1, 5),
     "cooldownSeconds": (0, 86_400),
 }
@@ -110,6 +110,16 @@ _PROTECTED_DISPATCH_PATHS = (
     "registry/schema/**",
     "skill-trees/**",
 )
+# The only carve-outs from the protected set above: a subtree a rule may WRITE
+# although it sits under a protected path, each tied to the one debt kind that
+# may hold it. The rule must still list the protected parent as forbidden.
+# Verification applies the carve-out to exactly this (kind, subtree) pair and
+# to the ``founder/**`` ban only; for every other rule, forbidden always wins.
+DISPATCH_EXEMPT_SUBTREES = {
+    # Credential disposition records are drafted by a builder and signed by an
+    # independent verifier; the policy, decisions and receipts beside them stay protected.
+    "founder/steward/security-dispositions/**": "credential_review",
+}
 # Founder ruling #14 (steward-workflow-timeout-route, #2283) carves exactly one
 # narrow exception out of the `.github/**` floor above: the Class B route for
 # `workflow_hygiene` (a job with no `timeout-minutes`) may write the direct-child
@@ -465,8 +475,6 @@ class StewardPolicy:
         if set(routing) != _ROUTING_KEYS:
             raise PolicyError(f"routing must contain exactly {sorted(_ROUTING_KEYS)}")
         max_dispatches = routing["maxDispatchesPerRun"]
-        if max_dispatches != 1 or isinstance(max_dispatches, bool):
-            raise PolicyError("routing.maxDispatchesPerRun must be exactly 1")
         lane_raw = _mapping(routing["lane"], "routing.lane")
         if set(lane_raw) != _LANE_KEYS:
             raise PolicyError(f"routing.lane must contain exactly {sorted(_LANE_KEYS)}")
@@ -478,6 +486,14 @@ class StewardPolicy:
                     f"routing.lane.{key} must be an integer between {floor} and {ceiling}"
                 )
             lane_values[key] = value
+        # A run may hand out several builds at once, but never more than the lane
+        # can hold in flight, so the per-run number can only narrow the lane ceiling.
+        if (
+            isinstance(max_dispatches, bool)
+            or not isinstance(max_dispatches, int)
+            or not 1 <= max_dispatches <= lane_values["maxInFlight"]
+        ):
+            raise PolicyError("routing.maxDispatchesPerRun must be between 1 and routing.lane.maxInFlight")
         lane_policy = LanePolicy(
             max_in_flight=lane_values["maxInFlight"],
             max_attempts=lane_values["maxAttempts"],
@@ -595,6 +611,18 @@ class StewardPolicy:
                     f"paths {missing_guards}"
                 )
             for allowed in allowed_paths:
+                if allowed in DISPATCH_EXEMPT_SUBTREES:
+                    # One named subtree of founder/**, for one named debt kind,
+                    # and nothing broader. Every other protected path still applies.
+                    if DISPATCH_EXEMPT_SUBTREES[allowed] != debt_kind:
+                        raise PolicyError(
+                            f"routing.dispatchRules.{rule_id}.allowedPaths: {allowed} is reserved for "
+                            f"{DISPATCH_EXEMPT_SUBTREES[allowed]} rules"
+                        )
+                    others = tuple(item for item in _PROTECTED_DISPATCH_PATHS if item != "founder/**")
+                    if any(_globs_overlap(allowed, item) for item in others):
+                        raise PolicyError(f"routing.dispatchRules.{rule_id}.allowedPaths: {allowed} reaches a protected path")
+                    continue
                 conflict = next(
                     (
                         item

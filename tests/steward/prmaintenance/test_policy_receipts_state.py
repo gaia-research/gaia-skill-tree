@@ -62,7 +62,7 @@ def test_a_malformed_section_disables_only_this_route_not_the_rest_of_the_policy
     path.write_text(yaml.safe_dump(data))
     loaded = StewardPolicy.load(fx.root)
     assert loaded.pr_maintenance_error and not loaded.pr_maintenance.actionEnabled("merge")
-    assert loaded.max_dispatches_per_run == 1
+    assert loaded.max_dispatches_per_run == 8  # the rest of the shipped policy still loads
 
 
 def test_policy_classifies_all_eight_kinds_and_only_the_founder_kind_is_class_c():
