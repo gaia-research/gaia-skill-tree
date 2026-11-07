@@ -496,6 +496,7 @@ class GitRefLedgerStore:
                 [
                     "git", "--no-replace-objects",
                     "-c", "core.useReplaceRefs=false",
+                    "-c", "advice.graftFileDeprecated=false",
                     "-C", str(self.repo_root),
                     "-c", "gc.auto=0", "-c", "maintenance.auto=0",
                     *args,
@@ -515,9 +516,24 @@ class GitRefLedgerStore:
 
     @staticmethod
     def outputText(result: subprocess.CompletedProcess) -> str:
-        return (result.stderr or b"").decode("utf-8", "replace") + (
-            result.stdout or b""
-        ).decode("utf-8", "replace")
+        def _to_str(data: bytes | str | None) -> str:
+            if data is None:
+                return ""
+            if isinstance(data, str):
+                return data
+            return data.decode("utf-8", "replace")
+
+        raw = _to_str(result.stderr) + _to_str(result.stdout)
+        lines = raw.splitlines(keepends=True)
+        filtered = [
+            line
+            for line in lines
+            if not line.strip().lower().startswith("hint:")
+        ]
+        text = "".join(filtered)
+        if not text.strip():
+            return raw
+        return text
 
     def plumb(self, args: list[str], *, stdin: bytes | None = None, identity: bool = False) -> str:
         result = self.git(args, stdin=stdin, timeout=self.localTimeout, identity=identity)

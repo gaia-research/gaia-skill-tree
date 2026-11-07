@@ -1264,3 +1264,64 @@ def test_ledger_monitor_and_telemetry_logs_are_metadata_only(caplog, tmp_path):
     assert any("threshold=90% duration_ms=25.0" in m for m in warning_msgs)
     assert any("threshold=70%" in m and "duration_ms" not in m for m in warning_msgs)
 
+
+def test_classify_push_failure_strips_git_hint_lines_preserving_error(tmp_path):
+    """Verbose git hint lines must be stripped so the real error fits in 400 chars."""
+    store = GitRefLedgerStore(tmp_path)
+
+    hint_lines = [
+        "hint: Support for <GIT_DIR>/info/grafts is deprecated and will be removed in a future Git version.",
+        "hint: Consider using replace refs instead.",
+        "hint: Disable this message with 'git config advice.graftFileDeprecated false'",
+        "hint: Git hint line number 4 providing verbose explanation of deprecated features and behaviors.",
+        "hint: Git hint line number 5 providing additional diagnostic recommendations for repository maintainers.",
+        "hint: Git hint line number 6 warning about potential conflicts and deprecation policies in git plumbing.",
+    ]
+    verbose_hints = "\n".join(hint_lines) + "\n"
+    assert len(verbose_hints) > 400, "Fixture must exceed 400 chars of hints"
+
+    real_error = "fatal: remote error: upload-pack: not our ref deadbeef12345678"
+    raw_stderr = f"{verbose_hints}{real_error}\n".encode("utf-8")
+
+    result = subprocess.CompletedProcess(
+        args=["git", "push"],
+        returncode=1,
+        stdout=b"",
+        stderr=raw_stderr,
+    )
+
+    # 1. outputText strips hint lines and keeps real error
+    filtered_text = store.outputText(result)
+    assert "hint:" not in filtered_text.lower()
+    assert real_error in filtered_text
+
+    # 2. classifyPushFailure surfaces the real error within 400-char truncation bound
+    with pytest.raises(LedgerUnavailable) as exc_info:
+        store.classifyPushFailure(result, expected="commit-123")
+
+    msg = str(exc_info.value)
+    assert "ledger push failed:" in msg
+    assert real_error in msg
+    assert "hint:" not in msg.lower()
+
+    # 3. If all lines were hints, outputText falls back to raw output
+    all_hints = "hint: only a hint line 1\nhint: only a hint line 2\n".encode("utf-8")
+    result_hints_only = subprocess.CompletedProcess(
+        args=["git", "push"],
+        returncode=1,
+        stdout=b"",
+        stderr=all_hints,
+    )
+    fallback_text = store.outputText(result_hints_only)
+    assert "hint: only a hint line 1" in fallback_text
+
+    with pytest.raises(LedgerUnavailable) as exc_info_fallback:
+        store.classifyPushFailure(result_hints_only, expected="commit-123")
+    assert "hint: only a hint line 1" in str(exc_info_fallback.value)
+
+    # 4. GitRefLedgerStore.git passes advice.graftFileDeprecated=false
+    completed = store.git(["version"], timeout=5.0)
+    assert completed.returncode == 0
+    assert "-c" in completed.args
+    assert "advice.graftFileDeprecated=false" in completed.args
+
