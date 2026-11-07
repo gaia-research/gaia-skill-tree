@@ -204,6 +204,20 @@ python scripts/pr_guards.py --dry-run    # list what would run
 ```
 The lexicon and license guards need Node (`npx`); without it they are skipped locally and still run in CI.
 
+### Run Ruff Linting and Multi-Tier Gate
+You can run ruff linting locally using either the raw ruff CLI or the multi-tier gate:
+```bash
+python3 scripts/check_ruff.py                    # Run the multi-tier gate (blocking + ratchet + advisory)
+ruff check                                       # Run raw ruff check directly against pyproject.toml
+python3 scripts/check_ruff.py --update-baseline  # Update scripts/lint/ruff-baseline.json with current counts
+```
+
+#### Why Ratchet vs. Blocking Rules
+The Ruff lint gate enforces three distinct tiers:
+- **Blocking (`F821`, `F811`, `F63`, `F7`)**: Correctness rules block at zero across the entire codebase to prevent syntax and runtime errors. Any introduced violation fails immediately.
+- **Ratchet (`F401`, `S110`, `S112`, `E722`)**: Git diff identifies changed files; the committed `scripts/lint/ruff-baseline.json` sets the allowed per-file, per-rule ceiling. New violations exceeding that ceiling in changed files fail; untouched files pass. Unlike blocking rules, existing debt is permitted.
+- **Advisory (`BLE001`)**: Blind exception handling (`except Exception:`) outputs an advisory warning but does not fail the gate (exit code 0).
+
 ### Test-suite conventions
 
 **a. Default timeouts (never use `--timeout-method=thread`)**

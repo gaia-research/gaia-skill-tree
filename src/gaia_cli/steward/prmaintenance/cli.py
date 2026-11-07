@@ -292,7 +292,6 @@ def doFinalize(root: Path, args: argparse.Namespace) -> int:
 
 
 def operationIdentity(args) -> str:
-    from gaia_cli.steward.prmaintenance import coordination
     value = getattr(args, "operation_id", None)
     if value is None and getattr(args, "auth", None):
         identity = readJson(args.auth)

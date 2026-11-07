@@ -510,3 +510,50 @@ class TestPaletteContractYggdrasilII:
             "Retired tier key indexed by subscript (KeyError under Yggdrasil II): "
             + ", ".join(offenders)
         )
+
+
+def test_graph_command_non_public_repo_error_handles_cleanly(tmp_path, monkeypatch):
+    """Regression test: NonPublicRepoError raised during detect_source_repo must be
+    caught cleanly without raising NameError, setting is_workspace and populating user_ctx."""
+    from gaia_cli import scanner, push
+    from gaia_cli.push import NonPublicRepoError
+
+    root = make_registry(tmp_path)
+    monkeypatch.chdir(tmp_path)
+
+    fake_config = {"gaiaUser": "testuser", "username": "testuser"}
+    monkeypatch.setattr(scanner, "load_config", lambda: fake_config)
+
+    def mock_detect_source_repo(cfg):
+        raise NonPublicRepoError("Not a public repository")
+
+    monkeypatch.setattr(push, "detect_source_repo", mock_detect_source_repo)
+
+    captured_user_ctx = []
+    captured_is_workspace = []
+    real_write = graph_mod.write_graph_artifact
+
+    def mock_write_graph_artifact(*args, **kwargs):
+        captured_user_ctx.append(kwargs.get("user_ctx"))
+        captured_is_workspace.append(kwargs.get("is_workspace"))
+        return real_write(*args, **kwargs)
+
+    monkeypatch.setattr(graph_mod, "write_graph_artifact", mock_write_graph_artifact)
+
+    graph_mod.graph_command(
+        SimpleNamespace(
+            registry=str(root),
+            output=None,
+            open=False,
+            canon=False,
+            custom=False,
+            show_all=False,
+        )
+    )
+
+    assert len(captured_user_ctx) == 1
+    assert captured_user_ctx[0] is not None
+    assert captured_user_ctx[0]["username"] == "testuser"
+    assert len(captured_is_workspace) == 1
+    assert captured_is_workspace[0] is True
+

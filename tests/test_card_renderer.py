@@ -594,3 +594,45 @@ def test_render_appraise_card_truncation():
     assert "+2 more" in output
     assert "Second Derivative" not in output
 
+
+def test_render_appraise_card_unnamed_skill_no_display_name_default_ctx():
+    """Regression test: render_appraise_card with unnamed skill and display_name=None
+    must not raise NameError('ctx'), and should derive name from slug."""
+    skill_data = {
+        "id": "unnamed-test-skill",
+        "type": "basic",
+        "level": "0★",
+        "description": "Short description.",
+    }
+    output = render_appraise_card(
+        skill_data=skill_data,
+        prereq_status={},
+        derivatives=[],
+        actions=[],
+        display_name=None,
+    )
+    assert "Unnamed Test Skill" in output
+
+
+def test_render_appraise_card_with_ctx_nickname():
+    """Regression test: render_appraise_card accepts ctx and uses ctx.display_name."""
+    class DummyContext:
+        def display_name(self, skill_id, include_star=False):
+            return f"CustomNick({skill_id})"
+
+    skill_data = {
+        "id": "custom-skill",
+        "type": "basic",
+        "level": "0★",
+        "description": "Short description.",
+    }
+    output = render_appraise_card(
+        skill_data=skill_data,
+        prereq_status={},
+        derivatives=[],
+        actions=[],
+        ctx=DummyContext(),
+    )
+    assert "CustomNick(custom-skill)" in output
+
+

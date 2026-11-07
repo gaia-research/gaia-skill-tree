@@ -16,7 +16,9 @@ from gaia_cli.steward.prmaintenance import evaluate as ev
 from gaia_cli.steward.prmaintenance.sensor import PrMaintenanceSensor
 
 from tests.steward.prmaintenance import helpers as h
-from tests.steward.prmaintenance.test_sensor import NOW, docsRow, fx, observe  # noqa: F401  (fx is a pytest fixture)
+from tests.steward.prmaintenance.test_sensor import NOW, docsRow, fx as _fx, observe
+
+fx = _fx  # Re-export the pytest fixture.
 from tests.steward.test_digest import EMPTY_LANE, _scan_stub
 
 RULE = "routine-pr-founder-decision"

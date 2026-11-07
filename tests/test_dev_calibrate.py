@@ -219,3 +219,50 @@ def test_starbar_not_triggered_for_2star(tmp_path, monkeypatch):
 
     md_path = tmp_path / "registry" / "named" / "alice" / "test-skill.md"
     assert "level: 2★" in md_path.read_text(encoding="utf-8")
+
+
+def test_calibrate_same_level_does_not_log_rank_event(tmp_path, monkeypatch):
+    """Regression test: calibrating to the same level must NOT log a demote event."""
+    root = _make_registry(tmp_path, level="2★")
+    monkeypatch.setattr("gaia_cli.commands.dev.calibrate._get_contributor", lambda: "alice")
+    monkeypatch.setattr("gaia_cli.commands.dev.calibrate._run_docs_build", lambda *a, **kw: None)
+
+    events = []
+
+    def mock_append_skill_event(skill_id, action, contributor, message, registry_path=None):
+        events.append((skill_id, action, contributor, message))
+
+    monkeypatch.setattr("gaia_cli.commands.dev.calibrate.append_skill_event", mock_append_skill_event)
+
+    meta_calibrate_command(_args(root, level="2★"))
+
+    assert len(events) == 0, f"Expected no rank event logged, got: {events}"
+
+
+def test_calibrate_changes_log_appropriate_events(tmp_path, monkeypatch):
+    """Regression test: calibrating up logs rank_up, calibrating down logs demote."""
+    root = _make_registry(
+        tmp_path,
+        level="2★",
+        github_link="https://github.com/alice/repo/blob/main/skills/test-skill/SKILL.md",
+    )
+    monkeypatch.setattr("gaia_cli.commands.dev.calibrate._get_contributor", lambda: "alice")
+    monkeypatch.setattr("gaia_cli.commands.dev.calibrate._run_docs_build", lambda *a, **kw: None)
+
+    events = []
+
+    def mock_append_skill_event(skill_id, action, contributor, message, registry_path=None):
+        events.append((skill_id, action, contributor, message))
+
+    monkeypatch.setattr("gaia_cli.commands.dev.calibrate.append_skill_event", mock_append_skill_event)
+
+    # Calibrate 2★ -> 3★ (rank up)
+    meta_calibrate_command(_args(root, level="3★"))
+    assert len(events) == 1
+    assert events[0][1] == "rank_up"
+
+    # Calibrate 3★ -> 2★ (demote)
+    events.clear()
+    meta_calibrate_command(_args(root, level="2★"))
+    assert len(events) == 1
+    assert events[0][1] == "demote"

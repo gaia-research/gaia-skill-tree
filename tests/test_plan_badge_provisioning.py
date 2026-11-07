@@ -787,3 +787,41 @@ def test_graphify_upstream_migration_preserves_history_and_state():
     assert record["status"] == "NO_RESPONSE"
     assert record["provisioning"]["outcome"] == "NO_RESPONSE"
 
+
+def test_determine_badge_presentation_ast_no_dead_code():
+    """Regression test: determine_badge_presentation must not contain unreachable dead code
+    after the terminal return statement, and must return a valid CURATED_COLLECTION dict."""
+    import ast
+
+    # Parse AST of scripts/plan_badge_provisioning.py
+    script_path = Path(__file__).resolve().parent.parent / "scripts" / "plan_badge_provisioning.py"
+    tree = ast.parse(script_path.read_text(encoding="utf-8"))
+
+    fn_def = None
+    for node in tree.body:
+        if isinstance(node, ast.FunctionDef) and node.name == "determine_badge_presentation":
+            fn_def = node
+            break
+
+    assert fn_def is not None, "determine_badge_presentation function not found in AST"
+
+    # Verify the last statement in body is a Return statement and has no statements following it
+    last_stmt = fn_def.body[-1]
+    assert isinstance(last_stmt, ast.Return), f"Last statement must be Return, got {type(last_stmt)}"
+
+    # Also functional check: determine_badge_presentation returns valid dictionary for >= 9 skills
+    mock_skills = [
+        {"id": f"alice/skill-{i}", "markdown": f"badge-{i}", "html": f"<span>{i}</span>"}
+        for i in range(10)
+    ]
+    res = determine_badge_presentation(
+        eligible_skills=mock_skills,
+        canonical_skill=mock_skills[0],
+        handle="alice",
+    )
+    assert isinstance(res, dict)
+    assert res["tier"] == "CURATED_COLLECTION"
+    assert res["eligible_count"] == 10
+    assert res["displayed_count"] == 1
+
+

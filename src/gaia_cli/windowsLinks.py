@@ -67,12 +67,14 @@ def makeLink(
 
     # Primary path: real symlink. Works on Linux/macOS unconditionally; works
     # on Windows when symlink creation is permitted for the current user.
+    primary_error = None
     try:
         os.symlink(srcPath, dstPath, target_is_directory=targetIsDirectory)
         return "symlink"
-    except OSError as primaryError:
+    except OSError as err:
         if sys.platform != "win32":
             raise
+        primary_error = err
 
     # ---- Windows fallbacks below this point ----
 
@@ -90,7 +92,7 @@ def makeLink(
             stderr = getattr(junctionError, "stderr", "") or ""
             raise OSError(
                 f"Failed to link {dstPath!r} -> {srcPath!r}: "
-                f"symlink denied ({primaryError}) and junction failed "
+                f"symlink denied ({primary_error}) and junction failed "
                 f"({stderr.strip() or junctionError})"
             ) from junctionError
 

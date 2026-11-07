@@ -1,0 +1,52 @@
+name: Ruff Guard
+
+on:
+  pull_request:
+    paths:
+      - '**/*.py'
+      - 'pyproject.toml'
+      - 'scripts/check_ruff.py'
+      - 'scripts/lint/ruff-baseline.json'
+      - '.github/workflows/ruff-guard.yml'
+  push:
+    branches:
+      - main
+      - 'dev/**'
+    paths:
+      - '**/*.py'
+      - 'pyproject.toml'
+      - 'scripts/check_ruff.py'
+      - 'scripts/lint/ruff-baseline.json'
+      - '.github/workflows/ruff-guard.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  ruff-guard:
+    name: Ruff Multi-Tier Lint Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Ruff
+        run: |
+          python3 -m pip install "ruff>=0.5.0"
+
+      - name: Run Ruff Multi-Tier Gate
+        run: |
+          python3 scripts/check_ruff.py
