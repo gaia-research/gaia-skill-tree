@@ -172,6 +172,7 @@ jobs:
       HAS_ANTHROPIC: ${{ secrets.ANTHROPIC_API_KEY != '' }}
       HAS_OPENAI: ${{ secrets.OPENAI_API_KEY != '' || secrets.CODEX_API_KEY != '' }}
       HAS_COPILOT_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN != '' }}
+      GAIA_STEWARD_LEDGER_MAX_BYTES: ${{ vars.GAIA_STEWARD_LEDGER_MAX_BYTES || '8388608' }}
     steps:
       - uses: actions/checkout@v4
         with:

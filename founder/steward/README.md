@@ -149,7 +149,8 @@ on an empty lane. Quiet days are the common case and must not page anyone.
 Ordinary `steward full` run/record state is unchanged: it stays on the shared Steward Git ledger (`--ledger auto|git|local`
 exactly as before), only the Lead writes it, and it fails closed when unavailable; no local state stands in for it. Observation,
 census, profiles and dispatches remain checkout-local as before. This source change does not retire, migrate or drain the
-shared ledger or any real writer.
+shared ledger or any real writer. The shared ledger capacity cap is 64 MiB (67,108,864 bytes) via `GAIA_STEWARD_LEDGER_MAX_BYTES`
+(founder ruling `steward-ledger-capacity-64mib-2283`), defaulting to 8 MiB when unset.
 
 Routine 19 alone uses a separately provisioned dedicated Git coordination ref for critical merge/close identity, durable
 verification/justification, one global slot, conservative attempt budgets and outcomes. Gate output is preparation, not a send

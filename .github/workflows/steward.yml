@@ -28,6 +28,9 @@ concurrency:
   group: gaia-steward
   cancel-in-progress: false
 
+env:
+  GAIA_STEWARD_LEDGER_MAX_BYTES: ${{ vars.GAIA_STEWARD_LEDGER_MAX_BYTES || '8388608' }}
+
 jobs:
   class-a:
     name: Class A closed loop
