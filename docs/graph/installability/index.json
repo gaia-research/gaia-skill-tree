@@ -4729,7 +4729,7 @@
         "entrypoint": "skills/workflow_skill_creator/SKILL.md",
         "installSubpath": "skills/workflow_skill_creator"
       },
-      "currentSkillContentSha256": "43a2aa28977ecf593a933d870a449d72e049c6efa5fadb74003fbbb4fdafca28",
+      "currentSkillContentSha256": "f6f9574cea3519b6660623e679c95e3d7123b401783155d099d7eddaa99fbe75",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
