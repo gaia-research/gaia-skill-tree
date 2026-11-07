@@ -8,6 +8,7 @@ retries with telemetry, and that only closure operations (not the rest of Stewar
 from __future__ import annotations
 
 import json
+import shutil
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
@@ -299,13 +300,27 @@ def test_an_unreadable_count_makes_closed_incomplete_not_merely_noted() -> None:
     assert document["completeness"]["closed"] == {"complete": False, "reason": "count-unreadable"}
 
 
-def test_without_the_cross_check_the_closed_inventory_is_not_judged_by_a_count() -> None:
+def test_the_cross_check_runs_by_default_and_the_count_endpoint_is_exercised() -> None:
+    repo = Repo(total=7)
+
+    document = collectCensus(REPO, NOW, repo.fetch, 30, sleep=noSleep)  # no verification argument at all
+
+    assert repo.searches() == 1
+    assert history(document)["count"] == {"value": 7, "verified": True, "checked": True}
+    assert document["completeness"]["closed"]["complete"] is True
+
+
+def test_a_deliberately_unverified_census_marks_closed_operations_incomplete() -> None:
     repo = Repo(total=0)
+
     document = census(repo, verifyClosedCount=False)
 
     assert repo.searches() == 0
     assert history(document)["count"] == {"value": None, "verified": False, "checked": False}
-    assert document["completeness"]["closed"]["complete"] is True
+    assert history(document)["refusal"] == "count-not-verified"
+    assert document["completeness"]["closed"] == {"complete": False, "reason": "count-not-verified"}
+    assert document["completeness"]["open"]["complete"] is True
+    assert history(document)["baseline"]["after"] is None
 
 
 def test_a_transient_server_error_is_retried_and_a_later_good_read_verifies() -> None:
@@ -444,16 +459,6 @@ def test_a_restore_failure_leaves_a_stray_local_file_untouched(tmp_path: Path, m
     assert stray.read_bytes() == before
 
 
-def test_a_first_run_creates_the_baseline_only_from_a_verified_complete_census(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    out = tmp_path / "inputs" / "github-issues.json"
-    monkeypatch.setenv("GH_TOKEN", "test-token-not-real")
-
-    code = main(["--repo", REPO, "--out", str(out), "--closed-window-days", "30", "--now", NOW_TEXT,
-                 "--baseline-state", "first-run"], fetch=Repo(total=12).fetch)
-
-    assert code == 0 and rules.loadBaseline(out.parent / "closed-issue-baseline.json", REPO)[0].count == 12
-
-
 def test_an_unexplained_lower_count_leaves_the_stored_baseline_in_place(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     baselinePath = tmp_path / "inputs" / "closed-issue-baseline.json"
     rules.saveBaseline(baselinePath, REPO, BASELINE)
@@ -479,16 +484,91 @@ def test_a_verified_scan_writes_and_the_next_run_reads_it(tmp_path: Path, monkey
     assert rules.loadBaseline(path, REPO)[0].count == 15
 
 
-def test_a_corrupt_baseline_is_reported_and_replaced_only_by_a_verified_read(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+SEEDED_EMPTY = "seeded (no prior baseline retrievable)"
+SEEDED_INVALID = "seeded (prior baseline invalid)"
+
+
+def evidenceOf(path: Path) -> Path:
+    return path.with_name("closed-issue-baseline.restore-invalid.json")
+
+
+@pytest.mark.parametrize(
+    "content",
+    ["{broken", json.dumps({"schemaVersion": rules.SCHEMA, "repo": "someone/else", "count": 4, "observedAt": BASE_TIME,
+                            "source": "gh-api", "scope": rules.SCOPE})],
+    ids=["corrupt", "wrong-repository"],
+)
+def test_an_invalid_restored_baseline_is_preserved_as_evidence_and_seeded_only_from_a_verified_complete_scan(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys, content: str) -> None:
     path = tmp_path / "inputs" / "closed-issue-baseline.json"
     path.parent.mkdir(parents=True)
-    path.write_text("{broken", encoding="utf-8")
+    path.write_text(content, encoding="utf-8")
 
     code, out, _ = run(tmp_path, Repo(total=5), monkeypatch)
 
     document = json.loads(out.read_text(encoding="utf-8"))
-    assert document["closedHistory"]["baseline"]["problem"] == "baseline-unreadable"
-    assert rules.loadBaseline(path, REPO)[0].count == 5
+    baseline = document["closedHistory"]["baseline"]
+    assert code == 0
+    assert baseline["state"] == "restore-invalid" and baseline["problem"] in {"baseline-unreadable", "baseline-other-repository"}
+    assert baseline["seeded"] == SEEDED_INVALID  # the re-seed is visible in the telemetry ...
+    assert f"closed-issue baseline: {SEEDED_INVALID}" in capsys.readouterr().out  # ... and in the census output
+    assert evidenceOf(path).read_text(encoding="utf-8") == content  # the invalid file is kept, byte for byte
+    assert rules.loadBaseline(path, REPO)[0].count == 5  # and only a verified complete scan produced the new one
+
+
+def test_an_invalid_restored_baseline_is_never_replaced_by_a_failed_scan(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    path = tmp_path / "inputs" / "closed-issue-baseline.json"
+    path.parent.mkdir(parents=True)
+    path.write_text("{broken", encoding="utf-8")
+
+    code, out, _ = run(tmp_path, Repo(searchStatus=401), monkeypatch)
+
+    assert code == 3
+    assert not path.exists()  # nothing was seeded
+    assert evidenceOf(path).read_text(encoding="utf-8") == "{broken"
+    assert json.loads(out.read_text(encoding="utf-8"))["closedHistory"]["baseline"]["after"] is None
+
+
+def test_a_second_invalid_file_does_not_destroy_the_first_piece_of_evidence_unless_replaced_by_the_same_name(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    path = tmp_path / "inputs" / "closed-issue-baseline.json"
+    path.parent.mkdir(parents=True)
+    path.write_text("{first", encoding="utf-8")
+    run(tmp_path, Repo(total=5), monkeypatch)
+    assert evidenceOf(path).read_text(encoding="utf-8") == "{first"
+    assert path.is_file() and path.read_text(encoding="utf-8") != "{first"
+
+
+def test_an_empty_store_is_seeded_only_from_a_verified_complete_scan_and_labelled(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys) -> None:
+    out = tmp_path / "inputs" / "github-issues.json"
+    monkeypatch.setenv("GH_TOKEN", "test-token-not-real")
+
+    code = main(["--repo", REPO, "--out", str(out), "--closed-window-days", "30", "--now", NOW_TEXT,
+                 "--baseline-state", "empty-store"], fetch=Repo(total=12).fetch)
+
+    baseline = json.loads(out.read_text(encoding="utf-8"))["closedHistory"]["baseline"]
+    assert code == 0 and baseline["seeded"] == SEEDED_EMPTY and baseline["state"] == "empty-store"
+    assert f"closed-issue baseline: {SEEDED_EMPTY}" in capsys.readouterr().out
+    assert rules.loadBaseline(out.parent / "closed-issue-baseline.json", REPO)[0].count == 12
+
+
+def test_an_empty_store_is_not_seeded_from_an_unverified_scan(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    out = tmp_path / "inputs" / "github-issues.json"
+    monkeypatch.setenv("GH_TOKEN", "test-token-not-real")
+
+    code = main(["--repo", REPO, "--out", str(out), "--closed-window-days", "30", "--now", NOW_TEXT,
+                 "--baseline-state", "empty-store"], fetch=Repo(searchStatus=401).fetch)
+
+    assert code == 3 and not (out.parent / "closed-issue-baseline.json").exists()
+
+
+def test_a_normal_restore_is_not_labelled_as_seeded(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    baselinePath = tmp_path / "inputs" / "closed-issue-baseline.json"
+    rules.saveBaseline(baselinePath, REPO, BASELINE)
+
+    _code, out, _ = run(tmp_path, Repo(total=11), monkeypatch)
+
+    assert "seeded" not in json.loads(out.read_text(encoding="utf-8"))["closedHistory"]["baseline"]
 
 
 # --- only operations that depend on closed history fail closed ------------------------------------
@@ -644,35 +724,152 @@ def test_the_sensor_still_blinds_steward_for_an_incomplete_open_inventory(tmp_pa
 
 
 def test_the_scheduled_workflow_restores_collects_and_persists_the_baseline_in_order() -> None:
-    import yaml
-
-    workflow = Path(__file__).resolve().parents[3] / ".github" / "workflows" / "steward.yml"
-    steps = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]["full-observe"]["steps"]
-    names = [step.get("name", "") for step in steps]
+    names = [step.get("name", "") for step in jobSteps()]
     restore = names.index("Restore the closed-issue baseline")
-    collect = next(i for i, step in enumerate(steps) if "steward_issue_census.py" in step.get("run", ""))
+    collect = next(i for i, step in enumerate(jobSteps()) if "steward_issue_census.py" in step.get("run", ""))
     persist = names.index("Persist the closed-issue baseline for the next run")
     assert restore < collect < persist
-    assert steps[persist]["with"]["path"] == ".gaia/steward/inputs/closed-issue-baseline.json"
-    assert steps[persist]["if"] == "always() && steps.baseline.outputs.state != 'restore-failed'"
 
 
-def test_the_restore_step_distinguishes_a_first_run_from_a_restore_failure_and_passes_the_state_on() -> None:
+WORKFLOW = Path(__file__).resolve().parents[3] / ".github" / "workflows" / "steward.yml"
+
+
+def jobSteps() -> list[dict]:
     import yaml
 
-    workflow = Path(__file__).resolve().parents[3] / ".github" / "workflows" / "steward.yml"
-    steps = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]["full-observe"]["steps"]
-    restore = next(step for step in steps if step.get("name") == "Restore the closed-issue baseline")
-    collect = next(step for step in steps if "steward_issue_census.py" in step.get("run", ""))
-    script = restore["run"]
+    return yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))["jobs"]["full-observe"]["steps"]
 
-    assert restore["id"] == "baseline"
-    for state in ("first-run", "restored", "restore-failed"):
-        assert state in script
-    assert "total_count" in script and "expired == false" in script  # only expired baselines is a failure, not a first run
-    assert "STEWARD_CLOSED_BASELINE_RESEED" in restore["env"]["RESEED"]
+
+def stepNamed(name: str) -> dict:
+    return next(step for step in jobSteps() if step.get("name") == name)
+
+
+FAKE_GH = """#!/bin/bash
+# a scripted `gh`: `api` answers from FAKE_API_JSON or fails; `run download` materializes FAKE_DOWNLOAD or fails
+case "$1" in
+  api) if [ -n "$FAKE_API_FAIL" ]; then exit 1; fi; cat "$FAKE_API_JSON" ;;
+  run) if [ -n "$FAKE_DOWNLOAD_FAIL" ]; then exit 1; fi
+       dir=""; while [ $# -gt 0 ]; do if [ "$1" = "--dir" ]; then dir="$2"; fi; shift; done
+       mkdir -p "$dir"; if [ -n "$FAKE_DOWNLOAD" ]; then cp "$FAKE_DOWNLOAD" "$dir/closed-issue-baseline.json"; fi ;;
+esac
+"""
+
+
+def restoreOutcome(tmp_path: Path, *, listing=None, apiFail=False, downloadFail=False, download=True) -> tuple[str, Path]:
+    """Run the workflow's real restore step in bash against a fake gh and return (state, workdir)."""
+
+    import os
+    import subprocess
+
+    work = tmp_path / "work"
+    bin_ = tmp_path / "bin"
+    work.mkdir()
+    bin_.mkdir()
+    (bin_ / "gh").write_text(FAKE_GH, encoding="utf-8")
+    (bin_ / "gh").chmod(0o755)
+    (tmp_path / "api.json").write_text(json.dumps(listing if listing is not None else {"total_count": 0, "artifacts": []}))
+    (tmp_path / "stored.json").write_text(json.dumps({"stored": True}))
+    output = tmp_path / "github-output"
+    env = {**os.environ, "PATH": f"{bin_}:{os.environ['PATH']}", "GITHUB_REPOSITORY": REPO, "GITHUB_OUTPUT": str(output),
+           "RUNNER_TEMP": str(tmp_path), "FAKE_API_JSON": str(tmp_path / "api.json"), "GH_TOKEN": "x"}
+    if apiFail:
+        env["FAKE_API_FAIL"] = "1"
+    if downloadFail:
+        env["FAKE_DOWNLOAD_FAIL"] = "1"
+    if download:
+        env["FAKE_DOWNLOAD"] = str(tmp_path / "stored.json")
+    subprocess.run(["bash", "-e", "-c", stepNamed("Restore the closed-issue baseline")["run"]], cwd=work, env=env,
+                   check=True, capture_output=True)
+    return output.read_text().strip().split("=", 1)[1], work
+
+
+def artifacts(*expired: bool) -> dict:
+    return {"total_count": len(expired), "artifacts": [{"expired": e, "workflow_run": {"id": 100 + i}} for i, e in enumerate(expired)]}
+
+
+@pytest.mark.skipif(shutil.which("jq") is None, reason="jq is not installed")
+class TestRestoreStep:
+    def test_a_listing_with_a_live_artifact_is_restored(self, tmp_path: Path) -> None:
+        state, work = restoreOutcome(tmp_path, listing=artifacts(False, True))
+        assert state == "restored"
+        assert json.loads((work / ".gaia/steward/inputs/closed-issue-baseline.json").read_text()) == {"stored": True}
+
+    def test_an_empty_store_is_not_a_failure(self, tmp_path: Path) -> None:
+        state, work = restoreOutcome(tmp_path, listing=artifacts())
+        assert state == "empty-store" and not (work / ".gaia/steward/inputs/closed-issue-baseline.json").exists()
+
+    def test_only_expired_artifacts_is_an_empty_store_not_a_restore_failure(self, tmp_path: Path) -> None:
+        state, _ = restoreOutcome(tmp_path, listing=artifacts(True, True))
+        assert state == "empty-store"
+
+    def test_an_api_failure_is_a_restore_failure_and_never_an_empty_store(self, tmp_path: Path) -> None:
+        state, work = restoreOutcome(tmp_path, apiFail=True)
+        assert state == "restore-failed" and not (work / ".gaia/steward/inputs/closed-issue-baseline.json").exists()
+
+    def test_a_download_failure_is_a_restore_failure(self, tmp_path: Path) -> None:
+        state, _ = restoreOutcome(tmp_path, listing=artifacts(False), downloadFail=True)
+        assert state == "restore-failed"
+
+    def test_a_download_that_yields_no_file_is_a_restore_failure(self, tmp_path: Path) -> None:
+        state, _ = restoreOutcome(tmp_path, listing=artifacts(False), download=False)
+        assert state == "restore-failed"
+
+    def test_no_environment_variable_can_turn_a_failure_into_a_seed(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("RESEED", "true")
+        monkeypatch.setenv("STEWARD_CLOSED_BASELINE_RESEED", "true")
+        state, _ = restoreOutcome(tmp_path, apiFail=True)
+        assert state == "restore-failed"
+
+
+def test_the_restore_step_has_no_reseed_override_anywhere() -> None:
+    text = WORKFLOW.read_text(encoding="utf-8") + (Path(__file__).resolve().parents[3] / "scripts" / "steward_issue_census.py").read_text(encoding="utf-8")
+    assert "RESEED" not in text
+
+
+def test_the_census_step_receives_the_restore_state() -> None:
+    collect = next(step for step in jobSteps() if "steward_issue_census.py" in step.get("run", ""))
     assert '--baseline-state "$BASELINE_STATE"' in collect["run"]
     assert collect["env"]["BASELINE_STATE"] == "${{ steps.baseline.outputs.state }}"
+
+
+def test_the_baseline_handoff_is_staged_visibly_and_a_missing_file_is_never_silent() -> None:
+    steps = {step.get("name"): step for step in jobSteps()}
+    stage = steps["Stage the closed-issue baseline for upload"]
+    upload = steps["Persist the closed-issue baseline for the next run"]
+    evidence = steps["Preserve an invalid restored baseline as evidence"]
+
+    assert upload["with"]["path"] == "closed-baseline-handoff/" and evidence["with"]["path"] == "closed-baseline-invalid/"
+    for step in (upload, evidence):
+        assert not any(part.startswith(".") for part in step["with"]["path"].split("/"))  # upload-artifact@v4 skips hidden paths
+        assert step["with"]["if-no-files-found"] == "error"
+    assert "restore-failed" in stage["if"] and "restore-failed" in upload["if"]  # a failed restore uploads nothing
+    assert "::warning" in stage["run"]
+    names = [step.get("name") for step in jobSteps()]
+    assert names.index(stage["name"]) < names.index(upload["name"])
+
+
+@pytest.mark.skipif(shutil.which("bash") is None, reason="bash is not installed")
+def test_the_baseline_staging_step_copies_the_baseline_and_the_invalid_evidence_to_visible_directories(tmp_path: Path) -> None:
+    import subprocess
+
+    inputs = tmp_path / ".gaia" / "steward" / "inputs"
+    inputs.mkdir(parents=True)
+    (inputs / "closed-issue-baseline.json").write_text("{}")
+    (inputs / "closed-issue-baseline.restore-invalid.json").write_text("{bad")
+
+    subprocess.run(["bash", "-e", "-c", stepNamed("Stage the closed-issue baseline for upload")["run"]], cwd=tmp_path, check=True, capture_output=True)
+
+    assert (tmp_path / "closed-baseline-handoff" / "closed-issue-baseline.json").is_file()
+    assert (tmp_path / "closed-baseline-invalid" / "closed-issue-baseline.restore-invalid.json").read_text() == "{bad"
+
+
+def test_the_staging_step_warns_instead_of_failing_when_no_baseline_exists(tmp_path: Path) -> None:
+    import subprocess
+
+    result = subprocess.run(["bash", "-e", "-c", stepNamed("Stage the closed-issue baseline for upload")["run"]], cwd=tmp_path,
+                            check=True, capture_output=True, text=True)
+
+    assert "::warning" in result.stdout and not list((tmp_path / "closed-baseline-handoff").iterdir())
 
 
 def test_loading_a_written_census_keeps_the_closed_history_section(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:

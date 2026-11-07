@@ -14,6 +14,7 @@ Nothing here touches the network; the collector serves the tracked ``docs/`` tre
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import subprocess
@@ -24,6 +25,9 @@ from typing import Any, Callable, Mapping
 RENDER_RELATIVE = Path(".gaia/steward/inputs/browser-render.json")
 STATUS_RELATIVE = Path(".gaia/steward/inputs/browser-render-status.json")
 STATUS_SCHEMA = "steward-browser-render-status-v1"
+ACCEPTANCE_RELATIVE = Path(".gaia/steward/inputs/browser-render-accepted.json")
+ACCEPTANCE_SCHEMA = "steward-browser-render-accepted-v1"
+ATTEMPT_ENV = "STEWARD_BROWSER_ATTEMPT"
 COLLECTOR_RELATIVE = Path("scripts/steward_collect_browser_render.js")
 # Where a driver installs the collector's single dependency without running any package lifecycle script.
 NODE_MODULES_RELATIVE = Path("scripts/steward-browser/node_modules")
@@ -97,13 +101,24 @@ def collect(
     if interactive:
         command.append("--interactive")
     try:
-        run(command, cwd=str(root), env=collectorEnvironment(root, interactive), capture_output=True, text=True,
-            timeout=timeout, check=False)
+        finished = run(command, cwd=str(root), env=collectorEnvironment(root, interactive), capture_output=True,
+                       text=True, timeout=timeout, check=False)
     except subprocess.TimeoutExpired:
-        return recorded(root, mode)  # the marker stays: a collector that did not finish is not a result
+        # Whatever the collector wrote before it hung is not a result: overwrite the status and drop the render.
+        invalidateRender(root)
+        writeStatus(root, "failed", "collection-incomplete", mode, at=now())
+        return {"state": "failed", "reason": "collection-incomplete", "mode": mode}
     except OSError:
         writeStatus(root, "failed", "collection-error", mode, at=now())
         return {"state": "failed", "reason": "collection-error", "mode": mode}
+    if getattr(finished, "returncode", 0) != 0:
+        # A collector that exits nonzero did not complete, even if it had already written an ok status or a render.
+        current = recorded(root, mode)
+        invalidateRender(root)
+        if current["state"] == "ok":
+            writeStatus(root, "failed", "collection-error", mode, at=now())
+            return {"state": "failed", "reason": "collection-error", "mode": mode}
+        return current  # an honest failed or refused status written by the collector itself stays
     return recorded(root, mode)
 
 
@@ -121,3 +136,70 @@ def recorded(root: Path, mode: str) -> dict[str, Any]:
     state = state if state in ("ok", "failed", "refused") else "failed"
     reason = None if state == "ok" else ((status.get("reason") if isinstance(status, Mapping) else None) or "collection-incomplete")
     return {"state": state, "reason": reason, "mode": mode}
+
+
+# --- external collection: an earlier job collected, and the run verifies it was accepted for THIS attempt ---------
+
+
+def _digest(path: Path) -> str | None:
+    try:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+    except OSError:
+        return None
+
+
+def writeAcceptance(root: Path, attemptId: str, state: str) -> None:
+    """Bind the files now on disk to one attempt. Written by the validator, checked by the run."""
+
+    document = {
+        "schemaVersion": ACCEPTANCE_SCHEMA,
+        "attemptId": attemptId,
+        "state": state,
+        "statusSha256": _digest(root / STATUS_RELATIVE),
+        "renderSha256": _digest(root / RENDER_RELATIVE),
+    }
+    target = root / ACCEPTANCE_RELATIVE
+    target.parent.mkdir(parents=True, exist_ok=True)
+    temporary = target.with_name(f".browser-render-accepted-{os.getpid()}.tmp")
+    temporary.write_text(json.dumps(document), encoding="utf-8")
+    os.replace(temporary, target)
+
+
+def clearAcceptance(root: Path) -> None:
+    try:
+        (root / ACCEPTANCE_RELATIVE).unlink()
+    except FileNotFoundError:
+        pass
+
+
+def verifyExternal(
+    root: Path, attemptId: str | None, *, now: Callable[[], datetime] = lambda: datetime.now(timezone.utc),
+) -> dict[str, Any]:
+    """Accept an externally collected render only with a same-attempt acceptance whose digests still match the files.
+
+    Anything else (no attempt id, no acceptance, another attempt, files changed since acceptance, an old render left
+    on disk) invalidates the render and records a current failed status, so a stale input is never evaluated as healthy.
+    """
+
+    mode = "headless"
+    try:
+        accepted = json.loads((root / ACCEPTANCE_RELATIVE).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        accepted = None
+    statusDigest = _digest(root / STATUS_RELATIVE)
+    valid = (
+        bool(attemptId)
+        and isinstance(accepted, Mapping)
+        and accepted.get("schemaVersion") == ACCEPTANCE_SCHEMA
+        and accepted.get("attemptId") == attemptId
+        and statusDigest is not None
+        and accepted.get("statusSha256") == statusDigest
+        and accepted.get("renderSha256") == _digest(root / RENDER_RELATIVE)
+    )
+    if not valid:
+        invalidateRender(root)
+        writeStatus(root, "failed", "collection-incomplete", mode, at=now())
+        return {"state": "failed", "reason": "collection-incomplete", "mode": mode, "external": True}
+    result = recorded(root, mode)
+    result["external"] = True
+    return result

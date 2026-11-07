@@ -176,16 +176,26 @@ jobs:
           NODE_PATH: ${{ github.workspace }}/scripts/steward-browser/node_modules
         run: node scripts/steward_collect_browser_render.js --repository "$GITHUB_REPOSITORY"
 
+      # upload-artifact@v4 skips hidden paths, so the two files are staged in a visible directory. When collection was
+      # attempted a status file always exists (the collector or --record-failure writes one), so a missing handoff is
+      # an error, never silently ignored.
+      - name: Stage the render and status for the handoff
+        if: always() && steps.policy.outputs.headless == 'true'
+        run: |
+          mkdir -p browser-render-handoff
+          for f in browser-render.json browser-render-status.json; do
+            if [ -f ".gaia/steward/inputs/$f" ]; then cp ".gaia/steward/inputs/$f" browser-render-handoff/; fi
+          done
+          [ -f browser-render-handoff/browser-render-status.json ] || echo "::error title=browser handoff::no collection status was produced"
+
       - name: Publish the render artifact
-        if: always()
+        if: always() && steps.policy.outputs.headless == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: steward-browser-render
-          if-no-files-found: ignore
+          if-no-files-found: error
           retention-days: 7
-          path: |
-            .gaia/steward/inputs/browser-render.json
-            .gaia/steward/inputs/browser-render-status.json
+          path: browser-render-handoff/
 
   # The full pipeline in observe mode: every detector, the founder desk, and the
   # three driver inputs (CI runs, advisories, test history). Read-only; its ledger
@@ -198,6 +208,9 @@ jobs:
     if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      # The validator binds the accepted render to this attempt and the run refuses any render that is not bound to it.
+      STEWARD_BROWSER_ATTEMPT: ${{ github.run_id }}-${{ github.run_attempt }}
     permissions:
       contents: read
       actions: read
@@ -258,31 +271,28 @@ jobs:
             echo "test-history=failed:artifact from run $rid could not be downloaded; history starts empty" > "$RUNNER_TEMP/inputs-hist.txt"
           fi
 
-      # The last verified closed-issue count (founder ruling steward-census-empty-page-crosschecks) must survive
-      # between runs. It lives in an Actions artifact (no new git-ref writer): restored here, re-uploaded by every run
-      # that has one, so its 90-day retention is renewed while runs continue. If runs STOP for 90 days it expires.
-      # That is a restore failure, not a first run: the census then never writes a new baseline (it reports the baseline
-      # as NOT EVALUATED) until a founder sets the repository variable STEWARD_CLOSED_BASELINE_RESEED=true for one run.
-      #   first-run       the store holds no baseline at all -> a new one starts from the first verified, complete census
-      #   restored        the latest baseline was downloaded -> compared and, when verified and complete, renewed
-      #   restore-failed  the store could not be read, or only expired baselines exist -> no baseline is written
+      # The last verified closed-issue count (founder ruling steward-census-empty-page-crosschecks) is a DIAGNOSTIC
+      # baseline: losing it degrades diagnostics and gates no write. It lives in an Actions artifact (no new git-ref
+      # writer), restored here and re-uploaded by every run that holds one, which renews its 90-day retention.
+      #   restored        the latest unexpired baseline was downloaded -> compared and renewed
+      #   empty-store     none exists (a first run, or every earlier one expired) -> the census seeds one ONLY from a
+      #                   verified complete scan and labels it "seeded (no prior baseline retrievable)"
+      #   restore-failed  the artifact API or the download failed -> never seeds; the baseline is not evaluated
+      # A downloaded file that is corrupt or about another repository is detected by the census (restore-invalid): it is
+      # preserved as evidence, never treated as restored, and a verified complete scan seeds "(prior baseline invalid)".
       - name: Restore the closed-issue baseline
         id: baseline
         env:
           GH_TOKEN: ${{ github.token }}
-          RESEED: ${{ vars.STEWARD_CLOSED_BASELINE_RESEED }}
         run: |
           mkdir -p .gaia/steward/inputs prev-baseline
           state=restored
           if ! json=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=steward-closed-baseline&per_page=10" 2>/dev/null); then
             state=restore-failed
           else
-            total=$(jq '.total_count' <<<"$json")
             rid=$(jq -r '[.artifacts[] | select(.expired == false)] | .[0].workflow_run.id // empty' <<<"$json")
-            if [ "$total" = "0" ]; then
-              state=first-run
-            elif [ -z "$rid" ]; then
-              state=restore-failed
+            if [ -z "$rid" ]; then
+              state=empty-store
             elif gh run download "$rid" --repo "$GITHUB_REPOSITORY" --name steward-closed-baseline --dir prev-baseline \
                  && [ -f prev-baseline/closed-issue-baseline.json ]; then
               cp prev-baseline/closed-issue-baseline.json .gaia/steward/inputs/closed-issue-baseline.json
@@ -290,12 +300,11 @@ jobs:
               state=restore-failed
             fi
           fi
-          if [ "$state" = "restore-failed" ] && [ "$RESEED" = "true" ]; then state=first-run; fi
           echo "state=$state" >> "$GITHUB_OUTPUT"
           case "$state" in
             restored) echo "closed-baseline=ok:restored from the artifact store" > "$RUNNER_TEMP/inputs-baseline.txt" ;;
-            first-run) echo "closed-baseline=missing:first run, no earlier baseline exists; one starts from the first verified census" > "$RUNNER_TEMP/inputs-baseline.txt" ;;
-            *) echo "closed-baseline=failed:the earlier baseline could not be restored (store unreadable or expired); no new baseline is written and the baseline is NOT EVALUATED" > "$RUNNER_TEMP/inputs-baseline.txt" ;;
+            empty-store) echo "closed-baseline=missing:no baseline is retrievable (first run or expired); one is seeded only from a verified complete census and labelled as seeded" > "$RUNNER_TEMP/inputs-baseline.txt" ;;
+            *) echo "closed-baseline=failed:the artifact store could not be read; no baseline is seeded or written and the baseline is NOT EVALUATED" > "$RUNNER_TEMP/inputs-baseline.txt" ;;
           esac
 
       # The GitHub issue census for the issue-hygiene sensor (routine 18). Read-only REST. A partial
@@ -388,16 +397,40 @@ jobs:
           retention-days: 90
           path: .gaia/steward/inputs/test-history.json
 
-      # Every run that holds a baseline re-uploads it, which renews the artifact's 90-day retention. A failed restore
-      # holds none, so nothing is uploaded and the stored evidence is never replaced.
-      - name: Persist the closed-issue baseline for the next run
+      # upload-artifact@v4 skips hidden paths, so the baseline is staged in a visible directory. Every run that holds a
+      # baseline re-uploads it, which renews the artifact's 90-day retention. A failed restore holds none, so nothing is
+      # uploaded and stored evidence is never replaced. A missing file is a visible warning, not a silent skip.
+      - name: Stage the closed-issue baseline for upload
         if: always() && steps.baseline.outputs.state != 'restore-failed'
+        run: |
+          mkdir -p closed-baseline-handoff closed-baseline-invalid
+          if [ -f .gaia/steward/inputs/closed-issue-baseline.json ]; then
+            cp .gaia/steward/inputs/closed-issue-baseline.json closed-baseline-handoff/
+          else
+            echo "::warning title=steward closed-issue baseline::no baseline exists to persist (the census was incomplete before one could be seeded)"
+          fi
+          if [ -f .gaia/steward/inputs/closed-issue-baseline.restore-invalid.json ]; then
+            cp .gaia/steward/inputs/closed-issue-baseline.restore-invalid.json closed-baseline-invalid/
+            echo "::warning title=steward closed-issue baseline::the restored baseline was invalid and is preserved as an artifact"
+          fi
+
+      - name: Persist the closed-issue baseline for the next run
+        if: always() && steps.baseline.outputs.state != 'restore-failed' && hashFiles('closed-baseline-handoff/*') != ''
         uses: actions/upload-artifact@v4
         with:
           name: steward-closed-baseline
-          if-no-files-found: ignore
+          if-no-files-found: error
           retention-days: 90
-          path: .gaia/steward/inputs/closed-issue-baseline.json
+          path: closed-baseline-handoff/
+
+      - name: Preserve an invalid restored baseline as evidence
+        if: always() && hashFiles('closed-baseline-invalid/*') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: steward-closed-baseline-restore-invalid
+          if-no-files-found: error
+          retention-days: 90
+          path: closed-baseline-invalid/
 
       - name: Publish the full-run receipt
         if: always()

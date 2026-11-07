@@ -42,10 +42,15 @@ The last VERIFIED count is kept in `.gaia/steward/inputs/closed-issue-baseline.j
 see `gaia_cli.steward.issuehygiene.closedbaseline`). It is a diagnostic baseline, not proof. It is written only after
 the whole census proved complete, so a malformed row or any refusal leaves it untouched. A decrease is adopted only when
 issues reopened since the baseline explain it; an unexplained lower count is never adopted and is reported as a
-diagnostic. `--baseline-state restore-failed` (the store could not be read, or only expired baselines exist) never writes
-a baseline and reports it as not evaluated; `first-run` starts one. In Actions the baseline lives in an artifact that every
-run re-uploads, renewing its 90-day retention; if runs stop for 90 days it expires and a founder re-seeds it deliberately
-(repository variable STEWARD_CLOSED_BASELINE_RESEED=true for one run).
+diagnostic. Because it is a diagnostic and gates no write, losing it only degrades diagnostics. `--baseline-state`:
+  restored        the stored baseline was downloaded; compared and renewed (a downloaded file that is corrupt or about
+                  another repository is `restore-invalid`: it is preserved as evidence under
+                  closed-issue-baseline.restore-invalid.json and never treated as restored)
+  empty-store     the store holds none (a first run, or every earlier artifact expired after 90 days)
+  restore-failed  the store could not be read (API or download failure): never seeds; the baseline is not evaluated
+An empty store and a restore-invalid baseline may be seeded ONLY from a verified, complete census, and the census output and
+telemetry say so ("seeded (no prior baseline retrievable)" or "seeded (prior baseline invalid)"), so a re-seed is always
+visible. In Actions the baseline lives in an artifact that every run re-uploads, renewing its 90-day retention.
 
 This collector writes only the census. Removing a stale census is the driver's job
 (`scripts/steward_drive.py` deletes the file after an exit 1 failure, and leaves an exit 3 file
@@ -678,6 +683,8 @@ def collectClosedHistory(
             section["auth"] = "rejected"
         return section
     if not verify:
+        # A deliberately unverified census must not read as complete: closed operations have nothing to stand on.
+        section["refusal"] = "count-not-verified"
         return section
     countRead = readCountWithRetry(repo, fetch, sleep, attempts, baseline.count if baseline is not None else None)
     if any(isAuthRefusal(item["reason"]) for item in attempts):
@@ -710,6 +717,11 @@ def collectClosedHistory(
     }
     section["baseline"]["update"] = judgement.update
     section["baseline"]["after"] = judgement.next.to_dict(repo) if judgement.next is not None else None
+    if judgement.update == "created":
+        # A new baseline is never silent: it says which kind of absence it replaces.
+        section["baseline"]["seeded"] = (
+            "seeded (prior baseline invalid)" if baselineProblem else "seeded (no prior baseline retrievable)"
+        )
     return section
 
 
@@ -799,7 +811,7 @@ def collectCensus(
     authenticated: bool | None = None,
     sleep: Callable[[float], None] = time.sleep,
     baselineSource: str = "gh-api",
-    verifyClosedCount: bool = False,
+    verifyClosedCount: bool = True,
     baselineState: str = "restored",
 ) -> dict:
     """Build the census document. Pure apart from ``fetch`` and ``sleep``; never raises on fetch failure."""
@@ -979,10 +991,12 @@ def parseArgs(argv: list[str] | None) -> argparse.Namespace:
                         help="override issueHygiene.closedWindowDays from the policy")
     parser.add_argument("--baseline", type=Path, default=None,
                         help="closed-issue baseline file (default: closed-issue-baseline.json beside --out)")
-    parser.add_argument("--baseline-state", choices=("restored", "first-run", "restore-failed"), default="restored",
-                        help="how the previous baseline was recovered: restored from the store, first-run (the store "
-                             "holds none yet) or restore-failed (the store could not be read). A failed restore "
-                             "never writes a new baseline: the baseline is reported as not evaluated.")
+    parser.add_argument("--baseline-state", choices=("restored", "empty-store", "restore-failed"), default="restored",
+                        help="how the previous baseline was recovered: restored from the store, empty-store (none "
+                             "exists, or every earlier one expired) or restore-failed (the store could not be read). "
+                             "A failed restore never seeds: the baseline is reported as not evaluated. An empty "
+                             "store or an invalid restored file is seeded only from a verified complete census, "
+                             "and labelled as seeded.")
     parser.add_argument("--now", default=None, help="RFC 3339 fetchedAt override (tests and replays)")
     return parser.parse_args(argv)
 
@@ -1002,14 +1016,26 @@ def main(argv: list[str] | None = None, fetch: Callable[[str], Response] | None 
     transport = fetch or (lambda url: httpFetch(url, token))
     rules = baselineModule()
     baselinePath = args.baseline if args.baseline is not None else args.out.parent / rules.DEFAULT_PATH.name
-    if args.baseline_state == "restore-failed":
+    baselineState = args.baseline_state
+    if baselineState == "restore-failed":
         baseline, baselineProblem = None, "baseline-restore-failed"
+    elif baselineState == "empty-store":
+        baseline, baselineProblem = None, None
     else:
         baseline, baselineProblem = rules.loadBaseline(baselinePath, args.repo)
+        if baselineProblem is not None:
+            # Downloaded but corrupt or about another repository: never "restored". Keep the file as evidence under a
+            # distinct name (it is not overwritten by the seed) and seed only from a verified complete census.
+            baselineState = "restore-invalid"
+            evidence = baselinePath.with_name(baselinePath.stem + ".restore-invalid" + baselinePath.suffix)
+            try:
+                os.replace(baselinePath, evidence)
+            except OSError:
+                pass
     document = collectCensus(
         args.repo, now, transport, closedWindow,
         baseline=baseline, baselineProblem=baselineProblem, authenticated=bool(token),
-        verifyClosedCount=True, baselineState=args.baseline_state,
+        verifyClosedCount=True, baselineState=baselineState,
     )
     writeAtomic(args.out, document)
     # Only a verified, complete census ever produces a baseline to store; any other scan leaves the file untouched.
@@ -1017,6 +1043,9 @@ def main(argv: list[str] | None = None, fetch: Callable[[str], Response] | None 
     if after is not None and document["completeness"]["issues"]["complete"]:
         writeAtomic(baselinePath, after)
     complete = document["completeness"]["issues"]["complete"]
+    seeded = document["closedHistory"]["baseline"].get("seeded") if after is not None and complete else None
+    if seeded:
+        print(f"closed-issue baseline: {seeded}")
     counts = f"issues={len(document['issues'])} closed={len(document['recentlyClosed'])}"
     if complete:
         print(f"census complete: {counts} -> {args.out}")

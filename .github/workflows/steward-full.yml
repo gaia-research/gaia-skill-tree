@@ -99,25 +99,39 @@ jobs:
           NODE_PATH: ${{ github.workspace }}/scripts/steward-browser/node_modules
         run: node scripts/steward_collect_browser_render.js --repository "$GITHUB_REPOSITORY"
 
+      # upload-artifact@v4 skips hidden paths, so the two files are staged in a visible directory. When collection was
+      # attempted a status file always exists (the collector or --record-failure writes one), so a missing handoff is
+      # an error, never silently ignored.
+      - name: Stage the render and status for the handoff
+        if: always() && steps.policy.outputs.headless == 'true'
+        run: |
+          mkdir -p browser-render-handoff
+          for f in browser-render.json browser-render-status.json; do
+            if [ -f ".gaia/steward/inputs/$f" ]; then cp ".gaia/steward/inputs/$f" browser-render-handoff/; fi
+          done
+          [ -f browser-render-handoff/browser-render-status.json ] || echo "::error title=browser handoff::no collection status was produced"
+
       - name: Publish the render artifact
-        if: always()
+        if: always() && steps.policy.outputs.headless == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: steward-browser-render
-          if-no-files-found: ignore
+          if-no-files-found: error
           retention-days: 7
-          path: |
-            .gaia/steward/inputs/browser-render.json
-            .gaia/steward/inputs/browser-render-status.json
+          path: browser-render-handoff/
 
   drive:
     name: Drive Class A and Class B
+    # When the founder pause is lifted this job must also run if the browser job fails (`if: ${{ !cancelled() }}`),
+    # so an infrastructure failure there is a recorded failed collection and not a skipped drive.
     needs: browser-collect
     # STEWARD_LANDING_ENABLED=false stops the loop; unset means on.
     if: ${{ false }} # Founder pause: do not invoke gh-aw agents
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
+      # The validator binds the accepted render to this attempt and the run refuses any render not bound to it.
+      STEWARD_BROWSER_ATTEMPT: ${{ github.run_id }}-${{ github.run_attempt }}
       INTEGRATION_BRANCH: ${{ vars.STEWARD_INTEGRATION_BRANCH || 'dev/steward-integration' }}
       GH_TOKEN: ${{ github.token }}
       STEWARD_AGENT: ${{ inputs.agent || vars.STEWARD_AGENT || '' }}

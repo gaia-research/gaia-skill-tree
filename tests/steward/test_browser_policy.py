@@ -143,19 +143,85 @@ def test_the_run_flag_is_the_only_thing_that_authorizes_interactive_mode(tmp_pat
     assert view.browser == {"headless": True, "interactive": True}
 
 
-def test_external_collection_starts_nothing_and_leaves_the_accepted_input_alone(tmp_path, monkeypatch) -> None:
+ATTEMPT = "9001-1"
+
+
+def externalRun(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, prepare, *, attempt: str | None = ATTEMPT):
+    """A run started with --browser-collection external over a repository that `prepare` has staged."""
+
     monkeypatch.setenv("GITHUB_REPOSITORY", "o/r")
+    if attempt is None:
+        monkeypatch.delenv(browsercollect.ATTEMPT_ENV, raising=False)
+    else:
+        monkeypatch.setenv(browsercollect.ATTEMPT_ENV, attempt)
     repoPath, _ = makeFixture(tmp_path)
-    write_input(repoPath, document(CLEAN))
+    prepare(repoPath)
     spy = CollectorSpy()
     runner = makeRunner(repoPath, fileStore(tmp_path), [StubSensor("repository-hygiene", "repository_hygiene", [])],
                         browser_collection="external", browser_collector=functools.partial(browsercollect.collect, run=spy))
+    return repoPath, spy, runner.start("observe")
 
-    view = runner.start("observe")
+
+def stageAccepted(tmp_path: Path, attempt: str = ATTEMPT):
+    def prepare(root: Path) -> None:
+        directory = artifact(tmp_path, render=document(CLEAN, collectedAt="2026-10-28T11:30:00Z"), status=GOOD_STATUS, name="downloaded")
+        accept.accept(root, directory, attempt)
+    return prepare
+
+
+def test_external_collection_evaluates_only_a_render_accepted_for_this_attempt(tmp_path, monkeypatch) -> None:
+    repoPath, spy, view = externalRun(tmp_path, monkeypatch, stageAccepted(tmp_path))
+
+    assert spy.calls == []  # nothing is collected in the privileged run
+    assert view.summary["observe"]["browserCollection"] == {"state": "ok", "reason": None, "mode": "headless", "external": True}
+    assert (repoPath / browsercollect.RENDER_RELATIVE).is_file()
+    assert json.loads((repoPath / browsercollect.STATUS_RELATIVE).read_text())["state"] == "ok"
+
+
+def test_a_stale_render_left_on_disk_is_invalidated_when_nothing_was_accepted_for_this_attempt(tmp_path, monkeypatch) -> None:
+    def leftover(root: Path) -> None:  # fresh-looking render and ok status from an earlier attempt, no acceptance
+        write_input(root, document(CLEAN))
+        browsercollect.writeStatus(root, "ok", None, "headless", at=T_RENDER)
+
+    repoPath, spy, view = externalRun(tmp_path, monkeypatch, leftover)
 
     assert spy.calls == []
-    assert "browserCollection" not in view.summary["observe"]
-    assert (repoPath / browsercollect.RENDER_RELATIVE).is_file()
+    assert view.summary["observe"]["browserCollection"]["state"] == "failed"
+    assert not (repoPath / browsercollect.RENDER_RELATIVE).exists()
+    with pytest.raises(SensorNotEvaluated, match="never finished"):
+        BrowserRenderSensor().scan(repoPath, NOW)
+
+
+@pytest.mark.parametrize(
+    ("name", "attempt", "tamper"),
+    [
+        ("another-attempt", "other-run-7", None),
+        ("no-attempt-id", None, None),
+        ("render-changed-after-acceptance", ATTEMPT, lambda root: write_input(root, document(CLEAN, collectedAt="2026-10-28T11:59:00Z"))),
+        ("status-changed-after-acceptance", ATTEMPT, lambda root: browsercollect.writeStatus(root, "ok", None, "headless", at=T_ATTEMPT)),
+    ],
+)
+def test_an_acceptance_that_is_not_this_attempts_or_no_longer_matches_is_refused(tmp_path, monkeypatch, name, attempt, tamper) -> None:
+    def prepare(root: Path) -> None:
+        stageAccepted(tmp_path)(root)  # accepted for ATTEMPT
+        if tamper is not None:
+            tamper(root)
+
+    repoPath, _spy, view = externalRun(tmp_path, monkeypatch, prepare, attempt=attempt)
+
+    assert view.summary["observe"]["browserCollection"]["state"] == "failed", name
+    assert not (repoPath / browsercollect.RENDER_RELATIVE).exists()
+    with pytest.raises(SensorNotEvaluated):
+        BrowserRenderSensor().scan(repoPath, NOW)
+
+
+def test_a_rejected_artifact_keeps_its_own_failed_status_through_an_external_run(tmp_path, monkeypatch) -> None:
+    def prepare(root: Path) -> None:
+        accept.accept(root, artifact(tmp_path, render="{broken", status=GOOD_STATUS, name="bad"), ATTEMPT)
+
+    repoPath, _spy, view = externalRun(tmp_path, monkeypatch, prepare)
+
+    assert view.summary["observe"]["browserCollection"] == {"state": "failed", "reason": "artifact-rejected", "mode": "headless", "external": True}
 
 
 def test_an_invalid_browser_collection_mode_is_refused(tmp_path) -> None:
@@ -232,6 +298,48 @@ def test_a_collector_that_cannot_start_is_a_failed_attempt(tmp_path: Path) -> No
     assert outcome == {"state": "failed", "reason": "collection-error", "mode": "headless"}
     with pytest.raises(SensorNotEvaluated, match="stopped with an error"):
         BrowserRenderSensor().scan(root, NOW)
+
+
+def test_a_collector_that_writes_ok_and_then_exits_nonzero_is_not_a_result(tmp_path: Path) -> None:
+    root = repo(tmp_path)
+
+    def writesOkThenFails(command, **kwargs):
+        finishCleanly(Path(kwargs["cwd"]))
+        return subprocess.CompletedProcess(command, 1, "", "crashed after writing")
+
+    outcome, _ = collectInto(root, run=writesOkThenFails)
+
+    assert outcome == {"state": "failed", "reason": "collection-error", "mode": "headless"}
+    assert not (root / browsercollect.RENDER_RELATIVE).exists()
+    with pytest.raises(SensorNotEvaluated, match="stopped with an error"):
+        BrowserRenderSensor().scan(root, NOW)
+
+
+def test_a_collector_that_writes_ok_and_then_times_out_is_not_a_result(tmp_path: Path) -> None:
+    root = repo(tmp_path)
+
+    def writesOkThenHangs(command, **kwargs):
+        finishCleanly(Path(kwargs["cwd"]))
+        raise subprocess.TimeoutExpired(command, 1)
+
+    outcome, _ = collectInto(root, run=writesOkThenHangs)
+
+    assert outcome == {"state": "failed", "reason": "collection-incomplete", "mode": "headless"}
+    assert not (root / browsercollect.RENDER_RELATIVE).exists()
+    with pytest.raises(SensorNotEvaluated, match="never finished"):
+        BrowserRenderSensor().scan(root, NOW)
+
+
+def test_a_nonzero_collector_keeps_its_own_honest_refusal(tmp_path: Path) -> None:
+    root = repo(tmp_path)
+
+    def refuses(command, **kwargs):
+        browsercollect.writeStatus(Path(kwargs["cwd"]), "refused", "interactive-not-allowed", "interactive", at=T_ATTEMPT)
+        return subprocess.CompletedProcess(command, 2, "", "")
+
+    outcome, _ = collectInto(root, run=refuses)
+
+    assert outcome["state"] == "refused" and outcome["reason"] == "interactive-not-allowed"
 
 
 def test_an_ok_status_without_a_render_is_not_ok(tmp_path: Path) -> None:
@@ -475,7 +583,13 @@ def test_the_browser_job_is_least_privilege_and_runs_no_lifecycle_scripts(path: 
     assert "npx playwright install" in text and "STEWARD_INTERACTIVE_BROWSER" not in text and "--interactive" not in text
     assert "secrets." not in yaml.safe_dump(job) and "GH_TOKEN" not in yaml.safe_dump(job)
     upload = next(step for step in job["steps"] if str(step.get("uses", "")).startswith("actions/upload-artifact"))
-    assert upload["with"]["name"] == "steward-browser-render" and upload["if"] == "always()"
+    assert upload["with"]["name"] == "steward-browser-render"
+    # upload-artifact@v4 skips hidden paths, and a missing handoff must be an error, never silently ignored.
+    assert upload["with"]["path"] == "browser-render-handoff/" and upload["with"]["if-no-files-found"] == "error"
+    assert not any(part.startswith(".") for part in upload["with"]["path"].split("/"))
+    stage = next(step for step in job["steps"] if step.get("name") == "Stage the render and status for the handoff")
+    names = [step.get("name") for step in job["steps"]]
+    assert names.index(stage["name"]) < names.index("Publish the render artifact")
 
 
 @pytest.mark.parametrize(("path", "privileged"), [(SCHEDULED, "full-observe"), (DRIVE, "drive")])
@@ -493,6 +607,26 @@ def test_the_privileged_job_runs_no_browser_code_and_accepts_only_validated_data
     accepting = next(i for i, step in enumerate(job["steps"]) if "steward_accept_browser_render.py" in step.get("run", ""))
     observing = next(i for i, step in enumerate(job["steps"]) if "--browser-collection external" in step.get("run", ""))
     assert accepting < observing
+
+
+@pytest.mark.parametrize(("path", "privileged"), [(SCHEDULED, "full-observe"), (DRIVE, "drive")])
+def test_the_privileged_job_binds_the_acceptance_to_this_workflow_attempt(path: Path, privileged: str) -> None:
+    job = workflow(path)["jobs"][privileged]
+    assert job["env"]["STEWARD_BROWSER_ATTEMPT"] == "${{ github.run_id }}-${{ github.run_attempt }}"
+
+
+@needsNode
+def test_the_staging_step_runs_and_publishes_only_visible_files(tmp_path: Path) -> None:
+    job = workflow(SCHEDULED)["jobs"]["browser-collect"]
+    stage = next(step for step in job["steps"] if step.get("name") == "Stage the render and status for the handoff")
+    inputs = tmp_path / ".gaia" / "steward" / "inputs"
+    inputs.mkdir(parents=True)
+    (inputs / "browser-render.json").write_text("{}")
+    (inputs / "browser-render-status.json").write_text("{}")
+
+    subprocess.run(["bash", "-e", "-c", stage["run"]], cwd=tmp_path, check=True, capture_output=True)
+
+    assert sorted(path.name for path in (tmp_path / "browser-render-handoff").iterdir()) == ["browser-render-status.json", "browser-render.json"]
 
 
 def test_the_collector_dependency_is_locked_and_pinned() -> None:

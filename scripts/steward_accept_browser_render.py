@@ -14,6 +14,10 @@ into a directory and runs this script, which reads exactly two files from it as 
 * Accepted files are copied into place. Anything else leaves a current failed status (`collection-incomplete` when the
   artifact is absent, `artifact-rejected` when it is invalid), so the sensor reports NOT EVALUATED, never healthy.
 
+* The outcome is bound to this attempt: an acceptance record (attempt id, digests of the two files) is written, and the run
+  started with `--browser-collection external` accepts the render only if that record names its own attempt
+  (`STEWARD_BROWSER_ATTEMPT`) and the digests still match. A render that was never accepted for this attempt is invalidated.
+
 Exit 0 always: the run's own evaluation, not this step, decides what a missing browser means. The outcome is printed.
 """
 
@@ -21,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shutil
 import sys
 from pathlib import Path
@@ -67,8 +72,18 @@ def validate(directory: Path) -> tuple[Path, Path]:
     return directory / browsercollect.RENDER_RELATIVE.name, directory / browsercollect.STATUS_RELATIVE.name
 
 
-def accept(root: Path, directory: Path) -> dict:
+def accept(root: Path, directory: Path, attemptId: str | None = None) -> dict:
+    """Validate the artifact and install it, then bind the result to ``attemptId`` (the run verifies it)."""
+
+    outcome = _accept(root, directory)
+    if attemptId:
+        browsercollect.writeAcceptance(root, attemptId, outcome["state"])
+    return outcome
+
+
+def _accept(root: Path, directory: Path) -> dict:
     browsercollect.invalidateRender(root)
+    browsercollect.clearAcceptance(root)
     try:
         (root / browsercollect.STATUS_RELATIVE).unlink()
     except FileNotFoundError:
@@ -103,8 +118,10 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--from", dest="source", type=Path, required=True, help="directory holding the downloaded artifact")
     parser.add_argument("--root", type=Path, default=REPO_ROOT, help="checkout whose .gaia/steward/inputs receives the files")
+    parser.add_argument("--attempt", default=None, help=f"attempt id the run will verify (default: ${browsercollect.ATTEMPT_ENV})")
     args = parser.parse_args(argv)
-    outcome = accept(args.root.resolve(), args.source)
+    attempt = args.attempt or os.environ.get(browsercollect.ATTEMPT_ENV)
+    outcome = accept(args.root.resolve(), args.source, attempt)
     print(f"browser-render artifact: {outcome['state']}" + (f" ({outcome['reason']})" if outcome["reason"] else ""))
     return 0
 

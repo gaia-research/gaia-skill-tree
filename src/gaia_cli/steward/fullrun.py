@@ -1481,9 +1481,12 @@ class FullRunner:
     def _collectBrowser(self) -> dict[str, Any] | None:
         """Start this run's own headless collection, tied to this attempt. None when an earlier job supplied it."""
 
-        if self.config.browser_collection == "external":
-            return None
         from gaia_cli.steward import browsercollect
+
+        if self.config.browser_collection == "external":
+            # An earlier least-privilege job collected. Evaluate it only if the validator accepted it for this very
+            # attempt; otherwise the render is invalidated and the sensor reports NOT EVALUATED.
+            return browsercollect.verifyExternal(self.root, os.environ.get(browsercollect.ATTEMPT_ENV))
         from gaia_cli.steward.primitives.inputs import origin_repository
 
         setting = self._browserSetting()
