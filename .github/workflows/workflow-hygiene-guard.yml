@@ -1,0 +1,91 @@
+name: Workflow Hygiene Guard
+
+# Blocking ratchet: no new GitHub Actions job without timeout-minutes.
+# Detection is the Steward ci-workflow sensor's own rule; the gate only compares
+# it with scripts/lint/workflow-timeout-baseline.json, which may only shrink.
+# gh-aw generated *.lock.yml files are reported, never blocking (see the script
+# docstring). zizmor runs advisory only (triage: scripts/lint/zizmor-triage.md).
+#
+# Run the same thing locally:
+#   python3 scripts/check_workflow_hygiene.py
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+      - 'scripts/check_workflow_hygiene.py'
+      - 'scripts/lint/workflow-timeout-baseline.json'
+      - 'src/gaia_cli/steward/sensors_ci.py'
+  push:
+    branches:
+      - main
+      - 'dev/**'
+    paths:
+      - '.github/workflows/**'
+      - 'scripts/check_workflow_hygiene.py'
+      - 'scripts/lint/workflow-timeout-baseline.json'
+      - 'src/gaia_cli/steward/sensors_ci.py'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  workflow-hygiene:
+    name: Workflow Hygiene Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: python3 -m pip install "pyyaml>=6.0" "zizmor==1.32.0"
+
+      - name: Run missing-timeout ratchet
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE: ${{ github.base_ref }}
+          PUSH_REF: ${{ github.ref }}
+          PUSH_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          # Stale entries (a job repaired without pruning the baseline) fail at
+          # the main gate and warn elsewhere, so one-file Steward repair lanes
+          # into dev/* stay green; prune once per integration.
+          base=""
+          stale=fail
+          case "$EVENT_NAME" in
+            pull_request)
+              base="origin/$PR_BASE"
+              [ "$PR_BASE" = "main" ] || stale=warn
+              ;;
+            push)
+              if [ -n "$PUSH_BEFORE" ] && [ -n "${PUSH_BEFORE//0/}" ]; then
+                base="$PUSH_BEFORE"
+              else
+                base="HEAD~1"
+              fi
+              [ "$PUSH_REF" = "refs/heads/main" ] || stale=warn
+              ;;
+          esac
+          args=(--stale "$stale")
+          [ -z "$base" ] || args+=(--base-ref "$base")
+          python3 scripts/check_workflow_hygiene.py "${args[@]}"
+
+      - name: zizmor (advisory, never blocking)
+        continue-on-error: true
+        run: |
+          zizmor --offline --min-severity high --min-confidence high .github/workflows/ || true
