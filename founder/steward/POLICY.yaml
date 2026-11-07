@@ -761,8 +761,8 @@ routing:
       stopConditions:
         - the finding does not reproduce on the current head
         - the subject is a gh-aw generated lock file or has a gh-aw source beside it; fix the source and recompile is a founder-gated step
-        - any change other than adding a job-level timeout-minutes line would be needed
-        - no completed-run duration history can be read for the flagged job and its semantics do not bound its runtime
+        - any change other than adding a job-level timeout-minutes line would be needed, or the debt carries any finding other than missing-timeout
+        - successful completed-run duration history cannot be read for a flagged job; semantics alone never substitute for history
         - the job legitimately waits on a human, an environment approval or an external deploy and no bound is justifiable
         - a flagged job is a reusable-workflow call, which cannot declare timeout-minutes
         - the workflow file does not parse as YAML after the edit
@@ -770,7 +770,7 @@ routing:
       proof:
         - reproduce every missing-timeout finding for the subject workflow on the current head
         - for each job, state its semantics, the sampled completed-run durations, and the timeout chosen with the rule applied
-        - show a diff confined to the one workflow file that only adds timeout-minutes lines
+        - show a diff confined to the one workflow file that only adds integer 1..360 timeout-minutes keys directly under existing jobs that lacked them
         - parse the edited workflow as YAML and report exact results
         - run python scripts/check_steward_coverage.py --check and the focused CI sensor tests and report exact results
         - obtain independent review before integration

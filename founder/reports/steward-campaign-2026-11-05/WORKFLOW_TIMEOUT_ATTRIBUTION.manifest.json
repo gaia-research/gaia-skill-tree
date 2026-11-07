@@ -1,0 +1,1961 @@
+{
+ "schema": "workflow-timeout-attribution-manifest-v1",
+ "repository": "gaia-research/gaia-skill-tree",
+ "collectedAtLocal": "2026-11-06T23:00:30Z",
+ "query": {
+  "endpoint": "GET repos/gaia-research/gaia-skill-tree/actions/runs",
+  "created": ">=2026-09-08T00:00:00Z and <2026-11-08T00:00:00Z, fetched in 1-day windows (24 one-hour windows for 2026-10-27, which exceeds the 1000-result cap per query)",
+  "statusFilter": "none (all statuses returned; completed runs counted separately)",
+  "observedCreatedAtMin": "2026-09-08T01:11:51Z",
+  "observedCreatedAtMax": "2026-11-06T22:49:45Z",
+  "perRunDetail": "jobs API (filter=latest) and check-run annotations for every non-success completed run; job logs for the runs named in the report"
+ },
+ "totals": {
+  "runsReturned": 9952,
+  "statusCounts": {
+   "completed": 9951,
+   "queued": 1
+  },
+  "completedRuns": 9951,
+  "incompleteRuns": [
+   {
+    "id": 34749378515,
+    "workflow": "CodeQL",
+    "status": "queued",
+    "createdAt": "2026-09-13T09:22:11Z"
+   }
+  ],
+  "completedConclusionCounts": {
+   "cancelled": 337,
+   "failure": 511,
+   "skipped": 1895,
+   "success": 7208
+  },
+  "completedConclusionSum": 9951,
+  "timedOutRuns": 0,
+  "startupFailureRuns": 0,
+  "nonSuccessCompleted": 848,
+  "nonSuccessPercentOfCompleted": 8.52
+ },
+ "reconciliation": "9952 runs were returned; 9951 are completed and 1 (listed above) was still in progress when collected. The completed conclusions sum to 9951. An earlier draft of the report called all 9952 'completed'.",
+ "timeoutEvidence": {
+  "nonSuccessRunsWithMaxExecutionTimeAnnotation": 0,
+  "nonSuccessRunsWithWranglerOrCloudflareSignal": 0
+ },
+ "attribution": {
+  "cancelled: concurrency superseded": {
+   "runs": 261,
+   "percentOfNonSuccess": 30.8,
+   "percentOfCompleted": 2.62
+  },
+  "failure: no job executed (workflow-level)": {
+   "runs": 178,
+   "percentOfNonSuccess": 21.0,
+   "percentOfCompleted": 1.79
+  },
+  "failure: other step": {
+   "runs": 128,
+   "percentOfNonSuccess": 15.1,
+   "percentOfCompleted": 1.29
+  },
+  "failure: tests": {
+   "runs": 121,
+   "percentOfNonSuccess": 14.3,
+   "percentOfCompleted": 1.22
+  },
+  "failure: branch-scope guard (policy)": {
+   "runs": 76,
+   "percentOfNonSuccess": 9.0,
+   "percentOfCompleted": 0.76
+  },
+  "cancelled: other/no annotation": {
+   "runs": 76,
+   "percentOfNonSuccess": 9.0,
+   "percentOfCompleted": 0.76
+  },
+  "failure: author-identity guard (policy)": {
+   "runs": 4,
+   "percentOfNonSuccess": 0.5,
+   "percentOfCompleted": 0.04
+  },
+  "failure: action resolution": {
+   "runs": 4,
+   "percentOfNonSuccess": 0.5,
+   "percentOfCompleted": 0.04
+  }
+ },
+ "nonSuccessRunIdsByAttribution": {
+  "cancelled: concurrency superseded": [
+   34335572130,
+   34400116294,
+   34498061951,
+   34622737879,
+   34622738539,
+   34627955427,
+   35357305183,
+   36135408189,
+   36135408203,
+   36135408212,
+   36140641897,
+   36257785730,
+   36257785768,
+   36257785784,
+   36800360634,
+   36800385746,
+   36800385791,
+   36854079376,
+   36854079382,
+   36854079416,
+   36918032959,
+   36918033020,
+   36918033051,
+   36918033088,
+   36918033183,
+   37851403218,
+   38097874331,
+   38097874333,
+   38097874364,
+   38097874385,
+   38752354452,
+   38752354471,
+   38752354480,
+   38760638419,
+   38760638506,
+   38760638557,
+   38760801389,
+   38760801715,
+   38760801999,
+   38760808591,
+   38760808594,
+   38760808888,
+   38760814465,
+   38761259343,
+   38761556137,
+   38761626362,
+   38761626520,
+   38761761442,
+   38761761546,
+   38761761572,
+   38761763733,
+   38761820350,
+   38761920044,
+   38761920971,
+   38762121727,
+   38762533047,
+   38788204810,
+   38788204842,
+   38788204893,
+   38788323699,
+   38824800289,
+   38825775323,
+   38825775325,
+   38825775360,
+   39561270497,
+   39561270511,
+   39561376829,
+   39561376951,
+   39561376980,
+   39561400557,
+   39561400751,
+   39587525342,
+   39587525512,
+   39587525558,
+   39592932664,
+   39593037612,
+   39593270769,
+   39595029251,
+   39632896307,
+   39635866185,
+   39635866275,
+   39635866412,
+   39641498799,
+   39641498856,
+   39641498897,
+   39647875064,
+   39647875065,
+   39647875169,
+   39652968322,
+   39653009550,
+   39653019704,
+   39653065465,
+   39653123825,
+   39666050916,
+   39666051003,
+   39666051084,
+   39734750707,
+   39734750848,
+   39734750874,
+   39734809818,
+   39735264496,
+   39735264624,
+   39735264734,
+   39737402232,
+   39757256818,
+   39775632457,
+   39775632646,
+   39824435916,
+   40242415137,
+   40242415169,
+   40242415189,
+   40243814617,
+   40243814651,
+   40243814652,
+   40243815794,
+   40243815801,
+   40243815857,
+   40267071094,
+   40267071134,
+   40267071294,
+   40269406127,
+   40269406137,
+   40269406203,
+   40275206254,
+   40275206279,
+   40275206664,
+   40284359124,
+   40284359135,
+   40284359160,
+   40384411168,
+   40384411269,
+   40384411385,
+   40486176336,
+   40521897339,
+   40521897504,
+   40534231856,
+   40534884582,
+   40534884624,
+   40536524446,
+   40544290516,
+   40564582557,
+   40564610316,
+   40564980420,
+   40575929636,
+   40579914578,
+   40579914585,
+   40580261151,
+   40580878755,
+   40580878777,
+   40580879273,
+   40591821440,
+   40593173927,
+   40593174017,
+   40593278330,
+   40594769890,
+   40594769919,
+   40594769961,
+   40594837028,
+   40594837053,
+   40594837166,
+   40594903925,
+   40594903975,
+   40594904046,
+   40603913683,
+   40605145717,
+   40605970428,
+   40675791375,
+   40675791465,
+   40675900785,
+   40683174751,
+   40683174812,
+   40683174989,
+   40747666368,
+   40748465615,
+   40749604460,
+   40749604516,
+   40749604715,
+   40910644872,
+   40911208485,
+   40916260017,
+   40916600222,
+   40917030260,
+   40917030362,
+   40962324964,
+   41005243801,
+   41005243806,
+   41005243817,
+   41005243860,
+   41005243901,
+   41005260232,
+   41005260254,
+   41005260345,
+   41005840445,
+   41005840512,
+   41005949811,
+   41007863607,
+   41008385571,
+   41008385654,
+   41008385677,
+   41008385689,
+   41013592735,
+   41013592743,
+   41013797730,
+   41013797752,
+   41059830599,
+   41059830810,
+   41059923636,
+   41060116386,
+   41060277462,
+   41060754749,
+   41060842422,
+   41060842457,
+   41060842483,
+   41060842542,
+   41060899865,
+   41061383883,
+   41061569630,
+   41062077524,
+   41527635870,
+   41527635970,
+   41531909866,
+   41531909979,
+   41537053875,
+   41537053965,
+   41537053971,
+   41537054146,
+   41539369040,
+   41539369064,
+   41539370077,
+   41631979109,
+   41636061243,
+   41879251335,
+   41879251464,
+   41879251565,
+   41883944453,
+   41883944490,
+   41884480183,
+   41884480286,
+   41885733102,
+   41885733160,
+   41885733359,
+   41892889112,
+   41892889473,
+   41893352411,
+   41893352793,
+   41894940455,
+   41894940483,
+   41894940755,
+   41895447164,
+   41902467163,
+   41902467173,
+   41902467183,
+   41903492493,
+   41903492671,
+   41903492684,
+   41905654794,
+   41934927808,
+   42205944813,
+   42205944821,
+   42205944909,
+   42241202729
+  ],
+  "cancelled: other/no annotation": [
+   34622737638,
+   34622738329,
+   36135408429,
+   36135408493,
+   36135408525,
+   36170606424,
+   36170606727,
+   36255641123,
+   36797633925,
+   36800385752,
+   36871825139,
+   36871825180,
+   37830508287,
+   37830515400,
+   37830523663,
+   37830532990,
+   37830553026,
+   37830560022,
+   37830564779,
+   37840044610,
+   37840044644,
+   37844397955,
+   37844398202,
+   37844400144,
+   37844403143,
+   37849494718,
+   37851466958,
+   38757781926,
+   38760808474,
+   38760808600,
+   38760808865,
+   38761920203,
+   38761920422,
+   38762532902,
+   38816518032,
+   38891121339,
+   38891121371,
+   39561376754,
+   39635875449,
+   39641504802,
+   39647887551,
+   39652999933,
+   39653000499,
+   39653000857,
+   39653011507,
+   39653019174,
+   39653019241,
+   39653028990,
+   39653029838,
+   39653030105,
+   39653036872,
+   39653038397,
+   39653038511,
+   39653045218,
+   39653045668,
+   39653045858,
+   39653056604,
+   39653057838,
+   40129785779,
+   40129788272,
+   40129792176,
+   40129795132,
+   40129892223,
+   40129895627,
+   40129899579,
+   40129902960,
+   40129906168,
+   40244317681,
+   40429805124,
+   40429805252,
+   40594904000,
+   41005260240,
+   41005260253,
+   41060754768,
+   41061192981,
+   41532311505
+  ],
+  "failure: action resolution": [
+   39635189731,
+   39635385633,
+   39641025845,
+   39641124552
+  ],
+  "failure: author-identity guard (policy)": [
+   36484974654,
+   36822690951,
+   41108653888,
+   41539376517
+  ],
+  "failure: branch-scope guard (policy)": [
+   34313581853,
+   34385146099,
+   34400599413,
+   34400855652,
+   34400995896,
+   34401949106,
+   34475383550,
+   34475497077,
+   34477408698,
+   34497631779,
+   34608842816,
+   34615392369,
+   36484974624,
+   36822690735,
+   36825264208,
+   37849557732,
+   37849675768,
+   38089343076,
+   38092761758,
+   38093091125,
+   38801227963,
+   39587525846,
+   39587601717,
+   39593037943,
+   39593610858,
+   39595029257,
+   39595809156,
+   39632896604,
+   39633486729,
+   39942467548,
+   40482881139,
+   40510218692,
+   40511809929,
+   40520544786,
+   40521897289,
+   40526368527,
+   40564971392,
+   40565923311,
+   40567280436,
+   40575739880,
+   40580246998,
+   40588573785,
+   40589567425,
+   40593173883,
+   40593647110,
+   40604225645,
+   40605051900,
+   40913634705,
+   40914290422,
+   40914929031,
+   40974196457,
+   41013592722,
+   41013797765,
+   41013942301,
+   41018495872,
+   41059830783,
+   41059923486,
+   41060116411,
+   41060277559,
+   41060754809,
+   41060842605,
+   41060899518,
+   41061383865,
+   41061569506,
+   41062077614,
+   41062277467,
+   41179710658,
+   41527636021,
+   41539370095,
+   41879064963,
+   41880968647,
+   41883944364,
+   41893261615,
+   41902468588,
+   42216013441,
+   42275120971
+  ],
+  "failure: no job executed (workflow-level)": [
+   34498250251,
+   34498250277,
+   34498250327,
+   34498250342,
+   34498250366,
+   34498250379,
+   34604820273,
+   34604820275,
+   34604820277,
+   34604820305,
+   34604820309,
+   34604820311,
+   34604820313,
+   34604820327,
+   34604820333,
+   34604820379,
+   34604820420,
+   34604872970,
+   34604872986,
+   34604872991,
+   34604872995,
+   34604873005,
+   34604873013,
+   34604873014,
+   34604873026,
+   34604873053,
+   34604873056,
+   34604873091,
+   34622579343,
+   34622579355,
+   34622579595,
+   34622579637,
+   34622579712,
+   34622579733,
+   34622579739,
+   34622579791,
+   34622579936,
+   34622580020,
+   34622580207,
+   34622917814,
+   34622917839,
+   34622917850,
+   34622917854,
+   34622917855,
+   34622917858,
+   34622917864,
+   34622917869,
+   34622917891,
+   34622917915,
+   34622917935,
+   34857835671,
+   34857835673,
+   34857835706,
+   34857835715,
+   34857835726,
+   34857835856,
+   34857835976,
+   35615200104,
+   35776150754,
+   35776150755,
+   35776150889,
+   35776150895,
+   35776150928,
+   35776150947,
+   35776150976,
+   35776150991,
+   35776151032,
+   35776151048,
+   35776151873,
+   35776151917,
+   35776151977,
+   35776152037,
+   35776152131,
+   35776152138,
+   35776152181,
+   35776152226,
+   35776152229,
+   35776152242,
+   35776165888,
+   35776165931,
+   35776165938,
+   35776165959,
+   35776166066,
+   35776166070,
+   35776166088,
+   35776166119,
+   35776166136,
+   35776166202,
+   35776168283,
+   35776168317,
+   35776168367,
+   35776168372,
+   35776168375,
+   35776168444,
+   35776168446,
+   35776168450,
+   35776168468,
+   35776168581,
+   35776175396,
+   35776175402,
+   35776175405,
+   35776175417,
+   35776175420,
+   35776175423,
+   35776175424,
+   35776175445,
+   35776175447,
+   35776175475,
+   36255807245,
+   36255807248,
+   36255807254,
+   36255807271,
+   36255807291,
+   36255807308,
+   37344009686,
+   37344009769,
+   37344009814,
+   37344009903,
+   37344009945,
+   37344009980,
+   37344009981,
+   37846960284,
+   37846960325,
+   37846960335,
+   37846960375,
+   37846960393,
+   37846960443,
+   38284252766,
+   38284252788,
+   38284252793,
+   38284252797,
+   38284252807,
+   38284252820,
+   38284252852,
+   39276920005,
+   39276920019,
+   39276920020,
+   39276920022,
+   39276920028,
+   39276920106,
+   39276920144,
+   39276920347,
+   40343935777,
+   40343935883,
+   40343935923,
+   40343935971,
+   40343935984,
+   40343936024,
+   40343936056,
+   40343936336,
+   40494631074,
+   40494631164,
+   40494631166,
+   40494631189,
+   40494631224,
+   40494631231,
+   40494631268,
+   40494631371,
+   40494631418,
+   40494631653,
+   40494707331,
+   40494707397,
+   40494707410,
+   40494707431,
+   40494707577,
+   40494707582,
+   40494707706,
+   40494707730,
+   40494707749,
+   40494707946,
+   41495331148,
+   41495331167,
+   41495331172,
+   41495331207,
+   41495331232,
+   41495331248,
+   41495331249,
+   41495331256
+  ],
+  "failure: other step": [
+   34275242293,
+   34275345857,
+   34275848318,
+   34275923724,
+   34276113489,
+   34276984075,
+   34400116260,
+   34400136097,
+   34401720184,
+   34401745490,
+   34475386860,
+   34475497375,
+   34476284713,
+   34476491983,
+   34477408641,
+   34497258361,
+   34497631778,
+   34498062064,
+   34498158827,
+   34499741207,
+   34499785976,
+   34500108331,
+   34502232237,
+   34502648531,
+   34503212175,
+   34504140743,
+   34504757070,
+   34513519600,
+   34514753406,
+   34516256716,
+   34520063703,
+   34606288142,
+   34608842888,
+   34609916821,
+   34622612115,
+   34632945102,
+   34694229818,
+   34694869908,
+   34749535790,
+   34749573232,
+   34749573633,
+   34838524179,
+   35595641300,
+   35776041715,
+   35776041756,
+   35776042947,
+   35776048007,
+   35776048252,
+   35776048548,
+   35776053780,
+   35776054873,
+   35776054976,
+   35776059504,
+   35776061308,
+   35776066145,
+   35776066159,
+   35776067849,
+   36135336061,
+   36423224162,
+   36834135545,
+   36874254770,
+   36874255235,
+   36897315973,
+   36906353084,
+   36924389346,
+   36927814305,
+   36933140219,
+   37315956697,
+   38260873762,
+   38552185509,
+   38752283243,
+   38752354249,
+   38800642913,
+   38864275883,
+   38864278968,
+   39244958142,
+   39247568313,
+   39409049192,
+   39587137717,
+   39634693484,
+   39637493761,
+   39640469947,
+   39645856269,
+   39646320521,
+   39647020322,
+   39757649740,
+   39757649857,
+   39927677743,
+   40184391633,
+   40319831353,
+   40383603943,
+   40510218727,
+   40511810199,
+   40682628576,
+   40682792239,
+   40682807396,
+   40916600472,
+   40917496700,
+   40974196371,
+   41005290756,
+   41005949807,
+   41018460702,
+   41019024024,
+   41050635363,
+   41059913542,
+   41059923527,
+   41060116366,
+   41060277594,
+   41060706475,
+   41060899685,
+   41061384184,
+   41061569644,
+   41062077575,
+   41062277506,
+   41179710682,
+   41196541773,
+   41305371194,
+   41458145851,
+   41462660735,
+   41518413593,
+   41525133911,
+   41631979224,
+   41641921681,
+   41727358415,
+   41837880796,
+   42037638002,
+   42100152254,
+   42225058577
+  ],
+  "failure: tests": [
+   34400599411,
+   34400855672,
+   34400995946,
+   34401079520,
+   34401720254,
+   34401745452,
+   34475496954,
+   34477408725,
+   34497631905,
+   34498062057,
+   34498158831,
+   34499741393,
+   34499785704,
+   34500108266,
+   34502232343,
+   34502648822,
+   34503211914,
+   34504140632,
+   34504757003,
+   34513519424,
+   34514753400,
+   34516256648,
+   34520063794,
+   34520716457,
+   34521213556,
+   34608842868,
+   34632945161,
+   34694229762,
+   34694869972,
+   36135336339,
+   36874254785,
+   36897316000,
+   36906353057,
+   36912470277,
+   36922933288,
+   36929479741,
+   36929479752,
+   36933140520,
+   38099421154,
+   38821397234,
+   38821768461,
+   38821990187,
+   38824402541,
+   38824578915,
+   38824800272,
+   38864278881,
+   39504305313,
+   39666209558,
+   39686607106,
+   39689267313,
+   39692031949,
+   39696237862,
+   39698372341,
+   39700190926,
+   39718227125,
+   39719130718,
+   39722636873,
+   39724357846,
+   39725505885,
+   39726370343,
+   39729115771,
+   39751311481,
+   39757649640,
+   39791844405,
+   39793481563,
+   40497841649,
+   40510218671,
+   40511809805,
+   40526368524,
+   40543396829,
+   40544152854,
+   40564370425,
+   40567346882,
+   40569369798,
+   40571673665,
+   40572102963,
+   40575850424,
+   40576380915,
+   40576572173,
+   40579609146,
+   40580158567,
+   40580230924,
+   40730131333,
+   40915496706,
+   40917496631,
+   41005290731,
+   41006328960,
+   41006770233,
+   41007367603,
+   41008139704,
+   41008398484,
+   41008860782,
+   41018460827,
+   41019024108,
+   41059913778,
+   41060706242,
+   41062277468,
+   41063600568,
+   41518413377,
+   41525134038,
+   41527636010,
+   41537053871,
+   41616497030,
+   41618563044,
+   41634291218,
+   41879064985,
+   41880969268,
+   41884480352,
+   41885733116,
+   41890046185,
+   41892018253,
+   41893686841,
+   41894940523,
+   41896127050,
+   41898173617,
+   41899698187,
+   41904164101,
+   42292829913,
+   42295764023,
+   42303837980,
+   42307591065
+  ]
+ },
+ "allReturnedRunIdsSha256": "d7ecdbb37e5fc297d6805efd735e93dd91c46890f4a28c050200eb23ca481f04",
+ "perWorkflow": {
+  "Auto-Sync Registry Artifacts": {
+   "completed": 98,
+   "nonSuccess": 7
+  },
+  "Auto-Triage": {
+   "completed": 225,
+   "nonSuccess": 0
+  },
+  "Auto-label bot PRs": {
+   "completed": 221,
+   "nonSuccess": 20
+  },
+  "Auto-merge small PRs": {
+   "completed": 362,
+   "nonSuccess": 52
+  },
+  "Branch Scope Check": {
+   "completed": 673,
+   "nonSuccess": 123
+  },
+  "CF PR Preview (Worker)": {
+   "completed": 12,
+   "nonSuccess": 0
+  },
+  "CLI Wrapper": {
+   "completed": 13,
+   "nonSuccess": 0
+  },
+  "Curation Semantic CI": {
+   "completed": 206,
+   "nonSuccess": 27
+  },
+  "Docs Cohesion Guards": {
+   "completed": 1552,
+   "nonSuccess": 49
+  },
+  "Evidence Health Check": {
+   "completed": 8,
+   "nonSuccess": 8
+  },
+  "Fast-Track CI (small PRs)": {
+   "completed": 628,
+   "nonSuccess": 24
+  },
+  "First-Time Contributor Advisory": {
+   "completed": 206,
+   "nonSuccess": 0
+  },
+  "Gaia Steward": {
+   "completed": 62,
+   "nonSuccess": 0
+  },
+  "Gaia Steward Full": {
+   "completed": 4,
+   "nonSuccess": 4
+  },
+  "Graph Update: uv in /. #1563138773": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1564269588": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1565314114": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1565801023": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1565802473": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1566857471": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1566873378": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1566886463": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1566909393": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1568748853": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1569065499": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1569088578": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1569115433": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1569448018": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1571522028": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1571535465": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1571597781": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1571681416": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1571704959": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1571723642": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1571730044": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1571746797": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1572187635": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1572432597": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1572511478": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1572527478": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1573244298": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1582015874": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1588337506": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1588337901": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1591696679": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1591877291": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1592900700": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1592916341": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1601280161": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1601289434": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1602522411": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1603951914": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1603953757": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1603992502": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1606763813": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1606784380": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1606935487": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1614349492": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1617931762": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1618150899": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1618173686": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1618181963": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1618255197": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1618312253": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1618353876": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1619731892": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1620914115": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1620933733": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1620959236": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1620964932": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1620982900": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1621338800": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1630062335": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1630142048": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1630304337": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1630415002": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1630962460": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1632466340": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1641918807": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1643274383": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1643276154": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1643314974": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1648509830": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1648513104": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1650070744": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1650376762": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1658363996": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1658387217": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1658434796": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1658478946": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1658702569": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1660320871": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1664089068": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1664143277": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1664360223": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1664365356": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1677661263": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1677667011": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1681350483": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1681375458": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Graph Update: uv in /. #1681568567": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "HTML Sink Guard (DOM-XSS pre-CodeQL)": {
+   "completed": 48,
+   "nonSuccess": 0
+  },
+  "Intake Approval": {
+   "completed": 308,
+   "nonSuccess": 5
+  },
+  "Jev Advisory Lane": {
+   "completed": 6,
+   "nonSuccess": 0
+  },
+  "License Compatibility Check": {
+   "completed": 16,
+   "nonSuccess": 4
+  },
+  "Meta Guard": {
+   "completed": 142,
+   "nonSuccess": 20
+  },
+  "PR #1750": {
+   "completed": 6,
+   "nonSuccess": 0
+  },
+  "PR #1757": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1762": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1764": {
+   "completed": 15,
+   "nonSuccess": 0
+  },
+  "PR #1768": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1769": {
+   "completed": 3,
+   "nonSuccess": 0
+  },
+  "PR #1770": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1772": {
+   "completed": 3,
+   "nonSuccess": 0
+  },
+  "PR #1773": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #1774": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #1777": {
+   "completed": 4,
+   "nonSuccess": 0
+  },
+  "PR #1778": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1779": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1781": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1782": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1783": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1791": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1792": {
+   "completed": 13,
+   "nonSuccess": 0
+  },
+  "PR #1797": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1798": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1800": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #1802": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1804": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1806": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1808": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #1810": {
+   "completed": 5,
+   "nonSuccess": 0
+  },
+  "PR #1811": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1812": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1813": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1814": {
+   "completed": 3,
+   "nonSuccess": 0
+  },
+  "PR #1819": {
+   "completed": 3,
+   "nonSuccess": 0
+  },
+  "PR #1822": {
+   "completed": 6,
+   "nonSuccess": 0
+  },
+  "PR #1826": {
+   "completed": 5,
+   "nonSuccess": 0
+  },
+  "PR #1830": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1831": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1834": {
+   "completed": 4,
+   "nonSuccess": 0
+  },
+  "PR #1912": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1915": {
+   "completed": 3,
+   "nonSuccess": 0
+  },
+  "PR #1916": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1917": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1918": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1919": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1920": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #1998": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #2000": {
+   "completed": 3,
+   "nonSuccess": 0
+  },
+  "PR #2026": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2027": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2028": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #2029": {
+   "completed": 3,
+   "nonSuccess": 0
+  },
+  "PR #2031": {
+   "completed": 4,
+   "nonSuccess": 0
+  },
+  "PR #2032": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2033": {
+   "completed": 17,
+   "nonSuccess": 0
+  },
+  "PR #2034": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2035": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #2036": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2037": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2038": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2041": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #2043": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2045": {
+   "completed": 8,
+   "nonSuccess": 0
+  },
+  "PR #2048": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2056": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #2057": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2058": {
+   "completed": 6,
+   "nonSuccess": 0
+  },
+  "PR #2059": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #2060": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2061": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2062": {
+   "completed": 4,
+   "nonSuccess": 0
+  },
+  "PR #2064": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2066": {
+   "completed": 3,
+   "nonSuccess": 0
+  },
+  "PR #2068": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2070": {
+   "completed": 6,
+   "nonSuccess": 0
+  },
+  "PR #2071": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2072": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2073": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2080": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #2087": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2097": {
+   "completed": 10,
+   "nonSuccess": 0
+  },
+  "PR #2103": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2106": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2107": {
+   "completed": 7,
+   "nonSuccess": 0
+  },
+  "PR #2116": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2119": {
+   "completed": 6,
+   "nonSuccess": 0
+  },
+  "PR #2121": {
+   "completed": 8,
+   "nonSuccess": 0
+  },
+  "PR #2124": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2125": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2128": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #2129": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2133": {
+   "completed": 25,
+   "nonSuccess": 0
+  },
+  "PR #2134": {
+   "completed": 11,
+   "nonSuccess": 0
+  },
+  "PR #2136": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #2139": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #2146": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #2147": {
+   "completed": 3,
+   "nonSuccess": 0
+  },
+  "PR #2149": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #2151": {
+   "completed": 64,
+   "nonSuccess": 0
+  },
+  "PR #2157": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2164": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2165": {
+   "completed": 3,
+   "nonSuccess": 0
+  },
+  "PR #2170": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2171": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2173": {
+   "completed": 3,
+   "nonSuccess": 0
+  },
+  "PR #2174": {
+   "completed": 8,
+   "nonSuccess": 0
+  },
+  "PR #2178": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #2179": {
+   "completed": 4,
+   "nonSuccess": 0
+  },
+  "PR #2202": {
+   "completed": 4,
+   "nonSuccess": 0
+  },
+  "PR #2230": {
+   "completed": 8,
+   "nonSuccess": 0
+  },
+  "PR #2235": {
+   "completed": 9,
+   "nonSuccess": 0
+  },
+  "PR #2254": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #2270": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #2281": {
+   "completed": 14,
+   "nonSuccess": 0
+  },
+  "PR #2285": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2286": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2288": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "PR #2297": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2300": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2302": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2303": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2304": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2308": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR #2319": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "PR Author Identity": {
+   "completed": 675,
+   "nonSuccess": 53
+  },
+  "PR Guards": {
+   "completed": 1191,
+   "nonSuccess": 28
+  },
+  "Publish gaia-cli to PyPI": {
+   "completed": 6,
+   "nonSuccess": 1
+  },
+  "Push on main": {
+   "completed": 192,
+   "nonSuccess": 2
+  },
+  "Python Package": {
+   "completed": 562,
+   "nonSuccess": 219
+  },
+  "Rank Vocabulary Guard (Yggdrasil II)": {
+   "completed": 67,
+   "nonSuccess": 4
+  },
+  "Regen OG PNGs from SVGs": {
+   "completed": 6,
+   "nonSuccess": 1
+  },
+  "Release": {
+   "completed": 1,
+   "nonSuccess": 1
+  },
+  "SDK Tests": {
+   "completed": 1,
+   "nonSuccess": 0
+  },
+  "Scheduled": {
+   "completed": 9,
+   "nonSuccess": 0
+  },
+  "Source Curation Dry Run": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "Stale Bot Proposals": {
+   "completed": 8,
+   "nonSuccess": 0
+  },
+  "Stargazer Heartbeat": {
+   "completed": 2,
+   "nonSuccess": 0
+  },
+  "Steward Build Copilot": {
+   "completed": 6,
+   "nonSuccess": 6
+  },
+  "Taxonomy Authority Guard (Yggdrasil II)": {
+   "completed": 80,
+   "nonSuccess": 0
+  },
+  "Upstream Approve": {
+   "completed": 398,
+   "nonSuccess": 38
+  },
+  "Upstream Close Children": {
+   "completed": 236,
+   "nonSuccess": 0
+  },
+  "Upstream Reject": {
+   "completed": 306,
+   "nonSuccess": 0
+  },
+  "Upstream Watcher": {
+   "completed": 60,
+   "nonSuccess": 8
+  },
+  "Validate Gaia Graph": {
+   "completed": 591,
+   "nonSuccess": 123
+  },
+  "Version Stamp Guard": {
+   "completed": 15,
+   "nonSuccess": 0
+  },
+  "Weekly Content Engine": {
+   "completed": 8,
+   "nonSuccess": 0
+  },
+  "lexicon": {
+   "completed": 43,
+   "nonSuccess": 0
+  },
+  "pages build and deployment": {
+   "completed": 192,
+   "nonSuccess": 21
+  }
+ },
+ "driftNote": "The Actions API history is mutable (re-runs replace earlier attempts). A later re-query of the same window can differ by a run or two in a conclusion bucket; the id list and hash above pin what was analysed."
+}

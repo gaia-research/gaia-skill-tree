@@ -118,6 +118,11 @@ _PROTECTED_DISPATCH_PATHS = (
 # The exception is pinned here, not in policy, so editing POLICY.yaml can
 # neither widen it nor hand it to another debt kind.
 _WORKFLOW_ROUTE_DEBT_KIND = "workflow_hygiene"
+# The exception is bound to this exact rule id AND debt kind, in both directions:
+# renaming the rule, or pointing another kind at this id, is refused at load.
+_WORKFLOW_ROUTE_RULE_ID = "workflow-timeout-repair"
+WORKFLOW_ROUTE_DEBT_KIND = _WORKFLOW_ROUTE_DEBT_KIND
+WORKFLOW_ROUTE_RULE_ID = _WORKFLOW_ROUTE_RULE_ID
 _WORKFLOW_ROUTE_ALLOWED = (".github/workflows/*.yml",)
 _WORKFLOW_ROUTE_REQUIRED_FORBIDDEN = (
     ".github/workflows/*.lock.yml",
@@ -516,6 +521,12 @@ class StewardPolicy:
                 _safe_dispatch_glob(item, f"routing.dispatchRules.{rule_id}.forbiddenPaths")
                 for item in _string_list(rule["forbiddenPaths"], f"routing.dispatchRules.{rule_id}.forbiddenPaths")
             )
+            if (debt_kind == _WORKFLOW_ROUTE_DEBT_KIND) != (rule_id == _WORKFLOW_ROUTE_RULE_ID):
+                raise PolicyError(
+                    f"routing.dispatchRules.{rule_id}: the .github/workflows exception belongs to rule "
+                    f"{_WORKFLOW_ROUTE_RULE_ID} and debt kind {_WORKFLOW_ROUTE_DEBT_KIND} together; "
+                    "neither may be used without the other"
+                )
             workflow_route = debt_kind == _WORKFLOW_ROUTE_DEBT_KIND
             if workflow_route:
                 # The one exception to the `.github/**` floor. Allowed paths are

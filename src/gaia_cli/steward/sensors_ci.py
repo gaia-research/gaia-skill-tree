@@ -118,6 +118,16 @@ class CiWorkflowSensor:
                 state["laneIneligibleReason"] = (
                     "gh-aw generated lock file; the repair is in its .md source plus a gated recompile"
                 )
+            elif not relative.endswith(".yml"):
+                state["laneEligible"] = False
+                state["laneIneligibleReason"] = "only .github/workflows/*.yml files are repairable by Steward"
+            elif any(item["rule"] != "missing-timeout" for item in findings):
+                # The one workflow route repairs missing timeouts and nothing else;
+                # any other finding (alone or mixed) is not repairable by an agent.
+                state["laneEligible"] = False
+                state["laneIneligibleReason"] = (
+                    "workflow findings other than missing-timeout are not repairable by Steward"
+                )
             observations.append(
                 Observation(
                     kind="workflow_hygiene",

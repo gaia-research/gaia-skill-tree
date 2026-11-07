@@ -35,9 +35,18 @@ policy that lets any other debt kind write there. This rule is the single,
 code-pinned exception, and it is as narrow as the ruling:
 
 - **May write:** direct-child `.github/workflows/*.yml` files only, and only by
-  **adding** job-level `timeout-minutes` lines. Verification rejects any diff
-  line in a workflow that is not such an addition (removals, other keys, a
-  value outside 1..360, deleting or creating a workflow).
+  **adding** an integer `timeout-minutes` of 1..360, written as a plain decimal,
+  directly under an existing job that lacked one. Verification proves this
+  structurally, not by line spelling: it loads the baseline (the file at the
+  verifier checkout's `HEAD`) and the patched file as single anchor-free,
+  alias-free, duplicate-key-free YAML documents and requires that nothing else
+  changed at any depth. A step-level or `run:` scalar line, a second key that
+  overrides a first, an alias or anchor, multi-document input, a non-ASCII or
+  non-decimal numeral, and any workflow creation or deletion are rejected, as is
+  a diff that does not apply to the baseline.
+- **Only for debts that are purely `missing-timeout`.** Dispatch (lane or explicit
+  `--debt`) refuses this packet for a debt with any other finding, mixed or alone,
+  for a capped finding list, a lock file, or a non-`.yml` subject.
 - **Never writes:** `.github/workflows/*.lock.yml` (compiled gh-aw output, whose
   repair is the `.md` source plus a founder-gated recompile, see
   `FOUNDER_LOCK_2283.md` C4), `.github/workflows/shared/**`,
@@ -53,7 +62,7 @@ the same as none.
 
 1. **Read the job.** What does it do, and where can it legitimately wait
    (installs, test suites, a deploy, an approval gate, a network fetch)?
-2. **Sample real durations.** The `ci-runs` input carries no durations, so read
+2. **Sample real durations (mandatory).** The `ci-runs` input carries no durations, so read
    them: `gh run list --workflow <file> --status completed --limit 50 --json databaseId,conclusion,createdAt,startedAt,updatedAt`
    for the workflow, then
    `gh api repos/gaia-research/gaia-skill-tree/actions/runs/<run-id>/jobs --jq '.jobs[] | {name, conclusion, started_at, completed_at}'`
@@ -68,17 +77,17 @@ the same as none.
 5. **Placement.** Put `timeout-minutes` directly under the job's `runs-on` (or
    `needs`/`if`), at the job's own indentation. Never edit an existing key.
 
-If there is no readable history for a job and its semantics do not bound it, that
-is a stop condition, not a license to guess.
+If no successful completed-run duration history can be read for a flagged job, stop.
+Job semantics alone never substitute for history: there is no semantics-only fallback.
 
 ## Stop conditions
 
 1. The finding does not reproduce on the current head.
 2. The subject is a lock file or has a gh-aw source beside it.
-3. Any change besides adding `timeout-minutes` lines would be needed (for
-   example, the workflow also has a permissions or pinning finding: report it,
-   do not fix it).
-4. No duration history is readable and semantics do not bound the job.
+3. Any change besides adding `timeout-minutes` keys would be needed, or the debt
+   carries any finding besides `missing-timeout` (such a debt is not routed here;
+   if you were handed one anyway, report it and stop).
+4. Successful completed-run duration history cannot be read for a flagged job.
 5. The job legitimately waits on a human or an environment approval.
 6. A flagged job is a reusable-workflow call (cannot declare `timeout-minutes`).
 7. The edited file does not parse as YAML.
@@ -86,7 +95,7 @@ is a stop condition, not a license to guess.
 ## Proof
 
 Reproduce every finding, show a one-file diff that only adds `timeout-minutes`
-lines, paste the per-job sample and arithmetic, parse the edited file as YAML,
+keys, paste the per-job sample and arithmetic, parse the edited file as YAML,
 run `python scripts/check_steward_coverage.py --check` and
 `python -m pytest tests/steward/test_sensors_ci.py`, and paste exact results. A
 different, fresh agent verifies independently, and the PR still goes through

@@ -82,8 +82,12 @@ that lets any other debt kind write there. `workflow-timeout-repair`
 pinned in code rather than in `POLICY.yaml`: its allowed path is exactly
 `.github/workflows/*.yml` (direct children only), it must forbid
 `.github/workflows/*.lock.yml` (gh-aw compiled output), `shared/`, `_disabled/`
-and `.github/actions/`, and verification rejects any workflow diff line that is
-not an added `timeout-minutes` value in 1..360. The sensor marks lock-file
+and `.github/actions/`; the rule id and debt kind are bound to each other in code;
+dispatch only ever hands the packet to a debt whose findings are all
+`missing-timeout`; and verification proves structurally (strict single-document,
+anchor-free, duplicate-key-free YAML before and after, patch applied to `HEAD`) that
+the only change is an integer 1..360 `timeout-minutes` added under an existing job.
+Run `gaia steward verify` from a checkout whose `HEAD` is the diff's baseline. The sensor marks lock-file
 findings `laneEligible: false` so they stay visible but never take a lane slot.
 The value is chosen from job semantics and sampled run durations; see
 `routines/workflow-timeout.md`. A missing timeout is a configuration finding,

