@@ -229,9 +229,21 @@ Every routine inherits the repository rules in `AGENTS.md`, `CLAUDE.md`, and the
 
 **Run when:** The issue census is refreshed, a suite batch gains candidates, an umbrella is superseded, or a founder question is answered.
 
-**Operating boundaries:** Class A issue-write authority is an OPEN proposal, not inferred from this routine. Closure requires an explicitly decided `steward-issue-closure-authority` record with the affirmative `resolution: "approved"` (not merely a decided or rejected question), as well as rules A1 to A5 enabled in `founder/steward/POLICY.yaml`, with a per-run cap. No live closure dry run or pilot is authorized in this mission. Class B work proposes dispositions and never closes or accepts anything. Registry mutation goes through `gaia dev` verbs only. Founder questions are decided by the founder, not by this routine.
+**Operating boundaries:** Class A issue-write authority is founder-ratified policy (ruling #10, 2026-11-06), not an operational rollout. Closure requires the decided `steward-issue-closure-authority` record with the affirmative `resolution: "approved"` (not merely a decided or rejected question), rules A1 to A5 enabled in `founder/steward/POLICY.yaml`, `issueHygiene.writesEnabled` switched on, and a per-run cap; `writesEnabled` stays false until the lead has independently verified the path. Every closure receipt names the Steward owner and the worker, the exact proof and the before and after state; a reopened issue is never closed again. No live closure dry run or pilot is authorized by the ratification. Class B work proposes dispositions and never closes or accepts anything. Registry mutation goes through `gaia dev` verbs only. Founder questions are decided by the founder, not by this routine.
 
 **Proof:** Each closure carries its rule, registry or merged-pull-request evidence, the original payload, and a durable outcome. Each batch disposition is reproducible from the census and local registry state. A resumed run neither repeats nor loses a pending closure.
+
+---
+
+## 19. Routine Pull-Request Maintenance
+
+**Outcome:** Recurring automated and scheduled pull requests from registered producers are verified, reconciled, merged or provably closed, and each one has a visible GitHub trail: pickup, independent verification, final disposition. Nothing routine waits unattended because its producer finished generating it, and nothing is merged or closed on an author name, a title, or a green-looking check.
+
+**Run when:** The pull-request census is refreshed, a producer opens or updates a pull request, a base moves under an open routine pull request, or a founder question about one is answered.
+
+**Operating boundaries:** Authority is the ratified, narrowly scoped route recorded in `founder/steward/decisions/steward-pr-maintenance-authority.json` and `prMaintenance` in `founder/steward/POLICY.yaml`; it is never a general permission to merge arbitrary pull requests. A pull request is routine only when a registered producer in `founder/steward/pr-producers.json` proves it (verified identity, branch convention, same-repository head, labels, file scope). Merges use `forge.merge_pr` only, at one exact head SHA, after an independent verification by an agent that did not build the work, under GitHub's own branch protection, with merge commits (squash is never allowed). Closures use `forge.close_pr` only for provable supersession, with the justification posted first. A draft, a hold label, a missing required approval, a design gate, or a destructive closure is Class C: Steward stops that write, records a founder question, and continues unrelated work. Repositories outside the producer registry's enabled scope are deferred and reported as unknown coverage, never healthy.
+
+**Proof:** Each pull request taken over carries a pickup receipt; a merge or closure carries a verification PASS, then the final receipt with the observed merge commit; the durable outcome store holds exactly one terminal line per write; re-observation shows the pull request merged or closed and no duplicate operation.
 
 ---
 

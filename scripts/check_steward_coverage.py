@@ -19,13 +19,21 @@ ROOT = Path(__file__).resolve().parents[1]
 CATALOG = Path("founder/steward/routine-coverage.json")
 ROUTINES = Path("founder/ROUTINES.md")
 SCHEMA_VERSION = 2
-ROUTINECOUNT = 18
+ROUTINECOUNT = 19
 # Forge-executed repair actions: runner-emitted, driver-performed, never a local executor.
 # Each maps to the one debt kind it closes; the runner must emit the literal (checked below).
-FORGE_ACTIONS = {"forge.close_issue": ("issue_closure_ready", "A")}
+FORGE_ACTIONS = {
+    "forge.close_issue": ("issue_closure_ready", "A"),
+    "forge.merge_pr": ("routine_pr_merge_ready", "B"),
+    "forge.close_pr": ("routine_pr_closure_ready", "B"),
+}
 # The atomic skill that performs each forge action. A forge-bound debt kind is dispositioned by it,
 # not by its authority's default skill (A -> land), because no land step ever runs for it.
-FORGE_SKILLS = {"forge.close_issue": "gaia-steward-issue-hygiene"}
+FORGE_SKILLS = {
+    "forge.close_issue": "gaia-steward-issue-hygiene",
+    "forge.merge_pr": "gaia-steward-pr-maintenance",
+    "forge.close_pr": "gaia-steward-pr-maintenance",
+}
 FORGE_SOURCE = Path("src/gaia_cli/steward/fullrun.py")
 STATE_VOCABULARY = {
     "registered": "static",
@@ -68,7 +76,8 @@ def _literal(node: ast.AST) -> Any:
 @functools.lru_cache(maxsize=4)
 def _sensor_ownership(root: Path) -> dict[str, set[str]]:
     """Find sensor id -> emitted Observation kind ownership from source AST."""
-    files = list((root / "src/gaia_cli/steward").glob("*.py")) + list((root / "src/gaia_cli/steward/issuehygiene").glob("*.py"))
+    files = (list((root / "src/gaia_cli/steward").glob("*.py")) + list((root / "src/gaia_cli/steward/issuehygiene").glob("*.py"))
+             + list((root / "src/gaia_cli/steward/prmaintenance").glob("*.py")))
     mirror_specs: dict[str, str] = {}
     mirror_tree = ast.parse((root / "src/gaia_cli/steward/mirrors.py").read_text(encoding="utf-8"))
     for node in ast.walk(mirror_tree):

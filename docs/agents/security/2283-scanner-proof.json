@@ -1,10 +1,10 @@
 {
   "purpose": "Scoped offline before/after evidence, not a canonical scan or closure receipt.",
   "baselineCommit": "d694986b865e158e21c613683021a9b7822f945c",
-  "implementationCommit": "afe8644bd841473ef3ad5711bed5cc0cd1343667",
-  "sourceCheckpointCommit": "afe8644bd841473ef3ad5711bed5cc0cd1343667",
-  "sourceCheckpointTree": "7706581a705c0f874e20fd4f317e4dfe41289190",
-  "currentSourceCommit": "afe8644bd841473ef3ad5711bed5cc0cd1343667",
+  "implementationCommit": "3f4c46fe140f0e3d4a26733baba23f229c30ab94",
+  "sourceCheckpointCommit": "3f4c46fe140f0e3d4a26733baba23f229c30ab94",
+  "sourceCheckpointTree": "0ae617ccf0f9a6c9768c88972fd386591ac4287a",
+  "currentSourceCommit": "3f4c46fe140f0e3d4a26733baba23f229c30ab94",
   "currentSelectedFindings": 71,
   "historicalPriorReplay": {
     "implementationCommit": "72bf2be0da18a6f410d9936b75762e05c1736508",
@@ -18,8 +18,8 @@
   },
   "scannerSourceSha256": "21350bf4afdab3473f3fba8f563e46d26fc2f91d1429c73c3e676accd3a6ba14",
   "sourceCheckpointNote": "All matrix-bound source bytes equal this committed checkpoint. Later proof-only commits are not represented as the source checkpoint.",
-  "scope": "39 original source paths only; baseline scanner on baseline bytes versus current scanner on reviewed bytes; generated positive controls in memory.",
-  "matrixSha256": "ef616f78c39ea79eb12a499db7c2777cb1c3553efcc8c6b14229fc1c5381dda5",
+  "scope": "39 original source paths only; baseline scanner on baseline Git blobs versus current scanner on source checkpoint Git blobs.",
+  "matrixSha256": "da5b7a39f3a261cc82fcf74e88038c122c9d5b035da5dab7957b8aea66d940e6",
   "unchangedAuthorityPatternsAndPublicScanner": {
     "founder/steward/POLICY.yaml": "58af7eb1d4915970e2b8ffa8b55f4c96f5f79b7cd330b316c1d05ff534a28278",
     "src/gaia_cli/steward/primitives/redact.py": "cf70bcfc7dfb6b586896e77e53956856b719ac7eb0b21b7ff89e5894649b3961",
@@ -1032,5 +1032,22 @@
     "changed": 0,
     "mirrorOnly": 0
   },
-  "limits": "Feature-only dependency merge performed. No full fleet scan, ledger change, validity probe, issuer attestation, rotation, browser/live-server session, Node 18 or Windows run, independent combined review, main/campaign integration merge, or campaign completion."
+  "limits": "Feature-only dependency merge performed. No full fleet scan, ledger change, validity probe, issuer attestation, rotation, browser/live-server session, Node 18 or Windows run, independent combined review, main/campaign integration merge, or campaign completion.",
+  "historicalFounderCompositionReplay": {
+    "status": "historical; prior founder composition replay, not the current checkpoint",
+    "sourceCommit": "afe8644bd841473ef3ad5711bed5cc0cd1343667",
+    "sourceTree": "7706581a705c0f874e20fd4f317e4dfe41289190",
+    "matrixSha256": "ef616f78c39ea79eb12a499db7c2777cb1c3553efcc8c6b14229fc1c5381dda5",
+    "selectedFindings": 71,
+    "proofSha256": "a4344057e0cb98d4f1158c0bb56c06567021de6431ee5091a3820523b7653420"
+  },
+  "controlsProvenance": "23 synthetic control comparisons retained from the historical founder composition replay; not rerun for this checkpoint. Scanner and patterns unchanged.",
+  "documentNoiseOutsideOriginalInventory": {
+    "path": "docs/agents/security/2283-dispositions.json",
+    "beforeCheckpoint": "c67d90950b0aa37491f5061e76f6cda3319da568",
+    "sourceCheckpoint": "3f4c46fe140f0e3d4a26733baba23f229c30ab94",
+    "beforeMatches": 1,
+    "afterMatches": 0,
+    "note": "Separate explanatory matrix prose; not part of the original 39-path inventory."
+  }
 }

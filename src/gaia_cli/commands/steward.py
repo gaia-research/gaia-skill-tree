@@ -179,11 +179,25 @@ class StewardCommand(Command):
         modes.add_argument("--triage", action="store_true", help="Observe and triage only")
         modes.add_argument("--verify", action="store_true", help="Verify recorded work and re-observe")
         modes.add_argument("--retro", action="store_true", help="Live sensor/routine coverage table only")
-        run.add_argument("--routine", metavar="N", help="Restrict triage to routine N (1-18)")
+        run.add_argument("--routine", metavar="N", help="Restrict triage to routine N (1-19)")
         run.add_argument("--debt", metavar="ID", help="Restrict triage to one debt id")
         run.add_argument("--resume", metavar="RUN", help="Continue an existing run from its recorded phase")
         run.add_argument("--afk", action="store_true", help="Founder decisions queue silently; never prompt")
         run.add_argument("--trigger", choices=("manual", "scheduled"), default="manual", help="What started this run")
+        run.add_argument(
+            "--interactive-browser", dest="interactiveBrowser", action="store_true",
+            help=(
+                "Allow a real, interactive browser for this run only (default off; no persistent setting can grant it). "
+                "Headless Chromium is on by default."
+            ),
+        )
+        run.add_argument(
+            "--browser-collection", dest="browserCollection", choices=("local", "external"), default="local",
+            help=(
+                "local (default): this run starts the headless browser collector. external: an earlier "
+                "least-privilege job collected and a validator accepted the artifact; this run collects nothing."
+            ),
+        )
         run.add_argument("--no-agents", dest="noAgents", action="store_true", help="Never dispatch Class B work")
         run.add_argument(
             "--integration-branch", dest="integrationBranch", metavar="B",
@@ -310,6 +324,9 @@ class StewardCommand(Command):
                     )
             elif args.json:
                 result = render_founder_queue(root)
+                from gaia_cli.steward.desk import classify_decision_records, load_decision_records
+
+                founderRecords = classify_decision_records(load_decision_records(root)).to_dict()
             else:
                 # The digest *is* the human surface. A terse list of decision
                 # ids is machine output wearing a person's clothes.
@@ -328,6 +345,8 @@ class StewardCommand(Command):
 
         if args.json:
             payload = result.to_dict()
+            if args.steward_command == "founder":
+                payload["decisionRecords"] = founderRecords
             if prompt is not None:
                 payload["prompt"] = prompt
             print(json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False))
@@ -540,6 +559,8 @@ class StewardCommand(Command):
                 push=bool(getattr(args, "push", False)),
                 trigger=getattr(args, "trigger", "manual"),
                 agents=not getattr(args, "noAgents", False),
+                interactive_browser=bool(getattr(args, "interactiveBrowser", False)),
+                browser_collection=getattr(args, "browserCollection", "local"),
                 holder=os.environ.get("GAIA_STEWARD_ACTOR", "cli"),
             )
             runner = FullRunner(config)
@@ -628,9 +649,9 @@ class StewardCommand(Command):
             try:
                 routine = int(args.routine)
             except ValueError:
-                raise _FullRefused(f"--routine must be a number between 1 and 18, not {args.routine!r}") from None
-            if not 1 <= routine <= 18:
-                raise _FullRefused("--routine must be between 1 and 18")
+                raise _FullRefused(f"--routine must be a number between 1 and 19, not {args.routine!r}") from None
+            if not 1 <= routine <= 19:
+                raise _FullRefused("--routine must be between 1 and 19")
         return runner.start(
             self._fullModeOf(args), routine=routine, debt=args.debt, afk=args.afk
         )
@@ -648,7 +669,20 @@ class StewardCommand(Command):
         print(f"Run                  {view.runId}  (mode {view.mode})")
         print(f"Status               {view.status}  (phase {view.phase})")
         print(f"Ledger               {ledger.get('transport')}  {shared}")
+        if view.browser is not None:
+            print(
+                "Browser              headless "
+                + ("on" if view.browser.get("headless") else "off")
+                + ", interactive "
+                + ("ON" if view.browser.get("interactive") else "off")
+            )
         summary = view.summary
+        collected = (summary.get("observe") or {}).get("browserCollection")
+        if isinstance(collected, dict):
+            print(
+                f"Browser collection   {collected.get('state')}  ({collected.get('mode')})"
+                + (f"  - {collected['reason']}" if collected.get("reason") else "")
+            )
         observe = summary.get("reobserve") or summary.get("observe")
         if observe:
             print(

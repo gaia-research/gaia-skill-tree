@@ -18,7 +18,8 @@ integration branch. The runner builds the commit; this skill only opens the PR
 and records it.
 
 Only `forge.open_pr` is landed here. An issue closure (`forge.close_issue`) is not a
-landing and is never performed by this skill; hand it to `gaia-steward-issue-hygiene`.
+landing and is never performed by this skill; hand it to `gaia-steward-issue-hygiene`. A routine pull-request merge or
+closure (`forge.merge_pr`, `forge.close_pr`) is not a landing either; hand it to `gaia-steward-pr-maintenance`.
 
 ## Input
 

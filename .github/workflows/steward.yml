@@ -122,14 +122,125 @@ jobs:
             steward-repair.patch
             .gaia/steward/receipts/
 
+  # Browser rendering runs here and nowhere else. This job has a read-only token, no persisted git credentials
+  # and no secrets, installs its single dependency with `npm ci --ignore-scripts` (no package lifecycle script
+  # runs), and hands the privileged job a plain artifact that `scripts/steward_accept_browser_render.py` validates
+  # as data. Headless Chromium is free and on by default; a real/interactive browser is never used in CI.
+  browser-collect:
+    name: Browser render collection (unprivileged)
+    runs-on: ubuntu-latest
+    outputs:
+      # The consumer compares this with the attempt written into the artifact and with its own attempt. After a re-run of
+      # failed jobs a successful earlier producer keeps its OLD output, so a replayed artifact cannot pass as current.
+      attempt: ${{ steps.attempt.outputs.id }}
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Record this job's run and attempt
+        id: attempt
+        run: echo "id=${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
+
+      # POLICY.yaml `browser.headless: false` switches collection off; the privileged job records that as refused.
+      - name: Read the headless setting from POLICY.yaml
+        id: policy
+        run: |
+          if awk '/^browser:/{f=1;next} /^[^ #]/{f=0} f' founder/steward/POLICY.yaml | grep -Eq '^[[:space:]]+headless:[[:space:]]*false'; then
+            echo "headless=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "headless=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install the collector dependency without lifecycle scripts
+        id: deps
+        if: steps.policy.outputs.headless == 'true'
+        continue-on-error: true
+        working-directory: scripts/steward-browser
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Install headless Chromium
+        id: chromium
+        if: steps.policy.outputs.headless == 'true'
+        continue-on-error: true
+        working-directory: scripts/steward-browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Record an install failure
+        if: always() && (steps.deps.outcome == 'failure' || steps.chromium.outcome == 'failure')
+        run: node scripts/steward_collect_browser_render.js --record-failure chromium-install-failed
+
+      - name: Collect rendered-frontend facts (headless)
+        id: collect
+        if: steps.policy.outputs.headless == 'true' && steps.deps.outcome == 'success' && steps.chromium.outcome == 'success'
+        continue-on-error: true
+        env:
+          NODE_PATH: ${{ github.workspace }}/scripts/steward-browser/node_modules
+        run: node scripts/steward_collect_browser_render.js --repository "$GITHUB_REPOSITORY"
+
+      # upload-artifact@v4 skips hidden paths, so the two files are staged in a visible directory. When collection was
+      # attempted a status file always exists (the collector or --record-failure writes one), so a missing handoff is
+      # an error, never silently ignored.
+      # The collector's files are handed over ONLY when the collect step actually succeeded. A collector that wrote
+      # `ok` and then exited nonzero (outcome failure) must not be accepted: its render is dropped and the status is
+      # rewritten as failed. If collection never ran (an install failed), the install-failure status already exists.
+      # The producer's own run and attempt are written into the artifact so the consumer can refuse a replayed one.
+      - name: Stage the render and status for the handoff
+        if: always() && steps.policy.outputs.headless == 'true'
+        env:
+          COLLECT_OUTCOME: ${{ steps.collect.outcome }}
+        run: |
+          set -e
+          inputs=.gaia/steward/inputs
+          mkdir -p browser-render-handoff "$inputs"
+          if [ "$COLLECT_OUTCOME" = "success" ]; then
+            for f in browser-render.json browser-render-status.json; do
+              if [ -f "$inputs/$f" ]; then cp "$inputs/$f" browser-render-handoff/; fi
+            done
+          else
+            rm -f "$inputs/browser-render.json"
+            if [ "$COLLECT_OUTCOME" = "failure" ]; then
+              node scripts/steward_collect_browser_render.js --record-failure collection-error
+            fi
+            if [ -f "$inputs/browser-render-status.json" ]; then cp "$inputs/browser-render-status.json" browser-render-handoff/; fi
+          fi
+          printf '{"schemaVersion":"steward-browser-render-attempt-v1","attemptId":"%s-%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" > browser-render-handoff/browser-render-attempt.json
+          if [ ! -f browser-render-handoff/browser-render-status.json ]; then
+            echo "::error title=browser handoff::no collection status was produced"
+            exit 1
+          fi
+
+      - name: Publish the render artifact
+        if: always() && steps.policy.outputs.headless == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: steward-browser-render
+          if-no-files-found: error
+          retention-days: 7
+          path: browser-render-handoff/
+
   # The full pipeline in observe mode: every detector, the founder desk, and the
   # three driver inputs (CI runs, advisories, test history). Read-only; its ledger
   # is local to this runner. The persistent ledger, Class A landing and the
   # unattended Class B builder/verifier loop live in steward-full.yml.
   full-observe:
     name: Full pipeline (observe)
+    needs: browser-collect
+    # Observe even when the browser job failed: that is then a recorded failed collection, never a silent skip.
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      # The validator binds the accepted render to this attempt and the run refuses any render that is not bound to it.
+      STEWARD_BROWSER_ATTEMPT: ${{ github.run_id }}-${{ github.run_attempt }}
+      STEWARD_BROWSER_PRODUCER_ATTEMPT: ${{ needs.browser-collect.outputs.attempt }}
     permissions:
       contents: read
       actions: read
@@ -190,21 +301,95 @@ jobs:
             echo "test-history=failed:artifact from run $rid could not be downloaded; history starts empty" > "$RUNNER_TEMP/inputs-hist.txt"
           fi
 
-      # The GitHub issue census for the issue-hygiene sensor (routine 18). Read-only REST. A partial
-      # or failed census is written or left absent, so the sensor reports not evaluated, never healthy.
-      - name: Collect the GitHub issue census for the issue-hygiene sensor
+      # The last verified closed-issue count (founder ruling steward-census-empty-page-crosschecks) is a DIAGNOSTIC
+      # baseline: losing it degrades diagnostics and gates no write. It lives in an Actions artifact (no new git-ref
+      # writer), restored here and re-uploaded by every run that holds one, which renews its 90-day retention.
+      #   restored        the latest unexpired baseline was downloaded -> compared and renewed
+      #   empty-store     none exists (a first run, or every earlier one expired) -> the census seeds one ONLY from a
+      #                   verified complete scan and labels it "seeded (no prior baseline retrievable)"
+      #   restore-failed  the artifact API or the download failed -> never seeds; the baseline is not evaluated
+      # A downloaded file that is corrupt or about another repository is detected by the census (restore-invalid): it is
+      # preserved as evidence, never treated as restored, and a verified complete scan seeds "(prior baseline invalid)".
+      - name: Restore the closed-issue baseline
+        id: baseline
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          mkdir -p .gaia/steward/inputs prev-baseline
+          state=restored
+          if ! json=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=steward-closed-baseline&per_page=10" 2>/dev/null); then
+            state=restore-failed
+          else
+            rid=$(jq -r '[.artifacts[] | select(.expired == false)] | .[0].workflow_run.id // empty' <<<"$json")
+            if [ -z "$rid" ]; then
+              state=empty-store
+            elif gh run download "$rid" --repo "$GITHUB_REPOSITORY" --name steward-closed-baseline --dir prev-baseline \
+                 && [ -f prev-baseline/closed-issue-baseline.json ]; then
+              cp prev-baseline/closed-issue-baseline.json .gaia/steward/inputs/closed-issue-baseline.json
+            else
+              state=restore-failed
+            fi
+          fi
+          echo "state=$state" >> "$GITHUB_OUTPUT"
+          case "$state" in
+            restored) echo "closed-baseline=ok:restored from the artifact store" > "$RUNNER_TEMP/inputs-baseline.txt" ;;
+            empty-store) echo "closed-baseline=missing:no baseline is retrievable (first run or expired); one is seeded only from a verified complete census and labelled as seeded" > "$RUNNER_TEMP/inputs-baseline.txt" ;;
+            *) echo "closed-baseline=failed:the artifact store could not be read; no baseline is seeded or written and the baseline is NOT EVALUATED" > "$RUNNER_TEMP/inputs-baseline.txt" ;;
+          esac
+
+      # The GitHub issue census for the issue-hygiene sensor (routine 18). Read-only REST. A partial
+      # or failed census is written or left absent, so the sensor reports not evaluated, never healthy.
+      - name: Collect the GitHub issue census for the issue-hygiene sensor
+        id: census
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASELINE_STATE: ${{ steps.baseline.outputs.state }}
+        # Exit 4 or 5 (an invalid restored baseline could not be preserved; 5 when the census is also incomplete) fails
+        # this step visibly but must not stop the observation. The census status is read from the written file's own
+        # completeness fields, never inferred from the exit code, so the two conditions are reported independently.
+        continue-on-error: true
+        run: |
           code=0
           python scripts/steward_issue_census.py --repo "$GITHUB_REPOSITORY" \
-            --out .gaia/steward/inputs/github-issues.json || code=$?
-          if [ "$code" -eq 0 ]; then
-            echo "issue-census=ok" > "$RUNNER_TEMP/inputs-census.txt"
-          elif [ "$code" -eq 3 ]; then
-            echo "issue-census=partial:a page failed or was short; issue-hygiene is NOT EVALUATED" > "$RUNNER_TEMP/inputs-census.txt"
+            --out .gaia/steward/inputs/github-issues.json --baseline-state "$BASELINE_STATE" || code=$?
+          census=.gaia/steward/inputs/github-issues.json
+          complete=missing
+          if [ -f "$census" ]; then complete=$(jq -r '.completeness.issues.complete | tostring' "$census" 2>/dev/null || echo missing); fi
+          case "$code" in
+            0|4)
+              if [ "$complete" = "true" ]; then state=ok; elif [ "$complete" = "false" ]; then state=partial; else state=failed; fi ;;
+            3|5) if [ "$complete" = "true" ] || [ "$complete" = "false" ]; then state=partial; else state=failed; fi ;;
+            *) state=failed ;;
+          esac
+          case "$state" in
+            ok) echo "issue-census=ok" > "$RUNNER_TEMP/inputs-census.txt" ;;
+            partial) echo "issue-census=partial:a page failed or was short, or the closed inventory could not be verified; issue closure operations are NOT EVALUATED" > "$RUNNER_TEMP/inputs-census.txt" ;;
+            *) echo "issue-census=failed:collector exited $code and its census file is unusable; issue-hygiene is NOT EVALUATED" > "$RUNNER_TEMP/inputs-census.txt" ;;
+          esac
+          if [ "$code" -eq 4 ] || [ "$code" -eq 5 ]; then
+            echo "closed-baseline=failed:the invalid restored baseline could not be preserved; nothing was seeded or overwritten and the baseline is NOT EVALUATED" > "$RUNNER_TEMP/inputs-baseline.txt"
+            echo "::error title=steward closed-issue baseline::the invalid restored baseline could not be preserved; no baseline was written"
+            exit "$code"
+          fi
+
+      # The collector ran in the unprivileged browser-collect job. Only what the validator accepts as data
+      # reaches .gaia/steward/inputs; anything else leaves a current failed status, so the browser-render
+      # detector reports NOT EVALUATED and an older render is never read as healthy.
+      - name: Download the browser-render artifact
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: steward-browser-render
+          path: browser-artifact
+
+      - name: Accept the browser-render artifact (validated, headless only)
+        if: always()
+        run: |
+          python scripts/steward_accept_browser_render.py --from browser-artifact | tee "$RUNNER_TEMP/browser-accept.txt"
+          if grep -q "artifact: ok" "$RUNNER_TEMP/browser-accept.txt"; then
+            echo "browser-render=ok" > "$RUNNER_TEMP/inputs-browser.txt"
           else
-            echo "issue-census=failed:collector exited $code; issue-hygiene is NOT EVALUATED" > "$RUNNER_TEMP/inputs-census.txt"
+            echo "browser-render=failed:$(cat "$RUNNER_TEMP/browser-accept.txt"); rendered frontend facts are NOT EVALUATED" > "$RUNNER_TEMP/inputs-browser.txt"
           fi
 
       # A failing suite must stay visible but must not stop the observation: it is
@@ -238,7 +423,7 @@ jobs:
 
       # Exit 3 means a detector was blind: that fails the job on purpose.
       - name: Observe with every detector
-        run: gaia steward full run --observe --trigger scheduled --ledger local --json > steward-full.json
+        run: gaia steward full run --observe --trigger scheduled --ledger local --browser-collection external --json > steward-full.json
 
       - name: Founder desk
         if: always()
@@ -258,6 +443,41 @@ jobs:
           if-no-files-found: ignore
           retention-days: 90
           path: .gaia/steward/inputs/test-history.json
+
+      # upload-artifact@v4 skips hidden paths, so the baseline is staged in a visible directory. Every run that holds a
+      # baseline re-uploads it, which renews the artifact's 90-day retention. A failed restore holds none, so nothing is
+      # uploaded and stored evidence is never replaced. A missing file is a visible warning, not a silent skip.
+      - name: Stage the closed-issue baseline for upload
+        if: always() && steps.baseline.outputs.state != 'restore-failed' && steps.census.outcome != 'failure'
+        run: |
+          mkdir -p closed-baseline-handoff closed-baseline-invalid
+          if [ -f .gaia/steward/inputs/closed-issue-baseline.json ]; then
+            cp .gaia/steward/inputs/closed-issue-baseline.json closed-baseline-handoff/
+          else
+            echo "::warning title=steward closed-issue baseline::no baseline exists to persist (the census was incomplete before one could be seeded)"
+          fi
+          if [ -f .gaia/steward/inputs/closed-issue-baseline.restore-invalid.json ]; then
+            cp .gaia/steward/inputs/closed-issue-baseline.restore-invalid.json closed-baseline-invalid/
+            echo "::warning title=steward closed-issue baseline::the restored baseline was invalid and is preserved as an artifact"
+          fi
+
+      - name: Persist the closed-issue baseline for the next run
+        if: always() && steps.baseline.outputs.state != 'restore-failed' && hashFiles('closed-baseline-handoff/*') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: steward-closed-baseline
+          if-no-files-found: error
+          retention-days: 90
+          path: closed-baseline-handoff/
+
+      - name: Preserve an invalid restored baseline as evidence
+        if: always() && hashFiles('closed-baseline-invalid/*') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: steward-closed-baseline-restore-invalid
+          if-no-files-found: error
+          retention-days: 90
+          path: closed-baseline-invalid/
 
       - name: Publish the full-run receipt
         if: always()

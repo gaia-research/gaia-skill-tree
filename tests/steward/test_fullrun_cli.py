@@ -203,13 +203,24 @@ def test_second_invocation_while_a_run_is_live_exits_four_and_names_the_holder(
 # --- refusals (exit 2) -------------------------------------------------------------------
 
 
-@pytest.mark.parametrize("extra", [["--routine", "0"], ["--routine", "19"], ["--resume", "run-x", "--observe"],
+@pytest.mark.parametrize("extra", [["--routine", "0"], ["--routine", "20"], ["--routine", "x"], ["--resume", "run-x", "--observe"],
                                    ["--resume", "run-x", "--debt", "debt:x"]])
 def test_bad_run_arguments_exit_two(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys, extra: list[str]) -> None:
     repo, _ = makeFixture(tmp_path)
     useSensors(monkeypatch, [])
     code, _out, err = runCli(monkeypatch, capsys, repo, "run", "--ledger", "local", *extra)
     assert code == 2 and "refused" in err
+
+
+@pytest.mark.parametrize("routine", ["1", "18", "19"])
+def test_every_catalogued_routine_is_accepted_by_the_run_command(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys,
+                                                                 routine: str) -> None:
+    """Routine 19 (PR maintenance) shipped while this check still stopped at 18, so the operator could not triage it."""
+
+    repo, _ = makeFixture(tmp_path)
+    useSensors(monkeypatch, [])
+    code, _out, err = runCli(monkeypatch, capsys, repo, "run", "--ledger", "local", "--triage", "--routine", routine)
+    assert "between 1 and" not in err and code != 2, err
 
 
 def test_resume_of_an_unknown_run_exits_two(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys) -> None:
@@ -396,7 +407,7 @@ def test_retro_human_output_prints_the_sensor_and_routine_tables(
     five = next(l for l in lines if l.strip().startswith("5 ") and "detector-solo" in l)
     assert "observed" in five
     routineRows = [l for l in lines if l.startswith("  ") and l.split()[:1] and l.split()[0].isnumeric()]
-    assert len(routineRows) == 18
+    assert len(routineRows) == 19
 
 
 def test_a_clean_scheduled_run_prints_the_quiet_line_and_status_carries_the_desk(

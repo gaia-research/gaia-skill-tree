@@ -1,0 +1,21 @@
+{
+  "status": "decided_best_effort_comment_writes",
+  "approved": true,
+  "machineEffective": false,
+  "effectLimit": "Owner clarification ratified; development authority record branch is not a live activation or main promotion.",
+  "verbatimDecisionCommit": "41f79697a",
+  "authorityClarificationBranch": "dev/steward-r19-receipt-ruling-2283",
+  "authorityClarificationCommit": "72aba66351dd0395073220131fad8e80878643b2",
+  "source": "Cloud review F3 of314fdf655",
+  "ratifiedRecordUnchanged": "founder/steward/decisions/steward-pr-maintenance-authority.json",
+  "existingLanguage": "eligible recurring bot pull requests are merged and provably superseded ones are closed, each with GitHub receipts",
+  "question": "Do GitHub receipts require posted pickup/verification/pre-close comment receipts as gating preconditions, or may those comment WRITES be best effort while durable independent verification, pre-close justification and authentic API effect evidence remain mandatory?",
+  "options": {
+    "retain_comment_preconditions": "Require the existing posted comment/trail prerequisites; missing receipts refuse the operation.",
+    "ratify_best_effort_comment_writes": "Explicitly ratify best-effort GitHub comment writes, never substitutes for durable independent verification, pre-close justification, authentic effect evidence, required fail-closed reads or other protection gates."
+  },
+  "operatorReply": "git is best effort, not preconditions",
+  "resolvedScope": "In the context of the explicit F3 question, GitHub posted receipt/comment WRITES are best effort, not preconditions. Durable verification, pre-close justification, authentic effect evidence, required reads/checks and shared Git/CAS/history remain mandatory.",
+  "implementationHold": "Lead authored the isolated authority clarification after the verbatim decision commit. Compose it by normal merge only after the F1/F2 writer freezes; no competing authority edit or live operation. All other holds remain.",
+  "notIncluded": ["activation", "namespace or clock provisioning", "writer drain or migration", "CLI output approval", "quota changes", "CI-churn edit permission"]
+}

@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "steward-campaign-recovery-receipt-v1",
+  "canonicalRepairsResolved": 2,
+  "canonicalRepairsMainDelivered": 2,
+  "lastVerifiedMain": "329b2f04779168d96a619f4efeac2bc23585d896",
+  "baselineTests": {
+    "sourceCommit": "11de8c847c2f836a6cf5d36a673fbfdef5d58317",
+    "independentVerdict": "ACCEPT",
+    "integrationMerge": "786a24408eeb9c8e7f4fab83d6c6e70f2df281a6",
+    "actualParentTestResult": "14 passed with normal autoload; pytest_timeout registered",
+    "runtimeBlobBeforeCanonicalFix": "56f075d2073c8ee7c1b6714e51e2e34e4f21ffe1",
+    "debtClosure": false
+  },
+  "transportRecovery": {
+    "originalFailure": "GitHub HTTP2 framing layer error",
+    "persistedRunId": "run-20261106T045029Z-92c5e38b",
+    "observedSavedPhase": "reconcile",
+    "observedSavedHolder": null,
+    "observedSavedLaneDispatched": 0,
+    "sameRunResumed": true,
+    "freshRequiredInputsSucceeded": true,
+    "commandScopedHttpVersion": "HTTP/1.1",
+    "globalGitConfigurationChanged": false,
+    "newRunCreatedToResetAttempts": false,
+    "localLedgerFallback": false
+  },
+  "freshObservation": {
+    "scanReceiptId": "steward-20261106T070128Z-4e3c9ccc366be4a8",
+    "authorityCounts": {"A": 0, "B": 324, "C": 40},
+    "created": 0,
+    "resolved": [],
+    "coverageUnknown": [],
+    "optionalNotEvaluated": ["browser-render", "dependency-advisory"]
+  },
+  "emittedBuild": {
+    "debtId": "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208",
+    "dispatchId": "dispatch-7930613ee061481cf023",
+    "stepId": "build:549e1d59b78e:1",
+    "attempt": 1,
+    "emittedAt": "2026-11-06T07:08:58.069037Z",
+    "packetReceipt": "steward-20261106T070858Z-8506f9e09a815cf6",
+    "branch": "steward/b/unused-import-549e1d59b78e",
+    "baseCommit": "786a24408eeb9c8e7f4fab83d6c6e70f2df281a6",
+    "assignedNativeBuilder": "781eeaae-bab4-41a6-8699-3fd008bc6238",
+    "requestedRuntimeModel": "openai-codex/gpt-6.1-terra",
+    "requestedEffort": "medium",
+    "runtimeIdentityCollectionPending": true,
+    "buildOutcomeNotYetCollected": true,
+    "independentlyAccepted": false,
+    "resolved": false
+  },
+  "r19": {
+    "rejectedHeads": ["17ad597ad3478b7caae182b1581a965a8fcfa252", "9d78106dcf95b146c1e5fd0b0b8687f9776e3463", "e7f1933b5f931d93196fd0146f47f3aecf248b2d"],
+    "frozenCandidate": "314fdf655edb7a6cb9bd131461bc11952366979d",
+    "tree": "e53b5920571b1458a6b6d0bde1fe454f57c7b411",
+    "briefBuilderChecks": "old attribute-invariant RED; new GREEN; 10 passed",
+    "parentLongTestsTask": "b7083f7d5",
+    "parentLongTestsComplete": false,
+    "independentWholeReviewComplete": false,
+    "accepted": false,
+    "operationalHoldsUnchanged": true
+  },
+  "campaignComplete": false
+}

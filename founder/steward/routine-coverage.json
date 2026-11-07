@@ -415,23 +415,35 @@
           "repairExecutor": null,
           "founderRule": null,
           "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "trust-calibration-drift",
+          "debtKind": "trust_evidence_gap",
+          "authority": "C",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
         }
       ],
-      "predicate": "Registered evidence, trust, benchmark, and taxonomy sensors identify selected drift; trust calibration has a proposal-only route.",
+      "predicate": "Registered evidence, trust, benchmark, and taxonomy sensors identify selected drift; trust calibration has a proposal-only route; an empty evidence pool is a Class C trust_evidence_gap with a read-only discovery routine.",
       "remainingGaps": [
         "Hooks 1922, 1445 and 2063 remain unknown/not-evaluated until fresh independent verification.",
-        "Trust calibration findings are report-only until the Star Bar is applied in the sensor; calibration needs founder approval."
+        "Trust calibration findings are report-only until the Star Bar is applied in the sensor; calibration needs founder approval.",
+        "Evidence discovery is read-only: it records searches and admissibility (scripts/steward_evidence_discovery.py) and never admits evidence or changes a rating; admission and any demotion keep their governed authority."
       ],
       "owners": [
         1445,
         1642,
         1922,
         2063,
-        2114
+        2114,
+        2201
       ],
       "tests": [
         "tests/steward/test_sensors.py",
-        "tests/steward/test_trust_calibration_regression.py"
+        "tests/steward/test_trust_calibration_regression.py",
+        "tests/steward/test_trust_evidence_gap.py"
       ]
     },
     {
@@ -587,10 +599,10 @@
           "sensorId": "ci-workflow",
           "debtKind": "workflow_hygiene",
           "authority": "B",
-          "dispatchRule": null,
+          "dispatchRule": "workflow-timeout-repair",
           "repairExecutor": null,
           "founderRule": null,
-          "bindingStatus": "unrouted"
+          "bindingStatus": "route-bound"
         },
         {
           "sensorId": "ci-health",
@@ -604,6 +616,7 @@
       ],
       "predicate": "A measured CI failure or runtime pattern supports a bounded workflow responsibility or efficiency change.",
       "remainingGaps": [
+        "workflow_hygiene is routed only for missing job timeouts in direct-child .github/workflows/*.yml; every other workflow finding rule and every gh-aw generated lock file stays unrepaired by Steward.",
         "CI health depends on a driver-supplied run history; without it ci-health is not evaluated, never healthy.",
         "CI cost and cache efficiency are not measured."
       ],
@@ -888,6 +901,109 @@
       "tests": [
         "tests/steward/issuehygiene/test_d1_sensor.py",
         "tests/steward/issuehygiene/test_d1_runner.py"
+      ]
+    },
+    {
+      "number": 19,
+      "title": "Routine Pull-Request Maintenance",
+      "status": "partially-covered",
+      "detectorIds": [
+        "pr-maintenance"
+      ],
+      "bindings": [
+        {
+          "sensorId": "pr-maintenance",
+          "debtKind": "routine_pr_merge_ready",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "forge-bound",
+          "forgeAction": "forge.merge_pr"
+        },
+        {
+          "sensorId": "pr-maintenance",
+          "debtKind": "routine_pr_blocked",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "pr-maintenance",
+          "debtKind": "routine_pr_superseded",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "pr-maintenance",
+          "debtKind": "routine_pr_conflict",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "pr-maintenance",
+          "debtKind": "routine_pr_verification_failed",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "pr-maintenance",
+          "debtKind": "routine_pr_provenance_unknown",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "pr-maintenance",
+          "debtKind": "routine_pr_closure_ready",
+          "authority": "B",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "forge-bound",
+          "forgeAction": "forge.close_pr"
+        },
+        {
+          "sensorId": "pr-maintenance",
+          "debtKind": "routine_pr_founder_decision",
+          "authority": "C",
+          "dispatchRule": null,
+          "repairExecutor": null,
+          "founderRule": "routine-pr-founder-decision",
+          "bindingStatus": "founder-routed"
+        }
+      ],
+      "predicate": "Registered-producer pull requests are merged only through forge.merge_pr and closed only through forge.close_pr, each after a gate that re-proves producer provenance, exact head, checks, scope, independent verification and branch protection; holds and drafts are founder questions; deferred repositories are unknown, never healthy.",
+      "remainingGaps": [
+        "Only gaia-research/gaia-skill-tree is enabled. gaia-research/gaia-skill-heaven (dependency maintenance) and organisation-wide producer discovery are deferred by founder ruling 2026-11-04 and are coverage-unknown.",
+        "Only three producers are registered: weekly-content-engine, its tracked replacement (content-engine-replacement) and scheduled-docs-routine. Any other automation account's pull request is reported as provenance-unknown, never merged.",
+        "Documentation-routine accuracy against CLI behaviour has no mechanical proof; it needs an independent verifier receipt and the founder promotes the draft.",
+        "Unresolved review threads are read from the CCR review-thread route; when it cannot answer the count is unknown and blocks the merge gate.",
+        "Reconciliation is deterministic only for content-engine cache-bust and index regeneration; any other conflict is a blocked or founder item, never hand-resolved by Steward."
+      ],
+      "owners": [
+        2281
+      ],
+      "tests": [
+        "tests/steward/prmaintenance/test_sensor.py",
+        "tests/steward/prmaintenance/test_gate.py",
+        "tests/steward/prmaintenance/test_roster.py",
+        "tests/steward/prmaintenance/test_reconcile.py",
+        "tests/steward/prmaintenance/test_replacement.py",
+        "tests/steward/prmaintenance/test_runner.py"
       ]
     }
   ],
@@ -1421,7 +1537,8 @@
       ],
       "debtKinds": [
         "trust_calibration_drift",
-        "trust_stamp_stale"
+        "trust_stamp_stale",
+        "trust_evidence_gap"
       ],
       "trigger": "every-scan",
       "inputs": [
@@ -1435,7 +1552,7 @@
         }
       ],
       "sourceOfTruth": "src/gaia_cli/trustMagnitude.py scored over buildMergedSkillMap (effective, inherited evidence)",
-      "evidence": "stored level versus computed grade per skill; stale trustMagnitude stamps against tolerance 0.02",
+      "evidence": "stored level versus computed grade per skill; stale stamps (trustMagnitude beyond tolerance 0.02, stored grade differing from computed, or input hash mismatch; recomputationOnly when the computed grade agrees with the stored level and the stored grade); an empty or non-scoring effective evidence pool as a trust_evidence_gap with the current rating preserved",
       "freshness": "checkout-head",
       "coverageStatus": {
         "static": [
@@ -1447,18 +1564,21 @@
       },
       "authority": {
         "trust_calibration_drift": "B",
-        "trust_stamp_stale": "C"
+        "trust_stamp_stale": "C",
+        "trust_evidence_gap": "C"
       },
       "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
       "resolutionScope": "exhaustive",
       "owningSkill": "gaia-steward-observe",
       "dispositionSkills": {
         "trust_calibration_drift": "gaia-steward-lane",
-        "trust_stamp_stale": "gaia-steward-desk"
+        "trust_stamp_stale": "gaia-steward-desk",
+        "trust_evidence_gap": "gaia-steward-desk"
       },
       "proof": [
+        "tests/steward/test_sensors.py",
         "tests/steward/test_trust_calibration_regression.py",
-        "tests/steward/test_sensors.py"
+        "tests/steward/test_trust_evidence_gap.py"
       ],
       "failureBehavior": {
         "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
@@ -2362,6 +2482,70 @@
       },
       "proof": [
         "tests/steward/issuehygiene/test_d1_sensor.py"
+      ],
+      "failureBehavior": {
+        "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",
+        "notEvaluated": "receipt.notEvaluated: nothing resolved, nothing reported healthy"
+      }
+    },
+    {
+      "id": "pr-maintenance",
+      "routineIds": [
+        19
+      ],
+      "debtKinds": [
+        "routine_pr_merge_ready",
+        "routine_pr_blocked",
+        "routine_pr_superseded",
+        "routine_pr_conflict",
+        "routine_pr_verification_failed",
+        "routine_pr_provenance_unknown",
+        "routine_pr_closure_ready",
+        "routine_pr_founder_decision"
+      ],
+      "trigger": "every-scan-with-driver-input",
+      "inputs": [
+        {
+          "path": ".gaia/steward/inputs/github-prs.json",
+          "required": false
+        }
+      ],
+      "sourceOfTruth": "driver-written census of open pull requests (steward-pr-census-v1) judged against founder/steward/pr-producers.json, local git objects of each head, and GitHub's branch protection",
+      "evidence": "checkout-local per-PR gate results and disposition; explicit critical execution additionally requires configured canonical shared proof/slot/accounting and authenticated outcome evidence; source is not activation",
+      "freshness": "driver-input",
+      "coverageStatus": {
+        "static": [
+          "registered",
+          "executable",
+          "human-gated"
+        ],
+        "live": "requires-receipt"
+      },
+      "authority": {
+        "routine_pr_merge_ready": "B",
+        "routine_pr_blocked": "B",
+        "routine_pr_superseded": "B",
+        "routine_pr_conflict": "B",
+        "routine_pr_verification_failed": "B",
+        "routine_pr_provenance_unknown": "B",
+        "routine_pr_closure_ready": "B",
+        "routine_pr_founder_decision": "C"
+      },
+      "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
+      "resolutionScope": "exhaustive",
+      "owningSkill": "gaia-steward-observe",
+      "dispositionSkills": {
+        "routine_pr_merge_ready": "gaia-steward-pr-maintenance",
+        "routine_pr_blocked": "gaia-steward-lane",
+        "routine_pr_superseded": "gaia-steward-lane",
+        "routine_pr_conflict": "gaia-steward-lane",
+        "routine_pr_verification_failed": "gaia-steward-lane",
+        "routine_pr_provenance_unknown": "gaia-steward-lane",
+        "routine_pr_closure_ready": "gaia-steward-pr-maintenance",
+        "routine_pr_founder_decision": "gaia-steward-desk"
+      },
+      "proof": [
+        "tests/steward/prmaintenance/test_sensor.py"
       ],
       "failureBehavior": {
         "unavailable": "sensor_coverage_unknown: run blocked for Class A, existing debt retained",

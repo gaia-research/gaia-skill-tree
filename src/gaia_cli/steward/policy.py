@@ -10,6 +10,7 @@ from typing import Any, Mapping
 import yaml
 
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy, HygienePolicyError, loadHygienePolicy
+from gaia_cli.steward.prmaintenance.policy import PrMaintenancePolicy, PrPolicyError, loadPrMaintenancePolicy, prAuthorityApproved
 from gaia_cli.steward.lane import LanePolicy
 from gaia_cli.steward.mirrors import spec_by_id
 from gaia_cli.steward.models import AuthorityClass, Priority, RoutingBudget
@@ -28,7 +29,8 @@ _TOP_LEVEL_KEYS = {
     "routing",
 }
 # Optional: an absent issueHygiene section means no closure authority at all.
-_OPTIONAL_TOP_LEVEL_KEYS = {"issueHygiene"}
+_OPTIONAL_TOP_LEVEL_KEYS = {"issueHygiene", "prMaintenance", "browser"}
+_BROWSER_KEYS = {"headless"}
 _PRIORITY_KEYS = {
     "importance",
     "decisionImpact",
@@ -57,7 +59,7 @@ _LANE_KEYS = {"maxInFlight", "maxAttempts", "cooldownSeconds"}
 # lane's bounds are the only thing standing between "bounded autonomous repair"
 # and an unattended loop. Policy may narrow these; it may not widen them.
 _LANE_LIMITS = {
-    "maxInFlight": (1, 4),
+    "maxInFlight": (1, 8),
     "maxAttempts": (1, 5),
     "cooldownSeconds": (0, 86_400),
 }
@@ -108,10 +110,33 @@ _PROTECTED_DISPATCH_PATHS = (
     "registry/schema/**",
     "skill-trees/**",
 )
+# Founder ruling #14 (steward-workflow-timeout-route, #2283) carves exactly one
+# narrow exception out of the `.github/**` floor above: the Class B route for
+# `workflow_hygiene` (a job with no `timeout-minutes`) may write the direct-child
+# workflow files `.github/workflows/*.yml` and nothing else under `.github/`.
+# gh-aw generated lock files are compiled output; a hand edit is overwritten by
+# the next compile, and recompiling is founder-gated (FOUNDER_LOCK_2283.md C4).
+# The exception is pinned here, not in policy, so editing POLICY.yaml can
+# neither widen it nor hand it to another debt kind.
+_WORKFLOW_ROUTE_DEBT_KIND = "workflow_hygiene"
+# The exception is bound to this exact rule id AND debt kind, in both directions:
+# renaming the rule, or pointing another kind at this id, is refused at load.
+_WORKFLOW_ROUTE_RULE_ID = "workflow-timeout-repair"
+WORKFLOW_ROUTE_DEBT_KIND = _WORKFLOW_ROUTE_DEBT_KIND
+WORKFLOW_ROUTE_RULE_ID = _WORKFLOW_ROUTE_RULE_ID
+_WORKFLOW_ROUTE_ALLOWED = (".github/workflows/*.yml",)
+_WORKFLOW_ROUTE_REQUIRED_FORBIDDEN = (
+    ".github/workflows/*.lock.yml",
+    ".github/workflows/shared/**",
+    ".github/workflows/_disabled/**",
+    ".github/actions/**",
+)
+_FILE_GLOB = re.compile(r"[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*/\*(?:\.[A-Za-z0-9_-]+)+")
 # Founder desk rules: each names the one Class C debt kind it decides.
 _FOUNDER_RULE_DEBT = {
     "generic-mapping-decision": "generic_mapping",
     "issue-founder-decision": "issue_founder_decision",
+    "routine-pr-founder-decision": "routine_pr_founder_decision",
 }
 _FOUNDER_RULE_KEYS = {
     "debtKind",
@@ -119,6 +144,14 @@ _FOUNDER_RULE_KEYS = {
     "decisionTargetField",
     "objective",
 }
+
+
+def _prMaintenanceOf(data: Mapping[str, Any]) -> tuple[PrMaintenancePolicy, str | None]:
+    """The prMaintenance block, or the disabled default and the reason when that block is malformed."""
+    try:
+        return loadPrMaintenancePolicy(data.get("prMaintenance")), None
+    except PrPolicyError as exc:
+        return PrMaintenancePolicy(), f"prMaintenance is malformed: {exc}"
 
 
 def _issueHygieneOf(data: Mapping[str, Any]) -> tuple[HygienePolicy, str | None]:
@@ -131,6 +164,37 @@ def _issueHygieneOf(data: Mapping[str, Any]) -> tuple[HygienePolicy, str | None]
 
 class PolicyError(ValueError):
     """Raised when the repository's machine policy is absent or unsafe."""
+
+
+@dataclass(frozen=True)
+class BrowserPolicy:
+    """Browser access for the rendered-frontend collector (founder ruling steward-browser-render-driver).
+
+    ``headless`` is the default: scheduled and founder runs collect rendered facts in headless Chromium, which is
+    free to use at any time. A real, interactive browser is NOT a policy setting. Persistent policy cannot grant
+    it; only the current run can, with ``gaia steward full run --interactive-browser``.
+    """
+
+    headless: bool = True
+
+    def setting(self, *, interactiveRequested: bool = False) -> dict[str, bool]:
+        """The browser access for one run: headless from policy, interactive only if this run asked for it."""
+
+        return {"headless": self.headless, "interactive": bool(interactiveRequested)}
+
+
+def _browserOf(data: Mapping[str, Any]) -> BrowserPolicy:
+    raw = data.get("browser")
+    if raw is None:
+        return BrowserPolicy()
+    block = _mapping(raw, "browser")
+    unknown = set(block) - _BROWSER_KEYS
+    if unknown:
+        # `interactive` lands here on purpose: a persistent policy key must never authorize a real browser.
+        raise PolicyError(f"browser keys invalid; unknown={sorted(unknown)}")
+    if "headless" in block and not isinstance(block["headless"], bool):
+        raise PolicyError("browser.headless must be true or false")
+    return BrowserPolicy(headless=block.get("headless", True))
 
 
 @dataclass(frozen=True)
@@ -222,6 +286,11 @@ class StewardPolicy:
     issue_hygiene: HygienePolicy = HygienePolicy(writesEnabled=False, enabledRules=())
     # A malformed issueHygiene block disables only the issue-hygiene surface (B7 D8). The rest of the policy still loads.
     issue_hygiene_error: str | None = None
+    # Routine-PR stewardship (routine 19). Absent or malformed => no write authority at all.
+    pr_maintenance: PrMaintenancePolicy = PrMaintenancePolicy()
+    pr_maintenance_error: str | None = None
+    # Browser access for rendered-frontend observation: headless on, real browser off, unless the policy says otherwise.
+    browser: BrowserPolicy = BrowserPolicy()
 
     @classmethod
     def load(cls, repo_root: Path) -> "StewardPolicy":
@@ -243,6 +312,9 @@ class StewardPolicy:
         # A switch or rule-list edit cannot ratify a new external-write authority.
         if not closureAuthorityApproved(repo_root):
             loaded = replace(loaded, issue_hygiene=replace(loaded.issue_hygiene, writesEnabled=False, enabledRules=()))
+        # Same rule for PR stewardship: a switch edit alone never grants merge or closure authority.
+        if not prAuthorityApproved(repo_root):
+            loaded = replace(loaded, pr_maintenance=replace(loaded.pr_maintenance, writesEnabled=False, enabledActions=()))
         return loaded
 
     @classmethod
@@ -393,8 +465,6 @@ class StewardPolicy:
         if set(routing) != _ROUTING_KEYS:
             raise PolicyError(f"routing must contain exactly {sorted(_ROUTING_KEYS)}")
         max_dispatches = routing["maxDispatchesPerRun"]
-        if max_dispatches != 1 or isinstance(max_dispatches, bool):
-            raise PolicyError("routing.maxDispatchesPerRun must be exactly 1")
         lane_raw = _mapping(routing["lane"], "routing.lane")
         if set(lane_raw) != _LANE_KEYS:
             raise PolicyError(f"routing.lane must contain exactly {sorted(_LANE_KEYS)}")
@@ -406,6 +476,14 @@ class StewardPolicy:
                     f"routing.lane.{key} must be an integer between {floor} and {ceiling}"
                 )
             lane_values[key] = value
+        # A run may hand out several builds at once, but never more than the lane
+        # can hold in flight, so the per-run number can only narrow the lane ceiling.
+        if (
+            isinstance(max_dispatches, bool)
+            or not isinstance(max_dispatches, int)
+            or not 1 <= max_dispatches <= lane_values["maxInFlight"]
+        ):
+            raise PolicyError("routing.maxDispatchesPerRun must be between 1 and routing.lane.maxInFlight")
         lane_policy = LanePolicy(
             max_in_flight=lane_values["maxInFlight"],
             max_attempts=lane_values["maxAttempts"],
@@ -470,18 +548,51 @@ class StewardPolicy:
                     f"{named}"
                 )
             allowed_paths = tuple(
-                _safe_glob(item, f"routing.dispatchRules.{rule_id}.allowedPaths")
+                _safe_dispatch_glob(item, f"routing.dispatchRules.{rule_id}.allowedPaths")
                 for item in _string_list(rule["allowedPaths"], f"routing.dispatchRules.{rule_id}.allowedPaths")
             )
             forbidden_paths = tuple(
-                _safe_glob(item, f"routing.dispatchRules.{rule_id}.forbiddenPaths")
+                _safe_dispatch_glob(item, f"routing.dispatchRules.{rule_id}.forbiddenPaths")
                 for item in _string_list(rule["forbiddenPaths"], f"routing.dispatchRules.{rule_id}.forbiddenPaths")
             )
+            if (debt_kind == _WORKFLOW_ROUTE_DEBT_KIND) != (rule_id == _WORKFLOW_ROUTE_RULE_ID):
+                raise PolicyError(
+                    f"routing.dispatchRules.{rule_id}: the .github/workflows exception belongs to rule "
+                    f"{_WORKFLOW_ROUTE_RULE_ID} and debt kind {_WORKFLOW_ROUTE_DEBT_KIND} together; "
+                    "neither may be used without the other"
+                )
+            workflow_route = debt_kind == _WORKFLOW_ROUTE_DEBT_KIND
+            if workflow_route:
+                # The one exception to the `.github/**` floor. Allowed paths are
+                # pinned exactly, and `.github/**` may not stay forbidden: it would
+                # forbid the very files the route exists to repair.
+                if allowed_paths != _WORKFLOW_ROUTE_ALLOWED:
+                    raise PolicyError(
+                        f"routing.dispatchRules.{rule_id}.allowedPaths must be exactly "
+                        f"{list(_WORKFLOW_ROUTE_ALLOWED)} for {debt_kind}"
+                    )
+                if ".github/**" in forbidden_paths:
+                    raise PolicyError(
+                        f"routing.dispatchRules.{rule_id}.forbiddenPaths may not forbid .github/** "
+                        f"for {debt_kind}; list the exclusions {list(_WORKFLOW_ROUTE_REQUIRED_FORBIDDEN)}"
+                    )
+                floor = tuple(
+                    item for item in _PROTECTED_DISPATCH_PATHS if item != ".github/**"
+                ) + _WORKFLOW_ROUTE_REQUIRED_FORBIDDEN
+            else:
+                # File globs under .github/ are reachable only through the exception.
+                stray = [item for item in allowed_paths + forbidden_paths if _FILE_GLOB.fullmatch(item)]
+                if stray:
+                    raise PolicyError(
+                        f"routing.dispatchRules.{rule_id} may not use file globs {stray}; "
+                        f"they are reserved for the {_WORKFLOW_ROUTE_DEBT_KIND} route"
+                    )
+                floor = _PROTECTED_DISPATCH_PATHS
             # A broader forbidden scope already guards a protected subtree:
             # forbidding registry/** covers registry/schema/**.
             missing_guards = [
                 item
-                for item in _PROTECTED_DISPATCH_PATHS
+                for item in floor
                 if not any(_glob_covers(declared, item) for declared in forbidden_paths)
             ]
             if missing_guards:
@@ -491,7 +602,12 @@ class StewardPolicy:
                 )
             for allowed in allowed_paths:
                 conflict = next(
-                    (item for item in _PROTECTED_DISPATCH_PATHS if _globs_overlap(allowed, item)),
+                    (
+                        item
+                        for item in _PROTECTED_DISPATCH_PATHS
+                        if not (workflow_route and item == ".github/**")
+                        if _globs_overlap(allowed, item)
+                    ),
                     None,
                 )
                 if conflict is not None:
@@ -547,6 +663,7 @@ class StewardPolicy:
             )
 
         hygiene, hygieneError = _issueHygieneOf(data)
+        prPolicy, prError = _prMaintenanceOf(data)
         return cls(
             version=1,
             state_directory=state_directory,
@@ -564,6 +681,9 @@ class StewardPolicy:
             founder_rules=founder_rules,
             issue_hygiene=hygiene,
             issue_hygiene_error=hygieneError,
+            pr_maintenance=prPolicy,
+            pr_maintenance_error=prError,
+            browser=_browserOf(data),
         )
 
     def authority_for(self, kind: str) -> AuthorityClass:
@@ -633,12 +753,38 @@ def _safe_glob(value: Any, name: str) -> str:
     return value
 
 
-def _glob_covers(outer: str, inner: str) -> bool:
-    """Return whether the ``outer`` subtree contains the whole ``inner`` one."""
+def _safe_dispatch_glob(value: Any, name: str) -> str:
+    """A dispatch path scope: a ``<dir>/**`` subtree, or one ``<dir>/*.<ext>`` file glob.
 
+    File globs match direct children of one directory only. Which rule may carry
+    one is decided by the caller, not here.
+    """
+
+    if isinstance(value, str) and _FILE_GLOB.fullmatch(value):
+        _safe_relative_path(value, name)
+        return value
+    return _safe_glob(value, name)
+
+
+def _glob_directory(glob: str) -> tuple[str, ...]:
+    """The directory components a scope is rooted at (a file glob's parent)."""
+
+    if glob.endswith("/**"):
+        return PurePosixPath(glob[:-3]).parts
+    return PurePosixPath(glob).parent.parts
+
+
+def _glob_covers(outer: str, inner: str) -> bool:
+    """Return whether the ``outer`` scope contains the whole ``inner`` one.
+
+    A file glob contains only itself; a subtree contains everything rooted at or
+    below its directory.
+    """
+
+    if not outer.endswith("/**"):
+        return outer == inner
     outer_parts = PurePosixPath(outer[:-3]).parts
-    inner_parts = PurePosixPath(inner[:-3]).parts
-    return inner_parts[: len(outer_parts)] == outer_parts
+    return _glob_directory(inner)[: len(outer_parts)] == outer_parts
 
 
 def _globs_overlap(first: str, second: str) -> bool:
@@ -649,8 +795,8 @@ def _globs_overlap(first: str, second: str) -> bool:
     ``founders/**`` does not read as living under ``founder/**``.
     """
 
-    left = PurePosixPath(first[:-3]).parts
-    right = PurePosixPath(second[:-3]).parts
+    left = _glob_directory(first)
+    right = _glob_directory(second)
     shared = min(len(left), len(right))
     return left[:shared] == right[:shared]
 

@@ -1,0 +1,88 @@
+{
+  "candidate": "3bf9093b994fa0fa7700bbd0d4642fa26b7bc87a",
+  "tree": "070cd00ffb515dd7626cb1f08cbefe8b612d322d",
+  "parent": "31a9a59b9c978db19fd9a451ca310844d1dc401e",
+  "branch": "dev/steward-r19-uncertainty-contract-2283",
+  "builder": "b743bf80-30c2-49fd-80a0-4bc1e7710d67",
+  "reportedCleanTrackedTreeAndParentConfirmed": true,
+  "changedPaths": [
+    "src/gaia_cli/steward/prmaintenance/coordination.py",
+    "src/gaia_cli/steward/prmaintenance/executor.py",
+    "tests/steward/prmaintenance/test_coordination.py",
+    "tests/steward/prmaintenance/test_coordination_boundaries.py",
+    "tests/steward/prmaintenance/test_executor.py"
+  ],
+  "scope": "Typed sanitized uncertainty causes and principled strict migration of the five contract regressions; F1/F3/F4 and authority/policy unchanged",
+  "reportedFocusedRunsSeparateNotAggregated": [
+    12,
+    3,
+    8,
+    30,
+    8
+  ],
+  "reportedBoundaryFacts": {
+    "exactFit": {
+      "bytes": 524288,
+      "generation": 10,
+      "state": "completed-effect"
+    },
+    "oneByteOverflow": {
+      "cause": "capacity",
+      "bytes": 522994,
+      "generation": 9,
+      "state": "possibly-sent",
+      "invocations": 1,
+      "effects": 1
+    }
+  },
+  "verification": {
+    "parentJob": "b51d6fac0",
+    "scope": "five exact-source groups then overlapping whole tests/steward; no summed totals",
+    "evidence": "parent-3bf-* commands/logs/JUnit/exits/alltrackedbeforeafterhashes",
+    "independentReview": "1c2483ab-7a5e-474a-bf9b-5106fa486d6b",
+    "reviewer": "same independent DSFlash session01a1b082, separate immutable3bf checkout",
+    "status": "bounded_review_accepted_parent_long_tests_pending",
+    "boundedIndependentVerdict": "ACCEPT five-file31a9..3bf uncertainty-contract repair ONLY",
+    "independentReportSha256": "c65a409e561702739306c6aac931be76ec254954ceb5237096a8c47e91cf3cfd",
+    "actualFullReviewProvider": "deepseek",
+    "actualFullReviewModel": "deepseek-flash",
+    "actualThinkingJournal": "high",
+    "independentEvidenceArtifacts": [
+      {
+        "filename": "adjacent-guards-and-f1-new-3bf.log",
+        "sha256": "0259064c78da2dd7f665bcab849d854e4d6ec279c775b65f1c0a407dcefd3426"
+      },
+      {
+        "filename": "boundary-facts-new-3bf.log",
+        "sha256": "77c046b97f229d57b62d66a01fa86d0b1b2814a6aa97a2ecb3e93b7c1733ad60"
+      },
+      {
+        "filename": "newgreen-contract-and-coverage-3bf.log",
+        "sha256": "a8bcedda4fb3eebf9054c4d242f1f3e9080a3ebd1e2fdff43935cbd73c7eb723"
+      },
+      {
+        "filename": "oldred-contract-nodes-31a9.log",
+        "sha256": "438c49ba349f7c0f3925246963f2b82c6cca56e311d6a1958b78bba0a415b556"
+      },
+      {
+        "filename": "probe-contrast-old-31a9.log",
+        "sha256": "8368c7c0ece0662a28ca16b5f7edf8601103dbc223f244a178b432edf2f7e6e1"
+      },
+      {
+        "filename": "probe-uncertainty-new-3bf.log",
+        "sha256": "acf8741ece98ceee1e97018cc76981d34323896cd3ec911868d9af5050780048"
+      }
+    ]
+  },
+  "old31a9RejectionPreserved": true,
+  "wholeSourceAccepted": false,
+  "CLIOutputApprovalGranted": false,
+  "activationAuthorized": false,
+  "residualHolds": [
+    "parentfullStewardgroups",
+    "whole-sourcecoverage",
+    "changedCLI/deskdocumentationandbeforeaftergate",
+    "historicalsharedGittransition",
+    "namespace/protection/clock/writerdrain/activation"
+  ]
+}

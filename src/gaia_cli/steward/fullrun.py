@@ -77,7 +77,7 @@ from gaia_cli.steward.policy import PolicyError, StewardPolicy
 from gaia_cli.steward.receipts import ensure_local_state_path
 from gaia_cli.steward.issuehygiene.census import loadCensus
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy
-from gaia_cli.steward.issuehygiene.closure import closureAction, closureProven
+from gaia_cli.steward.issuehygiene.closure import closureAction, closureProven, receiptProblem
 from gaia_cli.steward.issuehygiene.executor import ActionRefused, hourlyBudget, receiptFor, recordedReceipt
 from gaia_cli.steward.issuehygiene.outcomes import (
     OUTCOMES,
@@ -97,6 +97,9 @@ from gaia_cli.steward.clock import utcNow
 ISSUECLOSUREKIND = "issue_closure_ready"
 ISSUEROUTINE = "issue-hygiene"
 CLOSEACTION = "forge.close_issue"
+# Routine PR maintenance (routine 19): merge and closure are forge actions the runner emits and a driver performs.
+MERGEACTION = "forge.merge_pr"
+CLOSEPRACTION = "forge.close_pr"
 RECEIPTDIRECTORY = Path(".gaia/steward/issue-hygiene/receipts")
 REASONCODE = re.compile(r"[a-z][a-z0-9-]{0,39}")
 
@@ -259,14 +262,25 @@ class FullRunConfig:
     trigger: str = "manual"
     agents: bool = True
     holder: str = "steward"
+    # Run-scoped switch for real/interactive browser access; off unless the run asks (policy browser.interactive can also enable it).
+    interactive_browser: bool = False
+    # "local": this run starts the headless collector itself (the default for scheduled and founder runs).
+    # "external": an earlier least-privilege job already collected and a validator accepted the artifact; this
+    # run then collects nothing and evaluates only what was accepted.
+    browser_collection: str = "local"
+    # Seam for tests: (root, repository, headless, interactive) -> {state, reason, mode}.
+    browser_collector: Callable[..., dict[str, Any]] | None = None
     lease_ttl_seconds: int = 1800
     clock: Callable[[], datetime] = _utcNow
     controller_factory: Callable[[], StewardController] | None = None
+    prCoordinatorFactory: Callable[[], Any] | None = None
 
     def __post_init__(self) -> None:
         self.repo_root = Path(self.repo_root).resolve()
         if self.trigger not in {"manual", "scheduled"}:
             raise ValueError("trigger must be manual or scheduled")
+        if self.browser_collection not in {"local", "external"}:
+            raise ValueError("browser_collection must be local or external")
         if self.lease_ttl_seconds <= 0:
             raise ValueError("lease_ttl_seconds must be positive")
 
@@ -290,6 +304,7 @@ class RunView:
     desk: dict[str, Any] | None = None
     ledger: dict[str, Any] = field(default_factory=dict)
     error: str | None = None
+    browser: dict[str, bool] | None = None
 
     @property
     def exitCode(self) -> int:
@@ -316,6 +331,8 @@ class RunView:
             "notEvaluated": self.notEvaluated,
             "ledger": self.ledger,
         }
+        if self.browser is not None:
+            data["browser"] = self.browser
         if self.holder is not None:
             data["holder"] = self.holder
             data["holderPhase"] = self.holderPhase
@@ -526,8 +543,8 @@ class FullRunner:
     ) -> RunView:
         if mode not in MODEPHASES:
             raise FullRunError(f"unknown mode {mode!r}; choose from {', '.join(MODEPHASES)}")
-        if routine is not None and not 1 <= int(routine) <= 18:
-            raise FullRunError("routine must be between 1 and 18")
+        if routine is not None and not 1 <= int(routine) <= 19:
+            raise FullRunError("routine must be between 1 and 19")
         stop = os.environ.get("GAIA_STEWARD_FULL_STOP_NEW_RUNS", "0")
         if stop not in {"0", "1"}:
             raise FullRunError("GAIA_STEWARD_FULL_STOP_NEW_RUNS must be 0 or 1")
@@ -545,6 +562,7 @@ class FullRunner:
         options = {
             "routine": routine, "debt": debt, "afk": bool(afk),
             "push": bool(self.config.push), "agents": bool(self.config.agents),
+            "browser": self._browserSetting(),
         }
 
         def mutate(doc: dict[str, Any]) -> dict[str, Any]:
@@ -976,6 +994,8 @@ class FullRunner:
             "agent.verify": self._recordVerify,
             "forge.open_pr": self._recordPullRequest,
             "forge.close_issue": self._recordCloseIssue,
+            MERGEACTION: self._recordPrWrite,
+            CLOSEPRACTION: self._recordPrWrite,
             "lead.integrate": self._recordIntegrate,
         }
         handler = handlers.get(action["type"])
@@ -1002,12 +1022,13 @@ class FullRunner:
                 )
             now = self._now()
             prepared(doc, run, live)
-            live["status"] = "done" if live.get("heldOnly") is not True else "held"
+            keepPending = live.pop("keepPending", False)
+            live["status"] = "pending" if keepPending else ("done" if live.get("heldOnly") is not True else "held")
             live["outcome"] = outcome
             live["recordedAt"] = now
             for step in run["steps"]:
                 if step["stepId"] == stepId:
-                    step["status"] = "done"
+                    step["status"] = "pending" if keepPending else "done"
                     step["at"] = now
             run["mutated"] = True
             run["updatedAt"] = now
@@ -1340,6 +1361,12 @@ class FullRunner:
     # view
     # ------------------------------------------------------------------
 
+    def _browserSetting(self) -> dict[str, bool]:
+        """The browser access this run was started with: headless from policy, interactive only from this run's flag."""
+
+        policy = self._policyLoaded().browser
+        return policy.setting(interactiveRequested=self.config.interactive_browser)
+
     def _view(self, doc: dict[str, Any], runId: str) -> RunView:
         run = doc["runs"].get(runId)
         if run is None:
@@ -1357,6 +1384,7 @@ class FullRunner:
             desk=copy.deepcopy(run.get("desk")),
             ledger=self._ledgerInfo(),
             error=run.get("error"),
+            browser=copy.deepcopy(run.get("options", {}).get("browser")),
         )
 
     # ------------------------------------------------------------------
@@ -1487,10 +1515,31 @@ class FullRunner:
             "observationsBySensor": dict(sorted(bySensor.items())),
         }
 
+    def _collectBrowser(self) -> dict[str, Any] | None:
+        """Start this run's own headless collection, tied to this attempt. None when an earlier job supplied it."""
+
+        from gaia_cli.steward import browsercollect
+
+        if self.config.browser_collection == "external":
+            # An earlier least-privilege job collected. Evaluate it only if the validator accepted it for this very
+            # attempt; otherwise the render is invalidated and the sensor reports NOT EVALUATED.
+            return browsercollect.verifyExternal(self.root, os.environ.get(browsercollect.ATTEMPT_ENV))
+        from gaia_cli.steward.primitives.inputs import origin_repository
+
+        setting = self._browserSetting()
+        repository = origin_repository(self.root) or os.environ.get("GITHUB_REPOSITORY") or None
+        collector = self.config.browser_collector or browsercollect.collect
+        return dict(collector(
+            self.root, repository=repository, headless=setting["headless"], interactive=setting["interactive"],
+        ))
+
     def _phaseObserve(self, runId: str) -> bool:
+        browser = self._collectBrowser()
         scan = self._controllerInstance().scan(self.root)
         self._scans[runId] = scan
         summary = self._observationSummary(scan, self._load()["work"])
+        if browser is not None:
+            summary["browserCollection"] = browser
         receiptId = summary["scanReceiptId"]
 
         def updates(_doc: dict[str, Any], run: dict[str, Any]) -> None:
@@ -1781,7 +1830,7 @@ class FullRunner:
         summary["deferred"] = len(deferred)
         return summary
 
-    def _requireReceipt(self, result: str, outcome: dict[str, Any], params: dict[str, Any]) -> None:
+    def _requireReceipt(self, result: str, outcome: dict[str, Any], params: dict[str, Any]) -> dict[str, Any]:
         """A terminal closure outcome is trusted only when this checkout's receipts record the same outcome (B7 D7).
 
         The receipt is written by the executor before the driver reports, in the confined store. A driver
@@ -1806,6 +1855,11 @@ class FullRunner:
                 matches = outcome.get("markerVerified") is True and entry.get("markerVerified") is True
         if not matches:
             raise RecordRefused(f"no receipt records this {result} outcome for the action; it stays pending")
+        # Founder ruling #10: a closure is trusted only when its receipt holds the Steward owner and the worker.
+        problem = receiptProblem(entry, params)
+        if problem is not None:
+            raise RecordRefused(f"{problem}; a closure without an attributable, fully proven receipt stays pending")
+        return entry
 
     def _cancelClosuresWhenDisabled(self, runId: str) -> int:
         """Writes switched off, or a rule disabled, ends pending closures here, so the run can settle (B7 D3).
@@ -1849,8 +1903,9 @@ class FullRunner:
         commentId = outcome.get("commentId")
         if commentId is not None and (isinstance(commentId, bool) or not isinstance(commentId, int) or commentId <= 0):
             raise RecordRefused("commentId, when given, must be a positive integer")
+        receiptEntry: dict[str, Any] = {}
         if result in ("closed", "already-closed"):
-            self._requireReceipt(result, outcome, params)
+            receiptEntry = self._requireReceipt(result, outcome, params)
         if result in ("closed", "already-closed") and not (isinstance(params.get("repo"), str) and params["repo"].strip()):
             raise RecordRefused("the closure action names no repository, so its outcome cannot be verified")
         if result == "closed" and not closureProven(outcome, params["issue"], params.get("repo")):
@@ -1870,6 +1925,9 @@ class FullRunner:
             "failure": scrub(outcome["failure"])[:300] if isinstance(outcome.get("failure"), str) else None,
             "reason": reason if result == "refused" else None,
         }
+        if receiptEntry:
+            entry["stewardOwner"] = receiptEntry["stewardOwner"]
+            entry["worker"] = receiptEntry["worker"]
         key, issue = params["key"], params["issue"]
 
         def prepared(doc: dict[str, Any], run: dict[str, Any], live: dict[str, Any]) -> None:
@@ -1878,6 +1936,158 @@ class FullRunner:
                 writeOutcome(self.root, key, issue, entry)
             except OutcomeStoreError as exc:
                 raise RecordRefused(str(exc)) from exc
+
+        return prepared
+
+    # -- forge.merge_pr / forge.close_pr (routine PR maintenance) ----------
+
+    def _emitPrMaintenance(self, runId: str, scan: ScanResult, policy: StewardPolicy) -> dict[str, Any]:
+        """Emit at most ONE merge or closure action: integration is sequential because every merge moves the base.
+
+        An action needs a debt whose sensor gates all passed AND an independent verification receipt for that exact head
+        and base. Verification is never emitted or assumed here; a debt without one is listed as awaiting it. The action
+        carries identifiers only: ``scripts/steward_pr.py gate-*`` re-derives every fact from live GitHub before any write.
+        """
+
+        from gaia_cli.steward.prmaintenance import state as prstate
+        from gaia_cli.steward.prmaintenance.evaluate import KIND_CLOSURE, KIND_MERGE
+
+        summary: dict[str, Any] = {"emitted": 0, "awaitingVerification": [], "deferred": [], "reason": None}
+        pol = policy.pr_maintenance
+        if policy.pr_maintenance_error or not pol.writesEnabled or pol.killSwitch or prstate.killSwitchActive(self.root, pol.killSwitch):
+            summary["reason"] = "PR maintenance writes are disabled or revoked; nothing is emitted"
+            return summary
+        doc = self._load()
+        run = doc["runs"][runId]
+        fresh = scan.fresh_open_debt_ids
+        ready = sorted((d for d in scan.open_debts if d.id in fresh and d.kind in (KIND_MERGE, KIND_CLOSURE)),
+                       key=lambda d: (str(d.observed_state.get("label") or ""), int(d.observed_state.get("number") or 0)))
+        now = self._now()
+        for debt in ready:
+            st = debt.observed_state
+            action = "merge" if debt.kind == KIND_MERGE else "close"
+            if not pol.actionEnabled(action):
+                continue
+            repo, number, head = st["repo"], int(st["number"]), str(st["headSha"])
+            # Local outcomes/counters are diagnostics, never shared admission or settlement.
+            verified = any(v.get("repo") == repo and v.get("number") == number and v.get("action") == action
+                           and v.get("headSha") == head and v.get("baseSha") == st["baseSha"] and v.get("verdict") == "pass"
+                           for v in prstate.readRecords(self.root, "verifications"))
+            if not verified:
+                summary["awaitingVerification"].append({"number": number, "headSha": head[:12], "disposition": debt.kind})
+                continue
+            stepId = f"pr-{action}:{repo}#{number}:{head[:12]}"
+            if any(a["stepId"] == stepId for a in run["actions"]):
+                continue
+            params = {"repo": repo, "number": number, "headSha": head, "baseRef": st["baseRef"], "baseSha": st["baseSha"],
+                      "producerId": st["producerId"], "action": action, "evaluationSha256": st.get("evaluationSha256"),
+                      **({"reason": st["closureReason"], "replacement": st["replacement"]} if action == "close" else {})}
+
+            def apply(d: dict[str, Any], record: dict[str, Any], stepId=stepId, params=params, debtId=debt.id,
+                      key=f"{repo}#{number}@{head[:12]}", merging=(action == "merge")) -> None:
+                if merging:
+                    self._addAction(record, stepId, MERGEACTION, debtId, key, params, now)
+                else:
+                    self._addAction(record, stepId, CLOSEPRACTION, debtId, key, params, now)
+
+            self._mutateRun(runId, apply, message="steward full pr maintenance")
+            summary["emitted"] = 1
+            break
+        summary["awaitingVerification"] = summary["awaitingVerification"][:20]
+        summary["deferred"] = summary["deferred"][:20]
+        return summary
+
+    def _recordPrWrite(self, runId: str, action: dict[str, Any], outcome: dict[str, Any]) -> Callable:
+        """Bind every success/already-* to validated shared subject/evidence, never local JSONL."""
+
+        params = action["params"]
+        result = outcome.get("state")
+        if result not in ("merged", "closed", "already-merged", "already-closed", "failed", "refused", "aborted", "unknown", "quarantined", "possibly-sent"):
+            raise RecordRefused(f"{action['type']} outcome state must be merged, closed, already-*, failed, refused or aborted")
+        if outcome.get("repo") != params["repo"] or outcome.get("number") != params["number"]:
+            raise RecordRefused(f"{action['type']} outcome names a different pull request than its action")
+        if result in ("failed", "refused", "aborted") and not (isinstance(outcome.get("reason"), str) and outcome["reason"].strip()):
+            raise RecordRefused(f"a {result} outcome needs a reason")
+        operation = None
+        attachedId = params.get("operationId")
+        reportedId = outcome.get("operationId")
+        if attachedId is not None and "operationId" in outcome and reportedId != attachedId:
+            raise RecordRefused("operation id conflicts with the attached shared operation")
+        operationId = attachedId if attachedId is not None else reportedId
+        expectedParams = copy.deepcopy(params)
+        success = result in ("merged", "closed", "already-merged", "already-closed")
+        if not success and operationId is None and result in ("failed", "refused", "aborted"):
+            from gaia_cli.steward import ledger
+            from gaia_cli.steward.prmaintenance.executor import makeExecutor
+            try:
+                coordinator = (self.config.prCoordinatorFactory() if self.config.prCoordinatorFactory
+                               else makeExecutor(self.root).coordinator)
+                if coordinator.binding.namespace.repositoryName != params["repo"]:
+                    raise ValueError("shared repository mismatch")
+                # This is a snapshot, not an atomic transaction with the local
+                # run CAS. Actions do not contain immutable PR/replacement IDs;
+                # a possible match must therefore block rather than guess them.
+                shared = coordinator.inspect()
+                for item in shared["operations"].values():
+                    subject = item["subject"]
+                    same = ((subject["number"], subject["headSha"], subject["action"], subject["baseRef"], subject["baseSha"], subject["producerId"]) ==
+                            (params["number"], params["headSha"], params["action"], params["baseRef"], params["baseSha"], params["producerId"])
+                            and (subject["action"] != "close" or (subject["reason"] == params.get("reason")
+                                 and (subject["replacement"] or {}).get("number") == params.get("replacement"))))
+                    outstanding = item["runId"] == runId and item["state"] in ("reserved", "intent", "possibly-sent", "unknown", "quarantined")
+                    # A matching committed effect (even one that completed before this action was attached to it) is
+                    # never contradicted by an uncorrelated failure, from this run or any other: reconcile instead.
+                    effective = item["state"] in ("completed-effect", "observed-terminal")
+                    if same and (outstanding or effective):
+                        raise ValueError("matching shared operation is outstanding or already effective")
+            except (ledger.LedgerUnavailable, ValueError, KeyError, OSError) as exc:
+                raise RecordRefused("shared operation status unavailable, outstanding or already effective; action stays pending "
+                                    "(reconcile with the operation's evidence)") from exc
+        if success or operationId is not None or result in ("unknown", "quarantined", "possibly-sent"):
+            from gaia_cli.steward.prmaintenance import coordination as critical
+            from gaia_cli.steward.prmaintenance.executor import makeExecutor
+            try:
+                critical.sha(operationId)
+                coordinator = (self.config.prCoordinatorFactory() if self.config.prCoordinatorFactory
+                               else makeExecutor(self.root).coordinator)
+                operation = coordinator.inspect()["operations"].get(operationId)
+                if operation is None or coordinator.binding.namespace.repositoryName != params["repo"]:
+                    raise ValueError("unknown shared operation")
+                subject = operation["subject"]
+                if (subject["number"], subject["headSha"], subject["action"], subject["baseRef"], subject["baseSha"], subject["producerId"]) != (
+                        params["number"], params["headSha"], params["action"], params["baseRef"], params["baseSha"], params["producerId"]):
+                    raise ValueError("operation subject mismatch")
+                if subject["action"] == "close" and (subject["reason"] != params.get("reason")
+                        or (subject["replacement"] or {}).get("number") != params.get("replacement")):
+                    raise ValueError("closure proof/request mismatch")
+                if success:
+                    expected = "merge" if result in ("merged", "already-merged") else "close"
+                    if (subject["action"] != expected or operation["state"] not in ("completed-effect", "observed-terminal")
+                            or outcome.get("evidenceSha256") != critical.digest(operation["evidence"])):
+                        raise ValueError("terminal evidence mismatch")
+                    if expected == "merge":
+                        evidence = json.loads(operation["evidence"]["detail"])
+                        if not evidence.get("parentsVerified") or not evidence.get("mergeCommitSha"):
+                            raise ValueError("matching merge parent proof missing")
+                        if outcome.get("mergeCommitSha", evidence["mergeCommitSha"]) != evidence["mergeCommitSha"]:
+                            raise ValueError("merge commit mismatch")
+                elif result in ("unknown", "quarantined", "possibly-sent") and operation["state"] not in critical.PENDING:
+                    raise ValueError("not an outstanding sender")
+                elif result in ("failed", "refused", "aborted") and operation["state"] in ("completed-effect", "observed-terminal"):
+                    raise ValueError("a failure report cannot contradict a shared effect")
+            except (critical.CoordinationError, ValueError, KeyError, OSError) as exc:
+                raise RecordRefused("no recorded shared terminal/outstanding operation matches this report; action stays pending") from exc
+
+        def prepared(doc: dict[str, Any], run: dict[str, Any], live: dict[str, Any]) -> None:
+            # Revalidate the snapshot on every CAS attempt; shared inspection stays
+            # outside this pure mutator. A concurrent attachment must be retried.
+            if live["params"] != expectedParams:
+                raise RecordRefused("pull request action changed while recording; retry the report")
+            if operation is not None:
+                live["params"]["operationId"] = operation["operationId"]
+                live["sharedState"] = operation["state"]
+                if operation["state"] in ("reserved", "intent", "possibly-sent", "unknown", "quarantined"):
+                    live["keepPending"] = True
 
         return prepared
 
@@ -2075,11 +2285,22 @@ class FullRunner:
         return lane, entry, reason
 
     def _phaseClassB(self, runId: str) -> bool:
-        from gaia_cli.steward.routing import RoutingError, render_dispatch_prompt
-
         run = self._loadRun(runId)
         if self._pending(run, "agent.build"):
             return False
+        # Deterministic, zero-model PR stewardship comes first and is bounded by its own budget, never the dispatch lane's.
+        # A merge or closure waiting on its driver holds this phase. It cannot starve the lane: an awaiting run keeps the run lease only
+        # until its TTL, after which the next run adopts the work and marks the stale action superseded (the same rule as every action).
+        if self._pending(run, MERGEACTION) or self._pending(run, CLOSEPRACTION):
+            return False
+        prScan = self._scanFor(runId)
+        # --no-agents means no model dispatch AND no merge or closure action: a run that promised no agents never writes a PR.
+        if run["options"]["agents"] and not self._blockedByCoverage(prScan):
+            prSummary = self._emitPrMaintenance(runId, prScan, self._policyLoaded())
+            if prSummary["emitted"] or prSummary["awaitingVerification"] or prSummary["deferred"]:
+                self._mutateRun(runId, lambda _d, record: record.__setitem__("prMaintenance", prSummary), message="steward full pr summary")
+            if prSummary["emitted"]:
+                return False
         if not run["options"]["agents"]:
             return self._finish(runId, "class_b", {"status": "skipped", "reason": "agents disabled (--no-agents)"})
         scan = self._scanFor(runId)
@@ -2104,10 +2325,15 @@ class FullRunner:
                 "detail": "no Class B action is emitted without a valid integration branch"})
         self._expireStuck(runId)
         builds = sum(1 for s in run["steps"] if s["kind"] == "agent.build")
-        if builds >= policy.max_dispatches_per_run:
+        # One run hands out its builds as a single parallel batch (up to maxDispatchesPerRun,
+        # and never past the lane's maxInFlight). Once any build exists in this run the batch
+        # is spent: re-entering this phase after the drivers record their outcomes must go on
+        # to verification, not top the batch up one build at a time.
+        if builds >= 1:
             return self._finish(runId, "class_b", {
                 "status": "ok", "dispatched": None,
                 "reason": f"this run already dispatched {builds} (maxDispatchesPerRun {policy.max_dispatches_per_run})"})
+        remaining = policy.max_dispatches_per_run - builds
 
         doc = self._load()
         sets = self._triageSets(scan, run, doc["work"])
@@ -2115,26 +2341,64 @@ class FullRunner:
         now = self._now()
 
         # Adoption: building work whose build outcome never arrived (abandoned run).
+        adopted = 0
         for item in sorted(doc["work"].values(), key=lambda value: value["debtId"]):
+            if adopted >= remaining:
+                break
             if item["state"] == "building" and not item.get("build") and item.get("authority") == "B" and item.get("dispatchId"):
-                self._reemitBuild(runId, item)
-                return False
+                if self._reemitBuild(runId, item):
+                    adopted += 1
+        if adopted:
+            return False
 
-        lane, candidate, reason = self._chooseCandidate(doc, scan, eligible, now)
-        if candidate is None:
-            def keepLane(d: dict[str, Any], _run: dict[str, Any]) -> None:
-                _lane, _entry, _reason = self._chooseCandidate(d, scan, eligible, now)
-                set_lane(d, lane_document(_lane))
+        handed: list[dict[str, Any]] = []
+        stop = ""
+        while len(handed) < remaining:
+            doc = self._load()
+            lane, candidate, reason = self._chooseCandidate(doc, scan, eligible, now)
+            if candidate is None:
+                stop = reason
+                if not handed:
+                    def keepLane(d: dict[str, Any], _run: dict[str, Any]) -> None:
+                        _lane, _entry, _reason = self._chooseCandidate(d, scan, eligible, now)
+                        set_lane(d, lane_document(_lane))
 
-            self._mutateRun(runId, keepLane, message="steward full lane")
-            return self._finish(runId, "class_b", {"status": "ok", "dispatched": None, "reason": reason})
+                    self._mutateRun(runId, keepLane, message="steward full lane")
+                break
+            outcome, stop = self._dispatchCandidate(runId, scan, eligible, sets["debts"][candidate.debt_id], candidate, now)
+            if outcome.get("dispatched") is None:
+                break
+            handed.append(outcome)
+        if not handed:
+            return self._finish(runId, "class_b", {"status": "ok", "dispatched": None, "reason": stop})
 
-        debt = sets["debts"][candidate.debt_id]
+        def record(_d: dict[str, Any], run: dict[str, Any]) -> None:
+            first = handed[0]
+            summary: dict[str, Any] = {
+                "status": "awaiting-build", "dispatched": first["dispatched"],
+                "dispatchId": first["dispatchId"], "stepId": first["stepId"],
+            }
+            if len(handed) > 1:
+                summary["dispatchedAll"] = [dict(h) for h in handed]
+            if stop:
+                summary["stopReason"] = stop
+            run["phases"]["class_b"] = summary
+
+        self._mutateRun(runId, record, message="steward full class_b dispatch")
+        _checkpoint("class_b.dispatched")
+        return False
+
+    def _dispatchCandidate(self, runId: str, scan: ScanResult, eligible: set[str], debt: Debt, candidate: Any,
+                           now: str) -> tuple[dict[str, Any], str]:
+        """Render and emit one build for the lane's chosen candidate; the outcome says whether it landed."""
+
+        from gaia_cli.steward.routing import RoutingError, render_dispatch_prompt
+
+        policy = self._policyLoaded()
         try:
             result, prompt = render_dispatch_prompt(self.root, debt.id, controller=self._controllerInstance())
         except RoutingError as exc:
-            return self._finish(runId, "class_b", {"status": "ok", "dispatched": None,
-                                                   "reason": f"dispatch not rendered: {exc}"})
+            return {"dispatched": None}, f"dispatch not rendered: {exc}"
         packet = result.artifact
         rule = policy.dispatch_rule_for(debt.kind)
         assert rule is not None
@@ -2148,7 +2412,7 @@ class FullRunner:
         attempt = candidate.attempts + 1
         outcome: dict[str, Any] = {}
 
-        def commit(d: dict[str, Any]) -> None:
+        def commit(d: dict[str, Any], record: dict[str, Any]) -> None:
             outcome.clear()
             laneNow, chosen, why = self._chooseCandidate(d, scan, eligible, now)
             if chosen is None or chosen.debt_id != debt.id:
@@ -2157,7 +2421,6 @@ class FullRunner:
                 return
             laneNow = mark_dispatched(laneNow, laneNow.by_id(debt.id), dispatch_id=packet.dispatch_id, now=now)
             set_lane(d, lane_document(laneNow))
-            record = d["runs"][runId]
             self._ensureWork(d, record, debt, now, routine=rule.routine, branch=branchName,
                              dispatchId=packet.dispatch_id, promptPath=self._relative(promptPath),
                              baseBranch=record["integrationBranch"], attempt=attempt, dispatchedAt=now)
@@ -2173,23 +2436,14 @@ class FullRunner:
             }, now)
             outcome.update(dispatched=debt.id, dispatchId=packet.dispatch_id, stepId=stepId)
 
-        def apply(d: dict[str, Any], record: dict[str, Any]) -> None:
-            commit(d)
-            record["phases"]["class_b"] = {"status": "awaiting-build", **outcome}
-            if outcome.get("dispatched") is None:
-                self._addStep(record, {"stepId": "phase:class_b", "kind": "phase", "status": "done", "at": now})
-                order = MODEPHASES[record["mode"]]
-                record["phase"] = order[order.index("class_b") + 1]
-
-        self._mutateRun(runId, apply, message="steward full class_b dispatch")
-        _checkpoint("class_b.dispatched")
-        return outcome.get("dispatched") is None
+        self._mutateRun(runId, commit, message="steward full class_b dispatch")
+        return dict(outcome), str(outcome.get("reason", ""))
 
     def _buildOutputs(self, runId: str, slug: str) -> dict[str, str]:
         return {"diffPath": f".gaia/steward/full/{runId}/build-{slug}.diff",
                 "proofPath": f".gaia/steward/full/{runId}/build-{slug}.proof.json"}
 
-    def _reemitBuild(self, runId: str, item: dict[str, Any]) -> None:
+    def _reemitBuild(self, runId: str, item: dict[str, Any]) -> bool:
         now = self._now()
         slug = _hash12(item["debtId"])
         previous = item.get("promptPath")
@@ -2204,7 +2458,7 @@ class FullRunner:
             except RoutingError:
                 prompt = None
         if prompt is None:
-            return
+            return False
         outputs = self._buildOutputs(runId, slug)
         path = self._runDirectory(runId) / f"build-{slug}.prompt.md"
         path.write_text(withHandoff(prompt, base=self._loadRun(runId)["integrationBranch"],
@@ -2220,10 +2474,15 @@ class FullRunner:
                 "allowedModels": list(BUILDERMODELS), "effortRequired": True,
                 "outputs": dict(outputs),
             }, now)
-            run["phases"]["class_b"] = {"status": "awaiting-build", "dispatched": item["debtId"], "adopted": True}
+            summary = run["phases"].get("class_b") or {}
+            adoptedIds = [*summary.get("adoptedAll", [summary["dispatched"]] if summary.get("adopted") else []), item["debtId"]]
+            run["phases"]["class_b"] = {"status": "awaiting-build", "dispatched": adoptedIds[0], "adopted": True}
+            if len(adoptedIds) > 1:
+                run["phases"]["class_b"]["adoptedAll"] = adoptedIds
             doc["work"][item["debtId"]]["runId"] = runId
 
         self._mutateRun(runId, apply, message="steward full class_b adopt")
+        return True
 
     # -- verify ----------------------------------------------------------
 
@@ -2545,7 +2804,7 @@ class FullRunner:
         byId = {entry["id"]: entry for entry in sensors}
         routines = []
         bindings = self._routineBindings()
-        for number in range(1, 19):
+        for number in range(1, 20):
             ids = {e["id"] for e in sensors if number in e["routine_ids"]} | {
                 s for s in bindings.get(number, {"sensors": set()})["sensors"] if s in byId}
             detectors = [{"sensor": s, "state": byId[s]["state"]} for s in sorted(ids)]

@@ -32,3 +32,12 @@ Decision 6 is conditional by the founder's ruling: re-sort only if factually jus
 | 15 | One-line edit to `.agents/skills/trust-appraise-all` (forbidden path for the knowledge-contradiction route) | yes, one-time and path-specific (founder, PR #2202 comment, 2026-10-28); does not widen the Class B envelope or amend `POLICY.yaml` | `b6e2d05`, retaining #2178's canonical `gaia-tm-inspect` alias | independent Sonnet verifier PASS; latest-head GitHub checks completed successfully | yes, #2202 (`9530217`), head `d144490c` | decided (`steward-knowledge-skill-path-exception`) |
 
 Throughput (`maxDispatchesPerRun` 1, `maxInFlight` 2, `maxAttempts` 2, `maxRepairsPerRun` 2): reviewed on 2026-10-28 and **not** proposed for change; see the weekly closure report. Nothing here modifies a governed limit.
+
+## Ruling of 2026-11-04 (routine 19, `ccr-1c9a1336-9qdtpu`)
+
+| # | Decision | Approved | Implemented | Verified | Landed | Record status |
+|---|---|---|---|---|---|---|
+| 16 | Steward is the final integration authority for registered routine pull requests: `forge.merge_pr` and `forge.close_pr`, policy-gated, with GitHub receipts. Scope narrowed the same day to `gaia-skill-tree`; `gaia-skill-heaven` and organisation-wide discovery deferred | yes (founder directive, 2026-11-04) | sensor `pr-maintenance`, producer registry, gate, roster profiles, runner actions | tests in `tests/steward/prmaintenance/`; independent verification recorded on the implementation PR | awaiting the implementation PR's merge by its authorized reviewer | decided (`steward-pr-maintenance-authority`) |
+
+The route is live only after the implementation lands: the decided record AND `prMaintenance.writesEnabled` AND an unrevoked kill switch are all required, and no ceiling in `POLICY.yaml` can exceed the code's pinned maximum.
+

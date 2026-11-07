@@ -65,7 +65,9 @@ EXITNOTRUN = 5
 
 AGENTTYPES = ("agent.build", "agent.verify")
 CLOSETYPE = "forge.close_issue"
-KNOWNTYPES = AGENTTYPES + ("forge.open_pr", "lead.integrate", CLOSETYPE)
+# Routine pull-request merges and closures (routine 19) are performed by the gaia-steward-pr-maintenance driver, never here.
+PRTYPES = ("forge.merge_pr", "forge.close_pr")
+KNOWNTYPES = AGENTTYPES + ("forge.open_pr", "lead.integrate", CLOSETYPE) + PRTYPES
 CLOSEOUTCOMES = ("closed", "already-closed", "stale-skip", "failed", "blocked", "blocked-identity", "refused")
 CLOSEREFUSED = 2
 VERDICTS = ("accept", "reject", "escalate")
@@ -75,6 +77,8 @@ ADAPTER = "scripts/steward_agent_dispatch.py"
 CLOSESCRIPT = "scripts/steward_issue_close.py"
 CENSUSSCRIPT = "scripts/steward_issue_census.py"
 CENSUSPATH = CENSUS_INPUT.as_posix()
+PRCENSUSSCRIPT = "scripts/steward_pr_census.py"
+PRCENSUSPATH = ".gaia/steward/inputs/github-prs.json"
 CLOSUREDIR = ".gaia/steward/drive/closures"
 DEFAULTREPO = "gaia-research/gaia-skill-tree"
 DEFAULTREPORT = ".gaia/steward/drive-report.json"
@@ -230,6 +234,10 @@ class DriveOptions:
     agentTimeout: float = DEFAULTAGENTTIMEOUT
     census: bool = False
     repo: str = DEFAULTREPO
+    # Founder ruling #10: closures name the accountable Steward owner; the driver itself is the worker.
+    stewardOwner: str | None = None
+    # "external": an earlier least-privilege job collected the browser render and a validator accepted it.
+    browserCollection: str = "local"
 
 
 @dataclass
@@ -290,6 +298,7 @@ class Driver:
         self.stopReason: str | None = None
         self.lastStatus: str | None = None
         self.censusReport: dict[str, Any] | None = None
+        self.prCensusReport: dict[str, Any] | None = None
         self.startedAt = self.clock()
 
     # -- configuration -----------------------------------------------
@@ -334,6 +343,8 @@ class Driver:
             tail += ["--integration-branch", o.integrationBranch]
         if o.push:
             tail.append("--push")
+        if o.browserCollection != "local":
+            tail += ["--browser-collection", o.browserCollection]
         tail.append("--json")
         return tail
 
@@ -576,6 +587,34 @@ class Driver:
             "pullRequest": {"number": pr.get("number"), "url": pr.get("url")}, "mergedSha": mergeSha,
         })
 
+    def refreshPrCensus(self) -> dict[str, Any]:
+        """Collect the read-only pull-request census routine 19 observes. Fail closed: an untrusted file is removed."""
+
+        o = self.options
+        target = o.root / PRCENSUSPATH
+        argv = [o.python, str(o.root / PRCENSUSSCRIPT), "--repo", o.repo, "--out", str(target)]
+        result = self.runner(argv, cwd=o.root, timeout=CENSUSTIMEOUT, env=self.env)
+        if result.returncode == 0:
+            return {"state": "complete", "detail": f"{o.repo} pull-request census collected"}
+        if result.returncode == 3:
+            return {"state": "incomplete", "detail": "a read failed or was short; routine PR maintenance reports coverage unknown"}
+        if target.is_file():
+            target.unlink()
+        return {"state": "failed", "detail": f"pull-request census collector exited {result.returncode}; input removed"}
+
+    def handlePrWrite(self, action: Mapping[str, Any]) -> Handled:
+        """This driver never merges or closes a routine pull request. Settle the action as aborted so the run can finish.
+
+        Verification, the live gate and the forge call belong to the gaia-steward-pr-maintenance driver. Leaving the
+        action pending would hold the run lease until its TTL and stall every scheduled run behind it.
+        """
+
+        params = action.get("params") or {}
+        return Handled(outcome={
+            "state": "aborted", "repo": params.get("repo"), "number": params.get("number"),
+            "reason": "routine pull-request merges and closures are performed by the gaia-steward-pr-maintenance driver, "
+                      "not by the unattended driver"})
+
     def closuresEnabled(self) -> bool:
         """Re-read at every closure: flipping writesEnabled off stops pending closures on the next pass."""
         from gaia_cli.steward.policy import PolicyError, StewardPolicy
@@ -600,6 +639,19 @@ class Driver:
         if result.returncode == 3:
             # The collector writes the file with its completeness flags false, so the sensor reports it not evaluated.
             return {"state": "incomplete", "detail": "a page failed or was short; issue hygiene is not evaluated"}
+        if result.returncode in (4, 5):
+            # An invalid restored baseline could not be preserved. The census file is still written; its own completeness
+            # fields, not the exit code, say whether the census is complete.
+            note = "the invalid restored closed-issue baseline could not be preserved; the baseline is not evaluated"
+            try:
+                complete = json.loads(target.read_text(encoding="utf-8"))["completeness"]["issues"]["complete"]
+            except (OSError, ValueError, KeyError, TypeError):
+                if target.is_file():
+                    target.unlink()
+                return {"state": "failed", "detail": f"census collector exited {result.returncode} and its file is unusable; input removed"}
+            if result.returncode == 4 and complete is True:
+                return {"state": "complete", "detail": f"{o.repo} census collected; {note}"}
+            return {"state": "incomplete", "detail": f"a page failed or was short or the closed inventory is unverified; {note}"}
         if target.is_file():
             target.unlink()
         return {"state": "failed", "detail": f"census collector exited {result.returncode}; input removed"}
@@ -619,7 +671,9 @@ class Driver:
         path.write_text(json.dumps(dict(params), indent=2, sort_keys=True) + "\n", encoding="utf-8")
         o = self.options
         argv = [o.python, str(o.root / CLOSESCRIPT), "--root", str(o.root), "--action", str(path),
-                "--repo", o.repo, "--run-id", runId]
+                "--repo", o.repo, "--run-id", runId, "--worker", DRIVERACTOR]
+        if o.stewardOwner:
+            argv += ["--steward-owner", o.stewardOwner]
         result = self.runner(argv, cwd=o.root, timeout=CLOSETIMEOUT, env=self.env)
         if result.returncode == CLOSEREFUSED:
             # The executor's gate refused: the checkout no longer proves the action, or a gate is closed. That is a fact
@@ -680,6 +734,8 @@ class Driver:
                     handled = self.handleForge(action)
                 elif kind == CLOSETYPE:
                     handled = self.handleClose(action, runId)
+                elif kind in PRTYPES:
+                    handled = self.handlePrWrite(action)
                 else:
                     handled = self.handleIntegrate(action)
             except DriverRefusal as exc:
@@ -752,6 +808,7 @@ class Driver:
             self.checkEarlierAgentActions()
         if self.options.census:
             self.censusReport = self.refreshCensus()
+            self.prCensusReport = self.refreshPrCensus()
         code, view, err = self.gaia(self.runTail(noAgents=not self.ready))
         while True:
             if view is None:
@@ -821,6 +878,7 @@ class Driver:
                 "verifyEffort": self.verifyEffort,
             },
             "census": self.censusReport or {"state": "skipped", "detail": "census refresh disabled for this run"},
+            "prCensus": self.prCensusReport or {"state": "skipped", "detail": "census refresh disabled for this run"},
             "options": {"integrationBranch": self.options.integrationBranch,
                         "ledger": self.options.ledger, "push": self.options.push},
             "handled": self.handled,
@@ -852,6 +910,7 @@ def renderMarkdown(report: Mapping[str, Any]) -> str:
         f"- Runs: {', '.join(report['runIds']) or 'none'}",
         f"- {agentLine}",
         f"- Issue census: {report['census']['state']} ({report['census']['detail']})",
+        f"- Pull-request census: {report['prCensus']['state']} ({report['prCensus']['detail']})",
     ]
     if report["stopReason"]:
         lines.append(f"- Stopped: {report['stopReason']}")
@@ -888,8 +947,14 @@ def buildParser() -> argparse.ArgumentParser:
     parser.add_argument("--no-agents", action="store_true", help="Never dispatch Class B agent work")
     parser.add_argument("--report", default=DEFAULTREPORT, metavar="PATH",
                         help=f"Machine-readable summary (default: {DEFAULTREPORT})")
+    parser.add_argument("--browser-collection", choices=("local", "external"), default="local",
+                        help="local: the run collects the headless browser render itself; external: an earlier "
+                             "least-privilege job collected it and a validator accepted the artifact")
     parser.add_argument("--no-census", action="store_true",
                         help="Do not refresh the GitHub issue census before the run (issue hygiene then reports not evaluated)")
+    parser.add_argument("--steward-owner", default=os.environ.get("GAIA_STEWARD_OWNER"), metavar="NAME",
+                        help="accountable Steward owner recorded in issue-closure receipts (default: $GAIA_STEWARD_OWNER); "
+                             "without one every closure is refused")
     parser.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY") or DEFAULTREPO, metavar="OWNER/NAME",
                         help="repository whose issue census is collected (default: $GITHUB_REPOSITORY)")
     return parser
@@ -908,7 +973,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         if refusal:
             print(f"steward drive refused: {refusal}", file=sys.stderr)
             return EXITREFUSEDINPUT
+    options.browserCollection = args.browser_collection
     options.census = not args.no_census
+    options.stewardOwner = args.steward_owner
     options.repo = args.repo
     options.agents = not args.no_agents
     try:

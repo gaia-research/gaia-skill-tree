@@ -49,6 +49,10 @@ disposition in the proposal is reproduced from the census and the local registry
 the commands the proposal names. Reject any proposal that closes an issue, comments on one,
 or accepts a candidate: those are not Class B outcomes.
 
+For a routine pull-request candidate (routine 19) the question is whether the *exact head* is eligible: re-run every gate with
+`python scripts/steward_pr.py observe`, read the diff against the producer's allowed paths, and re-derive the content proofs.
+Answer PASS or FAIL with proofs; the verifier is never the builder, and a PASS binds to one head and base SHA only.
+
 ## Authority ceiling
 
 Read and judge only. Do not edit the diff, rerun the build or widen the

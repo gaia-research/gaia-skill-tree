@@ -365,7 +365,7 @@ Transition invariants:
   - dollars, measured by skill-cost;
   - wall-clock minutes;
   - items in flight.
-- **Code caps stay the ceiling.** Today they are `maxDispatchesPerRun` 1, `maxInFlight` 2, `maxAttempts` 2 and `cooldownSeconds` 3600 (**VERIFIED**, `POLICY.yaml` `routing`).
+- **Code caps stay the ceiling.** Today they are `maxDispatchesPerRun` 8 (1 up to `maxInFlight`), `maxInFlight` 8 (code cap 8; founder decision `steward-class-b-throughput-2026-11-06`), `maxAttempts` 2 and `cooldownSeconds` 3600 (**VERIFIED**, `POLICY.yaml` `routing`).
 - **Unknown is not unlimited.** When remaining quota or budget is unknown, nothing is admitted.
 - **A subscription window shared with interactive use keeps a reserve** for the founder. Admission stops at the reserve.
 - **Packets stay model-free.** (**RATIFIED**, STEWARD.md §9, amendment of 2026-08-13: a packet names no model and no harness.)
@@ -415,7 +415,7 @@ Landing goes through one adapter per repository, generated from that repository'
 The merge verbs are **VERIFIED** on 2026-10-27 from the gaia-skill-tree and gaia-skill-heaven agent instructions (the latter also states gaia-research's verb). An "unknown" row stays at `observe` until the repository's record states the rule.
 
 **Always, in every repository:**
-- Never merge to a default branch.
+- Never merge to a default branch. **Amended 2026-11-04 (founder ruling `steward-pr-maintenance-authority`):** the one exception is `forge.merge_pr`, the ratified, narrowly scoped route of routine 19. It merges only a registered producer's pull request, at one exact head SHA, after independent verification, under GitHub's own branch protection, with a merge commit, and only in the repositories the producer registry enables (today `gaia-skill-tree`). It is not a general permission and the kill switch revokes it.
 - Never tag, release, publish or deploy.
 - Never edit `.github/**` or secrets.
 - Never apply authorization labels.
@@ -565,7 +565,7 @@ Revocation stops new selection at once. In-flight items halt before their next w
 
 Every item here is unconditional.
 
-1. Merge to a default branch, tag, release, publish or deploy.
+1. Merge to a default branch, tag, release, publish or deploy. (Amended 2026-11-04: `forge.merge_pr` under `steward-pr-maintenance-authority` is the single, gated exception to the merge clause; tag, release, publish and deploy stay unconditional.)
 2. Edit `.github/**`, workflow files, secrets or repository settings. A pull request opened from a branch in the same repository runs its modified workflows with that repository's secrets.
 3. Mutate canonical Gaia data or judgments: registry nodes and named skills, evidence, Trust Magnitude, grades, stars, Origin, schema, policy, or release policy.
 4. Act on L4 intake, schema, frontend-visual or Yggdrasil IV gates.

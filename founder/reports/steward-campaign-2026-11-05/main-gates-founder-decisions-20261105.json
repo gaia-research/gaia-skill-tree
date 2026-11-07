@@ -1,0 +1,20 @@
+{
+  "packet_id": "campaign-2283-main-gates",
+  "target_pull_request": 2297,
+  "target_commit": "2d9599c11ea91f303b5067c39fb8ea272f119072",
+  "evaluated_at_utc": "2026-11-05T19:59:06.755Z",
+  "decisions": {
+    "card_p1_main_protection": {
+      "authorized_action": "authorize_narrow_repair",
+      "status": "decided"
+    },
+    "card_p2_ledger_warning": {
+      "approved_action": "approve_shown_warning",
+      "presentation_change_request": null,
+      "status": "decided"
+    }
+  },
+  "decisions_complete": true,
+  "selections_approve_requested_actions": true,
+  "requires_lead_revalidation": true
+}

@@ -5,6 +5,7 @@ from gaia_cli.commands.base import Command
 from gaia_cli.commands.dev.helpers import (
     _run_docs_build,
     _add_build_flags,
+    _add_restamp_flag,
     _confirm_destructive,
     _replace_section,
     _GENERATED_PREFIXES,
@@ -579,6 +580,13 @@ class DevCommand(Command):
             help="Also recompute and write the cached apexGateStatus frontmatter "
                  "(same predicate logic as the named-index generator); logged to the timeline",
         )
+        dev_calibrate_tm.add_argument(
+            "--recomputation-only", action="store_true", dest="recomputation_only",
+            help="Refresh only stamps that already exist and only where the computed grade still "
+                 "agrees with the stored star level (a pure recomputation, #1642). Skills whose grade "
+                 "disagrees with their level are HELD and left unchanged; no star level is ever written. "
+                 "Use with --all as the periodic backstop for stale stamps.",
+        )
         _add_build_flags(dev_calibrate_tm, "recalibrating")
         dev_calibrate_tm.add_argument(
             "--yes", "-y", action="store_true", help="Skip confirmation prompt"
@@ -935,6 +943,7 @@ class DevCommand(Command):
             help="ISO date the source content first existed",
         )
         _add_build_flags(dev_evidence, "adding evidence")
+        _add_restamp_flag(dev_evidence)
 
         dev_rm_evidence = dev_sub.add_parser(
             "rm-evidence",
@@ -952,6 +961,7 @@ class DevCommand(Command):
             help="Remove all evidence entries whose source URL matches this exactly",
         )
         _add_build_flags(dev_rm_evidence, "removing evidence")
+        _add_restamp_flag(dev_rm_evidence)
         dev_rm_evidence.add_argument(
             "--yes", "-y", "--y", action="store_true", help="Skip confirmation prompt"
         )

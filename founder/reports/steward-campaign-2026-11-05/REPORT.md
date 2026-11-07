@@ -1,5 +1,7 @@
 # Gaia Steward campaign — 2026-11-05, Termux
 
+> **Current governing state: [CHECKPOINT.md](CHECKPOINT.md).** Read it before resuming or reprioritizing. The receipt below is the historical initial closeout, not the current campaign status or mission.
+
 **Disposition: BLOCKED / NOT COMPLETE.** This is an operational receipt, not a maintenance-success announcement. No repair commit was produced or integrated. No issue was closed, and no canonical trust, stars, evidence, Origin, schema or authority policy was changed.
 
 Machine-readable receipt: [`summary.json`](summary.json). Detailed local evidence: `.gaia/steward/campaigns/2026-11-05/` (ignored, deliberately not published). Canonical shared-ledger checkpoint: [`9b3e58abd5117cd7b8c607859ac8cb68525ba999`](https://github.com/gaia-research/gaia-skill-tree/blob/9b3e58abd5117cd7b8c607859ac8cb68525ba999/ledger.json).

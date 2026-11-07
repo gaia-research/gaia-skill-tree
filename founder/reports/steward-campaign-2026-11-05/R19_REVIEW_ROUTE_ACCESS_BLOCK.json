@@ -1,0 +1,50 @@
+{
+  "status": "blocked_no_source_finding",
+  "reviewRun": "9d3d4f8d-d162-4bfd-872d-c73c78a23bfa",
+  "sessionId": "01a1adab-6d32-75e8-a54c-db5e550f5e9c",
+  "candidate": "314fdf655edb7a6cb9bd131461bc11952366979d",
+  "tree": "e53b5920571b1458a6b6d0bde1fe454f57c7b411",
+  "requestedProvider": "openai",
+  "requestedModel": "gpt-6.1-terra",
+  "requestedThinking": "high",
+  "requestedFallbackModels": [],
+  "primaryResponse": {
+    "provider": "openai",
+    "api": "openai-responses",
+    "stopReason": "error",
+    "messageExcerpt": "This content was flagged for possible cybersecurity risk.",
+    "providerSuggestedAccessReviewUrl": "https://platform.openai.com/settings/organization/status-and-access"
+  },
+  "managedRetry": {
+    "observedAttempt": 2,
+    "actualProvider": "openai-codex",
+    "actualModel": "gpt-6.1-terra",
+    "actualApi": "openai-codex-responses",
+    "violatedRequestedPin": true,
+    "evidence": "Actual per-assistant runtime envelopes after primary error; not merely PI_PROVIDER or stale model_change journal",
+    "reviewerStoppedOnWrongRoute": true,
+    "approvedSubstitution": false
+  },
+  "reviewScopeAchieved": {
+    "candidateVerified": true,
+    "preliminaryDiffAndTestFileRead": true,
+    "freshTests": false,
+    "newSourceFinding": false,
+    "independentWholeReviewComplete": false,
+    "accepted": false
+  },
+  "parentRegressionEvidence": {
+    "proofGatePassed": 58,
+    "executorPassed": 58,
+    "runnerPassed": 74,
+    "coordinationPassed": 78,
+    "allGroupExitCodes": 0,
+    "independentWholeAcceptance": false
+  },
+  "nextBoundary": "Official provider access-review process or qualified human independent review; no alternate-provider requests, context stripping or retry to evade controls. Pin integrity must be verified before any future permitted model work.",
+  "activeModelWorkers": 0,
+  "automaticWakeupsPaused": true,
+  "otherOperationalAndFounderHoldsUnchanged": true,
+  "canonicalImportEditApprovalStillPending": true,
+  "canonicalRepairsResolvedAndMainDelivered": 2
+}

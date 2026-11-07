@@ -25,13 +25,17 @@ gaia steward full run --triage --routine 9 --json
 gaia steward full run --triage --debt "debt:unused_import:..." --json
 ```
 
-`--routine` takes 1-18 (the numbered routines in `founder/ROUTINES.md`);
+`--routine` takes 1-19 (the numbered routines in `founder/ROUTINES.md`);
 `--debt` takes one exact debt id from the receipt.
 
 Routine 18 (GitHub issue hygiene) routes its three debt kinds by authority: `issue_closure_ready`
 (A) is forge-bound to `gaia-steward-issue-hygiene` and is report-only while
 `issueHygiene.writesEnabled` is false; `issue_suite_review` (B) is the `issue-suite-review`
 dispatch for `gaia-steward-lane`; `issue_founder_decision` (C) goes to `gaia-steward-desk`.
+
+Routine 19 (routine pull-request maintenance) routes its eight debt kinds by authority: `routine_pr_merge_ready` and
+`routine_pr_closure_ready` (B) are forge-bound to `gaia-steward-pr-maintenance`; the other Class B kinds are report-only until a
+reconciler or a person acts; `routine_pr_founder_decision` (C) goes to `gaia-steward-desk`.
 
 ## Output
 

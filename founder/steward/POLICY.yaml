@@ -50,9 +50,20 @@ authority:
   timeline_causality_drift: B
   frontend_contract_drift: B
   trust_stamp_stale: C
+  # Founder ruling 2026-11-06 (#2201, option 11A): an empty effective evidence pool is a
+  # Class C evidence gap, never drift and never a demotion.
+  trust_evidence_gap: C
   issue_closure_ready: A
   issue_suite_review: B
   issue_founder_decision: C
+  routine_pr_merge_ready: B
+  routine_pr_blocked: B
+  routine_pr_superseded: B
+  routine_pr_conflict: B
+  routine_pr_verification_failed: B
+  routine_pr_provenance_unknown: B
+  routine_pr_closure_ready: B
+  routine_pr_founder_decision: C
 
 priority:
   bundled_schema_mirror_drift:
@@ -289,6 +300,12 @@ priority:
     exposure: 0.7
     freshnessNeed: 0.6
     expectedCost: 0.3
+  trust_evidence_gap:
+    importance: 0.8
+    decisionImpact: 0.8
+    exposure: 0.8
+    freshnessNeed: 0.5
+    expectedCost: 0.4
   issue_closure_ready:
     importance: 0.6
     decisionImpact: 0.6
@@ -305,6 +322,54 @@ priority:
     importance: 0.5
     decisionImpact: 0.8
     exposure: 0.5
+    freshnessNeed: 0.5
+    expectedCost: 0.4
+  routine_pr_merge_ready:
+    importance: 0.7
+    decisionImpact: 0.7
+    exposure: 0.7
+    freshnessNeed: 0.9
+    expectedCost: 0.3
+  routine_pr_blocked:
+    importance: 0.5
+    decisionImpact: 0.5
+    exposure: 0.5
+    freshnessNeed: 0.7
+    expectedCost: 0.4
+  routine_pr_superseded:
+    importance: 0.4
+    decisionImpact: 0.5
+    exposure: 0.4
+    freshnessNeed: 0.6
+    expectedCost: 0.3
+  routine_pr_conflict:
+    importance: 0.6
+    decisionImpact: 0.6
+    exposure: 0.6
+    freshnessNeed: 0.8
+    expectedCost: 0.5
+  routine_pr_verification_failed:
+    importance: 0.7
+    decisionImpact: 0.7
+    exposure: 0.6
+    freshnessNeed: 0.9
+    expectedCost: 0.5
+  routine_pr_provenance_unknown:
+    importance: 0.9
+    decisionImpact: 0.9
+    exposure: 0.9
+    freshnessNeed: 0.9
+    expectedCost: 0.3
+  routine_pr_closure_ready:
+    importance: 0.4
+    decisionImpact: 0.5
+    exposure: 0.4
+    freshnessNeed: 0.7
+    expectedCost: 0.2
+  routine_pr_founder_decision:
+    importance: 0.6
+    decisionImpact: 0.9
+    exposure: 0.6
     freshnessNeed: 0.5
     expectedCost: 0.4
 
@@ -341,14 +406,19 @@ repairs:
         - staged copy, atomic replacement, recursive parity, or sync validation cannot be proven
 
 routing:
-  maxDispatchesPerRun: 1
+  # Builds one run may hand out in parallel. Code requires 1 <= this <= lane.maxInFlight.
+  # Raised from 1 to 8 by founder decision steward-class-b-throughput-2026-11-06: the run
+  # lease serializes runs, so a lane maxInFlight of 2 alone never produced parallel dispatch.
+  maxDispatchesPerRun: 8
   # The bounded Class B rolling lane. These three numbers are the whole of what
   # makes it a lane rather than a loop, and code caps each of them independently
   # so editing this file can never grant unbounded autonomy.
   lane:
     # Never more outstanding work than a human can actually review. Raised from
-    # 1 to 2 by founder authorization 2026-10-21 (steward-class-b-throughput).
-    maxInFlight: 2
+    # 1 to 2 by founder authorization 2026-10-21 (steward-class-b-throughput), then
+    # from 2 to 8 (the finite code ceiling: the most one pi subagent call takes) by
+    # founder decision steward-class-b-throughput-2026-11-06.
+    maxInFlight: 8
     # A debt that fails bounded repair this many times is not asking for another
     # attempt; it is evidence the envelope is wrong, which is a founder question.
     maxAttempts: 2
@@ -656,6 +726,63 @@ routing:
         - show a diff confined to docs/agents/issue-hygiene and tests/steward
         - run the focused issue-hygiene tests and report exact results
         - obtain independent review before integration
+    workflow-timeout-repair:
+      debtKind: workflow_hygiene
+      authority: B
+      routine: ci-architecture-steward
+      promptGuide: founder/steward/routines/workflow-timeout.md
+      capability: >-
+        Read a GitHub Actions job to understand what it does and where it can legitimately wait,
+        weigh that against observed historical run durations, and choose a per-job timeout that
+        kills a hung job without killing a healthy slow one. Express the repair as the addition of
+        timeout-minutes lines and nothing else, in a security-relevant file.
+      objective: >-
+        For one workflow file with missing-timeout findings, add a job-level timeout-minutes to each
+        flagged job, with the value chosen from the job's semantics and its historical durations, and
+        return the smallest diff with the reasoning for every value. Founder ruling #14 (decision
+        steward-workflow-timeout-route, #2283) grants exactly this and no other workflow write. A
+        missing timeout is a configuration finding, not evidence that the job ever timed out.
+      # The ONE exception to the .github/** floor. policy.py pins the allowed path
+      # exactly and refuses it for any other debt kind; the exclusions below are
+      # required, not advisory. gh-aw generated lock files are compiled output.
+      allowedPaths:
+        - .github/workflows/*.yml
+      allowedCommands:
+        - python scripts/check_steward_coverage.py --check
+        - python -m pytest tests/steward/test_sensors_ci.py
+        - python -c "import sys, yaml; yaml.safe_load(open(sys.argv[1]))" <workflow-file>
+        - gh run list --workflow <workflow-file> --status completed --limit 50 --json databaseId,conclusion,createdAt,startedAt,updatedAt
+        - gh api repos/gaia-research/gaia-skill-tree/actions/runs/<run-id>/jobs --jq '.jobs[] | {name, conclusion, started_at, completed_at}'
+      forbiddenPaths:
+        - .agents/skills/**
+        - .claude/skills/**
+        - .gaia/steward/**
+        - .github/actions/**
+        - .github/workflows/*.lock.yml
+        - .github/workflows/_disabled/**
+        - .github/workflows/shared/**
+        - docs/**
+        - founder/**
+        - registry/**
+        - skill-trees/**
+        - src/**
+        - tests/**
+      stopConditions:
+        - the finding does not reproduce on the current head
+        - the subject is a gh-aw generated lock file or has a gh-aw source beside it; fix the source and recompile is a founder-gated step
+        - any change other than adding a job-level timeout-minutes line would be needed, or the debt carries any finding other than missing-timeout
+        - successful completed-run duration history cannot be read for a flagged job; semantics alone never substitute for history
+        - the job legitimately waits on a human, an environment approval or an external deploy and no bound is justifiable
+        - a flagged job is a reusable-workflow call, which cannot declare timeout-minutes
+        - the workflow file does not parse as YAML after the edit
+        - validation, coverage, or independent proof is incomplete
+      proof:
+        - reproduce every missing-timeout finding for the subject workflow on the current head
+        - for each job, state its semantics, the sampled completed-run durations, and the timeout chosen with the rule applied
+        - show a diff confined to the one workflow file that only adds integer 1..360 timeout-minutes keys directly under existing jobs that lacked them
+        - parse the edited workflow as YAML and report exact results
+        - run python scripts/check_steward_coverage.py --check and the focused CI sensor tests and report exact results
+        - obtain independent review before integration
   founderRules:
     issue-founder-decision:
       debtKind: issue_founder_decision
@@ -664,6 +791,13 @@ routing:
       objective: >-
         Decide one exact issue-hygiene question shared by the affected issues, such as
         whether a family of upstream candidates is accepted, rejected or deferred.
+    routine-pr-founder-decision:
+      debtKind: routine_pr_founder_decision
+      authority: C
+      decisionTargetField: decisionTarget
+      objective: >-
+        Decide one exact routine pull request that Steward cannot legitimately decide: an explicit founder hold, a
+        draft, a missing required approval, a design gate, or a destructive closure. Steward never merges or closes it.
     generic-mapping-decision:
       debtKind: generic_mapping
       authority: C
@@ -676,10 +810,14 @@ issueHygiene:
   maxClosuresPerRun: 10
   maxCensusAgeSeconds: 21600
   closedWindowDays: 30
-  # UNRATIFIED implementation proposal, not Class A issue-write authority.
-  # Effective rules are empty while steward-issue-closure-authority.json is open.
-  # A switch edit alone never authorizes closures; an explicit decided record
-  # with resolution: approved is required too (decided may mean rejected). No live closure dry run or pilot is authorized in this mission.
+  # The A1-A5 allowlist below is FOUNDER-RATIFIED policy (ruling #10, 2026-11-06, recorded verbatim in
+  # founder/steward/decisions/steward-issue-closure-authority.json, resolution: approved). Ratification is the authority;
+  # it is not an operational rollout. Closures need an attributable Steward owner and worker on every receipt, exact
+  # proof and before/after state; a reopened issue is respected and never re-closed; ambiguous, contested or
+  # unsupported cases are excluded.
+  # writesEnabled stays false: rollout waits for independent verification with the existing write switches and gates
+  # explicitly satisfied. A switch edit alone never authorizes closures (the approved record is required too), and the
+  # approved record alone never turns writes on. No live closure dry run or pilot is authorized by this ratification.
   writesEnabled: false
   enabledRules:
     - A1-child-curated
@@ -690,3 +828,33 @@ issueHygiene:
   # Workflow files whose disabled state proves a bot family is no longer running (A5).
   # Empty = A5 can never be proven, so it stays Class B/C.
   a5Disabled: []
+
+# Routine pull-request stewardship (routine 19). Producer registry: founder/steward/pr-producers.json.
+# Like issue hygiene, this is a ratified route: founder/steward/decisions/steward-pr-maintenance-authority.json
+# is decided and approved (and its writes are already on, unlike issueHygiene.writesEnabled). A switch edit alone never grants it, and the record alone never exceeds these ceilings.
+# Squash is not representable. Merges go through forge.merge_pr only: exact head SHA, independent verification,
+# GitHub's own branch protection. Steward never pushes to a protected branch.
+prMaintenance:
+  writesEnabled: true
+  killSwitch: false
+  maxCensusAgeSeconds: 3600
+  maxMergesPerRun: 2
+  maxClosuresPerRun: 2
+  maxCommentsPerRun: 30
+  hourlyWriteCap: 10
+  verificationTtlSeconds: 21600
+  maxReplacementsPerRun: 2
+  enabledActions:
+    - comment
+    - merge
+    - close
+  destinations:
+    - main
+  mergeMethods:
+    - merge
+
+# Browser access for rendered-frontend observation (routine 15; founder ruling steward-browser-render-driver).
+# Headless Chromium is free and on by default for scheduled and founder runs. A real, interactive browser is
+# never a persistent setting: only `gaia steward full run --interactive-browser` authorizes it, for that run.
+browser:
+  headless: true

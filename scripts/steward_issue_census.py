@@ -29,6 +29,32 @@ never written for a partial fetch. The workflow listing is a separate section: i
 `workflows.complete` is false, and closures that depend on it stay Class B or C. The token is never
 printed and never written to the census.
 
+Closed-history completeness (founder ruling steward-census-empty-page-crosschecks). Closed listings have no
+independent total, so the census also reads GitHub's closed-issue count (`search/issues`, `total_count`) and
+cross-checks it. A count it cannot read, a suspected false empty (zero against a non-empty baseline, unless reopen
+events explain it) or a closed window larger than the total makes the CLOSED inventory incomplete
+(`completeness.closed.complete = false`, reason `closed-inventory-unverified:<why>`), and the census exits 3. Only
+operations that need closed history then fail closed: `completeness.open` stays true, so the issue-hygiene sensor
+keeps its open-inventory observations. Every attempt is recorded under `closedHistory` (provider, pagination, auth,
+count, refusal reason); incomplete reads retry within a bound.
+
+The last VERIFIED count is kept in `.gaia/steward/inputs/closed-issue-baseline.json` (count, observedAt, source, scope;
+see `gaia_cli.steward.issuehygiene.closedbaseline`). It is a diagnostic baseline, not proof. It is written only after
+the whole census proved complete, so a malformed row or any refusal leaves it untouched. A decrease is adopted only when
+issues reopened since the baseline explain it; an unexplained lower count is never adopted and is reported as a
+diagnostic. Because it is a diagnostic and gates no write, losing it only degrades diagnostics. `--baseline-state`:
+  restored        the stored baseline was downloaded; compared and renewed (a downloaded file that is corrupt or about
+                  another repository is `restore-invalid`: it is preserved as evidence under
+                  closed-issue-baseline.restore-invalid.json and never treated as restored)
+  empty-store     the store holds none (a first run, or every earlier artifact expired after 90 days)
+  restore-failed  the store could not be read (API or download failure): never seeds; the baseline is not evaluated
+An empty store and a restore-invalid baseline may be seeded ONLY from a verified, complete census, and the census output and
+telemetry say so ("seeded (no prior baseline retrievable)" or "seeded (prior baseline invalid)"), so a re-seed is always
+visible. In Actions the baseline lives in an artifact that every run re-uploads, renewing its 90-day retention.
+If an invalid restored file cannot be moved aside as evidence (for example a PermissionError), nothing is seeded or overwritten,
+the baseline is reported not evaluated and the script exits 4 (5 when the census is also incomplete; 3 stays
+incomplete only). The census itself is still written, and its `completeness` fields, not the exit code, say whether it is complete.
+
 This collector writes only the census. Removing a stale census is the driver's job
 (`scripts/steward_drive.py` deletes the file after an exit 1 failure, and leaves an exit 3 file
 for the sensor to report as incomplete).
@@ -43,6 +69,7 @@ import os
 import re
 import sys
 import tempfile
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -61,9 +88,15 @@ PER_PAGE = 100
 MAX_PAGES = 200
 TIMEOUT_SECONDS = 30
 API = "https://api.github.com"
+# One closed-history read is attempted this many times in all before it is reported incomplete.
+CLOSED_ATTEMPTS = 3
+RETRY_BACKOFF_SECONDS = 1.0
+MAX_EVENT_PAGES = 5
 EXIT_COMPLETE = 0
 EXIT_USAGE = 2
 EXIT_INCOMPLETE = 3
+EXIT_BASELINE_EVIDENCE = 4  # an invalid restored baseline could not be preserved: nothing was seeded or overwritten
+EXIT_BASELINE_AND_INCOMPLETE = 5  # both: the census is incomplete AND the baseline evidence could not be preserved
 
 
 class FetchError(Exception):
@@ -222,8 +255,12 @@ def stateFilter(url: str) -> list[str] | None:
     return urllib.parse.parse_qs(urllib.parse.urlsplit(url).query).get("state")
 
 
+def labelFilter(url: str) -> list[str] | None:
+    return urllib.parse.parse_qs(urllib.parse.urlsplit(url).query).get("labels")
+
+
 def sameListing(url: str, start: str, allowedPaths: set[str]) -> bool:
-    """Whether a ``next`` link continues THIS listing (B8 M-1): the API origin, one of the listing's paths, and the same state.
+    """Whether a ``next`` link continues THIS listing (B8 M-1): the API origin, one of the listing's paths, the same state and the same label filter.
 
     The allowed paths are the start query's path and, when GitHub names the repository by id, the ``/repositories/<id>/issues``
     form learned from the first page's own links. A link to another repository, another endpoint or another state
@@ -231,7 +268,8 @@ def sameListing(url: str, start: str, allowedPaths: set[str]) -> bool:
     """
     if not sameOrigin(url):
         return False
-    return urllib.parse.urlsplit(url).path in allowedPaths and stateFilter(url) == stateFilter(start)
+    return urllib.parse.urlsplit(url).path in allowedPaths and stateFilter(url) == stateFilter(start) \
+        and labelFilter(url) == labelFilter(start)
 
 
 def followable(nextUrl: str, start: str) -> str:
@@ -463,6 +501,241 @@ def toRow(raw: dict) -> dict:
     }
 
 
+def baselineModule():
+    """The closed-baseline rules, imported the way the policy loader is: from this checkout's ``src``."""
+
+    sourcePath = str(REPO_ROOT / "src")
+    if sourcePath not in sys.path:
+        sys.path.insert(0, sourcePath)
+    from gaia_cli.steward.issuehygiene import closedbaseline
+
+    return closedbaseline
+
+
+def isRetryable(reason: str | None) -> bool:
+    """Whether another attempt could plausibly read what this one could not.
+
+    Transport faults, server errors and the empty or truncated pages a busy API sometimes serves are transient.
+    A rejected credential, a rate limit, a redirect or a link to another listing will not change on a second try.
+    """
+
+    if not reason:
+        return False
+    if reason.startswith(("transport-", "pagination-short")):
+        return True
+    if reason.startswith("http-"):
+        return reason[5:].isdigit() and 500 <= int(reason[5:]) <= 599
+    return reason in {"empty-linked-page", "unparsable-page", "unexpected-page-shape", "unlinked-continuation",
+                      "false-empty-suspect"}
+
+
+def isAuthRefusal(reason: str | None) -> bool:
+    return reason in {"http-401", "http-403"}
+
+
+class CountRead(NamedTuple):
+    count: int | None
+    reason: str | None
+
+
+def closedCountOf(repo: str, fetch: Callable[[str], Response]) -> CountRead:
+    """GitHub's total of closed issues (pull requests excluded), from the search API. One request.
+
+    ``incomplete_results`` or a non-integer total is a refusal, never a number.
+    """
+
+    query = urllib.parse.quote(f"repo:{repo} is:issue is:closed")
+    url = f"{API}/search/issues?q={query}&per_page=1"
+    try:
+        response = fetch(url)
+    except FetchError as error:
+        return CountRead(None, error.reason)
+    except Exception as error:  # noqa: BLE001 - a diagnostic read must never break the census
+        return CountRead(None, f"read-error-{type(error).__name__}")
+    if response.status != 200:
+        return CountRead(None, "redirected" if 300 <= response.status < 400 else f"http-{response.status}")
+    try:
+        data = json.loads(response.body)
+    except ValueError:
+        return CountRead(None, "unparsable-page")
+    if not isinstance(data, dict) or data.get("incomplete_results") is True:
+        return CountRead(None, "count-unreadable")
+    total = data.get("total_count")
+    if not isinstance(total, int) or isinstance(total, bool) or total < 0:
+        return CountRead(None, "count-unreadable")
+    return CountRead(total, None)
+
+
+def reopenedSince(repo: str, fetch: Callable[[str], Response], since: str) -> tuple[int | None, str | None]:
+    """Distinct issues reopened after ``since``, from the repository event feed (newest first), or why that is unknown.
+
+    The walk stops once an event older than ``since`` is seen, or after ``MAX_EVENT_PAGES`` pages. The count is then a
+    lower bound, which can still explain a decrease but never invent one.
+    """
+
+    try:
+        cutoff = datetime.fromisoformat(since.replace("Z", "+00:00"))
+    except ValueError:
+        return None, "baseline-time-unparsable"
+    url = f"{API}/repos/{repo}/issues/events?per_page={PER_PAGE}"
+    seen: set[int] = set()
+    for _ in range(MAX_EVENT_PAGES):
+        try:
+            got = getPage(fetch, url, extract=None)
+        except Exception as error:  # noqa: BLE001 - a diagnostic read must never break the census
+            return None, f"read-error-{type(error).__name__}"
+        if got.reason is not None:
+            return None, got.reason
+        reachedBaseline = False
+        for event in got.page:
+            if not isinstance(event, dict):
+                continue
+            try:
+                happened = datetime.fromisoformat(str(event.get("created_at", "")).replace("Z", "+00:00"))
+            except ValueError:
+                continue
+            if happened <= cutoff:
+                reachedBaseline = True
+                continue
+            issue = event.get("issue") if isinstance(event.get("issue"), dict) else {}
+            if event.get("event") == "reopened" and "pull_request" not in issue and isinstance(issue.get("number"), int):
+                seen.add(issue["number"])
+        nextUrl = parseLinks(headerValue(got.response.headers, "link")).get("next")
+        if reachedBaseline or not got.page or not nextUrl or not sameOrigin(nextUrl):
+            return len(seen), None
+        url = nextUrl
+    return len(seen), None
+
+
+def readClosedWithRetry(
+    start: str, fetch: Callable[[str], Response], sleep: Callable[[float], None], attempts: list[dict],
+) -> Listing:
+    """Walk the closed window, retrying within ``CLOSED_ATTEMPTS`` only while the failure could be transient."""
+
+    listing = Listing()
+    for number in range(1, CLOSED_ATTEMPTS + 1):
+        listing = listAll(start, fetch)
+        attempts.append({"read": "closed-window", "attempt": number, "reason": listing.reason, "pagesFetched": listing.pagesFetched})
+        if listing.reason is None or not isRetryable(listing.reason) or number == CLOSED_ATTEMPTS:
+            return listing
+        if listing.reason.startswith(("transport-", "http-")):
+            sleep(RETRY_BACKOFF_SECONDS * number)
+    return listing
+
+
+def readCountWithRetry(
+    repo: str, fetch: Callable[[str], Response], sleep: Callable[[float], None], attempts: list[dict],
+    baselineCount: int | None,
+) -> CountRead:
+    """Read the closed count, retrying while it fails transiently or reads 0 against a non-zero baseline."""
+
+    read = CountRead(None, "not-read")
+    for number in range(1, CLOSED_ATTEMPTS + 1):
+        read = closedCountOf(repo, fetch)
+        if read.reason is None and read.count == 0 and baselineCount:
+            # An empty total against a known non-empty history is suspect, but it is kept (not discarded): a complete
+            # reopening of every closed issue is a real way to reach zero, and the reopen events can explain it.
+            read = CountRead(0, "false-empty-suspect")
+        attempts.append({"read": "closed-count", "attempt": number, "reason": read.reason})
+        if read.reason is None or not isRetryable(read.reason) or number == CLOSED_ATTEMPTS:
+            return read
+        if read.reason.startswith(("transport-", "http-")):
+            sleep(RETRY_BACKOFF_SECONDS * number)
+    return read
+
+
+def collectClosedHistory(
+    repo: str, now: datetime, fetch: Callable[[str], Response], closedListing: Listing, attempts: list[dict],
+    baseline: Any, baselineProblem: str | None, authenticated: bool | None,
+    sleep: Callable[[float], None], source: str, verify: bool = False, baselineState: str = "restored",
+) -> dict:
+    """Cross-check the closed inventory against GitHub's closed count and judge it against the baseline.
+
+    With ``verify`` a refusal (count unreadable, a suspected false empty, a window larger than the total) is reported
+    in ``refusal`` and makes closed completeness false. ``baseline.after`` is the exact file to write if the whole
+    census later proves complete, or None when the baseline must stay as it is.
+    """
+
+    rules = baselineModule()
+    observedAt = isoZ(now)
+    windowRows = [row for row in closedListing.rows if isinstance(row, dict) and "pull_request" not in row]
+    section: dict[str, Any] = {
+        "provider": "gh-api",
+        "scope": rules.SCOPE,
+        "observedAt": observedAt,
+        "auth": "unknown" if authenticated is None else ("token" if authenticated else "anonymous"),
+        "attempts": attempts,
+        "pagination": {
+            "pagesFetched": closedListing.pagesFetched,
+            "pageSizes": list(closedListing.pageSizes),
+            "windowRows": len(windowRows),
+            "reason": None if closedListing.reason == "skipped" else closedListing.reason,
+        },
+        "count": {"value": None, "verified": False, "checked": verify},
+        "refusal": None,
+        "baseline": {"before": baseline.summary() if baseline is not None else None, "problem": baselineProblem,
+                     "state": baselineState, "after": None, "update": "preserved"},
+        "change": None,
+    }
+    if baselineState in ("restore-failed", "restore-invalid-unpreserved"):
+        # The earlier baseline could not be recovered, so there is nothing to compare against and nothing safe to
+        # write: a new baseline would silently replace evidence that may still exist in the store.
+        section["baseline"]["update"] = "not-evaluated"
+        if baselineState == "restore-failed":
+            section["baseline"]["problem"] = "baseline-restore-failed"
+    if closedListing.reason == "skipped":
+        section["refusal"] = "open-inventory-incomplete"
+        return section
+    section["pagination"]["reason"] = closedListing.reason
+    if closedListing.reason is not None:
+        # An incomplete window cannot verify anything, so no count is read and the baseline stays as it is.
+        section["refusal"] = closedListing.reason
+        if any(isAuthRefusal(item["reason"]) for item in attempts):
+            section["auth"] = "rejected"
+        return section
+    if not verify:
+        # A deliberately unverified census must not read as complete: closed operations have nothing to stand on.
+        section["refusal"] = "count-not-verified"
+        return section
+    countRead = readCountWithRetry(repo, fetch, sleep, attempts, baseline.count if baseline is not None else None)
+    if any(isAuthRefusal(item["reason"]) for item in attempts):
+        section["auth"] = "rejected"
+    reopened, reopenedReason = (None, None)
+    if countRead.count == 0 and countRead.reason == "false-empty-suspect" and baseline is not None:
+        reopened, reopenedReason = reopenedSince(repo, fetch, baseline.observedAt)
+        if reopened is not None and reopened >= baseline.count:
+            countRead = CountRead(0, None)  # every closed issue was reopened: a real, explained zero
+    if countRead.reason is not None:
+        section["refusal"] = countRead.reason
+        if countRead.count is not None:
+            section["count"]["value"] = countRead.count
+        return section
+    count = int(countRead.count)  # type: ignore[arg-type]
+    section["count"] = {"value": count, "verified": False, "checked": True}
+    if len(windowRows) > count:
+        # The window is a subset of all closed history, so it cannot hold more issues than the total.
+        section["refusal"] = "window-exceeds-count"
+        return section
+    section["count"]["verified"] = True
+    if baselineState in ("restore-failed", "restore-invalid-unpreserved"):
+        return section
+    if baseline is not None and count < baseline.count and reopened is None and reopenedReason is None:
+        reopened, reopenedReason = reopenedSince(repo, fetch, baseline.observedAt)
+    judgement = rules.judge(baseline, count, observedAt, source, reopened, reopenedReason)
+    section["change"] = {
+        "direction": judgement.direction, "delta": judgement.delta, "reopenedSince": reopened,
+        "explained": judgement.explained, "explanation": judgement.explanation,
+    }
+    section["baseline"]["update"] = judgement.update
+    section["baseline"]["after"] = judgement.next.to_dict(repo) if judgement.next is not None else None
+    if judgement.update == "created":
+        # A new baseline is never silent: it says which kind of absence it replaces.
+        section["baseline"]["seeded"] = (
+            "seeded (prior baseline invalid)" if baselineProblem else "seeded (no prior baseline retrievable)"
+        )
+    return section
+
+
 def isoZ(moment: datetime) -> str:
     return moment.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -539,13 +812,57 @@ def metadataSanity(listed: int, count: int | None) -> str | None:
     return None
 
 
+CLOSED_UMBRELLA_LABELS = ("upstream:release", "upstream:bootstrap")
+
+
+def collectClosedUmbrellas(repo: str, fetch: Callable[[str], Response]) -> dict:
+    """Every closed issue carrying an umbrella label, with no age window (founder ruling #6).
+
+    One bounded, label-scoped listing per umbrella label. A failed or short listing marks THIS section incomplete with
+    its reason; the census itself stays as complete as its open and windowed listings say, and the reconciler then
+    reports only the umbrella-dependent decisions as not evaluated.
+    """
+    items: dict[int, dict] = {}
+    reasons: list[str] = []
+    pages = 0
+    for label in CLOSED_UMBRELLA_LABELS:
+        start = (f"{API}/repos/{repo}/issues?state=closed&per_page={PER_PAGE}"
+                 f"&labels={urllib.parse.quote(label, safe='')}")
+        listing = listAll(start, fetch)
+        pages += listing.pagesFetched
+        if listing.reason is not None:
+            reasons.append(f"{label}:{listing.reason}")
+            continue
+        for raw in listing.rows:
+            if not isinstance(raw, dict) or not isinstance(raw.get("number"), int):
+                reasons.append(f"{label}:malformed-row")
+                continue
+            if "pull_request" in raw:
+                continue
+            items[raw["number"]] = toRow(raw)
+    section: dict[str, Any] = {
+        "complete": not reasons, "labels": list(CLOSED_UMBRELLA_LABELS), "pagesFetched": pages,
+        "items": [items[number] for number in sorted(items)] if not reasons else [],
+    }
+    if reasons:
+        section["reason"] = ";".join(reasons)[:300]
+    return section
+
+
 def collectCensus(
     repo: str,
     now: datetime,
     fetch: Callable[[str], Response],
     closedWindowDays: int = DEFAULT_CLOSED_WINDOW_DAYS,
+    baseline: Any = None,
+    baselineProblem: str | None = None,
+    authenticated: bool | None = None,
+    sleep: Callable[[float], None] = time.sleep,
+    baselineSource: str = "gh-api",
+    verifyClosedCount: bool = True,
+    baselineState: str = "restored",
 ) -> dict:
-    """Build the census document. Pure apart from ``fetch``; never raises on fetch failure."""
+    """Build the census document. Pure apart from ``fetch`` and ``sleep``; never raises on fetch failure."""
     openStart = f"{API}/repos/{repo}/issues?state=open&per_page={PER_PAGE}"
     cutoff = now - timedelta(days=closedWindowDays)
     closedStart = (
@@ -572,17 +889,39 @@ def collectCensus(
         sanity = metadataSanity(len(openListing.rows), openCount)
         if sanity is not None:
             openListing.reason = sanity
-    closedListing = listAll(closedStart, fetch) if openListing.reason is None else Listing(reason="skipped")
+    closedAttempts: list[dict] = []
+    closedListing = (
+        readClosedWithRetry(closedStart, fetch, sleep, closedAttempts)
+        if openListing.reason is None else Listing(reason="skipped")
+    )
+    closedHistory = collectClosedHistory(
+        repo, now, fetch, closedListing, closedAttempts, baseline, baselineProblem, authenticated, sleep, baselineSource,
+        verify=verifyClosedCount, baselineState=baselineState,
+    )
+    closedRefusal = closedHistory["refusal"] if closedHistory["refusal"] not in (None, "open-inventory-incomplete") else None
+    if closedRefusal == closedListing.reason:
+        closedRefusal = None  # already counted as the listing's own failure
     workflows = collectWorkflows(repo, fetch)
+    closedUmbrellas = collectClosedUmbrellas(repo, fetch) if openListing.reason is None else {
+        "complete": False, "labels": list(CLOSED_UMBRELLA_LABELS), "pagesFetched": 0, "items": [], "reason": "skipped"}
 
     reasons = [item.reason for item in (openListing, closedListing) if item.reason and item.reason != "skipped"]
+    if closedRefusal is not None:
+        # A cross-check contradiction is an incomplete closed inventory, not a footnote: consumers that need it refuse.
+        reasons.append(f"closed-inventory-unverified:{closedRefusal}")
     rows: list[dict] = []
     closed: list[dict] = []
     malformed = 0
+    malformedOpen = 0
+    malformedClosed = 0
     for listing, target in ((openListing, rows), (closedListing, closed)):
         for raw in listing.rows:
             if not isinstance(raw, dict) or not isinstance(raw.get("number"), int):
                 malformed += 1
+                if target is rows:
+                    malformedOpen += 1
+                else:
+                    malformedClosed += 1
                 continue
             target.append(toRow(raw))
     recent = []
@@ -620,6 +959,23 @@ def collectCensus(
             "itemCount": len(pulls), "lastLink": openListing.lastLink,
         },
     }
+    # Which inventory is incomplete, so a consumer that needs only the other one is not blocked by it. The
+    # `issues` and `pulls` sections above stay conservative: either failing marks them incomplete.
+    completeness["open"] = {"complete": openListing.reason is None and not malformedOpen}
+    completeness["closed"] = {"complete": closedListing.reason is None and closedRefusal is None and not malformedClosed}
+    if openListing.reason is not None:
+        completeness["open"]["reason"] = openListing.reason
+    elif malformedOpen:
+        completeness["open"]["reason"] = f"malformed-rows:{malformedOpen}"
+    if closedListing.reason not in (None, "skipped"):
+        completeness["closed"]["reason"] = closedListing.reason
+        completeness["closed"]["diagnostics"] = diagnosticsOf(closedListing)
+    elif closedListing.reason == "skipped":
+        completeness["closed"]["reason"] = "skipped"
+    elif closedRefusal is not None:
+        completeness["closed"]["reason"] = closedRefusal
+    elif malformedClosed:
+        completeness["closed"]["reason"] = f"malformed-rows:{malformedClosed}"
     if reason:
         completeness["issues"]["reason"] = reason
         completeness["pulls"]["reason"] = reason
@@ -628,6 +984,11 @@ def collectCensus(
             # "pulls" is a projection of this same walk, so it carries the same diagnostics.
             completeness["issues"]["diagnostics"] = diagnosticsOf(failure)
             completeness["pulls"]["diagnostics"] = diagnosticsOf(failure)
+    if not complete and closedHistory["baseline"]["after"] is not None:
+        # The baseline is written only after the whole census proved complete. A count that verified before a later
+        # defect (a malformed row, a refused cross-check) is not evidence once the scan around it failed.
+        closedHistory["baseline"]["after"] = None
+        closedHistory["baseline"]["update"] = "preserved"
     return {
         "schemaVersion": SCHEMA,
         "repo": repo,
@@ -636,6 +997,8 @@ def collectCensus(
         "closedWindowDays": closedWindowDays,
         "completeness": completeness,
         "workflows": workflows,
+        "closedUmbrellas": closedUmbrellas,
+        "closedHistory": closedHistory,
         "issues": rows,
         "recentlyClosed": recent,
     }
@@ -677,6 +1040,14 @@ def parseArgs(argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="census file to write")
     parser.add_argument("--closed-window-days", type=int, default=None,
                         help="override issueHygiene.closedWindowDays from the policy")
+    parser.add_argument("--baseline", type=Path, default=None,
+                        help="closed-issue baseline file (default: closed-issue-baseline.json beside --out)")
+    parser.add_argument("--baseline-state", choices=("restored", "empty-store", "restore-failed"), default="restored",
+                        help="how the previous baseline was recovered: restored from the store, empty-store (none "
+                             "exists, or every earlier one expired) or restore-failed (the store could not be read). "
+                             "A failed restore never seeds: the baseline is reported as not evaluated. An empty "
+                             "store or an invalid restored file is seeded only from a verified complete census, "
+                             "and labelled as seeded.")
     parser.add_argument("--now", default=None, help="RFC 3339 fetchedAt override (tests and replays)")
     return parser.parse_args(argv)
 
@@ -694,16 +1065,57 @@ def main(argv: list[str] | None = None, fetch: Callable[[str], Response] | None 
     now = datetime.fromisoformat(args.now.replace("Z", "+00:00")) if args.now else datetime.now(timezone.utc)
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or None
     transport = fetch or (lambda url: httpFetch(url, token))
-    document = collectCensus(args.repo, now, transport, closedWindow)
+    rules = baselineModule()
+    baselinePath = args.baseline if args.baseline is not None else args.out.parent / rules.DEFAULT_PATH.name
+    baselineState = args.baseline_state
+    if baselineState == "restore-failed":
+        baseline, baselineProblem = None, "baseline-restore-failed"
+    elif baselineState == "empty-store":
+        baseline, baselineProblem = None, None
+    else:
+        baseline, baselineProblem = rules.loadBaseline(baselinePath, args.repo)
+        if baselineProblem is not None:
+            # Downloaded but corrupt or about another repository: never "restored". Keep the file as evidence under a
+            # distinct name (it is not overwritten by the seed) and seed only from a verified complete census.
+            baselineState = "restore-invalid"
+            evidence = baselinePath.with_name(baselinePath.stem + ".restore-invalid" + baselinePath.suffix)
+            try:
+                os.replace(baselinePath, evidence)
+            except OSError as error:
+                # Fail closed: the original stays where it is, nothing is seeded over it, and the step exits nonzero.
+                baselineState = "restore-invalid-unpreserved"
+                baselineProblem = f"restore-invalid-unpreserved:{type(error).__name__}"
+    document = collectCensus(
+        args.repo, now, transport, closedWindow,
+        baseline=baseline, baselineProblem=baselineProblem, authenticated=bool(token),
+        verifyClosedCount=True, baselineState=baselineState,
+    )
     writeAtomic(args.out, document)
+    # Only a verified, complete census ever produces a baseline to store; any other scan leaves the file untouched.
+    after = document["closedHistory"]["baseline"]["after"]
+    if after is not None and document["completeness"]["issues"]["complete"]:
+        writeAtomic(baselinePath, after)
     complete = document["completeness"]["issues"]["complete"]
     counts = f"issues={len(document['issues'])} closed={len(document['recentlyClosed'])}"
+    unpreserved = baselineState == "restore-invalid-unpreserved"
+    # Both conditions are independent and both are reported: the exit code carries them (3 incomplete, 4 baseline
+    # evidence unpreserved, 5 both) and so does the output. A caller must read `completeness` from the census file, not
+    # infer the census status from the exit code alone.
+    if unpreserved:
+        print(f"closed-issue baseline: NOT EVALUATED, the invalid restored baseline could not be preserved ({baselineProblem})",
+              file=sys.stderr)
+    else:
+        seeded = document["closedHistory"]["baseline"].get("seeded") if after is not None and complete else None
+        if seeded:
+            print(f"closed-issue baseline: {seeded}")
     if complete:
         print(f"census complete: {counts} -> {args.out}")
-        return EXIT_COMPLETE
-    reason = document["completeness"]["issues"].get("reason", "unknown")
-    print(f"census INCOMPLETE ({reason}): {counts} -> {args.out}", file=sys.stderr)
-    return EXIT_INCOMPLETE
+    else:
+        reason = document["completeness"]["issues"].get("reason", "unknown")
+        print(f"census INCOMPLETE ({reason}): {counts} -> {args.out}", file=sys.stderr)
+    if unpreserved:
+        return EXIT_BASELINE_AND_INCOMPLETE if not complete else EXIT_BASELINE_EVIDENCE
+    return EXIT_COMPLETE if complete else EXIT_INCOMPLETE
 
 
 if __name__ == "__main__":

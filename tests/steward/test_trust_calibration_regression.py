@@ -334,13 +334,14 @@ def test_zero_evidence_rows_never_recommend_a_demotion(tmp_path: Path) -> None:
     (observation,) = TrustCalibrationDriftSensor().scan(repo, NOW)
 
     state = observation.observed_state
-    assert observation.kind == "trust_calibration_drift"
+    assert observation.kind == "trust_evidence_gap"
     assert observation.current_state == {"level": "2★"}
     assert state["evidenceGap"] is True
     assert state["evidenceBasis"] == "no-effective-evidence-rows"
     assert state["effectiveRowCount"] == 0
     assert state["preservedLevel"] == "2★"
-    assert state["laneEligible"] is False
+    # The dedicated Class C kind replaces the interim laneEligible marker.
+    assert "laneEligible" not in state
     assert "targetLevel" not in state
     assert "calibrationCommand" not in state
 
@@ -351,6 +352,7 @@ def test_rows_that_score_nothing_are_a_gap_not_counter_evidence(tmp_path: Path) 
 
     (observation,) = TrustCalibrationDriftSensor().scan(repo, NOW)
 
+    assert observation.kind == "trust_evidence_gap"
     assert observation.observed_state["evidenceBasis"] == "no-scoring-evidence-rows"
     assert observation.observed_state["effectiveRowCount"] == 1
     assert "calibrationCommand" not in observation.observed_state
@@ -404,12 +406,40 @@ def test_a_promotion_target_from_an_empty_pool_is_impossible_but_upward_drift_is
 def test_stale_stamp_separates_recomputation_from_a_governed_rank_change(tmp_path: Path) -> None:
     """#1642: only a stamp whose grade still agrees with the star level is a pure restamp."""
 
-    agrees = _fixture(tmp_path / "agrees", level="3★", trustMagnitude=50.0)
+    agrees = _fixture(tmp_path / "agrees", level="3★", trustMagnitude=50.0, overallTrustGrade="B")
     stamp = next(o for o in TrustCalibrationDriftSensor().scan(agrees, NOW) if o.kind == "trust_stamp_stale")
     assert stamp.observed_state["recomputationOnly"] is True
-    assert stamp.observed_state["restampCommand"] == "gaia dev calibrate-trust-magnitude --skill owner/child"
+    assert stamp.observed_state["holdReasons"] == []
+    # A write command is recommended only for the safe case, and only the restricted form.
+    assert stamp.observed_state["restampCommand"] == (
+        "gaia dev calibrate-trust-magnitude --skill owner/child --recomputation-only"
+    )
 
     moves = _fixture(tmp_path / "moves", level="5★", trustMagnitude=50.0)
     observed = {o.kind: o for o in TrustCalibrationDriftSensor().scan(moves, NOW)}
-    assert observed["trust_stamp_stale"].observed_state["recomputationOnly"] is False
+    governed = observed["trust_stamp_stale"].observed_state
+    assert governed["recomputationOnly"] is False
+    assert "restampCommand" not in governed  # governed cases get no write command
+    assert governed["holdReasons"] == ["level-disagrees-with-computed-grade", "stored-grade-missing"]
     assert observed["trust_calibration_drift"].observed_state["targetLevel"] == "3★"
+
+
+def test_a_partial_stamp_without_a_grade_is_governed_and_gets_no_write_command(tmp_path: Path) -> None:
+    """A refresh must never introduce an overallTrustGrade: level agrees, grade absent -> held."""
+
+    repo = _fixture(tmp_path, level="3★", trustMagnitude=50.0)
+
+    stamp = next(o for o in TrustCalibrationDriftSensor().scan(repo, NOW) if o.kind == "trust_stamp_stale")
+
+    assert stamp.observed_state["recomputationOnly"] is False
+    assert stamp.observed_state["holdReasons"] == ["stored-grade-missing"]
+    assert "restampCommand" not in stamp.observed_state
+
+
+def test_a_stored_grade_that_a_refresh_would_rewrite_is_governed_even_when_the_level_agrees(tmp_path: Path) -> None:
+    repo = _fixture(tmp_path, level="3★", trustMagnitude=50.0, overallTrustGrade="A")
+
+    stamp = next(o for o in TrustCalibrationDriftSensor().scan(repo, NOW) if o.kind == "trust_stamp_stale")
+
+    assert stamp.observed_state["holdReasons"] == ["stored-grade-differs-from-computed-grade"]
+    assert "restampCommand" not in stamp.observed_state and stamp.observed_state["recomputationOnly"] is False

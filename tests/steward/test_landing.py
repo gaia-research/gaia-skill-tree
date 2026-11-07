@@ -853,7 +853,20 @@ def _scope_script(*, fork: bool = False) -> str:
     )
 
 
-def _scope_check(tmp_path: Path, branch: str, files: dict[str, str], *, fork: bool = False) -> subprocess.CompletedProcess:
+BOT_EMAIL = "github-actions[bot]@users.noreply.github.com"
+
+
+def _scope_check(
+    tmp_path: Path,
+    branch: str,
+    files: dict[str, str],
+    *,
+    fork: bool = False,
+    author: str = "steward@gaiaskilltree.invalid",
+    base_files: dict[str, str] | None = None,
+    hidden_in_merge: dict[str, str] | None = None,
+    delete: tuple[str, ...] = (),
+) -> subprocess.CompletedProcess:
     tmp_path.mkdir(parents=True, exist_ok=True)
     bare = tmp_path / "scope-remote.git"
     work = tmp_path / "scope-work"
@@ -864,13 +877,30 @@ def _scope_check(tmp_path: Path, branch: str, files: dict[str, str], *, fork: bo
     _git(work, "config", "user.name", "Gaia Steward")
     _git(work, "config", "commit.gpgsign", "false")
     _write(work / "README.md", "base\n")
+    for relative, content in (base_files or {}).items():
+        _write(work / relative, content)
     _commit(work, "base")
     _git(work, "remote", "add", "origin", str(bare))
     _git(work, "push", "-q", "origin", "main")
     _git(work, "checkout", "-q", "-b", branch)
+    _git(work, "config", "user.email", author)
     for relative, content in files.items():
         _write(work / relative, content)
+    for relative in delete:
+        (work / relative).unlink()
     _commit(work, "landing")
+    if hidden_in_merge is not None:
+        # A change that exists only in a merge commit, which a --no-merges filter never inspects.
+        _git(work, "checkout", "-q", "-b", "side", "main")
+        _commit(work, "side")
+        _git(work, "checkout", "-q", branch)
+        subprocess.run(
+            ["git", "-C", str(work), "merge", "--no-commit", "--no-ff", "side"], capture_output=True, check=False
+        )
+        for relative, content in hidden_in_merge.items():
+            _write(work / relative, content)
+        _git(work, "add", "-A")
+        _git(work, "commit", "-q", "--allow-empty", "-m", "merge side")
     env = {
         **os.environ, "BRANCH": branch, "BASE_REF": "main", "PR_NUMBER": "1", "GH_TOKEN": "unused",
     }
@@ -913,22 +943,115 @@ def _scope_check(tmp_path: Path, branch: str, files: dict[str, str], *, fork: bo
         ("steward/b/unused-import-31cdbdb60a39", {".claude/skills/x/SKILL.md": "x"}, False),
         ("steward/b/unused-import-31cdbdb60a39", {"packages/x": "x"}, False),
         ("steward/b/unused-import-31cdbdb60a39", {"src/outside.py": "x"}, False),
+        # Founder ruling #14: the workflow-timeout route may touch only direct-child workflow files.
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/ci.yml": "x"}, True),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/a.yml": "x", ".github/workflows/b.yml": "y"}, True),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/steward-build-pi.lock.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/ci.yml": "x", ".github/workflows/steward-verify-pi.lock.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/shared/x.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/_disabled/x.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/ci.yaml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/ci.md": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/actions/x/action.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/CODEOWNERS": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/ISSUE_TEMPLATE/x.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {".github/workflows/ci.yml": "x", "src/gaia_cli/x.py": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {"tests/x.py": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {"scripts/x.py": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {"founder/x.md": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {"README.md": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a39", {"docs/.github/workflows/x.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a3g", {".github/workflows/ci.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a3", {".github/workflows/ci.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31cdbdb60a399", {".github/workflows/ci.yml": "x"}, False),
+        ("steward/b/WORKFLOW-HYGIENE-31cdbdb60a39", {".github/workflows/ci.yml": "x"}, False),
+        ("steward/b/workflow-hygiene-31CDBDB60A39", {".github/workflows/ci.yml": "x"}, False),
+        ("steward/a/agent-skill-mirror-drift-0123456789ab", {".github/workflows/ci.yml": "x"}, False),
+        ("infra/ci-fix", {".github/workflows/steward-build-pi.lock.yml": "x"}, True),
+        ("steward/b/unused-import-31cdbdb60a39", {".github/workflows/ci.yml": "x"}, False),
     ],
 )
 def test_branch_scope_allows_only_steward_mirror_paths(
     tmp_path: Path, branch: str, files: dict[str, str], passes: bool
 ) -> None:
-    result = _scope_check(tmp_path, branch, files)
+    base_files = (
+        {path: "base\n" for path in files if path.startswith(".github/workflows/")}
+        if branch.startswith("steward/b/workflow-hygiene-")
+        else None
+    )
+    result = _scope_check(tmp_path, branch, files, base_files=base_files)
     assert (result.returncode == 0) is passes, result.stdout + result.stderr
     if passes and branch.startswith("steward/a/"):
         assert "prefix 'steward-a'" in result.stdout
-    if passes and branch.startswith("steward/b/"):
+    if passes and branch.startswith("steward/b/unused-import-"):
         assert "prefix 'steward-b-unused-import'" in result.stdout
+    if passes and branch.startswith("steward/b/workflow-hygiene-"):
+        assert "prefix 'steward-b-workflow-hygiene'" in result.stdout
+
+
+WH = "steward/b/workflow-hygiene-31cdbdb60a39"
+CI = ".github/workflows/ci.yml"
+
+
+def test_workflow_route_inspects_bot_authored_commits_too(tmp_path: Path) -> None:
+    """An author email is not provenance: a github-actions[bot] author gets no free pass."""
+
+    evil = _scope_check(tmp_path / "evil", WH, {"scripts/not-a-workflow.py": "x"}, author=BOT_EMAIL)
+    assert evil.returncode != 0, evil.stdout
+    assert "scripts/not-a-workflow.py" in evil.stdout
+    mixed = _scope_check(
+        tmp_path / "mixed", WH, {CI: "x", "src/gaia_cli/x.py": "x"}, author=BOT_EMAIL, base_files={CI: "base\n"}
+    )
+    assert mixed.returncode != 0 and "src/gaia_cli/x.py" in mixed.stdout
+    ok = _scope_check(tmp_path / "ok", WH, {CI: "x"}, author=BOT_EMAIL, base_files={CI: "base\n"})
+    assert ok.returncode == 0, ok.stdout + ok.stderr
+    assert "prefix 'steward-b-workflow-hygiene'" in ok.stdout
+
+
+def test_workflow_route_inspects_a_change_hidden_in_a_merge_commit(tmp_path: Path) -> None:
+    hidden = _scope_check(
+        tmp_path / "h", WH, {CI: "x"}, base_files={CI: "base\n"}, hidden_in_merge={"scripts/evil.py": "x"}
+    )
+    assert hidden.returncode != 0 and "scripts/evil.py" in hidden.stdout, hidden.stdout
+
+
+def test_workflow_route_allows_modification_only(tmp_path: Path) -> None:
+    created = _scope_check(tmp_path / "c", WH, {CI: "x"})
+    assert created.returncode != 0 and "may only modify existing files" in created.stdout, created.stdout
+    deleted = _scope_check(tmp_path / "d", WH, {}, base_files={CI: "base\n"}, delete=(CI,))
+    assert deleted.returncode != 0 and "may only modify existing files" in deleted.stdout, deleted.stdout
+    other = ".github/workflows/other.yml"
+    renamed = _scope_check(
+        tmp_path / "r", WH, {other: "base\n"}, base_files={CI: "base\n"}, delete=(CI,)
+    )
+    assert renamed.returncode != 0 and "may only modify existing files" in renamed.stdout, renamed.stdout
+
+
+@pytest.mark.parametrize(
+    "branch",
+    [
+        WH,
+        "steward/b/unused-import-31cdbdb60a39",
+        "steward/a/agent-skill-mirror-drift-0123456789ab",
+    ],
+)
+def test_automation_prefixed_fork_prs_are_rejected_even_when_bot_authored(tmp_path: Path, branch: str) -> None:
+    """The fork downgrade used to fall into the empty-commit success path for bot authors."""
+
+    for name, author in (("bot", BOT_EMAIL), ("human", "someone@example.invalid")):
+        result = _scope_check(
+            tmp_path / name, branch, {"tests/x.py": "x"}, fork=True, author=author, base_files={CI: "base\n"}
+        )
+        assert result.returncode != 0, (name, result.stdout)
+        assert "unrecognized branch prefix" in result.stdout, (name, result.stdout)
+        assert "No human commits" not in result.stdout
 
 
 def test_steward_b_unused_import_fork_and_existing_unrestricted_fork_boundaries(tmp_path: Path) -> None:
     b = _scope_check(tmp_path / "b", "steward/b/unused-import-31cdbdb60a39", {"tests/x.py": "x"}, fork=True)
     assert b.returncode != 0 and "unrecognized branch prefix" in b.stdout
+    w = _scope_check(tmp_path / "w", WH, {CI: "x"}, fork=True)
+    assert w.returncode != 0 and "unrecognized branch prefix" in w.stdout
     unrestricted = _scope_check(tmp_path / "u", "dev/anything", {"registry/nodes/x.yml": "x"}, fork=True)
     assert unrestricted.returncode != 0 and "unrecognized branch prefix" in unrestricted.stdout
 

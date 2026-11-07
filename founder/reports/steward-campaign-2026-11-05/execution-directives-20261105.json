@@ -1,0 +1,78 @@
+{
+  "scope": "campaign-2283 future execution; no current-worker cancellation or restart",
+  "operator_roster_directive_verbatim": "Update on roster: flash -> terra (openai, not openai-codex). For non steward engineering work. Do this moving forward, dont stop current subagents.",
+  "future_non_steward_engineering": {
+    "agent": "worker-dsflash",
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "dispatch": "native subagent; user-selected replacement; no running worker restart",
+    "requestedThinking": "medium",
+    "observedInitialReviewThinkingJournal": "high",
+    "effortLimit": "Record executed journal effort separately from requested effort; do not stop existing worker to change it."
+  },
+  "canonical_steward": {
+    "provider": "openai-codex",
+    "shared": true,
+    "dispatch": "NEW Steward lane dispatches only; native subagent, explicit pinned route, no silent fallback",
+    "currentWorkers": "leave all ongoing subagents on launched routes",
+    "escalation": [
+      "Luna",
+      "Terra",
+      "Sol",
+      "Astra"
+    ],
+    "default": "Luna unless deliberate capability-floor escalation",
+    "authorityLimitsUnchanged": true
+  },
+  "cost_visibility": "new LLM workers use native subagent; no new LLM workers via bg_run",
+  "cadence": "28-minute cost/cache guard; collect non-urgent completions together; user decisions and safety events may be handled sooner",
+  "requested_worker_limits": "unlimited retries and timeout",
+  "native_tool_schema_bounds": {
+    "max_retries_per_call": 5,
+    "max_timeout_ms_per_call": 86400000
+  },
+  "current_workers": "leave ongoing owners untouched; do not restart merely to change route",
+  "non_llm_background": "ordinary tests, canonical CLI, localhost server and wake timers may use bg_run",
+  "superseded_non_steward_engineering": {
+    "provider": "openai",
+    "model": "gpt-6.1-terra",
+    "dispatch": "native subagent; explicit route overrides any Codex persona default"
+  },
+  "operator_roster_directive_20261106_verbatim": "Continue, worker-dsflash replaces terra for non-steward engineering.",
+  "superseded_canonical_steward": "retain established openai-codex shared roster and canonical authority/attempt limits",
+  "operator_steward_provider_directive_20261106_verbatim": "Continue. this time only use openai provider (non shared) for steward, retain dsflash for non steward engineering.",
+  "separateImportEditAuthorization": {
+    "verbatim": "ci churn edit authorized",
+    "committedBeforeImplementation": "af0e818f5",
+    "decision": "CICHURN_EDIT_FOUNDER_DECISION_20261106.json",
+    "scope": "currentdispatchonly",
+    "attemptReset": false
+  },
+  "latest_execution_reminder": {
+    "leaveCurrentSubagentsUntouched": true,
+    "campaignEscalation": [
+      "Luna",
+      "Terra",
+      "Sol",
+      "Astra"
+    ],
+    "default": "Luna unless task capability floor deliberately warrants escalation",
+    "providerPolicy": "Dynamic operator directives; current Steward=openai non-shared, non-Steward engineering=DSFlash until changed",
+    "briefs": "Prefer concise inline native subagent task briefs for caching; files optional",
+    "cadence": "28-minute guards, no micromanagement",
+    "priority": "Actual canonical Steward repair/verification/integration/delivery, not orchestration infrastructure",
+    "futureTimeoutMs": 86400000,
+    "futureMaxTurns": 500,
+    "limitDisclosure": "Native schema supports at most500 turns and24h per call, not literal infinity; do not stop/restart current workers to change budgets."
+  },
+  "previous_canonical_steward_20261106": {
+    "provider": "openai",
+    "shared": false,
+    "forbiddenSubstitution": "openai-codex",
+    "dispatch": "native subagent; explicit operator route overrides old shared persona defaults; pin actual provider; no fallback",
+    "suggestedExistingModel": "gpt-6.1-terra",
+    "authorityLimitsUnchanged": true,
+    "rosterDirectiveAloneGrantedNoEditException": true
+  },
+  "operator_steward_provider_latest_verbatim": "Switch roster to openai-codex shared for steward lanes. Do not stop any ongoing subagents."
+}

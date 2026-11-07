@@ -635,6 +635,23 @@ def _run_docs_build(registry_path) -> None:
     subprocess.run(cmd, check=True)
 
 
+def _add_restamp_flag(parser) -> None:
+    """Attach the opt-out for the event-driven Trust Magnitude restamp (#1642).
+
+    An evidence mutation restamps only the derived trust stamp of the skills it
+    affected, and only when that is a pure recomputation (the computed grade
+    still agrees with the stored star level). ``--no-restamp`` leaves the stamps
+    stale for the periodic reconciliation to report; it never weakens a gate.
+    """
+    parser.add_argument(
+        "--no-restamp",
+        dest="no_restamp",
+        action="store_true",
+        help="Do not restamp the derived trustMagnitude stamps of the skills this evidence change affects "
+             "(default: restamp them when the refresh is recomputation-only; the star level is never written)",
+    )
+
+
 def _add_build_flags(parser, verb: str) -> None:
     """Attach the standard docs-rebuild opt-in/opt-out flags to a mutating dev parser.
 

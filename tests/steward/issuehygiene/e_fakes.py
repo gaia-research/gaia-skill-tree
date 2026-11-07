@@ -74,7 +74,7 @@ def servedPage(query: Mapping[str, list[str]]) -> int:
     return int(query["page"][0]) if "page" in query else 1
 
 
-def realLinkHeader(state: str, perPage: int, page: int, total: int, repoId: int = REPO_ID) -> str:
+def realLinkHeader(state: str, perPage: int, page: int, total: int, repoId: int = REPO_ID, labels: str | None = None) -> str:
     """The Link header GitHub's issues endpoint sends for ``page`` of ``total``.
 
     Captured from the live endpoint (B6): absolute ``repositories/<id>`` URLs carrying ``after``/``before``
@@ -82,6 +82,8 @@ def realLinkHeader(state: str, perPage: int, page: int, total: int, repoId: int 
     page names only ``prev``. There is no ``last`` and no ``first``.
     """
     base = f"https://api.github.com/repositories/{repoId}/issues?state={state}&per_page={perPage}"
+    if labels:
+        base += f"&labels={quote(labels, safe='')}"
     links = []
     if page < total:
         links.append(f'<{base}&after={quote(cursorFor(page), safe="")}&page={page + 1}>; rel="next"')
@@ -149,6 +151,7 @@ class FakeGitHub:
         self.callHooks: dict[tuple[str, int], Callable[["FakeGitHub"], None]] = {}
         self.hiddenFromSearch: set[int] = set()
         self.listCalls: list[tuple[str, int]] = []
+        self.currentLabels: str | None = None
         self.searchCalls: list[str] = []
         self.workflows: list[dict] = []
         self.login = "steward-bot"
@@ -199,6 +202,7 @@ class FakeGitHub:
         return sorted(rows, key=lambda row: row["number"], reverse=True)
 
     def listPage(self, state: str, page: int, since: str | None = None) -> tuple[int, dict, str]:
+        labels = self.currentLabels  # set by ``fetch`` for a label-scoped listing; keeps the (state, page, since) hook signature
         self.listCalls.append((state, page))
         hook = self.pageHooks.pop((state, page), None)
         if hook is not None:
@@ -206,6 +210,9 @@ class FakeGitHub:
         if (state, page) in self.pageFailures:
             return self.pageFailures[(state, page)], {}, "{}"
         rows = self.rowsFor(state)
+        if labels is not None:
+            wanted = set(labels.split(","))
+            rows = [row for row in rows if wanted <= {label["name"] for label in row.get("labels") or []}]
         if since is not None and state == "closed":
             cutoff = datetime.fromisoformat(since.replace("Z", "+00:00"))
             rows = [row for row in rows if datetime.fromisoformat(row["closed_at"].replace("Z", "+00:00")) >= cutoff]
@@ -214,7 +221,7 @@ class FakeGitHub:
         body = rows[start:start + self.pageSize] if page <= total else []
         headers: dict[str, str] = {}
         if self.linkMode == "real":
-            link = realLinkHeader(state, self.pageSize, page, total, REPO_ID)
+            link = realLinkHeader(state, self.pageSize, page, total, REPO_ID, labels)
             if link:
                 headers["link"] = link
         return 200, headers, json.dumps(body)
@@ -227,17 +234,28 @@ class FakeGitHub:
         if urlparse(url).path == f"/repos/{self.repo}":
             # The repository's own metadata: open_issues_count counts issues and pull requests alike.
             return Response(200, {}, json.dumps({"open_issues_count": len(self.rowsFor("open"))}))
+        if urlparse(url).path == "/search/issues":
+            # GitHub's own total of closed issues (pull requests excluded): what the collector cross-checks.
+            closed = [row for row in self.issues.values() if row["state"] == "closed" and "pull_request" not in row]
+            return Response(200, {}, json.dumps({"total_count": len(closed), "incomplete_results": False, "items": []}))
+        if urlparse(url).path.endswith("/issues/events"):
+            return Response(200, {}, "[]")
         query = parse_qs(urlparse(url).query)
         state = query["state"][0]
         page = servedPage(query)
         since = query["since"][0] if "since" in query else None
-        status, headers, body = self.listPage(state, page, since)
+        labels = query["labels"][0] if "labels" in query else None
+        self.currentLabels = labels
+        try:
+            status, headers, body = self.listPage(state, page, since)
+        finally:
+            self.currentLabels = None
         if status == 429:
             raise FetchError("rate-limited")
         return Response(status, headers, body)
 
     def census(self, now: datetime = NOW, closedWindowDays: int = 30) -> dict:
-        return collectCensus(self.repo, now, self.fetch, closedWindowDays)
+        return collectCensus(self.repo, now, self.fetch, closedWindowDays, sleep=lambda _seconds: None)
 
     def search(self, query: str) -> list[int]:
         """Title search with an index that lags creation. LIST always sees every issue."""
@@ -432,7 +450,8 @@ def closeRound(gh: FakeGitHub, root: Path, receipts: Path, runId: str, forge: Fa
     doc = dict(document) if document is not None else gh.census(now)
     manifest = reconcile(censusOf(doc, now, policy.maxCensusAgeSeconds), buildRegistryIndex(root), policy, now)
     plans = planClosures(manifest, policy)
-    results = executeClosures(plans, forge, receipts, now, runId)
+    results = executeClosures(plans, forge, receipts, now, runId,
+                              attribution={"stewardOwner": "steward-owner-test", "worker": "steward-worker-test"})
     return manifest, plans, results
 
 
