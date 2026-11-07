@@ -1,7 +1,6 @@
 import sys
 import datetime
 import json
-import os
 from pathlib import Path
 
 from gaia_cli.registry import named_skills_dir, registry_nodes_dir

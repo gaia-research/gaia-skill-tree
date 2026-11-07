@@ -1,4 +1,340 @@
+## 2026-11-06 — Routine 070
+
+**Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
+Merged `origin/main` into the branch (merge commit, no history rewrite) because a rebase conflicted in
+`DOCS.md` and `MEMORY.md` on an already-pushed branch.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 070)" in 069: check the `gaia fuse` prose on
+`fusion.html` against the source.
+
+### What I did
+
+- Source check (`src/gaia_cli/impl.py` `fuse_command`, `commands/progression.py`):
+  - Confirming a detected combination appends to `skill-trees/<user>/skill-tree.json` and writes a
+    `fuse` timeline event (`append_skill_tree_event`).
+  - Defining a custom fusion (`--skills` or the interactive "new" path) writes only
+    `.gaia/custom_state.json`. It does not touch `skill-tree.json` and writes no timeline event.
+- The page said every `gaia fuse` run records the fusion in `skill-tree.json` and writes a timeline
+  event. That was true only for the confirm path. Corrected the paragraph in
+  `fusion.html` to name both paths. No markup or layout change.
+
+### Design decisions
+
+- Words-only fix inside an existing paragraph. Layout unchanged.
+
+### Files
+
+- `docs/en/fusion.html` (paragraph under "Player-level fusion")
+- `docs/en/DOCS.md` (Page Map row 8)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 071)
+
+- ROTATE to the least-recently-touched Page Map page after `fusion.html`: `faq.html`. Check its
+  fusion and custom-fusion answers against the same `fuse_command` paths.
+
+---
+
+## 2026-11-05 — Routine 069
+
+**Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
+Pushed to this branch only, per the owner's instruction.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 069)" in 068: check the `gaia push` card against the
+`push` parser. Result: the card is accurate (`--dry-run`, `--no-issue`, `--update`, `--yes`/`-y`, the
+Workspace Mode limit). No change to `cli-reference.html`.
+
+Then ROTATE to `fusion.html` (Page Map row 8), the page 066 planned and never reached.
+
+### What I did
+
+- **One factual fix.** The sample `skill-tree.json` after `gaia fuse` showed `"unlockedIn": "you/your-repo"`.
+  The fuse write path (`impl.py`, the combo branch) sets `"local-repo"`. The sample value now matches.
+- `fusion.html` line 852 only. The file keeps CRLF line endings.
+
+### Design decisions
+
+- Changed only the sample value, not the walkthrough prose. The prose already matches the flow.
+
+### Source finding (not documented, not fixed here)
+
+- The same sample shows `"level": "2★"`. The fuse write path copies `levelFloor` from a scan-detected
+  combination. Under Yggdrasil II (`No self-promote`), whether `gaia fuse` should write a level at all is a
+  policy question for curation, not a docs edit. Filing it is a candidate for a `CLI` + `tech-debt` issue.
+
+### Files
+
+- `docs/en/fusion.html`: one sample value.
+- `docs/en/DOCS.md`: Page Map row 8 gains the 069 pointer.
+- `docs/en/MEMORY.md`: this entry.
+
+### Verification
+
+- `git status` shows only `docs/en/` paths.
+- `git diff` shows one changed line, no new hex, no banned-term hits.
+- CRLF count unchanged on `fusion.html`.
+
+### Planned next (Routine 070)
+
+- Check the `gaia fuse` prose on `fusion.html` lines 600–610 ("does not add a new node to the public registry")
+  against `fuse_command`'s custom-fusion path, which writes `.gaia/custom_state.json`.
+
+---
+
 # MEMORY.md — Documentation Agent Diary
+
+---
+
+## 2026-11-04 — Routine 068
+
+**Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
+Checked out from `origin/docs/routines/064`; no rebase needed for this run.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 068)" in 067: check the `gaia fuse` card in
+`cli-reference.html` against the `fuse` parser and `fuse_command`.
+
+### What I did
+
+- **Flags verified.** `--name`, `--skills`, `--delete`, and the optional positional `skillId` match
+  `commands/progression.py` (FuseCommand). The `--skills` and `--delete` behavior in the card matches
+  `fuse_command` in `src/gaia_cli/impl.py`.
+- **One omission fixed.** The interactive menu also offers "Edit existing custom fusions". The card line
+  listed only confirm, create, and delete. The line now names the edit option too. Text only, same list item.
+
+### Design decisions
+
+- Kept the change to the existing bullet. No new markup, classes, or layout change.
+- Did not document the edit flow's internals. Only the menu option is named, and it is visible in the source.
+
+### Source finding (not documented, not fixed here)
+
+- Already logged in Routine 067: `fuse_command` calls the mock `open_pr` in `src/gaia_cli/prWriter.py`.
+  It is still unresolved. The page makes no claim about it.
+
+### Files
+
+- `docs/en/cli-reference.html`: the `gaia fuse` bullet (one line).
+- `docs/en/DOCS.md`: Page Map row 3 now lists 068.
+- `docs/en/MEMORY.md`: this entry.
+
+### Verification
+
+- `git status` shows only `docs/en/` paths.
+- CRLF endings preserved on every line of `cli-reference.html`. No new hex. Banned-term grep: no hits.
+- All three stylesheets still linked on `cli-reference.html`.
+
+### Planned next (Routine 069)
+
+- Check the `gaia push` card in `cli-reference.html` against the `push` parser. Confirm `--dry-run` and
+  the other flags. Fix only if a flag or option is missing or wrong.
+
+---
+
+## 2026-11-03 — Editor 065wk
+
+**Branch:** `docs/routines/064` (PR #2235). Drifted PR #2164 (`dev/epic-hawking-37xung`, editor 064wk) folded in and closed; one PR ships.
+
+- **Consolidated.** `cli-reference.html` now has cards for `dev prefill`, `assess`, `embed`, `evidence-seed`, `provenance`, `verify-tier`. The richer `dev ratify` card from routines 064/065 was kept over the duplicate. Nav and TOC entries merged.
+- **De-stale.** Page Map row 3 lists the discovery path in order. Version chips read v8.29.1 (matches `pyproject.toml`). No broken links or anchors; 51 cards render, no page errors; no new hex.
+- **Cut.** One duplicate `dev ratify` card. Nothing else.
+- **Open tech debt (not docs):** `gaia fuse` calls a mock `open_pr` that prints a fake success (see Routine 067).
+
+## 2026-11-03 — Routine 067
+
+**Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
+Checked out from `origin/docs/routines/064`; no rebase needed for this run.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 067)" in 066: verify the `gaia fuse` interactive-confirm
+claim in `fusion.html` against the source.
+
+### What I did
+
+- **Confirm claim verified.** The sentence "the CLI writes both the fused skill entry and a timeline event"
+  matches the pending-combination branch of `fuse_command` in `src/gaia_cli/impl.py`. It appends to
+  `unlockedSkills`, clears the matched pending entry, and calls `append_skill_tree_event(..., "fuse", ...)`.
+- **One omission fixed.** The interactive menu lists "Confirm detected combination (from scan)" first when
+  `pendingCombinations` exists. The walkthrough did not mention it. Step 3 now says so.
+
+### Design decisions
+
+- Text only, inside the existing step 3 line. No new classes, no layout change.
+- Did not touch the step 4 timeline sentence. It is accurate.
+
+### Source finding (not documented, not fixed here)
+
+- `fuse_command` also calls `open_pr(...)` from `src/gaia_cli/prWriter.py`. That function is a mock: it prints
+  "Mock: Opening PR to gaia-registry/gaia" and "Success: PR #42 opened." and returns a fixed URL. No PR is
+  opened. A user who runs `gaia fuse` gets a misleading success message. This is CLI tooling debt. It is
+  outside the docs scope, so the page makes no claim about it.
+
+### Files
+
+- `docs/en/fusion.html`: step 3 sentence added.
+- `docs/en/DOCS.md`: Page Map row 8 now lists 067.
+- `docs/en/MEMORY.md`: this entry.
+
+### Verification
+
+- `git status` shows only `docs/en/` paths.
+- Added lines keep CRLF endings. No new hex. Banned-term grep on added lines: no hits.
+- `docs-en-shell.css` still linked on `fusion.html`.
+
+### Planned next (Routine 068)
+
+- Check the `gaia fuse` card in `cli-reference.html` against the `fuse_command` flags (`--skills`, `--delete`)
+  and the interactive menu options. Fix only if a flag or option is missing or wrong.
+
+---
+
+## 2026-11-02 — Routine 066
+
+**Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
+Brought `origin/main` in with a merge commit (rebase was abandoned: the branch is already pushed to a
+draft PR, and the rebase conflicted on the DOCS.md and MEMORY.md Page Map and diary text).
+
+**Task chosen:** CONTINUE from "Planned next (Routine 066)" in 065: check `fusion.html` Type/Branch
+wording and the `dev fuse` flags against source.
+
+### What I did
+
+- **Fusion Score formula verified, no change needed.** The page's three-line formula matches
+  `computeFusionScore` / `fusionScalar` in `src/gaia_cli/fusionScore.py` (FS = 20·N for N ≤ 10;
+  200 + 20·√(N−10) for N > 10).
+- **Added a "Custom fusion from the command line" subsection** to `fusion.html`, under the
+  `gaia fuse` walkthrough. `gaia fuse <target> --skills a,b` and `gaia fuse <target> --delete` exist
+  in `impl.py` (`fuse_command`) but were undocumented. The new callout says the path is saved locally
+  to `.gaia/custom_state.json`, writes no rank or level, and reaches the registry only via `gaia push`.
+- **DOCS.md:** Page Map row 8 records the verification and the routine 066 pointer.
+
+### Design decisions
+
+- Kept to one subsection plus one callout. Uses existing `code-block`, `section-body` and
+  `callout-info` classes. No new classes, no hex, no layout change to the page outside that block.
+- Documented the programmatic form only. The interactive `questionary` menu is not described here.
+
+### Files
+
+- `docs/en/fusion.html`: one subsection and one callout added.
+- `docs/en/DOCS.md`: Page Map row 8.
+- `docs/en/MEMORY.md`: this entry.
+
+### Verification
+
+- `git status` shows only `docs/en/` paths (plus the merge of `origin/main`, which touches no
+  `docs/en/` file outside this change).
+- Hex grep on the diff: no new hex. Banned-term grep on the new lines: no hits.
+- Tag balance check on `fusion.html`: balanced. All three stylesheets still linked.
+
+### Planned next (Routine 067)
+
+- Verify the `gaia fuse` interactive-confirm claim in the walkthrough ("writes both the fused skill
+  entry and a timeline event") against the `pendingCombinations` branch of `fuse_command` in
+  `impl.py`. If the timeline write is not there, fix the sentence. Otherwise leave it.
+
+---
+
+## 2026-10-30 — Routine 065
+
+**Branch:** `docs/routines/064` (PR #2235, still the one open docs draft; reused, not a new branch).
+Rebased onto `origin/main` v8.29.1. The rebase conflicted only on the DOCS.md Page Map row for
+`cli-reference.html`; resolved by keeping main's row and adding the `dev ratify` note and the 064 pointer.
+
+**Task chosen:** CONTINUE from "Planned next (Routine 065)" from 064. The 064 plan said the
+`dev evidence --evaluator` and `dev timeline --user` cards should state that the value is a handle,
+not validated. Source check confirmed it: `evidence.py` stores `evaluator` as free text and
+`timeline.py` never calls a contributor validator. The docs had no such note.
+
+### What I did
+
+- `cli-reference.html`: the `--evaluator <handle>` row (`dev evidence`) and the `--user <handle>` row
+  (`dev timeline`) now say the value is stored as typed and not checked against the contributor registry.
+- `DOCS.md`: Page Map row 3 gains the 065 routine pointer (`064` already listed).
+
+### Design decisions
+
+- Docs only. The 064 plan also floated changing the CLI help text. That is code, out of scope for
+  this writer, so it is not done here. Filing it is a candidate for a follow-up issue if one is wanted.
+- Kept it to two table cells. No layout change, no new classes, no new colours.
+
+### Files
+
+- `docs/en/cli-reference.html`: two table cells.
+- `docs/en/DOCS.md`: Page Map row 3.
+- `docs/en/MEMORY.md`: this entry.
+
+### Verification
+
+- Hex grep on the diff: no new hex. Banned-synonym grep on the diff: no hits.
+- Scope: `git status` shows only `docs/en/` paths.
+
+### Planned next (Routine 066)
+
+- ROTATE to the least-recently-touched Page Map page: `fusion.html` (last touched at editor-055wk).
+  Check the Type/Branch wording against `CONTEXT.md` § Taxonomy v6 and the `dev fuse` flags in source.
+
+---
+
+## 2026-10-29 — Routine 064
+
+**Branch:** `docs/routines/064` (new, from `origin/main` v8.28.2). No `docs/routines/*`
+branch existed on the remote, so this run created the next number.
+
+**Task chosen:** SYNC/ROTATE from "Planned next (Routine 063)". The planned item was to
+annotate the lowercase-contributor rule on `dev ratify`, `dev evidence --evaluator`, and
+`dev timeline --user`. Checking the source changed the plan.
+
+### What I did
+
+- **Added the missing `gaia dev ratify` card** to `cli-reference.html`, with nav entries in
+  both lists. It was undocumented anywhere under `docs/en/`, and it is a mutating,
+  verifier-gated verb (`MUTATING_DEV_COMMANDS` in `commands/dev/__init__.py`).
+- The card covers the required flags, the optional `MAP` fallbacks, and the
+  `--acknowledge-human-review` gate, which `ratify.py` enforces at runtime. It also carries
+  a callout: operator override does not count as L4 approval.
+
+### Design decisions
+
+- **Dropped two of the three planned annotations.** `dev evidence --evaluator` and
+  `dev timeline --user` do no contributor validation (`evidence.py` stores the value as free
+  text, `timeline.py` never calls `validateContributor`). Adding a "must be lowercase" note to
+  either card would document a rule the CLI does not enforce. Only `dev ratify` and
+  `dev add --named` reject mixed case.
+- The `dev ratify` card did not exist, so "annotate the card" became "write the card".
+  Kept it to one card; it is still a single-page edit.
+
+### Files
+
+- `docs/en/cli-reference.html`: new `dev ratify` card; nav entries in both lists.
+- `docs/en/DOCS.md`: Page Map row 3 updated (status and routine pointer).
+- `docs/en/MEMORY.md`: this entry.
+
+### Verification
+
+- HTML parse-check on `cli-reference.html` passes.
+- `#dev-ratify` appears 3 times (card id plus two nav links).
+- Banned-synonym grep and hex grep on the diff: see the commit.
+
+### Planned next (Routine 065)
+
+- `dev evidence` and `dev timeline` cards: nothing to add for the lowercase rule (verified
+  above). Only candidates are the `--evaluator` and `--user` help text, which should say
+  "handle, not validated".
+- ROTATE to the least-recently-touched page in the Page Map (`faq.html` or `fusion.html`).
+## 2026-10-27 — Weekly Editor Pass (editor-064wk)
+
+**Branch:** `docs/routines/064`. No daily PR was open, so this was a health audit
+of `main`'s `docs/en/` (v8.26.10) plus one gap fix.
+
+- **Checked, clean:** version chips match 8.26.10; no broken links or anchors
+  across the 13 pages; Page Map matches the files on disk.
+- **Added:** `cli-reference.html` cards for seven `gaia dev` verbs that had none:
+  `prefill`, `assess`, `ratify`, `embed`, `evidence-seed`, `provenance`,
+  `verify-tier`. Sidebar and TOC entries added. Only `ratify` is verifier-gated
+  (`require_operator`); the rest are open. Flags checked against live `--help`.
+- **Cut / merged / deleted:** nothing.
+- **Users must adapt:** nothing changed in behavior. The discovery path
+  (`embed` → `prefill` → `assess` → `ratify` → `evidence-seed` → `provenance`)
+  is now documented in order.
 
 ---
 
