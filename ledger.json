@@ -1,5 +1,5 @@
 {
- "generation": 1309,
+ "generation": 1310,
  "lane": {
   "entries": [
    {
@@ -3947,7 +3947,7 @@
     "state": "escalated"
    },
    {
-    "attempts": 1,
+    "attempts": 2,
     "debtId": "debt:unused_import:scripts-migrate-taxonomy-v6-py:8219619acd869521",
     "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
     "history": [
@@ -3968,14 +3968,20 @@
       "from": "dispatched",
       "reason": "rejected on attempt 1; returned to the queue (mechanical verification (input refusal))",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T10:34:05.249425Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-b704ca282969561a32b6",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-11-07T09:06:46.724933Z",
-    "lastVerdict": "reject",
+    "lastTransitionAt": "2026-11-07T10:34:05.249425Z",
+    "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 1,
@@ -5616,7 +5622,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T10:31:10.561980Z",
-   "expiresAt": "2026-11-07T11:03:59.859966Z",
+   "expiresAt": "2026-11-07T11:05:34.406114Z",
    "holder": "run-20261107T103110Z-5e4b906c"
   }
  },
@@ -104187,7 +104193,36 @@
    "unresolvedWork": []
   },
   "run-20261107T103110Z-5e4b906c": {
-   "actions": [],
+   "actions": [
+    {
+     "debtId": "debt:unused_import:scripts-migrate-taxonomy-v6-py:8219619acd869521",
+     "emittedAt": "2026-11-07T10:34:05.249425Z",
+     "idempotencyKey": "dispatch-b704ca282969561a32b6:2",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 2,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/unused-import-e0d433df12da",
+      "debtId": "debt:unused_import:scripts-migrate-taxonomy-v6-py:8219619acd869521",
+      "dispatchId": "dispatch-b704ca282969561a32b6",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261107T103110Z-5e4b906c/build-e0d433df12da.diff",
+       "proofPath": ".gaia/steward/full/run-20261107T103110Z-5e4b906c/build-e0d433df12da.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261107T103110Z-5e4b906c/build-e0d433df12da.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:e0d433df12da:2",
+     "type": "agent.build"
+    }
+   ],
    "actor": "cli",
    "agentAssignments": [],
    "branches": [],
@@ -105260,6 +105295,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-11-07T10:34:05.249425Z",
+     "debtId": "debt:unused_import:scripts-migrate-taxonomy-v6-py:8219619acd869521",
+     "idempotencyKey": "dispatch-b704ca282969561a32b6:2",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:e0d433df12da:2"
     }
    ],
    "thinkingEfforts": [],
@@ -105270,7 +105313,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T10:33:59.860935Z",
+ "updatedAt": "2026-11-07T10:35:34.410147Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -107500,16 +107543,15 @@
      "tokensOut": null
     }
    ],
-   "attempt": 1,
+   "attempt": 2,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
-   "blockedReason": "mechanical verification (input refusal): rejected - verification input refused: proof transcript contractIndex 5 is outside the packet's 1..4 proof contract",
    "branch": "steward/b/unused-import-e0d433df12da",
    "build": null,
    "createdAt": "2026-11-07T03:31:19.356563Z",
    "debtId": "debt:unused_import:scripts-migrate-taxonomy-v6-py:8219619acd869521",
    "dispatchId": "dispatch-b704ca282969561a32b6",
-   "dispatchedAt": "2026-11-07T03:31:19.356563Z",
+   "dispatchedAt": "2026-11-07T10:34:05.249425Z",
    "history": [
     {
      "at": "2026-11-07T03:31:19.356563Z",
@@ -107522,25 +107564,24 @@
      "from": "building",
      "reason": "mechanical verification (input refusal): rejected - verification input refused: proof transcript contractIndex 5 is outside the packet's 1..4 proof contract",
      "to": "blocked"
+    },
+    {
+     "at": "2026-11-07T10:34:05.249425Z",
+     "from": "blocked",
+     "reason": "dispatched as dispatch-b704ca282969561a32b6 (attempt 2)",
+     "to": "building"
     }
    ],
    "kind": "unused_import",
    "notes": [],
-   "promptPath": ".gaia/steward/full/run-20261107T032809Z-31f4a5be/build-e0d433df12da.prompt.md",
+   "promptPath": ".gaia/steward/full/run-20261107T103110Z-5e4b906c/build-e0d433df12da.prompt.md",
    "pullRequest": null,
    "routine": "dead-code-gardener",
-   "runId": "run-20261107T032809Z-31f4a5be",
+   "runId": "run-20261107T103110Z-5e4b906c",
    "source": "dead-code",
-   "state": "blocked",
-   "updatedAt": "2026-11-07T09:06:46.724933Z",
-   "verification": {
-    "reasons": [
-     "verification input refused: proof transcript contractIndex 5 is outside the packet's 1..4 proof contract"
-    ],
-    "recordedAt": "2026-11-07T09:06:46.724933Z",
-    "stage": "mechanical",
-    "verdict": "reject"
-   }
+   "state": "building",
+   "updatedAt": "2026-11-07T10:34:05.249425Z",
+   "verification": null
   },
   "debt:unused_import:scripts-prepare-l4-october-py:bd894a0b5a6223f2": {
    "assignments": [
