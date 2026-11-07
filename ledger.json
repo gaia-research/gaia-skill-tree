@@ -1,5 +1,5 @@
 {
- "generation": 1177,
+ "generation": 1178,
  "lane": {
   "entries": [
    {
@@ -3938,14 +3938,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-b704ca282969561a32b6",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T09:06:46.724933Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (mechanical verification (input refusal))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-11-07T03:31:19.356563Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T09:06:46.724933Z",
+    "lastVerdict": "reject",
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 1,
@@ -4869,7 +4875,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T08:51:51.571864Z",
-   "expiresAt": "2026-11-07T09:36:42.690899Z",
+   "expiresAt": "2026-11-07T09:36:47.557532Z",
    "holder": "run-20261107T032809Z-31f4a5be"
   }
  },
@@ -92266,7 +92272,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T09:06:42.693759Z",
+ "updatedAt": "2026-11-07T09:06:47.560839Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -94379,17 +94385,9 @@
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
+   "blockedReason": "mechanical verification (input refusal): rejected - verification input refused: proof transcript contractIndex 5 is outside the packet's 1..4 proof contract",
    "branch": "steward/b/unused-import-e0d433df12da",
-   "build": {
-    "agentId": "pi-herdr-batch4-builder-e0d433df12da",
-    "attempt": 1,
-    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-e0d433df12da.diff",
-    "dispatchId": "dispatch-b704ca282969561a32b6",
-    "noChange": false,
-    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-e0d433df12da.proof.json",
-    "recordedAt": "2026-11-07T08:50:34.967094Z",
-    "summary": "Batch batch4 builder (openai-codex/gpt-6-luna medium, pi pane) removed the flagged unused import(s); commit ff7c74a78; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
-   },
+   "build": null,
    "createdAt": "2026-11-07T03:31:19.356563Z",
    "debtId": "debt:unused_import:scripts-migrate-taxonomy-v6-py:8219619acd869521",
    "dispatchId": "dispatch-b704ca282969561a32b6",
@@ -94400,6 +94398,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-b704ca282969561a32b6 (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-07T09:06:46.724933Z",
+     "from": "building",
+     "reason": "mechanical verification (input refusal): rejected - verification input refused: proof transcript contractIndex 5 is outside the packet's 1..4 proof contract",
+     "to": "blocked"
     }
    ],
    "kind": "unused_import",
@@ -94409,9 +94413,16 @@
    "routine": "dead-code-gardener",
    "runId": "run-20261107T032809Z-31f4a5be",
    "source": "dead-code",
-   "state": "building",
-   "updatedAt": "2026-11-07T08:50:34.967094Z",
-   "verification": null
+   "state": "blocked",
+   "updatedAt": "2026-11-07T09:06:46.724933Z",
+   "verification": {
+    "reasons": [
+     "verification input refused: proof transcript contractIndex 5 is outside the packet's 1..4 proof contract"
+    ],
+    "recordedAt": "2026-11-07T09:06:46.724933Z",
+    "stage": "mechanical",
+    "verdict": "reject"
+   }
   },
   "debt:unused_import:scripts-prepare-l4-october-py:bd894a0b5a6223f2": {
    "assignments": [
