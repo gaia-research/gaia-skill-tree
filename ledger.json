@@ -1,5 +1,5 @@
 {
- "generation": 1343,
+ "generation": 1344,
  "lane": {
   "entries": [
    {
@@ -5664,7 +5664,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T11:20:09.317428Z",
-   "expiresAt": "2026-11-07T12:00:29.733888Z",
+   "expiresAt": "2026-11-07T12:00:36.144929Z",
    "holder": "run-20261107T103110Z-5e4b906c"
   }
  },
@@ -104828,7 +104828,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-07T10:46:27.881472Z",
+    "asOf": "2026-11-07T11:30:35.303291Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -105059,7 +105059,7 @@
       "decision": "HIGH PRIORITY closeout discrepancy: these umbrellas are closed, which makes each a completed epic, yet unfinished children or contradicting registry evidence remain. The closure is preserved. Investigate and reconcile explicitly: finish the missed work, or record each leftover as an intentional disposition. Affected issues: #1823, #1996.",
       "decisionId": "decision-6e1112965a18a0d9b55a",
       "evidence": [
-       "closeout-discrepancy - affected: 2 item(s); affectedCount: 2; basis: a closed umbrella is a completed epic; a follow-up or a contradiction is a signal that somethin…; discrepancies: 1 item(s); manifestDigest: 94a9f32155b1f650559dba03c8285dd357234dcdfec99b0f939b0572e85b24ff"
+       "closeout-discrepancy - affected: 2 item(s); affectedCount: 2; basis: a closed umbrella is a completed epic; a follow-up or a contradiction is a signal that somethin…; discrepancies: 1 item(s); manifestDigest: 674fcecaeb038a3285f4051629b95c9bab5fdbb220bd67475a8abbc8b3aecad4"
       ],
       "links": [],
       "priority": 5,
@@ -105258,7 +105258,7 @@
       "subject": "debt:unused_import:scripts-upstream-watcher-transport-py:f9f55b2634428ef3"
      },
      {
-      "detail": "last scheduled run was 127h ago (limit 48h).",
+      "detail": "last scheduled run was 128h ago (limit 48h).",
       "kind": "stale_schedule",
       "subject": "scheduled run"
      },
@@ -105291,7 +105291,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "perform 8 pending action(s) (agent.verify), record each with `gaia steward full record run-20261107T103110Z-5e4b906c <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T103110Z-5e4b906c`",
    "options": {
     "afk": false,
     "agents": true,
@@ -106411,7 +106411,7 @@
    "sequence": 42,
    "sourceHead": "591db5447c7bd07d6b83b30e6bfcbeecdfb17dbe",
    "startedAt": "2026-11-07T10:31:10.561980Z",
-   "status": "active",
+   "status": "awaiting-action",
    "steps": [
     {
      "at": "2026-11-07T10:31:10.561980Z",
@@ -106589,7 +106589,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T11:30:29.734037Z",
+ "updatedAt": "2026-11-07T11:30:36.145045Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
