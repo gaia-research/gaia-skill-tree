@@ -65,7 +65,8 @@ _RECORDED_UNGATED = {
 _DECISIONS_DIR = "founder/steward/decisions"
 # Unsafe-execution findings the founder ruled a scoped exception (F6,
 # 2026-11-08: "Record a scoped exception for benchmark use only"). An entry is
-# (path, pattern, enclosing function) -> decided record id. A matching finding
+# (path, pattern, qualified name of a unique module-level function) -> decided
+# record id; a same-named method or nested def never matches. A matching finding
 # is still reported, annotated ``acknowledged`` with the record; the same
 # construct anywhere else (another file, function or pattern) is not covered.
 # The exemption holds only while the record exists and is ``decided``.
@@ -715,22 +716,41 @@ class MutationBoundarySensor:
         }
         if not scoped:
             return
-        spans = [
-            (node.lineno, node.end_lineno or node.lineno, node.name)
-            for node in ast.walk(tree)
-            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
-        ]
+        # Scope is the qualified name of the innermost enclosing def/class, so
+        # "_execAndCheck" means the module-level function only: a same-named
+        # method ("Other._execAndCheck") or a nested def ("_execAndCheck.inner")
+        # is a different scope. A name defined more than once at module level is
+        # ambiguous and fails closed for every definition (#2372 review).
+        spans: list[tuple[int, int, str]] = []
+
+        def collect(node: ast.AST, prefix: str) -> None:
+            for child in ast.iter_child_nodes(node):
+                if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                    qualname = f"{prefix}.{child.name}" if prefix else child.name
+                    spans.append((child.lineno, child.end_lineno or child.lineno, qualname))
+                    collect(child, qualname)
+                else:
+                    collect(child, prefix)
+
+        collect(tree, "")
+        top_level = Counter(
+            node.name
+            for node in tree.body
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
+        )
         for item in findings:
-            # The innermost enclosing function is the one that starts last.
-            function = max(
+            # The innermost enclosing scope is the one that starts last.
+            qualname = max(
                 ((start, name) for start, end, name in spans if start <= item["line"] <= end),
                 default=(0, None),
             )[1]
-            record = scoped.get((item["pattern"], function))
-            if record is not None and self._decidedRecord(root, record):
+            record = scoped.get((item["pattern"], qualname))
+            if record is None or top_level.get(qualname, 0) != 1:
+                continue
+            if self._decidedRecord(root, record):
                 item["acknowledged"] = True
                 item["decisionRecord"] = f"{_DECISIONS_DIR}/{record}.json"
-                item["scope"] = f"{rel}:{function} ({item['pattern']}), benchmark use only"
+                item["scope"] = f"{rel}:{qualname} ({item['pattern']}), benchmark use only"
 
     @staticmethod
     def _decidedExemption(root: Path, name: str) -> str | None:

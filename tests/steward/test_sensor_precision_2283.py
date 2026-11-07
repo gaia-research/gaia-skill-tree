@@ -738,3 +738,42 @@ class TestF6ScopedExecException:
         item = _f6(tmp_path, {HUMANEVAL: EXEC_IN_HARNESS}, decided=decided)[HUMANEVAL]
         assert item.status == "drift"
         assert item.observed_state["acknowledgedCount"] == 0
+
+
+class TestF6QualifiedScope:
+    """#2372 review: the exception binds the module-level function only."""
+
+    def test_same_named_method_is_not_covered(self, tmp_path: Path) -> None:
+        source = EXEC_IN_HARNESS + "\n\nclass Other:\n    def _execAndCheck(self, code):\n        exec(code)\n"
+        item = _f6(tmp_path, {HUMANEVAL: source})[HUMANEVAL]
+        assert item.status == "drift"
+        flags = {(f["line"], bool(f.get("acknowledged"))) for f in item.observed_state["findings"]}
+        assert flags == {(3, True), (9, False)}
+
+    def test_nested_function_of_the_same_name_is_not_covered(self, tmp_path: Path) -> None:
+        source = (
+            "def runner(code):\n"
+            "    def _execAndCheck(problem, completion):\n"
+            "        exec(completion)\n"
+            "    return _execAndCheck\n"
+        )
+        item = _f6(tmp_path, {HUMANEVAL: source})[HUMANEVAL]
+        assert item.status == "drift"
+        assert item.observed_state["acknowledgedCount"] == 0
+
+    def test_def_nested_inside_the_covered_function_is_not_covered(self, tmp_path: Path) -> None:
+        source = (
+            "def _execAndCheck(problem, completion):\n"
+            "    def inner(code):\n"
+            "        exec(code)\n"
+            "    return inner\n"
+        )
+        item = _f6(tmp_path, {HUMANEVAL: source})[HUMANEVAL]
+        assert item.status == "drift"
+        assert item.observed_state["acknowledgedCount"] == 0
+
+    def test_second_top_level_redefinition_fails_closed_for_both(self, tmp_path: Path) -> None:
+        source = EXEC_IN_HARNESS + "\n\n" + EXEC_IN_HARNESS
+        item = _f6(tmp_path, {HUMANEVAL: source})[HUMANEVAL]
+        assert item.status == "drift"
+        assert item.observed_state["acknowledgedCount"] == 0
