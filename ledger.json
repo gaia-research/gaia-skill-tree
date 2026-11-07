@@ -1,5 +1,5 @@
 {
- "generation": 1690,
+ "generation": 1691,
  "lane": {
   "entries": [
    {
@@ -5954,7 +5954,7 @@
     "state": "dispatched"
    },
    {
-    "attempts": 1,
+    "attempts": 2,
     "debtId": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
     "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
     "history": [
@@ -5975,14 +5975,20 @@
       "from": "dispatched",
       "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch9-verifier-5d98e47e79c0 (pi, effort medium))",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T22:34:17.166999Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-c6e077354da177facab1",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-11-07T20:00:19.658698Z",
-    "lastVerdict": "reject",
+    "lastTransitionAt": "2026-11-07T22:34:17.166999Z",
+    "lastVerdict": null,
     "priority": 0.756,
     "rule": "workflow-timeout-repair",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 1,
@@ -6594,7 +6600,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T22:28:30.246839Z",
-   "expiresAt": "2026-11-07T23:07:39.404765Z",
+   "expiresAt": "2026-11-07T23:10:47.408210Z",
    "holder": "run-20261107T222830Z-f75ff7de"
   }
  },
@@ -132162,6 +132168,34 @@
      "status": "pending",
      "stepId": "build:2933fea8b223:2",
      "type": "agent.build"
+    },
+    {
+     "debtId": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
+     "emittedAt": "2026-11-07T22:34:17.166999Z",
+     "idempotencyKey": "dispatch-c6e077354da177facab1:2",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 2,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/workflow-hygiene-5d98e47e79c0",
+      "debtId": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
+      "dispatchId": "dispatch-c6e077354da177facab1",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/build-5d98e47e79c0.diff",
+       "proofPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/build-5d98e47e79c0.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/build-5d98e47e79c0.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:5d98e47e79c0:2",
+     "type": "agent.build"
     }
    ],
    "actor": "cli",
@@ -133244,6 +133278,14 @@
      "kind": "agent.build",
      "status": "awaiting",
      "stepId": "build:2933fea8b223:2"
+    },
+    {
+     "at": "2026-11-07T22:34:17.166999Z",
+     "debtId": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
+     "idempotencyKey": "dispatch-c6e077354da177facab1:2",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:5d98e47e79c0:2"
     }
    ],
    "thinkingEfforts": [],
@@ -133254,7 +133296,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T22:37:39.409609Z",
+ "updatedAt": "2026-11-07T22:40:47.421340Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -138656,16 +138698,15 @@
      "tokensOut": null
     }
    ],
-   "attempt": 1,
+   "attempt": 2,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
-   "blockedReason": "independent verification by pi-herdr-batch9-verifier-5d98e47e79c0 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
    "branch": "steward/b/workflow-hygiene-5d98e47e79c0",
    "build": null,
    "createdAt": "2026-11-07T16:45:05.162534Z",
    "debtId": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
    "dispatchId": "dispatch-c6e077354da177facab1",
-   "dispatchedAt": "2026-11-07T16:45:05.162534Z",
+   "dispatchedAt": "2026-11-07T22:34:17.166999Z",
    "history": [
     {
      "at": "2026-11-07T16:45:05.162534Z",
@@ -138678,24 +138719,24 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch9-verifier-5d98e47e79c0 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
      "to": "blocked"
+    },
+    {
+     "at": "2026-11-07T22:34:17.166999Z",
+     "from": "blocked",
+     "reason": "dispatched as dispatch-c6e077354da177facab1 (attempt 2)",
+     "to": "building"
     }
    ],
    "kind": "workflow_hygiene",
    "notes": [],
-   "promptPath": ".gaia/steward/full/run-20261107T164134Z-574a6b71/build-5d98e47e79c0.prompt.md",
+   "promptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/build-5d98e47e79c0.prompt.md",
    "pullRequest": null,
    "routine": "ci-architecture-steward",
-   "runId": "run-20261107T164134Z-574a6b71",
+   "runId": "run-20261107T222830Z-f75ff7de",
    "source": "ci-workflow",
-   "state": "blocked",
-   "updatedAt": "2026-11-07T20:00:19.658698Z",
-   "verification": {
-    "agentId": "pi-herdr-batch9-verifier-5d98e47e79c0",
-    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - \"The base workflow lacks a job-level timeout; the one-line addition fixes that configuration finding within the authorized scope.\" - \"The five sampled successful durations support the stated arithmetic, and the 15-minute polling loop justifies additional headroom.\" - \"Proof item 4 supplies no YAML parsing result, contrary to the explicit requirement to report exact results; independent verification parsed the candidate successfully, but does not supply the missing builder proof.\" - \"The independent-review item is discharged by this review, as specified in the builder contract.\"",
-    "recordedAt": "2026-11-07T20:00:19.658698Z",
-    "stage": "judged",
-    "verdict": "reject"
-   }
+   "state": "building",
+   "updatedAt": "2026-11-07T22:34:17.166999Z",
+   "verification": null
   },
   "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f": {
    "assignments": [
