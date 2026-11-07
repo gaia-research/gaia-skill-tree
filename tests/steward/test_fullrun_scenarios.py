@@ -88,6 +88,12 @@ def test_scenario_a_clean_repo_is_quiet_with_zero_everything(tmp_path: Path, tra
     repo, bare = makeFixture(tmp_path)
     store = fileStore(tmp_path) if transport == "file" else GitRefLedgerStore(repo, "origin")
     runner = makeRunner(repo, store, [AgentSkillMirrorSensor()], trigger="scheduled")
+    if transport == "git":
+        with pytest.raises(fullrun.FullRunError, match="read-only"):
+            runner.start("full")
+        assert "steward/ledger" not in bareBranches(bare)
+        assert stewardRefs(bare) == []
+        return  # explicit legacy-refusal contract, not a skipped execution
 
     view = runner.start("full")
 
@@ -103,13 +109,8 @@ def test_scenario_a_clean_repo_is_quiet_with_zero_everything(tmp_path: Path, tra
     assert doc["leases"] == {}, "a finished run releases the run lease"
     assert stewardRefs(bare) == []
     assert view.desk is not None and view.desk["decisions"] == []
-    if transport == "git":
-        assert view.desk["quiet"] is True and view.desk["operations"] == [], view.desk
-        assert "steward/ledger" in bareBranches(bare)
-    else:
-        # A local-only ledger is not quiet: the desk says so, and says nothing else.
-        assert [op["kind"] for op in view.desk["operations"]] == ["ledger_local_only"]
-        assert view.ledger["shared"] is False
+    assert view.desk["quiet"] is True and view.desk["operations"] == [], view.desk
+    assert view.ledger["shared"] is False and view.ledger["scope"] == "ordinary-local"
 
 
 # --- B: deterministic mirror drift -> Class A landing branch -----------------------
@@ -132,6 +133,13 @@ def test_scenario_b_mirror_drift_lands_on_a_branch_and_resolves_after_merge(
     repo, bare = makeFixture(tmp_path, mirrorDrift=True)
     store = fileStore(tmp_path) if transport == "file" else GitRefLedgerStore(repo, "origin")
     runner = makeRunner(repo, store, [AgentSkillMirrorSensor()])
+    if transport == "git":
+        with pytest.raises(fullrun.FullRunError, match="read-only"):
+            runner.start("full")
+        assert "steward/ledger" not in bareBranches(bare)
+        assert stewardRefs(bare) == []
+        assert (repo / ".claude/skills/x/SKILL.md").read_text() == "# x stale\n"
+        return
 
     view = runner.start("full")
 
@@ -415,6 +423,11 @@ def test_scenario_f_class_a_crash_resumes_with_one_branch_and_one_pr_action(
 ) -> None:
     repo, bare = makeFixture(tmp_path, mirrorDrift=True)
     store = fileStore(tmp_path) if transport == "file" else GitRefLedgerStore(repo, "origin")
+    if transport == "git":
+        with pytest.raises(fullrun.FullRunError, match="read-only"):
+            makeRunner(repo, store, [AgentSkillMirrorSensor()]).start("full")
+        assert "steward/ledger" not in bareBranches(bare) and stewardRefs(bare) == []
+        return  # no general shared mutation is permitted to reach a crash point
     crashAt(monkeypatch, point)
     with pytest.raises(Crash):
         makeRunner(repo, store, [AgentSkillMirrorSensor()]).start("full")
@@ -495,12 +508,13 @@ def test_scenario_f_expired_lease_is_abandoned_and_its_work_adopted_not_duplicat
 def test_scenario_g_concurrent_runners_exactly_one_holds_the_run_lease(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    repo, bare = makeFixture(tmp_path)
-    clone = cloneOf(bare, tmp_path / "clone2")
+    # Retain the original real concurrent lease scenario and every 60/30-second
+    # safeguard, now for two ordinary actors in the SAME checkout-local store.
+    repo, _bare = makeFixture(tmp_path)
     sensors = {"a": StubSensor(HYGIENE, "repository_hygiene"), "b": StubSensor(HYGIENE, "repository_hygiene")}
     runners = {
-        "a": makeRunner(repo, GitRefLedgerStore(repo, "origin"), [sensors["a"]], trigger="manual"),
-        "b": makeRunner(clone, GitRefLedgerStore(clone, "origin"), [sensors["b"]], trigger="manual"),
+        "a": makeRunner(repo, fileStore(tmp_path), [sensors["a"]], trigger="manual"),
+        "b": makeRunner(repo, fileStore(tmp_path), [sensors["b"]], trigger="manual"),
     }
     barrier = threading.Barrier(2)
     release, results, errors = threading.Event(), {}, []
@@ -537,11 +551,33 @@ def test_scenario_g_concurrent_runners_exactly_one_holds_the_run_lease(
     assert loser.status == "observing-existing" and winner.status == "completed"
     assert loser.holder == winner.runId and loser.runId is None
     assert loser.holderPhase in {"reconcile", "observe"}
-    document, _ = GitRefLedgerStore(repo, "origin").load()
+    document, _ = fileStore(tmp_path).load()
     assert list(document["runs"]) == [winner.runId], "the loser created no run"
     assert document["work"] == {} and document["leases"] == {}
     assert sensors[loserName].scans == 0, "the loser did no scanning"
     assert sensors[winnerName].scans == 1
+
+
+def test_scenario_g_legacy_shared_runners_both_refuse_before_loading_or_scanning(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # Cross-host critical coordination is now tested with spawned actors in
+    # prmaintenance; ordinary runners must not mutate the old shared run lane.
+    repo, bare = makeFixture(tmp_path)
+    clone = cloneOf(bare, tmp_path / "clone2")
+    before = git(bare, "show-ref")
+    for root in (repo, clone):
+        sensor = StubSensor(HYGIENE, "repository_hygiene")
+        store = GitRefLedgerStore(root, "origin")
+        monkeypatch.setattr(store, "load", lambda: pytest.fail("legacy mutation must refuse before load"))
+        runner = makeRunner(root, store, [sensor], trigger="manual")
+        for call in (lambda: runner.start("observe"), lambda: runner.resume("old"),
+                     lambda: runner.advance("old"), lambda: runner.abandon("old", "reason"),
+                     lambda: runner.record("old", "step", {}), lambda: runner._update(lambda d: None)):
+            with pytest.raises(fullrun.FullRunError, match="read-only"):
+                call()
+        assert sensor.scans == 0
+    assert git(bare, "show-ref") == before and "steward/ledger" not in bareBranches(bare)
 
 
 # --- H: historical regression #2114 ------------------------------------------------------------------

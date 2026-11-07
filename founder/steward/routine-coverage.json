@@ -2494,7 +2494,7 @@
         }
       ],
       "sourceOfTruth": "driver-written census of open pull requests (steward-pr-census-v1) judged against founder/steward/pr-producers.json, local git objects of each head, and GitHub's branch protection",
-      "evidence": "per-pull-request gate results (provenance, scope, holds, approvals, CI at head, currency, conflicts, content proofs) and one disposition",
+      "evidence": "checkout-local per-PR gate results and disposition; explicit critical execution additionally requires configured canonical shared proof/slot/accounting and authenticated outcome evidence; source is not activation",
       "freshness": "driver-input",
       "coverageStatus": {
         "static": [

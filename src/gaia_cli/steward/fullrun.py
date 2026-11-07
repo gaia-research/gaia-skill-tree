@@ -263,6 +263,7 @@ class FullRunConfig:
     lease_ttl_seconds: int = 1800
     clock: Callable[[], datetime] = _utcNow
     controller_factory: Callable[[], StewardController] | None = None
+    prCoordinatorFactory: Callable[[], Any] | None = None
 
     def __post_init__(self) -> None:
         self.repo_root = Path(self.repo_root).resolve()
@@ -433,7 +434,12 @@ class FullRunner:
             self._controller = factory()
         return self._controller
 
+    def _requireLocal(self) -> None:
+        if getattr(self.config.store, "shared", False):
+            raise FullRunError("general shared ledger is read-only legacy status; ordinary mutations require checkout-local state")
+
     def _update(self, mutate: Callable[[dict[str, Any]], Any], message: str = "steward full") -> Any:
+        self._requireLocal()  # BEFORE any load/update, including direct library callers
         result, _version = update(
             self.config.store, mutate, retries=CONTENDEDRETRIES,
             clock=self.config.clock, message=message,
@@ -449,8 +455,7 @@ class FullRunner:
             "transport": self.config.store.transport,
             "shared": bool(self.config.store.shared),
         }
-        if not info["shared"]:
-            info["warning"] = "ledger_local_only"
+        info["scope"] = "legacy-read-only" if info["shared"] else "ordinary-local"
         return info
 
     def _runDirectory(self, runId: str) -> Path:
@@ -587,6 +592,7 @@ class FullRunner:
         return self.advance(runId)
 
     def resume(self, runId: str) -> RunView:
+        self._requireLocal()
         now = self._now()
 
         def mutate(doc: dict[str, Any]) -> dict[str, Any]:
@@ -624,6 +630,7 @@ class FullRunner:
     def advance(self, runId: str) -> RunView:
         """Run phases from the recorded phase until done or a driver is needed."""
 
+        self._requireLocal()
         try:
             while True:
                 run = self._loadRun(runId)
@@ -718,6 +725,7 @@ class FullRunner:
         run adopts it from the ledger instead of waiting out the lease.
         """
 
+        self._requireLocal()
         if not str(reason).strip():
             raise FullRunError("abandon needs a reason; the ledger keeps it as the audit record")
         now = self._now()
@@ -931,6 +939,7 @@ class FullRunner:
     # ------------------------------------------------------------------
 
     def record(self, runId: str, stepId: str, outcome: Mapping[str, Any]) -> RunView:
+        self._requireLocal()
         if not isinstance(outcome, Mapping):
             raise RecordRefused("outcome must be a JSON object")
         outcome = copy.deepcopy(dict(outcome))
@@ -973,12 +982,13 @@ class FullRunner:
                 )
             now = self._now()
             prepared(doc, run, live)
-            live["status"] = "done" if live.get("heldOnly") is not True else "held"
+            keepPending = live.pop("keepPending", False)
+            live["status"] = "pending" if keepPending else ("done" if live.get("heldOnly") is not True else "held")
             live["outcome"] = outcome
             live["recordedAt"] = now
             for step in run["steps"]:
                 if step["stepId"] == stepId:
-                    step["status"] = "done"
+                    step["status"] = "pending" if keepPending else "done"
                     step["at"] = now
             run["mutated"] = True
             run["updatedAt"] = now
@@ -1881,12 +1891,7 @@ class FullRunner:
             if not pol.actionEnabled(action):
                 continue
             repo, number, head = st["repo"], int(st["number"]), str(st["headSha"])
-            if prstate.terminalFor(self.root, repo, number, action) is not None:
-                continue
-            ceiling = pol.maxMergesPerRun if action == "merge" else pol.maxClosuresPerRun
-            if prstate.writesInRun(self.root, runId, action) >= ceiling:
-                summary["deferred"].append({"number": number, "reason": f"run {action} budget ({ceiling}) is spent; resumes next run"})
-                continue
+            # Local outcomes/counters are diagnostics, never shared admission or settlement.
             verified = any(v.get("repo") == repo and v.get("number") == number and v.get("action") == action
                            and v.get("headSha") == head and v.get("baseSha") == st["baseSha"] and v.get("verdict") == "pass"
                            for v in prstate.readRecords(self.root, "verifications"))
@@ -1915,29 +1920,96 @@ class FullRunner:
         return summary
 
     def _recordPrWrite(self, runId: str, action: dict[str, Any], outcome: dict[str, Any]) -> Callable:
-        """A merge or closure outcome is trusted only when the durable outcome store holds the same terminal line."""
-
-        from gaia_cli.steward.prmaintenance import state as prstate
+        """Bind every success/already-* to validated shared subject/evidence, never local JSONL."""
 
         params = action["params"]
         result = outcome.get("state")
-        if result not in ("merged", "closed", "already-merged", "already-closed", "failed", "refused", "aborted"):
+        if result not in ("merged", "closed", "already-merged", "already-closed", "failed", "refused", "aborted", "unknown", "quarantined", "possibly-sent"):
             raise RecordRefused(f"{action['type']} outcome state must be merged, closed, already-*, failed, refused or aborted")
         if outcome.get("repo") != params["repo"] or outcome.get("number") != params["number"]:
             raise RecordRefused(f"{action['type']} outcome names a different pull request than its action")
         if result in ("failed", "refused", "aborted") and not (isinstance(outcome.get("reason"), str) and outcome["reason"].strip()):
             raise RecordRefused(f"a {result} outcome needs a reason")
-        if result in ("merged", "closed"):
+        operation = None
+        attachedId = params.get("operationId")
+        reportedId = outcome.get("operationId")
+        if attachedId is not None and "operationId" in outcome and reportedId != attachedId:
+            raise RecordRefused("operation id conflicts with the attached shared operation")
+        operationId = attachedId if attachedId is not None else reportedId
+        expectedParams = copy.deepcopy(params)
+        success = result in ("merged", "closed", "already-merged", "already-closed")
+        if not success and operationId is None and result in ("failed", "refused", "aborted"):
+            from gaia_cli.steward import ledger
+            from gaia_cli.steward.prmaintenance.executor import makeExecutor
             try:
-                stored = prstate.terminalFor(self.root, params["repo"], params["number"], params["action"])
-            except prstate.StoreError as exc:
-                raise RecordRefused(f"the PR-maintenance outcome store is unreadable: {exc}") from exc
-            if stored is None or stored.get("state") != result or stored.get("headSha") != params["headSha"] \
-                    or (result == "merged" and stored.get("mergeCommitSha") != outcome.get("mergeCommitSha")):
-                raise RecordRefused(f"no recorded {result} outcome in the store matches this report; the action stays pending")
+                coordinator = (self.config.prCoordinatorFactory() if self.config.prCoordinatorFactory
+                               else makeExecutor(self.root).coordinator)
+                if coordinator.binding.namespace.repositoryName != params["repo"]:
+                    raise ValueError("shared repository mismatch")
+                # This is a snapshot, not an atomic transaction with the local
+                # run CAS. Actions do not contain immutable PR/replacement IDs;
+                # a possible match must therefore block rather than guess them.
+                shared = coordinator.inspect()
+                for item in shared["operations"].values():
+                    subject = item["subject"]
+                    same = ((subject["number"], subject["headSha"], subject["action"], subject["baseRef"], subject["baseSha"], subject["producerId"]) ==
+                            (params["number"], params["headSha"], params["action"], params["baseRef"], params["baseSha"], params["producerId"])
+                            and (subject["action"] != "close" or (subject["reason"] == params.get("reason")
+                                 and (subject["replacement"] or {}).get("number") == params.get("replacement"))))
+                    outstanding = item["runId"] == runId and item["state"] in ("reserved", "intent", "possibly-sent", "unknown", "quarantined")
+                    # A matching committed effect (even one that completed before this action was attached to it) is
+                    # never contradicted by an uncorrelated failure, from this run or any other: reconcile instead.
+                    effective = item["state"] in ("completed-effect", "observed-terminal")
+                    if same and (outstanding or effective):
+                        raise ValueError("matching shared operation is outstanding or already effective")
+            except (ledger.LedgerUnavailable, ValueError, KeyError, OSError) as exc:
+                raise RecordRefused("shared operation status unavailable, outstanding or already effective; action stays pending "
+                                    "(reconcile with the operation's evidence)") from exc
+        if success or operationId is not None or result in ("unknown", "quarantined", "possibly-sent"):
+            from gaia_cli.steward.prmaintenance import coordination as critical
+            from gaia_cli.steward.prmaintenance.executor import makeExecutor
+            try:
+                critical.sha(operationId)
+                coordinator = (self.config.prCoordinatorFactory() if self.config.prCoordinatorFactory
+                               else makeExecutor(self.root).coordinator)
+                operation = coordinator.inspect()["operations"].get(operationId)
+                if operation is None or coordinator.binding.namespace.repositoryName != params["repo"]:
+                    raise ValueError("unknown shared operation")
+                subject = operation["subject"]
+                if (subject["number"], subject["headSha"], subject["action"], subject["baseRef"], subject["baseSha"], subject["producerId"]) != (
+                        params["number"], params["headSha"], params["action"], params["baseRef"], params["baseSha"], params["producerId"]):
+                    raise ValueError("operation subject mismatch")
+                if subject["action"] == "close" and (subject["reason"] != params.get("reason")
+                        or (subject["replacement"] or {}).get("number") != params.get("replacement")):
+                    raise ValueError("closure proof/request mismatch")
+                if success:
+                    expected = "merge" if result in ("merged", "already-merged") else "close"
+                    if (subject["action"] != expected or operation["state"] not in ("completed-effect", "observed-terminal")
+                            or outcome.get("evidenceSha256") != critical.digest(operation["evidence"])):
+                        raise ValueError("terminal evidence mismatch")
+                    if expected == "merge":
+                        evidence = json.loads(operation["evidence"]["detail"])
+                        if not evidence.get("parentsVerified") or not evidence.get("mergeCommitSha"):
+                            raise ValueError("matching merge parent proof missing")
+                        if outcome.get("mergeCommitSha", evidence["mergeCommitSha"]) != evidence["mergeCommitSha"]:
+                            raise ValueError("merge commit mismatch")
+                elif result in ("unknown", "quarantined", "possibly-sent") and operation["state"] not in critical.PENDING:
+                    raise ValueError("not an outstanding sender")
+                elif result in ("failed", "refused", "aborted") and operation["state"] in ("completed-effect", "observed-terminal"):
+                    raise ValueError("a failure report cannot contradict a shared effect")
+            except (critical.CoordinationError, ValueError, KeyError, OSError) as exc:
+                raise RecordRefused("no recorded shared terminal/outstanding operation matches this report; action stays pending") from exc
 
         def prepared(doc: dict[str, Any], run: dict[str, Any], live: dict[str, Any]) -> None:
-            return None
+            # Revalidate the snapshot on every CAS attempt; shared inspection stays
+            # outside this pure mutator. A concurrent attachment must be retried.
+            if live["params"] != expectedParams:
+                raise RecordRefused("pull request action changed while recording; retry the report")
+            if operation is not None:
+                live["params"]["operationId"] = operation["operationId"]
+                live["sharedState"] = operation["state"]
+                if operation["state"] in ("reserved", "intent", "possibly-sent", "unknown", "quarantined"):
+                    live["keepPending"] = True
 
         return prepared
 
@@ -2853,6 +2925,7 @@ class FullRunner:
             ],
             decision_records=records,
             ledger_shared=bool(self.config.store.shared),
+            ordinary_local=not bool(self.config.store.shared),
             last_scheduled_run_at=max(scheduled) if scheduled else None,
             now=now,
             failed_dispatches=failed,
