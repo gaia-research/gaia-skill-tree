@@ -1,5 +1,5 @@
 {
- "generation": 1509,
+ "generation": 1510,
  "lane": {
   "entries": [
    {
@@ -5081,14 +5081,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-0925d54c33545e17a5b2",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T16:31:14.774347Z",
+      "from": "dispatched",
+      "reason": "accepted by independent verification (integration integrate by lead-claude-opus-5-5 (herdr w2H); verified by pi-herdr-batch8-verifier-f6d1a832e6e8)",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-07T15:00:18.665276Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T16:31:14.774347Z",
+    "lastVerdict": "accept",
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "closed"
    },
    {
     "attempts": 1,
@@ -116113,6 +116119,17 @@
      "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11",
      "emittedAt": "2026-11-07T16:23:19.618137Z",
      "idempotencyKey": "integrate:dispatch-0925d54c33545e17a5b2:2",
+     "outcome": {
+      "by": "lead-claude-opus-5-5 (herdr w2H)",
+      "decision": "integrate",
+      "mergedSha": "ae769767efba8939c14f1aa312293275d4bf6622",
+      "pullRequest": {
+       "base": "dev/steward-campaign-2026-11-05",
+       "head": "steward/b/unused-import-f6d1a832e6e8",
+       "number": 2368,
+       "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2368"
+      }
+     },
      "params": {
       "attempt": 2,
       "base": "dev/steward-campaign-2026-11-05",
@@ -116120,7 +116137,8 @@
       "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11",
       "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T145403Z-b871b1e2/build-f6d1a832e6e8.diff"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T16:31:14.774081Z",
+     "status": "done",
      "stepId": "integrate:f6d1a832e6e8:2",
      "type": "lead.integrate"
     }
@@ -116203,7 +116221,15 @@
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
-   "decisions": [],
+   "decisions": [
+    {
+     "at": "2026-11-07T16:31:14.774347Z",
+     "by": "lead-claude-opus-5-5 (herdr w2H)",
+     "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11",
+     "decision": "integrate",
+     "type": "integrate"
+    }
+   ],
    "deferred": [],
    "desk": {
     "asOf": "2026-11-07T16:30:27.081657Z",
@@ -119458,7 +119484,16 @@
      "stepId": "build:f6d1a832e6e8:2"
     }
    ],
-   "pullRequests": [],
+   "pullRequests": [
+    {
+     "base": "dev/steward-campaign-2026-11-05",
+     "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11",
+     "head": "steward/b/unused-import-f6d1a832e6e8",
+     "merged": true,
+     "number": 2368,
+     "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2368"
+    }
+   ],
    "receipts": [
     {
      "id": "steward-20261107T145438Z-11e50b778092e902",
@@ -119556,11 +119591,11 @@
      "stepId": "verify:f6d1a832e6e8:2"
     },
     {
-     "at": "2026-11-07T16:23:19.618137Z",
+     "at": "2026-11-07T16:31:14.774081Z",
      "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11",
      "idempotencyKey": "integrate:dispatch-0925d54c33545e17a5b2:2",
      "kind": "lead.integrate",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "integrate:f6d1a832e6e8:2"
     },
     {
@@ -119595,11 +119630,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T16:23:19.613220Z"
+   "updatedAt": "2026-11-07T16:31:14.774081Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T16:30:48.673073Z",
+ "updatedAt": "2026-11-07T16:31:14.778198Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -123998,17 +124033,29 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch8-verifier-f6d1a832e6e8 (pi, effort medium)",
      "to": "verified"
+    },
+    {
+     "at": "2026-11-07T16:31:14.774347Z",
+     "from": "verified",
+     "reason": "integrated by lead-claude-opus-5-5 (herdr w2H)",
+     "to": "landed"
     }
    ],
    "kind": "unused_import",
+   "mergedSha": "ae769767efba8939c14f1aa312293275d4bf6622",
    "notes": [],
    "promptPath": ".gaia/steward/full/run-20261107T145403Z-b871b1e2/build-f6d1a832e6e8.prompt.md",
-   "pullRequest": null,
+   "pullRequest": {
+    "base": "dev/steward-campaign-2026-11-05",
+    "head": "steward/b/unused-import-f6d1a832e6e8",
+    "number": 2368,
+    "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2368"
+   },
    "routine": "dead-code-gardener",
    "runId": "run-20261107T145403Z-b871b1e2",
    "source": "dead-code",
-   "state": "verified",
-   "updatedAt": "2026-11-07T16:23:19.618137Z",
+   "state": "landed",
+   "updatedAt": "2026-11-07T16:31:14.774347Z",
    "verification": {
     "agentId": "pi-herdr-batch8-verifier-f6d1a832e6e8",
     "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: true authorityStillValid: true guardsWeakened: false newDebt: - \"User reports a known pytest-xdist crash in this package, being fixed separately; not independently reproduced.\" verdict: accept reasons: - \"The base imports asdict without another reference in the subject file; the candidate removes only that import.\" - \"The diff is confined to the authorized subject file and leaves dataclasses imported for the remaining names.\" - \"The supplied serial package tests passed, compileall succeeded, and the candidate imports successfully; this independent review satisfies the remaining proof item.\"",
