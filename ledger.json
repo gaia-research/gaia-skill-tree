@@ -1,5 +1,5 @@
 {
- "generation": 1493,
+ "generation": 1494,
  "lane": {
   "entries": [
    {
@@ -4933,14 +4933,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-b8c59e2e9b66a8448637",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T16:23:05.208609Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 2 of a 2-attempt ceiling; the envelope is the likelier defect (independent verification by pi-herdr-batch8-verifier-be8ba959184b (pi, effort medium))",
+      "to": "escalated"
      }
     ],
-    "lastTransitionAt": "2026-11-07T15:00:18.665276Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T16:23:05.208609Z",
+    "lastVerdict": "reject",
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "escalated"
    },
    {
     "attempts": 1,
@@ -116043,6 +116049,13 @@
      "debtId": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
      "emittedAt": "2026-11-07T16:14:31.395802Z",
      "idempotencyKey": "verify:dispatch-b8c59e2e9b66a8448637:2",
+     "outcome": {
+      "agentId": "pi-herdr-batch8-verifier-be8ba959184b",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: reject rationale: >- The finding reproduces at candidate 107a97b1d. I parsed src/gaia_cli/semantic_search.py with Python ast and compared the retrieval imports against loaded names in that module: exactly the 10 names listed in the finding are unused locally. A scoped rg of src, tests, and docs found no use of those names through semantic_search. git diff --stat against the specified base showed no changes. These imports remain accessible as module attributes, so potential external compatibility should be assessed before removal; that possibility does not make the reported local unused-import finding disappear.",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -116059,7 +116072,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261107T145403Z-b871b1e2/verify-be8ba959184b.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T16:23:05.206250Z",
+     "status": "done",
      "stepId": "verify:be8ba959184b:2",
      "type": "agent.verify"
     },
@@ -116135,6 +116149,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:2ab63c86d569:2",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch8-verifier-be8ba959184b",
+     "at": "2026-11-07T16:23:05.208609Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:be8ba959184b:2",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -117755,11 +117781,11 @@
      "stepId": "verify:2ab63c86d569:2"
     },
     {
-     "at": "2026-11-07T16:14:31.395802Z",
+     "at": "2026-11-07T16:23:05.206250Z",
      "debtId": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
      "idempotencyKey": "verify:dispatch-b8c59e2e9b66a8448637:2",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:be8ba959184b:2"
     },
     {
@@ -117778,11 +117804,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T16:22:49.623141Z"
+   "updatedAt": "2026-11-07T16:23:05.206250Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T16:22:49.635143Z",
+ "updatedAt": "2026-11-07T16:23:05.214814Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -121744,6 +121770,17 @@
      "stepId": "build:be8ba959184b:2",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch8-verifier-be8ba959184b",
+     "at": "2026-11-07T16:23:05.208609Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:be8ba959184b:2",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 2,
@@ -121782,6 +121819,12 @@
      "from": "blocked",
      "reason": "dispatched as dispatch-b8c59e2e9b66a8448637 (attempt 2)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-07T16:23:05.208609Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch8-verifier-be8ba959184b (pi, effort medium): reject",
+     "to": "escalated"
     }
    ],
    "kind": "unused_import",
@@ -121791,13 +121834,14 @@
    "routine": "dead-code-gardener",
    "runId": "run-20261107T145403Z-b871b1e2",
    "source": "dead-code",
-   "state": "building",
-   "updatedAt": "2026-11-07T15:16:16.443633Z",
+   "state": "escalated",
+   "updatedAt": "2026-11-07T16:23:05.208609Z",
    "verification": {
-    "mode": "no-change",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261107T145403Z-b871b1e2/verify-be8ba959184b.prompt.md"
+    "agentId": "pi-herdr-batch8-verifier-be8ba959184b",
+    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: reject rationale: >- The finding reproduces at candidate 107a97b1d. I parsed src/gaia_cli/semantic_search.py with Python ast and compared the retrieval imports against loaded names in that module: exactly the 10 names listed in the finding are unused locally. A scoped rg of src, tests, and docs found no use of those names through semantic_search. git diff --stat against the specified base showed no changes. These imports remain accessible as module attributes, so potential external compatibility should be assessed before removal; that possibility does not make the reported local unused-import finding disappear.",
+    "recordedAt": "2026-11-07T16:23:05.208609Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   },
   "debt:unused_import:src-gaia-cli-shadowcorpus-py:0ef3d1c38966cf1d": {
