@@ -323,7 +323,8 @@ def test_a_compact_action_is_re_derived_and_posts_the_full_preserved_payload(tmp
     document = {"schemaVersion": "steward-github-census-v1", "repo": REPO, "fetchedAt": "2026-10-21T19:00:00Z",
                 "source": "rest", "completeness": {"issues": {"complete": True, "pagesFetched": 1, "expectedPages": 1,
                 "itemCount": 1, "lastLink": None}, "pulls": {"complete": True, "pagesFetched": 0, "expectedPages": 0,
-                "itemCount": 0, "lastLink": None}}, "issues": [row], "recentlyClosed": []}
+                "itemCount": 0, "lastLink": None}}, "issues": [row], "recentlyClosed": [],
+                "closedUmbrellas": {"complete": True, "labels": ["upstream:release", "upstream:bootstrap"], "pagesFetched": 1, "items": []}}
     (root / CENSUS_INPUT).write_text(json.dumps(document), encoding="utf-8")
     (root / "founder" / "steward").mkdir(parents=True, exist_ok=True)
     from tests.steward.issuehygiene.e_fakes import editPolicy

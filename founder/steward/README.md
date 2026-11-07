@@ -250,10 +250,13 @@ positively matches a candidate of the closed batch is held, and a new candidate 
 new work. Closed umbrellas come from the census's `closedUmbrellas` section, one label-scoped listing per
 umbrella label with no age window (no persistent store). If that listing fails, the census stays complete and
 only the umbrella-dependent decisions are reported as not evaluated (the `closed-umbrella-history` skipped
-scope and `closeoutEvaluation` in the manifest). Fail closed: while the history is missing, an open umbrella and the
-children that name an umbrella parent are `not-evaluated`, never dispatched as batch work and never held as duplicates;
-A proofs and children with no umbrella proceed. Candidate matching uses the full candidate id with its evidence
-repository (or a legacy component slug only inside the suite repository), never a bare slug.
+scope and `closeoutEvaluation` in the manifest). Fail closed: while the history is missing, every open umbrella and
+every child that names an umbrella parent is `not-evaluated` before any other disposition (A1-A5 proofs, disabled-rule
+proofs, founder locks and questions included): never dispatched, closed or held as a duplicate. Only work that cannot
+depend on a closed umbrella (for example a child with no umbrella, or a bot report) proceeds. Candidate matching uses
+the full candidate id with its evidence repository. A legacy slug-only row takes its full identity from the closed
+batch's own closed child intake when the census still holds it; otherwise the child is `not-evaluated`
+(`closed-batch-candidate-identity-ambiguous`), never matched on a slug.
 
 Routine 18 reconciles the open GitHub issues that upstream intake and gh-aw
 generate against the registry, and closes only what the registry proves preserved.
