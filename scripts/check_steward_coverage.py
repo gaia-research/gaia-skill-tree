@@ -73,6 +73,34 @@ def _literal(node: ast.AST) -> Any:
         return None
 
 
+def _string_sequence(node: ast.AST, constants: dict[str, Any]) -> tuple[str, ...] | None:
+    value = _literal(node)
+    if isinstance(node, ast.Name):
+        value = constants.get(node.id)
+    if isinstance(value, (tuple, list)) and all(isinstance(item, str) for item in value):
+        return tuple(value)
+    return None
+
+
+def _bound_kind_values(name: str, call: ast.AST, parents: dict[ast.AST, ast.AST], constants: dict[str, Any]) -> set[str]:
+    """Resolve a name bound by an enclosing literal for-loop/comprehension only."""
+    child = call
+    parent = parents.get(child)
+    while parent is not None:
+        if isinstance(parent, (ast.ListComp, ast.SetComp, ast.GeneratorExp, ast.DictComp)):
+            for generator in reversed(parent.generators):
+                if name in {target.id for target in ast.walk(generator.target) if isinstance(target, ast.Name)}:
+                    values = _string_sequence(generator.iter, constants)
+                    return set(values or ())
+        if isinstance(parent, (ast.For, ast.AsyncFor)) and name in {
+            target.id for target in ast.walk(parent.target) if isinstance(target, ast.Name)
+        }:
+            values = _string_sequence(parent.iter, constants)
+            return set(values or ())
+        child, parent = parent, parents.get(parent)
+    return set()
+
+
 @functools.lru_cache(maxsize=4)
 def _sensor_ownership(root: Path) -> dict[str, set[str]]:
     """Find sensor id -> emitted Observation kind ownership from source AST."""
@@ -88,7 +116,14 @@ def _sensor_ownership(root: Path) -> dict[str, set[str]]:
     ownership: dict[str, set[str]] = {}
     for file in files:
         tree = ast.parse(file.read_text(encoding="utf-8"))
+        module_constants: dict[str, Any] = {}
+        for statement in tree.body:
+            if isinstance(statement, ast.Assign):
+                value = _literal(statement.value)
+                if isinstance(value, (tuple, list)) and all(isinstance(item, str) for item in value):
+                    module_constants.update({target.id: value for target in statement.targets if isinstance(target, ast.Name)})
         for cls in (n for n in ast.walk(tree) if isinstance(n, ast.ClassDef)):
+            parents = {child: parent for parent in ast.walk(cls) for child in ast.iter_child_nodes(parent)}
             sensor_id = None
             own_kinds: set[str] = set()
             for item in cls.body:
@@ -118,6 +153,8 @@ def _sensor_ownership(root: Path) -> dict[str, set[str]]:
                         value = _literal(kw.value)
                         if isinstance(value, str):
                             own_kinds.add(value)
+                        elif isinstance(kw.value, ast.Name):
+                            own_kinds.update(_bound_kind_values(kw.value.id, call, parents, module_constants))
                         elif (isinstance(kw.value, ast.Attribute) and kw.value.attr == "debt_kind"
                               and isinstance(kw.value.value, ast.Name) and kw.value.value.id == "self"):
                             own_kinds.update(own_kinds)
