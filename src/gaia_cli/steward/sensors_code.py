@@ -63,6 +63,9 @@ _SCRIPTS_ROOT = "scripts"
 _DATA_EXCLUDE = ("src/gaia_cli/data",)
 _DEFAULT_MAX_FILES = 5000
 _BEST_EFFORT_MARKER = "steward: best-effort"
+# The marker is an intent record only with a written reason (#2283 review of
+# #2372): ``# steward: best-effort: optional cache`` counts, a bare marker does not.
+_BEST_EFFORT_WITH_REASON = re.compile(r"steward: best-effort\s*(?:[:\-\u2013\u2014]\s*)?(?P<reason>.*)$")
 # #2283 S4: the industry-standard intent record for a broad handler is a ruff
 # suppression comment naming a broad-except rule *with a written reason*. A bare
 # suppression, or one naming BLE001 with no reason, is not a record and still flags.
@@ -227,6 +230,18 @@ def _stdlib_without_side_effects(target: str) -> bool:
     return top in sys.stdlib_module_names and top not in _STDLIB_IMPORT_SIDE_EFFECTS
 
 
+def _reason_given(text: str) -> bool:
+    reason = text.strip()
+    return len(reason) >= 3 and any(char.isalpha() for char in reason)
+
+
+def _best_effort_with_reason(comment: str) -> bool:
+    """``# steward: best-effort`` followed by a written reason."""
+
+    match = _BEST_EFFORT_WITH_REASON.search(comment)
+    return match is not None and _reason_given(match.group("reason"))
+
+
 def _documented_broad_except(comment: str) -> bool:
     """A ruff noqa that names a broad-except rule and states a reason."""
 
@@ -236,8 +251,7 @@ def _documented_broad_except(comment: str) -> bool:
     codes = {code.strip() for code in match.group("codes").split(",")}
     if not codes & _BROAD_EXCEPT_CODES:
         return False
-    reason = match.group("reason").strip()
-    return len(reason) >= 3 and any(char.isalpha() for char in reason)
+    return _reason_given(match.group("reason"))
 
 
 def _unused_imports(file: SourceFile) -> list[dict[str, Any]]:
@@ -949,7 +963,7 @@ def swallowed_handlers(file: SourceFile) -> list[dict[str, Any]]:
             comments = comment_map(file.text)
         first = node.body[0].lineno
         if any(
-            _BEST_EFFORT_MARKER in comments.get(line, "")
+            _best_effort_with_reason(comments.get(line, ""))
             or _documented_broad_except(comments.get(line, ""))
             for line in range(node.lineno, first + 1)
         ):
@@ -997,7 +1011,7 @@ class ErrorHandlingSensor:
                     0.8,
                     {
                         "detector": "broad except handler whose whole body is pass/continue/.../docstring/bare return",
-                        "intentMarker": f"# {_BEST_EFFORT_MARKER}",
+                        "intentMarker": f"# {_BEST_EFFORT_MARKER}: <reason> (reason required)",
                         "alsoAccepted": "# noqa: BLE001|S110|S112|E722 <reason> (reason required)",
                         "note": (
                             "intentional best-effort behaviour should be marked, not removed; "
