@@ -1,5 +1,5 @@
 {
- "generation": 1398,
+ "generation": 1399,
  "lane": {
   "entries": [
    {
@@ -4231,7 +4231,7 @@
     "state": "closed"
    },
    {
-    "attempts": 1,
+    "attempts": 2,
     "debtId": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
     "firstQueuedAt": "2026-10-30T02:50:15.169447Z",
     "history": [
@@ -4264,14 +4264,20 @@
       "from": "dispatched",
       "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch5-verifier-01bdcf8a1d9c (pi, effort medium))",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T11:54:04.703234Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-6847593639a1b68774d5",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-11-07T10:14:34.096537Z",
-    "lastVerdict": "reject",
+    "lastTransitionAt": "2026-11-07T11:54:04.703234Z",
+    "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 0,
@@ -5718,7 +5724,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T11:51:11.610261Z",
-   "expiresAt": "2026-11-07T12:25:36.392188Z",
+   "expiresAt": "2026-11-07T12:27:11.545262Z",
    "holder": "run-20261107T115111Z-802da939"
   }
  },
@@ -110303,6 +110309,34 @@
      "status": "pending",
      "stepId": "build:d179e1da2ecc:2",
      "type": "agent.build"
+    },
+    {
+     "debtId": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
+     "emittedAt": "2026-11-07T11:54:04.703234Z",
+     "idempotencyKey": "dispatch-6847593639a1b68774d5:2",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 2,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/unused-import-01bdcf8a1d9c",
+      "debtId": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
+      "dispatchId": "dispatch-6847593639a1b68774d5",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261107T115111Z-802da939/build-01bdcf8a1d9c.diff",
+       "proofPath": ".gaia/steward/full/run-20261107T115111Z-802da939/build-01bdcf8a1d9c.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261107T115111Z-802da939/build-01bdcf8a1d9c.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:01bdcf8a1d9c:2",
+     "type": "agent.build"
     }
    ],
    "actor": "cli",
@@ -111376,6 +111410,14 @@
      "kind": "agent.build",
      "status": "awaiting",
      "stepId": "build:d179e1da2ecc:2"
+    },
+    {
+     "at": "2026-11-07T11:54:04.703234Z",
+     "debtId": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
+     "idempotencyKey": "dispatch-6847593639a1b68774d5:2",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:01bdcf8a1d9c:2"
     }
    ],
    "thinkingEfforts": [],
@@ -111386,7 +111428,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T11:55:36.396826Z",
+ "updatedAt": "2026-11-07T11:57:11.553003Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -114073,16 +114115,15 @@
      "tokensOut": null
     }
    ],
-   "attempt": 1,
+   "attempt": 2,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
-   "blockedReason": "independent verification by pi-herdr-batch5-verifier-01bdcf8a1d9c (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
    "branch": "steward/b/unused-import-01bdcf8a1d9c",
    "build": null,
    "createdAt": "2026-11-07T09:28:17.139193Z",
    "debtId": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
    "dispatchId": "dispatch-6847593639a1b68774d5",
-   "dispatchedAt": "2026-11-07T09:28:17.139193Z",
+   "dispatchedAt": "2026-11-07T11:54:04.703234Z",
    "history": [
     {
      "at": "2026-11-07T09:28:17.139193Z",
@@ -114095,24 +114136,24 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch5-verifier-01bdcf8a1d9c (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
      "to": "blocked"
+    },
+    {
+     "at": "2026-11-07T11:54:04.703234Z",
+     "from": "blocked",
+     "reason": "dispatched as dispatch-6847593639a1b68774d5 (attempt 2)",
+     "to": "building"
     }
    ],
    "kind": "unused_import",
    "notes": [],
-   "promptPath": ".gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-01bdcf8a1d9c.prompt.md",
+   "promptPath": ".gaia/steward/full/run-20261107T115111Z-802da939/build-01bdcf8a1d9c.prompt.md",
    "pullRequest": null,
    "routine": "dead-code-gardener",
-   "runId": "run-20261107T092526Z-c6c6c44d",
+   "runId": "run-20261107T115111Z-802da939",
    "source": "dead-code",
-   "state": "blocked",
-   "updatedAt": "2026-11-07T10:14:34.096537Z",
-   "verification": {
-    "agentId": "pi-herdr-batch5-verifier-01bdcf8a1d9c",
-    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - \"The base file imports re and approval without in-module reads; approval remains untouched, preserving its exposed module attribute.\" - \"The offered proof does not establish that removing sideEffectPossible import re has no import side effect, as the routine requires.\" - \"The no-consumer-matches result alone does not establish that no other module imports re from batch; the routine explicitly says absence of matches is insufficient.\" - \"The reported package tests and compile check support behavioral confidence but do not prove either required safety condition; this independent review satisfies the review item.\"",
-    "recordedAt": "2026-11-07T10:14:34.096537Z",
-    "stage": "judged",
-    "verdict": "reject"
-   }
+   "state": "building",
+   "updatedAt": "2026-11-07T11:54:04.703234Z",
+   "verification": null
   },
   "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e": {
    "assignments": [
