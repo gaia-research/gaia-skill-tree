@@ -1,5 +1,5 @@
 {
- "generation": 1574,
+ "generation": 1575,
  "lane": {
   "entries": [
    {
@@ -5317,14 +5317,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-a4a9f6b7551b39c56ecb",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T20:00:33.127093Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch9-verifier-1e13396e7fe5 (pi, effort medium))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-11-07T16:45:05.162534Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T20:00:33.127093Z",
+    "lastVerdict": "reject",
     "priority": 0.756,
     "rule": "workflow-timeout-repair",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 1,
@@ -121490,6 +121496,13 @@
      "debtId": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
      "emittedAt": "2026-11-07T19:44:16.819894Z",
      "idempotencyKey": "verify:dispatch-a4a9f6b7551b39c56ecb:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch9-verifier-1e13396e7fe5",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - \"The mandatory timeout formula yields 5 minutes, not 10: for the three reported successful durations (46, 56, 69 seconds), p95 cannot exceed 69 seconds and max is 69 seconds; rounding max(2 × p95, 1.5 × max) up to five minutes gives 5. No reason for departing from the rule was supplied.\" - \"The submitted proof omits the required p95 and arithmetic, and supplies no exact YAML parse result. Independent parsing succeeded and confirmed timeout 10, but does not demonstrate the builder's missing proof.\"",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -121505,7 +121518,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261107T164134Z-574a6b71/verify-1e13396e7fe5.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T20:00:33.126697Z",
+     "status": "done",
      "stepId": "verify:1e13396e7fe5:1",
      "type": "agent.verify"
     },
@@ -121663,6 +121677,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:55b938d79131:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch9-verifier-1e13396e7fe5",
+     "at": "2026-11-07T20:00:33.127093Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:1e13396e7fe5:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -123372,11 +123398,11 @@
      "stepId": "verify:55b938d79131:1"
     },
     {
-     "at": "2026-11-07T19:44:16.819894Z",
+     "at": "2026-11-07T20:00:33.126697Z",
      "debtId": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
      "idempotencyKey": "verify:dispatch-a4a9f6b7551b39c56ecb:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:1e13396e7fe5:1"
     },
     {
@@ -123403,11 +123429,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T20:00:26.409201Z"
+   "updatedAt": "2026-11-07T20:00:33.126697Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T20:00:26.412921Z",
+ "updatedAt": "2026-11-07T20:00:33.130376Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -128236,22 +128262,25 @@
      "stepId": "build:1e13396e7fe5:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch9-verifier-1e13396e7fe5",
+     "at": "2026-11-07T20:00:33.127093Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:1e13396e7fe5:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
+   "blockedReason": "independent verification by pi-herdr-batch9-verifier-1e13396e7fe5 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
    "branch": "steward/b/workflow-hygiene-1e13396e7fe5",
-   "build": {
-    "agentId": "pi-herdr-batch9-builder-1e13396e7fe5",
-    "attempt": 1,
-    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-1e13396e7fe5.diff",
-    "dispatchId": "dispatch-a4a9f6b7551b39c56ecb",
-    "noChange": false,
-    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-1e13396e7fe5.proof.json",
-    "recordedAt": "2026-11-07T19:01:37.669668Z",
-    "summary": "Batch batch9 builder (openai/gpt-6-luna medium, pi pane) added timeout-minutes from successful run-duration history to the one flagged job; commit 803483dcc; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
-   },
+   "build": null,
    "createdAt": "2026-11-07T16:45:05.162534Z",
    "debtId": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
    "dispatchId": "dispatch-a4a9f6b7551b39c56ecb",
@@ -128262,6 +128291,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-a4a9f6b7551b39c56ecb (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-07T20:00:33.127093Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch9-verifier-1e13396e7fe5 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
+     "to": "blocked"
     }
    ],
    "kind": "workflow_hygiene",
@@ -128271,13 +128306,14 @@
    "routine": "ci-architecture-steward",
    "runId": "run-20261107T164134Z-574a6b71",
    "source": "ci-workflow",
-   "state": "building",
-   "updatedAt": "2026-11-07T19:01:37.669668Z",
+   "state": "blocked",
+   "updatedAt": "2026-11-07T20:00:33.127093Z",
    "verification": {
-    "receipt": "steward-20261107T194253Z-bd7655a5e18209f9",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261107T164134Z-574a6b71/verify-1e13396e7fe5.prompt.md"
+    "agentId": "pi-herdr-batch9-verifier-1e13396e7fe5",
+    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - \"The mandatory timeout formula yields 5 minutes, not 10: for the three reported successful durations (46, 56, 69 seconds), p95 cannot exceed 69 seconds and max is 69 seconds; rounding max(2 × p95, 1.5 × max) up to five minutes gives 5. No reason for departing from the rule was supplied.\" - \"The submitted proof omits the required p95 and arithmetic, and supplies no exact YAML parse result. Independent parsing succeeded and confirmed timeout 10, but does not demonstrate the builder's missing proof.\"",
+    "recordedAt": "2026-11-07T20:00:33.127093Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   },
   "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae": {
