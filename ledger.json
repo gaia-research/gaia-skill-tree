@@ -1,5 +1,5 @@
 {
- "generation": 987,
+ "generation": 988,
  "lane": {
   "entries": [
    {
@@ -4695,7 +4695,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T00:31:16.416644Z",
-   "expiresAt": "2026-11-07T01:03:26.555037Z",
+   "expiresAt": "2026-11-07T01:03:31.265389Z",
    "holder": "run-20261106T234654Z-0017da5c"
   }
  },
@@ -77830,7 +77830,7 @@
     "push": false,
     "routine": 1
    },
-   "phase": "class_b",
+   "phase": "verify",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -77843,11 +77843,9 @@
      "status": "ok"
     },
     "class_b": {
-     "dispatchId": "dispatch-be5ad189f65fc08f66cf",
-     "dispatched": "debt:unused_import:scripts-crawlers-mcp-registry-crawler-py:1ef57041ebbfd03a",
-     "status": "awaiting-build",
-     "stepId": "build:746eb7e85b71:1",
-     "stopReason": "dispatch not rendered: sensor coverage is unknown; refusing routing: issue-hygiene"
+     "dispatched": null,
+     "reason": "this run already dispatched 1 (maxDispatchesPerRun 8)",
+     "status": "ok"
     },
     "observe": {
      "authorityCounts": {
@@ -78819,6 +78817,12 @@
      "kind": "agent.build",
      "status": "done",
      "stepId": "build:746eb7e85b71:1"
+    },
+    {
+     "at": "2026-11-07T00:33:30.279817Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_b"
     }
    ],
    "thinkingEfforts": [
@@ -78832,7 +78836,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T00:33:26.555942Z",
+ "updatedAt": "2026-11-07T00:33:31.265551Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
