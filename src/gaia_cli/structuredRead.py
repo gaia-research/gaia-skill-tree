@@ -48,6 +48,7 @@ from __future__ import annotations
 import copy
 import json
 import logging
+import warnings
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable, Optional
@@ -149,10 +150,13 @@ class DiagnosticLog:
         """
 
         target = logDiagnostic if sink is None else sink
-        for diagnostic in list(self._entries):
+        initial_entries = self._entries
+        snapshot = list(self._entries)
+        for diagnostic in snapshot:
             target(diagnostic)
-        self._surfaced = len(self._entries)
-        return len(self._entries)
+        if self._entries is initial_entries:
+            self._surfaced = max(self._surfaced, len(snapshot))
+        return len(snapshot)
 
     def drain(self) -> list[ReadDiagnostic]:
         """Return and clear the collected diagnostics; the caller now owns surfacing them."""
@@ -163,14 +167,17 @@ class DiagnosticLog:
     def __del__(self) -> None:
         unseen = len(getattr(self, "_entries", ())) - getattr(self, "_surfaced", 0)
         if unseen > 0:
-            import warnings
+            try:
+                import warnings
 
-            warnings.warn(
-                f"DiagnosticLog dropped {unseen} unreported read diagnostic(s); "
-                "report() or drain() it so a fallback is never silent",
-                ResourceWarning,
-                stacklevel=2,
-            )
+                warnings.warn(
+                    f"DiagnosticLog dropped {unseen} unreported read diagnostic(s); "
+                    "report() or drain() it so a fallback is never silent",
+                    ResourceWarning,
+                    stacklevel=2,
+                )
+            except Exception:
+                pass
 
 
 def logDiagnostic(diagnostic: ReadDiagnostic) -> None:

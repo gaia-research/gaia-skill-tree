@@ -733,11 +733,7 @@ class MutationBoundarySensor:
                     collect(child, prefix)
 
         collect(tree, "")
-        top_level = Counter(
-            node.name
-            for node in tree.body
-            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
-        )
+        top_level = Counter(name for start, end, name in spans if "." not in name)
         for item in findings:
             # The innermost enclosing scope is the one that starts last.
             qualname = max(
