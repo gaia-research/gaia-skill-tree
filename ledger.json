@@ -1,5 +1,5 @@
 {
- "generation": 1636,
+ "generation": 1637,
  "lane": {
   "entries": [
    {
@@ -780,14 +780,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-d216c83b661079e59258",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T21:55:40.735989Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch10-verifier-4e35681dda17 (pi, effort medium))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T21:55:40.735989Z",
+    "lastVerdict": "reject",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 0,
@@ -126223,6 +126229,13 @@
      "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
      "emittedAt": "2026-11-07T21:09:33.340941Z",
      "idempotencyKey": "verify:dispatch-d216c83b661079e59258:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch10-verifier-4e35681dda17",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - The supplied inspection explicitly reports the post-calibration 4★ record; repeating the packet's 2★ finding is not a reproduction on the pre-calibration current head as required by the contract. - The base record and sensor support the finding, and the candidate diff reaches 4★, but they do not establish that the required pre-calibration reproduction was performed. - Independent review is discharged by this verification; its absent builder-supplied entry is not a defect.",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -126238,7 +126251,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261107T200905Z-82a8d6bb/verify-4e35681dda17.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T21:55:40.735660Z",
+     "status": "done",
      "stepId": "verify:4e35681dda17:1",
      "type": "agent.verify"
     },
@@ -126499,6 +126513,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:a02ebafd4927:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch10-verifier-4e35681dda17",
+     "at": "2026-11-07T21:55:40.735989Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:4e35681dda17:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -128349,11 +128375,11 @@
      "stepId": "phase:class_b"
     },
     {
-     "at": "2026-11-07T21:09:33.340941Z",
+     "at": "2026-11-07T21:55:40.735660Z",
      "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
      "idempotencyKey": "verify:dispatch-d216c83b661079e59258:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:4e35681dda17:1"
     },
     {
@@ -128420,11 +128446,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T21:04:26.867261Z"
+   "updatedAt": "2026-11-07T21:55:40.735660Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T21:21:13.355360Z",
+ "updatedAt": "2026-11-07T21:55:40.739214Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -128621,22 +128647,25 @@
      "stepId": "build:4e35681dda17:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch10-verifier-4e35681dda17",
+     "at": "2026-11-07T21:55:40.735989Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:4e35681dda17:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
+   "blockedReason": "independent verification by pi-herdr-batch10-verifier-4e35681dda17 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
    "branch": "steward/b/trust-calibration-drift-4e35681dda17",
-   "build": {
-    "agentId": "pi-herdr-batch10-builder-4e35681dda17",
-    "attempt": 1,
-    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-4e35681dda17.diff",
-    "dispatchId": "dispatch-d216c83b661079e59258",
-    "noChange": false,
-    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-4e35681dda17.proof.json",
-    "recordedAt": "2026-11-07T21:03:38.204029Z",
-    "summary": "Batch batch10 builder (openai/openai-codex gpt-6-luna medium, pi pane) ran exactly one gaia dev calibrate --no-build to the grade target (founder ruling F1 route); verb-written record only; commit 440dab731; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
-   },
+   "build": null,
    "createdAt": "2026-11-07T20:12:06.869150Z",
    "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
    "dispatchId": "dispatch-d216c83b661079e59258",
@@ -128647,6 +128676,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-d216c83b661079e59258 (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-07T21:55:40.735989Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch10-verifier-4e35681dda17 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
+     "to": "blocked"
     }
    ],
    "kind": "trust_calibration_drift",
@@ -128656,13 +128691,14 @@
    "routine": "gaia-trust-calibration-steward",
    "runId": "run-20261107T200905Z-82a8d6bb",
    "source": "trust-calibration-drift",
-   "state": "building",
-   "updatedAt": "2026-11-07T21:03:38.204029Z",
+   "state": "blocked",
+   "updatedAt": "2026-11-07T21:55:40.735989Z",
    "verification": {
-    "receipt": "steward-20261107T210801Z-16abbae5cacc1e16",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261107T200905Z-82a8d6bb/verify-4e35681dda17.prompt.md"
+    "agentId": "pi-herdr-batch10-verifier-4e35681dda17",
+    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - The supplied inspection explicitly reports the post-calibration 4★ record; repeating the packet's 2★ finding is not a reproduction on the pre-calibration current head as required by the contract. - The base record and sensor support the finding, and the candidate diff reaches 4★, but they do not establish that the required pre-calibration reproduction was performed. - Independent review is discharged by this verification; its absent builder-supplied entry is not a defect.",
+    "recordedAt": "2026-11-07T21:55:40.735989Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   },
   "debt:trust_calibration_drift:cathrynlavery-diagram-design:f97969b87df5be3c": {
