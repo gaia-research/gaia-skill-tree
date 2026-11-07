@@ -1,5 +1,5 @@
 {
- "generation": 1094,
+ "generation": 1095,
  "lane": {
   "entries": [
    {
@@ -4749,7 +4749,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T01:20:53.468038Z",
-   "expiresAt": "2026-11-07T02:52:57.043491Z",
+   "expiresAt": "2026-11-07T02:53:02.682628Z",
    "holder": "run-20261107T012053Z-9dcda16b"
   }
  },
@@ -85555,6 +85555,7 @@
    "ciResults": [],
    "costUsd": 0.0,
    "decisions": [],
+   "deferred": [],
    "desk": {
     "asOf": "2026-11-07T01:39:55.441573Z",
     "decisions": [
@@ -86796,6 +86797,61 @@
      "issueClosure": [],
      "reportOnly": [],
      "skippedActive": []
+    },
+    "verify": {
+     "deferred": [],
+     "expired": [],
+     "results": [
+      {
+       "debtId": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+       "receipt": "steward-20261107T021124Z-4565be1ef80e46b8",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-archive-fetch-ruflo-skills-py:f5adc0673c6d1436",
+       "receipt": "steward-20261107T021251Z-151a29902d73e1a9",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
+       "receipt": "steward-20261107T021418Z-e74f7111b8b09c07",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-crawlers-huggingface-crawler-py:63744d81bcaf52ea",
+       "receipt": "steward-20261107T021545Z-83ee840ec13be687",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-crawlers-npm-crawler-py:92d67b1f4f237223",
+       "receipt": "steward-20261107T021713Z-526d71b0c8387893",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-crawlers-skillsmp-crawler-py:1b1430a5d791da40",
+       "receipt": "steward-20261107T021840Z-afbc3964c5999142",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-crawlers-vscode-marketplace-crawler-py:6d2e9221511f5f68",
+       "receipt": "steward-20261107T022007Z-2ae91344b7e86bdf",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-generateprofilepages-py:dedf7b8660993e9f",
+       "receipt": "steward-20261107T022134Z-563fd877aa203187",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      }
+     ],
+     "status": "awaiting-verifier"
     }
    },
    "proofArtifacts": [
@@ -87037,7 +87093,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T02:22:57.043660Z",
+ "updatedAt": "2026-11-07T02:23:02.682734Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
