@@ -1,5 +1,5 @@
 {
- "generation": 1695,
+ "generation": 1696,
  "lane": {
   "entries": [
    {
@@ -6139,7 +6139,7 @@
     "state": "dispatched"
    },
    {
-    "attempts": 0,
+    "attempts": 1,
     "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
     "firstQueuedAt": "2026-11-07T09:28:17.139193Z",
     "history": [
@@ -6148,14 +6148,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T22:34:17.166999Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-31cae5acdc5144c46b5a",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
+    "lastTransitionAt": "2026-11-07T22:34:17.166999Z",
     "lastVerdict": null,
     "priority": 0.756,
     "rule": "workflow-timeout-repair",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 0,
@@ -6624,7 +6630,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T22:28:30.246839Z",
-   "expiresAt": "2026-11-07T23:20:21.881518Z",
+   "expiresAt": "2026-11-07T23:22:43.344793Z",
    "holder": "run-20261107T222830Z-f75ff7de"
   }
  },
@@ -132332,6 +132338,34 @@
      "status": "pending",
      "stepId": "build:52236ab2419b:2",
      "type": "agent.build"
+    },
+    {
+     "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
+     "emittedAt": "2026-11-07T22:34:17.166999Z",
+     "idempotencyKey": "dispatch-31cae5acdc5144c46b5a:1",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/workflow-hygiene-7e42a9299170",
+      "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
+      "dispatchId": "dispatch-31cae5acdc5144c46b5a",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/build-7e42a9299170.diff",
+       "proofPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/build-7e42a9299170.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/build-7e42a9299170.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:7e42a9299170:1",
+     "type": "agent.build"
     }
    ],
    "actor": "cli",
@@ -133454,6 +133488,14 @@
      "kind": "agent.build",
      "status": "awaiting",
      "stepId": "build:52236ab2419b:2"
+    },
+    {
+     "at": "2026-11-07T22:34:17.166999Z",
+     "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
+     "idempotencyKey": "dispatch-31cae5acdc5144c46b5a:1",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:7e42a9299170:1"
     }
    ],
    "thinkingEfforts": [],
@@ -133464,7 +133506,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T22:50:21.886385Z",
+ "updatedAt": "2026-11-07T22:52:43.372513Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -139158,6 +139200,36 @@
    "kind": "workflow_hygiene",
    "notes": [],
    "promptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/build-52236ab2419b.prompt.md",
+   "pullRequest": null,
+   "routine": "ci-architecture-steward",
+   "runId": "run-20261107T222830Z-f75ff7de",
+   "source": "ci-workflow",
+   "state": "building",
+   "updatedAt": "2026-11-07T22:34:17.166999Z",
+   "verification": null
+  },
+  "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7": {
+   "assignments": [],
+   "attempt": 1,
+   "authority": "B",
+   "baseBranch": "dev/steward-campaign-2026-11-05",
+   "branch": "steward/b/workflow-hygiene-7e42a9299170",
+   "build": null,
+   "createdAt": "2026-11-07T22:34:17.166999Z",
+   "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
+   "dispatchId": "dispatch-31cae5acdc5144c46b5a",
+   "dispatchedAt": "2026-11-07T22:34:17.166999Z",
+   "history": [
+    {
+     "at": "2026-11-07T22:34:17.166999Z",
+     "from": "queued",
+     "reason": "dispatched as dispatch-31cae5acdc5144c46b5a (attempt 1)",
+     "to": "building"
+    }
+   ],
+   "kind": "workflow_hygiene",
+   "notes": [],
+   "promptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/build-7e42a9299170.prompt.md",
    "pullRequest": null,
    "routine": "ci-architecture-steward",
    "runId": "run-20261107T222830Z-f75ff7de",
