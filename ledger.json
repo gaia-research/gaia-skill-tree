@@ -1,5 +1,5 @@
 {
- "generation": 1348,
+ "generation": 1349,
  "lane": {
   "entries": [
    {
@@ -4700,14 +4700,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-567539e5f70ab51b1723",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T11:35:30.299546Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch6-verifier-2ab63c86d569 (pi, effort medium))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-11-07T10:34:05.249425Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T11:35:30.299546Z",
+    "lastVerdict": "reject",
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 0,
@@ -104666,6 +104672,13 @@
      "debtId": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
      "emittedAt": "2026-11-07T11:28:42.340794Z",
      "idempotencyKey": "verify:dispatch-567539e5f70ab51b1723:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch6-verifier-2ab63c86d569",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: reject rationale: >- The finding reproduces at candidate 591db5447. An independent Python AST inspection of src/gaia_cli/embeddings.py found no Name loads for all nine reported imports: date, clearModelCache, clear_model_cache, embedding_status, get_sentence_transformer, load_retrieval_config, save_embeddings_atomic, semantic_fingerprint, and validate_vector. A scoped search of src and tests found no imports of these names from gaia_cli.embeddings, although external consumers and intentional re-exports have not been ruled out. The diff against origin/dev/steward-campaign-2026-11-05 is empty. No tests were run; the no-change claim is contradicted by the current source, not by a runtime test.",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -104681,7 +104694,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261107T103110Z-5e4b906c/verify-2ab63c86d569.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T11:35:30.299244Z",
+     "status": "done",
      "stepId": "verify:2ab63c86d569:1",
      "type": "agent.verify"
     },
@@ -104958,6 +104972,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:d6b5f6051378:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch6-verifier-2ab63c86d569",
+     "at": "2026-11-07T11:35:30.299546Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:2ab63c86d569:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -106686,11 +106712,11 @@
      "stepId": "verify:d6b5f6051378:1"
     },
     {
-     "at": "2026-11-07T11:28:42.340794Z",
+     "at": "2026-11-07T11:35:30.299244Z",
      "debtId": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
      "idempotencyKey": "verify:dispatch-567539e5f70ab51b1723:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:2ab63c86d569:1"
     },
     {
@@ -106757,11 +106783,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T11:35:23.553386Z"
+   "updatedAt": "2026-11-07T11:35:30.299244Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T11:35:23.555236Z",
+ "updatedAt": "2026-11-07T11:35:30.302524Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -110207,22 +110233,25 @@
      "stepId": "build:2ab63c86d569:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch6-verifier-2ab63c86d569",
+     "at": "2026-11-07T11:35:30.299546Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:2ab63c86d569:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
+   "blockedReason": "independent verification by pi-herdr-batch6-verifier-2ab63c86d569 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: rejec",
    "branch": "steward/b/unused-import-2ab63c86d569",
-   "build": {
-    "agentId": "pi-herdr-batch6-builder-2ab63c86d569",
-    "attempt": 1,
-    "diffPath": null,
-    "dispatchId": "dispatch-567539e5f70ab51b1723",
-    "noChange": true,
-    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T103110Z-5e4b906c/build-2ab63c86d569.proof.json",
-    "recordedAt": "2026-11-07T11:06:42.357099Z",
-    "summary": "Batch batch6 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: src/gaia_cli/embeddings.py is wildcard re-exported by packages/cli-npm/cli/embeddings.py (from gaia_cli.embeddings import *), so the flagged imports may be part of a public surface; removal is not proven safe."
-   },
+   "build": null,
    "createdAt": "2026-11-07T10:34:05.249425Z",
    "debtId": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
    "dispatchId": "dispatch-567539e5f70ab51b1723",
@@ -110233,6 +110262,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-567539e5f70ab51b1723 (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-07T11:35:30.299546Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch6-verifier-2ab63c86d569 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: rejec",
+     "to": "blocked"
     }
    ],
    "kind": "unused_import",
@@ -110242,13 +110277,14 @@
    "routine": "dead-code-gardener",
    "runId": "run-20261107T103110Z-5e4b906c",
    "source": "dead-code",
-   "state": "building",
-   "updatedAt": "2026-11-07T11:06:42.357099Z",
+   "state": "blocked",
+   "updatedAt": "2026-11-07T11:35:30.299546Z",
    "verification": {
-    "mode": "no-change",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261107T103110Z-5e4b906c/verify-2ab63c86d569.prompt.md"
+    "agentId": "pi-herdr-batch6-verifier-2ab63c86d569",
+    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: reject rationale: >- The finding reproduces at candidate 591db5447. An independent Python AST inspection of src/gaia_cli/embeddings.py found no Name loads for all nine reported imports: date, clearModelCache, clear_model_cache, embedding_status, get_sentence_transformer, load_retrieval_config, save_embeddings_atomic, semantic_fingerprint, and validate_vector. A scoped search of src and tests found no imports of these names from gaia_cli.embeddings, although external consumers and intentional re-exports have not been ruled out. The diff against origin/dev/steward-campaign-2026-11-05 is empty. No tests were run; the no-change claim is contradicted by the current source, not by a runtime test.",
+    "recordedAt": "2026-11-07T11:35:30.299546Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   },
   "debt:unused_import:src-gaia-cli-main-py:5e2d8b5dd2597031": {
