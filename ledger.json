@@ -1,5 +1,5 @@
 {
- "generation": 1255,
+ "generation": 1256,
  "lane": {
   "entries": [
    {
@@ -5568,7 +5568,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T09:25:26.530962Z",
-   "expiresAt": "2026-11-07T10:39:06.816142Z",
+   "expiresAt": "2026-11-07T10:39:12.577313Z",
    "holder": "run-20261107T092526Z-c6c6c44d"
   }
  },
@@ -98825,6 +98825,7 @@
    "ciResults": [],
    "costUsd": 0.0,
    "decisions": [],
+   "deferred": [],
    "desk": {
     "asOf": "2026-11-07T09:40:25.775010Z",
     "decisions": [
@@ -100276,6 +100277,61 @@
      "issueClosure": [],
      "reportOnly": [],
      "skippedActive": []
+    },
+    "verify": {
+     "deferred": [],
+     "expired": [],
+     "results": [
+      {
+       "debtId": "debt:unused_import:scripts-crawlers-skillsmp-crawler-py:1b1430a5d791da40",
+       "receipt": "steward-20261107T095717Z-c63fc5b99185c4fb",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-generateprofilepages-py:dedf7b8660993e9f",
+       "receipt": "steward-20261107T095846Z-2ff4dd138e4b18c7",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-steward-issue-reconcile-py:8ed5a1f9ac67ba3f",
+       "receipt": "steward-20261107T100016Z-f2bd5808792ae81d",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
+       "receipt": "steward-20261107T100145Z-4f3b78e55dadd2ac",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
+       "receipt": "steward-20261107T100313Z-aae8fbb5059f7633",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-upstream-watcher-transport-py:f9f55b2634428ef3",
+       "receipt": "steward-20261107T100443Z-cfc5dfba20569b83",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-verify-review-findings-py:c0bd2a33a077a588",
+       "receipt": "steward-20261107T100612Z-559bc02d02c0f52f",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:src-gaia-cli-commands-dev-timeline-py:8048fdb73b0eb45b",
+       "receipt": "steward-20261107T100742Z-31d81b6ab11de407",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      }
+     ],
+     "status": "awaiting-verifier"
     }
    },
    "proofArtifacts": [
@@ -100517,7 +100573,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T10:09:06.816281Z",
+ "updatedAt": "2026-11-07T10:09:12.577430Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
