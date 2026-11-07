@@ -935,6 +935,17 @@ def holdForMissingHistory(ctx: Context, draft: Draft) -> None:
     draft.unknowns.append("closed-umbrella-history-not-evaluated")
 
 
+def holdClosedDuplicate(ctx: Context, draft: Draft, repeatOf: int) -> None:
+    """Founder ruling #6: a closed umbrella is a completed epic, so a repeat of its batch is not processed again.
+
+    Only a closure the registry already proves under an enabled rule is left to proceed.
+    """
+    dropDisposition(ctx, draft)
+    draft.state = STATE_HELD
+    draft.notProven.append(f"closed-umbrella-duplicate:#{repeatOf}")
+    draft.evidence.append(ev("issue", f"#{repeatOf}", None, "closed umbrella of the same suite and version already covers this batch"))
+
+
 def provenClosable(ctx: Context, draft: Draft) -> bool:
     """An item the registry already proves closable under an enabled rule: closing it is cleanup, not reprocessing."""
     return draft.proofRule is not None and not draft.unknowns and not draft.forcedC and ctx.policy.ruleEnabled(draft.proofRule)
@@ -1014,10 +1025,7 @@ def finalize(ctx: Context, draft: Draft) -> None:
     if verdict == MATCH and not inert and not provenClosable(ctx, draft):
         # Founder ruling #6: a closed umbrella is a completed epic, so a repeat of its batch is not processed again.
         # Only a closure the registry already proves under an enabled rule is left to proceed.
-        dropDisposition(ctx, draft)
-        draft.state = STATE_HELD
-        draft.notProven.append(f"closed-umbrella-duplicate:#{repeatOf}")
-        draft.evidence.append(ev("issue", f"#{repeatOf}", None, "closed umbrella of the same suite and version already covers this batch"))
+        holdClosedDuplicate(ctx, draft, repeatOf)
         return
     if draft.forcedC:
         return
@@ -1054,6 +1062,11 @@ def finalize(ctx: Context, draft: Draft) -> None:
             draft.confidence = "high"
         if rule == RULE_A4:
             draft.duplicateOf = draft.canonical
+        return
+    if verdict == MATCH and not inert and not provenClosable(ctx, draft):
+        # When an initially eligible proof is cleared during finalization, re-apply the duplicate hold so the item is
+        # held rather than routed to Class B review.
+        holdClosedDuplicate(ctx, draft, repeatOf)
         return
     if draft.kind == "child" and draft.authority == AUTH_NONE:
         draft.authority = AUTH_B

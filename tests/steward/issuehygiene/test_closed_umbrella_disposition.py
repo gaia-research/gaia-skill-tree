@@ -731,3 +731,30 @@ def test_a_v2_row_without_a_suggested_id_is_ambiguous_even_for_a_proven_child(tm
     child = item(run(census, tmp_path), 31)
 
     assert (child["state"], child["authority"]) == ("not-evaluated", "none")
+
+
+def test_a_repeated_umbrella_whose_a3_proof_is_invalidated_by_a_closed_superseder_is_held_not_dispatched(tmp_path: Path) -> None:
+    """Review repro (round 5 P1): open #30 initially matches A3 superseded by newer open #40.
+
+    When #40 is closed in the same pass (A2), #30 loses its A3 proof. Because #30 repeats closed umbrella #20,
+    the duplicate hold must be re-applied: held / none / closed-umbrella-duplicate:#20, and no issue_suite_review B.
+    """
+    suiteRecord(tmp_path, "v8.0.0")
+    census = censusOf(
+        [umbrellaRow(30, SUITE, "v7.0.0", adds=["alpha"]), umbrellaRow(40, SUITE, "v8.0.0", adds=["alpha"])],
+        closed=[closedUmbrella(20, adds=["alpha"])],
+    )
+
+    manifest = run(census, tmp_path)
+
+    u40 = item(manifest, 40)
+    assert (u40["state"], u40["authority"], u40["ruleId"]) == ("resolved", "A", "A2-umbrella-synced")
+
+    u30 = item(manifest, 30)
+    assert (u30["state"], u30["authority"], u30["ruleId"]) == ("held", "none", None)
+    assert "closed-umbrella-duplicate:#20" in u30["notProven"]
+    assert "superseder-closed-in-pass:#40" in u30["notProven"]
+    assert all(u30["key"] not in batch["classB"] for batch in manifest["batches"])
+
+    scan = IssueHygieneSensor()._observations(manifest, policyFor(writesEnabled=False), "2026-10-21T19:30:00Z")
+    assert not [o for o in scan.observations if o.kind == "issue_suite_review"]
