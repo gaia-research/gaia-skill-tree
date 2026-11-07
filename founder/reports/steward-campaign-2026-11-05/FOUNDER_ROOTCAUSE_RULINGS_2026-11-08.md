@@ -219,3 +219,19 @@ Further founder messages to the engineering partner:
 F2 is decided: `SUITE_COMPONENT_REPOSITORY_CAP` becomes 49.9, so cap-only suite evidence grades C (2★ ceiling) and a component needs at least one scoring row of its own to reach B and 3★. Implemented in draft PR #2378 (its own verbatim record: `FOUNDER_RULING_SUITE_CAP_2026-11-08.md`). With this, F1's automatic calibration has no cap-only overlap.
 
 Open founder question: whether the 46 unfrozen suite components stored at 3★ with cap-only evidence are grandfathered at 3★ or recalibrated to 2★ (13 frozen ones are unaffected).
+
+## Addendum 3: F7 and F9 confirmations (verbatim, 2026-11-08)
+
+Asked: F7 — may the lead install the gh-aw extension (`gh extension install github/gh-aw --pin v0.92.6`, a global `gh` change) and recompile the 8 lock files, first moving the hand-added "Founder pause" (`activation: if: ${{ false }}`) into the gh-aw sources so the recompile keeps those agents off, with an audit and compile receipt per FOUNDER_LOCK_2283.md C4? F9 — confirm the eight `docs/samples` prototypes stay as they are.
+
+> F7 yes. F9 yes.
+
+Reading: F7 approved as asked (install pinned v0.92.6; preserve the founder pause in source; C4 audit and compile receipt). F9: keep `docs/samples` and leave it as is; its 8 browser_sink_risk findings stay open by founder decision.
+
+## Addendum 4: the 46 unfrozen 3★ cap-only suite components under the 49.9 cap (verbatim, 2026-11-08)
+
+Asked, with options: A — first add any genuine own evidence each already has (via `gaia dev evidence`), then recalibrate the rest to 2★ (governed calibrations with demote events; reversible through F1 once own evidence lands); B — grandfather them at 3★ through an engine exemption list; C — do nothing (stored 3★, displayed 2★, 46 permanent ceiling-exceeded findings).
+
+> A.
+
+Affected (cap499 simulation on 1a264cdd5): garrytan 19, leonxlnx 10, heygen-com 6, gsd-build 4, addy-osmani 3, firecrawl 3, obra 1. The 13 frozen 3★ components are untouched (frozen skills keep their stars).
