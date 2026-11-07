@@ -74,7 +74,14 @@ def _assign(value: str) -> str:
 
 
 def _reference() -> str:
-    return _assign("$" + "{GITHUB" + "_REF}")
+    """A value Python itself evaluates: an unquoted attribute path in code (Class B evidence)."""
+
+    return _assign("settings.api_" + "value")
+
+
+def _shell(line: str) -> str:
+    # Assembled so this module never contains a keyword-assignment literal.
+    return line.replace("TOK_", "TOK" + "EN")
 
 
 def _opaque() -> str:
@@ -778,23 +785,71 @@ class TestEvidenceRouting:
         assert resolved.observed_state["priorObservedState"] == dict(review_debt.observed_state)
 
     @pytest.mark.parametrize(
-        "value",
+        "rel, text",
         [
-            "$" + "{GITHUB" + "_REF}",  # template interpolation
-            "$TOKEN" + "_VAR",  # variable reference
-            "process.env." + "API_VALUE",  # environment lookup
-            "<your-" + "value>",  # angle-bracket slot
-            "<token-" + "here>",
-            "YOUR_API" + "_KEY",  # documented placeholder marker
-            "x" * 8,  # xxxx marker
-            "EXAM" + "PLE",  # documented marker standing alone
-            "FAKE-" + "TOKEN",
-            "change" + "me",  # common placeholder word
+            ("src/a.py", _assign("settings.api_" + "value")),
+            ("src/a.py", _assign("process.env." + "API_VALUE")),  # attribute access in Python code
+            ("scripts/a.sh", _shell("TOK_=$" + "{GITHUB_REF}\n")),
+            ("scripts/a.sh", _shell('export TOK_="$' + '{GITHUB_REF}"\n')),
+            ("scripts/a.sh", _shell("TOK_=$TOKEN_VAR\n")),
+            ("scripts/a.sh", _shell('TOK_="$' + '{GITHUB_TOKEN}@github.com/o/r.git"\n')),
+            (
+                ".github/workflows/ci.yml",
+                "jobs:\n  a:\n    steps:\n      - run: |\n"
+                '          git push "https://x-access-token:$' + '{RELEASE_PAT}@github.com/o/r.git"\n',
+            ),
+            (".github/workflows/ci.yml", "    env:\n      to" + "ken: $" + "{{secrets.GH_VALUE}}\n"),
         ],
     )
-    def test_positively_benign_values_route_to_class_b(self, tmp_path: Path, value: str) -> None:
-        root = _repo(tmp_path, _assign(value))
-        assert _kinds(root) == {"credential_review": "drift", "credential_leak": "healthy"}, value
+    def test_values_the_source_language_evaluates_route_to_class_b(self, tmp_path: Path, rel: str, text: str) -> None:
+        root = _repo(tmp_path, "x = 1\n", **{rel: text})
+        assert _kinds(root, rel) == {"credential_review": "drift", "credential_leak": "healthy"}, (rel, text)
+
+    @pytest.mark.parametrize(
+        "rel, text",
+        [
+            # A quoted Python string that merely LOOKS like a reference is a literal.
+            ("src/a.py", _assign('"$' + '{GITHUB_REF}"')),
+            ("src/a.py", _assign('"$PASS' + 'WORD"')),
+            ("src/a.py", _assign('"process.env.' + 'PROD_KEY"')),
+            ("src/a.py", _assign("'<your-" + "value>'")),
+            ("src/a.py", _assign("'settings.api_" + "value'")),
+            # A shell default embeds a literal, however it is spelled.
+            ("src/a.py", _assign('"$' + '{TOK' + 'EN:-actualRealSecret123}"')),
+            # Placeholder words and common words are strings a real password can equal.
+            ("src/a.py", _assign('"secret_password_' + 'test"')),
+            ("src/a.py", _assign('"FAKE-' + 'TOKEN"')),
+            ("src/a.py", _assign('"change' + 'me"')),
+            ("src/a.py", _assign('"EXAM' + 'PLE"')),
+            ("src/a.py", _assign('"YOUR_API' + '_KEY"')),
+            ("src/a.py", _assign('"x' * 1 + 'xxxxxxx"')),
+            # Python code that is not code: comments and multi-line strings.
+            ("src/a.py", "# " + _assign("settings.api_" + "value")),
+            ("src/a.py", 'x = """\n' + _assign("settings.api_" + "value") + '"""\n'),
+            # Shell: single quotes, defaults, comments, heredocs.
+            ("scripts/a.sh", _shell("TOK_='$" + "{GITHUB_REF}'\n")),
+            ("scripts/a.sh", _shell("TOK_=$" + "{GITHUB_TOKEN:-actualRealSecret123}\n")),
+            ("scripts/a.sh", _shell('TOK_="$' + '{X:-realsecret123}"\n')),
+            ("scripts/a.sh", _shell("TOK_=$" + "{X:=realsecret123}\n")),
+            ("scripts/a.sh", _shell("# TOK_=$" + "{GITHUB_REF}\n")),
+            ("scripts/a.sh", _shell("cat <<'EOF'\nTOK_=$" + "{GITHUB_REF}\nEOF\n")),
+            # Workflow: outside a run script, single-quoted, defaulted, commented.
+            (".github/workflows/ci.yml", "    env:\n      to" + "ken: $" + "{GITHUB_REF}\n"),
+            (".github/workflows/ci.yml", "      - run: |\n          echo '" + "tok" + "en=$" + "{GITHUB_REF}'\n"),
+            (".github/workflows/ci.yml", "      - run: |\n          echo \"" + "tok" + "en=$" + "{X:-realsecret123}\"\n"),
+            (".github/workflows/ci.yml", "      # " + "tok" + "en: $" + "{{secrets.GH_VALUE}}\n"),
+            # Languages whose evaluation the scanner does not model are never Class B.
+            ("docs/a.md", _assign("settings.api_" + "value")),
+            ("config/a.json", '{"to' + 'ken": "$' + '{GITHUB_REF}"}\n'),
+            ("config/a.yaml", "to" + "ken: $" + "{GITHUB_REF}\n"),
+            ("src/a.js", "const to" + "ken = process.env.PROD" + "_KEY\n"),
+            ("src/a.txt", _assign("settings.api_" + "value")),
+            ("Makefile", "TOK" + "EN=$" + "{GITHUB_REF}\n"),
+        ],
+    )
+    def test_values_the_language_does_not_evaluate_stay_class_c(self, tmp_path: Path, rel: str, text: str) -> None:
+        root = _repo(tmp_path, "x = 1\n", **{rel: text})
+        assert _kinds(root, rel) == {"credential_leak": "drift"}, (rel, text)
 
     @pytest.mark.parametrize(
         "value",
@@ -802,16 +857,24 @@ class TestEvidenceRouting:
             "correct-horse-battery-staple",  # a passphrase
             "Xk9Re" + "dactedQ2mZ7vLp4",  # mixed case, digits, redaction-like substring
             "re" + "dacted-looking-but-real-1",  # redaction-like substring only
-            "plainvalue",  # short but not a known placeholder word
+            "plainvalue",
             "abc123def456" + "...",  # truncated token
             "EXAM" + "PLE" + "abcdefghijklmnopqrstuvwxyz0123456789",  # marker fused into a longer value
             "YOUR_KEY-" + "abcdefghijklmnop0123456789qrstuv",  # marker with a large residue
             "Tr0ub4dor" + "3Horse",  # human-chosen password
         ],
     )
-    def test_anything_not_positively_benign_stays_class_c(self, tmp_path: Path, value: str) -> None:
+    def test_quoted_literals_stay_class_c(self, tmp_path: Path, value: str) -> None:
         root = _repo(tmp_path, _assign(f'"{value}"'))
         assert _kinds(root) == {"credential_leak": "drift"}, value
+
+    def test_evidence_classification_is_exposed_per_language(self) -> None:
+        text = _assign("settings.api_" + "value")
+        start = text.index("settings")
+        assert credentialClass("credential-assignment", text.strip(), text, len(text.strip()), "src/a.py") == "review"
+        assert credentialClass("credential-assignment", text.strip(), text, len(text.strip()), "src/a.md") == "ambiguous"
+        assert credentialClass("credential-assignment", text.strip(), text, len(text.strip())) == "ambiguous"
+        assert start > 0
 
     @pytest.mark.parametrize(
         "value",
@@ -843,11 +906,6 @@ class TestEvidenceRouting:
         root = _repo(tmp_path, f"k = '{token}'\n")
         assert _kinds(root) == {"credential_leak": "drift"}
 
-    def test_reference_followed_by_a_hostname_tail_is_a_reference(self, tmp_path: Path) -> None:
-        value = "$" + "{GITHUB" + "_TOKEN}@github.com/owner/repo.git"
-        root = _repo(tmp_path, _assign(value))
-        assert _kinds(root) == {"credential_review": "drift", "credential_leak": "healthy"}
-
     def test_opaque_high_entropy_value_stays_class_c(self, tmp_path: Path) -> None:
         value = _opaque()
         assert len(value) >= 20 and any(c.isdigit() for c in value)
@@ -855,14 +913,17 @@ class TestEvidenceRouting:
         assert _kinds(root) == {"credential_leak": "drift"}
 
     @pytest.mark.parametrize(
-        "rel", ["src/a.py", "tests/steward/a.py", ".claude/skills/x/SKILL.md", ".agents/skills/x/SKILL.md", "docs/a.md"]
+        "rel",
+        ["src/a.py", "tests/steward/a.py", ".claude/skills/x/helper.py", ".agents/skills/x/helper.py", "docs/a.py"],
     )
-    def test_the_same_value_routes_the_same_regardless_of_path(self, tmp_path: Path, rel: str) -> None:
+    def test_the_same_value_routes_the_same_regardless_of_directory(self, tmp_path: Path, rel: str) -> None:
         # No downgrading because a file is mirrored or under tests/: only the value counts.
         live = _repo(tmp_path / "live", f"k = '{_github_token()}'\n", **{rel: f"k = '{_github_token()}'\n"})
         assert _kinds(live, rel)["credential_leak"] == "drift" and "credential_review" not in _kinds(live, rel)
         opaque = _repo(tmp_path / "opaque", "x = 1\n", **{rel: _assign(f'"{_opaque()}"')})
         assert "credential_review" not in _kinds(opaque, rel)
+        quoted = _repo(tmp_path / "quoted", "x = 1\n", **{rel: _assign('"$' + '{GITHUB_REF}"')})
+        assert _kinds(quoted, rel) == {"credential_leak": "drift"}
         quiet = _repo(tmp_path / "quiet", "x = 1\n", **{rel: _reference()})
         assert _kinds(quiet, rel) == {"credential_review": "drift", "credential_leak": "healthy"}
 
@@ -875,7 +936,7 @@ class TestEvidenceRouting:
         assert _kinds(root) == {"credential_leak": "drift"}
 
     def test_class_b_findings_still_need_an_exact_record_even_when_some_are_decided(self, tmp_path: Path) -> None:
-        root = _repo(tmp_path, _reference() + _reference().replace("GITHUB", "OTHER"))
+        root = _repo(tmp_path, _reference() + _reference().replace("api_value", "other_value"))
         debt = _live(root).debt_id
         (first, index), _second = _targets(root)
         _put(root, _record(first, index, debt))
@@ -901,12 +962,6 @@ class TestEvidenceRouting:
     @pytest.mark.parametrize("name", ["credential-assignment", "bearer-token", "aws-secret-access-key"])
     def test_generic_patterns_default_to_class_c(self, name: str) -> None:
         assert credentialClass(name, "plainvalue", "", 0) == "ambiguous"
-
-    def test_a_value_followed_by_a_call_or_index_is_an_expression(self) -> None:
-        text = "tok" + "en = lookup(1)"
-        end = text.index("(")
-        assert credentialClass("credential-assignment", text[:end], text, end) == "review"
-        assert credentialClass("credential-assignment", text[:end], text, end - 1) == "ambiguous"
 
     def test_unknown_pattern_is_never_assumed_benign(self) -> None:
         assert credentialClass("brand-new-pattern", "whatever", "", 0) == "ambiguous"
@@ -993,10 +1048,29 @@ class TestPolicyAndEnvelope:
 
     @staticmethod
     def _diff(path: str) -> str:
+        if path.startswith("founder/steward/security-dispositions/"):
+            # A new, valid, unstamped record: the post-diff JSON the checker evaluates.
+            return TestPolicyAndEnvelope._unified(path, "", '{\n  "author": "builder-agent"\n}\n')
         return (
             f"diff --git a/{path} b/{path}\nindex 1111111..2222222 100644\n--- a/{path}\n+++ b/{path}\n"
             "@@ -1 +1 @@\n-old\n+new\n"
         )
+
+    @staticmethod
+    def _unified(path: str, old: str, new: str) -> str:
+        """A real unified diff (one line of context) between two texts, as ``git diff`` would emit."""
+
+        import difflib
+
+        lines = difflib.unified_diff(
+            old.splitlines(),
+            new.splitlines(),
+            f"a/{path}" if old else "/dev/null",
+            f"b/{path}" if new else "/dev/null",
+            lineterm="",
+            n=1,
+        )
+        return "\n".join(lines) + "\n"
 
     def _scope(self, path: str, packet: DispatchPacket | None = None) -> bool:
         packet = packet or self._packet()
@@ -1096,15 +1170,11 @@ class TestPolicyAndEnvelope:
         assert not self._scope("founder/steward/POLICY.yaml", packet)
         assert not self._scope("founder/steward/security-dispositions-evil/a.json", packet)
 
-    @staticmethod
-    def _stamp_diff(path: str, added: list[str]) -> str:
-        body = "".join(f"+{line}\n" for line in added)
-        return (
-            f"diff --git a/{path} b/{path}\nindex 1111111..2222222 100644\n--- a/{path}\n+++ b/{path}\n"
-            f"@@ -1 +1,{len(added)} @@\n-old\n{body}"
-        )
+    RECORD = "founder/steward/security-dispositions/abc-1234-0.json"
 
-    def _scope_of(self, diff: str) -> bool:
+    def _scope_of(self, diff: str, files: dict[str, str] | None = None) -> bool:
+        """Scope verdict for ``diff``, with ``files`` as the checkout the diff applies to."""
+
         packet = self._packet()
         transcript = json.dumps(
             {
@@ -1115,9 +1185,10 @@ class TestPolicyAndEnvelope:
                 ],
             }
         )
+        reader = (lambda rel: files.get(rel)) if files is not None else None
         verdict = evaluate(
             packet=packet,
-            change_set=parse_unified_diff(diff),
+            change_set=parse_unified_diff(diff, base=reader),
             transcript=parse_proof_transcript(transcript, proof_contract_length=len(packet.proof)),
             debt_source="secret-scan",
             sensor_sources=("secret-scan",),
@@ -1128,52 +1199,127 @@ class TestPolicyAndEnvelope:
         self.last_reasons = verdict.reasons
         return verdict.scope_valid
 
-    RECORD = "founder/steward/security-dispositions/abc-1234-0.json"
+    BASE = (
+        "{\n"
+        '  "author": "builder-agent",\n'
+        '  "verifiedBy":\n'
+        '    "",\n'
+        '  "verifiedAt":\n'
+        '    "",\n'
+        '  "verificationReceipt":\n'
+        '    "",\n'
+        '  "evidence": "specific evidence for the reviewer to reproduce"\n'
+        "}\n"
+    )
 
-    def test_a_builder_diff_that_leaves_the_stamp_empty_is_in_scope(self) -> None:
-        diff = self._stamp_diff(
-            self.RECORD,
-            ['  "author": "builder-agent",', '  "verifiedBy": "",', '  "verifiedAt": "",', '  "verificationReceipt": ""'],
-        )
-        assert self._scope_of(diff)
+    def _modify(self, old: str, new: str) -> tuple[str, dict[str, str]]:
+        return self._unified(self.RECORD, old, new), {self.RECORD: old}
 
-    def test_a_builder_diff_that_omits_the_stamp_is_in_scope(self) -> None:
-        assert self._scope_of(self._stamp_diff(self.RECORD, ['  "author": "builder-agent"']))
+    def test_a_builder_edit_that_leaves_the_stamp_empty_is_in_scope(self) -> None:
+        diff, files = self._modify(self.BASE, self.BASE.replace("specific evidence", "better evidence"))
+        assert self._scope_of(diff, files)
 
-    def test_null_counts_as_empty(self) -> None:
-        assert self._scope_of(self._stamp_diff(self.RECORD, ['  "verifiedBy": null,']))
+    def test_null_and_absent_stamps_are_empty(self) -> None:
+        old = '{\n  "author": "builder-agent"\n}\n'
+        assert self._scope_of(*self._modify(old, '{\n  "author": "builder-agent",\n  "verifiedBy": null\n}\n'))
+        assert self._scope_of(*self._modify(old, '{\n  "author": "someone-else"\n}\n'))
 
     @pytest.mark.parametrize(
-        "line",
+        "field, key_line",
         [
-            '  "verifiedBy": "verifier-agent",',
-            '  "verifiedAt": "2026-11-07T01:00:00Z",',
-            '  "verificationReceipt": "rcpt-1",',
-            '{"author":"b","verifiedBy":"someone"}',
-            '  "VERIFIEDBY": "someone",',
-            '  "verified\\u0042y": "someone",',  # escaped letter inside the key
-            '  "verifiedBy":',  # value on a later line
-            '  "verifiedBy" : 7,',
-            '  "verifiedBy": ["x"],',
+            ("verifiedBy", '  "verifiedBy":\n'),
+            ("verifiedAt", '  "verifiedAt":\n'),
+            ("verificationReceipt", '  "verificationReceipt":\n'),
         ],
     )
-    def test_a_stamped_record_in_a_builder_diff_is_rejected(self, line: str) -> None:
-        diff = self._stamp_diff(self.RECORD, ['  "author": "builder-agent",', line])
-        assert not self._scope_of(diff)
-        assert any("stamps verifiedBy" in reason for reason in self.last_reasons)
+    def test_a_multiline_value_change_under_an_unchanged_key_line_is_rejected(self, field: str, key_line: str) -> None:
+        # The reviewer's shape: the key line is untouched context and only the value line changes.
+        start = self.BASE.index(key_line) + len(key_line)
+        end = self.BASE.index("\n", start)
+        new = self.BASE[:start] + '    "chosen-value",' + self.BASE[end:]
+        diff, files = self._modify(self.BASE, new)
+        assert f'+    "chosen-value",' in diff and f"-{key_line.rstrip()}" not in diff
+        assert key_line.rstrip() in diff  # the key line appears only as unchanged context
+        assert not self._scope_of(diff, files)
+        assert any(field in reason for reason in self.last_reasons), self.last_reasons
 
-    def test_stamps_in_other_files_are_not_this_checks_business(self) -> None:
-        # Out of scope for another reason entirely, but not reported as a stamp.
-        diff = self._stamp_diff("src/gaia_cli/auth.py", ['    "verifiedBy": "x",'])
-        assert not self._scope_of(diff)
-        assert not any("stamps verifiedBy" in reason for reason in self.last_reasons)
+    @pytest.mark.parametrize("field", ["verifiedBy", "verifiedAt", "verificationReceipt"])
+    @pytest.mark.parametrize(
+        "value", ['"chosen"', '" "', "7", "true", '["x"]', '{"a": 1}'],
+    )
+    def test_any_non_empty_stamp_value_is_rejected_for_every_field(self, field: str, value: str) -> None:
+        old = '{\n  "author": "builder-agent"\n}\n'
+        new = '{\n  "author": "builder-agent",\n  "' + field + '": ' + value + "\n}\n"
+        assert not self._scope_of(*self._modify(old, new))
+        assert any(field in reason for reason in self.last_reasons)
+
+    @pytest.mark.parametrize(
+        "key", ['"VERIFIEDBY"', '"verified\\u0042y"', '" verifiedBy "', '"verificationreceipt"', '"VerifiedAt"']
+    )
+    def test_escaped_and_variant_keys_are_still_the_stamp(self, key: str) -> None:
+        old = '{\n  "author": "builder-agent"\n}\n'
+        new = '{\n  "author": "builder-agent",\n  ' + key + ': "chosen"\n}\n'
+        assert not self._scope_of(*self._modify(old, new))
+
+    def test_compact_json_is_judged_on_the_whole_record(self) -> None:
+        old = '{"author":"builder-agent","verifiedBy":""}\n'
+        assert self._scope_of(*self._modify(old, '{"author":"builder-agent","verifiedBy":"","note":"x"}\n'))
+        assert not self._scope_of(*self._modify(old, '{"author":"builder-agent","verifiedBy":"chosen"}\n'))
+
+    def test_an_already_stamped_record_cannot_be_carried_through_an_edit(self) -> None:
+        # A stamp present in the post-diff record is rejected even if this diff did not add it.
+        old = '{\n  "author": "builder-agent",\n  "verifiedBy": "lead-stamped"\n}\n'
+        new = old.replace("builder-agent", "another-builder")
+        assert not self._scope_of(*self._modify(old, new))
+
+    def test_a_new_record_is_judged_on_its_whole_content(self) -> None:
+        assert self._scope_of(self._unified(self.RECORD, "", '{\n  "author": "builder-agent"\n}\n'))
+        stamped = '{\n  "author": "builder-agent",\n  "verifiedBy": "chosen"\n}\n'
+        assert not self._scope_of(self._unified(self.RECORD, "", stamped))
+
+    def test_a_deleted_record_has_no_post_image_to_stamp(self) -> None:
+        old = '{\n  "author": "builder-agent"\n}\n'
+        assert self._scope_of(self._unified(self.RECORD, old, ""), {self.RECORD: old})
+
+    def test_fail_closed_when_the_post_diff_json_is_unavailable(self) -> None:
+        diff, _ = self._modify(self.BASE, self.BASE.replace("specific", "better"))
+        for files in (None, {}, {self.RECORD: self.BASE.replace('"verificationReceipt":\n    ""', '"verificationReceipt":\n    "zzz"')}):
+            assert not self._scope_of(diff, files)
+            assert any("unavailable" in reason for reason in self.last_reasons), self.last_reasons
+
+    def test_fail_closed_when_the_post_diff_is_not_a_json_object(self) -> None:
+        old = '{\n  "author": "builder-agent"\n}\n'
+        for broken in ('{\n  "author": "builder-agent",\n}\n', "[1, 2]\n", "not json\n", '"just a string"\n'):
+            assert not self._scope_of(*self._modify(old, broken)), broken
+
+    def test_a_non_json_file_under_the_subtree_is_rejected(self) -> None:
+        path = "founder/steward/security-dispositions/notes.txt"
+        assert not self._scope_of(self._unified(path, "", "hello\n"))
+
+    def test_other_files_are_not_judged_by_the_stamp_check(self) -> None:
+        diff = self._unified("src/gaia_cli/auth.py", "", 'x = {"verifiedBy": "x"}\n')
+        assert not self._scope_of(diff)  # out of scope for its own reason
+        assert not any("disposition record" in reason for reason in self.last_reasons)
 
     def test_a_stamped_diff_is_reported_in_the_change_set(self) -> None:
-        change = parse_unified_diff(self._stamp_diff(self.RECORD, ['  "verifiedBy": "x",']))
-        assert change.stamped_paths == (self.RECORD,)
-        assert change.to_dict()["stampedPaths"] == [self.RECORD]
-        clean = parse_unified_diff(self._stamp_diff(self.RECORD, ['  "verifiedBy": "",']))
+        stamped = '{\n  "author": "builder-agent",\n  "verifiedBy": "x"\n}\n'
+        change = parse_unified_diff(self._unified(self.RECORD, "", stamped))
+        assert [path for path, _ in change.stamped_paths] == [self.RECORD]
+        assert change.to_dict()["stampedPaths"][0]["path"] == self.RECORD
+        clean = parse_unified_diff(self._unified(self.RECORD, "", '{"author": "x"}\n'))
         assert clean.stamped_paths == () and "stampedPaths" not in clean.to_dict()
+
+    def test_checkout_base_reads_plain_files_only(self, tmp_path: Path) -> None:
+        from gaia_cli.steward.verification import checkoutBase
+
+        (tmp_path / "a").mkdir()
+        (tmp_path / "a" / "r.json").write_text("{}", encoding="utf-8")
+        (tmp_path / "link.json").symlink_to(tmp_path / "a" / "r.json")
+        read = checkoutBase(tmp_path)
+        assert read("a/r.json") == "{}"
+        assert read("a/missing.json") is None
+        assert read("link.json") is None
+        assert read("../outside.json") is None
 
     def _policy_text(self, tmp_path: Path, transform) -> Path:
         root = tmp_path / "policyroot"

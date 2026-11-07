@@ -33,12 +33,14 @@ import ast
 import base64
 import binascii
 import hashlib
+import io
 import json
 import re
+import tokenize
 import tomllib
 from collections import Counter
 from dataclasses import dataclass, field, replace
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any, Iterable
 
 from gaia_cli.steward import credentialDispositions
@@ -1049,52 +1051,33 @@ _ISSUER_PATTERNS = frozenset(
     }
 )
 # Routing defaults to Class C. A generic finding (a keyword next to a value, or a
-# JWT-shaped string) is Class B only when its ENTIRE matched value is, by syntax,
-# one of:
-#   - a variable or environment reference (``${NAME}``, ``$NAME``, ``%NAME%``,
-#     ``process.env.NAME``, ``secrets.NAME``, ``{{ template }}``, ``<slot>``),
-#   - a reference followed by a hostname tail (``${NAME}@host.tld/...``),
-#   - an expression: a bare identifier path the source then calls or indexes,
-#   - a documented placeholder made ONLY of placeholder words (``YOUR_API_KEY``,
-#     ``FAKE-TOKEN``, ``xxxx``),
-#   - a short common placeholder word.
-# A marker, ``env`` or ``getenv`` appearing INSIDE a longer value proves nothing:
-# a real password can contain any of them. Everything else stays Class C whatever
-# its entropy, length or look. Absence of evidence of danger is not evidence of safety.
+# JWT-shaped string) is Class B only with evidence that the SOURCE LANGUAGE
+# ACTUALLY EVALUATES the value as a reference or expression. What a value looks
+# like proves nothing: a quoted Python string spelled ``${X}`` is a literal, a
+# shell default ``${X:-literal}`` embeds a literal, and a placeholder word is a
+# string a real password can equal. Supported, and nothing else:
+#   - Python: an unquoted identifier path in code (not inside a string, f-string
+#     or comment, as the Python tokenizer sees the file),
+#   - POSIX shell scripts: ``$NAME`` / ``${NAME}`` (no ``:-`` style operator)
+#     outside single quotes and comments, optionally followed by a hostname tail,
+#   - GitHub workflow YAML: the same inside a ``run:`` script, and a whole
+#     ``${{ expression }}`` anywhere outside comments.
+# Every other language, an unparseable file, a heredoc and any doubt is Class C.
 _GENERIC_PATTERNS = frozenset({"bearer-token", "credential-assignment", "aws-secret-access-key"})
 _IDENT = r"[A-Za-z_][A-Za-z0-9_]*"
-_PATH = rf"{_IDENT}(?:\.{_IDENT})*"
-_REFERENCE_TOKEN = rf"(?:\$\{{{_PATH}(?::?[-=+?][^}}\s]*)?\}}|\${_IDENT}|%{_IDENT}%|\{{\{{[^{{}}]*\}}\}})"
-_WHOLE_REFERENCE = re.compile(
-    rf"{_REFERENCE_TOKEN}"
-    rf"|<[A-Za-z_.-]+>"  # <placeholder> slot of words (no digits), including <...>
-    rf"|(?:process\.env|env|secrets|ENV)\.{_IDENT}"
-)
-# ``${NAME}@host.tld/...``: the credential position IS the reference; what follows is a URL authority.
-_REFERENCE_WITH_HOST = re.compile(
-    rf"{_REFERENCE_TOKEN}@[A-Za-z0-9.-]+\.[A-Za-z]{{2,}}(?:[/:?#].*)?"
-)
-_IDENT_PATH = re.compile(_PATH)
-# ``${path`` or a backtick template opener cut where a call or index begins.
-_INTERPOLATION_OPENER = re.compile(rf"`?\$\{{{_PATH}")
-_PLACEHOLDER_WORDS = frozenset(
-    {
-        "example", "fake", "dummy", "placeholder", "your", "changeme", "sample", "test", "testing",
-        "api", "key", "token", "secret", "password", "passwd", "pass", "value", "here", "xxx", "xxxx",
-        "mytoken", "mysecret", "mypassword", "apikey",
-    }
-)
-_PLACEHOLDER_MARKERS = frozenset({"example", "fake", "dummy", "placeholder", "your", "changeme", "sample", "test"})
-_X_RUN = re.compile(r"[xX]{4,}(?:[-_.][xX]{4,})*")
-_COMMON_WORDS = frozenset(
-    {
-        "token", "secret", "password", "passwd", "pass", "value", "string", "none", "null", "nil",
-        "true", "false", "undefined", "default", "test", "testing", "sample", "changeme", "key",
-        "apikey", "foo", "bar", "baz", "example", "fake", "dummy", "placeholder", "mytoken",
-        "mysecret", "mypassword",
-    }
-)
+_IDENT_PATH = re.compile(rf"{_IDENT}(?:\.{_IDENT})*")
+_HOST_TAIL = r"@[A-Za-z0-9.-]+\.[A-Za-z]{2,}(?:[/:?#].*)?"
+_SHELL_REF = re.compile(rf"\$\{{{_IDENT}\}}|\${_IDENT}")
+_SHELL_REF_HOST = re.compile(rf"(?:\$\{{{_IDENT}\}}|\${_IDENT}){_HOST_TAIL}")
+_WORKFLOW_EXPRESSION = re.compile(r"\$\{\{[^{}\s]*\}\}")
+_RUN_BLOCK = re.compile(r"^(\s*)(?:-\s+)?run:\s*[|>][-+0-9]*\s*$")
+_RUN_INLINE = re.compile(r"(?:^|\s)run:\s*(.*)$")
 _PRIVATE_KEY_BODY = re.compile(r"[\s\\n]*(?:[A-Za-z0-9+/=]{16,}[\s\\n]*){2,}")
+_PY_LITERAL_TOKENS = {tokenize.STRING, tokenize.COMMENT}
+_PY_FSTRING = (
+    getattr(tokenize, "FSTRING_START", None),
+    getattr(tokenize, "FSTRING_END", None),
+)
 
 # Classes that stay Class C. Only "review" routes to Class B.
 LIVE_CLASSES = frozenset({"issuer", "structured", "ambiguous"})
@@ -1124,42 +1107,127 @@ def _validJwt(matched: str) -> bool:
     return isinstance(decoded[0], dict) and "alg" in decoded[0] and isinstance(decoded[1], dict)
 
 
-def _placeholderOnly(value: str) -> bool:
-    """Whether the WHOLE value is made of placeholder words (``YOUR_API_KEY``, ``FAKE-TOKEN``, ``xxxx``)."""
+def _language(rel: str) -> str | None:
+    if rel.startswith(".github/workflows/") and rel.endswith((".yml", ".yaml")):
+        return "workflow"
+    return {".py": "python", ".sh": "shell", ".bash": "shell", ".zsh": "shell"}.get(PurePosixPath(rel).suffix.lower())
 
-    if _X_RUN.fullmatch(value):
-        return True
-    words = [word for word in re.split(r"[-_]", value) if word]
-    if not words or any(not word.isalpha() for word in words):
+
+def _pythonCode(text: str, start: int, stop: int) -> bool:
+    """Whether ``text[start:stop]`` is code, not inside a string, f-string or comment."""
+
+    offsets = [0]
+    for line in text.split("\n"):
+        offsets.append(offsets[-1] + len(line) + 1)
+    spans: list[tuple[int, int]] = []
+    openers: list[int] = []
+    try:
+        for token in tokenize.generate_tokens(io.StringIO(text).readline):
+            begin = offsets[token.start[0] - 1] + token.start[1]
+            finish = offsets[token.end[0] - 1] + token.end[1]
+            if token.type in _PY_LITERAL_TOKENS:
+                spans.append((begin, finish))
+            elif _PY_FSTRING[0] is not None and token.type == _PY_FSTRING[0]:
+                openers.append(begin)
+            elif _PY_FSTRING[1] is not None and token.type == _PY_FSTRING[1] and openers:
+                spans.append((openers.pop(), finish))
+    except (tokenize.TokenError, IndentationError, SyntaxError, ValueError):
         return False
-    lowered = [word.lower() for word in words]
-    return all(word in _PLACEHOLDER_WORDS for word in lowered) and any(
-        word in _PLACEHOLDER_MARKERS for word in lowered
-    )
+    if openers:
+        return False
+    return not any(begin <= point < finish for begin, finish in spans for point in (start, stop - 1))
 
 
-def _positivelyBenign(value: str, text: str, end: int) -> bool:
-    """Whole-value, syntax-aware proof that ``value`` is a reference, placeholder or expression."""
+def _shellState(script: str) -> str:
+    """Quote state at the end of ``script``: normal, double, single, comment or unsupported."""
 
-    if _WHOLE_REFERENCE.fullmatch(value) or _REFERENCE_WITH_HOST.fullmatch(value):
+    if "<<" in script or "$'" in script:
+        return "unsupported"
+    state, index = "normal", 0
+    while index < len(script):
+        char = script[index]
+        if state == "normal":
+            if char == "\\":
+                index += 1
+            elif char == "'":
+                state = "single"
+            elif char == '"':
+                state = "double"
+            elif char == "#" and (index == 0 or script[index - 1].isspace() or script[index - 1] in ";&|("):
+                state = "comment"
+        elif state == "single":
+            if char == "'":
+                state = "normal"
+        elif state == "double":
+            if char == "\\":
+                index += 1
+            elif char == '"':
+                state = "normal"
+        elif char == "\n":
+            state = "normal"
+        index += 1
+    return state
+
+
+def _shellEvaluated(script: str, value: str) -> bool:
+    if not (_SHELL_REF.fullmatch(value) or _SHELL_REF_HOST.fullmatch(value)):
+        return False
+    return _shellState(script) in ("normal", "double")
+
+
+def _workflowScript(lines: list[str], index: int, column: int) -> str | None:
+    """The shell script text from the start of the enclosing ``run:`` up to the match, or None."""
+
+    here = lines[index][:column]
+    inline = _RUN_INLINE.search(here)
+    if inline is not None:
+        rest = inline.group(1)
+        return None if rest[:1] in ("'", '"') else rest
+    content_indent = len(lines[index]) - len(lines[index].lstrip(" "))
+    cursor = index - 1
+    while cursor >= 0:
+        line = lines[cursor]
+        if line.strip():
+            indent = len(line) - len(line.lstrip(" "))
+            if indent < content_indent:
+                header = _RUN_BLOCK.match(line)
+                if header is None:
+                    return None
+                return "\n".join(lines[cursor + 1 : index] + [here])
+        cursor -= 1
+    return None
+
+
+def _evaluatedAsReference(rel: str, text: str, start: int, stop: int, value: str) -> bool:
+    """Evidence that the source language itself evaluates ``value`` as a reference or expression."""
+
+    language = _language(rel)
+    if language is None or not value:
+        return False
+    if language == "python":
+        return bool(_IDENT_PATH.fullmatch(value)) and _pythonCode(text, start, stop)
+    lines = text.split("\n")
+    number = text.count("\n", 0, start)
+    column = start - (text.rfind("\n", 0, start) + 1)
+    if language == "shell":
+        return _shellEvaluated(text[:start], value)
+    # workflow
+    if "#" in lines[number][:column]:
+        return False
+    if _WORKFLOW_EXPRESSION.fullmatch(value):
         return True
-    following = text[end : end + 1]
-    # The pattern stops before ``(`` or ``[``: an identifier path the source then
-    # calls or indexes is an expression (a ``${path`` opener is an interpolated one).
-    if following in ("(", "[") and (_IDENT_PATH.fullmatch(value) or _INTERPOLATION_OPENER.fullmatch(value)):
-        return True
-    if _placeholderOnly(value):
-        return True
-    return value.strip("\"'`").lower() in _COMMON_WORDS
+    script = _workflowScript(lines, number, column)
+    return script is not None and _shellEvaluated(script, value)
 
 
-def credentialClass(name: str, matched: str, text: str, end: int) -> str:
+def credentialClass(name: str, matched: str, text: str, end: int, rel: str = "") -> str:
     """Classify one credential-shaped match by its own evidence, never by its path.
 
     ``issuer`` / ``structured`` are known live formats with valid structure;
-    ``ambiguous`` is anything not positively benign; ``review`` is a match whose
-    value is positively benign (reference, template, expression, documented
-    placeholder or a common placeholder word) and is the only class routed to B.
+    ``ambiguous`` is anything not proven benign; ``review`` is a match whose
+    value the source language evaluates as a reference or expression (see the
+    notes above) and is the only class routed to B. ``rel`` is used only to
+    know which language the file is written in; an unknown file is never ``review``.
     """
 
     if name in _ISSUER_PATTERNS:
@@ -1173,7 +1241,8 @@ def credentialClass(name: str, matched: str, text: str, end: int) -> str:
         return "ambiguous"
     if name == "jwt" and _validJwt(matched):
         return "structured"
-    return "review" if _positivelyBenign(_genericValue(name, matched), text, end) else "ambiguous"
+    value = _genericValue(name, matched)
+    return "review" if _evaluatedAsReference(rel, text, end - len(value), end, value) else "ambiguous"
 
 
 @dataclass
@@ -1197,11 +1266,12 @@ class SecretScanSensor:
     """Find credential-shaped strings; store only a fingerprint, never the value.
 
     Routing is by evidence and defaults to Class C (``credential_leak``): a file
-    is Class B only when EVERY undecided finding's matched value is positively
-    benign (a reference, template, expression, documented placeholder or common
-    placeholder word). Then it is a ``credential_review``: a builder may draft a
-    disposition record, an independent verifier must sign it, and no source edit
-    is allowed. Opaque values, passphrases and truncated tokens stay Class C.
+    is Class B only when EVERY undecided finding's value is one the source
+    language itself evaluates as a reference or expression. Then it is a
+    ``credential_review``: a builder may draft a disposition record, an
+    independent verifier must sign it, and no source edit is allowed. Quoted
+    look-alikes, shell defaults, placeholder words, opaque values, passphrases and
+    every unsupported language stay Class C.
     A finding decided by a verified record (see ``credentialDispositions``) is
     resolved with provenance in either case.
     """
@@ -1351,9 +1421,10 @@ class SecretScanSensor:
             **annotations,
             "classification": dict(sorted(classes.items())),
             "reviewReason": (
-                "every undecided finding's matched value is positively benign (a variable or environment "
-                "reference, template placeholder, code expression, documented placeholder marker or common "
-                "placeholder word); each still needs an independently verified disposition record"
+                "every undecided finding's value is one the source language itself evaluates as a reference "
+                "or expression (an unquoted Python identifier path, a shell variable outside single quotes "
+                "without a default, a workflow expression); each still needs an independently verified "
+                "disposition record"
             ),
             "reclassifiedFrom": leak.debt_id,
         }
@@ -1397,7 +1468,7 @@ class SecretScanSensor:
                             "fingerprint": hashlib.sha256(matched.encode("utf-8")).hexdigest()[:12],
                         },
                         contextHash=credentialDispositions.contextHash(lines, number - 1),
-                        cls=credentialClass(name, matched, text, match.end()),
+                        cls=credentialClass(name, matched, text, match.end(), rel),
                     )
                 )
         return sorted(
