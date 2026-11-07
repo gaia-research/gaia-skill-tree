@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-ledger-capacity-64mib-2283",
+  "status": "decided",
+  "decision": "Raise GAIA_STEWARD_LEDGER_MAX_BYTES to 64 MiB for every authorized shared-ledger reader and writer?",
+  "whyItMatters": "The shared ledger reached ~81% of the 8 MiB default with ~2-3% per batch; at the cap Steward fails closed and repair work stops.",
+  "evidence": [
+    "Founder rulings 2026-11-08, relayed to the Steward lead (Opus) for #2283 (verbatim): \"**APPROVED: Raise `GAIA_STEWARD_LEDGER_MAX_BYTES` to 67,108,864 (64 MiB).**\n\nThis is the current supported maximum, not an instruction to inflate the ledger.\n\n- Apply consistently to every authorized shared-ledger reader/writer.\n- Preserve Git/CAS, receipts, history, and fail-closed behavior.\n- Monitor real read/write latency, CAS retries, and bytes per batch. Investigate measurable degradation rather than silently increasing limits.\n- **Keep #2287 parked.** Flash may resolve its engineering risks separately, but no archival activation or merge without independent acceptance and existing gates.\n- Never discard or compact unarchived history to maintain throughput.\""
+  ],
+  "recommended": "Approved as stated in the verbatim ruling.",
+  "alternative": "Not adopted.",
+  "unblocks": "Continued Steward runs beyond the 8 MiB default.",
+  "links": [
+    "founder/reports/steward-campaign-2026-11-05/FOUNDER_RULINGS_2026-11-08.md"
+  ],
+  "resolution": "approved"
+}
