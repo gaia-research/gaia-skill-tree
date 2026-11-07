@@ -71,7 +71,11 @@ The receipt carries `admittedEvidence: []`, `ratingChange: null` and
   that qualify with `gaia dev evidence` (the event-driven restamp then clears the
   affected stamps in the same PR). Calibration is recomputed from qualifying
   evidence through the canonical engine.
-- `outcome: evidence-gap-confirmed` — keep the current rating and report the gap
+- `outcome: candidates-need-review` — no candidate is admissible yet, but at least
+  one needs review (typing, attribution, catalog gating, independence). The gap is
+  **not** confirmed; a Verifier resolves the review first.
+- `outcome: evidence-gap-confirmed` — no admissible and no reviewable candidate
+  (only negative searches or inadmissible results). Keep the current rating and report the gap
   to the founder desk, which shows **one grouped decision** for every open gap.
   A demotion needs actual counter-evidence or supersession under #2148, never an
   empty pool.
@@ -80,8 +84,10 @@ The receipt carries `admittedEvidence: []`, `ratingChange: null` and
 
 `trust_evidence_gap` has a different kind than the debts it replaces, so its id
 differs. When the sensor first reports a gap for a subject that has a
-`trust_calibration_drift` debt, the ledger records the link in both directions
-and loses nothing: the new debt carries `supersedes: [old id]`, the old debt is
+`trust_calibration_drift` debt **that carried the interim evidence-gap marker**
+(`evidenceGap: true`, no target level), the ledger records the link in both
+directions and loses nothing. A drift debt for genuine prior drift (it has a target
+level) is a different finding and is never linked or resolved by the migration: the new debt carries `supersedes: [old id]`, the old debt is
 resolved with `resolution: superseded` and `supersededBy: new id`. The old debt
 and its receipts stay in the ledger. If real drift later returns for the same
 subject, the old debt reopens normally and its `supersededBy` link is cleared.

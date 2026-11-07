@@ -1551,7 +1551,7 @@
         }
       ],
       "sourceOfTruth": "src/gaia_cli/trustMagnitude.py scored over buildMergedSkillMap (effective, inherited evidence)",
-      "evidence": "stored level versus computed grade per skill; stale trustMagnitude stamps against tolerance 0.02 (recomputationOnly when the computed grade agrees with the stored level); an empty or non-scoring effective evidence pool as a trust_evidence_gap with the current rating preserved",
+      "evidence": "stored level versus computed grade per skill; stale stamps (trustMagnitude beyond tolerance 0.02, stored grade differing from computed, or input hash mismatch; recomputationOnly when the computed grade agrees with the stored level and the stored grade); an empty or non-scoring effective evidence pool as a trust_evidence_gap with the current rating preserved",
       "freshness": "checkout-head",
       "coverageStatus": {
         "static": [

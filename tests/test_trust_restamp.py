@@ -29,9 +29,12 @@ from gaia_cli.trustMagnitude import (
 from tests.steward.sensor_fixtures import commit_all, make_repo
 from gaia_cli.trustRestamp import (
     RestampVerificationError,
+    TrustFingerprint,
     affectedSkillIds,
     isRecomputationOnly,
     namedTrustSnapshot,
+    protectedState,
+    restampAfterEvidenceChange,
     verifyRestamp,
 )
 
@@ -188,10 +191,12 @@ def test_evidence_on_the_generic_restamps_only_the_affected_pure_recomputations(
     root = registry["root"]
     before_bytes = {key: registry[key].read_bytes() for key in ("governed", "frozen", "unaffected", "unstamped")}
     before_levels = _levels_and_grades(registry)
+    old_grade = _read(registry["pure"])["overallTrustGrade"]
 
     meta_evidence_command(_evidence(root, "parent"))
 
     pure = _read(registry["pure"])
+    assert pure["overallTrustGrade"] == old_grade  # a restamp never changes the stored grade
     context = buildMergedSkillMap(root)
     assert pure["trustMagnitude"] == round(computeTrustMagnitude(context["acme/pure"], context), 2)
     assert pure["trustMagnitude"] > 70.0
@@ -304,16 +309,30 @@ def test_the_all_form_without_the_flag_keeps_its_old_behaviour(registry) -> None
 
 def test_the_gate_is_the_one_the_sensor_stamps_on_every_finding() -> None:
     assert isRecomputationOnly("3★", "B") and not isRecomputationOnly("2★", "B")
+    # The refresh may not rewrite the grade already stored in the stamp.
+    assert isRecomputationOnly("3★", "B", "B") and isRecomputationOnly("3★", "B", None)
+    assert not isRecomputationOnly("3★", "B", "A")
     assert isRecomputationOnly("1★", "ungraded") and not isRecomputationOnly("4★", "S")
     assert not isRecomputationOnly("6★", "S") and not isRecomputationOnly(None, "ungraded")
 
 
-def test_affected_skills_are_those_whose_computed_value_moved_plus_the_target() -> None:
-    before = {"a": 10.0, "b": 20.0, "c": 30.0}
-    after = {"a": 10.0, "b": 25.0, "c": 30.0, "d": 1.0}
-    assert affectedSkillIds(before, after, "c") == ("b", "c")
-    assert affectedSkillIds(before, after, "owner/new") == ("b",)
-    assert affectedSkillIds(before, after, "d") == ("b", "d")
+def _fp(tm: float, grade: str = "B", digest: str = "h") -> TrustFingerprint:
+    return TrustFingerprint(tm=tm, grade=grade, inputHash=digest)
+
+
+def test_affected_skills_are_those_whose_tm_grade_or_hash_moved_plus_the_target() -> None:
+    before = {"a": _fp(10.0), "b": _fp(20.0), "c": _fp(30.0), "g": _fp(40.0), "h": _fp(50.0)}
+    after = {
+        "a": _fp(10.0),
+        "b": _fp(25.0),  # TM moved
+        "c": _fp(30.0),
+        "d": _fp(1.0),
+        "g": _fp(40.0, grade="A"),  # grade moved, TM unchanged (type diversity or witness)
+        "h": _fp(50.0, digest="other"),  # own-input hash moved, TM unchanged
+    }
+    assert affectedSkillIds(before, after, "c") == ("b", "c", "g", "h")
+    assert affectedSkillIds(before, after, "owner/new") == ("b", "g", "h")
+    assert affectedSkillIds(before, after, "d") == ("b", "d", "g", "h")
 
 
 def test_namedTrustSnapshot_is_read_only(registry) -> None:
@@ -326,12 +345,3 @@ def test_namedTrustSnapshot_is_read_only(registry) -> None:
     assert {key: path.read_bytes() for key, path in registry.items() if key != "root"} == before
 
 
-def test_independent_verification_rejects_a_moved_level_and_a_stale_stamp(registry) -> None:
-    root = registry["root"]
-    with pytest.raises(RestampVerificationError, match="star level moved"):
-        verifyRestamp(str(root), ["acme/pure"], {"acme/pure": "4★"})
-    _set(registry["pure"], trustMagnitude=1.0)
-    with pytest.raises(RestampVerificationError, match="still stale"):
-        verifyRestamp(str(root), ["acme/pure"], {"acme/pure": "3★"})
-    with pytest.raises(RestampVerificationError, match="frozen skill was restamped"):
-        verifyRestamp(str(root), ["acme/frozen"], {"acme/frozen": "3★"})

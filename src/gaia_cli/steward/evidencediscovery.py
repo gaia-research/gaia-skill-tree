@@ -320,10 +320,9 @@ def buildDiscoveryReceipt(
             "candidates": candidates,
         })
 
-    admissible = sum(
-        1 for record in records for item in record["candidates"]
-        if item["admissibility"]["state"] == "admissible-candidate"
-    )
+    states = [item["admissibility"]["state"] for record in records for item in record["candidates"]]
+    admissible = states.count("admissible-candidate")
+    unresolved = states.count("needs-review")
     notSearched = [family for family in channelFamilies if family not in channelsSearched]
     limitations = [f"channel family not searched: {family}" for family in notSearched]
     receipt: dict[str, Any] = {
@@ -342,17 +341,26 @@ def buildDiscoveryReceipt(
             "searchesAttempted": len(records),
             "positive": sum(1 for record in records if record["outcome"] == "positive"),
             "negative": sum(1 for record in records if record["outcome"] == "negative"),
+            "admissibleCandidates": admissible,
+            "needsReviewCandidates": unresolved,
             "channelsSearched": sorted(channelsSearched),
             "channelsNotSearched": notSearched,
             "limitations": limitations,
         },
-        "outcome": "candidates-found" if admissible else "evidence-gap-confirmed",
+        "outcome": (
+            "candidates-found" if admissible
+            else "candidates-need-review" if unresolved
+            else "evidence-gap-confirmed"
+        ),
         "nextStep": (
             "A Verifier reviews the admissible candidates and, if they qualify, admits them with "
             "`gaia dev evidence`; the rating is then recomputed. Steward admitted nothing."
             if admissible else
-            "No admissible candidate was found. Keep the current rating and report the gap; a demotion "
-            "needs counter-evidence or supersession under #2148, never an empty pool."
+            "No candidate is admissible yet, but some need review (typing, attribution, catalog gating or "
+            "independence). The gap is NOT confirmed: a Verifier resolves them first. Steward admitted nothing."
+            if unresolved else
+            "No admissible or reviewable candidate was found. Keep the current rating and report the gap; a "
+            "demotion needs counter-evidence or supersession under #2148, never an empty pool."
         ),
     }
     receipt["receiptId"] = f"discovery-{content_hash({k: v for k, v in receipt.items() if k != 'receiptId'})[:20]}"

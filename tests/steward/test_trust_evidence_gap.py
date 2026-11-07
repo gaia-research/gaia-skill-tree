@@ -76,7 +76,10 @@ def _debt(kind: str, subject: str = "owner/child", *, status: str = "open", **ex
     subj = Subject(type="named-skill", id=subject)
     return Debt(
         id=debtIdFor(kind, subj), kind=kind, subject=subj, source="trust-calibration-drift",
-        current_state={"level": "2★"}, observed_state={"preservedLevel": "2★"}, confidence=1.0,
+        current_state={"level": "2★"},
+        # The interim marker is what makes a drift debt the same condition as the gap.
+        observed_state={"preservedLevel": "2★", "evidenceGap": True} if kind == "trust_calibration_drift" else {"preservedLevel": "2★"},
+        confidence=1.0,
         priority=Priority(0.5, 0.5, 0.5, 0.5, 0.5, 0.5), authority=AuthorityClass.B if kind == "trust_calibration_drift" else AuthorityClass.C,
         status=status, first_observed_at="2026-10-28T00:00:00Z", last_observed_at="2026-10-28T00:00:00Z",
         observation_count=3, **extra,
@@ -155,6 +158,26 @@ def test_the_successor_kind_supersedes_the_interim_drift_debt_without_deleting_i
     assert (old.id, new.id) in result.superseded and old.id in result.resolved and new.id in result.created
     # A different subject's debt is not touched by this subject's migration (the sweep owns it).
     assert by_id[unrelated.id].superseded_by is None
+
+
+def test_genuine_prior_drift_is_not_linked_or_resolved_by_the_migration() -> None:
+    policy = StewardPolicy.load(REPO_ROOT)
+    genuine = replace(_debt("trust_calibration_drift"), observed_state={"targetLevel": "1★", "trustGrade": "ungraded"})
+
+    result = reconcile_debt([_gapObservation()], {genuine.id: genuine}, policy, observed_at=NOW)
+
+    by_id = {debt.id: debt for debt in result.debts}
+    new = by_id[debtIdFor("trust_evidence_gap", genuine.subject)]
+    assert new.supersedes == () and result.superseded == ()
+    assert by_id[genuine.id].status == "open" and by_id[genuine.id].superseded_by is None
+    assert genuine.id not in result.resolved
+
+
+def test_a_drift_debt_with_the_marker_but_a_target_level_is_genuine_drift() -> None:
+    policy = StewardPolicy.load(REPO_ROOT)
+    odd = replace(_debt("trust_calibration_drift"), observed_state={"evidenceGap": True, "targetLevel": "1★"})
+    result = reconcile_debt([_gapObservation()], {odd.id: odd}, policy, observed_at=NOW)
+    assert result.superseded == ()
 
 
 def test_migration_is_idempotent_and_survives_a_ledger_round_trip() -> None:
@@ -290,6 +313,31 @@ def test_the_receipt_records_positive_and_negative_searches_and_admits_nothing(t
     assert (coverage["positive"], coverage["negative"]) == (1, 1)
     assert coverage["channelsNotSearched"] == ["upstream-repo", "releases-usage"]
     assert "channel family not searched: upstream-repo" in coverage["limitations"]
+
+
+def test_needs_review_candidates_do_not_confirm_the_gap(tmp_path: Path) -> None:
+    repo = _gapRepo(tmp_path)
+    log = _log()
+    log["searches"] = [{"query": "q", "channel": "benchmarks", "searchedAt": NOW, "results": [
+        {"url": "https://x.test/bench", "evidenceType": "benchmark-result", "attribution": "lab"},
+    ]}]
+
+    receipt = buildDiscoveryReceipt(log, repoRoot=repo, generatedAt=NOW)
+
+    assert receipt["outcome"] == "candidates-need-review"
+    assert receipt["coverage"]["needsReviewCandidates"] == 1 and receipt["coverage"]["admissibleCandidates"] == 0
+    assert "NOT confirmed" in receipt["nextStep"]
+    assert receipt["admittedEvidence"] == [] and receipt["ratingChange"] is None
+
+
+def test_inadmissible_only_results_still_confirm_the_gap(tmp_path: Path) -> None:
+    repo = _gapRepo(tmp_path)
+    log = _log()
+    log["searches"] = [{"query": "q", "channel": "papers", "searchedAt": NOW, "results": [
+        {"url": "https://x.test/n", "evidenceType": "nonsense", "attribution": "o"},
+    ]}]
+
+    assert buildDiscoveryReceipt(log, repoRoot=repo, generatedAt=NOW)["outcome"] == "evidence-gap-confirmed"
 
 
 def test_only_negative_searches_confirm_the_gap_and_never_recommend_a_demotion(tmp_path: Path) -> None:

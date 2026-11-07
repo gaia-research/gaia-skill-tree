@@ -18,6 +18,23 @@ KIND_SUPERSESSIONS: dict[str, tuple[str, ...]] = {
 SUPERSEDED_RESOLUTION = "superseded"
 
 
+def _interimEvidenceGap(old: Debt) -> bool:
+    """The historical condition ``trust_evidence_gap`` replaces.
+
+    Only a ``trust_calibration_drift`` debt that carried the interim evidence-gap
+    marker (``evidenceGap: true``, no demotion target) is the same condition. A
+    drift debt for genuine prior drift (a real target level) is a different
+    finding: it is left to its own lifecycle and never linked or resolved here.
+    """
+
+    state = old.observed_state
+    return state.get("evidenceGap") is True and "targetLevel" not in state
+
+
+# A predecessor is linked only when its historical condition matches.
+SUPERSESSION_MATCH = {"trust_evidence_gap": {"trust_calibration_drift": _interimEvidenceGap}}
+
+
 @dataclass(frozen=True)
 class Reconciliation:
     debts: tuple[Debt, ...]
@@ -77,6 +94,9 @@ def _link_predecessors(
         old_id = debtIdFor(old_kind, observation.subject)
         old = debts.get(old_id)
         if old is None or old_id == debt_id:
+            continue
+        matches = SUPERSESSION_MATCH.get(observation.kind, {}).get(old_kind)
+        if matches is not None and not matches(old):
             continue
         found.append(old_id)
         if old.superseded_by == debt_id and old.status == "resolved":

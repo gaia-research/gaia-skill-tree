@@ -29,6 +29,7 @@ from gaia_cli.trustMagnitude import (
     computeOverallTrustGradeFromSkill,
     computeRowArtifactScores,
     computeTrustMagnitude,
+    computeTrustMagnitudeInputHash,
 )
 from gaia_cli.trustRestamp import isRecomputationOnly, sensorStampTolerance, targetLevelByGrade
 
@@ -1764,31 +1765,55 @@ class TrustCalibrationDriftSensor:
                 continue
 
             # #1642 detection only: a live star/evidence refresh moves the
-            # computed TM without re-stamping the frontmatter. This is a
-            # separate finding; it never feeds the calibration logic below.
+            # computed stamp inputs without re-stamping the frontmatter. This is a
+            # separate finding; it never feeds the calibration logic below. TM
+            # staleness uses the rounding-noise tolerance; a stored grade that
+            # disagrees with the computed grade, or an own-input hash that no
+            # longer matches, is stale even when TM did not move (evidence-type
+            # diversity and the independent witness move the grade with TM fixed).
             stored_tm = skill.get("trustMagnitude")
+            stored_grade = skill.get("overallTrustGrade")
+            stored_hash = skill.get("trustMagnitudeInputHash")
+            stale_fields: list[str] = []
             if (
                 isinstance(stored_tm, (int, float))
                 and not isinstance(stored_tm, bool)
                 and abs(float(stored_tm) - tm) > self._STAMP_TOLERANCE
             ):
+                stale_fields.append("trustMagnitude")
+            if stored_grade is not None and stored_grade != grade:
+                stale_fields.append("overallTrustGrade")
+            if stored_hash is not None and stored_hash != computeTrustMagnitudeInputHash(skill):
+                stale_fields.append("trustMagnitudeInputHash")
+            if stale_fields:
+                has_tm = isinstance(stored_tm, (int, float)) and not isinstance(stored_tm, bool)
+                current_stamp: dict[str, Any] = {}
+                if has_tm:
+                    current_stamp["trustMagnitude"] = round(float(stored_tm), 2)
+                if stored_grade is not None:
+                    current_stamp["overallTrustGrade"] = str(stored_grade)
+                if stored_hash is not None:
+                    current_stamp["trustMagnitudeInputHash"] = str(stored_hash)[:12]
                 observations.append(Observation(
                     kind="trust_stamp_stale",
                     subject=Subject(type="named-skill", id=skill_id),
                     observed_at=observed_at,
                     source=self.id,
                     status="drift",
-                    current_state={"trustMagnitude": round(float(stored_tm), 2)},
+                    current_state=current_stamp,
                     observed_state={
                         "trustMagnitude": round(tm, 2),
-                        "delta": round(abs(float(stored_tm) - tm), 2),
+                        "trustGrade": grade,
+                        "staleFields": stale_fields,
+                        "delta": round(abs(float(stored_tm) - tm), 2) if has_tm else None,
                         "tolerance": self._STAMP_TOLERANCE,
                         # Founder ruling 2026-10-28 (#1642): refreshing a derived
                         # stamp is a recomputation; moving a star level, grade
                         # policy or evidence assertion is a governed change. A
                         # stamp is recomputation-only when the computed grade
-                        # still agrees with the stored star level.
-                        "recomputationOnly": isRecomputationOnly(skill.get("level"), grade),
+                        # still agrees with the stored star level and the refresh
+                        # would not rewrite the stored grade.
+                        "recomputationOnly": isRecomputationOnly(skill.get("level"), grade, stored_grade),
                         "restampCommand": f"gaia dev calibrate-trust-magnitude --skill {skill_id}",
                     },
                     confidence=1.0,

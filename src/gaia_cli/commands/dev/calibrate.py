@@ -420,16 +420,18 @@ def calibrate_trust_magnitude_command(args):
         if recomputation_only:
             from gaia_cli.trustRestamp import isRecomputationOnly
 
-            if not isRecomputationOnly(skill_data.get("level"), new_grade):
+            if not isRecomputationOnly(skill_data.get("level"), new_grade, skill_data.get("overallTrustGrade")):
                 print(
                     f"  {skill_id}: HELD (computed grade {new_grade} disagrees with stored level "
-                    f"{skill_data.get('level')}; not a recomputation, stamp left unchanged)"
+                    f"{skill_data.get('level')} or would rewrite stored grade "
+                    f"{skill_data.get('overallTrustGrade')}; not a recomputation, stamp left unchanged)"
                 )
                 held.append({
                     "skillId": skill_id,
                     "storedLevel": skill_data.get("level"),
+                    "storedGrade": skill_data.get("overallTrustGrade"),
                     "computedGrade": new_grade,
-                    "reason": "computed grade disagrees with the stored level: a governed trust question, not a recomputation",
+                    "reason": "computed grade disagrees with the stored level or would rewrite the stored grade: a governed trust question, not a recomputation",
                 })
                 continue
 

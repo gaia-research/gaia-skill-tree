@@ -48,19 +48,30 @@ routine in `trust-evidence-gap.md`.
 
 ## Stale stamps: event-driven restamp, periodic backstop (founder ruling 2026-11-06, #1642, option 8A)
 
-`trust_stamp_stale` reports a stored `trustMagnitude` stamp that no longer matches
-the engine. Each finding carries `recomputationOnly`: true when the computed grade
-still agrees with the stored star level.
+`trust_stamp_stale` reports a stamp that no longer matches the engine: a stored
+`trustMagnitude` beyond the 0.02 tolerance, a stored `overallTrustGrade` that
+differs from the computed grade, or a `trustMagnitudeInputHash` that no longer
+matches (`observedState.staleFields` names which), so grade-only and hash-only
+staleness is caught even when TM did not move. Each finding carries
+`recomputationOnly`: true when the computed grade still agrees with the stored star
+level and the refresh would not rewrite the stored grade.
 
 - **Event-driven.** `gaia dev evidence` and `gaia dev rm-evidence` measure computed
   Trust Magnitude before and after the write and restamp only the skills it
   moved (plus the skill written directly), inside the same invocation and PR. The
-  refresh is the existing `gaia dev calibrate-trust-magnitude` verb with
-  `--recomputation-only`, which writes the three derived stamp fields and one
-  `recalibrate_trust_magnitude` timeline event, and never a star level. A skill
-  whose computed grade disagrees with its level is **held**: its stamp stays stale
-  and the finding stays Class C. Frozen skills are never touched. The refresh is
-  re-read from disk and verified; `--no-restamp` opts out.
+  refresh calls the handler of the existing `gaia dev calibrate-trust-magnitude`
+  verb with `--recomputation-only` through one shared write boundary
+  (`src/gaia_cli/trustRestamp.py`) that enforces `require_operator` and the
+  canonical transaction lock itself, so a direct call cannot bypass them. The verb
+  writes the three derived stamp fields and one `recalibrate_trust_magnitude`
+  timeline event, and never a star level. Affected skills are found by a
+  before/after fingerprint of TM, computed grade and own-input hash. A skill is
+  **held** (stamp stays stale, finding stays Class C) when its computed grade
+  disagrees with its level or the refresh would rewrite its stored grade. Frozen
+  skills are never touched. Afterwards the registry is re-read from disk and every
+  intended target must carry all three stamp fields, matching, while every level,
+  computed grade, frozen state, Origin standing and non-target record is unchanged;
+  `--no-restamp` opts out.
 - **Periodic backstop.** This sensor re-measures every scan. A Verifier clears
   anything that escaped the trigger with
   `gaia dev calibrate-trust-magnitude --all --recomputation-only` in a reviewed PR.
