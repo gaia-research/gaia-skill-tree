@@ -37,6 +37,7 @@ COLLECTOR = REPO_ROOT / "scripts" / "steward_collect_browser_render.js"
 SCHEDULED = REPO_ROOT / ".github" / "workflows" / "steward.yml"
 DRIVE = REPO_ROOT / ".github" / "workflows" / "steward-full.yml"
 CLEAN = [item for page in ALL_PAGES for item in both(page)]
+needsNode = pytest.mark.skipif(shutil.which("node") is None, reason="node is not installed")
 T_RENDER = datetime(2026, 10, 28, 11, 0, tzinfo=timezone.utc)  # the fixture render's collectedAt
 T_ATTEMPT = datetime(2026, 10, 28, 11, 45, tzinfo=timezone.utc)
 
@@ -165,7 +166,7 @@ def externalRun(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, prepare, *, att
 def stageAccepted(tmp_path: Path, attempt: str = ATTEMPT):
     def prepare(root: Path) -> None:
         directory = artifact(tmp_path, render=document(CLEAN, collectedAt="2026-10-28T11:30:00Z"), status=GOOD_STATUS, name="downloaded")
-        accept.accept(root, directory, attempt)
+        accept.accept(root, directory, attempt, attempt)
     return prepare
 
 
@@ -217,7 +218,7 @@ def test_an_acceptance_that_is_not_this_attempts_or_no_longer_matches_is_refused
 
 def test_a_rejected_artifact_keeps_its_own_failed_status_through_an_external_run(tmp_path, monkeypatch) -> None:
     def prepare(root: Path) -> None:
-        accept.accept(root, artifact(tmp_path, render="{broken", status=GOOD_STATUS, name="bad"), ATTEMPT)
+        accept.accept(root, artifact(tmp_path, render="{broken", status=GOOD_STATUS, name="bad"), ATTEMPT, ATTEMPT)
 
     repoPath, _spy, view = externalRun(tmp_path, monkeypatch, prepare)
 
@@ -421,9 +422,12 @@ def test_the_driver_inputs_contract_is_unchanged() -> None:
 # --- the privileged job accepts only validated data ----------------------------------------
 
 
-def artifact(tmp_path: Path, *, render=None, status=None, name="artifact") -> Path:
+def artifact(tmp_path: Path, *, render=None, status=None, name="artifact", attempt: str | None = ATTEMPT) -> Path:
     directory = tmp_path / name
     directory.mkdir()
+    if attempt is not None:  # the producer job's own run and attempt, written into the artifact
+        (directory / "browser-render-attempt.json").write_text(
+            json.dumps({"schemaVersion": "steward-browser-render-attempt-v1", "attemptId": attempt}))
     if render is not None:
         (directory / "browser-render.json").write_text(render if isinstance(render, str) else json.dumps(render))
     if status is not None:
@@ -436,7 +440,7 @@ GOOD_STATUS = {"schemaVersion": "steward-browser-render-status-v1", "state": "ok
 
 def acceptInto(tmp_path: Path, directory: Path, *, seed=True) -> tuple[dict, Path]:
     root = repo(tmp_path, document(CLEAN) if seed else None, name="target")
-    return accept.accept(root, directory), root
+    return accept.accept(root, directory, ATTEMPT, ATTEMPT), root
 
 
 def test_a_valid_headless_artifact_is_accepted_and_replaces_whatever_was_there(tmp_path: Path) -> None:
@@ -501,17 +505,158 @@ def test_the_validator_honours_a_headless_off_policy(tmp_path: Path) -> None:
     text = (REPO_ROOT / POLICY_RELATIVE_PATH).read_text(encoding="utf-8").replace("  headless: true", "  headless: false")
     policy.write_text(text, encoding="utf-8")
 
-    outcome = accept.accept(root, artifact(tmp_path, render=document(CLEAN), status=GOOD_STATUS))
+    outcome = accept.accept(root, artifact(tmp_path, render=document(CLEAN), status=GOOD_STATUS), ATTEMPT, ATTEMPT)
 
     assert outcome == {"state": "refused", "reason": "headless-disabled"}
     with pytest.raises(SensorNotEvaluated, match="switched off"):
         BrowserRenderSensor().scan(root, NOW)
 
 
+# --- the producer's run and attempt: a replayed artifact is never relabelled as current ------------
+
+
+def acceptWith(tmp_path: Path, directory: Path, attempt, producer) -> tuple[dict, Path]:
+    root = repo(tmp_path, document(CLEAN), name="target")
+    return accept.accept(root, directory, attempt, producer), root
+
+
+def test_an_artifact_from_the_same_run_and_attempt_is_accepted(tmp_path: Path) -> None:
+    directory = artifact(tmp_path, render=document(CLEAN), status=GOOD_STATUS, attempt="9001-2")
+    outcome, _root = acceptWith(tmp_path, directory, "9001-2", "9001-2")
+    assert outcome == {"state": "ok", "reason": None}
+
+
+def test_a_valid_artifact_from_a_previous_attempt_is_not_accepted_after_a_rerun(tmp_path: Path) -> None:
+    """Re-run failed jobs: the producer stayed green from attempt 1 (its output and artifact say 9001-1), the consumer is now 9001-2."""
+
+    directory = artifact(tmp_path, render=document(CLEAN), status=GOOD_STATUS, attempt="9001-1")
+
+    outcome, root = acceptWith(tmp_path, directory, "9001-2", "9001-1")
+
+    assert outcome == {"state": "failed", "reason": "artifact-rejected"}
+    assert not (root / browsercollect.RENDER_RELATIVE).exists()
+    with pytest.raises(SensorNotEvaluated):
+        BrowserRenderSensor().scan(root, NOW)
+
+
+@pytest.mark.parametrize(
+    ("embedded", "attempt", "producer"),
+    [
+        ("9001-1", "9001-2", "9001-2"),   # the artifact's own record is older than the producer output and the consumer
+        ("9001-2", "9001-2", "9001-1"),   # the producer job output is older
+        ("9001-2", "9001-1", "9001-2"),   # the consumer is older (a stale environment)
+        ("9001-2", None, "9001-2"),       # the consumer's attempt is missing
+        ("9001-2", "9001-2", None),       # the producer output is missing
+        ("9001-2", "", ""),               # both empty
+        (None, "9001-2", "9001-2"),       # the artifact carries no record at all
+    ],
+)
+def test_any_mismatch_or_missing_attempt_value_is_rejected(tmp_path: Path, embedded, attempt, producer) -> None:
+    directory = artifact(tmp_path, render=document(CLEAN), status=GOOD_STATUS, attempt=embedded)
+
+    outcome, root = acceptWith(tmp_path, directory, attempt, producer)
+
+    assert outcome["state"] == "failed" and outcome["reason"] in {"artifact-rejected", "collection-incomplete"}
+    assert not (root / browsercollect.RENDER_RELATIVE).exists()
+
+
+def test_a_malformed_attempt_record_is_rejected(tmp_path: Path) -> None:
+    directory = artifact(tmp_path, render=document(CLEAN), status=GOOD_STATUS)
+    (directory / "browser-render-attempt.json").write_text(json.dumps({"schemaVersion": "wrong", "attemptId": ATTEMPT}))
+    outcome, _ = acceptWith(tmp_path, directory, ATTEMPT, ATTEMPT)
+    assert outcome == {"state": "failed", "reason": "artifact-rejected"}
+
+
+def test_an_honest_failed_status_from_the_producer_is_accepted_as_itself(tmp_path: Path) -> None:
+    failed = {**GOOD_STATUS, "state": "failed", "reason": "chromium-install-failed"}
+    directory = artifact(tmp_path, status=failed)
+
+    outcome, root = acceptWith(tmp_path, directory, ATTEMPT, ATTEMPT)
+
+    assert outcome == {"state": "failed", "reason": "chromium-install-failed"}
+    assert not (root / browsercollect.RENDER_RELATIVE).exists()
+    with pytest.raises(SensorNotEvaluated, match="Chromium could not be installed"):
+        BrowserRenderSensor().scan(root, NOW)
+
+
+def test_a_failed_status_cannot_smuggle_a_render(tmp_path: Path) -> None:
+    directory = artifact(tmp_path, render=document(CLEAN), status={**GOOD_STATUS, "state": "failed", "reason": "collection-error"})
+    outcome, root = acceptWith(tmp_path, directory, ATTEMPT, ATTEMPT)
+    assert outcome == {"state": "failed", "reason": "artifact-rejected"}
+    assert not (root / browsercollect.RENDER_RELATIVE).exists()
+
+
+# --- the producer's staging step, executed: a nonzero collector never hands over its render ----------
+
+
+@needsNode
+class TestProducerStaging:
+    def stage(self, tmp_path: Path, outcome: str, *, render=True, status="ok", runId="9001", runAttempt="2"):
+        job = workflow(SCHEDULED)["jobs"]["browser-collect"]
+        step = next(step for step in job["steps"] if step.get("name") == "Stage the render and status for the handoff")
+        work = tmp_path / "producer"
+        work.mkdir()
+        (work / "scripts").symlink_to(REPO_ROOT / "scripts")  # the step runs the real collector's --record-failure
+        inputs = work / ".gaia" / "steward" / "inputs"
+        inputs.mkdir(parents=True)
+        if render:
+            (inputs / "browser-render.json").write_text(json.dumps(document(CLEAN)))
+        if status:
+            (inputs / "browser-render-status.json").write_text(json.dumps({**GOOD_STATUS, "state": status, **({} if status == "ok" else {"reason": "chromium-install-failed"})}))
+        env = {**os.environ, "COLLECT_OUTCOME": outcome, "GITHUB_RUN_ID": runId, "GITHUB_RUN_ATTEMPT": runAttempt}
+        result = subprocess.run(["bash", "-e", "-c", step["run"]], cwd=work, env=env, capture_output=True, text=True, check=False)
+        return result, work / "browser-render-handoff"
+
+    def test_a_successful_collection_hands_over_its_render_status_and_attempt(self, tmp_path: Path) -> None:
+        result, handoff = self.stage(tmp_path, "success")
+        assert result.returncode == 0
+        assert sorted(p.name for p in handoff.iterdir()) == ["browser-render-attempt.json", "browser-render-status.json", "browser-render.json"]
+        assert json.loads((handoff / "browser-render-attempt.json").read_text())["attemptId"] == "9001-2"
+
+    def test_a_collector_that_wrote_ok_and_then_failed_hands_over_no_render_and_a_failed_status(self, tmp_path: Path) -> None:
+        result, handoff = self.stage(tmp_path, "failure", render=True, status="ok")  # the render and an ok status are on disk
+        status = json.loads((handoff / "browser-render-status.json").read_text())
+
+        assert result.returncode == 0
+        assert not (handoff / "browser-render.json").exists()
+        assert status["state"] == "failed" and status["reason"] == "collection-error"
+
+    def test_downstream_the_failed_collector_is_not_evaluated(self, tmp_path: Path) -> None:
+        _result, handoff = self.stage(tmp_path, "failure", render=True, status="ok")
+
+        outcome, root = acceptWith(tmp_path, handoff, "9001-2", "9001-2")
+
+        assert outcome == {"state": "failed", "reason": "collection-error"}
+        assert not (root / browsercollect.RENDER_RELATIVE).exists()
+        with pytest.raises(SensorNotEvaluated, match="stopped with an error"):
+            BrowserRenderSensor().scan(root, NOW)
+
+    def test_a_skipped_collection_after_an_install_failure_keeps_the_install_status_and_no_render(self, tmp_path: Path) -> None:
+        result, handoff = self.stage(tmp_path, "skipped", render=True, status="failed")
+        assert result.returncode == 0 and not (handoff / "browser-render.json").exists()
+        assert json.loads((handoff / "browser-render-status.json").read_text())["reason"] == "chromium-install-failed"
+
+    def test_no_status_at_all_fails_the_stage_explicitly(self, tmp_path: Path) -> None:
+        result, _handoff = self.stage(tmp_path, "skipped", render=False, status=None)
+        assert result.returncode != 0 and "no collection status was produced" in result.stdout
+
+
+@pytest.mark.parametrize(("path", "privileged"), [(SCHEDULED, "full-observe"), (DRIVE, "drive")])
+def test_the_producer_publishes_its_attempt_and_the_consumer_receives_it_through_needs(path: Path, privileged: str) -> None:
+    jobs = workflow(path)["jobs"]
+    producer = jobs["browser-collect"]
+    assert producer["outputs"]["attempt"] == "${{ steps.attempt.outputs.id }}"
+    step = next(step for step in producer["steps"] if step.get("id") == "attempt")
+    assert "GITHUB_RUN_ID" in step["run"] and "GITHUB_RUN_ATTEMPT" in step["run"]
+    assert jobs[privileged]["env"]["STEWARD_BROWSER_PRODUCER_ATTEMPT"] == "${{ needs.browser-collect.outputs.attempt }}"
+    collect = next(step for step in producer["steps"] if step.get("id") == "collect")
+    stage = next(step for step in producer["steps"] if step.get("name") == "Stage the render and status for the handoff")
+    assert stage["env"]["COLLECT_OUTCOME"] == "${{ steps.collect.outcome }}" and collect["continue-on-error"] is True
+
+
 # --- the collector script itself ---------------------------------------------------------
 
 
-needsNode = pytest.mark.skipif(shutil.which("node") is None, reason="node is not installed")
 
 
 def runCollector(tmp_path: Path, *args: str, env: dict | None = None):
@@ -613,20 +758,6 @@ def test_the_privileged_job_runs_no_browser_code_and_accepts_only_validated_data
 def test_the_privileged_job_binds_the_acceptance_to_this_workflow_attempt(path: Path, privileged: str) -> None:
     job = workflow(path)["jobs"][privileged]
     assert job["env"]["STEWARD_BROWSER_ATTEMPT"] == "${{ github.run_id }}-${{ github.run_attempt }}"
-
-
-@needsNode
-def test_the_staging_step_runs_and_publishes_only_visible_files(tmp_path: Path) -> None:
-    job = workflow(SCHEDULED)["jobs"]["browser-collect"]
-    stage = next(step for step in job["steps"] if step.get("name") == "Stage the render and status for the handoff")
-    inputs = tmp_path / ".gaia" / "steward" / "inputs"
-    inputs.mkdir(parents=True)
-    (inputs / "browser-render.json").write_text("{}")
-    (inputs / "browser-render-status.json").write_text("{}")
-
-    subprocess.run(["bash", "-e", "-c", stage["run"]], cwd=tmp_path, check=True, capture_output=True)
-
-    assert sorted(path.name for path in (tmp_path / "browser-render-handoff").iterdir()) == ["browser-render-status.json", "browser-render.json"]
 
 
 def test_the_collector_dependency_is_locked_and_pinned() -> None:

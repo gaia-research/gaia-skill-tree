@@ -129,6 +129,10 @@ jobs:
   browser-collect:
     name: Browser render collection (unprivileged)
     runs-on: ubuntu-latest
+    outputs:
+      # The consumer compares this with the attempt written into the artifact and with its own attempt. After a re-run of
+      # failed jobs a successful earlier producer keeps its OLD output, so a replayed artifact cannot pass as current.
+      attempt: ${{ steps.attempt.outputs.id }}
     timeout-minutes: 25
     permissions:
       contents: read
@@ -140,6 +144,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+
+      - name: Record this job's run and attempt
+        id: attempt
+        run: echo "id=${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
 
       # POLICY.yaml `browser.headless: false` switches collection off; the privileged job records that as refused.
       - name: Read the headless setting from POLICY.yaml
@@ -170,6 +178,7 @@ jobs:
         run: node scripts/steward_collect_browser_render.js --record-failure chromium-install-failed
 
       - name: Collect rendered-frontend facts (headless)
+        id: collect
         if: steps.policy.outputs.headless == 'true' && steps.deps.outcome == 'success' && steps.chromium.outcome == 'success'
         continue-on-error: true
         env:
@@ -179,14 +188,34 @@ jobs:
       # upload-artifact@v4 skips hidden paths, so the two files are staged in a visible directory. When collection was
       # attempted a status file always exists (the collector or --record-failure writes one), so a missing handoff is
       # an error, never silently ignored.
+      # The collector's files are handed over ONLY when the collect step actually succeeded. A collector that wrote
+      # `ok` and then exited nonzero (outcome failure) must not be accepted: its render is dropped and the status is
+      # rewritten as failed. If collection never ran (an install failed), the install-failure status already exists.
+      # The producer's own run and attempt are written into the artifact so the consumer can refuse a replayed one.
       - name: Stage the render and status for the handoff
         if: always() && steps.policy.outputs.headless == 'true'
+        env:
+          COLLECT_OUTCOME: ${{ steps.collect.outcome }}
         run: |
-          mkdir -p browser-render-handoff
-          for f in browser-render.json browser-render-status.json; do
-            if [ -f ".gaia/steward/inputs/$f" ]; then cp ".gaia/steward/inputs/$f" browser-render-handoff/; fi
-          done
-          [ -f browser-render-handoff/browser-render-status.json ] || echo "::error title=browser handoff::no collection status was produced"
+          set -e
+          inputs=.gaia/steward/inputs
+          mkdir -p browser-render-handoff "$inputs"
+          if [ "$COLLECT_OUTCOME" = "success" ]; then
+            for f in browser-render.json browser-render-status.json; do
+              if [ -f "$inputs/$f" ]; then cp "$inputs/$f" browser-render-handoff/; fi
+            done
+          else
+            rm -f "$inputs/browser-render.json"
+            if [ "$COLLECT_OUTCOME" = "failure" ]; then
+              node scripts/steward_collect_browser_render.js --record-failure collection-error
+            fi
+            if [ -f "$inputs/browser-render-status.json" ]; then cp "$inputs/browser-render-status.json" browser-render-handoff/; fi
+          fi
+          printf '{"schemaVersion":"steward-browser-render-attempt-v1","attemptId":"%s-%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" > browser-render-handoff/browser-render-attempt.json
+          if [ ! -f browser-render-handoff/browser-render-status.json ]; then
+            echo "::error title=browser handoff::no collection status was produced"
+            exit 1
+          fi
 
       - name: Publish the render artifact
         if: always() && steps.policy.outputs.headless == 'true'
@@ -211,6 +240,7 @@ jobs:
     env:
       # The validator binds the accepted render to this attempt and the run refuses any render that is not bound to it.
       STEWARD_BROWSER_ATTEMPT: ${{ github.run_id }}-${{ github.run_attempt }}
+      STEWARD_BROWSER_PRODUCER_ATTEMPT: ${{ needs.browser-collect.outputs.attempt }}
     permissions:
       contents: read
       actions: read
@@ -310,13 +340,23 @@ jobs:
       # The GitHub issue census for the issue-hygiene sensor (routine 18). Read-only REST. A partial
       # or failed census is written or left absent, so the sensor reports not evaluated, never healthy.
       - name: Collect the GitHub issue census for the issue-hygiene sensor
+        id: census
         env:
           GH_TOKEN: ${{ github.token }}
           BASELINE_STATE: ${{ steps.baseline.outputs.state }}
+        # Exit 4 (an invalid restored baseline could not be preserved) fails this step visibly but must not stop the
+        # observation: the census itself is sound and nothing was seeded or overwritten.
+        continue-on-error: true
         run: |
           code=0
           python scripts/steward_issue_census.py --repo "$GITHUB_REPOSITORY" \
             --out .gaia/steward/inputs/github-issues.json --baseline-state "$BASELINE_STATE" || code=$?
+          if [ "$code" -eq 4 ]; then
+            echo "issue-census=ok" > "$RUNNER_TEMP/inputs-census.txt"
+            echo "closed-baseline=failed:the invalid restored baseline could not be preserved; nothing was seeded or overwritten and the baseline is NOT EVALUATED" > "$RUNNER_TEMP/inputs-baseline.txt"
+            echo "::error title=steward closed-issue baseline::the invalid restored baseline could not be preserved; no baseline was written"
+            exit 4
+          fi
           if [ "$code" -eq 0 ]; then
             echo "issue-census=ok" > "$RUNNER_TEMP/inputs-census.txt"
           elif [ "$code" -eq 3 ]; then
@@ -401,7 +441,7 @@ jobs:
       # baseline re-uploads it, which renews the artifact's 90-day retention. A failed restore holds none, so nothing is
       # uploaded and stored evidence is never replaced. A missing file is a visible warning, not a silent skip.
       - name: Stage the closed-issue baseline for upload
-        if: always() && steps.baseline.outputs.state != 'restore-failed'
+        if: always() && steps.baseline.outputs.state != 'restore-failed' && steps.census.outcome != 'failure'
         run: |
           mkdir -p closed-baseline-handoff closed-baseline-invalid
           if [ -f .gaia/steward/inputs/closed-issue-baseline.json ]; then

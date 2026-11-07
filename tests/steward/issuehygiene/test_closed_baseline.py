@@ -539,6 +539,72 @@ def test_a_second_invalid_file_does_not_destroy_the_first_piece_of_evidence_unle
     assert path.is_file() and path.read_text(encoding="utf-8") != "{first"
 
 
+def failEvidenceMove(monkeypatch: pytest.MonkeyPatch, error: Exception) -> None:
+    """Make preserving the invalid file fail, and only that: every other os.replace (the census itself) works."""
+
+    import os
+
+    real = os.replace
+
+    def replace(src, dst, *args, **kwargs):
+        if "restore-invalid" in str(dst):
+            raise error
+        return real(src, dst, *args, **kwargs)
+
+    monkeypatch.setattr(os, "replace", replace)
+
+
+def test_when_the_invalid_baseline_cannot_be_preserved_nothing_is_seeded_over_it_and_the_step_fails(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys) -> None:
+    path = tmp_path / "inputs" / "closed-issue-baseline.json"
+    path.parent.mkdir(parents=True)
+    path.write_text("{broken", encoding="utf-8")
+    failEvidenceMove(monkeypatch, PermissionError("read-only"))
+
+    code, out, _ = run(tmp_path, Repo(total=5), monkeypatch)  # a fully verified, complete scan
+
+    captured = capsys.readouterr()
+    document = json.loads(out.read_text(encoding="utf-8"))
+    baseline = document["closedHistory"]["baseline"]
+    assert code == 4  # the baseline step fails
+    assert path.read_text(encoding="utf-8") == "{broken"  # the original is untouched, never overwritten
+    assert not evidenceOf(path).exists()
+    assert baseline["update"] == "not-evaluated" and baseline["after"] is None and "seeded" not in baseline
+    assert baseline["state"] == "restore-invalid-unpreserved"
+    assert baseline["problem"] == "restore-invalid-unpreserved:PermissionError"
+    assert "NOT EVALUATED" in captured.err and "seeded" not in captured.out
+    assert document["completeness"]["issues"]["complete"] is True  # the census itself is sound and was still written
+
+
+def test_an_unpreserved_baseline_is_not_replaced_by_a_later_successful_run_either_until_it_can_be_preserved(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    path = tmp_path / "inputs" / "closed-issue-baseline.json"
+    path.parent.mkdir(parents=True)
+    wrongRepo = json.dumps({"schemaVersion": rules.SCHEMA, "repo": "someone/else", "count": 4, "observedAt": BASE_TIME,
+                            "source": "gh-api", "scope": rules.SCOPE})
+    path.write_text(wrongRepo, encoding="utf-8")
+
+    with monkeypatch.context() as broken:
+        failEvidenceMove(broken, OSError("disk full"))
+        assert run(tmp_path, Repo(total=5), broken)[0] == 4
+        assert path.read_text(encoding="utf-8") == wrongRepo
+
+    code, _out, _ = run(tmp_path, Repo(total=5), monkeypatch)  # the move works again
+
+    assert code == 0 and evidenceOf(path).read_text(encoding="utf-8") == wrongRepo
+    assert rules.loadBaseline(path, REPO)[0].count == 5
+
+
+def test_the_census_step_fails_visibly_on_exit_four_and_nothing_is_persisted_after_it() -> None:
+    steps = {step.get("name"): step for step in jobSteps()}
+    census = next(step for step in jobSteps() if "steward_issue_census.py" in step.get("run", ""))
+    stage = steps["Stage the closed-issue baseline for upload"]
+
+    assert census["id"] == "census" and census["continue-on-error"] is True  # visible failure, observation still runs
+    assert "-eq 4" in census["run"] and "exit 4" in census["run"] and "closed-baseline=failed" in census["run"]
+    assert "steps.census.outcome != 'failure'" in stage["if"]  # the invalid file is not re-uploaded as the newest baseline
+
+
 def test_an_empty_store_is_seeded_only_from_a_verified_complete_scan_and_labelled(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys) -> None:
     out = tmp_path / "inputs" / "github-issues.json"
     monkeypatch.setenv("GH_TOKEN", "test-token-not-real")

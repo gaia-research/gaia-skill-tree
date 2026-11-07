@@ -51,6 +51,8 @@ diagnostic. Because it is a diagnostic and gates no write, losing it only degrad
 An empty store and a restore-invalid baseline may be seeded ONLY from a verified, complete census, and the census output and
 telemetry say so ("seeded (no prior baseline retrievable)" or "seeded (prior baseline invalid)"), so a re-seed is always
 visible. In Actions the baseline lives in an artifact that every run re-uploads, renewing its 90-day retention.
+If an invalid restored file cannot be moved aside as evidence (for example a PermissionError), nothing is seeded or overwritten,
+the baseline is reported not evaluated and the script exits 4 (the census itself is still written).
 
 This collector writes only the census. Removing a stale census is the driver's job
 (`scripts/steward_drive.py` deletes the file after an exit 1 failure, and leaves an exit 3 file
@@ -92,6 +94,7 @@ MAX_EVENT_PAGES = 5
 EXIT_COMPLETE = 0
 EXIT_USAGE = 2
 EXIT_INCOMPLETE = 3
+EXIT_BASELINE_EVIDENCE = 4  # an invalid restored baseline could not be preserved: nothing was seeded or overwritten
 
 
 class FetchError(Exception):
@@ -667,11 +670,12 @@ def collectClosedHistory(
                      "state": baselineState, "after": None, "update": "preserved"},
         "change": None,
     }
-    if baselineState == "restore-failed":
+    if baselineState in ("restore-failed", "restore-invalid-unpreserved"):
         # The earlier baseline could not be recovered, so there is nothing to compare against and nothing safe to
         # write: a new baseline would silently replace evidence that may still exist in the store.
         section["baseline"]["update"] = "not-evaluated"
-        section["baseline"]["problem"] = "baseline-restore-failed"
+        if baselineState == "restore-failed":
+            section["baseline"]["problem"] = "baseline-restore-failed"
     if closedListing.reason == "skipped":
         section["refusal"] = "open-inventory-incomplete"
         return section
@@ -706,7 +710,7 @@ def collectClosedHistory(
         section["refusal"] = "window-exceeds-count"
         return section
     section["count"]["verified"] = True
-    if baselineState == "restore-failed":
+    if baselineState in ("restore-failed", "restore-invalid-unpreserved"):
         return section
     if baseline is not None and count < baseline.count and reopened is None and reopenedReason is None:
         reopened, reopenedReason = reopenedSince(repo, fetch, baseline.observedAt)
@@ -1030,8 +1034,10 @@ def main(argv: list[str] | None = None, fetch: Callable[[str], Response] | None 
             evidence = baselinePath.with_name(baselinePath.stem + ".restore-invalid" + baselinePath.suffix)
             try:
                 os.replace(baselinePath, evidence)
-            except OSError:
-                pass
+            except OSError as error:
+                # Fail closed: the original stays where it is, nothing is seeded over it, and the step exits nonzero.
+                baselineState = "restore-invalid-unpreserved"
+                baselineProblem = f"restore-invalid-unpreserved:{type(error).__name__}"
     document = collectCensus(
         args.repo, now, transport, closedWindow,
         baseline=baseline, baselineProblem=baselineProblem, authenticated=bool(token),
@@ -1043,6 +1049,10 @@ def main(argv: list[str] | None = None, fetch: Callable[[str], Response] | None 
     if after is not None and document["completeness"]["issues"]["complete"]:
         writeAtomic(baselinePath, after)
     complete = document["completeness"]["issues"]["complete"]
+    if baselineState == "restore-invalid-unpreserved":
+        print(f"closed-issue baseline: NOT EVALUATED, the invalid restored baseline could not be preserved ({baselineProblem})",
+              file=sys.stderr)
+        return EXIT_BASELINE_EVIDENCE
     seeded = document["closedHistory"]["baseline"].get("seeded") if after is not None and complete else None
     if seeded:
         print(f"closed-issue baseline: {seeded}")
