@@ -1,5 +1,5 @@
 {
- "generation": 993,
+ "generation": 994,
  "lane": {
   "entries": [
    {
@@ -77500,6 +77500,13 @@
      "debtId": "debt:unused_import:scripts-crawlers-mcp-registry-crawler-py:1ef57041ebbfd03a",
      "emittedAt": "2026-11-07T00:35:17.026464Z",
      "idempotencyKey": "verify:dispatch-be5ad189f65fc08f66cf:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch2-verifier-746eb7e85b71",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: true authorityStillValid: true guardsWeakened: false newDebt: [] verdict: accept reasons: - The base file imports json without referencing it; the candidate removes only that import. - The crawler package test suite passes independently (15 tests); it covers shared crawler modules rather than the MCP crawler directly, a coverage limitation for this small change. - The supplied compile proof passed, and this independent verification discharges the review item.",
+      "verdict": "accept"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -77515,9 +77522,25 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261106T234654Z-0017da5c/verify-746eb7e85b71.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T00:37:06.705409Z",
+     "status": "done",
      "stepId": "verify:746eb7e85b71:1",
      "type": "agent.verify"
+    },
+    {
+     "debtId": "debt:unused_import:scripts-crawlers-mcp-registry-crawler-py:1ef57041ebbfd03a",
+     "emittedAt": "2026-11-07T00:37:06.705742Z",
+     "idempotencyKey": "integrate:dispatch-be5ad189f65fc08f66cf:1",
+     "params": {
+      "attempt": 1,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/unused-import-746eb7e85b71",
+      "debtId": "debt:unused_import:scripts-crawlers-mcp-registry-crawler-py:1ef57041ebbfd03a",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261106T234654Z-0017da5c/build-746eb7e85b71.diff"
+     },
+     "status": "pending",
+     "stepId": "integrate:746eb7e85b71:1",
+     "type": "lead.integrate"
     }
    ],
    "actor": "cli",
@@ -77531,6 +77554,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:746eb7e85b71:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch2-verifier-746eb7e85b71",
+     "at": "2026-11-07T00:37:06.705742Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:scripts-crawlers-mcp-registry-crawler-py:1ef57041ebbfd03a",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:746eb7e85b71:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -78862,12 +78897,20 @@
      "stepId": "phase:class_b"
     },
     {
-     "at": "2026-11-07T00:35:17.026464Z",
+     "at": "2026-11-07T00:37:06.705409Z",
      "debtId": "debt:unused_import:scripts-crawlers-mcp-registry-crawler-py:1ef57041ebbfd03a",
      "idempotencyKey": "verify:dispatch-be5ad189f65fc08f66cf:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:746eb7e85b71:1"
+    },
+    {
+     "at": "2026-11-07T00:37:06.705742Z",
+     "debtId": "debt:unused_import:scripts-crawlers-mcp-registry-crawler-py:1ef57041ebbfd03a",
+     "idempotencyKey": "integrate:dispatch-be5ad189f65fc08f66cf:1",
+     "kind": "lead.integrate",
+     "status": "awaiting",
+     "stepId": "integrate:746eb7e85b71:1"
     }
    ],
    "thinkingEfforts": [
@@ -78877,11 +78920,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T00:29:10.051078Z"
+   "updatedAt": "2026-11-07T00:37:06.705409Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T00:35:32.735677Z",
+ "updatedAt": "2026-11-07T00:37:06.707407Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -80083,6 +80126,17 @@
      "stepId": "build:746eb7e85b71:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch2-verifier-746eb7e85b71",
+     "at": "2026-11-07T00:37:06.705742Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:746eb7e85b71:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
@@ -80109,6 +80163,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-be5ad189f65fc08f66cf (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-07T00:37:06.705742Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch2-verifier-746eb7e85b71 (pi, effort medium)",
+     "to": "verified"
     }
    ],
    "kind": "unused_import",
@@ -80118,13 +80178,14 @@
    "routine": "dead-code-gardener",
    "runId": "run-20261106T234654Z-0017da5c",
    "source": "dead-code",
-   "state": "building",
-   "updatedAt": "2026-11-07T00:29:10.051423Z",
+   "state": "verified",
+   "updatedAt": "2026-11-07T00:37:06.705742Z",
    "verification": {
-    "receipt": "steward-20261107T003348Z-76251333840d7913",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261106T234654Z-0017da5c/verify-746eb7e85b71.prompt.md"
+    "agentId": "pi-herdr-batch2-verifier-746eb7e85b71",
+    "rationale": "Independent verifier (openai-codex/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: true authorityStillValid: true guardsWeakened: false newDebt: [] verdict: accept reasons: - The base file imports json without referencing it; the candidate removes only that import. - The crawler package test suite passes independently (15 tests); it covers shared crawler modules rather than the MCP crawler directly, a coverage limitation for this small change. - The supplied compile proof passed, and this independent verification discharges the review item.",
+    "recordedAt": "2026-11-07T00:37:06.705742Z",
+    "stage": "judged",
+    "verdict": "accept"
    }
   },
   "debt:unused_import:scripts-jev-advisory-py:2e2799e7eedfcd5a": {
