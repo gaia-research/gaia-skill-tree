@@ -25,7 +25,9 @@ def test_existing_compiled_agents_remain_manual_only_and_paused(engine, role):
     path = ROOT / f".github/workflows/steward-{role}-{engine}.lock.yml"
     lock = yaml.load(path.read_text(), Loader=yaml.BaseLoader)
     assert set(lock["on"]) == {"workflow_dispatch"}
-    assert lock["jobs"]["activation"]["if"] == "${{ false }}"
+    # The founder pause now comes from the source (generator FOUNDERPAUSE, top-level
+    # `if: ${{ false }}`), which gh-aw v0.92.6 compiles to `if: false` on activation.
+    assert lock["jobs"]["activation"]["if"] == "false"
     assert "detection" in lock["jobs"]
     assert "needs.activation" in lock["jobs"]["agent"]["if"]
 
@@ -54,3 +56,21 @@ def test_outcome_persistence_requires_complete_affirmative_clearance(tmp_path, r
     result = subprocess.run(["bash", "-c", step["run"]], cwd=tmp_path, env=env, capture_output=True, text=True)
     assert (result.returncode == 0) == allowed, result.stderr
     assert (tmp_path / "steward-outcome/outcome.json").exists() == allowed
+
+
+@pytest.mark.parametrize("engine", ("claude", "codex", "copilot", "pi"))
+@pytest.mark.parametrize("role", ("build", "verify"))
+def test_the_founder_pause_lives_in_the_source_so_a_recompile_keeps_it(engine, role):
+    wrapper = ROOT / f".github/workflows/steward-{role}-{engine}.md"
+    front = yaml.safe_load(wrapper.read_text().split("---", 2)[1])
+    assert front["if"] == "${{ false }}"
+    assert "Founder pause (FOUNDER_LOCK_2283 C4)" in wrapper.read_text()
+
+
+@pytest.mark.parametrize("engine", ("claude", "codex", "copilot", "pi"))
+@pytest.mark.parametrize("role", ("build", "verify"))
+def test_compiled_locks_carry_the_c4_strict_detection(engine, role):
+    text = (ROOT / f".github/workflows/steward-{role}-{engine}.lock.yml").read_text()
+    assert 'GH_AW_DETECTION_CONTINUE_ON_ERROR: "true"' not in text
+    assert 'GH_AW_DETECTION_CONTINUE_ON_ERROR: "false"' in text
+    assert 'test -z "$GH_AW_DETECTION_REASON"' in text

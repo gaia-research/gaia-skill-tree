@@ -40,6 +40,18 @@ INPUTS = {
 }
 
 
+# Founder pause (FOUNDER_LOCK_2283 C4): every agent workflow stays off. gh-aw
+# v0.92.6 compiles a top-level `if:` onto the generated activation job, and every
+# other job needs activation, so `if: ${{ false }}` keeps the whole workflow
+# dormant in every recompiled lock. This replaced a manual post-compile edit of
+# the locks that a plain recompile would have dropped (founder ruling F7,
+# 2026-11-08). Removing it is an activation and needs explicit founder authorization.
+FOUNDERPAUSE = [
+    "# Founder pause (FOUNDER_LOCK_2283 C4): gh-aw agents disabled; removing this is an activation.",
+    "if: ${{ false }}",
+]
+
+
 def render(role: str, engine: str) -> str:
     lines = [
         "---",
@@ -51,7 +63,9 @@ def render(role: str, engine: str) -> str:
     for name, text in INPUTS[role]:
         lines += [f"      {name}:", f'        description: "{text}"', "        required: true", "        type: string"]
     perms = ["permissions:", "  contents: read", "  actions: read"] + (["  copilot-requests: write"] if engine in COPILOTAUTH else [])
-    lines += perms + ["concurrency:", "  job-discriminator: ${{ github.event.inputs.dispatch-id }}", "timeout-minutes: 45", ENGINES[engine], "imports:", f"  - shared/steward-{role}.md", "---", "", f"Run the Gaia Steward {role} task defined in the imported shared workflow.", ""]
+    lines += perms + ["concurrency:", "  job-discriminator: ${{ github.event.inputs.dispatch-id }}", "timeout-minutes: 45"]
+    lines += FOUNDERPAUSE
+    lines += [ENGINES[engine], "imports:", f"  - shared/steward-{role}.md", "---", "", f"Run the Gaia Steward {role} task defined in the imported shared workflow.", ""]
     return "\n".join(lines)
 
 
