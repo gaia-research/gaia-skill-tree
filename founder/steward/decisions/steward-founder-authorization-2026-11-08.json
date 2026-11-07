@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-founder-authorization-2026-11-08",
+  "status": "decided",
+  "decision": "Founder authorization update for the existing #2283 campaign: lanes, mission and operating instruction.",
+  "whyItMatters": "Sets the two-lane model (Steward on the openai/openai-codex roster owns the burn; Flash leads non-Steward engineering with a terra reviewer) and the reporting contract.",
+  "evidence": [
+    "Founder rulings 2026-11-08, relayed to the Steward lead (Opus) for #2283 (verbatim): \"**Primary mission:** Eliminate genuine canonical Steward debt through bounded repairs, independent verification, protected-main delivery, and verified ledger reconciliation. Measure **resolved debt**, not completed PRs or agent activity.\n\n**Lane 1, Steward:** Pi/Herdr, using the canonical openai / openai-codex roster and established escalation/reviewer paths. Owns debt dispatch, repairs, verification, and canonical resolutions.\n\n**Lane 2, non-Steward engineering:** Pi **Flash leading engineering, terra reviewer.** Owns supporting infrastructure and repair-route development, not canonical Steward debt execution.\n\nLane 2 must not displace Lane 1 or assume Steward authority.\n\nContinue the existing burn-down and preserve all active batches. Record these founder rulings verbatim in the canonical decision files and checkpoint.\n\nMaintain independent verification, protected-main merge commits, accountable receipts, Class C evidence requirements, and all existing kill switches.\n\nOnly return to the founder for genuine authority, trust, security, or product decisions. Report canonical debt deltas, verified deliveries, and exceptional blockers.\n\n**Steward owns the burn. Flash builds the machinery. Neither lane stops the other.**\""
+  ],
+  "recommended": "Approved as stated in the verbatim ruling.",
+  "alternative": "Not adopted.",
+  "unblocks": "Continue the burn under the two-lane model.",
+  "links": [
+    "founder/reports/steward-campaign-2026-11-05/FOUNDER_RULINGS_2026-11-08.md"
+  ],
+  "resolution": "approved"
+}
