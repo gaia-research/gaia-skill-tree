@@ -94,8 +94,11 @@ acknowledges them with an ordinary decision record (no extra schema fields):
   e.g. `steward-frozen-history-mattpocock.diagnose.json`;
 - `status: decided` and `resolution: acknowledged`;
 - one `evidence` line per acknowledged event, exactly
-  `postFreezeEvent <skill id> <timestamp> <action>` (the sensor's
-  `postFreezeHistory` lists them).
+  `postFreezeEvent <skill id> <timestamp> <action> sha256:<digest>`, copied from
+  the event's `acknowledgementLine` in the sensor's `postFreezeHistory`. The
+  digest covers the event's whole content, so a different event that happens to
+  share the timestamp and action is not acknowledged; two byte-identical events
+  need two copies of the line.
 
 Each event is matched exactly, so a later post-freeze event is reported again. A
 malformed, open or differently resolved record acknowledges nothing. A stored

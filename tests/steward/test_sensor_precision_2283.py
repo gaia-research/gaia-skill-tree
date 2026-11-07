@@ -206,6 +206,21 @@ class TestS5YamlLoaderResolution:
             "import yaml\nclass S(yaml.SafeLoader):\n    pass\nS = yaml.UnsafeLoader\nyaml.load(t, Loader=S)\n",
             "import yaml\ndef f(loader):\n    return yaml.load(t, Loader=loader)\n",
             "import yaml\nyaml.load(t, Loader=yaml.Loader)\n",
+            # #2372 review P1: one unsafe base keeps the class unsafe.
+            "import yaml\nclass M(yaml.UnsafeLoader, yaml.SafeLoader):\n    pass\nyaml.load(t, Loader=M)\n",
+            "import yaml\nclass M(yaml.SafeLoader, yaml.UnsafeLoader):\n    pass\nyaml.load(t, Loader=M)\n",
+            "import yaml\nclass M(yaml.SafeLoader, Mixin):\n    pass\nyaml.load(t, Loader=M)\n",
+            "import yaml\nclass M(yaml.SafeLoader, metaclass=Meta):\n    pass\nyaml.load(t, Loader=M)\n",
+            # Constructor registration through an alias, yaml.add_constructor, the
+            # constructor table, or on SafeLoader itself.
+            "import yaml\nclass S(yaml.SafeLoader):\n    pass\nA = S\nA.add_constructor('!x', f)\nyaml.load(t, Loader=S)\n",
+            "import yaml\nclass S(yaml.SafeLoader):\n    pass\nyaml.add_constructor('!x', f, Loader=S)\nyaml.load(t, Loader=S)\n",
+            "import yaml\nclass S(yaml.SafeLoader):\n    pass\nyaml.add_constructor('!x', f, S)\nyaml.load(t, Loader=S)\n",
+            "import yaml\nclass S(yaml.SafeLoader):\n    pass\nS.yaml_constructors['!x'] = f\nyaml.load(t, Loader=S)\n",
+            "import yaml\nclass S(yaml.SafeLoader):\n    pass\nclass T(S):\n    pass\nS.add_constructor('!x', f)\n"
+            "yaml.load(t, Loader=T)\n",
+            "import yaml\nyaml.SafeLoader.add_constructor('!x', f)\nyaml.load(t, Loader=yaml.SafeLoader)\n",
+            "import yaml\nyaml.add_constructor('!x', f, Loader=yaml.SafeLoader)\nyaml.load(t, Loader=yaml.SafeLoader)\n",
         ],
     )
     def test_unsafe_or_unresolved_loaders_are_still_reported(self, source: str) -> None:
@@ -220,6 +235,9 @@ class TestS5YamlLoaderResolution:
             "import yaml\nclass _Strict(yaml.SafeLoader):\n    def construct_mapping(self, node, deep=False):\n"
             "        return super().construct_mapping(node, deep)\nyaml.load(t, Loader=_Strict)\n",
             "import yaml\nclass A(yaml.SafeLoader):\n    pass\nclass B(A):\n    pass\nyaml.load(t, Loader=B)\n",
+            "import yaml\nclass S(yaml.SafeLoader, yaml.CSafeLoader):\n    pass\nyaml.load(t, Loader=S)\n",
+            # yaml.add_constructor without Loader= never targets a safe loader.
+            "import yaml\nyaml.add_constructor('!x', f)\nyaml.load(t, Loader=yaml.SafeLoader)\n",
             "from yaml import SafeLoader, load\nload(t, Loader=SafeLoader)\n",
         ],
     )
@@ -312,15 +330,16 @@ FROZEN = (
     "  - timestamp: '2026-09-11T00:00:00Z'\n"
     "    action: demote\n"
     "    details: Calibrated level from 4★ to 3★\n"
+    "{extra}"
     "---\n"
 )
 
 
 def _frozen_repo(tmp_path: Path, *, level: str = "3★", first: str = "Calibrated level from 3★ to 4★",
-                 record: dict | None = None) -> Path:
+                 record: dict | None = None, extra: str = "") -> Path:
     path = tmp_path / "registry/named/owner/frozen.md"
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(FROZEN.format(level=level, first=first), encoding="utf-8")
+    path.write_text(FROZEN.format(level=level, first=first, extra=extra), encoding="utf-8")
     if record is not None:
         target = tmp_path / "founder/steward/decisions" / f"{record['id']}.json"
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -329,7 +348,7 @@ def _frozen_repo(tmp_path: Path, *, level: str = "3★", first: str = "Calibrate
     return tmp_path
 
 
-def _record(events: list[tuple[str, str]], **overrides: object) -> dict:
+def _record(events: list[dict], **overrides: object) -> dict:
     sensor = FrozenSkillIntegritySensor
     record = {
         "schemaVersion": "steward-decision-v1",
@@ -338,7 +357,7 @@ def _record(events: list[tuple[str, str]], **overrides: object) -> dict:
         "resolution": "acknowledged",
         "decision": "Acknowledge the corrected post-freeze history of owner/frozen?",
         "whyItMatters": "Timeline history is append-only and cannot be repaired.",
-        "evidence": [sensor.acknowledgementLine("owner/frozen", ts, action) for ts, action in events],
+        "evidence": [sensor.acknowledgementLine("owner/frozen", event) for event in events],
         "recommended": "Acknowledge.",
         "alternative": "Leave open.",
         "unblocks": "frozen_skill_drift for owner/frozen.",
@@ -348,7 +367,21 @@ def _record(events: list[tuple[str, str]], **overrides: object) -> dict:
     return record
 
 
-BOTH = [("2026-09-02T00:00:00Z", "rank_up"), ("2026-09-11T00:00:00Z", "demote")]
+E1 = {"timestamp": "2026-09-02T00:00:00Z", "action": "rank_up", "details": "Calibrated level from 3★ to 4★"}
+E2 = {"timestamp": "2026-09-11T00:00:00Z", "action": "demote", "details": "Calibrated level from 4★ to 3★"}
+BOTH = [E1, E2]
+# Same timestamp and action as E1, different content (the #2372 review repro).
+TWIN = (
+    "  - timestamp: '2026-09-02T00:00:00Z'\n"
+    "    action: rank_up\n"
+    "    details: An unapproved second promotion\n"
+)
+# Byte-identical copy of E1.
+COPY = (
+    "  - timestamp: '2026-09-02T00:00:00Z'\n"
+    "    action: rank_up\n"
+    "    details: Calibrated level from 3★ to 4★\n"
+)
 
 
 class TestS7FrozenHistory:
@@ -410,6 +443,31 @@ class TestS7FrozenHistory:
         assert obs.observed_state["levelMismatch"] is True
         assert "remediationCommand" not in obs.observed_state
         assert obs.observed_state["remediation"].startswith("founder decision")
+
+    def test_scan_publishes_the_exact_line_a_record_must_carry(self, tmp_path: Path) -> None:
+        (obs,) = FrozenSkillIntegritySensor().scan(_frozen_repo(tmp_path), NOW)
+        lines = [event["acknowledgementLine"] for event in obs.observed_state["postFreezeHistory"]]
+        assert lines == _record(BOTH)["evidence"]
+        assert all(line.split()[-1].startswith("sha256:") for line in lines)
+
+    def test_twin_event_with_same_timestamp_and_action_is_not_acknowledged(self, tmp_path: Path) -> None:
+        # #2372 review P1: a second, different event sharing (timestamp, action)
+        # must not ride on the first event's acknowledgement.
+        root = _frozen_repo(tmp_path, record=_record(BOTH), extra=TWIN)
+        (obs,) = FrozenSkillIntegritySensor().scan(root, NOW)
+        assert obs.status == "drift"
+        history = obs.observed_state["postFreezeHistory"]
+        assert [event["acknowledged"] for event in history] == [True, True, False]
+        assert obs.observed_state["unacknowledgedEventCount"] == 1
+
+    def test_byte_identical_duplicate_needs_its_own_line(self, tmp_path: Path) -> None:
+        root = _frozen_repo(tmp_path, record=_record(BOTH), extra=COPY)
+        (obs,) = FrozenSkillIntegritySensor().scan(root, NOW)
+        assert obs.status == "drift"
+        assert obs.observed_state["unacknowledgedEventCount"] == 1
+        root2 = _frozen_repo(tmp_path / "again", record=_record([E1, E2, E1]), extra=COPY)
+        (obs2,) = FrozenSkillIntegritySensor().scan(root2, NOW)
+        assert obs2.status == "healthy"
 
     def test_unreadable_record_is_a_visible_skip(self, tmp_path: Path) -> None:
         root = _frozen_repo(tmp_path)
@@ -512,6 +570,23 @@ class TestS8TrustAnnotations:
         assert obs.observed_state["targetLevel"] in {"4★", "5★"}
         assert seen and seen[0]["mergedMap"] is True and seen[0]["pool"] == {"pool": True}
         assert obs.observed_state["gatesUnmet"] == [{"gate": "star-gate", "message": "star gate says no"}]
+
+    def test_unexpected_preflight_error_is_recorded_not_fatal_not_swallowed(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from gaia_cli.commands.dev import helpers
+
+        def broken(skill_id, skill_data, level):
+            raise KeyError("boom")
+
+        monkeypatch.setattr(helpers, "_preflight_starbar_blob_link", broken)
+        root = _trust_repo(tmp_path, **{"owner/child": {"level": "5★", "links": BLOB}})
+        scan = TrustCalibrationDriftSensor().scan_detailed(root, NOW)
+        (obs,) = scan.observations  # the finding is still reported
+        assert obs.observed_state["gatesUnmet"] == [{"gate": "star-bar-blob-link", "preflightError": "KeyError"}]
+        assert obs.observed_state["commandWouldBeRefused"] is None
+        assert {"subjectType": "calibration-gate", "subjectId": "owner/child:star-bar-blob-link",
+                "reason": "preflight raised KeyError"} in scan.skipped
 
     def test_sensor_stays_read_only(self, tmp_path: Path) -> None:
         from tests.steward.sensor_fixtures import tree_digest

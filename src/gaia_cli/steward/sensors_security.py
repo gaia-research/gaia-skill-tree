@@ -777,6 +777,7 @@ class _UnsafeVisitor:
         self._tar: set[str] = set()
         self._safe_loader_classes: set[str] = set()
         self._safe_loader_names: set[str] = set()
+        self._extended: set[str] = set()
         self._prepare()
         self._prepare_yaml_loaders()
 
@@ -805,37 +806,29 @@ class _UnsafeVisitor:
     def _prepare_yaml_loaders(self) -> None:
         """Module-local names that provably hold a safe yaml loader (#2283 S5).
 
-        A class counts when a base is a safe loader (or another such class in
-        this module) and the module never registers constructors on it. A name
+        A class counts only when **every** base is a safe loader (or another such
+        class in this module) and the module never registers constructors on it,
+        on a base, or on an alias of either (see ``_extended_loaders``). A name
         counts only when every assignment to it in the module is a safe loader,
         including ``getattr(yaml, "CSafeLoader", yaml.SafeLoader)``. Anything
         unresolved stays unsafe, so the finding is still reported.
         """
 
         classes = [node for node in ast.walk(self._tree) if isinstance(node, ast.ClassDef)]
-        extended: set[str] = set()
-        for node in ast.walk(self._tree):
-            if (
-                isinstance(node, ast.Call)
-                and isinstance(node.func, ast.Attribute)
-                and node.func.attr in {"add_constructor", "add_multi_constructor"}
-                and isinstance(node.func.value, ast.Name)
-            ):
-                extended.add(node.func.value.id)
-        for node in classes:
-            for statement in node.body:
-                if isinstance(statement, ast.Assign) and any(
-                    isinstance(target, ast.Name) and target.id in {"yaml_constructors", "yaml_multi_constructors"}
-                    for target in statement.targets
-                ):
-                    extended.add(node.name)
+        self._extended = self._extended_loaders()
         changed = True
         while changed:
             changed = False
             for node in classes:
-                if node.name in self._safe_loader_classes or node.name in extended:
+                if node.name in self._safe_loader_classes or node.name in self._extended:
                     continue
-                if any(self._names_safe_loader(base, names=False) for base in node.bases):
+                # Every base must be a known-safe loader: one unsafe or
+                # unresolvable base (class M(yaml.UnsafeLoader, yaml.SafeLoader))
+                # keeps the class unsafe. A metaclass= keyword can rewrite
+                # construction, so it is never trusted either.
+                if node.bases and not node.keywords and all(
+                    self._names_safe_loader(base, names=False) for base in node.bases
+                ):
                     self._safe_loader_classes.add(node.name)
                     changed = True
         verdicts: dict[str, bool] = {}
@@ -870,6 +863,78 @@ class _UnsafeVisitor:
         # A class name rebound to anything unsafe is no longer trusted.
         self._safe_loader_classes -= {name for name, safe in verdicts.items() if not safe}
 
+    def _extended_loaders(self) -> set[str]:
+        """Loader names (terminal) that this module registers constructors on.
+
+        Covers ``X.add_constructor``/``add_multi_constructor``,
+        ``yaml.add_constructor(..., Loader=X)`` (keyword or third positional),
+        ``X.yaml_constructors = ...`` / ``X.yaml_constructors[...] = ...`` and a
+        class body assigning ``yaml_constructors``. Extending an alias
+        (``A = X``) extends ``X``. An extended name is never trusted, including
+        the built-in ``SafeLoader`` itself; an extended class also taints its
+        subclasses, because a subclass is trusted only through safe bases.
+        """
+
+        def terminal(node: ast.AST | None) -> str | None:
+            if isinstance(node, ast.Name):
+                return node.id
+            if isinstance(node, ast.Attribute):
+                return node.attr
+            return None
+
+        def loader_argument(call: ast.Call) -> ast.AST | None:
+            return _keyword(call, "Loader") or (call.args[2] if len(call.args) > 2 else None)
+
+        extended: set[str] = set()
+        aliases: dict[str, set[str]] = {}
+        for node in ast.walk(self._tree):
+            if isinstance(node, ast.Assign) and isinstance(node.value, (ast.Name, ast.Attribute)):
+                source = terminal(node.value)
+                for target in node.targets:
+                    if isinstance(target, ast.Name) and source:
+                        aliases.setdefault(target.id, set()).add(source)
+            if isinstance(node, ast.Call):
+                origin = self._origin(node.func)
+                if origin is not None and origin[0] == "yaml" and origin[1] in {
+                    "add_constructor", "add_multi_constructor",
+                }:
+                    # yaml.add_constructor without Loader= targets Loader,
+                    # FullLoader and UnsafeLoader, never a safe loader.
+                    name = terminal(loader_argument(node))
+                    if name:
+                        extended.add(name)
+                elif isinstance(node.func, ast.Attribute) and node.func.attr in {
+                    "add_constructor", "add_multi_constructor",
+                }:
+                    name = terminal(node.func.value)
+                    if name:
+                        extended.add(name)
+            if isinstance(node, (ast.Assign, ast.AugAssign)):
+                targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+                for target in targets:
+                    base = target.value if isinstance(target, ast.Subscript) else target
+                    if isinstance(base, ast.Attribute) and base.attr in {"yaml_constructors", "yaml_multi_constructors"}:
+                        name = terminal(base.value)
+                        if name:
+                            extended.add(name)
+            if isinstance(node, ast.ClassDef):
+                for statement in node.body:
+                    if isinstance(statement, ast.Assign) and any(
+                        isinstance(target, ast.Name)
+                        and target.id in {"yaml_constructors", "yaml_multi_constructors"}
+                        for target in statement.targets
+                    ):
+                        extended.add(node.name)
+        changed = True
+        while changed:
+            changed = False
+            for alias, sources in aliases.items():
+                if alias in extended:
+                    for source in sources - extended:
+                        extended.add(source)
+                        changed = True
+        return extended
+
     def _names_safe_loader(self, node: ast.AST, *, names: bool = True) -> bool:
         if isinstance(node, ast.IfExp):
             return self._names_safe_loader(node.body, names=names) and self._names_safe_loader(node.orelse, names=names)
@@ -885,12 +950,23 @@ class _UnsafeVisitor:
                 return self._names_safe_loader(args[2], names=names)
             return False
         if isinstance(node, ast.Name):
+            if node.id in self._extended:
+                return False
             if node.id in self._safe_loader_classes or (names and node.id in self._safe_loader_names):
                 return True
             origin = self._names.get(node.id)
-            return origin is not None and origin[0] == "yaml" and origin[1] in _SAFE_YAML_LOADERS
+            return (
+                origin is not None
+                and origin[0] == "yaml"
+                and origin[1] in _SAFE_YAML_LOADERS
+                and origin[1] not in self._extended
+            )
         if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
-            return self._modules.get(node.value.id) == "yaml" and node.attr in _SAFE_YAML_LOADERS
+            return (
+                self._modules.get(node.value.id) == "yaml"
+                and node.attr in _SAFE_YAML_LOADERS
+                and node.attr not in self._extended
+            )
         return False
 
     @staticmethod
@@ -961,7 +1037,7 @@ class _UnsafeVisitor:
         if loader is None:
             return False
         terminal = _dotted(loader).split(".")[-1]
-        if terminal in _SAFE_YAML_LOADERS:
+        if terminal in _SAFE_YAML_LOADERS and terminal not in self._extended:
             return True
         # #2283 S5: a module-local SafeLoader subclass or a name bound only to
         # safe loaders (e.g. getattr(yaml, "CSafeLoader", yaml.SafeLoader)).

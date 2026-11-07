@@ -6,9 +6,10 @@ import ast
 import hashlib
 import json
 import re
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable, Protocol
+from typing import Any, Iterable, Mapping, Protocol
 
 from jsonschema import Draft7Validator
 from jsonschema.exceptions import SchemaError
@@ -1733,7 +1734,7 @@ class TrustCalibrationDriftSensor:
 
         unreadable: list[str] = []
         unresolved: list[str] = []
-        gates = _CalibrationGateProbe(repo_root, context)
+        gates = _CalibrationGateProbe(repo_root, context, skips)
         for path in sorted(named_root.rglob("*.md")):
             relative = str(path.relative_to(repo_root))
             try:
@@ -1907,7 +1908,13 @@ class TrustCalibrationDriftSensor:
                     # gatesUnmet: what the canonical calibrate preflights would
                     # refuse for calibrationCommand, from the predicates themselves.
                     "gatesUnmet": (unmet := gates.unmet(skill_id, skill, target_level)),
-                    "commandWouldBeRefused": bool(unmet),
+                    # True: a gate refuses. None: a gate could not be evaluated
+                    # (preflightError) and none refused. False: all gates pass.
+                    "commandWouldBeRefused": (
+                        True
+                        if any("message" in gate for gate in unmet)
+                        else (None if unmet else False)
+                    ),
                     "priorGovernedDemotion": _lastGovernedDemotion(timeline),
                     "frozen": gates.frozen(skill_id),
                 },
@@ -1961,11 +1968,25 @@ class _CalibrationGateProbe:
     rather than rescanning the registry for every skill.
 
     Read-only: the predicates only inspect their arguments and raise.
+
+    Snapshot semantics: every annotation is computed from one scan snapshot.
+    The merged evidence context is the one the sensor built at the start of the
+    scan; the frozen set and the Origin contender pool are built lazily, once,
+    and reused for every skill. A registry that changes during the scan can
+    therefore produce stale annotations. They are advisory only: the real
+    ``gaia dev calibrate`` run never receives this cached context and re-runs
+    every preflight against the live registry, so a stale annotation can never
+    authorize a write.
+
+    A predicate that raises anything other than ``DevPreflightError`` neither
+    crashes the scan nor disappears: it is recorded on the finding as a
+    ``preflightError`` gate entry and as a skipped subject (``skips``).
     """
 
-    def __init__(self, repo_root: Path, context: dict) -> None:
+    def __init__(self, repo_root: Path, context: dict, skips: SkipLog | None = None) -> None:
         self._root = repo_root
         self._context = context
+        self._skips = skips
         self._pool: Any = None
         self._frozen: frozenset[str] | None = None
 
@@ -2011,6 +2032,12 @@ class _CalibrationGateProbe:
                 check()
             except DevPreflightError as error:
                 unmet.append({"gate": gate, "message": scrub(str(error.message))[:240]})
+            except Exception as exc:  # noqa: BLE001 - recorded on the finding and as a skip, never dropped
+                unmet.append({"gate": gate, "preflightError": type(exc).__name__})
+                if self._skips is not None:
+                    self._skips.add(
+                        "calibration-gate", f"{skill_id}:{gate}", f"preflight raised {type(exc).__name__}"
+                    )
         return unmet
 
 
@@ -2044,13 +2071,31 @@ class FrozenSkillIntegritySensor:
         return "steward-frozen-history-" + re.sub(r"[^a-z0-9._-]+", ".", str(skill_id).lower())
 
     @staticmethod
-    def acknowledgementLine(skill_id: str, timestamp: str, action: str) -> str:
-        """The exact ``evidence`` line that acknowledges one post-freeze event."""
+    def eventDigest(event: Mapping[str, Any]) -> str:
+        """A stable identity for one timeline event: its whole canonical content.
 
-        return f"postFreezeEvent {skill_id} {timestamp} {action}"
+        Two events that share a timestamp and action but differ in any field
+        (details, values, contributor) get different digests.
+        """
+
+        canonical = json.dumps(event, sort_keys=True, ensure_ascii=False, default=str, separators=(",", ":"))
+        return hashlib.sha256(canonical.encode("utf-8")).hexdigest()[:16]
 
     @classmethod
-    def _acknowledgedEvents(cls, repo_root: Path, skill_id: str) -> tuple[str | None, frozenset[str]]:
+    def acknowledgementLine(cls, skill_id: str, event: Mapping[str, Any]) -> str:
+        """The exact ``evidence`` line that acknowledges one post-freeze event.
+
+        It names the event's timestamp and action for a human reader and binds
+        them to :meth:`eventDigest`, so it acknowledges that exact event only.
+        """
+
+        return (
+            f"postFreezeEvent {skill_id} {event.get('timestamp') or ''} {event.get('action')} "
+            f"sha256:{cls.eventDigest(event)}"
+        )
+
+    @classmethod
+    def _acknowledgedEvents(cls, repo_root: Path, skill_id: str) -> tuple[str | None, Counter]:
         """Return (record id, acknowledged evidence lines); empty when no valid record.
 
         The record is a normal founder decision record (schema
@@ -2058,6 +2103,9 @@ class FrozenSkillIntegritySensor:
         extra schema fields are used) with ``status: decided`` and
         ``resolution: acknowledged``. Its ``evidence`` must name each event with
         :meth:`acknowledgementLine`. Anything else fails closed.
+
+        The lines are returned as a multiset: byte-identical duplicate events
+        are each acknowledged only by their own copy of the line.
         """
 
         from gaia_cli.steward.desk import _check_record
@@ -2066,17 +2114,17 @@ class FrozenSkillIntegritySensor:
         path = repo_root / cls._DECISIONS_DIR / f"{record_id}.json"
         try:
             if path.is_symlink() or not path.is_file():
-                return None, frozenset()
+                return None, Counter()
             record = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, ValueError):
-            return None, frozenset()
+            return None, Counter()
         if not isinstance(record, dict):
-            return None, frozenset()
+            return None, Counter()
         if _check_record({**record, "_source": f"{cls._DECISIONS_DIR}/{path.name}"}) is not None:
-            return None, frozenset()
+            return None, Counter()
         if record.get("status") != "decided" or record.get("resolution") != cls._ACK_RESOLUTION:
-            return None, frozenset()
-        return record_id, frozenset(item for item in record.get("evidence", []) if isinstance(item, str))
+            return None, Counter()
+        return record_id, Counter(item for item in record.get("evidence", []) if isinstance(item, str))
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         return list(self.scan_detailed(repo_root, observed_at).observations)
@@ -2200,16 +2248,24 @@ class FrozenSkillIntegritySensor:
                     # gone; acknowledgement is a structured decision record.)
                     if action in ("demote", "rank_up"):
                         post_freeze_events.append(str(action))
-                        history.append({"timestamp": str(ev.get("timestamp") or ""), "action": str(action)})
+                        history.append({
+                            "timestamp": str(ev.get("timestamp") or ""),
+                            "action": str(action),
+                            "acknowledgementLine": self.acknowledgementLine(skill_id, ev),
+                        })
 
                 has_level_mismatch = bool(frozen_level and current_level != frozen_level)
                 record_id, acknowledged_lines = (
-                    self._acknowledgedEvents(repo_root, skill_id) if history else (None, frozenset())
+                    self._acknowledgedEvents(repo_root, skill_id) if history else (None, Counter())
                 )
+                remaining = Counter(acknowledged_lines)
                 for event in history:
-                    event["acknowledged"] = (
-                        self.acknowledgementLine(skill_id, event["timestamp"], event["action"]) in acknowledged_lines
-                    )
+                    # Each evidence line acknowledges exactly one event with that
+                    # exact content; a duplicate needs its own line.
+                    line = event["acknowledgementLine"]
+                    event["acknowledged"] = remaining[line] > 0
+                    if event["acknowledged"]:
+                        remaining[line] -= 1
                 unacknowledged = [event for event in history if not event["acknowledged"]]
                 drift = has_level_mismatch or bool(unacknowledged)
 
