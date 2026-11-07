@@ -1,5 +1,5 @@
 {
- "generation": 1421,
+ "generation": 1422,
  "lane": {
   "entries": [
    {
@@ -5742,7 +5742,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T14:20:56.103570Z",
-   "expiresAt": "2026-11-07T15:00:55.676391Z",
+   "expiresAt": "2026-11-07T15:01:03.364801Z",
    "holder": "run-20261107T115111Z-802da939"
   }
  },
@@ -110677,6 +110677,7 @@
    "ciResults": [],
    "costUsd": 0.0,
    "decisions": [],
+   "deferred": [],
    "desk": {
     "asOf": "2026-11-07T12:02:02.002107Z",
     "decisions": [
@@ -112145,6 +112146,43 @@
      "issueClosure": [],
      "reportOnly": [],
      "skippedActive": []
+    },
+    "verify": {
+     "deferred": [],
+     "expired": [],
+     "results": [
+      {
+       "debtId": "debt:unused_import:scripts-steward-issue-reconcile-py:8ed5a1f9ac67ba3f",
+       "receipt": "steward-20261107T142308Z-98042263d38fed19",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
+       "receipt": "steward-20261107T142439Z-381c621d5bc43128",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
+       "receipt": "steward-20261107T142612Z-6b0b7b47b38f4d12",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:scripts-upstream-watcher-transport-py:f9f55b2634428ef3",
+       "receipt": "steward-20261107T142746Z-952db6d11782295e",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:src-gaia-cli-steward-workflowproof-py:ce3a82469342146f",
+       "receipt": "steward-20261107T142922Z-4e4f06807449812a",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      }
+     ],
+     "status": "awaiting-verifier"
     }
    },
    "proofArtifacts": [
@@ -112320,7 +112358,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T14:30:55.676668Z",
+ "updatedAt": "2026-11-07T14:31:03.364963Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
