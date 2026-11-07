@@ -1,5 +1,5 @@
 {
- "generation": 1458,
+ "generation": 1459,
  "lane": {
   "entries": [
    {
@@ -5769,13 +5769,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-07T14:45:57.151828Z",
-   "expiresAt": "2026-11-07T15:19:30.380298Z",
-   "holder": "run-20261107T144557Z-d02239e4"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -114421,7 +114415,438 @@
    "costUsd": 0.0,
    "decisions": [],
    "deferred": [],
-   "finishedAt": null,
+   "desk": {
+    "asOf": "2026-11-07T14:49:36.004552Z",
+    "decisions": [
+     {
+      "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
+      "debtIds": [
+       "dd0fc386f410185b",
+       "754ea49b1c498e02",
+       "7c8824c086679135",
+       "5f45d00d7f30b9c6",
+       "0b64558129c498be",
+       "a972d25ee1973c95",
+       "bd8dca1fcdf7945b",
+       "a671be5f79c2a3ff",
+       "f32377b5380cfa3e",
+       "54ae5604e12e2a9b",
+       "471044354a9a98fd",
+       "1deecfb89c8de90c",
+       "4560dad03a613faa",
+       "d8222ce8d9bd957f",
+       "0801364f7f0e77a3",
+       "f8f331ec1404ea92",
+       "4df9c2b6ff80b3e6",
+       "04765e48ffb67e0b",
+       "412fc74a40db779e",
+       "e8be47c2eebc4b65",
+       "b132c45b86c3ebcb",
+       "b526f075e4ecd1e6",
+       "86888e095876410e",
+       "2393fe51171e5834",
+       "2ed435a394e19f87",
+       "74fbb7100ac456ad",
+       "ba7fcb08fe3ef5c9",
+       "f398b721dde8a3e9",
+       "bfd5e4eab3ccead8",
+       "82d92c373e57e5b6",
+       "affc47d215e53abe",
+       "ec37ccfcb574c2d1",
+       "c82313badc903f74",
+       "055f6db7f83bf7eb",
+       "100e8e97ff9a51ef",
+       "8dd6930a15057584",
+       "dc0369131ec2af02",
+       "ec72302cb701d71f",
+       "209d89010236b210",
+       "d1900b51970bdc61",
+       "edc1563abdfa70e4",
+       "062a191c5b535bb7",
+       "b8c7a3d24c6492cf",
+       "30a58d0ac04e28de",
+       "50a878d42ae01243",
+       "29db1b7469907462"
+      ],
+      "decision": "Rotate the exposed credential(s) and decide whether to purge git history (46 finding(s)).",
+      "decisionId": "decision-fe90ffcb6f165235b47f",
+      "evidence": [
+       ".agents/skills/firecrawl/SKILL.md line 256 fingerprint 764a6efd41a6",
+       ".agents/skills/firecrawl/SKILL.md line 286 fingerprint 7786f66c14fb",
+       ".agents/skills/gaia-steward-pr-maintenance/SKILL.md line 57 fingerprint 17595318d7c7",
+       ".agents/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs line 117 fingerprint 799f18baed47",
+       ".agents/skills/impeccable/scripts/live-browser.js line 22 fingerprint a75f704f9b05",
+       ".agents/skills/impeccable/scripts/live-browser.js line 9584 fingerprint 0f5b4a4bcda5",
+       ".agents/skills/impeccable/scripts/live-browser.js line 9585 fingerprint 0f5b4a4bcda5",
+       ".agents/skills/impeccable/scripts/live-complete.mjs line 63 fingerprint db2e24d57724",
+       ".agents/skills/impeccable/scripts/live/manual-edit-routes.mjs line 261 fingerprint ef9ae85da1c4",
+       ".agents/skills/impeccable/scripts/live-poll.mjs line 121 fingerprint 7b132df01592",
+       ".agents/skills/impeccable/scripts/live-poll.mjs line 160 fingerprint 0fdcab4106d5",
+       ".agents/skills/impeccable/scripts/live-server.mjs line 1758 fingerprint ef9ae85da1c4",
+       ".agents/skills/impeccable/scripts/live-server.mjs line 2213 fingerprint e24e481c36cb",
+       ".agents/skills/impeccable/scripts/live-server.mjs line 2312 fingerprint e91023eb493e",
+       ".agents/skills/impeccable/scripts/live-server.mjs line 2315 fingerprint d82b1fd22cbe",
+       ".agents/skills/impeccable/scripts/live-status.mjs line 17 fingerprint e24e481c36cb",
+       ".claude/skills/firecrawl/SKILL.md line 256 fingerprint 764a6efd41a6",
+       ".claude/skills/firecrawl/SKILL.md line 286 fingerprint 7786f66c14fb",
+       ".claude/skills/gaia-steward-pr-maintenance/SKILL.md line 57 fingerprint 17595318d7c7",
+       ".claude/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs line 117 fingerprint 799f18baed47",
+       ".claude/skills/impeccable/scripts/live-browser.js line 22 fingerprint a75f704f9b05",
+       ".claude/skills/impeccable/scripts/live-browser.js line 9584 fingerprint 0f5b4a4bcda5",
+       ".claude/skills/impeccable/scripts/live-browser.js line 9585 fingerprint 0f5b4a4bcda5",
+       ".claude/skills/impeccable/scripts/live-complete.mjs line 63 fingerprint db2e24d57724",
+       ".claude/skills/impeccable/scripts/live/manual-edit-routes.mjs line 261 fingerprint ef9ae85da1c4",
+       ".claude/skills/impeccable/scripts/live-poll.mjs line 121 fingerprint 7b132df01592",
+       ".claude/skills/impeccable/scripts/live-poll.mjs line 160 fingerprint 0fdcab4106d5",
+       ".claude/skills/impeccable/scripts/live-server.mjs line 1758 fingerprint ef9ae85da1c4",
+       ".claude/skills/impeccable/scripts/live-server.mjs line 2213 fingerprint e24e481c36cb",
+       ".claude/skills/impeccable/scripts/live-server.mjs line 2312 fingerprint e91023eb493e",
+       ".claude/skills/impeccable/scripts/live-server.mjs line 2315 fingerprint d82b1fd22cbe",
+       ".claude/skills/impeccable/scripts/live-status.mjs line 17 fingerprint e24e481c36cb",
+       "docs/samples/registry-3d-fonts.html line 160 fingerprint 3751653efd6c",
+       "docs/samples/registry-3d-fonts.html line 161 fingerprint 13e1b3d950fb",
+       "docs/samples/registry-3d-fonts.html line 162 fingerprint 493df6923d8a",
+       "founder/handovers/[redacted].md line 392 fingerprint fbb4c62d3ac3",
+       "founder/handovers/[redacted].md line 517 fingerprint 684ec27b63dc",
+       "founder/handovers/[redacted].md line 518 fingerprint a261e68349db",
+       "founder/issues.json line 1 fingerprint 821389db4920",
+       "founder/issues.json line 1 fingerprint b668ec33907d",
+       ".github/workflows/sync-artifacts.yml line 177 fingerprint 41e3de627921",
+       "scripts/jev_ci_budget.py line 387 fingerprint 98d5d12ef43f",
+       "scripts/upstream_watcher/live.py line 511 fingerprint 39be36177943",
+       "src/gaia_cli/auth.py line 241 fingerprint caf47aa7ff21",
+       "src/gaia_cli/auth.py line 405 fingerprint be3a74739ccb",
+       "src/gaia_cli/auth.py line 420 fingerprint 114fc3873c35",
+       "src/gaia_cli/auth.py line 436 fingerprint caf47aa7ff21",
+       "src/gaia_cli/jev.py line 634 fingerprint b17e86ead565",
+       "src/gaia_cli/securityScanner.py line 513 fingerprint fc84c742aab2",
+       "src/gaia_cli/steward/prmaintenance/coordination.py line 211 fingerprint f0c1a8b899b7",
+       "src/gaia_cli/steward/prmaintenance/coordination.py line 244 fingerprint 894d7e4f34bf",
+       "src/gaia_cli/steward/prmaintenance/coordination.py line 325 fingerprint 5c4fca300f13",
+       "src/gaia_cli/steward/prmaintenance/executor.py line 209 fingerprint 5c4fca300f13",
+       "tests/steward/issuehygiene/test_b_script.py line 17 fingerprint 7eb3777115fa",
+       "tests/steward/issuehygiene/test_b_script.py line 252 fingerprint 7c6791c527dc",
+       "tests/steward/issuehygiene/test_b5_identity.py line 16 fingerprint 9210a2236f68",
+       "tests/steward/issuehygiene/test_b6_census_live.py line 220 fingerprint 70901d36b258",
+       "tests/steward/issuehygiene/test_b7_scrub.py line 36 fingerprint 59b647a4197a",
+       "tests/steward/issuehygiene/test_b7_scrub.py line 37 fingerprint 59b647a4197a",
+       "tests/steward/issuehygiene/test_b7_scrub.py line 39 fingerprint 100512181d07",
+       "tests/steward/issuehygiene/test_b7_scrub.py line 40 fingerprint 5b349ee29dd2",
+       "tests/steward/issuehygiene/test_b7_scrub.py line 42 fingerprint 4c46513008e3",
+       "tests/steward/issuehygiene/test_b8_census.py line 96 fingerprint 88b11cd7d986",
+       "tests/steward/issuehygiene/test_b8_census.py line 97 fingerprint 817d1450133f",
+       "tests/steward/issuehygiene/test_b8_census.py line 98 fingerprint 529e66593269",
+       "tests/steward/issuehygiene/test_b8_refusal.py line 82 fingerprint 2198f003c5b0",
+       "tests/steward/issuehygiene/test_e_steward_full_e2e.py line 135 fingerprint e8ea09ffe951",
+       "tests/steward/prmaintenance/test_coordination_processes.py line 46 fingerprint 5408c9b40249",
+       "tests/steward/prmaintenance/test_coordination.py line 189 fingerprint 5408c9b40249",
+       "tests/steward/prmaintenance/test_readiness_safeguards.py line 234 fingerprint 4d54e332b887",
+       "tests/steward/test_desk.py line 189 fingerprint 08109091b0eb",
+       "tests/test_auth.py line 353 fingerprint 7105abe1b034",
+       "tests/test_auth.py line 368 fingerprint 4c7ad6353034",
+       "tests/test_auth.py line 406 fingerprint 0095a8f1708e",
+       "tests/test_auth.py line 420 fingerprint 0095a8f1708e",
+       "tests/test_badge_reconcile.py line 861 fingerprint a3522810e912",
+       "tests/test_curation_assessment.py line 437 fingerprint 5a3ec2abc81e",
+       "tests/test_curation_error_contract.py line 176 fingerprint 5d47666b7611",
+       "tests/test_installability.py line 126 fingerprint 4d631a121aac",
+       "tests/test_jev.py line 439 fingerprint be6e8e2fecc9"
+      ],
+      "links": [
+       ".agents/skills/firecrawl/SKILL.md#L256",
+       ".agents/skills/firecrawl/SKILL.md#L286",
+       ".agents/skills/gaia-steward-pr-maintenance/SKILL.md#L57",
+       ".agents/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs#L117",
+       ".agents/skills/impeccable/scripts/live-browser.js#L22",
+       ".agents/skills/impeccable/scripts/live-browser.js#L9584",
+       ".agents/skills/impeccable/scripts/live-browser.js#L9585",
+       ".agents/skills/impeccable/scripts/live-complete.mjs#L63",
+       ".agents/skills/impeccable/scripts/live-poll.mjs#L121",
+       ".agents/skills/impeccable/scripts/live-poll.mjs#L160",
+       ".agents/skills/impeccable/scripts/live-server.mjs#L1758",
+       ".agents/skills/impeccable/scripts/live-server.mjs#L2213",
+       ".agents/skills/impeccable/scripts/live-server.mjs#L2312",
+       ".agents/skills/impeccable/scripts/live-server.mjs#L2315",
+       ".agents/skills/impeccable/scripts/live-status.mjs#L17",
+       ".agents/skills/impeccable/scripts/live/manual-edit-routes.mjs#L261",
+       ".claude/skills/firecrawl/SKILL.md#L256",
+       ".claude/skills/firecrawl/SKILL.md#L286",
+       ".claude/skills/gaia-steward-pr-maintenance/SKILL.md#L57",
+       ".claude/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs#L117",
+       ".claude/skills/impeccable/scripts/live-browser.js#L22",
+       ".claude/skills/impeccable/scripts/live-browser.js#L9584",
+       ".claude/skills/impeccable/scripts/live-browser.js#L9585",
+       ".claude/skills/impeccable/scripts/live-complete.mjs#L63",
+       ".claude/skills/impeccable/scripts/live-poll.mjs#L121",
+       ".claude/skills/impeccable/scripts/live-poll.mjs#L160",
+       ".claude/skills/impeccable/scripts/live-server.mjs#L1758",
+       ".claude/skills/impeccable/scripts/live-server.mjs#L2213",
+       ".claude/skills/impeccable/scripts/live-server.mjs#L2312",
+       ".claude/skills/impeccable/scripts/live-server.mjs#L2315",
+       ".claude/skills/impeccable/scripts/live-status.mjs#L17",
+       ".claude/skills/impeccable/scripts/live/manual-edit-routes.mjs#L261",
+       ".github/workflows/sync-artifacts.yml#L177",
+       "docs/samples/registry-3d-fonts.html#L160",
+       "docs/samples/registry-3d-fonts.html#L161",
+       "docs/samples/registry-3d-fonts.html#L162",
+       "founder/handovers/[redacted].md#L392",
+       "founder/handovers/[redacted].md#L517",
+       "founder/handovers/[redacted].md#L518",
+       "founder/issues.json#L1",
+       "scripts/jev_ci_budget.py#L387",
+       "scripts/upstream_watcher/live.py#L511",
+       "src/gaia_cli/auth.py#L241",
+       "src/gaia_cli/auth.py#L405",
+       "src/gaia_cli/auth.py#L420",
+       "src/gaia_cli/auth.py#L436",
+       "src/gaia_cli/jev.py#L634",
+       "src/gaia_cli/securityScanner.py#L513",
+       "src/gaia_cli/steward/prmaintenance/coordination.py#L211",
+       "src/gaia_cli/steward/prmaintenance/coordination.py#L244",
+       "src/gaia_cli/steward/prmaintenance/coordination.py#L325",
+       "src/gaia_cli/steward/prmaintenance/executor.py#L209",
+       "tests/steward/issuehygiene/test_b5_identity.py#L16",
+       "tests/steward/issuehygiene/test_b6_census_live.py#L220",
+       "tests/steward/issuehygiene/test_b7_scrub.py#L36",
+       "tests/steward/issuehygiene/test_b7_scrub.py#L37",
+       "tests/steward/issuehygiene/test_b7_scrub.py#L39",
+       "tests/steward/issuehygiene/test_b7_scrub.py#L40",
+       "tests/steward/issuehygiene/test_b7_scrub.py#L42",
+       "tests/steward/issuehygiene/test_b8_census.py#L96",
+       "tests/steward/issuehygiene/test_b8_census.py#L97",
+       "tests/steward/issuehygiene/test_b8_census.py#L98",
+       "tests/steward/issuehygiene/test_b8_refusal.py#L82",
+       "tests/steward/issuehygiene/test_b_script.py#L17",
+       "tests/steward/issuehygiene/test_b_script.py#L252",
+       "tests/steward/issuehygiene/test_e_steward_full_e2e.py#L135",
+       "tests/steward/prmaintenance/test_coordination.py#L189",
+       "tests/steward/prmaintenance/test_coordination_processes.py#L46",
+       "tests/steward/prmaintenance/test_readiness_safeguards.py#L234",
+       "tests/steward/test_desk.py#L189",
+       "tests/test_auth.py#L353",
+       "tests/test_auth.py#L368",
+       "tests/test_auth.py#L406",
+       "tests/test_auth.py#L420",
+       "tests/test_badge_reconcile.py#L861",
+       "tests/test_curation_assessment.py#L437",
+       "tests/test_curation_error_contract.py#L176",
+       "tests/test_installability.py#L126",
+       "tests/test_jev.py#L439"
+      ],
+      "priority": 0,
+      "recommended": "Rotate or revoke the credential at its issuer first, then purge history only if the repository is public or the secret grants production access.",
+      "source": "class-c-debt",
+      "unblocks": "46 open Class C debt item(s) of kind credential_leak; Steward takes no action until you rule.",
+      "whyItMatters": "A credential committed to a repository must be treated as compromised from the moment it was pushed; removing the line does not revoke it."
+     },
+     {
+      "alternative": "Defer; the affected issues stay open exactly as they are, and Steward takes no action on them.",
+      "debtIds": [
+       "debt:issue_founder_decision:closeout-discrepancy:39cec5678cb60da0"
+      ],
+      "decision": "HIGH PRIORITY closeout discrepancy: these umbrellas are closed, which makes each a completed epic, yet unfinished children or contradicting registry evidence remain. The closure is preserved. Investigate and reconcile explicitly: finish the missed work, or record each leftover as an intentional disposition. Affected issues: #1823, #1996.",
+      "decisionId": "decision-6e1112965a18a0d9b55a",
+      "evidence": [
+       "closeout-discrepancy - affected: 2 item(s); affectedCount: 2; basis: a closed umbrella is a completed epic; a follow-up or a contradiction is a signal that somethin…; discrepancies: 1 item(s); manifestDigest: dd887e306bf27ce2048d34a443b849dd524636e9d29f61456284b914d41a1d93"
+      ],
+      "links": [],
+      "priority": 5,
+      "recommended": "None. This turns on product, ontology, or prestige judgment, which Steward has no basis to hold an opinion about.",
+      "source": "class-c-debt",
+      "unblocks": "1 open Class C debt item(s) under issue-question/closeout-discrepancy.",
+      "whyItMatters": "Steward can prove which upstream candidates are curated, but whether a family of them is accepted, rejected or deferred is a product decision. Nothing is closed or accepted until you rule."
+     },
+     {
+      "alternative": "Take the finding yourself as a direct Class C ruling, or retire the routine instead of widening its envelope.",
+      "debtIds": [
+       "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+       "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
+       "debt:unused_import:scripts-jev-advisory-py:2e2799e7eedfcd5a",
+       "debt:unused_import:scripts-lib-tests-test-heartbeat-regression-py:119965096d096663",
+       "debt:unused_import:scripts-lib-tests-test-lib-py:937bb006737be2e0",
+       "debt:unused_import:scripts-merge-gate-check-py:1cff37f84d221787",
+       "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0",
+       "debt:unused_import:scripts-run-meta-sweep-py:3e8242f71d3c1aa0",
+       "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe"
+      ],
+      "decision": "Bounded repair exhausted its attempt ceiling on this routine. Decide whether the authority envelope is wrong, whether the finding is a Class C question in disguise, or whether the routine should be retired. Another attempt under the same envelope is not one of the options — that is what the ceiling already ruled out.",
+      "decisionId": "decision-4f3c9a95f2ce381c975c",
+      "evidence": [
+       "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a - attempts: 2; reason: rejected on attempt 2 of a 2-attempt ceiling; the envelope is the likelier defect (independent …",
+       "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9 - attempts: 2; reason: rejected on attempt 2 of a 2-attempt ceiling; the envelope is the likelier defect (independent …",
+       "debt:unused_import:scripts-jev-advisory-py:2e2799e7eedfcd5a - attempts: 2; reason: verification escalated (mechanical verification (steward-20261107T085637Z-4dcbe98e9611b581))",
+       "debt:unused_import:scripts-lib-tests-test-heartbeat-regression-py:119965096d096663 - attempts: 1; reason: verification escalated (mechanical verification (steward-20261107T090113Z-6f3921e053a58cf5))",
+       "debt:unused_import:scripts-lib-tests-test-lib-py:937bb006737be2e0 - attempts: 1; reason: verification escalated (mechanical verification (steward-20261107T090308Z-90fe2724ff62dc77))",
+       "debt:unused_import:scripts-merge-gate-check-py:1cff37f84d221787 - attempts: 1; reason: verification escalated (mechanical verification (steward-20261107T090459Z-40a552168e574c70))",
+       "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0 - attempts: 2; reason: verification escalated (mechanical verification (steward-20261107T090655Z-414491deb4b5dbb4))",
+       "debt:unused_import:scripts-run-meta-sweep-py:3e8242f71d3c1aa0 - attempts: 1; reason: verification escalated (mechanical verification (steward-20261107T090926Z-7586ec74d12ad072))",
+       "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe - attempts: 2; reason: verification escalated (independent verification by pi-herdr-batch7-verifier-01bdcf8a1d9c (pi, …"
+      ],
+      "links": [
+       "founder/steward/POLICY.yaml"
+      ],
+      "priority": 10,
+      "recommended": "Bounded repair under `unused-import-cleanup` reached its attempt ceiling. The envelope is the likelier defect, not the attempt — the ceiling has already ruled out trying again under the same terms. The three answers worth weighing are: widen the envelope in `POLICY.yaml`, accept that this finding is a Class C question in disguise and rule on it directly, or retire the routine.",
+      "source": "escalated-lane",
+      "unblocks": "9 open Class C debt item(s) under lane-escalation/unused-import-cleanup.",
+      "whyItMatters": "Bounded repair stopped: the attempt ceiling was reached or a verifier escalated. The envelope, not the attempt, is the likelier defect, and nothing retries until you rule."
+     },
+     {
+      "alternative": "Take the finding yourself as a direct Class C ruling, or retire the routine instead of widening its envelope.",
+      "debtIds": [
+       "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9"
+      ],
+      "decision": "Bounded repair exhausted its attempt ceiling on this routine. Decide whether the authority envelope is wrong, whether the finding is a Class C question in disguise, or whether the routine should be retired. Another attempt under the same envelope is not one of the options — that is what the ceiling already ruled out.",
+      "decisionId": "decision-8e5aa9337484cb863d96",
+      "evidence": [
+       "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9 - attempts: 1; reason: verification escalated (independent verification by sonnet-verifier-ab63f80a (sonnet, effort me…"
+      ],
+      "links": [
+       "founder/steward/POLICY.yaml"
+      ],
+      "priority": 10,
+      "recommended": "Bounded repair under `trust-calibration-drift` reached its attempt ceiling. The envelope is the likelier defect, not the attempt — the ceiling has already ruled out trying again under the same terms. The three answers worth weighing are: widen the envelope in `POLICY.yaml`, accept that this finding is a Class C question in disguise and rule on it directly, or retire the routine.",
+      "source": "escalated-lane",
+      "unblocks": "1 open Class C debt item(s) under lane-escalation/trust-calibration-drift.",
+      "whyItMatters": "Bounded repair stopped: the attempt ceiling was reached or a verifier escalated. The envelope, not the attempt, is the likelier defect, and nothing retries until you rule."
+     },
+     {
+      "alternative": "Rule the gap acceptable for named skills (keep the rating and stop reporting), or open a governed demotion for one of them under #2148.",
+      "debtIds": [
+       "debt:trust_evidence_gap:majiayu000-edge-model-compression:4ee177f8c2ff7e1c",
+       "debt:trust_evidence_gap:yylo-dev-plan-ledger-tasks-yylo:e09153f6ff213802"
+      ],
+      "decision": "Decide how to resolve 2 named skill(s) whose effective evidence pool is empty (evidence gap).",
+      "decisionId": "decision-4a870e561faa4f9f082f",
+      "evidence": [
+       "majiayu000/edge-model-compression: rating 2★ preserved; no-scoring-evidence-rows (3 effective row(s))",
+       "yylo-dev/plan-ledger-tasks-yylo: rating 2★ preserved; no-scoring-evidence-rows (2 effective row(s))"
+      ],
+      "links": [
+       "https://github.com/gaia-research/gaia-skill-tree/issues/2201",
+       "https://github.com/gaia-research/gaia-skill-tree/issues/2148"
+      ],
+      "priority": 30,
+      "recommended": "Run the read-only discovery routine for each gap (`python scripts/steward_evidence_discovery.py plan`, then `record`), review its receipts, and admit any admissible evidence through `gaia dev evidence` so the calibration is recomputed from qualifying evidence. Where none exists keep the current rating and record the gap; a demotion needs counter-evidence or supersession under #2148.",
+      "source": "class-c-debt",
+      "unblocks": "2 open Class C debt item(s) of kind trust_evidence_gap; Steward takes no action until you rule.",
+      "whyItMatters": "Missing evidence is not evidence of degradation (#2201). Steward preserves every current rating, never proposes a demotion from an empty pool, and never admits evidence or changes trust itself; the read-only discovery routine only records what was searched."
+     },
+     {
+      "alternative": "Declare stored stamps historical snapshots and exclude them from drift detection.",
+      "debtIds": [
+       "debt:trust_stamp_stale:gaiabot-gaia-triage:453a6cd8b1c2cdab",
+       "debt:trust_stamp_stale:gaiabot-repo-docs-before-pr:66c8ae1a42811c5b",
+       "debt:trust_stamp_stale:heygen-com-embedded-captions:f111fc4855f53d70",
+       "debt:trust_stamp_stale:heygen-com-faceless-explainer:5cb8bb8264ff8c27",
+       "debt:trust_stamp_stale:heygen-com-general-video:f1320883990055f4",
+       "debt:trust_stamp_stale:heygen-com-hyperframes-animation:300171b825ee42e6",
+       "debt:trust_stamp_stale:heygen-com-hyperframes-audio:410548d25f6ee39e",
+       "debt:trust_stamp_stale:heygen-com-hyperframes-core:3d3628ecdd2fe5ad",
+       "debt:trust_stamp_stale:heygen-com-hyperframes-creative:e573b41313930312",
+       "debt:trust_stamp_stale:heygen-com-hyperframes-keyframes:b28c1cb092198a2c",
+       "debt:trust_stamp_stale:heygen-com-motion-graphics:6541920841713c60",
+       "debt:trust_stamp_stale:heygen-com-music-to-video:463b8fa288d8874b",
+       "debt:trust_stamp_stale:heygen-com-pr-to-video:70bc40c3eb8d8bc8",
+       "debt:trust_stamp_stale:heygen-com-product-launch-video:bf857f8c112de45e",
+       "debt:trust_stamp_stale:heygen-com-talking-head-recut:ad90ff76b433d4cb",
+       "debt:trust_stamp_stale:langgenius-backend-code-review:dd0d94b0131eedfb",
+       "debt:trust_stamp_stale:langgenius-component-refactoring:b4d5c30e5c3fdab8",
+       "debt:trust_stamp_stale:langgenius-e2e-cucumber-playwright:daef3d430176822e",
+       "debt:trust_stamp_stale:langgenius-frontend-code-review:1757aec0a32c4a3b",
+       "debt:trust_stamp_stale:langgenius-frontend-testing:ca41ac06916a8d0a",
+       "debt:trust_stamp_stale:mattpocock-diagnose:06ea4c2a844b8323",
+       "debt:trust_stamp_stale:mattpocock-edit-article:362700c741552541",
+       "debt:trust_stamp_stale:mattpocock-obsidian-vault:a18b7a08aae18ab3",
+       "debt:trust_stamp_stale:mattpocock-ubiquitous-language:cefcebf23886e94f",
+       "debt:trust_stamp_stale:sickn33-ai-dev-jobs-mcp:8c77928467544dcf",
+       "debt:trust_stamp_stale:sickn33-mcp-builder:cef1628d91007d39",
+       "debt:trust_stamp_stale:sickn33-n8n-mcp-tools-expert:32016b521d72e777",
+       "debt:trust_stamp_stale:xquik-dev-hermes-tweet:827c888a53ec83e8"
+      ],
+      "decision": "Decide what to do with 28 stale Trust Magnitude stamp(s) the event-driven refresh did not clear.",
+      "decisionId": "decision-bd6c25b50dfe8d0d3b4e",
+      "evidence": [
+       "gaiabot/gaia-triage - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill gaiabot/gaia-triage --recomputation-only; staleFields: 1 item(s)",
+       "gaiabot/repo-docs-before-pr - delta: 0.0; holdReasons: 1 item(s); recomputationOnly: False; staleFields: 1 item(s); tolerance: 0.02",
+       "heygen-com/embedded-captions - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill heygen-com/embedded-captions --recomputation-only; staleFields: 1 item(s)",
+       "heygen-com/faceless-explainer - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill heygen-com/faceless-explainer --recomputation-only; staleFields: 1 item(s)",
+       "heygen-com/general-video - delta: 0.0; holdReasons: 1 item(s); recomputationOnly: False; staleFields: 1 item(s); tolerance: 0.02",
+       "heygen-com/hyperframes-animation - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill heygen-com/hyperframes-animation --recomputation-only; staleFields: 1 item(s)",
+       "heygen-com/hyperframes-audio - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill heygen-com/hyperframes-audio --recomputation-only; staleFields: 1 item(s)",
+       "heygen-com/hyperframes-core - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill heygen-com/hyperframes-core --recomputation-only; staleFields: 1 item(s)",
+       "heygen-com/hyperframes-creative - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill heygen-com/hyperframes-creative --recomputation-only; staleFields: 1 item(s)",
+       "heygen-com/hyperframes-keyframes - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill heygen-com/hyperframes-keyframes --recomputation-only; staleFields: 1 item(s)",
+       "heygen-com/motion-graphics - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill heygen-com/motion-graphics --recomputation-only; staleFields: 1 item(s)",
+       "heygen-com/music-to-video - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill heygen-com/music-to-video --recomputation-only; staleFields: 1 item(s)",
+       "heygen-com/pr-to-video - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill heygen-com/pr-to-video --recomputation-only; staleFields: 1 item(s)",
+       "heygen-com/product-launch-video - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill heygen-com/product-launch-video --recomputation-only; staleFields: 1 item(s)",
+       "heygen-com/talking-head-recut - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill heygen-com/talking-head-recut --recomputation-only; staleFields: 1 item(s)",
+       "langgenius/backend-code-review - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill langgenius/backend-code-review --recomputation-only; staleFields: 1 item(s)",
+       "langgenius/component-refactoring - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill langgenius/component-refactoring --recomputation-only; staleFields: 1 item(s)",
+       "langgenius/e2e-cucumber-playwright - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill langgenius/e2e-cucumber-playwright --recomputation-o…; staleFields: 1 item(s)",
+       "langgenius/frontend-code-review - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill langgenius/frontend-code-review --recomputation-only; staleFields: 1 item(s)",
+       "langgenius/frontend-testing - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill langgenius/frontend-testing --recomputation-only; staleFields: 1 item(s)",
+       "mattpocock/diagnose - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill mattpocock/diagnose --recomputation-only; staleFields: 1 item(s)",
+       "mattpocock/edit-article - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill mattpocock/edit-article --recomputation-only; staleFields: 1 item(s)",
+       "mattpocock/obsidian-vault - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill mattpocock/obsidian-vault --recomputation-only; staleFields: 1 item(s)",
+       "mattpocock/ubiquitous-language - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill mattpocock/ubiquitous-language --recomputation-only; staleFields: 1 item(s)",
+       "sickn33/ai-dev-jobs-mcp - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill sickn33/ai-dev-jobs-mcp --recomputation-only; staleFields: 1 item(s)",
+       "sickn33/mcp-builder - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill sickn33/mcp-builder --recomputation-only; staleFields: 1 item(s)",
+       "sickn33/n8n-mcp-tools-expert - delta: 0.0; holdReasons: 0 item(s); recomputationOnly: True; restampCommand: gaia dev calibrate-trust-magnitude --skill sickn33/n8n-mcp-tools-expert --recomputation-only; staleFields: 1 item(s)",
+       "xquik-dev/hermes-tweet - delta: 0.0; holdReasons: 1 item(s); recomputationOnly: False; staleFields: 1 item(s); tolerance: 0.02"
+      ],
+      "links": [
+       "https://github.com/gaia-research/gaia-skill-tree/issues/1642"
+      ],
+      "priority": 30,
+      "recommended": "25 stamp(s) are recomputation-only: have a Verifier run `gaia dev calibrate-trust-magnitude --all --recomputation-only` inside a reviewed PR (the backstop; the verb holds anything that is not safe and never writes a star level). 3 stamp(s) are governed (3 with a computed grade that disagrees with the stored level, 0 whose refresh would rewrite the stored grade, 0 with no stored grade to preserve): the refresh is held, no write command is recommended, and any level or grade change belongs to trust calibration governance (#2148).",
+      "source": "class-c-debt",
+      "unblocks": "28 open Class C debt item(s) of kind trust_stamp_stale; Steward takes no action until you rule.",
+      "whyItMatters": "Stored trustMagnitude stamps disagree with the computed effective value. Founder ruling 2026-11-06 (#1642, 8A) refreshes a stamp inside the PR that changes its evidence when the refresh is a pure recomputation; what is left here either escaped that trigger or is not a recomputation. Steward measures and never edits stamps."
+     }
+    ],
+    "operations": [
+     {
+      "detail": "not evaluated: browser collection failed: Playwright is not installed; rendered frontend facts are NOT EVALUATED, not healthy",
+      "kind": "not_evaluated",
+      "subject": "browser-render"
+     },
+     {
+      "detail": "independent verification by pi-terra-01a1a793-8bb8-7029-b125-f63b22e12981 (pi, effort high): rejected - Independent reproduction confirms stored level 2-star, effective TM 50.0, grade B, and sensor target 3-star. No-change is not non-reproduction; no correction wa",
+      "kind": "failed_dispatch",
+      "subject": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b"
+     },
+     {
+      "detail": "independent verification by pi-herdr-batch6-verifier-2ab63c86d569 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: rejec",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182"
+     },
+     {
+      "detail": "independent verification by pi-herdr-batch6-verifier-be8ba959184b (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: rejec",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f"
+     },
+     {
+      "detail": "independent verification by pi-herdr-batch6-verifier-f6d1a832e6e8 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: rejec",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11"
+     },
+     {
+      "detail": "last scheduled run was 132h ago (limit 48h).",
+      "kind": "stale_schedule",
+      "subject": "scheduled run"
+     },
+     {
+      "detail": "open issues 224 (bot 2, upstream children 72); closed this run 0 of 0 total; net change +0 since the previous run; ready (writes disabled): 2 proven closures",
+      "kind": "issue_backlog",
+      "subject": "issue backlog"
+     }
+    ],
+    "quiet": false,
+    "schemaVersion": "steward-desk-v1"
+   },
+   "finishedAt": "2026-11-07T14:49:36.004552Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -114429,6 +114854,14 @@
    },
    "integrationBranch": "dev/steward-campaign-2026-11-05",
    "integrationHead": null,
+   "issueBacklog": {
+    "botOpen": 2,
+    "closedThisRun": 0,
+    "closedTotal": 0,
+    "openIssues": 224,
+    "readyWritesDisabled": 2,
+    "upstreamChildOpen": 72
+   },
    "leases": [
     {
      "acquiredAt": "2026-11-07T14:45:57.151828Z",
@@ -114439,7 +114872,7 @@
    "mode": "verify",
    "modelIds": [],
    "mutated": false,
-   "nextAction": "",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": false,
     "agents": true,
@@ -114451,7 +114884,7 @@
     "push": false,
     "routine": null
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "reobserve": {
      "authorityCounts": {
@@ -115397,7 +115830,7 @@
    "sequence": 45,
    "sourceHead": null,
    "startedAt": "2026-11-07T14:45:57.151828Z",
-   "status": "active",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-11-07T14:45:57.151828Z",
@@ -115416,6 +115849,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:reobserve"
+    },
+    {
+     "at": "2026-11-07T14:49:36.004552Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [],
@@ -115426,7 +115865,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T14:49:30.380440Z",
+ "updatedAt": "2026-11-07T14:49:37.695242Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
