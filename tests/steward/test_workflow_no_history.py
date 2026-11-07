@@ -7,6 +7,8 @@ steps; unreadable history still stops.
 
 from __future__ import annotations
 
+import json
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import pytest
@@ -16,8 +18,10 @@ from gaia_cli.steward.workflowproof import (
     NO_HISTORY_BASE_MINUTES,
     _main,
     history_timeout,
+    no_history_from_rows,
     no_history_timeout,
     prove_workflow_edit,
+    select_job_history,
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -77,13 +81,88 @@ def test_defaults_stay_inside_the_floor_and_ceiling() -> None:
             assert value is None or (10 <= value <= 60 and value % 5 == 0)
 
 
-def test_cli_prints_the_value_or_stops(capsys: pytest.CaptureFixture[str]) -> None:
-    assert _main(["no-history", "--class", "api-script", "--declared-wait-seconds", "600"]) == 0
-    assert capsys.readouterr().out.strip() == "30"
-    assert _main(["no-history", "--class", "install-build-test", "--declared-wait-seconds", "1200"]) == 3
-    assert "no default" in capsys.readouterr().out
-    assert _main(["history", "--successful-seconds", "3", "4", "14"]) == 0
-    assert capsys.readouterr().out.strip() == "5"
+def _rows(tmp_path: Path, rows: list, name: str = "history.json") -> str:
+    path = tmp_path / name
+    path.write_text(json.dumps(rows), encoding="utf-8")
+    return str(path)
+
+
+def _run(conclusion: str, seconds: float | None, start: str = "2026-11-01T00:00:00Z") -> dict:
+    if seconds is None:
+        return {"conclusion": conclusion, "started_at": None, "completed_at": None}
+    started = datetime.fromisoformat(start.replace("Z", "+00:00"))
+    done = started + timedelta(seconds=seconds)
+    return {"conclusion": conclusion, "started_at": start, "completed_at": done.isoformat().replace("+00:00", "Z")}
+
+
+def test_review_case_cancelled_and_timed_out_executions_are_never_ignored(tmp_path: Path, capsys) -> None:
+    # #2382 review P1: no success, a 2700 s cancelled run, a 3600 s timed_out run and
+    # a skipped row. Both executed: 1.5 x 3600 s = 90 min > 60, so there is no default.
+    rows = [_run("cancelled", 2700), _run("timed_out", 3600), _run("skipped", None)]
+    value, selection, reason = no_history_from_rows("api-script", declared_wait_seconds=0, rows=rows)
+    assert value is None and "no default" in reason
+    assert [item["conclusion"] for item in selection["executed"]] == ["cancelled", "timed_out"]
+    assert selection["skipped"] == 1 and selection["successful"] == []
+    assert _main(["no-history", "--class", "api-script", "--declared-wait-seconds", "0",
+                  "--history", _rows(tmp_path, rows)]) == 3
+    out = capsys.readouterr().out
+    assert '"conclusion": "timed_out"' in out and "no default" in out
+
+
+def test_a_short_cancelled_execution_still_sets_the_floor(tmp_path: Path, capsys) -> None:
+    rows = [_run("cancelled", 1800), _run("skipped", None)]
+    assert select_job_history(rows)["executed"][0]["seconds"] == 1800
+    assert _main(["no-history", "--class", "api-script", "--declared-wait-seconds", "0",
+                  "--history", _rows(tmp_path, rows)]) == 0
+    assert capsys.readouterr().out.strip().splitlines()[-1] == "45"
+
+
+def test_all_skipped_history_gives_the_class_default(tmp_path: Path, capsys) -> None:
+    rows = [_run("skipped", None)] * 50  # auto-label-bot-prs.yml label-bots
+    assert _main(["no-history", "--class", "api-script", "--declared-wait-seconds", "0",
+                  "--history", _rows(tmp_path, rows)]) == 0
+    assert capsys.readouterr().out.strip().splitlines()[-1] == "10"
+    assert _main(["no-history", "--class", "api-script", "--declared-wait-seconds", "600",
+                  "--history", _rows(tmp_path, rows, "b.json")]) == 0
+    assert capsys.readouterr().out.strip().splitlines()[-1] == "30"  # auto-triage.yml auto-merge
+
+
+@pytest.mark.parametrize(
+    "rows, reason",
+    [
+        ([_run("success", 60), _run("skipped", None)], "history rule"),
+        ([{"conclusion": "failure", "started_at": "2026-11-01T00:00:00Z"}], "no usable times"),
+        ([{"conclusion": "cancelled", "started_at": "2026-11-01T00:10:00Z", "completed_at": "2026-11-01T00:00:00Z"}],
+         "no usable times"),
+    ],
+)
+def test_no_history_stops_when_rows_do_not_permit_it(rows: list, reason: str) -> None:
+    value, _selection, why = no_history_from_rows("api-script", declared_wait_seconds=0, rows=rows)
+    assert value is None and reason in why
+
+
+def test_history_cli_selects_successful_rows_itself(tmp_path: Path, capsys) -> None:
+    rows = [_run("success", 3), _run("success", 4), _run("success", 14), _run("failure", 9000), _run("skipped", None)]
+    assert _main(["history", "--history", _rows(tmp_path, rows)]) == 0
+    assert capsys.readouterr().out.strip().splitlines()[-1] == "5"
+    assert _main(["history", "--history", _rows(tmp_path, [_run("skipped", None)], "s.json")]) == 3
+    assert "does not apply" in capsys.readouterr().out
+
+
+def test_unreadable_history_file_stops(tmp_path: Path, capsys) -> None:
+    bad = tmp_path / "bad.json"
+    bad.write_text("{not json", encoding="utf-8")
+    assert _main(["no-history", "--class", "api-script", "--declared-wait-seconds", "0", "--history", str(bad)]) == 3
+    assert "stop" in capsys.readouterr().out
+    assert _main(["history", "--history", str(tmp_path / "missing.json")]) == 3
+
+
+def test_jobs_api_envelope_is_accepted(tmp_path: Path, capsys) -> None:
+    payload = {"jobs": [_run("skipped", None), _run("failure", 120)]}
+    path = tmp_path / "jobs.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    assert _main(["no-history", "--class", "api-script", "--declared-wait-seconds", "0", "--history", str(path)]) == 0
+    assert capsys.readouterr().out.strip().splitlines()[-1] == "10"
 
 
 # --- the envelope is unchanged: out-of-envelope edits are still rejected ----

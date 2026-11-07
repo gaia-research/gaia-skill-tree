@@ -352,12 +352,16 @@ def prove_workflow_edit(before: str, hunks: Sequence[Hunk]) -> list[str]:
 # whose read history has NO successful completed run (for example skipped on
 # every run) gets a conservative default from its own step semantics. The
 # inputs are the job's step class, the explicit bounded waits its own steps
-# declare, and the longest duration of any of its completed runs that actually
-# executed (failure counts; skipped, cancelled and timed-out do not). The value
-# is never shorter than 1.5 x that longest observed duration, never below 10 and
-# never above 60. A job outside the three classes, with an unbounded wait or a
-# human/environment approval, or whose formula exceeds 60, gets no default: the
-# builder stops, exactly as before.
+# declare, and the longest elapsed time of EVERY sampled run of this job that
+# actually executed: any conclusion other than skipped (success, failure,
+# cancelled, timed_out, ...) with a start and a completion time. A cancelled or
+# timed-out run consumed that time before it ended; it is a lower bound, never
+# ignored. The value is never shorter than 1.5 x that longest executed run,
+# never below 10 and never above 60. A job outside the three classes, with an
+# unbounded wait or a human/environment approval, or whose formula exceeds 60
+# (including because of an executed run), gets no default: the builder stops.
+# The rows are selected here, from the raw job history, so builder and verifier
+# select identically (select_job_history, recompute CLI).
 
 HISTORY_FLOOR_MINUTES = 5
 NO_HISTORY_FLOOR_MINUTES = 10
@@ -425,30 +429,124 @@ def no_history_timeout(
     return value
 
 
+def _parse_time(value: Any) -> Any:
+    from datetime import datetime
+
+    if not isinstance(value, str) or not value.strip():
+        return None
+    try:
+        return datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
+def select_job_history(rows: Sequence[Any]) -> dict[str, Any]:
+    """Classify one job's raw history rows (``{conclusion, started_at, completed_at}``).
+
+    Returns ``successful`` (seconds of ``success`` rows), ``executed`` (seconds of
+    every row that actually ran: any conclusion except ``skipped`` with a start
+    and a completion time not before it), ``skipped`` (count) and ``unusable``
+    (rows that did not run as ``skipped`` yet carry no usable times, with the
+    reason). A row that executed is never treated as not having run.
+    """
+
+    selection: dict[str, Any] = {"successful": [], "executed": [], "skipped": 0, "unusable": []}
+    for index, row in enumerate(rows):
+        if not isinstance(row, dict):
+            selection["unusable"].append({"row": index, "reason": "not an object"})
+            continue
+        conclusion = row.get("conclusion")
+        if conclusion == "skipped":
+            selection["skipped"] += 1
+            continue
+        started, completed = _parse_time(row.get("started_at")), _parse_time(row.get("completed_at"))
+        if started is None or completed is None or completed < started:
+            selection["unusable"].append(
+                {"row": index, "conclusion": conclusion, "reason": "no usable started_at/completed_at"}
+            )
+            continue
+        seconds = (completed - started).total_seconds()
+        selection["executed"].append({"row": index, "conclusion": conclusion, "seconds": seconds})
+        if conclusion == "success":
+            selection["successful"].append(seconds)
+    return selection
+
+
+def no_history_from_rows(
+    step_class: str, *, declared_wait_seconds: float, rows: Sequence[Any]
+) -> tuple[int | None, dict[str, Any], str]:
+    """Select rows and apply the no-history rule: ``(value or None, selection, reason)``.
+
+    Stops (None) when the job has a successful run (the history rule applies),
+    when a non-skipped row has no usable times (an execution that cannot be
+    measured cannot be honoured as a floor), or when the rule itself stops.
+    """
+
+    selection = select_job_history(rows)
+    if selection["successful"]:
+        return None, selection, "the job has successful runs; use the history rule"
+    if selection["unusable"]:
+        return None, selection, "a sampled run that was not skipped has no usable times; stop"
+    executed = [item["seconds"] for item in selection["executed"]]
+    longest = max(executed) if executed else None
+    value = no_history_timeout(step_class, declared_wait_seconds=declared_wait_seconds, longest_observed_seconds=longest)
+    if value is None:
+        return None, selection, "no default: the no-history rule does not apply; stop"
+    return value, selection, "ok"
+
+
+def _read_rows(path: str) -> list[Any]:
+    import json
+
+    with open(path, encoding="utf-8") as handle:
+        data = json.load(handle)
+    if isinstance(data, dict) and isinstance(data.get("jobs"), list):
+        data = data["jobs"]
+    if not isinstance(data, list):
+        raise ValueError("the history file must be a JSON list of {conclusion, started_at, completed_at} rows")
+    return data
+
+
 def _main(argv: Sequence[str] | None = None) -> int:
-    """``python -m gaia_cli.steward.workflowproof history|no-history ...``: print the rule's value."""
+    """``python -m gaia_cli.steward.workflowproof history|no-history --history FILE ...``.
+
+    ``FILE`` is the raw per-job history: a JSON list (or ``{"jobs": [...]}``) of
+    ``{conclusion, started_at, completed_at}`` rows for THIS job, as returned by
+    the jobs API. The CLI selects the rows itself, prints the selection and the
+    value, so builder and verifier recompute identically.
+    """
 
     import argparse
+    import json
 
     parser = argparse.ArgumentParser(prog="python -m gaia_cli.steward.workflowproof")
     sub = parser.add_subparsers(dest="rule", required=True)
-    history = sub.add_parser("history", help="the history rule over successful durations")
-    history.add_argument("--successful-seconds", type=float, nargs="+", required=True)
+    history = sub.add_parser("history", help="the history rule over this job's successful runs")
+    history.add_argument("--history", required=True, metavar="FILE.json")
     nohist = sub.add_parser("no-history", help="the no-history default for a job with no successful run")
     nohist.add_argument("--class", dest="step_class", choices=sorted(NO_HISTORY_BASE_MINUTES), required=True)
     nohist.add_argument("--declared-wait-seconds", type=float, required=True)
-    nohist.add_argument("--longest-observed-seconds", type=float, default=None)
+    nohist.add_argument("--history", required=True, metavar="FILE.json")
     args = parser.parse_args(argv)
+    try:
+        rows = _read_rows(args.history)
+    except (OSError, ValueError) as exc:
+        print(f"history unreadable: {exc}; stop")
+        return 3
     if args.rule == "history":
-        print(history_timeout(args.successful_seconds))
+        selection = select_job_history(rows)
+        print("selection: " + json.dumps(selection, sort_keys=True))
+        if not selection["successful"]:
+            print("no successful run: the history rule does not apply; stop")
+            return 3
+        print(history_timeout(selection["successful"]))
         return 0
-    value = no_history_timeout(
-        args.step_class,
-        declared_wait_seconds=args.declared_wait_seconds,
-        longest_observed_seconds=args.longest_observed_seconds,
+    value, selection, reason = no_history_from_rows(
+        args.step_class, declared_wait_seconds=args.declared_wait_seconds, rows=rows
     )
+    print("selection: " + json.dumps(selection, sort_keys=True))
     if value is None:
-        print("no default: the no-history rule does not apply; stop")
+        print(reason)
         return 3
     print(value)
     return 0

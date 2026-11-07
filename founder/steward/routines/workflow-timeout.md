@@ -77,8 +77,9 @@ the same as none.
    timed out says nothing about how long healthy work takes.
 3. **Apply the rule.** `timeout = ceil to 5 minutes of max(2 x p95, 1.5 x max)`
    of the successful durations, never below 5. State the sample size, p95, max
-   and the result for every job in the proof, and recompute it with
-   `python -m gaia_cli.steward.workflowproof history --successful-seconds <s> ...`.
+   and the result for every job in the proof, and recompute it from the job's raw
+   rows with `python -m gaia_cli.steward.workflowproof history --history history.json`
+   (rows collected as in the no-history section, step 3).
 4. **Cap by semantics.** A job with no external wait that already runs in under
    two minutes does not get a 60-minute bound. A job that deploys or fetches
    over the network may need more headroom than its median suggests; say why.
@@ -107,27 +108,44 @@ The no-history default, in order:
    - `install-build-test` (base 30 min): installs dependencies, builds or runs tests.
    Anything else has no default: **stop**.
 2. **Add the job's own declared waits.** Sum every explicit, bounded wait its steps
-   declare (a poll loop's `rounds x sleep`, an action's wait/timeout input). An
-   unbounded wait (a loop with no cap) or a wait on a human or environment
-   approval: **stop** (stop condition 5).
-3. **Respect what was observed.** Take the longest completed run of this job that
-   actually executed (`failure` counts; `skipped`, `cancelled` and `timed_out` do
-   not). The value is never shorter than 1.5 x that duration.
-4. **Compute** `ceil to 5 minutes of max(base + 2 x declared waits, 1.5 x longest
-   observed)`, never below 10. A result above **60** has no default: **stop** (a job
-   that may legitimately need more than an hour needs real history first).
-5. **Recompute it mechanically:** `python -m gaia_cli.steward.workflowproof no-history
-   --class <class> --declared-wait-seconds <s> [--longest-observed-seconds <s>]`
-   prints the value (exit 3 and "no default" means stop). Paste the command and its
-   output in the proof with the class, the waits you summed (step names and
-   arithmetic) and the observed durations.
+   declare (a poll loop's `rounds x sleep`, an action's wait/timeout input), each at
+   its **worst case resolved from this job's own YAML**:
+   - a bound that comes from an `env:` value or a `matrix:` must be resolved to its
+     largest value from this job's YAML (job, workflow or matrix definitions in the
+     same file); a bound that depends on an input, a secret, a repository variable or
+     anything not written in this file cannot be resolved: **stop**;
+   - **stop** for an unbounded wait (a loop with no cap, `while true`), an
+     environment approval or any wait on a human, a `gh run watch` or a
+     `gh workflow run` (or any other wait on another workflow or deploy), and any
+     composite or third-party action whose waits cannot be read and bounded from
+     its pinned source: an opaque action is never assumed to be bounded.
+3. **Collect this job's raw history rows**, from the same sampled runs: for each run,
+   `gh api repos/gaia-research/gaia-skill-tree/actions/runs/<run-id>/jobs --jq '.jobs[] | select(.name == "<job name>") | {conclusion, started_at, completed_at}'`,
+   saved together as one JSON list (`history.json`). Do not pick or drop rows by hand:
+   the tool selects them.
+4. **Compute and recompute mechanically:** `python -m gaia_cli.steward.workflowproof
+   no-history --class <class> --declared-wait-seconds <s> --history history.json`.
+   It selects the rows itself and prints that selection and the value:
+   - every row that **actually executed** counts as an observed duration: any
+     conclusion other than `skipped` with a start and a completion time (`success`,
+     `failure`, `cancelled`, `timed_out`, ...). A cancelled or timed-out run consumed
+     that time; it is a lower bound, never ignored;
+   - value = `ceil to 5 minutes of max(base + 2 x declared waits, 1.5 x longest
+     executed run)`, never below 10;
+   - **stop** (exit 3) when the job has a successful run (use the history rule), when
+     a non-skipped row has no usable times, or when the result is above **60**, for
+     example because an executed run was long (a job that may legitimately need more
+     than an hour needs real history first).
+   Paste the command, `history.json`, its output (selection and value), the class
+   and the waits you summed (step names, resolved worst case, arithmetic) in the
+   proof. The independent verifier runs the same command on the same file.
 
 Why this is safe: the value only ever bounds a job, never changes what it does;
 the bases are an order of magnitude above what jobs of that class take in this
 repository (sibling API jobs finish in 3 to 14 seconds) while still bounding a
 hang to a sixth of the 360-minute platform default or less; the floor of 1.5 x
-any observed execution means it can never be shorter than work already seen to
-complete; and sibling jobs' history is deliberately **not** used, because a
+every observed execution (cancelled and timed-out runs included) means it can
+never be shorter than time this job was already seen to consume; and sibling jobs' history is deliberately **not** used, because a
 sibling with different steps says nothing about this job's waits.
 
 Worked examples (batch 9): `auto-label-bot-prs.yml` job `label-bots`, a single
@@ -145,7 +163,11 @@ rounds x 10 s (600 s): `api-script`, 10 + 2 x 10 = **30**.
 4. Completed-run duration history cannot be read for a flagged job; or it was read,
    has no successful run, and the no-history default does not apply (no class,
    an unbounded wait, or a result above 60).
-5. The job legitimately waits on a human or an environment approval.
+5. The job legitimately waits on a human or an environment approval, runs
+   `gh run watch` / `gh workflow run` or otherwise waits on another workflow or a
+   deploy, has an unbounded wait, a wait bound that cannot be resolved to a worst
+   case from this job's YAML, or a composite/third-party action whose waits cannot
+   be read and bounded.
 6. A flagged job is a reusable-workflow call (cannot declare `timeout-minutes`).
 7. The edited file does not parse as YAML.
 
