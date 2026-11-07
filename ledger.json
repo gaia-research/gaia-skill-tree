@@ -1,5 +1,5 @@
 {
- "generation": 1601,
+ "generation": 1602,
  "lane": {
   "entries": [
    {
@@ -218,14 +218,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -261,14 +267,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 1,
@@ -304,14 +316,20 @@
       "from": "dispatched",
       "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-terra-01a1a793-8bb8-7029-b125-f63b22e12981 (pi, effort high))",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T17:22:14.671378Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": "reject",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -335,14 +353,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -366,14 +390,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -385,14 +415,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -416,14 +452,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -447,14 +489,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -478,14 +526,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -509,14 +563,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -528,14 +588,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -547,14 +613,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -566,14 +638,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -597,14 +675,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -628,14 +712,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -659,17 +749,23 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
-    "attempts": 0,
+    "attempts": 1,
     "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
     "firstQueuedAt": "2026-11-04T02:54:14.093628Z",
     "history": [
@@ -678,14 +774,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-d216c83b661079e59258",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 0,
@@ -697,14 +799,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -735,14 +843,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -811,14 +925,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -849,14 +969,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -994,14 +1120,20 @@
       "from": "dispatched",
       "reason": "verification escalated (independent verification by sonnet-verifier-ab63f80a (sonnet, effort medium))",
       "to": "escalated"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "escalated",
+      "reason": "the debt is no longer eligible for agent repair; the escalation is answered",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-10-29T02:56:37.663533Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": "escalate",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "escalated"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1025,14 +1157,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1056,14 +1194,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1075,14 +1219,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1094,14 +1244,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1125,14 +1281,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1156,14 +1318,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1175,14 +1343,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1194,14 +1368,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1213,14 +1393,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1232,14 +1418,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1251,14 +1443,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1282,14 +1480,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1301,14 +1505,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1320,14 +1530,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1351,14 +1567,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1370,14 +1592,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1389,14 +1617,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1420,14 +1654,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1451,14 +1691,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1470,14 +1716,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1489,14 +1741,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1508,14 +1766,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1527,14 +1791,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1546,14 +1816,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1565,14 +1841,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1596,14 +1878,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1646,14 +1934,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1665,14 +1959,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1684,14 +1984,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1715,14 +2021,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1734,14 +2046,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1765,14 +2083,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1784,14 +2108,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1803,14 +2133,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1822,14 +2158,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1853,14 +2195,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1872,14 +2220,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1891,14 +2245,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1922,14 +2282,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1941,14 +2307,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -1972,14 +2344,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2003,14 +2381,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2022,14 +2406,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2060,14 +2450,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2079,14 +2475,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2110,14 +2512,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2129,14 +2537,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2148,14 +2562,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2179,14 +2599,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2198,14 +2624,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2217,14 +2649,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2236,14 +2674,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2267,14 +2711,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2298,14 +2748,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2317,14 +2773,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2348,14 +2810,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2367,14 +2835,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2386,14 +2860,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2405,14 +2885,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2436,14 +2922,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2455,14 +2947,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2486,14 +2984,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2505,14 +3009,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2524,14 +3034,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2543,14 +3059,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 2,
@@ -2705,14 +3227,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2754,14 +3282,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-02T02:49:52.200473Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2773,14 +3307,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2792,14 +3332,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2811,14 +3357,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2830,14 +3382,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2849,14 +3407,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2868,14 +3432,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2887,14 +3457,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2906,14 +3482,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2925,14 +3507,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2969,14 +3557,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -2988,14 +3582,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -3038,14 +3638,20 @@
       "from": "closed",
       "reason": "condition observed again after closing",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -3076,14 +3682,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -3114,14 +3726,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T20:12:06.869150Z",
+      "from": "queued",
+      "reason": "the debt is no longer eligible for agent repair",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
     "lastVerdict": null,
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -5880,7 +6498,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T20:09:05.010120Z",
-   "expiresAt": "2026-11-07T20:42:01.561412Z",
+   "expiresAt": "2026-11-07T20:43:39.449682Z",
    "holder": "run-20261107T200905Z-82a8d6bb"
   }
  },
@@ -125254,7 +125872,36 @@
    "updatedAt": "2026-11-07T20:00:46.399138Z"
   },
   "run-20261107T200905Z-82a8d6bb": {
-   "actions": [],
+   "actions": [
+    {
+     "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
+     "emittedAt": "2026-11-07T20:12:06.869150Z",
+     "idempotencyKey": "dispatch-d216c83b661079e59258:1",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/trust-calibration-drift-4e35681dda17",
+      "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
+      "dispatchId": "dispatch-d216c83b661079e59258",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-4e35681dda17.diff",
+       "proofPath": ".gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-4e35681dda17.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-4e35681dda17.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:4e35681dda17:1",
+     "type": "agent.build"
+    }
+   ],
    "actor": "cli",
    "agentAssignments": [],
    "branches": [],
@@ -126453,6 +127100,14 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-11-07T20:12:06.869150Z",
+     "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
+     "idempotencyKey": "dispatch-d216c83b661079e59258:1",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:4e35681dda17:1"
     }
    ],
    "thinkingEfforts": [],
@@ -126463,7 +127118,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T20:12:01.562387Z",
+ "updatedAt": "2026-11-07T20:13:39.455925Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -126647,6 +127302,36 @@
     "stage": "judged",
     "verdict": "reject"
    }
+  },
+  "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d": {
+   "assignments": [],
+   "attempt": 1,
+   "authority": "B",
+   "baseBranch": "dev/steward-campaign-2026-11-05",
+   "branch": "steward/b/trust-calibration-drift-4e35681dda17",
+   "build": null,
+   "createdAt": "2026-11-07T20:12:06.869150Z",
+   "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
+   "dispatchId": "dispatch-d216c83b661079e59258",
+   "dispatchedAt": "2026-11-07T20:12:06.869150Z",
+   "history": [
+    {
+     "at": "2026-11-07T20:12:06.869150Z",
+     "from": "queued",
+     "reason": "dispatched as dispatch-d216c83b661079e59258 (attempt 1)",
+     "to": "building"
+    }
+   ],
+   "kind": "trust_calibration_drift",
+   "notes": [],
+   "promptPath": ".gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-4e35681dda17.prompt.md",
+   "pullRequest": null,
+   "routine": "gaia-trust-calibration-steward",
+   "runId": "run-20261107T200905Z-82a8d6bb",
+   "source": "trust-calibration-drift",
+   "state": "building",
+   "updatedAt": "2026-11-07T20:12:06.869150Z",
+   "verification": null
   },
   "debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9": {
    "assignments": [
