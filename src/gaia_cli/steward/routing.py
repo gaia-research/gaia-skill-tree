@@ -819,6 +819,7 @@ def render_founder_digest(
     spends nothing.
     """
 
+    from gaia_cli.steward.desk import classify_decision_records, load_decision_records
     from gaia_cli.steward.digest import render_founder_digest as _render
 
     root = repo_root.resolve()
@@ -827,4 +828,5 @@ def render_founder_digest(
     queue = result.artifact
     if not isinstance(queue, FounderQueue):
         raise RoutingError("founder routing did not render a queue")
-    return result, _render(result.scan, queue, _read_lane(root, policy))
+    records = classify_decision_records(load_decision_records(root))
+    return result, _render(result.scan, queue, _read_lane(root, policy), records)

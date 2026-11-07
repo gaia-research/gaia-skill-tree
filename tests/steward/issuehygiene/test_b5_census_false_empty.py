@@ -43,6 +43,9 @@ def repository(rows: list[dict], count: int | None):
             return Response(200, {}, json.dumps({"open_issues_count": count}))
         if "/actions/workflows" in url:
             return Response(200, {}, json.dumps({"total_count": 0, "workflows": []}))
+        if urlparse(url).path == "/search/issues":
+            # GitHub's own closed-issue total, which the collector cross-checks; these fakes hold no closed issues.
+            return Response(200, {}, json.dumps({"total_count": 0, "incomplete_results": False, "items": []}))
         if "state=closed" in url:
             return Response(200, {}, "[]")
         page = parse_qs(parts.query).get("page", ["1"])[0]
@@ -150,6 +153,9 @@ def live_shaped(rows: list[dict], count: int | None):
             return Response(200, {}, json.dumps({"open_issues_count": count}))
         if "/actions/workflows" in url:
             return Response(200, {}, json.dumps({"total_count": 0, "workflows": []}))
+        if urlparse(url).path == "/search/issues":
+            # GitHub's own closed-issue total, which the collector cross-checks; these fakes hold no closed issues.
+            return Response(200, {}, json.dumps({"total_count": 0, "incomplete_results": False, "items": []}))
         if "state=closed" in url:
             return Response(200, {}, "[]")
         page = servedPage(parse_qs(parts.query))
