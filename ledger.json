@@ -1,5 +1,5 @@
 {
- "generation": 1490,
+ "generation": 1491,
  "lane": {
   "entries": [
    {
@@ -5790,7 +5790,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T16:10:52.598412Z",
-   "expiresAt": "2026-11-07T16:47:08.236226Z",
+   "expiresAt": "2026-11-07T16:47:13.825567Z",
    "holder": "run-20261107T145403Z-b871b1e2"
   }
  },
@@ -116117,6 +116117,7 @@
    "ciResults": [],
    "costUsd": 0.0,
    "decisions": [],
+   "deferred": [],
    "desk": {
     "asOf": "2026-11-07T15:09:11.754821Z",
     "decisions": [
@@ -117599,6 +117600,31 @@
      "issueClosure": [],
      "reportOnly": [],
      "skippedActive": []
+    },
+    "verify": {
+     "deferred": [],
+     "expired": [],
+     "results": [
+      {
+       "debtId": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
+       "mode": "no-change",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
+       "mode": "no-change",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      },
+      {
+       "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11",
+       "receipt": "steward-20261107T161436Z-f2ec2f83e2499f06",
+       "result": "awaiting-verifier",
+       "verdict": "pending"
+      }
+     ],
+     "status": "awaiting-verifier"
     }
    },
    "proofArtifacts": [
@@ -117730,7 +117756,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T16:17:08.236402Z",
+ "updatedAt": "2026-11-07T16:17:13.825720Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
