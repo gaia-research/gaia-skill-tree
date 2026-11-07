@@ -1,5 +1,5 @@
 {
- "generation": 1095,
+ "generation": 1096,
  "lane": {
   "entries": [
    {
@@ -4749,7 +4749,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T01:20:53.468038Z",
-   "expiresAt": "2026-11-07T02:53:02.682628Z",
+   "expiresAt": "2026-11-07T02:53:09.043632Z",
    "holder": "run-20261107T012053Z-9dcda16b"
   }
  },
@@ -85557,7 +85557,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-07T01:39:55.441573Z",
+    "asOf": "2026-11-07T02:23:08.096947Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -85829,12 +85829,12 @@
       "subject": "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0"
      },
      {
-      "detail": "last scheduled run was 118h ago (limit 48h).",
+      "detail": "last scheduled run was 119h ago (limit 48h).",
       "kind": "stale_schedule",
       "subject": "scheduled run"
      },
      {
-      "detail": "open issues 224 (bot 2, upstream children 72); closed this run 0 of 0 total; net change +0 since the previous run; ready (writes disabled): 2 proven closures",
+      "detail": "open issues 225 (bot 2, upstream children 72); closed this run 0 of 0 total; net change +1 since the previous run; ready (writes disabled): 2 proven closures",
       "kind": "issue_backlog",
       "subject": "issue backlog"
      }
@@ -85862,7 +85862,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "perform 8 pending action(s) (agent.verify), record each with `gaia steward full record run-20261107T012053Z-9dcda16b <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T012053Z-9dcda16b`",
    "options": {
     "afk": false,
     "agents": true,
@@ -86915,7 +86915,7 @@
    "sequence": 36,
    "sourceHead": "b2bd3350b9f860f721d50792f485135005615124",
    "startedAt": "2026-11-07T01:20:53.468038Z",
-   "status": "active",
+   "status": "awaiting-action",
    "steps": [
     {
      "at": "2026-11-07T01:20:53.468038Z",
@@ -87093,7 +87093,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T02:23:02.682734Z",
+ "updatedAt": "2026-11-07T02:23:09.043743Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
