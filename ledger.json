@@ -1,5 +1,5 @@
 {
- "generation": 1609,
+ "generation": 1610,
  "lane": {
   "entries": [
    {
@@ -6540,7 +6540,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T20:09:05.010120Z",
-   "expiresAt": "2026-11-07T20:54:54.296080Z",
+   "expiresAt": "2026-11-07T20:54:59.426724Z",
    "holder": "run-20261107T200905Z-82a8d6bb"
   }
  },
@@ -126188,6 +126188,54 @@
      "landings": [],
      "status": "ok"
     },
+    "class_b": {
+     "dispatchId": "dispatch-d216c83b661079e59258",
+     "dispatched": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
+     "dispatchedAll": [
+      {
+       "dispatchId": "dispatch-d216c83b661079e59258",
+       "dispatched": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
+       "stepId": "build:4e35681dda17:1"
+      },
+      {
+       "dispatchId": "dispatch-52d0a2ee2165d517ed1b",
+       "dispatched": "debt:trust_calibration_drift:cathrynlavery-diagram-design:f97969b87df5be3c",
+       "stepId": "build:822c8b94f475:1"
+      },
+      {
+       "dispatchId": "dispatch-92c996763044c7e484c9",
+       "dispatched": "debt:trust_calibration_drift:emilkowalski-animate-expo:ffaef819d06dc7a8",
+       "stepId": "build:a03c7caa5984:1"
+      },
+      {
+       "dispatchId": "dispatch-a99ee77d84e3698ff227",
+       "dispatched": "debt:trust_calibration_drift:emilkowalski-animate:edd8fbfefa0c4515",
+       "stepId": "build:2e74c6a45dfa:1"
+      },
+      {
+       "dispatchId": "dispatch-67ccdfdbedf6d13c41c0",
+       "dispatched": "debt:trust_calibration_drift:emilkowalski-animation-performance:bf85de34bf017752",
+       "stepId": "build:94b4c68a20c6:1"
+      },
+      {
+       "dispatchId": "dispatch-883954188741817f3cb4",
+       "dispatched": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154",
+       "stepId": "build:3435f8d0b7d1:1"
+      },
+      {
+       "dispatchId": "dispatch-2ea70f82ddd72241c1df",
+       "dispatched": "debt:trust_calibration_drift:emilkowalski-find-animation-opportunities:8bb20c9945bcfaaa",
+       "stepId": "build:1e663b27095b:1"
+      },
+      {
+       "dispatchId": "dispatch-4f831ee7d2cd3fb84872",
+       "dispatched": "debt:trust_calibration_drift:emilkowalski-improve-animations:c2dbfcecdecde79f",
+       "stepId": "build:a02ebafd4927:1"
+      }
+     ],
+     "status": "awaiting-build",
+     "stepId": "build:4e35681dda17:1"
+    },
     "observe": {
      "authorityCounts": {
       "A": 1,
@@ -127412,7 +127460,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T20:24:54.301144Z",
+ "updatedAt": "2026-11-07T20:24:59.426947Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
