@@ -114,11 +114,15 @@ class AuthorityInputError(InputReadError):
 class DiagnosticLog:
     """Collect diagnostics; pass an instance as ``onDiagnostic``.
 
-    A collected diagnostic must be surfaced: read ``entries`` (or ``len``),
-    call :meth:`report` to forward them to a sink, or :meth:`drain`. A log that
-    is garbage-collected while holding diagnostics nobody looked at emits a
-    ``ResourceWarning`` (shown by pytest and ``python -W default``), so a
-    collected-then-dropped log does not pass silently.
+    Collected diagnostics must be surfaced with :meth:`report` (forward them to
+    a sink) or :meth:`drain` (hand them to the caller). Reading ``entries`` or
+    ``len`` inspects the log without surfacing it.
+
+    As a best-effort safety net, a log that is garbage-collected while holding
+    unsurfaced diagnostics emits a ``ResourceWarning``. Python hides that
+    warning by default (``-W default`` or pytest shows it), and a deallocator
+    may not run at all at interpreter shutdown, so the warning is a debugging
+    aid, never a guarantee: callers must report or drain.
     """
 
     def __init__(self) -> None:
@@ -130,36 +134,40 @@ class DiagnosticLog:
 
     @property
     def entries(self) -> list[ReadDiagnostic]:
-        self._surfaced = len(self._entries)
+        """A copy of the collected diagnostics (inspection only; not surfacing)."""
+
         return list(self._entries)
 
     def __len__(self) -> int:
-        self._surfaced = len(self._entries)
         return len(self._entries)
 
     def report(self, sink: Callable[[ReadDiagnostic], Any] | None = None) -> int:
-        """Forward every diagnostic to ``sink`` (default :func:`logDiagnostic`); return the count."""
+        """Forward every diagnostic to ``sink`` (``logDiagnostic`` when None); return the count.
 
-        target = sink or logDiagnostic
-        for diagnostic in self._entries:
+        The entries count as surfaced only after every one was forwarded; if the
+        sink raises, nothing is marked surfaced and the entries are kept.
+        """
+
+        target = logDiagnostic if sink is None else sink
+        for diagnostic in list(self._entries):
             target(diagnostic)
         self._surfaced = len(self._entries)
         return len(self._entries)
 
     def drain(self) -> list[ReadDiagnostic]:
-        """Return and clear the collected diagnostics."""
+        """Return and clear the collected diagnostics; the caller now owns surfacing them."""
 
         drained, self._entries, self._surfaced = list(self._entries), [], 0
         return drained
 
     def __del__(self) -> None:
-        unseen = len(self._entries) - self._surfaced
+        unseen = len(getattr(self, "_entries", ())) - getattr(self, "_surfaced", 0)
         if unseen > 0:
             import warnings
 
             warnings.warn(
                 f"DiagnosticLog dropped {unseen} unreported read diagnostic(s); "
-                "report() or read them so a fallback is never silent",
+                "report() or drain() it so a fallback is never silent",
                 ResourceWarning,
                 stacklevel=2,
             )

@@ -112,7 +112,7 @@ def test_best_effort_returns_the_default_and_reports(fixtures, name: str) -> Non
     assert readJson(fixtures[name], mode="bestEffort", default={"fallback": True}, onDiagnostic=log) == {
         "fallback": True
     }
-    (diagnostic,) = log.entries
+    (diagnostic,) = log.drain()
     assert diagnostic == ReadDiagnostic(
         path=str(fixtures[name]), kind=FAILURES[name], mode="bestEffort", detail=diagnostic.detail
     )
@@ -124,7 +124,7 @@ def test_optional_defaults_only_when_the_file_is_absent(fixtures) -> None:
     assert readJson(fixtures["missing"], mode="optional", default={"installed": []}, onDiagnostic=log) == {
         "installed": []
     }
-    assert [entry.kind for entry in log.entries] == ["missing"]
+    assert [entry.kind for entry in log.drain()] == ["missing"]
 
 
 @pytest.mark.parametrize("name", ["malformed", "permission", "encoding"])
@@ -176,7 +176,7 @@ def test_default_is_copied_so_callers_cannot_share_mutable_state(fixtures) -> No
     first = readJson(fixtures["missing"], mode="bestEffort", default=default, onDiagnostic=log)
     first["items"].append(1)
     assert default == {"items": []}
-    assert len(log) == 1
+    assert len(log.drain()) == 1
 
 
 def test_shape_mismatch_is_a_failure_handled_by_the_mode(tmp_path: Path) -> None:
@@ -187,7 +187,7 @@ def test_shape_mismatch_is_a_failure_handled_by_the_mode(tmp_path: Path) -> None
     assert caught.value.kind == "shape"
     log = DiagnosticLog()
     assert readJson(listed, mode="bestEffort", default={}, onDiagnostic=log, expect=dict) == {}
-    assert log.entries[0].kind == "shape"
+    assert log.drain()[0].kind == "shape"
     with pytest.raises(InputReadError):
         readJson(listed, mode="optional", default={}, onDiagnostic=log, expect=dict)
 
@@ -211,7 +211,7 @@ def test_diagnostics_never_echo_file_content(tmp_path: Path) -> None:
     sample.write_text('{"content": "do-not-print-me", ', encoding="utf-8")
     log = DiagnosticLog()
     readJson(sample, mode="bestEffort", default={}, onDiagnostic=log)
-    assert "do-not-print-me" not in str(log.entries[0])
+    assert "do-not-print-me" not in str(log.drain()[0])
     with pytest.raises(InputReadError) as caught:
         readJson(sample, mode="required")
     assert "do-not-print-me" not in str(caught.value)
@@ -241,7 +241,7 @@ def test_read_text_modes(fixtures) -> None:
     assert caught.value.kind == "encoding"
     log = DiagnosticLog()
     assert readText(fixtures["missing"], mode="optional", default="", onDiagnostic=log) == ""
-    assert [entry.kind for entry in log.entries] == ["missing"]
+    assert [entry.kind for entry in log.drain()] == ["missing"]
 
 
 def test_read_yaml_uses_safe_load_and_reports_malformed(tmp_path: Path) -> None:
@@ -274,7 +274,7 @@ def test_read_frontmatter(tmp_path: Path) -> None:
     scalar.write_text("---\njust a string\n---\n", encoding="utf-8")
     log = DiagnosticLog()
     assert readFrontmatter(scalar, mode="bestEffort", default=({}, ""), onDiagnostic=log) == ({}, "")
-    assert log.entries[0].kind == "shape"
+    assert log.drain()[0].kind == "shape"
 
 
 # ------------------------------------------------- shared proof fixtures (F0-F6)
@@ -292,7 +292,7 @@ def test_shared_proof_fixtures_produce_the_documented_kinds(tmp_path: Path) -> N
                 continue
             log = DiagnosticLog()
             assert readJson(paths[name], mode="bestEffort", default={}, onDiagnostic=log, expect=dict) == {}
-            assert [entry.kind for entry in log.entries] == [kind], name
+            assert [entry.kind for entry in log.drain()] == [kind], name
     finally:
         restorePermissions(paths)
 
@@ -347,7 +347,7 @@ def test_recursion_errors_follow_the_contract(tmp_path: Path, monkeypatch, targe
         reader(path, mode="authority")
     log = DiagnosticLog()
     assert reader(path, mode="bestEffort", default=None, onDiagnostic=log) is None
-    assert [entry.kind for entry in log.entries] == ["malformed"]
+    assert [entry.kind for entry in log.drain()] == ["malformed"]
 
 
 @pytest.mark.parametrize("reader, make", PARSER_EDGES)
@@ -366,7 +366,7 @@ def test_parser_failures_follow_the_strict_contracts(tmp_path: Path, reader, mak
 def test_parser_failures_fall_back_with_a_diagnostic_in_best_effort(tmp_path: Path, reader, make) -> None:
     log = DiagnosticLog()
     assert reader(make(tmp_path), mode="bestEffort", default="FALLBACK", onDiagnostic=log) == "FALLBACK"
-    assert [entry.kind for entry in log.entries] == ["malformed"]
+    assert [entry.kind for entry in log.drain()] == ["malformed"]
 
 
 def _not_a_directory(tmp_path: Path) -> Path:
@@ -397,7 +397,7 @@ def test_broken_paths_are_unreadable_never_missing(tmp_path: Path, make) -> None
     assert optional.value.kind == "unreadable"
     log = DiagnosticLog()
     assert readJson(path, mode="bestEffort", default={}, onDiagnostic=log) == {}
-    assert [entry.kind for entry in log.entries] == ["unreadable"]
+    assert [entry.kind for entry in log.drain()] == ["unreadable"]
 
 
 def test_an_unreported_diagnostic_log_warns_when_dropped(tmp_path: Path) -> None:
@@ -413,16 +413,66 @@ def test_an_unreported_diagnostic_log_warns_when_dropped(tmp_path: Path) -> None
 def test_a_reported_or_read_log_does_not_warn(tmp_path: Path, recwarn) -> None:
     import gc
 
-    for surface in ("report", "entries", "drain"):
+    for surface in ("report", "report-default", "drain"):
         log = DiagnosticLog()
         readJson(tmp_path / "missing.json", mode="bestEffort", default={}, onDiagnostic=log)
         if surface == "report":
             seen: list = []
             assert log.report(seen.append) == 1 and len(seen) == 1
-        elif surface == "entries":
-            assert len(log.entries) == 1
+        elif surface == "report-default":
+            assert log.report() == 1
         else:
             assert len(log.drain()) == 1
         del log
         gc.collect()
     assert not [w for w in recwarn if issubclass(w.category, ResourceWarning)]
+
+
+def _one_diagnostic(tmp_path: Path) -> DiagnosticLog:
+    log = DiagnosticLog()
+    readJson(tmp_path / "missing.json", mode="bestEffort", default={}, onDiagnostic=log)
+    return log
+
+
+def test_report_forwards_to_an_empty_collector_sink(tmp_path: Path, caplog) -> None:
+    # An empty DiagnosticLog has len 0 and is falsy; it is still the sink.
+    caplog.set_level("INFO", logger="gaia_cli.structuredRead")
+    log = _one_diagnostic(tmp_path)
+    collector = DiagnosticLog()
+    assert log.report(collector) == 1
+    assert [entry.kind for entry in collector.drain()] == ["missing"]
+    assert not caplog.records  # nothing fell back to logDiagnostic
+
+
+def test_a_raising_sink_leaves_entries_kept_and_unsurfaced(tmp_path: Path) -> None:
+    import gc
+
+    log = _one_diagnostic(tmp_path)
+
+    def broken(_diagnostic):
+        raise RuntimeError("sink down")
+
+    with pytest.raises(RuntimeError):
+        log.report(broken)
+    assert len(log) == 1  # retained
+    with pytest.warns(ResourceWarning, match="unreported"):
+        del log
+        gc.collect()
+
+
+def test_inspection_does_not_surface(tmp_path: Path) -> None:
+    import gc
+
+    log = _one_diagnostic(tmp_path)
+    assert len(log) == 1 and [entry.kind for entry in log.entries] == ["missing"]
+    with pytest.warns(ResourceWarning, match="unreported"):
+        del log
+        gc.collect()
+
+
+def test_unsurfaced_entries_are_retained_until_drained(tmp_path: Path) -> None:
+    log = _one_diagnostic(tmp_path)
+    readJson(tmp_path / "also-missing.json", mode="bestEffort", default={}, onDiagnostic=log)
+    assert len(log.entries) == 2
+    assert [entry.path.endswith(name) for entry, name in zip(log.drain(), ("missing.json", "also-missing.json"))] == [True, True]
+    assert len(log) == 0
