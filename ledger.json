@@ -1,5 +1,5 @@
 {
- "generation": 1030,
+ "generation": 1031,
  "lane": {
   "entries": [
    {
@@ -4701,7 +4701,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T00:57:32.285173Z",
-   "expiresAt": "2026-11-07T01:30:45.163328Z",
+   "expiresAt": "2026-11-07T01:30:51.362837Z",
    "holder": "run-20261107T005732Z-9d3ca36e"
   }
  },
@@ -81909,6 +81909,7 @@
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
+   "coverageBlocked": true,
    "decisions": [],
    "finishedAt": null,
    "integrationBranch": "dev/steward-campaign-2026-11-05",
@@ -81931,8 +81932,15 @@
     "push": false,
     "routine": 1
    },
-   "phase": "class_a",
+   "phase": "class_b",
    "phases": {
+    "class_a": {
+     "coverageUnknown": [
+      "issue-hygiene"
+     ],
+     "reason": "sensor coverage is unknown; refusing Class A landing",
+     "status": "blocked"
+    },
     "observe": {
      "authorityCounts": {
       "A": 1,
@@ -82878,6 +82886,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:triage"
+    },
+    {
+     "at": "2026-11-07T01:00:50.543255Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_a"
     }
    ],
    "thinkingEfforts": [],
@@ -82888,7 +82902,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T01:00:45.163423Z",
+ "updatedAt": "2026-11-07T01:00:51.362943Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
