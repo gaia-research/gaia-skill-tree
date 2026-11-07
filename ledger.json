@@ -1,5 +1,5 @@
 {
- "generation": 1238,
+ "generation": 1239,
  "lane": {
   "entries": [
    {
@@ -98491,6 +98491,15 @@
      "debtId": "debt:unused_import:src-gaia-cli-commands-dev-timeline-py:8048fdb73b0eb45b",
      "emittedAt": "2026-11-07T09:28:17.139193Z",
      "idempotencyKey": "dispatch-47f2688d80062c4ca0fc:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch5-builder-a9c405a45169",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-a9c405a45169.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-a9c405a45169.proof.json",
+      "summary": "Batch batch5 builder (openai-codex|openai/gpt-6-luna medium, pi pane) removed the flagged unused import(s); commit 968e73dd3; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -98511,7 +98520,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-a9c405a45169.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T09:49:33.402459Z",
+     "status": "done",
      "stepId": "build:a9c405a45169:1",
      "type": "agent.build"
     }
@@ -98587,6 +98597,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:b63e9eae65c5:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch5-builder-a9c405a45169",
+     "at": "2026-11-07T09:49:33.402707Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:src-gaia-cli-commands-dev-timeline-py:8048fdb73b0eb45b",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:a9c405a45169:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -100127,6 +100149,12 @@
      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-b63e9eae65c5.diff",
      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-b63e9eae65c5.proof.json",
      "stepId": "build:b63e9eae65c5:1"
+    },
+    {
+     "debtId": "debt:unused_import:src-gaia-cli-commands-dev-timeline-py:8048fdb73b0eb45b",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-a9c405a45169.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-a9c405a45169.proof.json",
+     "stepId": "build:a9c405a45169:1"
     }
    ],
    "pullRequests": [],
@@ -100229,11 +100257,11 @@
      "stepId": "build:b63e9eae65c5:1"
     },
     {
-     "at": "2026-11-07T09:28:17.139193Z",
+     "at": "2026-11-07T09:49:33.402459Z",
      "debtId": "debt:unused_import:src-gaia-cli-commands-dev-timeline-py:8048fdb73b0eb45b",
      "idempotencyKey": "dispatch-47f2688d80062c4ca0fc:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:a9c405a45169:1"
     }
    ],
@@ -100244,11 +100272,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T09:49:26.698567Z"
+   "updatedAt": "2026-11-07T09:49:33.402459Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T09:49:26.699466Z",
+ "updatedAt": "2026-11-07T09:49:33.403458Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -103064,12 +103092,33 @@
    }
   },
   "debt:unused_import:src-gaia-cli-commands-dev-timeline-py:8048fdb73b0eb45b": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch5-builder-a9c405a45169",
+     "at": "2026-11-07T09:49:33.402707Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:a9c405a45169:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/unused-import-a9c405a45169",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch5-builder-a9c405a45169",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-a9c405a45169.diff",
+    "dispatchId": "dispatch-47f2688d80062c4ca0fc",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-a9c405a45169.proof.json",
+    "recordedAt": "2026-11-07T09:49:33.402707Z",
+    "summary": "Batch batch5 builder (openai-codex|openai/gpt-6-luna medium, pi pane) removed the flagged unused import(s); commit 968e73dd3; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+   },
    "createdAt": "2026-11-07T09:28:17.139193Z",
    "debtId": "debt:unused_import:src-gaia-cli-commands-dev-timeline-py:8048fdb73b0eb45b",
    "dispatchId": "dispatch-47f2688d80062c4ca0fc",
@@ -103090,7 +103139,7 @@
    "runId": "run-20261107T092526Z-c6c6c44d",
    "source": "dead-code",
    "state": "building",
-   "updatedAt": "2026-11-07T09:28:17.139193Z",
+   "updatedAt": "2026-11-07T09:49:33.402707Z",
    "verification": null
   },
   "debt:unused_import:src-gaia-cli-curation-evaluation-py:3fab90bae90c2a93": {
