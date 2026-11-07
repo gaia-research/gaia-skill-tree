@@ -19,7 +19,6 @@ Exit codes:
 """
 
 import json
-import os
 import sys
 import argparse
 import html
