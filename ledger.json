@@ -1,5 +1,5 @@
 {
- "generation": 1465,
+ "generation": 1466,
  "lane": {
   "entries": [
    {
@@ -5772,7 +5772,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T14:54:03.318678Z",
-   "expiresAt": "2026-11-07T15:29:18.688844Z",
+   "expiresAt": "2026-11-07T15:29:28.339829Z",
    "holder": "run-20261107T145403Z-b871b1e2"
   }
  },
@@ -115902,7 +115902,7 @@
     "push": false,
     "routine": 1
    },
-   "phase": "triage",
+   "phase": "class_a",
    "phases": {
     "observe": {
      "authorityCounts": {
@@ -116840,6 +116840,37 @@
      "integrationHead": "107a97b1de634f8b5723ab2c87873a4492a42e0c",
      "sourceHead": "107a97b1de634f8b5723ab2c87873a4492a42e0c",
      "unresolvedWork": 0
+    },
+    "triage": {
+     "carried": 0,
+     "classA": [],
+     "classB": [
+      "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
+      "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
+      "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11"
+     ],
+     "classC": [],
+     "counts": {
+      "A": 0,
+      "B": 3,
+      "B-report-only": 0,
+      "C": 0
+     },
+     "filtered": 363,
+     "held": [
+      "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+      "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
+      "debt:unused_import:scripts-jev-advisory-py:2e2799e7eedfcd5a",
+      "debt:unused_import:scripts-lib-tests-test-heartbeat-regression-py:119965096d096663",
+      "debt:unused_import:scripts-lib-tests-test-lib-py:937bb006737be2e0",
+      "debt:unused_import:scripts-merge-gate-check-py:1cff37f84d221787",
+      "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0",
+      "debt:unused_import:scripts-run-meta-sweep-py:3e8242f71d3c1aa0",
+      "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe"
+     ],
+     "issueClosure": [],
+     "reportOnly": [],
+     "skippedActive": []
     }
    },
    "proofArtifacts": [],
@@ -116873,6 +116904,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:observe"
+    },
+    {
+     "at": "2026-11-07T14:59:27.172462Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:triage"
     }
    ],
    "thinkingEfforts": [],
@@ -116883,7 +116920,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T14:59:18.689254Z",
+ "updatedAt": "2026-11-07T14:59:28.340165Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
