@@ -1,5 +1,5 @@
 {
- "generation": 1161,
+ "generation": 1162,
  "lane": {
   "entries": [
    {
@@ -90517,6 +90517,15 @@
      "debtId": "debt:unused_import:scripts-lib-tests-test-lib-py:937bb006737be2e0",
      "emittedAt": "2026-11-07T03:31:19.356563Z",
      "idempotencyKey": "dispatch-875c41e811c127eb3e59:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch4-builder-5ded3e5c5e18",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-5ded3e5c5e18.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-5ded3e5c5e18.proof.json",
+      "summary": "Batch batch4 builder (openai/gpt-6.1-terra (attempt 2 / escalated tier) medium, pi pane) removed the flagged unused import(s); commit 422fc23e5; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -90537,7 +90546,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261107T032809Z-31f4a5be/build-5ded3e5c5e18.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T03:59:43.571518Z",
+     "status": "done",
      "stepId": "build:5ded3e5c5e18:1",
      "type": "agent.build"
     },
@@ -90727,6 +90737,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:bea677b92540:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch4-builder-5ded3e5c5e18",
+     "at": "2026-11-07T03:59:43.571953Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:scripts-lib-tests-test-lib-py:937bb006737be2e0",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:5ded3e5c5e18:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -92018,6 +92040,12 @@
      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-bea677b92540.diff",
      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-bea677b92540.proof.json",
      "stepId": "build:bea677b92540:1"
+    },
+    {
+     "debtId": "debt:unused_import:scripts-lib-tests-test-lib-py:937bb006737be2e0",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-5ded3e5c5e18.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-5ded3e5c5e18.proof.json",
+     "stepId": "build:5ded3e5c5e18:1"
     }
    ],
    "pullRequests": [],
@@ -92080,11 +92108,11 @@
      "stepId": "build:bea677b92540:1"
     },
     {
-     "at": "2026-11-07T03:31:19.356563Z",
+     "at": "2026-11-07T03:59:43.571518Z",
      "debtId": "debt:unused_import:scripts-lib-tests-test-lib-py:937bb006737be2e0",
      "idempotencyKey": "dispatch-875c41e811c127eb3e59:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:5ded3e5c5e18:1"
     },
     {
@@ -92135,11 +92163,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T03:59:32.048818Z"
+   "updatedAt": "2026-11-07T03:59:43.571518Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T03:59:32.051594Z",
+ "updatedAt": "2026-11-07T03:59:43.573180Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -94082,12 +94110,33 @@
    "verification": null
   },
   "debt:unused_import:scripts-lib-tests-test-lib-py:937bb006737be2e0": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch4-builder-5ded3e5c5e18",
+     "at": "2026-11-07T03:59:43.571953Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:5ded3e5c5e18:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/unused-import-5ded3e5c5e18",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch4-builder-5ded3e5c5e18",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-5ded3e5c5e18.diff",
+    "dispatchId": "dispatch-875c41e811c127eb3e59",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T032809Z-31f4a5be/build-5ded3e5c5e18.proof.json",
+    "recordedAt": "2026-11-07T03:59:43.571953Z",
+    "summary": "Batch batch4 builder (openai/gpt-6.1-terra (attempt 2 / escalated tier) medium, pi pane) removed the flagged unused import(s); commit 422fc23e5; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+   },
    "createdAt": "2026-11-07T03:31:19.356563Z",
    "debtId": "debt:unused_import:scripts-lib-tests-test-lib-py:937bb006737be2e0",
    "dispatchId": "dispatch-875c41e811c127eb3e59",
@@ -94108,7 +94157,7 @@
    "runId": "run-20261107T032809Z-31f4a5be",
    "source": "dead-code",
    "state": "building",
-   "updatedAt": "2026-11-07T03:31:19.356563Z",
+   "updatedAt": "2026-11-07T03:59:43.571953Z",
    "verification": null
   },
   "debt:unused_import:scripts-merge-gate-check-py:1cff37f84d221787": {
