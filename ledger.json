@@ -1,5 +1,5 @@
 {
- "generation": 1581,
+ "generation": 1582,
  "lane": {
   "entries": [
    {
@@ -5880,7 +5880,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T19:39:04.242183Z",
-   "expiresAt": "2026-11-07T20:31:16.041891Z",
+   "expiresAt": "2026-11-07T20:31:22.459118Z",
    "holder": "run-20261107T164134Z-574a6b71"
   }
  },
@@ -122237,7 +122237,7 @@
     "push": false,
     "routine": 13
    },
-   "phase": "verify",
+   "phase": "reobserve",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -123249,45 +123249,8 @@
     "verify": {
      "deferred": [],
      "expired": [],
-     "results": [
-      {
-       "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
-       "mode": "no-change",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
-       "receipt": "steward-20261107T194118Z-0b8c6086ae368c4b",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
-       "mode": "no-change",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
-       "receipt": "steward-20261107T194253Z-bd7655a5e18209f9",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae",
-       "receipt": "steward-20261107T194422Z-21d2a34be603f619",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
-       "receipt": "steward-20261107T194551Z-7fefecdf166cab6e",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      }
-     ],
-     "status": "awaiting-verifier"
+     "results": [],
+     "status": "ok"
     }
    },
    "proofArtifacts": [
@@ -123472,6 +123435,12 @@
      "kind": "agent.verify",
      "status": "done",
      "stepId": "verify:52236ab2419b:1"
+    },
+    {
+     "at": "2026-11-07T20:01:21.623565Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:verify"
     }
    ],
    "thinkingEfforts": [
@@ -123485,7 +123454,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T20:01:16.043001Z",
+ "updatedAt": "2026-11-07T20:01:22.459266Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
