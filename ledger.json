@@ -1,5 +1,5 @@
 {
- "generation": 1119,
+ "generation": 1120,
  "lane": {
   "entries": [
    {
@@ -3529,14 +3529,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-f9e39ce62328be0e366f",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T03:10:54.690765Z",
+      "from": "dispatched",
+      "reason": "accepted by independent verification (integration integrate by lead-claude-opus-5-5 (herdr w2H); verified by pi-herdr-batch3-verifier-5dee2c1f6cb9)",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-07T01:26:07.516027Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T03:10:54.690765Z",
+    "lastVerdict": "accept",
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "closed"
    },
    {
     "attempts": 1,
@@ -85576,6 +85582,17 @@
      "debtId": "debt:unused_import:scripts-crawlers-huggingface-crawler-py:63744d81bcaf52ea",
      "emittedAt": "2026-11-07T03:04:25.237624Z",
      "idempotencyKey": "integrate:dispatch-f9e39ce62328be0e366f:2",
+     "outcome": {
+      "by": "lead-claude-opus-5-5 (herdr w2H)",
+      "decision": "integrate",
+      "mergedSha": "206936251e63ff2c01635b09bc87489c25b8503e",
+      "pullRequest": {
+       "base": "dev/steward-campaign-2026-11-05",
+       "head": "steward/b/unused-import-5dee2c1f6cb9",
+       "number": 2342,
+       "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2342"
+      }
+     },
      "params": {
       "attempt": 2,
       "base": "dev/steward-campaign-2026-11-05",
@@ -85583,7 +85600,8 @@
       "debtId": "debt:unused_import:scripts-crawlers-huggingface-crawler-py:63744d81bcaf52ea",
       "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T012053Z-9dcda16b/build-5dee2c1f6cb9.diff"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T03:10:54.690521Z",
+     "status": "done",
      "stepId": "integrate:5dee2c1f6cb9:2",
      "type": "lead.integrate"
     },
@@ -85821,6 +85839,13 @@
      "at": "2026-11-07T03:10:38.795077Z",
      "by": "lead-claude-opus-5-5 (herdr w2H)",
      "debtId": "debt:unused_import:scripts-archive-fetch-ruflo-skills-py:f5adc0673c6d1436",
+     "decision": "integrate",
+     "type": "integrate"
+    },
+    {
+     "at": "2026-11-07T03:10:54.690765Z",
+     "by": "lead-claude-opus-5-5 (herdr w2H)",
+     "debtId": "debt:unused_import:scripts-crawlers-huggingface-crawler-py:63744d81bcaf52ea",
      "decision": "integrate",
      "type": "integrate"
     }
@@ -88839,6 +88864,14 @@
      "merged": true,
      "number": 2341,
      "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2341"
+    },
+    {
+     "base": "dev/steward-campaign-2026-11-05",
+     "debtId": "debt:unused_import:scripts-crawlers-huggingface-crawler-py:63744d81bcaf52ea",
+     "head": "steward/b/unused-import-5dee2c1f6cb9",
+     "merged": true,
+     "number": 2342,
+     "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2342"
     }
    ],
    "receipts": [
@@ -89026,11 +89059,11 @@
      "stepId": "integrate:943faedbd922:2"
     },
     {
-     "at": "2026-11-07T03:04:25.237624Z",
+     "at": "2026-11-07T03:10:54.690521Z",
      "debtId": "debt:unused_import:scripts-crawlers-huggingface-crawler-py:63744d81bcaf52ea",
      "idempotencyKey": "integrate:dispatch-f9e39ce62328be0e366f:2",
      "kind": "lead.integrate",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "integrate:5dee2c1f6cb9:2"
     },
     {
@@ -89081,11 +89114,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T03:10:38.794758Z"
+   "updatedAt": "2026-11-07T03:10:54.690521Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T03:10:38.797621Z",
+ "updatedAt": "2026-11-07T03:10:54.693336Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -90440,17 +90473,29 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch3-verifier-5dee2c1f6cb9 (pi, effort medium)",
      "to": "verified"
+    },
+    {
+     "at": "2026-11-07T03:10:54.690765Z",
+     "from": "verified",
+     "reason": "integrated by lead-claude-opus-5-5 (herdr w2H)",
+     "to": "landed"
     }
    ],
    "kind": "unused_import",
+   "mergedSha": "206936251e63ff2c01635b09bc87489c25b8503e",
    "notes": [],
    "promptPath": ".gaia/steward/full/run-20261107T012053Z-9dcda16b/build-5dee2c1f6cb9.prompt.md",
-   "pullRequest": null,
+   "pullRequest": {
+    "base": "dev/steward-campaign-2026-11-05",
+    "head": "steward/b/unused-import-5dee2c1f6cb9",
+    "number": 2342,
+    "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2342"
+   },
    "routine": "dead-code-gardener",
    "runId": "run-20261107T012053Z-9dcda16b",
    "source": "dead-code",
-   "state": "verified",
-   "updatedAt": "2026-11-07T03:04:25.237624Z",
+   "state": "landed",
+   "updatedAt": "2026-11-07T03:10:54.690765Z",
    "verification": {
     "agentId": "pi-herdr-batch3-verifier-5dee2c1f6cb9",
     "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: true authorityStillValid: true guardsWeakened: false newDebt: [] verdict: accept reasons: - The base file imports both names without reading them; the removed taxonomy module has no operational initialization, and json is a standard-library dependency already loaded by the crawler's dependencies. - The diff removes only the two named imports from the subject file; no guards or other files changed. - The 45-test smoke suite includes HuggingFace crawler behavior; independent focused crawler tests passed (21 passed), and in-memory compilation succeeded. Steward established the required proof commands exited zero. - This independent verification supplies the review required before integration.",
