@@ -1,5 +1,5 @@
 {
- "generation": 1311,
+ "generation": 1312,
  "lane": {
   "entries": [
    {
@@ -4579,7 +4579,7 @@
     "state": "closed"
    },
    {
-    "attempts": 0,
+    "attempts": 1,
     "debtId": "debt:unused_import:src-gaia-cli-commands-dev-verify-py:df107873802e647a",
     "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
     "history": [
@@ -4588,14 +4588,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T10:34:05.249425Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-9ea7abc43ed25a0cb704",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-10-21T16:28:00.196543Z",
+    "lastTransitionAt": "2026-11-07T10:34:05.249425Z",
     "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 0,
@@ -5628,7 +5634,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T10:31:10.561980Z",
-   "expiresAt": "2026-11-07T11:07:05.486367Z",
+   "expiresAt": "2026-11-07T11:08:38.966299Z",
    "holder": "run-20261107T103110Z-5e4b906c"
   }
  },
@@ -104255,6 +104261,34 @@
      "status": "pending",
      "stepId": "build:a25b268aaa3e:2",
      "type": "agent.build"
+    },
+    {
+     "debtId": "debt:unused_import:src-gaia-cli-commands-dev-verify-py:df107873802e647a",
+     "emittedAt": "2026-11-07T10:34:05.249425Z",
+     "idempotencyKey": "dispatch-9ea7abc43ed25a0cb704:1",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/unused-import-f7b2c7218893",
+      "debtId": "debt:unused_import:src-gaia-cli-commands-dev-verify-py:df107873802e647a",
+      "dispatchId": "dispatch-9ea7abc43ed25a0cb704",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261107T103110Z-5e4b906c/build-f7b2c7218893.diff",
+       "proofPath": ".gaia/steward/full/run-20261107T103110Z-5e4b906c/build-f7b2c7218893.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261107T103110Z-5e4b906c/build-f7b2c7218893.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:f7b2c7218893:1",
+     "type": "agent.build"
     }
    ],
    "actor": "cli",
@@ -105345,6 +105379,14 @@
      "kind": "agent.build",
      "status": "awaiting",
      "stepId": "build:a25b268aaa3e:2"
+    },
+    {
+     "at": "2026-11-07T10:34:05.249425Z",
+     "debtId": "debt:unused_import:src-gaia-cli-commands-dev-verify-py:df107873802e647a",
+     "idempotencyKey": "dispatch-9ea7abc43ed25a0cb704:1",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:f7b2c7218893:1"
     }
    ],
    "thinkingEfforts": [],
@@ -105355,7 +105397,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T10:37:05.491076Z",
+ "updatedAt": "2026-11-07T10:38:38.971024Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -108461,6 +108503,36 @@
     "stage": "judged",
     "verdict": "accept"
    }
+  },
+  "debt:unused_import:src-gaia-cli-commands-dev-verify-py:df107873802e647a": {
+   "assignments": [],
+   "attempt": 1,
+   "authority": "B",
+   "baseBranch": "dev/steward-campaign-2026-11-05",
+   "branch": "steward/b/unused-import-f7b2c7218893",
+   "build": null,
+   "createdAt": "2026-11-07T10:34:05.249425Z",
+   "debtId": "debt:unused_import:src-gaia-cli-commands-dev-verify-py:df107873802e647a",
+   "dispatchId": "dispatch-9ea7abc43ed25a0cb704",
+   "dispatchedAt": "2026-11-07T10:34:05.249425Z",
+   "history": [
+    {
+     "at": "2026-11-07T10:34:05.249425Z",
+     "from": "queued",
+     "reason": "dispatched as dispatch-9ea7abc43ed25a0cb704 (attempt 1)",
+     "to": "building"
+    }
+   ],
+   "kind": "unused_import",
+   "notes": [],
+   "promptPath": ".gaia/steward/full/run-20261107T103110Z-5e4b906c/build-f7b2c7218893.prompt.md",
+   "pullRequest": null,
+   "routine": "dead-code-gardener",
+   "runId": "run-20261107T103110Z-5e4b906c",
+   "source": "dead-code",
+   "state": "building",
+   "updatedAt": "2026-11-07T10:34:05.249425Z",
+   "verification": null
   },
   "debt:unused_import:src-gaia-cli-curation-evaluation-py:3fab90bae90c2a93": {
    "adoptedBy": "run-20261106T175105Z-e5c2fe3b",
