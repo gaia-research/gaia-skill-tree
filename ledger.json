@@ -1,5 +1,5 @@
 {
- "generation": 1065,
+ "generation": 1066,
  "lane": {
   "entries": [
    {
@@ -4749,7 +4749,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T01:20:53.468038Z",
-   "expiresAt": "2026-11-07T02:09:44.807990Z",
+   "expiresAt": "2026-11-07T02:09:50.037259Z",
    "holder": "run-20261107T012053Z-9dcda16b"
   }
  },
@@ -85228,6 +85228,54 @@
      "landings": [],
      "status": "ok"
     },
+    "class_b": {
+     "dispatchId": "dispatch-460979a6df78fdd0d323",
+     "dispatched": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+     "dispatchedAll": [
+      {
+       "dispatchId": "dispatch-460979a6df78fdd0d323",
+       "dispatched": "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+       "stepId": "build:3d53086a6d83:2"
+      },
+      {
+       "dispatchId": "dispatch-b263c30736e6517f6e1e",
+       "dispatched": "debt:unused_import:scripts-archive-fetch-ruflo-skills-py:f5adc0673c6d1436",
+       "stepId": "build:943faedbd922:2"
+      },
+      {
+       "dispatchId": "dispatch-e5fc16cfa2decbbd9c74",
+       "dispatched": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
+       "stepId": "build:1a73ca728b11:2"
+      },
+      {
+       "dispatchId": "dispatch-f9e39ce62328be0e366f",
+       "dispatched": "debt:unused_import:scripts-crawlers-huggingface-crawler-py:63744d81bcaf52ea",
+       "stepId": "build:5dee2c1f6cb9:2"
+      },
+      {
+       "dispatchId": "dispatch-de7b29359777a957ff50",
+       "dispatched": "debt:unused_import:scripts-crawlers-npm-crawler-py:92d67b1f4f237223",
+       "stepId": "build:409ecb655424:1"
+      },
+      {
+       "dispatchId": "dispatch-009403bfca6453f34882",
+       "dispatched": "debt:unused_import:scripts-crawlers-skillsmp-crawler-py:1b1430a5d791da40",
+       "stepId": "build:fcadb5abc97e:1"
+      },
+      {
+       "dispatchId": "dispatch-865e40f88166ea09096b",
+       "dispatched": "debt:unused_import:scripts-crawlers-vscode-marketplace-crawler-py:6d2e9221511f5f68",
+       "stepId": "build:e6918bde7a3f:1"
+      },
+      {
+       "dispatchId": "dispatch-05455591a0ffb6520938",
+       "dispatched": "debt:unused_import:scripts-generateprofilepages-py:dedf7b8660993e9f",
+       "stepId": "build:96615ea01a6a:1"
+      }
+     ],
+     "status": "awaiting-build",
+     "stepId": "build:3d53086a6d83:2"
+    },
     "observe": {
      "authorityCounts": {
       "A": 1,
@@ -86257,7 +86305,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T01:39:44.811494Z",
+ "updatedAt": "2026-11-07T01:39:50.037420Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
