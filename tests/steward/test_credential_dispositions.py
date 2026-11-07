@@ -792,13 +792,9 @@ class TestEvidenceRouting:
             ("scripts/a.sh", _shell("TOK_=$" + "{GITHUB_REF}\n")),
             ("scripts/a.sh", _shell('export TOK_="$' + '{GITHUB_REF}"\n')),
             ("scripts/a.sh", _shell("TOK_=$TOKEN_VAR\n")),
-            ("scripts/a.sh", _shell('TOK_="$' + '{GITHUB_TOKEN}@github.com/o/r.git"\n')),
-            (
-                ".github/workflows/ci.yml",
-                "jobs:\n  a:\n    steps:\n      - run: |\n"
-                '          git push "https://x-access-token:$' + '{RELEASE_PAT}@github.com/o/r.git"\n',
-            ),
             (".github/workflows/ci.yml", "    env:\n      to" + "ken: $" + "{{secrets.GH_VALUE}}\n"),
+            ("src/a.js", "const to" + "ken = process.env.PROD" + "_KEY\n"),
+            ("src/a.ts", "const to" + "ken = process.env.PROD" + "_KEY\n"),
         ],
     )
     def test_values_the_source_language_evaluates_route_to_class_b(self, tmp_path: Path, rel: str, text: str) -> None:
@@ -826,23 +822,29 @@ class TestEvidenceRouting:
             # Python code that is not code: comments and multi-line strings.
             ("src/a.py", "# " + _assign("settings.api_" + "value")),
             ("src/a.py", 'x = """\n' + _assign("settings.api_" + "value") + '"""\n'),
-            # Shell: single quotes, defaults, comments, heredocs.
+            # Shell: single quotes, defaults, comments, heredocs, hostname tails / non-reference suffixes.
             ("scripts/a.sh", _shell("TOK_='$" + "{GITHUB_REF}'\n")),
             ("scripts/a.sh", _shell("TOK_=$" + "{GITHUB_TOKEN:-actualRealSecret123}\n")),
             ("scripts/a.sh", _shell('TOK_="$' + '{X:-realsecret123}"\n')),
             ("scripts/a.sh", _shell("TOK_=$" + "{X:=realsecret123}\n")),
             ("scripts/a.sh", _shell("# TOK_=$" + "{GITHUB_REF}\n")),
             ("scripts/a.sh", _shell("cat <<'EOF'\nTOK_=$" + "{GITHUB_REF}\nEOF\n")),
-            # Workflow: outside a run script, single-quoted, defaulted, commented.
+            ("scripts/a.sh", _shell('TOK_="$' + '{GITHUB_TOKEN}@github.com/o/r.git"\n')),
+            # Workflow: outside a run script, single-quoted, defaulted, commented, or with URL/hostname suffix.
             (".github/workflows/ci.yml", "    env:\n      to" + "ken: $" + "{GITHUB_REF}\n"),
             (".github/workflows/ci.yml", "      - run: |\n          echo '" + "tok" + "en=$" + "{GITHUB_REF}'\n"),
             (".github/workflows/ci.yml", "      - run: |\n          echo \"" + "tok" + "en=$" + "{X:-realsecret123}\"\n"),
             (".github/workflows/ci.yml", "      # " + "tok" + "en: $" + "{{secrets.GH_VALUE}}\n"),
+            (
+                ".github/workflows/ci.yml",
+                "jobs:\n  a:\n    steps:\n      - run: |\n"
+                '          git push "https://x-access-token:$' + '{RELEASE_PAT}@github.com/o/r.git"\n',
+            ),
             # Languages whose evaluation the scanner does not model are never Class B.
             ("docs/a.md", _assign("settings.api_" + "value")),
             ("config/a.json", '{"to' + 'ken": "$' + '{GITHUB_REF}"}\n'),
             ("config/a.yaml", "to" + "ken: $" + "{GITHUB_REF}\n"),
-            ("src/a.js", "const to" + "ken = process.env.PROD" + "_KEY\n"),
+            ("src/a.js", "const to" + 'ken = process.env.PROD_KEY + "suffix"\n'),
             ("src/a.txt", _assign("settings.api_" + "value")),
             ("Makefile", "TOK" + "EN=$" + "{GITHUB_REF}\n"),
         ],
@@ -965,6 +967,112 @@ class TestEvidenceRouting:
 
     def test_unknown_pattern_is_never_assumed_benign(self) -> None:
         assert credentialClass("brand-new-pattern", "whatever", "", 0) == "ambiguous"
+
+
+class TestLeadRulingScannerRegressions:
+    """Scanner-level regressions (SecretScanSensor end-to-end on a temp git repo).
+
+    Verifies the binding LEAD RULING whole-value shapes and addresses round-6 P1:
+    - Five reviewer probe shapes from verdict 6 -> Class C (credential_leak: drift)
+    - Four earlier Python literal probes -> Class C (credential_leak: drift)
+    - One positive case per allowed shape (Python, Shell, Workflow, JS/TS) -> Class B (credential_review: drift)
+    """
+
+    @pytest.mark.parametrize(
+        "label, rel, content",
+        [
+            # 1. Double-quoted shell diagnostic with backslash-escaped dollar sign
+            (
+                "shell-escaped-dollar",
+                "scripts/diag.sh",
+                'echo "pass' + 'word=\\$SECRET"\n',
+            ),
+            # 2. Python reference followed by concatenation with quoted credential suffix
+            (
+                "py-concat-suffix",
+                "src/concat.py",
+                _assign('settings.api_value + "secretSuffix123"'),
+            ),
+            # 3. Shell variable immediately followed by quoted credential suffix
+            (
+                "shell-var-quoted-suffix",
+                "scripts/suffix.sh",
+                _shell('TOK_=$SECRET"suffixLiteral123"\n'),
+            ),
+            # 4. Workflow expression containing only numeric password literal
+            (
+                "workflow-numeric-literal",
+                ".github/workflows/numeric.yml",
+                "jobs:\n  build:\n    steps:\n      - run: echo hi\n        env:\n          pass" + "word: ${{12345678}}\n",
+            ),
+            # 5. Workflow expression with secrets reference plus numeric literal fallback
+            (
+                "workflow-fallback-literal",
+                ".github/workflows/fallback.yml",
+                "jobs:\n  build:\n    steps:\n      - run: echo hi\n        env:\n          pass" + "word: ${{secrets.TOKEN||12345678}}\n",
+            ),
+            # Four earlier Python literal probes
+            (
+                "py-literal-dollar-name",
+                "src/p1.py",
+                _assign('"$PASS' + 'WORD"'),
+            ),
+            (
+                "py-literal-process-env",
+                "src/p2.py",
+                _assign('"process.env.' + 'PROD_KEY"'),
+            ),
+            (
+                "py-literal-shell-default",
+                "src/p3.py",
+                _assign('"$' + '{TOK' + 'EN:-actualRealSecret123}"'),
+            ),
+            (
+                "py-literal-placeholder-word",
+                "src/p4.py",
+                _assign('"secret_pass' + 'word_test"'),
+            ),
+        ],
+    )
+    def test_reviewer_probe_shapes_stay_class_c(self, tmp_path: Path, label: str, rel: str, content: str) -> None:
+        root = _repo(tmp_path, "x = 1\n", **{rel: content})
+        kinds = _kinds(root, rel)
+        assert kinds == {"credential_leak": "drift"}, (label, rel, kinds)
+        assert "credential_review" not in kinds, (label, rel, kinds)
+
+    @pytest.mark.parametrize(
+        "shape, rel, content",
+        [
+            # Shape 1: Python (.py) bare dotted name
+            (
+                "shape1-python-dotted",
+                "src/pos_py.py",
+                _assign("settings.api_value"),
+            ),
+            # Shape 2: Shell / workflow run block ($NAME, ${NAME}, "$NAME", "${NAME}")
+            (
+                "shape2-shell-quoted-var",
+                "scripts/pos_sh.sh",
+                _shell('export TOK_="$' + 'GITHUB_REF"\n'),
+            ),
+            # Shape 3: GitHub workflow expression (${{ secrets.NAME }})
+            (
+                "shape3-workflow-expr",
+                ".github/workflows/pos_wf.yml",
+                "jobs:\n  build:\n    steps:\n      - run: echo hi\n        env:\n          pass" + "word: ${{secrets.PROD_TOKEN}}\n",
+            ),
+            # Shape 4: JS/TS (process.env.NAME)
+            (
+                "shape4-jsts-env",
+                "src/pos_js.js",
+                "const to" + "ken = process.env.API_KEY;\n",
+            ),
+        ],
+    )
+    def test_allowed_reference_shapes_route_to_class_b(self, tmp_path: Path, shape: str, rel: str, content: str) -> None:
+        root = _repo(tmp_path, "x = 1\n", **{rel: content})
+        kinds = _kinds(root, rel)
+        assert kinds == {"credential_review": "drift", "credential_leak": "healthy"}, (shape, rel, kinds)
 
 
 class TestNoPathBasedSkip:

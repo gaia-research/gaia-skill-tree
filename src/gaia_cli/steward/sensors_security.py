@@ -1057,19 +1057,34 @@ _ISSUER_PATTERNS = frozenset(
 # shell default ``${X:-literal}`` embeds a literal, and a placeholder word is a
 # string a real password can equal. Supported, and nothing else:
 #   - Python: an unquoted identifier path in code (not inside a string, f-string
-#     or comment, as the Python tokenizer sees the file),
-#   - POSIX shell scripts: ``$NAME`` / ``${NAME}`` (no ``:-`` style operator)
-#     outside single quotes and comments, optionally followed by a hostname tail,
-#   - GitHub workflow YAML: the same inside a ``run:`` script, and a whole
-#     ``${{ expression }}`` anywhere outside comments.
-# Every other language, an unparseable file, a heredoc and any doubt is Class C.
+# Routing defaults to Class C. A credential-assignment finding routes B (credential_review)
+# ONLY when the COMPLETE assigned value, after trimming surrounding whitespace and an optional
+# trailing comment/semicolon, matches EXACTLY one of the four whole-value shapes in the
+# file language shown (LEAD RULING):
+#   1. Python (.py): a bare dotted name, e.g. os.environ.get style call or attribute/identifier:
+#      regex ^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)*(\(\s*["'][A-Z0-9_]+["']\s*\))?$
+#      with no quotes around the whole value, no operators, no concatenation.
+#   2. Shell / workflow run blocks: exactly $NAME, ${NAME}, "$NAME" or "${NAME}" (NAME = [A-Za-z_][A-Za-z0-9_]*),
+#      no default/alternate operators (:- := :+ ?), no backslash anywhere in the value, nothing before or after.
+#   3. GitHub workflow expressions: exactly ${{ secrets.NAME }} or ${{ env.NAME }} or ${{ vars.NAME }}
+#      (whitespace inside the braces allowed), with no other operands, operators, fallbacks (||, &&) or literals.
+#   4. JS/TS: exactly process.env.NAME or process.env["NAME"].
+# Everything else, including escapes, concatenation/continuations, defaults/fallbacks, numeric or
+# string literals, placeholder words, or any language not listed, stays C (credential_leak).
 _GENERIC_PATTERNS = frozenset({"bearer-token", "credential-assignment", "aws-secret-access-key"})
 _IDENT = r"[A-Za-z_][A-Za-z0-9_]*"
-_IDENT_PATH = re.compile(rf"{_IDENT}(?:\.{_IDENT})*")
-_HOST_TAIL = r"@[A-Za-z0-9.-]+\.[A-Za-z]{2,}(?:[/:?#].*)?"
-_SHELL_REF = re.compile(rf"\$\{{{_IDENT}\}}|\${_IDENT}")
-_SHELL_REF_HOST = re.compile(rf"(?:\$\{{{_IDENT}\}}|\${_IDENT}){_HOST_TAIL}")
-_WORKFLOW_EXPRESSION = re.compile(r"\$\{\{[^{}\s]*\}\}")
+_PY_REF_SHAPE = re.compile(
+    rf"^{_IDENT}(?:\.{_IDENT})*(?:\(\s*[\"'][A-Z0-9_]+[\"']\s*\))?$"
+)
+_SHELL_REF_SHAPE = re.compile(
+    rf"^(?:\${_IDENT}|\$\{{{_IDENT}\}}|\"\${_IDENT}\"|\"\$\{{{_IDENT}\}}\")$"
+)
+_WORKFLOW_REF_SHAPE = re.compile(
+    rf"^(?:\$\{{\{{\s*(?:secrets|env|vars)\.{_IDENT}\s*\}}\}}|\"\$\{{\{{\s*(?:secrets|env|vars)\.{_IDENT}\s*\}}\}}\")$"
+)
+_JSTS_REF_SHAPE = re.compile(
+    rf"^(?:process\.env\.{_IDENT}|process\.env\[[\"']{_IDENT}[\"']\])$"
+)
 _RUN_BLOCK = re.compile(r"^(\s*)(?:-\s+)?run:\s*[|>][-+0-9]*\s*$")
 _RUN_INLINE = re.compile(r"(?:^|\s)run:\s*(.*)$")
 _PRIVATE_KEY_BODY = re.compile(r"[\s\\n]*(?:[A-Za-z0-9+/=]{16,}[\s\\n]*){2,}")
@@ -1081,17 +1096,6 @@ _PY_FSTRING = (
 
 # Classes that stay Class C. Only "review" routes to Class B.
 LIVE_CLASSES = frozenset({"issuer", "structured", "ambiguous"})
-
-
-def _genericValue(name: str, matched: str) -> str:
-    if name == "jwt":
-        return matched
-    if name.startswith("bearer"):
-        return matched.split(None, 1)[-1]
-    if name == "aws-secret-access-key":
-        run = re.search(r"[A-Za-z0-9/+=]{40}", matched)
-        return run.group(0) if run else matched
-    return re.split(r"[=:]\s*[\\\"']*", matched, maxsplit=1)[-1]
 
 
 def _validJwt(matched: str) -> bool:
@@ -1110,7 +1114,14 @@ def _validJwt(matched: str) -> bool:
 def _language(rel: str) -> str | None:
     if rel.startswith(".github/workflows/") and rel.endswith((".yml", ".yaml")):
         return "workflow"
-    return {".py": "python", ".sh": "shell", ".bash": "shell", ".zsh": "shell"}.get(PurePosixPath(rel).suffix.lower())
+    suffix = PurePosixPath(rel).suffix.lower()
+    if suffix == ".py":
+        return "python"
+    if suffix in (".sh", ".bash", ".zsh"):
+        return "shell"
+    if suffix in (".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs"):
+        return "javascript"
+    return None
 
 
 def _pythonCode(text: str, start: int, stop: int) -> bool:
@@ -1169,12 +1180,6 @@ def _shellState(script: str) -> str:
     return state
 
 
-def _shellEvaluated(script: str, value: str) -> bool:
-    if not (_SHELL_REF.fullmatch(value) or _SHELL_REF_HOST.fullmatch(value)):
-        return False
-    return _shellState(script) in ("normal", "double")
-
-
 def _workflowScript(lines: list[str], index: int, column: int) -> str | None:
     """The shell script text from the start of the enclosing ``run:`` up to the match, or None."""
 
@@ -1198,51 +1203,109 @@ def _workflowScript(lines: list[str], index: int, column: int) -> str | None:
     return None
 
 
-def _evaluatedAsReference(rel: str, text: str, start: int, stop: int, value: str) -> bool:
-    """Evidence that the source language itself evaluates ``value`` as a reference or expression."""
-
-    language = _language(rel)
-    if language is None or not value:
-        return False
-    if language == "python":
-        return bool(_IDENT_PATH.fullmatch(value)) and _pythonCode(text, start, stop)
-    lines = text.split("\n")
-    number = text.count("\n", 0, start)
-    column = start - (text.rfind("\n", 0, start) + 1)
-    if language == "shell":
-        return _shellEvaluated(text[:start], value)
-    # workflow
-    if "#" in lines[number][:column]:
-        return False
-    if _WORKFLOW_EXPRESSION.fullmatch(value):
-        return True
-    script = _workflowScript(lines, number, column)
-    return script is not None and _shellEvaluated(script, value)
-
-
 def credentialClass(name: str, matched: str, text: str, end: int, rel: str = "") -> str:
     """Classify one credential-shaped match by its own evidence, never by its path.
 
     ``issuer`` / ``structured`` are known live formats with valid structure;
-    ``ambiguous`` is anything not proven benign; ``review`` is a match whose
-    value the source language evaluates as a reference or expression (see the
-    notes above) and is the only class routed to B. ``rel`` is used only to
-    know which language the file is written in; an unknown file is never ``review``.
+    ``ambiguous`` is anything not proven benign; ``review`` is a credential-assignment
+    finding whose COMPLETE assigned value matches exactly one of the four authorized
+    whole-value shapes under the LEAD RULING. Only ``review`` routes to B.
     """
 
     if name in _ISSUER_PATTERNS:
         return "issuer"
     if name == "private-key-block":
-        # A header with key material after it is a key. A bare header cannot be
-        # told apart from the start of one split across strings, so it is ambiguous.
         return "issuer" if _PRIVATE_KEY_BODY.match(text, end, end + 4096) else "ambiguous"
-    if name not in _GENERIC_PATTERNS and name != "jwt":
-        # An unknown pattern name is never assumed benign.
-        return "ambiguous"
     if name == "jwt" and _validJwt(matched):
         return "structured"
-    value = _genericValue(name, matched)
-    return "review" if _evaluatedAsReference(rel, text, end - len(value), end, value) else "ambiguous"
+    if name != "credential-assignment":
+        return "ambiguous"
+
+    lang = _language(rel)
+    if lang is None or not text:
+        return "ambiguous"
+
+    start = end - len(matched)
+    if start < 0 or end > len(text):
+        return "ambiguous"
+
+    line_start = text.rfind("\n", 0, start) + 1
+    line_end = text.find("\n", start)
+    if line_end == -1:
+        line_end = len(text)
+    line = text[line_start:line_end]
+
+    kw_offset = start - line_start
+    after_kw = line[kw_offset:]
+    m_op = re.search(r"\\?[\"']?\s*([=:])\s*", after_kw)
+    if not m_op:
+        return "ambiguous"
+
+    raw_val = after_kw[m_op.end():]
+    val = raw_val.strip()
+    if not val:
+        return "ambiguous"
+
+    # Trimming surrounding whitespace and optional trailing comment/semicolon
+    if lang in ("python", "shell", "workflow"):
+        if "#" in val:
+            val = re.sub(r"\s*#.*$", "", val).strip()
+    elif lang == "javascript":
+        if "//" in val or "/*" in val:
+            val = re.sub(r"\s*//.*$", "", val)
+            val = re.sub(r"\s*/\*.*?\*/\s*$", "", val).strip()
+
+    val = val.rstrip(";").strip()
+    if not val:
+        return "ambiguous"
+
+    # Shape 1: Python (.py)
+    if lang == "python":
+        if val.startswith(('"', "'")) or val.endswith(('"', "'")):
+            return "ambiguous"
+        if any(c in val for c in "+-*/%&|^~<>=,"):
+            return "ambiguous"
+        if not _PY_REF_SHAPE.fullmatch(val):
+            return "ambiguous"
+        val_pos = raw_val.find(val)
+        val_stop = line_start + kw_offset + m_op.end() + (val_pos if val_pos != -1 else 0) + len(val)
+        if not _pythonCode(text, start, val_stop):
+            return "ambiguous"
+        return "review"
+
+    # Shape 2: Shell (.sh, .bash, .zsh)
+    if lang == "shell":
+        if "\\" in val or any(op in val for op in (":-", ":=", ":+", "?")):
+            return "ambiguous"
+        if not _SHELL_REF_SHAPE.fullmatch(val):
+            return "ambiguous"
+        if _shellState(text[:start]) not in ("normal", "double"):
+            return "ambiguous"
+        return "review"
+
+    # Shape 3 & 2: GitHub workflow (.github/workflows/*.yml, .yaml)
+    if lang == "workflow":
+        lines = text.split("\n")
+        number = text.count("\n", 0, start)
+        column = start - (text.rfind("\n", 0, start) + 1)
+        if "#" in lines[number][:column]:
+            return "ambiguous"
+        if _WORKFLOW_REF_SHAPE.fullmatch(val):
+            return "review"
+        script = _workflowScript(lines, number, column)
+        if script is not None:
+            if "\\" not in val and not any(op in val for op in (":-", ":=", ":+", "?")) and _SHELL_REF_SHAPE.fullmatch(val):
+                if _shellState(script) in ("normal", "double"):
+                    return "review"
+        return "ambiguous"
+
+    # Shape 4: JS/TS (.js, .jsx, .ts, .tsx, .mjs, .cjs)
+    if lang == "javascript":
+        if not _JSTS_REF_SHAPE.fullmatch(val):
+            return "ambiguous"
+        return "review"
+
+    return "ambiguous"
 
 
 @dataclass
