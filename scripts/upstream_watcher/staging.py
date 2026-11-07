@@ -45,8 +45,10 @@ report says why. Nothing silently resets. A first run with no journal yet is all
 A durable ``initialized`` marker lives OUTSIDE the cache (the repo variable ``UPSTREAM_STAGING_INITIALIZED``, which the
 workflow reads and passes as ``--staging-initialized``). With it, a missing journal is a LOST journal (cache eviction)
 and not a first-ever bootstrap. A loss fails closed until an explicit recovery dispatch (``--staging-bootstrap``),
-which re-observes the current upstream state. It can lose only observations of candidates that are no longer present
-upstream; nothing is reconstructed from anywhere else.
+which re-observes the current upstream state. The permitted loss is exactly this: observations of candidates that are
+no longer present upstream are gone, and for candidates still present the first-seen provenance (version and time)
+restarts at the recovery observation. Every row first observed during a recovery carries ``provenanceReset: true`` (and
+the report says so), so the loss is auditable. Nothing else is lost and nothing is reconstructed from anywhere else.
 
 Urgent (deliberately narrow)
 ----------------------------
@@ -300,7 +302,12 @@ class Journal:
         """
         day = now.astimezone(dt.timezone.utc).date().isoformat()
         stamp = isoTime(now)
-        bucket = self.data["repos"].setdefault(repo.lower(), {"pendingSince": stamp, "versions": [], "candidates": {}})
+        bucket = self.data["repos"].get(repo.lower())
+        if bucket is None:
+            bucket = {"pendingSince": stamp, "versions": [], "candidates": {}}
+            if self.status == STATUSRECOVERY:
+                bucket["provenanceReset"] = True
+            self.data["repos"][repo.lower()] = bucket
         version = finding.get("newVersion", "")
         known = next((row for row in bucket["versions"] if row["version"] == version), None)
         if known is None:
@@ -312,6 +319,8 @@ class Journal:
             entry = bucket["candidates"].get(row["id"])
             if entry is None:
                 entry = {**{key: row.get(key) for key in ROWFIELDS}, "firstSeenVersion": version, "firstObserved": stamp}
+                if self.status == STATUSRECOVERY:
+                    entry["provenanceReset"] = True
                 bucket["candidates"][row["id"]] = entry
             entry["lastSeenVersion"] = version
             self.touch(entry, day, stamp)
@@ -334,9 +343,16 @@ class Journal:
         if not bucket:
             return []
         return [
-            {key: row.get(key) for key in ROWFIELDS}
+            {**{key: row.get(key) for key in ROWFIELDS}, **({"provenanceReset": True} if row.get("provenanceReset") else {})}
             for ident, row in sorted(bucket["candidates"].items()) if ident not in currentIds
         ]
+
+    def provenanceReset(self, repo: str, ids: set[str]) -> set[str]:
+        """The ids among *ids* whose journaled provenance restarted at a recovery observation."""
+        bucket = self.bucket(repo)
+        if not bucket:
+            return set()
+        return {ident for ident, row in bucket["candidates"].items() if ident in ids and row.get("provenanceReset")}
 
     def firstSeen(self, repo: str, ids: set[str]) -> dict[str, str]:
         """The first-seen version the journal holds for each of *ids* it knows."""
@@ -386,11 +402,16 @@ class Stager:
         self.seen.add(repo.lower())
         ids = {row["id"] for row in rows}
         self.current[repo] = rows
-        if self.blocked or self.journal.bucket(repo) is None:
+        if self.blocked:
             return finding
-        self.prior[repo] = self.journal.window(repo, ids)
+        # Recovery after a lost journal: every current candidate's first-seen provenance restarts now. Mark them.
+        reset = set(ids) if self.journal.status == STATUSRECOVERY else self.journal.provenanceReset(repo, ids)
+        if self.journal.bucket(repo) is None and not reset:
+            return finding
+        if self.journal.bucket(repo) is not None:
+            self.prior[repo] = self.journal.window(repo, ids)
         return {**finding, "pendingFirstSeen": self.journal.firstSeen(repo, ids),
-                "pendingRows": self.journal.pendingRows(repo, ids)}
+                "pendingRows": self.journal.pendingRows(repo, ids), "pendingProvenanceReset": sorted(reset)}
 
     def gate(self, finding: dict, plan: dict) -> dict:
         """Called for a suite whose plan would write (create/update). Returns the staging row (with ``decision``)."""
@@ -418,6 +439,8 @@ class Stager:
             **verdict,
             **(self.journal.window(repo, ids) if not self.blocked else {}),
         }
+        if not self.blocked and (self.journal.status == STATUSRECOVERY or (self.journal.bucket(repo) or {}).get("provenanceReset")):
+            row["provenanceReset"] = True
         self.rows[repo] = row
         return row
 

@@ -187,6 +187,7 @@ def candidate_rows(finding: dict, component_root: str = "skills") -> list[dict]:
     version = finding["newVersion"]
     # #2283 staged batching: a candidate the journal saw earlier keeps the version it was FIRST seen at.
     firstSeen = finding.get("pendingFirstSeen") or {}
+    provenanceReset = set(finding.get("pendingProvenanceReset") or [])
     rows = []
     for slug in finding.get("componentAdds", []):
         rows.append(
@@ -198,6 +199,8 @@ def candidate_rows(finding: dict, component_root: str = "skills") -> list[dict]:
                 "firstSeenVersion": firstSeen.get(f"{owner_repo}:{slug}", version),
                 "lastSeenVersion": version,
                 "child": None,
+                # Visible audit marker: this row's first-seen provenance restarted at a journal recovery.
+                **({"provenanceReset": True} if f"{owner_repo}:{slug}" in provenanceReset else {}),
             }
         )
     return rows
@@ -435,6 +438,26 @@ def load_rows(gh, number: int, payload: dict | None) -> list[dict]:
     return records.read_rows(comments, meta)
 
 
+def carriesPending(rows: list[dict], finding: dict) -> bool:
+    """Whether a closed umbrella's full rows carry the staging journal's pending state for *finding* (#2283).
+
+    Every journaled candidate must be there with the provenance the journal holds: a candidate still present upstream
+    with its first-seen version and the finding's version as last seen, a vanished one with both journaled versions.
+    """
+    byId = {row.get("id"): row for row in rows}
+    version = finding["newVersion"]
+    for ident, first in (finding.get("pendingFirstSeen") or {}).items():
+        row = byId.get(ident)
+        if row is None or row.get("firstSeenVersion") != first or row.get("lastSeenVersion") != version:
+            return False
+    for pending in finding.get("pendingRows") or []:
+        row = byId.get(pending["id"])
+        if (row is None or row.get("firstSeenVersion") != pending.get("firstSeenVersion")
+                or row.get("lastSeenVersion") != pending.get("lastSeenVersion")):
+            return False
+    return True
+
+
 def build_payload(finding: dict, rows: list[dict], previous_version: str | None, records_meta: dict | None = None) -> dict:
     payload = {
         "payloadVersion": PAYLOAD_VERSION,
@@ -507,7 +530,8 @@ def render_batch_body(payload: dict) -> str:
             f"| `cand:{row['id']}` | `{row['suggestedId']}` | `{row['status']}` | "
             f"`{precheck.get('registry', 'unchecked')}` | `{precheck.get('tracked', 'none')}` | "
             f"`{precheck.get('priorDisposition', 'none')}` | {child} | "
-            f"{row['firstSeenVersion']} → {row['lastSeenVersion']} |"
+            f"{row['firstSeenVersion']} → {row['lastSeenVersion']}"
+            f"{' (provenance reset)' if row.get('provenanceReset') else ''} |"
         )
     batch_table = records_summary if records_summary is not None else (
         "| Row | Suggested ID | Status | Registry | Tracked | Prior | Child | Seen |\n"
@@ -654,14 +678,16 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
             closed = [issue for issue in live["closedUmbrellas"] if issue["number"] in verdict.ambiguous]
             return inert_plan(owner_repo, title, "blocked-identity", new_version, closed)
         if verdict.state == "processed":
-            # #2283: pending rows replayed from the staging journal must be carried by a covering closed umbrella.
-            # If none carries them the finding is NOT processed: a new batch is started so they are never dropped.
-            pending = {row["id"] for row in finding.get("pendingRows") or []}
-            if pending:
+            # #2283: the pending state from the staging journal must be demonstrably carried by a covering closed
+            # umbrella before the finding is suppressed and the journal cleared. Identity is not enough: each
+            # journaled candidate (still present or vanished) must appear with the same first/last-seen provenance.
+            # If no closed umbrella carries it, the finding is NOT processed: a new batch starts and the rows ride in
+            # it. The closed issue is never edited.
+            if finding.get("pendingRows") or finding.get("pendingFirstSeen"):
                 carriers = [
                     issue["number"] for issue in live["closedUmbrellas"]
                     if issue["number"] in verdict.covering
-                    and pending <= {row.get("id") for row in (parse_payload(issue.get("body")) or {}).get("candidates", [])}
+                    and carriesPending(load_rows(gh, issue["number"], parse_payload(issue.get("body"))), finding)
                 ]
                 if not carriers:
                     verdict = evidence.Verdict("new")

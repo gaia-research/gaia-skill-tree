@@ -915,7 +915,13 @@ def test_eviction_fails_closed_then_the_explicit_recovery_reobserves_and_every_p
     rows = rows_of(gh)
     assert {"garrytan/gbrain:alpha", "garrytan/gbrain:beta", "garrytan/gbrain:gamma"} <= set(rows), \
         "every candidate still present upstream reappears"
-    assert "garrytan/gbrain:vanishing" not in rows, "the only loss: a candidate no longer present upstream"
+    assert "garrytan/gbrain:vanishing" not in rows, "a permitted loss: a candidate no longer present upstream"
+    # The other permitted loss: first-seen provenance of candidates still present restarts at the recovery
+    # observation. alpha was observed at v1 before the eviction; after recovery at v3 it reads v3, and says so.
+    assert rows["garrytan/gbrain:alpha"]["firstSeenVersion"] == "v3"
+    assert all(rows[i]["provenanceReset"] is True for i in
+               ("garrytan/gbrain:alpha", "garrytan/gbrain:beta", "garrytan/gbrain:gamma")), "auditable marker"
+    assert "(provenance reset)" in open_umbrellas(gh)[0]["body"]
 
 
 # --- stop before EVERY write, bootstrap findings included (CLI level) ------------------------------------------------
@@ -1026,3 +1032,151 @@ def test_staged_records_mode_create_guards_every_mutation_after_the_placeholder(
         assert report["staging"]["closedDuringWrite"][0]["closed"] == [new]
         comments = gh.comments.get(new, [])
         assert len(comments) == index, "the record comments already written stay in place and recoverable"
+
+
+# --- round 3: full handoff before suppression, the recovery marker, and staging versus other write paths ---------------
+
+
+def test_carries_pending_demands_identity_and_first_and_last_seen_for_current_and_vanished_candidates():
+    f = {**finding("v2", ["alpha"]), "pendingFirstSeen": {"garrytan/gbrain:alpha": "v1"},
+         "pendingRows": [{"id": "garrytan/gbrain:gone", "firstSeenVersion": "v1", "lastSeenVersion": "v1"}]}
+    ok = [{"id": "garrytan/gbrain:alpha", "firstSeenVersion": "v1", "lastSeenVersion": "v2"},
+          {"id": "garrytan/gbrain:gone", "firstSeenVersion": "v1", "lastSeenVersion": "v1"}]
+    assert bt.carriesPending(ok, f)
+    for index, change in enumerate([{"firstSeenVersion": "v2"}, {"lastSeenVersion": "v1"}]):
+        assert not bt.carriesPending([{**ok[0], **change}, ok[1]], f), index
+    for change in ({"firstSeenVersion": "v0"}, {"lastSeenVersion": "v2"}):
+        assert not bt.carriesPending([ok[0], {**ok[1], **change}], f)
+    assert not bt.carriesPending([ok[1]], f) and not bt.carriesPending([ok[0]], f)
+
+
+def test_a_closed_umbrella_with_the_same_candidate_but_later_provenance_does_not_suppress_or_clear_the_journal():
+    # The journal holds alpha and `ephemeral` first seen at v1 (held). An unstaged v2 umbrella was created and closed:
+    # it has alpha first seen at v2 and no `ephemeral`. Identity alone must not count as a handoff.
+    gh, journal = FakeGh(), st.Journal()
+    go(gh, [finding("v1", ["alpha", "ephemeral"])], weekly(TUE), journal)
+    go(gh, [finding("v2", ["alpha"])], None)
+    closed = open_umbrellas(gh)[0]["number"]
+    assert rows_of(gh)["garrytan/gbrain:alpha"]["firstSeenVersion"] == "v2"
+    gh.issues[closed]["state"] = "closed"
+    snapshot = json.dumps(gh.issues[closed], sort_keys=True)
+    gh.writes.clear()
+    report, _ = go(gh, [finding("v2", ["alpha"])], weekly(WED), journal)
+    assert report["suites"][0]["outcome"] == "held", "not suppressed-processed"
+    assert report["staging"]["held"][0]["planAction"] == "create"
+    assert set(journal.data["repos"][REPO]["candidates"]) == {"garrytan/gbrain:alpha", "garrytan/gbrain:ephemeral"}
+    go(gh, [finding("v2", ["alpha"])], weekly(MON), journal)
+    assert json.dumps(gh.issues[closed], sort_keys=True) == snapshot, "the closed issue is never edited"
+    [new] = open_umbrellas(gh)
+    rows = rows_of(gh)
+    # The vanished candidate has no other record: its journaled provenance is carried exactly.
+    assert rows["garrytan/gbrain:ephemeral"]["firstSeenVersion"] == "v1" == rows["garrytan/gbrain:ephemeral"]["lastSeenVersion"]
+    # A row already on an umbrella keeps that umbrella's provenance when carried forward (the journal postdates it
+    # in staged operation); the conflicting journal value is not silently invented over it.
+    assert rows["garrytan/gbrain:alpha"]["carriedFrom"] == f"#{closed}"
+    assert REPO not in journal.data["repos"], "cleared only once the flush carried the rows"
+
+
+def recordsCarrierWorld(journalFirstSeen):
+    gh = FakeGh()
+    adds = recordsAdds()
+    go(gh, [finding("v1", adds)], None)                      # records-mode umbrella, rows first/last seen v1
+    [number] = [r["number"] for r in open_umbrellas(gh)]
+    assert "candidateRecords" in parse_payload(gh.issues[number]["body"]), "records mode"
+    gh.issues[number]["state"] = "closed"
+    journal = st.Journal()
+    journal.observe(REPO, finding("v1", adds), candidateRows("v1", adds), TUE)
+    if journalFirstSeen:
+        journal.data["repos"][REPO]["candidates"]["garrytan/gbrain:skill-007"]["firstSeenVersion"] = journalFirstSeen
+    gh.writes.clear()
+    return gh, journal, number
+
+
+def test_records_mode_closed_carrier_with_matching_provenance_suppresses_and_clears():
+    gh, journal, number = recordsCarrierWorld(None)
+    report, _ = go(gh, [finding("v1", recordsAdds())], weekly(WED), journal)
+    assert report["suites"][0]["outcome"] == "suppressed-processed" and gh.write_count() == 0
+    assert REPO not in journal.data["repos"]
+
+
+def test_records_mode_closed_carrier_with_different_provenance_keeps_the_rows_for_a_new_batch():
+    gh, journal, number = recordsCarrierWorld("v0")
+    report, _ = go(gh, [finding("v1", recordsAdds())], weekly(WED), journal)
+    assert report["suites"][0]["outcome"] == "held" and gh.write_count() == 0
+    assert journal.data["repos"][REPO]["candidates"]["garrytan/gbrain:skill-007"]["firstSeenVersion"] == "v0"
+    go(gh, [finding("v1", recordsAdds())], weekly(MON), journal)
+    new = [r for r in open_umbrellas(gh) if r["number"] != number]
+    assert len(new) == 1, "a new batch, the closed records-mode umbrella untouched"
+    assert len(rowsFrom(gh, new[0]["number"])) == 250 and REPO not in journal.data["repos"]
+
+
+def test_recovery_marks_only_recovered_rows_and_never_touches_rows_already_on_an_umbrella(tmp_path):
+    path = tmp_path / "journal.json"
+    gh = FakeGh()
+    go(gh, [finding("v1", ["alpha"])], None)                 # an umbrella exists with alpha first seen v1
+    number = open_umbrellas(gh)[0]["number"]
+    report, code = go(gh, [finding("v2", ["alpha", "beta"])],
+                      weekly(MON, journalPath=str(path), bootstrap=True, initialized=True))
+    assert code == 0 and report["staging"]["journal"]["status"] == "recovery"
+    [flushed] = report["staging"]["flushed"]
+    assert flushed["provenanceReset"] is True
+    rows = rows_of(gh)
+    assert [r["number"] for r in open_umbrellas(gh)] == [number]
+    assert rows["garrytan/gbrain:alpha"]["firstSeenVersion"] == "v1" and "provenanceReset" not in rows["garrytan/gbrain:alpha"], \
+        "provenance already on the umbrella is intact"
+    assert rows["garrytan/gbrain:beta"]["provenanceReset"] is True and rows["garrytan/gbrain:beta"]["firstSeenVersion"] == "v2"
+
+
+def test_the_marker_persists_in_the_journal_so_a_later_flush_is_still_marked(tmp_path):
+    path = tmp_path / "journal.json"
+    gh = FakeGh()
+    go(gh, [finding("v1", ["alpha"])], weekly(TUE, journalPath=str(path), bootstrap=True, initialized=True))
+    report, _ = go(gh, [finding("v2", ["alpha", "late"])], weekly(MON, journalPath=str(path), initialized=True))
+    rows = rows_of(gh)
+    assert rows["garrytan/gbrain:alpha"]["provenanceReset"] is True, "observed during the recovery run"
+    assert "provenanceReset" not in rows["garrytan/gbrain:late"], "first seen after the recovery: ordinary provenance"
+    assert report["staging"]["flushed"][0]["provenanceReset"] is True
+
+
+def test_a_normal_first_bootstrap_is_not_marked_as_a_provenance_reset(tmp_path):
+    path = tmp_path / "journal.json"
+    gh = FakeGh()
+    go(gh, [finding("v1", ["alpha"])], weekly(MON, journalPath=str(path), bootstrap=True))
+    assert "provenanceReset" not in rows_of(gh)["garrytan/gbrain:alpha"]
+
+
+@pytest.mark.parametrize("damage", ["missing", "garbage", "lost"])
+@pytest.mark.parametrize("mode", ["escalate", "challenge-watch", "challenge-only"])
+def test_cli_rejects_staging_with_escalation_and_challenge_watch_with_zero_writes(monkeypatch, tmp_path, damage, mode):
+    path = tmp_path / "journal.json"
+    if damage == "garbage":
+        path.write_text("{", encoding="utf-8")
+    gh = FakeGh()
+    reached = []
+    monkeypatch.setenv("STEWARD_ISSUE_HYGIENE_V2", "true")
+    monkeypatch.setattr(watcher, "LiveGh", lambda *a, **k: gh)
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda: reached.append("registry") or {})
+    monkeypatch.setattr(watcher, "escalate_candidate", lambda *a, **k: reached.append("escalate") or ({}, 0))
+    monkeypatch.setattr(watcher, "runChallengeWatchStep", lambda *a, **k: reached.append("challenge") or None)
+    argv = ["--child-mode", "batch", "--apply", "--staging", "weekly", "--staging-journal", str(path)]
+    if damage == "lost":
+        argv.append("--staging-initialized")
+    argv += {"escalate": ["--escalate", "garrytan/gbrain:alpha"], "challenge-watch": ["--challenge-watch"],
+             "challenge-only": ["--challenge-only"]}[mode]
+    assert watcher.main(argv) == 1
+    assert reached == [], "no write-capable path ran"
+    assert gh.write_count() == 0 and gh.writes == []
+
+
+def test_cli_rejects_staging_with_the_challenge_watch_env_switch(monkeypatch, tmp_path):
+    monkeypatch.setenv("GAIA_CHALLENGE_WATCH_ENABLED", "1")
+    monkeypatch.setattr(watcher, "runChallengeWatchStep", lambda *a, **k: pytest.fail("challenge watch ran"))
+    assert watcher.main(["--child-mode", "batch", "--staging", "weekly", "--staging-journal", str(tmp_path / "j")]) == 1
+
+
+def test_unstaged_escalation_and_challenge_watch_are_untouched(monkeypatch):
+    seen = []
+    monkeypatch.delenv("STEWARD_ISSUE_HYGIENE_V2", raising=False)
+    monkeypatch.setattr(watcher, "escalate_candidate", lambda *a, **k: seen.append("escalate") or ({}, 0))
+    assert watcher.main(["--child-mode", "batch", "--apply", "--escalate", "garrytan/gbrain:alpha"]) == 0
+    assert seen == ["escalate"]

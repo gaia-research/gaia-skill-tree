@@ -24,10 +24,14 @@ Flags
                               --staging-bootstrap; a corrupt journal is never overwritten. Pending rows are never
                               dropped: they are cleared only once demonstrably incorporated in a flush.
 --staging-bootstrap           Explicitly allow a first run with no journal yet, or (with --staging-initialized) recovery
-                              of a lost journal by re-observing current upstream state. Never papers over a corrupt one.
+                              of a lost journal by re-observing current upstream state: observations of candidates no
+                              longer upstream are lost and first-seen provenance of the rest restarts (rows are marked
+                              provenanceReset: true). Never papers over a corrupt journal.
 --staging-initialized         The durable initialized marker (repo variable UPSTREAM_STAGING_INITIALIZED=true): a missing
                               journal is then a LOST journal (cache eviction), not a first run.
 Note: a staged --apply additionally requires env STEWARD_ISSUE_HYGIENE_V2=true, checked before any write.
+Note: --staging cannot be combined with --escalate, --challenge-watch or --challenge-only (separate write
+paths that never load the journal); the CLI rejects the combination before anything runs.
 --staging-flush-day DAY       Flush weekday for --staging weekly (default monday, UTC).
 --staging-as-of ISO           Treat this instant as now (dry-run replays and tests).
 --escalate ID     Create (or adopt) ONE intake child for the batch row ``ID``
@@ -515,6 +519,17 @@ def main(argv: list[str] | None = None) -> int:
         stagingConfig = resolveStaging(args)
     except ValueError as exc:
         print(f"[watcher] {exc}", file=sys.stderr)
+        return 1
+
+    if stagingConfig.active and (
+        args.escalate or args.challenge_only or args.challenge_watch
+        or os.environ.get("GAIA_CHALLENGE_WATCH_ENABLED", "").lower() in {"1", "true", "yes"}
+    ):
+        # Staging guards the journal before every write, but escalation and the challenge watch are separate
+        # write-capable paths that never load it. Combining them is rejected outright, before anything runs.
+        print("[watcher] --staging cannot be combined with --escalate, --challenge-watch or --challenge-only "
+              "(or GAIA_CHALLENGE_WATCH_ENABLED): those are separate write paths that do not validate the staging "
+              "journal. Run them without --staging.", file=sys.stderr)
         return 1
 
     # --apply wins over --dry-run
