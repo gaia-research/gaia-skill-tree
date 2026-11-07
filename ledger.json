@@ -1,5 +1,5 @@
 {
- "generation": 1098,
+ "generation": 1099,
  "lane": {
   "entries": [
    {
@@ -3393,14 +3393,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-e5fc16cfa2decbbd9c74",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T03:04:16.539676Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 2 of a 2-attempt ceiling; the envelope is the likelier defect (independent verification by pi-herdr-batch3-verifier-1a73ca728b11 (pi, effort medium))",
+      "to": "escalated"
      }
     ],
-    "lastTransitionAt": "2026-11-07T01:26:07.516027Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T03:04:16.539676Z",
+    "lastVerdict": "reject",
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "escalated"
    },
    {
     "attempts": 1,
@@ -85337,6 +85343,13 @@
      "debtId": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
      "emittedAt": "2026-11-07T02:15:40.835687Z",
      "idempotencyKey": "verify:dispatch-e5fc16cfa2decbbd9c74:2",
+     "outcome": {
+      "agentId": "pi-herdr-batch3-verifier-1a73ca728b11",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - \"The base file imports os at line 78 without any os name references; the candidate removes only that import.\" - \"The supplied proof does not identify the pytest target or demonstrate the required python -m compileall invocation; successful commands and unlabelled pytest output do not establish those specific contract steps.\" - \"Independent verification ran the relevant rank-vocabulary smoke tests: 26 passed, including the script compilation test; this does not establish that the required compileall command was run.\" - \"This verification supplies the independent review; no additional builder-supplied review entry is required.\"",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -85353,7 +85366,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261107T012053Z-9dcda16b/verify-1a73ca728b11.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T03:04:16.539070Z",
+     "status": "done",
      "stepId": "verify:1a73ca728b11:2",
      "type": "agent.verify"
     },
@@ -85608,6 +85622,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:943faedbd922:2",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch3-verifier-1a73ca728b11",
+     "at": "2026-11-07T03:04:16.539676Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:1a73ca728b11:2",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -87095,11 +87121,11 @@
      "stepId": "verify:943faedbd922:2"
     },
     {
-     "at": "2026-11-07T02:15:40.835687Z",
+     "at": "2026-11-07T03:04:16.539070Z",
      "debtId": "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
      "idempotencyKey": "verify:dispatch-e5fc16cfa2decbbd9c74:2",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:1a73ca728b11:2"
     },
     {
@@ -87158,11 +87184,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T03:04:07.428886Z"
+   "updatedAt": "2026-11-07T03:04:16.539070Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T03:04:07.441216Z",
+ "updatedAt": "2026-11-07T03:04:16.553623Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -88160,6 +88186,17 @@
      "stepId": "build:1a73ca728b11:2",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch3-verifier-1a73ca728b11",
+     "at": "2026-11-07T03:04:16.539676Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:1a73ca728b11:2",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 2,
@@ -88198,6 +88235,12 @@
      "from": "blocked",
      "reason": "dispatched as dispatch-e5fc16cfa2decbbd9c74 (attempt 2)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-07T03:04:16.539676Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch3-verifier-1a73ca728b11 (pi, effort medium): reject",
+     "to": "escalated"
     }
    ],
    "kind": "unused_import",
@@ -88207,13 +88250,14 @@
    "routine": "dead-code-gardener",
    "runId": "run-20261107T012053Z-9dcda16b",
    "source": "dead-code",
-   "state": "building",
-   "updatedAt": "2026-11-07T01:58:35.790841Z",
+   "state": "escalated",
+   "updatedAt": "2026-11-07T03:04:16.539676Z",
    "verification": {
-    "receipt": "steward-20261107T021418Z-e74f7111b8b09c07",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261107T012053Z-9dcda16b/verify-1a73ca728b11.prompt.md"
+    "agentId": "pi-herdr-batch3-verifier-1a73ca728b11",
+    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - \"The base file imports os at line 78 without any os name references; the candidate removes only that import.\" - \"The supplied proof does not identify the pytest target or demonstrate the required python -m compileall invocation; successful commands and unlabelled pytest output do not establish those specific contract steps.\" - \"Independent verification ran the relevant rank-vocabulary smoke tests: 26 passed, including the script compilation test; this does not establish that the required compileall command was run.\" - \"This verification supplies the independent review; no additional builder-supplied review entry is required.\"",
+    "recordedAt": "2026-11-07T03:04:16.539676Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   },
   "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208": {
