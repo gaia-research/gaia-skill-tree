@@ -61,7 +61,7 @@ def test_matcher(pattern: str, path: str, expected: bool):
 
 @pytest.mark.parametrize(
     "pattern",
-    ["", "a/?.md", "a/[ab].md", "!a/**", "a/b+c", "/abs/**", "a//b", "a/b**/c", "a\\b", "a/**x", "a b"],
+    ["", "a/?.md", "a/[ab].md", "!a/**", "a/b+c", "/abs/**", "a//b", "a/b**/c", "a\\b", "a/**x", "a b", "abc\n", "a/**\n"],
 )
 def test_unsupported_patterns_fail_closed(pattern: str):
     with pytest.raises(scope.ScopeError):

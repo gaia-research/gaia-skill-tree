@@ -22,7 +22,7 @@ import sys
 from typing import Iterable, List, Pattern
 
 SHAPATTERN = re.compile(r"^[0-9a-f]{40}([0-9a-f]{24})?$")
-SUPPORTEDCHARS = re.compile(r"^[A-Za-z0-9._/*-]+$")
+SUPPORTEDCHARS = re.compile(r"[A-Za-z0-9._/*-]+")
 
 
 class ScopeError(Exception):
@@ -43,7 +43,7 @@ def compilePattern(pattern: str) -> Pattern[str]:
     `+`, backslashes, a leading `/`, empty segments, `**` mixed into a
     segment) raises ScopeError so the caller fails closed.
     """
-    if not pattern or not SUPPORTEDCHARS.match(pattern):
+    if not pattern or not SUPPORTEDCHARS.fullmatch(pattern):
         raise ScopeError(f"unsupported path pattern: {pattern!r}")
     segments = pattern.split("/")
     if any(segment == "" for segment in segments):
