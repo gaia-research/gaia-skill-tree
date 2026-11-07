@@ -11,11 +11,15 @@ finding stays undecided (fail closed):
 
 - the record is tracked by Git, parses, and passes every shape check below;
 - debtId, path, pattern, fingerprint and occurrence equal the live finding;
-- ``lineSha256`` equals the sha256 of the line the token sits on, with only
-  leading/trailing ASCII whitespace and CR/LF removed: any change inside the
-  line (a space, a non-breaking space, any unicode) reopens the finding, while
-  an edit elsewhere in the file does not (skills such as impeccable and
-  firecrawl change constantly);
+- ``contextSha256`` equals the hash of the finding's stable source context: the
+  token's line, the two non-blank lines either side, and the chain of enclosing
+  block headers (each strictly less indented than the one below, outermost
+  first). Only edge ASCII whitespace and CR/LF are ignored: a change inside the
+  line (a space, a non-breaking space, any unicode), a move to another function
+  or class, or an edit within the surrounding window reopens the finding, while
+  an edit elsewhere in the file does not;
+- the finding can be rebound UNIQUELY: if two live findings share a pattern,
+  fingerprint and context hash (identical occurrences), neither is decided;
 - ``policy`` is D1, D2 or D3, and that policy's decision record and the ruling
   record are decided AND accepted by the desk's own decision-record validator;
 - ``founderRuling`` names the decided ruling record;
@@ -56,7 +60,7 @@ from gaia_cli.steward.desk import _check_record as deskCheckRecord
 from gaia_cli.steward.models import Observation, Subject
 from gaia_cli.steward.primitives import tracked_files
 
-RECORDSCHEMA = "steward-credential-disposition-v2"
+RECORDSCHEMA = "steward-credential-disposition-v3"
 RECORDDIR = "founder/steward/security-dispositions"
 RECEIPTDIR = f"{RECORDDIR}/receipts"
 RECEIPTSCHEMA = "steward-credential-verification-receipt-v1"
@@ -74,7 +78,7 @@ MINEVIDENCE = 20
 _HEX12 = re.compile(r"[0-9a-f]{12}")
 _HEX64 = re.compile(r"[0-9a-f]{64}")
 _REQUIRED = (
-    "schemaVersion", "debtId", "path", "pattern", "fingerprint", "occurrence", "lineSha256", "policy",
+    "schemaVersion", "debtId", "path", "pattern", "fingerprint", "occurrence", "contextSha256", "policy",
     "disposition", "evidence", "author", "verifiedBy", "verifiedAt", "verificationReceipt", "founderRuling",
 )
 # Fields stamped after review, by the lead's integrate step; not part of reviewed content.
@@ -99,6 +103,56 @@ def normalizeLine(text: str) -> str:
 
 def lineSha256(text: str) -> str:
     return hashlib.sha256(normalizeLine(text).encode("utf-8")).hexdigest()
+
+
+CONTEXTLINES = 2
+SCOPEWALKLIMIT = 4000
+
+
+def _indent(raw: str) -> int:
+    expanded = raw.expandtabs(4)
+    return len(expanded) - len(expanded.lstrip(" "))
+
+
+def contextHash(lines: list[str], index: int) -> str:
+    """Hash the stable source context of the finding on ``lines[index]``.
+
+    Language-agnostic by construction: the enclosing scope is the chain of
+    strictly less indented non-blank lines above the token (the ``def``/``class``/
+    block headers in code and YAML, headings-with-indent elsewhere), and the
+    window is the two non-blank lines either side. Blank lines never matter.
+    """
+
+    raw = lines[index]
+
+    def neighbours(step: int) -> list[str]:
+        found: list[str] = []
+        cursor = index + step
+        while 0 <= cursor < len(lines) and len(found) < CONTEXTLINES:
+            candidate = normalizeLine(lines[cursor])
+            if candidate:
+                found.append(candidate)
+            cursor += step
+        return found
+
+    scope: list[str] = []
+    bound = _indent(raw)
+    cursor, walked = index - 1, 0
+    while cursor >= 0 and bound > 0 and walked < SCOPEWALKLIMIT:
+        if lines[cursor].strip():
+            level = _indent(lines[cursor])
+            if level < bound:
+                scope.append(normalizeLine(lines[cursor]))
+                bound = level
+        cursor, walked = cursor - 1, walked + 1
+    if bound > 0 and cursor >= 0:
+        scope.append("<scope walk truncated>")
+    payload = json.dumps(
+        {"scope": scope[::-1], "before": neighbours(-1)[::-1], "line": normalizeLine(raw), "after": neighbours(1)},
+        sort_keys=True,
+        ensure_ascii=True,
+    )
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
 def occurrences(findings: Iterable[Mapping[str, Any]]) -> list[int]:
@@ -217,8 +271,8 @@ def validateRecord(body: Any) -> str | None:
         return "verificationReceipt must be a lowercase receipt id"
     if not _HEX12.fullmatch(str(body["fingerprint"])):
         return "fingerprint must be 12 lowercase hex characters"
-    if not _HEX64.fullmatch(str(body["lineSha256"])):
-        return "lineSha256 must be 64 lowercase hex characters"
+    if not _HEX64.fullmatch(str(body["contextSha256"])):
+        return "contextSha256 must be 64 lowercase hex characters"
     if body["policy"] not in POLICYDECISIONS:
         return "unknown policy"
     if body["disposition"] not in DISPOSITIONS:
@@ -290,13 +344,13 @@ class Registry:
     rejected: list[tuple[str, str]] = field(default_factory=list)
 
     def match(
-        self, debtId: str, path: str, finding: Mapping[str, Any], occurrence: int, lineHash: str
+        self, debtId: str, path: str, finding: Mapping[str, Any], occurrence: int, context: str
     ) -> Match | None:
         loose: LooseKey = (debtId, path, str(finding["pattern"]), str(finding["fingerprint"]))
         if self.invalidClaims.get((loose, occurrence), 0) or self.invalidClaims.get((loose, None), 0):
             return None
         found = self.claims.get((*loose, occurrence), [])
-        if len(found) != 1 or found[0].record["lineSha256"] != lineHash:
+        if len(found) != 1 or found[0].record["contextSha256"] != context:
             return None
         return found[0]
 

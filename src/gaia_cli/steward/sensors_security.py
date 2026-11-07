@@ -1022,24 +1022,13 @@ class BrowserSinkSensor:
 # subject. Large generated text (embeddings, graph dumps) is well inside it.
 _SECRET_MAX_BYTES = 32 * 1024 * 1024
 _SECRET_MAX_FILES = 50000
-_SYNTHETIC_MARKERS = re.compile(r"EXAMPLE|FAKE|dummy|xxxx|canary|placeholder|not[-_ ]?real", re.IGNORECASE)
-# Hand-typed placeholders climb the alphabet or digits; a real secret does not.
-_ASCENDING_RUN = re.compile(r"abcdef|ABCDEF|012345|123456|234567|345678|456789", re.IGNORECASE)
+# There is deliberately NO path-based skip. A credential-shaped match under
+# tests/ (or any other directory) is judged on its own evidence like every
+# other match: an issuer-shaped token stays Class C there until a per-finding
+# record decides it, and a generic match is Class B only when its whole value is
+# positively benign. Founder ruling: no downgrade solely because of where a file lives.
 
 _SECRET_PATTERNS = CREDENTIAL_PATTERNS
-
-
-def _synthetic_match(rel: str, matched: str) -> bool:
-    if not rel.startswith("tests/"):
-        return False
-    # An unrelated comment or neighbouring fixture must not bless a different
-    # credential on the same line. Only the matched value can prove a marker.
-    if _SYNTHETIC_MARKERS.search(matched):
-        return True
-    if _ASCENDING_RUN.search(matched):
-        return True
-    body = re.sub(r"^[A-Za-z_-]+[_-]", "", matched)
-    return len(set(body)) <= 4
 
 
 # Issuer-specific formats: the regular expression already enforces the issuer
@@ -1060,32 +1049,43 @@ _ISSUER_PATTERNS = frozenset(
     }
 )
 # Routing defaults to Class C. A generic finding (a keyword next to a value, or a
-# JWT-shaped string) is Class B only when its matched value is POSITIVELY benign:
-#   - a variable or environment reference,
-#   - a template placeholder,
-#   - a code expression or call,
-#   - a documented placeholder marker standing on its own,
+# JWT-shaped string) is Class B only when its ENTIRE matched value is, by syntax,
+# one of:
+#   - a variable or environment reference (``${NAME}``, ``$NAME``, ``%NAME%``,
+#     ``process.env.NAME``, ``secrets.NAME``, ``{{ template }}``, ``<slot>``),
+#   - a reference followed by a hostname tail (``${NAME}@host.tld/...``),
+#   - an expression: a bare identifier path the source then calls or indexes,
+#   - a documented placeholder made ONLY of placeholder words (``YOUR_API_KEY``,
+#     ``FAKE-TOKEN``, ``xxxx``),
 #   - a short common placeholder word.
-# Everything else stays Class C whatever its entropy, length or look: opaque
-# values, passphrases, truncated tokens and anything merely containing a
-# redaction-like substring. Absence of evidence of danger is not evidence of
-# safety.
+# A marker, ``env`` or ``getenv`` appearing INSIDE a longer value proves nothing:
+# a real password can contain any of them. Everything else stays Class C whatever
+# its entropy, length or look. Absence of evidence of danger is not evidence of safety.
 _GENERIC_PATTERNS = frozenset({"bearer-token", "credential-assignment", "aws-secret-access-key"})
-_REFERENCE_VALUE = re.compile(
-    r"^\$[A-Za-z_]"  # $TOKEN
-    r"|\$\{[^}\s]*\}"  # ${TOKEN}, shell or template interpolation
-    r"|\$\([^)\s]*\)"  # $(cmd)
-    r"|%[A-Za-z_][A-Za-z0-9_]*%"  # %TOKEN%
-    r"|\{\{[^}]*\}\}"  # {{ template }}
-    r"|<[^<>\s]+>"  # <placeholder> slot, including <...>
-    r"|process\.env\b|\bos\.environ\b|\bgetenv\b|\bENV\[|\bsecrets\.[A-Za-z_]|\benv\.[A-Za-z_]"
+_IDENT = r"[A-Za-z_][A-Za-z0-9_]*"
+_PATH = rf"{_IDENT}(?:\.{_IDENT})*"
+_REFERENCE_TOKEN = rf"(?:\$\{{{_PATH}(?::?[-=+?][^}}\s]*)?\}}|\${_IDENT}|%{_IDENT}%|\{{\{{[^{{}}]*\}}\}})"
+_WHOLE_REFERENCE = re.compile(
+    rf"{_REFERENCE_TOKEN}"
+    rf"|<[A-Za-z_.-]+>"  # <placeholder> slot of words (no digits), including <...>
+    rf"|(?:process\.env|env|secrets|ENV)\.{_IDENT}"
 )
-# A marker counts only as its own token (not inside a longer alphanumeric run),
-# so an issuer-looking value that merely ends in EXAMPLE is not downgraded.
-_PLACEHOLDER_MARKER = re.compile(
-    r"(?<![A-Za-z0-9])(?:EXAMPLE|FAKE|DUMMY|PLACEHOLDER|YOUR[_-][A-Z][A-Z0-9_]*|x{4,}|X{4,})(?![A-Za-z0-9])"
+# ``${NAME}@host.tld/...``: the credential position IS the reference; what follows is a URL authority.
+_REFERENCE_WITH_HOST = re.compile(
+    rf"{_REFERENCE_TOKEN}@[A-Za-z0-9.-]+\.[A-Za-z]{{2,}}(?:[/:?#].*)?"
 )
-_MARKER_RESIDUE_LIMIT = 16
+_IDENT_PATH = re.compile(_PATH)
+# ``${path`` or a backtick template opener cut where a call or index begins.
+_INTERPOLATION_OPENER = re.compile(rf"`?\$\{{{_PATH}")
+_PLACEHOLDER_WORDS = frozenset(
+    {
+        "example", "fake", "dummy", "placeholder", "your", "changeme", "sample", "test", "testing",
+        "api", "key", "token", "secret", "password", "passwd", "pass", "value", "here", "xxx", "xxxx",
+        "mytoken", "mysecret", "mypassword", "apikey",
+    }
+)
+_PLACEHOLDER_MARKERS = frozenset({"example", "fake", "dummy", "placeholder", "your", "changeme", "sample", "test"})
+_X_RUN = re.compile(r"[xX]{4,}(?:[-_.][xX]{4,})*")
 _COMMON_WORDS = frozenset(
     {
         "token", "secret", "password", "passwd", "pass", "value", "string", "none", "null", "nil",
@@ -1124,17 +1124,32 @@ def _validJwt(matched: str) -> bool:
     return isinstance(decoded[0], dict) and "alg" in decoded[0] and isinstance(decoded[1], dict)
 
 
+def _placeholderOnly(value: str) -> bool:
+    """Whether the WHOLE value is made of placeholder words (``YOUR_API_KEY``, ``FAKE-TOKEN``, ``xxxx``)."""
+
+    if _X_RUN.fullmatch(value):
+        return True
+    words = [word for word in re.split(r"[-_]", value) if word]
+    if not words or any(not word.isalpha() for word in words):
+        return False
+    lowered = [word.lower() for word in words]
+    return all(word in _PLACEHOLDER_WORDS for word in lowered) and any(
+        word in _PLACEHOLDER_MARKERS for word in lowered
+    )
+
+
 def _positivelyBenign(value: str, text: str, end: int) -> bool:
-    if _REFERENCE_VALUE.search(value):
+    """Whole-value, syntax-aware proof that ``value`` is a reference, placeholder or expression."""
+
+    if _WHOLE_REFERENCE.fullmatch(value) or _REFERENCE_WITH_HOST.fullmatch(value):
         return True
-    # The pattern stops before ``(`` or ``[``: a value followed by one is a call or an index.
-    if text[end : end + 1] in ("(", "["):
+    following = text[end : end + 1]
+    # The pattern stops before ``(`` or ``[``: an identifier path the source then
+    # calls or indexes is an expression (a ``${path`` opener is an interpolated one).
+    if following in ("(", "[") and (_IDENT_PATH.fullmatch(value) or _INTERPOLATION_OPENER.fullmatch(value)):
         return True
-    markers = list(_PLACEHOLDER_MARKER.finditer(value))
-    if markers:
-        residue = _PLACEHOLDER_MARKER.sub("", value)
-        if sum(char.isalnum() for char in residue) <= _MARKER_RESIDUE_LIMIT:
-            return True
+    if _placeholderOnly(value):
+        return True
     return value.strip("\"'`").lower() in _COMMON_WORDS
 
 
@@ -1168,14 +1183,13 @@ class _SecretTally:
     # ASCII), so a stray byte cannot hide a secret; this only counts them.
     nonUtf8: int = 0
     oversize: int = 0
-    synthetic: int = 0
     reasons: dict[str, int] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
 class _Located:
     finding: dict[str, Any]
-    lineHash: str
+    contextHash: str
     cls: str
 
 
@@ -1239,7 +1253,6 @@ class SecretScanSensor:
             "filesScanned": tally.scanned,
             "scannedNonUtf8": tally.nonUtf8,
             "skippedOversize": tally.oversize,
-            "skippedSyntheticTestFixture": tally.synthetic,
         }
         if registry.rejected:
             summary["rejectedDispositionRecords"] = len(registry.rejected)
@@ -1284,12 +1297,18 @@ class SecretScanSensor:
             status="drift", current_state=current, observed_state={}, confidence=0.6,
         )
         # A finding is decided only by one independently verified record that
-        # matches debt id, path, pattern, fingerprint, occurrence and the
-        # normalized line it sits on. Unrelated edits elsewhere in the file do
-        # not matter; a changed token or line does.
+        # matches debt id, path, pattern, fingerprint, occurrence and its stable
+        # source context (line, surrounding window, enclosing scope chain).
+        # Unrelated edits elsewhere in the file do not matter; a changed token,
+        # line, window or scope does.
         indexes = credentialDispositions.occurrences(findings)
+        # Identical occurrences (same pattern, fingerprint AND context) cannot be
+        # told apart after any edit, so neither is rebound: fail closed.
+        shared = Counter((item.finding["pattern"], item.finding["fingerprint"], item.contextHash) for item in located)
         matches = [
-            registry.match(leak.debt_id, rel, item.finding, index, item.lineHash)
+            None
+            if shared[(item.finding["pattern"], item.finding["fingerprint"], item.contextHash)] > 1
+            else registry.match(leak.debt_id, rel, item.finding, index, item.contextHash)
             for item, index in zip(located, indexes)
         ]
         decided = [(item, match) for item, match in zip(located, matches) if match is not None]
@@ -1361,24 +1380,23 @@ class SecretScanSensor:
     @staticmethod
     def _locate(rel: str, text: str, tally: _SecretTally) -> list[_Located]:
         results: list[_Located] = []
+        lines: list[str] | None = None
         for name, pattern in _SECRET_PATTERNS:
             for match in pattern.finditer(text):
                 matched = match.group(0)
                 if name == "openai-api-key" and not any(char.isdigit() for char in matched):
                     continue
-                if _synthetic_match(rel, matched):
-                    tally.synthetic += 1
-                    continue
-                start = text.rfind("\n", 0, match.start()) + 1
-                stop = text.find("\n", match.start())
+                if lines is None:
+                    lines = text.split("\n")
+                number = text.count("\n", 0, match.start()) + 1
                 results.append(
                     _Located(
                         finding={
-                            "line": text.count("\n", 0, match.start()) + 1,
+                            "line": number,
                             "pattern": name,
                             "fingerprint": hashlib.sha256(matched.encode("utf-8")).hexdigest()[:12],
                         },
-                        lineHash=credentialDispositions.lineSha256(text[start : stop if stop >= 0 else None]),
+                        contextHash=credentialDispositions.contextHash(lines, number - 1),
                         cls=credentialClass(name, matched, text, match.end()),
                     )
                 )

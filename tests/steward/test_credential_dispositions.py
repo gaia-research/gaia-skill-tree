@@ -121,7 +121,7 @@ def _record(item, index: int, liveDebt: str, rel: str = SOURCE, **overrides) -> 
         "pattern": item.finding["pattern"],
         "fingerprint": item.finding["fingerprint"],
         "occurrence": index,
-        "lineSha256": item.lineHash,
+        "contextSha256": item.contextHash,
         "policy": "D2",
         "disposition": "synthetic-fixture",
         "evidence": "Runtime-assembled positive-test value, never issued by any provider.",
@@ -177,6 +177,33 @@ def _decide(root: Path, rel: str = SOURCE, **overrides) -> None:
         _put(root, _record(item, occurrence, debt, rel, **overrides))
 
 
+def _padded(line: str) -> str:
+    """The token line with three plain lines either side, so edits at the file ends stay outside its window."""
+
+    return "a1 = 1\na2 = 2\na3 = 3\n" + line + "\nb1 = 1\nb2 = 2\nb3 = 3\n"
+
+
+def _spread(token: str) -> str:
+    """The same token twice, far enough apart that the two contexts differ."""
+
+    return f"a = '{token}'\nx1 = 1\nx2 = 2\nx3 = 3\nx4 = 4\nb = '{token}'\n"
+
+
+def _block(name: str, token: str | None = None) -> str:
+    """A function whose body is the same four lines; the token, when given, sits between lines 2 and 3."""
+
+    body = ["    n1 = 1", "    n2 = 2", "    n3 = 3", "    n4 = 4"]
+    if token is not None:
+        body = body[:2] + [f"    k = '{token}'"] + body[2:]
+    return "\n".join([f"def {name}():", *body]) + "\n"
+
+
+def _functions(token: str, holder: str) -> str:
+    """``alpha`` and ``beta`` with identical bodies; the token sits in ``holder`` only."""
+
+    return _block("alpha", token if holder == "alpha" else None) + "\n" + _block("beta", token if holder == "beta" else None)
+
+
 def _edit(root: Path, rel: str, transform) -> None:
     path = root / rel
     path.write_text(transform(path.read_text(encoding="utf-8")), encoding="utf-8")
@@ -203,24 +230,30 @@ class TestFindingLevelBinding:
         assert _github_token() not in json.dumps(after.to_dict())
 
     def test_unrelated_edits_elsewhere_keep_the_finding_decided(self, tmp_path: Path) -> None:
-        # (a) a firecrawl/impeccable style churn: lines added above and below, the token line untouched.
-        root = _repo(tmp_path, f"k = '{_github_token()}'\n")
+        # (a) firecrawl/impeccable style churn far from the token: above the window and below it.
+        root = _repo(tmp_path, _padded(f"k = '{_github_token()}'"))
         _decide(root)
         assert _kinds(root)["credential_leak"] == "healthy"
         _edit(root, SOURCE, lambda text: "# new header\nimport os\n\n" + text + "def later():\n    return 1\n")
         item = _live(root)
         assert item.status == "healthy"
-        assert item.observed_state["dispositions"][0]["line"] == 4  # live line moved; identity did not
+        assert item.observed_state["dispositions"][0]["line"] == 7  # live line moved; identity did not
 
-    def test_reindenting_or_crlf_on_the_token_line_keeps_it_decided(self, tmp_path: Path) -> None:
-        root = _repo(tmp_path, f"k = '{_github_token()}'\n")
+    def test_crlf_and_trailing_whitespace_keep_it_decided(self, tmp_path: Path) -> None:
+        root = _repo(tmp_path, _padded(f"k = '{_github_token()}'"))
         _decide(root)
-        _edit(root, SOURCE, lambda text: "    " + text.replace("\n", "\r\n"))
+        _edit(root, SOURCE, lambda text: text.replace("\n", "  \r\n"))
+        assert _live(root).status == "healthy"
+
+    def test_blank_lines_never_matter(self, tmp_path: Path) -> None:
+        root = _repo(tmp_path, _padded(f"k = '{_github_token()}'"))
+        _decide(root)
+        _edit(root, SOURCE, lambda text: text.replace("\n", "\n\n"))
         assert _live(root).status == "healthy"
 
     def test_changed_token_reopens_the_finding(self, tmp_path: Path) -> None:
         # (b) a different token on the same line is a different finding with no record.
-        root = _repo(tmp_path, f"k = '{_github_token('one')}'\n")
+        root = _repo(tmp_path, _padded(f"k = '{_github_token('one')}'"))
         _decide(root)
         _edit(root, SOURCE, lambda text: text.replace(_github_token("one"), _github_token("two")))
         item = _live(root)
@@ -228,15 +261,21 @@ class TestFindingLevelBinding:
         assert "decidedFindings" not in item.observed_state
 
     def test_changed_line_around_the_same_token_reopens_the_finding(self, tmp_path: Path) -> None:
-        root = _repo(tmp_path, f"k = '{_github_token()}'\n")
+        root = _repo(tmp_path, _padded(f"k = '{_github_token()}'"))
         _decide(root)
         _edit(root, SOURCE, lambda text: text.replace("k = ", "renamed = "))
         assert _live(root).status == "drift"
 
+    def test_an_edit_inside_the_surrounding_window_reopens_the_finding(self, tmp_path: Path) -> None:
+        root = _repo(tmp_path, _padded(f"k = '{_github_token()}'"))
+        _decide(root)
+        _edit(root, SOURCE, lambda text: text.replace("a3 = 3", "a3 = 33"))
+        assert _live(root).status == "drift"
+
     def test_second_identical_token_added_stays_undecided(self, tmp_path: Path) -> None:
-        # (c) the reviewed token stays decided; the new copy has no record.
+        # (c) the reviewed token stays decided; the new copy, in its own context, has no record.
         token = _github_token()
-        root = _repo(tmp_path, f"k = '{token}'\n")
+        root = _repo(tmp_path, _padded(f"k = '{token}'"))
         _decide(root)
         _edit(root, SOURCE, lambda text: text + f"copy = '{token}'\n")
         item = _live(root)
@@ -245,12 +284,52 @@ class TestFindingLevelBinding:
         assert item.observed_state["undecidedFindingCount"] == 1
         assert [entry["occurrence"] for entry in item.observed_state["decidedFindings"]] == [0]
 
-    def test_second_identical_token_added_above_does_not_inherit_the_review(self, tmp_path: Path) -> None:
+    def test_a_duplicate_inserted_before_is_not_decided_and_does_not_decide_the_old_one(self, tmp_path: Path) -> None:
         token = _github_token()
-        root = _repo(tmp_path, f"k = '{token}'\n")
+        root = _repo(tmp_path, _functions(token, "alpha"))
         _decide(root)
-        _edit(root, SOURCE, lambda text: f"copy = '{token}'\n" + text)
+        assert _live(root).status == "healthy"
+        _edit(root, SOURCE, lambda text: _block("gamma", token) + "\n" + text)
+        item = _live(root)
+        # The new copy sits in another scope (no record for it) and the old one is now the
+        # second occurrence (no record claims that): nothing is rebound, nothing is decided.
+        assert item.status == "drift"
+        assert item.observed_state["findingCount"] == 2
+        assert "decidedFindings" not in item.observed_state
+
+    def test_a_line_moved_to_another_function_is_reopened(self, tmp_path: Path) -> None:
+        token = _github_token()
+        root = _repo(tmp_path, _functions(token, "alpha"))
+        _decide(root)
+        assert _live(root).status == "healthy"
+        # Same token, same neighbouring lines (n1,n2 before / n3,n4 after) -- only the enclosing function differs.
+        _edit(root, SOURCE, lambda text: _functions(token, "beta"))
         assert _live(root).status == "drift"
+
+    def test_a_line_moved_back_is_decided_again(self, tmp_path: Path) -> None:
+        token = _github_token()
+        root = _repo(tmp_path, _functions(token, "alpha"))
+        _decide(root)
+        _edit(root, SOURCE, lambda text: _functions(token, "beta"))
+        _edit(root, SOURCE, lambda text: _functions(token, "alpha"))
+        assert _live(root).status == "healthy"
+
+    def test_enclosing_function_renamed_reopens(self, tmp_path: Path) -> None:
+        token = _github_token()
+        root = _repo(tmp_path, _functions(token, "alpha"))
+        _decide(root)
+        _edit(root, SOURCE, lambda text: text.replace("def alpha():", "def renamed():"))
+        assert _live(root).status == "drift"
+
+    def test_identical_blocks_cannot_be_rebound_and_stay_open(self, tmp_path: Path) -> None:
+        # A copy-pasted function repeats the token with an identical context: neither can be told apart.
+        token = _github_token()
+        root = _repo(tmp_path, _block("alpha", token) + "\n" + _block("alpha", token))
+        _decide(root)
+        item = _live(root)
+        assert item.status == "drift"
+        assert item.observed_state["findingCount"] == 2
+        assert "decidedFindings" not in item.observed_state
 
     def test_informational_line_number_is_not_matched(self, tmp_path: Path) -> None:
         root = _repo(tmp_path, f"k = '{_github_token()}'\n")
@@ -298,7 +377,7 @@ class TestFailClosed:
         "override",
         [
             {"fingerprint": "0" * 12},
-            {"lineSha256": "0" * 64},
+            {"contextSha256": "0" * 64},
             {"pattern": "aws-access-key-id"},
             {"occurrence": 1},
             {"path": "src/other.py"},
@@ -312,7 +391,7 @@ class TestFailClosed:
             {"evidence": ""},
             {"evidence": "ok"},
             {"founderRuling": "something-else"},
-            {"schemaVersion": "steward-credential-disposition-v1"},
+            {"schemaVersion": "steward-credential-disposition-v2"},
             {"verifiedAt": "yesterday"},
         ],
     )
@@ -321,12 +400,12 @@ class TestFailClosed:
         _decide(root, **override)
         assert _live(root).status == "drift"
 
-    def test_whole_file_binding_is_gone(self, tmp_path: Path) -> None:
-        # A v2 record carrying the retired v1 field is still judged on lineSha256 alone.
+    def test_retired_binding_fields_are_ignored(self, tmp_path: Path) -> None:
+        # Records carrying the retired whole-file or line-only fields are judged on contextSha256 alone.
         root = _repo(tmp_path, f"k = '{_github_token()}'\n")
         debt = _live(root).debt_id
         (item, occurrence), = _targets(root)
-        _put(root, _record(item, occurrence, debt, fileSha256="0" * 64))
+        _put(root, _record(item, occurrence, debt, fileSha256="0" * 64, lineSha256="0" * 64))
         assert _live(root).status == "healthy"
 
     def test_missing_verifier_field_stays_open(self, tmp_path: Path) -> None:
@@ -406,18 +485,31 @@ class TestFailClosed:
         root = _repo(tmp_path, f"a = '{token}'; b = '{token}'\n")
         debt = _live(root).debt_id
         (first, occurrence), (second, _) = _targets(root)
-        assert first.finding == second.finding
+        assert first.finding == second.finding and first.contextHash == second.contextHash
         _put(root, _record(first, occurrence, debt))
         one = _live(root)
         assert one.status == "drift"
         assert one.observed_state["findingCount"] == 2
-        assert one.observed_state["undecidedFindingCount"] == 1
-        assert [item["occurrence"] for item in one.observed_state["decidedFindings"]] == [0]
+        assert "decidedFindings" not in one.observed_state
 
-    def test_each_same_line_occurrence_needs_its_own_record(self, tmp_path: Path) -> None:
+    def test_same_line_occurrences_are_identical_and_never_decided_even_with_a_record_each(self, tmp_path: Path) -> None:
         token = _github_token()
         root = _repo(tmp_path, f"a = '{token}'; b = '{token}'\n")
         _decide(root)
+        item = _live(root)
+        assert item.status == "drift"
+        assert "decidedFindings" not in item.observed_state
+
+    def test_identical_findings_in_distinct_contexts_each_need_their_own_record(self, tmp_path: Path) -> None:
+        token = _github_token()
+        root = _repo(tmp_path, _spread(token))
+        debt = _live(root).debt_id
+        (first, i0), (second, i1) = _targets(root)
+        assert first.contextHash != second.contextHash
+        _put(root, _record(first, i0, debt))
+        half = _live(root)
+        assert half.status == "drift" and half.observed_state["undecidedFindingCount"] == 1
+        _put(root, _record(second, i1, debt))
         done = _live(root)
         assert done.status == "healthy"
         assert [item["occurrence"] for item in done.observed_state["dispositions"]] == [0, 1]
@@ -507,7 +599,7 @@ class TestBindingStrictness:
 
     def test_claimant_missing_occurrence_blocks_every_occurrence(self, tmp_path: Path) -> None:
         token = _github_token()
-        root = _repo(tmp_path, f"a = '{token}'; b = '{token}'\n")
+        root = _repo(tmp_path, _spread(token))
         debt = _live(root).debt_id
         (first, _), (second, _) = _targets(root)
         _put(root, _record(second, 1, debt))  # a valid record for the LATER repeat
@@ -721,6 +813,41 @@ class TestEvidenceRouting:
         root = _repo(tmp_path, _assign(f'"{value}"'))
         assert _kinds(root) == {"credential_leak": "drift"}, value
 
+    @pytest.mark.parametrize(
+        "value",
+        [
+            "xY7.en" + "v.foo!Q92p",  # looks like an env.* path, is a password
+            "Abc123!get" + "env!Qz98765",  # getenv inside a longer value
+            "Abc123!FA" + "KE!Qz98765",  # a marker with up to sixteen alphanumerics around it
+            "qEXAM" + "PLEq8Z3nL0wTt",  # EXAMPLE fused into a real-looking value
+            "pa$" + "word123456",  # a dollar sign that is not a reference
+            "$" + "{A}real" + "secret1",  # an interpolation followed by more secret
+            "$" + "{A}@Qz" + "98765",  # an interpolation then a non-hostname tail
+            "process.env." + "Qz98.p!ass",  # an env prefix with a secret tail
+            "<Xk9Q2mZ7" + "vLp4Rt8W>",  # angle brackets around random content
+            "FAKE-" + "Xk9Q2mZ7vLp4Rt8W",  # a marker word plus random content
+            "your-" + "Xk9Q2mZ7vLp4",  # lowercase placeholder prefix plus random content
+        ],
+    )
+    def test_incidental_markers_and_reference_substrings_never_qualify(self, tmp_path: Path, value: str) -> None:
+        root = _repo(tmp_path, _assign(f'"{value}"'))
+        assert _kinds(root) == {"credential_leak": "drift"}, value
+
+    @pytest.mark.parametrize(
+        "body",
+        ["envEXAMPLE", "EXAMPLEenvgetenv", "FAKEenvFAKEenvFAKEenv"],
+    )
+    def test_issuer_shaped_token_containing_env_or_example_stays_class_c(self, tmp_path: Path, body: str) -> None:
+        token = "gh" + "p_" + body + _seeded("pad", 36 - len(body) + 4)
+        assert dict(_SECRET_PATTERNS)["github-token"].search(token), token
+        root = _repo(tmp_path, f"k = '{token}'\n")
+        assert _kinds(root) == {"credential_leak": "drift"}
+
+    def test_reference_followed_by_a_hostname_tail_is_a_reference(self, tmp_path: Path) -> None:
+        value = "$" + "{GITHUB" + "_TOKEN}@github.com/owner/repo.git"
+        root = _repo(tmp_path, _assign(value))
+        assert _kinds(root) == {"credential_review": "drift", "credential_leak": "healthy"}
+
     def test_opaque_high_entropy_value_stays_class_c(self, tmp_path: Path) -> None:
         value = _opaque()
         assert len(value) >= 20 and any(c.isdigit() for c in value)
@@ -783,6 +910,49 @@ class TestEvidenceRouting:
 
     def test_unknown_pattern_is_never_assumed_benign(self) -> None:
         assert credentialClass("brand-new-pattern", "whatever", "", 0) == "ambiguous"
+
+
+class TestNoPathBasedSkip:
+    """Founder: no downgrade solely because a file is under tests/. Evidence is per finding."""
+
+    @staticmethod
+    def _tokens() -> dict[str, str]:
+        return {
+            "ascending digits": "gh" + "p_" + "0123456789" + "abcdefghijklmnopqrstuvwxyz",
+            "marker word": "gh" + "p_" + "EXAMPLE" + "a" * 29,
+            "low variety": "gh" + "p_" + "ab" * 18,
+            "all one char": "gh" + "p_" + "a" * 36,
+            "ordinary": _github_token(),
+        }
+
+    @pytest.mark.parametrize("label", ["ascending digits", "marker word", "low variety", "all one char", "ordinary"])
+    @pytest.mark.parametrize("rel", ["tests/example.py", "tests/steward/example.py", "src/example.py"])
+    def test_issuer_shaped_match_is_class_c_whatever_the_directory(self, tmp_path: Path, label: str, rel: str) -> None:
+        token = self._tokens()[label]
+        assert dict(_SECRET_PATTERNS)["github-token"].search(token), label
+        root = _repo(tmp_path, "x = 1\n", **{rel: f"k = '{token}'\n"})
+        assert _kinds(root, rel) == {"credential_leak": "drift"}
+
+    def test_the_path_skip_no_longer_exists(self, tmp_path: Path) -> None:
+        from gaia_cli.steward import sensors_security
+
+        assert not hasattr(sensors_security, "_synthetic_match")
+        token = self._tokens()["ascending digits"]
+        root = _repo(tmp_path, "x = 1\n", **{"tests/example.py": f"k = '{token}'\n"})
+        item = _live(root, "tests/example.py")
+        assert "skippedSyntheticTestFixture" not in item.provenance
+        assert item.observed_state["findingCount"] == 1
+
+    def test_a_tests_finding_needs_its_own_record_like_any_other(self, tmp_path: Path) -> None:
+        token = self._tokens()["ascending digits"]
+        root = _repo(tmp_path, "x = 1\n", **{"tests/example.py": f"k = '{token}'\n"})
+        assert _live(root, "tests/example.py").status == "drift"
+        _decide(root, "tests/example.py")
+        assert _live(root, "tests/example.py").status == "healthy"
+
+    def test_a_tests_finding_with_a_benign_value_is_class_b_by_value_not_path(self, tmp_path: Path) -> None:
+        root = _repo(tmp_path, "x = 1\n", **{"tests/example.py": _reference()})
+        assert _kinds(root, "tests/example.py") == {"credential_review": "drift", "credential_leak": "healthy"}
 
 
 class TestPolicyAndEnvelope:
@@ -926,6 +1096,85 @@ class TestPolicyAndEnvelope:
         assert not self._scope("founder/steward/POLICY.yaml", packet)
         assert not self._scope("founder/steward/security-dispositions-evil/a.json", packet)
 
+    @staticmethod
+    def _stamp_diff(path: str, added: list[str]) -> str:
+        body = "".join(f"+{line}\n" for line in added)
+        return (
+            f"diff --git a/{path} b/{path}\nindex 1111111..2222222 100644\n--- a/{path}\n+++ b/{path}\n"
+            f"@@ -1 +1,{len(added)} @@\n-old\n{body}"
+        )
+
+    def _scope_of(self, diff: str) -> bool:
+        packet = self._packet()
+        transcript = json.dumps(
+            {
+                "schemaVersion": "steward-proof-transcript-v1",
+                "entries": [
+                    {"contractIndex": n, "command": f"check {n}", "exitCode": 0, "output": "ok"}
+                    for n in range(1, len(packet.proof) + 1)
+                ],
+            }
+        )
+        verdict = evaluate(
+            packet=packet,
+            change_set=parse_unified_diff(diff),
+            transcript=parse_proof_transcript(transcript, proof_contract_length=len(packet.proof)),
+            debt_source="secret-scan",
+            sensor_sources=("secret-scan",),
+            baseline_open_debt=["debt:x"],
+            current_open_debt=["debt:x"],
+            authority_still_class_b=True,
+        )
+        self.last_reasons = verdict.reasons
+        return verdict.scope_valid
+
+    RECORD = "founder/steward/security-dispositions/abc-1234-0.json"
+
+    def test_a_builder_diff_that_leaves_the_stamp_empty_is_in_scope(self) -> None:
+        diff = self._stamp_diff(
+            self.RECORD,
+            ['  "author": "builder-agent",', '  "verifiedBy": "",', '  "verifiedAt": "",', '  "verificationReceipt": ""'],
+        )
+        assert self._scope_of(diff)
+
+    def test_a_builder_diff_that_omits_the_stamp_is_in_scope(self) -> None:
+        assert self._scope_of(self._stamp_diff(self.RECORD, ['  "author": "builder-agent"']))
+
+    def test_null_counts_as_empty(self) -> None:
+        assert self._scope_of(self._stamp_diff(self.RECORD, ['  "verifiedBy": null,']))
+
+    @pytest.mark.parametrize(
+        "line",
+        [
+            '  "verifiedBy": "verifier-agent",',
+            '  "verifiedAt": "2026-11-07T01:00:00Z",',
+            '  "verificationReceipt": "rcpt-1",',
+            '{"author":"b","verifiedBy":"someone"}',
+            '  "VERIFIEDBY": "someone",',
+            '  "verified\\u0042y": "someone",',  # escaped letter inside the key
+            '  "verifiedBy":',  # value on a later line
+            '  "verifiedBy" : 7,',
+            '  "verifiedBy": ["x"],',
+        ],
+    )
+    def test_a_stamped_record_in_a_builder_diff_is_rejected(self, line: str) -> None:
+        diff = self._stamp_diff(self.RECORD, ['  "author": "builder-agent",', line])
+        assert not self._scope_of(diff)
+        assert any("stamps verifiedBy" in reason for reason in self.last_reasons)
+
+    def test_stamps_in_other_files_are_not_this_checks_business(self) -> None:
+        # Out of scope for another reason entirely, but not reported as a stamp.
+        diff = self._stamp_diff("src/gaia_cli/auth.py", ['    "verifiedBy": "x",'])
+        assert not self._scope_of(diff)
+        assert not any("stamps verifiedBy" in reason for reason in self.last_reasons)
+
+    def test_a_stamped_diff_is_reported_in_the_change_set(self) -> None:
+        change = parse_unified_diff(self._stamp_diff(self.RECORD, ['  "verifiedBy": "x",']))
+        assert change.stamped_paths == (self.RECORD,)
+        assert change.to_dict()["stampedPaths"] == [self.RECORD]
+        clean = parse_unified_diff(self._stamp_diff(self.RECORD, ['  "verifiedBy": "",']))
+        assert clean.stamped_paths == () and "stampedPaths" not in clean.to_dict()
+
     def _policy_text(self, tmp_path: Path, transform) -> Path:
         root = tmp_path / "policyroot"
         target = root / POLICY_RELATIVE_PATH
@@ -989,7 +1238,7 @@ class TestSchemaAndHelper:
             {**good, "policy": "D9"},
             {**good, "fingerprint": "xyz"},
             {**good, "evidence": ""},
-            {**good, "lineSha256": "short"},
+            {**good, "contextSha256": "short"},
             {**good, "occurrence": -1},
         ):
             with pytest.raises(jsonschema.ValidationError):
@@ -1002,11 +1251,11 @@ class TestSchemaAndHelper:
         drafts = helper.draftRecords(root, debt.debt_id)
         assert [item["fingerprint"] for item in drafts] == [f["fingerprint"] for f in debt.observed_state["findings"]]
         for item, (located, _) in zip(drafts, _targets(root)):
-            assert item["lineSha256"] == located.lineHash
+            assert item["contextSha256"] == located.contextHash
             assert item["debtId"] == debt.debt_id and item["path"] == SOURCE
             assert item["verifiedBy"] == "" and item["author"] == ""
             assert item["policy"] == "" and item["disposition"] == "" and item["evidence"] == ""
-            assert "fileSha256" not in item
+            assert "fileSha256" not in item and "lineSha256" not in item
             assert records.validateRecord(item) is not None  # inert until a human completes it
 
     def test_draft_accepts_the_review_debt_id_and_emits_the_stable_leak_id(self, tmp_path: Path) -> None:

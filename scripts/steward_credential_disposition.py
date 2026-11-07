@@ -3,7 +3,7 @@
 
 ``draft <debtId>`` rescans the checkout and emits one record skeleton per live
 finding of that debt, with path, line (informational), pattern, fingerprint,
-occurrence and the sha256 of the normalized line prefilled. The debt id may be
+occurrence and the stable-source-context hash prefilled. The debt id may be
 the file's ``credential_leak`` or ``credential_review`` debt; records always
 carry the stable ``credential_leak`` id. It never sets policy, disposition,
 evidence or author (a builder's judgement), nor verifiedBy, verifiedAt or
@@ -60,7 +60,7 @@ def draftRecords(root: Path, debtId: str, observedAt: str = "1970-01-01T00:00:00
             "pattern": item.finding["pattern"],
             "fingerprint": item.finding["fingerprint"],
             "occurrence": index,
-            "lineSha256": item.lineHash,
+            "contextSha256": item.contextHash,
             "policy": "",
             "disposition": "",
             "evidence": "",

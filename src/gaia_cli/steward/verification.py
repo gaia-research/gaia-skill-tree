@@ -98,6 +98,9 @@ class ChangeSet:
     guard_signal_added: int
     guard_signal_removed: int
     deleted_guard_files: tuple[str, ...]
+    # Disposition records whose ADDED lines set verifiedBy, verifiedAt or
+    # verificationReceipt to a non-empty value. A builder never stamps.
+    stamped_paths: tuple[str, ...] = ()
 
     @property
     def paths(self) -> tuple[str, ...]:
@@ -111,6 +114,7 @@ class ChangeSet:
             "guardSignalAdded": self.guard_signal_added,
             "guardSignalRemoved": self.guard_signal_removed,
             "deletedGuardFiles": list(self.deleted_guard_files),
+            **({"stampedPaths": list(self.stamped_paths)} if self.stamped_paths else {}),
         }
 
 
@@ -232,6 +236,27 @@ def _carveOut(path: str, denied: str, packet: DispatchPacket) -> bool:
     )
 
 
+# Post-review stamp fields of a credential disposition record. Only the lead's
+# integrate step sets them; a builder diff must leave them empty or absent.
+_STAMP_SUBTREE = "founder/steward/security-dispositions/"
+_STAMP_KEY = re.compile(
+    r"(?i)\"\s*(?:verifiedBy|verifiedAt|verificationReceipt)\s*\"\s*:\s*(?!\"\s*\"|null\b)(?:\S|$)"
+)
+_UNICODE_ESCAPE = re.compile(r"\\u([0-9a-fA-F]{4})")
+
+
+def _stamps(line: str) -> bool:
+    """Whether one added line sets a stamp field to a non-empty value.
+
+    JSON allows ``\\uXXXX`` escapes inside keys, so the line is unescaped first;
+    a value on a later line, or anything unreadable, is not given the benefit of
+    the doubt only when it names a stamp key at all.
+    """
+
+    unescaped = _UNICODE_ESCAPE.sub(lambda match: chr(int(match.group(1), 16)), line)
+    return bool(_STAMP_KEY.search(unescaped))
+
+
 def _is_guard(path: str) -> bool:
     return any(_matches(path, pattern) for pattern in _GUARD_PATTERNS)
 
@@ -279,6 +304,7 @@ def parse_unified_diff(text: str) -> ChangeSet:
 
     changes: list[FileChange] = []
     deleted_guards: list[str] = []
+    stamped: set[str] = set()
     guard_added = guard_removed = 0
 
     current: str | None = None
@@ -312,6 +338,8 @@ def parse_unified_diff(text: str) -> ChangeSet:
                 added += 1
                 if _is_guard(current) and _GUARD_SIGNAL.match(line[1:]):
                     guard_added += 1
+                if current.startswith(_STAMP_SUBTREE) and _stamps(line[1:]):
+                    stamped.add(current)
             elif line.startswith("-"):
                 old_remaining -= 1
                 removed += 1
@@ -393,6 +421,7 @@ def parse_unified_diff(text: str) -> ChangeSet:
         guard_signal_added=guard_added,
         guard_signal_removed=guard_removed,
         deleted_guard_files=tuple(sorted(deleted_guards)),
+        stamped_paths=tuple(sorted(stamped)),
     )
 
 
@@ -563,11 +592,17 @@ def evaluate(
             for denied in packet.forbidden_paths
         )
     ]
-    scope_valid = not outside and not forbidden
+    stamped = list(change_set.stamped_paths)
+    scope_valid = not outside and not forbidden and not stamped
     if outside:
         reasons.append("diff writes outside allowedPaths: " + ", ".join(sorted(outside)))
     if forbidden:
         reasons.append("diff writes inside forbiddenPaths: " + ", ".join(sorted(forbidden)))
+    if stamped:
+        reasons.append(
+            "builder diff stamps verifiedBy, verifiedAt or verificationReceipt (only the lead's integrate "
+            "step may): " + ", ".join(sorted(stamped))
+        )
 
     # 3. Is the proof complete and passing? Coverage and exit codes are exact;
     #    whether the output is genuine is not, and is asked of the verifier.
