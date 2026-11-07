@@ -1,5 +1,5 @@
 {
- "generation": 1198,
+ "generation": 1199,
  "lane": {
   "entries": [
    {
@@ -4893,7 +4893,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T09:17:26.310075Z",
-   "expiresAt": "2026-11-07T09:49:47.612039Z",
+   "expiresAt": "2026-11-07T09:49:54.919383Z",
    "holder": "run-20261107T091726Z-a5a5b1e9"
   }
  },
@@ -94295,13 +94295,20 @@
     "push": false,
     "routine": 1
    },
-   "phase": "class_b",
+   "phase": "verify",
    "phases": {
     "class_a": {
      "coverageUnknown": [
       "issue-hygiene"
      ],
      "reason": "sensor coverage is unknown; refusing Class A landing",
+     "status": "blocked"
+    },
+    "class_b": {
+     "coverageUnknown": [
+      "issue-hygiene"
+     ],
+     "reason": "sensor coverage is unknown; refusing Class B dispatch",
      "status": "blocked"
     },
     "observe": {
@@ -95330,6 +95337,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:class_a"
+    },
+    {
+     "at": "2026-11-07T09:19:53.971241Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_b"
     }
    ],
    "thinkingEfforts": [],
@@ -95340,7 +95353,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T09:19:47.612144Z",
+ "updatedAt": "2026-11-07T09:19:54.919485Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
