@@ -657,6 +657,15 @@
           "bindingStatus": "unrouted"
         },
         {
+          "sensorId": "secret-scan",
+          "debtKind": "credential_review",
+          "authority": "B",
+          "dispatchRule": "credential-review-disposition",
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "route-bound"
+        },
+        {
           "sensorId": "supply-chain",
           "debtKind": "version_lockstep_drift",
           "authority": "B",
@@ -786,6 +795,15 @@
           "repairExecutor": null,
           "founderRule": null,
           "bindingStatus": "unrouted"
+        },
+        {
+          "sensorId": "secret-scan",
+          "debtKind": "credential_review",
+          "authority": "B",
+          "dispatchRule": "credential-review-disposition",
+          "repairExecutor": null,
+          "founderRule": null,
+          "bindingStatus": "route-bound"
         }
       ],
       "predicate": "A change with an external data flow or browser sink receives an explicit security/privacy review.",
@@ -2056,7 +2074,8 @@
         14
       ],
       "debtKinds": [
-        "credential_leak"
+        "credential_leak",
+        "credential_review"
       ],
       "trigger": "every-scan",
       "inputs": [
@@ -2066,7 +2085,7 @@
         }
       ],
       "sourceOfTruth": "every Git-tracked file",
-      "evidence": "credential-shaped strings stored only as a fingerprint, path and line",
+      "evidence": "credential-shaped strings stored only as a fingerprint, path, line and the sha256 of the normalized line",
       "freshness": "checkout-head",
       "coverageStatus": {
         "static": [
@@ -2077,13 +2096,15 @@
         "live": "requires-receipt"
       },
       "authority": {
-        "credential_leak": "C"
+        "credential_leak": "C",
+        "credential_review": "B"
       },
       "dedupeKey": "debt:{kind}:{slug(subject.id)}:{sha256(semanticKey)[:16]}",
       "resolutionScope": "exhaustive",
       "owningSkill": "gaia-steward-observe",
       "dispositionSkills": {
-        "credential_leak": "gaia-steward-desk"
+        "credential_leak": "gaia-steward-desk",
+        "credential_review": "gaia-steward-lane"
       },
       "proof": [
         "tests/steward/test_sensors_security.py"

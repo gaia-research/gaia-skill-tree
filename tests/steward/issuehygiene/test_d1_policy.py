@@ -85,8 +85,9 @@ def test_repository_policy_wires_issue_debt_authority_and_routes() -> None:
     # B5: the shipped policy is dry-run (contract section 6). The pilot runs through explicit flags, not this policy.
     assert policy.issue_hygiene.writesEnabled is False
     assert policy.issue_hygiene.maxClosuresPerRun == 10
-    # Founder ruling #10 (2026-11-06) ratified the A1-A5 allowlist as policy. It is the approved record that makes the
-    # rules effective; writesEnabled stays false, so no closure is emit-able or executable until it is switched on.
+    # Founder ruling #10 (2026-11-06) / batch 1 (steward-issue-closure-authority) ratified the A1-A5 allowlist as policy.
+    # It is the approved record that makes the rules effective; writesEnabled stays false, so no closure is emit-able or executable until it is switched on.
+    assert policy.issue_hygiene.enabledRules == KNOWN_RULE_IDS
     assert policy.issue_hygiene.enabledRules == (
         "A1-child-curated", "A2-umbrella-synced", "A3-umbrella-superseded", "A4-duplicate-child", "A5-botreport-superseded",
     )
