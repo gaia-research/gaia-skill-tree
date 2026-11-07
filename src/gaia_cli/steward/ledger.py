@@ -35,6 +35,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import logging
 import math
 import os
 import random
@@ -263,14 +264,66 @@ def ledgerByteLimit() -> int:
     return value
 
 
-def reportLedgerSize(size: int, limit: int, direction: str) -> None:
+def reportLedgerSize(
+    size: int,
+    limit: int,
+    direction: str,
+    *,
+    duration_ms: float | None = None,
+    cas_retries: int | None = None,
+) -> None:
     percent = size * 100 / limit
-    if percent >= 70:
-        import logging
-        logging.getLogger(__name__).warning(
-            "Steward ledger size telemetry: direction=%s bytes=%d limit_bytes=%d percent=%.1f threshold=%s",
-            direction, size, limit, percent, "90%" if percent >= 90 else "70%",
+    logger = logging.getLogger(__name__)
+    if duration_ms is not None:
+        logger.info(
+            "Steward ledger monitor: direction=%s bytes=%d limit_bytes=%d duration_ms=%.1f cas_retries=%d",
+            direction,
+            size,
+            limit,
+            duration_ms,
+            cas_retries or 0,
         )
+    if percent >= 70:
+        if duration_ms is not None and cas_retries is not None:
+            logger.warning(
+                "Steward ledger size telemetry: direction=%s bytes=%d limit_bytes=%d percent=%.1f threshold=%s duration_ms=%.1f cas_retries=%d",
+                direction,
+                size,
+                limit,
+                percent,
+                "90%" if percent >= 90 else "70%",
+                duration_ms,
+                cas_retries,
+            )
+        elif duration_ms is not None:
+            logger.warning(
+                "Steward ledger size telemetry: direction=%s bytes=%d limit_bytes=%d percent=%.1f threshold=%s duration_ms=%.1f",
+                direction,
+                size,
+                limit,
+                percent,
+                "90%" if percent >= 90 else "70%",
+                duration_ms,
+            )
+        elif cas_retries is not None:
+            logger.warning(
+                "Steward ledger size telemetry: direction=%s bytes=%d limit_bytes=%d percent=%.1f threshold=%s cas_retries=%d",
+                direction,
+                size,
+                limit,
+                percent,
+                "90%" if percent >= 90 else "70%",
+                cas_retries,
+            )
+        else:
+            logger.warning(
+                "Steward ledger size telemetry: direction=%s bytes=%d limit_bytes=%d percent=%.1f threshold=%s",
+                direction,
+                size,
+                limit,
+                percent,
+                "90%" if percent >= 90 else "70%",
+            )
 
 
 def serialize(document: Mapping[str, Any]) -> bytes:
@@ -294,9 +347,9 @@ def serialize(document: Mapping[str, Any]) -> bytes:
     return data
 
 
-def deserialize(data: bytes) -> dict[str, Any]:
+def deserialize(data: bytes, *, duration_ms: float | None = None) -> dict[str, Any]:
     limit = ledgerByteLimit()
-    reportLedgerSize(len(data), limit, "read")
+    reportLedgerSize(len(data), limit, "read", duration_ms=duration_ms)
     if len(data) > limit:
         raise LedgerUnavailable(
             f"ledger is {len(data)} bytes, over the {limit} byte bound"
@@ -395,6 +448,8 @@ class GitRefLedgerStore:
         self.trackingRef = f"{LOCAL_TRACKING_PREFIX}-{digest}"
         self.ephemeralRemote = f"steward-remote-{digest}"
         self.urls: tuple[str, str] | None = None
+        self.last_write_bytes: int = 0
+        self.last_read_bytes: int = 0
 
     # -- subprocess plumbing ------------------------------------------------
 
@@ -550,16 +605,20 @@ class GitRefLedgerStore:
             return self.plumb(["rev-parse", "--verify", f"{self.trackingRef}^{{commit}}"])
 
     def load(self) -> tuple[dict[str, Any], str | None]:
-        ledgerByteLimit()
+        t0 = time.perf_counter()
+        limit = ledgerByteLimit()
         commit = self.fetchRemote()
         if commit is None:
+            duration_ms = (time.perf_counter() - t0) * 1000.0
+            self.last_read_bytes = 0
+            reportLedgerSize(0, limit, "read", duration_ms=duration_ms)
             return empty_ledger(), None
         spec = f"{commit}:{LEDGER_FILENAME}"
         size = self.plumb(["cat-file", "-s", spec])
         try:
-            limit = ledgerByteLimit()
-            reportLedgerSize(int(size), limit, "read")
-            if int(size) > limit:
+            int_size = int(size)
+            if int_size > limit:
+                reportLedgerSize(int_size, limit, "read")
                 raise LedgerUnavailable(
                     f"ledger is {size} bytes, over the {limit} byte bound"
                 )
@@ -568,7 +627,9 @@ class GitRefLedgerStore:
         result = self.git(["cat-file", "-p", spec], timeout=self.localTimeout)
         if result.returncode != 0:
             raise LedgerUnavailable(f"ledger read failed: {self.outputText(result).strip()[:400]}")
-        return deserialize(result.stdout), commit
+        duration_ms = (time.perf_counter() - t0) * 1000.0
+        self.last_read_bytes = len(result.stdout)
+        return deserialize(result.stdout, duration_ms=duration_ms), commit
 
     # -- compare-and-swap ---------------------------------------------------
 
@@ -576,6 +637,7 @@ class GitRefLedgerStore:
         self, expected: str | None, document: dict[str, Any], message: str
     ) -> str:
         data = serialize(nextGeneration(document))
+        self.last_write_bytes = len(data)
         if expected is not None:
             probe = self.git(
                 ["cat-file", "-e", f"{expected}^{{commit}}"], timeout=self.localTimeout
@@ -678,6 +740,8 @@ class FileLedgerStore:
     def __init__(self, path: Path | str) -> None:
         self.path = Path(path)
         self.lockPath = self.path.with_name(self.path.name + ".lock")
+        self.last_write_bytes: int = 0
+        self.last_read_bytes: int = 0
 
     @staticmethod
     def versionOf(document: Mapping[str, Any], data: bytes) -> str:
@@ -694,8 +758,21 @@ class FileLedgerStore:
         return document, self.versionOf(document, data)
 
     def load(self) -> tuple[dict[str, Any], str | None]:
-        ledgerByteLimit()
-        return self.readFile()
+        t0 = time.perf_counter()
+        limit = ledgerByteLimit()
+        try:
+            data = self.path.read_bytes()
+        except FileNotFoundError:
+            duration_ms = (time.perf_counter() - t0) * 1000.0
+            self.last_read_bytes = 0
+            reportLedgerSize(0, limit, "read", duration_ms=duration_ms)
+            return empty_ledger(), None
+        except OSError as exc:
+            raise LedgerUnavailable(f"ledger read failed: {exc}") from exc
+        duration_ms = (time.perf_counter() - t0) * 1000.0
+        self.last_read_bytes = len(data)
+        document = deserialize(data, duration_ms=duration_ms)
+        return document, self.versionOf(document, data)
 
     def compare_and_swap(
         self, expected: str | None, document: dict[str, Any], message: str
@@ -704,6 +781,7 @@ class FileLedgerStore:
             raise LedgerUnavailable("FileLedgerStore requires a POSIX host (fcntl)")
         newDocument = nextGeneration(document)
         data = serialize(newDocument)
+        self.last_write_bytes = len(data)
         try:
             self.path.parent.mkdir(parents=True, exist_ok=True)
             lockFd = os.open(self.lockPath, os.O_RDWR | os.O_CREAT, 0o644)
@@ -764,6 +842,7 @@ def update(
 
     if not isinstance(retries, int) or isinstance(retries, bool) or retries < 0:
         raise ValueError(f"retries must be a non-negative integer, got {retries!r}")
+    t_start = time.perf_counter()
     lastConflict: LedgerConflict | None = None
     for attempt in range(retries + 1):
         document, version = store.load()
@@ -773,7 +852,17 @@ def update(
             return result, version
         working["updatedAt"] = formatTime(clock())
         try:
-            return result, store.compare_and_swap(version, working, message)
+            new_version = store.compare_and_swap(version, working, message)
+            duration_ms = (time.perf_counter() - t_start) * 1000.0
+            limit = ledgerByteLimit()
+            size = getattr(store, "last_write_bytes", None)
+            if size is None:
+                try:
+                    size = len(serialize(nextGeneration(working)))
+                except Exception:
+                    size = 0
+            reportLedgerSize(size, limit, "write", duration_ms=duration_ms, cas_retries=attempt)
+            return result, new_version
         except LedgerConflict as exc:
             lastConflict = exc
             if attempt < retries:

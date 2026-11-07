@@ -10,6 +10,7 @@ from __future__ import annotations
 import copy
 import json
 import os
+import re
 import subprocess
 import threading
 import time
@@ -1101,3 +1102,165 @@ def test_lease_ttl_boundary_and_expiry_overflow():
     assert acquire_lease(doc, "run", "a", T0, 30 * 24 * 3600) is True
     with pytest.raises(ValueError):
         acquire_lease(doc, "other", "a", datetime(9999, 12, 31, 23, 59, 59, tzinfo=timezone.utc), 3600)
+
+
+def test_read_duration_is_measured_and_emitted_in_ledger_monitor(caplog, tmp_path, machines):
+    caplog.set_level("INFO", logger="gaia_cli.steward.ledger")
+
+    # 1. FileLedgerStore: empty and populated reads
+    file_store = FileLedgerStore(tmp_path / "ledger.json")
+
+    # Empty file read
+    caplog.clear()
+    doc, ver = file_store.load()
+    assert ver is None
+    read_msgs = [r.getMessage() for r in caplog.records if "Steward ledger monitor: direction=read" in r.getMessage()]
+    assert len(read_msgs) == 1
+    m = re.search(
+        r"Steward ledger monitor: direction=read bytes=(\d+) limit_bytes=(\d+) duration_ms=([0-9.]+) cas_retries=(\d+)",
+        read_msgs[0],
+    )
+    assert m is not None
+    assert int(m.group(1)) == 0
+    assert float(m.group(3)) >= 0.0
+    assert int(m.group(4)) == 0
+
+    # Populate file store
+    update(file_store, appendMarker("file-seed"))
+
+    # Populated file read
+    caplog.clear()
+    doc, ver = file_store.load()
+    assert ver is not None
+    read_msgs = [r.getMessage() for r in caplog.records if "Steward ledger monitor: direction=read" in r.getMessage()]
+    assert len(read_msgs) == 1
+    m = re.search(
+        r"Steward ledger monitor: direction=read bytes=(\d+) limit_bytes=(\d+) duration_ms=([0-9.]+) cas_retries=(\d+)",
+        read_msgs[0],
+    )
+    assert m is not None
+    assert int(m.group(1)) > 0
+    assert float(m.group(3)) >= 0.0
+    assert int(m.group(4)) == 0
+
+    # 2. GitRefLedgerStore: empty and populated reads
+    _, git_store_a, _ = machines
+
+    # Empty git read
+    caplog.clear()
+    doc, ver = git_store_a.load()
+    assert ver is None
+    read_msgs = [r.getMessage() for r in caplog.records if "Steward ledger monitor: direction=read" in r.getMessage()]
+    assert len(read_msgs) == 1
+    m = re.search(
+        r"Steward ledger monitor: direction=read bytes=(\d+) limit_bytes=(\d+) duration_ms=([0-9.]+) cas_retries=(\d+)",
+        read_msgs[0],
+    )
+    assert m is not None
+    assert int(m.group(1)) == 0
+    assert float(m.group(3)) >= 0.0
+    assert int(m.group(4)) == 0
+
+    # Populate git store
+    update(git_store_a, appendMarker("git-seed"))
+
+    # Populated git read
+    caplog.clear()
+    doc, ver = git_store_a.load()
+    assert ver is not None
+    read_msgs = [r.getMessage() for r in caplog.records if "Steward ledger monitor: direction=read" in r.getMessage()]
+    assert len(read_msgs) == 1
+    m = re.search(
+        r"Steward ledger monitor: direction=read bytes=(\d+) limit_bytes=(\d+) duration_ms=([0-9.]+) cas_retries=(\d+)",
+        read_msgs[0],
+    )
+    assert m is not None
+    assert int(m.group(1)) > 0
+    assert float(m.group(3)) >= 0.0
+    assert int(m.group(4)) == 0
+
+
+def test_write_duration_and_cas_retries_emitted_during_update(caplog, tmp_path, machines):
+    caplog.set_level("INFO", logger="gaia_cli.steward.ledger")
+
+    # Clean write (first attempt: cas_retries == 0)
+    file_store = FileLedgerStore(tmp_path / "ledger.json")
+    caplog.clear()
+    update(file_store, appendMarker("clean-write"))
+    write_msgs = [r.getMessage() for r in caplog.records if "Steward ledger monitor: direction=write" in r.getMessage()]
+    assert len(write_msgs) == 1
+    m = re.search(
+        r"Steward ledger monitor: direction=write bytes=(\d+) limit_bytes=(\d+) duration_ms=([0-9.]+) cas_retries=(\d+)",
+        write_msgs[0],
+    )
+    assert m is not None
+    assert int(m.group(1)) > 0
+    assert float(m.group(3)) >= 0.0
+    assert int(m.group(4)) == 0
+
+    # Conflict retry: cas_retries > 0
+    _, store_a, store_b = machines
+    update(store_a, appendMarker("seed"))
+
+    interfered = []
+    def sneaky_mutate(doc):
+        if not interfered:
+            interfered.append(True)
+            update(store_a, appendMarker("sneak-in"))
+        doc["runs"]["b"] = {"runId": "b"}
+
+    caplog.clear()
+    update(store_b, sneaky_mutate, sleep=noSleep)
+    write_msgs = [r.getMessage() for r in caplog.records if "Steward ledger monitor: direction=write" in r.getMessage()]
+    assert len(write_msgs) >= 2
+    # The last write message is store_b's successful CAS after 1 retry
+    last_msg = write_msgs[-1]
+    m_conflict = re.search(
+        r"Steward ledger monitor: direction=write bytes=(\d+) limit_bytes=(\d+) duration_ms=([0-9.]+) cas_retries=(\d+)",
+        last_msg,
+    )
+    assert m_conflict is not None
+    assert int(m_conflict.group(1)) > 0
+    assert float(m_conflict.group(3)) >= 0.0
+    assert int(m_conflict.group(4)) == 1
+
+
+def test_ledger_monitor_and_telemetry_logs_are_metadata_only(caplog, tmp_path):
+    caplog.set_level("DEBUG", logger="gaia_cli.steward.ledger")
+
+    secret_key = "super-confidential-token-998877"
+    secret_debt = "debt-private-vault-42"
+    secret_holder = "agent-secret-007"
+
+    store = FileLedgerStore(tmp_path / "ledger.json")
+
+    def mutate_secret(doc):
+        record_run(doc, {"runId": "secret-run", "token": secret_key})
+        acquire_lease(doc, "secret-lease", secret_holder, T0, 3600)
+        upsert_work(doc, {"debtId": secret_debt, "state": "queued", "payload": secret_key})
+        return "done"
+
+    caplog.clear()
+    update(store, mutate_secret)
+    store.load()
+
+    # Also exercise high-capacity size telemetry with duration and cas_retries
+    limit = 1000
+    ledgerModule.reportLedgerSize(750, limit, "write", duration_ms=15.5, cas_retries=2)
+    ledgerModule.reportLedgerSize(920, limit, "read", duration_ms=25.0)
+    ledgerModule.reportLedgerSize(700, limit, "read")
+
+    records = caplog.records
+    assert len(records) > 0
+
+    forbidden = {secret_key, secret_debt, secret_holder, "secret-run", "secret-lease", "queued", "payload"}
+    for record in records:
+        msg = record.getMessage()
+        for secret in forbidden:
+            assert secret not in msg, f"Secret {secret} leaked in log: {msg}"
+
+    warning_msgs = [r.getMessage() for r in records if r.levelname == "WARNING"]
+    assert any("threshold=70% duration_ms=15.5 cas_retries=2" in m for m in warning_msgs)
+    assert any("threshold=90% duration_ms=25.0" in m for m in warning_msgs)
+    assert any("threshold=70%" in m and "duration_ms" not in m for m in warning_msgs)
+
