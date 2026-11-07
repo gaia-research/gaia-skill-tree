@@ -1,5 +1,5 @@
 {
- "generation": 1302,
+ "generation": 1303,
  "lane": {
   "entries": [
    {
@@ -5616,7 +5616,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T10:31:10.561980Z",
-   "expiresAt": "2026-11-07T11:03:09.162727Z",
+   "expiresAt": "2026-11-07T11:03:17.085099Z",
    "holder": "run-20261107T103110Z-5e4b906c"
   }
  },
@@ -104219,7 +104219,7 @@
     "push": false,
     "routine": 1
    },
-   "phase": "triage",
+   "phase": "class_a",
    "phases": {
     "observe": {
      "authorityCounts": {
@@ -105160,6 +105160,46 @@
      "integrationHead": "591db5447c7bd07d6b83b30e6bfcbeecdfb17dbe",
      "sourceHead": "591db5447c7bd07d6b83b30e6bfcbeecdfb17dbe",
      "unresolvedWork": 0
+    },
+    "triage": {
+     "carried": 0,
+     "classA": [],
+     "classB": [
+      "debt:unused_import:scripts-migrate-taxonomy-v6-py:8219619acd869521",
+      "debt:unused_import:scripts-prepare-l4-october-py:bd894a0b5a6223f2",
+      "debt:unused_import:scripts-steward-issue-reconcile-py:8ed5a1f9ac67ba3f",
+      "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
+      "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
+      "debt:unused_import:scripts-upstream-watcher-transport-py:f9f55b2634428ef3",
+      "debt:unused_import:src-gaia-cli-commands-dev-verify-py:df107873802e647a",
+      "debt:unused_import:src-gaia-cli-commands-misc-py:62763bd4d9621989",
+      "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
+      "debt:unused_import:src-gaia-cli-main-py:5e2d8b5dd2597031",
+      "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
+      "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11",
+      "debt:unused_import:src-gaia-cli-steward-workflowproof-py:ce3a82469342146f"
+     ],
+     "classC": [],
+     "counts": {
+      "A": 0,
+      "B": 13,
+      "B-report-only": 0,
+      "C": 0
+     },
+     "filtered": 359,
+     "held": [
+      "debt:unused_import:scripts-archive-add-hermes-batch-py:d44c8312efe0535a",
+      "debt:unused_import:scripts-check-rank-vocabulary-py:4919ab54251419b9",
+      "debt:unused_import:scripts-jev-advisory-py:2e2799e7eedfcd5a",
+      "debt:unused_import:scripts-lib-tests-test-heartbeat-regression-py:119965096d096663",
+      "debt:unused_import:scripts-lib-tests-test-lib-py:937bb006737be2e0",
+      "debt:unused_import:scripts-merge-gate-check-py:1cff37f84d221787",
+      "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0",
+      "debt:unused_import:scripts-run-meta-sweep-py:3e8242f71d3c1aa0"
+     ],
+     "issueClosure": [],
+     "reportOnly": [],
+     "skippedActive": []
     }
    },
    "proofArtifacts": [],
@@ -105193,6 +105233,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:observe"
+    },
+    {
+     "at": "2026-11-07T10:33:16.161498Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:triage"
     }
    ],
    "thinkingEfforts": [],
@@ -105203,7 +105249,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T10:33:09.162867Z",
+ "updatedAt": "2026-11-07T10:33:17.085230Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
