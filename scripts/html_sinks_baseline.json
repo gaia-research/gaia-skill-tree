@@ -1,0 +1,96 @@
+{
+  "about": "Known HTML sink debt at the time the ratchet landed. Every entry is a pre-existing sink tracked so new sinks can be hard-blocked immediately. Shrink this file as sinks are migrated to DOM APIs or annotated; never grow it.",
+  "generated": "2026-11-08",
+  "findings": {
+    "docs/experiments/ml-graph-viz/index_3d.html": {
+      "innerhtml-template": 1
+    },
+    "docs/js/skill-explorer.js": {
+      "innerhtml-concat": 2
+    },
+    "docs/js/skill-graph.js": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-05-31-starless-skills-update.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-06-02-june-week-1-meta-update.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-06-03-chained-curation-thirteen-starless-references-and-a-unique-reclassification.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-06-14-the-gaia-trust-methodology-evidence-types-grades-and-inherited-standing.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-06-15-the-gaia-trust-methodology-evidence-types-grades-and-inherited-standing.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-06-17-g7-trust-magnitude-supersedes-the-2026-06-15-methodology.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-06-20-gaia-trust-infrastructure-a-june-2026-retrospective.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-07-03-curation-report-addy-osmani-7-skill-suite-integration.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-07-03-gsd-suite-curation.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-07-13-firecrawl-suite-curation-and-origin-recalibration.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-07-30-intake-batch-11-named-skills-onboarded-ev-pipeline-v2-live.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-08-01-registry-audit-report-deepmind-cluster-audit-release-v733-rank-calibrations.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-08-04-skill-tree-report-backlog-registry-changes.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-08-06-a-registry-correction-on-caveman-and-two-install-fixes.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-08-10-98-out-of-100-arent-good-enough.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-08-20-from-question-to-code-matt-pococks-skill-curation.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-08-24-arbor-opens-for-review-a-behavioral-tree-without-a-leaderboard.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-08-29-yggdrasil-iii-structural-provenance-is-not-trust.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-09-03-yggdrasil-iii-update-63-skills-recalibrated-a-fusion-score-badge-and-nine-records-at-the-s-floor.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-09-07-september-2026-intake-wave-evidence-before-promotion.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-09-10-september-9-rank-calibration.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-09-13-september-mid-cycle-update-frozen-ranks-upstream-sync-and-the-four-tier-audit.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-09-25-discovery-is-not-admission-what-95-agent-skill-candidates-taught-us.html": {
+      "innerhtml-template": 1
+    },
+    "docs/meta/reports/2026-10-31-yggdrasil-iv-a-challenge-must-be-earned-and-standing-can-recover.html": {
+      "innerhtml-template": 1
+    },
+    "docs/samples/explorer.html": {
+      "innerhtml-concat": 1
+    },
+    "docs/samples/registry-3d-fonts.html": {
+      "innerhtml-concat": 1
+    }
+  }
+}

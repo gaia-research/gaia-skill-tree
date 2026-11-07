@@ -13,15 +13,18 @@ authors instant feedback in review, BEFORE the slower CodeQL scan lands.
   unambiguous cases fast; CodeQL remains the backstop for cross-function flows.
 
 ==============================================================================
-POSTURE: WARN-ONLY by default (see HARD_FAIL).
+POSTURE: HARD-FAIL for new sinks, with counted baseline debt.
 
-The repo has ~260 pre-existing `.innerHTML =` assignments across 20+ files;
-most are safe (clearing to '', static literals) but ~14 interpolate runtime
-values. Hard-failing all of them on day one would red-build staging for work
-outside this guard's introducing PR. So the guard ships WARN-ONLY: it surfaces
-the dangerous class and offers an audited-suppression marker, acting as a
-ratchet. Flip HARD_FAIL=True once the interpolating sites are driven to zero
-(each either converted to a DOM API or annotated with an OK marker below).
+html_sinks_baseline.json carries pre-existing sinks by repository-relative path
+and label. Only that budget is allowed; every additional sink fails the guard.
+Shrink the baseline as sites migrate to DOM APIs or audited markers; never grow
+it. A missing or empty baseline hard-fails on every unsafe sink.
+Use --baseline <path> to select a baseline, or --dump-baseline to inspect the
+current findings as JSON (review only; do not grow the committed baseline).
+Use --check-baseline-growth to also reject budget increases against the Git
+merge-base with GITHUB_BASE_REF or origin/main (override with --base-ref, e.g.
+HEAD~1). A missing baseline at that revision means zero budget; unavailable Git
+history fails in GitHub Actions, or warns and skips the growth comparison locally.
 ==============================================================================
 
 WHAT IT FLAGS  (the unambiguously-dangerous sink patterns)
@@ -56,9 +59,15 @@ SCAN SCOPE  (production browser surfaces only — mirrors check_taxonomy_authori
 Force UTF-8 output on Windows (repo has cp1252 glyphs).
 """
 
+import argparse
+import json
+import os
 import re
+import subprocess
 import sys
 import fnmatch
+from dataclasses import dataclass, field
+from datetime import date
 from pathlib import Path
 
 # Force UTF-8 output on Windows so unicode chars in print() don't crash.
@@ -69,12 +78,20 @@ if sys.stderr.encoding and sys.stderr.encoding.lower() not in ("utf-8", "utf8"):
 
 
 # ---------------------------------------------------------------------------
-# Posture switch — WARN-ONLY until the interpolating surface reaches zero.
+# New sinks always hard-fail, including when no baseline is available.
 # ---------------------------------------------------------------------------
-HARD_FAIL = False
+HARD_FAIL = True
+DEFAULT_BASELINE = Path(__file__).resolve().parent / "html_sinks_baseline.json"
+BASELINE_ABOUT = (
+    "Known HTML sink debt at the time the ratchet landed. Every entry is a "
+    "pre-existing sink tracked so new sinks can be hard-blocked immediately. "
+    "Shrink this file as sinks are migrated to DOM APIs or annotated; never grow it."
+)
 
 # Audited-safe suppression marker. The reason text after the colon is required.
-SUPPRESS = re.compile(r"gaia-html-sink-ok:\s*\S")
+SUPPRESS = re.compile(
+    r"(?://\s*gaia-html-sink-ok:\s*(\S[^\n\r]*)$|/\*\s*gaia-html-sink-ok:\s*(\S.*?)\s*\*/\s*$)"
+)
 
 
 # ---------------------------------------------------------------------------
@@ -145,6 +162,9 @@ EXCLUDE_GLOBS = [
 # whitespace/attribute chars before `>` (HTML lets `</script\t\n foo>` close a
 # block), so a crafted end tag can't smuggle script past the guard.
 SCRIPT_BLOCK = re.compile(r"<script\b[^>]*>(.*?)</script\s*[^>]*>", re.IGNORECASE | re.DOTALL)
+REGEX_LITERAL_PATTERN = re.compile(
+    r"^/(?:\[(?:\\.|[^\]\n\\])*\]|\\.|[^/\n\\\[])+/[a-z]*"
+)
 
 
 def isComment(line: str) -> bool:
@@ -174,15 +194,160 @@ def collectFiles(repoRoot: Path):
             yield p, rel
 
 
-def scanLine(line: str):
+@dataclass
+class LexicalState:
+    stack: list[str] = field(default_factory=lambda: ["NORMAL"])
+    regex_allowed: bool = True
+    control_parens: list[bool] = field(default_factory=list)
+    brace_stack: list[str] = field(default_factory=list)
+    previous_token: str = ""
+    # Bounded token context survives newlines for labels and class headers.
+    statement_tokens: list[str] = field(default_factory=list)
+
+
+def extract_trailing_comment(line: str, lexical_state: LexicalState | None = None) -> str | None:
+    """Find a trailing JS comment outside literals and template expressions.
+
+    Preserve token context as well as nesting across lines. This is not a full
+    JS parser; comments in template expressions cannot authorize suppression.
+    """
+    lexical_state = lexical_state if lexical_state is not None else LexicalState()
+    states = lexical_state.stack
+    i = 0
+    regexKeywords = {
+        "return", "yield", "typeof", "delete", "void", "throw", "instanceof",
+        "in", "of", "new", "await", "case", "default", "else", "do",
+    }
+    controlKeywords = {"if", "while", "for", "with", "switch", "catch"}
+    while i < len(line):
+        state = states[-1]
+        char = line[i]
+        if state == "BLOCK_COMMENT":
+            end = line.find("*/", i)
+            if end == -1:
+                return None
+            states.pop()
+            i = end + 2
+            continue
+        if state in ("SINGLE_QUOTE", "DOUBLE_QUOTE", "TEMPLATE_LITERAL"):
+            if char == "\\":
+                i += 2
+                continue
+            if state == "TEMPLATE_LITERAL" and line.startswith("${", i):
+                states.append("TEMPLATE_EXPR")
+                lexical_state.regex_allowed = True
+                lexical_state.previous_token = ""
+                i += 2
+                continue
+            delimiter = {"SINGLE_QUOTE": "'", "DOUBLE_QUOTE": '"',
+                         "TEMPLATE_LITERAL": "`"}[state]
+            if char == delimiter:
+                states.pop()
+                lexical_state.regex_allowed = False
+                lexical_state.previous_token = delimiter
+        elif char in "'\"`":
+            states.append({"'": "SINGLE_QUOTE", '"': "DOUBLE_QUOTE",
+                           "`": "TEMPLATE_LITERAL"}[char])
+        elif line.startswith("//", i):
+            # A line comment in an expression consumes the rest of this line,
+            # not a trailing comment in the outer NORMAL state.
+            return line[i:] if states == ["NORMAL"] else None
+        elif line.startswith("/*", i):
+            end = line.find("*/", i + 2)
+            if end == -1:
+                states.append("BLOCK_COMMENT")
+                return None
+            if states == ["NORMAL"] and not line[end + 2:].strip():
+                return line[i:]
+            i = end + 2
+            continue
+        elif char == "/":
+            # Only expression-start contexts permit a regex. In particular,
+            # division must not consume a later trailing-comment delimiter.
+            match = REGEX_LITERAL_PATTERN.match(line[i:]) if lexical_state.regex_allowed else None
+            if match:
+                i += match.end()
+                lexical_state.regex_allowed = False
+                lexical_state.previous_token = "regex"
+                continue
+            lexical_state.regex_allowed = True  # division's right operand starts here
+            lexical_state.previous_token = char
+        elif char.isspace():
+            pass
+        elif char.isalpha() or char in "_$" or char.isdigit():
+            end = i + 1
+            while end < len(line) and (line[end].isalnum() or line[end] in "_$"):
+                end += 1
+            token = line[i:end]
+            lexical_state.regex_allowed = token in regexKeywords and lexical_state.previous_token != "."
+            lexical_state.previous_token = token
+            lexical_state.statement_tokens = (lexical_state.statement_tokens + [token])[-16:]
+            i = end
+            continue
+        else:
+            if char == "(":
+                lexical_state.control_parens.append(lexical_state.previous_token in controlKeywords)
+                lexical_state.regex_allowed = True
+            elif char == ")":
+                # A control header ends at a statement, unlike a call/group.
+                lexical_state.regex_allowed = lexical_state.control_parens.pop() if lexical_state.control_parens else False
+            elif char == "{":
+                # Statement starts (including control headers) open blocks;
+                # assignment/argument/return contexts instead open objects.
+                prefix = " ".join(lexical_state.statement_tokens)
+                identifier = r"[A-Za-z_$][\w$]*"
+                label = (re.fullmatch(rf"{identifier} :", prefix) is not None
+                         and (not lexical_state.brace_stack
+                              or lexical_state.brace_stack[-1] == "BLOCK"))
+                classHeader = re.search(
+                    rf"(?:^| )class(?: {identifier})?(?: extends {identifier})?$", prefix
+                ) is not None
+                kind = "BLOCK" if label or classHeader or lexical_state.previous_token in {
+                    "", ";", "{", "}", ")", "else", "do", "try", "finally",
+                } else "OBJECT"
+                # An interpolation starts with an expression, not a statement.
+                if state == "TEMPLATE_EXPR" and lexical_state.previous_token == "":
+                    kind = "OBJECT"
+                lexical_state.brace_stack.append(kind)
+                lexical_state.regex_allowed = True
+            elif char == "}":
+                # The interpolation delimiter itself has no brace-stack entry.
+                interpolation_end = state == "TEMPLATE_EXPR" and (
+                    len(states) < 2 or states[-2] == "TEMPLATE_LITERAL"
+                )
+                kind = (lexical_state.brace_stack.pop()
+                        if lexical_state.brace_stack and not interpolation_end else "OBJECT")
+                lexical_state.regex_allowed = kind == "BLOCK"
+            elif line[i:i + 2] in ("++", "--"):
+                lexical_state.previous_token = line[i:i + 2]
+                i += 2
+                continue
+            else:
+                lexical_state.regex_allowed = char in "=:([{,;!&|?+-*%^~<>"
+            if state == "TEMPLATE_EXPR":
+                if char == "{":
+                    states.append("TEMPLATE_EXPR")
+                elif char == "}":
+                    states.pop()
+            lexical_state.previous_token = char
+            if char in ";{}":
+                lexical_state.statement_tokens.clear()
+            else:
+                lexical_state.statement_tokens = (lexical_state.statement_tokens + [char])[-16:]
+        i += 1
+    return None
+
+
+def scanLine(line: str, lexical_state: LexicalState | None = None):
     """Yield (label, rationale) for each sink signature the line trips, unless
     the line carries an audited-safe suppression marker."""
+    comment = extract_trailing_comment(line, lexical_state)
     if isComment(line):
         return
-    if SUPPRESS.search(line):
+    if comment is not None and SUPPRESS.match(comment):
         return
     for pattern, label, rationale in SINK_PATTERNS:
-        if pattern.search(line):
+        for match in pattern.finditer(line):
             yield label, rationale
 
 
@@ -193,12 +358,14 @@ def scanText(text: str, isHtml: bool):
         for m in SCRIPT_BLOCK.finditer(text):
             startLine = text.count("\n", 0, m.start(1)) + 1
             block = m.group(1)
+            lexical_state = LexicalState()
             for offset, line in enumerate(block.splitlines()):
-                for label, rationale in scanLine(line):
+                for label, rationale in scanLine(line, lexical_state):
                     yield startLine + offset, line.strip()[:120], label, rationale
     else:
+        lexical_state = LexicalState()
         for lineno, line in enumerate(text.splitlines(), start=1):
-            for label, rationale in scanLine(line):
+            for label, rationale in scanLine(line, lexical_state):
                 yield lineno, line.strip()[:120], label, rationale
 
 
@@ -228,6 +395,7 @@ def selftest():
         "el.innerHTML = someVar;",  # bare identifier — dataflow, CodeQL's job
         "// el.innerHTML = `${x}`",  # comment
         "el.innerHTML = `<i>${x}</i>`;  // gaia-html-sink-ok: x is a fixed enum",
+        "el.innerHTML = `<i>${x}</i>`;  /* gaia-html-sink-ok: fixed enum */",
     ]
     unsafe = [
         "el.innerHTML = `<b>${name}</b>`;",
@@ -237,6 +405,8 @@ def selftest():
         "document.write('<p>' + x + '</p>');",
         "el.innerHTML = `<use href=\"#${x}\"/>`;",
         "el.innerHTML = `<b>${x}</b>`;  // gaia-html-sink-ok:",  # bare marker, no reason
+        "el.innerHTML = `<b>${x}</b>`;  /* gaia-html-sink-ok: */",
+        'const x = "gaia-html-sink-ok: foo"; el.innerHTML = `${x}`;',
     ]
     bad = 0
     for line in safe:
@@ -254,41 +424,198 @@ def selftest():
     return 0
 
 
-def main():
+def checkBaselineGrowth(repoRoot: Path, baseline: Path, budget: dict, baseRef: str | None):
+    """Compare budgets to the PR base; unavailable history is fatal in CI.
+
+    CI PR bases require the exact event SHA; refs and merge parents are not
+    substitutes. Push events require a valid before SHA; initial pushes use
+    a zero baseline, and unavailable nonzero SHAs fail closed.
+    Outside CI an explicit base overrides discovery. A missing baseline file
+    at a resolved revision is zero debt.
+    """
+    def git(*args):
+        return subprocess.run(
+            ["git", *args], cwd=repoRoot, check=True,
+            capture_output=True, text=True,
+        ).stdout.strip()
+
+    try:
+        relative = baseline.resolve().relative_to(repoRoot.resolve()).as_posix()
+    except ValueError as exc:
+        raise ValueError(
+            f"Cannot check git baseline growth: baseline file '{baseline}' "
+            f"is outside repository root '{repoRoot}'."
+        ) from exc
+    ciBase = os.environ.get("GITHUB_BASE_REF")
+    isCi = os.environ.get("GITHUB_ACTIONS") == "true"
+    candidates = [baseRef] if baseRef else []
+    revision = None
+    expectedSha = None
+    zeroBaseline = False
+    if isCi:
+        event = os.environ.get("GITHUB_EVENT_NAME", "").strip().lower()
+        isPr = event == "pull_request" or (event in ("pull_request_target", "") and bool(ciBase))
+        eventPath = os.environ.get("GITHUB_EVENT_PATH")
+        eventData = {}
+        try:
+            if eventPath:
+                eventData = json.loads(Path(eventPath).read_text(encoding="utf-8"))
+                if not isinstance(eventData, dict):
+                    raise ValueError("Invalid CI event payload: expected an object")
+        except (OSError, ValueError) as exc:
+            if event == "push":
+                raise RuntimeError("CI push event requires valid 'before' commit SHA in event payload") from exc
+            if isPr:
+                raise RuntimeError("CI PR event requires pull_request.base.sha in event payload") from exc
+            raise
+        # Event identity wins over ambient refs or unrelated payload keys.
+        if event == "push":
+            before = eventData.get("before")
+            if not isinstance(before, str) or not re.fullmatch(r"[0-9a-fA-F]{40}", before):
+                raise RuntimeError("CI push event requires valid 'before' commit SHA in event payload")
+            candidates = []
+            if before == "0" * 40:
+                zeroBaseline = True
+            else:
+                try:
+                    revision = git("rev-parse", "--verify", f"{before}^{{commit}}")
+                except (OSError, subprocess.CalledProcessError) as exc:
+                    raise RuntimeError(f"CI push base commit {before} cannot be resolved in git") from exc
+        elif isPr:
+            pr = eventData.get("pull_request")
+            base = pr.get("base") if isinstance(pr, dict) else None
+            if not isinstance(base, dict) or not base.get("sha"):
+                raise RuntimeError("CI PR event requires pull_request.base.sha in event payload")
+            expectedSha = base["sha"]
+            if not isinstance(expectedSha, str) or not re.fullmatch(r"[0-9a-fA-F]{40}", expectedSha) or set(expectedSha) == {"0"}:
+                raise ValueError("Invalid CI PR base SHA")
+            expectedSha = expectedSha.lower()
+            candidates = [expectedSha]
+        # Other CI events require an explicit base; never guess main or a parent.
+    elif not baseRef:
+        try:
+            git("rev-parse", "--verify", "HEAD^2^{commit}")
+            revision = git("rev-parse", "--verify", "HEAD^1^{commit}")
+        except (OSError, subprocess.CalledProcessError):
+            pass
+        if ciBase:
+            candidates.extend([f"origin/{ciBase}", ciBase])
+        candidates.extend(["origin/dev/steward-campaign-2026-11-05",
+                           "origin/main", "main", "HEAD~1"])
+    for candidate in candidates:
+        if revision is not None:
+            break
+        try:
+            if isCi:
+                resolved = git("rev-parse", "--verify", f"{candidate}^{{commit}}")
+                if expectedSha is not None and resolved != expectedSha:
+                    continue
+                revision = resolved
+            else:
+                revision = git("merge-base", "HEAD", candidate)
+            break
+        except (OSError, subprocess.CalledProcessError):
+            continue
+    if revision is None and not zeroBaseline:
+        if isCi and isPr and ciBase:
+            raise ValueError(f"Error: Cannot resolve CI PR base ref '{ciBase}'")
+        message = (f"Cannot check baseline growth: Git base unavailable "
+                   f"({', '.join(candidates)})")
+        if isCi:
+            raise ValueError(f"Git base unavailable ({', '.join(candidates)})")
+        print(f"[WARN] {message}; continuing sink scan", file=sys.stderr)
+        return False
+    baseBudget = {}
+    if revision is not None and git("ls-tree", "--name-only", revision, "--", relative):
+        baseBudget = json.loads(git("show", f"{revision}:{relative}")).get("findings", {})
+    grew = False
+    for path, labels in sorted(budget.items()):
+        if path not in baseBudget:
+            print(f"[FAIL] Baseline grew for {path}: new baseline file entry")
+            grew = True
+            continue
+        for label, count in sorted(labels.items()):
+            previous = baseBudget[path].get(label, 0)
+            if count > previous:
+                print(f"[FAIL] Baseline grew for {path} [{label}]: {previous} -> {count}")
+                grew = True
+    return grew
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[1])
+    parser.add_argument("--baseline", type=Path, default=DEFAULT_BASELINE,
+                        help="counted sink debt JSON (missing/empty means zero budget)")
+    parser.add_argument("--dump-baseline", action="store_true",
+                        help="dump current findings as baseline JSON, without changing files")
+    parser.add_argument("--check-baseline-growth", action="store_true",
+                        help="reject baseline growth since the merge-base with --base-ref")
+    parser.add_argument("--base-ref",
+                        help="Git base for baseline growth (default: merge first parent, "
+                             "GITHUB_BASE_REF, then integration/main/previous revision)")
+    parser.add_argument("--selftest", action="store_true", help="check classifier contracts")
+    args = parser.parse_args(argv)
     repoRoot = Path(__file__).resolve().parent.parent
 
-    if "--selftest" in sys.argv:
+    if args.selftest:
         return selftest()
+
+    findings = scan(repoRoot)
+    if args.dump_baseline:
+        counts = {}
+        for rel, _lineno, _snippet, label, _rationale in findings:
+            labels = counts.setdefault(rel, {})
+            labels[label] = labels.get(label, 0) + 1
+        print(json.dumps({"about": BASELINE_ABOUT, "generated": date.today().isoformat(),
+                          "findings": dict(sorted(counts.items()))}, indent=2))
+        return 0
+
+    budget = {}
+    if args.baseline.exists():
+        budget = json.loads(args.baseline.read_text(encoding="utf-8")).get("findings", {})
+    if args.check_baseline_growth:
+        try:
+            if checkBaselineGrowth(repoRoot, args.baseline, budget, args.base_ref):
+                return 1
+        except (OSError, ValueError, RuntimeError, subprocess.CalledProcessError) as exc:
+            print(f"[FAIL] Cannot check baseline growth: {exc}", file=sys.stderr)
+            return 1
+    is_baseline_empty = not budget
+    carried_findings = []
+    new_findings = []
+    for entry in findings:
+        rel, _lineno, _snippet, label, _rationale = entry
+        if budget.get(rel, {}).get(label, 0) > 0:
+            budget[rel][label] -= 1
+            carried_findings.append(entry)
+        else:
+            new_findings.append(entry)
 
     print("=== HTML-Sink Guard  (pre-CodeQL, DOM-XSS pattern) ===")
     print(f"Repo root : {repoRoot}")
     print("Flags     : interpolated/concatenated innerHTML/outerHTML/insertAdjacentHTML/document.write")
     print("Fix       : build via DOM API (createElement/textContent) or escape each dynamic value")
-    print(f"Mode      : {'HARD-FAIL' if HARD_FAIL else 'WARN-ONLY'}")
+    print(f"Mode      : {'HARD-FAIL' if HARD_FAIL else 'WARN-ONLY'} (new sinks)")
+    print(f"Baseline  : {args.baseline} ({'empty — zero budget' if is_baseline_empty else 'counted debt'})")
     print("Suppress  : trailing `// gaia-html-sink-ok: <reason>` on the sink line")
     print()
 
-    findings = scan(repoRoot)
-
-    if findings:
-        byFile = {}
-        for entry in findings:
-            byFile.setdefault(entry[0], []).append(entry)
-        severity = "FAIL" if HARD_FAIL else "WARN"
-        print(f"-- UNSAFE HTML SINKS ({len(findings)} hit(s) across {len(byFile)} file(s)) --")
-        for path, entries in sorted(byFile.items()):
-            print(f"  [{severity}] {path}  ({len(entries)} hit(s))")
-            for _rel, lineno, snippet, label, rationale in entries:
-                print(f"      L{lineno} [{label}] {snippet}")
-                print(f"        -> {rationale}")
+    for severity, entries in (("DEBT", carried_findings), ("FAIL", new_findings)):
+        if not entries:
+            continue
+        print(f"-- {severity}: {len(entries)} unsafe HTML sink(s) --")
+        for rel, lineno, snippet, label, rationale in entries:
+            print(f"  [{severity}] {rel}:L{lineno} [{label}] {snippet}")
+            print(f"        -> {rationale}")
         print()
-        if HARD_FAIL:
-            print(f"RESULT: FAIL — {len(findings)} unsafe sink(s); convert to DOM API, escape, or suppress with reason")
-            return 1
-        print(f"RESULT: PASS (warn-only) — {len(findings)} unsafe sink(s) tracked; flip HARD_FAIL once at zero")
-        return 0
 
-    print("RESULT: PASS — 0 unsafe HTML sinks.")
+    if new_findings:
+        print(f"RESULT: FAIL — {len(new_findings)} un-baselined unsafe sink(s) found; convert to DOM API, escape, or suppress with reason")
+        return 1
+    if carried_findings:
+        print(f"RESULT: PASS (carried baseline debt: {len(carried_findings)} sink(s)); new sinks are blocked")
+    else:
+        print("RESULT: PASS — 0 unsafe HTML sinks.")
     return 0
 
 

@@ -20,6 +20,7 @@ Options:
 """
 
 import argparse
+import html
 import json
 import re
 import sys
@@ -43,6 +44,16 @@ DEFAULT_LABELS = {"announcement": "New", "link": "Link", "report": "Audit"}
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+def _safe_url(url: str, default: str = "#") -> str:
+    if not url:
+        return default
+    # Strip whitespace and ASCII control characters (0x00-0x1F, 0x7F) before checking scheme
+    cleaned = re.sub(r"[\s\x00-\x1f\x7f]", "", url).lower()
+    if cleaned.startswith(("javascript:", "data:", "vbscript:")):
+        return default
+    return url
+
 
 def slugify(text: str) -> str:
     text = text.lower().strip()
@@ -79,13 +90,14 @@ def save_posts(posts: list) -> None:
 # ---------------------------------------------------------------------------
 
 def _pmq_card(post: dict) -> str:
-    label = post.get("label", "Post")
-    title = post.get("title", "")
-    summary = post.get("summary", "")
-    url = post.get("url", "#")
+    label = html.escape(post.get("label", "Post"))
+    title = html.escape(post.get("title", ""))
+    summary = html.escape(post.get("summary", ""))
+    url = _safe_url(post.get("url", "#"))
+    esc_url = html.escape(url, quote=True)
     target = ' target="_blank"' if url.startswith("http") else ""
     return (
-        f'          <a href="{url}" class="pmq-post"{target}>\n'
+        f'          <a href="{esc_url}" class="pmq-post"{target}>\n'
         f'            <span class="pmq-label">{label}</span>\n'
         f'            <h4 class="pmq-title">{title}'
         f' <span class="meta-peek-arrow" style="float: right;">↗</span></h4>\n'
@@ -95,7 +107,7 @@ def _pmq_card(post: dict) -> str:
 
 
 def patch_index(posts: list, hero_url: str | None, hero_label: str | None) -> None:
-    html = INDEX_FILE.read_text(encoding="utf-8")
+    content = INDEX_FILE.read_text(encoding="utf-8")
 
     # --- path-meta-queue posts ---
     cards = "\n".join(_pmq_card(p) for p in posts[:3])
@@ -104,10 +116,10 @@ def patch_index(posts: list, hero_url: str | None, hero_label: str | None) -> No
         + cards
         + "\n          <!-- gaia-posts-end -->"
     )
-    html, n = re.subn(
+    content, n = re.subn(
         r"<!-- gaia-posts-start -->.*?<!-- gaia-posts-end -->",
-        zone,
-        html,
+        lambda _: zone,
+        content,
         flags=re.DOTALL,
     )
     if n:
@@ -117,21 +129,25 @@ def patch_index(posts: list, hero_url: str | None, hero_label: str | None) -> No
 
     # --- hero-audit-btn ---
     if hero_url:
+        hero_url = _safe_url(hero_url)
+        esc_hero_url = html.escape(hero_url, quote=True)
+        esc_hero_label = html.escape(hero_label or "")
+        esc_hero_label_attr = html.escape(hero_label or "", quote=True)
         btn = (
             "<!-- gaia-hero-post-start -->\n"
-            f'    <a href="{hero_url}" class="hero-audit-btn" target="_blank"'
-            f' aria-label="View {hero_label}">\n'
+            f'    <a href="{esc_hero_url}" class="hero-audit-btn" target="_blank"'
+            f' aria-label="View {esc_hero_label_attr}">\n'
             f'      <svg class="ico" width="14" height="14" aria-hidden="true">'
             f'<use href="assets/icons.svg#info"/></svg>\n'
-            f'      <span>{hero_label}</span>\n'
+            f'      <span>{esc_hero_label}</span>\n'
             f'      <span class="hero-audit-btn-arrow">↗</span>\n'
             f'    </a>\n'
             f'    <!-- gaia-hero-post-end -->'
         )
-        html, n = re.subn(
+        content, n = re.subn(
             r"<!-- gaia-hero-post-start -->.*?<!-- gaia-hero-post-end -->",
-            btn,
-            html,
+            lambda _: btn,
+            content,
             flags=re.DOTALL,
         )
         if n:
@@ -139,29 +155,36 @@ def patch_index(posts: list, hero_url: str | None, hero_label: str | None) -> No
         else:
             print("  [warn] gaia-hero-post markers not found in index.html -- skipping hero patch")
 
-    INDEX_FILE.write_text(html, encoding="utf-8")
+    INDEX_FILE.write_text(content, encoding="utf-8")
 
 
 def _meta_card(post: dict) -> str:
-    title = post.get("title", "")
-    summary = post.get("summary", "")
-    url = post.get("url", "#")
+    raw_title = post.get("title", "")
+    raw_summary = post.get("summary", "")
+    url = _safe_url(post.get("url", "#"))
     fname = url.rsplit("/", 1)[-1]
-    date_disp = fmt_date_display(post.get("date", ""))
+    date_disp = html.escape(fmt_date_display(post.get("date", "")))
+
+    title = html.escape(raw_title)
+    title_attr = html.escape(raw_title, quote=True)
+    summary = html.escape(raw_summary)
+    esc_url = html.escape(url, quote=True)
+    fname_attr = html.escape(fname, quote=True)
+
     return (
         f'      <article class="meta-report-card">\n'
         f'        <div class="meta-report-date">{date_disp}</div>\n'
         f'        <h3 class="meta-report-title">{title}</h3>\n'
         f'        <p class="meta-report-summary">{summary}</p>\n'
         f'        <div class="meta-report-footer">\n'
-        f'          <a href="{url}" class="btn btn-ghost meta-report-link">Read Full Report →</a>\n'
+        f'          <a href="{esc_url}" class="btn btn-ghost meta-report-link">Read Full Report →</a>\n'
         f'          <button type="button" class="meta-report-action" aria-label="Share report"'
-        f' data-report-url="{url}" data-report-title="{title}" onclick="metaReportShare(this)">'
+        f' data-report-url="{esc_url}" data-report-title="{title_attr}" onclick="metaReportShare(this)">'
         f'<svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#share"/></svg></button>\n'
-        f'          <a href="{url}" download="{fname}" class="meta-report-action" aria-label="Download report">'
+        f'          <a href="{esc_url}" download="{fname_attr}" class="meta-report-action" aria-label="Download report">'
         f'<svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg></a>\n'
         f'          <button type="button" class="meta-report-action" aria-label="Copy link"'
-        f' data-report-url="{url}" onclick="metaReportCopyLink(this)">'
+        f' data-report-url="{esc_url}" onclick="metaReportCopyLink(this)">'
         f'<svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#link"/></svg></button>\n'
         f'        </div>\n'
         f'      </article>'
@@ -172,19 +195,21 @@ def patch_meta_html(posts: list) -> None:
     if not META_FILE.exists():
         print("  [warn] meta.html not found -- skipping meta cards patch")
         return
-    html = META_FILE.read_text(encoding="utf-8")
+    html_content = META_FILE.read_text(encoding="utf-8")
     reports = [p for p in posts if p.get("type") == "report"]
     cards = "\n".join(_meta_card(p) for p in reports)
     zone = "<!-- gaia-meta-cards-start -->\n" + cards + "\n      <!-- gaia-meta-cards-end -->"
-    html, n = re.subn(
+    html_content, n = re.subn(
         r"<!-- gaia-meta-cards-start -->.*?<!-- gaia-meta-cards-end -->",
-        zone, html, flags=re.DOTALL,
+        lambda _: zone,
+        html_content,
+        flags=re.DOTALL,
     )
     if n:
         print("  [ok] Patched meta-report cards in meta.html")
     else:
         print("  [warn] gaia-meta-cards markers not found in meta.html -- skipping")
-    META_FILE.write_text(html, encoding="utf-8")
+    META_FILE.write_text(html_content, encoding="utf-8")
 
 
 # ---------------------------------------------------------------------------
@@ -635,7 +660,18 @@ _CHANGELOG_JS = """\
         events.slice(0, 50).forEach(ev => {
           const item = document.createElement('div');
           item.style.cssText = 'margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid #111';
-          item.innerHTML = `<div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#666;margin-bottom:0.3rem">${new Date(ev.timestamp).toLocaleDateString()} · ${ev.action.toUpperCase()}</div><div style="font-weight:500;font-size:0.9rem;color:#fff">${ev.skillName}</div><div style="font-size:0.8rem;color:#aaa;margin-top:0.2rem">${ev.details}</div>`;
+          const header = document.createElement('div');
+          header.style.cssText = "font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#666;margin-bottom:0.3rem";
+          header.textContent = `${new Date(ev.timestamp).toLocaleDateString()} · ${(ev.action || '').toUpperCase()}`;
+          const title = document.createElement('div');
+          title.style.cssText = 'font-weight:500;font-size:0.9rem;color:#fff';
+          title.textContent = ev.skillName || '';
+          const details = document.createElement('div');
+          details.style.cssText = 'font-size:0.8rem;color:#aaa;margin-top:0.2rem';
+          details.textContent = ev.details || '';
+          item.appendChild(header);
+          item.appendChild(title);
+          item.appendChild(details);
           body.appendChild(item);
         });
       } catch (e) { console.error('Failed to load changelog', e); }
@@ -669,9 +705,20 @@ def render_report_html(
 ) -> str:
     chart_script_tag = '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>' if chart_data_file else ""
 
+    esc_title = html.escape(title)
+    esc_author = html.escape(author)
+    esc_abstract = html.escape(abstract)
+    display_date_esc = html.escape(display_date)
+    esc_download_name = html.escape(download_name, quote=True)
+    download_href = _safe_url(download_name, default="#")
+    esc_download_href = html.escape(download_href, quote=True)
+    back_href = _safe_url(back_href, default="../../index.html")
+    esc_back_href = html.escape(back_href, quote=True)
+
     chart_section = ""
     chart_init = ""
     if chart_data_file:
+        chart_url_js = json.dumps(chart_data_file).replace("<", "\\u003c")
         chart_section = (
             '<div class="chart-container">'
             '<canvas id="timelineChart"></canvas>'
@@ -681,7 +728,7 @@ def render_report_html(
         chart_init = f"""\
     async function initChart() {{
       try {{
-        const res = await fetch('{chart_data_file}');
+        const res = await fetch({chart_url_js});
         const data = await res.json();
         const ctx = document.getElementById('timelineChart').getContext('2d');
         if (data.caption) {{
@@ -732,7 +779,7 @@ def render_report_html(
     abstract_html = (
         f'    <section class="abstract">\n'
         f'      <div class="abstract-title">Abstract</div>\n'
-        f'      <div class="abstract-content">{abstract}</div>\n'
+        f'      <div class="abstract-content">{esc_abstract}</div>\n'
         f'    </section>'
         if abstract
         else ""
@@ -743,7 +790,7 @@ def render_report_html(
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title} — Gaia</title>
+  <title>{esc_title} — Gaia</title>
   <link rel="icon" type="image/svg+xml" href="../../assets/marks/diamond-seal.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -762,7 +809,7 @@ def render_report_html(
         <line x1="7" y1="9" x2="13" y2="6"/><line x1="7" y1="11" x2="13" y2="14"/>
       </svg>
     </button>
-    <a href="{download_name}" download="{download_name}" class="pja-btn" aria-label="Download report">
+    <a href="{esc_download_href}" download="{esc_download_name}" class="pja-btn" aria-label="Download report">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M10 3v9m0 0l-3.5-3.5M10 12l3.5-3.5"/><path d="M4 15h12"/>
       </svg>
@@ -795,9 +842,9 @@ def render_report_html(
       <span class="paper-journal-series">Meta Audit Series</span>
     </div>
     <header>
-      <h1>{title}</h1>
-      <div class="authors">{author}</div>
-      <div class="date">{display_date}</div>
+      <h1>{esc_title}</h1>
+      <div class="authors">{esc_author}</div>
+      <div class="date">{display_date_esc}</div>
     </header>
 
 {abstract_html}
@@ -805,7 +852,7 @@ def render_report_html(
     {body_html}
 
     <div class="footer-nav">
-      <a href="{back_href}">← Back to Gaia</a>
+      <a href="{esc_back_href}">← Back to Gaia</a>
     </div>
   </article>
 

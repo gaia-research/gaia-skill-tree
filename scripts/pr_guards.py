@@ -63,9 +63,9 @@ class Guard:
 GUARDS = [
     Guard(
         "html-sink",
-        "HTML sink guard (pre-CodeQL DOM-XSS, warn-only) + classifier self-tests",
+        "HTML sink ratchet (pre-CodeQL DOM-XSS, counted baseline debt) + classifier self-tests",
         [[PY, "scripts/check_html_sinks.py"], [PY, "scripts/check_html_sinks.py", "--selftest"]],
-        ["docs/**/*.js", "docs/**/*.html", "scripts/check_html_sinks.py"],
+        ["docs/**/*.js", "docs/**/*.html", "scripts/check_html_sinks.py", "scripts/html_sinks_baseline.json"],
     ),
     Guard(
         "rank-vocabulary",
