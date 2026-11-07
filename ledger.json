@@ -1,5 +1,5 @@
 {
- "generation": 1662,
+ "generation": 1663,
  "lane": {
   "entries": [
    {
@@ -1097,14 +1097,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-4f831ee7d2cd3fb84872",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T22:01:22.754943Z",
+      "from": "dispatched",
+      "reason": "accepted by independent verification (integration integrate by lead-claude-opus-5-5 (herdr w2H); verified by pi-herdr-batch10-verifier-a02ebafd4927)",
+      "to": "closed"
      }
     ],
-    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T22:01:22.754943Z",
+    "lastVerdict": "accept",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "closed"
    },
    {
     "attempts": 0,
@@ -126621,6 +126627,17 @@
      "debtId": "debt:trust_calibration_drift:emilkowalski-improve-animations:c2dbfcecdecde79f",
      "emittedAt": "2026-11-07T21:56:31.112023Z",
      "idempotencyKey": "integrate:dispatch-4f831ee7d2cd3fb84872:1",
+     "outcome": {
+      "by": "lead-claude-opus-5-5 (herdr w2H)",
+      "decision": "integrate",
+      "mergedSha": "d19094d19034a9f9c6f22428692e4c3d52e25378",
+      "pullRequest": {
+       "base": "dev/steward-campaign-2026-11-05",
+       "head": "steward/b/trust-calibration-drift-a02ebafd4927",
+       "number": 2387,
+       "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2387"
+      }
+     },
      "params": {
       "attempt": 1,
       "base": "dev/steward-campaign-2026-11-05",
@@ -126628,7 +126645,8 @@
       "debtId": "debt:trust_calibration_drift:emilkowalski-improve-animations:c2dbfcecdecde79f",
       "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-a02ebafd4927.diff"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T22:01:22.754638Z",
+     "status": "done",
      "stepId": "integrate:a02ebafd4927:1",
      "type": "lead.integrate"
     }
@@ -126857,6 +126875,13 @@
      "at": "2026-11-07T22:01:04.437358Z",
      "by": "lead-claude-opus-5-5 (herdr w2H)",
      "debtId": "debt:trust_calibration_drift:emilkowalski-find-animation-opportunities:8bb20c9945bcfaaa",
+     "decision": "integrate",
+     "type": "integrate"
+    },
+    {
+     "at": "2026-11-07T22:01:22.754943Z",
+     "by": "lead-claude-opus-5-5 (herdr w2H)",
+     "debtId": "debt:trust_calibration_drift:emilkowalski-improve-animations:c2dbfcecdecde79f",
      "decision": "integrate",
      "type": "integrate"
     }
@@ -130333,6 +130358,14 @@
      "merged": true,
      "number": 2386,
      "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2386"
+    },
+    {
+     "base": "dev/steward-campaign-2026-11-05",
+     "debtId": "debt:trust_calibration_drift:emilkowalski-improve-animations:c2dbfcecdecde79f",
+     "head": "steward/b/trust-calibration-drift-a02ebafd4927",
+     "merged": true,
+     "number": 2387,
+     "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2387"
     }
    ],
    "receipts": [
@@ -130544,11 +130577,11 @@
      "stepId": "integrate:1e663b27095b:1"
     },
     {
-     "at": "2026-11-07T21:56:31.112023Z",
+     "at": "2026-11-07T22:01:22.754638Z",
      "debtId": "debt:trust_calibration_drift:emilkowalski-improve-animations:c2dbfcecdecde79f",
      "idempotencyKey": "integrate:dispatch-4f831ee7d2cd3fb84872:1",
      "kind": "lead.integrate",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "integrate:a02ebafd4927:1"
     },
     {
@@ -130583,11 +130616,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T22:01:04.437056Z"
+   "updatedAt": "2026-11-07T22:01:22.754638Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T22:01:04.440674Z",
+ "updatedAt": "2026-11-07T22:01:22.758269Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -131369,17 +131402,29 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch10-verifier-a02ebafd4927 (pi, effort medium)",
      "to": "verified"
+    },
+    {
+     "at": "2026-11-07T22:01:22.754943Z",
+     "from": "verified",
+     "reason": "integrated by lead-claude-opus-5-5 (herdr w2H)",
+     "to": "landed"
     }
    ],
    "kind": "trust_calibration_drift",
+   "mergedSha": "d19094d19034a9f9c6f22428692e4c3d52e25378",
    "notes": [],
    "promptPath": ".gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-a02ebafd4927.prompt.md",
-   "pullRequest": null,
+   "pullRequest": {
+    "base": "dev/steward-campaign-2026-11-05",
+    "head": "steward/b/trust-calibration-drift-a02ebafd4927",
+    "number": 2387,
+    "url": "https://github.com/gaia-research/gaia-skill-tree/pull/2387"
+   },
    "routine": "gaia-trust-calibration-steward",
    "runId": "run-20261107T200905Z-82a8d6bb",
    "source": "trust-calibration-drift",
-   "state": "verified",
-   "updatedAt": "2026-11-07T21:56:31.112023Z",
+   "state": "landed",
+   "updatedAt": "2026-11-07T22:01:22.754943Z",
    "verification": {
     "agentId": "pi-herdr-batch10-verifier-a02ebafd4927",
     "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: true authorityStillValid: true guardsWeakened: false newDebt: [] verdict: accept reasons: - \"Live baseline recomputation: baselineLevel=2★, trustMagnitude=129.67, trustGrade=A, targetLevel=4★, direction=promotion-candidate.\" - \"Live canonical eligibility: gatesUnmet=[], commandWouldBeRefused=false, priorGovernedDemotion=null, frozen=false, capOnlySuiteComponent=false.\" - \"4★ bar: A grade and TM 129.67 >= 100; the links.github URL is a concrete GitHub blob URL and returned HTTP 200.\" - \"The actual diff matches the packet: one subject record, level 2★ to 4★, updatedAt, and one appended rank_up event with details 'Calibrated level from 2★ to 4★'.\" - \"Proof reports a successful no-build calibration and a matching pre-change inspection; the independent review is this verification. Class S regeneration is reserved for the integration-wave lead.\"",
