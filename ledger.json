@@ -1,5 +1,5 @@
 {
- "generation": 1513,
+ "generation": 1514,
  "lane": {
   "entries": [
    {
@@ -5805,13 +5805,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-07T16:10:52.598412Z",
-   "expiresAt": "2026-11-07T17:02:37.624985Z",
-   "holder": "run-20261107T145403Z-b871b1e2"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -116232,7 +116226,7 @@
    ],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-07T16:30:27.081657Z",
+    "asOf": "2026-11-07T16:32:36.667077Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -116668,11 +116662,6 @@
       "subject": "browser-render"
      },
      {
-      "detail": "2 of 2 attempts used under unused-import-cleanup while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
-      "subject": "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11"
-     },
-     {
       "detail": "independent verification by pi-terra-01a1a793-8bb8-7029-b125-f63b22e12981 (pi, effort high): rejected - Independent reproduction confirms stored level 2-star, effective TM 50.0, grade B, and sensor target 3-star. No-change is not non-reproduction; no correction wa",
       "kind": "failed_dispatch",
       "subject": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b"
@@ -116691,7 +116680,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": "2026-11-07T16:30:27.081657Z",
+   "finishedAt": "2026-11-07T16:32:36.667077Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -116719,7 +116708,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "perform 1 pending action(s) (lead.integrate), record each with `gaia steward full record run-20261107T145403Z-b871b1e2 <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T145403Z-b871b1e2`",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": false,
     "agents": true,
@@ -119504,7 +119493,7 @@
    "sequence": 46,
    "sourceHead": "107a97b1de634f8b5723ab2c87873a4492a42e0c",
    "startedAt": "2026-11-07T14:54:03.318678Z",
-   "status": "awaiting-action",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-11-07T14:54:03.318678Z",
@@ -119634,7 +119623,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T16:32:37.625251Z",
+ "updatedAt": "2026-11-07T16:34:54.496754Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
