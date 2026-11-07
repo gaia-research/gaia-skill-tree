@@ -1,5 +1,5 @@
 {
- "generation": 1362,
+ "generation": 1363,
  "lane": {
   "entries": [
    {
@@ -5682,7 +5682,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T11:20:09.317428Z",
-   "expiresAt": "2026-11-07T12:09:14.971929Z",
+   "expiresAt": "2026-11-07T12:09:22.186296Z",
    "holder": "run-20261107T103110Z-5e4b906c"
   }
  },
@@ -105081,7 +105081,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-07T11:30:35.303291Z",
+    "asOf": "2026-11-07T11:39:20.477405Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -105511,6 +105511,21 @@
       "subject": "debt:unused_import:scripts-upstream-watcher-transport-py:f9f55b2634428ef3"
      },
      {
+      "detail": "independent verification by pi-herdr-batch6-verifier-2ab63c86d569 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: rejec",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182"
+     },
+     {
+      "detail": "independent verification by pi-herdr-batch6-verifier-be8ba959184b (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: rejec",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f"
+     },
+     {
+      "detail": "independent verification by pi-herdr-batch6-verifier-f6d1a832e6e8 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: rejec",
+      "kind": "failed_dispatch",
+      "subject": "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11"
+     },
+     {
       "detail": "last scheduled run was 128h ago (limit 48h).",
       "kind": "stale_schedule",
       "subject": "scheduled run"
@@ -105524,7 +105539,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-11-07T11:39:20.477405Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -105532,6 +105547,14 @@
    },
    "integrationBranch": "dev/steward-campaign-2026-11-05",
    "integrationHead": "591db5447c7bd07d6b83b30e6bfcbeecdfb17dbe",
+   "issueBacklog": {
+    "botOpen": 2,
+    "closedThisRun": 0,
+    "closedTotal": 0,
+    "openIssues": 224,
+    "readyWritesDisabled": 2,
+    "upstreamChildOpen": 72
+   },
    "leases": [
     {
      "acquiredAt": "2026-11-07T10:31:10.561980Z",
@@ -105544,7 +105567,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "perform 5 pending action(s) (lead.integrate), record each with `gaia steward full record run-20261107T103110Z-5e4b906c <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T103110Z-5e4b906c`",
    "options": {
     "afk": false,
     "agents": true,
@@ -105556,7 +105579,7 @@
     "push": false,
     "routine": 1
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -108365,7 +108388,7 @@
    "sequence": 42,
    "sourceHead": "591db5447c7bd07d6b83b30e6bfcbeecdfb17dbe",
    "startedAt": "2026-11-07T10:31:10.561980Z",
-   "status": "active",
+   "status": "awaiting-action",
    "steps": [
     {
      "at": "2026-11-07T10:31:10.561980Z",
@@ -108588,6 +108611,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-11-07T11:39:20.477405Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -108601,7 +108630,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T11:39:14.972049Z",
+ "updatedAt": "2026-11-07T11:39:22.186464Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
