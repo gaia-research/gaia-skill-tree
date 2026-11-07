@@ -13,9 +13,11 @@ steward_issue_reconcile.py, generateProfilePages.py, commands/dev/timeline.py,
 commands/dev/verify.py and commands/misc.py.
 
 Every test is hermetic: scripts are loaded with importlib and pointed at synthetic
-fixtures under tmp_path, the network is never touched (requests and subprocess are
-stubbed), and neither the live registry nor founder reports are read or written.
-The subject scripts are intentionally NOT modified.
+fixtures under tmp_path (with the verification probe using ephemeral system temporary
+directories cleaned on exit), the network is never touched (requests is stubbed,
+and subprocess is stubbed in business-logic tests with only a benign `--help` invocation
+exercising a real process), and neither the live registry nor founder reports are read
+or written. The subject scripts are intentionally NOT modified.
 """
 
 from __future__ import annotations
@@ -67,15 +69,47 @@ def hasMainGuard(path: Path) -> bool:
     return False
 
 
-@pytest.fixture
+@pytest.fixture(autouse=True)
 def isolatedPath(monkeypatch):
-    """Scripts here mutate sys.path at import; keep that from leaking across tests."""
+    """Restore sys.modules, sys.path, and module state changed during tests."""
+    saved_modules = dict(sys.modules)
+    saved_path = list(sys.path)
+    saved_module_dicts = {
+        name: dict(mod.__dict__)
+        for name, mod in sys.modules.items()
+        if hasattr(mod, "__dict__")
+        and (name == "common" or name.startswith("common.") or name == "gaia_cli" or name.startswith("gaia_cli."))
+    }
     monkeypatch.setattr(sys, "path", list(sys.path))
-    before = set(sys.modules)
     yield
-    for name in set(sys.modules) - before:
-        if name == "common" or name.startswith("common."):
+    # 1. Restore sys.modules keys and values exactly
+    for name in list(sys.modules):
+        if name not in saved_modules:
             del sys.modules[name]
+        elif sys.modules[name] is not saved_modules[name]:
+            sys.modules[name] = saved_modules[name]
+    for name, mod in saved_modules.items():
+        if name not in sys.modules:
+            sys.modules[name] = mod
+
+    # 2. Restore module attributes for pre-existing common / gaia_cli modules
+    for name, orig_dict in saved_module_dicts.items():
+        if name in sys.modules and sys.modules[name] is saved_modules[name]:
+            mod = sys.modules[name]
+            for attr in list(mod.__dict__):
+                if attr not in orig_dict:
+                    try:
+                        delattr(mod, attr)
+                    except (AttributeError, TypeError):
+                        pass
+                elif mod.__dict__[attr] is not orig_dict[attr]:
+                    try:
+                        setattr(mod, attr, orig_dict[attr])
+                    except (AttributeError, TypeError):
+                        pass
+
+    # 3. Restore sys.path in place
+    sys.path[:] = saved_path
 
 
 @pytest.mark.parametrize(
@@ -625,7 +659,8 @@ def review(monkeypatch):
     monkeypatch.setattr(sys, "path", list(sys.path))  # the script inserts "src" at import
     module = loadScript(reviewScript, "verifyReviewFindingsUnderTest")
     module.RESULTS.clear()
-    return module
+    yield module
+    module.RESULTS.clear()
 
 
 def test_verify_review_findings_check_records_and_prints(review, capsys):
@@ -670,6 +705,13 @@ def test_verify_review_findings_main_reports_failure(review, monkeypatch, capsys
 
 @pytest.fixture
 def smp(isolatedPath):
+    # Unbind any pre-existing common / common.* modules from sys.modules so the crawler
+    # imports its own scripts/crawlers/common package rather than binding to an unrelated
+    # pre-existing package on sys.path or in sys.modules.
+    # The autouse isolatedPath fixture restores pre-existing bindings exactly at teardown.
+    for name in list(sys.modules):
+        if name == "common" or name.startswith("common."):
+            del sys.modules[name]
     return loadScript(smpScript, "skillsmpCrawlerUnderTest")
 
 
