@@ -1,6 +1,5 @@
 """Crawls MCP server registries (mcp.so, smithery.ai) for agent skills."""
 
-import json
 import sys
 import os
 
