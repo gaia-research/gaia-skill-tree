@@ -108,7 +108,7 @@ def test_observe_json_shape_and_exit_zero(tmp_path: Path, monkeypatch: pytest.Mo
     assert view["schemaVersion"] == "steward-full-run-view-v1"
     assert view["status"] == "completed" and view["mode"] == "observe" and view["phase"] == "done"
     assert view["actions"] == [] and view["coverageUnknown"] == []
-    assert view["ledger"] == {"transport": "local-file", "shared": False, "warning": "ledger_local_only"}
+    assert view["ledger"] == {"transport": "local-file", "shared": False, "scope": "ordinary-local"}
     assert {"observe", "reconcile"} <= set(view["summary"])
     assert view["summary"]["observe"]["openDebt"] == 1
     assert {"runId", "nextAction", "unresolvedWork", "notEvaluated", "desk"} <= set(view)
@@ -318,9 +318,9 @@ def test_status_json_and_human(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, 
     assert "Run lease" in out and "building 1" in out
 
 
-def test_ledger_auto_prefers_the_shared_ref_when_the_remote_answers(tmp_path: Path) -> None:
+def test_ledger_auto_is_local_even_when_the_remote_answers(tmp_path: Path) -> None:
     repo, _ = makeFixture(tmp_path)
-    assert StewardCommand._fullStore(repo, "auto", "origin").transport == "git-ref"
+    assert StewardCommand._fullStore(repo, "auto", "origin").transport == "local-file"
     lonely = tmp_path / "lonely"
     lonely.mkdir()
     subprocess.run(["git", "init", "-q", str(lonely)], check=True)
@@ -421,21 +421,21 @@ def test_a_clean_scheduled_run_prints_the_quiet_line_and_status_carries_the_desk
     absent = StubSensor("ci-health", "ci_failure", raises=SensorNotEvaluated("no ci-runs.json supplied", input_absent=True))
     useSensors(monkeypatch, [StubSensor("repository-hygiene", "repository_hygiene"), absent])
 
-    code, out, _err = runCli(monkeypatch, capsys, repo, "run", "--ledger", "git", "--trigger", "scheduled")
+    code, out, _err = runCli(monkeypatch, capsys, repo, "run", "--ledger", "local", "--trigger", "scheduled")
     assert code == 0, out
     assert QUIET_LINE in out.splitlines()
 
-    code, out, _err = runCli(monkeypatch, capsys, repo, "run", "--observe", "--ledger", "git", "--trigger", "scheduled", "--json")
+    code, out, _err = runCli(monkeypatch, capsys, repo, "run", "--observe", "--ledger", "local", "--trigger", "scheduled", "--json")
     view = json.loads(out)
     assert view["desk"]["quiet"] is True
     assert view["summary"]["observe"]["notEvaluated"] == [
         {"sensor": "ci-health", "reason": "no ci-runs.json supplied", "inputAbsent": True}
     ]
 
-    code, out, _err = runCli(monkeypatch, capsys, repo, "status", "--ledger", "git", "--json")
+    code, out, _err = runCli(monkeypatch, capsys, repo, "status", "--ledger", "local", "--json")
     status = json.loads(out)
     assert code == 0 and status["desk"]["quiet"] is True and status["deskRunId"] == view["runId"]
-    code, out, _err = runCli(monkeypatch, capsys, repo, "status", "--ledger", "git")
+    code, out, _err = runCli(monkeypatch, capsys, repo, "status", "--ledger", "local")
     assert out.rstrip("\n").endswith(QUIET_LINE)
 
 

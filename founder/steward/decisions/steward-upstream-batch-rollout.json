@@ -1,20 +1,23 @@
 {
   "schemaVersion": "steward-decision-v1",
   "id": "steward-upstream-batch-rollout",
-  "status": "open",
+  "status": "decided",
   "decision": "Approve the staged F3 batch emission and hardened approve/reject/close-children workflow rollout, or keep legacy fanout?",
   "whyItMatters": "Merging engineering must not silently change the daily issue queue or activate new event-driven write semantics.",
   "evidence": [
     "Issue #2131 explicitly requests founder-compatible F3 amendment review. Earlier campaign prose inferred approval from a brief; this mission does not ratify that inference.",
     "The daily cron remains 0 6 * * *; CLI and workflow defaults are fanout. New event jobs and manual batch writes are staged behind STEWARD_ISSUE_HYGIENE_V2, which this work does not set.",
-    "PR #2133 comment 6344218194 records the canonical open-issue-per-suite correction. It is retained as evidence, not a ruling on rollout or closed-history suppression."
+    "PR #2133 comment 6344218194 records the canonical open-issue-per-suite correction. It is retained as evidence, not a ruling on rollout or closed-history suppression.",
+    "Founder final rulings, 2026-11-06, relayed to the Steward owner (Opus) for #2283 (verbatim): \"Honestly I'm fine with this already, but yes if there is a better way to keep \"issue noise\" really low, I'm up for that. Before, this wasn't a problem since skill owners don't really update their skills often. Now its like everyday they do this, yet I only do a steward run one B class a day or a batch a week. I would really like batching.\"",
+    "Ruling as applied: Approved: staged batching by upstream repository and review window; update one existing open umbrella instead of new issues per commit; dedupe repeated candidates preserving provenance and individual dispositions; daily observation may feed a weekly actionable batch; urgent actionable regressions bypass the delay; a closed umbrella is a completed epic and new changes start a new batch; prove dry-run parity, independently verify, then activate gradually with monitoring and rollback."
   ],
-  "recommended": "Review mocked behavior and explicitly decide rollout. Leave the variable unset and existing default jobs active until then.",
+  "recommended": "Approved: staged batching by upstream repository and review window; update one existing open umbrella instead of new issues per commit; dedupe repeated candidates preserving provenance and individual dispositions; daily observation may feed a weekly actionable batch; urgent actionable regressions bypass the delay; a closed umbrella is a completed epic and new changes start a new batch; prove dry-run parity, independently verify, then activate gradually with monitoring and rollback.",
   "alternative": "Retain the legacy deployed issue contract and use batch dry-run reports only.",
   "unblocks": "Batch rollout only; Steward closure authority remains a separate OPEN decision.",
   "links": [
     "https://github.com/gaia-research/gaia-skill-tree/issues/2131",
     "https://github.com/gaia-research/gaia-skill-tree/pull/2133#issuecomment-6344218194",
     "docs/agents/upstream-watcher.md"
-  ]
+  ],
+  "resolution": "approved"
 }

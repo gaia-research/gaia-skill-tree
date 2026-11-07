@@ -164,7 +164,7 @@ class StewardCommand(Command):
         def ledgerOptions(target: argparse.ArgumentParser) -> None:
             target.add_argument(
                 "--ledger", choices=("auto", "git", "local"), default="auto",
-                help="Ledger transport: git ref on the remote, a local file, or auto (git when the remote answers)",
+                help="Ordinary state: auto/local use a checkout-local file; git is read-only legacy full status",
             )
             target.add_argument("--json", action="store_true", help="Output the result as JSON")
 
@@ -450,27 +450,12 @@ class StewardCommand(Command):
 
     @staticmethod
     def _fullStore(root: Path, choice: str, remote: str):
-        """Pick the ledger transport. `auto` prefers the shared git ref when the remote answers."""
-
-        import subprocess
+        """Ordinary state is checkout-local; explicit git is legacy read-only status."""
 
         from gaia_cli.steward.ledger import FileLedgerStore, GitRefLedgerStore
 
         local = FileLedgerStore(root / ".gaia" / "steward" / "full" / "ledger.json")
-        if choice == "local":
-            return local
-        shared = GitRefLedgerStore(root, remote)
-        if choice == "git":
-            return shared
-        try:
-            probe = subprocess.run(
-                ["git", "-C", str(root), "ls-remote", "--exit-code", remote, "HEAD"],
-                capture_output=True, timeout=30, check=False,
-            )
-            reachable = probe.returncode == 0
-        except (OSError, subprocess.TimeoutExpired):
-            reachable = False
-        return shared if reachable else local
+        return GitRefLedgerStore(root, remote) if choice == "git" else local
 
     @staticmethod
     def _fullModeOf(args: argparse.Namespace) -> str:
@@ -494,6 +479,8 @@ class StewardCommand(Command):
         root = Path(args.registry).resolve()
         remote = "origin"
         try:
+            if args.ledger == "git" and action != "status":
+                raise _FullRefused("general git ledger is read-only legacy status; use local ordinary state; no migration is performed")
             store = self._fullStore(root, args.ledger, remote)
             config = FullRunConfig(
                 repo_root=root,
