@@ -19,6 +19,9 @@ import os
 import sys
 
 
+_VALID_LEVELS = frozenset({"1★", "2★", "3★", "4★", "5★", "6★"})
+
+
 # Set to a truthy value (1, true, yes, on) to bypass the Verifier check.
 # Intended for CI/bots/bootstrap; surfaced in `gaia whoami` for transparency.
 OPERATOR_OVERRIDE_ENV = "GAIA_OPERATOR_OVERRIDE"
@@ -52,6 +55,18 @@ def _load_named_index(registry_path: str) -> tuple[str, dict]:
     for entries in index["buckets"].values():
         if not isinstance(entries, list) or any(not isinstance(e, dict) for e in entries):
             raise ValueError(f"Malformed authorization index {path}: each bucket must be a list of objects. Regenerate with `gaia dev docs` or refresh with `gaia pull`.")
+        for entry in entries:
+            contributor = entry.get("contributor")
+            level = entry.get("level")
+            if (
+                not isinstance(contributor, str)
+                or not contributor.strip()
+                or not isinstance(level, str)
+                or level not in _VALID_LEVELS
+            ):
+                raise ValueError(
+                    f"Malformed authorization index {path}: every entry must have a non-empty string contributor and a level exactly matching 1★–6★. Regenerate with `gaia dev docs` or refresh with `gaia pull`."
+                )
     return path, index
 
 

@@ -126,6 +126,32 @@ def test_malformed_and_wrong_shape_index_denied(tmp_path):
         assert "gaia dev docs" in status["reason"]
 
 
+@pytest.mark.parametrize("entry", [
+    {"contributor": "alice"},
+    {"contributor": "alice", "level": 4},
+    {"contributor": "alice", "level": "garbage"},
+    {"contributor": "bob", "level": "4not-a-level"},
+    {"level": "4★"},
+])
+def test_invalid_authorization_fields_fail_closed(tmp_path, entry):
+    registry = _make_registry(tmp_path, [{"contributor": "alice", "level": "2★"}])
+    index_path = registry / "registry" / "named-skills.json"
+    index_path.write_text(json.dumps({"buckets": {"skill-a": [entry]}}), encoding="utf-8")
+    status = authorization_status("bob", str(registry))
+    assert status["authorized"] is False and status["via"] == "denied"
+    assert "Malformed authorization index" in status["reason"]
+    assert "named-skills.json" in status["reason"]
+
+
+def test_override_allows_invalid_authority_fields(monkeypatch, tmp_path):
+    registry = _make_registry(tmp_path, [{"contributor": "alice", "level": "2★"}])
+    index_path = registry / "registry" / "named-skills.json"
+    index_path.write_text(json.dumps({"buckets": {"skill-a": [{"contributor": "alice"}]}}), encoding="utf-8")
+    monkeypatch.setenv(OPERATOR_OVERRIDE_ENV, "1")
+    status = authorization_status("bob", str(registry))
+    assert status["authorized"] is True and status["via"] == "override"
+
+
 def test_unreadable_index_denied(monkeypatch, registry_with_verifier):
     import builtins
     original_open = builtins.open
