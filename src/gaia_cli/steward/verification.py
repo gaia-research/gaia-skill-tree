@@ -30,7 +30,8 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Mapping, Sequence
 
 from gaia_cli.steward.calibrationroute import CALIBRATION_ROUTE_RULE_ID, calibrationViolations
-from gaia_cli.steward.workflowproof import Hunk, prove_workflow_edit
+from gaia_cli.steward.exceptionproof import prove_exception_edit
+from gaia_cli.steward.workflowproof import Hunk, apply_patch, prove_workflow_edit
 from gaia_cli.steward.models import (
     AuthorityClass,
     DispatchPacket,
@@ -126,6 +127,7 @@ class ChangeSet:
     # (``registry/named/**``), or None when it cannot be reconstructed. Only the
     # trust-calibration route may write there; its structural proof reads these.
     named_post_images: tuple[tuple[str, str | None], ...] = ()
+    file_patches: tuple[tuple[str, tuple[Hunk, ...]], ...] = ()
 
     @property
     def paths(self) -> tuple[str, ...]:
@@ -441,6 +443,7 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
     workflow_violations: list[str] = []
     workflow_patches: list[tuple[str, tuple[Hunk, ...]]] = []
     named_posts: list[tuple[str, str | None]] = []
+    file_patches: list[tuple[str, tuple[Hunk, ...]]] = []
 
     current: str | None = None
     added = removed = 0
@@ -471,21 +474,19 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
                 deleted_file=deleted_file, created_file=created_file,
             )
         )
+        parsed_hunks = tuple(
+            (int(h[0]), int(h[1]), tuple((m, t, bool(n)) for m, t, n in h[2]))
+            for h in open_hunks
+        )
+        if current is not None and not deleted_file and not created_file:
+            file_patches.append((current, parsed_hunks))
         if _in_scope(current, _WORKFLOW_FILE):
             if deleted_file:
                 workflow_violations.append(f"{current}: deletes the workflow file")
             elif created_file:
                 workflow_violations.append(f"{current}: creates a workflow file; creation is never allowed")
             else:
-                workflow_patches.append(
-                    (
-                        current,
-                        tuple(
-                            (int(h[0]), int(h[1]), tuple((m, t, bool(n)) for m, t, n in h[2]))
-                            for h in open_hunks
-                        ),
-                    )
-                )
+                workflow_patches.append((current, parsed_hunks))
         if deleted_file and _is_guard(current):
             deleted_guards.append(current)
         current, added, removed, deleted_file, created_file = None, 0, 0, False, False
@@ -521,7 +522,7 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
                 if open_hunks and open_hunks[-1][2]:
                     open_hunks[-1][2][-1][2] = True
                 continue
-            if open_hunks and _in_scope(current, _WORKFLOW_FILE):
+            if open_hunks:
                 open_hunks[-1][2].append([line[:1] if line[:1] in ("+", "-", " ") else " ", line[1:], False])
             if line.startswith("+"):
                 new_remaining -= 1
@@ -635,6 +636,7 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
         workflow_edit_violations=tuple(workflow_violations),
         workflow_patches=tuple(sorted(workflow_patches)),
         named_post_images=tuple(sorted(named_posts, key=lambda item: item[0])),
+        file_patches=tuple(sorted(file_patches)),
     )
 
 
@@ -812,6 +814,20 @@ def workflow_structure_violations(
     return problems
 
 
+def _git_head_blob(root: Path, rel_path: str) -> str | None:
+    import subprocess
+
+    try:
+        done = subprocess.run(
+            ["git", "-C", str(root), "cat-file", "blob", f"HEAD:{rel_path}"],
+            capture_output=True,
+            check=False,
+        )
+        return done.stdout.decode("utf-8") if done.returncode == 0 else None
+    except (OSError, UnicodeDecodeError):
+        return None
+
+
 def evaluate(
     *,
     packet: DispatchPacket,
@@ -824,6 +840,9 @@ def evaluate(
     authority_still_class_b: bool,
     workflow_baseline: Mapping[str, str | None] | None = None,
     calibration_violations: Sequence[str] | None = None,
+    exception_baseline: Mapping[str, str | None] | None = None,
+    exception_current: Mapping[str, str | None] | None = None,
+    repo_root: Path | None = None,
 ) -> VerificationVerdict:
     """Answer every verification question machinery can answer, then stop.
 
@@ -869,6 +888,56 @@ def evaluate(
             if calibration_violations is not None
             else ["no calibration proof was computed, so the edit cannot be accepted"]
         )
+
+    exception_violations: list[str] = []
+    if packet.rule == "swallowed-exception-repair":
+        if len(change_set.paths) != 1:
+            exception_violations.append(
+                f"swallowed-exception-repair diff must touch exactly one file; touches {len(change_set.paths)}: "
+                + ", ".join(sorted(change_set.paths))
+            )
+        else:
+            subject = change_set.paths[0]
+            expected_subject = packet.debt.get("subject", {}).get("id")
+            if not isinstance(expected_subject, str) or not expected_subject.strip():
+                exception_violations.append("packet debt subject is missing or empty")
+            elif subject != expected_subject:
+                exception_violations.append(
+                    f"diff touches {subject} but debt subject is {expected_subject}"
+                )
+            in_allowed = any(_in_scope(subject, allowed) for allowed in packet.allowed_paths)
+            in_forbidden = any(
+                _in_scope(subject, denied) and not _carveOut(subject, denied, packet)
+                for denied in packet.forbidden_paths
+            )
+            if not in_allowed or in_forbidden:
+                exception_violations.append(f"{subject}: diff is outside allowed scope or inside forbidden scope")
+            else:
+                baseline = None
+                if repo_root is not None:
+                    baseline = _git_head_blob(repo_root, subject)
+                if baseline is None and exception_baseline and subject in exception_baseline:
+                    baseline = exception_baseline[subject]
+
+                current = None
+                if baseline is not None:
+                    hunks_map = dict(change_set.file_patches)
+                    if subject in hunks_map:
+                        try:
+                            current = apply_patch(baseline, hunks_map[subject])
+                        except Exception as exc:
+                            exception_violations.append(f"{subject}: diff could not be applied to baseline: {exc}")
+                if current is None and exception_current and subject in exception_current:
+                    current = exception_current[subject]
+
+                if baseline is None:
+                    exception_violations.append(f"{subject}: could not retrieve baseline content from HEAD")
+                elif current is None:
+                    if not exception_violations:
+                        exception_violations.append(f"{subject}: could not reconstruct patched content from baseline and diff")
+                else:
+                    violations = prove_exception_edit(baseline, current, subject)
+                    exception_violations.extend(f"{subject}: {v}" for v in violations)
     scope_valid = (
         not outside
         and not forbidden
@@ -876,6 +945,7 @@ def evaluate(
         and not change_set.workflow_edit_violations
         and not structural
         and not calibration
+        and not exception_violations
     )
     if outside:
         reasons.append("diff writes outside allowedPaths: " + ", ".join(sorted(outside)))
@@ -898,6 +968,8 @@ def evaluate(
             "a calibration must be proven to be exactly one eligible gaia dev calibrate write: "
             + "; ".join(calibration[:_MAX_WORKFLOW_VIOLATIONS])
         )
+    for ev in exception_violations:
+        reasons.append(ev)
 
     # 3. Is the proof complete and passing? Coverage and exit codes are exact;
     #    whether the output is genuine is not, and is asked of the verifier.

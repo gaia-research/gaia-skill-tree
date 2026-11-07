@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+import json
 from pathlib import Path
 import shutil
 
@@ -139,3 +140,40 @@ def test_unknown_coverage_and_routing_receipt_failure_fail_closed_without_report
 
     with pytest.raises(RoutingError, match="coverage is unknown"):
         render_founder_queue(root, controller=_controller(FailingSensor()))
+
+
+def test_dispatch_fails_closed_when_route_decision_unratified(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    # swallowed_exception has decision status "open" (unratified)
+    class SwallowedExceptionSensor:
+        id = "swallowed-sensor"
+        def scan(self, root: Path, observed_at: str) -> list[Observation]:
+            return [
+                Observation(
+                    kind="swallowed_exception",
+                    subject=Subject("file", "scripts/test.py"),
+                    observed_at=observed_at,
+                    source=self.id,
+                    status="drift",
+                    current_state={"findingCount": 1},
+                    observed_state={"findingCount": 1, "findingsCapped": False},
+                )
+            ]
+
+    controller = StewardController(sensors=[SwallowedExceptionSensor()], clock=lambda: FROZEN)
+    scan = controller.scan(root)
+    debt_id = scan.open_debts[0].id
+
+    # The decision record steward-swallowed-exception-route is 'open', so render_dispatch must fail-close!
+    decisions_dir = root / "founder" / "steward" / "decisions"
+    decisions_dir.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(REPO_ROOT / "founder" / "steward" / "decisions", decisions_dir, dirs_exist_ok=True)
+    record_file = decisions_dir / "steward-swallowed-exception-route.json"
+    if record_file.exists():
+        data = json.loads(record_file.read_text(encoding="utf-8"))
+        data["status"] = "open"
+        record_file.write_text(json.dumps(data), encoding="utf-8")
+
+    with pytest.raises(RoutingError, match="is unratified: decision record"):
+        render_dispatch(root, debt_id, controller=controller)
+

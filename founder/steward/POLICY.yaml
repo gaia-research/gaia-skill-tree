@@ -38,7 +38,7 @@ authority:
   flaky_test: B
   ungated_mutation: B
   unsafe_execution: B
-  browser_sink_risk: B
+  browser_sink_risk: C
   credential_leak: C
   credential_review: B
   workflow_hygiene: B
@@ -666,6 +666,51 @@ routing:
         - reproduce the finding for the subject file
         - show a diff confined to the subject file
         - run python -m pytest on the importing package and python -m compileall on the file
+        - obtain independent review before integration
+    swallowed-exception-repair:
+      debtKind: swallowed_exception
+      authority: B
+      routine: error-handling-steward
+      promptGuide: founder/steward/routines/swallowed-exception-repair.md
+      capability: >-
+        Understand Python exception hierarchies and error-handling control flow, narrow broad
+        handlers to expected exception types or add contextual logging while preserving existing
+        fallback and return semantics, or mark intentional degradation with the documented intent marker.
+      objective: >-
+        For one subject file with swallowed-exception findings, repair each flagged handler by
+        narrowing the exception type to what the body raises, adding contextual logging while preserving
+        fallback behavior, or marking intentional suppression with '# steward: best-effort: <reason>'.
+        Return the smallest diff confined to the subject file with focused test proof.
+      allowedPaths:
+        - scripts/**
+        - src/gaia_cli/**
+      allowedCommands:
+        - python -m py_compile <file>
+        - python -m pytest
+        - gaia steward scan
+      forbiddenPaths:
+        - .agents/skills/**
+        - .claude/skills/**
+        - .gaia/steward/**
+        - .github/**
+        - docs/**
+        - founder/**
+        - registry/**
+        - skill-trees/**
+      stopConditions:
+        - the diff touches any file other than the debt's subject file
+        - the diff modifies lines outside except clauses, their comments, or handler logging
+        - the change alters control flow, return values, loop continuation, or raises new unhandled exceptions
+        - syntax checking or compilation of the subject file fails
+        - focused tests for the subject file fail or regress
+        - the finding does not reproduce on the current head
+        - the finding count for the subject file does not decrease
+      proof:
+        - reproduce the swallowed_exception finding on the subject file
+        - show a diff confined to the subject file modifying only except clauses, handler logging, or intent markers
+        - run python -m py_compile on the modified file and report exact results
+        - run focused pytest tests for the package or script and report exact results
+        - run gaia steward scan to prove the finding count for the subject file is reduced
         - obtain independent review before integration
     credential-review-disposition:
       debtKind: credential_review

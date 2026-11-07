@@ -139,6 +139,10 @@ _WORKFLOW_ROUTE_DEBT_KIND = "workflow_hygiene"
 _WORKFLOW_ROUTE_RULE_ID = "workflow-timeout-repair"
 WORKFLOW_ROUTE_DEBT_KIND = _WORKFLOW_ROUTE_DEBT_KIND
 WORKFLOW_ROUTE_RULE_ID = _WORKFLOW_ROUTE_RULE_ID
+_SWALLOWED_EXCEPTION_DEBT_KIND = "swallowed_exception"
+_SWALLOWED_EXCEPTION_RULE_ID = "swallowed-exception-repair"
+SWALLOWED_EXCEPTION_DEBT_KIND = _SWALLOWED_EXCEPTION_DEBT_KIND
+SWALLOWED_EXCEPTION_RULE_ID = _SWALLOWED_EXCEPTION_RULE_ID
 _WORKFLOW_ROUTE_ALLOWED = (".github/workflows/*.yml",)
 _WORKFLOW_ROUTE_REQUIRED_FORBIDDEN = (
     ".github/workflows/*.lock.yml",
@@ -552,6 +556,17 @@ class StewardPolicy:
                 raise PolicyError(
                     f"routing.dispatchRules.{rule_id} must route Class B debt classified as Class B"
                 )
+            if (debt_kind == _WORKFLOW_ROUTE_DEBT_KIND) != (rule_id == _WORKFLOW_ROUTE_RULE_ID):
+                raise PolicyError(
+                    f"routing.dispatchRules.{rule_id}: the .github/workflows exception belongs to rule "
+                    f"{_WORKFLOW_ROUTE_RULE_ID} and debt kind {_WORKFLOW_ROUTE_DEBT_KIND} together; "
+                    "neither may be used without the other"
+                )
+            if (debt_kind == _SWALLOWED_EXCEPTION_DEBT_KIND) != (rule_id == _SWALLOWED_EXCEPTION_RULE_ID):
+                raise PolicyError(
+                    f"routing.dispatchRules.{rule_id}: rule {_SWALLOWED_EXCEPTION_RULE_ID} and "
+                    f"debt kind {_SWALLOWED_EXCEPTION_DEBT_KIND} must be paired together"
+                )
             if any(item.debt_kind == debt_kind for item in dispatch_rules.values()):
                 raise PolicyError(f"multiple dispatch rules are configured for {debt_kind}")
             prompt_guide = _nonempty_string(
@@ -581,12 +596,6 @@ class StewardPolicy:
                 _safe_dispatch_glob(item, f"routing.dispatchRules.{rule_id}.forbiddenPaths")
                 for item in _string_list(rule["forbiddenPaths"], f"routing.dispatchRules.{rule_id}.forbiddenPaths")
             )
-            if (debt_kind == _WORKFLOW_ROUTE_DEBT_KIND) != (rule_id == _WORKFLOW_ROUTE_RULE_ID):
-                raise PolicyError(
-                    f"routing.dispatchRules.{rule_id}: the .github/workflows exception belongs to rule "
-                    f"{_WORKFLOW_ROUTE_RULE_ID} and debt kind {_WORKFLOW_ROUTE_DEBT_KIND} together; "
-                    "neither may be used without the other"
-                )
             workflow_route = debt_kind == _WORKFLOW_ROUTE_DEBT_KIND
             if workflow_route:
                 # The one exception to the `.github/**` floor. Allowed paths are
@@ -817,13 +826,16 @@ def _safe_glob(value: Any, name: str) -> str:
 
 
 def _safe_dispatch_glob(value: Any, name: str) -> str:
-    """A dispatch path scope: a ``<dir>/**`` subtree, or one ``<dir>/*.<ext>`` file glob.
+    """A dispatch path scope: a ``<dir>/**`` subtree, one ``<dir>/*.<ext>`` file glob, or an exact file path.
 
     File globs match direct children of one directory only. Which rule may carry
     one is decided by the caller, not here.
     """
 
     if isinstance(value, str) and _FILE_GLOB.fullmatch(value):
+        _safe_relative_path(value, name)
+        return value
+    if isinstance(value, str) and not value.endswith("/**") and "*" not in value:
         _safe_relative_path(value, name)
         return value
     return _safe_glob(value, name)

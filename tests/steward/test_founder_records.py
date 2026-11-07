@@ -142,3 +142,42 @@ def test_the_repository_decisions_directory_is_classified_exactly_by_its_own_rec
     assert {item.decision_id for item in records.pending} == expectedPending
     assert {item.record_id for item in records.awaiting} == expectedAwaiting
     assert records.actionable() == bool(expectedPending or expectedAwaiting)
+
+
+def test_browser_sink_risk_surfaces_on_founder_desk() -> None:
+    from gaia_cli.steward.desk import build_desk
+    from gaia_cli.steward.models import AuthorityClass, Debt, Priority, Subject
+
+    debt = Debt(
+        id="debt:browser_sink_risk:docs/index.html",
+        kind="browser_sink_risk",
+        subject=Subject("file", "docs/index.html"),
+        source="security-browser",
+        current_state={"findingCount": 1},
+        observed_state={"findingCount": 1, "findings": [{"line": 42, "pattern": "innerHTML-assignment"}]},
+        confidence=0.6,
+        priority=Priority(0.8, 0.7, 0.6, 0.8, 0.2, 1.344),
+        authority=AuthorityClass.C,
+        status="open",
+        first_observed_at="2026-11-08T00:00:00Z",
+        last_observed_at="2026-11-08T00:00:00Z",
+        observation_count=1,
+    )
+
+    desk = build_desk(
+        open_debts=[debt],
+        lane=None,
+        founder_queue=None,
+        coverage_unknown=(),
+        not_evaluated=(),
+        decision_records=[],
+        ledger_shared=False,
+        last_scheduled_run_at=None,
+        now="2026-11-08T00:00:00Z",
+    )
+    assert len(desk.decisions) == 1
+    dec = desk.decisions[0]
+    assert "unsafe DOM sink(s)" in dec.decision
+    assert "CLAUDE.md frontend human-gating" in dec.why_it_matters
+    assert dec.source == "class-c-debt"
+

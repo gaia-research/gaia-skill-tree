@@ -8,6 +8,7 @@ state.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import ast
 import json
 import os
 from pathlib import Path
@@ -23,6 +24,12 @@ from gaia_cli.steward.models import (
     FounderQueue,
     normalize_decision_target,
 )
+from gaia_cli.steward.exceptionproof import (
+    _ESCALATED_FUNCTION_NAMES,
+    _ESCALATED_LINE_LOCATIONS,
+    is_escalated_security_context,
+    is_escalated_try_block,
+)
 from gaia_cli.steward.lane import (
     Lane,
     lane_document,
@@ -37,7 +44,13 @@ from gaia_cli.steward.calibrationroute import (
     CALIBRATION_ROUTE_RULE_ID,
     ineligibilityReason,
 )
-from gaia_cli.steward.policy import WORKFLOW_ROUTE_DEBT_KIND, WORKFLOW_ROUTE_RULE_ID, StewardPolicy
+from gaia_cli.steward.policy import (
+    SWALLOWED_EXCEPTION_DEBT_KIND,
+    SWALLOWED_EXCEPTION_RULE_ID,
+    WORKFLOW_ROUTE_DEBT_KIND,
+    WORKFLOW_ROUTE_RULE_ID,
+    StewardPolicy,
+)
 from gaia_cli.steward.receipts import (
     ensure_local_state_path,
     exclusive_scan_lock,
@@ -62,6 +75,47 @@ from gaia_cli.steward.verification import (
 
 class RoutingError(RuntimeError):
     """A routing precondition was not proven; no report is rendered."""
+
+
+_RULE_TO_DECISION_ID: dict[str, str] = {
+    WORKFLOW_ROUTE_RULE_ID: "steward-workflow-timeout-route",
+    CALIBRATION_ROUTE_RULE_ID: "steward-class-b-route-trust-calibration-2283",
+    SWALLOWED_EXCEPTION_RULE_ID: "steward-swallowed-exception-route",
+}
+
+
+def _find_decision_file(decision_id: str, repo_root: Path) -> Path | None:
+    candidate = repo_root / "founder" / "steward" / "decisions" / f"{decision_id}.json"
+    if candidate.is_file():
+        return candidate
+    return None
+
+
+def _assert_route_ratified(rule: Any, repo_root: Path) -> None:
+    """Fail-close if a dispatch rule requires a ratified decision record that is not decided/approved."""
+    decision_id = _RULE_TO_DECISION_ID.get(rule.id)
+    if not decision_id:
+        return
+    decision_file = _find_decision_file(decision_id, repo_root)
+    if decision_file is None:
+        raise RoutingError(
+            f"route {rule.id} requires decision record {decision_id} before dispatch; record not found in {repo_root}"
+        )
+    try:
+        data = json.loads(decision_file.read_text(encoding="utf-8"))
+    except Exception as exc:
+        raise RoutingError(f"could not load decision record {decision_id}: {exc}") from exc
+    if data.get("schemaVersion") != "steward-decision-v1" or data.get("id") != decision_id:
+        raise RoutingError(
+            f"invalid decision record for {rule.id}: schemaVersion or id mismatch in {decision_file}"
+        )
+    if data.get("status") != "decided" or data.get("resolution") != "approved":
+        raise RoutingError(
+            f"route {rule.id} is unratified: decision record {decision_id} status is {data.get('status')!r} "
+            f"(must be 'decided' with resolution 'approved')"
+        )
+
+
 
 
 class LaneEmpty(RoutingError):
@@ -170,7 +224,7 @@ def _workflow_baseline(root: Path, paths: tuple[str, ...]) -> dict[str, str | No
     return baseline
 
 
-def _assert_route_eligible(rule: Any, debt: Debt) -> None:
+def _assert_route_eligible(rule: Any, debt: Debt, repo_root: Path | None = None) -> None:
     """Refuse a packet the route's own contract says it may never carry.
 
     The workflow-timeout route is the only Steward write into ``.github/``. Its
@@ -184,29 +238,121 @@ def _assert_route_eligible(rule: Any, debt: Debt) -> None:
     if rule.id == CALIBRATION_ROUTE_RULE_ID or debt.kind == CALIBRATION_ROUTE_DEBT_KIND:
         _assert_calibration_eligible(rule, debt)
         return
-    if rule.id != WORKFLOW_ROUTE_RULE_ID and debt.kind != WORKFLOW_ROUTE_DEBT_KIND:
-        return
-    state = debt.observed_state
-    findings = state.get("findings")
-    subject = debt.subject.id
-    reason = None
-    if rule.id != WORKFLOW_ROUTE_RULE_ID or debt.kind != WORKFLOW_ROUTE_DEBT_KIND:
-        reason = "the workflow rule and debt kind must be paired"
-    elif state.get("laneEligible") is False:
-        reason = str(state.get("laneIneligibleReason") or "the sensor marked this debt lane-ineligible")
-    elif not isinstance(findings, list) or not findings or state.get("findingsCapped"):
-        reason = "the finding list is empty or capped, so every finding cannot be proven to be missing-timeout"
-    elif any(not isinstance(item, dict) or item.get("rule") != "missing-timeout" for item in findings):
-        reason = "the debt has findings other than missing-timeout; only missing-timeout is repairable by this route"
-    elif not (
-        subject.startswith(".github/workflows/")
-        and subject.endswith(".yml")
-        and subject.count("/") == 2
-        and not subject.endswith(".lock.yml")
-    ):
-        reason = "the subject is not a direct-child hand-written .github/workflows/*.yml file"
-    if reason is not None:
-        raise RoutingError(f"debt {debt.id} is not eligible for rule {rule.id}: {reason}")
+
+    if rule.id == WORKFLOW_ROUTE_RULE_ID or debt.kind == WORKFLOW_ROUTE_DEBT_KIND:
+        state = debt.observed_state
+        findings = state.get("findings")
+        subject = debt.subject.id
+        reason = None
+        if rule.id != WORKFLOW_ROUTE_RULE_ID or debt.kind != WORKFLOW_ROUTE_DEBT_KIND:
+            reason = "the workflow rule and debt kind must be paired"
+        elif state.get("laneEligible") is False:
+            reason = str(state.get("laneIneligibleReason") or "the sensor marked this debt lane-ineligible")
+        elif not isinstance(findings, list) or not findings or state.get("findingsCapped"):
+            reason = "the finding list is empty or capped, so every finding cannot be proven to be missing-timeout"
+        elif any(not isinstance(item, dict) or item.get("rule") != "missing-timeout" for item in findings):
+            reason = "the debt has findings other than missing-timeout; only missing-timeout is repairable by this route"
+        elif not (
+            subject.startswith(".github/workflows/")
+            and subject.endswith(".yml")
+            and subject.count("/") == 2
+            and not subject.endswith(".lock.yml")
+        ):
+            reason = "the subject is not a direct-child hand-written .github/workflows/*.yml file"
+        if reason is not None:
+            raise RoutingError(f"debt {debt.id} is not eligible for rule {rule.id}: {reason}")
+
+    if rule.id == SWALLOWED_EXCEPTION_RULE_ID or debt.kind == SWALLOWED_EXCEPTION_DEBT_KIND:
+        state = debt.observed_state
+        subject = debt.subject.id
+        reason = None
+        if rule.id != SWALLOWED_EXCEPTION_RULE_ID or debt.kind != SWALLOWED_EXCEPTION_DEBT_KIND:
+            reason = "the swallowed-exception-repair rule and swallowed_exception debt kind must be paired"
+        elif not (
+            subject.endswith(".py")
+            and (subject.startswith("scripts/") or subject.startswith("src/gaia_cli/"))
+        ):
+            reason = "subject must be a .py file in scripts/ or src/gaia_cli/"
+        elif is_escalated_security_context(subject):
+            reason = (
+                f"subject {subject} feeds authorization, budget/spend, or overwrite decisions; "
+                "must be escalated to engineering, not dispatched autonomously"
+            )
+        elif state.get("findingsCapped") or not isinstance(state.get("findingCount"), int) or state.get("findingCount") <= 0:
+            reason = "findings must not be capped and must have findingCount > 0"
+        else:
+            findings = state.get("findings", [])
+            full_path = (repo_root / subject).resolve() if repo_root is not None else Path(subject).resolve()
+            if not full_path.is_file():
+                raise RoutingError(
+                    f"debt {debt.id}: cannot establish AST context because {subject} is not on disk in {repo_root or Path.cwd()}"
+                )
+            try:
+                tree = ast.parse(full_path.read_text(encoding="utf-8"))
+                enclosing_funcs: dict[int, str] = {}
+                enclosing_tries: dict[int, ast.Try] = {}
+                for node in ast.walk(tree):
+                    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                        start_line = getattr(node, "lineno", 0)
+                        end_line = getattr(node, "end_lineno", start_line)
+                        for l in range(start_line, (end_line or start_line) + 1):
+                            enclosing_funcs[l] = node.name
+                    elif isinstance(node, ast.Try):
+                        start_line = getattr(node, "lineno", 0)
+                        end_line = getattr(node, "end_lineno", start_line)
+                        for l in range(start_line, (end_line or start_line) + 1):
+                            enclosing_tries[l] = node
+            except Exception as exc:
+                raise RoutingError(
+                    f"debt {debt.id}: cannot establish AST context for {subject}: {exc}"
+                )
+
+            for f in findings:
+                f_line = f.get("line") if isinstance(f, dict) else None
+                func_name = enclosing_funcs.get(f_line) if f_line else None
+                try_node = enclosing_tries.get(f_line) if f_line else None
+
+                # 1. Whole-module escalation check
+                if is_escalated_security_context(subject):
+                    reason = (
+                        f"subject {subject} is an escalated security or mutation module; "
+                        "must be escalated to engineering, not dispatched autonomously"
+                    )
+                    break
+
+                # 2. Function-level escalation check
+                if func_name and func_name in _ESCALATED_FUNCTION_NAMES:
+                    if func_name in ("scan_command", "fuse_command"):
+                        if try_node is not None and is_escalated_try_block(try_node, func_name, subject):
+                            reason = (
+                                f"subject {subject}:{f_line} (function: {func_name}) wraps custom_state or manifest overwrite; "
+                                "must be escalated to engineering, not dispatched autonomously"
+                            )
+                            break
+                    else:
+                        reason = (
+                            f"subject {subject}:{f_line} (function: {func_name}) feeds authorization, budget/spend, or overwrite decisions; "
+                            "must be escalated to engineering, not dispatched autonomously"
+                        )
+                        break
+
+                # 3. Structural AST try-block escalation check (immune to line drift)
+                if try_node is not None and is_escalated_try_block(try_node, func_name, subject):
+                    reason = (
+                        f"subject {subject}:{f_line} (function: {func_name or 'module'}) feeds authorization, "
+                        "budget/spend, or overwrite decisions; must be escalated to engineering, not dispatched autonomously"
+                    )
+                    break
+
+                # 4. Fallback line location check
+                if is_escalated_security_context(subject, func_name=func_name, line=f_line):
+                    reason = (
+                        f"subject {subject}:{f_line} (function: {func_name or 'module'}) feeds authorization, "
+                        "budget/spend, or overwrite decisions; must be escalated to engineering, not dispatched autonomously"
+                    )
+                    break
+        if reason is not None:
+            raise RoutingError(f"debt {debt.id} is not eligible for rule {rule.id}: {reason}")
 
 
 def _assert_calibration_eligible(rule: Any, debt: Debt) -> None:
@@ -423,8 +569,23 @@ def _write_lane(root: Path, policy: StewardPolicy, lane: Lane) -> None:
         raise
 
 
-def _dispatchable_kinds(policy: StewardPolicy) -> dict[str, str]:
-    return {rule.debt_kind: rule.id for rule in policy.dispatch_rules.values()}
+def _dispatchable_kinds(policy: StewardPolicy, root: Path | None = None) -> dict[str, str]:
+    kinds: dict[str, str] = {}
+    for rule in policy.dispatch_rules.values():
+        if root is not None:
+            decision_id = _RULE_TO_DECISION_ID.get(rule.id)
+            if decision_id:
+                decision_file = _find_decision_file(decision_id, root)
+                if decision_file is None:
+                    continue
+                try:
+                    data = json.loads(decision_file.read_text(encoding="utf-8"))
+                    if data.get("status") != "decided" or data.get("resolution") != "approved":
+                        continue
+                except Exception:
+                    continue
+        kinds[rule.debt_kind] = rule.id
+    return kinds
 
 
 def _reconciled_lane(root: Path, policy: StewardPolicy, scan: ScanResult) -> Lane:
@@ -441,7 +602,7 @@ def _reconciled_lane(root: Path, policy: StewardPolicy, scan: ScanResult) -> Lan
     return reconcile(
         _read_lane(root, policy),
         open_debts=fresh,
-        dispatchable_kinds=_dispatchable_kinds(policy),
+        dispatchable_kinds=_dispatchable_kinds(policy, root=root),
         now=scan.receipt.finished_at,
     )
 
@@ -503,7 +664,8 @@ def render_lane_next(
         rule = policy.dispatch_rule_for(debt.kind)
         if rule is None or debt.authority is not AuthorityClass.B or rule.authority is not AuthorityClass.B:
             raise RoutingError(f"lane selected non-Class-B debt: {debt.id}")
-        _assert_route_eligible(rule, debt)
+        _assert_route_ratified(rule, root)
+        _assert_route_eligible(rule, debt, root)
         packet = DispatchPacket.create(
             debt=debt.to_dict(), evidence=_routing_evidence(debt), authority=debt.authority,
             rule=rule.id, routine=rule.routine, objective=rule.objective,
@@ -601,7 +763,8 @@ def render_dispatch(
             raise RoutingError(f"unsupported Class B routing debt: {debt.id}")
         if debt.authority is not AuthorityClass.B or rule.authority is not AuthorityClass.B:
             raise RoutingError(f"authority mismatch for dispatch debt: {debt.id}")
-        _assert_route_eligible(rule, debt)
+        _assert_route_ratified(rule, root)
+        _assert_route_eligible(rule, debt, root)
         return DispatchPacket.create(
             debt=debt.to_dict(), evidence=_routing_evidence(debt), authority=debt.authority,
             rule=rule.id, routine=rule.routine, objective=rule.objective,
@@ -775,6 +938,7 @@ def render_verification(
             authority_still_class_b=still_class_b,
             workflow_baseline=workflow_baseline,
             calibration_violations=calibration_structure_violations(root, packet, change_set),
+            repo_root=root,
         )
 
     def commit(scan: ScanResult, artifact: object) -> None:
@@ -883,7 +1047,10 @@ def render_founder_queue(repo_root: Path, *, controller: StewardController | Non
                 continue
             rule = policy.founder_rule_for(debt.kind)
             if rule is None:
-                raise RoutingError(f"unsupported Class C routing debt: {debt.id}")
+                # Class C debts without an individual per-scan queue rule (such as credential_leak,
+                # trust_stamp_stale, trust_evidence_gap, browser_sink_risk) are surfaced directly
+                # on the Founder Desk (desk.py) rather than queue items.
+                continue
             if rule.authority is not AuthorityClass.C:
                 raise RoutingError(f"authority mismatch for founder debt: {debt.id}")
             raw_target = debt.observed_state.get(rule.decision_target_field)

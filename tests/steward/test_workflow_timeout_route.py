@@ -286,6 +286,9 @@ def _dispatch(tmp_path: Path, subject: str, findings: list[dict[str, str]], **st
     destination = root / POLICY_RELATIVE_PATH
     destination.parent.mkdir(parents=True)
     shutil.copyfile(REPO_ROOT / POLICY_RELATIVE_PATH, destination)
+    decisions_dest = root / "founder" / "steward" / "decisions"
+    decisions_dest.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(REPO_ROOT / "founder" / "steward" / "decisions", decisions_dest, dirs_exist_ok=True)
     sensor = _WorkflowSensor(subject, findings, **state)
     controller = StewardController(sensors=[sensor], clock=lambda: FROZEN)
     debt_id = sensor.scan(root, NOW)[0].debt_id

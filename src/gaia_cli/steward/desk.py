@@ -606,6 +606,28 @@ def _class_c_group(kind: str, debts: Sequence[Debt]) -> DeskDecision:
             debt_ids=ids,
             source="class-c-debt",
         )
+    if kind == "browser_sink_risk":
+        return DeskDecision(
+            decision_id=identity,
+            decision=f"Review and sanitize {count} unsafe DOM sink(s) in frontend templates ({count} finding(s)).",
+            why_it_matters=(
+                "CLAUDE.md frontend human-gating strictly forbids automated changes that alter visible rendering "
+                "or DOM tree structure without founder review. Dynamic markup templates in docs/ cannot prove zero "
+                "rendered diff mechanically without an interactive browser render pass."
+            ),
+            evidence=tuple(_generic_evidence(ordered)),
+            recommended=(
+                "Review each sink site manually. Where content is plain text, convert innerHTML to textContent. "
+                "Where markup is required, sanitize using DOMPurify or safe templating after founder review."
+            ),
+            alternative=(
+                "Author an interactive headless browser testing pipeline to mechanically prove zero rendered visual diff."
+            ),
+            unblocks=unblocks,
+            links=("https://github.com/gaia-research/gaia-skill-tree/blob/main/CLAUDE.md",),
+            debt_ids=ids,
+            source="class-c-debt",
+        )
     return DeskDecision(
         decision_id=identity,
         decision=f"Rule on {count} open Class C {kind} finding(s).",

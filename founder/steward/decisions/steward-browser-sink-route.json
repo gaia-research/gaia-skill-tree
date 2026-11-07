@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-browser-sink-route",
+  "status": "decided",
+  "decision": "Design browser_sink_risk as report-only routing to the founder desk rather than granting autonomous write dispatch authority?",
+  "whyItMatters": "61 open browser_sink_risk debts exist across docs/ and scripts. Frontend changes are strictly human-gated under CLAUDE.md. Transforming dynamic markup templates cannot be mechanically proven to have zero rendered visual diff without an interactive browser render pass, risking frontend visual regressions.",
+  "evidence": [
+    "Founder directive (verbatim, 2026-11-08): \"2. browser_sink_risk (61 open): unsafe DOM sinks in docs/js etc. FRONTEND IS HUMAN-GATED: the route may only do changes with NO rendered diff (e.g. innerHTML of plain text -> textContent where the value is never markup), must carry a no-rendered-diff proof, and must route anything else to the founder desk instead of dispatching. If no-rendered-diff cannot be made mechanically provable, design it as report-only and say so.\"",
+    "Founder Ruling 4 safeguards (2026-11-08, steward-class-b-route-authority-2283): \"browser sinks: prove actual SINK SAFETY (not merely visual equivalence) and validate headless behavior.\"",
+    "CLAUDE.md frontend human-gating policy strictly forbids automated changes that alter visible rendering or DOM tree structure without founder review.",
+    "ROOTCAUSE-PLAN §3 investigation and census analysis: 26 meta-report files interpolate unescaped JSON changelog text (scripts/add_post.py:638), and over 150 sink sites across docs/ are dynamic HTML templates.",
+    "Because zero rendered visual diff across dynamic templates and scripts cannot be mechanically proven in Python without an interactive browser render pass, autonomous write dispatch authority is declined per the founder directive's explicit conditional branch."
+  ],
+  "recommended": "Option B (Directive condition): Formally designate browser_sink_risk as Report-Only, routing findings to the Founder Desk for human design and review.",
+  "alternative": "Attempt autonomous regex/AST rewriting of dynamic DOM sinks without human review, violating CLAUDE.md frontend human-gating rules.",
+  "unblocks": "Clear disposition of 61 browser_sink_risk findings without risking frontend visual regressions or unauthorized DOM mutations.",
+  "links": [
+    "founder/steward/POLICY.yaml",
+    "src/gaia_cli/steward/sensors_security.py",
+    "founder/steward/routines/browser-sink-risk.md",
+    "founder/steward/decisions/steward-class-b-route-authority-2283.json"
+  ],
+  "resolution": "report-only-founder-desk"
+}
