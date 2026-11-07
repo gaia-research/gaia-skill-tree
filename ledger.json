@@ -1,5 +1,5 @@
 {
- "generation": 1666,
+ "generation": 1667,
  "lane": {
   "entries": [
    {
@@ -6585,13 +6585,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-07T21:56:42.301241Z",
-   "expiresAt": "2026-11-07T22:39:18.728448Z",
-   "holder": "run-20261107T200905Z-82a8d6bb"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -126888,7 +126882,7 @@
    ],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-07T21:59:15.741022Z",
+    "asOf": "2026-11-07T22:09:17.780609Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -127368,7 +127362,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": "2026-11-07T21:59:15.741022Z",
+   "finishedAt": "2026-11-07T22:09:17.780609Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -127396,7 +127390,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "perform 5 pending action(s) (lead.integrate), record each with `gaia steward full record run-20261107T200905Z-82a8d6bb <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T200905Z-82a8d6bb`",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": false,
     "agents": true,
@@ -130378,7 +130372,7 @@
    "sequence": 49,
    "sourceHead": "91b1bf93fab314717677961aaea77852f97b34e6",
    "startedAt": "2026-11-07T20:09:05.010120Z",
-   "status": "awaiting-action",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-11-07T20:09:05.010120Z",
@@ -130620,7 +130614,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T22:09:18.728633Z",
+ "updatedAt": "2026-11-07T22:11:00.756512Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
