@@ -410,11 +410,7 @@ class GitRefLedgerStore:
         sub_env = {
             key: value
             for key, value in os.environ.items()
-            if key not in {
-                "GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",
-                "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_REPLACE_REF_BASE",
-                "GIT_GRAFT_FILE", "GIT_COMMON_DIR",
-            }
+            if key not in {"GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY"}
         }
         sub_env.update(
             {
@@ -423,8 +419,6 @@ class GitRefLedgerStore:
                 "GIT_OPTIONAL_LOCKS": "0",
                 "GIT_ASKPASS": "true",
                 "GCM_INTERACTIVE": "never",
-                "GIT_NO_REPLACE_OBJECTS": "1",
-                "GIT_GRAFT_FILE": os.devnull,
             }
         )
         # An unattended run must fail, never wait on a credential or host-key prompt.
@@ -439,9 +433,7 @@ class GitRefLedgerStore:
         try:
             return subprocess.run(
                 [
-                    "git", "--no-replace-objects",
-                    "-c", "core.useReplaceRefs=false",
-                    "-C", str(self.repo_root),
+                    "git", "-C", str(self.repo_root),
                     "-c", "gc.auto=0", "-c", "maintenance.auto=0",
                     *args,
                 ],

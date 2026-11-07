@@ -123,23 +123,6 @@ or not the agent is what resolved it.
 pickup can tell *Steward is idle* from *Steward is broken*. The CLI exits `0`
 on an empty lane. Quiet days are the common case and must not page anyone.
 
-## Routine 19 critical coordination and rollout boundary
-
-Ordinary observation, debt, profiles and full-run state are checkout-local. `full --ledger auto/local` does not probe origin;
-explicit general `git` supports only read-only legacy status. Existing canonical campaign runs/history are not migrated,
-completed or settled, and cannot be resumed/recorded by the new local-only runner. Campaign compatibility and rollout remain
-separate owner gates; this source change does not retire or drain any real writer.
-
-Routine 19 alone uses a separately provisioned dedicated Git coordination ref for critical merge/close identity, durable
-verification/justification, one global slot, conservative attempt budgets and outcomes. Gate output is preparation, not a send
-grant: explicit `scripts/steward_pr.py execute --operation-id` enters a one-shot adapter; recover/finalize never resends;
-abort cancels only unsent preparation. Missing current canonical authority, namespace/history protection or trusted clock
-configuration refuses. Receipts are best effort, never proof substitutes. The unattended driver still refuses PR writes.
-
-No namespace/clock is provisioned or activated by source acceptance. See the [Routine 19 guide](routines/pr-maintenance.md)
-for authority, closure/reopen and uncertain-response boundaries, bounded full-record capacity and deployment prerequisites.
-C1/L4, C2/C3 deferrals, C4 source/compiler/engine/security holds and issue-hygiene write disablement remain unchanged.
-
 ## Class C — the founder digest
 
 ```bash
