@@ -1,5 +1,5 @@
 {
- "generation": 1356,
+ "generation": 1357,
  "lane": {
   "entries": [
    {
@@ -5682,7 +5682,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T11:20:09.317428Z",
-   "expiresAt": "2026-11-07T12:07:09.791012Z",
+   "expiresAt": "2026-11-07T12:07:16.091008Z",
    "holder": "run-20261107T103110Z-5e4b906c"
   }
  },
@@ -105556,7 +105556,7 @@
     "push": false,
     "routine": 1
    },
-   "phase": "verify",
+   "phase": "reobserve",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -106556,57 +106556,8 @@
     "verify": {
      "deferred": [],
      "expired": [],
-     "results": [
-      {
-       "debtId": "debt:unused_import:scripts-migrate-taxonomy-v6-py:8219619acd869521",
-       "receipt": "steward-20261107T112221Z-26065df5c1fa8ff0",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:unused_import:scripts-prepare-l4-october-py:bd894a0b5a6223f2",
-       "receipt": "steward-20261107T112408Z-a989ba47bf823505",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:unused_import:src-gaia-cli-commands-dev-verify-py:df107873802e647a",
-       "receipt": "steward-20261107T112541Z-9e5c75b95c61a647",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:unused_import:src-gaia-cli-commands-misc-py:62763bd4d9621989",
-       "receipt": "steward-20261107T112711Z-309b3d55610df6d9",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
-       "mode": "no-change",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:unused_import:src-gaia-cli-main-py:5e2d8b5dd2597031",
-       "receipt": "steward-20261107T112847Z-31b46d3b08f3f87b",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
-       "mode": "no-change",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11",
-       "mode": "no-change",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      }
-     ],
-     "status": "awaiting-verifier"
+     "results": [],
+     "status": "ok"
     }
    },
    "proofArtifacts": [
@@ -106869,6 +106820,12 @@
      "kind": "lead.integrate",
      "status": "awaiting",
      "stepId": "integrate:ce70d2a904b1:1"
+    },
+    {
+     "at": "2026-11-07T11:37:15.241622Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:verify"
     }
    ],
    "thinkingEfforts": [
@@ -106882,7 +106839,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T11:37:09.792049Z",
+ "updatedAt": "2026-11-07T11:37:16.091141Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
