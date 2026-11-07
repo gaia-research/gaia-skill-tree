@@ -1,5 +1,5 @@
 {
- "generation": 1350,
+ "generation": 1351,
  "lane": {
   "entries": [
    {
@@ -4831,14 +4831,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-b8c59e2e9b66a8448637",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T11:35:43.985310Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch6-verifier-be8ba959184b (pi, effort medium))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-11-07T10:34:05.249425Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T11:35:43.985310Z",
+    "lastVerdict": "reject",
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 1,
@@ -104734,6 +104740,13 @@
      "debtId": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
      "emittedAt": "2026-11-07T11:30:18.461397Z",
      "idempotencyKey": "verify:dispatch-b8c59e2e9b66a8448637:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch6-verifier-be8ba959184b",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: reject rationale: >- The finding reproduces at candidate 591db5447. An AST scan of src/gaia_cli/semantic_search.py found zero Name references to each of the ten reported imports and no __all__ assignment. A scoped rg search of src and tests found no direct consumers of those ten names through semantic_search; tests/test_curation_retrieval.py imports the retrieval helpers directly from gaia_cli.curation.retrieval. The candidate has no diff from the stated base. These imports remain unused within the module; potential external consumers were not exhaustively ruled out. No tests were run because the no-change finding is established by source inspection.",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -104749,7 +104762,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261107T103110Z-5e4b906c/verify-be8ba959184b.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T11:35:43.985095Z",
+     "status": "done",
      "stepId": "verify:be8ba959184b:1",
      "type": "agent.verify"
     },
@@ -105019,6 +105033,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:ce70d2a904b1:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch6-verifier-be8ba959184b",
+     "at": "2026-11-07T11:35:43.985310Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:be8ba959184b:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -106763,11 +106789,11 @@
      "stepId": "verify:ce70d2a904b1:1"
     },
     {
-     "at": "2026-11-07T11:30:18.461397Z",
+     "at": "2026-11-07T11:35:43.985095Z",
      "debtId": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
      "idempotencyKey": "verify:dispatch-b8c59e2e9b66a8448637:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:be8ba959184b:1"
     },
     {
@@ -106826,11 +106852,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T11:35:36.928723Z"
+   "updatedAt": "2026-11-07T11:35:43.985095Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T11:35:36.930695Z",
+ "updatedAt": "2026-11-07T11:35:43.988319Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -110416,22 +110442,25 @@
      "stepId": "build:be8ba959184b:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch6-verifier-be8ba959184b",
+     "at": "2026-11-07T11:35:43.985310Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:be8ba959184b:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
+   "blockedReason": "independent verification by pi-herdr-batch6-verifier-be8ba959184b (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: rejec",
    "branch": "steward/b/unused-import-be8ba959184b",
-   "build": {
-    "agentId": "pi-herdr-batch6-builder-be8ba959184b",
-    "attempt": 1,
-    "diffPath": null,
-    "dispatchId": "dispatch-b8c59e2e9b66a8448637",
-    "noChange": true,
-    "proofPath": null,
-    "recordedAt": "2026-11-07T11:07:03.283677Z",
-    "summary": "Batch batch6 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: src/gaia_cli/semantic_search.py is wildcard re-exported by packages/cli-npm/cli/semantic_search.py:1 (from gaia_cli.semantic_search import *), so the ten flagged imports may be part of a public surface; the builder reverted its removal."
-   },
+   "build": null,
    "createdAt": "2026-11-07T10:34:05.249425Z",
    "debtId": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
    "dispatchId": "dispatch-b8c59e2e9b66a8448637",
@@ -110442,6 +110471,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-b8c59e2e9b66a8448637 (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-07T11:35:43.985310Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch6-verifier-be8ba959184b (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: rejec",
+     "to": "blocked"
     }
    ],
    "kind": "unused_import",
@@ -110451,13 +110486,14 @@
    "routine": "dead-code-gardener",
    "runId": "run-20261107T103110Z-5e4b906c",
    "source": "dead-code",
-   "state": "building",
-   "updatedAt": "2026-11-07T11:07:03.283677Z",
+   "state": "blocked",
+   "updatedAt": "2026-11-07T11:35:43.985310Z",
    "verification": {
-    "mode": "no-change",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261107T103110Z-5e4b906c/verify-be8ba959184b.prompt.md"
+    "agentId": "pi-herdr-batch6-verifier-be8ba959184b",
+    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: verdict: reject rationale: >- The finding reproduces at candidate 591db5447. An AST scan of src/gaia_cli/semantic_search.py found zero Name references to each of the ten reported imports and no __all__ assignment. A scoped rg search of src and tests found no direct consumers of those ten names through semantic_search; tests/test_curation_retrieval.py imports the retrieval helpers directly from gaia_cli.curation.retrieval. The candidate has no diff from the stated base. These imports remain unused within the module; potential external consumers were not exhaustively ruled out. No tests were run because the no-change finding is established by source inspection.",
+    "recordedAt": "2026-11-07T11:35:43.985310Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   },
   "debt:unused_import:src-gaia-cli-shadowcorpus-py:0ef3d1c38966cf1d": {
