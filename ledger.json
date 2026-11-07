@@ -1,5 +1,5 @@
 {
- "generation": 1237,
+ "generation": 1238,
  "lane": {
   "entries": [
    {
@@ -98453,6 +98453,15 @@
      "debtId": "debt:unused_import:scripts-verify-review-findings-py:c0bd2a33a077a588",
      "emittedAt": "2026-11-07T09:28:17.139193Z",
      "idempotencyKey": "dispatch-983c82aec7203f8490c2:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch5-builder-b63e9eae65c5",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-b63e9eae65c5.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-b63e9eae65c5.proof.json",
+      "summary": "Batch batch5 builder (openai-codex|openai/gpt-6-luna medium, pi pane) removed the flagged unused import(s); commit 1559d103e; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -98473,7 +98482,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-b63e9eae65c5.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T09:49:26.698567Z",
+     "status": "done",
      "stepId": "build:b63e9eae65c5:1",
      "type": "agent.build"
     },
@@ -98565,6 +98575,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:6daedf9b733f:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch5-builder-b63e9eae65c5",
+     "at": "2026-11-07T09:49:26.698832Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:scripts-verify-review-findings-py:c0bd2a33a077a588",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:b63e9eae65c5:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -100099,6 +100121,12 @@
      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-6daedf9b733f.diff",
      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-6daedf9b733f.proof.json",
      "stepId": "build:6daedf9b733f:1"
+    },
+    {
+     "debtId": "debt:unused_import:scripts-verify-review-findings-py:c0bd2a33a077a588",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-b63e9eae65c5.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-b63e9eae65c5.proof.json",
+     "stepId": "build:b63e9eae65c5:1"
     }
    ],
    "pullRequests": [],
@@ -100193,11 +100221,11 @@
      "stepId": "build:e32db45574f4:1"
     },
     {
-     "at": "2026-11-07T09:28:17.139193Z",
+     "at": "2026-11-07T09:49:26.698567Z",
      "debtId": "debt:unused_import:scripts-verify-review-findings-py:c0bd2a33a077a588",
      "idempotencyKey": "dispatch-983c82aec7203f8490c2:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:b63e9eae65c5:1"
     },
     {
@@ -100216,11 +100244,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T09:49:20.178292Z"
+   "updatedAt": "2026-11-07T09:49:26.698567Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T09:49:20.179262Z",
+ "updatedAt": "2026-11-07T09:49:26.699466Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -102801,12 +102829,33 @@
    "verification": null
   },
   "debt:unused_import:scripts-verify-review-findings-py:c0bd2a33a077a588": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch5-builder-b63e9eae65c5",
+     "at": "2026-11-07T09:49:26.698832Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:b63e9eae65c5:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/unused-import-b63e9eae65c5",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch5-builder-b63e9eae65c5",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-b63e9eae65c5.diff",
+    "dispatchId": "dispatch-983c82aec7203f8490c2",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-b63e9eae65c5.proof.json",
+    "recordedAt": "2026-11-07T09:49:26.698832Z",
+    "summary": "Batch batch5 builder (openai-codex|openai/gpt-6-luna medium, pi pane) removed the flagged unused import(s); commit 1559d103e; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+   },
    "createdAt": "2026-11-07T09:28:17.139193Z",
    "debtId": "debt:unused_import:scripts-verify-review-findings-py:c0bd2a33a077a588",
    "dispatchId": "dispatch-983c82aec7203f8490c2",
@@ -102827,7 +102876,7 @@
    "runId": "run-20261107T092526Z-c6c6c44d",
    "source": "dead-code",
    "state": "building",
-   "updatedAt": "2026-11-07T09:28:17.139193Z",
+   "updatedAt": "2026-11-07T09:49:26.698832Z",
    "verification": null
   },
   "debt:unused_import:src-gaia-cli-commands-dev-audit-py:5afb9b672560dac5": {
