@@ -1,5 +1,5 @@
 {
- "generation": 1399,
+ "generation": 1400,
  "lane": {
   "entries": [
    {
@@ -4330,7 +4330,7 @@
     "state": "closed"
    },
    {
-    "attempts": 1,
+    "attempts": 2,
     "debtId": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
     "firstQueuedAt": "2026-11-04T02:54:14.093628Z",
     "history": [
@@ -4351,14 +4351,20 @@
       "from": "dispatched",
       "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch5-verifier-6daedf9b733f (pi, effort medium))",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T11:54:04.703234Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-c014cb105fdf43f2f948",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-11-07T10:14:40.681395Z",
-    "lastVerdict": "reject",
+    "lastTransitionAt": "2026-11-07T11:54:04.703234Z",
+    "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 0,
@@ -5724,7 +5730,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T11:51:11.610261Z",
-   "expiresAt": "2026-11-07T12:27:11.545262Z",
+   "expiresAt": "2026-11-07T12:28:43.505540Z",
    "holder": "run-20261107T115111Z-802da939"
   }
  },
@@ -110337,6 +110343,34 @@
      "status": "pending",
      "stepId": "build:01bdcf8a1d9c:2",
      "type": "agent.build"
+    },
+    {
+     "debtId": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
+     "emittedAt": "2026-11-07T11:54:04.703234Z",
+     "idempotencyKey": "dispatch-c014cb105fdf43f2f948:2",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 2,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/unused-import-6daedf9b733f",
+      "debtId": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
+      "dispatchId": "dispatch-c014cb105fdf43f2f948",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261107T115111Z-802da939/build-6daedf9b733f.diff",
+       "proofPath": ".gaia/steward/full/run-20261107T115111Z-802da939/build-6daedf9b733f.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261107T115111Z-802da939/build-6daedf9b733f.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:6daedf9b733f:2",
+     "type": "agent.build"
     }
    ],
    "actor": "cli",
@@ -111418,6 +111452,14 @@
      "kind": "agent.build",
      "status": "awaiting",
      "stepId": "build:01bdcf8a1d9c:2"
+    },
+    {
+     "at": "2026-11-07T11:54:04.703234Z",
+     "debtId": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
+     "idempotencyKey": "dispatch-c014cb105fdf43f2f948:2",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:6daedf9b733f:2"
     }
    ],
    "thinkingEfforts": [],
@@ -111428,7 +111470,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T11:57:11.553003Z",
+ "updatedAt": "2026-11-07T11:58:43.509921Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -114180,16 +114222,15 @@
      "tokensOut": null
     }
    ],
-   "attempt": 1,
+   "attempt": 2,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
-   "blockedReason": "independent verification by pi-herdr-batch5-verifier-6daedf9b733f (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
    "branch": "steward/b/unused-import-6daedf9b733f",
    "build": null,
    "createdAt": "2026-11-07T09:28:17.139193Z",
    "debtId": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
    "dispatchId": "dispatch-c014cb105fdf43f2f948",
-   "dispatchedAt": "2026-11-07T09:28:17.139193Z",
+   "dispatchedAt": "2026-11-07T11:54:04.703234Z",
    "history": [
     {
      "at": "2026-11-07T09:28:17.139193Z",
@@ -114202,24 +114243,24 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch5-verifier-6daedf9b733f (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
      "to": "blocked"
+    },
+    {
+     "at": "2026-11-07T11:54:04.703234Z",
+     "from": "blocked",
+     "reason": "dispatched as dispatch-c014cb105fdf43f2f948 (attempt 2)",
+     "to": "building"
     }
    ],
    "kind": "unused_import",
    "notes": [],
-   "promptPath": ".gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-6daedf9b733f.prompt.md",
+   "promptPath": ".gaia/steward/full/run-20261107T115111Z-802da939/build-6daedf9b733f.prompt.md",
    "pullRequest": null,
    "routine": "dead-code-gardener",
-   "runId": "run-20261107T092526Z-c6c6c44d",
+   "runId": "run-20261107T115111Z-802da939",
    "source": "dead-code",
-   "state": "blocked",
-   "updatedAt": "2026-11-07T10:14:40.681395Z",
-   "verification": {
-    "agentId": "pi-herdr-batch5-verifier-6daedf9b733f",
-    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - The offered proof contains no output reproducing the original finding, a required contract item; an independent AST check confirmed the four original imports had no Name references. - The offered test output does not identify the command or package tested; independent verification ran the full upstream-watcher test directory successfully (137 passed). - The independent-review item is discharged by this verification, as directed by the builder packet contract.",
-    "recordedAt": "2026-11-07T10:14:40.681395Z",
-    "stage": "judged",
-    "verdict": "reject"
-   }
+   "state": "building",
+   "updatedAt": "2026-11-07T11:54:04.703234Z",
+   "verification": null
   },
   "debt:unused_import:scripts-upstream-watcher-transport-py:f9f55b2634428ef3": {
    "assignments": [
