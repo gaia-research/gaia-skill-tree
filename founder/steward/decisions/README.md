@@ -35,7 +35,7 @@ File name `<id>.json`; the `id` inside must equal the file stem.
 |---|---|---|
 | `schemaVersion` | string | exactly `steward-decision-v1` |
 | `id` | string | lowercase `[a-z0-9][a-z0-9._-]*`, equals the file stem, unique |
-| `status` | string | `open` appears on the desk; `decided` is kept as history and never shown |
+| `status` | string | `open` appears on the desk as a pending decision; `decided` is history, except a `decided` record with `resolution: approved` and no `landedIn`, which `gaia steward founder` lists as approved-awaiting-landing (see below) |
 | `resolution` | string | optional, non-empty; `approved` marks a founder approval (see below), any other value is interpreted only by an explicitly scoped consumer |
 | `landedIn` | string | optional, non-empty; the PR, commit or release where an `approved` record's change landed |
 | `decision` | string | the question, stated once, non-empty |

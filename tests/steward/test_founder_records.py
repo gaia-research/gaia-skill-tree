@@ -125,10 +125,20 @@ def test_landed_in_must_be_a_non_empty_string() -> None:
     assert "landedIn" in (_check_record({**base, "landedIn": " "}) or "")
 
 
-def test_the_repository_decisions_directory_never_reads_as_empty() -> None:
+def test_the_repository_decisions_directory_is_classified_exactly_by_its_own_records() -> None:
+    """No hard-coded record: the expectation is derived from the files, so a legitimate landing never breaks it."""
+
+    directory = REPO_ROOT / "founder" / "steward" / "decisions"
+    documents = [json.loads(path.read_text(encoding="utf-8")) for path in sorted(directory.glob("*.json"))]
+    expectedPending = {d["id"] for d in documents if d["status"] == "open"}
+    expectedAwaiting = {
+        d["id"] for d in documents
+        if d["status"] == "decided" and d.get("resolution") == "approved" and "landedIn" not in d
+    }
+
     records = classify_decision_records(load_decision_records(REPO_ROOT))
-    # Whether any record is still pending changes as the founder rules; approved-but-unlanded records
-    # are tracked until stamped with landedIn, so the desk is never reported empty while one remains.
-    assert records.actionable()
+
     assert not records.invalid
-    assert "steward-founder-command-records" in {item.record_id for item in records.awaiting}
+    assert {item.decision_id for item in records.pending} == expectedPending
+    assert {item.record_id for item in records.awaiting} == expectedAwaiting
+    assert records.actionable() == bool(expectedPending or expectedAwaiting)
