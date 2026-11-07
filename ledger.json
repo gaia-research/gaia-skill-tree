@@ -1,5 +1,5 @@
 {
- "generation": 1628,
+ "generation": 1629,
  "lane": {
   "entries": [
    {
@@ -6540,7 +6540,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T21:05:47.181092Z",
-   "expiresAt": "2026-11-07T21:41:12.447769Z",
+   "expiresAt": "2026-11-07T21:42:50.715001Z",
    "holder": "run-20261107T200905Z-82a8d6bb"
   }
  },
@@ -126264,6 +126264,29 @@
      "status": "pending",
      "stepId": "verify:822c8b94f475:1",
      "type": "agent.verify"
+    },
+    {
+     "debtId": "debt:trust_calibration_drift:emilkowalski-animate-expo:ffaef819d06dc7a8",
+     "emittedAt": "2026-11-07T21:12:49.425352Z",
+     "idempotencyKey": "verify:dispatch-92c996763044c7e484c9:1",
+     "params": {
+      "allowedModels": [
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "debtId": "debt:trust_calibration_drift:emilkowalski-animate-expo:ffaef819d06dc7a8",
+      "effortRequired": true,
+      "forbiddenAgentIds": [
+       "pi-herdr-batch10-builder-a03c7caa5984"
+      ],
+      "verifierPromptPath": ".gaia/steward/full/run-20261107T200905Z-82a8d6bb/verify-a03c7caa5984.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "verify:a03c7caa5984:1",
+     "type": "agent.verify"
     }
    ],
    "actor": "cli",
@@ -128169,6 +128192,14 @@
      "kind": "agent.verify",
      "status": "awaiting",
      "stepId": "verify:822c8b94f475:1"
+    },
+    {
+     "at": "2026-11-07T21:12:49.425352Z",
+     "debtId": "debt:trust_calibration_drift:emilkowalski-animate-expo:ffaef819d06dc7a8",
+     "idempotencyKey": "verify:dispatch-92c996763044c7e484c9:1",
+     "kind": "agent.verify",
+     "status": "awaiting",
+     "stepId": "verify:a03c7caa5984:1"
     }
    ],
    "thinkingEfforts": [
@@ -128182,7 +128213,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T21:11:12.447935Z",
+ "updatedAt": "2026-11-07T21:12:50.715166Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -128528,7 +128559,12 @@
    "source": "trust-calibration-drift",
    "state": "building",
    "updatedAt": "2026-11-07T21:03:52.169186Z",
-   "verification": null
+   "verification": {
+    "receipt": "steward-20261107T211116Z-93e1165a792480f9",
+    "stage": "awaiting-verifier",
+    "verdict": "pending",
+    "verifierPromptPath": ".gaia/steward/full/run-20261107T200905Z-82a8d6bb/verify-a03c7caa5984.prompt.md"
+   }
   },
   "debt:trust_calibration_drift:emilkowalski-animate:edd8fbfefa0c4515": {
    "assignments": [
