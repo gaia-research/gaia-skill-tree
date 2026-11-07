@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import ast
 
+import pytest
+
 from scripts.check_steward_coverage import _bound_kind_values
 
 
@@ -28,12 +30,62 @@ def test_unresolvable_kind_name_is_not_counted() -> None:
     assert _values("items = [Observation(kind=kind) for kind in unknown_kinds]", "kind") == set()
 
 
-def test_reassigned_loop_target_is_not_counted() -> None:
-    source = '''
-class Sensor:
-    def scan(self, external):
-        for kind in ("ghost",):
-            kind = external
+@pytest.mark.parametrize(
+    "source",
+    [
+        '''def f(external):
+    for kind in ("ghost",):
+        kind = external
+        Observation(kind=kind)
+''',
+        '''def f(cm):
+    for kind in ("ghost",):
+        with cm as kind:
             Observation(kind=kind)
-'''
+''',
+        '''def f():
+    for kind in ("ghost",):
+        try:
+            raise ValueError()
+        except ValueError as kind:
+            Observation(kind=kind)
+''',
+        '''def f():
+    for kind in ("ghost",):
+        del kind
+        Observation(kind=kind)
+''',
+        '''def f(external):
+    for kind in ("ghost",):
+        kind += external
+        Observation(kind=kind)
+''',
+        '''def f(external):
+    for kind in ("ghost",):
+        def change():
+            nonlocal kind
+            kind = external
+        change()
+        Observation(kind=kind)
+''',
+        '''for kind in ("ghost",):
+    def change():
+        global kind
+        kind = "other"
+    change()
+    Observation(kind=kind)
+''',
+        '''def f(external):
+    for kind in ("ghost",):
+        return [Observation(kind=kind) for x in (1,) if (kind := external)]
+''',
+        # Fail closed even when the rebinding is after the use.
+        '''def f(external):
+    for kind in ("ghost",):
+        Observation(kind=kind)
+        kind = external
+''',
+    ],
+)
+def test_any_other_binding_makes_loop_target_unresolvable(source: str) -> None:
     assert _values(source, "kind") == set()

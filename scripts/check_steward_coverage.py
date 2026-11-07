@@ -82,59 +82,59 @@ def _string_sequence(node: ast.AST, constants: dict[str, Any]) -> tuple[str, ...
     return None
 
 
-def _rebound_between(name: str, binding: ast.AST, use: ast.AST, scope: ast.AST) -> bool:
-    """Fail closed if the name is rebound between its literal binding and use."""
-    start = (getattr(binding, "lineno", -1), getattr(binding, "col_offset", -1))
-    end = (getattr(use, "lineno", -1), getattr(use, "col_offset", -1))
-
-    def before_use(node: ast.AST) -> bool:
-        position = (getattr(node, "lineno", -1), getattr(node, "col_offset", -1))
-        return start < position < end
-
+def _has_other_binding(name: str, binding: ast.AST, scope: ast.AST) -> bool:
+    """Treat a loop-bound name as unknown if any other binding exists in its scope."""
     for node in ast.walk(scope):
-        targets: list[ast.AST] = []
-        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign, ast.NamedExpr, ast.For, ast.AsyncFor)):
-            targets.extend(node.targets if isinstance(node, ast.Assign) else [node.target])
-        elif isinstance(node, (ast.With, ast.AsyncWith)):
-            targets.extend(item.optional_vars for item in node.items if item.optional_vars is not None)
-        elif isinstance(node, ast.ExceptHandler) and node.name == name:
-            if before_use(node):
+        if isinstance(node, ast.Name) and node.id == name and node is not binding and isinstance(node.ctx, (ast.Store, ast.Del)):
+            return True
+        if isinstance(node, ast.ExceptHandler) and node.name == name:
+            return True
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) and node.name == name:
+            return True
+        if isinstance(node, (ast.Global, ast.Nonlocal)) and name in node.names:
+            return True
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)):
+            args = (*node.args.posonlyargs, *node.args.args, *node.args.kwonlyargs)
+            if any(arg.arg == name for arg in args) or (node.args.vararg and node.args.vararg.arg == name) or (node.args.kwarg and node.args.kwarg.arg == name):
                 return True
-        elif isinstance(node, ast.Delete):
-            targets.extend(node.targets)
-        for target in targets:
-            if before_use(node) and any(isinstance(part, ast.Name) and part.id == name for part in ast.walk(target)):
-                return True
+        if isinstance(node, (ast.Import, ast.ImportFrom)) and any((alias.asname or alias.name.split('.')[0]) == name for alias in node.names):
+            return True
     return False
 
 
+def _binding_scope(binding: ast.AST, parents: dict[ast.AST, ast.AST]) -> ast.AST:
+    node = parents.get(binding)
+    scope: ast.AST = binding
+    while node is not None:
+        scope = node
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Module)):
+            return node
+        node = parents.get(node)
+    return scope
+
+
 def _bound_kind_values(name: str, call: ast.AST, parents: dict[ast.AST, ast.AST], constants: dict[str, Any]) -> set[str]:
-    """Resolve an enclosing literal binding only when it is not reassigned before use."""
-    child = call
-    parent = parents.get(child)
-    lexical_scope: ast.AST = call
-    while parent is not None:
-        if isinstance(parent, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef, ast.Module)):
-            lexical_scope = parent
-            break
-        child, parent = parent, parents.get(parent)
+    """Resolve an enclosing literal binding only when it is the name's sole binding in scope."""
     child = call
     parent = parents.get(child)
     while parent is not None:
         if isinstance(parent, (ast.ListComp, ast.SetComp, ast.GeneratorExp, ast.DictComp)):
             for generator in reversed(parent.generators):
-                if name in {target.id for target in ast.walk(generator.target) if isinstance(target, ast.Name)}:
-                    if _rebound_between(name, generator.target, call, lexical_scope):
+                target = next((target for target in ast.walk(generator.target) if isinstance(target, ast.Name) and target.id == name), None)
+                if target is not None:
+                    scope = _binding_scope(target, parents)
+                    if _has_other_binding(name, target, scope):
                         return set()
                     values = _string_sequence(generator.iter, constants)
                     return set(values or ())
-        if isinstance(parent, (ast.For, ast.AsyncFor)) and name in {
-            target.id for target in ast.walk(parent.target) if isinstance(target, ast.Name)
-        }:
-            if _rebound_between(name, parent.target, call, lexical_scope):
-                return set()
-            values = _string_sequence(parent.iter, constants)
-            return set(values or ())
+        if isinstance(parent, (ast.For, ast.AsyncFor)):
+            target = next((target for target in ast.walk(parent.target) if isinstance(target, ast.Name) and target.id == name), None)
+            if target is not None:
+                scope = _binding_scope(target, parents)
+                if _has_other_binding(name, target, scope):
+                    return set()
+                values = _string_sequence(parent.iter, constants)
+                return set(values or ())
         child, parent = parent, parents.get(parent)
     return set()
 
