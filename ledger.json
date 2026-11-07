@@ -1,5 +1,5 @@
 {
- "generation": 1235,
+ "generation": 1236,
  "lane": {
   "entries": [
    {
@@ -98349,6 +98349,15 @@
      "debtId": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
      "emittedAt": "2026-11-07T09:28:17.139193Z",
      "idempotencyKey": "dispatch-6847593639a1b68774d5:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch5-builder-01bdcf8a1d9c",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-01bdcf8a1d9c.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-01bdcf8a1d9c.proof.json",
+      "summary": "Batch batch5 builder (openai-codex|openai/gpt-6-luna medium, pi pane) removed the flagged unused import(s); commit da4d51e72; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -98369,7 +98378,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-01bdcf8a1d9c.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T09:49:13.732043Z",
+     "status": "done",
      "stepId": "build:01bdcf8a1d9c:1",
      "type": "agent.build"
     },
@@ -98521,6 +98531,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:d179e1da2ecc:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch5-builder-01bdcf8a1d9c",
+     "at": "2026-11-07T09:49:13.732263Z",
+     "costUsd": null,
+     "debtId": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:01bdcf8a1d9c:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -100043,6 +100065,12 @@
      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-d179e1da2ecc.diff",
      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-d179e1da2ecc.proof.json",
      "stepId": "build:d179e1da2ecc:1"
+    },
+    {
+     "debtId": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-01bdcf8a1d9c.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-01bdcf8a1d9c.proof.json",
+     "stepId": "build:01bdcf8a1d9c:1"
     }
    ],
    "pullRequests": [],
@@ -100113,11 +100141,11 @@
      "stepId": "build:d179e1da2ecc:1"
     },
     {
-     "at": "2026-11-07T09:28:17.139193Z",
+     "at": "2026-11-07T09:49:13.732043Z",
      "debtId": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
      "idempotencyKey": "dispatch-6847593639a1b68774d5:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:01bdcf8a1d9c:1"
     },
     {
@@ -100160,11 +100188,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T09:49:07.391013Z"
+   "updatedAt": "2026-11-07T09:49:13.732043Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T09:49:07.391992Z",
+ "updatedAt": "2026-11-07T09:49:13.732946Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -102613,12 +102641,33 @@
    "verification": null
   },
   "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch5-builder-01bdcf8a1d9c",
+     "at": "2026-11-07T09:49:13.732263Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:01bdcf8a1d9c:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/unused-import-01bdcf8a1d9c",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch5-builder-01bdcf8a1d9c",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-01bdcf8a1d9c.diff",
+    "dispatchId": "dispatch-6847593639a1b68774d5",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-01bdcf8a1d9c.proof.json",
+    "recordedAt": "2026-11-07T09:49:13.732263Z",
+    "summary": "Batch batch5 builder (openai-codex|openai/gpt-6-luna medium, pi pane) removed the flagged unused import(s); commit da4d51e72; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+   },
    "createdAt": "2026-11-07T09:28:17.139193Z",
    "debtId": "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
    "dispatchId": "dispatch-6847593639a1b68774d5",
@@ -102639,7 +102688,7 @@
    "runId": "run-20261107T092526Z-c6c6c44d",
    "source": "dead-code",
    "state": "building",
-   "updatedAt": "2026-11-07T09:28:17.139193Z",
+   "updatedAt": "2026-11-07T09:49:13.732263Z",
    "verification": null
   },
   "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e": {
