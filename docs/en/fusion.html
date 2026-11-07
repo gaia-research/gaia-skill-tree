@@ -604,9 +604,11 @@
             <li><strong style="color:var(--text);">Registry-level fusion</strong> — <code>gaia dev merge</code> (Verifier-gated) proposes that two canonical nodes should become one.</li>
           </ul>
           <p>
-            Running <code>gaia fuse</code> does not add a new node to the public registry — it
-            records the fusion in your <code>skill-trees/&lt;username&gt;/skill-tree.json</code>
-            and writes a timeline event. Registry merges are separate, PR-driven operations.
+            Running <code>gaia fuse</code> does not add a new node to the public registry. Confirming
+            a detected combination records the fusion in your
+            <code>skill-trees/&lt;username&gt;/skill-tree.json</code> and writes a timeline event.
+            Defining a custom fusion saves it only to <code>.gaia/custom_state.json</code> in your
+            project. Registry merges are separate, PR-driven operations.
           </p>
         </div>
 
@@ -832,7 +834,8 @@
             list (fusion recipes).<br>
             2. Cross-references that list against <code>skill-trees/&lt;you&gt;/skill-tree.json</code>
             to filter down to fusions where you own all inputs.<br>
-            3. Presents eligible fusions in an interactive selector.<br>
+            3. Presents eligible fusions in an interactive selector. If <code>gaia scan</code> already
+            detected a combination, the menu lists <em>Confirm detected combination (from scan)</em> first.<br>
             4. On confirmation: appends an entry to <code>unlockedSkills</code> and writes
             a <code>fuse</code> timeline event with current UTC timestamp.
           </p>
@@ -848,7 +851,7 @@
       <span class="str">"skillId"</span>: <span class="str">"multi-step-tool-orchestration"</span>,
       <span class="str">"level"</span>: <span class="str">"2★"</span>,
       <span class="str">"unlockedAt"</span>: <span class="str">"2026-06-11T17:30:00Z"</span>,
-      <span class="str">"unlockedIn"</span>: <span class="str">"you/your-repo"</span>,
+      <span class="str">"unlockedIn"</span>: <span class="str">"local-repo"</span>,
       <span class="str">"combinedFrom"</span>: [<span class="str">"tool-call-chaining"</span>, <span class="str">"context-window-management"</span>]
     }
   ],
@@ -868,6 +871,37 @@
           <p>
             Run <code>gaia tree</code> immediately after fusion to confirm the new Fusion-type
             skill appears with its ◇ glyph and combined-from attribution.
+          </p>
+        </div>
+
+        <h3>Custom fusion from the command line</h3>
+        <div class="section-body">
+          <p>
+            The interactive flow offers detected combinations from your last scan and also lets you
+            create a custom fusion path. To skip the menu and declare your
+            own path, pass the source skills and a target ID directly. <code>--skills</code> takes
+            a comma-separated list. <code>--delete</code> removes a saved path.
+          </p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-label">shell</span>
+          </div>
+          <pre><span class="c"># Save a custom fusion path (target ID is the positional argument)</span>
+<span class="cmd">gaia fuse</span> <span class="str">my-custom-skill</span> <span class="kw">--skills</span> <span class="str">tool-call-chaining,context-window-management</span>
+
+<span class="c"># Delete a saved custom fusion path</span>
+<span class="cmd">gaia fuse</span> <span class="str">my-custom-skill</span> <span class="kw">--delete</span></pre>
+        </div>
+
+        <div class="callout callout-info">
+          <span class="callout-label">💡 Local only</span>
+          <p>
+            Custom paths are saved to <code>.gaia/custom_state.json</code> in the working
+            directory. They do not write a rank or level into your skill tree. A path reaches the
+            registry only through <code>gaia push</code>, and canon curation decides whether it
+            is accepted.
           </p>
         </div>
       </section>
