@@ -1,6 +1,6 @@
 # Skill Tree — gaiabot
 **Last Updated:** 2026-04-26
-**Total Skills Unlocked:** 6
+**Total Skills Unlocked:** 5
 **Highest Tier:** —
 **Deepest Lineage:** 1
 
@@ -15,14 +15,13 @@
 | ○ Tool Select | Basic | 2★ | Named | gaia-registry/gaiabot-core | 2026-04-22 |
 | · Plan and Execute | Fusion | 3★ | Evolved | local-repo | 2026-04-26 |
 | ○ gaiabot/gaia-triage | Basic | 1★ | Awakened | gaiabot/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ gaiabot/repo-docs-before-pr | Basic | 1★ | Awakened | gaiabot/gaia-skill-tree | 2026-05-25T00:00:00Z |
 
 ---
 
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — gaiabot  ·  generated 2026-11-04
+GAIA SKILL TREE — gaiabot  ·  generated 2026-11-06
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
