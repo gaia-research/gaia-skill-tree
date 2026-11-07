@@ -120,13 +120,6 @@ MODEPHASES: dict[str, tuple[str, ...]] = {
 # outside the runner (a human, a merge, a re-observation) moves it.
 ACTIVEWORK = ("queued", "building", "proposed", "verified")
 HELDWORK = ("escalated", "no_change", "landed")
-# A held `no_change` is terminal. The only way back is a decided founder or
-# standing-authority record that names the exact (run, build step) pairs it
-# releases, consumed once per step and recorded append-only (release_no_change).
-# Records are honored by id only, never by pattern, so a new record needs a code
-# change that a reviewer sees; there is no general reopen.
-NOCHANGERELEASERULINGS = frozenset({"steward-workflow-timeout-no-history-release-2283"})
-NOCHANGERELEASEPREFIX = "releaseNoChange "
 OPENRUNSTATES = ("active", "awaiting-action")
 TERMINALRUNSTATES = ("completed", "blocked", "failed", "abandoned")
 
@@ -768,84 +761,6 @@ class FullRunner:
                 release_lease(doc, RUNLEASE, runId)
 
         self._mutateRun(runId, apply, holdsLease=False, message="steward full abandon")
-        return self._view(self._load(), runId)
-
-    def release_no_change(self, runId: str, stepId: str, *, ruling: str) -> RunView:
-        """Return one held ``no_change`` build to the queue under a decided record.
-
-        Bound, in order (any failure refuses and writes nothing):
-
-        * ``ruling`` is one of the code-pinned ``NOCHANGERELEASERULINGS``;
-        * its decision record is schema-valid (the desk's own checker), ``decided``,
-          and its ``evidence`` carries exactly ``releaseNoChange <runId> <stepId>``;
-        * ``stepId`` is an ``agent.build`` action of ``runId``;
-        * the work item is ``no_change`` *from that exact build*: same dispatch,
-          a recorded ``noChange`` build, independently accepted;
-        * that (run, step) was never released before (consumed once).
-
-        History is append-only: the original build and verification move to the
-        item's ``releasedBuilds`` list, the run gains a ``releases`` entry, and
-        the work item records a ``no_change -> queued`` transition naming the
-        record. The next run's triage then re-offers it to the lane like any
-        queued work; attempts and lane caps are unchanged.
-        """
-
-        from gaia_cli.steward.desk import _check_record
-
-        if ruling not in NOCHANGERELEASERULINGS:
-            raise RecordRefused(f"{ruling!r} is not a recognized no_change release record")
-        relative = f"founder/steward/decisions/{ruling}.json"
-        path = self.root / relative
-        try:
-            if path.is_symlink() or not path.is_file():
-                raise RecordRefused(f"release record {relative} is missing")
-            record = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, ValueError) as exc:
-            raise RecordRefused(f"release record {relative} cannot be read: {type(exc).__name__}") from exc
-        if not isinstance(record, dict):
-            raise RecordRefused(f"release record {relative} is not an object")
-        problem = _check_record({**record, "_source": relative})
-        if problem is not None:
-            raise RecordRefused(f"release record {relative} is malformed: {problem}")
-        if record.get("status") != "decided":
-            raise RecordRefused(f"release record {relative} is not decided")
-        binding = f"{NOCHANGERELEASEPREFIX}{runId} {stepId}"
-        if binding not in record.get("evidence", []):
-            raise RecordRefused(f"release record {relative} does not name {runId} {stepId}")
-        now = self._now()
-
-        def apply(doc: dict[str, Any], run: dict[str, Any]) -> None:
-            action = next((a for a in run["actions"] if a["stepId"] == stepId), None)
-            if action is None or action.get("type") != "agent.build":
-                raise RecordRefused(f"{stepId} is not a build action of run {runId}")
-            if any(entry.get("stepId") == stepId for entry in run.get("releases", [])):
-                raise RecordRefused(f"{runId} {stepId} was already released; a release is consumed once")
-            debtId = action["debtId"]
-            item = doc["work"].get(debtId)
-            if item is None or item.get("state") != "no_change":
-                raise RecordRefused(f"work for {debtId} is not held as no_change")
-            build = item.get("build") or {}
-            dispatchId = action.get("params", {}).get("dispatchId")
-            if build.get("dispatchId") != dispatchId or build.get("noChange") is not True:
-                raise RecordRefused(
-                    f"the held no_change of {debtId} is not the outcome of {stepId}; refusing to release a different build"
-                )
-            verification = item.get("verification") or {}
-            if verification.get("verdict") != "accept":
-                raise RecordRefused(f"the no_change of {debtId} was not independently accepted")
-            entry = {
-                "ruling": ruling, "runId": runId, "stepId": stepId, "debtId": debtId,
-                "dispatchId": dispatchId, "at": now, "by": f"operator:{self.config.holder}",
-            }
-            item.setdefault("releasedBuilds", []).append(
-                {**entry, "build": copy.deepcopy(build), "verification": copy.deepcopy(verification)}
-            )
-            item["build"] = None
-            item["verification"] = None
-            self._setState(doc, debtId, "queued", now, f"no_change released for rebuild under {ruling} ({runId} {stepId})")
-            run.setdefault("releases", []).append(entry)
-
-        self._mutateRun(runId, apply, holdsLease=False, message=f"steward full release under {ruling}")
         return self._view(self._load(), runId)
 
     def _supersede(self, runId: str) -> None:

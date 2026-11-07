@@ -15,7 +15,7 @@
   ],
   "recommended": "Apply the no-history default in the workflow-timeout route as specified in founder/steward/routines/workflow-timeout.md.",
   "alternative": "Keep stopping on every job without successful history (the two debts stay unrepairable).",
-  "unblocks": "Repair of workflow_hygiene debts whose flagged job never ran successfully, including the two batch-9 no_change items once released.",
+  "unblocks": "Repair of workflow_hygiene debts whose flagged job never ran successfully.",
   "links": [
     "founder/reports/steward-campaign-2026-11-05/FOUNDER_RULINGS_2026-11-08.md",
     "founder/steward/routines/workflow-timeout.md",
