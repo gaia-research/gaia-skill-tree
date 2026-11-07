@@ -2698,6 +2698,17 @@ class FullRunner:
                                 f" (work was {state})")
                     if state == "proposed" and item.get("authority") == "A" and not self._mergedInto(item):
                         evidence += "; the proposed branch is not in this checkout"
+                    if state == "landed" and self._mergedInto(item) is True:
+                        item["resolvedBy"] = {
+                            "kind": "lane_repair", "receipt": summary["scanReceiptId"],
+                            "runId": item.get("runId"), "mergedSha": item.get("mergedSha"),
+                            "verifiedBy": (item.get("verification") or {}).get("agentId"),
+                        }
+                    else:
+                        item["resolvedBy"] = {
+                            "kind": "condition_not_reobserved", "receipt": summary["scanReceiptId"],
+                            "priorState": state,
+                        }
                     self._setState(doc, debtId, "resolved", now, evidence)
                     resolvedNow.append(debtId)
                 else:
@@ -2705,7 +2716,10 @@ class FullRunner:
                             "not claiming resolved")
                     self._note(item, now, text)
                     notes.append({"debtId": debtId, "note": text})
-            record["phases"]["reobserve"] = dict(summary, resolvedWork=resolvedNow, notes=notes)
+            resolvedByRepair = [debtId for debtId in resolvedNow
+                                if doc["work"][debtId].get("resolvedBy", {}).get("kind") == "lane_repair"]
+            record["phases"]["reobserve"] = dict(summary, resolvedWork=resolvedNow,
+                                                   resolvedByRepair=resolvedByRepair, notes=notes)
             self._addStep(record, {"stepId": "phase:reobserve", "kind": "phase", "status": "done", "at": now})
             order = MODEPHASES[record["mode"]]
             record["phase"] = order[order.index("reobserve") + 1]
