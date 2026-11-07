@@ -156,7 +156,8 @@ def test_a_stuck_pr_action_cannot_starve_the_lane_the_lease_ttl_supersedes_it(tm
     assert len(pending(nxt)) == 1 and nxt.runId != view.runId  # and the next run offers it afresh, once
 
 
-def coordinated(tmp_path, monkeypatch, *, lost=False, action="merge", runId="stable-run", changes=None, repository=h.REPO):
+def coordinated(tmp_path, monkeypatch, *, lost=False, action="merge", runId="stable-run", changes=None, repository=h.REPO,
+                response=None):
     from gaia_cli.steward import ledger
     namespace = core.Namespace("forge.invalid", "42", repository, "a" * 32)
     root = tmp_path / "critical"
@@ -180,7 +181,7 @@ def coordinated(tmp_path, monkeypatch, *, lost=False, action="merge", runId="sta
         result["detail"] = json.dumps({"mergeCommitSha": "9" * 40, "parentsVerified": True})
         return result
     services.completion = completed
-    services.response = "lost" if lost else "effect"
+    services.response = response or ("lost" if lost else "effect")
     coord = core.PrWriteCoordinator(ledger.GitRefLedgerStore(first, ref=core.REF), binding, services)
     token = coord.reserve(candidate, expected, runId, "owner", "reserve").token
     coord.recordIntent(token, core.exactRequest(namespace, candidate), "intent")
@@ -562,15 +563,77 @@ def test_missing_binding_and_shared_read_failure_do_not_imply_absence(tmp_path, 
     assert len(services.invocations) == len(services.effects) == 1
 
 
-def test_no_id_failure_after_matching_terminal_does_not_change_shared_truth(tmp_path, monkeypatch):
+def attach(tmp_path, monkeypatch, terminal, **kw):
+    """A runner holding one pending merge action plus a shared operation in the requested terminal state."""
+    from .coordination_helpers import evidence
     repo = fixture(tmp_path)
     verify(repo, 2270)
     runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
     view = runner.start("full")
     step = pending(view)[0]["stepId"]
-    coord, operation, services = coordinated(tmp_path, monkeypatch, runId=view.runId)
+    coord, operation, services = coordinated(tmp_path, monkeypatch, runId=view.runId, lost=terminal == "observed-terminal", **kw)
+    if terminal == "observed-terminal":
+        def observed(item):
+            result = evidence(item, "observed-terminal", "merged")
+            result["detail"] = json.dumps({"mergeCommitSha": "9" * 40, "parentsVerified": True})
+            return result
+        services.observation = observed
+        assert coord.recover(operation["operationId"]).state == "observed-terminal"
     runner.config.prCoordinatorFactory = lambda: coord
-    assert operation["state"] == "completed-effect"
-    assert not pending(runner.record(view.runId, step, {"state": "failed", "repo": h.REPO, "number": 2270, "reason": "fixture"}))
-    assert coord.inspect()["operations"][operation["operationId"]]["state"] == "completed-effect"
+    return runner, view, step, coord, operation["operationId"], services
+
+
+@pytest.mark.parametrize("terminal", ["completed-effect", "observed-terminal"])
+@pytest.mark.parametrize("reportedState", ["failed", "refused", "aborted"])
+def test_no_id_failure_report_cannot_contradict_a_matching_committed_effect(tmp_path, monkeypatch, terminal, reportedState):
+    """The effect completed before this action was ever attached to an operation id (completion before attachment)."""
+    runner, view, step, coord, opid, services = attach(tmp_path, monkeypatch, terminal)
+    assert coord.inspect()["operations"][opid]["state"] == terminal
+    assert "operationId" not in next(a for a in runner._load()["runs"][view.runId]["actions"] if a["stepId"] == step)["params"]
+    with pytest.raises(RecordRefused, match="already effective"):
+        runner.record(view.runId, step, {"state": reportedState, "repo": h.REPO, "number": 2270, "reason": "fixture"})
+    stored = next(a for a in runner._load()["runs"][view.runId]["actions"] if a["stepId"] == step)
+    assert stored["status"] == "pending" and "outcome" not in stored
+    assert coord.inspect()["operations"][opid]["state"] == terminal  # shared truth unchanged
     assert len(services.invocations) == len(services.effects) == 1
+
+
+@pytest.mark.parametrize("terminal", ["completed-effect", "observed-terminal"])
+def test_the_matching_effect_is_still_recordable_with_its_operation_and_evidence(tmp_path, monkeypatch, terminal):
+    runner, view, step, coord, opid, _ = attach(tmp_path, monkeypatch, terminal)
+    shared = coord.inspect()["operations"][opid]
+    reported = {"state": "merged" if terminal == "completed-effect" else "already-merged", "repo": h.REPO, "number": 2270,
+                "operationId": opid, "evidenceSha256": core.digest(shared["evidence"]), "mergeCommitSha": "9" * 40}
+    assert not pending(runner.record(view.runId, step, reported))
+
+
+def test_a_matching_effect_from_another_run_also_blocks_an_uncorrelated_failure(tmp_path, monkeypatch):
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = pending(view)[0]["stepId"]
+    # The same immutable subject effected under a different run id still contradicts a failure report for it.
+    coord, operation, services = coordinated(tmp_path, monkeypatch, runId="another-run")
+    assert operation["state"] == "completed-effect" and operation["runId"] != view.runId
+    runner.config.prCoordinatorFactory = lambda: coord
+    with pytest.raises(RecordRefused, match="already effective"):
+        runner.record(view.runId, step, {"state": "failed", "repo": h.REPO, "number": 2270, "reason": "fixture"})
+    assert next(a for a in runner._load()["runs"][view.runId]["actions"] if a["stepId"] == step)["status"] == "pending"
+
+
+@pytest.mark.parametrize("scenario", ["unrelated-subject", "definite-no-effect"])
+def test_genuine_no_operation_failures_are_still_accepted(tmp_path, monkeypatch, scenario):
+    repo = fixture(tmp_path)
+    verify(repo, 2270)
+    runner = makeRunner(repo, fileStore(tmp_path), [PrStub([("routine_pr_merge_ready", 2270, HEAD, "2026-45")])])
+    view = runner.start("full")
+    step = pending(view)[0]["stepId"]
+    if scenario == "unrelated-subject":
+        coord, operation, services = coordinated(tmp_path, monkeypatch, runId=view.runId, changes={"number": 2271})
+    else:
+        coord, operation, services = coordinated(tmp_path, monkeypatch, runId=view.runId, response="reject")
+        assert operation["state"] == "completed-no-effect"
+    runner.config.prCoordinatorFactory = lambda: coord
+    assert not pending(runner.record(view.runId, step, {"state": "failed", "repo": h.REPO, "number": 2270, "reason": "fixture"}))
+    assert bool(services.effects) == (scenario == "unrelated-subject")  # only the unrelated PR was ever effected

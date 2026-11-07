@@ -1952,14 +1952,19 @@ class FullRunner:
                 shared = coordinator.inspect()
                 for item in shared["operations"].values():
                     subject = item["subject"]
-                    if (item["runId"] == runId and item["state"] in ("reserved", "intent", "possibly-sent", "unknown", "quarantined")
-                            and (subject["number"], subject["headSha"], subject["action"], subject["baseRef"], subject["baseSha"], subject["producerId"]) ==
+                    same = ((subject["number"], subject["headSha"], subject["action"], subject["baseRef"], subject["baseSha"], subject["producerId"]) ==
                             (params["number"], params["headSha"], params["action"], params["baseRef"], params["baseSha"], params["producerId"])
                             and (subject["action"] != "close" or (subject["reason"] == params.get("reason")
-                                 and (subject["replacement"] or {}).get("number") == params.get("replacement")))):
-                        raise ValueError("matching shared operation is outstanding")
+                                 and (subject["replacement"] or {}).get("number") == params.get("replacement"))))
+                    outstanding = item["runId"] == runId and item["state"] in ("reserved", "intent", "possibly-sent", "unknown", "quarantined")
+                    # A matching committed effect (even one that completed before this action was attached to it) is
+                    # never contradicted by an uncorrelated failure, from this run or any other: reconcile instead.
+                    effective = item["state"] in ("completed-effect", "observed-terminal")
+                    if same and (outstanding or effective):
+                        raise ValueError("matching shared operation is outstanding or already effective")
             except (ledger.LedgerUnavailable, ValueError, KeyError, OSError) as exc:
-                raise RecordRefused("shared operation status unavailable or outstanding; action stays pending") from exc
+                raise RecordRefused("shared operation status unavailable, outstanding or already effective; action stays pending "
+                                    "(reconcile with the operation's evidence)") from exc
         if success or operationId is not None or result in ("unknown", "quarantined", "possibly-sent"):
             from gaia_cli.steward.prmaintenance import coordination as critical
             from gaia_cli.steward.prmaintenance.executor import makeExecutor
