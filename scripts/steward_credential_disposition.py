@@ -41,7 +41,14 @@ def draftRecords(root: Path, debtId: str, observedAt: str = "1970-01-01T00:00:00
     """Return skeletons for every current finding of ``debtId``; raise LookupError if none."""
 
     scan = SecretScanSensor().scan_detailed(root, observedAt)
-    subject = next((item.subject.id for item in scan.observations if item.debt_id == debtId), None)
+    subject = next(
+        (
+            item.subject.id
+            for item in scan.observations
+            if item.debt_id == debtId or records.reviewDebtId(item.subject.id) == debtId
+        ),
+        None,
+    )
     leak = next(
         (item for item in scan.observations if item.subject.id == subject and item.kind == "credential_leak"),
         None,

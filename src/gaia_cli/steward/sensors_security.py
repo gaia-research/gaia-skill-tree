@@ -30,17 +30,13 @@ Limitations (stated here because the findings are heuristics):
 from __future__ import annotations
 
 import ast
-import base64
-import binascii
 import hashlib
-import io
 import json
 import re
-import tokenize
 import tomllib
 from collections import Counter
 from dataclasses import dataclass, field, replace
-from pathlib import Path, PurePosixPath
+from pathlib import Path
 from typing import Any, Iterable
 
 from gaia_cli.steward import credentialDispositions
@@ -1033,281 +1029,6 @@ _SECRET_MAX_FILES = 50000
 _SECRET_PATTERNS = CREDENTIAL_PATTERNS
 
 
-# Issuer-specific formats: the regular expression already enforces the issuer
-# prefix and the length and alphabet that issuer uses, so a match IS a valid
-# structure. These are high-confidence live-credential shapes.
-_ISSUER_PATTERNS = frozenset(
-    {
-        "aws-access-key-id",
-        "github-token",
-        "github-fine-grained-token",
-        "anthropic-api-key",
-        "openai-api-key",
-        "slack-token",
-        "google-api-key",
-        "huggingface-token",
-        "npm-token",
-        "gitlab-token",
-    }
-)
-# Routing defaults to Class C. A generic finding (a keyword next to a value, or a
-# JWT-shaped string) is Class B only with evidence that the SOURCE LANGUAGE
-# ACTUALLY EVALUATES the value as a reference or expression. What a value looks
-# like proves nothing: a quoted Python string spelled ``${X}`` is a literal, a
-# shell default ``${X:-literal}`` embeds a literal, and a placeholder word is a
-# string a real password can equal. Supported, and nothing else:
-#   - Python: an unquoted identifier path in code (not inside a string, f-string
-# Routing defaults to Class C. A credential-assignment finding routes B (credential_review)
-# ONLY when the COMPLETE assigned value, after trimming surrounding whitespace and an optional
-# trailing comment/semicolon, matches EXACTLY one of the four whole-value shapes in the
-# file language shown (LEAD RULING):
-#   1. Python (.py): a bare dotted name, e.g. os.environ.get style call or attribute/identifier:
-#      regex ^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)*(\(\s*["'][A-Z0-9_]+["']\s*\))?$
-#      with no quotes around the whole value, no operators, no concatenation.
-#   2. Shell / workflow run blocks: exactly $NAME, ${NAME}, "$NAME" or "${NAME}" (NAME = [A-Za-z_][A-Za-z0-9_]*),
-#      no default/alternate operators (:- := :+ ?), no backslash anywhere in the value, nothing before or after.
-#   3. GitHub workflow expressions: exactly ${{ secrets.NAME }} or ${{ env.NAME }} or ${{ vars.NAME }}
-#      (whitespace inside the braces allowed), with no other operands, operators, fallbacks (||, &&) or literals.
-#   4. JS/TS: exactly process.env.NAME or process.env["NAME"].
-# Everything else, including escapes, concatenation/continuations, defaults/fallbacks, numeric or
-# string literals, placeholder words, or any language not listed, stays C (credential_leak).
-_GENERIC_PATTERNS = frozenset({"bearer-token", "credential-assignment", "aws-secret-access-key"})
-_IDENT = r"[A-Za-z_][A-Za-z0-9_]*"
-_PY_REF_SHAPE = re.compile(
-    rf"^{_IDENT}(?:\.{_IDENT})*(?:\(\s*[\"'][A-Z0-9_]+[\"']\s*\))?$"
-)
-_SHELL_REF_SHAPE = re.compile(
-    rf"^(?:\${_IDENT}|\$\{{{_IDENT}\}}|\"\${_IDENT}\"|\"\$\{{{_IDENT}\}}\")$"
-)
-_WORKFLOW_REF_SHAPE = re.compile(
-    rf"^(?:\$\{{\{{\s*(?:secrets|env|vars)\.{_IDENT}\s*\}}\}}|\"\$\{{\{{\s*(?:secrets|env|vars)\.{_IDENT}\s*\}}\}}\")$"
-)
-_JSTS_REF_SHAPE = re.compile(
-    rf"^(?:process\.env\.{_IDENT}|process\.env\[[\"']{_IDENT}[\"']\])$"
-)
-_RUN_BLOCK = re.compile(r"^(\s*)(?:-\s+)?run:\s*[|>][-+0-9]*\s*$")
-_RUN_INLINE = re.compile(r"(?:^|\s)run:\s*(.*)$")
-_PRIVATE_KEY_BODY = re.compile(r"[\s\\n]*(?:[A-Za-z0-9+/=]{16,}[\s\\n]*){2,}")
-_PY_LITERAL_TOKENS = {tokenize.STRING, tokenize.COMMENT}
-_PY_FSTRING = (
-    getattr(tokenize, "FSTRING_START", None),
-    getattr(tokenize, "FSTRING_END", None),
-)
-
-# Classes that stay Class C. Only "review" routes to Class B.
-LIVE_CLASSES = frozenset({"issuer", "structured", "ambiguous"})
-
-
-def _validJwt(matched: str) -> bool:
-    parts = matched.split(".")
-    if len(parts) != 3:
-        return False
-    decoded: list[Any] = []
-    for part in parts[:2]:
-        try:
-            decoded.append(json.loads(base64.urlsafe_b64decode(part + "=" * (-len(part) % 4))))
-        except (ValueError, binascii.Error):
-            return False
-    return isinstance(decoded[0], dict) and "alg" in decoded[0] and isinstance(decoded[1], dict)
-
-
-def _language(rel: str) -> str | None:
-    if rel.startswith(".github/workflows/") and rel.endswith((".yml", ".yaml")):
-        return "workflow"
-    suffix = PurePosixPath(rel).suffix.lower()
-    if suffix == ".py":
-        return "python"
-    if suffix in (".sh", ".bash", ".zsh"):
-        return "shell"
-    if suffix in (".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs"):
-        return "javascript"
-    return None
-
-
-def _pythonCode(text: str, start: int, stop: int) -> bool:
-    """Whether ``text[start:stop]`` is code, not inside a string, f-string or comment."""
-
-    offsets = [0]
-    for line in text.split("\n"):
-        offsets.append(offsets[-1] + len(line) + 1)
-    spans: list[tuple[int, int]] = []
-    openers: list[int] = []
-    try:
-        for token in tokenize.generate_tokens(io.StringIO(text).readline):
-            begin = offsets[token.start[0] - 1] + token.start[1]
-            finish = offsets[token.end[0] - 1] + token.end[1]
-            if token.type in _PY_LITERAL_TOKENS:
-                spans.append((begin, finish))
-            elif _PY_FSTRING[0] is not None and token.type == _PY_FSTRING[0]:
-                openers.append(begin)
-            elif _PY_FSTRING[1] is not None and token.type == _PY_FSTRING[1] and openers:
-                spans.append((openers.pop(), finish))
-    except (tokenize.TokenError, IndentationError, SyntaxError, ValueError):
-        return False
-    if openers:
-        return False
-    return not any(begin <= point < finish for begin, finish in spans for point in (start, stop - 1))
-
-
-def _shellState(script: str) -> str:
-    """Quote state at the end of ``script``: normal, double, single, comment or unsupported."""
-
-    if "<<" in script or "$'" in script:
-        return "unsupported"
-    state, index = "normal", 0
-    while index < len(script):
-        char = script[index]
-        if state == "normal":
-            if char == "\\":
-                index += 1
-            elif char == "'":
-                state = "single"
-            elif char == '"':
-                state = "double"
-            elif char == "#" and (index == 0 or script[index - 1].isspace() or script[index - 1] in ";&|("):
-                state = "comment"
-        elif state == "single":
-            if char == "'":
-                state = "normal"
-        elif state == "double":
-            if char == "\\":
-                index += 1
-            elif char == '"':
-                state = "normal"
-        elif char == "\n":
-            state = "normal"
-        index += 1
-    return state
-
-
-def _workflowScript(lines: list[str], index: int, column: int) -> str | None:
-    """The shell script text from the start of the enclosing ``run:`` up to the match, or None."""
-
-    here = lines[index][:column]
-    inline = _RUN_INLINE.search(here)
-    if inline is not None:
-        rest = inline.group(1)
-        return None if rest[:1] in ("'", '"') else rest
-    content_indent = len(lines[index]) - len(lines[index].lstrip(" "))
-    cursor = index - 1
-    while cursor >= 0:
-        line = lines[cursor]
-        if line.strip():
-            indent = len(line) - len(line.lstrip(" "))
-            if indent < content_indent:
-                header = _RUN_BLOCK.match(line)
-                if header is None:
-                    return None
-                return "\n".join(lines[cursor + 1 : index] + [here])
-        cursor -= 1
-    return None
-
-
-def credentialClass(name: str, matched: str, text: str, end: int, rel: str = "") -> str:
-    """Classify one credential-shaped match by its own evidence, never by its path.
-
-    ``issuer`` / ``structured`` are known live formats with valid structure;
-    ``ambiguous`` is anything not proven benign; ``review`` is a credential-assignment
-    finding whose COMPLETE assigned value matches exactly one of the four authorized
-    whole-value shapes under the LEAD RULING. Only ``review`` routes to B.
-    """
-
-    if name in _ISSUER_PATTERNS:
-        return "issuer"
-    if name == "private-key-block":
-        return "issuer" if _PRIVATE_KEY_BODY.match(text, end, end + 4096) else "ambiguous"
-    if name == "jwt" and _validJwt(matched):
-        return "structured"
-    if name != "credential-assignment":
-        return "ambiguous"
-
-    lang = _language(rel)
-    if lang is None or not text:
-        return "ambiguous"
-
-    start = end - len(matched)
-    if start < 0 or end > len(text):
-        return "ambiguous"
-
-    line_start = text.rfind("\n", 0, start) + 1
-    line_end = text.find("\n", start)
-    if line_end == -1:
-        line_end = len(text)
-    line = text[line_start:line_end]
-
-    kw_offset = start - line_start
-    after_kw = line[kw_offset:]
-    m_op = re.search(r"\\?[\"']?\s*([=:])\s*", after_kw)
-    if not m_op:
-        return "ambiguous"
-
-    raw_val = after_kw[m_op.end():]
-    val = raw_val.strip()
-    if not val:
-        return "ambiguous"
-
-    # Trimming surrounding whitespace and optional trailing comment/semicolon
-    if lang in ("python", "shell", "workflow"):
-        if "#" in val:
-            val = re.sub(r"\s*#.*$", "", val).strip()
-    elif lang == "javascript":
-        if "//" in val or "/*" in val:
-            val = re.sub(r"\s*//.*$", "", val)
-            val = re.sub(r"\s*/\*.*?\*/\s*$", "", val).strip()
-
-    val = val.rstrip(";").strip()
-    if not val:
-        return "ambiguous"
-
-    # Shape 1: Python (.py)
-    if lang == "python":
-        if val.startswith(('"', "'")) or val.endswith(('"', "'")):
-            return "ambiguous"
-        if any(c in val for c in "+-*/%&|^~<>=,"):
-            return "ambiguous"
-        if not _PY_REF_SHAPE.fullmatch(val):
-            return "ambiguous"
-        val_pos = raw_val.find(val)
-        val_stop = line_start + kw_offset + m_op.end() + (val_pos if val_pos != -1 else 0) + len(val)
-        if not _pythonCode(text, start, val_stop):
-            return "ambiguous"
-        return "review"
-
-    # Shape 2: Shell (.sh, .bash, .zsh)
-    if lang == "shell":
-        if "\\" in val or any(op in val for op in (":-", ":=", ":+", "?")):
-            return "ambiguous"
-        if not _SHELL_REF_SHAPE.fullmatch(val):
-            return "ambiguous"
-        if _shellState(text[:start]) not in ("normal", "double"):
-            return "ambiguous"
-        return "review"
-
-    # Shape 3 & 2: GitHub workflow (.github/workflows/*.yml, .yaml)
-    if lang == "workflow":
-        lines = text.split("\n")
-        number = text.count("\n", 0, start)
-        column = start - (text.rfind("\n", 0, start) + 1)
-        if "#" in lines[number][:column]:
-            return "ambiguous"
-        if _WORKFLOW_REF_SHAPE.fullmatch(val):
-            return "review"
-        script = _workflowScript(lines, number, column)
-        if script is not None:
-            if "\\" not in val and not any(op in val for op in (":-", ":=", ":+", "?")) and _SHELL_REF_SHAPE.fullmatch(val):
-                if _shellState(script) in ("normal", "double"):
-                    return "review"
-        return "ambiguous"
-
-    # Shape 4: JS/TS (.js, .jsx, .ts, .tsx, .mjs, .cjs)
-    if lang == "javascript":
-        if not _JSTS_REF_SHAPE.fullmatch(val):
-            return "ambiguous"
-        return "review"
-
-    return "ambiguous"
-
-
 @dataclass
 class _SecretTally:
     scanned: int = 0
@@ -1322,21 +1043,16 @@ class _SecretTally:
 class _Located:
     finding: dict[str, Any]
     contextHash: str
-    cls: str
 
 
 class SecretScanSensor:
     """Find credential-shaped strings; store only a fingerprint, never the value.
 
-    Routing is by evidence and defaults to Class C (``credential_leak``): a file
-    is Class B only when EVERY undecided finding's value is one the source
-    language itself evaluates as a reference or expression. Then it is a
-    ``credential_review``: a builder may draft a disposition record, an
-    independent verifier must sign it, and no source edit is allowed. Quoted
-    look-alikes, shell defaults, placeholder words, opaque values, passphrases and
-    every unsupported language stay Class C.
-    A finding decided by a verified record (see ``credentialDispositions``) is
-    resolved with provenance in either case.
+    Routing defaults to Class C (``credential_leak``). The scanner never classifies
+    a credential finding as B (``credential_review``) from source text alone.
+    A credential finding leaves Class C ONLY through an independently verified
+    per-finding disposition record (see ``credentialDispositions``).
+    Everything else, including every reference-looking value, stays C (``credential_leak``).
     """
 
     id = "secret-scan"
@@ -1425,10 +1141,6 @@ class SecretScanSensor:
                 **summary,
             },
         )
-        review = Observation(
-            kind="credential_review", subject=subject, observed_at=observed_at, source=self.id,
-            status="drift", current_state=current, observed_state={}, confidence=0.6,
-        )
         # A finding is decided only by one independently verified record that
         # matches debt id, path, pattern, fingerprint, occurrence and its stable
         # source context (line, surrounding window, enclosing scope chain).
@@ -1471,45 +1183,9 @@ class SecretScanSensor:
                 "decidedFindings": [match.summary(item.finding["line"]) for item, match in decided],
                 "undecidedFindingCount": len(undecided),
             }
-        classes = Counter(item.cls for item in undecided)
-        if any(item.cls in LIVE_CLASSES for item in undecided):
-            if not annotations:
-                return [leak]
-            return [replace(leak, observed_state={**leak.observed_state, **annotations})]
-        # Every undecided finding is credential-shaped without evidence of being
-        # live: Class B. The Class C debt for this file is retired as reclassified
-        # (not as recovered or decided) and the evidence travels with it.
-        reviewState = {
-            **leak.observed_state,
-            **annotations,
-            "classification": dict(sorted(classes.items())),
-            "reviewReason": (
-                "every undecided finding's value is one the source language itself evaluates as a reference "
-                "or expression (an unquoted Python identifier path, a shell variable outside single quotes "
-                "without a default, a workflow expression); each still needs an independently verified "
-                "disposition record"
-            ),
-            "reclassifiedFrom": leak.debt_id,
-        }
-        return [
-            replace(
-                review,
-                observed_state=reviewState,
-                provenance={"check": "credential classification by matched-value evidence, never by path", **summary},
-            ),
-            Observation(
-                kind="credential_leak", subject=subject, observed_at=observed_at, source=self.id,
-                status="healthy", current_state=current,
-                observed_state={
-                    "reclassifiedTo": "credential_review",
-                    "reviewDebtId": review.debt_id,
-                    "findingCount": len(findings),
-                    "classification": dict(sorted(classes.items())),
-                },
-                confidence=confidence,
-                provenance={"check": "credential classification by matched-value evidence, never by path", **summary},
-            ),
-        ]
+        if not annotations:
+            return [leak]
+        return [replace(leak, observed_state={**leak.observed_state, **annotations})]
 
     @staticmethod
     def _locate(rel: str, text: str, tally: _SecretTally) -> list[_Located]:
@@ -1531,7 +1207,6 @@ class SecretScanSensor:
                             "fingerprint": hashlib.sha256(matched.encode("utf-8")).hexdigest()[:12],
                         },
                         contextHash=credentialDispositions.contextHash(lines, number - 1),
-                        cls=credentialClass(name, matched, text, match.end(), rel),
                     )
                 )
         return sorted(

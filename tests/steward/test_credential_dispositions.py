@@ -18,14 +18,13 @@ import pytest
 from gaia_cli.steward import credentialDispositions as records
 from gaia_cli.steward.controller import StewardController
 from gaia_cli.steward.debt import reconcile_debt
-from gaia_cli.steward.models import AuthorityClass, DispatchPacket, Observation, RoutingBudget, Subject
+from gaia_cli.steward.models import AuthorityClass, DispatchPacket, Observation, RoutingBudget, SensorScan, Subject
 from gaia_cli.steward.policy import POLICY_RELATIVE_PATH, PolicyError, StewardPolicy
 from gaia_cli.steward.routing import RoutingError, render_dispatch
 from gaia_cli.steward.sensors_security import (
     SecretScanSensor,
     _SECRET_PATTERNS,
     _SecretTally,
-    credentialClass,
 )
 from gaia_cli.steward.verification import evaluate, parse_proof_transcript, parse_unified_diff
 from scripts import steward_credential_disposition as helper
@@ -743,26 +742,37 @@ class TestEvidenceRouting:
         root = _repo(tmp_path, f"k = '{_github_token()}'\n")
         assert _kinds(root) == {"credential_leak": "drift"}
 
-    def test_reference_value_is_class_b_with_the_class_c_debt_retired_as_reclassified(self, tmp_path: Path) -> None:
+    def test_reference_value_stays_class_c(self, tmp_path: Path) -> None:
         root = _repo(tmp_path, _reference())
-        assert _kinds(root) == {"credential_review": "drift", "credential_leak": "healthy"}
-        review = _live(root, kind="credential_review")
-        assert review.observed_state["classification"] == {"review": 1}
-        assert review.observed_state["reclassifiedFrom"] == _live(root).debt_id
-        assert _live(root).observed_state["reclassifiedTo"] == "credential_review"
+        kinds = _kinds(root)
+        assert kinds == {"credential_leak": "drift"}
+        assert "credential_review" not in kinds
 
     def test_reclassification_keeps_history_and_opens_a_class_b_debt(self, tmp_path: Path) -> None:
-        root = _repo(tmp_path, _reference())
+        root = _repo(tmp_path, "x = 1\n")
         policy = StewardPolicy.load(ROOT)
-        review = _live(root, kind="credential_review")
+        subject = Subject(type="source-file", id=SOURCE)
         old = Observation(
-            kind="credential_leak", subject=review.subject, observed_at=NOW, source="secret-scan", status="drift",
+            kind="credential_leak", subject=subject, observed_at=NOW, source="secret-scan", status="drift",
             current_state={"credentialMatches": 0}, observed_state={"findingCount": 1, "findings": [{"line": 1}]},
             confidence=0.9,
         )
         (debt,) = reconcile_debt([old], {}, policy).debts
         assert debt.authority is AuthorityClass.C
-        scan = [item for item in SecretScanSensor().scan(root, NOW) if item.subject.id == SOURCE]
+        scan = [
+            Observation(
+                kind="credential_review", subject=subject, observed_at=NOW, source="secret-scan", status="drift",
+                current_state={"credentialMatches": 0},
+                observed_state={"reclassifiedFrom": debt.id},
+                confidence=0.6,
+            ),
+            Observation(
+                kind="credential_leak", subject=subject, observed_at=NOW, source="secret-scan", status="healthy",
+                current_state={"credentialMatches": 0},
+                observed_state={"reclassifiedTo": "credential_review"},
+                confidence=0.9,
+            ),
+        ]
         after = reconcile_debt(scan, {debt.id: debt}, policy)
         leak = next(item for item in after.debts if item.kind == "credential_leak")
         assert (leak.status, leak.resolution) == ("resolved", "reclassified")
@@ -770,19 +780,27 @@ class TestEvidenceRouting:
         opened = next(item for item in after.debts if item.kind == "credential_review")
         assert (opened.status, opened.authority) == ("open", AuthorityClass.B)
 
-    def test_decided_class_b_file_resolves_both_debts_with_provenance(self, tmp_path: Path) -> None:
+    def test_decided_file_resolves_both_debts_with_provenance(self, tmp_path: Path) -> None:
         root = _repo(tmp_path, _reference())
         policy = StewardPolicy.load(ROOT)
         before = [item for item in SecretScanSensor().scan(root, NOW) if item.subject.id == SOURCE]
         seeded = reconcile_debt(before, {}, policy)
-        review_debt = next(item for item in seeded.debts if item.kind == "credential_review")
+        leak_debt = next(item for item in seeded.debts if item.kind == "credential_leak")
+        subject = Subject(type="source-file", id=SOURCE)
+        review_obs = Observation(
+            kind="credential_review", subject=subject, observed_at=NOW, source="secret-scan",
+            status="drift", current_state={"credentialMatches": 0}, observed_state={}, confidence=0.6,
+        )
+        review_seeded = reconcile_debt([review_obs], {}, policy)
+        review_debt = next(item for item in review_seeded.debts if item.kind == "credential_review")
         _decide(root)
         after = [item for item in SecretScanSensor().scan(root, NOW) if item.subject.id == SOURCE]
         assert {item.kind: item.status for item in after} == {"credential_leak": "healthy", "credential_review": "healthy"}
-        closed = reconcile_debt(after, {review_debt.id: review_debt}, policy)
-        (resolved,) = [item for item in closed.debts if item.id == review_debt.id]
-        assert (resolved.status, resolved.resolution) == ("resolved", "decided_disposition")
-        assert resolved.observed_state["priorObservedState"] == dict(review_debt.observed_state)
+        closed = reconcile_debt(after, {leak_debt.id: leak_debt, review_debt.id: review_debt}, policy)
+        (resolved_review,) = [item for item in closed.debts if item.id == review_debt.id]
+        (resolved_leak,) = [item for item in closed.debts if item.id == leak_debt.id]
+        assert (resolved_review.status, resolved_review.resolution) == ("resolved", "decided_disposition")
+        assert (resolved_leak.status, resolved_leak.resolution) == ("resolved", "decided_disposition")
 
     @pytest.mark.parametrize(
         "rel, text",
@@ -797,9 +815,11 @@ class TestEvidenceRouting:
             ("src/a.ts", "const to" + "ken = process.env.PROD" + "_KEY\n"),
         ],
     )
-    def test_values_the_source_language_evaluates_route_to_class_b(self, tmp_path: Path, rel: str, text: str) -> None:
+    def test_reference_looking_values_stay_class_c(self, tmp_path: Path, rel: str, text: str) -> None:
         root = _repo(tmp_path, "x = 1\n", **{rel: text})
-        assert _kinds(root, rel) == {"credential_review": "drift", "credential_leak": "healthy"}, (rel, text)
+        kinds = _kinds(root, rel)
+        assert kinds == {"credential_leak": "drift"}, (rel, text)
+        assert "credential_review" not in kinds, (rel, text)
 
     @pytest.mark.parametrize(
         "rel, text",
@@ -870,50 +890,6 @@ class TestEvidenceRouting:
         root = _repo(tmp_path, _assign(f'"{value}"'))
         assert _kinds(root) == {"credential_leak": "drift"}, value
 
-    def test_evidence_classification_is_exposed_per_language(self) -> None:
-        text = _assign("settings.api_" + "value")
-        start = text.index("settings")
-        assert credentialClass("credential-assignment", text.strip(), text, len(text.strip()), "src/a.py") == "review"
-        assert credentialClass("credential-assignment", text.strip(), text, len(text.strip()), "src/a.md") == "ambiguous"
-        assert credentialClass("credential-assignment", text.strip(), text, len(text.strip())) == "ambiguous"
-        assert start > 0
-
-    @pytest.mark.parametrize(
-        "value",
-        [
-            "xY7.en" + "v.foo!Q92p",  # looks like an env.* path, is a password
-            "Abc123!get" + "env!Qz98765",  # getenv inside a longer value
-            "Abc123!FA" + "KE!Qz98765",  # a marker with up to sixteen alphanumerics around it
-            "qEXAM" + "PLEq8Z3nL0wTt",  # EXAMPLE fused into a real-looking value
-            "pa$" + "word123456",  # a dollar sign that is not a reference
-            "$" + "{A}real" + "secret1",  # an interpolation followed by more secret
-            "$" + "{A}@Qz" + "98765",  # an interpolation then a non-hostname tail
-            "process.env." + "Qz98.p!ass",  # an env prefix with a secret tail
-            "<Xk9Q2mZ7" + "vLp4Rt8W>",  # angle brackets around random content
-            "FAKE-" + "Xk9Q2mZ7vLp4Rt8W",  # a marker word plus random content
-            "your-" + "Xk9Q2mZ7vLp4",  # lowercase placeholder prefix plus random content
-        ],
-    )
-    def test_incidental_markers_and_reference_substrings_never_qualify(self, tmp_path: Path, value: str) -> None:
-        root = _repo(tmp_path, _assign(f'"{value}"'))
-        assert _kinds(root) == {"credential_leak": "drift"}, value
-
-    @pytest.mark.parametrize(
-        "body",
-        ["envEXAMPLE", "EXAMPLEenvgetenv", "FAKEenvFAKEenvFAKEenv"],
-    )
-    def test_issuer_shaped_token_containing_env_or_example_stays_class_c(self, tmp_path: Path, body: str) -> None:
-        token = "gh" + "p_" + body + _seeded("pad", 36 - len(body) + 4)
-        assert dict(_SECRET_PATTERNS)["github-token"].search(token), token
-        root = _repo(tmp_path, f"k = '{token}'\n")
-        assert _kinds(root) == {"credential_leak": "drift"}
-
-    def test_opaque_high_entropy_value_stays_class_c(self, tmp_path: Path) -> None:
-        value = _opaque()
-        assert len(value) >= 20 and any(c.isdigit() for c in value)
-        root = _repo(tmp_path, _assign(f'"{value}"'))
-        assert _kinds(root) == {"credential_leak": "drift"}
-
     @pytest.mark.parametrize(
         "rel",
         ["src/a.py", "tests/steward/a.py", ".claude/skills/x/helper.py", ".agents/skills/x/helper.py", "docs/a.py"],
@@ -927,7 +903,8 @@ class TestEvidenceRouting:
         quoted = _repo(tmp_path / "quoted", "x = 1\n", **{rel: _assign('"$' + '{GITHUB_REF}"')})
         assert _kinds(quoted, rel) == {"credential_leak": "drift"}
         quiet = _repo(tmp_path / "quiet", "x = 1\n", **{rel: _reference()})
-        assert _kinds(quiet, rel) == {"credential_review": "drift", "credential_leak": "healthy"}
+        assert _kinds(quiet, rel) == {"credential_leak": "drift"}
+        assert "credential_review" not in _kinds(quiet, rel)
 
     def test_one_live_shaped_finding_keeps_the_whole_file_class_c(self, tmp_path: Path) -> None:
         root = _repo(tmp_path, _reference() + f"k = '{_aws_key()}'\n")
@@ -937,142 +914,141 @@ class TestEvidenceRouting:
         root = _repo(tmp_path, _reference() + _assign('"correct-horse-battery-staple"'))
         assert _kinds(root) == {"credential_leak": "drift"}
 
-    def test_class_b_findings_still_need_an_exact_record_even_when_some_are_decided(self, tmp_path: Path) -> None:
+    def test_partially_decided_file_stays_class_c_while_findings_remain_undecided(self, tmp_path: Path) -> None:
         root = _repo(tmp_path, _reference() + _reference().replace("api_value", "other_value"))
         debt = _live(root).debt_id
         (first, index), _second = _targets(root)
         _put(root, _record(first, index, debt))
-        review = _live(root, kind="credential_review")
-        assert review.observed_state["undecidedFindingCount"] == 1
-        assert review.observed_state["classification"] == {"review": 1}
-
-    @pytest.mark.parametrize("valid, expected", [(True, "structured"), (False, "ambiguous")])
-    def test_jwt_is_never_benign_by_shape(self, valid: bool, expected: str) -> None:
-        token = _jwt(valid)
-        match = dict(_SECRET_PATTERNS)["jwt"].search(f"v = '{token}'")
-        assert match is not None
-        assert credentialClass("jwt", match.group(0), "", 0) == expected
-
-    def test_private_key_header_is_c_with_or_without_a_body(self) -> None:
-        header = _private_key_header()
-        body = "\n".join(_seeded(f"key{n}", 64) for n in range(3))
-        bare = f"v = '{header}'\n"
-        full = f"v = '''{header}\n{body}\n'''\n"
-        assert credentialClass("private-key-block", header, bare, bare.index(header) + len(header)) == "ambiguous"
-        assert credentialClass("private-key-block", header, full, full.index(header) + len(header)) == "issuer"
-
-    @pytest.mark.parametrize("name", ["credential-assignment", "bearer-token", "aws-secret-access-key"])
-    def test_generic_patterns_default_to_class_c(self, name: str) -> None:
-        assert credentialClass(name, "plainvalue", "", 0) == "ambiguous"
-
-    def test_unknown_pattern_is_never_assumed_benign(self) -> None:
-        assert credentialClass("brand-new-pattern", "whatever", "", 0) == "ambiguous"
+        leak = _live(root)
+        assert leak.kind == "credential_leak" and leak.status == "drift"
+        assert leak.observed_state["undecidedFindingCount"] == 1
+        assert len(leak.observed_state["decidedFindings"]) == 1
+        assert "credential_review" not in _kinds(root)
 
 
 class TestLeadRulingScannerRegressions:
     """Scanner-level regressions (SecretScanSensor end-to-end on a temp git repo).
 
-    Verifies the binding LEAD RULING whole-value shapes and addresses round-6 P1:
-    - Five reviewer probe shapes from verdict 6 -> Class C (credential_leak: drift)
-    - Four earlier Python literal probes -> Class C (credential_leak: drift)
-    - One positive case per allowed shape (Python, Shell, Workflow, JS/TS) -> Class B (credential_review: drift)
+    Verifies the FINAL LEAD RULING:
+    - Verdict-7 eight probes -> Class C (credential_leak: drift) with no credential_review
+    - Verdict-6 five probes -> Class C (credential_leak: drift) with no credential_review
+    - Four earlier Python literal probes -> Class C (credential_leak: drift) with no credential_review
+    - One positive regression where a matching verified disposition record (with receipt)
+      is the only thing that moves a finding out of Class C.
     """
 
     @pytest.mark.parametrize(
         "label, rel, content",
         [
-            # 1. Double-quoted shell diagnostic with backslash-escaped dollar sign
+            # Verdict-7 eight probes (formerly bypassed shape-based B routing)
             (
-                "shell-escaped-dollar",
+                "v7-fresh-shell-noncomment-hash-tail",
+                "scripts/hash.sh",
+                _shell('TOK_=$' + 'SECRET#syntheticSuffix123\n'),
+            ),
+            (
+                "v7-fresh-shell-hash-inside-string",
+                "scripts/log.sh",
+                'echo "to' + 'ken=$' + 'SECRET#syntheticSuffix123"\n',
+            ),
+            (
+                "v7-fresh-js-multiline-concat",
+                "src/multi.js",
+                'const to' + 'ken = process.env.PROD_KEY\n  + "syntheticSuffix123";\n',
+            ),
+            (
+                "v7-fresh-js-comment-marker-in-string",
+                "src/log.js",
+                'const log = "to' + 'ken = process.env.PROD_KEY//syntheticSuffix123";\n',
+            ),
+            (
+                "v7-fresh-js-template-literal",
+                "src/template.js",
+                'const log = `to' + 'ken = process.env.PROD_KEY\nsyntheticSuffix123`;\n',
+            ),
+            (
+                "v7-fresh-workflow-folded-no-inner-spaces",
+                ".github/workflows/fold.yml",
+                "jobs:\n  build:\n    steps:\n      - run: echo hi\n        env:\n          pass" + "word: ${{secrets.PROD_TOKEN}}\n            syntheticSuffix123\n",
+            ),
+            (
+                "v7-fresh-workflow-hash-no-inner-spaces",
+                ".github/workflows/hash.yml",
+                "jobs:\n  build:\n    steps:\n      - run: echo hi\n        env:\n          pass" + "word: ${{secrets.PROD_TOKEN}}#syntheticSuffix123\n",
+            ),
+            (
+                "v7-fresh-workflow-block-literal-with-assignment",
+                ".github/workflows/block.yml",
+                "notes: |\n  pass" + "word: ${{secrets.PROD_TOKEN}}\n  syntheticSuffix123\n",
+            ),
+            # Verdict-6 five probes
+            (
+                "v6-shell-escaped-dollar",
                 "scripts/diag.sh",
                 'echo "pass' + 'word=\\$SECRET"\n',
             ),
-            # 2. Python reference followed by concatenation with quoted credential suffix
             (
-                "py-concat-suffix",
+                "v6-py-concat-suffix",
                 "src/concat.py",
                 _assign('settings.api_value + "secretSuffix123"'),
             ),
-            # 3. Shell variable immediately followed by quoted credential suffix
             (
-                "shell-var-quoted-suffix",
+                "v6-shell-var-quoted-suffix",
                 "scripts/suffix.sh",
-                _shell('TOK_=$SECRET"suffixLiteral123"\n'),
+                _shell('TOK_=$' + 'SECRET"suffixLiteral123"\n'),
             ),
-            # 4. Workflow expression containing only numeric password literal
             (
-                "workflow-numeric-literal",
+                "v6-workflow-numeric-literal",
                 ".github/workflows/numeric.yml",
                 "jobs:\n  build:\n    steps:\n      - run: echo hi\n        env:\n          pass" + "word: ${{12345678}}\n",
             ),
-            # 5. Workflow expression with secrets reference plus numeric literal fallback
             (
-                "workflow-fallback-literal",
+                "v6-workflow-fallback-literal",
                 ".github/workflows/fallback.yml",
                 "jobs:\n  build:\n    steps:\n      - run: echo hi\n        env:\n          pass" + "word: ${{secrets.TOKEN||12345678}}\n",
             ),
             # Four earlier Python literal probes
             (
-                "py-literal-dollar-name",
+                "prior-py-literal-dollar-name",
                 "src/p1.py",
                 _assign('"$PASS' + 'WORD"'),
             ),
             (
-                "py-literal-process-env",
+                "prior-py-literal-process-env",
                 "src/p2.py",
                 _assign('"process.env.' + 'PROD_KEY"'),
             ),
             (
-                "py-literal-shell-default",
+                "prior-py-literal-shell-default",
                 "src/p3.py",
                 _assign('"$' + '{TOK' + 'EN:-actualRealSecret123}"'),
             ),
             (
-                "py-literal-placeholder-word",
+                "prior-py-literal-placeholder-word",
                 "src/p4.py",
                 _assign('"secret_pass' + 'word_test"'),
             ),
         ],
     )
-    def test_reviewer_probe_shapes_stay_class_c(self, tmp_path: Path, label: str, rel: str, content: str) -> None:
+    def test_scanner_regressions_stay_class_c(self, tmp_path: Path, label: str, rel: str, content: str) -> None:
         root = _repo(tmp_path, "x = 1\n", **{rel: content})
         kinds = _kinds(root, rel)
         assert kinds == {"credential_leak": "drift"}, (label, rel, kinds)
         assert "credential_review" not in kinds, (label, rel, kinds)
 
-    @pytest.mark.parametrize(
-        "shape, rel, content",
-        [
-            # Shape 1: Python (.py) bare dotted name
-            (
-                "shape1-python-dotted",
-                "src/pos_py.py",
-                _assign("settings.api_value"),
-            ),
-            # Shape 2: Shell / workflow run block ($NAME, ${NAME}, "$NAME", "${NAME}")
-            (
-                "shape2-shell-quoted-var",
-                "scripts/pos_sh.sh",
-                _shell('export TOK_="$' + 'GITHUB_REF"\n'),
-            ),
-            # Shape 3: GitHub workflow expression (${{ secrets.NAME }})
-            (
-                "shape3-workflow-expr",
-                ".github/workflows/pos_wf.yml",
-                "jobs:\n  build:\n    steps:\n      - run: echo hi\n        env:\n          pass" + "word: ${{secrets.PROD_TOKEN}}\n",
-            ),
-            # Shape 4: JS/TS (process.env.NAME)
-            (
-                "shape4-jsts-env",
-                "src/pos_js.js",
-                "const to" + "ken = process.env.API_KEY;\n",
-            ),
-        ],
-    )
-    def test_allowed_reference_shapes_route_to_class_b(self, tmp_path: Path, shape: str, rel: str, content: str) -> None:
-        root = _repo(tmp_path, "x = 1\n", **{rel: content})
-        kinds = _kinds(root, rel)
-        assert kinds == {"credential_review": "drift", "credential_leak": "healthy"}, (shape, rel, kinds)
+    def test_verified_disposition_record_is_the_only_way_out_of_class_c(self, tmp_path: Path) -> None:
+        """A finding leaves Class C ONLY through an independently verified disposition record with receipt."""
+        root = _repo(tmp_path, _reference())
+        # Absent a matching verified record, finding stays Class C with no credential_review
+        kinds_before = _kinds(root)
+        assert kinds_before == {"credential_leak": "drift"}
+        assert "credential_review" not in kinds_before
+
+        # With a matching verified disposition record (and receipt), finding moves out of Class C to healthy
+        _decide(root)
+        kinds_after = _kinds(root)
+        assert kinds_after == {"credential_leak": "healthy", "credential_review": "healthy"}
+        assert "drift" not in kinds_after.values()
 
 
 class TestNoPathBasedSkip:
@@ -1113,9 +1089,11 @@ class TestNoPathBasedSkip:
         _decide(root, "tests/example.py")
         assert _live(root, "tests/example.py").status == "healthy"
 
-    def test_a_tests_finding_with_a_benign_value_is_class_b_by_value_not_path(self, tmp_path: Path) -> None:
+    def test_a_tests_finding_with_a_reference_value_stays_class_c(self, tmp_path: Path) -> None:
         root = _repo(tmp_path, "x = 1\n", **{"tests/example.py": _reference()})
-        assert _kinds(root, "tests/example.py") == {"credential_review": "drift", "credential_leak": "healthy"}
+        kinds = _kinds(root, "tests/example.py")
+        assert kinds == {"credential_leak": "drift"}
+        assert "credential_review" not in kinds
 
 
 class TestPolicyAndEnvelope:
@@ -1460,12 +1438,28 @@ class TestPolicyAndEnvelope:
             StewardPolicy.load(root)
 
     def test_credential_review_debt_is_dispatched_under_the_rule_and_credential_leak_is_not(self, tmp_path: Path) -> None:
-        root = _repo(tmp_path, _reference() + "\n", **{"other.py": f"k = '{_github_token()}'\n"})
+        root = _repo(tmp_path, "x = 1\n", **{"other.py": f"k = '{_github_token()}'\n"})
         (root / POLICY_RELATIVE_PATH).parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(ROOT / POLICY_RELATIVE_PATH, root / POLICY_RELATIVE_PATH)
         commit_all(root)
+
+        class _TestSecretSensor(SecretScanSensor):
+            def scan_detailed(self, repo_root: Path, observed_at: str) -> SensorScan:
+                detailed = super().scan_detailed(repo_root, observed_at)
+                extra = Observation(
+                    kind="credential_review",
+                    subject=Subject(type="source-file", id=SOURCE),
+                    observed_at=observed_at,
+                    source=self.id,
+                    status="drift",
+                    current_state={"credentialMatches": 0},
+                    observed_state={},
+                    confidence=0.6,
+                )
+                return SensorScan(detailed.observations + (extra,), detailed.skipped)
+
         controller = StewardController(
-            sensors=[SecretScanSensor()], clock=lambda: datetime(2026, 11, 7, tzinfo=timezone.utc)
+            sensors=[_TestSecretSensor()], clock=lambda: datetime(2026, 11, 7, tzinfo=timezone.utc)
         )
         scan = controller.scan(root)
         review = next(item for item in scan.open_debts if item.kind == "credential_review")
@@ -1515,8 +1509,8 @@ class TestSchemaAndHelper:
     def test_draft_accepts_the_review_debt_id_and_emits_the_stable_leak_id(self, tmp_path: Path) -> None:
         root = _repo(tmp_path, _reference())
         leak = _live(root)
-        review = _live(root, kind="credential_review")
-        (draft,) = helper.draftRecords(root, review.debt_id)
+        review_debt_id = records.reviewDebtId(SOURCE)
+        (draft,) = helper.draftRecords(root, review_debt_id)
         assert draft["debtId"] == leak.debt_id
 
     def test_a_completed_draft_decides_the_finding(self, tmp_path: Path) -> None:
