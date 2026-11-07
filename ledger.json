@@ -1,5 +1,5 @@
 {
- "generation": 1353,
+ "generation": 1354,
  "lane": {
   "entries": [
    {
@@ -5682,7 +5682,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T11:20:09.317428Z",
-   "expiresAt": "2026-11-07T12:06:50.647122Z",
+   "expiresAt": "2026-11-07T12:06:57.304156Z",
    "holder": "run-20261107T103110Z-5e4b906c"
   }
  },
@@ -106882,7 +106882,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T11:36:51.839751Z",
+ "updatedAt": "2026-11-07T11:36:57.304280Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
