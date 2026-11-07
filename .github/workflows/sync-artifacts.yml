@@ -59,6 +59,10 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Auto-Versioning and Regeneration
+        env:
+          # Fresh runners have no gitignored Class P named index; this step's
+          # gated release must bootstrap the artifact regeneration pipeline.
+          GAIA_OPERATOR_OVERRIDE: "1"
         run: |
           # 1. Classify bump type from commit message → release channel.
           #    See CONTEXT.md § Release Channels for the full contract:

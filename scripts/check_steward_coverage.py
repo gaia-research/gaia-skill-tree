@@ -73,6 +73,72 @@ def _literal(node: ast.AST) -> Any:
         return None
 
 
+def _string_sequence(node: ast.AST, constants: dict[str, Any]) -> tuple[str, ...] | None:
+    value = _literal(node)
+    if isinstance(node, ast.Name):
+        value = constants.get(node.id)
+    if isinstance(value, (tuple, list)) and all(isinstance(item, str) for item in value):
+        return tuple(value)
+    return None
+
+
+def _has_other_binding(name: str, binding: ast.AST, scope: ast.AST) -> bool:
+    """Treat a loop-bound name as unknown if any other binding exists in its scope."""
+    for node in ast.walk(scope):
+        if isinstance(node, ast.Name) and node.id == name and node is not binding and isinstance(node.ctx, (ast.Store, ast.Del)):
+            return True
+        if isinstance(node, ast.ExceptHandler) and node.name == name:
+            return True
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) and node.name == name:
+            return True
+        if isinstance(node, (ast.Global, ast.Nonlocal)) and name in node.names:
+            return True
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)):
+            args = (*node.args.posonlyargs, *node.args.args, *node.args.kwonlyargs)
+            if any(arg.arg == name for arg in args) or (node.args.vararg and node.args.vararg.arg == name) or (node.args.kwarg and node.args.kwarg.arg == name):
+                return True
+        if isinstance(node, (ast.Import, ast.ImportFrom)) and any((alias.asname or alias.name.split('.')[0]) == name for alias in node.names):
+            return True
+    return False
+
+
+def _binding_scope(binding: ast.AST, parents: dict[ast.AST, ast.AST]) -> ast.AST:
+    node = parents.get(binding)
+    scope: ast.AST = binding
+    while node is not None:
+        scope = node
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Module)):
+            return node
+        node = parents.get(node)
+    return scope
+
+
+def _bound_kind_values(name: str, call: ast.AST, parents: dict[ast.AST, ast.AST], constants: dict[str, Any]) -> set[str]:
+    """Resolve an enclosing literal binding only when it is the name's sole binding in scope."""
+    child = call
+    parent = parents.get(child)
+    while parent is not None:
+        if isinstance(parent, (ast.ListComp, ast.SetComp, ast.GeneratorExp, ast.DictComp)):
+            for generator in reversed(parent.generators):
+                target = next((target for target in ast.walk(generator.target) if isinstance(target, ast.Name) and target.id == name), None)
+                if target is not None:
+                    scope = _binding_scope(target, parents)
+                    if _has_other_binding(name, target, scope):
+                        return set()
+                    values = _string_sequence(generator.iter, constants)
+                    return set(values or ())
+        if isinstance(parent, (ast.For, ast.AsyncFor)):
+            target = next((target for target in ast.walk(parent.target) if isinstance(target, ast.Name) and target.id == name), None)
+            if target is not None:
+                scope = _binding_scope(target, parents)
+                if _has_other_binding(name, target, scope):
+                    return set()
+                values = _string_sequence(parent.iter, constants)
+                return set(values or ())
+        child, parent = parent, parents.get(parent)
+    return set()
+
+
 @functools.lru_cache(maxsize=4)
 def _sensor_ownership(root: Path) -> dict[str, set[str]]:
     """Find sensor id -> emitted Observation kind ownership from source AST."""
@@ -88,7 +154,14 @@ def _sensor_ownership(root: Path) -> dict[str, set[str]]:
     ownership: dict[str, set[str]] = {}
     for file in files:
         tree = ast.parse(file.read_text(encoding="utf-8"))
+        module_constants: dict[str, Any] = {}
+        for statement in tree.body:
+            if isinstance(statement, ast.Assign):
+                value = _literal(statement.value)
+                if isinstance(value, (tuple, list)) and all(isinstance(item, str) for item in value):
+                    module_constants.update({target.id: value for target in statement.targets if isinstance(target, ast.Name)})
         for cls in (n for n in ast.walk(tree) if isinstance(n, ast.ClassDef)):
+            parents = {child: parent for parent in ast.walk(cls) for child in ast.iter_child_nodes(parent)}
             sensor_id = None
             own_kinds: set[str] = set()
             for item in cls.body:
@@ -118,6 +191,8 @@ def _sensor_ownership(root: Path) -> dict[str, set[str]]:
                         value = _literal(kw.value)
                         if isinstance(value, str):
                             own_kinds.add(value)
+                        elif isinstance(kw.value, ast.Name):
+                            own_kinds.update(_bound_kind_values(kw.value.id, call, parents, module_constants))
                         elif (isinstance(kw.value, ast.Attribute) and kw.value.attr == "debt_kind"
                               and isinstance(kw.value.value, ast.Name) and kw.value.value.id == "self"):
                             own_kinds.update(own_kinds)

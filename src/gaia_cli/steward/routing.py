@@ -34,6 +34,11 @@ from gaia_cli.steward.lane import (
     reconcile,
     record_verdict,
 )
+from gaia_cli.steward.calibrationroute import (
+    CALIBRATION_ROUTE_DEBT_KIND,
+    CALIBRATION_ROUTE_RULE_ID,
+    ineligibilityReason,
+)
 from gaia_cli.steward.policy import WORKFLOW_ROUTE_DEBT_KIND, WORKFLOW_ROUTE_RULE_ID, StewardPolicy
 from gaia_cli.steward.receipts import (
     ensure_local_state_path,
@@ -47,6 +52,7 @@ from gaia_cli.steward.verification import (
     MAX_TRANSCRIPT_BYTES,
     VerificationError,
     VerificationVerdict,
+    calibration_structure_violations,
     evaluate,
     is_workflow_path,
     parse_proof_transcript,
@@ -177,6 +183,9 @@ def _assert_route_eligible(rule: Any, debt: Debt) -> None:
     it, whether the debt came from the lane or from an explicit ``--debt`` request.
     """
 
+    if rule.id == CALIBRATION_ROUTE_RULE_ID or debt.kind == CALIBRATION_ROUTE_DEBT_KIND:
+        _assert_calibration_eligible(rule, debt)
+        return
     if rule.id != WORKFLOW_ROUTE_RULE_ID and debt.kind != WORKFLOW_ROUTE_DEBT_KIND:
         return
     state = debt.observed_state
@@ -198,6 +207,28 @@ def _assert_route_eligible(rule: Any, debt: Debt) -> None:
         and not subject.endswith(".lock.yml")
     ):
         reason = "the subject is not a direct-child hand-written .github/workflows/*.yml file"
+    if reason is not None:
+        raise RoutingError(f"debt {debt.id} is not eligible for rule {rule.id}: {reason}")
+
+
+def _assert_calibration_eligible(rule: Any, debt: Debt) -> None:
+    """Refuse a calibration packet founder ruling F1 does not cover.
+
+    The scan behind a dispatch is fresh, so the finding's own annotations are
+    live; ``calibrationroute.ineligibilityReason`` is the one rule the sensor
+    and verification apply too. Lane-ineligible findings (a demotion, a frozen
+    skill, a recorded prior demotion under F3, cap-only suite evidence to 3★+,
+    a refused or unevaluable preflight) stay open and visible for the curator,
+    but never obtain a packet, from the lane or from an explicit ``--debt``.
+    """
+
+    reason = None
+    if rule.id != CALIBRATION_ROUTE_RULE_ID or debt.kind != CALIBRATION_ROUTE_DEBT_KIND:
+        reason = "the calibration rule and debt kind must be paired"
+    elif debt.observed_state.get("laneEligible") is False:
+        reason = str(debt.observed_state.get("laneIneligibleReason") or "the sensor marked this debt lane-ineligible")
+    else:
+        reason = ineligibilityReason(debt.observed_state, debt.current_state.get("level"))
     if reason is not None:
         raise RoutingError(f"debt {debt.id} is not eligible for rule {rule.id}: {reason}")
 
@@ -903,6 +934,7 @@ def render_verification(
             workflow_baseline=workflow_baseline,
             patch_introduced_debt=patch_introduced_debt,
             attribution_failed=attribution_failed,
+            calibration_violations=calibration_structure_violations(root, packet, change_set),
         )
 
     def commit(scan: ScanResult, artifact: object) -> None:

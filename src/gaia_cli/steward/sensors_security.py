@@ -63,6 +63,17 @@ _RECORDED_UNGATED = {
     "prefill": "steward-dev-mutation-gates",
 }
 _DECISIONS_DIR = "founder/steward/decisions"
+# Unsafe-execution findings the founder ruled a scoped exception (F6,
+# 2026-11-08: "Record a scoped exception for benchmark use only"). An entry is
+# (path, pattern, qualified name of a unique module-level function) -> decided
+# record id; a same-named method or nested def never matches. A matching finding
+# is still reported, annotated ``acknowledged`` with the record; the same
+# construct anywhere else (another file, function or pattern) is not covered.
+# The exemption holds only while the record exists and is ``decided``.
+_RECORDED_EXECUTION_EXCEPTIONS = {
+    ("scripts/benchmarks/humaneval/run.py", "exec-nonliteral", "_execAndCheck"):
+        "steward-humaneval-exec-benchmark-exception",
+}
 _GATING_NAME = "MUTATING_DEV_COMMANDS"
 _PYTHON_ROOTS = ("src/gaia_cli", "scripts")
 _CROSS_MODULE_DEPTH = 1
@@ -383,6 +394,31 @@ def _dispatch_table(tree: ast.Module) -> dict[str, tuple[str, str | None]]:
     return table
 
 
+def _entry_guarded(function: ast.AST | None) -> bool:
+    """True when ``function`` calls ``require_operator`` unconditionally at entry.
+
+    Only a docstring, imports and call-free assignments may precede the guard
+    call, all at the function's top level; a guard inside a branch, a ``try``
+    or after other work does not count.
+    """
+
+    if not isinstance(function, (ast.FunctionDef, ast.AsyncFunctionDef)):
+        return False
+    for statement in function.body:
+        if isinstance(statement, ast.Expr) and isinstance(statement.value, ast.Call):
+            return _dotted(statement.value.func).endswith("require_operator")
+        if isinstance(statement, ast.Expr) and isinstance(statement.value, ast.Constant):
+            continue
+        if isinstance(statement, (ast.Import, ast.ImportFrom)):
+            continue
+        if isinstance(statement, (ast.Assign, ast.AnnAssign)) and not any(
+            isinstance(node, ast.Call) for node in ast.walk(statement)
+        ):
+            continue
+        return False
+    return False
+
+
 def _conditionally_gated(tree: ast.Module) -> frozenset[str]:
     """Names gated by a guard ``if`` that calls ``require_operator`` in its body."""
 
@@ -596,6 +632,7 @@ class MutationBoundarySensor:
             if not sites:
                 continue
             scratch_only = all(site.scratch for site in sites)
+            gated_in_handler = _entry_guarded(module.functions.get(handler[1]) if handler[1] else None)
             finding = {
                 "command": name,
                 "handler": f"{handler[0]}:{handler[1]}",
@@ -603,6 +640,11 @@ class MutationBoundarySensor:
                 "writeSites": [site.to_dict() for site in sites[:_MAX_WRITE_SITES]],
                 "inLegacySet": name in legacy,
                 "writesLookLikeScratch": scratch_only,
+                # #2283 S6 (annotation): the handler itself calls require_operator
+                # unconditionally before any other work. The command is still
+                # drift: it is absent from the canonical gating set.
+                "gatedInHandler": gated_in_handler,
+                "inCanonicalSet": False,
             }
             exemption = self._decidedExemption(root, name)
             if exemption is not None:
@@ -633,7 +675,12 @@ class MutationBoundarySensor:
                     source=self.id,
                     status="drift",
                     current_state={"gated": True},
-                    observed_state={**finding_payload([finding]), "gated": False},
+                    observed_state={
+                        **finding_payload([finding]),
+                        "gated": False,
+                        "gatedInHandler": gated_in_handler,
+                        "inCanonicalSet": False,
+                    },
                     confidence=0.5 if scratch_only else 0.7,
                     provenance={
                         "check": "registered dev subcommand with filesystem writes absent from the live gating set",
@@ -648,6 +695,62 @@ class MutationBoundarySensor:
                 )
             )
         return observations
+
+    @staticmethod
+    def _decidedRecord(root: Path, record_id: str) -> bool:
+        try:
+            record = json.loads((root / _DECISIONS_DIR / f"{record_id}.json").read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return False
+        return isinstance(record, dict) and record.get("id") == record_id and record.get("status") == "decided"
+
+    def _acknowledgeExceptions(
+        self, root: Path, rel: str, tree: ast.Module, findings: list[dict[str, Any]]
+    ) -> None:
+        """Annotate findings covered by a decided scoped exception (F6); never drop them."""
+
+        scoped = {
+            (pattern, function): record
+            for (path, pattern, function), record in _RECORDED_EXECUTION_EXCEPTIONS.items()
+            if path == rel
+        }
+        if not scoped:
+            return
+        # Scope is the qualified name of the innermost enclosing def/class, so
+        # "_execAndCheck" means the module-level function only: a same-named
+        # method ("Other._execAndCheck") or a nested def ("_execAndCheck.inner")
+        # is a different scope. A name defined more than once at module level is
+        # ambiguous and fails closed for every definition (#2372 review).
+        spans: list[tuple[int, int, str]] = []
+
+        def collect(node: ast.AST, prefix: str) -> None:
+            for child in ast.iter_child_nodes(node):
+                if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                    qualname = f"{prefix}.{child.name}" if prefix else child.name
+                    spans.append((child.lineno, child.end_lineno or child.lineno, qualname))
+                    collect(child, qualname)
+                else:
+                    collect(child, prefix)
+
+        collect(tree, "")
+        top_level = Counter(
+            node.name
+            for node in tree.body
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
+        )
+        for item in findings:
+            # The innermost enclosing scope is the one that starts last.
+            qualname = max(
+                ((start, name) for start, end, name in spans if start <= item["line"] <= end),
+                default=(0, None),
+            )[1]
+            record = scoped.get((item["pattern"], qualname))
+            if record is None or top_level.get(qualname, 0) != 1:
+                continue
+            if self._decidedRecord(root, record):
+                item["acknowledged"] = True
+                item["decisionRecord"] = f"{_DECISIONS_DIR}/{record}.json"
+                item["scope"] = f"{rel}:{qualname} ({item['pattern']}), benchmark use only"
 
     @staticmethod
     def _decidedExemption(root: Path, name: str) -> str | None:
@@ -688,18 +791,23 @@ class MutationBoundarySensor:
             findings = _UnsafeVisitor(tree).findings()
             if not findings:
                 continue
+            self._acknowledgeExceptions(root, rel, tree, findings)
             ambiguous = all(item.get("ambiguous") for item in findings)
+            unacknowledged = [item for item in findings if not item.get("acknowledged")]
             observations.append(
                 Observation(
                     kind="unsafe_execution",
                     subject=Subject(type="source-file", id=rel),
                     observed_at=observed_at,
                     source=self.id,
-                    status="drift",
+                    # Healthy only when every finding is covered by a decided
+                    # scoped exception; the findings stay listed either way.
+                    status="drift" if unacknowledged else "healthy",
                     current_state={"unsafeConstructs": 0},
                     observed_state={
                         **finding_payload(findings),
                         "patternCounts": dict(sorted(Counter(item["pattern"] for item in findings).items())),
+                        "acknowledgedCount": len(findings) - len(unacknowledged),
                     },
                     confidence=0.5 if ambiguous else 0.8,
                     provenance={
@@ -739,7 +847,11 @@ class _UnsafeVisitor:
         self._names: dict[str, tuple[str, str]] = {}
         self._zip: set[str] = set()
         self._tar: set[str] = set()
+        self._safe_loader_classes: set[str] = set()
+        self._safe_loader_names: set[str] = set()
+        self._extended: set[str] = set()
         self._prepare()
+        self._prepare_yaml_loaders()
 
     def _prepare(self) -> None:
         for node in ast.walk(self._tree):
@@ -762,6 +874,172 @@ class _UnsafeVisitor:
                 for target in targets:
                     if isinstance(target, ast.Name):
                         (self._zip if kind == "zip" else self._tar).add(target.id)
+
+    def _prepare_yaml_loaders(self) -> None:
+        """Module-local names that provably hold a safe yaml loader (#2283 S5).
+
+        A class counts only when **every** base is a safe loader (or another such
+        class in this module) and the module never registers constructors on it,
+        on a base, or on an alias of either (see ``_extended_loaders``). A name
+        counts only when every assignment to it in the module is a safe loader,
+        including ``getattr(yaml, "CSafeLoader", yaml.SafeLoader)``. Anything
+        unresolved stays unsafe, so the finding is still reported.
+        """
+
+        classes = [node for node in ast.walk(self._tree) if isinstance(node, ast.ClassDef)]
+        self._extended = self._extended_loaders()
+        changed = True
+        while changed:
+            changed = False
+            for node in classes:
+                if node.name in self._safe_loader_classes or node.name in self._extended:
+                    continue
+                # Every base must be a known-safe loader: one unsafe or
+                # unresolvable base (class M(yaml.UnsafeLoader, yaml.SafeLoader))
+                # keeps the class unsafe. A metaclass= keyword can rewrite
+                # construction, so it is never trusted either.
+                if node.bases and not node.keywords and all(
+                    self._names_safe_loader(base, names=False) for base in node.bases
+                ):
+                    self._safe_loader_classes.add(node.name)
+                    changed = True
+        verdicts: dict[str, bool] = {}
+        for node in ast.walk(self._tree):
+            if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
+                targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+                for target in targets:
+                    if isinstance(target, ast.Name):
+                        safe = (
+                            isinstance(node, (ast.Assign, ast.AnnAssign))
+                            and node.value is not None
+                            and self._names_safe_loader(node.value, names=False)
+                        )
+                        verdicts[target.id] = verdicts.get(target.id, True) and safe
+            else:
+                # Any other binding of a name (loop, with, walrus, comprehension,
+                # parameter, except alias, import) can hold anything.
+                bound: list[str] = []
+                if isinstance(node, (ast.For, ast.AsyncFor, ast.NamedExpr, ast.comprehension)):
+                    bound = [item.id for item in ast.walk(node.target) if isinstance(item, ast.Name)]
+                elif isinstance(node, ast.withitem) and node.optional_vars is not None:
+                    bound = [item.id for item in ast.walk(node.optional_vars) if isinstance(item, ast.Name)]
+                elif isinstance(node, ast.arg):
+                    bound = [node.arg]
+                elif isinstance(node, ast.ExceptHandler) and node.name:
+                    bound = [node.name]
+                elif isinstance(node, (ast.Import, ast.ImportFrom)):
+                    bound = [alias.asname or alias.name.split(".")[0] for alias in node.names]
+                for name in bound:
+                    verdicts[name] = False
+        self._safe_loader_names = {name for name, safe in verdicts.items() if safe}
+        # A class name rebound to anything unsafe is no longer trusted.
+        self._safe_loader_classes -= {name for name, safe in verdicts.items() if not safe}
+
+    def _extended_loaders(self) -> set[str]:
+        """Loader names (terminal) that this module registers constructors on.
+
+        Covers ``X.add_constructor``/``add_multi_constructor``,
+        ``yaml.add_constructor(..., Loader=X)`` (keyword or third positional),
+        ``X.yaml_constructors = ...`` / ``X.yaml_constructors[...] = ...`` and a
+        class body assigning ``yaml_constructors``. Extending an alias
+        (``A = X``) extends ``X``. An extended name is never trusted, including
+        the built-in ``SafeLoader`` itself; an extended class also taints its
+        subclasses, because a subclass is trusted only through safe bases.
+        """
+
+        def terminal(node: ast.AST | None) -> str | None:
+            if isinstance(node, ast.Name):
+                return node.id
+            if isinstance(node, ast.Attribute):
+                return node.attr
+            return None
+
+        def loader_argument(call: ast.Call) -> ast.AST | None:
+            return _keyword(call, "Loader") or (call.args[2] if len(call.args) > 2 else None)
+
+        extended: set[str] = set()
+        aliases: dict[str, set[str]] = {}
+        for node in ast.walk(self._tree):
+            if isinstance(node, ast.Assign) and isinstance(node.value, (ast.Name, ast.Attribute)):
+                source = terminal(node.value)
+                for target in node.targets:
+                    if isinstance(target, ast.Name) and source:
+                        aliases.setdefault(target.id, set()).add(source)
+            if isinstance(node, ast.Call):
+                origin = self._origin(node.func)
+                if origin is not None and origin[0] == "yaml" and origin[1] in {
+                    "add_constructor", "add_multi_constructor",
+                }:
+                    # yaml.add_constructor without Loader= targets Loader,
+                    # FullLoader and UnsafeLoader, never a safe loader.
+                    name = terminal(loader_argument(node))
+                    if name:
+                        extended.add(name)
+                elif isinstance(node.func, ast.Attribute) and node.func.attr in {
+                    "add_constructor", "add_multi_constructor",
+                }:
+                    name = terminal(node.func.value)
+                    if name:
+                        extended.add(name)
+            if isinstance(node, (ast.Assign, ast.AugAssign)):
+                targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+                for target in targets:
+                    base = target.value if isinstance(target, ast.Subscript) else target
+                    if isinstance(base, ast.Attribute) and base.attr in {"yaml_constructors", "yaml_multi_constructors"}:
+                        name = terminal(base.value)
+                        if name:
+                            extended.add(name)
+            if isinstance(node, ast.ClassDef):
+                for statement in node.body:
+                    if isinstance(statement, ast.Assign) and any(
+                        isinstance(target, ast.Name)
+                        and target.id in {"yaml_constructors", "yaml_multi_constructors"}
+                        for target in statement.targets
+                    ):
+                        extended.add(node.name)
+        changed = True
+        while changed:
+            changed = False
+            for alias, sources in aliases.items():
+                if alias in extended:
+                    for source in sources - extended:
+                        extended.add(source)
+                        changed = True
+        return extended
+
+    def _names_safe_loader(self, node: ast.AST, *, names: bool = True) -> bool:
+        if isinstance(node, ast.IfExp):
+            return self._names_safe_loader(node.body, names=names) and self._names_safe_loader(node.orelse, names=names)
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "getattr":
+            args = node.args
+            if (
+                len(args) == 3
+                and isinstance(args[0], ast.Name)
+                and self._modules.get(args[0].id) == "yaml"
+                and isinstance(args[1], ast.Constant)
+                and args[1].value in _SAFE_YAML_LOADERS
+            ):
+                return self._names_safe_loader(args[2], names=names)
+            return False
+        if isinstance(node, ast.Name):
+            if node.id in self._extended:
+                return False
+            if node.id in self._safe_loader_classes or (names and node.id in self._safe_loader_names):
+                return True
+            origin = self._names.get(node.id)
+            return (
+                origin is not None
+                and origin[0] == "yaml"
+                and origin[1] in _SAFE_YAML_LOADERS
+                and origin[1] not in self._extended
+            )
+        if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
+            return (
+                self._modules.get(node.value.id) == "yaml"
+                and node.attr in _SAFE_YAML_LOADERS
+                and node.attr not in self._extended
+            )
+        return False
 
     @staticmethod
     def _archive_kind(value: ast.AST) -> str | None:
@@ -824,15 +1102,18 @@ class _UnsafeVisitor:
                     **({} if known_tar else {"note": "receiver type not proven to be a tar archive"}),
                 }
 
-    @staticmethod
-    def _safe_loader(call: ast.Call) -> bool:
+    def _safe_loader(self, call: ast.Call) -> bool:
         loader = _keyword(call, "Loader") or _keyword(call, "loader")
         if loader is None and len(call.args) > 1:
             loader = call.args[1]
         if loader is None:
             return False
         terminal = _dotted(loader).split(".")[-1]
-        return terminal in _SAFE_YAML_LOADERS
+        if terminal in _SAFE_YAML_LOADERS and terminal not in self._extended:
+            return True
+        # #2283 S5: a module-local SafeLoader subclass or a name bound only to
+        # safe loaders (e.g. getattr(yaml, "CSafeLoader", yaml.SafeLoader)).
+        return self._names_safe_loader(loader)
 
 
 # --------------------------------------------------------------------------
@@ -847,7 +1128,14 @@ _BROWSER_EXCLUDE = (
     "docs/okf",
     "docs/experiments",
 )
-_ESCAPER = re.compile(r"escape|esc[A-Z_]|sanitize|DOMPurify")
+# The house helper is a local ``function esc(s)`` (trending.js, page-ia.js, ...);
+# ``esc(`` is matched as a call or definition, never as a prefix of another word.
+_ESCAPER = re.compile(r"escape|esc[A-Z_]|\besc\s*\(|sanitize|DOMPurify")
+# The audited per-line marker the repository's own guard defines
+# (scripts/check_html_sinks.py SUPPRESS). A reason is required. A marked sink
+# is still reported: the marker only annotates it as acknowledged.
+_SINK_ACK = re.compile(r"gaia-html-sink-ok:\s*(\S.*)")
+_SINK_ACK_TRAILER = re.compile(r"\*/|-->")
 _HTML_ASSIGN = re.compile(r"\.(innerHTML|outerHTML)\s*\+?=(?!=)\s*")
 _INSERT_ADJACENT = re.compile(r"\.insertAdjacentHTML\s*\(\s*[^,()]+,\s*")
 _DOCUMENT_WRITE = re.compile(r"\bdocument\.write(?:ln)?\s*\(")
@@ -867,6 +1155,45 @@ _JS_INSECURE_URL = re.compile(
     r"\.(?:src|href)\s*=\s*[\"']http://(?!(?:localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\])(?:[:/\"']|$))"
 )
 _COMMENT_LINE = re.compile(r"^\s*(?://|\*|/\*|<!--)")
+
+
+def _sink_shape(text: str, position: int) -> str:
+    """Classify the HTML handed to a sink at ``position`` (annotation only).
+
+    ``template-interpolation``: a template literal that interpolates ``${...}``.
+    ``string-concatenation``: a quoted fragment joined with ``+`` to something
+    else (either side). ``expression``: anything else (an identifier, a call, a
+    ``join``); whether it carries runtime data is a data-flow question. The
+    first two are the classes ``scripts/check_html_sinks.py`` tracks as
+    interpolating a runtime value.
+    """
+
+    length = len(text)
+    while position < length and text[position] in " \t\r\n":
+        position += 1
+    if position >= length:
+        return "expression"
+    if text[position] == "`":
+        cursor = position + 1
+        while cursor < length:
+            char = text[cursor]
+            if char == "\\":
+                cursor += 2
+                continue
+            if char == "`":
+                break
+            if char == "$" and text[cursor + 1:cursor + 2] == "{":
+                return "template-interpolation"
+            cursor += 1
+        return "expression"
+    end = text.find("\n", position)
+    statement = text[position:] if end < 0 else text[position:end]
+    statement = statement.split(";", 1)[0]
+    if re.match(r"""['"][^'"]*['"]\s*\+""", statement) or re.match(
+        r"""[A-Za-z_$][\w$.]*(?:\([^()]*\))?\s*\+\s*['"`]""", statement
+    ):
+        return "string-concatenation"
+    return "expression"
 
 
 def _pure_literal(text: str, position: int) -> bool:
@@ -927,6 +1254,7 @@ class BrowserSinkSensor:
             if not findings:
                 continue
             escaper_only = all(item.get("escaperPresent") for item in findings)
+            shapes = Counter(item["shape"] for item in findings if "shape" in item)
             observations.append(
                 Observation(
                     kind="browser_sink_risk",
@@ -939,6 +1267,9 @@ class BrowserSinkSensor:
                         **finding_payload(findings),
                         "patternCounts": dict(sorted(Counter(item["pattern"] for item in findings).items())),
                         "escaperPresent": bool(_ESCAPER.search(text)),
+                        # Annotations (#2283 S2/S3): nothing is filtered out.
+                        "shapeCounts": dict(sorted(shapes.items())),
+                        "acknowledgedCount": sum(1 for item in findings if item.get("acknowledged")),
                     },
                     confidence=0.4 if escaper_only else 0.6,
                     provenance={
@@ -970,6 +1301,7 @@ class BrowserSinkSensor:
             item: dict[str, Any] = {
                 "line": self._line(text, match.start()),
                 "pattern": f"{match.group(1)}-assignment",
+                "shape": _sink_shape(text, match.end()),
             }
             if escaper:
                 item["escaperPresent"] = True
@@ -978,7 +1310,11 @@ class BrowserSinkSensor:
         for match in _INSERT_ADJACENT.finditer(text):
             if not live(match.start()) or _pure_literal(text, match.end()):
                 continue
-            item = {"line": self._line(text, match.start()), "pattern": "insertAdjacentHTML"}
+            item = {
+                "line": self._line(text, match.start()),
+                "pattern": "insertAdjacentHTML",
+                "shape": _sink_shape(text, match.end()),
+            }
             if escaper:
                 item["escaperPresent"] = True
                 item["note"] = "escaper present; data-flow not proven"
@@ -996,7 +1332,10 @@ class BrowserSinkSensor:
                     continue
                 if label == "target-blank-no-noopener" and "noopener" in text:
                     continue
-                results.append({"line": self._line(text, match.start()), "pattern": label})
+                entry: dict[str, Any] = {"line": self._line(text, match.start()), "pattern": label}
+                if label == "document.write":
+                    entry["shape"] = _sink_shape(text, match.end())
+                results.append(entry)
         for tag in _TAG.finditer(text):
             if _TARGET_BLANK.search(tag.group(0)) and not _REL_NOOPENER.search(tag.group(0)):
                 if live(tag.start()):
@@ -1008,6 +1347,15 @@ class BrowserSinkSensor:
                 results.append(
                     {"line": self._line(text, tag.start()), "pattern": "insecure-http-resource"}
                 )
+        for item in results:
+            if "shape" not in item:
+                continue  # the marker speaks for HTML sinks only, never eval or links
+            marker = _SINK_ACK.search(lines[item["line"] - 1])
+            if marker:
+                reason = _SINK_ACK_TRAILER.split(marker.group(1), 1)[0].strip()
+                if reason:
+                    item["acknowledged"] = True
+                    item["acknowledgedReason"] = reason[:160]
         unique = {(item["line"], item["pattern"]): item for item in results}
         return [unique[key] for key in sorted(unique)]
 

@@ -15,6 +15,11 @@ from gaia_cli.authz import (
     _is_verifier,
 )
 from gaia_cli.main import main
+from gaia_cli.impl import MUTATING_DEV_COMMANDS
+
+
+def test_challenge_is_a_canonical_mutating_dev_command():
+    assert "challenge" in MUTATING_DEV_COMMANDS
 
 
 # ── Fixtures ─────────────────────────────────────────────────────────────────
@@ -97,9 +102,75 @@ def test_bootstrap_auto_allow(registry_bootstrap):
 
 def test_empty_index_is_bootstrap(registry_empty):
     reg = str(registry_empty)
+    _write_named_index(registry_empty, [])
     status = authorization_status("anyone", reg)
     assert status["authorized"] is True
     assert status["via"] == "bootstrap"
+
+
+def test_missing_index_denied_with_repair_guidance(registry_empty):
+    status = authorization_status("anyone", str(registry_empty))
+    assert status["authorized"] is False and status["via"] == "denied"
+    assert "named-skills.json" in status["reason"]
+    assert "gaia dev docs" in status["reason"] and "gaia pull" in status["reason"]
+
+
+def test_malformed_and_wrong_shape_index_denied(tmp_path):
+    registry = _make_registry(tmp_path, [])
+    index_path = registry / "registry" / "named-skills.json"
+    for raw in ("{not json", json.dumps([]), json.dumps({"buckets": {"broken": {}}})):
+        index_path.write_text(raw, encoding="utf-8")
+        status = authorization_status("anyone", str(registry))
+        assert status["authorized"] is False and status["via"] == "denied"
+        assert "named-skills.json" in status["reason"]
+        assert "gaia dev docs" in status["reason"]
+
+
+@pytest.mark.parametrize("entry", [
+    {"contributor": "alice"},
+    {"contributor": "alice", "level": 4},
+    {"contributor": "alice", "level": "garbage"},
+    {"contributor": "bob", "level": "4not-a-level"},
+    {"level": "4★"},
+])
+def test_invalid_authorization_fields_fail_closed(tmp_path, entry):
+    registry = _make_registry(tmp_path, [{"contributor": "alice", "level": "2★"}])
+    index_path = registry / "registry" / "named-skills.json"
+    index_path.write_text(json.dumps({"buckets": {"skill-a": [entry]}}), encoding="utf-8")
+    status = authorization_status("bob", str(registry))
+    assert status["authorized"] is False and status["via"] == "denied"
+    assert "Malformed authorization index" in status["reason"]
+    assert "named-skills.json" in status["reason"]
+
+
+def test_override_allows_invalid_authority_fields(monkeypatch, tmp_path):
+    registry = _make_registry(tmp_path, [{"contributor": "alice", "level": "2★"}])
+    index_path = registry / "registry" / "named-skills.json"
+    index_path.write_text(json.dumps({"buckets": {"skill-a": [{"contributor": "alice"}]}}), encoding="utf-8")
+    monkeypatch.setenv(OPERATOR_OVERRIDE_ENV, "1")
+    status = authorization_status("bob", str(registry))
+    assert status["authorized"] is True and status["via"] == "override"
+
+
+def test_unreadable_index_denied(monkeypatch, registry_with_verifier):
+    import builtins
+    original_open = builtins.open
+    target = str(registry_with_verifier / "registry" / "named-skills.json")
+    def denied_open(path, *args, **kwargs):
+        if str(path) == target:
+            raise PermissionError("access denied")
+        return original_open(path, *args, **kwargs)
+    monkeypatch.setattr(builtins, "open", denied_open)
+    status = authorization_status("bob", str(registry_with_verifier))
+    assert status["authorized"] is False and "named-skills.json" in status["reason"]
+
+
+def test_override_allows_malformed_index(monkeypatch, registry_empty):
+    index_path = registry_empty / "registry" / "named-skills.json"
+    index_path.write_text("{broken", encoding="utf-8")
+    monkeypatch.setenv(OPERATOR_OVERRIDE_ENV, "1")
+    status = authorization_status("anyone", str(registry_empty))
+    assert status["authorized"] is True and status["via"] == "override"
 
 
 def test_override_env_allows_non_verifier(monkeypatch, registry_with_verifier):
@@ -267,6 +338,14 @@ def test_whoami_output_bootstrap(monkeypatch, registry_bootstrap, capsys):
         pass
     out = capsys.readouterr().out
     assert "bootstrap" in out
+
+
+def test_whoami_reports_unreadable_index_denial(monkeypatch, registry_empty, capsys):
+    monkeypatch.setattr("gaia_cli.authz._gaia_user", lambda: "anyone")
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(registry_empty), "whoami"])
+    main()
+    output = capsys.readouterr().out
+    assert "via: denied" in output and "named-skills.json" in output
 
 
 # ── Regression: player-facing flows are NOT gated ────────────────────────────
