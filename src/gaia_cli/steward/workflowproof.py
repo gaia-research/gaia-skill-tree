@@ -21,7 +21,7 @@ Nothing here touches the filesystem, runs a command, or imports a workflow engin
 from __future__ import annotations
 
 import re
-from typing import Any, Mapping, Sequence
+from typing import Any, Sequence
 
 import yaml
 
