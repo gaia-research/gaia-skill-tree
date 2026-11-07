@@ -270,6 +270,7 @@ MUTATING_DEV_COMMANDS = frozenset(
         "rm",
         "verify",
         "verify-tier",
+        "challenge",
         "build",
         "release",
     }

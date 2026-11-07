@@ -39,43 +39,40 @@ def _named_index_path(registry_path: str) -> str:
     return named_skills_index_path(registry_path)
 
 
+def _load_named_index(registry_path: str) -> tuple[str, dict]:
+    """Load the generated authorization index; malformed/missing data fails closed."""
+    path = _named_index_path(registry_path)
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            index = json.load(f)
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise ValueError(f"Cannot read valid authorization index {path}: {exc}. Regenerate with `gaia dev docs` or refresh with `gaia pull`.") from exc
+    if not isinstance(index, dict) or not isinstance(index.get("buckets"), dict):
+        raise ValueError(f"Malformed authorization index {path}: expected an object with a buckets object. Regenerate with `gaia dev docs` or refresh with `gaia pull`.")
+    for entries in index["buckets"].values():
+        if not isinstance(entries, list) or any(not isinstance(e, dict) for e in entries):
+            raise ValueError(f"Malformed authorization index {path}: each bucket must be a list of objects. Regenerate with `gaia dev docs` or refresh with `gaia pull`.")
+    return path, index
+
+
+def _is_four_star(entry: dict) -> bool:
+    level = entry.get("level", "")
+    return isinstance(level, str) and bool(level) and level[0].isdigit() and int(level[0]) >= 4
+
+
 def _registry_has_any_verifier(registry_path: str) -> bool:
     """True if at least one 4★+ contributor exists in the named-skills index."""
-    index_path = _named_index_path(registry_path)
-    if not os.path.exists(index_path):
-        return False
-    try:
-        with open(index_path, "r", encoding="utf-8") as f:
-            index = json.load(f)
-        for entries in index.get("buckets", {}).values():
-            for e in entries:
-                lvl = e.get("level", "")
-                if lvl and lvl[0].isdigit() and int(lvl[0]) >= 4:
-                    return True
-    except Exception:
-        pass
-    return False
+    _, index = _load_named_index(registry_path)
+    return any(_is_four_star(e) for entries in index["buckets"].values() for e in entries)
 
 
 def _is_verifier(username: str, registry_path: str) -> bool:
     """Return True if *username* holds at least one 4★+ named skill."""
-    if username == "mbtiongson1":
-        return True
-    index_path = _named_index_path(registry_path)
-    if not os.path.exists(index_path):
-        return False
-    try:
-        with open(index_path, "r", encoding="utf-8") as f:
-            index = json.load(f)
-        for entries in index.get("buckets", {}).values():
-            for e in entries:
-                if e.get("contributor") == username:
-                    lvl = e.get("level", "")
-                    if lvl and lvl[0].isdigit() and int(lvl[0]) >= 4:
-                        return True
-    except Exception:
-        pass
-    return False
+    _, index = _load_named_index(registry_path)
+    return username == "mbtiongson1" or any(
+        e.get("contributor") == username and _is_four_star(e)
+        for entries in index["buckets"].values() for e in entries
+    )
 
 
 def _override_active() -> bool:
@@ -94,24 +91,27 @@ def authorization_status(username: str, registry_path: str = ".") -> dict:
     Keys: authorized (bool), via (str), reason (str).
     ``via`` is one of: verifier | override | bootstrap | denied.
     """
-    if _is_verifier(username, registry_path):
-        return {
-            "authorized": True,
-            "via": "verifier",
-            "reason": f"{username!r} holds a 4★+ named skill (Verifier role).",
-        }
     if _override_active():
         return {
             "authorized": True,
             "via": "override",
             "reason": f"{OPERATOR_OVERRIDE_ENV} is set (CI / bot / bootstrap override).",
         }
-    if not _registry_has_any_verifier(registry_path):
-        return {
-            "authorized": True,
-            "via": "bootstrap",
-            "reason": "No Verifiers exist in this registry yet (bootstrap mode — auto-allowed).",
-        }
+    try:
+        if _is_verifier(username, registry_path):
+            return {
+                "authorized": True,
+                "via": "verifier",
+                "reason": f"{username!r} holds a 4★+ named skill (Verifier role).",
+            }
+        if not _registry_has_any_verifier(registry_path):
+            return {
+                "authorized": True,
+                "via": "bootstrap",
+                "reason": "No Verifiers exist in this readable registry index yet (bootstrap mode — auto-allowed).",
+            }
+    except ValueError as exc:
+        return {"authorized": False, "via": "denied", "reason": str(exc)}
     return {
         "authorized": False,
         "via": "denied",
