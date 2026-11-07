@@ -16,14 +16,11 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 import json
 import os
-import re
-import sys
 import time
 import urllib.error
 import urllib.request
 from typing import Any
 
-from scripts.lib.github_api import parse_owner_repo_normalized
 
 
 # ---------------------------------------------------------------------------
