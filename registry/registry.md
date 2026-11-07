@@ -16,7 +16,7 @@
 | · ████████/sparc-methodology | Fusion | — | `/agentic-workflow-design` |
 | · [emilkowalski](../docs/u/emilkowalski/)/animation-performance | Fusion | 2★ | `/animation-performance` |
 | ○ ████████/hf-cli | Basic | — | `/api-call` |
-| · [cathrynlavery](../docs/u/cathrynlavery/)/diagram-design | Fusion | 2★ | `/architecture-diagram` |
+| · [cathrynlavery](../docs/u/cathrynlavery/)/diagram-design | Fusion | 4★ | `/architecture-diagram` |
 | ○ /audience-model | Basic | — | `/audience-model` |
 | ○ [disler](../docs/u/disler/)/auto-review | Basic | 2★ | `/auto-review` |
 | · [garrytan](../docs/u/garrytan/)/smoke-test | Fusion | 2★ | `/automated-testing` |
@@ -228,7 +228,7 @@
 | ○ /text-to-speech | Basic | — | `/text-to-speech` |
 | · /text-to-sql-pipeline | Fusion | — | `/text-to-sql-pipeline` |
 | · /threat-intelligence-synthesis | Fusion | — | `/threat-intelligence-synthesis` |
-| ○ [heygen-com](../docs/u/heygen-com/)/hyperframes-animation | Basic | 3★ | `/timeline-animation` |
+| ○ [emilkowalski](../docs/u/emilkowalski/)/animate | Basic | 4★ | `/timeline-animation` |
 | ○ /tokenize | Basic | — | `/tokenize` |
 | · /tool-chaining | Fusion | — | `/tool-chaining` |
 | · [mattpocock](../docs/u/mattpocock/)/write-a-skill | Fusion | 2★ | `/tool-creation` |
@@ -239,7 +239,7 @@
 | · /translation-pipeline | Fusion | — | `/translation-pipeline` |
 | · /tree-of-thought | Fusion | — | `/tree-of-thought` |
 | · [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Fusion | 3★ | `/ubiquitous-language` |
-| ○ [leonxlnx](../docs/u/leonxlnx/)/redesign-skill | Basic | 3★ | `/ui-audit` |
+| ○ [emilkowalski](../docs/u/emilkowalski/)/find-animation-opportunities | Basic | 4★ | `/ui-audit` |
 | · [emilkowalski](../docs/u/emilkowalski/)/break-ui | Fusion | 2★ | `/ui-red-teaming` |
 | · [obra](../docs/u/obra/)/using-git-worktrees | Fusion | 4★ | `/using-git-worktrees` |
 | ○ [nextlevelbuilder](../docs/u/nextlevelbuilder/)/ui-ux-pro-max | Basic | 4★ | `/ux-audit` |
@@ -277,6 +277,7 @@
 
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
+| ◉ [cathrynlavery](../docs/u/cathrynlavery/)/diagram-design | Unique Skill | 4★ | `/architecture-diagram` |
 | ◉ [mvanhorn](../docs/u/mvanhorn/)/last30days | Unique Skill | 4★ | `/autonomous-web-research` |
 | ◉ [obra](../docs/u/obra/)/brainstorming | Unique Skill | 4★ | `/brainstorming` |
 | ◉ [anthropics](../docs/u/anthropics/)/brand-guidelines | Unique Skill | 4★ | `/brand-guideline-application` |
@@ -291,6 +292,8 @@
 | ◉ [vercel-labs](../docs/u/vercel-labs/)/vercel-react-best-practices | Unique Skill | 4★ | `/react-performance-optimization` |
 | ◉ [addy-osmani](../docs/u/addy-osmani/)/code-simplification | Unique Skill | 4★ | `/refactor-code` |
 | ◉ [obra](../docs/u/obra/)/subagent-driven-development | Unique Skill | 4★ | `/subagent-driven-development` |
+| ◉ [emilkowalski](../docs/u/emilkowalski/)/animate | Unique Skill | 4★ | `/timeline-animation` |
+| ◉ [emilkowalski](../docs/u/emilkowalski/)/find-animation-opportunities | Unique Skill | 4★ | `/ui-audit` |
 | ◉ [obra](../docs/u/obra/)/using-git-worktrees | Unique Skill | 4★ | `/using-git-worktrees` |
 | ◉ [nextlevelbuilder](../docs/u/nextlevelbuilder/)/ui-ux-pro-max | Unique Skill | 4★ | `/ux-audit` |
 | ◉ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-scrape | Unique Skill | 4★ | `/web-scrape` |

@@ -4,15 +4,15 @@
     {
       "id": "cathrynlavery/diagram-design",
       "name": "diagram-design",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 132.67,
       "overallTrustGrade": "A",
       "fusionScore": 60.0,
       "contributor": "cathrynlavery",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/cathrynlavery/diagram-design.json"
       },
@@ -22,7 +22,7 @@
   "namedSkillsCount": 1,
   "topSkill": {
     "id": "cathrynlavery/diagram-design",
-    "level": "2★",
+    "level": "4★",
     "trustMagnitude": 132.67
   },
   "prestigeScore": 132.67,

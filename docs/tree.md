@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  ·  generated 2026-11-04
+GAIA SKILL TREE  ·  generated 2026-11-07
 ══════════════════════════════════════════════════════════════════════
 ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -239,7 +239,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 ◆ heygen-com/hyperframes  [4★]
 ─────────────────────────────────────────────────────────────────
   ├─ ○ heygen-com/hyperframes-cli  [3★]
-  ├─ ○ heygen-com/hyperframes-animation  [3★]
+  ├─ ○ emilkowalski/animate  [4★]
   ├─ ○ ████████/remotion-studio
   ├─ ○ heygen-com/hyperframes-core  [3★]
   ├─ ○ ████████/remotion-maps
@@ -250,7 +250,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 ◆ leonxlnx/taste-skill  [4★]
 ─────────────────────────────────────────────────────────────────
   ├─ ○ garrytan/design-html  [3★]
-  ├─ ○ leonxlnx/redesign-skill  [3★]
+  ├─ ○ emilkowalski/find-animation-opportunities  [4★]
   └─ ○ leonxlnx/image-to-code-skill  [3★]
 
 ◆ obra/superpowers  [4★]
@@ -369,6 +369,10 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
+  ◉ cathrynlavery/diagram-design  [4★]
+    ├─ ○ /data-visualize
+    ├─ ○ ayghri/i-have-adhd  [4★]
+    └─ ○ garrytan/retro  [3★]
   ◉ mvanhorn/last30days  [4★]
     ├─ · garrytan/draft-in-voice  [2★]
     │  ├─ · garrytan/data-research  [2★]
@@ -398,7 +402,6 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     ├─ ○ arcmira/find-quotes  [2★]
     └─ ○ garrytan/context-audit  [2★]
   ◉ mksglu/context-mode  [4★]
-  ◉ ayghri/i-have-adhd  [4★]
   ◉ nvidia/accelerated-computing-cudf  [4★]
   ◉ dietrichgebert/ponytail  [4★]
   ◉ wheresryan22/anatomy  [4★]
@@ -406,7 +409,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     ├─ ○ heygen-com/hyperframes-creative  [3★]
     └─ · heygen-com/hyperframes  [4★]
        ├─ ○ heygen-com/hyperframes-cli  [3★]
-       ├─ ○ heygen-com/hyperframes-animation  [3★]
+       ├─ ○ emilkowalski/animate  [4★]
        ├─ ○ ████████/remotion-studio
        ├─ ○ heygen-com/hyperframes-core  [3★]
        ├─ ○ ████████/remotion-maps
@@ -428,6 +431,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
        ├─ ○ garrytan/design-html  [3★]
        ├─ ○ /diff-content
        └─ ○ garrytan/benchmark  [3★]
+  ◉ emilkowalski/find-animation-opportunities  [4★]
   ◉ obra/using-git-worktrees  [4★]
     ├─ ○ /code-execution
     └─ ○ /tool-use
@@ -484,4 +488,4 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
-*Generated from gaia.json on 2026-11-04. Do not edit directly.*
+*Generated from gaia.json on 2026-11-07. Do not edit directly.*
