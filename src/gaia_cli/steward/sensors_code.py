@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import ast
 import re
+import sys
 from dataclasses import dataclass, field
 from functools import cached_property
 from pathlib import Path
@@ -62,6 +63,21 @@ _SCRIPTS_ROOT = "scripts"
 _DATA_EXCLUDE = ("src/gaia_cli/data",)
 _DEFAULT_MAX_FILES = 5000
 _BEST_EFFORT_MARKER = "steward: best-effort"
+# The marker is an intent record only with a written reason (#2283 review of
+# #2372): ``# steward: best-effort: optional cache`` counts, a bare marker does not.
+_BEST_EFFORT_WITH_REASON = re.compile(r"steward: best-effort\s*(?:[:\-\u2013\u2014]\s*)?(?P<reason>.*)$")
+# #2283 S4: the industry-standard intent record for a broad handler is a ruff
+# suppression comment naming a broad-except rule *with a written reason*. A bare
+# suppression, or one naming BLE001 with no reason, is not a record and still flags.
+_BROAD_EXCEPT_CODES = frozenset({"BLE001", "S110", "S112", "E722"})
+_NOQA_WITH_REASON = re.compile(
+    r"noqa:\s*(?P<codes>[A-Z]+[0-9]+(?:\s*,\s*[A-Z]+[0-9]+)*)\s*(?:[-\u2013\u2014:]\s*)?(?P<reason>.*)$"
+)
+# Plain ``import x`` of a standard-library module runs no project code. These
+# few stdlib modules do act on import, so they keep the side-effect label.
+_STDLIB_IMPORT_SIDE_EFFECTS = frozenset(
+    {"antigravity", "this", "readline", "rlcompleter", "site", "sitecustomize", "usercustomize"}
+)
 _ORPHAN_NOTE = "candidate — requires consumer and external-contract review"
 _TEXT_SUFFIXES = {
     ".py", ".sh", ".md", ".json", ".j2", ".ts", ".js", ".mjs", ".cjs", ".html", ".txt",
@@ -207,6 +223,37 @@ def _observation(
 # --------------------------------------------------------------------------
 
 
+def _stdlib_without_side_effects(target: str) -> bool:
+    """True for a standard-library module whose import runs nothing (#2283 S9)."""
+
+    top = target.split(".")[0]
+    return top in sys.stdlib_module_names and top not in _STDLIB_IMPORT_SIDE_EFFECTS
+
+
+def _reason_given(text: str) -> bool:
+    reason = text.strip()
+    return len(reason) >= 3 and any(char.isalpha() for char in reason)
+
+
+def _best_effort_with_reason(comment: str) -> bool:
+    """``# steward: best-effort`` followed by a written reason."""
+
+    match = _BEST_EFFORT_WITH_REASON.search(comment)
+    return match is not None and _reason_given(match.group("reason"))
+
+
+def _documented_broad_except(comment: str) -> bool:
+    """A ruff noqa that names a broad-except rule and states a reason."""
+
+    match = _NOQA_WITH_REASON.search(comment)
+    if match is None:
+        return False
+    codes = {code.strip() for code in match.group("codes").split(",")}
+    if not codes & _BROAD_EXCEPT_CODES:
+        return False
+    return _reason_given(match.group("reason"))
+
+
 def _unused_imports(file: SourceFile) -> list[dict[str, Any]]:
     """Module-level imported names a file never reads (candidates only)."""
 
@@ -245,7 +292,7 @@ def _unused_imports(file: SourceFile) -> list[dict[str, Any]]:
                     "line": ref.line,
                     "name": bound,
                     "statement": statement,
-                    "sideEffectPossible": not ref.is_from,
+                    "sideEffectPossible": not ref.is_from and not _stdlib_without_side_effects(ref.target),
                 }
             )
     findings.sort(key=lambda item: (item["line"], item["name"]))
@@ -916,7 +963,8 @@ def swallowed_handlers(file: SourceFile) -> list[dict[str, Any]]:
             comments = comment_map(file.text)
         first = node.body[0].lineno
         if any(
-            _BEST_EFFORT_MARKER in comments.get(line, "")
+            _best_effort_with_reason(comments.get(line, ""))
+            or _documented_broad_except(comments.get(line, ""))
             for line in range(node.lineno, first + 1)
         ):
             continue
@@ -963,7 +1011,8 @@ class ErrorHandlingSensor:
                     0.8,
                     {
                         "detector": "broad except handler whose whole body is pass/continue/.../docstring/bare return",
-                        "intentMarker": f"# {_BEST_EFFORT_MARKER}",
+                        "intentMarker": f"# {_BEST_EFFORT_MARKER}: <reason> (reason required)",
+                        "alsoAccepted": "# noqa: BLE001|S110|S112|E722 <reason> (reason required)",
                         "note": (
                             "intentional best-effort behaviour should be marked, not removed; "
                             "label degraded results honestly"
