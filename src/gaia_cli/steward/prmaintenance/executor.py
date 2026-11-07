@@ -86,11 +86,12 @@ class HttpsTransport:
         self.deadline = float(deadline)
 
     @staticmethod
-    def abort(connection) -> None:
-        # Wake the blocked reader with a raw socket shutdown only. The owning thread closes the connection itself:
-        # closing a descriptor from another thread would race with descriptor reuse, and SSLSocket.shutdown would
-        # also discard the TLS object under a read in progress, so the base-class method is called directly.
-        sock = getattr(connection, "sock", None)
+    def abort(sock) -> None:
+        # Wake the blocked reader with a raw shutdown of the RETAINED connected socket. http.client sets
+        # connection.sock to None on Connection: close and HTTP/1.0 responses while the body still reads from the live
+        # descriptor, so the connection attribute is never consulted. The owning thread closes everything itself:
+        # closing a descriptor from another thread would race with descriptor reuse, and SSLSocket.shutdown would also
+        # discard the TLS object under a read in progress, so the base-class method is called directly.
         if sock is not None:
             try:
                 socket.socket.shutdown(sock, socket.SHUT_RDWR)
@@ -120,7 +121,8 @@ class HttpsTransport:
                 connection.connect()  # DNS + TCP + TLS handshake; no request byte exists yet
             except Exception:
                 raise core.NotSent("HTTPS invocation failed or response unavailable") from None
-            watchdog = threading.Timer(self.deadline, self.abort, args=(connection,))
+            connected = getattr(connection, "sock", None)  # retained now: the body may outlive connection.sock
+            watchdog = threading.Timer(self.deadline, self.abort, args=(connected,))
             watchdog.daemon = True
             watchdog.start()
             connection.request(method, self.prefix + path, body=data, headers=headers)
@@ -642,8 +644,16 @@ class Executor:
         if operation is None:
             raise core.Refused("unknown operation")
         newOwner = core.digest([operationId, "takeover-owner", operation["fence"] + 1])
-        self.coordinator.takeover(tokenFrom(operation), newOwner, core.digest([operation["attemptId"], "takeover", operation["fence"]]))
-        return self.report(self.coordinator.inspect()["operations"][operationId])
+        result = self.coordinator.takeover(tokenFrom(operation), newOwner, core.digest([operation["attemptId"], "takeover", operation["fence"]]))
+        current = self.coordinator.inspect()["operations"][operationId]
+        report = self.report(current)
+        # Success means the shared record now shows THIS new owner under a newer fence. An unresolved acknowledgement
+        # or a transition that changed nothing is reported as such and must not look like a re-owned preparation.
+        if result.status == core.CommitStatus.UNRESOLVED:
+            return {**report, "commitStatus": "unresolved"}
+        if current["ownerId"] != newOwner or current["fence"] <= operation["fence"]:
+            return {**report, "commitStatus": "not-taken-over"}
+        return report
 
 
 def makeExecutor(root: Path, *, http=None, clock=None, store=None, snapshot=None) -> Executor:

@@ -349,6 +349,80 @@ def test_abort_refuses_unrecordable_reasons_then_records_the_operator_reason(tmp
     assert forge.invocations == []
 
 
+# --- inspection / prepared / unresolved report shapes (not only freshly entered invocation failures) ----------------
+
+
+def bareExecutor(tmp_path, monkeypatch, services=None):
+    """Executor over a real coordinator on a disposable remote, with no production services."""
+    _, binding, first, _ = seed(tmp_path, monkeypatch)
+    services = services or FakeServices()
+    coord = coordinator(first, binding, services)
+    return ex.Executor(coord), coord, services
+
+
+@pytest.mark.parametrize("target", ["possibly-sent", "quarantined", "unknown"])
+def test_execute_on_a_persisted_unsettled_sender_is_an_inspection_report_without_a_cause(tmp_path, monkeypatch, target):
+    services = FakeServices()
+    executor, coord, _ = bareExecutor(tmp_path, monkeypatch, services)
+    token = prepared(coord)
+    if target == "unknown":
+        services.response = "lost"
+        coord.invoke(token, "claim-1")
+    else:
+        coord._transition("claim", token.operationId, {"token": core.asdict(token)}, "claim-1")  # a restarted claim
+        if target == "quarantined":
+            coord.recover(token.operationId)
+    report = executor.execute(token.operationId)
+    assert report["state"] == target and report["coordinationState"] == target
+    assert "uncertaintyCause" not in report and "commitStatus" not in report and report["evidenceSha256"] is None
+    assert len(services.invocations) == (1 if target == "unknown" else 0)  # inspection never enters the adapter
+
+
+def test_execute_reports_an_unresolved_claim_with_the_observed_prepared_state(tmp_path, monkeypatch):
+    executor, coord, services = bareExecutor(tmp_path, monkeypatch)
+    token = prepared(coord)
+    coord.invoke = lambda token_, transitionId: core.Result(core.CommitStatus.UNRESOLVED, token_.operationId)
+    report = executor.execute(token.operationId)
+    assert report["state"] == "intent" and report["commitStatus"] == "unresolved"
+    assert "uncertaintyCause" not in report and services.invocations == []
+
+
+# --- takeover reports success only when the record shows the new owner under a newer fence ------------------------
+
+
+def expired(services):
+    services.now = core.TimeBounds(services.now.upper + 200, services.now.upper + 200, "fixture-authoritative-clock")
+
+
+@pytest.mark.parametrize("fake,flag", [(core.CommitStatus.UNRESOLVED, "unresolved"), (core.CommitStatus.ALREADY, "not-taken-over")])
+def test_takeover_does_not_report_success_after_an_unresolved_or_no_op_transition(tmp_path, monkeypatch, capsys, fake, flag):
+    executor, coord, services = bareExecutor(tmp_path, monkeypatch)
+    token = prepared(coord)
+    expired(services)
+    before = coord.inspect()["operations"][token.operationId]
+    coord.takeover = lambda token_, owner, transitionId: core.Result(fake, token_.operationId)  # nothing committed
+    monkeypatch.setattr(ex, "makeExecutor", lambda root: executor)
+    code = cli.main(["--root", str(tmp_path), "--json", "takeover", "--operation-id", token.operationId])
+    output = json.loads(capsys.readouterr().out)
+    assert code == 2 and output["commitStatus"] == flag and output["state"] == "intent"
+    after = coord.inspect()["operations"][token.operationId]
+    assert (after["ownerId"], after["fence"]) == (before["ownerId"], before["fence"])
+
+
+def test_takeover_cli_exits_zero_only_when_the_new_owner_and_fence_are_committed(tmp_path, monkeypatch, capsys):
+    executor, coord, services = bareExecutor(tmp_path, monkeypatch)
+    token = prepared(coord)
+    monkeypatch.setattr(ex, "makeExecutor", lambda root: executor)
+    assert cli.main(["--root", str(tmp_path), "--json", "takeover", "--operation-id", token.operationId]) == 2  # lease live
+    capsys.readouterr()
+    expired(services)
+    assert cli.main(["--root", str(tmp_path), "--json", "takeover", "--operation-id", token.operationId]) == 0
+    output = json.loads(capsys.readouterr().out)
+    assert "commitStatus" not in output
+    after = coord.inspect()["operations"][token.operationId]
+    assert after["fence"] > token.fence and after["ownerId"] != token.ownerId
+
+
 # --- lease: 120 s window, takeover verb and its anti-replay consequence -----------------------------------------------
 
 
@@ -498,6 +572,12 @@ DRIP_PROBE = r"""
 import socket, ssl, subprocess, sys, tempfile, threading, time
 from pathlib import Path
 sys.path.insert(0, sys.argv[1])
+# http.client drops connection.sock on Connection: close and HTTP/1.0 while the body still reads the live descriptor.
+HEADERS = {
+    "persistent": b"HTTP/1.1 200 OK\r\nContent-Length: 50\r\n\r\n",
+    "close": b"HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Length: 50\r\n\r\n",
+    "http10": b"HTTP/1.0 200 OK\r\nContent-Length: 50\r\n\r\n",
+}
 from gaia_cli.steward.prmaintenance import coordination as core, executor as ex
 work = Path(tempfile.mkdtemp())
 cert, key = work / "c.pem", work / "c.key"
@@ -518,7 +598,7 @@ def drip():
         with server.wrap_socket(raw, server_side=True) as tls:
             tls.settimeout(10)
             tls.recv(65536)
-            tls.sendall(b"HTTP/1.1 200 OK\r\nContent-Length: 50\r\n\r\n")
+            tls.sendall(HEADERS[sys.argv[2]])
             for _ in range(50):  # each byte well inside the per-operation socket timeout, total far beyond the deadline
                 if stop.is_set():
                     return
@@ -546,15 +626,17 @@ print(kind, round(elapsed, 2), len(wrote))
 """
 
 
-def test_total_deadline_aborts_a_slow_drip_response_and_is_not_not_sent(tmp_path):
+@pytest.mark.parametrize("mode", ["persistent", "close", "http10"])
+def test_total_deadline_aborts_a_slow_drip_response_and_is_not_not_sent(tmp_path, mode):
+    """Real TLS, separate interpreter. The closing modes used to defeat the watchdog (reviewer B1)."""
     script = tmp_path / "drip_probe.py"
     script.write_text(DRIP_PROBE)
     src = Path(__file__).resolve().parents[3] / "src"
-    done = subprocess.run([sys.executable, "-I", str(script), str(src)], capture_output=True, text=True, timeout=45)
+    done = subprocess.run([sys.executable, "-I", str(script), str(src), mode], capture_output=True, text=True, timeout=45)
     assert done.returncode == 0, f"probe exit {done.returncode}: {done.stderr[-400:]}"
     kind, elapsed, wrote = done.stdout.split()
-    assert kind == "CoordinationError"  # bytes were written: never a provable no-send, and the exchange did fail
-    assert float(elapsed) < 6, f"deadline did not bound the exchange ({elapsed}s)"
+    assert kind == "CoordinationError", done.stdout  # bytes were written: never a provable no-send, and it did fail
+    assert float(elapsed) < 6, f"deadline did not bound the {mode} exchange ({elapsed}s)"
     assert int(wrote) < 50
 
 

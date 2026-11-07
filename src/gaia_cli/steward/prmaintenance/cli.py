@@ -470,7 +470,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             if args.action == "takeover":
                 outcome = executor.takeover(operationId)
                 out(outcome, args.json)
-                return 0 if outcome["state"] in {"reserved", "intent"} else 2
+                return 0 if outcome["state"] in {"reserved", "intent"} and "commitStatus" not in outcome else 2
             outcome = (executor.abort(operationId, args.reason) if args.action == "abort"
                        else executor.execute(operationId) if args.action == "execute" else executor.recover(operationId))
             out(outcome, args.json)
