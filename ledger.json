@@ -1,5 +1,5 @@
 {
- "generation": 1226,
+ "generation": 1227,
  "lane": {
   "entries": [
    {
@@ -4270,7 +4270,7 @@
     "state": "closed"
    },
    {
-    "attempts": 0,
+    "attempts": 1,
     "debtId": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
     "firstQueuedAt": "2026-11-04T02:54:14.093628Z",
     "history": [
@@ -4279,14 +4279,20 @@
       "from": "none",
       "reason": "observed by a sensor",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T09:28:17.139193Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-c014cb105fdf43f2f948",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-11-04T02:54:14.093628Z",
+    "lastTransitionAt": "2026-11-07T09:28:17.139193Z",
     "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 0,
@@ -5544,7 +5550,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T09:25:26.530962Z",
-   "expiresAt": "2026-11-07T10:04:12.810230Z",
+   "expiresAt": "2026-11-07T10:05:42.454614Z",
    "holder": "run-20261107T092526Z-c6c6c44d"
   }
  },
@@ -98318,6 +98324,34 @@
      "status": "pending",
      "stepId": "build:01bdcf8a1d9c:1",
      "type": "agent.build"
+    },
+    {
+     "debtId": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
+     "emittedAt": "2026-11-07T09:28:17.139193Z",
+     "idempotencyKey": "dispatch-c014cb105fdf43f2f948:1",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/unused-import-6daedf9b733f",
+      "debtId": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
+      "dispatchId": "dispatch-c014cb105fdf43f2f948",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-6daedf9b733f.diff",
+       "proofPath": ".gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-6daedf9b733f.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-6daedf9b733f.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:6daedf9b733f:1",
+     "type": "agent.build"
     }
    ],
    "actor": "cli",
@@ -99430,6 +99464,14 @@
      "kind": "agent.build",
      "status": "awaiting",
      "stepId": "build:01bdcf8a1d9c:1"
+    },
+    {
+     "at": "2026-11-07T09:28:17.139193Z",
+     "debtId": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
+     "idempotencyKey": "dispatch-c014cb105fdf43f2f948:1",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:6daedf9b733f:1"
     }
    ],
    "thinkingEfforts": [],
@@ -99440,7 +99482,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T09:34:12.814145Z",
+ "updatedAt": "2026-11-07T09:35:42.458538Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -101849,6 +101891,36 @@
    "kind": "unused_import",
    "notes": [],
    "promptPath": ".gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-01bdcf8a1d9c.prompt.md",
+   "pullRequest": null,
+   "routine": "dead-code-gardener",
+   "runId": "run-20261107T092526Z-c6c6c44d",
+   "source": "dead-code",
+   "state": "building",
+   "updatedAt": "2026-11-07T09:28:17.139193Z",
+   "verification": null
+  },
+  "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e": {
+   "assignments": [],
+   "attempt": 1,
+   "authority": "B",
+   "baseBranch": "dev/steward-campaign-2026-11-05",
+   "branch": "steward/b/unused-import-6daedf9b733f",
+   "build": null,
+   "createdAt": "2026-11-07T09:28:17.139193Z",
+   "debtId": "debt:unused_import:scripts-upstream-watcher-tests-test-challenge-wa:6437205fd9e2ee5e",
+   "dispatchId": "dispatch-c014cb105fdf43f2f948",
+   "dispatchedAt": "2026-11-07T09:28:17.139193Z",
+   "history": [
+    {
+     "at": "2026-11-07T09:28:17.139193Z",
+     "from": "queued",
+     "reason": "dispatched as dispatch-c014cb105fdf43f2f948 (attempt 1)",
+     "to": "building"
+    }
+   ],
+   "kind": "unused_import",
+   "notes": [],
+   "promptPath": ".gaia/steward/full/run-20261107T092526Z-c6c6c44d/build-6daedf9b733f.prompt.md",
    "pullRequest": null,
    "routine": "dead-code-gardener",
    "runId": "run-20261107T092526Z-c6c6c44d",
