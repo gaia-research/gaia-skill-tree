@@ -942,6 +942,343 @@ class FullRunner:
         )
 
     # ------------------------------------------------------------------
+    # reverify_escalated(): founder-ruled reverification under ruling 1
+    # ------------------------------------------------------------------
+
+    def reverify_escalated(
+        self,
+        runId: str,
+        item_ids: Sequence[str] = (),
+        ruling: str = "steward-verification-reverify-2283",
+        by: str = "lead",
+        reason: str = "founder-ruled reverification under ruling 1",
+    ) -> dict[str, Any]:
+        """Reverify escalated Class B work items under a founder decision ruling.
+
+        Validates the decision record via desk._check_record, strictly enforces
+        authorization, verifies that items are escalated with existing diff/proof
+        artifacts, preserves append-only history without resetting attempts,
+        re-runs mechanical verification with attribution, and emits fresh
+        agent.verify actions for independent verifiers.
+        """
+        from gaia_cli.steward.desk import DECISIONS_RELATIVE_DIR, _check_record
+        from gaia_cli.steward.models import DispatchPacket
+        from gaia_cli.steward.prompt import render_verifier_prompt
+        from gaia_cli.steward.routing import (
+            RoutingError,
+            _latest_dispatch_receipt,
+            render_dispatch,
+            render_verification,
+        )
+
+        ruling_stem = Path(ruling).stem
+        record_path = self.root / DECISIONS_RELATIVE_DIR / f"{ruling_stem}.json"
+        if not record_path.is_file():
+            raise FullRunError(f"decision record not found: {ruling}")
+        try:
+            record_data = json.loads(record_path.read_text(encoding="utf-8"))
+        except Exception as exc:
+            raise FullRunError(f"cannot parse decision record {ruling}: {exc}") from exc
+        if not isinstance(record_data, dict):
+            raise FullRunError(f"decision record {ruling} must be a JSON object")
+        record_data["_source"] = f"{DECISIONS_RELATIVE_DIR}/{ruling_stem}.json"
+        check_err = _check_record(record_data)
+        if check_err:
+            raise FullRunError(f"invalid decision record {ruling}: {check_err}")
+
+        if record_data.get("status") != "decided" or record_data.get("resolution") != "approved":
+            raise FullRunError(
+                f"decision record {ruling} is not decided and approved "
+                f"(status={record_data.get('status')!r}, resolution={record_data.get('resolution')!r})"
+            )
+
+        authorized_debts = set(record_data.get("authorizedDebtIds") or ())
+        authorized_slugs = set(record_data.get("authorizedWorkItems") or ())
+
+        doc = self._load()
+        run = doc["runs"].get(runId)
+        if run is None:
+            raise UnknownRun(f"unknown run {runId}")
+
+        target_debt_ids: list[str] = []
+        if item_ids:
+            for req in item_ids:
+                is_authorized = (
+                    req in authorized_debts
+                    or req in authorized_slugs
+                    or _hash12(req) in authorized_slugs
+                )
+                matched_debt_id: str | None = None
+                if req in doc["work"]:
+                    matched_debt_id = req
+                else:
+                    for d_id in doc["work"]:
+                        if _hash12(d_id) == req:
+                            matched_debt_id = d_id
+                            break
+                if matched_debt_id is not None:
+                    if (
+                        matched_debt_id in authorized_debts
+                        or _hash12(matched_debt_id) in authorized_slugs
+                    ):
+                        is_authorized = True
+
+                if not is_authorized:
+                    raise FullRunError(f"item {req!r} is not authorized by decision record {ruling}")
+                if matched_debt_id is None:
+                    raise FullRunError(f"work item {req!r} does not exist in run {runId}")
+                target_debt_ids.append(matched_debt_id)
+        else:
+            target_debt_ids = [
+                d_id
+                for d_id, w in doc["work"].items()
+                if (d_id in authorized_debts or _hash12(d_id) in authorized_slugs)
+                and w.get("state") == "escalated"
+            ]
+            if not target_debt_ids:
+                raise FullRunError(
+                    f"no escalated work items authorized by {ruling} found in run {runId}"
+                )
+
+        resolved_targets: list[tuple[str, dict[str, Any], Path, Path]] = []
+        for debt_id in target_debt_ids:
+            item = doc["work"].get(debt_id)
+            if item is None:
+                raise FullRunError(f"work item {debt_id} does not exist")
+            if item.get("runId") != runId:
+                raise FullRunError(
+                    f"work item {debt_id} belongs to run {item.get('runId')!r}, not {runId}"
+                )
+            if item.get("state") != "escalated":
+                raise FullRunError(
+                    f"work item {debt_id} is in state {item.get('state')!r}, not 'escalated'"
+                )
+            build = item.get("build")
+            if not build:
+                raise FullRunError(f"work item {debt_id} has no build recorded")
+            diff_path_str = build.get("diffPath")
+            proof_path_str = build.get("proofPath")
+            if not diff_path_str or not proof_path_str:
+                raise FullRunError(f"work item {debt_id} is missing diffPath or proofPath")
+            diff_path = self._resolvePath(diff_path_str)
+            proof_path = self._resolvePath(proof_path_str)
+            if not diff_path.is_file():
+                raise FullRunError(
+                    f"diff file {diff_path} for work item {debt_id} does not exist"
+                )
+            if not proof_path.is_file():
+                raise FullRunError(
+                    f"proof file {proof_path} for work item {debt_id} does not exist"
+                )
+            resolved_targets.append((debt_id, item, diff_path, proof_path))
+
+        policy = self._policyLoaded()
+        controller = self._controllerInstance()
+        receipts = self.root / policy.state_directory / policy.receipts_directory
+
+        verifications: list[dict[str, Any]] = []
+        for debt_id, item, diff_path, proof_path in resolved_targets:
+            try:
+                try:
+                    result, diff_text, outputs = render_verification(
+                        self.root,
+                        debt_id,
+                        diff_path=diff_path,
+                        proof_path=proof_path,
+                        controller=controller,
+                    )
+                except RoutingError as exc:
+                    if "no dispatch receipt" not in str(exc):
+                        raise
+                    render_dispatch(self.root, debt_id, controller=controller)
+                    result, diff_text, outputs = render_verification(
+                        self.root,
+                        debt_id,
+                        diff_path=diff_path,
+                        proof_path=proof_path,
+                        controller=controller,
+                    )
+            except Exception as exc:
+                raise FullRunError(f"verification failed for {debt_id}: {exc}") from exc
+
+            verdict = result.artifact
+            slug = _hash12(debt_id)
+            if verdict.verdict == "pending":
+                packet = DispatchPacket.from_dict(_latest_dispatch_receipt(receipts, debt_id)["artifact"])
+                rule = policy.dispatch_rules[packet.rule]
+                prompt = render_verifier_prompt(
+                    packet,
+                    verdict,
+                    prompt_guide=rule.prompt_guide,
+                    diff_text=diff_text,
+                    proof_outputs=outputs,
+                    receipt=result.receipt.to_dict(),
+                )
+                prompt_file = self._runDirectory(runId) / f"verify-{slug}-reverify-{item.get('attempt', 1)}.prompt.md"
+                prompt_file.write_text(prompt, encoding="utf-8")
+                prompt_path = self._relative(prompt_file)
+                verifications.append({
+                    "debtId": debt_id,
+                    "slug": slug,
+                    "verdict": verdict,
+                    "result_receipt": result.receipt.run_id,
+                    "prompt_path": prompt_path,
+                    "status": "awaiting-verifier",
+                })
+            else:
+                verifications.append({
+                    "debtId": debt_id,
+                    "slug": slug,
+                    "verdict": verdict,
+                    "result_receipt": result.receipt.run_id,
+                    "prompt_path": None,
+                    "status": f"mechanical-{verdict.verdict}",
+                })
+
+        reopened_debt_ids: list[str] = []
+        action_results: list[dict[str, Any]] = []
+
+        def apply(doc: dict[str, Any], run: dict[str, Any]) -> None:
+            now = self._now()
+            lane_data = doc.get("lane")
+            lane = load_lane(lane_data, policy.lane) if lane_data else None
+
+            for v in verifications:
+                debt_id = v["debtId"]
+                slug = v["slug"]
+                verdict = v["verdict"]
+                work = doc["work"][debt_id]
+
+                if work.get("state") != "escalated":
+                    raise FullRunError(
+                        f"work item {debt_id} concurrently modified: state is {work.get('state')!r}"
+                    )
+                if work.get("runId") != runId:
+                    raise FullRunError(
+                        f"work item {debt_id} concurrently modified: runId is {work.get('runId')!r}"
+                    )
+
+                prior_verifications = list(work.get("priorVerifications") or [])
+                if "verification" in work and work["verification"]:
+                    prior_verifications.append(work["verification"])
+                work["priorVerifications"] = prior_verifications
+
+                if v["status"] == "awaiting-verifier":
+                    builders = sorted({
+                        a["agentId"]
+                        for a in work.get("assignments", [])
+                        if a.get("role") == "builder"
+                    })
+                    transition_work(
+                        doc,
+                        debt_id,
+                        "building",
+                        now,
+                        f"{reason} (ruling {ruling} by {by})",
+                    )
+                    FullRunner._note(
+                        work,
+                        now,
+                        f"reverified under ruling {ruling} by {by}: {reason}",
+                    )
+                    work["verification"] = {
+                        "stage": "awaiting-verifier",
+                        "verdict": "pending",
+                        "receipt": v["result_receipt"],
+                        "verifierPromptPath": v["prompt_path"],
+                        "ruling": ruling,
+                    }
+                    if lane is not None:
+                        entry = lane.by_id(debt_id)
+                        if entry is not None and entry.state == "escalated":
+                            lane = lane.replaced(
+                                entry.moved(
+                                    to="dispatched",
+                                    at=now,
+                                    reason=f"founder-ruled reverification under ruling {ruling} by {by}",
+                                    last_verdict="pending",
+                                )
+                            )
+
+                    step_id = f"verify:{slug}:{work.get('attempt', 1)}:reverify"
+
+                    self._addAction(
+                        run,
+                        step_id,
+                        "agent.verify",
+                        debt_id,
+                        f"verify:{work.get('dispatchId')}:{work.get('attempt', 1)}:reverify",
+                        {
+                            "debtId": debt_id,
+                            "verifierPromptPath": v["prompt_path"],
+                            "forbiddenAgentIds": builders,
+                            "attempt": work.get("attempt", 1),
+                            "allowedModels": list(VERIFIERMODELS),
+                            "effortRequired": True,
+                            "ruling": ruling,
+                            "reverification": True,
+                        },
+                        now,
+                    )
+                    reopened_debt_ids.append(debt_id)
+                    action_results.append({
+                        "debtId": debt_id,
+                        "result": "awaiting-verifier",
+                        "stepId": step_id,
+                        "verifierPromptPath": v["prompt_path"],
+                        "forbiddenAgentIds": builders,
+                    })
+                else:
+                    note = f"mechanical verification ({v['result_receipt'] or 'input refusal'})"
+                    reasons_list = list(verdict.reasons)
+                    escalated = verdict.verdict == "escalate"
+                    if lane is not None:
+                        entry = lane.by_id(debt_id)
+                        if entry is not None and entry.state == "dispatched":
+                            lane = record_verdict(lane, debt_id, verdict.verdict, now=now, note=note)
+                            escalated = lane.by_id(debt_id).state == "escalated"
+                    work["verification"] = {
+                        "stage": "mechanical",
+                        "verdict": verdict.verdict,
+                        "reasons": reasons_list,
+                        "recordedAt": now,
+                        "ruling": ruling,
+                    }
+                    if escalated:
+                        self._setState(doc, debt_id, "escalated", now, f"{note}: {'; '.join(reasons_list)[:200]}")
+                    else:
+                        self._setState(doc, debt_id, "blocked", now, f"{note}: rejected - {'; '.join(reasons_list)[:200]}")
+                    action_results.append({
+                        "debtId": debt_id,
+                        "result": f"mechanical-{verdict.verdict}",
+                        "reasons": reasons_list,
+                    })
+
+            if lane is not None:
+                set_lane(doc, lane_document(lane))
+
+            if reopened_debt_ids:
+                if run["status"] not in OPENRUNSTATES:
+                    run["status"] = "awaiting-action"
+                run["phase"] = "verify"
+                run["nextAction"] = (
+                    f"perform pending verification action(s), record each with "
+                    f"`gaia steward full record {runId} <stepId> --input FILE`, then "
+                    f"`gaia steward full run --resume {runId}`"
+                )
+            release_lease(doc, RUNLEASE, runId)
+            run["mutated"] = True
+
+        self._mutateRun(runId, apply, message=f"steward full reverify under {ruling}")
+
+        return {
+            "runId": runId,
+            "ruling": ruling,
+            "reopened": reopened_debt_ids,
+            "results": action_results,
+        }
+
+    # ------------------------------------------------------------------
     # record(): driver outcomes
     # ------------------------------------------------------------------
 
@@ -2694,8 +3031,29 @@ class FullRunner:
                 if debtStatus.get(debtId) == "resolved":
                     # The condition itself is gone, observed by its own sensor in a run whose
                     # coverage is known. Whatever the work was doing is moot, from any state.
-                    evidence = (f"re-observation {summary['scanReceiptId']}: debt resolved by observation"
-                                f" (work was {state})")
+                    integrated_repair = None
+                    if item.get("build") and item.get("verification", {}).get("receipt"):
+                        integrated_repair = {
+                            "runId": item.get("runId"),
+                            "stepId": item.get("verification", {}).get("stepId") or f"verify:{_hash12(debtId)}",
+                            "receipt": item.get("verification", {}).get("receipt"),
+                            "verdict": item.get("verification", {}).get("verdict"),
+                            "mergeCommit": item.get("pullRequest", {}).get("mergeCommit"),
+                        }
+
+                    if integrated_repair:
+                        item["resolutionLinkage"] = integrated_repair
+                        item["resolutionReceipt"] = integrated_repair["receipt"]
+                        item["resolution"] = f"repaired:{integrated_repair['receipt']}"
+                        evidence = (
+                            f"re-observation {summary['scanReceiptId']}: debt resolved via integrated lane repair "
+                            f"(receipt {integrated_repair['receipt']}, verifier verdict {integrated_repair['verdict']})"
+                        )
+                    else:
+                        evidence = (
+                            f"re-observation {summary['scanReceiptId']}: debt resolved by observation "
+                            f"(work was {state})"
+                        )
                     if state == "proposed" and item.get("authority") == "A" and not self._mergedInto(item):
                         evidence += "; the proposed branch is not in this checkout"
                     self._setState(doc, debtId, "resolved", now, evidence)

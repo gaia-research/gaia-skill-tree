@@ -198,6 +198,9 @@ class VerificationVerdict:
     reasons: tuple[str, ...]
     change_set: ChangeSet
     transcript: ProofTranscript
+    global_new_debt: tuple[str, ...] = ()
+    unrelated_new_debt: tuple[str, ...] = ()
+    attribution_failed: bool = False
 
     def __post_init__(self) -> None:
         if self.verdict not in MECHANICAL_VERDICTS:
@@ -222,6 +225,9 @@ class VerificationVerdict:
             "authorityStillValid": self.authority_still_valid,
             "guardsWeakened": self.guards_weakened,
             "newDebt": list(self.new_debt),
+            "globalNewDebt": list(self.global_new_debt),
+            "unrelatedNewDebt": list(self.unrelated_new_debt),
+            "attributionFailed": self.attribution_failed,
             "verdict": self.verdict,
             "decidedBy": "machine" if self.decided else "pending-independent-judgment",
             "reasons": list(self.reasons),
@@ -774,6 +780,8 @@ def evaluate(
     current_open_debt: Sequence[str],
     authority_still_class_b: bool,
     workflow_baseline: Mapping[str, str | None] | None = None,
+    patch_introduced_debt: Sequence[str] | None = None,
+    attribution_failed: bool = False,
 ) -> VerificationVerdict:
     """Answer every verification question machinery can answer, then stop.
 
@@ -875,11 +883,40 @@ def evaluate(
         )
 
     # 6. Did new debt appear?
-    new_debt = tuple(
+    global_new_debt = tuple(
         sorted(set(current_open_debt) - set(baseline_open_debt) - {packet.debt.get("id")})
     )
-    if new_debt:
-        reasons.append("new debt appeared since dispatch: " + ", ".join(new_debt))
+    if attribution_failed:
+        new_debt = global_new_debt
+        unrelated_new_debt = ()
+        reasons.append("patch attribution failed; failing closed on safety gate")
+        if global_new_debt:
+            reasons.append(
+                "new debt appeared since dispatch (attribution failed, failing closed): "
+                + ", ".join(global_new_debt)
+            )
+    elif patch_introduced_debt is not None:
+        new_debt = tuple(sorted(set(patch_introduced_debt) - {packet.debt.get("id")}))
+        if new_debt:
+            reasons.append("patch introduced new debt: " + ", ".join(new_debt))
+        if global_new_debt:
+            unrelated_new_debt = tuple(sorted(set(global_new_debt) - set(patch_introduced_debt)))
+            if unrelated_new_debt:
+                reasons.append(
+                    "unrelated debt appeared globally since dispatch (concurrent merge, not charged to patch): "
+                    + ", ".join(unrelated_new_debt)
+                )
+        else:
+            unrelated_new_debt = ()
+    else:
+        # Attribution could not be computed
+        new_debt = global_new_debt
+        unrelated_new_debt = ()
+        if global_new_debt:
+            reasons.append(
+                "new debt appeared since dispatch (attribution could not be computed, failing closed): "
+                + ", ".join(global_new_debt)
+            )
 
     verdict = _mechanical_verdict(
         finding_confirmed=finding_confirmed,
@@ -888,6 +925,7 @@ def evaluate(
         authority_still_valid=authority_still_valid,
         guards_weakened=guards_weakened,
         new_debt=new_debt,
+        attribution_failed=attribution_failed,
     )
     if verdict == "pending":
         reasons.append(
@@ -908,6 +946,9 @@ def evaluate(
         reasons=tuple(reasons),
         change_set=change_set,
         transcript=transcript,
+        global_new_debt=global_new_debt,
+        unrelated_new_debt=unrelated_new_debt,
+        attribution_failed=attribution_failed,
     )
 
 
@@ -919,6 +960,7 @@ def _mechanical_verdict(
     authority_still_valid: bool,
     guards_weakened: bool,
     new_debt: tuple[str, ...],
+    attribution_failed: bool = False,
 ) -> str:
     """Map mechanical facts to the only verdicts a machine may reach.
 
@@ -932,7 +974,7 @@ def _mechanical_verdict(
 
     if not scope_valid or not proof_valid or not finding_confirmed:
         return "reject"
-    if not authority_still_valid or guards_weakened or new_debt:
+    if not authority_still_valid or guards_weakened or new_debt or attribution_failed:
         return "escalate"
     return "pending"
 

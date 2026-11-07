@@ -8,6 +8,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 import shutil
+import subprocess
 
 import pytest
 
@@ -17,6 +18,7 @@ from gaia_cli.steward.policy import POLICY_RELATIVE_PATH
 from gaia_cli.steward.prompt import render_verifier_prompt
 from gaia_cli.steward.routing import (
     RoutingError,
+    compute_patch_attribution,
     render_dispatch,
     render_verification,
     render_verifier_prompt_for,
@@ -112,6 +114,7 @@ def _transcript(*, items: int, exit_code: int = 0) -> str:
 
 def _write(root: Path, name: str, text: str) -> Path:
     path = root / name
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8")
     return path
 
@@ -398,6 +401,7 @@ def test_verification_runs_against_the_dispatched_envelope_not_a_re_derived_one(
     packet = dispatch.artifact
 
     diff_path = _write(root, "candidate.diff", _diff("scripts/fix.py"))
+    _write(root, "scripts/fix.py", "old line\n")
     proof_path = _write(root, "proof.json", _transcript(items=len(packet.proof)))
 
     # Narrow the policy's Class B envelope *after* dispatch. The builder was
@@ -510,6 +514,7 @@ def test_prompt_carries_the_envelope_the_diff_and_the_proof(tmp_path: Path) -> N
     debt_id = scan.open_debts[0].id
     dispatch = render_dispatch(root, debt_id, controller=controller)
     diff_path = _write(root, "candidate.diff", _diff("scripts/fix.py"))
+    _write(root, "scripts/fix.py", "old line\n")
     proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
 
     _result, prompt = render_verifier_prompt_for(
@@ -550,6 +555,7 @@ def test_a_harness_is_never_named_in_the_verifier_prompt(tmp_path: Path) -> None
     debt_id = scan.open_debts[0].id
     dispatch = render_dispatch(root, debt_id, controller=controller)
     diff_path = _write(root, "candidate.diff", _diff("scripts/fix.py"))
+    _write(root, "scripts/fix.py", "old line\n")
     proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
     _result, prompt = render_verifier_prompt_for(
         root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller
@@ -575,3 +581,298 @@ def test_the_review_exemption_does_not_cover_any_other_proof_item() -> None:
     verdict = _evaluate(packet=packet, transcript=transcript)
     assert verdict.verdict == "reject"
     assert "no evidence: 2" in " ".join(verdict.reasons)
+
+
+# --- Ruling 1 patch attribution tests ----------------------------------------
+
+
+def test_attribution_evaluates_unrelated_debt_without_escalation() -> None:
+    """Under Ruling 1, unrelated concurrent global debt is not charged to the patch."""
+    verdict = _evaluate(
+        current_open_debt=["debt:x", "unrelated:1"],
+        patch_introduced_debt=(),
+    )
+    assert verdict.verdict == "pending"
+    assert verdict.new_debt == ()
+    assert verdict.unrelated_new_debt == ("unrelated:1",)
+    assert verdict.global_new_debt == ("unrelated:1",)
+    assert any("concurrent merge, not charged to patch" in r for r in verdict.reasons)
+
+
+def test_attribution_evaluates_patch_introduced_debt_with_escalation() -> None:
+    """Patch-introduced debt escalates the verdict and is charged to the repair."""
+    verdict = _evaluate(
+        current_open_debt=["debt:x", "patch:debt", "unrelated:debt"],
+        patch_introduced_debt=["patch:debt"],
+    )
+    assert verdict.verdict == "escalate"
+    assert verdict.new_debt == ("patch:debt",)
+    assert verdict.unrelated_new_debt == ("unrelated:debt",)
+    assert verdict.global_new_debt == ("patch:debt", "unrelated:debt")
+    assert any("patch introduced new debt: patch:debt" in r for r in verdict.reasons)
+    assert any("concurrent merge, not charged to patch" in r for r in verdict.reasons)
+
+
+def test_attribution_fails_closed_when_attribution_is_none() -> None:
+    """When attribution cannot be computed (None), evaluate fails closed."""
+    verdict = _evaluate(
+        current_open_debt=["debt:x", "unknown:debt"],
+        patch_introduced_debt=None,
+    )
+    assert verdict.verdict == "escalate"
+    assert verdict.new_debt == ("unknown:debt",)
+    assert verdict.unrelated_new_debt == ()
+    assert verdict.global_new_debt == ("unknown:debt",)
+    assert any("attribution could not be computed, failing closed" in r for r in verdict.reasons)
+
+
+def test_attribution_verdict_to_dict_includes_global_and_unrelated_debt() -> None:
+    verdict = _evaluate(
+        current_open_debt=["debt:x", "unrelated:1"],
+        patch_introduced_debt=(),
+    )
+    data = verdict.to_dict()
+    assert data["newDebt"] == []
+    assert data["globalNewDebt"] == ["unrelated:1"]
+    assert data["unrelatedNewDebt"] == ["unrelated:1"]
+
+
+def test_compute_patch_attribution_clean_patch_returns_empty_tuple(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    _write(root, "scripts/fix.py", "old line\n")
+    sensor = IntegritySensor()
+    controller = _controller(sensor)
+    diff = _diff("scripts/fix.py")
+    introduced = compute_patch_attribution(
+        repo_root=root,
+        diff_text=diff,
+        target_debt_id="debt:x",
+        controller=controller,
+    )
+    assert introduced == ()
+
+
+def test_compute_patch_attribution_fails_closed_on_unapplicable_patch(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    sensor = IntegritySensor()
+    controller = _controller(sensor)
+    diff = _diff("scripts/nonexistent.py")
+    introduced = compute_patch_attribution(
+        repo_root=root,
+        diff_text=diff,
+        target_debt_id="debt:x",
+        controller=controller,
+    )
+    assert introduced is None
+
+
+def test_render_verification_with_clean_patch_does_not_escalate_on_unrelated_debt(tmp_path: Path) -> None:
+    """Integration: when the base file exists, diff applies cleanly, and unrelated debt appears."""
+    root = _repo(tmp_path)
+    _write(root, "scripts/fix.py", "old line\n")
+    sensor = IntegritySensor()
+    controller = _controller(sensor)
+    scan = controller.scan(root)
+    debt_id = scan.open_debts[0].id
+    dispatch = render_dispatch(root, debt_id, controller=controller)
+
+    # Unrelated drift appears while builder worked
+    sensor.extra = 1
+    diff_path = _write(root, "candidate.diff", _diff("scripts/fix.py"))
+    proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
+
+    result, _diff_text, _outputs = render_verification(
+        root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller
+    )
+    assert result.artifact.verdict == "pending"
+    assert result.artifact.new_debt == ()
+    assert len(result.artifact.unrelated_new_debt) == 1
+    assert result.artifact.global_new_debt == result.artifact.unrelated_new_debt
+
+
+def test_attribution_evaluates_patch_introduced_debt_when_global_delta_is_empty() -> None:
+    """When global delta is empty, patch-introduced debt still escalates."""
+    verdict = _evaluate(
+        baseline_open_debt=["debt:x"],
+        current_open_debt=["debt:x"],
+        patch_introduced_debt=["patch:new"],
+    )
+    assert verdict.verdict == "escalate"
+    assert verdict.new_debt == ("patch:new",)
+    assert verdict.global_new_debt == ()
+    assert verdict.unrelated_new_debt == ()
+    assert any("patch introduced new debt: patch:new" in r for r in verdict.reasons)
+
+
+def test_attribution_evaluates_patch_introduced_debt_already_in_baseline() -> None:
+    """A patch introducing a debt that was in dispatch baseline is still charged to the patch."""
+    verdict = _evaluate(
+        baseline_open_debt=["debt:x", "baseline:existing"],
+        current_open_debt=["debt:x", "baseline:existing"],
+        patch_introduced_debt=["baseline:existing"],
+    )
+    assert verdict.verdict == "escalate"
+    assert verdict.new_debt == ("baseline:existing",)
+    assert verdict.global_new_debt == ()
+    assert verdict.unrelated_new_debt == ()
+    assert any("patch introduced new debt: baseline:existing" in r for r in verdict.reasons)
+
+
+def test_real_git_repo_with_worktrees_and_concurrent_merge(tmp_path: Path) -> None:
+    """In a real git repo, patch attribution uses git worktrees and isolates concurrent merge debt."""
+    root = tmp_path / "repo"
+    root.mkdir()
+    subprocess.run(["git", "init", "-b", "main"], cwd=root, check=True, capture_output=True)
+    subprocess.run(["git", "config", "user.name", "Test Steward"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.email", "steward@example.com"], cwd=root, check=True)
+
+    # Copy policy into repo
+    policy_dst = root / POLICY_RELATIVE_PATH
+    policy_dst.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(REPO_ROOT / POLICY_RELATIVE_PATH, policy_dst)
+
+    # Create target file
+    _write(root, "scripts/fix.py", "old line\n")
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=root, check=True)
+
+    # Base commit at dispatch time
+    rev_base = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True
+    ).stdout.strip()
+
+    sensor = IntegritySensor()
+    controller = _controller(sensor)
+    scan = controller.scan(root)
+    debt_id = scan.open_debts[0].id
+    dispatch = render_dispatch(root, debt_id, controller=controller)
+
+    # Concurrent merge commit on main branch that introduces an unrelated debt
+    _write(root, "scripts/concurrent.py", "# concurrent change\n")
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-m", "Concurrent merge commit"], cwd=root, check=True)
+    sensor.extra = 1  # Unrelated drift appears globally
+
+    # Candidate patch was cut against base_commit
+    diff_path = _write(root, "candidate.diff", _diff("scripts/fix.py"))
+    proof_path = _write(root, "proof.json", _transcript(items=len(dispatch.artifact.proof)))
+
+    result, _diff_text, _outputs = render_verification(
+        root,
+        debt_id,
+        diff_path=diff_path,
+        proof_path=proof_path,
+        controller=controller,
+        base_commit=rev_base,
+    )
+    assert result.artifact.verdict == "pending"
+    assert result.artifact.new_debt == ()
+    assert len(result.artifact.unrelated_new_debt) == 1
+    assert result.artifact.global_new_debt == result.artifact.unrelated_new_debt
+    assert any("concurrent merge, not charged to patch" in r for r in result.artifact.reasons)
+
+
+def test_unknown_sensor_coverage_on_scratch_scan_fails_closed(tmp_path: Path) -> None:
+    """When a sensor fails during scratch scan, attribution fails closed (returns None)."""
+    root = _repo(tmp_path)
+    _write(root, "scripts/fix.py", "old line\n")
+
+    class FaultySensor:
+        id = "faulty-sensor"
+
+        def scan(self, path: Path, observed_at: str) -> list[Observation]:
+            raise RuntimeError("sensor failure during scratch scan")
+
+    controller = StewardController(sensors=[IntegritySensor(), FaultySensor()], clock=lambda: FROZEN)
+    diff = _diff("scripts/fix.py")
+    introduced = compute_patch_attribution(
+        repo_root=root,
+        diff_text=diff,
+        target_debt_id="debt:x",
+        controller=controller,
+    )
+    assert introduced is None
+
+
+def test_worktree_creation_failure_fails_closed(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """If git worktree creation fails, attribution does not fall back to copying; it fails closed."""
+    root = tmp_path / "repo"
+    root.mkdir()
+    subprocess.run(["git", "init", "-b", "main"], cwd=root, check=True, capture_output=True)
+    subprocess.run(["git", "config", "user.name", "Test Steward"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.email", "steward@example.com"], cwd=root, check=True)
+
+    policy_dst = root / POLICY_RELATIVE_PATH
+    policy_dst.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(REPO_ROOT / POLICY_RELATIVE_PATH, policy_dst)
+
+    _write(root, "scripts/fix.py", "old line\n")
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=root, check=True)
+
+    sensor = IntegritySensor()
+    controller = _controller(sensor)
+    diff = _diff("scripts/fix.py")
+
+    orig_run = subprocess.run
+
+    def mock_run(cmd, *args, **kwargs):
+        if isinstance(cmd, list) and len(cmd) >= 3 and cmd[:3] == ["git", "worktree", "add"]:
+            return subprocess.CompletedProcess(cmd, returncode=1, stdout="", stderr="fatal: mock failure")
+        return orig_run(cmd, *args, **kwargs)
+
+    monkeypatch.setattr(subprocess, "run", mock_run)
+
+    introduced = compute_patch_attribution(
+        repo_root=root,
+        diff_text=diff,
+        target_debt_id="debt:x",
+        controller=controller,
+    )
+    assert introduced is None
+
+
+def test_attribution_failed_true_escalates_even_with_empty_global_new_debt() -> None:
+    """If attribution_failed is True, evaluate fails closed (escalates) even if global_new_debt is empty."""
+    verdict = _evaluate(
+        baseline_open_debt=["debt:x"],
+        current_open_debt=["debt:x"],
+        attribution_failed=True,
+    )
+    assert verdict.verdict == "escalate"
+    assert verdict.attribution_failed is True
+    assert verdict.global_new_debt == ()
+    assert any("patch attribution failed; failing closed on safety gate" in r for r in verdict.reasons)
+
+
+def test_compute_patch_attribution_unresolvable_base_commit_in_git_repo_fails_closed(tmp_path: Path) -> None:
+    """In a git repo, if base commit cannot be resolved, attribution fails closed (returns None)."""
+    root = tmp_path / "repo"
+    root.mkdir()
+    subprocess.run(["git", "init", "-b", "main"], cwd=root, check=True, capture_output=True)
+    subprocess.run(["git", "config", "user.name", "Test Steward"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.email", "steward@example.com"], cwd=root, check=True)
+
+    policy_dst = root / POLICY_RELATIVE_PATH
+    policy_dst.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(REPO_ROOT / POLICY_RELATIVE_PATH, policy_dst)
+
+    _write(root, "scripts/fix.py", "old line\n")
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=root, check=True)
+
+    sensor = IntegritySensor()
+    controller = _controller(sensor)
+    diff = _diff("scripts/fix.py")
+
+    introduced = compute_patch_attribution(
+        repo_root=root,
+        diff_text=diff,
+        target_debt_id="debt:x",
+        controller=controller,
+        base_commit="nonexistent_commit_hash_123456",
+    )
+    assert introduced is None
+
+
+

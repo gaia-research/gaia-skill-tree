@@ -11,8 +11,10 @@ from dataclasses import dataclass
 import json
 import os
 from pathlib import Path
+import shutil
+import subprocess
 import tempfile
-from typing import Any, Mapping
+from typing import Any, Mapping, Sequence
 
 from gaia_cli.steward.controller import ScanResult, StewardController
 from gaia_cli.steward.models import (
@@ -675,6 +677,141 @@ def _latest_dispatch_receipt(receipts_directory: Path, debt_id: str) -> Mapping[
     return max(candidates, key=lambda item: str(item.get("runId", "")))
 
 
+def compute_patch_attribution(
+    repo_root: Path,
+    diff_text: str,
+    target_debt_id: str,
+    controller: StewardController,
+    base_commit: str | None = None,
+) -> Sequence[str] | None:
+    """Compute which debts were introduced specifically by a candidate patch.
+
+    Creates scratch environments for the base and patched trees, applies the
+    candidate diff to the patched tree, scans both, and returns any new debts
+    present in the patched tree that were not present in the base tree (excluding
+    the target debt being repaired).
+
+    Fails closed (returns None) if the patch fails to apply cleanly or if any
+    error occurs during evaluation.
+    """
+    scratch_dir = Path(tempfile.mkdtemp(prefix="gaia-steward-attrib-")).resolve()
+    base_dir = scratch_dir / "base"
+    patched_dir = scratch_dir / "patched"
+    worktrees_to_cleanup: list[Path] = []
+
+    try:
+        is_git = (repo_root / ".git").exists()
+        if is_git:
+            target_commit = base_commit
+            if target_commit is None:
+                proc = subprocess.run(
+                    ["git", "rev-parse", "--verify", "HEAD"],
+                    cwd=repo_root,
+                    capture_output=True,
+                    text=True,
+                    check=False,
+                )
+                if proc.returncode == 0 and proc.stdout.strip():
+                    target_commit = proc.stdout.strip()
+                else:
+                    return None
+            else:
+                proc = subprocess.run(
+                    ["git", "rev-parse", "--verify", target_commit],
+                    cwd=repo_root,
+                    capture_output=True,
+                    text=True,
+                    check=False,
+                )
+                if proc.returncode == 0 and proc.stdout.strip():
+                    target_commit = proc.stdout.strip()
+                else:
+                    return None
+
+            if not target_commit:
+                return None
+
+            wt_base = subprocess.run(
+                ["git", "worktree", "add", "--quiet", "--detach", str(base_dir), target_commit],
+                cwd=repo_root,
+                capture_output=True,
+                check=False,
+            )
+            if wt_base.returncode != 0:
+                return None
+            worktrees_to_cleanup.append(base_dir)
+
+            wt_patch = subprocess.run(
+                ["git", "worktree", "add", "--quiet", "--detach", str(patched_dir), target_commit],
+                cwd=repo_root,
+                capture_output=True,
+                check=False,
+            )
+            if wt_patch.returncode != 0:
+                return None
+            worktrees_to_cleanup.append(patched_dir)
+        else:
+            # NOT a git repo (e.g. mock test tmp_path)
+            def _ignore_patterns(path: str, names: list[str]) -> set[str]:
+                ignored = {".git", ".scan.lock", ".pytest_cache", "__pycache__"}
+                return {name for name in names if name in ignored}
+
+            shutil.copytree(repo_root, base_dir, symlinks=True, ignore=_ignore_patterns)
+            shutil.copytree(base_dir, patched_dir, symlinks=True)
+
+        diff_file = scratch_dir / "patch.diff"
+        diff_file.write_text(diff_text, encoding="utf-8")
+        apply_proc = subprocess.run(
+            ["git", "apply", "--unsafe-paths", "--whitespace=nowarn", str(diff_file)],
+            cwd=patched_dir,
+            capture_output=True,
+            check=False,
+        )
+        if apply_proc.returncode != 0:
+            return None
+
+        # Scan base directory with controller
+        base_scan = controller.scan(base_dir)
+        # Scan patched directory with controller
+        patched_scan = controller.scan(patched_dir)
+
+        if base_scan.receipt.coverage_unknown or patched_scan.receipt.coverage_unknown:
+            return None
+
+        base_debts = {debt.id for debt in base_scan.open_debts}
+        patched_debts = {debt.id for debt in patched_scan.open_debts}
+
+        # Extract introduced debts
+        introduced_debts = tuple(
+            sorted(set(patched_debts) - set(base_debts) - {target_debt_id})
+        )
+        return introduced_debts
+    except Exception:
+        return None
+    finally:
+        for wt in worktrees_to_cleanup:
+            try:
+                subprocess.run(
+                    ["git", "worktree", "remove", "--force", str(wt)],
+                    cwd=repo_root,
+                    capture_output=True,
+                    check=False,
+                )
+            except Exception:
+                pass
+        if is_git:
+            try:
+                subprocess.run(
+                    ["git", "worktree", "prune"],
+                    cwd=repo_root,
+                    capture_output=True,
+                    check=False,
+                )
+            except Exception:
+                pass
+        shutil.rmtree(scratch_dir, ignore_errors=True)
+
+
 def render_verification(
     repo_root: Path,
     debt_id: str,
@@ -682,6 +819,7 @@ def render_verification(
     diff_path: Path,
     proof_path: Path,
     controller: StewardController | None = None,
+    base_commit: str | None = None,
 ) -> tuple[RoutingResult, str, Mapping[int, tuple[str, ...]]]:
     """Verify one dispatched Class B patch against the envelope that authorized it.
 
@@ -707,9 +845,21 @@ def render_verification(
         )
         # Failing closed here is deliberate: without the baseline, "new debt
         # appeared" would silently become "all debt is new".
-    baseline_open = _read_receipt(baseline_receipt_path).get("openDebt")
+    baseline_receipt = _read_receipt(baseline_receipt_path)
+    baseline_open = baseline_receipt.get("openDebt")
     if not isinstance(baseline_open, list):
         raise RoutingError("the scan receipt behind this dispatch records no open debt set")
+
+    resolved_base_commit = base_commit
+    if resolved_base_commit is None:
+        resolved_base_commit = (
+            dispatch_receipt.get("headCommit")
+            or dispatch_receipt.get("gitHead")
+            or (dispatch_receipt.get("artifact", {}).get("headCommit") if isinstance(dispatch_receipt.get("artifact"), dict) else None)
+            or (dispatch_receipt.get("artifact", {}).get("gitHead") if isinstance(dispatch_receipt.get("artifact"), dict) else None)
+            or baseline_receipt.get("headCommit")
+            or baseline_receipt.get("gitHead")
+        )
 
     diff_text = read_text_input(diff_path, label="candidate diff", limit=MAX_DIFF_BYTES)
     transcript_text = read_text_input(
@@ -733,6 +883,14 @@ def render_verification(
             and rule is not None
             and rule.id == packet.rule
         )
+        patch_introduced_debt = compute_patch_attribution(
+            repo_root=root,
+            diff_text=diff_text,
+            target_debt_id=str(packet.debt.get("id")),
+            controller=active_controller,
+            base_commit=resolved_base_commit,
+        )
+        attribution_failed = patch_introduced_debt is None
         return evaluate(
             packet=packet,
             change_set=change_set,
@@ -743,6 +901,8 @@ def render_verification(
             current_open_debt=[debt.id for debt in scan.open_debts],
             authority_still_class_b=still_class_b,
             workflow_baseline=workflow_baseline,
+            patch_introduced_debt=patch_introduced_debt,
+            attribution_failed=attribution_failed,
         )
 
     def commit(scan: ScanResult, artifact: object) -> None:
@@ -779,6 +939,7 @@ def render_verifier_prompt_for(
     diff_path: Path,
     proof_path: Path,
     controller: StewardController | None = None,
+    base_commit: str | None = None,
 ) -> tuple[RoutingResult, str]:
     """Verify mechanically, then render a judgment prompt only if one is needed."""
 
@@ -787,7 +948,12 @@ def render_verifier_prompt_for(
     root = repo_root.resolve()
     policy = StewardPolicy.load(root)
     result, diff_text, proof_outputs = render_verification(
-        root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller
+        root,
+        debt_id,
+        diff_path=diff_path,
+        proof_path=proof_path,
+        controller=controller,
+        base_commit=base_commit,
     )
     verdict = result.artifact
     if not isinstance(verdict, VerificationVerdict):

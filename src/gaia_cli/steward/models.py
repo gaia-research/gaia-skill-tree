@@ -488,6 +488,7 @@ class Debt:
     last_observed_at: str
     observation_count: int
     resolution: str | None = None
+    resolution_receipt: str | None = None
     # Debt id migration (#2201): when a finding moves to a more precise kind, the
     # successor names the debt ids it replaces and each predecessor names its
     # successor. Nothing is deleted, so the predecessor's receipts stay linked.
@@ -520,6 +521,8 @@ class Debt:
         }
         if self.resolution is not None:
             data["resolution"] = self.resolution
+        if self.resolution_receipt is not None:
+            data["resolutionReceipt"] = self.resolution_receipt
         if self.supersedes:
             data["supersedes"] = list(self.supersedes)
         if self.superseded_by is not None:
@@ -545,6 +548,7 @@ class Debt:
             last_observed_at=str(data["lastObservedAt"]),
             observation_count=int(data["observationCount"]),
             resolution=data.get("resolution"),
+            resolution_receipt=(str(data["resolutionReceipt"]) if data.get("resolutionReceipt") is not None else None),
             supersedes=tuple(str(item) for item in data.get("supersedes") or ()),
             superseded_by=(str(data["supersededBy"]) if data.get("supersededBy") is not None else None),
         )
