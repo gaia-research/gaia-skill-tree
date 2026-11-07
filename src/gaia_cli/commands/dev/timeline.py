@@ -1,4 +1,3 @@
-import sys
 from pathlib import Path
 
 from gaia_cli.commands.dev.helpers import (

@@ -255,8 +255,12 @@ def stateFilter(url: str) -> list[str] | None:
     return urllib.parse.parse_qs(urllib.parse.urlsplit(url).query).get("state")
 
 
+def labelFilter(url: str) -> list[str] | None:
+    return urllib.parse.parse_qs(urllib.parse.urlsplit(url).query).get("labels")
+
+
 def sameListing(url: str, start: str, allowedPaths: set[str]) -> bool:
-    """Whether a ``next`` link continues THIS listing (B8 M-1): the API origin, one of the listing's paths, and the same state.
+    """Whether a ``next`` link continues THIS listing (B8 M-1): the API origin, one of the listing's paths, the same state and the same label filter.
 
     The allowed paths are the start query's path and, when GitHub names the repository by id, the ``/repositories/<id>/issues``
     form learned from the first page's own links. A link to another repository, another endpoint or another state
@@ -264,7 +268,8 @@ def sameListing(url: str, start: str, allowedPaths: set[str]) -> bool:
     """
     if not sameOrigin(url):
         return False
-    return urllib.parse.urlsplit(url).path in allowedPaths and stateFilter(url) == stateFilter(start)
+    return urllib.parse.urlsplit(url).path in allowedPaths and stateFilter(url) == stateFilter(start) \
+        and labelFilter(url) == labelFilter(start)
 
 
 def followable(nextUrl: str, start: str) -> str:
@@ -807,6 +812,43 @@ def metadataSanity(listed: int, count: int | None) -> str | None:
     return None
 
 
+CLOSED_UMBRELLA_LABELS = ("upstream:release", "upstream:bootstrap")
+
+
+def collectClosedUmbrellas(repo: str, fetch: Callable[[str], Response]) -> dict:
+    """Every closed issue carrying an umbrella label, with no age window (founder ruling #6).
+
+    One bounded, label-scoped listing per umbrella label. A failed or short listing marks THIS section incomplete with
+    its reason; the census itself stays as complete as its open and windowed listings say, and the reconciler then
+    reports only the umbrella-dependent decisions as not evaluated.
+    """
+    items: dict[int, dict] = {}
+    reasons: list[str] = []
+    pages = 0
+    for label in CLOSED_UMBRELLA_LABELS:
+        start = (f"{API}/repos/{repo}/issues?state=closed&per_page={PER_PAGE}"
+                 f"&labels={urllib.parse.quote(label, safe='')}")
+        listing = listAll(start, fetch)
+        pages += listing.pagesFetched
+        if listing.reason is not None:
+            reasons.append(f"{label}:{listing.reason}")
+            continue
+        for raw in listing.rows:
+            if not isinstance(raw, dict) or not isinstance(raw.get("number"), int):
+                reasons.append(f"{label}:malformed-row")
+                continue
+            if "pull_request" in raw:
+                continue
+            items[raw["number"]] = toRow(raw)
+    section: dict[str, Any] = {
+        "complete": not reasons, "labels": list(CLOSED_UMBRELLA_LABELS), "pagesFetched": pages,
+        "items": [items[number] for number in sorted(items)] if not reasons else [],
+    }
+    if reasons:
+        section["reason"] = ";".join(reasons)[:300]
+    return section
+
+
 def collectCensus(
     repo: str,
     now: datetime,
@@ -860,6 +902,8 @@ def collectCensus(
     if closedRefusal == closedListing.reason:
         closedRefusal = None  # already counted as the listing's own failure
     workflows = collectWorkflows(repo, fetch)
+    closedUmbrellas = collectClosedUmbrellas(repo, fetch) if openListing.reason is None else {
+        "complete": False, "labels": list(CLOSED_UMBRELLA_LABELS), "pagesFetched": 0, "items": [], "reason": "skipped"}
 
     reasons = [item.reason for item in (openListing, closedListing) if item.reason and item.reason != "skipped"]
     if closedRefusal is not None:
@@ -953,6 +997,7 @@ def collectCensus(
         "closedWindowDays": closedWindowDays,
         "completeness": completeness,
         "workflows": workflows,
+        "closedUmbrellas": closedUmbrellas,
         "closedHistory": closedHistory,
         "issues": rows,
         "recentlyClosed": recent,

@@ -23,6 +23,11 @@ STALE = "stale"
 MISSING = "missing"
 STATUSES = (COMPLETE, INCOMPLETE, STALE, MISSING)
 SECTIONS = ("issues", "pulls")
+# Closed umbrella history (founder ruling #6): every closed issue carrying an umbrella label, with no age window.
+# It is a label-scoped section beside the windowed ``recentlyClosed`` rows and never makes the census incomplete:
+# when it is missing or unusable, only the umbrella-dependent operations are not evaluated.
+CLOSED_UMBRELLAS = "closedUmbrellas"
+UMBRELLA_LABELS = ("upstream:release", "upstream:bootstrap")
 
 
 def bodySha256(text: str | None) -> str:
@@ -84,6 +89,10 @@ class Census:
         """Every open row (issues and pulls) keyed by number."""
         return {row["number"]: row for row in self.rows("issues") if isinstance(row.get("number"), int)}
 
+    def closedUmbrellaHistory(self) -> tuple[list[dict] | None, tuple[str, ...]]:
+        """See :func:`closedUmbrellaHistory`."""
+        return closedUmbrellaHistory(self.document)
+
     def mergedPulls(self) -> list[dict]:
         """Merged pull requests from open and recently closed rows (``isPullRequest`` with ``mergedAt``)."""
         found = []
@@ -92,6 +101,40 @@ class Census:
                 if row.get("isPullRequest") and row.get("mergedAt"):
                     found.append(row)
         return found
+
+
+def closedUmbrellaHistory(document: Any) -> tuple[list[dict] | None, tuple[str, ...]]:
+    """The no-window closed umbrella rows of a census, or ``(None, reasons)`` when that history is not usable.
+
+    Usable means a ``closedUmbrellas`` section that declares itself complete, covers the umbrella labels, and holds
+    only unique closed non-pull-request rows whose bodies match their recorded digests. Anything else is not
+    evaluated: the caller must skip umbrella-dependent decisions, and nothing else depends on this section.
+    """
+    if not isinstance(document, dict):
+        return None, ("census-unreadable",)
+    section = document.get(CLOSED_UMBRELLAS)
+    if not isinstance(section, dict):
+        return None, ("closed-umbrella-history-absent",)
+    if section.get("complete") is not True:
+        reason = section.get("reason")
+        return None, (f"closed-umbrella-history-incomplete:{reason if isinstance(reason, str) else 'unknown'}"[:160],)
+    if sorted(section.get("labels") or []) != sorted(UMBRELLA_LABELS):
+        return None, ("closed-umbrella-history-labels-differ",)
+    items = section.get("items")
+    if not isinstance(items, list):
+        return None, ("closed-umbrella-history-items-not-a-list",)
+    rows: list[dict] = []
+    seen: set = set()
+    for row in items:
+        if not isinstance(row, dict) or not isinstance(row.get("number"), int) or isinstance(row.get("number"), bool):
+            return None, ("closed-umbrella-history-row-malformed",)
+        if row["number"] in seen or row.get("state") != "closed" or row.get("isPullRequest"):
+            return None, (f"closed-umbrella-history-row-invalid:#{row['number']}",)
+        if rowProblems(row, "closedUmbrellas"):
+            return None, (f"closed-umbrella-history-body-mismatch:#{row['number']}",)
+        seen.add(row["number"])
+        rows.append(row)
+    return rows, ()
 
 
 def closedOnlyIncomplete(census: "Census") -> bool:
@@ -270,6 +313,9 @@ __all__ = [
     "Census",
     "CensusStatus",
     "bodySha256",
+    "CLOSED_UMBRELLAS",
+    "UMBRELLA_LABELS",
+    "closedUmbrellaHistory",
     "closedOnlyIncomplete",
     "closedTelemetry",
     "loadCensus",

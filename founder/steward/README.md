@@ -259,14 +259,45 @@ item needs at least one entry; every entry must have exited zero.
 
 ## Routine 18 — GitHub issue hygiene (#2130)
 
-**Unratified Class C proposal.** The implementation allowlist is not a grant of
-issue-write authority. `steward-issue-closure-authority.json` is OPEN; the effective
-policy disables all closure rules until that exact record is explicitly `decided`
-with `resolution: "approved"`. A rejected or merely decided question grants no authority.
-Changing `writesEnabled` alone cannot emit plans or actions, or authorize either
-script or public library executor. No live closure dry run, pilot or burn-down is
-authorized in this mission. The Oct 21–22 handovers describe historical procedures,
-not present permission; the current mission supersedes their inferred approval.
+**Ratified policy, not yet rolled out.** The founder ratified the A1-A5 closure allowlist on
+2026-11-06 (ruling #10): `steward-issue-closure-authority.json` is `decided` with
+`resolution: "approved"`. The effective policy honors that record only: a rejected or merely
+decided question grants no authority, and changing `writesEnabled` alone cannot emit plans or
+actions, or authorize either script or public library executor. The ratification is not a
+rollout: `issueHygiene.writesEnabled` stays `false` and the kill switch is unchanged until the
+lead has independently verified the path with the existing write switches and gates explicitly
+satisfied. No live closure dry run, pilot or burn-down is authorized by the ratification itself.
+The Oct 21–22 handovers describe historical procedures, not present permission.
+
+Closure receipts are attributable. Each receipt in `.gaia/steward/issue-hygiene/receipts/` names the
+Steward owner (`stewardOwner`) and the worker (`worker`), the ratified authority record
+(`authority`), the exact proof (`closureProof`: rule, digests, evidence references and closing comment),
+and the issue's state before (`before`) and after (`after`) the closure. Pass them with
+`--steward-owner` and `--worker` (or `GAIA_STEWARD_OWNER` and `GAIA_STEWARD_WORKER`); without both,
+nothing is written. `gaia steward full record` accepts a closed outcome only when its receipt names
+both, and `steward_issue_close.py` and `--apply-closures` run the same receipt check before they
+report a close (fresh or replayed): an unproven receipt exits 2 as `receipt-invalid`. A closed issue that a person reopens is respected: the pair is never closed again, and the sensor
+raises `reopened-after-closure`. Ambiguous, contested or unsupported cases are excluded.
+
+A closed upstream umbrella is a completed epic (ruling #6): the reconciliation suppresses a repeat of
+that exact batch (same suite and version, no new candidate), treats a new version or candidate as new
+work, and raises one HIGH-PRIORITY `closeout-discrepancy` founder note when a closed umbrella still has
+open children or the registry contradicts its closure. The closure is preserved, never reopened or declared
+complete by the Steward; the founder reconciles the gap explicitly. Matching is per child: only a child that
+positively matches a candidate of the closed batch is held, and a new candidate under a repeated umbrella is
+new work. Closed umbrellas come from the census's `closedUmbrellas` section, one label-scoped listing per
+umbrella label with no age window (no persistent store). If that listing fails, the census stays complete and
+only the umbrella-dependent decisions are reported as not evaluated (the `closed-umbrella-history` skipped
+scope and `closeoutEvaluation` in the manifest). Fail closed: while the history is missing, every open umbrella and
+every child that names an umbrella parent is `not-evaluated` before any other disposition (A1-A5 proofs, disabled-rule
+proofs, founder locks and questions included): never dispatched, closed or held as a duplicate. Only work that cannot
+depend on a closed umbrella (for example a child with no umbrella, or a bot report) proceeds. Candidate matching uses
+the full candidate id with its evidence repository. A legacy slug-only row takes its full identity from the closed
+batch's own closed child intake when the census still holds it and names exactly this child; otherwise (including when
+only a differently named closed child is known) the child is `not-evaluated`
+(`closed-batch-candidate-identity-ambiguous`), never matched on a slug. The closed-batch verdict is evaluated before proofs,
+locks and questions: an ambiguous child is not closable on an A1-A5 proof, and a matched duplicate is held unless the
+registry already proves its closure under an enabled rule.
 
 Routine 18 reconciles the open GitHub issues that upstream intake and gh-aw
 generate against the registry, and closes only what the registry proves preserved.

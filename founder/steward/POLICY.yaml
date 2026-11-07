@@ -870,10 +870,14 @@ issueHygiene:
   maxClosuresPerRun: 10
   maxCensusAgeSeconds: 21600
   closedWindowDays: 30
-  # UNRATIFIED implementation proposal, not Class A issue-write authority.
-  # Effective rules are empty while steward-issue-closure-authority.json is open.
-  # A switch edit alone never authorizes closures; an explicit decided record
-  # with resolution: approved is required too (decided may mean rejected). No live closure dry run or pilot is authorized in this mission.
+  # The A1-A5 allowlist below is FOUNDER-RATIFIED policy (ruling #10, 2026-11-06, recorded verbatim in
+  # founder/steward/decisions/steward-issue-closure-authority.json, resolution: approved). Ratification is the authority;
+  # it is not an operational rollout. Closures need an attributable Steward owner and worker on every receipt, exact
+  # proof and before/after state; a reopened issue is respected and never re-closed; ambiguous, contested or
+  # unsupported cases are excluded.
+  # writesEnabled stays false: rollout waits for independent verification with the existing write switches and gates
+  # explicitly satisfied. A switch edit alone never authorizes closures (the approved record is required too), and the
+  # approved record alone never turns writes on. No live closure dry run or pilot is authorized by this ratification.
   writesEnabled: false
   enabledRules:
     - A1-child-curated
@@ -886,8 +890,8 @@ issueHygiene:
   a5Disabled: []
 
 # Routine pull-request stewardship (routine 19). Producer registry: founder/steward/pr-producers.json.
-# UNLIKE issue hygiene this is a ratified route: founder/steward/decisions/steward-pr-maintenance-authority.json
-# is decided and approved. A switch edit alone never grants it, and the record alone never exceeds these ceilings.
+# Like issue hygiene, this is a ratified route: founder/steward/decisions/steward-pr-maintenance-authority.json
+# is decided and approved (and its writes are already on, unlike issueHygiene.writesEnabled). A switch edit alone never grants it, and the record alone never exceeds these ceilings.
 # Squash is not representable. Merges go through forge.merge_pr only: exact head SHA, independent verification,
 # GitHub's own branch protection. Steward never pushes to a protected branch.
 prMaintenance:
