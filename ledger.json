@@ -1,5 +1,5 @@
 {
- "generation": 1550,
+ "generation": 1551,
  "lane": {
   "entries": [
    {
@@ -121331,6 +121331,15 @@
      "debtId": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
      "emittedAt": "2026-11-07T16:45:05.162534Z",
      "idempotencyKey": "dispatch-19b449f11c49ce659a79:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch9-builder-52236ab2419b",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-52236ab2419b.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-52236ab2419b.proof.json",
+      "summary": "Batch batch9 builder (openai/gpt-6-luna medium, pi pane) added timeout-minutes from successful run-duration history to the one flagged job; commit 08c2af794; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -121351,7 +121360,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261107T164134Z-574a6b71/build-52236ab2419b.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T19:01:44.657889Z",
+     "status": "done",
      "stepId": "build:52236ab2419b:1",
      "type": "agent.build"
     }
@@ -121403,6 +121413,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:1e13396e7fe5:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch9-builder-52236ab2419b",
+     "at": "2026-11-07T19:01:44.658171Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:52236ab2419b:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -122511,6 +122533,12 @@
      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-1e13396e7fe5.diff",
      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-1e13396e7fe5.proof.json",
      "stepId": "build:1e13396e7fe5:1"
+    },
+    {
+     "debtId": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-52236ab2419b.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-52236ab2419b.proof.json",
+     "stepId": "build:52236ab2419b:1"
     }
    ],
    "pullRequests": [],
@@ -122597,11 +122625,11 @@
      "stepId": "build:79f5e518ae90:1"
     },
     {
-     "at": "2026-11-07T16:45:05.162534Z",
+     "at": "2026-11-07T19:01:44.657889Z",
      "debtId": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
      "idempotencyKey": "dispatch-19b449f11c49ce659a79:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:52236ab2419b:1"
     }
    ],
@@ -122612,11 +122640,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T19:01:37.669430Z"
+   "updatedAt": "2026-11-07T19:01:44.657889Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T19:01:37.670791Z",
+ "updatedAt": "2026-11-07T19:01:44.659087Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -127470,12 +127498,33 @@
    "verification": null
   },
   "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch9-builder-52236ab2419b",
+     "at": "2026-11-07T19:01:44.658171Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:52236ab2419b:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/workflow-hygiene-52236ab2419b",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch9-builder-52236ab2419b",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-52236ab2419b.diff",
+    "dispatchId": "dispatch-19b449f11c49ce659a79",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-52236ab2419b.proof.json",
+    "recordedAt": "2026-11-07T19:01:44.658171Z",
+    "summary": "Batch batch9 builder (openai/gpt-6-luna medium, pi pane) added timeout-minutes from successful run-duration history to the one flagged job; commit 08c2af794; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+   },
    "createdAt": "2026-11-07T16:45:05.162534Z",
    "debtId": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
    "dispatchId": "dispatch-19b449f11c49ce659a79",
@@ -127496,7 +127545,7 @@
    "runId": "run-20261107T164134Z-574a6b71",
    "source": "ci-workflow",
    "state": "building",
-   "updatedAt": "2026-11-07T16:45:05.162534Z",
+   "updatedAt": "2026-11-07T19:01:44.658171Z",
    "verification": null
   }
  }
