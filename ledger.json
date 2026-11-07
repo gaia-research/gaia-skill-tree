@@ -1,5 +1,5 @@
 {
- "generation": 1317,
+ "generation": 1318,
  "lane": {
   "entries": [
    {
@@ -5664,7 +5664,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T10:31:10.561980Z",
-   "expiresAt": "2026-11-07T11:16:17.447077Z",
+   "expiresAt": "2026-11-07T11:16:22.492023Z",
    "holder": "run-20261107T103110Z-5e4b906c"
   }
  },
@@ -104509,6 +104509,54 @@
      "landings": [],
      "status": "ok"
     },
+    "class_b": {
+     "dispatchId": "dispatch-b704ca282969561a32b6",
+     "dispatched": "debt:unused_import:scripts-migrate-taxonomy-v6-py:8219619acd869521",
+     "dispatchedAll": [
+      {
+       "dispatchId": "dispatch-b704ca282969561a32b6",
+       "dispatched": "debt:unused_import:scripts-migrate-taxonomy-v6-py:8219619acd869521",
+       "stepId": "build:e0d433df12da:2"
+      },
+      {
+       "dispatchId": "dispatch-cee3b536bc09d0815259",
+       "dispatched": "debt:unused_import:scripts-prepare-l4-october-py:bd894a0b5a6223f2",
+       "stepId": "build:a25b268aaa3e:2"
+      },
+      {
+       "dispatchId": "dispatch-9ea7abc43ed25a0cb704",
+       "dispatched": "debt:unused_import:src-gaia-cli-commands-dev-verify-py:df107873802e647a",
+       "stepId": "build:f7b2c7218893:1"
+      },
+      {
+       "dispatchId": "dispatch-48147f75dead5f996c1f",
+       "dispatched": "debt:unused_import:src-gaia-cli-commands-misc-py:62763bd4d9621989",
+       "stepId": "build:d6b5f6051378:1"
+      },
+      {
+       "dispatchId": "dispatch-567539e5f70ab51b1723",
+       "dispatched": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
+       "stepId": "build:2ab63c86d569:1"
+      },
+      {
+       "dispatchId": "dispatch-19177ff3fbe3c3be556a",
+       "dispatched": "debt:unused_import:src-gaia-cli-main-py:5e2d8b5dd2597031",
+       "stepId": "build:ce70d2a904b1:1"
+      },
+      {
+       "dispatchId": "dispatch-b8c59e2e9b66a8448637",
+       "dispatched": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
+       "stepId": "build:be8ba959184b:1"
+      },
+      {
+       "dispatchId": "dispatch-0925d54c33545e17a5b2",
+       "dispatched": "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11",
+       "stepId": "build:f6d1a832e6e8:1"
+      }
+     ],
+     "status": "awaiting-build",
+     "stepId": "build:e0d433df12da:2"
+    },
     "observe": {
      "authorityCounts": {
       "A": 1,
@@ -105607,7 +105655,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T10:46:17.451771Z",
+ "updatedAt": "2026-11-07T10:46:22.492249Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
