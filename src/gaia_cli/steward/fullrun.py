@@ -75,7 +75,7 @@ from gaia_cli.steward.policy import PolicyError, StewardPolicy
 from gaia_cli.steward.receipts import ensure_local_state_path
 from gaia_cli.steward.issuehygiene.census import loadCensus
 from gaia_cli.steward.issuehygiene.hygienepolicy import HygienePolicy
-from gaia_cli.steward.issuehygiene.closure import attributionProblem, closureAction, closureProven
+from gaia_cli.steward.issuehygiene.closure import closureAction, closureProven, receiptProblem
 from gaia_cli.steward.issuehygiene.executor import ActionRefused, hourlyBudget, receiptFor, recordedReceipt
 from gaia_cli.steward.issuehygiene.outcomes import (
     OUTCOMES,
@@ -1777,9 +1777,9 @@ class FullRunner:
         if not matches:
             raise RecordRefused(f"no receipt records this {result} outcome for the action; it stays pending")
         # Founder ruling #10: a closure is trusted only when its receipt holds the Steward owner and the worker.
-        problem = attributionProblem(entry)
+        problem = receiptProblem(entry, params)
         if problem is not None:
-            raise RecordRefused(f"{problem}; a closure without an attributable owner and worker stays pending")
+            raise RecordRefused(f"{problem}; a closure without an attributable, fully proven receipt stays pending")
         return entry
 
     def _cancelClosuresWhenDisabled(self, runId: str) -> int:

@@ -244,7 +244,12 @@ A closed upstream umbrella is a completed epic (ruling #6): the reconciliation s
 that exact batch (same suite and version, no new candidate), treats a new version or candidate as new
 work, and raises one HIGH-PRIORITY `closeout-discrepancy` founder note when a closed umbrella still has
 open children or the registry contradicts its closure. The closure is preserved, never reopened or declared
-complete by the Steward; the founder reconciles the gap explicitly.
+complete by the Steward; the founder reconciles the gap explicitly. Matching is per child: only a child that
+positively matches a candidate of the closed batch is held, and a new candidate under a repeated umbrella is
+new work. Closed umbrellas come from the census's `closedUmbrellas` section, one label-scoped listing per
+umbrella label with no age window (no persistent store). If that listing fails, the census stays complete and
+only the umbrella-dependent decisions are reported as not evaluated (the `closed-umbrella-history` skipped
+scope and `closeoutEvaluation` in the manifest).
 
 Routine 18 reconciles the open GitHub issues that upstream intake and gh-aw
 generate against the registry, and closes only what the registry proves preserved.

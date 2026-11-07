@@ -628,8 +628,49 @@ def afterState(forge: Any, issue: int) -> dict[str, Any]:
         return {"state": live.get("state"), "stateReason": live.get("stateReason"), "updatedAt": live.get("updatedAt"),
                 "verified": live.get("state") == "closed"}
     except Exception as exc:  # noqa: BLE001 - the receipt records the failure; it never undoes the closure
-        return {"state": "closed", "stateReason": None, "updatedAt": None, "verified": False,
+        # The state was not observed, so it is unknown (null), never asserted as closed.
+        return {"state": None, "stateReason": None, "updatedAt": None, "verified": False,
                 "note": f"post-close re-read failed: {type(exc).__name__}"}
+
+
+def observedAfter(live: Mapping[str, Any]) -> dict[str, Any]:
+    """The after state of an issue we found already closed: exactly what the live read returned."""
+    return {"state": live.get("state"), "stateReason": live.get("stateReason"), "updatedAt": live.get("updatedAt"),
+            "verified": live.get("state") == "closed", "source": "live-read"}
+
+
+def receiptProblem(entry: Mapping[str, Any], params: Mapping[str, Any]) -> str | None:
+    """Why a terminal (closed or already-closed) receipt does not prove its closure, or None when it does.
+
+    Founder ruling #10: a closure is trusted only with its attribution, the ratified authority, the exact proof that
+    matches the action, the issue's state before, and the state observed after. An unobserved after state is
+    ``null`` and ``verified: false``; a claimed ``closed`` must be a verified live observation.
+    """
+    problem = attributionProblem(entry)
+    if problem is not None:
+        return problem
+    authority = entry.get("authority")
+    if not isinstance(authority, Mapping) or authority.get("decision") != "steward-issue-closure-authority" \
+            or authority.get("resolution") != "approved":
+        return "the receipt does not name the approved closure authority record"
+    proof = entry.get("closureProof")
+    if not isinstance(proof, Mapping):
+        return "the receipt carries no closureProof"
+    for field in ("ruleId", "closureSha8", "itemSha256", "preservedSha256"):
+        if proof.get(field) is None or proof.get(field) != params.get(field):
+            return f"the receipt closureProof {field} does not match the action"
+    before = entry.get("before")
+    snapshot = before.get("snapshot") if isinstance(before, Mapping) else None
+    if not isinstance(snapshot, Mapping) or snapshot.get("state") != "open":
+        return "the receipt records no open before state"
+    after = entry.get("after")
+    if not isinstance(after, Mapping) or "state" not in after or not isinstance(after.get("verified"), bool):
+        return "the receipt records no after state"
+    if after["verified"] is True and after["state"] != "closed":
+        return "the receipt's verified after state is not closed"
+    if after["verified"] is False and after["state"] is not None:
+        return "the receipt's unverified after state must be null, not an asserted state"
+    return None
 
 
 def diffFields(plan: dict, live: dict, ownMarker: bool = False) -> list[str]:
@@ -832,7 +873,7 @@ def _executeProvenClosure(plan: dict, forge: IssueForge, receiptsPath: Path | st
         receipt = buildReceipt(plan, runId, outcome, recordedAt, commentUrl, failure, commentId=commentId,
                                markerVerified=markerVerified, closer=closer, preservedParts=preservedParts,
                                attribution=attribution, authorityRecord=authorityRecord,
-                               after=afterBox[0] if outcome == "closed" else None)
+                               after=afterBox[0] if outcome in DONE_OUTCOMES else None)
         appendReceipt(receiptsPath, receipt)
         return receipt
 
@@ -854,6 +895,7 @@ def _executeProvenClosure(plan: dict, forge: IssueForge, receiptsPath: Path | st
         if problem is not None:
             return finish("blocked-identity", failure=problem)
         if live.get("state") == "closed":
+            afterBox[0] = observedAfter(live)
             return finish("already-closed")
 
         try:
@@ -1100,6 +1142,8 @@ __all__ = [
     "WORKER_ENV",
     "afterState",
     "attributionProblem",
+    "observedAfter",
+    "receiptProblem",
     "resolveAttribution",
     "COMMENT_LIMIT",
     "DONE_OUTCOMES",

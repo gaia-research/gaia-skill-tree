@@ -55,6 +55,19 @@ def test_the_allowlist_is_recorded_as_founder_ratified() -> None:
     assert "UNRATIFIED" not in policyText and "ratified" in policyText
 
 
+def test_the_decision_record_separates_current_status_from_history() -> None:
+    record = json.loads((REPO_ROOT / DECISION_PATH).read_text(encoding="utf-8"))
+
+    assert record["status"] == "decided" and record["resolution"] == "approved"
+    assert record["whyItMatters"].startswith("CURRENT STATUS: decided, resolution approved")
+    historical = [item for item in record["evidence"] if item.startswith("HISTORICAL")]
+    assert len(historical) == 2
+    assert any("unratified" in item or "OPEN" in item or "not resolved here" in item for item in historical)
+    # Nothing outside the labelled history still says the authority is unratified or open.
+    current = [item for item in record["evidence"] if not item.startswith("HISTORICAL")]
+    assert not any("remains an unratified" in item or "claimed founder authorization" in item for item in current)
+
+
 def test_ratification_does_not_switch_writes_on() -> None:
     raw = yaml.safe_load((REPO_ROOT / "founder/steward/POLICY.yaml").read_text(encoding="utf-8"))["issueHygiene"]
 
@@ -99,6 +112,55 @@ def test_flags_name_the_owner_and_worker_over_the_environment(tmp_path, capsys) 
     assert code == EXIT_OK
     closed = receiptLines(tmp_path)[-1]
     assert (closed["stewardOwner"], closed["worker"]) == ("Marco", "steward-drive")
+
+
+def test_an_already_closed_receipt_records_the_live_observed_after_state(tmp_path, capsys) -> None:
+    live = liveOf(scenarioRow(10))
+    live.update({"state": "closed", "stateReason": "not_planned", "updatedAt": "2026-10-21T19:20:00Z"})
+    forge = FakeForge({10: live})
+
+    code, outcome, _ = runClose(tmp_path, forge, capsys)
+
+    assert code == EXIT_OK and outcome["outcome"] == "already-closed"
+    receipt = receiptLines(tmp_path)[-1]
+    assert receipt["after"] == {"state": "closed", "stateReason": "not_planned", "updatedAt": "2026-10-21T19:20:00Z",
+                                "verified": True, "source": "live-read"}
+    assert receipt["stewardOwner"] == "steward-owner-test" and receipt["closureProof"]["itemSha256"]
+    assert [call for call in forge.calls if call[0] in ("comment", "close")] == []
+
+
+def test_a_failed_post_close_read_records_unknown_never_closed(tmp_path, capsys) -> None:
+    from gaia_cli.steward.issuehygiene.closure import ForgeItemError
+
+    class BlindAfterClose(FakeForge):
+        def getIssue(self, number):
+            if self.issues[number]["state"] == "closed":
+                raise ForgeItemError("read failed after close")
+            return super().getIssue(number)
+
+    forge = BlindAfterClose({10: liveOf(scenarioRow(10))})
+
+    code, outcome, _ = runClose(tmp_path, forge, capsys)
+
+    assert code == EXIT_OK and outcome["outcome"] == "closed"  # the closure happened; only the observation failed
+    after = receiptLines(tmp_path)[-1]["after"]
+    assert after["state"] is None and after["verified"] is False and "re-read failed" in after["note"]
+
+
+def test_a_post_close_read_that_still_shows_open_is_recorded_as_observed(tmp_path, capsys) -> None:
+    class StaleAfterClose(FakeForge):
+        def getIssue(self, number):
+            issue = super().getIssue(number)
+            if ("close", number) in [call[:2] for call in self.calls]:
+                issue["state"] = "open"
+            return issue
+
+    forge = StaleAfterClose({10: liveOf(scenarioRow(10))})
+
+    runClose(tmp_path, forge, capsys)
+
+    after = receiptLines(tmp_path)[-1]["after"]
+    assert after["state"] == "open" and after["verified"] is False
 
 
 def test_a_failed_closure_is_attributable_too(tmp_path, capsys) -> None:
@@ -170,20 +232,26 @@ def test_a_reopened_issue_is_respected_and_never_closed_again(tmp_path, capsys) 
 # ---------------------------------------------------------------- the runner trusts only attributable receipts
 
 
-def settleWithout(runner, runId, action, outcome, **missing) -> None:
+def settleWithout(runner, runId, action, outcome, **changes) -> None:
+    """Write a receipt with the given fields changed or removed (``None`` removes), then record the outcome."""
+    from tests.steward.issuehygiene.test_d1_runner import receiptEntry
+
     params = action["params"]
     receipt = runner.root / params["receiptPath"]
     receipt.parent.mkdir(parents=True, exist_ok=True)
-    entry = {"schemaVersion": "steward-issue-closure-receipt-v1", "runId": runId, "key": params["key"],
-             "issue": params["issue"], "ruleId": params["ruleId"], "outcome": outcome["outcome"],
-             "commentUrl": outcome.get("commentUrl"), "commentId": outcome.get("commentId"),
-             "markerVerified": outcome.get("markerVerified", False), "closedAt": "2026-10-21T19:30:00Z", **missing}
+    entry = receiptEntry(params, outcome, runId)
+    for field, value in changes.items():
+        if value is None:
+            entry.pop(field, None)
+        else:
+            entry[field] = value
     receipt.write_text(json.dumps(entry, sort_keys=True) + "\n", encoding="utf-8")
     runner.record(runId, action["stepId"], outcome)
 
 
 @pytest.mark.parametrize("missing", [
-    {}, {"worker": "steward-drive"}, {"stewardOwner": "Marco"}, {"stewardOwner": "Marco", "worker": "bad\nname"},
+    {"stewardOwner": None, "worker": None}, {"stewardOwner": None}, {"worker": None},
+    {"worker": "bad\nname"},
 ])
 def test_the_runner_refuses_a_closed_receipt_without_owner_and_worker(tmp_path, monkeypatch, missing) -> None:
     from tests.steward.issuehygiene.test_d1_runner import runnerFor
@@ -195,7 +263,7 @@ def test_the_runner_refuses_a_closed_receipt_without_owner_and_worker(tmp_path, 
     view = runner.start("full")
     (action,) = closeActions(view)
 
-    with pytest.raises(RecordRefused, match="attributable owner and worker"):
+    with pytest.raises(RecordRefused, match="fully proven receipt"):
         settleWithout(runner, view.runId, action, outcomeFor(action), **missing)
 
 
@@ -220,3 +288,74 @@ def test_the_drive_script_passes_the_worker_and_owner_to_the_close_script() -> N
     text = (REPO_ROOT / "scripts/steward_drive.py").read_text(encoding="utf-8")
 
     assert '"--worker", DRIVERACTOR' in text and "--steward-owner" in text
+
+
+# ---------------------------------------------------------------- terminal receipt verification (proof, before, after)
+
+
+def verifiedEntry(**changes) -> tuple[dict, dict]:
+    from tests.steward.issuehygiene.test_d1_runner import receiptEntry
+
+    params = {"key": "k", "issue": 10, "ruleId": "A1-child-curated", "closureSha8": "abcd1234",
+              "itemSha256": "b" * 64, "preservedSha256": "c" * 64}
+    entry = receiptEntry(params, {"outcome": "closed", "commentUrl": "u"}, "R1")
+    for field, value in changes.items():
+        entry[field] = value
+    return entry, params
+
+
+def test_a_complete_receipt_verifies() -> None:
+    from gaia_cli.steward.issuehygiene.closure import receiptProblem
+
+    entry, params = verifiedEntry()
+
+    assert receiptProblem(entry, params) is None
+
+
+@pytest.mark.parametrize("changes, fragment", [
+    ({"authority": None}, "approved closure authority"),
+    ({"authority": {"decision": "steward-issue-closure-authority", "resolution": "rejected"}}, "approved closure authority"),
+    ({"closureProof": None}, "no closureProof"),
+    ({"closureProof": {"ruleId": "A1-child-curated", "closureSha8": "abcd1234", "itemSha256": "x", "preservedSha256": "c" * 64}},
+     "itemSha256"),
+    ({"closureProof": {"ruleId": "A2-umbrella-synced", "closureSha8": "abcd1234", "itemSha256": "b" * 64,
+                       "preservedSha256": "c" * 64}}, "ruleId"),
+    ({"before": None}, "before state"),
+    ({"before": {"snapshot": {"state": "closed"}}}, "before state"),
+    ({"after": None}, "no after state"),
+    ({"after": {"state": "closed"}}, "no after state"),
+    ({"after": {"state": "closed", "verified": False}}, "must be null"),
+    ({"after": {"state": "open", "verified": True}}, "not closed"),
+])
+def test_a_receipt_missing_proof_or_state_fields_does_not_verify(changes, fragment) -> None:
+    from gaia_cli.steward.issuehygiene.closure import receiptProblem
+
+    entry, params = verifiedEntry(**changes)
+
+    assert fragment in receiptProblem(entry, params)
+
+
+def test_an_unobserved_after_state_verifies_only_as_null() -> None:
+    from gaia_cli.steward.issuehygiene.closure import receiptProblem
+
+    entry, params = verifiedEntry(after={"state": None, "stateReason": None, "updatedAt": None, "verified": False})
+
+    assert receiptProblem(entry, params) is None
+
+
+@pytest.mark.parametrize("changes", [
+    {"authority": None}, {"closureProof": None}, {"before": None}, {"after": None},
+    {"after": {"state": "closed", "verified": False}},
+])
+def test_the_runner_refuses_a_closed_receipt_missing_proof_or_state(tmp_path, monkeypatch, changes) -> None:
+    from tests.steward.issuehygiene.test_d1_runner import runnerFor
+
+    repo, store, runner = runnerFor(tmp_path)
+    rows = closureRows(1)
+    writeCensus(repo, makeCensus(rows))
+    stubReconcile(monkeypatch, makeManifest(closureItems(rows)))
+    view = runner.start("full")
+    (action,) = closeActions(view)
+
+    with pytest.raises(RecordRefused, match="fully proven receipt"):
+        settleWithout(runner, view.runId, action, outcomeFor(action), **{k: (v if v is not None else None) for k, v in changes.items()})

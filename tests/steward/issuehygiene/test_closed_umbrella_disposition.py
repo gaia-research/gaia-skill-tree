@@ -8,13 +8,16 @@ reconciliation.
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
+
+import pytest
 
 from gaia_cli.steward.issuehygiene.sensor import IssueHygieneSensor
 from tests.steward.issuehygiene.test_b_reconcile import (
     BLOB,
-    censusOf,
+    censusOf as baseCensusOf,
     childRow,
     item,
     mkRow,
@@ -27,6 +30,22 @@ from tests.steward.issuehygiene.test_b_reconcile import (
 from tests.steward.issuehygiene.test_d1_sensor import makeManifest, stubReconcile  # noqa: F401  (shared seam)
 
 SUITE = "obra/superpowers"
+UMBRELLA_LABELS = ["upstream:release", "upstream:bootstrap"]
+
+
+def historySection(rows, complete=True, reason=None):
+    section = {"complete": complete, "labels": list(UMBRELLA_LABELS), "pagesFetched": 1, "items": list(rows) if complete else []}
+    if reason:
+        section["reason"] = reason
+    return section
+
+
+def censusOf(rows, closed=(), complete=True, history=None):
+    """A census whose closed umbrella history is every closed umbrella row given (windowed or not), plus ``history``."""
+    census = baseCensusOf(rows, closed=closed, complete=complete)
+    umbrellas = [row for row in list(closed) + list(history or []) if "upstream:release" in row.get("labels", ())]
+    census.document["closedUmbrellas"] = historySection({row["number"]: row for row in umbrellas}.values())
+    return census
 
 
 def closedUmbrella(number, version="v7.0.0", adds=(), reason="completed", skillId=SUITE):
@@ -266,3 +285,158 @@ def test_desk_ranks_the_closeout_discrepancy_above_routine_class_c() -> None:
 
     assert desk._PRIORITY_CREDENTIAL < desk._PRIORITY_CLOSEOUT < desk._PRIORITY_ESCALATED < desk._PRIORITY_CLASS_C
     assert desk.CLOSEOUT_TARGET == "issue-question/closeout-discrepancy"
+
+
+# --------------------------------------------------------------- per-child matching (review of #2330)
+
+
+def gammaChild(number, parent):
+    return childRow(number, "obra/gamma", BLOB.replace("writing-skills", "gamma"), parent=parent)
+
+
+def test_a_new_child_under_a_repeated_umbrella_is_new_work(tmp_path: Path) -> None:
+    """Closed #20 lists alpha; open #30 repeats alpha; child #31 is obra/gamma: #30 is held, #31 is not."""
+    suiteRecord(tmp_path, "v6.0.0")
+    census = censusOf([umbrellaRow(30, SUITE, "v7.0.0", adds=["alpha"]), gammaChild(31, 30)],
+                      closed=[closedUmbrella(20, adds=["alpha"])])
+
+    manifest = run(census, tmp_path)
+
+    assert item(manifest, 30)["state"] == "held"
+    child = item(manifest, 31)
+    assert child["authority"] == "B" and child["state"] != "held"
+    assert not any(reason.startswith("closed-umbrella-duplicate") for reason in child["notProven"])
+    assert any(child["key"] in batch["classB"] for batch in manifest["batches"])
+
+
+def test_only_the_matching_children_of_a_repeated_umbrella_are_held(tmp_path: Path) -> None:
+    suiteRecord(tmp_path, "v6.0.0")
+    census = censusOf(
+        [umbrellaRow(30, SUITE, "v7.0.0", adds=["alpha"]),
+         childRow(31, "obra/alpha", BLOB.replace("writing-skills", "alpha"), parent=30), gammaChild(32, 30)],
+        closed=[closedUmbrella(20, adds=["alpha"])],
+    )
+
+    manifest = run(census, tmp_path)
+
+    assert item(manifest, 31)["state"] == "held" and "closed-umbrella-duplicate:#20" in item(manifest, 31)["notProven"]
+    assert item(manifest, 32)["authority"] == "B"
+
+
+def test_a_child_named_by_the_closed_batch_rows_is_a_positive_match(tmp_path: Path) -> None:
+    suiteRecord(tmp_path, "v6.0.0")
+    payload = {"skillId": SUITE, "newVersion": "v7.0.0", "payloadVersion": 2,
+               "candidates": [{"id": f"{SUITE}:delta", "suggestedId": "obra/delta", "slug": "delta", "child": 41}]}
+    body = "<!-- gaia-upstream-payload\n" + json.dumps(payload) + "\n-->\n"
+    digest = hashlib.sha256(body.encode()).hexdigest()
+    closed = closedUmbrella(20)
+    closed.update(body=body, bodySha256=digest)
+    openRow = umbrellaRow(30, SUITE, "v7.0.0")
+    openRow.update(body=body, bodySha256=digest)
+    census = censusOf([openRow, childRow(41, "obra/delta", BLOB.replace("writing-skills", "delta"), parent=30)], closed=[closed])
+
+    manifest = run(census, tmp_path)
+
+    assert item(manifest, 30)["state"] == "held"
+    assert item(manifest, 41)["state"] == "held"
+
+
+# --------------------------------------------------------------- the closed history has no age window
+
+
+def oldClosedUmbrella(number, version="v7.0.0", adds=()):
+    row = closedUmbrella(number, version=version, adds=adds)
+    row["closedAt"] = "2026-06-01T12:00:00Z"  # far outside the 30-day window
+    return row
+
+
+def test_an_older_closure_with_an_outstanding_child_is_reported(tmp_path: Path) -> None:
+    suiteRecord(tmp_path, "v7.0.0")
+    census = censusOf([childRow(31, "obra/alpha", BLOB, parent=20)], history=[oldClosedUmbrella(20, adds=["alpha"])])
+    assert census.document["recentlyClosed"] == []  # the window never saw it
+
+    manifest = run(census, tmp_path)
+
+    [finding] = manifest["closeoutDiscrepancies"]
+    assert finding["umbrella"] == 20 and finding["openChildren"] == [31] and finding["closedAt"] == "2026-06-01T12:00:00Z"
+    assert "closeout-discrepancy:#20" in item(manifest, 31)["notProven"]
+    assert manifest["closeoutEvaluation"] == {"status": "evaluated", "reasons": []}
+
+
+def test_a_repeat_of_an_older_closed_batch_is_still_suppressed(tmp_path: Path) -> None:
+    suiteRecord(tmp_path, "v6.0.0")
+    census = censusOf([umbrellaRow(30, SUITE, "v7.0.0", adds=["alpha"])], history=[oldClosedUmbrella(20, adds=["alpha"])])
+
+    assert item(run(census, tmp_path), 30)["state"] == "held"
+
+
+def test_an_older_closed_batch_with_a_registry_contradiction_is_reported(tmp_path: Path) -> None:
+    suiteRecord(tmp_path, "v6.0.0")
+    census = censusOf([], history=[oldClosedUmbrella(20, version="v7.0.0")])
+
+    [finding] = run(census, tmp_path)["closeoutDiscrepancies"]
+
+    assert finding["reasons"][0].startswith("registry-behind-closure")
+
+
+def breakHistory(kind, document):
+    section = document.get("closedUmbrellas")
+    if kind == "absent":
+        document.pop("closedUmbrellas")
+    elif kind == "incomplete":
+        document["closedUmbrellas"] = historySection([], complete=False, reason="release:rate-limited")
+    elif kind == "labels":
+        section["labels"] = ["upstream:release"]
+    elif kind == "digest":
+        section["items"][0]["bodySha256"] = "0" * 64
+    elif kind == "open":
+        section["items"][0]["state"] = "open"
+
+
+@pytest.mark.parametrize("kind, reason", [
+    ("absent", "closed-umbrella-history-absent"),
+    ("incomplete", "closed-umbrella-history-incomplete:release:rate-limited"),
+    ("labels", "closed-umbrella-history-labels-differ"),
+    ("digest", "closed-umbrella-history-body-mismatch:#20"),
+    ("open", "closed-umbrella-history-row-invalid:#20"),
+])
+def test_an_unusable_history_leaves_only_the_umbrella_decisions_not_evaluated(tmp_path: Path, kind, reason) -> None:
+    writeNamed(tmp_path, "obra/writing-skills", skill("obra/writing-skills", github=BLOB))
+    suiteRecord(tmp_path, "v6.0.0")
+    census = censusOf(
+        [umbrellaRow(30, SUITE, "v7.0.0", adds=["alpha"]), childRow(10, "obra/writing-skills", BLOB, parent=30),
+         childRow(31, "obra/alpha", BLOB, parent=20)],
+        history=[oldClosedUmbrella(20, adds=["alpha"])],
+    )
+    breakHistory(kind, census.document)
+
+    manifest = run(census, tmp_path)
+
+    assert manifest["closeoutEvaluation"] == {"status": "not-evaluated", "reasons": [reason]}
+    assert manifest["closeoutDiscrepancies"] == []
+    # Nothing is suppressed and nothing else is disturbed: the repeat umbrella is ordinary batch work, and the
+    # unrelated A1-proven child is still closable.
+    assert item(manifest, 30)["authority"] == "B"
+    assert item(manifest, 10)["authority"] == "A" and item(manifest, 10)["ruleId"] == "A1-child-curated"
+    assert manifest["coverage"]["unknown"] == [] and manifest["censusStatus"] == "complete"
+
+
+def test_the_sensor_reports_the_history_scope_as_skipped_and_nothing_else(tmp_path: Path) -> None:
+    suiteRecord(tmp_path, "v6.0.0")
+    census = censusOf([])
+    census.document.pop("closedUmbrellas")
+    manifest = run(census, tmp_path)
+
+    scan = IssueHygieneSensor()._observations(manifest, policyFor(writesEnabled=False), "2026-10-21T19:30:00Z")
+
+    assert [(row["subjectType"], row["subjectId"]) for row in scan.skipped] == [("issue-scope", "closed-umbrella-history")]
+    assert "closed-batch suppression and closeout discrepancies" in scan.skipped[0]["reason"]
+
+
+def test_the_sensor_skips_nothing_when_the_history_is_evaluated(tmp_path: Path) -> None:
+    suiteRecord(tmp_path, "v7.0.0")
+    manifest = run(censusOf([]), tmp_path)
+
+    scan = IssueHygieneSensor()._observations(manifest, policyFor(writesEnabled=False), "2026-10-21T19:30:00Z")
+
+    assert scan.skipped == ()

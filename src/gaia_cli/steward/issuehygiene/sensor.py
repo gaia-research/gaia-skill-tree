@@ -351,14 +351,27 @@ class IssueHygieneSensor:
 
         numbers = [n for n in (manifest["coverage"].get("notEvaluated") or [])
                    if isinstance(n, int) and not isinstance(n, bool)]
-        if not numbers:
-            return ()
-        named = ", ".join(f"#{number}" for number in numbers[:NOT_EVALUATED_LIMIT])
-        return ({
-            "subjectType": "issue-scope",
-            "subjectId": "unevaluated-issues",
-            "reason": f"{len(numbers)} issue(s) not evaluated by issue reconciliation: {named}",
-        },)
+        skipped: list[dict[str, str]] = []
+        evaluation = manifest.get("closeoutEvaluation")
+        if isinstance(evaluation, Mapping) and evaluation.get("status") == "not-evaluated" \
+                and manifest.get("censusStatus") == "complete":
+            # Founder ruling #6: closed umbrella history could not be read in full, so only the umbrella-dependent
+            # decisions (closed-batch suppression and closeout discrepancies) are not evaluated. Nothing else is.
+            reasons = ", ".join(_text(reason, 80) for reason in (evaluation.get("reasons") or [])[:3]
+                                if isinstance(reason, str)) or "no reason recorded"
+            skipped.append({
+                "subjectType": "issue-scope",
+                "subjectId": "closed-umbrella-history",
+                "reason": f"closed umbrella history not evaluated ({reasons}); closed-batch suppression and closeout discrepancies are skipped",
+            })
+        if numbers:
+            named = ", ".join(f"#{number}" for number in numbers[:NOT_EVALUATED_LIMIT])
+            skipped.append({
+                "subjectType": "issue-scope",
+                "subjectId": "unevaluated-issues",
+                "reason": f"{len(numbers)} issue(s) not evaluated by issue reconciliation: {named}",
+            })
+        return tuple(skipped)
 
     @staticmethod
     def _closeoutNotes(manifest: Mapping[str, Any], observed_at: str, provenance: Mapping[str, Any],

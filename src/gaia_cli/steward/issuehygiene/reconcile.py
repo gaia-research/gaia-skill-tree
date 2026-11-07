@@ -224,6 +224,7 @@ class Context:
         self.closedUmbrellas: dict[int, "ClosedUmbrella"] = {}
         # open umbrella number -> closed umbrella number whose batch it repeats
         self.closedBatchOf: dict[int, int] = {}
+        self.closeoutEvaluation: dict[str, Any] = {"status": "evaluated", "reasons": []}
 
 
 def snapshot(row: dict) -> dict:
@@ -687,6 +688,9 @@ class ClosedUmbrella:
     candidateIds: frozenset | None
     childRefs: tuple[int, ...]
     identityReasons: tuple[str, ...]
+    # Normalized identities of the candidates this closed batch carried, and the child issues its rows name.
+    candidateForms: frozenset = frozenset()
+    rowChildren: frozenset = frozenset()
 
 
 def candidateIdsOf(identity: Identity) -> frozenset | None:
@@ -714,14 +718,63 @@ def candidateIdsOf(identity: Identity) -> frozenset | None:
     return frozenset(found) if known else None
 
 
+def candidateForms(identity: Identity) -> tuple[frozenset, frozenset]:
+    """Lower-cased candidate identities of an umbrella payload, plus the child issue numbers its v2 rows name.
+
+    Forms cover every spelling a child can be matched by: the row id (``owner/repo:slug``), the suggested id
+    (``contributor/slug``) and a bare component slug.
+    """
+    payload = identity.payload if isinstance(identity.payload, dict) else {}
+    forms: set[str] = set()
+    children: set[int] = set()
+    for row in payload.get("candidates") or []:
+        if not isinstance(row, dict):
+            continue
+        for field in ("id", "suggestedId", "slug"):
+            if isinstance(row.get(field), str) and row[field].strip():
+                forms.add(row[field].strip().lower())
+        child = row.get("child")
+        if isinstance(child, int) and not isinstance(child, bool):
+            children.add(child)
+    for slug in payload.get("componentAdds") or []:
+        if isinstance(slug, str) and slug.strip():
+            forms.add(slug.strip().lower())
+    return frozenset(forms), frozenset(children)
+
+
+def childForms(identity: Identity) -> frozenset:
+    """Every normalized identity one open child intake can be matched by."""
+    forms: set[str] = set()
+    if identity.candidateId:
+        forms.add(identity.candidateId.strip().lower())
+    if identity.slug:
+        slug = identity.slug.strip().lower()
+        forms.add(slug)
+        if identity.evidenceRepo:
+            forms.add(f"{identity.evidenceRepo.strip().lower()}:{slug}")
+    return frozenset(forms)
+
+
+def childInClosedBatch(draft: Draft, closed: ClosedUmbrella) -> bool:
+    """Whether this child is POSITIVELY one of the closed batch's candidates. No match means new work, never held."""
+    if draft.number in closed.rowChildren:
+        return True
+    forms = childForms(draft.identity)
+    if closed.suite and draft.identity.slug:
+        forms = forms | {f"{suiteRepo(closed.suite)}:{draft.identity.slug}".lower()}
+    return bool(forms & closed.candidateForms)
+
+
 def closedUmbrellaOf(identity: Identity, row: dict) -> ClosedUmbrella:
     reason = row.get("stateReason")
     closedAt = row.get("closedAt")
+    forms, rowChildren = candidateForms(identity)
     return ClosedUmbrella(
         number=identity.number, kind=identity.kind, key=identity.key, suite=identity.suite, version=identity.version,
         stateReason=reason if isinstance(reason, str) else None,
         closedAt=closedAt if isinstance(closedAt, str) else None,
         candidateIds=candidateIdsOf(identity), childRefs=identity.childRefs, identityReasons=identity.reasons,
+        candidateForms=forms, rowChildren=rowChildren,
     )
 
 
@@ -752,7 +805,8 @@ def evaluateClosedUmbrellas(ctx: Context) -> list[dict]:
     Two consequences. A repeat of that exact batch (same suite and version, no new candidate) is duplicate
     processing, so it is suppressed. A closure that leaves unfinished children, or that the registry contradicts, is a
     HIGH-PRIORITY closeout discrepancy: the manifest raises it, it is never repaired or declared complete here.
-    Only umbrellas in the census's recently-closed window are visible; older closures are not evaluated.
+    The closed umbrella history has no age window (the census's label-scoped ``closedUmbrellas`` section). When it
+    cannot be read in full, ``reconcile`` never calls this: the umbrella-dependent decisions are not evaluated.
     """
     for draft in ctx.drafts.values():
         if draft.kind == "umbrella":
@@ -804,11 +858,15 @@ def evaluateClosedUmbrellas(ctx: Context) -> list[dict]:
 
 
 def suppressedBy(ctx: Context, draft: Draft) -> int | None:
-    """The closed umbrella whose batch this item repeats: an open repeat umbrella itself, or one of its children."""
+    """The closed umbrella whose batch this item repeats: an open repeat umbrella, or a child matching one of its candidates."""
     if draft.kind == "umbrella":
         return ctx.closedBatchOf.get(draft.number)
     if draft.kind == "child" and draft.parent is not None:
-        return ctx.closedBatchOf.get(draft.parent)
+        closedNumber = ctx.closedBatchOf.get(draft.parent)
+        # Per-child proof: only a child positively matching a candidate of the closed batch is a repeat. A new
+        # candidate under a repeated umbrella is new work.
+        if closedNumber is not None and childInClosedBatch(draft, ctx.closedUmbrellas[closedNumber]):
+            return closedNumber
     return None
 
 
@@ -1024,14 +1082,23 @@ def reconcile(
     ctx = Context(census, registryIndex, policy, workflowDisabled)
     ctx.closedNumbers = {row["number"] for row in rowsClosed if isinstance(row.get("number"), int) and not row.get("isPullRequest")}
     openPulls = census.openPulls() if document is not None else []
-    ctx.graph = buildGraph(rowsOpen, rowsClosed, openPulls)
     ctx.mergedSyncs = [row for row in census.mergedPulls() if isinstance(row.get("number"), int)] if document is not None else []
+    # Closed umbrella history has no age window (founder ruling #6). When that history cannot be trusted, only the
+    # umbrella-dependent decisions are not evaluated; every other decision proceeds on the windowed rows as before.
+    historyRows, historyReasons = census.closedUmbrellaHistory() if document is not None else (None, ())
+    if document is not None and historyRows is None:
+        ctx.closeoutEvaluation = {"status": "not-evaluated", "reasons": sorted(historyReasons)}
+    historyClosed = list(historyRows or [])
+    ctx.graph = buildGraph(rowsOpen, rowsClosed + historyClosed, openPulls)
     for row in rowsClosed:
         if isinstance(row.get("number"), int) and not row.get("isPullRequest"):
             closed = classify(row)
             if closed.kind == "umbrella" and closed.suite and closed.suite != SUITE_PREFIX + "unknown":
                 ctx.closedSuite[closed.number] = closed.suite
-            if closed.kind in ("umbrella", "bootstrap"):
+    if historyRows is not None:
+        for row in historyClosed + [row for row in rowsClosed if isinstance(row.get("number"), int) and not row.get("isPullRequest")]:
+            closed = classify(row)
+            if closed.kind in ("umbrella", "bootstrap") and closed.number not in ctx.closedUmbrellas:
                 ctx.closedUmbrellas[closed.number] = closedUmbrellaOf(closed, row)
 
     rowByNumber = {row["number"]: row for row in rowsOpen}
@@ -1108,6 +1175,7 @@ def reconcile(
         "batches": batches(ctx) if complete else [],
         "founderQuestions": questionList(ctx) if complete else [],
         "closeoutDiscrepancies": discrepancies,
+        "closeoutEvaluation": dict(ctx.closeoutEvaluation) if complete else {"status": "not-evaluated", "reasons": [f"census:{status.status}"]},
     }
     manifest["manifestSha256"] = manifestDigest(manifest)
     return manifest

@@ -327,7 +327,11 @@ def test_end_to_end_real_reconcile_on_the_four_family_fixture(repo: Path) -> Non
             assert plan["expectedSnapshot"]["bodySha256"] == row["bodySha256"]
             assert "comment" not in plan and len(plan["reconciliationSha256"]) == 64
             assert "original" not in plan and "comments" not in plan  # compact (B7 D5): the executor re-derives the payload
-    assert {entry["subjectId"] for entry in first.skipped} <= {"unevaluated-issues"}
+    # This fixture predates the closed umbrella history section, so that one scope is reported as not evaluated
+    # (founder ruling #6: umbrella-dependent decisions only). Nothing else is skipped beyond unevaluated issues.
+    assert {entry["subjectId"] for entry in first.skipped} <= {"unevaluated-issues", "closed-umbrella-history"}
+    assert [entry for entry in first.skipped if entry["subjectId"] == "closed-umbrella-history"][0]["reason"].count(
+        "closed-umbrella-history-absent") == 1
 
 
 def test_end_to_end_stale_clock_is_coverage_unknown_not_a_partial_result(repo: Path) -> None:
