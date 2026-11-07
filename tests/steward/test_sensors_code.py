@@ -444,7 +444,8 @@ class TestUnusedImport:
         assert observation.confidence == 0.8
         assert observation.observed_state["findingCount"] == 2
         assert observation.observed_state["findings"] == [
-            {"line": 1, "name": "os", "statement": "import os", "sideEffectPossible": True},
+            # #2283 S9: a standard-library module runs no project code on import.
+            {"line": 1, "name": "os", "statement": "import os", "sideEffectPossible": False},
             {"line": 3, "name": "Any", "statement": "from typing import Any", "sideEffectPossible": False},
         ]
         assert "side effects" in observation.provenance["caveat"]
