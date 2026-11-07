@@ -599,10 +599,10 @@
           "sensorId": "ci-workflow",
           "debtKind": "workflow_hygiene",
           "authority": "B",
-          "dispatchRule": null,
+          "dispatchRule": "workflow-timeout-repair",
           "repairExecutor": null,
           "founderRule": null,
-          "bindingStatus": "unrouted"
+          "bindingStatus": "route-bound"
         },
         {
           "sensorId": "ci-health",
@@ -616,6 +616,7 @@
       ],
       "predicate": "A measured CI failure or runtime pattern supports a bounded workflow responsibility or efficiency change.",
       "remainingGaps": [
+        "workflow_hygiene is routed only for missing job timeouts in direct-child .github/workflows/*.yml; every other workflow finding rule and every gh-aw generated lock file stays unrepaired by Steward.",
         "CI health depends on a driver-supplied run history; without it ci-health is not evaluated, never healthy.",
         "CI cost and cache efficiency are not measured."
       ],
