@@ -1,5 +1,5 @@
 {
- "generation": 1125,
+ "generation": 1126,
  "lane": {
   "entries": [
    {
@@ -4794,13 +4794,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-07T03:07:07.678256Z",
-   "expiresAt": "2026-11-07T03:48:02.587371Z",
-   "holder": "run-20261107T012053Z-9dcda16b"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -85902,7 +85896,7 @@
    ],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-07T03:09:33.309982Z",
+    "asOf": "2026-11-07T03:18:01.747974Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -86139,36 +86133,9 @@
       "source": "escalated-lane",
       "unblocks": "1 open Class C debt item(s) under lane-escalation/trust-calibration-drift.",
       "whyItMatters": "Bounded repair stopped: the attempt ceiling was reached or a verifier escalated. The envelope, not the attempt, is the likelier defect, and nothing retries until you rule."
-     },
-     {
-      "alternative": "Defer; the pull request stays open exactly as it is, and Steward takes no merge or closure action on it.",
-      "debtIds": [
-       "debt:routine_pr_founder_decision:gaia-research-gaia-skill-tree-2235:fb647ee4fb7bfedb"
-      ],
-      "decision": "Steward will not merge or close this routine pull request (hold label(s): needs-review; 0/1 trusted approval(s) at this head). Merge, hold or close it? Pull request: gaia-research/gaia-skill-tree#2235 at head d8e0861079ba.",
-      "decisionId": "decision-1fde053ffffef5198094",
-      "evidence": [
-       "gaia-research/gaia-skill-tree#2235 - affected: 1 item(s); authority: C; baseRef: main; baseSha: f28575eb7d5dde5895b9249cc7e77ba6c5f24030; basis: producer scheduled-docs-routine; head d8e0861079ba; gates: holds=fail, review-threads=unknown, …"
-      ],
-      "links": [],
-      "priority": 30,
-      "recommended": "Procedural recommendation (Steward's own action): Retain the hold. Steward leaves the pull request open and untouched and takes no merge or closure action until you rule. This is a statement about what Steward will do, not a judgment of the content. Substantive decision (yours): whether the documentation is accurate against what the commands actually do; and whether the visible copy and design changes should ship. Steward has no basis to hold an opinion on this and offers none.",
-      "source": "class-c-debt",
-      "unblocks": "1 open Class C debt item(s) under routine-pr/gaia-research/gaia-skill-tree/2235.",
-      "whyItMatters": "Steward found this routine pull request ineligible for its own disposition: a founder hold, a draft, a missing required approval or a design gate. It is neither merged nor closed until you rule."
      }
     ],
     "operations": [
-     {
-      "detail": "2 of 2 attempts used under unused-import-cleanup while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
-      "subject": "debt:unused_import:scripts-archive-fetch-ruflo-skills-py:f5adc0673c6d1436"
-     },
-     {
-      "detail": "2 of 2 attempts used under unused-import-cleanup while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
-      "subject": "debt:unused_import:scripts-crawlers-huggingface-crawler-py:63744d81bcaf52ea"
-     },
      {
       "detail": "independent verification by pi-terra-01a1a793-8bb8-7029-b125-f63b22e12981 (pi, effort high): rejected - Independent reproduction confirms stored level 2-star, effective TM 50.0, grade B, and sensor target 3-star. No-change is not non-reproduction; no correction wa",
       "kind": "failed_dispatch",
@@ -86208,7 +86175,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": "2026-11-07T03:09:33.309982Z",
+   "finishedAt": "2026-11-07T03:18:01.747974Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -86236,7 +86203,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "perform 4 pending action(s) (lead.integrate), record each with `gaia steward full record run-20261107T012053Z-9dcda16b <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T012053Z-9dcda16b`",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": false,
     "agents": true,
@@ -88950,7 +88917,7 @@
    "sequence": 36,
    "sourceHead": "b2bd3350b9f860f721d50792f485135005615124",
    "startedAt": "2026-11-07T01:20:53.468038Z",
-   "status": "awaiting-action",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-11-07T01:20:53.468038Z",
@@ -89184,7 +89151,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T03:18:02.587475Z",
+ "updatedAt": "2026-11-07T03:19:31.489971Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
