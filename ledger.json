@@ -1,5 +1,5 @@
 {
- "generation": 1703,
+ "generation": 1704,
  "lane": {
   "entries": [
    {
@@ -132417,6 +132417,15 @@
      "debtId": "debt:workflow_hygiene:github-workflows-cli-wrapper-yml:3fcd5fcc3af0ce4d",
      "emittedAt": "2026-11-07T22:34:17.166999Z",
      "idempotencyKey": "dispatch-fcd3113f87d4eb8c9905:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch11-builder-70c6c5849b04",
+      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-70c6c5849b04.diff",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": false,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-70c6c5849b04.proof.json",
+      "summary": "Batch batch11 builder (openai-codex/gpt-6-luna medium, pi pane) added job-level timeout-minutes from the governed workflowproof rule over lead-prefetched raw job history (SP/hist-batch11); commit 2ddfd7f18; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -132437,7 +132446,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/build-70c6c5849b04.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T23:44:48.516201Z",
+     "status": "done",
      "stepId": "build:70c6c5849b04:1",
      "type": "agent.build"
     }
@@ -132489,6 +132499,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:79f5e518ae90:2",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-builder-70c6c5849b04",
+     "at": "2026-11-07T23:44:48.516765Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-cli-wrapper-yml:3fcd5fcc3af0ce4d",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:70c6c5849b04:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -134075,6 +134097,12 @@
      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-79f5e518ae90.diff",
      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-79f5e518ae90.proof.json",
      "stepId": "build:79f5e518ae90:2"
+    },
+    {
+     "debtId": "debt:workflow_hygiene:github-workflows-cli-wrapper-yml:3fcd5fcc3af0ce4d",
+     "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-70c6c5849b04.diff",
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-70c6c5849b04.proof.json",
+     "stepId": "build:70c6c5849b04:1"
     }
    ],
    "pullRequests": [],
@@ -134177,11 +134205,11 @@
      "stepId": "build:7e42a9299170:1"
     },
     {
-     "at": "2026-11-07T22:34:17.166999Z",
+     "at": "2026-11-07T23:44:48.516201Z",
      "debtId": "debt:workflow_hygiene:github-workflows-cli-wrapper-yml:3fcd5fcc3af0ce4d",
      "idempotencyKey": "dispatch-fcd3113f87d4eb8c9905:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:70c6c5849b04:1"
     }
    ],
@@ -134192,11 +134220,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T23:44:41.458814Z"
+   "updatedAt": "2026-11-07T23:44:48.516201Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T23:44:41.460090Z",
+ "updatedAt": "2026-11-07T23:44:48.518265Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -140009,12 +140037,33 @@
    "verification": null
   },
   "debt:workflow_hygiene:github-workflows-cli-wrapper-yml:3fcd5fcc3af0ce4d": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch11-builder-70c6c5849b04",
+     "at": "2026-11-07T23:44:48.516765Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:70c6c5849b04:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/workflow-hygiene-70c6c5849b04",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch11-builder-70c6c5849b04",
+    "attempt": 1,
+    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-70c6c5849b04.diff",
+    "dispatchId": "dispatch-fcd3113f87d4eb8c9905",
+    "noChange": false,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-70c6c5849b04.proof.json",
+    "recordedAt": "2026-11-07T23:44:48.516765Z",
+    "summary": "Batch batch11 builder (openai-codex/gpt-6-luna medium, pi pane) added job-level timeout-minutes from the governed workflowproof rule over lead-prefetched raw job history (SP/hist-batch11); commit 2ddfd7f18; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
+   },
    "createdAt": "2026-11-07T22:34:17.166999Z",
    "debtId": "debt:workflow_hygiene:github-workflows-cli-wrapper-yml:3fcd5fcc3af0ce4d",
    "dispatchId": "dispatch-fcd3113f87d4eb8c9905",
@@ -140035,7 +140084,7 @@
    "runId": "run-20261107T222830Z-f75ff7de",
    "source": "ci-workflow",
    "state": "building",
-   "updatedAt": "2026-11-07T22:34:17.166999Z",
+   "updatedAt": "2026-11-07T23:44:48.516765Z",
    "verification": null
   }
  }
