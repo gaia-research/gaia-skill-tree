@@ -1,5 +1,5 @@
 {
- "generation": 1648,
+ "generation": 1649,
  "lane": {
   "entries": [
    {
@@ -6558,7 +6558,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T21:56:42.301241Z",
-   "expiresAt": "2026-11-07T22:27:01.171616Z",
+   "expiresAt": "2026-11-07T22:27:08.175571Z",
    "holder": "run-20261107T200905Z-82a8d6bb"
   }
  },
@@ -127259,7 +127259,7 @@
     "push": false,
     "routine": 9
    },
-   "phase": "verify",
+   "phase": "reobserve",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -128385,57 +128385,8 @@
     "verify": {
      "deferred": [],
      "expired": [],
-     "results": [
-      {
-       "debtId": "debt:trust_calibration_drift:anthropics-creating-financial-models:4228f0cbd8d8199d",
-       "receipt": "steward-20261107T210801Z-16abbae5cacc1e16",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:trust_calibration_drift:cathrynlavery-diagram-design:f97969b87df5be3c",
-       "receipt": "steward-20261107T210939Z-1cee4bf419759dd6",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:trust_calibration_drift:emilkowalski-animate-expo:ffaef819d06dc7a8",
-       "receipt": "steward-20261107T211116Z-93e1165a792480f9",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:trust_calibration_drift:emilkowalski-animate:edd8fbfefa0c4515",
-       "receipt": "steward-20261107T211255Z-6636af9d3c17936e",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:trust_calibration_drift:emilkowalski-animation-performance:bf85de34bf017752",
-       "receipt": "steward-20261107T211433Z-0cb82012a9d79a29",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154",
-       "receipt": "steward-20261107T211611Z-d13800cbfa5ae6ca",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:trust_calibration_drift:emilkowalski-find-animation-opportunities:8bb20c9945bcfaaa",
-       "receipt": "steward-20261107T211748Z-15c2b06fe8c5040f",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      },
-      {
-       "debtId": "debt:trust_calibration_drift:emilkowalski-improve-animations:c2dbfcecdecde79f",
-       "receipt": "steward-20261107T211926Z-7ef9c6f893c8f3c3",
-       "result": "awaiting-verifier",
-       "verdict": "pending"
-      }
-     ],
-     "status": "awaiting-verifier"
+     "results": [],
+     "status": "ok"
     }
    },
    "proofArtifacts": [
@@ -128704,6 +128655,12 @@
      "kind": "lead.integrate",
      "status": "awaiting",
      "stepId": "integrate:a02ebafd4927:1"
+    },
+    {
+     "at": "2026-11-07T21:57:07.328707Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:verify"
     }
    ],
    "thinkingEfforts": [
@@ -128717,7 +128674,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T21:57:01.172652Z",
+ "updatedAt": "2026-11-07T21:57:08.175710Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
