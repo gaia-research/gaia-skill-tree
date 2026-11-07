@@ -1,5 +1,5 @@
 {
- "generation": 1542,
+ "generation": 1543,
  "lane": {
   "entries": [
    {
@@ -5844,7 +5844,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T16:41:34.216459Z",
-   "expiresAt": "2026-11-07T18:17:53.299825Z",
+   "expiresAt": "2026-11-07T18:28:50.822453Z",
    "holder": "run-20261107T164134Z-574a6b71"
   }
  },
@@ -121366,6 +121366,45 @@
      "landings": [],
      "status": "ok"
     },
+    "class_b": {
+     "dispatchId": "dispatch-2f1cf771b91cddb9a30a",
+     "dispatched": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
+     "dispatchedAll": [
+      {
+       "dispatchId": "dispatch-2f1cf771b91cddb9a30a",
+       "dispatched": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
+       "stepId": "build:2933fea8b223:1"
+      },
+      {
+       "dispatchId": "dispatch-c6e077354da177facab1",
+       "dispatched": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
+       "stepId": "build:5d98e47e79c0:1"
+      },
+      {
+       "dispatchId": "dispatch-d30fe56e2dcc6693dd92",
+       "dispatched": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
+       "stepId": "build:55b938d79131:1"
+      },
+      {
+       "dispatchId": "dispatch-a4a9f6b7551b39c56ecb",
+       "dispatched": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
+       "stepId": "build:1e13396e7fe5:1"
+      },
+      {
+       "dispatchId": "dispatch-3a2d2f1c6bee0b95fb7e",
+       "dispatched": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae",
+       "stepId": "build:79f5e518ae90:1"
+      },
+      {
+       "dispatchId": "dispatch-19b449f11c49ce659a79",
+       "dispatched": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
+       "stepId": "build:52236ab2419b:1"
+      }
+     ],
+     "status": "awaiting-build",
+     "stepId": "build:2933fea8b223:1",
+     "stopReason": "dispatch not rendered: sensor coverage is unknown; refusing routing: pr-maintenance"
+    },
     "observe": {
      "authorityCounts": {
       "A": 1,
@@ -122460,7 +122499,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T17:47:53.347641Z",
+ "updatedAt": "2026-11-07T17:58:50.822656Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
