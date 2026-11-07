@@ -85,7 +85,8 @@ def _restampAfter(args, before, trigger, targetId) -> None:
     def partial(reason: str) -> str:
         return (
             "Error: Evidence written; stamps not refreshed (sensor backstop will flag): "
-            f"{reason}. The evidence change is on disk, so do not re-add it. Resolve the cause, then run "
+            f"{reason}. The evidence change is on disk, so do not re-add it, and the refresh may be "
+            "incomplete or unverified (some stamps may have been written). Resolve the cause, then run "
             "`gaia dev calibrate-trust-magnitude --all --recomputation-only` (or let the "
             "`trust_stamp_stale` sensor report the stale stamps)."
         )

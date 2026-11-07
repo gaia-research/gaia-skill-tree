@@ -216,3 +216,80 @@ def test_an_after_only_fingerprint_failure_is_held_reported_and_not_written(regi
     assert state["path"].read_bytes() == broken_bytes  # the failed skill is not written
     assert report.restamped == ("acme/pure",) and report.verified  # evaluable skills are still handled
     assert "acme/pure" not in _stale(root)
+
+
+# --- round 4: no callable path can write the stamps unauthorized -----------------------------
+
+
+def test_no_writer_callable_exposes_an_unguarded_inner_function() -> None:
+    import inspect
+
+    from gaia_cli import trustRestamp
+
+    for function in (
+        calibrate_module.calibrate_trust_magnitude_command,
+        calibrate_module._calibrateTrustMagnitudeLocked,
+        trustRestamp.restampAfterEvidenceChange,
+        trustRestamp._restampLocked,
+    ):
+        assert not hasattr(function, "__wrapped__"), f"{function.__name__} exposes an unguarded inner writer"
+    # The guard is in the body of the function that writes, not in a wrapper around it.
+    source = inspect.getsource(calibrate_module._calibrateTrustMagnitudeLocked)
+    assert source.index("require_operator(") < source.index("canonicalTransactionLock(") < source.index("buildMergedSkillMap(")
+    assert not hasattr(calibrate_module, "_guardedWriter")
+
+
+def _write_paths(root, registry, before):
+    """Every callable that can write stamps, each invoked the way a direct caller would."""
+    from gaia_cli.trustRestamp import _restampBody
+
+    verb = _verb(root)
+    return {
+        "calibrate_trust_magnitude_command": lambda: calibrate_module.calibrate_trust_magnitude_command(verb),
+        "_calibrateTrustMagnitudeLocked": lambda: calibrate_module._calibrateTrustMagnitudeLocked(verb),
+        "_calibrateTrustMagnitudeLocked.all": lambda: calibrate_module._calibrateTrustMagnitudeLocked(_verb(root, skill=None, all=True)),
+        "restampAfterEvidenceChange": lambda: restampAfterEvidenceChange(str(root), before, trigger="direct", targetId="parent"),
+        "_restampLocked": lambda: __import__("gaia_cli.trustRestamp", fromlist=["x"])._restampLocked(
+            str(root), before, trigger="direct", targetId="parent", dryRun=False),
+        "_restampBody": lambda: _restampBody(str(root), before, trigger="direct", targetId="parent", dryRun=False),
+    }
+
+
+@pytest.mark.parametrize("path", [
+    "calibrate_trust_magnitude_command",
+    "_calibrateTrustMagnitudeLocked",
+    "_calibrateTrustMagnitudeLocked.all",
+    "restampAfterEvidenceChange",
+    "_restampLocked",
+    "_restampBody",
+])
+def test_every_stamp_writing_path_refuses_an_unauthorized_operator_and_writes_nothing(registry, monkeypatch, path) -> None:
+    root = registry["root"]
+    before = _moved(registry)  # evidence is in place, the stamps are stale
+    _set(registry["pure"], trustMagnitude=1.0)
+    snapshot = _intruder(registry, monkeypatch)
+    snapshot["pure"] = registry["pure"].read_bytes()
+    snapshot["parent"] = root.joinpath(*PARENT_NODE).read_bytes()
+
+    with pytest.raises(SystemExit) as raised:
+        _write_paths(root, registry, before)[path]()
+
+    assert raised.value.code == 1
+    after = {key: p.read_bytes() for key, p in registry.items() if key != "root"}
+    after["parent"] = root.joinpath(*PARENT_NODE).read_bytes()
+    assert after == snapshot
+    assert _read(registry["pure"])["trustMagnitude"] == 1.0
+
+
+def test_the_former_wrapped_probe_no_longer_writes(registry, monkeypatch) -> None:
+    """The round-4 probe: reach for the undecorated function through __wrapped__."""
+    root = registry["root"]
+    _set(registry["pure"], trustMagnitude=1.0)
+    snapshot = _intruder(registry, monkeypatch)
+    snapshot["pure"] = registry["pure"].read_bytes()
+    inner = getattr(calibrate_module._calibrateTrustMagnitudeLocked, "__wrapped__", calibrate_module._calibrateTrustMagnitudeLocked)
+
+    with pytest.raises(SystemExit):
+        inner(_verb(root))
+
+    assert {key: p.read_bytes() for key, p in registry.items() if key != "root"} == snapshot
