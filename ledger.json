@@ -1,5 +1,5 @@
 {
- "generation": 1710,
+ "generation": 1711,
  "lane": {
   "entries": [
    {
@@ -132219,6 +132219,14 @@
      "debtId": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
      "emittedAt": "2026-11-07T22:34:17.166999Z",
      "idempotencyKey": "dispatch-c6e077354da177facab1:2",
+     "outcome": {
+      "agentId": "pi-herdr-batch11-builder-5d98e47e79c0",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": true,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-5d98e47e79c0.proof.json",
+      "summary": "Batch batch11 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: stop: the history rule yields a timeout below the job's own bounded declared wait (for i in {1..90} with sleep 10 = 15 min); writing it would kill a legitimate wait; route needs a declared-wait floor for the history rule"
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -132239,7 +132247,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/build-5d98e47e79c0.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T23:49:26.119340Z",
+     "status": "done",
      "stepId": "build:5d98e47e79c0:2",
      "type": "agent.build"
     },
@@ -132553,6 +132562,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:7e42a9299170:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-builder-5d98e47e79c0",
+     "at": "2026-11-07T23:49:26.119553Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:5d98e47e79c0:2",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -134151,6 +134172,12 @@
      "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-52236ab2419b.diff",
      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-52236ab2419b.proof.json",
      "stepId": "build:52236ab2419b:2"
+    },
+    {
+     "debtId": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
+     "diffPath": null,
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-5d98e47e79c0.proof.json",
+     "stepId": "build:5d98e47e79c0:2"
     }
    ],
    "pullRequests": [],
@@ -134205,11 +134232,11 @@
      "stepId": "build:2933fea8b223:2"
     },
     {
-     "at": "2026-11-07T22:34:17.166999Z",
+     "at": "2026-11-07T23:49:26.119340Z",
      "debtId": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
      "idempotencyKey": "dispatch-c6e077354da177facab1:2",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:5d98e47e79c0:2"
     },
     {
@@ -134268,11 +134295,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T23:49:18.691121Z"
+   "updatedAt": "2026-11-07T23:49:26.119340Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T23:49:18.692421Z",
+ "updatedAt": "2026-11-07T23:49:26.120719Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -139692,13 +139719,33 @@
      "stepId": "verify:5d98e47e79c0:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-builder-5d98e47e79c0",
+     "at": "2026-11-07T23:49:26.119553Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:5d98e47e79c0:2",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 2,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/workflow-hygiene-5d98e47e79c0",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch11-builder-5d98e47e79c0",
+    "attempt": 2,
+    "diffPath": null,
+    "dispatchId": "dispatch-c6e077354da177facab1",
+    "noChange": true,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T222830Z-f75ff7de/build-5d98e47e79c0.proof.json",
+    "recordedAt": "2026-11-07T23:49:26.119553Z",
+    "summary": "Batch batch11 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: stop: the history rule yields a timeout below the job's own bounded declared wait (for i in {1..90} with sleep 10 = 15 min); writing it would kill a legitimate wait; route needs a declared-wait floor for the history rule"
+   },
    "createdAt": "2026-11-07T16:45:05.162534Z",
    "debtId": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
    "dispatchId": "dispatch-c6e077354da177facab1",
@@ -139731,7 +139778,7 @@
    "runId": "run-20261107T222830Z-f75ff7de",
    "source": "ci-workflow",
    "state": "building",
-   "updatedAt": "2026-11-07T22:34:17.166999Z",
+   "updatedAt": "2026-11-07T23:49:26.119553Z",
    "verification": null
   },
   "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f": {
