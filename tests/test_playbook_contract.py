@@ -299,5 +299,7 @@ def test_workflow_triggers_for_all_playbook_contract_inputs():
         "tests/**",
         ".github/workflows/validate.yml",
     }
-    for event in ("push", "pull_request"):
-        assert required <= set(workflow["on"][event]["paths"])
+    # push carries the path list; pull_request is deliberately unfiltered so the
+    # required check always reports, and the `changes` job reuses push.paths.
+    assert required <= set(workflow["on"]["push"]["paths"])
+    assert not workflow["on"]["pull_request"]
