@@ -100,6 +100,7 @@ jobs:
           INPUT_STAGING: ${{ inputs.staging }}
           INPUT_STAGING_BOOTSTRAP: ${{ inputs.staging_bootstrap }}
           STEWARD_ISSUE_HYGIENE_V2: ${{ vars.STEWARD_ISSUE_HYGIENE_V2 }}
+          STAGING_INITIALIZED: ${{ vars.UPSTREAM_STAGING_INITIALIZED }}
           STAGING_VAR: ${{ vars.UPSTREAM_BATCH_STAGING }}
           V2_ENABLED: ${{ vars.STEWARD_ISSUE_HYGIENE_V2 }}
           EVENT_NAME: ${{ github.event_name }}
@@ -140,7 +141,13 @@ jobs:
           fi
           if [ "$STAGING" = weekly ]; then
             if [ "$EVENT_NAME" = "schedule" ]; then
-              # Activation: the repository variable moves the daily run onto the staged batch contract.
+              # Activation: the repository variable moves the daily run onto the staged batch contract. The durable
+              # initialized marker (outside the cache) must already be set, so a later cache eviction is recognised
+              # as a LOST journal and fails closed instead of looking like a first run.
+              if [ "${STAGING_INITIALIZED:-}" != true ]; then
+                echo "::error::Scheduled staging needs the repo variable UPSTREAM_STAGING_INITIALIZED=true (set it after the bootstrap dispatch)."
+                exit 1
+              fi
               MODE=batch
             elif [ "$MODE" != batch ]; then
               echo "::error::staging=weekly requires child_mode=batch; fanout cannot be staged."
@@ -159,6 +166,9 @@ jobs:
           ARGS=(--child-mode "$MODE" "${APPLY[@]}" --report generated-output/upstream-watcher-report.json)
           if [ "$STAGING" = weekly ]; then
             ARGS+=(--staging weekly --staging-journal generated-output/staging-journal.json)
+            if [ "${STAGING_INITIALIZED:-}" = true ]; then
+              ARGS+=(--staging-initialized)
+            fi
             if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ "${INPUT_STAGING_BOOTSTRAP:-}" = "true" ]; then
               ARGS+=(--staging-bootstrap)
             fi

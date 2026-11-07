@@ -488,32 +488,101 @@ def test_transients_are_reported_when_the_fresh_plan_is_a_noop():
     assert REPO not in journal.data["repos"]
 
 
-def test_transients_are_reported_when_the_fresh_plan_is_suppressed_by_a_closed_umbrella():
+def test_a_finding_a_closed_umbrella_suppresses_is_not_suppressed_while_pending_rows_are_uncarried():
+    # The closed umbrella records the v2 finding but NOT the candidate the journal saw earlier. The pending row must
+    # not be dropped: the finding is not "processed", a new batch is started at the flush, and the row rides in it.
     gh = FakeGh()
     journal = st.Journal()
     go(gh, [finding("v1", ["alpha", "ephemeral"])], weekly(TUE), journal)
     go(gh, [finding("v2", ["alpha"])], None)
+    closed = open_umbrellas(gh)[0]["number"]
+    gh.issues[closed]["state"] = "closed"
+    gh.writes.clear()
+    report, _ = go(gh, [finding("v2", ["alpha"])], weekly(WED), journal)
+    assert report["suites"][0]["outcome"] == "held" and gh.write_count() == 0
+    assert report["staging"]["held"][0]["planAction"] == "create", "a new batch, not suppressed-processed"
+    assert "garrytan/gbrain:ephemeral" in journal.data["repos"][REPO]["candidates"], "still pending"
+    go(gh, [finding("v2", ["alpha"])], weekly(MON), journal)
+    [new] = open_umbrellas(gh)
+    assert new["number"] != closed
+    carried = rows_of(gh)
+    assert carried["garrytan/gbrain:ephemeral"]["firstSeenVersion"] == "v1"
+    assert REPO not in journal.data["repos"], "cleared only now, once the flush carried it"
+
+
+def test_a_suppressed_finding_clears_pending_rows_only_when_the_closed_umbrella_demonstrably_carries_them():
+    gh = FakeGh()
+    go(gh, [finding("v1", ["alpha", "ephemeral"])], None)   # unstaged daily runs keep the vanished row
+    go(gh, [finding("v2", ["alpha"])], None)
+    assert "garrytan/gbrain:ephemeral" in rows_of(gh)
     gh.issues[open_umbrellas(gh)[0]["number"]]["state"] = "closed"
+    journal = st.Journal()
+    journal.observe(REPO, finding("v1", ["alpha", "ephemeral"]), candidateRows("v1", ["alpha", "ephemeral"]), TUE)
     gh.writes.clear()
     report, _ = go(gh, [finding("v2", ["alpha"])], weekly(WED), journal)
     assert report["suites"][0]["outcome"] == "suppressed-processed" and gh.write_count() == 0
     [row] = report["staging"]["settled"]
-    assert row["reasons"] == ["suppressed-processed"]
     assert [t["id"] for t in row["transientCandidates"]] == ["garrytan/gbrain:ephemeral"]
+    assert REPO not in journal.data["repos"], "carried by the closed umbrella's rows: demonstrably incorporated"
 
 
-def test_pending_observations_for_a_suite_with_no_finding_are_reported_then_expire():
+def test_pending_observations_for_a_suite_with_no_finding_are_reported_every_run_and_never_expire():
     gh = FakeGh()
     journal = st.Journal()
     go(gh, [finding("v1", ["alpha", "ephemeral"])], weekly(TUE), journal)
-    report, _ = go(gh, [], weekly(WED), journal)
-    [absent] = report["staging"]["absent"]
-    assert absent["suite"] == REPO and [t["id"] for t in absent["transientCandidates"]][:1] == ["garrytan/gbrain:alpha"]
-    assert REPO in journal.data["repos"], "retained while within the retention window"
-    late = TUE + dt.timedelta(days=7 * st.EXPIRYWINDOWS)
-    report, _ = go(gh, [], weekly(late), journal)
-    assert [row["suite"] for row in report["staging"]["expired"]] == [REPO] and report["staging"]["absent"] == []
+    snapshot = json.dumps(journal.data, sort_keys=True)
+    for days in (1, 8, 29, 120, 400):
+        report, _ = go(gh, [], weekly(TUE + dt.timedelta(days=days)), journal)
+        [absent] = report["staging"]["absent"]
+        assert absent["suite"] == REPO
+        assert [t["id"] for t in absent["transientCandidates"]] == ["garrytan/gbrain:alpha", "garrytan/gbrain:ephemeral"]
+        assert "expired" not in report["staging"]
+    assert json.dumps(journal.data, sort_keys=True) == snapshot, "prolonged absence changes nothing"
+
+
+def test_after_a_long_absence_a_returning_finding_flushes_every_pending_row_with_full_row_parity():
+    unstaged = FakeGh()
+    go(unstaged, [finding("v1", ["alpha", "ephemeral"])], None)
+    go(unstaged, [finding("v2", ["alpha", "beta"])], None)
+    gh = FakeGh()
+    journal = st.Journal()
+    go(gh, [finding("v1", ["alpha", "ephemeral"])], weekly(TUE), journal)
+    go(gh, [], weekly(TUE + dt.timedelta(days=60)), journal)           # absent for two months
+    report, _ = go(gh, [finding("v2", ["alpha", "beta"])], weekly(MON + dt.timedelta(days=70)), journal)
+    assert [w[0] for w in gh.writes] == ["create"] and report["staging"]["flushed"][0]["reasons"] in (["flush-day"], ["window-elapsed"])
+    assert rows_of(gh) == rows_of(unstaged)
     assert REPO not in journal.data["repos"]
+
+
+@pytest.mark.parametrize("failure", ["registry", "list", "get"])
+def test_a_failed_read_or_precheck_never_clears_or_expires_pending_rows(tmp_path, failure):
+    from scripts.upstream_watcher import prechecks
+
+    path = tmp_path / "journal.json"
+    journal = st.Journal()
+    old = TUE - dt.timedelta(days=29)
+    journal.observe(REPO, finding("v1", ["alpha", "ephemeral"]), candidateRows("v1", ["alpha", "ephemeral"]), old)
+    journal.observe("other/suite", finding("v1", ["x"]), candidateRows("v1", ["x"]), old)
+    journal.save(path)
+    before = json.loads(path.read_text())
+    gh = FakeGh()
+    loader = lambda: index_from_entries([])
+    if failure == "registry":
+        def loader():
+            raise prechecks.RegistryUnreadable("registry unreadable (test)")
+    elif failure == "list":
+        gh.fail_list = True
+    else:  # a get/precheck read fails after the plan started: the suite's child probe
+        go(gh, [finding("v1", ["alpha"])], None)
+        gh.fail_get = True
+    report, code = run_batch([finding("v2", ["alpha", "ephemeral"])], gh, apply=True, index_loader=loader,
+                             staging=weekly(MON, journalPath=str(path)))
+    assert code == 3
+    after = json.loads(path.read_text())
+    assert after["repos"].keys() == before["repos"].keys(), "no entry was dropped"
+    assert after["repos"][REPO]["candidates"].keys() == before["repos"][REPO]["candidates"].keys()
+    assert after["repos"][REPO]["pendingSince"] == before["repos"][REPO]["pendingSince"]
+    assert report["staging"]["absent"] == [], "a run that stopped on a failed read reports no artefact absence"
 
 
 # --- fail closed: the journal is required state ---------------------------------------------------------------------
@@ -530,7 +599,8 @@ def test_a_missing_journal_fails_closed_on_any_day_urgent_included(tmp_path, day
     report, code = go(gh, [finding(**extra)], weekly(day, journalPath=str(path)))
     assert code == 3 and gh.write_count() == 0
     assert report["unknownEvidence"][0]["source"] == "staging-journal"
-    assert "no silent reset" in report["unknownEvidence"][0]["detail"]
+    assert "before any GitHub write" in report["unknownEvidence"][0]["detail"]
+    assert report["unknownEvidence"][0]["stopped"] is True, "stops the run: bootstrap findings are not written either"
     assert report["staging"]["journal"]["status"] == "missing"
     [row] = report["staging"]["held"]
     assert row["reasons"] == ["journal-unavailable:missing"]
@@ -728,9 +798,10 @@ def test_workflow_default_has_no_staging_and_keeps_the_deployed_contract(tmp_pat
 
 def test_workflow_variable_weekly_moves_the_schedule_onto_staged_batch_only_when_v2_is_on(tmp_path):
     (tmp_path / "a").mkdir()
-    result, calls = _run_block_with(tmp_path / "a", "schedule", {"STAGING_VAR": "weekly", "V2_ENABLED": "true"})
+    result, calls = _run_block_with(tmp_path / "a", "schedule", {"STAGING_VAR": "weekly", "V2_ENABLED": "true",
+                                                                  "STAGING_INITIALIZED": "true"})
     assert result.returncode == 0
-    assert "--child-mode batch" in calls[0] and "--apply" in calls[0]
+    assert "--child-mode batch" in calls[0] and "--apply" in calls[0] and "--staging-initialized" in calls[0]
     assert "--staging weekly --staging-journal generated-output/staging-journal.json" in calls[0]
     assert "--staging-bootstrap" not in calls[0], "the schedule never bootstraps"
     (tmp_path / "b").mkdir()
@@ -764,7 +835,7 @@ def test_workflow_bootstrap_is_an_explicit_dispatch_input_only(tmp_path):
     assert result.returncode == 0 and "--staging-bootstrap" in calls[0]
     (tmp_path / "b").mkdir()
     result, calls = _run_block_with(tmp_path / "b", "schedule", {
-        "STAGING_VAR": "weekly", "V2_ENABLED": "true", "INPUT_STAGING_BOOTSTRAP": "true"})
+        "STAGING_VAR": "weekly", "V2_ENABLED": "true", "STAGING_INITIALIZED": "true", "INPUT_STAGING_BOOTSTRAP": "true"})
     assert result.returncode == 0 and "--staging-bootstrap" not in calls[0]
 
 
@@ -790,3 +861,168 @@ def test_workflow_cache_steps_run_only_when_staging_is_on_and_triggers_are_uncha
     assert triggers["workflow_dispatch"]["inputs"]["staging_bootstrap"]["default"] is False
     assert triggers["workflow_dispatch"]["inputs"]["child_mode"]["default"] == "fanout"
     assert doc["permissions"] == {"issues": "write", "contents": "read"}
+
+
+def test_workflow_scheduled_staging_requires_the_durable_initialized_marker(tmp_path):
+    for name, marker, code in [("unset", "", 1), ("false", "false", 1), ("true", "true", 0)]:
+        (tmp_path / name).mkdir()
+        result, calls = _run_block_with(tmp_path / name, "schedule", {
+            "STAGING_VAR": "weekly", "V2_ENABLED": "true", "STAGING_INITIALIZED": marker})
+        assert result.returncode == code, (name, result.stdout)
+        assert (calls == []) is (code == 1), "refused before the watcher runs"
+
+
+def test_workflow_dispatch_passes_the_initialized_marker_so_a_loss_is_recognised(tmp_path):
+    (tmp_path / "a").mkdir()
+    result, calls = _run_block_with(tmp_path / "a", "workflow_dispatch", {
+        "INPUT_STAGING": "weekly", "INPUT_CHILD_MODE": "batch", "STAGING_INITIALIZED": "true"})
+    assert result.returncode == 0 and "--staging-initialized" in calls[0]
+    (tmp_path / "b").mkdir()
+    result, calls = _run_block_with(tmp_path / "b", "workflow_dispatch", {
+        "INPUT_STAGING": "weekly", "INPUT_CHILD_MODE": "batch"})
+    assert result.returncode == 0 and "--staging-initialized" not in calls[0]
+
+
+# --- B3 of the second review: eviction versus a first-ever bootstrap ---------------------------------------------------
+
+
+def test_journal_load_distinguishes_a_first_run_from_a_lost_journal(tmp_path):
+    absent = tmp_path / "absent.json"
+    assert st.Journal.load(absent).status == "missing"
+    assert st.Journal.load(absent, bootstrap=True).status == "bootstrap"
+    lost = st.Journal.load(absent, initialized=True)
+    assert lost.status == "lost" and lost.blocked and "LOST" in lost.detail
+    recovery = st.Journal.load(absent, bootstrap=True, initialized=True)
+    assert recovery.status == "recovery" and not recovery.blocked and "no longer upstream" in recovery.detail
+
+
+def test_eviction_fails_closed_then_the_explicit_recovery_reobserves_and_every_present_candidate_reappears(tmp_path):
+    path = tmp_path / "journal.json"
+    gh = FakeGh()
+    # Initialised and observing: the journal holds a candidate that later vanishes upstream.
+    go(gh, [finding("v1", ["alpha", "vanishing"])], weekly(TUE, journalPath=str(path), bootstrap=True, initialized=False))
+    go(gh, [finding("v2", ["alpha", "beta"])], weekly(WED, journalPath=str(path), initialized=True))
+    path.unlink()  # cache eviction
+    report, code = go(gh, [finding("v3", ["alpha", "beta", "gamma"])], weekly(MON, journalPath=str(path), initialized=True))
+    assert code == 3 and gh.write_count() == 0 and report["staging"]["journal"]["status"] == "lost"
+    assert "LOST" in report["unknownEvidence"][0]["detail"] and not path.exists()
+    # Recovery: explicit dispatch, re-observes the current upstream state.
+    report, code = go(gh, [finding("v3", ["alpha", "beta", "gamma"])],
+                      weekly(MON + dt.timedelta(days=1), journalPath=str(path), bootstrap=True, initialized=True))
+    assert code == 0 and gh.write_count() == 0 and report["staging"]["journal"]["status"] == "recovery"
+    assert st.Journal.load(path, initialized=True).pendingSince(REPO) == MON + dt.timedelta(days=1)
+    go(gh, [finding("v3", ["alpha", "beta", "gamma"])], weekly(NEXTTUE + dt.timedelta(days=6), journalPath=str(path), initialized=True))
+    rows = rows_of(gh)
+    assert {"garrytan/gbrain:alpha", "garrytan/gbrain:beta", "garrytan/gbrain:gamma"} <= set(rows), \
+        "every candidate still present upstream reappears"
+    assert "garrytan/gbrain:vanishing" not in rows, "the only loss: a candidate no longer present upstream"
+
+
+# --- stop before EVERY write, bootstrap findings included (CLI level) ------------------------------------------------
+
+
+def cliWorld(monkeypatch, gh):
+    index = index_from_entries([])
+    suites = {
+        "garrytan/gbrain": finding("v1", ["alpha"]),
+        "x/newsuite": {"finding_type": "bootstrap", "skillId": "x/newsuite", "currentVersion": None, "newVersion": "v1",
+                       "releasedAt": "2026-11-03T00:00:00Z", "sourceUrl": "https://github.com/x/newsuite/releases/tag/v1"},
+    }
+    calls = []
+    monkeypatch.setenv("STEWARD_ISSUE_HYGIENE_V2", "true")
+    monkeypatch.setattr(watcher, "_build_registry_map", lambda: {})
+    monkeypatch.setattr(watcher, "iter_suite_skills", lambda: iter([(None, {"id": key}) for key in suites]))
+    monkeypatch.setattr(watcher, "_poll_suite", lambda fm, rm, verbose: suites[fm["id"]])
+    monkeypatch.setattr(watcher, "LiveGh", lambda *a, **k: gh)
+    monkeypatch.setattr(watcher, "run_batch", lambda *a, **k: bt.run_batch(*a, index_loader=lambda: index, **k))
+    monkeypatch.setattr(watcher, "create_issues", lambda *a, **k: calls.append((a, k)) or [])
+    return calls
+
+
+@pytest.mark.parametrize("damage", ["missing", "garbage", "tamper", "lost"])
+def test_cli_missing_or_corrupt_journal_stops_before_every_github_write_bootstrap_findings_included(
+        monkeypatch, tmp_path, damage):
+    path = tmp_path / "journal.json"
+    if damage != "missing" and damage != "lost":
+        good = st.Journal()
+        good.observe(REPO, finding(), candidateRows("v1", ["alpha"]), TUE)
+        good.save(path)
+        if damage == "garbage":
+            path.write_text("{", encoding="utf-8")
+        else:
+            data = json.loads(path.read_text())
+            data["repos"][REPO]["pendingSince"] = "2020-01-01T00:00:00Z"
+            path.write_text(json.dumps(data), encoding="utf-8")
+    gh = FakeGh()
+    calls = cliWorld(monkeypatch, gh)
+    argv = ["--child-mode", "batch", "--apply", "--staging", "weekly", "--staging-journal", str(path),
+            "--staging-as-of", "2026-11-09T06:00:00Z", "--report", str(tmp_path / "report.json")]
+    if damage == "lost":
+        argv.append("--staging-initialized")
+    assert watcher.main(argv) == 3
+    assert calls == [], "create_issues (bootstrap findings) was never reached"
+    assert gh.write_count() == 0 and gh.writes == [], "zero create/edit/comment/label calls"
+    assert not [w for w in gh.writes if w[0] in ("create", "edit", "comment", "labels")]
+    report = json.loads((tmp_path / "report.json").read_text())
+    assert report["unknownEvidence"][0]["source"] == "staging-journal"
+
+
+def test_cli_with_a_good_journal_does_reach_the_bootstrap_pass(monkeypatch, tmp_path):
+    path = tmp_path / "journal.json"
+    gh = FakeGh()
+    calls = cliWorld(monkeypatch, gh)
+    argv = ["--child-mode", "batch", "--apply", "--staging", "weekly", "--staging-journal", str(path),
+            "--staging-bootstrap", "--staging-as-of", "2026-11-09T06:00:00Z"]
+    assert watcher.main(argv) == 0
+    assert len(calls) == 1 and [f["skillId"] for f in calls[0][0][0]] == ["x/newsuite"]
+
+
+# --- B4 of the second review: records-mode create is guarded ----------------------------------------------------------
+
+
+class CreatedClosingGh(ClosingGh):
+    """Closes the most recently created issue when the Nth get_issue read happens."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.created = []
+
+    def create_issue(self, title, labels, body):
+        number = super().create_issue(title, labels, body)
+        self.log.append(("create", number))
+        self.created.append(number)
+        return number
+
+    def get_issue(self, number):
+        self.gets += 1
+        if self.closeAtGet == self.gets and self.created:
+            self.issues[self.created[-1]]["state"] = "closed"
+        self.log.append(("get", self.gets, number))
+        return FakeGh.get_issue(self, number)
+
+
+def recordsAdds():
+    return [f"skill-{n:03d}" for n in range(250)]
+
+
+def test_staged_records_mode_create_guards_every_mutation_after_the_placeholder():
+    probe = CreatedClosingGh()
+    go(probe, [finding("v1", recordsAdds())], weekly(MON))
+    [number] = probe.created
+    mutations = [i for i, e in enumerate(probe.log) if e[0] == "write" and e[2] == number]
+    assert len(mutations) == 6, "five record comments and one body edit"
+    assert all(probe.log[i - 1][0] == "get" and probe.log[i - 1][2] == number for i in mutations), \
+        "each is immediately preceded by a re-read of the new umbrella"
+    for index, i in enumerate(mutations):
+        gh = CreatedClosingGh()
+        gh.closeAtGet = probe.log[i - 1][1]
+        report, code = go(gh, [finding("v1", recordsAdds())], weekly(MON))
+        [new] = gh.created
+        assert gh.issues[new]["state"] == "closed"
+        onNew = [e for e in gh.log if e[0] == "write" and e[2] == new]
+        assert len(onNew) == index, f"mutation {index} and every later one on the closed issue is aborted"
+        assert gh.created == [new], "no second umbrella is created: the closed placeholder is ambiguous evidence"
+        assert report["suites"][0]["outcome"] == "blocked-identity" and code == 3
+        assert report["staging"]["closedDuringWrite"][0]["closed"] == [new]
+        comments = gh.comments.get(new, [])
+        assert len(comments) == index, "the record comments already written stay in place and recoverable"

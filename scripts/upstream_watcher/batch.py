@@ -654,6 +654,18 @@ def plan_suite(finding: dict, live: dict, index: dict, probe=None, gh=None, rese
             closed = [issue for issue in live["closedUmbrellas"] if issue["number"] in verdict.ambiguous]
             return inert_plan(owner_repo, title, "blocked-identity", new_version, closed)
         if verdict.state == "processed":
+            # #2283: pending rows replayed from the staging journal must be carried by a covering closed umbrella.
+            # If none carries them the finding is NOT processed: a new batch is started so they are never dropped.
+            pending = {row["id"] for row in finding.get("pendingRows") or []}
+            if pending:
+                carriers = [
+                    issue["number"] for issue in live["closedUmbrellas"]
+                    if issue["number"] in verdict.covering
+                    and pending <= {row.get("id") for row in (parse_payload(issue.get("body")) or {}).get("candidates", [])}
+                ]
+                if not carriers:
+                    verdict = evidence.Verdict("new")
+        if verdict.state == "processed":
             return inert_plan(owner_repo, title, "suppressed-processed", new_version, covering=verdict.covering)
     state_of = child_state_lookup(live, probe)
 
@@ -888,13 +900,17 @@ def _approval_reset(gh, number: int, plan: dict) -> None:
     _retry(lambda: gh.edit_labels(number, add=["upstream:needs-info"], remove=["upstream:approved"]))
 
 
-def write_umbrella(plan: dict, gh: LiveGh) -> str:
+def write_umbrella(plan: dict, gh: LiveGh, guardCreate: bool = False) -> str:
     """Execute a create/update plan. Returns the outcome label.
 
     Order (H1, H2, D4): the approval reset (note, then labels) when an approved umbrella's payload
     changed, then the records and body (see _switch_records). A failure before the body write leaves the
     body unchanged, so the next run still sees a payload change and retries. A plain update note is not
     retried, because a retry could duplicate it.
+
+    *guardCreate* (staged runs, #2283) guards every mutation made after a records-mode create has produced the new
+    umbrella (the record comments and the body switch): each re-reads the issue first and raises UmbrellaClosed if
+    it was closed, leaving whatever record comments already exist in place and recoverable.
     """
     if plan["action"] == "create":
         if plan["records"] is None:
@@ -904,7 +920,8 @@ def write_umbrella(plan: dict, gh: LiveGh) -> str:
         # Records mode: create with a placeholder, attach the record comments, then write the index body.
         number = gh.create_issue(plan["title"], ["upstream:release", "needs-triage"], PLACEHOLDER_BODY)
         plan["umbrella"] = number
-        _switch_records(gh, number, plan["title"], plan["body"], plan["recordPlan"])
+        _switch_records(ClosureGuard(gh, number) if guardCreate else gh, number, plan["title"], plan["body"],
+                        plan["recordPlan"])
         return "created"
     if plan["reset"]:
         _approval_reset(gh, plan["umbrella"], plan)
@@ -1008,7 +1025,13 @@ def process_suite(finding: dict, gh: LiveGh, index: dict, live: dict, apply: boo
                     live = fresh
                     plan = plan_suite(finding, live, index, probe=gh.child_state, gh=gh, reset_records=reset_records)
                     continue
-                outcome = write_umbrella(plan, gh)
+                try:
+                    outcome = write_umbrella(plan, gh, guardCreate=stager is not None)
+                except UmbrellaClosed as exc:
+                    # The new records-mode umbrella was closed mid-write. Its closed placeholder (with whatever record
+                    # comments exist) is kept; the re-plan sees it as ambiguous closed evidence and fails closed.
+                    live, plan = replanAfterClosure(exc.number)
+                    continue
                 break
             current = gh.get_issue(plan["umbrella"])
             if stager is not None and current.get("state") == "closed":
@@ -1148,7 +1171,7 @@ def _run_batch(report, updates, gh, apply, index_loader, reset_records, stager) 
     if stager is not None and stager.blocked:
         # Fail closed (#2283): without the pending-observation journal every suite is held and nothing is written.
         report["unknownEvidence"].append(
-            {"source": "staging-journal", "detail": stager.blockedDetail(), "stopped": False}
+            {"source": "staging-journal", "detail": stager.blockedDetail(), "stopped": True}
         )
         print(f"::error::{stager.blockedDetail()}", file=sys.stderr)
     for finding in updates:

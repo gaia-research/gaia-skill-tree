@@ -31,10 +31,22 @@ umbrella ends up with exactly the rows that daily unstaged runs would have accum
 and a candidate keeps the version it was FIRST seen at, not the flush version. Dispositions and child links live on
 the umbrella rows and are merged by the planner exactly as before; a hold writes nothing, so they cannot be disturbed.
 
-A journal that is missing or corrupt FAILS CLOSED: every suite is held, nothing is written (urgent findings included,
-they are reported under ``urgentBlocked``), the run exits 3 and the report says why. Nothing silently resets. A first
-run with no journal yet is allowed only when explicitly marked ``bootstrap``. A corrupt journal is never overwritten
-and is not cured by ``bootstrap``: a human removes it first.
+Pending rows are never dropped. They are cleared only when demonstrably incorporated: the umbrella write that carried
+them succeeded, the plan is a no-op because the umbrella already holds them, or a closed umbrella that suppresses the
+finding already records them (the planner refuses to suppress a finding whose pending rows no closed umbrella
+carries, and starts a new batch instead). A suite with no finding stays pending and is reported (``absent``) until a
+finding returns; it never expires. A failed read or precheck leaves the journal as it was.
+
+A journal that is missing or corrupt FAILS CLOSED: the run stops before ANY GitHub write (suite writes and bootstrap
+findings alike), every suite is held, urgent findings are reported under ``urgentBlocked``, the run exits 3 and the
+report says why. Nothing silently resets. A first run with no journal yet is allowed only when explicitly marked
+``bootstrap``. A corrupt journal is never overwritten and is not cured by ``bootstrap``: a human removes it first.
+
+A durable ``initialized`` marker lives OUTSIDE the cache (the repo variable ``UPSTREAM_STAGING_INITIALIZED``, which the
+workflow reads and passes as ``--staging-initialized``). With it, a missing journal is a LOST journal (cache eviction)
+and not a first-ever bootstrap. A loss fails closed until an explicit recovery dispatch (``--staging-bootstrap``),
+which re-observes the current upstream state. It can lose only observations of candidates that are no longer present
+upstream; nothing is reconstructed from anywhere else.
 
 Urgent (deliberately narrow)
 ----------------------------
@@ -71,8 +83,6 @@ DEFAULTWINDOWDAYS = 7
 URGENTSTATUSES = frozenset({404, 410})
 JOURNALVERSION = 2
 MAXVERSIONS = 50
-# A pending entry whose suite produced no finding for this many windows is expired (reported, then dropped).
-EXPIRYWINDOWS = 4
 
 DECISIONHOLD = "hold"
 DECISIONFLUSH = "flush"
@@ -82,7 +92,9 @@ STATUSOK = "ok"
 STATUSBOOTSTRAP = "bootstrap"
 STATUSMISSING = "missing"
 STATUSCORRUPT = "corrupt"
-BLOCKED = frozenset({STATUSMISSING, STATUSCORRUPT})
+STATUSLOST = "lost"
+STATUSRECOVERY = "recovery"
+BLOCKED = frozenset({STATUSMISSING, STATUSCORRUPT, STATUSLOST})
 
 # Outcomes (batch.process_suite) after which a repository's journaled observations are settled.
 SETTLEDOUTCOMES = frozenset({"created", "updated", "noop", "suppressed-processed"})
@@ -100,6 +112,7 @@ class StagingConfig:
     now: dt.datetime | None = None
     journalPath: str | None = None
     bootstrap: bool = False
+    initialized: bool = False
 
     @property
     def active(self) -> bool:
@@ -211,8 +224,11 @@ class Journal:
 
     # -- persistence -------------------------------------------------------
     @classmethod
-    def load(cls, path: str | os.PathLike | None, bootstrap: bool = False) -> "Journal":
+    def load(cls, path: str | os.PathLike | None, bootstrap: bool = False, initialized: bool = False) -> "Journal":
         """Read *path*. Missing is ``bootstrap`` only when explicitly allowed, else ``missing`` (blocked).
+
+        *initialized* is the durable marker kept outside the cache: with it a missing journal is ``lost`` (blocked),
+        or ``recovery`` when *bootstrap* explicitly authorises re-observing current upstream state.
 
         Unreadable, tampered (digest mismatch) or foreign-shaped content is ``corrupt`` (blocked) even with
         *bootstrap*: nothing is silently reset, and ``bootstrap`` never papers over damage.
@@ -221,6 +237,12 @@ class Journal:
             return cls(status=STATUSMISSING, detail="no journal path configured")
         target = Path(path)
         if not target.is_file():
+            if initialized:
+                if bootstrap:
+                    return cls(status=STATUSRECOVERY, detail=f"journal lost at {path}; explicit recovery re-observes "
+                               "current upstream state (observations of candidates no longer upstream are gone)")
+                return cls(status=STATUSLOST, detail=f"journal LOST at {path} (the initialized marker is set, so this is "
+                           "a cache eviction, not a first run)")
             if bootstrap:
                 return cls(status=STATUSBOOTSTRAP, detail=f"no journal at {path}; explicit bootstrap")
             return cls(status=STATUSMISSING, detail=f"no journal at {path}")
@@ -337,7 +359,7 @@ class Stager:
         if journal is None:
             if not config.journalPath:
                 raise ValueError("staging requires a journal: pass --staging-journal (pending observations are durable state)")
-            journal = Journal.load(config.journalPath, config.bootstrap)
+            journal = Journal.load(config.journalPath, config.bootstrap, config.initialized)
         self.journal = journal
         self.rows: dict[str, dict] = {}
         self.prior: dict[str, dict] = {}
@@ -350,8 +372,14 @@ class Stager:
         return self.journal.blocked
 
     def blockedDetail(self) -> str:
-        return (f"staging journal is {self.journal.status}: {self.journal.detail}. Every suite is held and nothing is "
-                "written (no silent reset). Restore the journal, or for a first run re-dispatch with the explicit bootstrap.")
+        if self.journal.status == STATUSLOST:
+            how = "Recover by re-dispatching with staging_bootstrap=true (re-observes current upstream state)."
+        elif self.journal.status == STATUSCORRUPT:
+            how = "Delete the damaged journal (and its cache entries), then re-dispatch with staging_bootstrap=true."
+        else:
+            how = "For a first run, re-dispatch with staging_bootstrap=true."
+        return (f"staging journal is {self.journal.status}: {self.journal.detail}. The run stops before any GitHub "
+                f"write, every suite is held and nothing is reset silently. {how}")
 
     def prepare(self, finding: dict, repo: str, rows: list[dict]) -> dict:
         """Annotate *finding* from the journal, before planning, so the flush is fed by pending observations."""
@@ -426,21 +454,16 @@ class Stager:
     def finish(self, report: dict, apply: bool) -> None:
         """Attach the staging section to *report*; persist the journal on an apply or explicit-bootstrap run."""
         now = self.config.asOf()
-        absent, expired = [], []
-        if not self.blocked:
+        absent: list[dict] = []
+        # A run that stopped on a failed read has not seen every suite; absence would be an artefact, so say nothing.
+        incomplete = any(entry.get("stopped") for entry in report.get("unknownEvidence", []))
+        if not self.blocked and not incomplete:
             for repo, bucket in sorted(self.journal.data["repos"].items()):
                 if repo in self.seen:
                     continue
-                since = parseTime(bucket.get("pendingSince"))
-                row = {"suite": repo, "pendingSince": bucket.get("pendingSince"),
-                       "versionsObserved": [dict(r) for r in bucket["versions"]],
-                       "transientCandidates": [dict(r) for _id, r in sorted(bucket["candidates"].items())]}
-                if since is not None and now - since >= dt.timedelta(days=self.config.windowDays * EXPIRYWINDOWS):
-                    expired.append(row)
-                else:
-                    absent.append(row)
-            for row in expired:
-                self.journal.clear(row["suite"])
+                absent.append({"suite": repo, "pendingSince": bucket.get("pendingSince"),
+                               "versionsObserved": [dict(r) for r in bucket["versions"]],
+                               "transientCandidates": [dict(r) for _id, r in sorted(bucket["candidates"].items())]})
         rows = [self.rows[key] for key in sorted(self.rows)]
         report["staging"] = {
             "mode": self.config.mode,
@@ -455,7 +478,6 @@ class Stager:
             "urgentBlocked": [row for row in rows if row.get("urgentBlocked")],
             "settled": [row for row in rows if row["decision"] == "settled"],
             "absent": absent,
-            "expired": expired,
             "closedDuringWrite": list(self.closedDuringWrite),
         }
         if not self.blocked and (apply or self.config.bootstrap) and self.config.journalPath:

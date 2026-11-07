@@ -16,11 +16,17 @@ Flags
 --staging MODE    off (default): write whenever a finding exists, exactly as before.
                   weekly: staged batching (#2283, founder ruling #12). Requires --child-mode batch. Every run still
                   observes; the one umbrella per upstream repository is written only on the flush weekday, once the
-                  release is a window old, or at once for an urgent finding (a tracked component's link is 404/410).
+                  FIRST pending observation of the change is a window old (release age plays no part), or at once for
+                  an urgent finding (a tracked component's link is 404/410 in a check that ran).
 --staging-journal FILE        REQUIRED with --staging weekly: the durable pending-observation journal (JSON, self-digested).
-                              Missing or corrupt = fail closed (every suite held, nothing written, exit 3). Written on
-                              --apply or --staging-bootstrap; a corrupt journal is never overwritten.
---staging-bootstrap           Explicitly allow a first run with no journal yet. Never papers over a corrupt journal.
+                              Missing or corrupt = fail closed: the run stops before ANY GitHub write (suites and
+                              bootstrap findings), every suite is held, exit 3. Written on --apply or
+                              --staging-bootstrap; a corrupt journal is never overwritten. Pending rows are never
+                              dropped: they are cleared only once demonstrably incorporated in a flush.
+--staging-bootstrap           Explicitly allow a first run with no journal yet, or (with --staging-initialized) recovery
+                              of a lost journal by re-observing current upstream state. Never papers over a corrupt one.
+--staging-initialized         The durable initialized marker (repo variable UPSTREAM_STAGING_INITIALIZED=true): a missing
+                              journal is then a LOST journal (cache eviction), not a first run.
 Note: a staged --apply additionally requires env STEWARD_ISSUE_HYGIENE_V2=true, checked before any write.
 --staging-flush-day DAY       Flush weekday for --staging weekly (default monday, UTC).
 --staging-as-of ISO           Treat this instant as now (dry-run replays and tests).
@@ -359,6 +365,7 @@ def resolveStaging(args: argparse.Namespace) -> staging.StagingConfig:
         now=now,
         journalPath=args.staging_journal,
         bootstrap=args.staging_bootstrap,
+        initialized=args.staging_initialized,
     )
 
 
@@ -477,7 +484,13 @@ def main(argv: list[str] | None = None) -> int:
         metavar="FILE",
         default=None,
         help="Required with --staging weekly: durable pending-observation journal (JSON). Written with --apply or "
-        "--staging-bootstrap. Missing or corrupt fails closed.",
+        "--staging-bootstrap. Missing or corrupt stops the run before any GitHub write.",
+    )
+    parser.add_argument(
+        "--staging-initialized",
+        action="store_true",
+        default=False,
+        help="The durable initialized marker is set: a missing journal is a lost journal, not a first run.",
     )
     parser.add_argument(
         "--staging-bootstrap",
