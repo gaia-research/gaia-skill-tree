@@ -1,5 +1,5 @@
 {
- "generation": 1475,
+ "generation": 1476,
  "lane": {
   "entries": [
    {
@@ -5790,7 +5790,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T14:54:03.318678Z",
-   "expiresAt": "2026-11-07T15:39:00.167054Z",
+   "expiresAt": "2026-11-07T15:39:06.079515Z",
    "holder": "run-20261107T145403Z-b871b1e2"
   }
  },
@@ -116022,6 +116022,30 @@
      "landings": [],
      "status": "ok"
     },
+    "class_b": {
+     "dispatchId": "dispatch-567539e5f70ab51b1723",
+     "dispatched": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
+     "dispatchedAll": [
+      {
+       "dispatchId": "dispatch-567539e5f70ab51b1723",
+       "dispatched": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
+       "stepId": "build:2ab63c86d569:2"
+      },
+      {
+       "dispatchId": "dispatch-b8c59e2e9b66a8448637",
+       "dispatched": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f",
+       "stepId": "build:be8ba959184b:2"
+      },
+      {
+       "dispatchId": "dispatch-0925d54c33545e17a5b2",
+       "dispatched": "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11",
+       "stepId": "build:f6d1a832e6e8:2"
+      }
+     ],
+     "status": "awaiting-build",
+     "stepId": "build:2ab63c86d569:2",
+     "stopReason": "no queued Class B debt"
+    },
     "observe": {
      "authorityCounts": {
       "A": 1,
@@ -117068,7 +117092,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T15:09:00.171632Z",
+ "updatedAt": "2026-11-07T15:09:06.079685Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
