@@ -39,7 +39,8 @@ mechanically reproducible is reported, not hand-resolved.
 
 ## Explicit execution and local/shared split
 
-Observation, census, profiles, dispatches and ordinary full-run state remain checkout-local. The unattended driver still refuses
+Observation, census, profiles and dispatches remain checkout-local. Ordinary `steward full` run state is unchanged: it stays on the
+shared Git ledger exactly as before (`--ledger auto|git|local`), and only the Lead writes it. The unattended driver still refuses
 PR writes. `gate-merge` / `gate-close` create shared preparation and an exact intent, not a send authorization. Only explicit
 `execute --operation-id ID` enters the one-shot core. `recover` / `finalize --operation-id` reconcile without resend;
 `abort --operation-id ID --reason TEXT` cancels only unsent preparation (the reason is recorded); `takeover --operation-id ID` re-owns an expired unsent preparation. Unsafe legacy authorization JSON/local outcomes are not authority.
@@ -72,9 +73,11 @@ configured transport bound wins), with exact persisted-byte and outcome/generati
 profile is explicit, not production capacity. No archive, pruning, compactor or unlimited-service claim; exhaustion refuses.
 One unresolved sender can pin the slot indefinitely. Local kills cannot revoke another host's already claimed invocation.
 
-Ordinary `full --ledger auto/local` is local without an origin probe; explicit general `git` supports only read-only legacy
-status. No historical canonical campaign run is migrated, completed or settled. Existing campaign operation and rollout
-compatibility must be handled separately before adopting this source.
+Ordinary `full run|record|abandon|status --ledger git` (and `auto`) behave exactly as before: this change does not retire,
+migrate, complete or settle the shared Steward ledger, and no local state stands in for it. Only the Routine 19 critical
+writes use their own coordination ref, which never holds ordinary run state. Competing R19 writers are prevented by that
+ref's slot, fence and CAS and by `gate.py`'s `legacy-route-disabled` refusal of local reservations, not by changing the
+general run/record path.
 
 ## Execute outcomes, unknown outcomes and `uncertaintyCause`
 

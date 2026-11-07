@@ -241,20 +241,24 @@ def editLedger(store: Any, change: Any) -> None:
     update(store, change)
 
 
-def pinMaxInFlight(repo: Path, value: int) -> None:
-    """Set the lane's maxInFlight in the fixture's own policy copy (policy allows 1-4).
+def pinMaxInFlight(repo: Path, value: int, perRun: int = 1) -> None:
+    """Set the lane's maxInFlight and maxDispatchesPerRun in the fixture's own policy copy.
 
-    The shipped policy may move (it is 2 as of 2026-10-21), so this rewrites whatever
-    value the fixture currently carries rather than assuming a particular one. Tests that
-    exercise the single-slot cap pin 1; tests that exercise concurrency pin 2.
+    The shipped policy may move (it is 8 and 8 as of 2026-11-06), so this rewrites whatever
+    values the fixture currently carries rather than assuming particular ones. Tests that
+    exercise the single-slot cap pin 1; tests that exercise concurrency pin 2. `perRun`
+    defaults to 1 (one build per run) so those tests keep their serial-run shape; pass a
+    larger value (never above `value`) to exercise a parallel batch.
     """
 
     path = repo / POLICY_RELATIVE_PATH
     text = path.read_text(encoding="utf-8")
     updated, count = re.subn(r"maxInFlight: \d+", f"maxInFlight: {value}", text)
     assert count == 1, "the fixture policy must declare exactly one routing.lane.maxInFlight"
+    updated, count = re.subn(r"maxDispatchesPerRun: \d+", f"maxDispatchesPerRun: {perRun}", updated)
+    assert count == 1, "the fixture policy must declare exactly one routing.maxDispatchesPerRun"
     path.write_text(updated, encoding="utf-8")
-    commitAll(repo, f"maxInFlight {value}")
+    commitAll(repo, f"maxInFlight {value} maxDispatchesPerRun {perRun}")
 
 
 # --- mode to phase mapping (contract section 6) --------------------------------

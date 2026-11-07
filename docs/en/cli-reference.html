@@ -2011,12 +2011,12 @@
                 </tr>
                 <tr data-summary="Run or resume. Never merges or pushes to main.">
                   <td><code>full run [--observe | --triage | --verify | --retro] [--routine N] [--debt ID] [--resume RUN] [--afk] [--trigger {manual,scheduled}] [--no-agents] [--integration-branch B] [--push] [--ledger {auto,git,local}] [--json]</code></td>
-                  <td style="max-width: 420px;">Run or resume the deterministic pipeline. Observation, triage, verification, and retro modes narrow the phases; <code>--no-agents</code> never dispatches Class B work. Actions needing a model or forge are emitted for a driver. <code>--ledger auto</code> and <code>local</code> use checkout-local state without an origin probe; general <code>git</code> mutations are refused. Never merges or pushes to <code>main</code>.</td>
+                  <td style="max-width: 420px;">Run or resume the deterministic pipeline. Observation, triage, verification, and retro modes narrow the phases; <code>--no-agents</code> never dispatches Class B work. Actions needing a model or forge are emitted for a driver. Never merges or pushes to <code>main</code>.</td>
                   <td>—</td>
                 </tr>
                 <tr data-summary="Record a driver action result.">
                   <td><code>full record RUN_ID STEP_ID --input FILE.json [--ledger {auto,git,local}] [--json]</code></td>
-                  <td style="max-width: 420px;">Record a driver's outcome for an action emitted by <code>full run</code>, using local ordinary state. Routine 19 success-shaped outcomes require matching shared operation/head/evidence; local outcome JSON is not settlement authority.</td>
+                  <td style="max-width: 420px;">Record a driver's outcome for an action emitted by <code>full run</code>. Routine 19 success-shaped outcomes require matching shared operation/head/evidence; local outcome JSON is not settlement authority.</td>
                   <td>—</td>
                 </tr>
                 <tr data-summary="End a run with an audit reason.">
@@ -2026,7 +2026,7 @@
                 </tr>
                 <tr data-summary="Read the ledger and active run.">
                   <td><code>full status [--ledger {auto,git,local}] [--json]</code></td>
-                  <td style="max-width: 420px;">Read-only view of the ledger and active run. Explicit <code>--ledger git</code> reads legacy shared history only; it does not migrate, complete or settle old campaign runs.</td>
+                  <td style="max-width: 420px;">Read-only view of the ledger and active run.</td>
                   <td>—</td>
                 </tr>
               </tbody>

@@ -134,15 +134,47 @@ def test_the_lane_bounds_are_capped_in_code_not_only_in_policy(tmp_path: Path) -
     envelope: pinned in code, narrowable by policy, never widenable by it.
     """
 
-    for key, value in (("maxInFlight", 5), ("maxAttempts", 6), ("cooldownSeconds", 86_401)):
+    for key, value in (("maxInFlight", 9), ("maxAttempts", 6), ("cooldownSeconds", 86_401)):
         root = _repo(tmp_path / key, lambda data, k=key, v=value: data["routing"]["lane"].update({k: v}))
         with pytest.raises(PolicyError, match=f"routing.lane.{key}"):
             StewardPolicy.load(root)
 
 
+def _perRunPolicy(tmp_path: Path, perRun: object, inFlight: int = 4) -> Path:
+    def pin(data: dict) -> None:
+        data["routing"]["lane"]["maxInFlight"] = inFlight
+        data["routing"]["maxDispatchesPerRun"] = perRun
+
+    return _repo(tmp_path, pin)
+
+
+@pytest.mark.parametrize("perRun", [1, 2, 4])
+def test_max_dispatches_per_run_accepts_one_up_to_the_lane_ceiling(tmp_path: Path, perRun: int) -> None:
+    policy = StewardPolicy.load(_perRunPolicy(tmp_path, perRun, inFlight=4))
+    assert policy.max_dispatches_per_run == perRun
+    assert policy.lane.max_in_flight == 4
+
+
+def test_the_lane_ceiling_cap_in_code_is_eight(tmp_path: Path) -> None:
+    accepted = StewardPolicy.load(_perRunPolicy(tmp_path / "ok", 8, inFlight=8))
+    assert (accepted.lane.max_in_flight, accepted.max_dispatches_per_run) == (8, 8)
+    with pytest.raises(PolicyError, match="routing.lane.maxInFlight"):
+        StewardPolicy.load(_perRunPolicy(tmp_path / "nine", 8, inFlight=9))
+    with pytest.raises(PolicyError, match="routing.maxDispatchesPerRun must be between 1 and routing.lane.maxInFlight"):
+        StewardPolicy.load(_perRunPolicy(tmp_path / "per-run-nine", 9, inFlight=8))
+
+
+@pytest.mark.parametrize("perRun", [0, -1, 5, 9, True, False, 2.0, "2", None])
+def test_max_dispatches_per_run_rejects_zero_above_the_ceiling_and_non_integers(tmp_path: Path, perRun: object) -> None:
+    with pytest.raises(PolicyError, match="routing.maxDispatchesPerRun must be between 1 and routing.lane.maxInFlight"):
+        StewardPolicy.load(_perRunPolicy(tmp_path, perRun, inFlight=4))
+
+
 def test_the_shipped_policy_declares_a_conservative_lane() -> None:
     lane = StewardPolicy.load(REPO_ROOT).lane
-    assert lane.max_in_flight == 2  # founder-authorized 1 -> 2 on 2026-10-21 (steward-class-b-throughput)
+    # founder-authorized 1 -> 2 on 2026-10-21 (steward-class-b-throughput), then 2 -> 8 (the finite code cap)
+    # on 2026-11-06 (steward-class-b-throughput-2026-11-06)
+    assert lane.max_in_flight == 8
     assert lane.max_attempts == 2
     assert lane.cooldown_seconds == 3600
 
@@ -394,9 +426,16 @@ def test_debt_with_no_dispatch_rule_never_enters_the_lane() -> None:
 
 
 def _pinned_repo(tmp_path: Path, max_in_flight: int) -> Path:
-    """A fixture whose own policy copy pins routing.lane.maxInFlight to `max_in_flight`."""
+    """A fixture whose own policy copy pins routing.lane.maxInFlight to `max_in_flight`.
 
-    return _repo(tmp_path, lambda data: data["routing"]["lane"].update({"maxInFlight": max_in_flight}))
+    maxDispatchesPerRun may never exceed the lane ceiling, so it is narrowed with it.
+    """
+
+    def pin(data: dict) -> None:
+        data["routing"]["lane"].update({"maxInFlight": max_in_flight})
+        data["routing"]["maxDispatchesPerRun"] = min(data["routing"]["maxDispatchesPerRun"], max_in_flight)
+
+    return _repo(tmp_path, pin)
 
 
 def test_the_lane_hands_out_one_dispatch_then_reports_itself_at_capacity(tmp_path: Path) -> None:
@@ -422,8 +461,8 @@ def test_the_lane_hands_out_one_dispatch_then_reports_itself_at_capacity(tmp_pat
     assert len(lane_state["entries"]) == 2
 
 
-def test_the_shipped_lane_hands_out_two_dispatches_then_refuses_the_third(tmp_path: Path) -> None:
-    root = _repo(tmp_path)  # the shipped policy, unmodified: maxInFlight 2
+def test_a_two_slot_lane_hands_out_two_dispatches_then_refuses_the_third(tmp_path: Path) -> None:
+    root = _pinned_repo(tmp_path, 2)  # the shipped policy narrowed to two slots
     controller = _controller(LaneSensor(count=3))
 
     first, _prompt = render_lane_next(root, controller=controller)

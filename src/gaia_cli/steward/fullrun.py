@@ -434,12 +434,7 @@ class FullRunner:
             self._controller = factory()
         return self._controller
 
-    def _requireLocal(self) -> None:
-        if getattr(self.config.store, "shared", False):
-            raise FullRunError("general shared ledger is read-only legacy status; ordinary mutations require checkout-local state")
-
     def _update(self, mutate: Callable[[dict[str, Any]], Any], message: str = "steward full") -> Any:
-        self._requireLocal()  # BEFORE any load/update, including direct library callers
         result, _version = update(
             self.config.store, mutate, retries=CONTENDEDRETRIES,
             clock=self.config.clock, message=message,
@@ -455,7 +450,8 @@ class FullRunner:
             "transport": self.config.store.transport,
             "shared": bool(self.config.store.shared),
         }
-        info["scope"] = "legacy-read-only" if info["shared"] else "ordinary-local"
+        if not info["shared"]:
+            info["warning"] = "ledger_local_only"
         return info
 
     def _runDirectory(self, runId: str) -> Path:
@@ -592,7 +588,6 @@ class FullRunner:
         return self.advance(runId)
 
     def resume(self, runId: str) -> RunView:
-        self._requireLocal()
         now = self._now()
 
         def mutate(doc: dict[str, Any]) -> dict[str, Any]:
@@ -630,7 +625,6 @@ class FullRunner:
     def advance(self, runId: str) -> RunView:
         """Run phases from the recorded phase until done or a driver is needed."""
 
-        self._requireLocal()
         try:
             while True:
                 run = self._loadRun(runId)
@@ -725,7 +719,6 @@ class FullRunner:
         run adopts it from the ledger instead of waiting out the lease.
         """
 
-        self._requireLocal()
         if not str(reason).strip():
             raise FullRunError("abandon needs a reason; the ledger keeps it as the audit record")
         now = self._now()
@@ -939,7 +932,6 @@ class FullRunner:
     # ------------------------------------------------------------------
 
     def record(self, runId: str, stepId: str, outcome: Mapping[str, Any]) -> RunView:
-        self._requireLocal()
         if not isinstance(outcome, Mapping):
             raise RecordRefused("outcome must be a JSON object")
         outcome = copy.deepcopy(dict(outcome))
@@ -2207,8 +2199,6 @@ class FullRunner:
         return lane, entry, reason
 
     def _phaseClassB(self, runId: str) -> bool:
-        from gaia_cli.steward.routing import RoutingError, render_dispatch_prompt
-
         run = self._loadRun(runId)
         if self._pending(run, "agent.build"):
             return False
@@ -2249,10 +2239,15 @@ class FullRunner:
                 "detail": "no Class B action is emitted without a valid integration branch"})
         self._expireStuck(runId)
         builds = sum(1 for s in run["steps"] if s["kind"] == "agent.build")
-        if builds >= policy.max_dispatches_per_run:
+        # One run hands out its builds as a single parallel batch (up to maxDispatchesPerRun,
+        # and never past the lane's maxInFlight). Once any build exists in this run the batch
+        # is spent: re-entering this phase after the drivers record their outcomes must go on
+        # to verification, not top the batch up one build at a time.
+        if builds >= 1:
             return self._finish(runId, "class_b", {
                 "status": "ok", "dispatched": None,
                 "reason": f"this run already dispatched {builds} (maxDispatchesPerRun {policy.max_dispatches_per_run})"})
+        remaining = policy.max_dispatches_per_run - builds
 
         doc = self._load()
         sets = self._triageSets(scan, run, doc["work"])
@@ -2260,26 +2255,64 @@ class FullRunner:
         now = self._now()
 
         # Adoption: building work whose build outcome never arrived (abandoned run).
+        adopted = 0
         for item in sorted(doc["work"].values(), key=lambda value: value["debtId"]):
+            if adopted >= remaining:
+                break
             if item["state"] == "building" and not item.get("build") and item.get("authority") == "B" and item.get("dispatchId"):
-                self._reemitBuild(runId, item)
-                return False
+                if self._reemitBuild(runId, item):
+                    adopted += 1
+        if adopted:
+            return False
 
-        lane, candidate, reason = self._chooseCandidate(doc, scan, eligible, now)
-        if candidate is None:
-            def keepLane(d: dict[str, Any], _run: dict[str, Any]) -> None:
-                _lane, _entry, _reason = self._chooseCandidate(d, scan, eligible, now)
-                set_lane(d, lane_document(_lane))
+        handed: list[dict[str, Any]] = []
+        stop = ""
+        while len(handed) < remaining:
+            doc = self._load()
+            lane, candidate, reason = self._chooseCandidate(doc, scan, eligible, now)
+            if candidate is None:
+                stop = reason
+                if not handed:
+                    def keepLane(d: dict[str, Any], _run: dict[str, Any]) -> None:
+                        _lane, _entry, _reason = self._chooseCandidate(d, scan, eligible, now)
+                        set_lane(d, lane_document(_lane))
 
-            self._mutateRun(runId, keepLane, message="steward full lane")
-            return self._finish(runId, "class_b", {"status": "ok", "dispatched": None, "reason": reason})
+                    self._mutateRun(runId, keepLane, message="steward full lane")
+                break
+            outcome, stop = self._dispatchCandidate(runId, scan, eligible, sets["debts"][candidate.debt_id], candidate, now)
+            if outcome.get("dispatched") is None:
+                break
+            handed.append(outcome)
+        if not handed:
+            return self._finish(runId, "class_b", {"status": "ok", "dispatched": None, "reason": stop})
 
-        debt = sets["debts"][candidate.debt_id]
+        def record(_d: dict[str, Any], run: dict[str, Any]) -> None:
+            first = handed[0]
+            summary: dict[str, Any] = {
+                "status": "awaiting-build", "dispatched": first["dispatched"],
+                "dispatchId": first["dispatchId"], "stepId": first["stepId"],
+            }
+            if len(handed) > 1:
+                summary["dispatchedAll"] = [dict(h) for h in handed]
+            if stop:
+                summary["stopReason"] = stop
+            run["phases"]["class_b"] = summary
+
+        self._mutateRun(runId, record, message="steward full class_b dispatch")
+        _checkpoint("class_b.dispatched")
+        return False
+
+    def _dispatchCandidate(self, runId: str, scan: ScanResult, eligible: set[str], debt: Debt, candidate: Any,
+                           now: str) -> tuple[dict[str, Any], str]:
+        """Render and emit one build for the lane's chosen candidate; the outcome says whether it landed."""
+
+        from gaia_cli.steward.routing import RoutingError, render_dispatch_prompt
+
+        policy = self._policyLoaded()
         try:
             result, prompt = render_dispatch_prompt(self.root, debt.id, controller=self._controllerInstance())
         except RoutingError as exc:
-            return self._finish(runId, "class_b", {"status": "ok", "dispatched": None,
-                                                   "reason": f"dispatch not rendered: {exc}"})
+            return {"dispatched": None}, f"dispatch not rendered: {exc}"
         packet = result.artifact
         rule = policy.dispatch_rule_for(debt.kind)
         assert rule is not None
@@ -2293,7 +2326,7 @@ class FullRunner:
         attempt = candidate.attempts + 1
         outcome: dict[str, Any] = {}
 
-        def commit(d: dict[str, Any]) -> None:
+        def commit(d: dict[str, Any], record: dict[str, Any]) -> None:
             outcome.clear()
             laneNow, chosen, why = self._chooseCandidate(d, scan, eligible, now)
             if chosen is None or chosen.debt_id != debt.id:
@@ -2302,7 +2335,6 @@ class FullRunner:
                 return
             laneNow = mark_dispatched(laneNow, laneNow.by_id(debt.id), dispatch_id=packet.dispatch_id, now=now)
             set_lane(d, lane_document(laneNow))
-            record = d["runs"][runId]
             self._ensureWork(d, record, debt, now, routine=rule.routine, branch=branchName,
                              dispatchId=packet.dispatch_id, promptPath=self._relative(promptPath),
                              baseBranch=record["integrationBranch"], attempt=attempt, dispatchedAt=now)
@@ -2318,23 +2350,14 @@ class FullRunner:
             }, now)
             outcome.update(dispatched=debt.id, dispatchId=packet.dispatch_id, stepId=stepId)
 
-        def apply(d: dict[str, Any], record: dict[str, Any]) -> None:
-            commit(d)
-            record["phases"]["class_b"] = {"status": "awaiting-build", **outcome}
-            if outcome.get("dispatched") is None:
-                self._addStep(record, {"stepId": "phase:class_b", "kind": "phase", "status": "done", "at": now})
-                order = MODEPHASES[record["mode"]]
-                record["phase"] = order[order.index("class_b") + 1]
-
-        self._mutateRun(runId, apply, message="steward full class_b dispatch")
-        _checkpoint("class_b.dispatched")
-        return outcome.get("dispatched") is None
+        self._mutateRun(runId, commit, message="steward full class_b dispatch")
+        return dict(outcome), str(outcome.get("reason", ""))
 
     def _buildOutputs(self, runId: str, slug: str) -> dict[str, str]:
         return {"diffPath": f".gaia/steward/full/{runId}/build-{slug}.diff",
                 "proofPath": f".gaia/steward/full/{runId}/build-{slug}.proof.json"}
 
-    def _reemitBuild(self, runId: str, item: dict[str, Any]) -> None:
+    def _reemitBuild(self, runId: str, item: dict[str, Any]) -> bool:
         now = self._now()
         slug = _hash12(item["debtId"])
         previous = item.get("promptPath")
@@ -2349,7 +2372,7 @@ class FullRunner:
             except RoutingError:
                 prompt = None
         if prompt is None:
-            return
+            return False
         outputs = self._buildOutputs(runId, slug)
         path = self._runDirectory(runId) / f"build-{slug}.prompt.md"
         path.write_text(withHandoff(prompt, base=self._loadRun(runId)["integrationBranch"],
@@ -2365,10 +2388,15 @@ class FullRunner:
                 "allowedModels": list(BUILDERMODELS), "effortRequired": True,
                 "outputs": dict(outputs),
             }, now)
-            run["phases"]["class_b"] = {"status": "awaiting-build", "dispatched": item["debtId"], "adopted": True}
+            summary = run["phases"].get("class_b") or {}
+            adoptedIds = [*summary.get("adoptedAll", [summary["dispatched"]] if summary.get("adopted") else []), item["debtId"]]
+            run["phases"]["class_b"] = {"status": "awaiting-build", "dispatched": adoptedIds[0], "adopted": True}
+            if len(adoptedIds) > 1:
+                run["phases"]["class_b"]["adoptedAll"] = adoptedIds
             doc["work"][item["debtId"]]["runId"] = runId
 
         self._mutateRun(runId, apply, message="steward full class_b adopt")
+        return True
 
     # -- verify ----------------------------------------------------------
 
@@ -2889,7 +2917,6 @@ class FullRunner:
             ],
             decision_records=records,
             ledger_shared=bool(self.config.store.shared),
-            ordinary_local=not bool(self.config.store.shared),
             last_scheduled_run_at=max(scheduled) if scheduled else None,
             now=now,
             failed_dispatches=failed,

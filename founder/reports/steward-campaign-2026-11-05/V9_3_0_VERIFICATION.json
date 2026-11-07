@@ -1,0 +1,39 @@
+{
+  "checkedAt": "2026-11-06T10:01:09.601141+00:00",
+  "version": "9.3.0",
+  "readOnly": true,
+  "publicationPerformed": false,
+  "workflowDispatched": false,
+  "configurationChanged": false,
+  "tagCommit": "31b407db65c4e138896780a7319e4a4ce76884eb",
+  "mainCommit": "329b2f04779168d96a619f4efeac2bc23585d896",
+  "mainProtected": true,
+  "pyproject": {
+    "name": "gaia-cli",
+    "version": "9.3.0"
+  },
+  "npm-manifest": {
+    "name": "@gaia-registry/cli",
+    "version": "9.3.0"
+  },
+  "tagAncestorOfMain": true,
+  "githubRelease": {
+    "tag_name": "v9.3.0",
+    "draft": false,
+    "prerelease": true,
+    "published_at": "2026-11-04T21:14:02Z",
+    "html_url": "https://github.com/gaia-research/gaia-skill-tree/releases/tag/v9.3.0"
+  },
+  "latestGithubReleaseTag": "v9.0.0",
+  "pypiVersionExists": false,
+  "npmVersionExists": false,
+  "artifactSourceProvenanceVerified": false,
+  "provenanceLimit": "Registry metadata and Git ancestry only; no artifact execution, download hash verification or signed source/build attestation audited.",
+  "publicRegistryEndpointStatus": {
+    "pypi": 404,
+    "npm": 404
+  },
+  "publicationInterpretation": "The exact version was not found at these public endpoints at checkedAt; no claim about private registries or intended release policy.",
+  "releasePromotionOrPublishAuthorized": false,
+  "canonicalDebtClosure": false
+}

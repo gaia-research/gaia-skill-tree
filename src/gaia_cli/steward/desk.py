@@ -612,7 +612,6 @@ def _operations(
     last_scheduled_run_at: str | None,
     now: str,
     stale_after_hours: int,
-    ordinary_local: bool = False,
 ) -> list[DeskOperation]:
     operations: list[DeskOperation] = []
     reasons = coverage_unknown_reasons or {}
@@ -642,7 +641,7 @@ def _operations(
             "failed_dispatch", str(item.get("subject", "unknown")),
             str(item.get("detail", "dispatch failed")),
         ))
-    if not ledger_shared and not ordinary_local:
+    if not ledger_shared:
         operations.append(DeskOperation(
             "ledger_local_only", "steward ledger",
             "state is in a local file, so manual and scheduled runs cannot see each other's work.",
@@ -687,7 +686,6 @@ def build_desk(
     failed_dispatches: Sequence[Mapping[str, Any]] = (),
     coverage_unknown_reasons: Mapping[str, str] | None = None,
     backlog: Mapping[str, Any] | None = None,
-    ordinary_local: bool = False,
 ) -> Desk:
     """Assemble the desk from already-computed inputs. Pure: no I/O, no clock."""
 
@@ -728,7 +726,6 @@ def build_desk(
         not_evaluated=not_evaluated,
         failed_dispatches=failed_dispatches,
         ledger_shared=ledger_shared,
-        ordinary_local=ordinary_local,
         last_scheduled_run_at=last_scheduled_run_at,
         now=now,
         stale_after_hours=stale_after_hours,

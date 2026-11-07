@@ -88,12 +88,6 @@ def test_scenario_a_clean_repo_is_quiet_with_zero_everything(tmp_path: Path, tra
     repo, bare = makeFixture(tmp_path)
     store = fileStore(tmp_path) if transport == "file" else GitRefLedgerStore(repo, "origin")
     runner = makeRunner(repo, store, [AgentSkillMirrorSensor()], trigger="scheduled")
-    if transport == "git":
-        with pytest.raises(fullrun.FullRunError, match="read-only"):
-            runner.start("full")
-        assert "steward/ledger" not in bareBranches(bare)
-        assert stewardRefs(bare) == []
-        return  # explicit legacy-refusal contract, not a skipped execution
 
     view = runner.start("full")
 
@@ -109,8 +103,13 @@ def test_scenario_a_clean_repo_is_quiet_with_zero_everything(tmp_path: Path, tra
     assert doc["leases"] == {}, "a finished run releases the run lease"
     assert stewardRefs(bare) == []
     assert view.desk is not None and view.desk["decisions"] == []
-    assert view.desk["quiet"] is True and view.desk["operations"] == [], view.desk
-    assert view.ledger["shared"] is False and view.ledger["scope"] == "ordinary-local"
+    if transport == "git":
+        assert view.desk["quiet"] is True and view.desk["operations"] == [], view.desk
+        assert "steward/ledger" in bareBranches(bare)
+    else:
+        # A local-only ledger is not quiet: the desk says so, and says nothing else.
+        assert [op["kind"] for op in view.desk["operations"]] == ["ledger_local_only"]
+        assert view.ledger["shared"] is False
 
 
 # --- B: deterministic mirror drift -> Class A landing branch -----------------------
@@ -133,13 +132,6 @@ def test_scenario_b_mirror_drift_lands_on_a_branch_and_resolves_after_merge(
     repo, bare = makeFixture(tmp_path, mirrorDrift=True)
     store = fileStore(tmp_path) if transport == "file" else GitRefLedgerStore(repo, "origin")
     runner = makeRunner(repo, store, [AgentSkillMirrorSensor()])
-    if transport == "git":
-        with pytest.raises(fullrun.FullRunError, match="read-only"):
-            runner.start("full")
-        assert "steward/ledger" not in bareBranches(bare)
-        assert stewardRefs(bare) == []
-        assert (repo / ".claude/skills/x/SKILL.md").read_text() == "# x stale\n"
-        return
 
     view = runner.start("full")
 
@@ -423,11 +415,6 @@ def test_scenario_f_class_a_crash_resumes_with_one_branch_and_one_pr_action(
 ) -> None:
     repo, bare = makeFixture(tmp_path, mirrorDrift=True)
     store = fileStore(tmp_path) if transport == "file" else GitRefLedgerStore(repo, "origin")
-    if transport == "git":
-        with pytest.raises(fullrun.FullRunError, match="read-only"):
-            makeRunner(repo, store, [AgentSkillMirrorSensor()]).start("full")
-        assert "steward/ledger" not in bareBranches(bare) and stewardRefs(bare) == []
-        return  # no general shared mutation is permitted to reach a crash point
     crashAt(monkeypatch, point)
     with pytest.raises(Crash):
         makeRunner(repo, store, [AgentSkillMirrorSensor()]).start("full")
@@ -508,13 +495,12 @@ def test_scenario_f_expired_lease_is_abandoned_and_its_work_adopted_not_duplicat
 def test_scenario_g_concurrent_runners_exactly_one_holds_the_run_lease(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    # Retain the original real concurrent lease scenario and every 60/30-second
-    # safeguard, now for two ordinary actors in the SAME checkout-local store.
-    repo, _bare = makeFixture(tmp_path)
+    repo, bare = makeFixture(tmp_path)
+    clone = cloneOf(bare, tmp_path / "clone2")
     sensors = {"a": StubSensor(HYGIENE, "repository_hygiene"), "b": StubSensor(HYGIENE, "repository_hygiene")}
     runners = {
-        "a": makeRunner(repo, fileStore(tmp_path), [sensors["a"]], trigger="manual"),
-        "b": makeRunner(repo, fileStore(tmp_path), [sensors["b"]], trigger="manual"),
+        "a": makeRunner(repo, GitRefLedgerStore(repo, "origin"), [sensors["a"]], trigger="manual"),
+        "b": makeRunner(clone, GitRefLedgerStore(clone, "origin"), [sensors["b"]], trigger="manual"),
     }
     barrier = threading.Barrier(2)
     release, results, errors = threading.Event(), {}, []
@@ -551,33 +537,11 @@ def test_scenario_g_concurrent_runners_exactly_one_holds_the_run_lease(
     assert loser.status == "observing-existing" and winner.status == "completed"
     assert loser.holder == winner.runId and loser.runId is None
     assert loser.holderPhase in {"reconcile", "observe"}
-    document, _ = fileStore(tmp_path).load()
+    document, _ = GitRefLedgerStore(repo, "origin").load()
     assert list(document["runs"]) == [winner.runId], "the loser created no run"
     assert document["work"] == {} and document["leases"] == {}
     assert sensors[loserName].scans == 0, "the loser did no scanning"
     assert sensors[winnerName].scans == 1
-
-
-def test_scenario_g_legacy_shared_runners_both_refuse_before_loading_or_scanning(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    # Cross-host critical coordination is now tested with spawned actors in
-    # prmaintenance; ordinary runners must not mutate the old shared run lane.
-    repo, bare = makeFixture(tmp_path)
-    clone = cloneOf(bare, tmp_path / "clone2")
-    before = git(bare, "show-ref")
-    for root in (repo, clone):
-        sensor = StubSensor(HYGIENE, "repository_hygiene")
-        store = GitRefLedgerStore(root, "origin")
-        monkeypatch.setattr(store, "load", lambda: pytest.fail("legacy mutation must refuse before load"))
-        runner = makeRunner(root, store, [sensor], trigger="manual")
-        for call in (lambda: runner.start("observe"), lambda: runner.resume("old"),
-                     lambda: runner.advance("old"), lambda: runner.abandon("old", "reason"),
-                     lambda: runner.record("old", "step", {}), lambda: runner._update(lambda d: None)):
-            with pytest.raises(fullrun.FullRunError, match="read-only"):
-                call()
-        assert sensor.scans == 0
-    assert git(bare, "show-ref") == before and "steward/ledger" not in bareBranches(bare)
 
 
 # --- H: historical regression #2114 ------------------------------------------------------------------
@@ -886,11 +850,13 @@ def test_scenario_d5_verified_but_unintegrated_work_holds_the_only_slot(tmp_path
     assert ledgerOf(store)["work"][verified["debtId"]]["state"] == "verified"
 
 
-def test_the_shipped_lane_keeps_two_debts_in_flight_across_runs_and_refuses_the_third(tmp_path: Path) -> None:
-    """Concurrency 2, end to end: each run still dispatches at most one build (maxDispatchesPerRun 1)."""
+def test_a_two_slot_lane_keeps_two_debts_in_flight_across_runs_and_refuses_the_third(tmp_path: Path) -> None:
+    """Concurrency 2 with one build per run, end to end (maxInFlight 2, maxDispatchesPerRun 1)."""
 
     repo, _bare, sensor, store, runner = hygieneRunner(tmp_path, ["a", "b", "c"])
-    assert StewardPolicy.load(repo).lane.max_in_flight == 2, "this test is about the shipped two-slot lane"
+    pinMaxInFlight(repo, 2, perRun=1)
+    runner = makeRunner(repo, store, [sensor])
+    assert StewardPolicy.load(repo).lane.max_in_flight == 2, "this test is about a two-slot lane"
 
     first_view = runner.start("full")
     assert actionTypes(first_view) == ["agent.build"], first_view.to_dict()
@@ -915,6 +881,74 @@ def test_the_shipped_lane_keeps_two_debts_in_flight_across_runs_and_refuses_the_
     assert "agent.build" not in actionTypes(third_view), third_view.to_dict()
     assert "maxInFlight" in third_view.summary["class_b"]["reason"]
     assert len(builds(ledgerOf(store))) == 2, "the refused third debt was never dispatched"
+
+
+def test_a_run_with_three_slots_and_three_debts_emits_three_parallel_builds(tmp_path: Path) -> None:
+    """maxDispatchesPerRun 3 hands out three builds over distinct debts in one pass, all verified and landed."""
+
+    repo, _bare, sensor, store, runner = hygieneRunner(tmp_path, ["a", "b", "c"])
+    pinMaxInFlight(repo, 3, perRun=3)
+    runner = makeRunner(repo, store, [sensor])
+    policy = StewardPolicy.load(repo)
+    assert (policy.lane.max_in_flight, policy.max_dispatches_per_run) == (3, 3)
+
+    view = runner.start("full")
+
+    assert actionTypes(view) == ["agent.build"] * 3, view.to_dict()
+    debts = [a["params"]["debtId"] for a in view.actions]
+    assert len(set(debts)) == 3, "three distinct debts, never the same one twice"
+    assert len({a["params"]["dispatchId"] for a in view.actions}) == 3
+    for action in view.actions:
+        assert (repo / action["params"]["promptPath"]).is_file()
+    doc = ledgerOf(store)
+    lane = load_lane(doc["lane"], policy.lane)
+    assert {e.debt_id for e in lane.in_flight} == set(debts) and len(lane.in_flight) <= policy.lane.max_in_flight
+    assert all(doc["work"][d]["state"] == "building" for d in debts)
+    assert len(doc["runs"][view.runId]["phases"]["class_b"]["dispatchedAll"]) == 3
+
+    # Record all three builds, then resume: verification is emitted for each, no fourth build appears.
+    for index, action in enumerate(view.actions):
+        diff, proof = writeBuildArtifacts(repo, f"par{index}")
+        runner.record(view.runId, action["stepId"], {**BUILD, "diffPath": str(diff), "proofPath": str(proof)})
+    verifying = runner.resume(view.runId)
+    assert actionTypes(verifying) == ["agent.verify"] * 3, verifying.to_dict()
+    assert len(builds(ledgerOf(store))) == 3, "the batch is spent: re-entry never tops it up"
+
+    final = drive(runner, verifying, repo)
+    assert final.status == "completed", final.to_dict()
+    doc = ledgerOf(store)
+    assert sorted(doc["work"][d]["state"] for d in debts) == ["landed"] * 3
+
+
+def test_a_batch_never_exceeds_the_lane_ceiling_even_when_more_debts_are_eligible(tmp_path: Path) -> None:
+    repo, _bare, sensor, store, runner = hygieneRunner(tmp_path, ["a", "b", "c", "d", "e"])
+    pinMaxInFlight(repo, 2, perRun=2)
+    runner = makeRunner(repo, store, [sensor])
+
+    view = runner.start("full")
+    assert actionTypes(view) == ["agent.build"] * 2, view.to_dict()
+    drive(runner, view, repo, integrate="hold")  # both verified but unreviewed: both slots stay occupied
+
+    again = makeRunner(repo, store, [sensor]).start("full")
+    assert "agent.build" not in actionTypes(again), again.to_dict()
+    assert "maxInFlight" in again.summary["class_b"]["reason"]
+    assert len(builds(ledgerOf(store))) == 2
+
+
+def test_the_batch_is_bounded_by_free_lane_slots_when_the_run_cap_is_higher_than_the_free_capacity(tmp_path: Path) -> None:
+    repo, _bare, sensor, store, runner = hygieneRunner(tmp_path, ["a", "b", "c"])
+    pinMaxInFlight(repo, 3, perRun=1)
+    first_runner = makeRunner(repo, store, [sensor])
+    first = first_runner.start("full")
+    assert actionTypes(first) == ["agent.build"]
+    drive(first_runner, first, repo, integrate="hold")  # one slot now held by verified, unintegrated work
+
+    # Widen the per-run cap to the whole lane: only the two free slots may be handed out.
+    pinMaxInFlight(repo, 3, perRun=3)
+    second = makeRunner(repo, store, [sensor]).start("full")
+    assert actionTypes(second) == ["agent.build"] * 2, second.to_dict()
+    held = {w["debtId"] for w in ledgerOf(store)["work"].values() if w["state"] == "verified"}
+    assert held.isdisjoint({a["params"]["debtId"] for a in second.actions})
 
 
 # --- D3: a deferred verification is never "nothing further" and cannot deadlock the lane ------

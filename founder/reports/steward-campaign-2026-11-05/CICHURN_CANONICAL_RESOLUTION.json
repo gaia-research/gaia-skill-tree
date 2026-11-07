@@ -1,0 +1,58 @@
+{
+  "debtId": "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208",
+  "runId": "run-20261106T045029Z-92c5e38b",
+  "dispatchId": "dispatch-7930613ee061481cf023",
+  "attempt": 1,
+  "build": "953b9d36d498d8309a8b45c890f9698b09df9c6a",
+  "builderActual": "openai/gpt-6.1-terra medium",
+  "verifierActual": "openai/gpt-6-luna medium",
+  "verifierSession": "01a1b15b-ad83-7134-b050-a2ee84bba371",
+  "initialVerdictPreservedAndProtocolErrorWithdrawn": true,
+  "finalIndependentVerdict": "accept",
+  "clarifiedReviewSha256": "ef7c1b5cc6a49475a812b4ecc04b7cfd0a85ec74d4685abfd54cc8c1f4b4e0e5",
+  "integrationPR": 2307,
+  "integrationUrl": "https://github.com/gaia-research/gaia-skill-tree/pull/2307",
+  "mergedSha": "571ddeda6e0120e1b898a40b56c6c1112eb7a826",
+  "mergedAt": "2026-11-06T15:14:38Z",
+  "freshReconciliation": {
+    "runId": "run-20261106T045029Z-92c5e38b",
+    "status": "completed",
+    "phase": "done",
+    "coverageUnknown": [],
+    "notEvaluated": [
+      {
+        "inputAbsent": true,
+        "reason": "no browser-render.json supplied; a driver must collect it",
+        "sensor": "browser-render"
+      },
+      {
+        "inputAbsent": true,
+        "reason": "no advisories.json supplied; a driver must collect it",
+        "sensor": "dependency-advisory"
+      }
+    ],
+    "reobserve": {
+      "authorityCounts": {
+        "A": 0,
+        "B": 322,
+        "C": 40
+      },
+      "created": 0,
+      "resolved": [
+        "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208"
+      ],
+      "resolvedWork": [
+        "debt:unused_import:scripts-ci-churn-py:51b6876e863ec208"
+      ],
+      "scanReceiptId": "steward-20261106T151913Z-bed5b794cc8bf6b5",
+      "coverageUnknown": [],
+      "partialCoverage": []
+    },
+    "debtStatus": "resolved"
+  },
+  "canonicalRepairsResolved": 3,
+  "canonicalRepairsOnMain": 2,
+  "thisRepairMainDelivered": false,
+  "accountingLimit": "Only this explicit resolvedWork/status is an additional campaign repair; census deltas are not repair counts.",
+  "activationOrR19Acceptance": false
+}

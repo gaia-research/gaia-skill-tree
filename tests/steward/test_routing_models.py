@@ -57,7 +57,7 @@ def test_checked_in_routing_policy_is_exact_and_does_not_change_authority() -> N
     assert founder is not None and founder.authority is AuthorityClass.C
     assert founder.decision_target_field == "decisionTarget"
     assert policy.dispatch_rule_for("sensor_coverage_unknown") is None
-    assert policy.max_dispatches_per_run == 1
+    assert policy.max_dispatches_per_run == 8
     assert policy.routing_budget.to_dict() == {
         "modelCalls": 0,
         "maxTokens": 0,

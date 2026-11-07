@@ -1,0 +1,33 @@
+{
+  "promotion": {
+    "verifiedAt": "2026-11-05T20:05:56.484249+00:00",
+    "pullRequest": 2297,
+    "mainMergeCommit": "3cd5504e00ac00e4708503f484a05e04e5775dcc",
+    "mergedAt": "2026-11-05T20:05:51Z",
+    "tree": "9b29681b44be112306f8502961f4e67787492d97",
+    "parents": [
+      "31b407db65c4e138896780a7319e4a4ce76884eb",
+      "2d9599c11ea91f303b5067c39fb8ea272f119072"
+    ],
+    "mainProtected": true,
+    "sourceOnlyGenerationGuard": true,
+    "canonicalBRepairsResolved": 1,
+    "campaignComplete": false,
+    "postMergeCIPendingCollection": true
+  },
+  "protection": {
+    "verifiedAt": "2026-11-05T20:04:59.044411+00:00",
+    "rulesetId": 18124772,
+    "onlyConfigurationChange": "conditions.ref_name.include [] -> [refs/heads/main]",
+    "otherWritableFieldsPreserved": true,
+    "bypassActors": [],
+    "mainProtected": true,
+    "effectiveRuleCount": 3
+  },
+  "rulesetConfigurationSha256Before": "ebc6c8e641c4b6e457ebf458c01b09492982fee3abe568c0fbd5e8eeac458614",
+  "rulesetConfigurationSha256After": "a14abbe60e1614f1f0ab920fc3acdb2279de7c85784662a842653b1df69e1214",
+  "founderChoicesRecordedBeforeActionCommit": "324e0ab97",
+  "trackerStateCorrectedToOpen": true,
+  "trackerComment": "https://github.com/gaia-research/gaia-skill-tree/issues/2283#issuecomment-6668137081",
+  "checkpointPR2298IntegrationMerge": "1148c474776924a033d0157a9521d9a5d17dd471"
+}

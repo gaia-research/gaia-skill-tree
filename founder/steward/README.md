@@ -96,7 +96,8 @@ can never grant unbounded autonomy:
 
 | Bound | Shipped | Why it exists |
 |---|---:|---|
-| `maxInFlight` | 2 | Autonomy that outruns review is not autonomy, it is backlog. Raised from 1 by founder authorization 2026-10-21 (steward-class-b-throughput) |
+| `maxInFlight` | 8 | Autonomy that outruns review is not autonomy, it is backlog. Raised from 1 to 2 by founder authorization 2026-10-21 (steward-class-b-throughput), then to 8, the finite code cap, by founder decision steward-class-b-throughput-2026-11-06 |
+| `maxDispatchesPerRun` | 8 | Builds one run may hand out in parallel; code requires 1 up to `maxInFlight`. Raised from 1 by steward-class-b-throughput-2026-11-06 |
 | `maxAttempts` | 2 | A debt that keeps failing bounded repair is telling you the envelope is wrong |
 | `cooldownSeconds` | 3600 | A broken loop cannot spend an afternoon rediscovering one rejection |
 
@@ -124,10 +125,10 @@ on an empty lane. Quiet days are the common case and must not page anyone.
 
 ## Routine 19 critical coordination and rollout boundary
 
-Ordinary observation, debt, profiles and full-run state are checkout-local. `full --ledger auto/local` does not probe origin;
-explicit general `git` supports only read-only legacy status. Existing canonical campaign runs/history are not migrated,
-completed or settled, and cannot be resumed/recorded by the new local-only runner. Campaign compatibility and rollout remain
-separate owner gates; this source change does not retire or drain any real writer.
+Ordinary `steward full` run/record state is unchanged: it stays on the shared Steward Git ledger (`--ledger auto|git|local`
+exactly as before), only the Lead writes it, and it fails closed when unavailable; no local state stands in for it. Observation,
+census, profiles and dispatches remain checkout-local as before. This source change does not retire, migrate or drain the
+shared ledger or any real writer.
 
 Routine 19 alone uses a separately provisioned dedicated Git coordination ref for critical merge/close identity, durable
 verification/justification, one global slot, conservative attempt budgets and outcomes. Gate output is preparation, not a send

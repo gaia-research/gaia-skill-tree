@@ -1,0 +1,40 @@
+{
+  "head": "31a9a59b9c978db19fd9a451ca310844d1dc401e",
+  "tree": "02ce5633db8c56d20110af15f658f1653f1f9088",
+  "parentTask": "b9d8ee9c3",
+  "terminalExit": 1,
+  "finishedAt": "2026-11-06T11:22:44.336126+00:00",
+  "normalPluginAutoload": true,
+  "allTrackedSourceHashesPreservedBeforeAndAfterEveryGroup": true,
+  "commandsLogsJunitAndExplicitExitsPreserved": true,
+  "groups": [
+    {"name": "proof-gate", "passed": 58, "failed": 0, "skipped": 0, "exit": 0},
+    {"name": "executor", "passed": 58, "failed": 3, "skipped": 0, "exit": 1},
+    {"name": "runner-fullrun", "passed": 89, "failed": 0, "skipped": 0, "exit": 0},
+    {"name": "coordination-processes", "passed": 76, "failed": 2, "skipped": 0, "exit": 1},
+    {"name": "ledger-driver", "passed": 177, "failed": 0, "skipped": 0, "exit": 0}
+  ],
+  "failures": [
+    "test_post_effect_mismatch_cannot_invent_matching_merge_settlement[head]: expected CoordinationError, execute returned uncertainty",
+    "test_post_effect_mismatch_cannot_invent_matching_merge_settlement[base]: expected CoordinationError, execute returned uncertainty",
+    "test_post_effect_mismatch_cannot_invent_matching_merge_settlement[parents]: expected CoordinationError, execute returned uncertainty",
+    "test_invalid_or_untrusted_completion_never_retires_or_refunds_sender: expected exact invocation diagnostic, generic InvocationUncertain instead",
+    "test_real_store_completion_generation_9_to_10_byte_boundary[one-byte-overflow]: expected Refused capacity, wrapped InvocationUncertain instead"
+  ],
+  "interpretation": "Regression verification FAILED. Changed reporting/error contracts require principled remediation or strictly justified stronger assertion migration, not blanket test weakening. No source acceptance or claim that the five failures establish duplicate effects.",
+  "independentReview": "8f321497-375a-4577-b461-de1a019c9e11 continues against immutable31a9 and received exact failures",
+  "newSoleWriter": {
+    "nativeRun": "b743bf80-30c2-49fd-80a0-4bc1e7710d67",
+    "agent": "worker-dsflash",
+    "requestedModel": "deepseek/deepseek-flash",
+    "branch": "dev/steward-r19-uncertainty-contract-2283",
+    "base": "31a9a59b9c978db19fd9a451ca310844d1dc401e",
+    "scope": "five regression failures and necessary strict state/effect/correlation tests only",
+    "longTestsOwnedByParentAfterFreeze": true,
+    "noSafetyGuardOrAssertionWeakeningAuthorized": true
+  },
+  "sourceAccepted": false,
+  "activationAuthorized": false,
+  "canonicalRepairCountResolvedAndOnMain": 2,
+  "pendingCIChurnEditExceptionApproved": false
+}

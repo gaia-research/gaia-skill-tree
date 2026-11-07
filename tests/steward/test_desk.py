@@ -717,5 +717,7 @@ def test_the_repository_decision_records_are_valid_and_not_duplicated() -> None:
     ids = [item.decision_id for item in desk.decisions]
     assert "steward-timeline-order-1699" not in ids
     assert "steward-trust-stamp-refresh-1642" not in ids
-    assert "steward-trust-stamp-refresh-policy-1642" in ids
-    assert "steward-workflow-skill-creator-demote-1699" in ids
+    # Decided by founder ruling batch 1 (2026-11-06); no longer on the desk.
+    assert "steward-trust-stamp-refresh-policy-1642" not in ids
+    # Decided by founder final rulings (2026-11-06); no longer on the desk.
+    assert "steward-workflow-skill-creator-demote-1699" not in ids
