@@ -1,5 +1,5 @@
 {
- "generation": 1709,
+ "generation": 1710,
  "lane": {
   "entries": [
    {
@@ -132399,6 +132399,13 @@
      "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
      "emittedAt": "2026-11-07T22:34:17.166999Z",
      "idempotencyKey": "dispatch-31cae5acdc5144c46b5a:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch11-builder-7e42a9299170",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": true,
+      "summary": "Batch batch11 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: stop condition 4: gh run list returns 0 completed runs for challenge-receipt-issuer.yml, so no history rows exist and the no-history default does not apply to an empty sample"
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -132419,7 +132426,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/build-7e42a9299170.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T23:49:18.691121Z",
+     "status": "done",
      "stepId": "build:7e42a9299170:1",
      "type": "agent.build"
     },
@@ -132533,6 +132541,18 @@
      "model": "pi",
      "role": "builder",
      "stepId": "build:52236ab2419b:2",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch11-builder-7e42a9299170",
+     "at": "2026-11-07T23:49:18.691351Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:7e42a9299170:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -134225,11 +134245,11 @@
      "stepId": "build:52236ab2419b:2"
     },
     {
-     "at": "2026-11-07T22:34:17.166999Z",
+     "at": "2026-11-07T23:49:18.691121Z",
      "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
      "idempotencyKey": "dispatch-31cae5acdc5144c46b5a:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:7e42a9299170:1"
     },
     {
@@ -134248,11 +134268,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T23:44:55.568920Z"
+   "updatedAt": "2026-11-07T23:49:18.691121Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T23:47:05.014570Z",
+ "updatedAt": "2026-11-07T23:49:18.692421Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -140055,12 +140075,33 @@
    "verification": null
   },
   "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch11-builder-7e42a9299170",
+     "at": "2026-11-07T23:49:18.691351Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:7e42a9299170:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/workflow-hygiene-7e42a9299170",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch11-builder-7e42a9299170",
+    "attempt": 1,
+    "diffPath": null,
+    "dispatchId": "dispatch-31cae5acdc5144c46b5a",
+    "noChange": true,
+    "proofPath": null,
+    "recordedAt": "2026-11-07T23:49:18.691351Z",
+    "summary": "Batch batch11 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: stop condition 4: gh run list returns 0 completed runs for challenge-receipt-issuer.yml, so no history rows exist and the no-history default does not apply to an empty sample"
+   },
    "createdAt": "2026-11-07T22:34:17.166999Z",
    "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
    "dispatchId": "dispatch-31cae5acdc5144c46b5a",
@@ -140081,7 +140122,7 @@
    "runId": "run-20261107T222830Z-f75ff7de",
    "source": "ci-workflow",
    "state": "building",
-   "updatedAt": "2026-11-07T22:34:17.166999Z",
+   "updatedAt": "2026-11-07T23:49:18.691351Z",
    "verification": null
   },
   "debt:workflow_hygiene:github-workflows-cli-wrapper-yml:3fcd5fcc3af0ce4d": {
