@@ -1,13 +1,11 @@
 """Crawls HuggingFace for models and spaces representing AI skills."""
 
-import json
 import sys
 import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import requests
-from common.taxonomy_mapper import map_to_skills
 from common.evidence_scorer import compute_score
 from common.candidate_builder import build_candidate, normalize_id
 from common.dedup import deduplicate

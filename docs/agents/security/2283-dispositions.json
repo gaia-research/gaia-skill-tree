@@ -1191,14 +1191,14 @@
       "ledgerDisposition": "unchanged; parent-owned",
       "status": "fixture",
       "originalSourceSha256": "a5e1f04ab6883d6c39987f914652245b7b81ac57ecda7567eb4fe7eabf1ed61e",
-      "reviewedSourceSha256": "203060f726dd45e06fbc7098600a0ba2605f25c0f511a21c4546f529756342b6",
+      "reviewedSourceSha256": "22aa5546f742de70b93be1eb81798466d0da6924667769bc0d28c6f8f4977f97",
       "findings": [
         {
           "fingerprint": "08109091b0eb",
-          "line": 187,
+          "line": 189,
           "pattern": "credential-assignment",
           "status": "fixture",
-          "reason": "Reference to the module synthetic SECRET sentinel inside a planted untrusted finding; not an embedded live credential."
+          "reason": "Reference to the module synthetic SECRET_TOKEN sentinel (documented D2 synthetic positive fixture, tests/steward/test_desk.py:33-39) inside a planted untrusted finding; not an embedded live credential."
         }
       ],
       "callerAndProvenanceEvidence": [

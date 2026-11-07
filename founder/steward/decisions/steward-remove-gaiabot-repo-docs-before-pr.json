@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-remove-gaiabot-repo-docs-before-pr",
+  "status": "decided",
+  "decision": "Remove gaiabot/repo-docs-before-pr from the Gaia Skill Tree?",
+  "whyItMatters": "Answers desk item decision-8e5aa9337484cb863d96.",
+  "evidence": [
+    "Founder rulings batch 1, 2026-11-06, relayed to the Steward owner (Opus) for #2283 (verbatim): \"Remove from the skill tree: \"`gaiabot/repo-docs-before-pr`\". This is not a skill.\"",
+    "Ruling as applied: Remove it: it is not a skill. Reconcile derived references and its exhausted trust_calibration_drift debt (desk decision-8e5aa9337484cb863d96, debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9) as a non-skill classification error; preserve audit history; do not widen the repair envelope."
+  ],
+  "recommended": "Remove it: it is not a skill. Reconcile derived references and its exhausted trust_calibration_drift debt (desk decision-8e5aa9337484cb863d96, debt:trust_calibration_drift:gaiabot-repo-docs-before-pr:8e51b0cf3b86a8c9) as a non-skill classification error; preserve audit history; do not widen the repair envelope.",
+  "alternative": "n/a (decided)",
+  "unblocks": "decision-8e5aa9337484cb863d96",
+  "links": [
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283"
+  ],
+  "resolution": "approved"
+}
