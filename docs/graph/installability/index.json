@@ -2937,7 +2937,7 @@
         "entrypoint": "investigate/SKILL.md",
         "installSubpath": "investigate"
       },
-      "currentSkillContentSha256": "a123847c7cb069a24f3751a3fbf9aa838be8588da83aa055630ed6a83b242160",
+      "currentSkillContentSha256": "e81441b272074876d2c95fa2265347ae28621ffbb6d7a74b1036ad160c6ce0b6",
       "observedSourceRoute": null,
       "observedSkillContentSha256": null,
       "resolvedRevision": null,
