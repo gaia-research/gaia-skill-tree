@@ -9,6 +9,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 from tests.steward.test_steward_drive import (
@@ -180,6 +182,32 @@ def test_incomplete_census_keeps_its_file_for_the_sensor_to_refuse(tmp_path):
 
     assert target.is_file()
     assert driver.censusReport["state"] == "incomplete"
+
+
+def censusFile(root: Path, complete: bool | None) -> Path:
+    target = root / ".gaia/steward/inputs/github-issues.json"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    if complete is None:
+        target.write_text("not json", encoding="utf-8")
+    else:
+        target.write_text(json.dumps({"completeness": {"issues": {"complete": complete}}}), encoding="utf-8")
+    return target
+
+
+@pytest.mark.parametrize(
+    ("code", "fileComplete", "state"),
+    [(4, True, "complete"), (4, False, "incomplete"), (5, True, "incomplete"), (5, False, "incomplete"), (4, None, "failed"), (5, None, "failed")],
+)
+def test_a_baseline_evidence_exit_is_judged_by_the_census_file_not_the_exit_code(tmp_path, code, fileComplete, state):
+    root = closeRoot(tmp_path)
+    target = censusFile(root, fileComplete)
+    world = FakeWorld(root, [view("R1", [], "completed")], census=lambda argv: drive.CommandResult(code, "", "baseline evidence"))
+    driver = makeDriver(tmp_path, world, census=True)
+
+    driver.drive()
+
+    assert driver.censusReport["state"] == state
+    assert target.exists() == (state != "failed")
 
 
 def test_a_compact_closure_action_without_a_comment_is_performed(tmp_path):

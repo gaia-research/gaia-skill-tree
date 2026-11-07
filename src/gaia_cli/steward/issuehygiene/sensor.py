@@ -27,7 +27,7 @@ from dataclasses import replace
 from pathlib import Path
 from typing import Any, Mapping
 
-from gaia_cli.steward.issuehygiene.census import Census, loadCensus, parseTimestamp
+from gaia_cli.steward.issuehygiene.census import Census, closedOnlyIncomplete, closedTelemetry, loadCensus, parseTimestamp
 from gaia_cli.steward.issuehygiene.closure import compactPlan, planClosures
 from gaia_cli.steward.issuehygiene.hygienepolicy import KNOWN_RULE_IDS, HygienePolicy
 from gaia_cli.steward.issuehygiene.outcomes import RETRYLIMIT, OutcomeStoreError, doneClosures, loadOutcomes
@@ -101,7 +101,8 @@ def _hygienePolicy(root: Path) -> HygienePolicy:
     return policy.issue_hygiene
 
 
-def reconcileCensus(census: Census, root: Path, hygiene: HygienePolicy, now: Any) -> Mapping[str, Any]:
+def reconcileCensus(census: Census, root: Path, hygiene: HygienePolicy, now: Any,
+                    closedHistoryUnavailable: bool = False) -> Mapping[str, Any]:
     """Run the real reconciliation: registry index, workflow probes, then the manifest.
 
     Reads local files only. Any failure is coverage unknown with the exception type
@@ -114,7 +115,8 @@ def reconcileCensus(census: Census, root: Path, hygiene: HygienePolicy, now: Any
         from gaia_cli.steward.issuehygiene.questions import loadIssueDecisions
 
         manifest = reconcile(census, index, hygiene, now, workflowDisabled=probes,
-                             decisionRecords=loadIssueDecisions(root))
+                             decisionRecords=loadIssueDecisions(root),
+                             closedHistoryUnavailable=closedHistoryUnavailable)
     except Exception as exc:  # noqa: BLE001 - any reconciliation failure is coverage unknown
         raise SensorUnavailable(f"issue reconciliation failed: {type(exc).__name__}") from exc
     if not isinstance(manifest, Mapping):
@@ -246,10 +248,14 @@ class IssueHygieneSensor:
         now = parse_instant(observed_at, "observed_at")
         hygiene = _hygienePolicy(root)
         census = loadCensus(path, now=now, maxAgeSeconds=hygiene.maxCensusAgeSeconds)
-        if not census.status.complete:
+        degraded = not census.status.complete and closedOnlyIncomplete(census)
+        if not census.status.complete and not degraded:
             reasons = ", ".join(_text(reason, 80) for reason in census.status.reasons[:3]) or "no reason recorded"
             raise SensorUnavailable(f"issue census is {census.status.status}: {reasons}")
-        manifest = reconcileCensus(census, root, hygiene, now)
+        manifest = (
+            reconcileCensus(census, root, hygiene, now, closedHistoryUnavailable=True) if degraded
+            else reconcileCensus(census, root, hygiene, now)
+        )
         _validateManifest(manifest)
         try:
             closed = doneClosures(root)
@@ -261,11 +267,27 @@ class IssueHygieneSensor:
             if entry.get("outcome") == "refused" and isinstance(entry.get("key"), str) and isinstance(entry.get("issue"), int)
             and int(entry.get("attempts", 0) or 0) >= RETRYLIMIT
         })
-        return self._observations(manifest, hygiene, observed_at, closed, escalated)
+        scan = self._observations(manifest, hygiene, observed_at, closed, escalated, closureEvaluated=not degraded)
+        if degraded:
+            # Only closed history is missing. The open inventory above was reconciled and observed as usual; every
+            # operation that needs closed history (closure proofs and plans) is NOT EVALUATED. Partial coverage also
+            # stops the exhaustive sweep from resolving closure debt it did not look at. Nothing here blinds Steward.
+            reason = (
+                "issue census closed history is incomplete "
+                f"({_text(str(census.document['completeness']['closed'].get('reason', 'unknown')), 80)}); "
+                f"issue closure operations are NOT EVALUATED. Telemetry: {closedTelemetry(census)}"
+            )
+            scan = SensorScan(
+                observations=scan.observations,
+                skipped=tuple(scan.skipped) + ({
+                    "subjectType": "issue-scope", "subjectId": "closure-operations", "reason": reason,
+                },),
+            )
+        return scan
 
     def _observations(self, manifest: Mapping[str, Any], hygiene: HygienePolicy, observed_at: str,
                       closed: Mapping[tuple, str | None] | None = None,
-                      escalated: list[tuple] | None = None) -> SensorScan:
+                      escalated: list[tuple] | None = None, closureEvaluated: bool = True) -> SensorScan:
         digest = _digest(manifest)
         stats = manifest.get("stats") if isinstance(manifest.get("stats"), Mapping) else {}
         # Provenance carries the backlog counts so a receipt can show before and after.
@@ -302,7 +324,9 @@ class IssueHygieneSensor:
             suite_rows.setdefault(suite, []).append(_suiteRow(item))
 
         observations: list[Observation] = []
-        for rule in sorted(rule for rule in KNOWN_RULE_IDS if hygiene.ruleEnabled(rule)):
+        # Closure rules are observed only when closed history backs them: a rule "healthy" with no plans would otherwise
+        # read a missing inventory as an empty one.
+        for rule in sorted(rule for rule in KNOWN_RULE_IDS if hygiene.ruleEnabled(rule) and closureEvaluated):
             rows = [plan for plan in plans if plan["ruleId"] == rule]
             if hygiene.writesEnabled:
                 observed = {"ruleId": rule, "count": len(rows), "plans": rows[:MAX_ITEMS_PER_DEBT],

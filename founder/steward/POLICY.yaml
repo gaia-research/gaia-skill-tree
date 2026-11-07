@@ -50,6 +50,9 @@ authority:
   timeline_causality_drift: B
   frontend_contract_drift: B
   trust_stamp_stale: C
+  # Founder ruling 2026-11-06 (#2201, option 11A): an empty effective evidence pool is a
+  # Class C evidence gap, never drift and never a demotion.
+  trust_evidence_gap: C
   issue_closure_ready: A
   issue_suite_review: B
   issue_founder_decision: C
@@ -297,6 +300,12 @@ priority:
     exposure: 0.7
     freshnessNeed: 0.6
     expectedCost: 0.3
+  trust_evidence_gap:
+    importance: 0.8
+    decisionImpact: 0.8
+    exposure: 0.8
+    freshnessNeed: 0.5
+    expectedCost: 0.4
   issue_closure_ready:
     importance: 0.6
     decisionImpact: 0.6
@@ -712,6 +721,63 @@ routing:
         - show a diff confined to docs/agents/issue-hygiene and tests/steward
         - run the focused issue-hygiene tests and report exact results
         - obtain independent review before integration
+    workflow-timeout-repair:
+      debtKind: workflow_hygiene
+      authority: B
+      routine: ci-architecture-steward
+      promptGuide: founder/steward/routines/workflow-timeout.md
+      capability: >-
+        Read a GitHub Actions job to understand what it does and where it can legitimately wait,
+        weigh that against observed historical run durations, and choose a per-job timeout that
+        kills a hung job without killing a healthy slow one. Express the repair as the addition of
+        timeout-minutes lines and nothing else, in a security-relevant file.
+      objective: >-
+        For one workflow file with missing-timeout findings, add a job-level timeout-minutes to each
+        flagged job, with the value chosen from the job's semantics and its historical durations, and
+        return the smallest diff with the reasoning for every value. Founder ruling #14 (decision
+        steward-workflow-timeout-route, #2283) grants exactly this and no other workflow write. A
+        missing timeout is a configuration finding, not evidence that the job ever timed out.
+      # The ONE exception to the .github/** floor. policy.py pins the allowed path
+      # exactly and refuses it for any other debt kind; the exclusions below are
+      # required, not advisory. gh-aw generated lock files are compiled output.
+      allowedPaths:
+        - .github/workflows/*.yml
+      allowedCommands:
+        - python scripts/check_steward_coverage.py --check
+        - python -m pytest tests/steward/test_sensors_ci.py
+        - python -c "import sys, yaml; yaml.safe_load(open(sys.argv[1]))" <workflow-file>
+        - gh run list --workflow <workflow-file> --status completed --limit 50 --json databaseId,conclusion,createdAt,startedAt,updatedAt
+        - gh api repos/gaia-research/gaia-skill-tree/actions/runs/<run-id>/jobs --jq '.jobs[] | {name, conclusion, started_at, completed_at}'
+      forbiddenPaths:
+        - .agents/skills/**
+        - .claude/skills/**
+        - .gaia/steward/**
+        - .github/actions/**
+        - .github/workflows/*.lock.yml
+        - .github/workflows/_disabled/**
+        - .github/workflows/shared/**
+        - docs/**
+        - founder/**
+        - registry/**
+        - skill-trees/**
+        - src/**
+        - tests/**
+      stopConditions:
+        - the finding does not reproduce on the current head
+        - the subject is a gh-aw generated lock file or has a gh-aw source beside it; fix the source and recompile is a founder-gated step
+        - any change other than adding a job-level timeout-minutes line would be needed, or the debt carries any finding other than missing-timeout
+        - successful completed-run duration history cannot be read for a flagged job; semantics alone never substitute for history
+        - the job legitimately waits on a human, an environment approval or an external deploy and no bound is justifiable
+        - a flagged job is a reusable-workflow call, which cannot declare timeout-minutes
+        - the workflow file does not parse as YAML after the edit
+        - validation, coverage, or independent proof is incomplete
+      proof:
+        - reproduce every missing-timeout finding for the subject workflow on the current head
+        - for each job, state its semantics, the sampled completed-run durations, and the timeout chosen with the rule applied
+        - show a diff confined to the one workflow file that only adds integer 1..360 timeout-minutes keys directly under existing jobs that lacked them
+        - parse the edited workflow as YAML and report exact results
+        - run python scripts/check_steward_coverage.py --check and the focused CI sensor tests and report exact results
+        - obtain independent review before integration
   founderRules:
     issue-founder-decision:
       debtKind: issue_founder_decision
@@ -777,3 +843,9 @@ prMaintenance:
     - main
   mergeMethods:
     - merge
+
+# Browser access for rendered-frontend observation (routine 15; founder ruling steward-browser-render-driver).
+# Headless Chromium is free and on by default for scheduled and founder runs. A real, interactive browser is
+# never a persistent setting: only `gaia steward full run --interactive-browser` authorizes it, for that run.
+browser:
+  headless: true

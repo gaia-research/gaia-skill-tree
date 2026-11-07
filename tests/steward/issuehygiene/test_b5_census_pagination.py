@@ -48,6 +48,9 @@ def githubListing(rows: list[dict], pageSize: int = 100):
     total = len(pages)
 
     def fetch(url: str) -> Response:
+        if urlparse(url).path == "/search/issues":
+            # GitHub's own closed-issue total, which the collector cross-checks; these fakes hold no closed issues.
+            return Response(200, {}, json.dumps({"total_count": 0, "incomplete_results": False, "items": []}))
         if "state=closed" in url:
             return Response(200, {}, "[]")
         query = parse_qs(urlparse(url).query)

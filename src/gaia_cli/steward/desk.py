@@ -59,6 +59,8 @@ DECISION_RECORD_SCHEMA = "steward-decision-v1"
 DECISIONS_RELATIVE_DIR = "founder/steward/decisions"
 QUIET_LINE = "Gaia Steward: nothing needs you."
 TRUST_STAMP_ISSUE = "https://github.com/gaia-research/gaia-skill-tree/issues/1642"
+TRUST_GAP_ISSUE = "https://github.com/gaia-research/gaia-skill-tree/issues/2201"
+TRUST_STAMP_GOVERNANCE_ISSUE = "https://github.com/gaia-research/gaia-skill-tree/issues/2148"
 
 DECISION_SOURCES = ("class-c-debt", "escalated-lane", "decision-record")
 OPERATION_KINDS = (
@@ -76,7 +78,11 @@ _RECORD_KEYS = frozenset({
     "schemaVersion", "id", "status", "decision", "whyItMatters", "evidence",
     "recommended", "alternative", "unblocks", "links",
 })
-_RECORD_OPTIONAL_KEYS = frozenset({"resolution"})
+_RECORD_OPTIONAL_KEYS = frozenset({"resolution", "landedIn"})
+
+# A decided record carrying this resolution is a founder approval whose change
+# is not yet recorded as landed: it still needs someone to implement or land it.
+APPROVED_RESOLUTION = "approved"
 _RECORD_ID = re.compile(r"[a-z0-9][a-z0-9._-]{0,127}")
 _MAX_RECORD_BYTES = 64 * 1024
 _MAX_EVIDENCE_ITEMS = 8
@@ -254,6 +260,8 @@ def _check_record(record: Mapping[str, Any]) -> str | None:
         return "status must be 'open' or 'decided'"
     if "resolution" in body and (not isinstance(body["resolution"], str) or not body["resolution"].strip()):
         return "resolution must be a non-empty string when present"
+    if "landedIn" in body and (not isinstance(body["landedIn"], str) or not body["landedIn"].strip()):
+        return "landedIn must be a non-empty string when present"
     for key in ("decision", "whyItMatters", "recommended", "alternative", "unblocks"):
         if not isinstance(body[key], str) or not body[key].strip():
             return f"{key} must be a non-empty string"
@@ -264,8 +272,67 @@ def _check_record(record: Mapping[str, Any]) -> str | None:
     return None
 
 
+@dataclass(frozen=True)
+class AwaitingRecord:
+    """A founder-approved record whose implementation or landing is not yet recorded."""
+
+    record_id: str
+    decision: str
+    resolution: str
+    ruling: str
+    unblocks: str
+    links: tuple[str, ...]
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "recordId": self.record_id,
+            "decision": self.decision,
+            "resolution": self.resolution,
+            "ruling": self.ruling,
+            "unblocks": self.unblocks,
+            "links": list(self.links),
+        }
+
+
+@dataclass(frozen=True)
+class RecordDesk:
+    """Every canonical decision record, sorted into what the founder must act on.
+
+    ``pending`` records are open questions awaiting a ruling. ``awaiting`` records
+    are approved rulings that still need implementation or landing. ``invalid``
+    records could not be read and are never silently dropped.
+    """
+
+    pending: tuple[DeskDecision, ...] = ()
+    awaiting: tuple[AwaitingRecord, ...] = ()
+    invalid: tuple[DeskOperation, ...] = ()
+
+    def actionable(self) -> bool:
+        return bool(self.pending or self.awaiting or self.invalid)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "pending": [item.to_dict() for item in self.pending],
+            "awaitingImplementation": [item.to_dict() for item in self.awaiting],
+            "invalid": [item.to_dict() for item in self.invalid],
+        }
+
+
+def classify_decision_records(records: Iterable[Mapping[str, Any]]) -> RecordDesk:
+    """Sort decision records into pending, approved-awaiting-landing and invalid."""
+
+    awaiting: list[AwaitingRecord] = []
+    pending, invalid = _records_to_desk(records, awaiting)
+    return RecordDesk(
+        pending=tuple(sorted(pending, key=lambda item: item.decision_id)),
+        awaiting=tuple(sorted(awaiting, key=lambda item: item.record_id)),
+        invalid=tuple(sorted(invalid, key=lambda op: (op.subject, op.detail))),
+    )
+
+
 def _records_to_desk(
     records: Iterable[Mapping[str, Any]],
+    awaiting: list[AwaitingRecord] | None = None,
 ) -> tuple[list[DeskDecision], list[DeskOperation]]:
     decisions: list[DeskDecision] = []
     operations: list[DeskOperation] = []
@@ -284,6 +351,19 @@ def _records_to_desk(
             continue
         seen.add(str(identifier))
         if record["status"] != "open":
+            if (
+                awaiting is not None
+                and record.get("resolution") == APPROVED_RESOLUTION
+                and "landedIn" not in record
+            ):
+                awaiting.append(AwaitingRecord(
+                    record_id=str(identifier),
+                    decision=record["decision"].strip(),
+                    resolution=APPROVED_RESOLUTION,
+                    ruling=record["recommended"].strip(),
+                    unblocks=record["unblocks"].strip(),
+                    links=tuple(item.strip() for item in record["links"]),
+                ))
             continue
         decisions.append(DeskDecision(
             decision_id=str(identifier),
@@ -389,6 +469,18 @@ def _generic_evidence(debts: Sequence[Debt]) -> list[str]:
     return rows
 
 
+def _trust_gap_evidence(debts: Sequence[Debt]) -> list[str]:
+    rows: list[str] = []
+    for debt in sorted(debts, key=lambda item: item.id):
+        state = debt.observed_state
+        preserved = state.get("preservedLevel") or debt.current_state.get("level")
+        rows.append(
+            f"{debt.subject.id}: rating {preserved} preserved; {state.get('evidenceBasis', 'no scoring evidence')} "
+            f"({state.get('effectiveRowCount', 0)} effective row(s))"
+        )
+    return rows
+
+
 def _class_c_group(kind: str, debts: Sequence[Debt]) -> DeskDecision:
     ordered = sorted(debts, key=lambda item: item.id)
     ids = tuple(item.id for item in ordered)
@@ -423,24 +515,92 @@ def _class_c_group(kind: str, debts: Sequence[Debt]) -> DeskDecision:
             priority=_PRIORITY_CREDENTIAL,
         )
     if kind == "trust_stamp_stale":
+        pure = sum(1 for item in ordered if item.observed_state.get("recomputationOnly") is True)
+        governed = count - pure
+
+        def held(reason: str) -> int:
+            return sum(
+                1 for item in ordered
+                if item.observed_state.get("recomputationOnly") is not True
+                and reason in (item.observed_state.get("holdReasons") or ())
+            )
+
+        recorded = sum(
+            1 for item in ordered
+            if item.observed_state.get("recomputationOnly") is not True and item.observed_state.get("holdReasons")
+        )
+        parts = []
+        if pure:
+            parts.append(
+                f"{pure} stamp(s) are recomputation-only: have a Verifier run "
+                "`gaia dev calibrate-trust-magnitude --all --recomputation-only` inside a reviewed "
+                "PR (the backstop; the verb holds anything that is not safe and never writes a star level)."
+            )
+        if governed:
+            detail = (
+                f"{held('level-disagrees-with-computed-grade')} with a computed grade that disagrees with the "
+                f"stored level, {held('stored-grade-differs-from-computed-grade')} whose refresh would rewrite "
+                f"the stored grade, {held('stored-grade-missing')} with no stored grade to preserve"
+            )
+            unknown = governed - recorded
+            if unknown:
+                detail += f", {unknown} with no recorded hold reason"
+            parts.append(
+                f"{governed} stamp(s) are governed ({detail}): the refresh is held, no write command is "
+                "recommended, and any level or grade change belongs to trust calibration governance (#2148)."
+            )
+        recommended = " ".join(parts)
         return DeskDecision(
             decision_id=identity,
-            decision="Decide the Trust Magnitude stamp refresh policy for stale stored stamps.",
+            decision=(
+                f"Decide what to do with {count} stale Trust Magnitude stamp(s) the event-driven "
+                "refresh did not clear."
+            ),
             why_it_matters=(
-                "Stored trustMagnitude stamps disagree with the computed effective value, so "
-                "displayed trust and computed trust differ until a refresh policy exists. "
-                "Steward measures this and never edits stamps."
+                "Stored trustMagnitude stamps disagree with the computed effective value. Founder "
+                "ruling 2026-11-06 (#1642, 8A) refreshes a stamp inside the PR that changes its "
+                "evidence when the refresh is a pure recomputation; what is left here either "
+                "escaped that trigger or is not a recomputation. Steward measures and never edits "
+                "stamps."
             ),
             evidence=tuple(_generic_evidence(ordered)),
-            recommended=(
-                "Choose one refresh mechanism in #1642 (for example a gated `gaia dev` command "
-                "that restamps inside a reviewed PR) and record it as a decision."
-            ),
+            recommended=recommended,
             alternative=(
                 "Declare stored stamps historical snapshots and exclude them from drift detection."
             ),
             unblocks=unblocks,
             links=(TRUST_STAMP_ISSUE,),
+            debt_ids=ids,
+            source="class-c-debt",
+        )
+    if kind == "trust_evidence_gap":
+        return DeskDecision(
+            decision_id=identity,
+            decision=(
+                f"Decide how to resolve {count} named skill(s) whose effective evidence pool is "
+                "empty (evidence gap)."
+            ),
+            why_it_matters=(
+                "Missing evidence is not evidence of degradation (#2201). Steward preserves every "
+                "current rating, never proposes a demotion from an empty pool, and never admits "
+                "evidence or changes trust itself; the read-only discovery routine only records "
+                "what was searched."
+            ),
+            evidence=tuple(_trust_gap_evidence(ordered)),
+            recommended=(
+                "Run the read-only discovery routine for each gap "
+                "(`python scripts/steward_evidence_discovery.py plan`, then `record`), review its "
+                "receipts, and admit any admissible evidence through `gaia dev evidence` so the "
+                "calibration is recomputed from qualifying evidence. Where none exists keep the "
+                "current rating and record the gap; a demotion needs counter-evidence or "
+                "supersession under #2148."
+            ),
+            alternative=(
+                "Rule the gap acceptable for named skills (keep the rating and stop reporting), or "
+                "open a governed demotion for one of them under #2148."
+            ),
+            unblocks=unblocks,
+            links=(TRUST_GAP_ISSUE, TRUST_STAMP_GOVERNANCE_ISSUE),
             debt_ids=ids,
             source="class-c-debt",
         )

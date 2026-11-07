@@ -227,6 +227,12 @@ class FakeGitHub:
         if urlparse(url).path == f"/repos/{self.repo}":
             # The repository's own metadata: open_issues_count counts issues and pull requests alike.
             return Response(200, {}, json.dumps({"open_issues_count": len(self.rowsFor("open"))}))
+        if urlparse(url).path == "/search/issues":
+            # GitHub's own total of closed issues (pull requests excluded): what the collector cross-checks.
+            closed = [row for row in self.issues.values() if row["state"] == "closed" and "pull_request" not in row]
+            return Response(200, {}, json.dumps({"total_count": len(closed), "incomplete_results": False, "items": []}))
+        if urlparse(url).path.endswith("/issues/events"):
+            return Response(200, {}, "[]")
         query = parse_qs(urlparse(url).query)
         state = query["state"][0]
         page = servedPage(query)
@@ -237,7 +243,7 @@ class FakeGitHub:
         return Response(status, headers, body)
 
     def census(self, now: datetime = NOW, closedWindowDays: int = 30) -> dict:
-        return collectCensus(self.repo, now, self.fetch, closedWindowDays)
+        return collectCensus(self.repo, now, self.fetch, closedWindowDays, sleep=lambda _seconds: None)
 
     def search(self, query: str) -> list[int]:
         """Title search with an index that lags creation. LIST always sees every issue."""

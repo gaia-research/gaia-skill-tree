@@ -94,6 +94,51 @@ class Census:
         return found
 
 
+def closedOnlyIncomplete(census: "Census") -> bool:
+    """Whether the census is incomplete solely because its closed-history walk failed.
+
+    The collector marks ``completeness.open`` and ``completeness.closed`` separately. When the open inventory is
+    complete and every reason traces to the issues and pulls sections that the closed failure also marks, the
+    open inventory is still sound: only operations that need closed history have nothing to stand on. Any other
+    defect (a stale census, a bad body hash, an unknown schema, an incomplete open walk) keeps this False.
+    """
+
+    document = census.document
+    if census.status.status != INCOMPLETE or not isinstance(document, dict):
+        return False
+    completeness = document.get("completeness")
+    if not isinstance(completeness, dict):
+        return False
+    opened, closed = completeness.get("open"), completeness.get("closed")
+    if not (isinstance(opened, dict) and opened.get("complete") is True):
+        return False
+    if not (isinstance(closed, dict) and closed.get("complete") is False):
+        return False
+    allowed = tuple(f"{section}-{kind}" for section in SECTIONS for kind in ("complete-false", "pages-mismatch"))
+    return bool(census.status.reasons) and all(reason.startswith(allowed) for reason in census.status.reasons)
+
+
+def closedTelemetry(census: "Census") -> str:
+    """One bounded line of the collector's closed-history telemetry: provider, pagination, auth, count, refusal."""
+
+    document = census.document if isinstance(census.document, dict) else {}
+    history = document.get("closedHistory")
+    if not isinstance(history, dict):
+        return "no closed-history telemetry recorded"
+    pagination = history.get("pagination") if isinstance(history.get("pagination"), dict) else {}
+    count = history.get("count") if isinstance(history.get("count"), dict) else {}
+    attempts = history.get("attempts") if isinstance(history.get("attempts"), list) else []
+    parts = (
+        f"provider {str(history.get('provider'))[:20]}",
+        f"auth {str(history.get('auth'))[:20]}",
+        f"pages {str(pagination.get('pagesFetched'))[:8]}",
+        f"count {str(count.get('value'))[:12]} (verified {count.get('verified') is True})",
+        f"attempts {len(attempts)}",
+        f"refusal {str(history.get('refusal'))[:60]}",
+    )
+    return ", ".join(parts)
+
+
 def rowProblems(row: dict, label: str) -> list[str]:
     reasons = []
     number = row.get("number", "?")
@@ -225,6 +270,8 @@ __all__ = [
     "Census",
     "CensusStatus",
     "bodySha256",
+    "closedOnlyIncomplete",
+    "closedTelemetry",
     "loadCensus",
     "parseTimestamp",
     "validateCensus",
