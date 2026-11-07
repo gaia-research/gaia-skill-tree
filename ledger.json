@@ -1,5 +1,5 @@
 {
- "generation": 1724,
+ "generation": 1725,
  "lane": {
   "entries": [
    {
@@ -6636,7 +6636,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T23:46:44.137840Z",
-   "expiresAt": "2026-11-08T00:29:54.245675Z",
+   "expiresAt": "2026-11-08T00:29:59.521423Z",
    "holder": "run-20261107T222830Z-f75ff7de"
   }
  },
@@ -132621,6 +132621,29 @@
      "status": "pending",
      "stepId": "verify:52236ab2419b:2",
      "type": "agent.verify"
+    },
+    {
+     "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
+     "emittedAt": "2026-11-07T23:59:58.667635Z",
+     "idempotencyKey": "verify:dispatch-31cae5acdc5144c46b5a:1",
+     "params": {
+      "allowedModels": [
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 1,
+      "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
+      "effortRequired": true,
+      "forbiddenAgentIds": [
+       "pi-herdr-batch11-builder-7e42a9299170"
+      ],
+      "verifierPromptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/verify-7e42a9299170.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "verify:7e42a9299170:1",
+     "type": "agent.verify"
     }
    ],
    "actor": "cli",
@@ -134441,6 +134464,14 @@
      "kind": "agent.verify",
      "status": "awaiting",
      "stepId": "verify:52236ab2419b:2"
+    },
+    {
+     "at": "2026-11-07T23:59:58.667635Z",
+     "debtId": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
+     "idempotencyKey": "verify:dispatch-31cae5acdc5144c46b5a:1",
+     "kind": "agent.verify",
+     "status": "awaiting",
+     "stepId": "verify:7e42a9299170:1"
     }
    ],
    "thinkingEfforts": [
@@ -134454,7 +134485,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T23:59:54.245839Z",
+ "updatedAt": "2026-11-07T23:59:59.521604Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -140355,7 +140386,12 @@
    "source": "ci-workflow",
    "state": "building",
    "updatedAt": "2026-11-07T23:49:18.691351Z",
-   "verification": null
+   "verification": {
+    "mode": "no-change",
+    "stage": "awaiting-verifier",
+    "verdict": "pending",
+    "verifierPromptPath": ".gaia/steward/full/run-20261107T222830Z-f75ff7de/verify-7e42a9299170.prompt.md"
+   }
   },
   "debt:workflow_hygiene:github-workflows-cli-wrapper-yml:3fcd5fcc3af0ce4d": {
    "assignments": [
