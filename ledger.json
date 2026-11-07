@@ -1,5 +1,5 @@
 {
- "generation": 1156,
+ "generation": 1157,
  "lane": {
   "entries": [
    {
@@ -4845,7 +4845,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T03:28:09.052101Z",
-   "expiresAt": "2026-11-07T04:16:29.817125Z",
+   "expiresAt": "2026-11-07T04:16:34.804280Z",
    "holder": "run-20261107T032809Z-31f4a5be"
   }
  },
@@ -90706,6 +90706,54 @@
      "landings": [],
      "status": "ok"
     },
+    "class_b": {
+     "dispatchId": "dispatch-29f19aa448a591243d77",
+     "dispatched": "debt:unused_import:scripts-jev-advisory-py:2e2799e7eedfcd5a",
+     "dispatchedAll": [
+      {
+       "dispatchId": "dispatch-29f19aa448a591243d77",
+       "dispatched": "debt:unused_import:scripts-jev-advisory-py:2e2799e7eedfcd5a",
+       "stepId": "build:288be108ed47:2"
+      },
+      {
+       "dispatchId": "dispatch-b1a9ec6d2be84878071d",
+       "dispatched": "debt:unused_import:scripts-lib-tests-test-heartbeat-regression-py:119965096d096663",
+       "stepId": "build:bea677b92540:1"
+      },
+      {
+       "dispatchId": "dispatch-875c41e811c127eb3e59",
+       "dispatched": "debt:unused_import:scripts-lib-tests-test-lib-py:937bb006737be2e0",
+       "stepId": "build:5ded3e5c5e18:1"
+      },
+      {
+       "dispatchId": "dispatch-d7699ecb0b180352aac5",
+       "dispatched": "debt:unused_import:scripts-merge-gate-check-py:1cff37f84d221787",
+       "stepId": "build:c5823bb41629:1"
+      },
+      {
+       "dispatchId": "dispatch-b704ca282969561a32b6",
+       "dispatched": "debt:unused_import:scripts-migrate-taxonomy-v6-py:8219619acd869521",
+       "stepId": "build:e0d433df12da:1"
+      },
+      {
+       "dispatchId": "dispatch-cee3b536bc09d0815259",
+       "dispatched": "debt:unused_import:scripts-prepare-l4-october-py:bd894a0b5a6223f2",
+       "stepId": "build:a25b268aaa3e:1"
+      },
+      {
+       "dispatchId": "dispatch-96ae9b08ab4e70204f0c",
+       "dispatched": "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0",
+       "stepId": "build:568e4a413656:2"
+      },
+      {
+       "dispatchId": "dispatch-3d003125f2fec1a2daa9",
+       "dispatched": "debt:unused_import:scripts-run-meta-sweep-py:3e8242f71d3c1aa0",
+       "stepId": "build:d19aa39af12c:1"
+      }
+     ],
+     "status": "awaiting-build",
+     "stepId": "build:288be108ed47:2"
+    },
     "observe": {
      "authorityCounts": {
       "A": 1,
@@ -91720,7 +91768,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T03:46:29.822145Z",
+ "updatedAt": "2026-11-07T03:46:34.804426Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
