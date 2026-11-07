@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "steward-decision-v1",
+  "id": "steward-class-b-route-trust-calibration-2283",
+  "status": "decided",
+  "resolution": "approved",
+  "decision": "Is a stored level below its Trust Grade ceiling debt that Steward calibrates automatically? (#2283 root-cause review F1, with F3)",
+  "whyItMatters": "116 of 120 trust_calibration_drift findings are below-ceiling skills. Until now the route was proposal-only and a human ran every gaia dev calibrate.",
+  "evidence": [
+    "Founder ruling F1, 2026-11-08 (verbatim): choice \"target\"; note \"Normally once a skill gets in the tree, this is now debt. A steward run will be canon if it detects below ceiling, and should calibrate automatically. Other ways to do this is through me, the verifier, or through a full monthly meta audit/closeout. So yes, it is technically a ceiling, but steward is now allowed to do this fully.\"",
+    "Founder ruling F3, 2026-11-08 (verbatim): choice \"propose\"; note \"As LONG as evidence points correctly and gives the correct trust magnitude, proposals are valid. The reason for demotion should be checked since usually it just means that there is no evidence.\"",
+    "Founder ruling F2 (final, verbatim): \"Ok cap it at 49.9. Thats the final RFC. They need one more thing to get them 3star.\"",
+    "Envelope (code-pinned in policy.py and calibrationroute.py): one skill, one gaia dev calibrate <id> <target> --no-build to the grade target; writes only registry/named/<id>.md; promotions only; never frozen; never over a recorded prior demotion (F3: proposal-only, reason shown); never a cap-only suite component to 3★+; never a refused or unevaluable preflight.",
+    "Verification rejects any diff that is not exactly that one record with only level/updatedAt/one appended rank_up timeline event, and re-derives eligibility, Trust Magnitude, grade and preflights live.",
+    "Class S artifacts are never written by a packet; the lead regenerates the deterministic set once per integrated wave and Guard E holds on the integration-to-main delivery.",
+    "Lane maxInFlight, maxAttempts and cooldown are unchanged."
+  ],
+  "recommended": "Activate the executable route for below-ceiling promotions under the envelope above; keep demotions, frozen skills, prior-demotion cases and refused preflights as proposals.",
+  "alternative": "Keep trust calibration proposal-only (a Verifier runs every command).",
+  "unblocks": "Steward lane builders calibrate eligible below-ceiling skills one packet at a time; the lead regenerates Class S per wave.",
+  "links": [
+    "founder/reports/steward-campaign-2026-11-05/FOUNDER_ROOTCAUSE_RULINGS_2026-11-08.md",
+    "founder/steward/routines/trust-calibration-drift.md",
+    "src/gaia_cli/steward/calibrationroute.py",
+    "https://github.com/gaia-research/gaia-skill-tree/issues/2283"
+  ]
+}

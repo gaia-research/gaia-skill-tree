@@ -1714,6 +1714,122 @@ class TrustCalibrationDriftSensor:
             "scoringRowCount": 0,
         }
 
+    @staticmethod
+    def _capOnlySuiteComponent(skill: dict, context: dict) -> bool:
+        """True when every scoring row is inherited suite-root repository evidence.
+
+        Such a component's Trust Magnitude is the suite-repository cap and nothing
+        else; founder ruling F2 says it never earns an automatic 3★.
+        """
+
+        from gaia_cli.trustMagnitude import _isSuiteRootRepositoryEvidence
+
+        if not isinstance(skill.get("suiteRef"), str):
+            return False
+        scoring = [
+            row
+            for row, score in computeRowArtifactScores(skill, context)
+            if not row.get("_autoDerived") and score > 0
+        ]
+        return bool(scoring) and all(_isSuiteRootRepositoryEvidence(row, skill) for row in scoring)
+
+    def _driftState(
+        self,
+        skill_id: str,
+        skill: dict,
+        current_level: str,
+        target_level: str,
+        tm: float,
+        grade: str,
+        timeline: Any,
+        gates: "_CalibrationGateProbe",
+        context: dict,
+    ) -> dict[str, Any]:
+        """The observed state of one ``trust_calibration_drift`` finding."""
+
+        from gaia_cli.steward.calibrationroute import ineligibilityReason
+
+        unmet = gates.unmet(skill_id, skill, target_level)
+        state: dict[str, Any] = {
+            "trustMagnitude": round(tm, 2),
+            "trustGrade": grade,
+            "targetLevel": target_level,
+            "calibrationCommand": f"gaia dev calibrate {skill_id} {target_level}",
+            # #2283 S8 annotations. direction: the grade is published as a
+            # ceiling (META 4.1); below it is a promotion candidate, above it the
+            # stored level exceeds what is displayed.
+            "direction": (
+                "promotion-candidate"
+                if self._LEVEL_ORDER[target_level] > self._LEVEL_ORDER[current_level]
+                else "ceiling-exceeded"
+            ),
+            # gatesUnmet: what the canonical calibrate preflights would refuse
+            # for calibrationCommand, from the predicates themselves.
+            "gatesUnmet": unmet,
+            # True: a gate refuses. None: a gate could not be evaluated
+            # (preflightError) and none refused. False: all gates pass.
+            "commandWouldBeRefused": (
+                True if any("message" in gate for gate in unmet) else (None if unmet else False)
+            ),
+            "priorGovernedDemotion": _lastGovernedDemotion(timeline),
+            "frozen": gates.frozen(skill_id),
+            "capOnlySuiteComponent": self._capOnlySuiteComponent(skill, context),
+        }
+        # Founder ruling F1 makes below-ceiling promotions an executable route;
+        # every finding that route may never carry is marked here, stays open
+        # and visible, and never holds a lane slot (calibrationroute).
+        reason = ineligibilityReason(state, current_level)
+        if reason is not None:
+            state["laneEligible"] = False
+            state["laneIneligibleReason"] = reason
+        return state
+
+    @classmethod
+    def observeOne(cls, repo_root: Path, skill_id: str) -> tuple[Any, dict[str, Any] | None]:
+        """Re-derive one skill's drift finding exactly as a scan would.
+
+        Returns ``(stored level, observed state)``; the state is None when the
+        skill shows no ``trust_calibration_drift`` (aligned, frozen by the
+        sensor's rule, an evidence gap, or not a calibratable level).
+        """
+
+        import yaml
+
+        from gaia_cli.steward.calibrationroute import subjectPath
+
+        path = repo_root / subjectPath(skill_id)
+        parts = path.read_text(encoding="utf-8").split("---", 2)
+        if len(parts) < 3:
+            raise ValueError("no closed frontmatter fence")
+        skill = yaml.safe_load(parts[1]) or {}
+        if not isinstance(skill, dict) or skill.get("id") != skill_id:
+            raise ValueError("the record does not declare this skill id")
+        context = buildMergedSkillMap(repo_root)
+        parent = skill.get("genericSkillRef")
+        if parent and parent not in context:
+            raise ValueError("unresolvable genericSkillRef")
+        sensor = cls()
+        tm = computeTrustMagnitude(skill, context)
+        grade = computeOverallTrustGradeFromSkill(skill, context)
+        current_level = skill.get("level")
+        timeline = skill.get("timeline", [])
+        if isinstance(timeline, list) and any(
+            isinstance(event, dict) and event.get("action") == "upstream_deprecated" for event in timeline
+        ):
+            return current_level, None
+        if current_level not in cls._TARGET_LEVEL.values():
+            return current_level, None
+        target_level = cls._TARGET_LEVEL[grade]
+        if current_level == target_level:
+            return current_level, None
+        gap = cls._evidenceGap(skill, context)
+        if gap is not None and cls._LEVEL_ORDER[target_level] < cls._LEVEL_ORDER[current_level]:
+            return current_level, None
+        gates = _CalibrationGateProbe(repo_root, context, None)
+        return current_level, sensor._driftState(
+            skill_id, skill, current_level, target_level, tm, grade, timeline, gates, context
+        )
+
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         return list(self.scan_detailed(repo_root, observed_at).observations)
 
@@ -1891,33 +2007,9 @@ class TrustCalibrationDriftSensor:
                 source=self.id,
                 status="drift",
                 current_state={"level": current_level},
-                observed_state={
-                    "trustMagnitude": round(tm, 2),
-                    "trustGrade": grade,
-                    "targetLevel": target_level,
-                    "calibrationCommand": f"gaia dev calibrate {skill_id} {target_level}",
-                    # #2283 S8 annotations (nothing is filtered; F1 policy unchanged).
-                    # direction: the grade is published as a ceiling (META 4.1);
-                    # below it is a promotion candidate, above it the stored level
-                    # exceeds what is displayed.
-                    "direction": (
-                        "promotion-candidate"
-                        if self._LEVEL_ORDER[target_level] > self._LEVEL_ORDER[current_level]
-                        else "ceiling-exceeded"
-                    ),
-                    # gatesUnmet: what the canonical calibrate preflights would
-                    # refuse for calibrationCommand, from the predicates themselves.
-                    "gatesUnmet": (unmet := gates.unmet(skill_id, skill, target_level)),
-                    # True: a gate refuses. None: a gate could not be evaluated
-                    # (preflightError) and none refused. False: all gates pass.
-                    "commandWouldBeRefused": (
-                        True
-                        if any("message" in gate for gate in unmet)
-                        else (None if unmet else False)
-                    ),
-                    "priorGovernedDemotion": _lastGovernedDemotion(timeline),
-                    "frozen": gates.frozen(skill_id),
-                },
+                observed_state=self._driftState(
+                    skill_id, skill, current_level, target_level, tm, grade, timeline, gates, context
+                ),
                 confidence=1.0,
                 provenance={"path": relative},
             ))

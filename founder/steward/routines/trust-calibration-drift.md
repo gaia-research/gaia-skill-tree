@@ -2,26 +2,90 @@
 
 | **Policy rule** | `trust-calibration-drift` |
 | **Debt kind** | `trust_calibration_drift` |
-| **Authority** | **B** — report and propose only; a Verifier must run the calibration |
+| **Authority** | **B**, executable for below-ceiling promotions (founder ruling F1, 2026-11-08); everything else is proposal-only |
+| **Decision** | `steward-class-b-route-trust-calibration-2283` |
 
 ## Purpose
 
-Detect named skills whose stored star level no longer matches the computed G7
-Trust Magnitude grade. End-of-day calibration is intentionally allowed to be
-slow, but stale ranks should become visible maintenance debt rather than remain
-silent until a manual leaderboard review.
+Detect named skills whose stored star level differs from the level their
+recomputed Trust Magnitude grade allows, and, for a promotion, perform the one
+governed calibration that closes the gap.
 
-## Contract
+Founder ruling F1 (verbatim note): "Normally once a skill gets in the tree, this
+is now debt. A steward run will be canon if it detects below ceiling, and should
+calibrate automatically. Other ways to do this is through me, the verifier, or
+through a full monthly meta audit/closeout. So yes, it is technically a ceiling,
+but steward is now allowed to do this fully."
 
-The sensor is read-only. It reports the skill ID, current level, computed TM and
-grade, target level, and the exact `gaia dev calibrate` command. Steward must not
-execute that command or edit `registry/named/`. Skills with an explicit `timeline.action:
-upstream_deprecated` event are frozen and exempt: their historical rank is not
-actionable debt. `installable: false` alone is not a freeze marker.
+## What a packet may carry (enforced in code, `calibrationroute.py`)
 
-A human Verifier reviews the packet, confirms any evidence or Star Bar gates, and
-runs the proposed command. After calibration, rerun the Steward scan; the debt
-should reconcile as healthy.
+The sensor marks every finding the route may never carry `laneEligible: false`
+with a `laneIneligibleReason`. Routing refuses such a packet (lane or explicit
+`--debt`) and verification re-derives eligibility live. The finding stays open
+and visible either way. A packet is **one skill, one promotion to its grade
+target**, and never:
+
+- **a demotion** (`direction: ceiling-exceeded`). F1 covers promotions only; the
+  stored level above the ceiling is already clamped on display, and lowering it
+  keeps its governed authority (Yggdrasil IV).
+- **a frozen skill** (canonical `gaia_cli.frozen`), nor one the sensor treats as frozen.
+- **a skill whose last rank event is a recorded demotion** (`priorGovernedDemotion`).
+  Founder ruling F3 (verbatim note): "As LONG as evidence points correctly and
+  gives the correct trust magnitude, proposals are valid. The reason for demotion
+  should be checked since usually it just means that there is no evidence." These
+  stay **proposals for the curator**: the finding carries the demotion timestamp
+  and reason, and `laneIneligibleReason` repeats them.
+- **a cap-only suite component to 3★ or higher** (`capOnlySuiteComponent`, F2:
+  "There should be no auto-3star for a suite candidate"). With the 49.9 cap
+  (#2378) such a component grades C anyway; the guard holds either way.
+- **a calibration a canonical preflight refuses or cannot evaluate**
+  (`commandWouldBeRefused` must be exactly `false`).
+
+## The builder's job
+
+1. Reproduce the finding on the current head: stored level, recomputed TM, grade, target.
+2. Run exactly one `gaia dev calibrate <skill_id> <target_level> --no-build`.
+   A non-zero exit is a refused preflight: stop, report `no_change`, never retry
+   another way. Never edit the record by hand.
+3. Return the diff the verb wrote: the subject's `registry/named/<id>.md` only,
+   with the appended `rank_up` timeline event. `--no-build` is mandatory: a
+   packet never regenerates or commits Class S artifacts.
+
+## Mechanical verification
+
+`verification.calibration_structure_violations` rejects unless all of these hold:
+
+- the diff touches exactly `registry/named/<subject id>.md`, modified (not created or deleted);
+- parsed frontmatter changes only `level` (packet stored level → packet target),
+  `updatedAt`, and `timeline` (the base timeline plus exactly one appended
+  `rank_up` event whose details are the verb's own `Calibrated level from X to Y`);
+  the body is byte-identical;
+- the finding was eligible when dispatched, and is still eligible when re-derived
+  live at the baseline: the verifier recomputes TM and grade, the target matches
+  the packet, and the canonical preflights pass.
+
+No other skill can change, because no other path may be in the diff.
+
+## Class S artifacts: once per wave, by the lead
+
+Builders commit only the verb-written registry record. Parallel per-skill PRs
+therefore never touch the same file and never conflict on generated output.
+The deterministic Class S set (`docs/graph/*`, `docs/api/v1/**`,
+`docs/graph/ledger/data.json`, profile pages, `docs/tree.md`, `README.md` stat blocks
+and the rest of the list in `CLAUDE.md` § Curation PR) is regenerated **once per
+integrated wave** by the lead:
+
+1. After the wave's calibration PRs are integrated into the integration branch,
+   run `gaia dev docs` on its tip.
+2. Commit only the deterministic set (`CLAUDE.md` § "which artifacts to commit")
+   as one commit, `regen(steward): Class S after calibration wave <run id>`.
+3. `python scripts/build_docs.py --check` must exit 0 before the integration
+   branch is proposed to `main`.
+
+The integration branch may be red between a wave's merges and its regeneration;
+that is expected (`CLAUDE.md` § Multi-PR work). Guard E holds on the
+integration → `main` delivery, which carries both the records and the regenerated
+artifacts. A per-skill PR that touches `docs/**` is rejected (forbidden path).
 
 ## Annotations for the reviewing Verifier (#2283 S8)
 

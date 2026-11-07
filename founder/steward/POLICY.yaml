@@ -491,36 +491,51 @@ routing:
       authority: B
       routine: gaia-trust-calibration-steward
       promptGuide: founder/steward/routines/trust-calibration-drift.md
+      # Founder ruling F1 (2026-11-08, decision steward-class-b-route-trust-calibration-2283):
+      # below-ceiling promotions are executable Class B. policy.py pins registry/named/**
+      # to this rule and debt kind in both directions; the packet's eligibility (promotion
+      # only, never frozen, never over a recorded demotion, never cap-only suite to 3★+,
+      # never a refused preflight) is enforced in code by calibrationroute.py at the
+      # sensor, at dispatch and at verification. Class S artifacts are never written by
+      # a packet: the lead regenerates them once per integrated wave.
       capability: >-
-        Compare computed Trust Magnitude grades with stored named-skill levels
-        and express approved corrections as gaia dev calibrate commands without
-        mutating registry data automatically.
+        Confirm that one named skill's stored level sits below the level its recomputed Trust
+        Magnitude grade allows, that the canonical calibrate preflights accept the promotion, and
+        perform exactly that one governed calibration with the canonical verb, refusing rather than
+        working around any gate.
       objective: >-
-        Reproduce each stale rank, verify the G7 target, and return a bounded
-        calibration command sequence for human approval.
+        For the one subject skill, reproduce the below-ceiling finding on the current head, run
+        exactly one `gaia dev calibrate <skill_id> <target_level> --no-build` to the packet's grade
+        target, and return the diff the verb wrote (that skill's registry record only, with its
+        timeline event). A refused preflight is a stop with no change. Never edit the record by
+        hand, never regenerate docs, never touch another skill.
       allowedPaths:
-        - src/gaia_cli/steward/**
-        - tests/steward/**
+        - registry/named/**
       allowedCommands:
-        - python -m pytest tests/steward/test_sensors.py
-        - gaia steward scan
+        - gaia dev calibrate <skill_id> <target_level> --no-build
         - python scripts/inspectTrustMagnitude.py --skill <skill_id>
+        - gaia steward scan
+        - python -m pytest tests/steward/test_calibration_route.py
       forbiddenPaths:
         - .agents/skills/**
+        - .claude/skills/**
         - .gaia/steward/**
         - .github/**
-        - founder/**
-        - registry/**
-        - skill-trees/**
         - docs/**
+        - founder/**
+        - registry/nodes/**
+        - registry/schema/**
+        - skill-trees/**
       stopConditions:
-        - computed grade or target level cannot be reproduced locally
-        - correction requires automatic registry mutation
-        - validation or focused coverage is incomplete
+        - the finding does not reproduce on the current head, or its stored level or target differs from the packet
+        - the finding is lane-ineligible (ceiling-exceeded, frozen, last rank event a recorded demotion, cap-only suite component to 3★ or higher, or a refused or unevaluable preflight)
+        - gaia dev calibrate exits non-zero (a refused preflight); report no_change and do not retry another way
+        - the diff touches any path other than the subject skill's registry/named record
+        - the verb would need --no-build removed, a docs regeneration, or a hand edit
       proof:
-        - reproduce every reported stale level from local registry state
-        - show the exact gaia dev calibrate command for each approved correction
-        - run focused sensor tests and Steward validation
+        - reproduce the below-ceiling finding for the subject skill on the current head, with stored level, recomputed Trust Magnitude, grade and target
+        - run exactly one gaia dev calibrate <skill_id> <target_level> --no-build and report its exact output and exit code
+        - show a diff confined to the subject skill's registry/named record, with the appended rank_up timeline event
         - obtain independent review before integration
     cli-contract-drift:
       debtKind: cli_contract_drift

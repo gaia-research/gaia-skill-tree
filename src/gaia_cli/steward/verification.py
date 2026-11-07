@@ -29,6 +29,7 @@ from fnmatch import fnmatchcase
 from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Mapping, Sequence
 
+from gaia_cli.steward.calibrationroute import CALIBRATION_ROUTE_RULE_ID, calibrationViolations
 from gaia_cli.steward.workflowproof import Hunk, prove_workflow_edit
 from gaia_cli.steward.models import (
     AuthorityClass,
@@ -121,6 +122,10 @@ class ChangeSet:
     # Parsed hunks of every modified (not created, not deleted) workflow file, for
     # the structural proof; see ``workflow_structure_violations``.
     workflow_patches: tuple[tuple[str, tuple[Hunk, ...]], ...] = ()
+    # Reconstructed post-diff text of every modified canonical named-skill record
+    # (``registry/named/**``), or None when it cannot be reconstructed. Only the
+    # trust-calibration route may write there; its structural proof reads these.
+    named_post_images: tuple[tuple[str, str | None], ...] = ()
 
     @property
     def paths(self) -> tuple[str, ...]:
@@ -344,6 +349,21 @@ def _applyHunks(base: list[str], hunks: list[_Hunk]) -> list[str]:
     return out
 
 
+_NAMED_SUBTREE = "registry/named/"
+
+
+def _postImageText(path: str, hunks: list[_Hunk], read: BaseReader | None) -> str | None:
+    """The post-diff text of a modified file, or None when it cannot be reconstructed."""
+
+    text = read(path) if read is not None else None
+    if text is None:
+        return None
+    try:
+        return "\n".join(_applyHunks(text.split("\n"), hunks))
+    except VerificationError:
+        return None
+
+
 def _postImageProblem(path: str, is_new: bool, hunks: list[_Hunk], read: BaseReader | None) -> str | None:
     """Why a disposition record's post-diff JSON cannot be accepted, or None when it is clean."""
 
@@ -420,6 +440,7 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
     hunks: list[_Hunk] = []
     workflow_violations: list[str] = []
     workflow_patches: list[tuple[str, tuple[Hunk, ...]]] = []
+    named_posts: list[tuple[str, str | None]] = []
 
     current: str | None = None
     added = removed = 0
@@ -441,6 +462,8 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
             problem = _postImageProblem(current, created_file, hunks, base)
             if problem is not None:
                 stamped[current] = problem
+        if current.startswith(_NAMED_SUBTREE) and not deleted_file and not created_file:
+            named_posts.append((current, _postImageText(current, hunks, base)))
         hunks = []
         changes.append(
             FileChange(
@@ -611,6 +634,7 @@ def parse_unified_diff(text: str, *, base: BaseReader | None = None) -> ChangeSe
         stamped_paths=tuple(sorted(stamped.items())),
         workflow_edit_violations=tuple(workflow_violations),
         workflow_patches=tuple(sorted(workflow_patches)),
+        named_post_images=tuple(sorted(named_posts, key=lambda item: item[0])),
     )
 
 
@@ -737,6 +761,31 @@ def parse_proof_transcript(raw: str, *, proof_contract_length: int) -> ProofTran
     )
 
 
+def calibration_structure_violations(root: Path, packet: DispatchPacket, change_set: ChangeSet) -> list[str] | None:
+    """The trust-calibration proof for ``change_set``, or None for any other rule.
+
+    ``root`` is the verifier's checkout at the diff's baseline: the base record
+    is read there and eligibility, Trust Magnitude and the grade target are
+    recomputed there.
+    """
+
+    if packet.rule != CALIBRATION_ROUTE_RULE_ID:
+        return None
+    posts = dict(change_set.named_post_images)
+    paths = change_set.paths
+    single = paths[0] if len(paths) == 1 else None
+    return calibrationViolations(
+        root,
+        packet_debt=packet.debt,
+        change_paths=paths,
+        created_or_deleted=tuple(
+            change.path for change in change_set.changes if change.created_file or change.deleted_file
+        ),
+        base_text=checkoutBase(root)(single) if single else None,
+        post_text=posts.get(single) if single else None,
+    )
+
+
 def is_workflow_path(path: str) -> bool:
     """Whether ``path`` is a direct-child ``.github/workflows/*.yml`` file."""
 
@@ -774,6 +823,7 @@ def evaluate(
     current_open_debt: Sequence[str],
     authority_still_class_b: bool,
     workflow_baseline: Mapping[str, str | None] | None = None,
+    calibration_violations: Sequence[str] | None = None,
 ) -> VerificationVerdict:
     """Answer every verification question machinery can answer, then stop.
 
@@ -810,12 +860,22 @@ def evaluate(
     ]
     stamped = list(change_set.stamped_paths)
     structural = workflow_structure_violations(change_set, workflow_baseline)
+    # Founder ruling F1: a calibration packet must be proven to be exactly one
+    # calibrate write, re-derived live; an unproven one is a rejection.
+    calibration: list[str] = []
+    if packet.rule == CALIBRATION_ROUTE_RULE_ID:
+        calibration = (
+            list(calibration_violations)
+            if calibration_violations is not None
+            else ["no calibration proof was computed, so the edit cannot be accepted"]
+        )
     scope_valid = (
         not outside
         and not forbidden
         and not stamped
         and not change_set.workflow_edit_violations
         and not structural
+        and not calibration
     )
     if outside:
         reasons.append("diff writes outside allowedPaths: " + ", ".join(sorted(outside)))
@@ -832,6 +892,11 @@ def evaluate(
         reasons.append(
             "a workflow edit must be proven to add only job-level timeout-minutes: "
             + "; ".join(structural[:_MAX_WORKFLOW_VIOLATIONS])
+        )
+    if calibration:
+        reasons.append(
+            "a calibration must be proven to be exactly one eligible gaia dev calibrate write: "
+            + "; ".join(calibration[:_MAX_WORKFLOW_VIOLATIONS])
         )
 
     # 3. Is the proof complete and passing? Coverage and exit codes are exact;

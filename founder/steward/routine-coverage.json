@@ -426,10 +426,10 @@
           "bindingStatus": "unrouted"
         }
       ],
-      "predicate": "Registered evidence, trust, benchmark, and taxonomy sensors identify selected drift; trust calibration has a proposal-only route; an empty evidence pool is a Class C trust_evidence_gap with a read-only discovery routine.",
+      "predicate": "Registered evidence, trust, benchmark, and taxonomy sensors identify selected drift; below-ceiling trust calibration is an executable Class B route (founder ruling F1; demotions, frozen skills, prior-demotion proposals, cap-only suite 3★+ and refused preflights stay proposal-only); an empty evidence pool is a Class C trust_evidence_gap with a read-only discovery routine.",
       "remainingGaps": [
         "Hooks 1922, 1445 and 2063 remain unknown/not-evaluated until fresh independent verification.",
-        "Trust calibration findings are report-only until the Star Bar is applied in the sensor; calibration needs founder approval.",
+        "Calibration packets commit only the verb-written registry record; the lead regenerates Class S once per integrated wave before integration-to-main.",
         "Evidence discovery is read-only: it records searches and admissibility (scripts/steward_evidence_discovery.py) and never admits evidence or changes a rating; admission and any demotion keep their governed authority."
       ],
       "owners": [
