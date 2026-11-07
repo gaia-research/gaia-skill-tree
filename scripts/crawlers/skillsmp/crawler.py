@@ -1,6 +1,5 @@
 """Crawls SkillsMP.com for skill definitions (Class C evidence)."""
 
-import json
 import os
 import sys
 import time
