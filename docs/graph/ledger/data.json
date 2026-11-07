@@ -2658,7 +2658,7 @@
     ]
   },
   "version": "9.3.0",
-  "generatedAt": "2026-11-04T21:12:26Z",
+  "generatedAt": "2026-11-06T22:42:54Z",
   "summary": {
     "total": 342,
     "S": 3,
@@ -4132,7 +4132,7 @@
       "tm": 59.65,
       "grade": "B",
       "currentStars": "3★",
-      "storedStars": "4★",
+      "storedStars": "3★",
       "mayStars": "2★",
       "juneStars": "3★",
       "g7Stars": "3★",
@@ -4144,7 +4144,7 @@
         "peer-review": 30.0
       },
       "origin": true,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "obra/test-driven-development",
