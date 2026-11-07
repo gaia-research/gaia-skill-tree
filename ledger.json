@@ -1,5 +1,5 @@
 {
- "generation": 1374,
+ "generation": 1375,
  "lane": {
   "entries": [
    {
@@ -5709,13 +5709,7 @@
   },
   "schemaVersion": "steward-lane-v1"
  },
- "leases": {
-  "run": {
-   "acquiredAt": "2026-11-07T11:20:09.317428Z",
-   "expiresAt": "2026-11-07T12:12:28.516648Z",
-   "holder": "run-20261107T103110Z-5e4b906c"
-  }
- },
+ "leases": {},
  "runs": {
   "run-20261021T162622Z-2b8067d3": {
    "abandonedAt": "2026-10-21T17:04:53.527758Z",
@@ -105207,7 +105201,7 @@
    ],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-07T11:39:20.477405Z",
+    "asOf": "2026-11-07T11:42:27.655074Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -105602,16 +105596,6 @@
       "subject": "browser-render"
      },
      {
-      "detail": "2 of 2 attempts used under unused-import-cleanup while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
-      "subject": "debt:unused_import:scripts-migrate-taxonomy-v6-py:8219619acd869521"
-     },
-     {
-      "detail": "2 of 2 attempts used under unused-import-cleanup while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
-      "subject": "debt:unused_import:scripts-prepare-l4-october-py:bd894a0b5a6223f2"
-     },
-     {
       "detail": "independent verification by pi-terra-01a1a793-8bb8-7029-b125-f63b22e12981 (pi, effort high): rejected - Independent reproduction confirms stored level 2-star, effective TM 50.0, grade B, and sensor target 3-star. No-change is not non-reproduction; no correction wa",
       "kind": "failed_dispatch",
       "subject": "debt:trust_calibration_drift:addy-osmani-ci-cd-and-automation:07ba5dc8749bd82b"
@@ -105665,7 +105649,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": "2026-11-07T11:39:20.477405Z",
+   "finishedAt": "2026-11-07T11:42:27.655074Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -105693,7 +105677,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "perform 5 pending action(s) (lead.integrate), record each with `gaia steward full record run-20261107T103110Z-5e4b906c <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T103110Z-5e4b906c`",
+   "nextAction": "nothing further for this run",
    "options": {
     "afk": false,
     "agents": true,
@@ -108555,7 +108539,7 @@
    "sequence": 42,
    "sourceHead": "591db5447c7bd07d6b83b30e6bfcbeecdfb17dbe",
    "startedAt": "2026-11-07T10:31:10.561980Z",
-   "status": "awaiting-action",
+   "status": "completed",
    "steps": [
     {
      "at": "2026-11-07T10:31:10.561980Z",
@@ -108797,7 +108781,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T11:42:28.516759Z",
+ "updatedAt": "2026-11-07T11:44:00.092508Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
