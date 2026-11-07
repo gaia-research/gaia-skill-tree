@@ -1,5 +1,5 @@
 {
- "generation": 1640,
+ "generation": 1641,
  "lane": {
   "entries": [
    {
@@ -936,14 +936,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-67ccdfdbedf6d13c41c0",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T21:56:10.185866Z",
+      "from": "dispatched",
+      "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch10-verifier-94b4c68a20c6 (pi, effort medium))",
+      "to": "queued"
      }
     ],
-    "lastTransitionAt": "2026-11-07T20:12:06.869150Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T21:56:10.185866Z",
+    "lastVerdict": "reject",
     "priority": 2.916,
     "rule": "trust-calibration-drift",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "queued"
    },
    {
     "attempts": 0,
@@ -126353,6 +126359,13 @@
      "debtId": "debt:trust_calibration_drift:emilkowalski-animation-performance:bf85de34bf017752",
      "emittedAt": "2026-11-07T21:16:05.732908Z",
      "idempotencyKey": "verify:dispatch-67ccdfdbedf6d13c41c0:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch10-verifier-94b4c68a20c6",
+      "effort": "medium",
+      "model": "pi",
+      "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - The base record confirms 2★ and the supplied inspection reports TM 129.67, grade A, and a 4★ target. - The required pre-calibration reproduction is not demonstrated: the inspection reports current stars as 4★, while the claimed 2★ state is taken from the packet rather than a pre-calibration inspection of current head. - The independent review item is discharged by this verification, as specified in the verifier brief.",
+      "verdict": "reject"
+     },
      "params": {
       "allowedModels": [
        "sonnet",
@@ -126368,7 +126381,8 @@
       ],
       "verifierPromptPath": ".gaia/steward/full/run-20261107T200905Z-82a8d6bb/verify-94b4c68a20c6.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T21:56:10.185436Z",
+     "status": "done",
      "stepId": "verify:94b4c68a20c6:1",
      "type": "agent.verify"
     },
@@ -126630,6 +126644,18 @@
      "model": "pi",
      "role": "verifier",
      "stepId": "verify:2e74c6a45dfa:1",
+     "tokensIn": null,
+     "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch10-verifier-94b4c68a20c6",
+     "at": "2026-11-07T21:56:10.185866Z",
+     "costUsd": null,
+     "debtId": "debt:trust_calibration_drift:emilkowalski-animation-performance:bf85de34bf017752",
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:94b4c68a20c6:1",
      "tokensIn": null,
      "tokensOut": null
     }
@@ -128512,11 +128538,11 @@
      "stepId": "verify:2e74c6a45dfa:1"
     },
     {
-     "at": "2026-11-07T21:16:05.732908Z",
+     "at": "2026-11-07T21:56:10.185436Z",
      "debtId": "debt:trust_calibration_drift:emilkowalski-animation-performance:bf85de34bf017752",
      "idempotencyKey": "verify:dispatch-67ccdfdbedf6d13c41c0:1",
      "kind": "agent.verify",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "verify:94b4c68a20c6:1"
     },
     {
@@ -128575,11 +128601,11 @@
    "tokensOut": 0,
    "trigger": "manual",
    "unresolvedWork": [],
-   "updatedAt": "2026-11-07T21:56:02.737833Z"
+   "updatedAt": "2026-11-07T21:56:10.185436Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T21:56:02.739879Z",
+ "updatedAt": "2026-11-07T21:56:10.189161Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -129064,22 +129090,25 @@
      "stepId": "build:94b4c68a20c6:1",
      "tokensIn": null,
      "tokensOut": null
+    },
+    {
+     "agentId": "pi-herdr-batch10-verifier-94b4c68a20c6",
+     "at": "2026-11-07T21:56:10.185866Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "verifier",
+     "stepId": "verify:94b4c68a20c6:1",
+     "tokensIn": null,
+     "tokensOut": null
     }
    ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
+   "blockedReason": "independent verification by pi-herdr-batch10-verifier-94b4c68a20c6 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
    "branch": "steward/b/trust-calibration-drift-94b4c68a20c6",
-   "build": {
-    "agentId": "pi-herdr-batch10-builder-94b4c68a20c6",
-    "attempt": 1,
-    "diffPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-94b4c68a20c6.diff",
-    "dispatchId": "dispatch-67ccdfdbedf6d13c41c0",
-    "noChange": false,
-    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T200905Z-82a8d6bb/build-94b4c68a20c6.proof.json",
-    "recordedAt": "2026-11-07T21:04:06.066686Z",
-    "summary": "Batch batch10 builder (openai/openai-codex gpt-6-luna medium, pi pane) ran exactly one gaia dev calibrate --no-build to the grade target (founder ruling F1 route); verb-written record only; commit 0ea3d84ca; lead QA: one-file diff, every contractIndex 1 command re-run at base exits 0."
-   },
+   "build": null,
    "createdAt": "2026-11-07T20:12:06.869150Z",
    "debtId": "debt:trust_calibration_drift:emilkowalski-animation-performance:bf85de34bf017752",
    "dispatchId": "dispatch-67ccdfdbedf6d13c41c0",
@@ -129090,6 +129119,12 @@
      "from": "queued",
      "reason": "dispatched as dispatch-67ccdfdbedf6d13c41c0 (attempt 1)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-07T21:56:10.185866Z",
+     "from": "building",
+     "reason": "independent verification by pi-herdr-batch10-verifier-94b4c68a20c6 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
+     "to": "blocked"
     }
    ],
    "kind": "trust_calibration_drift",
@@ -129099,13 +129134,14 @@
    "routine": "gaia-trust-calibration-steward",
    "runId": "run-20261107T200905Z-82a8d6bb",
    "source": "trust-calibration-drift",
-   "state": "building",
-   "updatedAt": "2026-11-07T21:04:06.066686Z",
+   "state": "blocked",
+   "updatedAt": "2026-11-07T21:56:10.185866Z",
    "verification": {
-    "receipt": "steward-20261107T211433Z-0cb82012a9d79a29",
-    "stage": "awaiting-verifier",
-    "verdict": "pending",
-    "verifierPromptPath": ".gaia/steward/full/run-20261107T200905Z-82a8d6bb/verify-94b4c68a20c6.prompt.md"
+    "agentId": "pi-herdr-batch10-verifier-94b4c68a20c6",
+    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - The base record confirms 2★ and the supplied inspection reports TM 129.67, grade A, and a 4★ target. - The required pre-calibration reproduction is not demonstrated: the inspection reports current stars as 4★, while the claimed 2★ state is taken from the packet rather than a pre-calibration inspection of current head. - The independent review item is discharged by this verification, as specified in the verifier brief.",
+    "recordedAt": "2026-11-07T21:56:10.185866Z",
+    "stage": "judged",
+    "verdict": "reject"
    }
   },
   "debt:trust_calibration_drift:emilkowalski-break-ui:aabb29218917b154": {
