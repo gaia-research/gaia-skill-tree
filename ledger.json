@@ -1,5 +1,5 @@
 {
- "generation": 1546,
+ "generation": 1547,
  "lane": {
   "entries": [
    {
@@ -121153,6 +121153,14 @@
      "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
      "emittedAt": "2026-11-07T16:45:05.162534Z",
      "idempotencyKey": "dispatch-2f1cf771b91cddb9a30a:1",
+     "outcome": {
+      "agentId": "pi-herdr-batch9-builder-2933fea8b223",
+      "effort": "medium",
+      "model": "pi",
+      "noChange": true,
+      "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-2933fea8b223.proof.json",
+      "summary": "Batch batch9 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: Builder stopped correctly at routine stop condition: all 50 completed runs of the flagged job are 'skipped', so no successful completed-run duration history exists to derive timeout-minutes (founder/steward/routines/workflow-timeout.md: 'If no successful completed-run duration history can be read for a flagged job, stop.'). Route gap noted for engineering: jobs with no successful history need a governed default."
+     },
      "params": {
       "allowedModels": [
        "haiku",
@@ -121173,7 +121181,8 @@
       },
       "promptPath": ".gaia/steward/full/run-20261107T164134Z-574a6b71/build-2933fea8b223.prompt.md"
      },
-     "status": "pending",
+     "recordedAt": "2026-11-07T18:47:44.172080Z",
+     "status": "done",
      "stepId": "build:2933fea8b223:1",
      "type": "agent.build"
     },
@@ -121319,7 +121328,20 @@
     }
    ],
    "actor": "cli",
-   "agentAssignments": [],
+   "agentAssignments": [
+    {
+     "agentId": "pi-herdr-batch9-builder-2933fea8b223",
+     "at": "2026-11-07T18:47:44.172594Z",
+     "costUsd": null,
+     "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:2933fea8b223:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "branches": [],
    "ciResults": [],
    "costUsd": 0.0,
@@ -121340,8 +121362,10 @@
     }
    ],
    "mode": "full",
-   "modelIds": [],
-   "mutated": false,
+   "modelIds": [
+    "pi"
+   ],
+   "mutated": true,
    "nextAction": "perform 6 pending action(s) (agent.build), record each with `gaia steward full record run-20261107T164134Z-574a6b71 <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T164134Z-574a6b71`",
    "options": {
     "afk": false,
@@ -122398,7 +122422,14 @@
      "skippedActive": []
     }
    },
-   "proofArtifacts": [],
+   "proofArtifacts": [
+    {
+     "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
+     "diffPath": null,
+     "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-2933fea8b223.proof.json",
+     "stepId": "build:2933fea8b223:1"
+    }
+   ],
    "pullRequests": [],
    "receipts": [
     {
@@ -122443,11 +122474,11 @@
      "stepId": "phase:class_a"
     },
     {
-     "at": "2026-11-07T16:45:05.162534Z",
+     "at": "2026-11-07T18:47:44.172080Z",
      "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
      "idempotencyKey": "dispatch-2f1cf771b91cddb9a30a:1",
      "kind": "agent.build",
-     "status": "awaiting",
+     "status": "done",
      "stepId": "build:2933fea8b223:1"
     },
     {
@@ -122491,15 +122522,18 @@
      "stepId": "build:52236ab2419b:1"
     }
    ],
-   "thinkingEfforts": [],
+   "thinkingEfforts": [
+    "medium"
+   ],
    "tokensIn": 0,
    "tokensOut": 0,
    "trigger": "manual",
-   "unresolvedWork": []
+   "unresolvedWork": [],
+   "updatedAt": "2026-11-07T18:47:44.172080Z"
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T18:03:18.782723Z",
+ "updatedAt": "2026-11-07T18:47:44.173881Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -127119,12 +127153,33 @@
    }
   },
   "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341": {
-   "assignments": [],
+   "assignments": [
+    {
+     "agentId": "pi-herdr-batch9-builder-2933fea8b223",
+     "at": "2026-11-07T18:47:44.172594Z",
+     "costUsd": null,
+     "effort": "medium",
+     "model": "pi",
+     "role": "builder",
+     "stepId": "build:2933fea8b223:1",
+     "tokensIn": null,
+     "tokensOut": null
+    }
+   ],
    "attempt": 1,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
    "branch": "steward/b/workflow-hygiene-2933fea8b223",
-   "build": null,
+   "build": {
+    "agentId": "pi-herdr-batch9-builder-2933fea8b223",
+    "attempt": 1,
+    "diffPath": null,
+    "dispatchId": "dispatch-2f1cf771b91cddb9a30a",
+    "noChange": true,
+    "proofPath": "/private/tmp/claude-501/-Users-marcotiongson-gaia-skill-tree/f988054e-1297-4560-a226-f983f9aa8e39/scratchpad/wt-obs/.gaia/steward/full/run-20261107T164134Z-574a6b71/build-2933fea8b223.proof.json",
+    "recordedAt": "2026-11-07T18:47:44.172594Z",
+    "summary": "Batch batch9 builder (openai-codex/gpt-6-luna medium, pi pane) STOPPED without a change per the routine: Builder stopped correctly at routine stop condition: all 50 completed runs of the flagged job are 'skipped', so no successful completed-run duration history exists to derive timeout-minutes (founder/steward/routines/workflow-timeout.md: 'If no successful completed-run duration history can be read for a flagged job, stop.'). Route gap noted for engineering: jobs with no successful history need a governed default."
+   },
    "createdAt": "2026-11-07T16:45:05.162534Z",
    "debtId": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
    "dispatchId": "dispatch-2f1cf771b91cddb9a30a",
@@ -127145,7 +127200,7 @@
    "runId": "run-20261107T164134Z-574a6b71",
    "source": "ci-workflow",
    "state": "building",
-   "updatedAt": "2026-11-07T16:45:05.162534Z",
+   "updatedAt": "2026-11-07T18:47:44.172594Z",
    "verification": null
   },
   "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0": {
