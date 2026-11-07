@@ -47,9 +47,13 @@ concurrency:
 jobs:
   changes:
     # Cheap scope gate. The single source of truth for "which paths need heavy
-    # validation" is the `on.push.paths` list at the top of this file; this job
-    # parses it and matches it against the PR diff. Push and workflow_dispatch
-    # runs are always relevant (push is already filtered by GitHub).
+    # validation" is the `on.push.paths` list at the top of this file;
+    # scripts/validate_scope.py parses it and matches it against the PR diff
+    # (immutable base/head SHAs, NUL-delimited raw paths). It FAILS CLOSED:
+    # any detection error means relevant=true. If this whole job fails, the
+    # downstream jobs still run full validation (see `heavy` below). Push and
+    # workflow_dispatch runs are always relevant (push is already filtered by
+    # GitHub).
     name: Detect validation-relevant changes
     runs-on: ubuntu-latest
     permissions:
@@ -63,86 +67,77 @@ jobs:
         with:
           fetch-depth: 0
           filter: blob:none
-          sparse-checkout: .github/workflows/validate.yml
+          sparse-checkout: |
+            .github/workflows/validate.yml
+            scripts/validate_scope.py
           sparse-checkout-cone-mode: false
 
       - name: Compute relevance
         id: scope
         env:
           EVENT_NAME: ${{ github.event_name }}
-          BASE_REF: ${{ github.base_ref }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          if [ "$EVENT_NAME" != "pull_request" ]; then
-            echo "Event $EVENT_NAME always runs full validation."
-            echo "relevant=true" >> "$GITHUB_OUTPUT"
-            exit 0
+          result="relevant=true"
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            python3 -c 'import yaml' 2>/dev/null || python3 -m pip install --quiet pyyaml || true
+            result="$(python3 scripts/validate_scope.py --base "$BASE_SHA" --head "$HEAD_SHA")" || result="relevant=true"
+            # Only an explicit relevant=false may skip validation.
+            [ "$result" = "relevant=false" ] || result="relevant=true"
           fi
-          git diff --name-only --no-renames "origin/${BASE_REF}...HEAD" > changed.txt
-          echo "Changed files:"; cat changed.txt
-          python3 - <<'PY' >> "$GITHUB_OUTPUT"
-          import re, sys
-          try:
-              import yaml
-          except ImportError:
-              import subprocess
-              subprocess.check_call([sys.executable, "-m", "pip", "install", "--quiet", "pyyaml"])
-              import yaml
-          doc = yaml.safe_load(open(".github/workflows/validate.yml"))
-          triggers = doc.get("on", doc.get(True))
-          patterns = triggers["push"]["paths"]
-          def rx(pat):
-              out, i = "", 0
-              while i < len(pat):
-                  if pat.startswith("**", i):
-                      out += ".*"; i += 2
-                  elif pat[i] == "*":
-                      out += "[^/]*"; i += 1
-                  else:
-                      out += re.escape(pat[i]); i += 1
-              return re.compile("^" + out + "$")
-          rxs = [rx(p) for p in patterns]
-          files = [l.strip() for l in open("changed.txt") if l.strip()]
-          hits = [f for f in files if any(r.match(f) for r in rxs)]
-          print(f"matched {len(hits)} of {len(files)} changed files: {hits[:10]}", file=sys.stderr)
-          print("relevant=" + ("true" if hits else "false"))
-          PY
+          echo "$result"
+          echo "$result" >> "$GITHUB_OUTPUT"
 
   validate:
     name: Schema + DAG + Integrity Checks
     needs: changes
+    # Run even when `changes` failed or was skipped (fail closed); only a
+    # cancellation (e.g. superseded PR push) stops it, as before.
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     steps:
-      # Always-reporting required check: when `changes` found nothing relevant,
-      # this job still starts and ends SUCCESS, with every step below skipped.
-      - name: Skip notice
-        if: needs.changes.outputs.relevant != 'true'
-        run: echo "No validation-relevant paths changed; skipping heavy validation."
+      # Always-reporting required check. Heavy steps are skipped ONLY when
+      # `changes` succeeded with an explicit relevant=false.
+      - name: Scope gate
+        id: gate
+        env:
+          CHANGES_RESULT: ${{ needs.changes.result }}
+          CHANGES_RELEVANT: ${{ needs.changes.outputs.relevant }}
+        run: |
+          if [ "$CHANGES_RESULT" = "success" ] && [ "$CHANGES_RELEVANT" = "false" ]; then
+            echo "heavy=false" >> "$GITHUB_OUTPUT"
+            echo "No validation-relevant paths changed; skipping heavy validation."
+          else
+            echo "heavy=true" >> "$GITHUB_OUTPUT"
+            echo "Running full validation (changes result: $CHANGES_RESULT, relevant: $CHANGES_RELEVANT)."
+          fi
 
       - name: Checkout
-        if: needs.changes.outputs.relevant == 'true'
+        if: steps.gate.outputs.heavy == 'true'
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        if: needs.changes.outputs.relevant == 'true'
+        if: steps.gate.outputs.heavy == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
       - name: Set up uv
-        if: needs.changes.outputs.relevant == 'true'
+        if: steps.gate.outputs.heavy == 'true'
         uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
         with:
           enable-cache: true
           cache-dependency-glob: pyproject.toml
 
       - name: Install dependencies
-        if: needs.changes.outputs.relevant == 'true'
+        if: steps.gate.outputs.heavy == 'true'
         run: uv pip install --system -e ".[dev]"
 
       - name: Build intermediate registry artifacts
-        if: needs.changes.outputs.relevant == 'true'
+        if: steps.gate.outputs.heavy == 'true'
         run: |
           python scripts/assemble_gaia.py
           python scripts/generateNamedIndex.py
@@ -150,19 +145,19 @@ jobs:
           cp registry/named-skills.json docs/graph/named/index.json
 
       - name: Verify Version Lockstep
-        if: needs.changes.outputs.relevant == 'true'
+        if: steps.gate.outputs.heavy == 'true'
         run: python scripts/verify_lockstep.py
 
       - name: Run validation
-        if: needs.changes.outputs.relevant == 'true'
+        if: steps.gate.outputs.heavy == 'true'
         run: gaia dev validate
 
       - name: Run intake validation
-        if: needs.changes.outputs.relevant == 'true'
+        if: steps.gate.outputs.heavy == 'true'
         run: gaia dev validate --intake
 
       - name: Check generated docs
-        if: needs.changes.outputs.relevant == 'true'
+        if: steps.gate.outputs.heavy == 'true'
         # NOTE: `gaia dev docs --check` is NOT read-only. It regenerates the
         # Class P (gitignored) + Class S (tracked docs/graph/*) artifacts, then
         # fails (exit 1) if the tracked Class S output drifts from what's
@@ -184,7 +179,7 @@ jobs:
         #   review/gaia-push/ — intake layer only; committed registry is unchanged
         # All other prefixes (cli/, review/meta/, schema/, dev/, cross-cutting) still run.
         if: |
-          needs.changes.outputs.relevant == 'true' && (
+          steps.gate.outputs.heavy == 'true' && (
             github.event_name == 'push' ||
             (
               !startsWith(github.head_ref, 'docs/') &&
@@ -198,7 +193,8 @@ jobs:
   skill-quality:
     name: Agent Skill Quality Gates
     needs: changes
-    if: needs.changes.outputs.relevant == 'true'
+    # Fail closed: skipped only on an explicit, successful relevant=false.
+    if: ${{ !cancelled() && !(needs.changes.result == 'success' && needs.changes.outputs.relevant == 'false') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
