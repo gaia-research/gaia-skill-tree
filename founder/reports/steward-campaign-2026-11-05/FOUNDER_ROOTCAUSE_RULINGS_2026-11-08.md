@@ -227,3 +227,11 @@ Asked: F7 — may the lead install the gh-aw extension (`gh extension install gi
 > F7 yes. F9 yes.
 
 Reading: F7 approved as asked (install pinned v0.92.6; preserve the founder pause in source; C4 audit and compile receipt). F9: keep `docs/samples` and leave it as is; its 8 browser_sink_risk findings stay open by founder decision.
+
+## Addendum 4: the 46 unfrozen 3★ cap-only suite components under the 49.9 cap (verbatim, 2026-11-08)
+
+Asked, with options: A — first add any genuine own evidence each already has (via `gaia dev evidence`), then recalibrate the rest to 2★ (governed calibrations with demote events; reversible through F1 once own evidence lands); B — grandfather them at 3★ through an engine exemption list; C — do nothing (stored 3★, displayed 2★, 46 permanent ceiling-exceeded findings).
+
+> A.
+
+Affected (cap499 simulation on 1a264cdd5): garrytan 19, leonxlnx 10, heygen-com 6, gsd-build 4, addy-osmani 3, firecrawl 3, obra 1. The 13 frozen 3★ components are untouched (frozen skills keep their stars).
