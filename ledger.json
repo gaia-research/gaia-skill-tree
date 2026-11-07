@@ -1,5 +1,5 @@
 {
- "generation": 1715,
+ "generation": 1716,
  "lane": {
   "entries": [
    {
@@ -6636,7 +6636,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T23:46:44.137840Z",
-   "expiresAt": "2026-11-08T00:21:37.972386Z",
+   "expiresAt": "2026-11-08T00:21:43.314183Z",
    "holder": "run-20261107T222830Z-f75ff7de"
   }
  },
@@ -133095,7 +133095,7 @@
     "push": false,
     "routine": 13
    },
-   "phase": "class_b",
+   "phase": "verify",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -133108,52 +133108,9 @@
      "status": "ok"
     },
     "class_b": {
-     "dispatchId": "dispatch-2f1cf771b91cddb9a30a",
-     "dispatched": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
-     "dispatchedAll": [
-      {
-       "dispatchId": "dispatch-2f1cf771b91cddb9a30a",
-       "dispatched": "debt:workflow_hygiene:github-workflows-auto-label-bot-prs-yml:849477aa829ac341",
-       "stepId": "build:2933fea8b223:2"
-      },
-      {
-       "dispatchId": "dispatch-c6e077354da177facab1",
-       "dispatched": "debt:workflow_hygiene:github-workflows-auto-merge-small-prs-yml:b901a0390bd1f3a0",
-       "stepId": "build:5d98e47e79c0:2"
-      },
-      {
-       "dispatchId": "dispatch-d30fe56e2dcc6693dd92",
-       "dispatched": "debt:workflow_hygiene:github-workflows-auto-triage-yml:036f036cc637d53f",
-       "stepId": "build:55b938d79131:2"
-      },
-      {
-       "dispatchId": "dispatch-a4a9f6b7551b39c56ecb",
-       "dispatched": "debt:workflow_hygiene:github-workflows-backfill-releases-yml:97f55a7daa70a92d",
-       "stepId": "build:1e13396e7fe5:2"
-      },
-      {
-       "dispatchId": "dispatch-3a2d2f1c6bee0b95fb7e",
-       "dispatched": "debt:workflow_hygiene:github-workflows-branch-scope-yml:7393ed2311619bae",
-       "stepId": "build:79f5e518ae90:2"
-      },
-      {
-       "dispatchId": "dispatch-19b449f11c49ce659a79",
-       "dispatched": "debt:workflow_hygiene:github-workflows-cf-pr-preview-yml:f7a1a1098f7b0977",
-       "stepId": "build:52236ab2419b:2"
-      },
-      {
-       "dispatchId": "dispatch-31cae5acdc5144c46b5a",
-       "dispatched": "debt:workflow_hygiene:github-workflows-challenge-receipt-issuer-yml:9fb7fc06d4778db7",
-       "stepId": "build:7e42a9299170:1"
-      },
-      {
-       "dispatchId": "dispatch-fcd3113f87d4eb8c9905",
-       "dispatched": "debt:workflow_hygiene:github-workflows-cli-wrapper-yml:3fcd5fcc3af0ce4d",
-       "stepId": "build:70c6c5849b04:1"
-      }
-     ],
-     "status": "awaiting-build",
-     "stepId": "build:2933fea8b223:2"
+     "dispatched": null,
+     "reason": "this run already dispatched 8 (maxDispatchesPerRun 8)",
+     "status": "ok"
     },
     "observe": {
      "authorityCounts": {
@@ -134286,6 +134243,12 @@
      "kind": "agent.build",
      "status": "done",
      "stepId": "build:70c6c5849b04:1"
+    },
+    {
+     "at": "2026-11-07T23:51:42.389249Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:class_b"
     }
    ],
    "thinkingEfforts": [
@@ -134299,7 +134262,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T23:51:37.973571Z",
+ "updatedAt": "2026-11-07T23:51:43.314336Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
