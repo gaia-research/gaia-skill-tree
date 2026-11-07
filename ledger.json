@@ -1,5 +1,5 @@
 {
- "generation": 1060,
+ "generation": 1061,
  "lane": {
   "entries": [
    {
@@ -3484,7 +3484,7 @@
     "state": "closed"
    },
    {
-    "attempts": 1,
+    "attempts": 2,
     "debtId": "debt:unused_import:scripts-crawlers-huggingface-crawler-py:63744d81bcaf52ea",
     "firstQueuedAt": "2026-10-21T16:28:00.196543Z",
     "history": [
@@ -3505,14 +3505,20 @@
       "from": "dispatched",
       "reason": "rejected on attempt 1; returned to the queue (independent verification by pi-herdr-batch1-verifier-5dee2c1f6cb9 (pi, effort medium))",
       "to": "queued"
+     },
+     {
+      "at": "2026-11-07T01:26:07.516027Z",
+      "from": "queued",
+      "reason": "handed out as dispatch-f9e39ce62328be0e366f",
+      "to": "dispatched"
      }
     ],
-    "lastTransitionAt": "2026-11-06T22:59:35.351663Z",
-    "lastVerdict": "reject",
+    "lastTransitionAt": "2026-11-07T01:26:07.516027Z",
+    "lastVerdict": null,
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "queued"
+    "state": "dispatched"
    },
    {
     "attempts": 1,
@@ -4719,7 +4725,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T01:20:53.468038Z",
-   "expiresAt": "2026-11-07T02:02:22.514009Z",
+   "expiresAt": "2026-11-07T02:03:53.394808Z",
    "holder": "run-20261107T012053Z-9dcda16b"
   }
  },
@@ -85012,6 +85018,34 @@
      "status": "pending",
      "stepId": "build:1a73ca728b11:2",
      "type": "agent.build"
+    },
+    {
+     "debtId": "debt:unused_import:scripts-crawlers-huggingface-crawler-py:63744d81bcaf52ea",
+     "emittedAt": "2026-11-07T01:26:07.516027Z",
+     "idempotencyKey": "dispatch-f9e39ce62328be0e366f:2",
+     "params": {
+      "allowedModels": [
+       "haiku",
+       "sonnet",
+       "copilot",
+       "codex",
+       "pi"
+      ],
+      "attempt": 2,
+      "base": "dev/steward-campaign-2026-11-05",
+      "branch": "steward/b/unused-import-5dee2c1f6cb9",
+      "debtId": "debt:unused_import:scripts-crawlers-huggingface-crawler-py:63744d81bcaf52ea",
+      "dispatchId": "dispatch-f9e39ce62328be0e366f",
+      "effortRequired": true,
+      "outputs": {
+       "diffPath": ".gaia/steward/full/run-20261107T012053Z-9dcda16b/build-5dee2c1f6cb9.diff",
+       "proofPath": ".gaia/steward/full/run-20261107T012053Z-9dcda16b/build-5dee2c1f6cb9.proof.json"
+      },
+      "promptPath": ".gaia/steward/full/run-20261107T012053Z-9dcda16b/build-5dee2c1f6cb9.prompt.md"
+     },
+     "status": "pending",
+     "stepId": "build:5dee2c1f6cb9:2",
+     "type": "agent.build"
     }
    ],
    "actor": "cli",
@@ -86037,6 +86071,14 @@
      "kind": "agent.build",
      "status": "awaiting",
      "stepId": "build:1a73ca728b11:2"
+    },
+    {
+     "at": "2026-11-07T01:26:07.516027Z",
+     "debtId": "debt:unused_import:scripts-crawlers-huggingface-crawler-py:63744d81bcaf52ea",
+     "idempotencyKey": "dispatch-f9e39ce62328be0e366f:2",
+     "kind": "agent.build",
+     "status": "awaiting",
+     "stepId": "build:5dee2c1f6cb9:2"
     }
    ],
    "thinkingEfforts": [],
@@ -86047,7 +86089,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T01:32:22.517456Z",
+ "updatedAt": "2026-11-07T01:33:53.398224Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -87197,16 +87239,15 @@
      "tokensOut": null
     }
    ],
-   "attempt": 1,
+   "attempt": 2,
    "authority": "B",
    "baseBranch": "dev/steward-campaign-2026-11-05",
-   "blockedReason": "independent verification by pi-herdr-batch1-verifier-5dee2c1f6cb9 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
    "branch": "steward/b/unused-import-5dee2c1f6cb9",
    "build": null,
    "createdAt": "2026-11-06T20:54:31.248700Z",
    "debtId": "debt:unused_import:scripts-crawlers-huggingface-crawler-py:63744d81bcaf52ea",
    "dispatchId": "dispatch-f9e39ce62328be0e366f",
-   "dispatchedAt": "2026-11-06T20:54:31.248700Z",
+   "dispatchedAt": "2026-11-07T01:26:07.516027Z",
    "history": [
     {
      "at": "2026-11-06T20:54:31.248700Z",
@@ -87219,24 +87260,24 @@
      "from": "building",
      "reason": "independent verification by pi-herdr-batch1-verifier-5dee2c1f6cb9 (pi, effort medium): rejected - Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirm",
      "to": "blocked"
+    },
+    {
+     "at": "2026-11-07T01:26:07.516027Z",
+     "from": "blocked",
+     "reason": "dispatched as dispatch-f9e39ce62328be0e366f (attempt 2)",
+     "to": "building"
     }
    ],
    "kind": "unused_import",
    "notes": [],
-   "promptPath": ".gaia/steward/full/run-20261106T205057Z-dc2f240c/build-5dee2c1f6cb9.prompt.md",
+   "promptPath": ".gaia/steward/full/run-20261107T012053Z-9dcda16b/build-5dee2c1f6cb9.prompt.md",
    "pullRequest": null,
    "routine": "dead-code-gardener",
-   "runId": "run-20261106T205057Z-dc2f240c",
+   "runId": "run-20261107T012053Z-9dcda16b",
    "source": "dead-code",
-   "state": "blocked",
-   "updatedAt": "2026-11-06T22:59:35.351663Z",
-   "verification": {
-    "agentId": "pi-herdr-batch1-verifier-5dee2c1f6cb9",
-    "rationale": "Independent verifier (openai/gpt-6.1-terra medium, fresh pi agent, separate pane/worktree, different model from the Luna builder). Verbatim YAML: findingConfirmed: true scopeValid: true proofValid: false authorityStillValid: true guardsWeakened: false newDebt: [] verdict: reject reasons: - Both named imports are unused in the subject; taxonomy_mapper has no apparent import-time side effects. - The diff removes only the two authorized imports from the subject file. - The offered pytest suite exercises crawler common modules and the GitHub crawler but never imports or exercises the changed HuggingFace crawler; its passing result does not demonstrate the required importing-package test. Compileall only checks syntax. - Independent review is supplied by this verification; the missing builder entry is not a defect.",
-    "recordedAt": "2026-11-06T22:59:35.351663Z",
-    "stage": "judged",
-    "verdict": "reject"
-   }
+   "state": "building",
+   "updatedAt": "2026-11-07T01:26:07.516027Z",
+   "verification": null
   },
   "debt:unused_import:scripts-crawlers-mcp-registry-crawler-py:1ef57041ebbfd03a": {
    "assignments": [
