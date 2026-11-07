@@ -72,7 +72,7 @@ def namedPathFor(skillId, registryPath):
     if "/" not in skillId:
         _fail_dev_preflight(
             f"Timeline re-sort target '{skillId}' is not a named skill id.",
-            fix="Pass the id as contributor/skill-slug, for example gaiabot/repo-docs-before-pr.",
+            fix="Pass the id as contributor/skill-slug, for example gaiabot/gaia-triage.",
         )
     namedBase = Path(named_skills_dir(registryPath)).resolve()
     candidate = (namedBase / f"{skillId}.md").resolve()

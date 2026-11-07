@@ -291,6 +291,57 @@ class TestNamedSkillValidation(unittest.TestCase):
         finally:
             shutil.rmtree(temp_named_dir)
 
+    def _writeNamedSkill(self, namedDir, status, level, extra=""):
+        authorDir = os.path.join(namedDir, "fake_author")
+        os.makedirs(authorDir, exist_ok=True)
+        with open(os.path.join(authorDir, "status_skill.md"), "w", encoding="utf-8") as f:
+            f.write(
+                "---\n"
+                "id: fake_author/status_skill\n"
+                "name: Status Skill\n"
+                "contributor: fake_author\n"
+                "origin: true\n"
+                "genericSkillRef: web-search\n"
+                f"status: {status}\n"
+                f"level: {level}\n"
+                "description: Synthetic fixture for the status/level cap.\n"
+                f"{extra}"
+                "createdAt: '2026-06-07'\n"
+                "updatedAt: '2026-06-07'\n"
+                "---\n"
+            )
+
+    def _statusLevelErrors(self, status, level, extra=""):
+        import tempfile
+        import shutil
+        from scripts.validate import validate_named_skills
+
+        namedDir = tempfile.mkdtemp()
+        try:
+            self._writeNamedSkill(namedDir, status, level, extra)
+            errors = validate_named_skills({"skills": [{"id": "web-search"}]}, named_dir=namedDir)
+        finally:
+            shutil.rmtree(namedDir)
+        return [e for e in errors if "must have level 1" in e]
+
+    def test_awakened_above_one_star_fails_validation(self):
+        """An awakened skill above 1★ is rejected, naming the skill and the fix (#1699)."""
+        for level in ("2★", "4★"):
+            errors = self._statusLevelErrors("awakened", level)
+            self.assertEqual(len(errors), 1, f"awakened {level}: {errors}")
+            self.assertIn("fake_author/status_skill", errors[0])
+            self.assertIn("gaia dev calibrate", errors[0])
+
+    def test_awakened_one_star_and_named_four_star_pass(self):
+        """The rule bites only awakened skills above 1★."""
+        self.assertEqual(self._statusLevelErrors("awakened", "1★"), [])
+        self.assertEqual(self._statusLevelErrors("named", "4★", "title: Status Skill\n"), [])
+
+    def test_other_statuses_are_not_flagged_by_awakened_rule(self):
+        """Other statuses' meanings are not settled here; this rule leaves them alone."""
+        for status in ("provisional", "deprecated"):
+            self.assertEqual(self._statusLevelErrors(status, "4★"), [], status)
+
 
 class TestMetaEpochsMetaSync(unittest.TestCase):
     """Regression guard for the Yggdrasil II structured-provenance schema (#1189).

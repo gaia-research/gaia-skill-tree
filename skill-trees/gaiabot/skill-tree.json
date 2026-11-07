@@ -52,30 +52,11 @@
           "source": "demote"
         }
       ]
-    },
-    {
-      "skillId": "gaiabot/repo-docs-before-pr",
-      "level": "1★",
-      "unlockedAt": "2026-05-25T00:00:00Z",
-      "unlockedIn": "gaiabot/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "2★",
-          "achievedAt": "2026-05-25T00:00:00Z",
-          "source": "promotion"
-        },
-        {
-          "level": "1★",
-          "achievedAt": "2026-08-06T00:00:01Z",
-          "source": "demote"
-        }
-      ]
     }
   ],
   "pendingCombinations": [],
   "stats": {
-    "totalUnlocked": 6,
+    "totalUnlocked": 5,
     "deepestLineage": 1
   },
   "timeline": [
@@ -154,6 +135,13 @@
       "newValue": "1★",
       "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
       "skillId": "gaiabot/repo-docs-before-pr"
+    },
+    {
+      "timestamp": "2026-11-06T22:31:41Z",
+      "action": "demote",
+      "skillId": "gaiabot/repo-docs-before-pr",
+      "previousValue": "1★",
+      "details": "Removed from the skill tree by founder ruling 2026-11-06 (relayed for #2283, steward decision steward-remove-gaiabot-repo-docs-before-pr): not a skill. Unlocked entry withdrawn from this tree; prior register and demote history preserved."
     }
   ]
 }
