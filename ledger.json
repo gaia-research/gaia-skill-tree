@@ -1,5 +1,5 @@
 {
- "generation": 1505,
+ "generation": 1506,
  "lane": {
   "entries": [
    {
@@ -5802,7 +5802,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T16:10:52.598412Z",
-   "expiresAt": "2026-11-07T17:00:21.610507Z",
+   "expiresAt": "2026-11-07T17:00:28.897322Z",
    "holder": "run-20261107T145403Z-b871b1e2"
   }
  },
@@ -116206,7 +116206,7 @@
    "decisions": [],
    "deferred": [],
    "desk": {
-    "asOf": "2026-11-07T16:17:19.105664Z",
+    "asOf": "2026-11-07T16:30:27.081657Z",
     "decisions": [
      {
       "alternative": "If the match is a documented test fixture or placeholder, record that ruling so the finding is classified as intentional instead of rotated.",
@@ -116492,7 +116492,9 @@
        "debt:unused_import:scripts-merge-gate-check-py:1cff37f84d221787",
        "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0",
        "debt:unused_import:scripts-run-meta-sweep-py:3e8242f71d3c1aa0",
-       "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe"
+       "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe",
+       "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182",
+       "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f"
       ],
       "decision": "Bounded repair exhausted its attempt ceiling on this routine. Decide whether the authority envelope is wrong, whether the finding is a Class C question in disguise, or whether the routine should be retired. Another attempt under the same envelope is not one of the options — that is what the ceiling already ruled out.",
       "decisionId": "decision-4f3c9a95f2ce381c975c",
@@ -116505,7 +116507,9 @@
        "debt:unused_import:scripts-merge-gate-check-py:1cff37f84d221787 - attempts: 1; reason: verification escalated (mechanical verification (steward-20261107T090459Z-40a552168e574c70))",
        "debt:unused_import:scripts-quick-validate-skill-py:e5ff1aea8c1acbe0 - attempts: 2; reason: verification escalated (mechanical verification (steward-20261107T090655Z-414491deb4b5dbb4))",
        "debt:unused_import:scripts-run-meta-sweep-py:3e8242f71d3c1aa0 - attempts: 1; reason: verification escalated (mechanical verification (steward-20261107T090926Z-7586ec74d12ad072))",
-       "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe - attempts: 2; reason: verification escalated (independent verification by pi-herdr-batch7-verifier-01bdcf8a1d9c (pi, …"
+       "debt:unused_import:scripts-upstream-watcher-batch-py:429ce6b217f478fe - attempts: 2; reason: verification escalated (independent verification by pi-herdr-batch7-verifier-01bdcf8a1d9c (pi, …",
+       "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182 - attempts: 2; reason: rejected on attempt 2 of a 2-attempt ceiling; the envelope is the likelier defect (independent …",
+       "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f - attempts: 2; reason: rejected on attempt 2 of a 2-attempt ceiling; the envelope is the likelier defect (independent …"
       ],
       "links": [
        "founder/steward/POLICY.yaml"
@@ -116513,7 +116517,7 @@
       "priority": 10,
       "recommended": "Bounded repair under `unused-import-cleanup` reached its attempt ceiling. The envelope is the likelier defect, not the attempt — the ceiling has already ruled out trying again under the same terms. The three answers worth weighing are: widen the envelope in `POLICY.yaml`, accept that this finding is a Class C question in disguise and rule on it directly, or retire the routine.",
       "source": "escalated-lane",
-      "unblocks": "9 open Class C debt item(s) under lane-escalation/unused-import-cleanup.",
+      "unblocks": "11 open Class C debt item(s) under lane-escalation/unused-import-cleanup.",
       "whyItMatters": "Bounded repair stopped: the attempt ceiling was reached or a verifier escalated. The envelope, not the attempt, is the likelier defect, and nothing retries until you rule."
      },
      {
@@ -116640,16 +116644,6 @@
      {
       "detail": "2 of 2 attempts used under unused-import-cleanup while still dispatched; the next rejection escalates it to you.",
       "kind": "exhausted_attempts",
-      "subject": "debt:unused_import:src-gaia-cli-embeddings-py:d86386eea761c182"
-     },
-     {
-      "detail": "2 of 2 attempts used under unused-import-cleanup while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
-      "subject": "debt:unused_import:src-gaia-cli-semantic-search-py:86a6c96d2bae641f"
-     },
-     {
-      "detail": "2 of 2 attempts used under unused-import-cleanup while still dispatched; the next rejection escalates it to you.",
-      "kind": "exhausted_attempts",
       "subject": "debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11"
      },
      {
@@ -116671,7 +116665,7 @@
     "quiet": false,
     "schemaVersion": "steward-desk-v1"
    },
-   "finishedAt": null,
+   "finishedAt": "2026-11-07T16:30:27.081657Z",
    "floor": {
     "branch": "dev/steward-campaign-2026-11-05",
     "ok": true,
@@ -116679,6 +116673,14 @@
    },
    "integrationBranch": "dev/steward-campaign-2026-11-05",
    "integrationHead": "107a97b1de634f8b5723ab2c87873a4492a42e0c",
+   "issueBacklog": {
+    "botOpen": 2,
+    "closedThisRun": 0,
+    "closedTotal": 0,
+    "openIssues": 224,
+    "readyWritesDisabled": 2,
+    "upstreamChildOpen": 72
+   },
    "leases": [
     {
      "acquiredAt": "2026-11-07T14:54:03.318678Z",
@@ -116691,7 +116693,7 @@
     "pi"
    ],
    "mutated": true,
-   "nextAction": "",
+   "nextAction": "perform 1 pending action(s) (lead.integrate), record each with `gaia steward full record run-20261107T145403Z-b871b1e2 <stepId> --input FILE`, then `gaia steward full run --resume run-20261107T145403Z-b871b1e2`",
    "options": {
     "afk": false,
     "agents": true,
@@ -116703,7 +116705,7 @@
     "push": false,
     "routine": 1
    },
-   "phase": "report",
+   "phase": "done",
    "phases": {
     "class_a": {
      "issueClosures": {
@@ -119467,7 +119469,7 @@
    "sequence": 46,
    "sourceHead": "107a97b1de634f8b5723ab2c87873a4492a42e0c",
    "startedAt": "2026-11-07T14:54:03.318678Z",
-   "status": "active",
+   "status": "awaiting-action",
    "steps": [
     {
      "at": "2026-11-07T14:54:03.318678Z",
@@ -119578,6 +119580,12 @@
      "kind": "phase",
      "status": "done",
      "stepId": "phase:retro"
+    },
+    {
+     "at": "2026-11-07T16:30:27.081657Z",
+     "kind": "phase",
+     "status": "done",
+     "stepId": "phase:report"
     }
    ],
    "thinkingEfforts": [
@@ -119591,7 +119599,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T16:30:21.610686Z",
+ "updatedAt": "2026-11-07T16:30:28.897548Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
