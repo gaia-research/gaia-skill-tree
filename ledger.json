@@ -1,5 +1,5 @@
 {
- "generation": 1173,
+ "generation": 1174,
  "lane": {
   "entries": [
    {
@@ -3802,14 +3802,20 @@
       "from": "queued",
       "reason": "handed out as dispatch-29f19aa448a591243d77",
       "to": "dispatched"
+     },
+     {
+      "at": "2026-11-07T09:01:08.585508Z",
+      "from": "dispatched",
+      "reason": "verification escalated (mechanical verification (steward-20261107T085637Z-4dcbe98e9611b581))",
+      "to": "escalated"
      }
     ],
-    "lastTransitionAt": "2026-11-07T03:31:19.356563Z",
-    "lastVerdict": null,
+    "lastTransitionAt": "2026-11-07T09:01:08.585508Z",
+    "lastVerdict": "escalate",
     "priority": 0.0864,
     "rule": "unused-import-cleanup",
     "schemaVersion": "steward-lane-entry-v1",
-    "state": "dispatched"
+    "state": "escalated"
    },
    {
     "attempts": 1,
@@ -4845,7 +4851,7 @@
  "leases": {
   "run": {
    "acquiredAt": "2026-11-07T08:51:51.571864Z",
-   "expiresAt": "2026-11-07T09:26:30.073513Z",
+   "expiresAt": "2026-11-07T09:31:09.660001Z",
    "holder": "run-20261107T032809Z-31f4a5be"
   }
  },
@@ -92242,7 +92248,7 @@
   }
  },
  "schemaVersion": "steward-ledger-v1",
- "updatedAt": "2026-11-07T08:56:30.075357Z",
+ "updatedAt": "2026-11-07T09:01:09.662779Z",
  "work": {
   "debt:trust_calibration_drift:addy-osmani-api-and-interface-design:af4136cd30e0e811": {
    "adoptedBy": "run-20261028T024707Z-af472d28",
@@ -94120,6 +94126,12 @@
      "from": "blocked",
      "reason": "dispatched as dispatch-29f19aa448a591243d77 (attempt 2)",
      "to": "building"
+    },
+    {
+     "at": "2026-11-07T09:01:08.585508Z",
+     "from": "building",
+     "reason": "mechanical verification (steward-20261107T085637Z-4dcbe98e9611b581): new debt appeared since dispatch: debt:credential_leak:agents-skills-gaia-steward-pr-maintenance-skill-:754ea49b1c498e02, debt:credential_leak:claude-skills-gaia-steward-pr-maintenance-skill-:47104435",
+     "to": "escalated"
     }
    ],
    "kind": "unused_import",
@@ -94129,9 +94141,16 @@
    "routine": "dead-code-gardener",
    "runId": "run-20261107T032809Z-31f4a5be",
    "source": "dead-code",
-   "state": "building",
-   "updatedAt": "2026-11-07T03:59:08.279069Z",
-   "verification": null
+   "state": "escalated",
+   "updatedAt": "2026-11-07T09:01:08.585508Z",
+   "verification": {
+    "reasons": [
+     "new debt appeared since dispatch: debt:credential_leak:agents-skills-gaia-steward-pr-maintenance-skill-:754ea49b1c498e02, debt:credential_leak:claude-skills-gaia-steward-pr-maintenance-skill-:471044354a9a98fd, debt:credential_leak:src-gaia-cli-steward-prmaintenance-coordination-:f398b721dde8a3e9, debt:credential_leak:src-gaia-cli-steward-prmaintenance-executor-py:bfd5e4eab3ccead8, debt:credential_leak:tests-steward-prmaintenance-test-coordination-pr:dc0369131ec2af02, debt:credential_leak:tests-steward-prmaintenance-test-coordination-py:ec72302cb701d71f, debt:credential_leak:tests-steward-prmaintenance-test-readiness-safeg:209d89010236b210, debt:trust_evidence_gap:majiayu000-edge-model-compression:4ee177f8c2ff7e1c, debt:trust_evidence_gap:yylo-dev-plan-ledger-tasks-yylo:e09153f6ff213802, debt:trust_stamp_stale:gaiabot-gaia-triage:453a6cd8b1c2cdab, debt:trust_stamp_stale:gaiabot-repo-docs-before-pr:66c8ae1a42811c5b, debt:trust_stamp_stale:heygen-com-embedded-captions:f111fc4855f53d70, debt:trust_stamp_stale:heygen-com-faceless-explainer:5cb8bb8264ff8c27, debt:trust_stamp_stale:heygen-com-general-video:f1320883990055f4, debt:trust_stamp_stale:heygen-com-hyperframes-animation:300171b825ee42e6, debt:trust_stamp_stale:heygen-com-hyperframes-audio:410548d25f6ee39e, debt:trust_stamp_stale:heygen-com-hyperframes-core:3d3628ecdd2fe5ad, debt:trust_stamp_stale:heygen-com-hyperframes-creative:e573b41313930312, debt:trust_stamp_stale:heygen-com-hyperframes-keyframes:b28c1cb092198a2c, debt:trust_stamp_stale:heygen-com-motion-graphics:6541920841713c60, debt:trust_stamp_stale:heygen-com-music-to-video:463b8fa288d8874b, debt:trust_stamp_stale:heygen-com-pr-to-video:70bc40c3eb8d8bc8, debt:trust_stamp_stale:heygen-com-product-launch-video:bf857f8c112de45e, debt:trust_stamp_stale:heygen-com-talking-head-recut:ad90ff76b433d4cb, debt:trust_stamp_stale:langgenius-backend-code-review:dd0d94b0131eedfb, debt:trust_stamp_stale:langgenius-component-refactoring:b4d5c30e5c3fdab8, debt:trust_stamp_stale:langgenius-e2e-cucumber-playwright:daef3d430176822e, debt:trust_stamp_stale:langgenius-frontend-code-review:1757aec0a32c4a3b, debt:trust_stamp_stale:langgenius-frontend-testing:ca41ac06916a8d0a, debt:trust_stamp_stale:mattpocock-diagnose:06ea4c2a844b8323, debt:trust_stamp_stale:mattpocock-edit-article:362700c741552541, debt:trust_stamp_stale:mattpocock-obsidian-vault:a18b7a08aae18ab3, debt:trust_stamp_stale:mattpocock-ubiquitous-language:cefcebf23886e94f, debt:trust_stamp_stale:sickn33-ai-dev-jobs-mcp:8c77928467544dcf, debt:trust_stamp_stale:sickn33-mcp-builder:cef1628d91007d39, debt:trust_stamp_stale:sickn33-n8n-mcp-tools-expert:32016b521d72e777, debt:trust_stamp_stale:xquik-dev-hermes-tweet:827c888a53ec83e8, debt:unsafe_execution:src-gaia-cli-steward-workflowproof-py:0ac5f59753b1d284, debt:unused_import:src-gaia-cli-steward-prmaintenance-executor-py:2bbd43d4621f1a11, debt:unused_import:src-gaia-cli-steward-workflowproof-py:ce3a82469342146f"
+    ],
+    "recordedAt": "2026-11-07T09:01:08.585508Z",
+    "stage": "mechanical",
+    "verdict": "escalate"
+   }
   },
   "debt:unused_import:scripts-lib-tests-test-heartbeat-regression-py:119965096d096663": {
    "assignments": [
